@@ -84,7 +84,7 @@ Re-measured while writing this document, for the Gaussian window `h(r) = exp(-0.
 `dps = 30`:
 
 ```
-    zero side  (28 zeros suffice, both signs)     0.299396022507559155789163943544
+    zero side  (the first 28 pairs ±γ suffice)    0.299396022507559155789163943544
     ---------------------------------------------------------------------------
     h(i/2) + h(-i/2)   [= 2e^(a/4) exactly]      +2.005006255211590
     archimedean integral                         -1.705593433712344
@@ -98,8 +98,9 @@ Re-measured while writing this document, for the Gaussian window `h(r) = exp(-0.
 Read the table as physics. The zeros are the **modes**: 90.6% of the spectral side is the first
 zero pair at `γ₁ = 14.1347…`, the fundamental; a decay envelope certifies everything past the 28th
 zero negligible at this precision. The prime powers are the **closed orbits**: each `n = p^k`
-enters at "time" `log n`, like an orbit of length `k·log p` and its repeats — and here 99.99998% of
-the prime side is the single shortest orbit, `n = 2`, at `log 2 = 0.693`. The pole and digamma
+enters at "time" `log n = k·log p` — the `k`-th traversal of a primitive orbit of length
+`log p` — and here 99.99998% of the prime side is the single shortest orbit, `n = 2`, at
+`log 2 = 0.693`. The pole and digamma
 lines are, in the geometric programs of `docs/09-new-ontologies.md`, the contribution of the *place
 at infinity* — the one place with no prime. And note the cancellation: terms of size 2 conspire to
 reproduce a spectral side of size 0.3 to thirty-one digits. The identity has no slack anywhere

@@ -2,7 +2,7 @@
 
 Each public function builds one self-contained figure telling one mathematical
 story, returns the ``matplotlib.figure.Figure``, and optionally saves it via a
-``save_path`` argument.  The twelve figures, in narrative order:
+``save_path`` argument.  The fourteen figures, in narrative order:
 
 1.  :func:`plot_zeta_critical_line`     — ζ(½+it): Re, Im, |ζ| and the zeros.
 2.  :func:`plot_hardy_Z`                — Hardy's Z(t) with sign changes and Gram points.
@@ -16,6 +16,8 @@ story, returns the ``matplotlib.figure.Figure``, and optionally saves it via a
 10. :func:`plot_zero_counting`          — N(T) staircase vs Riemann–von Mangoldt, and S(T).
 11. :func:`plot_heatflow_trajectories`  — zeros of H_t under the de Bruijn–Newman flow.
 12. :func:`plot_polynomial_root_repulsion` — the elementary heat-flow-on-roots picture.
+13. :func:`plot_weil_positivity`        — W(h) ≥ 0 across families; the margin is γ₁.
+14. :func:`plot_offline_zero`           — Davenport–Heilbronn's zero OFF the line.
 
 Style
 -----
@@ -69,6 +71,8 @@ __all__ = [
     "plot_zero_counting",
     "plot_heatflow_trajectories",
     "plot_polynomial_root_repulsion",
+    "plot_weil_positivity",
+    "plot_offline_zero",
 ]
 
 # --------------------------------------------------------------------------- #
@@ -837,4 +841,283 @@ def plot_polynomial_root_repulsion(roots: Sequence[float] = (-3.0, -1.0, 0.5, 2.
     ax1.annotate(f"ODE vs exact coefficient flow: max deviation {err:.1e}",
                  xy=(0.30, 0.80), xycoords="axes fraction",
                  color=_SECONDARY, fontsize=8)
+    return _finish(fig, save_path, dpi)
+
+
+# --------------------------------------------------------------------------- #
+# 13. Weil positivity across test-function families
+# --------------------------------------------------------------------------- #
+
+
+def plot_weil_positivity(gaussian_points: int = 7, fejer_points: int = 5,
+                         dps: int = 20, save_path: str | None = None,
+                         dpi: int = 160) -> Figure:
+    """The Weil functional W(h) over positive-type families: ≥ 0, and why barely.
+
+    **Weil positivity criterion**: RH ⟺ W(h) = Σ_ρ h(γ_ρ) ≥ 0 for every
+    admissible h of positive type.  W is computed here from the *arithmetic*
+    side of the explicit formula (pole + archimedean − primes; no zeros
+    anywhere), via :func:`zeta.weil.positivity_probe`, which escalates the
+    working precision until every plotted sign is certified.
+
+    Top: the Gaussian family h(r) = e^{−ar²}.  As a grows, h concentrates on
+    the zero-free gap (−γ₁, γ₁) and W collapses *exponentially* along the
+    prediction 2e^{−aγ₁²} — the margin of positivity is controlled by the
+    single lowest zero γ₁ = 14.1347… (on the log axis the RH boundary W = 0
+    is infinitely far below: approached, never attained).  Bottom: the Fejér
+    family on a *linear* axis with the W = 0 line drawn — b²·W hovers about
+    Σ_γ γ⁻² (≈ 0.023, of which 1/γ₁² alone is ~22%), safely above zero.
+
+    Honest scope (docs/08): observed positivity reflects the verified zeros
+    and is not evidence for RH.
+    """
+    from zeta.weil import GAMMA1, positivity_probe
+
+    g_rows = positivity_probe("gaussian", n_points=int(gaussian_points), dps=dps)
+    f_rows = positivity_probe("fejer", n_points=int(fejer_points), dps=dps)
+    ga = np.array([r["param"] for r in g_rows])
+    gW = np.array([float(r["W"]) for r in g_rows])
+    fb = np.array([r["param"] for r in f_rows])
+    fWb2 = np.array([float(r["W"]) * b * b for r, b in zip(f_rows, fb)])
+    certified = all(r["positive"] for r in g_rows + f_rows)
+
+    from zeta.statistics import zero_ordinates
+
+    sum_inv_g2 = float(np.sum(zero_ordinates(t_max=10000.0) ** -2.0))
+
+    fig, (ax0, ax1) = _fig(nrows=2, figsize=(8.2, 6.4), height_ratios=(2.2, 1.2))
+
+    aa = np.geomspace(ga.min(), ga.max(), 400)
+    ax0.plot(aa, 2.0 * np.exp(-aa * GAMMA1**2), color=_ORANGE, linewidth=2.0,
+             zorder=3, label="2·exp(−a·γ₁²) — the first zero alone")
+    ax0.plot(ga, gW, color=_BLUE, linewidth=1.1, alpha=0.55, zorder=4)
+    ax0.scatter(ga, gW, s=26, color=_BLUE, zorder=5,
+                label="W(h), arithmetic side (no zeros used); every sign certified > 0")
+    ax0.set_xscale("log")
+    ax0.set_yscale("log")
+    ax0.annotate("W = 0 (the RH boundary) is the log-axis floor at −∞:\n"
+                 "the margin collapses like 2·exp(−a·γ₁²) but never closes",
+                 xy=(0.03, 0.10), xycoords="axes fraction",
+                 color=_SECONDARY, fontsize=8.5)
+    _style(ax0, xlabel="Gaussian parameter a   (h(r) = exp(−a·r²), log scale)",
+           ylabel="W(h)  (log scale)",
+           title="Weil positivity, measured:  W(h) = Σ_ρ h(γ_ρ) stays ≥ 0 over every family probed —\n"
+                 "and its collapse toward 0 is controlled by the lowest zero γ₁ = 14.1347…")
+    _legend(ax0, loc="upper right")
+
+    ax1.axhline(0.0, color=_MUTED, linewidth=1.2, linestyle="--",
+                label="W = 0 — where a counterexample to RH would live")
+    ax1.axhline(sum_inv_g2, color=_ORANGE, linewidth=1.6, zorder=3,
+                label=f"Σ_γ γ⁻² = {sum_inv_g2:.4f} (partial, γ < 10⁴; 1/γ₁² is 22% of it)")
+    ax1.plot(fb, fWb2, color=_BLUE, linewidth=1.1, alpha=0.55, zorder=4)
+    ax1.scatter(fb, fWb2, s=26, color=_BLUE, zorder=5,
+                label="b²·W(h) for Fejér h(r) = (sin br/br)²")
+    ax1.set_ylim(-0.008, max(float(fWb2.max()), sum_inv_g2) * 1.75)
+    _style(ax1, xlabel="Fejér parameter b", ylabel="b²·W(h)")
+    ax1.legend(frameon=True, fontsize=8.5, labelcolor=_SECONDARY, loc="upper right",
+               framealpha=0.9, facecolor=_SURFACE, edgecolor=_BASELINE)
+    if not certified:  # pragma: no cover — would indicate a bug upstream
+        ax0.annotate("WARNING: an uncertified sign slipped through", xy=(0.35, 0.5),
+                     xycoords="axes fraction", color=_RED, fontsize=10)
+    return _finish(fig, save_path, dpi)
+
+
+# --------------------------------------------------------------------------- #
+# 14. the Davenport-Heilbronn off-line zero (the counterexample, as a picture)
+# --------------------------------------------------------------------------- #
+
+
+def _dh_grid(re_range: tuple[float, float], im_range: tuple[float, float],
+             nx: int, ny: int, cache: bool) -> np.ndarray:
+    """Complex Davenport–Heilbronn f values on a grid, cached to ``data/``.
+
+    Bulk evaluation uses a vectorised Euler–Maclaurin Hurwitz zeta
+    (float64; N scaled to the window height, 8 Bernoulli terms) in
+
+        f(s) = 5^{−s}[ζ(s,1/5) + κ·ζ(s,2/5) − κ·ζ(s,3/5) − ζ(s,4/5)],
+
+    with κ from :func:`zeta.epstein.kappa` (derived, not remembered).  The
+    grid — fresh or from cache — is cross-checked against the mpmath-backed
+    :func:`zeta.epstein.dh_f` at three interior points; relative disagreement
+    above 1e-8 raises ``ArithmeticError`` (measured on the default window:
+    ~1e-12, i.e. far below one pixel of the colour encoding).
+    """
+    from mpmath import mp
+
+    from zeta.epstein import dh_f, kappa
+
+    r0, r1 = float(re_range[0]), float(re_range[1])
+    i0, i1 = float(im_range[0]), float(im_range[1])
+    path = os.path.join(
+        _DATA_DIR, f"dh_domain_coloring_{r0:g}_{r1:g}_{i0:g}_{i1:g}_{nx}x{ny}.npz"
+    )
+    F = None
+    if cache and os.path.exists(path):
+        with np.load(path) as fh:
+            if tuple(fh["box"]) == (r0, r1, i0, i1) and fh["F"].shape == (ny, nx):
+                F = fh["F"]
+    if F is None:
+        k = float(kappa(20))
+        xs = np.linspace(r0, r1, nx)
+        ys = np.linspace(i0, i1, ny)
+        S = (xs[None, :] + 1j * ys[:, None]).ravel()
+        n_terms = max(128, int(1.6 * max(abs(i0), abs(i1))))
+        combo = np.zeros_like(S)
+        for a_num, c in ((1, 1.0), (2, k), (3, -k), (4, -1.0)):
+            a = a_num / 5.0
+            hz = np.zeros_like(S)
+            for n in range(n_terms):          # Σ_{n<N} (n+a)^{−s}, chunked
+                hz += (n + a) ** (-S)
+            Na = n_terms + a
+            hz += Na ** (1.0 - S) / (S - 1.0) + 0.5 * Na ** (-S)
+            bern = {2: 1 / 6, 4: -1 / 30, 6: 1 / 42, 8: -1 / 30,
+                    10: 5 / 66, 12: -691 / 2730, 14: 7 / 6, 16: -3617 / 510}
+            rising = S.copy()                 # (s)_1; then (s)_{2k−1} iteratively
+            for kk in range(1, 9):
+                hz += (bern[2 * kk] / math.factorial(2 * kk)
+                       * rising * Na ** (-S - (2 * kk - 1)))
+                rising = rising * (S + 2 * kk - 1) * (S + 2 * kk)
+            combo += c * hz
+        F = (5.0 ** (-S) * combo).reshape(ny, nx)
+        if cache:
+            os.makedirs(_DATA_DIR, exist_ok=True)
+            np.savez_compressed(path, F=F, box=np.array([r0, r1, i0, i1]))
+    # mandatory cross-check against the arbitrary-precision implementation
+    xs = np.linspace(r0, r1, nx)
+    ys = np.linspace(i0, i1, ny)
+    for (ix, iy) in ((nx // 3, ny // 4), (2 * nx // 3, ny // 2), (nx // 2, 4 * ny // 5)):
+        ref = complex(dh_f(mp.mpc(xs[ix], ys[iy]), dps=20))
+        err = abs(complex(F[iy, ix]) - ref) / max(abs(ref), 1e-300)
+        if not err < 1e-8:
+            raise ArithmeticError(
+                f"dh grid disagrees with zeta.epstein.dh_f at "
+                f"({xs[ix]:.3f}, {ys[iy]:.3f}): rel err {err:.2e}"
+            )
+    return F
+
+
+def _dh_line_zeros(t0: float, t1: float) -> list[float]:
+    """Ordinates of the sign changes of Z_f on [t0, t1] (bisected to ~1e-4)."""
+    from mpmath import mp
+
+    from zeta.epstein import Z_dh
+
+    lo, hi = float(t0), float(t1)
+    n = max(int((hi - lo) / 0.06) + 2, 8)
+    ts = np.linspace(lo, hi, n)
+    vals = [float(Z_dh(mp.mpf(t), dps=12)) for t in ts]
+    out = []
+    for a, b, va, vb in zip(ts[:-1], ts[1:], vals[:-1], vals[1:]):
+        if va == 0.0 or (va > 0) == (vb > 0):
+            continue
+        x0, x1, v0 = a, b, va
+        while x1 - x0 > 1e-4:
+            xm = 0.5 * (x0 + x1)
+            vm = float(Z_dh(mp.mpf(xm), dps=12))
+            if vm == 0.0:
+                x0 = x1 = xm
+            elif (vm > 0) == (v0 > 0):
+                x0, v0 = xm, vm
+            else:
+                x1 = xm
+        out.append(0.5 * (x0 + x1))
+    return out
+
+
+def plot_offline_zero(re_range: tuple[float, float] = (-0.75, 1.75),
+                      im_range: tuple[float, float] = (83.0, 88.5),
+                      nx: int = 240, ny: int = 340,
+                      save_path: str | None = None, dpi: int = 160,
+                      cache: bool = True) -> Figure:
+    """Phase portrait of Davenport–Heilbronn's f around its OFF-line zero.
+
+    Same encoding as :func:`plot_zeta_domain_coloring` (hue = arg f,
+    brightness = |f|, black dots are zeros) on the strip window that contains
+
+        ρ = 0.80851718… + 85.69934848…·i,       Re ρ − ½ = 0.3085…,
+
+    the classical off-critical-line zero (located and verified to 50 digits
+    by :mod:`zeta.epstein`; Spira 1994 lists 0.808517 + 85.699348i).  f has a
+    Riemann-type functional equation F(s) = F(1−s) — perfect mirror symmetry
+    about Re s = ½, visibly forcing the mirror partner 1 − ρ̄ — and yet the
+    circled pair sits well off the line, while f's genuine line zeros (white)
+    carry on above and below.  Symmetry alone cannot give RH: what f lacks is
+    the Euler product (docs/08 §4.1, docs/09 gate #3).
+
+    Grid values come from :func:`_dh_grid` (cached; cross-checked against the
+    arbitrary-precision ``dh_f`` on every call), line zeros from a sign-change
+    scan of ``Z_dh``.
+    """
+    from zeta.epstein import OFFLINE_ZERO_IM, OFFLINE_ZERO_RE
+
+    F = _dh_grid(re_range, im_range, int(nx), int(ny), cache)
+    rho_re, rho_im = float(OFFLINE_ZERO_RE), float(OFFLINE_ZERO_IM)
+
+    with np.errstate(divide="ignore", invalid="ignore", over="ignore"):
+        mag = np.abs(F)
+        h = (np.angle(F) / (2.0 * np.pi)) % 1.0
+        L = 1.0 - 1.0 / (1.0 + mag**0.28)
+        band = np.log2(mag)
+        band = band - np.floor(band)
+        ring = 0.90 + 0.10 * band
+        V = np.clip((L * ring) ** 0.62, 0.0, 1.0)
+        S = 0.82 * (1.0 - L**5)
+    rgb = hsv_to_rgb(np.dstack([h, S, V]))
+
+    fig, (ax,) = _fig(figsize=(6.6, 8.0))
+    ax.imshow(rgb, origin="lower", aspect="auto",
+              extent=(re_range[0], re_range[1], im_range[0], im_range[1]),
+              interpolation="nearest")
+    for x, ls, lw in ((0.0, "--", 0.9), (1.0, "--", 0.9), (0.5, "-", 0.8)):
+        ax.axvline(x, color="white", linestyle=ls, linewidth=lw, alpha=0.85)
+
+    line_zeros = _dh_line_zeros(im_range[0], im_range[1])
+    ax.scatter(np.full(len(line_zeros), 0.5), line_zeros, s=46, facecolor="none",
+               edgecolor="white", linewidth=1.2, zorder=5)
+    pair = [(rho_re, rho_im), (1.0 - rho_re, rho_im)]
+    ax.scatter([p[0] for p in pair], [p[1] for p in pair], s=210, facecolor="none",
+               edgecolor=_RED, linewidth=2.2, zorder=6)
+    ax.annotate("ρ = 0.8085… + 85.6993…i\nRe ρ − ½ = +0.3085:  OFF the line",
+                xy=(rho_re, rho_im), xytext=(0.985, 0.30), textcoords="axes fraction",
+                ha="right", color="white", fontsize=8.5,
+                arrowprops=dict(arrowstyle="->", color="white", lw=0.9))
+    ax.annotate("mirror 1 − ρ̄\n(forced by F(s) = F(1−s))",
+                xy=(1.0 - rho_re, rho_im), xytext=(0.015, 0.36),
+                textcoords="axes fraction", color="white", fontsize=8.5,
+                arrowprops=dict(arrowstyle="->", color="white", lw=0.9))
+
+    handles = [
+        Line2D([], [], marker="o", mfc="none", mec=_RED, ls="none", ms=9, mew=2,
+               label="the off-line pair ρ, 1 − ρ̄  (RH is FALSE for f)"),
+        Line2D([], [], marker="o", mfc="none", mec=_INK, ls="none", ms=7,
+               label="zeros of f on the critical line (sign changes of Z_f)"),
+        Line2D([], [], color=_MUTED, ls="-", lw=1, label="critical line Re s = ½"),
+        Line2D([], [], color=_MUTED, ls="--", lw=1, label="strip edges Re s = 0, 1"),
+    ]
+    leg = ax.legend(handles=handles, loc="upper left", fontsize=8,
+                    labelcolor=_SECONDARY, framealpha=0.9, facecolor=_SURFACE,
+                    edgecolor=_BASELINE)
+    leg.set_zorder(7)
+
+    phase = np.linspace(-0.5, 0.5, 256) % 1.0
+    wheel = hsv_to_rgb(np.dstack([phase, np.full_like(phase, 0.82),
+                                  np.full_like(phase, 0.88)]))[0]
+    sm = plt.cm.ScalarMappable(cmap=ListedColormap(wheel), norm=Normalize(-np.pi, np.pi))
+    cb = fig.colorbar(sm, ax=ax, orientation="horizontal", fraction=0.045,
+                      pad=0.06, aspect=35)
+    cb.set_ticks([-np.pi, 0.0, np.pi])
+    cb.set_ticklabels(["−π", "0", "π"])
+    cb.set_label("hue = arg f(s);  brightness = |f(s)| (black → zero)",
+                 color=_SECONDARY, fontsize=8.5)
+    cb.ax.tick_params(colors=_MUTED, labelcolor=_SECONDARY, labelsize=8)
+    cb.outline.set_edgecolor(_BASELINE)
+
+    ax.tick_params(colors=_MUTED, labelcolor=_SECONDARY, labelsize=8.5)
+    for side in ("top", "right", "left", "bottom"):
+        ax.spines[side].set_color(_BASELINE)
+    ax.set_xlabel("Re s", color=_SECONDARY, fontsize=9.5)
+    ax.set_ylabel("Im s", color=_SECONDARY, fontsize=9.5)
+    ax.set_title("Perfect mirror symmetry, zero OFF the line: Davenport–Heilbronn's f satisfies\n"
+                 "F(s) = F(1−s) exactly — and RH fails for it.  Symmetry alone cannot give RH",
+                 color=_INK, fontsize=11, loc="left", pad=10)
     return _finish(fig, save_path, dpi)

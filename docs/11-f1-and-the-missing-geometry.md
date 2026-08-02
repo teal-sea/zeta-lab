@@ -103,7 +103,8 @@ over `F_q` has `q^2 + q + 1` points: `7` at `q = 2`, `13` at `q = 3` — and `3`
 value `q = 1`: exactly a triangle, the degenerate "projective plane" with three points and three
 lines. Deeper: the number of complete flags in `F_q^n` (a nested chain
 line-inside-plane-inside-space) is the *q-factorial* `[n]_q! = (1)(1+q)(1+q+q^2)...` — at `n = 3`,
-`q = 2` that is `21`, verified here by brute-force enumeration of the subspaces of `F_2^3` — and at
+`q = 2` that is `1 * 3 * 7 = 21`, a count you can check by hand: `F_2^3` has 7 lines, each lying in
+exactly 3 of its 7 planes, and `7 x 3 = 21` — and at
 `q = 1` it becomes `n!`, the number of *permutations* of `n` things. Tits noticed this pattern
 across the algebraic groups: at `q = 1` the geometry degenerates into pure combinatorics (Weyl
 groups — finite symmetry skeletons). As if every `F_q`-geometry were a `q`-parameter family whose
@@ -157,10 +158,13 @@ side of the same formula, the primes enter as the sequence `log p, 2 log p, 3 lo
 (`docs/06-hilbert-polya-and-gue.md`, the Gutzwiller connection).
 
 Deninger's proposal takes that reading literally. **PROGRAM:** there should exist an actual
-dynamical system — a flow on some infinite-dimensional foliated space, none of it yet constructed —
-such that: the closed orbits of the flow *are* the primes, with period `log p`; the flow acts on an
-infinite-dimensional cohomology `H^1` (the analogue of Section 1's étale spaces) with generator
-`Theta`; zeta is the regularized determinant `det(s - Theta)` over that `H^1`, so the zeros are
+dynamical system — a flow on some infinite-dimensional *foliated* space (layered into
+lower-dimensional leaves, like plywood, the flow moving along the leaves), none of it yet
+constructed — such that: the closed orbits of the flow *are* the primes, with period `log p`; the
+flow acts on an infinite-dimensional cohomology `H^1` (the analogue of Section 1's étale spaces)
+with generator `Theta`; zeta is — up to elementary factors from the companion spaces `H^0` and
+`H^2`, which carry its pole — the regularized determinant `det(s - Theta)` over that `H^1` (a
+determinant of an infinite matrix, made finite by regularisation), so the zeros are
 exactly the eigenvalues of `Theta` — the modal frequencies of the flow; and the explicit formula of
 `docs/04` becomes a Lefschetz-type trace formula: spectrum on one side, periodic orbits on the
 other, an identity by geometry instead of contour integration. Deninger has built real fragments —

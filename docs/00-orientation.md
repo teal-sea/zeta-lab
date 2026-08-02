@@ -275,6 +275,8 @@ Docs, in numbered reading order:
 | `07-equivalences-and-criteria.md` | several | A catalogue of statements exactly equivalent to RH, with honest notes on which reformulations ever led anywhere. |
 | `08-why-it-is-hard.md` | — | The failure catalogue: what each known technique provably cannot do, and why numerics cannot decide RH. |
 | `09-new-ontologies.md` | — | What "RH needs new mathematics" means: the Weil-conjectures precedent, the F1 / Connes / Deninger programmes, and how to stress-test a proposed new ontology. |
+| `10-trace-formulas-and-connes.md` | `weil.py` | The Weil explicit formula as a trace formula (spectrum ↔ orbits); Selberg's working analogue; Connes' programme; the positivity criterion, run live. |
+| `11-f1-and-the-missing-geometry.md` | `epstein.py` | The field with one element, Borger's and Connes–Consani's attempts, Deninger's dynamical programme — the hunt for the geometry under ℤ. |
 
 Supporting directories: `scripts/`, `figures/`, `data/` (cached zero tables and scan
 results), `tests/` (every module has a test file — the defect functions are tested to tight
@@ -285,7 +287,9 @@ sequence: continuation gives you a function with zeros at all, theta/modularity 
 equation, and the explicit formula shows why the zeros *are* the primes. After `04`: read `05` for
 the heat-flow frontier (it builds directly on `02` and `03`), `06` for the statistical picture, `07`
 and `08` in either order to calibrate what "equivalent to RH" and "progress on RH" actually mean,
-and `09` for what a genuinely new attack would have to look like.
+and `09` for what a genuinely new attack would have to look like. `10` and `11` are deeper digests
+of the two live research programmes `09` sketches — trace formulas/Connes and F1/Deninger — each
+backed by a module (`zeta/weil.py`, `zeta/epstein.py`) and a demo (`scripts/07`, `scripts/08`).
 If you have one hour, read `01` and `04` and run the explicit-formula code.
 
 ## 8. Canonical sources

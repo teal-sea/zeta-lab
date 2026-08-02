@@ -26,6 +26,19 @@ A computational laboratory for the Riemann zeta function and RH. Read
   framing for the sign-change verification is "proof for the finite range,
   modulo the correctness of the floating-point sign evaluations". If a
   computation appears to settle something open, the correct inference is a bug.
+- **Derive conventions, never remember them.** Where the literature disagrees
+  on factor placement or a constant, the repo calibrates numerically and
+  cross-checks: the Riemann–Weil explicit-formula convention in `zeta/weil.py`
+  was validated by computing both sides independently for four test functions
+  from three unrelated families; κ in `zeta/epstein.py` is re-derived by a
+  linear solve on every call, with the pinned string only a test reference.
+  Follow that pattern for any new formula with a contested normalization.
+- **The counterexample battery is a standing test.** Any claimed structural
+  property that "explains" RH must be run through `zeta.epstein.battery`
+  (ζ and the Davenport–Heilbronn function behind one interface): f satisfies
+  the functional equation, has real coefficients and a real Hardy-style Z,
+  and violates RH — a claim f also passes distinguishes nothing (docs/09,
+  gate #3; docs/08 §4.1).
 
 ## Layout
 
@@ -35,12 +48,16 @@ A computational laboratory for the Riemann zeta function and RH. Read
   - `explicit.py` explicit formula (ψ, π from zeros), prime spectrum.
   - `statistics.py` vectorized Riemann–Siegel, unfolding, GUE comparisons.
   - `heatflow.py` Φ, H_t, zero tracking, de Bruijn–Newman Λ.
-  - `plots.py` the twelve figures. `zeta/__init__.py` re-exports the curated
+  - `weil.py` Riemann–Weil explicit formula (both sides independently),
+    Weil functional W(h), positivity probes, truncation-tail accounting.
+  - `epstein.py` the Davenport–Heilbronn counterexample: κ derivation,
+    Z_dh, box-vs-line zero counts, the off-line zero, `battery`.
+  - `plots.py` the fourteen figures. `zeta/__init__.py` re-exports the curated
     API; plots are loaded lazily (PEP 562 `__getattr__`) — keep it that way,
     `import zeta` must not pull in matplotlib.
-- `scripts/` 01–05 standalone demos, `06_tour.py` (~90 s full story),
-  `make_figures.py [--quick|--full]`.
-- `docs/` 00–09: a reading course; keep cross-references consistent with
+- `scripts/` 01–05 and 07–08 standalone demos, `06_tour.py` (~90 s full
+  story), `make_figures.py [--quick|--full]`.
+- `docs/` 00–11: a reading course; keep cross-references consistent with
   actual filenames (doc 05 is `05-de-bruijn-newman.md`).
 - `tests/` pytest; `data/` caches; `figures/` PNGs; `references/papers.md`.
 
@@ -67,7 +84,7 @@ affected cache files and re-run, or stale numbers will "pass".
 
 ```bash
 cd <repo root>
-.venv/bin/python -m pytest -q                 # full suite (~476 tests)
+.venv/bin/python -m pytest -q                 # full suite (~486 tests)
 .venv/bin/python -m pytest -q -m "not slow"   # fast tier
 .venv/bin/python scripts/06_tour.py           # end-to-end sanity + demo
 .venv/bin/python scripts/make_figures.py --quick   # all figures into figures/

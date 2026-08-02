@@ -24,7 +24,9 @@ Modules
                         prime spectrum recovering zeros from primes.
 :mod:`zeta.statistics`  unfolding, spacings vs GUE/Poisson, pair correlation.
 :mod:`zeta.heatflow`    Φ, H_t, zero tracking, de Bruijn–Newman Λ facts.
-:mod:`zeta.plots`       the twelve figures (imported lazily — matplotlib is
+:mod:`zeta.weil`        the Riemann–Weil explicit formula, Weil positivity.
+:mod:`zeta.epstein`     the Davenport–Heilbronn counterexample battery.
+:mod:`zeta.plots`       the fourteen figures (imported lazily — matplotlib is
                         only loaded when a ``plot_*`` name is first touched).
 
 Naming trap — there are three different "theta"s in this subject:
@@ -47,7 +49,7 @@ __version__ = "0.1.0"
 # Submodules (zeta.plots is intentionally NOT imported here: it pulls in
 # matplotlib, which is slow and unnecessary for purely numerical work.
 # It is loaded lazily through __getattr__ below.)
-from . import core, explicit, heatflow, statistics, zeros
+from . import core, epstein, explicit, heatflow, statistics, weil, zeros
 
 # --- core: ζ and the completed functions ----------------------------------
 from .core import (
@@ -123,6 +125,42 @@ from .heatflow import (
     zeros_of_H_t,
 )
 
+# --- Weil: the Riemann-Weil explicit formula and Weil positivity ----------
+from .weil import (
+    autocorrelation_pair,
+    explicit_formula_sides,
+    fejer_pair,
+    gaussian_pair,
+    near_tightness_report,
+    positivity_probe,
+    weil_functional,
+)
+
+# --- epstein: the Davenport-Heilbronn counterexample battery --------------
+from .epstein import (
+    KAPPA_REF,
+    OFFLINE_ZERO_IM,
+    OFFLINE_ZERO_RE,
+    L_chi,
+    Z_dh,
+    battery,
+    chi5,
+    claim_functional_equation,
+    claim_multiplicativity,
+    completed_dh,
+    count_zeros_box,
+    dh_coefficient,
+    dh_f,
+    dh_functional_equation_defect,
+    dh_interface,
+    dh_mean_value_defect,
+    dh_theta,
+    find_offline_zero,
+    kappa,
+    zeros_on_line,
+    zeta_interface,
+)
+
 # --- plots (lazy) ---------------------------------------------------------
 #: Names served lazily from :mod:`zeta.plots` on first attribute access.
 _PLOT_EXPORTS: tuple[str, ...] = (
@@ -138,6 +176,8 @@ _PLOT_EXPORTS: tuple[str, ...] = (
     "plot_zero_counting",
     "plot_heatflow_trajectories",
     "plot_polynomial_root_repulsion",
+    "plot_weil_positivity",
+    "plot_offline_zero",
 )
 
 
@@ -218,6 +258,36 @@ __all__ = [
     "track_zeros",
     "lambda_facts",
     "polynomial_heat_flow",
+    # Weil explicit formula / positivity
+    "gaussian_pair",
+    "fejer_pair",
+    "autocorrelation_pair",
+    "explicit_formula_sides",
+    "weil_functional",
+    "positivity_probe",
+    "near_tightness_report",
+    # Davenport-Heilbronn counterexample battery
+    "KAPPA_REF",
+    "OFFLINE_ZERO_RE",
+    "OFFLINE_ZERO_IM",
+    "chi5",
+    "kappa",
+    "L_chi",
+    "dh_f",
+    "dh_coefficient",
+    "completed_dh",
+    "dh_functional_equation_defect",
+    "dh_mean_value_defect",
+    "dh_theta",
+    "Z_dh",
+    "zeros_on_line",
+    "count_zeros_box",
+    "find_offline_zero",
+    "zeta_interface",
+    "dh_interface",
+    "battery",
+    "claim_functional_equation",
+    "claim_multiplicativity",
     # plots (lazy)
     *_PLOT_EXPORTS,
 ]

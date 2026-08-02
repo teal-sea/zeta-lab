@@ -72,6 +72,12 @@ def _specs(mode: str) -> list[tuple[str, str, dict]]:
          dict(t_values=tuple(round(-0.6 + 0.1 * k, 1) for k in range(13)))),
         ("polynomial_root_repulsion", "plot_polynomial_root_repulsion",
          dict(n_t=121) if quick else dict(n_t=241)),
+        ("weil_positivity", "plot_weil_positivity",
+         dict(gaussian_points=7, fejer_points=5)
+         if quick else
+         dict(gaussian_points=11, fejer_points=8)),
+        ("offline_zero", "plot_offline_zero",
+         dict(nx=240, ny=340) if quick else dict(nx=420, ny=600)),
     ]
 
 

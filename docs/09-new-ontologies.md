@@ -282,6 +282,10 @@ missing geometry — is the field's best-supported **HEURISTIC**.
 
 ## Where to go next
 
+- `docs/10-trace-formulas-and-connes.md` and `docs/11-f1-and-the-missing-geometry.md` — deeper
+  digests of the two programme families sketched above, each backed by a runnable module:
+  `zeta/weil.py` implements Gate 2 (the positivity criterion, live) and `zeta/epstein.py`
+  implements Gate 3 (the counterexample battery, with an actual off-line zero).
 - `docs/08-why-it-is-hard.md` — the failure catalogue that motivates all of this; read it first if
   you skipped it, especially the Davenport–Heilbronn section that powers Gate 3.
 - `docs/06-hilbert-polya-and-gue.md` and `docs/05-de-bruijn-newman.md` — the two "shadows" of

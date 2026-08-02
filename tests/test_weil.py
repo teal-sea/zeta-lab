@@ -185,6 +185,30 @@ def test_explicit_formula_gaussian_a0002(res_g0002):
     assert float(res_g0002["zero_side"]) == pytest.approx(3.5667624107582642, rel=1e-14)
 
 
+def test_docs10_table_numbers_pinned(res_g001):
+    # docs/10 §2 prints this exact decomposition for the Gaussian a = 0.01
+    # pair and says the tests pin every quoted number — this test is that pin
+    # (audit addition; every literal below re-measured independently first).
+    with mp.workdps(30):
+        assert abs(
+            res_g001["zero_side"] - mp.mpf("0.299396022507559155789163943544")
+        ) < mp.mpf("2e-29")
+        assert abs(res_g001["pole_term"] - mp.mpf("2.005006255211590")) < mp.mpf("5e-16")
+        assert abs(res_g001["arch_term"] - mp.mpf("-1.705593433712344")) < mp.mpf("5e-16")
+        assert abs(res_g001["prime_term"] - mp.mpf("-1.6798991687e-5")) < mp.mpf("5e-16")
+    assert res_g001["n_zeros_used"] == 28  # "the first 28 pairs ±γ suffice"
+    assert res_g001["n_max"] == 7  # prime powers n = 2, 3, 4, 5, 7 only
+    with mp.workdps(30):
+        # "90.6% of the spectral side is the first zero pair"
+        share = 2 * mp.e ** (-mp.mpf("0.01") * mp.mpf(GAMMA1) ** 2) / res_g001["zero_side"]
+        assert abs(share - mp.mpf("0.906")) < mp.mpf("0.002")
+        # "99.99998% of the prime side is the single shortest orbit n = 2"
+        a = mp.mpf("0.01")
+        g = lambda u: mp.e ** (-u * u / (4 * a)) / (2 * mp.sqrt(mp.pi * a))
+        n2_term = mp.log(2) / mp.sqrt(2) * g(mp.log(2))
+        assert abs(n2_term / (-res_g001["prime_term"] / 2) - 1) < mp.mpf("3e-8")
+
+
 def test_explicit_formula_autocorrelation_members():
     with mp.workdps(30):
         h, g = autocorrelation_pair([1, 1], spacing=2.0, sigma="0.25")

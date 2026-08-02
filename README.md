@@ -5,8 +5,9 @@ prime numbers are — and the Riemann Hypothesis says all of those zeros lie on
 a single vertical line. This repository is a working laboratory for that
 statement: arbitrary-precision implementations of the classical machinery
 (theta functions, the functional equation, Hardy's Z, the explicit formula,
-GUE statistics, heat flow on Ξ), each identity *measured* rather than assumed,
-with 476 tests pinning every claimed number. In ninety seconds you can watch
+GUE statistics, heat flow on Ξ, Weil positivity, the Davenport–Heilbronn
+counterexample), each identity *measured* rather than assumed, with 486 tests
+pinning every claimed number. In ninety seconds you can watch
 the primes reconstructed from the zeros alone; in an afternoon you can read
 why none of this computes its way to a proof.
 
@@ -36,7 +37,7 @@ Every dependency is ordinary: `mpmath`, `numpy`, `scipy`, `matplotlib`,
 `sympy` (see `pyproject.toml`). Expensive computations cache themselves under
 `data/`, so second runs of everything are instant.
 
-## Five things you can run right now
+## Seven things you can run right now
 
 1. **Rebuild the primes from the zeros** — the moment the subject becomes real:
 
@@ -94,6 +95,30 @@ Every dependency is ordinary: `mpmath`, `numpy`, `scipy`, `matplotlib`,
    first ten zeros of H_t as t varies (repulsion forwards, attraction
    backwards), demonstrates a real root collision on a polynomial toy model,
    and prints exactly what is proved about Λ (and by whom).
+
+6. **Balance the Riemann–Weil explicit formula, then probe Weil positivity**:
+
+   ```bash
+   python scripts/07_weil_positivity.py
+   ```
+
+   You will see the same number computed two unrelated ways — zeros on one
+   side, primes and Γ-factors on the other — agree to ~1e-31, and then the
+   Weil functional W(h) (RH ⟺ W ≥ 0) stay positive across families of
+   positive-type test functions, with its margin visibly controlled by the
+   first zero γ₁ = 14.1347…
+
+7. **Watch a zeta-shaped function fail RH**:
+
+   ```bash
+   python scripts/08_wrong_shape_zeta.py
+   ```
+
+   You will see the Davenport–Heilbronn function — exact functional equation,
+   real coefficients, a real Hardy-style Z, everything except the Euler
+   product — get caught by the argument principle with more zeros in the strip
+   than on the line, and the excess polished to a verified zero at
+   0.8085… + 85.6993…i, OFF the critical line: symmetry alone cannot give RH.
 
 All figures: `python scripts/make_figures.py --quick` regenerates the
 fourteen PNGs in `figures/` in a couple of minutes (seconds when cached).
@@ -164,6 +189,10 @@ The docs are a single course; `00 → 01 → 02 → 03 → 04` is one argument.
 | `docs/07-equivalences-and-criteria.md` | A catalogue of statements exactly equivalent to RH — and why equivalence ≠ progress. |
 | `docs/08-why-it-is-hard.md` | The failure catalogue: what each known technique provably cannot do. |
 | `docs/09-new-ontologies.md` | What "RH needs new mathematics" actually means, with the Weil precedent. |
+| `docs/10-trace-formulas-and-connes.md` | The Weil explicit formula as a trace formula; Selberg's working analogue; Connes' program. |
+| `docs/11-f1-and-the-missing-geometry.md` | The field with one element, Deninger's dynamics, and the hunt for geometry under ℤ. |
+| `docs/10-trace-formulas-and-connes.md` | Trace formulas: zeros as spectrum, primes as orbits; Selberg's theorem vs Connes' program. |
+| `docs/11-f1-and-the-missing-geometry.md` | Spec Z as a curve over "the field with one element": the missing space, the attempts, the honest scorecard. |
 
 ## Gallery
 
@@ -200,7 +229,9 @@ The rest: [ζ on the critical line](figures/zeta_critical_line.png) ·
 [pair correlation](figures/pair_correlation.png) ·
 [N(T) staircase and S(T)](figures/zero_counting.png) ·
 [polynomial root repulsion](figures/polynomial_root_repulsion.png) ·
-[GUE quick-peek](figures/spacings_gue_quickpeek.png)
+[GUE quick-peek](figures/spacings_gue_quickpeek.png) ·
+[Weil positivity](figures/weil_positivity.png) ·
+[the off-line zero](figures/offline_zero.png)
 
 ## Repository map
 
@@ -211,14 +242,16 @@ zeta/               the package (flat layout; pip install -e .)
   explicit.py       explicit formula: ψ/π from zeros; prime spectrum (dual)
   statistics.py     unfolding, spacings vs GUE/Poisson, pair correlation
   heatflow.py       Φ, H_t, zero tracking, Λ facts (de Bruijn–Newman)
-  plots.py          the twelve publication figures
-scripts/            01–05 one demo each, 06_tour.py runs the whole story,
-                    make_figures.py regenerates figures/
-docs/               00–09, the reading course (see the table above)
-tests/              476 tests; every number claimed in a docstring is pinned
+  weil.py           Riemann–Weil explicit formula, both sides; Weil positivity
+  epstein.py        Davenport–Heilbronn: zeta-shaped symmetry, a zero off the line
+  plots.py          the fourteen publication figures
+scripts/            01–05 and 07–08 one demo each, 06_tour.py runs the whole
+                    story, make_figures.py regenerates figures/
+docs/               00–11, the reading course (see the table above)
+tests/              486 tests; every number claimed in a docstring is pinned
 data/               caches (zero tables as .json are committed; .npz scans
                     regenerate on first use)
-figures/            the fourteen PNGs linked above
+figures/            the sixteen PNGs linked above
 references/         annotated reading list (references/papers.md)
 ```
 
