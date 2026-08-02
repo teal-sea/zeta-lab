@@ -6,3 +6,4 @@ figures/*.gif
 data/*.npz
 .DS_Store
 .ipynb_checkpoints/
+.coverage

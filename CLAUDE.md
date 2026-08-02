@@ -1,11 +1,11 @@
-# CLAUDE.md — operating context for /Users/thomas/Zeta
+# CLAUDE.md — operating context for the repo root
 
 A computational laboratory for the Riemann zeta function and RH. Read
 `README.md` for the front door and `docs/00-orientation.md` for scope.
 
 ## Hard rules
 
-- **Python**: ALWAYS `/Users/thomas/Zeta/.venv/bin/python` — never bare
+- **Python**: ALWAYS `.venv/bin/python (from the repo root)` — never bare
   `python3`. All dependencies live only in that venv (mpmath, numpy, scipy,
   matplotlib, sympy, pytest).
 - **matplotlib**: headless. Set the backend *before* importing pyplot:
@@ -66,7 +66,7 @@ affected cache files and re-run, or stale numbers will "pass".
 ## How to run things
 
 ```bash
-cd /Users/thomas/Zeta
+cd <repo root>
 .venv/bin/python -m pytest -q                 # full suite (~476 tests)
 .venv/bin/python -m pytest -q -m "not slow"   # fast tier
 .venv/bin/python scripts/06_tour.py           # end-to-end sanity + demo

@@ -29,6 +29,7 @@ powers as spectral peaks, and saves a figure of the whole picture.
 from __future__ import annotations
 
 import argparse
+from pathlib import Path
 import math
 import time
 
@@ -258,7 +259,7 @@ def main() -> None:
     parser.add_argument("--no-figure", action="store_true",
                         help="skip writing the matplotlib figure")
     parser.add_argument("--figure",
-                        default="/Users/thomas/Zeta/figures/03_primes_from_zeros.png",
+                        default=str(Path(__file__).resolve().parent.parent / "figures" / "03_primes_from_zeros.png"),
                         help="output path for the figure")
     args = parser.parse_args()
     if args.x < 5:
