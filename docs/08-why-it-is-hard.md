@@ -341,7 +341,9 @@ Genuinely open, genuinely approachable, roughly ordered by how fast a non-specia
 8. **Computable equivalences.** The Nyman–Beurling criterion, and Báez-Duarte's reformulation,
    express RH as a Hilbert-space distance that can be approximated numerically. Neither has produced
    a proof, but both are concrete and programmable — `docs/07-equivalences-and-criteria.md` §5 states
-   them precisely and computes the first approximations.
+   them precisely and works out, from the conjectured `C/log N` asymptotic, why the numerics are
+   hopeless (no `d_N` computation is implemented in this repo; doing one and watching it refuse to
+   converge is a suggested experiment there).
 
 ---
 

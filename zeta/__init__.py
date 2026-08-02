@@ -1,2 +1,223 @@
-"""zeta-lab: computational laboratory for the Riemann zeta function."""
+"""zeta-lab — a computational laboratory for the Riemann zeta function.
+
+This package is an *instrument*, not a proof attempt: arbitrary-precision
+machinery (mpmath) for ζ, θ, ξ, Ξ and Hardy's Z, zero hunting with
+Turing-style counting certificates, the explicit formula rebuilding the
+primes from the zeros, GUE spacing statistics, and heat flow on Ξ itself —
+the de Bruijn–Newman constant Λ, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem
+(Rodgers–Tao 2018).
+
+The organising chain, in one breath:
+
+    θ(x) = Σ_{n∈ℤ} e^{−πn²x} is the heat kernel on ℝ/ℤ
+      → Poisson summation gives the modular identity θ(1/x) = √x·θ(x)
+      → whose Mellin transform is the functional equation ξ(s) = ξ(1−s)
+      → whose mirror axis is Re(s) = 1/2 (the critical line)
+      → and running the SAME heat equation on Ξ gives the family H_t,
+        with Λ = inf{t : H_t has only real zeros} and RH ⟺ Λ = 0.
+
+Modules
+-------
+:mod:`zeta.core`        ζ, η, Euler–Maclaurin, θ (Jacobi), ξ, Ξ, Z, Mellin.
+:mod:`zeta.zeros`       zero finding, Gram points, N(T), verify_rh_up_to.
+:mod:`zeta.explicit`    the explicit formula: ψ, π rebuilt from zeros; the
+                        prime spectrum recovering zeros from primes.
+:mod:`zeta.statistics`  unfolding, spacings vs GUE/Poisson, pair correlation.
+:mod:`zeta.heatflow`    Φ, H_t, zero tracking, de Bruijn–Newman Λ facts.
+:mod:`zeta.plots`       the twelve figures (imported lazily — matplotlib is
+                        only loaded when a ``plot_*`` name is first touched).
+
+Naming trap — there are three different "theta"s in this subject:
+
+* :func:`zeta.core.theta`          — Jacobi θ(x) = Σ e^{−πn²x} (the heat kernel);
+* :func:`zeta.core.rs_theta`       — the Riemann–Siegel phase ϑ(t) in
+                                     Z(t) = e^{iϑ(t)} ζ(½+it);
+* :func:`zeta.explicit.theta_cheb` — Chebyshev's prime sum θ(x) = Σ_{p≤x} log p.
+
+All three are re-exported here under those distinct names; nothing in this
+package ever means more than one of them by ``theta``.
+
+Quickstart:  ``python scripts/06_tour.py``  (see README.md at the repo root).
+"""
+
+from __future__ import annotations
+
 __version__ = "0.1.0"
+
+# Submodules (zeta.plots is intentionally NOT imported here: it pulls in
+# matplotlib, which is slow and unnecessary for purely numerical work.
+# It is loaded lazily through __getattr__ below.)
+from . import core, explicit, heatflow, statistics, zeros
+
+# --- core: ζ and the completed functions ----------------------------------
+from .core import (
+    DATA_DIR,
+    DPS_DEFAULT,
+    Xi,
+    Z,
+    completed_zeta,
+    eta,
+    functional_equation_defect,
+    omega,
+    rs_theta,
+    theta,
+    theta_heat,
+    theta_modular_defect,
+    xi,
+    zeta,
+    zeta_euler_maclaurin,
+)
+
+# --- zeros: hunting and counting ------------------------------------------
+from .zeros import (
+    N_of_T,
+    S_of_T,
+    first_n_zeros,
+    gram_law_violations,
+    gram_point,
+    gram_points,
+    riemann_von_mangoldt,
+    verify_rh_up_to,
+    zeros_by_sign_change,
+    zeros_from_scratch,
+)
+
+# --- explicit formula: zeros <-> primes -----------------------------------
+from .explicit import (
+    Li,
+    R,
+    first_zeros,
+    li,
+    mangoldt,
+    pi_from_zeros,
+    pi_true,
+    prime_spectrum,
+    psi_from_zeros,
+    psi_true,
+    spectrum_peaks,
+    theta_cheb,
+)
+
+# --- statistics: GUE and the Montgomery-Odlyzko law -----------------------
+from .statistics import (
+    compare_to_random_matrix,
+    gue_eigenvalues,
+    gue_spacing_exact,
+    montgomery_prediction,
+    nearest_neighbour_spacings,
+    pair_correlation,
+    poisson_spacing,
+    unfold,
+    wigner_surmise_gue,
+    zero_ordinates,
+)
+
+# --- heat flow on Ξ: the de Bruijn-Newman constant ------------------------
+from .heatflow import (
+    H_t,
+    Phi,
+    Xi_reference,
+    lambda_facts,
+    polynomial_heat_flow,
+    track_zeros,
+    zeros_of_H_t,
+)
+
+# --- plots (lazy) ---------------------------------------------------------
+#: Names served lazily from :mod:`zeta.plots` on first attribute access.
+_PLOT_EXPORTS: tuple[str, ...] = (
+    "plot_zeta_critical_line",
+    "plot_hardy_Z",
+    "plot_zeta_domain_coloring",
+    "plot_theta_modularity",
+    "plot_theta_heat_evolution",
+    "plot_explicit_formula",
+    "plot_prime_spectrum",
+    "plot_spacing_histogram",
+    "plot_pair_correlation",
+    "plot_zero_counting",
+    "plot_heatflow_trajectories",
+    "plot_polynomial_root_repulsion",
+)
+
+
+def __getattr__(name: str):
+    """Lazily resolve ``zeta.plots`` and its figure functions (PEP 562)."""
+    if name == "plots" or name in _PLOT_EXPORTS:
+        import importlib
+
+        plots = importlib.import_module(".plots", __name__)  # matplotlib, Agg
+        globals()["plots"] = plots  # cache: later zeta.plots skips __getattr__
+        return plots if name == "plots" else getattr(plots, name)
+    raise AttributeError(f"module {__name__!r} has no attribute {name!r}")
+
+
+def __dir__() -> list[str]:
+    return sorted(set(globals()) | set(_PLOT_EXPORTS) | {"plots"})
+
+
+__all__ = [
+    "__version__",
+    # constants
+    "DPS_DEFAULT",
+    "DATA_DIR",
+    # core
+    "zeta",
+    "eta",
+    "zeta_euler_maclaurin",
+    "theta",
+    "omega",
+    "theta_modular_defect",
+    "theta_heat",
+    "xi",
+    "Xi",
+    "completed_zeta",
+    "functional_equation_defect",
+    "rs_theta",
+    "Z",
+    # zeros
+    "first_n_zeros",
+    "zeros_by_sign_change",
+    "zeros_from_scratch",
+    "gram_point",
+    "gram_points",
+    "gram_law_violations",
+    "N_of_T",
+    "S_of_T",
+    "riemann_von_mangoldt",
+    "verify_rh_up_to",
+    # explicit formula
+    "mangoldt",
+    "psi_true",
+    "theta_cheb",
+    "pi_true",
+    "li",
+    "Li",
+    "R",
+    "first_zeros",
+    "psi_from_zeros",
+    "pi_from_zeros",
+    "prime_spectrum",
+    "spectrum_peaks",
+    # statistics
+    "zero_ordinates",
+    "unfold",
+    "nearest_neighbour_spacings",
+    "wigner_surmise_gue",
+    "gue_spacing_exact",
+    "poisson_spacing",
+    "pair_correlation",
+    "montgomery_prediction",
+    "gue_eigenvalues",
+    "compare_to_random_matrix",
+    # heat flow
+    "Phi",
+    "H_t",
+    "Xi_reference",
+    "zeros_of_H_t",
+    "track_zeros",
+    "lambda_facts",
+    "polynomial_heat_flow",
+    # plots (lazy)
+    *_PLOT_EXPORTS,
+]

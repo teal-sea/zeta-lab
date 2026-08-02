@@ -696,10 +696,17 @@ def verify_rh_up_to(T, verbose: bool = False, dps: int = 25, max_samples: int = 
     * each t_j has multiplicity exactly 1, i.e. **all the zeros are simple**.
 
     That is the Backlund/Turing method, and for the finite interval (0, T) it is
-    a genuine proof, not statistical evidence.  A sign-change scan can only miss
-    zeros, never invent them, so the grid can safely be refined until m = N(T);
-    the procedure cannot produce a false positive.  (This routine does exactly
-    that refinement, doubling the grid until the counts agree or ``max_samples``
+    a proof — *modulo the correctness of the floating-point sign evaluations*.
+    Every sign of Z here is an ordinary mpmath evaluation at ``dps`` digits, not
+    interval arithmetic, so the certificate rests on those evaluations being
+    accurate to better than |Z| at each grid point (overwhelmingly safe at
+    these heights, but not rigorously bounded here; the published verifications
+    of Platt–Trudgian use interval arithmetic precisely to close this gap —
+    see docs/08-why-it-is-hard.md).  In exact arithmetic a sign-change scan can
+    only miss zeros, never invent them, so the grid can safely be refined until
+    m = N(T); a false positive would require a rounding-induced sign flip at a
+    grid point where |Z| is below the evaluation error.  (This routine does the
+    refinement, doubling the grid until the counts agree or ``max_samples``
     is reached.)
 
     Returns

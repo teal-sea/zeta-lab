@@ -2,7 +2,6 @@
 __pycache__/
 *.pyc
 .pytest_cache/
-figures/*.png
 figures/*.gif
 data/*.npz
 .DS_Store

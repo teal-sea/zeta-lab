@@ -276,7 +276,7 @@ Docs, in numbered reading order:
 | `08-why-it-is-hard.md` | — | The failure catalogue: what each known technique provably cannot do, and why numerics cannot decide RH. |
 | `09-new-ontologies.md` | — | What "RH needs new mathematics" means: the Weil-conjectures precedent, the F1 / Connes / Deninger programmes, and how to stress-test a proposed new ontology. |
 
-Supporting directories: `scripts/`, `notebooks/`, `figures/`, `data/` (cached zero tables and scan
+Supporting directories: `scripts/`, `figures/`, `data/` (cached zero tables and scan
 results), `tests/` (every module has a test file — the defect functions are tested to tight
 tolerances), `references/`.
 

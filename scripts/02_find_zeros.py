@@ -115,7 +115,10 @@ def main() -> None:
               "SIMPLE and lie EXACTLY")
         print("    on the critical line Re s = 1/2.  RH is verified up to this "
               "height —")
-        print("    a finite proof for this range, not a statistical statement.")
+        print("    a finite proof for this range (modulo the floating-point "
+              "sign")
+        print("    evaluations of Z — this scan is not interval arithmetic), "
+              "not statistics.")
     else:
         print(f"COUNTS DISAGREE: {res['n_sign_changes']} sign changes vs "
               f"N(T) = {res['N_T']}.")
