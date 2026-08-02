@@ -946,7 +946,9 @@ def test_Xi_zero_value_via_the_theta_mellin_route():
     with mp.workdps(50):
         indep = -theta_mellin_xi(mp.mpf(1) / 2, dps=40) / 8
         assert _abs(Xi(0, dps=35) - indep) < mp.mpf("1e-33")
-        assert _abs(indep - mp.mpf("0.49712077818831410986")) < mp.mpf("1e-19")
+        # true digits: 0.49712077818831410991277374...  (the previous literal
+        # ...10986 was off in its own last two digits, hidden by the tolerance)
+        assert _abs(indep - mp.mpf("0.49712077818831410991277374")) < mp.mpf("1e-25")
 
 
 @pytest.mark.parametrize("t,rel_tol", [("0.02", "1e-33"), ("0.05", "1e-35"),
@@ -981,3 +983,110 @@ def test_heat_residual_relative_accuracy_degrades_at_large_t():
         assert _abs(lo) < mp.mpf("1e-40")             # absolute: still excellent
         assert _abs(lo) / _abs(dxx) > mp.mpf("1e-30")  # relative: genuinely worse
         assert _abs(hi) / _abs(dxx) < mp.mpf("1e-34")  # ... and dps fixes it
+
+
+# ---------------------------------------------------------------------------
+# Regression tests from the second adversarial verification pass.
+# ---------------------------------------------------------------------------
+
+def test_euler_maclaurin_negative_sigma_cancellation_guard():
+    """REGRESSION.  For Re(s) = sigma < 1 the truncated sum and the integral
+    term N^{1-s}/(s-1) both grow like N^{1-sigma} and cancel; the fixed 15
+    guard digits could not absorb it.  Measured before the fix at dps=30:
+    rel err 1.7e-26 at s=-15.5 (N=20) and 1.2e-17 at s=-19.5 (N=40) -- and
+    euler_maclaurin_suggest_N made it WORSE (larger N = more cancellation).
+    The working precision now carries ceil((1-sigma) log10 N) extra digits.
+
+    Post-fix measurements: <= 4.6e-32 relative with the suggested N.  The
+    guard fixes round-off only: at s=-19.5 with N=20 < |s| the remaining
+    3.6e-27 is the honest asymptotic-series remainder (hence the looser bound
+    on that line -- pre-fix the same point was 1e-22-ish and N=40 was 1.2e-17)."""
+    with mp.workdps(60):
+        for s_str in ["-10.5", "-15.5", "-19.5"]:
+            s = mp.mpf(s_str)
+            ref = mp.zeta(s)
+            for N in (euler_maclaurin_suggest_N(s, dps=30), 40):
+                got = zeta_euler_maclaurin(s, N=N, M=20, dps=30)
+                rel = _abs(got - ref) / _abs(ref)
+                assert rel < mp.mpf("1e-28"), (s_str, N, rel)
+        s = mp.mpf("-19.5")
+        got = zeta_euler_maclaurin(s, N=20, M=20, dps=30)
+        assert _abs(got - mp.zeta(s)) / _abs(mp.zeta(s)) < mp.mpf("1e-24")
+        # complex, negative real part
+        s = mp.mpc(-12, 5)
+        got = zeta_euler_maclaurin(s, N=40, M=20, dps=30)
+        assert _abs(got - mp.zeta(s)) / _abs(mp.zeta(s)) < mp.mpf("1e-28")
+
+
+def test_zeta_via_eta_near_a_nonpole_zero_of_the_denominator():
+    """REGRESSION.  At s = 1 + 2 pi i k / log 2 (k != 0), zeta is finite and
+    eta has a matching zero, but eta is computed to fixed ABSOLUTE accuracy
+    while the denominator is ~1e-41 for the rounded input: the quotient came
+    out as -3.2e-6 - 2.6e-7j instead of zeta(s) = 1.3466 + 0.1099j, silently.
+    Guard digits now track -log10|1 - 2^{1-s}|.
+
+    The oracle needs care here: mp.zeta itself goes through the SAME
+    1/(1 - 2^{1-s}) factor for complex s in the strip, so mp.zeta(sk) at
+    45 dps is itself 3.2e-6 wrong at this point.  The reference must be
+    computed with enough working precision (120 dps: denominator error 1e-120
+    against |denom| ~ 1e-46 leaves 74 good digits)."""
+    with mp.workdps(45):
+        sk = 1 + 2 * mp.pi * mp.mpc(0, 1) / mp.log(2)   # k = 1, to 45 digits
+    with mp.workdps(120):
+        ref = mp.zeta(sk)
+    got = zeta_via_eta(sk, dps=30)
+    with mp.workdps(45):
+        assert _abs(got - ref) / _abs(ref) < mp.mpf("1e-27"), (got, ref)
+        # and mpmath's own zeta really is off here at matched precision,
+        # i.e. the fixed quotient beats the naive oracle:
+        naive = mp.zeta(sk)
+        assert _abs(naive - ref) / _abs(ref) > mp.mpf("1e-7")
+
+
+def test_real_argument_functions_accept_mpc_with_zero_imag():
+    """REGRESSION.  Xi(mpc(5,0)) etc. raised TypeError ('cannot create mpf
+    from mpc') from mp.mpf(mpc): the imag-part check passed but the coercion
+    could not handle an mpc.  All real-argument entry points now share one
+    coercion helper."""
+    with mp.workdps(40):
+        assert _abs(Xi(mp.mpc(5, 0), dps=30) - Xi(5, dps=30)) < mp.mpf("1e-28")
+        assert _abs(Z(mp.mpc(5, 0), dps=30) - Z(5, dps=30)) < mp.mpf("1e-28")
+        assert _abs(rs_theta(mp.mpc(5, 0), dps=30) - rs_theta(5, dps=30)) < mp.mpf("1e-28")
+        assert _abs(theta(mp.mpc(2, 0), dps=30) - theta(2, dps=30)) < mp.mpf("1e-28")
+        assert _abs(omega(mp.mpc(2, 0), dps=30) - omega(2, dps=30)) < mp.mpf("1e-28")
+        assert _abs(theta_modular_defect(mp.mpc(2, 0), dps=30)) < mp.mpf("1e-28")
+        a = theta_heat(mp.mpc("0.3", 0), mp.mpc("0.05", 0), dps=30)
+        assert _abs(a - theta_heat("0.3", "0.05", dps=30)) < mp.mpf("1e-28")
+
+
+def test_real_argument_functions_reject_complex_with_valueerror():
+    """REGRESSION.  omega/theta_heat/theta_heat_gaussian/theta_heat_residual
+    raised TypeError (or nothing) on genuinely complex input; the documented
+    contract is ValueError, which theta/Z/Xi already honoured."""
+    with pytest.raises(ValueError):
+        omega(mp.mpc(1, 1))
+    with pytest.raises(ValueError):
+        theta_modular_defect(mp.mpc(1, 1))
+    with pytest.raises(ValueError):
+        theta_heat(mp.mpc("0.3", "0.1"), "0.05")
+    with pytest.raises(ValueError):
+        theta_heat_gaussian("0.3", mp.mpc("0.05", "0.1"))
+    with pytest.raises(ValueError):
+        theta_heat_residual(mp.mpc("0.3", "0.1"), "0.05")
+    with pytest.raises(ValueError):
+        rs_theta(mp.mpc(1, 1))
+
+
+def test_domain_validated_even_with_explicit_terms():
+    """REGRESSION.  With `terms` given, the adaptive term-count helper (which
+    held the only x > 0 / t > 0 check) is skipped: theta(-1, terms=5) happily
+    summed exp(+pi n^2) and returned garbage.  Ditto omega and theta_heat.
+    A negative h in theta_heat_residual slipped past the t > 2h check."""
+    with pytest.raises(ValueError):
+        theta(-1, terms=5)
+    with pytest.raises(ValueError):
+        omega(-1, terms=5)
+    with pytest.raises(ValueError):
+        theta_heat("0.3", "-0.05", terms=5)
+    with pytest.raises(ValueError):
+        theta_heat_residual("0.3", "0.05", h="-1e-8")

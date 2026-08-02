@@ -120,6 +120,22 @@ def _is_real(s) -> bool:
     return mp.im(s) == 0
 
 
+def _real_arg(v, label: str):
+    """Coerce ``v`` to an ``mpf``, accepting an ``mpc`` only when Im(v) == 0.
+
+    Every public function of a *real* variable funnels its argument through
+    here, so that genuinely complex input raises ``ValueError`` — the
+    documented contract — rather than the ``TypeError`` that a bare
+    ``mp.mpf(mpc(...))`` throws, and so that an ``mpc`` with exactly zero
+    imaginary part (a common by-product of upstream complex arithmetic) is
+    accepted rather than crashing.
+    """
+    v = mpmath.mpmathify(v)
+    if mp.im(v) != 0:
+        raise ValueError(f"{label} expects a real argument, got {v}")
+    return mp.mpf(mp.re(v))
+
+
 def _real_part_checked(value, dps: int, tol_digits: int, label: str):
     """Return Re(value) after verifying the imaginary part is pure round-off.
 
@@ -367,18 +383,50 @@ def zeta_via_eta(s, dps: int = DPS_DEFAULT):
     left-hand side converges for Re(s) > 0, so the right-hand side *defines* ζ
     there.
 
-    Raises ``ZeroDivisionError`` at the zeros of (1 − 2^{1−s}), i.e.
-    s = 1 + 2πik/log 2 (k ∈ ℤ), of which s = 1 is the genuine pole of ζ.
+    **The zeros of the denominator.**  1 − 2^{1−s} vanishes at
+    s = 1 + 2πik/log 2 (k ∈ ℤ).  Only k = 0 is a pole of ζ; at the k ≠ 0
+    points ζ is perfectly finite and η has a matching zero, so the quotient
+    has a *removable* singularity — but a numerically treacherous one, because
+    Borwein's algorithm computes η to a fixed **absolute** accuracy while both
+    η(s) and the denominator are O(|s − s_k|).  Unguarded, an s within 10⁻⁴¹
+    of s_k returned ~10⁻⁶ instead of ζ(s) ≈ 1.35 + 0.11i, with no warning.
+    The guard digits now grow with −log₁₀|1 − 2^{1−s}|, so the quotient stays
+    accurate to ``dps`` arbitrarily close to the k ≠ 0 zeros (measured:
+    rel. error 3e-33 at the 45-digit rounding of s = 1 + 2πi/log 2).
+
+    Raises ``ZeroDivisionError`` if 1 − 2^{1−s} evaluates to exactly zero
+    (in exact arithmetic that means s = 1, the genuine pole) or if s sits so
+    close to a denominator zero that the required guard digits exceed
+    max(1000, 20·dps).
     """
     s = _num(s)
-    with mp.workdps(dps + _GUARD):
-        s_w = _num(s)
-        denom = 1 - mp.power(2, 1 - s_w)
+    # How close is s to a zero of 1 - 2^{1-s}?  Iterate because the denominator
+    # itself needs |denom| >> 10^{-work} to be computed with any relative
+    # accuracy: each pass recomputes it with the guard digits the previous
+    # pass discovered were needed, until the estimate stops growing.
+    extra = 0
+    for _ in range(64):
+        with mp.workdps(dps + _GUARD + extra):
+            s_w = _num(s)
+            denom = 1 - mp.power(2, 1 - s_w)
         if denom == 0:
             raise ZeroDivisionError(
                 f"1 - 2^(1-s) vanishes at s={s}; use zeta() or zeta_euler_maclaurin()"
             )
-        value = eta(s_w, dps + _GUARD) / denom
+        with mp.workdps(30):
+            need = int(mp.ceil(-mp.log10(abs(denom)))) + 5 if abs(denom) < 1 else 0
+        if need > max(1000, 20 * dps):
+            raise ZeroDivisionError(
+                f"s={s} is too close to a zero of 1 - 2^(1-s) "
+                f"(would need {need} guard digits); use zeta()"
+            )
+        if need <= extra:
+            break
+        extra = need
+    with mp.workdps(dps + _GUARD + extra):
+        s_w = _num(s)
+        denom = 1 - mp.power(2, 1 - s_w)
+        value = eta(s_w, dps + _GUARD + extra) / denom
     return _shrink(value, dps)
 
 
@@ -432,13 +480,29 @@ def zeta_euler_maclaurin(s, N: int = 20, M: int = 20, dps: int = DPS_DEFAULT):
         more is not unconditionally better; M ≈ 20 with N ≈ 20 delivers ≳ 30
         digits for |s| ≲ 20.
     dps : digits of the returned value.
+
+    **Cancellation guard.**  For Re(s) = σ < 1 the intermediate quantities are
+    huge while the answer is small: the truncated sum and the integral term
+    N^{1−s}/(s−1) both grow like N^{1−σ} and cancel almost completely (at
+    s = −19.5, N = 40 the intermediates are ~10³², the answer is 33.2).  A
+    fixed number of guard digits therefore loses ⌈(1−σ)·log₁₀N⌉ digits of the
+    result — measured before the fix: rel. error 1.7e-26 at s = −15.5 (N=20)
+    and 1.2e-17 at s = −19.5 (N=40) for dps = 30.  The working precision now
+    carries those extra digits explicitly.  Measured after the fix at dps=30:
+    ≤ 4.6e-32 relative at s = −10.5, −15.5, −19.5 and −12+5i with the
+    suggested N (=40); the landmarks s = −1, 0 remain exact.  The guard fixes
+    *round-off*, not the asymptotics: N ≳ |s| is still required (at s = −19.5
+    with N = 20 the remaining 3.6e-27 is the genuine series remainder).
     """
     s = _num(s)
     if N < 2:
         raise ValueError("N must be at least 2")
     if M < 0:
         raise ValueError("M must be non-negative")
-    with mp.workdps(dps + _GUARD + 5):
+    sigma = float(mp.re(s))
+    #: digits destroyed by the N^{1-σ} cancellation between sum and integral
+    cancel = int(math.ceil((1.0 - sigma) * math.log10(N))) if sigma < 1 else 0
+    with mp.workdps(dps + _GUARD + 5 + cancel):
         s_w = _num(s)
         if s_w == 1:
             raise ValueError("zeta has a pole at s = 1")
@@ -494,10 +558,9 @@ def theta(x, dps: int = DPS_DEFAULT, terms: int | None = None):
     terms, so honesty here is cheap.
     """
     with mp.workdps(dps + _GUARD):
-        xv = _num(x)
-        if mp.im(xv) != 0:
-            raise ValueError("theta is implemented for real x > 0")
-        xv = mp.mpf(xv)
+        xv = _real_arg(x, "theta")
+        if xv <= 0:
+            raise ValueError("theta requires x > 0")
         n_max = terms if terms is not None else _theta_terms(xv, dps + _GUARD)
         total = mp.mpf(1)
         for n in range(1, n_max + 1):
@@ -518,7 +581,9 @@ def omega(x, dps: int = DPS_DEFAULT, terms: int | None = None):
     :func:`theta_mellin_xi`.
     """
     with mp.workdps(dps + _GUARD):
-        xv = mp.mpf(_num(x))
+        xv = _real_arg(x, "omega")
+        if xv <= 0:
+            raise ValueError("omega requires x > 0")
         n_max = terms if terms is not None else _theta_terms(xv, dps + _GUARD)
         total = mp.mpf(0)
         for n in range(1, n_max + 1):
@@ -543,7 +608,7 @@ def theta_modular_defect(x, dps: int = DPS_DEFAULT):
     """
     with mp.workdps(dps + 2 * _GUARD):
         d = dps + 2 * _GUARD
-        xv = mp.mpf(_num(x))
+        xv = _real_arg(x, "theta_modular_defect")
         value = theta(1 / xv, d) - mp.sqrt(xv) * theta(xv, d)
     return _shrink(value, dps)
 
@@ -600,8 +665,10 @@ def theta_heat(x, t, terms: int | None = None, dps: int = DPS_DEFAULT):
     dps : digits of the returned value.
     """
     with mp.workdps(dps + _GUARD):
-        xv = mp.mpf(_num(x))
-        tv = mp.mpf(_num(t))
+        xv = _real_arg(x, "theta_heat")
+        tv = _real_arg(t, "theta_heat")
+        if tv <= 0:
+            raise ValueError("theta_heat requires t > 0")
         K = terms if terms is not None else _theta_heat_terms(tv, dps + _GUARD)
         two_pi = 2 * mp.pi
         total = mp.mpf(1)
@@ -627,8 +694,8 @@ def theta_heat_gaussian(x, t, terms: int | None = None, dps: int = DPS_DEFAULT):
     x ↔ 1/x.
     """
     with mp.workdps(dps + _GUARD):
-        xv = mp.mpf(_num(x))
-        tv = mp.mpf(_num(t))
+        xv = _real_arg(x, "theta_heat_gaussian")
+        tv = _real_arg(t, "theta_heat_gaussian")
         if tv <= 0:
             raise ValueError("theta_heat_gaussian requires t > 0")
         if terms is None:
@@ -708,10 +775,12 @@ def theta_heat_residual(x, t, h=None, dps: int = DPS_DEFAULT, diffusivity=None):
     work = dps + 30
     D = HEAT_DIFFUSIVITY if diffusivity is None else diffusivity
     with mp.workdps(work):
-        xv = mp.mpf(_num(x))
-        tv = mp.mpf(_num(t))
-        hv = mp.mpf("1e-10") if h is None else mp.mpf(_num(h))
+        xv = _real_arg(x, "theta_heat_residual")
+        tv = _real_arg(t, "theta_heat_residual")
+        hv = mp.mpf("1e-10") if h is None else _real_arg(h, "theta_heat_residual")
         Dv = _num(D)
+        if hv <= 0:
+            raise ValueError("require h > 0")
         if tv - 2 * hv <= 0:
             raise ValueError("require t > 2h so the stencil stays in t > 0")
         # freeze the term count so every stencil point truncates identically
@@ -843,10 +912,8 @@ def Xi(t, dps: int = DPS_DEFAULT, tol_digits: int = 8):
     for the exponentially small values of Ξ at large t.
     """
     with mp.workdps(dps + _GUARD):
-        tv = _num(t)
-        if mp.im(tv) != 0:
-            raise ValueError("Xi(t) expects a real t; use xi(1/2 + 1j*t) for complex")
-        val = xi(mp.mpc(mp.mpf(1) / 2, mp.mpf(tv)), dps + _GUARD)
+        tv = _real_arg(t, "Xi")   # ValueError on complex t; use xi(1/2+1j*t) instead
+        val = xi(mp.mpc(mp.mpf(1) / 2, tv), dps + _GUARD)
         value = _real_part_checked(val, dps + _GUARD, tol_digits, f"Xi({t})")
     return _shrink(value, dps)
 
@@ -889,10 +956,7 @@ def rs_theta(t, dps: int = DPS_DEFAULT):
     and what defines the Gram points ϑ(g_n) = nπ.
     """
     with mp.workdps(dps + _GUARD):
-        tv = _num(t)
-        if mp.im(tv) != 0:
-            raise ValueError("rs_theta expects a real t")
-        tv = mp.mpf(tv)
+        tv = _real_arg(t, "rs_theta")
         value = mp.im(mp.loggamma(mp.mpc(mp.mpf(1) / 4, tv / 2))) - tv / 2 * mp.log(mp.pi)
     return _shrink(value, dps)
 
@@ -920,10 +984,7 @@ def Z(t, dps: int = DPS_DEFAULT, tol_digits: int = 8):
     t ∈ {0.5, 1, 10, 20, 50, 100, 1000} and t = −4.
     """
     with mp.workdps(dps + _GUARD):
-        tv = _num(t)
-        if mp.im(tv) != 0:
-            raise ValueError("Z expects a real t")
-        tv = mp.mpf(tv)
+        tv = _real_arg(t, "Z")
         th = rs_theta(tv, dps + _GUARD)
         val = mp.expjpi(th / mp.pi) * mp.zeta(mp.mpc(mp.mpf(1) / 2, tv))
         value = _real_part_checked(val, dps + _GUARD, tol_digits, f"Z({t})")

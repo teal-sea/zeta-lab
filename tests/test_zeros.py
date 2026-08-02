@@ -517,6 +517,29 @@ def test_coarse_grids_only_miss_zeros_never_invent_them(n_samples):
         assert min(abs(c - f) for f in fine) < mp.mpf("1e-18")
 
 
+@pytest.mark.parametrize(
+    "fake,expected",
+    [
+        (lambda t: 1 - mp.mpf(t), [1]),  # descends through 0 exactly at a grid point
+        (lambda t: mp.mpf(t) - 1, [1]),  # ascends through 0 exactly at a grid point
+        (lambda t: mp.mpf(t) - 2, [2]),  # zero exactly at the right endpoint
+        (lambda t: 2 - mp.mpf(t), [2]),  # ditto, approached from above
+        (lambda t: -mp.mpf(t), [0]),  # zero exactly at the left endpoint
+    ],
+)
+def test_exact_grid_zero_is_reported_once(monkeypatch, fake, expected):
+    """Regression: a sample landing *exactly* on a zero must yield ONE root.
+
+    Before the fix, the sign pattern (f0 > 0, f1 == 0) was treated as a sign
+    change AND the next iteration's f0 == 0 branch fired, so the same zero was
+    reported twice — a scan that can invent zeros voids the m ≤ N(T) argument
+    that verify_rh_up_to's proof rests on.
+    """
+    monkeypatch.setattr(zeta.zeros, "_Z", fake)
+    got = zeros_by_sign_change(0, 2, n_samples=3)
+    assert got == [mp.mpf(e) for e in expected]
+
+
 # ---------------------------------------------------------------------------
 # Gram walk across the first failure of Gram's law
 # ---------------------------------------------------------------------------

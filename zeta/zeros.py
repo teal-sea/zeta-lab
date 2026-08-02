@@ -363,6 +363,15 @@ def zeros_by_sign_change(t0, t1, n_samples: int | None = None, dps: int = 25) ->
             if f0 == 0:
                 roots.append(ts[k])
                 continue
+            if f1 == 0:
+                # The zero sits exactly on the grid point t_{k+1}; it is
+                # recorded once, by the next iteration's f0 == 0 branch (or by
+                # the trailing endpoint check).  Treating (f0 > 0, f1 == 0) as
+                # a sign change here as well would polish the bracket to that
+                # very point and report the zero TWICE — and a scan that can
+                # invent zeros would break the "m ≤ N(T)" inequality that
+                # verify_rh_up_to's proof rests on.
+                continue
             if (f0 > 0) != (f1 > 0):
                 roots.append(_refine_bracket(ts[k], ts[k + 1], f0, tol))
         if vals[-1] == 0:
