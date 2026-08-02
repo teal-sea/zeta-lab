@@ -7,3 +7,6 @@ data/*.npz
 .DS_Store
 .ipynb_checkpoints/
 .coverage
+
+# generated full-repo dump (regenerate with scripts/make_context.py --flat)
+CONTEXT_FLAT.md

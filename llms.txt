@@ -1,0 +1,45 @@
+# zeta-lab
+
+> A computational laboratory for the Riemann zeta function: verified numerics,
+> runnable demonstrations, and a written course covering the Riemann Hypothesis
+> from the harmonic series to the research frontier. It is an instrument for
+> building intuition, **not** a proof attempt — nothing computed here is
+> evidence for RH, and `docs/08` explains why no computation could be.
+
+Everything is Python + mpmath/Arb, tested against independent oracles. The
+organising idea: theta is the heat kernel, Poisson summation gives its modular
+identity, the Mellin transform turns that into the functional equation whose
+mirror axis is Re(s) = 1/2, the explicit formula rebuilds the primes from the
+zeros, and running the same heat flow on Ξ produces the de Bruijn–Newman
+constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
+
+## Start here
+
+- [README.md](README.md): front door — quickstart, what to run first, repo map.
+- [AGENTS.md](AGENTS.md): operating context for coding agents — setup, house
+  rules, naming traps, honest-scope policy. Read before changing anything.
+- [CONTEXT.md](CONTEXT.md): generated index of the full API, docs, scripts and
+  test counts. Regenerate with `python scripts/make_context.py`.
+
+## The written course (docs/, in reading order)
+
+- [docs/00-orientation.md](docs/00-orientation.md): what RH says, what is known, honest scope.
+- [docs/01-sums-integrals-and-continuation.md](docs/01-sums-integrals-and-continuation.md): the harmonic series, Euler–Maclaurin, ζ(−1) = −1/12.
+- [docs/02-theta-heat-and-modularity.md](docs/02-theta-heat-and-modularity.md): theta as the heat kernel; Poisson summation.
+- [docs/03-functional-equation.md](docs/03-functional-equation.md): modularity in, ξ(s) = ξ(1−s) out.
+- [docs/04-explicit-formula.md](docs/04-explicit-formula.md): zeros ↔ primes as an identity.
+- [docs/05-de-bruijn-newman.md](docs/05-de-bruijn-newman.md): heat flow on Ξ; RH ⟺ Λ = 0.
+- [docs/06-hilbert-polya-and-gue.md](docs/06-hilbert-polya-and-gue.md): the spectral dream and random-matrix statistics.
+- [docs/07-equivalences-and-criteria.md](docs/07-equivalences-and-criteria.md): statements equivalent to RH.
+- [docs/08-why-it-is-hard.md](docs/08-why-it-is-hard.md): what each known technique provably cannot do.
+- [docs/09-new-ontologies.md](docs/09-new-ontologies.md): what "RH needs new mathematics" means.
+- [docs/10-trace-formulas-and-connes.md](docs/10-trace-formulas-and-connes.md): explicit formula as a trace formula.
+- [docs/11-f1-and-the-missing-geometry.md](docs/11-f1-and-the-missing-geometry.md): the field with one element; Deninger.
+- [docs/12-how-hard-problems-die.md](docs/12-how-hard-problems-die.md): how famous problems actually get solved.
+
+## Optional
+
+- [references/papers.md](references/papers.md): annotated reading list.
+- `scripts/`: numbered runnable demonstrations; `06_tour.py` runs the whole
+  story in about ninety seconds.
+- `figures/`: generated plots; rebuild with `scripts/make_figures.py --quick`.

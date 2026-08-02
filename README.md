@@ -120,6 +120,10 @@ Every dependency is ordinary: `mpmath`, `numpy`, `scipy`, `matplotlib`,
    than on the line, and the excess polished to a verified zero at
    0.8085… + 85.6993…i, OFF the critical line: symmetry alone cannot give RH.
 
+Working on this repo with a coding agent (Claude Code, Codex, Cursor, …)?
+Read [`AGENTS.md`](AGENTS.md) first — setup, house rules, the naming traps,
+and how to run the suite.
+
 All figures: `python scripts/make_figures.py --quick` regenerates the
 fourteen PNGs in `figures/` in a couple of minutes (seconds when cached).
 
