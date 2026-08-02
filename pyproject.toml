@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "zeta-lab"
+version = "0.1.0"
+description = "A computational laboratory for the Riemann zeta function, its zeros, and the heat-flow frontier"
+requires-python = ">=3.11"
+dependencies = ["mpmath>=1.3", "numpy>=2.0", "scipy>=1.14", "matplotlib>=3.9", "sympy>=1.13"]
+
+[tool.setuptools]
+packages = ["zeta"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = ["slow: marks tests as slow (deselect with '-m \"not slow\"')"]
