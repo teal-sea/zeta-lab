@@ -153,11 +153,17 @@ affected cache files and re-run, or stale numbers will "pass".
 
 ```bash
 cd <repo root>
-.venv/bin/python -m pytest -q                 # full suite (~820 tests)
-.venv/bin/python -m pytest -q -m "not slow"   # fast tier
+.venv/bin/python -m pytest -q                 # full suite (820 tests, ~4 min)
+.venv/bin/python -m pytest -q -m "not slow"   # fast tier (787 tests, ~2 min)
 .venv/bin/python scripts/06_tour.py           # end-to-end sanity + demo
 .venv/bin/python scripts/make_figures.py --quick   # all figures into figures/
 ```
+
+Tests run in parallel by default (`-n auto`, set in `pyproject.toml`) — the
+fast tier goes from ~320 s to ~115 s. Add `-p no:xdist` when you need `--pdb`
+or clean per-test output. Before optimising anything, run `--durations=20`:
+the cost concentrates in `test_li.py`, `test_heatflow.py` and `test_weil.py`
+(high-precision zero sums and quadrature).
 
 Tests use mpmath's `zetazero` / `siegelz` / `grampoint` / `nzeros` as an
 independent oracle against the hand-rolled machinery — preserve that pattern

@@ -4,3 +4,4 @@ scipy>=1.14
 matplotlib>=3.9
 sympy>=1.13
 pytest>=8.0
+pytest-xdist>=3.6
