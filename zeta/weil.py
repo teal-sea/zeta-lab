@@ -720,8 +720,11 @@ def positivity_probe(
     ``positive`` = W > noise_floor, and ``dps_used``.  When W hides below the
     noise floor at the requested dps (the interesting near-tight members),
     the precision escalates automatically (+15 digits at a time, up to 50)
-    until the sign is *certified* — W for e.g. the Gaussian a = 0.2 member is
-    ~9e-18 out of pieces of size ~2, and is still resolved as positive.  The
+    until the sign is *resolved above that floor* — W for e.g. the Gaussian
+    a = 0.2 member is ~9e-18 out of pieces of size ~2, and still comes back
+    positive.  Note the word: ``noise_floor`` is a conservative *estimate*, so
+    ``positive`` is an ordinary floating-point verdict, not a ball-arithmetic
+    certificate.  :mod:`zeta.rigor` is where the repo says "certified".  The
     minimum-margin entry is flagged ``is_tightest`` — for these families that
     is always the member whose h is most concentrated inside the zero-free
     gap (-γ₁, γ₁).
@@ -760,7 +763,7 @@ def positivity_probe(
                 noise = mp.mpf(10) ** (-(dps_used - 6)) * scale
             if abs(W) > noise or dps_used >= 50:
                 break
-            dps_used = min(dps_used + 15, 50)  # escalate: certify the sign
+            dps_used = min(dps_used + 15, 50)  # escalate: lift W above the floor
         with mp.workdps(dps_used):
             out.append(
                 {

@@ -72,6 +72,16 @@ last one left off; this file plus `git log` is the handoff. Two caveats:
   from three unrelated families; κ in `zeta/epstein.py` is re-derived by a
   linear solve on every call, with the pinned string only a test reference.
   Follow that pattern for any new formula with a contested normalization.
+- **"Certified" is a reserved word.** Only `zeta/rigor.py` may claim it, and
+  only for a quantity every step of whose computation carried an enclosure.
+  A dict that reports `certified: True` is asserting a theorem; if any step
+  silently falls back to floats, that is a critical defect, not a rounding
+  detail. The safe failure mode is mandatory: `proven_sign` returns `0` for
+  "not decided", uncertifiable steps are named in `uncertified_steps`, and
+  `certified` is False whenever that list is non-empty. Everything else in the
+  repo is *accurate*, which is a different and weaker claim — say which one you
+  mean. Non-rigorous cross-checks (mpmath `nzeros`, `backlunds`) must stay
+  flagged as such in the returned dict.
 - **The counterexample battery is a standing test.** Any claimed structural
   property that "explains" RH must be run through `zeta.epstein.battery`
   (ζ and the Davenport–Heilbronn function behind one interface): f satisfies
@@ -91,12 +101,22 @@ last one left off; this file plus `git log` is the handoff. Two caveats:
     Weil functional W(h), positivity probes, truncation-tail accounting.
   - `epstein.py` the Davenport–Heilbronn counterexample: κ derivation,
     Z_dh, box-vs-line zero counts, the off-line zero, `battery`.
-  - `plots.py` the fourteen figures. `zeta/__init__.py` re-exports the curated
+  - `rigor.py` ball arithmetic: `enclose_Z`, `proven_sign`, `certified_zero_count`,
+    `verify_rh_certified`. Two backends (Arb via python-flint, mpmath's `iv`);
+    every public function takes `backend=` so the two can check each other.
+    Nothing is ever silently upgraded to a certificate — see below.
+  - `li.py` Li's criterion (λ_n, two independent routes) and Jensen
+    polynomials / hyperbolicity (numeric *and* exact Sturm in ℚ[X]).
+  - `finitefield.py` curves over F_p — the RH that is a theorem: point counts,
+    Frobenius eigenvalues, Lefschetz vs brute force in F_{p²}, Sato–Tate.
+  - `criteria.py` four equivalence faces: Mertens/Möbius, Baez-Duarte,
+    Robin/Lagarias, Speiser.
+  - `plots.py` the twenty figures. `zeta/__init__.py` re-exports the curated
     API; plots are loaded lazily (PEP 562 `__getattr__`) — keep it that way,
     `import zeta` must not pull in matplotlib.
-- `scripts/` 01–05 and 07–08 standalone demos, `06_tour.py` (~90 s full
+- `scripts/` 01–05 and 07–12 standalone demos, `06_tour.py` (~90 s full
   story), `make_figures.py [--quick|--full]`.
-- `docs/` 00–11: a reading course; keep cross-references consistent with
+- `docs/` 00–12: a reading course; keep cross-references consistent with
   actual filenames (doc 05 is `05-de-bruijn-newman.md`).
 - `tests/` pytest; `data/` caches; `figures/` PNGs; `references/papers.md`.
 
@@ -112,6 +132,16 @@ Related trap: `xi(s)` is the completed zeta (entire, ξ(s) = ξ(1−s));
 `Xi(t) = xi(1/2 + it)` is real for real t. Do not use Ξ for the function of s.
 In `heatflow.py`, H₀(z) = (1/8)·Ξ(z/2) — mind the factor 8 and the z/2.
 
+And a fourth collision, this one in the import system: `zeta.explicit.li` is
+the *logarithmic integral* and is re-exported as `zeta.li`, but `zeta/li.py`
+is Li's *criterion*, so after any `import zeta.li` the package attribute is
+the module and `zeta.li(x)` raises `TypeError`. Documented in `zeta/li.py`
+and pinned by `tests/test_li.py`. Write `zeta.explicit.li` for the function
+and `from zeta.li import …` for the module; never `from zeta import li`.
+The Jensen coefficients also come in two normalisations: `zeta/li.py` uses
+GORZ's 8·ξ(½+z) = Σ γ(n) z^{2n}/n!, `docs/12` §8.1 derives the heat-kernel
+one; they differ by 64·4ⁿ, which changes no hyperbolicity and no Turán ratio.
+
 ## Cached data
 
 Expensive results cache to `data/` (`.json` zero tables are committed;
@@ -123,7 +153,7 @@ affected cache files and re-run, or stale numbers will "pass".
 
 ```bash
 cd <repo root>
-.venv/bin/python -m pytest -q                 # full suite (~486 tests)
+.venv/bin/python -m pytest -q                 # full suite (~820 tests)
 .venv/bin/python -m pytest -q -m "not slow"   # fast tier
 .venv/bin/python scripts/06_tour.py           # end-to-end sanity + demo
 .venv/bin/python scripts/make_figures.py --quick   # all figures into figures/

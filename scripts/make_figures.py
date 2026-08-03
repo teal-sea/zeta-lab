@@ -11,7 +11,8 @@ Usage
 cold run finishes in a couple of minutes and a warm run (everything cached under
 ``data/``) in seconds.  ``--full`` uses the publication parameters; its heat-flow
 sweep recomputes H_t trajectories at 13 flow times, which is the one genuinely
-expensive step on a cold cache.
+expensive step on a cold cache.  ``--full`` also sieves μ(n) to 10⁷ for the
+Mertens walk and takes the Li coefficients to n = 300.
 
 Each figure is one function of :mod:`zeta.plots`; this script only chooses
 parameters, times the calls, and reports the files written.
@@ -78,6 +79,26 @@ def _specs(mode: str) -> list[tuple[str, str, dict]]:
          dict(gaussian_points=11, fejer_points=8)),
         ("offline_zero", "plot_offline_zero",
          dict(nx=240, ny=340) if quick else dict(nx=420, ny=600)),
+        ("certified_enclosures", "plot_certified_enclosures",
+         dict(n_points=200, width_bits=(8, 16, 32, 64, 128, 256))
+         if quick else
+         dict(n_points=420, width_bits=(8, 16, 32, 64, 128, 256, 512))),
+        ("li_coefficients", "plot_li_coefficients",
+         dict(n_max=120) if quick else dict(n_max=300)),
+        ("jensen_roots", "plot_jensen_roots",
+         dict(d_values=(2, 3, 4, 6, 8, 10), n=1, n_compare=12)
+         if quick else
+         dict(d_values=(2, 3, 4, 6, 8, 10, 12, 14), n=1, n_compare=20)),
+        ("finite_field_rh", "plot_finite_field_rh",
+         dict(primes=(13, 101, 503, 1009))
+         if quick else
+         dict(primes=(13, 101, 503, 1009, 2003))),
+        ("sato_tate", "plot_sato_tate",
+         dict(p_values=(503, 4001), n_bins=20)
+         if quick else
+         dict(p_values=(503, 1009, 4001), n_bins=24)),
+        ("mertens", "plot_mertens",
+         dict(limit=10 ** 6) if quick else dict(limit=10 ** 7)),
     ]
 
 

@@ -37,7 +37,7 @@ Every dependency is ordinary: `mpmath`, `numpy`, `scipy`, `matplotlib`,
 `sympy` (see `pyproject.toml`). Expensive computations cache themselves under
 `data/`, so second runs of everything are instant.
 
-## Seven things you can run right now
+## Eleven things you can run right now
 
 1. **Rebuild the primes from the zeros** — the moment the subject becomes real:
 
@@ -120,12 +120,62 @@ Every dependency is ordinary: `mpmath`, `numpy`, `scipy`, `matplotlib`,
    than on the line, and the excess polished to a verified zero at
    0.8085… + 85.6993…i, OFF the critical line: symmetry alone cannot give RH.
 
+8. **Prove it instead of measuring it** — the same verification in ball
+   arithmetic:
+
+   ```bash
+   python scripts/09_certified_verification.py
+   ```
+
+   Two independent certified backends (Arb via python-flint, and mpmath's
+   interval context with a hand-rolled Euler–Maclaurin ζ) enclosing Z(100) and
+   overlapping; 29 *proven* sign changes below T = 100; N(100) = 29 proven from
+   an enclosure of width 6.5e-56 containing exactly one integer; and the
+   floating-point run printed beside it — same integers, different epistemic
+   status. Also the honest failure mode: at the float nearest γ₁, where
+   |Z| ≈ 6.7e-16, 32 bits make `proven_sign` return 0 — "not decided", never
+   "probably" — and 64 bits then decide it.
+
+9. **Watch RH as positivity and as real-rootedness**:
+
+   ```bash
+   python scripts/10_li_and_jensen.py
+   ```
+
+   Li's λ_n by two independent routes (a Cauchy pass on ξ that never touches a
+   zero, and a zero sum that never touches ξ) agreeing to 1.9e-7, with
+   λ₁ = 1 + γ/2 − log(4π)/2 = 0.0230957089661… matched exactly; then 72 Jensen
+   polynomials J^{d,n} (d, n ≤ 8) all hyperbolic, decided twice — Durand–Kerner
+   and an *exact* Sturm count in ℚ[X].
+
+10. **See the one RH that is a theorem**:
+
+    ```bash
+    python scripts/11_finite_field_rh.py
+    ```
+
+    Curves over finite fields: 380 curves across 10 primes, zero Hasse
+    violations, `Re(s) = ½` exactly, and the Lefschetz prediction for N₂ matched
+    against a brute-force point count in F_{p²} — the operator interpretation is
+    real, not formal. Then what is missing over Spec ℤ, stated plainly.
+
+11. **Run four exact equivalences at once**:
+
+    ```bash
+    python scripts/12_equivalence_faces.py
+    ```
+
+    Mertens, Nyman–Beurling/Baez-Duarte, Robin/Lagarias and Speiser on one
+    dashboard: zero violations in every finite range checked — and the Mertens
+    face is there precisely to show what "zero violations" was worth for the
+    century before Odlyzko and te Riele disproved the conjecture.
+
 Working on this repo with a coding agent (Claude Code, Codex, Cursor, …)?
 Read [`AGENTS.md`](AGENTS.md) first — setup, house rules, the naming traps,
 and how to run the suite.
 
 All figures: `python scripts/make_figures.py --quick` regenerates the
-fourteen PNGs in `figures/` in a couple of minutes (seconds when cached).
+twenty PNGs in `figures/` in a couple of minutes (seconds when cached).
 
 ## The idea this repo is organised around
 
@@ -195,8 +245,7 @@ The docs are a single course; `00 → 01 → 02 → 03 → 04` is one argument.
 | `docs/09-new-ontologies.md` | What "RH needs new mathematics" actually means, with the Weil precedent. |
 | `docs/10-trace-formulas-and-connes.md` | The Weil explicit formula as a trace formula; Selberg's working analogue; Connes' program. |
 | `docs/11-f1-and-the-missing-geometry.md` | The field with one element, Deninger's dynamics, and the hunt for geometry under ℤ. |
-| `docs/10-trace-formulas-and-connes.md` | Trace formulas: zeros as spectrum, primes as orbits; Selberg's theorem vs Connes' program. |
-| `docs/11-f1-and-the-missing-geometry.md` | Spec Z as a curve over "the field with one element": the missing space, the attempts, the honest scorecard. |
+| `docs/12-how-hard-problems-die.md` | Eight problems that fell, the mechanism that killed each, and an honest scoring of RH against the board. |
 
 ## Gallery
 
@@ -235,7 +284,13 @@ The rest: [ζ on the critical line](figures/zeta_critical_line.png) ·
 [polynomial root repulsion](figures/polynomial_root_repulsion.png) ·
 [GUE quick-peek](figures/spacings_gue_quickpeek.png) ·
 [Weil positivity](figures/weil_positivity.png) ·
-[the off-line zero](figures/offline_zero.png)
+[the off-line zero](figures/offline_zero.png) ·
+[certified enclosures of Z](figures/certified_enclosures.png) ·
+[Li coefficients](figures/li_coefficients.png) ·
+[Jensen polynomial roots](figures/jensen_roots.png) ·
+[RH over finite fields](figures/finite_field_rh.png) ·
+[vertical Sato–Tate](figures/sato_tate.png) ·
+[the Mertens walk](figures/mertens.png)
 
 ## Repository map
 
@@ -248,14 +303,18 @@ zeta/               the package (flat layout; pip install -e .)
   heatflow.py       Φ, H_t, zero tracking, Λ facts (de Bruijn–Newman)
   weil.py           Riemann–Weil explicit formula, both sides; Weil positivity
   epstein.py        Davenport–Heilbronn: zeta-shaped symmetry, a zero off the line
-  plots.py          the fourteen publication figures
-scripts/            01–05 and 07–08 one demo each, 06_tour.py runs the whole
+  rigor.py          ball arithmetic: enclosures, proven signs, certified N(T)
+  li.py             Li's criterion (λ_n) and Jensen polynomials (real-rootedness)
+  finitefield.py    curves over F_p — the one RH that is a THEOREM, checked by counting
+  criteria.py       four equivalence faces: Mertens, Baez-Duarte, Robin/Lagarias, Speiser
+  plots.py          the twenty publication figures
+scripts/            01–05 and 07–12 one demo each, 06_tour.py runs the whole
                     story, make_figures.py regenerates figures/
-docs/               00–11, the reading course (see the table above)
-tests/              486 tests; every number claimed in a docstring is pinned
+docs/               00–12, the reading course (see the table above)
+tests/              820 tests; every number claimed in a docstring is pinned
 data/               caches (zero tables as .json are committed; .npz scans
                     regenerate on first use)
-figures/            the sixteen PNGs linked above
+figures/            the twenty-two PNGs linked above
 references/         annotated reading list (references/papers.md)
 ```
 
@@ -263,7 +322,11 @@ The public API is re-exported at the top level: `import zeta; zeta.zeta(2)`,
 `zeta.first_n_zeros(10)`, `zeta.psi_from_zeros(...)`, `zeta.H_t(...)`, etc.
 (plot functions load matplotlib lazily). Watch the naming trap: `zeta.theta`
 is Jacobi's θ, `zeta.rs_theta` is the Riemann–Siegel phase, and
-`zeta.theta_cheb` is Chebyshev's prime sum — three different thetas.
+`zeta.theta_cheb` is Chebyshev's prime sum — three different thetas. A fourth
+collision: `zeta.li` is the logarithmic integral until something does
+`import zeta.li`, after which the name is the *module* (Li's criterion). Use
+`zeta.explicit.li` for the function and `from zeta.li import …` for the module,
+and never rely on `from zeta import li`.
 
 ## Dependencies and setup notes
 
@@ -278,12 +341,18 @@ is Jacobi's θ, `zeta.rs_theta` is the Riemann–Siegel phase, and
 
 ## Known limitations, and what is slow
 
-- **Numerical verification is not interval arithmetic.** `verify_rh_up_to`
-  and the sign-change scans evaluate Z(t) in ordinary floating point at a
-  stated precision; the "proof for this range" is therefore modulo the
-  correctness of those sign evaluations (rigorous verifications à la
-  Platt–Trudgian use interval arithmetic precisely to close this gap; see
-  `docs/08-why-it-is-hard.md` §on rigor).
+- **The default route is not interval arithmetic.** `verify_rh_up_to` and the
+  sign-change scans evaluate Z(t) in ordinary floating point at a stated
+  precision; the "proof for this range" is therefore modulo the correctness of
+  those sign evaluations (rigorous verifications à la Platt–Trudgian use
+  interval arithmetic precisely to close this gap; see
+  `docs/08-why-it-is-hard.md` §3.1). `zeta/rigor.py` is the closed-gap
+  counterpart — `verify_rh_certified` runs the same argument in ball
+  arithmetic, so every sign and the count N(T) are proven rather than measured;
+  use `zeros.py` to explore and `rigor.py` to certify. What it still rests on:
+  the ball library (Arb via python-flint, or mpmath's interval context) and the
+  two quoted theorems. And the certificate is still about a finite interval —
+  it buys trust, not evidence (`docs/08`).
 - **Cold caches cost minutes.** The first `make_figures.py --full` heat-flow
   sweep (H_t trajectories at 13 flow times) and the first bulk zero scans are
   the expensive steps; results land in `data/` and are instant afterwards.

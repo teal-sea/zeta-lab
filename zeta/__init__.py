@@ -26,8 +26,19 @@ Modules
 :mod:`zeta.heatflow`    Φ, H_t, zero tracking, de Bruijn–Newman Λ facts.
 :mod:`zeta.weil`        the Riemann–Weil explicit formula, Weil positivity.
 :mod:`zeta.epstein`     the Davenport–Heilbronn counterexample battery.
-:mod:`zeta.plots`       the fourteen figures (imported lazily — matplotlib is
+:mod:`zeta.plots`       the twenty figures (imported lazily — matplotlib is
                         only loaded when a ``plot_*`` name is first touched).
+
+Four further modules are **not** imported by ``import zeta`` — they pull in
+heavier dependencies (Arb, sympy, bulk numpy) that purely numerical work does
+not need.  Import them explicitly:
+
+:mod:`zeta.rigor`       ball arithmetic: enclosures of Z, proven signs,
+                        certified N(T), ``verify_rh_certified``.  The only
+                        module in the package entitled to the word *certified*.
+:mod:`zeta.li`          Li's criterion (λ_n) and Jensen polynomials.
+:mod:`zeta.finitefield` curves over F_p — the RH that is a theorem.
+:mod:`zeta.criteria`    Mertens, Baez-Duarte, Robin/Lagarias, Speiser.
 
 Naming trap — there are three different "theta"s in this subject:
 
@@ -38,6 +49,13 @@ Naming trap — there are three different "theta"s in this subject:
 
 All three are re-exported here under those distinct names; nothing in this
 package ever means more than one of them by ``theta``.
+
+A fourth collision, in the import system rather than the mathematics:
+``zeta.li`` is :func:`zeta.explicit.li`, the *logarithmic integral* — until
+something executes ``import zeta.li``, after which Python rebinds the package
+attribute to the *module* :mod:`zeta.li` (Li's criterion) and ``zeta.li(x)``
+raises ``TypeError``.  Use ``zeta.explicit.li`` for the function and
+``from zeta.li import …`` for the module; never rely on ``from zeta import li``.
 
 Quickstart:  ``python scripts/06_tour.py``  (see README.md at the repo root).
 """
@@ -178,6 +196,12 @@ _PLOT_EXPORTS: tuple[str, ...] = (
     "plot_polynomial_root_repulsion",
     "plot_weil_positivity",
     "plot_offline_zero",
+    "plot_certified_enclosures",
+    "plot_li_coefficients",
+    "plot_jensen_roots",
+    "plot_finite_field_rh",
+    "plot_sato_tate",
+    "plot_mertens",
 )
 
 

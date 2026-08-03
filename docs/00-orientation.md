@@ -242,7 +242,7 @@ Where a result is conditional on RH, the code and docs are meant to say so at th
 
 ## 7. Map of the repository
 
-The package is `zeta/`, five analysis modules (plus `plots.py`, which draws the figures):
+The package is `zeta/`, eleven analysis modules (plus `plots.py`, which draws the figures):
 
 - **`core.py`** — the bedrock. Arbitrary-precision `ζ` by three independent routes (Dirichlet/eta
   series, Euler–Maclaurin, Mellin transforms), theta functions and their heat-kernel form, the
@@ -260,6 +260,21 @@ The package is `zeta/`, five analysis modules (plus `plots.py`, which draws the 
   correlation versus Montgomery's prediction, and honest GUE eigenvalue sampling for comparison.
 - **`heatflow.py`** — `Φ(u)`, the family `H_t`, zero-tracking under the flow, and `lambda_facts`:
   the de Bruijn–Newman story of §4 made executable.
+- **`weil.py`** — the Riemann–Weil explicit formula with both sides computed independently, the
+  Weil functional `W(h)` (RH ⟺ `W ≥ 0`), positivity probes and honest truncation-tail accounting.
+- **`epstein.py`** — the Davenport–Heilbronn counterexample: a function with ζ's functional equation
+  and a zero *off* the line, plus `battery`, the standing test that symmetry alone explains nothing.
+- **`rigor.py`** — ball (interval) arithmetic: enclosures of `Z(t)`, *proven* signs, a certified
+  `N(T)` by the argument principle, and `verify_rh_certified` — the rigorous counterpart of
+  `zeros.verify_rh_up_to`. Two independent backends (Arb via python-flint; mpmath's interval
+  context) so each can check the other. Anything it cannot certify is reported, never guessed.
+- **`li.py`** — Li's criterion (`λ_n ≥ 0 ⟺` RH) by two independent routes, and the Jensen
+  polynomials of Pólya's real-rootedness criterion, decided both numerically and exactly in `ℚ[X]`.
+- **`finitefield.py`** — curves over `F_p`, where RH is a **theorem**: point counts, Frobenius
+  eigenvalues on `|α| = √p`, the Lefschetz formula checked against brute-force counting in `F_{p²}`,
+  and the vertical Sato–Tate statistics — the blueprint the programmes of `docs/11` are measured against.
+- **`criteria.py`** — four equivalence faces of RH made executable: Mertens/Möbius,
+  Nyman–Beurling/Baez-Duarte, Robin/Lagarias, Speiser.
 
 Docs, in numbered reading order:
 
@@ -277,6 +292,7 @@ Docs, in numbered reading order:
 | `09-new-ontologies.md` | — | What "RH needs new mathematics" means: the Weil-conjectures precedent, the F1 / Connes / Deninger programmes, and how to stress-test a proposed new ontology. |
 | `10-trace-formulas-and-connes.md` | `weil.py` | The Weil explicit formula as a trace formula (spectrum ↔ orbits); Selberg's working analogue; Connes' programme; the positivity criterion, run live. |
 | `11-f1-and-the-missing-geometry.md` | `epstein.py` | The field with one element, Borger's and Connes–Consani's attempts, Deninger's dynamical programme — the hunt for the geometry under ℤ. |
+| `12-how-hard-problems-die.md` | `finitefield.py`, `criteria.py`, `li.py` | A kill board: eight problems that fell, the mechanism that killed each (ontology rebuild, bridge, finite reduction, effective squeeze, flow, insight, equivalence web), and an honest scoring of which of them RH's live formulations touch — and which it provably does not. |
 
 Supporting directories: `scripts/`, `figures/`, `data/` (cached zero tables and scan
 results), `tests/` (every module has a test file — the defect functions are tested to tight
@@ -290,6 +306,10 @@ and `08` in either order to calibrate what "equivalent to RH" and "progress on R
 and `09` for what a genuinely new attack would have to look like. `10` and `11` are deeper digests
 of the two live research programmes `09` sketches — trace formulas/Connes and F1/Deninger — each
 backed by a module (`zeta/weil.py`, `zeta/epstein.py`) and a demo (`scripts/07`, `scripts/08`).
+`12` closes the course by widening the sample: how eight other famous problems actually died, and
+where RH sits on that board — backed by `zeta/finitefield.py`, `zeta/criteria.py` and `zeta/li.py`
+(`scripts/10`–`12`), with `zeta/rigor.py` and `scripts/09` supplying the certified-computation
+standard §3.1 of `08` insists on.
 If you have one hour, read `01` and `04` and run the explicit-formula code.
 
 ## 8. Canonical sources

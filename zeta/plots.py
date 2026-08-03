@@ -2,7 +2,7 @@
 
 Each public function builds one self-contained figure telling one mathematical
 story, returns the ``matplotlib.figure.Figure``, and optionally saves it via a
-``save_path`` argument.  The fourteen figures, in narrative order:
+``save_path`` argument.  The twenty figures, in narrative order:
 
 1.  :func:`plot_zeta_critical_line`     — ζ(½+it): Re, Im, |ζ| and the zeros.
 2.  :func:`plot_hardy_Z`                — Hardy's Z(t) with sign changes and Gram points.
@@ -18,6 +18,12 @@ story, returns the ``matplotlib.figure.Figure``, and optionally saves it via a
 12. :func:`plot_polynomial_root_repulsion` — the elementary heat-flow-on-roots picture.
 13. :func:`plot_weil_positivity`        — W(h) ≥ 0 across families; the margin is γ₁.
 14. :func:`plot_offline_zero`           — Davenport–Heilbronn's zero OFF the line.
+15. :func:`plot_certified_enclosures`   — Z(t) inside rigorous bands that shrink with precision.
+16. :func:`plot_li_coefficients`        — λ_n ≥ 0 against the RH-predicted growth.
+17. :func:`plot_jensen_roots`           — Jensen-polynomial roots, all real, on the line.
+18. :func:`plot_finite_field_rh`        — Frobenius eigenvalues on |α| = √p: RH, proved.
+19. :func:`plot_sato_tate`              — a_p/(2√p) over all curves vs the semicircle.
+20. :func:`plot_mertens`                — M(x)/√x, the random walk that misled a century.
 
 Style
 -----
@@ -36,7 +42,9 @@ labelled axes, and every title states the mathematical claim the figure shows.
 
 All heavy numerical inputs are delegated to the sibling modules
 (:mod:`zeta.core`, :mod:`zeta.zeros`, :mod:`zeta.explicit`,
-:mod:`zeta.statistics`, :mod:`zeta.heatflow`), whose results are cached under
+:mod:`zeta.statistics`, :mod:`zeta.heatflow`, :mod:`zeta.rigor`,
+:mod:`zeta.li`, :mod:`zeta.finitefield`, :mod:`zeta.criteria`),
+whose results are cached under
 ``data/`` — so regenerating every figure is fast after the first run.  The one
 bulk computation done here, the domain-colouring grid of ζ values, is likewise
 cached to ``data/``.
@@ -73,6 +81,12 @@ __all__ = [
     "plot_polynomial_root_repulsion",
     "plot_weil_positivity",
     "plot_offline_zero",
+    "plot_certified_enclosures",
+    "plot_li_coefficients",
+    "plot_jensen_roots",
+    "plot_finite_field_rh",
+    "plot_sato_tate",
+    "plot_mertens",
 ]
 
 # --------------------------------------------------------------------------- #
@@ -858,7 +872,10 @@ def plot_weil_positivity(gaussian_points: int = 7, fejer_points: int = 5,
     admissible h of positive type.  W is computed here from the *arithmetic*
     side of the explicit formula (pole + archimedean − primes; no zeros
     anywhere), via :func:`zeta.weil.positivity_probe`, which escalates the
-    working precision until every plotted sign is certified.
+    working precision until every plotted sign sits above its estimated noise
+    floor.  That is a floating-point verdict, not a ball-arithmetic
+    certificate — :func:`plot_certified_enclosures` is what the latter looks
+    like.
 
     Top: the Gaussian family h(r) = e^{−ar²}.  As a grows, h concentrates on
     the zero-free gap (−γ₁, γ₁) and W collapses *exponentially* along the
@@ -879,7 +896,7 @@ def plot_weil_positivity(gaussian_points: int = 7, fejer_points: int = 5,
     gW = np.array([float(r["W"]) for r in g_rows])
     fb = np.array([r["param"] for r in f_rows])
     fWb2 = np.array([float(r["W"]) * b * b for r, b in zip(f_rows, fb)])
-    certified = all(r["positive"] for r in g_rows + f_rows)
+    resolved = all(r["positive"] for r in g_rows + f_rows)
 
     from zeta.statistics import zero_ordinates
 
@@ -892,7 +909,7 @@ def plot_weil_positivity(gaussian_points: int = 7, fejer_points: int = 5,
              zorder=3, label="2·exp(−a·γ₁²) — the first zero alone")
     ax0.plot(ga, gW, color=_BLUE, linewidth=1.1, alpha=0.55, zorder=4)
     ax0.scatter(ga, gW, s=26, color=_BLUE, zorder=5,
-                label="W(h), arithmetic side (no zeros used); every sign certified > 0")
+                label="W(h), arithmetic side (no zeros used); every sign resolved > 0")
     ax0.set_xscale("log")
     ax0.set_yscale("log")
     ax0.annotate("W = 0 (the RH boundary) is the log-axis floor at −∞:\n"
@@ -916,8 +933,8 @@ def plot_weil_positivity(gaussian_points: int = 7, fejer_points: int = 5,
     _style(ax1, xlabel="Fejér parameter b", ylabel="b²·W(h)")
     ax1.legend(frameon=True, fontsize=8.5, labelcolor=_SECONDARY, loc="upper right",
                framealpha=0.9, facecolor=_SURFACE, edgecolor=_BASELINE)
-    if not certified:  # pragma: no cover — would indicate a bug upstream
-        ax0.annotate("WARNING: an uncertified sign slipped through", xy=(0.35, 0.5),
+    if not resolved:  # pragma: no cover — would indicate a bug upstream
+        ax0.annotate("WARNING: a sign stayed inside the noise floor", xy=(0.35, 0.5),
                      xycoords="axes fraction", color=_RED, fontsize=10)
     return _finish(fig, save_path, dpi)
 
@@ -1120,4 +1137,535 @@ def plot_offline_zero(re_range: tuple[float, float] = (-0.75, 1.75),
     ax.set_title("Perfect mirror symmetry, zero OFF the line: Davenport–Heilbronn's f satisfies\n"
                  "F(s) = F(1−s) exactly — and RH fails for it.  Symmetry alone cannot give RH",
                  color=_INK, fontsize=11, loc="left", pad=10)
+    return _finish(fig, save_path, dpi)
+
+
+# --------------------------------------------------------------------------- #
+# 15. certified enclosures of Hardy's Z
+# --------------------------------------------------------------------------- #
+
+
+def plot_certified_enclosures(t_min: float = 10.0, t_max: float = 40.0,
+                              n_points: int = 260,
+                              band_bits: Sequence[int] = (12, 16, 20),
+                              width_bits: Sequence[int] = (8, 16, 32, 64, 128, 256),
+                              width_t: Sequence[float] = (30.0, 100.0),
+                              backend: str | None = None,
+                              save_path: str | None = None, dpi: int = 160) -> Figure:
+    """Rigorous enclosures of Z(t): the bands are theorems, and they shrink with precision.
+
+    Ball arithmetic returns a pair lo ≤ hi with the *guarantee* lo ≤ Z(t) ≤ hi
+    (:func:`zeta.rigor.enclose_Z`), so a band that misses zero is a **proof** of
+    the sign of Z there, and a sign change between two proven signs is a proved
+    zero of ζ on the critical line.
+
+    Top: the band at each of ``band_bits`` working precisions, drawn around the
+    curve.  The bands are nested — every enclosure contains the true value, so a
+    higher-precision band lies inside a lower-precision one — and at these
+    deliberately crude precisions the outermost is wide enough to *see*.  Where
+    the coarse band straddles 0 the sign of Z is **not decided**; those samples
+    are marked, and they occur only where the grid lands close enough to a zero
+    that a band of that width cannot exclude 0.  Increasing the precision
+    shrinks the band and decides them — except at a true zero, where no
+    precision ever will, because Z genuinely has no sign there and 0 ("not
+    decided") is the correct permanent answer.
+
+    Bottom: the cost curve.  Width falls geometrically in the bit count — the
+    dashed reference is a pure 2^{−bits} law — so proving the sign of Z where
+    |Z| ~ 10^{−d} costs about 3.33·d bits on top of the evaluation itself.
+
+    Honest scope (docs/08): a certificate over a finite interval is still a
+    statement about a finite interval, and is not evidence for RH.
+    """
+    from zeta.rigor import BACKEND, enclose_Z
+
+    t = np.linspace(float(t_min), float(t_max), int(n_points))
+    bits = sorted(int(b) for b in band_bits)
+
+    def _band(prec: int) -> tuple[np.ndarray, np.ndarray]:
+        lo = np.empty(t.size)
+        hi = np.empty(t.size)
+        for i, tt in enumerate(t):
+            try:
+                a, b = enclose_Z(float(tt), prec, backend=backend)
+                lo[i], hi[i] = float(a), float(b)
+            except (ArithmeticError, ValueError):  # pragma: no cover - crude precision
+                lo[i], hi[i] = -np.inf, np.inf
+        return lo, hi
+
+    bands = {b: _band(b) for b in bits}
+    lo_ref, hi_ref = _band(128)
+    z = 0.5 * (lo_ref + hi_ref)
+    coarse_lo, coarse_hi = bands[bits[0]]
+    undecided = (coarse_lo <= 0.0) & (coarse_hi >= 0.0)
+
+    fig, (ax0, ax1) = _fig(nrows=2, figsize=(9.0, 6.6), height_ratios=(2.3, 1.3))
+    ax0.axhline(0.0, color=_BASELINE, linewidth=0.9)
+    ramp = (_BLUE_RAMP[1], _BLUE_RAMP[3], _BLUE_RAMP[5])
+    for k, b in enumerate(bits):
+        lo, hi = bands[b]
+        ax0.fill_between(t, lo, hi, color=ramp[k % len(ramp)],
+                         alpha=0.55 if k == 0 else 0.85, linewidth=0, zorder=2 + k,
+                         label=f"enclosure at {b} bits  (median width "
+                               f"{np.median(hi - lo):.1e})")
+    ax0.plot(t, z, color=_INK, linewidth=1.1, zorder=6, label="Z(t) (128-bit enclosure)")
+    if undecided.any():
+        ax0.scatter(t[undecided], np.zeros(int(undecided.sum())), s=26, color=_RED,
+                    zorder=7, marker="x",
+                    label=f"sign NOT proven at {bits[0]} bits "
+                          f"({int(undecided.sum())} of {t.size} samples)")
+    _style(ax0, ylabel="Z(t)  (real by construction)",
+           title="Every band is a theorem: lo ≤ Z(t) ≤ hi, guaranteed.  A band that misses 0 PROVES the\n"
+                 "sign; the crosses mark the samples where the crudest band still straddles 0")
+    ax0.set_xlim(t_min, t_max)
+    span = float(np.nanmax(hi_ref) - np.nanmin(lo_ref))
+    ax0.set_ylim(float(np.nanmin(lo_ref)) - 0.12 * span,
+                 float(np.nanmax(hi_ref)) + 0.55 * span)
+    _legend(ax0, loc="upper right", ncols=2)
+
+    ref_t = float(list(width_t)[0])
+    styles = ((_BLUE, "o", "-", 1.6), (_AQUA, "s", "--", 1.2))
+    for j, tt in enumerate(width_t):
+        widths = []
+        for b in width_bits:
+            try:
+                a, c = enclose_Z(float(tt), int(b), backend=backend)
+                widths.append(float(c - a))
+            except (ArithmeticError, ValueError):  # pragma: no cover
+                widths.append(np.nan)
+        colour, marker, ls, lw = styles[j % len(styles)]
+        ax1.plot(list(width_bits), widths, marker=marker, markersize=4.2, linewidth=lw,
+                 linestyle=ls, color=colour,
+                 label=f"width of the enclosure at t = {tt:g}")
+        if j == 0:
+            ref_t = float(tt)
+    b0 = float(min(width_bits))
+    w0 = None
+    try:
+        a, c = enclose_Z(ref_t, int(b0), backend=backend)
+        w0 = float(c - a)
+    except (ArithmeticError, ValueError):  # pragma: no cover
+        w0 = 1.0
+    grid = np.array(sorted(float(b) for b in width_bits))
+    ax1.plot(grid, w0 * 2.0 ** (-(grid - b0)), color=_MUTED, linestyle="--",
+             linewidth=1.2, label="pure 2^(−bits) reference")
+    ax1.set_yscale("log")
+    _style(ax1, xlabel="working precision (bits)", ylabel="enclosure width",
+           title=f"The cost of rigour, measured (backend: {BACKEND if backend is None else backend})")
+    _legend(ax1, loc="upper right")
+    return _finish(fig, save_path, dpi)
+
+
+# --------------------------------------------------------------------------- #
+# 16. Li coefficients against the RH-predicted growth
+# --------------------------------------------------------------------------- #
+
+
+def plot_li_coefficients(n_max: int = 200, dps: int = 25,
+                         save_path: str | None = None, dpi: int = 160) -> Figure:
+    """Li's criterion in a picture: λ_n ≥ 0, and the growth RH predicts.
+
+    **THEOREM** (Li 1997; Bombieri–Lagarias 1999): RH ⟺ λ_n ≥ 0 for every
+    n ≥ 1, where λ_n = (1/(n−1)!)·dⁿ/dsⁿ[s^{n−1} log ξ(s)]|_{s=1}, computed here
+    by :func:`zeta.li.li_positivity_scan` from a Cauchy pass around a circle
+    (no zeros are used).
+
+    Top: λ_n with the RH-predicted asymptotic (n/2)(log n − log 2π + γ − 1) + 1
+    overlaid — the leading term is derived from the smooth zero density.
+    Middle: the same for small n on a scale where the RH boundary λ = 0 is
+    visible; λ₁ = 0.0231 is the closest any coefficient comes to it.
+    Bottom: λ_n minus the asymptotic.  The residual does **not** settle to a
+    constant — its envelope grows, which is what an O(√n log n) oscillation (the
+    resonance of the individual zeros) looks like.  The measured envelope is
+    printed in the panel rather than asserted.
+
+    Honest scope (docs/08): every λ_n here is positive, and that is *not*
+    evidence for RH — the criterion quantifies over all n, and by Littlewood's
+    theorem no finite range can settle it.  A single negative λ_n would refute
+    RH outright.
+    """
+    from zeta.li import li_positivity_scan
+
+    rows = li_positivity_scan(int(n_max), dps=int(dps))
+    n = np.array([r["n"] for r in rows], dtype=float)
+    lam = np.array([float(r["lambda_n"]) for r in rows])
+    asym = np.array([r["asymptotic"] for r in rows])
+    resid = lam - asym
+    n_small = min(20, int(n_max))
+    cut = min(50, int(n_max))
+    env_small = float(np.max(np.abs(resid[n <= cut])))
+    env_all = float(np.max(np.abs(resid)))
+
+    fig, (ax0, ax1, ax2) = _fig(nrows=3, figsize=(8.4, 8.2),
+                                height_ratios=(2.1, 1.3, 1.3))
+    ax0.plot(n, asym, color=_ORANGE, linewidth=2.0, zorder=3,
+             label="RH prediction  (n/2)(log n − log 2π + γ − 1) + 1")
+    ax0.plot(n, lam, color=_BLUE, linewidth=1.3, zorder=4, label="λ_n (Cauchy route, no zeros used)")
+    ax0.axhline(0.0, color=_MUTED, linewidth=1.1, linestyle="--",
+                label="λ = 0 — the RH boundary")
+    _style(ax0, ylabel="λ_n",
+           title="Li's criterion: RH ⟺ λ_n ≥ 0 for every n.  The computed λ_n track the growth RH\n"
+                 "predicts — and every one of them is positive")
+    _legend(ax0, loc="upper left")
+
+    mask = n <= n_small
+    ax1.axhline(0.0, color=_MUTED, linewidth=1.2, linestyle="--")
+    ax1.plot(n[mask], lam[mask], color=_BLUE, linewidth=1.2, zorder=4)
+    ax1.scatter(n[mask], lam[mask], s=26, color=_BLUE, zorder=5, label="λ_n")
+    ax1.annotate(f"λ₁ = {lam[0]:.6f} — the closest\napproach to the boundary",
+                 xy=(float(n[0]), float(lam[0])), xytext=(0.10, 0.62),
+                 textcoords="axes fraction", color=_SECONDARY, fontsize=8.5,
+                 arrowprops=dict(arrowstyle="->", color=_SECONDARY, lw=0.9))
+    _style(ax1, ylabel="λ_n  (small n)",
+           title=f"Zoom on n ≤ {n_small}: the margin above λ = 0 that RH is about")
+    _legend(ax1, loc="upper left")
+
+    ax2.axhline(0.0, color=_MUTED, linewidth=1.2, linestyle="--")
+    ax2.plot(n, resid, color=_AQUA, linewidth=1.1, zorder=4,
+             label="λ_n − asymptotic")
+    ax2.annotate(f"envelope: ±{env_small:.2f} for n ≤ {cut}, ±{env_all:.2f} by "
+                 f"n = {int(n_max)}\n"
+                 "— growing, i.e. an oscillation, not a constant offset",
+                 xy=(0.03, 0.08), xycoords="axes fraction", color=_SECONDARY, fontsize=8.5)
+    _style(ax2, xlabel="n", ylabel="residual",
+           title="The residual oscillates (the individual zeros resonating), so the +1 constant\n"
+                 "in the asymptotic is not separable from it at these n")
+    _legend(ax2, loc="upper left")
+    return _finish(fig, save_path, dpi)
+
+
+# --------------------------------------------------------------------------- #
+# 17. Jensen polynomial roots: hyperbolicity, visible
+# --------------------------------------------------------------------------- #
+
+
+def plot_jensen_roots(d_values: Sequence[int] = (2, 3, 4, 6, 8, 10, 12),
+                      n: int = 1, n_compare: int = 12, dps: int = 30,
+                      save_path: str | None = None, dpi: int = 160) -> Figure:
+    """The roots of the Jensen polynomials J^{d,n} — all real, all on the line.
+
+    With 8·ξ(½+z) = Σ γ(n) z^{2n}/n! and J^{d,n}(X) = Σ_j C(d,j) γ(n+j) Xʲ,
+    **Pólya's criterion** says RH ⟺ every J^{d,n} is *hyperbolic* (all roots
+    real).  Top panel: one row per degree d, each dot a root of J^{d,n} in the
+    normalised variable (:func:`zeta.li.jensen_polynomial` with
+    ``normalise=True``, an X ↦ sX rescaling that leaves hyperbolicity
+    untouched).  Every root sits on the real line and they are well separated —
+    that separation is what "comfortably hyperbolic" looks like.  All roots are
+    negative, as they must be: w = z² sends a zero ½ ± iγ of ξ to w = −γ², and
+    γ(n) > 0 for every n forces it by Descartes' rule.
+
+    Bottom: how far from real, quantified.  The largest |Im root| relative to
+    the largest |root| is plotted against d, together with the tolerance
+    10^{−dps/2} that the root-finder verdict uses.  At the defaults the measured
+    values land between about 10^{−110} and 10^{−250}, i.e. a hundred orders of
+    magnitude or more below that tolerance, so the verdict is nowhere near a
+    close call — and it is confirmed independently by an exact Sturm-sequence
+    count in ℚ[X] (``method="both"`` in :func:`zeta.li.is_hyperbolic`).  The
+    worst value actually plotted is quoted in the panel title.
+
+    Honest scope (docs/08): one non-hyperbolic J^{d,n} would refute RH; a table
+    of hyperbolic ones is "no violation found", never support.
+    """
+    from zeta.li import is_hyperbolic, jensen_polynomial, xi_taylor_coefficients
+
+    ds = [int(d) for d in d_values]
+    d_max = max(ds)
+    gammas = xi_taylor_coefficients(max(int(n), int(n_compare)) + d_max + 1, dps=int(dps))
+
+    def _info(d: int, shift: int) -> dict:
+        coeffs = jensen_polynomial(d, shift, dps=int(dps), gammas=gammas, normalise=True)
+        return is_hyperbolic(coeffs, dps=int(dps), method="both")
+
+    infos = {d: _info(d, int(n)) for d in ds}
+
+    fig, (ax0, ax1) = _fig(nrows=2, figsize=(8.6, 6.6), height_ratios=(2.2, 1.3))
+    ax0.axvline(0.0, color=_BASELINE, linewidth=1.0)
+    for k, d in enumerate(ds):
+        roots = np.array([float(r.real) if hasattr(r, "real") else float(r)
+                          for r in infos[d]["roots"]])
+        colour = _BLUE_RAMP[min(k, len(_BLUE_RAMP) - 1)]
+        ax0.plot(roots, np.full(roots.size, float(d)), color=colour, linewidth=0.8,
+                 alpha=0.5, zorder=2)
+        ax0.scatter(roots, np.full(roots.size, float(d)), s=32, color=_BLUE,
+                    edgecolor="white", linewidth=0.6, zorder=4)
+    ax0.set_yticks(ds)
+    all_real = all(inf["hyperbolic"] for inf in infos.values())
+    exact_ok = all(inf["n_real_exact"] == inf["degree"] for inf in infos.values())
+    ax0.annotate(f"every root real: {all_real}   (exact Sturm count = degree: {exact_ok})\n"
+                 f"smallest relative root gap here: "
+                 f"{min(inf['min_gap'] for inf in infos.values() if inf['degree'] > 1):.4f}",
+                 xy=(0.03, 0.06), xycoords="axes fraction", color=_SECONDARY, fontsize=8.5)
+    _style(ax0, xlabel=f"root of J^(d,{int(n)}) in the normalised variable",
+           ylabel="degree d",
+           title="Hyperbolicity, visible: every root of every Jensen polynomial lies on the real\n"
+                 "line (and to the left of 0, since w = z² sends a zero ½ ± iγ of ξ to w = −γ²)")
+
+    tol = 10.0 ** (-int(dps) / 2.0)
+    floor = 1e-320
+    plotted: list[float] = []
+    for shift, colour, marker in ((int(n), _BLUE, "o"), (int(n_compare), _AQUA, "s")):
+        vals = []
+        for d in ds:
+            inf = infos[d] if shift == int(n) else _info(d, shift)
+            vals.append(max(float(inf["max_rel_imag"]), floor))
+        plotted.extend(vals)
+        ax1.plot(ds, vals, color=colour, linewidth=1.4, marker=marker, markersize=4.5,
+                 label=f"max |Im root| / max |root|,  n = {shift}")
+    ax1.axhline(tol, color=_ORANGE, linewidth=1.6, linestyle="--",
+                label=f"root-finder tolerance 10^(−dps/2) = {tol:.0e}")
+    ax1.set_yscale("log")
+    worst = max(plotted)
+    ax1.set_ylim(min(plotted) * 1e-2, tol * 1e6)
+    _style(ax1, xlabel="degree d", ylabel="relative |Im root|",
+           title=f"…and not by a narrow margin: the largest relative |Im root| plotted is "
+                 f"{worst:.0e},\nagainst a tolerance of {tol:.0e}")
+    _legend(ax1, loc="upper right")
+    return _finish(fig, save_path, dpi)
+
+
+# --------------------------------------------------------------------------- #
+# 18. the proven critical line: Frobenius eigenvalues on |alpha| = sqrt(p)
+# --------------------------------------------------------------------------- #
+
+
+def plot_finite_field_rh(primes: Sequence[int] = (13, 101, 503, 1009),
+                         dps: int = 25, save_path: str | None = None,
+                         dpi: int = 160) -> Figure:
+    """RH where it is a THEOREM: Frobenius eigenvalues on the circle |α| = √p.
+
+    For E : y² = x³ + ax + b over F_p the zeta numerator is 1 − a_p T + p T² =
+    (1 − αT)(1 − ᾱT) with α + ᾱ = a_p and αᾱ = p, so RH for E is |α| = √p,
+    equivalently the Hasse bound |a_p| ≤ 2√p.  Every point plotted is an
+    eigenvalue of Frobenius for some curve mod p — one per *distinct* trace,
+    taken over **all** p² − p nonsingular curves via
+    :func:`zeta.finitefield.traces_mod_p` — and every one lands on its circle.
+
+    Left: the α-plane, with the circle |α| = √p drawn for each p.  Right: the
+    same eigenvalues in s-coordinates.  Substituting T = p^{−s} sends a
+    numerator root T₀ = 1/α to s = log(α)/log(p), so
+    Re(s) = log|α|/log p = log √p / log p = **exactly ½**.  The √ in the
+    point-count bound *is* the ½ in Re(s) = ½.  The strip edges Re s = 0, 1 are
+    drawn for scale: the points do not merely cluster near the middle line,
+    they are on it, by a theorem (Hasse 1934, Weil 1948, Deligne 1974).
+
+    Note the vertical extent on the right: Im(s) = ±arg(α)/log p is defined only
+    modulo 2π/log p, because p^{−s} is periodic.  These zeros live on a
+    *circle*, not a line — precisely the structure Spec Z is missing (docs/11).
+
+    Nothing here is evidence for RH over the integers: Z ⊗_Z Z = Z, so there is
+    no surface E × E on which to run Weil's positivity argument.
+    """
+    from mpmath import mp
+
+    from zeta.finitefield import traces_mod_p
+
+    ps = [int(p) for p in primes]
+    colours = (_BLUE, _ORANGE, _AQUA, "#7b5ea7", _RED)
+
+    fig, axes = plt.subplots(1, 2, figsize=(11.0, 5.4), constrained_layout=True)
+    fig.set_facecolor(_SURFACE)
+    for ax in axes:
+        ax.set_facecolor(_SURFACE)
+    ax0, ax1 = axes
+
+    worst_re = 0.0
+    n_points = 0
+    for k, p in enumerate(ps):
+        traces = np.unique(np.asarray(traces_mod_p(p)))
+        colour = colours[k % len(colours)]
+        with mp.workdps(int(dps) + 10):
+            alphas = [mp.mpc(mp.mpf(int(a)) / 2,
+                             mp.sqrt(mp.mpf(4 * p - int(a) * int(a))) / 2)
+                      for a in traces]
+            logp = mp.log(p)
+            re_s = [float(mp.re(mp.log(z) / logp)) for z in alphas]
+            im_s = [float(mp.im(mp.log(z) / logp)) for z in alphas]
+            worst_re = max(worst_re, max(abs(r - 0.5) for r in re_s))
+        xs = np.array([float(mp.re(z)) for z in alphas])
+        ys = np.array([float(mp.im(z)) for z in alphas])
+        n_points += 2 * xs.size
+
+        phi = np.linspace(0.0, 2.0 * np.pi, 400)
+        r = math.sqrt(p)
+        ax0.plot(r * np.cos(phi), r * np.sin(phi), color=colour, linewidth=1.1,
+                 alpha=0.55, zorder=2)
+        ax0.scatter(np.concatenate([xs, xs]), np.concatenate([ys, -ys]), s=16,
+                    color=colour, zorder=4)
+        ax0.text(0.0, r * 1.015, f"p = {p},  √p = {r:.3f}", ha="center", va="bottom",
+                 color=colour, fontsize=8.0, zorder=6,
+                 bbox=dict(facecolor=_SURFACE, edgecolor="none", alpha=0.85, pad=1.0))
+        ax1.scatter(re_s + re_s, im_s + [-v for v in im_s], s=16, color=colour,
+                    zorder=4,
+                    label=f"p = {p}: {2 * xs.size} eigenvalues, |α| = √p = {r:.3f}")
+
+    lim = 1.14 * math.sqrt(max(ps))
+    ax0.set_xlim(-lim, lim)
+    ax0.set_ylim(-lim, lim)
+    ax0.set_aspect("equal")
+    _style(ax0, xlabel="Re α", ylabel="Im α",
+           title="The α-plane: αᾱ = p exactly, so every\neigenvalue is on the circle |α| = √p")
+
+    ax1.axvline(0.0, color=_MUTED, linewidth=1.0, linestyle="--")
+    ax1.axvline(1.0, color=_MUTED, linewidth=1.0, linestyle="--")
+    ax1.axvline(0.5, color=_INK, linewidth=1.4, zorder=3)
+    ax1.set_xlim(-0.08, 1.08)
+    measured = (f"below the last digit\nreturned at dps = {int(dps)}"
+                if worst_re == 0.0 else f"{worst_re:.1e}\nat dps = {int(dps)}")
+    ax1.annotate("Re(s) = ½ — not approximately,\n"
+                 f"exactly: max |Re s − ½| is\n{measured}",
+                 xy=(0.5, 0.0), xytext=(0.55, 0.05), textcoords="axes fraction",
+                 color=_SECONDARY, fontsize=8.5)
+    _style(ax1, xlabel="Re s   (strip edges 0 and 1 dashed)", ylabel="Im s = ±arg(α)/log p",
+           title="s-coordinates (T = p^−s): the proven critical\nline, with all "
+                 f"{n_points} eigenvalues on it")
+    _legend(ax1, loc="upper left")
+    return _finish(fig, save_path, dpi)
+
+
+# --------------------------------------------------------------------------- #
+# 19. vertical Sato-Tate: the semicircle in the proven universe
+# --------------------------------------------------------------------------- #
+
+
+def plot_sato_tate(p_values: Sequence[int] = (503, 4001), n_bins: int = 20,
+                   save_path: str | None = None, dpi: int = 160) -> Figure:
+    """a_p/(2√p) over ALL curves mod p, against the semicircle (2/π)√(1−x²).
+
+    This is the "GUE statistics" of the universe where RH is proved.  Every
+    normalised trace lies in [−1, 1] — that containment *is* RH for the curve —
+    and as p → ∞ the empirical distribution over all p² − p nonsingular curves
+    converges to the semicircle.  **THEOREM** (Birch 1968, via the
+    Eichler–Selberg trace formula): this is *vertical* Sato–Tate, fixed p and
+    all curves, not the horizontal conjecture (one curve, varying p) that needed
+    Taylor et al. 2008–11.  Data from
+    :func:`zeta.finitefield.sato_tate_histogram` (cached under ``data/``).
+
+    Convergence is slow and, in the sup norm at fixed bin count, not even
+    monotone in p — with the traces confined to the ~4√p integers of the Hasse
+    interval, each bin holds only ~0.1·2√p lattice points and the lattice lands
+    differently for every p.  The measured sup deviations are printed in the
+    legend rather than smoothed over.  The *moments* converge far faster, and
+    the second one is exact: Σ a_p² = (p−1)²(p+1) for every prime.
+    """
+    from zeta.finitefield import sato_tate_histogram
+
+    ps = sorted(int(p) for p in p_values)
+    fig, (ax,) = _fig(figsize=(8.4, 5.0))
+    grid = np.linspace(-1.0, 1.0, 500)
+    ax.plot(grid, (2.0 / math.pi) * np.sqrt(np.maximum(0.0, 1.0 - grid ** 2)),
+            color=_ORANGE, linewidth=2.2, zorder=6,
+            label="semicircle (2/π)√(1 − x²) — the p → ∞ law")
+
+    last = None
+    peak = 0.0
+    for k, p in enumerate(ps):
+        h = sato_tate_histogram(p, n_bins=int(n_bins))
+        last = h
+        mids = np.asarray(h["bin_midpoints"])
+        dens = np.asarray(h["density"])
+        peak = max(peak, float(dens.max()))
+        width = float(mids[1] - mids[0]) if mids.size > 1 else 2.0 / int(n_bins)
+        label = (f"p = {p}: all {h['n_curves']:,} curves  "
+                 f"(sup dev {h['sup_deviation']:.4f})")
+        if k == len(ps) - 1:
+            ax.bar(mids, dens, width=width * 0.92, color=_BLUE_RAMP[1], zorder=2,
+                   label=label)
+        else:
+            ax.step(mids, dens, where="mid", color=_BLUE, linewidth=1.3, zorder=4,
+                    label=label)
+
+    ax.axvline(-1.0, color=_MUTED, linewidth=1.1, linestyle="--")
+    ax.axvline(1.0, color=_MUTED, linewidth=1.1, linestyle="--",
+               label="|a_p| = 2√p — the Hasse bound.  Nothing is ever outside it")
+    if last is not None:
+        ax.annotate(f"⟨x²⟩ = {last['moments'][0]:.7f} vs the limit 0.25;\n"
+                    f"Σa_p² = (p−1)²(p+1) exactly: "
+                    f"{last['second_moment_exact'] == last['second_moment_closed_form']}\n"
+                    f"Hasse violations: {last['hasse_violations']}",
+                    xy=(0.015, 0.66), xycoords="axes fraction",
+                    color=_SECONDARY, fontsize=8.5)
+    _style(ax, xlabel="normalised trace  a_p / (2√p)",
+           ylabel="probability density",
+           title="Vertical Sato–Tate: the traces of Frobenius over every curve mod p fill the\n"
+                 "semicircle — and never leave [−1, 1], because there RH is a theorem")
+    ax.set_xlim(-1.15, 1.15)
+    ax.set_ylim(0.0, peak * 1.45 if peak > 0 else 1.0)
+    _legend(ax, loc="upper right")
+    return _finish(fig, save_path, dpi)
+
+
+# --------------------------------------------------------------------------- #
+# 20. the Mertens random walk
+# --------------------------------------------------------------------------- #
+
+
+def plot_mertens(limit: int = 10 ** 6, x_min: int = 100, n_points: int = 4000,
+                 save_path: str | None = None, dpi: int = 160) -> Figure:
+    """M(x)/√x — the random walk that made a false conjecture look true.
+
+    M(x) = Σ_{n≤x} μ(n).  **THEOREM**: RH ⟺ M(x) = O(x^{½+ε}) for every ε > 0.
+    **THEOREM** (Odlyzko–te Riele 1985): the *strong* Mertens conjecture
+    |M(x)| < √x is **FALSE** — limsup M(x)/√x > 1.06 and liminf < −1.009 — and
+    the disproof is non-constructive: no counterexample is known and the bounds
+    on the first one are astronomical.
+
+    Top: the walk M(x) itself, μ(n) summed by :func:`zeta.criteria.mertens_array`.
+    Bottom: M(x)/√x on a logarithmic x-axis with the ±1 lines the conjecture
+    claimed could never be crossed.  Over every x reachable by a sieve the ratio
+    stays far inside them — which is exactly the picture that convinced people
+    for a century, and is therefore the standing demonstration that this kind of
+    plot is not evidence.  Nothing here says anything about RH (docs/08).
+
+    The ratio panel starts at ``x_min`` (default 100) because the first few x
+    are degenerate rather than informative: M(1) = 1 puts the ratio at exactly 1
+    and M(5) = −2 at −2/√5 = −0.894, neither of which says anything about the
+    growth of M.  The extremes quoted are those of the plotted range.
+    """
+    from zeta.criteria import mertens_array
+
+    limit = int(limit)
+    x_min = max(1, int(x_min))
+    M = mertens_array(limit)
+    idx = np.unique(np.geomspace(x_min, limit, int(n_points)).astype(np.int64))
+    x = idx.astype(np.float64)
+    m = M[idx].astype(np.float64)
+    ratio = m / np.sqrt(x)
+    dense = np.arange(1, limit + 1)
+    stride = max(1, dense.size // int(n_points))
+    xd = dense[::stride]
+    md = M[1:][::stride]
+
+    span = np.arange(x_min, limit + 1, dtype=np.float64)
+    ratio_all = M[x_min:limit + 1] / np.sqrt(span)
+    hi = int(np.argmax(ratio_all)) + x_min
+    lo = int(np.argmin(ratio_all)) + x_min
+
+    fig, (ax0, ax1) = _fig(nrows=2, figsize=(8.8, 6.4), height_ratios=(1.4, 1.6))
+    ax0.axhline(0.0, color=_BASELINE, linewidth=0.9)
+    ax0.plot(xd, md, color=_INK, linewidth=0.8,
+             label=f"M(x) = Σ_{{n≤x}} μ(n),  M({limit:g}) = {int(M[limit])}")
+    _style(ax0, ylabel="M(x)",
+           title="The Möbius random walk M(x), and the ratio the Mertens conjecture bounded")
+    _legend(ax0, loc="upper left")
+
+    ax1.axhline(0.0, color=_BASELINE, linewidth=0.9)
+    for sign in (1.0, -1.0):
+        ax1.axhline(sign, color=_MUTED, linewidth=1.3, linestyle="--",
+                    label=("|M(x)| = √x — the strong Mertens conjecture, DISPROVED "
+                           "(Odlyzko–te Riele 1985)" if sign > 0 else None))
+    ax1.plot(x, ratio, color=_BLUE, linewidth=0.9, label="M(x)/√x")
+    ax1.scatter([hi, lo], [ratio_all[hi - x_min], ratio_all[lo - x_min]], s=34,
+                facecolor="white", edgecolor=_RED, linewidth=1.3, zorder=6,
+                label=f"extremes for x ≥ {x_min:,}: {ratio_all[lo - x_min]:+.4f} at "
+                      f"x = {lo:,}, {ratio_all[hi - x_min]:+.4f} at x = {hi:,}")
+    ax1.set_xscale("log")
+    ax1.set_ylim(-1.85, 1.80)
+    ax1.annotate("the limsup exceeds 1.06 and the liminf is below −1.009 — somewhere.\n"
+                 "No x that any sieve can reach shows it: this plot is the reason the\n"
+                 "conjecture was believed, not a reason to believe anything.",
+                 xy=(0.03, 0.03), xycoords="axes fraction", color=_SECONDARY, fontsize=8.5)
+    _style(ax1, xlabel=f"x  (log scale, from {x_min:,})", ylabel="M(x)/√x",
+           title="RH ⟺ M(x) = O(x^{½+ε}) [THEOREM].  |M(x)| < √x [FALSE] — and no "
+                 "counterexample is known")
+    _legend(ax1, loc="upper right")
     return _finish(fig, save_path, dpi)

@@ -711,8 +711,13 @@ def verify_rh_up_to(T, verbose: bool = False, dps: int = 25, max_samples: int = 
     accurate to better than |Z| at each grid point (overwhelmingly safe at
     these heights, but not rigorously bounded here; the published verifications
     of Platt–Trudgian use interval arithmetic precisely to close this gap —
-    see docs/08-why-it-is-hard.md).  In exact arithmetic a sign-change scan can
-    only miss zeros, never invent them, so the grid can safely be refined until
+    see docs/08-why-it-is-hard.md).  :func:`zeta.rigor.verify_rh_certified` is
+    the rigorous counterpart: it runs the same argument in ball arithmetic, so
+    every sign is *proven* (its enclosure of Z excludes 0) and N(T) is *proven*
+    (its enclosure contains a unique integer), and the trust gap closes.  Use
+    this routine to explore, that one to certify.  In exact arithmetic a
+    sign-change scan can only miss zeros, never invent them, so the grid can
+    safely be refined until
     m = N(T); a false positive would require a rounding-induced sign flip at a
     grid point where |Z| is below the evaluation error.  (This routine does the
     refinement, doubling the grid until the counts agree or ``max_samples``

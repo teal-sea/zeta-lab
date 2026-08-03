@@ -139,7 +139,7 @@ Constants: `DEFAULT_DPS`, `H0_RELATION`, `PHI_STRIP`
 
 ### `zeta/weil.py` — The Riemann–Weil explicit formula as a computable object, and Weil positivity.
 
-*889 lines*
+*892 lines*
 
 Constants: `GAMMA1`
 
@@ -178,7 +178,7 @@ Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`
 
 ### `zeta/li.py` — Li's criterion and Jensen polynomials — the real-rootedness lane.
 
-*1341 lines*
+*1384 lines*
 
 Constants: `DATA_DIR`, `GAMMA1`, `RADIUS_MAX`, `ZERO_DPS`
 
@@ -261,7 +261,7 @@ Constants: `DATA_DIR`, `MERTENS_PINNED`, `BD_CONSTANT`, `ROBIN_THRESHOLD`, `ROBI
 
 ### `zeta/rigor.py` — Certified computation: enclosures instead of estimates.
 
-*1276 lines*
+*1282 lines*
 
 Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 
@@ -276,7 +276,7 @@ Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 
 ### `zeta/plots.py` — Publication-quality matplotlib figures for every part of the zeta laboratory.
 
-*1123 lines*
+*1671 lines*
 
 - `plot_zeta_critical_line(t_max: float = 50.0, n_points: int = 1600, save_path: str | None = None, dpi: int = 160) -> Figure` — Re ζ, Im ζ and |ζ| along the critical line s = ½ + it, zeros marked.
 - `plot_hardy_Z(t_max: float = 100.0, save_path: str | None = None, dpi: int = 160) -> Figure` — Hardy's Z(t) = e^{iθ(t)} ζ(½+it), its sign changes, and the Gram points.
@@ -292,6 +292,12 @@ Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 - `plot_polynomial_root_repulsion(roots: Sequence[float] = (-3.0, -1.0, 0.5, 2.0, 4.5), t_min: float = -1.1, t_max: float = 0.7, n_t: int = 181, save_path: str | None = None, dpi: int = 160) -> Figure` — The Λ story in miniature: heat flow on a real polynomial's roots.
 - `plot_weil_positivity(gaussian_points: int = 7, fejer_points: int = 5, dps: int = 20, save_path: str | None = None, dpi: int = 160) -> Figure` — The Weil functional W(h) over positive-type families: ≥ 0, and why barely.
 - `plot_offline_zero(re_range: tuple[float, float] = (-0.75, 1.75), im_range: tuple[float, float] = (83.0, 88.5), nx: int = 240, ny: int = 340, save_path: str | None = None, dpi: int = 160, cache: bool = True) -> Figure` — Phase portrait of Davenport–Heilbronn's f around its OFF-line zero.
+- `plot_certified_enclosures(t_min: float = 10.0, t_max: float = 40.0, n_points: int = 260, band_bits: Sequence[int] = (12, 16, 20), width_bits: Sequence[int] = (8, 16, 32, 64, 128, 256), width_t: Sequence[float] = (30.0, 100.0), backend: str | None = None, save_path: str | None = None, dpi: int = 160) -> Figure` — Rigorous enclosures of Z(t): the bands are theorems, and they shrink with precision.
+- `plot_li_coefficients(n_max: int = 200, dps: int = 25, save_path: str | None = None, dpi: int = 160) -> Figure` — Li's criterion in a picture: λ_n ≥ 0, and the growth RH predicts.
+- `plot_jensen_roots(d_values: Sequence[int] = (2, 3, 4, 6, 8, 10, 12), n: int = 1, n_compare: int = 12, dps: int = 30, save_path: str | None = None, dpi: int = 160) -> Figure` — The roots of the Jensen polynomials J^{d,n} — all real, all on the line.
+- `plot_finite_field_rh(primes: Sequence[int] = (13, 101, 503, 1009), dps: int = 25, save_path: str | None = None, dpi: int = 160) -> Figure` — RH where it is a THEOREM: Frobenius eigenvalues on the circle |α| = √p.
+- `plot_sato_tate(p_values: Sequence[int] = (503, 4001), n_bins: int = 20, save_path: str | None = None, dpi: int = 160) -> Figure` — a_p/(2√p) over ALL curves mod p, against the semicircle (2/π)√(1−x²).
+- `plot_mertens(limit: int = 10 ** 6, x_min: int = 100, n_points: int = 4000, save_path: str | None = None, dpi: int = 160) -> Figure` — M(x)/√x — the random walk that made a false conjecture look true.
 
 ## Documents (`docs/`)
 
@@ -319,12 +325,16 @@ Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 - `scripts/06_tour.py` — One command, the whole story: a guided tour of the Riemann zeta laboratory.
 - `scripts/07_weil_positivity.py` — The Riemann–Weil explicit formula, balanced live — then Weil positivity probed.
 - `scripts/08_wrong_shape_zeta.py` — The counterexample show: perfect zeta-shaped symmetry, and a zero OFF the line.
+- `scripts/09_certified_verification.py` — Certified RH verification: the difference between "we measured" and "we proved".
+- `scripts/10_li_and_jensen.py` — Li's criterion and the Jensen polynomials: RH as positivity, RH as real-rootedness.
+- `scripts/11_finite_field_rh.py` — The universe where RH is a THEOREM — curves over finite fields, checked by counting.
+- `scripts/12_equivalence_faces.py` — Four exact equivalences of RH, all four run, on one dashboard.
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 
 ## Tests (`tests/`)
 
-593 test functions across 11 files (the collected count differs where tests are parametrised):
+607 test functions across 12 files (the collected count differs where tests are parametrised):
 
 - `tests/test_core.py` — 97
 - `tests/test_criteria.py` — 75
@@ -332,7 +342,8 @@ Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 - `tests/test_explicit.py` — 45
 - `tests/test_finitefield.py` — 53
 - `tests/test_heatflow.py` — 38
-- `tests/test_li.py` — 55
+- `tests/test_li.py` — 56
+- `tests/test_plots.py` — 13
 - `tests/test_rigor.py` — 50
 - `tests/test_statistics.py` — 54
 - `tests/test_weil.py` — 37

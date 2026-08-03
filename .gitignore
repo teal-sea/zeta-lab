@@ -4,9 +4,18 @@ __pycache__/
 .pytest_cache/
 figures/*.gif
 data/*.npz
+
+# certificates are claims, not data: never ship one, always recompute it.
+# (zeta/rigor.py keys the cache by every run parameter, but not by the version
+# of the code or of Arb that produced it — so a committed certificate could
+# replay a `certified: True` that this checkout never actually established.)
+data/rigor_verify_*.json
 .DS_Store
 .ipynb_checkpoints/
 .coverage
+
+# per-machine agent settings: contains absolute paths, must never be committed
+.claude/settings.local.json
 
 # generated full-repo dump (regenerate with scripts/make_context.py --flat)
 CONTEXT_FLAT.md
