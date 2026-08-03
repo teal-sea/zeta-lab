@@ -31,6 +31,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PKG = ROOT / "zeta"
+DISCOVERY = ROOT / "discovery"
 DOCS = ROOT / "docs"
 TESTS = ROOT / "tests"
 SCRIPTS = ROOT / "scripts"
@@ -51,6 +52,19 @@ MODULE_ORDER = [
     "criteria",
     "rigor",
     "plots",
+]
+
+# The discovery layer, in pipeline order. The first six are domain-agnostic and
+# must stay that way; ``domains/`` is the only place the subject is named, and
+# the split is enforced by the seam tests — see `discovery/README.md`.
+DISCOVERY_ORDER = [
+    "schema",
+    "registry",
+    "ledger",
+    "funnel",
+    "metrics",
+    "knownness",
+    "historical_cases",
 ]
 
 
@@ -254,6 +268,54 @@ def build() -> str:
             add(f"- `{sig}`" + (f" — {doc}" if doc else ""))
         add("")
 
+    # ---- discovery layer ---------------------------------------------
+    if DISCOVERY.exists():
+        add("## Discovery layer API (`discovery/`) — the conjecture factory")
+        add("")
+        add(
+            "A domain-agnostic pipeline that generates candidate observations from the "
+            "laboratory's computed objects, screens them, and **logs the whole funnel so "
+            "the conversion rate per generator can be measured**. `schema`, `registry`, "
+            "`ledger`, `funnel`, `metrics` and `historical_cases` name no quantity the "
+            "laboratory computes and import nothing from `zeta` — the seam is enforced by "
+            "tests. `knownness` is the documented one-step-less-strict module (it knows "
+            "general mathematics, not this subject). Everything that names the subject "
+            "lives in `discovery/domains/`. Design and honest limits: "
+            "[`discovery/README.md`](discovery/README.md). Operator console: "
+            "`scripts/13_discovery_run.py`. The ledger it writes (`conjectures/`) is "
+            "**gitignored**: a private notebook of unreviewed leads, and nothing in it is "
+            "evidence for anything."
+        )
+        add("")
+        seen_d = set()
+        dpaths = []
+        for name in DISCOVERY_ORDER:
+            p = DISCOVERY / f"{name}.py"
+            if p.exists():
+                dpaths.append(p)
+                seen_d.add(p.name)
+        for p in sorted(DISCOVERY.glob("*.py")):
+            if p.name not in seen_d and p.name != "__init__.py":
+                dpaths.append(p)
+        dpaths.extend(sorted((DISCOVERY / "domains").glob("*.py")))
+        for path in dpaths:
+            if path.name == "__init__.py":
+                continue
+            api = module_api(path)
+            rel = path.relative_to(ROOT)
+            add(f"### `{rel}` — {api['docstring']}")
+            add("")
+            add(f"*{api['lines']} lines*")
+            add("")
+            if api["constants"]:
+                add(f"Constants: {', '.join('`' + c + '`' for c in api['constants'])}")
+                add("")
+            for name, doc in api["classes"]:
+                add(f"- `class {name}` — {doc}" if doc else f"- `class {name}`")
+            for sig, doc in api["functions"]:
+                add(f"- `{sig}`" + (f" — {doc}" if doc else ""))
+            add("")
+
     # ---- docs --------------------------------------------------------
     add("## Documents (`docs/`)")
     add("")
@@ -314,6 +376,11 @@ def build_flat() -> str:
     groups = [
         ("Operating context", [ROOT / "AGENTS.md", ROOT / "README.md"]),
         ("Package", sorted(PKG.glob("*.py"))),
+        (
+            "Discovery layer",
+            [DISCOVERY / "README.md", *sorted(DISCOVERY.glob("*.py")),
+             *sorted((DISCOVERY / "domains").glob("*.py"))],
+        ),
         ("Scripts", sorted(SCRIPTS.glob("*.py"))),
         ("Docs", sorted(DOCS.glob("*.md"))),
         ("Tests", sorted(TESTS.glob("*.py"))),

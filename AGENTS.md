@@ -114,11 +114,25 @@ last one left off; this file plus `git log` is the handoff. Two caveats:
   - `plots.py` the twenty figures. `zeta/__init__.py` re-exports the curated
     API; plots are loaded lazily (PEP 562 `__getattr__`) — keep it that way,
     `import zeta` must not pull in matplotlib.
-- `scripts/` 01–05 and 07–12 standalone demos, `06_tour.py` (~90 s full
-  story), `make_figures.py [--quick|--full]`.
+- Package: `discovery/` — the conjecture factory (phase 4). `schema.py`,
+  `registry.py`, `ledger.py`, `funnel.py`, `metrics.py` and
+  `historical_cases.py` are **domain-agnostic** and must stay that way: they
+  name no quantity the laboratory computes, and seam tests enforce it (an AST
+  import scan, a subprocess that asserts `zeta` never enters `sys.modules`, and
+  a lexical scan for subject-matter vocabulary).
+  Everything that knows the subject lives in `discovery/domains/`. Read
+  `discovery/README.md` before touching any of it. `discovery` is not part of
+  the editable install, so a script that imports it must put the repo root on
+  `sys.path` (derived from `__file__` — see `scripts/13_discovery_run.py`).
+- `scripts/` 01–05 and 07–13 standalone demos, `06_tour.py` (~90 s full
+  story), `make_figures.py [--quick|--full]`. `13_discovery_run.py` is the
+  funnel's operator console (`--dry-run`, `--report`).
 - `docs/` 00–12: a reading course; keep cross-references consistent with
   actual filenames (doc 05 is `05-de-bruijn-newman.md`).
-- `tests/` pytest; `data/` caches; `figures/` PNGs; `references/papers.md`.
+- `tests/` pytest; `data/` caches; `figures/` PNGs; `references/papers.md`;
+  `conjectures/` the discovery ledger — **gitignored**, a private notebook of
+  unreviewed leads (only `.gitkeep` is tracked). Nothing in it is evidence for
+  anything; publish `discovery.metrics.render_text`, never the log.
 
 ## The naming trap: three different "theta"s
 
@@ -153,8 +167,8 @@ affected cache files and re-run, or stale numbers will "pass".
 
 ```bash
 cd <repo root>
-.venv/bin/python -m pytest -q                 # full suite (820 tests, ~4 min)
-.venv/bin/python -m pytest -q -m "not slow"   # fast tier (787 tests, ~2 min)
+.venv/bin/python -m pytest -q                 # full suite (1365 tests, ~7 min)
+.venv/bin/python -m pytest -q -m "not slow"   # fast tier (1328 tests, ~2.5 min)
 .venv/bin/python scripts/06_tour.py           # end-to-end sanity + demo
 .venv/bin/python scripts/make_figures.py --quick   # all figures into figures/
 ```

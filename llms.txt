@@ -37,6 +37,21 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 - [docs/11-f1-and-the-missing-geometry.md](docs/11-f1-and-the-missing-geometry.md): the field with one element; Deninger.
 - [docs/12-how-hard-problems-die.md](docs/12-how-hard-problems-die.md): how famous problems actually get solved.
 
+## The conjecture factory (`discovery/`)
+
+- [discovery/README.md](discovery/README.md): design document for the discovery
+  funnel — five candidate kinds, six verdict states, the deduplication contract,
+  what the schema cannot express, and the historical validation. A pipeline that
+  logs itself so the conversion rate per generator can be measured: on a fresh
+  ledger, 26 candidates → 20 already known, 1 trivial, 5 inconclusive, 0
+  survivors. Run it with `scripts/13_discovery_run.py`.
+- The seam: `schema/registry/ledger/funnel/metrics/historical_cases` are
+  domain-agnostic and import nothing from `zeta`; `discovery/domains/` is the
+  only place the subject is named. Enforced by tests.
+- Honest scope: a survivor is a **lead**, never a result and never evidence for
+  RH; "not recognised offline" is the absence of a lookup, never novelty; the
+  ledger in `conjectures/` is gitignored and must never be published.
+
 ## Optional
 
 - [references/papers.md](references/papers.md): annotated reading list.

@@ -206,7 +206,10 @@ as points of a curve (`F1`), primes on the geometric side of a trace on a noncom
 
 ## 5. Four design gates (how to falsify a proposed ontology quickly)
 
-Any proposed new ontology for RH can be stress-tested against four gates. These are not aesthetics;
+Any proposed new ontology for RH can be stress-tested against four gates. *The packaging into
+"four gates" is this document's own synthesis, not a standard framework you will find named in
+the literature* — but each individual requirement below is standard, and the sources for each are
+given with it. These are not aesthetics;
 each is a concrete test with known failure modes.
 
 **Gate 1 — Recover the classics.** Inside the new language, re-derive the functional equation and

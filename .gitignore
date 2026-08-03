@@ -19,3 +19,10 @@ data/rigor_verify_*.json
 
 # generated full-repo dump (regenerate with scripts/make_context.py --flat)
 CONTEXT_FLAT.md
+
+# the discovery ledger (conjectures/) is a private laboratory notebook:
+# unreviewed leads, most of them wrong, and a list nobody has checked is not a
+# publication. Never commit one. `conjectures/*` rather than `conjectures/` so
+# that the empty directory itself stays in the tree via .gitkeep.
+conjectures/*
+!conjectures/.gitkeep

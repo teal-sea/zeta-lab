@@ -240,6 +240,15 @@ settle something, the correct inference is that there is a bug.
 
 Where a result is conditional on RH, the code and docs are meant to say so at the point of use.
 
+That rule extends to the one part of the repository that looks like it might break it. `discovery/`
+(§7) generates *candidate observations* and records the small number nothing killed as **survivors**.
+A survivor is a lead to be examined by hand — not a result, not a theorem, not evidence for RH —
+and the funnel writes that sentence into every such record's own `proof_gap` field. Because there is
+no network here, nothing is looked up in OEIS or arXiv either: "not recognised offline" is the
+absence of a lookup, and the layer has no code path that renders it as novelty. If a run of it
+appears to settle something open, the inference is the same as everywhere else in this repository —
+there is a bug.
+
 ## 7. Map of the repository
 
 The package is `zeta/`, eleven analysis modules (plus `plots.py`, which draws the figures):
@@ -276,6 +285,33 @@ The package is `zeta/`, eleven analysis modules (plus `plots.py`, which draws th
 - **`criteria.py`** — four equivalence faces of RH made executable: Mertens/Möbius,
   Nyman–Beurling/Baez-Duarte, Robin/Lagarias, Speiser.
 
+A second package, `discovery/`, sits on top of that one and studies the laboratory rather than the
+subject. It is a **discovery funnel**: generators mine the computed objects above for candidate
+observations, a catalogue and a battery of screens try to kill them, and every step is logged — so
+the conversion rate *per generator* can be measured. The premise is unflattering and load-bearing:
+most numerical "discoveries" are already known or trivial, and a system that does not measure its
+own hit rate is measuring its operator's enthusiasm. On a fresh ledger the six generators produce 26
+candidates and the funnel's verdict is 20 already known (76.9 %), 1 trivial, 5 inconclusive, 0
+survivors — and that table, not the survivor list, is the output.
+
+It is split along one seam. `schema.py`, `registry.py`, `ledger.py`, `funnel.py`, `metrics.py` and
+`historical_cases.py` are **domain-agnostic**: they name no quantity the laboratory computes and
+import nothing from `zeta`, so the same machinery would serve a chemistry laboratory; three tests
+enforce it. Everything that knows what is being studied lives in `discovery/domains/`. Before the
+funnel is pointed at anything unsettled it has to reproduce history: five claims whose status later
+work has established — proved, still open, disproved, provably equivalent to an open problem, and
+one constructed coincidence — are replayed through it and must land where that later work says they
+belong. The case that matters is Mertens' conjecture, which every computation feasible for a century
+supported and which is false. **The funnel does not endorse it**, and the harness refuses to
+register a case that expects it to, so the suite cannot be edited into agreement.
+
+Read `discovery/README.md` before touching any of it; §7–§9.3 there is the honest statement of what
+the layer cannot express and where its own validation is thinner than it looks. Run it with
+`scripts/13_discovery_run.py`. Nothing it produces is evidence for RH: a survivor is a **lead**, and
+"not recognised offline" is the absence of a lookup — there is no network — never a claim of
+novelty. Its ledger lives in `conjectures/`, which is gitignored, because a list of unreviewed leads
+published under a repository that is otherwise checked would be read as a set of claims.
+
 Docs, in numbered reading order:
 
 | Doc | Leans on | What it covers |
@@ -296,7 +332,8 @@ Docs, in numbered reading order:
 
 Supporting directories: `scripts/`, `figures/`, `data/` (cached zero tables and scan
 results), `tests/` (every module has a test file — the defect functions are tested to tight
-tolerances), `references/`.
+tolerances), `references/`, and `conjectures/` — the discovery ledger, **gitignored**, a private
+notebook of unreviewed leads. Publish `discovery.metrics.render_text`, never the log.
 
 **Recommended reading order.** `00 → 01 → 02 → 03 → 04` is a single argument and should be read in
 sequence: continuation gives you a function with zeros at all, theta/modularity gives the functional

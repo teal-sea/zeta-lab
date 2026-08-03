@@ -37,7 +37,7 @@ Every dependency is ordinary: `mpmath`, `numpy`, `scipy`, `matplotlib`,
 `sympy` (see `pyproject.toml`). Expensive computations cache themselves under
 `data/`, so second runs of everything are instant.
 
-## Eleven things you can run right now
+## Twelve things you can run right now
 
 1. **Rebuild the primes from the zeros** — the moment the subject becomes real:
 
@@ -169,6 +169,27 @@ Every dependency is ordinary: `mpmath`, `numpy`, `scipy`, `matplotlib`,
     dashboard: zero violations in every finite range checked — and the Mertens
     face is there precisely to show what "zero violations" was worth for the
     century before Odlyzko and te Riele disproved the conjecture.
+
+12. **Run the conjecture factory, and measure its own hit rate**:
+
+    ```bash
+    python scripts/13_discovery_run.py --dry-run   # a full pass, nothing written
+    python scripts/13_discovery_run.py             # a real pass
+    python scripts/13_discovery_run.py --report    # the dashboard over the ledger
+    ```
+
+    Six generators mine the laboratory's computed objects for candidate
+    observations; a catalogue and six screens try to kill them; every step is
+    logged, so the conversion rate *per generator* can be measured. On a fresh
+    ledger the six produce 26 candidates, and the funnel's verdict on them is
+    20 already known (76.9 %), 1 trivial, 5 inconclusive, 0 survivors. That
+    table is the point of the exercise: most numerical "discoveries" are
+    already known or trivial, and a system that does not measure its own hit
+    rate is measuring its operator's enthusiasm. A survivor, when one appears,
+    is a **lead** — not a result, not evidence for RH — and "not recognised
+    offline" is not novelty: there is no network here, so nothing was looked
+    up. The ledger lives in `conjectures/`, which is gitignored; it is a
+    private notebook of unreviewed leads. Design: `discovery/README.md`.
 
 Working on this repo with a coding agent (Claude Code, Codex, Cursor, …)?
 Read [`AGENTS.md`](AGENTS.md) first — setup, house rules, the naming traps,
@@ -308,15 +329,40 @@ zeta/               the package (flat layout; pip install -e .)
   finitefield.py    curves over F_p — the one RH that is a THEOREM, checked by counting
   criteria.py       four equivalence faces: Mertens, Baez-Duarte, Robin/Lagarias, Speiser
   plots.py          the twenty publication figures
-scripts/            01–05 and 07–12 one demo each, 06_tour.py runs the whole
+discovery/          the conjecture factory: a discovery funnel that logs itself
+  schema.py         what a candidate observation is; five kinds, six verdicts, dedup
+  registry.py       the plug-in seam: Generator, Screen, KnownnessDetector, Domain
+  ledger.py         append-only JSONL: the candidate stream and the run stream
+  funnel.py         generate→dedup→known→cheap→expensive→terminal, count in = count out
+  metrics.py        the conversion tables (an empty denominator is None, never 0.0)
+  knownness.py      the already-known gate: PSLQ closed forms, a fact registry, no novelty
+  historical_cases.py  replay claims whose outcome is already settled
+  domains/          THE ONLY PLACE THAT KNOWS THE SUBJECT (zeta_domain, zeta_history)
+scripts/            01–05 and 07–13 one demo each, 06_tour.py runs the whole
                     story, make_figures.py regenerates figures/
 docs/               00–12, the reading course (see the table above)
-tests/              820 tests; every number claimed in a docstring is pinned
+tests/              1365 tests (1328 in the fast tier); every number claimed in
+                    a docstring is pinned
 data/               caches (zero tables as .json are committed; .npz scans
                     regenerate on first use)
+conjectures/        the discovery ledger — GITIGNORED, a private notebook of
+                    unreviewed leads; publish the metrics report, never the log
 figures/            the twenty-two PNGs linked above
 references/         annotated reading list (references/papers.md)
 ```
+
+`discovery/` splits along one seam and the split is the point: `schema.py`,
+`registry.py`, `ledger.py`, `funnel.py`, `metrics.py` and `historical_cases.py`
+name no quantity the laboratory computes and import nothing from `zeta`, so they
+would work unchanged for a chemistry lab; everything that knows what is being
+studied lives in `discovery/domains/`. `knownness.py` is the one documented step
+less strict — it knows general mathematics (π, γ, PSLQ) because recognising a
+closed form requires it, and its own docstring names the four catalogue entries
+that sit closest to the line. Four tests enforce the seam: an AST import scan, a
+subprocess asserting `zeta` never enters `sys.modules`, a lexical scan for
+subject-matter vocabulary, and a run of the whole pipeline with the laboratory
+made *unimportable* by a meta-path wall. Design document and stated blind spots:
+[`discovery/README.md`](discovery/README.md).
 
 The public API is re-exported at the top level: `import zeta; zeta.zeta(2)`,
 `zeta.first_n_zeros(10)`, `zeta.psi_from_zeros(...)`, `zeta.H_t(...)`, etc.
@@ -362,8 +408,20 @@ and never rely on `from zeta import li`.
 - **Statistics are finite-height.** The residual D ≈ 0.03 against GUE is
   real O(1/log γ) drift at height ~10⁴, not a discrepancy and not perfection;
   the docs and scripts say so at the point of use.
+- **The conjecture factory measures itself, and its own measurement has
+  limits.** `discovery/`'s conversion rates are honest about what they count,
+  and `discovery/README.md` §7–§9.3 states where they are not: a candidate
+  record needs a candidate, so *individual payloads a generator built and
+  refused* reach no ledger (only `scripts/13`'s per-run table); deduplication is
+  a **lower** bound, so `unique` counts are a ceiling; the five historical cases
+  were chosen to span the outcome vocabulary, not at random, and four of the
+  five right answers were carried by the catalogue alone rather than by anything
+  that examined the mathematics (`gate_dependence` is the query that reports
+  it). "Not recognised offline" is the absence of a lookup — there is no
+  network — and is never rendered as novelty anywhere in the layer.
 - **And the big one:** nothing here bears on the truth of RH. That is the
-  point of the whole of `docs/08`.
+  point of the whole of `docs/08`. A funnel survivor is a lead, not a result;
+  every one carries a `proof_gap` field saying so in its own record.
 
 ## License
 

@@ -299,6 +299,220 @@ Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 - `plot_sato_tate(p_values: Sequence[int] = (503, 4001), n_bins: int = 20, save_path: str | None = None, dpi: int = 160) -> Figure` — a_p/(2√p) over ALL curves mod p, against the semicircle (2/π)√(1−x²).
 - `plot_mertens(limit: int = 10 ** 6, x_min: int = 100, n_points: int = 4000, save_path: str | None = None, dpi: int = 160) -> Figure` — M(x)/√x — the random walk that made a false conjecture look true.
 
+## Discovery layer API (`discovery/`) — the conjecture factory
+
+A domain-agnostic pipeline that generates candidate observations from the laboratory's computed objects, screens them, and **logs the whole funnel so the conversion rate per generator can be measured**. `schema`, `registry`, `ledger`, `funnel`, `metrics` and `historical_cases` name no quantity the laboratory computes and import nothing from `zeta` — the seam is enforced by tests. `knownness` is the documented one-step-less-strict module (it knows general mathematics, not this subject). Everything that names the subject lives in `discovery/domains/`. Design and honest limits: [`discovery/README.md`](discovery/README.md). Operator console: `scripts/13_discovery_run.py`. The ledger it writes (`conjectures/`) is **gitignored**: a private notebook of unreviewed leads, and nothing in it is evidence for anything.
+
+### `discovery/schema.py` — discovery.schema — the ontology of the discovery funnel.
+
+*1749 lines*
+
+Constants: `SCHEMA_MAJOR`, `SCHEMA_MINOR`, `SCHEMA_VERSION`, `SCHEMA_HISTORY`, `DEFAULT_DEDUP_DIGITS`, `MIN_INDEX_SPAN`, `MIN_WINDOWS`, `MIN_WINDOW_POINTS`, `MIN_WITNESSES`, `MAX_ARGUMENT_CHARS`, `RELATION_OPS`, `LIMIT_POINTS`, `DIRECTIONS`, `PRECISION_KINDS`, `KIND_RULES`, `TERMINAL_STATUSES`, `REOPENABLE_STATUSES`, `REQUIRED_SURVIVAL_CHECKS`
+
+- `class SchemaError` — Base class for every error raised by this module.
+- `class ValidationError` — A record is malformed: it violates the ontology's own rules.
+- `class CandidateKind` — The five shapes an observation may take. Five, and no more.
+- `class VerdictStatus` — Six states. Four of them are ways of saying "nothing here".
+- `class InconclusiveReason` — Closed vocabulary: why the work decided nothing.
+- `class Verdict` — What the funnel concluded, and the evidence that earns the conclusion.
+- `class Precision` — How much arithmetic was bought. ``effort_digits`` makes kinds comparable.
+- `class Provenance` — Everything needed to re-derive the observation months later.
+- `class Candidate` — One observation, with its identity, its support and its fate.
+- `class KnownEntry` — One entry of a domain-supplied catalogue of things already established.
+- `canonical_claim(kind: 'CandidateKind | str', claim: Mapping[str, Any], digits: int = DEFAULT_DEDUP_DIGITS) -> str` — The exact byte string that is hashed to give a candidate its identity.
+- `content_hash(kind: 'CandidateKind | str', claim: Mapping[str, Any], digits: int = DEFAULT_DEDUP_DIGITS) -> str` — Stable content id: ``cand-`` + 128 bits of SHA-256 over the claim.
+- `same_claim(left: 'Candidate | Mapping[str, Any]', right: 'Candidate | Mapping[str, Any]', digits: int | None = None) -> bool` — Do two candidates assert the same thing?
+- `required_claim_keys(kind: CandidateKind | str) -> frozenset[str]` — The claim keys a candidate of this kind must carry.
+- `allowed_claim_keys(kind: CandidateKind | str) -> frozenset[str]` — Required plus optional claim keys. Anything else is refused.
+- `kind_reasons(kind: CandidateKind | str, claim: Mapping[str, Any], evidence: Mapping[str, Any] | None = None) -> tuple[str, ...]` — Why ``kind`` refuses this payload. Empty tuple means it accepts.
+- `accepts(kind: CandidateKind | str, claim: Mapping[str, Any], evidence: Mapping[str, Any] | None = None) -> bool` — Does ``kind`` accept this payload? The decision procedure, as a bool.
+- `classify(claim: Mapping[str, Any], evidence: Mapping[str, Any] | None = None) -> CandidateKind | None` — The unique kind that accepts this payload, or ``None`` if there is none.
+- `claim_keys(kind: CandidateKind | str, claim: Mapping[str, Any]) -> tuple[str, ...]` — The identity strings of a claim, used by the already-known matcher.
+- `verdict_reasons(verdict: Verdict) -> tuple[str, ...]` — Entry criteria for each status. Empty tuple means the status is earned.
+- `validate_verdict(verdict: Verdict) -> None` — Raise :class:`ValidationError` unless the verdict earns its status.
+- `git_revision(start: str | Path | None = None, timeout: float = 5.0) -> tuple[str | None, bool | None, str]` — ``(revision, dirty, source)`` for the checkout containing ``start``.
+- `validate_provenance(provenance: Provenance) -> None` — Raise unless the record could actually be replayed by a stranger.
+- `capture_provenance(*, generator: str, generator_version: str, lab_object: str, parameters: Mapping[str, Any] | None = None, precision: Precision | None = None, seed: int | None = None, stochastic: bool = False, duration_s: float | None = None, runtime: Mapping[str, str] | None = None, repo_path: str | Path | None = None) -> Provenance` — Build a :class:`Provenance`, filling in revision, time and interpreter.
+- `candidate_reasons(candidate: Candidate) -> tuple[str, ...]` — Every way in which ``candidate`` violates the ontology.
+- `validate_claim(kind: CandidateKind | str, claim: Mapping[str, Any], evidence: Mapping[str, Any] | None = None) -> None` — Raise unless ``kind`` accepts this payload.
+- `validate_candidate(candidate: Candidate) -> None` — Raise :class:`ValidationError` listing every violation, or return.
+- `latest_by_id(candidates: Iterable[Candidate]) -> dict[str, Candidate]` — Collapse an append-only log: the last record for an id wins.
+- `match_known(candidate: Candidate, catalogue: Iterable[KnownEntry], *, decided_by: str = 'match_known', decided_by_version: str = '1.0') -> Verdict | None` — A ``known`` verdict if the catalogue already contains this observation.
+- `to_dict(candidate: Candidate) -> dict[str, Any]` — A plain, JSON-ready mapping. Key order is stable for readable diffs.
+- `from_dict(record: Mapping[str, Any], *, verify_id: bool = True) -> Candidate` — Rebuild a candidate, refusing anything malformed.
+- `migrate_record(record: Mapping[str, Any]) -> Mapping[str, Any]` — Bring a stored record up to the current schema, or refuse it.
+- `to_json(candidate: Candidate, *, indent: int | None = None) -> str` — One candidate as JSON text (``indent=None`` gives a single JSONL line).
+- `from_json(text: str, *, verify_id: bool = True) -> Candidate` — Parse one candidate from JSON text.
+- `dumps_jsonl(candidates: Iterable[Candidate]) -> str` — Candidates as JSONL text: one record per line, append-friendly.
+- `loads_jsonl(text: str, *, verify_id: bool = True) -> list[Candidate]` — Parse JSONL text, naming the line number of the first bad record.
+- `append_jsonl(path: str | Path, candidate: Candidate) -> None` — Append one record. The log is never rewritten; the last id wins.
+- `read_jsonl(path: str | Path, *, verify_id: bool = True) -> list[Candidate]` — Read a whole log. Missing files read as an empty log, not an error.
+- `write_jsonl(path: str | Path, candidates: Iterable[Candidate]) -> int` — Replace a log wholesale; returns the number of records written.
+- `iter_jsonl(path: str | Path, *, verify_id: bool = True) -> Iterator[Candidate]` — Stream a log one record at a time (large logs need not fit in memory).
+
+### `discovery/registry.py` — discovery.registry — the plug-in seam.
+
+*499 lines*
+
+Constants: `SCREEN_COSTS`, `KNOWN_CHECK`
+
+- `class RegistryError` — Base class for every error raised by this module.
+- `class DomainError` — A domain, or one of its plug-ins, does not honour the interface.
+- `class ScreenResult` — One screen's opinion of one candidate.
+- `class Generator` — A lead source: it turns computed objects into candidate observations.
+- `class Screen` — A killer: it removes candidates, or admits that it could not.
+- `class KnownnessDetector` — The already-known gate: the cheapest and likeliest way to be right.
+- `class BaseGenerator` — Convenience base for :class:`Generator`. Subclasses set name/version.
+- `class BaseScreen` — Convenience base for :class:`Screen`. Subclasses set name/cost/checks.
+- `class BaseKnownnessDetector` — Convenience base for :class:`KnownnessDetector`.
+- `class Domain` — Everything the funnel needs to know about a subject, and nothing more.
+- `domain_reasons(domain: Domain) -> tuple[str, ...]` — Every way ``domain`` violates the plug-in interface, in one pass.
+- `validate_domain(domain: Domain) -> None` — Raise :class:`DomainError` listing every interface violation, or return.
+- `register_domain(domain: Domain, *, replace: bool = False) -> Domain` — Put ``domain`` in the table under its own name.
+- `get_domain(name: str) -> Domain` — Fetch a registered domain, naming the alternatives if it is absent.
+- `list_domains() -> tuple[str, ...]` — The registered domain names, sorted.
+- `unregister_domain(name: str) -> None` — Remove one domain; a no-op if it was never registered.
+- `clear_registry() -> None` — Empty the table. Exists for tests; nothing else should need it.
+
+### `discovery/ledger.py` — discovery.ledger — the append-only log the whole funnel is measured from.
+
+*389 lines*
+
+Constants: `LOCKING`, `LEDGER_ENV_VAR`, `RUN_RECORD_TYPE`, `DEFAULT_LEDGER_DIR`, `DEFAULT_LEDGER_PATH`
+
+- `class LedgerError` — The log could not be read or written.
+- `class LedgerView` — An immutable snapshot: what the metrics layer is handed.
+- `class Ledger` — An append-only store of candidates plus the funnel runs that made them.
+- `default_ledger_path() -> Path` — The default candidate log, honouring :data:`LEDGER_ENV_VAR`.
+- `runs_path_for(path: str | Path) -> Path` — The run stream that sits beside a candidate log.
+
+### `discovery/funnel.py` — discovery.funnel — the pipeline, and the accounting that justifies it.
+
+*1084 lines*
+
+Constants: `FUNNEL_VERSION`, `STAGES`, `VERDICT_DISPOSITIONS`, `FUNNEL_ONLY_DISPOSITIONS`, `DISPOSITIONS`
+
+- `class FunnelError` — The pipeline could not honour its own invariants.
+- `class Outcome` — Where one candidate left the funnel, and how.
+- `class GeneratorReport` — One generator invocation — **including the ones that yielded nothing**.
+- `class StageTally` — How many candidates entered a stage, and how many it removed.
+- `class ScreenTally` — How often one screen was consulted, what it cost and what it killed.
+- `class FunnelRun` — The whole record of one pass through the pipeline.
+- `default_proof_gap(screens: Sequence[str], effort: float) -> str` — The proof gap the funnel writes when nothing killed a candidate.
+- `run_funnel(domain: 'Domain | str', stages: Iterable[str] | None = None, limit: int | None = None, ledger: 'Ledger | str | Path | None' = None, dry_run: bool = False, *, context: Mapping[str, Any] | None = None, reopen: Iterable[str] = (), checkpoint: bool = True, run_id: str | None = None) -> FunnelRun` — Run one pass of the discovery pipeline and record all of it.
+
+### `discovery/metrics.py` — discovery.metrics — conversion analytics over the ledger.
+
+*971 lines*
+
+- `class StageStat` — One stage, aggregated over every run in the ledger.
+- `class FunnelReport` — Counts and rates at every stage, over the whole ledger.
+- `class GeneratorStat` — One lead source, and what its output actually turned into.
+- `class ScreenStat` — One screen or detector: how often, how long, how much it killed.
+- `class CostReport` — Wall time by stage and by screen: where the compute actually went.
+- `class TimeBucket` — One period of the log: what ran, what came out.
+- `rate(numerator: float, denominator: float) -> float | None` — ``numerator / denominator``, or ``None`` when the denominator is empty.
+- `funnel_report(ledger: 'Ledger | LedgerView | str | Path | None' = None) -> FunnelReport` — Counts and rates at every stage of the funnel, over the whole ledger.
+- `generator_scorecard(ledger: 'Ledger | LedgerView | str | Path | None' = None) -> tuple[GeneratorStat, ...]` — Per generator: what it produced, what became of it, and what it cost.
+- `stage_costs(ledger: 'Ledger | LedgerView | str | Path | None' = None) -> CostReport` — Wall time by stage and by screen, aggregated over the ledger.
+- `time_series(ledger: 'Ledger | LedgerView | str | Path | None' = None, *, bucket: str = 'day') -> tuple[TimeBucket, ...]` — The funnel over time, bucketed by the run's start timestamp.
+- `render_text(ledger: 'Ledger | LedgerView | str | Path | None' = None, *, bucket: str = 'day') -> str` — Every table in this module, as one readable console report.
+
+### `discovery/knownness.py` — discovery.knownness — the gate that catches the dominant outcome.
+
+*1751 lines*
+
+Constants: `KNOWNNESS_VERSION`, `FLOAT64_DIGITS`, `DEFAULT_BASIS`, `DEFAULT_BASE_DIGITS`, `DEFAULT_ESCALATED_DIGITS`, `DEFAULT_GUARD_DIGITS`, `DEFAULT_MAX_TERMS`, `DEFAULT_MAXCOEFF`, `DEFAULT_MIN_SURPLUS_DIGITS`, `FACT_STATUSES`, `GENERAL_FACTS`, `KNOWN_FACTS`, `NOT_RECOGNISED_OFFLINE`, `FORBIDDEN_LABEL_WORDS`, `OFFLINE_BACKEND`
+
+- `class KnownnessError` — A misuse of this module's own contracts (not a failed match).
+- `class BasisConstant` — One element of the basis an integer-relation search works over.
+- `class IdentificationConfidence` — How much the escalation actually established. Three states, no score.
+- `class Identification` — One candidate closed form, with the measurements that judge it.
+- `class IdentificationReport` — The outcome of a closed-form search, including what it refused.
+- `class FactMatch` — Why a candidate was judged already known, and by which entry.
+- `class KnownFact` — One citable thing the laboratory, or the literature, already knows.
+- `class KnownFactRegistry` — A curated table of established results, keyed by id.
+- `class LiteratureStatus` — Three states, and the distinction between the last two is the point.
+- `class LiteratureResult` — What a literature lookup established — including that it did not run.
+- `class LiteratureBackend` — The interface a real (networked) lookup would implement.
+- `class OfflineLiteratureBackend` — The default: no network, therefore no lookup, therefore no conclusion.
+- `class Knownness` — The gate's two possible answers. Neither of them is "new".
+- `class KnownnessReport` — Everything the gate concluded, and everything it declined to conclude.
+- `basis_by_name(basis: Sequence[BasisConstant] = DEFAULT_BASIS) -> dict[str, BasisConstant]` — Name -> element. Names are unique within a basis; a clash is an error.
+- `safe_eval_expression(expression: str, dps: int) -> Any` — Evaluate a closed-form expression string at ``dps`` digits, safely.
+- `identify_constant(value: Any = None, *, provider: Callable[[int], Any] | None = None, known_digits: int | None = None, base_digits: int = DEFAULT_BASE_DIGITS, escalated_digits: int = DEFAULT_ESCALATED_DIGITS, guard_digits: int = DEFAULT_GUARD_DIGITS, basis: Sequence[BasisConstant] = DEFAULT_BASIS, max_terms: int = DEFAULT_MAX_TERMS, maxcoeff: int = DEFAULT_MAXCOEFF, min_surplus_digits: float = DEFAULT_MIN_SURPLUS_DIGITS, cross_check: bool = True, max_provisional: int = 12) -> IdentificationReport` — Is ``value`` a recognisable closed form? Offline, and with escalation.
+- `closed_form(value: Any = None, **kwargs) -> str | None` — The confirmed closed form of ``value``, or ``None``. See :func:`identify_constant`.
+- `default_fact_matcher(candidate: Candidate, fact: KnownFact) -> FactMatch | None` — The matcher used when an entry supplies none.
+- `check_literature(candidate: Candidate, backend: LiteratureBackend | None = None) -> LiteratureResult` — Ask the literature about ``candidate``. Offline, the answer is ``UNKNOWN``.
+- `funnel_label(label: str) -> str` — Return ``label`` if a funnel may use it; raise if it claims novelty.
+- `screen_known(candidate: Candidate, *, facts: KnownFactRegistry | None = None, literature: LiteratureBackend | None = None, value_provider: Callable[[int], Any] | None = None, identify: bool = True, decided_by: str = 'discovery.knownness.screen_known', **identify_kwargs) -> KnownnessReport` — The already-known gate: catalogue, then closed form, then literature.
+
+### `discovery/historical_cases.py` — discovery.historical_cases — the falsification test for the ontology itself.
+
+*745 lines*
+
+Constants: `HISTORY_VERSION`, `MODES`, `IMPOSSIBLE_DISPOSITIONS`, `KILLING_DISPOSITIONS`
+
+- `class HistoryError` — A case, or a replay of one, does not honour this module's contract.
+- `class HistoricalOutcome` — What later work established about a claim. Five states, no shading.
+- `class HistoricalCase` — One settled claim, the evidence behind it, and the answer history gave.
+- `class CaseGenerator` — A lead source that emits exactly one recorded observation.
+- `class NullKnownnessDetector` — A catalogue that runs, consults nothing, and recognises nothing.
+- `class CaseReplay` — What the pipeline did with one case, in one mode.
+- `class CaseResult` — Whether the pipeline reproduced history for one case, and why not.
+- `case_reasons(case: HistoricalCase) -> tuple[str, ...]` — Every way ``case`` fails this module's standard. Empty means usable.
+- `validate_case(case: HistoricalCase) -> None` — Raise :class:`HistoryError` listing every violation, or return.
+- `register_case(case: HistoricalCase, *, replace: bool = False) -> HistoricalCase` — Put ``case`` in the process-wide table under its key.
+- `get_case(key: str) -> HistoricalCase`
+- `list_cases() -> tuple[str, ...]`
+- `unregister_case(key: str) -> None`
+- `clear_cases() -> None` — Empty the table. Exists for tests; nothing else should need it.
+- `case_domain(case: HistoricalCase, domain: Domain, mode: str = 'full') -> Domain` — ``domain``'s screens and catalogue, driven by one case's observation.
+- `replay(case: HistoricalCase, domain: Domain, *, mode: str = 'full', ledger: Ledger | str | Path) -> CaseReplay` — Run one case through ``domain``'s pipeline and report where it left.
+- `check_case(case: HistoricalCase, full: CaseReplay, uncatalogued: CaseReplay | None = None) -> CaseResult` — Compare what the pipeline did against what history settled.
+- `gate_dependence(result: CaseResult) -> bool` — Was the correct answer carried entirely by the already-known gate?
+- `run_case(case: HistoricalCase, domain: Domain, *, ledger_dir: str | Path, modes: Iterable[str] = MODES) -> CaseResult` — Replay one case in each requested mode and adjudicate the result.
+- `run_history(cases: Iterable[HistoricalCase], domain: Domain, *, ledger_dir: str | Path, modes: Iterable[str] = MODES) -> tuple[CaseResult, ...]` — Every case, in registration order.
+- `render_text(results: Sequence[CaseResult]) -> str` — A one-screen report. Failures are printed in full, never summarised.
+
+### `discovery/domains/zeta_domain.py` — discovery.domains.zeta_domain — the only module that knows what is studied.
+
+*3157 lines*
+
+Constants: `DOMAIN_NAME`, `DOMAIN_VERSION`, `DEFAULT_DPS`, `DEFAULT_SEED`, `UNCERTAINTY_GUARD`, `GUARD_DIGITS`, `ROUTES`, `MERTENS_GRID`, `ZERO_HEIGHT_GRID`, `ZERO_SCAN_HEIGHT`, `PSLQ_BASIS`, `FINITE_FIELD_PRIMES`, `PREDICATE_TURAN`, `PREDICATE_FUNCTIONAL_EQUATION`, `PREDICATE_HASSE`, `RANGE_TOLERANCE`, `RANGE_RULES`, `TRIVIALITY_RULES`, `BATTERY_CLAIMS`, `ZETA_FACTS`, `FACT_REGISTRY`, `DOMAIN`
+
+- `class Route` — How to recompute one recorded quantity from scratch.
+- `class ConstantsGenerator` — Harvest computed constants as closed-form candidates.
+- `class AsymptoticsGenerator` — Fit growth rates of computed sequences in two or more windows.
+- `class RelationsGenerator` — Look for simple relations between pairs of computed quantities.
+- `class ExtremalGenerator` — Record holders, each with the runner-up that makes the record falsifiable.
+- `class FiniteFieldGenerator` — Quantities from curves over finite fields, where RH is a theorem.
+- `class StructuralGenerator` — Universal claims over enumerated families, each with a failing control.
+- `class NumericSanityScreen` — Cheap arithmetic sanity: finiteness, and the ranges a theorem pins.
+- `class PrecisionStabilityScreen` — The single most valuable cheap screen: does the number survive a bump?
+- `class TrivialityScreen` — Does the claim follow, in one line, from an identity already in the lab?
+- `class HighPrecisionScreen` — Expensive re-derivation: recompute at roughly twice the working precision.
+- `class IndependentMethodScreen` — Cross-check by a second route that shares nothing but the object itself.
+- `class CounterexampleBatteryScreen` — The standing test: route every structural claim through the battery.
+- `class CatalogueDetector` — The already-known gate for this laboratory.
+- `build_domain() -> Domain` — Assemble the domain. Called once at import; re-callable in tests.
+
+### `discovery/domains/zeta_history.py` — discovery.domains.zeta_history — settled claims, replayed against the funnel.
+
+*906 lines*
+
+Constants: `GENERATOR`, `GENERATOR_VERSION`, `SEED`, `GUARD_DIGITS`, `GAUSS_WINDOWS`, `MONTGOMERY_N_ZEROS`, `MONTGOMERY_R_MAX`, `MONTGOMERY_BINS`, `MERTENS_LIMIT`, `MERTENS_CHECKPOINTS`, `MERTENS_CONTROLS`, `LI_N_MAX`, `LI_DPS`, `LI_CONTROL_ZERO`, `COINCIDENCE_DIGITS`, `COINCIDENCE_BASIS`, `HONEST_TWIN_DPS`, `HONEST_TWIN_UNCERTAINTY`, `HISTORICAL_CASES`, `REGISTERED`
+
+- `gauss_prime_count_windows() -> tuple[dict[str, Any], ...]` — The fitted windows, with the raw block counts kept in the record.
+- `build_gauss_prime_counting() -> Candidate` — pi(x) ~ Li(x), as an asymptotic candidate built from block counts.
+- `build_montgomery_pair_correlation() -> Candidate` — The empirical pair correlation against 1 - (sin(pi r)/(pi r))^2.
+- `build_mertens_conjecture() -> Candidate` — |M(x)| < sqrt(x) over the range a computation can reach.
+- `build_li_criterion() -> Candidate` — lambda_n >= 0 over the range a computation can reach.
+- `pslq_coincidence(digits: int = COINCIDENCE_DIGITS) -> dict[str, Any]` — Run the hunt at ``digits`` digits and return the coincidence it finds.
+- `build_low_precision_coincidence() -> Candidate` — A constant candidate whose value is the coincidence, not the quantity.
+- `build_honest_twin() -> Candidate` — The same quantity, measured honestly. The suite's positive control.
+- `register_all(*, replace: bool = True) -> tuple[HistoricalCase, ...]` — Put every case in the process-wide table. Idempotent by default.
+
 ## Documents (`docs/`)
 
 - `00-orientation.md` — 00 — Orientation
@@ -329,15 +543,21 @@ Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 - `scripts/10_li_and_jensen.py` — Li's criterion and the Jensen polynomials: RH as positivity, RH as real-rootedness.
 - `scripts/11_finite_field_rh.py` — The universe where RH is a THEOREM — curves over finite fields, checked by counting.
 - `scripts/12_equivalence_faces.py` — Four exact equivalences of RH, all four run, on one dashboard.
+- `scripts/13_discovery_run.py` — The conjecture factory: run the discovery funnel and print what it converted.
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 
 ## Tests (`tests/`)
 
-607 test functions across 12 files (the collected count differs where tests are parametrised):
+1009 test functions across 18 files (the collected count differs where tests are parametrised):
 
 - `tests/test_core.py` — 97
 - `tests/test_criteria.py` — 75
+- `tests/test_discovery_funnel.py` — 86
+- `tests/test_discovery_historical_validation.py` — 48
+- `tests/test_discovery_knownness.py` — 102
+- `tests/test_discovery_schema.py` — 58
+- `tests/test_discovery_zeta_domain.py` — 75
 - `tests/test_epstein.py` — 31
 - `tests/test_explicit.py` — 45
 - `tests/test_finitefield.py` — 53
@@ -345,6 +565,7 @@ Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 - `tests/test_li.py` — 56
 - `tests/test_plots.py` — 13
 - `tests/test_rigor.py` — 50
+- `tests/test_script_13_discovery_run.py` — 33
 - `tests/test_statistics.py` — 54
 - `tests/test_weil.py` — 37
 - `tests/test_zeros.py` — 58
