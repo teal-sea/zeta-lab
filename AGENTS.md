@@ -3,6 +3,9 @@
 A computational laboratory for the Riemann zeta function and RH. Read
 `README.md` for the front door and `docs/00-orientation.md` for scope.
 
+`ROADMAP.md` carries the project's decisions, deliberate non-goals, known gaps
+and the next planned build — read it before proposing or planning work.
+
 This file is the single source of operating context for **any** coding agent
 working in this repository (Claude Code, Codex, Cursor, Aider, …). `CLAUDE.md`
 is a pointer to this file; do not duplicate content between them.

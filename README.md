@@ -191,6 +191,10 @@ Every dependency is ordinary: `mpmath`, `numpy`, `scipy`, `matplotlib`,
     up. The ledger lives in `conjectures/`, which is gitignored; it is a
     private notebook of unreviewed leads. Design: `discovery/README.md`.
 
+[`ROADMAP.md`](ROADMAP.md) records the *decisions* — why the work went this
+way, what is deliberately not being attempted, the known gaps, and the next
+build. Read it before planning anything.
+
 Working on this repo with a coding agent (Claude Code, Codex, Cursor, …)?
 Read [`AGENTS.md`](AGENTS.md) first — setup, house rules, the naming traps,
 and how to run the suite.

@@ -18,6 +18,8 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 - [README.md](README.md): front door — quickstart, what to run first, repo map.
 - [AGENTS.md](AGENTS.md): operating context for coding agents — setup, house
   rules, naming traps, honest-scope policy. Read before changing anything.
+- [ROADMAP.md](ROADMAP.md): the decisions — strategic bet, deliberate
+  non-goals, known gaps, next build. Read before planning work.
 - [CONTEXT.md](CONTEXT.md): generated index of the full API, docs, scripts and
   test counts. Regenerate with `python scripts/make_context.py`.
 
