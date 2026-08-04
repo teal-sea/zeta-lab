@@ -325,7 +325,7 @@ Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 
 ## Discovery layer API (`discovery/`) — the conjecture factory
 
-A domain-agnostic pipeline that generates candidate observations from the laboratory's computed objects, screens them, and **logs the whole funnel so the conversion rate per generator can be measured**. `schema`, `registry`, `ledger`, `funnel`, `metrics` and `historical_cases` name no quantity the laboratory computes and import nothing from `zeta` — the seam is enforced by tests. `knownness` is the documented one-step-less-strict module (it knows general mathematics, not this subject). Everything that names the subject lives in `discovery/domains/`. Design and honest limits: [`discovery/README.md`](discovery/README.md). Operator console: `scripts/13_discovery_run.py`. The ledger it writes (`conjectures/`) is **gitignored**: a private notebook of unreviewed leads, and nothing in it is evidence for anything.
+A domain-agnostic pipeline that generates candidate observations from the laboratory's computed objects, screens them, and **logs the whole funnel so the conversion rate per generator can be measured**. `schema`, `registry`, `ledger`, `funnel`, `metrics` and `historical_cases` name no quantity the laboratory computes and import nothing from `zeta` — the seam is enforced by tests. `knownness` is the documented one-step-less-strict module (it knows general mathematics, not this subject). Everything that names the subject lives in `discovery/domains/`. Design and honest limits: [`discovery/README.md`](discovery/README.md). Operator console: `scripts/13_discovery_run.py`. The ledger it writes (`conjectures/`) is **gitignored**: a private notebook of unreviewed leads, and nothing in it is evidence for anything. An empty `conjectures/` in a fresh clone is that rule working, not a fault — `scripts/ledger_sync.sh` shares one ledger across machines through a *separate private* repo, never this tree.
 
 ### `discovery/schema.py` — discovery.schema — the ontology of the discovery funnel.
 
@@ -573,6 +573,7 @@ Constants: `GENERATOR`, `GENERATOR_VERSION`, `SEED`, `GUARD_DIGITS`, `GAUSS_WIND
 - `scripts/13_discovery_run.py` — The conjecture factory: run the discovery funnel and print what it converted.
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
+- `scripts/ledger_sync.sh` — Sync the private discovery ledger between machines.
 
 ## Tests (`tests/`)
 

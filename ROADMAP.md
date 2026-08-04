@@ -87,6 +87,18 @@ ledger with seed `20260802`, all six generators emitted 26 candidates in 4.29 s:
 ledger contains 52 records because each candidate has an initial and a terminal
 record; the run stream contains one complete run. Raw records remain gitignored.
 
+**The ledger is shared between machines without being published (2026-08-04).**
+A second machine cloning this repo got an empty `conjectures/`, which is the
+ignore rule working as designed. The fix was *not* to relax that rule: this
+repo is public, and committing the ledger would publish unreviewed leads as if
+they were checked claims. The records live in a separate **private** repository
+cloned in place at `conjectures/`, driven by `scripts/ledger_sync.sh`
+(`init`, then `pull`/`push`/`sync`). The public tree still carries no record and
+`.gitignore` is unchanged. The record files are append-only JSONL marked
+`merge=union`, so two machines that both ran the funnel merge without conflict;
+the script drops the exact-duplicate lines a union merge can leave behind.
+Syncing is manual and deliberately so — pull before a run, push after.
+
 ## Known gaps
 
 Listed because an undocumented gap becomes an assumption.

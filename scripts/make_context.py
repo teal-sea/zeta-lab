@@ -173,6 +173,17 @@ def doc_index() -> list[tuple[str, str]]:
     return out
 
 
+def shell_summary(text: str) -> str:
+    """First line of a shell script's leading `#` comment block, minus the shebang."""
+    for line in text.splitlines():
+        if line.startswith("#!") or not line.strip():
+            continue
+        if line.startswith("#"):
+            return first_line(line.lstrip("#").strip())
+        break
+    return ""
+
+
 def script_index() -> list[tuple[str, str]]:
     out = []
     for path in sorted(SCRIPTS.glob("*.py")):
@@ -182,6 +193,10 @@ def script_index() -> list[tuple[str, str]]:
         except SyntaxError:
             summary = ""
         out.append((path.name, summary))
+    # Shell helpers are listed too — a script an agent cannot see in the index
+    # is a script that gets reinvented.
+    for path in sorted(SCRIPTS.glob("*.sh")):
+        out.append((path.name, shell_summary(path.read_text(encoding="utf-8"))))
     return out
 
 
@@ -285,7 +300,9 @@ def build() -> str:
             "[`discovery/README.md`](discovery/README.md). Operator console: "
             "`scripts/13_discovery_run.py`. The ledger it writes (`conjectures/`) is "
             "**gitignored**: a private notebook of unreviewed leads, and nothing in it is "
-            "evidence for anything."
+            "evidence for anything. An empty `conjectures/` in a fresh clone is that rule "
+            "working, not a fault — `scripts/ledger_sync.sh` shares one ledger across "
+            "machines through a *separate private* repo, never this tree."
         )
         add("")
         seen_d = set()
@@ -382,7 +399,7 @@ def build_flat() -> str:
             [DISCOVERY / "README.md", *sorted(DISCOVERY.glob("*.py")),
              *sorted((DISCOVERY / "domains").glob("*.py"))],
         ),
-        ("Scripts", sorted(SCRIPTS.glob("*.py"))),
+        ("Scripts", sorted(SCRIPTS.glob("*.py")) + sorted(SCRIPTS.glob("*.sh"))),
         ("Docs", sorted(DOCS.glob("*.md"))),
         ("Tests", sorted(TESTS.glob("*.py"))),
     ]
