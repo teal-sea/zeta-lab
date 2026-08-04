@@ -76,6 +76,11 @@ excludes `conjectures/*` and re-admits only that file. Anything published from
 the ledger should be a *report* — `discovery.metrics.render_text` — reviewed by
 a human, not the log itself.
 
+The reference run was reproduced from an empty ledger on 2026-08-04 with seed
+`20260802`: 26 candidates became 20 `known`, 1 `trivial`, 5 `inconclusive`, and
+0 survivors in 4.29 seconds. The committed public summary is in `ROADMAP.md`;
+the 52 append-only candidate records and one run record remain private.
+
 ---
 
 ## 1. The five candidate kinds

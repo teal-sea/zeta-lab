@@ -81,6 +81,12 @@ Edges are unhashed annotations, so adding one never changes candidate identity.
 The schema validates their shape but deliberately does not require targets,
 reciprocal edges or verdict propagation; those are whole-ledger concerns.
 
+**Reference run reproduced on 2026-08-04.** Starting from an empty private
+ledger with seed `20260802`, all six generators emitted 26 candidates in 4.29 s:
+20 known, 1 trivial, 5 inconclusive, 0 refuted and 0 survivors. The append-only
+ledger contains 52 records because each candidate has an initial and a terminal
+record; the run stream contains one complete run. Raw records remain gitignored.
+
 ## Known gaps
 
 Listed because an undocumented gap becomes an assumption.
