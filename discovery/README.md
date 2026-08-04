@@ -89,9 +89,14 @@ second machine starts with no history. To carry the same ledger to both, keep
 it in a **separate private repository** cloned in place at `conjectures/`:
 
 ```bash
-scripts/ledger_sync.sh init   # once per machine — clone the private ledger in place
-scripts/ledger_sync.sh sync   # pull the other machine's records, then push this one's
+scripts/ledger_sync.sh status   # what is wired up, and is this machine authorised
+scripts/ledger_sync.sh init     # once per machine — clone the private ledger in place
+scripts/ledger_sync.sh sync     # pull the other machine's records, then push this one's
 ```
+
+Run `status` first on a new machine. The ledger repo is private, so a machine
+that is not authenticated to GitHub as its owner cannot `init` — `status` says
+so in one line (`access: FAILED`) instead of leaving you to read a git error.
 
 The public repo ignores `conjectures/*`, so it never sees that clone or its
 records; the privacy rule above is unchanged, and the ledger still never enters
