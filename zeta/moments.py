@@ -47,6 +47,7 @@ __all__ = [
     "ExternalZeroTable",
     "MomentError",
     "MomentEstimate",
+    "MomentPolynomial",
     "MomentReference",
     "MomentScore",
     "MomentScorecard",
@@ -56,6 +57,8 @@ __all__ = [
     "estimate_moment",
     "estimate_moment_from_samples",
     "leading_moment_mean",
+    "moment_polynomial",
+    "moment_polynomial_mean",
     "load_lmfdb_zeros",
     "load_critical_line_samples",
     "load_odlyzko_zeros",
@@ -588,16 +591,66 @@ class MomentReference:
 
 
 @dataclass(frozen=True)
+class MomentPolynomial:
+    """The full degree-``k^2`` moment polynomial ``P_k``.
+
+    ``coefficients`` are in descending order: entry ``r`` multiplies
+    ``x^(k^2-r)``.  For ``k=1,2`` the polynomial is a theorem; for ``k=3,4``
+    it is the CFKRS conjecture.  Published decimal coefficients are accurate
+    rather than certified: their source reports stable digits, not interval
+    enclosures, and ``coefficient_note`` preserves that distinction.
+    """
+
+    k: int
+    power: int
+    degree: int
+    literature_status: _LiteratureStatus
+    coefficients: tuple[Decimal, ...]
+    variable: str
+    formula: str
+    scope: str
+    source: str
+    coefficient_note: str
+
+    def __post_init__(self) -> None:
+        if self.k not in {1, 2, 3, 4}:
+            raise MomentError("moment polynomials are implemented for k=1,2,3,4")
+        if self.power != 2 * self.k or self.degree != self.k * self.k:
+            raise MomentError("moment-polynomial powers are inconsistent with k")
+        if self.literature_status not in {"theorem", "conjecture"}:
+            raise MomentError("literature_status must be 'theorem' or 'conjecture'")
+        if len(self.coefficients) != self.degree + 1:
+            raise MomentError("moment polynomial must have degree + 1 coefficients")
+        if any(not coefficient.is_finite() for coefficient in self.coefficients):
+            raise MomentError("moment-polynomial coefficients must be finite")
+        if self.coefficients[0] <= 0:
+            raise MomentError("moment-polynomial leading coefficient must be positive")
+        if self.variable != "x = log(t/(2*pi))":
+            raise MomentError("moment-polynomial variable convention is inconsistent")
+        if not self.source.strip() or not self.coefficient_note.strip():
+            raise MomentError("moment-polynomial provenance must be non-empty")
+
+
+@dataclass(frozen=True)
 class MomentScore:
-    """One row of a :class:`MomentScorecard`."""
+    """One row of a :class:`MomentScorecard`.
+
+    The original leading-only fields remain independent diagnostics.
+    ``prediction_truncation_error`` belongs to ``leading_prediction``; the
+    published full-polynomial decimals have no claimed numerical enclosure.
+    """
 
     k: int
     estimate: MomentEstimate
     reference: MomentReference
+    polynomial: MomentPolynomial
     leading_prediction: Decimal | None
     prediction_truncation_error: Decimal | None
     ratio_to_leading: Decimal | None
     relative_residual: Decimal | None
+    polynomial_prediction: Decimal | None
+    ratio_to_polynomial: Decimal | None
+    polynomial_relative_residual: Decimal | None
     calibration_passed: bool | None
     prediction_released: bool
 
@@ -607,7 +660,7 @@ class MomentScorecard:
     """Theorem-calibrated comparison of finite measurements and references.
 
     Rows ``k=3,4`` are withheld unless both theorem rows ``k=1,2`` agree with
-    their leading normalizations to the caller's stated relative tolerance.
+    their full-polynomial normalizations to the caller's stated tolerance.
     Passing this gate validates only this numerical instrument on this sample;
     it is not evidence for the conjectural higher-moment formulas or for RH.
     """
@@ -1068,6 +1121,123 @@ def moment_reference(k: int, *, prime_cutoff: int = 100_000, dps: int = 50) -> M
     return _moment_reference_cached(k, prime_cutoff, dps)
 
 
+# Published coefficients c_r(k), ordered as x^(k^2-r).  These are source data,
+# not hidden derivations.  k=3 is the CFKRS high-precision table; k=4 is Table 2
+# of Rubinstein--Yamagishi (the stable digits from their cubic-accelerant run).
+_PUBLISHED_MOMENT_COEFFICIENTS: Final[dict[int, tuple[str, ...]]] = {
+    2: (
+        "0.0506605918211688857219397316048638",
+        "0.69886988487897996984709628427658502",
+        "2.425962198846682004756575310160663",
+        "3.227907964901254764380689851274668",
+        "1.312424385961669226168440066229978",
+    ),
+    3: (
+        "0.000005708527034652788398376841445252313",
+        "0.00040502133088411440331215332025984",
+        "0.011072455215246998350410400826667",
+        "0.14840073080150272680851401518774",
+        "1.0459251779054883439385323798059",
+        "3.984385094823534724747964073429",
+        "8.60731914578120675614834763629",
+        "10.274330830703446134183009522",
+        "6.59391302064975810465713392",
+        "0.9165155076378930590178543",
+    ),
+    4: (
+        "2.4650183919342273540799e-13",
+        "5.45014057311718655936e-11",
+        "5.287729634791203113849e-9",
+        "2.9641143179993979459691e-7",
+        "1.0645950068128470513211e-5",
+        "2.570298334242634023549e-4",
+        "4.26392161631169472187e-3",
+        "4.894142451421601027126e-2",
+        "3.8785266540195534998e-1",
+        "2.10913382864873355",
+        "7.832535611882262357",
+        "1.98280681249989092e1",
+        "3.3888932037383688e1",
+        "3.82033062189019e1",
+        "2.5604415012270e1",
+        "1.0618969379401e1",
+        "7.0894645522e-1",
+    ),
+}
+
+
+@lru_cache(maxsize=16)
+def moment_polynomial(k: int, *, dps: int = 50) -> MomentPolynomial:
+    """Return the full CFKRS moment polynomial for ``k=1,2,3,4``.
+
+    The convention is
+
+    ``integral_0^T |zeta(1/2+it)|^(2k) dt ~ integral_0^T P_k(log(t/2pi)) dt``.
+
+    ``k=1`` and the first two coefficients for ``k=2`` are re-derived at the
+    requested precision, fixing the factor and logarithm convention against
+    the theorem cases.  Remaining coefficients preserve the published decimal
+    tokens.  For ``k=3,4`` those tokens are conjectural and have stable reported
+    digits but no rigorous numerical enclosure.
+    """
+
+    if isinstance(k, bool) or not isinstance(k, int) or k not in {1, 2, 3, 4}:
+        raise MomentError("moment_polynomial implements k=1,2,3,4")
+    if isinstance(dps, bool) or not isinstance(dps, int) or dps < 30:
+        raise MomentError("dps must be an integer at least 30")
+
+    status: _LiteratureStatus = "theorem" if k <= 2 else "conjecture"
+    if k == 1:
+        with mp.workdps(dps + 20):
+            coefficients = (Decimal(1), _mp_to_decimal(2 * mp.euler, dps=dps))
+        source = "Ingham two-term second-moment theorem"
+        note = (
+            "coefficients re-derived with guarded mpmath arithmetic; "
+            "no interval enclosure"
+        )
+    elif k == 2:
+        published = tuple(Decimal(value) for value in _PUBLISHED_MOMENT_COEFFICIENTS[k])
+        with mp.workdps(dps + 20):
+            leading = 1 / (2 * mp.pi**2)
+            cubic = 8 / mp.pi**4 * (mp.euler * mp.pi**2 - 3 * mp.diff(mp.zeta, 2))
+            coefficients = (
+                _mp_to_decimal(leading, dps=dps),
+                _mp_to_decimal(cubic, dps=dps),
+                *published[2:],
+            )
+        source = "Heath--Brown fourth-moment polynomial; CFKRS convention"
+        note = (
+            "leading and cubic coefficients re-derived; remaining theorem "
+            "coefficients preserve published decimal tokens; no interval enclosure"
+        )
+    else:
+        coefficients = tuple(
+            Decimal(value) for value in _PUBLISHED_MOMENT_COEFFICIENTS[k]
+        )
+        source = (
+            "CFKRS full moment table (arXiv:math/0612843)"
+            if k == 3
+            else "Rubinstein--Yamagishi Table 2 (arXiv:1112.2201)"
+        )
+        note = (
+            "published stable digits from numerical coefficient computation; "
+            "no interval enclosure"
+        )
+
+    return MomentPolynomial(
+        k=k,
+        power=2 * k,
+        degree=k * k,
+        literature_status=status,
+        coefficients=coefficients,
+        variable="x = log(t/(2*pi))",
+        formula="P_k(x) = sum_{r=0}^{k^2} c_r(k) x^(k^2-r)",
+        scope="global integral from 0 to T as T tends to infinity",
+        source=source,
+        coefficient_note=note,
+    )
+
+
 def _leading_log_mean(
     log_power: int, interval_start: Decimal, interval_end: Decimal, *, dps: int
 ) -> Decimal:
@@ -1130,20 +1300,59 @@ def leading_moment_mean(
         return +(reference.leading_coefficient * log_mean)
 
 
+def moment_polynomial_mean(
+    polynomial: MomentPolynomial,
+    interval_start: Decimal | str | int,
+    interval_end: Decimal | str | int,
+    *,
+    dps: int = 50,
+) -> Decimal:
+    """Average ``P_k(log(t/(2*pi)))`` over ``[A,B]``.
+
+    This integrates every power of the full degree-``k^2`` polynomial rather
+    than evaluating it at a midpoint.  The theorem/conjecture label remains a
+    global ``[0,T]`` statement; on a shifted finite window this is a diagnostic
+    extrapolation, not a short-interval theorem or statistical test.
+    """
+
+    if not isinstance(polynomial, MomentPolynomial):
+        raise MomentError("polynomial must be a MomentPolynomial")
+    if isinstance(dps, bool) or not isinstance(dps, int) or dps < 30:
+        raise MomentError("dps must be an integer at least 30")
+    start = _moment_decimal(interval_start, field="interval_start")
+    end = _moment_decimal(interval_end, field="interval_end")
+    log_means = tuple(
+        _leading_log_mean(power, start, end, dps=dps)
+        for power in range(polynomial.degree, -1, -1)
+    )
+    with localcontext() as context:
+        context.prec = dps
+        return +sum(
+            (
+                coefficient * log_mean
+                for coefficient, log_mean in zip(
+                    polynomial.coefficients, log_means, strict=True
+                )
+            ),
+            Decimal(0),
+        )
+
+
 def moment_scorecard(
     estimates: Sequence[MomentEstimate],
     *,
     calibration_relative_tolerance: Decimal | str | int,
     references: Mapping[int, MomentReference] | None = None,
+    polynomials: Mapping[int, MomentPolynomial] | None = None,
     prime_cutoff: int = 100_000,
     dps: int = 50,
 ) -> MomentScorecard:
-    """Compare finite estimates with leading references behind a theorem gate.
+    """Compare finite estimates with full moment polynomials behind a theorem gate.
 
     Estimates for ``k=1`` and ``k=2`` are mandatory and must share the same
     interval, samples, value source, and imported-table digest as every other
     row.  The conjectural ``k=3,4`` predictions are returned only when both
-    theorem rows have raw relative residual at most
+    theorem rows have full-polynomial relative residual at most
     ``calibration_relative_tolerance``.  Numerical error fields remain visible
     but are not subtracted to manufacture a passing calibration.
     """
@@ -1213,44 +1422,89 @@ def moment_scorecard(
     if any(selected_references[k].literature_status != "theorem" for k in (1, 2)):
         raise MomentError("calibration references for k=1,2 must be theorem rows")
 
-    predictions: dict[int, Decimal] = {}
+    selected_polynomials: dict[int, MomentPolynomial] = {}
+    for k in by_k:
+        polynomial = polynomials[k] if polynomials is not None and k in polynomials else None
+        if polynomial is None:
+            if polynomials is not None:
+                raise MomentError(f"polynomials is missing k={k}")
+            polynomial = moment_polynomial(k, dps=dps)
+        if not isinstance(polynomial, MomentPolynomial) or polynomial.k != k:
+            raise MomentError(f"polynomial for k={k} is inconsistent")
+        selected_polynomials[k] = polynomial
+    if any(selected_polynomials[k].literature_status != "theorem" for k in (1, 2)):
+        raise MomentError("calibration polynomials for k=1,2 must be theorem rows")
+
+    leading_predictions: dict[int, Decimal] = {}
     prediction_errors: dict[int, Decimal] = {}
-    residuals: dict[int, Decimal] = {}
+    leading_residuals: dict[int, Decimal] = {}
+    polynomial_predictions: dict[int, Decimal] = {}
+    polynomial_residuals: dict[int, Decimal] = {}
     for k, estimate in by_k.items():
         reference = selected_references[k]
         log_mean = _leading_log_mean(
             reference.log_power, estimate.interval_start, estimate.interval_end, dps=dps
         )
+        polynomial_prediction = moment_polynomial_mean(
+            selected_polynomials[k],
+            estimate.interval_start,
+            estimate.interval_end,
+            dps=dps,
+        )
         with localcontext() as context:
             context.prec = dps
-            prediction = +(reference.leading_coefficient * log_mean)
+            leading_prediction = +(reference.leading_coefficient * log_mean)
             prediction_error = +(reference.coefficient_truncation_error * log_mean)
-            residual = +(abs(estimate.mean_value - prediction) / abs(prediction))
-        predictions[k] = prediction
+            leading_residual = +(
+                abs(estimate.mean_value - leading_prediction) / abs(leading_prediction)
+            )
+            polynomial_residual = +(
+                abs(estimate.mean_value - polynomial_prediction)
+                / abs(polynomial_prediction)
+            )
+        leading_predictions[k] = leading_prediction
         prediction_errors[k] = prediction_error
-        residuals[k] = residual
+        leading_residuals[k] = leading_residual
+        polynomial_predictions[k] = polynomial_prediction
+        polynomial_residuals[k] = polynomial_residual
 
-    calibration_by_k = {k: residuals[k] <= tolerance for k in (1, 2)}
+    calibration_by_k = {k: polynomial_residuals[k] <= tolerance for k in (1, 2)}
     calibration_passed = all(calibration_by_k.values())
     withheld = tuple(k for k in sorted(by_k) if k > 2 and not calibration_passed)
 
     rows: list[MomentScore] = []
     for k in sorted(by_k):
         released = k <= 2 or calibration_passed
-        prediction = predictions[k] if released else None
+        leading_prediction = leading_predictions[k] if released else None
+        polynomial_prediction = polynomial_predictions[k] if released else None
         prediction_error = prediction_errors[k] if released else None
         with localcontext() as context:
             context.prec = dps
-            ratio = +(by_k[k].mean_value / prediction) if prediction is not None else None
+            leading_ratio = (
+                +(by_k[k].mean_value / leading_prediction)
+                if leading_prediction is not None
+                else None
+            )
+            polynomial_ratio = (
+                +(by_k[k].mean_value / polynomial_prediction)
+                if polynomial_prediction is not None
+                else None
+            )
         rows.append(
             MomentScore(
                 k=k,
                 estimate=by_k[k],
                 reference=selected_references[k],
-                leading_prediction=prediction,
+                polynomial=selected_polynomials[k],
+                leading_prediction=leading_prediction,
                 prediction_truncation_error=prediction_error,
-                ratio_to_leading=ratio,
-                relative_residual=residuals[k] if released else None,
+                ratio_to_leading=leading_ratio,
+                relative_residual=leading_residuals[k] if released else None,
+                polynomial_prediction=polynomial_prediction,
+                ratio_to_polynomial=polynomial_ratio,
+                polynomial_relative_residual=(
+                    polynomial_residuals[k] if released else None
+                ),
                 calibration_passed=calibration_by_k[k] if k in calibration_by_k else None,
                 prediction_released=released,
             )
@@ -1263,7 +1517,7 @@ def moment_scorecard(
         withheld_k=withheld,
         scope_note=(
             "The theorem labels concern global [0,T] asymptotics.  Every local finite-window "
-            "comparison here is a normalization diagnostic, not a short-interval theorem, "
-            "not validation of a conjecture, and not evidence for RH."
+            "full-polynomial comparison here is a normalization diagnostic, not a "
+            "short-interval theorem, not validation of a conjecture, and not evidence for RH."
         ),
     )

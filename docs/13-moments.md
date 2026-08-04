@@ -6,8 +6,9 @@ matter live at much larger indices and heights. `zeta/moments.py` is the first
 increment: it ingests those published tables without recomputing their zeros or
 destroying their local spacing information. The second increment estimates
 finite moments from a *separate* table of sampled critical-line values, derives
-the standard leading constants, and gates the conjectural sixth/eighth rows on
-calibration against the proved second/fourth rows. The third increment adds the
+the standard leading constants and full moment polynomials, and gates the
+conjectural sixth/eighth rows on full-polynomial calibration against the proved
+second/fourth rows. The third increment adds the
 auditable file boundary for that second table: exact decimal rows, raw-byte
 checksums, and a mandatory link to the imported zero-window digest.
 
@@ -249,7 +250,7 @@ sample abscissae—not only the imported zeros—must remain decimal offsets.
 
 ---
 
-## 7. Leading references: theorem and conjecture are different fields
+## 7. Moment references: theorem and conjecture are different fields
 
 Write
 
@@ -271,8 +272,8 @@ constants. The tests pin `g₁,…,g₄ = 1, 2, 42, 24024` and the resulting tab
 
 | `k` | moment | literature status | leading coefficient |
 | ---: | ---: | --- | --- |
-| 1 | 2nd | theorem (Hardy–Littlewood) | `1` |
-| 2 | 4th | theorem (Ingham) | `1/(2π²)` |
+| 1 | 2nd | theorem (Hardy–Littlewood leading term) | `1` |
+| 2 | 4th | theorem (Ingham leading term) | `1/(2π²)` |
 | 3 | 6th | conjecture | `a₃/8640` |
 | 4 | 8th | conjecture | `24024·a₄/16!` |
 
@@ -293,29 +294,58 @@ short interval, `leading_moment_mean` averages
 `Cₖ log(t/(2π))ᵏ²` over `[A,B]` as an explicit normalization convention. It
 does **not** promote a global theorem into a short-interval theorem.
 
+The full main-term object is the [CFKRS][cfkrs] polynomial
+
+```text
+∫₀ᵀ |ζ(1/2+it)|²ᵏ dt  ~  ∫₀ᵀ Pₖ(log(t/(2π))) dt,
+deg Pₖ = k².
+```
+
+`moment_polynomial(k)` returns its coefficients in descending powers, with the
+logarithm convention stored in the object. `moment_polynomial_mean` integrates
+every power over the requested window. The degree/status table is:
+
+| `k` | degree | status of the full polynomial | coefficient source |
+| ---: | ---: | --- | --- |
+| 1 | 1 | theorem | Ingham's two-term theorem |
+| 2 | 4 | theorem | Heath-Brown's fourth-moment polynomial |
+| 3 | 9 | conjecture | CFKRS published table |
+| 4 | 16 | conjecture | [Rubinstein–Yamagishi][rubinstein-yamagishi], Table 2 |
+
+The `k=1` coefficients and first two `k=2` coefficients are independently
+re-derived to calibrate the factor and logarithm conventions. Other published
+decimal tokens are preserved exactly. Their authors report stable digits, not
+interval enclosures; these coefficients are accurate source data, never a
+certificate.
+
 ---
 
 ## 8. The scorecard gate
 
 `moment_scorecard` requires estimates for `k=1` and `k=2`, all sharing the same
 window, sample count, value source, and input-table digest. It compares both to
-their proved leading references using a caller-stated relative tolerance.
+their proved full-polynomial normalizations using a caller-stated relative
+tolerance. Leading-only diagnostics remain separate fields.
 
-- If both pass, supplied `k=3` and `k=4` rows receive their conjectural leading
+- If both pass, supplied `k=3` and `k=4` rows receive their conjectural polynomial
   predictions.
 - If either fails, the high-order finite-window predictions are `None` and the
   rows are listed in `withheld_k`.
 - Sampling error, value error, and arithmetic truncation remain separate. They
   are not subtracted from the residual to manufacture a pass.
 
+`prediction_truncation_error` belongs only to the separate leading-coefficient
+diagnostic. The published full-polynomial decimals have no claimed enclosure,
+so the scorecard does not invent one.
+
 This is an instrument gate, not a statistical hypothesis test. Heavy-tailed
 high moments can require far denser and longer sampling than low moments, and a
 passing low-order calibration does not validate the open formulas.
 
-The standing mutation test replaces the proved fourth-moment coefficient by a
-value 2% too large. The calibration must fail and the sixth/eighth predictions
-must remain withheld. That test checks the gate has teeth rather than merely
-printing a warning beside the same output.
+The standing mutation test replaces the proved fourth-moment polynomial's
+leading coefficient by a value 2% too large. The calibration must fail and the
+sixth/eighth predictions must remain withheld. That test checks the gate has
+teeth rather than merely printing a warning beside the same output.
 
 ---
 
@@ -393,10 +423,11 @@ largest threshold is above Odlyzko's long-window moment computations near
 `10^22`, but below some Bober–Hiary selected-value computations above `10^30`;
 neither fact turns it into a bound on what can be computed.
 
-The consequence for this module is concrete: the numerically testable object is
+The consequence for this module is concrete: the numerically useful object is
 the full CFKRS moment polynomial of degree `k²`, not the leading coefficient.
-`moment_reference` supplies the leading coefficient only, so the open rows of
-the scorecard remain untestable until that polynomial is implemented.
+That polynomial is now implemented for `k=1,…,4`; the scorecard uses it for
+calibration and for released predictions. A local comparison remains an
+instrument/normalization diagnostic, not a test of a global conjecture.
 
 ### Locally generated values
 
@@ -407,13 +438,15 @@ Throughput on an M1 iMac is `≈2.8e5` samples/second at `t ~ 1e6`, so a window 
 width `2e5` at spacing `5e-3` — forty million samples — sweeps in about
 two minutes.
 
-The calibration uses the 2nd moment, whose global asymptotic is a theorem. The
-slow test requires a direct sweep to agree within 2% with the difference of
+The calibration uses the 2nd moment, whose two-term global asymptotic is
+Ingham's theorem. The slow test requires a direct sweep to agree within 2% with
+the difference of
 `T log(T/2π) + (2γ−1)T` across its window. The residual contains `E(B)-E(A)`
 and numerical error; it is not `E(T)`, and this comparison is not a theorem for
-the short shifted window. Higher moments are printed against leading order only
-as exploratory measurements. Their ratios are not evidence against
-Keating–Snaith and are not reported as tests.
+the short shifted window. Higher moments are printed against their full
+polynomials as exploratory finite-window diagnostics. The fourth-moment row is
+theorem-backed globally; the sixth and eighth rows are conjectural. Their
+ratios are not evidence for or against the CFKRS conjecture.
 
 These samples are **not** a substitute for the external dataset. They are
 locally computed, at a height chosen for what the hardware can do, and
@@ -428,5 +461,6 @@ The emitted rows carry a header saying so.
 [keating-snaith]: https://people.maths.bris.ac.uk/~mancs/papers/RMTzeta.pdf
 [cfkrs]: https://arxiv.org/abs/math/0206018
 [hiary-odlyzko]: https://www-users.cse.umn.edu/~odlyzko/doc/zeta.moments.pdf
+[rubinstein-yamagishi]: https://arxiv.org/abs/1112.2201
 [lmfdb-datasets]: https://www.lmfdb.org/datasets/
 [bober-hiary]: https://people.maths.bris.ac.uk/~jb12407/data/zeta/index_Z11.html

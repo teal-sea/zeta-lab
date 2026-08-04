@@ -8,13 +8,13 @@ trusted:
   are theorems, so they are checked against closed forms, not against the
   script's own cross-check;
 * **the calibration** — the measured 2nd moment must agree with the difference
-  of the Hardy--Littlewood global main term across the chosen window.  This is a
+  of Ingham's two-term global main term across the chosen window.  This is a
   numerical instrument test, not a short-interval theorem;
 * **the pairwise thresholds** — Cauchy--Schwarz is checked algebraically and the
   output must not promote a two-moment consistency condition into a reachability
   claim about either moment alone;
-* **the honest-scope statements** — the output must say that the large ratios
-  are not failures and that nothing settles RH.  A console whose caveats can be
+* **the honest-scope statements** — the output must label local comparisons as
+  diagnostics and say that nothing settles RH. A console whose caveats can be
   deleted without a test failing will eventually have them deleted.
 
 The sweep is the expensive part, so the calibration test uses a short window
@@ -26,6 +26,7 @@ from __future__ import annotations
 import importlib.util
 import math
 import os
+from decimal import Decimal
 import subprocess
 import sys
 
@@ -160,6 +161,18 @@ def test_higher_moments_exceed_leading_order_in_calibration_window(script):
     assert ratios[2] < ratios[3] < ratios[4]
 
 
+def test_full_polynomial_prediction_integrates_the_window(script):
+    """The script-facing API uses every polynomial term, not midpoint leading order."""
+
+    polynomial = script.moment_polynomial(4)
+    prediction = script.moment_polynomial_mean(polynomial, "100000", "104000")
+    leading_midpoint = polynomial.coefficients[0] * Decimal(
+        str(math.log(102000 / (2 * math.pi)) ** 16)
+    )
+
+    assert prediction > leading_midpoint * Decimal("100")
+
+
 def test_emit_requires_a_stated_length():
     """``--emit`` without ``--emit-length`` must fail rather than write a huge file."""
 
@@ -246,10 +259,10 @@ def test_console_states_its_scope():
     assert result.returncode == 0, result.stderr
     out = result.stdout
 
-    assert "not a test" in out
+    assert "FULL-POLYNOMIAL global extrapolations (not a test)" in out
     assert "Nothing above settles, supports or weakens RH." in out
     assert "necessary condition" in out
     assert "not a reachability" in out
-    assert "not implemented here" in out
+    assert "full CFKRS polynomial is the comparison used" in out
     # The calibration must be shown, not just the unfalsifiable comparisons.
-    assert "proved global 2nd-moment main term" in out
+    assert "Ingham's proved global 2nd-moment main term" in out

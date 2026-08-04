@@ -171,9 +171,8 @@ heights. Computing our own would be both slower and worse.
 **Fourth increment shipped.** `scripts/14_moment_experiment.py` generates its own
 critical-line values at modest height and measures the finite moments, rather
 than waiting on an external dataset. The 2nd moment calibrates against the
-Hardy–Littlewood global main term; this is an instrument test, not a
-short-interval theorem. The 4th, 6th and 8th are reported against leading order
-and explicitly are not tests.
+Ingham two-term global main term; this is an instrument test, not a
+short-interval theorem.
 
 The same increment checks the leading terms against Cauchy–Schwarz. The result
 is deliberately narrow: pairwise consistency thresholds of `3.6e8` (4th/8th),
@@ -181,10 +180,15 @@ is deliberately narrow: pairwise consistency thresholds of `3.6e8` (4th/8th),
 forms cannot be dominant; it does not identify which one fails and is not a
 computational-reach bound. See `docs/13-moments.md` §10.
 
-**Next code build:** the **CFKRS moment polynomial** of degree `k²`.
-`moment_reference` supplies the leading coefficient only, and §10 shows the
-leading coefficient is not a meaningful standalone comparison at the modest
-heights this script sweeps. The full polynomial is, so it is the change that
-turns the scorecard's withheld open rows into something that can actually pass
-or fail. Acquiring an external value dataset remains open but is now a widening
-of range, not the blocker it was.
+**Fifth increment shipped.** The full CFKRS moment polynomial of degree `k²` is
+implemented for `k=1,…,4`, in the convention `Pₖ(log(t/(2π)))`. The theorem
+cases calibrate the factor convention; published sixth/eighth coefficients
+retain their conjecture labels and stable-decimal, non-certified provenance.
+The scorecard gate and local experiment now integrate every polynomial term
+over the actual window. Leading-only results remain a separate
+Cauchy–Schwarz diagnostic.
+
+**Next code build:** a nested-window and nested-spacing convergence study for
+the locally generated full-polynomial comparison. High moments are dominated
+by rare peaks, so stability under finer sampling and longer windows must be
+measured before widening to external high-height value data.

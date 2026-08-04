@@ -95,6 +95,16 @@ titles do not.
   Gives the arithmetic Euler product and full-main-term recipe, recovering the
   Hardy–Littlewood and Ingham leading terms and the sixth/eighth conjectures.
   *For: the theorem/conjecture split and coefficient convention in `docs/13`.*
+- **Conrey, J. B., D. W. Farmer, J. P. Keating, M. O. Rubinstein and
+  N. C. Snaith — "Lower order terms in the full moment conjecture for the
+  Riemann zeta function"** ([arXiv:math/0612843](https://arxiv.org/abs/math/0612843)).
+  Gives the full polynomial coefficient recipe and the published `k=3` table.
+  *For: `moment_polynomial(3)` and the convention checks in `docs/13` §7.*
+- **Rubinstein, M. O. and S. Yamagishi — "Computing the moment polynomials of
+  the zeta function"** ([arXiv:1112.2201](https://arxiv.org/abs/1112.2201)).
+  Gives a stable coefficient algorithm and the reported stable digits used for
+  the degree-16 `k=4` polynomial; these are not interval enclosures.
+  *For: `moment_polynomial(4)` and `docs/13` §7.*
 - **Berry, M. V. and J. P. Keating — "The Riemann zeros and eigenvalue
   asymptotics"** (SIAM Review 41, 1999, 236–266); also "H = xp and the
   Riemann zeros" (1999). The physicists' Hilbert–Pólya: semiclassical

@@ -18,8 +18,8 @@ mpmath's ``siegelz``, and it measures the finite moments
 
 for k = 1, 2, 3, 4 -- the 2nd, 4th, 6th and 8th moments.
 
-Why leading order is the wrong comparison at this height
---------------------------------------------------------
+Why the full polynomial matters at this height
+-----------------------------------------------
 The instinct that moments need enormous ``t`` comes from the *leading-order*
 Keating--Snaith form, ``M_k ~ c_k (log(t/2pi))^(k^2)``.  At the modest height
 this script can sweep directly, lower-order terms are still numerically large.
@@ -40,22 +40,22 @@ diagnostic for the leading-term comparison, not a computational-reach bound.
 
 What is actually testable here, and what is not
 -----------------------------------------------
-Testable, and tested by this script:
+Numerically checked by this script:
 
-  * The **2nd moment**, whose global asymptotic is a Hardy--Littlewood theorem:
+  * The **2nd moment**, using Ingham's two-term global theorem:
     ``integral_0^T |zeta|^2 dt = T log(T/2pi) + (2 gamma - 1) T + E(T)``.
     The script uses the difference of the displayed main term across its window
     as a numerical calibration.  This does not turn the global theorem into a
     short-interval theorem: the residual includes ``E(B)-E(A)``.
 
-Reported but explicitly *not* a test of the conjectures:
+Reported as a finite-window diagnostic, not a test of the conjectures:
 
-  * The 4th, 6th and 8th moments against their leading-order predictions.  The
-    printed ratios are large in the default finite window.  This is **not**
-    evidence against Keating--Snaith: a leading term alone is not the finite-
-    height prediction.  A meaningful comparison needs the full CFKRS moment
-    polynomial of degree ``k^2``, which this repository does not yet implement
-    -- ``moment_reference`` supplies the leading coefficient only.
+  * The 4th, 6th and 8th moments against the full CFKRS moment polynomial of
+    degree ``k^2``.  The 4th-moment polynomial is theorem-backed; the 6th and
+    8th are conjectural.  Published decimal coefficients for the latter have
+    reported stable digits but no interval enclosure, so they are accurate
+    inputs, not certified ones.  None of these global formulas becomes a
+    short-interval theorem merely because it is evaluated on this window.
 
 Nothing here settles, supports or weakens the Riemann Hypothesis, and finite
 moment measurements could not do so in principle.
@@ -92,7 +92,11 @@ import numpy as np
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from zeta.moments import moment_reference  # noqa: E402
+from zeta.moments import (  # noqa: E402
+    moment_polynomial,
+    moment_polynomial_mean,
+    moment_reference,
+)
 from zeta.statistics import riemann_siegel_z  # noqa: E402
 
 EULER_GAMMA = mp.euler
@@ -177,7 +181,7 @@ def pairwise_consistency_threshold(k: int, coefficients: dict[int, mp.mpf]) -> m
 
 
 def second_moment_main_term(t: float) -> mp.mpf:
-    """Main term in the global Hardy--Littlewood second-moment asymptotic.
+    """Main term in Ingham's two-term global second-moment theorem.
 
     ``integral_0^t |zeta(1/2+iu)|^2 du`` equals the returned expression plus
     ``E(t)``.  On a shifted window, the omitted remainder is ``E(B)-E(A)``.
@@ -353,7 +357,7 @@ def main() -> int:
         print(f"emitted sample rows to {args.emit}")
     print()
 
-    print("Calibration -- against the proved global 2nd-moment main term")
+    print("Calibration -- against Ingham's proved global 2nd-moment main term")
     print("-" * 70)
     predicted = float(second_moment_main_term(stop) - second_moment_main_term(start))
     measured = totals[1]
@@ -366,16 +370,22 @@ def main() -> int:
     )
     print()
 
+    polynomials = {k: moment_polynomial(k) for k in (1, 2, 3, 4)}
     coefficients = {k: leading_coefficient(k) for k in (1, 2, 3, 4, 6, 8)}
-    log_mid = math.log((start + stop) / 2 / (2 * math.pi))
 
-    print("Moments against LEADING-ORDER predictions (not a test -- see docstring)")
+    print("Moments against FULL-POLYNOMIAL global extrapolations (not a test)")
     print("-" * 70)
-    print(f"  {'2k':>3}  {'measured mean':>20}  {'leading order':>16}  {'ratio':>10}")
+    print(f"  {'2k':>3}  {'status':>10}  {'measured mean':>16}  {'P_k mean':>16}  {'ratio':>9}")
     for k in (1, 2, 3, 4):
         mean = totals[k] / length
-        prediction = float(coefficients[k]) * log_mid ** (k * k)
-        print(f"  {2 * k:>3}  {mean:>20,.4f}  {prediction:>16,.4f}  {mean / prediction:>10,.3f}")
+        prediction = float(
+            moment_polynomial_mean(polynomials[k], str(start), str(stop))
+        )
+        status = polynomials[k].literature_status
+        print(
+            f"  {2 * k:>3}  {status:>10}  {mean:>16,.4f}  "
+            f"{prediction:>16,.4f}  {mean / prediction:>9,.3f}"
+        )
     print()
 
     print("Pairwise consistency thresholds for leading-order forms")
@@ -389,8 +399,8 @@ def main() -> int:
     print()
     print("  Each threshold is a necessary condition on the named pair only.")
     print("  It is not an onset estimate for either member and not a reachability")
-    print("  bound.  At this modest height, the full CFKRS polynomial is the useful")
-    print("  numerical comparison, and it is not implemented here.")
+    print("  bound.  These thresholds diagnose the separate leading-only forms;")
+    print("  the full CFKRS polynomial is the comparison used in the table above.")
     print()
     print("Nothing above settles, supports or weakens RH.")
     return 0

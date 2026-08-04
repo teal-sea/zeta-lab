@@ -119,7 +119,7 @@ Constants: `LI2`
 
 ### `zeta/moments.py` — External data and finite estimators for the moments programme.
 
-*1269 lines*
+*1523 lines*
 
 Constants: `ODLYZKO_TABLES`
 
@@ -130,6 +130,7 @@ Constants: `ODLYZKO_TABLES`
 - `class CriticalLineSampleTable` — A checked, provenance-carrying table of sampled ``abs(zeta)`` values.
 - `class MomentEstimate` — One finite, provenance-carrying critical-line moment estimate.
 - `class MomentReference` — Leading-order reference for the ``2k``-th zeta moment.
+- `class MomentPolynomial` — The full degree-``k^2`` moment polynomial ``P_k``.
 - `class MomentScore` — One row of a :class:`MomentScorecard`.
 - `class MomentScorecard` — Theorem-calibrated comparison of finite measurements and references.
 - `load_lmfdb_zeros(path: str | Path, *, expected_count: int | None = None, expected_first_index: int | None = None, expected_sha256: str | None = None, source_url: str = 'https://www.lmfdb.org/zeros/zeta/') -> ExternalZeroTable` — Load an LMFDB plain-text export containing ``index ordinate`` rows.
@@ -138,8 +139,10 @@ Constants: `ODLYZKO_TABLES`
 - `estimate_moment(table: ExternalZeroTable, *, k: int, sample_offsets: Sequence[Decimal | str | int], abs_zeta_values: Sequence[Decimal | str | int], absolute_value_errors: Sequence[Decimal | str | int] | Decimal | str | int, error_kind: Literal['bound', 'estimate'], value_source: str, dps: int = 60) -> MomentEstimate` — Estimate a finite ``2k``-th moment on an imported-zero window.
 - `estimate_moment_from_samples(table: ExternalZeroTable, samples: CriticalLineSampleTable, *, k: int, dps: int = 60) -> MomentEstimate` — Estimate one moment from a loaded, digest-linked sample table.
 - `moment_reference(k: int, *, prime_cutoff: int = 100000, dps: int = 50) -> MomentReference` — Return the leading reference for the second through eighth moments.
+- `moment_polynomial(k: int, *, dps: int = 50) -> MomentPolynomial` — Return the full CFKRS moment polynomial for ``k=1,2,3,4``.
 - `leading_moment_mean(reference: MomentReference, interval_start: Decimal | str | int, interval_end: Decimal | str | int, *, dps: int = 50) -> Decimal` — Average the leading density over ``[A,B]`` for normalization.
-- `moment_scorecard(estimates: Sequence[MomentEstimate], *, calibration_relative_tolerance: Decimal | str | int, references: Mapping[int, MomentReference] | None = None, prime_cutoff: int = 100000, dps: int = 50) -> MomentScorecard` — Compare finite estimates with leading references behind a theorem gate.
+- `moment_polynomial_mean(polynomial: MomentPolynomial, interval_start: Decimal | str | int, interval_end: Decimal | str | int, *, dps: int = 50) -> Decimal` — Average ``P_k(log(t/(2*pi)))`` over ``[A,B]``.
+- `moment_scorecard(estimates: Sequence[MomentEstimate], *, calibration_relative_tolerance: Decimal | str | int, references: Mapping[int, MomentReference] | None = None, polynomials: Mapping[int, MomentPolynomial] | None = None, prime_cutoff: int = 100000, dps: int = 50) -> MomentScorecard` — Compare finite estimates with full moment polynomials behind a theorem gate.
 
 ### `zeta/heatflow.py` — Heat flow on the Riemann Ξ function and the de Bruijn–Newman constant.
 
@@ -578,7 +581,7 @@ Constants: `GENERATOR`, `GENERATOR_VERSION`, `SEED`, `GUARD_DIGITS`, `GAUSS_WIND
 
 ## Tests (`tests/`)
 
-1046 test functions across 20 files (the collected count differs where tests are parametrised):
+1053 test functions across 20 files (the collected count differs where tests are parametrised):
 
 - `tests/test_core.py` — 97
 - `tests/test_criteria.py` — 75
@@ -592,11 +595,11 @@ Constants: `GENERATOR`, `GENERATOR_VERSION`, `SEED`, `GUARD_DIGITS`, `GAUSS_WIND
 - `tests/test_finitefield.py` — 53
 - `tests/test_heatflow.py` — 38
 - `tests/test_li.py` — 56
-- `tests/test_moments.py` — 20
+- `tests/test_moments.py` — 26
 - `tests/test_plots.py` — 13
 - `tests/test_rigor.py` — 50
 - `tests/test_script_13_discovery_run.py` — 33
-- `tests/test_script_14_moment_experiment.py` — 12
+- `tests/test_script_14_moment_experiment.py` — 13
 - `tests/test_statistics.py` — 54
 - `tests/test_weil.py` — 37
 - `tests/test_zeros.py` — 58

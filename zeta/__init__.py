@@ -140,6 +140,7 @@ from .moments import (
     ExternalZeroTable,
     MomentError,
     MomentEstimate,
+    MomentPolynomial,
     MomentReference,
     MomentScore,
     MomentScorecard,
@@ -151,6 +152,8 @@ from .moments import (
     load_lmfdb_zeros,
     load_critical_line_samples,
     load_odlyzko_zeros,
+    moment_polynomial,
+    moment_polynomial_mean,
     moment_reference,
     moment_scorecard,
 )
@@ -303,6 +306,7 @@ __all__ = [
     "ZeroTableError",
     "MomentError",
     "MomentEstimate",
+    "MomentPolynomial",
     "MomentReference",
     "MomentScore",
     "MomentScorecard",
@@ -311,6 +315,8 @@ __all__ = [
     "load_odlyzko_zeros",
     "estimate_moment",
     "leading_moment_mean",
+    "moment_polynomial",
+    "moment_polynomial_mean",
     "moment_reference",
     "moment_scorecard",
     # heat flow

@@ -25,6 +25,8 @@ from zeta.moments import (
     load_odlyzko_zeros,
     load_critical_line_samples,
     moment_reference,
+    moment_polynomial,
+    moment_polynomial_mean,
     moment_scorecard,
 )
 
@@ -413,9 +415,108 @@ def test_leading_window_normalisation_matches_independent_quadrature() -> None:
         assert abs(mp.mpf(str(measured)) - expected) < mp.mpf("1e-55")
 
 
+def test_full_moment_polynomials_pin_degree_status_and_convention() -> None:
+    polynomials = {k: moment_polynomial(k, dps=60) for k in range(1, 5)}
+
+    assert [polynomials[k].degree for k in range(1, 5)] == [1, 4, 9, 16]
+    assert [len(polynomials[k].coefficients) for k in range(1, 5)] == [2, 5, 10, 17]
+    assert [polynomials[k].literature_status for k in range(1, 5)] == [
+        "theorem",
+        "theorem",
+        "conjecture",
+        "conjecture",
+    ]
+    assert all(
+        polynomial.variable == "x = log(t/(2*pi))"
+        for polynomial in polynomials.values()
+    )
+    assert all(
+        "no interval enclosure" in polynomial.coefficient_note
+        for polynomial in polynomials.values()
+    )
+
+
+def test_polynomial_leading_coefficients_match_independent_euler_products() -> None:
+    for k in range(1, 5):
+        polynomial = moment_polynomial(k, dps=60)
+        reference = moment_reference(k, prime_cutoff=100_000, dps=60)
+        relative_error = abs(
+            polynomial.coefficients[0] - reference.leading_coefficient
+        ) / polynomial.coefficients[0]
+        tolerance = Decimal("1e-50") if k <= 2 else Decimal("1e-4")
+        assert relative_error < tolerance
+
+
+def test_proved_polynomial_coefficients_match_independent_formulas() -> None:
+    second = moment_polynomial(1, dps=60)
+    fourth = moment_polynomial(2, dps=60)
+
+    with mp.workdps(80):
+        expected_cubic = 8 / mp.pi**4 * (
+            mp.euler * mp.pi**2 - 3 * mp.diff(mp.zeta, 2)
+        )
+        assert abs(mp.mpf(str(second.coefficients[1])) - 2 * mp.euler) < mp.mpf("1e-58")
+        assert abs(mp.mpf(str(fourth.coefficients[0])) - 1 / (2 * mp.pi**2)) < mp.mpf(
+            "1e-58"
+        )
+        assert abs(mp.mpf(str(fourth.coefficients[1])) - expected_cubic) < mp.mpf(
+            "1e-58"
+        )
+
+    assert fourth.coefficients[2:] == (
+        Decimal("2.425962198846682004756575310160663"),
+        Decimal("3.227907964901254764380689851274668"),
+        Decimal("1.312424385961669226168440066229978"),
+    )
+
+
+def test_conjectural_polynomial_tables_pin_published_decimal_data() -> None:
+    sixth = moment_polynomial(3)
+    eighth = moment_polynomial(4)
+
+    assert sixth.coefficients[0] == Decimal(
+        "0.000005708527034652788398376841445252313"
+    )
+    assert sixth.coefficients[-1] == Decimal("0.9165155076378930590178543")
+    assert eighth.coefficients[0] == Decimal("2.4650183919342273540799e-13")
+    assert eighth.coefficients[8] == Decimal("3.8785266540195534998e-1")
+    assert eighth.coefficients[-1] == Decimal("7.0894645522e-1")
+
+
+def test_full_polynomial_window_mean_matches_independent_quadrature() -> None:
+    polynomial = moment_polynomial(3, dps=60)
+    measured = moment_polynomial_mean(polynomial, "1000", "1010", dps=60)
+
+    with mp.workdps(80):
+        coefficients = tuple(mp.mpf(str(value)) for value in polynomial.coefficients)
+
+        def integrand(t):
+            x = mp.log(t / (2 * mp.pi))
+            return mp.polyval(coefficients, x)
+
+        expected = mp.quad(integrand, [mp.mpf(1000), mp.mpf(1010)]) / 10
+        assert abs(mp.mpf(str(measured)) - expected) < mp.mpf("1e-55")
+
+
+def test_second_moment_polynomial_mean_recovers_inghams_main_term() -> None:
+    measured = moment_polynomial_mean(
+        moment_polynomial(1, dps=60), "1000", "3000", dps=60
+    )
+
+    with mp.workdps(80):
+        a, b = mp.mpf(1000), mp.mpf(3000)
+
+        def main_term(t):
+            return t * mp.log(t / (2 * mp.pi)) + (2 * mp.euler - 1) * t
+
+        expected = (main_term(b) - main_term(a)) / (b - a)
+        assert abs(mp.mpf(str(measured)) - expected) < mp.mpf("1e-55")
+
+
 def test_scorecard_mutation_gate_withholds_open_moments_after_bad_calibration() -> None:
     table = _high_window()
     refs = {k: moment_reference(k, prime_cutoff=2_000, dps=60) for k in range(1, 5)}
+    polynomials = {k: moment_polynomial(k, dps=60) for k in range(1, 5)}
     estimates = []
     for k in range(1, 5):
         measured = estimate_moment(
@@ -427,14 +528,15 @@ def test_scorecard_mutation_gate_withholds_open_moments_after_bad_calibration() 
             error_kind="bound",
             value_source="synthetic scorecard fixture",
         )
-        expected = leading_moment_mean(
-            refs[k], measured.interval_start, measured.interval_end, dps=60
+        expected = moment_polynomial_mean(
+            polynomials[k], measured.interval_start, measured.interval_end, dps=60
         )
         estimates.append(replace(measured, mean_value=expected))
 
     good = moment_scorecard(
         estimates,
         references=refs,
+        polynomials=polynomials,
         calibration_relative_tolerance="1e-40",
         dps=60,
     )
@@ -442,17 +544,21 @@ def test_scorecard_mutation_gate_withholds_open_moments_after_bad_calibration() 
     assert good.withheld_k == ()
     assert all(row.prediction_released for row in good.rows)
 
-    # Mutation test: a 2% error in the proved fourth-moment coefficient must
+    # Mutation test: a 2% error in the proved fourth-moment leading coefficient must
     # fail the calibration and prevent sixth/eighth predictions from leaking.
-    bad_refs = refs | {
+    bad_polynomials = polynomials | {
         2: replace(
-            refs[2],
-            leading_coefficient=refs[2].leading_coefficient * Decimal("1.02"),
+            polynomials[2],
+            coefficients=(
+                polynomials[2].coefficients[0] * Decimal("1.02"),
+                *polynomials[2].coefficients[1:],
+            ),
         )
     }
     bad = moment_scorecard(
         estimates,
-        references=bad_refs,
+        references=refs,
+        polynomials=bad_polynomials,
         calibration_relative_tolerance="0.001",
         dps=60,
     )
@@ -460,6 +566,8 @@ def test_scorecard_mutation_gate_withholds_open_moments_after_bad_calibration() 
     assert bad.withheld_k == (3, 4)
     assert bad.rows[0].prediction_released and bad.rows[1].prediction_released
     assert bad.rows[2].leading_prediction is None and bad.rows[3].leading_prediction is None
+    assert bad.rows[2].polynomial_prediction is None
+    assert bad.rows[3].polynomial_prediction is None
     assert "local finite-window" in bad.scope_note
 
 
