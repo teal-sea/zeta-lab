@@ -64,6 +64,15 @@ titles do not.
   height. **[FREE]** — Odlyzko keeps his papers and zero tables on his
   University of Minnesota homepage. *For: what serious numerical evidence
   looks like, and its limits.*
+- **External zero-table data and formats.** [Odlyzko's official table
+  index](https://www-users.cse.umn.edu/~odlyzko/zeta_tables/index.html) hosts
+  the six text datasets consumed by `zeta/moments.py`. LMFDB documents the
+  [source and provenance](https://www.lmfdb.org/knowledge/show/rcs.source.zeros.zeta),
+  exposes the plain `index ordinate` format in its
+  [route source](https://github.com/LMFDB/lmfdb/blob/main/lmfdb/zeros/zeta/zetazeros.py),
+  and publishes the separate bulk-binary
+  [reader](https://github.com/LMFDB/lmfdb/blob/main/lmfdb/zeros/zeta/platt_zeros.py).
+  *For: the acquisition and parser contracts in `docs/13`.*
 - **Berry, M. V. and J. P. Keating — "The Riemann zeros and eigenvalue
   asymptotics"** (SIAM Review 41, 1999, 236–266); also "H = xp and the
   Riemann zeros" (1999). The physicists' Hilbert–Pólya: semiclassical

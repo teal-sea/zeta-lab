@@ -251,7 +251,7 @@ there is a bug.
 
 ## 7. Map of the repository
 
-The package is `zeta/`, eleven analysis modules (plus `plots.py`, which draws the figures):
+The package is `zeta/`, twelve analysis modules (plus `plots.py`, which draws the figures):
 
 - **`core.py`** — the bedrock. Arbitrary-precision `ζ` by three independent routes (Dirichlet/eta
   series, Euler–Maclaurin, Mellin transforms), theta functions and their heat-kernel form, the
@@ -267,6 +267,10 @@ The package is `zeta/`, eleven analysis modules (plus `plots.py`, which draws th
 - **`statistics.py`** — fast vectorized Riemann–Siegel evaluation, bulk zero ordinates, unfolding,
   nearest-neighbour spacings versus the Wigner surmise and the exact GUE gap distribution, pair
   correlation versus Montgomery's prediction, and honest GUE eigenvalue sampling for comparison.
+- **`moments.py`** — validated ingestion of LMFDB plain-text exports and Odlyzko's six public
+  zero tables. High ordinates remain exact decimal base-plus-offset data, so float64 cannot erase
+  their local gaps; checksums, index continuity, ordering, counts and source accuracy notes travel
+  with each table. It computes no zeros.
 - **`heatflow.py`** — `Φ(u)`, the family `H_t`, zero-tracking under the flow, and `lambda_facts`:
   the de Bruijn–Newman story of §4 made executable.
 - **`weil.py`** — the Riemann–Weil explicit formula with both sides computed independently, the
@@ -329,6 +333,7 @@ Docs, in numbered reading order:
 | `10-trace-formulas-and-connes.md` | `weil.py` | The Weil explicit formula as a trace formula (spectrum ↔ orbits); Selberg's working analogue; Connes' programme; the positivity criterion, run live. |
 | `11-f1-and-the-missing-geometry.md` | `epstein.py` | The field with one element, Borger's and Connes–Consani's attempts, Deninger's dynamical programme — the hunt for the geometry under ℤ. |
 | `12-how-hard-problems-die.md` | `finitefield.py`, `criteria.py`, `li.py` | A kill board: eight problems that fell, the mechanism that killed each (ontology rebuild, bridge, finite reduction, effective squeeze, flow, insight, equivalence web), and an honest scoring of which of them RH's live formulations touch — and which it provably does not. |
+| `13-moments.md` | `moments.py` | The external-data contract for the moments programme: LMFDB/Odlyzko formats, exact base-plus-offset storage, validation, provenance, and deliberate non-goals. |
 
 Supporting directories: `scripts/`, `figures/`, `data/` (cached zero tables and scan
 results), `tests/` (every module has a test file — the defect functions are tested to tight

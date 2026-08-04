@@ -99,6 +99,8 @@ last one left off; this file plus `git log` is the handoff. Two caveats:
   - `zeros.py` sign-change hunting, Gram points, N(T), `verify_rh_up_to`.
   - `explicit.py` explicit formula (ψ, π from zeros), prime spectrum.
   - `statistics.py` vectorized Riemann–Siegel, unfolding, GUE comparisons.
+  - `moments.py` external LMFDB/Odlyzko zero-table ingestion. It preserves
+    high ordinates as decimal base-plus-offset data and never computes zeros.
   - `heatflow.py` Φ, H_t, zero tracking, de Bruijn–Newman Λ.
   - `weil.py` Riemann–Weil explicit formula (both sides independently),
     Weil functional W(h), positivity probes, truncation-tail accounting.
@@ -130,7 +132,7 @@ last one left off; this file plus `git log` is the handoff. Two caveats:
 - `scripts/` 01–05 and 07–13 standalone demos, `06_tour.py` (~90 s full
   story), `make_figures.py [--quick|--full]`. `13_discovery_run.py` is the
   funnel's operator console (`--dry-run`, `--report`).
-- `docs/` 00–12: a reading course; keep cross-references consistent with
+- `docs/` 00–13: a reading course; keep cross-references consistent with
   actual filenames (doc 05 is `05-de-bruijn-newman.md`).
 - `tests/` pytest; `data/` caches; `figures/` PNGs; `references/papers.md`;
   `conjectures/` the discovery ledger — **gitignored**, a private notebook of

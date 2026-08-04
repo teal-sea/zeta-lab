@@ -466,14 +466,15 @@ but `started`; it then counts as one incomplete run and contributes no
 outcomes, because nothing knows what it did.
 
 The candidates queued behind the failure never reach a disposition, so they are
-in no conversion rate. That is a shrunk denominator, and a shrunk denominator
-that nobody reports is exactly the failure mode this package exists to prevent —
-so `metrics.funnel_report` reads `undecided` off the crash record and prints it
-beside the table it is deliberately *not* part of ("N candidate(s) entered a run
-that then crashed … they are in no count or rate above"). Re-running decides
-them: the one that was mid-screen is `open` in the candidate log and is
-*resumed*, and the ones still queued were never written, so a deterministic
-generator simply emits them again.
+no terminal conversion rate. They do remain in the emitted denominator:
+`metrics.funnel_report`, `generator_scorecard` and `time_series` attribute them
+as `undecided`, including per generator, so a crash cannot improve a source's
+rates by shrinking its population. Re-running decides them: the one that was
+mid-screen is `open` in the candidate log and is *resumed*, and the ones still
+queued were never written, so a deterministic generator simply emits them
+again. An operating-system kill cannot write the final crash record; the open
+checkpoint and the earlier `started` record make that case visible and
+resumable, and a subprocess SIGKILL test pins the behaviour.
 
 Run records collapse by `run_id`, last write wins, so re-using a `run_id` would
 delete an earlier run's outcomes from every denominator. An explicitly supplied
@@ -516,19 +517,26 @@ Recorded rather than worked around, for whoever revises the ontology:
    `refused` role and `funnel.GeneratorReport` has no field for it. Closing this
    means adding an optional protocol member and an additive run-record field —
    a change to the run stream, so it is stated here rather than made.
-6. **`GeneratorStat.produced` is counted from outcomes, not from the
-   generator's own report.** In a completed run those agree by the conservation
-   invariant; in a crashed one they do not, so the scorecard can understate a
-   lead source that was interrupted. The shortfall is reported by
-   `FunnelReport.undecided`, but as a whole-ledger figure, not per generator.
-7. **`unsettled_rate` counts `refuted` as unsettled.** Its numerator is
-   `produced − duplicate − invalid − known − trivial`, so a refutation — which
-   *is* a check settling the matter — lands in it. The docstring says so, and
-   the direction matters for the scorecard's tie-break: a lead source whose
-   output is all refuted noise ranks above one whose output was all correctly
-   rediscovered. Subtracting `refuted` as well would be the accurate formula;
-   it is pinned by a test as it stands and is recorded here rather than changed
-   under an audit.
+
+### 8.2.1 Defects closed by the cross-cutting audit
+
+The audit recomputed a scorecard directly from the raw run stream and found two
+accounting defects. Both are now regression-tested:
+
+1. `GeneratorStat.produced` used decided outcomes rather than the generator's
+   report, so a crash silently improved that generator's rates. It now counts
+   everything emitted and attributes the difference as `undecided` per source.
+2. `unsettled_rate` included `refuted`, although a persistent counterexample is
+   a terminal answer. Its numerator is now exactly `survives + inconclusive`;
+   crash-interrupted candidates have their own rate and cannot improve ranking.
+
+The same audit forced a screen exception, killed a subprocess inside a screen,
+fed duplicates both within and across runs, grepped every code/document/output
+path for novelty leakage, mutation-tested Mertens by forcing `survives`, and
+mechanically checked every domain-agnostic module by AST, clean subprocess and
+lexical scan. Completed runs conserve exactly; killed runs leave a visible,
+resumable checkpoint. "Not recognised offline" remains no verdict and no claim
+about novelty.
 
 ### 8.3 What the funnel refuses to do
 

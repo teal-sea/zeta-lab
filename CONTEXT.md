@@ -117,6 +117,18 @@ Constants: `LI2`
 - `level_repulsion_report(gammas: ArrayLike) -> dict[str, Any]` — Kolmogorov–Smirnov the empirical spacings against GUE and against Poisson.
 - `compare_to_random_matrix(n_zeros: int = 10000, seed: int = 0, *, matrix_size: int = 800, bins: int = 60, s_max: float = 4.0, gammas: ArrayLike | None = None) -> dict[str, Any]` — The headline experiment: zeta zeros vs an *actual* random GUE matrix.
 
+### `zeta/moments.py` — External zero-table ingestion for the moments programme.
+
+*340 lines*
+
+Constants: `ODLYZKO_TABLES`
+
+- `class ZeroTableError` — Raised when an external zero table fails structural validation.
+- `class OdlyzkoTableSpec` — Pinned public metadata for one table on Odlyzko's official page.
+- `class ExternalZeroTable` — A validated table represented as ``base + offsets`` in decimal.
+- `load_lmfdb_zeros(path: str | Path, *, expected_count: int | None = None, expected_first_index: int | None = None, expected_sha256: str | None = None, source_url: str = 'https://www.lmfdb.org/zeros/zeta/') -> ExternalZeroTable` — Load an LMFDB plain-text export containing ``index ordinate`` rows.
+- `load_odlyzko_zeros(path: str | Path, *, table_id: str | None = None, expected_sha256: str | None = None) -> ExternalZeroTable` — Load one of the six text tables listed on Odlyzko's official page.
+
 ### `zeta/heatflow.py` — Heat flow on the Riemann Ξ function and the de Bruijn–Newman constant.
 
 *1431 lines*
@@ -388,7 +400,7 @@ Constants: `LOCKING`, `LEDGER_ENV_VAR`, `RUN_RECORD_TYPE`, `DEFAULT_LEDGER_DIR`,
 
 ### `discovery/funnel.py` — discovery.funnel — the pipeline, and the accounting that justifies it.
 
-*1084 lines*
+*1117 lines*
 
 Constants: `FUNNEL_VERSION`, `STAGES`, `VERDICT_DISPOSITIONS`, `FUNNEL_ONLY_DISPOSITIONS`, `DISPOSITIONS`
 
@@ -403,7 +415,7 @@ Constants: `FUNNEL_VERSION`, `STAGES`, `VERDICT_DISPOSITIONS`, `FUNNEL_ONLY_DISP
 
 ### `discovery/metrics.py` — discovery.metrics — conversion analytics over the ledger.
 
-*971 lines*
+*1003 lines*
 
 - `class StageStat` — One stage, aggregated over every run in the ledger.
 - `class FunnelReport` — Counts and rates at every stage, over the whole ledger.
@@ -528,6 +540,7 @@ Constants: `GENERATOR`, `GENERATOR_VERSION`, `SEED`, `GUARD_DIGITS`, `GAUSS_WIND
 - `10-trace-formulas-and-connes.md` — 10 — Trace Formulas and the Connes Program
 - `11-f1-and-the-missing-geometry.md` — 11 — F1 and the Missing Geometry
 - `12-how-hard-problems-die.md` — 12 — How Hard Problems Die: A Kill Board
+- `13-moments.md` — 13 — Moments: External Zero Data Before Estimation
 
 ## Runnable demos (`scripts/`)
 
@@ -549,11 +562,11 @@ Constants: `GENERATOR`, `GENERATOR_VERSION`, `SEED`, `GUARD_DIGITS`, `GAUSS_WIND
 
 ## Tests (`tests/`)
 
-1009 test functions across 18 files (the collected count differs where tests are parametrised):
+1019 test functions across 19 files (the collected count differs where tests are parametrised):
 
 - `tests/test_core.py` — 97
 - `tests/test_criteria.py` — 75
-- `tests/test_discovery_funnel.py` — 86
+- `tests/test_discovery_funnel.py` — 87
 - `tests/test_discovery_historical_validation.py` — 48
 - `tests/test_discovery_knownness.py` — 102
 - `tests/test_discovery_schema.py` — 58
@@ -563,6 +576,7 @@ Constants: `GENERATOR`, `GENERATOR_VERSION`, `SEED`, `GUARD_DIGITS`, `GAUSS_WIND
 - `tests/test_finitefield.py` — 53
 - `tests/test_heatflow.py` — 38
 - `tests/test_li.py` — 56
+- `tests/test_moments.py` — 9
 - `tests/test_plots.py` — 13
 - `tests/test_rigor.py` — 50
 - `tests/test_script_13_discovery_run.py` — 33

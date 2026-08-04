@@ -271,6 +271,7 @@ The docs are a single course; `00 → 01 → 02 → 03 → 04` is one argument.
 | `docs/10-trace-formulas-and-connes.md` | The Weil explicit formula as a trace formula; Selberg's working analogue; Connes' program. |
 | `docs/11-f1-and-the-missing-geometry.md` | The field with one element, Deninger's dynamics, and the hunt for geometry under ℤ. |
 | `docs/12-how-hard-problems-die.md` | Eight problems that fell, the mechanism that killed each, and an honest scoring of RH against the board. |
+| `docs/13-moments.md` | External zero-table ingestion: formats, high-height precision, provenance, checksums, and the contract for the moments build. |
 
 ## Gallery
 
@@ -325,6 +326,7 @@ zeta/               the package (flat layout; pip install -e .)
   zeros.py          zero hunting, Gram points, N(T), verify_rh_up_to (Turing)
   explicit.py       explicit formula: ψ/π from zeros; prime spectrum (dual)
   statistics.py     unfolding, spacings vs GUE/Poisson, pair correlation
+  moments.py        exact ingestion of external LMFDB/Odlyzko zero tables
   heatflow.py       Φ, H_t, zero tracking, Λ facts (de Bruijn–Newman)
   weil.py           Riemann–Weil explicit formula, both sides; Weil positivity
   epstein.py        Davenport–Heilbronn: zeta-shaped symmetry, a zero off the line
@@ -344,7 +346,7 @@ discovery/          the conjecture factory: a discovery funnel that logs itself
   domains/          THE ONLY PLACE THAT KNOWS THE SUBJECT (zeta_domain, zeta_history)
 scripts/            01–05 and 07–13 one demo each, 06_tour.py runs the whole
                     story, make_figures.py regenerates figures/
-docs/               00–12, the reading course (see the table above)
+docs/               00–13, the reading course (see the table above)
 tests/              1365 tests (1328 in the fast tier); every number claimed in
                     a docstring is pinned
 data/               caches (zero tables as .json are committed; .npz scans

@@ -65,29 +65,32 @@ theorists would say plainly that nobody knows what RH needs. The bet is a bet.
 
 ---
 
+## Completed audits
+
+**Phase 4's cross-cutting audit is complete.** It forced plug-in exceptions and
+an operating-system kill, resumed the open checkpoint, exercised duplicates,
+grepped code/docs/console output for novelty leakage, recomputed the scorecard
+from raw run records, mutation-tested the Mertens adjudicator by forcing a false
+`survives`, and mechanically checked the domain-agnostic seam. Two accounting
+defects were fixed: crash-interrupted candidates now remain in per-generator
+denominators, and `refuted` no longer counts as `unsettled`.
+
 ## Known gaps
 
 Listed because an undocumented gap becomes an assumption.
 
-1. **Phase 4 shipped without its cross-cutting audit.** Every other phase got a
-   full adversarial audit pass; phase 4's stalled. Each module was individually
-   verified, but the system-level questions were never asked: can a candidate be
-   silently dropped, can "not recognised offline" leak out as "novel", do the
-   conversion metrics compute what they claim, would the historical validation
-   actually fail if the funnel endorsed a false conjecture. **Run this before
-   trusting funnel output.**
-2. **The documents were audited by agents, not by domain experts or against the
+1. **The documents were audited by agents, not by domain experts or against the
    literature.** The audits caught real errors, which is evidence they work, but
    correlated blind spots are exactly what that method cannot catch. No one with
    domain expertise has read a line of it. This is the largest unhedged risk in
    the repository.
-3. **The discovery schema cannot express implication edges** between candidates —
+2. **The discovery schema cannot express implication edges** between candidates —
    "this claim implies that one", "these are the same theorem in different
    clothes". `discovery/README.md` §7 blind spot 4. It matters because the
    equivalence web is one of the three kill mechanisms `docs/12` flags as
    RH-relevant, and `docs/07` is literally an implication graph the schema cannot
    hold. Fix is small: an optional `related_to` field, unhashed, unenforced.
-4. **Expected funnel yield is approximately zero, by design.** Nearly everything
+3. **Expected funnel yield is approximately zero, by design.** Nearly everything
    will return already-known or refuted. The first real run: 26 candidates → 20
    known, 1 trivial, 5 inconclusive, 0 survivors. That is the machine working.
    A conjecture factory that produced discoveries on its first run would be
@@ -99,6 +102,17 @@ Listed because an undocumented gap becomes an assumption.
 
 Ladder rung 1 from `docs/12`'s closing section, and the most realistic target
 identified so far.
+
+**First increment shipped.** `zeta/moments.py` ingests LMFDB plain-text exports
+and all six tables on Odlyzko's public index, including the offset headers at
+the `10^12`, `10^21`, and `10^22` landmarks. It verifies caller-supplied
+checksums, records the actual input digest, and validates declared counts,
+contiguous indices, positivity and strict ordering. Absolute ordinates
+stay as exact decimal base-plus-offset data: converting the `10^22` window to
+float64 would collapse neighbouring zeros to the same number. It computes no
+zeros. The next increment is the moment estimator and theorem/prediction
+scorecard over these externally supplied windows. The format, precision and
+provenance contract is documented in `docs/13-moments.md`.
 
 **Why.** The 2nd (1918) and 4th (1926) moments of `ζ` on the critical line are
 proven; the **6th and 8th are open**, with exact constants predicted by random
@@ -115,5 +129,4 @@ lives many orders of magnitude higher, and Odlyzko's published tables reach the
 (LMFDB, Odlyzko) and run the verified machinery against real data at real
 heights. Computing our own would be both slower and worse.
 
-**Then:** the schema `related_to` edges (gap 3 above), and the phase-4 audit
-(gap 1) — the audit first if the funnel is going to be used for anything.
+**Then:** the schema `related_to` edges (gap 2 above).

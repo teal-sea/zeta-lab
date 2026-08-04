@@ -27,6 +27,7 @@ import re
 import subprocess
 import sys
 import textwrap
+import time
 from pathlib import Path
 
 import pytest
@@ -1314,7 +1315,8 @@ def test_generator_scorecard_arithmetic_is_exactly_what_was_put_in() -> None:
     assert a.trivial_rate == 1 / 14
     assert a.refuted_rate == 2 / 14
     assert a.survival_rate == 1 / 14
-    assert a.unsettled_rate == (14 - 6 - 1 - 3 - 1) / 14 == 3 / 14
+    assert a.unsettled_rate == (14 - 6 - 1 - 3 - 1 - 2) / 14 == 1 / 14
+    assert a.unsettled_rate == (a.survives + a.inconclusive) / a.produced
     assert a.cost_per_survivor == 12.0
     assert a.survivors_per_second == 1 / 12.0
     assert a.seconds_per_candidate == 12.0 / 14
@@ -1559,13 +1561,21 @@ def test_a_crashed_run_still_reports_the_work_it_did(tmp_path) -> None:
 
     report = M.funnel_report(led)
     assert report.runs == 1 and report.runs_incomplete == 1
-    assert report.generated == 1, "the candidate that was decided must be counted"
+    assert report.generated == 3, "every emitted candidate must stay in the denominator"
     assert report.dispositions["survives"] == 1
+    assert report.undecided == 2 and report.undecided_rate == 2 / 3
+    assert report.survival_rate == 1 / 3
     assert report.unresolved == 1, "the checkpointed one is still open, and says so"
-    # the stage flow of a crashed run is reconstructible and conserves
-    assert sum(s.left for s in report.stages) == report.generated
+    # The stage flow names only decided candidates; the explicit crash row
+    # closes conservation over everything emitted.
+    assert sum(s.left for s in report.stages) + report.undecided == report.generated
     scorecard = {s.generator: s for s in M.generator_scorecard(led)}
-    assert scorecard["gen"].produced == 1 and scorecard["gen"].survives == 1
+    assert scorecard["gen"].produced == 3 and scorecard["gen"].survives == 1
+    assert scorecard["gen"].undecided == 2
+    assert scorecard["gen"].undecided_rate == 2 / 3
+    bucket = M.time_series(led)[0]
+    assert bucket.generated == 3 and bucket.undecided == 2
+    assert bucket.survival_rate == 1 / 3
 
 
 def test_a_crashed_dry_run_writes_nothing_at_all(tmp_path) -> None:
@@ -1683,8 +1693,8 @@ def test_the_candidates_a_crash_never_decided_are_reported_not_hidden(tmp_path) 
     found that no report surfaced it: ``funnel_report`` counted only the
     outcomes, so a run that lost two of three observations rendered as a run
     that simply produced one. A denominator quietly shrunk by a crash is the
-    accounting error this package exists to prevent, so the count is reported
-    beside the rates it is deliberately *not* part of.
+    accounting error this package exists to prevent, so the count is now part
+    of the emitted denominator and shown as a non-terminal row.
     """
     led = Ledger(tmp_path / "l.jsonl")
     with pytest.raises(ZeroDivisionError):
@@ -1694,11 +1704,87 @@ def test_the_candidates_a_crash_never_decided_are_reported_not_hidden(tmp_path) 
         )
     report = M.funnel_report(led)
     assert report.undecided == 2
-    assert report.generated == 1, "undecided candidates are NOT in any rate"
+    assert report.generated == 3
     assert report.to_dict()["undecided"] == 2
+    assert report.to_dict()["undecided_rate"] == 2 / 3
+    assert sum(report.dispositions.values()) + report.undecided == report.generated
     text = report.render_text()
     assert "2 candidate(s) entered a run that then crashed" in text
-    assert "in no count or rate above" in text
+    assert "undecided (crash)" in text
+    assert "non-terminal above" in text
+
+
+def test_an_os_killed_run_leaves_a_visible_checkpoint_and_resumes(tmp_path) -> None:
+    """A SIGKILL cannot write a crash record, so recovery must use the open
+    candidate checkpoint plus the earlier ``started`` run record."""
+    candidate = _constant("killed-mid-screen")
+    ledger_path = tmp_path / "killed.jsonl"
+    ready = tmp_path / "screen-entered"
+    code = textwrap.dedent(
+        f"""
+        import time
+        from pathlib import Path
+        from discovery.funnel import run_funnel
+        from discovery.registry import BaseGenerator, BaseKnownnessDetector, BaseScreen, Domain
+        from discovery.schema import from_json
+
+        candidate = from_json({S.to_json(candidate)!r})
+
+        class Gen(BaseGenerator):
+            name = "gen"
+            version = "1"
+            def generate(self, context):
+                yield candidate
+
+        class EmptyCatalogue(BaseKnownnessDetector):
+            name = "catalogue"
+            version = "1"
+            def check(self, candidate):
+                return None
+
+        class Block(BaseScreen):
+            name = "block"
+            cost = "cheap"
+            checks = ("trivial",)
+            def apply(self, candidate):
+                Path({str(ready)!r}).write_text("ready", encoding="utf-8")
+                time.sleep(120)
+
+        run_funnel(
+            Domain(
+                name="kill-probe",
+                version="1",
+                generators=(Gen(),),
+                screens=(Block(),),
+                detectors=(EmptyCatalogue(),),
+            ),
+            ledger={str(ledger_path)!r},
+        )
+        """
+    )
+    proc = subprocess.Popen([sys.executable, "-c", code], cwd=_REPO_ROOT)
+    try:
+        deadline = time.monotonic() + 15
+        while not ready.exists() and proc.poll() is None and time.monotonic() < deadline:
+            time.sleep(0.02)
+        assert ready.exists(), f"child exited before entering the screen: {proc.poll()}"
+        proc.kill()
+        assert proc.wait(timeout=10) != 0
+    finally:
+        if proc.poll() is None:  # pragma: no cover - cleanup on assertion failure
+            proc.kill()
+            proc.wait(timeout=10)
+
+    led = Ledger(ledger_path)
+    assert [r["state"] for r in led.runs()] == ["started"]
+    assert [c.id for c in led.unresolved()] == [candidate.id]
+    killed_report = M.funnel_report(led)
+    assert killed_report.runs_incomplete == 1 and killed_report.unresolved == 1
+
+    resumed = F.run_funnel(_full_domain([candidate]), ledger=led)
+    assert resumed.resumed == 1 and resumed.outcomes[0].resumed
+    assert led.unresolved() == ()
+    assert led.latest()[candidate.id].verdict.status is VerdictStatus.SURVIVES
 
 
 def test_a_clean_ledger_reports_no_undecided_candidates(tmp_path) -> None:

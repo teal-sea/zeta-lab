@@ -35,8 +35,9 @@ The one exception is stated rather than hidden, because it is real: a plug-in
 that **raises** ends the run, and the candidates queued behind the failure never
 reach a disposition. They are not dropped silently — the crash record carries
 ``entered`` and ``undecided``, and :func:`discovery.metrics.funnel_report`
-reports ``undecided`` beside (and deliberately outside) every rate, so a
-denominator shrunk by a crash announces itself. Re-running decides them.
+keeps ``undecided`` in the emitted denominator and reports its own non-terminal
+rate, so a crash cannot flatter the remaining conversions. Re-running decides
+them.
 
 Zero-yield work
 ---------------
@@ -122,7 +123,7 @@ __all__ = [
 
 #: Bump whenever the pipeline's behaviour changes: run records carry it, and
 #: two behaviours logged under one version are two populations averaged.
-FUNNEL_VERSION: Final[str] = "1.0"
+FUNNEL_VERSION: Final[str] = "1.1"
 
 #: The pipeline, in order. A stage may be omitted from a run; it may not be
 #: reordered, because the order is the argument for the design.
@@ -165,6 +166,14 @@ def _utc_now() -> str:
     return _dt.datetime.now(_dt.UTC).replace(microsecond=0).isoformat()
 
 
+def _nonnegative_int(value: Any) -> int:
+    """Best-effort count parsing for hand-edited or older run records."""
+    try:
+        return max(0, int(value or 0))
+    except (TypeError, ValueError):
+        return 0
+
+
 def default_proof_gap(screens: Sequence[str], effort: float) -> str:
     """The proof gap the funnel writes when nothing killed a candidate.
 
@@ -192,8 +201,10 @@ def default_proof_gap(screens: Sequence[str], effort: float) -> str:
 class Outcome:
     """Where one candidate left the funnel, and how.
 
-    One of these exists for **every** candidate a generator emitted. That is
-    what makes the conversion rates denominators rather than estimates.
+    One of these exists for **every** candidate a generator emitted in a
+    completed run. A crashed run may have fewer outcomes than generator output;
+    :class:`FunnelRun` records that difference as ``undecided`` so conversion
+    denominators do not shrink around failures.
     """
 
     candidate_id: str
@@ -347,6 +358,8 @@ class FunnelRun:
     limit_reached: bool = False
     generators: tuple[GeneratorReport, ...] = ()
     outcomes: tuple[Outcome, ...] = ()
+    entered: int = 0
+    undecided: int = 0
     stage_tallies: tuple[StageTally, ...] = ()
     screen_tallies: tuple[ScreenTally, ...] = ()
     written: int = 0
@@ -359,7 +372,9 @@ class FunnelRun:
     @property
     def generated(self) -> int:
         """Candidates emitted by generators in this run."""
-        return len(self.outcomes)
+        reported = sum(g.produced for g in self.generators if not g.skipped)
+        # Old or hand-built records may carry outcomes but no generator report.
+        return max(reported, len(self.outcomes))
 
     def dispositions(self) -> dict[str, int]:
         """Counts by disposition; every key is present, empty ones included."""
@@ -395,6 +410,8 @@ class FunnelRun:
             "limit_reached": self.limit_reached,
             "generators": [g.to_dict() for g in self.generators],
             "outcomes": [o.to_dict() for o in self.outcomes],
+            "entered": self.entered,
+            "undecided": self.undecided,
             "stage_tallies": [s.to_dict() for s in self.stage_tallies],
             "screen_tallies": [s.to_dict() for s in self.screen_tallies],
             "dispositions": self.dispositions(),
@@ -424,6 +441,8 @@ class FunnelRun:
             outcomes=tuple(
                 Outcome.from_dict(o) for o in record.get("outcomes", []) or []
             ),
+            entered=_nonnegative_int(record.get("entered", 0)),
+            undecided=_nonnegative_int(record.get("undecided", 0)),
             stage_tallies=tuple(
                 StageTally(
                     stage=str(s.get("stage", "")),
@@ -474,6 +493,8 @@ class FunnelRun:
             )
         counts = self.dispositions()
         summary = "  ".join(f"{k}={counts[k]}" for k in DISPOSITIONS if counts[k])
+        if self.undecided:
+            summary = (summary + "  " if summary else "") + f"undecided={self.undecided}"
         lines.append(f"  dispositions: {summary or 'nothing generated'}")
         if self.errors:
             lines.append("  errors:")
@@ -689,7 +710,13 @@ def run_funnel(
     resumed_count = 0
     limit_reached = False
 
-    def _assemble(state: str, *, entered: int) -> FunnelRun:
+    def _assemble(
+        state: str,
+        *,
+        entered: int,
+        attempted: int | None = None,
+        undecided: int = 0,
+    ) -> FunnelRun:
         """The run record as it stands — usable mid-crash as well as at the end.
 
         ``entered`` is what the stage flow is reconstructed from: the whole
@@ -727,6 +754,8 @@ def run_funnel(
             limit_reached=limit_reached,
             generators=tuple(reports),
             outcomes=tuple(outcomes),
+            entered=entered if attempted is None else attempted,
+            undecided=undecided,
             stage_tallies=tuple(tallies),
             screen_tallies=tuple(screen_tallies.values()),
             written=written,
@@ -1069,14 +1098,18 @@ def run_funnel(
         # written with the outcomes decided so far and ``state="crashed"``,
         # which the metrics layer counts as an incomplete run.
         if not dry_run:
-            crashed = _assemble("crashed", entered=len(outcomes))
+            missing = len(batch) - len(outcomes)
+            crashed = _assemble(
+                "crashed",
+                entered=len(outcomes),
+                attempted=len(batch),
+                undecided=missing,
+            )
             record = crashed.to_dict()
             record["errors"] = list(crashed.errors) + [
                 f"run aborted: {type(exc).__name__}: {exc}"
             ]
             record["aborted_by"] = f"{type(exc).__name__}: {exc}"
-            record["entered"] = len(batch)
-            record["undecided"] = len(batch) - len(outcomes)
             try:
                 store.append_run(record)
             except Exception:  # pragma: no cover - the original error wins

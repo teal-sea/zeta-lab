@@ -23,6 +23,7 @@ Modules
 :mod:`zeta.explicit`    the explicit formula: ψ, π rebuilt from zeros; the
                         prime spectrum recovering zeros from primes.
 :mod:`zeta.statistics`  unfolding, spacings vs GUE/Poisson, pair correlation.
+:mod:`zeta.moments`     exact ingestion of external LMFDB/Odlyzko zero tables.
 :mod:`zeta.heatflow`    Φ, H_t, zero tracking, de Bruijn–Newman Λ facts.
 :mod:`zeta.weil`        the Riemann–Weil explicit formula, Weil positivity.
 :mod:`zeta.epstein`     the Davenport–Heilbronn counterexample battery.
@@ -67,7 +68,7 @@ __version__ = "0.1.0"
 # Submodules (zeta.plots is intentionally NOT imported here: it pulls in
 # matplotlib, which is slow and unnecessary for purely numerical work.
 # It is loaded lazily through __getattr__ below.)
-from . import core, epstein, explicit, heatflow, statistics, weil, zeros
+from . import core, epstein, explicit, heatflow, moments, statistics, weil, zeros
 
 # --- core: ζ and the completed functions ----------------------------------
 from .core import (
@@ -130,6 +131,16 @@ from .statistics import (
     unfold,
     wigner_surmise_gue,
     zero_ordinates,
+)
+
+# --- external high-zero tables for the moments programme -----------------
+from .moments import (
+    ODLYZKO_TABLES,
+    ExternalZeroTable,
+    OdlyzkoTableSpec,
+    ZeroTableError,
+    load_lmfdb_zeros,
+    load_odlyzko_zeros,
 )
 
 # --- heat flow on Ξ: the de Bruijn-Newman constant ------------------------
@@ -274,6 +285,13 @@ __all__ = [
     "montgomery_prediction",
     "gue_eigenvalues",
     "compare_to_random_matrix",
+    # external high-zero tables
+    "ExternalZeroTable",
+    "OdlyzkoTableSpec",
+    "ZeroTableError",
+    "ODLYZKO_TABLES",
+    "load_lmfdb_zeros",
+    "load_odlyzko_zeros",
     # heat flow
     "Phi",
     "H_t",

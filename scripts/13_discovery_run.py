@@ -631,7 +631,8 @@ def section_scorecard(stats: Sequence[Any], *, scope: str) -> None:
         return
     header = (
         f"    {'#':>2} {'generator':<22}{'made':>6}{'dup':>7}{'known':>7}"
-        f"{'triv':>7}{'refut':>7}{'incon':>7}{'surv':>7}{'sec':>9}{'sec/surv':>10}"
+        f"{'triv':>7}{'refut':>7}{'incon':>7}{'undec':>7}{'surv':>7}"
+        f"{'sec':>9}{'sec/surv':>10}"
     )
     print(header)
     print(_under(header))
@@ -640,7 +641,8 @@ def section_scorecard(stats: Sequence[Any], *, scope: str) -> None:
             f"    {stat.rank:>2} {_short(stat.generator, 22):<22}{stat.produced:>6}"
             f"{_opt_pct(stat.duplicate_rate):>7}{_opt_pct(stat.known_rate):>7}"
             f"{_opt_pct(stat.trivial_rate):>7}{_opt_pct(stat.refuted_rate):>7}"
-            f"{_opt_pct(stat.inconclusive_rate):>7}{_opt_pct(stat.survival_rate):>7}"
+            f"{_opt_pct(stat.inconclusive_rate):>7}{_opt_pct(stat.undecided_rate):>7}"
+            f"{_opt_pct(stat.survival_rate):>7}"
             f"{stat.seconds:>9.2f}{_opt_num(stat.cost_per_survivor, '.1f'):>10}"
         )
     made = sum(s.produced for s in stats)
@@ -654,6 +656,7 @@ def section_scorecard(stats: Sequence[Any], *, scope: str) -> None:
         f"{_pct(sum(s.trivial for s in stats), made):>7}"
         f"{_pct(sum(s.refuted for s in stats), made):>7}"
         f"{_pct(sum(s.inconclusive for s in stats), made):>7}"
+        f"{_pct(sum(s.undecided for s in stats), made):>7}"
         f"{_pct(survived, made):>7}{seconds:>9.2f}"
         f"{_opt_num(seconds / survived if survived else None, '.1f'):>10}"
     )

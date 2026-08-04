@@ -44,6 +44,7 @@ MODULE_ORDER = [
     "zeros",
     "explicit",
     "statistics",
+    "moments",
     "heatflow",
     "weil",
     "epstein",

@@ -236,6 +236,11 @@ class FunnelReport:
         return rate(self.survivors, self.generated)
 
     @property
+    def undecided_rate(self) -> float | None:
+        """Share emitted by runs that crashed before assigning a disposition."""
+        return rate(self.undecided, self.generated)
+
+    @property
     def seconds_per_survivor(self) -> float | None:
         return rate(self.seconds, self.survivors)
 
@@ -264,6 +269,7 @@ class FunnelReport:
             "screening_seconds": self.screening_seconds,
             "unresolved": self.unresolved,
             "undecided": self.undecided,
+            "undecided_rate": self.undecided_rate,
         }
 
     def render_text(self) -> str:
@@ -312,8 +318,13 @@ class FunnelReport:
             count = self.dispositions.get(name, 0)
             share = rates.get(name, rate(count, self.generated))
             lines.append(f"  {name:<20}{count:>9}{_pct(share):>9}")
+        if self.undecided:
+            lines.append(
+                f"  {'undecided (crash)':<20}{self.undecided:>9}"
+                f"{_pct(self.undecided_rate):>9}"
+            )
         total_share = "100.0%" if self.generated else _DASH
-        lines.append(f"  {'TOTAL generated':<20}{self.generated:>9}{total_share:>9}")
+        lines.append(f"  {'TOTAL emitted':<20}{self.generated:>9}{total_share:>9}")
         if self.unresolved:
             lines.append(
                 f"  {self.unresolved} candidate(s) still 'open' in the ledger: a run "
@@ -322,8 +333,8 @@ class FunnelReport:
         if self.undecided:
             lines.append(
                 f"  {self.undecided} candidate(s) entered a run that then crashed and "
-                "never reached a\n  disposition in that run: they are in no count or "
-                "rate above unless a later\n  run re-generated and decided them. The "
+                "never reached a\n  disposition in that run: they are shown as "
+                "non-terminal above. A later\n  run may re-generate and decide them. The "
                 "figure is cumulative and never clears.\n  Re-run to decide them."
             )
         lines.append(
@@ -344,22 +355,12 @@ def funnel_report(ledger: "Ledger | LedgerView | str | Path | None" = None) -> F
     """
     view = _coerce(ledger)
     runs = _finished_runs(view)
-    # ``undecided`` lives only on the raw crash record: ``FunnelRun`` has no
-    # field for it, because a completed run never has any. Read it straight
-    # off the run stream so a crash cannot quietly shrink the denominator.
-    undecided = 0
-    for record in view.latest_runs():
-        try:
-            undecided += max(0, int(record.get("undecided", 0) or 0))
-        except (TypeError, ValueError):
-            continue
-
     stage_entered: dict[str, int] = {s: 0 for s in STAGES}
     stage_left: dict[str, int] = {s: 0 for s in STAGES}
     stage_seconds: dict[str, float] = {s: 0.0 for s in STAGES}
     dispositions: dict[str, int] = {name: 0 for name in DISPOSITIONS}
 
-    runs_incomplete = dry_runs = 0
+    runs_incomplete = dry_runs = undecided = 0
     invocations = zero_yield = errored = skipped = generated = 0
     total_seconds = generation_seconds = screening_seconds = 0.0
 
@@ -379,9 +380,11 @@ def funnel_report(ledger: "Ledger | LedgerView | str | Path | None" = None) -> F
                 errored += 1
             if report.produced == 0:
                 zero_yield += 1
+        run_generated = run.generated
+        generated += run_generated
+        undecided += max(run.undecided, run_generated - len(run.outcomes), 0)
         lefts: dict[str, int] = {s: 0 for s in STAGES}
         for outcome in run.outcomes:
-            generated += 1
             dispositions[outcome.disposition] = (
                 dispositions.get(outcome.disposition, 0) + 1
             )
@@ -446,22 +449,15 @@ class GeneratorStat:
     """One lead source, and what its output actually turned into.
 
     **Every rate has ``produced`` as its denominator** — everything the
-    generator emitted *that reached a disposition*, duplicates and malformed
-    payloads included. That is the honest denominator for the question the table
-    answers ("is this worth the compute?"): a generator that re-emits last
+    generator emitted, duplicates, malformed payloads and crash-interrupted
+    candidates included. That is the honest denominator for the question the
+    table answers ("is this worth the compute?"): a generator that re-emits last
     month's observations has done no work worth counting, and hiding its
     duplicates behind a smaller denominator would flatter it.
 
-    The qualification matters in exactly one case. ``produced`` is counted from
-    the run's *outcomes*, not from the generator's own report, and in a run that
-    completed those are the same number by the funnel's conservation invariant.
-    In a run that **crashed** they are not: candidates queued behind the failure
-    reached no disposition, so they are in no rate here. That shortfall is
-    reported by :attr:`FunnelReport.undecided`, which is deliberately outside
-    every rate and printed beside them — but it is a whole-ledger figure and is
-    not attributed per generator, so this column can understate a lead source
-    that was interrupted. ``zero_yield`` and ``errored`` come from the generator
-    reports and are unaffected.
+    ``produced`` comes from generator reports. In a completed run it equals the
+    outcome count by the conservation invariant; after a crash the difference
+    is attributed to ``undecided`` for that generator instead of disappearing.
     """
 
     generator: str
@@ -470,6 +466,7 @@ class GeneratorStat:
     zero_yield: int = 0
     errored: int = 0
     produced: int = 0
+    undecided: int = 0
     duplicate: int = 0
     invalid: int = 0
     known: int = 0
@@ -523,6 +520,10 @@ class GeneratorStat:
         return rate(self.inconclusive, self.produced)
 
     @property
+    def undecided_rate(self) -> float | None:
+        return rate(self.undecided, self.produced)
+
+    @property
     def unsettled_rate(self) -> float | None:
         """Share that no check which ran managed to settle.
 
@@ -531,11 +532,17 @@ class GeneratorStat:
         found no match has established nothing about the wider literature, and
         a share of unmatched payloads is a statement about the catalogue, not
         about the world. It is the tie-break the ranking falls back on when
-        nothing has survived anywhere; it is a residue, not an outcome, and an
-        unsettled observation can still be refuted and worthless.
+        nothing has survived anywhere. It is exactly the share that survived or
+        ended inconclusive, not an outcome and not a claim about novelty.
         """
         unsettled = (
-            self.produced - self.duplicate - self.invalid - self.known - self.trivial
+            self.produced
+            - self.duplicate
+            - self.invalid
+            - self.known
+            - self.trivial
+            - self.refuted
+            - self.undecided
         )
         return rate(unsettled, self.produced)
 
@@ -561,6 +568,7 @@ class GeneratorStat:
             "zero_yield": self.zero_yield,
             "errored": self.errored,
             "produced": self.produced,
+            "undecided": self.undecided,
             "unique": self.unique,
             "duplicate": self.duplicate,
             "invalid": self.invalid,
@@ -569,6 +577,7 @@ class GeneratorStat:
             "refuted": self.refuted,
             "survives": self.survives,
             "inconclusive": self.inconclusive,
+            "undecided_rate": self.undecided_rate,
             "known_rate": self.known_rate,
             "trivial_rate": self.trivial_rate,
             "refuted_rate": self.refuted_rate,
@@ -606,6 +615,7 @@ def generator_scorecard(
                 "zero_yield": 0,
                 "errored": 0,
                 "produced": 0,
+                "undecided": 0,
                 "generation_seconds": 0.0,
                 "screening_seconds": 0.0,
                 **{d: 0 for d in DISPOSITIONS},
@@ -613,6 +623,8 @@ def generator_scorecard(
         )
 
     for run in runs:
+        reported: dict[str, int] = {}
+        decided: dict[str, int] = {}
         for report in run.generators:
             if report.skipped:
                 continue
@@ -624,13 +636,19 @@ def generator_scorecard(
                 slot["errored"] += 1
             if report.produced == 0:
                 slot["zero_yield"] += 1
+            reported[report.generator] = reported.get(report.generator, 0) + report.produced
         for outcome in run.outcomes:
             slot = _slot(outcome.generator)
             if outcome.generator_version:
                 slot["versions"].add(outcome.generator_version)
-            slot["produced"] += 1
+            decided[outcome.generator] = decided.get(outcome.generator, 0) + 1
             slot["screening_seconds"] += outcome.seconds
             slot[outcome.disposition] = slot.get(outcome.disposition, 0) + 1
+        for name in set(reported) | set(decided):
+            slot = _slot(name)
+            emitted = max(reported.get(name, 0), decided.get(name, 0))
+            slot["produced"] += emitted
+            slot["undecided"] += max(emitted - decided.get(name, 0), 0)
 
     stats = [
         GeneratorStat(
@@ -640,6 +658,7 @@ def generator_scorecard(
             zero_yield=slot["zero_yield"],
             errored=slot["errored"],
             produced=slot["produced"],
+            undecided=slot["undecided"],
             duplicate=slot["duplicate"],
             invalid=slot["invalid"],
             known=slot["known"],
@@ -671,7 +690,7 @@ def _render_scorecard(stats: Sequence[GeneratorStat]) -> str:
         return "\n".join(lines)
     header = (
         f"  {'#':>2} {'generator':<22}{'runs':>5}{'empty':>6}{'made':>6}"
-        f"{'dup':>6}{'known':>7}{'triv':>6}{'refut':>7}{'incon':>6}{'surv':>6}"
+        f"{'dup':>6}{'known':>7}{'triv':>6}{'refut':>7}{'incon':>6}{'undec':>6}{'surv':>6}"
         f"{'sec':>8}{'sec/surv':>10}"
     )
     lines.append(header)
@@ -682,7 +701,8 @@ def _render_scorecard(stats: Sequence[GeneratorStat]) -> str:
             f"{stat.zero_yield:>6}{stat.produced:>6}"
             f"{_pct(stat.duplicate_rate):>6}{_pct(stat.known_rate):>7}"
             f"{_pct(stat.trivial_rate):>6}{_pct(stat.refuted_rate):>7}"
-            f"{_pct(stat.inconclusive_rate):>6}{_pct(stat.survival_rate):>6}"
+            f"{_pct(stat.inconclusive_rate):>6}{_pct(stat.undecided_rate):>6}"
+            f"{_pct(stat.survival_rate):>6}"
             f"{stat.seconds:>8.2f}{_num(stat.cost_per_survivor, '.1f'):>10}"
         )
     lines.append(
@@ -830,6 +850,7 @@ class TimeBucket:
     runs: int = 0
     invocations: int = 0
     generated: int = 0
+    undecided: int = 0
     dispositions: Mapping[str, int] = field(default_factory=dict)
     seconds: float = 0.0
 
@@ -845,12 +866,17 @@ class TimeBucket:
     def known_rate(self) -> float | None:
         return rate(self.dispositions.get("known", 0), self.generated)
 
+    @property
+    def undecided_rate(self) -> float | None:
+        return rate(self.undecided, self.generated)
+
     def to_dict(self) -> dict[str, Any]:
         return {
             "bucket": self.bucket,
             "runs": self.runs,
             "invocations": self.invocations,
             "generated": self.generated,
+            "undecided": self.undecided,
             "dispositions": dict(self.dispositions),
             "seconds": self.seconds,
             "survival_rate": self.survival_rate,
@@ -891,13 +917,17 @@ def time_series(
                 "runs": 0,
                 "invocations": 0,
                 "generated": 0,
+                "undecided": 0,
                 "seconds": 0.0,
                 "dispositions": {d: 0 for d in DISPOSITIONS},
             },
         )
         slot["runs"] += 1
         slot["invocations"] += sum(1 for g in run.generators if not g.skipped)
-        slot["generated"] += len(run.outcomes)
+        slot["generated"] += run.generated
+        slot["undecided"] += max(
+            run.undecided, run.generated - len(run.outcomes), 0
+        )
         slot["seconds"] += run.seconds
         for outcome in run.outcomes:
             slot["dispositions"][outcome.disposition] = (
@@ -909,6 +939,7 @@ def time_series(
             runs=slot["runs"],
             invocations=slot["invocations"],
             generated=slot["generated"],
+            undecided=slot["undecided"],
             dispositions=slot["dispositions"],
             seconds=slot["seconds"],
         )
@@ -923,7 +954,7 @@ def _render_time_series(buckets: Sequence[TimeBucket]) -> str:
         return "\n".join(lines)
     header = (
         f"  {'bucket':<14}{'runs':>6}{'made':>7}{'known':>7}{'refut':>7}"
-        f"{'surv':>6}{'surv %':>9}{'seconds':>10}"
+        f"{'undec':>7}{'surv':>6}{'surv %':>9}{'seconds':>10}"
     )
     lines.append(header)
     lines.append("  " + "-" * (len(header) - 2))
@@ -931,7 +962,8 @@ def _render_time_series(buckets: Sequence[TimeBucket]) -> str:
         lines.append(
             f"  {slot.bucket:<14}{slot.runs:>6}{slot.generated:>7}"
             f"{slot.dispositions.get('known', 0):>7}"
-            f"{slot.dispositions.get('refuted', 0):>7}{slot.survivors:>6}"
+            f"{slot.dispositions.get('refuted', 0):>7}{slot.undecided:>7}"
+            f"{slot.survivors:>6}"
             f"{_pct(slot.survival_rate):>9}{slot.seconds:>10.2f}"
         )
     return "\n".join(lines)
