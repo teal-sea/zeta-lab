@@ -22,7 +22,8 @@
 
 set -euo pipefail
 
-REMOTE="https://github.com/teal-sea/zeta-conjectures.git"
+# Overridable so the merge behaviour can be tested against a throwaway remote.
+REMOTE="${ZETA_LEDGER_REMOTE:-https://github.com/teal-sea/zeta-conjectures.git}"
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 LEDGER="$ROOT/conjectures"
 
@@ -74,6 +75,19 @@ init)
     # reporting success over an empty directory.
     rm -rf "$LEDGER/.git"
     mkdir -p "$LEDGER"
+
+    # A machine that ran the funnel before it was ever synced has records here
+    # that exist nowhere else. Checking the remote out over them would either
+    # abort on the untracked files or destroy them, so set them aside first and
+    # merge them back in below -- init must never lose a record.
+    keep="$(mktemp -d)"
+    had_local=0
+    for f in "$LEDGER"/*.jsonl; do
+        [ -e "$f" ] || continue
+        mv "$f" "$keep/"
+        had_local=1
+    done
+
     # Clone in place: the directory already exists (.gitkeep is tracked by the
     # public repo), so fetch into a fresh repo rather than `git clone <dir>`.
     git -C "$LEDGER" init -q -b main
@@ -81,10 +95,33 @@ init)
     git -C "$LEDGER" remote add origin "$REMOTE"
     if ! git -C "$LEDGER" fetch -q origin main; then
         rm -rf "$LEDGER/.git"          # leave no half-repo behind
+        for f in "$keep"/*.jsonl; do   # and put the local records back
+            [ -e "$f" ] || continue
+            mv "$f" "$LEDGER/"
+        done
+        rmdir "$keep" 2>/dev/null || true
         auth_hint
         exit 1
     fi
     git -C "$LEDGER" checkout -q -B main --track origin/main
+
+    if [ "$had_local" = 1 ]; then
+        # Same rule as a union merge: concatenate, then drop exact duplicates.
+        for f in "$keep"/*.jsonl; do
+            [ -e "$f" ] || continue
+            cat "$f" >> "$LEDGER/$(basename "$f")"
+        done
+        dedup
+        if [ -n "$(git -C "$LEDGER" status --porcelain)" ]; then
+            git -C "$LEDGER" add -A
+            git -C "$LEDGER" commit -q -m "Merge pre-existing local ledger from $(hostname -s)"
+            git -C "$LEDGER" push -q origin main
+            echo "merged this machine's pre-existing records into the shared ledger"
+        fi
+        echo "a copy of the pre-merge local files is in $keep"
+    else
+        rmdir "$keep" 2>/dev/null || true
+    fi
     echo "ledger cloned into $LEDGER ($(wc -l < "$LEDGER/ledger.jsonl" | tr -d ' ') candidate records)"
     ;;
 status)

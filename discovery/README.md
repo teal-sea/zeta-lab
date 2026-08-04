@@ -98,6 +98,13 @@ Run `status` first on a new machine. The ledger repo is private, so a machine
 that is not authenticated to GitHub as its owner cannot `init` — `status` says
 so in one line (`access: FAILED`) instead of leaving you to read a git error.
 
+`init` is safe to run on a machine that has already been running the funnel.
+Records written before the ledger was ever shared exist nowhere else, so `init`
+sets them aside, checks the shared ledger out, merges them back in under the
+same append-and-dedup rule a union merge uses, and pushes them. It keeps a copy
+of the pre-merge files and prints where. A failed `init` restores them and
+leaves no repository behind.
+
 The public repo ignores `conjectures/*`, so it never sees that clone or its
 records; the privacy rule above is unchanged, and the ledger still never enters
 a public tree. The record files are append-only JSONL carrying `merge=union`,
