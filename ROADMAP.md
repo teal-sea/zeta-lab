@@ -168,6 +168,23 @@ lives many orders of magnitude higher, and Odlyzko's published tables reach the
 (LMFDB, Odlyzko) and run the verified machinery against real data at real
 heights. Computing our own would be both slower and worse.
 
-**Next code build:** not yet committed. The outstanding moments task is acquiring
-an external critical-line value dataset, explicitly an operator/data task rather
-than an estimator change.
+**Fourth increment shipped.** `scripts/14_moment_experiment.py` generates its own
+critical-line values at modest height and measures the finite moments, rather
+than waiting on an external dataset. The 2nd moment calibrates against the
+Hardy–Littlewood global main term; this is an instrument test, not a
+short-interval theorem. The 4th, 6th and 8th are reported against leading order
+and explicitly are not tests.
+
+The same increment checks the leading terms against Cauchy–Schwarz. The result
+is deliberately narrow: pairwise consistency thresholds of `3.6e8` (4th/8th),
+`1.2e18` (6th/12th), and `1.1e30` (8th/16th). Below one, both named leading
+forms cannot be dominant; it does not identify which one fails and is not a
+computational-reach bound. See `docs/13-moments.md` §10.
+
+**Next code build:** the **CFKRS moment polynomial** of degree `k²`.
+`moment_reference` supplies the leading coefficient only, and §10 shows the
+leading coefficient is not a meaningful standalone comparison at the modest
+heights this script sweeps. The full polynomial is, so it is the change that
+turns the scorecard's withheld open rows into something that can actually pass
+or fail. Acquiring an external value dataset remains open but is now a widening
+of range, not the blocker it was.

@@ -571,13 +571,14 @@ Constants: `GENERATOR`, `GENERATOR_VERSION`, `SEED`, `GUARD_DIGITS`, `GAUSS_WIND
 - `scripts/11_finite_field_rh.py` — The universe where RH is a THEOREM — curves over finite fields, checked by counting.
 - `scripts/12_equivalence_faces.py` — Four exact equivalences of RH, all four run, on one dashboard.
 - `scripts/13_discovery_run.py` — The conjecture factory: run the discovery funnel and print what it converted.
+- `scripts/14_moment_experiment.py` — Critical-line moments from locally computed values, and where they can be tested.
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/ledger_sync.sh` — Sync the private discovery ledger between machines.
 
 ## Tests (`tests/`)
 
-1034 test functions across 19 files (the collected count differs where tests are parametrised):
+1046 test functions across 20 files (the collected count differs where tests are parametrised):
 
 - `tests/test_core.py` — 97
 - `tests/test_criteria.py` — 75
@@ -595,6 +596,7 @@ Constants: `GENERATOR`, `GENERATOR_VERSION`, `SEED`, `GUARD_DIGITS`, `GAUSS_WIND
 - `tests/test_plots.py` — 13
 - `tests/test_rigor.py` — 50
 - `tests/test_script_13_discovery_run.py` — 33
+- `tests/test_script_14_moment_experiment.py` — 12
 - `tests/test_statistics.py` — 54
 - `tests/test_weil.py` — 37
 - `tests/test_zeros.py` — 58

@@ -356,6 +356,71 @@ heights, which are deliberately biased observations and cannot estimate an
 interval moment. The loader is therefore shipped without a fixture masquerading
 as research data.
 
+A 2026-08-04 re-check confirmed the Bober–Hiary verdict from the other side.
+Some per-window pages embed the plotted samples, but the published windows were
+selected for extreme values. Averaging `|ζ|^{2k}` over windows chosen for their
+extrema estimates the extremes, not the moment, and the bias is worst at exactly
+the `k` of interest, since high powers are dominated by the peaks.
+
+## 10. Why leading order is the wrong comparison at modest height
+
+The locally generated experiment below cannot be interpreted against the
+leading term alone: at modest height, the lower-order terms are numerically
+large. Cauchy–Schwarz supplies a useful diagnostic, but not a reachability
+theorem.
+
+Apply Cauchy–Schwarz to the leading terms alone. For the true moments,
+`E[X²] ≥ E[X]²` with `X = |ζ(1/2+it)|^{2k}`, so the leading forms of the `2k`-th
+and `4k`-th moments can only both be in force once
+
+    c_{2k} · L^{4k²} ≥ c_k² · L^{2k²},    L = log(t/2π).
+
+Solving for `t` gives a **pairwise consistency threshold** below which at least
+one of the two leading forms is not dominant. Deriving `c_k` for `k` up to 8 by
+the same Euler product the reference layer uses gives:
+
+| leading forms compared | threshold on `t` |
+| --- | ---: |
+| 4th and 8th | `3.6e8` |
+| 6th and 12th | `1.2e18` |
+| 8th and 16th | `1.1e30` |
+
+These are not floors for the lower moment named in each row. For example, the
+last row says only that the leading 8th- and 16th-moment forms cannot both be
+dominant below `1.1e30`; it does not identify which one fails. Above a threshold,
+the inequality says nothing about whether either asymptotic is accurate. The
+largest threshold is above Odlyzko's long-window moment computations near
+`10^22`, but below some Bober–Hiary selected-value computations above `10^30`;
+neither fact turns it into a bound on what can be computed.
+
+The consequence for this module is concrete: the numerically testable object is
+the full CFKRS moment polynomial of degree `k²`, not the leading coefficient.
+`moment_reference` supplies the leading coefficient only, so the open rows of
+the scorecard remain untestable until that polynomial is implemented.
+
+### Locally generated values
+
+`scripts/14_moment_experiment.py` takes the road the external-data route cannot:
+it generates its own samples at a modest height with
+`zeta.statistics.riemann_siegel_z` and measures the finite moments directly.
+Throughput on an M1 iMac is `≈2.8e5` samples/second at `t ~ 1e6`, so a window of
+width `2e5` at spacing `5e-3` — forty million samples — sweeps in about
+two minutes.
+
+The calibration uses the 2nd moment, whose global asymptotic is a theorem. The
+slow test requires a direct sweep to agree within 2% with the difference of
+`T log(T/2π) + (2γ−1)T` across its window. The residual contains `E(B)-E(A)`
+and numerical error; it is not `E(T)`, and this comparison is not a theorem for
+the short shifted window. Higher moments are printed against leading order only
+as exploratory measurements. Their ratios are not evidence against
+Keating–Snaith and are not reported as tests.
+
+These samples are **not** a substitute for the external dataset. They are
+locally computed, at a height chosen for what the hardware can do, and
+`load_critical_line_samples` will not accept them: that route binds values to an
+imported external zero window by digest, and a locally generated file has none.
+The emitted rows carry a header saying so.
+
 [odlyzko-index]: https://www-users.cse.umn.edu/~odlyzko/zeta_tables/index.html
 [lmfdb-route]: https://github.com/LMFDB/lmfdb/blob/main/lmfdb/zeros/zeta/zetazeros.py
 [lmfdb-reader]: https://github.com/LMFDB/lmfdb/blob/main/lmfdb/zeros/zeta/platt_zeros.py
