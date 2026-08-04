@@ -196,7 +196,16 @@ four moments, but window-ratio drift grows from `0.52%` for the second moment to
 now the identified limitation, with peak concentration still to be measured.
 These observed drifts are explicitly not error bounds or independent samples.
 
-**Next code build:** independent-block dispersion and peak-concentration
-diagnostics on the same local sweep. Quantify how much of each high moment is
-carried by the largest values, and whether the full-polynomial ratio is stable
-across disjoint windows, before widening to external high-height value data.
+**Seventh increment shipped.** The same one-pass sweep now supports deterministic
+disjoint blocks and ranked trapezoidal contributions. Across eight width-500
+blocks, ratio dispersion rises from `1.28%` for the second moment to `34.63%`
+for the eighth. The largest `1%` of grid intervals carries `25.81%`, `67.06%`,
+`88.67%`, and `96.49%` of the second through eighth integrals. This directly
+identifies peak concentration in the pinned run without calling block
+dispersion a standard error or treating disjoint blocks as independent draws.
+
+**Next code build:** a multi-height replication matrix using disjoint windows
+and a grid resolution normalized to the local mean zero spacing. Test whether
+the concentration and block-dispersion pattern persists at `10⁴`, `10⁵`, and
+`10⁶` before treating this one local run as representative. External
+high-height value acquisition remains a later range-widening task.

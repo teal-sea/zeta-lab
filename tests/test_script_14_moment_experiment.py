@@ -27,6 +27,7 @@ import importlib.util
 import math
 import os
 from decimal import Decimal
+from itertools import pairwise
 import subprocess
 import sys
 
@@ -210,6 +211,56 @@ def test_convergence_sweep_rejects_non_nested_interval_count(script):
         script.convergence_sweep(100.0, 18.0, 1.0)
 
 
+def test_block_peak_sweep_reuses_grid_and_partitions_every_interval(
+    script, monkeypatch
+):
+    """Block integrals and ranked contributions cover each trapezoid exactly once."""
+
+    calls = []
+
+    def fake_zeta(ts):
+        calls.extend(float(value) for value in ts)
+        return np.sqrt(ts)
+
+    monkeypatch.setattr(script, "CHUNK", 3)
+    monkeypatch.setattr(script, "riemann_siegel_z", fake_zeta)
+    rows, concentrations, count, _ = script.block_peak_sweep(
+        100.0,
+        16.0,
+        1.0,
+        blocks=4,
+        peak_fractions=(0.125, 0.25),
+    )
+
+    assert count == 17
+    assert calls == list(np.arange(100.0, 117.0))
+    assert len(rows) == 16 and len(concentrations) == 8
+    for row in rows:
+        ts = np.arange(row.interval_start, row.interval_end + 1, 1.0)
+        expected = float(np.trapezoid(ts**row.k, ts))
+        assert row.integral == pytest.approx(expected)
+
+    for item in concentrations:
+        ts = np.arange(100.0, 117.0)
+        contributions = (ts[:-1] ** item.k + ts[1:] ** item.k) / 2
+        expected = np.sum(np.sort(contributions)[-item.interval_count :]) / np.sum(
+            contributions
+        )
+        assert item.contribution_fraction == pytest.approx(expected)
+
+    diagnostics = script.block_diagnostics(rows)
+    assert len(diagnostics) == 4
+    assert all(
+        item.minimum_block_ratio <= item.maximum_block_ratio
+        for item in diagnostics
+    )
+
+
+def test_block_peak_sweep_rejects_non_divisible_blocks(script):
+    with pytest.raises(ValueError, match="exactly divisible"):
+        script.block_peak_sweep(100.0, 18.0, 1.0, blocks=4)
+
+
 @pytest.mark.slow
 def test_real_convergence_separates_grid_stability_from_window_variation(script):
     """At the pinned window quadrature is stable while window ratios vary."""
@@ -234,6 +285,39 @@ def test_real_convergence_separates_grid_stability_from_window_variation(script)
     assert ratios == pytest.approx(
         {1: 0.998218, 2: 0.989319, 3: 0.965322, 4: 0.922880},
         rel=2e-5,
+    )
+
+
+@pytest.mark.slow
+def test_real_block_study_pins_dispersion_and_peak_concentration(script):
+    """The high-moment window variation is accompanied by concentrated mass."""
+
+    rows, peaks, count, _ = script.block_peak_sweep(
+        1e5, 4e3, 5e-3, blocks=8
+    )
+    diagnostics = script.block_diagnostics(rows)
+
+    assert count == 800_001
+    coefficients = [
+        item.block_ratio_coefficient_of_variation for item in diagnostics
+    ]
+    assert coefficients == pytest.approx(
+        [0.012752, 0.074340, 0.192046, 0.346265], rel=2e-5
+    )
+    assert all(left < right for left, right in pairwise(coefficients))
+
+    by_peak = {(item.k, item.interval_fraction): item for item in peaks}
+    fractions = sorted({item.interval_fraction for item in peaks})
+    for fraction in fractions:
+        shares = [
+            by_peak[k, fraction].contribution_fraction for k in (1, 2, 3, 4)
+        ]
+        assert all(left < right for left, right in pairwise(shares))
+    assert by_peak[4, 0.001].contribution_fraction == pytest.approx(
+        0.560262, rel=2e-5
+    )
+    assert by_peak[4, 0.01].contribution_fraction == pytest.approx(
+        0.964909, rel=2e-5
     )
 
 
@@ -340,3 +424,29 @@ def test_console_states_its_scope():
     assert "neither column is an error bound or certificate" in out
     # The calibration must be shown, not just the unfalsifiable comparisons.
     assert "Ingham's proved global 2nd-moment main term" in out
+
+
+@pytest.mark.slow
+def test_block_console_states_its_scope():
+    result = subprocess.run(
+        [
+            sys.executable,
+            SCRIPT,
+            "--start",
+            "1e5",
+            "--length",
+            "2e3",
+            "--blocks",
+            "8",
+        ],
+        capture_output=True,
+        text=True,
+        cwd=REPO_ROOT,
+    )
+    assert result.returncode == 0, result.stderr
+    out = result.stdout
+
+    assert "Disjoint blocks" in out
+    assert "Moment integral carried by the largest grid-interval contributions" in out
+    assert "dispersion is not a confidence interval" in out
+    assert "peak shares are not error bounds" in out

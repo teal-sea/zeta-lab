@@ -581,7 +581,7 @@ Constants: `GENERATOR`, `GENERATOR_VERSION`, `SEED`, `GUARD_DIGITS`, `GAUSS_WIND
 
 ## Tests (`tests/`)
 
-1056 test functions across 20 files (the collected count differs where tests are parametrised):
+1060 test functions across 20 files (the collected count differs where tests are parametrised):
 
 - `tests/test_core.py` — 97
 - `tests/test_criteria.py` — 75
@@ -599,7 +599,7 @@ Constants: `GENERATOR`, `GENERATOR_VERSION`, `SEED`, `GUARD_DIGITS`, `GAUSS_WIND
 - `tests/test_plots.py` — 13
 - `tests/test_rigor.py` — 50
 - `tests/test_script_13_discovery_run.py` — 33
-- `tests/test_script_14_moment_experiment.py` — 16
+- `tests/test_script_14_moment_experiment.py` — 20
 - `tests/test_statistics.py` — 54
 - `tests/test_weil.py` — 37
 - `tests/test_zeros.py` — 58

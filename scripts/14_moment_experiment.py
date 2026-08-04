@@ -64,6 +64,12 @@ window variability to which rare peaks may contribute. Neither is an error
 bound, confidence interval or certificate, and one nested family is not a
 collection of independent samples.
 
+With ``--blocks N``, the same one-pass principle measures ``N`` equal disjoint
+blocks and ranks trapezoidal interval contributions. It reports deterministic
+block-ratio dispersion and the integral shares carried by the largest 0.1% and
+1% of grid intervals. Disjoint blocks are not asserted to be statistically
+independent, and their dispersion is not a standard error.
+
 Nothing here settles, supports or weakens the Riemann Hypothesis, and finite
 moment measurements could not do so in principle.
 
@@ -73,6 +79,8 @@ Usage
     .venv/bin/python scripts/14_moment_experiment.py --start 1e5 --length 2e4
     .venv/bin/python scripts/14_moment_experiment.py --start 1e5 --length 4e3 \
         --convergence
+    .venv/bin/python scripts/14_moment_experiment.py --start 1e5 --length 4e3 \
+        --blocks 8
     .venv/bin/python scripts/14_moment_experiment.py --emit data/samples.txt.gz \
         --emit-length 100 --emit-error-estimate 1e-8
 
@@ -137,6 +145,41 @@ class ConvergenceDiagnostic:
     k: int
     max_spacing_relative_drift: float
     max_window_ratio_relative_drift: float
+
+
+@dataclass(frozen=True)
+class BlockMomentRow:
+    """One moment measurement on a disjoint deterministic block."""
+
+    k: int
+    block_index: int
+    interval_start: float
+    interval_end: float
+    integral: float
+    measured_mean: float
+    polynomial_mean: float
+    ratio: float
+
+
+@dataclass(frozen=True)
+class BlockDiagnostic:
+    """Observed dispersion of block ratios, with no sampling interpretation."""
+
+    k: int
+    aggregate_ratio: float
+    block_ratio_coefficient_of_variation: float
+    minimum_block_ratio: float
+    maximum_block_ratio: float
+
+
+@dataclass(frozen=True)
+class PeakConcentration:
+    """Share of a moment integral carried by the largest grid intervals."""
+
+    k: int
+    interval_fraction: float
+    interval_count: int
+    contribution_fraction: float
 
 
 def random_matrix_factor(k: int) -> mp.mpf:
@@ -448,6 +491,183 @@ def convergence_diagnostics(
     return tuple(diagnostics)
 
 
+def _retain_largest(
+    retained: np.ndarray, additions: np.ndarray, limit: int
+) -> np.ndarray:
+    """Keep the largest ``limit`` values without sorting the full stream."""
+
+    combined = np.concatenate((retained, additions))
+    if len(combined) <= limit:
+        return combined
+    split = len(combined) - limit
+    return np.partition(combined, split)[split:]
+
+
+def block_peak_sweep(
+    start: float,
+    length: float,
+    spacing: float,
+    *,
+    blocks: int = 8,
+    peak_fractions: tuple[float, ...] = (0.001, 0.01),
+) -> tuple[tuple[BlockMomentRow, ...], tuple[PeakConcentration, ...], int, float]:
+    """Measure disjoint-block dispersion and moment concentration in one pass.
+
+    Each trapezoidal interval belongs to exactly one equal-width block.  Peak
+    concentration ranks interval contributions, not isolated point values, and
+    reports the share of the full integral carried by the largest requested
+    fractions.  Blocks are deterministic and disjoint, not independent random
+    samples; no returned quantity is a confidence interval or error bound.
+    """
+
+    if not (math.isfinite(start) and start >= 50):
+        raise ValueError("start must be finite and at least 50")
+    if not (math.isfinite(length) and length > 0):
+        raise ValueError("length must be finite and positive")
+    if not (math.isfinite(spacing) and spacing > 0):
+        raise ValueError("spacing must be finite and positive")
+    if isinstance(blocks, bool) or not isinstance(blocks, int) or blocks < 2:
+        raise ValueError("blocks must be an integer at least 2")
+    intervals = int(round(length / spacing))
+    if not math.isclose(intervals * spacing, length, rel_tol=1e-12, abs_tol=1e-12):
+        raise ValueError("length must be an integer multiple of spacing")
+    if intervals < blocks * 2 or intervals % blocks:
+        raise ValueError(
+            "block study requires at least two intervals per block and an exactly divisible grid"
+        )
+    if (
+        not peak_fractions
+        or any(not math.isfinite(value) or not 0 < value < 1 for value in peak_fractions)
+        or tuple(sorted(set(peak_fractions))) != peak_fractions
+    ):
+        raise ValueError("peak_fractions must be unique increasing numbers between 0 and 1")
+
+    intervals_per_block = intervals // blocks
+    block_totals = {
+        (block_index, k): 0.0
+        for block_index in range(blocks)
+        for k in (1, 2, 3, 4)
+    }
+    total_integrals = {k: 0.0 for k in (1, 2, 3, 4)}
+    largest_count = max(1, math.ceil(peak_fractions[-1] * intervals))
+    retained = {k: np.empty(0, dtype=float) for k in (1, 2, 3, 4)}
+    previous: dict[int, float] = {}
+    count = intervals + 1
+
+    started = time.time()
+    for begin in range(0, count, CHUNK):
+        index = np.arange(begin, min(begin + CHUNK, count))
+        ts = start + index * spacing
+        squared = riemann_siegel_z(ts) ** 2
+        columns = {k: squared**k for k in (1, 2, 3, 4)}
+
+        for k, values in columns.items():
+            if k in previous:
+                extended = np.concatenate((np.array([previous[k]]), values))
+                first_interval = begin - 1
+            else:
+                extended = values
+                first_interval = begin
+            contributions = spacing * (extended[:-1] + extended[1:]) / 2
+            if len(contributions):
+                left_indices = np.arange(
+                    first_interval, first_interval + len(contributions)
+                )
+                block_indices = left_indices // intervals_per_block
+                for block_index in np.unique(block_indices):
+                    block_totals[int(block_index), k] += float(
+                        np.sum(contributions[block_indices == block_index])
+                    )
+                total_integrals[k] += float(np.sum(contributions))
+                retained[k] = _retain_largest(
+                    retained[k], contributions, largest_count
+                )
+            previous[k] = float(values[-1])
+
+    elapsed = time.time() - started
+    block_length = length / blocks
+    rows = []
+    for block_index in range(blocks):
+        block_start = start + block_index * block_length
+        block_end = block_start + block_length
+        for k in (1, 2, 3, 4):
+            integral = block_totals[block_index, k]
+            polynomial_mean = float(
+                moment_polynomial_mean(
+                    moment_polynomial(k), str(block_start), str(block_end)
+                )
+            )
+            measured_mean = integral / block_length
+            rows.append(
+                BlockMomentRow(
+                    k=k,
+                    block_index=block_index,
+                    interval_start=block_start,
+                    interval_end=block_end,
+                    integral=integral,
+                    measured_mean=measured_mean,
+                    polynomial_mean=polynomial_mean,
+                    ratio=measured_mean / polynomial_mean,
+                )
+            )
+
+    concentrations = []
+    for k in (1, 2, 3, 4):
+        largest = np.sort(retained[k])[::-1]
+        for fraction in peak_fractions:
+            interval_count = max(1, math.ceil(fraction * intervals))
+            concentrations.append(
+                PeakConcentration(
+                    k=k,
+                    interval_fraction=interval_count / intervals,
+                    interval_count=interval_count,
+                    contribution_fraction=(
+                        float(np.sum(largest[:interval_count])) / total_integrals[k]
+                    ),
+                )
+            )
+    return tuple(rows), tuple(concentrations), count, elapsed
+
+
+def block_diagnostics(
+    rows: tuple[BlockMomentRow, ...],
+) -> tuple[BlockDiagnostic, ...]:
+    """Summarise deterministic block ratios without assigning probabilities."""
+
+    if not rows:
+        raise ValueError("block diagnostics require rows")
+    diagnostics = []
+    block_indices = {row.block_index for row in rows}
+    if len(block_indices) < 2:
+        raise ValueError("block diagnostics require at least two blocks")
+    for k in (1, 2, 3, 4):
+        k_rows = tuple(row for row in rows if row.k == k)
+        if {row.block_index for row in k_rows} != block_indices:
+            raise ValueError("block diagnostics require every k on every block")
+        ratios = np.array([row.ratio for row in k_rows])
+        predicted_integrals = np.array(
+            [
+                row.polynomial_mean * (row.interval_end - row.interval_start)
+                for row in k_rows
+            ]
+        )
+        aggregate_ratio = sum(row.integral for row in k_rows) / float(
+            np.sum(predicted_integrals)
+        )
+        diagnostics.append(
+            BlockDiagnostic(
+                k=k,
+                aggregate_ratio=aggregate_ratio,
+                block_ratio_coefficient_of_variation=(
+                    float(np.std(ratios, ddof=1)) / abs(float(np.mean(ratios)))
+                ),
+                minimum_block_ratio=float(np.min(ratios)),
+                maximum_block_ratio=float(np.max(ratios)),
+            )
+        )
+    return tuple(diagnostics)
+
+
 def accuracy_probe(start: float, length: float, samples: int = 12) -> float:
     """Largest observed ``|Z_fast - mpmath.siegelz|`` over a spread of the window."""
 
@@ -469,6 +689,12 @@ def main() -> int:
         "--convergence",
         action="store_true",
         help="compare 3 nested windows and 3 nested spacings in one fine-grid sweep",
+    )
+    parser.add_argument(
+        "--blocks",
+        type=int,
+        default=0,
+        help="run disjoint-block and peak-concentration study with this many blocks",
     )
     parser.add_argument("--emit", type=Path, default=None, help="write sample rows")
     parser.add_argument(
@@ -504,6 +730,12 @@ def main() -> int:
         parser.error("--emit-length must not exceed --length")
     if args.emit is not None and args.convergence:
         parser.error("--convergence and --emit are separate acquisition modes")
+    if args.emit is not None and args.blocks:
+        parser.error("--blocks and --emit are separate acquisition modes")
+    if args.convergence and args.blocks:
+        parser.error("--convergence and --blocks are separate study modes")
+    if args.blocks < 0 or args.blocks == 1:
+        parser.error("--blocks must be 0 (disabled) or an integer at least 2")
     if args.convergence and (intervals < 16 or intervals % 4):
         parser.error(
             "--convergence requires at least 16 intervals and a count divisible by 4"
@@ -525,6 +757,8 @@ def main() -> int:
     print()
 
     convergence_rows: tuple[ConvergenceRow, ...] | None = None
+    block_rows: tuple[BlockMomentRow, ...] | None = None
+    peak_concentrations: tuple[PeakConcentration, ...] | None = None
     if args.convergence:
         try:
             convergence_rows, count, elapsed = convergence_sweep(
@@ -538,6 +772,17 @@ def main() -> int:
             row.k: row.integral
             for row in convergence_rows
             if row.window_length == largest_window and row.spacing == finest_spacing
+        }
+    elif args.blocks:
+        try:
+            block_rows, peak_concentrations, count, elapsed = block_peak_sweep(
+                start, length, spacing, blocks=args.blocks
+            )
+        except ValueError as exc:
+            parser.error(str(exc))
+        totals = {
+            k: sum(row.integral for row in block_rows if row.k == k)
+            for k in (1, 2, 3, 4)
         }
     else:
         totals, count, elapsed = sweep(
@@ -617,6 +862,60 @@ def main() -> int:
                 f"{diagnostic.max_window_ratio_relative_drift:>22.3%}"
             )
         print("  Observed changes only: neither column is an error bound or certificate.")
+        print()
+
+    if block_rows is not None and peak_concentrations is not None:
+        diagnostics = block_diagnostics(block_rows)
+        block_indices = sorted({row.block_index for row in block_rows})
+        by_block = {(row.block_index, row.k): row for row in block_rows}
+        print("Disjoint blocks: measured / full-polynomial prediction")
+        print("-" * 70)
+        print(
+            f"  {'block':>5}  {'window':>19}  {'2nd':>8}  {'4th':>8}  "
+            f"{'6th':>8}  {'8th':>8}"
+        )
+        for block_index in block_indices:
+            first = by_block[block_index, 1]
+            ratios = [by_block[block_index, k].ratio for k in (1, 2, 3, 4)]
+            print(
+                f"  {block_index + 1:>5}  "
+                f"[{first.interval_start:>8.0f},{first.interval_end:>8.0f}]  "
+                f"{ratios[0]:>8.3f}  {ratios[1]:>8.3f}  "
+                f"{ratios[2]:>8.3f}  {ratios[3]:>8.3f}"
+            )
+        print()
+        print(
+            f"  {'2k':>3}  {'aggregate':>10}  {'block CV':>10}  "
+            f"{'block min':>10}  {'block max':>10}"
+        )
+        for diagnostic in diagnostics:
+            print(
+                f"  {2 * diagnostic.k:>3}  {diagnostic.aggregate_ratio:>10.4f}  "
+                f"{diagnostic.block_ratio_coefficient_of_variation:>9.2%}  "
+                f"{diagnostic.minimum_block_ratio:>10.4f}  "
+                f"{diagnostic.maximum_block_ratio:>10.4f}"
+            )
+        print()
+        fractions = sorted(
+            {item.interval_fraction for item in peak_concentrations}
+        )
+        by_peak = {
+            (item.k, item.interval_fraction): item for item in peak_concentrations
+        }
+        print("Moment integral carried by the largest grid-interval contributions")
+        print("-" * 70)
+        header = "  2k" + "".join(
+            f"  top {fraction:>7.3%}" for fraction in fractions
+        )
+        print(header)
+        for k in (1, 2, 3, 4):
+            shares = "".join(
+                f"  {by_peak[k, fraction].contribution_fraction:>11.2%}"
+                for fraction in fractions
+            )
+            print(f"  {2 * k:>2}{shares}")
+        print("  Deterministic disjoint blocks: dispersion is not a confidence interval;")
+        print("  peak shares are not error bounds.")
         print()
 
     print("Pairwise consistency thresholds for leading-order forms")

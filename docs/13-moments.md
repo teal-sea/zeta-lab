@@ -479,6 +479,34 @@ deviations cannot be blamed on grid spacing, but one correlated window also
 cannot distinguish ordinary rare-peak fluctuation from asymptotic remainder.
 Independent blocks are the next required diagnostic.
 
+### Disjoint blocks and peak concentration
+
+`--blocks 8` partitions the same `t=10⁵`, width-4000 sweep into eight
+non-overlapping width-500 blocks. Every trapezoidal interval is assigned to
+exactly one block. The blocks are deterministic and disjoint, not asserted to
+be independent draws; their coefficient of variation is observed dispersion,
+not a standard error.
+
+The block-ratio coefficient of variation rises with moment order:
+
+| moment | 2nd | 4th | 6th | 8th |
+| --- | ---: | ---: | ---: | ---: |
+| block-ratio CV | `1.28%` | `7.43%` | `19.20%` | `34.63%` |
+
+The same pass ranks each grid interval's trapezoidal contribution to the
+integral. Its concentration is sharper still:
+
+| largest fraction of intervals | 2nd | 4th | 6th | 8th |
+| --- | ---: | ---: | ---: | ---: |
+| `0.1%` | `4.79%` | `20.53%` | `39.50%` | `56.03%` |
+| `1%` | `25.81%` | `67.06%` | `88.67%` | `96.49%` |
+
+This shows that the same run is strongly peak-concentrated, supplying a concrete
+mechanism for its high-order window sensitivity: the 8th-moment estimate is
+almost entirely carried by one percent of grid intervals. It still does not
+validate or refute the global CFKRS conjecture, and the ranked shares are
+neither probabilities nor error bounds.
+
 [odlyzko-index]: https://www-users.cse.umn.edu/~odlyzko/zeta_tables/index.html
 [lmfdb-route]: https://github.com/LMFDB/lmfdb/blob/main/lmfdb/zeros/zeta/zetazeros.py
 [lmfdb-reader]: https://github.com/LMFDB/lmfdb/blob/main/lmfdb/zeros/zeta/platt_zeros.py
