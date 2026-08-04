@@ -107,12 +107,25 @@ identified so far.
 and all six tables on Odlyzko's public index, including the offset headers at
 the `10^12`, `10^21`, and `10^22` landmarks. It verifies caller-supplied
 checksums, records the actual input digest, and validates declared counts,
-contiguous indices, positivity and strict ordering. Absolute ordinates
-stay as exact decimal base-plus-offset data: converting the `10^22` window to
-float64 would collapse neighbouring zeros to the same number. It computes no
-zeros. The next increment is the moment estimator and theorem/prediction
-scorecard over these externally supplied windows. The format, precision and
-provenance contract is documented in `docs/13-moments.md`.
+contiguous indices, positivity and strict ordering. Absolute ordinates stay as
+exact decimal base-plus-offset data: converting the `10^22` window to float64
+would collapse neighbouring zeros to the same number. It computes no zeros.
+
+**Second increment shipped.** The finite estimator consumes separately sourced
+samples of `|ζ(1/2+it)|` inside an imported zero window. This separation is
+mandatory: zero ordinates do not determine the values between them. It reports
+the caller-supplied value error and a nested-grid sampling-error estimate in
+different fields. The reference layer derives the Keating–Snaith/CFKRS leading
+constant, recovers the proved coefficients `1` and `1/(2π²)` for the second and
+fourth moments, and keeps the Euler-product truncation visible for the
+conjectural sixth and eighth moments. The scorecard withholds those open rows
+unless both proved rows pass a caller-stated calibration tolerance; a mutation
+test changes the fourth-moment constant and verifies that the gate fails.
+
+No external critical-line **value** dataset is bundled. Odlyzko and LMFDB zero
+tables supply the window and provenance, not `|ζ|` samples. Acquiring such a
+dataset therefore remains an operator/data task, not something the estimator
+silently fabricates. The complete contract is in `docs/13-moments.md`.
 
 **Why.** The 2nd (1918) and 4th (1926) moments of `ζ` on the critical line are
 proven; the **6th and 8th are open**, with exact constants predicted by random
@@ -129,4 +142,4 @@ lives many orders of magnitude higher, and Odlyzko's published tables reach the
 (LMFDB, Odlyzko) and run the verified machinery against real data at real
 heights. Computing our own would be both slower and worse.
 
-**Then:** the schema `related_to` edges (gap 2 above).
+**Next code build:** the schema `related_to` edges (gap 2 above).

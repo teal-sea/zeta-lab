@@ -73,6 +73,17 @@ titles do not.
   and publishes the separate bulk-binary
   [reader](https://github.com/LMFDB/lmfdb/blob/main/lmfdb/zeros/zeta/platt_zeros.py).
   *For: the acquisition and parser contracts in `docs/13`.*
+- **Keating, J. P. and N. C. Snaith — "Random Matrix Theory and
+  ζ(1/2+it)"** (*Commun. Math. Phys.* 214 (2000), 57–89;
+  [author PDF](https://people.maths.bris.ac.uk/~mancs/papers/RMTzeta.pdf)).
+  Derives the random-matrix factor in the general leading conjecture for
+  critical-line moments. *For: `moment_reference` and `docs/13` §7.*
+- **Conrey, J. B., D. W. Farmer, J. P. Keating, M. O. Rubinstein and
+  N. C. Snaith — "Integral moments of L-functions"** (*Proc. London Math.
+  Soc.* 91 (2005), 33–104; [arXiv:math/0206018](https://arxiv.org/abs/math/0206018)).
+  Gives the arithmetic Euler product and full-main-term recipe, recovering the
+  Hardy–Littlewood and Ingham leading terms and the sixth/eighth conjectures.
+  *For: the theorem/conjecture split and coefficient convention in `docs/13`.*
 - **Berry, M. V. and J. P. Keating — "The Riemann zeros and eigenvalue
   asymptotics"** (SIAM Review 41, 1999, 236–266); also "H = xp and the
   Riemann zeros" (1999). The physicists' Hilbert–Pólya: semiclassical

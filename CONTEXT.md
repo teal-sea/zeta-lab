@@ -117,17 +117,26 @@ Constants: `LI2`
 - `level_repulsion_report(gammas: ArrayLike) -> dict[str, Any]` — Kolmogorov–Smirnov the empirical spacings against GUE and against Poisson.
 - `compare_to_random_matrix(n_zeros: int = 10000, seed: int = 0, *, matrix_size: int = 800, bins: int = 60, s_max: float = 4.0, gammas: ArrayLike | None = None) -> dict[str, Any]` — The headline experiment: zeta zeros vs an *actual* random GUE matrix.
 
-### `zeta/moments.py` — External zero-table ingestion for the moments programme.
+### `zeta/moments.py` — External data and finite estimators for the moments programme.
 
-*340 lines*
+*1053 lines*
 
 Constants: `ODLYZKO_TABLES`
 
 - `class ZeroTableError` — Raised when an external zero table fails structural validation.
+- `class MomentError` — Raised when moment samples or a scorecard fail their stated contract.
 - `class OdlyzkoTableSpec` — Pinned public metadata for one table on Odlyzko's official page.
 - `class ExternalZeroTable` — A validated table represented as ``base + offsets`` in decimal.
+- `class MomentEstimate` — One finite, provenance-carrying critical-line moment estimate.
+- `class MomentReference` — Leading-order reference for the ``2k``-th zeta moment.
+- `class MomentScore` — One row of a :class:`MomentScorecard`.
+- `class MomentScorecard` — Theorem-calibrated comparison of finite measurements and references.
 - `load_lmfdb_zeros(path: str | Path, *, expected_count: int | None = None, expected_first_index: int | None = None, expected_sha256: str | None = None, source_url: str = 'https://www.lmfdb.org/zeros/zeta/') -> ExternalZeroTable` — Load an LMFDB plain-text export containing ``index ordinate`` rows.
 - `load_odlyzko_zeros(path: str | Path, *, table_id: str | None = None, expected_sha256: str | None = None) -> ExternalZeroTable` — Load one of the six text tables listed on Odlyzko's official page.
+- `estimate_moment(table: ExternalZeroTable, *, k: int, sample_offsets: Sequence[Decimal | str | int], abs_zeta_values: Sequence[Decimal | str | int], absolute_value_errors: Sequence[Decimal | str | int] | Decimal | str | int, error_kind: Literal['bound', 'estimate'], value_source: str, dps: int = 60) -> MomentEstimate` — Estimate a finite ``2k``-th moment on an imported-zero window.
+- `moment_reference(k: int, *, prime_cutoff: int = 100000, dps: int = 50) -> MomentReference` — Return the leading reference for the second through eighth moments.
+- `leading_moment_mean(reference: MomentReference, interval_start: Decimal | str | int, interval_end: Decimal | str | int, *, dps: int = 50) -> Decimal` — Average the leading density over ``[A,B]`` for normalization.
+- `moment_scorecard(estimates: Sequence[MomentEstimate], *, calibration_relative_tolerance: Decimal | str | int, references: Mapping[int, MomentReference] | None = None, prime_cutoff: int = 100000, dps: int = 50) -> MomentScorecard` — Compare finite estimates with leading references behind a theorem gate.
 
 ### `zeta/heatflow.py` — Heat flow on the Riemann Ξ function and the de Bruijn–Newman constant.
 
@@ -540,7 +549,7 @@ Constants: `GENERATOR`, `GENERATOR_VERSION`, `SEED`, `GUARD_DIGITS`, `GAUSS_WIND
 - `10-trace-formulas-and-connes.md` — 10 — Trace Formulas and the Connes Program
 - `11-f1-and-the-missing-geometry.md` — 11 — F1 and the Missing Geometry
 - `12-how-hard-problems-die.md` — 12 — How Hard Problems Die: A Kill Board
-- `13-moments.md` — 13 — Moments: External Zero Data Before Estimation
+- `13-moments.md` — 13 — Moments: External Windows, Finite Estimates, Honest Scorecards
 
 ## Runnable demos (`scripts/`)
 
@@ -562,7 +571,7 @@ Constants: `GENERATOR`, `GENERATOR_VERSION`, `SEED`, `GUARD_DIGITS`, `GAUSS_WIND
 
 ## Tests (`tests/`)
 
-1019 test functions across 19 files (the collected count differs where tests are parametrised):
+1027 test functions across 19 files (the collected count differs where tests are parametrised):
 
 - `tests/test_core.py` — 97
 - `tests/test_criteria.py` — 75
@@ -576,7 +585,7 @@ Constants: `GENERATOR`, `GENERATOR_VERSION`, `SEED`, `GUARD_DIGITS`, `GAUSS_WIND
 - `tests/test_finitefield.py` — 53
 - `tests/test_heatflow.py` — 38
 - `tests/test_li.py` — 56
-- `tests/test_moments.py` — 9
+- `tests/test_moments.py` — 17
 - `tests/test_plots.py` — 13
 - `tests/test_rigor.py` — 50
 - `tests/test_script_13_discovery_run.py` — 33

@@ -1,13 +1,16 @@
-# 13 — Moments: External Zero Data Before Estimation
+# 13 — Moments: External Windows, Finite Estimates, Honest Scorecards
 
 The moments programme starts with a data contract, not a formula. The lab's
 local cache reaches only the low thousands in height; the external tables that
 matter live at much larger indices and heights. `zeta/moments.py` is the first
 increment: it ingests those published tables without recomputing their zeros or
-destroying their local spacing information.
+destroying their local spacing information. The second increment estimates
+finite moments from a *separate* table of sampled critical-line values, derives
+the standard leading constants, and gates the conjectural sixth/eighth rows on
+calibration against the proved second/fourth rows.
 
-This is infrastructure for later experiments. It does **not** estimate a zeta
-moment yet, endorse a moment conjecture, or provide evidence for RH.
+It does not infer values of `ζ` from its zeros, endorse a moment conjecture, or
+provide evidence for RH. A finite-window comparison is an instrument check.
 
 ---
 
@@ -166,24 +169,149 @@ if a host replaces a download in place.
 
 ---
 
-## 6. What comes next
+## 6. The finite statistic and its two input datasets
 
-The next increment is the estimator and scorecard described in `ROADMAP.md`:
+For an integer `k ≥ 1` and a sampled interval `[A,B]`, the estimator reports
 
-- state the finite statistic and normalization before implementing it;
-- recover the proven second- and fourth-moment leading terms in controlled
-  ranges before displaying sixth- or eighth-moment predictions;
-- keep theorem, conjectural prediction, finite-height measurement, truncation
-  error, and sampling error in separate fields;
-- mutation-test the scorecard so a deliberately wrong constant fails;
-- consume external ordinates through this module—never silently fall back to
-  computing a replacement zero table.
+```text
+M̂₂ₖ[A,B] = 1/(B-A) · trapezoid ∫ₐᵇ |ζ(1/2 + it)|²ᵏ dt.
+```
 
-No finite computation settles, supports, or weakens RH. The purpose is to test
-the numerical instrument and compare finite data with clearly labelled
-theorems and conjectures.
+This requires two logically different inputs:
+
+1. an `ExternalZeroTable`, which fixes the high-height window and carries the
+   source URL, digest, index range, base, and accuracy wording;
+2. explicit sampled values of `|ζ(1/2+it)|`, with offsets relative to the same
+   decimal base, a pointwise error claim, and a separate `value_source` note.
+
+The second input cannot be reconstructed from the first. A list of zero
+ordinates tells us where `ζ` vanishes, not its scale between zeros. In
+particular, multiplying an entire function by a nonzero factor can preserve its
+zeros and change every moment. `estimate_moment` therefore has no fallback that
+evaluates or manufactures missing values.
+
+The sample grid must contain an odd number of at least five points. The full
+composite trapezoid and its every-other nested grid have the same endpoints.
+Their absolute difference is returned as `sampling_error_estimate`; it is a
+resolution diagnostic, not a rigorous quadrature bound. Caller-supplied
+absolute value errors are propagated monotonically through the `2k`-th power
+and returned separately as `value_error`, with `value_error_kind` preserving
+whether the caller called them a `bound` or an `estimate`.
+
+Every estimate also carries `sample_sha256`, a digest of the exact decimal
+offsets, values, errors, error-kind, and value-source note. Because `k` is not
+part of that digest, the scorecard can mechanically require its second through
+eighth moments to come from the identical sample contract.
+
+Binary floats are rejected at this boundary. At the `10^22` landmark, even the
+sample abscissae—not only the imported zeros—must remain decimal offsets.
+
+---
+
+## 7. Leading references: theorem and conjecture are different fields
+
+Write
+
+```text
+∫₀ᵀ |ζ(1/2+it)|²ᵏ dt  ~  Cₖ T (log T)ᵏ²,
+        Cₖ = aₖ gₖ/(k²)!.
+```
+
+For integer `k`, the [Keating–Snaith][keating-snaith] leading convention and
+the [CFKRS][cfkrs] arithmetic factor are
+
+```text
+aₖ = ∏ₚ (1-1/p)ᵏ² Σₘ≥₀ binom(m+k-1,k-1)² p⁻ᵐ,
+gₖ = (k²)! ∏ⱼ₌₀ᵏ⁻¹ j!/(k+j)!.
+```
+
+`moment_reference` derives these conventions rather than storing four decimal
+constants. The tests pin `g₁,…,g₄ = 1, 2, 42, 24024` and the resulting table:
+
+| `k` | moment | literature status | leading coefficient |
+| ---: | ---: | --- | --- |
+| 1 | 2nd | theorem (Hardy–Littlewood) | `1` |
+| 2 | 4th | theorem (Ingham) | `1/(2π²)` |
+| 3 | 6th | conjecture | `a₃/8640` |
+| 4 | 8th | conjecture | `24024·a₄/16!` |
+
+For `k=3,4`, the Euler product is finite. The exact integer-`k` local identity
+
+```text
+(1-x)ᵏ² Σₘ≥₀ binom(m+k-1,k-1)²xᵐ
+  = (1-x)⁽ᵏ⁻¹⁾² Σⱼ₌₀ᵏ⁻¹ binom(k-1,j)²xʲ
+```
+
+makes each prime factor finite. The omitted-factor estimate is carried as
+`coefficient_truncation_error`; guarded mpmath rounding is not enclosed, so the
+result is accurate rather than certified. `tests/test_moments.py` checks a
+later prime cutoff lies inside the earlier conservative tail allowance.
+
+The proved labels refer to the global `[0,T]` asymptotics. For a shifted or
+short interval, `leading_moment_mean` averages
+`Cₖ log(t/(2π))ᵏ²` over `[A,B]` as an explicit normalization convention. It
+does **not** promote a global theorem into a short-interval theorem.
+
+---
+
+## 8. The scorecard gate
+
+`moment_scorecard` requires estimates for `k=1` and `k=2`, all sharing the same
+window, sample count, value source, and input-table digest. It compares both to
+their proved leading references using a caller-stated relative tolerance.
+
+- If both pass, supplied `k=3` and `k=4` rows receive their conjectural leading
+  predictions.
+- If either fails, the high-order finite-window predictions are `None` and the
+  rows are listed in `withheld_k`.
+- Sampling error, value error, and arithmetic truncation remain separate. They
+  are not subtracted from the residual to manufacture a pass.
+
+This is an instrument gate, not a statistical hypothesis test. Heavy-tailed
+high moments can require far denser and longer sampling than low moments, and a
+passing low-order calibration does not validate the open formulas.
+
+The standing mutation test replaces the proved fourth-moment coefficient by a
+value 2% too large. The calibration must fail and the sixth/eighth predictions
+must remain withheld. That test checks the gate has teeth rather than merely
+printing a warning beside the same output.
+
+---
+
+## 9. Operator sketch
+
+```python
+from zeta.moments import estimate_moment, moment_scorecard
+
+# `table` came from load_odlyzko_zeros or load_lmfdb_zeros.
+# `offsets`, `abs_values`, and `errors` came from a separately recorded value
+# acquisition/evaluator and use table.base as their decimal origin.
+estimates = [
+    estimate_moment(
+        table,
+        k=k,
+        sample_offsets=offsets,
+        abs_zeta_values=abs_values,
+        absolute_value_errors=errors,
+        error_kind="estimate",
+        value_source="<method, version, parameters, and input digest>",
+    )
+    for k in (1, 2, 3, 4)
+]
+
+card = moment_scorecard(
+    estimates,
+    calibration_relative_tolerance="0.25",
+)
+```
+
+No external critical-line value dataset is bundled. Acquiring and documenting
+one is an operator/data task; the zero tables are not relabelled as value data.
+No finite computation settles, supports, or weakens RH.
 
 [odlyzko-index]: https://www-users.cse.umn.edu/~odlyzko/zeta_tables/index.html
 [lmfdb-route]: https://github.com/LMFDB/lmfdb/blob/main/lmfdb/zeros/zeta/zetazeros.py
 [lmfdb-reader]: https://github.com/LMFDB/lmfdb/blob/main/lmfdb/zeros/zeta/platt_zeros.py
 [lmfdb-source]: https://www.lmfdb.org/knowledge/show/rcs.source.zeros.zeta
+[keating-snaith]: https://people.maths.bris.ac.uk/~mancs/papers/RMTzeta.pdf
+[cfkrs]: https://arxiv.org/abs/math/0206018

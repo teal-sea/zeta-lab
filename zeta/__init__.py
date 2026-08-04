@@ -23,7 +23,7 @@ Modules
 :mod:`zeta.explicit`    the explicit formula: ψ, π rebuilt from zeros; the
                         prime spectrum recovering zeros from primes.
 :mod:`zeta.statistics`  unfolding, spacings vs GUE/Poisson, pair correlation.
-:mod:`zeta.moments`     exact ingestion of external LMFDB/Odlyzko zero tables.
+:mod:`zeta.moments`     external zero windows, finite moments, gated scorecards.
 :mod:`zeta.heatflow`    Φ, H_t, zero tracking, de Bruijn–Newman Λ facts.
 :mod:`zeta.weil`        the Riemann–Weil explicit formula, Weil positivity.
 :mod:`zeta.epstein`     the Davenport–Heilbronn counterexample battery.
@@ -137,10 +137,19 @@ from .statistics import (
 from .moments import (
     ODLYZKO_TABLES,
     ExternalZeroTable,
+    MomentError,
+    MomentEstimate,
+    MomentReference,
+    MomentScore,
+    MomentScorecard,
     OdlyzkoTableSpec,
     ZeroTableError,
+    estimate_moment,
+    leading_moment_mean,
     load_lmfdb_zeros,
     load_odlyzko_zeros,
+    moment_reference,
+    moment_scorecard,
 )
 
 # --- heat flow on Ξ: the de Bruijn-Newman constant ------------------------
@@ -285,13 +294,22 @@ __all__ = [
     "montgomery_prediction",
     "gue_eigenvalues",
     "compare_to_random_matrix",
-    # external high-zero tables
+    # external high-zero tables and finite moment scorecards
     "ExternalZeroTable",
     "OdlyzkoTableSpec",
     "ZeroTableError",
+    "MomentError",
+    "MomentEstimate",
+    "MomentReference",
+    "MomentScore",
+    "MomentScorecard",
     "ODLYZKO_TABLES",
     "load_lmfdb_zeros",
     "load_odlyzko_zeros",
+    "estimate_moment",
+    "leading_moment_mean",
+    "moment_reference",
+    "moment_scorecard",
     # heat flow
     "Phi",
     "H_t",

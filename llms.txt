@@ -38,7 +38,7 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 - [docs/10-trace-formulas-and-connes.md](docs/10-trace-formulas-and-connes.md): explicit formula as a trace formula.
 - [docs/11-f1-and-the-missing-geometry.md](docs/11-f1-and-the-missing-geometry.md): the field with one element; Deninger.
 - [docs/12-how-hard-problems-die.md](docs/12-how-hard-problems-die.md): how famous problems actually get solved.
-- [docs/13-moments.md](docs/13-moments.md): external zero-table formats, precision, provenance, and validation.
+- [docs/13-moments.md](docs/13-moments.md): external zero windows, finite moments, leading constants, and gated scorecards.
 
 ## The conjecture factory (`discovery/`)
 

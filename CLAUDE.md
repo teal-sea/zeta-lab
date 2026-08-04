@@ -99,8 +99,10 @@ last one left off; this file plus `git log` is the handoff. Two caveats:
   - `zeros.py` sign-change hunting, Gram points, N(T), `verify_rh_up_to`.
   - `explicit.py` explicit formula (ψ, π from zeros), prime spectrum.
   - `statistics.py` vectorized Riemann–Siegel, unfolding, GUE comparisons.
-  - `moments.py` external LMFDB/Odlyzko zero-table ingestion. It preserves
-    high ordinates as decimal base-plus-offset data and never computes zeros.
+  - `moments.py` external LMFDB/Odlyzko zero-table ingestion plus finite
+    critical-line moment estimates and a theorem-gated prediction scorecard.
+    It preserves high ordinates as decimal base-plus-offset data, requires
+    separately sourced `|ζ|` samples, and never computes zeros.
   - `heatflow.py` Φ, H_t, zero tracking, de Bruijn–Newman Λ.
   - `weil.py` Riemann–Weil explicit formula (both sides independently),
     Weil functional W(h), positivity probes, truncation-tail accounting.
