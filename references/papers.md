@@ -73,6 +73,17 @@ titles do not.
   and publishes the separate bulk-binary
   [reader](https://github.com/LMFDB/lmfdb/blob/main/lmfdb/zeros/zeta/platt_zeros.py).
   *For: the acquisition and parser contracts in `docs/13`.*
+- **Hiary, G. A. and A. M. Odlyzko — "The zeta function on the critical
+  line: Numerical evidence for moments and random matrix theory models"**
+  (*Math. Comp.* 81 (2012), 1723–1752;
+  [author PDF](https://www-users.cse.umn.edu/~odlyzko/doc/zeta.moments.pdf)).
+  Documents the high-height value evaluation and integration method behind the
+  moments programme. The 2026-08-04 data audit found published results but no
+  downloadable dense row table. *For: `docs/13` §§6, 9.*
+- **Bober, J. and G. A. Hiary — selected high zeta computations.** Their
+  [Bristol pages](https://people.maths.bris.ac.uk/~jb12407/data/zeta/index_Z11.html)
+  publish extreme values and plots, useful as computation provenance but not as
+  an interval-moment sample. *For: the source audit in `docs/13` §9.*
 - **Keating, J. P. and N. C. Snaith — "Random Matrix Theory and
   ζ(1/2+it)"** (*Commun. Math. Phys.* 214 (2000), 57–89;
   [author PDF](https://people.maths.bris.ac.uk/~mancs/papers/RMTzeta.pdf)).

@@ -122,6 +122,14 @@ conjectural sixth and eighth moments. The scorecard withholds those open rows
 unless both proved rows pass a caller-stated calibration tolerance; a mutation
 test changes the fourth-moment constant and verifies that the gate fails.
 
+**Third increment shipped.** A critical-line sample loader now reads exact
+`offset abs-zeta absolute-error` rows, detects gzip, verifies caller-supplied
+checksums and row counts, and binds every value file to the SHA-256 of its
+imported zero window. The estimator handoff refuses a different zero-table
+digest. A 2026-08-04 source audit found published methods, aggregate results,
+selected extrema and plots, but no public dense row table suitable for moment
+estimation; `docs/13-moments.md` records the sources checked.
+
 No external critical-line **value** dataset is bundled. Odlyzko and LMFDB zero
 tables supply the window and provenance, not `|ζ|` samples. Acquiring such a
 dataset therefore remains an operator/data task, not something the estimator

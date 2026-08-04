@@ -271,7 +271,7 @@ The docs are a single course; `00 → 01 → 02 → 03 → 04` is one argument.
 | `docs/10-trace-formulas-and-connes.md` | The Weil explicit formula as a trace formula; Selberg's working analogue; Connes' program. |
 | `docs/11-f1-and-the-missing-geometry.md` | The field with one element, Deninger's dynamics, and the hunt for geometry under ℤ. |
 | `docs/12-how-hard-problems-die.md` | Eight problems that fell, the mechanism that killed each, and an honest scoring of RH against the board. |
-| `docs/13-moments.md` | External zero windows, finite-moment estimation, leading constants, error separation, and the theorem-gated scorecard. |
+| `docs/13-moments.md` | External zero/value tables, finite-moment estimation, error separation, and the theorem-gated scorecard. |
 
 ## Gallery
 
@@ -326,7 +326,7 @@ zeta/               the package (flat layout; pip install -e .)
   zeros.py          zero hunting, Gram points, N(T), verify_rh_up_to (Turing)
   explicit.py       explicit formula: ψ/π from zeros; prime spectrum (dual)
   statistics.py     unfolding, spacings vs GUE/Poisson, pair correlation
-  moments.py        external zero windows, finite moments, gated scorecards
+  moments.py        external zero/value tables, finite moments, gated scorecards
   heatflow.py       Φ, H_t, zero tracking, Λ facts (de Bruijn–Newman)
   weil.py           Riemann–Weil explicit formula, both sides; Weil positivity
   epstein.py        Davenport–Heilbronn: zeta-shaped symmetry, a zero off the line

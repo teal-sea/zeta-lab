@@ -7,7 +7,9 @@ increment: it ingests those published tables without recomputing their zeros or
 destroying their local spacing information. The second increment estimates
 finite moments from a *separate* table of sampled critical-line values, derives
 the standard leading constants, and gates the conjectural sixth/eighth rows on
-calibration against the proved second/fourth rows.
+calibration against the proved second/fourth rows. The third increment adds the
+auditable file boundary for that second table: exact decimal rows, raw-byte
+checksums, and a mandatory link to the imported zero-window digest.
 
 It does not infer values of `ζ` from its zeros, endorse a moment conjecture, or
 provide evidence for RH. A finite-window comparison is an instrument check.
@@ -85,6 +87,26 @@ it should be a separate, fixture-backed increment.
 
 Both loaders detect gzip by its magic bytes, so a `.gz` suffix is optional.
 
+### 2.3 Critical-line value samples
+
+`load_critical_line_samples` reads an ASCII table with three whitespace-separated
+columns:
+
+```text
+# illustrative synthetic rows: offset abs-zeta absolute-error
+8226.0 2.000 0.001
+8227.0 2.000 0.001
+```
+
+Offsets use the paired `ExternalZeroTable.base`; absolute ordinates are forbidden
+at this boundary because they would lose the local grid at high height. Blank
+lines and `#` comments are ignored. Gzip is detected by magic bytes.
+
+The resulting `CriticalLineSampleTable` stores the exact decimal tokens, the
+raw-file SHA-256, the value source and URL, the error classification, and the
+paired zero-table SHA-256. `estimate_moment_from_samples` refuses a different
+zero table even when its numerical window happens to overlap.
+
 ---
 
 ## 3. Validation contract
@@ -145,6 +167,22 @@ Supply both the expected count and checksum for a durable acquisition record.
 Index continuity alone cannot detect a cleanly truncated tail when the desired
 end index is unknown.
 
+### Critical-line values
+
+```python
+from zeta.moments import load_critical_line_samples
+
+samples = load_critical_line_samples(
+    "data/external/critical-line-values.txt.gz",
+    table=table,
+    error_kind="estimate",
+    value_source="<evaluator, version, parameters, and accuracy method>",
+    source_url="<exact value-table URL>",
+    expected_count=declared_count,
+    expected_sha256="<64 hex digits from the acquisition record>",
+)
+```
+
 Do not write `float(table.ordinate(...))` for high tables. Downstream code must
 either operate on `Decimal`, operate on local offsets, or explicitly convert to
 an arbitrary-precision type at enough precision for the full height plus the
@@ -162,6 +200,9 @@ acquisition, record at least:
 3. the table identifier or LMFDB query bounds;
 4. the loader's first index, last index, count, base, and `accuracy_note`;
 5. the zeta-lab commit that consumed it.
+
+For a value table, also record its evaluator and version, its pointwise error
+method, and the SHA-256 of the zero table used to define its decimal origin.
 
 The private or local data file and the code that interprets it are separate
 objects. Keeping the acquisition record makes a later scorecard auditable even
@@ -281,20 +322,14 @@ printing a warning beside the same output.
 ## 9. Operator sketch
 
 ```python
-from zeta.moments import estimate_moment, moment_scorecard
+from zeta.moments import estimate_moment_from_samples, moment_scorecard
 
-# `table` came from load_odlyzko_zeros or load_lmfdb_zeros.
-# `offsets`, `abs_values`, and `errors` came from a separately recorded value
-# acquisition/evaluator and use table.base as their decimal origin.
+# `table` and `samples` came from the two independent loaders above.
 estimates = [
-    estimate_moment(
+    estimate_moment_from_samples(
         table,
+        samples,
         k=k,
-        sample_offsets=offsets,
-        abs_zeta_values=abs_values,
-        absolute_value_errors=errors,
-        error_kind="estimate",
-        value_source="<method, version, parameters, and input digest>",
     )
     for k in (1, 2, 3, 4)
 ]
@@ -309,9 +344,24 @@ No external critical-line value dataset is bundled. Acquiring and documenting
 one is an operator/data task; the zero tables are not relabelled as value data.
 No finite computation settles, supports, or weakens RH.
 
+### Source audit, 2026-08-04
+
+The public sources located do not provide a dense downloadable value table that
+meets this contract. [LMFDB's auxiliary dataset][lmfdb-datasets] lists zeta
+zeros, not sampled values. [Hiary and Odlyzko][hiary-odlyzko] document dense
+Odlyzko–Schönhage evaluations in a high window, but their paper and indexed
+author page expose results rather than the underlying rows. [Bober and
+Hiary][bober-hiary] publish selected extreme values and plots at still greater
+heights, which are deliberately biased observations and cannot estimate an
+interval moment. The loader is therefore shipped without a fixture masquerading
+as research data.
+
 [odlyzko-index]: https://www-users.cse.umn.edu/~odlyzko/zeta_tables/index.html
 [lmfdb-route]: https://github.com/LMFDB/lmfdb/blob/main/lmfdb/zeros/zeta/zetazeros.py
 [lmfdb-reader]: https://github.com/LMFDB/lmfdb/blob/main/lmfdb/zeros/zeta/platt_zeros.py
 [lmfdb-source]: https://www.lmfdb.org/knowledge/show/rcs.source.zeros.zeta
 [keating-snaith]: https://people.maths.bris.ac.uk/~mancs/papers/RMTzeta.pdf
 [cfkrs]: https://arxiv.org/abs/math/0206018
+[hiary-odlyzko]: https://www-users.cse.umn.edu/~odlyzko/doc/zeta.moments.pdf
+[lmfdb-datasets]: https://www.lmfdb.org/datasets/
+[bober-hiary]: https://people.maths.bris.ac.uk/~jb12407/data/zeta/index_Z11.html

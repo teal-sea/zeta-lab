@@ -136,6 +136,7 @@ from .statistics import (
 # --- external high-zero tables for the moments programme -----------------
 from .moments import (
     ODLYZKO_TABLES,
+    CriticalLineSampleTable,
     ExternalZeroTable,
     MomentError,
     MomentEstimate,
@@ -145,8 +146,10 @@ from .moments import (
     OdlyzkoTableSpec,
     ZeroTableError,
     estimate_moment,
+    estimate_moment_from_samples,
     leading_moment_mean,
     load_lmfdb_zeros,
+    load_critical_line_samples,
     load_odlyzko_zeros,
     moment_reference,
     moment_scorecard,

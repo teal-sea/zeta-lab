@@ -14,13 +14,16 @@ import pytest
 
 from zeta.moments import (
     ODLYZKO_TABLES,
+    CriticalLineSampleTable,
     ExternalZeroTable,
     MomentError,
     ZeroTableError,
     estimate_moment,
+    estimate_moment_from_samples,
     leading_moment_mean,
     load_lmfdb_zeros,
     load_odlyzko_zeros,
+    load_critical_line_samples,
     moment_reference,
     moment_scorecard,
 )
@@ -181,6 +184,118 @@ def _high_window() -> ExternalZeroTable:
         sha256="a" * 64,
         accuracy_note="synthetic exact-decimal fixture",
     )
+
+
+def _sample_text(*rows: str) -> str:
+    return (
+        "# offset-from-zero-table-base abs-zeta absolute-error\n"
+        + "\n".join(rows)
+        + "\n"
+    )
+
+
+def test_critical_line_sample_loader_preserves_decimals_and_file_provenance(
+    tmp_path: Path,
+) -> None:
+    table = _high_window()
+    raw = _sample_text(
+        "8226.0 2.000 0.001",
+        "8227.0 2.000 0.001",
+        "8228.0 2.000 0.001",
+        "8229.0 2.000 0.001",
+        "8230.0 2.000 0.001",
+    ).encode("ascii")
+    path = tmp_path / "critical-line-values.txt.gz"
+    path.write_bytes(gzip.compress(raw, mtime=0))
+    digest = hashlib.sha256(path.read_bytes()).hexdigest()
+
+    samples = load_critical_line_samples(
+        path,
+        table=table,
+        error_kind="estimate",
+        value_source="independent evaluator v1",
+        source_url="https://example.test/critical-line-values.txt.gz",
+        expected_count=5,
+        expected_sha256=digest,
+    )
+
+    assert isinstance(samples, CriticalLineSampleTable)
+    assert samples.base == table.base
+    assert samples.offsets[0] == Decimal("8226.0")
+    assert samples.abs_zeta_values == (Decimal("2.000"),) * 5
+    assert samples.absolute_value_errors == (Decimal("0.001"),) * 5
+    assert samples.sha256 == digest
+    assert samples.zero_table_sha256 == table.sha256
+
+    estimate = estimate_moment_from_samples(table, samples, k=2)
+    assert estimate.mean_value == 16
+    assert digest in estimate.value_source
+    assert samples.source_url in estimate.value_source
+
+
+@pytest.mark.parametrize(
+    ("rows", "message"),
+    [
+        (("8226 1 0", "8227 1 0", "8228 1 0", "8229 1 0"), "odd number"),
+        (
+            ("8226 1 0", "8227 1 0", "8227 1 0", "8229 1 0", "8230 1 0"),
+            "strictly increasing",
+        ),
+        (
+            ("8225 1 0", "8227 1 0", "8228 1 0", "8229 1 0", "8230 1 0"),
+            "outside",
+        ),
+        (
+            ("8226 1 0", "8227 1 0", "8228 -1 0", "8229 1 0", "8230 1 0"),
+            "abs_zeta",
+        ),
+        (
+            ("8226 1 0", "8227 1 0", "8228 1 -1", "8229 1 0", "8230 1 0"),
+            "absolute_error",
+        ),
+        (
+            ("8226 1 0", "8227 1 0", "8228 1", "8229 1 0", "8230 1 0"),
+            "three columns",
+        ),
+    ],
+)
+def test_critical_line_sample_loader_rejects_bad_tables(
+    tmp_path: Path, rows: tuple[str, ...], message: str
+) -> None:
+    path = _write(tmp_path / "values", _sample_text(*rows))
+    with pytest.raises(MomentError, match=message):
+        load_critical_line_samples(
+            path,
+            table=_high_window(),
+            error_kind="bound",
+            value_source="fixture evaluator",
+            source_url="fixture://values",
+        )
+
+
+def test_critical_line_sample_loader_checks_count_checksum_and_zero_window(
+    tmp_path: Path,
+) -> None:
+    table = _high_window()
+    path = _write(
+        tmp_path / "values",
+        _sample_text(*(f"{8226 + i} 2 0" for i in range(5))),
+    )
+    kwargs = dict(
+        table=table,
+        error_kind="bound",
+        value_source="fixture evaluator",
+        source_url="fixture://values",
+    )
+    with pytest.raises(MomentError, match="row count mismatch"):
+        load_critical_line_samples(path, expected_count=7, **kwargs)
+    with pytest.raises(MomentError, match="SHA-256 mismatch"):
+        load_critical_line_samples(path, expected_sha256="0" * 64, **kwargs)
+
+    samples = load_critical_line_samples(path, **kwargs)
+    other_table = replace(table, sha256="b" * 64)
+    with pytest.raises(MomentError, match="zero-table digest"):
+        estimate_moment_from_samples(other_table, samples, k=1)
 
 
 def test_estimator_preserves_high_window_and_states_finite_normalisation() -> None:

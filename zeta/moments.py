@@ -6,7 +6,9 @@ checks their structural invariants, and preserves the published decimal data
 without converting absolute ordinates to binary floats.  Its estimator then
 accepts a *separate*, explicitly sourced table of sampled ``abs(zeta)`` values
 inside one of those imported windows.  Zero ordinates alone do not determine
-the values of zeta between them.
+the values of zeta between them.  The value-table loader preserves exact
+decimal tokens, fingerprints the supplied bytes, and binds them to the digest
+of the zero table that defines their offset origin.
 
 At heights near 10^22, neighbouring ordinates differ by much less than one
 float64 ulp.  :class:`ExternalZeroTable` therefore stores an exact decimal
@@ -41,6 +43,7 @@ from typing import Final, Literal
 from mpmath import mp
 
 __all__ = [
+    "CriticalLineSampleTable",
     "ExternalZeroTable",
     "MomentError",
     "MomentEstimate",
@@ -51,8 +54,10 @@ __all__ = [
     "OdlyzkoTableSpec",
     "ZeroTableError",
     "estimate_moment",
+    "estimate_moment_from_samples",
     "leading_moment_mean",
     "load_lmfdb_zeros",
+    "load_critical_line_samples",
     "load_odlyzko_zeros",
     "moment_reference",
     "moment_scorecard",
@@ -207,32 +212,44 @@ _ODLYZKO_RANGE_RE = re.compile(
 )
 
 
-def _read_bytes(path: str | Path) -> tuple[str, str]:
+def _read_bytes(
+    path: str | Path,
+    *,
+    error_type: type[ValueError] = ZeroTableError,
+    label: str = "zero table",
+) -> tuple[str, str]:
     source_path = Path(path)
     try:
         raw = source_path.read_bytes()
     except OSError as exc:
-        raise ZeroTableError(f"cannot read zero table {source_path}: {exc}") from exc
+        raise error_type(f"cannot read {label} {source_path}: {exc}") from exc
     digest = hashlib.sha256(raw).hexdigest()
     if raw.startswith(b"\x1f\x8b"):
         try:
             raw = gzip.decompress(raw)
         except (gzip.BadGzipFile, EOFError, OSError) as exc:
-            raise ZeroTableError(f"invalid or truncated gzip table: {exc}") from exc
+            raise error_type(f"invalid or truncated gzip {label}: {exc}") from exc
     try:
         return raw.decode("ascii"), digest
     except UnicodeDecodeError as exc:
-        raise ZeroTableError("zero table must be ASCII text") from exc
+        raise error_type(f"{label} must be ASCII text") from exc
 
 
-def _check_digest(actual: str, expected: str | None) -> None:
+def _check_digest(
+    actual: str,
+    expected: str | None,
+    *,
+    error_type: type[ValueError] = ZeroTableError,
+) -> None:
     if expected is None:
         return
+    if not isinstance(expected, str):
+        raise error_type("expected_sha256 must contain exactly 64 hexadecimal digits")
     normalised = expected.lower()
     if not re.fullmatch(r"[0-9a-f]{64}", normalised):
-        raise ZeroTableError("expected_sha256 must contain exactly 64 hexadecimal digits")
+        raise error_type("expected_sha256 must contain exactly 64 hexadecimal digits")
     if actual != normalised:
-        raise ZeroTableError(f"SHA-256 mismatch: expected {normalised}, got {actual}")
+        raise error_type(f"SHA-256 mismatch: expected {normalised}, got {actual}")
 
 
 def _decimal(token: str, *, line_number: int) -> Decimal:
@@ -380,6 +397,84 @@ def load_odlyzko_zeros(
 _DecimalInput = Decimal | str | int
 _ErrorKind = Literal["bound", "estimate"]
 _LiteratureStatus = Literal["theorem", "conjecture"]
+
+
+@dataclass(frozen=True)
+class CriticalLineSampleTable:
+    """A checked, provenance-carrying table of sampled ``abs(zeta)`` values.
+
+    ``offsets`` share the decimal ``base`` of one :class:`ExternalZeroTable`.
+    ``sha256`` covers the exact supplied file bytes, while
+    ``zero_table_sha256`` pins the zero window against which the offsets were
+    validated.  The table contains measured values, never values reconstructed
+    from zero ordinates.
+    """
+
+    base: Decimal
+    offsets: tuple[Decimal, ...]
+    abs_zeta_values: tuple[Decimal, ...]
+    absolute_value_errors: tuple[Decimal, ...]
+    error_kind: _ErrorKind
+    value_source: str
+    source_url: str
+    sha256: str
+    zero_table_sha256: str
+
+    def __post_init__(self) -> None:
+        count = len(self.offsets)
+        if count < 5 or count % 2 == 0:
+            raise MomentError(
+                "critical-line samples require an odd number of at least five rows"
+            )
+        if (
+            len(self.abs_zeta_values) != count
+            or len(self.absolute_value_errors) != count
+        ):
+            raise MomentError("sample offsets, values, and errors must have equal lengths")
+        if not isinstance(self.base, Decimal) or not self.base.is_finite():
+            raise MomentError("sample base must be a finite Decimal")
+        previous: Decimal | None = None
+        for position, (offset, value, error) in enumerate(
+            zip(
+                self.offsets,
+                self.abs_zeta_values,
+                self.absolute_value_errors,
+                strict=True,
+            )
+        ):
+            if not all(
+                isinstance(item, Decimal) and item.is_finite()
+                for item in (offset, value, error)
+            ):
+                raise MomentError(f"sample row {position} must contain finite Decimals")
+            if previous is not None and offset <= previous:
+                raise MomentError("sample offsets must be strictly increasing")
+            if value < 0:
+                raise MomentError("abs_zeta values must be non-negative")
+            if error < 0:
+                raise MomentError("absolute_error values must be non-negative")
+            previous = offset
+        if self.error_kind not in {"bound", "estimate"}:
+            raise MomentError("error_kind must be 'bound' or 'estimate'")
+        if not isinstance(self.value_source, str) or not self.value_source.strip():
+            raise MomentError("value_source must be a non-empty string")
+        if not isinstance(self.source_url, str) or not self.source_url.strip():
+            raise MomentError("source_url must be a non-empty string")
+        for name, digest in (
+            ("sha256", self.sha256),
+            ("zero_table_sha256", self.zero_table_sha256),
+        ):
+            if (
+                not isinstance(digest, str)
+                or re.fullmatch(r"[0-9a-f]{64}", digest) is None
+            ):
+                raise MomentError(f"{name} must contain 64 lowercase hexadecimal digits")
+
+    @property
+    def sample_count(self) -> int:
+        """Number of sampled critical-line values."""
+
+        return len(self.offsets)
 
 
 @dataclass(frozen=True)
@@ -568,6 +663,94 @@ def _error_series(values: Sequence[object] | _DecimalInput, count: int) -> tuple
     return errors
 
 
+def load_critical_line_samples(
+    path: str | Path,
+    *,
+    table: ExternalZeroTable,
+    error_kind: Literal["bound", "estimate"],
+    value_source: str,
+    source_url: str,
+    expected_count: int | None = None,
+    expected_sha256: str | None = None,
+) -> CriticalLineSampleTable:
+    """Load ``offset abs_zeta absolute_error`` rows for one zero window.
+
+    Blank lines and lines beginning with ``#`` are ignored.  Decimal offsets
+    use ``table.base`` as their origin and must lie inside the imported zero
+    window.  Gzip is detected by magic bytes.  The raw-file digest and the zero
+    table digest are both retained so the two independent inputs cannot be
+    silently mixed later.
+    """
+
+    if not isinstance(table, ExternalZeroTable):
+        raise MomentError("table must be an ExternalZeroTable")
+    if expected_count is not None and (
+        isinstance(expected_count, bool)
+        or not isinstance(expected_count, int)
+        or expected_count < 1
+    ):
+        raise MomentError("expected_count must be a positive integer")
+    text, digest = _read_bytes(
+        path,
+        error_type=MomentError,
+        label="critical-line sample table",
+    )
+    _check_digest(digest, expected_sha256, error_type=MomentError)
+
+    offsets: list[Decimal] = []
+    values: list[Decimal] = []
+    errors: list[Decimal] = []
+    for line_number, raw_line in enumerate(text.splitlines(), 1):
+        line = raw_line.strip()
+        if not line or line.startswith("#"):
+            continue
+        fields = line.split()
+        if len(fields) != 3:
+            raise MomentError(
+                f"line {line_number}: expected three columns: "
+                "offset abs_zeta absolute_error"
+            )
+        try:
+            offset, value, error = (
+                _moment_decimal(token, field=field)
+                for token, field in zip(
+                    fields,
+                    ("offset", "abs_zeta", "absolute_error"),
+                    strict=True,
+                )
+            )
+        except MomentError as exc:
+            raise MomentError(f"line {line_number}: {exc}") from exc
+        offsets.append(offset)
+        values.append(value)
+        errors.append(error)
+
+    if expected_count is not None and len(offsets) != expected_count:
+        raise MomentError(
+            f"row count mismatch: expected {expected_count}, got {len(offsets)}"
+        )
+
+    samples = CriticalLineSampleTable(
+        base=table.base,
+        offsets=tuple(offsets),
+        abs_zeta_values=tuple(values),
+        absolute_value_errors=tuple(errors),
+        error_kind=error_kind,
+        value_source=(
+            value_source.strip() if isinstance(value_source, str) else value_source
+        ),
+        source_url=source_url.strip() if isinstance(source_url, str) else source_url,
+        sha256=digest,
+        zero_table_sha256=table.sha256,
+    )
+    if (
+        samples.offsets[0] < table.offsets[0]
+        or samples.offsets[-1] > table.offsets[-1]
+    ):
+        raise MomentError("critical-line sample offset is outside the imported zero window")
+    return samples
+
+
 def _trapezoid(xs: Sequence[Decimal], ys: Sequence[Decimal]) -> Decimal:
     total = Decimal(0)
     two = Decimal(2)
@@ -715,6 +898,39 @@ def estimate_moment(
         table_last_index=table.last_index,
         normalization="1 / (B - A) times integral_A^B |zeta(1/2 + i t)|^(2k) dt",
         quadrature="composite trapezoid; sampling estimate is fine minus every-other nested grid",
+    )
+
+
+def estimate_moment_from_samples(
+    table: ExternalZeroTable,
+    samples: CriticalLineSampleTable,
+    *,
+    k: int,
+    dps: int = 60,
+) -> MomentEstimate:
+    """Estimate one moment from a loaded, digest-linked sample table."""
+
+    if not isinstance(table, ExternalZeroTable):
+        raise MomentError("table must be an ExternalZeroTable")
+    if not isinstance(samples, CriticalLineSampleTable):
+        raise MomentError("samples must be a CriticalLineSampleTable")
+    if samples.base != table.base:
+        raise MomentError("sample base does not match the imported zero table")
+    if samples.zero_table_sha256 != table.sha256:
+        raise MomentError("sample zero-table digest does not match the imported zero table")
+    provenance = (
+        f"{samples.value_source} "
+        f"[source_url={samples.source_url}; sha256={samples.sha256}]"
+    )
+    return estimate_moment(
+        table,
+        k=k,
+        sample_offsets=samples.offsets,
+        abs_zeta_values=samples.abs_zeta_values,
+        absolute_value_errors=samples.absolute_value_errors,
+        error_kind=samples.error_kind,
+        value_source=provenance,
+        dps=dps,
     )
 
 
