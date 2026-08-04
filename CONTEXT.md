@@ -326,18 +326,20 @@ A domain-agnostic pipeline that generates candidate observations from the labora
 
 ### `discovery/schema.py` — discovery.schema — the ontology of the discovery funnel.
 
-*1749 lines*
+*1833 lines*
 
 Constants: `SCHEMA_MAJOR`, `SCHEMA_MINOR`, `SCHEMA_VERSION`, `SCHEMA_HISTORY`, `DEFAULT_DEDUP_DIGITS`, `MIN_INDEX_SPAN`, `MIN_WINDOWS`, `MIN_WINDOW_POINTS`, `MIN_WITNESSES`, `MAX_ARGUMENT_CHARS`, `RELATION_OPS`, `LIMIT_POINTS`, `DIRECTIONS`, `PRECISION_KINDS`, `KIND_RULES`, `TERMINAL_STATUSES`, `REOPENABLE_STATUSES`, `REQUIRED_SURVIVAL_CHECKS`
 
 - `class SchemaError` — Base class for every error raised by this module.
 - `class ValidationError` — A record is malformed: it violates the ontology's own rules.
 - `class CandidateKind` — The five shapes an observation may take. Five, and no more.
+- `class CandidateRelation` — The two graph relations a candidate may assert about another.
 - `class VerdictStatus` — Six states. Four of them are ways of saying "nothing here".
 - `class InconclusiveReason` — Closed vocabulary: why the work decided nothing.
 - `class Verdict` — What the funnel concluded, and the evidence that earns the conclusion.
 - `class Precision` — How much arithmetic was bought. ``effort_digits`` makes kinds comparable.
 - `class Provenance` — Everything needed to re-derive the observation months later.
+- `class CandidateLink` — One non-identity graph edge from a candidate to another candidate.
 - `class Candidate` — One observation, with its identity, its support and its fate.
 - `class KnownEntry` — One entry of a domain-supplied catalogue of things already established.
 - `canonical_claim(kind: 'CandidateKind | str', claim: Mapping[str, Any], digits: int = DEFAULT_DEDUP_DIGITS) -> str` — The exact byte string that is hashed to give a candidate its identity.
@@ -571,14 +573,14 @@ Constants: `GENERATOR`, `GENERATOR_VERSION`, `SEED`, `GUARD_DIGITS`, `GAUSS_WIND
 
 ## Tests (`tests/`)
 
-1027 test functions across 19 files (the collected count differs where tests are parametrised):
+1031 test functions across 19 files (the collected count differs where tests are parametrised):
 
 - `tests/test_core.py` — 97
 - `tests/test_criteria.py` — 75
 - `tests/test_discovery_funnel.py` — 87
 - `tests/test_discovery_historical_validation.py` — 48
 - `tests/test_discovery_knownness.py` — 102
-- `tests/test_discovery_schema.py` — 58
+- `tests/test_discovery_schema.py` — 62
 - `tests/test_discovery_zeta_domain.py` — 75
 - `tests/test_epstein.py` — 31
 - `tests/test_explicit.py` — 45

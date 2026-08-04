@@ -43,6 +43,8 @@ from discovery import schema as S  # noqa: E402
 from discovery.schema import (  # noqa: E402
     Candidate,
     CandidateKind,
+    CandidateLink,
+    CandidateRelation,
     InconclusiveReason,
     KnownEntry,
     Precision,
@@ -634,6 +636,60 @@ def test_a_verdict_does_not_change_a_candidate_identity() -> None:
     assert S.latest_by_id([candidate, decided]) == {candidate.id: decided}
 
 
+def test_candidate_links_are_typed_graph_annotations_not_deductions() -> None:
+    target = _candidate(CandidateKind.RELATION)
+    source = _candidate(
+        CandidateKind.CONSTANT,
+        related_to=(
+            CandidateLink(target.id, CandidateRelation.IMPLIES),
+            {
+                "candidate_id": "cand-" + "f" * 32,
+                "relation": "equivalent_to",
+            },
+        ),
+    )
+    S.validate_candidate(source)
+    assert source.related_to[0].relation is CandidateRelation.IMPLIES
+    assert source.related_to[1].relation is CandidateRelation.EQUIVALENT_TO
+    # A dangling target and a one-way equivalence are both allowed: links do
+    # not query a ledger, demand reciprocal edges, or propagate a verdict.
+    assert source.verdict.status is VerdictStatus.OPEN
+
+
+def test_candidate_links_do_not_change_identity_and_round_trip() -> None:
+    target = _candidate(CandidateKind.RELATION)
+    plain = _candidate(CandidateKind.CONSTANT)
+    linked = _candidate(
+        CandidateKind.CONSTANT,
+        related_to=(CandidateLink(target.id, "implies"),),
+    )
+    assert linked.id == plain.id
+    restored = S.from_json(S.to_json(linked))
+    assert restored == linked
+    assert restored.related_to == linked.related_to
+
+
+@pytest.mark.parametrize(
+    "link,pattern",
+    [
+        ({"candidate_id": "not-an-id", "relation": "implies"}, "candidate_id"),
+        ({"candidate_id": "cand-" + "0" * 32, "relation": "resembles"}, "relation"),
+        ({"candidate_id": "cand-" + "0" * 32}, "requires"),
+        (
+            {
+                "candidate_id": "cand-" + "0" * 32,
+                "relation": "implies",
+                "confidence": 0.9,
+            },
+            "unknown",
+        ),
+    ],
+)
+def test_candidate_links_refuse_malformed_edge_shapes(link, pattern) -> None:
+    with pytest.raises(ValidationError, match=pattern):
+        _candidate(CandidateKind.CONSTANT, related_to=(link,))
+
+
 # ---------------------------------------------------------------------------
 # 3. identity: the content hash and the deduplication contract
 # ---------------------------------------------------------------------------
@@ -849,6 +905,17 @@ def test_unknown_top_level_keys_are_tolerated_but_unknown_claim_keys_are_not() -
     record2.pop("id")
     with pytest.raises(ValidationError):
         S.from_dict(record2)
+
+
+def test_version_1_0_record_defaults_to_no_graph_edges_without_moving_its_id() -> None:
+    record = _candidate(CandidateKind.CONSTANT).to_dict()
+    original_id = record["id"]
+    record["schema_version"] = "1.0"
+    record.pop("related_to")
+    restored = S.from_dict(record)
+    assert restored.schema_version == "1.0"
+    assert restored.related_to == ()
+    assert restored.id == original_id
 
 
 MALFORMED_RECORDS: list[tuple[str, dict]] = [

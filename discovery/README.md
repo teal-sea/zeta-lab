@@ -99,6 +99,12 @@ A candidate's payload is split in two, and the split is load-bearing:
 The decision procedures read *both*: whether an observation is an asymptotic
 candidate depends on whether the support qualifies as asymptotic evidence.
 
+An optional top-level **`related_to`** list records graph annotations without
+changing the claim. Each entry is `{candidate_id, relation}`, where `relation`
+is `implies` or `equivalent_to`. Links are deliberately excluded from identity
+and verdict logic: the schema checks their shape, but does not require the
+target to be present, add reciprocal equivalence edges, or propagate verdicts.
+
 The five kinds are **pairwise exclusive by construction**, and the test suite
 proves it on the key sets rather than on examples: for any two kinds `A ≠ B`,
 `required(A) ∪ required(B)` is never contained in
@@ -288,10 +294,11 @@ Canonicalisation, precisely:
 - `bool` and `None` are their JSON spellings; unknown types are refused.
 
 **What is deliberately excluded from identity:** provenance (generator, version,
-parameters, precision, seed, revision, timestamp), verdict, label, and *all*
-evidence. Two generators that find the same relation produce one candidate with
-two provenance records — which is exactly the measurement the metrics layer
-exists to make ("generator B has found nothing generator A had not").
+parameters, precision, seed, revision, timestamp), verdict, label, `related_to`,
+and *all* evidence. Two generators that find the same relation produce one
+candidate with two provenance records — which is exactly the measurement the
+metrics layer exists to make ("generator B has found nothing generator A had
+not").
 
 **Why nine significant digits.** `DEFAULT_DEDUP_DIGITS = 9` sits in the gap
 between two failure modes. Too few digits and distinct quantities merge: a
@@ -336,7 +343,7 @@ rather than silently counted.
 
 ## 5. Schema version and migration policy
 
-`SCHEMA_VERSION = "1.0"`, and `SCHEMA_MAJOR` is inside the hash preimage.
+`SCHEMA_VERSION = "1.1"`, and `SCHEMA_MAJOR` is inside the hash preimage.
 
 - **Minor bump** (`1.0 → 1.1`): may only *add optional fields*. Canonicalisation
   must not change, so every id stays stable. Old readers tolerate new records
@@ -397,11 +404,11 @@ Every ontology has a blind spot. These are ours.
 3. **Relations among more than two quantities.** `relation` is binary. A
    three-way identity must be recorded as a derived quantity plus a binary
    relation, which loses the shape of the original statement.
-4. **Dependency between candidates.** There is no edge type: no "this claim
-   implies that one", no "these two are the same theorem in different clothes".
-   Two candidates that are trivially equivalent get two ids, and only a human
-   reading the log will notice. A future minor version could add an optional
-   `related_to` field; it would not be hashed, and it would not be enforced.
+4. **Graph consistency.** Version 1.1 can record `implies` and `equivalent_to`
+   edges, but deliberately does not turn them into deductions. It does not
+   require a target already to exist, require the reverse edge for an
+   equivalence, detect cycles, or propagate verdicts. Those checks need a view
+   of the whole ledger; a single candidate record cannot earn them.
 5. **Anything about the *reason* a claim might be true.** The schema records
    what was asserted, what supported it and what killed it. It has no
    representation of a mechanism, a proof sketch or a heuristic — `proof_gap`

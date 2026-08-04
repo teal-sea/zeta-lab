@@ -14,7 +14,8 @@ five, each defined by a *decision procedure* rather than by a word), a
 ``claim`` (the identity-bearing content — what is being asserted), an
 ``evidence`` mapping (the support: windows, tolerances, controls, counts), a
 :class:`Provenance` record that must make the observation re-derivable months
-later, and a :class:`Verdict` whose status defaults to ``open``. The candidate's
+later, optional typed ``related_to`` graph links, and a :class:`Verdict` whose
+status defaults to ``open``. The candidate's
 ``id`` is a content hash of ``(schema major, kind, canonicalised claim)`` and of
 nothing else — so the same observation found twice by two different generators
 at two different precisions is recognised as one candidate, which is exactly
@@ -29,9 +30,9 @@ Three rules the rest of the package depends on
    own detector, and so are ``refuted``, ``trivial`` and ``inconclusive``. Each
    has entry criteria enforced by :func:`validate_verdict`; a status cannot be
    asserted without the evidence that earns it.
-3. **Identity is the claim, not the run.** Provenance, verdict, label and
-   timestamps are excluded from the hash. See ``README.md`` for the full
-   deduplication contract and its failure modes.
+3. **Identity is the claim, not the run.** Provenance, verdict, label,
+   ``related_to`` and timestamps are excluded from the hash. See ``README.md``
+   for the full deduplication contract and its failure modes.
 
 Serialisation is JSON (one record per line for JSONL). ``from_dict`` recomputes
 the content hash and refuses a record whose stored ``id`` disagrees with its
@@ -74,6 +75,7 @@ __all__ = [
     "ValidationError",
     # vocabularies
     "CandidateKind",
+    "CandidateRelation",
     "VerdictStatus",
     "InconclusiveReason",
     "RELATION_OPS",
@@ -101,6 +103,7 @@ __all__ = [
     "Provenance",
     "Verdict",
     "Candidate",
+    "CandidateLink",
     "KnownEntry",
     # validation
     "validate_claim",
@@ -133,7 +136,7 @@ __all__ = [
 # ---------------------------------------------------------------------------
 
 SCHEMA_MAJOR: Final[int] = 1
-SCHEMA_MINOR: Final[int] = 0
+SCHEMA_MINOR: Final[int] = 1
 SCHEMA_VERSION: Final[str] = f"{SCHEMA_MAJOR}.{SCHEMA_MINOR}"
 
 #: Append-only log of schema revisions. A *minor* bump may add optional fields
@@ -152,6 +155,16 @@ SCHEMA_HISTORY: Final[tuple[Mapping[str, str], ...]] = (
             ),
         }
     ),
+    MappingProxyType(
+        {
+            "version": "1.1",
+            "date": "2026-08-04",
+            "note": (
+                "Added optional related_to graph edges. Links are excluded from "
+                "candidate identity and do not propagate or constrain verdicts."
+            ),
+        }
+    ),
 )
 
 #: Significant decimal digits kept when a measured number enters the content
@@ -167,6 +180,9 @@ MAX_ARGUMENT_CHARS: Final[int] = 240
 
 _ID_PREFIX: Final[str] = "cand-"
 _HASH_HEX: Final[int] = 32  # 128 bits of the SHA-256 digest
+_CANDIDATE_ID_RE: Final[re.Pattern[str]] = re.compile(
+    rf"^{re.escape(_ID_PREFIX)}[0-9a-f]{{{_HASH_HEX}}}$"
+)
 
 _NUMERIC_RE: Final[re.Pattern[str]] = re.compile(
     r"^[+-]?(?:\d+\.?\d*|\.\d+)(?:[eE][+-]?\d+)?$"
@@ -357,6 +373,15 @@ class CandidateKind(StrEnum):
     EXTREMAL = "extremal"
     #: A universal qualitative claim about an enumerated family.
     STRUCTURAL = "structural"
+
+
+class CandidateRelation(StrEnum):
+    """The two graph relations a candidate may assert about another."""
+
+    #: The candidate carrying the link implies the target candidate.
+    IMPLIES = "implies"
+    #: The candidate and target express equivalent claims.
+    EQUIVALENT_TO = "equivalent_to"
 
 
 RELATION_OPS: Final[tuple[str, ...]] = (
@@ -1359,6 +1384,53 @@ def _json_safety_reasons(value: Any, where: str) -> list[str]:
 
 
 @dataclass(frozen=True, slots=True)
+class CandidateLink:
+    """One non-identity graph edge from a candidate to another candidate.
+
+    Links are annotations, not deductions.  The schema validates their shape
+    but does not require the target to exist, add reciprocal equivalence links,
+    or propagate verdicts along implications.
+    """
+
+    candidate_id: str
+    relation: CandidateRelation
+
+    def __post_init__(self) -> None:
+        if not isinstance(self.candidate_id, str) or not _CANDIDATE_ID_RE.fullmatch(
+            self.candidate_id
+        ):
+            raise ValidationError(
+                "related candidate_id must have the form 'cand-' plus 32 lowercase "
+                "hexadecimal digits"
+            )
+        try:
+            relation = CandidateRelation(self.relation)
+        except (TypeError, ValueError) as exc:
+            raise ValidationError(
+                f"unknown candidate relation: {self.relation!r}"
+            ) from exc
+        object.__setattr__(self, "relation", relation)
+
+    def to_dict(self) -> dict[str, str]:
+        return {"candidate_id": self.candidate_id, "relation": self.relation.value}
+
+    @classmethod
+    def from_dict(cls, record: Mapping[str, Any]) -> "CandidateLink":
+        if not isinstance(record, Mapping):
+            raise ValidationError("each related_to entry must be a mapping")
+        unknown = set(record) - {"candidate_id", "relation"}
+        if unknown:
+            raise ValidationError(
+                "unknown related_to fields: " + ", ".join(sorted(map(str, unknown)))
+            )
+        if "candidate_id" not in record or "relation" not in record:
+            raise ValidationError(
+                "each related_to entry requires candidate_id and relation"
+            )
+        return cls(candidate_id=record["candidate_id"], relation=record["relation"])
+
+
+@dataclass(frozen=True, slots=True)
 class Candidate:
     """One observation, with its identity, its support and its fate.
 
@@ -1374,6 +1446,7 @@ class Candidate:
     verdict: Verdict = field(default_factory=Verdict)
     dedup_digits: int = DEFAULT_DEDUP_DIGITS
     label: str = ""
+    related_to: tuple[CandidateLink, ...] = ()
     schema_version: str = SCHEMA_VERSION
     id: str = field(init=False, default="")
 
@@ -1381,6 +1454,15 @@ class Candidate:
         object.__setattr__(self, "kind", CandidateKind(self.kind))
         object.__setattr__(self, "claim", _freeze(self.claim))
         object.__setattr__(self, "evidence", _freeze(self.evidence))
+        if not isinstance(self.related_to, Sequence) or isinstance(
+            self.related_to, (str, bytes)
+        ):
+            raise ValidationError("related_to must be a sequence of candidate links")
+        links = tuple(
+            link if isinstance(link, CandidateLink) else CandidateLink.from_dict(link)
+            for link in self.related_to
+        )
+        object.__setattr__(self, "related_to", links)
         if isinstance(self.dedup_digits, bool) or not isinstance(
             self.dedup_digits, int
         ):
@@ -1596,6 +1678,7 @@ def to_dict(candidate: Candidate) -> dict[str, Any]:
         "kind": candidate.kind.value,
         "dedup_digits": candidate.dedup_digits,
         "label": candidate.label,
+        "related_to": [link.to_dict() for link in candidate.related_to],
         "claim": _thaw(candidate.claim),
         "evidence": _thaw(candidate.evidence),
         "provenance": candidate.provenance.to_dict(),
@@ -1632,6 +1715,7 @@ def from_dict(record: Mapping[str, Any], *, verify_id: bool = True) -> Candidate
         verdict=Verdict.from_dict(record.get("verdict") or {"status": "open"}),
         dedup_digits=int(record.get("dedup_digits", DEFAULT_DEDUP_DIGITS)),
         label=str(record.get("label", "")),
+        related_to=record.get("related_to", ()) or (),
         schema_version=str(record.get("schema_version", SCHEMA_VERSION)),
     )
     stored = record.get("id")

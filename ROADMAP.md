@@ -75,6 +75,12 @@ from raw run records, mutation-tested the Mertens adjudicator by forcing a false
 defects were fixed: crash-interrupted candidates now remain in per-generator
 denominators, and `refuted` no longer counts as `unsettled`.
 
+**Schema 1.1 follow-up shipped.** Candidates can carry typed `related_to` edges:
+`implies` for a directed implication and `equivalent_to` for a symmetric claim.
+Edges are unhashed annotations, so adding one never changes candidate identity.
+The schema validates their shape but deliberately does not require targets,
+reciprocal edges or verdict propagation; those are whole-ledger concerns.
+
 ## Known gaps
 
 Listed because an undocumented gap becomes an assumption.
@@ -84,13 +90,7 @@ Listed because an undocumented gap becomes an assumption.
    correlated blind spots are exactly what that method cannot catch. No one with
    domain expertise has read a line of it. This is the largest unhedged risk in
    the repository.
-2. **The discovery schema cannot express implication edges** between candidates —
-   "this claim implies that one", "these are the same theorem in different
-   clothes". `discovery/README.md` §7 blind spot 4. It matters because the
-   equivalence web is one of the three kill mechanisms `docs/12` flags as
-   RH-relevant, and `docs/07` is literally an implication graph the schema cannot
-   hold. Fix is small: an optional `related_to` field, unhashed, unenforced.
-3. **Expected funnel yield is approximately zero, by design.** Nearly everything
+2. **Expected funnel yield is approximately zero, by design.** Nearly everything
    will return already-known or refuted. The first real run: 26 candidates → 20
    known, 1 trivial, 5 inconclusive, 0 survivors. That is the machine working.
    A conjecture factory that produced discoveries on its first run would be
@@ -142,4 +142,6 @@ lives many orders of magnitude higher, and Odlyzko's published tables reach the
 (LMFDB, Odlyzko) and run the verified machinery against real data at real
 heights. Computing our own would be both slower and worse.
 
-**Next code build:** the schema `related_to` edges (gap 2 above).
+**Next code build:** not yet committed. The outstanding moments task is acquiring
+an external critical-line value dataset, explicitly an operator/data task rather
+than an estimator change.
