@@ -454,6 +454,31 @@ locally computed, at a height chosen for what the hardware can do, and
 imported external zero window by digest, and a locally generated file has none.
 The emitted rows carry a header saying so.
 
+### Nested convergence study
+
+`scripts/14_moment_experiment.py --convergence` reuses one finest-grid sweep
+for prefix windows of width `L/4`, `L/2`, and `L`, each sampled at spacings
+`h`, `2h`, and `4h`. It reports two deliberately separate diagnostics:
+
+- maximum spacing drift of the measured mean relative to the finest grid;
+- maximum adjacent-window drift of the measured/full-polynomial ratio.
+
+Neither number is an error bound, confidence interval, or certificate. The
+windows are nested rather than independent, so this is a convergence audit,
+not a sampling distribution.
+
+The pinned run at `t=10⁵`, `L=4000`, `h=0.005` uses 800,001 finest-grid
+samples. For the 2nd, 4th, 6th, and 8th moments respectively, maximum spacing
+drift is below `1.1×10⁻⁶` in every row, while window-ratio drift is `0.52%`,
+`1.23%`, `7.65%`, and `18.05%`. On the full window the measured/polynomial
+ratios are `0.9982`, `0.9893`, `0.9653`, and `0.9229`.
+
+The conclusion is narrow but useful: this grid resolves the quadrature, while
+finite-window variability grows sharply with moment order. The sixth/eighth
+deviations cannot be blamed on grid spacing, but one correlated window also
+cannot distinguish ordinary rare-peak fluctuation from asymptotic remainder.
+Independent blocks are the next required diagnostic.
+
 [odlyzko-index]: https://www-users.cse.umn.edu/~odlyzko/zeta_tables/index.html
 [lmfdb-route]: https://github.com/LMFDB/lmfdb/blob/main/lmfdb/zeros/zeta/zetazeros.py
 [lmfdb-reader]: https://github.com/LMFDB/lmfdb/blob/main/lmfdb/zeros/zeta/platt_zeros.py

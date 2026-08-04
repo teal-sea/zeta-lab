@@ -188,7 +188,15 @@ The scorecard gate and local experiment now integrate every polynomial term
 over the actual window. Leading-only results remain a separate
 Cauchy–Schwarz diagnostic.
 
-**Next code build:** a nested-window and nested-spacing convergence study for
-the locally generated full-polynomial comparison. High moments are dominated
-by rare peaks, so stability under finer sampling and longer windows must be
-measured before widening to external high-height value data.
+**Sixth increment shipped.** A single finest-grid run now accumulates all nine
+combinations of three nested prefix windows and three nested spacings. At
+`t=10⁵`, width `4000`, spacing `0.005`, grid drift is below `1.1e-6` for all
+four moments, but window-ratio drift grows from `0.52%` for the second moment to
+`18.05%` for the eighth. The quadrature is resolved; finite-window variation is
+now the identified limitation, with peak concentration still to be measured.
+These observed drifts are explicitly not error bounds or independent samples.
+
+**Next code build:** independent-block dispersion and peak-concentration
+diagnostics on the same local sweep. Quantify how much of each high moment is
+carried by the largest values, and whether the full-polynomial ratio is stable
+across disjoint windows, before widening to external high-height value data.

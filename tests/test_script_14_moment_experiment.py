@@ -42,6 +42,7 @@ def _load():
     spec = importlib.util.spec_from_file_location("moment_experiment", SCRIPT)
     module = importlib.util.module_from_spec(spec)
     assert spec.loader is not None
+    sys.modules[spec.name] = module
     spec.loader.exec_module(module)
     return module
 
@@ -173,6 +174,69 @@ def test_full_polynomial_prediction_integrates_the_window(script):
     assert prediction > leading_midpoint * Decimal("100")
 
 
+def test_convergence_sweep_reuses_one_grid_and_integrates_chunk_seams(
+    script, monkeypatch
+):
+    """All nested cells come from one evaluation and join chunk seams exactly."""
+
+    calls = []
+
+    def fake_zeta(ts):
+        calls.extend(float(value) for value in ts)
+        return np.sqrt(ts)
+
+    monkeypatch.setattr(script, "CHUNK", 3)
+    monkeypatch.setattr(script, "riemann_siegel_z", fake_zeta)
+    rows, count, _ = script.convergence_sweep(100.0, 16.0, 1.0)
+
+    assert count == 17
+    assert calls == list(np.arange(100.0, 117.0))
+    assert len(rows) == 36
+    for row in rows:
+        ts = np.arange(100.0, 100.0 + row.window_length + row.spacing, row.spacing)
+        expected = float(np.trapezoid(ts**row.k, ts))
+        assert row.integral == pytest.approx(expected)
+
+    diagnostics = script.convergence_diagnostics(rows)
+    assert diagnostics[0].max_spacing_relative_drift < 1e-14
+    assert all(
+        diagnostic.max_window_ratio_relative_drift >= 0
+        for diagnostic in diagnostics
+    )
+
+
+def test_convergence_sweep_rejects_non_nested_interval_count(script):
+    with pytest.raises(ValueError, match="divisible by 4"):
+        script.convergence_sweep(100.0, 18.0, 1.0)
+
+
+@pytest.mark.slow
+def test_real_convergence_separates_grid_stability_from_window_variation(script):
+    """At the pinned window quadrature is stable while window ratios vary."""
+
+    rows, count, _ = script.convergence_sweep(1e5, 4e3, 5e-3)
+    diagnostics = script.convergence_diagnostics(rows)
+
+    assert count == 800_001
+    assert all(item.max_spacing_relative_drift < 2e-6 for item in diagnostics)
+    window_drifts = [item.max_window_ratio_relative_drift for item in diagnostics]
+    assert window_drifts[0] < window_drifts[1] < window_drifts[2] < window_drifts[3]
+    assert 0.05 < window_drifts[2] < 0.10
+    assert 0.15 < window_drifts[3] < 0.22
+
+    largest = max(row.window_length for row in rows)
+    finest = min(row.spacing for row in rows)
+    ratios = {
+        row.k: row.ratio
+        for row in rows
+        if row.window_length == largest and row.spacing == finest
+    }
+    assert ratios == pytest.approx(
+        {1: 0.998218, 2: 0.989319, 3: 0.965322, 4: 0.922880},
+        rel=2e-5,
+    )
+
+
 def test_emit_requires_a_stated_length():
     """``--emit`` without ``--emit-length`` must fail rather than write a huge file."""
 
@@ -251,7 +315,15 @@ def test_console_states_its_scope():
     """The caveats are load-bearing claims, so their absence must fail a test."""
 
     result = subprocess.run(
-        [sys.executable, SCRIPT, "--start", "1e5", "--length", "2e3"],
+        [
+            sys.executable,
+            SCRIPT,
+            "--start",
+            "1e5",
+            "--length",
+            "2e3",
+            "--convergence",
+        ],
         capture_output=True,
         text=True,
         cwd=REPO_ROOT,
@@ -264,5 +336,7 @@ def test_console_states_its_scope():
     assert "necessary condition" in out
     assert "not a reachability" in out
     assert "full CFKRS polynomial is the comparison used" in out
+    assert "Nested convergence" in out
+    assert "neither column is an error bound or certificate" in out
     # The calibration must be shown, not just the unfalsifiable comparisons.
     assert "Ingham's proved global 2nd-moment main term" in out

@@ -57,6 +57,13 @@ Reported as a finite-window diagnostic, not a test of the conjectures:
     inputs, not certified ones.  None of these global formulas becomes a
     short-interval theorem merely because it is evaluated on this window.
 
+With ``--convergence``, one finest-grid evaluation is reused for prefix windows
+of width ``L/4``, ``L/2`` and ``L`` and spacings ``h``, ``2h`` and ``4h``.
+Grid drift diagnoses quadrature resolution; window-ratio drift exposes finite-
+window variability to which rare peaks may contribute. Neither is an error
+bound, confidence interval or certificate, and one nested family is not a
+collection of independent samples.
+
 Nothing here settles, supports or weakens the Riemann Hypothesis, and finite
 moment measurements could not do so in principle.
 
@@ -64,6 +71,8 @@ Usage
 -----
     .venv/bin/python scripts/14_moment_experiment.py
     .venv/bin/python scripts/14_moment_experiment.py --start 1e5 --length 2e4
+    .venv/bin/python scripts/14_moment_experiment.py --start 1e5 --length 4e3 \
+        --convergence
     .venv/bin/python scripts/14_moment_experiment.py --emit data/samples.txt.gz \
         --emit-length 100 --emit-error-estimate 1e-8
 
@@ -84,6 +93,8 @@ import gzip
 import math
 import sys
 import time
+from dataclasses import dataclass
+from itertools import pairwise
 from math import comb, factorial
 from pathlib import Path
 
@@ -104,6 +115,28 @@ EULER_GAMMA = mp.euler
 # Chunk width for the streaming sweep.  40e6 float64 samples would be 320 MB per
 # temporary array; chunking keeps the peak in the low hundreds of megabytes.
 CHUNK = 2_000_000
+
+
+@dataclass(frozen=True)
+class ConvergenceRow:
+    """One nested-window/nested-spacing moment comparison."""
+
+    k: int
+    window_length: float
+    spacing: float
+    integral: float
+    measured_mean: float
+    polynomial_mean: float
+    ratio: float
+
+
+@dataclass(frozen=True)
+class ConvergenceDiagnostic:
+    """Maximum observed changes under the two nesting operations."""
+
+    k: int
+    max_spacing_relative_drift: float
+    max_window_ratio_relative_drift: float
 
 
 def random_matrix_factor(k: int) -> mp.mpf:
@@ -279,6 +312,142 @@ def sweep(
     return totals, count, time.time() - started
 
 
+def convergence_sweep(
+    start: float,
+    length: float,
+    spacing: float,
+) -> tuple[tuple[ConvergenceRow, ...], int, float]:
+    """Measure moments on three nested windows and three nested grids.
+
+    The windows are the prefix intervals of width ``length/4``, ``length/2``
+    and ``length``.  Their grids use spacing ``spacing``, ``2*spacing`` and
+    ``4*spacing``.  All nine combinations are accumulated from one evaluation
+    of the finest, longest grid.  The returned changes are diagnostics, not
+    statistical errors or rigorous bounds.
+    """
+
+    if not (math.isfinite(start) and start >= 50):
+        raise ValueError("start must be finite and at least 50")
+    if not (math.isfinite(length) and length > 0):
+        raise ValueError("length must be finite and positive")
+    if not (math.isfinite(spacing) and spacing > 0):
+        raise ValueError("spacing must be finite and positive")
+    intervals = int(round(length / spacing))
+    if not math.isclose(intervals * spacing, length, rel_tol=1e-12, abs_tol=1e-12):
+        raise ValueError("length must be an integer multiple of spacing")
+    if intervals < 16 or intervals % 4:
+        raise ValueError(
+            "convergence study requires at least 16 intervals and a count divisible by 4"
+        )
+
+    window_intervals = (intervals // 4, intervals // 2, intervals)
+    spacing_factors = (1, 2, 4)
+    totals = {
+        (window_count, factor, k): 0.0
+        for window_count in window_intervals
+        for factor in spacing_factors
+        for k in (1, 2, 3, 4)
+    }
+    previous: dict[tuple[int, int, int], float] = {}
+    count = intervals + 1
+
+    started = time.time()
+    for begin in range(0, count, CHUNK):
+        index = np.arange(begin, min(begin + CHUNK, count))
+        ts = start + index * spacing
+        squared = riemann_siegel_z(ts) ** 2
+        columns = {k: squared**k for k in (1, 2, 3, 4)}
+
+        for window_count in window_intervals:
+            inside = index <= window_count
+            for factor in spacing_factors:
+                selected = inside & (index % factor == 0)
+                if not np.any(selected):
+                    continue
+                selected_ts = ts[selected]
+                for k, column in columns.items():
+                    values = column[selected]
+                    key = (window_count, factor, k)
+                    totals[key] += float(np.trapezoid(values, selected_ts))
+                    if key in previous:
+                        totals[key] += (
+                            factor * spacing * (previous[key] + float(values[0])) / 2
+                        )
+                    previous[key] = float(values[-1])
+
+    elapsed = time.time() - started
+    predictions = {
+        (window_count, k): float(
+            moment_polynomial_mean(
+                moment_polynomial(k),
+                str(start),
+                str(start + window_count * spacing),
+            )
+        )
+        for window_count in window_intervals
+        for k in (1, 2, 3, 4)
+    }
+    rows = []
+    for window_count in window_intervals:
+        window_length = window_count * spacing
+        for factor in spacing_factors:
+            for k in (1, 2, 3, 4):
+                integral = totals[window_count, factor, k]
+                measured_mean = integral / window_length
+                polynomial_mean = predictions[window_count, k]
+                rows.append(
+                    ConvergenceRow(
+                        k=k,
+                        window_length=window_length,
+                        spacing=factor * spacing,
+                        integral=integral,
+                        measured_mean=measured_mean,
+                        polynomial_mean=polynomial_mean,
+                        ratio=measured_mean / polynomial_mean,
+                    )
+                )
+    return tuple(rows), count, elapsed
+
+
+def convergence_diagnostics(
+    rows: tuple[ConvergenceRow, ...],
+) -> tuple[ConvergenceDiagnostic, ...]:
+    """Summarise observed grid drift and window drift without certifying either."""
+
+    if not rows:
+        raise ValueError("convergence diagnostics require rows")
+    diagnostics = []
+    for k in (1, 2, 3, 4):
+        k_rows = tuple(row for row in rows if row.k == k)
+        if len(k_rows) != 9:
+            raise ValueError("convergence diagnostics require a complete 3 by 3 grid")
+        windows = sorted({row.window_length for row in k_rows})
+        spacings = sorted({row.spacing for row in k_rows})
+        if len(windows) != 3 or len(spacings) != 3:
+            raise ValueError("convergence diagnostics require three windows and spacings")
+        by_cell = {(row.window_length, row.spacing): row for row in k_rows}
+        spacing_drifts = []
+        for window_length in windows:
+            fine = by_cell[window_length, spacings[0]].measured_mean
+            spacing_drifts.extend(
+                abs(by_cell[window_length, coarse].measured_mean / fine - 1)
+                for coarse in spacings[1:]
+            )
+        finest_ratios = [by_cell[window, spacings[0]].ratio for window in windows]
+        window_drifts = [
+            abs(shorter / longer - 1)
+            for shorter, longer in pairwise(finest_ratios)
+        ]
+        diagnostics.append(
+            ConvergenceDiagnostic(
+                k=k,
+                max_spacing_relative_drift=max(spacing_drifts),
+                max_window_ratio_relative_drift=max(window_drifts),
+            )
+        )
+    return tuple(diagnostics)
+
+
 def accuracy_probe(start: float, length: float, samples: int = 12) -> float:
     """Largest observed ``|Z_fast - mpmath.siegelz|`` over a spread of the window."""
 
@@ -296,6 +465,11 @@ def main() -> int:
     parser.add_argument("--start", type=float, default=1e6, help="window start t")
     parser.add_argument("--length", type=float, default=2e5, help="window width")
     parser.add_argument("--spacing", type=float, default=5e-3, help="sample spacing")
+    parser.add_argument(
+        "--convergence",
+        action="store_true",
+        help="compare 3 nested windows and 3 nested spacings in one fine-grid sweep",
+    )
     parser.add_argument("--emit", type=Path, default=None, help="write sample rows")
     parser.add_argument(
         "--emit-length",
@@ -328,6 +502,12 @@ def main() -> int:
         parser.error("--emit requires --emit-error-estimate; no error is invented")
     if args.emit is not None and args.emit_length > args.length:
         parser.error("--emit-length must not exceed --length")
+    if args.emit is not None and args.convergence:
+        parser.error("--convergence and --emit are separate acquisition modes")
+    if args.convergence and (intervals < 16 or intervals % 4):
+        parser.error(
+            "--convergence requires at least 16 intervals and a count divisible by 4"
+        )
 
     start, length, spacing = args.start, args.length, args.spacing
     stop = start + length
@@ -344,14 +524,30 @@ def main() -> int:
     print(f"accuracy    max |fast - mpmath.siegelz| over 12 probes: {worst:.2e}")
     print()
 
-    totals, count, elapsed = sweep(
-        start,
-        length,
-        spacing,
-        emit=args.emit,
-        emit_length=args.emit_length,
-        emit_error_estimate=args.emit_error_estimate,
-    )
+    convergence_rows: tuple[ConvergenceRow, ...] | None = None
+    if args.convergence:
+        try:
+            convergence_rows, count, elapsed = convergence_sweep(
+                start, length, spacing
+            )
+        except ValueError as exc:
+            parser.error(str(exc))
+        largest_window = max(row.window_length for row in convergence_rows)
+        finest_spacing = min(row.spacing for row in convergence_rows)
+        totals = {
+            row.k: row.integral
+            for row in convergence_rows
+            if row.window_length == largest_window and row.spacing == finest_spacing
+        }
+    else:
+        totals, count, elapsed = sweep(
+            start,
+            length,
+            spacing,
+            emit=args.emit,
+            emit_length=args.emit_length,
+            emit_error_estimate=args.emit_error_estimate,
+        )
     print(f"swept {count:,} samples in {elapsed:.0f}s ({count / elapsed:,.0f} pts/s)")
     if args.emit is not None:
         print(f"emitted sample rows to {args.emit}")
@@ -387,6 +583,41 @@ def main() -> int:
             f"{prediction:>16,.4f}  {mean / prediction:>9,.3f}"
         )
     print()
+
+    if convergence_rows is not None:
+        diagnostics = convergence_diagnostics(convergence_rows)
+        windows = sorted({row.window_length for row in convergence_rows})
+        spacings = sorted({row.spacing for row in convergence_rows})
+        by_cell = {
+            (row.k, row.window_length, row.spacing): row
+            for row in convergence_rows
+        }
+        print("Nested convergence: measured / full-polynomial prediction")
+        print("-" * 70)
+        print(
+            f"  {'2k':>3}  {'window':>10}  "
+            f"{'h ratio':>10}  {'2h ratio':>10}  {'4h ratio':>10}"
+        )
+        for window_length in windows:
+            for k in (1, 2, 3, 4):
+                ratios = [by_cell[k, window_length, grid].ratio for grid in spacings]
+                print(
+                    f"  {2 * k:>3}  {window_length:>10,.0f}  "
+                    f"{ratios[0]:>10.4f}  {ratios[1]:>10.4f}  {ratios[2]:>10.4f}"
+                )
+        print()
+        print(
+            f"  {'2k':>3}  {'max relative grid drift':>23}  "
+            f"{'max window-ratio drift':>23}"
+        )
+        for diagnostic in diagnostics:
+            print(
+                f"  {2 * diagnostic.k:>3}  "
+                f"{diagnostic.max_spacing_relative_drift:>23.3e}  "
+                f"{diagnostic.max_window_ratio_relative_drift:>22.3%}"
+            )
+        print("  Observed changes only: neither column is an error bound or certificate.")
+        print()
 
     print("Pairwise consistency thresholds for leading-order forms")
     print("-" * 70)
