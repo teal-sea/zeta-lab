@@ -81,6 +81,24 @@ The reference run was reproduced from an empty ledger on 2026-08-04 with seed
 0 survivors in 4.29 seconds. The committed public summary is in `ROADMAP.md`;
 the 52 append-only candidate records and one run record remain private.
 
+### Sharing a ledger between your own machines
+
+Private does not mean unsynced. A fresh clone of this repo has an empty
+`conjectures/` by design — that is the ignore rule working, not a fault — so a
+second machine starts with no history. To carry the same ledger to both, keep
+it in a **separate private repository** cloned in place at `conjectures/`:
+
+```bash
+scripts/ledger_sync.sh init   # once per machine — clone the private ledger in place
+scripts/ledger_sync.sh sync   # pull the other machine's records, then push this one's
+```
+
+The public repo ignores `conjectures/*`, so it never sees that clone or its
+records; the privacy rule above is unchanged, and the ledger still never enters
+a public tree. The record files are append-only JSONL carrying `merge=union`,
+so two machines that both ran the funnel merge without conflict. Pull before a
+run and push after, or the two ledgers drift.
+
 ---
 
 ## 1. The five candidate kinds

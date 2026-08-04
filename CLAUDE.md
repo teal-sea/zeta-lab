@@ -139,7 +139,11 @@ last one left off; this file plus `git log` is the handoff. Two caveats:
 - `tests/` pytest; `data/` caches; `figures/` PNGs; `references/papers.md`;
   `conjectures/` the discovery ledger — **gitignored**, a private notebook of
   unreviewed leads (only `.gitkeep` is tracked). Nothing in it is evidence for
-  anything; publish `discovery.metrics.render_text`, never the log.
+  anything; publish `discovery.metrics.render_text`, never the log. An empty
+  `conjectures/` in a fresh clone is the rule working, not a bug — to share one
+  ledger across your own machines run `scripts/ledger_sync.sh init` once, then
+  `sync`; it clones a *separate private* repo in place, and this public tree
+  still never carries a record.
 
 ## The naming trap: three different "theta"s
 
