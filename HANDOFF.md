@@ -3,7 +3,11 @@
 **Snapshot:** 2026-08-04
 **Branch:** `main`
 **Remote state before the red-team correction:** `origin/main` at `12cb822`
-**Detailed sources of truth:** `ROADMAP.md` and `docs/13-moments.md`
+**Detailed sources of truth:** `ROADMAP.md`, `docs/13-moments.md`, `REDTEAM.md`,
+`NULLCONTROLS.md`
+
+**Status in one line:** the moments programme is finished and its candidate
+finding was explained by controls, not confirmed. No next build is chosen.
 
 ## Where the work landed
 
@@ -52,8 +56,9 @@ The empirical observation is:
 > windows recovers the full CFKRS polynomial aggregate.
 
 This is not claimed as novel, proven, probabilistic, or related evidence for
-RH. It may be generic log-normal/log-correlated behavior rather than a
-zeta-specific phenomenon.
+RH. **It has since been explained** — see "Steps 1–7 were carried out" below.
+The rise of concentration is reproduced by controls with no arithmetic input,
+and by the Davenport–Heilbronn function, which violates RH.
 
 ### Pinned results
 
@@ -125,6 +130,22 @@ Always run from the repository root with the project venv:
 The last command collects 26 tests, including pinned real numerical runs and
 mutation tests for the attack gates.
 
+The null controls (about ten minutes for the Davenport–Heilbronn pass, which is
+the slow one):
+
+```bash
+.venv/bin/python scripts/15_null_control.py --verify      # adapter vs the pipeline, 1.7e-16
+.venv/bin/python scripts/15_null_control.py               # zeta vs both Euler surrogates
+.venv/bin/python scripts/15_null_control.py --tails       # variance vs upper quantiles
+.venv/bin/python scripts/15_null_control.py --cue         # the CUE control
+.venv/bin/python scripts/15_null_control.py --dh          # the counterexample control
+.venv/bin/python scripts/15_null_control.py --approach    # rate of approach to CUE
+.venv/bin/python -m pytest -q -o addopts='' tests/test_surrogate.py -m "not slow"
+```
+
+That test command collects 22 tests; a 23rd is marked slow because it evaluates
+the Davenport–Heilbronn function pointwise.
+
 ## Commits in this build sequence
 
 ```text
@@ -135,6 +156,16 @@ e0f5d98 Add nested moment convergence study
 fcc0c3a Replicate moments across heights
 40d27ff Attack moment pattern across offsets
 12cb822 Add moments session handoff
+9bd6dd3 Withdraw contaminated moment attack verdict
+8950568 Add moments red-team audit
+18967ff Add randomised Euler product null control
+61e3cbf Add full random Euler product to the null control
+bb634a8 Separate variance from the upper tail in the null comparison
+e248d15 Add CUE control, which reproduces the concentration pattern
+11a700f Add Davenport-Heilbronn control and the null-control report
+5925ee3 Regenerate CONTEXT.md for the surrogate module
+3a72626 Measure the rate of approach to the CUE control
+becc89c Record the moments programme as closed by the controls
 ```
 
 ## What not to infer
@@ -149,26 +180,77 @@ fcc0c3a Replicate moments across heights
 - Agreement does not prove CFKRS, establish novelty, support RH, or weaken RH.
 - Any apparent RH consequence should be treated as a bug.
 
-## Next session: do this first
+## Steps 1–7 were carried out; the programme is closed
 
-1. Read `ROADMAP.md`, then `docs/13-moments.md`, then this snapshot.
-2. Perform a primary-literature novelty audit on finite-height high-moment
-   concentration, block/window variance, and the relation between CFKRS moment
-   polynomials and extreme-value tails. Do not name a new conjecture first.
-3. Build a matched log-correlated Gaussian null with the same nominal spacing,
-   windowing, powers, ranking, pooling, and reporting pipeline.
-4. Add a Davenport–Heilbronn negative control. It is mandatory before any
-   RH-explanatory structural claim and useful here to test zeta specificity.
-5. If the null reproduces concentration plus pooled recovery, record the
-   observation as generic/explained and stop pursuing it as a conjecture.
-6. Any future zeta-only test must use wholly untouched windows. Calibrate gates
-   against the null before evaluation; do not choose gates from visible data.
-7. Only after the audit, controls, and genuine holdout test decide whether the
-   observation merits an entry in the private `conjectures/` ledger.
+Every item on the previous checklist was executed on 2026-08-04. Full detail,
+including the limits of each control, is in `NULLCONTROLS.md`; the instrument is
+`zeta/surrogate.py` with `scripts/15_null_control.py`.
+
+**Literature (step 2).** The concentration heuristic is Soundararajan's (Annals
+2009): values of size `(log T)^k` on measure `T(log T)^{-k²}` supply the
+CFKRS-sized moment. Odlyzko–Rubinstein already reported slow finite-height
+convergence with large window-to-window fluctuation driven by rare large values.
+The observation restates known material. Only the "top x% carries y%" phrasing
+looks non-standard, which is a choice of statistic, not a result.
+
+**Controls (steps 3–5).** `interval_statistics` reproduces `block_peak_sweep` on
+real zeta data to `1.7e-16`, so every control runs the same code path.
+
+- Both randomised Euler product surrogates reproduce the rise of concentration
+  with moment order and with height using no arithmetic input.
+- The arithmetic factor is not the explanation: a top-share is a ratio of
+  integrals, so any scale factor cancels. Adding `a_k` moved the eighth-moment
+  share from `94.36%` to `93.76%`.
+- The variance is not the explanation either, and the obvious calibration is
+  backwards. Zeta's variance exceeds both surrogates' (`1.9532` against `1.4571`
+  and `1.5164` at `10⁶`) while its upper tail is *shorter* (`p99.9` of `3.3605`
+  against `3.6623` and `3.6647`), because `log|ζ|` diverges at every zero and
+  both surrogates are zero-free. Matching a zero-free null to zeta's variance
+  would widen its upper tail and worsen the fit.
+- The CUE control, whose only quantity `N = round(log(T/2π))` is fixed by the
+  height and not fitted, matches within a couple of points at `10⁶`
+  (`31.58/76.25/93.68/98.39` against `30.26/78.26/95.75/99.26`) and matches the
+  `p99.9` tail at `3.3707` against `3.3605`.
+- The Davenport–Heilbronn function shows the same rise with order and with
+  height (`7.28 → 42.79%` at `t=200`, `9.18 → 54.21%` at `t=2000`), so under the
+  standing counterexample gate the pattern distinguishes nothing structural.
+
+**Rate of approach.** With the band taken from 200 CUE seeds per height instead
+of a chosen threshold, the eighth-moment gap to the CUE median runs `-19.03%` at
+`10³`, then `-7.26%`, `-2.01%`, `+0.84%`, `-0.23%`, `+0.63%` through `10⁸`. Zeta
+lies outside the central 95% only at `10³` and only for the 6th and 8th moments.
+The band is wide enough that "inside" is a weak test — the 2nd and 4th moments
+are inside at every height — so this bounds the residual rather than showing
+agreement.
+
+**Byproduct.** `a_k` from the random Euler product times `g_k` from the
+Keating–Snaith product converges to the CFKRS leading coefficient derived
+independently in `scripts/14_moment_experiment.py` (ratio `1.0016` at
+`N = 40000`, falling tenfold per decade of `N`). Neither factor is read from a
+table.
+
+**Decision (step 7): no `conjectures/` ledger entry.** The pattern is generic,
+the RH-violating counterexample shares it, and the gap to the random-matrix
+control closes with height.
 
 External high-height critical-line value data remains desirable, but no public
 dense row table was found in the 2026-08-04 source audit. Never substitute zero
 ordinates for independently evaluated `|zeta|` samples.
+
+## What is open now
+
+There is **no next build chosen**. `ROADMAP.md`'s only "Next build" heading was
+moments, and moments is finished. Whatever comes next is an open decision, not
+something already recorded.
+
+Three narrow moments items were left unfinished, none of them load-bearing:
+
+1. Exact `N(T)` exposure in place of nominal mean-gap windows.
+2. Seed replication of the CUE and Davenport–Heilbronn rows, which are
+   single-realisation; the Euler rows were replicated over five seeds.
+3. The drift of the 2nd and 4th moments above the CUE median at `10⁷`–`10⁸`
+   (`+7.73%`, `+10.64%`, both inside the band) — window luck until replicated
+   across offsets.
 
 ## Test-run caveat
 
@@ -178,3 +260,9 @@ fast run reported 1,370 passes and 4 skips before manual interruption. Do not
 misreport that interrupted run as a clean full-suite exit. Use the focused
 single-process command above for this work, and investigate the unrelated
 runner hang separately if a clean repository-wide exit is required.
+
+The null-control work was verified the same way, single-process and focused:
+`tests/test_surrogate.py` 22 passed with 1 deselected as slow, and
+`tests/test_epstein.py tests/test_statistics.py tests/test_moments.py` 128
+passed. The full repository-wide suite was **not** run to a clean exit in this
+session, and nothing here should be read as claiming it was.
