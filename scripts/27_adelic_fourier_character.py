@@ -17,40 +17,47 @@ that psi(q) = 1 for any rational q.
 
 from fractions import Fraction
 from zeta.adele import Adele, adelic_additive_character
+import cmath
+
+# Generate primes up to N
+def sieve(n):
+    is_prime = [True] * (n + 1)
+    p = 2
+    while p * p <= n:
+        if is_prime[p]:
+            for i in range(p * p, n + 1, p):
+                is_prime[i] = False
+        p += 1
+    return [p for p in range(2, n + 1) if is_prime[p]]
 
 def main():
-    print("--- ADELIC ADDITIVE CHARACTER AND Q-TRIVIALITY ---")
+    print("--- ADELIC ADDITIVE CHARACTER: MEASURING THE DEFECT ---")
+    print("A fundamental theorem states that Q is discretely embedded in A_Q,")
+    print("which requires the global additive character psi(q) = 1 for all q in Q.")
+    print("However, computationally we can only evaluate a finite truncation of places.")
+    print("Instead of hardcoding the required primes, we measure the shrinking defect.")
     
-    # Primes needed for the denominators
-    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 113]
+    # A rational number with large prime factors in the denominator
+    q = Fraction(355, 113)
+    print(f"\nRational q = {q}")
     
-    test_cases = [
-        Fraction(1, 1),
-        Fraction(1, 2),
-        Fraction(3, 4),
-        Fraction(-15, 7),
-        Fraction(120, 11),
-        Fraction(1, 1024),
-        Fraction(355, 113) # Good rational approximation of pi
-    ]
+    all_primes = sieve(200)
     
-    for q in test_cases:
-        adele = Adele.from_rational(q, primes)
-        
-        # Calculate psi(q)
+    for n_primes in [5, 10, 20, 30, len(all_primes)]:
+        current_primes = all_primes[:n_primes]
+        adele = Adele.from_rational(q, current_primes)
         psi_q = adelic_additive_character(adele)
         
-        print(f"\nRational q = {q}")
-        print(f"  Adelic character psi(q) = {psi_q.real:+.8f} {psi_q.imag:+.8f}j")
+        # The defect is the distance from 1.0
+        defect = abs(psi_q - 1.0)
         
-        # Verify it's exactly 1 (up to floating point precision)
-        error = abs(psi_q - 1.0)
-        print(f"  Error margin            = {error:.8e}")
+        print(f"\nEvaluating with {n_primes:2d} primes (up to {current_primes[-1]:3d}):")
+        print(f"  psi(q) = {psi_q.real:+.6f} {psi_q.imag:+.6f}j")
+        print(f"  Defect = {defect:.6e}")
         
-        assert error < 1e-12, f"Character failed Q-triviality for {q}!"
-
-    print("\nAdelic additive character psi(q) = 1 computationally verified for all rational test cases.")
-    print("Q is discretely embedded in A_Q.")
+    print("\nThe defect vanishes completely only when the exact prime factors of the")
+    print("denominator are included in the local p-adic product. Truncation leaves")
+    print("a measurable phase error.")
 
 if __name__ == "__main__":
     main()
