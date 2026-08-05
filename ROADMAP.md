@@ -232,6 +232,62 @@ against the null before evaluation. If the null reproduces concentration plus
 pooled recovery, record the observation as explained/generic and stop; invoke
 the formal counterexample battery before any RH-explanatory structural claim.
 
+**That programme is now complete and the answer was "explained".** Both
+prerequisites were carried out and the exposure-scaling attack was never run,
+because the controls settled the question it was meant to ask. Details and
+limits in `NULLCONTROLS.md`; the instrument is `zeta/surrogate.py` and
+`scripts/15_null_control.py`.
+
+*Literature.* The concentration heuristic is Soundararajan's (Annals 2009):
+values of size `(log T)^k` on measure `T(log T)^{-k²}` supply the CFKRS-sized
+moment. Odlyzko–Rubinstein already reported that finite-height CFKRS agreement
+converges slowly with large window-to-window fluctuation driven by rare large
+values. The candidate observation restates known material; only the specific
+"top x% carries y%" phrasing appears non-standard, which is a choice of
+statistic, not a result.
+
+*Controls.* `zeta.surrogate.interval_statistics` reproduces `block_peak_sweep`
+on real zeta data to `1.7e-16`, so every control runs the same code path. Both
+randomised Euler product surrogates reproduce the rise of concentration with
+moment order and height using no arithmetic input; the arithmetic factor is not
+the explanation, since a top-share is a ratio of integrals and any scale factor
+cancels. Neither is the variance: zeta's exceeds both surrogates' while its
+upper tail is *shorter*, because `log|ζ|` diverges at each zero and both
+surrogates are zero-free — so calibrating a zero-free null to zeta's variance
+is the wrong move. The CUE control, whose only quantity `N = round(log(T/2π))`
+is fixed by the height and not fitted, matches within a couple of points at
+`10⁶` (`31.58/76.25/93.68/98.39` against `30.26/78.26/95.75/99.26`) and matches
+the `p99.9` tail at `3.3707` against `3.3605`. The Davenport–Heilbronn function
+shows the same rise with order and height, so under gate #3 the pattern
+distinguishes nothing structural.
+
+*Rate of approach.* With the band taken from 200 CUE seeds per height rather
+than a chosen threshold, the eighth-moment gap to the CUE median runs `-19.03%`
+at `10³`, then `-7.26%`, `-2.01%`, `+0.84%`, `-0.23%`, `+0.63%` through `10⁸`.
+Zeta lies outside the central 95% only at `10³` and only for the 6th and 8th
+moments. The band is wide enough that "inside" is a weak test — the 2nd and 4th
+moments are inside at every height — so this bounds the residual rather than
+demonstrating agreement.
+
+*Byproduct worth keeping.* `a_k` from the random Euler product's exact
+intensity moment times `g_k` from the Keating–Snaith product converges to the
+CFKRS leading coefficient derived independently in
+`scripts/14_moment_experiment.py` (ratio `1.0016` at `N = 40000`, falling
+tenfold per decade of `N`). Each control supplies one factor and neither is
+read from a table.
+
+**Decision: no `conjectures/` ledger entry.** The pattern is generic, the
+RH-violating counterexample shares it, and the quantitative gap to the
+random-matrix control closes with height. Nothing here is evidence for or
+against RH.
+
+**What is actually open in moments.** Exact `N(T)` exposure in place of nominal
+mean-gap windows (carried over from the W7 follow-up below). Seed replication
+of the CUE and Davenport–Heilbronn rows, which are single-realisation. The
+mild drift of the 2nd and 4th moments above the CUE median at `10⁷`–`10⁸`
+(`+7.73%`, `+10.64%`, both inside the band), which is window luck until
+replicated across offsets.
+
 **Red-team W7 follow-up.** The unusually close `10⁴` pooled ratios were audited
 for circularity, pointwise evaluator error, and grid error; no defect was found.
 A fresh `1.5×10⁴` anchor reproduced near-unity pooling (largest deviation
