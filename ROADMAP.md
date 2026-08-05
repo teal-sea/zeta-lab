@@ -216,16 +216,18 @@ rises `90.25% → 96.52% → 98.96%`, and its block-ratio CV rises
 volatility increase; three deterministic windows still do not form a sampling
 distribution.
 
-**Ninth increment shipped.** Before new evaluation, three falsification gates
-were fixed: 5% pooled tolerance for theorem controls, 15% for conjectural rows,
-and strictly increasing median high-moment concentration with height. Four
-disjoint whole windows per height (about 9.2 million points) pass all gates. At
-`10⁶`, individual eighth-moment ratios range `0.5831–1.4362`, but pooling returns
-`1.0628`; median top-one-percent concentration is `99.12%`. Mutation tests force
-all three gate paths to fail. The candidate pattern survives this deterministic
-attack, which is not a confidence interval, proof, novelty claim, or RH evidence.
+**Ninth increment data retained; verdict withdrawn.** The four-window-per-height
+table is numerically valid, but the claimed pre-registration was contaminated:
+window zero in every band exactly reused the earlier replication window, and
+the monotone concentration gate was chosen after seeing those values. The
+historical gates have no falsification weight or calibrated error rate. At
+`10⁶`, the observed eighth-moment range `0.5831–1.4362`, pooled ratio `1.0628`,
+and median top-one-percent share `99.12%` remain descriptive data only.
 
-**Next code build:** an exposure-scaling attack at multiple nominal window sizes,
-plus a literature/novelty audit before registering any new empirical conjecture.
-Test whether pooled ratios stabilize as exposure grows while peak concentration
-persists; do not mistake a finite-height reformulation of CFKRS for a new result.
+**Next work is not exposure scaling.** First perform the primary-literature
+novelty audit. Then build a matched log-correlated Gaussian null through the
+identical measurement pipeline and add a Davenport–Heilbronn negative control.
+Any future zeta attack must use wholly untouched windows and gates calibrated
+against the null before evaluation. If the null reproduces concentration plus
+pooled recovery, record the observation as explained/generic and stop; invoke
+the formal counterexample battery before any RH-explanatory structural claim.

@@ -428,7 +428,7 @@ def test_offset_attack_gates_have_mutation_teeth(script):
 
 
 @pytest.mark.slow
-def test_real_multi_offset_attack_survives_pre_registered_gates(script):
+def test_real_multi_offset_diagnostic_matches_historical_results(script):
     rows, diagnostics, verdict, _ = script.multi_offset_attack()
 
     assert len(rows) == 48 and len(diagnostics) == 12
@@ -452,7 +452,7 @@ def test_real_multi_offset_attack_survives_pre_registered_gates(script):
     )
 
 
-def test_attack_console_reports_fixed_gates_and_scope(script, monkeypatch, capsys):
+def test_attack_console_discloses_contamination_and_scope(script, monkeypatch, capsys):
     diagnostics = _passing_offset_diagnostics(script)
     verdict = script.offset_attack_verdict(diagnostics, (1e4, 1e5, 1e6))
     monkeypatch.setattr(
@@ -464,8 +464,9 @@ def test_attack_console_reports_fixed_gates_and_scope(script, monkeypatch, capsy
 
     assert script.main() == 0
     out = capsys.readouterr().out
-    assert "Gates fixed before run" in out
-    assert "VERDICT: SURVIVED" in out
+    assert "NOT PRE-REGISTERED" in out
+    assert "NO FALSIFICATION WEIGHT" in out
+    assert "reused already-seen data" in out
     assert "not a confidence interval" in out
     assert "proof of CFKRS" in out
     assert "evidence for RH" in out

@@ -533,22 +533,25 @@ window-sensitive. That is a sharp numerical observation, but three selected
 deterministic windows are not a sampling distribution, proof of CFKRS, or
 evidence for RH. Multiple offsets at each height are needed to test window luck.
 
-### Pre-registered multi-offset attack
+### Retrospective multi-offset diagnostic: verdict withdrawn
 
-Before evaluating additional windows, `--attack` fixes three diagnostic gates:
+`--attack` evaluated four consecutive whole windows per height and applied
+three gates:
 
 1. pooled 2nd/4th theorem-control ratios must stay within `5%` of one;
 2. pooled 6th/8th conjectural ratios must stay within `15%` of one;
 3. median top-one-percent concentration must rise strictly with height for both
    the 6th and 8th moments.
 
-Those tolerances are operator-declared falsification thresholds, not
-theorem-derived confidence levels. A mutation test independently forces each
-gate to fail. The real attack then evaluates four consecutive disjoint whole
-windows in each height band: 12 windows and about 9.2 million finest-grid
-points, without changing the gates.
+The numerical table is reproducible, and mutation tests force each code path to
+fail. The **falsification interpretation is withdrawn**, however. Window zero
+at each height is exactly the earlier `--replicate` window, so its concentration
+values `90.25% → 96.52% → 98.96%` were known before the monotone-concentration
+gate was selected. The gate was therefore contaminated, not pre-registered.
+The run comprises 12 windows and about 9.2 million finest-grid points, but only
+nine whole windows were new.
 
-All three gates pass. The pooled ratios are:
+The historical gates evaluate true. The pooled ratios remain valid data:
 
 | height | 2nd | 4th | 6th | 8th |
 | ---: | ---: | ---: | ---: | ---: |
@@ -556,16 +559,26 @@ All three gates pass. The pooled ratios are:
 | `10⁵` | `1.0003` | `0.9986` | `0.9866` | `0.9633` |
 | `10⁶` | `1.0001` | `1.0075` | `1.0301` | `1.0628` |
 
-The strongest stress case is the 8th moment at `10⁶`: individual whole-window
+The largest observed spread is the 8th moment at `10⁶`: individual whole-window
 ratios range from `0.5831` to `1.4362`, while their pooled ratio is `1.0628` and
 their median top-one-percent contribution is `99.12%`. Pooling disjoint windows
-recovers the aggregate prediction even when any one spike-dominated window can
-miss badly.
+is close to the aggregate prediction even when any one spike-dominated window
+can miss badly.
 
-Under this fixed deterministic protocol, the candidate pattern survives:
-increasing peak concentration coexists with stable pooled full-polynomial
-moments. This is a successful numerical falsification attempt, not a p-value,
-proof of CFKRS, claim of novelty, or evidence for RH.
+No survival or rejection claim follows. A red-team audit further reports that
+the order gate has a `1/6` exchangeable-order baseline and that the `15%` ratio
+gate may have roughly `40%` false-rejection probability under a true-CFKRS
+heavy-tailed model. Those quantitative claims have not yet been independently
+reproduced here; until a matched null calibrates them, the gates have no known
+power or error rate.
+
+The next valid attack must use wholly untouched windows and compare the same
+pipeline against a matched log-correlated Gaussian null. A
+Davenport–Heilbronn control is also required before attributing the pattern to
+zeta's Euler-product/RH-specific structure. The repo's formal battery rule is
+mandatory if the claim is ever promoted to an RH-explanatory structural claim;
+here DH is additionally useful as a negative control even at the narrower
+moment-statistics scope.
 
 [odlyzko-index]: https://www-users.cse.umn.edu/~odlyzko/zeta_tables/index.html
 [lmfdb-route]: https://github.com/LMFDB/lmfdb/blob/main/lmfdb/zeros/zeta/zetazeros.py

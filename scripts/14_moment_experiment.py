@@ -76,11 +76,11 @@ points per gap, so height changes without silently changing nominal zero count
 or grid resolution. These are three deterministic windows, not repeated random
 trials.
 
-With ``--attack``, four consecutive non-overlapping whole windows are run in
-each height band. Three gates are fixed in code before evaluation: 5% pooled
-tolerance for the theorem controls, 15% for conjectural ratios, and strictly
-rising median top-one-percent concentration for the 6th and 8th moments. The
-candidate pattern is rejected if any gate fails; survival is still not proof.
+With ``--attack``, the historical four-window calculation is reproduced. Its
+gates are retrospective, not pre-registered: window zero at every height is
+the already-seen ``--replicate`` window, and the concentration trend was chosen
+after those values were known. Gate outcomes therefore have no falsification
+weight. The command remains only to reproduce the numerical table.
 
 Nothing here settles, supports or weakens the Riemann Hypothesis, and finite
 moment measurements could not do so in principle.
@@ -216,7 +216,7 @@ class HeightReplicationRow:
 
 @dataclass(frozen=True)
 class OffsetReplicationRow:
-    """One whole-window result in the pre-registered offset attack."""
+    """One whole-window result in the retrospective offset diagnostic."""
 
     anchor_height: float
     window_index: int
@@ -246,7 +246,7 @@ class OffsetDiagnostic:
 
 @dataclass(frozen=True)
 class OffsetAttackVerdict:
-    """Result of the fixed gates declared before the multi-offset run."""
+    """Retrospective gate result with no falsification or probability meaning."""
 
     passed: bool
     theorem_controls_passed: bool
@@ -821,7 +821,7 @@ def offset_attack_verdict(
     diagnostics: tuple[OffsetDiagnostic, ...],
     anchor_heights: tuple[float, ...],
 ) -> OffsetAttackVerdict:
-    """Apply the fixed multi-offset gates to a complete diagnostic matrix."""
+    """Apply the historical, retrospectively chosen gates for reproducibility."""
 
     by_cell = {(row.anchor_height, row.k): row for row in diagnostics}
     expected = {(height, k) for height in anchor_heights for k in (1, 2, 3, 4)}
@@ -878,17 +878,20 @@ def multi_offset_attack(
     OffsetAttackVerdict,
     float,
 ]:
-    """Run the pre-registered disjoint-window attack on the candidate pattern.
+    """Reproduce the contaminated multi-offset diagnostic.
 
-    Gates fixed in module constants before the first run:
+    The historical gates were:
 
     * pooled theorem-control ratios (2nd/4th) stay within 5% of one;
     * pooled conjectural ratios (6th/8th) stay within 15% of one;
     * median top-one-percent concentration for both 6th and 8th moments rises
       strictly from one anchor height to the next.
 
-    Windows are consecutive and disjoint within each height band.  The verdict
-    is a deterministic protocol result, not a p-value, proof, or certificate.
+    Window zero in each band duplicates the earlier ``multi_height_study``
+    window. The concentration gate was selected after those values were seen,
+    so the returned gate result has no valid pre-registration or falsification
+    interpretation. Windows within this diagnostic are consecutive and
+    disjoint; the table remains reproducible numerical data.
     """
 
     if (
@@ -1147,11 +1150,11 @@ def main() -> int:
     if args.attack:
         rows, diagnostics, verdict, elapsed = multi_offset_attack()
         del rows
-        print("Pre-registered multi-offset attack")
+        print("Retrospective multi-offset diagnostic — NOT PRE-REGISTERED")
         print("=" * 88)
         print("4 consecutive disjoint windows per height; each has 6,000 nominal gaps,")
         print("128 points/gap and 8 internal blocks.")
-        print("Gates fixed before run:")
+        print("Historical gates (reported only for reproduction):")
         print("  theorem controls: pooled 2nd/4th ratios within 5% of one")
         print("  conjectural rows: pooled 6th/8th ratios within 15% of one")
         print("  concentration: median top-1% share rises with height for 6th and 8th")
@@ -1174,12 +1177,14 @@ def main() -> int:
         concentration_status = "PASS" if verdict.concentration_trend_passed else "FAIL"
         print(f"conjectural-ratio gate:   {conjectural_status}")
         print(f"concentration-trend gate: {concentration_status}")
-        print(f"VERDICT: {'SURVIVED' if verdict.passed else 'REJECTED'}")
+        gate_status = "PASS" if verdict.passed else "FAIL"
+        print(f"RETROSPECTIVE GATE RESULT: {gate_status} (NO FALSIFICATION WEIGHT)")
         for failure in verdict.failures:
             print(f"  failure: {failure}")
         print(f"finest-grid evaluation time: {elapsed:.1f}s")
-        print("This deterministic attack is not a confidence interval, proof of CFKRS,")
-        print("or evidence for RH.")
+        print("Window zero reused already-seen data; the concentration gate was chosen")
+        print("after that data. This is not a valid attack and not a confidence interval,")
+        print("proof of CFKRS, novelty claim, or evidence for RH.")
         return 0
 
     start, length, spacing = args.start, args.length, args.spacing
