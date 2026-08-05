@@ -1,10 +1,10 @@
-"""Tests for ``discovery.domains.zeta_domain`` — the laboratory's plug-in.
+"""Tests for ``ontology.domains.zeta_domain`` — the laboratory's plug-in.
 
 What these tests are and are not. They check that the generators emit
 well-formed, re-derivable candidates; that the screens kill what they claim to
 kill and admit what they cannot see; that the counterexample battery actually
 runs on a structural claim; and that the seam holds — that the bookkeeping half
-of ``discovery/`` still knows nothing about the subject.
+of ``ontology/`` still knows nothing about the subject.
 
 **No test here is evidence for the Riemann Hypothesis, and none of them is
 phrased as if it were.** The strongest thing any of them says is "no violation
@@ -26,14 +26,14 @@ from pathlib import Path
 import pytest
 from mpmath import mp
 
-from discovery import registry as R
-from discovery import schema as S
-from discovery.domains import zeta_domain as Z
-from discovery.funnel import DISPOSITIONS, STAGES, run_funnel
-from discovery.knownness import FORBIDDEN_LABEL_WORDS, KnownFactRegistry
-from discovery.ledger import Ledger
-from discovery.registry import Domain, ScreenResult, get_domain, validate_domain
-from discovery.schema import (
+from ontology import registry as R
+from ontology import schema as S
+from ontology.domains import zeta_domain as Z
+from ontology.funnel import DISPOSITIONS, STAGES, run_funnel
+from ontology.knownness import FORBIDDEN_LABEL_WORDS, KnownFactRegistry
+from ontology.ledger import Ledger
+from ontology.registry import Domain, ScreenResult, get_domain, validate_domain
+from ontology.schema import (
     Candidate,
     CandidateKind,
     Precision,
@@ -123,8 +123,17 @@ def _discovery_dir() -> Path:
 
 
 def _agnostic_files() -> list[Path]:
-    """Every module of ``discovery/`` outside ``domains/``."""
-    return sorted(p for p in _discovery_dir().glob("*.py"))
+    """Every importable module of ``ontology/`` outside ``domains/``.
+
+    The package directory also holds numbered experiment scripts
+    (``01_f1_geometry.py`` and friends).  Their stems are not valid Python
+    identifiers, so they cannot be imported as modules of the package and are
+    not part of its API surface — the agnostic seam does not cover them, and
+    they are subject-matter scripts by design.
+    """
+    return sorted(
+        p for p in _discovery_dir().glob("*.py") if p.stem.isidentifier()
+    )
 
 
 def _imports_of(path: Path) -> list[str]:
@@ -184,7 +193,7 @@ def test_no_agnostic_module_mentions_the_subject_matter() -> None:
 
 
 def test_domains_package_itself_stays_free_of_the_laboratory() -> None:
-    """Importing ``discovery.domains`` must not drag in the science package."""
+    """Importing ``ontology.domains`` must not drag in the science package."""
     init = _discovery_dir() / "domains" / "__init__.py"
     assert not [n for n in _imports_of(init) if n.split(".")[0] in _FORBIDDEN_ROOTS]
 
@@ -193,7 +202,7 @@ def test_importing_discovery_pulls_in_no_laboratory_module() -> None:
     root = _discovery_dir().parent
     code = (
         "import sys; sys.path.insert(0, %r);"
-        "import discovery, discovery.domains;"
+        "import ontology, ontology.domains;"
         "bad=[m for m in sys.modules if m.split('.')[0] in %r];"
         "print(','.join(sorted(bad)))" % (str(root), ("zeta",))
     )
@@ -662,7 +671,7 @@ def test_triviality_catches_a_claim_that_is_true_by_construction(screens, consta
     assert len(verdict.evidence["argument"]) <= S.MAX_ARGUMENT_CHARS
     assert "unfold" in verdict.evidence["checked_by"].lower() or verdict.evidence[
         "checked_by"
-    ].startswith("discovery.domains.zeta_domain")
+    ].startswith("ontology.domains.zeta_domain")
 
 
 def test_triviality_catches_the_jensen_normalisation_relation(screens, generated) -> None:
@@ -787,7 +796,7 @@ def test_a_hair_outside_a_proved_range_is_inconclusive_not_a_broken_verdict(
 
 def test_a_marginal_range_violation_does_not_abort_a_funnel_run(tmp_path) -> None:
     """The same defect, seen from the pipeline: the run must complete."""
-    from discovery.registry import BaseGenerator, Domain
+    from ontology.registry import BaseGenerator, Domain
 
     class Marginal(BaseGenerator):
         name, version = "zeta_probe", "1.0"

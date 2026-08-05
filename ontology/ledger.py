@@ -1,14 +1,14 @@
-"""discovery.ledger — the append-only log the whole funnel is measured from.
+"""ontology.ledger — the append-only log the whole funnel is measured from.
 
 Domain-agnostic, like the rest of this layer: it stores records, it does not
 know what they are about.
 
 Two streams, one directory
 --------------------------
-* **candidates** — ``ledger.jsonl``, one :class:`~discovery.schema.Candidate`
-  per line, exactly the format :func:`discovery.schema.read_jsonl` reads. The
+* **candidates** — ``ledger.jsonl``, one :class:`~ontology.schema.Candidate`
+  per line, exactly the format :func:`ontology.schema.read_jsonl` reads. The
   log is append-only and the *last* record for an id wins
-  (:func:`~discovery.schema.latest_by_id`), so a candidate that is generated,
+  (:func:`~ontology.schema.latest_by_id`), so a candidate that is generated,
   checkpointed and then decided appears two or three times and counts once.
 * **runs** — ``ledger.runs.jsonl``, one funnel-run record per line.
 
@@ -52,7 +52,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Final
 
-from discovery.schema import (
+from ontology.schema import (
     Candidate,
     ValidationError,
     from_dict,
@@ -355,7 +355,7 @@ class Ledger:
         """Candidates whose last record is still ``open``.
 
         These are the residue of a run that died between checkpointing a
-        candidate and deciding it. :func:`discovery.funnel.run_funnel` picks
+        candidate and deciding it. :func:`ontology.funnel.run_funnel` picks
         them up again on the next run rather than leaving them undecided.
         """
         return tuple(

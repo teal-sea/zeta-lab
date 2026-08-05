@@ -73,7 +73,7 @@ not administrative tidiness:
 
 `conjectures/.gitkeep` keeps the empty directory in the tree; `.gitignore`
 excludes `conjectures/*` and re-admits only that file. Anything published from
-the ledger should be a *report* — `discovery.metrics.render_text` — reviewed by
+the ledger should be a *report* — `ontology.metrics.render_text` — reviewed by
 a human, not the log itself.
 
 The reference run was reproduced from an empty ledger on 2026-08-04 with seed

@@ -1,4 +1,4 @@
-"""discovery.schema — the ontology of the discovery funnel.
+"""ontology.schema — the ontology of the discovery funnel.
 
 This module is **domain-agnostic on purpose**. It contains no knowledge of the
 laboratory it serves: no subject-matter vocabulary, no imports from the science

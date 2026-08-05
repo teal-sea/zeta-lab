@@ -1,7 +1,7 @@
-"""discovery.funnel — the pipeline, and the accounting that justifies it.
+"""ontology.funnel — the pipeline, and the accounting that justifies it.
 
-Domain-agnostic, in the same strict sense as :mod:`discovery.schema` and
-:mod:`discovery.registry`: it runs plug-ins fetched from the registry, counts
+Domain-agnostic, in the same strict sense as :mod:`ontology.schema` and
+:mod:`ontology.registry`: it runs plug-ins fetched from the registry, counts
 what happens to every observation, and knows nothing about what any of them are
 about.
 
@@ -34,7 +34,7 @@ neither is a statement about the world.
 The one exception is stated rather than hidden, because it is real: a plug-in
 that **raises** ends the run, and the candidates queued behind the failure never
 reach a disposition. They are not dropped silently — the crash record carries
-``entered`` and ``undecided``, and :func:`discovery.metrics.funnel_report`
+``entered`` and ``undecided``, and :func:`ontology.metrics.funnel_report`
 keeps ``undecided`` in the emitted denominator and reports its own non-terminal
 rate, so a crash cannot flatter the remaining conversions. Re-running decides
 them.
@@ -86,15 +86,15 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any, Final
 
-from discovery.ledger import Ledger
-from discovery.registry import (
+from ontology.ledger import Ledger
+from ontology.registry import (
     KNOWN_CHECK,
     Domain,
     ScreenResult,
     get_domain,
     validate_domain,
 )
-from discovery.schema import (
+from ontology.schema import (
     REQUIRED_SURVIVAL_CHECKS,
     TERMINAL_STATUSES,
     Candidate,
@@ -596,7 +596,7 @@ def run_funnel(
     Parameters
     ----------
     domain:
-        A :class:`~discovery.registry.Domain`, or the name of a registered one.
+        A :class:`~ontology.registry.Domain`, or the name of a registered one.
     stages:
         A subset of :data:`STAGES`; omitted stages are skipped, and anything
         still undecided at the end is recorded ``inconclusive`` with reason
@@ -607,7 +607,7 @@ def run_funnel(
         consulted in order and consumption stops when the budget is spent;
         ``limit_reached`` records that it was.
     ledger:
-        A :class:`~discovery.ledger.Ledger`, a path, or ``None`` for the default
+        A :class:`~ontology.ledger.Ledger`, a path, or ``None`` for the default
         (private, gitignored) location.
     dry_run:
         Generate and screen exactly as normal, write nothing at all — neither
@@ -647,7 +647,7 @@ def run_funnel(
     if limit is not None and (isinstance(limit, bool) or not isinstance(limit, int) or limit < 0):
         raise FunnelError(f"limit must be a non-negative integer or None, got {limit!r}")
     reopen_set = frozenset(str(s) for s in reopen)
-    from discovery.schema import REOPENABLE_STATUSES  # local: keeps __all__ tidy
+    from ontology.schema import REOPENABLE_STATUSES  # local: keeps __all__ tidy
 
     bad_reopen = sorted(reopen_set - {s.value for s in REOPENABLE_STATUSES})
     if bad_reopen:
@@ -672,7 +672,7 @@ def run_funnel(
             )
     started_at = _utc_now()
     t0 = time.perf_counter()
-    decided_by = f"discovery.funnel[{resolved.name}]"
+    decided_by = f"ontology.funnel[{resolved.name}]"
 
     # The ledger is read once: dedup is against the whole log, not this run.
     existing: dict[str, Candidate] = store.latest()

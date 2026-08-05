@@ -1,4 +1,4 @@
-"""discovery.knownness — the gate that catches the dominant outcome.
+"""ontology.knownness — the gate that catches the dominant outcome.
 
 Most numerical "discoveries" are already known. This module is the screen that
 says so, and it is deliberately built to be *hard to fool in the flattering
@@ -38,7 +38,7 @@ Establishing novelty requires a search this system cannot perform.
 Domain neutrality
 -----------------
 This module knows *mathematics* (π, γ, PSLQ, the Wigner surmise) but not the
-laboratory's subject. It imports ``mpmath``, ``discovery.schema`` and the
+laboratory's subject. It imports ``mpmath``, ``ontology.schema`` and the
 standard library — nothing else, and a test enforces it. It is one step less
 strict than ``schema``/``funnel``/``metrics``/``registry``/``ledger``/
 ``historical_cases``, which know no mathematics at all; the subject-matter facts
@@ -91,7 +91,7 @@ from typing import Any, Final
 import mpmath
 from mpmath import mp, mpf
 
-from discovery.schema import (
+from ontology.schema import (
     Candidate,
     CandidateKind,
     KnownEntry,
@@ -1579,7 +1579,7 @@ def _earned(verdict: Verdict) -> Verdict:
     """Return ``verdict`` if it already earns its status, else raise.
 
     :func:`screen_known` documents that the verdict it hands back satisfies
-    :func:`~discovery.schema.verdict_reasons`, and the funnel relies on that: a
+    :func:`~ontology.schema.verdict_reasons`, and the funnel relies on that: a
     detector returning an unearned verdict aborts the whole run. Checking it
     here turns any such bug into a :class:`KnownnessError` raised at the line
     that built the verdict, rather than a ``FunnelError`` three layers away.
@@ -1600,7 +1600,7 @@ def screen_known(
     literature: LiteratureBackend | None = None,
     value_provider: Callable[[int], Any] | None = None,
     identify: bool = True,
-    decided_by: str = "discovery.knownness.screen_known",
+    decided_by: str = "ontology.knownness.screen_known",
     **identify_kwargs: Any,
 ) -> KnownnessReport:
     """The already-known gate: catalogue, then closed form, then literature.

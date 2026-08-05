@@ -305,7 +305,7 @@ def test_closing_block_refuses_to_call_an_offline_miss_novelty(live):
 
 
 def test_no_output_anywhere_claims_a_discovery_is_new(live):
-    """The integrity rule of ``discovery.knownness``, enforced on this console.
+    """The integrity rule of ``ontology.knownness``, enforced on this console.
 
     The console may print the *word* novelty only inside a statement denying it.
     Every other spelling of "this is new" is refused outright.
@@ -423,7 +423,7 @@ def test_parse_context_refuses_malformed_json(console):
 
 
 def test_select_generators_accepts_full_and_short_names(console):
-    from discovery.domains import zeta_domain
+    from ontology.domains import zeta_domain
 
     domain = zeta_domain.DOMAIN
     assert console.select_generators(domain, "all") == tuple(domain.generators)
@@ -432,7 +432,7 @@ def test_select_generators_accepts_full_and_short_names(console):
 
 
 def test_select_generators_refuses_an_unknown_name(console):
-    from discovery.domains import zeta_domain
+    from ontology.domains import zeta_domain
 
     with pytest.raises(SystemExit) as excinfo:
         console.select_generators(zeta_domain.DOMAIN, "chemistry")
@@ -441,7 +441,7 @@ def test_select_generators_refuses_an_unknown_name(console):
 
 def test_capturing_proxy_is_transparent_and_keeps_what_it_saw(console):
     """The proxy must not change what the funnel records about a generator."""
-    from discovery.domains import zeta_domain
+    from ontology.domains import zeta_domain
 
     inner = zeta_domain.DOMAIN.generator("zeta_structural")
     sink = {}
@@ -497,8 +497,8 @@ def test_a_raising_plugin_is_reported_and_then_re_raised(console, tmp_path):
     """
     import dataclasses
 
-    from discovery.domains import zeta_domain
-    from discovery.ledger import Ledger
+    from ontology.domains import zeta_domain
+    from ontology.ledger import Ledger
 
     class Boom:
         name = "boom"
@@ -553,7 +553,7 @@ def test_a_lead_source_that_raised_is_not_filed_as_one_that_found_nothing(
     at all. Both are defects in the lead source, and the report has to be able
     to say which.
     """
-    from discovery.ledger import Ledger
+    from ontology.ledger import Ledger
 
     store = Ledger(tmp_path / "ledger.jsonl")
     store.append_run(

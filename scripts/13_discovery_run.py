@@ -64,15 +64,15 @@ REPO_ROOT = Path(__file__).resolve().parent.parent
 if str(REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(REPO_ROOT))
 
-from discovery.funnel import DISPOSITIONS, FunnelRun, run_funnel  # noqa: E402
-from discovery.ledger import Ledger, LedgerView  # noqa: E402
-from discovery.metrics import (  # noqa: E402
+from ontology.funnel import DISPOSITIONS, FunnelRun, run_funnel  # noqa: E402
+from ontology.ledger import Ledger, LedgerView  # noqa: E402
+from ontology.metrics import (  # noqa: E402
     funnel_report,
     generator_scorecard,
     render_text,
 )
-from discovery.registry import Domain  # noqa: E402
-from discovery.schema import Candidate  # noqa: E402
+from ontology.registry import Domain  # noqa: E402
+from ontology.schema import Candidate  # noqa: E402
 
 __all__ = ["main"]
 
@@ -175,7 +175,7 @@ class CapturingGenerator:
     the ledger is where they belong.  A dry run writes no ledger, so without
     this the console could not print a survivor's provenance in the one mode
     where nothing was recorded.  The proxy is written against the
-    :class:`~discovery.registry.Generator` protocol alone and knows nothing
+    :class:`~ontology.registry.Generator` protocol alone and knows nothing
     about any subject matter.
     """
 
@@ -447,8 +447,8 @@ def section_waterfall(
     """Print entered -> deduped -> known -> screened -> surviving.
 
     ``stages`` is any sequence of stage tallies carrying ``stage``, ``entered``,
-    ``left`` and ``seconds``: both :class:`discovery.funnel.StageTally` (one
-    run) and :class:`discovery.metrics.StageStat` (the whole ledger) qualify,
+    ``left`` and ``seconds``: both :class:`ontology.funnel.StageTally` (one
+    run) and :class:`ontology.metrics.StageStat` (the whole ledger) qualify,
     which is why one renderer serves both modes.  Returns the number that came
     out of the far end.
     """
@@ -722,7 +722,7 @@ def do_report(store: Ledger, *, shown: int, dashboard: bool) -> int:
     section_scorecard(stats, scope="whole ledger")
     if dashboard:
         print(RULE)
-        print("APPENDIX — discovery.metrics.render_text()")
+        print("APPENDIX — ontology.metrics.render_text()")
         print(RULE)
         print(render_text(view))
         print()
@@ -810,7 +810,7 @@ def do_run(
         print()
     if dashboard:
         print(RULE)
-        print("APPENDIX — discovery.metrics.render_text() over the whole ledger")
+        print("APPENDIX — ontology.metrics.render_text() over the whole ledger")
         print(RULE)
         print(render_text(store.view()))
         print()
@@ -915,7 +915,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     )
     parser.add_argument(
         "--dashboard", action="store_true",
-        help="also print discovery.metrics.render_text(): stage costs, screen "
+        help="also print ontology.metrics.render_text(): stage costs, screen "
              "costs and the funnel over time",
     )
     parser.add_argument(
@@ -932,8 +932,8 @@ def main(argv: Sequence[str] | None = None) -> int:
     # Importing the domain module registers it. It is imported here rather than
     # at module scope so that --help costs nothing (the zeta domain drags in
     # mpmath, numpy and the whole laboratory package).
-    from discovery.domains import zeta_domain  # registers the laboratory domain
-    from discovery.registry import DomainError, get_domain
+    from ontology.domains import zeta_domain  # registers the laboratory domain
+    from ontology.registry import DomainError, get_domain
 
     domain_module: Any = zeta_domain if args.domain == zeta_domain.DOMAIN_NAME else None
 

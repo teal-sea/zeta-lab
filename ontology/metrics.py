@@ -1,4 +1,4 @@
-"""discovery.metrics — conversion analytics over the ledger.
+"""ontology.metrics — conversion analytics over the ledger.
 
 Domain-agnostic, like the rest of this layer. It reads records and divides.
 
@@ -41,9 +41,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Final
 
-from discovery.funnel import DISPOSITIONS, STAGES, FunnelRun
-from discovery.ledger import Ledger, LedgerView
-from discovery.schema import VerdictStatus
+from ontology.funnel import DISPOSITIONS, STAGES, FunnelRun
+from ontology.ledger import Ledger, LedgerView
+from ontology.schema import VerdictStatus
 
 __all__ = [
     "rate",
@@ -152,7 +152,7 @@ def _stage_flow(
 ) -> dict[str, tuple[int, int]]:
     """``{stage: (entered, left)}`` for one run, from where candidates left.
 
-    Mirrors :func:`discovery.funnel.run_funnel` exactly: ``generate`` and
+    Mirrors :func:`ontology.funnel.run_funnel` exactly: ``generate`` and
     ``terminal`` always run, every other stage runs only if the run asked for
     it, and each stage receives whatever the one before it did not remove.
     """

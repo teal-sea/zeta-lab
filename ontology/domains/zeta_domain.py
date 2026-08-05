@@ -1,4 +1,4 @@
-"""discovery.domains.zeta_domain — the only module that knows what is studied.
+"""ontology.domains.zeta_domain — the only module that knows what is studied.
 
 Everything above this file in ``discovery/`` is domain-agnostic: it counts
 candidates, verdicts and conversion rates and would work unchanged for a
@@ -6,7 +6,7 @@ chemistry lab. This file is where the laboratory is allowed to be named. It
 registers six **generators** (which mine the lab's own computed objects for
 candidate observations), six **screens** (which try to kill them) and a
 **catalogue** of already-established facts, all through
-:mod:`discovery.registry`.
+:mod:`ontology.registry`.
 
 Honest scope, restated because this is the file where it would be easiest to
 lose. Nothing here is evidence for the Riemann Hypothesis. A candidate that
@@ -83,14 +83,14 @@ from typing import Any, Final
 import numpy as np
 from mpmath import mp
 
-from discovery.knownness import (
+from ontology.knownness import (
     GENERAL_FACTS,
     FactMatch,
     KnownFact,
     KnownFactRegistry,
     screen_known,
 )
-from discovery.registry import (
+from ontology.registry import (
     BaseGenerator,
     BaseKnownnessDetector,
     BaseScreen,
@@ -98,7 +98,7 @@ from discovery.registry import (
     ScreenResult,
     register_domain,
 )
-from discovery.schema import (
+from ontology.schema import (
     Candidate,
     CandidateKind,
     InconclusiveReason,
@@ -2420,7 +2420,7 @@ class TrivialityScreen(BaseScreen):
                     "derived_from": list(rule.derived_from),
                     "argument": rule.argument,
                     "checked_by": (
-                        "discovery.domains.zeta_domain.TrivialityScreen "
+                        "ontology.domains.zeta_domain.TrivialityScreen "
                         f"via {rule.check.__name__}"
                     ),
                     "checked_with": {k: str(v) for k, v in params.items()},
@@ -3084,7 +3084,7 @@ class CatalogueDetector(BaseKnownnessDetector):
 
     Consults the domain catalogue first (cheap and citable), then hands
     ``constant`` candidates to the integer-relation identifier in
-    :mod:`discovery.knownness`, supplying the candidate's own re-derivation
+    :mod:`ontology.knownness`, supplying the candidate's own re-derivation
     route as the value provider so the escalation that makes an identification
     trustworthy is a real one.
 
@@ -3113,7 +3113,7 @@ class CatalogueDetector(BaseKnownnessDetector):
             facts=FACT_REGISTRY,
             value_provider=provider,
             identify=candidate.kind is CandidateKind.CONSTANT,
-            decided_by=f"discovery.domains.zeta_domain.{self.name}",
+            decided_by=f"ontology.domains.zeta_domain.{self.name}",
         )
         return report.verdict
 

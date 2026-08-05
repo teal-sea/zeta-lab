@@ -1,9 +1,9 @@
-"""discovery.domains.zeta_history — settled claims, replayed against the funnel.
+"""ontology.domains.zeta_history — settled claims, replayed against the funnel.
 
-The harness lives in :mod:`discovery.historical_cases` and knows nothing about
+The harness lives in :mod:`ontology.historical_cases` and knows nothing about
 the subject. This file is the subject-matter half: it turns four famous claims,
 plus one constructed negative control, into candidates the pipeline in
-:mod:`discovery.domains.zeta_domain` can actually process, and states the answer
+:mod:`ontology.domains.zeta_domain` can actually process, and states the answer
 history has already given for each.
 
 Why the file is separate from ``zeta_domain``
@@ -61,12 +61,12 @@ from typing import Any, Final
 import numpy as np
 from mpmath import mp
 
-from discovery.historical_cases import (
+from ontology.historical_cases import (
     HistoricalCase,
     HistoricalOutcome,
     register_case,
 )
-from discovery.schema import (
+from ontology.schema import (
     Candidate,
     CandidateKind,
     Precision,

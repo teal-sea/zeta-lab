@@ -1,4 +1,4 @@
-"""discovery.historical_cases — the falsification test for the ontology itself.
+"""ontology.historical_cases — the falsification test for the ontology itself.
 
 A classification system that cannot correctly bin things whose outcomes are
 **already settled** is not ready to classify anything new. Before a funnel is
@@ -7,8 +7,8 @@ evidence that was actually available when a famous claim was made, it must
 reach the disposition that the following century turned out to justify.
 
 This module is the harness, and it is **domain-agnostic** in exactly the sense
-:mod:`discovery.schema`, :mod:`discovery.funnel`, :mod:`discovery.metrics` and
-:mod:`discovery.registry` are. It knows what a settled historical case *is*, how
+:mod:`ontology.schema`, :mod:`ontology.funnel`, :mod:`ontology.metrics` and
+:mod:`ontology.registry` are. It knows what a settled historical case *is*, how
 to replay one through a pipeline, and how to decide whether the pipeline got it
 right. It knows nothing whatsoever about the subject being studied. A laboratory
 supplies its own cases from its ``domains/`` package; a chemistry laboratory
@@ -71,10 +71,10 @@ from enum import StrEnum
 from pathlib import Path
 from typing import Any, Final
 
-from discovery.funnel import DISPOSITIONS, FunnelRun, run_funnel
-from discovery.ledger import Ledger
-from discovery.registry import Domain, DomainError
-from discovery.schema import Candidate, VerdictStatus
+from ontology.funnel import DISPOSITIONS, FunnelRun, run_funnel
+from ontology.ledger import Ledger
+from ontology.registry import Domain, DomainError
+from ontology.schema import Candidate, VerdictStatus
 
 __all__ = [
     "HISTORY_VERSION",
@@ -358,7 +358,7 @@ def clear_cases() -> None:
 class CaseGenerator:
     """A lead source that emits exactly one recorded observation.
 
-    It satisfies :class:`~discovery.registry.Generator` structurally, so the
+    It satisfies :class:`~ontology.registry.Generator` structurally, so the
     pipeline treats a replay exactly as it treats a real run — the same
     validation, the same dispositions, the same conservation invariant. Nothing
     about a case gets a shortcut through the machinery it is testing.

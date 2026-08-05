@@ -1,4 +1,4 @@
-"""Tests for discovery.schema — the ontology of the discovery funnel.
+"""Tests for ontology.schema — the ontology of the discovery funnel.
 
 What is pinned here, in the order the design's claims are made:
 
@@ -39,8 +39,8 @@ _REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(_REPO_ROOT) not in sys.path:  # pragma: no cover - import bootstrap
     sys.path.insert(0, str(_REPO_ROOT))
 
-from discovery import schema as S  # noqa: E402
-from discovery.schema import (  # noqa: E402
+from ontology import schema as S  # noqa: E402
+from ontology.schema import (  # noqa: E402
     Candidate,
     CandidateKind,
     CandidateLink,
@@ -1197,7 +1197,7 @@ def test_importing_the_schema_pulls_in_no_laboratory_module() -> None:
     root = _discovery_dir().parent
     code = (
         "import sys; sys.path.insert(0, %r);"
-        "import discovery.schema;"
+        "import ontology.schema;"
         "bad=[m for m in sys.modules if m.split('.')[0] in %r];"
         "print(','.join(sorted(bad)))" % (str(root), _FORBIDDEN_ROOTS)
     )

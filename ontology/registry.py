@@ -1,14 +1,14 @@
-"""discovery.registry — the plug-in seam.
+"""ontology.registry — the plug-in seam.
 
 This module is **domain-agnostic on purpose**, in the same strict sense as
-:mod:`discovery.schema`: it imports nothing from the laboratory package, names
+:mod:`ontology.schema`: it imports nothing from the laboratory package, names
 no quantity the laboratory computes, and would work unchanged for a chemistry
 lab or a compiler-optimisation search. It defines *what a lead source is*, not
 what any particular lead source knows.
 
 Three plug-in roles, and no more
 --------------------------------
-* :class:`Generator` — emits :class:`~discovery.schema.Candidate` objects from
+* :class:`Generator` — emits :class:`~ontology.schema.Candidate` objects from
   whatever the domain can compute. It is the only role allowed to invent a
   claim. It is *not* allowed to decide one: a generator that hands back an
   already-decided candidate is refused by the funnel, because a lead source
@@ -44,7 +44,7 @@ from collections.abc import Iterable, Mapping, Sequence
 from dataclasses import dataclass
 from typing import Any, Final, Literal, Protocol, runtime_checkable
 
-from discovery.schema import (
+from ontology.schema import (
     REQUIRED_SURVIVAL_CHECKS,
     TERMINAL_STATUSES,
     Candidate,
@@ -108,12 +108,12 @@ class ScreenResult:
     The shape enforces the asymmetry that makes the funnel honest: *passing*
     costs nothing to say and asserts nothing, while *stopping* a candidate
     requires a terminal verdict that already earns its own status under
-    :func:`~discovery.schema.verdict_reasons`. There is no third option — a
+    :func:`~ontology.schema.verdict_reasons`. There is no third option — a
     screen may not "flag" a candidate, because a flag is an opinion with no
     decision procedure behind it.
 
     ``effort`` is what a verification screen spent, on the same scale as
-    :meth:`~discovery.schema.Precision.effort_digits`. It is optional, but a
+    :meth:`~ontology.schema.Precision.effort_digits`. It is optional, but a
     candidate can only be promoted to ``survives`` if some screen reports an
     effort strictly above the effort the candidate was generated at — the
     schema requires verification to have cost more than generation, and this

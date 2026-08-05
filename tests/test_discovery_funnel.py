@@ -1,4 +1,4 @@
-"""Tests for discovery.registry / ledger / funnel / metrics — the pipeline.
+"""Tests for ontology.registry / ledger / funnel / metrics — the pipeline.
 
 What is pinned here, in the order the design's claims are made:
 
@@ -36,13 +36,13 @@ _REPO_ROOT = Path(__file__).resolve().parents[1]
 if str(_REPO_ROOT) not in sys.path:  # pragma: no cover - import bootstrap
     sys.path.insert(0, str(_REPO_ROOT))
 
-from discovery import funnel as F  # noqa: E402
-from discovery import ledger as L  # noqa: E402
-from discovery import metrics as M  # noqa: E402
-from discovery import registry as R  # noqa: E402
-from discovery import schema as S  # noqa: E402
-from discovery.ledger import Ledger, LedgerView  # noqa: E402
-from discovery.registry import (  # noqa: E402
+from ontology import funnel as F  # noqa: E402
+from ontology import ledger as L  # noqa: E402
+from ontology import metrics as M  # noqa: E402
+from ontology import registry as R  # noqa: E402
+from ontology import schema as S  # noqa: E402
+from ontology.ledger import Ledger, LedgerView  # noqa: E402
+from ontology.registry import (  # noqa: E402
     BaseGenerator,
     BaseKnownnessDetector,
     BaseScreen,
@@ -50,7 +50,7 @@ from discovery.registry import (  # noqa: E402
     DomainError,
     ScreenResult,
 )
-from discovery.schema import (  # noqa: E402
+from ontology.schema import (  # noqa: E402
     Candidate,
     CandidateKind,
     Precision,
@@ -262,7 +262,7 @@ def test_pipeline_modules_contain_no_subject_matter_vocabulary(filename) -> None
 def test_importing_the_pipeline_pulls_in_no_laboratory_module() -> None:
     code = (
         "import sys; sys.path.insert(0, %r);"
-        "import discovery.funnel, discovery.metrics, discovery.registry, discovery.ledger;"
+        "import ontology.funnel, ontology.metrics, ontology.registry, ontology.ledger;"
         "bad=[m for m in sys.modules if m.split('.')[0] in %r];"
         "print(','.join(sorted(bad)))" % (str(_REPO_ROOT), _FORBIDDEN_ROOTS)
     )
@@ -274,10 +274,10 @@ def test_importing_the_pipeline_pulls_in_no_laboratory_module() -> None:
 
 
 def test_importing_the_package_front_door_pulls_in_no_laboratory_module() -> None:
-    """``import discovery`` is what a reader actually types, and it must be as
+    """``import ontology`` is what a reader actually types, and it must be as
     clean as importing the four modules by hand."""
     code = (
-        "import sys; sys.path.insert(0, %r); import discovery;"
+        "import sys; sys.path.insert(0, %r); import ontology;"
         "bad=[m for m in sys.modules if m.split('.')[0] in %r];"
         "print(','.join(sorted(bad)))" % (str(_REPO_ROOT), _FORBIDDEN_ROOTS)
     )
@@ -319,9 +319,9 @@ def test_the_pipeline_runs_with_the_laboratory_package_unimportable(tmp_path) ->
 
         sys.path.insert(0, {str(Path(__file__).resolve().parent)!r})
         from test_discovery_funnel import _full_domain, _constant
-        from discovery.funnel import run_funnel
-        from discovery.ledger import Ledger
-        from discovery.metrics import render_text
+        from ontology.funnel import run_funnel
+        from ontology.ledger import Ledger
+        from ontology.metrics import render_text
 
         led = Ledger({str(tmp_path / "walled.jsonl")!r})
         run = run_funnel(_full_domain([_constant("k"), _constant("t"), _constant("s")]),
@@ -471,7 +471,7 @@ def test_the_default_ledger_is_private_and_derived_from_the_module_location() ->
     assert L.DEFAULT_LEDGER_PATH.parent.parent == _REPO_ROOT
     ignore = (_REPO_ROOT / ".gitignore").read_text(encoding="utf-8")
     assert "conjectures/*" in ignore, "the ledger must never be committed"
-    readme = (_REPO_ROOT / "discovery" / "README.md").read_text(encoding="utf-8")
+    readme = (_REPO_ROOT / "ontology" / "README.md").read_text(encoding="utf-8")
     assert "conjectures/" in readme and "gitignore" in readme.lower()
 
 
@@ -593,7 +593,7 @@ def test_concurrent_appends_from_separate_processes_never_tear_a_line(tmp_path) 
             sys.path.insert(0, {str(_REPO_ROOT)!r})
             sys.path.insert(0, {str(Path(__file__).resolve().parent)!r})
             from test_discovery_funnel import _constant
-            from discovery.ledger import Ledger
+            from ontology.ledger import Ledger
             led = Ledger(sys.argv[1])
             tag = sys.argv[2]
             for i in range(20):
@@ -1724,9 +1724,9 @@ def test_an_os_killed_run_leaves_a_visible_checkpoint_and_resumes(tmp_path) -> N
         f"""
         import time
         from pathlib import Path
-        from discovery.funnel import run_funnel
-        from discovery.registry import BaseGenerator, BaseKnownnessDetector, BaseScreen, Domain
-        from discovery.schema import from_json
+        from ontology.funnel import run_funnel
+        from ontology.registry import BaseGenerator, BaseKnownnessDetector, BaseScreen, Domain
+        from ontology.schema import from_json
 
         candidate = from_json({S.to_json(candidate)!r})
 

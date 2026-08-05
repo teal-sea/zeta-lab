@@ -1,4 +1,4 @@
-"""Tests for ``discovery.knownness`` — the already-known gate.
+"""Tests for ``ontology.knownness`` — the already-known gate.
 
 The gate is only worth having if it is hard to fool in the flattering
 direction, so most of what is pinned here is a *refusal*: a spurious relation
@@ -23,8 +23,8 @@ from pathlib import Path
 import pytest
 from mpmath import mp, mpf
 
-from discovery import knownness as K
-from discovery.schema import (
+from ontology import knownness as K
+from ontology.schema import (
     Candidate,
     CandidateKind,
     Precision,
@@ -36,7 +36,7 @@ from discovery.schema import (
 )
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
-MODULE_PATH = REPO_ROOT / "discovery" / "knownness.py"
+MODULE_PATH = REPO_ROOT / "ontology" / "knownness.py"
 
 
 # ---------------------------------------------------------------------------
@@ -686,7 +686,7 @@ class TestKnownFactRegistry:
     def test_a_bare_import_yields_a_general_only_registry(self):
         """Checked in a fresh interpreter, so no other import can muddy it."""
         code = (
-            "import discovery.knownness as K; "
+            "import ontology.knownness as K; "
             "print(','.join(K.KNOWN_FACTS.domains()))"
         )
         proc = subprocess.run(
@@ -841,7 +841,7 @@ class TestKnownFactRegistry:
         assert seen == [candidate.id]
 
     def test_known_entry_bridge_matches_the_schema_type(self):
-        from discovery.schema import KnownEntry, match_known
+        from ontology.schema import KnownEntry, match_known
 
         entries = K.KnownFactRegistry(K.GENERAL_FACTS).known_entries()
         assert all(isinstance(e, KnownEntry) for e in entries)
@@ -1237,7 +1237,7 @@ class TestHygiene:
 
     def test_importing_knownness_does_not_import_the_laboratory(self):
         code = (
-            "import sys; import discovery.knownness; "
+            "import sys; import ontology.knownness; "
             "banned=[m for m in ('zeta','numpy','scipy','matplotlib','sympy') "
             "if m in sys.modules]; print(banned)"
         )
