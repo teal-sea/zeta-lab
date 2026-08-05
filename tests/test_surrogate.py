@@ -379,6 +379,29 @@ def test_arithmetic_and_matrix_factors_reconstruct_the_cfkrs_coefficient():
         assert abs(ratios[1] - 1.0) < abs(ratios[0] - 1.0)
 
 
+@pytest.mark.slow
+def test_davenport_heilbronn_also_shows_rising_concentration():
+    """The counterexample battery's gate applied to the concentration pattern.
+
+    ``f`` violates the Riemann Hypothesis, so a property ``f`` also has cannot
+    be structural evidence about zeta.  Concentration rising with moment order
+    is such a property, which is exactly why the pattern distinguishes nothing.
+    """
+
+    from zeta.epstein import Z_dh, _dh_mean_spacing
+
+    height = 200.0
+    spacing = float(_dh_mean_spacing(height)) / 32.0
+    ts = height + np.arange(481) * spacing
+    values = np.array([float(Z_dh(float(t), dps=15)) for t in ts]) ** 2
+    shares = [
+        item.top_contribution
+        for item in interval_statistics(values, spacing, blocks=8, top_fraction=0.05)
+    ]
+    assert shares == sorted(shares)
+    assert shares[3] > 2.0 * shares[0]
+
+
 def test_surrogate_concentration_rises_with_moment_order():
     """The null's own concentration ordering, the pattern under audit.
 

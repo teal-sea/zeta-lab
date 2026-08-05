@@ -357,6 +357,92 @@ def run_cue() -> None:
     )
 
 
+DH_GAPS = 150
+DH_HEIGHTS = (200.0, 2000.0)
+
+
+def _dh_chunk(arguments: tuple[float, ...]) -> list[float]:
+    """Evaluate ``Z_dh`` on a chunk of ordinates (module level so it pickles)."""
+
+    from zeta.epstein import Z_dh
+
+    return [float(Z_dh(float(t), dps=15)) for t in arguments]
+
+
+def run_dh(workers: int = 8) -> None:
+    """Run the concentration statistics on the Davenport-Heilbronn function.
+
+    ``f`` satisfies a functional equation, has real Dirichlet coefficients and
+    a real Hardy-style ``Z``, and violates the Riemann Hypothesis.  The
+    repository's standing rule is that any structural property claimed to
+    explain RH must be run through this counterexample: a property ``f`` also
+    has distinguishes nothing.  Here the property under test is the rise of
+    moment concentration with moment order.
+
+    No CFKRS-style moment polynomial exists for ``f``, so only the shape
+    statistics are computed; there is no ratio column and none is implied.
+    """
+
+    import concurrent.futures
+
+    from zeta.epstein import _dh_mean_spacing
+
+    for height in DH_HEIGHTS:
+        spacing = float(_dh_mean_spacing(height)) / POINTS_PER_GAP
+        count = DH_GAPS * POINTS_PER_GAP + 1
+        ts = height + np.arange(count) * spacing
+
+        started = time.time()
+        chunks = np.array_split(ts, workers * 4)
+        with concurrent.futures.ProcessPoolExecutor(max_workers=workers) as pool:
+            pieces = list(pool.map(_dh_chunk, [tuple(c) for c in chunks]))
+        values = np.array([v for piece in pieces for v in piece]) ** 2
+        elapsed = time.time() - started
+
+        dh_stats = {
+            item.k: item
+            for item in interval_statistics(
+                values, spacing, blocks=BLOCKS, top_fraction=TOP_FRACTION
+            )
+        }
+
+        # Zeta on an identically sized grid, for reference only.
+        zeta_ts = 1e6 + np.arange(count) * (mean_gap(1e6) / POINTS_PER_GAP)
+        zeta_stats = {
+            item.k: item
+            for item in interval_statistics(
+                riemann_siegel_z(zeta_ts) ** 2,
+                mean_gap(1e6) / POINTS_PER_GAP,
+                blocks=BLOCKS,
+                top_fraction=TOP_FRACTION,
+            )
+        }
+
+        print(
+            f"Davenport-Heilbronn at t = {height:g}   spacing {spacing:.6f}   "
+            f"{DH_GAPS} nominal gaps   ({elapsed:.0f}s)"
+        )
+        print(
+            f"  {'moment':>6}  {'DH top1%':>10}  {'zeta top1%':>10}"
+            f"  {'DH blkCV':>10}  {'zeta blkCV':>10}"
+        )
+        for k in (1, 2, 3, 4):
+            print(
+                f"  {2 * k:>6}"
+                f"  {dh_stats[k].top_contribution:>9.2%}"
+                f"  {zeta_stats[k].top_contribution:>9.2%}"
+                f"  {dh_stats[k].block_dispersion:>9.2%}"
+                f"  {zeta_stats[k].block_dispersion:>9.2%}"
+            )
+        print()
+    print(
+        "The zeta column is a same-sized grid at t=1e6, shown for scale only;\n"
+        "the two functions are at different heights and are not calibrated to\n"
+        "each other.  What matters is whether the rise with moment order is\n"
+        "present for a function known to violate RH."
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -374,6 +460,11 @@ def main() -> int:
         action="store_true",
         help="compare against the CUE characteristic polynomial control",
     )
+    parser.add_argument(
+        "--dh",
+        action="store_true",
+        help="run the Davenport-Heilbronn counterexample control",
+    )
     args = parser.parse_args()
     if args.verify:
         verify_adapter()
@@ -381,6 +472,8 @@ def main() -> int:
         run_tails()
     elif args.cue:
         run_cue()
+    elif args.dh:
+        run_dh()
     else:
         run_comparison()
     return 0
