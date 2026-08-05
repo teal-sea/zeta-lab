@@ -272,6 +272,7 @@ The docs are a single course; `00 → 01 → 02 → 03 → 04` is one argument.
 | `docs/11-f1-and-the-missing-geometry.md` | The field with one element, Deninger's dynamics, and the hunt for geometry under ℤ. |
 | `docs/12-how-hard-problems-die.md` | Eight problems that fell, the mechanism that killed each, and an honest scoring of RH against the board. |
 | `docs/13-moments.md` | External zero/value tables, finite-moment estimation, error separation, and the theorem-gated scorecard. |
+| `docs/14-how-new-mathematics-gets-invented.md` | Eleven recurring ways new mathematics has appeared, scored against the missing Frobenius over ℤ. |
 
 ## Gallery
 

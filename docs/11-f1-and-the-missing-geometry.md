@@ -47,10 +47,41 @@ graph of Frobenius. (Deligne's general 1974 proof took a different analytic rout
 symmetry-plus-positivity at bottom; `docs/09`, §1.3.) The output: the Frobenius eigenvalues have
 absolute value exactly `sqrt(p)` — all zeros on the critical line, as a **THEOREM**.
 
+**Why "eigenvalue modulus" and "critical line" are the same sentence.** This is the hinge of the
+whole analogy and it is worth doing once with numbers rather than in words. The zeta function of a
+curve over `F_p` is a function of `T`, and one substitutes `T = p^{-s}` to compare it with a
+Dirichlet series. Its zeros sit at `T = 1/alpha` for `alpha` a Frobenius eigenvalue, so
+
+```
+    p^{-s} = 1/alpha   =>   p^s = alpha   =>   s = log(alpha) / log(p)
+    Re(s) = log|alpha| / log(p)
+```
+
+and therefore `Re(s) = 1/2` **is** `|alpha| = p^(1/2)`, not an analogue of it. Take
+`y^2 = x^3 + 3x + 5` over `F_101` (`zeta.finitefield`, `dps = 20`):
+
+```
+    a_p = -13
+    alpha = -6.5 +/- 7.664854858 i          |alpha| = 10.0498756211 = sqrt(101)
+    alpha * alphabar = 101   exactly        alpha + alphabar = -13
+    s = log(alpha)/log(p) = 0.5 +/- 0.492759299573 i     ->  Re(s) = 0.5
+```
+
+and the Lefschetz formula `N_n = p^n + 1 - (alpha^n + alphabar^n)` against brute-force counting over
+`F_{p^n}`: `115`, `10235`, `1028560` for `n = 1, 2, 3`, both ways. That is the whole payoff of item
+two — counting became a trace — and item three is what forces the modulus.
+
+The reason this matters for the rest of the document: a constraint on *where a zero sits* is fragile
+and analytic, while a constraint on *how big an eigenvalue is* is structural, and structural
+constraints have proofs. Every program below is trying to buy that change of coordinates for zeta.
+`scripts/11_finite_field_rh.py` runs the case where it works.
+
 > **Plain-words recap.** The only RH ever proved needed three ingredients: a space, a matrix acting
 > on something built from it, and a positivity theorem — applied on the space's *square* — forcing
 > the eigenvalues onto the critical value. Space, operator, positivity. Keep the checklist; the rest
-> of this document is people trying to build item one.
+> of this document is people trying to build item one. And note *why* eigenvalues are the prize:
+> `s = log(alpha)/log(p)` turns "the zero is on the critical line" into "the eigenvalue has modulus
+> `sqrt(p)`" — the same statement in better coordinates.
 
 ---
 

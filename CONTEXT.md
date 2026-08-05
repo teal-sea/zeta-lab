@@ -581,6 +581,7 @@ Constants: `GENERATOR`, `GENERATOR_VERSION`, `SEED`, `GUARD_DIGITS`, `GAUSS_WIND
 - `11-f1-and-the-missing-geometry.md` — 11 — F1 and the Missing Geometry
 - `12-how-hard-problems-die.md` — 12 — How Hard Problems Die: A Kill Board
 - `13-moments.md` — 13 — Moments: External Windows, Finite Estimates, Honest Scorecards
+- `14-how-new-mathematics-gets-invented.md` — 14 — How New Mathematics Gets Invented
 
 ## Runnable demos (`scripts/`)
 

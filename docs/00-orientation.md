@@ -334,6 +334,7 @@ Docs, in numbered reading order:
 | `11-f1-and-the-missing-geometry.md` | `epstein.py` | The field with one element, Borger's and Connes–Consani's attempts, Deninger's dynamical programme — the hunt for the geometry under ℤ. |
 | `12-how-hard-problems-die.md` | `finitefield.py`, `criteria.py`, `li.py` | A kill board: eight problems that fell, the mechanism that killed each (ontology rebuild, bridge, finite reduction, effective squeeze, flow, insight, equivalence web), and an honest scoring of which of them RH's live formulations touch — and which it provably does not. |
 | `13-moments.md` | `moments.py` | The external-data contract for the moments programme: LMFDB/Odlyzko formats, exact base-plus-offset storage, validation, provenance, and deliberate non-goals. |
+| `14-how-new-mathematics-gets-invented.md` | `finitefield.py`, `epstein.py` | Companion to the kill board, one level earlier: eleven recurring ways new mathematics has appeared (posit the object, negate an axiom, change the base ring, object-valued invariants, dictionaries, compute for anomalies, …), each scored against `docs/11`'s missing Frobenius over ℤ. Historical, not testable — flagged as such in the document. |
 
 Supporting directories: `scripts/`, `figures/`, `data/` (cached zero tables and scan
 results), `tests/` (every module has a test file — the defect functions are tested to tight
