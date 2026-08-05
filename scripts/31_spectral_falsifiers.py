@@ -2,14 +2,17 @@
 
 A gate nobody has seen fail is not known to be a gate.  This script runs
 ``zeta.spectral_gate`` against three constructions whose verdicts are known in
-advance, so each of the three falsifiers is observed rejecting something:
+advance, so each of the four falsifiers is observed rejecting something:
 
 * a **forged** operator, built by writing the ordinates straight into the
   matrix.  It reproduces the zeros perfectly and is stable under refinement,
   and it is worthless — it never consults a prime.  Only the ablation gate
   catches it, which is exactly why that gate exists.
 * an **arithmetic noise** operator, built from prime data but with no reason to
-  carry the zeros.  It depends on the primes and is caught by the target gate.
+  carry the zeros.  It is caught by the target gate, and also by the
+  permutation gate: its entries are indexed by position in the prime list, so
+  reordering the same primes moves its spectrum -- the signature of primes used
+  as decoration rather than as places.
 * the **transcendental antisymmetric matrix** of ``discovery/04``, generalised
   to accept a prime list.  Its spectrum grows with the basis, so the stability
   gate catches it as a cutoff artifact.
@@ -19,7 +22,7 @@ Usage::
     .venv/bin/python scripts/31_spectral_falsifiers.py
 
 Nothing here bears on the Riemann Hypothesis.  A construction that passed all
-three gates would have survived the cheapest ways of being wrong, and would
+four gates would have survived the cheapest ways of being wrong, and would
 still owe an argument that it is not a re-encoding of the explicit formula.
 """
 
@@ -123,7 +126,8 @@ def main() -> int:
         print(
             f"  stability {verdict.stability:>8.2%}   "
             f"target {verdict.target:>9.2%}   "
-            f"ablation {verdict.ablation:>8.2%}"
+            f"ablation {verdict.ablation:>8.2%}   "
+            f"permutation {verdict.permutation:>8.2%}"
         )
         print(f"  passed: {verdict.passed}")
         for failure in verdict.failures:

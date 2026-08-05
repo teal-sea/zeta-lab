@@ -12,15 +12,20 @@ by accident.  Three failure modes account for most of them:
   runs and therefore tests nothing;
 * the **arithmetic is not load-bearing** — the same spectrum appears when the
   primes are replaced by an arbitrary set, so the construction never touched
-  the zeta function at all.
+  the zeta function at all;
+* the primes are present but only as **decoration** — the spectrum reacts to
+  the primes *and* to the order they were listed in, which means the entries
+  are indexed by list position rather than by a place.  This one is invisible
+  to the ablation gate, since swapping the primes out moves such a spectrum
+  just as much as it moves a genuine one.
 
-This module turns each into a measured defect with a pre-declared threshold,
+This module turns each of the four into a measured defect with a pre-declared threshold,
 so a sprint reports numbers that can fail rather than a picture that looks
 suggestive.  It is deliberately agnostic about what is being tested: supply a
 callable ``construct(basis_size, primes) -> matrix`` and the gates apply.
 
 Nothing here can provide evidence for the Riemann Hypothesis.  Passing all
-three gates means a construction has survived the cheapest ways of being
+four gates means a construction has survived the cheapest ways of being
 wrong; it is a licence to keep working, not a result.  In particular a
 construction can pass every gate and still be a rediscovery of the explicit
 formula, which already reconstructs zeros from primes (``scripts/03``) — see
@@ -44,6 +49,7 @@ __all__ = [
     "stability_defect",
     "target_defect",
     "ablation_defect",
+    "permutation_defect",
     "spectral_gate",
 ]
 
@@ -59,6 +65,13 @@ TARGET_TOLERANCE: float = 0.01
 #: this the arithmetic is not load-bearing and the gate fails: this is the one
 #: threshold a construction must exceed rather than stay under.
 ABLATION_TOLERANCE: float = 0.10
+
+#: Relative spectral change permitted when the *same* primes are reordered.
+#: A construction indexed by position in a list will move; one that depends on
+#: the set of places, as any adelic object must, will not.  Paired with the
+#: ablation gate this is sharp: the spectrum must react to *which* primes are
+#: present and ignore *what order* they arrive in.
+PERMUTATION_TOLERANCE: float = 0.01
 
 #: First ordinates of the non-trivial zeros, for the target gate.  Pinned in
 #: ``tests/test_spectral_gate.py`` against mpmath's ``zetazero``.
@@ -152,6 +165,41 @@ def ablation_defect(
     return float(np.max(np.abs(fake - real) / np.abs(real)))
 
 
+def permutation_defect(
+    construct: Callable[[int, Sequence[int]], np.ndarray],
+    primes: Sequence[int],
+    basis_size: int,
+    count: int = 3,
+    trials: int = 3,
+    seed: int = 20260805,
+) -> float:
+    """Largest relative spectral change when the prime list is reordered.
+
+    The set of places is unordered; a construction that notices the ordering is
+    reading the index of a Python list, not the arithmetic.  This is the gate
+    that separates a genuine dependence on the primes from an entry-wise
+    decoration by prime-valued numbers, which the ablation gate alone cannot
+    tell apart -- both move the spectrum when the primes are swapped out.
+
+    A **small** value is the healthy outcome, the opposite of
+    :func:`ablation_defect`.
+    """
+
+    import random
+
+    reference = positive_frequencies(construct(basis_size, list(primes)), count)
+    rng = random.Random(seed)
+    worst = 0.0
+    for _ in range(trials):
+        shuffled = list(primes)
+        rng.shuffle(shuffled)
+        moved = positive_frequencies(construct(basis_size, shuffled), count)
+        worst = max(
+            worst, float(np.max(np.abs(moved - reference) / np.abs(reference)))
+        )
+    return worst
+
+
 @dataclass(frozen=True)
 class SpectralVerdict:
     """Outcome of the three pre-declared falsifiers."""
@@ -161,9 +209,11 @@ class SpectralVerdict:
     stability: float
     target: float
     ablation: float
+    permutation: float
     stable: bool
     on_target: bool
     arithmetic_dependent: bool
+    order_independent: bool
     failures: tuple[str, ...] = field(default_factory=tuple)
 
     @property
@@ -178,13 +228,13 @@ def spectral_gate(
     basis_size: int,
     count: int = 3,
 ) -> SpectralVerdict:
-    """Run all three falsifiers and report which, if any, fired.
+    """Run all four falsifiers and report which, if any, fired.
 
     The thresholds are module constants declared ahead of any particular
     construction, so they are not chosen after seeing a result.  A verdict of
     ``passed`` means only that the construction is not obviously a cutoff
-    artifact, not obviously untethered from the actual ordinates, and not
-    obviously independent of the primes.
+    artifact, not obviously untethered from the actual ordinates, not obviously
+    independent of the primes, and not merely decorated by them.
 
     What it still does not establish: that the realisation is *natural*.  The
     explicit formula already reconstructs the zeros from the primes, so a
@@ -197,6 +247,7 @@ def spectral_gate(
     stability = stability_defect(construct, primes, basis_size, count)
     target, frequencies = target_defect(matrix, count)
     ablation = ablation_defect(construct, primes, decoys, basis_size, count)
+    permutation = permutation_defect(construct, primes, basis_size, count)
 
     failures = []
     if not stability <= STABILITY_TOLERANCE:
@@ -215,14 +266,23 @@ def spectral_gate(
             f"spectrum only {ablation:.1%} (needs {ABLATION_TOLERANCE:.0%})"
         )
 
+    if not permutation <= PERMUTATION_TOLERANCE:
+        failures.append(
+            f"order-dependent: reordering the same primes moved the spectrum "
+            f"{permutation:.1%} (limit {PERMUTATION_TOLERANCE:.0%}) -- the "
+            f"construction is reading list position, not arithmetic"
+        )
+
     return SpectralVerdict(
         basis_size=basis_size,
         frequencies=frequencies,
         stability=stability,
         target=target,
         ablation=ablation,
+        permutation=permutation,
         stable=stability <= STABILITY_TOLERANCE,
         on_target=target <= TARGET_TOLERANCE,
         arithmetic_dependent=ablation >= ABLATION_TOLERANCE,
+        order_independent=permutation <= PERMUTATION_TOLERANCE,
         failures=tuple(failures),
     )

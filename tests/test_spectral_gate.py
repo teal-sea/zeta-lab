@@ -20,6 +20,7 @@ import pytest
 from zeta.spectral_gate import (
     ABLATION_TOLERANCE,
     FIRST_ORDINATES,
+    PERMUTATION_TOLERANCE,
     STABILITY_TOLERANCE,
     TARGET_TOLERANCE,
     ablation_defect,
@@ -87,6 +88,8 @@ def test_arithmetic_noise_is_caught_by_the_target_gate():
     assert not verdict.on_target
     # It does depend on the primes, so the ablation gate correctly does not fire.
     assert verdict.arithmetic_dependent
+    # But it reads the prime *list position*, so the permutation gate does.
+    assert not verdict.order_independent
     assert not verdict.passed
 
 
@@ -108,11 +111,13 @@ def _synthetic_realisation(basis_size: int, primes: Sequence[int]) -> np.ndarray
 
     It returns the ordinates when handed the real primes and a scaled spectrum
     otherwise.  This is not a construction and claims nothing mathematically;
-    it exists solely to show the three gates can be passed simultaneously, so
+    it exists solely to show the four gates can be passed simultaneously, so
     that a failing verdict elsewhere carries information.
     """
 
-    genuine = list(primes[:5]) == [2, 3, 5, 7, 11]
+    # Keys on the *set* of places, as any adelic object must: this fixture has
+    # to survive the permutation gate to demonstrate the gates are passable.
+    genuine = {2, 3, 5, 7, 11} <= set(primes)
     blocks = max(1, basis_size // 2)
     matrix = np.zeros((2 * blocks, 2 * blocks))
     for index in range(blocks):
@@ -135,6 +140,7 @@ def test_the_gate_set_is_passable():
         _synthetic_realisation, module.PRIMES, module.DECOYS, basis_size=16
     )
     assert verdict.stable and verdict.on_target and verdict.arithmetic_dependent
+    assert verdict.order_independent
     assert verdict.passed
     assert verdict.failures == ()
 
@@ -166,12 +172,21 @@ def test_each_threshold_has_teeth():
 
     # Ablation: make the decoy spectrum nearly identical to the real one.
     def barely_arithmetic(basis_size: int, primes: Sequence[int]) -> np.ndarray:
-        genuine = list(primes[:5]) == [2, 3, 5, 7, 11]
+        genuine = {2, 3, 5, 7, 11} <= set(primes)
         matrix = _synthetic_realisation(basis_size, [2, 3, 5, 7, 11])
         return matrix if genuine else matrix * (1 + ABLATION_TOLERANCE / 2)
 
     weak = spectral_gate(barely_arithmetic, module.PRIMES, module.DECOYS, 16)
     assert not weak.arithmetic_dependent and not weak.passed
+
+    # Permutation: react to the order the primes arrive in, not just the set.
+    def order_sensitive(basis_size: int, primes: Sequence[int]) -> np.ndarray:
+        matrix = _synthetic_realisation(basis_size, primes)
+        return matrix * (1.0 if list(primes) == sorted(primes) else 1.5)
+
+    ordered = spectral_gate(order_sensitive, module.PRIMES, module.DECOYS, 16)
+    assert not ordered.order_independent and not ordered.passed
+    assert any("order-dependent" in f for f in ordered.failures)
 
 
 def test_verdict_reports_every_failure_that_fired():
@@ -179,6 +194,7 @@ def test_verdict_reports_every_failure_that_fired():
     verdict = spectral_gate(
         module.arithmetic_noise, module.PRIMES, module.DECOYS, basis_size=24
     )
-    assert len(verdict.failures) == 2
+    assert len(verdict.failures) == 3
     assert any("unstable" in f for f in verdict.failures)
     assert any("off target" in f for f in verdict.failures)
+    assert any("order-dependent" in f for f in verdict.failures)

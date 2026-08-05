@@ -361,16 +361,17 @@ Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 
 ### `zeta/spectral_gate.py` — Falsifiers for a claimed spectral realisation of the Riemann zeros.
 
-*228 lines*
+*288 lines*
 
-Constants: `STABILITY_TOLERANCE`, `TARGET_TOLERANCE`, `ABLATION_TOLERANCE`, `FIRST_ORDINATES`
+Constants: `STABILITY_TOLERANCE`, `TARGET_TOLERANCE`, `ABLATION_TOLERANCE`, `PERMUTATION_TOLERANCE`, `FIRST_ORDINATES`
 
 - `class SpectralVerdict` — Outcome of the three pre-declared falsifiers.
 - `positive_frequencies(matrix: np.ndarray, count: int) -> np.ndarray` — The ``count`` smallest positive imaginary parts of the spectrum.
 - `stability_defect(construct: Callable[[int, Sequence[int]], np.ndarray], primes: Sequence[int], basis_size: int, count: int = 3) -> float` — Relative drift of the lowest frequencies between ``N`` and ``2N``.
 - `target_defect(matrix: np.ndarray, count: int = 3) -> tuple[float, tuple[float, ...]]` — Largest relative error of the lowest frequencies against the ordinates.
 - `ablation_defect(construct: Callable[[int, Sequence[int]], np.ndarray], primes: Sequence[int], decoys: Sequence[int], basis_size: int, count: int = 3) -> float` — Relative spectral change when the primes are swapped for ``decoys``.
-- `spectral_gate(construct: Callable[[int, Sequence[int]], np.ndarray], primes: Sequence[int], decoys: Sequence[int], basis_size: int, count: int = 3) -> SpectralVerdict` — Run all three falsifiers and report which, if any, fired.
+- `permutation_defect(construct: Callable[[int, Sequence[int]], np.ndarray], primes: Sequence[int], basis_size: int, count: int = 3, trials: int = 3, seed: int = 20260805) -> float` — Largest relative spectral change when the prime list is reordered.
+- `spectral_gate(construct: Callable[[int, Sequence[int]], np.ndarray], primes: Sequence[int], decoys: Sequence[int], basis_size: int, count: int = 3) -> SpectralVerdict` — Run all four falsifiers and report which, if any, fired.
 
 ### `zeta/surrogate.py` — Null-model surrogates for the critical-line value distribution.
 
