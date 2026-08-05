@@ -296,7 +296,7 @@ Constants: `DATA_DIR`, `MERTENS_PINNED`, `BD_CONSTANT`, `ROBIN_THRESHOLD`, `ROBI
 
 ### `zeta/rigor.py` — Certified computation: enclosures instead of estimates.
 
-*1282 lines*
+*1324 lines*
 
 Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 
@@ -333,6 +333,44 @@ Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 - `plot_finite_field_rh(primes: Sequence[int] = (13, 101, 503, 1009), dps: int = 25, save_path: str | None = None, dpi: int = 160) -> Figure` — RH where it is a THEOREM: Frobenius eigenvalues on the circle |α| = √p.
 - `plot_sato_tate(p_values: Sequence[int] = (503, 4001), n_bins: int = 20, save_path: str | None = None, dpi: int = 160) -> Figure` — a_p/(2√p) over ALL curves mod p, against the semicircle (2/π)√(1−x²).
 - `plot_mertens(limit: int = 10 ** 6, x_min: int = 100, n_points: int = 4000, save_path: str | None = None, dpi: int = 160) -> Figure` — M(x)/√x — the random walk that made a false conjecture look true.
+
+### `zeta/adele.py` — The Adele Ring and Ideles as Computational Objects.
+
+*213 lines*
+
+- `class PAdic` — A computational representation of a p-adic number over Q_p.
+- `class Adele` — A computational representation of an Adele over Q.
+- `class Idele` — A computational representation of an Idele over Q.
+- `check_product_formula(q: Union[int, Fraction], primes: list[int]) -> float` — Artin's Product Formula: For any non-zero rational q, the product of
+- `local_zeta_factor(p: int, s: complex) -> complex` — Computes Tate's local zeta integral Z(f, s) over Q_p^*.
+- `global_euler_product(s: complex, primes: list[int]) -> complex` — Computes the partial global zeta function over a set of places (primes)
+- `padic_fractional_part(p: int, q: Union[int, Fraction]) -> float` — Computes the p-adic fractional part {x}_p.
+- `padic_additive_character(p: int, q: Union[int, Fraction]) -> complex` — The canonical additive character for Q_p: e_p(x) = exp(-2 * pi * i * {x}_p).
+- `adelic_additive_character(adele: Adele) -> complex` — The canonical global additive character on the Adeles:
+
+### `zeta/detectors.py` — Detector strength: how large a violation of RH would have to be to be seen.
+
+*179 lines*
+
+- `lesion_li_lambda(n: int, delta: float, T: float, dps: int = DPS_DEFAULT) -> mpmath.mpf` — Computes the contribution to Li's lambda_n from a synthetic zero quad
+- `lesion_weil_gaussian(a: float, delta: float, T: float, dps: int = DPS_DEFAULT) -> mpmath.mpf` — Computes the contribution to Weil's W(h) for the Gaussian family h(r) = exp(-a r^2)
+- `lesion_weil_fejer(b: float, delta: float, T: float, dps: int = DPS_DEFAULT) -> mpmath.mpf` — Computes the contribution to Weil's W(h) for the Fejer family h(r) = (sin(b r) / (b r))^2
+- `weil_gaussian_deepest_dip(delta: float, T: float, dps: int = DPS_DEFAULT)` — The most negative Weil signal the Gaussian family can extract from a lesion.
+- `li_lesion_growth_rate(delta: float, T: float, dps: int = DPS_DEFAULT) -> mpmath.mpf` — ``max_j |1 - 1/rho_j|`` over the lesion quad — Li's exponential growth rate.
+- `li_lesion_doubling_n(delta: float, T: float, dps: int = DPS_DEFAULT) -> mpmath.mpf` — The ``n`` at which the lesion's Li signal doubles: ``log 2 / log(rate)``.
+
+### `zeta/spectral_gate.py` — Falsifiers for a claimed spectral realisation of the Riemann zeros.
+
+*228 lines*
+
+Constants: `STABILITY_TOLERANCE`, `TARGET_TOLERANCE`, `ABLATION_TOLERANCE`, `FIRST_ORDINATES`
+
+- `class SpectralVerdict` — Outcome of the three pre-declared falsifiers.
+- `positive_frequencies(matrix: np.ndarray, count: int) -> np.ndarray` — The ``count`` smallest positive imaginary parts of the spectrum.
+- `stability_defect(construct: Callable[[int, Sequence[int]], np.ndarray], primes: Sequence[int], basis_size: int, count: int = 3) -> float` — Relative drift of the lowest frequencies between ``N`` and ``2N``.
+- `target_defect(matrix: np.ndarray, count: int = 3) -> tuple[float, tuple[float, ...]]` — Largest relative error of the lowest frequencies against the ordinates.
+- `ablation_defect(construct: Callable[[int, Sequence[int]], np.ndarray], primes: Sequence[int], decoys: Sequence[int], basis_size: int, count: int = 3) -> float` — Relative spectral change when the primes are swapped for ``decoys``.
+- `spectral_gate(construct: Callable[[int, Sequence[int]], np.ndarray], primes: Sequence[int], decoys: Sequence[int], basis_size: int, count: int = 3) -> SpectralVerdict` — Run all three falsifiers and report which, if any, fired.
 
 ### `zeta/surrogate.py` — Null-model surrogates for the critical-line value distribution.
 
@@ -401,16 +439,25 @@ Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 - `scripts/21_detector_strength_audit.py` — Detector-Strength Audit: The Mertens Alarm against Davenport-Heilbronn
 - `scripts/22_gate_1_harness.py` — Gate 1 Harness: The Classical Physics Battery
 - `scripts/23_gate_3_battery.py` — Gate 3 Harness: The Counterexample Battery
+- `scripts/24_detector_power.py`
+- `scripts/25_adelic_product_formula.py` — Demonstration of Artin's Product Formula over the Adeles.
+- `scripts/26_tates_thesis.py` — Demonstration of Tate's Thesis and the Idelic Global Zeta Function.
+- `scripts/27_adelic_fourier_character.py` — Demonstration of the Adelic Additive Character and Pontryagin Duality.
+- `scripts/28_tates_functional_equation.py` — Demonstration of Tate's Global Functional Equation.
+- `scripts/29_connes_trace_formula.py` — Connes' Trace Formula and the Spectral Realization of the Riemann Zeros.
+- `scripts/30_connes_spectral_matrix.py` — Spectral Discretization of the Connes Scaling Operator.
+- `scripts/31_spectral_falsifiers.py` — Demonstrate that the spectral falsifiers actually fire.
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/ledger_sync.sh` — Sync the private discovery ledger between machines.
 
 ## Tests (`tests/`)
 
-1097 test functions across 21 files (the collected count differs where tests are parametrised):
+1109 test functions across 23 files (the collected count differs where tests are parametrised):
 
 - `tests/test_core.py` — 97
 - `tests/test_criteria.py` — 75
+- `tests/test_detectors.py` — 4
 - `tests/test_discovery_funnel.py` — 87
 - `tests/test_discovery_historical_validation.py` — 48
 - `tests/test_discovery_knownness.py` — 102
@@ -426,6 +473,7 @@ Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 - `tests/test_rigor.py` — 50
 - `tests/test_script_13_discovery_run.py` — 33
 - `tests/test_script_14_moment_experiment.py` — 26
+- `tests/test_spectral_gate.py` — 8
 - `tests/test_statistics.py` — 54
 - `tests/test_surrogate.py` — 23
 - `tests/test_weil.py` — 37
