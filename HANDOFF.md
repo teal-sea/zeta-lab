@@ -104,6 +104,12 @@ At `10^6`, individual 8th-moment whole-window ratios ranged from `0.5831` to
 `1.4362`, yet pooling returned `1.0628`; median top-one-percent concentration
 was `99.12%`.
 
+The suspiciously close `10^4` pooled row was checked for circularity,
+pointwise evaluator error, and grid error; no defect was found. A fresh
+four-window run anchored at `1.5×10^4` also pooled within `0.156%` for all four
+orders. This is descriptive only; `REDTEAM.md` §6 records the audit, and exact
+`N(T)` exposure normalization remains open.
+
 ## Reproduction commands
 
 Always run from the repository root with the project venv:
@@ -116,7 +122,7 @@ Always run from the repository root with the project venv:
 .venv/bin/python -m pytest -q -o addopts='' tests/test_script_14_moment_experiment.py
 ```
 
-The last command collects 25 tests, including pinned real numerical runs and
+The last command collects 26 tests, including pinned real numerical runs and
 mutation tests for the attack gates.
 
 ## Commits in this build sequence

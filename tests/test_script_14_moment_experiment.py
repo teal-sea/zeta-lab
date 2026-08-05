@@ -317,8 +317,10 @@ def test_real_block_study_pins_dispersion_and_peak_concentration(script):
     assert by_peak[4, 0.001].contribution_fraction == pytest.approx(
         0.560262, rel=2e-5
     )
-    assert by_peak[4, 0.01].contribution_fraction == pytest.approx(
-        0.964909, rel=2e-5
+    assert tuple(
+        by_peak[k, 0.01].contribution_fraction for k in (1, 2, 3, 4)
+    ) == pytest.approx(
+        (0.2581, 0.6706, 0.8867, 0.9649), abs=1e-4
     )
 
 
@@ -350,9 +352,10 @@ def test_multi_height_replication_pins_ratios_and_concentration_trend(script):
         assert all(left < right for left, right in pairwise(concentration))
         assert all(left < right for left, right in pairwise(dispersion))
 
-    assert by_cell[1e6, 4].top_one_percent_contribution == pytest.approx(
-        0.9896, abs=1e-4
-    )
+    assert tuple(
+        by_cell[height, 4].top_one_percent_contribution
+        for height in (1e4, 1e5, 1e6)
+    ) == pytest.approx((0.9025, 0.9652, 0.9896), abs=1e-4)
     assert by_cell[1e6, 4].block_ratio_coefficient_of_variation == pytest.approx(
         0.7681, abs=1e-4
     )
@@ -449,6 +452,29 @@ def test_real_multi_offset_diagnostic_matches_historical_results(script):
     assert highest_eighth.maximum_ratio == pytest.approx(1.4362, abs=1e-4)
     assert highest_eighth.median_top_one_percent_contribution == pytest.approx(
         0.9912, abs=1e-4
+    )
+
+
+@pytest.mark.slow
+def test_shifted_anchor_w7_audit_reproduces_near_unity_pooling(script):
+    rows, diagnostics, _, _ = script.multi_offset_attack((1.5e4,))
+
+    expected_windows = {
+        0: (0.998992, 0.992625, 0.984079, 0.972911),
+        1: (1.002209, 1.011846, 1.027001, 1.044684),
+        2: (0.999394, 0.993951, 0.987101, 0.975328),
+        3: (1.000177, 1.002749, 1.004286, 1.009597),
+    }
+    for window_index, expected in expected_windows.items():
+        measured = tuple(
+            row.ratio
+            for row in rows
+            if row.window_index == window_index
+        )
+        assert measured == pytest.approx(expected, abs=1e-6)
+
+    assert tuple(row.pooled_ratio for row in diagnostics) == pytest.approx(
+        (1.000191, 1.000374, 1.000942, 1.001560), abs=1e-6
     )
 
 

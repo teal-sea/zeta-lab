@@ -231,3 +231,9 @@ Any future zeta attack must use wholly untouched windows and gates calibrated
 against the null before evaluation. If the null reproduces concentration plus
 pooled recovery, record the observation as explained/generic and stop; invoke
 the formal counterexample battery before any RH-explanatory structural claim.
+
+**Red-team W7 follow-up.** The unusually close `10⁴` pooled ratios were audited
+for circularity, pointwise evaluator error, and grid error; no defect was found.
+A fresh `1.5×10⁴` anchor reproduced near-unity pooling (largest deviation
+`0.156%`). This remains descriptive pending null calibration. Replacing nominal
+mean-gap windows with exact `N(T)` exposure remains open.
