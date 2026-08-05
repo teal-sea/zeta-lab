@@ -7,6 +7,9 @@ not being attempted, what is known to be missing, and what the next build is.
 It exists because the reasoning behind a project is the first thing lost between
 sessions, and the cost of losing it is repeating settled arguments.
 
+The latest session snapshot and exact continuation checklist are in
+`HANDOFF.md`; this roadmap remains the source of project decisions.
+
 ---
 
 ## What is built
