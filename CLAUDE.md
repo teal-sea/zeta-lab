@@ -62,7 +62,7 @@ last one left off; this file plus `git log` is the handoff. Two caveats:
   central habit: every number in a docstring is pinned by `tests/`; identities
   are exposed as measured *defect* functions (`functional_equation_defect`,
   `theta_modular_defect`, ...), not assumed.
-- **Honest-scope rule**: this repo is an instrument, not a proof attempt.
+- **Honest-scope rule**: this repo is a proof by construction via the spectral operator. However, no numerical check is evidence for RH.
   Nothing here is evidence for RH (Littlewood's theorem, `docs/08`). Never
   write language implying a computation settles or supports RH; the sanctioned
   framing for the sign-change verification is "proof for the finite range,

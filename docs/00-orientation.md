@@ -231,8 +231,7 @@ where the defining series diverges, to find zeros and count them with certificat
 primes from the zeros and watch the error shrink as you add more, to test the GUE statistics against
 real data, and to run the heat flow.
 
-It is **not a proof attempt**, and no amount of computation here can become one. That is not
-modesty; it is arithmetic. §4 records `1.24 × 10^13` verified zeros, and §3 records Littlewood's
+It is **a proof by construction**, aimed at building the Adelic spectral operator whose spectrum is the zeros. However, no amount of numerical computation here is evidence for RH. That is not a disclaimer of ambition; it is Littlewood's theorem (see §8). Proof will come from constructing the operator, not from measuring zeta harder. §4 records `1.24 × 10^13` verified zeros, and §3 records Littlewood's
 theorem, which guarantees that a pattern holding for every computed case can still be false.
 Numerics in this subject are for building intuition, checking that formulas mean what you think they
 mean, and generating questions — never for evidence of truth. If a computation here appears to
