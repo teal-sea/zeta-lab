@@ -42,3 +42,67 @@ As pre-registered by Fable in `zeta/spectral_gate.py`:
 2. Implement the local basis generators.
 3. Construct the truncated rational mesh for the Poisson sum.
 4. Pass the result to `zeta.spectral_gate.counting_gate` and measure the failure.
+
+---
+
+## Review — not approved as written (2026-08-05)
+
+Three blocking issues; the third means the sprint fails before it starts. Fix
+these and the approach is sound.
+
+### B1. The map is stated two different ways
+
+Section 1 writes `P(f)(x) = sum_{q in Q} f(qx)` but the surrounding prose
+requires `Q*`-invariance. These are different objects: the additive sum
+includes `q = 0` and does not converge. Connes' map `E` sums over the
+multiplicative group `Q*`. Settle this before any code is written, because the
+whole construction hangs off which group acts.
+
+### B2. The condition `f(0) = f-hat(0) = 0` is absent
+
+This is not a refinement, it is the mechanism. The zeros appear as an
+*absorption* spectrum only on the subspace where a function and its Fourier
+transform both vanish at the origin; off that subspace the scaling action has
+the full continuous spectrum and nothing is missing from it. A model that omits
+the condition has no gaps to count, whatever its rank does. The plan does not
+mention it.
+
+### B3. A generic finite matrix has generic rank
+
+`dim coker = Rows - Rank`, and a matrix with no special structure has rank
+`min(Rows, Cols)` almost surely. The count then collapses to
+`max(0, Rows - Cols)` — a function of the basis sizes chosen in section 2, not
+of arithmetic. Swapping the primes for decoys does not change the shape of the
+matrix, so the rank does not move.
+
+**Pre-registered prediction.** Implemented as specified, `count_ablation_defect`
+reads approximately `0%` and `counting_gate` rejects the model on the
+arithmetic-not-load-bearing failure. This is recorded before the sprint runs.
+If ablation comes back above `10%`, this analysis is wrong, and knowing that
+is worth more than the prediction being right.
+
+The plan must therefore state, in advance, **why the rank should be deficient
+at all**. Poisson summation does supply linear relations among the images — the
+functional equation is one — but only if the truncation preserves them. If no
+such argument exists, there is no cokernel to compute and no sprint.
+
+### Two smaller items
+
+* **Numerical rank needs a declared tolerance.** Rank of a floating-point matrix
+  is defined only relative to an SVD cutoff, and the count jumps as that cutoff
+  moves. That is a free parameter capable of tuning the growth ratio onto
+  `2.000`. Declare it before the first run and publish a sensitivity table
+  across at least a decade of tolerances, in the same spirit as the pinned
+  thresholds in `zeta/spectral_gate.py`.
+* Section 4 states the permutation tolerance as `5%`; the constant is
+  `PERMUTATION_TOLERANCE = 0.01`, one percent.
+
+### One thing the plan is right to say out loud
+
+Section 4 describes the target as "the `2 log Lambda` growth law predicted by
+the explicit formula". That is the circularity risk stated plainly: if the law
+comes from the explicit formula and the matrix is assembled from prime data,
+reproducing it is consistent with a rewrite of something this repository
+already contains twice (`zeta/weil.py`, `scripts/03`). Passing the counting
+gate would not settle naturalness, and the gates cannot — that question is not
+numerical.
