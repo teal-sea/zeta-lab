@@ -357,6 +357,93 @@ def run_cue() -> None:
     )
 
 
+APPROACH_HEIGHTS = (1e3, 1e4, 1e5, 1e6, 1e7, 1e8)
+APPROACH_SEEDS = 200
+
+
+def run_approach(seeds: int = APPROACH_SEEDS) -> None:
+    """Test whether zeta's concentration enters the CUE distribution with height.
+
+    The CUE control has no free parameter once the height fixes ``N``, so
+    repeating it over many seeds gives an empirical distribution rather than a
+    single number, and the comparison band is read off that distribution
+    instead of being chosen by hand.  The question is narrow and quantitative:
+    at each height, does zeta's top-one-percent share fall inside the central
+    ninety-five percent of the CUE shares?
+
+    A band from simulation is not a confidence interval for zeta, and being
+    inside it is not evidence for the Riemann Hypothesis or for anything else;
+    it only says the control and the function are indistinguishable by this
+    statistic at this exposure.
+    """
+
+    print(
+        f"{GAPS} nominal gaps, {POINTS_PER_GAP} points/gap, "
+        f"{seeds} CUE seeds per height, top {TOP_FRACTION:.0%} of intervals\n"
+    )
+    inside_by_k: dict[int, list[bool]] = {k: [] for k in (1, 2, 3, 4)}
+
+    for height in APPROACH_HEIGHTS:
+        ts, spacing = grid_for(height)
+        zeta_stats = {
+            item.k: item.top_contribution
+            for item in interval_statistics(
+                riemann_siegel_z(ts) ** 2,
+                spacing,
+                blocks=BLOCKS,
+                top_fraction=TOP_FRACTION,
+            )
+        }
+
+        dimension = int(round(math.log(height / (2.0 * math.pi))))
+        matrices = math.ceil(GAPS / dimension)
+        cue_spacing = 2.0 * math.pi / (dimension * POINTS_PER_GAP)
+        samples: dict[int, list[float]] = {k: [] for k in (1, 2, 3, 4)}
+        for index in range(seeds):
+            values = np.exp(
+                2.0
+                * sample_cue_log_field(
+                    dimension, matrices, POINTS_PER_GAP, seed=SEED + index
+                )
+            )
+            usable = len(values) - (len(values) - 1) % BLOCKS
+            for item in interval_statistics(
+                values[:usable],
+                cue_spacing,
+                blocks=BLOCKS,
+                top_fraction=TOP_FRACTION,
+            ):
+                samples[item.k].append(item.top_contribution)
+
+        print(f"t = {height:g}   N = {dimension}   matrices {matrices}")
+        print(
+            f"  {'moment':>6}  {'zeta':>8}  {'CUE median':>11}"
+            f"  {'CUE 2.5%':>9}  {'CUE 97.5%':>9}  {'inside':>7}  {'gap':>9}"
+        )
+        for k in (1, 2, 3, 4):
+            low, median, high = np.percentile(samples[k], [2.5, 50, 97.5])
+            inside = bool(low <= zeta_stats[k] <= high)
+            inside_by_k[k].append(inside)
+            print(
+                f"  {2 * k:>6}  {zeta_stats[k]:>8.2%}  {median:>11.2%}"
+                f"  {low:>9.2%}  {high:>9.2%}  {str(inside):>7}"
+                f"  {zeta_stats[k] - median:>+9.2%}"
+            )
+        print()
+
+    print("inside the central 95% of the CUE distribution, by height:")
+    header = "  ".join(f"{h:>8.0e}" for h in APPROACH_HEIGHTS)
+    print(f"  {'moment':>6}  {header}")
+    for k in (1, 2, 3, 4):
+        row = "  ".join(f"{str(v):>8}" for v in inside_by_k[k])
+        print(f"  {2 * k:>6}  {row}")
+    print(
+        "\nA transition from outside to inside as height grows would say the\n"
+        "finite-height gap closes; entries that never leave, or never enter,\n"
+        "say the statistic does not discriminate at this exposure."
+    )
+
+
 DH_GAPS = 150
 DH_HEIGHTS = (200.0, 2000.0)
 
@@ -465,6 +552,11 @@ def main() -> int:
         action="store_true",
         help="run the Davenport-Heilbronn counterexample control",
     )
+    parser.add_argument(
+        "--approach",
+        action="store_true",
+        help="test whether zeta enters the CUE distribution as height grows",
+    )
     args = parser.parse_args()
     if args.verify:
         verify_adapter()
@@ -474,6 +566,8 @@ def main() -> int:
         run_cue()
     elif args.dh:
         run_dh()
+    elif args.approach:
+        run_approach()
     else:
         run_comparison()
     return 0

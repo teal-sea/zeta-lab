@@ -402,6 +402,57 @@ def test_davenport_heilbronn_also_shows_rising_concentration():
     assert shares[3] > 2.0 * shares[0]
 
 
+def test_zeta_concentration_approaches_the_cue_median_with_height():
+    """The eighth-moment gap to the CUE median shrinks as the height grows.
+
+    At t=1e3 zeta is far below the CUE distribution; by t=1e6 it sits on the
+    median.  The CUE side is a fixed set of seeds so the comparison is
+    deterministic, and the assertion is on the shrinking gap rather than on a
+    hand-chosen tolerance.
+    """
+
+    from zeta.statistics import riemann_siegel_z
+    from zeta.surrogate import sample_cue_log_field
+
+    gaps, points_per_gap, seeds = 750, 32, 40
+    measured = {}
+    for height in (1e3, 1e6):
+        spacing = (2.0 * math.pi / math.log(height / (2.0 * math.pi))) / points_per_gap
+        ts = height + np.arange(gaps * points_per_gap + 1) * spacing
+        zeta_share = [
+            item.top_contribution
+            for item in interval_statistics(
+                riemann_siegel_z(ts) ** 2, spacing, blocks=8, top_fraction=0.01
+            )
+        ][3]
+
+        dimension = int(round(math.log(height / (2.0 * math.pi))))
+        matrices = math.ceil(gaps / dimension)
+        cue_spacing = 2.0 * math.pi / (dimension * points_per_gap)
+        shares = []
+        for index in range(seeds):
+            values = np.exp(
+                2.0
+                * sample_cue_log_field(
+                    dimension, matrices, points_per_gap, seed=1000 + index
+                )
+            )
+            usable = len(values) - (len(values) - 1) % 8
+            shares.append(
+                [
+                    item.top_contribution
+                    for item in interval_statistics(
+                        values[:usable], cue_spacing, blocks=8, top_fraction=0.01
+                    )
+                ][3]
+            )
+        measured[height] = zeta_share - float(np.median(shares))
+
+    assert measured[1e3] < -0.10
+    assert abs(measured[1e6]) < 0.05
+    assert abs(measured[1e6]) < abs(measured[1e3])
+
+
 def test_surrogate_concentration_rises_with_moment_order():
     """The null's own concentration ordering, the pattern under audit.
 

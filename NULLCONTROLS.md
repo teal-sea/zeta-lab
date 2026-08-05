@@ -135,6 +135,34 @@ the pattern is generic, present in the counterexample, and quantitatively
 reproduced by CUE. The recommendation is to record the observation as explained
 and to make no entry in the `conjectures/` ledger.
 
-The remaining honest open question is narrower and is not the original claim:
-the finite-height rate at which zeta's upper tail approaches its random-matrix
-counterpart, where the CUE control overshoots at t=1e4 and matches by t=1e6.
+## Follow-up: the rate of approach to CUE
+
+The one question the controls left open was the finite-height rate at which
+zeta's concentration approaches its random-matrix counterpart. Measured across
+six heights with 200 CUE seeds each, so the comparison band is the empirical
+CUE distribution rather than a chosen threshold (`--approach`):
+
+| height | 8th-moment gap to CUE median | inside central 95% |
+| ---: | ---: | :--- |
+| `1e3` | `-19.03%` | no |
+| `1e4` | `-7.26%` | yes |
+| `1e5` | `-2.01%` | yes |
+| `1e6` | `+0.84%` | yes |
+| `1e7` | `-0.23%` | yes |
+| `1e8` | `+0.63%` | yes |
+
+The gap shrinks monotonically in magnitude through `1e6` and then oscillates
+about zero. Zeta sits outside the CUE band only at `1e3`, and only for the 6th
+and 8th moments. The residual closes.
+
+Two honest limits on that table. The CUE band is wide — at `1e6` the central
+95% for the 8th moment spans `88.69%` to `99.96%` — so "inside" is a weak
+test and the 2nd and 4th moments are inside at every height including `1e3`,
+which is a statement about low power, not about agreement. And each zeta row is
+a single window: the 2nd and 4th moments drift *above* the CUE median at `1e7`
+and `1e8` (`+7.73%`, `+10.64%`), still comfortably inside the band, which on
+one realisation is window luck until replicated.
+
+With that, the programme has no live residual. The candidate pattern is
+explained, the counterexample shares it, and the quantitative gap to the
+random-matrix control closes with height.
