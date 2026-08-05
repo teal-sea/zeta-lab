@@ -326,6 +326,29 @@ Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 - `plot_sato_tate(p_values: Sequence[int] = (503, 4001), n_bins: int = 20, save_path: str | None = None, dpi: int = 160) -> Figure` — a_p/(2√p) over ALL curves mod p, against the semicircle (2/π)√(1−x²).
 - `plot_mertens(limit: int = 10 ** 6, x_min: int = 100, n_points: int = 4000, save_path: str | None = None, dpi: int = 160) -> Figure` — M(x)/√x — the random walk that made a false conjecture look true.
 
+### `zeta/surrogate.py` — Null-model surrogates for the critical-line value distribution.
+
+*491 lines*
+
+- `class IntervalStatistics` — Concentration and block dispersion for one moment order on one grid.
+- `primes_up_to(limit: int) -> np.ndarray` — Return every prime ``p <= limit`` as an ``int64`` array.
+- `field_variance(primes: np.ndarray) -> float` — Exact variance of ``X``: ``(1/2) sum 1/p`` over the supplied primes.
+- `exact_intensity_moment(k: int, primes: np.ndarray) -> float` — Exact ``E[exp(2k X)] = prod_p I_0(2k p^{-1/2})``.
+- `sample_field(ts: np.ndarray, primes: np.ndarray, *, seed: int, max_elements: int = 20000000) -> np.ndarray` — Sample ``X(t)`` on ``ts`` for one draw of the phases.
+- `sample_intensity(ts: np.ndarray, primes: np.ndarray, *, seed: int, max_elements: int = 20000000) -> np.ndarray` — Surrogate for ``|zeta(1/2+it)|^2``: ``exp(2 X(t))``.
+- `variance_defect(primes: np.ndarray, *, seed: int, samples: int = 200000, span: float = 5000.0) -> float` — Relative defect between sampled variance of ``X`` and ``(1/2) sum 1/p``.
+- `intensity_moment_defect(k: int, primes: np.ndarray, *, seed: int, samples: int = 200000, span: float = 5000.0) -> float` — Relative defect between a sampled mean of ``exp(2kX)`` and the exact moment.
+- `covariance_profile(primes: np.ndarray, lags: np.ndarray) -> np.ndarray` — Exact ``Cov(X(t), X(t+tau)) = (1/2) sum_p cos(tau log p) / p`` per lag.
+- `euler_field_variance(primes: np.ndarray, *, terms: int = 200) -> float` — Exact ``Var log|Z|`` for the full random Euler product.
+- `euler_intensity_moment(k: int, primes: np.ndarray, *, terms: int = 200) -> float` — Exact ``E[|Z|^{2k}] = prod_p sum_m d_k(p^m)^2 p^{-m}`` for the Euler product.
+- `sample_euler_log_field(ts: np.ndarray, primes: np.ndarray, *, seed: int, max_elements: int = 20000000) -> np.ndarray` — Sample ``log|Z(t)|`` for the full random Euler product.
+- `sample_euler_intensity(ts: np.ndarray, primes: np.ndarray, *, seed: int, max_elements: int = 20000000) -> np.ndarray` — Surrogate for ``|zeta(1/2+it)|^2`` from the full random Euler product.
+- `cue_moment(k: int, dimension: int) -> float` — Exact ``E|Lambda_N(theta)|^{2k}`` for the CUE characteristic polynomial.
+- `sample_cue_eigenangles(dimension: int, matrices: int, *, seed: int) -> np.ndarray` — Eigenangles of ``matrices`` independent Haar-distributed unitaries.
+- `sample_cue_log_field(dimension: int, matrices: int, points_per_gap: int, *, seed: int) -> np.ndarray` — ``log|Lambda_N|`` on a uniform grid spanning ``matrices`` independent draws.
+- `sample_cue_intensity(dimension: int, matrices: int, points_per_gap: int, *, seed: int) -> np.ndarray` — ``|Lambda_N|^2`` on the concatenated grid; the CUE analogue of ``|zeta|^2``.
+- `interval_statistics(values: np.ndarray, spacing: float, *, blocks: int = 8, top_fraction: float = 0.01, orders: tuple[int, ...] = (1, 2, 3, 4)) -> tuple[IntervalStatistics, ...]` — Concentration and block statistics for ``values^k`` on a uniform grid.
+
 ## Discovery layer API (`discovery/`) — the conjecture factory
 
 A domain-agnostic pipeline that generates candidate observations from the laboratory's computed objects, screens them, and **logs the whole funnel so the conversion rate per generator can be measured**. `schema`, `registry`, `ledger`, `funnel`, `metrics` and `historical_cases` name no quantity the laboratory computes and import nothing from `zeta` — the seam is enforced by tests. `knownness` is the documented one-step-less-strict module (it knows general mathematics, not this subject). Everything that names the subject lives in `discovery/domains/`. Design and honest limits: [`discovery/README.md`](discovery/README.md). Operator console: `scripts/13_discovery_run.py`. The ledger it writes (`conjectures/`) is **gitignored**: a private notebook of unreviewed leads, and nothing in it is evidence for anything. An empty `conjectures/` in a fresh clone is that rule working, not a fault — `scripts/ledger_sync.sh` shares one ledger across machines through a *separate private* repo, never this tree.
@@ -575,13 +598,14 @@ Constants: `GENERATOR`, `GENERATOR_VERSION`, `SEED`, `GUARD_DIGITS`, `GAUSS_WIND
 - `scripts/12_equivalence_faces.py` — Four exact equivalences of RH, all four run, on one dashboard.
 - `scripts/13_discovery_run.py` — The conjecture factory: run the discovery funnel and print what it converted.
 - `scripts/14_moment_experiment.py` — Critical-line moments from locally computed values, and where they can be tested.
+- `scripts/15_null_control.py` — Run the finite-height concentration statistics against a null model.
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/ledger_sync.sh` — Sync the private discovery ledger between machines.
 
 ## Tests (`tests/`)
 
-1066 test functions across 20 files (the collected count differs where tests are parametrised):
+1088 test functions across 21 files (the collected count differs where tests are parametrised):
 
 - `tests/test_core.py` — 97
 - `tests/test_criteria.py` — 75
@@ -601,6 +625,7 @@ Constants: `GENERATOR`, `GENERATOR_VERSION`, `SEED`, `GUARD_DIGITS`, `GAUSS_WIND
 - `tests/test_script_13_discovery_run.py` — 33
 - `tests/test_script_14_moment_experiment.py` — 26
 - `tests/test_statistics.py` — 54
+- `tests/test_surrogate.py` — 22
 - `tests/test_weil.py` — 37
 - `tests/test_zeros.py` — 58
 
