@@ -4,7 +4,7 @@
 **Branch:** `main`
 **Detailed sources of truth:** `state_of_the_lab.md`, `docs/07-equivalences-and-criteria.md`, `docs/06-hilbert-polya-and-gue.md`
 
-**Status in one line:** Classical analytic criteria (Li, Weil) have been mathematically quantified as computationally blind to off-line zeros; the lab has relocated entirely onto the Adele class space (Connes, 1999), and a 3-Gate falsification harness has been built to ruthlessly reject forged spectral matrices.
+**Status in one line:** Classical analytic criteria (Li, Weil) have been mathematically quantified as computationally blind to off-line zeros; the lab has relocated entirely onto the Adele class space (Connes, 1999), and a 4-Gate falsification harness has been built to ruthlessly reject forged spectral matrices.
 
 ## Where the work landed
 
@@ -21,11 +21,12 @@ To move from analytic float-estimation into Non-Commutative Geometry, we constru
 
 ### 3. Connes' Trace Formula & The Spectral Harness
 - **The Trace (`scripts/29_`):** Relocated the classical Weil Explicit Formula onto the trace of a scaling operator on the space $\mathbb{A}_\mathbb{Q} / \mathbb{Q}^*$.
-- **The 3-Gate Harness (`zeta/spectral_gate.py`):** A strict falsifier for any matrix projection claiming to extract the Riemann zeros from this operator. It demands:
+- **The 4-Gate Harness (`zeta/spectral_gate.py`):** A strict falsifier for any matrix projection claiming to extract the Riemann zeros from this operator. It demands:
   1. **Stability:** $\le 5\%$ drift when the basis doubles (kills continuous spectrum artifacts).
   2. **Target:** $\le 1\%$ error against the exact ordinates `14.1347, 21.0220` (not just "on the line").
   3. **Ablation:** $\ge 10\%$ spectral shift when primes are swapped for decoys (kills structural tautologies).
-- **The Negative Control (`scripts/30_connes_spectral_matrix.py`):** We wired a structurally antisymmetric matrix that perfectly forged the Riemann zeros to machine precision. The `spectral_gate` instantly rejected it because it failed the Ablation gate (the arithmetic wasn't load-bearing).
+  4. **Permutation:** Must react to the *set* of primes, not their list order.
+- **The Negative Control (`scripts/30_connes_spectral_matrix.py`):** We wired a structurally antisymmetric matrix that perfectly forged the Riemann zeros to machine precision. The `spectral_gate` instantly rejected it because it failed the Ablation gate (the arithmetic wasn't load-bearing). Later, our genuine Hermite-Adelic projection passed Ablation but was destroyed by the Permutation gate.
 
 ## What not to infer
 
@@ -35,7 +36,12 @@ To move from analytic float-estimation into Non-Commutative Geometry, we constru
 
 ## What is open now
 
-**The True Adelic Spectral Projection (`scripts/30_connes_spectral_matrix.py`)**
-The lab is instrumented and waiting for a genuine basis projection. The next step is to project the Adelic Schwartz space onto a mathematically rigorous finite basis, construct the resulting matrix representation of the Connes scaling operator, and run it through `spectral_gate`. 
+**The Cokernel of the Poisson-Summation Map (The True Adelic Pivot)**
 
-If it survives all three gates, we have a functional computational model of the Hilbert-Polya conjecture over the Adeles. If it fails (likely via Stability/Artifacts), we measure exactly *why* the finite-basis projection loses the zeros.
+The previous stated next step — "find the subspace projection that locks the spectrum of the scaling operator into stability" — was mathematically wrong. The Archimedean generator $xp + px$ on $L^2(\mathbb{R})$ has a continuous spectrum (all of $\mathbb{R}$) and carries no arithmetic. Refining a finite basis of it will only produce cutoff artifacts forever.
+
+In Connes' framework, the Riemann zeros are an **absorption spectrum**. They are what is *missing* from the continuous spectrum after quotienting the Adeles by $\mathbb{Q}^*$. They are visible as gaps in a cokernel, not as eigenvalues you converge onto.
+
+The next physical sprint is not diagonalizing an eigensolver. It is computing the cokernel of the Poisson-summation map on the Adelic Schwartz space. That is a radically different, much harder computation, but it is the exact place where the primes are mathematically load-bearing. 
+
+Any computational proxy constructed must survive the **4-Gate Harness** (now including the Permutation Gate, verifying that the spectrum depends on the *set* of places, not the *list order*).
