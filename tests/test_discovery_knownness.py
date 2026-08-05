@@ -1232,7 +1232,7 @@ class TestHygiene:
             "enum",
             "typing",
             "mpmath",
-            "discovery",
+            "ontology",
         }
 
     def test_importing_knownness_does_not_import_the_laboratory(self):
