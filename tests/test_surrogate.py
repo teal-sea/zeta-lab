@@ -307,6 +307,78 @@ def test_tail_profile_separates_variance_from_the_upper_tail():
         assert profile["zeta"]["max"] < profile[null]["max"]
 
 
+def test_cue_moment_matches_a_direct_product_and_sampling():
+    from zeta.surrogate import (
+        cue_moment,
+        sample_cue_eigenangles,
+        sample_cue_intensity,
+    )
+
+    # Direct evaluation of the Keating-Snaith product for a small dimension.
+    for k in (1, 2):
+        expected = 1.0
+        for j in range(6):
+            expected *= math.factorial(j) * math.factorial(j + 2 * k) / (
+                math.factorial(j + k) ** 2
+            )
+        assert cue_moment(k, 6) == pytest.approx(expected, rel=1e-10)
+
+    # E|Lambda_N|^2 = N + 1 is the classical second-moment identity.
+    for dimension in (3, 7, 12):
+        assert cue_moment(1, dimension) == pytest.approx(dimension + 1.0, rel=1e-10)
+
+    # Sampled against the closed form.  |Lambda|^2 is heavy enough that 400
+    # matrices land within ~5% and 2000 within ~1%; the tolerance here is set
+    # from that measured convergence, not from optimism.
+    for seed in (4, 5):
+        values = sample_cue_intensity(6, 2_000, 32, seed=seed)
+        assert float(np.mean(values)) == pytest.approx(cue_moment(1, 6), rel=0.02)
+
+    angles = sample_cue_eigenangles(5, 3, seed=1)
+    assert angles.shape == (3, 5)
+    assert np.array_equal(angles, sample_cue_eigenangles(5, 3, seed=1))
+
+
+def test_arithmetic_and_matrix_factors_reconstruct_the_cfkrs_coefficient():
+    """a_k from the Euler product times g_k from CUE is the leading coefficient.
+
+    Neither factor is taken from a table: ``a_k`` comes from the random Euler
+    product's exact intensity moment and ``g_k`` from the Keating-Snaith
+    product divided by ``N^{k^2}``.  Their product must converge to the leading
+    CFKRS coefficient that ``scripts/14_moment_experiment.py`` derives
+    independently, and the residual must shrink with the matrix dimension.
+    """
+
+    import importlib.util
+    import sys
+    from pathlib import Path
+
+    from zeta.surrogate import cue_moment
+
+    root = Path(__file__).resolve().parent.parent
+    path = root / "scripts" / "14_moment_experiment.py"
+    spec = importlib.util.spec_from_file_location("moment_experiment_for_gk", path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+
+    primes = primes_up_to(200_000)
+    regularisation = float(np.sum(np.log1p(-1.0 / primes.astype(float))))
+    for k in (1, 2, 3, 4):
+        a_k = math.exp(
+            math.log(euler_intensity_moment(k, primes)) + k * k * regularisation
+        )
+        reference = float(module.leading_coefficient(k))
+        ratios = []
+        for dimension in (4_000, 40_000):
+            g_k = math.exp(
+                math.log(cue_moment(k, dimension)) - k * k * math.log(dimension)
+            )
+            ratios.append(a_k * g_k / reference)
+        assert ratios[1] == pytest.approx(1.0, abs=2e-3)
+        assert abs(ratios[1] - 1.0) < abs(ratios[0] - 1.0)
+
+
 def test_surrogate_concentration_rises_with_moment_order():
     """The null's own concentration ordering, the pattern under audit.
 

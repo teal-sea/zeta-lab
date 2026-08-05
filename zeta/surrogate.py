@@ -45,6 +45,7 @@ from scipy.special import i0
 __all__ = [
     "IntervalStatistics",
     "covariance_profile",
+    "cue_moment",
     "euler_field_variance",
     "euler_intensity_moment",
     "exact_intensity_moment",
@@ -52,6 +53,9 @@ __all__ = [
     "interval_statistics",
     "intensity_moment_defect",
     "primes_up_to",
+    "sample_cue_eigenangles",
+    "sample_cue_intensity",
+    "sample_cue_log_field",
     "sample_euler_intensity",
     "sample_euler_log_field",
     "sample_field",
@@ -304,6 +308,108 @@ def sample_euler_intensity(
     return np.exp(
         2.0
         * sample_euler_log_field(ts, primes, seed=seed, max_elements=max_elements)
+    )
+
+
+def cue_moment(k: int, dimension: int) -> float:
+    """Exact ``E|Lambda_N(theta)|^{2k}`` for the CUE characteristic polynomial.
+
+    The Keating-Snaith formula ``prod_{j=0}^{N-1} j! (j+2k)! / ((j+k)!)^2``.
+    Its large-``N`` growth is ``g_k N^{k^2}``, so the CUE side supplies the
+    random-matrix factor of the CFKRS constant exactly as the random Euler
+    product supplies the arithmetic factor.  Computed by a log-sum of log-gamma
+    values so the factorials do not overflow.
+    """
+
+    if isinstance(k, bool) or not isinstance(k, (int, np.integer)) or k < 1:
+        raise ValueError("k must be a positive integer")
+    if (
+        isinstance(dimension, bool)
+        or not isinstance(dimension, (int, np.integer))
+        or dimension < 1
+    ):
+        raise ValueError("dimension must be a positive integer")
+    j = np.arange(dimension, dtype=float)
+    from scipy.special import gammaln
+
+    total = np.sum(
+        gammaln(j + 1.0) + gammaln(j + 2 * k + 1.0) - 2.0 * gammaln(j + k + 1.0)
+    )
+    return float(np.exp(total))
+
+
+def sample_cue_eigenangles(
+    dimension: int, matrices: int, *, seed: int
+) -> np.ndarray:
+    """Eigenangles of ``matrices`` independent Haar-distributed unitaries.
+
+    Drawn by QR of a complex Ginibre matrix with the diagonal phases of ``R``
+    divided out, which is the standard construction giving exactly Haar measure
+    rather than a biased approximation.  Returns shape ``(matrices, dimension)``.
+    """
+
+    if isinstance(seed, bool) or not isinstance(seed, (int, np.integer)):
+        raise TypeError("seed must be an integer")
+    rng = np.random.default_rng(seed)
+    out = np.empty((matrices, dimension), dtype=float)
+    for index in range(matrices):
+        ginibre = (
+            rng.standard_normal((dimension, dimension))
+            + 1j * rng.standard_normal((dimension, dimension))
+        ) / math.sqrt(2.0)
+        q, r = np.linalg.qr(ginibre)
+        diagonal = np.diagonal(r)
+        q = q * (diagonal / np.abs(diagonal))[None, :]
+        out[index] = np.angle(np.linalg.eigvals(q))
+    return out
+
+
+def sample_cue_log_field(
+    dimension: int,
+    matrices: int,
+    points_per_gap: int,
+    *,
+    seed: int,
+) -> np.ndarray:
+    """``log|Lambda_N|`` on a uniform grid spanning ``matrices`` independent draws.
+
+    Each matrix covers ``dimension`` mean eigenvalue gaps, so concatenating
+    ``matrices`` of them produces a field of ``dimension * matrices`` nominal
+    gaps at ``points_per_gap`` resolution.  The concatenation is honest only
+    because the field decorrelates within a couple of gaps; it cannot model
+    correlation longer than one matrix, and no statistic sensitive to that
+    range should be read off it.
+
+    Unlike either Euler surrogate this field has genuine zeros on the grid's
+    own circle, so ``log|Lambda_N|`` diverges exactly as ``log|zeta|`` does.
+    """
+
+    if points_per_gap < 1:
+        raise ValueError("points_per_gap must be at least one")
+    angles = sample_cue_eigenangles(dimension, matrices, seed=seed)
+    per_matrix = dimension * points_per_gap
+    theta = 2.0 * np.pi * np.arange(per_matrix) / per_matrix
+    blocks = []
+    for index in range(matrices):
+        difference = theta[:, None] - angles[index][None, :]
+        blocks.append(
+            np.sum(np.log(2.0 * np.abs(np.sin(difference / 2.0))), axis=1)
+        )
+    return np.concatenate(blocks)
+
+
+def sample_cue_intensity(
+    dimension: int,
+    matrices: int,
+    points_per_gap: int,
+    *,
+    seed: int,
+) -> np.ndarray:
+    """``|Lambda_N|^2`` on the concatenated grid; the CUE analogue of ``|zeta|^2``."""
+
+    return np.exp(
+        2.0
+        * sample_cue_log_field(dimension, matrices, points_per_gap, seed=seed)
     )
 
 

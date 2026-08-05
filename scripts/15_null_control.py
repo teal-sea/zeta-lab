@@ -49,6 +49,7 @@ from zeta.surrogate import (  # noqa: E402
     field_variance,
     interval_statistics,
     primes_up_to,
+    sample_cue_log_field,
     sample_euler_intensity,
     sample_euler_log_field,
     sample_field,
@@ -281,6 +282,81 @@ def run_tails() -> None:
     )
 
 
+def run_cue() -> None:
+    """Compare zeta against the CUE control, the only surrogate with zeros.
+
+    The matrix dimension is ``N = round(log(T / 2 pi))``, the standard
+    identification that matches the CUE mean eigenvalue spacing to the mean
+    zero spacing at height ``T``.  Enough independent matrices are concatenated
+    to cover the same nominal gap count as the zeta window.
+    """
+
+    for height in HEIGHTS:
+        dimension = int(round(math.log(height / (2.0 * math.pi))))
+        matrices = math.ceil(GAPS / dimension)
+        ts, spacing = grid_for(height)
+        zeta_stats = {
+            item.k: item
+            for item in interval_statistics(
+                riemann_siegel_z(ts) ** 2,
+                spacing,
+                blocks=BLOCKS,
+                top_fraction=TOP_FRACTION,
+            )
+        }
+
+        field = sample_cue_log_field(
+            dimension, matrices, POINTS_PER_GAP, seed=SEED
+        )
+        values = np.exp(2.0 * field)
+        # The concatenated grid carries its own spacing in eigenangle units;
+        # every statistic below is scale free, so the unit does not matter.
+        cue_spacing = 2.0 * math.pi / (dimension * POINTS_PER_GAP)
+        usable = len(values) - (len(values) - 1) % BLOCKS
+        cue_stats = {
+            item.k: item
+            for item in interval_statistics(
+                values[:usable],
+                cue_spacing,
+                blocks=BLOCKS,
+                top_fraction=TOP_FRACTION,
+            )
+        }
+
+        finite = field[np.isfinite(field)]
+        zeta_log = np.log(np.abs(riemann_siegel_z(ts)))
+        zeta_log = zeta_log[np.isfinite(zeta_log)]
+        print(
+            f"t = {height:g}   N = {dimension}   matrices {matrices}   "
+            f"{dimension * matrices} nominal gaps"
+        )
+        print(
+            f"  log|f| variance: zeta {np.var(zeta_log):.4f}   "
+            f"cue {np.var(finite):.4f}   |   p99.9: zeta "
+            f"{np.percentile(zeta_log, 99.9):.4f}   "
+            f"cue {np.percentile(finite, 99.9):.4f}"
+        )
+        print(
+            f"  {'moment':>6}  {'zeta top1%':>10}  {'cue top1%':>10}"
+            f"  {'zeta blkCV':>10}  {'cue blkCV':>10}"
+        )
+        for k in (1, 2, 3, 4):
+            print(
+                f"  {2 * k:>6}"
+                f"  {zeta_stats[k].top_contribution:>9.2%}"
+                f"  {cue_stats[k].top_contribution:>9.2%}"
+                f"  {zeta_stats[k].block_dispersion:>9.2%}"
+                f"  {cue_stats[k].block_dispersion:>9.2%}"
+            )
+        print()
+    print(
+        "The CUE field has zeros on its own contour, so unlike either Euler\n"
+        "surrogate it can reproduce the left tail of log|zeta|.  Concatenated\n"
+        "matrices carry no correlation beyond one matrix, so read block\n"
+        "dispersion with that limit in mind."
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -293,11 +369,18 @@ def main() -> int:
         action="store_true",
         help="compare variance and upper quantiles of log|f| instead of moments",
     )
+    parser.add_argument(
+        "--cue",
+        action="store_true",
+        help="compare against the CUE characteristic polynomial control",
+    )
     args = parser.parse_args()
     if args.verify:
         verify_adapter()
     elif args.tails:
         run_tails()
+    elif args.cue:
+        run_cue()
     else:
         run_comparison()
     return 0
