@@ -72,9 +72,39 @@ property against both zeta and f through a common interface, and reports
 whether the claim distinguishes them.  A proposed RH mechanism that f also
 satisfies is dead on arrival (docs/09, gate #3).
 
+**The Epstein half of the family, added second.**  Gate #3 asks that a
+structure be ungrantable to Davenport-Heilbronn *and to generic Epstein zeta
+functions*, but for a long time only the first was computable here — the module
+carried the Epstein name without an Epstein zeta in it.  It now has one:
+``zeta_Q(s) = sum_{(m,k) != 0} Q(m,k)^{-s}`` for a positive-definite binary
+form, continued to the whole plane by splitting the Mellin transform of the
+form's theta series at ``t = 1`` (:func:`epstein_completed`).  The
+transformation used for the split, ``theta_Q(1/t) = (t/sqrt(d)) theta_{Q^-1}(t)``
+with ``d = |D|/4``, was *measured* before use rather than recalled, and agrees
+to 12 digits at four values of ``t``.
+
+For a discriminant of class number greater than one the individual ``zeta_Q``
+reproduces the whole counterexample profile by a route sharing no code with
+``f``: a functional equation, real Dirichlet coefficients (the representation
+counts, :func:`epstein_representation_count`), a real Hardy-style ``Z``
+(:func:`Z_epstein`), and no Euler product — for ``D = -23`` the principal form
+already has ``r(2) = r(3) = 0`` while ``r(6) = 4``.  Davenport and Heilbronn
+proved such ``zeta_Q`` have zeros off the critical line; that is quoted, not
+recomputed here.
+
+One caution recorded at the point of use: because the opposite form
+``(c, -b, a)`` represents the same integers as ``(a, b, c)``, the
+incomplete-gamma representation is *manifestly* symmetric under ``s -> 1-s``,
+so :func:`epstein_functional_equation_defect` is zero by construction and
+checks nothing.  The validation that can fail is
+:func:`epstein_class_group_defect`, which tests
+``sum_Q zeta_Q(s) = w zeta(s) L(s, chi_D)`` against mpmath's ``zeta`` and a
+Hurwitz-zeta character sum — disjoint code — and comes in below 1e-18 at
+``D = -4, -15, -23``.
+
 Honest scope: nothing here proves anything about *zeta's* zeros; the module
-demonstrates, to stated numerical precision, that a specific rival function
-shares the symmetry and violates RH.  Conventions follow :mod:`zeta.core`:
+demonstrates, to stated numerical precision, that specific rival functions
+share the symmetry and violate RH.  Conventions follow :mod:`zeta.core`:
 explicit ``dps`` everywhere, guard digits internal, no global mpmath state
 left modified.
 """
