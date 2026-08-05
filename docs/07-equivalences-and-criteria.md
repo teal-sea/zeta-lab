@@ -201,6 +201,21 @@ assumed what you wanted to prove — or an arithmetic expression involving prime
 terms grow. Under RH one expects `lambda_n` to grow like `(n/2) log n`; nobody can prove
 non-negativity unconditionally for large `n`.
 
+**How weak a detector is it?** Measurable, and the answer is discouraging. The Davenport–Heilbronn
+function `F` has the same shape (`F(s) = F(1-s)`, real coefficients, real Hardy-style `Z`) and a zero
+provably off the line, so some `lambda_n` for `F` must *eventually* go negative — note this leans on
+the Bombieri–Lagarias multiset statement above rather than on Li's original, since `F` has no Euler
+product and is outside the Selberg class, and the multiset form needs neither. Running
+the same contour extraction on `F` — validated first against `zeta.li.li_coefficients` on `xi`, where
+it agrees bit-identically — gives `lambda_n > 0` for every `n <= 24`, in fact uniformly *larger* than
+zeta's. The reason is in the off-line zero itself: with
+`rho = 0.80851718... + 85.69934848...i`, the mirror zero `1 - rho` has `Re < 1/2` and
+`|1 - 1/(1-rho)| = 1.00004200616...`, so the exponentially growing term grows at rate `4.2e-5` per
+step and needs `n ~ 2.4e4` merely to double, against a background growing like `(n/2) log n`.
+So observing `lambda_n >= 0` for zeta over any comparable range distinguishes nothing: a function
+that violates RH passes the identical test. This sharpens §11's "the equivalences restate rather than
+reduce" into a quantitative statement about one of them. `scripts/18_dh_li_coefficients.py`.
+
 ---
 
 ## 5. Nyman–Beurling, and Báez-Duarte's strengthening
