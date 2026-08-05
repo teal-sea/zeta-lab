@@ -1,268 +1,184 @@
-# Session handoff — zeta moments programme
+# Session handoff — Li-criterion detector strength, F1 fingerprints
 
-**Snapshot:** 2026-08-04
+**Snapshot:** 2026-08-05
 **Branch:** `main`
-**Remote state before the red-team correction:** `origin/main` at `12cb822`
-**Detailed sources of truth:** `ROADMAP.md`, `docs/13-moments.md`, `REDTEAM.md`,
-`NULLCONTROLS.md`
+**Detailed sources of truth:** `ROADMAP.md`, `docs/07-equivalences-and-criteria.md` §4,
+`docs/11-f1-and-the-missing-geometry.md`, `docs/09-new-ontologies.md` §5
 
-**Status in one line:** the moments programme is finished and its candidate
-finding was explained by controls, not confirmed. No next build is chosen.
+**Status in one line:** three scripts left untracked and broken by an interrupted
+external-agent session were rebuilt; one produced a genuine measured result about
+how weak Li's criterion is as an RH detector. Still **no next build chosen** —
+the moments programme remains closed (previous handoff, superseded below).
+
+## Provenance — read this before trusting the starting point
+
+The three files this session started from (`scripts/14_repulsion_floor.py`,
+`scripts/15_f1_fingerprints.py`, `scripts/15_novel_dh_li.py`) were **not** written
+by a previous session of this repo's workflow. They were produced by a Gemini
+session in an external IDE, which hit a model quota mid-write; the files were
+untracked, unnumbered against the existing `14_`/`15_` slots, and contained
+errors. They have been rewritten and renumbered to `16_`/`17_`/`18_`. Nothing
+from the original three survives unverified.
+
+Two defects in the originals are worth recording because they are the kind that
+pass silently:
+
+1. `15_f1_fingerprints.py` asserted, in a bare `print` with no computation
+   behind it, that the archimedean factor `s (2 pi)^{-s/2} Gamma(s/2)` is
+   "EXACTLY" the factor Riemann attached to zeta. It is not; see below.
+2. `15_novel_dh_li.py` hand-rolled a Cauchy-integral Li extraction with
+   `mpmath.quad` on a periodic integrand, principal-branch `log`, and no
+   validation against anything. `zeta/li.py` already contains a correct, tested
+   version of exactly this machinery.
 
 ## Where the work landed
 
-The moments programme now has a full finite-height comparison instrument for
-the 2nd, 4th, 6th, and 8th critical-line moments:
+### `scripts/18_dh_li_coefficients.py` — the substantive result
 
-- `zeta.moments.moment_polynomial(k)` returns the full degree-`k²` polynomial
-  in the convention `P_k(log(t/(2*pi)))` for `k=1,…,4`.
-- `moment_polynomial_mean` integrates every polynomial term over the actual
-  window; it does not use a midpoint or leading-only approximation.
-- `moment_scorecard` calibrates on the theorem cases `k=1,2` before releasing
-  the conjectural `k=3,4` rows.
-- `scripts/14_moment_experiment.py` computes local critical-line values and now
-  supports convergence, disjoint-block, peak-concentration, multi-height, and
-  a retrospective multi-offset diagnostic.
+Li's criterion says `lambda_n >= 0` for all `n` iff RH. The Davenport–Heilbronn
+function `F` satisfies `F(s) = F(1-s)`, has real coefficients and a real
+Hardy-style `Z`, and has a zero off the critical line — so some `lambda_n` for
+`F` must eventually go negative. (That leans on the Bombieri–Lagarias multiset
+form of the criterion, not Li's original: `F` has no Euler product and is outside
+the Selberg class, and the multiset statement needs neither.) **It does not go
+negative anywhere in reach.**
 
-The `k=1,2` full polynomials are theorem-backed. The `k=3,4` polynomials are
-CFKRS conjectures. Published decimal coefficients have reported stable digits
-but no interval enclosure; the code never calls them certified.
+- The extractor reuses `zeta.li._unwrapped_log` and `_roots_of_unity` rather than
+  re-deriving them, and is **validated on `xi` against `zeta.li.li_coefficients`
+  before being pointed at `F`**: worst absolute difference over `n <= 24` is
+  exactly `0.0` (bit-identical). The script asserts this and aborts otherwise.
+- On `F`: `lambda_n > 0` for every `n <= 24`, and uniformly *larger* than zeta's
+  (`n = 24`: `30.1998` for `F` against `12.3513` for zeta).
+- Why, quantitatively: the mirror `1 - rho` of the off-line zero has `Re < 1/2`
+  and `|1 - 1/(1-rho)| = 1.00004200616427`, i.e. `log` of that is `4.20053e-5`.
+  The exponentially growing term needs `n ~ 2.4e4` merely to double, against a
+  background growing like `(n/2) log n`.
 
-## Red-team correction — read before interpreting results
+So `lambda_n >= 0` observed for zeta over any comparable range distinguishes
+nothing — a function that provably violates RH passes the identical test. This
+is `docs/09` §5 gate 3 applied to a *criterion* rather than to a structural
+claim, and it sharpens `docs/07` §11 into a quantitative statement about one of
+the four equivalence faces. Recorded in `docs/07` §4.
 
-The earlier handoff incorrectly called the multi-offset calculation a
-pre-registered falsification attack. That verdict is withdrawn.
+### `scripts/17_f1_fingerprints.py` — Tits fingerprints, computed, plus one measurement
 
-- Window zero at `10^4`, `10^5`, and `10^6` is exactly the already-observed
-  `--replicate` window.
-- The monotone-concentration gate was chosen after seeing the window-zero trend
-  `90.25% → 96.52% → 98.96%`.
-- Therefore the gate selection was contaminated and the historical pass has no
-  falsification weight.
-- The gates were not calibrated against a heavy-tailed null. A red-team audit
-  reports a `1/6` exchangeable-order baseline for the order gate and roughly
-  `40%` false rejection for the `15%` gate under true CFKRS. These two numbers
-  still require independent reproduction; until then, gate power is unknown.
+The `q -> 1` limits are correct and now assert-backed: `|P^{n-1}| -> n`, the flag
+variety `-> |S_n|`, `Gr(2,4) -> 6`. `docs/11` §3 already states these; the script
+computes them.
 
-The underlying numerical tables and focused tests remain valid. What changed
-is the interpretation, not the computed values.
+The addition is the archimedean-factor measurement, at `s = 0.3 + 7.1i`, dps 25:
 
-## Main numerical observation
+| factor | `\|A(s) - A(1-s)\|` |
+| --- | ---: |
+| `s (2 pi)^{-s/2} Gamma(s/2) zeta(s)` (the informal version) | `0.057095031` |
+| `pi^{-s/2} Gamma(s/2) zeta(s)` | `1.6408307e-28` |
+| `zeta.core.xi` | `0.0` |
 
-The empirical observation is:
+The informal factor has no functional equation at all: it conflates
+`Gamma_R(s) = pi^{-s/2} Gamma(s/2)` with `Gamma_C(s) = 2 (2 pi)^{-s} Gamma(s)`
+and drops the `s(s-1)/2`. The script then runs the Gate 3 check: DH functional
+equation defect `0.0`, `|completed_dh(rho)| = 7.9e-58` at `Re(rho) - 1/2 =
++0.308517`, so "the Gamma factors are secretly geometry, therefore the zeros are
+on the line" applies verbatim to a function where the conclusion is false.
 
-> With increasing height and moment order, moment mass becomes increasingly
-> concentrated in rare large-value intervals, while pooling enough disjoint
-> windows recovers the full CFKRS polynomial aggregate.
+### `scripts/16_repulsion_floor.py` — a real test replacing a vacuous one
 
-This is not claimed as novel, proven, probabilistic, or related evidence for
-RH. **It has since been explained** — see "Steps 1–7 were carried out" below.
-The rise of concentration is reproduced by controls with no arithmetic input,
-and by the Davenport–Heilbronn function, which violates RH.
+The original asked whether the minimum normalised gap exceeds `1e-4` and called a
+positive answer "the conjecture HOLDS". That test is vacuous: a Poisson sample of
+the same size also has a positive minimum. Replaced with the small-`s` tail,
+which is where repulsion actually lives (GUE density vanishes like `s^2`, Poisson
+does not vanish at all).
 
-### Pinned results
+Over 138,068 spacings from 138,069 zeros with `0 < gamma < 1e5`:
 
-One width-4000 window at `t=10^5`, spacing `0.005`:
-
-| moment | full-polynomial ratio | block-ratio CV | top 1% integral share |
+| `s` | observed | GUE | Poisson |
 | ---: | ---: | ---: | ---: |
-| 2nd | `0.9982` | `1.28%` | `25.81%` |
-| 4th | `0.9893` | `7.43%` | `67.06%` |
-| 6th | `0.9653` | `19.20%` | `88.67%` |
-| 8th | `0.9229` | `34.63%` | `96.49%` |
+| `0.02` | `0.000e+00` | `8.770e-06` | `1.980e-02` |
+| `0.05` | `1.086e-04` | `1.368e-04` | `4.877e-02` |
+| `0.10` | `7.315e-04` | `1.088e-03` | `9.516e-02` |
+| `0.50` | `9.705e-02` | `1.131e-01` | `3.935e-01` |
 
-The nested-grid audit changed every moment by less than `1.1e-6` relatively,
-so grid resolution was not the observed limitation. Window-ratio drift reached
-`18.05%` for the 8th moment.
+Poisson is off by `449x` at `s = 0.05`; GUE by `1.26x`. Sharper test: fitting the
+cubic coefficient of the GUE CDF near zero gives `c = 1.09654`, so the smallest of
+138,068 draws should be about `0.01876`; observed is `0.02186`, ratio `1.165`. The
+closest pair is `gamma_95248 = 71732.901208`, `gamma_95249 = 71732.915909`.
 
-Height-normalized single-window replication used 6,000 nominal mean zero gaps,
-128 points/gap, and 768,001 samples per height:
-
-| height | 2nd | 4th | 6th | 8th | 8th-moment top 1% share |
-| ---: | ---: | ---: | ---: | ---: | ---: |
-| `10^4` | `1.0004` | `1.0014` | `1.0052` | `1.0199` | `90.25%` |
-| `10^5` | `0.9996` | `0.9947` | `0.9755` | `0.9368` | `96.52%` |
-| `10^6` | `1.0061` | `1.0154` | `1.0084` | `0.9677` | `98.96%` |
-
-## Retrospective multi-offset diagnostic — no verdict
-
-The historical calculation applied three gates:
-
-1. pooled 2nd/4th theorem controls within `5%` of one;
-2. pooled 6th/8th conjectural ratios within `15%` of one;
-3. median top-one-percent concentration strictly increasing with height for
-   both the 6th and 8th moments.
-
-Four consecutive disjoint whole windows were evaluated at each height band: 12
-windows and about 9.2 million finest-grid points. Mutation tests force all three
-code paths to fail. The table passes these retrospective gates, but window zero
-was reused and the concentration gate was selected after its result was known.
-Do not call this survival, rejection, pre-registration, or a successful attack.
-
-| height | pooled 2nd | pooled 4th | pooled 6th | pooled 8th |
-| ---: | ---: | ---: | ---: | ---: |
-| `10^4` | `1.0000` | `1.0002` | `1.0006` | `1.0001` |
-| `10^5` | `1.0003` | `0.9986` | `0.9866` | `0.9633` |
-| `10^6` | `1.0001` | `1.0075` | `1.0301` | `1.0628` |
-
-At `10^6`, individual 8th-moment whole-window ratios ranged from `0.5831` to
-`1.4362`, yet pooling returned `1.0628`; median top-one-percent concentration
-was `99.12%`.
-
-The suspiciously close `10^4` pooled row was checked for circularity,
-pointwise evaluator error, and grid error; no defect was found. A fresh
-four-window run anchored at `1.5×10^4` also pooled within `0.156%` for all four
-orders. This is descriptive only; `REDTEAM.md` §6 records the audit, and exact
-`N(T)` exposure normalization remains open.
+Spacing variance is `0.161375` against the GUE bulk `~0.178`; the script notes the
+approach is slow in `T` and points at the CUE-control measurement rather than
+treating the gap as a discrepancy.
 
 ## Reproduction commands
 
-Always run from the repository root with the project venv:
+From the repository root with the project venv:
 
 ```bash
-.venv/bin/python scripts/14_moment_experiment.py --start 1e5 --length 4e3 --spacing 5e-3 --convergence
-.venv/bin/python scripts/14_moment_experiment.py --start 1e5 --length 4e3 --spacing 5e-3 --blocks 8
-.venv/bin/python scripts/14_moment_experiment.py --replicate
-.venv/bin/python scripts/14_moment_experiment.py --attack
-.venv/bin/python -m pytest -q -o addopts='' tests/test_script_14_moment_experiment.py
+.venv/bin/python scripts/16_repulsion_floor.py        # ~1 s, uses the cached zero table
+.venv/bin/python scripts/17_f1_fingerprints.py        # ~10 s, sympy limits + mpmath checks
+.venv/bin/python scripts/18_dh_li_coefficients.py     # ~3 s, self-validating
 ```
 
-The last command collects 26 tests, including pinned real numerical runs and
-mutation tests for the attack gates.
+All three are self-checking: 17 asserts the `q -> 1` limits and both
+functional-equation defects, 18 asserts agreement with `zeta.li` before computing
+anything about Davenport–Heilbronn.
 
-The null controls (about ten minutes for the Davenport–Heilbronn pass, which is
-the slow one):
+## Test-run status — the previous handoff's caveat did not reproduce
 
-```bash
-.venv/bin/python scripts/15_null_control.py --verify      # adapter vs the pipeline, 1.7e-16
-.venv/bin/python scripts/15_null_control.py               # zeta vs both Euler surrogates
-.venv/bin/python scripts/15_null_control.py --tails       # variance vs upper quantiles
-.venv/bin/python scripts/15_null_control.py --cue         # the CUE control
-.venv/bin/python scripts/15_null_control.py --dh          # the counterexample control
-.venv/bin/python scripts/15_null_control.py --approach    # rate of approach to CUE
-.venv/bin/python -m pytest -q -o addopts='' tests/test_surrogate.py -m "not slow"
-```
-
-That test command collects 22 tests; a 23rd is marked slow because it evaluates
-the Davenport–Heilbronn function pointwise.
-
-## Commits in this build sequence
+The previous handoff recorded a pre-existing teardown/worker hang in the parallel
+pytest runner near completion, and explicitly declined to claim a clean
+repository-wide exit. **Both tiers ran to a clean exit in this session:**
 
 ```text
-6814f9d Add locally generated moment experiment
-f6ffadc Add full CFKRS moment polynomials
-e0f5d98 Add nested moment convergence study
-3dbac1e Measure moment peak concentration
-fcc0c3a Replicate moments across heights
-40d27ff Attack moment pattern across offsets
-12cb822 Add moments session handoff
-9bd6dd3 Withdraw contaminated moment attack verdict
-8950568 Add moments red-team audit
-18967ff Add randomised Euler product null control
-61e3cbf Add full random Euler product to the null control
-bb634a8 Separate variance from the upper tail in the null comparison
-e248d15 Add CUE control, which reproduces the concentration pattern
-11a700f Add Davenport-Heilbronn control and the null-control report
-5925ee3 Regenerate CONTEXT.md for the surrogate module
-3a72626 Measure the rate of approach to the CUE control
-becc89c Record the moments programme as closed by the controls
+.venv/bin/python -m pytest -q -m "not slow"   ->  1417 passed in 165.18s (2:45)
+.venv/bin/python -m pytest -q                 ->  1464 passed in 477.26s (7:57)
 ```
+
+Default `-n auto` parallel settings, no hang, no interruption, exit code 0 both
+times. So the repository-wide suite *was* run to a clean exit here, and the
+claim in the previous handoff's caveat no longer holds for this tree.
+
+That is a **non-reproduction, not a fix** — nothing in this session touched the
+runner, the packages, `pyproject.toml`, or any test file; the only changes were
+three new scripts and three documentation files. Treat the hang as intermittent
+and still unexplained, and do not assume it is gone.
+
+Note the drift in counts worth reconciling at some point: `AGENTS.md` documents
+the fast tier as 1,328 tests and the full suite as 1,365, against the 1,417 and
+1,464 measured here. The previous handoff saw 1,370 before interrupting. Nothing
+in this session added a test, so the drift predates it.
 
 ## What not to infer
 
-- Deterministic disjoint blocks are not asserted to be independent samples.
-- Block CV, nested-grid drift, and peak shares are not confidence intervals or
-  rigorous error bounds.
-- “Top 1%” means ranked uniform-grid trapezoidal interval contributions, not
-  one percent of independent peaks.
-- The mean-zero-gap normalization is asymptotic and fixes nominal exposure; it
-  is not an exact count of zeros inside each window.
-- Agreement does not prove CFKRS, establish novelty, support RH, or weaken RH.
-- Any apparent RH consequence should be treated as a bug.
-
-## Steps 1–7 were carried out; the programme is closed
-
-Every item on the previous checklist was executed on 2026-08-04. Full detail,
-including the limits of each control, is in `NULLCONTROLS.md`; the instrument is
-`zeta/surrogate.py` with `scripts/15_null_control.py`.
-
-**Literature (step 2).** The concentration heuristic is Soundararajan's (Annals
-2009): values of size `(log T)^k` on measure `T(log T)^{-k²}` supply the
-CFKRS-sized moment. Odlyzko–Rubinstein already reported slow finite-height
-convergence with large window-to-window fluctuation driven by rare large values.
-The observation restates known material. Only the "top x% carries y%" phrasing
-looks non-standard, which is a choice of statistic, not a result.
-
-**Controls (steps 3–5).** `interval_statistics` reproduces `block_peak_sweep` on
-real zeta data to `1.7e-16`, so every control runs the same code path.
-
-- Both randomised Euler product surrogates reproduce the rise of concentration
-  with moment order and with height using no arithmetic input.
-- The arithmetic factor is not the explanation: a top-share is a ratio of
-  integrals, so any scale factor cancels. Adding `a_k` moved the eighth-moment
-  share from `94.36%` to `93.76%`.
-- The variance is not the explanation either, and the obvious calibration is
-  backwards. Zeta's variance exceeds both surrogates' (`1.9532` against `1.4571`
-  and `1.5164` at `10⁶`) while its upper tail is *shorter* (`p99.9` of `3.3605`
-  against `3.6623` and `3.6647`), because `log|ζ|` diverges at every zero and
-  both surrogates are zero-free. Matching a zero-free null to zeta's variance
-  would widen its upper tail and worsen the fit.
-- The CUE control, whose only quantity `N = round(log(T/2π))` is fixed by the
-  height and not fitted, matches within a couple of points at `10⁶`
-  (`31.58/76.25/93.68/98.39` against `30.26/78.26/95.75/99.26`) and matches the
-  `p99.9` tail at `3.3707` against `3.3605`.
-- The Davenport–Heilbronn function shows the same rise with order and with
-  height (`7.28 → 42.79%` at `t=200`, `9.18 → 54.21%` at `t=2000`), so under the
-  standing counterexample gate the pattern distinguishes nothing structural.
-
-**Rate of approach.** With the band taken from 200 CUE seeds per height instead
-of a chosen threshold, the eighth-moment gap to the CUE median runs `-19.03%` at
-`10³`, then `-7.26%`, `-2.01%`, `+0.84%`, `-0.23%`, `+0.63%` through `10⁸`. Zeta
-lies outside the central 95% only at `10³` and only for the 6th and 8th moments.
-The band is wide enough that "inside" is a weak test — the 2nd and 4th moments
-are inside at every height — so this bounds the residual rather than showing
-agreement.
-
-**Byproduct.** `a_k` from the random Euler product times `g_k` from the
-Keating–Snaith product converges to the CFKRS leading coefficient derived
-independently in `scripts/14_moment_experiment.py` (ratio `1.0016` at
-`N = 40000`, falling tenfold per decade of `N`). Neither factor is read from a
-table.
-
-**Decision (step 7): no `conjectures/` ledger entry.** The pattern is generic,
-the RH-violating counterexample shares it, and the gap to the random-matrix
-control closes with height.
-
-External high-height critical-line value data remains desirable, but no public
-dense row table was found in the 2026-08-04 source audit. Never substitute zero
-ordinates for independently evaluated `|zeta|` samples.
+- None of this is evidence for or against RH (Littlewood; `docs/08`).
+- The DH result is about the **detector**, not about `F`. Li's criterion is
+  correct; it is just numerically useless at reachable `n`. Nothing here casts
+  doubt on the equivalence itself.
+- `n ~ 2.4e4` is a doubling scale for one term, **not** a proven bound on where
+  the first negative `lambda_n` for `F` appears. The true onset depends on the
+  full sum over zeros and is not computed here. Do not quote it as a threshold.
+- GUE agreement in script 16 describes the distribution of zeros already known to
+  be on the line in that range. It is not a verification of anything.
+- The `q -> 1` limits are combinatorial identities. They are not a step toward
+  RH, and `docs/11` §5 is the sober scorecard on that.
 
 ## What is open now
 
-There is **no next build chosen**. `ROADMAP.md`'s only "Next build" heading was
-moments, and moments is finished. Whatever comes next is an open decision, not
-something already recorded.
+Still **no next build chosen**; `ROADMAP.md`'s only "Next build" heading was
+moments, and moments closed in the previous session. The three narrow moments
+items listed in the previous handoff (exact `N(T)` exposure, seed replication of
+the CUE and DH rows, the `10^7`–`10^8` drift) remain open and unaddressed here.
 
-Three narrow moments items were left unfinished, none of them load-bearing:
+New candidates raised by this session, neither started:
 
-1. Exact `N(T)` exposure in place of nominal mean-gap windows.
-2. Seed replication of the CUE and Davenport–Heilbronn rows, which are
-   single-realisation; the Euler rows were replicated over five seeds.
-3. The drift of the 2nd and 4th moments above the CUE median at `10⁷`–`10⁸`
-   (`+7.73%`, `+10.64%`, both inside the band) — window luck until replicated
-   across offsets.
+1. **Weil positivity against Davenport–Heilbronn.** The natural sequel to script
+   18: find an explicit test function `h` with `W(h) < 0` for `F`. Unlike Li's
+   `lambda_n`, `h` can be chosen to sit on the off-line zero, so the negativity
+   should be reachable rather than sitting at `n ~ 1e4`. `zeta/weil.py` already
+   has both sides and positivity probes. This would give the repository a
+   criterion that *does* detect the known violation — currently it has none.
+2. **A detector-strength audit across the other faces.** Script 18 measured one
+   of `docs/07`'s equivalences against the counterexample. Mertens/Möbius,
+   Baez-Duarte and Robin/Lagarias have not been measured this way. The honest
+   expectation is that they are all weak; the value is in the numbers.
 
-## Test-run caveat
-
-The focused moments and script suites pass. The repository's parallel pytest
-runner has a pre-existing teardown/worker hang near completion; the last broad
-fast run reported 1,370 passes and 4 skips before manual interruption. Do not
-misreport that interrupted run as a clean full-suite exit. Use the focused
-single-process command above for this work, and investigate the unrelated
-runner hang separately if a clean repository-wide exit is required.
-
-The null-control work was verified the same way, single-process and focused:
-`tests/test_surrogate.py` 22 passed with 1 deselected as slow, and
-`tests/test_epstein.py tests/test_statistics.py tests/test_moments.py` 128
-passed. The full repository-wide suite was **not** run to a clean exit in this
-session, and nothing here should be read as claiming it was.
+Neither is recorded in `ROADMAP.md`. Choosing a next build is still an open
+decision, not something already made.

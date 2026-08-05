@@ -599,6 +599,9 @@ Constants: `GENERATOR`, `GENERATOR_VERSION`, `SEED`, `GUARD_DIGITS`, `GAUSS_WIND
 - `scripts/13_discovery_run.py` — The conjecture factory: run the discovery funnel and print what it converted.
 - `scripts/14_moment_experiment.py` — Critical-line moments from locally computed values, and where they can be tested.
 - `scripts/15_null_control.py` — Run the finite-height concentration statistics against a null model.
+- `scripts/16_repulsion_floor.py` — Level repulsion in the zeta zeros: the small-gap tail, against two models.
+- `scripts/17_f1_fingerprints.py` — The q -> 1 limit: combinatorial shadows of geometry over a finite field.
+- `scripts/18_dh_li_coefficients.py` — Li coefficients for the Davenport-Heilbronn function — a detector control.
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/ledger_sync.sh` — Sync the private discovery ledger between machines.
