@@ -70,6 +70,12 @@ block-ratio dispersion and the integral shares carried by the largest 0.1% and
 1% of grid intervals. Disjoint blocks are not asserted to be statistically
 independent, and their dispersion is not a standard error.
 
+With ``--replicate``, that block/peak study is repeated at ``10^4``, ``10^5``
+and ``10^6``. Each window spans 6,000 local asymptotic mean zero gaps with 128
+points per gap, so height changes without silently changing nominal zero count
+or grid resolution. These are three deterministic windows, not repeated random
+trials.
+
 Nothing here settles, supports or weakens the Riemann Hypothesis, and finite
 moment measurements could not do so in principle.
 
@@ -81,6 +87,7 @@ Usage
         --convergence
     .venv/bin/python scripts/14_moment_experiment.py --start 1e5 --length 4e3 \
         --blocks 8
+    .venv/bin/python scripts/14_moment_experiment.py --replicate
     .venv/bin/python scripts/14_moment_experiment.py --emit data/samples.txt.gz \
         --emit-length 100 --emit-error-estimate 1e-8
 
@@ -180,6 +187,22 @@ class PeakConcentration:
     interval_fraction: float
     interval_count: int
     contribution_fraction: float
+
+
+@dataclass(frozen=True)
+class HeightReplicationRow:
+    """One moment's diagnostics at one height-normalized window."""
+
+    height: float
+    mean_zero_gap: float
+    window_length: float
+    spacing: float
+    sample_count: int
+    k: int
+    aggregate_ratio: float
+    block_ratio_coefficient_of_variation: float
+    top_tenth_percent_contribution: float
+    top_one_percent_contribution: float
 
 
 def random_matrix_factor(k: int) -> mp.mpf:
@@ -668,6 +691,82 @@ def block_diagnostics(
     return tuple(diagnostics)
 
 
+def multi_height_study(
+    heights: tuple[float, ...] = (1e4, 1e5, 1e6),
+    *,
+    zero_gaps: int = 6_000,
+    points_per_gap: int = 128,
+    blocks: int = 8,
+) -> tuple[tuple[HeightReplicationRow, ...], float]:
+    """Repeat the block/peak study with resolution normalized by zero spacing.
+
+    Each window spans ``zero_gaps`` local mean zero spacings and samples each
+    such spacing at ``points_per_gap`` points.  This holds the nominal number
+    of zeros and grid resolution fixed while height changes.  The local mean
+    spacing is an asymptotic normalization, not an exact zero count.
+    """
+
+    if (
+        not heights
+        or any(not math.isfinite(height) or height < 50 for height in heights)
+        or tuple(sorted(set(heights))) != heights
+    ):
+        raise ValueError("heights must be unique increasing finite values at least 50")
+    if isinstance(zero_gaps, bool) or not isinstance(zero_gaps, int) or zero_gaps < 2:
+        raise ValueError("zero_gaps must be an integer at least 2")
+    if (
+        isinstance(points_per_gap, bool)
+        or not isinstance(points_per_gap, int)
+        or points_per_gap < 2
+    ):
+        raise ValueError("points_per_gap must be an integer at least 2")
+    intervals = zero_gaps * points_per_gap
+    if isinstance(blocks, bool) or not isinstance(blocks, int) or blocks < 2:
+        raise ValueError("blocks must be an integer at least 2")
+    if intervals % blocks:
+        raise ValueError("zero_gaps * points_per_gap must be divisible by blocks")
+
+    rows = []
+    elapsed = 0.0
+    for height in heights:
+        mean_zero_gap = 2 * math.pi / math.log(height / (2 * math.pi))
+        spacing = mean_zero_gap / points_per_gap
+        window_length = mean_zero_gap * zero_gaps
+        block_rows, peaks, sample_count, run_elapsed = block_peak_sweep(
+            height,
+            window_length,
+            spacing,
+            blocks=blocks,
+        )
+        elapsed += run_elapsed
+        diagnostics = {item.k: item for item in block_diagnostics(block_rows)}
+        by_peak = {
+            (item.k, round(item.interval_fraction, 12)): item for item in peaks
+        }
+        for k in (1, 2, 3, 4):
+            rows.append(
+                HeightReplicationRow(
+                    height=height,
+                    mean_zero_gap=mean_zero_gap,
+                    window_length=window_length,
+                    spacing=spacing,
+                    sample_count=sample_count,
+                    k=k,
+                    aggregate_ratio=diagnostics[k].aggregate_ratio,
+                    block_ratio_coefficient_of_variation=(
+                        diagnostics[k].block_ratio_coefficient_of_variation
+                    ),
+                    top_tenth_percent_contribution=(
+                        by_peak[k, 0.001].contribution_fraction
+                    ),
+                    top_one_percent_contribution=(
+                        by_peak[k, 0.01].contribution_fraction
+                    ),
+                )
+            )
+    return tuple(rows), elapsed
+
+
 def accuracy_probe(start: float, length: float, samples: int = 12) -> float:
     """Largest observed ``|Z_fast - mpmath.siegelz|`` over a spread of the window."""
 
@@ -695,6 +794,11 @@ def main() -> int:
         type=int,
         default=0,
         help="run disjoint-block and peak-concentration study with this many blocks",
+    )
+    parser.add_argument(
+        "--replicate",
+        action="store_true",
+        help="run the fixed 10^4/10^5/10^6 height-normalized replication matrix",
     )
     parser.add_argument("--emit", type=Path, default=None, help="write sample rows")
     parser.add_argument(
@@ -734,12 +838,68 @@ def main() -> int:
         parser.error("--blocks and --emit are separate acquisition modes")
     if args.convergence and args.blocks:
         parser.error("--convergence and --blocks are separate study modes")
+    if args.replicate and (args.emit is not None or args.convergence or args.blocks):
+        parser.error("--replicate is a separate study mode")
     if args.blocks < 0 or args.blocks == 1:
         parser.error("--blocks must be 0 (disabled) or an integer at least 2")
     if args.convergence and (intervals < 16 or intervals % 4):
         parser.error(
             "--convergence requires at least 16 intervals and a count divisible by 4"
         )
+
+    if args.replicate:
+        rows, elapsed = multi_height_study()
+        heights = sorted({row.height for row in rows})
+        by_cell = {(row.height, row.k): row for row in rows}
+        print("Height-normalized moment replication")
+        print("=" * 78)
+        print("each window: 6,000 local mean zero gaps; 128 points/gap; 8 blocks")
+        print()
+        print(
+            f"  {'height':>10}  {'window':>10}  {'spacing':>10}  {'samples':>10}"
+        )
+        for height in heights:
+            row = by_cell[height, 1]
+            print(
+                f"  {height:>10.0e}  {row.window_length:>10.2f}  "
+                f"{row.spacing:>10.6f}  {row.sample_count:>10,}"
+            )
+
+        def print_matrix(title: str, field: str, *, percent: bool = False) -> None:
+            print()
+            print(title)
+            print("-" * 78)
+            print(f"  {'height':>10}  {'2nd':>12}  {'4th':>12}  {'6th':>12}  {'8th':>12}")
+            for height in heights:
+                values = [getattr(by_cell[height, k], field) for k in (1, 2, 3, 4)]
+                rendered = (
+                    "".join(f"  {value:>11.2%}" for value in values)
+                    if percent
+                    else "".join(f"  {value:>12.4f}" for value in values)
+                )
+                print(f"  {height:>10.0e}{rendered}")
+
+        print_matrix("Measured / full-polynomial prediction", "aggregate_ratio")
+        print_matrix(
+            "Observed coefficient of variation across disjoint block ratios",
+            "block_ratio_coefficient_of_variation",
+            percent=True,
+        )
+        print_matrix(
+            "Integral share from largest 0.1% of grid intervals",
+            "top_tenth_percent_contribution",
+            percent=True,
+        )
+        print_matrix(
+            "Integral share from largest 1% of grid intervals",
+            "top_one_percent_contribution",
+            percent=True,
+        )
+        print()
+        print(f"finest-grid evaluation time: {elapsed:.1f}s")
+        print("Deterministic windows only: replication is not a confidence interval,")
+        print("a proof of CFKRS, or evidence for RH.")
+        return 0
 
     start, length, spacing = args.start, args.length, args.spacing
     stop = start + length

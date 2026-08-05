@@ -204,8 +204,16 @@ for the eighth. The largest `1%` of grid intervals carries `25.81%`, `67.06%`,
 identifies peak concentration in the pinned run without calling block
 dispersion a standard error or treating disjoint blocks as independent draws.
 
-**Next code build:** a multi-height replication matrix using disjoint windows
-and a grid resolution normalized to the local mean zero spacing. Test whether
-the concentration and block-dispersion pattern persists at `10⁴`, `10⁵`, and
-`10⁶` before treating this one local run as representative. External
-high-height value acquisition remains a later range-widening task.
+**Eighth increment shipped.** The block/peak study now replicates at `10⁴`,
+`10⁵`, and `10⁶` with 6,000 nominal local zero gaps, 128 points per gap, and
+768,001 samples per window. All aggregate moment-polynomial ratios remain
+within `6.4%` of one. Meanwhile the top-one-percent share of the eighth moment
+rises `90.25% → 96.52% → 98.96%`, and its block-ratio CV rises
+`17.91% → 34.93% → 76.81%`. Agreement replicates while concentration and local
+volatility increase; three deterministic windows still do not form a sampling
+distribution.
+
+**Next code build:** multiple disjoint starting offsets at each height. Measure
+the empirical spread of aggregate ratios across whole windows, without calling
+the deterministic set independent or converting it into a confidence interval.
+This is the direct test of whether the three-height agreement is window luck.

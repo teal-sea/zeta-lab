@@ -507,6 +507,32 @@ almost entirely carried by one percent of grid intervals. It still does not
 validate or refute the global CFKRS conjecture, and the ranked shares are
 neither probabilities nor error bounds.
 
+### Height-normalized replication
+
+`--replicate` repeats the disjoint-block study at starting heights `10⁴`,
+`10⁵`, and `10⁶`. Each deterministic window spans 6,000 times the asymptotic
+mean zero spacing at its starting height and uses 128 grid points per such
+spacing: 768,001 samples per window. This fixes nominal zero exposure and
+resolution, not an exact zero count; the zero density changes across a window.
+
+The aggregate measured/full-polynomial ratios are:
+
+| height | 2nd | 4th | 6th | 8th |
+| ---: | ---: | ---: | ---: | ---: |
+| `10⁴` | `1.0004` | `1.0014` | `1.0052` | `1.0199` |
+| `10⁵` | `0.9996` | `0.9947` | `0.9755` | `0.9368` |
+| `10⁶` | `1.0061` | `1.0154` | `1.0084` | `0.9677` |
+
+At the same time, the largest one percent of intervals carries `90.25%`,
+`96.52%`, and `98.96%` of the 8th-moment integral as height increases. Its
+eight-block ratio CV rises from `17.91%` to `34.93%` to `76.81%`.
+
+Thus the local agreement with the full polynomial replicates across these
+three heights even while the estimator becomes more concentrated and more
+window-sensitive. That is a sharp numerical observation, but three selected
+deterministic windows are not a sampling distribution, proof of CFKRS, or
+evidence for RH. Multiple offsets at each height are needed to test window luck.
+
 [odlyzko-index]: https://www-users.cse.umn.edu/~odlyzko/zeta_tables/index.html
 [lmfdb-route]: https://github.com/LMFDB/lmfdb/blob/main/lmfdb/zeros/zeta/zetazeros.py
 [lmfdb-reader]: https://github.com/LMFDB/lmfdb/blob/main/lmfdb/zeros/zeta/platt_zeros.py

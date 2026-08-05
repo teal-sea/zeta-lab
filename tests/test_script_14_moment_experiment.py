@@ -321,6 +321,71 @@ def test_real_block_study_pins_dispersion_and_peak_concentration(script):
     )
 
 
+@pytest.mark.slow
+def test_multi_height_replication_pins_ratios_and_concentration_trend(script):
+    rows, _ = script.multi_height_study()
+
+    assert len(rows) == 12
+    assert {row.sample_count for row in rows} == {768_001}
+    by_cell = {(row.height, row.k): row for row in rows}
+    expected_ratios = {
+        1e4: (1.0004, 1.0014, 1.0052, 1.0199),
+        1e5: (0.9996, 0.9947, 0.9755, 0.9368),
+        1e6: (1.0061, 1.0154, 1.0084, 0.9677),
+    }
+    for height, expected in expected_ratios.items():
+        measured = tuple(by_cell[height, k].aggregate_ratio for k in (1, 2, 3, 4))
+        assert measured == pytest.approx(expected, abs=1e-4)
+
+    for k in (1, 2, 3, 4):
+        concentration = [
+            by_cell[height, k].top_one_percent_contribution
+            for height in (1e4, 1e5, 1e6)
+        ]
+        dispersion = [
+            by_cell[height, k].block_ratio_coefficient_of_variation
+            for height in (1e4, 1e5, 1e6)
+        ]
+        assert all(left < right for left, right in pairwise(concentration))
+        assert all(left < right for left, right in pairwise(dispersion))
+
+    assert by_cell[1e6, 4].top_one_percent_contribution == pytest.approx(
+        0.9896, abs=1e-4
+    )
+    assert by_cell[1e6, 4].block_ratio_coefficient_of_variation == pytest.approx(
+        0.7681, abs=1e-4
+    )
+
+
+def test_replication_console_preserves_scope(script, monkeypatch, capsys):
+    rows = tuple(
+        script.HeightReplicationRow(
+            height=height,
+            mean_zero_gap=1.0,
+            window_length=10.0,
+            spacing=0.1,
+            sample_count=101,
+            k=k,
+            aggregate_ratio=1.0,
+            block_ratio_coefficient_of_variation=0.1,
+            top_tenth_percent_contribution=0.2,
+            top_one_percent_contribution=0.5,
+        )
+        for height in (1e4, 1e5, 1e6)
+        for k in (1, 2, 3, 4)
+    )
+    monkeypatch.setattr(script, "multi_height_study", lambda: (rows, 1.0))
+    monkeypatch.setattr(sys, "argv", [SCRIPT, "--replicate"])
+
+    assert script.main() == 0
+    out = capsys.readouterr().out
+    assert "Height-normalized moment replication" in out
+    assert "Measured / full-polynomial prediction" in out
+    assert "Integral share from largest 1%" in out
+    assert "not a confidence interval" in out
+    assert "a proof of CFKRS, or evidence for RH" in out
+
+
 def test_emit_requires_a_stated_length():
     """``--emit`` without ``--emit-length`` must fail rather than write a huge file."""
 
