@@ -152,3 +152,62 @@ def global_euler_product(s: complex, primes: list[int]) -> complex:
         product *= local_zeta_factor(p, s)
     return product
 
+def padic_fractional_part(p: int, q: Union[int, Fraction]) -> float:
+    """
+    Computes the p-adic fractional part {x}_p.
+    For a rational number q = a/b, we can write it as q = q_frac + q_int,
+    where q_int in Z_p and q_frac is a rational number of the form c/p^k
+    with 0 <= c < p^k. 
+    
+    The p-adic fractional part maps Q_p -> Q[1/p] / Z.
+    """
+    q_f = Fraction(q)
+    if q_f.denominator % p != 0:
+        return 0.0 # q is in Z_p, so fractional part is 0
+        
+    # We find k such that p^k is the exact power of p dividing the denominator
+    den = q_f.denominator
+    k = 0
+    while den % p == 0:
+        den //= p
+        k += 1
+        
+    # Now q = a / (p^k * den). We want to find c such that 
+    # a / (p^k * den) - c / p^k = (a - c * den) / (p^k * den) is in Z_p.
+    # This means we need (a - c * den) to be divisible by p^k.
+    # So we solve: c * den = a (mod p^k).
+    
+    a = q_f.numerator
+    modulus = p**k
+    
+    # Modular inverse of den mod p^k
+    # den and p^k are coprime
+    den_inv = pow(den, -1, modulus)
+    c = (a * den_inv) % modulus
+    
+    return c / modulus
+
+def padic_additive_character(p: int, q: Union[int, Fraction]) -> complex:
+    """
+    The canonical additive character for Q_p: e_p(x) = exp(-2 * pi * i * {x}_p).
+    """
+    frac_part = padic_fractional_part(p, q)
+    theta = -2.0 * math.pi * frac_part
+    return complex(math.cos(theta), math.sin(theta))
+
+def adelic_additive_character(adele: Adele) -> complex:
+    """
+    The canonical global additive character on the Adeles: 
+    psi(x) = e_inf(x_inf) * prod_p e_p(x_p)
+    
+    Where e_inf(x) = exp(2 * pi * i * x).
+    By a fundamental theorem of Adelic geometry, psi(q) = 1 for any q in Q.
+    """
+    theta_inf = 2.0 * math.pi * adele.real_part
+    res = complex(math.cos(theta_inf), math.sin(theta_inf))
+    
+    for p, padic in adele.padic_parts.items():
+        res *= padic_additive_character(p, padic.q)
+        
+    return res
+

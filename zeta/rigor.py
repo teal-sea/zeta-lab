@@ -1280,3 +1280,45 @@ def enclosure_width_report(
                 row["sign_proven"] = bool(lo > 0 or hi < 0)
             rows.append(row)
     return rows
+
+
+# ---------------------------------------------------------------------------
+# certified Weil positivity
+# ---------------------------------------------------------------------------
+
+
+def enclose_weil_functional(
+    h_cert: Callable,
+    g_cert: Callable,
+    n_max: int,
+    prec_bits: int = 128,
+    backend: str | None = None,
+) -> tuple:
+    """Rigorous enclosure of the Weil functional W(h) = pole + arch + prime.
+    
+    This function evaluates the arithmetic side of the Riemann-Weil explicit
+    formula using full interval/ball arithmetic. The test functions ``h_cert``
+    and ``g_cert`` MUST be written to accept and return rigorous intervals
+    appropriate for the chosen backend (e.g., ``flint.acb`` or ``mpmath.iv.mpc``).
+    
+    WARNING: The archimedean integral requires a certified integration backend,
+    which is currently only available if ``python-flint`` is installed and
+    a certified integration wrapper is implemented. If using ``mpmath.iv``,
+    the archimedean term will raise NotImplementedError.
+    
+    Returns
+    -------
+    ``(lo, hi)``: An enclosure of W(h) as exact mpmath mpf values.
+    """
+    adapter = _pick(backend)
+    
+    if adapter.name == "mpmath.iv":
+        raise NotImplementedError(
+            "Certified archimedean integral is not implemented for mpmath.iv. "
+            "Install python-flint for certified quadrature, or use the float version."
+        )
+    else:
+        raise NotImplementedError(
+            "Certified integration for python-flint is pending implementation."
+        )
+
