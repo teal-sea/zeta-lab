@@ -26,6 +26,7 @@ from __future__ import annotations
 import importlib.util
 import math
 import os
+from dataclasses import replace
 from decimal import Decimal
 from itertools import pairwise
 import subprocess
@@ -384,6 +385,90 @@ def test_replication_console_preserves_scope(script, monkeypatch, capsys):
     assert "Integral share from largest 1%" in out
     assert "not a confidence interval" in out
     assert "a proof of CFKRS, or evidence for RH" in out
+
+
+def _passing_offset_diagnostics(script):
+    return tuple(
+        script.OffsetDiagnostic(
+            anchor_height=height,
+            k=k,
+            pooled_ratio=1.0,
+            median_ratio=1.0,
+            minimum_ratio=0.9,
+            maximum_ratio=1.1,
+            ratio_coefficient_of_variation=0.1,
+            median_top_one_percent_contribution=0.5 + height_index / 10,
+        )
+        for height_index, height in enumerate((1e4, 1e5, 1e6))
+        for k in (1, 2, 3, 4)
+    )
+
+
+def test_offset_attack_gates_have_mutation_teeth(script):
+    heights = (1e4, 1e5, 1e6)
+    diagnostics = _passing_offset_diagnostics(script)
+    assert script.offset_attack_verdict(diagnostics, heights).passed
+
+    mutated = tuple(
+        replace(row, pooled_ratio=1.06)
+        if (row.anchor_height, row.k) == (1e4, 1)
+        else replace(row, pooled_ratio=1.16)
+        if (row.anchor_height, row.k) == (1e5, 3)
+        else replace(row, median_top_one_percent_contribution=0.4)
+        if (row.anchor_height, row.k) == (1e6, 4)
+        else row
+        for row in diagnostics
+    )
+    verdict = script.offset_attack_verdict(mutated, heights)
+    assert not verdict.passed
+    assert not verdict.theorem_controls_passed
+    assert not verdict.conjectural_ratios_passed
+    assert not verdict.concentration_trend_passed
+    assert len(verdict.failures) == 3
+
+
+@pytest.mark.slow
+def test_real_multi_offset_attack_survives_pre_registered_gates(script):
+    rows, diagnostics, verdict, _ = script.multi_offset_attack()
+
+    assert len(rows) == 48 and len(diagnostics) == 12
+    assert verdict.passed
+    assert verdict.failures == ()
+    by_cell = {(row.anchor_height, row.k): row for row in diagnostics}
+    expected_pooled = {
+        1e4: (1.0000, 1.0002, 1.0006, 1.0001),
+        1e5: (1.0003, 0.9986, 0.9866, 0.9633),
+        1e6: (1.0001, 1.0075, 1.0301, 1.0628),
+    }
+    for height, expected in expected_pooled.items():
+        measured = tuple(by_cell[height, k].pooled_ratio for k in (1, 2, 3, 4))
+        assert measured == pytest.approx(expected, abs=1e-4)
+
+    highest_eighth = by_cell[1e6, 4]
+    assert highest_eighth.minimum_ratio == pytest.approx(0.5831, abs=1e-4)
+    assert highest_eighth.maximum_ratio == pytest.approx(1.4362, abs=1e-4)
+    assert highest_eighth.median_top_one_percent_contribution == pytest.approx(
+        0.9912, abs=1e-4
+    )
+
+
+def test_attack_console_reports_fixed_gates_and_scope(script, monkeypatch, capsys):
+    diagnostics = _passing_offset_diagnostics(script)
+    verdict = script.offset_attack_verdict(diagnostics, (1e4, 1e5, 1e6))
+    monkeypatch.setattr(
+        script,
+        "multi_offset_attack",
+        lambda: ((), diagnostics, verdict, 1.0),
+    )
+    monkeypatch.setattr(sys, "argv", [SCRIPT, "--attack"])
+
+    assert script.main() == 0
+    out = capsys.readouterr().out
+    assert "Gates fixed before run" in out
+    assert "VERDICT: SURVIVED" in out
+    assert "not a confidence interval" in out
+    assert "proof of CFKRS" in out
+    assert "evidence for RH" in out
 
 
 def test_emit_requires_a_stated_length():

@@ -533,6 +533,40 @@ window-sensitive. That is a sharp numerical observation, but three selected
 deterministic windows are not a sampling distribution, proof of CFKRS, or
 evidence for RH. Multiple offsets at each height are needed to test window luck.
 
+### Pre-registered multi-offset attack
+
+Before evaluating additional windows, `--attack` fixes three diagnostic gates:
+
+1. pooled 2nd/4th theorem-control ratios must stay within `5%` of one;
+2. pooled 6th/8th conjectural ratios must stay within `15%` of one;
+3. median top-one-percent concentration must rise strictly with height for both
+   the 6th and 8th moments.
+
+Those tolerances are operator-declared falsification thresholds, not
+theorem-derived confidence levels. A mutation test independently forces each
+gate to fail. The real attack then evaluates four consecutive disjoint whole
+windows in each height band: 12 windows and about 9.2 million finest-grid
+points, without changing the gates.
+
+All three gates pass. The pooled ratios are:
+
+| height | 2nd | 4th | 6th | 8th |
+| ---: | ---: | ---: | ---: | ---: |
+| `10⁴` | `1.0000` | `1.0002` | `1.0006` | `1.0001` |
+| `10⁵` | `1.0003` | `0.9986` | `0.9866` | `0.9633` |
+| `10⁶` | `1.0001` | `1.0075` | `1.0301` | `1.0628` |
+
+The strongest stress case is the 8th moment at `10⁶`: individual whole-window
+ratios range from `0.5831` to `1.4362`, while their pooled ratio is `1.0628` and
+their median top-one-percent contribution is `99.12%`. Pooling disjoint windows
+recovers the aggregate prediction even when any one spike-dominated window can
+miss badly.
+
+Under this fixed deterministic protocol, the candidate pattern survives:
+increasing peak concentration coexists with stable pooled full-polynomial
+moments. This is a successful numerical falsification attempt, not a p-value,
+proof of CFKRS, claim of novelty, or evidence for RH.
+
 [odlyzko-index]: https://www-users.cse.umn.edu/~odlyzko/zeta_tables/index.html
 [lmfdb-route]: https://github.com/LMFDB/lmfdb/blob/main/lmfdb/zeros/zeta/zetazeros.py
 [lmfdb-reader]: https://github.com/LMFDB/lmfdb/blob/main/lmfdb/zeros/zeta/platt_zeros.py

@@ -76,6 +76,12 @@ points per gap, so height changes without silently changing nominal zero count
 or grid resolution. These are three deterministic windows, not repeated random
 trials.
 
+With ``--attack``, four consecutive non-overlapping whole windows are run in
+each height band. Three gates are fixed in code before evaluation: 5% pooled
+tolerance for the theorem controls, 15% for conjectural ratios, and strictly
+rising median top-one-percent concentration for the 6th and 8th moments. The
+candidate pattern is rejected if any gate fails; survival is still not proof.
+
 Nothing here settles, supports or weakens the Riemann Hypothesis, and finite
 moment measurements could not do so in principle.
 
@@ -88,6 +94,7 @@ Usage
     .venv/bin/python scripts/14_moment_experiment.py --start 1e5 --length 4e3 \
         --blocks 8
     .venv/bin/python scripts/14_moment_experiment.py --replicate
+    .venv/bin/python scripts/14_moment_experiment.py --attack
     .venv/bin/python scripts/14_moment_experiment.py --emit data/samples.txt.gz \
         --emit-length 100 --emit-error-estimate 1e-8
 
@@ -130,6 +137,8 @@ EULER_GAMMA = mp.euler
 # Chunk width for the streaming sweep.  40e6 float64 samples would be 320 MB per
 # temporary array; chunking keeps the peak in the low hundreds of megabytes.
 CHUNK = 2_000_000
+OFFSET_THEOREM_TOLERANCE = 0.05
+OFFSET_CONJECTURAL_TOLERANCE = 0.15
 
 
 @dataclass(frozen=True)
@@ -203,6 +212,47 @@ class HeightReplicationRow:
     block_ratio_coefficient_of_variation: float
     top_tenth_percent_contribution: float
     top_one_percent_contribution: float
+
+
+@dataclass(frozen=True)
+class OffsetReplicationRow:
+    """One whole-window result in the pre-registered offset attack."""
+
+    anchor_height: float
+    window_index: int
+    interval_start: float
+    interval_end: float
+    k: int
+    measured_integral: float
+    predicted_integral: float
+    ratio: float
+    block_ratio_coefficient_of_variation: float
+    top_one_percent_contribution: float
+
+
+@dataclass(frozen=True)
+class OffsetDiagnostic:
+    """Observed whole-window spread at one anchor and moment order."""
+
+    anchor_height: float
+    k: int
+    pooled_ratio: float
+    median_ratio: float
+    minimum_ratio: float
+    maximum_ratio: float
+    ratio_coefficient_of_variation: float
+    median_top_one_percent_contribution: float
+
+
+@dataclass(frozen=True)
+class OffsetAttackVerdict:
+    """Result of the fixed gates declared before the multi-offset run."""
+
+    passed: bool
+    theorem_controls_passed: bool
+    conjectural_ratios_passed: bool
+    concentration_trend_passed: bool
+    failures: tuple[str, ...]
 
 
 def random_matrix_factor(k: int) -> mp.mpf:
@@ -767,6 +817,190 @@ def multi_height_study(
     return tuple(rows), elapsed
 
 
+def offset_attack_verdict(
+    diagnostics: tuple[OffsetDiagnostic, ...],
+    anchor_heights: tuple[float, ...],
+) -> OffsetAttackVerdict:
+    """Apply the fixed multi-offset gates to a complete diagnostic matrix."""
+
+    by_cell = {(row.anchor_height, row.k): row for row in diagnostics}
+    expected = {(height, k) for height in anchor_heights for k in (1, 2, 3, 4)}
+    if set(by_cell) != expected:
+        raise ValueError("offset verdict requires every moment at every anchor height")
+    theorem_controls_passed = all(
+        abs(by_cell[height, k].pooled_ratio - 1) <= OFFSET_THEOREM_TOLERANCE
+        for height in anchor_heights
+        for k in (1, 2)
+    )
+    conjectural_ratios_passed = all(
+        abs(by_cell[height, k].pooled_ratio - 1) <= OFFSET_CONJECTURAL_TOLERANCE
+        for height in anchor_heights
+        for k in (3, 4)
+    )
+    concentration_trend_passed = all(
+        all(
+            left < right
+            for left, right in pairwise(
+                [
+                    by_cell[height, k].median_top_one_percent_contribution
+                    for height in anchor_heights
+                ]
+            )
+        )
+        for k in (3, 4)
+    )
+    failures = []
+    if not theorem_controls_passed:
+        failures.append("theorem controls exceeded 5% pooled-ratio tolerance")
+    if not conjectural_ratios_passed:
+        failures.append("conjectural rows exceeded 15% pooled-ratio tolerance")
+    if not concentration_trend_passed:
+        failures.append("median high-moment concentration did not rise with height")
+    return OffsetAttackVerdict(
+        passed=not failures,
+        theorem_controls_passed=theorem_controls_passed,
+        conjectural_ratios_passed=conjectural_ratios_passed,
+        concentration_trend_passed=concentration_trend_passed,
+        failures=tuple(failures),
+    )
+
+
+def multi_offset_attack(
+    anchor_heights: tuple[float, ...] = (1e4, 1e5, 1e6),
+    *,
+    windows_per_height: int = 4,
+    zero_gaps: int = 6_000,
+    points_per_gap: int = 128,
+    blocks: int = 8,
+) -> tuple[
+    tuple[OffsetReplicationRow, ...],
+    tuple[OffsetDiagnostic, ...],
+    OffsetAttackVerdict,
+    float,
+]:
+    """Run the pre-registered disjoint-window attack on the candidate pattern.
+
+    Gates fixed in module constants before the first run:
+
+    * pooled theorem-control ratios (2nd/4th) stay within 5% of one;
+    * pooled conjectural ratios (6th/8th) stay within 15% of one;
+    * median top-one-percent concentration for both 6th and 8th moments rises
+      strictly from one anchor height to the next.
+
+    Windows are consecutive and disjoint within each height band.  The verdict
+    is a deterministic protocol result, not a p-value, proof, or certificate.
+    """
+
+    if (
+        not anchor_heights
+        or any(not math.isfinite(height) or height < 50 for height in anchor_heights)
+        or tuple(sorted(set(anchor_heights))) != anchor_heights
+    ):
+        raise ValueError(
+            "anchor_heights must be unique increasing finite values at least 50"
+        )
+    if (
+        isinstance(windows_per_height, bool)
+        or not isinstance(windows_per_height, int)
+        or windows_per_height < 2
+    ):
+        raise ValueError("windows_per_height must be an integer at least 2")
+    if isinstance(zero_gaps, bool) or not isinstance(zero_gaps, int) or zero_gaps < 2:
+        raise ValueError("zero_gaps must be an integer at least 2")
+    if (
+        isinstance(points_per_gap, bool)
+        or not isinstance(points_per_gap, int)
+        or points_per_gap < 2
+    ):
+        raise ValueError("points_per_gap must be an integer at least 2")
+    intervals = zero_gaps * points_per_gap
+    if isinstance(blocks, bool) or not isinstance(blocks, int) or blocks < 2:
+        raise ValueError("blocks must be an integer at least 2")
+    if intervals % blocks:
+        raise ValueError("zero_gaps * points_per_gap must be divisible by blocks")
+
+    rows = []
+    elapsed = 0.0
+    for anchor_height in anchor_heights:
+        window_start = anchor_height
+        for window_index in range(windows_per_height):
+            mean_zero_gap = 2 * math.pi / math.log(window_start / (2 * math.pi))
+            spacing = mean_zero_gap / points_per_gap
+            window_length = mean_zero_gap * zero_gaps
+            block_rows, peaks, _, run_elapsed = block_peak_sweep(
+                window_start,
+                window_length,
+                spacing,
+                blocks=blocks,
+            )
+            elapsed += run_elapsed
+            diagnostics = {item.k: item for item in block_diagnostics(block_rows)}
+            top_one = {
+                item.k: item.contribution_fraction
+                for item in peaks
+                if math.isclose(item.interval_fraction, 0.01)
+            }
+            window_end = window_start + window_length
+            for k in (1, 2, 3, 4):
+                k_rows = tuple(row for row in block_rows if row.k == k)
+                measured_integral = sum(row.integral for row in k_rows)
+                predicted_integral = sum(
+                    row.polynomial_mean * (row.interval_end - row.interval_start)
+                    for row in k_rows
+                )
+                rows.append(
+                    OffsetReplicationRow(
+                        anchor_height=anchor_height,
+                        window_index=window_index,
+                        interval_start=window_start,
+                        interval_end=window_end,
+                        k=k,
+                        measured_integral=measured_integral,
+                        predicted_integral=predicted_integral,
+                        ratio=measured_integral / predicted_integral,
+                        block_ratio_coefficient_of_variation=(
+                            diagnostics[k].block_ratio_coefficient_of_variation
+                        ),
+                        top_one_percent_contribution=top_one[k],
+                    )
+                )
+            window_start = window_end
+
+    diagnostics = []
+    for anchor_height in anchor_heights:
+        for k in (1, 2, 3, 4):
+            selected = tuple(
+                row
+                for row in rows
+                if row.anchor_height == anchor_height and row.k == k
+            )
+            ratios = np.array([row.ratio for row in selected])
+            diagnostics.append(
+                OffsetDiagnostic(
+                    anchor_height=anchor_height,
+                    k=k,
+                    pooled_ratio=(
+                        sum(row.measured_integral for row in selected)
+                        / sum(row.predicted_integral for row in selected)
+                    ),
+                    median_ratio=float(np.median(ratios)),
+                    minimum_ratio=float(np.min(ratios)),
+                    maximum_ratio=float(np.max(ratios)),
+                    ratio_coefficient_of_variation=(
+                        float(np.std(ratios, ddof=1)) / abs(float(np.mean(ratios)))
+                    ),
+                    median_top_one_percent_contribution=float(
+                        np.median(
+                            [row.top_one_percent_contribution for row in selected]
+                        )
+                    ),
+                )
+            )
+
+    verdict = offset_attack_verdict(tuple(diagnostics), anchor_heights)
+    return tuple(rows), tuple(diagnostics), verdict, elapsed
+
+
 def accuracy_probe(start: float, length: float, samples: int = 12) -> float:
     """Largest observed ``|Z_fast - mpmath.siegelz|`` over a spread of the window."""
 
@@ -799,6 +1033,11 @@ def main() -> int:
         "--replicate",
         action="store_true",
         help="run the fixed 10^4/10^5/10^6 height-normalized replication matrix",
+    )
+    parser.add_argument(
+        "--attack",
+        action="store_true",
+        help="run four disjoint whole-window attacks in each height band",
     )
     parser.add_argument("--emit", type=Path, default=None, help="write sample rows")
     parser.add_argument(
@@ -838,8 +1077,12 @@ def main() -> int:
         parser.error("--blocks and --emit are separate acquisition modes")
     if args.convergence and args.blocks:
         parser.error("--convergence and --blocks are separate study modes")
-    if args.replicate and (args.emit is not None or args.convergence or args.blocks):
+    if args.replicate and (
+        args.emit is not None or args.convergence or args.blocks or args.attack
+    ):
         parser.error("--replicate is a separate study mode")
+    if args.attack and (args.emit is not None or args.convergence or args.blocks):
+        parser.error("--attack is a separate study mode")
     if args.blocks < 0 or args.blocks == 1:
         parser.error("--blocks must be 0 (disabled) or an integer at least 2")
     if args.convergence and (intervals < 16 or intervals % 4):
@@ -899,6 +1142,44 @@ def main() -> int:
         print(f"finest-grid evaluation time: {elapsed:.1f}s")
         print("Deterministic windows only: replication is not a confidence interval,")
         print("a proof of CFKRS, or evidence for RH.")
+        return 0
+
+    if args.attack:
+        rows, diagnostics, verdict, elapsed = multi_offset_attack()
+        del rows
+        print("Pre-registered multi-offset attack")
+        print("=" * 88)
+        print("4 consecutive disjoint windows per height; each has 6,000 nominal gaps,")
+        print("128 points/gap and 8 internal blocks.")
+        print("Gates fixed before run:")
+        print("  theorem controls: pooled 2nd/4th ratios within 5% of one")
+        print("  conjectural rows: pooled 6th/8th ratios within 15% of one")
+        print("  concentration: median top-1% share rises with height for 6th and 8th")
+        print()
+        print(
+            f"  {'height':>8}  {'2k':>3}  {'pooled':>8}  {'median':>8}  "
+            f"{'min':>8}  {'max':>8}  {'window CV':>10}  {'median top 1%':>13}"
+        )
+        for item in diagnostics:
+            print(
+                f"  {item.anchor_height:>8.0e}  {2 * item.k:>3}  "
+                f"{item.pooled_ratio:>8.4f}  {item.median_ratio:>8.4f}  "
+                f"{item.minimum_ratio:>8.4f}  {item.maximum_ratio:>8.4f}  "
+                f"{item.ratio_coefficient_of_variation:>9.2%}  "
+                f"{item.median_top_one_percent_contribution:>12.2%}"
+            )
+        print()
+        print(f"theorem-control gate:     {'PASS' if verdict.theorem_controls_passed else 'FAIL'}")
+        conjectural_status = "PASS" if verdict.conjectural_ratios_passed else "FAIL"
+        concentration_status = "PASS" if verdict.concentration_trend_passed else "FAIL"
+        print(f"conjectural-ratio gate:   {conjectural_status}")
+        print(f"concentration-trend gate: {concentration_status}")
+        print(f"VERDICT: {'SURVIVED' if verdict.passed else 'REJECTED'}")
+        for failure in verdict.failures:
+            print(f"  failure: {failure}")
+        print(f"finest-grid evaluation time: {elapsed:.1f}s")
+        print("This deterministic attack is not a confidence interval, proof of CFKRS,")
+        print("or evidence for RH.")
         return 0
 
     start, length, spacing = args.start, args.length, args.spacing

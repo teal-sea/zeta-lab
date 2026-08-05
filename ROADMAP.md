@@ -213,7 +213,16 @@ rises `90.25% → 96.52% → 98.96%`, and its block-ratio CV rises
 volatility increase; three deterministic windows still do not form a sampling
 distribution.
 
-**Next code build:** multiple disjoint starting offsets at each height. Measure
-the empirical spread of aggregate ratios across whole windows, without calling
-the deterministic set independent or converting it into a confidence interval.
-This is the direct test of whether the three-height agreement is window luck.
+**Ninth increment shipped.** Before new evaluation, three falsification gates
+were fixed: 5% pooled tolerance for theorem controls, 15% for conjectural rows,
+and strictly increasing median high-moment concentration with height. Four
+disjoint whole windows per height (about 9.2 million points) pass all gates. At
+`10⁶`, individual eighth-moment ratios range `0.5831–1.4362`, but pooling returns
+`1.0628`; median top-one-percent concentration is `99.12%`. Mutation tests force
+all three gate paths to fail. The candidate pattern survives this deterministic
+attack, which is not a confidence interval, proof, novelty claim, or RH evidence.
+
+**Next code build:** an exposure-scaling attack at multiple nominal window sizes,
+plus a literature/novelty audit before registering any new empirical conjecture.
+Test whether pooled ratios stabilize as exposure grows while peak concentration
+persists; do not mistake a finite-height reformulation of CFKRS for a new result.
