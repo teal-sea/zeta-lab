@@ -50,6 +50,8 @@ from zeta.surrogate import (  # noqa: E402
     interval_statistics,
     primes_up_to,
     sample_euler_intensity,
+    sample_euler_log_field,
+    sample_field,
     sample_intensity,
 )
 
@@ -221,6 +223,64 @@ def run_comparison() -> None:
     )
 
 
+def tail_profile(height: float, *, seed: int = SEED) -> dict[str, dict[str, float]]:
+    """Variance, median and upper quantiles of ``log|f|`` for zeta and both nulls.
+
+    High moments are governed by the upper tail alone, so comparing variances is
+    misleading for a function with zeros: ``log|zeta|`` diverges to minus
+    infinity at every zero, which inflates the variance from the left while
+    saying nothing about the peaks.  Both surrogates are zero-free by
+    construction and cannot reproduce that left tail at all.  This profile
+    separates the two sides so the comparison is made where it matters.
+    """
+
+    ts, spacing = grid_for(height)
+    primes = primes_up_to(int(height))
+    null_ts = np.arange(len(ts)) * spacing
+
+    zeta_log = np.log(np.abs(riemann_siegel_z(ts)))
+    fields = {
+        "zeta": zeta_log[np.isfinite(zeta_log)],
+        "first-order": sample_field(null_ts, primes, seed=seed),
+        "euler": sample_euler_log_field(null_ts, primes, seed=seed),
+    }
+    profile = {}
+    for name, values in fields.items():
+        median, p99, p999 = np.percentile(values, [50, 99, 99.9])
+        profile[name] = {
+            "variance": float(np.var(values)),
+            "median": float(median),
+            "p99": float(p99),
+            "p999": float(p999),
+            "max": float(np.max(values)),
+        }
+    return profile
+
+
+def run_tails() -> None:
+    """Print the tail profile at each height beside the Selberg variance."""
+
+    for height in HEIGHTS:
+        selberg = 0.5 * math.log(math.log(height))
+        print(f"t = {height:g}   Selberg (1/2) log log T = {selberg:.4f}")
+        print(
+            f"  {'field':>12}  {'variance':>9}  {'median':>8}"
+            f"  {'p99':>8}  {'p99.9':>8}  {'max':>8}"
+        )
+        for name, row in tail_profile(height).items():
+            print(
+                f"  {name:>12}  {row['variance']:>9.4f}  {row['median']:>8.4f}"
+                f"  {row['p99']:>8.4f}  {row['p999']:>8.4f}  {row['max']:>8.4f}"
+            )
+        print()
+    print(
+        "A larger variance for zeta alongside a smaller upper tail is the\n"
+        "signature of the zeros: they pull the left tail down without adding\n"
+        "peaks.  Calibrating a zero-free surrogate to match zeta's variance\n"
+        "would therefore widen its upper tail and worsen the comparison."
+    )
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
@@ -228,9 +288,16 @@ def main() -> int:
         action="store_true",
         help="check the reusable statistic against the pinned zeta pipeline",
     )
+    parser.add_argument(
+        "--tails",
+        action="store_true",
+        help="compare variance and upper quantiles of log|f| instead of moments",
+    )
     args = parser.parse_args()
     if args.verify:
         verify_adapter()
+    elif args.tails:
+        run_tails()
     else:
         run_comparison()
     return 0

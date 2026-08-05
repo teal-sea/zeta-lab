@@ -273,6 +273,40 @@ def test_euler_intensity_moment_matches_a_direct_expansion():
         )
 
 
+def test_tail_profile_separates_variance_from_the_upper_tail():
+    """Pin the measured split: zeta is wider overall but shorter at the top.
+
+    ``log|zeta|`` diverges at every zero, so its variance exceeds both zero-free
+    surrogates while its upper quantiles fall below them.  High moments depend
+    only on the upper tail, so this is the direction that matters and it is
+    pinned here rather than described.
+    """
+
+    import importlib.util
+    import sys
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parent.parent
+    path = root / "scripts" / "15_null_control.py"
+    spec = importlib.util.spec_from_file_location("null_control_for_tails", path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+
+    profile = module.tail_profile(1e4)
+    assert profile["zeta"]["variance"] == pytest.approx(1.7149, abs=1e-3)
+    assert profile["first-order"]["variance"] == pytest.approx(1.2592, abs=1e-3)
+    assert profile["euler"]["variance"] == pytest.approx(1.2998, abs=1e-3)
+    assert profile["zeta"]["p999"] == pytest.approx(2.7039, abs=1e-3)
+    assert profile["first-order"]["p999"] == pytest.approx(3.6277, abs=1e-3)
+
+    for null in ("first-order", "euler"):
+        assert profile["zeta"]["variance"] > profile[null]["variance"]
+        assert profile["zeta"]["p99"] < profile[null]["p99"]
+        assert profile["zeta"]["p999"] < profile[null]["p999"]
+        assert profile["zeta"]["max"] < profile[null]["max"]
+
+
 def test_surrogate_concentration_rises_with_moment_order():
     """The null's own concentration ordering, the pattern under audit.
 
