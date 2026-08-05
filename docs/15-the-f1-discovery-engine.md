@@ -70,11 +70,19 @@ We attempted to build this same graph for the Davenport-Heilbronn (DH) imposter 
 
 ---
 
-## 🛑 Reality Check (The Perplexity Critique)
-It is crucial to dial back the rhetorical hype of this computational exploration. As correctly pointed out by rigorous mathematical analysis (and our AI sanity-checks):
+## 🛑 Reality Check (The Perplexity & Fable Critiques)
+It is crucial to dial back the rhetorical hype of this computational exploration. As correctly pointed out by rigorous mathematical analysis (and our AI sanity-checks from Perplexity and Fable):
 
 1. **This is a Toy Model, Not a Proof:** We have built finite numerical matrices that *simulate* heuristics. We have mathematically proven nothing about the actual Riemann Hypothesis. 
-2. **The Continuous Spectrum Dead-End:** The fact that our frequencies are crawling at $1.937$ instead of hitting the target $77.145$ is a known failure of the naive Berry-Keating operator. Rigorous papers have proven that naive $H=xp$ on $L^2(\mathbb{R}_+)$ yields a *continuous* spectrum. Our finite truncation forces discrete eigenvalues, but they do not (and likely cannot) converge to the Riemann zeros. We are visualizing a known dead-end, not solving it.
+2. **The Continuous Spectrum Dead-End:** The fact that our frequencies are crawling at $1.937$ instead of hitting the target $77.145$ is a known failure of the naive Berry-Keating operator. Rigorous papers have proven that naive $H=xp$ on $L^2(\mathbb{R}_+)$ yields a *continuous* spectrum. Our finite truncation forces discrete eigenvalues, but they do not (and likely cannot) converge to the Riemann zeros. Fable correctly points out that our model fails on density: we have dozens of frequencies below 17.7, where $\zeta$ only has one zero ($14.13$).
 3. **$\mathbb{F}_1$ is Speculative:** Deninger's $\mathbb{F}_1$ geometry is a deeply speculative, unproven frontier in arithmetic geometry. Calling our $400 \times 400$ matrix a "functioning model" is a massive rhetorical leap. It is simply a computational curve-fitting exercise inspired by Deninger's ideas.
+4. **The "Imposter Gauntlet" is Vacuous:** The claim that our matrix "structurally rejects" Davenport-Heilbronn is mathematically empty. The construction never actually consults $\zeta$; it just hardcodes the prime numbers. A predicate that ignores its input will return the same verdict for anything. It doesn't "reject" DH; it just completely ignores it.
+5. **The $\ln(2)$ Eigenvalue Artifact:** In `04_transcendental_matrix.py`, we hyped up the fact that $\ln(2)$ appeared as a degenerate eigenvalue. Fable correctly identifies this as a known truncation artifact caused by primes near the boundary cutoff $N$ (specifically with multiplicity $\pi(N/2) - \pi(N/3) - 1$). It is a boundary effect, not a deep resonance.
 
-**Conclusion:** The `discovery/` lab successfully translates abstract geometric and physical heuristics (Berry-Keating, Antisymmetry, prime-graphs) into raw, executable Python. It provides a fascinating, hands-on visualization of *why* the Riemann Hypothesis is so structurally rigid, and *why* operators fail to produce the zeros. But it remains a numerical sandbox, not a rigorous proof engine.
+### The Honest Scorecard
+If we run our matrices against the rigorous Gates we defined earlier in the project, the scorecard is humbling:
+- **Gate 4 (Euler Product Must Be Structural):** ✅ Pass by design. The primes are structurally the edges.
+- **Gates 1 & 2 (Classical Math & Weil Positivity):** ❌ Stuck. Nothing classical comes out (no functional equation, no Prime Number Theorem), and there is no positivity slot. 
+- **Gate 3 (The Counterexample Gauntlet):** ➖ N/A. No claim yet reaches the battery to be tested.
+
+**Conclusion:** We are stuck at Gates 1 and 2, exactly like Deninger, Connes, and the $\mathbb{F}_1$ theorists (just without their immense mathematical machinery). The `discovery/` lab successfully translates abstract geometric and physical heuristics (Berry-Keating, Antisymmetry, prime-graphs) into raw, executable Python, providing a fascinating visualization of *why* operators fail to produce the zeros. But the write-up must be clear: no claim yet reaches the rigorous battery.
