@@ -242,3 +242,13 @@ of what geometry *is*, and there is no reason to expect round two to be cheaper.
 - **In code:** `zeta.explicit.prime_spectrum` recovers the primes as spectral peaks from nothing but
   zero ordinates — the closest thing this laboratory has to *hearing* the conjectural flow; and
   `zeta.heatflow.track_zeros` runs the one dynamics on `Xi` that actually exists today.
+- **`scripts/17_f1_fingerprints.py`** — Section 3's Tits fingerprints computed rather than quoted
+  (`|P^{n-1}| -> n`, flags `-> |S_n|`, `Gr(2,4) -> 6`), followed by a measurement that matters when
+  this story is retold informally: the archimedean factor sometimes quoted as
+  `s (2 pi)^{-s/2} Gamma(s/2)` has functional-equation defect `0.057` at `s = 0.3 + 7.1i`, against
+  `1.6e-28` for the correct `pi^{-s/2} Gamma(s/2)`. It conflates `Gamma_R` with `Gamma_C` and drops
+  the `s(s-1)/2`. Quote the factor that passes the test. The script closes by running the Gate 3
+  check of Section 5 against Davenport–Heilbronn.
+- **`scripts/11_finite_field_rh.py`** — Section 1's template where it is a theorem; the eigenvalue
+  reading of `Re(s) = 1/2` is literal there, since `s = log(alpha)/log(p)` turns `|alpha| = sqrt(p)`
+  into `Re(s) = 1/2`.
