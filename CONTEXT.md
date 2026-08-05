@@ -361,17 +361,23 @@ Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 
 ### `zeta/spectral_gate.py` — Falsifiers for a claimed spectral realisation of the Riemann zeros.
 
-*288 lines*
+*496 lines*
 
-Constants: `STABILITY_TOLERANCE`, `TARGET_TOLERANCE`, `ABLATION_TOLERANCE`, `PERMUTATION_TOLERANCE`, `FIRST_ORDINATES`
+Constants: `STABILITY_TOLERANCE`, `TARGET_TOLERANCE`, `ABLATION_TOLERANCE`, `PERMUTATION_TOLERANCE`, `FIRST_ORDINATES`, `GROWTH_RATIO_TOLERANCE`, `COUNT_PREDICTION_TOLERANCE`
 
 - `class SpectralVerdict` — Outcome of the three pre-declared falsifiers.
+- `class CountingVerdict` — Outcome of the counting falsifiers for a cokernel-dimension model.
 - `positive_frequencies(matrix: np.ndarray, count: int) -> np.ndarray` — The ``count`` smallest positive imaginary parts of the spectrum.
 - `stability_defect(construct: Callable[[int, Sequence[int]], np.ndarray], primes: Sequence[int], basis_size: int, count: int = 3) -> float` — Relative drift of the lowest frequencies between ``N`` and ``2N``.
 - `target_defect(matrix: np.ndarray, count: int = 3) -> tuple[float, tuple[float, ...]]` — Largest relative error of the lowest frequencies against the ordinates.
 - `ablation_defect(construct: Callable[[int, Sequence[int]], np.ndarray], primes: Sequence[int], decoys: Sequence[int], basis_size: int, count: int = 3) -> float` — Relative spectral change when the primes are swapped for ``decoys``.
 - `permutation_defect(construct: Callable[[int, Sequence[int]], np.ndarray], primes: Sequence[int], basis_size: int, count: int = 3, trials: int = 3, seed: int = 20260805) -> float` — Largest relative spectral change when the prime list is reordered.
 - `spectral_gate(construct: Callable[[int, Sequence[int]], np.ndarray], primes: Sequence[int], decoys: Sequence[int], basis_size: int, count: int = 3) -> SpectralVerdict` — Run all four falsifiers and report which, if any, fired.
+- `count_growth_ratio(count: Callable[[float, Sequence[int]], int], primes: Sequence[int], base_cutoff: float) -> float` — Increment ratio across geometric cutoffs, which must be ``2``.
+- `count_prediction_defect(count: Callable[[float, Sequence[int]], int], primes: Sequence[int], cutoffs: Sequence[float]) -> float` — Calibrate ``dim = a log(Lambda) + b`` on all but the last cutoff, predict it.
+- `count_ablation_defect(count: Callable[[float, Sequence[int]], int], primes: Sequence[int], decoys: Sequence[int], cutoff: float) -> float` — Relative change in the resolved count when the primes become decoys.
+- `count_permutation_defect(count: Callable[[float, Sequence[int]], int], primes: Sequence[int], cutoff: float, trials: int = 3, seed: int = 20260805) -> float` — Relative change in the count when the same primes are reordered.
+- `counting_gate(count: Callable[[float, Sequence[int]], int], primes: Sequence[int], decoys: Sequence[int], cutoffs: Sequence[float]) -> CountingVerdict` — Run the counting falsifiers on a cokernel-dimension model.
 
 ### `zeta/surrogate.py` — Null-model surrogates for the critical-line value distribution.
 
@@ -454,7 +460,7 @@ Constants: `STABILITY_TOLERANCE`, `TARGET_TOLERANCE`, `ABLATION_TOLERANCE`, `PER
 
 ## Tests (`tests/`)
 
-1109 test functions across 23 files (the collected count differs where tests are parametrised):
+1115 test functions across 23 files (the collected count differs where tests are parametrised):
 
 - `tests/test_core.py` — 97
 - `tests/test_criteria.py` — 75
@@ -474,7 +480,7 @@ Constants: `STABILITY_TOLERANCE`, `TARGET_TOLERANCE`, `ABLATION_TOLERANCE`, `PER
 - `tests/test_rigor.py` — 50
 - `tests/test_script_13_discovery_run.py` — 33
 - `tests/test_script_14_moment_experiment.py` — 26
-- `tests/test_spectral_gate.py` — 8
+- `tests/test_spectral_gate.py` — 14
 - `tests/test_statistics.py` — 54
 - `tests/test_surrogate.py` — 23
 - `tests/test_weil.py` — 37

@@ -198,3 +198,102 @@ def test_verdict_reports_every_failure_that_fired():
     assert any("unstable" in f for f in verdict.failures)
     assert any("off target" in f for f in verdict.failures)
     assert any("order-dependent" in f for f in verdict.failures)
+
+
+# ---------------------------------------------------------------------------
+# Counting gates -- the cokernel's first falsifiable prediction is a dimension
+# ---------------------------------------------------------------------------
+
+def test_counting_gate_is_passable():
+    """A count obeying the predicted law clears all four counting gates."""
+    from zeta.spectral_gate import counting_gate
+
+    module = _load_script()
+    verdict = counting_gate(
+        module.logarithmic_count, module.PRIMES, module.DECOYS, module.CUTOFFS
+    )
+    assert verdict.growth_ratio == pytest.approx(2.0, abs=1e-9)
+    assert verdict.prediction == pytest.approx(0.0, abs=1e-9)
+    assert verdict.logarithmic and verdict.predictive
+    assert verdict.arithmetic_dependent and verdict.order_independent
+    assert verdict.passed
+
+
+def test_linear_growth_is_rejected():
+    """A count growing with the cutoff, not its logarithm."""
+    from zeta.spectral_gate import counting_gate
+
+    module = _load_script()
+    verdict = counting_gate(
+        module.linear_count, module.PRIMES, module.DECOYS, module.CUTOFFS
+    )
+    assert verdict.growth_ratio > 4.0
+    assert not verdict.logarithmic and not verdict.predictive
+    assert not verdict.passed
+    assert any("not logarithmic" in f for f in verdict.failures)
+
+
+def test_prime_blind_count_is_rejected():
+    """Right growth law, but the arithmetic never enters."""
+    from zeta.spectral_gate import counting_gate
+
+    module = _load_script()
+    verdict = counting_gate(
+        module.prime_blind_count, module.PRIMES, module.DECOYS, module.CUTOFFS
+    )
+    assert verdict.logarithmic
+    assert verdict.ablation == pytest.approx(0.0, abs=1e-12)
+    assert not verdict.arithmetic_dependent
+    assert not verdict.passed
+
+
+def test_order_keyed_count_is_rejected():
+    """Prime-dependent, but on list position rather than on the set."""
+    from zeta.spectral_gate import counting_gate
+
+    module = _load_script()
+    verdict = counting_gate(
+        module.order_sensitive_count, module.PRIMES, module.DECOYS, module.CUTOFFS
+    )
+    assert verdict.arithmetic_dependent
+    assert verdict.permutation > 0.05
+    assert not verdict.order_independent
+    assert not verdict.passed
+
+
+def test_growth_ratio_needs_no_normalisation_constant():
+    """Scaling every count by a constant must not change the growth ratio.
+
+    This is what lets the gate run without a remembered dictionary between the
+    cutoff and the height it resolves.
+    """
+    from zeta.spectral_gate import count_growth_ratio
+
+    module = _load_script()
+    plain = count_growth_ratio(module.logarithmic_count, module.PRIMES, 2.0)
+
+    def scaled(cutoff: float, primes: Sequence[int]) -> int:
+        return 37 * module.logarithmic_count(cutoff, primes)
+
+    assert count_growth_ratio(scaled, module.PRIMES, 2.0) == pytest.approx(plain)
+
+
+def test_prediction_gate_scores_a_held_out_cutoff():
+    """The last cutoff is never used to fit, so tuning cannot satisfy it."""
+    from zeta.spectral_gate import count_prediction_defect
+
+    module = _load_script()
+
+    def breaks_at_the_end(cutoff: float, primes: Sequence[int]) -> int:
+        value = module.logarithmic_count(cutoff, primes)
+        return value * 2 if cutoff >= module.CUTOFFS[-1] else value
+
+    honest = count_prediction_defect(
+        module.logarithmic_count, module.PRIMES, module.CUTOFFS
+    )
+    tampered = count_prediction_defect(breaks_at_the_end, module.PRIMES, module.CUTOFFS)
+    assert honest == pytest.approx(0.0, abs=1e-9)
+    assert tampered > 0.4
+
+    with pytest.raises(ValueError):
+        count_prediction_defect(module.logarithmic_count, module.PRIMES, (2.0, 4.0))

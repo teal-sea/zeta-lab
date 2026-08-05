@@ -51,6 +51,14 @@ __all__ = [
     "ablation_defect",
     "permutation_defect",
     "spectral_gate",
+    "CountingVerdict",
+    "GROWTH_RATIO_TOLERANCE",
+    "COUNT_PREDICTION_TOLERANCE",
+    "count_growth_ratio",
+    "count_prediction_defect",
+    "count_ablation_defect",
+    "count_permutation_defect",
+    "counting_gate",
 ]
 
 #: Relative drift permitted between a basis and its double before the
@@ -282,6 +290,206 @@ def spectral_gate(
         permutation=permutation,
         stable=stability <= STABILITY_TOLERANCE,
         on_target=target <= TARGET_TOLERANCE,
+        arithmetic_dependent=ablation >= ABLATION_TOLERANCE,
+        order_independent=permutation <= PERMUTATION_TOLERANCE,
+        failures=tuple(failures),
+    )
+
+
+# ---------------------------------------------------------------------------
+# Counting gates: the cokernel's first falsifiable prediction is a dimension
+#
+# In the Connes picture the zeros are an absorption spectrum -- what is missing
+# from a continuous spectrum after quotienting -- so the first thing a finite
+# model can be asked for is not a list of ordinates but the *number* of them it
+# resolves.  That is a matrix rank, and it is checkable against the zero
+# counting function the laboratory already computes.
+#
+# No dictionary between the cutoff and the height it resolves is written down
+# here.  Fixing that constant from memory would be exactly the habit the
+# repository forbids, and it would also turn the check into a fit.  Instead the
+# relation is calibrated on some cutoffs and required to *predict* a held-out
+# one, so the constant is derived and the test stays severe.
+# ---------------------------------------------------------------------------
+
+#: Permitted departure from the ratio 2 in the increment test below.
+GROWTH_RATIO_TOLERANCE: float = 0.15
+
+#: Permitted relative error when the calibrated law predicts a held-out cutoff.
+COUNT_PREDICTION_TOLERANCE: float = 0.05
+
+
+def count_growth_ratio(
+    count: Callable[[float, Sequence[int]], int],
+    primes: Sequence[int],
+    base_cutoff: float,
+) -> float:
+    """Increment ratio across geometric cutoffs, which must be ``2``.
+
+    Connes' trace formula makes the resolved count grow like ``2 log(Lambda)``.
+    Taking cutoffs ``L``, ``L^2``, ``L^4`` doubles ``log Lambda`` at each step,
+    so a logarithmic law gives increments in the ratio ``1 : 2`` and this
+    returns ``2``.  A count growing linearly in the cutoff returns something
+    far larger; a saturating count returns something near zero.
+
+    The virtue of the ratio is that every normalising constant cancels, so no
+    remembered dictionary between cutoff and height enters.
+    """
+
+    first = count(base_cutoff, primes)
+    second = count(base_cutoff ** 2, primes)
+    third = count(base_cutoff ** 4, primes)
+    lower = float(second - first)
+    upper = float(third - second)
+    if abs(lower) < 1e-12:
+        return float("inf") if abs(upper) > 1e-12 else 0.0
+    return upper / lower
+
+
+def count_prediction_defect(
+    count: Callable[[float, Sequence[int]], int],
+    primes: Sequence[int],
+    cutoffs: Sequence[float],
+) -> float:
+    """Calibrate ``dim = a log(Lambda) + b`` on all but the last cutoff, predict it.
+
+    The held-out point is never used to fit, so this cannot be satisfied by
+    tuning: it is the exposure-scaling discipline the moments programme learned
+    to apply after its first attack turned out to be contaminated.
+    """
+
+    if len(cutoffs) < 3:
+        raise ValueError("need at least three cutoffs: two to calibrate, one held out")
+    fit_cutoffs = list(cutoffs[:-1])
+    held_out = float(cutoffs[-1])
+
+    logs = np.array([math.log(value) for value in fit_cutoffs])
+    dims = np.array([float(count(value, primes)) for value in fit_cutoffs])
+    slope, intercept = np.polyfit(logs, dims, 1)
+
+    predicted = slope * math.log(held_out) + intercept
+    observed = float(count(held_out, primes))
+    if abs(observed) < 1e-12:
+        return float("inf")
+    return float(abs(predicted - observed) / abs(observed))
+
+
+def count_ablation_defect(
+    count: Callable[[float, Sequence[int]], int],
+    primes: Sequence[int],
+    decoys: Sequence[int],
+    cutoff: float,
+) -> float:
+    """Relative change in the resolved count when the primes become decoys."""
+
+    real = float(count(cutoff, primes))
+    fake = float(count(cutoff, decoys))
+    if abs(real) < 1e-12:
+        return float("inf") if abs(fake) > 1e-12 else 0.0
+    return abs(fake - real) / abs(real)
+
+
+def count_permutation_defect(
+    count: Callable[[float, Sequence[int]], int],
+    primes: Sequence[int],
+    cutoff: float,
+    trials: int = 3,
+    seed: int = 20260805,
+) -> float:
+    """Relative change in the count when the same primes are reordered."""
+
+    import random
+
+    reference = float(count(cutoff, list(primes)))
+    if abs(reference) < 1e-12:
+        return float("inf")
+    rng = random.Random(seed)
+    worst = 0.0
+    for _ in range(trials):
+        shuffled = list(primes)
+        rng.shuffle(shuffled)
+        worst = max(worst, abs(float(count(cutoff, shuffled)) - reference) / abs(reference))
+    return worst
+
+
+@dataclass(frozen=True)
+class CountingVerdict:
+    """Outcome of the counting falsifiers for a cokernel-dimension model."""
+
+    counts: tuple[int, ...]
+    growth_ratio: float
+    prediction: float
+    ablation: float
+    permutation: float
+    logarithmic: bool
+    predictive: bool
+    arithmetic_dependent: bool
+    order_independent: bool
+    failures: tuple[str, ...] = field(default_factory=tuple)
+
+    @property
+    def passed(self) -> bool:
+        return not self.failures
+
+
+def counting_gate(
+    count: Callable[[float, Sequence[int]], int],
+    primes: Sequence[int],
+    decoys: Sequence[int],
+    cutoffs: Sequence[float],
+) -> CountingVerdict:
+    """Run the counting falsifiers on a cokernel-dimension model.
+
+    ``count(cutoff, primes)`` returns the dimension the model resolves at that
+    cutoff -- a matrix rank, not a spectrum.  Four things are asked of it: that
+    it grows logarithmically in the cutoff, that a law calibrated on some
+    cutoffs predicts a held-out one, that it reacts to which primes are present,
+    and that it ignores the order they were listed in.
+
+    Passing does not establish that the model is a realisation of anything.  In
+    particular a construction that ingests prime data and returns zero counts
+    may be the explicit formula rearranged, which is already in this repository
+    twice (``zeta/weil.py``, ``scripts/03``); these gates cannot tell the
+    difference and the question is not numerical.
+    """
+
+    base = float(cutoffs[0])
+    counts = tuple(int(count(float(value), primes)) for value in cutoffs)
+    growth = count_growth_ratio(count, primes, base)
+    prediction = count_prediction_defect(count, primes, cutoffs)
+    ablation = count_ablation_defect(count, primes, decoys, float(cutoffs[-1]))
+    permutation = count_permutation_defect(count, primes, float(cutoffs[-1]))
+
+    failures = []
+    if not abs(growth - 2.0) <= 2.0 * GROWTH_RATIO_TOLERANCE:
+        failures.append(
+            f"not logarithmic: increment ratio {growth:.3f} across geometric "
+            f"cutoffs, expected 2.0 +/- {2.0 * GROWTH_RATIO_TOLERANCE:.1f}"
+        )
+    if not prediction <= COUNT_PREDICTION_TOLERANCE:
+        failures.append(
+            f"not predictive: the calibrated law missed the held-out cutoff by "
+            f"{prediction:.1%} (limit {COUNT_PREDICTION_TOLERANCE:.0%})"
+        )
+    if not ablation >= ABLATION_TOLERANCE:
+        failures.append(
+            f"arithmetic not load-bearing: replacing the primes changed the "
+            f"count only {ablation:.1%} (needs {ABLATION_TOLERANCE:.0%})"
+        )
+    if not permutation <= PERMUTATION_TOLERANCE:
+        failures.append(
+            f"order-dependent: reordering the same primes changed the count "
+            f"{permutation:.1%} (limit {PERMUTATION_TOLERANCE:.0%})"
+        )
+
+    return CountingVerdict(
+        counts=counts,
+        growth_ratio=growth,
+        prediction=prediction,
+        ablation=ablation,
+        permutation=permutation,
+        logarithmic=abs(growth - 2.0) <= 2.0 * GROWTH_RATIO_TOLERANCE,
+        predictive=prediction <= COUNT_PREDICTION_TOLERANCE,
         arithmetic_dependent=ablation >= ABLATION_TOLERANCE,
         order_independent=permutation <= PERMUTATION_TOLERANCE,
         failures=tuple(failures),

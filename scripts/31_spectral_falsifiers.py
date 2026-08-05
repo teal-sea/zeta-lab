@@ -39,7 +39,11 @@ ROOT = Path(__file__).resolve().parent.parent
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from zeta.spectral_gate import FIRST_ORDINATES, spectral_gate  # noqa: E402
+from zeta.spectral_gate import (  # noqa: E402
+    FIRST_ORDINATES,
+    counting_gate,
+    spectral_gate,
+)
 
 PRIMES = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]
 #: Same length and rough magnitude as PRIMES, but not the primes: the ablation
@@ -105,6 +109,72 @@ def transcendental(basis_size: int, primes: Sequence[int]) -> np.ndarray:
     return matrix
 
 
+CUTOFFS = (2.0, 4.0, 8.0, 16.0)
+
+
+def _is_prime(n: int) -> bool:
+    if n < 2:
+        return False
+    return all(n % d for d in range(2, int(math.isqrt(n)) + 1))
+
+
+def logarithmic_count(cutoff: float, primes: Sequence[int]) -> int:
+    """A count obeying the law the cokernel model predicts.
+
+    The density is built from the *set* of primes (a sum, so reordering cannot
+    touch it) and the growth is logarithmic in the cutoff.  This is a fixture,
+    not a construction: it exists to show the counting gates are passable.
+    """
+
+    density = sum(math.log(p) for p in primes if _is_prime(p)) / 4.0
+    return int(round(density * math.log(cutoff)))
+
+
+def linear_count(cutoff: float, primes: Sequence[int]) -> int:
+    """Grows with the cutoff itself rather than its logarithm."""
+
+    density = sum(math.log(p) for p in primes) / 40.0
+    return int(round(density * cutoff))
+
+
+def prime_blind_count(cutoff: float, primes: Sequence[int]) -> int:
+    """The right growth law, but the primes never enter."""
+
+    return int(round(9.0 * math.log(cutoff)))
+
+
+def order_sensitive_count(cutoff: float, primes: Sequence[int]) -> int:
+    """The right growth law and genuinely prime-dependent -- on list position."""
+
+    density = sum(math.log(p) * (index + 1) for index, p in enumerate(primes)) / 60.0
+    return int(round(density * math.log(cutoff)))
+
+
+def counting_demo() -> None:
+    cases = (
+        ("logarithmic (fixture, should pass)", logarithmic_count),
+        ("linear in the cutoff", linear_count),
+        ("prime-blind", prime_blind_count),
+        ("keyed on prime list order", order_sensitive_count),
+    )
+    print("\nCounting falsifiers, for a cokernel-dimension model.")
+    print(f"Cutoffs {CUTOFFS}; the last is held out from the calibration.\n")
+    for label, count in cases:
+        verdict = counting_gate(count, PRIMES, DECOYS, CUTOFFS)
+        print(f"{label}")
+        print(f"  counts {verdict.counts}")
+        print(
+            f"  growth ratio {verdict.growth_ratio:>7.3f}   "
+            f"prediction {verdict.prediction:>7.2%}   "
+            f"ablation {verdict.ablation:>7.2%}   "
+            f"permutation {verdict.permutation:>7.2%}"
+        )
+        print(f"  passed: {verdict.passed}")
+        for failure in verdict.failures:
+            print(f"    - {failure}")
+        print()
+
+
 def main() -> int:
     cases = (
         ("forged (ordinates written in)", forged, 16),
@@ -139,6 +209,12 @@ def main() -> int:
         "them is decorative.  Note especially that the forged matrix reproduces\n"
         "the ordinates exactly and is perfectly stable: spectrum agreement alone\n"
         "is not evidence of anything."
+    )
+    counting_demo()
+    print(
+        "The counting gates never name a dictionary between cutoff and height:\n"
+        "the growth ratio cancels every constant, and the prediction gate\n"
+        "calibrates on some cutoffs and is scored on one held back."
     )
     return 0
 
