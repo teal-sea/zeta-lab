@@ -99,3 +99,56 @@ def check_product_formula(q: Union[int, Fraction], primes: list[int]) -> float:
     adele = Adele.from_rational(q_frac, primes)
     return adele.norm()
 
+class Idele:
+    """A computational representation of an Idele over Q.
+    
+    An idele is an invertible adele. It is a sequence (x_inf, x_2, x_3, ...)
+    where x_inf in R^* and x_p in Q_p^*, with |x_p|_p = 1 for almost all p.
+    """
+    def __init__(self, real_part: float, padic_parts: Dict[int, PAdic]):
+        if real_part == 0:
+            raise ValueError("Real part of an Idele must be non-zero.")
+        for p, padic in padic_parts.items():
+            if padic.q == 0:
+                raise ValueError(f"p-adic part for p={p} must be non-zero.")
+                
+        self.real_part = float(real_part)
+        self.padic_parts = padic_parts
+
+    @classmethod
+    def from_rational(cls, q: Union[int, Fraction], primes: list[int]) -> 'Idele':
+        """Embed a non-zero rational number q into the Idele group."""
+        if q == 0:
+            raise ValueError("0 is not an Idele.")
+        padics = {p: PAdic(p, q) for p in primes}
+        return cls(float(q), padics)
+
+    def norm(self) -> float:
+        """The Idelic norm (product formula). Evaluates to 1 for principal ideles."""
+        res = abs(self.real_part)
+        for p_adic in self.padic_parts.values():
+            res *= p_adic.norm()
+        return res
+
+def local_zeta_factor(p: int, s: complex) -> complex:
+    """
+    Computes Tate's local zeta integral Z(f, s) over Q_p^*.
+    
+    For the standard Schwartz-Bruhat function (the indicator function of Z_p),
+    the integral exactly evaluates to the Euler factor:
+        Z(f_p, s) = 1 / (1 - p^(-s))
+    """
+    # Tate's thesis mathematically proves that integrating the indicator 
+    # function of Z_p against the multiplicative measure yields the local Euler factor.
+    return 1.0 / (1.0 - p ** (-s))
+
+def global_euler_product(s: complex, primes: list[int]) -> complex:
+    """
+    Computes the partial global zeta function over a set of places (primes)
+    by multiplying their local zeta integrals.
+    """
+    product = 1.0 + 0j
+    for p in primes:
+        product *= local_zeta_factor(p, s)
+    return product
+
