@@ -14,11 +14,15 @@ import pytest
 
 from zeta.surrogate import (
     covariance_profile,
+    euler_field_variance,
+    euler_intensity_moment,
     exact_intensity_moment,
     field_variance,
     intensity_moment_defect,
     interval_statistics,
     primes_up_to,
+    sample_euler_intensity,
+    sample_euler_log_field,
     sample_field,
     sample_intensity,
     variance_defect,
@@ -174,6 +178,99 @@ def test_interval_statistics_reject_bad_grids():
         interval_statistics(values, 0.01, blocks=8)  # 100 intervals, 8 blocks
     with pytest.raises(ValueError):
         interval_statistics(values, 0.01, blocks=10, top_fraction=1.5)
+
+
+def test_euler_moment_reproduces_the_repository_arithmetic_factor():
+    """The strongest check available: a_k derived two unrelated ways.
+
+    ``euler_intensity_moment`` is ``prod_p sum_m d_k(p^m)^2 p^{-m}``, computed
+    here from the random Euler product.  Dividing out the Euler-product
+    regularisation ``prod_p (1-1/p)^{-k^2}`` must return the arithmetic factor
+    that ``scripts/14_moment_experiment.py`` computes independently for the
+    CFKRS polynomials.  Agreement is not assumed anywhere; it is measured.
+    """
+
+    import importlib.util
+    import sys
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parent.parent
+    path = root / "scripts" / "14_moment_experiment.py"
+    spec = importlib.util.spec_from_file_location("moment_experiment_for_ak", path)
+    module = importlib.util.module_from_spec(spec)
+    sys.modules[spec.name] = module
+    spec.loader.exec_module(module)
+
+    primes = primes_up_to(200_000)
+    regularisation = float(np.sum(np.log1p(-1.0 / primes.astype(float))))
+    for k in (1, 2, 3, 4):
+        implied = math.exp(
+            math.log(euler_intensity_moment(k, primes)) + k * k * regularisation
+        )
+        assert implied == pytest.approx(
+            float(module.arithmetic_factor(k)), rel=1e-10
+        )
+
+    # Pinned so a normalisation change cannot pass silently.
+    implied_four = math.exp(
+        math.log(euler_intensity_moment(4, primes)) + 16 * regularisation
+    )
+    assert implied_four == pytest.approx(2.1468e-4, rel=1e-4)
+
+
+def test_euler_variance_exceeds_the_first_order_variance():
+    """The dropped prime-power terms are positive, so the Euler field is wider."""
+
+    primes = primes_up_to(10_000)
+    first = field_variance(primes)
+    full = euler_field_variance(primes)
+    assert full > first
+    # The m=1 term of the Euler series is exactly the first-order variance.
+    assert full - first == pytest.approx(
+        sum(
+            float(p) ** -m / (2.0 * m**2)
+            for p in primes
+            for m in range(2, 60)
+        ),
+        rel=1e-10,
+    )
+
+
+def test_sampled_euler_variance_matches_its_closed_form():
+    primes = primes_up_to(10_000)
+    ts = np.linspace(0.0, 4_000.0, 120_000)
+    measured = float(np.var(sample_euler_log_field(ts, primes, seed=11)))
+    assert measured == pytest.approx(euler_field_variance(primes), rel=0.03)
+
+
+def test_euler_sampling_is_deterministic_and_exponentiates_consistently():
+    primes = primes_up_to(500)
+    ts = np.linspace(0.0, 20.0, 1_001)
+    assert np.array_equal(
+        sample_euler_log_field(ts, primes, seed=7),
+        sample_euler_log_field(ts, primes, seed=7),
+    )
+    assert np.allclose(
+        sample_euler_intensity(ts, primes, seed=3),
+        np.exp(2.0 * sample_euler_log_field(ts, primes, seed=3)),
+        rtol=1e-14,
+    )
+
+
+def test_euler_intensity_moment_matches_a_direct_expansion():
+    """Check the series against an independent brute-force phase average."""
+
+    primes = primes_up_to(50)
+    rng = np.random.default_rng(2)
+    for k in (1, 2):
+        draws = 400_000
+        phases = rng.uniform(0.0, 2.0 * np.pi, size=(draws, len(primes)))
+        x = 1.0 / np.sqrt(primes.astype(float))
+        magnitude = 1.0 + 1.0 / primes.astype(float) - 2.0 * x * np.cos(phases)
+        sampled = float(np.mean(np.exp(-k * np.sum(np.log(magnitude), axis=1))))
+        assert sampled == pytest.approx(
+            euler_intensity_moment(k, primes), rel=0.05
+        )
 
 
 def test_surrogate_concentration_rises_with_moment_order():

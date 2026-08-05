@@ -45,11 +45,15 @@ from scipy.special import i0
 __all__ = [
     "IntervalStatistics",
     "covariance_profile",
+    "euler_field_variance",
+    "euler_intensity_moment",
     "exact_intensity_moment",
     "field_variance",
     "interval_statistics",
     "intensity_moment_defect",
     "primes_up_to",
+    "sample_euler_intensity",
+    "sample_euler_log_field",
     "sample_field",
     "sample_intensity",
     "variance_defect",
@@ -206,6 +210,100 @@ def covariance_profile(
     inverse = 1.0 / primes.astype(float)
     return np.array(
         [0.5 * float(np.sum(np.cos(lag * log_primes) * inverse)) for lag in lags]
+    )
+
+
+def euler_field_variance(primes: np.ndarray, *, terms: int = 200) -> float:
+    """Exact ``Var log|Z|`` for the full random Euler product.
+
+    From ``-log|1 - x e^{iU}| = sum_{m>=1} x^m cos(mU)/m`` with ``x = p^{-1/2}``
+    and uniform ``U``, each prime contributes ``sum_{m>=1} p^{-m} / (2 m^2)``.
+    The ``m = 1`` term alone is ``1/(2p)``, which is :func:`field_variance`; the
+    remainder is the correction the first-order surrogate drops.
+    """
+
+    if len(primes) == 0:
+        return 0.0
+    p = primes.astype(float)[:, None]
+    m = np.arange(1, terms + 1, dtype=float)[None, :]
+    return float(np.sum(p ** (-m) / (2.0 * m**2)))
+
+
+def euler_intensity_moment(k: int, primes: np.ndarray, *, terms: int = 200) -> float:
+    """Exact ``E[|Z|^{2k}] = prod_p sum_m d_k(p^m)^2 p^{-m}`` for the Euler product.
+
+    Expanding ``(1 - x e^{iU})^{-k}`` gives coefficients ``d_k(p^m) =
+    C(m+k-1, m)``; the uniform phase kills every cross term, leaving the
+    diagonal sum.  This is precisely the product whose regularisation is the
+    arithmetic factor ``a_k`` — the quantity the first-order surrogate has no
+    way to produce.  Returned via a log-sum so the product does not overflow.
+    """
+
+    if isinstance(k, bool) or not isinstance(k, (int, np.integer)) or k < 1:
+        raise ValueError("k must be a positive integer")
+    if len(primes) == 0:
+        return 1.0
+    m = np.arange(terms + 1)
+    coefficients = np.array(
+        [float(math.comb(int(order) + k - 1, int(order))) for order in m]
+    )
+    p = primes.astype(float)[:, None]
+    series = np.sum(coefficients[None, :] ** 2 * p ** (-m[None, :].astype(float)), axis=1)
+    return float(np.exp(np.sum(np.log(series))))
+
+
+def sample_euler_log_field(
+    ts: np.ndarray,
+    primes: np.ndarray,
+    *,
+    seed: int,
+    max_elements: int = 20_000_000,
+) -> np.ndarray:
+    """Sample ``log|Z(t)|`` for the full random Euler product.
+
+    ``Z(t) = prod_p (1 - p^{-1/2} e^{i(theta_p - t log p)})^{-1}`` keeps the
+    genuine ``p^{-it}`` frequency structure while randomising the phase offset,
+    so it is a stationary field in ``t`` whose one-point law is exactly the
+    classical random Euler product.  Its logarithm is
+    ``-(1/2) sum_p log(1 - 2 p^{-1/2} cos(phi_p) + 1/p)``.
+    """
+
+    if isinstance(seed, bool) or not isinstance(seed, (int, np.integer)):
+        raise TypeError("seed must be an integer")
+    ts = np.asarray(ts, dtype=float)
+    if ts.ndim != 1:
+        raise ValueError("ts must be one-dimensional")
+    if len(primes) == 0:
+        return np.zeros_like(ts)
+
+    rng = np.random.default_rng(seed)
+    phases = rng.uniform(0.0, 2.0 * np.pi, size=len(primes))
+    log_primes = np.log(primes.astype(float))
+    x = 1.0 / np.sqrt(primes.astype(float))
+    offset = 1.0 + 1.0 / primes.astype(float)
+
+    out = np.empty(len(ts), dtype=float)
+    chunk = max(1, int(max_elements // len(primes)))
+    for begin in range(0, len(ts), chunk):
+        block = ts[begin : begin + chunk]
+        angles = phases[None, :] - block[:, None] * log_primes[None, :]
+        magnitude = offset[None, :] - 2.0 * x[None, :] * np.cos(angles)
+        out[begin : begin + chunk] = -0.5 * np.sum(np.log(magnitude), axis=1)
+    return out
+
+
+def sample_euler_intensity(
+    ts: np.ndarray,
+    primes: np.ndarray,
+    *,
+    seed: int,
+    max_elements: int = 20_000_000,
+) -> np.ndarray:
+    """Surrogate for ``|zeta(1/2+it)|^2`` from the full random Euler product."""
+
+    return np.exp(
+        2.0
+        * sample_euler_log_field(ts, primes, seed=seed, max_elements=max_elements)
     )
 
 

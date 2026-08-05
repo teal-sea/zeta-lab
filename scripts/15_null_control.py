@@ -43,10 +43,13 @@ if str(ROOT) not in sys.path:
 
 from zeta.statistics import riemann_siegel_z  # noqa: E402
 from zeta.surrogate import (  # noqa: E402
+    euler_field_variance,
+    euler_intensity_moment,
     exact_intensity_moment,
     field_variance,
     interval_statistics,
     primes_up_to,
+    sample_euler_intensity,
     sample_intensity,
 )
 
@@ -152,36 +155,61 @@ def run_comparison() -> None:
         }
         zeta_seconds = time.time() - started
 
-        started = time.time()
         null_ts = np.arange(len(ts)) * spacing
-        null_values = sample_intensity(null_ts, primes, seed=SEED)
-        null_stats = {
+
+        started = time.time()
+        first_stats = {
             item.k: item
             for item in interval_statistics(
-                null_values, spacing, blocks=BLOCKS, top_fraction=TOP_FRACTION
+                sample_intensity(null_ts, primes, seed=SEED),
+                spacing,
+                blocks=BLOCKS,
+                top_fraction=TOP_FRACTION,
             )
         }
-        null_seconds = time.time() - started
+        first_seconds = time.time() - started
+
+        started = time.time()
+        euler_stats = {
+            item.k: item
+            for item in interval_statistics(
+                sample_euler_intensity(null_ts, primes, seed=SEED),
+                spacing,
+                blocks=BLOCKS,
+                top_fraction=TOP_FRACTION,
+            )
+        }
+        euler_seconds = time.time() - started
 
         print(
-            f"t = {height:g}   spacing {spacing:.6f}   "
-            f"primes {len(primes)}   sigma^2 {sigma_squared:.4f}   "
-            f"(zeta {zeta_seconds:.1f}s, null {null_seconds:.1f}s)"
+            f"t = {height:g}   spacing {spacing:.6f}   primes {len(primes)}   "
+            f"sigma^2 first-order {sigma_squared:.4f} / Euler "
+            f"{euler_field_variance(primes):.4f}   "
+            f"(zeta {zeta_seconds:.1f}s, first {first_seconds:.1f}s, "
+            f"euler {euler_seconds:.1f}s)"
         )
         print(
-            f"  {'moment':>6}  {'zeta top1%':>11}  {'null top1%':>11}"
-            f"  {'zeta blkCV':>11}  {'null blkCV':>11}  {'null ratio':>11}"
+            f"  {'moment':>6}  {'zeta top1%':>10}  {'1st top1%':>10}"
+            f"  {'eul top1%':>10}  {'zeta blkCV':>10}  {'eul blkCV':>10}"
+            f"  {'1st ratio':>10}  {'eul ratio':>10}"
         )
+        span = spacing * (len(ts) - 1)
         for k in (1, 2, 3, 4):
-            exact = exact_intensity_moment(k, primes)
-            measured_mean = null_stats[k].integral / (spacing * (len(ts) - 1))
+            first_ratio = first_stats[k].integral / span / exact_intensity_moment(
+                k, primes
+            )
+            euler_ratio = euler_stats[k].integral / span / euler_intensity_moment(
+                k, primes
+            )
             print(
                 f"  {2 * k:>6}"
-                f"  {zeta_stats[k].top_contribution:>10.2%}"
-                f"  {null_stats[k].top_contribution:>10.2%}"
-                f"  {zeta_stats[k].block_dispersion:>10.2%}"
-                f"  {null_stats[k].block_dispersion:>10.2%}"
-                f"  {measured_mean / exact:>11.4f}"
+                f"  {zeta_stats[k].top_contribution:>9.2%}"
+                f"  {first_stats[k].top_contribution:>9.2%}"
+                f"  {euler_stats[k].top_contribution:>9.2%}"
+                f"  {zeta_stats[k].block_dispersion:>9.2%}"
+                f"  {euler_stats[k].block_dispersion:>9.2%}"
+                f"  {first_ratio:>10.5f}"
+                f"  {euler_ratio:>10.5f}"
             )
         print()
 
