@@ -438,3 +438,108 @@ def test_battery_accepts_custom_claims():
     assert res["riemann_zeta"] is True
     assert res["davenport_heilbronn"] is True
     assert res["distinguishes"] is False
+
+
+# ---------------------------------------------------------------------------
+# Epstein zeta functions -- gate #3's second counterexample family
+# ---------------------------------------------------------------------------
+
+def test_reduced_forms_have_the_right_class_numbers():
+    from zeta.epstein import epstein_reduced_forms
+
+    assert epstein_reduced_forms(-4) == ((1, 0, 1),)                  # h = 1
+    assert epstein_reduced_forms(-15) == ((1, 1, 4), (2, 1, 2))       # h = 2
+    assert epstein_reduced_forms(-23) == ((1, 1, 6), (2, -1, 3), (2, 1, 3))
+    for form in epstein_reduced_forms(-23):
+        a, b, c = form
+        assert b * b - 4 * a * c == -23
+    with pytest.raises(ValueError):
+        epstein_reduced_forms(23)
+
+
+def test_representation_counts_and_their_multiplicativity_failure():
+    from zeta.epstein import epstein_representation_count as r
+
+    principal = (1, 1, 6)
+    assert [r(n, principal) for n in range(1, 13)] == [2, 0, 0, 2, 0, 4, 0, 4, 2, 0, 0, 4]
+    assert [r(n, (2, 1, 3)) for n in range(1, 13)] == [0, 2, 2, 2, 0, 2, 0, 2, 2, 0, 0, 4]
+    # No Euler product: r(6) != r(2) r(3) for either form.
+    assert r(6, principal) == 4 and r(2, principal) == 0 and r(3, principal) == 0
+    assert r(6, (2, 1, 3)) == 2 and r(2, (2, 1, 3)) * r(3, (2, 1, 3)) == 4
+    with pytest.raises(ValueError):
+        r(0, principal)
+
+
+def test_epstein_zeta_matches_its_defining_sum_where_that_converges():
+    from zeta.epstein import epstein_zeta
+
+    for form in ((1, 1, 6), (2, 1, 3)):
+        a, b, c = form
+        with mp.workdps(25):
+            direct = mp.fsum(
+                mp.power(a * m * m + b * m * n + c * n * n, -mp.mpf(4))
+                for m in range(-70, 71)
+                for n in range(-70, 71)
+                if (m, n) != (0, 0)
+            )
+        assert epstein_zeta(4, form, dps=20) == pytest.approx(float(direct), rel=1e-10)
+
+
+def test_class_group_identity_is_the_independent_check():
+    """sum_Q zeta_Q(s) = w zeta(s) L(s, chi_D), computed with disjoint code.
+
+    This is the validation that can actually fail: the right-hand side uses
+    mpmath's zeta and a Hurwitz-zeta character sum, sharing nothing with the
+    lattice sums on the left.
+    """
+    from zeta.epstein import epstein_class_group_defect
+
+    for D in (-4, -15, -23):
+        for s in (mp.mpf(2), mp.mpc(mp.mpf(1) / 2, 4)):
+            assert abs(epstein_class_group_defect(s, D, dps=20)) < mp.mpf("1e-18")
+
+
+def test_epstein_functional_equation_is_structural_not_measured():
+    """Documented as built into the representation -- pinned so it stays honest.
+
+    A future rewrite that makes this defect merely small rather than exactly
+    zero would mean the symmetry is no longer manifest, and the docstring's
+    warning would need revisiting.
+    """
+    from zeta.epstein import epstein_functional_equation_defect
+
+    for form in ((1, 1, 6), (2, 1, 3)):
+        defect = epstein_functional_equation_defect(mp.mpc(mp.mpf(3) / 4, 5), form, dps=20)
+        assert defect == 0
+
+
+def test_Z_epstein_is_real_on_the_critical_line():
+    from zeta.epstein import Z_epstein
+
+    for form in ((1, 1, 6), (2, 1, 3)):
+        for t in (3, 5, 11):
+            value = Z_epstein(t, form, dps=20)
+            assert mp.im(mp.mpmathify(value)) == 0
+
+
+def test_battery_runs_epstein_as_a_second_counterexample():
+    """Gate #3 names Davenport-Heilbronn *and* generic Epstein zeta functions."""
+    res = battery(claim_functional_equation, dps=20)
+    assert res["riemann_zeta"] and res["davenport_heilbronn"] and res["epstein_2_1_3"]
+    assert res["distinguishes"] is False
+    assert "epstein_2_1_3" in res["shared_with"]
+
+    res = battery(claim_multiplicativity, dps=20)
+    assert res["riemann_zeta"]
+    assert not res["davenport_heilbronn"] and not res["epstein_2_1_3"]
+    assert res["distinguishes"] is True
+    assert res["shared_with"] == ()
+
+
+def test_battery_requires_every_counterexample_to_fail():
+    """A claim shared with any rival must not be reported as distinguishing."""
+    shared_with_epstein_only = lambda iface: iface["name"] != "davenport_heilbronn"
+    res = battery(shared_with_epstein_only, dps=20)
+    assert res["riemann_zeta"] and res["epstein_2_1_3"]
+    assert res["distinguishes"] is False
+    assert res["shared_with"] == ("epstein_2_1_3",)

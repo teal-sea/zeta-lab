@@ -106,8 +106,16 @@ __all__ = [
     "zeros_on_line",
     "count_zeros_box",
     "find_offline_zero",
+    "epstein_reduced_forms",
+    "epstein_representation_count",
+    "epstein_completed",
+    "epstein_zeta",
+    "epstein_functional_equation_defect",
+    "epstein_class_group_defect",
+    "Z_epstein",
     "zeta_interface",
     "dh_interface",
+    "epstein_interface",
     "battery",
     "claim_functional_equation",
     "claim_multiplicativity",
@@ -807,6 +815,255 @@ def find_offline_zero(
 # the falsification harness
 # ---------------------------------------------------------------------------
 
+# ---------------------------------------------------------------------------
+# Epstein zeta functions of positive-definite binary quadratic forms
+#
+# docs/09 gate #3 asks that a proposed structure be ungrantable to the
+# Davenport-Heilbronn function *and to generic Epstein zeta functions*.  Only
+# the first was computable here; this section supplies the second.  For a
+# discriminant with class number greater than one the individual zeta_Q has a
+# functional equation, real Dirichlet coefficients, a real Hardy-style Z, and
+# no Euler product -- the same counterexample profile as f, reached by a
+# completely different construction.
+# ---------------------------------------------------------------------------
+
+def epstein_reduced_forms(discriminant: int) -> tuple[tuple[int, int, int], ...]:
+    """Reduced positive-definite forms ``(a, b, c)`` of the given discriminant.
+
+    Reduced means ``|b| <= a <= c`` with ``b >= 0`` whenever ``|b| == a`` or
+    ``a == c``; each class of forms contains exactly one such representative,
+    so the length of the result is the class number ``h(D)``.
+    """
+
+    D = int(discriminant)
+    if D >= 0 or D % 4 not in (0, 1):
+        raise ValueError("discriminant must be negative and congruent to 0 or 1 mod 4")
+    forms = []
+    limit = int(mp.floor(mp.sqrt(mp.mpf(-D) / 3))) + 1
+    for b in range(-limit, limit + 1):
+        if (b * b - D) % 4:
+            continue
+        ac4 = b * b - D
+        if ac4 % 4:
+            continue
+        ac = ac4 // 4
+        for a in range(max(1, abs(b)), int(mp.floor(mp.sqrt(mp.mpf(ac)))) + 1):
+            if ac % a:
+                continue
+            c = ac // a
+            if not (abs(b) <= a <= c):
+                continue
+            if (abs(b) == a or a == c) and b < 0:
+                continue
+            forms.append((a, b, c))
+    return tuple(sorted(set(forms)))
+
+
+def epstein_representation_count(n: int, form: tuple[int, int, int]) -> int:
+    """Dirichlet coefficient of ``zeta_Q``: the number of ``(m, k) != (0, 0)``
+    with ``Q(m, k) = n``.
+
+    These are **not** multiplicative for a form outside the principal class,
+    which is exactly the Euler-product failure gate #3 turns on.  For the
+    principal form of discriminant ``-23`` the failure is already visible at
+    ``n = 6``: ``r(2) = r(3) = 0`` but ``r(6) = 2``.
+    """
+
+    a, b, c = (int(v) for v in form)
+    n = int(n)
+    if n < 1:
+        raise ValueError("representation counts are indexed from n = 1")
+    disc = b * b - 4 * a * c
+    if disc >= 0:
+        raise ValueError("form must be positive definite (negative discriminant)")
+    bound = int(mp.floor(mp.sqrt(mp.mpf(4 * a * n) / (-disc)))) + 1
+    total = 0
+    for k in range(-bound, bound + 1):
+        # a m^2 + (b k) m + (c k^2 - n) = 0
+        rad = b * b * k * k - 4 * a * (c * k * k - n)
+        if rad < 0:
+            continue
+        root = int(mp.floor(mp.sqrt(mp.mpf(rad)) + mp.mpf("0.5")))
+        if root * root != rad:
+            continue
+        for sign in ((1,) if root == 0 else (1, -1)):
+            num = -b * k + sign * root
+            if num % (2 * a) == 0:
+                m = num // (2 * a)
+                if (m, k) != (0, 0) and a * m * m + b * m * k + c * k * k == n:
+                    total += 1
+    return total
+
+
+def _epstein_lattice(a, b, c, dps: int):
+    """Lattice radius large enough that the omitted tail is below the tolerance."""
+
+    lam = ((a + c) - mp.sqrt((a - c) ** 2 + b ** 2)) / 2
+    radius = int(mp.ceil(mp.sqrt((dps + 6) * mp.log(10) / mp.pi / lam))) + 2
+    return [
+        (m, k)
+        for m in range(-radius, radius + 1)
+        for k in range(-radius, radius + 1)
+        if (m, k) != (0, 0)
+    ]
+
+
+def epstein_completed(s, form: tuple[int, int, int], dps: int = DPS_DEFAULT):
+    """``Lambda_Q(s) = (sqrt(d)/pi)^s Gamma(s) zeta_Q(s)`` with ``d = |D|/4``.
+
+    Evaluated by splitting the Mellin transform of the form's theta series at
+    ``t = 1`` and applying the measured transformation
+    ``theta_Q(1/t) = (t/sqrt(d)) theta_{Q^-1}(t)``, exactly the route
+    ``docs/03`` takes for ``xi``.  Each half becomes an upper incomplete gamma
+    over lattice points, so no quadrature is involved and the representation is
+    valid for every ``s`` apart from the poles at ``0`` and ``1``.
+    """
+
+    a, b, c = (int(v) for v in form)
+    if b * b - 4 * a * c >= 0 or a <= 0:
+        raise ValueError("form must be positive definite")
+    with mp.workdps(dps + _GUARD):
+        s = _num(s)
+        af, bf, cf = mp.mpf(a), mp.mpf(b), mp.mpf(c)
+        d = af * cf - bf ** 2 / 4
+        ai, bi, ci = cf / d, -bf / d, af / d
+        first = mp.fsum(
+            mp.gammainc(s, mp.pi * (af * m * m + bf * m * k + cf * k * k))
+            / (mp.pi * (af * m * m + bf * m * k + cf * k * k)) ** s
+            for (m, k) in _epstein_lattice(af, bf, cf, mp.dps)
+        )
+        second = mp.fsum(
+            mp.gammainc(1 - s, mp.pi * (ai * m * m + bi * m * k + ci * k * k))
+            / (mp.pi * (ai * m * m + bi * m * k + ci * k * k)) ** (1 - s)
+            for (m, k) in _epstein_lattice(ai, bi, ci, mp.dps)
+        )
+        mellin = first + second / mp.sqrt(d) + 1 / (mp.sqrt(d) * (s - 1)) - 1 / s
+        return _shrink(d ** (s / 2) * mellin, dps)
+
+
+def epstein_zeta(s, form: tuple[int, int, int], dps: int = DPS_DEFAULT):
+    """``zeta_Q(s) = sum_{(m,k) != 0} Q(m,k)^{-s}``, continued to all ``s``."""
+
+    a, b, c = (int(v) for v in form)
+    with mp.workdps(dps + _GUARD):
+        s = _num(s)
+        d = mp.mpf(a) * c - mp.mpf(b) ** 2 / 4
+        value = epstein_completed(s, form, dps=mp.dps) * mp.pi ** s
+        return _shrink(value / (mp.sqrt(d) ** s * mp.gamma(s)), dps)
+
+
+def epstein_functional_equation_defect(
+    s, form: tuple[int, int, int], dps: int = DPS_DEFAULT
+):
+    """``Lambda_Q(s) - Lambda_Q(1-s)``, which is **structurally zero here**.
+
+    The opposite form ``(c, -b, a)`` represents the same integers as
+    ``(a, b, c)`` — substitute ``(m, k) -> (k, m)`` — so ``zeta_Q`` equals the
+    zeta function of its own inverse class and the functional equation closes
+    on ``Q`` itself.  But that same fact makes the incomplete-gamma
+    representation in :func:`epstein_completed` manifestly symmetric under
+    ``s -> 1-s``, so this quantity vanishes *by construction* and returns
+    exactly zero rather than a round-off residue.
+
+    It is therefore **not** an independent check of the implementation, and
+    must not be read as one: unlike
+    :func:`dh_functional_equation_defect`, a bug in the lattice sums would not
+    show up here.  The honest validations are
+    :func:`epstein_class_group_defect`, which tests the continuation against a
+    completely separate computation, and agreement with the defining sum in the
+    region where that sum converges.  The function exists to satisfy the
+    interface contract of :func:`zeta_interface`.
+    """
+
+    with mp.workdps(dps + _GUARD):
+        s = _num(s)
+        left = epstein_completed(s, form, dps=mp.dps)
+        right = epstein_completed(1 - s, form, dps=mp.dps)
+        return _shrink(left - right, dps)
+
+
+def epstein_class_group_defect(s, discriminant: int, dps: int = DPS_DEFAULT):
+    """Measured defect of ``sum_Q zeta_Q(s) = w * zeta(s) * L(s, chi_D)``.
+
+    The sum runs over the reduced forms of the discriminant and ``w`` is the
+    number of units (``2`` for ``D < -4``, ``4`` at ``-4``, ``6`` at ``-3``).
+    The right-hand side is built from mpmath's ``zeta`` and a Hurwitz-zeta
+    evaluation of the quadratic character's L-function, so it shares no code
+    with the lattice sums on the left.  This is the check that would actually
+    catch an error in :func:`epstein_completed`, and unlike
+    :func:`epstein_functional_equation_defect` it is not satisfied by
+    construction.
+    """
+
+    from sympy import kronecker_symbol
+
+    D = int(discriminant)
+    forms = epstein_reduced_forms(D)
+    units = 6 if D == -3 else 4 if D == -4 else 2
+    with mp.workdps(dps + _GUARD):
+        s = _num(s)
+        left = mp.fsum(epstein_zeta(s, form, dps=mp.dps) for form in forms)
+
+        modulus = abs(D)
+        L = modulus ** (-s) * mp.fsum(
+            int(kronecker_symbol(D, r)) * mp.zeta(s, mp.mpf(r) / modulus)
+            for r in range(1, modulus + 1)
+        )
+        return _shrink(left - units * mp.zeta(s) * L, dps)
+
+
+def Z_epstein(t, form: tuple[int, int, int], dps: int = DPS_DEFAULT):
+    """The Hardy-style real function ``Lambda_Q(1/2 + it)``.
+
+    Real for real ``t``: the coefficients are real so ``Lambda_Q(conj s)`` is
+    the conjugate of ``Lambda_Q(s)``, and the functional equation identifies
+    that conjugate with ``Lambda_Q(s)`` on the critical line.  The imaginary
+    residue is checked to be round-off and discarded.
+    """
+
+    with mp.workdps(dps + _GUARD):
+        value = epstein_completed(mp.mpc(mp.mpf(1) / 2, _num(t)), form, dps=mp.dps)
+        if abs(mp.im(value)) > mp.mpf(10) ** (-(dps - 2)) * max(abs(mp.re(value)), 1):
+            raise ValueError(
+                f"Z_epstein: imaginary residue {mp.im(value)} exceeds round-off"
+            )
+        return _shrink(mp.re(value), dps)
+
+
+def epstein_interface(
+    form: tuple[int, int, int], dps: int = DPS_DEFAULT
+) -> dict:
+    """The zeta-like interface for an Epstein zeta (see :func:`zeta_interface`)."""
+
+    a, b, c = (int(v) for v in form)
+
+    def _line_count(t0, t1, _f=(a, b, c), _d=dps):
+        samples = max(int(8 * (t1 - t0)) + 2, 8)
+        grid = [t0 + (t1 - t0) * i / (samples - 1) for i in range(samples)]
+        values = [Z_epstein(t, _f, dps=min(_d, 15)) for t in grid]
+        return sum(
+            1
+            for left, right in zip(values, values[1:])
+            if left != 0 and right != 0 and mp.sign(left) != mp.sign(right)
+        )
+
+    return {
+        "name": f"epstein_{a}_{b}_{c}",
+        "coefficient": lambda n, _f=(a, b, c): mp.mpf(
+            epstein_representation_count(int(n), _f)
+        ),
+        "completed": lambda s, _f=(a, b, c), _d=dps: epstein_completed(s, _f, dps=_d),
+        "fe_defect": lambda s, _f=(a, b, c), _d=dps: (
+            epstein_functional_equation_defect(s, _f, dps=_d)
+        ),
+        "Z": lambda t, _f=(a, b, c), _d=dps: Z_epstein(t, _f, dps=_d),
+        "zeros_on_line": _line_count,
+        "count_zeros_box": lambda s0, s1, _f=(a, b, c), _d=dps: count_zeros_box(
+            s0, s1, dps=min(_d, 20), fn=lambda z: epstein_completed(z, _f, dps=min(_d, 20))
+        ),
+    }
+
+
 def zeta_interface(dps: int = DPS_DEFAULT) -> dict:
     """The zeta-like interface for **zeta itself** (via :mod:`zeta.core`):
 
@@ -890,31 +1147,43 @@ def claim_multiplicativity(iface: dict) -> bool:
     return all(abs(a(m * n) - a(m) * a(n)) < tol for (m, n) in pairs)
 
 
-def battery(claim_fn, dps: int = DPS_DEFAULT) -> dict:
-    """Evaluate a claimed structural property against BOTH zeta and the
-    Davenport-Heilbronn function — the falsification harness of gate #3
-    (docs/09) in executable form.
+def battery(
+    claim_fn,
+    dps: int = DPS_DEFAULT,
+    forms: tuple[tuple[int, int, int], ...] = ((2, 1, 3),),
+) -> dict:
+    """Evaluate a claimed structural property against zeta, the Davenport-Heilbronn
+    function, and an Epstein zeta function (discriminant -23, form (2,1,3)) — 
+    the full falsification harness of gate #3 (docs/09) in executable form.
 
     ``claim_fn`` receives a zeta-like interface dict (see
     :func:`zeta_interface`) and must return truthy/falsy.  Returns::
 
         {"claim": <name>, "riemann_zeta": bool, "davenport_heilbronn": bool,
-         "distinguishes": bool}
+         "epstein_2_1_3": bool, "distinguishes": bool}
 
-    Reading the verdict: a claim that **passes for both** (e.g.
-    :func:`claim_functional_equation`) cannot be the load-bearing step of an
-    RH proof — Davenport-Heilbronn satisfies it and violates RH.  A claim
-    that **distinguishes** them (e.g. :func:`claim_multiplicativity`) is at
-    least a candidate for where a real proof must live.  This is the
-    fastest known way to kill a proposed proof: find the step f satisfies
-    too (docs/08 section 4.1).
+    Reading the verdict: a claim that **passes for all** cannot be the load-bearing 
+    step of an RH proof. A claim that **distinguishes** zeta from the imposters is 
+    at least a candidate for where a real proof must live.
     """
     results = {}
-    for iface in (zeta_interface(dps), dh_interface(dps)):
+    interfaces = [zeta_interface(dps), dh_interface(dps)]
+    interfaces.extend(epstein_interface(form, dps) for form in forms)
+    for iface in interfaces:
         results[iface["name"]] = bool(claim_fn(iface))
-    return {
+
+    # Gate #3 asks that the structure be ungrantable to *every* counterexample,
+    # not merely to one of them: a claim zeta shares with any rival cannot be
+    # the load-bearing step, however many other rivals it excludes.
+    counterexamples = [name for name in results if name != "riemann_zeta"]
+    verdict = {
         "claim": getattr(claim_fn, "__name__", repr(claim_fn)),
         "riemann_zeta": results["riemann_zeta"],
         "davenport_heilbronn": results["davenport_heilbronn"],
-        "distinguishes": results["riemann_zeta"] != results["davenport_heilbronn"],
+        "distinguishes": bool(results["riemann_zeta"])
+        and not any(results[name] for name in counterexamples),
+        "shared_with": tuple(sorted(name for name in counterexamples if results[name])),
     }
+    for name, value in results.items():
+        verdict.setdefault(name, value)
+    return verdict
