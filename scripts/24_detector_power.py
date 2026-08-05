@@ -73,6 +73,37 @@ def test_synthetic_lesion_grid():
         if not detected:
             print(f"Height T = {T:<6} | delta = {delta} | NOT DETECTED up to n=5000000")
 
+def test_fejer_b_scan():
+    """
+    Scan the band-limit parameter 'b' for the Fejer detector to measure what 
+    fraction of phases actually trigger a detection (negative W) for the DH lesion.
+    """
+    print("\n--- FEJER DETECTOR b-SCAN vs DAVENPORT-HEILBRONN ZERO ---")
+    from zeta.weil import fejer_pair, _zero_side
+    delta = float(OFFLINE_ZERO_RE) - 0.5
+    T = float(OFFLINE_ZERO_IM)
+    print(f"DH Zero Lesion: delta = {delta:.4f}, T = {T:.4f}")
+    
+    b_values = [b/2.0 for b in range(2, 161)] # b from 1.0 to 80.0
+    detected_count = 0
+    for b in b_values:
+        shift = float(lesion_weil_fejer(b, delta, T, dps=30))
+        # Compute background using the ZERO SIDE to bypass prime truncation
+        h, _ = fejer_pair(b)
+        bg_sum, _, _ = _zero_side(h, gamma_max=500.0, dps=30)
+        bg = float(bg_sum)
+        
+        if shift + bg < 0:
+            detected_count += 1
+            if detected_count <= 3:
+                print(f"b = {b:<4.1f} | Lesion Shift = {shift:>12.4e} | Background = {bg:>12.4e} | DETECTS")
+        elif b in [10.0, 20.0, 40.0, 80.0]:
+            print(f"b = {b:<4.1f} | Lesion Shift = {shift:>12.4e} | Background = {bg:>12.4e} | Misses (wrong phase)")
+            
+    fraction = detected_count / len(b_values)
+    print(f"\nFejer b-scan complete. Detected the lesion at {detected_count}/{len(b_values)} phases ({fraction:.1%}).")
+    print("Conclusion: Band-limited tests are exponentially sensitive, but phase luck is required.")
+
 
 import math
 
@@ -80,6 +111,7 @@ def main():
     test_li_dh_zero()
     test_weil_dh_zero()
     test_synthetic_lesion_grid()
+    test_fejer_b_scan()
 
 if __name__ == "__main__":
     main()

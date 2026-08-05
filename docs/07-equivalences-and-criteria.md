@@ -364,6 +364,8 @@ geometric programmes. Also the least checkable: `W(h) >= 0` admits no meaningful
 the missing ingredient — an arithmetic surface playing the role of `C x C` — has resisted decades.
 High explanatory value, zero computational value, no proof.
 
+**Detector Power and the Gaussian/Fejér Gap.** If Weil's criterion is viewed computationally as a detector for off-line zeros, its sensitivity depends entirely on the choice of the test-function family `h`. The gap in sensitivity between admissible choices spans thousands of orders of magnitude. For the Gaussian family `h(r) = exp(-a r^2)`, an off-line zero at height `T` with shift `delta` produces a maximal negative dip bounded by `4 * exp(-pi(T^2 - delta^2)/(2T delta))`. At the height of `gamma_1 = 14.13` and `delta=0.01`, the Gaussian dip is `10^{-964}` — the detector is completely blind. In contrast, band-limited test functions like the Fejér kernel are exponentially sensitive to off-line zeros (growing as `exp(2b*delta)` off the real line by the Paley-Wiener theorem). Detector power is a property of the test-function family, not the Weil criterion itself. This is computationally demonstrated in `scripts/24_detector_power.py`.
+
 ---
 
 ## 8. Speiser's theorem — the one that actually worked
