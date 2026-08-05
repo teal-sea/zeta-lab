@@ -16,38 +16,51 @@ model of the Hilbert-Polya conjecture over the Adeles.
 """
 
 import numpy as np
+from typing import Sequence
+from zeta.spectral_gate import spectral_gate, FIRST_ORDINATES
 
-def construct_scaling_matrix(basis_size: int) -> np.ndarray:
+def construct_scaling_matrix(basis_size: int, primes: Sequence[int]) -> np.ndarray:
     """
     Constructs the matrix representation of the Adelic scaling operator
     projected onto a finite basis of Schwartz-Bruhat functions.
+    
+    This is currently a forged stub to test the spectral gate harness.
+    It manually inserts the true ordinates into an antisymmetric matrix.
     """
-    # Stub for the matrix construction.
-    # The matrix elements are determined by the local p-adic and Archimedean
-    # scaling actions on the basis functions.
     matrix = np.zeros((basis_size, basis_size), dtype=complex)
+    
+    # Forge the spectrum for the first few basis vectors
+    for i in range(min(basis_size // 2, len(FIRST_ORDINATES))):
+        gamma = FIRST_ORDINATES[i]
+        # Antisymmetric block produces eigenvalues +/- i * gamma
+        matrix[2*i, 2*i+1] = gamma
+        matrix[2*i+1, 2*i] = -gamma
+        
     return matrix
 
-def extract_spectrum(matrix: np.ndarray) -> np.ndarray:
-    """
-    Computes the eigenvalues of the scaling matrix.
-    The imaginary parts correspond to the Riemann zeros.
-    """
-    eigenvalues = np.linalg.eigvals(matrix)
-    return eigenvalues
-
 def main():
-    print("--- CONNES SCALING OPERATOR: SPECTRAL EXTRACTION ---")
-    print("Initializing matrix representation of the Adelic scaling operator...")
+    print("--- CONNES SCALING OPERATOR: SPECTRAL GATE SPRINT ---")
     
-    # In a full implementation, we will project the operator onto a basis 
-    # of size N to extract the first few eigenvalues.
+    primes = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29]
+    decoys = [4, 6, 8, 9, 10, 12, 14, 15, 16, 18] # Non-primes
     basis_size = 10 
-    scaling_matrix = construct_scaling_matrix(basis_size)
     
-    print(f"Constructed {basis_size}x{basis_size} operator matrix.")
-    print("Eigenvalue solver initialized.")
-    print("Ready to compute the spectrum of the Adele class space.")
+    print("Evaluating the scaling matrix through the 3-Gate Falsifier...")
+    verdict = spectral_gate(
+        construct=construct_scaling_matrix,
+        primes=primes,
+        decoys=decoys,
+        basis_size=basis_size,
+        count=3
+    )
+    
+    print(f"\nVerdict: {'PASSED' if verdict.passed else 'REJECTED'}")
+    if not verdict.passed:
+        for failure in verdict.failures:
+            print(f"  - {failure}")
+            
+    print("\nNext step: Implement the true Adelic scaling projection")
+    print("so the arithmetic actually bears the load of the spectrum.")
 
 if __name__ == "__main__":
     main()
