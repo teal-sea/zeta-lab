@@ -928,7 +928,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LES
 
 ## Tests (`tests/`)
 
-1228 test functions across 33 files (the collected count differs where tests are parametrised):
+1234 test functions across 34 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_core.py` — 97
@@ -945,6 +945,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LES
 - `tests/test_factorization.py` — 9
 - `tests/test_finitefield.py` — 53
 - `tests/test_harness_protocol.py` — 40
+- `tests/test_harness_zeta_department.py` — 6
 - `tests/test_heatflow.py` — 38
 - `tests/test_inverse.py` — 8
 - `tests/test_leeyang.py` — 7
