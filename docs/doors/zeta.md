@@ -53,6 +53,32 @@ the labels:
 Together they pin the battery in both directions. A referee that has only ever
 said "no" has not been shown to work.
 
+### One instrument that does *not* qualify, and why
+
+`zeta.factorization.factorization_defect` is Gate 4 made into a number: D(f) = 0
+exactly when f has an Euler product, which looks like an ideal third reference
+claim. It is not one, and the battery is what showed that.
+
+Measured across the four subjects at n_max = 60:
+
+| Subject | a₁ | D |
+|---|---|---|
+| ζ | 1 | 1.03e−32 |
+| Davenport–Heilbronn | 1 | 0.993 |
+| Epstein (2,1,3) | **0** | *undefined — raises* |
+| Epstein (1,1,6) | 2 | 1.76 |
+
+The form 2x² + xy + 3y² does not represent 1, so that Epstein series has
+a₁ = 0 and the logarithmic-derivative recursion the statistic is built on has
+no normalisation to divide by. The rival did not answer, so the claim has not
+been shown to exclude it: `run_battery` records the exception in `errors` and
+`distinguishes` stays `False`.
+
+That is the safe failure mode working as specified. A verdict that had quietly
+counted a crashed rival as refuted would be the most flattering possible bug,
+and it would have promoted D from "works on three of four subjects" to "the
+decision procedure for Gate 4".
+
 ## Where to start
 
 - Learn the mathematics: [learn.md](learn.md)
