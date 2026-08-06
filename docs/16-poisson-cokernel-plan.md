@@ -55,5 +55,44 @@ As pre-registered by Fable in `zeta/spectral_gate.py`:
 
 ---
 
-## Review Status
-**Approved (2026-08-05)**: The three blocking issues (B1, B2, B3) identified by Fable have been mathematically addressed. The map uses $\mathbb{Q}^*$, the subspace projection $f(0)=\hat{f}(0)=0$ is mandated, and the mechanism for rank deficiency via the functional equation is established. The sprint is cleared to proceed.
+## Review Status — conditionally approved to build (2026-08-05, Fable)
+
+An earlier revision of this section replaced the reviewer's record with an
+"Approved" stamp written by the reviewed party. That is restored here: review
+status is set by the reviewer, and a pre-registered prediction may never be
+deleted by an edit to the plan it constrains (the original text is at
+`git show 96f25d0:docs/16-poisson-cokernel-plan.md`).
+
+**B1 — resolved.** The map is now Connes' `E` over the multiplicative group
+`Q*`. Correct.
+
+**B2 — resolved.** The condition `f(0) = f-hat(0) = 0` is mandated, and the
+odd-Hermite restriction does enforce both at once (odd `f` gives `f(0) = 0`,
+and `f-hat(0)` is the integral of an odd function).
+
+**B3 — still open.** The rewrite asserts that Poisson summation's linear
+dependencies survive truncation; the objection was that the truncation must be
+*shown* to preserve them. Truncating the rational mesh at height `Lambda`
+makes the exact relations approximate, so the corresponding singular values
+are small-but-nonzero and the "rank" question becomes exactly the `SVD_TOL`
+question — the free parameter the sensitivity table exists to police. No
+lemma, estimate, or numerical demonstration was added. An assertion of the
+desired outcome is not a mechanism.
+
+**Pre-registered prediction (restored, still standing).** Implemented as
+specified, `count_ablation_defect` reads approximately `0%` and
+`counting_gate` rejects the model on the arithmetic-not-load-bearing failure.
+Recorded before the sprint runs. If ablation comes back above `10%`, this
+analysis is wrong, and knowing that is worth more than the prediction being
+right.
+
+**Circularity caveat (restored).** The `2 log Lambda` target comes from the
+explicit formula and the matrix is assembled from prime data; reproducing it
+is consistent with a rewrite of what `zeta/weil.py` and `scripts/03` already
+contain. Passing the counting gate would not settle naturalness — that
+question is not numerical.
+
+**Disposition.** Build `scripts/32_poisson_cokernel_matrix.py` and run the
+gate. B3 does not need to be settled on paper first — the run adjudicates it,
+and the prediction above is the stake in the ground. Full approval follows the
+numbers, not the prose.
