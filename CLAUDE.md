@@ -80,6 +80,14 @@ last one left off; this file plus `git log` is the handoff. Two caveats:
   from three unrelated families; κ in `zeta/epstein.py` is re-derived by a
   linear solve on every call, with the pinned string only a test reference.
   Follow that pattern for any new formula with a contested normalization.
+- **The Lean arm counts nothing with a `sorry`.** `lean/` is the second
+  certainty regime: theorems kernel-checked by Lean 4 + Mathlib, built with
+  `cd lean && PATH="$HOME/.elan/bin:$PATH" lake build`. Nothing there counts
+  until it compiles with zero `sorry`s — a `sorry` is an uncertified step,
+  tracked in the file, never hidden. Lean proofs and `rigor.py` enclosures are
+  the only two things in the repo entitled to the word "certified", and they
+  are different regimes (kernel-checked symbolic truth vs enclosure-carrying
+  numerics); say which one you mean.
 - **"Certified" is a reserved word.** Only `zeta/rigor.py` may claim it, and
   only for a quantity every step of whose computation carried an enclosure.
   A dict that reports `certified: True` is asserting a theorem; if any step
@@ -136,6 +144,12 @@ last one left off; this file plus `git log` is the handoff. Two caveats:
   `discovery/README.md` before touching any of it. `discovery` is not part of
   the editable install, so a script that imports it must put the repo root on
   `sys.path` (derived from `__file__` — see `scripts/13_discovery_run.py`).
+- Project: `lean/` — the certified arm: a Lean 4 + Mathlib package
+  (`ZetaLean`) formalizing, rung by rung, facts the laboratory measures.
+  `ZetaLean/GroundTruth.lean` is rung 1 (ζ(2), ζ(0), ζ(4), the zero-free
+  half-plane). The ladder and the next rung live in `HANDOFF.md`. Toolchain is
+  elan-managed and pinned by `lean/lean-toolchain`; `.lake/` build artifacts
+  are gitignored.
 - `scripts/` 01–05 and 07–13 standalone demos, `06_tour.py` (~90 s full
   story), `make_figures.py [--quick|--full]`. `13_discovery_run.py` is the
   funnel's operator console (`--dry-run`, `--report`).
@@ -187,6 +201,7 @@ cd <repo root>
 .venv/bin/python -m pytest -q -m "not slow"   # fast tier (1328 tests, ~2.5 min)
 .venv/bin/python scripts/06_tour.py           # end-to-end sanity + demo
 .venv/bin/python scripts/make_figures.py --quick   # all figures into figures/
+cd lean && PATH="$HOME/.elan/bin:$PATH" lake build  # the certified arm (0 sorrys)
 ```
 
 Tests run in parallel by default (`-n auto`, set in `pyproject.toml`) — the

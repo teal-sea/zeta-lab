@@ -56,6 +56,13 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
   RH; "not recognised offline" is the absence of a lookup, never novelty; the
   ledger in `conjectures/` is gitignored and must never be published.
 
+## The certified arm (`lean/`)
+
+- Lean 4 + Mathlib package `ZetaLean`: theorems kernel-checked, never
+  measured; zero `sorry`s required to count. Rung 1 (ground-truth values and
+  the zero-free half-plane) is done; the ladder toward the Davenport–Heilbronn
+  theorem is in `ROADMAP.md` and `HANDOFF.md`. Build: `cd lean && lake build`.
+
 ## Optional
 
 - [references/papers.md](references/papers.md): annotated reading list.

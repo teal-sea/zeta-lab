@@ -20,6 +20,7 @@ The latest session snapshot and exact continuation checklist are in
 | 2 | `weil`, `epstein` + docs 09–11 | the two ontology gates that can be made computational (positivity; the counterexample constraint) |
 | 3 | `rigor`, `li`, `finitefield`, `criteria` + doc 12 | certified arithmetic; the real-rootedness lane; the universe where RH is a theorem; the remaining equivalence faces |
 | 4 | `discovery/` + `scripts/13` | the conjecture funnel, schema-first, with conversion metrics |
+| 5 | `lean/` (Lean 4 + Mathlib) + docs/09 §5.1 | the certified arm (kernel-checked theorems, rung 1 done) and the strengthened gates: factorization through a positive structure, not positivity estimates |
 
 The organising chain is in `README.md`: theta is the heat kernel → Poisson
 summation → the functional equation → the mirror at `Re s = 1/2` → the explicit
@@ -55,7 +56,10 @@ theorists would say plainly that nobody knows what RH needs. The bet is a bet.
 
 - **Proving RH, or any part of it.** See `docs/00` §scope and `docs/08`. Nothing
   computed here is evidence. If a computation appears to settle something, the
-  correct inference is a bug.
+  correct inference is a bug. (The `lean/` arm does not bend this rule:
+  formalizing *known* theorems — ground-truth values, Davenport–Heilbronn — is
+  certification of the literature and of this lab's reference points, not an
+  attempt on RH.)
 - **Representing ontology *proposals* inside the discovery funnel.** The schema
   has no representation of a mechanism (`discovery/README.md` §7, blind spot 5),
   and a proposed new ontology is nothing but a mechanism. Forcing it in would
@@ -119,7 +123,30 @@ Listed because an undocumented gap becomes an assumption.
 
 ---
 
-## Next build: moments
+## Next build: the formalization ladder (lean/)
+
+The lab's newest arm, and the current continuation priority (see `HANDOFF.md`
+for the checklist). Rung 1 shipped: a Lean 4 + Mathlib project under `lean/`
+with the ground-truth facts kernel-checked (ζ(2) = π²/6, ζ(0) = −1/2,
+ζ(4) = π⁴/90, no zeros on Re s ≥ 1), zero `sorry`s, ~6 s rebuilds against the
+cached Mathlib toolchain.
+
+- **Rung 2 (next):** the κ derivation from `zeta/epstein.py` — the
+  self-duality linear solve behind the Davenport–Heilbronn combination,
+  formalized. First theorem Mathlib does not have; "derive conventions, never
+  remember them" made kernel-checked.
+- **Rung 3 (the prize):** the Davenport–Heilbronn theorem — a Dirichlet
+  series with functional equation, real coefficients, and an off-line zero
+  exists. Puts gate 3 (`docs/09`) into the certified library. Hard part:
+  certified interval evaluation of Dirichlet series in Lean; `zeta/rigor.py`
+  is the working blueprint.
+
+Why this is in scope: it certifies the literature and the lab's reference
+points. It is not an attempt on RH, and the deliberate-non-goal above stands.
+
+---
+
+## Previous build: moments
 
 Ladder rung 1 from `docs/12`'s closing section, and the most realistic target
 identified so far.

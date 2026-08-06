@@ -245,6 +245,14 @@ settle something, the correct inference is that there is a bug.
 
 Where a result is conditional on RH, the code and docs are meant to say so at the point of use.
 
+Since 2026-08 the laboratory also carries a second certainty regime alongside the numerics: `lean/`,
+a Lean 4 + Mathlib project whose theorems are checked by a proof kernel rather than measured. It
+formalizes *known* mathematics — the ground-truth values above, and (the current target) the
+Davenport–Heilbronn counterexample — which strengthens the instrument without touching the scope
+rule: a kernel-checked theorem about known facts is certification of the reference points, not
+progress on RH. Its house rule mirrors `zeta/rigor.py`'s: nothing counts until it compiles with
+zero `sorry`s.
+
 That rule extends to the one part of the repository that looks like it might break it. `discovery/`
 (§7) generates *candidate observations* and records the small number nothing killed as **survivors**.
 A survivor is a lead to be examined by hand — not a result, not a theorem, not evidence for RH —

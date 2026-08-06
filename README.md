@@ -28,6 +28,17 @@ implementations, but cannot establish RH. The
 house rule, from `docs/00-orientation.md`: *if a computation here appears to
 settle something, the correct inference is that there is a bug.*
 
+The laboratory has two certainty regimes. The numerical machinery in `zeta/`
+is *accurate* (and `zeta/rigor.py` alone may say *certified*, for quantities
+whose every step carried an enclosure). The second regime is new: `lean/` is
+a Lean 4 + Mathlib project whose theorems are checked by a proof kernel —
+not measured at all. It climbs a deliberate ladder: rung 1 (done) wires the
+lab's ground-truth facts to their Mathlib proofs; rung 2 formalizes the κ
+derivation behind the Davenport–Heilbronn counterexample; rung 3 targets the
+Davenport–Heilbronn theorem itself — the certified statement that zeta-shaped
+symmetry alone cannot give RH. Nothing in `lean/` counts until it compiles
+with zero `sorry`s.
+
 ## Quickstart
 
 ```bash
@@ -350,6 +361,8 @@ discovery/          the conjecture factory: a discovery funnel that logs itself
   knownness.py      the already-known gate: PSLQ closed forms, a fact registry, no novelty
   historical_cases.py  replay claims whose outcome is already settled
   domains/          THE ONLY PLACE THAT KNOWS THE SUBJECT (zeta_domain, zeta_history)
+lean/               the certified arm: Lean 4 + Mathlib (package ZetaLean);
+                    kernel-checked theorems, zero sorrys — `lake build`
 scripts/            01–05 and 07–13 one demo each, 06_tour.py runs the whole
                     story, make_figures.py regenerates figures/
 docs/               00–13, the reading course (see the table above)

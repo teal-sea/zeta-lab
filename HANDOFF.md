@@ -1,47 +1,119 @@
-# Session handoff — The Adelic Pivot, Spectral Realization, and the 3-Gate Harness
+# Session handoff — Scope Reconciliation, the Strengthened Gates, and the Certified Arm
 
-**Snapshot:** 2026-08-05 (Post-Adelic Sprint)
-**Branch:** `main`
-**Detailed sources of truth:** `state_of_the_lab.md`, `docs/07-equivalences-and-criteria.md`, `docs/06-hilbert-polya-and-gue.md`
+**Snapshot:** 2026-08-06
+**Branch:** `main` (pushed through `713c0be` + this docs pass)
+**Detailed sources of truth:** `ROADMAP.md` (decisions), `docs/09-new-ontologies.md` §5.1
+(the strengthened gates), `lean/` (the formalization ladder), `git log`
 
-**Status in one line:** Classical analytic criteria (Li, Weil) have been mathematically quantified as computationally blind to off-line zeros; the lab has relocated entirely onto the Adele class space (Connes, 1999), and a 4-Gate falsification harness has been built to ruthlessly reject forged spectral matrices.
+**Status in one line:** The lab's scope language is reconciled (falsification
+laboratory, not a proof), the falsification gates are upgraded from "prove
+positivity" to "exhibit factorization through a positive structure," the
+battery runs a second linear-combination rival by default, and the lab has
+grown a second certainty regime: a Lean 4 + Mathlib project whose theorems are
+kernel-checked rather than measured.
 
 ## Where the work landed
 
-### 1. Detector Sensitivity & Falsification
-- **The Imposter Gauntlet (`zeta/epstein.py`, `scripts/23_`):** The Epstein Zeta function (Discriminant -23) has been implemented and verified. Both the Davenport-Heilbronn function and the Epstein Zeta pass the functional equation but fail the Euler product. Any proposed criterion that relies only on geometric symmetry without the arithmetic (primes) will incorrectly pass these imposters.
-- **Detector Power (`zeta/detectors.py`, `scripts/24_`):** The classical criteria are mapped. The Gaussian-family Weil Positivity is exponentially blind to off-line zeros (maximum negative dip of $10^{-964}$ for $\delta=0.01$). It cannot be used as a computational falsifier. The Fejér-family is exponentially sensitive but requires phase alignment ($b$-scans).
+### 1. Scope reconciliation (`4c7e480`)
+A prior commit had changed the honest-scope rule to claim the repo "is a proof
+by construction via the spectral operator," contradicting the rest of the rule
+on the next lines. All five statements of scope (AGENTS.md→CLAUDE.md, README,
+ROADMAP, docs/00) now agree: **a computational falsification laboratory and
+research program exploring prime-side spectral constructions for RH; not
+presently a proof.** A proof would require a natural prime-defined object, a
+non-circular trace or spectral identification, and an intrinsic positivity or
+self-adjointness theorem. Numerics reject candidates and validate
+implementations; they cannot establish RH.
 
-### 2. The Adelic Foundation (`zeta/adele.py`)
-To move from analytic float-estimation into Non-Commutative Geometry, we constructed the exact Adelic primitives:
-- **p-adic valuations and the Adele Ring:** Embedding $\mathbb{Q} \to \mathbb{A}_\mathbb{Q}$.
-- **Artin's Product Formula (`scripts/25_`):** Computationally verified $\prod_v |q|_v = 1$.
-- **Tate's Thesis (`scripts/26_`, `scripts/28_`):** Local zeta integrals over the Ideles reproduce the global Riemann Zeta function. The completed Adelic Zeta Integral $\Lambda(s) = \Lambda(1-s)$ was verified natively.
-- **Adelic Additive Character (`scripts/27_`):** Verified the discrete embedding of $\mathbb{Q}$ in $\mathbb{A}_\mathbb{Q}$ ($\psi(q) = 1$). (Fixed a major anti-pattern here: truncation of the product is now explicitly measured as a phase defect, rather than patched with hardcoded primes).
+### 2. The strengthened gates — docs/09 §5.1 (`c0fa48d`)
+Since Weil positivity over the full admissible class is already *equivalent*
+to RH, "prove the quadratic form is positive" is RH restated, not a strategy.
+The positive target is **factorization**: `−W(f ∗ f̃) = ‖Φ(f)‖²` inside a
+genuinely positive structure, so the sign becomes formal. Three requirements
+in causal order:
 
-### 3. Connes' Trace Formula & The Spectral Harness
-- **The Trace (`scripts/29_`):** Relocated the classical Weil Explicit Formula onto the trace of a scaling operator on the space $\mathbb{A}_\mathbb{Q} / \mathbb{Q}^*$.
-- **The 4-Gate Harness (`zeta/spectral_gate.py`):** A strict falsifier for any matrix projection claiming to extract the Riemann zeros from this operator. It demands:
-  1. **Stability:** $\le 5\%$ drift when the basis doubles (kills continuous spectrum artifacts).
-  2. **Target:** $\le 1\%$ error against the exact ordinates `14.1347, 21.0220` (not just "on the line").
-  3. **Ablation:** $\ge 10\%$ spectral shift when primes are swapped for decoys (kills structural tautologies).
-  4. **Permutation:** Must react to the *set* of primes, not their list order.
-- **The Negative Control (`scripts/30_connes_spectral_matrix.py`):** We wired a structurally antisymmetric matrix that perfectly forged the Riemann zeros to machine precision. The `spectral_gate` instantly rejected it because it failed the Ablation gate (the arithmetic wasn't load-bearing). Later, our genuine Hermite-Adelic projection passed Ablation but was destroyed by the Permutation gate.
+- **A — arithmetic provenance:** everything generated from
+  `{(p, m, log p, p^{−m/2})}` + the archimedean factor; no zeros, ξ-phases, or
+  zero counts in the definition (mechanically checkable, seam-test style).
+- **B — exact trace realization:** `Str π(f) = W(f)` on the entire admissible
+  algebra, primes arising intrinsically. This is where the analytic difficulty
+  *relocates* (the function-field precedent: building the surface was the hard
+  part, not the Hodge-index step). Testable here as a measured defect.
+- **C — structural positivity:** a canonical positive pairing with the norm
+  identity, signature forced independently of the zeros. The identity is
+  numerically checkable; *naturality* is the boundary where the lab's writ
+  ends.
+
+§5.1 also records the five-entry **pseudo-solution taxonomy** (direct
+estimation, tautological completion, zero-importing, formal C*-positivity,
+finite approximants — each with its historical casualty) and the
+**linear-combination sharpening** of gates 3/4: what the counterexamples kill
+is primitive multiplicative structure destroyed by linear combination; no
+known example satisfies the full Selberg-class package and violates RH, so the
+gate is eliminative, never probative.
+
+### 3. Battery extension (`c0fa48d`)
+`zeta.epstein.battery` default rivals are now Davenport–Heilbronn **plus both
+discriminant −23 forms** — non-principal `(2,1,3)` and principal `(1,1,6)`,
+each a linear combination of the three Hecke L-functions of the class group.
+Verified before landing: `(1,1,6)` passes the functional-equation claim and
+fails multiplicativity, exactly like `(2,1,3)`. Tests pin the new default
+(`tests/test_epstein.py`, 39 passing).
+
+### 4. The certified arm — `lean/` (`713c0be`)
+Lean 4 (v4.33.0-rc2) + Mathlib project under `lean/`, full binary cache (no
+local Mathlib compile; rebuilds ~6 s). `ZetaLean/GroundTruth.lean` holds rung
+1 of the ladder: ζ(2) = π²/6, ζ(0) = −1/2, ζ(4) = π⁴/90, and the zero-free
+half-plane Re s ≥ 1 — kernel-checked, zero `sorry`s. Toolchain: `elan` via
+Homebrew; build with `cd lean && lake build` (PATH needs `~/.elan/bin`).
+
+House rule for this arm: the kernel plays the role of `rigor.py`. Nothing
+counts until it compiles with zero `sorry`s; a `sorry` is an uncertified step,
+tracked, never hidden. "Certified" remains a reserved word; Lean theorems and
+`rigor.py` enclosures are the only two things entitled to it, and they are
+different regimes (kernel-checked symbolic truth vs. enclosure-carrying
+numerics).
 
 ## What not to infer
 
-- **None of this is evidence for or against RH.**
-- **The Adelic computations don't prove Connes' theorem;** they simply map his analytical structure into computational objects. 
-- **Passing the 3-Gate Harness is not a discovery.** A matrix projection built from the primes that survives ablation and hits the target might simply be a re-encoding of the explicit formula (which already reconstructs zeros from primes, see `scripts/03`). It guarantees the math is load-bearing, but it does *not* prove naturalness.
+- **None of this is evidence for or against RH** (standing rule; Littlewood).
+- Rung 1 is plumbing, deliberately: the four theorems are one-line wirings to
+  proofs Mathlib already has. The point was the toolchain and the zero-sorry
+  pipeline, which now work end to end.
+- Passing gates A/B/C numerically would still not be a discovery — B and C's
+  identities can be checked to 1e-30 and the construction can still be a
+  re-encoding of the explicit formula. The gates are a killing floor, and the
+  survivor pile is where humans look.
 
 ## What is open now
 
-**The Cokernel of the Poisson-Summation Map (The True Adelic Pivot)**
+**The formalization ladder, rungs 2 and 3.**
 
-The previous stated next step — "find the subspace projection that locks the spectrum of the scaling operator into stability" — was mathematically wrong. The Archimedean generator $xp + px$ on $L^2(\mathbb{R})$ has a continuous spectrum (all of $\mathbb{R}$) and carries no arithmetic. Refining a finite basis of it will only produce cutoff artifacts forever.
+- **Rung 2 — the κ derivation** (`zeta/epstein.py` lines ~264–324): prove in
+  Lean the linear-solve derivation of Davenport–Heilbronn's κ (the
+  coefficient making the combination self-dual with real coefficients) —
+  finite linear algebra over explicit constants, the repo's
+  "derive conventions, never remember them" habit made kernel-checked. First
+  theorem Mathlib doesn't have.
+- **Rung 3 — the Davenport–Heilbronn theorem**: a Dirichlet series with
+  functional equation, real coefficients, and an off-critical-line zero
+  exists. Mathlib has Dirichlet characters and L-functions, so the objects are
+  statable; the off-line zero needs certified interval evaluation in Lean
+  (thin territory — this is the mountain), with `rigor.py` as the working
+  blueprint. Landing it puts gate 3 into the certified library.
 
-In Connes' framework, the Riemann zeros are an **absorption spectrum**. They are what is *missing* from the continuous spectrum after quotienting the Adeles by $\mathbb{Q}^*$. They are visible as gaps in a cokernel, not as eigenvalues you converge onto.
+**Inherited open item (previous sprint, unchanged):** the cokernel/absorption
+reading of the adelic route. The matrix route was closed by experiment (see
+`9360b00`, `docs/17-the-falsification-harness.md`); any revival must clear the
+4-gate spectral harness (`zeta/spectral_gate.py`) *and* the new §5.1
+requirements.
 
-The next physical sprint is not diagonalizing an eigensolver. It is computing the cokernel of the Poisson-summation map on the Adelic Schwartz space. That is a radically different, much harder computation, but it is the exact place where the primes are mathematically load-bearing. 
+## Continuation checklist
 
-Any computational proxy constructed must survive the **4-Gate Harness** (now including the Permutation Gate, verifying that the spectrum depends on the *set* of places, not the *list order*).
+1. `git pull`; confirm fast tier green
+   (`.venv/bin/python -m pytest -q -m "not slow"`).
+2. `cd lean && PATH="$HOME/.elan/bin:$PATH" lake build` — must complete with
+   zero `sorry`s before adding theorems.
+3. Start rung 2: state κ's defining linear system in Lean; keep the Python
+   derivation open beside it as the reference implementation.
+4. Regenerate `CONTEXT.md` after any public API/doc/script change.
