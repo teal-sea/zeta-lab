@@ -421,6 +421,8 @@ Constants: `STABILITY_TOLERANCE`, `TARGET_TOLERANCE`, `ABLATION_TOLERANCE`, `PER
 - `13-moments.md` — 13 — Moments: External Windows, Finite Estimates, Honest Scorecards
 - `14-how-new-mathematics-gets-invented.md` — 14 — How New Mathematics Gets Invented
 - `15-the-f1-discovery-engine.md` — 15 — The F1 Discovery Engine
+- `16-poisson-cokernel-plan.md` — Poisson-Summation Cokernel: Implementation Blueprint
+- `17-the-falsification-harness.md` — 17 — The falsification harness: how five claims died in one day
 
 ## Runnable demos (`scripts/`)
 
@@ -450,18 +452,18 @@ Constants: `STABILITY_TOLERANCE`, `TARGET_TOLERANCE`, `ABLATION_TOLERANCE`, `PER
 - `scripts/25_adelic_product_formula.py` — Demonstration of Artin's Product Formula over the Adeles.
 - `scripts/26_tates_thesis.py` — Demonstration of Tate's Thesis and the Idelic Global Zeta Function.
 - `scripts/27_adelic_fourier_character.py` — Demonstration of the Adelic Additive Character and Pontryagin Duality.
-- `scripts/28_tates_functional_equation.py` — Demonstration of Tate's Global Functional Equation.
-- `scripts/29_connes_trace_formula.py` — Connes' Trace Formula and the Spectral Realization of the Riemann Zeros.
 - `scripts/30_connes_spectral_matrix.py` — Spectral Discretization of the Connes Scaling Operator.
 - `scripts/31_spectral_falsifiers.py` — Demonstrate that the spectral falsifiers actually fire.
+- `scripts/32_poisson_cokernel_matrix.py` — Script 32: Poisson-Summation Cokernel Matrix (with p-adic tensor factors)
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/ledger_sync.sh` — Sync the private discovery ledger between machines.
 
 ## Tests (`tests/`)
 
-1115 test functions across 23 files (the collected count differs where tests are parametrised):
+1126 test functions across 25 files (the collected count differs where tests are parametrised):
 
+- `tests/test_adele.py` — 4
 - `tests/test_core.py` — 97
 - `tests/test_criteria.py` — 75
 - `tests/test_detectors.py` — 4
@@ -478,6 +480,7 @@ Constants: `STABILITY_TOLERANCE`, `TARGET_TOLERANCE`, `ABLATION_TOLERANCE`, `PER
 - `tests/test_moments.py` — 26
 - `tests/test_plots.py` — 13
 - `tests/test_rigor.py` — 50
+- `tests/test_rogue_lab_controls.py` — 7
 - `tests/test_script_13_discovery_run.py` — 33
 - `tests/test_script_14_moment_experiment.py` — 26
 - `tests/test_spectral_gate.py` — 14
