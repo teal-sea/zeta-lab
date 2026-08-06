@@ -1,0 +1,10 @@
+{
+ "n": 2,
+ "dps": 60,
+ "source": "mpmath.zetazero",
+ "description": "Ordinates gamma_n of the non-trivial zeros 1/2 + i*gamma_n of zeta(s).",
+ "zeros": [
+  "14.1347251417346937904572519835624702707842571156992431756855671",
+  "21.0220396387715549926284795938969027773343405249027817546295192"
+ ]
+}

@@ -41,6 +41,24 @@ not need.  Import them explicitly:
 :mod:`zeta.finitefield` curves over F_p — the RH that is a theorem.
 :mod:`zeta.criteria`    Mertens, Baez-Duarte, Robin/Lagarias, Speiser.
 
+Five further probes, each a longshot attack run to its wall and recorded
+with its verdict (``docs/18``).  Also not imported by ``import zeta``:
+
+:mod:`zeta.inverse`     Wu–Sprung inverse spectral theory: build the
+                        Hilbert–Pólya potential, then watch it work just as
+                        well for the RH-violating counterexample.
+:mod:`zeta.quasicrystal` the zero measure as an atomic Fourier object — the
+                        one probe here that *does* separate ζ from
+                        Davenport–Heilbronn, because it reads the Euler
+                        product.
+:mod:`zeta.leeyang`     Newman's Lee–Yang framing: the free energy of the Φ
+                        spin model is log ξ; GHS holds for ζ and for the
+                        counterexample alike.
+:mod:`zeta.relations`   PSLQ exclusions for ℚ-linear independence of the
+                        ordinates, with the pigeonhole floor made explicit.
+:mod:`zeta.synthesis`   the prime signal as additive synthesis; RH ⟺ finite
+                        mean power, whose value is 2 + γ − log 4π.
+
 Naming trap — there are three different "theta"s in this subject:
 
 * :func:`zeta.core.theta`          — Jacobi θ(x) = Σ e^{−πn²x} (the heat kernel);

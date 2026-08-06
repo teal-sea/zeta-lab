@@ -309,6 +309,68 @@ Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 - `verify_rh_certified(T, prec_bits: int = 64, count_prec_bits: int = 192, n_samples: int | None = None, max_samples: int = 200001, max_escalations: int = 8, backend: str | None = None, compare_floating: bool = True, cache: bool = True, verbose: bool = False) -> dict` — Rigorous counterpart of :func:`zeta.zeros.verify_rh_up_to`.
 - `enclosure_width_report(t_values: Sequence, prec_bits_list: Sequence[int], backend: str | None = None) -> list[dict]` — How the enclosure width of Z(t) shrinks with working precision.
 
+### `zeta/inverse.py` — Inverse spectral theory: the Wu–Sprung potential, and what it cannot show.
+
+*472 lines*
+
+Constants: `DATA_DIR`, `TWO_PI`
+
+- `abel_reconstruct(nbar_prime: Callable[[np.ndarray], np.ndarray], V_values: np.ndarray, E0: float, n_quad: int = 400) -> np.ndarray` — x(V) = ∫_{E₀}^{V} N̄′(E)/√(V−E) dE for each V in ``V_values``.
+- `harmonic_calibration(n_eigs: int = 12, grid_n: int = 6000) -> dict[str, Any]` — Calibrate both directions on the harmonic oscillator, where truth is exact.
+- `wu_sprung_potential(V_max: float = 120.0, n_grid: int = 1600, ordinates: Sequence[float] | None = None, delta: float = 2.5, source: str = 'zeta') -> dict[str, Any]` — The (half-)potential as monotone samples x(V), V ∈ [E₀, V_max].
+- `schrodinger_eigenvalues(V: Callable[[np.ndarray], np.ndarray], L: float, n_grid: int = 8000, k: int = 30, vectors: bool = False)` — Lowest k eigenpairs of −ψ″ + V(x)ψ on [−L, L], Dirichlet ends.
+- `dh_online_ordinates(t_max: float = 120.0, cache: bool = True, coarse_step: float = 0.05) -> list[float]` — Ordinates of Z_dh sign changes on (1, t_max], bisected to ~1e-12.
+- `spectrum_report(source: str = 'zeta', n_eigs: int = 25, n_ordinates: int = 60, delta: float = 2.5, V_max: float | None = None, n_grid: int = 8000) -> dict[str, Any]` — Reconstruct the potential (smooth and fractal), forward-solve both,
+
+### `zeta/quasicrystal.py` — The zero measure as a crystalline (atomic) Fourier object — and the one
+
+*279 lines*
+
+Constants: `PRIME_POWERS`, `COMPOSITES`
+
+- `zero_measure_transform(ordinates: Sequence[float], A: float)` — Return u ↦ Σ_{γ>0} e^{−γ²/2A²} cos(γu) for the given ordinates.
+- `predicted_atom_constant(A: float) -> float` — c = −A/(2√(2π)): the derived height of the log-n atom per unit Λ(n)/√n.
+- `atom_table(ordinates: Sequence[float], A: float, integers: Iterable[int] = PRIME_POWERS) -> dict[str, Any]` — Measured atom heights at log n against the derived prediction.
+- `euler_signature_report(ordinates: Sequence[float], A: float | None = None) -> dict[str, Any]` — Quantify the silence at composite non-prime-powers.
+- `dh_log_derivative_coefficients(n_max: int = 32, dps: int = 30) -> list[float]` — b_n with −f′/f(s) = Σ_{n≥1} b_n n^{−s}, for the DH function f.
+- `dh_dirichlet_defect(s: complex = 3.0, n_max: int = 400, n_ref: int = 3000, dps: int = 30) -> float` — |Σ b_n n^{−s} − (−f′/f)(s)|, the cross-check on the recursion.
+- `crystallinity_battery(n_zeta_zeros: int = 1000, dh_t_max: float = 120.0, n_coeff: int = 24) -> dict[str, Any]` — The gate: does the atomic structure separate ζ from Davenport–Heilbronn?
+
+### `zeta/leeyang.py` — Newman's Lee–Yang program, made computational — and its battery verdict.
+
+*251 lines*
+
+Constants: `DEFAULT_PROBES`
+
+- `free_energy_normalization(h_values: Sequence[float] = (0.0, 0.5, 1.2), dps: int = 25) -> dict[str, Any]` — Measure the constant c in ∫Φ(u)e^{hu}du = c·ξ(½+h/2).
+- `log_xi_third_derivative(w: float, source: str = 'zeta', step: float = 0.05, dps: int = 40) -> float` — G‴(w) for G(w) = log ξ(½+w), or the Davenport–Heilbronn analogue.
+- `ghs_defect(w: float, source: str = 'zeta', **kw) -> float` — The GHS defect: G‴(w). GHS is the assertion that this is ≤ 0.
+- `ghs_zero_sum(w: float, n_zeros: int = 2000) -> float` — G‴(w) = −4w Σ_γ (3γ²−w²)/(γ²+w²)³ — the Hadamard route, assuming RH.
+- `ghs_scan(probes: Sequence[float] = DEFAULT_PROBES, source: str = 'zeta', **kw) -> dict[str, Any]` — Evaluate the GHS defect across probe points and report any violation.
+- `phi_log_concavity(u_values: Sequence[float] = (0.0, 0.2, 0.5, 0.8, 1.0, 1.3), step: float = 0.01, dps: int = 40) -> dict[str, Any]` — (log Φ)″ at the given points; negative everywhere means log-concave.
+- `ghs_battery(probes: Sequence[float] = DEFAULT_PROBES) -> dict[str, Any]` — Run GHS on ζ and on Davenport–Heilbronn: does the inequality separate them?
+
+### `zeta/relations.py` — Integer-relation probes on the zero ordinates — the ℚ-independence face.
+
+*233 lines*
+
+- `pslq_sanity(dps: int = 60) -> dict[str, Any]` — Validate the instrument: PSLQ must recover a planted relation exactly.
+- `zero_relation_search(n_zeros: int = 12, max_coeff: int = 10 ** 6, dps: int | None = None, max_steps: int = 2 * 10 ** 5) -> dict[str, Any]` — Search for an integer relation among the first ``n_zeros`` ordinates.
+- `constants_relation_search(n_zeros: int = 6, max_coeff: int = 10 ** 4, dps: int | None = None, max_steps: int = 2 * 10 ** 5) -> dict[str, Any]` — Search for relations linking ordinates to the classical constants.
+- `confirm_relation(relation: Sequence[int], n_zeros: int, dps: int) -> dict[str, Any]` — Recompute the ordinates from scratch at ``dps`` and test a candidate.
+
+### `zeta/synthesis.py` — The prime signal as additive synthesis, and the power its partials carry.
+
+*181 lines*
+
+Constants: `MEAN_POWER_CLOSED_FORM`
+
+- `closed_form_power() -> float` — Σ_ρ 1/(ρ(1−ρ)) = 2 + γ_Euler − log 4π.
+- `prime_signal(N: int = 10 ** 6, n_samples: int = 200000, u_min: float = 2.0)` — Sample S(u) = (ψ(e^u) − e^u)/e^{u/2} on a uniform log-time grid.
+- `mean_power_prime_side(N: int = 10 ** 6, n_samples: int = 200000, u_start: float = 6.0) -> dict[str, Any]` — Average of S(u)² over log-time, from the prime side only.
+- `mean_power_zero_side(n_zeros: int = 1000) -> dict[str, Any]` — 2·Σ_{γ>0} 1/(¼+γ²) over cached ordinates, plus a density tail estimate.
+- `power_report(N: int = 10 ** 6, n_zeros: int = 1000, n_samples: int = 200000) -> dict[str, Any]` — All three routes to P, with their pairwise gaps.
+
 ### `zeta/plots.py` — Publication-quality matplotlib figures for every part of the zeta laboratory.
 
 *1671 lines*
@@ -359,56 +421,6 @@ Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 - `li_lesion_growth_rate(delta: float, T: float, dps: int = DPS_DEFAULT) -> mpmath.mpf` — ``max_j |1 - 1/rho_j|`` over the lesion quad — Li's exponential growth rate.
 - `li_lesion_doubling_n(delta: float, T: float, dps: int = DPS_DEFAULT) -> mpmath.mpf` — The ``n`` at which the lesion's Li signal doubles: ``log 2 / log(rate)``.
 
-### `zeta/inverse.py` — Inverse spectral theory: the Wu–Sprung potential, and what it cannot show.
-
-*472 lines*
-
-Constants: `DATA_DIR`, `TWO_PI`
-
-- `abel_reconstruct(nbar_prime: Callable[[np.ndarray], np.ndarray], V_values: np.ndarray, E0: float, n_quad: int = 400) -> np.ndarray` — x(V) = ∫_{E₀}^{V} N̄′(E)/√(V−E) dE for each V in ``V_values``.
-- `harmonic_calibration(n_eigs: int = 12, grid_n: int = 6000) -> dict[str, Any]` — Calibrate both directions on the harmonic oscillator, where truth is exact.
-- `wu_sprung_potential(V_max: float = 120.0, n_grid: int = 1600, ordinates: Sequence[float] | None = None, delta: float = 2.5, source: str = 'zeta') -> dict[str, Any]` — The (half-)potential as monotone samples x(V), V ∈ [E₀, V_max].
-- `schrodinger_eigenvalues(V: Callable[[np.ndarray], np.ndarray], L: float, n_grid: int = 8000, k: int = 30, vectors: bool = False)` — Lowest k eigenpairs of −ψ″ + V(x)ψ on [−L, L], Dirichlet ends.
-- `dh_online_ordinates(t_max: float = 120.0, cache: bool = True, coarse_step: float = 0.05) -> list[float]` — Ordinates of Z_dh sign changes on (1, t_max], bisected to ~1e-12.
-- `spectrum_report(source: str = 'zeta', n_eigs: int = 25, n_ordinates: int = 60, delta: float = 2.5, V_max: float | None = None, n_grid: int = 8000) -> dict[str, Any]` — Reconstruct the potential (smooth and fractal), forward-solve both,
-
-### `zeta/leeyang.py` — Newman's Lee–Yang program, made computational — and its battery verdict.
-
-*251 lines*
-
-Constants: `DEFAULT_PROBES`
-
-- `free_energy_normalization(h_values: Sequence[float] = (0.0, 0.5, 1.2), dps: int = 25) -> dict[str, Any]` — Measure the constant c in ∫Φ(u)e^{hu}du = c·ξ(½+h/2).
-- `log_xi_third_derivative(w: float, source: str = 'zeta', step: float = 0.05, dps: int = 40) -> float` — G‴(w) for G(w) = log ξ(½+w), or the Davenport–Heilbronn analogue.
-- `ghs_defect(w: float, source: str = 'zeta', **kw) -> float` — The GHS defect: G‴(w). GHS is the assertion that this is ≤ 0.
-- `ghs_zero_sum(w: float, n_zeros: int = 2000) -> float` — G‴(w) = −4w Σ_γ (3γ²−w²)/(γ²+w²)³ — the Hadamard route, assuming RH.
-- `ghs_scan(probes: Sequence[float] = DEFAULT_PROBES, source: str = 'zeta', **kw) -> dict[str, Any]` — Evaluate the GHS defect across probe points and report any violation.
-- `phi_log_concavity(u_values: Sequence[float] = (0.0, 0.2, 0.5, 0.8, 1.0, 1.3), step: float = 0.01, dps: int = 40) -> dict[str, Any]` — (log Φ)″ at the given points; negative everywhere means log-concave.
-- `ghs_battery(probes: Sequence[float] = DEFAULT_PROBES) -> dict[str, Any]` — Run GHS on ζ and on Davenport–Heilbronn: does the inequality separate them?
-
-### `zeta/quasicrystal.py` — The zero measure as a crystalline (atomic) Fourier object — and the one
-
-*279 lines*
-
-Constants: `PRIME_POWERS`, `COMPOSITES`
-
-- `zero_measure_transform(ordinates: Sequence[float], A: float)` — Return u ↦ Σ_{γ>0} e^{−γ²/2A²} cos(γu) for the given ordinates.
-- `predicted_atom_constant(A: float) -> float` — c = −A/(2√(2π)): the derived height of the log-n atom per unit Λ(n)/√n.
-- `atom_table(ordinates: Sequence[float], A: float, integers: Iterable[int] = PRIME_POWERS) -> dict[str, Any]` — Measured atom heights at log n against the derived prediction.
-- `euler_signature_report(ordinates: Sequence[float], A: float | None = None) -> dict[str, Any]` — Quantify the silence at composite non-prime-powers.
-- `dh_log_derivative_coefficients(n_max: int = 32, dps: int = 30) -> list[float]` — b_n with −f′/f(s) = Σ_{n≥1} b_n n^{−s}, for the DH function f.
-- `dh_dirichlet_defect(s: complex = 3.0, n_max: int = 400, n_ref: int = 3000, dps: int = 30) -> float` — |Σ b_n n^{−s} − (−f′/f)(s)|, the cross-check on the recursion.
-- `crystallinity_battery(n_zeta_zeros: int = 1000, dh_t_max: float = 120.0, n_coeff: int = 24) -> dict[str, Any]` — The gate: does the atomic structure separate ζ from Davenport–Heilbronn?
-
-### `zeta/relations.py` — Integer-relation probes on the zero ordinates — the ℚ-independence face.
-
-*233 lines*
-
-- `pslq_sanity(dps: int = 60) -> dict[str, Any]` — Validate the instrument: PSLQ must recover a planted relation exactly.
-- `zero_relation_search(n_zeros: int = 12, max_coeff: int = 10 ** 6, dps: int | None = None, max_steps: int = 2 * 10 ** 5) -> dict[str, Any]` — Search for an integer relation among the first ``n_zeros`` ordinates.
-- `constants_relation_search(n_zeros: int = 6, max_coeff: int = 10 ** 4, dps: int | None = None, max_steps: int = 2 * 10 ** 5) -> dict[str, Any]` — Search for relations linking ordinates to the classical constants.
-- `confirm_relation(relation: Sequence[int], n_zeros: int, dps: int) -> dict[str, Any]` — Recompute the ordinates from scratch at ``dps`` and test a candidate.
-
 ### `zeta/spectral_gate.py` — Falsifiers for a claimed spectral realisation of the Riemann zeros.
 
 *496 lines*
@@ -452,18 +464,6 @@ Constants: `STABILITY_TOLERANCE`, `TARGET_TOLERANCE`, `ABLATION_TOLERANCE`, `PER
 - `sample_cue_intensity(dimension: int, matrices: int, points_per_gap: int, *, seed: int) -> np.ndarray` — ``|Lambda_N|^2`` on the concatenated grid; the CUE analogue of ``|zeta|^2``.
 - `interval_statistics(values: np.ndarray, spacing: float, *, blocks: int = 8, top_fraction: float = 0.01, orders: tuple[int, ...] = (1, 2, 3, 4)) -> tuple[IntervalStatistics, ...]` — Concentration and block statistics for ``values^k`` on a uniform grid.
 
-### `zeta/synthesis.py` — The prime signal as additive synthesis, and the power its partials carry.
-
-*181 lines*
-
-Constants: `MEAN_POWER_CLOSED_FORM`
-
-- `closed_form_power() -> float` — Σ_ρ 1/(ρ(1−ρ)) = 2 + γ_Euler − log 4π.
-- `prime_signal(N: int = 10 ** 6, n_samples: int = 200000, u_min: float = 2.0)` — Sample S(u) = (ψ(e^u) − e^u)/e^{u/2} on a uniform log-time grid.
-- `mean_power_prime_side(N: int = 10 ** 6, n_samples: int = 200000, u_start: float = 6.0) -> dict[str, Any]` — Average of S(u)² over log-time, from the prime side only.
-- `mean_power_zero_side(n_zeros: int = 1000) -> dict[str, Any]` — 2·Σ_{γ>0} 1/(¼+γ²) over cached ordinates, plus a density tail estimate.
-- `power_report(N: int = 10 ** 6, n_zeros: int = 1000, n_samples: int = 200000) -> dict[str, Any]` — All three routes to P, with their pairwise gaps.
-
 ## Documents (`docs/`)
 
 - `00-orientation.md` — 00 — Orientation
@@ -485,6 +485,7 @@ Constants: `MEAN_POWER_CLOSED_FORM`
 - `15-the-f1-discovery-engine.md` — 15 — The F1 Discovery Engine
 - `16-poisson-cokernel-plan.md` — Poisson-Summation Cokernel: Implementation Blueprint
 - `17-the-falsification-harness.md` — 17 — The falsification harness: how five claims died in one day
+- `18-five-longshots.md` — 18 — Five longshots, run to their walls
 
 ## Runnable demos (`scripts/`)
 
@@ -526,7 +527,7 @@ Constants: `MEAN_POWER_CLOSED_FORM`
 
 ## Tests (`tests/`)
 
-1157 test functions across 29 files (the collected count differs where tests are parametrised):
+1163 test functions across 30 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_core.py` — 97
@@ -555,6 +556,7 @@ Constants: `MEAN_POWER_CLOSED_FORM`
 - `tests/test_spectral_gate.py` — 14
 - `tests/test_statistics.py` — 54
 - `tests/test_surrogate.py` — 23
+- `tests/test_synthesis.py` — 6
 - `tests/test_weil.py` — 37
 - `tests/test_zeros.py` — 58
 

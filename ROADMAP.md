@@ -106,6 +106,52 @@ cloned in place at `conjectures/`, driven by `scripts/ledger_sync.sh`
 the script drops the exact-duplicate lines a union merge can leave behind.
 Syncing is manual and deliberately so — pull before a run, push after.
 
+## Five longshot probes, run to their walls (2026-08-06)
+
+Five deliberately improbable attacks, each pushed until it produced a
+measurement or hit a named obstruction. Full account in `docs/18`; modules
+are `zeta/inverse.py`, `leeyang.py`, `relations.py`, `quasicrystal.py`,
+`synthesis.py`. None advances RH. The decisions worth recording:
+
+- **Existence of a Hilbert–Pólya operator is not a fact about ζ.** Wu–Sprung
+  inverse spectral reconstruction hits the first 25 ordinates to 1.2e-4 mean
+  gaps — and hits the *Davenport–Heilbronn* on-line ordinates to 2.5e-4. The
+  Abel inversion consumes a list of reals and cannot see off-line zeros.
+  Gate #3: distinguishes nothing. Any future Hilbert–Pólya claim in this repo
+  must be about a *property* of the operator, never its existence.
+- **Ferromagnetic inequalities do not see RH.** The free energy of the Φ spin
+  model is exactly log ξ (normalization ∫Φe^{hu}du = ¼ξ(½+h/2), derived not
+  recalled). GHS holds for ζ at every probe — and equally for DH. Lee–Yang
+  membership *is* RH; it is a restatement, not a route.
+- **The quasicrystal gate is the sharpest one in the repository, and it is
+  about factorization.** The zero measure's Fourier transform is atomic at
+  log n with weights ∝ Λ(n)/√n; ζ is silent at composite non-prime-powers
+  (26.8× separation with 1000 zeros) precisely because of the Euler product,
+  while DH's −f′/f is loud there (b₆, b₁₄, b₂₁, b₂₆ all > 1.9 in modulus).
+  **This is the only probe of the five that the counterexample fails.** It
+  detects the Euler product, not RH — but it is a measured instance of
+  `docs/09` §5.1's strengthened gate: factorization, not positivity.
+- **PSLQ nearly lied, and the guard is now permanent.** At the textbook
+  precision the n=20 search returned a "relation" (coefficients ~7e5,
+  residual 4.4e-104) that survived recomputation at 300 digits and was pure
+  pigeonhole accident. `zeta/relations.py` now carries a 40-digit guard, a
+  residual gate, and a third status `inconclusive_floor_noise`. Standing rule
+  reinforced: a finding that does not shrink when you improve the
+  approximation is an artifact of the search.
+- **`mp.diff` is unsafe on this repo's rounded functions.** Both `dh_f` and
+  `xi` round internally and are bit-constant across `mp.diff`'s step, so it
+  returns exactly 0 with no warning. Hand-rolled stencils with explicit steps
+  are mandatory; both traps are pinned by regression tests.
+
+Also recorded: RH ⟺ the prime signal (ψ(e^u)−e^u)/e^{u/2} has finite mean
+power, whose value under RH is 2 + γ_Euler − log 4π = 0.0461914179 (RMS
+0.2149), verified by three independent routes. The wall is Goldston–Montgomery:
+proving finiteness from the prime side is equivalent to pair correlation.
+
+**No `conjectures/` ledger entry.** Four probes are refuted by gate #3 or are
+restatements; the fifth detects a property (Euler product) that was already
+known to separate these two functions.
+
 ## Known gaps
 
 Listed because an undocumented gap becomes an assumption.

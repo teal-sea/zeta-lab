@@ -52,6 +52,11 @@ MODULE_ORDER = [
     "finitefield",
     "criteria",
     "rigor",
+    "inverse",
+    "quasicrystal",
+    "leeyang",
+    "relations",
+    "synthesis",
     "plots",
 ]
 
