@@ -194,16 +194,17 @@ affected cache files and re-run, or stale numbers will "pass".
 
 ```bash
 cd <repo root>
-.venv/bin/python -m pytest -q                 # full suite (1365 tests, ~7 min)
-.venv/bin/python -m pytest -q -m "not slow"   # fast tier (1328 tests, ~2.5 min)
+.venv/bin/python -m pytest -q                 # full suite (1532 tests, ~7 min)
+.venv/bin/python -m pytest -q -m "not slow"   # fast tier (1480 tests, ~2.5 min)
 .venv/bin/python scripts/06_tour.py           # end-to-end sanity + demo
 .venv/bin/python scripts/make_figures.py --quick   # all figures into figures/
 cd lean && PATH="$HOME/.elan/bin:$PATH" lake build  # the certified arm (0 sorrys)
 ```
 
 Tests run in parallel by default (`-n auto`, set in `pyproject.toml`) — the
-fast tier goes from ~320 s to ~115 s. Add `-p no:xdist` when you need `--pdb`
-or clean per-test output. Before optimising anything, run `--durations=20`:
+fast tier goes from ~320 s to ~115 s. Add `-n0` when you need `--pdb` or clean
+per-test output — **not** `-p no:xdist`, which unloads the plugin that owns the
+`-n auto` already in `addopts` and dies with "unrecognized arguments: -n". Before optimising anything, run `--durations=20`:
 the cost concentrates in `test_li.py`, `test_heatflow.py` and `test_weil.py`
 (high-precision zero sums and quadrature).
 

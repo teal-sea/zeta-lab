@@ -22,6 +22,10 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
   non-goals, known gaps, next build. Read before planning work.
 - [CONTEXT.md](CONTEXT.md): generated index of the full API, docs, scripts and
   test counts. Regenerate with `python scripts/make_context.py`.
+- [references/mathlib-open-targets.md](references/mathlib-open-targets.md):
+  generated from Mathlib's own `docs/1000.yaml` — the famous theorems it
+  records as wanted and unbuilt. The upstream track for `lean/`; judgment
+  lives in ROADMAP.md. Regenerate with `python scripts/mathlib_gaps.py`.
 
 ## The written course (docs/, in reading order)
 

@@ -6,7 +6,7 @@ a single vertical line. This repository is a working laboratory for that
 statement: arbitrary-precision implementations of the classical machinery
 (theta functions, the functional equation, Hardy's Z, the explicit formula,
 GUE statistics, heat flow on Ξ, Weil positivity, the Davenport–Heilbronn
-counterexample), each identity *measured* rather than assumed, with 486 tests
+counterexample), each identity *measured* rather than assumed, with 1532 tests
 pinning every claimed number. In ninety seconds you can watch
 the primes reconstructed from the zeros alone; in an afternoon you can read
 why none of this computes its way to a proof.
@@ -362,14 +362,15 @@ lean/               the certified arm: Lean 4 + Mathlib (package ZetaLean);
 scripts/            01–05 and 07–13 one demo each, 06_tour.py runs the whole
                     story, make_figures.py regenerates figures/
 docs/               00–13, the reading course (see the table above)
-tests/              1365 tests (1328 in the fast tier); every number claimed in
+tests/              1532 tests (1480 in the fast tier); every number claimed in
                     a docstring is pinned
 data/               caches (zero tables as .json are committed; .npz scans
                     regenerate on first use)
 conjectures/        the discovery ledger — GITIGNORED, a private notebook of
                     unreviewed leads; publish the metrics report, never the log
 figures/            the twenty-two PNGs linked above
-references/         annotated reading list (references/papers.md)
+references/         annotated reading list (papers.md), plus mathlib-open-targets.md
+                    — generated: what Mathlib says it wants and does not have
 ```
 
 `discovery/` splits along one seam and the split is the point: `schema.py`,

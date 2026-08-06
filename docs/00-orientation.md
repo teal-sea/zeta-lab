@@ -231,11 +231,8 @@ where the defining series diverges, to find zeros and count them with certificat
 primes from the zeros and watch the error shrink as you add more, to test the GUE statistics against
 real data, and to run the heat flow.
 
-It is a **computational falsification laboratory** and research program exploring prime-side
-spectral constructions for RH. It is not presently a proof: a proof would require a natural
-prime-defined object, a non-circular trace or spectral identification, and an intrinsic positivity
-or self-adjointness theorem. Numerical experiments here can reject candidates and validate
-implementations, but cannot establish RH. That is not a disclaimer of ambition; it is Littlewood's
+Zeta Lab is a **computational and formal workbench that reconstructs, tests, connects, and
+falsifies ideas around RH, without claiming to advance RH.** That is not a disclaimer of ambition; it is Littlewood's
 theorem (see §8). If RH is settled by this route, it will come from constructing that framework,
 not from measuring zeta harder. §4 records `1.24 × 10^13` verified zeros, and §3 records Littlewood's
 theorem, which guarantees that a pattern holding for every computed case can still be false.
