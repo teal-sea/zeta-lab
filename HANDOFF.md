@@ -108,6 +108,59 @@ reading of the adelic route. The matrix route was closed by experiment (see
 4-gate spectral harness (`zeta/spectral_gate.py`) *and* the new §5.1
 requirements.
 
+---
+
+## Addendum — the upstream track (2026-08-06, `f47a490` + `f5a1cbd`)
+
+Written by a second session working the same checkout. Two things landed, plus
+one correction to the section above.
+
+**Correction to §1 (scope reconciliation).** The wording recorded above — "a
+computational falsification laboratory and research program … not presently a
+proof; a proof would require …" — was replaced in `f47a490` at the owner's
+direction, on the grounds that it hedged where a plain statement would do. The
+scope language in `README.md` and `CLAUDE.md` is now:
+
+> Zeta Lab is a computational and formal workbench that reconstructs, tests,
+> connects, and falsifies ideas around RH, without claiming to advance RH.
+
+Nothing about the substance changed — no numerical claim, no gate, and not the
+standing rule that nothing here is evidence for RH. Only the register.
+
+**The upstream track (`f5a1cbd`).** `lean/` produces more value if some of it
+ends up in Mathlib rather than only compiling here. `scripts/mathlib_gaps.py`
+generates `references/mathlib-open-targets.md` from Mathlib's own
+`docs/1000.yaml`: **970 of 1179** famous theorems carry no `decl:`, which is the
+library recording what it wants and lacks. `ROADMAP.md` §"The upstream track"
+carries the judgment, verified 2026-08-06 by code search and open-PR search
+against Mathlib master and PrimeNumberTheoremAnd:
+
+| target | in Mathlib | claimed |
+| --- | --- | --- |
+| Hardy Z, Riemann–Siegel ϑ | no | no — not in PNT+ either |
+| Sturm's theorem | no (`1000.yaml` Q1632301) | no |
+| Critical line theorem | no (`1000.yaml` Q205966) | no |
+| `N(T)` | no | **yes — PNT+ owns it, do not duplicate** |
+| `riemannZeta_conj`, Λ(1−s)=Λ(s) | **yes** | — |
+
+Two decisions worth not re-deriving. **Build Hardy Z from
+`completedRiemannZeta`, not from e^{iϑ}ζ** — the textbook route needs a
+continuous branch of log Γ along the critical line, which Mathlib lacks, while
+the Λ route gets realness from `riemannZeta_conj` + `completedRiemannZeta_one_sub`,
+both already merged. **Hardy Z precedes Sturm**, even though Sturm is the
+higher-impact target: Sturm is a multi-thousand-line development and a first PR
+that size from a contributor with no merged history does not get reviewed.
+Impact alone argues the opposite order; that is the trap.
+
+Porting work itself lives in a **separate repo, `../contrib-lab`** — checking
+tools, target files, and the record of what review asked for. It holds no
+mathematics. Nothing in this repo depends on it.
+
+**Not done here:** neither target is scoped in Lean, and Zulip has not been
+checked for an unannounced claim on either.
+
+---
+
 ## Continuation checklist
 
 1. `git pull`; confirm fast tier green
