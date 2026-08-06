@@ -19,7 +19,12 @@ think they mean, and calibrating what "evidence" is worth in this subject
 (answer: nothing — see `docs/08-why-it-is-hard.md` for Littlewood's theorem
 and the failure catalogue of every obvious route).
 
-It is **a proof by construction**, aimed at building the spectral operator whose spectrum is the zeros. However, no numerical computation here is evidence for RH. The
+It is a **computational falsification laboratory** and research program
+exploring prime-side spectral constructions for RH — not presently a proof. A
+proof would require a natural prime-defined object, a non-circular trace or
+spectral identification, and an intrinsic positivity or self-adjointness
+theorem; numerical experiments here can reject candidates and validate
+implementations, but cannot establish RH. The
 house rule, from `docs/00-orientation.md`: *if a computation here appears to
 settle something, the correct inference is that there is a bug.*
 

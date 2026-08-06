@@ -174,8 +174,8 @@ heights. Computing our own would be both slower and worse.
 **Fourth increment shipped.** `scripts/14_moment_experiment.py` generates its own
 critical-line values at modest height and measures the finite moments, rather
 than waiting on an external dataset. The 2nd moment calibrates against the
-Ingham two-term global main term; this is a component of a proof by construction,
-not an end in itself.
+Ingham two-term global main term; this is an instrument-validation step within
+the research program, not an end in itself.
 
 The same increment checks the leading terms against Cauchy–Schwarz. The result
 is deliberately narrow: pairwise consistency thresholds of `3.6e8` (4th/8th),

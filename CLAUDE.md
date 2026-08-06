@@ -62,7 +62,12 @@ last one left off; this file plus `git log` is the handoff. Two caveats:
   central habit: every number in a docstring is pinned by `tests/`; identities
   are exposed as measured *defect* functions (`functional_equation_defect`,
   `theta_modular_defect`, ...), not assumed.
-- **Honest-scope rule**: this repo is a proof by construction via the spectral operator. However, no numerical check is evidence for RH.
+- **Honest-scope rule**: this repo is a computational falsification laboratory
+  and research program exploring prime-side spectral constructions for RH. It
+  is not presently a proof; a proof would require a natural prime-defined
+  object, a non-circular trace or spectral identification, and an intrinsic
+  positivity or self-adjointness theorem. Numerical experiments can reject
+  candidates and validate implementations, but cannot establish RH.
   Nothing here is evidence for RH (Littlewood's theorem, `docs/08`). Never
   write language implying a computation settles or supports RH; the sanctioned
   framing for the sign-change verification is "proof for the finite range,

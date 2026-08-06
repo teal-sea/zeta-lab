@@ -402,6 +402,10 @@ Constants: `STABILITY_TOLERANCE`, `TARGET_TOLERANCE`, `ABLATION_TOLERANCE`, `PER
 - `sample_cue_intensity(dimension: int, matrices: int, points_per_gap: int, *, seed: int) -> np.ndarray` — ``|Lambda_N|^2`` on the concatenated grid; the CUE analogue of ``|zeta|^2``.
 - `interval_statistics(values: np.ndarray, spacing: float, *, blocks: int = 8, top_fraction: float = 0.01, orders: tuple[int, ...] = (1, 2, 3, 4)) -> tuple[IntervalStatistics, ...]` — Concentration and block statistics for ``values^k`` on a uniform grid.
 
+## Discovery layer API (`discovery/`) — the conjecture factory
+
+A domain-agnostic pipeline that generates candidate observations from the laboratory's computed objects, screens them, and **logs the whole funnel so the conversion rate per generator can be measured**. `schema`, `registry`, `ledger`, `funnel`, `metrics` and `historical_cases` name no quantity the laboratory computes and import nothing from `zeta` — the seam is enforced by tests. `knownness` is the documented one-step-less-strict module (it knows general mathematics, not this subject). Everything that names the subject lives in `discovery/domains/`. Design and honest limits: [`discovery/README.md`](discovery/README.md). Operator console: `scripts/13_discovery_run.py`. The ledger it writes (`conjectures/`) is **gitignored**: a private notebook of unreviewed leads, and nothing in it is evidence for anything. An empty `conjectures/` in a fresh clone is that rule working, not a fault — `scripts/ledger_sync.sh` shares one ledger across machines through a *separate private* repo, never this tree.
+
 ## Documents (`docs/`)
 
 - `00-orientation.md` — 00 — Orientation
@@ -455,6 +459,8 @@ Constants: `STABILITY_TOLERANCE`, `TARGET_TOLERANCE`, `ABLATION_TOLERANCE`, `PER
 - `scripts/30_connes_spectral_matrix.py` — Spectral Discretization of the Connes Scaling Operator.
 - `scripts/31_spectral_falsifiers.py` — Demonstrate that the spectral falsifiers actually fire.
 - `scripts/32_poisson_cokernel_matrix.py` — Script 32: Poisson-Summation Cokernel Matrix (with p-adic tensor factors)
+- `scripts/40_legendre_weil.py` — Landau Problem 1: Legendre's Conjecture via the Explicit Formula
+- `scripts/41_twin_prime_gue.py` — Script 41: The GUE Twin Prime Predictor
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/ledger_sync.sh` — Sync the private discovery ledger between machines.
