@@ -127,3 +127,21 @@ route dead. If ablation still reads ~0% with genuine local factors, the route
 is closed and the regularized alternative already in the repo —
 `zeta/weil.py`'s Weil functional with smooth test functions and accounted
 truncation tails — is the correct finite shadow of the trace formula.
+
+## Closed (2026-08-05, p-adic run)
+
+The p-adic tensor factors were implemented (`5ab8c93`: exact denominators
+via `Fraction`, indicator factors on denominator divisibility — a fair
+version of what the outcome entry asked for) and the gate rerun and
+independently reproduced: growth ratio 5.846, prediction error 13.1%,
+ablation 4.8%. All three checks fail with arithmetic now structurally
+present. **The matrix route is closed, by experiment.**
+
+Scope of the conclusion, stated precisely: what is established is that
+these two constructions carry no recoverable arithmetic at any tolerance —
+not a general theorem that no finite truncation can. The sprint's question
+reverts to `zeta/weil.py`, where the finite shadow of the trace formula
+already exists with tails accounted; per docs/08, none of this bears on RH
+either way. Any successor sprint should begin the way this one did — a plan
+doc with pre-registered predictions filed before the first run — because
+that discipline is what produced a clean negative result twice in one day.
