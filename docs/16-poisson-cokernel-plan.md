@@ -96,3 +96,34 @@ question is not numerical.
 gate. B3 does not need to be settled on paper first — the run adjudicates it,
 and the prediction above is the stake in the ground. Full approval follows the
 numbers, not the prose.
+
+---
+
+## Outcome (2026-08-05, recorded same day)
+
+The prediction held. `scripts/32_poisson_cokernel_matrix.py` (built by the
+Gemini session, reproduced independently) fails all three counting-gate
+checks: growth ratio 8.923 (needs 2.0 ± 0.3), held-out prediction off by
+9.1% (limit 5%), **ablation 0.0%** (needs ≥ 10%). The count is
+`Rows − Cols` exactly — a function of the chosen basis sizes, as B3 said.
+
+A follow-up diagnostic goes further than B3: the *entire singular-value
+spectrum* of the truncated map is arithmetic-free, not just the thresholded
+rank. Primes vs decoys differ by 1–4% in log-spectrum distance — within
+one-prime-swap noise — and the mollified count `#{sigma < eps}` agrees to
+±1 at every tolerance from 1e-2 to 1e-12. So the fallback of gating a
+smoothed rank on this matrix is also closed.
+
+Root cause, stated carefully: the failure indicts this simplification, not
+only truncation. As built, the primes enter solely as mesh points `n/p` in a
+sum of smooth Gaussians — perturbations a smooth basis cannot remember. The
+plan's p-adic tensor factor (indicators on `p^{-k} Z_p`), the one component
+that would carry arithmetic *structurally*, was never implemented. "The trace
+formula cannot be computed on a finite matrix" is not established; "this
+matrix carries no arithmetic" is.
+
+Next decision point: implement the p-adic factor before declaring the matrix
+route dead. If ablation still reads ~0% with genuine local factors, the route
+is closed and the regularized alternative already in the repo —
+`zeta/weil.py`'s Weil functional with smooth test functions and accounted
+truncation tails — is the correct finite shadow of the trace formula.
