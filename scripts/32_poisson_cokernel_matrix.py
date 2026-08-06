@@ -1,21 +1,24 @@
 """
-Script 32: Poisson-Summation Cokernel Matrix
+Script 32: Poisson-Summation Cokernel Matrix (with p-adic tensor factors)
 
 Builds a computational model of the Poisson-summation map on a truncated 
 Adelic Schwartz space.
 
-We project onto the subspace f(0) = f_hat(0) = 0 by using odd basis functions:
-f_j(x) = x * exp(-(x / s_j)^2).
+Basis functions are tensor products f = f_real * f_padic.
+- f_real is an odd function (e.g. x * exp(-(x/s_j)^2))
+- f_padic is the indicator of the fractional ideal p^{-k} Z_p.
 
-This script implements the count(cutoff, primes) interface expected by 
-zeta.spectral_gate.counting_gate, and then runs the gate to test 
-Fable's B3 prediction: that truncation breaks the functional equations, 
-making the matrix generic and causing the counting gate to fail on ablation 
-and growth ratio.
+For q in Q*, f_padic(q) = 1 if the denominator of q divides d (where d 
+encodes the p-adic scales p^k). Otherwise 0.
+
+This structurally encodes the arithmetic of the primes into the matrix, 
+addressing Fable's critique that the previous version was just a smooth 
+mesh perturbation.
 """
 
 import math
 import numpy as np
+from fractions import Fraction
 
 def generate_q_mesh(cutoff, primes):
     """
@@ -24,36 +27,47 @@ def generate_q_mesh(cutoff, primes):
     Q = set()
     max_n = max(3, int(cutoff * 5))
     for n in range(1, max_n + 1):
-        Q.add(float(n))
+        Q.add(Fraction(n, 1))
         for p in primes:
-            Q.add(n / float(p))
+            Q.add(Fraction(n, p))
+            if p**2 <= cutoff * 3:
+                Q.add(Fraction(n, p**2))
+    # Return as list of Fractions to preserve exact denominators
     return sorted(list(Q))
 
 def count(cutoff, primes, svd_tol=1e-8):
-    """
-    Returns the cokernel dimension of the truncated Poisson map E_Lambda.
-    """
-    Q = generate_q_mesh(cutoff, primes)
+    Q_fracs = generate_q_mesh(cutoff, primes)
     
     # Rows: sample points in the Adele class space
-    # We ensure Rows > Cols so the cokernel is naturally Rows - Rank
     rows = int(cutoff * 10) + 10
     X = np.linspace(0.1, cutoff * 2, rows)
     
-    # Cols: basis functions
-    cols = int(cutoff * 4) + 5
+    # Cols: basis functions (j, d)
+    # j is the real basis scale index
+    # d is the p-adic indicator (denominator limit)
+    real_basis_count = int(cutoff * 2) + 2
+    
+    # D is the set of allowable denominators
+    D = [1] + list(primes)
+    cols = real_basis_count * len(D)
     
     M = np.zeros((rows, cols))
     
-    for j in range(cols):
-        s_j = 0.5 + j * 0.2
-        for i, x in enumerate(X):
-            val = 0.0
-            for q in Q:
-                arg = q * x
-                if arg < 15.0:  # avoid exp underflow
-                    val += arg * math.exp(-(arg / s_j)**2)
-            M[i, j] = val
+    col_idx = 0
+    for d in D:
+        for j in range(real_basis_count):
+            s_j = 0.5 + j * 0.3
+            for i, x in enumerate(X):
+                val = 0.0
+                for q_frac in Q_fracs:
+                    # p-adic factor: 1 if denom(q) divides d, else 0
+                    if d % q_frac.denominator == 0:
+                        q_float = float(q_frac)
+                        arg = q_float * x
+                        if arg < 15.0:  # avoid exp underflow
+                            val += arg * math.exp(-(arg / s_j)**2)
+                M[i, col_idx] = val
+            col_idx += 1
             
     # Compute numerical rank
     s = np.linalg.svd(M, compute_uv=False)
@@ -69,13 +83,10 @@ if __name__ == "__main__":
     primes = [2, 3, 5, 7, 11]
     decoys = [4, 6, 8, 9, 10]
     
-    # cutoffs: the first element is used as the base for count_growth_ratio (base, base^2, base^4).
-    # the last element is the held-out point for count_prediction_defect.
     cutoffs = [2.0, 3.0, 4.0]
     
-    print("Building Poisson Cokernel Matrices and running Counting Gate...")
-    print("Testing Fable's B3 Pre-Registered Prediction...")
-    print("If Ablation ≈ 0.0%, truncation genericized the matrix.\n")
+    print("Building Poisson Cokernel Matrices (with p-adic tensor factors)...")
+    print("Running Counting Gate...\n")
     
     verdict = counting_gate(count, primes, decoys, cutoffs)
     
@@ -88,7 +99,6 @@ if __name__ == "__main__":
         print("\nFailures:")
         for f in verdict.failures:
             print("- " + f)
-        print("\n>> FABLE'S PREDICTION CONFIRMED: The truncation broke the exact functional equations.")
-        print(">> The matrix became mathematically generic, fixing the rank to min(Rows, Cols).")
+        print("\n>> FABLE'S VERDICT: The matrix route is officially closed. Arithmetic is completely absent from the spectrum.")
     else:
-        print("\n>> FABLE'S PREDICTION BROKEN: The matrix preserved the functional equation!")
+        print("\n>> FABLE'S VERDICT OVERTURNED: The p-adic tensor factors forced the matrix to recognize the arithmetic!")
