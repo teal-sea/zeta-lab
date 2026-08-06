@@ -1,4 +1,4 @@
-# `discovery/` — the ontology of the conjecture factory
+# `ontology/` — the ontology of the conjecture factory
 
 **Phase 4, step 1: the schema and nothing else.** No generators, no screens, no
 pattern hunting. This document defines what a candidate observation *is*, what
@@ -599,11 +599,11 @@ A classification system that cannot correctly bin claims whose outcomes are
 **already settled** is not ready to classify anything unsettled. Before this
 funnel is pointed at an unexamined question, it has to reproduce history.
 
-`discovery/historical_cases.py` is the harness and is domain-agnostic like its
+`ontology/historical_cases.py` is the harness and is domain-agnostic like its
 four siblings: it defines what a settled case *is* (`HistoricalOutcome`,
 `HistoricalCase`), replays one through any `Domain`, and adjudicates the result.
-`discovery/domains/zeta_history.py` supplies this laboratory's cases. The seam
-test globs `discovery/*.py`, so the split is not a stylistic choice — a harness
+`ontology/domains/zeta_history.py` supplies this laboratory's cases. The seam
+test globs `ontology/*.py`, so the split is not a stylistic choice — a harness
 that named the subject would turn the existing suite red.
 
 `IMPOSSIBLE_DISPOSITIONS` is the load-bearing part. It maps each historical

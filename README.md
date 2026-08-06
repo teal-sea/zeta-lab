@@ -11,6 +11,33 @@ pinning every claimed number. In ninety seconds you can watch
 the primes reconstructed from the zeros alone; in an afternoon you can read
 why none of this computes its way to a proof.
 
+## Pick a door
+
+This repository serves several purposes and they do not want the same first
+page. Each door below is short, names its audience, and gives one command.
+Everything after this section is the manual.
+
+| Door | For you if you want to… | First command |
+|---|---|---|
+| [learn](docs/doors/learn.md) | see the classical machinery happen, at arbitrary precision | `.venv/bin/python scripts/06_tour.py` |
+| [**refute**](docs/doors/refute.md) | **bring a claim about the zeros and have it attacked** | `.venv/bin/python scripts/23_gate_3_battery.py` |
+| [certify](docs/doors/certify.md) | work where nothing is measured — Lean proofs and interval enclosures | `cd lean && PATH="$HOME/.elan/bin:$PATH" lake build` |
+| [discover](docs/doors/discover.md) | run the conjecture funnel and see its hit rate | `.venv/bin/python scripts/13_discovery_run.py --dry-run` |
+
+New here and unsure? **[refute](docs/doors/refute.md)** — it is the one thing
+this repository does that a textbook, a notebook and a literature survey do
+not do for you. A plausible spectral "explanation" of RH costs minutes to
+generate and traditionally costs days to referee; the standing instruments
+make the rebuttal cost minutes too. See
+[`docs/17`](docs/17-the-falsification-harness.md) for the day five independent
+claims arrived and all five were dispatched.
+
+The code behind that door is `harness/` — four instrument roles (rivals,
+decoys, surrogates, lesions) with the subject factored out, so a second
+subject can inherit the referee and not just the funnel. Its admission rule is
+short: **no department without a battery.** See
+[`harness/README.md`](harness/README.md).
+
 ## What this is (and is not)
 
 This is an **instrument for building real intuition and real numerics about
@@ -201,7 +228,7 @@ Every dependency is ordinary: `mpmath`, `numpy`, `scipy`, `matplotlib`,
     is a **lead** — not a result, not evidence for RH — and "not recognised
     offline" is not novelty: there is no network here, so nothing was looked
     up. The ledger lives in `conjectures/`, which is gitignored; it is a
-    private notebook of unreviewed leads. Design: `discovery/README.md`.
+    private notebook of unreviewed leads. Design: `ontology/README.md`.
 
 [`ROADMAP.md`](ROADMAP.md) records the *decisions* — why the work went this
 way, what is deliberately not being attempted, the known gaps, and the next
@@ -348,7 +375,7 @@ zeta/               the package (flat layout; pip install -e .)
   finitefield.py    curves over F_p — the one RH that is a THEOREM, checked by counting
   criteria.py       four equivalence faces: Mertens, Baez-Duarte, Robin/Lagarias, Speiser
   plots.py          the twenty publication figures
-discovery/          the conjecture factory: a discovery funnel that logs itself
+ontology/           the conjecture factory: a discovery funnel that logs itself
   schema.py         what a candidate observation is; five kinds, six verdicts, dedup
   registry.py       the plug-in seam: Generator, Screen, KnownnessDetector, Domain
   ledger.py         append-only JSONL: the candidate stream and the run stream
@@ -373,18 +400,18 @@ references/         annotated reading list (papers.md), plus mathlib-open-target
                     — generated: what Mathlib says it wants and does not have
 ```
 
-`discovery/` splits along one seam and the split is the point: `schema.py`,
+`ontology/` splits along one seam and the split is the point: `schema.py`,
 `registry.py`, `ledger.py`, `funnel.py`, `metrics.py` and `historical_cases.py`
 name no quantity the laboratory computes and import nothing from `zeta`, so they
 would work unchanged for a chemistry lab; everything that knows what is being
-studied lives in `discovery/domains/`. `knownness.py` is the one documented step
+studied lives in `ontology/domains/`. `knownness.py` is the one documented step
 less strict — it knows general mathematics (π, γ, PSLQ) because recognising a
 closed form requires it, and its own docstring names the four catalogue entries
 that sit closest to the line. Four tests enforce the seam: an AST import scan, a
 subprocess asserting `zeta` never enters `sys.modules`, a lexical scan for
 subject-matter vocabulary, and a run of the whole pipeline with the laboratory
 made *unimportable* by a meta-path wall. Design document and stated blind spots:
-[`discovery/README.md`](discovery/README.md).
+[`ontology/README.md`](ontology/README.md).
 
 The public API is re-exported at the top level: `import zeta; zeta.zeta(2)`,
 `zeta.first_n_zeros(10)`, `zeta.psi_from_zeros(...)`, `zeta.H_t(...)`, etc.
@@ -431,8 +458,8 @@ and never rely on `from zeta import li`.
   real O(1/log γ) drift at height ~10⁴, not a discrepancy and not perfection;
   the docs and scripts say so at the point of use.
 - **The conjecture factory measures itself, and its own measurement has
-  limits.** `discovery/`'s conversion rates are honest about what they count,
-  and `discovery/README.md` §7–§9.3 states where they are not: a candidate
+  limits.** `ontology/`'s conversion rates are honest about what they count,
+  and `ontology/README.md` §7–§9.3 states where they are not: a candidate
   record needs a candidate, so *individual payloads a generator built and
   refused* reach no ledger (only `scripts/13`'s per-run table); deduplication is
   a **lower** bound, so `unique` counts are a ceiling; the five historical cases

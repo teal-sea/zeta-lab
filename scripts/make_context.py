@@ -31,7 +31,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 PKG = ROOT / "zeta"
-DISCOVERY = ROOT / "discovery"
+DISCOVERY = ROOT / "ontology"
+HARNESS = ROOT / "harness"
 DOCS = ROOT / "docs"
 TESTS = ROOT / "tests"
 SCRIPTS = ROOT / "scripts"
@@ -62,7 +63,7 @@ MODULE_ORDER = [
 
 # The discovery layer, in pipeline order. The first six are domain-agnostic and
 # must stay that way; ``domains/`` is the only place the subject is named, and
-# the split is enforced by the seam tests — see `discovery/README.md`.
+# the split is enforced by the seam tests — see `ontology/README.md`.
 DISCOVERY_ORDER = [
     "schema",
     "registry",
@@ -291,7 +292,7 @@ def build() -> str:
 
     # ---- discovery layer ---------------------------------------------
     if DISCOVERY.exists():
-        add("## Discovery layer API (`discovery/`) — the conjecture factory")
+        add("## Discovery layer API (`ontology/`) — the conjecture factory")
         add("")
         add(
             "A domain-agnostic pipeline that generates candidate observations from the "
@@ -301,8 +302,8 @@ def build() -> str:
             "laboratory computes and import nothing from `zeta` — the seam is enforced by "
             "tests. `knownness` is the documented one-step-less-strict module (it knows "
             "general mathematics, not this subject). Everything that names the subject "
-            "lives in `discovery/domains/`. Design and honest limits: "
-            "[`discovery/README.md`](discovery/README.md). Operator console: "
+            "lives in `ontology/domains/`. Design and honest limits: "
+            "[`ontology/README.md`](ontology/README.md). Operator console: "
             "`scripts/13_discovery_run.py`. The ledger it writes (`conjectures/`) is "
             "**gitignored**: a private notebook of unreviewed leads, and nothing in it is "
             "evidence for anything. An empty `conjectures/` in a fresh clone is that rule "
@@ -323,6 +324,49 @@ def build() -> str:
         dpaths.extend(sorted((DISCOVERY / "domains").glob("*.py")))
         for path in dpaths:
             if path.name == "__init__.py":
+                continue
+            api = module_api(path)
+            rel = path.relative_to(ROOT)
+            add(f"### `{rel}` — {api['docstring']}")
+            add("")
+            add(f"*{api['lines']} lines*")
+            add("")
+            if api["constants"]:
+                add(f"Constants: {', '.join('`' + c + '`' for c in api['constants'])}")
+                add("")
+            for name, doc in api["classes"]:
+                add(f"- `class {name}` — {doc}" if doc else f"- `class {name}`")
+            for sig, doc in api["functions"]:
+                add(f"- `{sig}`" + (f" — {doc}" if doc else ""))
+            add("")
+
+    # ---- harness -----------------------------------------------------
+    if HARNESS.exists():
+        add("## Falsification harness API (`harness/`) — the referee")
+        add("")
+        add(
+            "The falsification protocol with the subject factored out. Four instrument "
+            "roles — rivals (share the structure, lack the property), decoys (ablation), "
+            "surrogates (null control) and lesions (detector power) — bundled into a "
+            "`Battery`; a `Department` is a battery plus a door plus reference claims "
+            "whose verdicts are known. The admission rule is **no department without a "
+            "battery**: one with no rival, with neither decoy nor surrogate, or with no "
+            "lesion is refused, because it could never fail. `protocol.py` is "
+            "domain-agnostic under the same three seam tests as `ontology/schema.py`; "
+            "the subject lives only in `harness/departments/`. "
+            "`tests/test_department_conformance.py` is parametrized over the registered "
+            "departments, so adding one adds its audit. Design: "
+            "[`harness/README.md`](harness/README.md)."
+        )
+        add("")
+        hpaths = [HARNESS / "protocol.py"]
+        hpaths.extend(
+            p for p in sorted(HARNESS.glob("*.py"))
+            if p.name not in {"__init__.py", "protocol.py"}
+        )
+        hpaths.extend(sorted((HARNESS / "departments").glob("*.py")))
+        for path in hpaths:
+            if path.name == "__init__.py" or not path.exists():
                 continue
             api = module_api(path)
             rel = path.relative_to(ROOT)
@@ -403,6 +447,11 @@ def build_flat() -> str:
             "Discovery layer",
             [DISCOVERY / "README.md", *sorted(DISCOVERY.glob("*.py")),
              *sorted((DISCOVERY / "domains").glob("*.py"))],
+        ),
+        (
+            "Harness",
+            [HARNESS / "README.md", *sorted(HARNESS.glob("*.py")),
+             *sorted((HARNESS / "departments").glob("*.py"))],
         ),
         ("Scripts", sorted(SCRIPTS.glob("*.py")) + sorted(SCRIPTS.glob("*.sh"))),
         ("Docs", sorted(DOCS.glob("*.md"))),

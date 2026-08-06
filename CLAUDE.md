@@ -131,16 +131,33 @@ last one left off; this file plus `git log` is the handoff. Two caveats:
   - `plots.py` the twenty figures. `zeta/__init__.py` re-exports the curated
     API; plots are loaded lazily (PEP 562 `__getattr__`) — keep it that way,
     `import zeta` must not pull in matplotlib.
-- Package: `discovery/` — the conjecture factory (phase 4). `schema.py`,
+- Package: `ontology/` — the conjecture factory (phase 4). `schema.py`,
   `registry.py`, `ledger.py`, `funnel.py`, `metrics.py` and
   `historical_cases.py` are **domain-agnostic** and must stay that way: they
   name no quantity the laboratory computes, and seam tests enforce it (an AST
   import scan, a subprocess that asserts `zeta` never enters `sys.modules`, and
   a lexical scan for subject-matter vocabulary).
-  Everything that knows the subject lives in `discovery/domains/`. Read
-  `discovery/README.md` before touching any of it. `discovery` is not part of
+  Everything that knows the subject lives in `ontology/domains/`. Read
+  `ontology/README.md` before touching any of it. `ontology` is not part of
   the editable install, so a script that imports it must put the repo root on
   `sys.path` (derived from `__file__` — see `scripts/13_discovery_run.py`).
+- Package: `harness/` — the referee, factored out of the laboratory, and the
+  package that makes the lab extensible by **department**. `protocol.py` is
+  domain-agnostic under the same three seam tests as `ontology/schema.py` and
+  defines four instrument roles — `Subject` (the genuine article and its
+  rivals), `Decoy` (ablation), `Surrogate` (null control), `Lesion` (detector
+  power) — bundled into a `Battery`, plus a `Department` = battery + door +
+  reference claims. Subject matter lives only in `harness/departments/`;
+  `zeta_department.py` is department #1 and the worked example.
+  **The admission rule is `no department without a battery`**: `validate_battery`
+  refuses one with no rival, with neither decoy nor surrogate, or with no
+  lesion, because such a battery could never fail. A department must also
+  declare reference claims with known verdicts — at least one its battery kills
+  and one it passes — so a referee that only ever says "no" is caught.
+  `tests/test_department_conformance.py` is parametrized over
+  `harness.departments.KNOWN_DEPARTMENTS`, so listing a department there is
+  what turns its audit on. Read `harness/README.md` before adding one. Like
+  `ontology`, it is not part of the editable install.
 - Project: `lean/` — the certified arm: a Lean 4 + Mathlib package
   (`ZetaLean`) formalizing, rung by rung, facts the laboratory measures.
   `ZetaLean/GroundTruth.lean` is rung 1 (ζ(2), ζ(0), ζ(4), the zero-free
@@ -150,12 +167,18 @@ last one left off; this file plus `git log` is the handoff. Two caveats:
 - `scripts/` 01–05 and 07–13 standalone demos, `06_tour.py` (~90 s full
   story), `make_figures.py [--quick|--full]`. `13_discovery_run.py` is the
   funnel's operator console (`--dry-run`, `--report`).
-- `docs/` 00–13: a reading course; keep cross-references consistent with
+- `docs/` 00–18: a reading course; keep cross-references consistent with
   actual filenames (doc 05 is `05-de-bruijn-newman.md`).
+  `docs/doors/` is the switchboard: one short page per way in (learn, refute,
+  certify, discover) plus one page per department. The repo has one spine and
+  several doors — a purpose costs a door plus a test that the door still works,
+  and a purpose that will not pay that stays a document, not a directory.
+  `README.md` is the switchboard, not the manual; do not let it grow back into
+  a single 400-line front door for four different audiences.
 - `tests/` pytest; `data/` caches; `figures/` PNGs; `references/papers.md`;
   `conjectures/` the discovery ledger — **gitignored**, a private notebook of
   unreviewed leads (only `.gitkeep` is tracked). Nothing in it is evidence for
-  anything; publish `discovery.metrics.render_text`, never the log. An empty
+  anything; publish `ontology.metrics.render_text`, never the log. An empty
   `conjectures/` in a fresh clone is the rule working, not a bug — to share one
   ledger across your own machines run `scripts/ledger_sync.sh init` once, then
   `sync`; it clones a *separate private* repo in place, and this public tree

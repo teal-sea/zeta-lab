@@ -250,7 +250,7 @@ rule: a kernel-checked theorem about known facts is certification of the referen
 progress on RH. Its house rule mirrors `zeta/rigor.py`'s: nothing counts until it compiles with
 zero `sorry`s.
 
-That rule extends to the one part of the repository that looks like it might break it. `discovery/`
+That rule extends to the one part of the repository that looks like it might break it. `ontology/`
 (§7) generates *candidate observations* and records the small number nothing killed as **survivors**.
 A survivor is a lead to be examined by hand — not a result, not a theorem, not evidence for RH —
 and the funnel writes that sentence into every such record's own `proof_gap` field. Because there is
@@ -299,7 +299,7 @@ The package is `zeta/`, twelve analysis modules (plus `plots.py`, which draws th
 - **`criteria.py`** — four equivalence faces of RH made executable: Mertens/Möbius,
   Nyman–Beurling/Baez-Duarte, Robin/Lagarias, Speiser.
 
-A second package, `discovery/`, sits on top of that one and studies the laboratory rather than the
+A second package, `ontology/`, sits on top of that one and studies the laboratory rather than the
 subject. It is a **discovery funnel**: generators mine the computed objects above for candidate
 observations, a catalogue and a battery of screens try to kill them, and every step is logged — so
 the conversion rate *per generator* can be measured. The premise is unflattering and load-bearing:
@@ -311,7 +311,7 @@ survivors — and that table, not the survivor list, is the output.
 It is split along one seam. `schema.py`, `registry.py`, `ledger.py`, `funnel.py`, `metrics.py` and
 `historical_cases.py` are **domain-agnostic**: they name no quantity the laboratory computes and
 import nothing from `zeta`, so the same machinery would serve a chemistry laboratory; three tests
-enforce it. Everything that knows what is being studied lives in `discovery/domains/`. Before the
+enforce it. Everything that knows what is being studied lives in `ontology/domains/`. Before the
 funnel is pointed at anything unsettled it has to reproduce history: five claims whose status later
 work has established — proved, still open, disproved, provably equivalent to an open problem, and
 one constructed coincidence — are replayed through it and must land where that later work says they
@@ -319,7 +319,7 @@ belong. The case that matters is Mertens' conjecture, which every computation fe
 supported and which is false. **The funnel does not endorse it**, and the harness refuses to
 register a case that expects it to, so the suite cannot be edited into agreement.
 
-Read `discovery/README.md` before touching any of it; §7–§9.3 there is the honest statement of what
+Read `ontology/README.md` before touching any of it; §7–§9.3 there is the honest statement of what
 the layer cannot express and where its own validation is thinner than it looks. Run it with
 `scripts/13_discovery_run.py`. Nothing it produces is evidence for RH: a survivor is a **lead**, and
 "not recognised offline" is the absence of a lookup — there is no network — never a claim of
@@ -349,7 +349,7 @@ Docs, in numbered reading order:
 Supporting directories: `scripts/`, `figures/`, `data/` (cached zero tables and scan
 results), `tests/` (every module has a test file — the defect functions are tested to tight
 tolerances), `references/`, and `conjectures/` — the discovery ledger, **gitignored**, a private
-notebook of unreviewed leads. Publish `discovery.metrics.render_text`, never the log.
+notebook of unreviewed leads. Publish `ontology.metrics.render_text`, never the log.
 
 **Recommended reading order.** `00 → 01 → 02 → 03 → 04` is a single argument and should be read in
 sequence: continuation gives you a function with zeros at all, theta/modularity gives the functional

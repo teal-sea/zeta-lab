@@ -15,7 +15,10 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 
 ## Start here
 
-- [README.md](README.md): front door — quickstart, what to run first, repo map.
+- [README.md](README.md): front door — the door switchboard, quickstart, repo map.
+- [docs/doors/README.md](docs/doors/README.md): one short page per way in
+  (learn / refute / certify / discover) plus one per department. One spine,
+  several doors: start here rather than reading README top to bottom.
 - [AGENTS.md](AGENTS.md): operating context for coding agents — setup, house
   rules, naming traps, honest-scope policy. Read before changing anything.
 - [ROADMAP.md](ROADMAP.md): the decisions — strategic bet, deliberate
@@ -45,16 +48,33 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 - [docs/13-moments.md](docs/13-moments.md): external zero/value tables, finite moments, leading constants, and gated scorecards.
 - [docs/14-how-new-mathematics-gets-invented.md](docs/14-how-new-mathematics-gets-invented.md): eleven ways new mathematics has been invented, scored against the Frobenius gap.
 
-## The conjecture factory (`discovery/`)
+## The referee (`harness/`)
 
-- [discovery/README.md](discovery/README.md): design document for the discovery
+- [harness/README.md](harness/README.md): the falsification protocol with the
+  subject factored out. Four instrument roles — rivals (share the structure,
+  lack the property), decoys (ablation), surrogates (null control), lesions
+  (detector power) — bundled into a `Battery`; a `Department` is a battery plus
+  a door plus reference claims with known verdicts.
+- The admission rule: **no department without a battery.** A battery with no
+  rival, with neither decoy nor surrogate, or with no lesion is refused,
+  because it could never fail. Work nothing here can falsify is a probe, not a
+  department.
+- `harness/protocol.py` is domain-agnostic under the same three seam tests as
+  `ontology/schema.py`; subject matter lives only in `harness/departments/`.
+  `tests/test_department_conformance.py` is parametrized over the registered
+  departments, so adding one adds its audit.
+- Entry point for a claim of your own: [docs/doors/refute.md](docs/doors/refute.md).
+
+## The conjecture factory (`ontology/`)
+
+- [ontology/README.md](ontology/README.md): design document for the discovery
   funnel — five candidate kinds, six verdict states, the deduplication contract,
   what the schema cannot express, and the historical validation. A pipeline that
   logs itself so the conversion rate per generator can be measured: on a fresh
   ledger, 26 candidates → 20 already known, 1 trivial, 5 inconclusive, 0
   survivors. Run it with `scripts/13_discovery_run.py`.
 - The seam: `schema/registry/ledger/funnel/metrics/historical_cases` are
-  domain-agnostic and import nothing from `zeta`; `discovery/domains/` is the
+  domain-agnostic and import nothing from `zeta`; `ontology/domains/` is the
   only place the subject is named. Enforced by tests.
 - Honest scope: a survivor is a **lead**, never a result and never evidence for
   RH; "not recognised offline" is the absence of a lookup, never novelty; the

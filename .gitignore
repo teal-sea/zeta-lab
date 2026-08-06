@@ -26,3 +26,11 @@ CONTEXT_FLAT.md
 # that the empty directory itself stays in the tree via .gitkeep.
 conjectures/*
 !conjectures/.gitkeep
+
+# audio renders and their write-ups (ontology/08_riemann_beats_audio.py):
+# regenerate them, don't ship them — a .wav is an output, not a source.
+*.wav
+Music/
+
+# scratch API request payloads from exploratory sessions
+req*.json
