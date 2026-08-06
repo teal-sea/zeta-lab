@@ -54,6 +54,7 @@ MODULE_ORDER = [
     "rigor",
     "inverse",
     "quasicrystal",
+    "factorization",
     "leeyang",
     "relations",
     "synthesis",
