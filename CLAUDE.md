@@ -217,8 +217,8 @@ affected cache files and re-run, or stale numbers will "pass".
 
 ```bash
 cd <repo root>
-.venv/bin/python -m pytest -q                 # full suite (1532 tests, ~7 min)
-.venv/bin/python -m pytest -q -m "not slow"   # fast tier (1480 tests, ~2.5 min)
+.venv/bin/python -m pytest -q                 # full suite (1606 tests, ~9 min)
+.venv/bin/python -m pytest -q -m "not slow"   # fast tier (1553 tests, ~3 min)
 .venv/bin/python scripts/06_tour.py           # end-to-end sanity + demo
 .venv/bin/python scripts/make_figures.py --quick   # all figures into figures/
 cd lean && PATH="$HOME/.elan/bin:$PATH" lake build  # the certified arm (0 sorrys)

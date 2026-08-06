@@ -36,7 +36,7 @@ probe, and probes live where nobody will mistake one for a result.
 
 | Department | Subject | Battery |
 |---|---|---|
-| `zeta` | the Riemann zeta function and RH | 3 rivals, 2 decoys, 3 surrogates, 3 lesions |
+| [`zeta`](zeta.md) | the Riemann zeta function and RH | 3 rivals, 2 decoys, 3 surrogates, 3 lesions |
 
 See `harness/README.md` for what those four words mean and how to add the
 second department.
