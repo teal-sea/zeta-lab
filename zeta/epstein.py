@@ -1180,11 +1180,23 @@ def claim_multiplicativity(iface: dict) -> bool:
 def battery(
     claim_fn,
     dps: int = DPS_DEFAULT,
-    forms: tuple[tuple[int, int, int], ...] = ((2, 1, 3),),
+    forms: tuple[tuple[int, int, int], ...] = ((2, 1, 3), (1, 1, 6)),
 ) -> dict:
     """Evaluate a claimed structural property against zeta, the Davenport-Heilbronn
-    function, and an Epstein zeta function (discriminant -23, form (2,1,3)) — 
-    the full falsification harness of gate #3 (docs/09) in executable form.
+    function, and Epstein zeta functions of discriminant -23 (class number 3):
+    the non-principal form (2,1,3) and the principal form (1,1,6) — the full
+    falsification harness of gate #3 (docs/09) in executable form.
+
+    The rivals are chosen to instantiate the *linear-combination* sharpening of
+    the gate (docs/09 SS5.1): Davenport-Heilbronn is a self-dual linear
+    combination of the two Dirichlet L-functions of the quartic characters
+    mod 5, and each discriminant -23 Epstein function is a linear combination
+    of the three Hecke L-functions of the class group.  Every rival is
+    assembled from *legitimate* Euler products; what each lacks is a scalar
+    Euler product of its own, because linear combination destroys primitive
+    multiplicative structure while preserving the functional equation.  A
+    claim that survives on any of them is prime-blind in exactly the way the
+    gate exists to detect.
 
     ``claim_fn`` receives a zeta-like interface dict (see
     :func:`zeta_interface`) and must return truthy/falsy.  Returns::

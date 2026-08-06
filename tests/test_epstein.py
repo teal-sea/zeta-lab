@@ -523,15 +523,23 @@ def test_Z_epstein_is_real_on_the_critical_line():
 
 
 def test_battery_runs_epstein_as_a_second_counterexample():
-    """Gate #3 names Davenport-Heilbronn *and* generic Epstein zeta functions."""
+    """Gate #3 names Davenport-Heilbronn *and* generic Epstein zeta functions.
+
+    Both discriminant -23 forms run by default: the non-principal (2,1,3) and
+    the principal (1,1,6) — each a linear combination of the three Hecke
+    L-functions of the class group, instantiating the linear-combination
+    sharpening of the gate (docs/09 SS5.1)."""
     res = battery(claim_functional_equation, dps=20)
-    assert res["riemann_zeta"] and res["davenport_heilbronn"] and res["epstein_2_1_3"]
+    assert res["riemann_zeta"] and res["davenport_heilbronn"]
+    assert res["epstein_2_1_3"] and res["epstein_1_1_6"]
     assert res["distinguishes"] is False
     assert "epstein_2_1_3" in res["shared_with"]
+    assert "epstein_1_1_6" in res["shared_with"]
 
     res = battery(claim_multiplicativity, dps=20)
     assert res["riemann_zeta"]
-    assert not res["davenport_heilbronn"] and not res["epstein_2_1_3"]
+    assert not res["davenport_heilbronn"]
+    assert not res["epstein_2_1_3"] and not res["epstein_1_1_6"]
     assert res["distinguishes"] is True
     assert res["shared_with"] == ()
 
@@ -540,6 +548,6 @@ def test_battery_requires_every_counterexample_to_fail():
     """A claim shared with any rival must not be reported as distinguishing."""
     shared_with_epstein_only = lambda iface: iface["name"] != "davenport_heilbronn"
     res = battery(shared_with_epstein_only, dps=20)
-    assert res["riemann_zeta"] and res["epstein_2_1_3"]
+    assert res["riemann_zeta"] and res["epstein_2_1_3"] and res["epstein_1_1_6"]
     assert res["distinguishes"] is False
-    assert res["shared_with"] == ("epstein_2_1_3",)
+    assert res["shared_with"] == ("epstein_1_1_6", "epstein_2_1_3")

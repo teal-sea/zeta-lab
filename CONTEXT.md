@@ -180,7 +180,7 @@ Constants: `GAMMA1`
 
 ### `zeta/epstein.py` — The counterexample battery: Davenport-Heilbronn, gate #3 made computational.
 
-*1219 lines*
+*1231 lines*
 
 Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`
 
@@ -209,7 +209,7 @@ Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`
 - `dh_interface(dps: int = DPS_DEFAULT) -> dict` — The same interface for the Davenport-Heilbronn function (see
 - `claim_functional_equation(iface: dict) -> bool` — Claim: "the completed function satisfies F(s) = F(1-s)" — measured as
 - `claim_multiplicativity(iface: dict) -> bool` — Claim: "the Dirichlet coefficients are multiplicative:
-- `battery(claim_fn, dps: int = DPS_DEFAULT, forms: tuple[tuple[int, int, int], ...] = ((2, 1, 3),)) -> dict` — Evaluate a claimed structural property against zeta, the Davenport-Heilbronn
+- `battery(claim_fn, dps: int = DPS_DEFAULT, forms: tuple[tuple[int, int, int], ...] = ((2, 1, 3), (1, 1, 6))) -> dict` — Evaluate a claimed structural property against zeta, the Davenport-Heilbronn
 
 ### `zeta/li.py` — Li's criterion and Jensen polynomials — the real-rootedness lane.
 

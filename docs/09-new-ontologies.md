@@ -236,6 +236,100 @@ answer, stop reading.
 fields — rather than an identity bolted on afterward. All three programs of Section 4 pass this
 gate by design; it is Gates 1 and 2 where they are stuck.
 
+### 5.1 The strengthened gates: factorization, not positivity
+
+The four gates above are eliminative: they kill ontologies that cannot possibly work. This
+subsection states the *positive* target at the same resolution — what a candidate that survived
+all four would still have to deliver. The organizing observation: since Weil positivity over the
+full admissible test class is already **equivalent** to RH (Section 4.2), "prove the quadratic
+form is positive" is not a strategy — it is RH restated. Trying to estimate the prime-power sum
+directly is merely another formulation of the problem. The demand must instead be **factorization**:
+
+> Construct, functorially from the prime-power and archimedean data, an arithmetic cohomology or
+> spectral representation in which the Weil quadratic form is the norm square of a naturally
+> defined operator or vector — schematically `−W(f ∗ f̃) = ‖Φ(f)‖²` in a genuine Hilbert, Hodge,
+> intersection or C*-module structure — so that its sign becomes formal.
+
+Arithmetic supplies the quadratic form; geometry must explain its sign. Once the norm identity
+holds inside a structure that is positive *for structural reasons*, `⟨v, v⟩ ≥ 0` is linear
+algebra, and RH follows by the already-known equivalence. Three requirements, in causal order:
+
+**Requirement A — arithmetic provenance.** Every ingredient of the construction is generated from
+the prime-power data `{(p, m, log p, p^{−m/2})}` together with the archimedean local factor. No
+zeros, no `ξ`-phases, no zero-counting functions may enter the definition. (Given any real
+sequence one can manufacture a self-adjoint diagonal operator with that spectrum; a construction
+that imports the zeros explains nothing.)
+
+**Requirement B — exact trace realization.** An identity `Str π(f) = W(f)` on the *entire*
+admissible test algebra, with the prime powers arising as primitive orbit repetitions, local
+fixed-point terms, or an equivalent intrinsic mechanism — not inserted afterward as coefficients.
+This is where the analytic difficulty relocates, not where it disappears: in the function-field
+case, Castelnuovo's inequality is formal *given* the surface, but building the surface and proving
+the graph–diagonal intersection computes the right thing was the hard part. Expect a real attempt
+to bleed here, on the full-class quantifier.
+
+**Requirement C — structural positivity.** A canonical positive pairing such that
+`−W(f ∗ f̃) = ‖Φ(f)‖²` for test functions satisfying the pole-removal conditions, with the
+signature of the pairing forced independently of the zeros. The conceptual flow is then
+
+```
+    prime arithmetic ⟶ object ⟶ pairing ⟶ norm identity ⟶ Weil positivity ⟶ RH
+```
+
+and the load-bearing arrow is not the last one (that arrow is Weil's theorem); it is
+`prime arithmetic ⟶ positive pairing`.
+
+**The pseudo-solution taxonomy.** Each of the following evasions has absorbed a real research
+program, which is why they deserve names:
+
+1. *Direct estimation* — proves positivity only for restricted support, special test functions, or
+   finite numerical ranges. (The fate of the truncated-Weil numerical literature: positive-definite
+   matrices `Q_N` for every computed `N`, worth nothing by Littlewood's rule, `docs/08`.)
+2. *Tautological completion* — defines a Hilbert space by completing test functions under the Weil
+   form itself, assuming the very positivity at issue. (The standing critique of the de Branges
+   route: Hilbert spaces of entire functions are a genuine positive category, but the required
+   positivity conditions on the structure function are not prime-derived facts.)
+3. *Zero-importing* — defines the pairing spectrally via `Σ_ρ |ĥ(ρ)|²`. (Every Hilbert–Pólya toy
+   operator since 1999; fails Requirement A.)
+4. *Formal C\*-positivity* — observes that `a*a ≥ 0` somewhere, but never proves that the
+   arithmetic Weil distribution *is* the resulting positive functional. (The gap between "a trace
+   formula exists on the adele class space" and "RH", Section 4.2.)
+5. *Finite approximants* — obtains positive matrices `Q_N` without proving the limit is the full
+   Weil form on the whole admissible domain. (Variant of 1, with the gap hidden in the limit.)
+
+**Sharpening Gate 3/4: linear combination is the destroyer.** The precise statement of what the
+counterexamples prove: *functional equation, gamma factors, Dirichlet-series structure, and even
+being assembled from legitimate Euler products do not suffice; the primitive multiplicative
+structure must survive in the global object, and linear combination destroys it.* The
+Davenport–Heilbronn function is a self-dual linear combination of the two Dirichlet L-functions of
+the quartic characters mod 5; Epstein zeta functions of class number greater than one are linear
+combinations of the Hecke L-functions of the class group — and both have zeros off the critical
+line. So the operational form of the gate is:
+
+> The construction must detect primitive multiplicative local data, and must not apply unchanged
+> to linear combinations of completed L-functions.
+
+`zeta.epstein.battery` runs exactly this: its default rivals are Davenport–Heilbronn plus both
+discriminant −23 forms (class number 3), i.e. two independent linear combinations of genuine
+Euler products. One caution keeps the gate honest in the other direction: no known example
+satisfies the *full* Selberg-class package (Section 3, axioms 1–5) and violates RH — the
+counterexamples conclusively reject weaker packages only. Believing the full package suffices is
+essentially believing GRH; the gate is eliminative, never probative (`prime-blind ⟹ not an
+explanation`, but *not* `prime-sensitive ⟹ proof`).
+
+**What this laboratory can and cannot test.** The three requirements split cleanly. Requirement A
+is mechanically checkable (provenance scans of a construction's definition — the same technology
+as the `discovery/` seam tests). Requirement B is exactly what this repo is built to test: an
+identity on the test algebra is a measured *defect function* in the house style — compute both
+sides independently over test functions from unrelated families, the protocol that validated the
+`zeta/weil.py` convention; a candidate passing at `1e-30` across families is not proof, but a
+candidate failing is dead. Requirement C's norm identity is numerically checkable as an identity;
+its *naturality* — "canonical", "signature forced independently of the zeros" — is a judgment no
+computation can render, and marks the exact boundary where the laboratory's writ ends and human
+mathematics begins. (Convention landmine for any implementation: the sign of `W` and the direction
+of the inequality vary across Weil/Bombieri/Connes normalizations — calibrate numerically against
+a test function of known sign, per the house rule; never trust a source's sign.)
+
 ---
 
 ## 6. Cost honesty, and the Langlands ledger
