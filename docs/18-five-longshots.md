@@ -189,3 +189,58 @@ magnitude and the wrong sign, and GHS would have been reported as violated
 everywhere. The independent Hadamard zero-sum caught it. This is the
 argument for the repo's habit of computing both sides of everything
 independently, in one concrete instance.
+
+---
+
+## 6. Follow-up: Gate 4 as a decision statistic
+
+Probe #4 above measures a distinction that `docs/09` **already asserts** —
+Gate 3 names DH's properties as "satisfy functional equations, have no Euler
+product, and have zeros off the critical line", and Gate 4 demands the Euler
+product be structural. So the quasicrystal separation is not a discovery; it
+is an instrument for a claim the document already makes qualitatively. The
+useful follow-up is therefore to make the gate *quantitative*, which
+`zeta/factorization.py` does.
+
+For f(s) = Σ aₙn^{−s} with a₁ = 1 and −f′/f = Σ bₙn^{−s}, define
+
+    D(f) = Σ_{n composite, not a prime power} bₙ²/n  ÷  Σ_{n a prime power} bₙ²/n
+
+**D = 0 if and only if f has an Euler product.** Both directions are exact:
+a product makes log f a sum of local terms, so b is supported on prime
+powers; conversely, b supported on prime powers makes log f split as
+Σ_p (local series), and exponentiating rebuilds the product. So this is a
+decision procedure, not a heuristic — and it is computed from coefficients
+alone, with no zeros, no ξ-phases and no counting functions, which is
+precisely §5.1's Requirement A on provenance.
+
+| function | D | status |
+| --- | --- | --- |
+| ζ | 1.2e-32 | Euler product |
+| L(χ) quadratic mod 3, 4, 5 | ~1e-32 | Euler product |
+| DH real-part combination (c = ½) | 0.825 | none |
+| Davenport–Heilbronn | 0.979 | none |
+
+The Euler-product rows are the real test: a statistic that failed to zero
+out on the quadratic characters would be measuring something other than
+factorization.
+
+**The null is the point.** A nonzero D means nothing until you know what a
+generic non-factoring sequence scores. Against random real sequences with
+DH's shape (period 5, a₁ = 1, a₅ = 0), the null median is 1.329 with a
+5–95% band of 0.534–4.313, and **DH sits at the 27th percentile — squarely
+typical**. Davenport–Heilbronn is not an exotic near-miss to factorization;
+it is an unremarkable member of the class of things that do not factor. A
+candidate ontology claiming to "almost" produce an Euler product would need
+to score orders of magnitude below this null, not merely nonzero.
+
+**A blindness this exposes, bounding §4 above.** The zeros of ζ(s−δ) are the
+points δ+½+iγ — *the same ordinates*. Any statistic computed from ordinates
+alone is therefore identical for ζ and for a shifted function whose zeros lie
+nowhere near Re s = ½. Ordinate probes read arithmetic; they cannot read the
+position of the critical line. That is why the coefficient-side statistic
+carries the Gate 4 content and the zero-side transform, however pretty,
+cannot.
+
+Still not about RH: an Euler product is not known to imply RH, and that
+implication is substantially GRH itself.

@@ -336,6 +336,19 @@ Constants: `PRIME_POWERS`, `COMPOSITES`
 - `dh_dirichlet_defect(s: complex = 3.0, n_max: int = 400, n_ref: int = 3000, dps: int = 30) -> float` — |Σ b_n n^{−s} − (−f′/f)(s)|, the cross-check on the recursion.
 - `crystallinity_battery(n_zeta_zeros: int = 1000, dh_t_max: float = 120.0, n_coeff: int = 24) -> dict[str, Any]` — The gate: does the atomic structure separate ζ from Davenport–Heilbronn?
 
+### `zeta/factorization.py` — Gate 4, made into a number: a decision statistic for the Euler product.
+
+*225 lines*
+
+Constants: `DEFAULT_N_MAX`, `ZERO_THRESHOLD`, `KAPPA_REF`
+
+- `periodic_coefficients(values: Sequence[float], n_max: int = DEFAULT_N_MAX) -> np.ndarray` — aₙ from one period, indexed 1..n_max (index 0 unused).
+- `log_derivative_coefficients(a: Sequence[float], n_max: int = DEFAULT_N_MAX) -> np.ndarray` — bₙ with −f′/f = Σ bₙn^{−s}, by Dirichlet convolution.
+- `factorization_defect(a: Sequence[float], n_max: int = DEFAULT_N_MAX) -> float` — D(f): composite-supported energy of −f′/f over prime-power energy.
+- `euler_product_panel(n_max: int = DEFAULT_N_MAX) -> dict[str, dict[str, Any]]` — D for a panel of functions whose factorization status is known.
+- `null_distribution(n_samples: int = 400, seed: int = 7, n_max: int = DEFAULT_N_MAX) -> dict[str, Any]` — D for random real sequences with Davenport–Heilbronn's shape.
+- `factorization_report(n_max: int = DEFAULT_N_MAX, n_samples: int = 400, seed: int = 7) -> dict[str, Any]` — Panel + null + where Davenport–Heilbronn sits inside the null.
+
 ### `zeta/leeyang.py` — Newman's Lee–Yang program, made computational — and its battery verdict.
 
 *251 lines*
@@ -915,7 +928,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LES
 
 ## Tests (`tests/`)
 
-1219 test functions across 32 files (the collected count differs where tests are parametrised):
+1228 test functions across 33 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_core.py` — 97
@@ -929,6 +942,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LES
 - `tests/test_discovery_zeta_domain.py` — 75
 - `tests/test_epstein.py` — 39
 - `tests/test_explicit.py` — 45
+- `tests/test_factorization.py` — 9
 - `tests/test_finitefield.py` — 53
 - `tests/test_harness_protocol.py` — 40
 - `tests/test_heatflow.py` — 38
