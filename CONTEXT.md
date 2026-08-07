@@ -338,7 +338,7 @@ Constants: `PRIME_POWERS`, `COMPOSITES`
 
 ### `zeta/factorization.py` — Gate 4, made into a number: a decision statistic for the Euler product.
 
-*225 lines*
+*306 lines*
 
 Constants: `DEFAULT_N_MAX`, `ZERO_THRESHOLD`, `KAPPA_REF`
 
@@ -348,6 +348,8 @@ Constants: `DEFAULT_N_MAX`, `ZERO_THRESHOLD`, `KAPPA_REF`
 - `euler_product_panel(n_max: int = DEFAULT_N_MAX) -> dict[str, dict[str, Any]]` — D for a panel of functions whose factorization status is known.
 - `null_distribution(n_samples: int = 400, seed: int = 7, n_max: int = DEFAULT_N_MAX) -> dict[str, Any]` — D for random real sequences with Davenport–Heilbronn's shape.
 - `factorization_report(n_max: int = DEFAULT_N_MAX, n_samples: int = 400, seed: int = 7) -> dict[str, Any]` — Panel + null + where Davenport–Heilbronn sits inside the null.
+- `dh_family_coefficients(t: float, n_max: int = DEFAULT_N_MAX) -> np.ndarray` — The one-parameter family aₙ = [1, t, −t, −1, 0], periodic mod 5.
+- `kappa_landscape(t_values: Sequence[float] | None = None, n_max: int = DEFAULT_N_MAX) -> dict[str, Any]` — D along the DH family, and whether κ sits anywhere distinguished on it.
 
 ### `zeta/leeyang.py` — Newman's Lee–Yang program, made computational — and its battery verdict.
 
@@ -928,7 +930,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LES
 
 ## Tests (`tests/`)
 
-1234 test functions across 34 files (the collected count differs where tests are parametrised):
+1238 test functions across 34 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_core.py` — 97
@@ -942,7 +944,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LES
 - `tests/test_discovery_zeta_domain.py` — 75
 - `tests/test_epstein.py` — 39
 - `tests/test_explicit.py` — 45
-- `tests/test_factorization.py` — 9
+- `tests/test_factorization.py` — 13
 - `tests/test_finitefield.py` — 53
 - `tests/test_harness_protocol.py` — 40
 - `tests/test_harness_zeta_department.py` — 6

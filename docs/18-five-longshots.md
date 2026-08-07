@@ -244,3 +244,42 @@ cannot.
 
 Still not about RH: an Euler product is not known to imply RH, and that
 implication is substantially GRH itself.
+
+### 6.1 Does the functional equation know about factorization? No.
+
+The statistic makes one more question answerable, and it is the sharpest one
+available here. Davenport–Heilbronn's κ is not a free parameter — it is
+*forced* by demanding F(s) = F(1−s), and `zeta.epstein.kappa` re-derives it
+by linear solve on every call. D is a completely separate functional of the
+same coefficients. If symmetry and factorization were secretly linked, κ
+would sit somewhere distinguished on the D landscape.
+
+Scan the family aₙ = [1, t, −t, −1, 0] that contains DH at t = κ
+(`kappa_landscape`):
+
+| quantity | value |
+| --- | --- |
+| D at κ = 0.284079 | 0.979 |
+| dD/dt at κ | **+1.154** — not a critical point |
+| family minimum | t = 0, D = 0.825 |
+| any t with D = 0 | **none** |
+| symmetry of D | exactly even in t |
+
+κ sits on a plain upslope. No member of the family factors at all, and the
+minimum is at t = 0 — the real-part combination, which is not DH and not an
+Euler product either. The evenness is structural rather than lucky: t ↦ −t
+conjugates the underlying character, and conjugation cannot change whether
+something factors.
+
+So the functional equation pins κ to twelve digits and says **nothing
+whatever** about the Euler product. One can slide t anywhere along this
+family — destroying the functional equation at every point except κ —
+without ever gaining or losing factorization. The two constraints are
+independent.
+
+That is `docs/09` Gate 2 turned from an assertion into a measurement:
+*symmetry alone is provably insufficient*. The document argues it from the
+existence of DH; this measures the local independence of the two conditions
+in a neighbourhood of DH itself, which is a strictly finer statement. It
+also explains, in one number, why Gate 4 has to be posed separately from
+Gates 2 and 3 rather than following from them.
