@@ -135,3 +135,56 @@ appended, never rewritten; predictions are filed before runs; the reviewer
 owns the review. The one attempted violation this week (the self-approval
 edit, reverted in `6c70907`) was caught by git history, not by any gate —
 version control is the fifth instrument.
+
+## 5. Postscript: the instruments became a protocol (2026-08-06)
+
+The four instruments of §1 were, at the time this document was written,
+four unrelated pieces of `zeta/` that a referee had to know about and invoke
+by hand. They are now roles in `harness/protocol.py`, with the subject
+factored out:
+
+| §1 instrument | Role | Asks |
+| --- | --- | --- |
+| the counterexample battery | `Subject`, in the rival role | does the claim also hold for something that shares the structure and lacks the property? |
+| the ablation and permutation gates | `Decoy` | does the measurement move when the substantive input is swapped or reordered? |
+| the null controls | `Surrogate` | does a model with no arithmetic in it reproduce the observation? |
+| the lesions | `Lesion` | does the detector notice a violation planted on purpose? |
+
+A `Battery` bundles the four; a `Department` is a battery plus a door plus
+reference claims whose verdicts are known. The rule that follows is the one
+this document argued for implicitly and now states as code: **no department
+without a battery** — work whose claims nothing in the tree can falsify is a
+probe, not a department.
+
+Two things this changes, and one it does not.
+
+It changes **who has to remember**. §2's checklist was addressed to a person.
+`tests/test_department_conformance.py` is parametrized over the registered
+departments, so the checklist now runs itself, and a subject added without a
+referee fails the suite rather than merely disappointing a reviewer.
+
+It changes **what "the harness" is portable to**. `protocol.py` names no
+quantity any laboratory computes and imports nothing from `zeta` — enforced
+by an AST scan, a `sys.modules` check and a lexical scan, the same three the
+funnel's seam already had. Whether the four roles carve a *second* subject
+well is untested: there is one department, so the generalisation currently has
+one instance behind it (`ROADMAP.md`, known gap 2).
+
+It does **not** change §4's conclusion. Verdict cost collapsed to claim cost
+because the controls were standing infrastructure; making them a protocol
+lowers the cost of standing up the *next* set, and automates none of the
+social discipline — reviews appended not rewritten, predictions filed before
+runs, the reviewer owning the review. Version control is still the fifth
+instrument.
+
+One immediate dividend, recorded because it is the failure mode the protocol
+exists to prevent. `zeta.factorization.factorization_defect` (Gate 4 as a
+decision statistic: D = 0 exactly when f has an Euler product) looked like an
+ideal distinguishing claim. Run through the battery it is not, because the
+Epstein form (2,1,3) does not represent 1, so that series has a₁ = 0 and the
+statistic raises rather than returning a number. `run_battery` records the
+exception and leaves `distinguishes` False: a rival that did not answer has
+not been excluded. A verdict that had counted the crash as a refutation would
+have promoted D from "works on three of four subjects" to "the decision
+procedure for Gate 4" — and it would have been a flattering bug of exactly
+the kind §3's case log is a catalogue of.

@@ -161,6 +161,55 @@ checked for an unannounced claim on either.
 
 ---
 
+## Addendum — the department architecture (2026-08-06, `0bb04c3`..`499d632`)
+
+**What landed.** `harness/` — the falsification protocol with the subject
+factored out, and the mechanism that makes the lab extensible by *department*.
+Full rationale and non-goals: `ROADMAP.md`, "The department architecture".
+Design and the how-to: `harness/README.md`. Reader-facing: `docs/doors/`.
+
+Six commits, all on `main` and pushed. Also merged in the same pass: the
+`five-longshots` branch and the `worktree-factorization-gate` worktree branch
+(`zeta/factorization.py`, Gate 4 as a decision statistic), both of which were
+sitting unmerged.
+
+**Two repairs worth knowing about:**
+
+- `scripts/make_context.py` still pointed `DISCOVERY` at `ROOT/"discovery"`,
+  a directory that had not existed since the `discovery/` → `ontology/`
+  rename. That whole section of `CONTEXT.md` had been silently empty. Fixed,
+  and a `harness/` section added. The stale name was also live in `CLAUDE.md`,
+  `README.md`, `llms.txt`, `ontology/README.md` and `docs/00-orientation.md`.
+- `-n auto` hung twice in `pytest_sessionfinish` teardown *after* every test
+  had passed. `-n 4` completes cleanly (1548 passed, 5 skipped, 31m41s). Not
+  diagnosed; if it bites you, that is the workaround, and note that
+  `-p no:xdist` does **not** work because `-n auto` is already in `addopts`.
+
+**What is open here.**
+
+- **Department #2 is the only real test of this design.** One department means
+  the four roles are a generalisation of exactly one case (`ROADMAP.md`, known
+  gap 2). The cheapest honest candidate is `finitefield` — curves over `F_p`,
+  where RH *is* a theorem, so its battery has an unusually clean rival
+  structure. It would also answer whether "rival" survives contact with a
+  subject where the property is decidable.
+- **Three instruments in `zeta/` are not yet wired into the battery**:
+  `zeta.spectral_gate` (used by the department's decoys only in principle —
+  the decoys are declared but no measurement currently calls `run_ablation`),
+  `zeta.detectors`' Li and Weil lesion functions, and `zeta.quasicrystal`.
+  Wiring each is small and each would replace an argument with a measurement.
+- **`factorization_defect` cannot referee one of the three rivals** — Epstein
+  (2,1,3) has a₁ = 0. Recorded in `docs/doors/zeta.md` and pinned by
+  `tests/test_harness_zeta_department.py`. If someone finds a normalisation
+  that makes D well-defined there, it becomes a second distinguishing
+  reference claim.
+
+**Housekeeping left deliberately undone:** the merged branches
+`five-longshots` and `worktree-factorization-gate` still exist locally, and the
+`factorization-gate` worktree is still on disk and locked.
+
+---
+
 ## Continuation checklist
 
 1. `git pull`; confirm fast tier green
@@ -170,3 +219,8 @@ checked for an unannounced claim on either.
 3. Start rung 2: state κ's defining linear system in Lean; keep the Python
    derivation open beside it as the reference implementation.
 4. Regenerate `CONTEXT.md` after any public API/doc/script change.
+5. If you add a department: build its battery first, list it in
+   `harness/departments/__init__.py`, then run
+   `.venv/bin/python -m pytest -q -o addopts='' tests/test_department_conformance.py`.
+   The audit is parametrized over that listing — adding the name is what turns
+   it on. `harness/README.md` has the four steps.

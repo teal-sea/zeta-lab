@@ -21,6 +21,7 @@ The latest session snapshot and exact continuation checklist are in
 | 3 | `rigor`, `li`, `finitefield`, `criteria` + doc 12 | certified arithmetic; the real-rootedness lane; the universe where RH is a theorem; the remaining equivalence faces |
 | 4 | `discovery/` + `scripts/13` | the conjecture funnel, schema-first, with conversion metrics |
 | 5 | `lean/` (Lean 4 + Mathlib) + docs/09 §5.1 | the certified arm (kernel-checked theorems, rung 1 done) and the strengthened gates: factorization through a positive structure, not positivity estimates |
+| 6 | `harness/` + `docs/doors/` | the referee factored out of the laboratory: the lab becomes extensible by **department**, and gains a front page per audience instead of one per repository |
 
 The organising chain is in `README.md`: theta is the heat kernel → Poisson
 summation → the functional equation → the mirror at `Re s = 1/2` → the explicit
@@ -152,6 +153,60 @@ proving finiteness from the prime side is equivalent to pair correlation.
 restatements; the fifth detects a property (Euler product) that was already
 known to separate these two functions.
 
+## The department architecture (2026-08-06)
+
+**The decision:** the laboratory extends by *department*, not by directory, and
+a department is defined by what can kill its claims.
+
+`ontology/` had already solved half of this — a domain-agnostic core plus
+subject-coupled plugins, seam enforced by tests rather than by intention. But
+the falsification instruments were welded to zeta, so a second subject could
+inherit the funnel and not the referee. The referee is the part worth
+inheriting: it is the only thing here a textbook, a notebook or a literature
+survey does not already do (docs/17).
+
+`harness/protocol.py` abstracts the four instruments the lab already ran by
+hand into roles — **Subject** (the genuine article and its rivals), **Decoy**
+(ablation), **Surrogate** (null control), **Lesion** (detector power) — bundled
+into a `Battery`. A `Department` is a battery plus a door plus reference claims
+with known verdicts.
+
+**The admission rule: no department without a battery.** `validate_battery`
+refuses one with no rival (no modus tollens available to it), with neither
+decoy nor surrogate (no way to show an observation empty), or with no lesion
+(detector power assumed rather than measured). A department must further
+declare at least one reference claim its battery kills and one it passes,
+because a battery that has only ever said "no" cannot be told apart from one
+that says no to everything.
+
+The cost of a purpose is therefore a door plus a battery plus a listing in
+`KNOWN_DEPARTMENTS` — and `tests/test_department_conformance.py` is
+parametrized over that dict, so listing it is what turns its audit on. There is
+no step where a human waves it through.
+
+**Non-goals, stated so they are not re-litigated:**
+
+- *Not* a plugin system for the mathematics. `zeta/` is department #1, not a
+  template; nothing was moved and no import changed.
+- *Not* a claim that the protocol is subject-neutral in practice. It is
+  domain-agnostic by test (AST scan, `sys.modules` check, lexical scan), which
+  is a weaker and checkable claim. Whether the four roles carve a *second*
+  subject well is unknown until there is one.
+- *Not* evidence machinery. A claim surviving every instrument is a candidate
+  for where a real argument must live. Nothing more, per docs/08.
+
+**What it caught on day one.** `zeta.factorization.factorization_defect` —
+Gate 4 as a decision statistic, D = 0 exactly when f has an Euler product —
+looked like an ideal third distinguishing claim. It is not: the Epstein form
+(2,1,3) does not represent 1, so that series has a₁ = 0 and the statistic
+raises. `run_battery` recorded the exception and left `distinguishes` False,
+because a rival that did not answer has not been excluded. Had it counted the
+crash as a refutation, D would have been promoted from "works on three of four
+subjects" to "the decision procedure for Gate 4". Pinned in
+`tests/test_harness_zeta_department.py`.
+
+---
+
 ## Known gaps
 
 Listed because an undocumented gap becomes an assumption.
@@ -161,7 +216,13 @@ Listed because an undocumented gap becomes an assumption.
    correlated blind spots are exactly what that method cannot catch. No one with
    domain expertise has read a line of it. This is the largest unhedged risk in
    the repository.
-2. **Expected funnel yield is approximately zero, by design.** Nearly everything
+2. **The harness has one department, so its generality is untested.** The
+   protocol is domain-agnostic by test, but "would work for a chemistry lab"
+   is an argument, not a measurement. Until a second department exists, the
+   four roles are a generalisation of exactly one case, and the honest reading
+   is that `harness/` refactored the zeta instruments rather than that it
+   discovered a universal shape.
+3. **Expected funnel yield is approximately zero, by design.** Nearly everything
    will return already-known or refuted. The first real run: 26 candidates → 20
    known, 1 trivial, 5 inconclusive, 0 survivors. That is the machine working.
    A conjecture factory that produced discoveries on its first run would be
