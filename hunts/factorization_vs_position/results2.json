@@ -2,10 +2,10 @@
   {
     "discriminant": 0,
     "form": "zeta",
-    "factorization_defect": 2.650389027678084e-32,
-    "max_position_residue": 0.0037574067986823056,
+    "factorization_defect": 0.0,
+    "max_position_residue": 0.0037574,
     "argmax_c": 20.0,
-    "online_zero_count": 2
+    "online_zero_count": 3
   },
   {
     "discriminant": -15,
@@ -14,8 +14,8 @@
       1,
       4
     ],
-    "factorization_defect": 11.46448495633992,
-    "max_position_residue": 4.329584961853612,
+    "factorization_defect": 11.464485,
+    "max_position_residue": 4.3296,
     "argmax_c": 15.0,
     "online_zero_count": 9
   },
@@ -26,8 +26,8 @@
       0,
       5
     ],
-    "factorization_defect": 8.242224340193621,
-    "max_position_residue": 4.067645198289753,
+    "factorization_defect": 8.242224,
+    "max_position_residue": 4.0676,
     "argmax_c": 16.0,
     "online_zero_count": 14
   },
@@ -38,8 +38,8 @@
       1,
       6
     ],
-    "factorization_defect": 11.210877224488883,
-    "max_position_residue": 4.114160560012985,
+    "factorization_defect": 11.210877,
+    "max_position_residue": 4.1142,
     "argmax_c": 16.0,
     "online_zero_count": 14
   },
@@ -50,21 +50,9 @@
       0,
       6
     ],
-    "factorization_defect": 4.251276939751666,
-    "max_position_residue": 4.078562583890545,
+    "factorization_defect": 4.251277,
+    "max_position_residue": 4.0786,
     "argmax_c": 15.0,
-    "online_zero_count": 15
-  },
-  {
-    "discriminant": -31,
-    "form": [
-      1,
-      1,
-      8
-    ],
-    "factorization_defect": 6.177841732259196,
-    "max_position_residue": 4.0866841925529425,
-    "argmax_c": 20.0,
     "online_zero_count": 15
   }
 ]
