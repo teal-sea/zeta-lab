@@ -332,6 +332,42 @@ and only the second needs the branch.
 
 ---
 
+## Steering the funnel (decided 2026-08-06)
+
+The observation that forced this section: rediscovering known mathematics
+means the generator is *late*, not broken — a lead source whose knowns are
+dated theorems is pointed at fertile ground. Three mechanisms, one shipped:
+
+1. **The lateness signal (shipped).** `ontology.metrics.knownness_breakdown`
+   splits every generator's `known` verdicts by the matched fact's
+   `literature_status` and reports `settled_known_rate` — the share matching
+   settled mathematics (theorems, established results, disproofs). It reads
+   the ledger's full verdicts, buckets a missing status as `unstated`
+   (under-claiming, never inventing), and renders in `render_text`. Steering
+   rule: widen generators with high settled shares, starve ones whose kills
+   are definitional. It is a statement about the catalogue's matches, and
+   about nothing beyond them.
+
+2. **The review flywheel (protocol, not code).** Every survivor's operator
+   literature check must end in one of exactly two places: a new `KnownFact`
+   with a citation when the search finds a match (so the funnel kills the
+   observation itself next time), or a closure note in the private ledger
+   repo when it does not (the Λ-mass case, 2026-08-06, is the worked
+   example). A review that ends anywhere else — a chat transcript, a memory —
+   is compute the referee never gets back.
+
+3. **Web-connectedness ranking (next build for the funnel).** Schema 1.1's
+   `related_to` edges exist but no generator emits them and no metric reads
+   them. The build: generators annotate candidates with `implies` /
+   `equivalent_to` edges into the equivalence web (Li/Jensen, moments,
+   criteria), and the scorecard ranks surviving leads by connectivity —
+   Kadison–Singer fell through its equivalence web, and an isolated lead has
+   no web to fall through. Requires whole-ledger edge validation, which the
+   schema deliberately left to this layer.
+
+No trained model is needed for any of this: the operator loop plus the
+recorded decisions in this file are the adaptive component.
+
 ## Known gaps
 
 Listed because an undocumented gap becomes an assumption.

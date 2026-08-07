@@ -852,8 +852,8 @@ def _render_breakdown(rows: Sequence[KnownnessBreakdown]) -> str:
         "  (theorems, established results, disproofs). High settled-share means\n"
         "  the source rediscovers real structure late — fertile ground; a low\n"
         "  one means its matches are conjectural, definitional or unstated.\n"
-        "  This is a statement about the catalogue's matches, never about\n"
-        "  novelty."
+        "  This is a statement about the catalogue's matches, and about\n"
+        "  nothing beyond them."
     )
     return "\n".join(lines)
 
