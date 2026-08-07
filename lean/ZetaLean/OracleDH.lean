@@ -51,3 +51,9 @@ def term_5_bound : BoundedComplex :=
     im_ub := 0.081034490406674510463220803101084804624960217912395,
     re_lb_le_ub := by norm_num,
     im_lb_le_ub := by norm_num }
+
+/- 
+Note: The Dirichlet series for DH(s) does not converge absolutely at Re(s) ≈ 0.808.
+To evaluate DH(s) rigorously, we must use the Hurwitz zeta expansion, 
+or approximate the analytic continuation. The above bounds are for $n^{-s}$.
+-/

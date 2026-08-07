@@ -79,6 +79,20 @@ def term_{n}_bound : BoundedComplex :=
     re_lb_le_ub := by norm_num,
     im_lb_le_ub := by norm_num }}
 """
+
+    # Generate a tail bound for the remainder of the Dirichlet series (N > 5)
+    # The coefficients a_n are bounded by 1 + kappa <= 1.3
+    # The tail is bounded by sum_{n=6}^\infty 1.3 * n^{-sigma} <= 1.3 * \int_5^\infty x^{-sigma} dx = 1.3 * 5^{1-sigma} / (sigma - 1)
+    # But since sigma = 0.808517 < 1, the Dirichlet series does not converge absolutely!
+    # We must use summation by parts, or use the Hurwitz zeta approximation!
+    # For Phase B, we just leave a comment in the Lean file.
+    lean_code += f"""
+/- 
+Note: The Dirichlet series for DH(s) does not converge absolutely at Re(s) ≈ 0.808.
+To evaluate DH(s) rigorously, we must use the Hurwitz zeta expansion, 
+or approximate the analytic continuation. The above bounds are for $n^{{-s}}$.
+-/
+"""
     
     with open("ZetaLean/OracleDH.lean", "w") as f:
         f.write(lean_code)

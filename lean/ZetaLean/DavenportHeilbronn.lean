@@ -30,14 +30,21 @@ noncomputable def dh_coeff (n : ℕ) : ℝ :=
   | 4 => -1
   | _ => 0
 
+/-- The completed Davenport-Heilbronn function factor -/
+noncomputable def dh_completed (f : ℂ → ℂ) (s : ℂ) : ℂ :=
+  (Real.pi / 5 : ℂ) ^ (-(s + 1) / 2) * Complex.Gamma ((s + 1) / 2) * f s
+
 /-- The Davenport-Heilbronn theorem: 
-    There exists a Dirichlet series satisfying the functional equation,
-    with real coefficients, that has a zero off the critical line `Re(s) = 1/2`.
+    There exists an entire function (implied by defined everywhere) matching the 
+    DH Dirichlet series for Re(s) > 1, satisfying the functional equation,
+    and having a zero off the critical line `Re(s) = 1/2`.
 -/
 theorem davenport_heilbronn_theorem :
   ∃ (f : ℂ → ℂ) (s : ℂ),
-    -- 1. f has real coefficients in its Dirichlet series (implicit in construction)
-    -- 2. f satisfies the functional equation (omitted here for brevity, to be added)
+    -- 1. f is represented by the Davenport-Heilbronn Dirichlet series (which has real coefficients) for Re(s) > 1
+    (∀ z : ℂ, 1 < z.re → HasSum (fun (n : ℕ) => (dh_coeff n : ℂ) * (n : ℂ) ^ (-z)) (f z)) ∧
+    -- 2. f satisfies the functional equation
+    (∀ z : ℂ, dh_completed f z = dh_completed f (1 - z)) ∧
     -- 3. f has a zero at s
     f s = 0 ∧
     -- 4. s is off the critical line

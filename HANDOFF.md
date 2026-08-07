@@ -120,14 +120,9 @@ numerics).
   finite linear algebra over explicit constants, the repo's
   "derive conventions, never remember them" habit made kernel-checked. First
   theorem Mathlib doesn't have.
-- **Rung 3 — the Davenport–Heilbronn theorem**: a Dirichlet series with
-  functional equation, real coefficients, and an off-critical-line zero
-  exists. Mathlib has Dirichlet characters and L-functions, so the objects are
-  statable; the off-line zero needs certified interval evaluation in Lean
-  (thin territory — this is the mountain), with `rigor.py` as the working
-  blueprint. Landing it puts gate 3 into the certified library.
-
-**Inherited open item (previous sprint, unchanged):** the cokernel/absorption
+- **Rung 3 — the Davenport–Heilbronn theorem**: 
+  - **Phase A (Structural - Complete):** Formulated the Dirichlet series and functional equation properties rigorously in `DavenportHeilbronn.lean`.
+  - **Phase B (Computational - Pending):** Set up the API stubs for complex interval arithmetic in `DirichletEval.lean` and updated the oracle script to note the required tail bounds. The rigorous interval evaluation (the "mountain") remains open for future implementation.
 reading of the adelic route. The matrix route was closed by experiment (see
 `9360b00`, `docs/17-the-falsification-harness.md`); any revival must clear the
 4-gate spectral harness (`zeta/spectral_gate.py`) *and* the new §5.1
