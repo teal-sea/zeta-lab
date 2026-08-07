@@ -1,21 +1,49 @@
-# Zeta — a computational laboratory for the Riemann Hypothesis
+# Zeta — a laboratory with a referee
 
-The non-trivial zeros of the Riemann zeta function encode, exactly, where the
-prime numbers are — and the Riemann Hypothesis says all of those zeros lie on
-a single vertical line. This repository is a working laboratory for that
-statement: arbitrary-precision implementations of the classical machinery
-(theta functions, the functional equation, Hardy's Z, the explicit formula,
-GUE statistics, heat flow on Ξ, Weil positivity, the Davenport–Heilbronn
-counterexample), each identity *measured* rather than assumed, with 1606 tests
-pinning every claimed number. In ninety seconds you can watch
-the primes reconstructed from the zeros alone; in an afternoon you can read
-why none of this computes its way to a proof.
+This repository is two things, and the second is the reason to trust the
+first.
+
+It is a working **laboratory for the Riemann Hypothesis** — the non-trivial
+zeros of ζ encode, exactly, where the prime numbers are, and RH says all of
+those zeros lie on one vertical line. Arbitrary-precision implementations of
+the classical machinery (theta functions, the functional equation, Hardy's Z,
+the explicit formula, GUE statistics, heat flow on Ξ, Weil positivity, the
+Davenport–Heilbronn counterexample), each identity *measured* rather than
+assumed, with 1606 tests pinning every claimed number. In ninety seconds you
+can watch the primes reconstructed from the zeros alone; in an afternoon you
+can read why none of this computes its way to a proof.
+
+And it is a **referee**: standing instruments whose job is to kill claims,
+plus the tests that prove the killing machinery itself works. That second
+thing is what this repository does best, so it comes first:
+
+> A plausible claim now costs minutes to generate, so the scarce resource is
+> no longer ideas — it is **reliable rejection**. The operating loop here is
+> *generate → attack → measure → discard → retain the evidence*, and the
+> attacking is not left to taste. Every subject admitted to the tree must
+> arrive with the battery entitled to kill its claims — **no department
+> without a battery** — and the battery is calibrated in both directions: it
+> must demonstrably kill a reference claim known to be empty *and* pass one
+> known to be sound, because a referee that only ever says "no" is
+> indistinguishable from a broken one. The detectors themselves are tested,
+> by planting violations (*lesions*) and requiring that they be noticed. The
+> same discipline governs the vocabulary: *certified* is a reserved word that
+> only `zeta/rigor.py` may use, and everything else is at best *accurate*.
+
+The mathematics is **department #1** and the worked example.
+[`docs/17`](docs/17-the-falsification-harness.md) is the natural experiment:
+five independent claims of zero structure arrived in one day and the standing
+instruments dispatched all five, each verdict costing minutes and surviving
+independent rerun. The protocol those instruments became is `harness/` —
+domain-agnostic by test rather than by intention, waiting for a second
+subject ([`harness/README.md`](harness/README.md)).
 
 ## Pick a door
 
 This repository serves several purposes and they do not want the same first
 page. Each door below is short, names its audience, and gives one command.
-Everything after this section is the manual.
+Everything after this section is department #1's manual — the mathematics,
+which runs its own show behind its own doors.
 
 | Door | For you if you want to… | First command |
 |---|---|---|
@@ -23,20 +51,12 @@ Everything after this section is the manual.
 | [**refute**](docs/doors/refute.md) | **bring a claim about the zeros and have it attacked** | `.venv/bin/python scripts/23_gate_3_battery.py` |
 | [certify](docs/doors/certify.md) | work where nothing is measured — Lean proofs and interval enclosures | `cd lean && PATH="$HOME/.elan/bin:$PATH" lake build` |
 | [discover](docs/doors/discover.md) | run the conjecture funnel and see its hit rate | `.venv/bin/python scripts/13_discovery_run.py --dry-run` |
+| [adopt](docs/doors/adopt.md) | take the referee for a subject that is not ζ | `.venv/bin/python -m pytest -q -o addopts='' tests/test_harness_protocol.py tests/test_department_conformance.py` |
 
 New here and unsure? **[refute](docs/doors/refute.md)** — it is the one thing
 this repository does that a textbook, a notebook and a literature survey do
-not do for you. A plausible spectral "explanation" of RH costs minutes to
-generate and traditionally costs days to referee; the standing instruments
-make the rebuttal cost minutes too. See
-[`docs/17`](docs/17-the-falsification-harness.md) for the day five independent
-claims arrived and all five were dispatched.
-
-The code behind that door is `harness/` — four instrument roles (rivals,
-decoys, surrogates, lesions) with the subject factored out, so a second
-subject can inherit the referee and not just the funnel. Its admission rule is
-short: **no department without a battery.** See
-[`harness/README.md`](harness/README.md).
+not do for you. Here because the refereeing pattern is bigger than ζ?
+**[adopt](docs/doors/adopt.md)**.
 
 ## What this is (and is not)
 

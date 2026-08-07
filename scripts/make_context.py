@@ -33,6 +33,7 @@ ROOT = Path(__file__).resolve().parent.parent
 PKG = ROOT / "zeta"
 DISCOVERY = ROOT / "ontology"
 HARNESS = ROOT / "harness"
+DOSSIER = ROOT / "dossier"
 DOCS = ROOT / "docs"
 TESTS = ROOT / "tests"
 SCRIPTS = ROOT / "scripts"
@@ -385,6 +386,46 @@ def build() -> str:
                 add(f"- `{sig}`" + (f" — {doc}" if doc else ""))
             add("")
 
+    # ---- dossier (probe) ---------------------------------------------
+    if DOSSIER.exists():
+        add("## Research dossiers API (`dossier/`) — **a probe, not a department**")
+        add("")
+        add(
+            "An experiment in representing mathematical research state — intent, "
+            "definitions, provenance, evidence, failed attempts, proof obligations and "
+            "verification status — so that an agent can resume rigorous work. One "
+            "schema, one worked example, one CLI (`scripts/50_dossier.py`). Two ideas "
+            "are under test: **intent is data** (what an object is *for*, stated before "
+            "any formula, plus what it is most likely to be confused with), and "
+            "**\"verified\" is four independent things** (numeric agreement, enclosure "
+            "arithmetic, the published record, a proof kernel) which `status.py` "
+            "refuses to collapse — `Support.__bool__` raises rather than let a caller "
+            "write `if support:`. Registered in no department and given no door, "
+            "because a dossier has no rivals of its own: see "
+            "[`docs/19-research-dossiers.md`](docs/19-research-dossiers.md) SS6. "
+            "Design: [`dossier/README.md`](dossier/README.md)."
+        )
+        add("")
+        dpaths = [DOSSIER / "status.py", DOSSIER / "schema.py", DOSSIER / "report.py"]
+        dpaths.extend(sorted((DOSSIER / "subjects").glob("*.py")))
+        for path in dpaths:
+            if path.name == "__init__.py" or not path.exists():
+                continue
+            api = module_api(path)
+            rel = path.relative_to(ROOT)
+            add(f"### `{rel}` — {api['docstring']}")
+            add("")
+            add(f"*{api['lines']} lines*")
+            add("")
+            if api["constants"]:
+                add(f"Constants: {', '.join('`' + c + '`' for c in api['constants'])}")
+                add("")
+            for name, doc in api["classes"]:
+                add(f"- `class {name}` — {doc}" if doc else f"- `class {name}`")
+            for sig, doc in api["functions"]:
+                add(f"- `{sig}`" + (f" — {doc}" if doc else ""))
+            add("")
+
     # ---- docs --------------------------------------------------------
     add("## Documents (`docs/`)")
     add("")
@@ -454,6 +495,11 @@ def build_flat() -> str:
             "Harness",
             [HARNESS / "README.md", *sorted(HARNESS.glob("*.py")),
              *sorted((HARNESS / "departments").glob("*.py"))],
+        ),
+        (
+            "Dossiers (probe)",
+            [DOSSIER / "README.md", *sorted(DOSSIER.glob("*.py")),
+             *sorted((DOSSIER / "subjects").glob("*.py"))],
         ),
         ("Scripts", sorted(SCRIPTS.glob("*.py")) + sorted(SCRIPTS.glob("*.sh"))),
         ("Docs", sorted(DOCS.glob("*.md"))),

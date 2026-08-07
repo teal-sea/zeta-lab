@@ -17,10 +17,13 @@ purpose that will not pay that cost stays a document, not a directory.
 | [refute.md](refute.md) | **bring a claim about the zeros and have it attacked** | `.venv/bin/python scripts/23_gate_3_battery.py` |
 | [certify.md](certify.md) | work in a regime where nothing is measured | `cd lean && PATH="$HOME/.elan/bin:$PATH" lake build` |
 | [discover.md](discover.md) | run the conjecture funnel and see its hit rate | `.venv/bin/python scripts/13_discovery_run.py --dry-run` |
+| [adopt.md](adopt.md) | take the referee for a subject that is not ζ | `.venv/bin/python -m pytest -q -o addopts='' tests/test_harness_protocol.py tests/test_department_conformance.py` |
 
 If you are new and do not know which you want: **[refute.md](refute.md)**. It is
-the only one of the four that does something no textbook, notebook or
-literature survey does for you.
+the only door to the mathematics that does something no textbook, notebook or
+literature survey does for you. If you are here for the refereeing pattern
+rather than for ζ, that is a distinct audience and it has its own door:
+**[adopt.md](adopt.md)**.
 
 ## Departments
 
@@ -33,6 +36,11 @@ all of them — so adding a department adds its audit automatically.
 The admission rule is short: **no department without a battery.** A body of
 work whose claims nothing in this tree can falsify is not a department, it is a
 probe, and probes live where nobody will mistake one for a result.
+
+That is also the *only* thing the spine asks. A department keeps its own
+doors, its own reading course, its own gallery — [learn.md](learn.md) and the
+heat-equation chain in `README.md` are department #1 enjoying itself, and the
+next department is entitled to the same room.
 
 | Department | Subject | Battery |
 |---|---|---|

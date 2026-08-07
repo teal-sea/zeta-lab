@@ -1802,3 +1802,56 @@ def test_a_hand_edited_undecided_count_cannot_poison_the_report(tmp_path) -> Non
     for bad in ("not-a-number", None, -5):
         led.append_run({"run_id": f"r-{bad}", "state": "crashed", "undecided": bad})
     assert M.funnel_report(led).undecided == 0
+
+
+def test_knownness_breakdown_arithmetic_is_exactly_what_was_put_in() -> None:
+    """Hand-built ledger, hand-computed answer, every number written out.
+
+    genA: a theorem match, a conjecture match, and a match with no recorded
+    status (three knowns, one settled -> 1/3). genB: one disproved match
+    (settled -> 1/1) plus an open candidate and a survivor, both of which the
+    breakdown must ignore. One genA record is appended twice with the same id
+    to pin that supersession collapses before counting.
+    """
+
+    def _known(subject, generator, status=None):
+        evidence = {"references": ["r"], "entry_id": "e", "match_kind": "statement"}
+        if status is not None:
+            evidence["literature_status"] = status
+        return _constant(subject, generator=generator).with_verdict(
+            _verdict(VerdictStatus.KNOWN, **evidence)
+        )
+
+    a1 = _known("s1", "genA", "theorem")
+    a2 = _known("s2", "genA", "conjecture")
+    a3 = _known("s3", "genA")  # older record: no literature_status
+    b1 = _known("s4", "genB", "disproved")
+    still_open = _constant("s5", generator="genB")
+    survivor = _constant("s6", generator="genB").with_verdict(
+        _verdict(VerdictStatus.SURVIVES, checks_run=["known"])
+    )
+    view = LedgerView(candidates=(a1, a2, a3, b1, still_open, survivor, a3))
+
+    rows = M.knownness_breakdown(view)
+    by_name = {row.generator: row for row in rows}
+    a, b = by_name["genA"], by_name["genB"]
+
+    assert a.known == 3  # the duplicated a3 record collapsed before counting
+    assert a.by_status == {"theorem": 1, "conjecture": 1, "unstated": 1}
+    assert a.settled == 1 and a.settled_known_rate == 1 / 3
+    assert b.known == 1
+    assert b.by_status == {"disproved": 1}
+    assert b.settled == 1 and b.settled_known_rate == 1.0
+    # ranked by settled share, descending; the render smoke-tests alongside
+    assert [row.generator for row in rows] == ["genB", "genA"]
+    assert "genB" in M._render_breakdown(rows)
+    assert M.knownness_breakdown(LedgerView()) == ()
+    assert "no known verdict" in M._render_breakdown(())
+
+
+def test_literature_status_order_mirrors_the_knownness_vocabulary() -> None:
+    """The seam keeps mathematics out of metrics, so the vocabulary is
+    mirrored as plain strings; this is the test the mirror is pinned by."""
+    from ontology.knownness import FACT_STATUSES
+
+    assert set(M.LITERATURE_STATUS_ORDER) == set(FACT_STATUSES) | {"unstated"}

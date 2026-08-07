@@ -55,6 +55,8 @@ __all__ = [
     "TimeBucket",
     "funnel_report",
     "generator_scorecard",
+    "KnownnessBreakdown",
+    "knownness_breakdown",
     "stage_costs",
     "time_series",
     "render_text",
@@ -720,6 +722,143 @@ def _render_scorecard(stats: Sequence[GeneratorStat]) -> str:
 
 
 # ---------------------------------------------------------------------------
+# What kind of "known": the lateness signal
+# ---------------------------------------------------------------------------
+
+#: The order the breakdown prints in, most settled first. Plain strings on
+#: purpose: importing the vocabulary from ``ontology.knownness`` would pull
+#: mathematics into this module, and the seam keeps it out — a test pins this
+#: tuple against ``knownness.FACT_STATUSES`` instead. ``unstated`` is this
+#: module's own bucket for a match whose verdict carries no status.
+LITERATURE_STATUS_ORDER: Final[tuple[str, ...]] = (
+    "theorem",
+    "established",
+    "disproved",
+    "conjecture",
+    "equivalent_to_open_problem",
+    "unstated",
+)
+
+#: The statuses that count as *settled mathematics* for the lateness signal.
+#: ``disproved`` belongs here: rediscovering something known to fail is still
+#: rediscovering something the literature decided.
+_SETTLED_STATUSES: Final[frozenset[str]] = frozenset(
+    {"theorem", "established", "disproved"}
+)
+
+
+@dataclass(frozen=True)
+class KnownnessBreakdown:
+    """What a generator's ``known`` verdicts actually matched.
+
+    The steering question this answers: **a high known-share is not one
+    signal but two.** A generator whose knowns are dated theorems is
+    rediscovering real structure *late* — it is pointed at fertile ground,
+    and being late is a property of the calendar, not of the instrument. A
+    generator whose knowns are unstated or definitional matches is mostly
+    looking at its own reflection. ``settled_known_rate`` separates the two.
+
+    This is measured from the latest ledger record of each candidate, not
+    from run outcomes: only the full verdict carries ``literature_status``.
+    It is not a novelty measure, and no field of it may be read as one.
+    """
+
+    generator: str
+    known: int
+    by_status: Mapping[str, int]
+
+    @property
+    def settled(self) -> int:
+        """Knowns whose match the literature has settled (incl. disproved)."""
+        return sum(
+            count
+            for status, count in self.by_status.items()
+            if status in _SETTLED_STATUSES
+        )
+
+    @property
+    def settled_known_rate(self) -> float | None:
+        """Share of knowns that are settled mathematics. ``None`` if no knowns."""
+        return rate(self.settled, self.known)
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "generator": self.generator,
+            "known": self.known,
+            "by_status": dict(self.by_status),
+            "settled": self.settled,
+            "settled_known_rate": self.settled_known_rate,
+        }
+
+
+def knownness_breakdown(
+    ledger: "Ledger | LedgerView | str | Path | None" = None,
+) -> tuple[KnownnessBreakdown, ...]:
+    """Per generator: the ``known`` verdicts, split by literature status.
+
+    Reads the latest record of every candidate in the ledger. A known verdict
+    whose evidence carries no ``literature_status`` (an older record, or a
+    matcher that omitted it) counts as ``unstated`` — under-claiming, never
+    inventing. Ordered by ``settled_known_rate`` descending, ties by name.
+    """
+    view = _coerce(ledger)
+    acc: dict[str, dict[str, int]] = {}
+    for candidate in view.latest().values():
+        verdict = candidate.verdict
+        if verdict is None or verdict.status is not VerdictStatus.KNOWN:
+            continue
+        generator = str(candidate.provenance.generator)
+        status = str(verdict.evidence.get("literature_status") or "unstated")
+        slot = acc.setdefault(generator, {})
+        slot[status] = slot.get(status, 0) + 1
+    out = [
+        KnownnessBreakdown(
+            generator=name,
+            known=sum(statuses.values()),
+            by_status=dict(statuses),
+        )
+        for name, statuses in acc.items()
+    ]
+    out.sort(key=lambda b: (-(b.settled_known_rate or 0.0), b.generator))
+    return tuple(out)
+
+
+def _render_breakdown(rows: Sequence[KnownnessBreakdown]) -> str:
+    lines = [
+        "KNOWNNESS BREAKDOWN  (what kind of 'known' — the lateness signal)",
+        "=" * 96,
+    ]
+    if not rows:
+        lines.append("  no known verdict has been recorded.")
+        return "\n".join(lines)
+    statuses = [
+        s
+        for s in LITERATURE_STATUS_ORDER
+        if any(b.by_status.get(s) for b in rows)
+    ]
+    header = f"  {'generator':<22}{'known':>7}" + "".join(
+        f"{s[:12]:>14}" for s in statuses
+    ) + f"{'settled':>9}"
+    lines.append(header)
+    lines.append("  " + "-" * (len(header) - 2))
+    for row in rows:
+        lines.append(
+            f"  {row.generator[:22]:<22}{row.known:>7}"
+            + "".join(f"{row.by_status.get(s, 0):>14}" for s in statuses)
+            + f"{_pct(row.settled_known_rate):>9}"
+        )
+    lines.append(
+        "  'settled' is the share of knowns matching settled mathematics\n"
+        "  (theorems, established results, disproofs). High settled-share means\n"
+        "  the source rediscovers real structure late — fertile ground; a low\n"
+        "  one means its matches are conjectural, definitional or unstated.\n"
+        "  This is a statement about the catalogue's matches, never about\n"
+        "  novelty."
+    )
+    return "\n".join(lines)
+
+
+# ---------------------------------------------------------------------------
 # Where the compute went
 # ---------------------------------------------------------------------------
 
@@ -989,6 +1128,8 @@ def render_text(
         funnel_report(view).render_text(),
         "",
         _render_scorecard(generator_scorecard(view)),
+        "",
+        _render_breakdown(knownness_breakdown(view)),
         "",
         stage_costs(view).render_text(),
         "",

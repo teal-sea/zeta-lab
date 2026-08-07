@@ -3101,7 +3101,11 @@ def _match_li_coefficient(candidate: Candidate, fact: KnownFact) -> FactMatch | 
         source=fact.source,
         canonical_form=fact.canonical_form,
         statement=fact.statement,
-        detail={"matched_subject": str(candidate.claim.get("subject")), "n": int(hit.group(1))},
+        detail={
+            "matched_subject": str(candidate.claim.get("subject")),
+            "n": int(hit.group(1)),
+            "literature_status": fact.status,
+        },
     )
 
 

@@ -602,17 +602,21 @@ Constants: `FUNNEL_VERSION`, `STAGES`, `VERDICT_DISPOSITIONS`, `FUNNEL_ONLY_DISP
 
 ### `ontology/metrics.py` — ontology.metrics — conversion analytics over the ledger.
 
-*1003 lines*
+*1144 lines*
+
+Constants: `LITERATURE_STATUS_ORDER`
 
 - `class StageStat` — One stage, aggregated over every run in the ledger.
 - `class FunnelReport` — Counts and rates at every stage, over the whole ledger.
 - `class GeneratorStat` — One lead source, and what its output actually turned into.
+- `class KnownnessBreakdown` — What a generator's ``known`` verdicts actually matched.
 - `class ScreenStat` — One screen or detector: how often, how long, how much it killed.
 - `class CostReport` — Wall time by stage and by screen: where the compute actually went.
 - `class TimeBucket` — One period of the log: what ran, what came out.
 - `rate(numerator: float, denominator: float) -> float | None` — ``numerator / denominator``, or ``None`` when the denominator is empty.
 - `funnel_report(ledger: 'Ledger | LedgerView | str | Path | None' = None) -> FunnelReport` — Counts and rates at every stage of the funnel, over the whole ledger.
 - `generator_scorecard(ledger: 'Ledger | LedgerView | str | Path | None' = None) -> tuple[GeneratorStat, ...]` — Per generator: what it produced, what became of it, and what it cost.
+- `knownness_breakdown(ledger: 'Ledger | LedgerView | str | Path | None' = None) -> tuple[KnownnessBreakdown, ...]` — Per generator: the ``known`` verdicts, split by literature status.
 - `stage_costs(ledger: 'Ledger | LedgerView | str | Path | None' = None) -> CostReport` — Wall time by stage and by screen, aggregated over the ledger.
 - `time_series(ledger: 'Ledger | LedgerView | str | Path | None' = None, *, bucket: str = 'day') -> tuple[TimeBucket, ...]` — The funnel over time, bucketed by the run's start timestamp.
 - `render_text(ledger: 'Ledger | LedgerView | str | Path | None' = None, *, bucket: str = 'day') -> str` — Every table in this module, as one readable console report.
@@ -801,7 +805,7 @@ Constants: `NOTE_NAMES`
 
 ### `ontology/domains/zeta_domain.py` — ontology.domains.zeta_domain — the only module that knows what is studied.
 
-*3613 lines*
+*3617 lines*
 
 Constants: `DOMAIN_NAME`, `DOMAIN_VERSION`, `DEFAULT_DPS`, `DEFAULT_SEED`, `UNCERTAINTY_GUARD`, `GUARD_DIGITS`, `ROUTES`, `MERTENS_GRID`, `ZERO_HEIGHT_GRID`, `ZERO_SCAN_HEIGHT`, `PSLQ_BASIS`, `FINITE_FIELD_PRIMES`, `PREDICATE_TURAN`, `PREDICATE_FUNCTIONAL_EQUATION`, `PREDICATE_HASSE`, `RANGE_TOLERANCE`, `RANGE_RULES`, `TRIVIALITY_RULES`, `BATTERY_CLAIMS`, `ZETA_FACTS`, `FACT_REGISTRY`, `DOMAIN`
 
@@ -885,6 +889,59 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LES
 - `class IntensitySurrogate` — A null model producing an intensity array on a fixed grid.
 - `class OffLineLesion` — Plant a symmetric quadruple of zeros off the critical line.
 
+## Research dossiers API (`dossier/`) — **a probe, not a department**
+
+An experiment in representing mathematical research state — intent, definitions, provenance, evidence, failed attempts, proof obligations and verification status — so that an agent can resume rigorous work. One schema, one worked example, one CLI (`scripts/50_dossier.py`). Two ideas are under test: **intent is data** (what an object is *for*, stated before any formula, plus what it is most likely to be confused with), and **"verified" is four independent things** (numeric agreement, enclosure arithmetic, the published record, a proof kernel) which `status.py` refuses to collapse — `Support.__bool__` raises rather than let a caller write `if support:`. Registered in no department and given no door, because a dossier has no rivals of its own: see [`docs/19-research-dossiers.md`](docs/19-research-dossiers.md) SS6. Design: [`dossier/README.md`](dossier/README.md).
+
+### `dossier/status.py` — ``dossier.status`` — four kinds of support, kept apart on purpose.
+
+*213 lines*
+
+Constants: `AXES`
+
+- `class NumericStatus` — Did a floating point or arbitrary-precision computation agree?
+- `class CertifiedStatus` — Did every step carry an enclosure?
+- `class LiteratureStatus` — What does the published record say?
+- `class FormalStatus` — What has a proof kernel accepted?
+- `class AxisRecord` — One axis: its status, what produced it, and where to look.
+- `class Support` — The four axes together, with no way to reduce them to one.
+- `support_reasons(support: Support) -> tuple[str, ...]` — Every reason ``support`` is malformed, in one pass.
+
+### `dossier/schema.py` — ``dossier.schema`` — what an AI agent needs in order to resume rigorous work.
+
+*321 lines*
+
+Constants: `SCHEMA_VERSION`
+
+- `class DossierError` — A dossier is malformed.
+- `class Confidence` — How settled is this piece — not how true, how *settled here*.
+- `class Intent` — What the object is for, stated before any formula.
+- `class Definition` — The preferred definition, and the convention decisions inside it.
+- `class RejectedAlternative` — A definition that was tried and put down, with the reason.
+- `class SemanticObligation` — A property the definition must have to *be the intended object*.
+- `class Dependency` — Something this object is defined in terms of.
+- `class OpenQuestion` — What is not settled, and what would settle it.
+- `class Dossier` — The research state of one mathematical object.
+- `dossier_id(dossier: Dossier) -> str` — A stable id for the *identity* of the object, not its research state.
+- `dossier_reasons(dossier: Dossier) -> tuple[str, ...]` — Every reason ``dossier`` is not usable, in one pass.
+- `validate_dossier(dossier: Dossier) -> None` — Raise :class:`DossierError` listing every problem, or return quietly.
+
+### `dossier/report.py` — ``dossier.report`` — the readable status report.
+
+*144 lines*
+
+- `render_short(dossier: Dossier) -> str` — One line per axis, for a listing. Still all four.
+- `render_text(dossier: Dossier) -> str` — The full report, in the order an agent resuming cold needs it.
+
+### `dossier/subjects/hardy_z.py` — The Hardy Z dossier — the one worked example.
+
+*365 lines*
+
+Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
+
+- `Z_via_completed(t, dps: int = 30)` — Hardy's Z by the completed-zeta route, with no branch of log Gamma.
+- `build() -> Dossier` — Assemble the dossier. Pure data — no computation runs here.
+
 ## Documents (`docs/`)
 
 - `00-orientation.md` — 00 — Orientation
@@ -907,6 +964,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LES
 - `16-poisson-cokernel-plan.md` — Poisson-Summation Cokernel: Implementation Blueprint
 - `17-the-falsification-harness.md` — 17 — The falsification harness: how five claims died in one day
 - `18-five-longshots.md` — 18 — Five longshots, run to their walls
+- `19-research-dossiers.md` — 19 — Research dossiers: an experiment in AI-native mathematical state
 
 ## Runnable demos (`scripts/`)
 
@@ -941,6 +999,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LES
 - `scripts/32_poisson_cokernel_matrix.py` — Script 32: Poisson-Summation Cokernel Matrix (with p-adic tensor factors)
 - `scripts/40_legendre_weil.py` — Landau Problem 1: Legendre's Conjecture via the Explicit Formula
 - `scripts/41_twin_prime_gue.py` — Script 41: The GUE Twin Prime Predictor
+- `scripts/50_dossier.py` — Validate research dossiers and print their status.
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/mathlib_gaps.py` — Which of Mathlib's 1000 famous theorems are still unformalized.
@@ -948,7 +1007,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LES
 
 ## Tests (`tests/`)
 
-1264 test functions across 35 files (the collected count differs where tests are parametrised):
+1316 test functions across 37 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_core.py` — 97
@@ -961,6 +1020,8 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LES
 - `tests/test_discovery_knownness.py` — 102
 - `tests/test_discovery_schema.py` — 62
 - `tests/test_discovery_zeta_domain.py` — 83
+- `tests/test_dossier_hardy_z.py` — 18
+- `tests/test_dossier_schema.py` — 34
 - `tests/test_epstein.py` — 39
 - `tests/test_explicit.py` — 45
 - `tests/test_factorization.py` — 13

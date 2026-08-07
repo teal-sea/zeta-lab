@@ -278,21 +278,76 @@ subjects" to "the decision procedure for Gate 4". Pinned in
 
 ---
 
+## Research dossiers: a probe that stayed a probe (2026-08-06)
+
+**The decision:** `dossier/` is an experiment in representing mathematical
+research state — intent, definitions, provenance, evidence, failed attempts,
+proof obligations and verification status — as data an agent can resume from.
+It ships as a **probe**, registered in no department and given no door.
+Design and full rationale: `docs/19-research-dossiers.md`.
+
+Two ideas are under test, both narrow on purpose:
+
+- **Intent is data.** What an object is *for*, in prose, before any formula,
+  plus what it is most likely to be confused with. A definition can be checked
+  against a formula; an intent can only be stated, and stating it is what makes
+  a later mismatch visible. The worked example is Hardy's Z, chosen because
+  `|zeta(1/2+it)|` is real, even, and vanishes at exactly the same points — and
+  is useless, because the whole purpose of Z is that it changes sign.
+- **"Verified" is four independent things.** Numeric agreement, enclosure
+  arithmetic, the published record and a proof kernel fail differently.
+  `dossier/status.py` keeps four axes, offers no aggregate, and makes
+  `Support.__bool__` *raise* so `if support:` is an error rather than a silent
+  collapse.
+
+**Why it is not a department, which is the useful part.** The admission rule
+needs rivals: things that share the claimed structure and lack the property.
+A dossier has none of its own. Killing the `|zeta(1/2+it)|` candidate is a
+claim about zeta, adjudicated by the *zeta* department's subject matter; the
+dossier layer contributed the bookkeeping, not the refutation. And a battery
+built from malformed dossiers would be a unit test of a validator wearing a
+battery's clothes. So:
+
+> A department whose battery is another department's battery is not a
+> department.
+
+The rule was not weakened to admit it. What would change the answer: making the
+subject *representations of research state* rather than the mathematics being
+represented, so that a rival is a competing representation — a flat notes file
+plus a `verified: bool` — measured on a resumption task the dossier claims to
+do better. That needs two more worked examples and a scoreable task first.
+
+**Non-goals:** not a platform, not a framework, not a replacement for Mathlib,
+not a second ledger or verdict vocabulary (`ontology` owns those and
+`Provenance` is imported from it), and not a certificate issuer ("certified"
+stays reserved). Nothing in it is evidence for RH.
+
+**One thing it produced beyond bookkeeping.** Checking the dossier's claim that
+the two in-tree definitions of Z agree settled a convention question: the
+completed-zeta route needs no branch of log Gamma because `Gamma/|Gamma|` is an
+honest complex number, and the branch is required only when theta is wanted as
+a real continuous phase counter for Gram points and N(T). Measured agreement
+3.4e-31 at dps=30. Defining Z and counting zeros are different requirements,
+and only the second needs the branch.
+
+---
+
 ## Known gaps
 
 Listed because an undocumented gap becomes an assumption.
 
-1. **The documents were audited by agents, not by domain experts or against the
-   literature.** The audits caught real errors, which is evidence they work, but
-   correlated blind spots are exactly what that method cannot catch. No one with
-   domain expertise has read a line of it. This is the largest unhedged risk in
-   the repository.
-2. **The harness has one department, so its generality is untested.** The
+1. **The harness has one department, so its generality is untested.** The
    protocol is domain-agnostic by test, but "would work for a chemistry lab"
    is an argument, not a measurement. Until a second department exists, the
    four roles are a generalisation of exactly one case, and the honest reading
    is that `harness/` refactored the zeta instruments rather than that it
    discovered a universal shape.
+2. **The dossier probe has one example and no evidence that it helps.** The
+   schema can be filled in; that is not the same as being the right schema.
+   Nothing has moved an axis by machine, and the Hardy Z example is
+   retrospective — nobody was about to define Z as `|zeta(1/2+it)|`. It earns
+   its place the first time an obligation fails against a definition somebody
+   actually intended to use. `docs/19` SS7 lists what extraction would require.
 3. **Expected funnel yield is approximately zero, by design.** Nearly everything
    will return already-known or refuted. The first real run: 26 candidates → 20
    known, 1 trivial, 5 inconclusive, 0 survivors. That is the machine working.
