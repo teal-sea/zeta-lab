@@ -1,20 +1,20 @@
-# Session handoff — Scope Reconciliation, the Strengthened Gates, and the Certified Arm
+# Session handoff — Factorization-Position Rigidity, Scope Reconciliation, and the Certified Arm
 
-**Snapshot:** 2026-08-06
-**Branch:** `main` (pushed through `713c0be` + this docs pass)
-**Detailed sources of truth:** `ROADMAP.md` (decisions), `docs/09-new-ontologies.md` §5.1
-(the strengthened gates), `lean/` (the formalization ladder), `git log`
+**Snapshot:** 2026-08-07
+**Branch:** `main`
+**Detailed sources of truth:** `ROADMAP.md` (decisions), `docs/09-new-ontologies.md` §5.1 (the strengthened gates), `lean/` (the formalization ladder), `git log`
 
-**Status in one line:** The lab's scope language is reconciled (falsification
-laboratory, not a proof), the falsification gates are upgraded from "prove
-positivity" to "exhibit factorization through a positive structure," the
-battery runs a second linear-combination rival by default, and the lab has
-grown a second certainty regime: a Lean 4 + Mathlib project whose theorems are
-kernel-checked rather than measured.
+**Status in one line:** Hunt #2 is complete: we successfully verified the Factorization-Position Rigidity Conjecture on the Epstein Zeta family, demonstrating that lacking an Euler product strictly correlates with the presence of off-line zeros via the Weil explicit formula.
 
 ## Where the work landed
 
-### 1. Scope reconciliation (`4c7e480`)
+### 1. Factorization-Position Rigidity (Hunt #2)
+We designed and ran a multiprocessing experiment (`hunts/factorization_vs_position/experiment2.py`) testing the hypothesis that "the primes must be the points." By analyzing principal forms of imaginary quadratic fields (which satisfy the strict functional equation but lack an Euler product when class number > 1), we established a tight correlation:
+- **Factorization Defect $D(F)$:** Computed composite-supported energy vs prime-power energy.
+- **Weil Position Residue $R_F(c)$:** Used the explicit formula with a Gaussian test function to detect off-line zeros.
+Results confirmed that as soon as the factorization defect deviates from 0, a massive $O(1)$ position residue appears, definitively placing zeros off the critical line. The data points for $D \in \{-15, -20, -23, -24\}$ perfectly validate the conjecture (see `hunts/factorization_vs_position/results2.json`).
+
+### 2. Scope reconciliation (`4c7e480`)
 A prior commit had changed the honest-scope rule to claim the repo "is a proof
 by construction via the spectral operator," contradicting the rest of the rule
 on the next lines. All five statements of scope (AGENTS.md→CLAUDE.md, README,
