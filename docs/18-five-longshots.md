@@ -244,3 +244,106 @@ cannot.
 
 Still not about RH: an Euler product is not known to imply RH, and that
 implication is substantially GRH itself.
+
+### 6.1 Does the functional equation know about factorization? No.
+
+The statistic makes one more question answerable, and it is the sharpest one
+available here. Davenport–Heilbronn's κ is not a free parameter — it is
+*forced* by demanding F(s) = F(1−s), and `zeta.epstein.kappa` re-derives it
+by linear solve on every call. D is a completely separate functional of the
+same coefficients. If symmetry and factorization were secretly linked, κ
+would sit somewhere distinguished on the D landscape.
+
+Scan the family aₙ = [1, t, −t, −1, 0] that contains DH at t = κ
+(`kappa_landscape`):
+
+| quantity | value |
+| --- | --- |
+| D at κ = 0.284079 | 0.979 |
+| dD/dt at κ | **+1.154** — not a critical point |
+| family minimum | t = 0, D = 0.825 |
+| any t with D = 0 | **none** |
+| symmetry of D | exactly even in t |
+
+κ sits on a plain upslope. No member of the family factors at all, and the
+minimum is at t = 0 — the real-part combination, which is not DH and not an
+Euler product either. The evenness is structural rather than lucky: t ↦ −t
+conjugates the underlying character, and conjugation cannot change whether
+something factors.
+
+So the functional equation pins κ to twelve digits and says **nothing
+whatever** about the Euler product. One can slide t anywhere along this
+family — destroying the functional equation at every point except κ —
+without ever gaining or losing factorization. The two constraints are
+independent.
+
+That is `docs/09` Gate 2 turned from an assertion into a measurement:
+*symmetry alone is provably insufficient*. The document argues it from the
+existence of DH; this measures the local independence of the two conditions
+in a neighbourhood of DH itself, which is a strictly finer statement. It
+also explains, in one number, why Gate 4 has to be posed separately from
+Gates 2 and 3 rather than following from them.
+
+---
+
+## 7. The hole, closed: a statistic that reads zero *positions*
+
+§6.1 left an explicit gap. Probes 1 and 2 failed because they consume only
+ordinates, and §6 showed why that is fatal: ζ(s−δ) has the *same ordinates*
+as ζ while its zeros sit on a different vertical line, so no ordinate
+statistic can locate the critical line. The coefficient-side statistic of §6
+reads arithmetic instead — but arithmetic is not position either. The open
+question was whether anything computable reads **position**.
+
+There is, and the repository already had half of it. In `zeta/weil.py`'s
+convention the Weil explicit formula reads
+
+    Σ_ρ h(γ_ρ) = arch(h) + pole(h) − 2 Σ_n bₙ n^{−1/2} g(log n),   γ_ρ = (ρ−½)/i
+
+and that γ_ρ is the whole story: on the line it is real, and for ρ = β+iγ off
+the line it is γ − i(β−½), **complex**. The right-hand side is assembled from
+Dirichlet coefficients and the gamma factor alone, so it accounts for every
+zero. Therefore
+
+    residue(c) := [arithmetic side] − [sum over ON-LINE zeros only]
+
+is exactly what the on-line zeros fail to explain — and neither ingredient
+knows an off-line zero exists. `zeta/detector.py`.
+
+| | measurement |
+| --- | --- |
+| ζ, max abs residue at c = 20, 45, 60, 100 | **1.6e-15** (float noise) |
+| DH, max abs residue at c = 40, 60, 100 | 8.0e-15 (quiet) |
+| DH, residue at c = γ₀ = 85.6993484853776 | **+4.096324360133627** |
+| predicted contribution of the known quadruple | **+4.096324360133638** |
+| agreement | 1.1e-14 |
+| \|β−½\| recovered from the peak height | 0.30851718245662 |
+| true \|β−½\| | 0.30851718245664 |
+
+So the detector does not merely notice the RH violation — scanning c
+localizes the offending ordinate, and the peak height inverts through
+≈ 4·exp(a(β−½)²) to recover *how far off the line the zero sits*, to
+fourteen digits. Off-line zeros found without ever solving for them.
+
+The ζ row is the real test. Its vanishing is a three-way agreement between a
+digamma integral, a prime sum and a zero list that share no code, so it
+validates the archimedean convention, the sign of the prime term and the
+Fourier pair simultaneously. During development a sign-flipped prime term
+produced ζ residues of order 1 — a signal-shaped artifact that only the
+calibration caught. Same lesson as §3 and the trap notes: the control is
+what makes the measurement mean anything.
+
+**Limits, stated plainly.** This is not a proof of RH for ζ over any range,
+and it is not *certified* — float/mpmath without enclosures, so `rigor.py`
+keeps that word. And the residue measures "zeros unaccounted for by the
+supplied on-line list": a *missing* on-line zero is indistinguishable from
+an off-line one, so the statistic is only meaningful paired with an
+independent count (`online_list_is_complete`, checked against
+`zeta.epstein.zeros_on_line`).
+
+What it settles for this document is narrow but real. Of the probes tried
+here, ordinate statistics see nothing, coefficient statistics see
+factorization, and exactly one — the Weil residue — sees where the zeros
+actually are. That is the sense in which Gate 2 wants a positivity slot
+rather than a symmetry: positivity is a statement about ρ, and ρ is the only
+thing that knows about RH.

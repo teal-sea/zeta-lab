@@ -21,9 +21,11 @@ from zeta.factorization import (
     DEFAULT_N_MAX,
     KAPPA_REF,
     ZERO_THRESHOLD,
+    dh_family_coefficients,
     euler_product_panel,
     factorization_defect,
     factorization_report,
+    kappa_landscape,
     log_derivative_coefficients,
     null_distribution,
     periodic_coefficients,
@@ -98,3 +100,35 @@ def test_report_places_dh_as_typical():
 def test_a1_must_be_normalized():
     with pytest.raises(ValueError):
         log_derivative_coefficients(np.zeros(DEFAULT_N_MAX + 1))
+
+
+# --- the kappa landscape: does the functional equation know about factoring? ---
+
+
+def test_defect_is_even_in_t():
+    """t -> -t conjugates the character, which cannot change factorization."""
+    for t in (0.3, 0.7, 1.3, 2.1):
+        assert factorization_defect(dh_family_coefficients(t)) == pytest.approx(
+            factorization_defect(dh_family_coefficients(-t)), abs=1e-12
+        )
+
+
+def test_kappa_is_not_a_critical_point_of_the_defect():
+    """The headline: symmetry and factorization are independent constraints."""
+    land = kappa_landscape()
+    assert land["kappa"] == pytest.approx(KAPPA_REF, abs=1e-9)
+    assert land["kappa_is_critical_point"] is False
+    assert land["slope_at_kappa"] == pytest.approx(1.154, abs=5e-3)
+    assert land["defect_at_kappa"] == pytest.approx(0.979, abs=5e-3)
+
+
+def test_dh_family_never_factors():
+    land = kappa_landscape()
+    assert land["family_ever_factors"] is False
+    # the family minimum is the real-part combination at t = 0, still far from 0
+    assert land["argmin_t"] == pytest.approx(0.0, abs=1e-9)
+    assert land["min_defect"] == pytest.approx(0.825, abs=5e-3)
+
+
+def test_landscape_verdict_names_gate_2():
+    assert "Gate 2" in kappa_landscape()["verdict"]
