@@ -1,0 +1,70 @@
+[
+  {
+    "discriminant": 0,
+    "form": "zeta",
+    "factorization_defect": 2.650389027678084e-32,
+    "max_position_residue": 0.0037574067986823056,
+    "argmax_c": 20.0,
+    "online_zero_count": 2
+  },
+  {
+    "discriminant": -15,
+    "form": [
+      1,
+      1,
+      4
+    ],
+    "factorization_defect": 11.46448495633992,
+    "max_position_residue": 4.329584961853612,
+    "argmax_c": 15.0,
+    "online_zero_count": 9
+  },
+  {
+    "discriminant": -20,
+    "form": [
+      1,
+      0,
+      5
+    ],
+    "factorization_defect": 8.242224340193621,
+    "max_position_residue": 4.067645198289753,
+    "argmax_c": 16.0,
+    "online_zero_count": 14
+  },
+  {
+    "discriminant": -23,
+    "form": [
+      1,
+      1,
+      6
+    ],
+    "factorization_defect": 11.210877224488883,
+    "max_position_residue": 4.114160560012985,
+    "argmax_c": 16.0,
+    "online_zero_count": 14
+  },
+  {
+    "discriminant": -24,
+    "form": [
+      1,
+      0,
+      6
+    ],
+    "factorization_defect": 4.251276939751666,
+    "max_position_residue": 4.078562583890545,
+    "argmax_c": 15.0,
+    "online_zero_count": 15
+  },
+  {
+    "discriminant": -31,
+    "form": [
+      1,
+      1,
+      8
+    ],
+    "factorization_defect": 6.177841732259196,
+    "max_position_residue": 4.0866841925529425,
+    "argmax_c": 20.0,
+    "online_zero_count": 15
+  }
+]
