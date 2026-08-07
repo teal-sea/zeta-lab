@@ -351,6 +351,22 @@ Constants: `DEFAULT_N_MAX`, `ZERO_THRESHOLD`, `KAPPA_REF`
 - `dh_family_coefficients(t: float, n_max: int = DEFAULT_N_MAX) -> np.ndarray` — The one-parameter family aₙ = [1, t, −t, −1, 0], periodic mod 5.
 - `kappa_landscape(t_values: Sequence[float] | None = None, n_max: int = DEFAULT_N_MAX) -> dict[str, Any]` — D along the DH family, and whether κ sits anywhere distinguished on it.
 
+### `zeta/detector.py` — Detecting off-line zeros without solving for them — the position-sensitive gate.
+
+*305 lines*
+
+Constants: `DEFAULT_WIDTH`, `DEFAULT_N_MAX`, `DATA_DIR`
+
+- `bump_pair(c, a = DEFAULT_WIDTH) -> tuple[Callable, Callable]` — The even bump h centred at ±c, with its exact Fourier partner g.
+- `archimedean_bracket(r, source: str = 'zeta')` — 2·Re(Λ_∞′/Λ_∞)(½+ir) — derived from each function's gamma factor.
+- `arithmetic_side(c, source: str = 'zeta', a = DEFAULT_WIDTH, n_max: int = DEFAULT_N_MAX) -> Any` — arch + pole − 2Σ b_n n^{−1/2} g(log n). Uses no zeros whatsoever.
+- `online_zero_side(c, source: str = 'zeta', a = DEFAULT_WIDTH) -> Any` — Σ over the ON-LINE ordinates of h(γ) + h(−γ).
+- `offline_residue(c, source: str = 'zeta', a = DEFAULT_WIDTH, n_max: int = DEFAULT_N_MAX) -> dict[str, Any]` — The statistic: what the on-line zeros fail to account for.
+- `residue_scan(c_values: Sequence[float], source: str = 'zeta', a = DEFAULT_WIDTH) -> dict[str, Any]` — Residue across a range of centres — the peak localizes an off-line zero.
+- `recover_distance_from_line(residue: float, a = DEFAULT_WIDTH) -> float` — |β − ½| from the peak height, inverting ≈ 4·exp(a(β−½)²).
+- `online_list_is_complete(t0: float, t1: float, dps: int = 15) -> dict[str, Any]` — Cross-check the cached DH on-line ordinates against an independent count.
+- `detector_battery(a = DEFAULT_WIDTH) -> dict[str, Any]` — ζ silent, Davenport–Heilbronn spiking at its off-line zero.
+
 ### `zeta/leeyang.py` — Newman's Lee–Yang program, made computational — and its battery verdict.
 
 *251 lines*
@@ -930,12 +946,13 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LES
 
 ## Tests (`tests/`)
 
-1238 test functions across 34 files (the collected count differs where tests are parametrised):
+1249 test functions across 35 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_core.py` — 97
 - `tests/test_criteria.py` — 75
 - `tests/test_department_conformance.py` — 16
+- `tests/test_detector.py` — 11
 - `tests/test_detectors.py` — 4
 - `tests/test_discovery_funnel.py` — 87
 - `tests/test_discovery_historical_validation.py` — 48
