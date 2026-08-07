@@ -1,7 +1,9 @@
 [
   {
     "discriminant": 0,
-    "form": "zeta",
+    "form": [
+      "zeta"
+    ],
     "factorization_defect": 0.0,
     "max_position_residue": 0.0037574,
     "argmax_c": 20.0,

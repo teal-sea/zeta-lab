@@ -55,7 +55,7 @@ def find_online_zeros_epstein(form, t_max: float = 25.0, dps: int = 15, step: fl
 
 def main():
     # Only test a few discriminants to save time, plus we'll add zeta as a control manually
-    discriminants = [-15, -20, -23, -24, -31]
+    discriminants = [-15, -20, -23]
     
     results = []
     t_max = 25.0
