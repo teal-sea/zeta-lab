@@ -1,0 +1,65 @@
+[
+  {
+    "kappa": 0.0,
+    "factorization_defect": 1.582286521402957,
+    "max_position_residue": 3.664503646875054,
+    "argmax_c": 86.0,
+    "online_zero_count": 59
+  },
+  {
+    "kappa": 0.1,
+    "factorization_defect": 1.6644032176241084,
+    "max_position_residue": 3.7792744130842477,
+    "argmax_c": 86.0,
+    "online_zero_count": 59
+  },
+  {
+    "kappa": 0.2,
+    "factorization_defect": 1.936327857803361,
+    "max_position_residue": 3.8978302171232375,
+    "argmax_c": 86.0,
+    "online_zero_count": 59
+  },
+  {
+    "kappa": 0.284079,
+    "factorization_defect": 2.3741061328061615,
+    "max_position_residue": 4.000488098678422,
+    "argmax_c": 86.0,
+    "online_zero_count": 59
+  },
+  {
+    "kappa": 0.4,
+    "factorization_defect": 3.50809937214804,
+    "max_position_residue": 4.14656104151894,
+    "argmax_c": 86.0,
+    "online_zero_count": 59
+  },
+  {
+    "kappa": 0.5,
+    "factorization_defect": 5.391901849878081,
+    "max_position_residue": 4.276869542311824,
+    "argmax_c": 86.0,
+    "online_zero_count": 59
+  },
+  {
+    "kappa": 0.6,
+    "factorization_defect": 8.92152618168996,
+    "max_position_residue": 4.411230046548378,
+    "argmax_c": 86.0,
+    "online_zero_count": 59
+  },
+  {
+    "kappa": 0.8,
+    "factorization_defect": 28.803425100083544,
+    "max_position_residue": 4.6923803651812435,
+    "argmax_c": 86.0,
+    "online_zero_count": 59
+  },
+  {
+    "kappa": 1.0,
+    "factorization_defect": 105.95105498047609,
+    "max_position_residue": 4.990564413027285,
+    "argmax_c": 86.0,
+    "online_zero_count": 59
+  }
+]
