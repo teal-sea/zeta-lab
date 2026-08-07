@@ -95,6 +95,31 @@ ledger with seed `20260802`, all six generators emitted 26 candidates in 4.29 s:
 ledger contains 52 records because each candidate has an initial and a terminal
 record; the run stream contains one complete run. Raw records remain gitignored.
 
+**Seventh generator shipped and the reference run re-measured (2026-08-06).**
+`zeta_legendre_weil` runs the Riemann–Weil explicit formula through
+`zeta.weil.legendre_pair(n)` — a triangle bump supported exactly on
+`[log n², log (n+1)²]`, so the prime term sees only the Legendre interval.
+Per interval it emits the identity instance (dies `known`: it instantiates a
+theorem, matched by a custom catalogue matcher) and the prime-detection
+inequality (dies `known`: finitely verified for every reachable n, with the
+range guard `(n+1)² ≤ 4e18` in the matcher). Default reference run: 32
+candidates → 26 known (81.2 %), 1 trivial, 5 inconclusive, 0 survivors — the
+no-survivor headline is a pinned design property, so the third observation is
+**opt-in**: with `legendre_mass_constant` in the context, the widest
+interval's Λ-mass is emitted as a measured constant no catalogue tabulates, a
+designed survivor. Its one recorded run (2026-08-06, in the private ledger)
+exercised the full path — escalation to 60 digits, sympy
+cross-summation, PSLQ non-identification — and then the operator-level
+literature check the offline gate refuses to fake: a networked search
+(2026-08-06) found the localisation device standard in the explicit-formula
+literature, the specific triangle-weighted statistic untabulated (an ad-hoc
+derived quantity, not an invariant), and a structural reason the instrument
+cannot decide Legendre — compact support forces a non-sign-definite zero
+side, so RH-strength bounds give cancellation, not positivity. Disposition:
+instrument documented, lead closed as generic; no claim. The ancestor
+script `scripts/40_legendre_weil.py` overprinted "mathematically proves
+primes exist"; it now defers to the library pair and states the honest scope.
+
 **The ledger is shared between machines without being published (2026-08-04).**
 A second machine cloning this repo got an empty `conjectures/`, which is the
 ignore rule working as designed. The fix was *not* to relax that rule: this

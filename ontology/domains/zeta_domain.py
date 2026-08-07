@@ -3,7 +3,7 @@
 Everything above this file in ``discovery/`` is domain-agnostic: it counts
 candidates, verdicts and conversion rates and would work unchanged for a
 chemistry lab. This file is where the laboratory is allowed to be named. It
-registers six **generators** (which mine the lab's own computed objects for
+registers seven **generators** (which mine the lab's own computed objects for
 candidate observations), six **screens** (which try to kill them) and a
 **catalogue** of already-established facts, all through
 :mod:`ontology.registry`.
@@ -37,6 +37,11 @@ What the generators mine
 ``zeta_structural``       universal claims over enumerated families, each with a
                           control the predicate *fails* — these are the ones the
                           counterexample battery must adjudicate
+``zeta_legendre_weil``    the Riemann-Weil explicit formula localised to
+                          Legendre intervals [n², (n+1)²]: the identity
+                          instance, the prime-detection inequality, and (on
+                          request, via ``legendre_mass_constant``) the
+                          interval's Λ-mass as a measured constant
 ========================  =====================================================
 
 The mandatory gate
@@ -71,6 +76,7 @@ in an extremal search, integer-relation hunts that found nothing significant.
 from __future__ import annotations
 
 import datetime as _dt
+import json
 import math
 import random
 import re
@@ -78,6 +84,7 @@ import time
 from collections.abc import Callable, Iterator, Mapping, Sequence
 from dataclasses import dataclass
 from functools import lru_cache
+from pathlib import Path
 from typing import Any, Final
 
 import numpy as np
@@ -128,6 +135,7 @@ __all__ = [
     "ExtremalGenerator",
     "FiniteFieldGenerator",
     "StructuralGenerator",
+    "LegendreWeilGenerator",
     "NumericSanityScreen",
     "PrecisionStabilityScreen",
     "TrivialityScreen",
@@ -461,6 +469,112 @@ def _route_defect_ff_trace_surjectivity(params: Mapping[str, Any], dps: int) -> 
     return mp.mpf(abs(_i(hist["distinct_traces"]) - _i(hist["hasse_interval_size"])))
 
 
+#: Where evaluated explicit-formula sides persist between processes. The
+#: archimedean quadrature at escalated precision costs ~15 s per interval, and
+#: every funnel-running test in every xdist worker would otherwise pay it
+#: again; this is the repo's standard data/ cache pattern. **If zeta/weil.py's
+#: numerical internals change, delete this file** — stale sides would let the
+#: screens "pass" against numbers the code no longer produces.
+_LEGENDRE_SIDES_CACHE: Final[Path] = (
+    Path(__file__).resolve().parents[2] / "data" / "legendre_weil_sides.json"
+)
+
+_LEGENDRE_SIDES_INTS: Final[tuple[str, ...]] = ("n_zeros_used", "n_max")
+
+
+def _legendre_sides_from_disk(key: str) -> Mapping[str, Any] | None:
+    try:
+        table = json.loads(_LEGENDRE_SIDES_CACHE.read_text())
+        return table.get(key)
+    except (OSError, ValueError):
+        return None
+
+
+def _legendre_sides_to_disk(key: str, sides: Mapping[str, Any], dps: int) -> None:
+    """Append one entry, atomically; a lost race costs a recompute, never data."""
+    row: dict[str, Any] = {}
+    with mp.workdps(dps + 15):
+        for name, value in sides.items():
+            if value is None or isinstance(value, (int, str)):
+                row[name] = value
+            else:
+                row[name] = mp.nstr(mp.mpf(value), dps + 15, strip_zeros=False)
+    try:
+        table = json.loads(_LEGENDRE_SIDES_CACHE.read_text())
+    except (OSError, ValueError):
+        table = {}
+    table[key] = row
+    tmp = _LEGENDRE_SIDES_CACHE.with_suffix(".json.tmp")
+    tmp.write_text(json.dumps(table, indent=1, sort_keys=True))
+    tmp.replace(_LEGENDRE_SIDES_CACHE)
+
+
+@lru_cache(maxsize=64)
+def _legendre_sides(n: int, gamma_max: float, dps: int) -> Mapping[str, Any]:
+    """One evaluation of the explicit formula on the n-th Legendre bump.
+
+    Memoised twice: per process (one evaluation feeds three candidates and
+    every screen escalation) and on disk (decimal strings at dps+15, which
+    every consumer parses back at its own working precision). The cache key
+    carries the dps, so an escalated recompute is a genuine recompute, paid
+    once ever rather than once per process.
+    """
+    key = f"n={int(n)}|gamma_max={float(gamma_max)!r}|dps={int(dps)}"
+    cached = _legendre_sides_from_disk(key)
+    if cached is not None:
+        return cached
+
+    from zeta.weil import explicit_formula_sides, legendre_pair
+
+    h, g = legendre_pair(n)
+    sides = explicit_formula_sides(
+        h, g, gamma_max=gamma_max, n_max=(n + 1) ** 2 + 1, dps=dps
+    )
+    _legendre_sides_to_disk(key, sides, dps)
+    return sides
+
+
+def _route_legendre_weil_defect(params: Mapping[str, Any], dps: int) -> Any:
+    sides = _legendre_sides(int(params["n"]), float(params["gamma_max"]), dps)
+    return sides["abs_diff"]
+
+
+def _route_legendre_lambda_mass(params: Mapping[str, Any], dps: int) -> Any:
+    """The Λ-mass of the Legendre interval: prime_term = -2 Σ Λ(k) k^{-1/2} g(log k)."""
+    sides = _legendre_sides(int(params["n"]), float(params["gamma_max"]), dps)
+    with mp.workdps(dps + GUARD_DIGITS):
+        return -mp.mpf(sides["prime_term"]) / 2
+
+
+def _route_legendre_lambda_mass_cross(params: Mapping[str, Any], dps: int) -> Any:
+    """The same Λ-mass by direct re-summation over the interval.
+
+    Shares only the definitions of Λ and g with the route under test: prime
+    powers come from sympy's factorisation, not from zeta.weil's prime loop.
+    """
+    from sympy import factorint
+
+    from zeta.weil import legendre_pair
+
+    n = int(params["n"])
+    _, g = legendre_pair(n)
+    with mp.workdps(dps + GUARD_DIGITS):
+        total = mp.mpf(0)
+        for k in range(n * n + 1, (n + 1) ** 2):
+            factors = factorint(k)
+            if len(factors) == 1:
+                (p,) = factors
+                total += mp.log(p) * g(mp.log(k)) / mp.sqrt(k)
+        return total
+
+
+def _route_legendre_detection_defect(params: Mapping[str, Any], dps: int) -> Any:
+    """max(0, -mass): zero exactly when the formula detects the interval's primes."""
+    with mp.workdps(dps + GUARD_DIGITS):
+        mass = mp.mpf(_route_legendre_lambda_mass(params, dps))
+        return max(mp.mpf(0), -mass)
+
+
 ROUTES: Final[Mapping[str, Route]] = {
     "li_lambda": Route(
         name="li_lambda",
@@ -530,6 +644,26 @@ ROUTES: Final[Mapping[str, Route]] = {
         lab_object="zeta.finitefield.sato_tate_histogram",
         compute=_route_defect_ff_trace_surjectivity,
         escalates=False,
+    ),
+    "legendre_weil_defect": Route(
+        name="legendre_weil_defect",
+        lab_object="zeta.weil.explicit_formula_sides",
+        compute=_route_legendre_weil_defect,
+    ),
+    "legendre_lambda_mass": Route(
+        name="legendre_lambda_mass",
+        lab_object="zeta.weil.legendre_pair",
+        compute=_route_legendre_lambda_mass,
+        cross_check=_route_legendre_lambda_mass_cross,
+        cross_check_note=(
+            "direct re-summation over the interval via sympy's factorisation, "
+            "sharing only the definitions of Lambda and g"
+        ),
+    ),
+    "legendre_detection_defect": Route(
+        name="legendre_detection_defect",
+        lab_object="zeta.weil.explicit_formula_sides",
+        compute=_route_legendre_detection_defect,
     ),
 }
 
@@ -1932,6 +2066,205 @@ class StructuralGenerator(_RecordingGenerator):
 
 
 # ---------------------------------------------------------------------------
+# Generator 7 — the Weil explicit formula on Legendre intervals
+# ---------------------------------------------------------------------------
+
+
+class LegendreWeilGenerator(_RecordingGenerator):
+    """Mine the Riemann–Weil explicit formula localised to Legendre intervals.
+
+    ``zeta.weil.legendre_pair(n)`` puts a unit triangle bump on
+    ``[log n², log (n+1)²]``, so the prime term of the explicit formula sees
+    exactly the interval of Legendre's conjecture and nothing else. One
+    evaluation of ``explicit_formula_sides`` per interval feeds up to three
+    observations:
+
+    * the two sides agree within the truncation budget — an *instance of a
+      theorem*, which the catalogue is expected to recognise as ``known``;
+    * the Λ-mass the zeros-plus-pole side assigns to the interval is strictly
+      positive — primes detected; for every n this generator can reach that
+      is finitely verified, so again ``known``;
+    * only under ``context["legendre_mass_constant"]``: the Λ-mass of the
+      widest interval as a measured constant no catalogue tabulates — a
+      designed survivor, opt-in for the same reason ``xi_points`` is.
+
+    Nothing here is progress on Legendre's conjecture: the truncated zero
+    side detects primes the sieve already lists, at a cost the sieve does not
+    charge. The ancestor script (``scripts/40_legendre_weil.py``) printed
+    "mathematically proves primes exist in this interval" over the same
+    computation; the honest content is the measurement, and the funnel's
+    verdicts are expected to say so.
+    """
+
+    name = "zeta_legendre_weil"
+    version = "1.0"
+
+    #: Intervals harvested by default. Small on purpose: the point is the
+    #: instrument, not coverage, and every screen escalation re-runs the
+    #: archimedean quadrature at roughly double precision.
+    DEFAULT_N: Final[tuple[int, ...]] = (3, 6, 10)
+    DEFAULT_GAMMA_MAX: Final[float] = 500.0
+
+    def generate(self, context: Mapping[str, Any]) -> Iterator[Candidate]:
+        self.refused = []
+        dps = int(context.get("dps", DEFAULT_DPS))
+        seed = int(context.get("seed", DEFAULT_SEED))
+        gamma_max = float(context.get("legendre_gamma_max", self.DEFAULT_GAMMA_MAX))
+        ns = tuple(int(n) for n in context.get("legendre_n", self.DEFAULT_N))
+        precision = Precision(kind="dps", value=dps, backend="mpmath")
+
+        emitted_any = False
+        for n in ns:
+            if n < 2:
+                self._refuse(
+                    f"legendre interval n={n}",
+                    ("legendre_pair needs n >= 2: the n = 1 bump touches the "
+                     "origin and stops being the Legendre localisation",),
+                )
+                continue
+            started = time.perf_counter()
+            sides = _legendre_sides(n, gamma_max, dps)
+            with mp.workdps(dps + GUARD_DIGITS):
+                resolution = mp.mpf(10) ** -(dps - UNCERTAINTY_GUARD)
+                budget = (
+                    mp.mpf(sides["zero_side_tail_bound"])
+                    + mp.mpf(sides["prime_tail_bound"])
+                    + resolution
+                )
+                mass = -mp.mpf(sides["prime_term"]) / 2
+                detection_defect = max(mp.mpf(0), -mass)
+            duration = time.perf_counter() - started
+            parameters = {"n": n, "gamma_max": gamma_max, "dps": dps}
+
+            # 1. the identity instance: both sides, computed independently
+            yield from self._relation(
+                claim={
+                    "lhs": f"zeta.weil.explicit_formula.zero_side[legendre n={n}]",
+                    "rhs": f"zeta.weil.explicit_formula.arithmetic_side[legendre n={n}]",
+                    "relation": "eq",
+                },
+                evidence={
+                    "defect": _num(sides["abs_diff"], 6),
+                    "tolerance": _num(budget, 6),
+                    "defect_definition": "abs(zero_side - arithmetic_side)",
+                    "zero_side": _num(sides["zero_side"], 12),
+                    "arithmetic_side": _num(sides["arithmetic_side"], 12),
+                    "zero_side_tail_bound": _num(sides["zero_side_tail_bound"], 6),
+                    "n_zeros_used": _i(sides["n_zeros_used"]),
+                },
+                route="legendre_weil_defect",
+                parameters=parameters,
+                precision=precision,
+                seed=seed,
+                duration_s=duration,
+                label=f"explicit formula on the Legendre interval [{n * n}, {(n + 1) ** 2}]",
+            )
+
+            # 2. the detection: the interval's Λ-mass is strictly positive
+            yield from self._relation(
+                claim={
+                    "lhs": f"zeta.weil.legendre_interval_lambda_mass[n={n}]",
+                    "rhs": "0",
+                    "relation": "gt",
+                },
+                evidence={
+                    "defect": _num(detection_defect, 6),
+                    "tolerance": _num(resolution, 3),
+                    "defect_definition": "max(0, 0 - lambda_mass)",
+                    "lambda_mass": _num(mass, dps),
+                    "note": (
+                        "every term Lambda(k) k^(-1/2) g(log k) is non-negative, "
+                        "so positivity says exactly that a prime power lies in "
+                        f"({n * n}, {(n + 1) ** 2}) — finitely verifiable, and verified"
+                    ),
+                },
+                route="legendre_detection_defect",
+                parameters=parameters,
+                precision=precision,
+                seed=seed,
+                duration_s=0.0,
+                label=f"primes detected in [{n * n}, {(n + 1) ** 2}] from the zero side",
+            )
+            emitted_any = True
+
+        # 3. the Λ-mass of the widest harvested interval, as a plain measured
+        #    constant: escalates, cross-checks, and is in no catalogue — so it
+        #    reaches ``survives`` by construction. Emitted only when the
+        #    operator asks (the ``xi_points`` precedent): the default pass is
+        #    designed to yield no survivor, and a flag that manufactures one
+        #    on every fresh ledger would turn the headline into noise. The one
+        #    recorded exercise of the full survivor path, literature check
+        #    included, is in ROADMAP.md (2026-08-06).
+        if emitted_any and bool(context.get("legendre_mass_constant", False)):
+            n = max(x for x in ns if x >= 2)
+            started = time.perf_counter()
+            value = _route_legendre_lambda_mass({"n": n, "gamma_max": gamma_max}, dps)
+            unc_text = _num(mp.mpf(10) ** -(dps - UNCERTAINTY_GUARD), 3)
+            claim = {
+                "subject": f"zeta.weil.legendre_lambda_mass_n_{n}",
+                "value": _num(value, dps),
+            }
+            evidence = {
+                "uncertainty": unc_text,
+                "working_precision": f"dps={dps}",
+            }
+            refusals = kind_reasons(CandidateKind.CONSTANT, claim, evidence)
+            if refusals:
+                self._refuse(f"legendre lambda mass n={n}", refusals)
+            else:
+                yield Candidate(
+                    kind=CandidateKind.CONSTANT,
+                    claim=claim,
+                    evidence=evidence,
+                    provenance=_provenance(
+                        generator=self.name,
+                        version=self.version,
+                        route="legendre_lambda_mass",
+                        lab_object=ROUTES["legendre_lambda_mass"].lab_object,
+                        parameters={"n": n, "gamma_max": gamma_max, "dps": dps},
+                        precision=precision,
+                        seed=seed,
+                        duration_s=time.perf_counter() - started,
+                    ),
+                    dedup_digits=_dedup_digits(claim["value"], unc_text),
+                    label=f"the Weil-weighted Lambda-mass of [{n * n}, {(n + 1) ** 2}]",
+                )
+
+    def _relation(
+        self,
+        *,
+        claim: Mapping[str, Any],
+        evidence: Mapping[str, Any],
+        route: str,
+        parameters: Mapping[str, Any],
+        precision: Precision,
+        seed: int,
+        duration_s: float,
+        label: str,
+    ) -> Iterator[Candidate]:
+        refusals = kind_reasons(CandidateKind.RELATION, claim, evidence)
+        if refusals:
+            self._refuse(label, refusals)
+            return
+        yield Candidate(
+            kind=CandidateKind.RELATION,
+            claim=dict(claim),
+            evidence=dict(evidence),
+            provenance=_provenance(
+                generator=self.name,
+                version=self.version,
+                route=route,
+                lab_object=ROUTES[route].lab_object,
+                parameters=parameters,
+                precision=precision,
+                seed=seed,
+                duration_s=duration_s,
+            ),
+            label=label,
+        )
+
+
+# ---------------------------------------------------------------------------
 # Screens
 # ---------------------------------------------------------------------------
 
@@ -2772,6 +3105,81 @@ def _match_li_coefficient(candidate: Candidate, fact: KnownFact) -> FactMatch | 
     )
 
 
+_LEGENDRE_EF_LHS_RE: Final[re.Pattern[str]] = re.compile(
+    r"^zeta\.weil\.explicit_formula\.zero_side\[legendre n=(\d+)\]$"
+)
+_LEGENDRE_MASS_LHS_RE: Final[re.Pattern[str]] = re.compile(
+    r"^zeta\.weil\.legendre_interval_lambda_mass\[n=(\d+)\]$"
+)
+
+
+def _match_explicit_formula_instance(
+    candidate: Candidate, fact: KnownFact
+) -> FactMatch | None:
+    """Match any zero-side = arithmetic-side agreement on a Legendre bump.
+
+    The regex, not a fixed key list, because the interval index n is a free
+    parameter of the generator: a catalogue that recognised n = 10 but
+    reported n = 11 as a lead would be failing at exactly the coverage this
+    matcher exists to provide.
+    """
+    if candidate.kind is not CandidateKind.RELATION:
+        return None
+    if str(candidate.claim.get("relation")) != "eq":
+        return None
+    hit = _LEGENDRE_EF_LHS_RE.match(str(candidate.claim.get("lhs", "")))
+    if hit is None:
+        return None
+    return FactMatch(
+        fact_id=fact.id,
+        match_kind="statement",
+        source=fact.source,
+        canonical_form=fact.canonical_form,
+        statement=fact.statement,
+        detail={
+            "matched_lhs": str(candidate.claim.get("lhs")),
+            "n": int(hit.group(1)),
+            "literature_status": fact.status,
+        },
+    )
+
+
+def _match_legendre_interval_detection(
+    candidate: Candidate, fact: KnownFact
+) -> FactMatch | None:
+    """Match a positive-Λ-mass claim for an interval inside the verified range.
+
+    The range guard is the honest part: beyond (n+1)^2 <= 4e18 the statement
+    stops being verified, and this matcher must decline rather than stretch a
+    finite verification over an open conjecture.
+    """
+    if candidate.kind is not CandidateKind.RELATION:
+        return None
+    if str(candidate.claim.get("relation")) != "gt":
+        return None
+    if str(candidate.claim.get("rhs", "")).strip() != "0":
+        return None
+    hit = _LEGENDRE_MASS_LHS_RE.match(str(candidate.claim.get("lhs", "")))
+    if hit is None:
+        return None
+    n = int(hit.group(1))
+    if (n + 1) ** 2 > 4 * 10**18:
+        return None
+    return FactMatch(
+        fact_id=fact.id,
+        match_kind="statement",
+        source=fact.source,
+        canonical_form=fact.canonical_form,
+        statement=fact.statement,
+        detail={
+            "matched_lhs": str(candidate.claim.get("lhs")),
+            "n": n,
+            "interval": [n * n, (n + 1) ** 2],
+            "literature_status": fact.status,
+        },
+    )
+
+
 ZETA_FACTS: Final[tuple[KnownFact, ...]] = (
     KnownFact(
         id="li-lambda-1-closed-form",
@@ -3061,6 +3469,53 @@ ZETA_FACTS: Final[tuple[KnownFact, ...]] = (
         tags=("li-criterion", "historical"),
         status="equivalent_to_open_problem",
     ),
+    KnownFact(
+        id="riemann-weil-explicit-formula",
+        statement=(
+            "The Riemann-Weil explicit formula: for an admissible test pair "
+            "(h, g), the sum of h over the non-trivial zeros equals the pole, "
+            "archimedean and prime terms. Numerical agreement of the two sides "
+            "for any particular test function is an instance of a theorem, not "
+            "an observation."
+        ),
+        canonical_form=(
+            "sum_rho h(gamma_rho) = h(i/2) + h(-i/2) + arch(h) "
+            "- 2 sum_n Lambda(n) n^(-1/2) g(log n)"
+        ),
+        source=(
+            "Weil 1952, Comm. Sem. Math. Lund; Iwaniec and Kowalski, Analytic "
+            "Number Theory, Thm 5.12; zeta.weil.explicit_formula_sides and "
+            "tests/test_weil.py"
+        ),
+        domain=DOMAIN_NAME,
+        matcher=lambda candidate, fact: _match_explicit_formula_instance(
+            candidate, fact
+        ),
+        tags=("explicit-formula", "theorem"),
+        status="theorem",
+    ),
+    KnownFact(
+        id="legendre-interval-primes-finite-range",
+        statement=(
+            "Legendre's conjecture — a prime between n^2 and (n+1)^2 for every "
+            "n — is open in general, but for every n with (n+1)^2 <= 4e18 the "
+            "interval provably contains a prime: direct enumeration for small "
+            "n, and for 2n+1 > 1476 the tabulated maximal prime gaps below "
+            "4e18. Detecting primes in such an interval, by any instrument, "
+            "reproduces a verified fact."
+        ),
+        canonical_form="pi((n+1)^2) - pi(n^2) >= 1 for all n with (n+1)^2 <= 4e18",
+        source=(
+            "Oliveira e Silva, Herzog and Pardi 2014, Math. Comp. 83, 2033-2060 "
+            "(maximal prime gaps to 4e18); OEIS A014085"
+        ),
+        domain=DOMAIN_NAME,
+        matcher=lambda candidate, fact: _match_legendre_interval_detection(
+            candidate, fact
+        ),
+        tags=("primes", "legendre"),
+        status="established",
+    ),
 )
 
 
@@ -3129,7 +3584,7 @@ def build_domain() -> Domain:
         name=DOMAIN_NAME,
         version=DOMAIN_VERSION,
         description=(
-            "The Riemann zeta laboratory: six generators mining computed objects "
+            "The Riemann zeta laboratory: seven generators mining computed objects "
             "for candidate observations, six screens trying to kill them, and a "
             "catalogue of what is already established. Nothing this domain "
             "produces is evidence for the Riemann Hypothesis."
@@ -3141,6 +3596,7 @@ def build_domain() -> Domain:
             ExtremalGenerator(),
             FiniteFieldGenerator(),
             StructuralGenerator(),
+            LegendreWeilGenerator(),
         ),
         screens=(
             NumericSanityScreen(),

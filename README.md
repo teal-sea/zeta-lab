@@ -217,18 +217,21 @@ Every dependency is ordinary: `mpmath`, `numpy`, `scipy`, `matplotlib`,
     python scripts/13_discovery_run.py --report    # the dashboard over the ledger
     ```
 
-    Six generators mine the laboratory's computed objects for candidate
+    Seven generators mine the laboratory's computed objects for candidate
     observations; a catalogue and six screens try to kill them; every step is
     logged, so the conversion rate *per generator* can be measured. On a fresh
-    ledger the six produce 26 candidates, and the funnel's verdict on them is
-    20 already known (76.9 %), 1 trivial, 5 inconclusive, 0 survivors. That
+    ledger the seven produce 32 candidates, and the funnel's verdict on them is
+    26 already known (81.2 %), 1 trivial, 5 inconclusive, 0 survivors. That
     table is the point of the exercise: most numerical "discoveries" are
     already known or trivial, and a system that does not measure its own hit
     rate is measuring its operator's enthusiasm. A survivor, when one appears,
     is a **lead** — not a result, not evidence for RH — and "not recognised
     offline" is not novelty: there is no network here, so nothing was looked
-    up. The ledger lives in `conjectures/`, which is gitignored; it is a
-    private notebook of unreviewed leads. Design: `ontology/README.md`.
+    up. (The survivor path is exercised end to end by an opt-in candidate —
+    `legendre_mass_constant` — whose one recorded run, operator literature
+    check included, is in `ROADMAP.md`.) The ledger lives in `conjectures/`,
+    which is gitignored; it is a private notebook of unreviewed leads.
+    Design: `ontology/README.md`.
 
 [`ROADMAP.md`](ROADMAP.md) records the *decisions* — why the work went this
 way, what is deliberately not being attempted, the known gaps, and the next

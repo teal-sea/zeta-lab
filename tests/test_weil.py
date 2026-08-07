@@ -42,6 +42,7 @@ from zeta.weil import (
     explicit_formula_sides,
     fejer_pair,
     gaussian_pair,
+    legendre_pair,
     near_tightness_report,
     positivity_probe,
     weil_functional,
@@ -584,3 +585,96 @@ def test_near_tightness_full_report():
     # W·b² hovers around Σ 1/γ² with sin²(bγ) oscillation
     for d in rep["fejer_scan"]:
         assert 0.01 < d["W_times_b2"] < 0.04
+
+
+# ---------------------------------------------------------------------------
+# The Legendre pair: the explicit formula localised to [n², (n+1)²]
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture(scope="module")
+def res_legendre10():
+    h, g = legendre_pair(10)
+    return explicit_formula_sides(h, g, gamma_max=500.0, n_max=122, dps=25)
+
+
+def test_legendre_pair_is_fourier_pair():
+    # Same convention check as the other pairs: h(r) = ∫ g(u) e^{iru} du,
+    # integrated over the compact support with the triangle kinks as nodes.
+    with mp.workdps(30):
+        h, g = legendre_pair(4)
+        A, B = 2 * mp.log(4), 2 * mp.log(5)
+        C = (A + B) / 2
+        pts = [-B, -C, -A, 0, A, C, B]
+        assert _ft_defect(h, g, "0.7", pts) < mp.mpf("1e-28")
+        assert _ft_defect(h, g, "2.3", pts) < mp.mpf("1e-28")
+
+
+def test_legendre_pair_support_is_exactly_the_interval():
+    with mp.workdps(25):
+        h, g = legendre_pair(10)
+        A, B = 2 * mp.log(10), 2 * mp.log(11)
+        # The pair freezes its endpoints at 60 digits; the ambient-25 A and B
+        # here sit within 1e-24 of them, so the edge values are that small,
+        # not exactly zero.
+        assert g(A) < mp.mpf("1e-20") and g(B) < mp.mpf("1e-20")
+        assert g(-A) < mp.mpf("1e-20") and g(-B) < mp.mpf("1e-20")
+        assert g(h.weil_hints["support"]) == 0   # the exact endpoint is exact
+        assert abs(g((A + B) / 2) - 1) < mp.mpf("1e-20")  # unit height at centre
+        assert g(A - mp.mpf("0.01")) == 0        # nothing outside
+        assert g(B + mp.mpf("0.01")) == 0
+        assert g(A + mp.mpf("1e-6")) > 0         # everything inside
+        assert h.weil_hints["n"] == 10
+
+
+def test_legendre_pole_term_closed_form():
+    # h(i/2) = 2W cosh(C/2) (sinh(W/4)/(W/4))², and h is even.
+    with mp.workdps(30):
+        h, _ = legendre_pair(10)
+        W = mp.log(11) - mp.log(10)
+        C = mp.log(110)
+        expected = 2 * W * mp.cosh(C / 2) * (mp.sinh(W / 4) / (W / 4)) ** 2
+        measured = h(mp.mpc(0, "0.5"))
+        assert abs(measured - expected) < mp.mpf("1e-27")
+        assert abs(h(mp.mpc(0, "-0.5")) - expected) < mp.mpf("1e-27")
+
+
+def test_legendre_pair_rejects_small_n():
+    with pytest.raises(ValueError):
+        legendre_pair(1)
+    with pytest.raises(ValueError):
+        legendre_pair(0)
+
+
+def test_legendre_envelope_majorises_h():
+    with mp.workdps(25):
+        h, _ = legendre_pair(6)
+        env = h.weil_hints["envelope"]
+        for r in ("0.1", "1", "7.3", "40", "333"):
+            r = mp.mpf(r)
+            assert abs(h(r)) <= env(r) * (1 + mp.mpf("1e-20"))
+
+
+def test_legendre_explicit_formula_within_tail_bound(res_legendre10):
+    # h decays like 1/r² (g is only C⁰), so the truncated zero tail dominates;
+    # the residual must sit inside the bound and the prime sum is exact.
+    assert float(res_legendre10["abs_diff"]) < float(
+        res_legendre10["zero_side_tail_bound"]
+    )
+    assert res_legendre10["prime_tail_bound"] == 0
+
+
+def test_legendre_prime_term_matches_sieve_oracle(res_legendre10):
+    # The engine's prime term against a hand-rolled sieve of the open interval
+    # (100, 121): the primes 101, 103, 107, 109, 113 and no other prime power
+    # (121 = 11² sits on the boundary, where g vanishes).
+    from sympy import isprime
+
+    with mp.workdps(35):
+        _, g = legendre_pair(10)
+        ks = [k for k in range(101, 121) if isprime(k)]
+        assert ks == [101, 103, 107, 109, 113]
+        oracle = -2 * mp.fsum(
+            mp.log(k) * g(mp.log(k)) / mp.sqrt(k) for k in ks
+        )
+        assert abs(res_legendre10["prime_term"] - oracle) < mp.mpf("1e-20")

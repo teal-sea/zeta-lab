@@ -166,12 +166,13 @@ Constants: `DEFAULT_DPS`, `H0_RELATION`, `PHI_STRIP`
 
 ### `zeta/weil.py` — The Riemann–Weil explicit formula as a computable object, and Weil positivity.
 
-*892 lines*
+*964 lines*
 
 Constants: `GAMMA1`
 
 - `gaussian_pair(a) -> tuple[Callable, Callable]` — Gaussian pair ``h(r) = exp(-a r²)``, ``g(u) = e^{-u²/4a} / (2√(πa))``.
 - `fejer_pair(b) -> tuple[Callable, Callable]` — Fejér pair ``h(r) = (sin(br)/(br))²`` with triangle partner ``g``.
+- `legendre_pair(n: int) -> tuple[Callable, Callable]` — Shifted-triangle pair localising the prime sum to a Legendre interval.
 - `autocorrelation_pair(coeffs: Sequence, spacing = 2.0, sigma = 0.35) -> tuple[Callable, Callable]` — Positive-type pair from an explicit autocorrelation, h = |f̂|².
 - `explicit_formula_sides(h, g, gamma_max: float = 10000.0, n_max: int | None = None, dps: int = 25) -> dict` — Evaluate both sides of the Riemann–Weil explicit formula independently.
 - `weil_functional(h, g, n_max: int | None = None, dps: int = 25) -> mpf` — THE object: Weil's functional W(h), evaluated from the arithmetic side.
@@ -782,7 +783,7 @@ Constants: `NOTE_NAMES`
 
 ### `ontology/domains/zeta_domain.py` — ontology.domains.zeta_domain — the only module that knows what is studied.
 
-*3157 lines*
+*3613 lines*
 
 Constants: `DOMAIN_NAME`, `DOMAIN_VERSION`, `DEFAULT_DPS`, `DEFAULT_SEED`, `UNCERTAINTY_GUARD`, `GUARD_DIGITS`, `ROUTES`, `MERTENS_GRID`, `ZERO_HEIGHT_GRID`, `ZERO_SCAN_HEIGHT`, `PSLQ_BASIS`, `FINITE_FIELD_PRIMES`, `PREDICATE_TURAN`, `PREDICATE_FUNCTIONAL_EQUATION`, `PREDICATE_HASSE`, `RANGE_TOLERANCE`, `RANGE_RULES`, `TRIVIALITY_RULES`, `BATTERY_CLAIMS`, `ZETA_FACTS`, `FACT_REGISTRY`, `DOMAIN`
 
@@ -793,6 +794,7 @@ Constants: `DOMAIN_NAME`, `DOMAIN_VERSION`, `DEFAULT_DPS`, `DEFAULT_SEED`, `UNCE
 - `class ExtremalGenerator` — Record holders, each with the runner-up that makes the record falsifiable.
 - `class FiniteFieldGenerator` — Quantities from curves over finite fields, where RH is a theorem.
 - `class StructuralGenerator` — Universal claims over enumerated families, each with a failing control.
+- `class LegendreWeilGenerator` — Mine the Riemann–Weil explicit formula localised to Legendre intervals.
 - `class NumericSanityScreen` — Cheap arithmetic sanity: finiteness, and the ranges a theorem pins.
 - `class PrecisionStabilityScreen` — The single most valuable cheap screen: does the number survive a bump?
 - `class TrivialityScreen` — Does the claim follow, in one line, from an identity already in the lab?
@@ -928,7 +930,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LES
 
 ## Tests (`tests/`)
 
-1234 test functions across 34 files (the collected count differs where tests are parametrised):
+1249 test functions across 34 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_core.py` — 97
@@ -939,7 +941,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LES
 - `tests/test_discovery_historical_validation.py` — 48
 - `tests/test_discovery_knownness.py` — 102
 - `tests/test_discovery_schema.py` — 62
-- `tests/test_discovery_zeta_domain.py` — 75
+- `tests/test_discovery_zeta_domain.py` — 83
 - `tests/test_epstein.py` — 39
 - `tests/test_explicit.py` — 45
 - `tests/test_factorization.py` — 9
@@ -962,7 +964,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LES
 - `tests/test_statistics.py` — 54
 - `tests/test_surrogate.py` — 23
 - `tests/test_synthesis.py` — 6
-- `tests/test_weil.py` — 37
+- `tests/test_weil.py` — 44
 - `tests/test_zeros.py` — 58
 
 ```bash

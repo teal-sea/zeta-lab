@@ -93,6 +93,7 @@ from mpmath import mp, mpf
 __all__ = [
     "gaussian_pair",
     "fejer_pair",
+    "legendre_pair",
     "autocorrelation_pair",
     "explicit_formula_sides",
     "weil_functional",
@@ -204,6 +205,77 @@ def fejer_pair(b) -> tuple[Callable, Callable]:
         "envelope": envelope,
         "env_avg": env_avg,
         "support": 2 * b,
+        "g_abs": g,
+    }
+    h.weil_hints = g.weil_hints = hints
+    return h, g
+
+
+def legendre_pair(n: int) -> tuple[Callable, Callable]:
+    """Shifted-triangle pair localising the prime sum to a Legendre interval.
+
+    ``g(u)`` is a unit-height triangle supported exactly on
+    ``[log n², log (n+1)²]`` (and its mirror on the negative axis), so the
+    prime term of the explicit formula sees only ``Λ(k)`` for
+    ``n² < k < (n+1)²`` — the interval of Legendre's conjecture.  With
+    centre ``C = log(n(n+1))`` and half-width ``W = log(1 + 1/n)``,
+
+        g(u) = (1 - ||u| - C|/W)⁺ ,
+        h(r) = 2 W cos(C r) (sin(W r/2)/(W r/2))² ,
+
+    the exact Fourier partner under h(r) = ∫ g(u) e^{iru} du (a triangle is a
+    modulated Fejér kernel; partnership is re-verified numerically in the
+    tests).  ``h`` extends to an entire function, with
+    h(i/2) = 2 W cosh(C/2) (sinh(W/4)/(W/4))².
+
+    Unlike :func:`fejer_pair` this pair is **not** of positive type (the
+    cosine factor changes sign), so it is an explicit-formula instrument, not
+    a Weil-criterion one.  ``h`` decays only like 1/r² — g is merely C⁰ — so
+    zero-side truncation tails dominate every budget; the tail machinery is
+    given the exact envelope.
+    """
+    m = int(n)
+    if m < 2:
+        # n = 1 puts the inner edge at log 1 = 0: the mirror triangles touch
+        # at the origin and the "interval" [1, 4] contains k = 2, 3 only.
+        # Nothing breaks numerically, but the pair stops being the Legendre
+        # localisation it claims to be; refuse rather than hedge.
+        raise ValueError("legendre_pair needs n >= 2")
+    with mp.workdps(_PARAM_DPS):
+        A = 2 * mp.log(m)
+        B = 2 * mp.log(m + 1)
+        C = (A + B) / 2
+        W = (B - A) / 2
+
+    def g(u):
+        au = abs(u)
+        if au <= A or au >= B:
+            return mp.mpf(0)
+        return 1 - abs(au - C) / W
+
+    def h(r):
+        if r == 0:
+            return 2 * W
+        x = W * r / 2
+        s = mp.sin(x) / x
+        return 2 * W * s * s * mp.cos(C * r)
+
+    def envelope(t):  # nonincreasing majorant of |h| on t >= 0
+        if t <= 2 / W:
+            return 2 * W
+        return 2 * W / (W * t / 2) ** 2
+
+    def env_avg(t):  # sin² averages to 1/2, |cos| to 2/π
+        if t <= 2 / W:
+            return 2 * W / mp.pi
+        return 2 * W / (W * t / 2) ** 2 / mp.pi
+
+    hints = {
+        "kind": "legendre",
+        "n": m,
+        "support": B,
+        "envelope": envelope,
+        "env_avg": env_avg,
         "g_abs": g,
     }
     h.weil_hints = g.weil_hints = hints

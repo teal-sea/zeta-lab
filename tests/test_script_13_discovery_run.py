@@ -469,23 +469,28 @@ def _dispositions(out: str) -> dict[str, int]:
 def test_the_headline_numbers_quoted_in_the_readme_are_what_the_funnel_produces(tmp_path):
     """``README.md`` item 12 quotes this run; a number in a document is a test.
 
-    Slow because it consults all six generators (~7 s, most of it the extremal
-    search).  If a generator's behaviour changes, this fails and the README
-    sentence has to be rewritten — which is the intended coupling.
+    Slow because it consults all seven generators; the Legendre-Weil screen
+    escalations are served from the committed data/ sides cache, so a warm
+    run stays in seconds.  If a generator's behaviour changes, this fails and
+    the README sentence has to be rewritten — which is the intended coupling.
+
+    No survivor by design: the Legendre Λ-mass constant that exercises the
+    survivor path is opt-in (``legendre_mass_constant``), and its one
+    recorded run — operator literature check included — is in ROADMAP.md.
     """
     out = run_script("--dry-run", "--ledger", str(tmp_path / "ledger.jsonl"))
     counts = _dispositions(out)
     assert counts == {
         "duplicate": 0,
         "invalid": 0,
-        "known": 20,
+        "known": 26,
         "trivial": 1,
         "refuted": 0,
         "survives": 0,
         "inconclusive": 5,
     }, counts
-    assert sum(counts.values()) == 26
-    assert "76.9%" in out, "the already-known share quoted in README item 12"
+    assert sum(counts.values()) == 32
+    assert "81.2%" in out, "the already-known share quoted in README item 12"
 
 
 def test_a_raising_plugin_is_reported_and_then_re_raised(console, tmp_path):

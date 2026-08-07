@@ -304,8 +304,8 @@ subject. It is a **discovery funnel**: generators mine the computed objects abov
 observations, a catalogue and a battery of screens try to kill them, and every step is logged — so
 the conversion rate *per generator* can be measured. The premise is unflattering and load-bearing:
 most numerical "discoveries" are already known or trivial, and a system that does not measure its
-own hit rate is measuring its operator's enthusiasm. On a fresh ledger the six generators produce 26
-candidates and the funnel's verdict is 20 already known (76.9 %), 1 trivial, 5 inconclusive, 0
+own hit rate is measuring its operator's enthusiasm. On a fresh ledger the seven generators produce 32
+candidates and the funnel's verdict is 26 already known (81.2 %), 1 trivial, 5 inconclusive, 0
 survivors — and that table, not the survivor list, is the output.
 
 It is split along one seam. `schema.py`, `registry.py`, `ledger.py`, `funnel.py`, `metrics.py` and

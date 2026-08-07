@@ -1323,3 +1323,141 @@ def test_numeric_helpers_reject_numpy_scalars_reaching_the_schema() -> None:
     with pytest.raises(ValueError):
         Z._f(np.float64("inf"))
     assert Z._num(np.float64(0.5), 6) == "0.5"
+
+
+# ---------------------------------------------------------------------------
+# 9. the Legendre-Weil generator: the explicit formula as an instrument
+# ---------------------------------------------------------------------------
+
+
+@pytest.fixture(scope="session")
+def legendre(generated) -> tuple[Candidate, ...]:
+    return generated["zeta_legendre_weil"]
+
+
+def test_legendre_emits_two_relations_per_interval_and_no_constant(legendre) -> None:
+    kinds = Counter(c.kind for c in legendre)
+    assert kinds[CandidateKind.RELATION] == 6  # 3 intervals x (identity, detection)
+    # The Lambda-mass constant is opt-in: the default pass is designed to
+    # yield no survivor, and the constant is a survivor by construction.
+    assert kinds[CandidateKind.CONSTANT] == 0
+    gen = next(g for g in DOMAIN.generators if g.name == "zeta_legendre_weil")
+    assert gen.refused == []
+
+
+def test_legendre_mass_constant_is_emitted_only_on_request() -> None:
+    gen = Z.LegendreWeilGenerator()
+    asked = list(
+        gen.generate(
+            {"dps": 25, "legendre_n": (10,), "legendre_mass_constant": True}
+        )
+    )
+    kinds = Counter(c.kind for c in asked)
+    assert kinds[CandidateKind.RELATION] == 2
+    assert kinds[CandidateKind.CONSTANT] == 1
+
+
+def test_legendre_eq_relations_are_instances_of_the_explicit_formula(legendre) -> None:
+    """The identity candidates must die ``known``: they instantiate a theorem.
+
+    A catalogue that reported one of these as a lead would be failing at
+    exactly the coverage the custom matcher exists to provide.
+    """
+    eqs = [c for c in legendre if c.claim.get("relation") == "eq"]
+    assert len(eqs) == 3
+    for candidate in eqs:
+        hit = Z.FACT_REGISTRY.match(candidate)
+        assert hit is not None, candidate.label
+        assert hit.fact_id == "riemann-weil-explicit-formula"
+        assert hit.detail["literature_status"] == "theorem"
+
+
+def test_legendre_detections_match_the_finite_verification_fact(legendre) -> None:
+    gts = [c for c in legendre if c.claim.get("relation") == "gt"]
+    assert len(gts) == 3
+    for candidate in gts:
+        hit = Z.FACT_REGISTRY.match(candidate)
+        assert hit is not None, candidate.label
+        assert hit.fact_id == "legendre-interval-primes-finite-range"
+        n = hit.detail["n"]
+        assert hit.detail["interval"] == [n * n, (n + 1) ** 2]
+
+
+def test_legendre_matcher_declines_outside_the_verified_range(legendre) -> None:
+    """Beyond (n+1)^2 <= 4e18 the fact is an open conjecture; no match allowed.
+
+    Built from a real detection candidate with only the interval index moved
+    out of range, so the decline is the range guard and nothing else.
+    """
+    import dataclasses
+
+    real = next(c for c in legendre if c.claim.get("relation") == "gt")
+    n = 2_100_000_000  # (n+1)^2 = 4.41e18 > 4e18
+    claim = dict(real.claim)
+    claim["lhs"] = f"zeta.weil.legendre_interval_lambda_mass[n={n}]"
+    far = dataclasses.replace(real, claim=claim)
+    fact = Z.FACT_REGISTRY.get("legendre-interval-primes-finite-range")
+    assert fact.match(real) is not None
+    assert fact.match(far) is None
+
+
+def test_legendre_mass_constant_matches_a_hand_sieve(legendre) -> None:
+    """The measured constant against a two-line sieve of (100, 121).
+
+    The primes are 101, 103, 107, 109, 113 and no other prime power lands in
+    the open interval (121 = 11^2 is the boundary, where g vanishes); the
+    oracle shares nothing with zeta.weil's prime machinery but g itself.
+    """
+    from sympy import isprime
+
+    from zeta.weil import legendre_pair
+
+    gen = Z.LegendreWeilGenerator()
+    emitted = list(
+        gen.generate(
+            {"dps": 25, "legendre_n": (10,), "legendre_mass_constant": True}
+        )
+    )
+    candidate = next(c for c in emitted if c.kind is CandidateKind.CONSTANT)
+    assert candidate.claim["subject"] == "zeta.weil.legendre_lambda_mass_n_10"
+    with mp.workdps(40):
+        _, g = legendre_pair(10)
+        oracle = mp.fsum(
+            mp.log(k) * g(mp.log(k)) / mp.sqrt(k)
+            for k in range(101, 121)
+            if isprime(k)
+        )
+        measured = mp.mpf(candidate.claim["value"])
+        assert abs(measured - oracle) < mp.mpf(str(candidate.evidence["uncertainty"]))
+
+
+def test_legendre_cross_check_route_agrees_with_the_engine() -> None:
+    """The sympy re-summation and the weil-engine route give the same mass."""
+    params = {"n": 3, "gamma_max": 120.0}
+    with mp.workdps(40):
+        engine = mp.mpf(Z._route_legendre_lambda_mass(params, 20))
+        sieve = mp.mpf(Z._route_legendre_lambda_mass_cross(params, 20))
+        assert abs(engine - sieve) < mp.mpf("1e-15")
+        assert engine > 0  # (9, 16) contains the primes 11 and 13
+
+
+def test_legendre_generator_refuses_n_below_2_and_says_why() -> None:
+    gen = Z.LegendreWeilGenerator()
+    cands = list(
+        gen.generate(
+            {
+                "dps": 15,
+                "legendre_n": (1, 2),
+                "legendre_gamma_max": 120.0,
+                "legendre_mass_constant": True,
+            }
+        )
+    )
+    # n = 1 is refused with a reason; n = 2 still yields both relations and,
+    # as the largest valid interval, the requested constant.
+    assert [c.kind for c in cands] == [
+        CandidateKind.RELATION,
+        CandidateKind.RELATION,
+        CandidateKind.CONSTANT,
+    ]
+    assert any("n=1" in reason for reason in gen.refused)
