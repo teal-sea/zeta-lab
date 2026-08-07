@@ -69,9 +69,11 @@ There is no `is_verified`, no score, and no ordering. `Support.__bool__`
 that keeps it that way.
 
 The axes are not decoration. In the Hardy Z dossier they read
-`agrees-to-tolerance / not-attempted / standard / not-attempted` — one strong,
-one absent, one strong, one absent. Any aggregate would have to invent a
-weighting nobody can defend.
+`agrees-to-tolerance / not-attempted / standard / stated-unchecked` — measured
+but not proved, no enclosure ever run, textbook in the literature, and a
+complete Lean proof that nothing here has watched a kernel accept. Any
+aggregate would have to invent a weighting across those four that nobody can
+defend. (That fourth value did not exist when this was written; see §5b.1.)
 
 ## 4. What the schema refuses
 
@@ -106,6 +108,69 @@ Not asserted — run, in `tests/test_dossier_hardy_z.py`:
   pass every obligation except the discriminating one.
 
 That third item is the experiment's thesis in executable form.
+
+## 5b. What the probe found on its first contact with reality
+
+The sections above were written when `lean/ZetaLean/HardyZ.lean` held a
+definition and five *commented-out* property statements. A parallel session
+then proved them. Re-reading the dossier against the new file produced two
+findings, neither of them anticipated.
+
+### 5b.1 The status vocabulary was missing a state
+
+The Lean file now carries five complete lemmas and **no `sorry`**. The
+toolchain is not installed in the environment that maintains this dossier, so
+nothing here watched a kernel accept them. None of the four original
+`FormalStatus` values could be written down honestly:
+
+| value | why it was wrong |
+| --- | --- |
+| `not-attempted` | denies work that plainly exists |
+| `stated-with-sorry` | false — there is no `sorry` |
+| `failed` | a lie |
+| `proved` | asserts that a kernel accepted something nobody watched it accept |
+
+So `STATED_UNCHECKED` was added. The distinction it draws is **who checked**,
+and it is the repository's own rule restated: nothing counts until it compiles,
+and *reading a complete-looking proof is not compiling it*. A schema that had
+offered a single `verified` boolean would have had no way to notice the
+question, which is the argument for the whole design in one example.
+
+### 5b.2 The formalisation covers everything except the point
+
+Five lemmas are proved about `hardyZ`:
+
+| Lean lemma | dossier obligation |
+| --- | --- |
+| `hardyZ_is_real` | `real_valued` |
+| `abs_hardyZ_eq_abs_zeta` | `magnitude_matches_zeta` |
+| `hardyZ_even` | `even` |
+| `hardyZ_zero_iff` | (same zeros as ζ) |
+| `continuous_hardyZ` | (prerequisite for an IVT argument) |
+
+And **nothing about the sign of Z.** The word "sign" does not appear in the
+file.
+
+That is the one discriminating obligation in the dossier — the only property
+separating Z from `|ζ(½+it)|`, which satisfies *every other row of that table*.
+A formalisation can be complete about realness, evenness, magnitude, zero
+locations and continuity, and still not have said the thing that makes the
+object worth defining.
+
+This is not an error and nobody was misled: the ordering is defensible, since
+`continuous_hardyZ` is exactly the groundwork an intermediate-value argument
+needs, and the missing piece is two numeric bounds — which is what
+`lean/ZetaLean/Rigor.lean` exists for. But it is the first thing this
+experiment surfaced that was not already known to whoever wrote it, and it was
+surfaced by the schema's own structure: obligations carry per-axis status, and
+one column of that table was empty in exactly the row marked discriminating.
+
+Pinned by
+`tests/test_dossier_hardy_z.py::test_the_discriminating_obligation_is_the_one_lean_does_not_cover`,
+which fails the moment Lean gains a sign lemma — a test designed to be deleted.
+
+Against §7's list, this is a partial answer to item 4 and no answer at all to
+items 1, 2, 3 or 5. It found a **coverage gap**, prospectively, not an error.
 
 ## 6. The finding that matters: this is a probe, not a department
 
@@ -166,10 +231,12 @@ helps":
    is only worth anything if `certified` can be flipped by actually running an
    enclosure and `formal` by actually building the Lean file. Until then the
    four axes are an honest vocabulary, not an honest measurement.
-4. **A dossier that catches a real error.** The Hardy Z example is
-   retrospective: nobody was about to define Z as `|ζ|`. The schema earns its
-   place the first time an obligation fails against a definition somebody
-   actually intended to use.
+4. **A dossier that catches a real error.** Partially answered — see §5b.2,
+   where the record made visible that the formalisation covers every
+   obligation except the discriminating one. That is a coverage gap found
+   prospectively, which is more than the retrospective `|ζ|` example, and less
+   than an obligation *failing* against a definition somebody intended to use.
+   The latter is still the bar.
 5. **A rival representation to beat**, per §6.
 
 Items 2 and 4 are the load-bearing ones. Everything else is scaffolding.

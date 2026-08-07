@@ -895,7 +895,7 @@ An experiment in representing mathematical research state — intent, definition
 
 ### `dossier/status.py` — ``dossier.status`` — four kinds of support, kept apart on purpose.
 
-*213 lines*
+*227 lines*
 
 Constants: `AXES`
 
@@ -935,7 +935,7 @@ Constants: `SCHEMA_VERSION`
 
 ### `dossier/subjects/hardy_z.py` — The Hardy Z dossier — the one worked example.
 
-*365 lines*
+*409 lines*
 
 Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
@@ -1007,7 +1007,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1318 test functions across 37 files (the collected count differs where tests are parametrised):
+1326 test functions across 38 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_core.py` — 97
@@ -1020,7 +1020,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_discovery_knownness.py` — 102
 - `tests/test_discovery_schema.py` — 62
 - `tests/test_discovery_zeta_domain.py` — 83
-- `tests/test_dossier_hardy_z.py` — 18
+- `tests/test_dossier_hardy_z.py` — 20
 - `tests/test_dossier_schema.py` — 34
 - `tests/test_epstein.py` — 39
 - `tests/test_explicit.py` — 45
@@ -1029,6 +1029,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_harness_protocol.py` — 40
 - `tests/test_harness_zeta_department.py` — 6
 - `tests/test_heatflow.py` — 38
+- `tests/test_hunt_probe_discipline.py` — 6
 - `tests/test_inverse.py` — 8
 - `tests/test_leeyang.py` — 7
 - `tests/test_li.py` — 56

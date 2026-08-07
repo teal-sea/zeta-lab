@@ -407,6 +407,12 @@ ontology/           the conjecture factory: a discovery funnel that logs itself
   knownness.py      the already-known gate: PSLQ closed forms, a fact registry, no novelty
   historical_cases.py  replay claims whose outcome is already settled
   domains/          THE ONLY PLACE THAT KNOWS THE SUBJECT (zeta_domain, zeta_history)
+harness/            the referee: four instrument roles (rival, decoy, surrogate,
+                    lesion), a Battery, a Department — domain-agnostic by test
+  departments/      THE ONLY PLACE THAT KNOWS THE SUBJECT (zeta_department)
+hunts/              PROBES, NOT RESULTS — exploratory attacks that borrow
+                    department #1's battery; nothing here is a finding until it
+                    has been through a door that can say yes (hunts/README.md)
 lean/               the certified arm: Lean 4 + Mathlib (package ZetaLean);
                     kernel-checked theorems, zero sorrys — `lake build`
 scripts/            01–05 and 07–13 one demo each, 06_tour.py runs the whole

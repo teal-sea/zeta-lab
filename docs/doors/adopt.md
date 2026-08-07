@@ -11,6 +11,10 @@ nobody tests is just another claim.
 .venv/bin/python -m pytest -q -o addopts='' tests/test_harness_protocol.py tests/test_department_conformance.py
 ```
 
+(59 tests, about two minutes — the protocol half runs in a tenth of a second,
+which is itself the seam working; the rest is department #1's rivals actually
+being evaluated.)
+
 The first file checks the protocol against stand-ins, including the seam that
 keeps it subject-free. The second re-audits every registered department: door
 on disk, rivals that answer, decoys that actually substitute, lesions planted

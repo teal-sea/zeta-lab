@@ -190,10 +190,64 @@ def test_nothing_is_claimed_certified(hardy_z) -> None:
 
 
 def test_nothing_is_claimed_proved(hardy_z) -> None:
-    """No Lean statement exists for any obligation, so none may say proved."""
-    assert hardy_z.support.formal.status == FormalStatus.NOT_ATTEMPTED
+    """Nothing may say 'proved': no kernel run is on record in this environment.
+
+    The Lean source carries five complete lemmas with no ``sorry``, which is
+    why the axis reads ``stated-unchecked`` rather than ``not-attempted``. It
+    is not ``proved``, because reading a complete-looking proof is not
+    compiling it, and ``AGENTS.md`` says nothing counts until it compiles.
+    """
+    assert hardy_z.support.formal.status == FormalStatus.STATED_UNCHECKED
     for obligation in hardy_z.obligations:
         assert obligation.support.formal.status != FormalStatus.PROVED
+
+
+def test_the_lean_file_really_has_those_lemmas_and_no_sorry(hardy_z) -> None:
+    """The dossier names Lean lemmas; check they exist and the file is clean.
+
+    This is what stops the formal axis from drifting into fiction. It does not
+    upgrade the status — only a kernel can do that.
+    """
+    source = (_REPO_ROOT / "lean/ZetaLean/HardyZ.lean").read_text(encoding="utf-8")
+    for lemma in (
+        "hardyZ_is_real",
+        "abs_hardyZ_eq_abs_zeta",
+        "hardyZ_even",
+        "hardyZ_zero_iff",
+        "continuous_hardyZ",
+    ):
+        assert f"lemma {lemma}" in source, lemma
+    assert "sorry" not in source
+
+
+def test_the_discriminating_obligation_is_the_one_lean_does_not_cover(hardy_z) -> None:
+    """The finding, pinned.
+
+    Four obligations have a Lean statement behind them. The single
+    *discriminating* one — that Z changes sign, the only property separating Z
+    from |zeta(1/2+it)| — has none. A formalisation can be complete about
+    everything except the thing that made the object worth defining, and that
+    is precisely what an intent-carrying record is for noticing.
+
+    If this test ever fails because ``changes_sign`` acquired a formal status,
+    that is good news: delete the test and record the lemma.
+    """
+    covered = {
+        o.name
+        for o in hardy_z.obligations
+        if o.support.formal.status != FormalStatus.NOT_ATTEMPTED
+    }
+    uncovered = {
+        o.name
+        for o in hardy_z.obligations
+        if o.support.formal.status == FormalStatus.NOT_ATTEMPTED
+    }
+    assert covered, "expected some obligations to have a Lean statement"
+    discriminating = {o.name for o in hardy_z.discriminating_obligations}
+    assert "changes_sign" in uncovered
+    assert "changes_sign" in discriminating
+    source = (_REPO_ROOT / "lean/ZetaLean/HardyZ.lean").read_text(encoding="utf-8").lower()
+    assert "sign" not in source, "Lean gained a sign lemma — update the dossier"
 
 
 def test_the_numeric_axis_is_not_read_as_proof(hardy_z) -> None:

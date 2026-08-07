@@ -322,6 +322,22 @@ not a second ledger or verdict vocabulary (`ontology` owns those and
 `Provenance` is imported from it), and not a certificate issuer ("certified"
 stays reserved). Nothing in it is evidence for RH.
 
+**What it found on first contact with reality.** A parallel session proved the
+Hardy Z properties in Lean while this was being written, and re-reading the
+dossier against the new file produced two things nobody had gone looking for.
+First, the four-value formal axis could not describe "complete proof, no
+`sorry`, no kernel run on record here", so `STATED_UNCHECKED` was added — the
+distinction being *who checked*, which is the repo's own "nothing counts until
+it compiles" restated. Second, and more useful: Lean proves `hardyZ_is_real`,
+`abs_hardyZ_eq_abs_zeta`, `hardyZ_even`, `hardyZ_zero_iff` and
+`continuous_hardyZ` — and says nothing about the **sign** of Z, which is the
+dossier's only discriminating obligation and the sole property separating Z
+from `|zeta(1/2+it)|`. The formalisation is complete about everything except
+the thing that makes the object worth defining. Defensible as an ordering
+(continuity is the groundwork for an intermediate-value argument), and it was
+surfaced by the schema's structure rather than by anyone's memory. Pinned by a
+test written to be deleted the moment Lean gains a sign lemma.
+
 **One thing it produced beyond bookkeeping.** Checking the dossier's claim that
 the two in-tree definitions of Z agree settled a convention question: the
 completed-zeta route needs no branch of log Gamma because `Gamma/|Gamma|` is an
@@ -367,6 +383,85 @@ dated theorems is pointed at fertile ground. Three mechanisms, one shipped:
 
 No trained model is needed for any of this: the operator loop plus the
 recorded decisions in this file are the adaptive component.
+
+---
+
+## The repository leads with the referee (2026-08-07)
+
+**The decision:** the front door now states the thesis the tree already
+implements, instead of presenting the mathematics and leaving the refereeing to
+be discovered several sections in.
+
+The realization it encodes: generating a plausible idea is now cheap, so the
+scarce resource is no longer ideas but **reliable rejection**. The loop here is
+*generate → attack → measure → discard → retain the evidence*, not *generate →
+explain convincingly → publish*. What makes that more than a slogan is that
+**the rejector is itself under test** — a battery must kill a reference claim
+known to be empty *and* pass one known to be sound, lesions measure detector
+power rather than assuming it, and the vocabulary is governed too (`certified`
+has exactly one owner).
+
+Three changes, all documentation and tests; no mathematics moved:
+
+- `README.md` leads with the laboratory-plus-referee framing and names the
+  mathematics **department #1**. The heat-equation chain, the gallery and the
+  twelve runnable demos stay exactly where they were.
+- A fifth door, `docs/doors/adopt.md`, for the audience that wants the
+  refereeing pattern and does not care about ζ. Its first command runs the
+  protocol seam tests plus the department conformance suite — the referee
+  refereeing itself.
+- **Departments keep their own room.** The spine asks one thing (*no department
+  without a battery*) and nothing else; a department's doors, reading course
+  and gallery are its own business. Stated in `docs/doors/README.md` so it is
+  not re-litigated.
+
+### `hunts/` classified as a probe area, and Hunt #2 withdrawn
+
+The same session pulled in `hunts/`, which made the gap concrete: a hunt is an
+exploratory attack that may record a claim *before* anything has tried to kill
+it. Worth having — but unclassified, it is a directory where a probe can pass
+for a result. This follows the `dossier/` precedent above, and for the same
+reason: a hunt's rivals are the *zeta* department's rivals, and **a department
+whose battery is another department's battery is not a department**.
+
+`hunts/README.md` states the rule (*a hunt is a probe; nothing in `hunts/` is a
+result*), lists what a hunt may and may not do, and carries a case log.
+`tests/test_hunt_probe_discipline.py` enforces the classification, the reserved
+vocabulary, and one measurement.
+
+**Hunt #2's headline was withdrawn on review** — it had reached `HANDOFF.md` as
+"successfully verified … definitively placing zeros off the critical line".
+Three defects, each checked in-tree rather than argued:
+
+- `zeta/detector.py`'s own docstring names the load-bearing caveat: a
+  *missing* on-line zero produces a residue indistinguishable from an off-line
+  zero, so the statistic means nothing without a completeness check.
+  `online_list_is_complete` is called nowhere in `hunts/`, and the zeros came
+  from a `step=0.05` sign-change scan, which skips close pairs.
+- The **lesion settles it quantitatively**: ζ — factorization defect
+  `2.65e-32`, every zero on the line — given a list with one on-line zero
+  removed produces `max|residue| = 1.99`, against `0.0038` for the complete
+  list. The hunt's Epstein residues (4.07–4.33) are about twice that. An O(1)
+  residue is reproducible at *zero* factorization defect, which is the entire
+  claimed signal.
+- **The test set was the rival set.** Discriminant −23's principal form
+  `(1,1,6)` is a registered rival in `zeta.epstein.battery`, admitted
+  *because* it lacks a scalar Euler product. Confirming that restates the
+  admission criterion — gate #3, distinguishes nothing.
+
+The recorded data does not show the claimed relationship either: the defect
+varies 2.7× against a 6% residue move (`results2.json`), and 67× against 1.36×
+with `argmax_c` pinned at `86.0` for all nine rows (`results.json`) — the
+scan-window signature `docs/17` §2 says to distrust. No ledger entry. The
+generalized residue detector (arbitrary archimedean bracket) is the reusable
+part and is retained.
+
+**Why this is recorded rather than quietly fixed.** It is the cleanest in-tree
+instance of the failure the whole apparatus exists to prevent, and it happened
+*here*, to work that had every instrument available and routed around all of
+them. The rule it sharpens: **a probe that bypasses the battery has not
+produced a weak result, it has produced no result** — and the place to notice
+that is before the claim reaches a status line.
 
 ## Known gaps
 

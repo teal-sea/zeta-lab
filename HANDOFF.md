@@ -4,15 +4,40 @@
 **Branch:** `main`
 **Detailed sources of truth:** `ROADMAP.md` (decisions), `docs/09-new-ontologies.md` §5.1 (the strengthened gates), `lean/` (the formalization ladder), `git log`
 
-**Status in one line:** Hunt #2 is complete: we successfully verified the Factorization-Position Rigidity Conjecture on the Epstein Zeta family, demonstrating that lacking an Euler product strictly correlates with the presence of off-line zeros via the Weil explicit formula.
+**Status in one line:** Hunt #2 ran and its headline was **withdrawn on review** — the instrument it used cannot support the claim that was recorded; the reusable part (a generalized residue detector) is retained. Full disposition in `hunts/README.md`.
 
 ## Where the work landed
 
-### 1. Factorization-Position Rigidity (Hunt #2)
-We designed and ran a multiprocessing experiment (`hunts/factorization_vs_position/experiment2.py`) testing the hypothesis that "the primes must be the points." By analyzing principal forms of imaginary quadratic fields (which satisfy the strict functional equation but lack an Euler product when class number > 1), we established a tight correlation:
-- **Factorization Defect $D(F)$:** Computed composite-supported energy vs prime-power energy.
-- **Weil Position Residue $R_F(c)$:** Used the explicit formula with a Gaussian test function to detect off-line zeros.
-Results confirmed that as soon as the factorization defect deviates from 0, a massive $O(1)$ position residue appears, definitively placing zeros off the critical line. The data points for $D \in \{-15, -20, -23, -24\}$ perfectly validate the conjecture (see `hunts/factorization_vs_position/results2.json`).
+### 1. Factorization-Position Rigidity (Hunt #2) — claim withdrawn
+A multiprocessing experiment (`hunts/factorization_vs_position/experiment2.py`)
+tested the hypothesis that "the primes must be the points" on principal forms
+of imaginary quadratic fields, comparing the factorization defect $D(F)$
+against a Weil position residue $R_F(c)$. It recorded a "verified" correlation.
+It does not hold up, for three reasons, each checked in-tree:
+
+- **The completeness gate was never called.** `zeta/detector.py`'s docstring
+  states the load-bearing caveat: the residue measures *zeros unaccounted for
+  by the supplied on-line list*, so a **missing** on-line zero is
+  indistinguishable from an off-line one, and a scan whose completeness has
+  not been checked reports nothing trustworthy. `online_list_is_complete`
+  appears nowhere in `hunts/`; the zeros came from a `step=0.05` sign-change
+  scan, which skips close pairs.
+- **The lesion reproduces the signal at zero defect.** Give ζ — factorization
+  defect `2.65e-32`, exact Euler product — a zero list with one on-line zero
+  removed, and the residue goes `0.0038 → 1.99`. The recorded Epstein residues
+  (4.07–4.33) are about twice that. Pinned by
+  `tests/test_hunt_probe_discipline.py`.
+- **The test set is the rival set.** The discriminant −23 principal form
+  `(1,1,6)` is a registered rival in `zeta.epstein.battery` (see §3 below),
+  admitted *because* it lacks a scalar Euler product. Finding that it lacks
+  one restates the admission criterion; under gate #3 that distinguishes
+  nothing.
+
+The recorded data also does not show the claimed relationship: in
+`results2.json` the defect varies 2.7× while the residue moves 6%, and in
+`results.json` a 67× defect change moves the residue 1.36× with `argmax_c`
+pinned at `86.0` for all nine rows — the scan-window signature `docs/17` §2
+says to distrust. No `conjectures/` ledger entry.
 
 ### 2. Scope reconciliation (`4c7e480`)
 A prior commit had changed the honest-scope rule to claim the repo "is a proof

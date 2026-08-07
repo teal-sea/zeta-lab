@@ -199,6 +199,11 @@ def build() -> Dossier:
                         detail="Titchmarsh ch. IV",
                         artifact="references/papers.md",
                     ),
+                    formal=AxisRecord(
+                        status=FormalStatus.STATED_UNCHECKED,
+                        detail="hardyZ_is_real, complete with no sorry; not compiled in this environment",
+                        artifact="lean/ZetaLean/HardyZ.lean",
+                    ),
                 ),
             ),
             SemanticObligation(
@@ -221,6 +226,17 @@ def build() -> Dossier:
                         detail="the basis of every sign-change zero search since Gram",
                         artifact="references/papers.md",
                     ),
+                    formal=AxisRecord(
+                        status=FormalStatus.NOT_ATTEMPTED,
+                        detail=(
+                            "NOTHING in lean/ZetaLean/HardyZ.lean is about the sign of Z. "
+                            "Four properties are formalised and this one, the only "
+                            "discriminating obligation in the dossier, is not among them. "
+                            "continuous_hardyZ is the prerequisite for an "
+                            "intermediate-value argument, so the groundwork exists and the "
+                            "statement does not."
+                        ),
+                    ),
                 ),
             ),
             SemanticObligation(
@@ -238,6 +254,11 @@ def build() -> Dossier:
                         status=NumericStatus.AGREES_TO_TOLERANCE,
                         detail="agrees to < 1e-28 at dps=30 across the sample ordinates",
                         artifact="tests/test_dossier_hardy_z.py::test_magnitude_matches_zeta",
+                    ),
+                    formal=AxisRecord(
+                        status=FormalStatus.STATED_UNCHECKED,
+                        detail="abs_hardyZ_eq_abs_zeta, complete with no sorry; not compiled here",
+                        artifact="lean/ZetaLean/HardyZ.lean",
                     ),
                 ),
             ),
@@ -281,6 +302,11 @@ def build() -> Dossier:
                         detail="agrees to < 1e-28 at dps=30 across the sample ordinates",
                         artifact="tests/test_dossier_hardy_z.py::test_Z_is_even",
                     ),
+                    formal=AxisRecord(
+                        status=FormalStatus.STATED_UNCHECKED,
+                        detail="hardyZ_even, complete with no sorry; not compiled here",
+                        artifact="lean/ZetaLean/HardyZ.lean",
+                    ),
                 ),
             ),
         ),
@@ -310,14 +336,15 @@ def build() -> Dossier:
                 artifact="references/papers.md",
             ),
             formal=AxisRecord(
-                status=FormalStatus.NOT_ATTEMPTED,
+                status=FormalStatus.STATED_UNCHECKED,
                 detail=(
-                    "lean/ZetaLean/HardyZ.lean holds a candidate definition and five "
-                    "commented-out property statements. Nothing is stated to the kernel, "
-                    "so nothing is proved and nothing carries a sorry either — this is "
-                    "'not attempted', not 'attempted and open'. NOTE: that file is "
-                    "untracked as of this writing, so a fresh clone will not have it; "
-                    "the artifact is recorded as a pointer, not as evidence."
+                    "lean/ZetaLean/HardyZ.lean carries the definition and five complete "
+                    "lemmas with no sorry: hardyZ_is_real, abs_hardyZ_eq_abs_zeta, "
+                    "hardyZ_even, hardyZ_zero_iff, continuous_hardyZ. Not 'proved' here: "
+                    "the toolchain is not installed in this environment and nothing "
+                    "watched a kernel accept them, and per AGENTS.md nothing counts until "
+                    "it compiles. Note also that four other files under lean/ do carry "
+                    "sorrys; this claim is about HardyZ.lean alone."
                 ),
                 artifact="lean/ZetaLean/HardyZ.lean",
             ),
@@ -344,6 +371,23 @@ def build() -> Dossier:
                     "already has a continuous log-Gamma branch"
                 ),
                 blocked_on="contrib-lab target file for hardyZ",
+            ),
+            OpenQuestion(
+                question=(
+                    "The formalisation covers every obligation except the discriminating "
+                    "one. Lean has hardyZ_is_real, abs_hardyZ_eq_abs_zeta, hardyZ_even, "
+                    "hardyZ_zero_iff and continuous_hardyZ — and nothing about the sign "
+                    "of Z, which is the only property that makes Z the right object "
+                    "rather than |zeta(1/2+it)|. Is that a gap or a deliberate ordering?"
+                ),
+                what_would_settle_it=(
+                    "a Lean statement that Z takes both signs — e.g. hardyZ 0 < 0 and "
+                    "0 < hardyZ 100, or an existence-of-sign-change lemma. "
+                    "continuous_hardyZ is already there, so the intermediate value "
+                    "theorem is available and the missing piece is two numeric bounds, "
+                    "which is exactly what lean/ZetaLean/Rigor.lean is for"
+                ),
+                blocked_on="rigorous numeric evaluation of Z at a point in Lean",
             ),
             OpenQuestion(
                 question=(

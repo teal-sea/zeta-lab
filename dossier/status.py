@@ -94,12 +94,26 @@ class FormalStatus(StrEnum):
 
     ``STATED_WITH_SORRY`` is tracked rather than hidden: a ``sorry`` is an
     uncertified step and counts as nothing (``AGENTS.md``), but a statement
-    that at least exists in Lean is a different situation from one that does
-    not, and the difference is worth recording.
+    that at least exists is a different situation from one that does not, and
+    the difference is worth recording.
+
+    ``STATED_UNCHECKED`` was added after the first real use of this schema,
+    and the reason it exists is the whole argument for the schema. A source
+    file held complete proofs with no ``sorry`` in them, and the toolchain was
+    not installed in the environment doing the recording. None of the other
+    four values could be written down honestly: ``NOT_ATTEMPTED`` denies work
+    that plainly exists, ``STATED_WITH_SORRY`` is false when there is no
+    ``sorry``, ``FAILED`` is a lie, and ``PROVED`` would assert that a kernel
+    accepted something nobody watched a kernel accept.
+
+    The distinction it draws is *who checked*, and it is the same distinction
+    the repository's own rule makes: nothing counts until it compiles. Reading
+    a complete-looking proof is not compiling it.
     """
 
     NOT_ATTEMPTED = "not-attempted"
     STATED_WITH_SORRY = "stated-with-sorry"
+    STATED_UNCHECKED = "stated-unchecked"
     PROVED = "proved"
     FAILED = "failed"
 
