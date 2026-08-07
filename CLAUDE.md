@@ -19,6 +19,24 @@ python3 -m venv .venv
 .venv/bin/python -m pytest -q -m "not slow"   # confirm green before changing anything
 ```
 
+**Check the ball-arithmetic backend before you trust a green run**:
+
+```bash
+.venv/bin/python -c "from zeta import rigor; print(rigor.BACKEND, rigor.available_backends())"
+# want: python-flint ['mpmath.iv', 'python-flint']
+```
+
+If `python-flint` is missing, `rigor.py` silently falls back to mpmath's `iv`
+context. That is by design and the fallback is correct — but it is roughly
+**1600× slower** on the certified paths (one `test_rigor.py` case goes from
+0.76 s to over twenty minutes, which reads as a hung fast tier, not a slow
+one), and the five `skipif(not HAVE_FLINT)` tests silently disappear. Three of
+those say *"needs both backends installed"*: they are the Arb-vs-mpmath
+cross-check that is the whole reason `rigor.py` is entitled to the word
+*certified*. **A suite that reports "5 skipped" here is not exercising that
+cross-check**, so a fresh clone should install `python-flint` (it is pinned in
+`requirements.txt`) rather than treat the skips as normal.
+
 ## The knowledge index
 
 `CONTEXT.md` is a generated index of the public API, the document list, the
@@ -121,7 +139,10 @@ last one left off; this file plus `git log` is the handoff. Two caveats:
   - `rigor.py` ball arithmetic: `enclose_Z`, `proven_sign`, `certified_zero_count`,
     `verify_rh_certified`. Two backends (Arb via python-flint, mpmath's `iv`);
     every public function takes `backend=` so the two can check each other.
-    Nothing is ever silently upgraded to a certificate — see below.
+    Nothing is ever silently upgraded to a certificate — see below. The
+    two-backend cross-check only *runs* when both are installed; confirm with
+    `rigor.available_backends()` (see Setup) before reading a green suite as
+    evidence that it did.
   - `li.py` Li's criterion (λ_n, two independent routes) and Jensen
     polynomials / hyperbolicity (numeric *and* exact Sturm in ℚ[X]).
   - `finitefield.py` curves over F_p — the RH that is a theorem: point counts,

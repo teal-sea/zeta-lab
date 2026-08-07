@@ -5,3 +5,11 @@ matplotlib>=3.9
 sympy>=1.13
 pytest>=8.0
 pytest-xdist>=3.6
+
+# Arb ball arithmetic, the fast backend for zeta/rigor.py.  Optional by design
+# — rigor.py falls back to mpmath's `iv` context and both backends are checked
+# against each other — but the fallback is ~1600x slower on the certified
+# paths, enough to turn a 0.8 s test into a 20-minute one and make the fast
+# tier look hung.  Install it unless you are deliberately testing the fallback;
+# `zeta.rigor.available_backends()` reports which are live.
+python-flint>=0.6

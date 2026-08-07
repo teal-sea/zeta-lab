@@ -463,6 +463,40 @@ them. The rule it sharpens: **a probe that bypasses the battery has not
 produced a weak result, it has produced no result** — and the place to notice
 that is before the claim reaches a status line.
 
+### The certified arm's cross-check was dormant (2026-08-07)
+
+Found while chasing what looked like a hung fast tier. `python-flint` was not
+installed and is not something `requirements.txt` used to ask for, so
+`zeta/rigor.py` had been running on its mpmath `iv` fallback alone.
+
+Two consequences, and the second is the one that matters:
+
+- **Speed, which is how it was noticed.**
+  `test_rigor.py::test_cache_never_replays_a_certificate_for_different_settings`
+  took over twenty minutes instead of `0.76 s` — a hang, for practical
+  purposes, and one that presents as an infrastructure problem rather than a
+  missing dependency. The stack ends in `mpmath/libmpi.py`'s interval trig.
+- **The cross-check was not running.** `test_rigor.py` carries five
+  `skipif(not HAVE_FLINT)` cases, three of them reasoned *"needs both backends
+  installed"*. Those are the Arb-vs-mpmath comparisons — the reason `rigor.py`
+  is entitled to the reserved word *certified* is that two independent ball
+  implementations agree, and only one was present. The suite reported `5
+  skipped` and looked green.
+
+`python-flint>=0.6` is now pinned in `requirements.txt` and the Setup section
+of `AGENTS.md` carries a backend check with the explicit warning that **"5
+skipped" here means the cross-check did not run**. With both backends live the
+fast tier is `1654 passed, 0 skipped` in 5m37s.
+
+**The general lesson, which is this repository's own thesis turned on itself:**
+a skipped test is a silent verdict. The apparatus is built so that a claim
+cannot promote itself without a referee — and here the referee for the word
+*certified* had been switched off by an absent optional dependency, reporting
+its own absence only as a skip count nobody reads. A control that can be
+disabled by the environment needs to say so where the verdict is read, not in
+a summary line. Same failure shape as Hunt #2 above: the instrument was
+trusted without checking that it was running.
+
 ## Known gaps
 
 Listed because an undocumented gap becomes an assumption.
