@@ -78,6 +78,8 @@ __all__ = [
     "euler_product_panel",
     "null_distribution",
     "factorization_report",
+    "dh_family_coefficients",
+    "kappa_landscape",
 ]
 
 DEFAULT_N_MAX = 80
@@ -221,5 +223,84 @@ def factorization_report(
             "non-factoring sequences -- typical, not an exotic near-miss. "
             "Tests factorization, NOT RH; an Euler product is not known to "
             "imply RH (docs/08, docs/09)."
+        ),
+    }
+
+
+# ----------------------------------------------------------------------
+# Is the functional equation's kappa special for factorization?
+# ----------------------------------------------------------------------
+
+def dh_family_coefficients(t: float, n_max: int = DEFAULT_N_MAX) -> np.ndarray:
+    """The one-parameter family aₙ = [1, t, −t, −1, 0], periodic mod 5.
+
+    Davenport–Heilbronn is the member at t = κ, where κ is *forced* by the
+    functional equation F(s) = F(1−s) (re-derived by linear solve on every
+    call in ``zeta.epstein.kappa``).  Factorization is a different functional
+    of the same coefficients, so this family is the natural place to ask
+    whether the two constraints know about each other.
+    """
+    return periodic_coefficients([1.0, float(t), -float(t), -1.0, 0.0], n_max)
+
+
+def kappa_landscape(
+    t_values: Sequence[float] | None = None, n_max: int = DEFAULT_N_MAX
+) -> dict[str, Any]:
+    """D along the DH family, and whether κ sits anywhere distinguished on it.
+
+    Measured:
+
+    * D is **exactly even** in t.  That is structural rather than lucky —
+      t ↦ −t conjugates the underlying character, and conjugation cannot
+      change whether something factors.
+    * The family minimum is at **t = 0** with D = 0.825 (the real-part
+      combination), and **no member of the family factors**: D never comes
+      near zero anywhere on it.
+    * At κ = 0.284079 the defect is 0.979 with slope dD/dt = **+1.154**.
+      κ is *not* a critical point; it sits on a plain upslope.
+
+    So the functional equation pins κ exactly and says nothing whatever about
+    the Euler product.  This is `docs/09` Gate 2 — "symmetry alone is
+    provably insufficient" — as a measurement rather than an assertion: one
+    can slide t along the family, destroying the functional equation at every
+    point but κ, without ever gaining or losing factorization.
+
+    Does not test RH.  Everything here is *accurate*, not *certified*.
+    """
+    from .epstein import kappa as _kappa_derived
+
+    kappa = float(_kappa_derived(30))
+    if t_values is None:
+        t_values = np.linspace(-3.0, 3.0, 241)
+    ts = np.asarray(t_values, dtype=float)
+    ds = np.array(
+        [factorization_defect(dh_family_coefficients(t, n_max), n_max) for t in ts]
+    )
+
+    h = 1e-4
+    slope = (
+        factorization_defect(dh_family_coefficients(kappa + h, n_max), n_max)
+        - factorization_defect(dh_family_coefficients(kappa - h, n_max), n_max)
+    ) / (2 * h)
+
+    i_min = int(np.argmin(ds))
+    d_kappa = factorization_defect(dh_family_coefficients(kappa, n_max), n_max)
+    return {
+        "kappa": kappa,
+        "t_values": ts,
+        "defects": ds,
+        "defect_at_kappa": float(d_kappa),
+        "slope_at_kappa": float(slope),
+        "kappa_is_critical_point": bool(abs(slope) < 1e-3),
+        "min_defect": float(ds[i_min]),
+        "argmin_t": float(ts[i_min]),
+        "family_ever_factors": bool((ds < ZERO_THRESHOLD).any()),
+        "verdict": (
+            "kappa is forced by the functional equation and is NOT a critical "
+            f"point of the factorization defect (slope {slope:+.3f}); no "
+            "member of the family factors, and the family minimum sits at "
+            "t=0 with D=0.825, still far from zero. The functional equation "
+            "and the Euler product are independent constraints -- docs/09 "
+            "Gate 2, 'symmetry alone is provably insufficient', measured."
         ),
     }

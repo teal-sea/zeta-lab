@@ -153,6 +153,52 @@ proving finiteness from the prime side is equivalent to pair correlation.
 restatements; the fifth detects a property (Euler product) that was already
 known to separate these two functions.
 
+### Follow-ups: what the probes taught, made quantitative (2026-08-06)
+
+Three further decisions came out of pushing the above to conclusions.
+Modules `zeta/factorization.py` and `zeta/detector.py`; full account in
+`docs/18` §6–7.
+
+- **Gate 4 is now a decision statistic, not a judgement call.** For
+  −f′/f = Σ bₙn^{−s}, D(f) = (composite-supported energy)/(prime-power
+  energy) is **exactly zero iff f has an Euler product** — both directions
+  are proved, not heuristic — and is computed from coefficients alone, which
+  is §5.1's Requirement A on provenance. ζ and the quadratic characters mod
+  3, 4, 5 score ~1e-32; DH scores 0.979. Crucially, against a matched null
+  of random non-factoring sequences (median 1.33, 5–95% band 0.53–4.31) **DH
+  sits at the 27th percentile — typical, not an exotic near-miss.** Anything
+  claiming to "almost" factor must beat that null by orders of magnitude.
+- **The functional equation and the Euler product are independent
+  constraints.** DH's κ is forced to twelve digits by F(s) = F(1−s), yet on
+  the family aₙ = [1, t, −t, −1, 0] it is *not* a critical point of D
+  (slope +1.154); no member of the family factors, and the minimum sits at
+  t = 0. This is Gate 2's "symmetry alone is provably insufficient" measured
+  *locally at DH*, which is finer than arguing it from DH's mere existence —
+  and it is why Gate 4 cannot be derived from Gates 2 and 3.
+- **Position-sensitivity is the axis that matters, and one statistic has
+  it.** The organising lesson of the whole session: ζ(s−δ) has the *same
+  ordinates* as ζ with its zeros on a different vertical line, so **no
+  ordinate-only statistic can locate the critical line** — which retroactively
+  explains why the Wu–Sprung and Lee–Yang probes had to fail. The Weil
+  explicit formula evaluates zeros at γ_ρ = (ρ−½)/i, complex off the line, so
+  `residue(c) = [arithmetic side] − [on-line zeros only]` isolates exactly
+  what the on-line zeros fail to explain. ζ is silent at 1.6e-15; DH spikes
+  at its off-line ordinate with **+4.096324360133627** against a predicted
+  quadruple contribution of **+4.096324360133638**, and the peak height
+  recovers |β−½| = 0.30851718245662 (true: …64). Off-line zeros detected and
+  *measured* without being solved for. Not a proof over any range, not
+  certified, and it cannot distinguish an off-line zero from a missing
+  on-line one — so it is only meaningful paired with an independent count
+  (`online_list_is_complete`).
+
+**Standing methodological rule, earned three times today.** PSLQ returned a
+fake relation stable at 300 digits; `mp.diff` returned exactly 0 on both `xi`
+and `dh_f`; a sign-flipped derivative stencil produced order-1 ζ residues
+that looked like signal. All three shared one signature: **the error did not
+move when the approximation was improved.** A real quantity responds to added
+precision; an artifact does not. Every new instrument here gets a control
+whose job is to detect exactly that.
+
 ## The department architecture (2026-08-06)
 
 **The decision:** the laboratory extends by *department*, not by directory, and

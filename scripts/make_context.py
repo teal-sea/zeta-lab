@@ -56,6 +56,7 @@ MODULE_ORDER = [
     "inverse",
     "quasicrystal",
     "factorization",
+    "detector",
     "leeyang",
     "relations",
     "synthesis",
