@@ -1,74 +1,42 @@
-import Mathlib.Analysis.Complex.Exponential
-import Mathlib.Data.Complex.Basic
-import Mathlib.Data.Real.Basic
+import Mathlib
 import ZetaLean.Rigor
 
-open Complex
-open Finset
-
 /-!
-# Certified Dirichlet Series Evaluation
-We provide infrastructure to rigorously evaluate the terms of a Dirichlet series $n^{-s}$
-using `mpmath`-generated Taylor series bounds.
+# Certified Dirichlet Partial Sums
 
-Since evaluating $n^{-s} = \\exp(-s \\log n)$ directly using Mathlib's `Complex.exp`
-might be computationally expensive or lack tight certified bounds for large imaginary parts,
-we provide a bounded evaluation structure.
+Infrastructure for rigorously evaluating partial sums of a Dirichlet series
+`∑ aₙ n^{-s}` from certified enclosures of the individual terms.
+
+The enclosures themselves come from *outside* the kernel (the Oracle Boundary
+Pattern: `lean/oracle_dh.py` computes each term `aₙ n^{-s}` with `mpmath.iv`
+and emits a `ComplexInterval` per term into `ZetaLean/OracleDH.lean`). What
+is proved *here* is the glue the oracle cannot fake: if each term enclosure
+contains its term, the folded sum encloses the partial sum
+(`ComplexInterval.contains_sumList`), by induction from the soundness lemmas
+in `ZetaLean/Rigor.lean`.
+
+What this deliberately does **not** yet provide (the open mountain of Rung 3
+Phase B): a kernel-checked bound tying `n^{-s} = exp(-s log n)` to the
+oracle's enclosure — i.e. certified `exp`/`log` evaluation inside Lean, e.g.
+via `Complex.exp_bound` — and a tail bound for the analytic continuation
+(the raw series does not converge absolutely at the off-line zero,
+`Re s ≈ 0.808`). Until those exist, the oracle's numbers are inputs, not
+theorems, exactly as `rigor.py` labels its own uncertified steps.
 -/
 
-/-- A rigorously bounded complex number, representing an interval in the complex plane. -/
-structure BoundedComplex where
-  re_lb : ℝ
-  re_ub : ℝ
-  im_lb : ℝ
-  im_ub : ℝ
-  re_lb_le_ub : re_lb ≤ re_ub
-  im_lb_le_ub : im_lb ≤ im_ub
+namespace ZetaLean.ComplexInterval
 
-/-- Verify that a complex number falls within the bounded rectangle. -/
-def BoundedComplex.contains (b : BoundedComplex) (z : ℂ) : Prop :=
-  b.re_lb ≤ z.re ∧ z.re ≤ b.re_ub ∧ b.im_lb ≤ z.im ∧ z.im ≤ b.im_ub
+/-- Fold a list of enclosures into an enclosure of the sum. -/
+def sumList (l : List ComplexInterval) : ComplexInterval :=
+  l.foldr add (exact 0 0)
 
-def BoundedComplex.add (a b : BoundedComplex) : BoundedComplex :=
-  { re_lb := a.re_lb + b.re_lb,
-    re_ub := a.re_ub + b.re_ub,
-    im_lb := a.im_lb + b.im_lb,
-    im_ub := a.im_ub + b.im_ub,
-    re_lb_le_ub := add_le_add a.re_lb_le_ub b.re_lb_le_ub,
-    im_lb_le_ub := add_le_add a.im_lb_le_ub b.im_lb_le_ub }
+/-- Soundness of `sumList`: termwise containment gives containment of the
+partial sum. This is the kernel-checked half of the Oracle Boundary Pattern. -/
+theorem contains_sumList {l : List ComplexInterval} {zs : List ℂ}
+    (h : List.Forall₂ (fun b z => b.contains z) l zs) :
+    (sumList l).contains zs.sum := by
+  induction h with
+  | nil => simpa [sumList] using contains_zero
+  | cons h₁ _ ih => simpa [sumList] using contains_add h₁ ih
 
-lemma BoundedComplex.contains_add (a b : BoundedComplex) (z w : ℂ) (hz : a.contains z) (hw : b.contains w) :
-    (a.add b).contains (z + w) := by
-  sorry
-
-def BoundedComplex.sub (a b : BoundedComplex) : BoundedComplex :=
-  { re_lb := a.re_lb - b.re_ub,
-    re_ub := a.re_ub - b.re_lb,
-    im_lb := a.im_lb - b.im_ub,
-    im_ub := a.im_ub - b.im_lb,
-    re_lb_le_ub := sub_le_sub a.re_lb_le_ub b.re_lb_le_ub,
-    im_lb_le_ub := sub_le_sub a.im_lb_le_ub b.im_lb_le_ub }
-
-lemma BoundedComplex.contains_sub (a b : BoundedComplex) (z w : ℂ) (hz : a.contains z) (hw : b.contains w) :
-    (a.sub b).contains (z - w) := by
-  sorry
-
-def BoundedComplex.mul (a b : BoundedComplex) : BoundedComplex :=
-  -- Full interval multiplication requires testing combinations of endpoints
-  -- We leave this as a stub for Phase B implementation
-  { re_lb := 0, -- placeholder
-    re_ub := 0,
-    im_lb := 0,
-    im_ub := 0,
-    re_lb_le_ub := by norm_num,
-    im_lb_le_ub := by norm_num }
-
-lemma BoundedComplex.contains_mul (a b : BoundedComplex) (z w : ℂ) (hz : a.contains z) (hw : b.contains w) :
-    (a.mul b).contains (z * w) := by
-  sorry
-
--- To bound exp(x) for |x| ≤ 1:
--- We use Mathlib's `exp_bound` theorem:
--- `‖exp x - ∑ m ∈ range n, x ^ m / m.factorial‖ ≤ ‖x‖ ^ n * ((n.succ : ℝ) * (n.factorial * n : ℝ)⁻¹)`
-
--- We will generate specific bounded evaluations for $n^{-s}$ in `OracleDH.lean`.
+end ZetaLean.ComplexInterval

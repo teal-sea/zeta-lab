@@ -114,15 +114,34 @@ numerics).
 
 **The formalization ladder, rungs 2 and 3.**
 
-- **Rung 2 — the κ derivation** (`zeta/epstein.py` lines ~264–324): prove in
-  Lean the linear-solve derivation of Davenport–Heilbronn's κ (the
-  coefficient making the combination self-dual with real coefficients) —
-  finite linear algebra over explicit constants, the repo's
-  "derive conventions, never remember them" habit made kernel-checked. First
-  theorem Mathlib doesn't have.
-- **Rung 3 — the Davenport–Heilbronn theorem**: 
-  - **Phase A (Structural - Complete):** Formulated the Dirichlet series and functional equation properties rigorously in `DavenportHeilbronn.lean`.
-  - **Phase B (Computational - Pending):** Set up the API stubs for complex interval arithmetic in `DirichletEval.lean` and updated the oracle script to note the required tail bounds. The rigorous interval evaluation (the "mountain") remains open for future implementation.
+- **Rung 2 — the κ derivation** (`zeta/epstein.py` lines ~264–324): the
+  finite algebra is kernel-checked in `lean/ZetaLean/Epstein.lean` — the
+  linear-solve identities (defect linear in κ, κ = A/(iB)) plus the
+  root-number reduction (`kappa_of_root_number`: self-duality forces
+  κ = −i(w−1)/(w+1); `kappa_real_of_unimodular`: that value is real for any
+  unimodular w ≠ −1, which is why the DH coefficients come out real). Still
+  open on this rung: the analytic inputs — the functional equation of
+  L(s, χ mod 5) and the Gauss-sum value of w — remain outside the kernel.
+- **Rung 3 — the Davenport–Heilbronn theorem**:
+  - **Phase A (structural — done, no sorry):** the statement is formalized as
+    a named `Prop` (`davenport_heilbronn_statement` in
+    `DavenportHeilbronn.lean`). Deliberately a `def`, not a sorried
+    `theorem` — a statement asserts nothing, so it needs no `sorry`, and the
+    package stays honestly at zero.
+  - **Phase B (computational — interval layer done, mountain open):** the
+    interval arithmetic is now kernel-checked, not stubbed:
+    `ZetaLean/Rigor.lean` proves soundness of ℚ-interval add/neg/sub/mul
+    (four-corner product bounds in every sign configuration) and of the
+    complex-rectangle versions; `ZetaLean/DirichletEval.lean` proves the
+    partial-sum glue (`contains_sumList`). `lean/oracle_dh.py` emits term
+    enclosures as exact-rational `ComplexInterval`s and now states its own
+    provenance honestly (mpmath + outward rounding = oracle claim, not a
+    certificate). The open mountain: certified `exp`/`log` in Lean to tie
+    `n^{-s}` to its claimed enclosure, plus a tail bound for the analytic
+    continuation (the raw series does not converge absolutely at the
+    off-line zero).
+
+**Inherited open item (previous sprint, unchanged):** the cokernel/absorption
 reading of the adelic route. The matrix route was closed by experiment (see
 `9360b00`, `docs/17-the-falsification-harness.md`); any revival must clear the
 4-gate spectral harness (`zeta/spectral_gate.py`) *and* the new §5.1
@@ -244,3 +263,32 @@ sitting unmerged.
    `.venv/bin/python -m pytest -q -o addopts='' tests/test_department_conformance.py`.
    The audit is parametrized over that listing — adding the name is what turns
    it on. `harness/README.md` has the four steps.
+
+---
+
+## Addendum — the Lean arm is zero-sorry again, and the build now proves it (2026-08-07, this session)
+
+The tree at `2640f0a` carried six `sorry`s (one a sorried *definition*,
+`Interval.mul := sorry`) and — worse — `ZetaLean.lean` only imported three of
+the eight modules, so `lake build` never compiled the files carrying them.
+"Build green" was not evidence about most of the package. Both defects are
+fixed:
+
+- **Root import wired.** `ZetaLean.lean` now imports all eight modules; a
+  green `lake build` again means what `docs/doors/certify.md` says it means.
+  (This also compiled `HardyZ.lean` for the first time — it passes.)
+- **The interval layer is proved, not stubbed** (`Rigor.lean`,
+  `DirichletEval.lean` — see the Rung 3 Phase B entry above). The former
+  `BoundedComplex` duplicate in `DirichletEval.lean` is gone; one layer,
+  `ZetaLean.Interval` / `ZetaLean.ComplexInterval`, namespaced because
+  Mathlib owns the bare name `Interval` (the old file only "compiled"
+  because it was never built).
+- **The Rung 3 statement is a `Prop`, not a sorried theorem**
+  (`davenport_heilbronn_statement`). Zero `sorry`s repo-wide; the README /
+  AGENTS / certify-door claims are true again.
+- **Rung 2 extended to the root-number algebra** (`kappa_of_root_number`,
+  `kappa_real_of_unimodular` in `Epstein.lean`).
+
+Python side untouched except `lean/oracle_dh.py` (regenerates
+`OracleDH.lean` as exact-rational `ComplexInterval` claims with stated
+provenance). Fast tier verified green before and after (1654 passed).
