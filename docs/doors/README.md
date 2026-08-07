@@ -48,3 +48,20 @@ next department is entitled to the same room.
 
 See `harness/README.md` for what those four words mean and how to add the
 second department.
+
+## Probes
+
+The other side of the admission rule. A probe is work whose claims nothing in
+this tree can yet falsify — which is a normal and useful state, not a
+criticism. Probes are kept where nobody will mistake one for a result, they
+appear in no department table, and they get no door.
+
+| Probe | What it is |
+|---|---|
+| [`dossier/`](../19-research-dossiers.md) | representing research state — intent, definitions, rejected alternatives, obligations, evidence — so an agent can *resume*. Four independent support axes, no aggregate |
+| [`hunts/`](../../hunts/README.md) | scoped exploratory attacks, with permission to be wrong in public |
+
+Neither becomes a department by growing. Their rivals are the *zeta*
+department's rivals, and **a department whose battery is another department's
+battery is not a department** — the reason is recorded in
+[`docs/19`](../19-research-dossiers.md) §6.

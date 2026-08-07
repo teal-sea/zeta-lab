@@ -158,6 +158,23 @@ last one left off; this file plus `git log` is the handoff. Two caveats:
   `harness.departments.KNOWN_DEPARTMENTS`, so listing a department there is
   what turns its audit on. Read `harness/README.md` before adding one. Like
   `ontology`, it is not part of the editable install.
+- Package: `dossier/` — **a probe, not a department.** An experiment in
+  representing mathematical research state (intent, definition, rejected
+  alternatives, semantic obligations, evidence) so an agent can *resume* work.
+  Two ideas under test: intent is data, and "verified" is four independent
+  things — `status.py` keeps `numeric` / `certified` / `literature` / `formal`
+  apart, offers no aggregate, and `Support.__bool__` **raises** so `if support:`
+  cannot silently collapse them. Same three seam tests as `ontology/schema.py`;
+  subject matter only in `dossier/subjects/`. One worked example (Hardy Z), one
+  CLI (`scripts/50_dossier.py`). It is registered in no department and has no
+  door **on purpose**: a dossier has no rivals of its own, and *a department
+  whose battery is another department's battery is not a department*
+  (`docs/19-research-dossiers.md` §6).
+- `hunts/` — **probes, not departments.** Scoped exploratory attacks, with
+  permission to be wrong in public and the one place a claim may be written
+  down before anything has tried to kill it. Nothing in `hunts/` is a result;
+  a hunt cannot become a department by growing, for the same reason `dossier/`
+  cannot. Read `hunts/README.md` before adding one.
 - Project: `lean/` — the certified arm: a Lean 4 + Mathlib package
   (`ZetaLean`) formalizing, rung by rung, facts the laboratory measures.
   `ZetaLean/GroundTruth.lean` is rung 1 (ζ(2), ζ(0), ζ(4), the zero-free
@@ -217,8 +234,8 @@ affected cache files and re-run, or stale numbers will "pass".
 
 ```bash
 cd <repo root>
-.venv/bin/python -m pytest -q                 # full suite (1606 tests, ~9 min)
-.venv/bin/python -m pytest -q -m "not slow"   # fast tier (1553 tests, ~3 min)
+.venv/bin/python -m pytest -q                 # full suite (1704 tests, ~9 min)
+.venv/bin/python -m pytest -q -m "not slow"   # fast tier (1648 tests, ~3 min)
 .venv/bin/python scripts/06_tour.py           # end-to-end sanity + demo
 .venv/bin/python scripts/make_figures.py --quick   # all figures into figures/
 cd lean && PATH="$HOME/.elan/bin:$PATH" lake build  # the certified arm (0 sorrys)

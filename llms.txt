@@ -17,8 +17,8 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 
 - [README.md](README.md): front door — the door switchboard, quickstart, repo map.
 - [docs/doors/README.md](docs/doors/README.md): one short page per way in
-  (learn / refute / certify / discover) plus one per department. One spine,
-  several doors: start here rather than reading README top to bottom.
+  (learn / refute / certify / discover / adopt) plus one per department. One
+  spine, several doors: start here rather than reading README top to bottom.
 - [AGENTS.md](AGENTS.md): operating context for coding agents — setup, house
   rules, naming traps, honest-scope policy. Read before changing anything.
 - [ROADMAP.md](ROADMAP.md): the decisions — strategic bet, deliberate
@@ -41,12 +41,18 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 - [docs/06-hilbert-polya-and-gue.md](docs/06-hilbert-polya-and-gue.md): the spectral dream and random-matrix statistics.
 - [docs/07-equivalences-and-criteria.md](docs/07-equivalences-and-criteria.md): statements equivalent to RH.
 - [docs/08-why-it-is-hard.md](docs/08-why-it-is-hard.md): what each known technique provably cannot do.
+- [docs/08-detector-strength-findings.md](docs/08-detector-strength-findings.md): how much a detector can actually see — power, measured.
 - [docs/09-new-ontologies.md](docs/09-new-ontologies.md): what "RH needs new mathematics" means.
 - [docs/10-trace-formulas-and-connes.md](docs/10-trace-formulas-and-connes.md): explicit formula as a trace formula.
 - [docs/11-f1-and-the-missing-geometry.md](docs/11-f1-and-the-missing-geometry.md): the field with one element; Deninger.
 - [docs/12-how-hard-problems-die.md](docs/12-how-hard-problems-die.md): how famous problems actually get solved.
 - [docs/13-moments.md](docs/13-moments.md): external zero/value tables, finite moments, leading constants, and gated scorecards.
 - [docs/14-how-new-mathematics-gets-invented.md](docs/14-how-new-mathematics-gets-invented.md): eleven ways new mathematics has been invented, scored against the Frobenius gap.
+- [docs/15-the-f1-discovery-engine.md](docs/15-the-f1-discovery-engine.md): the F1 discovery engine.
+- [docs/16-poisson-cokernel-plan.md](docs/16-poisson-cokernel-plan.md): the cokernel plan, and the experiment that closed the matrix route.
+- [docs/17-the-falsification-harness.md](docs/17-the-falsification-harness.md): **the methods retrospective** — five claims of zero structure arrived in one day and standing instruments dispatched all five. Start here for the refereeing.
+- [docs/18-five-longshots.md](docs/18-five-longshots.md): five longshot probes, each run to its wall.
+- [docs/19-research-dossiers.md](docs/19-research-dossiers.md): the dossier probe — representing research state; §6 is why it is not a department.
 
 ## The referee (`harness/`)
 
@@ -64,6 +70,23 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
   `tests/test_department_conformance.py` is parametrized over the registered
   departments, so adding one adds its audit.
 - Entry point for a claim of your own: [docs/doors/refute.md](docs/doors/refute.md).
+
+## Probes — not departments (`dossier/`, `hunts/`)
+
+- The admission rule is **no department without a battery**. Work whose claims
+  nothing in this tree can falsify is a *probe*, and probes are kept where
+  nobody will mistake one for a result. Two live ones:
+- [dossier/README.md](dossier/README.md) + [docs/19-research-dossiers.md](docs/19-research-dossiers.md):
+  an experiment in representing research state — intent, definitions, rejected
+  alternatives, semantic obligations, evidence — so an agent can resume rigorous
+  work. Keeps four *independent* support axes (numeric / certified / literature
+  / formal) and refuses to aggregate them; `Support.__bool__` raises. One worked
+  example (Hardy Z), run with `scripts/50_dossier.py`.
+- [hunts/README.md](hunts/README.md): scoped exploratory attacks, with
+  permission to be wrong in public. Nothing in `hunts/` is a result.
+- Neither can become a department by growing: their rivals are the *zeta*
+  department's rivals, and a department whose battery is another department's
+  battery is not a department.
 
 ## The conjecture factory (`ontology/`)
 
