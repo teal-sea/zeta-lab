@@ -878,9 +878,37 @@ The falsification protocol with the subject factored out. Four instrument roles 
 - `run_nulls(battery: Battery, statistic: Callable[[Any], float], *, tolerance: float, observed: float | None = None, name: str = '') -> NullVerdict` — Compare the observed statistic against one draw from each surrogate.
 - `run_power(battery: Battery, detector: Callable[[Any], Any], *, payload: Any = None, name: str = '') -> PowerVerdict` — Show ``detector`` every planted violation and record what it noticed.
 
+### `harness/departments/compiler_department.py` — Candidate department #2 — LLVM IR rewrites. **Not registered.**
+
+*305 lines*
+
+Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `FULL_DOMAIN`, `SURROGATE_SEEDS`, `TARGET`, `RIVALS`, `DECOYS`, `SURROGATES`, `LESIONS`, `BATTERY`, `REFERENCE_CLAIMS`, `CANDIDATE`
+
+- `class RewriteSubject` — A subject whose payload is one proposed rewrite.
+- `class InputSetDecoy` — Replace a set of test inputs with a same-sized set that covers nothing.
+- `class UnguidedMutationSurrogate` — One candidate rewrite drawn from unguided mutation of the target's source.
+- `class PlantedDefect` — Wrap a :class:`compiler.catalog.LesionSpec` as a harness lesion.
+- `agreement_over(transformation: catalog.Transformation)` — A measure of agreement as a function of the *input set*, for ablation.
+- `concrete_detector(transformation: Any) -> bool` — Fires when the exhaustive concrete run notices a disagreement.
+
+### `harness/departments/finitefield_department.py` — ``harness.departments.finitefield_department`` — department #2.
+
+*508 lines*
+
+Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `P`, `CURVE_A`, `CURVE_B`, `N_MAX`, `RIVAL_TRACES`, `LESION_TRACES`, `TARGET`, `RIVALS`, `DECOYS`, `SURROGATES`, `LESIONS`, `BATTERY`, `REFERENCE_CLAIMS`, `DEPARTMENT`
+
+- `class CurveSubject` — The genuine article: counts of a real curve, recomputed per call.
+- `class CounterfeitSubject` — A rival: the same count-shape with the property removed.
+- `class CountDecoy` — A substitution acting on a sequence of counts.
+- `class AngleSurrogate` — Normalised Frobenius traces drawn from an angle law, no curve anywhere.
+- `class OffCircleLesion` — Append one counterfeit profile to a survey of genuine ones.
+- `counterfeit_counts(trace: int, p: int, n_max: int) -> tuple[int, ...]` — Counts of nothing: the Lefschetz formula run on an inadmissible trace.
+- `claim_functional_equation(payload: dict) -> bool` — Self-duality: the counts follow a degree-2 Lefschetz recursion with αβ = p.
+- `claim_hasse_bound(payload: dict) -> bool` — RH for the curve: both Frobenius roots on |α| = sqrt(p), i.e. a² ≤ 4p.
+
 ### `harness/departments/zeta_department.py` — ``harness.departments.zeta_department`` — department #1, and the reference wiring.
 
-*375 lines*
+*374 lines*
 
 Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LESION_HEIGHT`, `LESION_DELTAS`, `TARGET`, `RIVALS`, `DECOYS`, `SURROGATES`, `LESIONS`, `BATTERY`, `REFERENCE_CLAIMS`, `DEPARTMENT`
 
@@ -909,7 +937,7 @@ Constants: `AXES`
 
 ### `dossier/schema.py` — ``dossier.schema`` — what an AI agent needs in order to resume rigorous work.
 
-*321 lines*
+*342 lines*
 
 Constants: `SCHEMA_VERSION`
 
@@ -928,14 +956,14 @@ Constants: `SCHEMA_VERSION`
 
 ### `dossier/report.py` — ``dossier.report`` — the readable status report.
 
-*144 lines*
+*147 lines*
 
 - `render_short(dossier: Dossier) -> str` — One line per axis, for a listing. Still all four.
 - `render_text(dossier: Dossier) -> str` — The full report, in the order an agent resuming cold needs it.
 
 ### `dossier/subjects/hardy_z.py` — The Hardy Z dossier — the one worked example.
 
-*409 lines*
+*443 lines*
 
 Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
@@ -1007,9 +1035,10 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1326 test functions across 38 files (the collected count differs where tests are parametrised):
+1372 test functions across 40 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
+- `tests/test_compiler_candidate.py` — 26
 - `tests/test_core.py` — 97
 - `tests/test_criteria.py` — 75
 - `tests/test_department_conformance.py` — 16
@@ -1020,14 +1049,15 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_discovery_knownness.py` — 102
 - `tests/test_discovery_schema.py` — 62
 - `tests/test_discovery_zeta_domain.py` — 83
-- `tests/test_dossier_hardy_z.py` — 20
-- `tests/test_dossier_schema.py` — 34
+- `tests/test_dossier_hardy_z.py` — 22
+- `tests/test_dossier_schema.py` — 37
 - `tests/test_epstein.py` — 39
 - `tests/test_explicit.py` — 45
 - `tests/test_factorization.py` — 13
 - `tests/test_finitefield.py` — 53
+- `tests/test_harness_finitefield_department.py` — 12
 - `tests/test_harness_protocol.py` — 40
-- `tests/test_harness_zeta_department.py` — 6
+- `tests/test_harness_zeta_department.py` — 9
 - `tests/test_heatflow.py` — 38
 - `tests/test_hunt_probe_discipline.py` — 6
 - `tests/test_inverse.py` — 8

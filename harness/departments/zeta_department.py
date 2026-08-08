@@ -368,7 +368,6 @@ DEPARTMENT = Department(
         "zeta.li",
         "zeta.criteria",
         "zeta.moments",
-        "zeta.finitefield",
     ),
 )
 

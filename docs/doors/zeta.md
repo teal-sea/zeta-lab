@@ -12,13 +12,13 @@ The classical machinery, implemented at arbitrary precision, with every
 identity exposed as a measured *defect* rather than assumed: θ and modularity,
 the functional equation, Hardy's Z and sign changes, the explicit formula, GUE
 statistics, heat flow on Ξ and the de Bruijn–Newman constant, Weil positivity,
-Li's criterion and Jensen hyperbolicity, the four equivalence faces, curves
-over 𝔽_p (the RH that is a theorem), and the Davenport–Heilbronn
-counterexample.
+Li's criterion and Jensen hyperbolicity, the four equivalence faces, and the
+Davenport–Heilbronn counterexample. Curves over 𝔽_p — the RH that is a
+theorem — are [department #2](finitefield.md).
 
 Modules: `zeta.core`, `zeta.zeros`, `zeta.explicit`, `zeta.statistics`,
 `zeta.heatflow`, `zeta.weil`, `zeta.epstein`, `zeta.rigor`, `zeta.li`,
-`zeta.criteria`, `zeta.moments`, `zeta.finitefield`.
+`zeta.criteria`, `zeta.moments`.
 
 ## What is entitled to kill a claim here
 

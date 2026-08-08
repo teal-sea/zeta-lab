@@ -497,16 +497,76 @@ disabled by the environment needs to say so where the verdict is read, not in
 a summary line. Same failure shape as Hunt #2 above: the instrument was
 trusted without checking that it was running.
 
+## Department #2 admitted: curves over F_p (2026-08-07)
+
+The finite-field department is registered, listed in `KNOWN_DEPARTMENTS`, and
+under the conformance audit. Its subject is the RH that is a theorem, and the
+architectural point is that here every instrument can be **exact**: the rivals
+are counterfeit Lefschetz profiles — integer traces with `a² > 4p`, run
+through the same fixed-point formula a genuine curve obeys, giving integral
+positive counts with exact functional-equation self-duality (`αβ = p`) and
+both Frobenius roots off the circle. Hasse's theorem is precisely the
+statement that no curve realises them, which is what makes them fair rivals:
+the structure alone does not exclude them, only the theorem does. The
+calibration pair mirrors department #1's exactly — the functional equation is
+killed (shared with every counterfeit), the Hasse bound distinguishes.
+
+**How it got here is the part worth recording.** The first draft found in the
+tree was a sham: its decoys, surrogates and lesions were placeholder objects
+with comments naming the conformance test each was written to satisfy
+(`return [1, 2, 3]` as a surrogate), and its rivals carried a `virtual_a_p`
+payload field — a label a claim could read to tell the target from the rival.
+That is a battery that can never fail, hidden one level below where
+`validate_battery` can see, and it had already been staged for admission. The
+structural audit catches missing instruments, not empty ones; emptiness was
+caught here by review. The rebuilt department pins the counter-measures in
+`tests/test_harness_finitefield_department.py`: every payload has exactly the
+keys `{"p", "counts"}` (no tells), and a counterfeit whose trace sits inside
+the Hasse bound is refused by its own constructor.
+
+Three measurements out of the build:
+
+- **Lesion magnitude is quantised by the subject.** The smallest integer
+  trace violating Hasse at p = 1009 is |a| = 64, magnitude 0.129 off the
+  circle; a smaller lesion needs a fractional trace, which breaks integrality
+  of the counts and would be detectable for the wrong reason. Department #1
+  plants δ = 0.001; department #2 provably cannot. Detector power below the
+  floor is unmeasurable in this domain — a fact about subjects, not about
+  either battery.
+- **All four instrument runners now have a real client.** The compiler probe
+  (git 2041d86) recorded that zeta only ever drives `run_battery`; the
+  finite-field tests drive ablation, nulls and power with honest measures —
+  including a coarse detector shown to be `blind_to` the floor lesion by name.
+- **`AblationVerdict.survives` is the correct aggregate for exactly one of
+  the two departments.** Zeta's decoy pair has opposite polarities by design
+  (a spectrum must move under prime replacement and must *not* move under
+  permutation — the payload is a set of places), so for that battery an
+  honest measure scores `survives is False`, and a measure scoring `True` is
+  reading a Python list index. The finite-field payload is a sequence indexed
+  by r, both decoys must move honest measures, and `survives` means what it
+  says. Both polarities are pinned by tests; a draft test asserting zeta
+  ablation `survives is True` with a position-reading measure was corrected
+  in review. The protocol is unchanged — the aggregate is departmental, and
+  reading it without knowing the department's polarity is the mistake.
+
+`zeta.finitefield` moved from department #1's module list to department #2's;
+no code moved and no import changed. Door: `docs/doors/finitefield.md`.
+
 ## Known gaps
 
 Listed because an undocumented gap becomes an assumption.
 
-1. **The harness has one department, so its generality is untested.** The
-   protocol is domain-agnostic by test, but "would work for a chemistry lab"
-   is an argument, not a measurement. Until a second department exists, the
-   four roles are a generalisation of exactly one case, and the honest reading
-   is that `harness/` refactored the zeta instruments rather than that it
-   discovered a universal shape.
+1. **The harness has two departments, and its generality is only half-tested.**
+   The finite-field department is a real second subject with a decidable
+   property, but it shares a repository, an author and half a vocabulary with
+   department #1 — both are zeta-shaped number theory. The sharper test
+   remains a subject with *foreign* vocabulary: the compiler probe
+   (git 2041d86, LLVM IR rewrites) validated against the protocol but was not
+   admitted, for measured reasons (a concrete-execution backend blind to
+   poison semantics; conformance tests that encode zeta's payload shapes —
+   the finite-field department fit those shapes natively, so it did not test
+   them). "Would work for a chemistry lab" is still an argument, not a
+   measurement.
 2. **The dossier probe has one example and no evidence that it helps.** The
    schema can be filled in; that is not the same as being the right schema.
    Nothing has moved an axis by machine, and the Hardy Z example is

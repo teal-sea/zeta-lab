@@ -8,6 +8,7 @@ qualified and does not.
 
 from __future__ import annotations
 
+import math
 import sys
 from pathlib import Path
 
@@ -128,20 +129,36 @@ def test_a_claim_built_on_it_is_refused_rather_than_credited(zeta_department) ->
     assert "inconclusive" in verdict.summary()
 
 
-def test_spectral_gate_ablation_is_wired(zeta_department) -> None:
-    """Ablation gate: the battery's decoys move an arithmetic-dependent measurement."""
+def test_run_ablation_and_this_batterys_decoy_polarity(zeta_department) -> None:
+    """Department #1's decoy pair has *opposite* polarities, so the
+    ``survives`` aggregate is wrong for it — pinned so nobody reads the False
+    below as a defect, and so nobody "fixes" it with a dishonest measure.
+
+    The department's own docstring states the design: a construction must
+    react to *which* places are present (``non_prime_replacement`` must move
+    it) and ignore *what order* they arrive in (``prime_permutation`` must
+    not). ``AblationVerdict.survives`` demands every decoy move, so for this
+    battery it is False for exactly the measures that are honest — a
+    position-reading measure would score True and be reading a Python list
+    index, not the primes. The finitefield department's sequence-indexed
+    payload gives its pair uniform polarity, and its test asserts the
+    opposite; the contrast is recorded in that module's docstring.
+    """
     from harness.protocol import run_ablation
 
-    def measure(primes) -> float:
-        return float(sum(p * i for i, p in enumerate(primes)))
+    def log_mass(values) -> float:
+        # A symmetric function of the set of places: order-free on purpose.
+        return float(sum(math.log(v) for v in values))
 
     verdict = run_ablation(
         zeta_department.battery,
-        measure,
-        tolerance=0.1,
+        log_mass,
+        tolerance=1e-6,
         payload=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29],
     )
-    assert verdict.survives is True
+    assert verdict.unmoved_by == ("prime_permutation",)
+    assert "non_prime_replacement" not in verdict.unmoved_by
+    assert verdict.survives is False
 
 
 def test_detectors_power_is_wired(zeta_department) -> None:
