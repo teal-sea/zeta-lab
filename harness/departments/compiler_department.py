@@ -1,15 +1,21 @@
-"""Candidate department #2 — LLVM IR rewrites. **Not registered.**
+"""``harness.departments.compiler_department`` — department #3: LLVM IR rewrites.
 
-This module deliberately does *not* appear in
-:data:`harness.departments.KNOWN_DEPARTMENTS`, and calls no
-:func:`~harness.protocol.register_department`. Registration is the graduation
-step, not the setup step: it makes a working candidate accountable, and a
-candidate that has not yet earned admission would only be borrowing the
-legitimacy of the audit it has not passed. ``compiler/FINDINGS.md`` carries the
-admission verdict and the evidence behind it.
+The first department whose subject shares no vocabulary with the mathematics —
+programs, not functions — and therefore the sharpest test the harness's claim
+to generality has had. It spent its first day as an unregistered candidate:
+``compiler/FINDINGS.md`` records the PROVISIONAL verdict and the two measured
+blockers, and the admission addendum at its end records what cleared them. In
+short: the concrete backend was blind to the poison class (`has_power` False
+on the subject's central hazard), so ``compiler.semantics`` gained a second
+backend — an exhaustive poison-aware model of the supported subset — that sees
+the ``nsw`` lesion as 32768 poison violations and is cross-checked against
+compiled output at every defined point; and the conformance suite's three
+zeta-shaped payload assumptions were generalised per FINDINGS §7, reviewed on
+their merits (the new lesion rule catches an identity lesion the old one
+passed).
 
 Everything below is built from ``compiler/``, which is the laboratory this
-department refereess. The four roles were derived from the compiler subject
+department referees. The four roles were derived from the compiler subject
 rather than transplanted from department #1; the derivation, including the two
 mappings that came out strained, is in the findings document.
 
@@ -43,10 +49,10 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from compiler import catalog, semantics
-from harness.protocol import Battery, Department, ReferenceClaim
+from harness.protocol import Battery, Department, ReferenceClaim, register_department
 
 DEPARTMENT_NAME = "compiler"
-DEPARTMENT_VERSION = "0.1-candidate"
+DEPARTMENT_VERSION = "1.0"
 
 #: The input set the ablation baseline is measured over: the whole i8 range.
 FULL_DOMAIN: tuple[int, ...] = tuple(range(-128, 128))
@@ -61,7 +67,7 @@ __all__ = [
     "FULL_DOMAIN",
     "SURROGATE_SEEDS",
     "BATTERY",
-    "CANDIDATE",
+    "DEPARTMENT",
     "REFERENCE_CLAIMS",
     "RewriteSubject",
     "InputSetDecoy",
@@ -69,6 +75,7 @@ __all__ = [
     "PlantedDefect",
     "agreement_over",
     "concrete_detector",
+    "model_detector",
 ]
 
 
@@ -230,10 +237,24 @@ def agreement_over(transformation: catalog.Transformation):
 def concrete_detector(transformation: Any) -> bool:
     """Fires when the exhaustive concrete run notices a disagreement.
 
-    This is the detector whose power the lesions measure. It fires on
-    *disagreement*, so a lesion it misses is a violation it called clean.
+    Kept — with its measured blindness — after the model detector arrived: a
+    detector whose power is known to stop at the poison class is still a
+    detector, and the power difference between the two *is* the measurement
+    of what rung 2 added. ``run_power`` with this one reports
+    ``blind_to = ('nsw_flag_on_a_wrapping_shift',)``; with
+    :func:`model_detector` it reports full power.
     """
     return not semantics.agreement(transformation.source, transformation.target).agrees
+
+
+def model_detector(transformation: Any) -> bool:
+    """Fires when the poison-aware model finds a refinement violation.
+
+    The detector the poison lesion demanded: it sees value disagreements, the
+    poison class, and immediate UB, all with respect to the model — quote
+    :data:`compiler.semantics.EVIDENCE_MODEL_I8` with any verdict built on it.
+    """
+    return not semantics.refinement(transformation.source, transformation.target).refines
 
 
 def unguided_agreement(transformation: Any) -> float:
@@ -262,9 +283,10 @@ BATTERY = Battery(
     ),
 )
 
-#: The two calibration claims. The first is real, true of the target, and true
+#: The calibration claims. The first is real, true of the target, and true
 #: of every rival — the compiler domain's version of a property everything in
-#: the room happens to share. The second is the one the rivals lack.
+#: the room happens to share. The second and third are ones the rivals lack,
+#: measured by the two independent backends respectively.
 REFERENCE_CLAIMS: tuple[ReferenceClaim, ...] = (
     ReferenceClaim(
         name="no_more_instructions",
@@ -287,12 +309,20 @@ REFERENCE_CLAIMS: tuple[ReferenceClaim, ...] = (
             "compiler.semantics.EVIDENCE_EXHAUSTIVE_I8"
         ),
     ),
+    ReferenceClaim(
+        name="model_refinement_i8",
+        claim=catalog.claim_model_refinement,
+        distinguishes=True,
+        note=(
+            "the target refines its source under the poison-aware model and every "
+            "rival does not — the second backend's verdict, independent of clang, "
+            "and the one that can see the poison class: see "
+            "compiler.semantics.EVIDENCE_MODEL_I8"
+        ),
+    ),
 )
 
-#: Built, validated, and deliberately not registered. Graduation would mean
-#: writing ``docs/doors/compiler.md`` and adding one line to
-#: ``harness.departments.KNOWN_DEPARTMENTS``.
-CANDIDATE = Department(
+DEPARTMENT = Department(
     name=DEPARTMENT_NAME,
     summary=(
         "LLVM IR rewrites: whether a proposed transformation deserves belief, "
@@ -303,3 +333,5 @@ CANDIDATE = Department(
     modules=("compiler.semantics", "compiler.catalog"),
     reference_claims=REFERENCE_CLAIMS,
 )
+
+register_department(DEPARTMENT, replace=True)

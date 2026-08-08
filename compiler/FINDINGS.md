@@ -311,3 +311,58 @@ graduation and must be last.
   on `EVIDENCE_EXHAUSTIVE_I8`, which says *"not equivalence, not refinement"*.
   A scan that punishes the disclaimer is worse than no scan. It now checks
   affirmative phrasings only, and exempts docstrings.
+
+---
+
+## 13. Admission addendum (2026-08-08)
+
+**Verdict revised: ADMITTED, as department #3.** (Department #2 became the
+finite-field department in the meantime; the numbering above is historical.)
+The three requirements of §11, and what happened to each:
+
+1. **A backend that can see the poison lesion — built.** Not SMT and not
+   Alive2: `compiler.semantics` gained `pymodel.refinement_i8`, a pure-Python
+   poison-aware interpreter of the supported subset run exhaustively over the
+   65536-point domain. Over a domain this small, enumeration decides what an
+   SMT query would decide, with nothing installed. Its verdicts are
+   refinement **with respect to the model** (`EVIDENCE_MODEL_I8`, quoted with
+   every verdict), and the exposure of a hand-written model is bounded the
+   way this repository bounds everything: a second backend. At every input
+   where the model claims a defined value, the compiled output must match at
+   both optimisation levels — pinned for all ten fixtures, 65536 comparable
+   points each. The model also reproduces rung 1's pinned rival disagreement
+   counts independently (16384 / 32768 / 16384).
+
+   The measurement that cleared the blocker: on the `nsw` lesion the concrete
+   tables agree exactly (the blindness of §5 is still a fact and still
+   pinned), and the model reports **32768 poison violations, zero value
+   violations** — half the domain, exactly the declared magnitude. All four
+   lesions now measure at exactly their declared magnitudes under the model,
+   which closes the two-units gap §3(b) recorded: the unit chosen for
+   `magnitude` (a property of the violation) is now also a unit some detector
+   can read. `run_power` with the model detector: `has_power = True`,
+   `blind_to = ()`. With the concrete detector it still reports the
+   blindness, deliberately — the power *difference* between the two detectors
+   is the measurement of what rung 2 added.
+
+2. **The conformance fix of §7 — made, as proposed.** The `probe` convention,
+   read via `getattr` with the historical values as fallback, exactly as
+   answered in the five questions; `harness/protocol.py` needed no change.
+   The lesion rule is the strengthened `apply(probe) != probe`, and the
+   identity lesion §6 showed passing the old rule is now caught — pinned in
+   `test_the_strengthened_lesion_rule_catches_an_identity_lesion`. The three
+   `conformance_leak` tests are replaced by
+   `test_the_lesions_and_surrogates_fit_the_generalised_audit_natively`,
+   which pins the same shapes from the other side so the generalisation
+   cannot be quietly reverted.
+
+3. **The graduation — taken, last.** `docs/doors/compiler.md` exists,
+   `KNOWN_DEPARTMENTS` carries the line, and the conformance audit runs this
+   department alongside the other two.
+
+**What did not change.** `harness/protocol.py` is still untouched by this
+subject. Rung 3 (Alive2, LLVM's own semantics) is still absent and still
+named in `backend_status()`. The domain is still i8, `undef` is still out of
+scope, and §8's observation stands: admissibility requires lesions to exist,
+not that any detector pass them — the department now passes them anyway, and
+the distinction remains worth knowing.

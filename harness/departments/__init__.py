@@ -21,6 +21,7 @@ from types import ModuleType
 KNOWN_DEPARTMENTS: dict[str, str] = {
     "zeta": "harness.departments.zeta_department",
     "finitefield": "harness.departments.finitefield_department",
+    "compiler": "harness.departments.compiler_department",
 }
 
 __all__ = ["KNOWN_DEPARTMENTS", "load", "load_all"]

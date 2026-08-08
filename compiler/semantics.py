@@ -11,10 +11,19 @@ The ladder, and where this repository currently stands on it
    output tables byte for byte. What this establishes is exactly its name:
    *the two programs produced equal results on every input in the stated
    domain, under this compiler, at these flags*.
-2. **Restricted symbolic semantics** (not implemented). An SMT model of a small
-   IR subset would cover poison and ``undef``, which rung 1 cannot.
-3. **LLVM-native refinement** (not implemented). Alive2 decides *refinement*,
-   which is the property an LLVM transformation actually owes.
+2. **Exhaustive refinement under a poison-aware model** (implemented). A pure
+   Python interpreter of the supported straight-line IR subset that represents
+   poison as a first-class state and immediate UB as a per-input outcome, run
+   over the same 65536 points. Over a domain this small, exhaustive
+   enumeration decides what an SMT query would decide, with no solver
+   installed. What it establishes is refinement **with respect to the model**:
+   every claim it makes is about this file's reading of the LangRef, not about
+   clang, and the two backends cross-check each other on every value the model
+   says is defined (:func:`model_matches_clang` — the same two-backend habit
+   as ``zeta/rigor.py``, without borrowing that module's vocabulary).
+3. **LLVM-native refinement** (not implemented). Alive2 decides refinement
+   under LLVM's own semantics, which is the property an LLVM transformation
+   actually owes. Rung 2 is a model of that property, not the property.
 
 What rung 1 does **not** establish
 ----------------------------------
@@ -24,7 +33,8 @@ It is not a proof, not a certificate, not equivalence, and not refinement.
   ``nsw`` flag makes the result poison on overflow, but a compiled binary still
   hands back the wrapped value, so the tables agree. The transformation is
   nonetheless invalid. ``compiler.catalog`` plants exactly this lesion so that
-  the blindness is measured rather than assumed.
+  the blindness is measured rather than assumed — and rung 2 exists because of
+  it: :func:`refinement` sees that lesion as 32768 poison violations.
 * **The two optimisation levels are not independent checks.** Both go through
   the same clang. Agreement across ``-O0`` and ``-O2`` catches a transformation
   whose validity the optimiser disagrees with; it cannot catch anything both
@@ -32,6 +42,19 @@ It is not a proof, not a certificate, not equivalence, and not refinement.
 * **The domain is i8.** A defect that first appears at i32 is out of range by
   construction, and choosing a domain small enough to enumerate is itself a way
   to miss things.
+
+What rung 2 does **not** establish
+----------------------------------
+* **The model is hand-written, not LLVM.** Where the model and LLVM's real
+  semantics disagree, the model is wrong and its verdicts are about nothing.
+  The exposure is bounded three ways: the subset is small enough to check
+  against the LangRef by eye, the model is cross-checked against compiled
+  output at every defined point of every fixture, and any instruction the
+  parser does not recognise raises :class:`ModelUnsupported` rather than
+  guessing.
+* **``undef`` is out of scope.** The subset has no ``undef`` values, no
+  ``freeze``, and single-block control flow only. The refinement rules below
+  cover poison and immediate UB, which is what the planted lesions need.
 
 Vocabulary
 ----------
@@ -45,27 +68,37 @@ without the caveat.
 from __future__ import annotations
 
 import hashlib
+import re
 import shutil
 import subprocess
 import tempfile
 from dataclasses import dataclass
 from functools import lru_cache
 from pathlib import Path
+from typing import Final
 
 __all__ = [
     "BACKEND",
     "BACKEND_REASON",
     "EVIDENCE_EXHAUSTIVE_I8",
+    "EVIDENCE_MODEL_I8",
     "OPT_LEVELS",
     "DOMAIN_SIZE",
+    "POISON",
+    "UB",
     "SemanticsUnavailable",
     "IRRejected",
+    "ModelUnsupported",
     "AgreementReport",
+    "RefinementReport",
     "available_backends",
     "backend_status",
     "output_table",
     "agreement",
     "agreement_fraction",
+    "model_output_table",
+    "refinement",
+    "model_matches_clang",
     "index_of",
     "i8",
 ]
@@ -87,6 +120,17 @@ EVIDENCE_EXHAUSTIVE_I8: str = (
     "poison/undef because a compiled binary observes neither"
 )
 
+#: The exact claim rung 2 supports. The load-bearing phrase is "with respect
+#: to the model": every verdict is about this file's poison-aware reading of
+#: the supported subset, cross-checked against clang where values are defined,
+#: and about nothing beyond that.
+EVIDENCE_MODEL_I8: str = (
+    "exhaustive refinement check over all 65536 (i8, i8) inputs, with respect "
+    "to a hand-written poison-aware model of the supported IR subset; a claim "
+    "about the model, not about clang or LLVM's full semantics, and undef is "
+    "out of scope"
+)
+
 
 class SemanticsUnavailable(RuntimeError):
     """No semantic backend is installed, so nothing here can be measured.
@@ -97,7 +141,16 @@ class SemanticsUnavailable(RuntimeError):
 
 
 class IRRejected(ValueError):
-    """The compiler refused the IR. Never treated as agreement or as failure."""
+    """A backend refused the IR. Never treated as agreement or as failure."""
+
+
+class ModelUnsupported(IRRejected):
+    """The model does not implement this instruction, so it must not answer.
+
+    A subclass of :class:`IRRejected` on purpose: a caller treating "the
+    backend refused" uniformly stays correct, and a caller that wants to know
+    *which* backend refused can still tell.
+    """
 
 
 # ---------------------------------------------------------------------------
@@ -161,8 +214,15 @@ def _alive2() -> tuple[bool, str]:
 
 
 def available_backends() -> list[str]:
-    """Every semantic backend that is actually usable right now."""
-    found: list[str] = []
+    """Every semantic backend that is actually usable right now.
+
+    ``pymodel.refinement_i8`` is always present because it is this file: pure
+    Python, no PATH, no install. That is a feature and a caveat in one — the
+    model cannot be switched off by the environment, and it is only as right
+    as its author's reading of the LangRef, which is why
+    :func:`model_matches_clang` exists.
+    """
+    found: list[str] = ["pymodel.refinement_i8"]
     if _clang_consumes_ir()[0]:
         found.append("clang.exhaustive_i8")
     if _alive2()[0]:
@@ -181,6 +241,10 @@ def backend_status() -> dict[str, str]:
     ok_alive, why_alive = _alive2()
     return {
         "clang.exhaustive_i8": ("available: " if ok_clang else "ABSENT: ") + why_clang,
+        "pymodel.refinement_i8": (
+            "available: pure-Python poison-aware model of the supported subset "
+            "(this file; needs nothing installed)"
+        ),
         "alive2.refinement": ("available: " if ok_alive else "ABSENT: ") + why_alive,
     }
 
@@ -334,3 +398,406 @@ def agreement_fraction(source_ir: str, target_ir: str, values: list[int]) -> flo
         return 1.0
     hits = sum(1 for x, y in pairs if src[index_of(x, y)] == tgt[index_of(x, y)])
     return hits / len(pairs)
+
+
+# ---------------------------------------------------------------------------
+# Rung 2: the poison-aware model
+# ---------------------------------------------------------------------------
+
+
+class _Poison:
+    """The poison state, as a singleton that can never be confused with an i8."""
+
+    __slots__ = ()
+
+    def __repr__(self) -> str:  # pragma: no cover - repr only
+        return "POISON"
+
+
+class _UBState:
+    """The immediate-UB state for one input, same discipline as :class:`_Poison`."""
+
+    __slots__ = ()
+
+    def __repr__(self) -> str:  # pragma: no cover - repr only
+        return "UB"
+
+
+#: The two non-value outcomes a model run can produce for one input. Table
+#: entries are ``int`` (0..255, the unsigned reading of the i8), ``POISON``,
+#: or ``UB`` — nothing else, so a caller can pattern-match exhaustively.
+POISON = _Poison()
+UB = _UBState()
+
+
+class _ImmediateUB(Exception):
+    """Internal: raised mid-evaluation, caught per input, recorded as ``UB``."""
+
+
+_BINOPS: Final = frozenset(
+    {"add", "sub", "mul", "shl", "lshr", "ashr", "sdiv", "udiv", "srem", "urem", "and", "or", "xor"}
+)
+_PREDICATES: Final = frozenset({"eq", "ne", "slt", "sle", "sgt", "sge", "ult", "ule", "ugt", "uge"})
+_FLAGS: Final = frozenset({"nsw", "nuw", "exact"})
+
+
+def _signed(value: int, width: int) -> int:
+    half = 1 << (width - 1)
+    return value - (1 << width) if value >= half else value
+
+
+def _unsigned(value: int, width: int) -> int:
+    return value & ((1 << width) - 1)
+
+
+@dataclass(frozen=True)
+class _Instr:
+    dest: str | None
+    op: str
+    width: int
+    args: tuple[str, ...]
+    pred: str = ""
+    flags: frozenset = frozenset()
+
+
+_LINE_BINOP = re.compile(
+    r"^%(?P<dest>[\w.]+)\s*=\s*(?P<op>\w+)(?P<flags>(?:\s+(?:nsw|nuw|exact))*)\s+"
+    r"i(?P<width>\d+)\s+(?P<a>[%\w.-]+),\s*(?P<b>[%\w.-]+)$"
+)
+_LINE_ICMP = re.compile(
+    r"^%(?P<dest>[\w.]+)\s*=\s*icmp\s+(?P<pred>\w+)\s+i(?P<width>\d+)\s+"
+    r"(?P<a>[%\w.-]+),\s*(?P<b>[%\w.-]+)$"
+)
+_LINE_ZEXT = re.compile(
+    r"^%(?P<dest>[\w.]+)\s*=\s*zext\s+i(?P<from>\d+)\s+(?P<a>[%\w.-]+)\s+to\s+i(?P<to>\d+)$"
+)
+_LINE_SELECT = re.compile(
+    r"^%(?P<dest>[\w.]+)\s*=\s*select\s+i1\s+(?P<c>[%\w.-]+),\s*"
+    r"i(?P<width>\d+)\s+(?P<a>[%\w.-]+),\s*i\d+\s+(?P<b>[%\w.-]+)$"
+)
+_LINE_RET = re.compile(r"^ret\s+i(?P<width>\d+)\s+(?P<a>[%\w.-]+)$")
+
+
+@lru_cache(maxsize=256)
+def _parse(ir_text: str) -> tuple[_Instr, ...]:
+    """The supported subset: one block, the binops above, icmp, zext, select, ret.
+
+    Anything else raises :class:`ModelUnsupported` — the model must refuse
+    rather than guess, for the same reason an absent backend raises rather
+    than answering.
+    """
+    instrs: list[_Instr] = []
+    in_body = False
+    for raw in ir_text.splitlines():
+        line = raw.split(";")[0].strip()
+        if not line:
+            continue
+        if line.startswith("define"):
+            in_body = True
+            continue
+        if not in_body or line in {"{", "}"} or line.endswith(":"):
+            continue
+        if match := _LINE_BINOP.match(line):
+            op = match["op"]
+            if op not in _BINOPS:
+                raise ModelUnsupported(f"the model does not implement {op!r}: {line}")
+            flags = frozenset(match["flags"].split())
+            instrs.append(
+                _Instr(
+                    dest=f"%{match['dest']}",
+                    op=op,
+                    width=int(match["width"]),
+                    args=(match["a"], match["b"]),
+                    flags=flags,
+                )
+            )
+        elif match := _LINE_ICMP.match(line):
+            if match["pred"] not in _PREDICATES:
+                raise ModelUnsupported(f"unknown icmp predicate: {line}")
+            instrs.append(
+                _Instr(
+                    dest=f"%{match['dest']}",
+                    op="icmp",
+                    width=int(match["width"]),
+                    args=(match["a"], match["b"]),
+                    pred=match["pred"],
+                )
+            )
+        elif match := _LINE_ZEXT.match(line):
+            instrs.append(
+                _Instr(
+                    dest=f"%{match['dest']}",
+                    op="zext",
+                    width=int(match["to"]),
+                    args=(match["a"],),
+                )
+            )
+        elif match := _LINE_SELECT.match(line):
+            instrs.append(
+                _Instr(
+                    dest=f"%{match['dest']}",
+                    op="select",
+                    width=int(match["width"]),
+                    args=(match["c"], match["a"], match["b"]),
+                )
+            )
+        elif match := _LINE_RET.match(line):
+            instrs.append(_Instr(dest=None, op="ret", width=int(match["width"]), args=(match["a"],)))
+        else:
+            raise ModelUnsupported(f"the model does not recognise this line: {line!r}")
+    if not instrs or instrs[-1].op != "ret":
+        raise ModelUnsupported("the model needs a single block ending in ret")
+    return tuple(instrs)
+
+
+def _operand(token: str, env: dict):
+    if token.startswith("%"):
+        try:
+            return env[token]
+        except KeyError:
+            raise ModelUnsupported(f"use of undefined register {token}") from None
+    return int(token)
+
+
+def _eval_binop(instr: _Instr, a, b):
+    """One binop under the model's reading of the LangRef, poison in, poison out."""
+    if a is POISON or b is POISON:
+        # Division by a poison divisor is immediate UB; everything else folds
+        # poison operands to a poison result.
+        if instr.op in {"sdiv", "udiv", "srem", "urem"} and b is POISON:
+            raise _ImmediateUB
+        return POISON
+    width = instr.width
+    mask = (1 << width) - 1
+    ua, ub_ = _unsigned(a, width), _unsigned(b, width)
+    sa, sb = _signed(ua, width), _signed(ub_, width)
+    op = instr.op
+
+    if op in {"add", "sub", "mul"}:
+        exact = {"add": sa + sb, "sub": sa - sb, "mul": sa * sb}[op]
+        uexact = {"add": ua + ub_, "sub": ua - ub_, "mul": ua * ub_}[op]
+        result = uexact & mask
+        if "nsw" in instr.flags and not (-(1 << (width - 1)) <= exact <= (1 << (width - 1)) - 1):
+            return POISON
+        if "nuw" in instr.flags and not (0 <= uexact <= mask):
+            return POISON
+        return result
+    if op in {"shl", "lshr", "ashr"}:
+        if ub_ >= width:
+            return POISON
+        if op == "shl":
+            result = (ua << ub_) & mask
+            if "nsw" in instr.flags and _signed(result, width) != sa * (1 << ub_):
+                return POISON
+            if "nuw" in instr.flags and (ua << ub_) != result:
+                return POISON
+            return result
+        if op == "lshr":
+            result = ua >> ub_
+        else:
+            result = _unsigned(sa >> ub_, width)
+        if "exact" in instr.flags and _unsigned(result << ub_, width) != (
+            ua if op == "lshr" else ua
+        ):
+            return POISON
+        return result
+    if op in {"sdiv", "udiv", "srem", "urem"}:
+        if ub_ == 0:
+            raise _ImmediateUB
+        if op == "udiv":
+            return ua // ub_
+        if op == "urem":
+            return ua % ub_
+        if sa == -(1 << (width - 1)) and sb == -1:
+            raise _ImmediateUB
+        quotient = abs(sa) // abs(sb)
+        if (sa < 0) != (sb < 0):
+            quotient = -quotient
+        if op == "sdiv":
+            return _unsigned(quotient, width)
+        return _unsigned(sa - quotient * sb, width)
+    if op == "and":
+        return ua & ub_
+    if op == "or":
+        return ua | ub_
+    if op == "xor":
+        return ua ^ ub_
+    raise ModelUnsupported(f"unreachable binop {op!r}")  # pragma: no cover
+
+
+def _eval_program(instrs: tuple[_Instr, ...], x: int, y: int):
+    env: dict = {"%x": _unsigned(x, 8), "%y": _unsigned(y, 8)}
+    for instr in instrs:
+        if instr.op == "ret":
+            return _operand(instr.args[0], env)
+        if instr.op == "icmp":
+            a, b = (_operand(t, env) for t in instr.args)
+            if a is POISON or b is POISON:
+                env[instr.dest] = POISON
+                continue
+            width = instr.width
+            ua, ub_ = _unsigned(a, width), _unsigned(b, width)
+            sa, sb = _signed(ua, width), _signed(ub_, width)
+            env[instr.dest] = int(
+                {
+                    "eq": ua == ub_,
+                    "ne": ua != ub_,
+                    "ult": ua < ub_,
+                    "ule": ua <= ub_,
+                    "ugt": ua > ub_,
+                    "uge": ua >= ub_,
+                    "slt": sa < sb,
+                    "sle": sa <= sb,
+                    "sgt": sa > sb,
+                    "sge": sa >= sb,
+                }[instr.pred]
+            )
+        elif instr.op == "zext":
+            value = _operand(instr.args[0], env)
+            env[instr.dest] = POISON if value is POISON else value
+        elif instr.op == "select":
+            condition = _operand(instr.args[0], env)
+            if condition is POISON:
+                env[instr.dest] = POISON
+            else:
+                env[instr.dest] = _operand(instr.args[1] if condition else instr.args[2], env)
+        else:
+            a, b = (_operand(t, env) for t in instr.args)
+            env[instr.dest] = _eval_binop(instr, a, b)
+    raise ModelUnsupported("fell off the end of the block without a ret")
+
+
+@lru_cache(maxsize=64)
+def model_output_table(ir_text: str) -> tuple:
+    """What ``@f`` evaluates to at every input, under the model.
+
+    One entry per :func:`index_of` position: an ``int`` in 0..255 (the
+    unsigned reading of the returned i8), :data:`POISON`, or :data:`UB`.
+    """
+    instrs = _parse(ir_text)
+    table = []
+    for x in range(-128, 128):
+        for y in range(-128, 128):
+            try:
+                table.append(_eval_program(instrs, x, y))
+            except _ImmediateUB:
+                table.append(UB)
+    return tuple(table)
+
+
+@dataclass(frozen=True)
+class RefinementReport:
+    """Whether the candidate refines the source, under the model, and where not.
+
+    The three violation counters are disjoint and sum to ``violations``:
+
+    * ``value_violations`` — source defined, candidate defined, values differ.
+    * ``poison_violations`` — source defined, candidate poison. This is the
+      class rung 1 cannot see at all.
+    * ``ub_violations`` — candidate is immediate UB where the source is not.
+
+    ``refines`` uses the standard direction: where the source is UB anything
+    is allowed; where the source is poison the candidate may be poison or any
+    value but not UB; where the source is a value the candidate must be that
+    value. ``evidence`` carries the model caveat and must travel with the
+    verdict.
+    """
+
+    refines: bool
+    violations: int
+    value_violations: int
+    poison_violations: int
+    ub_violations: int
+    domain_size: int
+    first_witness: tuple[int, int, str] | None
+    evidence: str
+
+    @property
+    def fraction(self) -> float:
+        """Share of the domain on which the candidate is a valid stand-in."""
+        return 1.0 - self.violations / self.domain_size if self.domain_size else 0.0
+
+    def summary(self) -> str:
+        if self.refines:
+            return f"refines its source at all {self.domain_size} inputs ({self.evidence})"
+        x, y, kind = self.first_witness  # type: ignore[misc]
+        return (
+            f"fails refinement on {self.violations}/{self.domain_size} inputs "
+            f"({self.value_violations} value, {self.poison_violations} poison, "
+            f"{self.ub_violations} UB); first witness f({x}, {y}): {kind}"
+        )
+
+
+def refinement(source_ir: str, target_ir: str) -> RefinementReport:
+    """Exhaustive refinement of ``target_ir`` against ``source_ir`` under the model."""
+    src = model_output_table(source_ir)
+    tgt = model_output_table(target_ir)
+    value_bad = poison_bad = ub_bad = 0
+    witness = None
+
+    for i in range(DOMAIN_SIZE):
+        s, t = src[i], tgt[i]
+        if s is UB:
+            continue
+        kind = ""
+        if t is UB:
+            ub_bad += 1
+            kind = "candidate is immediate UB where the source is defined"
+        elif s is POISON:
+            continue
+        elif t is POISON:
+            poison_bad += 1
+            kind = "candidate is poison where the source has a value"
+        elif s != t:
+            value_bad += 1
+            kind = f"source returns {_signed(s, 8)}, candidate returns {_signed(t, 8)}"
+        if kind and witness is None:
+            witness = (i // 256 - 128, i % 256 - 128, kind)
+
+    bad = value_bad + poison_bad + ub_bad
+    return RefinementReport(
+        refines=bad == 0,
+        violations=bad,
+        value_violations=value_bad,
+        poison_violations=poison_bad,
+        ub_violations=ub_bad,
+        domain_size=DOMAIN_SIZE,
+        first_witness=witness,
+        evidence=EVIDENCE_MODEL_I8,
+    )
+
+
+def model_matches_clang(ir_text: str, *, opt_levels: tuple[str, ...] = OPT_LEVELS) -> dict:
+    """The two-backend cross-check: model values against compiled output.
+
+    At every input where the model produces a defined value, the compiled
+    program must produce the same byte at every optimisation level — a
+    defined value constrains the compiler completely. Where the model says
+    poison or UB the compiled byte is unconstrained and is not compared.
+
+    Returns a dict with ``comparable`` (how many inputs constrained the
+    check), ``mismatches``, and ``agrees``. A mismatch means one of the two
+    backends is wrong about this program, and nothing built on either may be
+    quoted until it is known which.
+    """
+    model = model_output_table(ir_text)
+    compiled = {opt: output_table(ir_text, opt) for opt in opt_levels}
+    comparable = mismatches = 0
+    first = None
+    for i, value in enumerate(model):
+        if value is POISON or value is UB:
+            continue
+        comparable += 1
+        for opt, table in compiled.items():
+            if table[i] != value:
+                mismatches += 1
+                if first is None:
+                    first = (i // 256 - 128, i % 256 - 128, opt, value, table[i])
+                break
+    return {
+        "comparable": comparable,
+        "mismatches": mismatches,
+        "agrees": mismatches == 0,
+        "first_mismatch": first,
+        "evidence": EVIDENCE_MODEL_I8,
+    }

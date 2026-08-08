@@ -552,21 +552,58 @@ Three measurements out of the build:
 `zeta.finitefield` moved from department #1's module list to department #2's;
 no code moved and no import changed. Door: `docs/doors/finitefield.md`.
 
+## Department #3 admitted: LLVM IR rewrites (2026-08-08)
+
+The compiler candidate (git 2041d86, verdict PROVISIONAL) graduated by
+clearing its own §11 checklist; `compiler/FINDINGS.md` §13 is the admission
+record. The two blockers, and what cleared them:
+
+- **The poison blindness.** `compiler.semantics` gained a second backend,
+  `pymodel.refinement_i8`: a pure-Python poison-aware interpreter of the
+  supported IR subset, run exhaustively over the 65536-point domain — over a
+  domain that small, enumeration decides what an SMT query would, with
+  nothing installed. Its verdicts are refinement **with respect to the
+  model** (`EVIDENCE_MODEL_I8` travels with every one), and the hand-written
+  model is bounded the way this repo bounds everything, by a second backend:
+  at every input where the model claims a defined value, compiled output
+  must match at both optimisation levels — pinned for all ten fixtures.
+  On the `nsw` lesion the compiled tables agree exactly (rung 1's blindness
+  remains pinned) and the model reports 32768 poison violations, zero value
+  violations — exactly the declared magnitude 0.5. All four lesions now
+  measure at exactly their declared magnitudes; `run_power` with the model
+  detector reports full power, and with the concrete detector still reports
+  the blindness, because the power *difference* is the measurement of what
+  the new rung added.
+- **The conformance suite's zeta shapes.** FINDINGS §7's `probe` convention
+  was applied as proposed: instruments may declare a representative payload,
+  read via `getattr` with the historical values as fallback, and
+  `harness/protocol.py` needed no change. The lesion rule strengthened from
+  `len(apply(())) > 0` to `apply(probe) != probe`, which catches the
+  identity lesion the old rule passed — the change is a strengthening, not
+  an accommodation, which is what made it reviewable on its merits.
+
+One deliberate deviation from the probe's own instruction: the test asserting
+the concrete detector's blindness said *delete me when a refinement backend
+arrives*. It was renamed, not deleted — the new backend does not un-measure
+the old one's blind spot, and un-pinning it would let rung 1 verdicts be
+read as covering the poison class again.
+
 ## Known gaps
 
 Listed because an undocumented gap becomes an assumption.
 
-1. **The harness has two departments, and its generality is only half-tested.**
-   The finite-field department is a real second subject with a decidable
-   property, but it shares a repository, an author and half a vocabulary with
-   department #1 — both are zeta-shaped number theory. The sharper test
-   remains a subject with *foreign* vocabulary: the compiler probe
-   (git 2041d86, LLVM IR rewrites) validated against the protocol but was not
-   admitted, for measured reasons (a concrete-execution backend blind to
-   poison semantics; conformance tests that encode zeta's payload shapes —
-   the finite-field department fit those shapes natively, so it did not test
-   them). "Would work for a chemistry lab" is still an argument, not a
-   measurement.
+1. **The harness has three departments, and its generality is now measured —
+   within one repository.** The protocol survived a decidable-property
+   subject (finite fields) and a foreign-vocabulary subject (programs)
+   without a line of `protocol.py` changing, and the shared audit needed
+   exactly one generalisation (the `probe` convention), which strengthened
+   it. What remains untested is everything outside this tree: all three
+   departments were authored in the same repository by the same process
+   against the same protocol, so "would work for a chemistry lab" is now a
+   better-supported argument, and still not a measurement. The compiler
+   department's rung 3 (Alive2, LLVM's own semantics) also remains absent —
+   its model backend is hand-written and its authority stops at the
+   cross-check against compiled output.
 2. **The dossier probe has one example and no evidence that it helps.** The
    schema can be filled in; that is not the same as being the right schema.
    Nothing has moved an axis by machine, and the Hardy Z example is

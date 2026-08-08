@@ -42,6 +42,7 @@ __all__ = [
     "claim_no_more_instructions",
     "agreement_fraction_of",
     "claim_exhaustive_agreement",
+    "claim_model_refinement",
     "random_mutant",
     "TARGET",
     "RIVALS",
@@ -132,6 +133,17 @@ def claim_exhaustive_agreement(transformation: Transformation) -> bool:
     and not refinement.
     """
     return semantics.agreement(transformation.source, transformation.target).agrees
+
+
+def claim_model_refinement(transformation: Transformation) -> bool:
+    """The candidate refines its source under the poison-aware model.
+
+    Read :data:`compiler.semantics.EVIDENCE_MODEL_I8` before quoting this
+    anywhere: refinement is decided by exhaustive enumeration against a
+    hand-written model of the supported subset, not against LLVM's own
+    semantics. It is the claim that can see the ``nsw`` lesion rung 1 cannot.
+    """
+    return semantics.refinement(transformation.source, transformation.target).refines
 
 
 # ---------------------------------------------------------------------------

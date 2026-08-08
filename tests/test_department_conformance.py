@@ -155,21 +155,45 @@ def test_a_reference_claim_expected_to_be_killed_is_killed_by_a_rival(department
 
 
 def test_every_decoy_changes_what_it_is_given(department) -> None:
-    probe = list(range(2, 60))
+    """An instrument may declare ``probe`` — a representative payload of the
+    shape it consumes — and is probed with it; without one it gets the
+    historical integer-list probe. The ``probe`` convention is
+    ``compiler/FINDINGS.md`` §7: this file, not the protocol, was guessing
+    departments' payload shapes, and the guess encoded department #1's.
+    """
     for decoy in department.battery.decoys:
+        probe = getattr(decoy, "probe", None)
+        if probe is None:
+            probe = list(range(2, 60))
         substituted = decoy.substitute(probe)
-        assert list(substituted) != probe, (
-            f"decoy {decoy.name!r} returned its input unchanged and ablates nothing"
-        )
-        assert len(list(substituted)) == len(probe), (
-            f"decoy {decoy.name!r} changed the size of the input; it is not a substitution"
-        )
+        if hasattr(probe, "__len__"):
+            assert list(substituted) != list(probe), (
+                f"decoy {decoy.name!r} returned its input unchanged and ablates nothing"
+            )
+            assert len(list(substituted)) == len(list(probe)), (
+                f"decoy {decoy.name!r} changed the size of the input; it is not a substitution"
+            )
+        else:
+            assert substituted != probe, (
+                f"decoy {decoy.name!r} returned its input unchanged and ablates nothing"
+            )
 
 
-def test_every_lesion_plants_something(department) -> None:
+def test_every_lesion_changes_what_it_is_given(department) -> None:
+    """Strengthened from ``len(apply(())) > 0`` per ``compiler/FINDINGS.md`` §7.
+
+    The rule is now the same one the decoy test uses: ``apply(probe)`` must
+    differ from ``probe``. The old rule was satisfied by an identity lesion —
+    one that returns its input untouched plants nothing and would report every
+    detector shown it as blind to a violation that was never there.
+    """
     for lesion in department.battery.lesions:
-        lesioned = lesion.apply(())
-        assert len(tuple(lesioned)) > 0, f"lesion {lesion.name!r} plants nothing"
+        probe = getattr(lesion, "probe", ())
+        lesioned = lesion.apply(probe)
+        if hasattr(probe, "__len__") and hasattr(lesioned, "__len__"):
+            assert list(lesioned) != list(probe), f"lesion {lesion.name!r} plants nothing"
+        else:
+            assert lesioned != probe, f"lesion {lesion.name!r} plants nothing"
         assert lesion.magnitude > 0, f"lesion {lesion.name!r} has no magnitude"
 
 
@@ -197,6 +221,12 @@ def test_every_instrument_describes_itself(department) -> None:
 
 @pytest.mark.slow
 def test_every_surrogate_draws_a_sample(department) -> None:
+    """A sample need not be sized — a program pair is a legitimate draw — but
+    when it is sized it must be non-empty, and it must never be ``None``.
+    (``compiler/FINDINGS.md`` §7: ``len(sample)`` was a zeta shape.)
+    """
     for surrogate in department.battery.surrogates:
         sample = surrogate.sample()
-        assert len(sample) > 0, f"surrogate {surrogate.name!r} produced nothing"
+        assert sample is not None, f"surrogate {surrogate.name!r} produced nothing"
+        if hasattr(sample, "__len__"):
+            assert len(sample) > 0, f"surrogate {surrogate.name!r} produced an empty sample"

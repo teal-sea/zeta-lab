@@ -878,11 +878,11 @@ The falsification protocol with the subject factored out. Four instrument roles 
 - `run_nulls(battery: Battery, statistic: Callable[[Any], float], *, tolerance: float, observed: float | None = None, name: str = '') -> NullVerdict` — Compare the observed statistic against one draw from each surrogate.
 - `run_power(battery: Battery, detector: Callable[[Any], Any], *, payload: Any = None, name: str = '') -> PowerVerdict` — Show ``detector`` every planted violation and record what it noticed.
 
-### `harness/departments/compiler_department.py` — Candidate department #2 — LLVM IR rewrites. **Not registered.**
+### `harness/departments/compiler_department.py` — ``harness.departments.compiler_department`` — department #3: LLVM IR rewrites.
 
-*305 lines*
+*337 lines*
 
-Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `FULL_DOMAIN`, `SURROGATE_SEEDS`, `TARGET`, `RIVALS`, `DECOYS`, `SURROGATES`, `LESIONS`, `BATTERY`, `REFERENCE_CLAIMS`, `CANDIDATE`
+Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `FULL_DOMAIN`, `SURROGATE_SEEDS`, `TARGET`, `RIVALS`, `DECOYS`, `SURROGATES`, `LESIONS`, `BATTERY`, `REFERENCE_CLAIMS`, `DEPARTMENT`
 
 - `class RewriteSubject` — A subject whose payload is one proposed rewrite.
 - `class InputSetDecoy` — Replace a set of test inputs with a same-sized set that covers nothing.
@@ -890,6 +890,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `FULL_DOMAIN`, `SURROGATE_SE
 - `class PlantedDefect` — Wrap a :class:`compiler.catalog.LesionSpec` as a harness lesion.
 - `agreement_over(transformation: catalog.Transformation)` — A measure of agreement as a function of the *input set*, for ablation.
 - `concrete_detector(transformation: Any) -> bool` — Fires when the exhaustive concrete run notices a disagreement.
+- `model_detector(transformation: Any) -> bool` — Fires when the poison-aware model finds a refinement violation.
 
 ### `harness/departments/finitefield_department.py` — ``harness.departments.finitefield_department`` — department #2.
 
@@ -1035,10 +1036,10 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1372 test functions across 40 files (the collected count differs where tests are parametrised):
+1377 test functions across 40 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
-- `tests/test_compiler_candidate.py` — 26
+- `tests/test_compiler_candidate.py` — 31
 - `tests/test_core.py` — 97
 - `tests/test_criteria.py` — 75
 - `tests/test_department_conformance.py` — 16

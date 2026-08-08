@@ -1,20 +1,25 @@
-"""Candidate department #2, pinned — including the reasons it is not admitted.
+"""Department #3, pinned — the compiler department's wiring, backends and limits.
 
-Every number this candidate reports is measured here rather than trusted from a
-declaration, in the repository's usual habit. Three groups are worth calling out
-because they are unusual:
+Every number this department reports is measured here rather than trusted from
+a declaration, in the repository's usual habit. History worth knowing when
+reading this file: the department spent its first day as an unregistered
+candidate (git 2041d86; ``compiler/FINDINGS.md``), blocked on a detector blind
+to the poison class and on three zeta-shaped assumptions in the shared
+conformance suite. Admission cleared both: ``compiler.semantics`` gained a
+second, poison-aware backend, and the conformance suite gained the ``probe``
+convention of FINDINGS §7. Three groups of tests below carry that history:
 
-* ``test_the_detector_is_blind_to_the_poison_lesion`` asserts a **failure**. The
-  concrete backend cannot see a violation covering half the domain, and that is
-  pinned so it cannot be quietly lost. It is expected to be deleted the day a
-  refinement backend arrives, not before.
-* The ``conformance_leak`` tests assert that the shared audit *cannot* run this
-  candidate's instruments. They document three zeta-shaped assumptions in
-  ``tests/test_department_conformance.py`` and are expected to start failing the
-  day that file is fixed — which is the point of writing them down.
-* ``test_the_candidate_is_not_registered`` enforces probe discipline: admission
-  is graduation, and this module must not acquire the legitimacy of an audit it
-  has not passed.
+* ``test_the_concrete_detector_remains_blind_to_the_poison_lesion`` still
+  asserts rung 1's blindness — the arrival of a detector that sees the lesion
+  does not un-measure the one that cannot — and the model tests beside it
+  assert the new backend sees exactly what was invisible.
+* The two-backend cross-checks pin the model against compiled output at every
+  defined point of every fixture, and pin the model's rival disagreement
+  counts against rung 1's. Where the two backends can both speak they must
+  agree; where only the model can speak, that asymmetry is the measurement.
+* ``test_the_department_is_registered`` replaced the probe-discipline test
+  that asserted the opposite; the identity-lesion test now demonstrates that
+  the strengthened conformance rule catches what the old rule passed.
 """
 
 from __future__ import annotations
@@ -72,21 +77,31 @@ def test_backend_status_names_the_absent_backends_too() -> None:
     status = semantics.backend_status()
     assert "alive2.refinement" in status
     assert status["alive2.refinement"].startswith(("available:", "ABSENT:"))
+    assert status["pymodel.refinement_i8"].startswith("available:")
 
 
-def test_without_a_backend_a_claim_raises_instead_of_answering() -> None:
-    """Self-attack: strip the PATH and confirm nothing returns a verdict."""
+def test_without_clang_the_concrete_claim_raises_and_the_model_still_answers() -> None:
+    """Self-attack: strip the PATH and confirm each backend fails honestly.
+
+    The clang-based claim must raise rather than answer — a missing detector is
+    not a pass. The model is pure Python and cannot be switched off by the
+    environment, so it must keep answering; an environment-proof backend is
+    exactly what the dormant-cross-check lesson in ROADMAP.md asks for.
+    """
     code = textwrap.dedent(
         f"""
         import sys; sys.path.insert(0, {str(_REPO_ROOT)!r})
         from compiler import catalog, semantics
-        assert semantics.available_backends() == [], semantics.available_backends()
+        assert semantics.available_backends() == ["pymodel.refinement_i8"], (
+            semantics.available_backends()
+        )
         try:
             catalog.claim_exhaustive_agreement(catalog.TARGET)
         except semantics.SemanticsUnavailable:
             print("RAISED")
         else:
             print("ANSWERED")
+        print("MODEL", catalog.claim_model_refinement(catalog.TARGET))
         """
     )
     proc = subprocess.run(
@@ -96,7 +111,7 @@ def test_without_a_backend_a_claim_raises_instead_of_answering() -> None:
         env={"PATH": "/nonexistent", "HOME": os.environ.get("HOME", "/tmp")},
         timeout=120,
     )
-    assert proc.stdout.strip() == "RAISED", proc.stdout + proc.stderr
+    assert proc.stdout.split() == ["RAISED", "MODEL", "True"], proc.stdout + proc.stderr
 
 
 def test_malformed_ir_is_rejected_and_never_read_as_agreement() -> None:
@@ -248,14 +263,14 @@ def test_a_visible_lesion_disagrees_by_exactly_its_declared_magnitude(spec) -> N
     assert 1.0 - report.fraction == pytest.approx(spec.magnitude)
 
 
-def test_the_detector_is_blind_to_the_poison_lesion() -> None:
-    """A measured blind spot, pinned so it cannot be lost.
+def test_the_concrete_detector_remains_blind_to_the_poison_lesion() -> None:
+    """Rung 1's blind spot is still a fact, still pinned.
 
-    ``nsw_flag_on_a_wrapping_shift`` makes the candidate poison on half the
-    domain — a larger violation than two of the three lesions the detector does
-    catch — and a compiled binary still returns the wrapped value, so the tables
-    agree exactly. This asserts the failure on purpose. Delete it when a
-    refinement backend can see the lesion, and not before.
+    The predecessor of this test carried the instruction to delete it when a
+    refinement backend arrived. The backend arrived; the *blindness of the
+    concrete run* did not go anywhere — a compiled binary still returns the
+    wrapped value, so its tables still agree — and un-pinning it would let
+    someone read rung 1 verdicts as covering the poison class again.
     """
     spec = next(s for s in catalog.LESIONS if s.name == "nsw_flag_on_a_wrapping_shift")
     assert spec.visible_concretely is False
@@ -266,13 +281,59 @@ def test_the_detector_is_blind_to_the_poison_lesion() -> None:
     assert spec.magnitude == 0.5
 
 
-def test_detector_power_is_reported_as_blindness_not_as_a_pass() -> None:
+def test_the_model_sees_the_poison_lesion_the_binary_cannot() -> None:
+    """The admission blocker, cleared and measured.
+
+    Same lesioned program as the blindness test above: the concrete tables
+    agree exactly, and the model reports refinement failure on precisely half
+    the domain, all of it in the poison class — 32768 poison violations, zero
+    value violations. The two backends are not disagreeing; they are answering
+    different questions, and only one of them can ask this one.
+    """
+    spec = next(s for s in catalog.LESIONS if s.name == "nsw_flag_on_a_wrapping_shift")
+    lesioned = spec.apply(catalog.LESION_HOST)
+    report = semantics.refinement(lesioned.source, lesioned.target)
+    assert report.refines is False
+    assert report.poison_violations == 32768
+    assert report.value_violations == 0
+    assert report.ub_violations == 0
+    assert 1.0 - report.fraction == pytest.approx(spec.magnitude)
+    assert "with respect to" in report.evidence
+
+
+def test_concrete_detector_power_is_reported_as_blindness_not_as_a_pass() -> None:
     verdict = run_power(
         dept.BATTERY, dept.concrete_detector, payload=catalog.LESION_HOST, name="exhaustive_i8_run"
     )
     assert verdict.has_power is False
     assert verdict.blind_to == ("nsw_flag_on_a_wrapping_shift",)
     assert verdict.smallest_detected == pytest.approx(1.0 / 65536.0)
+
+
+def test_the_model_detector_has_full_power() -> None:
+    """What rung 2 added, as the power difference between the two detectors."""
+    verdict = run_power(
+        dept.BATTERY, dept.model_detector, payload=catalog.LESION_HOST, name="model_refinement_i8"
+    )
+    assert verdict.has_power is True
+    assert verdict.blind_to == ()
+    assert verdict.smallest_detected == pytest.approx(1.0 / 65536.0)
+
+
+@pytest.mark.parametrize("spec", catalog.LESIONS, ids=lambda s: s.name)
+def test_every_lesion_violates_refinement_by_exactly_its_declared_magnitude(spec) -> None:
+    """The model closes the two-units gap FINDINGS §3 recorded.
+
+    ``magnitude`` was defined as the share of the domain on which the candidate
+    stops being a valid stand-in — a property of the violation, chosen so the
+    poison lesion's size stayed reportable while no detector could see it. The
+    model measures exactly that quantity, for all four lesions, including the
+    one whose concrete disagreement is zero.
+    """
+    lesioned = spec.apply(catalog.LESION_HOST)
+    report = semantics.refinement(lesioned.source, lesioned.target)
+    assert report.refines is False
+    assert 1.0 - report.fraction == pytest.approx(spec.magnitude)
 
 
 def test_a_lesion_that_would_plant_nothing_refuses_instead() -> None:
@@ -293,55 +354,56 @@ def test_the_two_optimisation_levels_are_not_an_independent_second_check() -> No
 
 
 # ---------------------------------------------------------------------------
-# Admission discipline, and the three conformance leaks
+# Admission record, and the strengthened conformance rule
 # ---------------------------------------------------------------------------
 
 
-def test_the_candidate_battery_and_department_validate() -> None:
-    assert department_reasons(dept.CANDIDATE) == ()
+def test_the_department_validates() -> None:
+    assert department_reasons(dept.DEPARTMENT) == ()
 
 
-def test_the_candidate_is_not_registered() -> None:
-    """Admission is graduation. A probe must not borrow the audit's legitimacy."""
+def test_the_department_is_registered() -> None:
+    """The graduation step, recorded. The predecessor of this test asserted the
+    opposite while the candidate was a probe; both directions were deliberate.
+    """
     from harness import departments as D
 
-    assert "compiler" not in D.KNOWN_DEPARTMENTS
-    assert "compiler" not in list_departments()
+    assert D.KNOWN_DEPARTMENTS["compiler"] == "harness.departments.compiler_department"
+    assert "compiler" in list_departments()
 
 
-def test_conformance_leak_the_lesion_probe_assumes_an_appendable_sequence() -> None:
-    """``test_every_lesion_plants_something`` calls ``lesion.apply(())``.
+def test_the_lesions_and_surrogates_fit_the_generalised_audit_natively() -> None:
+    """What the three ``conformance_leak`` tests this replaces documented.
 
-    That is zeta's payload shape — a sequence of zeros the lesion appends to.
-    This candidate's lesions consume a program pair. Documented, not worked
-    around: see ``compiler/FINDINGS.md``.
+    The shared audit used to call ``lesion.apply(())`` and ``len(sample)`` —
+    zeta's payload shapes. It now asks the instrument for a ``probe`` and
+    checks ``apply(probe) != probe``. The shapes that could not fit the old
+    audit are pinned here so the generalisation cannot be quietly reverted:
+    these lesions still cannot take ``()``, and these samples still have no
+    length.
     """
     with pytest.raises(AttributeError):
         dept.LESIONS[0].apply(())
-
-
-def test_conformance_leak_the_surrogate_check_assumes_a_sized_sample() -> None:
-    """``test_every_surrogate_draws_a_sample`` calls ``len(sample)``.
-
-    Zeta's surrogates draw intensity arrays; this candidate's draw a program
-    pair, which has no length.
-    """
     sample = dept.SURROGATES[0].sample()
     assert isinstance(sample, catalog.Transformation)
     with pytest.raises(TypeError):
         len(sample)  # type: ignore[arg-type]
+    assert dept.LESIONS[0].probe == catalog.LESION_HOST
+    assert dept.LESIONS[0].apply(dept.LESIONS[0].probe) != dept.LESIONS[0].probe
 
 
-def test_conformance_leak_the_current_lesion_check_passes_an_identity_lesion() -> None:
-    """The proposed replacement is strictly stronger, which is why it is proposed.
+def test_the_strengthened_lesion_rule_catches_an_identity_lesion() -> None:
+    """The reason the §7 change is a strengthening and not an accommodation.
 
-    ``len(apply(())) > 0`` is satisfied by a lesion that returns its input
-    untouched; ``apply(probe) != probe`` is not.
+    ``len(apply(())) > 0`` — the old rule — is satisfied by a lesion that
+    returns its input untouched; ``apply(probe) != probe`` — the rule the
+    conformance suite now applies — is not.
     """
 
     class IdentityLesion:
         name = "identity"
         magnitude = 0.5
+        probe = catalog.LESION_HOST
 
         def describe(self) -> str:
             return "returns its input unchanged"
@@ -350,8 +412,54 @@ def test_conformance_leak_the_current_lesion_check_passes_an_identity_lesion() -
             return payload
 
     lesion = IdentityLesion()
-    assert len(tuple(lesion.apply(("planted",)))) > 0  # today's check: passes
-    assert lesion.apply(catalog.LESION_HOST) == catalog.LESION_HOST  # proposed check: caught
+    assert len(tuple(lesion.apply(("planted",)))) > 0  # the old rule: passes
+    assert lesion.apply(lesion.probe) == lesion.probe  # the new rule: caught
+
+
+# ---------------------------------------------------------------------------
+# The two backends check each other — the rigor.py habit, imported whole
+# ---------------------------------------------------------------------------
+
+
+@pytest.mark.parametrize(
+    "fixture",
+    sorted(p.stem for p in catalog.FIXTURES.glob("*.ll")),
+)
+def test_the_model_matches_the_compiled_output_on_every_fixture(fixture) -> None:
+    """At every input where the model claims a defined value, the compiled
+    program must produce that byte at every optimisation level. All ten
+    fixtures are poison-free and UB-free, so all 65536 points constrain the
+    check for each. A failure here means one backend is wrong about the
+    program, and nothing built on either may be quoted until it is known which.
+    """
+    check = semantics.model_matches_clang(catalog.load_ir(fixture))
+    assert check["comparable"] == semantics.DOMAIN_SIZE
+    assert check["agrees"] is True, check["first_mismatch"]
+
+
+@pytest.mark.parametrize("rival", catalog.RIVALS, ids=lambda r: r.name)
+def test_the_model_reproduces_the_pinned_rival_disagreements(rival) -> None:
+    """The two backends agree about how wrong each rival is, independently.
+
+    The rivals are poison-free, so every refinement violation is a value
+    violation and the model's count must equal the concrete backend's pinned
+    disagreement count exactly.
+    """
+    report = semantics.refinement(rival.source, rival.target)
+    assert report.refines is False
+    assert report.violations == RIVAL_DISAGREEMENTS[rival.name]
+    assert report.violations == report.value_violations
+
+
+def test_the_model_refuses_ir_it_does_not_implement() -> None:
+    """The model must not guess: an unknown opcode raises, and the exception is
+    an :class:`IRRejected`, so callers treating 'the backend refused' uniformly
+    stay correct."""
+    with pytest.raises(semantics.ModelUnsupported):
+        semantics.model_output_table(
+            "define i8 @f(i8 %x, i8 %y) {\nentry:\n  %r = fadd i8 %x, %y\n  ret i8 %r\n}\n"
+        )
+    assert issubclass(semantics.ModelUnsupported, semantics.IRRejected)
 
 
 # ---------------------------------------------------------------------------
