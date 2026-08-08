@@ -126,3 +126,42 @@ def test_a_claim_built_on_it_is_refused_rather_than_credited(zeta_department) ->
     assert "ValueError" in verdict.errors["epstein_2_1_3"]
     assert verdict.distinguishes is False
     assert "inconclusive" in verdict.summary()
+
+
+def test_spectral_gate_ablation_is_wired(zeta_department) -> None:
+    """Ablation gate: the battery's decoys move an arithmetic-dependent measurement."""
+    from harness.protocol import run_ablation
+
+    def measure(primes) -> float:
+        return float(sum(p * i for i, p in enumerate(primes)))
+
+    verdict = run_ablation(
+        zeta_department.battery,
+        measure,
+        tolerance=0.1,
+        payload=[2, 3, 5, 7, 11, 13, 17, 19, 23, 29],
+    )
+    assert verdict.survives is True
+
+
+def test_detectors_power_is_wired(zeta_department) -> None:
+    """Lesions: the battery's planted violations are noticed by a detector."""
+    from harness.protocol import run_power
+    from mpmath import mp
+
+    def mock_detector(zeros) -> bool:
+        # Fires if any zero is visibly off the critical line
+        return any(abs(mp.re(z) - 0.5) >= 0.0001 for z in zeros)
+
+    verdict = run_power(zeta_department.battery, mock_detector, payload=())
+    assert verdict.has_power is True
+    assert not verdict.blind_to
+
+
+@pytest.mark.slow
+def test_quasicrystal_is_wired(zeta_department) -> None:
+    """The quasicrystal crystallinity battery separates zeta from DH."""
+    from zeta.quasicrystal import crystallinity_battery
+
+    verdict = crystallinity_battery(n_zeta_zeros=1000)
+    assert verdict["separates"] is True

@@ -853,7 +853,7 @@ def _render_breakdown(rows: Sequence[KnownnessBreakdown]) -> str:
         "  the source rediscovers real structure late — fertile ground; a low\n"
         "  one means its matches are conjectural, definitional or unstated.\n"
         "  This is a statement about the catalogue's matches, never about\n"
-        "  novelty."
+        "  originality."
     )
     return "\n".join(lines)
 
