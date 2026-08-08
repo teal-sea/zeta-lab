@@ -59,6 +59,55 @@ instrument roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #4 — repairing the counterexample (`flow_repair/`)
+
+**Status: probe, complete. Instrument kept; no claim promoted; the headline
+is a measured constant for the rival — and a null control that explains it.**
+
+Pointed the de Bruijn–Newman flow (`zeta/heatflow.py`'s deformation, rebuilt
+generic-Φ in the probe) at the Davenport–Heilbronn function for the first
+time. Derived Φ_DH = 4e^{3u/2}Σ n aₙ e^{−πn²e^{2u}/5}, then *measured* the
+normalisation rather than trusting the derivation: (c, a) = (1, 1) to 4.2e-42,
+route agreement with `completed_dh` to 7.2e-41, and the same evaluator
+reproduces `zeta.heatflow.H_t` to 5.4e-42 before being trusted on the rival.
+Raw numbers in `flow_repair/results.json`:
+
+- **The nine known off-line quadruples (Spira 1994; Balanzario–Sánchez-Ortiz
+  2007, each re-polished in-tree) land on the real axis at measured times
+  t\* between 0.00275 and 0.05765.** Each is a lower bound for
+  Λ_DH := inf{t : H_t^{DH} real-rooted}; the max comes from the height-240
+  pair (β ≈ 0.8695), **not** the famous height-85.7 zero, which places third.
+  Λ_DH ≥ 0.0577 measured — inside [0, 0.2], the interval that historically
+  bracketed Λ_ζ. In flow time, the counterexample fails RH by less than ζ's
+  own uncertainty span: "Λ is small" distinguishes nothing (gate #3 on the
+  flow axis).
+- **Null control, the headline**: the arithmetic-free N-body zero dynamics
+  ż = 2Σ1/(z−z') seeded with the measured t = 0 configuration reproduces
+  every PDE repair time to **±0.04%** (target was 1%). The repair clock reads
+  zero geometry, not arithmetic — the flow-time distance to real-rootedness
+  is a property of where the zeros sit, shared by any function with that
+  layout. Position-sensitivity (docs/18) meets the counterexample gate.
+- **Method worth keeping**: the pair is tracked through its collision by
+  contour moments — Δ(t) = 2q₂ − q₁² is analytic through the landing, so t\*
+  is a clean root even though the zeros themselves have a branch point.
+  Zero-census accounting closed in all five checked windows (line + 2·pairs
+  = strip count; e.g. 49 + 4 = 53 at pair 1).
+- **Lesions**: a contour clipping one pair member is refused (N=1 ≠ 2); a
+  contour through the zeros returns winding ~1.8e9 and is refused. Post-
+  landing, the newborn real pair is invisible to the default mean-gap/20
+  sign scan at 3 of 5 grid phases until gap/step ≳ 1.4 — hunt #3's blind
+  spot, measured on the other side of a collision.
+- **Precision response**: t\*₁ = 0.0441263445516 identical to the last digit
+  across dps 44/54/70 and 96/192 contour nodes; spread exactly 0.
+
+**Disposition:** measurement portrait of a rival's flow geometry; no ledger
+entry (the surviving observation — repair times are configuration geometry —
+is the null control *explaining* the quantity, which is a closure, not a
+lead). Nothing here is evidence for or against RH; nine pairs bound a sup
+over infinitely many from below and say nothing about Λ_DH itself. Spine
+candidate recorded in `flow_repair/NOTES.md`: a Φ-parametric entry point for
+`zeta/heatflow.py` (a `zeta/` change, not this hunt's).
+
 ### Hunt #3 — the closest call (`lehmer_pair/`)
 
 **Status: probe, complete. Instrument kept; no claim promoted; the headline
