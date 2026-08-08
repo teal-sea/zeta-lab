@@ -233,6 +233,37 @@ def test_an_open_question_must_say_what_would_settle_it() -> None:
     assert any("what_would_settle_it" in r for r in reasons), reasons
 
 
+def test_an_open_question_defaults_to_unresolved() -> None:
+    """No resolution means still open; that must not, by itself, be a reason."""
+    q = OpenQuestion(question="is it?", what_would_settle_it="a proof")
+    assert q.resolution == ""
+    assert dossier_reasons(_dossier(open_questions=(q,))) == ()
+
+
+def test_a_blank_resolution_is_refused() -> None:
+    """Whitespace-only resolution reads as resolved but answers nothing.
+
+    Distinct from leaving ``resolution=""``: that means open. A resolution
+    field that is *set* but empty of content is the schema's other failure
+    mode — decoration, exactly what ``dossier_reasons`` exists to catch.
+    """
+    reasons = dossier_reasons(
+        _dossier(
+            open_questions=(
+                OpenQuestion(question="is it?", what_would_settle_it="a proof", resolution="   "),
+            )
+        )
+    )
+    assert any("resolution" in r for r in reasons), reasons
+
+
+def test_a_real_resolution_is_accepted() -> None:
+    q = OpenQuestion(
+        question="is it?", what_would_settle_it="a proof", resolution="yes, see test_x"
+    )
+    assert dossier_reasons(_dossier(open_questions=(q,))) == ()
+
+
 def test_duplicate_obligation_names_are_refused() -> None:
     obligation = SemanticObligation(name="dup", statement="s", discriminating=True)
     reasons = dossier_reasons(_dossier(obligations=(obligation, obligation)))

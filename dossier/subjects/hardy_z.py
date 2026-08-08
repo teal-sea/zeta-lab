@@ -381,6 +381,19 @@ def build() -> Dossier:
                     "rather than a comment, a C-valued Z is the honest type"
                 ),
                 blocked_on="riemannZeta_conj and completedRiemannZeta_one_sub in Mathlib",
+                resolution=(
+                    "Both, additively. hardyZ_is_real was kernel-checked 2026-08-07 "
+                    "(see the subject-level formal record above), so "
+                    "lean/ZetaLean/HardyZ.lean now also carries hardyZReal : R -> R "
+                    "(:= (hardyZ t).re) plus real-valued restatements of the other "
+                    "four lemmas -- hardyZReal_eq_hardyZ, abs_hardyZReal_eq_abs_zeta, "
+                    "hardyZReal_even, hardyZReal_zero_iff, continuous_hardyZReal -- "
+                    "each derived from the existing C-valued ones via the R -> C "
+                    "coercion, without editing any of them. lake build, 8706 jobs, "
+                    "0 sorry, watched 2026-08-07. The original hardyZ : R -> C stays: "
+                    "it is what hardyZReal and its lemmas are proved against, not a "
+                    "rejected alternative."
+                ),
             ),
             OpenQuestion(
                 question=(

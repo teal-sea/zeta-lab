@@ -209,3 +209,45 @@ lemma continuous_hardyZ : Continuous hardyZ := by
         have hm : (m : ℝ) ≥ 0 := Nat.cast_nonneg m
         linarith
       exact H_g_ne_zero H_g_norm_zero
+
+/-!
+### The real-valued Z
+
+`hardyZ_is_real` proves every value of `hardyZ` equals some real number, but
+`hardyZ` itself is still typed `ℝ → ℂ` — the docstring at the top of this file
+flagged that as provisional ("the goal is to eventually type this as
+`ℝ → ℝ`"). This section meets that goal, purely additively: `hardyZReal` and
+everything below are *derived* from the five lemmas above via the coercion
+`ℝ → ℂ`, without editing a single one of them, so nothing already
+kernel-checked is put at risk by this section existing.
+-/
+
+/-- Hardy's Z, retyped `ℝ → ℝ` now that `hardyZ_is_real` is proved. -/
+noncomputable def hardyZReal (t : ℝ) : ℝ := (hardyZ t).re
+
+/-- `hardyZReal` and `hardyZ` agree under the standard `ℝ → ℂ` coercion. -/
+lemma hardyZReal_eq_hardyZ (t : ℝ) : (hardyZReal t : ℂ) = hardyZ t := by
+  obtain ⟨r, hr⟩ := hardyZ_is_real t
+  unfold hardyZReal
+  rw [hr, Complex.ofReal_re]
+
+/-- The real-valued Z has the same magnitude as `ζ(1/2 + it)`. -/
+lemma abs_hardyZReal_eq_abs_zeta (t : ℝ) :
+    |hardyZReal t| = ‖riemannZeta (1/2 + t * I)‖ := by
+  rw [← abs_hardyZ_eq_abs_zeta t, ← hardyZReal_eq_hardyZ t, Complex.norm_real,
+    Real.norm_eq_abs]
+
+/-- `hardyZReal` is even. -/
+lemma hardyZReal_even (t : ℝ) : hardyZReal (-t) = hardyZReal t := by
+  have h : (hardyZReal (-t) : ℂ) = (hardyZReal t : ℂ) := by
+    rw [hardyZReal_eq_hardyZ, hardyZReal_eq_hardyZ, hardyZ_even]
+  exact_mod_cast h
+
+/-- `hardyZReal t = 0` iff `ζ(1/2 + it) = 0`. -/
+lemma hardyZReal_zero_iff (t : ℝ) :
+    hardyZReal t = 0 ↔ riemannZeta (1/2 + t * I) = 0 := by
+  rw [← hardyZ_zero_iff t, ← hardyZReal_eq_hardyZ t, Complex.ofReal_eq_zero]
+
+/-- `hardyZReal` is continuous. -/
+lemma continuous_hardyZReal : Continuous hardyZReal :=
+  Complex.continuous_re.comp continuous_hardyZ

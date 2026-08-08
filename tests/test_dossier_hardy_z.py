@@ -241,6 +241,38 @@ def test_proved_cites_a_watched_dated_kernel_run_the_tree_corroborates(hardy_z) 
                 )
 
 
+def test_the_r_vs_c_open_question_is_resolved_and_the_tree_agrees(hardy_z) -> None:
+    """The other half of the staleness lesson: an answered question needs
+    somewhere to record the answer, or it goes stale exactly like a status
+    field does.
+
+    The R-vs-C open question asked to be settled by ``hardyZ_is_real`` being
+    proved in Lean; that happened (see the formal-axis tests above), so it is
+    resolved here rather than left to silently drift, and the resolution text
+    is checked against the tree so it cannot drift into fiction either.
+    """
+    q = next(
+        o for o in hardy_z.open_questions if o.question.startswith("Should the Lean definition")
+    )
+    assert q.resolution.strip(), "the R-vs-C question is settled and must say so"
+
+    source = (_REPO_ROOT / "lean/ZetaLean/HardyZ.lean").read_text(encoding="utf-8")
+    for lemma in (
+        "hardyZReal",
+        "hardyZReal_eq_hardyZ",
+        "abs_hardyZReal_eq_abs_zeta",
+        "hardyZReal_even",
+        "hardyZReal_zero_iff",
+        "continuous_hardyZReal",
+    ):
+        assert lemma in q.resolution, f"resolution doesn't mention {lemma}"
+        assert lemma in source, f"resolution cites {lemma}, which isn't in the Lean file"
+    assert "sorry" not in source
+    # the original C-valued API must still be there: this is meant to be
+    # additive, not a replacement, per the resolution's own claim
+    assert "noncomputable def hardyZ (t : ℝ) : ℂ" in source
+
+
 def test_stated_unchecked_may_not_cite_a_file_the_root_build_compiles(hardy_z) -> None:
     """The staleness tripwire — the mechanism whose absence caused an incident.
 

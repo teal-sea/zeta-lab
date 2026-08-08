@@ -178,11 +178,27 @@ class OpenQuestion:
 
     ``what_would_settle_it`` is required. A question recorded without one is a
     mood, and it is exactly what an agent resuming cannot act on.
+
+    ``resolution`` is the second half of the same discipline, added after a
+    worked example's first real incident: a formal-axis record went stale for
+    hours after external evidence satisfied it, because nothing coupled that
+    evidence to recorded status (see ``dossier/subjects/`` for the example and
+    its tests). An open question has exactly the same failure shape one level
+    up — ``what_would_settle_it`` can be satisfied while the record still says
+    "open" — so it gets the same fix: an explicit field to write the answer
+    into, rather than deleting or silently editing the question once it stops
+    being open. Left ``""`` (the default), the question is open. A non-blank
+    value is a claim that it no longer is, and per this schema's
+    history-keeping convention (never erase a superseded record, add the
+    correction next to it) the question and ``what_would_settle_it`` stay in
+    place as the record of what was asked and what would have answered it —
+    ``resolution`` is what did.
     """
 
     question: str
     what_would_settle_it: str
     blocked_on: str = ""
+    resolution: str = ""
 
 
 @dataclass(frozen=True)
@@ -307,6 +323,11 @@ def dossier_reasons(dossier: Dossier) -> tuple[str, ...]:
             question.what_would_settle_it,
             f"open question {question.question[:40]!r}: what_would_settle_it",
         )
+        if question.resolution and not question.resolution.strip():
+            reasons.append(
+                f"open question {question.question[:40]!r}: resolution is set "
+                "but blank — leave it '' if still open, or write the answer"
+            )
 
     reasons += list(support_reasons(dossier.support))
     return tuple(reasons)

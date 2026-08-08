@@ -118,10 +118,13 @@ def render_text(dossier: Dossier) -> str:
     if dossier.open_questions:
         _section(lines, "OPEN — and what would settle each")
         for question in dossier.open_questions:
-            lines.append(f"  ? {question.question}")
+            mark = "x" if question.resolution else "?"
+            lines.append(f"  {mark} {question.question}")
             lines.append(f"    settled by: {question.what_would_settle_it}")
             if question.blocked_on:
                 lines.append(f"    blocked on: {question.blocked_on}")
+            if question.resolution:
+                lines.append(f"    RESOLVED: {question.resolution}")
 
     if dossier.provenance is not None:
         _section(lines, "PROVENANCE")
