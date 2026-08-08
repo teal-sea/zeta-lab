@@ -59,6 +59,38 @@ instrument roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #3 — the closest call (`lehmer_pair/`)
+
+**Status: probe, complete. Instrument kept; no claim promoted; the headline
+is a negative result supplied by the rival.**
+
+Pointed the ball-arithmetic arm at Lehmer's pair γ₆₇₀₉/γ₆₇₁₀ ≈ 7005.06/7005.10
+(gap 0.0377, mean spacing 0.895). Measured, with raw numbers in
+`lehmer_pair/results.json`:
+
+- The near-miss bump between the pair was decided **positive at 64 bits by
+  both backends** — `proven_sign` pattern −,+,− on exact rationals, midpoints
+  agreeing on `Z(7005.0819) = 0.003967335016595021` to all 16 digits — and a
+  dense scan found exactly 2 sign changes with zero undecided samples.
+- **Lesion**: the default grid policy of `rigor.certified_sign_changes`
+  (mean_spacing/20 ≈ 0.0448) is *wider than the Lehmer gap*; sweeping the
+  window phase, the default grid missed the pair entirely at 1 of 5 phases.
+  Honest both times (a sign-change count is a lower bound), but blind.
+- **Precision response**: enclosure widths shrink ~2^−prec with the midpoint
+  pinned; at 32 bits flint straddles zero while mpmath.iv decides — the
+  backends disagree about *decidability* at the boundary, never about value.
+- **Rival, the headline**: the predicted "failed Lehmer bump" at
+  Davenport–Heilbronn's off-line zero does not exist — Z_dh's closest
+  approach on [85.2, 86.2] is **−0.357**, two orders of magnitude farther
+  from zero than ζ's bump clears it, while hiding 2 strip zeros. So
+  "|Z| gets small" flags nothing: it fires on ζ's healthiest close pair and
+  stays silent at an actual RH violation. Magnitude heuristics die here;
+  sign counting vs strip counting survives.
+
+**Disposition:** portrait, not conjecture — no ledger entry. Spine candidate
+recorded in `lehmer_pair/NOTES.md`: the default-step blind spot deserves a
+docstring line on the packaged scanner (a `zeta/` change, not this hunt's).
+
 ### Hunt #2 — factorization vs. position (`factorization_vs_position/`)
 
 **Status: probe, not established. The instrument used cannot support the

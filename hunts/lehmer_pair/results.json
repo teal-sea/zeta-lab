@@ -1,0 +1,217 @@
+{
+  "backends": [
+    "mpmath.iv",
+    "python-flint"
+  ],
+  "pair": {
+    "gamma_6709": "7005.06286617492058138034378359",
+    "gamma_6710": "7005.10056467264672156872043198",
+    "gap": 0.0376984977261402,
+    "local_mean_spacing": 0.8954856592858557
+  },
+  "three_point": {
+    "points": {
+      "left": "350251/50",
+      "bump": "70050819/10000",
+      "right": "140103/20"
+    },
+    "mpmath.iv": {
+      "signs": [
+        -1,
+        1,
+        -1
+      ],
+      "pattern_is_minus_plus_minus": true,
+      "wall_seconds": 1.076
+    },
+    "python-flint": {
+      "signs": [
+        -1,
+        1,
+        -1
+      ],
+      "pattern_is_minus_plus_minus": true,
+      "wall_seconds": 0.006
+    }
+  },
+  "window_scan": {
+    "t0": 7004.9,
+    "t1": 7005.3,
+    "mpmath.iv": {
+      "changes": 2,
+      "undecided_points": [],
+      "every_sample_decided": true,
+      "n_samples": 81,
+      "wall_seconds": 28.69
+    },
+    "python-flint": {
+      "changes": 2,
+      "undecided_points": [],
+      "every_sample_decided": true,
+      "n_samples": 81,
+      "wall_seconds": 0.027
+    }
+  },
+  "default_grid_lesion": {
+    "default_step_at_7005": 0.04477,
+    "lehmer_gap": 0.0376985,
+    "phases": [
+      {
+        "shift": 0.0,
+        "n_samples": 10,
+        "changes": 2,
+        "every_sample_decided": true
+      },
+      {
+        "shift": 0.009,
+        "n_samples": 10,
+        "changes": 2,
+        "every_sample_decided": true
+      },
+      {
+        "shift": 0.018,
+        "n_samples": 10,
+        "changes": 2,
+        "every_sample_decided": true
+      },
+      {
+        "shift": 0.027,
+        "n_samples": 10,
+        "changes": 0,
+        "every_sample_decided": true
+      },
+      {
+        "shift": 0.036,
+        "n_samples": 10,
+        "changes": 2,
+        "every_sample_decided": true
+      }
+    ],
+    "hits": 4,
+    "misses": 1
+  },
+  "precision_response": {
+    "bump_widths": {
+      "mpmath.iv": [
+        {
+          "prec_bits": 32,
+          "width": 0.006300766383901646,
+          "midpoint": 0.003948595982819825,
+          "sign_decided_at_this_prec": true
+        },
+        {
+          "prec_bits": 64,
+          "width": 1.458525699982215e-12,
+          "midpoint": 0.003967335016595571,
+          "sign_decided_at_this_prec": true
+        },
+        {
+          "prec_bits": 128,
+          "width": 7.939268524554317e-32,
+          "midpoint": 0.003967335016595021,
+          "sign_decided_at_this_prec": true
+        },
+        {
+          "prec_bits": 256,
+          "width": 2.3352980347672625e-70,
+          "midpoint": 0.003967335016595021,
+          "sign_decided_at_this_prec": true
+        }
+      ],
+      "python-flint": [
+        {
+          "prec_bits": 32,
+          "width": 0.01718204401731782,
+          "midpoint": 0.00396733537036198,
+          "sign_decided_at_this_prec": false
+        },
+        {
+          "prec_bits": 64,
+          "width": 4.069168360758594e-13,
+          "midpoint": 0.003967335016595021,
+          "sign_decided_at_this_prec": true
+        },
+        {
+          "prec_bits": 128,
+          "width": 2.2438074252019614e-32,
+          "midpoint": 0.003967335016595021,
+          "sign_decided_at_this_prec": true
+        },
+        {
+          "prec_bits": 256,
+          "width": 6.669683598632339e-71,
+          "midpoint": 0.003967335016595021,
+          "sign_decided_at_this_prec": true
+        }
+      ]
+    },
+    "approach_gamma_6709": [
+      {
+        "distance": "1e-3",
+        "mpmath.iv": {
+          "prec_bits": 64,
+          "sign": 1,
+          "width": 2.2827966326798473e-12
+        },
+        "python-flint": {
+          "prec_bits": 64,
+          "sign": 1,
+          "width": 3.9689799993266163e-13
+        }
+      },
+      {
+        "distance": "1e-6",
+        "mpmath.iv": {
+          "prec_bits": 64,
+          "sign": 1,
+          "width": 1.850880417793511e-12
+        },
+        "python-flint": {
+          "prec_bits": 64,
+          "sign": 1,
+          "width": 3.963466212945476e-13
+        }
+      },
+      {
+        "distance": "1e-9",
+        "mpmath.iv": {
+          "prec_bits": 64,
+          "sign": 1,
+          "width": 2.27597619894336e-12
+        },
+        "python-flint": {
+          "prec_bits": 64,
+          "sign": 1,
+          "width": 3.963459195277508e-13
+        }
+      },
+      {
+        "distance": "1e-12",
+        "mpmath.iv": {
+          "prec_bits": 128,
+          "sign": 1,
+          "width": 7.741276342300571e-32
+        },
+        "python-flint": {
+          "prec_bits": 64,
+          "sign": 1,
+          "width": 3.9634591910423433e-13
+        }
+      }
+    ]
+  },
+  "rival_dh": {
+    "window": [
+      85.2,
+      86.2
+    ],
+    "grid_signs_seen": [
+      -1
+    ],
+    "sign_changes_on_grid": 0,
+    "closest_approach_t": 85.7072102028884,
+    "closest_approach_Z": -0.35664519329371014,
+    "offline_zero": "0.80851718245663738555 + 85.699348485377592171929i",
+    "note": "float regime; the pinned strip-vs-line count is in tests/test_epstein.py"
+  }
+}
