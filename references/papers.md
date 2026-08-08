@@ -130,7 +130,42 @@ titles do not.
   attached" means; the Platt–Trudgian verification then gives the current
   record Λ ≤ 0.2.*
 
-## 6. Recent unconditional progress
+## 6. Zero dynamics under heat flow (the `hunts/flow_repair` connection)
+
+- **Cuenca, C. and C. McSwiggen — "The Rectangular Finite Free Heat
+  Flow"** ([arXiv:2606.06859](https://arxiv.org/abs/2606.06859), 2026).
+  Formalizes the ODE ż_k = 2Σ 1/(z_k − z_j) — the exact dynamics the
+  flow-repair null control integrates — as a Calogero–Moser particle system
+  in the finite free probability framework. Proves universality of the
+  zero-repulsion law for polynomials under heat flow. **[FREE]** on arXiv.
+  *For: the theoretical foundation of `hunts/flow_repair/` §3's 0.04%
+  PDE-vs-ODE agreement — the repair clock reads geometry because the
+  dynamics are universal in the CM sense.*
+- **Hall, B. C. and C.-W. Ho — "Zeros of random polynomials undergoing
+  the heat flow"** ([arXiv:2308.11685](https://arxiv.org/abs/2308.11685),
+  2023). Explores the heat-flow conjecture for random polynomials, details
+  the zero-repulsion dynamics through random matrices and Calogero–Moser.
+  **[FREE]** on arXiv. *For: the random-matrix side of the same coin —
+  why the CM dynamics explain zero motion for broad classes of entire
+  functions, not just ζ.*
+
+## 7. Zero spacings: the small-gap frontier
+
+- **Inoue, S. — "Small gaps between consecutive zeros of the Riemann
+  zeta-function"** ([arXiv:2604.05733](https://arxiv.org/abs/2604.05733),
+  2026). Breaks the long-standing Montgomery–Odlyzko practical barrier with a
+  "resonance-correlation method": μ < 0.50895 (conditional on RH).
+  **[FREE]** on arXiv. *For: the state-of-the-art result framing Lehmer
+  pairs; `hunts/lehmer_pair/` is a case study in the regime this bound
+  governs.*
+- **Goldston, D. A., T. S. Trudgian and C. Turnage-Butterbaugh —
+  "Limitations of the Montgomery–Odlyzko method"** (2022). Proves the
+  classical M-O method cannot show infinitely many pairs closer than 0.5042×
+  the average spacing without new techniques — the ceiling that Inoue's
+  resonance-correlation method then breaks. *For: the "why it is hard"
+  complement to the small-gap result; pairs with `docs/08`.*
+
+## 8. Recent unconditional progress
 
 - **Guth, L. and J. Maynard — "New large value estimates for Dirichlet
   polynomials"** (2024). The first improvement since Ingham (1940) on the
@@ -145,4 +180,7 @@ titles do not.
 - *Shortest honest path*: Bombieri → Conrey → Edwards chs. 1–3.
 - *This repo's spine*: Edwards (for `docs/01–04`) → Montgomery + Odlyzko
   (for `docs/06`) → Rodgers–Tao + Polymath15 (for `docs/05`).
+- *The hunts*: Cuenca–McSwiggen (for `hunts/flow_repair` null control) +
+  Inoue (for `hunts/lehmer_pair` spacing context) + Goldston–Trudgian–T-B
+  (for why the M-O method needed replacing).
 - *Calibration*: Guth–Maynard, to see the size of a genuine step.

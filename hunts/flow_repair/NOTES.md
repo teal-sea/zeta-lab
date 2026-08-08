@@ -144,15 +144,28 @@ t\* for pair 1 re-measured at dps 44 / 54 / 70 and contour node counts
 digit** (0.0441263445516239; spread 0.0). Δ(0) + 4y₀² = 4.7e-29 against
 the 50-digit pinned zero. The quantity is pinned; nothing wanders.
 
-## 6. Literature position (searched 2026-08-07, one networked pass)
+## 6. Literature position (searched 2026-08-07, two passes)
 
 No tabulated de Bruijn–Newman-type constant for the Davenport–Heilbronn
 function was found; adjacent work exists (generalized Newman constants
 for other families; the de Bruijn/Newman/Ki–Kim–Lee flow theory; the
 Rodgers–Tao lower bound and the Polymath 15 upper bound for ζ; Spira's
 and Balanzario–Sánchez-Ortiz's DH zero computations, which supplied the
-survey seeds). One search is a check, not a survey; the numbers above are
-measurements made for this tree, with no novelty claim attached.
+survey seeds). The measurement itself — Λ_DH ≥ 0.0577, repair times for
+nine off-line quadruples, the null-control agreement — appears
+unpublished as of this search. One search is a check, not a survey; the
+numbers above are measurements made for this tree, with no novelty claim
+attached.
+
+**Calogero–Moser connection.** The ODE ż_k = 2Σ 1/(z_k − z_j) that the
+null control integrates (§3) is formalized as a Calogero–Moser particle
+system for polynomial zeros under heat flow in Cuenca & McSwiggen,
+"The Rectangular Finite Free Heat Flow" (arXiv:2606.06859, 2026), and
+explored for random polynomials in Hall & Ho, "Zeros of random
+polynomials undergoing the heat flow" (arXiv:2308.11685, 2023). The
+0.04% PDE-vs-ODE agreement measured here is an empirical instance of
+their universality on a non-polynomial (DH) case. Both added to
+`references/papers.md` §6.
 
 ## Standing-checklist accounting
 

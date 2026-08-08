@@ -52,16 +52,16 @@ Regenerate the facts rather than editing them:
 Regenerate it whenever you add or rename a public function, a doc or a script.
 `llms.txt` is the short curated map for tools that look for one.
 
-## Working with multiple agents
+## Working with multiple agents (The "Mission Briefing" Pattern)
 
-Sequential use by different agents is fine and expected — pick up wherever the
-last one left off; this file plus `git log` is the handoff. Two caveats:
+Zeta Lab hosts multiple autonomous agents running in parallel across different branches or worktrees. To prevent scope creep and collisions:
 
-- Start by confirming the suite is green (see Setup); never build on top of a
-  tree you have not verified.
-- Only avoid *literally simultaneous* runs against the same checkout — modules
-  and tests are tightly coupled and `data/` caches are shared. If you ever do
-  want parallel work, use `git worktree add` so each agent gets its own tree.
+- **Global Context (`AGENTS.md`)**: This file defines the immutable laws of the lab. Every agent must obey it.
+- **Local Context (`MISSION.md`)**: Every active branch, worktree, or specific research directory (e.g. `hunts/`) must have a `MISSION.md` file at its root. This defines the agent's specific role and scope (e.g. "The Formalizer in `lean/`", "The Hunter in `hunts/`"). **Read `MISSION.md` before taking action.**
+- **Namespacing**: Do not pollute `zeta/` (core engine) or `ontology/` (agnostic machinery) with exploratory math. Put new conjecture hunts in their own isolated subdirectories under `hunts/`.
+- **Asynchronous Handoffs**: Agents should communicate by writing to the `conjectures/` ledger, rather than modifying shared core files simultaneously.
+- **Worktrees**: Only avoid *literally simultaneous* runs against the same checkout. If you ever do want parallel work, use `git worktree add` so each agent gets its own tree and its own `MISSION.md`.
+- **Verify First**: Start by confirming the suite is green (see Setup); never build on top of a tree you have not verified.
 
 ## Hard rules
 
@@ -80,10 +80,9 @@ last one left off; this file plus `git log` is the handoff. Two caveats:
   central habit: every number in a docstring is pinned by `tests/`; identities
   are exposed as measured *defect* functions (`functional_equation_defect`,
   `theta_modular_defect`, ...), not assumed.
-- **Honest-scope rule**: Zeta Lab is a computational and formal workbench that
-  reconstructs, tests, connects, and falsifies ideas around RH, without
-  claiming to advance RH. State that; do not hedge around it.
-  Nothing here is evidence for RH (Littlewood's theorem, `docs/08`). Never
+- **Honest-scope rule & Phase II Objective**: Zeta Lab is a computational and formal workbench.
+  Phase II's explicit Research Objective is to **produce one externally verified mathematical statement that humanity didn't previously know** (e.g. a new theorem, counterexample, bound, equivalence, or robust conjecture).
+  However, it still makes no claims to advance RH itself. Nothing here is evidence for RH (Littlewood's theorem, `docs/08`). Never
   write language implying a computation settles or supports RH; the sanctioned
   framing for the sign-change verification is "proof for the finite range,
   modulo the correctness of the floating-point sign evaluations". If a

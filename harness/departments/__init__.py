@@ -20,6 +20,7 @@ from types import ModuleType
 #: department; ``tests/test_department_conformance.py`` audits every entry.
 KNOWN_DEPARTMENTS: dict[str, str] = {
     "zeta": "harness.departments.zeta_department",
+    "finitefield": "harness.departments.finitefield_department",
 }
 
 __all__ = ["KNOWN_DEPARTMENTS", "load", "load_all"]
