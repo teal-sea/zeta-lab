@@ -189,17 +189,92 @@ def test_nothing_is_claimed_certified(hardy_z) -> None:
         assert obligation.support.certified.status != CertifiedStatus.CERTIFIED
 
 
-def test_nothing_is_claimed_proved(hardy_z) -> None:
-    """Nothing may say 'proved': no kernel run is on record in this environment.
+def test_proved_cites_a_watched_dated_kernel_run_the_tree_corroborates(hardy_z) -> None:
+    """'Proved' must cite a dated observation, and the tree must corroborate it.
 
-    The Lean source carries five complete lemmas with no ``sorry``, which is
-    why the axis reads ``stated-unchecked`` rather than ``not-attempted``. It
-    is not ``proved``, because reading a complete-looking proof is not
-    compiling it, and ``AGENTS.md`` says nothing counts until it compiles.
+    This test replaced ``test_nothing_is_claimed_proved`` on 2026-08-07, when a
+    kernel run was finally watched (lake build, 8706 jobs) and the axis moved
+    ``stated-unchecked`` → ``proved``. The upgrade rule it enforces: a PROVED
+    formal record must (a) carry a date, (b) name a lemma that exists in the
+    cited file, (c) cite a file with no ``sorry`` that the root build actually
+    wires in, and (d) — when git is available — cite an observation no older
+    than the file's last change, so editing HardyZ.lean re-opens the question.
+    Machine-checked *consistency*, human-recorded *observations*: the status
+    field never flips itself.
     """
-    assert hardy_z.support.formal.status == FormalStatus.STATED_UNCHECKED
-    for obligation in hardy_z.obligations:
-        assert obligation.support.formal.status != FormalStatus.PROVED
+    import re
+    import shutil
+    import subprocess
+
+    source = (_REPO_ROOT / "lean/ZetaLean/HardyZ.lean").read_text(encoding="utf-8")
+    root = (_REPO_ROOT / "lean/ZetaLean.lean").read_text(encoding="utf-8")
+
+    rec = hardy_z.support.formal
+    assert rec.status == FormalStatus.PROVED
+    records = [rec] + [
+        o.support.formal
+        for o in hardy_z.obligations
+        if o.support.formal.status == FormalStatus.PROVED
+    ]
+    assert len(records) >= 4, "the three lemma-backed obligations plus the subject record"
+    for r in records:
+        dates = re.findall(r"\d{4}-\d{2}-\d{2}", r.detail)
+        assert dates, f"a PROVED record must date its observation: {r.detail[:60]}"
+        assert "import ZetaLean.HardyZ" in root, (
+            "PROVED cites a build of a file the root build does not include"
+        )
+        assert "sorry" not in source
+        if r is not rec:  # obligation records lead with their lemma's name
+            lemma = r.detail.split(":", 1)[0].strip()
+            assert f"lemma {lemma}" in source, lemma
+        # (d) the observation must postdate the last edit of what it certifies
+        if shutil.which("git") and (_REPO_ROOT / ".git").exists():
+            last = subprocess.run(
+                ["git", "log", "-1", "--format=%ad", "--date=short", "--",
+                 "lean/ZetaLean/HardyZ.lean"],
+                cwd=_REPO_ROOT, capture_output=True, text=True,
+            ).stdout.strip()
+            if last:
+                assert max(dates) >= last, (
+                    "HardyZ.lean changed after the recorded kernel observation "
+                    "— re-observe (re-run lake build) and update the record"
+                )
+
+
+def test_stated_unchecked_may_not_cite_a_file_the_root_build_compiles(hardy_z) -> None:
+    """The staleness tripwire — the mechanism whose absence caused an incident.
+
+    History: this dossier spent 2026-08-07 10:49 → ~18:10 as stated-unchecked,
+    *correctly* — HardyZ.lean sat outside the root import, exactly where a
+    complete-looking proof can hide a non-compiling one. Commit 150ac05 then
+    wired the root import and its green build compiled the file for the first
+    time, and the record stayed stale for ~3 hours because no mechanism coupled
+    build evidence to recorded status.
+
+    The coupling, in this repository's own terms: the root build is the
+    certificate (docs/doors/certify.md), so a file wired into ZetaLean.lean has
+    been kernel-checked by whoever last built — and a formal record that stays
+    "stated-unchecked because not compiled" while its artifact is wired is
+    contradicted by the tree it cites. The moment such a wiring lands, this
+    fails and demands a recorded observation (or a demotion with reasons).
+
+    This reads text files only, so no missing toolchain can switch it off —
+    per the ROADMAP rule that a control the environment can disable is not a
+    control.
+    """
+    root = (_REPO_ROOT / "lean/ZetaLean.lean").read_text(encoding="utf-8")
+    wired = "import ZetaLean.HardyZ" in root
+    records = [hardy_z.support.formal] + [o.support.formal for o in hardy_z.obligations]
+    for r in records:
+        if (
+            r.status == FormalStatus.STATED_UNCHECKED
+            and (r.artifact or "").endswith("HardyZ.lean")
+        ):
+            assert not wired, (
+                "a formal record still reads stated-unchecked, but the root "
+                "build wires lean/ZetaLean/HardyZ.lean — the tree contradicts "
+                "the record; watch a build and update the dossier"
+            )
 
 
 def test_the_lean_file_really_has_those_lemmas_and_no_sorry(hardy_z) -> None:

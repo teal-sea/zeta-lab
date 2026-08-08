@@ -200,8 +200,12 @@ def build() -> Dossier:
                         artifact="references/papers.md",
                     ),
                     formal=AxisRecord(
-                        status=FormalStatus.STATED_UNCHECKED,
-                        detail="hardyZ_is_real, complete with no sorry; not compiled in this environment",
+                        status=FormalStatus.PROVED,
+                        detail=(
+                            "hardyZ_is_real: kernel run observed 2026-08-07 — "
+                            "lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
+                            "root import wired"
+                        ),
                         artifact="lean/ZetaLean/HardyZ.lean",
                     ),
                 ),
@@ -256,8 +260,12 @@ def build() -> Dossier:
                         artifact="tests/test_dossier_hardy_z.py::test_magnitude_matches_zeta",
                     ),
                     formal=AxisRecord(
-                        status=FormalStatus.STATED_UNCHECKED,
-                        detail="abs_hardyZ_eq_abs_zeta, complete with no sorry; not compiled here",
+                        status=FormalStatus.PROVED,
+                        detail=(
+                            "abs_hardyZ_eq_abs_zeta: kernel run observed 2026-08-07 — "
+                            "lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
+                            "root import wired"
+                        ),
                         artifact="lean/ZetaLean/HardyZ.lean",
                     ),
                 ),
@@ -303,8 +311,12 @@ def build() -> Dossier:
                         artifact="tests/test_dossier_hardy_z.py::test_Z_is_even",
                     ),
                     formal=AxisRecord(
-                        status=FormalStatus.STATED_UNCHECKED,
-                        detail="hardyZ_even, complete with no sorry; not compiled here",
+                        status=FormalStatus.PROVED,
+                        detail=(
+                            "hardyZ_even: kernel run observed 2026-08-07 — "
+                            "lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
+                            "root import wired"
+                        ),
                         artifact="lean/ZetaLean/HardyZ.lean",
                     ),
                 ),
@@ -336,15 +348,24 @@ def build() -> Dossier:
                 artifact="references/papers.md",
             ),
             formal=AxisRecord(
-                status=FormalStatus.STATED_UNCHECKED,
+                status=FormalStatus.PROVED,
                 detail=(
-                    "lean/ZetaLean/HardyZ.lean carries the definition and five complete "
-                    "lemmas with no sorry: hardyZ_is_real, abs_hardyZ_eq_abs_zeta, "
-                    "hardyZ_even, hardyZ_zero_iff, continuous_hardyZ. Not 'proved' here: "
-                    "the toolchain is not installed in this environment and nothing "
-                    "watched a kernel accept them, and per AGENTS.md nothing counts until "
-                    "it compiles. Note also that four other files under lean/ do carry "
-                    "sorrys; this claim is about HardyZ.lean alone."
+                    "lean/ZetaLean/HardyZ.lean: the definition and five complete lemmas "
+                    "— hardyZ_is_real, abs_hardyZ_eq_abs_zeta, hardyZ_even, "
+                    "hardyZ_zero_iff, continuous_hardyZ — accepted by the kernel in a "
+                    "watched run: lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
+                    "observed 2026-08-07. The root import has wired ZetaLean.HardyZ "
+                    "since 150ac05 (whose build compiled it for the first time); the "
+                    "file itself is unchanged since d11f297. 'Proved' is a statement "
+                    "about these five lemmas, not the dossier: the discriminating sign "
+                    "obligation remains not-attempted, so the formalisation is still "
+                    "complete about everything except the thing that makes Z worth "
+                    "defining. History kept deliberately: this record read "
+                    "stated-unchecked — correctly at the time, HardyZ.lean was outside "
+                    "the root import — and then stayed stale for ~3 hours after "
+                    "150ac05's green build, because nothing coupled build evidence to "
+                    "recorded status. That coupling now exists: the tripwire tests in "
+                    "tests/test_dossier_hardy_z.py."
                 ),
                 artifact="lean/ZetaLean/HardyZ.lean",
             ),

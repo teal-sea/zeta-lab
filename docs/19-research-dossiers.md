@@ -68,12 +68,22 @@ There is no `is_verified`, no score, and no ordering. `Support.__bool__`
 `tests/test_dossier_schema.py::test_support_has_no_truth_value` is the test
 that keeps it that way.
 
-The axes are not decoration. In the Hardy Z dossier they read
+The axes are not decoration. In the Hardy Z dossier they first read
 `agrees-to-tolerance / not-attempted / standard / stated-unchecked` — measured
 but not proved, no enclosure ever run, textbook in the literature, and a
-complete Lean proof that nothing here has watched a kernel accept. Any
-aggregate would have to invent a weighting across those four that nobody can
-defend. (That fourth value did not exist when this was written; see §5b.1.)
+complete Lean proof that nothing had watched a kernel accept. (That fourth
+value did not exist when this was written; see §5b.1.) Since 2026-08-07 the
+fourth axis reads `proved`: a watched `lake build` accepted the five lemmas,
+and the record carries the observation's date and toolchain. The upgrade
+exposed the schema's next gap in live use — the record stayed
+`stated-unchecked` for hours after the first green root build, because
+nothing coupled build evidence to recorded status. The coupling now exists
+as tests (`tests/test_dossier_hardy_z.py`): a PROVED record must cite a
+dated observation no older than the file it certifies, and a
+stated-unchecked record may not cite a file the root build compiles.
+Statuses stay human-recorded observations; the machine checks their
+consistency with the tree. Any aggregate would still have to invent a
+weighting across the four axes that nobody can defend.
 
 ## 4. What the schema refuses
 
