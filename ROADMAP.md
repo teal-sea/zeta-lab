@@ -682,6 +682,49 @@ reports will be appended as the deployment's shadow phase produces
 falsifiable numbers (catch rate, false-alarm rate, operator-confirmed
 findings).
 
+## Field report #2: the deployment's build phase closed with a measured spec sheet (2026-08-09)
+
+Still the deployment session's report, relayed and unverified here; recorded
+because three of its results are general lessons, not local ones.
+
+- **The spec sheet exists and is machine-regenerated** (a script rebuilds it
+  from the measured calibration record, so it cannot go stale by hand — the
+  staleness lesson institutionalized at birth). Over 98 real records:
+  **7 of 8 planted failure classes caught** above a declared 50% reliability
+  floor, each with its smallest-caught magnitude stated (12 hours, $30.96,
+  1 airport, 6 passengers, 1 vehicle, $120, 1 receipt).
+- **The eighth class is not missed — it is undetectable, and the report says
+  so by name.** A whole-booking timezone shift leaves the record internally
+  consistent; wrongness lives only against what the customer *asked for*,
+  which lives in the conversation, which has no link to the booking (the
+  dead join column from the census). The general lesson, worth keeping:
+  **record-internal checking can only catch contradictions; a coherent-but-
+  wrong record needs a linked origin artifact, and if the link does not
+  exist the class is structurally unverifiable** — declare it, never
+  average it away. This is the field version of the missing-vs-empty
+  distinction.
+- **The false-alarm number was interrogated instead of celebrated:** 16.3%
+  overall, but the dominant probe's 13 "false alarms" were hand-checked and
+  five of five examined turned out to be one real data defect and four
+  undocumented discounts — so the truthful name is *disagreement rate*, and
+  the alarms were findings. A checker's false alarms are themselves claims
+  requiring verification, in both directions.
+- **The deployment corrected its own earlier money claim** — an initial
+  "$460 across two bookings" (relayed into field report #1 as unverified)
+  was wrong, from a partial query; the measured figure is $264 on one
+  booking, plus three stale authorizations wanting voiding. The correction
+  came from measuring rather than reasoning, stated as such. Report #1's
+  numbers are superseded accordingly; operator verification of the payment
+  records remains pending and remains the correct posture.
+- Discipline audit as reported: zero write statements, zero mutating calls,
+  zero payment-API calls in the new code; migration written, not applied;
+  nothing scheduled; verdicts re-derived live, with the calibration record
+  the only thing read from disk — "a probe must not be allowed to vouch for
+  itself."
+
+Next falsifiable numbers arrive from the shadow phase (live catch rate,
+disagreement rate over time, operator-confirmed findings).
+
 ## The resumption benchmark ran, and the typed machinery did not earn its keep (2026-08-09)
 
 `docs/19` §6 named the only honest path by which `dossier/` could become a
