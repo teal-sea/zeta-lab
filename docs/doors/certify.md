@@ -73,8 +73,20 @@ it exposed that the original Phase A *statement* was false in Lean's
 semantics (Mathlib's junk value `Γ(0) = 0` broke the unguarded functional
 equation at `z = -1`) and too weak (no differentiability, so a patchwork `f`
 could fake the off-line zero); both defects are fixed in
-`ZetaLean/DavenportHeilbronn.lean`. What remains of rung 3 is the numeric
-half: a certified interval evaluation of the off-line zero itself
+`ZetaLean/DavenportHeilbronn.lean`.
+
+The topological step is also closed: `ZetaLean/DHZeroCriterion.lean` proves
+a minimum-modulus criterion (maximum modulus applied to `1/f` — no argument
+principle needed) and instantiates it on the radius-`1/10` disk around the
+oracle zero `0.808517 + 85.699348i`, so that
+`davenport_heilbronn_of_certified_disk` derives the **full**
+`davenport_heilbronn_statement` from exactly two interval inequalities:
+`‖DH‖ < 1/100` at the centre, `‖DH‖ ≥ 1/100` on the boundary sphere. The
+oracle says both hold with tenfold margin (`‖DH‖ ≈ 6.5e-7` at the centre,
+boundary minimum `≈ 0.121`). What remains of rung 3 is the numeric half —
+discharging those two hypotheses by certified interval evaluation of `DH`
+inside the kernel, which needs certified complex `exp`/`log` and
+Hurwitz-zeta continuation that `ZetaLean/Rigor.lean` does not yet have
 (`ZetaLean/OracleDH.lean` holds the oracle data, still uncertified).
 
 The ladder and the next rung live in `HANDOFF.md`;

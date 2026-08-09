@@ -17,10 +17,13 @@ where `χ_1` and `χ_2` are Dirichlet characters modulo 5, and `κ` is a specifi
 a sorried `theorem`: the lab's rule is that the Lean arm counts nothing with
 a `sorry`, and a statement asserts nothing, so it needs none.  Phase B — the
 open mountain — is the proof.  Its *analytic half* (a concrete entire
-function with the DH series and the functional equation) is now
-kernel-checked in `ZetaLean/DHAnalytic.lean`; the *numeric half* (certifying
-the off-line zero by interval evaluation, the Oracle Boundary Pattern; see
-`ZetaLean/DirichletEval.lean`) remains open.
+function with the DH series and the functional equation) is
+kernel-checked in `ZetaLean/DHAnalytic.lean`, and the topological step is
+closed by the minimum-modulus criterion of `ZetaLean/DHZeroCriterion.lean`,
+which derives the full statement from two interval inequalities about `DH`
+on a disk around the oracle zero.  The *numeric half* — discharging those
+two inequalities by certified interval evaluation (the Oracle Boundary
+Pattern; see `ZetaLean/DirichletEval.lean`) — remains open.
 
 **Two defects found and fixed in the original Phase A statement.**  The first
 draft of `davenport_heilbronn_statement` quantified the functional equation
