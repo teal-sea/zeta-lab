@@ -17,7 +17,7 @@ mutants (5/5 caught, 2026-08-08). **That external referee is not vendored
 here.** The instruments below — oracle, claims, decoys — were re-authored by
 the implementing process in this repository's own format, and are accepted
 only because they reproduce the independent calibration's verdicts: the same
-five mutants, still all killed, now through the unchanged
+five mutants, still all rejected, now through the unchanged
 `harness/protocol.py`. Who authored what: implementation and in-repo
 instruments by the implementer; the blind external referee and the five
 mutant classes by the independent party; the mutant diffs by the implementer
@@ -33,7 +33,7 @@ to the independent party's specification.
 | lesions | the other three calibration mutants as exact source patches, magnitudes **measured at import** as the share of a bounded behavioral fingerprint each changes |
 
 The distinguishing reference claim is exact agreement with an independent
-calendar-arithmetic oracle that never calls the subject; the killed reference
+calendar-arithmetic oracle that never calls the subject; the rejected reference
 claim is "accepts the API flag," true of every rival — presence of an API
 proves nothing about its semantics.
 

@@ -1,4 +1,4 @@
-# Door: bring a claim, have it attacked
+# Guide: test a claim against the controls
 
 **For you if** you have a structural claim about the zeros — a spectral
 operator, a positivity argument, a pattern in the statistics — and you want to
@@ -69,5 +69,5 @@ proof must live**. It is not evidence for RH, and nothing computed in this
 repository ever will be — see `docs/08-why-it-is-hard.md` for Littlewood's
 theorem and why a pattern holding for every computed case can still be false.
 
-Related: [discover.md](discover.md), for generating leads rather than killing
+Related: [discover.md](discover.md), for generating leads rather than refuting
 them.

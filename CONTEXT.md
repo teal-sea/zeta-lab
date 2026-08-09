@@ -297,7 +297,7 @@ Constants: `DATA_DIR`, `MERTENS_PINNED`, `BD_CONSTANT`, `ROBIN_THRESHOLD`, `ROBI
 
 ### `zeta/rigor.py` — Certified computation: enclosures instead of estimates.
 
-*1893 lines*
+*1892 lines*
 
 Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 
@@ -852,7 +852,7 @@ The falsification protocol with the subject factored out. Four instrument roles 
 
 ### `harness/protocol.py` — ``harness.protocol`` — four instrument roles, one battery, one department.
 
-*911 lines*
+*996 lines*
 
 - `class HarnessError` — Base class for every refusal this module issues.
 - `class BatteryError` — A battery is malformed, or is one that could not fail.
@@ -862,6 +862,7 @@ The falsification protocol with the subject factored out. Four instrument roles 
 - `class Surrogate` — A generator of observations that carry no substantive input.
 - `class Lesion` — A planted, known violation, used to measure a detector's power.
 - `class NamedDetector` — A detector the department stakes its power measurements on.
+- `class ClaimProbe` — An arbitrary claim, declared so the battery's *difficulty* can be measured.
 - `class Battery` — The instruments entitled to kill a department's claims.
 - `class BatteryVerdict` — Outcome of running one claim against the target and every rival.
 - `class AblationVerdict` — Outcome of swapping the substantive input for each decoy.
@@ -895,7 +896,7 @@ The falsification protocol with the subject factored out. Four instrument roles 
 
 ### `harness/integrity.py` — ``harness.integrity`` — the referee, refereed.
 
-*921 lines*
+*923 lines*
 
 Constants: `PASS`, `FAIL`, `UNKNOWN`, `CALIBRATED`, `DETECTOR_INADEQUATE`, `UNMEASURED`, `CONTAMINATED`, `HOLLOW`, `GRADES`, `SHAM_MODES`, `AUDIT_BLIND_SPOTS`
 
@@ -1021,7 +1022,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `SPECIMEN`, `TARGET`, `RIVAL
 
 ### `harness/departments/stateval_department.py` — Department #6: statistical model evaluation — claims about distributions.
 
-*717 lines*
+*716 lines*
 
 Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `N_FEATURES`, `W_TRUE`, `NOISE_SCALE`, `N_ROWS`, `RIDGE_LAMBDA`, `FRESH_SEEDS`, `FRESH_MARGIN`, `LESION_FRACTIONS`, `TARGET`, `RIVALS`, `SURROGATES`, `CLEAN_PROTOCOL`, `LESIONS`, `GAP_THRESHOLD`, `DETECTORS`, `BATTERY`, `REFERENCE_CLAIMS`, `DEPARTMENT`
 
@@ -1168,10 +1169,10 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1507 test functions across 47 files (the collected count differs where tests are parametrised):
+1509 test functions across 47 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
-- `tests/test_compiler_candidate.py` — 31
+- `tests/test_compiler_candidate.py` — 32
 - `tests/test_core.py` — 97
 - `tests/test_criteria.py` — 75
 - `tests/test_department_conformance.py` — 19
@@ -1195,7 +1196,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_harness_promotion.py` — 48
 - `tests/test_harness_protocol.py` — 49
 - `tests/test_harness_referee_department.py` — 12
-- `tests/test_harness_stateval_department.py` — 11
+- `tests/test_harness_stateval_department.py` — 12
 - `tests/test_harness_zeta_department.py` — 9
 - `tests/test_heatflow.py` — 38
 - `tests/test_hunt_probe_discipline.py` — 6

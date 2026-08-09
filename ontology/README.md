@@ -201,7 +201,7 @@ relation `dist_match`, defect = the Kolmogorov–Smirnov statistic.
 unattended generator will produce those by the thousand. Also rejects a payload
 whose defect *exceeds* its tolerance: that is a refutation of a relation, not a
 candidate relation, and it must be recorded as a `refuted` verdict against the
-claim it kills rather than smuggled in as a new observation.
+claim it rejects rather than smuggled in as a new observation.
 
 ### 1.4 `extremal` — a record over an explicitly bounded search
 
@@ -445,7 +445,7 @@ Every ontology has a blind spot. These are ours.
    equivalence, detect cycles, or propagate verdicts. Those checks need a view
    of the whole ledger; a single candidate record cannot earn them.
 5. **Anything about the *reason* a claim might be true.** The schema records
-   what was asserted, what supported it and what killed it. It has no
+   what was asserted, what supported it and what refuted it. It has no
    representation of a mechanism, a proof sketch or a heuristic — `proof_gap`
    is a sentence a human writes, not a structure a machine can check.
 6. **Degrees of belief.** A verdict is one of six states. There is no

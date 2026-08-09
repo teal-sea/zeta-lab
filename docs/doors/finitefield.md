@@ -23,7 +23,7 @@ First command:
 .venv/bin/python scripts/11_finite_field_rh.py
 ```
 
-## What is entitled to kill a claim here
+## What can refute a claim here
 
 | Role | Members | What they are |
 |---|---|---|

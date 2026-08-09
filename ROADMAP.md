@@ -227,7 +227,7 @@ whose job is to detect exactly that.
 ## The department architecture (2026-08-06)
 
 **The decision:** the laboratory extends by *department*, not by directory, and
-a department is defined by what can kill its claims.
+a department is defined by what can refute its claims.
 
 `ontology/` had already solved half of this — a domain-agnostic core plus
 subject-coupled plugins, seam enforced by tests rather than by intention. But
@@ -246,7 +246,7 @@ with known verdicts.
 refuses one with no rival (no modus tollens available to it), with neither
 decoy nor surrogate (no way to show an observation empty), or with no lesion
 (detector power assumed rather than measured). A department must further
-declare at least one reference claim its battery kills and one it passes,
+declare at least one reference claim its battery rejects and one it passes,
 because a battery that has only ever said "no" cannot be told apart from one
 that says no to everything.
 
@@ -302,7 +302,7 @@ Two ideas are under test, both narrow on purpose:
 
 **Why it is not a department, which is the useful part.** The admission rule
 needs rivals: things that share the claimed structure and lack the property.
-A dossier has none of its own. Killing the `|zeta(1/2+it)|` candidate is a
+A dossier has none of its own. Refuting the `|zeta(1/2+it)|` candidate is a
 claim about zeta, adjudicated by the *zeta* department's subject matter; the
 dossier layer contributed the bookkeeping, not the refutation. And a battery
 built from malformed dossiers would be a unit test of a validator wearing a
@@ -360,13 +360,13 @@ dated theorems is pointed at fertile ground. Three mechanisms, one shipped:
    settled mathematics (theorems, established results, disproofs). It reads
    the ledger's full verdicts, buckets a missing status as `unstated`
    (under-claiming, never inventing), and renders in `render_text`. Steering
-   rule: widen generators with high settled shares, starve ones whose kills
+   rule: widen generators with high settled shares, starve ones whose rejections
    are definitional. It is a statement about the catalogue's matches, and
    about nothing beyond them.
 
 2. **The review flywheel (protocol, not code).** Every survivor's operator
    literature check must end in one of exactly two places: a new `KnownFact`
-   with a citation when the search finds a match (so the funnel kills the
+   with a citation when the search finds a match (so the funnel rejects the
    observation itself next time), or a closure note in the private ledger
    repo when it does not (the Λ-mass case, 2026-08-06, is the worked
    example). A review that ends anywhere else — a chat transcript, a memory —
@@ -396,7 +396,7 @@ The realization it encodes: generating a plausible idea is now cheap, so the
 scarce resource is no longer ideas but **reliable rejection**. The loop here is
 *generate → attack → measure → discard → retain the evidence*, not *generate →
 explain convincingly → publish*. What makes that more than a slogan is that
-**the rejector is itself under test** — a battery must kill a reference claim
+**the rejector is itself under test** — a battery must reject a reference claim
 known to be empty *and* pass one known to be sound, lesions measure detector
 power rather than assuming it, and the vocabulary is governed too (`certified`
 has exactly one owner).
@@ -418,7 +418,7 @@ Three changes, all documentation and tests; no mathematics moved:
 ### `hunts/` classified as a probe area, and Hunt #2 withdrawn
 
 The same session pulled in `hunts/`, which made the gap concrete: a hunt is an
-exploratory attack that may record a claim *before* anything has tried to kill
+exploratory attack that may record a claim *before* anything has tried to refute
 it. Worth having — but unclassified, it is a directory where a probe can pass
 for a result. This follows the `dossier/` precedent above, and for the same
 reason: a hunt's rivals are the *zeta* department's rivals, and **a department
@@ -479,7 +479,7 @@ Two consequences, and the second is the one that matters:
 - **The cross-check was not running.** `test_rigor.py` carries five
   `skipif(not HAVE_FLINT)` cases, three of them reasoned *"needs both backends
   installed"*. Those are the Arb-vs-mpmath comparisons — the reason `rigor.py`
-  is entitled to the reserved word *certified* is that two independent ball
+  may use the reserved word *certified* is that two independent ball
   implementations agree, and only one was present. The suite reported `5
   skipped` and looked green.
 
@@ -509,7 +509,7 @@ both Frobenius roots off the circle. Hasse's theorem is precisely the
 statement that no curve realises them, which is what makes them fair rivals:
 the structure alone does not exclude them, only the theorem does. The
 calibration pair mirrors department #1's exactly — the functional equation is
-killed (shared with every counterfeit), the Hasse bound distinguishes.
+rejected (shared with every counterfeit), the Hasse bound distinguishes.
 
 **How it got here is the part worth recording.** The first draft found in the
 tree was a sham: its decoys, surrogates and lesions were placeholder objects
@@ -606,12 +606,12 @@ planted mutants — five caught, the surgical ones by exactly one aimed check
 each. That external suite is not vendored here; the in-repo instruments are
 the implementing process's re-expression, admitted only because they
 reproduce the independent calibration's verdicts (the same five mutants,
-still all killed). The department carries those mutants as exact source patches: the two
+still all rejected). The department carries those mutants as exact source patches: the two
 semantic ones as rivals, the other three as lesions whose magnitudes are
 measured at import (share of a bounded behavioral fingerprint each patch
 changes: 0.05 / 0.35 / 0.05), never asserted. The distinguishing reference
 claim is exact agreement with an independent calendar-arithmetic oracle that
-never calls the subject; the killed claim — "accepts the API flag," true of
+never calls the subject; the rejected claim — "accepts the API flag," true of
 every rival — pins that an API's presence proves nothing about its
 semantics.
 
@@ -774,13 +774,13 @@ in `docs/20-verification-integrity.md`; the short version:
   named checks, five crisp grades (no scalar), and a `ClaimReport` on which
   a green claim from a hollow battery renders as dangerous.
 - **The contract grew what the incidents demanded**: `NamedDetector` enters
-  admission (FINDINGS §8's gap — lesions without a staked detector are power
-  theater), `DetectorVerdict` measures specificity (a constant-True detector
+  admission (FINDINGS §8's gap — lesions without a staked detector leave power
+  unmeasured), `DetectorVerdict` measures specificity (a constant-True detector
   previously earned a perfect PowerVerdict), and departments declare `scope`
   and `provenance` (REDTEAM W2's contamination as a declarable field).
 - **Department #5 is the referee itself**: batteries as subjects, the
   reconstructed 431cc74 sham as the held-out rival, sham mutations as
-  lesions with measured magnitudes, the audit as the detector. Its killed
+  lesions with measured magnitudes, the audit as the detector. Its rejected
   reference claim — `validates_structurally`, true of the specimen and of
   every sham — makes "structural completeness is not verification" a
   re-derived measurement. The audit's two mechanical blind spots
@@ -871,7 +871,7 @@ payloads.
 Under §8's own scoring rule these are holes, and `SHAM_MODES` now names two
 more — `distant-rivals` and `detector-is-the-claim`, both `caught_by=None`.
 **The audit's real constraining power is over *mechanical* emptiness.** It has
-no purchase on the two choices that decide whether a battery can kill anything:
+no purchase on the two choices that decide whether a battery can reject anything:
 how near the rivals are, and whether the detector is independent of the claim.
 Both are the author's to pick, and every layer built on the grade — the
 promotion gate included — inherits that.

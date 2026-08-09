@@ -1,4 +1,4 @@
-# Door: the conjecture funnel, and its hit rate
+# Guide: the conjecture funnel, and its hit rate
 
 **For you if** you want to generate leads automatically — and, more usefully,
 to see what fraction of them survive.
@@ -51,5 +51,5 @@ otherwise checked, would be read as a set of claims.
 Publish `ontology.metrics.render_text`. Never the log. An empty
 `conjectures/` in a fresh clone is the rule working, not a bug.
 
-Related: [refute.md](refute.md) — the funnel generates leads, the battery kills
+Related: [refute.md](refute.md) — the funnel generates leads, the battery refutes
 them.

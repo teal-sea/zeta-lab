@@ -46,7 +46,7 @@ to contamination that is not literal duplication) and a behavioral
 measurably blind below its floor — two leaked rows of 64 move the gap by
 0.08, under the 0.1 threshold, and that blindness is pinned, not hidden).
 
-The killed reference claim is `reports_improvement`, true of everything in
+The rejected reference claim is `reports_improvement`, true of everything in
 the room: **a green number on a self-chosen benchmark distinguishes
 nothing.** The distinguishing claim is `improves_when_fresh` — beating the
 department's honest oracle (the mean predictor, computed by department code

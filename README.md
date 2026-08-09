@@ -1,52 +1,55 @@
-# Zeta — a laboratory with a referee
+# Zeta Lab
 
-This repository is two things, and the second is the reason to trust the
-first.
+A computational and formal workbench around the Riemann zeta function, plus
+a reusable validation framework for testing whether an empirical claim is
+about its subject at all.
 
-It is a working **laboratory for the Riemann Hypothesis** — the non-trivial
-zeros of ζ encode, exactly, where the prime numbers are, and RH says all of
-those zeros lie on one vertical line. Arbitrary-precision implementations of
-the classical machinery (theta functions, the functional equation, Hardy's Z,
-the explicit formula, GUE statistics, heat flow on Ξ, Weil positivity, the
-Davenport–Heilbronn counterexample), each identity *measured* rather than
-assumed, with 1704 tests pinning every claimed number. In ninety seconds you
-can watch the primes reconstructed from the zeros alone; in an afternoon you
-can read why none of this computes its way to a proof.
+Stated plainly, up front:
 
-And it is a **referee**: standing instruments whose job is to kill claims,
-plus the tests that prove the killing machinery itself works. That second
-thing is what this repository does best, so it comes first:
+- **Zeta Lab does not prove RH and does not claim progress toward proving
+  it.** If a computation here appears to settle something open, the working
+  assumption is a bug (`docs/00-orientation.md`).
+- `zeta/` implements the classical machinery at arbitrary precision: theta
+  functions, the functional equation, Hardy's Z, the explicit formula, GUE
+  statistics, heat flow on Ξ, Weil positivity, the Davenport–Heilbronn
+  counterexample. Identities are exposed as measured *defect* functions
+  rather than assumed, and every number claimed in a docstring is pinned by
+  a test.
+- `harness/` is a domain-agnostic validation framework: structure-matched
+  negative controls, ablations, null models, and planted faults, with the
+  detectors' own power and specificity measured. The non-zeta subjects
+  (curves over F_p, LLVM IR rewrites, cron schedule semantics, statistical
+  model evaluation) exist to test that the framework generalizes.
+- Two verification regimes are stronger than "numerically accurate":
+  `zeta/rigor.py` computes in interval/ball arithmetic, so every step
+  carries an enclosure; `lean/` holds Lean 4 + Mathlib proofs checked by
+  the kernel. Only these two may use the word *certified*, and they are
+  different claims — enclosure-carrying numerics vs kernel-checked symbolic
+  truth.
+- Failed and withdrawn claims are kept, together with the test that now
+  catches each mistake (`HANDOFF.md`, `hunts/README.md`).
 
-> A plausible claim now costs minutes to generate, so the scarce resource is
-> no longer ideas — it is **reliable rejection**. The operating loop here is
-> *generate → attack → measure → discard → retain the evidence*, and the
-> attacking is not left to taste. Every subject admitted to the tree must
-> arrive with the battery entitled to kill its claims — **no department
-> without a battery** — and the battery is calibrated in both directions: it
-> must demonstrably kill a reference claim known to be empty *and* pass one
-> known to be sound, because a referee that only ever says "no" is
-> indistinguishable from a broken one. The detectors themselves are tested,
-> by planting violations (*lesions*) and requiring that they be noticed. The
-> same discipline governs the vocabulary: *certified* is a reserved word that
-> only `zeta/rigor.py` may use, and everything else is at best *accurate*.
+## The validation framework
 
-The mathematics is **department #1** and the worked example.
-[`docs/17`](docs/17-the-falsification-harness.md) is the natural experiment:
-five independent claims of zero structure arrived in one day and the standing
-instruments dispatched all five, each verdict costing minutes and surviving
-independent rerun. The protocol those instruments became is `harness/` —
-domain-agnostic by test rather than by intention, and now carrying six
-departments: the mathematics, curves over F_p, LLVM IR rewrites, cron
-schedule semantics (a subject born outside this repository, refereed by the
-unchanged protocol), statistical model evaluation — and **the referee
-itself**. That last department exists because this repository twice caught
-its own verification being hollow while structurally perfect (a sham
-battery a human had to catch; a benchmark showing blinded agents miss
-hollow verification reliably), so the discipline was turned inward: every
-battery is audited, sham batteries are killed by name, every claim outcome
-travels with the integrity grade of the battery that produced it, and the
-audit's own blind spots are pinned in tests rather than hoped away.
-One command shows the whole arrangement, every verdict re-derived live:
+Any subject registered with `harness/` must supply a battery of controls
+that could actually fail: at least one structure-matched negative control
+(a *rival*: shares the structure a claim leans on, lacks the property),
+at least one ablation (*decoy*) or null model (*surrogate*), and at least
+one planted fault (*lesion*) that its detectors are required to notice.
+`validate_battery` refuses a battery missing any of these, because such a
+battery could never reject anything. Each subject also declares reference
+claims with known verdicts — at least one its battery must reject and one
+it must pass — and `tests/test_department_conformance.py` re-derives those
+verdicts rather than trusting the labels.
+
+The framework is applied to itself: the audit layer (`harness/integrity.py`)
+runs sixteen named checks against every battery, grades it, and pairs every
+claim outcome with the grade of the battery that produced it. This exists
+because the project twice caught its own verification being hollow while
+structurally complete (a placeholder battery a human had to catch, and a
+benchmark showing blinded agents reliably miss hollow verification); the
+known blind spots of the audit are themselves pinned in tests. One command
+runs the whole arrangement with every verdict re-derived live:
 
 ```bash
 .venv/bin/python -m harness.demo
@@ -55,49 +58,39 @@ One command shows the whole arrangement, every verdict re-derived live:
 ([`harness/README.md`](harness/README.md), [`docs/doors/`](docs/doors/README.md),
 [`docs/20`](docs/20-verification-integrity.md).)
 
-## Pick a door
+## Where to start
 
-This repository serves several purposes and they do not want the same first
-page. Each door below is short, names its audience, and gives one command.
-Everything after this section is department #1's manual — the mathematics,
-which runs its own show behind its own doors.
-
-| Door | For you if you want to… | First command |
+| Guide | For you if you want to… | First command |
 |---|---|---|
-| [learn](docs/doors/learn.md) | see the classical machinery happen, at arbitrary precision | `.venv/bin/python scripts/06_tour.py` |
-| [**refute**](docs/doors/refute.md) | **bring a claim about the zeros and have it attacked** | `.venv/bin/python scripts/23_gate_3_battery.py` |
-| [certify](docs/doors/certify.md) | work where nothing is measured — Lean proofs and interval enclosures | `cd lean && PATH="$HOME/.elan/bin:$PATH" lake build` |
-| [discover](docs/doors/discover.md) | run the conjecture funnel and see its hit rate | `.venv/bin/python scripts/13_discovery_run.py --dry-run` |
-| [adopt](docs/doors/adopt.md) | take the referee for a subject that is not ζ | `.venv/bin/python -m pytest -q -o addopts='' tests/test_harness_protocol.py tests/test_department_conformance.py` |
-
-New here and unsure? **[refute](docs/doors/refute.md)** — it is the one thing
-this repository does that a textbook, a notebook and a literature survey do
-not do for you. Here because the refereeing pattern is bigger than ζ?
-**[adopt](docs/doors/adopt.md)**.
+| [learn](docs/doors/learn.md) | see the classical machinery run at arbitrary precision | `.venv/bin/python scripts/06_tour.py` |
+| [refute](docs/doors/refute.md) | test a claim about the zeros against the control battery | `.venv/bin/python scripts/23_gate_3_battery.py` |
+| [certify](docs/doors/certify.md) | Lean proofs and interval enclosures | `cd lean && PATH="$HOME/.elan/bin:$PATH" lake build` |
+| [discover](docs/doors/discover.md) | run the conjecture funnel and see its measured hit rate | `.venv/bin/python scripts/13_discovery_run.py --dry-run` |
+| [adopt](docs/doors/adopt.md) | reuse the validation framework for a non-zeta subject | `.venv/bin/python -m pytest -q -o addopts='' tests/test_harness_protocol.py tests/test_department_conformance.py` |
 
 ## What this is (and is not)
 
-This is an **instrument for building real intuition and real numerics about
-RH** — for seeing the theorems happen, checking that formulas mean what you
-think they mean, and calibrating what "evidence" is worth in this subject
-(answer: nothing — see `docs/08-why-it-is-hard.md` for Littlewood's theorem
-and the failure catalogue of every obvious route).
+This is an instrument for building intuition and numerics about RH — for
+seeing the theorems happen, checking that formulas mean what you think they
+mean, and calibrating what "evidence" is worth in this subject (answer:
+nothing — see `docs/08-why-it-is-hard.md` for Littlewood's theorem and the
+failure catalogue of every obvious route).
 
-Zeta Lab is a **computational and formal workbench that reconstructs, tests,
-connects, and falsifies ideas around RH, without claiming to advance RH.** The
-house rule, from `docs/00-orientation.md`: *if a computation here appears to
-settle something, the correct inference is that there is a bug.*
+Zeta Lab reconstructs, tests, connects, and falsifies ideas around RH,
+without claiming to advance RH. House rule, from `docs/00-orientation.md`:
+*if a computation here appears to settle something, the correct inference is
+that there is a bug.*
 
-The laboratory has two certainty regimes. The numerical machinery in `zeta/`
-is *accurate* (and `zeta/rigor.py` alone may say *certified*, for quantities
-whose every step carried an enclosure). The second regime is new: `lean/` is
-a Lean 4 + Mathlib project whose theorems are checked by a proof kernel —
-not measured at all. It climbs a deliberate ladder: rung 1 (done) wires the
-lab's ground-truth facts to their Mathlib proofs; rung 2 formalizes the κ
-derivation behind the Davenport–Heilbronn counterexample; rung 3 targets the
-Davenport–Heilbronn theorem itself — the certified statement that zeta-shaped
-symmetry alone cannot give RH. Nothing in `lean/` counts until it compiles
-with zero `sorry`s.
+There are two certainty regimes. The numerical machinery in `zeta/` is
+*accurate* (and `zeta/rigor.py` alone may say *certified*, for quantities
+whose every step carried an enclosure). `lean/` is the second: a Lean 4 +
+Mathlib project whose theorems are checked by a proof kernel, not measured.
+It proceeds in stages: stage 1 (done) ties the lab's ground-truth facts to
+their Mathlib proofs; stage 2 formalizes the κ derivation behind the
+Davenport–Heilbronn counterexample; stage 3 targets the Davenport–Heilbronn
+theorem itself — the kernel-checked statement that zeta-shaped symmetry
+alone cannot give RH. Nothing in `lean/` counts until it compiles with zero
+`sorry`s.
 
 ## Quickstart
 
@@ -255,13 +248,13 @@ Every dependency is ordinary: `mpmath`, `numpy`, `scipy`, `matplotlib`,
     ```
 
     Seven generators mine the laboratory's computed objects for candidate
-    observations; a catalogue and six screens try to kill them; every step is
+    observations; a catalogue and six screens filter them; every step is
     logged, so the conversion rate *per generator* can be measured. On a fresh
     ledger the seven produce 32 candidates, and the funnel's verdict on them is
     26 already known (81.2 %), 1 trivial, 5 inconclusive, 0 survivors. That
-    table is the point of the exercise: most numerical "discoveries" are
-    already known or trivial, and a system that does not measure its own hit
-    rate is measuring its operator's enthusiasm. A survivor, when one appears,
+    table is the deliverable: most numerical "discoveries" are already known
+    or trivial, and a pipeline that does not measure its own hit rate has no
+    way to know this about itself. A survivor, when one appears,
     is a **lead** — not a result, not evidence for RH — and "not recognised
     offline" is not novelty: there is no network here, so nothing was looked
     up. (The survivor path is exercised end to end by an opt-in candidate —
@@ -279,7 +272,7 @@ Read [`AGENTS.md`](AGENTS.md) first — setup, house rules, the naming traps,
 and how to run the suite.
 
 All figures: `python scripts/make_figures.py --quick` regenerates the
-twenty PNGs in `figures/` in a couple of minutes (seconds when cached).
+PNGs in `figures/` in a couple of minutes (seconds when cached).
 
 ## The idea this repo is organised around
 
@@ -414,8 +407,8 @@ zeta/               the package (flat layout; pip install -e .)
   li.py             Li's criterion (λ_n) and Jensen polynomials (real-rootedness)
   finitefield.py    curves over F_p — the one RH that is a THEOREM, checked by counting
   criteria.py       four equivalence faces: Mertens, Baez-Duarte, Robin/Lagarias, Speiser
-  plots.py          the twenty publication figures
-ontology/           the conjecture factory: a discovery funnel that logs itself
+  plots.py          the publication figures
+ontology/           the conjecture funnel — a discovery pipeline that logs itself
   schema.py         what a candidate observation is; five kinds, six verdicts, dedup
   registry.py       the plug-in seam: Generator, Screen, KnownnessDetector, Domain
   ledger.py         append-only JSONL: the candidate stream and the run stream
@@ -423,25 +416,26 @@ ontology/           the conjecture factory: a discovery funnel that logs itself
   metrics.py        the conversion tables (an empty denominator is None, never 0.0)
   knownness.py      the already-known gate: PSLQ closed forms, a fact registry, no novelty
   historical_cases.py  replay claims whose outcome is already settled
-  domains/          THE ONLY PLACE THAT KNOWS THE SUBJECT (zeta_domain, zeta_history)
-harness/            the referee: four instrument roles (rival, decoy, surrogate,
-                    lesion), a Battery, a Department — domain-agnostic by test
-  departments/      THE ONLY PLACE THAT KNOWS THE SUBJECT (zeta_department)
-hunts/              PROBES, NOT RESULTS — exploratory attacks that borrow
-                    department #1's battery; nothing here is a finding until it
-                    has been through a door that can say yes (hunts/README.md)
-lean/               the certified arm: Lean 4 + Mathlib (package ZetaLean);
-                    kernel-checked theorems, zero sorrys — `lake build`
+  domains/          the only subject-aware code in the package (zeta_domain, zeta_history)
+harness/            the validation framework: four control roles (rival, decoy,
+                    surrogate, lesion), a Battery, a Department — domain-agnostic
+                    by test
+  departments/      the only subject-aware code in the package (zeta_department)
+hunts/              exploratory studies, explicitly not results — they borrow the
+                    zeta battery, and a claim counts only after passing the
+                    battery or the funnel (hunts/README.md)
+lean/               Lean 4 + Mathlib (package ZetaLean); kernel-checked
+                    theorems, zero sorrys — `lake build`
 scripts/            01–05 and 07–13 one demo each, 06_tour.py runs the whole
                     story, make_figures.py regenerates figures/
 docs/               00–13, the reading course (see the table above)
-tests/              1704 tests (1648 in the fast tier); every number claimed in
-                    a docstring is pinned
+tests/              the pytest suite; every number claimed in a docstring is
+                    pinned by a test
 data/               caches (zero tables as .json are committed; .npz scans
                     regenerate on first use)
-conjectures/        the discovery ledger — GITIGNORED, a private notebook of
+conjectures/        the discovery ledger — gitignored, a private notebook of
                     unreviewed leads; publish the metrics report, never the log
-figures/            the twenty-two PNGs linked above
+figures/            the PNGs linked above
 references/         annotated reading list (papers.md), plus mathlib-open-targets.md
                     — generated: what Mathlib says it wants and does not have
 ```

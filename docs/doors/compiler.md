@@ -46,7 +46,7 @@ module's vocabulary:
    department still does not have, named in `backend_status()` rather than
    hidden.
 
-## What is entitled to kill a claim here
+## What can refute a claim here
 
 | Role | Members | What they are |
 |---|---|---|
@@ -58,7 +58,7 @@ module's vocabulary:
 Two facts worth knowing before bringing a claim:
 
 - **Shorter is not evidence.** All three rivals match the target's
-  instruction count. The killed reference claim (`no_more_instructions`)
+  instruction count. The rejected reference claim (`no_more_instructions`)
   makes that a measurement rather than a maxim.
 - **The two detectors have measured, different power.** The concrete run
   finds one wrong answer in 65536 and misses a poison violation covering

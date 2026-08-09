@@ -4,7 +4,7 @@
 this document is about the refereeing. It exists because 2026-08-05 produced
 an unusually clean natural experiment: five independent claims of
 Riemann-zero structure arrived in a single day from exploratory "rogue lab"
-sessions, and the repository's standing instruments dispatched all five —
+sessions, and the repository's existing controls refuted all five —
 four rejected, one confirmed-negative by its own pre-registered prediction —
 without any of the verdicts depending on taste.*
 

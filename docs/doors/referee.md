@@ -18,7 +18,7 @@ contradictions nearly everywhere and reliably missed hollow verification.
 The harness's own admission rule — work whose claims nothing can falsify is
 not a department — applied to verification claims themselves, demands this
 department: until it existed, "this battery is trustworthy" was a claim
-nothing in the tree could kill.
+nothing in the tree could refute.
 
 **The battery.**
 
@@ -31,7 +31,7 @@ nothing in the tree could kill.
 | lesions | `harness.shams` mutations planted in the specimen, magnitudes **measured at import** as the fraction of audit checks each flips |
 
 The detector is the integrity audit itself as a predicate — quiet on the
-specimen, fires on every planted corruption. The killed reference claim is
+specimen, fires on every planted corruption. The rejected reference claim is
 `validates_structurally`, true of the specimen and of every sham alike:
 **structural completeness is not verification**, stated as a measurement.
 The distinguishing claim is `audits_calibrated`, the full audit at grade

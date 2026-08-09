@@ -32,7 +32,7 @@ context. That is by design and the fallback is correct — but it is roughly
 0.76 s to over twenty minutes, which reads as a hung fast tier, not a slow
 one), and the five `skipif(not HAVE_FLINT)` tests silently disappear. Three of
 those say *"needs both backends installed"*: they are the Arb-vs-mpmath
-cross-check that is the whole reason `rigor.py` is entitled to the word
+cross-check that is the whole reason `rigor.py` may claim the word
 *certified*. **A suite that reports "5 skipped" here is not exercising that
 cross-check**, so a fresh clone should install `python-flint` (it is pinned in
 `requirements.txt`) rather than treat the skips as normal.
@@ -52,16 +52,25 @@ Regenerate the facts rather than editing them:
 Regenerate it whenever you add or rename a public function, a doc or a script.
 `llms.txt` is the short curated map for tools that look for one.
 
-## Working with multiple agents (The "Mission Briefing" Pattern)
+## Multiple agents / parallel sessions
 
-Zeta Lab hosts multiple autonomous agents running in parallel across different branches or worktrees. To prevent scope creep and collisions:
+Several agents or sessions may work this repository in parallel, on branches
+or worktrees. To prevent scope creep and collisions:
 
-- **Global Context (`AGENTS.md`)**: This file defines the immutable laws of the lab. Every agent must obey it.
-- **Local Context (`MISSION.md`)**: Every active branch, worktree, or specific research directory (e.g. `hunts/`) must have a `MISSION.md` file at its root. This defines the agent's specific role and scope (e.g. "The Formalizer in `lean/`", "The Hunter in `hunts/`"). **Read `MISSION.md` before taking action.**
-- **Namespacing**: Do not pollute `zeta/` (core engine) or `ontology/` (agnostic machinery) with exploratory math. Put new conjecture hunts in their own isolated subdirectories under `hunts/`.
-- **Asynchronous Handoffs**: Agents should communicate by writing to the `conjectures/` ledger, rather than modifying shared core files simultaneously.
-- **Worktrees**: Only avoid *literally simultaneous* runs against the same checkout. If you ever do want parallel work, use `git worktree add` so each agent gets its own tree and its own `MISSION.md`.
-- **Verify First**: Start by confirming the suite is green (see Setup); never build on top of a tree you have not verified.
+- **Repo-wide rules**: this file. **Per-area scope**: an active branch,
+  worktree, or exploratory directory (e.g. under `hunts/`) carries a
+  `MISSION.md` stating what that work is and is not allowed to touch — read
+  it before acting there.
+- **Namespacing**: keep exploratory math out of `zeta/` (core) and
+  `ontology/` (domain-agnostic); new exploratory work goes in its own
+  subdirectory under `hunts/`.
+- **Handoffs**: communicate through the `conjectures/` ledger rather than
+  editing shared core files simultaneously.
+- **Worktrees**: avoid literally simultaneous runs against the same
+  checkout; for parallel work use `git worktree add` so each agent gets its
+  own tree.
+- **Verify first**: confirm the suite is green (see Setup) before building
+  on a tree.
 
 ## Hard rules
 
@@ -99,7 +108,7 @@ Zeta Lab hosts multiple autonomous agents running in parallel across different b
   `cd lean && PATH="$HOME/.elan/bin:$PATH" lake build`. Nothing there counts
   until it compiles with zero `sorry`s — a `sorry` is an uncertified step,
   tracked in the file, never hidden. Lean proofs and `rigor.py` enclosures are
-  the only two things in the repo entitled to the word "certified", and they
+  the only two things in the repo that may use the word "certified", and they
   are different regimes (kernel-checked symbolic truth vs enclosure-carrying
   numerics); say which one you mean.
 - **"Certified" is a reserved word.** Only `zeta/rigor.py` may claim it, and
@@ -161,75 +170,73 @@ Zeta Lab hosts multiple autonomous agents running in parallel across different b
   `ontology/README.md` before touching any of it. `ontology` is not part of
   the editable install, so a script that imports it must put the repo root on
   `sys.path` (derived from `__file__` — see `scripts/13_discovery_run.py`).
-- Package: `harness/` — the referee, factored out of the laboratory, and the
-  package that makes the lab extensible by **department**. `protocol.py` is
+- Package: `harness/` — the validation framework, factored out of the
+  laboratory; subjects plug in as **departments**. `protocol.py` is
   domain-agnostic under the same three seam tests as `ontology/schema.py` and
-  defines four instrument roles — `Subject` (the genuine article and its
-  rivals), `Decoy` (ablation), `Surrogate` (null control), `Lesion` (detector
-  power) — bundled into a `Battery`, plus a `Department` = battery + door +
-  reference claims. Subject matter lives only in `harness/departments/`;
-  `zeta_department.py` is department #1 and the worked example.
-  **The admission rule is `no department without a battery`**: `validate_battery`
-  refuses one with no rival, with neither decoy nor surrogate, or with no
-  lesion, because such a battery could never fail. A department must also
-  declare reference claims with known verdicts — at least one its battery kills
-  and one it passes — so a referee that only ever says "no" is caught.
+  defines four control roles — `Subject` (the genuine article and its rivals,
+  i.e. structure-matched negative controls), `Decoy` (ablation), `Surrogate`
+  (null model), `Lesion` (planted fault for detector power) — bundled into a
+  `Battery`, plus a `Department` = battery + guide page + reference claims.
+  Subject matter lives only in `harness/departments/`; `zeta_department.py`
+  is the worked example. Admission rule: `validate_battery` refuses a battery
+  with no rival, with neither decoy nor surrogate, or with no lesion — such a
+  battery could never fail. A department must also declare reference claims
+  with known verdicts — at least one its battery rejects and one it passes —
+  so a validator that only ever says "no" is caught.
   `tests/test_department_conformance.py` is parametrized over
   `harness.departments.KNOWN_DEPARTMENTS`, so listing a department there is
   what turns its audit on. Read `harness/README.md` before adding one. Like
   `ontology`, it is not part of the editable install.
-  Since 2026-08-09 the package also carries the **verification-integrity
-  layer** (`docs/20-verification-integrity.md` is the record): three more
-  domain-agnostic files under the same seam tests — `provenance.py`
+  The package also carries the verification-integrity layer
+  (`docs/20-verification-integrity.md` is the record): `provenance.py`
   (independence/contamination as declared data), `integrity.py` (16 named
-  checks → five crisp grades, the `SHAM_MODES` catalog with pinned blind
-  spots, and `ClaimReport`, which pairs every claim outcome with its
-  battery's integrity grade and cannot state one without the other), and
-  `shams.py` (planted battery corruptions — the lesion principle one level
-  up). The Department contract now also requires declared `detectors`
-  (power *and* specificity measured; a constant-True detector is caught)
-  and a `scope`, and accepts a `provenance` record. Six departments are
-  registered: `zeta`, `finitefield`, `compiler`, `croniter`, `referee`
-  (the verification machinery as its own subject; the reconstructed
-  431cc74 sham is its held-out rival) and `stateval` (distributional
-  claims; forced `run_null_band` and `payloads_same` into the shared
-  layer). `python -m harness.demo` runs everything live;
+  checks → five grades, the `SHAM_MODES` catalog with pinned blind spots,
+  and `ClaimReport`, which pairs every claim outcome with its battery's
+  integrity grade and cannot state one without the other), and `shams.py`
+  (planted battery corruptions — the planted-fault principle applied to the
+  batteries themselves). The Department contract also requires declared
+  `detectors` (power *and* specificity measured; a constant-True detector is
+  caught) and a `scope`, and accepts a `provenance` record. Six departments
+  are registered: `zeta`, `finitefield`, `compiler`, `croniter`, `referee`
+  (the verification machinery as its own subject; the reconstructed 431cc74
+  sham battery is its held-out negative control) and `stateval`
+  (distributional claims; contributed `run_null_band` and `payloads_same` to
+  the shared layer). `python -m harness.demo` runs everything live;
   `python -m harness.new_department <name>` scaffolds questions, not
   placeholder instruments.
-  Since 2026-08-09 it also carries **`preregistration.py` + `promotion.py`**
-  (`docs/21-forward-deployed-verification.md` is the record, and it is a
-  **probe**, not a new spine obligation). They make the grade *enforcing*
+  `preregistration.py` + `promotion.py`
+  (`docs/21-forward-deployed-verification.md` is the record; this is an
+  experiment, not a spine obligation) make the integrity grade enforcing
   rather than advisory: `decide()` turns a `ClaimReport` into ALLOW/BLOCK
   with every machine-readable reason at once, `Boundary.audit()` reconciles
   `promoted/` against `decisions/` so a bypass is visible, and
   `Preregistration` records the digests of evidence that already existed at
-  freeze time, which makes contamination and criteria drift **derived** from
-  artifacts rather than read off a declaration. `NaiveGate` lives in the same
-  file as the mandatory null control — it passes the clean, blind and
-  honestly-declared-contaminated cases just as well, and the only thing
-  separating the two is a report that declares itself clean while its
-  artifacts disagree. Two results are recorded as failures, not reframed:
-  the mirror condition (gate more permissive than naive) is unreachable, and
-  **the gate inherits every blind spot of the audit beneath it** — it
-  promotes a held-out hollow battery's claim with an empty reason list.
-  Read `docs/21` §10 before treating any of it as a capability.
-- Package: `dossier/` — **a probe, not a department.** An experiment in
-  representing mathematical research state (intent, definition, rejected
-  alternatives, semantic obligations, evidence) so an agent can *resume* work.
-  Two ideas under test: intent is data, and "verified" is four independent
-  things — `status.py` keeps `numeric` / `certified` / `literature` / `formal`
-  apart, offers no aggregate, and `Support.__bool__` **raises** so `if support:`
-  cannot silently collapse them. Same three seam tests as `ontology/schema.py`;
-  subject matter only in `dossier/subjects/`. One worked example (Hardy Z), one
-  CLI (`scripts/50_dossier.py`). It is registered in no department and has no
-  door **on purpose**: a dossier has no rivals of its own, and *a department
-  whose battery is another department's battery is not a department*
+  freeze time, so contamination and criteria drift are derived from
+  artifacts rather than read off a declaration. `NaiveGate` is the mandatory
+  null control in the same file — it passes the clean, blind and
+  honestly-declared-contaminated cases just as well; only a report that
+  declares itself clean while its artifacts disagree separates the two. Two
+  negative results are recorded as failures, not reframed: the mirror
+  condition (gate more permissive than naive) is unreachable, and the gate
+  inherits every blind spot of the audit beneath it — it promotes a held-out
+  hollow battery's claim with an empty reason list. Read `docs/21` §10
+  before treating any of it as a capability.
+- Package: `dossier/` — an experiment, not a department. It represents
+  mathematical research state (intent, definition, rejected alternatives,
+  semantic obligations, evidence) so an agent can *resume* work. Two ideas
+  under test: intent is data, and "verified" is four independent things —
+  `status.py` keeps `numeric` / `certified` / `literature` / `formal` apart,
+  offers no aggregate, and `Support.__bool__` raises so `if support:` cannot
+  silently collapse them. Same three seam tests as `ontology/schema.py`;
+  subject matter only in `dossier/subjects/`. One worked example (Hardy Z),
+  one CLI (`scripts/50_dossier.py`). Deliberately registered in no
+  department: a dossier has no negative controls of its own, and a
+  department whose battery belongs to another department is not a department
   (`docs/19-research-dossiers.md` §6).
-- `hunts/` — **probes, not departments.** Scoped exploratory attacks, with
-  permission to be wrong in public and the one place a claim may be written
-  down before anything has tried to kill it. Nothing in `hunts/` is a result;
-  a hunt cannot become a department by growing, for the same reason `dossier/`
-  cannot. Read `hunts/README.md` before adding one.
+- `hunts/` — exploratory studies, not departments and not results. The one
+  place a claim may be recorded before any control has been run against it.
+  A hunt cannot become a department by growing, for the same reason
+  `dossier/` cannot. Read `hunts/README.md` before adding one.
 - Project: `lean/` — the certified arm: a Lean 4 + Mathlib package
   (`ZetaLean`) formalizing, rung by rung, facts the laboratory measures.
   `ZetaLean/GroundTruth.lean` is rung 1 (ζ(2), ζ(0), ζ(4), the zero-free
@@ -241,12 +248,12 @@ Zeta Lab hosts multiple autonomous agents running in parallel across different b
   funnel's operator console (`--dry-run`, `--report`).
 - `docs/` 00–21: a reading course; keep cross-references consistent with
   actual filenames (doc 05 is `05-de-bruijn-newman.md`).
-  `docs/doors/` is the switchboard: one short page per way in (learn, refute,
-  certify, discover) plus one page per department. The repo has one spine and
-  several doors — a purpose costs a door plus a test that the door still works,
-  and a purpose that will not pay that stays a document, not a directory.
-  `README.md` is the switchboard, not the manual; do not let it grow back into
-  a single 400-line front door for four different audiences.
+  `docs/doors/` holds the entry-point guides: one short page per audience
+  (learn, refute, certify, discover, adopt) plus one page per department.
+  Adding a purpose to the repo costs a guide page plus a test that the page's
+  command still works; a purpose that will not pay that stays a document, not
+  a directory. Keep `README.md` an index, not a manual — do not let it grow
+  back into a single 400-line front page for four different audiences.
 - `tests/` pytest; `data/` caches; `figures/` PNGs; `references/papers.md`;
   `conjectures/` the discovery ledger — **gitignored**, a private notebook of
   unreviewed leads (only `.gitkeep` is tracked). Nothing in it is evidence for

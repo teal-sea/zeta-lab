@@ -1,26 +1,27 @@
-# `hunts/` — probes, not departments
+# `hunts/` — exploratory studies
 
-A **hunt** is an exploratory attack: a scoped directory where an agent or a
-person chases a specific idea hard, with permission to be wrong in public.
-Hunts are where the fun is, and the tree wants them.
+A **hunt** is an exploratory study: a scoped directory where an agent or a
+person pursues one specific idea, with the understanding that most such
+ideas fail.
 
-They are also the one place in this repository where a claim can be written
-down before anything has tried to kill it. So the classification is explicit:
+`hunts/` is the one place in this repository where a claim can be written
+down before any control has been run against it. So the classification is
+explicit:
 
-> **A hunt is a probe. Nothing in `hunts/` is a result.**
+> **A hunt is exploratory. Nothing in `hunts/` is a result — not a result,
+> and not evidence.**
 
-Per `docs/doors/README.md` and `harness/README.md`, the admission rule for a
-*department* is **no department without a battery** — a body of work whose
-claims nothing in this tree can falsify is not a department, it is a probe,
-and probes belong where nobody will mistake one for a result. That place is
-here.
+Per `harness/README.md`, the admission rule for a *department* is
+**no department without a battery** — work whose claims nothing in this tree can
+falsify is not a department; it is exploratory, and exploratory work belongs
+where nobody will mistake it for a result. That place is here.
 
-A hunt can never become a department by growing, and the reason is the one
-`ROADMAP.md` records for `dossier/`: a hunt's rivals are the *zeta*
-department's rivals, and **a department whose battery is another department's
-battery is not a department**. A hunt borrows department #1's referee. That is
-the correct relationship, not a deficiency — but it does mean the referee has
-to actually be invoked.
+A hunt can never become a department by growing, for the reason `ROADMAP.md`
+records for `dossier/`: a hunt's negative controls are the *zeta*
+department's, and a department whose battery belongs to another department
+is not a department. A hunt borrows the zeta battery. That is the correct
+relationship, not a deficiency — but the battery does have to actually be
+invoked.
 
 ## What a hunt may and may not do
 
@@ -33,12 +34,12 @@ to actually be invoked.
 
 A hunt that wants its claim to count takes it through the battery
 (`docs/doors/refute.md`) or the funnel (`docs/doors/discover.md`). Those are
-the two doors that can say "yes", and neither of them is the hunt itself.
+the two routes that can say "yes", and neither of them is the hunt itself.
 
-## The standing checklist, in this repo's own idiom
+## The standing checklist
 
 Before a hunt's finding leaves `hunts/`, it must have survived the four
-instrument roles — and the checks are the ones the tree already owns:
+control roles — and the checks are the ones the tree already owns:
 
 1. **Rival.** Does the claim also hold for a function that shares the
    structure and violates RH? `zeta.epstein.battery`. Note the trap below:

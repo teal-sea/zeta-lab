@@ -50,7 +50,7 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 - [docs/14-how-new-mathematics-gets-invented.md](docs/14-how-new-mathematics-gets-invented.md): eleven ways new mathematics has been invented, scored against the Frobenius gap.
 - [docs/15-the-f1-discovery-engine.md](docs/15-the-f1-discovery-engine.md): the F1 discovery engine.
 - [docs/16-poisson-cokernel-plan.md](docs/16-poisson-cokernel-plan.md): the cokernel plan, and the experiment that closed the matrix route.
-- [docs/17-the-falsification-harness.md](docs/17-the-falsification-harness.md): **the methods retrospective** — five claims of zero structure arrived in one day and standing instruments dispatched all five. Start here for the refereeing.
+- [docs/17-the-falsification-harness.md](docs/17-the-falsification-harness.md): **the methods retrospective** — five claims of zero structure arrived in one day and the existing controls refuted all five. Start here for the validation methodology.
 - [docs/18-five-longshots.md](docs/18-five-longshots.md): five longshot probes, each run to its wall.
 - [docs/19-research-dossiers.md](docs/19-research-dossiers.md): the dossier probe — representing research state; §6 is why it is not a department.
 
@@ -71,7 +71,7 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
   departments, so adding one adds its audit.
 - The integrity layer ([docs/20](docs/20-verification-integrity.md)):
   batteries are themselves audited (`harness/integrity.py`, sixteen checks,
-  five grades, no scalar), sham batteries are killed by name
+  five grades, no scalar), hollow batteries are rejected by name
   (`harness/shams.py`, `SHAM_MODES`), every claim outcome travels with its
   battery's integrity grade, and the audit's own blind spots are pinned in
   tests. Department #5 (`referee`) is the verification machinery as its own

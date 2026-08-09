@@ -133,7 +133,7 @@ returning `UNKNOWN` (here `payload-symmetry`, unreachable because the payloads
 are callables rather than mappings) does not prevent the top grade. The scoring
 rule in §8 was "every mode they find that the catalog lacks is a real hole";
 these are holes, and the audit's real constraining power is over *mechanical*
-emptiness, not over the two choices that decide whether a battery can kill
+emptiness, not over the two choices that decide whether a battery can reject
 anything — how near the rivals are, and whether the detector is independent of
 the claim. Both are the author's to pick.
 
@@ -149,7 +149,7 @@ fact. That boundary is printed on every report.
 ## 5. The referee as department #5
 
 `harness/departments/referee_department.py`. Batteries are the subjects.
-The killed reference claim is `validates_structurally` — true of the
+The rejected reference claim is `validates_structurally` — true of the
 calibrated specimen *and of every sham rival*, measured, which makes
 "structural completeness is not verification" a re-derived verdict rather
 than a slogan. The distinguishing claim is the full audit at CALIBRATED.

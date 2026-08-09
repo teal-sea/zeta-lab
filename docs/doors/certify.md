@@ -1,4 +1,4 @@
-# Door: the two certainty regimes
+# Guide: the two certainty regimes
 
 **For you if** you care about the difference between a number that is *accurate*
 and a statement that is *proved*, and want to work where nothing is measured.
@@ -15,7 +15,7 @@ Most of this repository is **accurate**: high-precision numerics, cross-checked
 against independent oracles, with every claimed number pinned by a test. That
 is a real property and a weaker one than proof.
 
-Two things here are entitled to the word *certified*, and they mean different
+Two things here may use the word *certified*, and they mean different
 things:
 
 | Regime | What it is | Where |

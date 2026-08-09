@@ -1,4 +1,4 @@
-# Door: take the referee for a subject that is not ζ
+# Guide: reuse the validation framework for a subject that is not ζ
 
 **For you if** you care less about the Riemann Hypothesis than about the
 problem it forced this repository to solve: when plausible ideas cost minutes
@@ -38,7 +38,7 @@ the claim is true:
 
 The part most easily missed, and the part most worth taking: **the battery is
 itself under test, in both directions.** A department must declare at least
-one reference claim its battery kills and one it passes, and the conformance
+one reference claim its battery rejects and one it passes, and the conformance
 suite re-derives both verdicts — because a referee that only ever says "no"
 looks exactly like a strict one until you hand it something known to be
 sound. The lesions close the loop on the other side: a detector that has

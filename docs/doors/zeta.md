@@ -20,7 +20,7 @@ Modules: `zeta.core`, `zeta.zeros`, `zeta.explicit`, `zeta.statistics`,
 `zeta.heatflow`, `zeta.weil`, `zeta.epstein`, `zeta.rigor`, `zeta.li`,
 `zeta.criteria`, `zeta.moments`.
 
-## What is entitled to kill a claim here
+## What can refute a claim here
 
 | Role | Members | Source |
 |---|---|---|
@@ -47,7 +47,7 @@ the labels:
 
 | Claim | Expected | Why |
 |---|---|---|
-| `claim_functional_equation` | **killed** | true of ζ *and* of every rival; a symmetry shared with functions that violate RH cannot be why RH holds |
+| `claim_functional_equation` | **rejected** | true of ζ *and* of every rival; a symmetry shared with functions that violate RH cannot be why RH holds |
 | `claim_multiplicativity` | **distinguishes** | the fingerprint of an Euler product; false for every rival |
 
 Together they pin the battery in both directions. A referee that has only ever

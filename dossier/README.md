@@ -18,7 +18,7 @@ design and for §6, which explains why this is deliberately *not* a department.
 
 `harness/README.md`'s admission rule is **no department without a battery**,
 and a battery needs rivals — things that share the claimed structure and lack
-the property. A dossier has no rivals of its own: killing the `|ζ(½+it)|`
+the property. A dossier has no rivals of its own: refuting the `|ζ(½+it)|`
 candidate is a claim about ζ, adjudicated by the *zeta* department's subject
 matter. **A department whose battery is another department's battery is not a
 department.**
