@@ -5,4 +5,5 @@ import ZetaLean.Rigor
 import ZetaLean.DirichletEval
 import ZetaLean.OracleDH
 import ZetaLean.DavenportHeilbronn
+import ZetaLean.DHAnalytic
 import ZetaLean.HardyZ
