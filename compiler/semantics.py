@@ -605,7 +605,10 @@ def _eval_binop(instr: _Instr, a, b):
         if ub_ == 0:
             raise _ImmediateUB
         if op == "udiv":
-            return ua // ub_
+            quotient = ua // ub_
+            if "exact" in instr.flags and ua != quotient * ub_:
+                return POISON
+            return quotient
         if op == "urem":
             return ua % ub_
         if sa == -(1 << (width - 1)) and sb == -1:
@@ -614,6 +617,8 @@ def _eval_binop(instr: _Instr, a, b):
         if (sa < 0) != (sb < 0):
             quotient = -quotient
         if op == "sdiv":
+            if "exact" in instr.flags and sa != quotient * sb:
+                return POISON
             return _unsigned(quotient, width)
         return _unsigned(sa - quotient * sb, width)
     if op == "and":

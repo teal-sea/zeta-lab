@@ -301,6 +301,26 @@ def test_the_model_sees_the_poison_lesion_the_binary_cannot() -> None:
     assert "with respect to" in report.evidence
 
 
+@pytest.mark.parametrize("op", ("udiv", "sdiv"))
+def test_exact_division_marks_nonmultiples_poison(op: str) -> None:
+    """LLVM ``exact`` division is poison whenever the remainder is nonzero."""
+    ir = textwrap.dedent(
+        f"""
+        define i8 @f(i8 %x, i8 %y) {{
+        entry:
+          %r = {op} exact i8 %x, 2
+          ret i8 %r
+        }}
+        """
+    )
+    table = semantics.model_output_table(ir)
+    assert sum(value is semantics.POISON for value in table) == 32768
+    defined = sum(
+        value is not semantics.POISON and value is not semantics.UB for value in table
+    )
+    assert defined == 32768
+
+
 def test_concrete_detector_power_is_reported_as_blindness_not_as_a_pass() -> None:
     verdict = run_power(
         dept.BATTERY, dept.concrete_detector, payload=catalog.LESION_HOST, name="exhaustive_i8_run"

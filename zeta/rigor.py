@@ -1313,7 +1313,7 @@ _WEIL_MIN_R = 8
 #: Everything else in the computation carries a ball.
 _WEIL_ASSUMPTIONS = [
     "Rosser–Schoenfeld 1962, Thm 12: psi(x) < 1.03883·x for all x > 0 "
-    "(used as 26/25; enters the gaussian prime-tail bound only)",
+    "(used as 26/25; enters the gaussian and autocorrelation prime-tail bounds)",
     "archimedean tail lemma: |Re psi(1/4+ir/2) - log pi| <= log(r+2) + 8 "
     "for r >= 6 (derived from the psi partial-fraction series in the "
     "enclose_weil_functional docstring; spot-checked by ball arithmetic "
@@ -1890,4 +1890,3 @@ def enclose_weil_functional(
         "cross_checks": checks,
         "wall_seconds": time.time() - started,
     }
-

@@ -291,7 +291,8 @@ def test_result_dict_states_its_limits():
         h, g, n_max=200, R=40, prec_bits=96, cross_check=False
     )
     assert "mpmath.iv has no certified quadrature" in r["two_backend_cross_check"]
-    assert any("Rosser" in a for a in r["assumptions"])
+    rosser = next(a for a in r["assumptions"] if "Rosser" in a)
+    assert "gaussian and autocorrelation" in rosser
     assert any("lemma" in a for a in r["assumptions"])
     assert r["backend"] == "python-flint"
     assert r["param_exact"] == "1/25"

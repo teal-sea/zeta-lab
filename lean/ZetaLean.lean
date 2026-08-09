@@ -2,6 +2,7 @@ import ZetaLean.Basic
 import ZetaLean.GroundTruth
 import ZetaLean.Epstein
 import ZetaLean.Rigor
+import ZetaLean.IntervalExp
 import ZetaLean.DirichletEval
 import ZetaLean.OracleDH
 import ZetaLean.DavenportHeilbronn

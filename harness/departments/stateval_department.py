@@ -125,7 +125,6 @@ __all__ = [
     "oracle_fresh_mean_mse",
     "claim_reports_improvement",
     "claim_improves_when_fresh",
-    "apparent_improvement",
     "gap_detector",
     "overlap_scan",
 ]

@@ -55,6 +55,11 @@ def test_every_subject_reports_an_improvement() -> None:
     assert _reported("crippled-baseline") == pytest.approx(1.0, abs=1e-3)
 
 
+def test_every_public_export_exists() -> None:
+    for name in S.__all__:
+        assert hasattr(S, name), f"__all__ names {name!r}, which does not exist"
+
+
 def test_only_the_target_beats_the_oracle_on_fresh_draws() -> None:
     target_ratios = _fresh_ratios(S.TARGET)
     assert max(target_ratios) < 0.4, target_ratios  # genuine skill, with margin
