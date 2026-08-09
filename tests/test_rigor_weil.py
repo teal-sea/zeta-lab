@@ -154,6 +154,34 @@ def test_autocorrelation_cap_guard():
         enclose_weil_functional(h, g, R=40, prec_bits=64, cross_check=False)
 
 
+@pytest.mark.slow
+def test_certified_collapse_along_the_gaussian_family():
+    # the near-tightness story (zeta.weil.near_tightness_report) with
+    # enclosures: W collapses like 2e^{-a*gamma1^2} as h concentrates on
+    # the zero-free gap.  Here that is a chain of CERTIFIED strict
+    # inequalities W(0.02) > W(0.08) > W(0.2) > 0 spanning sixteen orders
+    # of magnitude, and the two-point log-slope lands on -gamma1^2
+    # (~-199.79, measured -199.84) — the lowest zero speaking through
+    # certified arithmetic.
+    import math
+
+    rows = []
+    for a in ("0.02", "0.08", "0.2"):
+        h, g = certified_gaussian_pair(a)
+        r = enclose_weil_functional(
+            h, g, n_max=20000, prec_bits=192, cross_check=False
+        )
+        assert r["certified"] and r["sign"] == 1, f"a={a}"
+        rows.append(r["W_enclosure"])
+    # enclosure-to-enclosure comparisons: each lo beats the next hi
+    assert rows[0][0] > rows[1][1] > 0
+    assert rows[1][0] > rows[2][1] > 0
+    slope = (math.log(float(rows[2][0])) - math.log(float(rows[0][1]))) / (
+        0.2 - 0.02
+    )
+    assert -202 < slope < -197  # gamma1^2 = 199.79...
+
+
 # ---------------------------------------------------------------------------
 # the safe failure mode: undecided is 0, never a guess
 # ---------------------------------------------------------------------------
