@@ -56,7 +56,9 @@ from zeta.rigor import (
     BACKEND,
     BACKEND_REASON,
     available_backends,
+    certified_gaussian_pair,
     enclose_Z,
+    enclose_weil_functional,
     enclosure_width_report,
     proven_sign,
     verify_rh_certified,
@@ -250,6 +252,43 @@ def section_failure_mode() -> dict:
     return {"undecided_at_32": s32 == 0, "proven_at_64": s64 != 0}
 
 
+def section_weil_positivity() -> dict:
+    """The certified Weil functional: positivity with error bars, not luck."""
+    print("6)  CERTIFIED WEIL POSITIVITY  —  W(h) > 0 as an enclosure, not a verdict")
+    print()
+    if "python-flint" not in available_backends():
+        print("    (skipped: flint-only — mpmath.iv has no certified quadrature)")
+        print()
+        return {"skipped": True}
+    print("    RH  ⇔  W(h) ≥ 0 for every admissible h (Weil).  The near-tight")
+    print("    Gaussian a = 0.2 has W ≈ 8.86e-18 emerging from pieces of size ~2:")
+    print("    eighteen digits of cancellation, exactly where floats can lie.")
+    print()
+    h, g = certified_gaussian_pair("0.2")
+    r = enclose_weil_functional(h, g, n_max=20000, prec_bits=256,
+                                cross_check=False)
+    lo, hi = r["W_enclosure"]
+    with mp.workdps(30):
+        print(f"      W enclosure at 256 bits : [{_fmt(lo, 20)}, {_fmt(hi, 20)}]")
+        print(f"      width                   : {_fmt(hi - lo, 3)}")
+    print(f"      sign                    : {r['sign']:+d}   ← PROVEN positive "
+          f"(certified = {r['certified']})")
+    r48 = enclose_weil_functional(h, g, n_max=2000, prec_bits=48,
+                                  cross_check=False)
+    lo48, hi48 = r48["W_enclosure"]
+    with mp.workdps(30):
+        print(f"      same W at 48 bits       : [{_fmt(lo48, 4)}, {_fmt(hi48, 4)}]"
+              f"   ← straddles 0, sign = {r48['sign']} (undecided, and says so)")
+    print()
+    print("    Finitely many certified instances are not evidence for RH (docs/08);")
+    print("    they are positivity statements that no longer rest on floating-point")
+    print("    luck.  A certified negative W would disprove RH — per the house rule,")
+    print("    the correct first inference from one is a bug.")
+    print()
+    return {"sign": r["sign"], "certified": r["certified"],
+            "undecided_at_48": r48["sign"] == 0}
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description=(
@@ -304,6 +343,7 @@ def main() -> None:
     if not args.no_compare:
         comparison = section_contrast(args.T, cert)
     modes = section_failure_mode()
+    weil = section_weil_positivity()
 
     print("=" * 78)
     print("HEADLINE")
@@ -320,6 +360,9 @@ def main() -> None:
         print("    rigor here is not the slow option; it is the one that assumes less.")
     print(f"  • Undecidability is reported, not hidden: proven_sign returned 0 at 32 bits "
           f"({modes['undecided_at_32']}).")
+    if not weil.get("skipped"):
+        print("  • Weil positivity at the near-tight Gaussian (W ~ 9e-18, 18 digits of "
+              f"cancellation) was PROVEN (sign = {weil['sign']:+d}).")
     print("  • And none of this is evidence for RH — it is a finite interval, made "
           "trustworthy (docs/08).")
     print(f"[{time.time() - t0:.1f} s]")

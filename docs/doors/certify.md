@@ -40,6 +40,18 @@ back to floats, that is a critical defect, not a rounding detail.
 .venv/bin/python scripts/09_certified_verification.py
 ```
 
+## Certified Weil positivity
+
+`rigor.enclose_weil_functional` encloses the Weil functional W(h) — the
+arithmetic side of the explicit formula, whose nonnegativity over all
+admissible h is *equivalent* to RH. The near-tight Gaussian member
+(W ≈ 8.86e-18 out of pieces of size ~2, eighteen digits of cancellation)
+comes back certified positive. Two limits, stated where they bind: it is
+flint-only (mpmath's `iv` has no certified quadrature, so the two-backend
+cross-check cannot run there — the returned dict says so), and finitely many
+certified instances are not evidence for RH (`docs/08`); they are positivity
+statements that no longer rest on floating-point luck.
+
 ## The Lean ladder
 
 `lean/` climbs deliberately, and **nothing counts until it compiles with zero

@@ -756,6 +756,9 @@ def weil_functional(h, g, n_max: int | None = None, dps: int = 25) -> mpf:
     the verified zeros and is not evidence for RH (``docs/08``); a computed
     W(h) < 0 beyond the numerical noise floor would, per the house rule,
     almost certainly be a bug — but a *true* such value would disprove RH.
+
+    This is the *accurate* W(h).  For an enclosure-carrying one (Gaussian and
+    Fejér pairs, Arb backend) see :func:`zeta.rigor.enclose_weil_functional`.
     """
     return _arithmetic_pieces(h, g, n_max, dps)["arithmetic_side"]
 
@@ -796,7 +799,8 @@ def positivity_probe(
     a = 0.2 member is ~9e-18 out of pieces of size ~2, and still comes back
     positive.  Note the word: ``noise_floor`` is a conservative *estimate*, so
     ``positive`` is an ordinary floating-point verdict, not a ball-arithmetic
-    certificate.  :mod:`zeta.rigor` is where the repo says "certified".  The
+    certificate.  :func:`zeta.rigor.enclose_weil_functional` is the certified
+    version of the same quantity (and confirms that a = 0.2 sign).  The
     minimum-margin entry is flagged ``is_tightest`` — for these families that
     is always the member whose h is most concentrated inside the zero-free
     gap (-γ₁, γ₁).

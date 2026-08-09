@@ -166,7 +166,7 @@ Constants: `DEFAULT_DPS`, `H0_RELATION`, `PHI_STRIP`
 
 ### `zeta/weil.py` — The Riemann–Weil explicit formula as a computable object, and Weil positivity.
 
-*964 lines*
+*968 lines*
 
 Constants: `GAMMA1`
 
@@ -297,7 +297,7 @@ Constants: `DATA_DIR`, `MERTENS_PINNED`, `BD_CONSTANT`, `ROBIN_THRESHOLD`, `ROBI
 
 ### `zeta/rigor.py` — Certified computation: enclosures instead of estimates.
 
-*1324 lines*
+*1893 lines*
 
 Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 
@@ -309,6 +309,10 @@ Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 - `certified_zero_count(T, prec_bits: int = 192, max_segments: int = 4096, backend: str | None = None, cross_check: bool = True) -> dict` — Certified N(T) = #{ρ : ζ(ρ) = 0, 0 < Im ρ < T} by the argument principle.
 - `verify_rh_certified(T, prec_bits: int = 64, count_prec_bits: int = 192, n_samples: int | None = None, max_samples: int = 200001, max_escalations: int = 8, backend: str | None = None, compare_floating: bool = True, cache: bool = True, verbose: bool = False) -> dict` — Rigorous counterpart of :func:`zeta.zeros.verify_rh_up_to`.
 - `enclosure_width_report(t_values: Sequence, prec_bits_list: Sequence[int], backend: str | None = None) -> list[dict]` — How the enclosure width of Z(t) shrinks with working precision.
+- `certified_gaussian_pair(a) -> tuple` — Ball-valued Gaussian pair ``h(r) = exp(-a r²)`` for the certified W(h).
+- `certified_fejer_pair(b) -> tuple` — Ball-valued Fejér pair ``h(r) = (sin br / br)²`` for the certified W(h).
+- `certified_autocorrelation_pair(coeffs, spacing = 2, sigma = '0.35') -> tuple` — Ball-valued positive-type pair from an autocorrelation, h = |f̂|².
+- `enclose_weil_functional(h_cert: Callable, g_cert: Callable, n_max: int | None = None, R: int | None = None, prec_bits: int = 192, backend: str | None = None, cross_check: bool = True) -> dict` — Rigorous enclosure of the Weil functional W(h) = pole + arch + prime.
 
 ### `zeta/inverse.py` — Inverse spectral theory: the Wu–Sprung potential, and what it cannot show.
 
@@ -1133,7 +1137,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1443 test functions across 45 files (the collected count differs where tests are parametrised):
+1459 test functions across 46 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_compiler_candidate.py` — 31
@@ -1171,6 +1175,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_quasicrystal.py` — 9
 - `tests/test_relations.py` — 7
 - `tests/test_rigor.py` — 50
+- `tests/test_rigor_weil.py` — 16
 - `tests/test_rogue_lab_controls.py` — 7
 - `tests/test_script_13_discovery_run.py` — 33
 - `tests/test_script_14_moment_experiment.py` — 26

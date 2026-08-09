@@ -79,7 +79,7 @@ import math
 import os
 import time
 from fractions import Fraction
-from typing import Sequence
+from typing import Callable, Sequence
 
 import mpmath
 from mpmath import iv, mp
@@ -89,10 +89,14 @@ __all__ = [
     "BACKEND_REASON",
     "DATA_DIR",
     "available_backends",
+    "certified_autocorrelation_pair",
+    "certified_fejer_pair",
+    "certified_gaussian_pair",
     "certified_sign_changes",
     "certified_zero_count",
     "enclose_Z",
     "enclose_rs_theta",
+    "enclose_weil_functional",
     "enclosure_width_report",
     "proven_sign",
     "verify_rh_certified",
@@ -1285,40 +1289,605 @@ def enclosure_width_report(
 # ---------------------------------------------------------------------------
 # certified Weil positivity
 # ---------------------------------------------------------------------------
+#
+# W(h) = pole + archimedean + prime, the arithmetic side of the Riemann–Weil
+# explicit formula in the convention self-validated by zeta.weil.  The float
+# version there is *accurate*; this section is the *certified* version: every
+# step carries a ball, every truncation enters the result as an explicit
+# error interval, so the returned [lo, hi] is a true enclosure of W(h) for
+# ANY choice of n_max and R — larger values only tighten it.
+#
+# The archimedean quadrature is Arb's acb_calc_integrate, which mpmath's iv
+# context has no analogue of, so this is the one part of zeta.rigor that is
+# flint-only: the two-backend cross-check cannot run here, and the returned
+# dict says so instead of leaving the field silently absent.
+
+#: Prime-power cap for the certified Weil prime sum (mirrors zeta.weil's cap).
+_WEIL_N_CAP = 2_000_000
+
+#: Least R at which the archimedean tail lemma below is applied (its
+#: derivation needs r >= 6; 8 leaves slack).
+_WEIL_MIN_R = 8
+
+#: The mathematical inputs the enclosure leans on beyond the backend itself.
+#: Everything else in the computation carries a ball.
+_WEIL_ASSUMPTIONS = [
+    "Rosser–Schoenfeld 1962, Thm 12: psi(x) < 1.03883·x for all x > 0 "
+    "(used as 26/25; enters the gaussian prime-tail bound only)",
+    "archimedean tail lemma: |Re psi(1/4+ir/2) - log pi| <= log(r+2) + 8 "
+    "for r >= 6 (derived from the psi partial-fraction series in the "
+    "enclose_weil_functional docstring; spot-checked by ball arithmetic "
+    "in the tests)",
+    "classical facts about the constructed pair: h is even, real on the "
+    "real axis, analytic in |Im r| <= 1/2, of positive type, with the "
+    "stated closed-form Fourier partner g",
+]
+
+
+def _require_flint_pairs():
+    if not _HAVE_FLINT:
+        raise NotImplementedError(
+            "certified Weil pairs are authored against Arb ball types and "
+            f"need python-flint, which is unavailable here ({_FLINT_REASON}). "
+            "For an accurate (not certified) W(h) use zeta.weil."
+        )
+
+
+def certified_gaussian_pair(a) -> tuple:
+    """Ball-valued Gaussian pair ``h(r) = exp(-a r²)`` for the certified W(h).
+
+    The certified sibling of :func:`zeta.weil.gaussian_pair`: ``a`` is taken
+    *exactly* (via :func:`_exact` — a float is its dyadic self, a string like
+    ``"0.01"`` is the decimal it names), and the returned callables map Arb
+    balls to Arb balls, so they can be handed to Arb's certified quadrature
+    and evaluated at complex points.  ``h`` is entire, even, real on the real
+    axis and of positive type (h = |f̂|² for a Gaussian f), hence admissible
+    for the Weil criterion; ``g`` is the exact partner
+    ``e^{-u²/4a} / (2√(πa))``.
+
+    Both callables read the Arb working precision at *call* time, so the
+    evaluator's precision guard governs them.  Flint-only by construction.
+    """
+    aq = _exact(a)
+    if aq <= 0:
+        raise ValueError("certified_gaussian_pair needs a > 0")
+    _require_flint_pairs()
+
+    def h_cert(z):
+        return (-(_FlintBackend._ball(aq)) * z * z).exp()
+
+    def g_cert(u):
+        ab = _FlintBackend._ball(aq)
+        return (-(u * u) / (4 * ab)).exp() / (2 * (_arb.pi() * ab).sqrt())
+
+    hints = {"kind": "gaussian", "param": aq}
+    h_cert.cert_hints = g_cert.cert_hints = hints
+    return h_cert, g_cert
+
+
+def certified_fejer_pair(b) -> tuple:
+    """Ball-valued Fejér pair ``h(r) = (sin br / br)²`` for the certified W(h).
+
+    The certified sibling of :func:`zeta.weil.fejer_pair`.  ``h`` is written
+    as ``sinc(bz)²`` so Arb evaluates it as an entire function (no removable
+    singularity at 0 to trip the quadrature).  ``g`` is the triangle
+    ``(1 - |u|/2b)/(2b)`` — but implemented as the *linear formula on
+    [0, 2b) only*, without the clamp to 0 outside, because a ball straddling
+    the kink at 2b would otherwise not enclose correctly.  The evaluator
+    never calls it outside: the prime sum stops at ``n_max = ⌊e^{2b}⌋``,
+    proven below the support edge by ball comparison, which also makes the
+    prime sum *exactly finite* (tail bound identically 0).
+
+    ``b`` is taken exactly; both callables read the Arb precision at call
+    time.  Flint-only by construction.
+    """
+    bq = _exact(b)
+    if bq <= 0:
+        raise ValueError("certified_fejer_pair needs b > 0")
+    _require_flint_pairs()
+
+    def h_cert(z):
+        s = (_FlintBackend._ball(bq) * z).sinc()
+        return s * s
+
+    def g_cert(u):
+        bb = _FlintBackend._ball(bq)
+        return (1 - u / (2 * bb)) / (2 * bb)
+
+    hints = {"kind": "fejer", "param": bq}
+    h_cert.cert_hints = g_cert.cert_hints = hints
+    return h_cert, g_cert
+
+
+def certified_autocorrelation_pair(coeffs, spacing=2, sigma="0.35") -> tuple:
+    """Ball-valued positive-type pair from an autocorrelation, h = |f̂|².
+
+    The certified sibling of :func:`zeta.weil.autocorrelation_pair`:
+    f is a train of Gaussian bumps at 0, s, 2s, … with real weights
+    ``coeffs``, and
+
+        h(r) = 2πσ² e^{-σ²r²} Σ_{j,k} c_j c_k cos(r s (j-k)),
+        g(u) = σ√π Σ_{j,k} c_j c_k e^{-(u - s(j-k))²/(4σ²)},
+
+    grouped here by lag d = j-k with *exact rational* weights
+    w_d = Σ_j c_j c_{j+d} (so the double sum is a single-lag sum and the
+    grouping introduces no rounding).  h = |f̂|² makes the pair admissible
+    for the Weil criterion by construction; ``coeffs = [1, -1]`` gives the
+    h(0) = 0 member the float probes use.
+
+    Unlike the Gaussian pair, **g is not nonnegative** (the self-correlation
+    of a sign-changing f dips negative at lags near s), so the evaluator
+    bounds the prime tail through the absolute majorant
+    ``|g(u)| ≤ σ√π (Σ|c_j|)² e^{-(|u|-D)²/(4σ²)}`` (D = s·(J-1), valid for
+    ``|u| ≥ D``) and applies it as a *symmetric* error interval — the
+    one-sided sharpening the Gaussian pair enjoys would be unsound here.
+
+    All parameters are taken exactly; flint-only by construction.
+    """
+    sgq = _exact(sigma)
+    if sgq <= 0:
+        raise ValueError("certified_autocorrelation_pair needs sigma > 0")
+    spq = _exact(spacing)
+    if spq < 0:
+        raise ValueError("certified_autocorrelation_pair needs spacing >= 0")
+    cq = [_exact(c) for c in coeffs]
+    if not cq or all(c == 0 for c in cq):
+        raise ValueError("certified_autocorrelation_pair needs a nonzero coefficient")
+    _require_flint_pairs()
+    J = len(cq)
+    # exact lag weights: w_d = sum_j c_j c_{j+d}  (w_{-d} = w_d)
+    weights = tuple(
+        sum(cq[j] * cq[j + d] for j in range(J - d)) for d in range(J)
+    )
+    C = sum(abs(c) for c in cq)  # Fraction: bounds |h| and |g| majorants
+    D = spq * (J - 1)  # largest lag frequency |s(j-k)|
+
+    def h_cert(z):
+        ball = _FlintBackend._ball
+        sg = ball(sgq)
+        sp = ball(spq)
+        tot = ball(weights[0]) + 0 * z  # exact w_0, typed like z
+        for d in range(1, J):
+            if weights[d] == 0:
+                continue
+            tot += 2 * ball(weights[d]) * (z * sp * d).cos()
+        return 2 * _arb.pi() * sg * sg * (-(sg * sg) * z * z).exp() * tot
+
+    def g_cert(u):
+        ball = _FlintBackend._ball
+        sg = ball(sgq)
+        sp = ball(spq)
+        four = 4 * sg * sg
+        tot = ball(weights[0]) * (-(u * u) / four).exp()
+        for d in range(1, J):
+            if weights[d] == 0:
+                continue
+            vm = u - sp * d
+            vp = u + sp * d
+            tot += ball(weights[d]) * (
+                (-(vm * vm) / four).exp() + (-(vp * vp) / four).exp()
+            )
+        return sg * _arb.pi().sqrt() * tot
+
+    hints = {
+        "kind": "autocorr",
+        "param": sgq,
+        "sigma": sgq,
+        "spacing": spq,
+        "coeffs": tuple(cq),
+        "C": C,
+        "D": D,
+    }
+    h_cert.cert_hints = g_cert.cert_hints = hints
+    return h_cert, g_cert
 
 
 def enclose_weil_functional(
     h_cert: Callable,
     g_cert: Callable,
-    n_max: int,
-    prec_bits: int = 128,
+    n_max: int | None = None,
+    R: int | None = None,
+    prec_bits: int = 192,
     backend: str | None = None,
-) -> tuple:
+    cross_check: bool = True,
+) -> dict:
     """Rigorous enclosure of the Weil functional W(h) = pole + arch + prime.
-    
-    This function evaluates the arithmetic side of the Riemann-Weil explicit
-    formula using full interval/ball arithmetic. The test functions ``h_cert``
-    and ``g_cert`` MUST be written to accept and return rigorous intervals
-    appropriate for the chosen backend (e.g., ``flint.acb`` or ``mpmath.iv.mpc``).
-    
-    WARNING: The archimedean integral requires a certified integration backend,
-    which is currently only available if ``python-flint`` is installed and
-    a certified integration wrapper is implemented. If using ``mpmath.iv``,
-    the archimedean term will raise NotImplementedError.
-    
+
+    Every step carries a ball and every truncation enters the result as an
+    explicit error interval, so ``W_enclosure`` is a **true enclosure of
+    W(h) for any** ``n_max`` **and** ``R`` — larger values only tighten it.
+    In particular ``sign == 1`` is a *certified* instance of Weil positivity:
+    an unconditional statement about primes and Γ (given the residual
+    assumptions listed under ``assumptions``), not a floating-point verdict.
+    Honest scope (docs/08): finitely many certified instances are not
+    evidence for RH — RH is equivalent to W(h) ≥ 0 over *all* admissible h.
+    A certified ``sign == -1`` would disprove RH; per the house rule the
+    correct first inference from such an output is a bug.
+
+    The pair must come from :func:`certified_gaussian_pair`,
+    :func:`certified_fejer_pair` or :func:`certified_autocorrelation_pair`
+    (ball-valued callables carrying ``cert_hints``); a bare float-valued
+    pair is refused, because nothing rigorous can be built on it.
+
+    The three terms
+    ---------------
+    * **Pole** ``h(i/2) + h(-i/2)``: two ``acb`` evaluations; the imaginary
+      part is checked to contain 0 and the real interval is the enclosure.
+    * **Prime** ``-2 Σ_{n ≤ n_max} Λ(n) n^{-1/2} g(log n)``: a finite ball
+      sum over prime powers.  For the Fejér pair the cutoff
+      ``n_max = ⌊e^{2b}⌋`` is proven complete by ball comparison
+      (``log(n_max+1) > 2b``), so the tail is exactly 0 and ``n_max`` is
+      ignored.  For the Gaussian pair the discarded tail is bounded by
+      partial summation against ψ(x) < (26/25)·x (Rosser–Schoenfeld) plus
+      the exact identity ``∫_N^∞ t^{-1/2} g(log t) dt = e^{a/4} erfc(x)/2``
+      with ``x = (log N - a)/(2√a)``, all evaluated in balls; the tail is
+      one-sided (the discarded terms are ≥ 0, so they only *lower* W).
+      The autocorrelation pair follows the same partial-summation route
+      through the absolute majorant ``|g(u)| ≤ σ√π C² e^{-(u-D)²/4σ²}``
+      (C = Σ|c_j|, D = s·(J-1), u ≥ D) — symmetric, because its g changes
+      sign, and requiring ``log n_max > D + σ²``.
+    * **Archimedean** ``(1/2π) ∫ h(r)[Re ψ(1/4+ir/2) - log π] dr``: by
+      evenness this is ``(1/π) Re ∫_0^R h(z)(ψ(1/4+iz/2) - log π) dz`` plus
+      a tail — the integrand handed to Arb's certified quadrature
+      (``acb_calc_integrate``) is the *analytic* ``h·(ψ - log π)``, never
+      ``Re ψ`` (not analytic); the real part is taken after integration.
+      ψ's poles sit at distance ≥ 1/2 from the path, so the integrand is
+      meromorphic and Arb's adaptive subdivision handles it rigorously.
+
+    The archimedean tail lemma
+    --------------------------
+    For r ≥ 6, ``|w(r)| := |Re ψ(1/4+ir/2) - log π| ≤ log(r+2) + 8``.
+    Sketch: ψ(z) = -γ + Σ_{k≥0} [1/(k+1) - 1/(k+z)] gives
+    Re ψ = -γ + Σ_k [1/(k+1) - (k+1/4)/((k+1/4)² + r²/4)]; each summand is
+    ``[r²/4 - (3/4)(k+1/4)] / [(k+1)((k+1/4)² + r²/4)]``; bounding the two
+    numerator pieces separately, splitting the first at k+1/4 ≶ r/2
+    (harmonic sum ≤ 1 + log(r/2+1) below, ∫ dt/t³ above) and summing the
+    second (≤ 3 + (3/4)ζ(2)) gives |Re ψ| ≤ log(r+2) + 6.8 for r ≥ 6, and
+    log π < 1.2 absorbs into the constant 8.  The constants are deliberately
+    slack — the tail carries e^{-aR²} (Gaussian) or 1/(b²R) (Fejér), so
+    slack is free.  The lemma is spot-checked by ball arithmetic in the
+    tests; the derivation above is the proof.
+
+    With the lemma, for the Gaussian pair (any R ≥ 8)
+
+        |tail| ≤ (e^{-aR²}/π) · [(log(R+2)+8)/(2aR) + 1/(2a)],
+
+    and for the Fejér pair, via h(r) ≤ 1/(br)² and
+    ∫_R^∞ log(r+2)/r² dr ≤ (log(R+2)+1)/R,
+
+        |tail| ≤ (log(R+2)+9)/(π b² R),
+
+    both evaluated in balls and added as symmetric error intervals.  The
+    Fejér arch tail shrinks only like log R / R, so a Fejér enclosure is
+    honestly wide (~1e-4/b² at the default R) — still narrow enough to
+    prove the sign, since W(fejér b) ≈ 0.023/b².
+
+    Backends
+    --------
+    Flint-only: mpmath's ``iv`` context has no certified quadrature, so the
+    ``mpmath.iv`` backend raises ``NotImplementedError`` — this is the one
+    place in :mod:`zeta.rigor` where the two-backend cross-check cannot run,
+    and the returned dict says so under ``two_backend_cross_check`` rather
+    than leaving the field silently absent.  The float cross-check against
+    :func:`zeta.weil.weil_functional` is reported under ``cross_checks``
+    and flagged ``mpmath_rigorous: False``.
+
+    Parameters
+    ----------
+    n_max:  prime-power cutoff (Gaussian only; default chosen so the tail
+            bound sits below the ball width target; ignored for Fejér).
+    R:      archimedean integration endpoint (default: e^{-aR²} below the
+            width target for Gaussian; 65536 for Fejér).
+    prec_bits: Arb working precision.  The enclosure width is *absolute*
+            (~2^-prec_bits · piece sizes), so proving W > 0 where W ~ 1e-18
+            needs roughly 80 bits of headroom, not 18 digits of relative
+            precision in every piece.
+
     Returns
     -------
-    ``(lo, hi)``: An enclosure of W(h) as exact mpmath mpf values.
+    dict with ``W_enclosure`` (lo, hi as mpf), ``sign`` (1 / -1 proven,
+    0 = undecided — never guessed), ``positivity_proven``, ``certified``,
+    ``uncertified_steps``, ``pieces`` (per-term enclosures and tail bounds),
+    ``assumptions``, ``kind``, ``param``, ``param_exact``, ``n_max``, ``R``,
+    ``prec_bits``, ``backend``, ``two_backend_cross_check``,
+    ``cross_checks`` and ``wall_seconds``.  ``certified`` is False whenever
+    ``uncertified_steps`` is non-empty; an enclosure too wide to decide the
+    sign is still certified (true, just undecisive), with ``sign == 0``.
     """
+    started = time.time()
     adapter = _pick(backend)
-    
-    if adapter.name == "mpmath.iv":
+    if adapter.name != "python-flint":
         raise NotImplementedError(
-            "Certified archimedean integral is not implemented for mpmath.iv. "
-            "Install python-flint for certified quadrature, or use the float version."
+            "enclose_weil_functional is flint-only: the archimedean term "
+            "needs certified quadrature (Arb's acb_calc_integrate), which "
+            "mpmath.iv does not provide. This is the one path in zeta.rigor "
+            "where the two-backend cross-check cannot run."
         )
-    else:
-        raise NotImplementedError(
-            "Certified integration for python-flint is pending implementation."
+    hints = getattr(h_cert, "cert_hints", None)
+    if hints is None or getattr(g_cert, "cert_hints", None) is not hints:
+        raise TypeError(
+            "enclose_weil_functional needs a ball-valued pair from "
+            "certified_gaussian_pair / certified_fejer_pair / "
+            "certified_autocorrelation_pair (h and g from the SAME call, "
+            "carrying shared cert_hints); a float-valued pair from "
+            "zeta.weil cannot support an enclosure"
         )
+    kind = hints["kind"]
+    param: Fraction = hints["param"]
+    prec = int(prec_bits)
+    uncertified: list[str] = []
+
+    with _flint_prec(prec):
+        ball = _FlintBackend._ball
+        logpi = _arb.pi().log()
+
+        # ---- pole term: h(i/2) + h(-i/2) --------------------------------
+        pole_c = h_cert(_acb(0, _fmpq(1, 2))) + h_cert(_acb(0, _fmpq(-1, 2)))
+        if not pole_c.imag.contains(_arb(0)):
+            uncertified.append(
+                "pole term: Im(h(i/2) + h(-i/2)) excludes 0 — h is not the "
+                "even real-on-the-axis function the formula assumes"
+            )
+        pole = pole_c.real
+
+        # ---- prime-power cutoff -----------------------------------------
+        if kind == "fejer":
+            b = ball(param)
+            e2b_lo, e2b_hi = _arb_bounds((2 * b).exp())
+            if not mp.isfinite(e2b_hi) or e2b_hi > _WEIL_N_CAP:
+                raise ValueError(
+                    f"fejer support e^(2b) exceeds the prime-power cap "
+                    f"{_WEIL_N_CAP} (needs b <= ~7.25); a certified fejér "
+                    "W(h) with a truncated prime sum is not implemented"
+                )
+            n_max_used = int(mp.floor(e2b_lo))
+            if not ((_arb(n_max_used + 1).log() - 2 * b).lower() > 0):
+                uncertified.append(
+                    "fejer prime cutoff: could not prove "
+                    "log(n_max+1) > 2b at this precision"
+                )
+        elif kind == "gaussian":
+            if n_max is not None:
+                n_max_used = max(int(n_max), 3)
+            else:
+                # policy only (the tail bound below is rigorous for any
+                # cutoff): put the tail near the ball width target,
+                # u* solving u²/4a - u/2 = (prec+16)·log 2.
+                a_f = float(param)
+                L = (prec + 16) * math.log(2)
+                u_star = a_f + math.sqrt(a_f * a_f + 4 * a_f * L)
+                n_max_used = (
+                    _WEIL_N_CAP
+                    if u_star > math.log(_WEIL_N_CAP)
+                    else max(int(math.exp(u_star)) + 2, 100)
+                )
+            if math.log(n_max_used) <= float(param):
+                # float precheck so an infeasible tail refuses before the
+                # prime sum; the ball check below stays the authority
+                raise ValueError(
+                    "gaussian prime tail bound needs log(n_max) > a; "
+                    "raise n_max"
+                )
+        elif kind == "autocorr":
+            if n_max is not None:
+                n_max_used = max(int(n_max), 3)
+            else:
+                # policy: log n_max = D + σ² + 2σ·x with erfc(x) ~ 2^-(prec+16)
+                sg_f = float(hints["sigma"])
+                u_star = (
+                    float(hints["D"])
+                    + sg_f * sg_f
+                    + 2 * sg_f * math.sqrt((prec + 16) * math.log(2))
+                )
+                n_max_used = (
+                    _WEIL_N_CAP
+                    if u_star > math.log(_WEIL_N_CAP)
+                    else max(int(math.exp(u_star)) + 2, 100)
+                )
+            sg_f = float(hints["sigma"])
+            if math.log(n_max_used) <= float(hints["D"]) + sg_f * sg_f:
+                # float precheck (see the gaussian branch); in particular a
+                # bump train centred beyond the prime-power cap refuses
+                # here instead of summing 2e6 terms first
+                raise ValueError(
+                    "autocorrelation prime tail bound needs "
+                    "log(n_max) > D + sigma^2 (D = spacing·(len(coeffs)-1)); "
+                    "raise n_max"
+                )
+        else:
+            raise TypeError(f"unknown certified pair kind {kind!r}")
+
+        # ---- prime term: -2 sum Λ(n) n^{-1/2} g(log n) ------------------
+        from zeta.weil import _prime_powers  # lazy: keep `import zeta.rigor` light
+
+        terms = _arb(0)
+        for n_, p_ in _prime_powers(n_max_used):
+            terms += _arb(p_).log() * g_cert(_arb(n_).log()) / _arb(n_).sqrt()
+        prime = -2 * terms
+
+        if kind == "fejer":
+            prime_tail = _arb(0)
+            prime_err = _arb(0)
+        elif kind == "gaussian":
+            a = ball(param)
+            N = _arb(n_max_used)
+            LN = N.log()
+            x = (LN - a) / (2 * a.sqrt())
+            if not (x.lower() > 0):
+                raise ValueError(
+                    "gaussian prime tail bound needs log(n_max) > a; "
+                    "raise n_max"
+                )
+            phiN = g_cert(LN) / N.sqrt()
+            I_tail = (a / 4).exp() * x.erfc() / 2
+            prime_tail = 2 * ball(Fraction(26, 25)) * (N * phiN + I_tail)
+            # the discarded terms are all >= 0 and enter W with a minus
+            # sign: the truncation error lies in [-tail, 0], one-sided.
+            prime_err = (-prime_tail).union(_arb(0))
+        else:  # autocorr: |g| majorant, hence a SYMMETRIC error interval
+            sg = ball(hints["sigma"])
+            Cb = ball(hints["C"])
+            Db = ball(hints["D"])
+            N = _arb(n_max_used)
+            LN = N.log()
+            xt = (LN - Db - sg * sg) / (2 * sg)
+            if not (xt.lower() > 0):
+                raise ValueError(
+                    "autocorrelation prime tail bound needs "
+                    "log(n_max) > D + sigma^2 (D = spacing·(len(coeffs)-1)); "
+                    "raise n_max"
+                )
+            # Phi(t) = t^{-1/2}·σ√π·C²·e^{-(log t - D)²/4σ²} majorises
+            # |t^{-1/2} g(log t)| for log t >= D and is nonincreasing there
+            pref = sg * _arb.pi().sqrt() * Cb * Cb
+            dN = LN - Db
+            PhiN = pref * (-(dN * dN) / (4 * sg * sg)).exp() / N.sqrt()
+            I_tail = (
+                _arb.pi() * sg * sg * Cb * Cb
+                * (Db / 2 + sg * sg / 4).exp()
+                * xt.erfc()
+            )
+            prime_tail = 2 * ball(Fraction(26, 25)) * (N * PhiN + I_tail)
+            prime_err = _arb(0, prime_tail.upper())
+
+        # ---- archimedean term -------------------------------------------
+        # gaussian and autocorr share the e^{-alpha r²} envelope shape:
+        # |h(r)| <= M·e^{-alpha r²} with (alpha, M) = (a, 1) resp. (σ², 2πσ²C²)
+        if kind == "gaussian":
+            alpha_q: Fraction | None = param
+        elif kind == "autocorr":
+            alpha_q = hints["sigma"] * hints["sigma"]
+        else:
+            alpha_q = None
+        if R is not None:
+            R_used = max(int(R), _WEIL_MIN_R)
+        elif alpha_q is not None:
+            R_used = max(
+                _WEIL_MIN_R,
+                int(math.sqrt((prec + 16) * math.log(2) / float(alpha_q))) + 1,
+            )
+        else:
+            R_used = 65536
+
+        quarter = _acb(_fmpq(1, 4))
+        ihalf = _acb(0, _fmpq(1, 2))
+
+        def _integrand(z, analytic):
+            # analytic flag ignorable: h is entire, psi meromorphic (Arb
+            # turns pole evaluations into non-finite balls by itself).
+            return h_cert(z) * ((quarter + ihalf * z).digamma() - logpi)
+
+        # Arb's default evaluation budget (~1000·prec) starves on long
+        # oscillatory ranges (the Fejér path is [0, 65536] with period π/b)
+        # and returns a technically-true but uselessly wide ball; 10^7 lets
+        # the adaptive subdivision finish and is still bounded work.
+        arch_I = _acb.integral(_integrand, 0, R_used, eval_limit=10**7)
+        if not arch_I.is_finite():
+            uncertified.append(
+                f"archimedean integral over [0, {R_used}] did not converge "
+                "to a finite ball (raise prec_bits)"
+            )
+        arch_main = arch_I.real / _arb.pi()
+
+        Rb = _arb(R_used)
+        wbound = (Rb + 2).log() + 8  # the lemma, r >= 6
+        if alpha_q is not None:
+            al = ball(alpha_q)
+            if kind == "gaussian":
+                M = _arb(1)
+            else:
+                sg = ball(hints["sigma"])
+                Cb = ball(hints["C"])
+                M = 2 * _arb.pi() * sg * sg * Cb * Cb
+            arch_tail = (
+                M
+                * (-(al) * Rb * Rb).exp()
+                * (wbound / (2 * al * Rb) + _arb(1) / (2 * al))
+                / _arb.pi()
+            )
+        else:
+            b = ball(param)
+            arch_tail = (wbound + 1) / (_arb.pi() * b * b * Rb)
+        arch_err = _arb(0, arch_tail.upper())
+
+        # ---- assembly ---------------------------------------------------
+        W = pole + arch_main + prime + arch_err + prime_err
+        lo, hi = _arb_bounds(W)
+        pieces = {
+            "pole": _arb_bounds(pole),
+            "arch_main": _arb_bounds(arch_main),
+            "arch_tail_bound": _arb_bounds(arch_tail)[1],
+            "prime_partial": _arb_bounds(prime),
+            "prime_tail_bound": _arb_bounds(prime_tail)[1],
+        }
+
+    sign = 1 if lo > 0 else (-1 if hi < 0 else 0)
+    certified = not uncertified and mp.isfinite(lo) and mp.isfinite(hi)
+
+    checks: dict = {}
+    if cross_check:
+        try:
+            from zeta import weil as _weil
+
+            def _as_mpf(q: Fraction):
+                with mp.workdps(60):
+                    return mp.mpf(q.numerator) / q.denominator
+
+            if kind == "autocorr":
+                hf, gf = _weil.autocorrelation_pair(
+                    [_as_mpf(c) for c in hints["coeffs"]],
+                    spacing=_as_mpf(hints["spacing"]),
+                    sigma=_as_mpf(hints["sigma"]),
+                )
+            else:
+                make = (
+                    _weil.gaussian_pair if kind == "gaussian" else _weil.fejer_pair
+                )
+                hf, gf = make(_as_mpf(param))
+            dps = max(25, min(60, int(prec / _LOG2_10)))
+            v = _weil.weil_functional(hf, gf, dps=dps)
+            checks["mpmath_weil_functional"] = v
+            checks["mpmath_rigorous"] = False
+            with mp.workdps(dps):
+                scale = (
+                    abs(pieces["pole"][1])
+                    + abs(pieces["arch_main"][1])
+                    + abs(pieces["prime_partial"][0])
+                )
+                tol = mp.mpf(10) ** (-(dps - 8)) * scale
+                checks["consistent"] = bool(lo - tol <= v <= hi + tol)
+        except Exception as exc:  # pragma: no cover - diagnostic only
+            checks["mpmath_weil_functional"] = f"failed: {exc}"
+
+    return {
+        "W_enclosure": (lo, hi),
+        "sign": sign,
+        "positivity_proven": bool(certified and sign == 1),
+        "certified": certified,
+        "uncertified_steps": uncertified,
+        "pieces": pieces,
+        "assumptions": list(_WEIL_ASSUMPTIONS),
+        "kind": kind,
+        "param": float(param),
+        "param_exact": f"{param.numerator}/{param.denominator}",
+        "family_params": (
+            None
+            if kind != "autocorr"
+            else {
+                "sigma": float(hints["sigma"]),
+                "spacing": float(hints["spacing"]),
+                "coeffs": [float(c) for c in hints["coeffs"]],
+            }
+        ),
+        "n_max": n_max_used,
+        "R": R_used,
+        "prec_bits": prec,
+        "backend": adapter.name,
+        "two_backend_cross_check": (
+            "unavailable: mpmath.iv has no certified quadrature; the "
+            "archimedean term is flint-only"
+        ),
+        "cross_checks": checks,
+        "wall_seconds": time.time() - started,
+    }
 

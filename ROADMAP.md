@@ -746,6 +746,54 @@ Listed because an undocumented gap becomes an assumption.
    known, 1 trivial, 5 inconclusive, 0 survivors. That is the machine working.
    A conjecture factory that produced discoveries on its first run would be
    broken. The value is the discipline and the record, not the hits.
+4. **The certified Weil arm is flint-only and pair-limited.**
+   `rigor.enclose_weil_functional` (see "Built: certified Weil positivity"
+   below) encloses W(h) rigorously, but only for pairs from
+   `rigor.certified_gaussian_pair` / `certified_fejer_pair` /
+   `certified_autocorrelation_pair` — the certified siblings of all three
+   positive-type families in `zeta.weil` — and only on the Arb backend:
+   mpmath's `iv` context has no certified quadrature, so the `mpmath.iv`
+   path raises and the two-backend cross-check — the habit that entitles
+   the rest of `rigor.py` to the word certified — cannot run there. The
+   returned dict states this under `two_backend_cross_check` instead of
+   leaving the field silently absent. User-supplied ball-valued pairs are
+   refused rather than half-trusted (their tail bounds cannot be audited);
+   an interval-Riemann-sum `iv` arch term (wide but honest, enough to make
+   the cross-check run) is the natural extension, not scheduled.
+
+---
+
+## Built: certified Weil positivity (`rigor.enclose_weil_functional`)
+
+Formerly the one place where the laboratory measured something the certified
+arm could not reach; the placeholder documented here as "not scheduled" is now
+implemented. W(h) = pole + archimedean + prime, every step carrying a ball and
+every truncation folded in as an explicit error interval, so the returned
+enclosure is *true for any* `n_max` and `R` — larger values only tighten it.
+
+- **The blocker fell as predicted**: the archimedean term is Arb's
+  `acb_calc_integrate` over the *analytic* integrand h(z)·(ψ(¼+iz/2) − log π)
+  — never Re ψ, which is not analytic — with a rigorous tail from the lemma
+  |Re ψ(¼+ir/2) − log π| ≤ log(r+2) + 8 (r ≥ 6), derived in the docstring
+  from the ψ partial-fraction series and spot-checked in ball arithmetic by
+  the tests.
+- **Prime tails**: Fejér is exactly finite (cutoff ⌊e^{2b}⌋ proven complete
+  by ball comparison); Gaussian is bounded by partial summation against
+  Rosser–Schoenfeld ψ(x) < 1.03883x plus an exact erfc identity, one-sided
+  because the discarded terms only lower W.
+- **The headline number**: the near-tight Gaussian a = 0.2 member — W(h) ≈
+  8.86e-18 emerging from pieces of size ~2, eighteen digits of cancellation —
+  comes back **certified positive**, enclosure width ~1e-51 at 256 bits.
+  Honest scope: finitely many certified instances of W(h) ≥ 0 are not
+  evidence for RH (docs/08); what they are is positivity statements that no
+  longer rest on floating-point luck. A certified *negative* value would
+  disprove RH, so per the house rule the correct first inference from one is
+  a bug.
+- The safe failure mode holds throughout: an enclosure too wide to decide
+  returns `sign: 0` and stays `certified: True` (a wide truth is still a
+  truth); every unclosable step lands in `uncertified_steps`; the residual
+  mathematical inputs (Rosser–Schoenfeld, the tail lemma, the classical pair
+  facts) are named in `assumptions` rather than implied.
 
 ---
 
