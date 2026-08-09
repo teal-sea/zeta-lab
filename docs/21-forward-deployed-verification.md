@@ -218,7 +218,46 @@ it, and any write-up that blurs those is overclaiming.
   sound from interesting, and nothing here is evidence for anything
   (`docs/08`).
 
-## 9. Verdict
+## 9. The prose rival, frozen before any result
+
+K6 kills this work if a human checklist catches everything the gate catches.
+That comparison is only fair if the checklist is written before anyone knows
+which cases the gate wins, so it is frozen here, in the same commit as the
+criteria, and it is written to be **as strong as I can make it** — a rival
+built to lose is the sham this repository already refuses (`docs/09` gate #3).
+
+> **The reviewer's checklist.** For each promoted claim, ask:
+> 1. Is the outcome distinguishing, and does the battery's integrity grade say
+>    `CALIBRATED`?
+> 2. Were the pass criteria — thresholds, windows, the lesion roster, the rival
+>    roster — fixed before the runs they judge, and can you see where that was
+>    recorded?
+> 3. Is the evidence this report was computed on still the evidence in the tree?
+
+A careful reviewer applying those three questions catches the contaminated case
+and the blind case. The claim under test is **not** that the checklist is
+wrong. It is that questions 2 and 3 ask a human to compare present state
+against remembered prior state, and that a person who was not present when the
+criteria were frozen cannot answer them from the artifact in front of them.
+
+The measurable form of that claim, and the only one that counts:
+
+- **P1** Run the case set past a reviewer who has the checklist and the same
+  artifacts the gate gets, and who did not author the cases. Record which cases
+  they catch.
+- **P2** The gate earns something over prose only on cases the checklist-holder
+  misses *while holding the artifacts*. If they catch everything, K6 fires.
+- **P3** A case where the reviewer must answer "I cannot tell from here" is the
+  interesting cell — it is where the mechanism supplies information rather than
+  discipline.
+
+Recorded prediction: the reviewer catches the case with a false declaration
+(question 2 invites suspicion of a self-report) and **misses** the
+dropped-lesion case, because nothing visible in the artifact says a lesion was
+ever there. If that prediction is wrong in the direction of the reviewer
+catching more, K6 fires and this work is unearned.
+
+## 10. Verdict
 
 To be written only after §5–§6 are evaluated, in one of: **KILL** /
 **KEEP AS PROBE** / **REVISE AND RETEST** / **EARNED NEXT EXPERIMENT**.
