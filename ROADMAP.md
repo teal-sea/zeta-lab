@@ -630,6 +630,58 @@ known gap #1 — a foreign subject, an unchanged protocol, independently
 authored battery content. It does not measure adoption by an outside team;
 every step was still orchestrated from this repository's own process.
 
+## Field report #1: the referee discipline on a production business system (2026-08-09)
+
+The croniter department measured foreign-domain *ingestion*. The next
+question — does the discipline survive contact with a production system
+whose subject is money rather than mathematics — is now running as a field
+deployment: a calibrated checker (`booking-check`) for an AI booking agent's
+proposed reservations, built in a separate repository by a separate session
+against this lab's published method (battery calibrated in both directions,
+planted failure classes, integrity labels on every verdict per docs/20,
+read-only against production throughout). Same operator as this lab, so the
+outside-*team* half of known gap #1 stays open; the new axes this deployment
+does test are domain (business operations, not code or mathematics) and
+stakes (revenue).
+
+Everything below is **the deployment session's report, relayed — not
+verified by this repository**, and is recorded at that strength:
+
+- Battery calibration reported: 8/8 planted failure classes caught
+  (AM/PM flip, cross-market timezone shift, wrong airport, off-rate price,
+  passenger-count slip, double-booked vehicle, authorization-described-as-
+  captured, claimed-sent-without-provider-receipt). False alarms reported
+  driven 57 → ~1 per 100 clean records by three *named* root causes
+  (round-trips misread, a deposit cap misapplied to legacy records, two
+  same-named columns with different meanings) — root-cause repair, not
+  sensitivity reduction.
+- Census findings reported before any code ran, each the shape this lab
+  predicted: rates overwritten in place with no history (past prices not
+  re-derivable — the price probe carries two integrity labels, structural
+  over history, full over live data); the written rate-algorithm document
+  twenty minor versions behind the executable (doc is not the record); 42 %
+  of "message sent" rows carrying only self-written receipts (the sender
+  vouching for itself); a conversation-to-booking join column populated on
+  0 of 3,566 rows; voice claims-checking scoped OUT of v1 because the only
+  available join is a 53 % guess — refusing to build a checker on a
+  foundation that violates its own standard.
+- First live catches reported: three reservations with an authorization
+  recorded as "deposit paid" where no capture exists — the exact
+  vocabulary-collapse class this lab plants as a lesion. **Unverified**:
+  the operator's stated posture is disbelief pending his own inspection of
+  the payment records, which is the correct posture and is recorded as part
+  of the result.
+
+What this bears on: the hollow-verification finding (the resumption
+benchmark's surviving measurement) predicted that self-vouching records and
+uncalibrated checks accumulate silently in real systems; the census found
+both within hours, in the first production system examined. What it does
+not bear on: commercial validation, outside-team transfer, or any claim
+that the catches are real before the operator verifies them. Further field
+reports will be appended as the deployment's shadow phase produces
+falsifiable numbers (catch rate, false-alarm rate, operator-confirmed
+findings).
+
 ## The resumption benchmark ran, and the typed machinery did not earn its keep (2026-08-09)
 
 `docs/19` §6 named the only honest path by which `dossier/` could become a
