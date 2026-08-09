@@ -196,6 +196,23 @@ Zeta Lab hosts multiple autonomous agents running in parallel across different b
   layer). `python -m harness.demo` runs everything live;
   `python -m harness.new_department <name>` scaffolds questions, not
   placeholder instruments.
+  Since 2026-08-09 it also carries **`preregistration.py` + `promotion.py`**
+  (`docs/21-forward-deployed-verification.md` is the record, and it is a
+  **probe**, not a new spine obligation). They make the grade *enforcing*
+  rather than advisory: `decide()` turns a `ClaimReport` into ALLOW/BLOCK
+  with every machine-readable reason at once, `Boundary.audit()` reconciles
+  `promoted/` against `decisions/` so a bypass is visible, and
+  `Preregistration` records the digests of evidence that already existed at
+  freeze time, which makes contamination and criteria drift **derived** from
+  artifacts rather than read off a declaration. `NaiveGate` lives in the same
+  file as the mandatory null control — it passes the clean, blind and
+  honestly-declared-contaminated cases just as well, and the only thing
+  separating the two is a report that declares itself clean while its
+  artifacts disagree. Two results are recorded as failures, not reframed:
+  the mirror condition (gate more permissive than naive) is unreachable, and
+  **the gate inherits every blind spot of the audit beneath it** — it
+  promotes a held-out hollow battery's claim with an empty reason list.
+  Read `docs/21` §10 before treating any of it as a capability.
 - Package: `dossier/` — **a probe, not a department.** An experiment in
   representing mathematical research state (intent, definition, rejected
   alternatives, semantic obligations, evidence) so an agent can *resume* work.
@@ -222,7 +239,7 @@ Zeta Lab hosts multiple autonomous agents running in parallel across different b
 - `scripts/` 01–05 and 07–13 standalone demos, `06_tour.py` (~90 s full
   story), `make_figures.py [--quick|--full]`. `13_discovery_run.py` is the
   funnel's operator console (`--dry-run`, `--report`).
-- `docs/` 00–20: a reading course; keep cross-references consistent with
+- `docs/` 00–21: a reading course; keep cross-references consistent with
   actual filenames (doc 05 is `05-de-bruijn-newman.md`).
   `docs/doors/` is the switchboard: one short page per way in (learn, refute,
   certify, discover) plus one page per department. The repo has one spine and

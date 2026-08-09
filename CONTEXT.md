@@ -895,7 +895,7 @@ The falsification protocol with the subject factored out. Four instrument roles 
 
 ### `harness/integrity.py` — ``harness.integrity`` — the referee, refereed.
 
-*886 lines*
+*921 lines*
 
 Constants: `PASS`, `FAIL`, `UNKNOWN`, `CALIBRATED`, `DETECTOR_INADEQUATE`, `UNMEASURED`, `CONTAMINATED`, `HOLLOW`, `GRADES`, `SHAM_MODES`, `AUDIT_BLIND_SPOTS`
 
@@ -913,6 +913,36 @@ Constants: `PASS`, `FAIL`, `UNKNOWN`, `CALIBRATED`, `DETECTOR_INADEQUATE`, `UNME
 
 - `scaffold(name: str, *, root: Path = _REPO_ROOT) -> list[Path]` — Write the three files; refuse to overwrite anything that exists.
 - `main(argv: list[str] | None = None) -> int`
+
+### `harness/preregistration.py` — ``harness.preregistration`` — contamination as a derived fact, not a declaration.
+
+*328 lines*
+
+Constants: `DIGEST_PREFIX`, `EVIDENCE_VISIBLE_AT_FREEZE`, `CRITERIA_DRIFT`
+
+- `class Preregistration` — Criteria frozen at a stated moment, with what was already visible then.
+- `class Divergence` — What the record says about itself, beside what its artifacts say.
+- `digest(obj: Any) -> str` — Stable content digest: ``sha256:`` over canonical JSON.
+- `derived_findings(prereg: Preregistration, *, criteria_applied: Any, evidence_digest: str) -> tuple[tuple[str, str], ...]` — Every contamination finding derivable from the artifacts, as (key, prose).
+- `derived_contamination_reasons(prereg: Preregistration, *, criteria_applied: Any, evidence_digest: str) -> tuple[str, ...]` — The prose of :func:`derived_findings`, in the ``*_reasons()`` house shape.
+- `declared_vs_derived(provenance: Provenance | None, prereg: Preregistration, *, criteria_applied: Any, evidence_digest: str) -> Divergence` — Put the declaration and the derivation side by side.
+
+### `harness/promotion.py` — ``harness.promotion`` — the integrity grade made enforcing instead of advisory.
+
+*772 lines*
+
+Constants: `ALLOW`, `BLOCK`, `POLICY_VERSION`, `NAIVE_POLICY_VERSION`, `REQUIRED_GRADE`, `REQUIRED_CLAIM_STATUS`, `CHECKS`
+
+- `class PromotionError` — A misuse of the boundary: a bad identifier, or a reach past the door.
+- `class ReasonCode` — Closed, stable, machine-readable. A reason is not a sentence.
+- `class Decision` — One crossing, decided, with everything needed to re-derive it.
+- `class NaiveGate` — :func:`naive_decide` as an object, so a test can parametrize over gates.
+- `class Boundary` — Four directories, one door.
+- `class ProducerView` — A handle exposing only :meth:`submit`.
+- `decide(claim_report: ClaimReport, *, prereg: Preregistration, criteria_applied: Any, evidence_digest: str, current_evidence_digest: str, claim_id: str, producer_id: str, verifier_id: str, requested_scope: str, now: str = '') -> Decision` — Decide one crossing, running every check and reporting all findings.
+- `recheck(claim_report: ClaimReport, *, only: ReasonCode, **kwargs) -> Decision` — Run the single check that produces ``only``, and nothing else.
+- `naive_decide(claim_report: ClaimReport, *, provenance: Provenance | None, claim_id: str, now: str = '') -> Decision` — The gate this one has to beat: reads declarations, recomputes nothing.
+- `audit(boundary: Boundary) -> tuple[str, ...]` — Reconcile ``promoted/`` against the decision log. Every discrepancy, once.
 
 ### `harness/provenance.py` — ``harness.provenance`` — independence and contamination as declared data.
 
@@ -1095,6 +1125,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `18-five-longshots.md` — 18 — Five longshots, run to their walls
 - `19-research-dossiers.md` — 19 — Research dossiers: an experiment in AI-native mathematical state
 - `20-verification-integrity.md` — 20 — Verification integrity: the referee, refereed
+- `21-forward-deployed-verification.md` — 21 — Forward-deployed verification: can a report refuse a crossing?
 
 ## Runnable demos (`scripts/`)
 
@@ -1137,7 +1168,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1459 test functions across 46 files (the collected count differs where tests are parametrised):
+1507 test functions across 47 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_compiler_candidate.py` — 31
@@ -1161,6 +1192,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_harness_demo.py` — 5
 - `tests/test_harness_finitefield_department.py` — 12
 - `tests/test_harness_integrity.py` — 15
+- `tests/test_harness_promotion.py` — 48
 - `tests/test_harness_protocol.py` — 49
 - `tests/test_harness_referee_department.py` — 12
 - `tests/test_harness_stateval_department.py` — 11

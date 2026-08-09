@@ -710,6 +710,77 @@ in `docs/20-verification-integrity.md`; the short version:
   instruments, because a scaffold that generated runnable placeholders
   would be a sham-battery generator.
 
+## Forward-deployed verification: the grade made enforcing (2026-08-09)
+
+`docs/21-forward-deployed-verification.md` is the record, and the verdict is
+**KEEP AS PROBE** — not a capability. The criteria and the prose rival were
+committed before any implementation existed (`bf8f6dc`, `c08296d`), which is
+the only reason the scoring below is worth reading.
+
+The integrity layer above measures a battery and *renders a banner*
+(`ClaimReport.dangerous`); nothing refuses a crossing, and contamination is
+whatever the provenance record declares. `harness/promotion.py` and
+`harness/preregistration.py` close exactly those two gaps and nothing wider.
+
+- **What was earned.** A preregistration records the digests of evidence that
+  already existed when its criteria were frozen, so contamination is a set
+  membership and criteria drift a digest inequality — recomputed from
+  artifacts, never read off a flag. Two cases diverge from `NaiveGate` (the
+  mandatory ~15-line null control that reads declarations and recomputes
+  nothing): a report declaring itself clean while its artifacts disagree, and
+  a **silently dropped hardest lesion**, where nothing lies at all — the audit
+  is honest, still grades `CALIBRATED`, and simply cannot know what was
+  removed. Its blindness pin still passes unchanged; a prior record supplies
+  what one audit of one battery at one moment cannot have. That moves
+  `dropped-hardest-lesion`'s countermeasure from a convention ("pin the lesion
+  set in tests") to a mechanism.
+- **What failed, recorded rather than reframed.** The mirror condition is
+  unreachable — any declared contamination grades the battery `CONTAMINATED`,
+  so both gates block together, and on every constructible case this gate is
+  only ever *stricter-or-equal* to the naive one. The blind-detector axis is no
+  divergence at all: `detector-specificity` already had it, contradicting the
+  referee's pre-registered prediction that blindness would be the informative
+  case. Against a *legible* criteria record an isolated human reviewer catches
+  the dropped lesion by eye, correctly and confidently; the gate wins only the
+  cell where the criteria are a digest rather than an enumeration. The
+  contribution is **decidability from a compact artifact**, not detection of
+  something a person could never see.
+- **The worst result, pinned as a test.** The gate **inherits every blind spot
+  of the audit beneath it**. It promotes a held-out hollow battery's
+  astrological claim with an empty reason list, because `decide` requires the
+  grade to be `CALIBRATED` and cannot re-derive whether that grade was earned.
+  Forward-deployed verification does not make a hollow referee safe; it makes
+  an *unrecorded change* to a referee visible.
+- **A default-open bug was found inside the gate**, by review rather than by
+  its author: `_check_independence` coerced party identifiers with `str()`, so
+  a caller naming no parties read as two independent ones. Fixed, kept as a
+  regression pin. `docs/20` §6.4 predicted a further referee layer would move
+  the trust boundary rather than remove it; that prediction stands, and the
+  honest gain is only that a lie must now be a false digest, which anyone
+  holding the artifacts can check, instead of a false boolean.
+
+## The audit was hollowed on the first attempt (2026-08-09)
+
+`docs/20` §8's second experiment — an independent party authoring a hollow
+battery **without seeing `SHAM_MODES`** — was run, and is the most damaging
+result of the session. Given only `harness/protocol.py` and `harness/README.md`,
+the party reached `CALIBRATED` **on the first attempt with zero adaptation
+iterations**, passing all 19 conformance tests. Its rivals were distant enough
+that `anything AND a target-only property` distinguished, so an explicitly
+astrological claim rendered as `distinguishes` under a `CALIBRATED` banner; its
+detector was its claim negated, identical on 29/29 payloads while passing both
+power and specificity. Separately, a check returning `UNKNOWN` does not prevent
+the top grade, so `payload-symmetry` is sidestepped for free by using callable
+payloads.
+
+Under §8's own scoring rule these are holes, and `SHAM_MODES` now names two
+more — `distant-rivals` and `detector-is-the-claim`, both `caught_by=None`.
+**The audit's real constraining power is over *mechanical* emptiness.** It has
+no purchase on the two choices that decide whether a battery can kill anything:
+how near the rivals are, and whether the detector is independent of the claim.
+Both are the author's to pick, and every layer built on the grade — the
+promotion gate included — inherits that.
+
 ## Known gaps
 
 Listed because an undocumented gap becomes an assumption.
