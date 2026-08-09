@@ -529,6 +529,8 @@ _DOMAIN_AGNOSTIC_FILES = (
     "provenance.py",
     "integrity.py",
     "shams.py",
+    "preregistration.py",
+    "promotion.py",
 )
 
 
