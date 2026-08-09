@@ -89,6 +89,7 @@ __all__ = [
     "BACKEND_REASON",
     "DATA_DIR",
     "available_backends",
+    "certified_autocorrelation_pair",
     "certified_fejer_pair",
     "certified_gaussian_pair",
     "certified_sign_changes",
@@ -1398,6 +1399,89 @@ def certified_fejer_pair(b) -> tuple:
     return h_cert, g_cert
 
 
+def certified_autocorrelation_pair(coeffs, spacing=2, sigma="0.35") -> tuple:
+    """Ball-valued positive-type pair from an autocorrelation, h = |f̂|².
+
+    The certified sibling of :func:`zeta.weil.autocorrelation_pair`:
+    f is a train of Gaussian bumps at 0, s, 2s, … with real weights
+    ``coeffs``, and
+
+        h(r) = 2πσ² e^{-σ²r²} Σ_{j,k} c_j c_k cos(r s (j-k)),
+        g(u) = σ√π Σ_{j,k} c_j c_k e^{-(u - s(j-k))²/(4σ²)},
+
+    grouped here by lag d = j-k with *exact rational* weights
+    w_d = Σ_j c_j c_{j+d} (so the double sum is a single-lag sum and the
+    grouping introduces no rounding).  h = |f̂|² makes the pair admissible
+    for the Weil criterion by construction; ``coeffs = [1, -1]`` gives the
+    h(0) = 0 member the float probes use.
+
+    Unlike the Gaussian pair, **g is not nonnegative** (the self-correlation
+    of a sign-changing f dips negative at lags near s), so the evaluator
+    bounds the prime tail through the absolute majorant
+    ``|g(u)| ≤ σ√π (Σ|c_j|)² e^{-(|u|-D)²/(4σ²)}`` (D = s·(J-1), valid for
+    ``|u| ≥ D``) and applies it as a *symmetric* error interval — the
+    one-sided sharpening the Gaussian pair enjoys would be unsound here.
+
+    All parameters are taken exactly; flint-only by construction.
+    """
+    sgq = _exact(sigma)
+    if sgq <= 0:
+        raise ValueError("certified_autocorrelation_pair needs sigma > 0")
+    spq = _exact(spacing)
+    if spq < 0:
+        raise ValueError("certified_autocorrelation_pair needs spacing >= 0")
+    cq = [_exact(c) for c in coeffs]
+    if not cq or all(c == 0 for c in cq):
+        raise ValueError("certified_autocorrelation_pair needs a nonzero coefficient")
+    _require_flint_pairs()
+    J = len(cq)
+    # exact lag weights: w_d = sum_j c_j c_{j+d}  (w_{-d} = w_d)
+    weights = tuple(
+        sum(cq[j] * cq[j + d] for j in range(J - d)) for d in range(J)
+    )
+    C = sum(abs(c) for c in cq)  # Fraction: bounds |h| and |g| majorants
+    D = spq * (J - 1)  # largest lag frequency |s(j-k)|
+
+    def h_cert(z):
+        ball = _FlintBackend._ball
+        sg = ball(sgq)
+        sp = ball(spq)
+        tot = ball(weights[0]) + 0 * z  # exact w_0, typed like z
+        for d in range(1, J):
+            if weights[d] == 0:
+                continue
+            tot += 2 * ball(weights[d]) * (z * sp * d).cos()
+        return 2 * _arb.pi() * sg * sg * (-(sg * sg) * z * z).exp() * tot
+
+    def g_cert(u):
+        ball = _FlintBackend._ball
+        sg = ball(sgq)
+        sp = ball(spq)
+        four = 4 * sg * sg
+        tot = ball(weights[0]) * (-(u * u) / four).exp()
+        for d in range(1, J):
+            if weights[d] == 0:
+                continue
+            vm = u - sp * d
+            vp = u + sp * d
+            tot += ball(weights[d]) * (
+                (-(vm * vm) / four).exp() + (-(vp * vp) / four).exp()
+            )
+        return sg * _arb.pi().sqrt() * tot
+
+    hints = {
+        "kind": "autocorr",
+        "param": sgq,
+        "sigma": sgq,
+        "spacing": spq,
+        "coeffs": tuple(cq),
+        "C": C,
+        "D": D,
+    }
+    h_cert.cert_hints = g_cert.cert_hints = hints
+    return h_cert, g_cert
+
+
 def enclose_weil_functional(
     h_cert: Callable,
     g_cert: Callable,
@@ -1420,10 +1504,10 @@ def enclose_weil_functional(
     A certified ``sign == -1`` would disprove RH; per the house rule the
     correct first inference from such an output is a bug.
 
-    The pair must come from :func:`certified_gaussian_pair` or
-    :func:`certified_fejer_pair` (ball-valued callables carrying
-    ``cert_hints``); a bare float-valued pair is refused, because nothing
-    rigorous can be built on it.
+    The pair must come from :func:`certified_gaussian_pair`,
+    :func:`certified_fejer_pair` or :func:`certified_autocorrelation_pair`
+    (ball-valued callables carrying ``cert_hints``); a bare float-valued
+    pair is refused, because nothing rigorous can be built on it.
 
     The three terms
     ---------------
@@ -1438,6 +1522,10 @@ def enclose_weil_functional(
       the exact identity ``∫_N^∞ t^{-1/2} g(log t) dt = e^{a/4} erfc(x)/2``
       with ``x = (log N - a)/(2√a)``, all evaluated in balls; the tail is
       one-sided (the discarded terms are ≥ 0, so they only *lower* W).
+      The autocorrelation pair follows the same partial-summation route
+      through the absolute majorant ``|g(u)| ≤ σ√π C² e^{-(u-D)²/4σ²}``
+      (C = Σ|c_j|, D = s·(J-1), u ≥ D) — symmetric, because its g changes
+      sign, and requiring ``log n_max > D + σ²``.
     * **Archimedean** ``(1/2π) ∫ h(r)[Re ψ(1/4+ir/2) - log π] dr``: by
       evenness this is ``(1/π) Re ∫_0^R h(z)(ψ(1/4+iz/2) - log π) dz`` plus
       a tail — the integrand handed to Arb's certified quadrature
@@ -1519,9 +1607,10 @@ def enclose_weil_functional(
     if hints is None or getattr(g_cert, "cert_hints", None) is not hints:
         raise TypeError(
             "enclose_weil_functional needs a ball-valued pair from "
-            "certified_gaussian_pair / certified_fejer_pair (h and g from "
-            "the SAME call, carrying shared cert_hints); a float-valued "
-            "pair from zeta.weil cannot support an enclosure"
+            "certified_gaussian_pair / certified_fejer_pair / "
+            "certified_autocorrelation_pair (h and g from the SAME call, "
+            "carrying shared cert_hints); a float-valued pair from "
+            "zeta.weil cannot support an enclosure"
         )
     kind = hints["kind"]
     param: Fraction = hints["param"]
@@ -1572,6 +1661,39 @@ def enclose_weil_functional(
                     if u_star > math.log(_WEIL_N_CAP)
                     else max(int(math.exp(u_star)) + 2, 100)
                 )
+            if math.log(n_max_used) <= float(param):
+                # float precheck so an infeasible tail refuses before the
+                # prime sum; the ball check below stays the authority
+                raise ValueError(
+                    "gaussian prime tail bound needs log(n_max) > a; "
+                    "raise n_max"
+                )
+        elif kind == "autocorr":
+            if n_max is not None:
+                n_max_used = max(int(n_max), 3)
+            else:
+                # policy: log n_max = D + σ² + 2σ·x with erfc(x) ~ 2^-(prec+16)
+                sg_f = float(hints["sigma"])
+                u_star = (
+                    float(hints["D"])
+                    + sg_f * sg_f
+                    + 2 * sg_f * math.sqrt((prec + 16) * math.log(2))
+                )
+                n_max_used = (
+                    _WEIL_N_CAP
+                    if u_star > math.log(_WEIL_N_CAP)
+                    else max(int(math.exp(u_star)) + 2, 100)
+                )
+            sg_f = float(hints["sigma"])
+            if math.log(n_max_used) <= float(hints["D"]) + sg_f * sg_f:
+                # float precheck (see the gaussian branch); in particular a
+                # bump train centred beyond the prime-power cap refuses
+                # here instead of summing 2e6 terms first
+                raise ValueError(
+                    "autocorrelation prime tail bound needs "
+                    "log(n_max) > D + sigma^2 (D = spacing·(len(coeffs)-1)); "
+                    "raise n_max"
+                )
         else:
             raise TypeError(f"unknown certified pair kind {kind!r}")
 
@@ -1586,7 +1708,7 @@ def enclose_weil_functional(
         if kind == "fejer":
             prime_tail = _arb(0)
             prime_err = _arb(0)
-        else:
+        elif kind == "gaussian":
             a = ball(param)
             N = _arb(n_max_used)
             LN = N.log()
@@ -1602,14 +1724,47 @@ def enclose_weil_functional(
             # the discarded terms are all >= 0 and enter W with a minus
             # sign: the truncation error lies in [-tail, 0], one-sided.
             prime_err = (-prime_tail).union(_arb(0))
+        else:  # autocorr: |g| majorant, hence a SYMMETRIC error interval
+            sg = ball(hints["sigma"])
+            Cb = ball(hints["C"])
+            Db = ball(hints["D"])
+            N = _arb(n_max_used)
+            LN = N.log()
+            xt = (LN - Db - sg * sg) / (2 * sg)
+            if not (xt.lower() > 0):
+                raise ValueError(
+                    "autocorrelation prime tail bound needs "
+                    "log(n_max) > D + sigma^2 (D = spacing·(len(coeffs)-1)); "
+                    "raise n_max"
+                )
+            # Phi(t) = t^{-1/2}·σ√π·C²·e^{-(log t - D)²/4σ²} majorises
+            # |t^{-1/2} g(log t)| for log t >= D and is nonincreasing there
+            pref = sg * _arb.pi().sqrt() * Cb * Cb
+            dN = LN - Db
+            PhiN = pref * (-(dN * dN) / (4 * sg * sg)).exp() / N.sqrt()
+            I_tail = (
+                _arb.pi() * sg * sg * Cb * Cb
+                * (Db / 2 + sg * sg / 4).exp()
+                * xt.erfc()
+            )
+            prime_tail = 2 * ball(Fraction(26, 25)) * (N * PhiN + I_tail)
+            prime_err = _arb(0, prime_tail.upper())
 
         # ---- archimedean term -------------------------------------------
+        # gaussian and autocorr share the e^{-alpha r²} envelope shape:
+        # |h(r)| <= M·e^{-alpha r²} with (alpha, M) = (a, 1) resp. (σ², 2πσ²C²)
+        if kind == "gaussian":
+            alpha_q: Fraction | None = param
+        elif kind == "autocorr":
+            alpha_q = hints["sigma"] * hints["sigma"]
+        else:
+            alpha_q = None
         if R is not None:
             R_used = max(int(R), _WEIL_MIN_R)
-        elif kind == "gaussian":
+        elif alpha_q is not None:
             R_used = max(
                 _WEIL_MIN_R,
-                int(math.sqrt((prec + 16) * math.log(2) / float(param))) + 1,
+                int(math.sqrt((prec + 16) * math.log(2) / float(alpha_q))) + 1,
             )
         else:
             R_used = 65536
@@ -1636,11 +1791,18 @@ def enclose_weil_functional(
 
         Rb = _arb(R_used)
         wbound = (Rb + 2).log() + 8  # the lemma, r >= 6
-        if kind == "gaussian":
-            a = ball(param)
+        if alpha_q is not None:
+            al = ball(alpha_q)
+            if kind == "gaussian":
+                M = _arb(1)
+            else:
+                sg = ball(hints["sigma"])
+                Cb = ball(hints["C"])
+                M = 2 * _arb.pi() * sg * sg * Cb * Cb
             arch_tail = (
-                (-(a) * Rb * Rb).exp()
-                * (wbound / (2 * a * Rb) + _arb(1) / (2 * a))
+                M
+                * (-(al) * Rb * Rb).exp()
+                * (wbound / (2 * al * Rb) + _arb(1) / (2 * al))
                 / _arb.pi()
             )
         else:
@@ -1667,10 +1829,21 @@ def enclose_weil_functional(
         try:
             from zeta import weil as _weil
 
-            with mp.workdps(60):
-                pf = mp.mpf(param.numerator) / param.denominator
-            make = _weil.gaussian_pair if kind == "gaussian" else _weil.fejer_pair
-            hf, gf = make(pf)
+            def _as_mpf(q: Fraction):
+                with mp.workdps(60):
+                    return mp.mpf(q.numerator) / q.denominator
+
+            if kind == "autocorr":
+                hf, gf = _weil.autocorrelation_pair(
+                    [_as_mpf(c) for c in hints["coeffs"]],
+                    spacing=_as_mpf(hints["spacing"]),
+                    sigma=_as_mpf(hints["sigma"]),
+                )
+            else:
+                make = (
+                    _weil.gaussian_pair if kind == "gaussian" else _weil.fejer_pair
+                )
+                hf, gf = make(_as_mpf(param))
             dps = max(25, min(60, int(prec / _LOG2_10)))
             v = _weil.weil_functional(hf, gf, dps=dps)
             checks["mpmath_weil_functional"] = v
@@ -1697,6 +1870,15 @@ def enclose_weil_functional(
         "kind": kind,
         "param": float(param),
         "param_exact": f"{param.numerator}/{param.denominator}",
+        "family_params": (
+            None
+            if kind != "autocorr"
+            else {
+                "sigma": float(hints["sigma"]),
+                "spacing": float(hints["spacing"]),
+                "coeffs": [float(c) for c in hints["coeffs"]],
+            }
+        ),
         "n_max": n_max_used,
         "R": R_used,
         "prec_bits": prec,

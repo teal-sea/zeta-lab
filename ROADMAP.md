@@ -699,16 +699,17 @@ Listed because an undocumented gap becomes an assumption.
 4. **The certified Weil arm is flint-only and pair-limited.**
    `rigor.enclose_weil_functional` (see "Built: certified Weil positivity"
    below) encloses W(h) rigorously, but only for pairs from
-   `rigor.certified_gaussian_pair` / `certified_fejer_pair`, and only on the
-   Arb backend: mpmath's `iv` context has no certified quadrature, so the
-   `mpmath.iv` path raises and the two-backend cross-check — the habit that
-   entitles the rest of `rigor.py` to the word certified — cannot run there.
-   The returned dict states this under `two_backend_cross_check` instead of
+   `rigor.certified_gaussian_pair` / `certified_fejer_pair` /
+   `certified_autocorrelation_pair` — the certified siblings of all three
+   positive-type families in `zeta.weil` — and only on the Arb backend:
+   mpmath's `iv` context has no certified quadrature, so the `mpmath.iv`
+   path raises and the two-backend cross-check — the habit that entitles
+   the rest of `rigor.py` to the word certified — cannot run there. The
+   returned dict states this under `two_backend_cross_check` instead of
    leaving the field silently absent. User-supplied ball-valued pairs are
    refused rather than half-trusted (their tail bounds cannot be audited);
-   an autocorrelation certified pair and an interval-Riemann-sum `iv` arch
-   term (wide but honest, enough to make the cross-check run) are the two
-   natural extensions, neither scheduled.
+   an interval-Riemann-sum `iv` arch term (wide but honest, enough to make
+   the cross-check run) is the natural extension, not scheduled.
 
 ---
 

@@ -33,11 +33,17 @@ from mpmath import mp
 from zeta import rigor
 from zeta.rigor import (
     available_backends,
+    certified_autocorrelation_pair,
     certified_fejer_pair,
     certified_gaussian_pair,
     enclose_weil_functional,
 )
-from zeta.weil import fejer_pair, gaussian_pair, weil_functional
+from zeta.weil import (
+    autocorrelation_pair,
+    fejer_pair,
+    gaussian_pair,
+    weil_functional,
+)
 
 HAVE_FLINT = "python-flint" in available_backends()
 
@@ -116,6 +122,36 @@ def test_near_tight_gaussian_positivity_proven():
     with mp.workdps(45):
         v = weil_functional(*gaussian_pair("0.2"), dps=45)
     assert lo <= v <= hi
+
+
+def test_autocorrelation_certified_positive_and_contains_float():
+    # the two-bump h(0) = 0 member the float probes scan: W ≈ 1.45e-10.
+    # its g changes sign, so the evaluator must use the symmetric
+    # majorant tail (the gaussian one-sided sharpening would be unsound)
+    h, g = certified_autocorrelation_pair([1, -1], spacing=2, sigma="0.35")
+    r = enclose_weil_functional(h, g, n_max=25000, prec_bits=160, cross_check=False)
+    lo, hi = r["W_enclosure"]
+    assert r["certified"] and r["sign"] == 1 and r["positivity_proven"]
+    assert lo > mp.mpf("1.4e-10") and hi < mp.mpf("1.5e-10")
+    with mp.workdps(30):
+        v = weil_functional(
+            *autocorrelation_pair([1, -1], spacing=2, sigma=0.35), dps=30
+        )
+    # sigma = 0.35 parses identically on both routes (dyadic float vs the
+    # exact 7/20 differ, but _param reads the float at 60 dps and the
+    # discrepancy enters far below the containment slack)
+    with mp.workdps(40):
+        slack = mp.mpf(10) ** -22
+        assert lo - slack <= v <= hi + slack
+    assert r["family_params"]["coeffs"] == [1.0, -1.0]
+
+
+def test_autocorrelation_cap_guard():
+    # a bump train centred beyond the prime-power cap cannot certify its
+    # tail: the evaluator must refuse loudly, not truncate silently
+    h, g = certified_autocorrelation_pair([1, 1], spacing=20, sigma="0.35")
+    with pytest.raises(ValueError, match="raise n_max"):
+        enclose_weil_functional(h, g, R=40, prec_bits=64, cross_check=False)
 
 
 # ---------------------------------------------------------------------------
