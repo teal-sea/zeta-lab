@@ -696,6 +696,42 @@ Listed because an undocumented gap becomes an assumption.
    known, 1 trivial, 5 inconclusive, 0 survivors. That is the machine working.
    A conjecture factory that produced discoveries on its first run would be
    broken. The value is the discipline and the record, not the hits.
+4. **The Weil functional has no certified arm.** `zeta/weil.py` computes W(h),
+   both sides of the explicit formula, and the positivity probes at working
+   precision — accurate, not certified. `rigor.enclose_weil_functional` is a
+   *named placeholder that raises on every path*, kept deliberately (see below)
+   rather than deleted, and it is excluded from `rigor.__all__` so nothing can
+   import it by accident. Until it is implemented, no positivity statement in
+   this repo carries an enclosure, and none may be described as certified.
+
+---
+
+## Planned: certified Weil positivity (`rigor.enclose_weil_functional`)
+
+The one place where the laboratory measures something the certified arm cannot
+yet reach. W(h) = pole + archimedean + prime; two of the three terms are already
+easy under ball arithmetic, and the third is the whole job.
+
+- **Pole and prime terms**: finite sums of elementary ball-valued quantities
+  (`_pole_term`, `_prime_term` in `zeta/weil.py`), plus a rigorous tail bound
+  for the truncation at `n_max`. The float versions exist; porting them to
+  `rigor.py`'s adapter interface is mechanical.
+- **The archimedean term is the blocker.** `_arch_term` is a digamma integral
+  evaluated by mpmath quadrature, which returns a number and no error bound.
+  A certified value needs `acb_calc_integrate` (Arb, exposed by python-flint)
+  driven by a *ball-valued* integrand — so `h_cert`/`g_cert` must be authored
+  against the backend's ball type, not handed in as floats. mpmath's `iv`
+  context has no certified quadrature at all, so this arm would be
+  flint-only — the first place in `rigor.py` where the two-backend cross-check
+  cannot run, which itself needs stating in the returned dict.
+- **Why keep the stub instead of deleting it.** It records the gap at the point
+  of use: an agent reaching for a certified W(h) finds a function that names
+  what is missing and refuses, rather than an absence that invites a
+  float-backed function to be quietly called "certified". Its docstring must
+  keep saying it is unimplemented — the repo's reserved-word rule applies to
+  docstrings as much as to return values.
+- **Not scheduled.** It ranks below the formalization ladder; listed so the gap
+  is a decision rather than an oversight.
 
 ---
 

@@ -1294,31 +1294,40 @@ def enclose_weil_functional(
     prec_bits: int = 128,
     backend: str | None = None,
 ) -> tuple:
-    """Rigorous enclosure of the Weil functional W(h) = pole + arch + prime.
-    
-    This function evaluates the arithmetic side of the Riemann-Weil explicit
-    formula using full interval/ball arithmetic. The test functions ``h_cert``
-    and ``g_cert`` MUST be written to accept and return rigorous intervals
-    appropriate for the chosen backend (e.g., ``flint.acb`` or ``mpmath.iv.mpc``).
-    
-    WARNING: The archimedean integral requires a certified integration backend,
-    which is currently only available if ``python-flint`` is installed and
-    a certified integration wrapper is implemented. If using ``mpmath.iv``,
-    the archimedean term will raise NotImplementedError.
-    
-    Returns
-    -------
-    ``(lo, hi)``: An enclosure of W(h) as exact mpmath mpf values.
+    """**Not implemented.** Raises on every path, on every backend.
+
+    A placeholder for a future rigorous enclosure of the Weil functional
+    W(h) = pole + archimedean + prime.  It computes nothing and encloses
+    nothing; it exists so that the gap is visible where somebody would reach
+    for it, and it is kept out of ``__all__`` so it cannot be imported by
+    accident.  ``ROADMAP.md`` ("Planned: certified Weil positivity") records
+    what implementing it would take.
+
+    The blocker is the archimedean term.  ``zeta.weil._arch_term`` is a digamma
+    integral evaluated by mpmath quadrature, which returns a number and no
+    error bound, so it cannot be lifted to a ball by wrapping it.  A certified
+    value needs ``acb_calc_integrate`` (Arb, via python-flint) driven by a
+    ball-valued integrand — meaning ``h_cert``/``g_cert`` would have to be
+    authored against the backend's ball type.  mpmath's ``iv`` context has no
+    certified quadrature at all, so this arm would be flint-only and the
+    two-backend cross-check could not run on it.
+
+    For W(h) *today*, use :func:`zeta.weil.weil_functional`, which is accurate
+    at working precision and carries no enclosure — a weaker claim than
+    certified, and the only one this repository can currently make about
+    positivity.
+
+    Raises
+    ------
+    NotImplementedError
+        Always.
     """
-    adapter = _pick(backend)
-    
-    if adapter.name == "mpmath.iv":
-        raise NotImplementedError(
-            "Certified archimedean integral is not implemented for mpmath.iv. "
-            "Install python-flint for certified quadrature, or use the float version."
-        )
-    else:
-        raise NotImplementedError(
-            "Certified integration for python-flint is pending implementation."
-        )
+    _ = (h_cert, g_cert, n_max, prec_bits, backend)
+    raise NotImplementedError(
+        "enclose_weil_functional is a placeholder and computes nothing: no "
+        "certified quadrature for the archimedean term is implemented, on "
+        "either backend. Use zeta.weil.weil_functional for an accurate "
+        "(not certified) value. See ROADMAP.md, 'Planned: certified Weil "
+        "positivity'."
+    )
 
