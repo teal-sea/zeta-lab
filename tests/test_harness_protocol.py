@@ -284,6 +284,52 @@ def test_an_observed_value_may_be_supplied_instead_of_recomputed() -> None:
     assert verdict.observed == 42.0
 
 
+def test_a_null_band_counts_exceedances_over_many_draws() -> None:
+    class CountingSurrogate:
+        name = "counting"
+
+        def __init__(self) -> None:
+            self.calls = 0
+
+        def describe(self) -> str:
+            return "yields 0.0, 1.0, 2.0, ..."
+
+        def sample(self) -> float:
+            value = float(self.calls)
+            self.calls += 1
+            return value
+
+    battery = _battery(surrogates=(CountingSurrogate(),))
+    verdict = P.run_null_band(
+        battery, lambda payload: float(payload), draws=5, observed=3.5, name="stat"
+    )
+    assert verdict.total_draws == 5
+    assert verdict.draws["counting"] == (0.0, 1.0, 2.0, 3.0, 4.0)
+    assert verdict.exceedances == {"counting": 1}  # the 4.0 draw reached it
+    assert verdict.survives is False
+    assert "5 draws" in verdict.summary()
+
+
+def test_a_null_band_with_no_reaching_draw_survives_and_states_its_size() -> None:
+    verdict = P.run_null_band(
+        _battery(), lambda payload: float(payload), draws=3, observed=1000.0
+    )
+    assert verdict.survives is True
+    assert verdict.total_draws == 3
+    assert "3 draws" in verdict.summary()
+
+
+def test_a_deterministic_surrogate_gives_a_visibly_degenerate_band() -> None:
+    verdict = P.run_null_band(_battery(), lambda payload: float(payload), draws=4)
+    assert verdict.draws["null"] == (99.0, 99.0, 99.0, 99.0)
+    assert verdict.band == (99.0, 99.0)
+
+
+def test_run_null_band_refuses_zero_draws() -> None:
+    with pytest.raises(BatteryError, match="at least one draw"):
+        P.run_null_band(_battery(), lambda payload: float(payload), draws=0)
+
+
 def test_a_detector_blind_to_a_lesion_has_no_power() -> None:
     # Fires only when the planted violation is larger than 0.5.
     verdict = run_power(_battery(), lambda payload: float(payload) > 1.5)

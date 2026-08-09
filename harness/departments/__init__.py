@@ -24,6 +24,7 @@ KNOWN_DEPARTMENTS: dict[str, str] = {
     "compiler": "harness.departments.compiler_department",
     "croniter": "harness.departments.croniter_department",
     "referee": "harness.departments.referee_department",
+    "stateval": "harness.departments.stateval_department",
 }
 
 __all__ = ["KNOWN_DEPARTMENTS", "load", "load_all"]

@@ -35,7 +35,7 @@ if str(_REPO_ROOT) not in sys.path:  # pragma: no cover - import bootstrap
     sys.path.insert(0, str(_REPO_ROOT))
 
 from harness import departments as D  # noqa: E402
-from harness.integrity import CALIBRATED, audit_department  # noqa: E402
+from harness.integrity import CALIBRATED, audit_department, payloads_same  # noqa: E402
 from harness.protocol import (  # noqa: E402
     department_reasons,
     get_department,
@@ -168,16 +168,15 @@ def test_every_decoy_changes_what_it_is_given(department) -> None:
         if probe is None:
             probe = list(range(2, 60))
         substituted = decoy.substitute(probe)
-        if hasattr(probe, "__len__"):
-            assert list(substituted) != list(probe), (
-                f"decoy {decoy.name!r} returned its input unchanged and ablates nothing"
-            )
-            assert len(list(substituted)) == len(list(probe)), (
+        # payloads_same, not list comparison: the list form compared mapping
+        # payloads by keys alone and raised on array payloads — department
+        # #6's shapes exposed both, the probe-convention lesson one layer down.
+        assert not payloads_same(substituted, probe), (
+            f"decoy {decoy.name!r} returned its input unchanged and ablates nothing"
+        )
+        if hasattr(probe, "__len__") and hasattr(substituted, "__len__"):
+            assert len(substituted) == len(probe), (
                 f"decoy {decoy.name!r} changed the size of the input; it is not a substitution"
-            )
-        else:
-            assert substituted != probe, (
-                f"decoy {decoy.name!r} returned its input unchanged and ablates nothing"
             )
 
 
@@ -192,10 +191,7 @@ def test_every_lesion_changes_what_it_is_given(department) -> None:
     for lesion in department.battery.lesions:
         probe = getattr(lesion, "probe", ())
         lesioned = lesion.apply(probe)
-        if hasattr(probe, "__len__") and hasattr(lesioned, "__len__"):
-            assert list(lesioned) != list(probe), f"lesion {lesion.name!r} plants nothing"
-        else:
-            assert lesioned != probe, f"lesion {lesion.name!r} plants nothing"
+        assert not payloads_same(lesioned, probe), f"lesion {lesion.name!r} plants nothing"
         assert lesion.magnitude > 0, f"lesion {lesion.name!r} has no magnitude"
 
 

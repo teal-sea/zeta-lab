@@ -107,6 +107,7 @@ __all__ = [
     "SHAM_MODES",
     "AUDIT_BLIND_SPOTS",
     "audit_department",
+    "payloads_same",
     "report_claim",
 ]
 
@@ -483,10 +484,42 @@ def _lesion_probe(lesion: Any) -> Any:
     return getattr(lesion, "probe", _HISTORICAL_LESION_PROBE)
 
 
+def payloads_same(before: Any, after: Any) -> bool:
+    """Structural equality across the payload shapes departments actually use.
+
+    The first draft compared with ``list(after) != list(before)``, which
+    encodes two earlier departments' habits: on mappings it compares *keys
+    only* (a lesion that changes a value "plants nothing"), and on array
+    payloads elementwise comparison raises. Department #6 exposed both —
+    the probe convention's lesson repeated one layer down: the reusable
+    audit had payload shapes baked in, and nobody could know which until a
+    foreign shape arrived. This walks structure instead: mappings by key
+    and value, sized non-strings elementwise, scalars by ``==`` with a
+    raise treated as inequality (never as sameness — that would be the
+    flattering direction).
+    """
+    if isinstance(before, Mapping) and isinstance(after, Mapping):
+        if set(before.keys()) != set(after.keys()):
+            return False
+        return all(payloads_same(before[key], after[key]) for key in before)
+    if isinstance(before, str) or isinstance(after, str):
+        return before == after
+    sized = hasattr(before, "__len__") and hasattr(after, "__len__")
+    if sized:
+        try:
+            if len(before) != len(after):
+                return False
+        except TypeError:
+            return False
+        return all(payloads_same(a, b) for a, b in zip(before, after))
+    try:
+        return bool(before == after)
+    except Exception:  # noqa: BLE001 - ambiguous comparison is not sameness
+        return False
+
+
 def _differs(before: Any, after: Any) -> bool:
-    if hasattr(before, "__len__") and hasattr(after, "__len__"):
-        return list(after) != list(before)
-    return bool(after != before)
+    return not payloads_same(before, after)
 
 
 def audit_department(department: Department) -> IntegrityReport:

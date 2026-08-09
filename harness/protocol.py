@@ -80,6 +80,7 @@ __all__ = [
     "BatteryVerdict",
     "AblationVerdict",
     "NullVerdict",
+    "NullBandVerdict",
     "PowerVerdict",
     "DetectorVerdict",
     "ClaimOutcome",
@@ -97,6 +98,7 @@ __all__ = [
     "run_battery",
     "run_ablation",
     "run_nulls",
+    "run_null_band",
     "run_power",
     "run_detector",
 ]
@@ -387,6 +389,66 @@ class PowerVerdict:
     def smallest_detected(self) -> float | None:
         hits = [self.magnitudes[name] for name, hit in self.fired.items() if hit]
         return min(hits) if hits else None
+
+
+@dataclass(frozen=True)
+class NullBandVerdict:
+    """Outcome of comparing an observed statistic against *many* draws from
+    each null model.
+
+    :class:`NullVerdict` compares against one draw per surrogate with a
+    distance tolerance. For a deterministic surrogate that is exact; for a
+    distributional null it is a gate whose pass probability under the null
+    nobody measured — the failure mode this repository's own red-team
+    report records as W3/W4. This verdict replaces the distance with an
+    exceedance count over a stated number of draws, so a reader can see
+    both the band and how well it was sampled.
+
+    The convention is one-sided: a draw *at or above* the observation
+    counts as an exceedance, because the statistics under audit here are of
+    the "larger looks more impressive" kind. A department whose statistic
+    runs the other way negates it rather than this class growing a flag.
+    """
+
+    statistic: str
+    observed: float
+    draws: Mapping[str, tuple[float, ...]]
+
+    @property
+    def exceedances(self) -> dict[str, int]:
+        return {
+            name: sum(1 for value in values if value >= self.observed)
+            for name, values in self.draws.items()
+        }
+
+    @property
+    def total_draws(self) -> int:
+        return sum(len(values) for values in self.draws.values())
+
+    @property
+    def band(self) -> tuple[float, float] | None:
+        values = [v for draws in self.draws.values() for v in draws]
+        return (min(values), max(values)) if values else None
+
+    @property
+    def survives(self) -> bool:
+        """True when no null draw reaches the observation — and only worth
+        quoting alongside ``total_draws``, which is why ``summary`` states
+        both."""
+        return self.total_draws > 0 and all(
+            count == 0 for count in self.exceedances.values()
+        )
+
+    def summary(self) -> str:
+        if self.total_draws == 0:
+            return f"{self.statistic}: no null draws — this measured nothing"
+        exceeded = sum(self.exceedances.values())
+        lo, hi = self.band  # type: ignore[misc]
+        return (
+            f"{self.statistic}: observed {self.observed:g} vs null band "
+            f"[{lo:g}, {hi:g}] over {self.total_draws} draws; "
+            f"{exceeded} draw(s) reached it"
+        )
 
 
 @dataclass(frozen=True)
@@ -796,6 +858,36 @@ def run_power(
     fired = {lesion.name: bool(detector(lesion.apply(payload))) for lesion in battery.lesions}
     magnitudes = {lesion.name: float(lesion.magnitude) for lesion in battery.lesions}
     return PowerVerdict(detector=label, fired=fired, magnitudes=magnitudes)
+
+
+def run_null_band(
+    battery: Battery,
+    statistic: Callable[[Any], float],
+    *,
+    draws: int,
+    observed: float | None = None,
+    name: str = "",
+) -> NullBandVerdict:
+    """Compare the observed statistic against ``draws`` samples per surrogate.
+
+    The runner department #6 forced into the protocol: a distributional
+    null cannot be judged by one draw and a distance, so each surrogate is
+    sampled ``draws`` times (surrogates with internal seeded state yield a
+    fresh draw per call; a deterministic surrogate yields a degenerate band,
+    which the verdict makes visible rather than hiding). Statistic and
+    surrogates follow the :func:`run_nulls` convention: the statistic is
+    applied to the target payload and to every sample alike.
+    """
+    validate_battery(battery)
+    if draws < 1:
+        raise BatteryError("run_null_band needs at least one draw per surrogate")
+    label = name or getattr(statistic, "__name__", None) or repr(statistic)
+    value = float(statistic(battery.target.payload())) if observed is None else float(observed)
+    all_draws = {
+        surrogate.name: tuple(float(statistic(surrogate.sample())) for _ in range(draws))
+        for surrogate in battery.surrogates
+    }
+    return NullBandVerdict(statistic=label, observed=value, draws=all_draws)
 
 
 def run_detector(battery: Battery, detector: NamedDetector, *, payload: Any = None) -> DetectorVerdict:
