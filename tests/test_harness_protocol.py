@@ -42,6 +42,7 @@ from harness.protocol import (  # noqa: E402
     BatteryError,
     Department,
     DepartmentError,
+    NamedDetector,
     ReferenceClaim,
     battery_reasons,
     clear_departments,
@@ -51,6 +52,7 @@ from harness.protocol import (  # noqa: E402
     register_department,
     run_ablation,
     run_battery,
+    run_detector,
     run_nulls,
     run_power,
     unregister_department,
@@ -322,6 +324,10 @@ def _department(**overrides) -> Department:
             ReferenceClaim("kills", lambda payload: True, distinguishes=False),
             ReferenceClaim("passes", lambda payload: payload == 1.0, distinguishes=True),
         ),
+        detectors=(
+            NamedDetector("threshold", lambda payload: float(payload) > 1.005, probe=1.0),
+        ),
+        scope="a fake scope for testing",
     )
     kwargs.update(overrides)
     return Department(**kwargs)
@@ -365,6 +371,50 @@ def test_a_department_with_a_broken_battery_reports_it_as_a_battery_problem() ->
 def test_validate_department_raises_for_an_inadmissible_department() -> None:
     with pytest.raises(DepartmentError):
         validate_department(_department(reference_claims=()))
+
+
+def test_a_department_with_no_detector_is_refused() -> None:
+    """FINDINGS §8 closed: lesions without a declared detector are power theater."""
+    reasons = department_reasons(_department(detectors=()))
+    assert any("no detector" in reason for reason in reasons), reasons
+
+
+def test_a_department_with_no_scope_is_refused() -> None:
+    reasons = department_reasons(_department(scope=""))
+    assert any("no scope" in reason for reason in reasons), reasons
+
+
+# ---------------------------------------------------------------------------
+# 4b. Declared detectors: power and specificity measured together
+# ---------------------------------------------------------------------------
+
+
+def test_run_detector_measures_power_and_stays_quiet_when_clean() -> None:
+    detector = NamedDetector("threshold", lambda payload: float(payload) > 1.005, probe=1.0)
+    verdict = run_detector(_battery(), detector)
+    assert verdict.false_alarm is False
+    assert verdict.fired == {"big": True, "small": False}
+    assert verdict.blind_to == ("small",)
+    assert verdict.has_power is False  # blind to one planted violation
+
+
+def test_a_constant_true_detector_has_no_power_despite_perfect_sensitivity() -> None:
+    """The hole PowerVerdict could not see: an alarm that is always on
+    notices every lesion and carries no information."""
+    always = NamedDetector("always", lambda payload: True, probe=1.0)
+    verdict = run_detector(_battery(), always)
+    assert verdict.fired == {"big": True, "small": True}  # perfect lesion record
+    assert verdict.false_alarm is True
+    assert verdict.has_power is False
+    assert "no information" in verdict.summary()
+
+
+def test_a_full_power_detector_reports_it() -> None:
+    detector = NamedDetector("sharp", lambda payload: float(payload) > 1.0005, probe=1.0)
+    verdict = run_detector(_battery(), detector)
+    assert verdict.false_alarm is False
+    assert verdict.has_power is True
+    assert verdict.smallest_detected == 0.001
 
 
 # ---------------------------------------------------------------------------
@@ -427,7 +477,13 @@ def test_unregister_is_idempotent(clean_registry) -> None:
 
 _FORBIDDEN_ROOTS = ("zeta", "ontology", "numpy", "scipy", "mpmath", "sympy", "matplotlib", "flint")
 
-_DOMAIN_AGNOSTIC_FILES = ("__init__.py", "protocol.py")
+_DOMAIN_AGNOSTIC_FILES = (
+    "__init__.py",
+    "protocol.py",
+    "provenance.py",
+    "integrity.py",
+    "shams.py",
+)
 
 
 def _harness_dir() -> Path:
@@ -451,7 +507,7 @@ def test_the_protocol_imports_nothing_from_any_laboratory(filename) -> None:
 def test_importing_the_protocol_pulls_in_no_laboratory_module() -> None:
     code = (
         "import sys; sys.path.insert(0, %r);"
-        "import harness.protocol;"
+        "import harness.protocol, harness.provenance, harness.integrity, harness.shams;"
         "bad=[m for m in sys.modules if m.split('.')[0] in %r];"
         "print(','.join(sorted(bad)))" % (str(_REPO_ROOT), _FORBIDDEN_ROOTS)
     )

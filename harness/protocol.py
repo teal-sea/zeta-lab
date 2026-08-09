@@ -65,6 +65,8 @@ from collections.abc import Callable, Mapping, Sequence
 from dataclasses import dataclass, field
 from typing import Any, Final, Protocol, runtime_checkable
 
+from harness.provenance import Provenance
+
 __all__ = [
     "HarnessError",
     "BatteryError",
@@ -73,11 +75,13 @@ __all__ = [
     "Decoy",
     "Surrogate",
     "Lesion",
+    "NamedDetector",
     "Battery",
     "BatteryVerdict",
     "AblationVerdict",
     "NullVerdict",
     "PowerVerdict",
+    "DetectorVerdict",
     "ClaimOutcome",
     "Department",
     "ReferenceClaim",
@@ -94,6 +98,7 @@ __all__ = [
     "run_ablation",
     "run_nulls",
     "run_power",
+    "run_detector",
 ]
 
 
@@ -200,6 +205,37 @@ class Lesion(Protocol):
 #: structure is present. It is never asked whether the claim is *true* — only
 #: whether it fires.
 ClaimOutcome = Callable[[Any], Any]
+
+
+@dataclass(frozen=True)
+class NamedDetector:
+    """A detector the department stakes its power measurements on.
+
+    Lesions were mandatory from the first version of this protocol; the
+    detector that is supposed to notice them was not, and
+    ``compiler/FINDINGS.md`` §8 recorded the consequence: a department could
+    be blind to every one of its own planted violations and still be
+    structurally admissible, because nothing in the admission rule named a
+    detector whose power could be consulted. This class closes that gap:
+    a department declares which detectors its silence is staked on, and the
+    audit measures them instead of trusting them.
+
+    ``fires`` is a predicate over payloads of the shape the department's
+    lesions produce. ``probe`` is a *clean* payload of that shape — the
+    lesion host with nothing planted — so that specificity can be measured
+    alongside power: a detector that fires on the clean probe is an alarm
+    that is always on, and an alarm that is always on has perfect
+    sensitivity and no information. ``None`` means the battery target's
+    payload is the clean probe.
+    """
+
+    name: str
+    fires: ClaimOutcome
+    probe: Any = None
+    note: str = ""
+
+    def describe(self) -> str:
+        return self.note or f"detector {self.name!r}"
 
 
 # ---------------------------------------------------------------------------
@@ -353,6 +389,45 @@ class PowerVerdict:
         return min(hits) if hits else None
 
 
+@dataclass(frozen=True)
+class DetectorVerdict:
+    """Power and specificity of one named detector, measured together.
+
+    :class:`PowerVerdict` measures sensitivity only, which leaves a hole a
+    constant-``True`` detector walks straight through: it "notices" every
+    planted violation and earns a perfect power report while carrying no
+    information at all. ``false_alarm`` closes the hole — the detector is
+    also shown the clean probe, and one that fires there has power in no
+    meaningful sense, whatever its lesion record says.
+    """
+
+    detector: str
+    false_alarm: bool
+    fired: Mapping[str, bool]
+    magnitudes: Mapping[str, float]
+
+    @property
+    def blind_to(self) -> tuple[str, ...]:
+        return tuple(sorted(name for name, hit in self.fired.items() if not hit))
+
+    @property
+    def has_power(self) -> bool:
+        """True when every lesion was noticed *and* the clean probe was not."""
+        return bool(self.fired) and not self.blind_to and not self.false_alarm
+
+    @property
+    def smallest_detected(self) -> float | None:
+        hits = [self.magnitudes[name] for name, hit in self.fired.items() if hit]
+        return min(hits) if hits else None
+
+    def summary(self) -> str:
+        if self.false_alarm:
+            return f"{self.detector}: fires on the clean probe — its alarms carry no information"
+        if self.blind_to:
+            return f"{self.detector}: blind to {', '.join(self.blind_to)}"
+        return f"{self.detector}: noticed all {len(self.fired)} planted violation(s), quiet when clean"
+
+
 # ---------------------------------------------------------------------------
 # Validation — every violation reported at once
 # ---------------------------------------------------------------------------
@@ -479,6 +554,18 @@ class Department:
       work only its author can enter.
     * ``modules`` names the code the department owns, so that a reader can
       get from the door to the source without grepping.
+    * ``detectors`` are the instruments whose silence the department stakes
+      claims on. Lesions have been mandatory from the start; the detector
+      meant to notice them is now part of the contract too, so that power is
+      measured against the declared instrument instead of whatever a caller
+      happens to pass (``compiler/FINDINGS.md`` §8 records why).
+    * ``scope`` states, in one sentence, exactly what surviving this battery
+      justifies — and therefore what it does not. The pattern is the compiler
+      department's evidence strings, generalised: a verdict that travels
+      without its scope gets read as more than it is.
+    * ``provenance`` declares who authored the battery content and under
+      what conditions; ``None`` means undeclared, and the integrity audit
+      reports the silence rather than filling it in.
     """
 
     name: str
@@ -488,6 +575,9 @@ class Department:
     domain: str = ""
     modules: tuple[str, ...] = ()
     reference_claims: tuple[ReferenceClaim, ...] = ()
+    detectors: tuple[NamedDetector, ...] = ()
+    scope: str = ""
+    provenance: Provenance | None = None
 
     def describe(self) -> str:
         lines = [f"department {self.name!r}: {self.summary}", f"  door: {self.door}"]
@@ -495,6 +585,12 @@ class Department:
             lines.append(f"  domain: {self.domain}")
         if self.modules:
             lines.append(f"  modules: {', '.join(self.modules)}")
+        if self.scope:
+            lines.append(f"  scope: {self.scope}")
+        for detector in self.detectors:
+            lines.append(f"  detector: {detector.name} — {detector.describe()}")
+        if self.provenance is not None:
+            lines.append(f"  provenance: {self.provenance.describe()}")
         lines.append(self.battery.describe())
         return "\n".join(lines)
 
@@ -520,6 +616,24 @@ def department_reasons(department: Department) -> tuple[str, ...]:
             reasons.append("a reference claim has an empty name")
         if not callable(reference.claim):
             reasons.append(f"reference claim {reference.name!r} is not callable")
+
+    if not department.detectors:
+        reasons.append(
+            "department declares no detector: its lesions exist, but nothing is "
+            "staked on noticing them, so the power measurement the lesions exist "
+            "for can never run"
+        )
+    for detector in department.detectors:
+        if not str(detector.name).strip():
+            reasons.append("a detector has an empty name")
+        if not callable(detector.fires):
+            reasons.append(f"detector {detector.name!r} has no callable fires()")
+
+    if not str(department.scope).strip():
+        reasons.append(
+            "department declares no scope: a battery whose pass means an "
+            "unstated amount is read as meaning more than it does"
+        )
     expected = {bool(r.distinguishes) for r in department.reference_claims}
     if True not in expected:
         reasons.append(
@@ -682,3 +796,24 @@ def run_power(
     fired = {lesion.name: bool(detector(lesion.apply(payload))) for lesion in battery.lesions}
     magnitudes = {lesion.name: float(lesion.magnitude) for lesion in battery.lesions}
     return PowerVerdict(detector=label, fired=fired, magnitudes=magnitudes)
+
+
+def run_detector(battery: Battery, detector: NamedDetector, *, payload: Any = None) -> DetectorVerdict:
+    """Measure one declared detector's power *and* specificity.
+
+    The clean probe is, in order of preference: ``payload`` if given, the
+    detector's own ``probe`` if declared, else the battery target's payload.
+    The detector is shown the clean probe first — a detector that fires
+    there is an alarm that is always on, and the lesion columns of its
+    verdict are then decoration — and then the same probe with each lesion
+    planted in it.
+    """
+    validate_battery(battery)
+    if payload is None:
+        payload = detector.probe if detector.probe is not None else battery.target.payload()
+    false_alarm = bool(detector.fires(payload))
+    fired = {lesion.name: bool(detector.fires(lesion.apply(payload))) for lesion in battery.lesions}
+    magnitudes = {lesion.name: float(lesion.magnitude) for lesion in battery.lesions}
+    return DetectorVerdict(
+        detector=detector.name, false_alarm=false_alarm, fired=fired, magnitudes=magnitudes
+    )

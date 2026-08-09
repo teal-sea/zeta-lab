@@ -74,7 +74,14 @@ from typing import Any
 
 import numpy as np
 
-from harness.protocol import Battery, Department, ReferenceClaim, register_department
+from harness.protocol import (
+    Battery,
+    Department,
+    NamedDetector,
+    ReferenceClaim,
+    register_department,
+)
+from harness.provenance import Provenance
 from zeta import finitefield
 
 DEPARTMENT_NAME = "finitefield"
@@ -413,6 +420,53 @@ LESIONS: tuple[OffCircleLesion, ...] = tuple(
 
 
 # ---------------------------------------------------------------------------
+# Detectors: the survey scan, exact where department #1's is numerical
+# ---------------------------------------------------------------------------
+
+
+def _survey_probe() -> tuple:
+    """A clean survey: three genuine curves over F_1009, recomputed per import."""
+    curves = ((CURVE_A, CURVE_B), (2, 3), (5, 7))
+    profiles = []
+    for a, b in curves:
+        counts = finitefield.point_counts_over_extensions(a, b, P, N_MAX)
+        profiles.append({"p": P, "counts": tuple(int(c) for c in counts)})
+    return tuple(profiles)
+
+
+_CLEAN_SURVEY = _survey_probe()
+
+
+def hasse_scan(survey) -> bool:
+    """Fires when any profile in the survey has a trace violating a² ≤ 4p.
+
+    Exact integer arithmetic, derived from the counts alone — the decidable
+    domain's luxury. Its power is quantised the same way the lesions are:
+    below trace 64 at p = 1009 there is no integer violation to detect, so
+    "full power" here means full power down to the domain's own floor.
+    """
+    for profile in survey:
+        p = int(profile["p"])
+        trace = p + 1 - int(profile["counts"][0])
+        if trace * trace > 4 * p:
+            return True
+    return False
+
+
+DETECTORS: tuple[NamedDetector, ...] = (
+    NamedDetector(
+        name="hasse_scan",
+        fires=hasse_scan,
+        probe=_CLEAN_SURVEY,
+        note=(
+            "exact integer scan of a survey for any trace with a² > 4p; power is "
+            "quantised at the domain's own floor (trace 64 at p = 1009)"
+        ),
+    ),
+)
+
+
+# ---------------------------------------------------------------------------
 # The battery, and the department
 # ---------------------------------------------------------------------------
 
@@ -502,6 +556,28 @@ DEPARTMENT = Department(
     door="docs/doors/finitefield.md",
     domain="",
     reference_claims=REFERENCE_CLAIMS,
+    detectors=DETECTORS,
+    scope=(
+        "a surviving claim distinguishes genuine counting data from counterfeit "
+        "Lefschetz profiles at p = 1009 up to F_{p^6}; the property itself is "
+        "Hasse's theorem, so nothing here is a discovery about curves"
+    ),
+    provenance=Provenance(
+        authored_by=(
+            "the laboratory's own process — this battery is the 2026-08-07 rebuild "
+            "that replaced the sham caught in review (commit 431cc74)"
+        ),
+        authored_on="2026-08-07",
+        independent_of_subject_author=False,
+        results_visible_when_authored=False,
+        frozen_before_execution=True,
+        oracle_calls_subject=False,
+        notes=(
+            "rival traces are chosen by the Hasse-bound criterion, not tuned to "
+            "any observed detector outcome; the predecessor battery is preserved "
+            "as the referee department's held-out rival"
+        ),
+    ),
     modules=("zeta.finitefield",),
 )
 

@@ -43,7 +43,14 @@ from typing import Any
 import numpy as np
 from mpmath import mp
 
-from harness.protocol import Battery, Department, ReferenceClaim, register_department
+from harness.protocol import (
+    Battery,
+    Department,
+    NamedDetector,
+    ReferenceClaim,
+    register_department,
+)
+from harness.provenance import Provenance
 from zeta import epstein, surrogate
 from zeta.detectors import _lesion_zeros
 
@@ -76,10 +83,15 @@ __all__ = [
     "BATTERY",
     "DEPARTMENT",
     "REFERENCE_CLAIMS",
+    "DETECTORS",
+    "LI_PROJECTION_THRESHOLD",
     "InterfaceSubject",
     "PrimeDecoy",
     "IntensitySurrogate",
     "OffLineLesion",
+    "li_projection_deviation",
+    "li_projection_detector",
+    "off_line_scan",
 ]
 
 
@@ -301,6 +313,100 @@ LESIONS: tuple[OffLineLesion, ...] = tuple(
 
 
 # ---------------------------------------------------------------------------
+# Detectors: what the department's silence is staked on, power measured
+# ---------------------------------------------------------------------------
+
+#: Working precision for detector arithmetic; matches the lesions' (DPS + 10).
+_DETECTOR_DPS = DPS + 10
+
+#: Li/Bombieri–Lagarias orders the criterion detector sums over.
+_LI_ORDERS: tuple[int, ...] = (2, 4, 8)
+
+#: Threshold for the criterion detector, placed against the measured response
+#: curve: the projection deviation scales like delta² and measures 1.48e-6 at
+#: delta = 0.1, 1.48e-8 at 0.01, 1.48e-10 at 0.001 (T = 40, n = 8). 1e-7
+#: therefore fires at the largest planted lesion and is *measurably blind* to
+#: the two smaller ones — which is the department's docstring made a number:
+#: the smallest lesion is deliberately below what the criteria can see.
+LI_PROJECTION_THRESHOLD: float = 1e-7
+
+
+def _clean_zero_probe() -> tuple:
+    """The first ten genuine zeros (upper half), the detectors' clean probe."""
+    with mp.workdps(_DETECTOR_DPS):
+        return tuple(mp.zetazero(k) for k in range(1, 11))
+
+
+_CLEAN_ZEROS = _clean_zero_probe()
+
+
+def _li_partial(zeros, n: int):
+    total = mp.mpf(0)
+    for rho in zeros:
+        for z in (rho, 1 - rho):
+            total += (1 - (1 - 1 / z) ** n).real
+    return total
+
+
+def li_projection_deviation(zeros) -> float:
+    """max_n |λ_n(multiset) − λ_n(its on-line projection)|.
+
+    Comparing against the *projection* rather than against a fixed clean
+    background is load-bearing: the raw λ_n deviation is dominated by the
+    presence of four extra zeros and barely changes with delta, so a detector
+    built on it would fire for a quad planted ON the line — detection for a
+    reason that has nothing to do with the property. The projection
+    differential isolates exactly the off-line displacement.
+    """
+    with mp.workdps(_DETECTOR_DPS):
+        projected = tuple(mp.mpc(mp.mpf(1) / 2, mp.mpc(z).imag) for z in zeros)
+        return float(
+            max(abs(_li_partial(zeros, n) - _li_partial(projected, n)) for n in _LI_ORDERS)
+        )
+
+
+def li_projection_detector(zeros) -> bool:
+    """Fires when the Li multiset deviates from its on-line projection."""
+    return li_projection_deviation(zeros) > LI_PROJECTION_THRESHOLD
+
+
+def off_line_scan(zeros) -> bool:
+    """Fires when any zero in the multiset sits off the critical line.
+
+    Full power by construction — the payload *is* the zero multiset, so this
+    reads the property directly. Kept alongside the criterion detector for
+    the same reason the compiler department keeps its concrete backend next
+    to its model: the power *difference* between the two is the measurement
+    of where the criteria go blind.
+    """
+    with mp.workdps(_DETECTOR_DPS):
+        return any(abs(mp.mpc(z).real - mp.mpf(1) / 2) > mp.mpf("1e-9") for z in zeros)
+
+
+DETECTORS: tuple[NamedDetector, ...] = (
+    NamedDetector(
+        name="off_line_scan",
+        fires=off_line_scan,
+        probe=_CLEAN_ZEROS,
+        note=(
+            "reads Re(rho) directly from the multiset — full power by construction, "
+            "the baseline the criterion detector is measured against"
+        ),
+    ),
+    NamedDetector(
+        name="li_projection",
+        fires=li_projection_detector,
+        probe=_CLEAN_ZEROS,
+        note=(
+            "Bombieri–Lagarias λ_n against the multiset's on-line projection, "
+            f"threshold {LI_PROJECTION_THRESHOLD:g}: fires at delta 0.1, measured "
+            "blind at 0.01 and 0.001 — the criteria's blindness as a number"
+        ),
+    ),
+)
+
+
+# ---------------------------------------------------------------------------
 # The battery, and the department
 # ---------------------------------------------------------------------------
 
@@ -356,6 +462,23 @@ DEPARTMENT = Department(
     door="docs/doors/zeta.md",
     domain="zeta",
     reference_claims=REFERENCE_CLAIMS,
+    detectors=DETECTORS,
+    scope=(
+        "a surviving claim distinguishes the target from rivals sharing the "
+        "functional-equation structure — nothing more; per docs/08, nothing "
+        "here is evidence for or against RH"
+    ),
+    provenance=Provenance(
+        authored_by="the laboratory's own process (same process as the subject modules)",
+        authored_on="2026-08-07",
+        independent_of_subject_author=False,
+        oracle_calls_subject=False,
+        notes=(
+            "every instrument predates the department and was already run by "
+            "hand (docs/09, docs/17, NULLCONTROLS.md); the cross-check oracle "
+            "for the laboratory is mpmath's independent implementation"
+        ),
+    ),
     modules=(
         "zeta.core",
         "zeta.zeros",

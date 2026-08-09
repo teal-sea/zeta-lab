@@ -35,10 +35,12 @@ if str(_REPO_ROOT) not in sys.path:  # pragma: no cover - import bootstrap
     sys.path.insert(0, str(_REPO_ROOT))
 
 from harness import departments as D  # noqa: E402
+from harness.integrity import CALIBRATED, audit_department  # noqa: E402
 from harness.protocol import (  # noqa: E402
     department_reasons,
     get_department,
     run_battery,
+    run_detector,
 )
 
 DEPARTMENT_NAMES = sorted(D.KNOWN_DEPARTMENTS)
@@ -217,6 +219,47 @@ def test_every_instrument_describes_itself(department) -> None:
     )
     for member in members:
         assert member.describe().strip(), f"{member.name!r} does not describe itself"
+
+
+# ---------------------------------------------------------------------------
+# 5. The integrity audit agrees — two expressions of the requirements
+# ---------------------------------------------------------------------------
+#
+# ``harness.integrity.audit_department`` re-derives everything this file pins,
+# in independent code, plus the measurements this file cannot make (declared
+# detector power and specificity, payload symmetry, provenance). Running both
+# here is the repository's two-backend habit applied to its own referee:
+# where one has a bug, the other is the cross-check.
+
+
+def test_the_integrity_audit_grades_the_department_calibrated(department) -> None:
+    report = audit_department(department)
+    assert report.grade == CALIBRATED, report.render_text()
+
+
+def test_at_least_one_declared_detector_has_real_power(department) -> None:
+    """Closes FINDINGS §8 for every registered department: some declared
+    detector must notice at least one planted violation while staying quiet
+    on the clean probe. Per-detector blindness remains legal and measured —
+    the zeta criterion detector and the compiler concrete backend are blind
+    to specific lesions on purpose, and that is the measurement."""
+    informative = []
+    for detector in department.detectors:
+        verdict = run_detector(department.battery, detector)
+        if not verdict.false_alarm and any(verdict.fired.values()):
+            informative.append(detector.name)
+    assert informative, (
+        f"{department.name}: no declared detector notices any planted violation "
+        "while staying quiet when clean — its silence is not a result"
+    )
+
+
+def test_the_department_states_the_scope_of_a_pass(department) -> None:
+    assert department.scope.strip(), f"{department.name} declares no scope"
+    verdict_words = ("distinguish", "agree", "verdict", "hold", "claim", "surviv")
+    assert any(word in department.scope.lower() for word in verdict_words), (
+        f"{department.name}'s scope does not say what a pass means: {department.scope!r}"
+    )
 
 
 @pytest.mark.slow

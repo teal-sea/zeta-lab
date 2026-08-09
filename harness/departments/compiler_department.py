@@ -49,7 +49,14 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from compiler import catalog, semantics
-from harness.protocol import Battery, Department, ReferenceClaim, register_department
+from harness.protocol import (
+    Battery,
+    Department,
+    NamedDetector,
+    ReferenceClaim,
+    register_department,
+)
+from harness.provenance import Provenance
 
 DEPARTMENT_NAME = "compiler"
 DEPARTMENT_VERSION = "1.0"
@@ -69,6 +76,7 @@ __all__ = [
     "BATTERY",
     "DEPARTMENT",
     "REFERENCE_CLAIMS",
+    "DETECTORS",
     "RewriteSubject",
     "InputSetDecoy",
     "UnguidedMutationSurrogate",
@@ -262,6 +270,35 @@ def unguided_agreement(transformation: Any) -> float:
     return semantics.agreement(transformation.source, transformation.target).fraction
 
 
+#: The declared detectors. The concrete one is kept *with* its measured
+#: blindness on purpose (FINDINGS §5, admission addendum): the power
+#: difference between the two is the measurement of what the model backend
+#: added, and un-declaring the blind one would let its verdicts be read as
+#: covering the poison class again.
+DETECTORS: tuple[NamedDetector, ...] = (
+    NamedDetector(
+        name="concrete_exhaustive_i8",
+        fires=concrete_detector,
+        probe=catalog.LESION_HOST,
+        note=(
+            "exhaustive compiled agreement over all 65536 i8 pairs — blind to the "
+            "nsw poison lesion by the nature of compiled output, and declared "
+            "anyway because the blindness is the measurement"
+        ),
+    ),
+    NamedDetector(
+        name="model_refinement_i8",
+        fires=model_detector,
+        probe=catalog.LESION_HOST,
+        note=(
+            "poison-aware model refinement over the same domain — the backend the "
+            "poison lesion demanded; sees all four lesions at their declared "
+            "magnitudes"
+        ),
+    ),
+)
+
+
 # ---------------------------------------------------------------------------
 # The battery and the (unregistered) department
 # ---------------------------------------------------------------------------
@@ -332,6 +369,30 @@ DEPARTMENT = Department(
     door="docs/doors/compiler.md",
     modules=("compiler.semantics", "compiler.catalog"),
     reference_claims=REFERENCE_CLAIMS,
+    detectors=DETECTORS,
+    scope=(
+        "verdicts hold over the enumerated i8 domain with respect to the two "
+        "named backends (EVIDENCE_EXHAUSTIVE_I8 / EVIDENCE_MODEL_I8): agreement "
+        "and model-refinement, not equivalence, and nothing about undef or wider "
+        "types"
+    ),
+    provenance=Provenance(
+        authored_by=(
+            "the laboratory's own process; instruments derived from the compiler "
+            "subject during the PROVISIONAL probe (compiler/FINDINGS.md)"
+        ),
+        authored_on="2026-08-08",
+        independent_of_subject_author=False,
+        frozen_before_execution=True,
+        oracle_calls_subject=False,
+        instruments_share_critical_dependency=False,
+        notes=(
+            "the two backends share no critical dependency (clang vs a pure-Python "
+            "model, cross-checked at every defined point); by contrast FINDINGS §6 "
+            "measured that -O0 and -O2 through one clang are one check, which is "
+            "why optimisation levels are not counted as instruments"
+        ),
+    ),
 )
 
 register_department(DEPARTMENT, replace=True)

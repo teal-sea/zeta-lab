@@ -40,7 +40,14 @@ import calendar
 import datetime as dt
 import types
 
-from harness.protocol import Battery, Department, ReferenceClaim, register_department
+from harness.protocol import (
+    Battery,
+    Department,
+    NamedDetector,
+    ReferenceClaim,
+    register_department,
+)
+from harness.provenance import Provenance
 
 from harness.departments.croniter_fixtures import FROZEN_COMMIT, frozen_source
 
@@ -443,6 +450,20 @@ def oracle_mismatch_detector(source: str) -> bool:
     return _behavior_fingerprint(source) != _FROZEN_FINGERPRINT
 
 
+DETECTORS = (
+    NamedDetector(
+        name="fingerprint_mismatch",
+        fires=oracle_mismatch_detector,
+        probe=_FROZEN,
+        note=(
+            "bounded behavioral fingerprint against the frozen implementation "
+            "(fixed pulls, never iterate-until-done — the hang lesson); fires on "
+            "all three source-patch lesions, quiet on the frozen source"
+        ),
+    ),
+)
+
+
 # ---------------------------------------------------------------------------
 # The department
 # ---------------------------------------------------------------------------
@@ -485,6 +506,29 @@ DEPARTMENT = Department(
     door="docs/doors/croniter.md",
     modules=("harness.departments.croniter_fixtures",),
     reference_claims=REFERENCE_CLAIMS,
+    detectors=DETECTORS,
+    scope=(
+        "exact agreement with a calendar-arithmetic oracle on the bounded probe "
+        "set, for the byte-pinned commit only; says nothing about other "
+        "expressions, other versions, or unbounded iteration"
+    ),
+    provenance=Provenance(
+        authored_by=(
+            "reference battery content first authored blind by a party independent "
+            "of the implementer (2026-08-08); in-repo instruments are the "
+            "implementing process's re-expression, admitted because they reproduce "
+            "the independent calibration's verdicts"
+        ),
+        authored_on="2026-08-08",
+        independent_of_subject_author=True,
+        results_visible_when_authored=False,
+        frozen_before_execution=True,
+        oracle_calls_subject=False,
+        notes=(
+            "the five planted mutants were caught 5/5 in the blind calibration; "
+            "the oracle is plain calendar arithmetic with no call into the subject"
+        ),
+    ),
 )
 
 register_department(DEPARTMENT, replace=True)
