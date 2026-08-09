@@ -23,6 +23,7 @@ KNOWN_DEPARTMENTS: dict[str, str] = {
     "finitefield": "harness.departments.finitefield_department",
     "compiler": "harness.departments.compiler_department",
     "croniter": "harness.departments.croniter_department",
+    "referee": "harness.departments.referee_department",
 }
 
 __all__ = ["KNOWN_DEPARTMENTS", "load", "load_all"]
