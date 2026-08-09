@@ -257,7 +257,164 @@ dropped-lesion case, because nothing visible in the artifact says a lesion was
 ever there. If that prediction is wrong in the direction of the reviewer
 catching more, K6 fires and this work is unearned.
 
-## 10. Verdict
+## 10. Results
 
-To be written only after §5–§6 are evaluated, in one of: **KILL** /
-**KEEP AS PROBE** / **REVISE AND RETEST** / **EARNED NEXT EXPERIMENT**.
+Everything below was produced after §1–§9 were committed (`bf8f6dc`, `c08296d`),
+and neither the criteria nor the prose rival were edited afterwards. Where a
+condition failed, it is recorded as failed.
+
+### 10.1 The case table
+
+All four cases hold the claim's own `BatteryVerdict` byte-identical; only the
+verifier's artifacts vary. Measured by `tests/test_harness_promotion.py`:
+
+| case | claim status | audit grade | `dangerous` | NaiveGate | gate |
+|---|---|---|---|---|---|
+| clean control | distinguishes | CALIBRATED | False | ALLOW | **ALLOW** |
+| constant-True detector | distinguishes | DETECTOR_INADEQUATE | True | BLOCK | **BLOCK** |
+| declared clean, artifacts contradict | distinguishes | CALIBRATED | False | **ALLOW** | **BLOCK** |
+| dropped hardest lesion | distinguishes | **CALIBRATED** | **False** | **ALLOW** | **BLOCK** |
+
+**S2 holds, twice.** The last two rows are divergences: the naive gate allows,
+the real gate blocks, and both blocks rest on a recomputed digest. The block
+survives replacing the provenance record with a maximally flattering one — no
+declared field participates. That is the one property separating this gate from
+the sham, and it is the only reason the work continued.
+
+The dropped-lesion row is the stronger of the two, because nothing in it is
+lying: the audit is honest, the declarations are true, and the audit is simply
+structurally unable to know what was removed. The frozen roster
+`['large','medium','small']` no longer matches the applied `['large','medium']`.
+The audit's own pin (`test_the_audit_is_blind_to_a_silently_dropped_hardest_lesion`)
+still passes unchanged, as it should — **the audit is not fixed**. A record from
+before supplies a prior state one audit of one battery at one moment cannot have.
+
+### 10.2 Conditions that failed
+
+- **S2′ FAILED, and is pinned as an xfail.** No case exists where the naive gate
+  blocks and the real gate allows. Any declared contamination makes
+  `audit_department` grade the battery `CONTAMINATED`, and the gate blocks on the
+  grade, so both gates block together. The mirror is unreachable with one
+  consistent record. **On every case we can construct, this gate is only ever
+  stricter-or-equal to the naive one.** That is weaker than §5 asked for.
+- **The blind-verifier case is not a divergence.** `detector-specificity` already
+  catches a constant-True detector, so the shipped layer had this axis and the
+  gate adds nothing to it. This contradicts §7's prediction that blindness would
+  be the one informative case. Recorded as a wrong prediction, not reframed.
+- **A default-open bug was found in this gate, in review.** `_check_independence`
+  coerced party identifiers with `str()`, so `None`, `0`, `[]` and `object()` all
+  read as two distinct non-empty parties and the check returned `PASS`. Found by
+  the test agent, not the author; fixed; kept as a regression pin. The failure
+  mode this document is about occurred inside the artifact arguing against it,
+  and survived the smoke run because `Boundary.promote()` guards the happy path.
+
+### 10.2b Conditions that held, with their numbers
+
+- **S6 holds, thinly.** Blocked fraction **7 of 13 = 53.8%**, against a 60%
+  ceiling. The margin depends on the case table mixing ordinary submissions with
+  the pre-registered attacks; that is stated in the test docstring rather than
+  tuned quietly. Allowed: clean, unrelated-evidence-visible-at-freeze,
+  scope-requoted, declared-dependence, no-provenance-record, alarming-but-fine.
+- **K5 fires only in the harmless direction.** Swept over all six tri-state
+  provenance fields × {True, False, None}: **no self-declaration can buy an
+  ALLOW**. A declaration *can* cost a producer one, via the grade. Both pinned.
+- **S3, S4, S5, S7, S8, S9 hold.** Every reason independently reproduces its own
+  BLOCK under `recheck`; the BLOCK⇔reasons invariant holds on garbage input
+  including `None`, `0`, `object()` and NaN; the grade sweep blocks `None`, `""`,
+  `"CALIBRATED "`, `"calibrated"`, `"GOOD"` and every non-CALIBRATED grade.
+- Suites: `tests/test_harness_promotion.py` **214 passed, 1 xfailed** in 0.22 s;
+  the full harness set (protocol, integrity, conformance, promotion, demo, and
+  the referee/stateval/croniter/finitefield departments) **452 passed,
+  1 xfailed** in 124 s. Fast tier before this work: 1897 passed.
+
+### 10.3 The prose rival (§9), scored
+
+Three reviewers, each shown one report in isolation, each holding the frozen
+checklist and the same artifacts the gate gets. A first batched run was
+discarded: it gave the clean report no criteria record while the contaminated one
+had one (a two-variable contrast), and showing all reports together let a
+reviewer compare rosters. Both were design defects of mine.
+
+| report | human | gate |
+|---|---|---|
+| clean, criteria record legible | CANNOT TELL (Q3) | ALLOW |
+| dropped lesion, roster legible in the record | **BLOCK**, high confidence | BLOCK |
+| dropped lesion, record carries only a digest | CANNOT TELL (Q2) | **BLOCK** |
+
+**K6 does not fire, but the honest claim is much narrower than "the gate beats
+prose".** When the frozen criteria are human-legible, a careful reviewer catches
+the dropped lesion by eye, names it correctly, and is right. The gate wins one
+cell: where the criteria are a digest rather than an enumeration, the reviewer
+cannot decide and the gate can. The contribution is therefore
+
+> **decidability from a compact artifact**, not detection of something a human
+> could never see.
+
+The reviewers also found two things the gate does not check at all: the criteria
+freeze the rosters but not the *detector*, so a detector swapped after seeing
+results leaves no trace; and one reviewer noticed the roster magnitudes differed
+from the in-tree specimen's, inferring a lesion that may have been dropped
+*before* the criteria were frozen — which this mechanism cannot catch by
+construction, since the digest would be frozen around the already-weakened set.
+
+### 10.4 The held-out sham, and the gate's inherited blindness
+
+`docs/20` §8 names as its second most damaging experiment: *"have an independent
+party author a hollow battery trying to pass the audit, without seeing
+`SHAM_MODES`."* That experiment was run. An agent given only `protocol.py` and
+`harness/README.md`, and forbidden the integrity source and its catalog, built a
+battery graded **`CALIBRATED` on the first attempt, with zero adaptation
+iterations**, passing all 19 conformance tests. Three findings:
+
+1. **Strawman rivals** — nothing requires a rival to be *near* the target, so
+   `anything AND target_only_property` distinguishes. An explicitly astrological
+   claim renders as `distinguishes` under a `CALIBRATED` banner.
+2. **The detector is the claim, negated** — identical on 29/29 payloads;
+   `detector-power` and `detector-specificity` both pass while the detector
+   carries no information independent of the claim.
+3. **`UNKNOWN` does not block `CALIBRATED`** — using callables rather than
+   mappings makes `payload-symmetry` return `UNKNOWN`, which the top grade
+   tolerates. Default-open, in the audit.
+
+Neither (1) nor (2) is in `SHAM_MODES`. Per §8's own scoring rule — *"every mode
+they find that the catalog lacks is a real hole"* — these are holes.
+
+**And the consequence for this work is the worst result in this document:**
+
+> The gate **ALLOWs** the hollow battery's astrological claim, with an empty
+> reason list.
+
+`decide` requires the grade to be `CALIBRATED`; it cannot re-derive whether that
+grade was earned. Pinned as `test_the_gate_promotes_a_worthless_claim_from_a_hollow_battery`.
+Forward-deployed verification does **not** make a hollow referee safe. It makes
+an *unrecorded change* to a referee visible. Only the second is claimed.
+
+## 11. Verdict
+
+**KEEP AS PROBE.**
+
+Not KILL: S2 holds twice, on divergences that rest on recomputed digests and
+survive a maximally flattering declaration, and one of them beats not just the
+naive gate but the shipped audit. `docs/20` §4's "*if declared*" qualifier on the
+W2 shape is now narrower than it was, and `dropped-hardest-lesion`'s
+countermeasure moved from a convention ("pin the lesion set in tests") to a
+mechanism (a digest that moves). That is real and it is small.
+
+Not EARNED NEXT EXPERIMENT: S2′ failed, the blind axis added nothing, the gate
+inherits every blind spot of the audit beneath it — demonstrably, on a held-out
+sham — and against a legible criteria record a human reviewer performs as well.
+The enforcement delta remains close to one conditional, honestly priced.
+
+`docs/20` §6.4 predicted: *"A lying provenance record defeats the audit; another
+referee layer would not change that, only move it."* That prediction stands. The
+lie now has to be a false digest instead of a false boolean, and a false digest
+is checkable by anyone holding the artifacts — the boundary moved, and moving it
+was the whole contribution. It did not disappear, and this document should not be
+cited as though it had.
+
+The next experiment worth running is not a bigger gate. It is the one the held-out
+sham exposed: **`SHAM_MODES` is missing at least two modes, and a `CALIBRATED`
+grade can be obtained on the first attempt by an outsider.** Until a rival's
+*nearness* to its target is something the audit measures rather than assumes,
+every layer built on top of that grade — this one included — inherits a referee
+that an afternoon's work can hollow out.
