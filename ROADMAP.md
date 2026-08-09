@@ -588,19 +588,100 @@ arrives*. It was renamed, not deleted — the new backend does not un-measure
 the old one's blind spot, and un-pinning it would let rung 1 verdicts be
 read as covering the poison class again.
 
+## Department #4 admitted: croniter — the first foreign-born subject (2026-08-09)
+
+The croniter department is registered, listed, and under the conformance
+audit. Its subject is a frozen implementation of union day-of-month/day-of-week
+semantics under cron's `#` and `W` special forms, from a codebase this
+repository had never touched — vendored and byte-pinned in
+`harness/departments/croniter_fixtures/` so the refereed subject cannot
+drift. `harness/protocol.py` is untouched, and
+`tests/test_harness_croniter_department.py` pins that mechanically (a lexical
+scan: the seam knows no cron vocabulary).
+
+What makes this admission different from #2 and #3, and why it bears on
+known gap #1: an external referee suite for this subject was first authored
+*blind* by a party independent of the implementer and proven against five
+planted mutants — five caught, the surgical ones by exactly one aimed check
+each. That external suite is not vendored here; the in-repo instruments are
+the implementing process's re-expression, admitted only because they
+reproduce the independent calibration's verdicts (the same five mutants,
+still all killed). The department carries those mutants as exact source patches: the two
+semantic ones as rivals, the other three as lesions whose magnitudes are
+measured at import (share of a bounded behavioral fingerprint each patch
+changes: 0.05 / 0.35 / 0.05), never asserted. The distinguishing reference
+claim is exact agreement with an independent calendar-arithmetic oracle that
+never calls the subject; the killed claim — "accepts the API flag," true of
+every rival — pins that an API's presence proves nothing about its
+semantics.
+
+One lesson re-learned during the build, recorded because it is the
+department's own subject matter: the first draft of the magnitude
+measurement iterated `croniter_range` until its stop date — and the
+re-emission lesion makes iteration jump backward, so that measurement hung
+exactly the way the calibration run had already demonstrated. The
+measurement is now bounded (fixed pulls, never iterate-until-done) and a
+test pins that the lesion is *recorded* rather than waited for. An
+instrument that can hang on the violation it exists to measure is an
+instrument with an unmeasured blind spot.
+
+Honest scope, stated on the door: this measures the *ingestion* half of
+known gap #1 — a foreign subject, an unchanged protocol, independently
+authored battery content. It does not measure adoption by an outside team;
+every step was still orchestrated from this repository's own process.
+
+## The resumption benchmark ran, and the typed machinery did not earn its keep (2026-08-09)
+
+`docs/19` §6 named the only honest path by which `dossier/` could become a
+department: a scoreable resumption task in which the typed representation
+beats a flat-notes rival. That benchmark ran, in a private fork: three
+snapshots of one frozen HEAD carrying the **same underlying facts** in three
+representations (flat notes / governance prose / prose plus the dossier
+machinery), ten planted failures drawn from this repository's own incident
+history, 18 blinded cold-agent runs across two model families, with the
+answer key, scoring boundaries and outcome rules frozen before any data
+existed. Scored blind by an independent agent that authored nothing.
+
+- **Outcome under the preregistered rules: ambiguous, with a benchmark
+  defect.** One model family fell below the planted-control competence floor;
+  its cells are void and support no conclusion in either direction.
+- **In the family that counted, the typed condition did not beat the prose
+  condition**, and flat notes were not measurably worse on the discriminating
+  set — which itself sat partly at ceiling, a design defect recorded for any
+  repeat. "Did not demonstrate" — not "disproved"; the distinction is the
+  usual one and it is load-bearing.
+- **The finding that survives:** agents caught *recorded contradictions* — a
+  withdrawn claim restored to a handoff, scope language drifting into
+  overclaim, a formal status contradicted by the file it cites — nearly
+  everywhere, in every representation, with zero unwarranted promotions and
+  zero re-litigations of settled decisions across all 18 runs. The same
+  agents reliably missed *hollow verification*: a structurally admissible
+  battery whose instruments are placeholders, a battery PASS read as
+  substantive truth, an instrument whose stated precondition never ran. The
+  distinction this tree keeps drawing — the structural audit catches
+  *missing* instruments, only review catches *empty* ones — reproduced under
+  controlled conditions, in every representation tested.
+
+Consequence: the dossier department admission path stays closed (the §6 bar
+was not met), the probe classification stands, and any revival must first
+repair the benchmark (the competence floor, the ceiling lesions) and then
+beat disciplined prose from scratch — the burden does not reset.
+
 ## Known gaps
 
 Listed because an undocumented gap becomes an assumption.
 
-1. **The harness has three departments, and its generality is now measured —
-   within one repository.** The protocol survived a decidable-property
-   subject (finite fields) and a foreign-vocabulary subject (programs)
-   without a line of `protocol.py` changing, and the shared audit needed
-   exactly one generalisation (the `probe` convention), which strengthened
-   it. What remains untested is everything outside this tree: all three
-   departments were authored in the same repository by the same process
-   against the same protocol, so "would work for a chemistry lab" is now a
-   better-supported argument, and still not a measurement. The compiler
+1. **The harness has four departments, and the foreign-ingestion half of
+   this gap is now measured.** The protocol survived a decidable-property
+   subject (finite fields), a foreign-vocabulary subject (programs), and —
+   with department #4 — a subject born entirely outside this tree, with
+   battery content authored by an independent party, all without a line of
+   `protocol.py` changing. The shared audit needed exactly one
+   generalisation across all four (the `probe` convention), which
+   strengthened it. What remains untested is the other half: adoption by an
+   **outside team** — every department was still orchestrated by this
+   repository's own process, so "an outsider could build a non-sham battery
+   from the docs alone" remains an argument, not a measurement. The compiler
    department's rung 3 (Alive2, LLVM's own semantics) also remains absent —
    its model backend is hand-written and its authority stops at the
    cross-check against compiled output.

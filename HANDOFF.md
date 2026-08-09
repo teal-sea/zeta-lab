@@ -292,3 +292,43 @@ fixed:
 Python side untouched except `lean/oracle_dh.py` (regenerates
 `OracleDH.lean` as exact-rational `ComplexInterval` claims with stated
 provenance). Fast tier verified green before and after (1654 passed).
+
+---
+
+## Addendum — department #4, and the resumption benchmark's verdict (2026-08-09)
+
+Two things landed this session; full records in `ROADMAP.md` (both new
+sections) — this is the snapshot.
+
+**Department #4 admitted: croniter.** The first subject born outside this
+repository — a frozen implementation of union day-of-month/day-of-week
+semantics under cron's `#`/`W` forms, vendored and byte-pinned in
+`harness/departments/croniter_fixtures/` (MIT, upstream commit in the
+package docstring). `harness/protocol.py` untouched, and
+`tests/test_harness_croniter_department.py` pins that lexically. The battery
+carries the five calibration mutants as exact source patches (two as rivals,
+three as lesions with import-time-measured magnitudes); the distinguishing
+reference claim is agreement with a calendar-arithmetic oracle that never
+calls the subject. Conformance: 115 passed across all four departments.
+
+**The resumption benchmark ran; the dossier admission path stays closed.**
+`docs/19` §6's bar — typed representation beats a flat-notes rival on a
+scoreable resumption task — was not met (one valid model family, typed ≈
+prose, discriminating lesions partly at ceiling). The surviving measurement:
+agents caught *recorded contradictions* nearly everywhere and reliably
+missed *hollow verification* — the missing-vs-empty distinction reproduced
+under controlled conditions. "Did not demonstrate," not "disproved."
+
+**What not to infer.** Four departments authored under one orchestrating
+process is not outside adoption; that half of known gap #1 remains open and
+is stated on the croniter door. Nothing here bears on RH.
+
+**Worth knowing.** The croniter magnitude measurement hung in first draft on
+the exact backward-jumping lesion it was measuring — iterate-until-stop
+against an iterator that jumps backward. Bounded now, pinned by
+`test_the_reemission_lesion_is_measured_boundedly`. An instrument that can
+hang on the violation it measures has an unmeasured blind spot.
+
+**Open next:** the outside-team test — someone who is not this process
+builds an admissible, non-sham department from `harness/README.md` and
+`docs/doors/adopt.md` alone.

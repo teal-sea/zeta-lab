@@ -35,8 +35,11 @@ The mathematics is **department #1** and the worked example.
 five independent claims of zero structure arrived in one day and the standing
 instruments dispatched all five, each verdict costing minutes and surviving
 independent rerun. The protocol those instruments became is `harness/` —
-domain-agnostic by test rather than by intention, waiting for a second
-subject ([`harness/README.md`](harness/README.md)).
+domain-agnostic by test rather than by intention, and now carrying four
+departments: the mathematics, curves over F_p, LLVM IR rewrites, and cron
+schedule semantics — the last a subject born outside this repository
+entirely, refereed by the unchanged protocol
+([`harness/README.md`](harness/README.md), [`docs/doors/`](docs/doors/README.md)).
 
 ## Pick a door
 

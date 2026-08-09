@@ -892,6 +892,18 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `FULL_DOMAIN`, `SURROGATE_SE
 - `concrete_detector(transformation: Any) -> bool` — Fires when the exhaustive concrete run notices a disagreement.
 - `model_detector(transformation: Any) -> bool` — Fires when the poison-aware model finds a refinement violation.
 
+### `harness/departments/croniter_department.py` — Department #4: cron schedule semantics — the first foreign-domain subject.
+
+*490 lines*
+
+Constants: `PROBES`, `DEFAULT_RAISE_EXPR`, `RANGE_EXPECTED`, `TARGET`, `RIVALS`, `LESIONS`, `REFERENCE_CLAIMS`, `BATTERY`, `DEPARTMENT`
+
+- `accepts_union_flag(schedule) -> bool` — Fires when the implementation accepts the day_or_union API at all.
+- `matches_independent_oracle(schedule) -> bool` — Fires when every union-mode probe equals the calendar oracle exactly.
+- `probe_distinguishing_power(exprs) -> float` — How many of ``exprs`` separate the target from the sharpest rival.
+- `oracle_agreement(dates) -> float` — Share of the first union probe's oracle dates reproduced by ``dates``.
+- `oracle_mismatch_detector(source: str) -> bool` — Fires when an implementation's bounded fingerprint deviates from frozen.
+
 ### `harness/departments/finitefield_department.py` — ``harness.departments.finitefield_department`` — department #2.
 
 *508 lines*
@@ -1036,7 +1048,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1377 test functions across 40 files (the collected count differs where tests are parametrised):
+1388 test functions across 41 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_compiler_candidate.py` — 31
@@ -1056,6 +1068,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_explicit.py` — 45
 - `tests/test_factorization.py` — 13
 - `tests/test_finitefield.py` — 53
+- `tests/test_harness_croniter_department.py` — 11
 - `tests/test_harness_finitefield_department.py` — 12
 - `tests/test_harness_protocol.py` — 40
 - `tests/test_harness_zeta_department.py` — 9

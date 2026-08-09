@@ -47,6 +47,7 @@ next department is entitled to the same room.
 | [`zeta`](zeta.md) | the Riemann zeta function and RH | 3 rivals, 2 decoys, 3 surrogates, 3 lesions |
 | [`finitefield`](finitefield.md) | curves over F_p, where RH is a theorem | 2 rivals, 2 decoys, 2 surrogates, 3 lesions |
 | [`compiler`](compiler.md) | LLVM IR rewrites — belief in a transformation, separated from its size | 3 rivals, 2 decoys, 3 surrogates, 4 lesions |
+| [`croniter`](croniter.md) | cron schedule union semantics under `#`/`W` — the first foreign-domain subject, battery content authored independently | 2 rivals, 2 decoys, 2 surrogates, 3 lesions |
 
 See `harness/README.md` for what those four words mean and how to add the
 second department.
