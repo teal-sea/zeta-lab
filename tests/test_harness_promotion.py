@@ -39,6 +39,7 @@ from harness.integrity import (  # noqa: E402
     CALIBRATED,
     FAIL,
     GRADES,
+    SHAM_MODES,
     ClaimReport,
     audit_department,
     report_claim,
@@ -1415,3 +1416,24 @@ def test_the_gate_promotes_a_worthless_claim_from_a_hollow_battery() -> None:
     )
     assert decision.verdict == ALLOW
     assert decision.reasons == ()
+
+
+def test_the_two_modes_the_held_out_exercise_found_are_in_the_catalog() -> None:
+    """`docs/20` §8 set the scoring rule: a mode the catalog lacks is a hole.
+
+    The held-out contractor's battery was hollow in two ways `SHAM_MODES` did
+    not name — rivals too distant to make a shared claim embarrassing, and a
+    detector that is the claim negated. Both are now in the catalog with
+    ``caught_by=None``, which is the honest entry: no mechanical check reaches
+    either, and both are printed on every report.
+
+    If a check is ever built for one of them, this test's ``AUDIT_BLIND_SPOTS``
+    membership assertion fails and the catalog must be corrected first.
+    """
+    blind = {mode.name for mode in AUDIT_BLIND_SPOTS}
+    assert "distant-rivals" in blind
+    assert "detector-is-the-claim" in blind
+    for name in ("distant-rivals", "detector-is-the-claim"):
+        mode = next(m for m in SHAM_MODES if m.name == name)
+        assert mode.caught_by is None
+        assert mode.countermeasure.strip(), "a blind mode with no countermeasure is a shrug"

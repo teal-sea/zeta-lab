@@ -284,9 +284,44 @@ SHAM_MODES: Final[tuple[ShamMode, ...]] = (
         ),
         caught_by="provenance-contamination",
         countermeasure=(
-            "only a truthful declaration is catchable; a lying provenance "
-            "record is outside mechanical reach — that boundary is the point "
-            "of keeping provenance human-attested"
+            "a truthful declaration is caught here; an untruthful one is caught "
+            "only where a preregistration record exists, because "
+            "harness.preregistration recomputes the condition from evidence "
+            "digests instead of reading the flag (docs/21 §10.1). Without such "
+            "a record the boundary stands: a lying provenance record is outside "
+            "mechanical reach, which is the point of keeping it human-attested"
+        ),
+    ),
+    ShamMode(
+        name="distant-rivals",
+        description=(
+            "rivals that do not share the structure the claim leans on — they "
+            "differ from the target in gross, arbitrary ways, so the modus "
+            "tollens never bites and any claim of the form 'anything AND a "
+            "target-only property' distinguishes"
+        ),
+        caught_by=None,
+        countermeasure=(
+            "no mechanical check knows how near a rival must be; that is the "
+            "department's substantive judgment. Declare, per rival, the "
+            "structure it shares and the property it lacks, and have a party "
+            "that did not author the battery say whether the pair is close "
+            "enough to make a shared claim embarrassing"
+        ),
+    ),
+    ShamMode(
+        name="detector-is-the-claim",
+        description=(
+            "the detector whose power is measured is the claim under test, "
+            "negated: power and specificity both pass while the detector "
+            "carries no information the claim did not already assert, because "
+            "the lesion family was chosen to be exactly what it looks for"
+        ),
+        caught_by=None,
+        countermeasure=(
+            "compare the detector and the claim on the same payloads and treat "
+            "agreement everywhere as a finding, not a comfort; better, have the "
+            "lesion family authored by a party that has not seen the detector"
         ),
     ),
 )

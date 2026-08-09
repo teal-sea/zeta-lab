@@ -114,9 +114,28 @@ check fails:
 | inert lesion | `lesions-plant-something` |
 | key-asymmetry label leak (the `431cc74` shape) | `payload-symmetry` |
 | vacuous calibration | `calibration-rederived` |
-| contaminated preregistration (the W2 shape) | `provenance-contamination`, *if declared* |
-| **silently dropped hardest lesion** | **nothing** — pinned blind |
+| contaminated preregistration (the W2 shape) | `provenance-contamination` if declared; derived from digests where a `harness.preregistration` record exists (`docs/21` §10.1) |
+| **silently dropped hardest lesion** | **nothing** here — caught only against a preregistered criteria digest (`docs/21` §10.1) |
 | **value-encoded label leak / co-designed calibration** | **nothing** — pinned blind |
+| **distant rivals** (added 2026-08-09) | **nothing** — pinned blind |
+| **detector is the claim, negated** (added 2026-08-09) | **nothing** — pinned blind |
+
+The last two rows were added after §8's second experiment was actually run. An
+independent party, given only `protocol.py` and this package's README and
+forbidden the integrity source and this catalog, built a battery graded
+`CALIBRATED` **on the first attempt with zero adaptation iterations**, passing
+all 19 conformance tests. Its rivals were distant enough that `anything AND a
+target-only property` distinguished — an explicitly astrological claim rendered
+as `distinguishes` under a `CALIBRATED` banner — and its detector was its claim
+negated, identical on 29/29 payloads while passing both power and specificity.
+A third observation is not a sham mode but a weakness in this module: a check
+returning `UNKNOWN` (here `payload-symmetry`, unreachable because the payloads
+are callables rather than mappings) does not prevent the top grade. The scoring
+rule in §8 was "every mode they find that the catalog lacks is a real hole";
+these are holes, and the audit's real constraining power is over *mechanical*
+emptiness, not over the two choices that decide whether a battery can kill
+anything — how near the rivals are, and whether the detector is independent of
+the claim. Both are the author's to pick.
 
 The last two rows are the important ones. A fully co-designed sham —
 identity encoded in the *values* of a shared payload key, with claims
