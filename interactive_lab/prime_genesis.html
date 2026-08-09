@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ζ GENESIS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #060610;
+            --glass-bg: rgba(255, 255, 255, 0.04);
+            --glass-border: rgba(255, 255, 255, 0.08);
+            --text: #e2e8f0;
+            --muted: #64748b;
+            --prime: #f59e0b;
+            --cyan: #06b6d4;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html, body {
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #app {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        #header {
+            padding: 20px 32px 8px;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 5;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+        .title-block h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: 3px;
+            background: linear-gradient(90deg, #8b5cf6, #3b82f6, #06b6d4, #10b981);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+        }
+        .title-block h1 .z { font-family: 'Times New Roman', serif; font-style: italic; font-weight: normal; }
+
+        .title-block .subtitle {
+            font-size: 0.85rem;
+            font-weight: 300;
+            color: var(--muted);
+            letter-spacing: 0.5px;
+            margin-top: 2px;
+        }
+
+        #context-panel {
+            background: rgba(16, 16, 28, 0.8);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            border-radius: 8px;
+            padding: 12px 20px;
+            max-width: 450px;
+            backdrop-filter: blur(8px);
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #cbd5e1;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        #context-panel strong {
+            color: var(--cyan);
+            font-weight: 600;
+        }
+
+        #top-wrap {
+            flex: 7;
+            position: relative;
+            min-height: 0;
+        }
+
+        #divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(139,92,246,0.3), rgba(6,182,212,0.3), transparent);
+            flex-shrink: 0;
+        }
+
+        #bottom-wrap {
+            flex: 3;
+            position: relative;
+            min-height: 0;
+        }
+
+        canvas { display: block; width: 100%; height: 100%; }
+
+        #controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 10px 28px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top: 1px solid var(--glass-border);
+            flex-shrink: 0;
+        }
+
+        button {
+            background: rgba(255,255,255,0.08);
+            border: 1px solid rgba(255,255,255,0.15);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            padding: 7px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.15s, transform 0.1s;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+        button:hover { background: rgba(255,255,255,0.15); }
+        button:active { transform: scale(0.97); }
+
+        .ctrl-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .ctrl-label {
+            font-size: 0.65rem;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            font-weight: 600;
+        }
+
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100px;
+            height: 3px;
+            background: rgba(255,255,255,0.12);
+            border-radius: 2px;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px; height: 14px;
+            border-radius: 50%;
+            background: #fff;
+            cursor: pointer;
+            box-shadow: 0 0 8px rgba(255,255,255,0.4);
+        }
+
+        #stats {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--cyan);
+            text-align: center;
+            min-width: 160px;
+        }
+        #stats small { display: block; font-size: 0.65rem; color: var(--muted); margin-top: 1px; }
+
+        .chk-label {
+            display: flex; align-items: center; gap: 6px; cursor: pointer;
+            font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 1px;
+            font-weight: 600;
+        }
+        .chk-label input { cursor: pointer; accent-color: var(--cyan); }
+
+        #tooltip {
+            position: fixed;
+            background: rgba(6,6,16,0.92);
+            border: 1px solid rgba(139,92,246,0.3);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            color: #fff;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.1s;
+            z-index: 50;
+            backdrop-filter: blur(8px);
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div id="header">
+        <div class="title-block">
+            <h1><span class="z">ζ</span> GENESIS</h1>
+            <p class="subtitle">How the zeros of ζ(s) build the primes</p>
+        </div>
+        <div id="context-panel">
+            <span id="ctx-text"><strong>N = 0:</strong> We start with the trivial baseline curve $y = x$. The true prime staircase (dashed white line) lies far away. Press play to start summing the zeros.</span>
+        </div>
+    </div>
+
+    <div id="top-wrap"><canvas id="cv-top"></canvas></div>
+    <div id="divider"></div>
+    <div id="bottom-wrap"><canvas id="cv-bot"></canvas></div>
+
+    <div id="controls">
+        <button id="btn-play">▶ Play</button>
+        <button id="btn-reset">↺ Reset</button>
+        <div class="ctrl-group">
+            <span class="ctrl-label">Speed</span>
+            <input type="range" id="sl-speed" min="20" max="500" value="100">
+        </div>
+        <div id="stats">N = 0 / 200</div>
+        <label class="chk-label">
+            <input type="checkbox" id="chk-harm">
+            Harmonics
+        </label>
+    </div>
+</div>
+
+<div id="tooltip"></div>
+
+<script>
+// ══════════════════════════════════════════════════════════════
+//  DATA
+// ══════════════════════════════════════════════════════════════
+const GAMMAS = [
+14.134725141734695,21.022039638771556,25.01085758014569,30.424876125859512,
+32.93506158773919,37.586178158825675,40.9187190121475,43.327073280915,
+48.00515088116716,49.7738324776723,52.970321477714464,56.44624769706339,
+59.34704400260235,60.83177852460981,65.1125440480816,67.07981052949417,
+69.54640171117398,72.0671576744819,75.70469069908393,77.1448400688748,
+79.33737502024937,82.91038085408603,84.73549298051705,87.42527461312523,
+88.80911120763446,92.49189927055849,94.65134404051989,95.87063422824531,
+98.83119421819369,101.31785100573138,103.72553804047834,105.44662305232609,
+107.1686111842764,111.02953554316967,111.87465917699264,114.32022091545271,
+116.22668032085755,118.79078286597621,121.37012500242065,122.94682929355258,
+124.25681855434577,127.5166838795965,129.57870419995606,131.08768853093267,
+133.4977372029976,134.75650975337388,138.11604205453344,139.7362089521214,
+141.12370740402113,143.11184580762063,146.0009824867655,147.42276534255961,
+150.05352042078488,150.92525761224147,153.0246938111989,156.11290929423788,
+157.59759181759406,158.8499881714205,161.18896413759603,163.030709687182,
+165.5370691879004,167.1844399781745,169.09451541556882,169.9119764794117,
+173.41153651959155,174.75419152336573,176.44143429771043,178.37740777609997,
+179.916484020257,182.20707848436646,184.8744678483875,185.59878367770747,
+187.22892258350186,189.41615865601693,192.0266563607138,193.0797266038457,
+195.26539667952923,196.87648184095832,198.01530967625192,201.2647519437038,
+202.49359451414054,204.18967180310455,205.3946972021633,207.90625888780622,
+209.57650971685626,211.6908625953653,213.34791935971268,214.54704478349143,
+216.1695385082637,219.0675963490214,220.714918839314,221.43070555469333,
+224.00700025460432,224.9833246695823,227.4214442796793,229.33741330552536,
+231.25018870049917,231.98723525318024,233.6934041789083,236.5242296658162,
+237.7698204809252,239.55547757332764,241.04915779621658,242.8232719342226,
+244.07089849707816,247.1369900748975,248.10199006014847,249.5736896447072,
+251.014947795016,253.06998674799948,255.30625645491403,256.38071369443446,
+258.6104394915314,259.874406989678,260.8050845045969,263.57389390487015,
+265.55785183887633,266.6149737815011,267.92191508282406,269.9704490239976,
+271.494055641645,273.4596091884033,275.58749264934386,276.4520495031329,
+278.25074352984194,279.22925092774517,282.4651147650521,283.2111857332339,
+284.83596398090475,286.6674453630029,287.9119205014222,289.5798549292188,
+291.8462913290674,293.5584341393563,294.9653696192655,295.57325487895827,
+297.97927706194344,299.8403260537213,301.64932546219416,302.6967495896069,
+304.8643713408573,305.7289126020368,307.2194961281701,310.1094631467019,
+311.165141530356,312.4278011806009,313.9852857311589,315.47561608947575,
+317.7348059423702,318.8531042563166,321.1601343091136,322.14455867248296,
+323.4669695575121,324.8628660517396,327.44390126190547,329.03307168048093,
+329.9532397282339,331.4744675826634,333.64537852486984,334.2113548332444,
+336.84185042839067,338.3399928508066,339.85821672536355,341.04226111104657,
+342.0548775103636,344.6617029402523,346.34787056600993,347.2726775844205,
+349.31626087069617,350.4084193491921,351.87864902535927,353.4889004887188,
+356.0175749772649,357.1513022520396,357.95268510163226,359.74375495311443,
+361.28936169580464,363.33133057897385,364.736024114089,366.2127102883313,
+367.9935754817403,368.96843809573437,370.050919212106,373.06192837211285,
+373.86487391090856,375.82591276673935,376.32409223066804,378.4366802499655,
+379.87297534653237,381.4844686171865,383.44352944953647,384.95611681486366,
+385.86130084597426,387.222890222388,388.84612835423223,391.45608356363806,
+392.2450833395191,393.427743844434,395.5828700109937,396.3818542225922,
+397.9187362096142,399.9851198761949,401.8392286005332,402.86191776388614,
+404.236441800208
+];
+
+const PRIMES = [2,3,5,7,11,13,17,19,23,29,31,37,41,43,47,53,59,61,67,71,73,79];
+const X_MIN = 1.5, X_MAX = 82, NPTS = 2000;
+const LOG2PI = Math.log(2 * Math.PI);
+
+// ══════════════════════════════════════════════════════════════
+//  PRECOMPUTE
+// ══════════════════════════════════════════════════════════════
+const xs = new Float64Array(NPTS);
+const truePsi = new Float64Array(NPTS);
+const baseLine = new Float64Array(NPTS);
+const zeroTerms = [];
+
+const ppList = [];
+for (const p of PRIMES) {
+    let pk = p;
+    while (pk <= X_MAX + 1) { ppList.push({ v: pk, lp: Math.log(p) }); pk *= p; }
+}
+ppList.sort((a, b) => a.v - b.v);
+
+for (let i = 0; i < NPTS; i++) {
+    const x = X_MIN + (i / (NPTS - 1)) * (X_MAX - X_MIN);
+    xs[i] = x;
+    let psi = 0;
+    for (const pp of ppList) { if (pp.v <= x) psi += pp.lp; else break; }
+    truePsi[i] = psi;
+    baseLine[i] = x - LOG2PI - 0.5 * Math.log(1 - 1 / (x * x));
+}
+
+for (let k = 0; k < GAMMAS.length; k++) {
+    const g = GAMMAS[k];
+    const denom = Math.sqrt(0.25 + g * g);
+    const phase = Math.atan(2 * g);
+    const arr = new Float64Array(NPTS);
+    for (let i = 0; i < NPTS; i++) {
+        const x = xs[i];
+        arr[i] = (2 * Math.sqrt(x) * Math.cos(g * Math.log(x) - phase)) / denom;
+    }
+    zeroTerms.push(arr);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  STATE
+// ══════════════════════════════════════════════════════════════
+let N = 0, playing = false, speed = 100;
+let curPsi = new Float64Array(NPTS);
+let tgtPsi = new Float64Array(NPTS);
+let morphT = 1.0;
+for (let i = 0; i < NPTS; i++) curPsi[i] = tgtPsi[i] = baseLine[i];
+
+const pulses = new Float64Array(PRIMES.length);
+let particles = [];
+let prevLocked = new Set();
+
+// ══════════════════════════════════════════════════════════════
+//  CANVAS SETUP
+// ══════════════════════════════════════════════════════════════
+const cvT = document.getElementById('cv-top');
+const ctxT = cvT.getContext('2d', { alpha: false });
+const cvB = document.getElementById('cv-bot');
+const ctxB = cvB.getContext('2d', { alpha: false });
+const tooltip = document.getElementById('tooltip');
+
+function resize() {
+    const dpr = devicePixelRatio || 1;
+    for (const [cv, ctx] of [[cvT, ctxT], [cvB, ctxB]]) {
+        const r = cv.parentElement.getBoundingClientRect();
+        cv.width = r.width * dpr;
+        cv.height = r.height * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+}
+addEventListener('resize', resize);
+
+// ══════════════════════════════════════════════════════════════
+//  AMBIENT PARTICLES
+// ══════════════════════════════════════════════════════════════
+const bgP = [];
+for (let i = 0; i < 50; i++) {
+    bgP.push({
+        x: Math.random(), y: Math.random(),
+        vx: (Math.random() - 0.5) * 0.0002, vy: (Math.random() - 0.5) * 0.0002,
+        r: 0.5 + Math.random() * 1.2,
+        h: 200 + Math.random() * 60,
+        a: 0.06 + Math.random() * 0.15
+    });
+}
+
+// ══════════════════════════════════════════════════════════════
+//  PARTICLE SYSTEM
+// ══════════════════════════════════════════════════════════════
+class Spark {
+    constructor(x, y) {
+        this.x = x; this.y = y;
+        const angle = Math.random() * Math.PI * 2;
+        const spd = 1 + Math.random() * 3;
+        this.vx = Math.cos(angle) * spd;
+        this.vy = Math.sin(angle) * spd - 1;
+        this.life = 1;
+        this.decay = 0.015 + Math.random() * 0.025;
+        this.sz = 1 + Math.random() * 2;
+    }
+    tick() { this.x += this.vx; this.y += this.vy; this.vy += 0.05; this.life -= this.decay; }
+    draw(ctx) {
+        if (this.life <= 0) return;
+        ctx.globalAlpha = this.life * 0.8;
+        ctx.fillStyle = '#f59e0b';
+        ctx.shadowColor = '#f59e0b';
+        ctx.shadowBlur = 6;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.sz * this.life, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.shadowBlur = 0;
+        ctx.globalAlpha = 1;
+    }
+}
+
+// ══════════════════════════════════════════════════════════════
+//  DRAWING: TOP CANVAS
+// ══════════════════════════════════════════════════════════════
+const MARGIN = { l: 50, r: 20, t: 10, b: 48 };
+
+function drawTop(dt) {
+    const W = cvT.parentElement.getBoundingClientRect().width;
+    const H = cvT.parentElement.getBoundingClientRect().height;
+    const pw = W - MARGIN.l - MARGIN.r;
+    const ph = H - MARGIN.t - MARGIN.b;
+
+    const yMin = -5, yMax = Math.max(truePsi[NPTS - 1] * 1.1, 80);
+    function toX(x) { return MARGIN.l + ((x - X_MIN) / (X_MAX - X_MIN)) * pw; }
+    function toY(y) { return MARGIN.t + ph - ((y - yMin) / (yMax - yMin)) * ph; }
+
+    ctxT.fillStyle = '#060610';
+    ctxT.fillRect(0, 0, W, H);
+
+    for (const p of bgP) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > 1) p.vx *= -1;
+        if (p.y < 0 || p.y > 1) p.vy *= -1;
+        ctxT.globalAlpha = p.a;
+        ctxT.fillStyle = `hsl(${p.h}, 60%, 55%)`;
+        ctxT.beginPath();
+        ctxT.arc(p.x * W, p.y * H, p.r, 0, Math.PI * 2);
+        ctxT.fill();
+    }
+    ctxT.globalAlpha = 1;
+
+    ctxT.strokeStyle = 'rgba(255,255,255,0.04)';
+    ctxT.lineWidth = 1;
+    ctxT.beginPath();
+    for (let x = 10; x <= 80; x += 10) {
+        const px = toX(x);
+        ctxT.moveTo(px, MARGIN.t); ctxT.lineTo(px, MARGIN.t + ph);
+    }
+    for (let y = 0; y <= yMax; y += 10) {
+        const py = toY(y);
+        ctxT.moveTo(MARGIN.l, py); ctxT.lineTo(MARGIN.l + pw, py);
+    }
+    ctxT.stroke();
+
+    ctxT.fillStyle = 'rgba(255,255,255,0.25)';
+    ctxT.font = '10px JetBrains Mono';
+    ctxT.textAlign = 'right';
+    ctxT.textBaseline = 'middle';
+    for (let y = 0; y <= yMax; y += 20) {
+        ctxT.fillText(y, MARGIN.l - 8, toY(y));
+    }
+
+    ctxT.textAlign = 'center';
+    ctxT.textBaseline = 'top';
+    ctxT.fillStyle = 'rgba(255,255,255,0.2)';
+    for (let x = 10; x <= 80; x += 10) {
+        ctxT.fillText(x, toX(x), MARGIN.t + ph + 4);
+    }
+
+    for (let pi = 0; pi < PRIMES.length; pi++) {
+        const p = PRIMES[pi];
+        const px = toX(p);
+        const pulse = pulses[pi];
+
+        const baseAlpha = 0.08 + pulse * 0.5;
+        ctxT.strokeStyle = `rgba(245, 158, 11, ${baseAlpha})`;
+        ctxT.lineWidth = 1 + pulse * 3;
+        ctxT.beginPath();
+        ctxT.moveTo(px, MARGIN.t);
+        ctxT.lineTo(px, MARGIN.t + ph);
+        ctxT.stroke();
+
+        if (pulse > 0.05) {
+            const grd = ctxT.createRadialGradient(px, MARGIN.t + ph, 0, px, MARGIN.t + ph, 30 + pulse * 40);
+            grd.addColorStop(0, `rgba(245, 158, 11, ${pulse * 0.3})`);
+            grd.addColorStop(1, 'transparent');
+            ctxT.fillStyle = grd;
+            ctxT.fillRect(px - 60, MARGIN.t + ph - 60, 120, 60);
+        }
+
+        ctxT.fillStyle = `rgba(245, 158, 11, ${0.5 + pulse * 0.5})`;
+        ctxT.font = `${10 + pulse * 3}px JetBrains Mono`;
+        ctxT.textAlign = 'center';
+        ctxT.textBaseline = 'bottom';
+        ctxT.fillText(p, px, MARGIN.t + ph + 28);
+
+        pulses[pi] *= 0.92;
+    }
+
+    ctxT.strokeStyle = 'rgba(255,255,255,0.25)';
+    ctxT.lineWidth = 1.5;
+    ctxT.setLineDash([4, 3]);
+    ctxT.beginPath();
+    for (let i = 0; i < NPTS; i++) {
+        const px = toX(xs[i]);
+        const py = toY(truePsi[i]);
+        i === 0 ? ctxT.moveTo(px, py) : ctxT.lineTo(px, py);
+    }
+    ctxT.stroke();
+    ctxT.setLineDash([]);
+
+    if (document.getElementById('chk-harm').checked && N > 0) {
+        for (let k = 0; k < N; k++) {
+            const hue = (k * 137.5) % 360;
+            ctxT.strokeStyle = `hsla(${hue}, 70%, 55%, 0.08)`;
+            ctxT.lineWidth = 1;
+            ctxT.beginPath();
+            const midY = (MARGIN.t + ph / 2);
+            for (let i = 0; i < NPTS; i += 3) {
+                const px = toX(xs[i]);
+                const py = midY - zeroTerms[k][i] * (ph * 0.06);
+                i === 0 ? ctxT.moveTo(px, py) : ctxT.lineTo(px, py);
+            }
+            ctxT.stroke();
+        }
+    }
+
+    const disp = new Float64Array(NPTS);
+    const t = morphT;
+    for (let i = 0; i < NPTS; i++) disp[i] = curPsi[i] + (tgtPsi[i] - curPsi[i]) * t;
+
+    const grad = ctxT.createLinearGradient(MARGIN.l, 0, MARGIN.l + pw, 0);
+    function setGrad(a) {
+        grad.addColorStop = undefined;
+        const g2 = ctxT.createLinearGradient(MARGIN.l, 0, MARGIN.l + pw, 0);
+        g2.addColorStop(0, `rgba(139,92,246,${a})`);
+        g2.addColorStop(0.35, `rgba(59,130,246,${a})`);
+        g2.addColorStop(0.65, `rgba(6,182,212,${a})`);
+        g2.addColorStop(1, `rgba(16,185,129,${a})`);
+        return g2;
+    }
+
+    function drawCurve(alpha, lw) {
+        ctxT.strokeStyle = setGrad(alpha);
+        ctxT.lineWidth = lw;
+        ctxT.lineCap = 'round';
+        ctxT.lineJoin = 'round';
+        ctxT.beginPath();
+        for (let i = 0; i < NPTS; i++) {
+            const px = toX(xs[i]);
+            const py = toY(disp[i]);
+            i === 0 ? ctxT.moveTo(px, py) : ctxT.lineTo(px, py);
+        }
+        ctxT.stroke();
+    }
+
+    drawCurve(0.08, 16);
+    drawCurve(0.2, 8);
+    drawCurve(0.9, 2.5);
+
+    for (let i = particles.length - 1; i >= 0; i--) {
+        particles[i].tick();
+        particles[i].draw(ctxT);
+        if (particles[i].life <= 0) particles.splice(i, 1);
+    }
+
+    if (hoverX >= 0) {
+        const xVal = X_MIN + (hoverX - MARGIN.l) / pw * (X_MAX - X_MIN);
+        if (xVal >= X_MIN && xVal <= X_MAX) {
+            const idx = Math.round(((xVal - X_MIN) / (X_MAX - X_MIN)) * (NPTS - 1));
+            const yVal = disp[idx];
+            const trueVal = truePsi[idx];
+            const py = toY(yVal);
+
+            ctxT.strokeStyle = 'rgba(255,255,255,0.15)';
+            ctxT.lineWidth = 1;
+            ctxT.setLineDash([4, 4]);
+            ctxT.beginPath();
+            ctxT.moveTo(hoverX, MARGIN.t); ctxT.lineTo(hoverX, MARGIN.t + ph);
+            ctxT.moveTo(MARGIN.l, py); ctxT.lineTo(MARGIN.l + pw, py);
+            ctxT.stroke();
+            ctxT.setLineDash([]);
+
+            ctxT.fillStyle = '#fff';
+            ctxT.beginPath();
+            ctxT.arc(hoverX, py, 3, 0, Math.PI * 2);
+            ctxT.fill();
+
+            tooltip.style.opacity = '1';
+            tooltip.style.left = (hoverX + cvT.getBoundingClientRect().left + 16) + 'px';
+            tooltip.style.top = (py + cvT.getBoundingClientRect().top - 10) + 'px';
+            tooltip.innerHTML = `x = ${xVal.toFixed(1)}<br>ψ<sub>N</sub> = ${yVal.toFixed(2)}<br>ψ = ${trueVal.toFixed(2)}`;
+        }
+    } else {
+        tooltip.style.opacity = '0';
+    }
+
+    ctxT.fillStyle = 'rgba(255,255,255,0.35)';
+    ctxT.font = '11px Inter';
+    ctxT.textAlign = 'left';
+    ctxT.textBaseline = 'bottom';
+    ctxT.fillText('ψ(x) true', MARGIN.l + 6, toY(truePsi[NPTS - 1]) - 4);
+
+    const lIdx = Math.round(0.85 * NPTS);
+    ctxT.fillStyle = 'rgba(6,182,212,0.6)';
+    ctxT.fillText(`ψ_${N}(x)`, toX(xs[lIdx]) + 8, toY(disp[lIdx]) - 6);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  DRAWING: BOTTOM CANVAS (HARMONIC WATERFALL)
+// ══════════════════════════════════════════════════════════════
+function drawBot() {
+    const W = cvB.parentElement.getBoundingClientRect().width;
+    const H = cvB.parentElement.getBoundingClientRect().height;
+
+    ctxB.fillStyle = '#060610';
+    ctxB.fillRect(0, 0, W, H);
+
+    if (N === 0) {
+        ctxB.fillStyle = 'rgba(255,255,255,0.15)';
+        ctxB.font = '13px Inter';
+        ctxB.textAlign = 'center';
+        ctxB.textBaseline = 'middle';
+        ctxB.fillText('Harmonic waterfall: each zero\'s wave appears here as it is added', W / 2, H / 2);
+        return;
+    }
+
+    const rowH = Math.max(12, Math.min(28, H / Math.min(N, 20)));
+    const visibleRows = Math.floor(H / rowH) + 1;
+    const startK = Math.max(0, N - visibleRows);
+
+    const mL = 40, mR = 10;
+    const plotW = W - mL - mR;
+
+    ctxB.font = '9px JetBrains Mono';
+    ctxB.textBaseline = 'middle';
+
+    for (let k = startK; k < N; k++) {
+        const row = N - 1 - k;
+        const yCenter = H - rowH / 2 - row * rowH;
+        if (yCenter < -rowH || yCenter > H + rowH) continue;
+
+        const hue = (k * 137.5) % 360;
+        const isCurrent = (k === N - 1);
+        const fade = Math.max(0.15, 1 - row * 0.04);
+        const alpha = isCurrent ? Math.min(1, morphT * 2) : fade;
+
+        ctxB.strokeStyle = `hsla(${hue}, 75%, 58%, ${alpha})`;
+        ctxB.lineWidth = isCurrent ? 2 : 1;
+        ctxB.beginPath();
+        const scale = rowH * 0.35;
+        for (let i = 0; i < NPTS; i += 3) {
+            const px = mL + (i / (NPTS - 1)) * plotW;
+            const py = yCenter - zeroTerms[k][i] * scale;
+            i === 0 ? ctxB.moveTo(px, py) : ctxB.lineTo(px, py);
+        }
+        ctxB.stroke();
+
+        if (isCurrent && morphT < 0.7) {
+            ctxB.strokeStyle = `hsla(${hue}, 80%, 65%, ${(0.7 - morphT) * 0.6})`;
+            ctxB.lineWidth = 4;
+            ctxB.beginPath();
+            for (let i = 0; i < NPTS; i += 3) {
+                const px = mL + (i / (NPTS - 1)) * plotW;
+                const py = yCenter - zeroTerms[k][i] * scale;
+                i === 0 ? ctxB.moveTo(px, py) : ctxB.lineTo(px, py);
+            }
+            ctxB.stroke();
+        }
+
+        ctxB.fillStyle = `hsla(${hue}, 60%, 60%, ${alpha * 0.7})`;
+        ctxB.textAlign = 'right';
+        ctxB.fillText(`γ${k + 1}`, mL - 5, yCenter);
+    }
+}
+
+// ══════════════════════════════════════════════════════════════
+//  LOGIC
+// ══════════════════════════════════════════════════════════════
+let lastT = 0;
+let hoverX = -1;
+
+cvT.addEventListener('mousemove', e => {
+    hoverX = e.clientX - cvT.getBoundingClientRect().left;
+});
+cvT.addEventListener('mouseleave', () => { hoverX = -1; });
+
+function getContextText(n) {
+    if (n === 0) return "<strong>N = 0:</strong> We start with the trivial baseline curve $y = x$. The true prime staircase (dashed white line) lies far away. Press play to start summing the zeros.";
+    if (n === 1) return "<strong>N = 1:</strong> The first Riemann zero is added as a pure frequency wave. Notice how it warps the straight line.";
+    if (n < 5) return `<strong>N = ${n}:</strong> More zero frequencies enter. The interference appears noisy and chaotic.`;
+    if (n < 20) return `<strong>N = ${n}:</strong> Constructive and destructive interference is starting to push the curve up and down in specific places.`;
+    if (n < 50) return `<strong>N = ${n}:</strong> Chaos gives way to structure. The approximation starts to form flat terraces between the prime numbers.`;
+    if (n < 150) return `<strong>N = ${n}:</strong> The steps are locking into place. Every new zero's wave corrects the subtle errors of the ones before it, pulling the curve closer to the prime staircase.`;
+    if (n < 200) return `<strong>N = ${n}:</strong> Notice the particle bursts! When the approximation matches the true prime step precisely, it locks on. The primes emerge from the frequencies.`;
+    return `<strong>N = 200:</strong> The primes have materialized. With infinite zeros, this smooth wave combination becomes exactly the sharp, discrete prime staircase.`;
+}
+
+function addNextZero() {
+    if (N >= GAMMAS.length) return;
+    const k = N;
+    N++;
+    morphT = 0;
+    for (let i = 0; i < NPTS; i++) tgtPsi[i] = curPsi[i] - zeroTerms[k][i];
+    updateStats();
+}
+
+function updateStats() {
+    const el = document.getElementById('stats');
+    el.innerHTML = `N = ${N} / ${GAMMAS.length}<small>γ = ${N > 0 ? GAMMAS[N - 1].toFixed(2) : '—'}</small>`;
+    
+    // Update context panel
+    document.getElementById('ctx-text').innerHTML = getContextText(N).replace(/\$([^\$]+)\$/g, '<i>$1</i>');
+}
+
+function checkPrimes() {
+    const W = cvT.parentElement.getBoundingClientRect().width;
+    const H = cvT.parentElement.getBoundingClientRect().height;
+    const pw = W - MARGIN.l - MARGIN.r;
+    const ph = H - MARGIN.t - MARGIN.b;
+    const yMin = -5, yMax = Math.max(truePsi[NPTS - 1] * 1.1, 80);
+
+    for (let pi = 0; pi < PRIMES.length; pi++) {
+        const p = PRIMES[pi];
+        const idx = Math.round(((p - X_MIN) / (X_MAX - X_MIN)) * (NPTS - 1));
+        const err = Math.abs(curPsi[idx] - truePsi[idx]);
+        const threshold = Math.max(0.3, truePsi[idx] * 0.03);
+        const locked = err < threshold;
+
+        if (locked && !prevLocked.has(pi)) {
+            pulses[pi] = 1.0;
+            const px = MARGIN.l + ((p - X_MIN) / (X_MAX - X_MIN)) * pw;
+            const py = MARGIN.t + ph - ((curPsi[idx] - yMin) / (yMax - yMin)) * ph;
+            for (let j = 0; j < 12; j++) particles.push(new Spark(px, py));
+            prevLocked.add(pi);
+        }
+        if (!locked) prevLocked.delete(pi);
+    }
+}
+
+function loop(ts) {
+    const dt = ts - lastT || 16;
+    lastT = ts;
+    
+    if (morphT < 1) {
+        morphT = Math.min(1, morphT + dt / (speed * 0.8));
+        if (morphT >= 1) {
+            for (let i = 0; i < NPTS; i++) curPsi[i] = tgtPsi[i];
+            checkPrimes();
+        }
+    }
+
+    if (playing && morphT >= 1 && N < GAMMAS.length) {
+        addNextZero();
+    }
+
+    drawTop(dt);
+    drawBot();
+    requestAnimationFrame(loop);
+}
+
+// ══════════════════════════════════════════════════════════════
+//  CONTROLS
+// ══════════════════════════════════════════════════════════════
+document.getElementById('btn-play').addEventListener('click', e => {
+    playing = !playing;
+    e.target.textContent = playing ? '⏸ Pause' : '▶ Play';
+});
+
+document.getElementById('btn-reset').addEventListener('click', () => {
+    playing = false;
+    document.getElementById('btn-play').textContent = '▶ Play';
+    N = 0; morphT = 1; prevLocked.clear(); particles = [];
+    for (let i = 0; i < NPTS; i++) curPsi[i] = tgtPsi[i] = baseLine[i];
+    pulses.fill(0);
+    updateStats();
+});
+
+document.getElementById('sl-speed').addEventListener('input', e => {
+    speed = +e.value;
+});
+
+// ══════════════════════════════════════════════════════════════
+//  BOOT
+// ══════════════════════════════════════════════════════════════
+resize();
+updateStats();
+requestAnimationFrame(loop);
+</script>
+</body>
+</html>
