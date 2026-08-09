@@ -61,8 +61,21 @@ hidden.
 | Rung | Statement |
 |---|---|
 | 1 (done) | the lab's ground-truth facts wired to their Mathlib proofs |
-| 2 | the κ derivation behind the Davenport–Heilbronn counterexample |
-| 3 | Davenport–Heilbronn itself — that zeta-shaped symmetry alone cannot give RH |
+| 2 (done) | the κ derivation behind the Davenport–Heilbronn counterexample |
+| 3 (analytic half done) | Davenport–Heilbronn itself — that zeta-shaped symmetry alone cannot give RH |
+
+Rung 3's analytic half is kernel-checked in `ZetaLean/DHAnalytic.lean`: the
+DH function built from the quartic character mod 5, entire, summing the
+`dh_coeff` series on `Re > 1`, with its completed functional equation proved
+through the root-number identity — κ is exactly the rotation aligning the two
+conjugate root numbers, grown from Mathlib's `cos(π/5) = (1+√5)/4`. Proving
+it exposed that the original Phase A *statement* was false in Lean's
+semantics (Mathlib's junk value `Γ(0) = 0` broke the unguarded functional
+equation at `z = -1`) and too weak (no differentiability, so a patchwork `f`
+could fake the off-line zero); both defects are fixed in
+`ZetaLean/DavenportHeilbronn.lean`. What remains of rung 3 is the numeric
+half: a certified interval evaluation of the off-line zero itself
+(`ZetaLean/OracleDH.lean` holds the oracle data, still uncertified).
 
 The ladder and the next rung live in `HANDOFF.md`;
 `references/mathlib-open-targets.md` tracks what Mathlib itself records as
