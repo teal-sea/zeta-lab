@@ -178,6 +178,24 @@ Zeta Lab hosts multiple autonomous agents running in parallel across different b
   `harness.departments.KNOWN_DEPARTMENTS`, so listing a department there is
   what turns its audit on. Read `harness/README.md` before adding one. Like
   `ontology`, it is not part of the editable install.
+  Since 2026-08-09 the package also carries the **verification-integrity
+  layer** (`docs/20-verification-integrity.md` is the record): three more
+  domain-agnostic files under the same seam tests — `provenance.py`
+  (independence/contamination as declared data), `integrity.py` (16 named
+  checks → five crisp grades, the `SHAM_MODES` catalog with pinned blind
+  spots, and `ClaimReport`, which pairs every claim outcome with its
+  battery's integrity grade and cannot state one without the other), and
+  `shams.py` (planted battery corruptions — the lesion principle one level
+  up). The Department contract now also requires declared `detectors`
+  (power *and* specificity measured; a constant-True detector is caught)
+  and a `scope`, and accepts a `provenance` record. Six departments are
+  registered: `zeta`, `finitefield`, `compiler`, `croniter`, `referee`
+  (the verification machinery as its own subject; the reconstructed
+  431cc74 sham is its held-out rival) and `stateval` (distributional
+  claims; forced `run_null_band` and `payloads_same` into the shared
+  layer). `python -m harness.demo` runs everything live;
+  `python -m harness.new_department <name>` scaffolds questions, not
+  placeholder instruments.
 - Package: `dossier/` — **a probe, not a department.** An experiment in
   representing mathematical research state (intent, definition, rejected
   alternatives, semantic obligations, evidence) so an agent can *resume* work.
@@ -204,7 +222,7 @@ Zeta Lab hosts multiple autonomous agents running in parallel across different b
 - `scripts/` 01–05 and 07–13 standalone demos, `06_tour.py` (~90 s full
   story), `make_figures.py [--quick|--full]`. `13_discovery_run.py` is the
   funnel's operator console (`--dry-run`, `--report`).
-- `docs/` 00–18: a reading course; keep cross-references consistent with
+- `docs/` 00–20: a reading course; keep cross-references consistent with
   actual filenames (doc 05 is `05-de-bruijn-newman.md`).
   `docs/doors/` is the switchboard: one short page per way in (learn, refute,
   certify, discover) plus one page per department. The repo has one spine and
@@ -254,8 +272,8 @@ affected cache files and re-run, or stale numbers will "pass".
 
 ```bash
 cd <repo root>
-.venv/bin/python -m pytest -q                 # full suite (1704 tests, ~9 min)
-.venv/bin/python -m pytest -q -m "not slow"   # fast tier (1648 tests, ~3 min)
+.venv/bin/python -m pytest -q                 # full suite (1946 tests, ~10 min)
+.venv/bin/python -m pytest -q -m "not slow"   # fast tier (1883 tests, ~3-8 min)
 .venv/bin/python scripts/06_tour.py           # end-to-end sanity + demo
 .venv/bin/python scripts/make_figures.py --quick   # all figures into figures/
 cd lean && PATH="$HOME/.elan/bin:$PATH" lake build  # the certified arm (0 sorrys)

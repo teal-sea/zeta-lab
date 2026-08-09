@@ -35,11 +35,25 @@ The mathematics is **department #1** and the worked example.
 five independent claims of zero structure arrived in one day and the standing
 instruments dispatched all five, each verdict costing minutes and surviving
 independent rerun. The protocol those instruments became is `harness/` —
-domain-agnostic by test rather than by intention, and now carrying four
-departments: the mathematics, curves over F_p, LLVM IR rewrites, and cron
-schedule semantics — the last a subject born outside this repository
-entirely, refereed by the unchanged protocol
-([`harness/README.md`](harness/README.md), [`docs/doors/`](docs/doors/README.md)).
+domain-agnostic by test rather than by intention, and now carrying six
+departments: the mathematics, curves over F_p, LLVM IR rewrites, cron
+schedule semantics (a subject born outside this repository, refereed by the
+unchanged protocol), statistical model evaluation — and **the referee
+itself**. That last department exists because this repository twice caught
+its own verification being hollow while structurally perfect (a sham
+battery a human had to catch; a benchmark showing blinded agents miss
+hollow verification reliably), so the discipline was turned inward: every
+battery is audited, sham batteries are killed by name, every claim outcome
+travels with the integrity grade of the battery that produced it, and the
+audit's own blind spots are pinned in tests rather than hoped away.
+One command shows the whole arrangement, every verdict re-derived live:
+
+```bash
+.venv/bin/python -m harness.demo
+```
+
+([`harness/README.md`](harness/README.md), [`docs/doors/`](docs/doors/README.md),
+[`docs/20`](docs/20-verification-integrity.md).)
 
 ## Pick a door
 

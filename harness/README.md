@@ -13,13 +13,18 @@ claims.
 
 ## The admission rule
 
-**No department without a battery.**
+**No department without a battery — and no battery without a measured
+referee.**
 
 A body of work whose claims nothing in this tree can falsify is not a
-department. It is a probe, and probes belong where nobody will mistake one for
-a result. `validate_battery` enforces this structurally: it refuses a battery
-with no rival, a battery with neither decoy nor surrogate, and a battery with
-no lesion.
+department. It is a probe, and probes belong where nobody will mistake one
+for a result. `validate_battery` enforces this structurally: it refuses a
+battery with no rival, a battery with neither decoy nor surrogate, and a
+battery with no lesion. `validate_department` further refuses a department
+with no declared **detector** (lesions without a detector staked on
+noticing them are power theater — `compiler/FINDINGS.md` §8 measured that
+gap) and no declared **scope** (a pass that means an unstated amount gets
+read as meaning more than it does).
 
 This is the repository's honest-scope rule turned into architecture.
 
@@ -46,6 +51,31 @@ battery is expected to kill, and at least one it is expected to pass — and
 `tests/test_department_conformance.py` re-runs them and re-derives the verdicts
 rather than trusting the labels.
 
+## The integrity layer — the referee, refereed
+
+Structural validity is not verification: the sham battery commit `431cc74`
+replaced was structurally complete, validated, passed the conformance suite
+of its day, and could never have killed anything. `harness/integrity.py` is
+that incident turned into architecture. It runs sixteen named checks against
+a department and grades the battery `CALIBRATED` / `DETECTOR_INADEQUATE` /
+`UNMEASURED` / `CONTAMINATED` / `HOLLOW` — no scalar score — and
+`ClaimReport` pairs every claim outcome with that grade, incapable of
+stating one without the other. A green claim from a hollow battery renders
+as dangerous, because it is.
+
+The audit's own power is measured the way it measures everyone else's:
+`harness/shams.py` plants known corruptions in batteries (constant
+detectors, target-as-rival, inert lesions, leaked labels), and
+`tests/test_harness_integrity.py` asserts each catchable sham mode is
+caught by its named check — while the two modes no mechanical check can
+catch (a value-encoded label leak, co-designed calibration) are **pinned as
+blind**, with their countermeasure (independent authorship, declared in
+`harness/provenance.py`, attested rather than proven). The catalog is
+`integrity.SHAM_MODES`, and every report prints the blind rows. Department
+#5 (`referee`) makes all of this a subject under the same conformance audit
+as everything else; `docs/20-verification-integrity.md` is the full record,
+including where the recursion bottoms out.
+
 ## The seam
 
 `harness/protocol.py` imports nothing from any laboratory package, names no
@@ -61,27 +91,37 @@ working: if it needed the laboratory to run, the seam would already be broken.
 Subject matter lives in `harness/departments/`, which may import whatever it
 likes.
 
-## Adding department #2
+## Adding a department
 
-Four steps. `harness/departments/zeta_department.py` is the worked example.
+Start from the scaffold, which generates questions rather than placeholder
+instruments (a scaffold that generated runnable placeholders would be a
+sham-battery generator):
 
-1. **Write the module.** Build the four roles out of whatever the subject
-   already has. Do not invent instruments for the occasion — if nothing in the
-   tree can currently kill a claim in this area, that is the finding, and the
-   department is not ready.
-2. **Declare the department** with a `door` pointing at a real page under
-   `docs/doors/`, the `modules` it owns, and at least two `reference_claims`
-   with known verdicts. Call `register_department` at import time.
-3. **List it** in `KNOWN_DEPARTMENTS` in `harness/departments/__init__.py`.
-4. **Run the conformance suite.** It is parametrized over that dict, so step 3
-   is what turns the audit on:
+```bash
+.venv/bin/python -m harness.new_department my_domain
+```
 
-   ```bash
-   .venv/bin/python -m pytest -q -o addopts='' tests/test_department_conformance.py
-   ```
+Then: build the four roles out of whatever the subject already has (do not
+invent instruments for the occasion — if nothing in the tree can currently
+kill a claim in this area, that is the finding, and the department is not
+ready); declare detectors with a clean probe, a scope, a provenance record
+and both reference claims; and **list it in `KNOWN_DEPARTMENTS` last** —
+that line is what turns the conformance audit and the integrity audit on:
 
-There is no fifth step where someone reviews it by hand. That is the point:
-a department cannot be added quietly, and cannot be added without a referee.
+```bash
+.venv/bin/python -m pytest -q -o addopts='' tests/test_department_conformance.py
+```
+
+There is no step where someone reviews it by hand. That is the point:
+a department cannot be added quietly, and cannot be added without a referee
+whose own power has been measured.
+
+To watch all of it run end to end — every department, then the machinery
+turned on itself:
+
+```bash
+.venv/bin/python -m harness.demo
+```
 
 ## What this is not
 

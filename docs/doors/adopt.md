@@ -43,7 +43,13 @@ suite re-derives both verdicts — because a referee that only ever says "no"
 looks exactly like a strict one until you hand it something known to be
 sound. The lesions close the loop on the other side: a detector that has
 never been shown to notice a planted violation has a power of exactly
-"assumed".
+"assumed" — and since the 2026-08-09 build the detector is part of the
+admission contract, its specificity is measured alongside its power (a
+detector that fires on the clean probe carries no information, whatever its
+lesion record says), and the battery as a whole receives an **integrity
+grade** that travels with every claim outcome it produces. Batteries can
+fail. There is a department whose subject is exactly that
+([referee.md](referee.md), [`docs/20`](../20-verification-integrity.md)).
 
 The same discipline is applied to language. *Certified* is a reserved word
 with a single owner (`zeta/rigor.py`, every step enclosure-carrying);
@@ -57,12 +63,20 @@ nothing from `zeta` — enforced by an AST scan, a `sys.modules` check, and a
 lexical scan for subject-matter vocabulary. It would run unchanged for a
 chemistry lab or a compiler-optimisation search.
 
-But there is one department. The four roles are, today, a generalisation of
-exactly one case, and whether they carve a *second* subject well is unknown
-until someone builds one (`ROADMAP.md`, known gaps). That is the standing
-invitation of this door: the admission procedure is four steps in
-[`harness/README.md`](../../harness/README.md) §"Adding department #2", and
-there is deliberately no fifth step where a human waves it through.
+Six departments now run under it: the mathematics, a decidable-property
+subject (curves over F_p), a foreign-vocabulary subject (LLVM IR rewrites),
+a foreign-*born* subject (croniter, battery content authored independently
+and blind), a distributional subject (statistical model evaluation, which
+forced `run_null_band` into the protocol), and the referee itself. Across
+all six, `protocol.py` changed once — deliberately, to strengthen admission
+— and the shared audit needed exactly two generalisations, both the same
+mistake (payload-shape guessing; `ROADMAP.md`, known gap #1). What remains
+honestly untested is adoption by an outside team: every department was
+still orchestrated by this repository's own process. That is the standing
+invitation of this door — start from
+`python -m harness.new_department <name>`, whose scaffold generates
+questions rather than placeholder instruments, and note that there is
+deliberately no final step where a human waves the result through.
 
 ## The pattern outside a mathematics repository
 

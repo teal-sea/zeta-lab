@@ -667,24 +667,74 @@ was not met), the probe classification stands, and any revival must first
 repair the benchmark (the competence floor, the ceiling lesions) and then
 beat disciplined prose from scratch — the burden does not reset.
 
+## The verification-integrity build: the referee, refereed (2026-08-09)
+
+The layer two incidents had already specified — the 431cc74 sham (structurally
+complete, hollow, human-caught) and the resumption benchmark's finding that
+agents reliably miss hollow verification — built as architecture. Full record
+in `docs/20-verification-integrity.md`; the short version:
+
+- **Claim outcome and battery integrity are now different axes**, and
+  `harness/integrity.py` refuses to state one without the other: sixteen
+  named checks, five crisp grades (no scalar), and a `ClaimReport` on which
+  a green claim from a hollow battery renders as dangerous.
+- **The contract grew what the incidents demanded**: `NamedDetector` enters
+  admission (FINDINGS §8's gap — lesions without a staked detector are power
+  theater), `DetectorVerdict` measures specificity (a constant-True detector
+  previously earned a perfect PowerVerdict), and departments declare `scope`
+  and `provenance` (REDTEAM W2's contamination as a declarable field).
+- **Department #5 is the referee itself**: batteries as subjects, the
+  reconstructed 431cc74 sham as the held-out rival, sham mutations as
+  lesions with measured magnitudes, the audit as the detector. Its killed
+  reference claim — `validates_structurally`, true of the specimen and of
+  every sham — makes "structural completeness is not verification" a
+  re-derived measurement. The audit's two mechanical blind spots
+  (value-encoded label leaks, co-designed calibration) are pinned AS blind,
+  poison-lesion style, with the countermeasure (independent authorship,
+  attested in provenance) named on every report. Recursion bottoms out in a
+  documented kernel (docs/doors/referee.md): deterministic re-execution,
+  the conformance suite as a second expression of the same requirements,
+  one held-out mutant, human-attested provenance. No meta-meta-referee.
+- **Department #6 (stateval) was chosen to attack the single-run
+  assumption** all earlier departments share, and it broke two shared-layer
+  things, both fixed as strengthenings: `run_null_band` (a distributional
+  null cannot be judged by one draw and a distance — the W3/W4 failure,
+  now an exceedance count over a stated number of draws) and
+  `payloads_same` (the audit compared mapping payloads by keys alone and
+  raised on arrays — the probe-convention lesson one layer down). Its
+  preserved false start is pinned: two drafts of the seed-hacked rival
+  acquired *genuine* skill, caught by calibration re-derivation before
+  shipping; a rival lacks the property by construction or it is not a rival.
+- `python -m harness.demo` runs every department and then the turn;
+  `python -m harness.new_department` scaffolds questions, not placeholder
+  instruments, because a scaffold that generated runnable placeholders
+  would be a sham-battery generator.
+
 ## Known gaps
 
 Listed because an undocumented gap becomes an assumption.
 
-1. **The harness has four departments, and the foreign-ingestion half of
+1. **The harness has six departments, and the foreign-ingestion half of
    this gap is now measured.** The protocol survived a decidable-property
    subject (finite fields), a foreign-vocabulary subject (programs), and —
    with department #4 — a subject born entirely outside this tree, with
    battery content authored by an independent party, all without a line of
-   `protocol.py` changing. The shared audit needed exactly one
-   generalisation across all four (the `probe` convention), which
-   strengthened it. What remains untested is the other half: adoption by an
-   **outside team** — every department was still orchestrated by this
-   repository's own process, so "an outsider could build a non-sham battery
-   from the docs alone" remains an argument, not a measurement. The compiler
-   department's rung 3 (Alive2, LLVM's own semantics) also remains absent —
-   its model backend is hand-written and its authority stops at the
-   cross-check against compiled output.
+   `protocol.py` changing. It then changed, once, deliberately: the
+   2026-08-09 integrity build added detectors/scope/provenance to the
+   contract and `run_null_band`, on the evidence of FINDINGS §8, REDTEAM
+   W2 and department #6's distributional null — strengthenings, not
+   accommodations, each traceable to a recorded incident. The shared audit
+   has now needed exactly two generalisations (the `probe` convention;
+   `payloads_same`), and both were the same mistake — payload-shape
+   guessing — which is worth treating as a standing prediction about where
+   the next false-generic will be found. What remains untested is the
+   other half: adoption by an **outside team** — every department was
+   still orchestrated by this repository's own process, so "an outsider
+   could build a non-sham battery from the docs alone" remains an
+   argument, not a measurement (`docs/20` §8 lists this as the experiment
+   most likely to hurt). The compiler department's rung 3 (Alive2, LLVM's
+   own semantics) also remains absent — its model backend is hand-written
+   and its authority stops at the cross-check against compiled output.
 2. **The dossier probe has one example and no evidence that it helps.** The
    schema can be filled in; that is not the same as being the right schema.
    Nothing has moved an axis by machine, and the Hardy Z example is

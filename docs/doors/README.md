@@ -48,9 +48,21 @@ next department is entitled to the same room.
 | [`finitefield`](finitefield.md) | curves over F_p, where RH is a theorem | 2 rivals, 2 decoys, 2 surrogates, 3 lesions |
 | [`compiler`](compiler.md) | LLVM IR rewrites — belief in a transformation, separated from its size | 3 rivals, 2 decoys, 3 surrogates, 4 lesions |
 | [`croniter`](croniter.md) | cron schedule union semantics under `#`/`W` — the first foreign-domain subject, battery content authored independently | 2 rivals, 2 decoys, 2 surrogates, 3 lesions |
+| [`referee`](referee.md) | **the verification machinery itself** — sham batteries killed, the audit's power measured, blind spots pinned | 3 rivals, 2 decoys, 3 surrogates, 4 lesions |
+| [`stateval`](stateval.md) | statistical model evaluation — whether a reported improvement is skill or protocol | 3 rivals, 2 decoys, 2 surrogates, 3 lesions |
 
-See `harness/README.md` for what those four words mean and how to add the
-second department.
+Every department also carries **declared detectors** (power and specificity
+measured, floors stated), a **scope** (what a pass licenses), and a
+**provenance record** (who authored the battery content, and blind or not).
+Every claim outcome is paired with the battery's integrity grade — see
+[`docs/20`](../20-verification-integrity.md), and watch the whole thing run:
+
+```bash
+.venv/bin/python -m harness.demo
+```
+
+See `harness/README.md` for what the four instrument words mean;
+`python -m harness.new_department <name>` scaffolds the next one.
 
 ## Probes
 

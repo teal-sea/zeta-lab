@@ -848,7 +848,7 @@ The falsification protocol with the subject factored out. Four instrument roles 
 
 ### `harness/protocol.py` — ``harness.protocol`` — four instrument roles, one battery, one department.
 
-*684 lines*
+*911 lines*
 
 - `class HarnessError` — Base class for every refusal this module issues.
 - `class BatteryError` — A battery is malformed, or is one that could not fail.
@@ -857,11 +857,14 @@ The falsification protocol with the subject factored out. Four instrument roles 
 - `class Decoy` — A substitution that keeps the shape and removes the substance.
 - `class Surrogate` — A generator of observations that carry no substantive input.
 - `class Lesion` — A planted, known violation, used to measure a detector's power.
+- `class NamedDetector` — A detector the department stakes its power measurements on.
 - `class Battery` — The instruments entitled to kill a department's claims.
 - `class BatteryVerdict` — Outcome of running one claim against the target and every rival.
 - `class AblationVerdict` — Outcome of swapping the substantive input for each decoy.
 - `class NullVerdict` — Outcome of comparing an observed statistic against the null models.
 - `class PowerVerdict` — Outcome of showing a detector a set of planted violations.
+- `class NullBandVerdict` — Outcome of comparing an observed statistic against *many* draws from
+- `class DetectorVerdict` — Power and specificity of one named detector, measured together.
 - `class ReferenceClaim` — A claim whose verdict is already known, kept as a calibration.
 - `class Department` — A body of work with a subject, a referee, and a way in.
 - `battery_reasons(battery: Battery) -> tuple[str, ...]` — Every reason ``battery`` is not usable, in one pass.
@@ -877,12 +880,61 @@ The falsification protocol with the subject factored out. Four instrument roles 
 - `run_ablation(battery: Battery, measure: Callable[[Any], float], *, tolerance: float, payload: Any = None, name: str = '') -> AblationVerdict` — Measure on the target, then on the target with each decoy substituted.
 - `run_nulls(battery: Battery, statistic: Callable[[Any], float], *, tolerance: float, observed: float | None = None, name: str = '') -> NullVerdict` — Compare the observed statistic against one draw from each surrogate.
 - `run_power(battery: Battery, detector: Callable[[Any], Any], *, payload: Any = None, name: str = '') -> PowerVerdict` — Show ``detector`` every planted violation and record what it noticed.
+- `run_null_band(battery: Battery, statistic: Callable[[Any], float], *, draws: int, observed: float | None = None, name: str = '') -> NullBandVerdict` — Compare the observed statistic against ``draws`` samples per surrogate.
+- `run_detector(battery: Battery, detector: NamedDetector, *, payload: Any = None) -> DetectorVerdict` — Measure one declared detector's power *and* specificity.
+
+### `harness/demo.py` — ``python -m harness.demo`` — the whole architecture, in one run.
+
+*174 lines*
+
+- `main(argv: list[str] | None = None) -> int`
+
+### `harness/integrity.py` — ``harness.integrity`` — the referee, refereed.
+
+*886 lines*
+
+Constants: `PASS`, `FAIL`, `UNKNOWN`, `CALIBRATED`, `DETECTOR_INADEQUATE`, `UNMEASURED`, `CONTAMINATED`, `HOLLOW`, `GRADES`, `SHAM_MODES`, `AUDIT_BLIND_SPOTS`
+
+- `class CheckResult` — One named integrity check: what was measured and what it showed.
+- `class ShamMode` — One known way a structurally valid battery can be hollow.
+- `class IntegrityReport` — Every integrity check run against one department, with its grade.
+- `class ClaimReport` — One claim outcome, permanently paired with its battery's integrity.
+- `payloads_same(before: Any, after: Any) -> bool` — Structural equality across the payload shapes departments actually use.
+- `audit_department(department: Department) -> IntegrityReport` — Run every integrity check against ``department`` and grade the result.
+- `report_claim(department: Department, claim: ClaimOutcome, *, name: str = '') -> ClaimReport` — Run ``claim`` through the department's battery and pair the outcome
+
+### `harness/new_department.py` — ``python -m harness.new_department <name>`` — scaffold a department honestly.
+
+*215 lines*
+
+- `scaffold(name: str, *, root: Path = _REPO_ROOT) -> list[Path]` — Write the three files; refuse to overwrite anything that exists.
+- `main(argv: list[str] | None = None) -> int`
+
+### `harness/provenance.py` — ``harness.provenance`` — independence and contamination as declared data.
+
+*178 lines*
+
+- `class Provenance` — Who authored a battery's content, when, and under what conditions.
+- `contamination_reasons(provenance: Provenance) -> tuple[str, ...]` — Every declared contamination, in one pass.
+- `dependence_reasons(provenance: Provenance) -> tuple[str, ...]` — Every declared dependence between the evidence and what it checks.
+- `undeclared_fields(provenance: Provenance) -> tuple[str, ...]` — The tri-state fields nobody has declared, so silence stays visible.
+
+### `harness/shams.py` — ``harness.shams`` — planted corruptions of batteries, for measuring the audit.
+
+*204 lines*
+
+- `with_constant_detector(department: Department, *, value: bool = True) -> Department` — Replace every declared detector with one that always answers ``value``.
+- `with_target_as_rival(department: Department) -> Department` — Replace every rival with the target wearing the rivals' names.
+- `with_inert_lesions(department: Department) -> Department` — Make every lesion an identity: violations that were never planted.
+- `without_hardest_lesion(department: Department) -> Department` — Silently drop the smallest-magnitude lesion — the one the detectors
+- `with_leaked_label(department: Department, *, key: str = 'virtual_tell') -> Department` — Give every rival's payload a key the target's payload lacks — the
+- `with_vacuous_calibration(department: Department) -> Department` — Replace the reference claims with a shape-valid pair that cannot earn
 
 ### `harness/departments/compiler_department.py` — ``harness.departments.compiler_department`` — department #3: LLVM IR rewrites.
 
-*337 lines*
+*398 lines*
 
-Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `FULL_DOMAIN`, `SURROGATE_SEEDS`, `TARGET`, `RIVALS`, `DECOYS`, `SURROGATES`, `LESIONS`, `BATTERY`, `REFERENCE_CLAIMS`, `DEPARTMENT`
+Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `FULL_DOMAIN`, `SURROGATE_SEEDS`, `TARGET`, `RIVALS`, `DECOYS`, `SURROGATES`, `LESIONS`, `DETECTORS`, `BATTERY`, `REFERENCE_CLAIMS`, `DEPARTMENT`
 
 - `class RewriteSubject` — A subject whose payload is one proposed rewrite.
 - `class InputSetDecoy` — Replace a set of test inputs with a same-sized set that covers nothing.
@@ -894,9 +946,9 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `FULL_DOMAIN`, `SURROGATE_SE
 
 ### `harness/departments/croniter_department.py` — Department #4: cron schedule semantics — the first foreign-domain subject.
 
-*490 lines*
+*534 lines*
 
-Constants: `PROBES`, `DEFAULT_RAISE_EXPR`, `RANGE_EXPECTED`, `TARGET`, `RIVALS`, `LESIONS`, `REFERENCE_CLAIMS`, `BATTERY`, `DEPARTMENT`
+Constants: `PROBES`, `DEFAULT_RAISE_EXPR`, `RANGE_EXPECTED`, `TARGET`, `RIVALS`, `LESIONS`, `DETECTORS`, `REFERENCE_CLAIMS`, `BATTERY`, `DEPARTMENT`
 
 - `accepts_union_flag(schedule) -> bool` — Fires when the implementation accepts the day_or_union API at all.
 - `matches_independent_oracle(schedule) -> bool` — Fires when every union-mode probe equals the calendar oracle exactly.
@@ -906,9 +958,9 @@ Constants: `PROBES`, `DEFAULT_RAISE_EXPR`, `RANGE_EXPECTED`, `TARGET`, `RIVALS`,
 
 ### `harness/departments/finitefield_department.py` — ``harness.departments.finitefield_department`` — department #2.
 
-*508 lines*
+*584 lines*
 
-Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `P`, `CURVE_A`, `CURVE_B`, `N_MAX`, `RIVAL_TRACES`, `LESION_TRACES`, `TARGET`, `RIVALS`, `DECOYS`, `SURROGATES`, `LESIONS`, `BATTERY`, `REFERENCE_CLAIMS`, `DEPARTMENT`
+Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `P`, `CURVE_A`, `CURVE_B`, `N_MAX`, `RIVAL_TRACES`, `LESION_TRACES`, `TARGET`, `RIVALS`, `DECOYS`, `SURROGATES`, `LESIONS`, `DETECTORS`, `BATTERY`, `REFERENCE_CLAIMS`, `DEPARTMENT`
 
 - `class CurveSubject` — The genuine article: counts of a real curve, recomputed per call.
 - `class CounterfeitSubject` — A rival: the same count-shape with the property removed.
@@ -919,16 +971,48 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `P`, `CURVE_A`, `CURVE_B`, `
 - `claim_functional_equation(payload: dict) -> bool` — Self-duality: the counts follow a degree-2 Lefschetz recursion with αβ = p.
 - `claim_hasse_bound(payload: dict) -> bool` — RH for the curve: both Frobenius roots on |α| = sqrt(p), i.e. a² ≤ 4p.
 
+### `harness/departments/referee_department.py` — Department #5: the referee itself — batteries as subjects, audited like one.
+
+*689 lines*
+
+Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `SPECIMEN`, `TARGET`, `RIVALS`, `DECOYS`, `SURROGATE_SEEDS`, `SURROGATES`, `LESIONS`, `DETECTORS`, `BATTERY`, `REFERENCE_CLAIMS`, `DEPARTMENT`
+
+- `build_specimen() -> Department` — The target: a calibrated department in the toy domain.
+- `build_sham_431cc74() -> Department` — The sham battery commit ``431cc74`` replaced — reconstructed.
+- `claim_validates_structurally(bundle: Department) -> bool` — Fires when the bundle passes structural admission.
+- `claim_audits_calibrated(bundle: Department) -> bool` — Fires when the full integrity audit grades the bundle CALIBRATED.
+- `integrity_pass_count(bundle: Department) -> float` — The ablation/null statistic: how many audit checks pass on the bundle.
+- `random_bundle(seed: int) -> Department` — A structurally plausible department assembled with zero calibration
+- `integrity_flags(bundle: Department) -> bool` — The department's detector: fires when the audit grade is not CALIBRATED.
+
+### `harness/departments/stateval_department.py` — Department #6: statistical model evaluation — claims about distributions.
+
+*717 lines*
+
+Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `N_FEATURES`, `W_TRUE`, `NOISE_SCALE`, `N_ROWS`, `RIDGE_LAMBDA`, `FRESH_SEEDS`, `FRESH_MARGIN`, `LESION_FRACTIONS`, `TARGET`, `RIVALS`, `SURROGATES`, `CLEAN_PROTOCOL`, `LESIONS`, `GAP_THRESHOLD`, `DETECTORS`, `BATTERY`, `REFERENCE_CLAIMS`, `DEPARTMENT`
+
+- `draw_dataset(seed: int, *, rows: int = N_ROWS, signal: bool = True)` — One draw of the task: features, targets. ``signal=False`` removes the
+- `ridge_fit(X: np.ndarray, y: np.ndarray) -> np.ndarray` — Closed-form ridge weights — the genuine candidate's recipe.
+- `mean_predictor_mse(y_train: np.ndarray, y_eval: np.ndarray) -> float` — The honest reference baseline: predict the training mean.
+- `oracle_fresh_mean_mse(seed: int) -> float` — The department's oracle: the mean predictor's mse on a fresh draw.
+- `claim_reports_improvement(payload: dict) -> bool` — Fires when the pair's own protocol reports any improvement at all.
+- `claim_improves_when_fresh(payload: dict) -> bool` — Fires when the candidate beats the honest oracle on every fresh draw.
+- `gap_detector(protocol: dict) -> bool` — Fires when reported improvement exceeds fresh improvement by more
+- `overlap_scan(protocol: dict) -> bool` — Fires when any evaluation row is literally present in the training
+
 ### `harness/departments/zeta_department.py` — ``harness.departments.zeta_department`` — department #1, and the reference wiring.
 
-*374 lines*
+*497 lines*
 
-Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LESION_HEIGHT`, `LESION_DELTAS`, `TARGET`, `RIVALS`, `DECOYS`, `SURROGATES`, `LESIONS`, `BATTERY`, `REFERENCE_CLAIMS`, `DEPARTMENT`
+Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LESION_HEIGHT`, `LESION_DELTAS`, `TARGET`, `RIVALS`, `DECOYS`, `SURROGATES`, `LESIONS`, `LI_PROJECTION_THRESHOLD`, `DETECTORS`, `BATTERY`, `REFERENCE_CLAIMS`, `DEPARTMENT`
 
 - `class InterfaceSubject` — A subject whose payload is one of ``zeta.epstein``'s interface dicts.
 - `class PrimeDecoy` — A substitution acting on a sequence of primes.
 - `class IntensitySurrogate` — A null model producing an intensity array on a fixed grid.
 - `class OffLineLesion` — Plant a symmetric quadruple of zeros off the critical line.
+- `li_projection_deviation(zeros) -> float` — max_n |λ_n(multiset) − λ_n(its on-line projection)|.
+- `li_projection_detector(zeros) -> bool` — Fires when the Li multiset deviates from its on-line projection.
+- `off_line_scan(zeros) -> bool` — Fires when any zero in the multiset sits off the critical line.
 
 ## Research dossiers API (`dossier/`) — **a probe, not a department**
 
@@ -1006,6 +1090,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `17-the-falsification-harness.md` — 17 — The falsification harness: how five claims died in one day
 - `18-five-longshots.md` — 18 — Five longshots, run to their walls
 - `19-research-dossiers.md` — 19 — Research dossiers: an experiment in AI-native mathematical state
+- `20-verification-integrity.md` — 20 — Verification integrity: the referee, refereed
 
 ## Runnable demos (`scripts/`)
 
@@ -1048,13 +1133,13 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1388 test functions across 41 files (the collected count differs where tests are parametrised):
+1443 test functions across 45 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_compiler_candidate.py` — 31
 - `tests/test_core.py` — 97
 - `tests/test_criteria.py` — 75
-- `tests/test_department_conformance.py` — 16
+- `tests/test_department_conformance.py` — 19
 - `tests/test_detector.py` — 11
 - `tests/test_detectors.py` — 4
 - `tests/test_discovery_funnel.py` — 89
@@ -1069,8 +1154,12 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_factorization.py` — 13
 - `tests/test_finitefield.py` — 53
 - `tests/test_harness_croniter_department.py` — 11
+- `tests/test_harness_demo.py` — 5
 - `tests/test_harness_finitefield_department.py` — 12
-- `tests/test_harness_protocol.py` — 40
+- `tests/test_harness_integrity.py` — 15
+- `tests/test_harness_protocol.py` — 49
+- `tests/test_harness_referee_department.py` — 12
+- `tests/test_harness_stateval_department.py` — 11
 - `tests/test_harness_zeta_department.py` — 9
 - `tests/test_heatflow.py` — 38
 - `tests/test_hunt_probe_discipline.py` — 6
