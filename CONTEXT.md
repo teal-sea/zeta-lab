@@ -297,7 +297,7 @@ Constants: `DATA_DIR`, `MERTENS_PINNED`, `BD_CONSTANT`, `ROBIN_THRESHOLD`, `ROBI
 
 ### `zeta/rigor.py` — Certified computation: enclosures instead of estimates.
 
-*1892 lines*
+*1965 lines*
 
 Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 
@@ -1177,7 +1177,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1526 test functions across 49 files (the collected count differs where tests are parametrised):
+1528 test functions across 49 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_compiler_candidate.py` — 32
@@ -1217,7 +1217,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_plots.py` — 13
 - `tests/test_quasicrystal.py` — 9
 - `tests/test_relations.py` — 7
-- `tests/test_rigor.py` — 50
+- `tests/test_rigor.py` — 52
 - `tests/test_rigor_weil.py` — 16
 - `tests/test_rogue_lab_controls.py` — 7
 - `tests/test_script_13_discovery_run.py` — 33

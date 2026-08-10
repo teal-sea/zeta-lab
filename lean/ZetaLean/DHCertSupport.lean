@@ -74,6 +74,45 @@ theorem contains_invC {x : ComplexInterval} (hx : 0 < x.normSqI.lo)
       rw [Complex.inv_im, div_eq_mul_inv, neg_mul]]
     exact Interval.contains_mul (Interval.contains_neg hz.2) hinv
 
+/-- **A composite term costs one multiplication, not an exponential tower.**
+
+`m^{-s}` is enclosed per `m` by `dirichletTermBox`, whose `expCr` tower is
+where the certificate's cost actually lives — and HANDOFF records the
+measurement that killed the naive route: a single `dirichletTermBox` literal
+equality takes ~8 minutes and still exceeds `simp`'s step limit, because
+~500 interval operations on multi-thousand-bit rationals make the traversal
+explode.
+
+`cpow` of a natural is multiplicative (`Complex.natCast_mul_natCast_cpow`),
+so a composite `m = a * b` needs no tower of its own: multiply the two boxes
+already computed for its factors.  That is one small `norm_num` per composite
+instead of one tower, leaving towers only for the primes below `5K` — the
+difference between ~`5K` towers per site and ~`π(5K)` of them.
+
+Nothing is weakened.  `contains_mul` is the same interval product the rest of
+the pipeline uses, and the identity it rides on is exact, so the enclosure is
+the honest product of two honest enclosures. -/
+theorem contains_cpow_mul {a b : ℕ} {A B : ComplexInterval} {s : ℂ}
+    (hA : A.contains ((a : ℂ) ^ (-s))) (hB : B.contains ((b : ℂ) ^ (-s))) :
+    (A.mul B).contains (((a * b : ℕ) : ℂ) ^ (-s)) := by
+  have h := contains_mul hA hB
+  rwa [show (((a * b : ℕ) : ℂ) ^ (-s)) = ((a : ℂ) ^ (-s)) * ((b : ℂ) ^ (-s)) by
+    rw [Nat.cast_mul]
+    exact Complex.natCast_mul_natCast_cpow a b (-s)]
+
+/-- The composite step a generated certificate should actually emit: multiply,
+then round outward to `p` bits.
+
+The coarsening is not cosmetic.  Measured on 64-bit-coarsened inputs, one
+`ComplexInterval.mul` takes the endpoints from denominator `2^64` to `2^127`,
+so an uncoarsened chain over a four-factor `m` reaches ~508-bit rationals and
+keeps doubling.  With `coarsen p` after each product the width is flat, which
+is the same discipline `expCr` already applies after every squaring. -/
+theorem contains_cpow_mul_coarsen (p : ℕ) {a b : ℕ} {A B : ComplexInterval} {s : ℂ}
+    (hA : A.contains ((a : ℂ) ^ (-s))) (hB : B.contains ((b : ℂ) ^ (-s))) :
+    ((A.mul B).coarsen p).contains (((a * b : ℕ) : ℂ) ^ (-s)) :=
+  contains_coarsen p (contains_cpow_mul hA hB)
+
 end ComplexInterval
 
 /-- **The `b`-th-root trick.**  A rational upper bound on `x^{-(a/b)}`

@@ -7,6 +7,48 @@ problem, what conclusion is currently justified. Decisions live in
 
 ---
 
+## Record: rung 3 — the composite-chain step is kernel-checked, and its cost
+## is measured (2026-08-10, third session of the day)
+
+The previous record named composite-chain term evaluation as "next session's
+first move". The lemma it rests on is now in the build, and the reason to
+believe the route is now a measurement rather than an estimate.
+
+- **Built, zero sorrys (`DHCertSupport.lean`):** `contains_cpow_mul` and
+  `contains_cpow_mul_coarsen`. `cpow` of a natural is multiplicative
+  (Mathlib's `Complex.natCast_mul_natCast_cpow`, no side conditions), so a
+  composite `m = a·b` needs no `expCr` tower of its own — it is one
+  `ComplexInterval.mul` of the two boxes already computed for its factors,
+  optionally rounded outward. Towers are then needed only for the primes below
+  `5K`, i.e. ~`π(5K)` of them instead of ~`5K`.
+- **The cost, measured.** Four generated-shaped obligations on realistic
+  64-bit-coarsened literals — one two-factor product; a four-factor chain
+  uncoarsened; the same chain coarsened after each product; and reading
+  `normLower` off a product — cost **4.48 s user against a 2.47 s
+  import-only baseline, so ~0.5 s per obligation**. Compare negative result
+  #2 in the previous record: one `dirichletTermBox` literal equality took
+  ~8 min and still exceeded simp's step limit. The composite step is roughly
+  three orders of magnitude cheaper than the tower it replaces, and it
+  discharges rather than failing.
+- **Coarsening between factors is load-bearing, not cosmetic.** Measured by
+  `#eval`: one `ComplexInterval.mul` takes endpoints from denominator `2^64`
+  to `2^127`, so an uncoarsened four-factor chain reaches ~508-bit rationals
+  and keeps doubling. `coarsen p` after each product holds the width flat and
+  reduces cleanly under `norm_num` — the `Int.ceil` in `Interval.coarsen` is
+  handled by the numeric extension, which was the open question.
+  `contains_cpow_mul_coarsen` is therefore the form the generator should emit.
+- **Not done, and the honest remaining scope.** The generator
+  (`scripts/60_rung3_generate.py`) still emits a tower per `m`; it has to be
+  changed to emit a factor-ordered chain plus staged prime towers, with the
+  per-`m` adaptive `kE` and Taylor `n = 12` from the previous record. The
+  ~78k-term / ~25 core-hour run has not been attempted. What changed is that
+  the step at the bottom of that plan is now kernel-checked and priced, so
+  the remaining risk is engineering rather than feasibility.
+- **Caveat on the measurement.** The 0.5 s figure is four hand-written
+  obligations on one machine, not a run over the plan's real sites, and the
+  chain lengths there follow the factorisation of each `m` rather than a flat
+  four. It is a go-ahead signal, not a cost model.
+
 ## Record: rung 3 — the certification architecture is proved; the evaluation
 ## engine needs one more stage (2026-08-10, second session of the day)
 
