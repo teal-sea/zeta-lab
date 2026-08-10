@@ -7,6 +7,33 @@ problem, what conclusion is currently justified. Decisions live in
 
 ---
 
+## Record: rung 3 — the pipeline demonstrated end to end (2026-08-10)
+
+- **Built, zero sorrys (`DHDemo.lean`):** `DH_demo_enclosure` — a computed
+  rational rectangle, inflated by the certified tail radius `2/5`,
+  kernel-checked to contain `DH(3/2 + 3i)` — and `DH_demo_ne_zero`: the
+  box excludes the origin, so `DH(3/2 + 3i) ≠ 0`. The first
+  kernel-certified facts about a *value* of the Davenport–Heilbronn
+  function, with no oracle input anywhere: κ coefficient boxes from
+  `kappaI`, term boxes from `dirichletTermBox`, ten containment steps,
+  `DH_mem_of_partial_enclosure`, `normLower_le_norm`.
+- **Rung 3's honest state:** the mathematics is complete and the
+  instantiation template is proven. What separates this from
+  `davenport_heilbronn_statement` is scale alone: the same pipeline at the
+  oracle point `0.808517 + 85.699348i` (via
+  `davenport_heilbronn_of_certified_square`, centre plus four boundary
+  segments subdivided) needs the offline kernel compute priced in the
+  previous record — weeks single-core at measured `norm_num` rates — or a
+  faster certified evaluation (Euler–Maclaurin with explicit remainder for
+  `(x+a)^{-s}`, a formalization project of its own) to cut `K` from ~10⁴·5
+  to ~10². Neither fits a session; both are now *engineering*, with every
+  theorem they need already kernel-checked. The runbook: pick `w = 1/10`
+  square, `ε' = 1/100`; centre via `DH_mem_of_partial_enclosure` with
+  `K ≈ 11300`; each boundary segment split until per-box
+  `normLower` clears `ε'` (oracle cross-check says min `‖DH‖ ≈ 0.121`, so
+  ~tens of boxes suffice if the enclosure width stays ≪ 0.1, which needs
+  the higher log Taylor order noted in the scale record).
+
 ## Record: rung 3 assembly — machinery built, scale measured (2026-08-10)
 
 - **Built, zero sorrys:** `DHAssembly.lean` (`DH_mem_of_partial_enclosure` —

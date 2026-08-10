@@ -10,5 +10,6 @@ import ZetaLean.DavenportHeilbronn
 import ZetaLean.DHAnalytic
 import ZetaLean.DHTailBound
 import ZetaLean.DHAssembly
+import ZetaLean.DHDemo
 import ZetaLean.DHZeroCriterion
 import ZetaLean.HardyZ
