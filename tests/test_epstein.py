@@ -365,6 +365,31 @@ def test_box_count_exceeds_line_count_in_offline_window():
         assert n_right == 1
 
 
+@pytest.mark.slow
+def test_no_offline_zero_below_the_pinned_one():
+    """The pinned zero at t ~ 85.7 is the *lowest* off-line zero, so the Lean
+    arm's certification target is forced rather than chosen.
+
+    A box with Re in [0.55, 2] contains only off-line zeros by construction
+    (line zeros have Re = 1/2 exactly, and `test_zero_free_for_sigma_ge_2`
+    pins f away from 0 for Re >= 2).  Scanning 0 < t < 80 in ten-wide
+    windows finds none; the window holding the pinned zero finds one.
+    Coefficients are real, so the t < 0 half mirrors this one.
+
+    Why it is worth a standing test: the cost of certifying the zero inside
+    Lean scales like ||s||^2.2 (`lean/ZetaLean/DHDemo.lean`, HANDOFF), so a
+    lower-height off-line zero would have been worth orders of magnitude.
+    There is none, and this test is what says so.
+    """
+    with mp.workdps(20):
+        for a in range(0, 80, 10):
+            t0, t1 = mp.mpf(a) + mp.mpf("0.3"), mp.mpf(a + 10) + mp.mpf("0.3")
+            n = count_zeros_box(mp.mpc(mp.mpf("0.55"), t0), mp.mpc(2, t1), dps=20)
+            assert n == 0, (float(t0), float(t1), n)
+        t0, t1 = mp.mpf("80.3"), mp.mpf("90.3")
+        assert count_zeros_box(mp.mpc(mp.mpf("0.55"), t0), mp.mpc(2, t1), dps=20) == 1
+
+
 def test_line_zeros_do_exist_too():
     """f is not zero-free on the line — infinitely many line zeros (a positive
     proportion, Bombieri-Ghosh); one sits in [86, 88]."""
