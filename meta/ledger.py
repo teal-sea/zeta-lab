@@ -157,6 +157,84 @@ class MetaObservation:
         return bad
 
 
+class OperatorFunction(str, Enum):
+    """The functions a decomposition of the operator's role turned up.
+
+    See ``meta/operator-functions.md``.  ``AUTHORITY`` is here so it can be
+    recorded as permanently open rather than quietly dropped.
+    """
+
+    SEVERITY = "severity-calibration"
+    SCOPE = "scope-discipline"
+    SKEPTICISM = "skepticism-routing"
+    PRIORITISATION = "prioritisation"
+    AUTHORITY = "authority"
+
+
+class Resolution(str, Enum):
+    SYSTEM_RIGHT = "system-right"
+    OPERATOR_RIGHT = "operator-right"
+    BOTH_WRONG = "both-wrong"
+    UNRESOLVED = "unresolved"
+
+
+class Party(str, Enum):
+    SYSTEM = "system"
+    OPERATOR = "operator"
+    OUTSIDER = "outsider"
+    OUTCOME = "outcome"  # reality settled it and nobody had to adjudicate
+
+
+@dataclass(frozen=True)
+class Judgment:
+    """One case where the system's assessment differed from the operator's.
+
+    "Automate the operator" is unfalsifiable.  *Assessments*, though, can be
+    scored: record the two positions and what turned out to be true, and
+    convergence becomes measurable instead of a matter of impression.
+
+    Three guards keep this from becoming a progress report:
+
+    * **The system may not resolve a disagreement it is party to.** The system
+      always holds one of the two positions here, so ``resolved_by=SYSTEM`` is
+      refused outright.  This is the co-designed-verification failure applied to
+      calibration, and without the guard the record is worthless.
+    * **``UNRESOLVED`` cannot be scored.**  An open disagreement is not a draw.
+    * **A resolution costs evidence** unless it is ``UNRESOLVED``.
+    """
+
+    session: str
+    date: str
+    assessed: str
+    system_assessment: str
+    operator_assessment: str
+    function: OperatorFunction
+    resolution: Resolution
+    resolved_by: Party
+    evidence: str = ""
+    notes: str = ""
+
+    def reasons_invalid(self) -> list[str]:
+        bad: list[str] = []
+        if not self.assessed.strip():
+            bad.append("nothing named as being assessed")
+        if not self.system_assessment.strip():
+            bad.append("no system assessment recorded")
+        if not self.operator_assessment.strip():
+            bad.append("no operator assessment recorded")
+        if self.resolved_by is Party.SYSTEM:
+            bad.append(
+                "resolved_by=SYSTEM: the system holds one of the two positions, so "
+                "it may not adjudicate its own disagreement"
+            )
+        if self.resolution is not Resolution.UNRESOLVED and not self.evidence.strip():
+            bad.append("a resolution other than UNRESOLVED costs named evidence")
+        return bad
+
+    def scorable(self) -> bool:
+        return self.resolution is not Resolution.UNRESOLVED
+
+
 @dataclass
 class Ledger:
     """A cohort of interventions and observations.
@@ -168,6 +246,20 @@ class Ledger:
 
     interventions: list[Intervention] = field(default_factory=list)
     observations: list[MetaObservation] = field(default_factory=list)
+    judgments: list[Judgment] = field(default_factory=list)
+
+    def calibration_by_function(self) -> dict[str, dict[str, int]]:
+        """Agreement per function. Deliberately not averaged across functions.
+
+        Averaging severity calibration against scope discipline would hide the
+        one thing the measurement exists to show, which is *which* function has
+        transferred.
+        """
+        out: dict[str, dict[str, int]] = {}
+        for j in self.judgments:
+            row = out.setdefault(j.function.value, {r.value: 0 for r in Resolution})
+            row[j.resolution.value] += 1
+        return out
 
     def __bool__(self) -> bool:  # pragma: no cover - the raise is the point
         raise TypeError(
@@ -245,6 +337,22 @@ class Ledger:
                 "produce the second class of evidence, so zero suggests it is not "
                 "being looked for"
             )
+        if not self.judgments:
+            out.append(
+                "no judgment disagreements recorded: either the system's assessments "
+                "match the operator's on everything, which no prior cohort supports, "
+                "or the disagreements are not being written down"
+            )
+        else:
+            scored = [j for j in self.judgments if j.scorable()]
+            wins = sum(1 for j in scored if j.resolution is Resolution.SYSTEM_RIGHT)
+            losses = sum(1 for j in scored if j.resolution is Resolution.OPERATOR_RIGHT)
+            if wins > losses and len(scored) < 10:
+                out.append(
+                    f"the system is ahead on calibration ({wins}-{losses}) on only "
+                    f"{len(scored)} scored cases — too few to read as transfer, and "
+                    "exactly the shape a self-serving record takes early"
+                )
         return out
 
     def reasons_invalid(self) -> list[str]:
@@ -253,6 +361,8 @@ class Ledger:
             bad += [f"intervention[{n}]: {r}" for r in i.reasons_invalid()]
         for n, o in enumerate(self.observations):
             bad += [f"observation[{n}]: {r}" for r in o.reasons_invalid()]
+        for n, j in enumerate(self.judgments):
+            bad += [f"judgment[{n}]: {r}" for r in j.reasons_invalid()]
         return bad
 
     def render(self) -> str:
@@ -272,6 +382,13 @@ class Ledger:
         for a in Automatability:
             lines.append(f"  {a.value:<16} {self.by_automatability().get(a.value, 0)}")
         lines += ["", f"scarce-judgment interventions: {self.scarce_judgment_count()}"]
+        cal = self.calibration_by_function()
+        lines += ["", "calibration, per function (no aggregate on purpose):"]
+        if not cal:
+            lines.append("  (no disagreements recorded)")
+        for fn, row in sorted(cal.items()):
+            counts = ", ".join(f"{k}={v}" for k, v in row.items() if v)
+            lines.append(f"  {fn:<22} {counts}")
         s = self.suspicions()
         lines += ["", "suspicions about this ledger as a self-report:"]
         lines += [f"  - {x}" for x in s] if s else ["  (none flagged — which is itself worth checking)"]
@@ -282,6 +399,11 @@ def _entry(d: dict):
     kind = d.pop("kind", "intervention")
     if kind == "observation":
         return MetaObservation(**d)
+    if kind == "judgment":
+        d["function"] = OperatorFunction(d["function"])
+        d["resolution"] = Resolution(d["resolution"])
+        d["resolved_by"] = Party(d["resolved_by"])
+        return Judgment(**d)
     d["category"] = Category(d["category"])
     d["automatability"] = Automatability(d["automatability"])
     d["caught_by"] = CaughtBy(d["caught_by"])
@@ -299,7 +421,12 @@ def load(path: str = LEDGER_PATH) -> Ledger:
             if not line or line.startswith("#"):
                 continue
             e = _entry(json.loads(line))
-            (led.observations if isinstance(e, MetaObservation) else led.interventions).append(e)
+            if isinstance(e, MetaObservation):
+                led.observations.append(e)
+            elif isinstance(e, Judgment):
+                led.judgments.append(e)
+            else:
+                led.interventions.append(e)
     return led
 
 

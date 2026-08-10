@@ -30,11 +30,31 @@ from meta.ledger import (  # noqa: E402
     CaughtBy,
     Category,
     Intervention,
+    Judgment,
     Ledger,
     MetaObservation,
+    OperatorFunction,
+    Party,
+    Resolution,
     load,
     validate,
 )
+
+
+def _judgment(**over) -> Judgment:
+    base = dict(
+        session="s",
+        date="2026-01-01",
+        assessed="how bad a thing was",
+        system_assessment="very bad",
+        operator_assessment="not bad",
+        function=OperatorFunction.SEVERITY,
+        resolution=Resolution.OPERATOR_RIGHT,
+        resolved_by=Party.OPERATOR,
+        evidence="what happened next",
+    )
+    base.update(over)
+    return Judgment(**base)
 
 
 def _ok(**over) -> Intervention:
@@ -221,6 +241,88 @@ _SUBJECT_VOCABULARY = (
 )
 
 _FORBIDDEN_ROOTS = ("zeta", "numpy", "scipy", "mpmath", "sympy", "matplotlib", "flint")
+
+
+# --------------------------------------------------------------------------
+# 4b. calibration: the system may not mark its own homework
+# --------------------------------------------------------------------------
+
+
+def test_the_system_may_not_resolve_a_disagreement_it_is_party_to() -> None:
+    """The guard without which this whole record is worthless.
+
+    The system always holds one of the two positions in a ``Judgment``, so
+    letting it adjudicate is the co-designed-verification failure applied to
+    calibration — the exact failure this laboratory has measured in its own audit.
+    """
+    bad = _judgment(resolved_by=Party.SYSTEM, resolution=Resolution.SYSTEM_RIGHT)
+    assert any("may not adjudicate" in r for r in bad.reasons_invalid())
+    with pytest.raises(ValueError):
+        validate(Ledger(judgments=[bad]))
+
+
+def test_a_resolution_costs_evidence_but_an_open_disagreement_does_not() -> None:
+    assert any("costs named evidence" in r for r in _judgment(evidence="").reasons_invalid())
+    open_case = _judgment(
+        resolution=Resolution.UNRESOLVED, resolved_by=Party.OUTCOME, evidence=""
+    )
+    assert open_case.reasons_invalid() == []
+    assert not open_case.scorable()
+
+
+def test_calibration_is_reported_per_function_and_never_averaged() -> None:
+    led = Ledger(
+        judgments=[
+            _judgment(function=OperatorFunction.SEVERITY),
+            _judgment(function=OperatorFunction.SCOPE, resolution=Resolution.SYSTEM_RIGHT,
+                      resolved_by=Party.OUTCOME),
+        ]
+    )
+    cal = led.calibration_by_function()
+    assert set(cal) == {
+        OperatorFunction.SEVERITY.value,
+        OperatorFunction.SCOPE.value,
+    }
+    assert cal[OperatorFunction.SEVERITY.value][Resolution.OPERATOR_RIGHT.value] == 1
+    assert cal[OperatorFunction.SCOPE.value][Resolution.SYSTEM_RIGHT.value] == 1
+    assert not hasattr(led, "calibration_score"), (
+        "an aggregate calibration score would hide which function transferred"
+    )
+
+
+def test_an_early_lead_for_the_system_is_flagged_not_celebrated() -> None:
+    """The shape a self-serving calibration record takes early on."""
+    led = Ledger(
+        interventions=[_ok(category=Category.OWNER_AUTHORITY,
+                           automatability=Automatability.NO,
+                           missing_capability="", evidence_that_would_demonstrate="")],
+        observations=[MetaObservation(session="s", date="d", observation="o",
+                                      arose_from="w", supports="x")],
+        judgments=[
+            _judgment(resolution=Resolution.SYSTEM_RIGHT, resolved_by=Party.OUTCOME),
+            _judgment(resolution=Resolution.SYSTEM_RIGHT, resolved_by=Party.OUTCOME),
+        ],
+    )
+    assert any("too few to read as transfer" in x for x in led.suspicions())
+
+
+def test_a_ledger_with_no_recorded_disagreements_is_suspicious() -> None:
+    led = Ledger(
+        interventions=[_ok(category=Category.OWNER_AUTHORITY,
+                           automatability=Automatability.NO,
+                           missing_capability="", evidence_that_would_demonstrate="")],
+        observations=[MetaObservation(session="s", date="d", observation="o",
+                                      arose_from="w", supports="x")],
+    )
+    assert any("not being written down" in x for x in led.suspicions())
+
+
+def test_the_committed_ledger_records_disagreements_resolved_against_the_system() -> None:
+    """The baseline is 0 for 3. If this ever passes trivially, check why."""
+    led = load()
+    scored = [j for j in led.judgments if j.scorable()]
+    assert scored, "no scored calibration cases: the essence is not being measured"
+    assert any(j.resolution is Resolution.OPERATOR_RIGHT for j in scored)
 
 
 def test_the_ledger_module_contains_no_subject_matter_vocabulary() -> None:

@@ -115,6 +115,36 @@ loop working. And 11 of 14 interventions were caught by a person or an outsider
 rather than by the machinery, which is the same finding the harness has been
 producing about itself all along.
 
+### Calibration
+
+`meta/operator-functions.md` decomposes what is left after the automatable gaps
+are subtracted, into four functions: **severity calibration**, **scope discipline
+on negative results**, **skepticism routing**, and **authority** — the last of
+which is not a gap and is recorded as permanently open.
+
+The reframe that makes this measurable: you do not automate judgment, you measure
+*calibration*. A `Judgment` record holds the system's assessment, the operator's,
+and what turned out to be true. Convergence per function is then a number rather
+than an impression.
+
+Three guards, and the first is the one that matters:
+
+1. **The system may not resolve a disagreement it is party to.**
+   `resolved_by=system` is refused outright. Without this the record is a progress
+   report, and it is the same co-designed-verification failure the audit has.
+2. `unresolved` is not scorable. An open disagreement is not a draw.
+3. No aggregate calibration score — reported per function, because averaging
+   severity against scope would hide which one transferred.
+
+**Baseline: the system is 0 for 3 against the operator** on scored judgment calls
+— severity of a disclosure, scope of a negative result, and the premise of a
+prioritisation argument — with one severity case left open. Three is a starting
+line, not a sample.
+
+> The whole cohort, including this calibration record, was authored by the agent
+> whose behaviour it describes. That is co-designed measurement. The structure is
+> the contribution; re-derive the counts before believing them.
+
 ## What this directory is not
 
 Not a dashboard, not a KPI, not a burndown. If it starts being used to show

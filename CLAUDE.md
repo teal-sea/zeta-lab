@@ -297,8 +297,13 @@ The standing rules for such a session:
   until the caller names its numerator, and an `automated` claim that costs a
   named artifact. `suspicions()` reports the shapes a self-validating log takes.
   `asymmetry-experiment.md` is the pre-registered design for the independent-vs-
-  co-designed verification question. Nothing here is a mathematical result and
-  nothing here trades against one; a session with no mathematics and a tidy
+  co-designed verification question. `operator-functions.md` decomposes what is
+  left of the operator's role once the automatable friction is subtracted, into
+  severity calibration, scope discipline, skepticism routing and authority — and
+  reframes the target: you do not automate judgment, you measure *calibration*,
+  which the `Judgment` record does. Its load-bearing guard is that the system may
+  not resolve a disagreement it is party to. Nothing here is a mathematical result
+  and nothing here trades against one; a session with no mathematics and a tidy
   ledger produced nothing. Read `meta/README.md` first.
 - Project: `lean/` — the certified arm: a Lean 4 + Mathlib package
   (`ZetaLean`) formalizing, rung by rung, facts the laboratory measures.
