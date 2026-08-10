@@ -74,6 +74,7 @@ the input, so proving a sign costs ``O(log(1/|Z(t)|))`` bits.
 
 from __future__ import annotations
 
+import hashlib
 import json
 import math
 import os
@@ -926,8 +927,18 @@ def certified_zero_count(
 #: ``prec_bits`` a run with more escalations can certify where a run with none
 #: cannot, so leaving them out would let a certified file be replayed for an
 #: uncertifiable request — a manufactured ``certified: True``.
+#:
+#: ``T_exact`` and not ``T`` is what carries the height's identity.  A binary64
+#: ``T`` is not an identity: ``14.13472514173469378`` and
+#: ``14.13472514173469380`` are distinct exact heights that round to the same
+#: float, and they lie on opposite sides of γ₁ ≈ 14.134725141734693790, so
+#: N(T) differs by one across them.  Keying on the float served the certificate
+#: for the lower height at the upper one — ``N_T: 0`` with ``certified: True``
+#: where the truth is 1.  The computation always ran on the exact value; only
+#: the cache identity was lossy.
 _CACHE_KEYS = (
     "T",
+    "T_exact",
     "backend",
     "prec_bits",
     "count_prec_bits",
@@ -938,7 +949,7 @@ _CACHE_KEYS = (
 
 
 def _cache_key(
-    T: float,
+    T,
     backend: str,
     prec_bits: int,
     count_bits: int,
@@ -946,9 +957,17 @@ def _cache_key(
     max_escalations: int,
     max_samples: int,
 ) -> dict:
-    """The full parameter dict identifying one :func:`verify_rh_certified` run."""
+    """The full parameter dict identifying one :func:`verify_rh_certified` run.
+
+    The height is recorded twice on purpose: ``"T"`` is the readable binary64
+    value the returned dict reports, and ``"T_exact"`` is the canonical
+    ``numerator/denominator`` of the height the ball arithmetic actually ran at.
+    Only the second one is an identity — see :data:`_CACHE_KEYS`.
+    """
+    Tq = _exact(T)
     return {
-        "T": float(T),
+        "T": float(Tq),
+        "T_exact": f"{Tq.numerator}/{Tq.denominator}",
         "backend": backend,
         "prec_bits": int(prec_bits),
         "count_prec_bits": int(count_bits),
@@ -958,19 +977,69 @@ def _cache_key(
     }
 
 
+def _cached_conclusion_is_self_consistent(blob: dict) -> bool:
+    """Re-derive every conclusion field the file's own witnesses determine.
+
+    :data:`_CACHE_KEYS` authenticates the *request*; it says nothing about the
+    answer.  Without this check a file whose seven request fields are intact but
+    whose verdict had been edited by hand was returned verbatim, so
+    ``{"N_T": 123456, "certified_sign_changes": 123456, "all_on_line": true,
+    "certified": true}`` was accepted as a certificate.
+
+    This does **not** turn the file into a portable certificate: N(T) itself
+    cannot be re-derived without redoing the ball arithmetic, which is the whole
+    cost being cached.  What it does mean is that a forged conclusion has to be
+    consistent with the enclosure recorded beside it rather than merely typed
+    in, and that the two derived booleans are recomputed rather than read.  The
+    file remains trusted *local* state — which is why
+    ``data/rigor_verify_*.json`` is gitignored and never shipped.
+    """
+    n_t = blob.get("N_T")
+    steps = blob.get("uncertified_steps")
+    if not isinstance(steps, list):
+        return False
+    all_on_line = n_t is not None and blob.get("certified_sign_changes") == n_t
+    if blob.get("all_on_line") != all_on_line:
+        return False
+    if blob.get("certified") != bool(all_on_line and not steps):
+        return False
+    if n_t is None:
+        return True
+    enclosure = blob.get("N_T_enclosure")
+    if not (isinstance(enclosure, list) and len(enclosure) == 2):
+        return False
+    try:
+        lo, hi = (mp.mpf(v) for v in enclosure)
+    except (TypeError, ValueError):
+        return False
+    return bool(lo <= n_t <= hi)
+
+
 def _cache_path(key: dict) -> str:
-    """``data/rigor_verify_<T>_<backend>_<bits>_<countbits>_<n>_<esc>_<max>.json``.
+    """``data/rigor_verify_<T>-<hash>_<backend>_<bits>_<countbits>_<n>_<esc>_<max>.json``.
 
     Every parameter that can change the answer is in the filename — see
     :data:`_CACHE_KEYS` — so a stale file cannot masquerade as a fresh result
-    (house rule: cache keys encode parameters).  The loader additionally
-    verifies that the file's *recorded* parameters match, so even a
-    hand-renamed or hand-edited file is rejected rather than trusted.
+    (house rule: cache keys encode parameters).  The readable ``<T>`` is only
+    six significant figures, so the exact height is pinned by the short digest
+    beside it; two exact heights sharing a float get separate files rather than
+    fighting over one.
+
+    What the loader re-checks is worth stating precisely, because it is less
+    than this docstring used to promise.  It verifies the *recorded request
+    parameters*, so a renamed file or an edited parameter is rejected; and it
+    re-derives the conclusion fields its own witnesses determine (see
+    :func:`_cached_conclusion_is_self_consistent`).  It cannot re-derive N(T)
+    without repeating the computation being cached, so this file is a trusted
+    local result cache, not a portable certificate — hence gitignored.
     Derived from ``__file__``; no absolute path is committed.
     """
     tag = "_".join(
         [
-            f"{key['T']:g}",
+            f"{key['T']:g}-"
+            + hashlib.blake2b(
+                key["T_exact"].encode("ascii"), digest_size=5
+            ).hexdigest(),
             key["backend"].replace(".", "-"),
             str(key["prec_bits"]),
             str(key["count_prec_bits"]),
@@ -1082,7 +1151,7 @@ def verify_rh_certified(
     adapter = _pick(backend)
     Tq = _exact(T)
     key = _cache_key(
-        float(Tq),
+        Tq,
         adapter.name,
         prec_bits,
         count_prec_bits,
@@ -1099,7 +1168,9 @@ def verify_rh_certified(
             # A cached certificate is only reusable if it was produced by
             # *exactly* this request.  Anything else — a renamed file, an older
             # schema, a run with different escalation budget — is recomputed.
-            if all(blob.get(k) == key[k] for k in _CACHE_KEYS):
+            if all(
+                blob.get(k) == key[k] for k in _CACHE_KEYS
+            ) and _cached_conclusion_is_self_consistent(blob):
                 blob["from_cache"] = True
                 result = blob
         except Exception:
@@ -1153,6 +1224,8 @@ def verify_rh_certified(
 
     result = {
         "T": float(Tq),
+        # the height's identity, not its readable value: see ``_CACHE_KEYS``
+        "T_exact": key["T_exact"],
         "certified_sign_changes": scan["changes"],
         "N_T": exact,
         "all_on_line": all_on_line,

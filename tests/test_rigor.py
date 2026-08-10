@@ -18,6 +18,7 @@ Ground truth: N(100) = 29, N(1000) = 649, and mpmath's ``siegelz``,
 
 from __future__ import annotations
 
+import json
 import math
 import os
 import random
@@ -672,6 +673,79 @@ def test_cache_never_replays_a_certificate_for_different_settings(tmp_path, monk
     again = verify_rh_certified(max_escalations=12, **kw)
     assert again["from_cache"] is False, "a tampered file was accepted"
     assert again["certified"] is True
+
+
+def test_cache_identity_is_the_exact_height_not_its_float(tmp_path, monkeypatch):
+    """Two exact heights that share a binary64 must not share a certificate.
+
+    Reported by an outside reader red-teaming this module, and reproduced before
+    it was fixed.  ``14.13472514173469378`` and ``14.13472514173469380`` both
+    round to ``14.134725141734695``, and γ₁ ≈ 14.13472514173469379 sits between
+    them — so N(T) is 0 at the first and 1 at the second.  The computation
+    always ran on the exact ``Fraction``; only the cache key was a float, so the
+    second request was served the first one's file and reported ``N_T: 0`` with
+    ``certified: True``.  A wrong N(T) under a true ``certified`` flag is the one
+    failure mode this module exists to prevent.
+    """
+    monkeypatch.setattr(rigor, "DATA_DIR", str(tmp_path))
+    below, above = "14.13472514173469378", "14.13472514173469380"
+    assert float(below) == float(above), "premise: the two heights share a float"
+
+    first = verify_rh_certified(below, compare_floating=False)
+    second = verify_rh_certified(above, compare_floating=False)
+
+    assert second["from_cache"] is False, "a certificate crossed a zero via the cache"
+    assert first["N_T"] == 0 and second["N_T"] == 1
+    assert first["certified_sign_changes"] == 0
+    assert second["certified_sign_changes"] == 1
+    # and the exact heights are what the files are keyed on
+    assert first["T_exact"] != second["T_exact"]
+    assert rigor._cache_path(rigor._cache_key(below, "python-flint", 64, 192, None, 8, 1)) != (
+        rigor._cache_path(rigor._cache_key(above, "python-flint", 64, 192, None, 8, 1))
+    )
+    # an identical exact request still replays, or the cache would be pointless
+    assert verify_rh_certified(above, compare_floating=False)["from_cache"] is True
+
+
+def test_cache_rejects_a_forged_conclusion_with_intact_request_keys(tmp_path, monkeypatch):
+    """The complement of the tampering test above.
+
+    That one edits ``max_escalations``, which is itself a cache key, so
+    rejection only shows the request fields are authenticated.  This one leaves
+    every one of :data:`rigor._CACHE_KEYS` untouched and forges only the answer.
+    Before the fix the loader returned it verbatim, which meant a hand-typed
+    ``certified: True`` survived validation — the gap between "a computation was
+    certified when it ran" and "a persisted artifact inherits that status".
+
+    The loader still cannot re-derive N(T) without redoing the ball arithmetic,
+    so this file is a trusted local cache and not a portable certificate.  What
+    it can do is recompute the two derived booleans and check N(T) against the
+    enclosure recorded beside it, which is what catches a typed-in verdict.
+    """
+    monkeypatch.setattr(rigor, "DATA_DIR", str(tmp_path))
+    kw = dict(T=30.0, prec_bits=8, n_samples=200, max_escalations=12, compare_floating=False)
+
+    genuine = verify_rh_certified(**kw)
+    assert verify_rh_certified(**kw)["from_cache"] is True, "premise: it replays"
+
+    path = os.path.join(str(tmp_path), os.listdir(tmp_path)[0])
+    with open(path) as fh:
+        blob = json.load(fh)
+    forged = dict(
+        blob,
+        N_T=123456,
+        certified_sign_changes=123456,
+        all_on_line=True,
+        certified=True,
+    )
+    assert all(forged[k] == blob[k] for k in rigor._CACHE_KEYS), "request keys intact"
+    with open(path, "w") as fh:
+        json.dump(forged, fh)
+
+    after = verify_rh_certified(**kw)
+    assert after["from_cache"] is False, "a forged conclusion was served as a certificate"
+    assert after["N_T"] == genuine["N_T"]
+    assert after["certified_sign_changes"] == genuine["certified_sign_changes"]
 
 
 @pytest.mark.slow
