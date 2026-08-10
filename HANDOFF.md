@@ -206,20 +206,31 @@ believe the route is now a measurement rather than an estimate.
   margins are caught in Python seconds — the planner's width-model
   uncertainty is retired. The pilot (K = 8 upper box) compiles everything
   *except* the literal-value lemmas, which hit negative result #2.
-- **The scoped fix (next session's first move): composite-chain term
-  evaluation.** `(mn)^{-s} = m^{-s}·n^{-s}`
-  (`Complex.mul_cpow_ofReal_nonneg`) makes every composite term one
-  interval multiplication on 64-bit-coarsened literals — one small
-  `norm_num` each — so only the ~π(5K) primes per site need exp towers,
-  staged level-by-level into bounded `norm_num` calls (powI/expSumC/expCr
-  each a literal-to-literal step), with per-`m` adaptive `kE` (7 for
-  m ≤ 20 … 10 above 403) and Taylor `n = 12` (the ε-budgets here need
-  ~1e-6 per term, not `n = 20`'s 1e-18). Estimated ~25 core-hours on this
-  container for the full plan; re-planning at the mirror-exact `L`
-  (planner's conservative 16 vs literal-model ≈ 9) should cut ~35%.
-  Then the assembly file (frontier coverage by `rcases` chains + the two
-  criterion inequalities) closes
-  `theorem davenport_heilbronn : davenport_heilbronn_statement`.
+- **Negative result #3 — the log Taylor order, found here and then found
+  better elsewhere.** This session measured that `logQ`'s width
+  (`≈ k·2^{-n}`, amplified by `‖s‖ ≈ 85.7` into the term box) is what blows
+  the ε′ budget at `n = 20`, and proposed raising the single coupled
+  `TAYLOR_N`. The **fourth session's record below supersedes that**: it
+  isolated the same cause against the grid's own β values, measured the
+  threshold (`n = 28` marginal, `n = 32` shipped, margin saturating at
+  ×1.01 because the residual is the inflation radius, not the series), and
+  did the thing this record only noted as "a cheap future refinement" —
+  **split the two orders**, `dirichletTermBox2 nLog nExp`, kernel-checked.
+  Read that record, not this bullet, for the parameters. What survives here
+  is the mechanism and its test:
+  `tests/test_rung3_mirror.py::test_the_log_order_sets_the_width_and_the_exp_order_does_not`
+  pins that the log order sets the width and the exp order does not, so the
+  split cannot silently regress. An earlier draft of this record guessed
+  the budget was loose and suggested *lowering* to `n = 12` (width 4.4e-3,
+  hopeless); that guess is withdrawn.
+- **The scoped fix — also now superseded.** This record proposed
+  composite-chain term evaluation (`(mn)^{-s} = m^{-s}·n^{-s}`, towers only
+  for primes) as the next move; it is **built and kernel-checked** in the
+  record below (`contains_cpow_mul`, `contains_cpow_mul_coarsen`), measured
+  at ~3 orders cheaper and matching the tower to four significant figures.
+  `tests/test_rung3_mirror.py::test_composite_chain_agrees_with_the_tower`
+  checks the chained box against mpmath rather than against the tower it
+  replaces.
 
 ## Record: rung 3 — the steeper tail exponents are kernel-checked (2026-08-10)
 
