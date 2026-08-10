@@ -72,6 +72,50 @@ or worktrees. To prevent scope creep and collisions:
 - **Verify first**: confirm the suite is green (see Setup) before building
   on a tree.
 
+### Outside environments (read-only mounts, notebook agents)
+
+Some sessions run this laboratory from an environment that is not this
+checkout: a notebook-style agent (Claude Science and anything like it) that
+mounts the repository **read-only** and brings its **own Python**. That suits
+the exploratory half of this tree — cells, background execution and
+interruption fit expensive mpmath work — but it breaks two assumptions the rest
+of this file is entitled to make, and both break *silently*.
+
+**Run the preflight as the first cell, before any mathematics:**
+
+```bash
+python scripts/science_preflight.py          # or --allow-fallback
+```
+
+It reports the interpreter and dependency set, plus three things no outside
+session can infer from a snapshot: whether `rigor.BACKEND` is really Arb (a
+missing `python-flint` degrades to mpmath's `iv` — correct, ~1600× slower, and
+it removes the cross-check that is the only reason `rigor.py` may use the
+reserved word), whether a Lean build is possible at all, and **the next free
+`docs/` number**. It exits non-zero when the environment cannot support the
+claims this tree knows how to make.
+
+The standing rules for such a session:
+
+- **Guess no number and no name.** Take the next free doc number from the
+  preflight. Two documents once shared number 21 because a session working from
+  a snapshot could not see the tree it was writing into;
+  `tests/test_docs_numbering.py` now catches that, but only if you run it.
+- **An artifact is not a commit.** Say plainly that files were produced and not
+  landed, and never describe a read-only tree as changed. Workspace storage is
+  swept after idle gaps; the artifact is the durable copy until someone commits
+  it.
+- **Write only where a hunt may write**: `hunts/<name>/` with its `MISSION.md`
+  written first, one new `docs/NN-*.md`, and `figures/`. Not `zeta/`,
+  `ontology/` or `harness/` without explicit permission.
+- **The lexical rules are lexical.** The reserved word is banned everywhere
+  under `hunts/` *including inside a sentence disclaiming it*, and *verified* /
+  *confirmed* / *definitively* / *proves* are banned too. Intent does not exempt
+  a file; the test reads the bytes.
+- **Before handing anything back**, run at least
+  `tests/test_docs_numbering.py`, `tests/test_hunt_probe_discipline.py`,
+  `tests/test_doors.py`, and `scripts/make_context.py --check`.
+
 ## Hard rules
 
 - **Python**: ALWAYS `.venv/bin/python (from the repo root)` — never bare
