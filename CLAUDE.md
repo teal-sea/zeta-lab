@@ -246,7 +246,12 @@ or worktrees. To prevent scope creep and collisions:
 - Project: `lean/` — the certified arm: a Lean 4 + Mathlib package
   (`ZetaLean`) formalizing, rung by rung, facts the laboratory measures.
   `ZetaLean/GroundTruth.lean` is rung 1 (ζ(2), ζ(0), ζ(4), the zero-free
-  half-plane). The ladder and the next rung live in `HANDOFF.md`. Toolchain is
+  half-plane); rung 3 (Davenport–Heilbronn) is mathematics-complete and
+  waiting on compute — its interval layers are `Rigor`/`IntervalExp`/
+  `IntervalCExp`, the analysis is `DHAnalytic`/`DHTailBound`/`DHZeroCriterion`,
+  and `DHDemo` is the worked instance. Do not add a `sorry` to any of them
+  to "make progress"; the remaining gap is a computation, not a lemma.
+  The ladder and the next rung live in `HANDOFF.md`. Toolchain is
   elan-managed and pinned by `lean/lean-toolchain`; `.lake/` build artifacts
   are gitignored.
 - Package: `compiler/` — the subject matter of harness department #3 (LLVM IR

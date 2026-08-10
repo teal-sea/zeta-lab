@@ -7,6 +7,45 @@ problem, what conclusion is currently justified. Decisions live in
 
 ---
 
+## Record: rung 3 — the target is forced, and the cost model corrected (2026-08-10)
+
+- **Negative result, now a standing test.** The pinned zero at
+  `t ≈ 85.699` is the **lowest** off-line zero: a box with
+  `Re ∈ [0.55, 2]` contains only off-line zeros by construction, and
+  scanning `0 < t < 80` in ten-wide windows finds none, while the window
+  holding the pinned zero finds one (`test_no_offline_zero_below_the_pinned_one`,
+  slow tier, 47 s). This matters because the Lean certification cost scales
+  like `‖s‖^2.2`, so a lower-height zero would have been worth orders of
+  magnitude. There is none. The avenue is closed, permanently.
+- **The previous record's compute estimate was too optimistic; corrected
+  here.** It said "weeks single-core" and "~tens of boxes". Both were
+  wrong: the boundary box count is set by `δ ≈ 1/(4‖s‖) ≈ 0.0029`
+  (DH oscillates at scale `1/‖s‖`), and the error budget must be split
+  between enclosure width and in-box variation. Redone properly, the
+  direct route costs **~230 days** single-core at the measured ~5 s per
+  certified term — minimized near `w = 0.1`, and *worse* for smaller
+  squares, because a smaller square needs proportionally finer accuracy
+  and the current tail bound only decays like `K^{-σ}` with `σ ≈ 0.81`.
+- **What changes the picture: a steeper tail exponent, which makes small
+  squares cheap.** Comparing the block sum to its integral turns
+  `K^{-σ}` into `K^{-(σ+1)}` (remainder `∫|B'|`), and the trapezoid
+  refinement into `K^{-(σ+2)}` (remainder `(1/12)∫|B''|`). Modelled cost:
+  ~5 days at order 0, **~1 day at order 1**, with the optimum shifting to
+  `w ≈ 0.002` (6–8 boundary boxes instead of 275). Crucially **no
+  Bernoulli numbers and no general Euler–Maclaurin are needed** — Mathlib
+  has neither, and the trapezoid error bound is elementary. The block
+  antiderivative is available in closed form precisely because the
+  coefficients sum to zero: `F(x) = Σ_j c_j (5x+j)^{1-s} / (5(1-s))`
+  converges to 0 at ∞ even though each summand diverges, so
+  `∫_K^∞ B = -F(K)` is computable by the machinery already built.
+- **Next project, scoped:** `DHTailBound2.lean` — (1) the per-step bound
+  `‖g(k) − ∫_k^{k+1} g‖ ≤ ∫_k^{k+1} ‖g'‖` and its trapezoid refinement,
+  (2) `∫_K^∞ B = -F(K)` by FTC plus the vanishing limit, (3) a
+  third-difference bound on `∫_K^∞ ‖B''‖`. Several hundred lines,
+  structurally identical to the estimates already proved in
+  `DHTailBound.lean`. That plus a ~1-day offline kernel run finishes
+  rung 3; nothing else is missing.
+
 ## Record: rung 3 — the pipeline demonstrated end to end (2026-08-10)
 
 - **Built, zero sorrys (`DHDemo.lean`):** `DH_demo_enclosure` — a computed

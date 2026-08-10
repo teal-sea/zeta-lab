@@ -86,11 +86,12 @@ There are two certainty regimes. The numerical machinery in `zeta/` is
 whose every step carried an enclosure). `lean/` is the second: a Lean 4 +
 Mathlib project whose theorems are checked by a proof kernel, not measured.
 It proceeds in stages: stage 1 (done) ties the lab's ground-truth facts to
-their Mathlib proofs; stage 2 formalizes the κ derivation behind the
+their Mathlib proofs; stage 2 (done) formalizes the κ derivation behind the
 Davenport–Heilbronn counterexample; stage 3 targets the Davenport–Heilbronn
 theorem itself — the kernel-checked statement that zeta-shaped symmetry
-alone cannot give RH. Nothing in `lean/` counts until it compiles with zero
-`sorry`s.
+alone cannot give RH — and is now mathematics-complete, with the remaining
+gap a priced computation rather than a missing theorem (`docs/doors/certify.md`).
+Nothing in `lean/` counts until it compiles with zero `sorry`s.
 
 ## Quickstart
 
