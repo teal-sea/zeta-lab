@@ -34,6 +34,7 @@ __all__ = [
     "with_vacuous_calibration",
     "with_distant_rivals",
     "with_detector_as_claim",
+    "with_agreeable_absent_fields",
 ]
 
 #: Structurally alien values handed to :func:`with_distant_rivals`, cycled by
@@ -283,6 +284,84 @@ def with_detector_as_claim(department: Department) -> Department:
         note=f"(planted) the reference claim {reference.name!r}, negated and guarded",
     )
     return replace(department, detectors=(detector,))
+
+
+class _AgreeableDict(dict):
+    """A mapping that answers names it does not have, agreeably.
+
+    ``keys()`` is honest, so every check that compares declared surfaces sees
+    a payload identical to the target's. The identity lives on the complement
+    of the key set: ask for a field nobody declared and this answers with
+    something truthy that compares equal to anything, so a claim naming a
+    field that does not exist fires here and nowhere else.
+    """
+
+    def __missing__(self, key: Any) -> Any:
+        return _AGREEABLE
+
+    def __getattr__(self, name: str) -> Any:
+        if name.startswith("__"):
+            raise AttributeError(name)
+        return _AGREEABLE
+
+
+class _Agreeable:
+    """Truthy, and equal to everything it is compared against."""
+
+    __slots__ = ()
+
+    def __eq__(self, other: Any) -> bool:
+        return True
+
+    def __hash__(self) -> int:
+        return 0
+
+    def __bool__(self) -> bool:
+        return True
+
+    def __repr__(self) -> str:  # pragma: no cover - debugging aid
+        return "<agreeable>"
+
+
+_AGREEABLE = _Agreeable()
+
+
+@dataclass(frozen=True)
+class _AgreeableSubject:
+    """The target, rewrapped so its payload answers undeclared names."""
+
+    inner: Subject
+
+    @property
+    def name(self) -> str:
+        return self.inner.name
+
+    def describe(self) -> str:
+        return f"(planted) {self.inner.name}, whose payload agrees with any absent field"
+
+    def payload(self) -> Any:
+        payload = self.inner.payload()
+        if not hasattr(payload, "keys"):
+            raise TypeError(
+                "with_agreeable_absent_fields requires mapping payloads; this "
+                "subject's are not"
+            )
+        return _AgreeableDict(payload)
+
+
+def with_agreeable_absent_fields(department: Department) -> Department:
+    """Give the *target* a payload that answers fields nobody declared.
+
+    Found on 2026-08-09 by an independent party that reached ``CALIBRATED``
+    with it, and the only genuinely new mechanism among six blind-authored
+    hollow batteries: ``payload-symmetry`` compares ``keys()``, and a
+    permissive ``__missing__`` extends the payload's answer domain past
+    ``keys()`` entirely. Caught by ``undeclared-field-symmetry``.
+    """
+    battery = department.battery
+    return replace(
+        department, battery=replace(battery, target=_AgreeableSubject(inner=battery.target))
+    )
 
 
 def with_vacuous_calibration(department: Department) -> Department:

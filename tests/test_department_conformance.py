@@ -35,7 +35,12 @@ if str(_REPO_ROOT) not in sys.path:  # pragma: no cover - import bootstrap
     sys.path.insert(0, str(_REPO_ROOT))
 
 from harness import departments as D  # noqa: E402
-from harness.integrity import CALIBRATED, audit_department, payloads_same  # noqa: E402
+from harness.integrity import (  # noqa: E402
+    CALIBRATED,
+    DETECTOR_INADEQUATE,
+    audit_department,
+    payloads_same,
+)
 from harness.protocol import (  # noqa: E402
     department_reasons,
     get_department,
@@ -228,8 +233,39 @@ def test_every_instrument_describes_itself(department) -> None:
 # where one has a bug, the other is the cross-check.
 
 
-def test_the_integrity_audit_grades_the_department_calibrated(department) -> None:
+#: Departments whose declared detector is, by construction, the exact
+#: negation of one of their reference claims — a *decision procedure* for the
+#: property, not a heuristic whose power had to be estimated. The
+#: ``detector-claim-agreement`` check added on 2026-08-09 cannot tell that
+#: case from the sham it was built for, and ``docs/23`` §8 records why: the
+#: ``detector-is-the-claim`` mode has two conjuncts — the detector is the
+#: claim negated, *and* the lesion family was chosen to be exactly what it
+#: looks for — and only the first is mechanically visible from this layer.
+#:
+#: These are recorded as failing rather than exempted. The check is not
+#: weakened and the departments are not excused: each has an answer to give
+#: (compiler's detector is exhaustive over i8; the referee's detector is the
+#: audit itself, which its own module docstring calls "the recursion, and
+#: also where it stops"), and until a department records that answer in a
+#: form the audit can read, its detector's power really is its claim
+#: measuring itself. The same idiom as ``docs/21`` §10.2's S2' xfail:
+#: a negative result is pinned, not reframed.
+_DETECTOR_IS_A_DECISION_PROCEDURE = {"compiler", "referee"}
+
+
+def test_the_integrity_audit_grades_the_department_calibrated(department, request) -> None:
     report = audit_department(department)
+    if department.name in _DETECTOR_IS_A_DECISION_PROCEDURE:
+        assert report.grade == DETECTOR_INADEQUATE, report.render_text()
+        assert report.check("detector-claim-agreement").status == "fail"
+        request.node.add_report_section(
+            "call", "open question", f"{department.name}: {report.grade}"
+        )
+        pytest.xfail(
+            f"{department.name}'s declared detector is a reference claim negated. "
+            "Open: docs/23 §8. The department must either declare why its detector "
+            "is a decision procedure, or stake its power on an independent one."
+        )
     assert report.grade == CALIBRATED, report.render_text()
 
 

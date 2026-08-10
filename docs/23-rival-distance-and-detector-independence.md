@@ -189,6 +189,16 @@ against planted corruptions rather than asserted:
 
 ## 5. The held-out set
 
+> **Corrected after the fact — see §8.0.** The claim in this section that
+> blindness is "guaranteed by chronology" is **false as written**. The parties
+> ran against the live working tree, and §4 landed in it while they were still
+> iterating, so most of them saw the new checks. The per-party accounting is in
+> §8.0. The contamination runs against the parties rather than for them, so
+> §8.2's headline is unaffected, but check B ends up with no clean blind test
+> and check A with one. This paragraph is left standing rather than edited,
+> because a pre-registration quietly corrected after its results are known is
+> not a pre-registration.
+
 Ten batteries were authored by ten independent parties on 2026-08-09, **before
 any line of §4 was implemented**, so their blindness to these checks is
 guaranteed by chronology rather than by promise. Each party was given a sealed
@@ -258,4 +268,260 @@ sham mode the catalog does not have, and it goes into `SHAM_MODES` with
 
 ## 8. Results
 
-*Empty at commit time. Filled in after §4 was implemented and run.*
+Everything below was produced after §§1–7 were committed (`e7d52b6`). Where a
+prediction failed it is recorded as failed.
+
+### 8.0 A method failure in this experiment, stated first
+
+**§5's claim that the held-out set's blindness is "guaranteed by chronology"
+is false as written, and the error is mine.** The ten parties iterated against
+a runner that imports the *live* harness, and the implementation of §4 landed
+in that same tree while they were still working. Reconstructed from the check
+counts each party recorded in its own notes (the audit had 16 named checks
+before this build, 17 after B, 18 after A, 19 after the check added in §8.6):
+
+| party | checks it saw | blind to |
+|---|---|---|
+| party02 | 17 | **A**, and the §8.6 check |
+| party01, 03, 04, 05, 06 | 18 | the §8.6 check only |
+| party08 | 18 | the §8.6 check only |
+| party07, party10 | 19 | nothing |
+| party09 | (no notes) | unknown |
+
+The contamination runs *against* the parties, not for them: every one of them
+faced an audit at least as strict as the baseline, and five of the six hollow
+parties reached `CALIBRATED` **while looking at the checks built to stop
+them**. So the headline in §8.2 is if anything understated. What is genuinely
+damaged is narrower and is not glossed:
+
+- **Check B has no clean blind test at all.** Every hollow party saw it.
+- **Check A has exactly one** (party02), and it caught it. A second clean blind
+  test arrived from outside this experiment — see §8.5.
+- The §8.6 check has one blind subject, party06, but was *derived* from
+  party06, so that is not an independent test either and the catalog entry
+  says so.
+
+The fix for anyone repeating this: run the authoring against a pinned copy of
+the harness, not the working tree.
+
+### 8.1 The predictions, scored
+
+| | prediction | verdict |
+|---|---|---|
+| **P1** | all six departments pass `rival-separator-abundance` | **HELD** |
+| **P2** | the `with_distant_rivals` plant fails it | **FAILED** |
+| **P3** | no registered department fails `detector-claim-agreement` | **FAILED** |
+| **P4** | the `with_detector_as_claim` plant fails it, passing everything else | **HELD** |
+| **P5** | the cap re-grades at most one department | **FAILED**, then repaired by §7's rule |
+| **P6** | every successful hollow battery is caught; no honest one newly rejected | **FAILED** on the first half, held on the second |
+
+### 8.2 The headline: the audit does not constrain an adversarial author
+
+Six independent parties, given only `harness/protocol.py`,
+`harness/provenance.py` and `harness/README.md`, were asked to reach
+`CALIBRATED` with a battery that measures nothing. **Six of six succeeded**,
+every one of them certifying a transparently absurd claim as `distinguishes`
+— a waxing moon over a weather station, Mercury retrograde over a shipping
+manifest, a lunar phase over a chord progression. The prior estimate of this
+rate came from a single party in `docs/20` §8; at n=6 it is unchanged at 100%,
+and five of the six did it while watching the new checks fire.
+
+Of the six, the audit as it now stands catches **two**: party02 by
+`detector-claim-agreement`, party06 by the check in §8.6. Four survive.
+
+### 8.3 The four survivors are one mode, and it is not mechanically reachable
+
+Independent analysts named the four surviving mechanisms
+`coordinatewise-disjoint-rivals`, `schema-matched-unrelated-rivals`,
+`unmatched-covariate-separation` and `sibling-rivals`. They are one thing:
+**rivals matched in structure and disjoint in value**. Same keys, same types,
+same shape, agreeing with the target on no substantive number — so no single
+field is the tell, the joint value vector is the label, and any predicate
+keyed to a target value is target-exclusive by construction. It is now in the
+catalog as `structure-matched-value-disjoint-rivals` with `caught_by=None`.
+
+The obvious fix was tried and **inverts**, which is why the entry is blind
+rather than open. Measured on this tree: a value-comparison family scores the
+laboratory's own honest departments *more* separated than the sham
+(`zeta`, `compiler`, `croniter` and `referee` all at 1.00 leaf-separation
+against the weather-station sham's 0.83), because ζ and Davenport–Heilbronn
+also agree on no numeric value. A good rival differs from its target in its
+numbers too. *Which* differences are load-bearing is exactly the domain
+knowledge the seam forbids the audit to have, so "rivals must agree with the
+target on most values" is not a weaker version of the right principle — it is
+false.
+
+### 8.4 Check B: the number is right, the threshold is not, and the dimension is wrong
+
+`rival-separator-abundance` ships and acts on nothing.
+
+| | nearest-rival separator fraction |
+|---|---|
+| `finitefield`, `compiler`, `croniter`, `referee`, `stateval` | 0.00 |
+| `zeta` | 0.04 |
+| `with_distant_rivals` planted on the referee specimen | 0.24 |
+| `with_distant_rivals` planted on the six real departments | 0.31 – 0.50 |
+
+The statistic separates cleanly; **θ = 0.5 sits above the entire measured
+range**, so P2 failed everywhere and not only on the toy specimen. Anything in
+0.05 < θ < 0.24 would separate with margin on both sides. Per §4.2 the
+threshold is *not* retuned here — a cut chosen after reading its own
+calibration has no falsification weight, and this experiment's held-out set is
+now spent, so a retune would have nothing to be evaluated against. It ships as
+a reported number and a pinned blind spot
+(`test_the_audit_is_blind_to_gross_rival_distance_at_the_frozen_threshold`),
+and `distant-rivals` keeps `caught_by=None` because a catalog that claimed the
+catch would be lying.
+
+The deeper result is §8.3's: even at a correct threshold this check would have
+caught none of the four survivors, because it measures structural distance and
+the mode lives in values. §3 declared that limitation before the measurement,
+which is the one thing that makes the negative result readable.
+
+### 8.5 Check A: three catches, two of them clean, and a false positive it cannot see through
+
+`detector-claim-agreement` ships. Its evidence:
+
+1. **The planted mutation.** `shams.with_detector_as_claim` passes every
+   pre-existing check, including `detector-power` and `detector-specificity`,
+   and this check is the only thing that fails it.
+2. **party02**, a blind-authored hollow battery that reached `CALIBRATED`, and
+   the one hollow party that never saw this check. Nothing else catches it.
+3. **`docs/21`'s held-out hollow battery** — and this is the significant one.
+   `docs/21` §10 recorded, as its worst result, that the promotion gate
+   promotes that battery's astrological claim with an empty reason list. Its
+   declared detector is `lambda f: not zero_mean(f)`: the reference claim,
+   negated. The check catches it, so that specific promotion no longer
+   happens. The battery was authored by an independent party before this check
+   existed, which is the only reason the catch counts.
+
+`docs/21`'s *general* negative result is untouched and is deliberately kept:
+the gate still inherits every blind spot beneath it, and
+`test_the_gate_promotes_a_worthless_claim_from_a_hollow_battery` now runs
+against a specimen whose detector is genuinely independent and whose
+hollowness lives where it always lived, in the rivals. Repairing one instance
+was not allowed to make the gate look safe.
+
+**Against it: P3 failed, on `compiler` and `referee`.** Both declare a
+detector that is a reference claim negated on every payload both answer, and
+in both cases the detector is a *decision procedure* — `compiler`'s is
+exhaustive over i8, `referee`'s is the audit itself. The mode has two
+conjuncts, "the detector is the claim negated" **and** "the lesion family was
+chosen to be exactly what it looks for", and only the first is visible from
+this layer. The check cannot tell a decision procedure from a co-designed
+detector.
+
+Per §7 the rule was: ship iff strictly better than nothing on the held-out
+set. It is (party02, plus `docs/21`'s battery), so it ships as frozen, and the
+consequence is recorded rather than smoothed:
+
+- `compiler` and `referee` now grade `DETECTOR_INADEQUATE`.
+- `tests/test_department_conformance.py` xfails those two with the reason, in
+  the same idiom as `docs/21` §10.2's S2′.
+- `test_the_referee_department_survives_its_own_audit` was renamed to
+  `..._does_not_survive_its_own_audit` and asserts the failure, because it is a
+  fact about the current tree and not an aspiration. **The referee department
+  fails its own audit**, on one named check, for a reason its own module
+  docstring anticipated in prose.
+- Neither department is exempted and the check is not weakened. Each owes an
+  answer: declare why its detector is a decision procedure in a form the audit
+  can read, or stake its power on an instrument independent of its claim. That
+  declaration is the next pre-registered change, not this one.
+
+### 8.6 What the honest controls found, which was not what they were for
+
+The four honest parties were a calibration set for check B. They produced a
+bigger result than that.
+
+Under the audit as it stood, **2 of the 4 honest parties were graded `HOLLOW`**
+— the worst grade the audit issues, the one reserved for a battery that could
+not kill anything — and both failed on the same checks:
+`decoys-move-their-probe` and `lesions-plant-something`. (Mid-run, before any
+of them had finished iterating, all four were failing those two checks; the
+2-of-4 figure is from the frozen final submissions and is the one that counts.)
+The cause is exact.
+Those checks poked an instrument with department #1's shapes — a list of ints,
+an empty tuple — whenever the instrument declared no `probe` attribute, and
+reported "ablates nothing" when it raised on them. **That `probe` attribute is
+declared nowhere in `harness/protocol.py` and nowhere in `harness/README.md`**;
+it exists only inside `harness/integrity.py`, which the parties were forbidden
+to read. Verified directly: every honest party's decoys and lesions move their
+*own* department's payload correctly and raise on the foreign probe.
+
+Measured on the frozen submissions: party09's instruments move 0 of 7 foreign
+probes and party10's move 3 of 8, while every one of them moves its own
+department's payload correctly. The two honest parties that did reach
+`CALIBRATED` got there by writing shape-general fallbacks — 7 of 7 and 8 of 8
+foreign probes moved — which is the same workaround party02 used to *hollow*
+the audit. None of the four declared a `probe` attribute, because none of them
+could have known it existed.
+
+So the audit measured totality over foreign shapes, not substance, and it
+selected against exactly the authors it existed to select for. Party02 found
+the convention by instrumenting its own decoy to log what it was handed. Writing
+a domain-faithful instrument was penalised; reverse-engineering the audit was
+rewarded — in both arms of the experiment, for and against.
+
+Fixed: an instrument now has to move *one* of several candidate probes — its
+declared `probe`, its department's own target payload, or the historical
+shape. Inert instruments are still caught (`with_inert_lesions` still fails).
+After the fix, **4 of 4 honest parties grade `CALIBRATED`** and none is newly
+rejected by anything in §4, which is P6's second half.
+
+This was not predicted, and it is the most actionable defect the exercise
+found.
+
+### 8.7 One genuinely new sham mode
+
+party06 reached `CALIBRATED` with a payload class whose `keys()` is honest and
+whose `__missing__` is not: ask it for a field nobody declared and it answers
+with a truthy sentinel that compares equal to anything, while the rivals
+answer nothing. Identity therefore lives on the *complement* of the declared
+key set, where `payload-symmetry` — which compares `keys()` — cannot look.
+
+`undeclared-field-symmetry` now probes every payload with names nobody
+declared and requires the target and every rival to answer identically, and
+refuses any payload whose absent-field answer compares equal to an arbitrary
+sentinel. `shams.with_agreeable_absent_fields` plants it so the check's power
+is measured. Both the mode and the check are new; since the check was built
+from party06, party06 is not an independent test of it, and the catalog entry
+says so.
+
+### 8.8 The cap, and what it cost
+
+P5 failed: `payload-symmetry` was `UNKNOWN` for `compiler`, `croniter` and
+`referee`, so capping at `UNMEASURED` re-graded three departments, not one.
+§7's frozen rule required making the check decidable rather than exempting
+them, and that turned out to be the right instruction — `croniter`, authored
+outside this tree, hands out **bare functions** as payloads, so the
+callable-payload sidestep was never only a sham author's trick. It was a real
+department going unmeasured for two years' worth of commits.
+
+`payload-symmetry` now compares named fields: mapping keys, or an object's
+public attributes, with the empty tuple as a decision rather than an absence of
+one (a payload with no names cannot carry a *named*-field leak). All six
+departments now decide it, the 431cc74 leak is still caught, and no department
+is re-graded by the cap.
+
+### 8.9 Net effect on the audit
+
+- 16 named checks → 19. The referee department's measured lesion magnitudes and
+  pass counts moved accordingly; its luck floor is now pinned as a *margin*
+  rather than an absolute count, so it stops drifting every time a check is
+  added.
+- `SHAM_MODES`: 12 entries → 15. One mode moved from blind to caught
+  (`detector-is-the-claim`). Three added: `agreeable-absent-field-oracle`
+  (caught), `structure-matched-value-disjoint-rivals` (blind),
+  `detector-claim-shapes-disjoint` (blind). `distant-rivals` stays blind.
+  Blind spots: 4 → 6.
+- Hollow batteries caught that were not caught before: 3 (party02, party06,
+  `docs/21`'s specimen).
+- Hollow batteries still uncaught: 4, all one mode, argued unreachable in §8.3.
+- Honest departments rescued from a false HOLLOW: 4 of 4 blind-authored, plus
+  three registered departments moved out of `UNMEASURED`.
+
+The thesis `ROADMAP` stated after the first hollowing — *"the audit's real
+constraining power is over mechanical emptiness"* — survives this build intact.
+Two mechanical emptiness modes were added to the caught column. The choice that
+actually decides whether a battery can reject anything, how near the rivals
+are, remains the author's, and is now measured, printed, and not acted upon.

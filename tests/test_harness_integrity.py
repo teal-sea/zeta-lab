@@ -208,6 +208,20 @@ _CATCHABLE = [
         HOLLOW,
         id="vacuous-calibration",
     ),
+    pytest.param(
+        shams.with_detector_as_claim,
+        "detector-is-the-claim",
+        "detector-claim-agreement",
+        DETECTOR_INADEQUATE,
+        id="detector-as-claim",
+    ),
+    pytest.param(
+        shams.with_agreeable_absent_fields,
+        "agreeable-absent-field-oracle",
+        "undeclared-field-symmetry",
+        HOLLOW,
+        id="agreeable-absent-fields",
+    ),
 ]
 
 
@@ -254,6 +268,77 @@ def test_the_audit_is_blind_to_a_silently_dropped_hardest_lesion() -> None:
     report = audit_department(corrupted)
     assert report.grade == CALIBRATED
     assert any(m.name == "dropped-hardest-lesion" for m in AUDIT_BLIND_SPOTS)
+
+
+def test_the_audit_is_blind_to_gross_rival_distance_at_the_frozen_threshold() -> None:
+    """``rival-separator-abundance`` measures the distance and does not act on it.
+
+    Pinned with its numbers, because the numbers are the finding. The check
+    was specified in ``docs/23`` §4.2 with a threshold frozen at 0.5 *before*
+    the calibration was read, and the calibration came back an order of
+    magnitude lower: the six registered departments score 0.00 to 0.05 and
+    this planted gross-distance corruption scores 0.24, so the statistic
+    separates cleanly and the cut sits above the entire range. Moving it is a
+    separate change with its own frozen criteria — a threshold set after
+    reading its own calibration has no falsification weight, which is why
+    ``docs/23`` refused to retune it and why this pin exists instead.
+
+    If this test fails, the threshold moved. Update ``SHAM_MODES`` and
+    ``docs/23`` §8 together, or the catalog starts lying about what it catches.
+    """
+    corrupted = shams.with_distant_rivals(_specimen())
+    report = audit_department(corrupted)
+    assert report.grade == CALIBRATED, report.render_text()
+    result = report.check("rival-separator-abundance")
+    assert result.status == PASS
+    assert "0.24" in result.evidence, result.evidence
+    mode = next(m for m in SHAM_MODES if m.name == "distant-rivals")
+    assert mode.caught_by is None, "the catalog must not claim a catch it does not have"
+
+
+def test_the_audit_is_blind_to_structure_matched_value_disjoint_rivals() -> None:
+    """The mode six independent parties used to reach CALIBRATED, six for six.
+
+    Rivals sharing the target's key set, types and shape while agreeing with
+    it on no substantive value. No single field is the tell, so
+    ``payload-symmetry`` passes; the shape is identical, so
+    ``rival-separator-abundance`` measures ~0. Pinned as blind because the
+    obvious fix inverts: comparing values leaf by leaf scores this
+    repository's honest departments *more* separated than the sham, since a
+    genuine rival differs from its target in its numbers too.
+    """
+    battery = Battery(
+        name="value-disjoint",
+        target=ToySubject("target", 1.0),
+        rivals=(ToySubject("rival-a", 41.0), ToySubject("rival-b", 97.0)),
+        decoys=(ToyDecoy(),),
+        surrogates=(ToySurrogate(),),
+        lesions=(ToyLesion("large", 1.0), ToyLesion("small", 0.001)),
+    )
+    department = Department(
+        name="value-disjoint",
+        summary="rivals matched in shape, disjoint in value",
+        battery=battery,
+        door="docs/doors/referee.md",
+        reference_claims=(
+            ReferenceClaim("shared", lambda p: True, distinguishes=False),
+            # Absurd, and it distinguishes: the rivals share no value with
+            # the target, so any predicate keyed to a target value is
+            # target-exclusive by construction.
+            ReferenceClaim("absurd", lambda p: p["value"] < 1.5, distinguishes=True),
+        ),
+        detectors=(
+            NamedDetector("size-scan", lambda p: any(x > 0 for x in p), probe=(0.0,)),
+        ),
+        scope="(pinned blind spot) distinguishes nothing it is about",
+    )
+    report = audit_department(department)
+    assert report.grade == CALIBRATED, report.render_text()
+    assert report.check("payload-symmetry").status == PASS
+    assert report.check("rival-separator-abundance").status == PASS
+    assert any(
+        m.name == "structure-matched-value-disjoint-rivals" for m in AUDIT_BLIND_SPOTS
+    )
 
 
 def test_the_audit_is_blind_to_a_value_encoded_label_leak() -> None:
@@ -392,6 +477,161 @@ def test_a_crashing_instrument_fails_its_check_rather_than_the_audit() -> None:
     assert report.check("decoys-move-their-probe").status == FAIL
     assert "boom" in report.check("decoys-move-their-probe").evidence
     assert report.grade == HOLLOW
+
+
+def test_an_undecided_hollow_check_caps_the_grade() -> None:
+    """Undecided is not passed.
+
+    Until 2026-08-09 ``UNKNOWN`` capped the grade for the two detector checks
+    and for nothing else, so a hollow-class check that could not decide let
+    the battery through to ``CALIBRATED``. An independent party found it on
+    its first attempt: ``payload-symmetry`` returned ``UNKNOWN`` for any
+    payload that was not a mapping, so callable payloads sidestepped it for
+    free. The numeric arm has obeyed the opposite rule from the start —
+    ``proven_sign`` returns 0 for "not decided" — and this is that rule,
+    here.
+    """
+    from harness.integrity import CheckResult, IntegrityReport, UNMEASURED
+
+    decided = [
+        CheckResult(name, PASS, "ok")
+        for name in (
+            "structural",
+            "teeth-always-true",
+            "detector-power",
+            "detector-specificity",
+        )
+    ]
+    report = IntegrityReport(
+        department="undecided",
+        checks=tuple(decided) + (CheckResult("payload-symmetry", UNKNOWN, "not decided"),),
+    )
+    assert report.grade == UNMEASURED
+    assert report.undecided == ("payload-symmetry",)
+    assert "payload-symmetry" in report.render_text()
+
+    all_decided = IntegrityReport(
+        department="decided",
+        checks=tuple(decided) + (CheckResult("payload-symmetry", PASS, "ok"),),
+    )
+    assert all_decided.grade == CALIBRATED
+    assert all_decided.undecided == ()
+
+
+def test_payload_symmetry_decides_off_mappings_instead_of_shrugging() -> None:
+    """A department whose payloads are bare callables is measured, not skipped.
+
+    ``croniter`` — a real department, authored outside this tree — hands out
+    plain functions as payloads, so the callable-payload sidestep was never
+    only a sham author's trick. Three of the six registered departments were
+    undecided here before this change.
+    """
+
+    @dataclass(frozen=True)
+    class CallableSubject:
+        name: str
+        value: float
+
+        def describe(self) -> str:
+            return "a subject whose payload is a bare function"
+
+        def payload(self) -> Any:
+            value = self.value
+            return lambda: value
+
+    battery = Battery(
+        name="callable-payloads",
+        target=CallableSubject("target", 1.0),
+        rivals=(CallableSubject("rival", 2.0),),
+        decoys=(ToyDecoy(),),
+        surrogates=(ToySurrogate(),),
+        lesions=(ToyLesion("large", 1.0), ToyLesion("small", 0.001)),
+    )
+    department = Department(
+        name="callable-payloads",
+        summary="payloads are functions",
+        battery=battery,
+        door="docs/doors/referee.md",
+        reference_claims=(
+            ReferenceClaim("shared", lambda p: True, distinguishes=False),
+            ReferenceClaim("target-only", lambda p: p() == 1.0, distinguishes=True),
+        ),
+        detectors=(
+            NamedDetector("size-scan", lambda p: any(x > 0 for x in p), probe=(0.0,)),
+        ),
+        scope="a shape the audit used to shrug at",
+    )
+    result = audit_department(department).check("payload-symmetry")
+    assert result.status == PASS, result.evidence
+    assert "no named fields" in result.evidence
+
+
+def test_an_instrument_faithful_to_its_own_payload_is_not_called_inert() -> None:
+    """The audit must not select against domain-faithful instruments.
+
+    Measured on 2026-08-09: four independent parties asked to author *honest*
+    departments each wrote decoys and lesions that understood their own
+    payloads and raised on anything else, and all four were graded HOLLOW for
+    it on ``decoys-move-their-probe`` and ``lesions-plant-something``, while
+    the party that reverse-engineered the audit's private probe shapes and
+    wrote a generic fallback passed. The ``probe`` attribute those checks read
+    is declared nowhere in ``harness/protocol.py`` and nowhere in
+    ``harness/README.md``. An instrument now has to move *one* candidate
+    probe — its own department's payload counts.
+    """
+
+    @dataclass(frozen=True)
+    class NarrowDecoy:
+        name: str = "only-understands-mappings"
+
+        def describe(self) -> str:
+            return "raises on anything that is not this department's payload"
+
+        def substitute(self, payload: Any) -> Any:
+            return {key: 0.0 for key in payload.keys()}  # raises on a list of ints
+
+    @dataclass(frozen=True)
+    class NarrowLesion:
+        name: str
+        magnitude: float
+
+        def describe(self) -> str:
+            return "raises on anything that is not this department's payload"
+
+        def apply(self, payload: Any) -> Any:
+            return {**payload, "value": payload["value"] + self.magnitude}
+
+    battery = Battery(
+        name="faithful-instruments",
+        target=ToySubject("target", 1.0),
+        rivals=(ToySubject("rival", 2.0),),
+        decoys=(NarrowDecoy(),),
+        surrogates=(ToySurrogate(),),
+        lesions=(NarrowLesion("large", 1.0), NarrowLesion("small", 0.001)),
+    )
+    department = Department(
+        name="faithful-instruments",
+        summary="instruments that understand only their own payloads",
+        battery=battery,
+        door="docs/doors/referee.md",
+        reference_claims=(
+            ReferenceClaim("shared", lambda p: True, distinguishes=False),
+            ReferenceClaim("target-only", lambda p: p["value"] == 1.0, distinguishes=True),
+        ),
+        detectors=(
+            NamedDetector(
+                "moved-scan", lambda p: p["value"] != 1.0, probe={"value": 1.0}
+            ),
+        ),
+        scope="an honest department that declares no probe attribute",
+    )
+    report = audit_department(department)
+    assert report.check("decoys-move-their-probe").status == PASS, report.render_text()
+    assert report.check("lesions-plant-something").status == PASS, report.render_text()
+
+    # and the power is not bought at the cost of the inert-instrument catch
+    inert = audit_department(shams.with_inert_lesions(_specimen()))
+    assert inert.check("lesions-plant-something").status == FAIL
 
 
 def test_the_grades_are_a_closed_vocabulary() -> None:

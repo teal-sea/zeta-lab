@@ -117,8 +117,11 @@ check fails:
 | contaminated preregistration (the W2 shape) | `provenance-contamination` if declared; derived from digests where a `harness.preregistration` record exists (`docs/21` §10.1) |
 | **silently dropped hardest lesion** | **nothing** here — caught only against a preregistered criteria digest (`docs/21` §10.1) |
 | **value-encoded label leak / co-designed calibration** | **nothing** — pinned blind |
-| **distant rivals** (added 2026-08-09) | **nothing** — pinned blind |
-| **detector is the claim, negated** (added 2026-08-09) | **nothing** — pinned blind |
+| **distant rivals** (added 2026-08-09) | **nothing** — pinned blind. `rival-separator-abundance` measures the distance and prints it; its frozen threshold sits above the whole measured range, so it acts on nothing (`docs/23` §8.4) |
+| **detector is the claim, negated** (added 2026-08-09) | `detector-claim-agreement` — **closed 2026-08-10** (`docs/23` §8.5) |
+| **agreeable absent-field oracle** (added 2026-08-10) | `undeclared-field-symmetry` |
+| **structure-matched, value-disjoint rivals** (added 2026-08-10) | **nothing** — pinned blind, and the obvious fix is measured to invert (`docs/23` §8.3) |
+| **detector and claim consume disjoint shapes** (added 2026-08-10) | **nothing** — the residue `detector-claim-agreement` leaves |
 
 The last two rows were added after §8's second experiment was actually run. An
 independent party, given only `protocol.py` and this package's README and
@@ -247,6 +250,20 @@ that nobody has to rediscover them:
    battery *trying* to pass the audit, without seeing `SHAM_MODES`. Every
    mode they find that the catalog lacks is a real hole. One held-out
    mutant is a floor, not a validation.
+
+   **Run on 2026-08-10 at n=6, with four honest controls, and the result is
+   worse than the n=1 run suggested: six of six succeeded.** Full record in
+   `docs/23`, corpus in `harness/blind_authoring_2026_08_09/`. Four of the six
+   used one mode, now `structure-matched-value-disjoint-rivals`, and the
+   obvious mechanical fix for it is measured to invert on this repository's own
+   honest departments. Two of the six are now caught. The honest controls found
+   something the hollow ones could not: the audit was penalising instruments
+   faithful to their own payloads and rewarding authors who reverse-engineered
+   its private probe shapes (`docs/23` §8.6). The exercise also contains its own
+   method failure, recorded in `docs/23` §8.0 — the parties ran against the live
+   tree while the new checks were landing in it — so the third experiment below
+   is still the one most likely to hurt, and a repeat of this one needs a pinned
+   harness.
 3. **Stateval transfer.** The stateval instruments on a real dataset with
    unknown ground truth — where "sham by construction" is unavailable and
    the oracle is genuinely weak. If the null-band machinery cannot say

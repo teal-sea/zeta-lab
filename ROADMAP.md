@@ -876,6 +876,91 @@ how near the rivals are, and whether the detector is independent of the claim.
 Both are the author's to pick, and every layer built on the grade — the
 promotion gate included — inherits that.
 
+## Closing two blind spots: what shipped and what did not (2026-08-10)
+
+`docs/23-rival-distance-and-detector-independence.md` is the record. Criteria,
+threshold and six predictions were committed at `e7d52b6` before a line of the
+implementation existed; three predictions failed and are recorded as failed.
+The exercise above was repeated at n=6 instead of n=1, with four honest
+controls, and the results are worse for the audit than the first run was.
+
+- **The audit does not constrain an adversarial author, and now we know the
+  rate.** Six independent parties given only the public contract reached
+  `CALIBRATED` with batteries that measure nothing — **six of six**, each
+  certifying a transparently absurd claim (a waxing moon over a weather
+  station, Mercury retrograde over a shipping manifest) as `distinguishes`.
+  Five of the six did it while the new checks were already visible in their
+  runner output. The audit as it now stands catches two of the six.
+- **The four survivors are one mode, and it is argued unreachable.** Rivals
+  matched in structure and disjoint in *value*: no single field is the tell,
+  the joint value vector is the label, so any predicate keyed to a target
+  value is target-exclusive. Now `structure-matched-value-disjoint-rivals`
+  with `caught_by=None`. The obvious fix inverts and the inversion is
+  measured: a value-comparison family scores `zeta`, `compiler`, `croniter`
+  and `referee` *more* separated than the sham, because ζ and
+  Davenport–Heilbronn also agree on no numeric value. Which differences are
+  load-bearing is the domain knowledge the seam forbids.
+- **`rival-separator-abundance` ships and acts on nothing.** It measures the
+  distance (real departments 0.00–0.05, a planted gross-distance corruption
+  0.24–0.50) and the threshold frozen before the calibration was read, 0.5,
+  sits above the whole range. Not retuned here: a cut chosen after reading its
+  own calibration has no falsification weight, and the held-out set is spent.
+  Pinned as a blind spot with its numbers rather than quietly adjusted.
+- **`detector-claim-agreement` ships and earns it.** It catches its planted
+  mutation in isolation, catches one blind-authored hollow battery nothing
+  else catches, and catches **`docs/21`'s held-out hollow battery** — whose
+  promotion was that document's worst recorded result. That specific
+  promotion no longer happens; `docs/21`'s general finding is untouched and
+  its pin now runs against a specimen whose detector is independent, so
+  repairing one instance was not allowed to make the gate look safe.
+- **The cost of that check: `compiler` and `referee` now grade
+  `DETECTOR_INADEQUATE`.** Both declare a detector that is a reference claim
+  negated, and in both cases it is a *decision procedure* rather than a
+  co-designed detector. The mode has two conjuncts and only the first is
+  mechanically visible. Neither department is exempted and the check is not
+  weakened: the conformance cases xfail with the reason, and
+  `test_the_referee_department_survives_its_own_audit` was renamed to
+  `..._does_not_survive_its_own_audit` and asserts the failure. **The referee
+  department fails its own audit.** Each department owes an answer; that is
+  the next pre-registered change, not this one.
+- **The most actionable defect was found by the honest controls, and was not
+  predicted.** `decoys-move-their-probe` and `lesions-plant-something` poked
+  instruments with department #1's shapes whenever they declared no `probe` —
+  an attribute declared nowhere in `harness/protocol.py` and nowhere in
+  `harness/README.md`. Two of four honest parties were graded `HOLLOW` for
+  writing decoys and lesions faithful to their own payloads; the two that
+  passed did so with shape-general fallbacks, which is the same workaround the
+  hollow party used to defeat the audit. **The audit was rewarding
+  reverse-engineering and punishing fidelity, in both arms.** An instrument
+  now has to move one of several candidate probes, inert instruments are still
+  caught, and 4 of 4 honest parties now grade `CALIBRATED`. The convention is
+  documented in both places it should have been.
+- **`UNKNOWN` no longer walks past `CALIBRATED`.** Every hollow-class check
+  caps the grade when undecided, matching the numeric arm's rule. Enforcing it
+  required making `payload-symmetry` decidable off mappings, which surfaced
+  that `croniter` — a department authored outside this tree — hands out bare
+  functions as payloads: the "callable payloads sidestep" was never only a
+  sham author's trick, and three real departments had been going unmeasured.
+- **One new mode, one new check.** party06 reached `CALIBRATED` with a payload
+  whose `keys()` is honest and whose `__missing__` answers undeclared names
+  with a sentinel equal to anything. `undeclared-field-symmetry` catches it.
+  The check was built from that battery, so that battery is not an independent
+  test of it, and the catalog says so.
+- **A method failure of the exercise itself, recorded in `docs/23` §8.0.** The
+  parties ran against the live working tree while the checks were landing in
+  it, so §5's claim that blindness was "guaranteed by chronology" is false as
+  written. The contamination runs against the parties, so the hollowing rate is
+  if anything understated — but check B ends up with no clean blind test and
+  check A with one. The frozen corpus and its manifest are in
+  `harness/blind_authoring_2026_08_09/`; the set is spent, and a repeat needs
+  new parties and a pinned harness.
+
+Net: 16 named checks → 19, `SHAM_MODES` 12 → 15, blind spots 4 → 6, three
+previously-uncatchable hollow batteries now caught, four still not.
+`ROADMAP`'s thesis from the first hollowing survives unchanged — the audit's
+real constraining power is over *mechanical* emptiness — and the choice that
+decides whether a battery can reject anything is still the author's.
+
 ## Known gaps
 
 Listed because an undocumented gap becomes an assumption.

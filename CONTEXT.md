@@ -852,7 +852,7 @@ The falsification protocol with the subject factored out. Four instrument roles 
 
 ### `harness/protocol.py` — ``harness.protocol`` — four instrument roles, one battery, one department.
 
-*911 lines*
+*923 lines*
 
 - `class HarnessError` — Base class for every refusal this module issues.
 - `class BatteryError` — A battery is malformed, or is one that could not fail.
@@ -895,7 +895,7 @@ The falsification protocol with the subject factored out. Four instrument roles 
 
 ### `harness/integrity.py` — ``harness.integrity`` — the referee, refereed.
 
-*921 lines*
+*1571 lines*
 
 Constants: `PASS`, `FAIL`, `UNKNOWN`, `CALIBRATED`, `DETECTOR_INADEQUATE`, `UNMEASURED`, `CONTAMINATED`, `HOLLOW`, `GRADES`, `SHAM_MODES`, `AUDIT_BLIND_SPOTS`
 
@@ -955,13 +955,16 @@ Constants: `ALLOW`, `BLOCK`, `POLICY_VERSION`, `NAIVE_POLICY_VERSION`, `REQUIRED
 
 ### `harness/shams.py` — ``harness.shams`` — planted corruptions of batteries, for measuring the audit.
 
-*204 lines*
+*384 lines*
 
 - `with_constant_detector(department: Department, *, value: bool = True) -> Department` — Replace every declared detector with one that always answers ``value``.
 - `with_target_as_rival(department: Department) -> Department` — Replace every rival with the target wearing the rivals' names.
 - `with_inert_lesions(department: Department) -> Department` — Make every lesion an identity: violations that were never planted.
 - `without_hardest_lesion(department: Department) -> Department` — Silently drop the smallest-magnitude lesion — the one the detectors
 - `with_leaked_label(department: Department, *, key: str = 'virtual_tell') -> Department` — Give every rival's payload a key the target's payload lacks — the
+- `with_distant_rivals(department: Department) -> Department` — Move every rival far from the target while keeping the key set.
+- `with_detector_as_claim(department: Department) -> Department` — Replace the declared detectors with the distinguishing claim, negated.
+- `with_agreeable_absent_fields(department: Department) -> Department` — Give the *target* a payload that answers fields nobody declared.
 - `with_vacuous_calibration(department: Department) -> Department` — Replace the reference claims with a shape-valid pair that cannot earn
 
 ### `harness/departments/compiler_department.py` — ``harness.departments.compiler_department`` — department #3: LLVM IR rewrites.
@@ -1126,6 +1129,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `20-verification-integrity.md` — 20 — Verification integrity: the referee, refereed
 - `21-forward-deployed-verification.md` — 21 — Forward-deployed verification: can a report refuse a crossing?
 - `22-detector-strength-findings.md` — Computational Alarm Systems for the Riemann Hypothesis:
+- `23-rival-distance-and-detector-independence.md` — 23 — Rival distance and detector independence: closing two declared blind spots
 
 ## Runnable demos (`scripts/`)
 
@@ -1169,7 +1173,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1514 test functions across 48 files (the collected count differs where tests are parametrised):
+1519 test functions across 48 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_compiler_candidate.py` — 32
@@ -1193,7 +1197,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_harness_croniter_department.py` — 11
 - `tests/test_harness_demo.py` — 5
 - `tests/test_harness_finitefield_department.py` — 12
-- `tests/test_harness_integrity.py` — 15
+- `tests/test_harness_integrity.py` — 20
 - `tests/test_harness_promotion.py` — 48
 - `tests/test_harness_protocol.py` — 49
 - `tests/test_harness_referee_department.py` — 12

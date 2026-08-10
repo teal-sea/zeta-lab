@@ -150,6 +150,7 @@ _HOLLOW_CHECKS: Final = (
     "lesions-plant-something",
     "lesion-magnitudes-span-scales",
     "payload-symmetry",
+    "undeclared-field-symmetry",
     "rival-separator-abundance",
 )
 
@@ -320,18 +321,28 @@ SHAM_MODES: Final[tuple[ShamMode, ...]] = (
             "tollens never bites and any claim of the form 'anything AND a "
             "target-only property' distinguishes"
         ),
-        caught_by="rival-separator-abundance",
+        caught_by=None,
         countermeasure=(
-            "nearness itself is the department's substantive judgment, but its "
-            "observable consequence is measurable: if a rival shares the "
-            "structure the claim leans on, an arbitrary structural predicate "
-            "should rarely separate it from the target. "
-            "``rival-separator-abundance`` measures that fraction over a "
-            "generated, domain-blind predicate family and fails the nearest "
-            "rival above a frozen threshold. It sees *gross* distance only — a "
-            "rival structurally identical to the target and substantively "
-            "absurd scores zero — so the human countermeasure still stands "
-            "behind it: declare, per rival, the structure it shares and the "
+            "``rival-separator-abundance`` now *measures* the observable "
+            "consequence of distance — the fraction of an arbitrary, "
+            "domain-blind structural predicate family that separates the "
+            "nearest rival from the target — and prints it on every report. "
+            "It does not yet catch this mode: the threshold frozen before the "
+            "calibration was read (0.5, docs/23 §4.2) sits above the whole "
+            "measured range. The six registered departments score 0.00 to "
+            "0.05 and a planted gross-distance corruption scores 0.24 to 0.50, "
+            "so the number separates cleanly and the cut is in the wrong "
+            "place; moving it is a separate change with its own frozen "
+            "criteria, because a threshold set after reading its calibration "
+            "has no falsification weight. Worse for this entry, the structural "
+            "family is aimed at the wrong dimension: six independent parties "
+            "reached CALIBRATED on 2026-08-09 using rivals matched in "
+            "structure and disjoint in *values*, which no domain-blind check "
+            "can condemn — a good rival and an arbitrary one both differ from "
+            "the target in their numbers, and which differences are the "
+            "load-bearing ones is precisely the domain knowledge the seam "
+            "forbids. The human countermeasure therefore still carries this "
+            "mode: declare, per rival, the structure it shares and the "
             "property it lacks, and have a party that did not author the "
             "battery say whether the pair is close enough to make a shared "
             "claim embarrassing"
@@ -353,6 +364,53 @@ SHAM_MODES: Final[tuple[ShamMode, ...]] = (
             "outcome vectors are identical or exactly complementary; better "
             "still, have the lesion family authored by a party that has not "
             "seen the detector"
+        ),
+    ),
+    ShamMode(
+        name="agreeable-absent-field-oracle",
+        description=(
+            "a payload whose declared surface is identical to the target's and "
+            "whose *undeclared* surface is not: a permissive ``__missing__`` or "
+            "``__getattr__`` answers names the key set never mentions, so "
+            "identity lives on the complement of the declared fields and a "
+            "claim naming a field that does not exist can still distinguish"
+        ),
+        caught_by="undeclared-field-symmetry",
+        countermeasure=(
+            "probe every payload with names nobody declared and require the "
+            "target and every rival to answer them identically, and refuse a "
+            "payload whose absent-field answer compares equal to an arbitrary "
+            "sentinel. Found by an independent party that reached CALIBRATED "
+            "with it, so its discovery was a measurement; note that the same "
+            "battery therefore cannot be an independent test of the check "
+            "built from it"
+        ),
+    ),
+    ShamMode(
+        name="structure-matched-value-disjoint-rivals",
+        description=(
+            "the generalisation of the value-encoded label leak from one field "
+            "to the whole payload: rivals sharing the target's key set, types "
+            "and shape while agreeing with it on no substantive value, so no "
+            "single field is the tell and the joint value vector is the label. "
+            "Any predicate keyed to a target value is then a target-only "
+            "property, and 'anything AND a target-only property' distinguishes"
+        ),
+        caught_by=None,
+        countermeasure=(
+            "measured, not argued: six independent parties given only the "
+            "public contract reached CALIBRATED this way on 2026-08-09, six "
+            "for six, every one certifying a transparently absurd claim as "
+            "distinguishing. The obvious mechanical fix was tried and inverts "
+            "— comparing payload values leaf by leaf scores this repository's "
+            "own honest departments *more* separated than the sham, because a "
+            "genuine rival differs from its target in its numbers too. What "
+            "makes a rival near is which properties it is matched on, and "
+            "that is the domain knowledge the seam forbids the audit to have. "
+            "Countermeasure is a declaration: state, per rival, the "
+            "coordinates on which it is matched and the coordinates on which "
+            "it is not, and have the claim authored by a party that has not "
+            "seen the payloads"
         ),
     ),
     ShamMode(
@@ -596,13 +654,66 @@ def _guard(name: str, thunk: Any) -> CheckResult:
         return CheckResult(name, FAIL, f"check raised {type(exc).__name__}: {exc}")
 
 
-def _decoy_probe(decoy: Any) -> Any:
-    probe = getattr(decoy, "probe", None)
-    return list(_HISTORICAL_DECOY_PROBE) if probe is None else probe
+def _decoy_probes(decoy: Any, battery: Battery) -> list[Any]:
+    """Every payload it is fair to poke a decoy with, best candidate first.
+
+    The first version poked an instrument that declared no ``probe`` with
+    department #1's shapes and nothing else, and reported "ablates nothing"
+    when the instrument raised on them. That measured *totality over foreign
+    shapes*, not substance, and it selected against exactly the authors it
+    should have selected for: on 2026-08-09 four independent parties asked to
+    build honest departments each wrote decoys and lesions faithful to their
+    own payloads, and all four were graded HOLLOW for it, while the party who
+    instrumented its own decoy to discover the foreign probe and wrote a
+    generic fallback for it passed. The ``probe`` attribute the old code read
+    is declared nowhere in ``harness/protocol.py`` and nowhere in
+    ``harness/README.md``, so an author working from the public contract could
+    not have known to supply it.
+
+    An instrument now has to move *one* of these, not a particular one: an
+    inert instrument returns every candidate unchanged and is still caught,
+    while a faithful instrument that only understands its own department's
+    payloads is no longer punished for it.
+    """
+    probes: list[Any] = []
+    declared = getattr(decoy, "probe", None)
+    if declared is not None:
+        probes.append(declared)
+    try:
+        probes.append(battery.target.payload())
+    except Exception:  # noqa: BLE001 - a target that will not answer is another check's business
+        pass
+    probes.append(list(_HISTORICAL_DECOY_PROBE))
+    return probes
 
 
-def _lesion_probe(lesion: Any) -> Any:
-    return getattr(lesion, "probe", _HISTORICAL_LESION_PROBE)
+def _lesion_probes(lesion: Any, battery: Battery) -> list[Any]:
+    """The same, for lesions. See :func:`_decoy_probes` for why there is a list."""
+    probes: list[Any] = []
+    declared = getattr(lesion, "probe", None)
+    if declared is not None:
+        probes.append(declared)
+    try:
+        probes.append(battery.target.payload())
+    except Exception:  # noqa: BLE001
+        pass
+    probes.append(_HISTORICAL_LESION_PROBE)
+    return probes
+
+
+def _moves_any(instrument: Callable[[Any], Any], probes: Sequence[Any]) -> tuple[bool, str]:
+    """``(moved, why)`` — did the instrument change *any* candidate probe?"""
+    reasons: list[str] = []
+    for index, probe in enumerate(probes):
+        try:
+            after = instrument(probe)
+        except Exception as exc:  # noqa: BLE001 - raising on a foreign shape is not inertness
+            reasons.append(f"probe{index} raised {type(exc).__name__}: {exc}")
+            continue
+        if _differs(probe, after):
+            return True, f"moved probe{index}"
+        reasons.append(f"probe{index} returned unchanged")
+    return False, "; ".join(reasons)
 
 
 def payloads_same(before: Any, after: Any) -> bool:
@@ -797,6 +908,63 @@ def _structural_predicates(values: Sequence[Any]) -> list[tuple[str, Callable[[A
     return family[:_SEPARATOR_PREDICATE_CAP]
 
 
+class _AuditSentinel:
+    """A value equal to nothing honest.
+
+    Handed to a payload's ``__eq__`` to find out whether the payload is
+    *agreeable* — whether it answers "yes, that is me" to an arbitrary object
+    it has never seen. Nothing a department legitimately computes compares
+    equal to this.
+    """
+
+    __slots__ = ()
+
+    def __repr__(self) -> str:  # pragma: no cover - debugging aid
+        return "<audit sentinel>"
+
+
+_SENTINEL: Final = _AuditSentinel()
+
+#: Field names no department declares, used to ask a payload what it does with
+#: a name nobody gave it. Deliberately unpronounceable so a collision with a
+#: real field is a coincidence worth investigating rather than a false alarm.
+_UNDECLARED_TOKENS: Final = (
+    "zzq_undeclared_alpha",
+    "qxv_undeclared_beta",
+    "wjn_undeclared_gamma",
+)
+
+
+def _absent_field_signature(payload: Any, token: str) -> tuple:
+    """How ``payload`` answers a name nobody declared — by item and by attribute.
+
+    An honest payload raises both ways, and its signature is the same as every
+    other honest payload's. A payload with a permissive ``__missing__`` or
+    ``__getattr__`` answers instead, and what it answers is a channel outside
+    the declared key set entirely.
+    """
+    signature: list[tuple] = []
+    for how, access in (
+        ("item", lambda p: p[token]),
+        ("attr", lambda p: getattr(p, token)),
+    ):
+        try:
+            value = access(payload)
+        except Exception as exc:  # noqa: BLE001 - raising is the honest answer
+            signature.append((how, "raised", type(exc).__name__))
+            continue
+        try:
+            agreeable = bool(value == _SENTINEL)
+        except Exception:  # noqa: BLE001
+            agreeable = False
+        try:
+            truthy = bool(value)
+        except Exception:  # noqa: BLE001
+            truthy = False
+        signature.append((how, "answered", truthy, agreeable))
+    return tuple(signature)
+
+
 def _answer(probe: Callable[[Any], Any], value: Any) -> tuple[bool, bool]:
     """``(outcome, ran)`` — a probe that raises did not answer, and an
     unanswered probe is never counted as agreement or as difference."""
@@ -956,35 +1124,41 @@ def audit_department(department: Department) -> IntegrityReport:
     def _decoys_move() -> CheckResult:
         inert = []
         for decoy in battery.decoys:
-            probe = _decoy_probe(decoy)
-            if not _differs(probe, decoy.substitute(probe)):
-                inert.append(decoy.name)
+            moved, why = _moves_any(decoy.substitute, _decoy_probes(decoy, battery))
+            if not moved:
+                inert.append(f"{decoy.name} ({why})")
         if inert:
             return CheckResult(
                 "decoys-move-their-probe",
                 FAIL,
-                f"decoy(s) returned their input unchanged and ablate nothing: {', '.join(inert)}",
+                "decoy(s) changed no candidate probe and ablate nothing: "
+                + "; ".join(inert),
             )
         return CheckResult(
-            "decoys-move-their-probe", PASS, f"all {len(battery.decoys)} decoy(s) change their probe"
+            "decoys-move-their-probe",
+            PASS,
+            f"all {len(battery.decoys)} decoy(s) change at least one candidate probe",
         )
 
     def _lesions_plant() -> CheckResult:
         inert = []
         for lesion in battery.lesions:
-            probe = _lesion_probe(lesion)
-            if not _differs(probe, lesion.apply(probe)) or not float(lesion.magnitude) > 0:
-                inert.append(lesion.name)
+            moved, why = _moves_any(lesion.apply, _lesion_probes(lesion, battery))
+            if not moved:
+                inert.append(f"{lesion.name} ({why})")
+            elif not float(lesion.magnitude) > 0:
+                inert.append(f"{lesion.name} (no positive magnitude)")
         if inert:
             return CheckResult(
                 "lesions-plant-something",
                 FAIL,
-                f"lesion(s) plant nothing (or have no magnitude): {', '.join(inert)}",
+                f"lesion(s) plant nothing (or have no magnitude): {'; '.join(inert)}",
             )
         return CheckResult(
             "lesions-plant-something",
             PASS,
-            f"all {len(battery.lesions)} lesion(s) change their probe and carry a magnitude",
+            f"all {len(battery.lesions)} lesion(s) change at least one candidate probe "
+            "and carry a magnitude",
         )
 
     def _magnitude_spread() -> CheckResult:
@@ -1047,6 +1221,70 @@ def audit_department(department: Department) -> IntegrityReport:
         )
 
     checks.append(_guard("payload-symmetry", _payload_symmetry))
+
+    # -- what the payloads say about fields nobody declared -----------------
+    def _undeclared_field_symmetry() -> CheckResult:
+        target_payload = battery.target.payload()
+        rival_payloads = [(rival.name, rival.payload()) for rival in battery.rivals]
+        declared = set(_feature_names(target_payload))
+        for _, payload in rival_payloads:
+            declared |= set(_feature_names(payload))
+
+        tokens = [t for t in _UNDECLARED_TOKENS if repr(t) not in declared and t not in declared]
+        if isinstance(target_payload, Mapping):
+            for key in list(target_payload.keys())[:3]:
+                if isinstance(key, str):
+                    candidate = f"{key}_zzq_undeclared"
+                    if repr(candidate) not in declared and candidate not in declared:
+                        tokens.append(candidate)
+        if not tokens:
+            return CheckResult(
+                "undeclared-field-symmetry",
+                UNKNOWN,
+                "every probe name collided with a declared field, so the payloads' "
+                "behaviour outside their declared surface could not be sampled",
+            )
+
+        agreeable: list[str] = []
+        asymmetric: list[str] = []
+        for token in tokens:
+            target_signature = _absent_field_signature(target_payload, token)
+            if any(part[1] == "answered" and part[3] for part in target_signature):
+                agreeable.append(f"target on {token!r}")
+            for name, payload in rival_payloads:
+                rival_signature = _absent_field_signature(payload, token)
+                if any(part[1] == "answered" and part[3] for part in rival_signature):
+                    agreeable.append(f"{name} on {token!r}")
+                if rival_signature != target_signature and len(asymmetric) < 4:
+                    asymmetric.append(
+                        f"{name} answers the undeclared name {token!r} differently from "
+                        f"the target: {target_signature} vs {rival_signature}"
+                    )
+        if agreeable:
+            return CheckResult(
+                "undeclared-field-symmetry",
+                FAIL,
+                f"payload(s) answer a name nobody declared with a value that compares "
+                f"equal to an arbitrary sentinel ({'; '.join(sorted(set(agreeable))[:4])}): "
+                "such a payload agrees with any assertion whatsoever, so a claim naming "
+                "a field that does not exist can still distinguish",
+            )
+        if asymmetric:
+            return CheckResult(
+                "undeclared-field-symmetry",
+                FAIL,
+                "; ".join(asymmetric)
+                + " — identity lives outside the declared key set, where payload-symmetry "
+                "cannot see it",
+            )
+        return CheckResult(
+            "undeclared-field-symmetry",
+            PASS,
+            f"target and {len(rival_payloads)} rival(s) answer {len(tokens)} undeclared "
+            "field name(s) identically, and none of them agrees with an arbitrary sentinel",
+        )
+
+    checks.append(_guard("undeclared-field-symmetry", _undeclared_field_symmetry))
 
     # -- how near the nearest rival is --------------------------------------
     def _rival_distance() -> CheckResult:
@@ -1206,10 +1444,16 @@ def audit_department(department: Department) -> IntegrityReport:
         flagged: list[str] = []
         rates: list[float] = []
         widest = 0
+        # Each vector is evaluated exactly once. Both are expensive for a
+        # department whose claims are real computations, and the pairing below
+        # is a comparison of cached outcomes, not a re-evaluation.
+        claim_vectors = [
+            (reference, [_answer(reference.claim, p) for _, p in payloads])
+            for reference in department.reference_claims
+        ]
         for detector in department.detectors:
             detector_vector = [_answer(detector.fires, p) for _, p in payloads]
-            for reference in department.reference_claims:
-                claim_vector = [_answer(reference.claim, p) for _, p in payloads]
+            for reference, claim_vector in claim_vectors:
                 common = [
                     (d_value, c_value)
                     for (d_value, d_ran), (c_value, c_ran) in zip(detector_vector, claim_vector)
