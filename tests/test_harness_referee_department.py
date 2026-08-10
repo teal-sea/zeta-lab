@@ -106,15 +106,19 @@ def test_lesion_magnitudes_are_measured_and_positive() -> None:
     assert all(m > 0 for m in magnitudes.values()), magnitudes
     assert len(set(magnitudes.values())) > 1, magnitudes
     # Pinned: the fraction of the audit's checks each corruption flips.
-    assert magnitudes["plant-constant-true-detector"] == pytest.approx(0.125)
-    assert magnitudes["plant-target-as-rival"] == pytest.approx(0.0625)
+    # These move whenever the audit grows a check, which is the point of
+    # measuring them at import rather than asserting them: the 2026-08-09
+    # rival-distance and detector-independence build took the audit from 16
+    # named checks to 18, and every magnitude here fell accordingly.
+    assert magnitudes["plant-constant-true-detector"] == pytest.approx(2 / 18)
+    assert magnitudes["plant-target-as-rival"] == pytest.approx(1 / 18)
 
 
 def test_ablation_moves_when_the_calibration_content_is_stripped() -> None:
     verdict = run_ablation(
         R.BATTERY, R.integrity_pass_count, tolerance=0.5, payload=R.SPECIMEN
     )
-    assert verdict.baseline == 16.0
+    assert verdict.baseline == 17.0
     assert verdict.survives is True, verdict.decoys
 
 
@@ -132,10 +136,10 @@ def test_the_unguided_null_is_conditioned_on_structural_validity() -> None:
 
 def test_no_unguided_bundle_reproduces_the_specimen_pass_count() -> None:
     verdict = run_nulls(R.BATTERY, R.integrity_pass_count, tolerance=0.5)
-    assert verdict.observed == 16.0
+    assert verdict.observed == 17.0
     assert verdict.survives is True, verdict.surrogates
     # The luck floor, pinned: random valid bundles score well below the
-    # specimen. If a generator change pushes one to 16, the audit's checks
+    # specimen. If a generator change pushes one to 17, the audit's checks
     # have become reproducible by chance and the statistic must be rethought.
     assert all(value <= 12.0 for value in verdict.surrogates.values()), verdict.surrogates
 
