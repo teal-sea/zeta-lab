@@ -315,7 +315,9 @@ Genuinely open, genuinely approachable, roughly ordered by how fast a non-specia
 
 3. **The de Bruijn–Newman constant.** `Lambda <= 1/2` (de Bruijn, 1950); `Lambda >= 0` is a
    **THEOREM** (Rodgers–Tao; announced 2018, published 2020), so RH is now exactly `Lambda = 0`.
-   **Polymath15** (2018) drove the upper bound to `Lambda <= 0.22` — a real, open, collaborative
+   **Polymath15** (2018) drove the upper bound to `Lambda <= 0.22`, sharpened to `Lambda <= 0.2` by
+   Platt–Trudgian (2021) — see `docs/05` §3 for both, and note neither is strict. Polymath15 was a
+   real, open, collaborative
    project in which a competent programmer could and did contribute compute and code. See
    `docs/05-de-bruijn-newman.md` and `zeta/heatflow.py`.
 
