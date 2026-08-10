@@ -451,11 +451,23 @@ def test_convergence_table_at_a_prime_power_uses_psi0(zeros500):
 # ---------------------------------------------------------------------------
 
 
+def nth_root(x: float, n: int) -> float:
+    """x**(1/n), snapped to the integer when x is a perfect n-th power.
+
+    Float pow may land on either side of an exact power (glibc's 64**(1/3)
+    is 3.9999999999999996), and a root landing just below an integer makes
+    J_exact's cut-off drop a term the mathematical J contains.
+    """
+    r = x ** (1.0 / n)
+    ri = round(r)
+    return float(ri) if ri**n == x else r
+
+
 def J_exact(y: float) -> float:
     """J(y) = Σ_{k≥1} π(y^{1/k})/k, computed from the exact π."""
     s, k = 0.0, 1
-    while y ** (1.0 / k) >= 2.0:
-        s += pi_true(y ** (1.0 / k)) / k
+    while nth_root(y, k) >= 2.0:
+        s += pi_true(nth_root(y, k)) / k
         k += 1
     return s
 
@@ -503,9 +515,9 @@ def test_mobius_inversion_of_J_is_exact():
 
     for x in (10.0, 50.0, 64.0, 100.0, 500.0, 1000.0, 1024.0, 10000.0):
         N = max(1, int(math.floor(math.log(x) / math.log(2.0))))
-        s = sum(_mobius(n) / n * J_exact(x ** (1.0 / n)) for n in range(1, N + 1))
+        s = sum(_mobius(n) / n * J_exact(nth_root(x, n)) for n in range(1, N + 1))
         assert s == pytest.approx(float(pi_true(x)), abs=1e-11), x
-        assert x ** (1.0 / N) >= 2.0 and x ** (1.0 / (N + 1)) < 2.0  # N is the right cut-off
+        assert nth_root(x, N) >= 2.0 and nth_root(x, N + 1) < 2.0  # N is the right cut-off
 
 
 @pytest.mark.parametrize(
