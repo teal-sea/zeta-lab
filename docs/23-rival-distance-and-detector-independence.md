@@ -387,13 +387,18 @@ which is the one thing that makes the negative result readable.
    and this check is the only thing that fails it.
 2. **party02**, a blind-authored hollow battery that reached `CALIBRATED`, and
    the one hollow party that never saw this check. Nothing else catches it.
-3. **`docs/21`'s held-out hollow battery** — and this is the significant one.
-   `docs/21` §10 recorded, as its worst result, that the promotion gate
-   promotes that battery's astrological claim with an empty reason list. Its
-   declared detector is `lambda f: not zero_mean(f)`: the reference claim,
-   negated. The check catches it, so that specific promotion no longer
-   happens. The battery was authored by an independent party before this check
-   existed, which is the only reason the catch counts.
+3. **`docs/21`'s hollow battery** — and this is the significant one. `docs/21`
+   §10 recorded, as its worst result, that the promotion gate promotes that
+   battery's astrological claim with an empty reason list. Its declared
+   detector is `lambda f: not zero_mean(f)`: the reference claim, negated. The
+   check catches it, so that specific promotion no longer happens.
+
+   Precisely what this is worth, since the distinction matters: that specimen
+   is a *reconstruction*, authored by this repository's own process on
+   2026-08-09 from a held-out party's battery — not the party's own file. So
+   the chronology is clean (it predates this check by a day and nobody had
+   this check in mind when writing it) but the authorship is not independent.
+   It is weaker evidence than party02 and stronger than a plant.
 
 `docs/21`'s *general* negative result is untouched and is deliberately kept:
 the gate still inherits every blind spot beneath it, and

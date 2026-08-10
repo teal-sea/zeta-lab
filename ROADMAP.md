@@ -908,8 +908,10 @@ controls, and the results are worse for the audit than the first run was.
   Pinned as a blind spot with its numbers rather than quietly adjusted.
 - **`detector-claim-agreement` ships and earns it.** It catches its planted
   mutation in isolation, catches one blind-authored hollow battery nothing
-  else catches, and catches **`docs/21`'s held-out hollow battery** — whose
-  promotion was that document's worst recorded result. That specific
+  else catches, and catches **`docs/21`'s hollow battery** — whose promotion
+  was that document's worst recorded result. (That one is a reconstruction
+  authored by this tree's own process, so its chronology is clean and its
+  authorship is not; `docs/23` §8.5 says so.) That specific
   promotion no longer happens; `docs/21`'s general finding is untouched and
   its pin now runs against a specimen whose detector is independent, so
   repairing one instance was not allowed to make the gate look safe.
