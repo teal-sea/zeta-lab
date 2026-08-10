@@ -150,3 +150,90 @@ def term(m, S, n=20, p=64, kE=10):
     if m % 5 == 0:
         return cexact(0, 0)
     return cmul(coeffBox(m), dirichletTermBox(n, p, m.bit_length(), kE, m, S))
+
+
+# --- the composite-chain route -------------------------------------------------
+#
+# `dirichletTermBox` costs one `expCr` tower per m, and HANDOFF's negative
+# result #2 measured that tower as infeasible to evaluate to a literal in Lean
+# (~8 min and then over simp's step limit).  `cpow` of a natural is
+# multiplicative, so a composite m = a*b needs no tower: it is one coarsened
+# ComplexInterval product of its factors' boxes.  Mirrors
+# `ComplexInterval.contains_cpow_mul_coarsen`.
+
+
+def _spf(m):
+    """Smallest prime factor of ``m > 1`` (``m`` itself when prime)."""
+    if m % 2 == 0:
+        return 2
+    f = 3
+    while f * f <= m:
+        if m % f == 0:
+            return f
+        f += 2
+    return m
+
+
+def cpow_plan(ms):
+    """How each ``m`` in ``ms`` is built: ``('tower',)`` or ``('mul', a, b)``.
+
+    Returned in dependency order, and closed under the factors it needs — the
+    intermediates a composite pulls in are never divisible by 5 (if 5 does not
+    divide m it divides no factor of m), so the plan never asks for a box the
+    coefficient makes zero.
+    """
+    plan: dict[int, tuple] = {}
+    order: list[int] = []
+
+    def need(m):
+        if m in plan:
+            return
+        f = _spf(m) if m > 1 else m
+        if m <= 1 or f == m:
+            plan[m] = ("tower",)
+        else:
+            a, b = f, m // f
+            need(a)
+            need(b)
+            plan[m] = ("mul", a, b)
+        order.append(m)
+
+    for m in ms:
+        if m % 5 != 0:
+            need(m)
+    return plan, order
+
+
+def dirichletTermBox2(nLog, nExp, p, kL, kE, m, S):
+    """Mirrors ``ZetaLean.ComplexInterval.dirichletTermBox2``.
+
+    The log's Taylor order sets the *width* (at 20 it alone makes plan v2
+    infeasible); the exp's sets the *literal size* (it multiplies endpoint
+    bit-width by the order).  They are independent, so they are separate.
+    """
+    return expCr(nExp, p, kE, cmul(cneg(S), C(logQ(nLog, kL, F(m)), iexact(0))))
+
+
+def cpowBox(m, S, nLog=32, nExp=20, p=64, kE=10, cache=None):
+    """Box for ``m^{-s}``: a tower for 1 and the primes, a coarsened product of
+    factor boxes for composites."""
+    if cache is None:
+        cache = {}
+    if m in cache:
+        return cache[m]
+    f = _spf(m) if m > 1 else m
+    if m <= 1 or f == m:
+        v = dirichletTermBox2(nLog, nExp, p, m.bit_length(), kE, m, S)
+    else:
+        a, b = f, m // f
+        v = ccoarsen(p, cmul(cpowBox(a, S, nLog, nExp, p, kE, cache),
+                             cpowBox(b, S, nLog, nExp, p, kE, cache)))
+    cache[m] = v
+    return v
+
+
+def term_chain(m, S, nLog=32, nExp=20, p=64, kE=10, cache=None):
+    """`term` with split Taylor orders and the composite-chain power box."""
+    if m % 5 == 0:
+        return cexact(0, 0)
+    return cmul(coeffBox(m), cpowBox(m, S, nLog, nExp, p, kE, cache))

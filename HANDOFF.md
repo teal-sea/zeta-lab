@@ -7,6 +7,80 @@ problem, what conclusion is currently justified. Decisions live in
 
 ---
 
+## Record: rung 3 — plan v2 is infeasible as generated, and the cause is one
+## constant (2026-08-10, fourth session of the day)
+
+**The blocker was never the evaluation engine.** Running the *unmodified*
+generator on a grid site asserts before emitting a line:
+
+```
+AssertionError: g_bottom_00: normLower 0.017520903235754424 < beta 0.052147503410769
+```
+
+That is the mirror's exact box evaluation refusing the site, which is the
+safety net the previous record claimed for it, firing. **11 of 11 sampled grid
+sites fail their own β**, by factors of 2× to 43×. The big boxes and the centre
+pass (the smallest big box gives normBound 2.374 against M = 2.5499). So the
+grid — the whole small-frontier half of the certificate — could not have been
+certified at plan v2's emitted parameters no matter how fast the engine got.
+
+**Cause, isolated by measurement.** The box width is not coarsening, not
+squaring, and not the exp remainder. It is `Interval.logQ`'s Taylor truncation
+at `TAYLOR_N = 20`. At the worst sampled site (`g_left_18`, K = 113):
+
+| quantity | at n=20 | at n=28 | at n=32 |
+|---|---|---|---|
+| width of `logQ` (m=4) | 7.6e-6 | 3.0e-8 | 1.9e-9 |
+| width of the term box | 3.0e-3 | — | 7.3e-7 |
+| 505 terms contribute | 1.52 | — | 3.7e-4 |
+
+against a β of ~0.05. Raising `kE` or the coarsening precision does **nothing**:
+at `kE = 14`, `kE = 18` or `p = 128` the term width is still 3.0e-3. Only the
+log order moves it.
+
+**The fix, and its measured threshold.** On `g_left_18` (β = 0.0382898):
+
+| config | normLower | verdict |
+|---|---|---|
+| n = 20, tower (as shipped) | 0.000889 | FAIL, 43× short |
+| n = 28, tower | 0.0383896 | OK, margin ×1.00 |
+| n = 32, tower | 0.0385272 | OK, margin ×1.01 |
+| n = 32, composite chain | 0.0385252 | OK, margin ×1.01 |
+| n = 40, composite chain | 0.0385363 | OK, margin ×1.01 |
+
+Two things to read off it. The margin **saturates at ×1.01**, so past n ≈ 28 the
+residual gap is the inflation radius (r = 0.0134 against β = 0.0383) and the
+geometry, not the series — there is nothing further to buy by raising the order,
+and β was planned with ~1% headroom. And the **composite chain matches the tower
+to four significant figures** (0.0385252 vs 0.0385272) while running 3.4× faster
+in the mirror (96 s vs 329 s), so chains cost no usable width. n = 28 is the
+threshold and is too thin to ship; **n = 32** is the choice.
+
+**The two orders must be split, and that is now in the build.** `TAYLOR_N` was
+one constant feeding both series, and they want opposite things: the log sets
+the width, the exp sets the literal size (`expSmall` forms `powI x i` up to
+`i = n`, which is where the multi-thousand-bit rationals of the previous
+record's negative result #2 come from). Measured: the log's own endpoints go
+from 91 to 158 bits between order 20 and 32 — negligible. So
+`dirichletTermBox2 nLog nExp p kL kE m S` and `contains_dirichletTermBox2` are
+kernel-checked in `IntervalCExp.lean`, with `dirichletTermBox2_self` proving by
+`rfl` that the old definition is the diagonal `nLog = nExp` case. Target
+configuration: **nLog = 32, nExp = 20, p = 64, kE = 10, composite chains.**
+
+**Not done.** `scripts/60_rung3_generate.py` still emits one tower per m at the
+single order 20. It needs: the split orders, per-`m` `pw_` boxes with primes on
+towers and composites on `contains_cpow_mul_coarsen`, and `term_{sid}` as a
+match over those. Then regenerate and compile. The mirror already has
+`dirichletTermBox2`, `cpowBox`, `cpow_plan` and `term_chain` for exactly that
+shape, so the generator change is codegen, not mathematics.
+
+**Caveat on the numbers.** 11 sampled grid sites of 104, one worst-case site
+swept, one machine. The failure is systemic across the sample and the cause is
+identified, but the per-site margins at n = 32 have not been computed for all
+214 sites — and at ×1.01 there is no room for a site that is slightly worse
+than `g_left_18`. That sweep is the first thing to run after the generator
+lands.
+
 ## Record: rung 3 — the composite-chain step is kernel-checked, and its cost
 ## is measured (2026-08-10, third session of the day)
 
