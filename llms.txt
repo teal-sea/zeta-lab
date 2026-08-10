@@ -117,10 +117,11 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
   the zero-free half-plane) and 2 (the κ derivation) are done; rung 3, the
   Davenport–Heilbronn theorem, is mathematics-complete — analytic half,
   square-contour minimum-modulus criterion, certified interval `exp`/`log`
-  and complex `exp`, `n^{-s}` enclosures, the tail bound that continues the
-  DH series, and a worked instance (`DH(3/2 + 3i) ≠ 0`, the first certified
-  fact about a DH value). What is left is compute, priced in `HANDOFF.md`.
-  Build: `cd lean && lake build`.
+  and complex `exp`, `n^{-s}` enclosures, tail bounds at three orders
+  (`K^{-σ}`, `K^{-(σ+1)}`, `K^{-(σ+2)}` — the steeper two cut the required
+  certified terms ~800×), and worked instances (`DH(3/2 + 3i) ≠ 0`; the
+  order-2 pipeline end to end). What is left is one ~half-day offline
+  kernel run, priced in `HANDOFF.md`. Build: `cd lean && lake build`.
 
 ## Optional
 

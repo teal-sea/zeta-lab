@@ -107,12 +107,19 @@ guessed. The certification target is forced: `t ≈ 85.699` is the lowest
 off-line zero, pinned by a standing test
 (`tests/test_epstein.py::test_no_offline_zero_below_the_pinned_one`), and
 the cost scales like `‖s‖^2.2`, so no cheaper zero exists to aim at.
-Instantiating the square directly costs ~230 days of single-core kernel
-time at measured rates. The fix is a steeper tail exponent — comparing the
-block sum to its integral, whose first stone (`DHTailBound2.lean`) is the
-rectangle rule, with the trapezoid refinement bringing the modelled cost to
-about a day. Neither step needs Bernoulli numbers or general
-Euler–Maclaurin, and Mathlib has neither.
+Instantiating the square directly would cost months of single-core kernel
+time at measured rates. The fix — a steeper tail exponent — is now
+kernel-checked in `DHTailBound2.lean`: the sum-vs-integral comparison
+(`DH_tail_bound_order1`, `K^{-(σ+1)}`) and its trapezoid refinement
+(`DH_tail_bound_order2`, `K^{-(σ+2)}`), built from an elementary rectangle
+and trapezoid rule for Banach-valued `C¹`/`C²` functions summed along a
+half-line — no Bernoulli numbers, no general Euler–Maclaurin, and Mathlib
+needs neither. The closed-form block antiderivative exists precisely
+because the DH coefficients sum to zero. A 1e-3 tail at the oracle zero
+drops from `K = 195301` blocks to `243`
+(`tests/test_epstein.py::test_dh_tail_bound_required_K_pins_the_cost_model`),
+re-pricing the offline run at ~9,550 certified terms — about half a day
+single-core.
 
 The ladder and the next rung live in `HANDOFF.md`;
 `references/mathlib-open-targets.md` tracks what Mathlib itself records as

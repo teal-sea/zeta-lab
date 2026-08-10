@@ -7,6 +7,7 @@ import Mathlib
 import ZetaLean.Rigor
 import ZetaLean.IntervalCExp
 import ZetaLean.DHTailBound
+import ZetaLean.DHTailBound2
 
 /-!
 # Assembly: a certified enclosure of `DH` at a strip point
@@ -96,6 +97,60 @@ theorem DH_mem_of_partial_enclosure {sre sim : ℚ} (hsre : 0 < sre)
     show (0 : ℝ) < (sre : ℝ)
     exact_mod_cast hsre
   have htail := DH_tail_bound (s := (⟨(sre : ℝ), (sim : ℝ)⟩ : ℂ)) hs hK
+  exact ComplexInterval.contains_inflate hB (htail.trans hr)
+
+/-- **Assembly at the order-1 tail bound** (`ZetaLean/DHTailBound2.lean`).
+Identical to `DH_mem_of_partial_enclosure`, but the box must contain the
+partial sum *minus the closed-form integral correction* `dhAnti`, and in
+exchange the tail radius decays like `K^{-(σ+1)}` instead of `K^{-σ}`.
+`sim ≠ 0` discharges the `s ≠ 1` hypothesis of the tail bound. -/
+theorem DH_mem_of_partial_enclosure_order1 {sre sim : ℚ} (hsre : 0 < sre)
+    (hsim : sim ≠ 0) {K : ℕ} (hK : 1 ≤ K) {B : ComplexInterval}
+    (hB : B.contains (∑ n ∈ range (K * 5),
+        (dh_coeff n : ℂ) * (n : ℂ) ^ (-(⟨(sre : ℝ), (sim : ℝ)⟩ : ℂ))
+      - dhAnti (⟨(sre : ℝ), (sim : ℝ)⟩ : ℂ) (K : ℝ)))
+    {r : ℚ}
+    (hr : (3 + dh_kappa) * ‖(⟨(sre : ℝ), (sim : ℝ)⟩ : ℂ)‖
+          * ‖(⟨(sre : ℝ), (sim : ℝ)⟩ : ℂ) + 1‖
+          * (5 * (K : ℝ) + 1) ^ (-(sre : ℝ) - 1) / ((sre : ℝ) + 1) ≤ (r : ℝ)) :
+    (B.inflate r).contains (DH (⟨(sre : ℝ), (sim : ℝ)⟩ : ℂ)) := by
+  have hs : 0 < (⟨(sre : ℝ), (sim : ℝ)⟩ : ℂ).re := by
+    show (0 : ℝ) < (sre : ℝ)
+    exact_mod_cast hsre
+  have hs1 : (⟨(sre : ℝ), (sim : ℝ)⟩ : ℂ) ≠ 1 := by
+    intro h
+    have him := congrArg Complex.im h
+    simp only [Complex.one_im] at him
+    exact hsim (by exact_mod_cast him)
+  have htail := DH_tail_bound_order1 (s := (⟨(sre : ℝ), (sim : ℝ)⟩ : ℂ)) hs hs1 hK
+  exact ComplexInterval.contains_inflate hB (htail.trans hr)
+
+/-- **Assembly at the order-2 tail bound** (`ZetaLean/DHTailBound2.lean`).
+The box must contain the partial sum *plus the trapezoid endpoint
+correction* `dhBlock K / 2` *minus* `dhAnti K`; the tail radius then decays
+like `K^{-(σ+2)}`.  At the oracle point this divides the number of certified
+terms by ~800 relative to `DH_mem_of_partial_enclosure` — the theorem the
+rung-3 offline kernel run instantiates. -/
+theorem DH_mem_of_partial_enclosure_order2 {sre sim : ℚ} (hsre : 0 < sre)
+    (hsim : sim ≠ 0) {K : ℕ} (hK : 1 ≤ K) {B : ComplexInterval}
+    (hB : B.contains (∑ n ∈ range (K * 5),
+        (dh_coeff n : ℂ) * (n : ℂ) ^ (-(⟨(sre : ℝ), (sim : ℝ)⟩ : ℂ))
+      + dhBlock (⟨(sre : ℝ), (sim : ℝ)⟩ : ℂ) K / 2
+      - dhAnti (⟨(sre : ℝ), (sim : ℝ)⟩ : ℂ) (K : ℝ)))
+    {r : ℚ}
+    (hr : 5 / 8 * ((3 + dh_kappa) * ‖(⟨(sre : ℝ), (sim : ℝ)⟩ : ℂ)‖
+          * ‖(⟨(sre : ℝ), (sim : ℝ)⟩ : ℂ) + 1‖ * ‖(⟨(sre : ℝ), (sim : ℝ)⟩ : ℂ) + 2‖)
+          * (5 * (K : ℝ) + 1) ^ (-(sre : ℝ) - 2) / ((sre : ℝ) + 2) ≤ (r : ℝ)) :
+    (B.inflate r).contains (DH (⟨(sre : ℝ), (sim : ℝ)⟩ : ℂ)) := by
+  have hs : 0 < (⟨(sre : ℝ), (sim : ℝ)⟩ : ℂ).re := by
+    show (0 : ℝ) < (sre : ℝ)
+    exact_mod_cast hsre
+  have hs1 : (⟨(sre : ℝ), (sim : ℝ)⟩ : ℂ) ≠ 1 := by
+    intro h
+    have him := congrArg Complex.im h
+    simp only [Complex.one_im] at him
+    exact hsim (by exact_mod_cast him)
+  have htail := DH_tail_bound_order2 (s := (⟨(sre : ℝ), (sim : ℝ)⟩ : ℂ)) hs hs1 hK
   exact ComplexInterval.contains_inflate hB (htail.trans hr)
 
 /-! ### The κ enclosure
