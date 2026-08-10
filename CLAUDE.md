@@ -287,6 +287,19 @@ The standing rules for such a session:
   place a claim may be recorded before any control has been run against it.
   A hunt cannot become a department by growing, for the same reason
   `dossier/` cannot. Read `hunts/README.md` before adding one.
+- Package: `meta/` — **the second laboratory**: evidence about the research
+  system rather than about ζ. `ledger.py` is the intervention ledger — what a
+  human had to do that the machinery could not, with the missing capability
+  named, because the quantity under test is *legitimate research output per unit
+  of scarce human judgment* and that needs a denominator. It is domain-agnostic
+  under the same seam tests as `ontology/schema.py`, and it is built to be hard
+  to flatter: no `__bool__`, no autonomy score, a ratio that refuses to divide
+  until the caller names its numerator, and an `automated` claim that costs a
+  named artifact. `suspicions()` reports the shapes a self-validating log takes.
+  `asymmetry-experiment.md` is the pre-registered design for the independent-vs-
+  co-designed verification question. Nothing here is a mathematical result and
+  nothing here trades against one; a session with no mathematics and a tidy
+  ledger produced nothing. Read `meta/README.md` first.
 - Project: `lean/` — the certified arm: a Lean 4 + Mathlib package
   (`ZetaLean`) formalizing, rung by rung, facts the laboratory measures.
   `ZetaLean/GroundTruth.lean` is rung 1 (ζ(2), ζ(0), ζ(4), the zero-free
