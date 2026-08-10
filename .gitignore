@@ -35,3 +35,26 @@ Music/
 
 # scratch API request payloads from exploratory sessions
 req*.json
+
+# the nightly research agent stays local, setup included: nightly.sh and
+# mission.md hard-code this machine's absolute paths and its launchd plist, and
+# everything the runs produce is local state — worktrees are whole checkouts
+# with their own .venv, and the journal is an unreviewed notebook in the spirit
+# of conjectures/ above.
+automation/
+
+# exploratory scratch. The Lean files here sit outside ZetaLean.lean's import
+# graph, so `lake build` never sees them; keeping them untracked keeps it that
+# way rather than relying on nobody adding an import.
+scratch/
+lean/Scratch*.lean
+lean/CheckInterval.lean
+lean/test.lean
+lean/ZetaLean/TestZ.lean
+
+# interactive_lab pages still under construction. That directory's contract is
+# single-file, dependency-light pages ("open the file" is the whole
+# instruction), pinned by tests/test_doors.py — which lists only the top level,
+# so a page graduates by moving up one directory once it holds no external
+# script and needs no fetch.
+interactive_lab/wip/
