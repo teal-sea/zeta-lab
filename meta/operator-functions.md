@@ -14,6 +14,52 @@ a machine can be shown to do.*
 > believed. The *structure* is the contribution; the *numbers* are a first draft
 > by an interested party.
 
+## 0. Correction: the sample is biased, and it hid the largest function
+
+**The subtraction argument in §1 is invalid as originally stated, and the reason
+matters more than the conclusion.**
+
+The intervention ledger records moments when a human interrupts a *running
+session*. It therefore samples only the operator's reactions to agent output. A
+decomposition derived from it concludes that the operator's role is reacting to
+agent output — which is what §1 concluded, and it is an artifact of the sampling
+frame, not a finding.
+
+Everything the ledger cannot see happened before any session existed:
+
+| designed by the operator | what it did for the work in this cohort |
+|---|---|
+| the honest-scope rule | prevented the agent from overclaiming about the subject |
+| the reserved word for `certified` | caught a sentence the agent's own judgment had cleared |
+| reference claims in **both** directions | caught three instrument defects in one hunt — a validator that only ever rejects is indistinguishable from a correct one |
+| the counterexample battery as a standing gate | makes "explains RH" claims falsifiable at all |
+| the four control roles (rival / decoy / surrogate / lesion) | the admission rule that refuses a battery which could never fail |
+| the bit-exact mirror pattern | a wrong mirror value cannot weaken a theorem, because the kernel refuses the equality. This is what priced rung 3 |
+| blind authoring with honest controls | measured this machinery's own hollowness at n=6. Almost nothing in the field does this |
+| `preregistration.py` | derives independence from digests instead of declarations |
+| hunts may not promote their own claims | the separation of duty the whole harness rests on |
+
+**Function E — research and institution design.** Inventing the mechanism,
+choosing what would count as evidence, and building the constraints that make an
+agent's output trustworthy in the first place. It is the generative act. It is the
+largest of the functions and the least automatable, and this instrument is blind
+to it *by construction*.
+
+Two consequences, both recorded rather than smoothed:
+
+1. **§1's framing — "most of it was friction" — is wrong.** The friction was what
+   the sample contained. The load-bearing contribution was upstream of the sample
+   and is the reason the sampled work was worth anything.
+2. **This is the same failure the laboratory keeps measuring.** An instrument sees
+   what it was built to sample; reading its silence as absence is how the audit
+   concluded four hollow batteries were calibrated. The agent did it to the
+   operator, using an instrument the agent built, in a document about the agent's
+   own blind spots.
+
+Any future decomposition must sample the design record — `ROADMAP.md`'s decisions,
+the harness's admission rules, the docs' pre-registrations — and not only the
+interruption log.
+
 ## 1. The residue, after subtracting what got automated
 
 The useful way to find the essence is subtraction. Of 8 automatable gaps in the

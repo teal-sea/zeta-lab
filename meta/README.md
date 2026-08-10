@@ -136,14 +136,37 @@ Three guards, and the first is the one that matters:
 3. No aggregate calibration score — reported per function, because averaging
    severity against scope would hide which one transferred.
 
-**Baseline: the system is 0 for 3 against the operator** on scored judgment calls
-— severity of a disclosure, scope of a negative result, and the premise of a
-prioritisation argument — with one severity case left open. Three is a starting
-line, not a sample.
+**Baseline: the system is 0 for 4 against the operator** on scored judgment calls
+— severity of a disclosure, scope of a negative result, the premise of a
+prioritisation argument, and the claim that the operator's contribution is mostly
+friction. Four is a starting line, not a sample.
 
 > The whole cohort, including this calibration record, was authored by the agent
 > whose behaviour it describes. That is co-designed measurement. The structure is
 > the contribution; re-derive the counts before believing them.
+
+## The instrument's known blind spot
+
+**This ledger samples interruptions to running sessions. It therefore cannot see
+research design.**
+
+Everything decided before a session exists — the honest-scope rule, the reserved
+word, reference claims in both directions, the four control roles, the
+counterexample battery, the mirror pattern, blind authoring with honest controls,
+preregistration by digest — is invisible here, and all of it is load-bearing for
+whatever a session produces. A decomposition drawn from this log alone concluded
+that the operator's role was mostly friction, which is an artifact of the sampling
+frame. The correction is recorded in `operator-functions.md` §0.
+
+The consequence for the metric: **the ratio this directory measures can improve
+while the function that matters goes unmeasured.** Friction removal moves it;
+research design does not appear in it at all. Any serious use of these numbers has
+to sample the design record too — `ROADMAP.md`'s decisions, the harness admission
+rules, the pre-registrations — and not only this file.
+
+This is the same failure the laboratory keeps finding in its own audit: an
+instrument sees what it was built to sample, and reading its silence as absence is
+how four hollow batteries were graded calibrated.
 
 ## What this directory is not
 
