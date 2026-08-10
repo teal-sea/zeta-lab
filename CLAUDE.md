@@ -170,6 +170,12 @@ or worktrees. To prevent scope creep and collisions:
   `ontology/README.md` before touching any of it. `ontology` is not part of
   the editable install, so a script that imports it must put the repo root on
   `sys.path` (derived from `__file__` — see `scripts/13_discovery_run.py`).
+  The numbered scripts alongside the core (`01_f1_geometry.py` …
+  `16_adelic_acoustic_absorber.py`) are the **rogue-lab prototypes**: historical
+  exploratory operator hunts, kept because `docs/17` dissects four of them as
+  case studies and `tests/test_rogue_lab_controls.py` pins their control
+  results. They are outside the domain-agnostic seam, and no new work should
+  be added there — new exploration goes under `hunts/`.
 - Package: `harness/` — the validation framework, factored out of the
   laboratory; subjects plug in as **departments**. `protocol.py` is
   domain-agnostic under the same three seam tests as `ontology/schema.py` and
@@ -243,17 +249,28 @@ or worktrees. To prevent scope creep and collisions:
   half-plane). The ladder and the next rung live in `HANDOFF.md`. Toolchain is
   elan-managed and pinned by `lean/lean-toolchain`; `.lake/` build artifacts
   are gitignored.
-- `scripts/` 01–05 and 07–13 standalone demos, `06_tour.py` (~90 s full
-  story), `make_figures.py [--quick|--full]`. `13_discovery_run.py` is the
-  funnel's operator console (`--dry-run`, `--report`).
-- `docs/` 00–21: a reading course; keep cross-references consistent with
-  actual filenames (doc 05 is `05-de-bruijn-newman.md`).
+- Package: `compiler/` — the subject matter of harness department #3 (LLVM IR
+  rewrite verification): `catalog.py`, `semantics.py`, fixtures, and
+  `FINDINGS.md` — the incident record that "FINDINGS §N" citations in
+  `harness/` and `ROADMAP.md` refer to. Like `ontology` and `harness`, not
+  part of the editable install.
+- `scripts/` numbered standalone demos (01–41, not contiguous),
+  `06_tour.py` (~90 s full story), `make_figures.py [--quick|--full]`.
+  `13_discovery_run.py` is the funnel's operator console (`--dry-run`,
+  `--report`).
+- `docs/` 00–22: a reading course; keep cross-references consistent with
+  actual filenames (doc 05 is `05-de-bruijn-newman.md`; a bare `docs/08`
+  always means `08-why-it-is-hard.md` — the detector-strength findings that
+  once shared the number are `22-detector-strength-findings.md`).
   `docs/doors/` holds the entry-point guides: one short page per audience
   (learn, refute, certify, discover, adopt) plus one page per department.
   Adding a purpose to the repo costs a guide page plus a test that the page's
   command still works; a purpose that will not pay that stays a document, not
   a directory. Keep `README.md` an index, not a manual — do not let it grow
   back into a single 400-line front page for four different audiences.
+- `interactive_lab/` — standalone browser visualizations; illustrations, not
+  results (its README states the contract: single-file pages, values
+  hard-coded from what the suite pins).
 - `tests/` pytest; `data/` caches; `figures/` PNGs; `references/papers.md`;
   `conjectures/` the discovery ledger — **gitignored**, a private notebook of
   unreviewed leads (only `.gitkeep` is tracked). Nothing in it is evidence for
@@ -296,8 +313,8 @@ affected cache files and re-run, or stale numbers will "pass".
 
 ```bash
 cd <repo root>
-.venv/bin/python -m pytest -q                 # full suite (1962 tests, ~10 min)
-.venv/bin/python -m pytest -q -m "not slow"   # fast tier (1897 tests, ~3-8 min)
+.venv/bin/python -m pytest -q                 # full suite (2189 tests, ~10-20 min)
+.venv/bin/python -m pytest -q -m "not slow"   # fast tier (2122 tests, ~3-8 min)
 .venv/bin/python scripts/06_tour.py           # end-to-end sanity + demo
 .venv/bin/python scripts/make_figures.py --quick   # all figures into figures/
 cd lean && PATH="$HOME/.elan/bin:$PATH" lake build  # the certified arm (0 sorrys)

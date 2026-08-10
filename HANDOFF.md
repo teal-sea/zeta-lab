@@ -3,10 +3,44 @@
 Concise records: what was believed, what invalidated it, what now catches the
 problem, what conclusion is currently justified. Decisions live in
 `ROADMAP.md`; this file is the between-session state. Last snapshot:
-2026-08-07 (addenda through 2026-08-09). `git log` is newer than this file
-for the Lean arm; trust the commits.
+2026-08-10.
 
 ---
+
+## Record: full-repo audit on a fresh clone (2026-08-10)
+
+- **Setup verified end to end:** venv from `requirements.txt`,
+  `rigor.BACKEND == python-flint` with both backends present (so the
+  two-backend cross-check genuinely ran), full suite executed, and the Lean
+  arm kernel-checked from nothing (elan + Mathlib cache + `lake build`,
+  8709 jobs, zero `sorry`s in the build log).
+- **One real failure found and fixed:**
+  `test_explicit.py::test_mobius_inversion_of_J_is_exact` failed
+  deterministically on glibc at x = 64 — `64**(1/3)` rounds to
+  `3.9999999999999996`, `J_exact` drops its `π(√4)/2` term, and the Möbius
+  sum comes back `π(64) + 1/6`. Fixed by snapping perfect-power roots to
+  the integer in the test helpers; the identity is now tested at the
+  mathematical J instead of at whichever side of the boundary the
+  platform's `pow` lands on. The failure was invisible on the author's
+  libm — a platform-fragility class worth remembering for any future test
+  that composes exact π with float roots at exact powers.
+- **Hygiene restored:** the tracked `.wav` (against the tree's own
+  `*.wav` rule) and `zeta_lab.egg-info/` untracked; `scratch/` folded into
+  `scripts/20_music_of_the_primes.py`; `interactive_lab/` documented with
+  its contract; the duplicate doc number resolved
+  (`08-detector-strength-findings.md` → `22-…`, so a bare `docs/08` is
+  unambiguous again); AGENTS.md layout now names `compiler/`,
+  `interactive_lab/` and the ontology rogue-lab scripts; the learn/refute
+  door commands got the pinning test the doors policy promises
+  (`tests/test_doors.py`); `CONTEXT.md` regenerated.
+- **Lean arm state (supersedes the earlier "trust the commits" note):**
+  rungs through `DHZeroCriterion` build clean. The two files missing
+  copyright headers have truthful MIT ones; the Mathlib header linter is
+  disabled in `lakefile.toml` because it hard-requires Apache-2.0 wording
+  this MIT project cannot honestly write. ~24 pre-existing longLine/style
+  warnings remain in `HardyZ`/`Epstein`/`OracleDH`; cosmetic, untouched —
+  wrapping lines inside kernel-checked proofs was judged not worth the
+  churn.
 
 ## Record: Hunt #2 (factorization-position rigidity) — claim withdrawn
 
