@@ -150,6 +150,14 @@ class Decoy(Protocol):
     ``substitute`` receives a payload and returns one of the same shape whose
     substantive content has been replaced. The point of a decoy is that a
     measurement which does not move under it was not reading the substance.
+
+    An optional ``probe`` attribute declares a payload this decoy understands,
+    for the audit's "does this instrument do anything at all" check. It is not
+    required — the audit also tries the department's own target payload — but
+    declaring it is the cheapest way to say what shape you expect. It was
+    undocumented until 2026-08-09 and the audit read it anyway, which graded
+    honest domain-faithful instruments as inert; ``docs/23`` §8.6 has the
+    measurement.
     """
 
     name: str
@@ -189,6 +197,10 @@ class Lesion(Protocol):
     ``magnitude`` records how large the planted violation is, in whatever
     units the department uses, so that a detector's sensitivity can be
     reported as a threshold rather than as a yes or no.
+
+    An optional ``probe`` attribute declares a payload this lesion can be
+    planted in; see :class:`Decoy` for why it is worth declaring and why it is
+    not required.
     """
 
     name: str

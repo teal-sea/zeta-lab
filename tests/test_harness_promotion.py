@@ -1335,10 +1335,21 @@ def _hollow_specimen():
         door="docs/21-forward-deployed-verification.md",
         scope="nothing: this specimen exists to be promoted and to be wrong",
         detectors=(
+            # Independent of the claim on purpose, since 2026-08-09. The
+            # original detector here was ``lambda f: not zero_mean(f)`` — the
+            # reference claim negated — and ``detector-claim-agreement`` now
+            # catches exactly that, which graded this specimen
+            # DETECTOR_INADEQUATE and made the negative result below
+            # unreachable for the wrong reason. The hollowness this file is
+            # about never lived in the detector; it lives in the rivals. This
+            # detector has real power (every DC offset lifts the peak past
+            # 1.0) and real specificity (the clean signal peaks exactly at
+            # 1.0), and it agrees with ``zero-mean`` on the surrogate and the
+            # decoy, so it is nobody's negation.
             NamedDetector(
-                "dc-detector",
-                lambda f: not zero_mean(f),
-                note="fires when the signal carries a DC offset",
+                "peak-detector",
+                lambda f: max(f(n) for n in range(29)) > 1.0 + 1e-9,
+                note="fires when the signal's peak rises above the clean bound",
             ),
         ),
         reference_claims=(
@@ -1423,17 +1434,29 @@ def test_the_two_modes_the_held_out_exercise_found_are_in_the_catalog() -> None:
 
     The held-out contractor's battery was hollow in two ways `SHAM_MODES` did
     not name — rivals too distant to make a shared claim embarrassing, and a
-    detector that is the claim negated. Both are now in the catalog with
-    ``caught_by=None``, which is the honest entry: no mechanical check reaches
-    either, and both are printed on every report.
+    detector that is the claim negated. Both went into the catalog with
+    ``caught_by=None``.
 
-    If a check is ever built for one of them, this test's ``AUDIT_BLIND_SPOTS``
-    membership assertion fails and the catalog must be corrected first.
+    One of the two has since been closed and the other has not, and this test
+    is where the difference is recorded. ``detector-claim-agreement``
+    (``docs/23`` §4.1) catches the detector-is-the-claim mode, and its first
+    catch was this very specimen — a battery authored by an independent party
+    before that check existed, which is the only reason the catch counts for
+    anything. ``distant-rivals`` is still open: the check built for it
+    measures the distance and reports it, and the threshold frozen before the
+    calibration was read sits above the whole measured range, so it acts on
+    nothing (``docs/23`` §8).
     """
     blind = {mode.name for mode in AUDIT_BLIND_SPOTS}
     assert "distant-rivals" in blind
-    assert "detector-is-the-claim" in blind
-    for name in ("distant-rivals", "detector-is-the-claim"):
-        mode = next(m for m in SHAM_MODES if m.name == name)
-        assert mode.caught_by is None
-        assert mode.countermeasure.strip(), "a blind mode with no countermeasure is a shrug"
+    assert "detector-is-the-claim" not in blind, (
+        "detector-is-the-claim is caught by detector-claim-agreement since "
+        "2026-08-09; if it has gone blind again, docs/23 §8 is now wrong"
+    )
+
+    distant = next(m for m in SHAM_MODES if m.name == "distant-rivals")
+    assert distant.caught_by is None
+    assert distant.countermeasure.strip(), "a blind mode with no countermeasure is a shrug"
+
+    caught = next(m for m in SHAM_MODES if m.name == "detector-is-the-claim")
+    assert caught.caught_by == "detector-claim-agreement"

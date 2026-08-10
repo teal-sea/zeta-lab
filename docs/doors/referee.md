@@ -54,25 +54,46 @@ omission. The regress bottoms out in four things, each named:
    catalog and the blind-spot pins on every change. The suite and the audit
    are two independent expressions of the same requirements — the
    repository's two-backend habit, applied to its own referee.
-3. **One held-out mutant.** The 431cc74 sham was authored by a different
-   process, at a different time, with no knowledge of today's audit. It is
-   the closest thing to an externally authored calibration case the
-   repository owns, and it is the only one — that scarcity is recorded, not
-   hidden.
+3. **Held-out mutants.** The 431cc74 sham was authored by a different
+   process, at a different time, with no knowledge of today's audit. Ten more
+   arrived on 2026-08-10 from ten independent parties working from the public
+   contract alone (`harness/blind_authoring_2026_08_09/`), and they are the
+   reason this page has a sharper honest-scope section than it used to: six of
+   six parties told to hollow the audit succeeded. That corpus is now *spent* —
+   two current checks were built with it in hand — so the scarcity of genuinely
+   held-out calibration cases is recorded rather than solved.
 4. **Human-attested provenance.** Independence and contamination are
    *declarations* (`harness/provenance.py`). The audit reads them; it cannot
    verify them. A lying provenance record defeats it, and no additional
    referee layer would change that — it would only move the same trust one
    level up.
 
-**Honest scope.** A CALIBRATED grade means the bundle survives the named
-sham classes in `integrity.SHAM_MODES` — nothing more. Two classes are
-declared blind spots, pinned as such in `tests/test_harness_integrity.py`
-exactly the way the compiler department pins its concrete backend's poison
-blindness: a **value-encoded label leak** (identity in the values of a
-shared field) and **co-designed calibration** (claims and instruments
-authored together to pass every mechanical check) both defeat the audit,
-and the countermeasure — independent authorship of battery content — lives
-in provenance, where it is attested rather than proven. A green verdict
-from this department must be read with those limits attached; the report
-prints them every time so that forgetting is work.
+**Honest scope, and it is narrower than it looks.** A CALIBRATED grade means
+the bundle survives the named sham classes in `integrity.SHAM_MODES` — nothing
+more. Six of the fifteen are declared blind spots, pinned as such in
+`tests/test_harness_integrity.py` exactly the way the compiler department pins
+its concrete backend's poison blindness. The one that matters most:
+**structure-matched, value-disjoint rivals** — rivals sharing the target's
+keys, types and shape while agreeing with it on no substantive value, so the
+joint value vector is the label and any predicate keyed to a target value
+distinguishes. Four of six independent parties reached CALIBRATED that way on
+2026-08-10, and the obvious mechanical fix is *measured to invert*: comparing
+values leaf by leaf scores this repository's own honest departments more
+separated than the sham (`docs/23` §8.3).
+
+The countermeasure for that mode and for **value-encoded label leaks** and
+**co-designed calibration** is independent authorship of battery content,
+which lives in provenance, where it is attested rather than proven. A green
+verdict from this department must be read with those limits attached; the
+report prints them every time so that forgetting is work.
+
+**This department currently fails its own audit**, and that is not a bug in
+this page. `detector-claim-agreement` flags its declared detector — the
+integrity audit as a predicate — as the exact negation of its distinguishing
+reference claim `audits_calibrated`. They are the same computation. The
+department's power measurement for its own detector is its own claim measuring
+itself, which is true, was anticipated in prose ("the recursion, and also where
+it stops"), and is now measured. `docs/23` §8.5 states the open question:
+either declare why a detector is a decision procedure in a form the audit can
+read, or stake the department's power on an instrument independent of its
+claim.

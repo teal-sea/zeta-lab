@@ -116,6 +116,24 @@ There is no step where someone reviews it by hand — which means a department
 cannot be added quietly, and cannot be added without controls whose own
 power has been measured.
 
+### Your decoys and lesions get poked with payloads you did not write
+
+`decoys-move-their-probe` and `lesions-plant-something` check that an
+instrument is not an identity function, and to do that they have to hand it
+*something*. In order, they try: an optional `probe` attribute on the
+instrument itself, your department's own target payload, and a historical
+fallback shape. Your instrument has to change **one** of those. Raising on the
+others is fine — a decoy that only understands its own department's records is
+doing its job, not failing.
+
+This is written down because it was not, and the cost was measured
+(`docs/23` §8.6): four independent parties asked to build *honest* departments
+all wrote instruments faithful to their own payloads, two of them were graded
+`HOLLOW` for raising on a foreign probe, and the only way to find out was to
+read audit source they had been told not to read. Declaring a `probe` on a
+decoy or lesion is optional and is the cheapest way to say exactly what your
+instrument expects.
+
 To run all of it end to end — every department, then the machinery applied
 to itself:
 

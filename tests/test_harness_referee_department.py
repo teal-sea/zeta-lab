@@ -25,6 +25,7 @@ from harness import shams  # noqa: E402
 from harness.departments import referee_department as R  # noqa: E402
 from harness.integrity import (  # noqa: E402
     CALIBRATED,
+    DETECTOR_INADEQUATE,
     FAIL,
     HOLLOW,
     PASS,
@@ -106,15 +107,19 @@ def test_lesion_magnitudes_are_measured_and_positive() -> None:
     assert all(m > 0 for m in magnitudes.values()), magnitudes
     assert len(set(magnitudes.values())) > 1, magnitudes
     # Pinned: the fraction of the audit's checks each corruption flips.
-    assert magnitudes["plant-constant-true-detector"] == pytest.approx(0.125)
-    assert magnitudes["plant-target-as-rival"] == pytest.approx(0.0625)
+    # These move whenever the audit grows a check, which is the point of
+    # measuring them at import rather than asserting them: the 2026-08-09
+    # rival-distance and detector-independence build took the audit from 16
+    # named checks to 19, and every magnitude here fell accordingly.
+    assert magnitudes["plant-constant-true-detector"] == pytest.approx(0.1053)  # 2/19
+    assert magnitudes["plant-target-as-rival"] == pytest.approx(0.0526)  # 1/19
 
 
 def test_ablation_moves_when_the_calibration_content_is_stripped() -> None:
     verdict = run_ablation(
         R.BATTERY, R.integrity_pass_count, tolerance=0.5, payload=R.SPECIMEN
     )
-    assert verdict.baseline == 16.0
+    assert verdict.baseline == 18.0
     assert verdict.survives is True, verdict.decoys
 
 
@@ -132,12 +137,22 @@ def test_the_unguided_null_is_conditioned_on_structural_validity() -> None:
 
 def test_no_unguided_bundle_reproduces_the_specimen_pass_count() -> None:
     verdict = run_nulls(R.BATTERY, R.integrity_pass_count, tolerance=0.5)
-    assert verdict.observed == 16.0
+    assert verdict.observed == 18.0
     assert verdict.survives is True, verdict.surrogates
-    # The luck floor, pinned: random valid bundles score well below the
-    # specimen. If a generator change pushes one to 16, the audit's checks
-    # have become reproducible by chance and the statistic must be rethought.
-    assert all(value <= 12.0 for value in verdict.surrogates.values()), verdict.surrogates
+    # The luck floor, pinned as a *margin* rather than an absolute count.
+    # It was `<= 12.0` against a 16-check audit; the 2026-08-09 build took the
+    # audit to 19 checks and the nulls rose to 12-13 with it, which is
+    # arithmetic and not erosion — as a fraction they went from 12/16 = 0.75
+    # to 13/19 = 0.68, i.e. the separation got *better*. An absolute pin would
+    # have had to be raised on every future check and would have hidden the
+    # day the separation genuinely shrank; a margin does not.
+    best_null = max(verdict.surrogates.values())
+    assert best_null <= 13.0, verdict.surrogates
+    assert verdict.observed - best_null >= 5.0, (
+        f"random valid bundles now come within {verdict.observed - best_null:g} checks "
+        f"of the specimen ({verdict.surrogates}): the audit's checks are becoming "
+        "reproducible by chance and the statistic must be rethought"
+    )
 
 
 # ---------------------------------------------------------------------------
@@ -152,13 +167,43 @@ def test_the_audit_as_detector_has_measured_power_and_specificity() -> None:
     assert set(verdict.fired) == {lesion.name for lesion in R.LESIONS}
 
 
-def test_the_referee_department_survives_its_own_audit() -> None:
-    """One level of recursion, then the kernel: the audit grades the
-    department that carries it. Below this sits the conformance suite and
-    the pinned blind spots — deterministic re-execution, not another
-    referee. This test *is* part of that kernel."""
+def test_the_referee_department_does_not_survive_its_own_audit() -> None:
+    """The recursion bit back, and the result is recorded rather than reframed.
+
+    This test asserted ``CALIBRATED`` until 2026-08-09. Then the audit grew
+    ``detector-claim-agreement`` — the mechanical form of the countermeasure
+    that ``SHAM_MODES["detector-is-the-claim"]`` had been carrying as prose —
+    and the first thing it flagged was this department. It is right on the
+    facts: the referee's declared detector is the integrity audit as a
+    predicate ("fires when a bundle's grade is not CALIBRATED") and its
+    passing reference claim is ``audits_calibrated``. They are the same
+    computation, one negated, on all 13 payloads both answer. The power this
+    department measures for its detector is its claim measuring itself.
+
+    Whether that is fatal or benign is exactly the judgment the audit cannot
+    make — the mode has a second conjunct, "the lesion family was chosen to
+    be exactly what it looks for", and only the first is visible from this
+    layer (``docs/23`` §8). The department's own module docstring already
+    called this "the recursion, and also where it stops"; what is new is that
+    the recursion is now *measured* rather than argued, and it comes back
+    negative.
+
+    Kept as an assertion and not an xfail, because it is a fact about the
+    current tree and not an aspiration: the referee department is
+    DETECTOR_INADEQUATE and the repository owes it an answer. When somebody
+    stakes this department's power on a detector independent of its claim,
+    this test fails and gets rewritten to assert CALIBRATED again.
+    """
     report = audit_department(R.DEPARTMENT)
-    assert report.grade == CALIBRATED, report.render_text()
+    assert report.grade == DETECTOR_INADEQUATE, report.render_text()
+    result = report.check("detector-claim-agreement")
+    assert result.status == "fail"
+    assert "integrity-audit" in result.evidence
+    # Everything else about the department still holds: the failure is one
+    # named check, not a collapse.
+    assert [c.name for c in report.checks if c.status == "fail"] == [
+        "detector-claim-agreement"
+    ], report.render_text()
 
 
 def test_a_corrupted_referee_is_caught_by_its_own_machinery() -> None:

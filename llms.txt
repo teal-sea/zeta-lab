@@ -70,12 +70,19 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
   `tests/test_department_conformance.py` is parametrized over the registered
   departments, so adding one adds its audit.
 - The integrity layer ([docs/20](docs/20-verification-integrity.md)):
-  batteries are themselves audited (`harness/integrity.py`, sixteen checks,
+  batteries are themselves audited (`harness/integrity.py`, nineteen checks,
   five grades, no scalar), hollow batteries are rejected by name
   (`harness/shams.py`, `SHAM_MODES`), every claim outcome travels with its
   battery's integrity grade, and the audit's own blind spots are pinned in
   tests. Department #5 (`referee`) is the verification machinery as its own
   subject. `python -m harness.demo` runs everything, live.
+- How well it actually works ([docs/23](docs/23-rival-distance-and-detector-independence.md)):
+  measured, not argued. Six independent parties given only the public contract
+  built batteries that grade CALIBRATED while certifying transparently absurd
+  claims — **six for six**. Two are now caught; four use one mode whose obvious
+  mechanical fix is measured to invert on this repository's own honest
+  departments. Read it before treating a CALIBRATED grade as meaning much. The
+  corpus is in `harness/blind_authoring_2026_08_09/`.
 - Entry point for a claim of your own: [docs/doors/refute.md](docs/doors/refute.md).
 
 ## Probes — not departments (`dossier/`, `hunts/`)
