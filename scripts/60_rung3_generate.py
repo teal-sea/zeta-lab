@@ -32,7 +32,13 @@ _spec = importlib.util.spec_from_file_location("mirror", _here / "61_rung3_mirro
 mirror = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(mirror)
 
-TAYLOR_N = 20
+# Taylor order for BOTH the log and exp series inside `dirichletTermBox`.
+# 40, not 20: `logQ` reduces via `k·log2I`, so its width is ~k·2^{-n}, which
+# `‖s‖ ≈ 85.7` amplifies into the term box.  At n = 20 that is ~6e-5 per term
+# and ~2.5e-2 summed over a site — fifty times the whole ε' budget, so even
+# the centre inequality would fail.  Pinned by
+# tests/test_rung3_mirror.py::test_log_taylor_order_20_is_too_coarse_for_the_certificate.
+TAYLOR_N = 40
 COARSEN_P = 64
 KE = 10
 CHUNK = 25

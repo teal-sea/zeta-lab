@@ -58,6 +58,22 @@ problem, what conclusion is currently justified. Decisions live in
   margins are caught in Python seconds — the planner's width-model
   uncertainty is retired. The pilot (K = 8 upper box) compiles everything
   *except* the literal-value lemmas, which hit negative result #2.
+- **Negative result #3 — Taylor order 20 is too coarse, and the direction
+  is the opposite of what an earlier draft of this record guessed.**
+  `logQ n k q = k·log2I n + log1 n (q/2^k)`, so its width is dominated by
+  `k·width(log2I n) ≈ k·2^{-n}`: at `n = 20`, `k ≈ 9` that is 1.7e-5, which
+  `dirichletTermBox` amplifies by `‖s‖ ≈ 85.7` to ~6e-5 **per term**, or
+  ~2.5e-2 summed over a site (`Σ m^{-σ} ≈ 17`) — fifty times the whole
+  `ε' = 5e-4` budget, so *even the centre inequality* would fail. Lowering
+  to `n = 12` (an earlier draft's suggestion, on the theory that the budget
+  is loose) makes it 4.4e-3 per log, i.e. hopeless. The fix is `n = 40`
+  (width 1.6e-11, eleven orders for one longer rational series per term);
+  `scripts/60_rung3_generate.py` now uses it, and
+  `tests/test_rung3_mirror.py::test_log_taylor_order_20_is_too_coarse_for_the_certificate`
+  pins the whole relationship. Caught in Python seconds *before* any kernel
+  run — which is the entire point of the mirror. Note the coupling: one `n`
+  serves both the log and exp series in `dirichletTermBox`; splitting them
+  (log needs 40, exp needs ~20) is a cheap future refinement.
 - **The scoped fix (next session's first move): composite-chain term
   evaluation.** `(mn)^{-s} = m^{-s}·n^{-s}`
   (`Complex.mul_cpow_ofReal_nonneg`) makes every composite term one
@@ -65,12 +81,11 @@ problem, what conclusion is currently justified. Decisions live in
   `norm_num` each — so only the ~π(5K) primes per site need exp towers,
   staged level-by-level into bounded `norm_num` calls (powI/expSumC/expCr
   each a literal-to-literal step), with per-`m` adaptive `kE` (7 for
-  m ≤ 20 … 10 above 403) and Taylor `n = 12` (the ε-budgets here need
-  ~1e-6 per term, not `n = 20`'s 1e-18). Estimated ~25 core-hours on this
-  container for the full plan; re-planning at the mirror-exact `L`
-  (planner's conservative 16 vs literal-model ≈ 9) should cut ~35%.
-  Then the assembly file (frontier coverage by `rcases` chains + the two
-  criterion inequalities) closes
+  m ≤ 20 … 10 above 403). Estimated ~25 core-hours on this container for
+  the full plan; re-planning at the mirror-exact `L` (planner's
+  conservative 16 vs literal-model ≈ 9) should cut ~35%. Then the assembly
+  file (frontier coverage by `rcases` chains + the two criterion
+  inequalities) closes
   `theorem davenport_heilbronn : davenport_heilbronn_statement`.
 
 ## Record: rung 3 — the steeper tail exponents are kernel-checked (2026-08-10)
