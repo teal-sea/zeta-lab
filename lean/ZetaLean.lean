@@ -9,5 +9,6 @@ import ZetaLean.OracleDH
 import ZetaLean.DavenportHeilbronn
 import ZetaLean.DHAnalytic
 import ZetaLean.DHTailBound
+import ZetaLean.DHAssembly
 import ZetaLean.DHZeroCriterion
 import ZetaLean.HardyZ
