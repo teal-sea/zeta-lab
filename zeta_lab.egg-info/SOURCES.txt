@@ -1,7 +1,0 @@
-pyproject.toml
-zeta/__init__.py
-zeta_lab.egg-info/PKG-INFO
-zeta_lab.egg-info/SOURCES.txt
-zeta_lab.egg-info/dependency_links.txt
-zeta_lab.egg-info/requires.txt
-zeta_lab.egg-info/top_level.txt
