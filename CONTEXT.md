@@ -895,7 +895,7 @@ The falsification protocol with the subject factored out. Four instrument roles 
 
 ### `harness/integrity.py` — ``harness.integrity`` — the referee, refereed.
 
-*1577 lines*
+*1560 lines*
 
 Constants: `PASS`, `FAIL`, `UNKNOWN`, `CALIBRATED`, `DETECTOR_INADEQUATE`, `UNMEASURED`, `CONTAMINATED`, `HOLLOW`, `GRADES`, `SHAM_MODES`, `AUDIT_BLIND_SPOTS`
 
@@ -1166,6 +1166,8 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/40_legendre_weil.py` — Landau Problem 1: Legendre's Conjecture via the Explicit Formula
 - `scripts/41_twin_prime_gue.py` — Script 41: The GUE Twin Prime Predictor
 - `scripts/50_dossier.py` — Validate research dossiers and print their status.
+- `scripts/60_rung3_generate.py` — Generate the rung-3 certificate Lean files from a plan JSON.
+- `scripts/61_rung3_mirror.py` — Bit-exact Fraction mirror of the ZetaLean rational interval arithmetic.
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/mathlib_gaps.py` — Which of Mathlib's 1000 famous theorems are still unformalized.
@@ -1173,7 +1175,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1519 test functions across 48 files (the collected count differs where tests are parametrised):
+1522 test functions across 48 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_compiler_candidate.py` — 32
@@ -1190,7 +1192,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_doors.py` — 4
 - `tests/test_dossier_hardy_z.py` — 22
 - `tests/test_dossier_schema.py` — 37
-- `tests/test_epstein.py` — 40
+- `tests/test_epstein.py` — 43
 - `tests/test_explicit.py` — 45
 - `tests/test_factorization.py` — 13
 - `tests/test_finitefield.py` — 53

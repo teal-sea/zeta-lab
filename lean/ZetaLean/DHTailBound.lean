@@ -117,8 +117,10 @@ private lemma coeff_at (k j : ℕ) (hj : j < 5) :
   unfold dh_coeff
   rw [show k * 5 + j = 5 * k + j from by ring, Nat.mul_add_mod, Nat.mod_eq_of_lt hj]
 
-/-- The coefficient pattern `(0, 1, κ, −κ, −1)` pairs into two differences. -/
-private lemma dhBlock_eq_pair (s : ℂ) (k : ℕ) :
+/-- The coefficient pattern `(0, 1, κ, −κ, −1)` pairs into two differences.
+Public because `ZetaLean/DHTailBound2.lean` re-reads the block as a function
+of a *continuous* variable through exactly this pairing. -/
+lemma dhBlock_eq_pair (s : ℂ) (k : ℕ) :
     dhBlock s k =
       (((k * 5 + 1 : ℕ) : ℂ) ^ (-s) - ((k * 5 + 4 : ℕ) : ℂ) ^ (-s))
         + (dh_kappa : ℂ) *
@@ -335,6 +337,23 @@ private lemma sum_range_mul_five (f : ℕ → ℂ) (K : ℕ) :
     simp only [Finset.sum_range_succ, Finset.sum_range_zero, zero_add, add_zero]
     ring
 
+/-! ### The tail identity
+
+The `5K`-term partial-sum defect is exactly the tail of the block series —
+extracted from the proof of `DH_tail_bound` so that
+`ZetaLean/DHTailBound2.lean` can bound the same tail by sharper means. -/
+
+theorem DH_sub_partial_eq_tsum {s : ℂ} (hs : 0 < s.re) (K : ℕ) :
+    DH s - ∑ n ∈ range (K * 5), (dh_coeff n : ℂ) * (n : ℂ) ^ (-s)
+      = ∑' k, dhBlock s (k + K) := by
+  have hsummable := summable_dhBlock hs
+  have hsplit := Summable.sum_add_tsum_nat_add' (f := dhBlock s) (k := K)
+    ((summable_nat_add_iff K).mpr hsummable)
+  rw [← dhBlockSum_eq_DH hs, dhBlockSum, ← hsplit,
+    sum_range_mul_five (fun n => (dh_coeff n : ℂ) * (n : ℂ) ^ (-s)) K]
+  simp only [dhBlock]
+  ring
+
 /-! ### The tail bound -/
 
 /-- **The certified tail bound.**  For `Re s > 0` and `K ≥ 2`, the distance
@@ -349,17 +368,9 @@ theorem DH_tail_bound {s : ℂ} (hs : 0 < s.re) {K : ℕ} (hK : 2 ≤ K) :
     ‖DH s - ∑ n ∈ range (K * 5), (dh_coeff n : ℂ) * (n : ℂ) ^ (-s)‖
       ≤ (3 + dh_kappa) * ‖s‖ * (5 : ℝ) ^ (-s.re - 1)
         * (((K : ℝ) - 1) ^ (-s.re) / s.re) := by
-  have hsummable := summable_dhBlock hs
   have hnn : (0 : ℝ) ≤ 3 + dh_kappa := by linarith [dh_kappa_nonneg]
-  -- the partial sum over `n < 5K` is the partial sum of the first `K` blocks
-  have hsplit := Summable.sum_add_tsum_nat_add' (f := dhBlock s) (k := K)
-    ((summable_nat_add_iff K).mpr hsummable)
-  have key : DH s - ∑ n ∈ range (K * 5), (dh_coeff n : ℂ) * (n : ℂ) ^ (-s)
-      = ∑' k, dhBlock s (k + K) := by
-    rw [← dhBlockSum_eq_DH hs, dhBlockSum, ← hsplit,
-      sum_range_mul_five (fun n => (dh_coeff n : ℂ) * (n : ℂ) ^ (-s)) K]
-    simp only [dhBlock]
-    ring
+  -- the partial-sum defect is the tail of the block series
+  have key := DH_sub_partial_eq_tsum hs K
   -- summability of the three comparison series
   have hplain : Summable (fun k : ℕ =>
       (((k + K) * 5 + 1 : ℕ) : ℝ) ^ (-s.re - 1)) := by

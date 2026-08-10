@@ -7,6 +7,146 @@ problem, what conclusion is currently justified. Decisions live in
 
 ---
 
+## Record: rung 3 — the certification architecture is proved; the evaluation
+## engine needs one more stage (2026-08-10, second session of the day)
+
+- **Built, zero sorrys, in the build (`DHCertSupport.lean`):** everything the
+  offline certificate needs beyond arithmetic. `ComplexInterval.invC` (boxed
+  complex inverse via `conj z/|z|²`); `rpow_neg_div_le` (the `b`-th-root
+  trick: `x^{-(a/b)} ≤ P` from the single rational check `1 ≤ P^b·x^a`);
+  `DH_mem_of_partial_enclosure_order2_boxed` (assembly with `s` ranging over
+  a box — every hypothesis beyond two structural containments is a rational
+  inequality); `dhSumBoxes`/`contains_dhSumBoxes` (partial-sum box as a fold,
+  containment by induction); packaged correction-term lemmas; and the
+  **maximum-modulus + Cauchy + mean-value layer**: `norm_DH_le_on_closure`,
+  `norm_deriv_DH_le` (via Mathlib's
+  `Complex.norm_deriv_le_of_forall_mem_sphere_norm_le`), and
+  `DH_lower_on_hcell`/`vcell` (MVT along frontier segments through the 1-D
+  parametrization `t ↦ DH ⟨t, y⟩`, `HasDerivAt.comp_ofReal`).
+- **Negative result #1 — the old boundary runbook is dead.** Boxed-`s`
+  interval evaluation of the partial sum has width ≈ `δ·Σ_m m^{-σ}·ln m`
+  (per-term variations add with no cancellation): at any feasible geometry
+  that is ~0.3 against a lower-bound headroom of ~0.009 — *infeasible at
+  every subdivision*, killing "split the boundary segment until normLower
+  clears ε′" (this file's earlier records and the half-day pricing in the
+  previous record inherited that blind spot for the boundary; the centre
+  evaluation is unaffected). Quantified by the planner
+  (`lean/cert/rung3_plan2_report.md`). The fix that works: boxed evaluation
+  gives cheap **upper** bounds (width only inflates them) on a *big* square's
+  frontier → maximum principle → Cauchy ⇒ Lipschitz `L = M/(w₂−w)` on the
+  small frontier → certified **point grid** with MVT between grid points.
+  Verified plan v2 (`lean/cert/rung3_plan2.json`, 3137 exact checks):
+  w = 3/64, ε′ = 1/2000, w₂ = 7/32, L = 16, 100 grid points (K 85–114),
+  110 big boxes (K 17–61), centre K = 361; 77,675 certified terms.
+- **Negative result #2 — one-shot `norm_num` cannot evaluate a full term
+  box.** A single `dirichletTermBox 20 64 kL 10 m S = ⟨literal⟩` equality
+  takes **8 min and then exceeds simp's step limit**: ~500 interval ops with
+  multi-thousand-bit rational literals make simp's traversal explode.
+  (`DHDemo`'s final blast survives only because its `n = 8, kE = 4` terms
+  are ~100× lighter.) The *containment* lemmas per term stay cheap
+  (0.3–0.5 s — they never evaluate the box; the measured 0.84 s/term from
+  the previous record was containment-only and does not cover reading
+  `normLower` off a box).
+- **Built and working: the staged-evaluation toolchain.**
+  `scripts/61_rung3_mirror.py` is a bit-exact `Fraction` mirror of the whole
+  interval layer (a wrong mirror value cannot weaken the theorem — the
+  kernel refuses the equality lemma), and `scripts/60_rung3_generate.py`
+  emits per-site certificate files: per-term containments, literal-value
+  lemmas, chunked partial-sum folds, corrections, the boxed assembly
+  instantiation, and the site's `β`/`M`/ε′ fact. The mirror also computes
+  exact `normLower`/`normBound` per site at generation time, so infeasible
+  margins are caught in Python seconds — the planner's width-model
+  uncertainty is retired. The pilot (K = 8 upper box) compiles everything
+  *except* the literal-value lemmas, which hit negative result #2.
+- **The scoped fix (next session's first move): composite-chain term
+  evaluation.** `(mn)^{-s} = m^{-s}·n^{-s}`
+  (`Complex.mul_cpow_ofReal_nonneg`) makes every composite term one
+  interval multiplication on 64-bit-coarsened literals — one small
+  `norm_num` each — so only the ~π(5K) primes per site need exp towers,
+  staged level-by-level into bounded `norm_num` calls (powI/expSumC/expCr
+  each a literal-to-literal step), with per-`m` adaptive `kE` (7 for
+  m ≤ 20 … 10 above 403) and Taylor `n = 12` (the ε-budgets here need
+  ~1e-6 per term, not `n = 20`'s 1e-18). Estimated ~25 core-hours on this
+  container for the full plan; re-planning at the mirror-exact `L`
+  (planner's conservative 16 vs literal-model ≈ 9) should cut ~35%.
+  Then the assembly file (frontier coverage by `rcases` chains + the two
+  criterion inequalities) closes
+  `theorem davenport_heilbronn : davenport_heilbronn_statement`.
+
+## Record: rung 3 — the steeper tail exponents are kernel-checked (2026-08-10)
+
+- **Built, zero sorrys (`DHTailBound2.lean` completed, `DHAssembly.lean`
+  extended):** the project scoped in the previous record, delivered whole.
+  Domain-independent half: `norm_trapezoid_sub_integral_le` (trapezoid rule
+  with remainder `((b−a)²/8)·∫‖g''‖`, by integrating the weight `(t−a)(b−t)`
+  by parts twice — the first Euler–Maclaurin correction with no Bernoulli
+  machinery) and the two summed half-line comparisons
+  `norm_tsum_sub_integral_le` / `norm_tsum_sub_integral_trapezoid_le` for any
+  Banach-valued `C¹`/`C²` function. DH half: the block at a *generic
+  exponent*, `dhPair w x = (5x+1)^w − (5x+4)^w + κ((5x+2)^w − (5x+3)^w)`, so
+  that one derivative lemma (`d/dx dhPair w = 5w·dhPair (w−1)`) and one
+  mean-value bound (`norm_dhPair_le`, exponents `Re w ≤ 1`) serve the block,
+  both its derivatives, and the antiderivative
+  `dhAnti = dhPair (1−s)/(5(1−s))` — closed-form precisely because the
+  coefficients sum to zero, `∫_K^∞ B = −dhAnti K` by FTC-on-`Ioi` plus the
+  vanishing limit. Payoff theorems: `DH_tail_bound_order1` (radius
+  `(3+κ)‖s‖‖s+1‖(5K+1)^{-σ-1}/(σ+1)`) and `DH_tail_bound_order2` (radius
+  `(5/8)(3+κ)‖s‖‖s+1‖‖s+2‖(5K+1)^{-σ-2}/(σ+2)`, requiring the corrections
+  `+ dhBlock K/2 − dhAnti K` on the partial sum), both for `Re s > 0`,
+  `s ≠ 1`, `K ≥ 1`; assembly variants `DH_mem_of_partial_enclosure_order1/2`
+  take a box around the corrected sum and a rational dominating the radius.
+- **Validated before formalizing, pinned after.** The exact statements
+  (signs, constants, exponents) were checked with mpmath at five points
+  (oracle zero, DHDemo point, `0.05+20i`, `0.95+200i`, `0.99+10i`) over
+  `K ≤ 4096` before any Lean was written; the measured order-2 error decay
+  matches `σ+2` to three digits. Now standing tests
+  (`tests/test_epstein.py::test_dh_tail_bounds_hold_at_all_three_orders`,
+  `…_order2_decay_exponent_is_sigma_plus_2`,
+  `…_required_K_pins_the_cost_model`) pin the formulas against `dh_f` — the
+  Hurwitz route, which never touches the Dirichlet series.
+- **Re-priced (model plus fresh measurements, not yet a run):** minimal `K`
+  for a 1e-3 tail at the oracle zero: 195,301 blocks (order 0) → 1,741
+  (order 1) → **243** (order 2), an 804× reduction. Full-square model with
+  `|DH'(ρ)| ≈ 1.256` (measured), boundary box size
+  `δ ≈ 1/(4‖s‖) ≈ 0.0029`, per-box budget `|DH'|·w/2`: optimum moves to
+  `w ≈ 0.003` with ~9 boundary boxes, total ≈ 9,550 certified terms
+  (order 1: 60k terms; order 0: 1.6M). Per-term cost **re-measured here at
+  oracle parameters** (Taylor-20, `p = 64`, `kE = 10`, `kL = 9`, ten-term
+  differential under `lake env lean`): **≈ 0.84 s/term**, so the whole
+  order-2 run is ≈ 2.2 h of single-core elaboration — the earlier 5 s/term
+  figure appears to be slower hardware or CPU contention (a first
+  measurement here under a running pytest read 17 s/term; measure idle).
+  Headline stays a conservative *half a day single-core*. The corrections
+  cost the run nine extra certified cpow values (`(5K+j)^{1−s} =
+  (5K+j)·(5K+j)^{−s}` reuses `dirichletTermBox`; `1/(5(1−s))` is an exact
+  Gaussian rational at a rational `s`).
+- **Proof-engineering notes, so the next Lean session starts warm:** (1)
+  `HasDerivAt.smul` orders the derivative `c x • f' + c' • f x` — state the
+  IBP integrands in that order or fight the unifier. (2)
+  `integral_eq_sub_of_hasDerivAt` needs `(f := …)` explicitly when the RHS
+  is not literally `f b − f a` (higher-order unification will not read it
+  off). (3) `simp [Function.comp]` no longer unfolds compositions — use
+  `Function.comp_def`. (4) `HasDerivAt.scomp` wants the point as its first
+  explicit argument and `(𝕜 := ℝ)` helps it find the tower. (5) `ring`
+  cannot factor `5` out of `(10 + 5σ)⁻¹` — carry denominators in factored
+  shape or `field_simp` with an explicit `≠ 0`. (6) The `module` tactic
+  closes every smul-linear telescope here (the trapezoid endpoint sums)
+  where `abel` cannot.
+- **Pipeline proved out end to end (`DH_demo2_enclosure`, zero sorrys):**
+  `DH_mem_of_partial_enclosure_order2` instantiated at the DHDemo point
+  with the same `K = 2`: certified radius `1/10` versus order-0's `2/5`
+  (the true order-2 radius there is ≈ 0.008; the slack is deliberately
+  crude norm bounds, not the theorem). The two genuinely new mechanical
+  steps of the offline run are both exercised: `(5K+j)^{1−s}` boxes by
+  `cpow_add`-splitting into `(5K+j)·(5K+j)^{−s}` (reusing
+  `dirichletTermBox`), and the exact Gaussian rational
+  `(5(1−s₀))⁻¹ = −2/185 + (12/185)i` certified by
+  `inv_eq_of_mul_eq_one_right` plus `Complex.ext`. Correction cost measured:
+  five extra term boxes, negligible against the 5K-term sum.
+- **Next stone (nothing left but scale):** the oracle-point offline run per
+  the runbook in the next record — `DH_demo2_enclosure` is its exact
+  template, and the new pricing shrinks it to about half a day single-core.
+
 ## Record: rung 3 — the target is forced, and the cost model corrected (2026-08-10)
 
 - **Negative result, now a standing test.** The pinned zero at
