@@ -74,12 +74,44 @@ match over those. Then regenerate and compile. The mirror already has
 `dirichletTermBox2`, `cpowBox`, `cpow_plan` and `term_chain` for exactly that
 shape, so the generator change is codegen, not mathematics.
 
-**Caveat on the numbers.** 11 sampled grid sites of 104, one worst-case site
-swept, one machine. The failure is systemic across the sample and the cause is
-identified, but the per-site margins at n = 32 have not been computed for all
-214 sites — and at ×1.01 there is no room for a site that is slightly worse
-than `g_left_18`. That sweep is the first thing to run after the generator
-lands.
+**And the constant is not sufficient — measured.** A sweep at the target
+configuration (nLog = 32, nExp = 20, p = 64, kE = 10, composite chains) got
+through 60 of the 215 sites before being stopped. Of 59 grid sites:
+
+| | value |
+|---|---|
+| fail | **30 of 59 (51%)** |
+| margin range | 0.9931 … 1.0065 |
+| median margin | 0.9991 |
+| worst failure | ×0.9931 (0.7% short) |
+| best pass | ×1.0065 (0.65% over) |
+| within ±2% of the line | **59 of 59 (100%)** |
+
+So the grid is not *wrong*, it is sitting exactly **on** the line: β was drawn at
+the achievable bound, the total spread is 1.3%, and which side of it a site lands
+on is effectively a coin flip. A uniform ~1–2% improvement in box width — or ~1%
+of slack in β — turns all 30 failures into passes. That is a headroom bug, not a
+geometry bug.
+
+**The centre is a different and real problem: FAIL at ×0.6321**, normBound
+7.9e-4 against an ε of 5e-4, 37% short. Its budget explains why: the plan gives
+it `r_c = 3.736e-4` out of 5e-4, leaving 1.26e-4 for the box itself, and the box
+uses 4.2e-4. Raising nLog does not reach it, because with nLog high the per-term
+floor is set by **nExp**, at ~7e-7, and the centre sums 1805 terms. So the centre
+needs the exp order raised too — which is the order that inflates the literals
+and revives negative result #2. That trade is the one genuinely unresolved thing
+in rung 3.
+
+**What this means for the next session.** The remaining work is a **re-plan**,
+not codegen: pick nExp and `r` (equivalently K) with real headroom instead of
+0.3%, re-derive β and ε, and only then regenerate. `ROADMAP.md`'s
+"Open: scale alone … nothing else is missing" is corrected in the same commit —
+it was written before the mirror could price a site exactly, and it is false.
+
+**Caveats.** 60 of 215 sites, one machine, and the grid numbers are the 59
+evaluated of 104. The centre was evaluated once. Big boxes were not reached in
+this sweep, though a separate spot check had the smallest one passing
+(normBound 2.374, later 2.4076 on chains, against M = 2.5499 — also thin).
 
 ## Record: rung 3 — the composite-chain step is kernel-checked, and its cost
 ## is measured (2026-08-10, third session of the day)
