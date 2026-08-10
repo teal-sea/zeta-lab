@@ -7,6 +7,72 @@ problem, what conclusion is currently justified. Decisions live in
 
 ---
 
+## Record: rung 3 — the certification architecture is proved; the evaluation
+## engine needs one more stage (2026-08-10, second session of the day)
+
+- **Built, zero sorrys, in the build (`DHCertSupport.lean`):** everything the
+  offline certificate needs beyond arithmetic. `ComplexInterval.invC` (boxed
+  complex inverse via `conj z/|z|²`); `rpow_neg_div_le` (the `b`-th-root
+  trick: `x^{-(a/b)} ≤ P` from the single rational check `1 ≤ P^b·x^a`);
+  `DH_mem_of_partial_enclosure_order2_boxed` (assembly with `s` ranging over
+  a box — every hypothesis beyond two structural containments is a rational
+  inequality); `dhSumBoxes`/`contains_dhSumBoxes` (partial-sum box as a fold,
+  containment by induction); packaged correction-term lemmas; and the
+  **maximum-modulus + Cauchy + mean-value layer**: `norm_DH_le_on_closure`,
+  `norm_deriv_DH_le` (via Mathlib's
+  `Complex.norm_deriv_le_of_forall_mem_sphere_norm_le`), and
+  `DH_lower_on_hcell`/`vcell` (MVT along frontier segments through the 1-D
+  parametrization `t ↦ DH ⟨t, y⟩`, `HasDerivAt.comp_ofReal`).
+- **Negative result #1 — the old boundary runbook is dead.** Boxed-`s`
+  interval evaluation of the partial sum has width ≈ `δ·Σ_m m^{-σ}·ln m`
+  (per-term variations add with no cancellation): at any feasible geometry
+  that is ~0.3 against a lower-bound headroom of ~0.009 — *infeasible at
+  every subdivision*, killing "split the boundary segment until normLower
+  clears ε′" (this file's earlier records and the half-day pricing in the
+  previous record inherited that blind spot for the boundary; the centre
+  evaluation is unaffected). Quantified by the planner
+  (`lean/cert/rung3_plan2_report.md`). The fix that works: boxed evaluation
+  gives cheap **upper** bounds (width only inflates them) on a *big* square's
+  frontier → maximum principle → Cauchy ⇒ Lipschitz `L = M/(w₂−w)` on the
+  small frontier → certified **point grid** with MVT between grid points.
+  Verified plan v2 (`lean/cert/rung3_plan2.json`, 3137 exact checks):
+  w = 3/64, ε′ = 1/2000, w₂ = 7/32, L = 16, 100 grid points (K 85–114),
+  110 big boxes (K 17–61), centre K = 361; 77,675 certified terms.
+- **Negative result #2 — one-shot `norm_num` cannot evaluate a full term
+  box.** A single `dirichletTermBox 20 64 kL 10 m S = ⟨literal⟩` equality
+  takes **8 min and then exceeds simp's step limit**: ~500 interval ops with
+  multi-thousand-bit rational literals make simp's traversal explode.
+  (`DHDemo`'s final blast survives only because its `n = 8, kE = 4` terms
+  are ~100× lighter.) The *containment* lemmas per term stay cheap
+  (0.3–0.5 s — they never evaluate the box; the measured 0.84 s/term from
+  the previous record was containment-only and does not cover reading
+  `normLower` off a box).
+- **Built and working: the staged-evaluation toolchain.**
+  `scripts/61_rung3_mirror.py` is a bit-exact `Fraction` mirror of the whole
+  interval layer (a wrong mirror value cannot weaken the theorem — the
+  kernel refuses the equality lemma), and `scripts/60_rung3_generate.py`
+  emits per-site certificate files: per-term containments, literal-value
+  lemmas, chunked partial-sum folds, corrections, the boxed assembly
+  instantiation, and the site's `β`/`M`/ε′ fact. The mirror also computes
+  exact `normLower`/`normBound` per site at generation time, so infeasible
+  margins are caught in Python seconds — the planner's width-model
+  uncertainty is retired. The pilot (K = 8 upper box) compiles everything
+  *except* the literal-value lemmas, which hit negative result #2.
+- **The scoped fix (next session's first move): composite-chain term
+  evaluation.** `(mn)^{-s} = m^{-s}·n^{-s}`
+  (`Complex.mul_cpow_ofReal_nonneg`) makes every composite term one
+  interval multiplication on 64-bit-coarsened literals — one small
+  `norm_num` each — so only the ~π(5K) primes per site need exp towers,
+  staged level-by-level into bounded `norm_num` calls (powI/expSumC/expCr
+  each a literal-to-literal step), with per-`m` adaptive `kE` (7 for
+  m ≤ 20 … 10 above 403) and Taylor `n = 12` (the ε-budgets here need
+  ~1e-6 per term, not `n = 20`'s 1e-18). Estimated ~25 core-hours on this
+  container for the full plan; re-planning at the mirror-exact `L`
+  (planner's conservative 16 vs literal-model ≈ 9) should cut ~35%.
+  Then the assembly file (frontier coverage by `rcases` chains + the two
+  criterion inequalities) closes
+  `theorem davenport_heilbronn : davenport_heilbronn_statement`.
+
 ## Record: rung 3 — the steeper tail exponents are kernel-checked (2026-08-10)
 
 - **Built, zero sorrys (`DHTailBound2.lean` completed, `DHAssembly.lean`

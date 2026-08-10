@@ -118,8 +118,10 @@ needs neither. The closed-form block antiderivative exists precisely
 because the DH coefficients sum to zero. A 1e-3 tail at the oracle zero
 drops from `K = 195301` blocks to `243`
 (`tests/test_epstein.py::test_dh_tail_bound_required_K_pins_the_cost_model`),
-re-pricing the offline run at ~9,550 certified terms — about half a day
-single-core.
+re-pricing the offline run at tens of core-hours; the boundary
+certificate runs through a kernel-checked maximum-modulus + Cauchy +
+mean-value layer (`DHCertSupport.lean`), and `HANDOFF.md` records the two
+measured dead ends that forced that architecture.
 
 The ladder and the next rung live in `HANDOFF.md`;
 `references/mathlib-open-targets.md` tracks what Mathlib itself records as

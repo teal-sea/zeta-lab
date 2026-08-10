@@ -1162,6 +1162,8 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/40_legendre_weil.py` — Landau Problem 1: Legendre's Conjecture via the Explicit Formula
 - `scripts/41_twin_prime_gue.py` — Script 41: The GUE Twin Prime Predictor
 - `scripts/50_dossier.py` — Validate research dossiers and print their status.
+- `scripts/60_rung3_generate.py` — Generate the rung-3 certificate Lean files from a plan JSON.
+- `scripts/61_rung3_mirror.py` — Bit-exact Fraction mirror of the ZetaLean rational interval arithmetic.
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/mathlib_gaps.py` — Which of Mathlib's 1000 famous theorems are still unformalized.
