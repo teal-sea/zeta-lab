@@ -895,7 +895,7 @@ The falsification protocol with the subject factored out. Four instrument roles 
 
 ### `harness/integrity.py` — ``harness.integrity`` — the referee, refereed.
 
-*1571 lines*
+*1577 lines*
 
 Constants: `PASS`, `FAIL`, `UNKNOWN`, `CALIBRATED`, `DETECTOR_INADEQUATE`, `UNMEASURED`, `CONTAMINATED`, `HOLLOW`, `GRADES`, `SHAM_MODES`, `AUDIT_BLIND_SPOTS`
 
