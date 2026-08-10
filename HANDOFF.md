@@ -7,6 +7,37 @@ problem, what conclusion is currently justified. Decisions live in
 
 ---
 
+## Record: rung 3 assembly — machinery built, scale measured (2026-08-10)
+
+- **Built, zero sorrys:** `DHAssembly.lean` (`DH_mem_of_partial_enclosure` —
+  the K-generic partial-box-plus-tail-radius enclosure theorem; `Interval.inv'`;
+  `contains_sqrt_of_sq`; `kappaI`: κ ∈ [0.2840788, 0.2840794] kernel-checked);
+  the square-contour criterion (`davenport_heilbronn_of_certified_square`,
+  `frontier_dhSquare` — four segments, coverable by boxes, replacing the
+  sphere); boxed-`s` term enclosures (`dirichletTermBox`); norm lower bounds
+  read off boxes (`normLower_le_norm`); and `Interval.coarsen` — outward
+  dyadic rounding, the primitive Arb has and the exact layer lacked.
+- **Measured, so nobody re-learns it:** (1) without `coarsen`, one term at
+  the oracle point has 562,971-bit endpoints (squaring doubles digits;
+  eight squarings); with `p = 64` coarsening, 61 bits and instant. (2)
+  `decide` cannot evaluate ℚ arithmetic under Mathlib **at all** — even
+  `1/3 * (1/7) ≤ 1` sticks in the instance chain; the evaluation route for
+  instantiations is simp-unfold + `norm_num`, which the smoke tests already
+  prove out. (3) `norm_num` costs ~5 s per tame term, so the oracle-point
+  center inequality (~56k terms at Taylor-20/kE-10) is roughly two weeks of
+  single-core kernel compute, the boundary several times that: an offline
+  compute project, not a session task. Parameter discipline for that run:
+  `kL = ⌊log2 m⌋ + 1` per term (a fixed `kL` sends small-`m` log series
+  far from convergence), `kE = 10` covers all `m ≤ 10^5`
+  (`kE = 8` silently overflows at `m ≥ 20` — the definition computes
+  garbage exactly where the theorem's hypothesis refuses to apply, which
+  is the interval discipline working).
+- **Next stone:** an end-to-end tame-point demo — kernel-certify
+  `DH(3/2 + 3i) ∈ box` through the whole pipeline (coefficient boxes from
+  `kappaI`, term boxes, `sumList`, tail radius, assembly theorem): the
+  first certified enclosure of a Davenport–Heilbronn value, and the
+  template the offline run scales up.
+
 ## Record: rung 3 Phase B — the tail bound is kernel-checked (2026-08-10)
 
 - **Built, zero sorrys (`DHTailBound.lean`):** the analytic continuation of

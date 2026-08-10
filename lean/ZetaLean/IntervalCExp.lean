@@ -265,6 +265,148 @@ theorem contains_dirichletTerm {n kL kE : ℕ} (hn : 0 < n) {m : ℕ} (hm : 0 < 
     , mul_comm]]
   exact hexp
 
+/-! ### Outward rounding
+
+Exact rational interval arithmetic doubles digit counts at every squaring:
+one Dirichlet term at the oracle point, evaluated without rounding, has
+560000-bit endpoints.  `coarsen` is the primitive Arb has and the exact
+layer lacked: round the endpoints outward to `p` dyadic bits.  Containment
+is preserved — the box only grows, by at most `2^{-p}` per side. -/
+
+/-- Round an interval's endpoints outward to `p` dyadic bits. -/
+def _root_.ZetaLean.Interval.coarsen (p : ℕ) (x : Interval) : Interval :=
+  { lo := (⌊x.lo * 2 ^ p⌋ : ℤ) / 2 ^ p,
+    hi := (⌈x.hi * 2 ^ p⌉ : ℤ) / 2 ^ p,
+    le := by
+      have h2 : (0 : ℚ) < 2 ^ p := by positivity
+      rw [div_le_div_iff_of_pos_right h2]
+      calc ((⌊x.lo * 2 ^ p⌋ : ℤ) : ℚ) ≤ x.lo * 2 ^ p := Int.floor_le _
+        _ ≤ x.hi * 2 ^ p := by nlinarith [x.le]
+        _ ≤ ((⌈x.hi * 2 ^ p⌉ : ℤ) : ℚ) := Int.le_ceil _ }
+
+theorem _root_.ZetaLean.Interval.contains_coarsen (p : ℕ) {x : Interval} {t : ℝ}
+    (hx : x.contains t) : (x.coarsen p).contains t := by
+  obtain ⟨h1, h2⟩ := hx
+  have h2p : (0 : ℝ) < 2 ^ p := by positivity
+  constructor
+  · show (((⌊x.lo * 2 ^ p⌋ : ℤ) / 2 ^ p : ℚ) : ℝ) ≤ t
+    rw [show (((⌊x.lo * 2 ^ p⌋ : ℤ) / 2 ^ p : ℚ) : ℝ)
+        = ((⌊x.lo * 2 ^ p⌋ : ℤ) : ℝ) / 2 ^ p by push_cast; ring,
+      div_le_iff₀ h2p]
+    calc ((⌊x.lo * 2 ^ p⌋ : ℤ) : ℝ) ≤ ((x.lo * 2 ^ p : ℚ) : ℝ) := by
+          exact_mod_cast Int.floor_le _
+      _ = (x.lo : ℝ) * 2 ^ p := by push_cast; ring
+      _ ≤ t * 2 ^ p := by nlinarith
+  · show t ≤ (((⌈x.hi * 2 ^ p⌉ : ℤ) / 2 ^ p : ℚ) : ℝ)
+    rw [show (((⌈x.hi * 2 ^ p⌉ : ℤ) / 2 ^ p : ℚ) : ℝ)
+        = ((⌈x.hi * 2 ^ p⌉ : ℤ) : ℝ) / 2 ^ p by push_cast; ring,
+      le_div_iff₀ h2p]
+    calc t * 2 ^ p ≤ (x.hi : ℝ) * 2 ^ p := by nlinarith
+      _ = ((x.hi * 2 ^ p : ℚ) : ℝ) := by push_cast; ring
+      _ ≤ ((⌈x.hi * 2 ^ p⌉ : ℤ) : ℝ) := by exact_mod_cast Int.le_ceil _
+
+/-- Componentwise outward rounding of a rectangle. -/
+def coarsen (p : ℕ) (x : ComplexInterval) : ComplexInterval :=
+  { re := x.re.coarsen p, im := x.im.coarsen p }
+
+theorem contains_coarsen (p : ℕ) {x : ComplexInterval} {z : ℂ}
+    (hx : x.contains z) : (x.coarsen p).contains z :=
+  ⟨Interval.contains_coarsen p hx.1, Interval.contains_coarsen p hx.2⟩
+
+/-- `expC` with outward rounding to `p` bits after every squaring — the
+digit-growth-free evaluator.  Identical enclosure semantics, boxes wider by
+at most `2^{-p}` per level. -/
+def expCr (n p : ℕ) : ℕ → ComplexInterval → ComplexInterval
+  | 0, x => (expSmall n x).coarsen p
+  | k + 1, x =>
+    let y := expCr n p k (halveC x)
+    (y.mul y).coarsen p
+
+theorem contains_expCr (n p : ℕ) (hn : 0 < n) :
+    ∀ (k : ℕ) (x : ComplexInterval) (z : ℂ), x.contains z →
+      normBound x ≤ 2 ^ k → (expCr n p k x).contains (Complex.exp z)
+  | 0, x, z, hx, hb =>
+    contains_coarsen p (contains_expSmall hn hx (by simpa using hb))
+  | k + 1, x, z, hx, hb => by
+    have hy : (expCr n p k (halveC x)).contains (Complex.exp (z / 2)) := by
+      refine contains_expCr n p hn k (halveC x) (z / 2) (contains_halveC hx) ?_
+      rw [normBound_halveC]
+      rw [pow_succ] at hb
+      linarith
+    have h := contains_mul hy hy
+    rw [show Complex.exp (z / 2) * Complex.exp (z / 2) = Complex.exp z by
+      rw [← Complex.exp_add]; ring_nf] at h
+    exact contains_coarsen p h
+
+/-! ### The boxed-`s` Dirichlet term
+
+The square-contour boundary segments range over sets of `s`, so the
+enclosure must accept a rectangle for `s`, not only an exact point.  Same
+pipeline; only the `-s` factor changes from an exact rectangle to `S.neg`. -/
+
+/-- The enclosure of `m^{-s}` for every `s` in the box `S`, computed with
+outward rounding to `p` bits (`expCr`) so endpoints stay `p`-bit dyadics
+instead of doubling digits at every squaring. -/
+def dirichletTermBox (n p kL kE : ℕ) (m : ℕ) (S : ComplexInterval) : ComplexInterval :=
+  expCr n p kE (S.neg.mul { re := Interval.logQ n kL (m : ℚ), im := Interval.exact 0 })
+
+theorem contains_dirichletTermBox {n p kL kE : ℕ} (hn : 0 < n) {m : ℕ} (hm : 0 < m)
+    {S : ComplexInterval} {s : ℂ} (hS : S.contains s)
+    (h0 : 0 < (m : ℚ) / 2 ^ kL) (h2 : (m : ℚ) / 2 ^ kL < 2)
+    (hb : normBound (S.neg.mul
+      { re := Interval.logQ n kL (m : ℚ), im := Interval.exact 0 }) ≤ 2 ^ kE) :
+    (dirichletTermBox n p kL kE m S).contains ((m : ℂ) ^ (-s)) := by
+  have hlogQ := Interval.contains_logQ (n := n) (k := kL) (q := (m : ℚ)) h0 h2
+  rw [show (((m : ℚ) : ℝ)) = ((m : ℕ) : ℝ) by push_cast; rfl] at hlogQ
+  have hL : ({ re := Interval.logQ n kL (m : ℚ), im := Interval.exact 0 } :
+      ComplexInterval).contains ((Real.log m : ℝ) : ℂ) := by
+    constructor
+    · rw [Complex.ofReal_re]; exact hlogQ
+    · rw [Complex.ofReal_im]; norm_num [Interval.contains, Interval.exact]
+  have hexp := contains_expCr n p hn kE _ _ (contains_mul (contains_neg hS) hL) hb
+  have hm0 : ((m : ℕ) : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr hm.ne'
+  rw [show ((m : ℂ) ^ (-s)) = Complex.exp (-s * ((Real.log m : ℝ) : ℂ)) by
+    rw [Complex.cpow_def_of_ne_zero hm0,
+      show Complex.log ((m : ℕ) : ℂ) = ((Real.log m : ℝ) : ℂ) by
+        rw [show ((m : ℕ) : ℂ) = (((m : ℕ) : ℝ) : ℂ) by push_cast; rfl,
+          Complex.ofReal_log (by positivity : (0 : ℝ) ≤ ((m : ℕ) : ℝ))]
+    , mul_comm]]
+  exact hexp
+
+/-! ### Reading a norm lower bound off a computed box -/
+
+/-- The distance from `0` to an interval — `0` when the interval straddles
+the origin, otherwise the nearer endpoint's magnitude. -/
+def _root_.ZetaLean.Interval.distToZero (x : Interval) : ℚ :=
+  max 0 (max x.lo (-x.hi))
+
+theorem _root_.ZetaLean.Interval.distToZero_le_abs {x : Interval} {t : ℝ}
+    (hx : x.contains t) : ((x.distToZero : ℚ) : ℝ) ≤ |t| := by
+  obtain ⟨h1, h2⟩ := hx
+  have ha : t ≤ |t| := le_abs_self t
+  have hb : -t ≤ |t| := neg_le_abs t
+  rw [Interval.distToZero]
+  push_cast
+  refine max_le (abs_nonneg t) (max_le ?_ ?_) <;> linarith
+
+/-- The rational lower bound on `‖v‖` a rectangle certifies: the larger of
+the two componentwise distances from zero. -/
+def normLower (B : ComplexInterval) : ℚ :=
+  max B.re.distToZero B.im.distToZero
+
+/-- Reading the bound off the box: if `B` contains `v`, then
+`normLower B ≤ ‖v‖`.  Together with `contains_dirichletTermBox` and the
+tail bound this is how a boundary segment certifies `ε ≤ ‖DH z‖`. -/
+theorem normLower_le_norm {B : ComplexInterval} {v : ℂ} (hB : B.contains v) :
+    ((normLower B : ℚ) : ℝ) ≤ ‖v‖ := by
+  have hre : ((B.re.distToZero : ℚ) : ℝ) ≤ ‖v‖ :=
+    (Interval.distToZero_le_abs hB.1).trans (Complex.abs_re_le_norm v)
+  have him : ((B.im.distToZero : ℚ) : ℝ) ≤ ‖v‖ :=
+    (Interval.distToZero_le_abs hB.2).trans (Complex.abs_im_le_norm v)
+  rw [normLower]
+  push_cast
+  exact max_le hre him
+
 /-! ### Smoke tests: kernel-checked digits of `cos 1`, `sin 1`, `cos 2`
 
 `exp(it)` has real part `cos t` and imaginary part `sin t`, so the complex
