@@ -261,7 +261,8 @@ something else.
 ### 8.1 The mechanisms RH's live formulations touch
 
 **Flow (§5) — yes, and a real research frontier.** `docs/05` and `zeta/heatflow.py`: `H_t`, the
-de Bruijn–Newman constant, `RH ⟺ Λ = 0` with `Λ ∈ [0, 0.2]` pinned from both sides. By `docs/07`
+de Bruijn–Newman constant, `RH ⟺ Λ = 0` with `Λ ∈ [0, 0.2]` pinned from both sides (Rodgers–Tao
+below, Platt–Trudgian above — `docs/05` §3). By `docs/07`
 §11's productivity filter — an equivalence pays only if it yields something *without* proving RH —
 this is one of only three items in that catalogue that has paid, because Rodgers–Tao's `Λ ≥ 0` is a
 genuine new theorem. The missing piece is `docs/09` §7's: our flow acts on a *function*, not a space.
@@ -327,8 +328,9 @@ structural reason rather than an assertion, and with Littlewood and Mertens (§3
 proof that unanimous numerics in this subject have in fact been wrong.
 
 One qualification, cutting the other way: certified verification height is useless as *evidence* and
-valuable as an *input*. Feeding Platt–Trudgian's `3·10^12` into the Polymath15 machinery is what
-gives `Λ ≤ 0.2` (`docs/05` §3), and Platt's certified L-function zeros are an ingredient in
+valuable as an *input*. Feeding Platt–Trudgian's `3·10^12` back into the same machinery is what let
+them sharpen Polymath15's `Λ ≤ 0.22` to `Λ ≤ 0.2` — their own result, not the collaboration's
+(`docs/05` §3) — and Platt's certified L-function zeros are an ingredient in
 Helfgott's theorem (§4). That is the whole justification for `zeta/rigor.py`: not a squeeze on RH, a
 supplier to other people's theorems.
 

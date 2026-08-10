@@ -66,37 +66,68 @@ def test_mirror_logQ_encloses_the_true_log():
             assert _contains(box, float(true)), f"log {m} escaped its box"
 
 
-def test_log_taylor_order_20_is_too_coarse_for_the_certificate():
-    """The parameter trap found before any kernel time was spent.
+def test_the_log_order_sets_the_width_and_the_exp_order_does_not():
+    """The mechanism behind the split orders (HANDOFF, fourth session).
 
-    `logQ n k q = k·log2I n + log1 n (q/2^k)`, so the box width is dominated
-    by `k · width(log2I n) ≈ k · 2^{-n}` — at `n = 20` and `k ≈ 9` that is
-    ~1.7e-5, which `dirichletTermBox` amplifies by `‖s‖ ≈ 85.7` into a
-    per-term width of ~6e-5.  Summed over the ~500 terms of a rung-3 site
-    (weighted by `m^{-σ}`, `Σ ≈ 17`) that is ~2.5e-2 — fifty times the
-    certificate's entire `ε' = 5e-4` budget, so *even the centre inequality*
-    would fail.  Order 40 costs one longer rational series per term and
-    buys eleven orders of magnitude.  Pinned so the next generator run does
-    not rediscover it after hours of kernel compute.
+    `logQ n k q = k·log2I n + log1 n (q/2^k)`, so its width is dominated by
+    `k · width(log2I n) ≈ k · 2^{-n}`, which `dirichletTermBox` amplifies by
+    `‖s‖ ≈ 85.7` into the term box.  That is why the two Taylor orders were
+    split (`dirichletTermBox2 nLog nExp`): the *log* order sets the width,
+    while the *exp* order only sets the size of the literals.
+
+    This pins the mechanism, not a particular constant — the shipped choice
+    (`nLog = 32`) is recorded in HANDOFF and can move without breaking this.
     """
     m, k = 350, 350 .bit_length()
-    w20 = float((lambda b: b.hi - b.lo)(mirror.logQ(20, k, F(m))))
-    w40 = float((lambda b: b.hi - b.lo)(mirror.logQ(40, k, F(m))))
-    # the k·log2I term is the whole story
-    log2_w = float((lambda b: b.hi - b.lo)(mirror.log2I(20)))
-    assert w20 == pytest.approx(k * log2_w, rel=1e-3)
-    # order 20 blows the epsilon budget; order 40 does not
-    sigma_sum, norm_s, eps = 17.0, 85.7, 5e-4
-    assert norm_s * w20 * sigma_sum > 10 * eps
-    assert norm_s * w40 * sigma_sum < eps / 1000
-    # and that is what the generator uses
-    import importlib.util as _ilu
-    _gen_spec = _ilu.spec_from_file_location(
-        "rung3_gen",
-        pathlib.Path(__file__).resolve().parents[1] / "scripts" / "60_rung3_generate.py")
-    gen = _ilu.module_from_spec(_gen_spec)
-    _gen_spec.loader.exec_module(gen)
-    assert gen.TAYLOR_N >= 40
+    width = lambda b: float(b.hi - b.lo)
+    # the k·log2I term is the whole story, exactly
+    assert width(mirror.logQ(20, k, F(m))) == pytest.approx(
+        k * width(mirror.log2I(20)), rel=1e-3)
+    # halving the truncation error halves the width, order by order
+    w20, w32 = width(mirror.logQ(20, k, F(m))), width(mirror.logQ(32, k, F(m)))
+    assert w32 < w20 / 1e3
+    # raising only the *exp* order leaves the width where the log order put it
+    S = _point(CRE, CIM)
+    box_e20 = mirror.dirichletTermBox2(32, 20, COARSEN_P, k, KE, m, S)
+    box_e28 = mirror.dirichletTermBox2(32, 28, COARSEN_P, k, KE, m, S)
+    assert width(box_e28.re) == pytest.approx(width(box_e20.re), rel=0.5)
+    # while raising the log order is what actually shrinks the term box
+    box_l20 = mirror.dirichletTermBox2(20, 20, COARSEN_P, k, KE, m, S)
+    assert width(box_e20.re) < width(box_l20.re) / 1e3
+
+
+def test_split_order_term_boxes_enclose_the_true_power():
+    """`dirichletTermBox2` (main's split-order variant) must stay sound."""
+    with mp.workdps(40):
+        s = mp.mpc(mp.mpf(CRE.numerator) / CRE.denominator,
+                   mp.mpf(CIM.numerator) / CIM.denominator)
+        S = _point(CRE, CIM)
+        for m in (2, 7, 41, 350):
+            box = mirror.dirichletTermBox2(32, 20, COARSEN_P, m.bit_length(),
+                                           KE, m, S)
+            true = mp.power(m, -s)
+            assert _contains(box.re, float(mp.re(true))), f"Re {m}^-s escaped"
+            assert _contains(box.im, float(mp.im(true))), f"Im {m}^-s escaped"
+
+
+def test_composite_chain_agrees_with_the_tower():
+    """`(ab)^{-s}` by one interval product must enclose the truth too.
+
+    The composite-chain step (`contains_cpow_mul` in `DHCertSupport.lean`)
+    is what makes a site affordable; this is its numerical twin, checked
+    against mpmath rather than against the tower it replaces.
+    """
+    with mp.workdps(40):
+        s = mp.mpc(mp.mpf(CRE.numerator) / CRE.denominator,
+                   mp.mpf(CIM.numerator) / CIM.denominator)
+        S = _point(CRE, CIM)
+        box = lambda m: mirror.dirichletTermBox2(32, 20, COARSEN_P,
+                                                 m.bit_length(), KE, m, S)
+        for a, b in ((2, 3), (7, 6), (5, 11)):
+            chained = mirror.cmul(box(a), box(b))
+            true = mp.power(a * b, -s)
+            assert _contains(chained.re, float(mp.re(true)))
+            assert _contains(chained.im, float(mp.im(true)))
 
 
 def test_mirror_term_boxes_enclose_the_true_power_at_a_point():

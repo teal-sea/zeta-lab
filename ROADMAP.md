@@ -876,6 +876,93 @@ how near the rivals are, and whether the detector is independent of the claim.
 Both are the author's to pick, and every layer built on the grade — the
 promotion gate included — inherits that.
 
+## Closing two blind spots: what shipped and what did not (2026-08-10)
+
+`docs/23-rival-distance-and-detector-independence.md` is the record. Criteria,
+threshold and six predictions were committed at `e7d52b6` before a line of the
+implementation existed; three predictions failed and are recorded as failed.
+The exercise above was repeated at n=6 instead of n=1, with four honest
+controls, and the results are worse for the audit than the first run was.
+
+- **The audit does not constrain an adversarial author, and now we know the
+  rate.** Six independent parties given only the public contract reached
+  `CALIBRATED` with batteries that measure nothing — **six of six**, each
+  certifying a transparently absurd claim (a waxing moon over a weather
+  station, Mercury retrograde over a shipping manifest) as `distinguishes`.
+  Five of the six did it while the new checks were already visible in their
+  runner output. The audit as it now stands catches two of the six.
+- **The four survivors are one mode, and it is argued unreachable.** Rivals
+  matched in structure and disjoint in *value*: no single field is the tell,
+  the joint value vector is the label, so any predicate keyed to a target
+  value is target-exclusive. Now `structure-matched-value-disjoint-rivals`
+  with `caught_by=None`. The obvious fix inverts and the inversion is
+  measured: a value-comparison family scores `zeta`, `compiler`, `croniter`
+  and `referee` *more* separated than the sham, because ζ and
+  Davenport–Heilbronn also agree on no numeric value. Which differences are
+  load-bearing is the domain knowledge the seam forbids.
+- **`rival-separator-abundance` ships and acts on nothing.** It measures the
+  distance (real departments 0.00–0.05, a planted gross-distance corruption
+  0.24–0.50) and the threshold frozen before the calibration was read, 0.5,
+  sits above the whole range. Not retuned here: a cut chosen after reading its
+  own calibration has no falsification weight, and the held-out set is spent.
+  Pinned as a blind spot with its numbers rather than quietly adjusted.
+- **`detector-claim-agreement` ships and earns it.** It catches its planted
+  mutation in isolation, catches one blind-authored hollow battery nothing
+  else catches, and catches **`docs/21`'s hollow battery** — whose promotion
+  was that document's worst recorded result. (That one is a reconstruction
+  authored by this tree's own process, so its chronology is clean and its
+  authorship is not; `docs/23` §8.5 says so.) That specific
+  promotion no longer happens; `docs/21`'s general finding is untouched and
+  its pin now runs against a specimen whose detector is independent, so
+  repairing one instance was not allowed to make the gate look safe.
+- **The cost of that check: `compiler` and `referee` now grade
+  `DETECTOR_INADEQUATE`.** Both declare a detector that is a reference claim
+  negated, and in both cases it is a *decision procedure* rather than a
+  co-designed detector. The mode has two conjuncts and only the first is
+  mechanically visible. Neither department is exempted and the check is not
+  weakened: the conformance cases xfail with the reason, and
+  `test_the_referee_department_survives_its_own_audit` was renamed to
+  `..._does_not_survive_its_own_audit` and asserts the failure. **The referee
+  department fails its own audit.** Each department owes an answer; that is
+  the next pre-registered change, not this one.
+- **The most actionable defect was found by the honest controls, and was not
+  predicted.** `decoys-move-their-probe` and `lesions-plant-something` poked
+  instruments with department #1's shapes whenever they declared no `probe` —
+  an attribute declared nowhere in `harness/protocol.py` and nowhere in
+  `harness/README.md`. Two of four honest parties were graded `HOLLOW` for
+  writing decoys and lesions faithful to their own payloads; the two that
+  passed did so with shape-general fallbacks, which is the same workaround the
+  hollow party used to defeat the audit. **The audit was rewarding
+  reverse-engineering and punishing fidelity, in both arms.** An instrument
+  now has to move one of several candidate probes, inert instruments are still
+  caught, and 4 of 4 honest parties now grade `CALIBRATED`. The convention is
+  documented in both places it should have been.
+- **`UNKNOWN` no longer walks past `CALIBRATED`.** Every hollow-class check
+  caps the grade when undecided, matching the numeric arm's rule. Enforcing it
+  required making `payload-symmetry` decidable off mappings, which surfaced
+  that `croniter` — a department authored outside this tree — hands out bare
+  functions as payloads: the "callable payloads sidestep" was never only a
+  sham author's trick, and three real departments had been going unmeasured.
+- **One new mode, one new check.** party06 reached `CALIBRATED` with a payload
+  whose `keys()` is honest and whose `__missing__` answers undeclared names
+  with a sentinel equal to anything. `undeclared-field-symmetry` catches it.
+  The check was built from that battery, so that battery is not an independent
+  test of it, and the catalog says so.
+- **A method failure of the exercise itself, recorded in `docs/23` §8.0.** The
+  parties ran against the live working tree while the checks were landing in
+  it, so §5's claim that blindness was "guaranteed by chronology" is false as
+  written. The contamination runs against the parties, so the hollowing rate is
+  if anything understated — but check B ends up with no clean blind test and
+  check A with one. The frozen corpus and its manifest are in
+  `harness/blind_authoring_2026_08_09/`; the set is spent, and a repeat needs
+  new parties and a pinned harness.
+
+Net: 16 named checks → 19, `SHAM_MODES` 12 → 15, blind spots 4 → 6, three
+previously-uncatchable hollow batteries now caught, four still not.
+`ROADMAP`'s thesis from the first hollowing survives unchanged — the audit's
+real constraining power is over *mechanical* emptiness — and the choice that
+decides whether a battery can reject anything is still the author's.
+
 ## Known gaps
 
 Listed because an undocumented gap becomes an assumption.
@@ -978,7 +1065,7 @@ cached Mathlib toolchain.
 - **Rung 3 (the prize):** the Davenport–Heilbronn theorem — a Dirichlet
   series with functional equation, real coefficients, and an off-line zero
   exists. Puts gate 3 (`docs/09`) into the certified library. 
-  **Status**: Phase A (Structural) is complete with rigorous definitions and theorem statement in `DavenportHeilbronn.lean`; the analytic half and the minimum-modulus reduction are kernel-checked (`DHAnalytic.lean`, `DHZeroCriterion.lean`), leaving exactly two interval inequalities about `DH` on a disk. Phase B (Computational) is partly built: certified real `exp`/`log` for any positive rational (`IntervalExp.lean`), certified complex `exp` with kernel-checked digits of `cos`/`sin` falling out (`IntervalCExp.lean`), and `contains_dirichletTerm` tying each term `n^{-s}` to a computed rational box with no oracle input. The tail bound is also kernel-checked (`DHTailBound.lean`): the DH series regrouped into five-term blocks converges absolutely on `Re s > 0`, equals `DH` there by the identity theorem, and `DH_tail_bound` gives the explicit error `(3+κ)·‖s‖·5^{-σ-1}·(K−1)^{-σ}/σ` for any `5K`-term partial sum — analytic continuation as a finite computation plus an error term, with no integrals in the block estimates (mean-value inequalities) and the integral test only for the final tail sum. The assembly machinery is kernel-checked too (`DHAssembly.lean`, `DHDemo.lean`, the square-contour criterion in `DHZeroCriterion.lean`, outward rounding in `IntervalCExp.lean`), and the pipeline is demonstrated end to end: `DH(3/2 + 3i) ≠ 0` is a kernel-checked theorem (`DH_demo_ne_zero`), the first certified fact about a DH value, produced with no oracle input. Open: scale alone. The target is *forced* — `t ≈ 85.699` is the lowest off-line zero, pinned by a standing test (`test_no_offline_zero_below_the_pinned_one`), so the `‖s‖^2.2` cost factor cannot be optimised away by choosing a cheaper zero. The steeper tail exponents are now **kernel-checked** (`DHTailBound2.lean`, 2026-08-10): comparing the block sum to its integral gives `K^{-(σ+1)}` (`DH_tail_bound_order1`), the trapezoid refinement `K^{-(σ+2)}` (`DH_tail_bound_order2`), with no Bernoulli numbers and no general Euler–Maclaurin — the block antiderivative `dhAnti` is closed-form because the coefficients sum to zero, and the corrections cost the instantiation nine extra certified cpow values. Effect, pinned by `test_dh_tail_bound_required_K_pins_the_cost_model`: a 1e-3 tail at the oracle zero needs `K = 195301` blocks at order 0, `1741` at order 1, `243` at order 2 — an 804× reduction; the boundary strategy is a certified point grid under a Cauchy Lipschitz bound (max principle on a larger square; `DHCertSupport.lean`, all kernel-checked), with the verified plan and cost honestly re-measured in HANDOFF (2026-08-10, second record): ~78k certified terms ≈ 25 core-hours once the composite-chain evaluation engine lands — naive boxed-`s` lower bounds and one-shot `norm_num` box evaluation are both measured infeasible and recorded as negative results. That run finishes rung 3; nothing else is missing.
+  **Status**: Phase A (Structural) is complete with rigorous definitions and theorem statement in `DavenportHeilbronn.lean`; the analytic half and the minimum-modulus reduction are kernel-checked (`DHAnalytic.lean`, `DHZeroCriterion.lean`), leaving exactly two interval inequalities about `DH` on a disk. Phase B (Computational) is partly built: certified real `exp`/`log` for any positive rational (`IntervalExp.lean`), certified complex `exp` with kernel-checked digits of `cos`/`sin` falling out (`IntervalCExp.lean`), and `contains_dirichletTerm` tying each term `n^{-s}` to a computed rational box with no oracle input. The tail bound is also kernel-checked (`DHTailBound.lean`): the DH series regrouped into five-term blocks converges absolutely on `Re s > 0`, equals `DH` there by the identity theorem, and `DH_tail_bound` gives the explicit error `(3+κ)·‖s‖·5^{-σ-1}·(K−1)^{-σ}/σ` for any `5K`-term partial sum — analytic continuation as a finite computation plus an error term, with no integrals in the block estimates (mean-value inequalities) and the integral test only for the final tail sum. The assembly machinery is kernel-checked too (`DHAssembly.lean`, `DHDemo.lean`, the square-contour criterion in `DHZeroCriterion.lean`, outward rounding in `IntervalCExp.lean`), and the pipeline is demonstrated end to end: `DH(3/2 + 3i) ≠ 0` is a kernel-checked theorem (`DH_demo_ne_zero`), the first certified fact about a DH value, produced with no oracle input. **Open: not scale — headroom.** Corrected 2026-08-10 after the mirror priced every site exactly (HANDOFF, fourth record): plan v2 is infeasible as emitted. The generator's own assert refuses grid sites before writing a line, and at the single Taylor order 20 the log truncation alone gives a box width of 1.5 against a beta of 0.05. Splitting the two Taylor orders (nLog 32, nExp 20 — `dirichletTermBox2`, kernel-checked) fixes that, and then 30 of 59 evaluated grid sites still fail, every one of the 59 within 2% of its threshold: beta was drawn at the achievable bound, so a ~1-2% width improvement flips all of them. The centre is 37% short and needs the exp order raised, which is the order that inflates literals. So what remains is a re-plan with real headroom, upstream of any compute. The target is *forced* — `t ≈ 85.699` is the lowest off-line zero, pinned by a standing test (`test_no_offline_zero_below_the_pinned_one`), so the `‖s‖^2.2` cost factor cannot be optimised away by choosing a cheaper zero. The steeper tail exponents are now **kernel-checked** (`DHTailBound2.lean`, 2026-08-10): comparing the block sum to its integral gives `K^{-(σ+1)}` (`DH_tail_bound_order1`), the trapezoid refinement `K^{-(σ+2)}` (`DH_tail_bound_order2`), with no Bernoulli numbers and no general Euler–Maclaurin — the block antiderivative `dhAnti` is closed-form because the coefficients sum to zero, and the corrections cost the instantiation nine extra certified cpow values. Effect, pinned by `test_dh_tail_bound_required_K_pins_the_cost_model`: a 1e-3 tail at the oracle zero needs `K = 195301` blocks at order 0, `1741` at order 1, `243` at order 2 — an 804× reduction; the boundary strategy is a certified point grid under a Cauchy Lipschitz bound (max principle on a larger square; `DHCertSupport.lean`, all kernel-checked), with the verified plan and cost honestly re-measured in HANDOFF (2026-08-10, second record): ~78k certified terms ≈ 25 core-hours once the composite-chain evaluation engine lands — naive boxed-`s` lower bounds and one-shot `norm_num` box evaluation are both measured infeasible and recorded as negative results. That run was believed to finish rung 3; it does not. See the correction above and HANDOFF's fourth 2026-08-10 record: the plan needs re-planning for headroom before any of that compute is worth spending.
 
 Why this is in scope: it certifies the literature and the lab's reference
 points. It is not an attempt on RH, and the deliberate-non-goal above stands.

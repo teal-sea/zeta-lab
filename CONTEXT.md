@@ -297,7 +297,7 @@ Constants: `DATA_DIR`, `MERTENS_PINNED`, `BD_CONSTANT`, `ROBIN_THRESHOLD`, `ROBI
 
 ### `zeta/rigor.py` — Certified computation: enclosures instead of estimates.
 
-*1892 lines*
+*1965 lines*
 
 Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 
@@ -852,7 +852,7 @@ The falsification protocol with the subject factored out. Four instrument roles 
 
 ### `harness/protocol.py` — ``harness.protocol`` — four instrument roles, one battery, one department.
 
-*911 lines*
+*923 lines*
 
 - `class HarnessError` — Base class for every refusal this module issues.
 - `class BatteryError` — A battery is malformed, or is one that could not fail.
@@ -895,7 +895,7 @@ The falsification protocol with the subject factored out. Four instrument roles 
 
 ### `harness/integrity.py` — ``harness.integrity`` — the referee, refereed.
 
-*921 lines*
+*1560 lines*
 
 Constants: `PASS`, `FAIL`, `UNKNOWN`, `CALIBRATED`, `DETECTOR_INADEQUATE`, `UNMEASURED`, `CONTAMINATED`, `HOLLOW`, `GRADES`, `SHAM_MODES`, `AUDIT_BLIND_SPOTS`
 
@@ -955,13 +955,16 @@ Constants: `ALLOW`, `BLOCK`, `POLICY_VERSION`, `NAIVE_POLICY_VERSION`, `REQUIRED
 
 ### `harness/shams.py` — ``harness.shams`` — planted corruptions of batteries, for measuring the audit.
 
-*204 lines*
+*384 lines*
 
 - `with_constant_detector(department: Department, *, value: bool = True) -> Department` — Replace every declared detector with one that always answers ``value``.
 - `with_target_as_rival(department: Department) -> Department` — Replace every rival with the target wearing the rivals' names.
 - `with_inert_lesions(department: Department) -> Department` — Make every lesion an identity: violations that were never planted.
 - `without_hardest_lesion(department: Department) -> Department` — Silently drop the smallest-magnitude lesion — the one the detectors
 - `with_leaked_label(department: Department, *, key: str = 'virtual_tell') -> Department` — Give every rival's payload a key the target's payload lacks — the
+- `with_distant_rivals(department: Department) -> Department` — Move every rival far from the target while keeping the key set.
+- `with_detector_as_claim(department: Department) -> Department` — Replace the declared detectors with the distinguishing claim, negated.
+- `with_agreeable_absent_fields(department: Department) -> Department` — Give the *target* a payload that answers fields nobody declared.
 - `with_vacuous_calibration(department: Department) -> Department` — Replace the reference claims with a shape-valid pair that cannot earn
 
 ### `harness/departments/compiler_department.py` — ``harness.departments.compiler_department`` — department #3: LLVM IR rewrites.
@@ -1126,6 +1129,8 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `20-verification-integrity.md` — 20 — Verification integrity: the referee, refereed
 - `21-forward-deployed-verification.md` — 21 — Forward-deployed verification: can a report refuse a crossing?
 - `22-detector-strength-findings.md` — Computational Alarm Systems for the Riemann Hypothesis:
+- `23-rival-distance-and-detector-independence.md` — 23 — Rival distance and detector independence: closing two declared blind spots
+- `24-the-local-positivity-attempt.md` — 24 — The local positivity attempt, run to its wall
 
 ## Runnable demos (`scripts/`)
 
@@ -1167,13 +1172,15 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/mathlib_gaps.py` — Which of Mathlib's 1000 famous theorems are still unformalized.
+- `scripts/science_preflight.py` — Preflight for a session running this lab from an outside environment.
 - `scripts/ledger_sync.sh` — Sync the private discovery ledger between machines.
 
 ## Tests (`tests/`)
 
-1524 test functions across 49 files (the collected count differs where tests are parametrised):
+1567 test functions across 52 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
+- `tests/test_claim_attribution.py` — 6
 - `tests/test_compiler_candidate.py` — 32
 - `tests/test_core.py` — 97
 - `tests/test_criteria.py` — 75
@@ -1185,6 +1192,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_discovery_knownness.py` — 102
 - `tests/test_discovery_schema.py` — 62
 - `tests/test_discovery_zeta_domain.py` — 83
+- `tests/test_docs_numbering.py` — 4
 - `tests/test_doors.py` — 4
 - `tests/test_dossier_hardy_z.py` — 22
 - `tests/test_dossier_schema.py` — 37
@@ -1195,7 +1203,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_harness_croniter_department.py` — 11
 - `tests/test_harness_demo.py` — 5
 - `tests/test_harness_finitefield_department.py` — 12
-- `tests/test_harness_integrity.py` — 15
+- `tests/test_harness_integrity.py` — 20
 - `tests/test_harness_promotion.py` — 48
 - `tests/test_harness_protocol.py` — 49
 - `tests/test_harness_referee_department.py` — 12
@@ -1206,14 +1214,15 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_inverse.py` — 8
 - `tests/test_leeyang.py` — 7
 - `tests/test_li.py` — 56
+- `tests/test_meta_ledger.py` — 24
 - `tests/test_moments.py` — 26
 - `tests/test_plots.py` — 13
 - `tests/test_quasicrystal.py` — 9
 - `tests/test_relations.py` — 7
-- `tests/test_rigor.py` — 50
+- `tests/test_rigor.py` — 52
 - `tests/test_rigor_weil.py` — 16
 - `tests/test_rogue_lab_controls.py` — 7
-- `tests/test_rung3_mirror.py` — 7
+- `tests/test_rung3_mirror.py` — 9
 - `tests/test_script_13_discovery_run.py` — 33
 - `tests/test_script_14_moment_experiment.py` — 26
 - `tests/test_spectral_gate.py` — 14

@@ -32,7 +32,15 @@ __all__ = [
     "without_hardest_lesion",
     "with_leaked_label",
     "with_vacuous_calibration",
+    "with_distant_rivals",
+    "with_detector_as_claim",
+    "with_agreeable_absent_fields",
 ]
+
+#: Structurally alien values handed to :func:`with_distant_rivals`, cycled by
+#: rival index so the planted distance is gross rather than uniform. Nothing
+#: here is a value any department would compute; that is the point.
+_ALIEN_VALUES: tuple[Any, ...] = (None, "elsewhere", (), {})
 
 
 # ---------------------------------------------------------------------------
@@ -182,6 +190,178 @@ def with_leaked_label(department: Department, *, key: str = "virtual_tell") -> D
     battery = department.battery
     rivals = tuple(_LeakySubject(inner=rival, key=key) for rival in battery.rivals)
     return replace(department, battery=replace(battery, rivals=rivals))
+
+
+@dataclass(frozen=True)
+class _DistantSubject:
+    """A rival that keeps the target's key set and abandons its substance.
+
+    The point of the shape is that every *existing* check must still pass:
+    the key set is identical, so ``payload-symmetry`` sees nothing; the values
+    are alien but comparable, so claims answer instead of raising and
+    ``rivals-answer`` stays quiet; the target-only reference claim still fires
+    only for the target, so ``calibration-rederived`` still re-derives. What
+    is gone is nearness — an arbitrary structural predicate now separates this
+    rival from the target, which is the whole content of the
+    ``distant-rivals`` mode.
+    """
+
+    inner: Subject
+    alien: Any
+
+    @property
+    def name(self) -> str:
+        return self.inner.name
+
+    def describe(self) -> str:
+        return f"(planted) {self.inner.name}, moved far away: every value replaced by {self.alien!r}"
+
+    def payload(self) -> Any:
+        payload = self.inner.payload()
+        if hasattr(payload, "keys"):
+            return {key: self.alien for key in payload}
+        return self.alien
+
+
+def _negated(claim: Any):
+    """The claim, negated, answering ``True`` where it would have raised.
+
+    A sham author reaching for this mode writes the guard without thinking
+    about it: a detector that raises on a lesioned payload fails
+    ``detector-power`` outright, so the guard is what makes the corruption
+    survive long enough to be interesting.
+    """
+
+    def fires(payload: Any) -> bool:
+        try:
+            return not bool(claim(payload))
+        except Exception:  # noqa: BLE001 - shape mismatch answers, never raises
+            return True
+
+    fires.__name__ = "claim_negated"
+    return fires
+
+
+def with_distant_rivals(department: Department) -> Department:
+    """Move every rival far from the target while keeping the key set.
+
+    :data:`~harness.integrity.SHAM_MODES` records why this matters: with
+    rivals this far, any claim of the form "anything AND a target-only
+    property" distinguishes, so the modus tollens the whole protocol rests on
+    never bites. Caught by ``rival-separator-abundance`` and by nothing else.
+    """
+    battery = department.battery
+    rivals = tuple(
+        _DistantSubject(inner=rival, alien=_ALIEN_VALUES[index % len(_ALIEN_VALUES)])
+        for index, rival in enumerate(battery.rivals)
+    )
+    return replace(department, battery=replace(battery, rivals=rivals))
+
+
+def with_detector_as_claim(department: Department) -> Department:
+    """Replace the declared detectors with the distinguishing claim, negated.
+
+    The corruption an independent party reached for unprompted on
+    2026-08-09: power and specificity both pass — the negated claim is quiet
+    on the clean probe and fires on every lesion — while the detector carries
+    no information the claim did not already assert. Caught by
+    ``detector-claim-agreement``, and only when the claim and the detector
+    consume payloads of the same shape.
+    """
+    distinguishing = [r for r in department.reference_claims if r.distinguishes]
+    if not distinguishing or not department.detectors:
+        return department
+    # The clean probe must be a payload the *claim* can answer, or the planted
+    # detector's guard fires on it and ``detector-specificity`` catches the
+    # corruption for the wrong reason. A sham author picks the target payload
+    # here for exactly this reason, and so does the plant.
+    probe = department.battery.target.payload()
+    reference = distinguishing[0]
+    detector = NamedDetector(
+        name=f"{reference.name}-negated",
+        fires=_negated(reference.claim),
+        probe=probe,
+        note=f"(planted) the reference claim {reference.name!r}, negated and guarded",
+    )
+    return replace(department, detectors=(detector,))
+
+
+class _AgreeableDict(dict):
+    """A mapping that answers names it does not have, agreeably.
+
+    ``keys()`` is honest, so every check that compares declared surfaces sees
+    a payload identical to the target's. The identity lives on the complement
+    of the key set: ask for a field nobody declared and this answers with
+    something truthy that compares equal to anything, so a claim naming a
+    field that does not exist fires here and nowhere else.
+    """
+
+    def __missing__(self, key: Any) -> Any:
+        return _AGREEABLE
+
+    def __getattr__(self, name: str) -> Any:
+        if name.startswith("__"):
+            raise AttributeError(name)
+        return _AGREEABLE
+
+
+class _Agreeable:
+    """Truthy, and equal to everything it is compared against."""
+
+    __slots__ = ()
+
+    def __eq__(self, other: Any) -> bool:
+        return True
+
+    def __hash__(self) -> int:
+        return 0
+
+    def __bool__(self) -> bool:
+        return True
+
+    def __repr__(self) -> str:  # pragma: no cover - debugging aid
+        return "<agreeable>"
+
+
+_AGREEABLE = _Agreeable()
+
+
+@dataclass(frozen=True)
+class _AgreeableSubject:
+    """The target, rewrapped so its payload answers undeclared names."""
+
+    inner: Subject
+
+    @property
+    def name(self) -> str:
+        return self.inner.name
+
+    def describe(self) -> str:
+        return f"(planted) {self.inner.name}, whose payload agrees with any absent field"
+
+    def payload(self) -> Any:
+        payload = self.inner.payload()
+        if not hasattr(payload, "keys"):
+            raise TypeError(
+                "with_agreeable_absent_fields requires mapping payloads; this "
+                "subject's are not"
+            )
+        return _AgreeableDict(payload)
+
+
+def with_agreeable_absent_fields(department: Department) -> Department:
+    """Give the *target* a payload that answers fields nobody declared.
+
+    Found on 2026-08-09 by an independent party that reached ``CALIBRATED``
+    with it, and the only genuinely new mechanism among six blind-authored
+    hollow batteries: ``payload-symmetry`` compares ``keys()``, and a
+    permissive ``__missing__`` extends the payload's answer domain past
+    ``keys()`` entirely. Caught by ``undeclared-field-symmetry``.
+    """
+    battery = department.battery
+    return replace(
+        department, battery=replace(battery, target=_AgreeableSubject(inner=battery.target))
+    )
 
 
 def with_vacuous_calibration(department: Department) -> Department:

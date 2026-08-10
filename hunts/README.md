@@ -60,6 +60,62 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #5 — a norm at every place (`local_positivity/`)
+
+**Status: probe, complete. Instrument kept; no claim promoted; the headline is
+a negative result about globalisation, plus an honest boundary on what the gate
+actually tests.**
+
+An ontology attempt in the sense of `docs/09` §4, pushed at Requirement C of
+§5.1: construct, from prime data alone, a structure in which the Weil form is a
+norm square, so its sign becomes formal. Reached one place at a time — and the
+localisation is exactly where it dies. Raw numbers in
+`local_positivity/results.json`:
+
+- **The prime side factors place by place into a manifest norm.** With
+  `Φ_p f = Σ_{m≥0} p^{−m/2} f(· − m log p)` it decomposes as
+  `−Σ_p log p (Q_p(f) − ‖f‖²)`, `Q_p = (1−1/p)‖Φ_p f‖²` — a norm at every
+  place, from coefficients only, with no zeros entering any definition.
+  Reconstruction agrees with `zeta.weil.explicit_formula_sides` to 22 digits.
+- **And the local norms do not assemble, which is the result.** `Q_p − ‖f‖²` is
+  not of definite sign: 52 of the first 60 places positive, 8 negative. Local
+  positivity is therefore compatible with either sign of `W`. Files under
+  `docs/09` §5.1's taxonomy item #5, *finite approximants*.
+- **Gate #3, with a crisp answer.** The place kernel has the closed form
+  `K_p^(d)(θ) = Σ_j (1−|α_j|²/p)/|1−α_j p^{−1/2}e^{iθ}|²`, so `c_p ≤ d` is
+  *exactly* the local bound `|α_j| ≤ √p`, with `d` read off each object's own
+  gamma factors and never chosen. ζ and `L(χ)` quadratic mod 5 measure
+  `c_p = 0.8284` and PASS (matching `2/(√p+1)` to 12 digits);
+  Davenport–Heilbronn measures `1.8361` and FAILS at `p = 2, 3`; both disc −23
+  Epstein forms FAIL, at `5.995` and `6.462`. "Where exactly does DH fail to
+  embed?" — at `p = 2`, excess 0.836.
+- **Decoy / surrogate.** Swapped coefficients move the verdict by 15 orders of
+  magnitude — the control whose absence made the Imposter Gauntlet vacuous
+  (`docs/15`). Against 300 random period-5 sequences 100% fail, median excess
+  +5.88, and **DH sits at the 6th percentile**: a mild failure, not an exotic
+  near-miss, echoing `ROADMAP.md`'s 27th-percentile calibration from an
+  unrelated statistic.
+- **Lesion.** Interpolating ζ → DH, blindness sets in at `ε* = 0.184`, so a
+  PASS means "no violation above ~18% of the way from ζ to DH at the tested
+  places", and nothing stronger. The PASS side is not vacuous either: across 60
+  Satake angles the genuine degree-2 family keeps margin ≥ 0.343.
+- **The honest boundary, stated so nobody overclaims it.** The gate is *not* a
+  test for "has an Euler product". A genuine degree-2 product with
+  `α = 2.3, 1/α` — legitimate in the Selberg class, violating Ramanujan — is
+  rejected at `p = 5` with `c_p = 65.24`. It tests the local Selberg bound, and
+  `localpos.scope()` says so inside the module rather than only in prose.
+
+**Disposition:** instrument kept, avenue closed and recorded so nobody reopens
+it; no ledger entry. Nothing here is evidence for or against RH. This is the
+third statistic, after `D(f)` (`docs/18` §6) and the Fourier quasicrystal
+separation (§4), to read arithmetic and stay blind to the *position* of the
+critical line — `ζ(s−δ)` has the same coefficients. Whether that repetition
+rises to a standing constraint on the whole coefficient-side programme is a
+`ROADMAP.md` call, which this hunt may not make for itself. Full record in
+`docs/24-the-local-positivity-attempt.md`; the session's own corrections,
+including a citation defect it found in `docs/12`, are in
+`local_positivity/CORRECTIONS.md`.
+
 ### Hunt #4 — repairing the counterexample (`flow_repair/`)
 
 **Status: probe, complete. Instrument kept; no claim promoted; the headline

@@ -7,6 +7,154 @@ problem, what conclusion is currently justified. Decisions live in
 
 ---
 
+## Record: rung 3 — plan v2 is infeasible as generated, and the cause is one
+## constant (2026-08-10, fourth session of the day)
+
+**The blocker was never the evaluation engine.** Running the *unmodified*
+generator on a grid site asserts before emitting a line:
+
+```
+AssertionError: g_bottom_00: normLower 0.017520903235754424 < beta 0.052147503410769
+```
+
+That is the mirror's exact box evaluation refusing the site, which is the
+safety net the previous record claimed for it, firing. **11 of 11 sampled grid
+sites fail their own β**, by factors of 2× to 43×. The big boxes and the centre
+pass (the smallest big box gives normBound 2.374 against M = 2.5499). So the
+grid — the whole small-frontier half of the certificate — could not have been
+certified at plan v2's emitted parameters no matter how fast the engine got.
+
+**Cause, isolated by measurement.** The box width is not coarsening, not
+squaring, and not the exp remainder. It is `Interval.logQ`'s Taylor truncation
+at `TAYLOR_N = 20`. At the worst sampled site (`g_left_18`, K = 113):
+
+| quantity | at n=20 | at n=28 | at n=32 |
+|---|---|---|---|
+| width of `logQ` (m=4) | 7.6e-6 | 3.0e-8 | 1.9e-9 |
+| width of the term box | 3.0e-3 | — | 7.3e-7 |
+| 505 terms contribute | 1.52 | — | 3.7e-4 |
+
+against a β of ~0.05. Raising `kE` or the coarsening precision does **nothing**:
+at `kE = 14`, `kE = 18` or `p = 128` the term width is still 3.0e-3. Only the
+log order moves it.
+
+**The fix, and its measured threshold.** On `g_left_18` (β = 0.0382898):
+
+| config | normLower | verdict |
+|---|---|---|
+| n = 20, tower (as shipped) | 0.000889 | FAIL, 43× short |
+| n = 28, tower | 0.0383896 | OK, margin ×1.00 |
+| n = 32, tower | 0.0385272 | OK, margin ×1.01 |
+| n = 32, composite chain | 0.0385252 | OK, margin ×1.01 |
+| n = 40, composite chain | 0.0385363 | OK, margin ×1.01 |
+
+Two things to read off it. The margin **saturates at ×1.01**, so past n ≈ 28 the
+residual gap is the inflation radius (r = 0.0134 against β = 0.0383) and the
+geometry, not the series — there is nothing further to buy by raising the order,
+and β was planned with ~1% headroom. And the **composite chain matches the tower
+to four significant figures** (0.0385252 vs 0.0385272) while running 3.4× faster
+in the mirror (96 s vs 329 s), so chains cost no usable width. n = 28 is the
+threshold and is too thin to ship; **n = 32** is the choice.
+
+**The two orders must be split, and that is now in the build.** `TAYLOR_N` was
+one constant feeding both series, and they want opposite things: the log sets
+the width, the exp sets the literal size (`expSmall` forms `powI x i` up to
+`i = n`, which is where the multi-thousand-bit rationals of the previous
+record's negative result #2 come from). Measured: the log's own endpoints go
+from 91 to 158 bits between order 20 and 32 — negligible. So
+`dirichletTermBox2 nLog nExp p kL kE m S` and `contains_dirichletTermBox2` are
+kernel-checked in `IntervalCExp.lean`, with `dirichletTermBox2_self` proving by
+`rfl` that the old definition is the diagonal `nLog = nExp` case. Target
+configuration: **nLog = 32, nExp = 20, p = 64, kE = 10, composite chains.**
+
+**Not done.** `scripts/60_rung3_generate.py` still emits one tower per m at the
+single order 20. It needs: the split orders, per-`m` `pw_` boxes with primes on
+towers and composites on `contains_cpow_mul_coarsen`, and `term_{sid}` as a
+match over those. Then regenerate and compile. The mirror already has
+`dirichletTermBox2`, `cpowBox`, `cpow_plan` and `term_chain` for exactly that
+shape, so the generator change is codegen, not mathematics.
+
+**And the constant is not sufficient — measured.** A sweep at the target
+configuration (nLog = 32, nExp = 20, p = 64, kE = 10, composite chains) got
+through 60 of the 215 sites before being stopped. Of 59 grid sites:
+
+| | value |
+|---|---|
+| fail | **30 of 59 (51%)** |
+| margin range | 0.9931 … 1.0065 |
+| median margin | 0.9991 |
+| worst failure | ×0.9931 (0.7% short) |
+| best pass | ×1.0065 (0.65% over) |
+| within ±2% of the line | **59 of 59 (100%)** |
+
+So the grid is not *wrong*, it is sitting exactly **on** the line: β was drawn at
+the achievable bound, the total spread is 1.3%, and which side of it a site lands
+on is effectively a coin flip. A uniform ~1–2% improvement in box width — or ~1%
+of slack in β — turns all 30 failures into passes. That is a headroom bug, not a
+geometry bug.
+
+**The centre is a different and real problem: FAIL at ×0.6321**, normBound
+7.9e-4 against an ε of 5e-4, 37% short. Its budget explains why: the plan gives
+it `r_c = 3.736e-4` out of 5e-4, leaving 1.26e-4 for the box itself, and the box
+uses 4.2e-4. Raising nLog does not reach it, because with nLog high the per-term
+floor is set by **nExp**, at ~7e-7, and the centre sums 1805 terms. So the centre
+needs the exp order raised too — which is the order that inflates the literals
+and revives negative result #2. That trade is the one genuinely unresolved thing
+in rung 3.
+
+**What this means for the next session.** The remaining work is a **re-plan**,
+not codegen: pick nExp and `r` (equivalently K) with real headroom instead of
+0.3%, re-derive β and ε, and only then regenerate. `ROADMAP.md`'s
+"Open: scale alone … nothing else is missing" is corrected in the same commit —
+it was written before the mirror could price a site exactly, and it is false.
+
+**Caveats.** 60 of 215 sites, one machine, and the grid numbers are the 59
+evaluated of 104. The centre was evaluated once. Big boxes were not reached in
+this sweep, though a separate spot check had the smallest one passing
+(normBound 2.374, later 2.4076 on chains, against M = 2.5499 — also thin).
+
+## Record: rung 3 — the composite-chain step is kernel-checked, and its cost
+## is measured (2026-08-10, third session of the day)
+
+The previous record named composite-chain term evaluation as "next session's
+first move". The lemma it rests on is now in the build, and the reason to
+believe the route is now a measurement rather than an estimate.
+
+- **Built, zero sorrys (`DHCertSupport.lean`):** `contains_cpow_mul` and
+  `contains_cpow_mul_coarsen`. `cpow` of a natural is multiplicative
+  (Mathlib's `Complex.natCast_mul_natCast_cpow`, no side conditions), so a
+  composite `m = a·b` needs no `expCr` tower of its own — it is one
+  `ComplexInterval.mul` of the two boxes already computed for its factors,
+  optionally rounded outward. Towers are then needed only for the primes below
+  `5K`, i.e. ~`π(5K)` of them instead of ~`5K`.
+- **The cost, measured.** Four generated-shaped obligations on realistic
+  64-bit-coarsened literals — one two-factor product; a four-factor chain
+  uncoarsened; the same chain coarsened after each product; and reading
+  `normLower` off a product — cost **4.48 s user against a 2.47 s
+  import-only baseline, so ~0.5 s per obligation**. Compare negative result
+  #2 in the previous record: one `dirichletTermBox` literal equality took
+  ~8 min and still exceeded simp's step limit. The composite step is roughly
+  three orders of magnitude cheaper than the tower it replaces, and it
+  discharges rather than failing.
+- **Coarsening between factors is load-bearing, not cosmetic.** Measured by
+  `#eval`: one `ComplexInterval.mul` takes endpoints from denominator `2^64`
+  to `2^127`, so an uncoarsened four-factor chain reaches ~508-bit rationals
+  and keeps doubling. `coarsen p` after each product holds the width flat and
+  reduces cleanly under `norm_num` — the `Int.ceil` in `Interval.coarsen` is
+  handled by the numeric extension, which was the open question.
+  `contains_cpow_mul_coarsen` is therefore the form the generator should emit.
+- **Not done, and the honest remaining scope.** The generator
+  (`scripts/60_rung3_generate.py`) still emits a tower per `m`; it has to be
+  changed to emit a factor-ordered chain plus staged prime towers, with the
+  per-`m` adaptive `kE` and Taylor `n = 12` from the previous record. The
+  ~78k-term / ~25 core-hour run has not been attempted. What changed is that
+  the step at the bottom of that plan is now kernel-checked and priced, so
+  the remaining risk is engineering rather than feasibility.
+- **Caveat on the measurement.** The 0.5 s figure is four hand-written
+  obligations on one machine, not a run over the plan's real sites, and the
+  chain lengths there follow the factorisation of each `m` rather than a flat
+  four. It is a go-ahead signal, not a cost model.
+
 ## Record: rung 3 — the certification architecture is proved; the evaluation
 ## engine needs one more stage (2026-08-10, second session of the day)
 
@@ -58,35 +206,31 @@ problem, what conclusion is currently justified. Decisions live in
   margins are caught in Python seconds — the planner's width-model
   uncertainty is retired. The pilot (K = 8 upper box) compiles everything
   *except* the literal-value lemmas, which hit negative result #2.
-- **Negative result #3 — Taylor order 20 is too coarse, and the direction
-  is the opposite of what an earlier draft of this record guessed.**
-  `logQ n k q = k·log2I n + log1 n (q/2^k)`, so its width is dominated by
-  `k·width(log2I n) ≈ k·2^{-n}`: at `n = 20`, `k ≈ 9` that is 1.7e-5, which
-  `dirichletTermBox` amplifies by `‖s‖ ≈ 85.7` to ~6e-5 **per term**, or
-  ~2.5e-2 summed over a site (`Σ m^{-σ} ≈ 17`) — fifty times the whole
-  `ε' = 5e-4` budget, so *even the centre inequality* would fail. Lowering
-  to `n = 12` (an earlier draft's suggestion, on the theory that the budget
-  is loose) makes it 4.4e-3 per log, i.e. hopeless. The fix is `n = 40`
-  (width 1.6e-11, eleven orders for one longer rational series per term);
-  `scripts/60_rung3_generate.py` now uses it, and
-  `tests/test_rung3_mirror.py::test_log_taylor_order_20_is_too_coarse_for_the_certificate`
-  pins the whole relationship. Caught in Python seconds *before* any kernel
-  run — which is the entire point of the mirror. Note the coupling: one `n`
-  serves both the log and exp series in `dirichletTermBox`; splitting them
-  (log needs 40, exp needs ~20) is a cheap future refinement.
-- **The scoped fix (next session's first move): composite-chain term
-  evaluation.** `(mn)^{-s} = m^{-s}·n^{-s}`
-  (`Complex.mul_cpow_ofReal_nonneg`) makes every composite term one
-  interval multiplication on 64-bit-coarsened literals — one small
-  `norm_num` each — so only the ~π(5K) primes per site need exp towers,
-  staged level-by-level into bounded `norm_num` calls (powI/expSumC/expCr
-  each a literal-to-literal step), with per-`m` adaptive `kE` (7 for
-  m ≤ 20 … 10 above 403). Estimated ~25 core-hours on this container for
-  the full plan; re-planning at the mirror-exact `L` (planner's
-  conservative 16 vs literal-model ≈ 9) should cut ~35%. Then the assembly
-  file (frontier coverage by `rcases` chains + the two criterion
-  inequalities) closes
-  `theorem davenport_heilbronn : davenport_heilbronn_statement`.
+- **Negative result #3 — the log Taylor order, found here and then found
+  better elsewhere.** This session measured that `logQ`'s width
+  (`≈ k·2^{-n}`, amplified by `‖s‖ ≈ 85.7` into the term box) is what blows
+  the ε′ budget at `n = 20`, and proposed raising the single coupled
+  `TAYLOR_N`. The **fourth session's record below supersedes that**: it
+  isolated the same cause against the grid's own β values, measured the
+  threshold (`n = 28` marginal, `n = 32` shipped, margin saturating at
+  ×1.01 because the residual is the inflation radius, not the series), and
+  did the thing this record only noted as "a cheap future refinement" —
+  **split the two orders**, `dirichletTermBox2 nLog nExp`, kernel-checked.
+  Read that record, not this bullet, for the parameters. What survives here
+  is the mechanism and its test:
+  `tests/test_rung3_mirror.py::test_the_log_order_sets_the_width_and_the_exp_order_does_not`
+  pins that the log order sets the width and the exp order does not, so the
+  split cannot silently regress. An earlier draft of this record guessed
+  the budget was loose and suggested *lowering* to `n = 12` (width 4.4e-3,
+  hopeless); that guess is withdrawn.
+- **The scoped fix — also now superseded.** This record proposed
+  composite-chain term evaluation (`(mn)^{-s} = m^{-s}·n^{-s}`, towers only
+  for primes) as the next move; it is **built and kernel-checked** in the
+  record below (`contains_cpow_mul`, `contains_cpow_mul_coarsen`), measured
+  at ~3 orders cheaper and matching the tower to four significant figures.
+  `tests/test_rung3_mirror.py::test_composite_chain_agrees_with_the_tower`
+  checks the chained box against mpmath rather than against the tower it
+  replaces.
 
 ## Record: rung 3 — the steeper tail exponents are kernel-checked (2026-08-10)
 

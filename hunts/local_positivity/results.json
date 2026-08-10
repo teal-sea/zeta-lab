@@ -1,0 +1,229 @@
+{
+ "reference_table": [
+  {
+   "subject": "zeta",
+   "degree": 1,
+   "gamma_factor": "pi^{-s/2}Gamma(s/2)",
+   "max_c": 0.8284271247461844,
+   "excess": -0.1715728752538156,
+   "verdict": "PASS",
+   "expected": "PASS",
+   "witnesses": [],
+   "agrees": true
+  },
+  {
+   "subject": "L(chi quad mod 5)",
+   "degree": 1,
+   "gamma_factor": "Gamma(s/2), even chi",
+   "max_c": 0.8284271247461844,
+   "excess": -0.1715728752538156,
+   "verdict": "PASS",
+   "expected": "PASS",
+   "witnesses": [],
+   "agrees": true
+  },
+  {
+   "subject": "degree-2 Euler factor (phi=0.9)",
+   "degree": 2,
+   "gamma_factor": "genuine degree-2 control",
+   "max_c": 1.5796710859022287,
+   "excess": -0.4203289140977713,
+   "verdict": "PASS",
+   "expected": "PASS",
+   "witnesses": [],
+   "agrees": true
+  },
+  {
+   "subject": "Davenport-Heilbronn",
+   "degree": 1,
+   "gamma_factor": "(pi/5)^{-(s+1)/2}Gamma((s+1)/2)",
+   "max_c": 1.8360682541448021,
+   "excess": 0.8360682541448021,
+   "verdict": "FAIL",
+   "expected": "FAIL",
+   "witnesses": [
+    [
+     2,
+     1.8360682541448021
+    ],
+    [
+     3,
+     1.3923820214683353
+    ]
+   ],
+   "agrees": true
+  },
+  {
+   "subject": "DH-family t=0",
+   "degree": 1,
+   "gamma_factor": "same gamma factor",
+   "max_c": 1.3333333333333428,
+   "excess": 0.3333333333333428,
+   "verdict": "FAIL",
+   "expected": "FAIL",
+   "witnesses": [
+    [
+     2,
+     1.3333333333333428
+    ]
+   ],
+   "agrees": true
+  },
+  {
+   "subject": "Epstein (1,1,6) principal",
+   "degree": 2,
+   "gamma_factor": "(2pi/sqrt23)^{-s}Gamma(s)",
+   "max_c": 5.9950743518758625,
+   "excess": 3.9950743518758625,
+   "verdict": "FAIL",
+   "expected": "FAIL",
+   "witnesses": [
+    [
+     2,
+     5.9950743518758625
+    ],
+    [
+     3,
+     3.1830393774581833
+    ]
+   ],
+   "agrees": true
+  },
+  {
+   "subject": "Epstein (2,1,3) non-principal",
+   "degree": 2,
+   "gamma_factor": "(2pi/sqrt23)^{-s}Gamma(s)",
+   "max_c": 6.461868411582862,
+   "excess": 4.461868411582862,
+   "verdict": "FAIL",
+   "expected": "FAIL",
+   "witnesses": [
+    [
+     2,
+     6.461868411582862
+    ],
+    [
+     3,
+     2.0500057867134527
+    ]
+   ],
+   "agrees": true
+  }
+ ],
+ "epstein_cross_check": {
+  "tested": 35,
+  "mismatches": []
+ },
+ "lesion": {
+  "rows": [
+   {
+    "eps": 0.0,
+    "excess": -0.1715728752538156,
+    "detected": false
+   },
+   {
+    "eps": 0.01,
+    "excess": -0.16240045728904517,
+    "detected": false
+   },
+   {
+    "eps": 0.05,
+    "excess": -0.12554393971087907,
+    "detected": false
+   },
+   {
+    "eps": 0.1,
+    "excess": -0.079094459995382,
+    "detected": false
+   },
+   {
+    "eps": 0.15,
+    "excess": -0.03221864619374171,
+    "detected": false
+   },
+   {
+    "eps": 0.2,
+    "excess": 0.015089398382462038,
+    "detected": true
+   },
+   {
+    "eps": 0.4,
+    "excess": 0.2689367725962506,
+    "detected": true
+   },
+   {
+    "eps": 0.7,
+    "excess": 0.5133213180247911,
+    "detected": true
+   },
+   {
+    "eps": 1.0,
+    "excess": 0.8360682541448021,
+    "detected": true
+   }
+  ],
+  "eps_star": 0.1841018918280497,
+  "kappa": 0.28407904384041227
+ },
+ "null": {
+  "median": 5.881092757081788,
+  "p05": 0.7444949199285268,
+  "p95": 28702581221468.203,
+  "fraction_failing": 1.0,
+  "dh_excess": 0.8360682541448021,
+  "dh_percentile": 6.333333333333334
+ },
+ "ramanujan_boundary": {
+  "alpha": 2.3,
+  "p": 5,
+  "c_p": 65.24381124323806,
+  "degree": 2,
+  "verdict": "FAIL",
+  "sqrt_p": 2.23606797749979,
+  "note": "genuine Euler product; rejected because |alpha| > sqrt(p) is allowed in the Selberg class"
+ },
+ "zeta_closed_form": {
+  "2": [
+   0.8284271247461844,
+   0.8284271247461902
+  ],
+  "3": [
+   0.7320508075688841,
+   0.7320508075688773
+  ],
+  "5": [
+   0.6180339887498979,
+   0.6180339887498948
+  ],
+  "7": [
+   0.5485837703548616,
+   0.5485837703548635
+  ],
+  "97": [
+   0.18435120420408574,
+   0.18435120420408552
+  ]
+ },
+ "max_truncation_tail": 3.4308038186354335e-14,
+ "satake_identity": {
+  "series": 2.7203325546805037,
+  "closed_form": 2.7203325546805086
+ },
+ "scope": {
+  "is": "an exact local criterion: c_p <= d at p is equivalent to the Selberg-class bound |alpha_j| <= sqrt(p) at p, and the place-p kernel is then a manifest norm.",
+  "is_not": [
+   "evidence for RH (docs/08); nothing computed here could be",
+   "a test for 'has an Euler product' \u2014 see ramanujan_violator()",
+   "a global positivity statement: Q_p - ||f||^2 is not of definite sign, so the local norms do not assemble into a global one"
+  ],
+  "pass_means": "no violation above the measured blindness threshold at the tested places; see lesion_sweep()['eps_star']",
+  "requirement_C_status": "achieved locally (Q_p = (1-1/p)||Phi_p f||^2, a norm at every place) and NOT globally \u2014 which is exactly where docs/09 \u00a75.1 predicts an attempt bleeds"
+ },
+ "provenance": {
+  "inputs": "a_{p^k} only (local Dirichlet coefficients)",
+  "zeros_used": false,
+  "xi_phases_used": false,
+  "zero_counting_used": false,
+  "note": "c_p is a functional of the coefficient sequence alone. By docs/18 \u00a76 no such functional can read the position of the critical line: zeta(s-delta) has the same coefficients up to a shift and its zeros lie nowhere near Re s = 1/2."
+ }
+}

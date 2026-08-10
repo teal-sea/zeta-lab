@@ -373,6 +373,63 @@ theorem contains_dirichletTermBox {n p kL kE : ℕ} (hn : 0 < n) {m : ℕ} (hm :
     , mul_comm]]
   exact hexp
 
+/-! ### Separating the two Taylor orders
+
+`dirichletTermBox` uses one order `n` for both series it runs: the logarithm
+`Interval.logQ n kL m` and the exponential `expCr n p kE`.  Measured on plan v2's
+worst grid site, that coupling is what makes the plan infeasible, and the two
+orders want opposite things:
+
+* The **width** is set almost entirely by the log.  `logRem n q ≈ q^{n+1}/(1-q)`
+  with `q ≤ 1/2`, so at `n = 20` the log carries width `7.6e-6`, which `|s| ≈ 86`
+  amplifies to `6.6e-4` and the squaring tower to `3.0e-3`.  Multiplied over the
+  `5K` terms of one site that is a box width of `1.5` against a `β` of `0.038` —
+  infeasible by a factor of 30, before any Lean is generated.  Raising `kE` or
+  the coarsening precision does not touch it: at `kE = 18` and `p = 128` the
+  final width is still `3.0e-3`.  Raising the log order does: `n = 28` gives
+  `3.0e-8` and `n = 32` gives `1.9e-9`.
+* The **literal size** is set almost entirely by the exponential.  `expSmall`
+  forms `powI x i` up to `i = n`, so `n` multiplies the endpoint bit-width by
+  `n`; that is where the "multi-thousand-bit rationals" that defeated one-shot
+  `norm_num` evaluation come from.  The log's own endpoints are small and stay
+  small — order 20 to 32 takes them from 91 to 158 bits.
+
+So the orders are split.  `nLog` is raised until the width fits; `nExp` stays
+small so the generated literals stay evaluable.  Nothing else changes: the two
+series are independent and the containment proof is the same argument. -/
+
+/-- `dirichletTermBox` with the logarithm's Taylor order separated from the
+exponential's.  `dirichletTermBox n p kL kE m S` is the `nLog = nExp = n` case. -/
+def dirichletTermBox2 (nLog nExp p kL kE : ℕ) (m : ℕ) (S : ComplexInterval) :
+    ComplexInterval :=
+  expCr nExp p kE (S.neg.mul { re := Interval.logQ nLog kL (m : ℚ), im := Interval.exact 0 })
+
+theorem contains_dirichletTermBox2 {nLog nExp p kL kE : ℕ} (hnL : 0 < nLog)
+    (hnE : 0 < nExp) {m : ℕ} (hm : 0 < m) {S : ComplexInterval} {s : ℂ}
+    (hS : S.contains s) (h0 : 0 < (m : ℚ) / 2 ^ kL) (h2 : (m : ℚ) / 2 ^ kL < 2)
+    (hb : normBound (S.neg.mul
+      { re := Interval.logQ nLog kL (m : ℚ), im := Interval.exact 0 }) ≤ 2 ^ kE) :
+    (dirichletTermBox2 nLog nExp p kL kE m S).contains ((m : ℂ) ^ (-s)) := by
+  have hlogQ := Interval.contains_logQ (n := nLog) (k := kL) (q := (m : ℚ)) h0 h2
+  rw [show (((m : ℚ) : ℝ)) = ((m : ℕ) : ℝ) by push_cast; rfl] at hlogQ
+  have hL : ({ re := Interval.logQ nLog kL (m : ℚ), im := Interval.exact 0 } :
+      ComplexInterval).contains ((Real.log m : ℝ) : ℂ) := by
+    constructor
+    · rw [Complex.ofReal_re]; exact hlogQ
+    · rw [Complex.ofReal_im]; norm_num [Interval.contains, Interval.exact]
+  have hexp := contains_expCr nExp p hnE kE _ _ (contains_mul (contains_neg hS) hL) hb
+  have hm0 : ((m : ℕ) : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr hm.ne'
+  rw [show ((m : ℂ) ^ (-s)) = Complex.exp (-s * ((Real.log m : ℝ) : ℂ)) by
+    rw [Complex.cpow_def_of_ne_zero hm0,
+      show Complex.log ((m : ℕ) : ℂ) = ((Real.log m : ℝ) : ℂ) by
+        rw [show ((m : ℕ) : ℂ) = (((m : ℕ) : ℝ) : ℂ) by push_cast; rfl,
+          Complex.ofReal_log (by positivity : (0 : ℝ) ≤ ((m : ℕ) : ℝ))]
+    , mul_comm]]
+  exact hexp
+
+theorem dirichletTermBox2_self (n p kL kE m : ℕ) (S : ComplexInterval) :
+    dirichletTermBox2 n n p kL kE m S = dirichletTermBox n p kL kE m S := rfl
+
 /-! ### Reading a norm lower bound off a computed box -/
 
 /-- The distance from `0` to an interval — `0` when the interval straddles
