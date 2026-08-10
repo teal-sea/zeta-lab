@@ -113,9 +113,14 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 ## The certified arm (`lean/`)
 
 - Lean 4 + Mathlib package `ZetaLean`: theorems kernel-checked, never
-  measured; zero `sorry`s required to count. Rung 1 (ground-truth values and
-  the zero-free half-plane) is done; the ladder toward the Davenport–Heilbronn
-  theorem is in `ROADMAP.md` and `HANDOFF.md`. Build: `cd lean && lake build`.
+  measured; zero `sorry`s required to count. Rungs 1 (ground-truth values and
+  the zero-free half-plane) and 2 (the κ derivation) are done; rung 3, the
+  Davenport–Heilbronn theorem, is mathematics-complete — analytic half,
+  square-contour minimum-modulus criterion, certified interval `exp`/`log`
+  and complex `exp`, `n^{-s}` enclosures, the tail bound that continues the
+  DH series, and a worked instance (`DH(3/2 + 3i) ≠ 0`, the first certified
+  fact about a DH value). What is left is compute, priced in `HANDOFF.md`.
+  Build: `cd lean && lake build`.
 
 ## Optional
 

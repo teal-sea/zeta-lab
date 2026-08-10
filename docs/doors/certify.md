@@ -62,7 +62,7 @@ hidden.
 |---|---|
 | 1 (done) | the lab's ground-truth facts wired to their Mathlib proofs |
 | 2 (done) | the κ derivation behind the Davenport–Heilbronn counterexample |
-| 3 (analytic half done) | Davenport–Heilbronn itself — that zeta-shaped symmetry alone cannot give RH |
+| 3 (mathematics done; compute outstanding) | Davenport–Heilbronn itself — that zeta-shaped symmetry alone cannot give RH |
 
 Rung 3's analytic half is kernel-checked in `ZetaLean/DHAnalytic.lean`: the
 DH function built from the quartic character mod 5, entire, summing the
@@ -77,17 +77,42 @@ could fake the off-line zero); both defects are fixed in
 
 The topological step is also closed: `ZetaLean/DHZeroCriterion.lean` proves
 a minimum-modulus criterion (maximum modulus applied to `1/f` — no argument
-principle needed) and instantiates it on the radius-`1/10` disk around the
-oracle zero `0.808517 + 85.699348i`, so that
-`davenport_heilbronn_of_certified_disk` derives the **full**
-`davenport_heilbronn_statement` from exactly two interval inequalities:
-`‖DH‖ < 1/100` at the centre, `‖DH‖ ≥ 1/100` on the boundary sphere. The
-oracle says both hold with tenfold margin (`‖DH‖ ≈ 6.5e-7` at the centre,
-boundary minimum `≈ 0.121`). What remains of rung 3 is the numeric half —
-discharging those two hypotheses by certified interval evaluation of `DH`
-inside the kernel, which needs certified complex `exp`/`log` and
-Hurwitz-zeta continuation that `ZetaLean/Rigor.lean` does not yet have
-(`ZetaLean/OracleDH.lean` holds the oracle data, still uncertified).
+principle needed), generalises it from a disk to the frontier of any bounded
+open set, and specialises that to an axis-aligned square kept right of the
+critical line, so that `davenport_heilbronn_of_certified_square` derives the
+**full** `davenport_heilbronn_statement` from two interval inequalities:
+`‖DH‖` small at the centre, `‖DH‖` bounded below on the four boundary
+segments. A square rather than a circle because rectangle arithmetic covers
+segments without slack.
+
+**The numeric half is now mathematics-complete.** What the earlier version of
+this page listed as missing has been built, all kernel-checked with zero
+`sorry`s:
+
+| piece | file |
+|---|---|
+| certified `exp`/`log` on rational intervals, any positive rational | `IntervalExp.lean` |
+| certified complex `exp` (so certified `sin`/`cos` come free), outward dyadic rounding | `IntervalCExp.lean` |
+| `n^{-s}` tied to a computed box — the oracle gap, closed | `IntervalCExp.lean` |
+| the tail bound: DH's analytic continuation as a finite sum plus explicit error | `DHTailBound.lean` |
+| assembly: partial box + tail radius ⟹ encloses `DH s`; the κ interval | `DHAssembly.lean` |
+| a worked instance: `DH(3/2 + 3i) ≠ 0` | `DHDemo.lean` |
+
+That last one is the first kernel-certified fact about a *value* of the
+Davenport–Heilbronn function, produced with no oracle input anywhere.
+`ZetaLean/OracleDH.lean`'s per-term data is now redundant in principle.
+
+What remains is **compute, not mathematics**, and it is priced rather than
+guessed. The certification target is forced: `t ≈ 85.699` is the lowest
+off-line zero, pinned by a standing test
+(`tests/test_epstein.py::test_no_offline_zero_below_the_pinned_one`), and
+the cost scales like `‖s‖^2.2`, so no cheaper zero exists to aim at.
+Instantiating the square directly costs ~230 days of single-core kernel
+time at measured rates. The fix is a steeper tail exponent — comparing the
+block sum to its integral, whose first stone (`DHTailBound2.lean`) is the
+rectangle rule, with the trapezoid refinement bringing the modelled cost to
+about a day. Neither step needs Bernoulli numbers or general
+Euler–Maclaurin, and Mathlib has neither.
 
 The ladder and the next rung live in `HANDOFF.md`;
 `references/mathlib-open-targets.md` tracks what Mathlib itself records as
