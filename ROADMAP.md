@@ -978,7 +978,7 @@ cached Mathlib toolchain.
 - **Rung 3 (the prize):** the Davenport–Heilbronn theorem — a Dirichlet
   series with functional equation, real coefficients, and an off-line zero
   exists. Puts gate 3 (`docs/09`) into the certified library. 
-  **Status**: Phase A (Structural) is complete with rigorous definitions and theorem statement in `DavenportHeilbronn.lean`. Phase B (Computational) is pending, requiring certified interval evaluation of Dirichlet series in Lean; `zeta/rigor.py` is the working blueprint, and `BoundedComplex` API stubs have been placed in `DirichletEval.lean`.
+  **Status**: Phase A (Structural) is complete with rigorous definitions and theorem statement in `DavenportHeilbronn.lean`; the analytic half and the minimum-modulus reduction are kernel-checked (`DHAnalytic.lean`, `DHZeroCriterion.lean`), leaving exactly two interval inequalities about `DH` on a disk. Phase B (Computational) is partly built: certified real `exp`/`log` for any positive rational (`IntervalExp.lean`), certified complex `exp` with kernel-checked digits of `cos`/`sin` falling out (`IntervalCExp.lean`), and `contains_dirichletTerm` tying each term `n^{-s}` to a computed rational box with no oracle input. Open: a certified tail bound for the analytic continuation (the series does not converge absolutely at `Re s ≈ 0.808` — the Hurwitz-zeta route or the functional equation), and assembling the two disk inequalities from term enclosures.
 
 Why this is in scope: it certifies the literature and the lab's reference
 points. It is not an attempt on RH, and the deliberate-non-goal above stands.

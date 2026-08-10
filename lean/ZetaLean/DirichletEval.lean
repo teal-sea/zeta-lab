@@ -15,13 +15,17 @@ contains its term, the folded sum encloses the partial sum
 (`ComplexInterval.contains_sumList`), by induction from the soundness lemmas
 in `ZetaLean/Rigor.lean`.
 
-What this deliberately does **not** yet provide (the open mountain of Rung 3
-Phase B): a kernel-checked bound tying `n^{-s} = exp(-s log n)` to the
-oracle's enclosure — i.e. certified `exp`/`log` evaluation inside Lean, e.g.
-via `Complex.exp_bound` — and a tail bound for the analytic continuation
-(the raw series does not converge absolutely at the off-line zero,
-`Re s ≈ 0.808`). Until those exist, the oracle's numbers are inputs, not
-theorems, exactly as `rigor.py` labels its own uncertified steps.
+The kernel-checked bound tying `n^{-s} = exp(-s log n)` to a computed
+enclosure now exists: `ZetaLean/IntervalCExp.lean`'s
+`ComplexInterval.contains_dirichletTerm` composes certified `log`
+(`Interval.logQ`) and certified complex `exp` (`Complex.exp_bound` through
+`ComplexInterval.expC`), so individual term enclosures no longer need the
+oracle at all.  What remains open of Rung 3 Phase B: the tail bound for the
+analytic continuation (the raw series does not converge absolutely at the
+off-line zero, `Re s ≈ 0.808`) and the assembly of the two disk inequalities
+of `davenport_heilbronn_of_certified_disk`.  Until those exist, any number
+about `DH` itself is still an oracle's, exactly as `rigor.py` labels its own
+uncertified steps.
 -/
 
 namespace ZetaLean.ComplexInterval

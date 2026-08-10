@@ -7,6 +7,28 @@ problem, what conclusion is currently justified. Decisions live in
 
 ---
 
+## Record: rung 3 Phase B — the term enclosure is kernel-checked (2026-08-10)
+
+- **Built, zero sorrys:** `Interval.logQ` (log of any positive rational by
+  the binary reduction `IntervalExp.lean` had promised; kernel-checked
+  digits of `log 10`), then `IntervalCExp.lean`: `ComplexInterval` Taylor
+  sums, remainder inflation from Mathlib's `Complex.exp_bound`, `expC` by
+  halving-and-squaring, and `contains_dirichletTerm` — a computed rational
+  box provably containing `(m : ℂ)^(-s)` with **no oracle input**. Smoke
+  tests kernel-check digits of `cos 1`, `sin 1`, `cos 2` through the complex
+  pipeline (`exp(it)` gives sin/cos free; no trigonometric development was
+  needed, and none should be added).
+- **Design notes worth keeping:** simp rewrites `((Real.log m : ℝ) : ℂ)`
+  to `Complex.log m` behind you (`ofReal_log` is simp with a positivity
+  side-goal) — use explicit `rw` when the `ofReal` form matters. And state
+  inflation bounds with `|(r : ℝ)|`, not `((|r| : ℚ) : ℝ)`, or `push_cast`
+  normalizes the goal away from the hypotheses.
+- **Still open (the honest remainder of Phase B):** the certified tail
+  bound for the analytic continuation past `Re s ≈ 0.808`, and assembling
+  `davenport_heilbronn_of_certified_disk`'s two inequalities from term
+  enclosures. `OracleDH.lean`'s per-term bounds are now redundant in
+  principle; they stay until the assembly replaces them.
+
 ## Record: full-repo audit on a fresh clone (2026-08-10)
 
 - **Setup verified end to end:** venv from `requirements.txt`,
