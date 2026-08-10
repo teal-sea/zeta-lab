@@ -1,3 +1,8 @@
+/-
+Copyright (c) 2026 Thomas Lince. All rights reserved.
+Released under MIT license as described in the file LICENSE.
+Authors: Thomas Lince
+-/
 import Mathlib
 import ZetaLean.DavenportHeilbronn
 import ZetaLean.DHAnalytic
@@ -112,5 +117,96 @@ theorem davenport_heilbronn_of_certified_disk
   rw [hcre, show (808517 / 1000000 : ℝ) - 1 / 2 = 308517 / 1000000 by norm_num,
     abs_of_pos (by norm_num : (0:ℝ) < 308517 / 1000000)]
   norm_num
+
+/-! ### The square-contour variant
+
+The sphere of `davenport_heilbronn_of_certified_disk` is the natural
+statement, but a circle is an awkward object for rectangle arithmetic to
+cover.  The same minimum-modulus argument works verbatim for **any** bounded
+open set, and for an axis-aligned open square the frontier is four segments —
+exactly the sets that boxed-`s` interval evaluation covers without slack.
+Assembly should discharge `davenport_heilbronn_of_certified_square`, not the
+disk version. -/
+
+/-- **Minimum-modulus criterion, general boundary version.**  If entire `f`
+has smaller norm at a point of a bounded open `U` than anywhere on
+`frontier U`, it has a zero in `closure U`.  The proof is the ball version's
+proof; the ball was never needed. -/
+theorem exists_zero_of_norm_lt_on_frontier {f : ℂ → ℂ} (hf : Differentiable ℂ f)
+    {U : Set ℂ} (hUb : Bornology.IsBounded U) (hUo : IsOpen U)
+    {c : ℂ} (hc : c ∈ U) {ε : ℝ}
+    (h1 : ‖f c‖ < ε) (h2 : ∀ z ∈ frontier U, ε ≤ ‖f z‖) :
+    ∃ z ∈ closure U, f z = 0 := by
+  by_contra hno
+  push_neg at hno
+  have hε : 0 < ε := lt_of_le_of_lt (norm_nonneg _) h1
+  have hd : DiffContOnCl ℂ (fun z => (f z)⁻¹) U := by
+    refine ⟨hf.differentiableOn.inv fun z hz => hno z (subset_closure hz), ?_⟩
+    exact hf.continuous.continuousOn.inv₀ fun z hz => hno z hz
+  have hfr : ∀ z ∈ frontier U, ‖(f z)⁻¹‖ ≤ ε⁻¹ := by
+    intro z hz
+    rw [norm_inv]
+    exact inv_anti₀ hε (h2 z hz)
+  have hcm : c ∈ closure U := subset_closure hc
+  have hmax := Complex.norm_le_of_forall_mem_frontier_norm_le hUb hd hfr hcm
+  rw [norm_inv] at hmax
+  have h0 : 0 < ‖f c‖ := norm_pos_iff.mpr (hno c hcm)
+  exact absurd h1 (not_lt.mpr ((inv_le_inv₀ h0 hε).mp hmax))
+
+/-- The open axis-aligned square with rational centre `cre + i·cim` and
+half-width `w`. -/
+def dhSquare (cre cim w : ℚ) : Set ℂ :=
+  Set.Ioo (((cre - w : ℚ) : ℝ)) (((cre + w : ℚ) : ℝ)) ×ℂ
+    Set.Ioo (((cim - w : ℚ) : ℝ)) (((cim + w : ℚ) : ℝ))
+
+/-- The square's frontier is its four boundary segments — the sets that
+boxed-`s` interval evaluation covers without slack. -/
+lemma frontier_dhSquare {cre cim w : ℚ} (hw : 0 < w) :
+    frontier (dhSquare cre cim w) =
+      Set.Icc (((cre - w : ℚ) : ℝ)) (((cre + w : ℚ) : ℝ)) ×ℂ
+          ({((cim - w : ℚ) : ℝ), ((cim + w : ℚ) : ℝ)} : Set ℝ)
+        ∪ ({((cre - w : ℚ) : ℝ), ((cre + w : ℚ) : ℝ)} : Set ℝ) ×ℂ
+          Set.Icc (((cim - w : ℚ) : ℝ)) (((cim + w : ℚ) : ℝ)) := by
+  have hw' : (0 : ℝ) < (w : ℝ) := by exact_mod_cast hw
+  have hre : (((cre - w : ℚ) : ℝ)) < (((cre + w : ℚ) : ℝ)) := by
+    push_cast; linarith
+  have him : (((cim - w : ℚ) : ℝ)) < (((cim + w : ℚ) : ℝ)) := by
+    push_cast; linarith
+  rw [dhSquare, Complex.frontier_reProdIm, closure_Ioo hre.ne, closure_Ioo him.ne,
+    frontier_Ioo hre, frontier_Ioo him]
+
+/-- The square criterion for `DH`: a square kept strictly right of the
+critical line, `DH` small at the centre and bounded below on the four
+boundary segments, imply the full Davenport-Heilbronn statement. -/
+theorem davenport_heilbronn_of_certified_square {cre cim w ε' : ℚ}
+    (hw : 0 < w) (hline : 1 / 2 < cre - w)
+    (h1 : ‖DH ⟨(cre : ℝ), (cim : ℝ)⟩‖ < (ε' : ℝ))
+    (h2 : ∀ z ∈ frontier (dhSquare cre cim w), (ε' : ℝ) ≤ ‖DH z‖) :
+    davenport_heilbronn_statement := by
+  have hw' : (0 : ℝ) < (w : ℝ) := by exact_mod_cast hw
+  have hre : (((cre - w : ℚ) : ℝ)) < (((cre + w : ℚ) : ℝ)) := by
+    push_cast; linarith
+  have him : (((cim - w : ℚ) : ℝ)) < (((cim + w : ℚ) : ℝ)) := by
+    push_cast; linarith
+  have hUo : IsOpen (dhSquare cre cim w) := IsOpen.reProdIm isOpen_Ioo isOpen_Ioo
+  have hUb : Bornology.IsBounded (dhSquare cre cim w) :=
+    (Metric.isBounded_Ioo _ _).reProdIm (Metric.isBounded_Ioo _ _)
+  have hc : (⟨(cre : ℝ), (cim : ℝ)⟩ : ℂ) ∈ dhSquare cre cim w := by
+    rw [dhSquare, Complex.mem_reProdIm]
+    constructor <;> constructor <;> · show _ < _; push_cast; linarith
+  obtain ⟨z, hz, hz0⟩ := exists_zero_of_norm_lt_on_frontier DH_differentiable
+    hUb hUo hc h1 h2
+  refine ⟨DH, z, DH_differentiable, DH_series_rep, DH_functional_eq, hz0, ?_⟩
+  have hzre : z.re ∈ Set.Icc (((cre - w : ℚ) : ℝ)) (((cre + w : ℚ) : ℝ)) := by
+    rw [dhSquare, Complex.closure_reProdIm, closure_Ioo hre.ne,
+      closure_Ioo him.ne, Complex.mem_reProdIm] at hz
+    exact hz.1
+  intro hhalf
+  have h3 : (1 / 2 : ℝ) < (((cre - w : ℚ) : ℝ)) := by
+    have h := (Rat.cast_lt (K := ℝ)).mpr hline
+    push_cast at h ⊢
+    linarith
+  rw [hhalf] at hzre
+  exact absurd hzre.1 (not_le.mpr h3)
 
 end ZetaLean.DH

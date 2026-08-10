@@ -233,6 +233,33 @@ theorem contains_log2I (n : ℕ) : (log2I n).contains (Real.log 2) := by
     rw [← Real.log_inv]; norm_num] at h2
   exact h2
 
+/-! ### `log` of any positive rational -/
+
+/-- Certified `log q` for a positive rational, by the binary reduction the
+module docstring promised: `log q = k·log 2 + log (q / 2^k)`, with the second
+summand landed in the domain of `log1`.  The caller picks `k`;
+`contains_logQ` demands exactly the side conditions that make the choice
+correct, and both are `norm_num`-decidable at any concrete call site. -/
+def logQ (n k : ℕ) (q : ℚ) : Interval :=
+  ((Interval.exact (k : ℚ)).mul (log2I n)).add (log1 n (Interval.exact (q / 2 ^ k)))
+
+theorem contains_logQ {n k : ℕ} {q : ℚ} (h0 : 0 < q / 2 ^ k) (h2 : q / 2 ^ k < 2) :
+    (logQ n k q).contains (Real.log q) := by
+  have h2k : (0 : ℚ) < 2 ^ k := by positivity
+  have hq0 : (0 : ℚ) < q := by
+    have := mul_pos h0 h2k
+    rwa [div_mul_cancel₀ _ h2k.ne'] at this
+  have hid : Real.log q = (k : ℝ) * Real.log 2 + Real.log ((q : ℝ) / 2 ^ k) := by
+    rw [Real.log_div (by exact_mod_cast hq0.ne') (by positivity), Real.log_pow]
+    ring
+  have hA := Interval.contains_mul (Interval.contains_exact (k : ℚ)) (contains_log2I n)
+  have hB := contains_log1 (n := n) (Interval.contains_exact (q / 2 ^ k)) h0 h2
+  have hC := Interval.contains_add hA hB
+  have hcast : ((q / 2 ^ k : ℚ) : ℝ) = (q : ℝ) / 2 ^ k := by push_cast; ring
+  rw [hcast] at hC
+  rw [hid, show ((k : ℝ)) = (((k : ℚ) : ℝ)) by push_cast; rfl]
+  exact hC
+
 /-! ### Smoke tests: kernel-checked digits of `e` and `log 2`
 
 These are the end-to-end proof that the pipeline computes: the same
@@ -273,5 +300,19 @@ theorem log_two_lt : Real.log 2 < (0.6932 : ℝ) := by
   refine lt_of_le_of_lt h2 ?_
   norm_num [log2I, log1, Interval.exact, Interval.neg, logSum, logRem,
     Finset.sum_range_succ]
+
+theorem log_ten_gt : (2.30257 : ℝ) < Real.log 10 := by
+  obtain ⟨h1, -⟩ := contains_logQ (n := 20) (k := 3) (q := 10)
+    (by norm_num) (by norm_num)
+  refine lt_of_lt_of_le ?_ h1
+  norm_num [logQ, log2I, log1, Interval.exact, Interval.neg, Interval.mul,
+    Interval.add, logSum, logRem, Finset.sum_range_succ]
+
+theorem log_ten_lt : Real.log 10 < (2.30259 : ℝ) := by
+  obtain ⟨-, h2⟩ := contains_logQ (n := 20) (k := 3) (q := 10)
+    (by norm_num) (by norm_num)
+  refine lt_of_le_of_lt h2 ?_
+  norm_num [logQ, log2I, log1, Interval.exact, Interval.neg, Interval.mul,
+    Interval.add, logSum, logRem, Finset.sum_range_succ]
 
 end ZetaLean.Interval

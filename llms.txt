@@ -41,7 +41,7 @@ constant, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 - [docs/06-hilbert-polya-and-gue.md](docs/06-hilbert-polya-and-gue.md): the spectral dream and random-matrix statistics.
 - [docs/07-equivalences-and-criteria.md](docs/07-equivalences-and-criteria.md): statements equivalent to RH.
 - [docs/08-why-it-is-hard.md](docs/08-why-it-is-hard.md): what each known technique provably cannot do.
-- [docs/08-detector-strength-findings.md](docs/08-detector-strength-findings.md): how much a detector can actually see — power, measured.
+- [docs/22-detector-strength-findings.md](docs/22-detector-strength-findings.md): how much a detector can actually see — power, measured.
 - [docs/09-new-ontologies.md](docs/09-new-ontologies.md): what "RH needs new mathematics" means.
 - [docs/10-trace-formulas-and-connes.md](docs/10-trace-formulas-and-connes.md): explicit formula as a trace formula.
 - [docs/11-f1-and-the-missing-geometry.md](docs/11-f1-and-the-missing-geometry.md): the field with one element; Deninger.

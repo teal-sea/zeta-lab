@@ -3,10 +3,155 @@
 Concise records: what was believed, what invalidated it, what now catches the
 problem, what conclusion is currently justified. Decisions live in
 `ROADMAP.md`; this file is the between-session state. Last snapshot:
-2026-08-07 (addenda through 2026-08-09). `git log` is newer than this file
-for the Lean arm; trust the commits.
+2026-08-10.
 
 ---
+
+## Record: rung 3 — the pipeline demonstrated end to end (2026-08-10)
+
+- **Built, zero sorrys (`DHDemo.lean`):** `DH_demo_enclosure` — a computed
+  rational rectangle, inflated by the certified tail radius `2/5`,
+  kernel-checked to contain `DH(3/2 + 3i)` — and `DH_demo_ne_zero`: the
+  box excludes the origin, so `DH(3/2 + 3i) ≠ 0`. The first
+  kernel-certified facts about a *value* of the Davenport–Heilbronn
+  function, with no oracle input anywhere: κ coefficient boxes from
+  `kappaI`, term boxes from `dirichletTermBox`, ten containment steps,
+  `DH_mem_of_partial_enclosure`, `normLower_le_norm`.
+- **Rung 3's honest state:** the mathematics is complete and the
+  instantiation template is proven. What separates this from
+  `davenport_heilbronn_statement` is scale alone: the same pipeline at the
+  oracle point `0.808517 + 85.699348i` (via
+  `davenport_heilbronn_of_certified_square`, centre plus four boundary
+  segments subdivided) needs the offline kernel compute priced in the
+  previous record — weeks single-core at measured `norm_num` rates — or a
+  faster certified evaluation (Euler–Maclaurin with explicit remainder for
+  `(x+a)^{-s}`, a formalization project of its own) to cut `K` from ~10⁴·5
+  to ~10². Neither fits a session; both are now *engineering*, with every
+  theorem they need already kernel-checked. The runbook: pick `w = 1/10`
+  square, `ε' = 1/100`; centre via `DH_mem_of_partial_enclosure` with
+  `K ≈ 11300`; each boundary segment split until per-box
+  `normLower` clears `ε'` (oracle cross-check says min `‖DH‖ ≈ 0.121`, so
+  ~tens of boxes suffice if the enclosure width stays ≪ 0.1, which needs
+  the higher log Taylor order noted in the scale record).
+
+## Record: rung 3 assembly — machinery built, scale measured (2026-08-10)
+
+- **Built, zero sorrys:** `DHAssembly.lean` (`DH_mem_of_partial_enclosure` —
+  the K-generic partial-box-plus-tail-radius enclosure theorem; `Interval.inv'`;
+  `contains_sqrt_of_sq`; `kappaI`: κ ∈ [0.2840788, 0.2840794] kernel-checked);
+  the square-contour criterion (`davenport_heilbronn_of_certified_square`,
+  `frontier_dhSquare` — four segments, coverable by boxes, replacing the
+  sphere); boxed-`s` term enclosures (`dirichletTermBox`); norm lower bounds
+  read off boxes (`normLower_le_norm`); and `Interval.coarsen` — outward
+  dyadic rounding, the primitive Arb has and the exact layer lacked.
+- **Measured, so nobody re-learns it:** (1) without `coarsen`, one term at
+  the oracle point has 562,971-bit endpoints (squaring doubles digits;
+  eight squarings); with `p = 64` coarsening, 61 bits and instant. (2)
+  `decide` cannot evaluate ℚ arithmetic under Mathlib **at all** — even
+  `1/3 * (1/7) ≤ 1` sticks in the instance chain; the evaluation route for
+  instantiations is simp-unfold + `norm_num`, which the smoke tests already
+  prove out. (3) `norm_num` costs ~5 s per tame term, so the oracle-point
+  center inequality (~56k terms at Taylor-20/kE-10) is roughly two weeks of
+  single-core kernel compute, the boundary several times that: an offline
+  compute project, not a session task. Parameter discipline for that run:
+  `kL = ⌊log2 m⌋ + 1` per term (a fixed `kL` sends small-`m` log series
+  far from convergence), `kE = 10` covers all `m ≤ 10^5`
+  (`kE = 8` silently overflows at `m ≥ 20` — the definition computes
+  garbage exactly where the theorem's hypothesis refuses to apply, which
+  is the interval discipline working).
+- **Next stone:** an end-to-end tame-point demo — kernel-certify
+  `DH(3/2 + 3i) ∈ box` through the whole pipeline (coefficient boxes from
+  `kappaI`, term boxes, `sumList`, tail radius, assembly theorem): the
+  first certified enclosure of a Davenport–Heilbronn value, and the
+  template the offline run scales up.
+
+## Record: rung 3 Phase B — the tail bound is kernel-checked (2026-08-10)
+
+- **Built, zero sorrys (`DHTailBound.lean`):** the analytic continuation of
+  the DH series, as computation. The route deliberately avoids
+  measure-theoretic integrals in the estimates: (1) a two-point bound
+  `‖b^{-s} − a^{-s}‖ ≤ ‖s‖·a^{-σ-1}·(b−a)` from Mathlib's convex mean value
+  inequality on `t ↦ (t:ℂ)^{-s}`; (2) the series regrouped into five-term
+  blocks whose coefficients `(0, 1, κ, −κ, −1)` pair into two differences,
+  so each block obeys a `(3+κ)`-constant bound and the block series
+  converges *absolutely* on `Re s > 0`; (3) blocks sum to `DH` for
+  `Re s > 1` by `Nat.divModEquiv`-regrouping, and on all of `Re s > 0` by
+  Weierstrass (`differentiableOn_tsum_of_summable_norm`, localized to
+  balls) plus the identity theorem; (4) `DH_tail_bound`: the explicit
+  error `(3+κ)·‖s‖·5^{-σ-1}·(K−1)^{-σ}/σ` for the `5K`-term partial sum,
+  tail summed by the integral test. With `contains_dirichletTerm` this
+  makes `DH` at any strip point a finite computation plus an explicit
+  error — the mathematics gap of Phase B is closed; only assembly remains.
+- **Honest scale note, recorded so nobody wastes a session:** at the oracle
+  point (`σ ≈ 0.808`, `‖s‖ ≈ 85.7`) the bound needs `K ~ 5·10⁵` blocks for
+  1e-3 accuracy. Direct kernel summation at that scale is not realistic;
+  the assembly step should either formalize a faster certified evaluation
+  (Euler–Maclaurin remainder, or the smoothed series) or budget a very
+  long offline kernel run. The tail bound itself is scale-independent.
+- **Proof-engineering notes:** Mathlib's `Nat.mul_add_mod` wants `m*x+y`,
+  not `x*m+y` — commute first. `tsum_le_tsum` is now protected
+  (`Summable.tsum_le_tsum`), and the range-split lemma is the primed
+  `Summable.sum_add_tsum_nat_add'` with *shifted* summability. An
+  off-by-one in a shift constant (`k+1+(K−2) ≠ k+K`) was caught by omega
+  refusing the goal — when omega balks at "obvious" index arithmetic,
+  recheck the arithmetic before blaming omega.
+
+## Record: rung 3 Phase B — the term enclosure is kernel-checked (2026-08-10)
+
+- **Built, zero sorrys:** `Interval.logQ` (log of any positive rational by
+  the binary reduction `IntervalExp.lean` had promised; kernel-checked
+  digits of `log 10`), then `IntervalCExp.lean`: `ComplexInterval` Taylor
+  sums, remainder inflation from Mathlib's `Complex.exp_bound`, `expC` by
+  halving-and-squaring, and `contains_dirichletTerm` — a computed rational
+  box provably containing `(m : ℂ)^(-s)` with **no oracle input**. Smoke
+  tests kernel-check digits of `cos 1`, `sin 1`, `cos 2` through the complex
+  pipeline (`exp(it)` gives sin/cos free; no trigonometric development was
+  needed, and none should be added).
+- **Design notes worth keeping:** simp rewrites `((Real.log m : ℝ) : ℂ)`
+  to `Complex.log m` behind you (`ofReal_log` is simp with a positivity
+  side-goal) — use explicit `rw` when the `ofReal` form matters. And state
+  inflation bounds with `|(r : ℝ)|`, not `((|r| : ℚ) : ℝ)`, or `push_cast`
+  normalizes the goal away from the hypotheses.
+- **Still open (the honest remainder of Phase B):** the certified tail
+  bound for the analytic continuation past `Re s ≈ 0.808`, and assembling
+  `davenport_heilbronn_of_certified_disk`'s two inequalities from term
+  enclosures. `OracleDH.lean`'s per-term bounds are now redundant in
+  principle; they stay until the assembly replaces them.
+
+## Record: full-repo audit on a fresh clone (2026-08-10)
+
+- **Setup verified end to end:** venv from `requirements.txt`,
+  `rigor.BACKEND == python-flint` with both backends present (so the
+  two-backend cross-check genuinely ran), full suite executed, and the Lean
+  arm kernel-checked from nothing (elan + Mathlib cache + `lake build`,
+  8709 jobs, zero `sorry`s in the build log).
+- **One real failure found and fixed:**
+  `test_explicit.py::test_mobius_inversion_of_J_is_exact` failed
+  deterministically on glibc at x = 64 — `64**(1/3)` rounds to
+  `3.9999999999999996`, `J_exact` drops its `π(√4)/2` term, and the Möbius
+  sum comes back `π(64) + 1/6`. Fixed by snapping perfect-power roots to
+  the integer in the test helpers; the identity is now tested at the
+  mathematical J instead of at whichever side of the boundary the
+  platform's `pow` lands on. The failure was invisible on the author's
+  libm — a platform-fragility class worth remembering for any future test
+  that composes exact π with float roots at exact powers.
+- **Hygiene restored:** the tracked `.wav` (against the tree's own
+  `*.wav` rule) and `zeta_lab.egg-info/` untracked; `scratch/` folded into
+  `scripts/20_music_of_the_primes.py`; `interactive_lab/` documented with
+  its contract; the duplicate doc number resolved
+  (`08-detector-strength-findings.md` → `22-…`, so a bare `docs/08` is
+  unambiguous again); AGENTS.md layout now names `compiler/`,
+  `interactive_lab/` and the ontology rogue-lab scripts; the learn/refute
+  door commands got the pinning test the doors policy promises
+  (`tests/test_doors.py`); `CONTEXT.md` regenerated.
+- **Lean arm state (supersedes the earlier "trust the commits" note):**
+  rungs through `DHZeroCriterion` build clean. The two files missing
+  copyright headers have truthful MIT ones; the Mathlib header linter is
+  disabled in `lakefile.toml` because it hard-requires Apache-2.0 wording
+  this MIT project cannot honestly write. ~24 pre-existing longLine/style
+  warnings remain in `HardyZ`/`Epstein`/`OracleDH`; cosmetic, untouched —
+  wrapping lines inside kernel-checked proofs was judged not worth the
+  churn.
 
 ## Record: Hunt #2 (factorization-position rigidity) — claim withdrawn
 

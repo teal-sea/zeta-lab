@@ -852,7 +852,7 @@ The falsification protocol with the subject factored out. Four instrument roles 
 
 ### `harness/protocol.py` — ``harness.protocol`` — four instrument roles, one battery, one department.
 
-*996 lines*
+*911 lines*
 
 - `class HarnessError` — Base class for every refusal this module issues.
 - `class BatteryError` — A battery is malformed, or is one that could not fail.
@@ -862,7 +862,6 @@ The falsification protocol with the subject factored out. Four instrument roles 
 - `class Surrogate` — A generator of observations that carry no substantive input.
 - `class Lesion` — A planted, known violation, used to measure a detector's power.
 - `class NamedDetector` — A detector the department stakes its power measurements on.
-- `class ClaimProbe` — An arbitrary claim, declared so the battery's *difficulty* can be measured.
 - `class Battery` — The instruments entitled to kill a department's claims.
 - `class BatteryVerdict` — Outcome of running one claim against the target and every rival.
 - `class AblationVerdict` — Outcome of swapping the substantive input for each decoy.
@@ -896,7 +895,7 @@ The falsification protocol with the subject factored out. Four instrument roles 
 
 ### `harness/integrity.py` — ``harness.integrity`` — the referee, refereed.
 
-*923 lines*
+*921 lines*
 
 Constants: `PASS`, `FAIL`, `UNKNOWN`, `CALIBRATED`, `DETECTOR_INADEQUATE`, `UNMEASURED`, `CONTAMINATED`, `HOLLOW`, `GRADES`, `SHAM_MODES`, `AUDIT_BLIND_SPOTS`
 
@@ -1112,7 +1111,6 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `05-de-bruijn-newman.md` — 05 — The de Bruijn–Newman Constant: Running Heat Flow *on* Zeta
 - `06-hilbert-polya-and-gue.md` — 06 — Hilbert–Pólya, Berry–Keating, and the GUE
 - `07-equivalences-and-criteria.md` — 07 — Equivalences and Criteria
-- `08-detector-strength-findings.md` — Computational Alarm Systems for the Riemann Hypothesis:
 - `08-why-it-is-hard.md` — 08 — Why It Is Hard: An Honest Failure Catalogue
 - `09-new-ontologies.md` — 09 — New Ontologies: What "RH Needs New Mathematics" Actually Means
 - `10-trace-formulas-and-connes.md` — 10 — Trace Formulas and the Connes Program
@@ -1127,6 +1125,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `19-research-dossiers.md` — 19 — Research dossiers: an experiment in AI-native mathematical state
 - `20-verification-integrity.md` — 20 — Verification integrity: the referee, refereed
 - `21-forward-deployed-verification.md` — 21 — Forward-deployed verification: can a report refuse a crossing?
+- `22-detector-strength-findings.md` — Computational Alarm Systems for the Riemann Hypothesis:
 
 ## Runnable demos (`scripts/`)
 
@@ -1149,6 +1148,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/17_f1_fingerprints.py` — The q -> 1 limit: combinatorial shadows of geometry over a finite field.
 - `scripts/18_dh_li_coefficients.py` — Li coefficients for the Davenport-Heilbronn function — a detector control.
 - `scripts/19_dh_weil_positivity.py` — Weil Positivity against Davenport-Heilbronn
+- `scripts/20_music_of_the_primes.py` — The Music of the Zeros: Mapping Deninger's Frequencies to the Fretboard
 - `scripts/21_detector_strength_audit.py` — Detector-Strength Audit: The Mertens Alarm against Davenport-Heilbronn
 - `scripts/22_gate_1_harness.py` — Gate 1 Harness: The Classical Physics Battery
 - `scripts/23_gate_3_battery.py` — Gate 3 Harness: The Counterexample Battery
@@ -1169,7 +1169,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1509 test functions across 47 files (the collected count differs where tests are parametrised):
+1513 test functions across 48 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_compiler_candidate.py` — 32
@@ -1183,6 +1183,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_discovery_knownness.py` — 102
 - `tests/test_discovery_schema.py` — 62
 - `tests/test_discovery_zeta_domain.py` — 83
+- `tests/test_doors.py` — 4
 - `tests/test_dossier_hardy_z.py` — 22
 - `tests/test_dossier_schema.py` — 37
 - `tests/test_epstein.py` — 39

@@ -7,6 +7,9 @@ defaultTargets = ["ZetaLean"]
 pp.unicode.fun = true # pretty-prints `fun a ↦ b`
 relaxedAutoImplicit = false
 weak.linter.mathlibStandardSet = true
+# the header linter insists on Apache-2.0 wording; this project is MIT, so the
+# linter is off rather than the copyright line being wrong
+weak.linter.style.header = false
 maxSynthPendingDepth = 3
 
 [[require]]
