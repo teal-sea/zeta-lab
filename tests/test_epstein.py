@@ -576,3 +576,133 @@ def test_battery_requires_every_counterexample_to_fail():
     assert res["riemann_zeta"] and res["epstein_2_1_3"] and res["epstein_1_1_6"]
     assert res["distinguishes"] is False
     assert res["shared_with"] == ("epstein_1_1_6", "epstein_2_1_3")
+
+
+# ---------------------------------------------------------------------------
+# The steeper tail bounds (lean/ZetaLean/DHTailBound2.lean)
+#
+# These pin, numerically, exactly the three inequalities the Lean arm proves
+# about the Dirichlet-series tail of f:
+#
+#   order 0 (DH_tail_bound):        |f(s) - S_K|
+#       <= (3+k)|s| 5^(-sig-1) (K-1)^(-sig) / sig
+#   order 1 (DH_tail_bound_order1): |f(s) - (S_K - F(K))|
+#       <= (3+k)|s||s+1| (5K+1)^(-sig-1) / (sig+1)
+#   order 2 (DH_tail_bound_order2): |f(s) - (S_K + B(K)/2 - F(K))|
+#       <= (5/8)(3+k)|s||s+1||s+2| (5K+1)^(-sig-2) / (sig+2)
+#
+# with S_K the 5K-term partial sum, B(x) the paired block
+# (5x+1)^{-s} - (5x+4)^{-s} + k[(5x+2)^{-s} - (5x+3)^{-s}], and
+# F(x) = [(5x+1)^{1-s} - (5x+4)^{1-s} + k((5x+2)^{1-s} - (5x+3)^{1-s})]
+# / (5(1-s)) the closed-form block antiderivative (finite precisely because
+# the coefficients sum to zero).  The reference value is dh_f — the Hurwitz
+# route, which never touches the Dirichlet series.  Each extra order is one
+# power of K: it is what turns rung 3's certification from months into hours
+# (K for a 1e-3 tail at the oracle zero: 195301 -> 1741 -> 243).
+# ---------------------------------------------------------------------------
+
+
+def _dh_pair(w, x, k):
+    """(5x+1)^w - (5x+4)^w + k[(5x+2)^w - (5x+3)^w] — dhPair in the Lean arm."""
+    return (
+        mp.power(5 * x + 1, w)
+        - mp.power(5 * x + 4, w)
+        + k * (mp.power(5 * x + 2, w) - mp.power(5 * x + 3, w))
+    )
+
+
+def _dh_partial(s, K, k):
+    """The 5K-term partial sum of the DH Dirichlet series."""
+    total = mp.mpc(0)
+    for j in range(K):
+        total += _dh_pair(-s, mp.mpf(j), k)
+    return total
+
+
+def _dh_tail_bounds(s, K, k):
+    """The three kernel-checked tail radii at (s, K)."""
+    sig, ns = mp.re(s), abs(s)
+    b0 = (3 + k) * ns * mp.power(5, -sig - 1) * mp.power(K - 1, -sig) / sig
+    b1 = (3 + k) * ns * abs(s + 1) * mp.power(5 * K + 1, -sig - 1) / (sig + 1)
+    b2 = (
+        mp.mpf(5) / 8 * (3 + k) * ns * abs(s + 1) * abs(s + 2)
+        * mp.power(5 * K + 1, -sig - 2) / (sig + 2)
+    )
+    return b0, b1, b2
+
+
+def test_dh_tail_bounds_hold_at_all_three_orders():
+    """The corrected partial sums land within the certified radii.
+
+    Mirrors DH_tail_bound / DH_tail_bound_order1 / DH_tail_bound_order2
+    (lean/ZetaLean/DHTailBound.lean, DHTailBound2.lean) at the oracle zero,
+    the DHDemo point, and a thin-strip stress point, against dh_f as the
+    series-free reference.
+    """
+    with mp.workdps(35):
+        k = kappa(35)
+        points = [
+            mp.mpc(mp.mpf(OFFLINE_ZERO_RE), mp.mpf(OFFLINE_ZERO_IM)),
+            mp.mpc("1.5", "3"),
+            mp.mpc("0.05", "20"),
+        ]
+        for s in points:
+            ref = dh_f(s, dps=30)
+            for K in (8, 64, 512):
+                S = _dh_partial(s, K, k)
+                F = _dh_pair(1 - s, mp.mpf(K), k) / (5 * (1 - s))
+                B = _dh_pair(-s, mp.mpf(K), k)
+                b0, b1, b2 = _dh_tail_bounds(s, K, k)
+                assert abs(ref - S) <= b0
+                assert abs(ref - (S - F)) <= b1
+                assert abs(ref - (S + B / 2 - F)) <= b2
+            # at scale, each order is strictly sharper than the last
+            assert b2 < b1 < b0
+
+
+def test_dh_tail_bound_order2_decay_exponent_is_sigma_plus_2():
+    """The measured order-2 error decays like K^-(sigma+2) at the oracle zero.
+
+    The bound's exponent is a theorem; this checks the *actual* error tracks
+    it (between K = 256 and K = 1024), so the correction terms are really
+    cancelling the lower orders rather than being absorbed by slack.
+    """
+    with mp.workdps(35):
+        k = kappa(35)
+        s = mp.mpc(mp.mpf(OFFLINE_ZERO_RE), mp.mpf(OFFLINE_ZERO_IM))
+        ref = dh_f(s, dps=30)
+        errs = []
+        for K in (256, 1024):
+            S = _dh_partial(s, K, k)
+            F = _dh_pair(1 - s, mp.mpf(K), k) / (5 * (1 - s))
+            B = _dh_pair(-s, mp.mpf(K), k)
+            errs.append(abs(ref - (S + B / 2 - F)))
+        slope = mp.log(errs[0] / errs[1]) / mp.log(4)
+        assert abs(slope - (mp.re(s) + 2)) < mp.mpf("0.1")
+
+
+def test_dh_tail_bound_required_K_pins_the_cost_model():
+    """The minimal K with tail radius <= 1e-3 at the oracle zero, per order.
+
+    These three integers are the cost model of rung 3's remaining compute
+    (HANDOFF.md): the certified-term count falls 195301 -> 1741 -> 243
+    blocks, a 804x reduction, which is what moves the offline kernel run
+    from months to hours.  Computed by bisection on the closed-form radii.
+    """
+    with mp.workdps(40):
+        k = kappa(40)
+        s = mp.mpc(mp.mpf(OFFLINE_ZERO_RE), mp.mpf(OFFLINE_ZERO_IM))
+
+        def min_K(order):
+            lo, hi = 2, 10**7
+            while lo < hi:
+                mid = (lo + hi) // 2
+                if _dh_tail_bounds(s, mid, k)[order] <= mp.mpf("1e-3"):
+                    hi = mid
+                else:
+                    lo = mid + 1
+            return lo
+
+        assert min_K(0) == 195301
+        assert min_K(1) == 1741
+        assert min_K(2) == 243
