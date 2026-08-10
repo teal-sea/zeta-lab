@@ -1130,6 +1130,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `21-forward-deployed-verification.md` — 21 — Forward-deployed verification: can a report refuse a crossing?
 - `22-detector-strength-findings.md` — Computational Alarm Systems for the Riemann Hypothesis:
 - `23-rival-distance-and-detector-independence.md` — 23 — Rival distance and detector independence: closing two declared blind spots
+- `24-the-local-positivity-attempt.md` — 24 — The local positivity attempt, run to its wall
 
 ## Runnable demos (`scripts/`)
 
