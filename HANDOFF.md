@@ -7,6 +7,37 @@ problem, what conclusion is currently justified. Decisions live in
 
 ---
 
+## Record: rung 3 Phase B — the tail bound is kernel-checked (2026-08-10)
+
+- **Built, zero sorrys (`DHTailBound.lean`):** the analytic continuation of
+  the DH series, as computation. The route deliberately avoids
+  measure-theoretic integrals in the estimates: (1) a two-point bound
+  `‖b^{-s} − a^{-s}‖ ≤ ‖s‖·a^{-σ-1}·(b−a)` from Mathlib's convex mean value
+  inequality on `t ↦ (t:ℂ)^{-s}`; (2) the series regrouped into five-term
+  blocks whose coefficients `(0, 1, κ, −κ, −1)` pair into two differences,
+  so each block obeys a `(3+κ)`-constant bound and the block series
+  converges *absolutely* on `Re s > 0`; (3) blocks sum to `DH` for
+  `Re s > 1` by `Nat.divModEquiv`-regrouping, and on all of `Re s > 0` by
+  Weierstrass (`differentiableOn_tsum_of_summable_norm`, localized to
+  balls) plus the identity theorem; (4) `DH_tail_bound`: the explicit
+  error `(3+κ)·‖s‖·5^{-σ-1}·(K−1)^{-σ}/σ` for the `5K`-term partial sum,
+  tail summed by the integral test. With `contains_dirichletTerm` this
+  makes `DH` at any strip point a finite computation plus an explicit
+  error — the mathematics gap of Phase B is closed; only assembly remains.
+- **Honest scale note, recorded so nobody wastes a session:** at the oracle
+  point (`σ ≈ 0.808`, `‖s‖ ≈ 85.7`) the bound needs `K ~ 5·10⁵` blocks for
+  1e-3 accuracy. Direct kernel summation at that scale is not realistic;
+  the assembly step should either formalize a faster certified evaluation
+  (Euler–Maclaurin remainder, or the smoothed series) or budget a very
+  long offline kernel run. The tail bound itself is scale-independent.
+- **Proof-engineering notes:** Mathlib's `Nat.mul_add_mod` wants `m*x+y`,
+  not `x*m+y` — commute first. `tsum_le_tsum` is now protected
+  (`Summable.tsum_le_tsum`), and the range-split lemma is the primed
+  `Summable.sum_add_tsum_nat_add'` with *shifted* summability. An
+  off-by-one in a shift constant (`k+1+(K−2) ≠ k+K`) was caught by omega
+  refusing the goal — when omega balks at "obvious" index arithmetic,
+  recheck the arithmetic before blaming omega.
+
 ## Record: rung 3 Phase B — the term enclosure is kernel-checked (2026-08-10)
 
 - **Built, zero sorrys:** `Interval.logQ` (log of any positive rational by

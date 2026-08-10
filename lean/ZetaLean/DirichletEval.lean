@@ -20,11 +20,14 @@ enclosure now exists: `ZetaLean/IntervalCExp.lean`'s
 `ComplexInterval.contains_dirichletTerm` composes certified `log`
 (`Interval.logQ`) and certified complex `exp` (`Complex.exp_bound` through
 `ComplexInterval.expC`), so individual term enclosures no longer need the
-oracle at all.  What remains open of Rung 3 Phase B: the tail bound for the
-analytic continuation (the raw series does not converge absolutely at the
-off-line zero, `Re s ≈ 0.808`) and the assembly of the two disk inequalities
-of `davenport_heilbronn_of_certified_disk`.  Until those exist, any number
-about `DH` itself is still an oracle's, exactly as `rigor.py` labels its own
+oracle at all.  The tail bound for the analytic continuation exists too:
+`ZetaLean/DHTailBound.lean`'s `DH_tail_bound` bounds `DH` minus any `5K`-term
+partial sum explicitly on all of `Re s > 0`, via the block-regrouped series
+and the identity theorem.  What remains open of Rung 3 Phase B is only
+assembly: enclosing the finite sum tightly enough, at the centre and on the
+sphere, to discharge the two disk inequalities of
+`davenport_heilbronn_of_certified_disk`.  Until that lands, any number about
+`DH` itself is still an oracle's, exactly as `rigor.py` labels its own
 uncertified steps.
 -/
 
