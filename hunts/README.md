@@ -73,9 +73,11 @@ constructive half: Cheer–Goldston's 1993 gap-rigidity floor transplants into
 the paper's Frobenius counting because the zero-side expansion is blockwise
 nonnegative for conjugate-closed multisets (identity checked to 1e-16;
 400-trial adversarial scan incl. off-line depths finds no negative block),
-giving the candidate unconditional bound **N₀ˢ ≥ 0.6725124·N** (floor
-5.8384e-6, CG's printed constants reproduced as the calibration, lesion
-λ₂→2λ₁ kills the floor exactly). Also recorded: the sieve route to λ > 1
+giving a candidate unconditional bound **N₀ˢ ≥ 0.672529·N** (bucket floor
+5.8384e-6 raised to 1.44e-5 by the gap-distribution LP in `gap_lp.py`;
+CG's printed constants reproduced as the calibration, lesion λ₂→2λ₁ kills
+the floor exactly, and the bin-width ladder caught and killed an invalid
+midpoint-assignment inflation before it shipped). Also recorded: the sieve route to λ > 1
 fails at scale T^{λ−1} (only HL itself closes it), and the CGdL transplant
 reduces to one named obstruction (inertia counting for non-Gram kernels),
 with BGSTB 2023's unconditional F ≥ 0 pinned as known. Record in

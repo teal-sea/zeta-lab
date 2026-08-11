@@ -148,7 +148,52 @@ out-of-band constraint added (`configuration_lp.py`, BGSTB positivity as
 data): the class value at (X=80, J=320) is 0.6863 and still descending
 with X — consistent with landing near CGdL's 0.6792 for ζ unconditionally.
 
-## 5. Lanes deliberately left
+## 5. The gap-distribution LP: the bucket floor generalised
+
+`gap_lp.py` replaces CG's five hand-tuned buckets with the full projection
+of the configuration LP onto gap statistics: a fine-binned distribution of
+consecutive distinct on-line gap lengths, chain levels 2 and 3 (pairs j
+apart in the ordering are disjoint classes, so per-class floors add with no
+double counting), the length constraint as an *equality* (consecutive gaps
+tile (T, 2T]), and the census bootstrap iterated to its fixed point (it
+converges in two rounds).
+
+**A control earned its keep here, twice.** The first implementation
+assigned bins to partition cells by bin midpoint; a bin straddling a cell
+edge was credited wholesale to one cell, so the chain count n_I could
+exceed reality and the floor came out invalidly high — including a
+conditional value of 0.6728294 that would have "beaten" Cheer–Goldston.
+The bin-width ladder caught it (the floor *fell* under refinement; a real
+quantity rises toward a tight relaxation). After snapping cell edges onto
+the bin grid the ladder is monotone as it must be
+(0.69 → 1.02 → 1.44 → 1.47 ×1e-5 for h = 0.02 … 0.0025), and the inflated
+claim is withdrawn. Recorded because the defect is the instructive part:
+a chain-count credit is a claim about *which cell a gap is in*, and any
+discretisation that answers optimistically manufactures floor.
+
+**Settled numbers** (fixed snapped edges, floor valid at every h and
+monotone in refinement):
+
+| census ν | floor (h = 0.005) | bound |
+|---|---|---|
+| 0.6725007 (unconditional bootstrap start) | 1.4371e-5 | **H ≥ 0.6725294** |
+| same, edges re-checked at h = 0.0025 | 1.5554e-5 | H ≥ 0.6725318 |
+| 0.83625 (CG's conditional census) | ~1.0–1.4e-4, edge-sensitive | does **not** beat CG's 0.6727534 at current search depth |
+
+The unconditional candidate therefore stands at **≥ 0.672529**
+(conservative settled value; the finer-grid value 0.6725318 and a
+grid-locked edge optimisation still running at the time of this commit may
+tighten the last digits, and any update lands as a follow-up commit). The
+conditional lane's verdict is honest: the generalised LP has not so far
+beaten the 1993 constant once the discretisation is done correctly — CG's
+hand-tuned edges were good, and the inflation that briefly suggested
+otherwise was an artifact. The floor's extreme sensitivity to the cell
+edge nearest λ₂ (a shift of 0.005 moves the level-2 kernel minimum by a
+factor ~1.4) is itself a finding: the binding structure is the distance
+from 2·(cell edge) to λ₂, which is where a sharper argument or a better
+kernel should focus.
+
+## 6. Lanes deliberately left
 
 - **Conditional CG improvement**: our coarse edge grid reaches 0.6727450,
   *below* CG's hand-tuned 0.6727534 — their 1993 optimisation stands; a
