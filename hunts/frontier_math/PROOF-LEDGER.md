@@ -228,3 +228,22 @@ the assembly; joint verdict positive across all tested densities with the
 pinch mapped at +0.07. The remaining theorem objects before Phase 7, in
 order: the joint cap dual, mixed-depth joint sweeps, the full-ladder
 hardened scan. No decimal search was run and no proportion is claimed.
+
+## Level 6c: LAW M and the Fourier bridge (2026-08-11)
+
+Full account: docstring of `fourier_bridge.py` (instrument); controls
+`test_fourier_bridge.py`. The joint cap dual's room is built.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| LAW M: mean positivity, depth-blind | DELIVERED (exact) | Parseval on the bilinear square: only v = 0 survives | `int W(., y) dg = 4 pi b/(a^2 L) = 1.8032005631` at every depth, defects at the quadrature floor; reproduces LAW J's constant to ten digits as its periodization |
+| The Fourier bridge | DELIVERED (exact) | conjugate closure makes `sum e^{i z_j v}` square to a real modulus | `E_total = (1/(aL)^2) int_{-L}^{L} K(v) |F(v)|^2 dv`, `K = phi^2 * phi^2 >= 0`; worst relative defect 4e-12 over mixed configurations; the entire law hierarchy (D, K, L, R(P), W, T, census) is the term dictionary of this one identity |
+| The joint problem restated | DELIVERED | `F = F_on + F_p`; pair slack = the `4 cosh^2(y v)` diagonal | the assembly is equivalent to a pointwise-in-v budget over one nonnegative kernel: on-line placement and pair density are two exponential sums against the same K |
+| The pinch, spectrally | MEASURED | K-weighted pair fluctuation by frequency bin | the deficit lives at `|v| in [3, 7]` (peak -176), the LAW M mean at `v ~ 0` (+59), the cosh^2 diagonal at the band edge — the certificate's job is now a concrete 1-D spreading problem |
+| The pointwise-in-v certificate | **THE NAMED OBJECT** | finitely many one-sided v-cells, same shape as every hardened object in the chain | delivering it makes the level-6b joint verdict configuration-free and reopens the road to Phase 7 |
+
+Disposition: **THE JOINT CAP DUAL IS NOW A ONE-DIMENSIONAL PROBLEM.** The
+mutual exclusion of level 6b is pointwise structure here: the cross term
+that damages and the pair mass that pays live at the same frequency. Next:
+the v-cell certificate; then mixed-depth sweeps and the full-ladder scan;
+then Phase 7. No decimal search was run and no proportion is claimed.
