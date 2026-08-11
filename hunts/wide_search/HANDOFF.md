@@ -140,6 +140,17 @@ configurations, which does not reduce to the single-window bounds and remains a
 legitimate route to something in `(0.6725007, 0.68185)`. That is now the whole
 thread. Do not re-run the scalar-moment version.
 
+> **Worked 2026-08-11 by `hunts/frontier_math/`** (see its
+> `RESULTS-frontier-math.md`): at the pair-*measure* level the LP reduces
+> exactly to 2 − sup D and descends to the single-window optimum — the
+> measure relaxation collapses, so what the interval measures is
+> configuration realizability. The constructive residue is a Cheer–Goldston
+> gap-rigidity transplant with a computed positive floor (candidate
+> 0.6725124, not a theorem yet). This thread's remaining open half is the
+> configuration-level LP proper, for which the paper's `N = 256` extremal
+> law artifact (`cert_N256_blk_b128m.json`, available on request per
+> RESULTS-pair-ceiling.md) is the natural starting point.
+
 ## THREAD 2 (open, blocked) — closed form for `F_k`, `k >= 2`
 
 Prior art that nearly went unnoticed: **Ji Bian, *The Pair Correlation of Zeros

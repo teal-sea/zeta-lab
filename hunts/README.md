@@ -60,6 +60,27 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Frontier math (`frontier_math/`)
+
+**Status: one candidate unconditional constant (mechanism + computed floor,
+named remaining lemmas — not a theorem), one measured collapse, one
+quantified wall.** Continues `wide_search` THREAD 1 against the 10 August
+2026 paper. Measured: the pair-measure LP (positivity + bandwidth-one data +
+multiplicity types) reduces exactly to 2 − sup D and descends toward the
+paper's 0.6725007 — the measure level adds nothing, answering THREAD 1's
+residual question; the ceiling gap is configuration realizability. The
+constructive half: Cheer–Goldston's 1993 gap-rigidity floor transplants into
+the paper's Frobenius counting because the zero-side expansion is blockwise
+nonnegative for conjugate-closed multisets (identity checked to 1e-16;
+400-trial adversarial scan incl. off-line depths finds no negative block),
+giving the candidate unconditional bound **N₀ˢ ≥ 0.6725124·N** (floor
+5.8384e-6, CG's printed constants reproduced as the calibration, lesion
+λ₂→2λ₁ kills the floor exactly). Also recorded: the sieve route to λ > 1
+fails at scale T^{λ−1} (only HL itself closes it), and the CGdL transplant
+reduces to one named obstruction (inertia counting for non-Gram kernels),
+with BGSTB 2023's unconditional F ≥ 0 pinned as known. Record in
+`frontier_math/RESULTS-frontier-math.md`.
+
 ### The frontier map (`frontier_map/`)
 
 **Status: a map, not a result — the `wide_search` findings and the source
