@@ -247,3 +247,31 @@ mutual exclusion of level 6b is pointwise structure here: the cross term
 that damages and the pair mass that pays live at the same frequency. Next:
 the v-cell certificate; then mixed-depth sweeps and the full-ladder scan;
 then Phase 7. No decimal search was run and no proportion is claimed.
+
+## Level 7: the v-cell joint cap, the ladder correction, the first reading (2026-08-11)
+
+Full account: `LEVEL7-VCELL.md`; instruments `v_certificate.py`,
+`full_ladder_scan.py`, `reconnect.py`; controls `test_v_certificate.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| LAW N: windowed spectral floor | DELIVERED (exact) | phasor arguments within vS/2 of the window midpoint | `\|F_on(v)\| >= n cos(vS/2)` on `\|v\| <= pi/S`; forces `R >= kappa_00 n^2 - n` — the fourth self-defeat (spectral concentration) |
+| The safe cell | DELIVERED (exact) | common-window phase coherence | cross integrand >= 0 on `\|v\| <= pi/(2S)`: the chi collapse of 6b, pointwise |
+| Naive pointwise-in-v budget | **DEAD, recorded** | sub-critical lattice (spacing < 2 pi/L) empties the band | diagonal-subtracted integrand ~ -(1-theta) N mid-band, linear in N; the aliasing family again; the certificate survives it only through LAW N |
+| The joint cap (on-line configuration-free) | DELIVERED (measured grade) | three-zone split + taper + LAW M mean + LAW N leak cap + cell C-S | pinch (nu 1.5, y 0.49): cap 40.62 vs budget 41.11, **margin +0.49**; greedy reaches 5.00; theta = 1 cap infinite; dominates every level-3/4 measured adversary |
+| Mixed-depth joint sweeps (phase 2a) | DELIVERED | same instrument, battery shapes + shallow sandwich | all nu >= 1.5 shapes close (shallow sandwich +166.6); nu = 1.0 shapes covered separably (+0.53..+1.68) |
+| **The seam** nu_p in [1.25, 1.45] deep | **PINNED, OPEN** | first pair spike shoulder (2 pi nu_p ~ 8) re-enters the band top | both bounds fail (v-cap -3.4..-12.6 abs; separable -0.59..-0.61) while the greedy extracts ~5 of ~36; escaping band `v in [5, 7]` exactly; THE next kill control |
+| Full-ladder hardened penta scan (phase 2b) | **RUN — 6a CORRECTED** | honest cell widths (1.05/1.012 ratios, 220 cells) + ten-point eta grid | 45 cells FAIL in two bands: shallow y in [0.010, 0.050] (worst −0.056; the eta(0.02) = 0.4066 spike the probe grid missed) and deep y in [0.419, 0.472] (worst −0.012; the 9e-4 probe margin does not survive honest widths); theta_full via the per-depth assembly is reduced to the passing bands; the shallow band closes at the joint level (shallow sandwich +166.6 / +22.9), the deep band coincides with the seam |
+| The reconnect (phase 3) | **CANDIDATE ARITHMETIC RECORDED, GATE CLOSED** | one-sided ordered-gap floor x theta_full through the withdrawn chain's plumbing | c_u = 5.02e-6 one-sided (ladder-stable, CG calibration <= printed, lesion dies); candidate = 0.6725007037 + 2(0.02)(5.02e-6) = **0.6725009045** (+2.01e-7); named unproven steps: the transplant lemma, the arb pass, the seam, taper/truncation |
+| Phase 7 decimal gate | **NOT ENTERED** | the seam + the assembly correction + measured-grade caps | no proportion is claimed to have moved |
+
+Disposition: **THE JOINT VERDICT IS CONFIGURATION-FREE ON THE ON-LINE SIDE
+FOR nu_p >= 1.5 AND SEPARABLY CLOSED FOR nu_p <= 1.0; THE SEAM IS THE
+NAMED HOLE.** Level 6a's full-ladder extrapolation is corrected, not
+extended — the probe grid missed both failing bands (the shallow eta
+spike and the deep cells whose 9e-4 probe margins vanish at honest
+widths); that lesson (resolution fragility, third occurrence) is now a
+permanent scan.  The
+first reading of the decimal exists as candidate arithmetic only; the road
+to it runs through the seam's g-localised v-cell dual, the arb pass, and
+the transplant lemma, in that order. No proportion is claimed.
