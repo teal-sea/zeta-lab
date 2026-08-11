@@ -1,0 +1,431 @@
+{
+  "landscape": {
+    "zeta": [
+      {
+        "lambda": 0.05,
+        "H": -18.01666597213954,
+        "Hd": -8.50833298606977
+      },
+      {
+        "lambda": 0.1,
+        "H": -8.033327775130946,
+        "Hd": -3.516663887565473
+      },
+      {
+        "lambda": 0.15,
+        "H": -4.716647896554752,
+        "Hd": -1.8583239482773761
+      },
+      {
+        "lambda": 0.2,
+        "H": -3.066622137396478,
+        "Hd": -1.033311068698239
+      },
+      {
+        "lambda": 0.25,
+        "H": -2.083246268618006,
+        "Hd": -0.541623134309003
+      },
+      {
+        "lambda": 0.3,
+        "H": -1.433182687570119,
+        "Hd": -0.2165913437850595
+      },
+      {
+        "lambda": 0.35,
+        "H": -0.9735699313340138,
+        "Hd": 0.013215034332993092
+      },
+      {
+        "lambda": 0.4,
+        "H": -0.6329750469345492,
+        "Hd": 0.1835124765327254
+      },
+      {
+        "lambda": 0.45,
+        "H": -0.37171104058787163,
+        "Hd": 0.3141444797060642
+      },
+      {
+        "lambda": 0.5,
+        "H": -0.16596385036497852,
+        "Hd": 0.41701807481751074
+      },
+      {
+        "lambda": 0.55,
+        "H": -0.0005773270533224739,
+        "Hd": 0.49971133647333876
+      },
+      {
+        "lambda": 0.6,
+        "H": 0.13455428190506669,
+        "Hd": 0.5672771409525333
+      },
+      {
+        "lambda": 0.65,
+        "H": 0.24642884741740434,
+        "Hd": 0.6232144237087022
+      },
+      {
+        "lambda": 0.7,
+        "H": 0.34004637360056167,
+        "Hd": 0.6700231868002808
+      },
+      {
+        "lambda": 0.75,
+        "H": 0.41907501297543215,
+        "Hd": 0.7095375064877161
+      },
+      {
+        "lambda": 0.8,
+        "H": 0.48626733228638486,
+        "Hd": 0.7431336661431924
+      },
+      {
+        "lambda": 0.85,
+        "H": 0.5437296673898848,
+        "Hd": 0.7718648336949424
+      },
+      {
+        "lambda": 0.9,
+        "H": 0.5931016997385963,
+        "Hd": 0.7965508498692981
+      },
+      {
+        "lambda": 0.95,
+        "H": 0.6356793312476119,
+        "Hd": 0.817839665623806
+      },
+      {
+        "lambda": 1.0,
+        "H": 0.6725007036794206,
+        "Hd": 0.8362503518397103
+      }
+    ],
+    "xiprime": [
+      {
+        "lambda": 0.05,
+        "H": -18.015049565770287,
+        "Hd": -8.507524782885143
+      },
+      {
+        "lambda": 0.1,
+        "H": -8.027065065861875,
+        "Hd": -3.5135325329309373
+      },
+      {
+        "lambda": 0.15,
+        "H": -4.703017224549505,
+        "Hd": -1.8515086122747526
+      },
+      {
+        "lambda": 0.2,
+        "H": -3.043215344279348,
+        "Hd": -1.021607672139674
+      },
+      {
+        "lambda": 0.25,
+        "H": -2.047975158569848,
+        "Hd": -0.523987579284924
+      },
+      {
+        "lambda": 0.3,
+        "H": -1.384287789123226,
+        "Hd": -0.19214389456161296
+      },
+      {
+        "lambda": 0.35,
+        "H": -0.9096324743415432,
+        "Hd": 0.045183762829228424
+      },
+      {
+        "lambda": 0.4,
+        "H": -0.5529328468496484,
+        "Hd": 0.2235335765751758
+      },
+      {
+        "lambda": 0.45,
+        "H": -0.2748786898809681,
+        "Hd": 0.36256065505951596
+      },
+      {
+        "lambda": 0.5,
+        "H": -0.052057207841807784,
+        "Hd": 0.4739713960790961
+      },
+      {
+        "lambda": 0.55,
+        "H": 0.1302582868304194,
+        "Hd": 0.5651291434152097
+      },
+      {
+        "lambda": 0.6,
+        "H": 0.2817135969676061,
+        "Hd": 0.6408567984838031
+      },
+      {
+        "lambda": 0.65,
+        "H": 0.4088164023908134,
+        "Hd": 0.7044082011954067
+      },
+      {
+        "lambda": 0.7,
+        "H": 0.5160505433990832,
+        "Hd": 0.7580252716995416
+      },
+      {
+        "lambda": 0.75,
+        "H": 0.6065521712315312,
+        "Hd": 0.8032760856157656
+      },
+      {
+        "lambda": 0.8,
+        "H": 0.6825441347341195,
+        "Hd": 0.8412720673670597
+      },
+      {
+        "lambda": 0.85,
+        "H": 0.7456335838727166,
+        "Hd": 0.8728167919363583
+      },
+      {
+        "lambda": 0.9,
+        "H": 0.7970315955319445,
+        "Hd": 0.8985157977659722
+      },
+      {
+        "lambda": 0.95,
+        "H": 0.8377283095483241,
+        "Hd": 0.9188641547741621
+      },
+      {
+        "lambda": 1.0,
+        "H": 0.8686415005297687,
+        "Hd": 0.9343207502648844
+      }
+    ]
+  },
+  "zeta_closed_form": [
+    {
+      "lambda": 0.05,
+      "H": -18.01666597213954
+    },
+    {
+      "lambda": 0.1,
+      "H": -8.03332777513095
+    },
+    {
+      "lambda": 0.15,
+      "H": -4.716647896554756
+    },
+    {
+      "lambda": 0.2,
+      "H": -3.0666221373964815
+    },
+    {
+      "lambda": 0.25,
+      "H": -2.0832462686180095
+    },
+    {
+      "lambda": 0.3,
+      "H": -1.433182687570124
+    },
+    {
+      "lambda": 0.35,
+      "H": -0.9735699313340156
+    },
+    {
+      "lambda": 0.4,
+      "H": -0.6329750469345541
+    },
+    {
+      "lambda": 0.45,
+      "H": -0.3717110405878765
+    },
+    {
+      "lambda": 0.5,
+      "H": -0.16596385036498607
+    },
+    {
+      "lambda": 0.55,
+      "H": -0.0005773270533282471
+    },
+    {
+      "lambda": 0.6,
+      "H": 0.13455428190505914
+    },
+    {
+      "lambda": 0.65,
+      "H": 0.24642884741739723
+    },
+    {
+      "lambda": 0.7,
+      "H": 0.34004637360055523
+    },
+    {
+      "lambda": 0.75,
+      "H": 0.41907501297542415
+    },
+    {
+      "lambda": 0.8,
+      "H": 0.4862673322863773
+    },
+    {
+      "lambda": 0.85,
+      "H": 0.5437296673898762
+    },
+    {
+      "lambda": 0.9,
+      "H": 0.5931016997385901
+    },
+    {
+      "lambda": 0.95,
+      "H": 0.6356793312476023
+    },
+    {
+      "lambda": 1.0,
+      "H": 0.6725007036794117
+    }
+  ],
+  "closed_form_max_deviation": 9.547918011776346e-15,
+  "reference_bars": {
+    "zeta": {
+      "levinson_1974": {
+        "value": 0.3333333333333333,
+        "kind": "prior art (Levinson's method)",
+        "source": "Levinson 1974, via paper section 1.2",
+        "caveat": ""
+      },
+      "conrey_1989": {
+        "value": 0.4088,
+        "kind": "prior art (Levinson's method)",
+        "source": "Conrey 1989 'more than two fifths', via paper section 1.2",
+        "caveat": ""
+      },
+      "przz_2020": {
+        "value": 0.4166666666666667,
+        "kind": "prior art (Levinson's method); standing record 2020-2026",
+        "source": "Pratt-Robles-Zaharescu-Zeindler 2020, via paper section 1.2",
+        "caveat": ""
+      },
+      "paper_theorem_D": {
+        "value": 0.6725007037,
+        "kind": "attained by the mapped method at lambda = 1",
+        "source": "paper Theorem D; reproduced to 10 digits by hunts/wide_search/xiprime.py",
+        "caveat": ""
+      },
+      "bandwidth_one_ceiling": {
+        "value": 0.68185,
+        "kind": "ceiling for configuration-by-configuration certificates on bandwidth-one data",
+        "source": "paper Remark 1.1; enclosure data recomputed in hunts/wide_search/pair_ceiling.py",
+        "caveat": "the published N=256 law delivers the ceiling only for certificates with |r'(1)| + int|r''| <= 8.38043; the bare uniform sentence elides this (RESULTS-pair-ceiling.md)"
+      },
+      "montgomery_taylor_on_RH": {
+        "value": 0.6725,
+        "kind": "RH-conditional comparison",
+        "source": "Montgomery-Taylor 1975, via paper section 1.2",
+        "caveat": "conditional on RH; same constant, which is the point"
+      },
+      "cgdl_2020_on_RH": {
+        "value": 0.6792,
+        "kind": "RH-conditional comparison (SDP majorants, F outside [-1,1])",
+        "source": "Chirre-Goncalves-de Laat 2020, via paper section 1.2",
+        "caveat": "conditional; operates outside the bandwidth-one regime the ceiling is scoped to"
+      }
+    },
+    "xiprime": {
+      "paper_remark_7_3_flat": {
+        "value": 0.85838,
+        "kind": "attained by the mapped method (flat window)",
+        "source": "paper Remark 7.3",
+        "caveat": ""
+      },
+      "paper_remark_7_3_quartic": {
+        "value": 0.86864,
+        "kind": "attained by the mapped method (quartic window)",
+        "source": "paper Remark 7.3",
+        "caveat": ""
+      },
+      "sharp_constant_wide_search": {
+        "value": 0.8686415005297671,
+        "kind": "attained: the solved variational optimum at lambda = 1",
+        "source": "hunts/wide_search/RESULTS-xiprime.md",
+        "caveat": "an optimisation of the paper's functional with Farmer-Gonek's form factor, not a new theorem"
+      },
+      "wu_2015_on_line": {
+        "value": 0.86957,
+        "kind": "prior-art bar (on the line, without simplicity)",
+        "source": "Wu 2015 section 3, via paper Remark 7.3",
+        "caveat": "counts zeros merely on the line; the mapped method's number carries simplicity, so the comparison is the paper's own"
+      },
+      "conrey_1989_xiprime": {
+        "value": 0.79874,
+        "kind": "prior-art bar (simple and on the line)",
+        "source": "paper Remark 7.3, attributed there to Conrey 1989",
+        "caveat": "wide_search could not locate this figure in Conrey 1989, whose stated results concern zeta; carried as the paper's attribution, not this tree's (RESULTS-xiprime.md)"
+      },
+      "fgl_2014_on_RH": {
+        "value": 0.8584,
+        "kind": "RH-conditional comparison",
+        "source": "Farmer-Gonek-Lee 2014 Cor. 1.3, via paper Remark 7.3",
+        "caveat": "conditional on RH"
+      },
+      "cgdl_2020_xiprime_on_RH": {
+        "value": 0.8825,
+        "kind": "RH-conditional comparison",
+        "source": "Chirre-Goncalves-de Laat 2020 Cor. 7, via paper Remark 7.3",
+        "caveat": "conditional on RH"
+      }
+    }
+  },
+  "structural_wall": [
+    {
+      "target": 0.7,
+      "required_bandwidth": 1.04
+    },
+    {
+      "target": 0.8,
+      "required_bandwidth": 1.26
+    },
+    {
+      "target": 0.9,
+      "required_bandwidth": 1.7
+    }
+  ],
+  "open_lanes": [
+    {
+      "name": "zeta: attained-to-ceiling interval",
+      "interval": [
+        0.6725007037,
+        0.68185
+      ],
+      "status": "open",
+      "note": "the scalar-moment joint-window LP collapses to the left endpoint (RESULTS-pair-ceiling.md); what remains is the full-data LP over marked periodic configurations"
+    },
+    {
+      "name": "xiprime: shortfall to Wu's on-line bar",
+      "interval": [
+        0.8686415005297671,
+        0.86957
+      ],
+      "status": "closed negatively at lambda = 1",
+      "note": "no admissible window reaches Wu; short by 9.285e-4 (RESULTS-xiprime.md). The method's number carries simplicity, which Wu's does not."
+    },
+    {
+      "name": "xi^(kappa), kappa >= 2",
+      "interval": null,
+      "status": "blocked",
+      "note": "Bian 2008 has no closed form for F_kappa and no tail bound; the 11-term truncations fail at the lambda = 1 optimum (RESULTS-higher-derivatives.md)"
+    },
+    {
+      "name": "lambda > 1",
+      "interval": null,
+      "status": "walled",
+      "note": "needs pair-correlation input beyond the Rudnick-Sarnak / Montgomery range (Hardy-Littlewood-strength prime pairs); paper Remark 1.1 and section 7.5(a)"
+    }
+  ],
+  "onset": {
+    "zeta": 0.5501939647423569,
+    "xiprime": 0.5133197598683182
+  }
+}
