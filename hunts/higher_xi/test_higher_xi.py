@@ -21,6 +21,27 @@ from bian_audit import (
     required_weighted_tail,
     tail_cancellation_ratio,
 )
+from bandwidth_forensics import (
+    constant_window_bound,
+    continuation_scan,
+    f2_half_band_bernstein_floor,
+    gaussian_powerful_rate,
+    half_band_coercivity_margin,
+    improved_architecture_feasible,
+    improved_parameter_witness,
+    optimized_cluster_feasible,
+    optimized_gaussian_rho,
+    optimized_parameter_witness,
+    numerical_window_optimum,
+    original_architecture_feasible,
+    original_parameter_witness,
+    prime_split_architecture_feasible,
+    prime_split_parameter_witness,
+    shell_stieltjes_bound,
+    split_powerful_witness,
+    universal_window_denominator_floor,
+    useful_bandwidth_bounds,
+)
 from bridge_obstruction import (
     claimed_decay_upper,
     computed_overlap_boundary_coefficient,
@@ -545,6 +566,120 @@ def test_first_rc2_band_has_strict_exact_parameter_margins() -> None:
         "tail_at_epsilon_zero": Fraction(1, 500),
         "maximum_epsilon": Fraction(1, 22),
     }
+
+
+def test_one_hundredth_was_a_parameter_choice_not_an_endpoint() -> None:
+    witness = original_parameter_witness(Fraction(11, 1000))
+    assert all(
+        witness[key] > 0
+        for key in (
+            "target_rho_margin",
+            "cutoff_rho_margin",
+            "far_tail_margin",
+        )
+    )
+    assert original_architecture_feasible(Fraction(249, 10000))
+    assert not original_architecture_feasible(Fraction(1, 40))
+
+
+def test_intermediate_shell_doubles_the_natural_bridge_band() -> None:
+    witness = improved_parameter_witness(Fraction(49, 1000))
+    assert all(
+        witness[key] > 0
+        for key in (
+            "target_rho_margin",
+            "rams_cutoff_margin",
+            "shell_decay_margin",
+            "envelope_rho_margin",
+            "far_tail_margin",
+        )
+    )
+    assert improved_architecture_feasible(Fraction(499, 10000))
+    assert not improved_architecture_feasible(Fraction(1, 20))
+    log_y = sp.Symbol("log_y")
+    assert shell_stieltjes_bound(log_y) == (
+        sp.Rational(3, 2) * log_y**2
+        + sp.Rational(3, 2) * log_y
+        + sp.Rational(3, 4)
+    )
+
+
+def test_continuation_scan_finds_the_first_binding_checkpoint() -> None:
+    rows = {row["alpha"]: row for row in continuation_scan()}
+    assert rows["1/50"]["old_architecture"] == "PROVABLE WITH CURRENT LEMMA"
+    assert rows["1/40"]["old_architecture"] == "FAILS"
+    assert rows["1/40"]["after_shell_split"] == "PROVED"
+    assert rows["1/20"]["after_shell_split"] == "FAILS"
+    assert rows["1/20"]["after_cauchy_optimization"] == "PROVED"
+    assert rows["3/40"]["after_cauchy_optimization"] == "FAILS"
+    assert rows["3/40"]["after_prime_split"] == "PROVED"
+    assert rows["3/10"]["after_prime_split"] == "PROVED"
+    assert rows["1/2"]["after_prime_split"] == "FAILS"
+    assert rows["1/2"]["first_failed_obligation"].startswith("far-tail")
+
+
+def test_powerful_core_cauchy_radius_gives_the_point_07_milestone() -> None:
+    rho_star = optimized_gaussian_rho()
+    assert abs(float(rho_star) - 0.14545246030840452) < 1e-15
+    assert optimized_cluster_feasible(Fraction(7, 100))
+    assert not optimized_cluster_feasible(Fraction(3, 40))
+    witness = optimized_parameter_witness(Fraction(7, 100))
+    assert witness["laplace_margin"] == Fraction(3854691, 841000000)
+    assert gaussian_powerful_rate(Fraction(143, 1000), Fraction(71, 100)) < 1
+    assert all(
+        witness[key] > 0
+        for key in (
+            "target_rho_margin",
+            "rams_cutoff_margin",
+            "shell_decay_margin",
+            "envelope_rho_margin",
+            "far_tail_margin",
+        )
+    )
+
+
+def test_finite_prime_peeling_removes_the_fixed_rho_barrier() -> None:
+    for rho in (Fraction(1, 10), Fraction(1), Fraction(21, 10), Fraction(10)):
+        witness = split_powerful_witness(rho)
+        radius = witness["tail_radius"]
+        cutoff = witness["small_prime_cutoff"]
+        assert witness["laplace_rate"] < Fraction(1, 2)
+        assert cutoff * radius**2 == 1
+    assert prime_split_architecture_feasible(Fraction(499, 1000))
+    assert not prime_split_architecture_feasible(Fraction(1, 2))
+    witness = prime_split_parameter_witness(Fraction(499, 1000))
+    assert all(
+        witness[key] > 0
+        for key in (
+            "shell_decay_margin",
+            "far_tail_margin",
+            "mean_value_margin",
+            "dyadic_margin",
+        )
+    )
+
+
+def test_window_obstruction_and_point_51_candidate_bracket_useful_bandwidth() -> None:
+    assert f2_half_band_bernstein_floor() > 0
+    assert constant_window_bound(Fraction(1, 2))["simplicity_lower_bound"] < 0
+    obstruction = universal_window_denominator_floor(Fraction(1227, 2500))
+    assert obstruction["denominator_floor"] > 2
+    bounds = useful_bandwidth_bounds()
+    coercivity = half_band_coercivity_margin()
+    assert coercivity["denominator_margin_over_two"] > Fraction(23, 1000)
+    assert bounds["lower_bound"] == Fraction(1, 2)
+    assert bounds["initial_cauchy_lower_bound"] == Fraction(1227, 2500)
+    assert bounds["upper_bound"] == Fraction(51, 100)
+    assert bounds["upper_bound_simplicity"] > 0
+
+
+def test_exploratory_window_scan_finds_no_candidate_below_half() -> None:
+    below = numerical_window_optimum(0.499, nodes=300)
+    above = numerical_window_optimum(0.51, nodes=300)
+    assert -0.029 < below["simplicity_value"] < -0.028
+    assert 0.014 < above["simplicity_value"] < 0.016
+    assert below["window_minimum"] > 0
+    assert above["window_minimum"] > 0
 
 
 def test_target_window_has_only_a_simple_overlap_zero_at_band_edge() -> None:

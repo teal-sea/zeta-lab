@@ -251,6 +251,21 @@ gives the level-two bridge on compact bands inside `|alpha|<1/100`. This band
 does not reach the existing simplicity window, so the historical percentages
 remain quarantined.
 
+Bandwidth forensics subsequently finds that `1/100` was only a convenient
+parameter choice. The old inequalities already reach `|alpha|<1/40`; an
+intermediate coefficient-envelope shell sharpens the infinite tail and reaches
+`|alpha|<1/20`; optimizing the repeated-prime Cauchy radius reaches
+`|alpha|<0.0727262301...`. Peeling off the finitely many primes below the
+tail-radius threshold removes the fixed-rho restriction and reaches every
+compact band inside `|alpha|<1/2`. The first failed checkpoint is `0.50`, at
+the far-tail cutoff versus finite mean-value length rather than RAMS2. The downstream variational
+problem has the exact bounds `0.5<=beta_useful<=0.51`: Cauchy-Schwarz,
+operator coercivity, and completion of squares exclude every admissible
+spectral-factor window through `0.5`; the constant window at `0.51` gives a
+positive conditional value. No actual zero-simplicity percentage follows
+yet; the bridge and the obstruction meet at the strict endpoint `0.5`, and
+the first exact useful candidate is at `0.51`.
+
 A slowly growing Hilbert projection would need order only
 `J(T)=O(log log T)` on a strict sub-quarter band. The fixed-order source does
 not give error constants uniform at that scale. `urms2_attack.py` records the
