@@ -7,7 +7,7 @@ The present outcome is split:
 
 1. the historical coefficient audit is closed;
 2. the exact coefficient-series tail is closed;
-3. the analytic bridge to the actual zero form factor remains open.
+3. the analytic bridge audit closes at Outcome C under the available estimates.
 
 The corrected arithmetic starts
 
@@ -111,19 +111,37 @@ finite sizes. They are not proof inputs.
 
 ## Remaining bridge
 
+The first failed estimate is now exact. On Bian thesis pages 32-33, the
+geometric-tail contour contribution includes
+
+\[
+\int_{T_\varepsilon}^{\infty}\frac{dv}{1+(v-t)^2}.
+\]
+
+For every `t>=T_epsilon`, its restriction to `[t,t+1]` is at least `1/2`.
+The source instead bounds the full integral by `O((t+2)^-2)`. The same step is
+present in the pinned Farmer-Gonek arXiv source for level one.
+
+With the correct absolute contour bound, the geometric tail requires
+`B=Omega(log T)` on a fixed positive alpha. The recorded PNT and off-diagonal
+mean-square bound requires `B=O(log T/log log T)`. These conditions are
+incompatible. The target autocorrelation has only a simple zero at alpha one,
+so weighting does not repair the available bounds.
+
 Bian's printed fixed-`B` theorem cannot identify the coefficient series with
 the actual limiting form factor. At level one, `B=1` gives
 `alpha-4 alpha^2+4 alpha^3`, while `B=2` adds the nonzero term
 `4 alpha^5/3`. Distinct polynomials cannot both equal the same limit on an
 open interval with only `o_B(1)` errors.
 
-The remaining requirement is a corrected explicit-formula or direct weighted
-mean-square argument with a remainder uniform in the truncation level. The
+The remaining requirement is a new `L2` treatment of the full geometric
+remainder, followed by a coefficient-order-uniform arithmetic mean square. The
 coefficient tail needed by such an argument is now explicit. At index 40, the
 required allowance for the rational test window is below `3.279e-9`.
 
-This is Outcome C at the analytic bridge. No replacement ξ'' simplicity
-percentage is published.
+`BRIDGE-CLOSURE.md` states the exact pointwise and weighted theorem schemas,
+audits every error class, and records the trust boundary. No replacement ξ''
+simplicity percentage is published.
 
 ## Pinned source and historical correction
 

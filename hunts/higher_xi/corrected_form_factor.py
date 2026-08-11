@@ -1,6 +1,6 @@
-"""Exact corrected xi-double-prime form factor and a uniform tail bound.
+"""Exact corrected xi-double-prime coefficient object and uniform tail bound.
 
-The regular part is
+The candidate regular series is
 
     F2(alpha) = sum_{i >= 1} C_i |alpha|^i.
 

@@ -12,9 +12,26 @@ majorant for the infinite corrected series and the uniform bandwidth-one bound
 
 A different barrier remains: the available source does not justify identifying
 that entire coefficient-generated object with the limiting pair form factor of
-the zeros of `xi''`.
+the zeros of `xi''`. `BRIDGE-CLOSURE.md` identifies the first failed estimate,
+not merely an absent uniformity argument.
 
 ## First exact obstruction to the bridge
+
+On thesis pages 32-33, the geometric truncation remainder contains
+
+\[
+\int_{T_\varepsilon}^{\infty}\frac{dv}{1+(v-t)^2}.
+\]
+
+For `t>=T_epsilon` this is at least `1/2`, but the source assigns it
+`O((t+2)^-2)`. The unit interval `[t,t+1]` is the smallest obstruction. This
+invalidates the explicit-formula remainder used by the later mean square.
+
+Correcting the absolute bound forces geometric order `B=Omega(log T)` on any
+fixed positive alpha. The source's fixed-order mean-square error can vanish
+only with `B=O(log T/log log T)`. No single order selection satisfies both.
+
+There is also a uniqueness symptom at level one:
 
 Bian's Theorem 1 is stated for every fixed positive integer `B`, with only an
 `o_(kappa,B)(1)` remainder, uniformly on `0<|alpha|<1`. At level one, `B=1`
@@ -69,4 +86,4 @@ missing input is therefore not a coefficient-growth estimate. It is a uniform
 analytic remainder connecting the arithmetic expansion to the zero statistic.
 
 This is Outcome C at the form-factor bridge, with the coefficient-series part
-of the directive completed.
+of the directive completed and the first failed analytic estimate pinned.

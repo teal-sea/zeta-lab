@@ -20,6 +20,15 @@ from bian_audit import (
     required_weighted_tail,
     tail_cancellation_ratio,
 )
+from bridge_obstruction import (
+    claimed_decay_upper,
+    computed_overlap_boundary_coefficient,
+    counterexample_height,
+    kernel_interval_lower_bound,
+    level_one_fixed_b_value,
+    target_overlap_boundary_coefficient,
+    target_window_endpoint,
+)
 from cue_oracle import angular_derivative_levels, derived_truncation, f1_closed
 from dirichlet_recurrence import (
     dirichlet_convolution,
@@ -234,6 +243,27 @@ def test_small_exact_window_gives_a_strict_point_9234015_bound() -> None:
     assert positivity_floor() == Fraction(68213, 100000)
     assert result["tail_loss"] == tail_bound()
     assert result["simplicity_lower_bound"] > Fraction(9234015, 10**7)
+
+
+def test_contour_tail_has_no_claimed_height_decay() -> None:
+    for constant in (Fraction(1), Fraction(10), Fraction(10**6), Fraction(7, 3)):
+        height = counterexample_height(constant, cutoff=17)
+        assert height >= 17
+        assert kernel_interval_lower_bound() > claimed_decay_upper(constant, height)
+
+
+def test_distinct_fixed_orders_cannot_have_one_pointwise_limit() -> None:
+    alpha = Fraction(1, 2)
+    first = level_one_fixed_b_value(1, alpha)
+    second = level_one_fixed_b_value(2, alpha)
+    assert second - first == Fraction(1, 24)
+
+
+def test_target_window_has_only_a_simple_overlap_zero_at_band_edge() -> None:
+    endpoint = target_window_endpoint()
+    assert endpoint == Fraction(68213, 100000)
+    assert target_overlap_boundary_coefficient() == endpoint**2
+    assert computed_overlap_boundary_coefficient() == endpoint**2
 
 
 def test_completed_picket_fence_stays_a_picket_fence() -> None:

@@ -25,6 +25,14 @@ obligation is now narrower: establish a uniform analytic bridge from
 `xi'''/xi''` to the actual zero form factor. The printed fixed-`B` theorem is
 not that bridge, as its distinct level-1 truncation polynomials already show.
 
+`BRIDGE-CLOSURE.md` closes the present analytic audit at Outcome C. The first
+failed source estimate is the contour-tail step on thesis pages 32-33: an
+integral whose kernel mass stays at least `1/2` for target heights inside the
+integration range is assigned quadratic height decay. Correcting it exposes
+incompatible truncation-order requirements in the geometric tail and the
+fixed-order mean-square error. No fixed positive alpha band, including the
+target weighted window, follows from the recorded estimates.
+
 The completed-CUE experiment uses angular derivatives of
 
 ```text
@@ -44,7 +52,7 @@ The desired outputs, in order, are:
 1. an exact coefficient provenance table and smallest obstruction;
 2. a rigorous full-band coefficient tail and a quantified analytic bridge;
 3. independent numerical oracles for the corrected object;
-4. only after the tail closes, a window-functional calculation.
+4. only after the finite-height bridge closes, a zero-statistics window result.
 
 ## Scope
 
