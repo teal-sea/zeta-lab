@@ -414,9 +414,11 @@ def _zeros_upto(gamma_max: float) -> Iterable:
 def _zero_side(h, gamma_max: float, dps: int):
     """(Σ_{0<γ<=γmax} [h(γ) + h(-γ)], zeros used, skipped-tail slack).
 
-    Early exit once a (hint-provided, nonincreasing) envelope certifies that
+    Early exit once a (hint-provided, nonincreasing) envelope establishes that
     every remaining term is below 10^-(dps+10); the slack term returned is an
     upper bound on everything skipped and is folded into the tail bound.
+    (The word *certifies* is deliberately not used here: this is the float
+    pipeline, and the reserved word belongs to ``zeta/rigor.py`` alone.)
     """
     hints = getattr(h, "weil_hints", {})
     env = hints.get("envelope")
@@ -426,7 +428,7 @@ def _zero_side(h, gamma_max: float, dps: int):
     skipped_slack = mp.mpf(0)
     for z in _zeros_upto(gamma_max):
         if env is not None and env(z) * 2 < thresh:
-            # everything from here on is certified negligible
+            # everything from here on is bounded negligible (float pipeline)
             from zeta.zeros import riemann_von_mangoldt
 
             # N(gamma_max) <= RvM(gamma_max) + Q(gamma_max) (Backlund; the

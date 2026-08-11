@@ -176,10 +176,17 @@ direction:
 - the Fourier quasicrystal separation (`docs/18` §4)
 - `localpos.py`'s `c_p` — coefficient-side, local Selberg bound
 
-All three read arithmetic; none can read the *position* of the critical line,
-for the reason `docs/18` §6 already states — `ζ(s−δ)` has the same coefficients
-up to a shift and its zeros lie nowhere near `Re s = ½`. Requirement A forbids
-importing zeros; reading the line appears to require exactly what it forbids.
+All three read arithmetic; none can read the *position* of the critical line.
+
+> **Superseded 2026-08-11 (`docs/25`). The proposal in this section must not be
+> adopted, and the reason given for it is wrong.** `docs/18` §6 says *ordinate*
+> statistics, not coefficient statistics; `ζ(s−δ)` has coefficients `n^δ a_n`,
+> not the same ones; and `c_p` in fact reads that twist, with threshold exactly
+> `δ = ½` (`c_p = 2x/(1+x)`, `x = p^{δ−½}` — the Selberg-class axiom's `θ < ½`).
+> What is true is the weaker statement that these three particular statistics
+> are invariant, or nearly so, under the twist. The universal is refuted inside
+> this repository by `criteria.py` face 1: `M(x) = O(x^{½+ε}) ⟺ RH` is a
+> criterion in the coefficients of `1/ζ` alone (Titchmarsh 14.25(B)/(C)).
 
 That tension is not an artifact of any one attempt, and three independent
 instruments landing on it is a measurement rather than a coincidence. It belongs

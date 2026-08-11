@@ -15,3 +15,4 @@ import ZetaLean.DHDemo
 import ZetaLean.DHZeroCriterion
 import ZetaLean.HardyZ
 import ZetaLean.DHCertSupport
+import ZetaLean.FiniteFieldTrace

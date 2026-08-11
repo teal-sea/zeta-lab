@@ -123,6 +123,20 @@ def _exact(value) -> Fraction:
     ``(sign, man, exp, bc)`` representation, also bit-exactly.  Strings and
     ``Fraction``/``Decimal`` are taken at face value, so ``enclose_Z("14.5")``
     encloses Z at 29/2 exactly.
+
+    **Anything else is refused, and that refusal is load-bearing.**  Until
+    2026-08-11 the fallthrough was ``Fraction(str(value))`` — the *printed
+    decimal* taken as exact.  ``numpy.float64`` is a ``float`` subclass and was
+    safe, but ``numpy.float32``/``float16``/``longdouble`` and ``sympy.Float``
+    are not: ``np.float32(21.02203941345215)`` is exactly 11021603/524288,
+    while its repr parses as 525551/25000, a different point by ~4e-7.  The
+    enclosure returned was then a ~1e-46-wide interval around Z at *the wrong
+    abscissa*, and ``proven_sign`` returned a nonzero — i.e. a wrong proof —
+    identically on both backends, so the cross-check could not see it.  The
+    rule now: convert through the exact binary value when the widening is
+    lossless (float32/float16), and raise ``TypeError`` otherwise.  A
+    ``TypeError`` costs the caller one explicit conversion; the old behaviour
+    cost the module its guarantee.
     """
     if isinstance(value, Fraction):
         return value
@@ -144,9 +158,25 @@ def _exact(value) -> Fraction:
         out = Fraction(int(man)) * Fraction(2) ** int(exp)
         return -out if sign else out
     try:
-        return Fraction(value)
+        return Fraction(value)  # Fraction, Decimal, str: face value, exact
     except (TypeError, ValueError):
-        return Fraction(str(value))
+        pass
+    to_float = getattr(value, "__float__", None)
+    if to_float is not None:
+        as_float = float(value)
+        if not math.isfinite(as_float):
+            raise ValueError(f"non-finite abscissa {value!r}")
+        try:  # only accept when widening to float64 loses nothing
+            lossless = bool(type(value)(as_float) == value)
+        except Exception:  # pragma: no cover - exotic types without a ctor
+            lossless = False
+        if lossless:
+            return Fraction(as_float)
+        raise TypeError(
+            f"{type(value).__name__} cannot be converted to an exact rational "
+            "without loss; pass Fraction(x), a string, or an mpmath mpf instead"
+        )
+    raise TypeError(f"cannot convert {type(value).__name__} to an exact abscissa")
 
 
 def _mpf_exact(num: int, exp: int):
@@ -1894,8 +1924,17 @@ def enclose_weil_functional(
             "prime_tail_bound": _arb_bounds(prime_tail)[1],
         }
 
-    sign = 1 if lo > 0 else (-1 if hi < 0 else 0)
     certified = not uncertified and mp.isfinite(lo) and mp.isfinite(hi)
+    # ``sign`` is documented as *proven*, so it may not be read off an
+    # enclosure that some step failed to establish.  Concretely (2026-08-11):
+    # when the Fejér cutoff proof ``log(n_max+1) > 2b`` cannot be closed, the
+    # code records that in ``uncertified_steps`` and then continues with
+    # ``prime_tail = 0`` — an enclosure asserting the prime sum is exactly
+    # complete, which is the very thing it just failed to prove.  ``sign`` was
+    # then computed from that enclosure and came back nonzero.
+    # ``positivity_proven`` was already gated on ``certified``; ``sign`` now is
+    # too, and 0 keeps its documented meaning: not decided.
+    sign = (1 if lo > 0 else (-1 if hi < 0 else 0)) if certified else 0
 
     checks: dict = {}
     if cross_check:

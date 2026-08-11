@@ -30,11 +30,20 @@ Measured, with a bump h centred at c (`detector_battery`):
   predicted contribution from the known off-line quadruple
   {β+iγ₀, 1−β+iγ₀, and conjugates} of **+4.096324360134** — agreeing to
   **8.9e-15**.
-* **The peak height measures how far off the line the zero is.**  The
-  quadruple contributes ≈ 4·exp(a·(β−½)²), so inverting gives
-  |β − ½| = 0.308517 against the true 0.308517 — to **1.3e-14**
-  (`recover_distance_from_line`).  The detector does not merely notice the
-  violation; it quantifies it.
+* **The peak height measures how far off the line the zero is — but only if
+  you already know where the peak is.**  The quadruple contributes
+  ≈ 4·exp(a·(β−½)²), so inverting gives |β − ½| = 0.308517 against the true
+  0.308517 — to **1.3e-14** (`recover_distance_from_line`).  That 1.3e-14 is
+  obtained by evaluating the residue *at* `OFFLINE_ZERO_IM`, i.e. at thirteen
+  correct decimals of the answer, and the inversion `sqrt(log(r/4)/a)` is
+  infinitely steep at r = 4: the whole signal lives in the fourth decimal of
+  the residue.  Measured 2026-08-11: displacing the centre by 7e-4 costs seven
+  orders (7.2e-7 error), and running the module's *own* pipeline end to end —
+  `residue_scan` on the grid the tests use, then argmax, then invert — recovers
+  0.0221 against the true 0.3085, a **92.8 % error**.  So: **detection is
+  unconditional, quantification is conditional on an independently located
+  ordinate.**  `recover_distance_from_line` says the same in its own docstring;
+  the headline above used to say it only there.
 
 The archimedean brackets are *derived*, not recalled.  For a completed
 function Λ(s) = Λ_∞(s)f(s) the bracket is 2·Re(Λ_∞′/Λ_∞)(½+ir):
@@ -233,24 +242,74 @@ def recover_distance_from_line(residue: float, a=DEFAULT_WIDTH) -> float:
     return float(mp.sqrt(mp.log(r / 4) / mp.mpf(a)))
 
 
-def online_list_is_complete(t0: float, t1: float, dps: int = 15) -> dict[str, Any]:
-    """Cross-check the cached DH on-line ordinates against an independent count.
+def online_list_is_complete(
+    t0: float, t1: float, dps: int = 15, method: str = "sign_changes"
+) -> dict[str, Any]:
+    """Cross-check the cached DH on-line ordinates against a second count.
 
     The residue cannot tell an off-line zero from an on-line zero the
-    sign-change hunt missed, so this guard is not optional.  The reference is
-    ``zeta.epstein.zeros_on_line``, which counts sign changes of Z_dh on its
-    own grid.
+    sign-change hunt missed, so this guard is not optional.
+
+    **What the cheap route does and does not establish (measured 2026-08-11).**
+    ``method="sign_changes"`` counts sign changes of Z_dh with
+    ``zeta.epstein.zeros_on_line`` — the *same technique on the same function*
+    that produced the cached list, on a grid that is in fact **1.4×–1.8×
+    coarser** (mean_spacing/20 ≈ 0.069–0.091 against the cache's 0.05).  A pair
+    closer than either step is missed by both, identically.  So it is a
+    grid-refinement check with **no power** against the failure mode the
+    docstring used to claim it covered; ``independent`` in the returned dict
+    says so, in data.
+
+    ``method="strip"`` is the count that is genuinely independent of the
+    technique: ``zeta.epstein.count_zeros_box`` applies the argument principle
+    to the rectangle ``Re s ∈ [-0.5, 1.5]``, ``Im s ∈ (t0, t1]``, so it sees
+    *every* zero in the strip, on the line or not.  The identity it checks is
+
+        strip count = on-line count + 2·(number of off-line quadruple members)
+
+    so with the off-line zeros known (``expected_offline``, default: the one
+    quadruple at γ ≈ 85.699 that ``zeta.epstein`` locates) it decides
+    completeness outright.  Measured on the cached list: deficit 0 at T = 40
+    and T = 60, deficit exactly 2 at T = 90 — the quadruple.  It costs ~25–115 s
+    per window against ~1 s, which is why it is not the default.
+
+    ``complete`` is the verdict of whichever route ran; ``independent`` is True
+    only for ``"strip"``.
     """
     from .epstein import zeros_on_line
 
     cached = [z for z in _online_ordinates("dh") if t0 < float(z) <= t1]
-    reference = int(zeros_on_line(t0, t1, dps=dps))
-    return {
+    out: dict[str, Any] = {
         "window": (float(t0), float(t1)),
         "cached_count": len(cached),
-        "reference_count": reference,
-        "complete": bool(len(cached) == reference),
+        "method": method,
     }
+    if method == "sign_changes":
+        reference = int(zeros_on_line(t0, t1, dps=dps))
+        out["reference_count"] = reference
+        out["independent"] = False
+        out["shares_blind_spot_with_the_cache"] = (
+            "both are Z_dh sign-change scans; a pair closer than either grid "
+            "step is invisible to both"
+        )
+        out["complete"] = bool(len(cached) == reference)
+        return out
+    if method == "strip":
+        from .epstein import OFFLINE_ZERO_IM, count_zeros_box
+
+        strip = int(count_zeros_box(complex(-0.5, t0), complex(1.5, t1), dps=dps))
+        # each off-line quadruple contributes two members per (positive) window:
+        # beta + i*gamma and 1 - beta + i*gamma
+        expected_offline = 2 * sum(
+            1 for g in (float(OFFLINE_ZERO_IM),) if t0 < g <= t1
+        )
+        out["strip_count"] = strip
+        out["expected_offline_members"] = expected_offline
+        out["deficit"] = strip - len(cached) - expected_offline
+        out["independent"] = True
+        out["complete"] = bool(out["deficit"] == 0)
+        return out
+    raise ValueError(f"unknown method {method!r} (use 'sign_changes' or 'strip')")
 
 
 def detector_battery(a=DEFAULT_WIDTH) -> dict[str, Any]:

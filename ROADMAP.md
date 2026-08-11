@@ -967,6 +967,22 @@ decides whether a battery can reject anything is still the author's.
 
 Listed because an undocumented gap becomes an assumption.
 
+0. **The guards are the frontier, and two of them did not fire (2026-08-11).**
+   The director run (`docs/25`) found six defects in recorded claims; three were
+   controls that could not do their job — a completeness check whose "independent"
+   reference was the same technique on a coarser grid, a truncation guard that
+   encoded "cannot decide" as the favourable verdict, and a scan column that was
+   structurally incapable of reading False. A fourth was worse: `zeta/rigor.py`
+   could return a **wrong** `proven_sign`, and the two-backend cross-check was
+   blind to it because the fault was in a shared input rather than in either
+   implementation. Standing consequences, recorded so they are not re-derived:
+   a cross-check bounds only what is actually duplicated; and a repetition
+   across instruments is evidence about the instruments before it is evidence
+   about the subject. The `ROADMAP.md` call that `hunts/local_positivity/`
+   asked for is answered there: coefficient-side blindness does **not** become
+   a standing constraint on the programme — the universal is false, and
+   `criteria.py` face 1 is the in-tree counterexample.
+
 1. **The harness has six departments, and the foreign-ingestion half of
    this gap is now measured.** The protocol survived a decidable-property
    subject (finite fields), a foreign-vocabulary subject (programs), and —
