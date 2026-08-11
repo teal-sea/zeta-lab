@@ -1,4 +1,4 @@
-"""Small exact checker for one corrected xi-double-prime window.
+"""Small exact checker for one conditional xi-double-prime coefficient window.
 
 The window is
 
