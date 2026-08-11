@@ -14,9 +14,16 @@ The present obligation is to reconstruct the arithmetic coefficients of
 information with a controlled tail, and use completed-CUE and direct
 Dirichlet recurrences only as independent falsification oracles.
 
-`C2_PROVENANCE.md` closes the coefficient audit. It finds that thesis page 71
+`C2_PROVENANCE.md` closes the historical coefficient audit. It finds that thesis page 71
 drops the factors `M(v_l)M(w_k)` when passing to equation (8.1). The corrected
 system first diverges at `C[2,2]=-8`, not the printed `-4`.
+
+`CORRECTED-F2.md` derives the infinite corrected coefficient object. It gives
+the rational generating function for `q_j`, 40 exact coefficients, and a
+uniform index-40 tail below `3.279e-9` on bandwidth one. The remaining
+obligation is now narrower: establish a uniform analytic bridge from
+`xi'''/xi''` to the actual zero form factor. The printed fixed-`B` theorem is
+not that bridge, as its distinct level-1 truncation polynomials already show.
 
 The completed-CUE experiment uses angular derivatives of
 
@@ -35,7 +42,7 @@ The controls are forced:
 The desired outputs, in order, are:
 
 1. an exact coefficient provenance table and smallest obstruction;
-2. a rigorous full-band tail or a quantified tail barrier;
+2. a rigorous full-band coefficient tail and a quantified analytic bridge;
 3. independent numerical oracles for the corrected object;
 4. only after the tail closes, a window-functional calculation.
 
