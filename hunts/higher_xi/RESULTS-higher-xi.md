@@ -191,10 +191,9 @@ isolate height variation without a coefficient-order cutoff. The inverse is
 not multiplicative; the first exact defect occurs on the coprime pair `2,3`.
 
 The reflected coefficient object resums pointwise below `alpha=1/2` at level
-one and below `alpha=1/4` at level two. The corresponding elementary square
-sum is only `x(log x)^2`, while the two-range mean square requires `x log x`.
-This one-log loss already blocks URMS1, so no positive zero-statistics band is
-claimed.
+one and below `alpha=1/4` at level two. The first elementary square bound was
+only `x(log x)^2`, while the two-range mean square requires `x log x`. The
+later RAMS1 closure below identifies and removes that loss at level one.
 
 `URMS2-ATTACK.md` states the three URMS variants and the smallest remaining
 package:
@@ -217,15 +216,31 @@ non-prime cross-depth interactions to repeated-prime collision strata. The
 all-depth squarefree contribution has an `O_r(x log x)` prime-measure
 majorant. Pure prime powers satisfy the exact formula
 `a_z(p^a)=log(p)((1+z log(p))^a-2)` and are lower order. The remaining RAMS1
-obligation is an order-uniform summable bound for mixed repeated-prime
-collision errors. It is not supplied by the fixed-depth source estimates.
+obligation at that stage was an order-uniform summable bound for mixed
+repeated-prime collision errors. It is not supplied by the fixed-depth source
+estimates.
 
 An exact generating mechanism is available for that last obstruction:
 `alpha_k(n)=log(n)Lambda_k(n)/k`. Borel resummation turns the full ordinary
 inverse into a Laplace integral of a multiplicative coefficient family, and
-the Hadamard square of that family has an Euler product. The remaining analytic
-target is a two-parameter Tauberian estimate uniform in both Laplace variables
-when `z` and `s-1` are simultaneously of order `1/log x`.
+the Hadamard square of that family has an Euler product. This exposed a
+two-parameter Tauberian target uniform in both Laplace variables when `z` and
+`s-1` are simultaneously of order `1/log x`.
+
+That target is now closed at level one. The unique decomposition `n=q*m`,
+with `q` powerful and `m` squarefree, factors the full resummed coefficient.
+Squarefree terms yield the infinite Farmer-Gonek-Lee series; the powerful
+multiplier has finite harmonic mass and tends to zero off `q=1`. Hence RAMS1
+has the `x log x` asymptotic uniformly when `0<r_min<=r<=r_0<1`.
+
+Early smoothing then keeps the exact resolvent on the right contour line. The
+Cauchy partial fraction selects the two Dirichlet ranges by Fourier support,
+and the height-freezing commutator costs `O(log(T)/T)`. Together with a
+separate Hilbert-space bound for the infinite upper range, this establishes
+URMS1 on compact positive bands inside `|alpha|<1/4`. The limit agrees with the infinite
+Farmer-Gonek-Lee regular expression. The lift to level two is blocked by the
+connected `A*A` denominator atom, which destroys Borel multiplicativity at
+the coprime input 6. The missing estimate is named `RAMS2-Cluster`.
 
 A slowly growing Hilbert projection would need order only
 `J(T)=O(log log T)` on a strict sub-quarter band. The fixed-order source does

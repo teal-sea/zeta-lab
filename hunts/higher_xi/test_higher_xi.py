@@ -75,9 +75,15 @@ from urms2_attack import (
 from rams1 import (
     alpha_symmetry_defects,
     borel_multiplicativity_defects,
+    cauchy_partial_fraction_defect,
+    cauchy_two_range_exponent_defects,
+    commutator_local_mass,
     formal_level_one_layers,
     independent_resolvent_defect,
     phi1,
+    powerful_factorization_defects,
+    powerful_split_coefficient_defects,
+    powerful_squarefree_defects,
     prime_power_layer,
     prime_power_resummed,
     square_density_decomposition,
@@ -369,6 +375,27 @@ def test_level_one_alpha_is_log_n_over_k_times_lambda_k() -> None:
 
 def test_borel_convolution_generator_is_multiplicative() -> None:
     assert all(defect == 0 for defect in borel_multiplicativity_defects())
+
+
+def test_powerful_squarefree_support_split_is_exact() -> None:
+    assert all(defect == 0 for defect in powerful_squarefree_defects())
+    assert all(defect == 0 for defect in powerful_factorization_defects())
+
+
+def test_resummed_coefficient_factors_over_the_powerful_split() -> None:
+    assert all(defect == 0 for defect in powerful_split_coefficient_defects())
+
+
+def test_early_smoothed_cauchy_kernel_selects_the_two_ranges() -> None:
+    assert cauchy_partial_fraction_defect() == 0
+    assert cauchy_two_range_exponent_defects() == (0, 0)
+    radius = sp.Symbol("R", positive=True)
+    variable = sp.Symbol("u", positive=True)
+    direct = 2 * sp.integrate(
+        variable / (1 + variable**2),
+        (variable, 0, radius),
+    )
+    assert sp.simplify(direct - commutator_local_mass(radius)) == 0
 
 
 def test_level_one_depth_sum_matches_independent_exact_inverse() -> None:
