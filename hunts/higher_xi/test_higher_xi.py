@@ -3,6 +3,7 @@
 from fractions import Fraction
 from pathlib import Path
 import json
+import math
 import sys
 
 import numpy as np
@@ -26,8 +27,20 @@ from dirichlet_recurrence import (
     run_ell,
     smallest_prime_factors,
 )
+from corrected_form_factor import (
+    TWO_STEP_RATIO,
+    coarse_two_step_ratio,
+    corrected_coefficients,
+    fock_upper_coefficient,
+    gram_weight_inequalities,
+    ratio_residue_formula,
+    sign_coherence_holds,
+    tail_bound,
+    value_interval,
+)
 from window_probe import KNOWN_XIPRIME_H, optimize_measure
 from exact_c2 import derive_c2, derive_level_one
+from window_certificate import exact_window_check, positivity_floor
 
 
 def _direct_completed_derivative_roots(
@@ -167,6 +180,60 @@ def test_exact_fixture_matches_both_generators() -> None:
         printed = Fraction(row["bian_figure_10_1"])
         assert route_a == route_b == derived[index]
         assert (route_a == printed) == (row["status"] == "MATCH")
+
+
+def test_extended_fixture_matches_all_exact_routes() -> None:
+    fixture = json.loads(Path(__file__).with_name("C2_EXTENDED.json").read_text())
+    derived = derive_c2(40)["coefficients"]
+    assert derived == corrected_coefficients(40)
+    assert len(fixture["coefficients"]) == 40
+    for row in fixture["coefficients"]:
+        index = row["i"]
+        value = Fraction(row["value"])
+        assert value == derived[index]
+        assert Fraction(row["scaled_integer"]) == (
+            value * math.factorial(index) / 2 ** (index - 1)
+        )
+
+
+def test_corrected_coefficients_have_exact_alternating_sign() -> None:
+    assert sign_coherence_holds(40)
+    assert all(
+        (value > 0) == (index % 2 == 1)
+        for index, value in corrected_coefficients(40).items()
+    )
+
+
+def test_fock_majorant_dominates_the_exact_fixture() -> None:
+    assert all(left <= right for left, right in gram_weight_inequalities().values())
+    assert all(
+        abs(value) <= fock_upper_coefficient(index)
+        for index, value in corrected_coefficients(40).items()
+    )
+
+
+def test_coarse_tail_ratio_has_the_claimed_uniform_bound() -> None:
+    for total_power in range(101, 181):
+        index = total_power + 1
+        assert coarse_two_step_ratio(index) == ratio_residue_formula(
+            total_power % 4, total_power // 4
+        )
+        assert coarse_two_step_ratio(index) <= TWO_STEP_RATIO
+
+
+def test_uniform_index_40_tail_and_endpoint_interval() -> None:
+    bound = tail_bound()
+    assert bound < Fraction(328, 10**11)
+    lower, upper = value_interval(Fraction(1))
+    target = Fraction(4763446325, 10**9)
+    assert lower < target < upper
+
+
+def test_small_exact_window_gives_a_strict_point_9234015_bound() -> None:
+    result = exact_window_check()
+    assert positivity_floor() == Fraction(68213, 100000)
+    assert result["tail_loss"] == tail_bound()
+    assert result["simplicity_lower_bound"] > Fraction(9234015, 10**7)
 
 
 def test_completed_picket_fence_stays_a_picket_fence() -> None:
