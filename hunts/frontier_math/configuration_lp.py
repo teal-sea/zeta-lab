@@ -92,6 +92,8 @@ def solve(J=640, X=160.0, h=1 / 16, eps=2.5e-3, M=6, A_out=None,
 
 def ladder(A_out=None, cases=None):
     """The (X, J, eps) ladder used in RESULTS; eps = 0.4/X tracks the floor."""
+    # (X, J); the two largest rungs are slow (X = 320 ~3 min, X = 640 ~78 min)
+    # and are recorded in RESULTS rather than run by default.
     if cases is None:
         cases = [(40.0, 200), (80.0, 320), (160.0, 640)]
     out = []

@@ -41,9 +41,13 @@ joint formulation keeping cross-window information. Formulated here
   nonnegative coefficients `m²−2m` and 0). So the
   LP value is the dual of the Montgomery–Taylor extremal problem, and
   integrality devices beyond (m−1)(m−2) buy nothing at the measure level.
-- **Measured**: the (X, J, ε) ladder descends 0.6794 → 0.6776 → 0.6765
-  (ε = 0.4/X at the truncation floor ~1/(π²X)), consistent with convergence
-  to the paper's 0.6725007 from above and with nothing in between. Two
+- **Measured**: the (X, J, ε) ladder descends monotonically
+  0.6794 → 0.6776 → 0.6765 → 0.6756 → 0.6750823
+  (X = 40, 80, 160, 320, 640 with J = 5X and ε = 0.4/X at the truncation
+  floor ~1/(π²X); the last rung costs ~78 min), consistent with convergence
+  to the paper's 0.6725007 from above and with nothing in between — the
+  residual 2.6e-3 at X = 640 tracks the ε-band rather than any gap, since
+  D climbs 1.3206 → 1.324918 toward the MT constant 1.3274993. Two
   independent corroborations: the paper scopes Theorem D's optimality to
   "the values of F on [−1,1] only" (§1.2), and Cheer–Goldston's closing
   remark records 1993 numerics that the pure-frequency problem attains the
@@ -73,6 +77,12 @@ bound on prime pair correlations, however sharp, opens the band.
 the critical line was claimed to improve unconditionally,
 
     N₀ˢ(T,2T) ≥ (0.6725124 + o(1)) N(T,2T)    [paper: 0.6725007…]
+
+**Historical progression, now withdrawn:** §5's gap-distribution LP raised
+the same arithmetic floor to `0.672529`, which was the hunt's headline
+candidate before Gate 0 failed. The `0.6725124` below is the five-bucket
+version, kept because it is calibrated directly against Cheer–Goldston's
+printed 1993 constants. Neither value now has a zeta implication.
 
 by transplanting Cheer–Goldston's 1993 gap-rigidity floor into the paper's
 Frobenius counting. The floor: consecutive gaps of on-line zeros cannot all
