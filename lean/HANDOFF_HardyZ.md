@@ -2,7 +2,7 @@
 
 **Target:** `hardyZ`
 **Status:** Ready to draft Lean code
-**Workspace:** `/Users/thomas/zeta-lab/lean/ZetaLean/`
+**Workspace:** `lean/ZetaLean/`
 **Target Host:** `leanprover-community/mathlib4`
 
 ## Goal

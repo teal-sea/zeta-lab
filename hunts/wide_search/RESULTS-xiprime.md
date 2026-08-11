@@ -247,7 +247,7 @@ needs information on prime pairs.
 
 ## Reproducing
 
-    cd /Users/thomas/Zeta
+    cd $REPO
     .venv/bin/python -c "import sys; sys.path.insert(0,'hunts/wide_search'); \
       from xiprime import optimise; o=optimise(kernel='xiprime'); print(o['H'])"
 

@@ -1,6 +1,6 @@
 # party04 — a hollow department in the board-game-move-sequence domain
 
-Module: `/Users/thomas/.claude/jobs/8a57a257/tmp/blind/party04/department.py`
+Module: `$BLIND/party04/department.py`
 Final grade: **CALIBRATED** (18/18 named checks pass)
 
 ## Run count
@@ -90,11 +90,11 @@ and fires when the age is under half a month. The target was recorded
 Run:
 
 ```
-/Users/thomas/Zeta/.venv/bin/python -c "
+$REPO/.venv/bin/python -c "
 import sys, importlib.util
-sys.path.insert(0,'/Users/thomas/Zeta')
+sys.path.insert(0,'$REPO')
 from harness.protocol import run_battery
-spec = importlib.util.spec_from_file_location('party04','/Users/thomas/.claude/jobs/8a57a257/tmp/blind/party04/department.py')
+spec = importlib.util.spec_from_file_location('party04','$BLIND/party04/department.py')
 m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
 print('ABSURD_CLAIM_TEXT:', m.ABSURD_CLAIM_TEXT)
 v = run_battery(m.DEPARTMENT.battery, m.ABSURD_CLAIM, name='record_made_under_a_waxing_moon')

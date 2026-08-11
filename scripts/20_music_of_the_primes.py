@@ -6,7 +6,7 @@ import sys
 import math
 from mpmath import mp
 
-# We port the core music theory concepts from fretboard-mapper
+# Core music-theory helpers, ported from a separate fretboard project
 NOTE_NAMES = ['C', 'C#', 'D', 'D#', 'E', 'F', 'F#', 'G', 'G#', 'A', 'A#', 'B']
 
 def hz_to_midi(freq_hz):

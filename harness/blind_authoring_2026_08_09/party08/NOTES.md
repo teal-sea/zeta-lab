@@ -1,7 +1,7 @@
 # party08 — notes
 
 Domain: **calendar recurrence rules — does this rule ever fire on a leap day?**
-Module: `/Users/thomas/.claude/jobs/8a57a257/tmp/blind/party08/department.py`
+Module: `$BLIND/party08/department.py`
 Final grade: **CALIBRATED** (18/18 named checks pass)
 
 ## check.py runs: 7

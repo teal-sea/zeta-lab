@@ -1,6 +1,6 @@
 # party01 — hollow department, weather-station hourly readings
 
-Module: `/Users/thomas/.claude/jobs/8a57a257/tmp/blind/party01/department.py`
+Module: `$BLIND/party01/department.py`
 Final grade: **CALIBRATED** (all 18 named checks pass)
 `check.py` runs: **4** (counted honestly — 3 that drove changes, plus one
 final confirmation run after NOTES.md was written; see the log at the bottom)
@@ -90,8 +90,8 @@ whatsoever to do with weather; the target's day is waxing gibbous and all
 three rival days happen to be waning.
 
 ```
-$ /Users/thomas/Zeta/.venv/bin/python -c "
-import sys; sys.path.insert(0,'/Users/thomas/Zeta'); sys.path.insert(0,'/Users/thomas/.claude/jobs/8a57a257/tmp/blind/party01')
+$ $REPO/.venv/bin/python -c "
+import sys; sys.path.insert(0,'$REPO'); sys.path.insert(0,'$BLIND/party01')
 from harness.protocol import run_battery
 import department as D
 v = run_battery(D.DEPARTMENT.battery, D.ABSURD_CLAIM, name='waxing_moon')
