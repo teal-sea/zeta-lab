@@ -34,6 +34,79 @@
   "t_pde": "0.0441263445516",
   "tail_bound_log10": "-64.642"
  },
+ "map2": {
+  "all_cells_agree": true,
+  "cells": [
+   {
+    "agree": true,
+    "budget_t": "0.048318905",
+    "contour_count": "2.0",
+    "d": 19000,
+    "detected": false,
+    "n": 0,
+    "predicted_detect": false
+   },
+   {
+    "agree": true,
+    "budget_t": "0.041729963",
+    "contour_count": "2.0",
+    "d": 22000,
+    "detected": true,
+    "n": 0,
+    "predicted_detect": true
+   },
+   {
+    "agree": true,
+    "budget_t": "0.00091805919",
+    "contour_count": "2.0",
+    "d": 1000000,
+    "detected": true,
+    "n": 0,
+    "predicted_detect": true
+   },
+   {
+    "agree": true,
+    "budget_t": "0.16279375",
+    "contour_count": "1.0",
+    "d": 100000000,
+    "detected": false,
+    "n": 1,
+    "predicted_detect": false
+   },
+   {
+    "agree": true,
+    "budget_t": "0.16370263",
+    "contour_count": "1.0",
+    "d": 1000000,
+    "detected": false,
+    "n": 1,
+    "predicted_detect": false
+   },
+   {
+    "agree": true,
+    "budget_t": "0.19338654",
+    "contour_count": "1.0",
+    "d": 30000,
+    "detected": false,
+    "n": 1,
+    "predicted_detect": false
+   }
+  ],
+  "dps": 130,
+  "seconds": 32.51,
+  "zeta_specificity": [
+   {
+    "d": 100000000,
+    "n": 1,
+    "winding": "-8.9092e-95"
+   },
+   {
+    "d": 30000,
+    "n": 1,
+    "winding": "-3.8476e-95"
+   }
+  ]
+ },
  "pair2": {
   "contour_count": "2.0",
   "contour_min_mod_log10": "-38.216",
@@ -190,6 +263,92 @@
    }
   ],
   "seconds": 180.69
+ },
+ "shift": {
+  "c0_over_half_inv_u0sq": "1.4362418",
+  "c0_per_step": "0.162784571",
+  "c1_per_step": "0.1825961113",
+  "d_big": 100000000,
+  "dps": 130,
+  "g1": "0.162784571",
+  "g2": "0.3453806823",
+  "landing_details": {
+   "1": {
+    "last_complex_root": "(-7462.456831 + 0.0186074013014j)",
+    "t_land": "-0.118667407"
+   },
+   "2": {
+    "last_complex_root": "(-7600.7615456 + 0.00323887225802j)",
+    "t_land": "-0.3012635183"
+   }
+  },
+  "n_ladder_at_d_big": [
+   {
+    "contour_count": "2.0",
+    "delta": "-11182.42489",
+    "im_x": "52.87349262",
+    "n": 0
+   },
+   {
+    "contour_count": "1.0",
+    "delta": "68.79530856",
+    "n": 1
+   },
+   {
+    "contour_count": "-0.1250791",
+    "delta": "-1363.423822",
+    "im_x": "18.46228467",
+    "n": 2
+   },
+   {
+    "contour_count": "-2.3677239e-15",
+    "delta": "-4.680137094e-11",
+    "im_x": "3.420576375e-6",
+    "n": 3
+   }
+  ],
+  "overshoot_factor_first_step": "3.6890563",
+  "saddle": {
+   "half_inv_u0sq": "0.11334064",
+   "jstar": 90,
+   "u0": "2.1003524"
+  },
+  "seconds": 783.85,
+  "t_pde": "0.04412634455"
+ },
+ "shift_ladder": {
+  "d_big": 100000000,
+  "dps": 130,
+  "n_ladder_at_d_big": [
+   {
+    "contour_count": "2.0",
+    "delta": "-11182.42489",
+    "im_x": "52.87349262",
+    "n": 0
+   },
+   {
+    "contour_count": "1.0",
+    "delta": "68.79530856",
+    "n": 1
+   },
+   {
+    "contour_count": "-0.1250791",
+    "delta": "-1363.423822",
+    "im_x": "18.46228467",
+    "n": 2
+   },
+   {
+    "contour_count": "-2.3677239e-15",
+    "delta": "-4.680137094e-11",
+    "im_x": "3.420576375e-6",
+    "n": 3
+   }
+  ],
+  "saddle": {
+   "half_inv_u0sq": "0.11334064",
+   "jstar": 90,
+   "u0": "2.1003524"
+  }
  },
  "trajectory": {
   "dictionary_pointwise": [

@@ -93,17 +93,75 @@ null above, exactly as arithmetic-blind as a position detector should be:
 it says where zeros sit, not what arithmetic put them there. So nothing here
 distinguishes ζ structurally, and nothing here is evidence about RH.
 
+## Phase 2 — the shift axis, and the map that collapsed
+
+Registered in `MISSION.md` after phase 1 closed; measured afterwards. The
+shifted Jensen polynomial is the damped n-th derivative, so the shift axis
+asks what differentiation in x does to the pair, on the same clock. Raw
+numbers in `results.json` (`shift_ladder`, `shift`, `map2`).
+
+- **Q1 (per-step clock): the direction and configuration claims held; the
+  registered numeric bracket failed and is recorded as such.** One
+  differentiation carries the pair past its landing — overshoot factor
+  **3.69**: c₀ = 0.16278 of flow time against the violation's entire budget
+  t\* = 0.04413. Measured by letting the heat flow run backward (t < 0)
+  until the pair re-lifts in E′ (t_land = −0.11867) and E″ (−0.30126); the
+  warm-started Newton predicate also tracked the landing's position drift
+  (Re −7344 → −7462 → −7601), which the contour-count predicate could not.
+  The measured saddle (u₀ = 2.1004, j\* = 90) gives the heuristic
+  1/(2u₀²) = 0.11334 — right order, 44% low; the registered wide bracket
+  [0.005, 0.05] for c₀ **missed entirely**. The per-step clock is also not
+  constant: c₁ = 0.18260, 12% larger — the saddle drifts as the function is
+  differentiated.
+- **Q3 (the map): all six boundary cells agree with the additive budget rule
+  — and the map degenerates.** Detection flips between d = 19000 and 22000
+  on the n = 0 row, straddling phase 1's d\* = 20785; every tested n = 1
+  cell (d = 3·10⁴, 10⁶, 10⁸) is blind, exactly as g(1) = 0.163 > t\*
+  predicts, with the window holding a lone real Rolle interlacer where the
+  pair used to be. Since g(1) exceeds every landing time hunt #4 measured
+  (max 0.0577, height-240 pair), the budget rule says **all nine known DH
+  off-line pairs are invisible to every shifted Jensen polynomial J^{d,n}
+  with n ≥ 1, at every degree** — measured directly here for pair 1,
+  predicted by the clock for the rest. The GORZ direction — fixed degree,
+  growing shift, the direction in which hyperbolicity is a theorem for ζ —
+  is, for *detecting* this class of violation, the maximally blind
+  direction: the first step of it already erases 3.7× more evidence than
+  the whole violation contains.
+- **Q2 (three clocks add): tested only in the weak form, stated plainly.**
+  The map cells' predictions use the additive budget |x₀|/(8d) + g(n) and
+  all agree with measurement, but g(n) was itself measured through the flow
+  at d = 10⁸, so this is consistency across the degree axis, not the
+  registered independent 1% additivity test. That stronger test was not
+  run; nothing here should be read as having passed it.
+- **Q4 (specificity): held.** ζ through the shifted cells: winding ~1e-95.
+
 ## Prior-art hooks
 
 Gaussian coefficient multipliers and their zero-realifying character are
 classical (Pólya–Schur multiplier sequences; de Bruijn's e^{−λD²} smoothing;
 Turán), and Griffin–Ono–Rolen–Zagier obtain hyperbolicity of J^{d,n} for
-fixed d, n → ∞ through a Hermite/heat limit in the *shift*. The reading of
-the *degree* itself as a quantitative de Bruijn–Newman time, with the
-dictionary t_eff = |x₀|/(8d) measured against a PDE flow on a non-trivial
-counterexample, is not something this tree can locate in that literature —
-and no novelty is claimed for it; a literature pass would be the next step
-if anyone wants to promote the observation.
+fixed d, n → ∞ through a Hermite/heat limit in the *shift*.
+
+A short networked pass (2026-08-11) sharpened two hooks:
+
+- **The degree/flow/Jensen triangle is qualitatively old.** Csordas, Norfolk
+  and Varga (Numer. Math., 1988) obtained Λ ≥ −50 precisely by exhibiting a
+  Jensen polynomial of the flowed function with nonreal zeros, and the
+  successor line (Csordas–Ruttan–Varga and onward, through te Riele and
+  Norfolk–Ruttan) explicitly *abandoned* Jensen polynomials for direct
+  tracking of zeros of F_λ because the degrees required were impractically
+  large. The dictionary measured here — the degree must outrun the pair's
+  remaining flow distance, d > |x₀|/(8(t\* − t)) — is a quantitative law of
+  exactly that documented inefficiency. Whether the constant |x₀|/8 appears
+  anywhere in that literature is not known to this tree; no novelty is
+  claimed, and a proper literature pass is the stated next step for anyone
+  wanting to promote it.
+- **The shift axis lands in the modern differentiation-as-PDE line.**
+  Steinerberger's nonlocal PDE for zeros under repeated differentiation and
+  its rigorous treatments (Hoskins–Kabluchko; Kiselev–Tan) are about real
+  zero *densities*; phase 2's c₀ is a single-pair, single-step measurement
+  of the same mechanism read against an explicit heat flow, on a function
+  with an actual violation. Same disclaimer.
 
 ## Disposition
 

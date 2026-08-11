@@ -63,6 +63,41 @@ pair 2 (β ≈ 0.6508, γ ≈ 114.163, t\* ≈ 0.0111296).
   series cutoff 280 → 360 and quadrature (U, segments, degree) changes; the
   undamped Newton root reproduces hunt #4's polished pair to ≥ 30 digits.
 
+## Phase 2 — the shift direction (registered 2026-08-11, after phase 1 closed)
+
+Phase 1 fixed the shift n = 0 and measured the degree axis. The shifted
+Jensen polynomial is exactly the damped n-th derivative,
+J^{d,n}(x/d) = Σ_j γ(n+j)/j! · Π_{i<j}(1−i/d) · x^j = damped E⁽ⁿ⁾(x), so the
+shift axis asks: what does differentiation in x do to the off-line pair's
+image, on the same clock? Differentiation of real entire functions is
+believed to act on zeros as a smoothing flow (Gauss–Lucas pulls complex pairs
+toward the real hull; there is a modern PDE literature on repeated
+differentiation as an erosion/heat-like flow on the zero distribution — a
+literature pass is part of this phase). Pre-registered questions and
+predictions, written before any phase-2 measurement:
+
+- **Q1 (per-step clock).** At d = 10⁸ (degree damping negligible) the pair's
+  image in E⁽ⁿ⁾ descends toward the real axis as n increases, and the
+  per-step effective flow time c_n := t-equivalent of step n → n+1 (read off
+  the PDE trajectory) is of order 1/(2u₀²) with u₀ ≈ 1.3–1.5 the measured
+  cosh-series saddle abscissa at the pair — i.e. **c₀ ∈ [0.2, 0.35]·t\*/0.0441
+  … loosely, c₀ ∈ [0.005, 0.05]** is the honest wide bracket; the saddle
+  heuristic is weak and this question is genuinely open. The sharp
+  registered prediction is only the *direction* (descent, monotone) and that
+  c_n is set by configuration, not arithmetic.
+- **Q2 (three clocks add).** For cells (d, n, t) with all three knobs on,
+  t_land(d, n) + |x₀|/(8d) + g(n) = t\* within 1%, where g(n) = Σ_{k<n} c_k
+  is the measured shift clock — no free parameters once c_k are measured at
+  t = 0.
+- **Q3 (the map).** The detection region for pair 1 in the (d, n) plane is
+  the corner {|x₀|/(8d) + g(n) < t\*}: boundary cells flip
+  detected/not-detected as that inequality predicts, including the n-axis
+  end (the largest n at which any degree can see this pair, predicted
+  n_max = max{n : g(n) < t\*}).
+- **Q4 (specificity).** ζ through the same shifted cells stays silent.
+
+Phase 2 may also touch only `hunts/jensen_clock/`.
+
 ## Scope
 
 May touch: `hunts/jensen_clock/` only. Reads (never writes)

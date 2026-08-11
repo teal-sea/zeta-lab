@@ -99,6 +99,24 @@ with **t_eff = |x₀|/(8d)**. Measured, with raw numbers in
   digits across dps 130 → 160 and two quadrature geometries; truncation
   margin 36 orders at the deciding contour.
 
+**Phase 2 (the shift axis)**: the shifted Jensen polynomial is the damped
+n-th derivative, and one differentiation is worth **3.69×** the violation's
+entire flow budget (c₀ = 0.1628 vs t\* = 0.0441, measured by re-lifting the
+landed pair with backward flow; per-step clock not constant, c₁ = 0.1826).
+All six boundary cells of the (d, n) detection map agree with the additive
+budget rule |x₀|/(8d) + g(n) < t\* — and the map degenerates: the n = 0 row
+flips exactly at phase 1's d\*, and **every n ≥ 1 cell is blind at every
+degree**, so by the budget rule all nine known DH pairs are invisible to
+every shifted Jensen polynomial with n ≥ 1. The GORZ direction (fixed d,
+growing n), where hyperbolicity is a theorem for ζ, is for *detection* the
+maximally blind direction. Two registered numeric guesses failed and are
+recorded as such (the c₀ bracket; phase 1's planted-pair neighborhood); the
+strong three-clock additivity test was not run and is marked untested.
+Prior-art hooks recorded: Csordas–Norfolk–Varga's 1988 Λ ≥ −50 came from
+non-hyperbolic Jensen polynomials of the flowed function, and its successors
+dropped Jensen polynomials as needing impractical degrees — the dictionary
+is a quantitative law of that documented inefficiency.
+
 **Disposition:** portrait and closure, not conjecture — no ledger entry.
 Nothing here is evidence for or against RH. Spine candidates in
 `jensen_clock/NOTES.md`.

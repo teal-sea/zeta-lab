@@ -758,6 +758,168 @@ def stage_precision():
     })
 
 
+def _shifted_coeffs(G, n, d, dps):
+    """Coefficients of the damped n-th derivative: c_j = gamma(n+j)/j! *
+    prod_{i<j}(1-i/d) — i.e. J^{d,n}(x/d).  A suffix of the same table."""
+    return damped_coeffs(G[n:], d, dps)
+
+
+def stage_shift():
+    """Phase 2, Q1: the per-step clock of the shift axis at d = 1e8."""
+    t0 = time.time()
+    pair = flow_repair_pair1()
+    x0 = pair_x0(pair, DPS)
+    nd = dh_nodes(DPS)
+    G = gammas_from_nodes(nd, JMAX_DEFAULT + 8, DPS)
+    D_BIG = 10 ** 8
+    with mp.workdps(DPS):
+        # the cosh-series saddle abscissa at the pair, measured not assumed:
+        # u0 = 2 j*/|z| with j* the index of the largest series term at x0.
+        terms = [abs(G[j]) * abs(x0) ** j / mp.factorial(j) for j in range(len(G))]
+        jstar = max(range(len(terms)), key=lambda j: terms[j])
+        u0 = 2 * mp.mpf(jstar) / mp.sqrt(abs(x0))
+        saddle = {"jstar": jstar, "u0": nstr(u0, 8),
+                  "half_inv_u0sq": nstr(1 / (2 * u0 ** 2), 8)}
+
+        # n-ladder at fixed huge degree: is the pair still complex in E^(n)?
+        center = mp.re(x0)
+        rows = []
+        for n in range(0, 4):
+            c = _shifted_coeffs(G, n, D_BIG, DPS)
+            rec = pair_delta(c, center, 70, DPS)
+            delta = mp.re(rec["delta"])
+            row = {"n": n, "contour_count": nstr(rec["count"], 8),
+                   "delta": nstr(delta, 10)}
+            if delta < 0:
+                row["im_x"] = nstr(mp.sqrt(-delta) / 2, 10)
+            rows.append(row)
+        save("shift_ladder", {"dps": DPS, "d_big": D_BIG, "saddle": saddle,
+                              "n_ladder_at_d_big": rows})
+
+        # the shift clock, measured through the flow even on overshoot:
+        # g(n) = t* - t_land(n) - |x0|/(8 d);  t_land found by bisection in t,
+        # allowed to be negative (backward flow re-lifts the pair).
+        tstar = mp.mpf(pair["tstar"])
+        t_eff_d = abs(x0) / (8 * mp.mpf(D_BIG))
+
+        # Predicate: warm-started Newton with an off-axis kick.  The complex
+        # root either exists (Newton holds a root with substantial Im) or the
+        # iteration collapses onto the real axis — the same discrimination the
+        # phase-1 degree ladder used.  Contour counting fails here because the
+        # post-landing window can hold 0, 1 or 2 descendants plus a Rolle
+        # interlacer; Newton does not care.
+        seed_state = {}
+
+        def pair_state(n, t):
+            Gt = gammas_from_nodes(nd, JMAX_DEFAULT + 8, DPS, t=t)
+            c = _shifted_coeffs(Gt, n, D_BIG, DPS)
+            seed = seed_state.get(n, mp.mpc(center, 25))
+            root, _ = newton_root(c, seed + mp.mpc(0, 5), DPS, tol_exp=-(DPS - 40))
+            is_pair = abs(mp.im(root)) > mp.mpf("1e-10") * abs(root)
+            if is_pair:
+                seed_state[n] = root
+            return bool(is_pair), root
+
+        g = {}
+        details = {}
+        for n in (1, 2):
+            p0, _ = pair_state(n, mp.mpf(0))
+            if p0:
+                raise RuntimeError(f"no overshoot at n={n}; widen the search")
+            hi, step, lo = mp.mpf(0), mp.mpf("0.02"), None
+            for _ in range(70):
+                cand = hi - step
+                if cand < mp.mpf("-1.2"):
+                    raise RuntimeError(f"no re-lift found by t=-1.2 at n={n}")
+                p, _ = pair_state(n, cand)
+                if p:
+                    lo = cand
+                    break
+                hi = cand  # fixed small steps: never leap the window
+            if lo is None:
+                raise RuntimeError(f"bracket walk exhausted at n={n}")
+            a, b = lo, hi
+            for _ in range(45):
+                mid = (a + b) / 2
+                p, _ = pair_state(n, mid)
+                if p:
+                    a = mid
+                else:
+                    b = mid
+                if b - a < mp.mpf(10) ** (-8):
+                    break
+            t_land = (a + b) / 2
+            g[n] = tstar - t_land - t_eff_d
+            # sanity record: the last complex root seen for this n
+            details[n] = {"t_land": nstr(t_land, 10),
+                          "last_complex_root": nstr(seed_state[n], 12)}
+        c0 = g[1]
+        c1 = g[2] - g[1]
+        out = {
+            "dps": DPS,
+            "d_big": D_BIG,
+            "saddle": saddle,
+            "n_ladder_at_d_big": rows,
+            "g1": nstr(g[1], 10),
+            "g2": nstr(g[2], 10),
+            "c0_per_step": nstr(c0, 10),
+            "c1_per_step": nstr(c1, 10),
+            "c0_over_half_inv_u0sq": nstr(c0 * 2 * u0 ** 2, 8),
+            "landing_details": {str(k): v for k, v in details.items()},
+            "t_pde": nstr(tstar, 10),
+            "overshoot_factor_first_step": nstr(c0 / tstar, 8),
+            "seconds": round(time.time() - t0, 2),
+        }
+    save("shift", out)
+
+
+def stage_map2():
+    """Phase 2, Q3/Q4: boundary cells of the (d, n) detection map."""
+    t0 = time.time()
+    pair = flow_repair_pair1()
+    x0 = pair_x0(pair, DPS)
+    nd = dh_nodes(DPS)
+    G = gammas_from_nodes(nd, JMAX_DEFAULT + 8, DPS)
+    nz = zeta_nodes(DPS)
+    Gz = gammas_from_nodes(nz, JMAX_DEFAULT + 8, DPS)
+    with open(RESULTS, encoding="utf-8") as fh:
+        shift = json.load(fh)["shift"]
+    with mp.workdps(DPS):
+        center = mp.re(x0)
+        tstar = mp.mpf(pair["tstar"])
+        g1 = mp.mpf(shift["g1"])
+        cells = []
+        for d, n in ((19000, 0), (22000, 0), (10 ** 6, 0), (10 ** 8, 1),
+                     (10 ** 6, 1), (30000, 1)):
+            budget = abs(x0) / (8 * mp.mpf(d)) + (g1 if n == 1 else mp.mpf(0))
+            predicted = bool(budget < tstar)
+            c = _shifted_coeffs(G, n, d, DPS)
+            rec = pair_delta(c, center, 70, DPS)
+            delta = mp.re(rec["delta"])
+            # detected means "a complex pair is present in the window":
+            # exactly two zeros inside and Delta < 0.  Post-landing windows
+            # hold 0, 1 or 2 real zeros and score as blind.
+            detected = bool(abs(rec["count"] - 2) < mp.mpf("1e-6") and delta < 0)
+            cells.append({
+                "d": d, "n": n,
+                "budget_t": nstr(budget, 8),
+                "predicted_detect": predicted,
+                "detected": detected,
+                "agree": predicted == detected,
+                "contour_count": nstr(rec["count"], 6),
+            })
+        # Q4: zeta at the two shifted cells stays silent
+        zrows = []
+        for d, n in ((10 ** 8, 1), (30000, 1)):
+            cz = _shifted_coeffs(Gz, n, d, DPS)
+            q, _ = contour_moments(cz, mp.mpc(mp.re(x0), mp.im(x0)), 40, DPS)
+            zrows.append({"d": d, "n": n, "winding": nstr(mp.re(q[0]), 5)})
+        out = {"dps": DPS, "cells": cells, "zeta_specificity": zrows,
+               "all_cells_agree": all(c["agree"] for c in cells),
+               "seconds": round(time.time() - t0, 2)}
+    save("map2", out)
+
+
 def stage_figure():
     import matplotlib
 
@@ -824,6 +986,8 @@ STAGES = {
     "pair2": stage_pair2,
     "planted": stage_planted,
     "additivity": stage_additivity,
+    "shift": stage_shift,
+    "map2": stage_map2,
     "precision": stage_precision,
     "figure": stage_figure,
 }
