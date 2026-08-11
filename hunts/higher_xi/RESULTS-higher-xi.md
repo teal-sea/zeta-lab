@@ -8,7 +8,8 @@ The present outcome is split:
 1. the historical coefficient audit is closed;
 2. the exact coefficient-series tail is closed;
 3. the historical fixed-order bridge audit closes at Outcome C;
-4. the replacement, resummed bridge audit closes at Outcome D.
+4. the replacement representation audit closes at Outcome D;
+5. the direct URMS2 attack sharpens Outcome D to two named estimates.
 
 The corrected arithmetic starts
 
@@ -170,6 +171,44 @@ in its printed explicit formula, and the term feeds its mean-square theorem.
 No repair was located. This is a gap classification for the printed proof, not
 a claim that the level-1 prediction is false.
 
+## URMS2 attack
+
+The full convolution inverse is well behaved on the right contour line. In the
+weighted Wiener algebra it satisfies an explicit resolvent bound, and it acts
+boundedly on the square-summable Dirichlet coefficient space. The identities
+
+\[
+\partial_t b=-b*(\partial_t A)*b
+\]
+
+and
+
+\[
+\|b_t-b_u\|_1\le\|b_t\|_1\|A_t-A_u\|_1\|b_u\|_1
+\]
+
+isolate height variation without a coefficient-order cutoff. The inverse is
+not multiplicative; the first exact defect occurs on the coprime pair `2,3`.
+
+The reflected coefficient object resums pointwise below `alpha=1/2` at level
+one and below `alpha=1/4` at level two. The corresponding elementary square
+sum is only `x(log x)^2`, while the two-range mean square requires `x log x`.
+This one-log loss already blocks URMS1, so no positive zero-statistics band is
+claimed.
+
+`URMS2-ATTACK.md` states the three URMS variants and the smallest remaining
+package:
+
+1. `RC-kappa`, an exact early-smoothed contour comparison in `L2`;
+2. `RAMS-kappa`, a uniform resummed almost-prime square asymptotic saving one
+   full logarithm.
+
+A slowly growing Hilbert projection would need order only
+`J(T)=O(log log T)` on a strict sub-quarter band. The fixed-order source does
+not give error constants uniform at that scale. `urms2_attack.py` records the
+norm bounds, the exact nonmultiplicativity witness, the projection scale, and
+the independent finite resummation control.
+
 ## Pinned source and historical correction
 
 The pinned source is Ji Bian, *The Pair Correlation of Zeros of Derivatives of
@@ -193,6 +232,7 @@ Chapter 11 arithmetic obstruction.
 .venv/bin/python hunts/higher_xi/corrected_form_factor.py
 .venv/bin/python hunts/higher_xi/window_certificate.py
 .venv/bin/python hunts/higher_xi/resummed_bridge.py
+.venv/bin/python hunts/higher_xi/urms2_attack.py
 .venv/bin/python hunts/higher_xi/cue_oracle.py --sizes 24:200,32:200,48:200
 .venv/bin/python hunts/higher_xi/dirichlet_recurrence.py --ells 8,10,12,14
 .venv/bin/python -m pytest -q hunts/higher_xi/test_higher_xi.py -n0

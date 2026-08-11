@@ -43,6 +43,15 @@ load-bearing in the printed Farmer-Gonek-Lee level-1 proof, which is classified
 as a proof gap with no located repair, not as a contradiction of the limiting
 prediction.
 
+`URMS2-ATTACK.md` attacks that named target and closes at Outcome D. The full
+inverse is bounded in a weighted Wiener algebra and on its companion Dirichlet
+Hilbert space. Its exact coefficient envelope converges below `alpha=1/2` at
+level one and `alpha=1/4` at level two. Neither threshold is yet a zero-side
+bridge: the available resummed square sum is `x(log x)^2`, one logarithm above
+the required `x log x` scale. The same gap already blocks URMS1. The smallest
+remaining package is the early-smoothed contour estimate `RC-kappa` plus the
+resummed almost-prime square asymptotic `RAMS-kappa`.
+
 The completed-CUE experiment uses angular derivatives of
 
 ```text
