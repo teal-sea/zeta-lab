@@ -21,6 +21,16 @@
   ],
   "seconds": 570.95
  },
+ "additivity2": {
+  "d_small": 1000000,
+  "defect": "1.461e-5",
+  "defect_over_budget_diff": "0.01608",
+  "dps": 130,
+  "measured_t_land_d1e6": "-0.1195908997",
+  "predicted_t_land_d1e6": "-0.1195762856",
+  "seconds": 260.69,
+  "t_land_d1e8": "-0.118667407"
+ },
  "dstar": {
   "contour_count": "2.0",
   "contour_min_mod_log10": "-28.464",
@@ -33,6 +43,31 @@
   "t_naive_isolated": "0.0475914259355",
   "t_pde": "0.0441263445516",
   "tail_bound_log10": "-64.642"
+ },
+ "li": {
+  "dh_pair1_predicted_onset_n": 330342,
+  "dh_pair1_r_minus_1": "4.20062e-5",
+  "dps": 30,
+  "envelope_crossing_n": 1,
+  "first_negative_n": 95,
+  "min_lambda_zeta_unplanted": "0.0230957",
+  "oscillation_period": "-16.13",
+  "planted_rho": "(0.8 + 2.5j)",
+  "q7_zeta_all_positive": true,
+  "r_amplify": "1.0466086",
+  "seconds": 5.28,
+  "theta": "-0.389533",
+  "window_around_onset": {
+   "91": "186.89",
+   "92": "146.995",
+   "93": "97.1121",
+   "94": "44.4838",
+   "95": "-2.52112",
+   "96": "-35.6277",
+   "97": "-47.9796",
+   "98": "-35.3644",
+   "99": "2.86427"
+  }
  },
  "map2": {
   "all_cells_agree": true,

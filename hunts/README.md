@@ -117,6 +117,21 @@ non-hyperbolic Jensen polynomials of the flowed function, and its successors
 dropped Jensen polynomials as needing impractical degrees — the dictionary
 is a quantitative law of that documented inefficiency.
 
+**Phase 3 (falsifier + trichotomy)**: the strong additivity test — re-measure
+t_land(n=1) at d = 10⁶, predicted from the d = 10⁸ value and the degree
+budget alone — passed at defect 1.46e-5 against a registered ±1e-4 bar, so
+degree, shift and flow measurably spend one budget. The third
+coefficient-side detector, Li's criterion, has the opposite geometry: a
+planted quadruple at ρ = 0.8 + 2.5i turns the Bombieri–Lagarias sum negative
+first at n = 95 (registered interval [80, 160]; one trough n = 95–98, period
+16, positive again at 99), and the same amplification formula puts DH pair
+1's Li onset at n ≈ 3.3·10⁵ (order-of-magnitude, ζ-shaped background hedge).
+Trichotomy recorded in `jensen_clock/RESULTS.md`: two erasing clocks (degree,
+shift — blind sets cofinal) against one accumulating discriminator (Li —
+blind set an initial segment); none of the three blindnesses is a matter of
+effort. One auxiliary statistic (the coded envelope-crossing indicator) was
+mis-specified and is recorded as unusable.
+
 **Disposition:** portrait and closure, not conjecture — no ledger entry.
 Nothing here is evidence for or against RH. Spine candidates in
 `jensen_clock/NOTES.md`.

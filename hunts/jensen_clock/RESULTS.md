@@ -135,6 +135,52 @@ numbers in `results.json` (`shift_ladder`, `shift`, `map2`).
   run; nothing here should be read as having passed it.
 - **Q4 (specificity): held.** ζ through the shifted cells: winding ~1e-95.
 
+## Phase 3 — the falsifier and the trichotomy
+
+Registered in `MISSION.md` after phase 2 closed; measured afterwards. Raw
+numbers in `results.json` (`additivity2`, `li`).
+
+- **Q5 (strong additivity: the falsifier passed).** Re-measuring
+  t_land(n = 1) at d = 10⁶: the additive budget predicts −0.11957629 from
+  the d = 10⁸ measurement and the degree-budget difference alone — no free
+  parameters — and the measurement gives −0.11959090. Defect 1.46e-5,
+  inside the registered ±1e-4 bar; as a fraction of the budget shift itself
+  it is 1.6%, consistent with the dictionary's percent-level 1/d
+  corrections. Phase 2's Q2 gap is closed: the three knobs (degree, shift,
+  flow) spend one budget.
+- **Q6 (the trichotomy: measured).** The planted symmetric quadruple at
+  ρ = 0.8 + 2.5i drives the Bombieri–Lagarias Li sum negative first at
+  **n = 95** — inside the registered [80, 160] — with exactly the predicted
+  shape: one oscillation trough (n = 95–98, period ≈ 16.1, amplification
+  r = 1.04661 per step), positive again at n = 99, an *initial-segment*
+  blindness only. One auxiliary statistic failed as coded and is recorded
+  as such: the envelope-crossing indicator compared 2rⁿ against λ_n(ζ)
+  itself, which is degenerate at small n (λ₁ ≈ 0.023), so it fired at
+  n = 1; the registered onset interval came from the amplitude-vs-
+  background estimate and held, but the coded indicator is useless and
+  should not be reused. The same formula pointed at DH pair 1
+  (r − 1 = 4.2e-5) puts its Li onset at **n ≈ 3.3·10⁵** — with the stated
+  hedge that the background is the ζ-shaped asymptotic, so this is an
+  order-of-magnitude claim, not a sharp one.
+- **Q7 (specificity): held.** Unplanted, min λ_n(ζ) over n ≤ 200 is
+  +0.0231 (= λ₁), all positive.
+
+**The trichotomy, stated.** Three coefficient-side hyperbolicity/positivity
+detectors, one violation, three blindness geometries:
+
+| axis | mechanism | blind set (pair 1) |
+|---|---|---|
+| Jensen degree d | erasing clock, t_eff = \|x₀\|/(8d) | all d < 20785 — cofinal below |
+| Jensen shift n | erasing clock, c₀ = 0.163/step | all n ≥ 1, every degree |
+| Li index n | accumulating discriminator, rⁿ | initial segment n ≲ 3.3·10⁵ |
+
+The two Jensen axes destroy the evidence before reading it; the Li axis
+preserves and amplifies it but pays an exponentially long wait. None of the
+three blindnesses is a matter of effort, and each has a measured or
+formula-given boundary. Nothing in this table distinguishes ζ structurally
+(the null controls read configuration throughout), and nothing in it is
+evidence about RH.
+
 ## Prior-art hooks
 
 Gaussian coefficient multipliers and their zero-realifying character are

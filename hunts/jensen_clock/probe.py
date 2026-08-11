@@ -920,6 +920,135 @@ def stage_map2():
     save("map2", out)
 
 
+def stage_additivity2():
+    """Phase 3, Q5: strong additivity — t_land(n=1) at d = 1e6 must sit at the
+    d = 1e8 value minus the degree-budget difference, no free parameters."""
+    t0 = time.time()
+    pair = flow_repair_pair1()
+    x0 = pair_x0(pair, DPS)
+    nd = dh_nodes(DPS)
+    G = gammas_from_nodes(nd, JMAX_DEFAULT + 8, DPS)
+    D_SMALL = 10 ** 6
+    with open(RESULTS, encoding="utf-8") as fh:
+        prior = json.load(fh)["shift"]
+    with mp.workdps(DPS):
+        center = mp.re(x0)
+        t_land_big = mp.mpf(prior["landing_details"]["1"]["t_land"])
+        budget_diff = abs(x0) / 8 * (mp.mpf(1) / D_SMALL - mp.mpf(10) ** -8)
+        predicted = t_land_big - budget_diff
+
+        seed = {"x": mp.mpc(center, 25)}
+
+        def pair_state(t):
+            Gt = gammas_from_nodes(nd, JMAX_DEFAULT + 8, DPS, t=t)
+            c = _shifted_coeffs(Gt, 1, D_SMALL, DPS)
+            root, _ = newton_root(c, seed["x"] + mp.mpc(0, 5), DPS,
+                                  tol_exp=-(DPS - 40))
+            is_pair = abs(mp.im(root)) > mp.mpf("1e-10") * abs(root)
+            if is_pair:
+                seed["x"] = root
+            return bool(is_pair)
+
+        # bracket around the prediction, then bisect — if the prediction is
+        # wrong by more than the bracket, the walk below reports it.
+        a, b = predicted - mp.mpf("0.004"), predicted + mp.mpf("0.004")
+        if not pair_state(a) or pair_state(b):
+            raise RuntimeError("prediction-centered bracket failed; additivity "
+                               "off by more than 0.004")
+        for _ in range(45):
+            mid = (a + b) / 2
+            if pair_state(mid):
+                a = mid
+            else:
+                b = mid
+            if b - a < mp.mpf(10) ** (-8):
+                break
+        t_land_small = (a + b) / 2
+        out = {
+            "dps": DPS,
+            "d_small": D_SMALL,
+            "t_land_d1e8": nstr(t_land_big, 10),
+            "predicted_t_land_d1e6": nstr(predicted, 10),
+            "measured_t_land_d1e6": nstr(t_land_small, 10),
+            "defect": nstr(abs(t_land_small - predicted), 4),
+            "defect_over_budget_diff": nstr(
+                abs(t_land_small - predicted) / budget_diff, 4),
+            "seconds": round(time.time() - t0, 2),
+        }
+    save("additivity2", out)
+
+
+def stage_li():
+    """Phase 3, Q6/Q7: the Li axis — an accumulating discriminator."""
+    from zeta.li import li_asymptotic, li_coefficients
+
+    t0 = time.time()
+    dps = 30
+    N_MAX = 200
+    with mp.workdps(dps):
+        lam = li_coefficients(N_MAX, method="cauchy", dps=dps)
+
+        def quad_term(rho, n):
+            # symmetric quadruple {rho, 1-rho, conj rho, 1-conj rho}:
+            # 2 Re[1 - (1-1/rho)^n] + 2 Re[1 - (1-1/(1-rho))^n]
+            w1 = 1 - 1 / rho
+            w2 = 1 - 1 / (1 - rho)
+            return 2 * mp.re(1 - w1 ** n) + 2 * mp.re(1 - w2 ** n)
+
+        # (a) the planted low quadruple
+        rho_p = mp.mpc("0.8", "2.5")
+        r_amp = abs(1 - 1 / (1 - rho_p))
+        theta = mp.arg(1 - 1 / (1 - rho_p))
+        total = []
+        onset = None
+        for n in range(1, N_MAX + 1):
+            v = lam[n - 1] + quad_term(rho_p, n)
+            total.append(v)
+            if onset is None and v < 0:
+                onset = n
+        # envelope crossing: first n with 2 r^n > lambda_n(zeta)
+        env = None
+        for n in range(1, N_MAX + 1):
+            if 2 * r_amp ** n > lam[n - 1]:
+                env = n
+                break
+        window = {str(n): nstr(total[n - 1], 6)
+                  for n in range(max(1, (onset or N_MAX) - 4),
+                                 min(N_MAX, (onset or N_MAX) + 4) + 1)}
+
+        # (b) the same formula pointed at DH pair 1 (prediction only: the
+        # background is taken as the zeta-shaped asymptotic, an order-of-
+        # magnitude proxy — DH's own zero-count constant differs, and the
+        # stated claim is only the scale of the onset).
+        pair = flow_repair_pair1()
+        rho_dh = mp.mpc(1 - mp.mpf(pair["beta"]), mp.mpf(pair["gamma"]))
+        r_dh = abs(1 - 1 / rho_dh)
+        n_pred, n_step = None, 1000
+        n_try = 1000
+        while n_try < 10 ** 8:
+            if 2 * r_dh ** n_try > li_asymptotic(n_try):
+                n_pred = n_try
+                break
+            n_try += n_step
+            n_step = int(n_step * 1.1)
+        out = {
+            "dps": dps,
+            "planted_rho": nstr(rho_p, 6),
+            "r_amplify": nstr(r_amp, 8),
+            "theta": nstr(theta, 6),
+            "oscillation_period": nstr(2 * mp.pi / theta, 5),
+            "envelope_crossing_n": env,
+            "first_negative_n": onset,
+            "window_around_onset": window,
+            "min_lambda_zeta_unplanted": nstr(min(lam), 6),
+            "q7_zeta_all_positive": bool(min(lam) > 0),
+            "dh_pair1_r_minus_1": nstr(r_dh - 1, 6),
+            "dh_pair1_predicted_onset_n": n_pred,
+            "seconds": round(time.time() - t0, 2),
+        }
+    save("li", out)
+
+
 def stage_figure():
     import matplotlib
 
@@ -988,6 +1117,8 @@ STAGES = {
     "additivity": stage_additivity,
     "shift": stage_shift,
     "map2": stage_map2,
+    "additivity2": stage_additivity2,
+    "li": stage_li,
     "precision": stage_precision,
     "figure": stage_figure,
 }

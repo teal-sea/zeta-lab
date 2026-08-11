@@ -98,6 +98,35 @@ predictions, written before any phase-2 measurement:
 
 Phase 2 may also touch only `hunts/jensen_clock/`.
 
+## Phase 3 — the falsifier and the trichotomy (registered 2026-08-11, after
+phase 2 closed)
+
+- **Q5 (strong additivity, zero free parameters).** Phase 2's Q2 was left
+  honestly untested. The test: re-measure t_land(n = 1) at d = 10⁶. The
+  additive picture predicts it moves from the d = 10⁸ value −0.118667407 by
+  exactly the degree-budget difference −|x₀|/8·(10⁻⁶ − 10⁻⁸) = −0.00090888,
+  i.e. **t_land(n=1, d=10⁶) = −0.11957629 ± 0.0001**. If this fails, phase
+  2's additive budget rule was curve-fitting and the hunt's map claim is
+  withdrawn.
+- **Q6 (the trichotomy: Li is an accumulating discriminator).** The third
+  coefficient-side detector, Li's criterion, has a kernel 1 − (1 − 1/ρ)ⁿ
+  that *amplifies* off-line zeros (|1 − 1/ρ| > 1 for β < 1/2) instead of
+  smoothing them. Registered predictions: (i) for a planted symmetric
+  quadruple at ρ_p = 0.8 + 2.5i added to ζ's Li sum (Bombieri–Lagarias
+  form), the sum first goes negative at the envelope crossing of
+  2·rⁿ against λ_n(ζ), r = |1 − 1/(1 − ρ_p)| ≈ 1.0466 — predicted onset
+  **n_Li ∈ [80, 160]**, with negativity arriving within one oscillation
+  period (≈ 16) of the envelope crossing; (ii) the identical formula
+  applied to DH pair 1 (r − 1 ≈ 4×10⁻⁵) puts its onset **beyond 10⁵** —
+  unreachable by any Li computation in this tree; (iii) hence the
+  trichotomy: degree and shift are *erasing clocks* (their blind sets are
+  cofinal — all small d, all n ≥ 1), Li is an *accumulating discriminator*
+  (its blind set is an initial segment). Blind in opposite directions;
+  neither blindness is a matter of effort.
+- **Q7 (specificity).** The unplanted λ_n(ζ) stays positive over the whole
+  tested range (already pinned by `tests/test_li.py`; recomputed here so the
+  planted run has its own control).
+
 ## Scope
 
 May touch: `hunts/jensen_clock/` only. Reads (never writes)
