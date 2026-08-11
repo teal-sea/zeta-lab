@@ -5,6 +5,11 @@
 The corrected coefficient series is not presently identified with the pair
 form factor of the zeros of `xi''` by the available analytic argument.
 
+This document audits the historical fixed-order architecture. The subsequent
+replacement audit is `RESUMMED-BRIDGE.md`. It derives an exact untruncated
+resolvent and closes at Outcome D because the corresponding uniform resummed
+mean square is not currently available.
+
 The first failed estimate occurs before the coefficient-order limit. On Bian
 thesis pages 32-33, the geometric remainder in the approximate Dirichlet
 series contributes the contour kernel
@@ -28,9 +33,12 @@ I_V(t)\ge
 \]
 
 Thus no constant independent of `t` can make `I_V(t)<=C/(t+2)^2`. The same
-contour-tail estimate occurs in the pinned Farmer-Gonek arXiv source for the
-level-1 calculation. `bridge_obstruction.py` preserves the rational unit-
-interval counterexample.
+contour-tail estimate occurs in the pinned Farmer-Gonek-Lee arXiv source for
+the level-1 calculation and is load-bearing in its printed explicit-formula
+to mean-square chain. No later repair was located in the replacement audit.
+This classifies the printed proof as having a gap; it does not contradict the
+limiting prediction. `bridge_obstruction.py` preserves the rational
+unit-interval counterexample.
 
 This failure invalidates the stated explicit formula remainder and every later
 pair-form-factor passage that uses it. It does not show that the corrected
