@@ -68,6 +68,11 @@ for simple zeros on the critical line improves unconditionally,
 
     N₀ˢ(T,2T) ≥ (0.6725124 + o(1)) N(T,2T)    [paper: 0.6725007…]
 
+**superseded within this document**: §5's gap-distribution LP raises the
+same floor to give **≥ 0.672529**, which is the hunt's headline candidate.
+The 0.6725124 below is the five-bucket version, kept because it is the one
+calibrated directly against Cheer–Goldston's printed 1993 constants.
+
 by transplanting Cheer–Goldston's 1993 gap-rigidity floor into the paper's
 Frobenius counting. The floor: consecutive gaps of on-line zeros cannot all
 sit at zeros λ_k of the MT kernel, because abutting near-λ₁ gaps force
