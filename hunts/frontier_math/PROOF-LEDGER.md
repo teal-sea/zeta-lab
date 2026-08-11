@@ -135,3 +135,25 @@ are scale-matched, which is the exact reason a positive theta exists here
 and could not before levels 1-2. Promotion to the directive's full OUTCOME A
 requires the two named gaps, in that order. No decimal search was run and no
 proportion is claimed.
+
+## Level 4 delivered: the counting dual, theta gap 1 closed (2026-08-11)
+
+Full account: `LEVEL4-COUNTING-DUAL.md`; instrument `counting_bound.py`;
+controls `test_counting_bound.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Configuration-free adversary cap | DELIVERED | chain counting theorem: same-cell pairs pay `K_delta`, adjacent pay `K_{2delta}`, exact tridiagonal DP | dominates every level-3 measured adversary, the level-2 cluster, and the LAW I single cell |
+| One-sided continuum cells | DELIVERED | closed-form centres + Cauchy-Schwarz Lipschitz inflation in `g` and `y`; depth-scaled tail `psi_S ~ y` | lesion (inflation dropped) produces sup violations 0.115-0.725 at every probe depth |
+| Secured positive theta | DELIVERED (double precision) | slack at the shallow lip vs damage at the deep lip, 60+ geometric depth cells | **theta* = 0.1 secured**; binding cells shallow with ~10% relative margin; theta = 0.2 fails at `y ~ 0.15-0.29` |
+| Soundness incident | RECORDED | factor-2 leak in `f = -2W` caught by the projection control before shipping | the hierarchy's own level-4 row, now a permanent test |
+| Theta gap to the measured 0.9 | QUANTIFIED | dropped non-adjacent payments + cell sups | cap within 1.4x of measured at `y = 0.1`, 2.7x at `y = 0.45`; the psd moment problem is the named sharpening |
+| Gap 2 partition frame | MEASURED | halved slack per pair, shared terms split evenly | all measured worst dipoles fit; stacking positive; pair-pair cell bound at combined depths is the named remaining layer |
+| Arb-enclosure pass | **NAMED GAP** | same finitely many cells, interval evaluation | binding margins ~10% relative, far above float noise, but graduation requires the enclosure pass |
+| Phase 6 decimal gate | **NOT ENTERED** | multi-pair closure open | no proportion computed |
+
+Disposition: **THETA POSITIVE, CONFIGURATION-FREE, AT THE SINGLE-PAIR
+REDUCTION**. The first level-3 gap is closed modulo the enclosure pass; the
+promotion order is now (i) enclosure hardening, (ii) the psd moment problem
+for the theta gap, (iii) the multi-pair layer. No decimal search was run
+and no proportion is claimed.
