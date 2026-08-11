@@ -24,3 +24,20 @@ Pinned upstream state:
 Disposition: **CLEAN KILL**. The candidate constants `0.6725124`,
 `0.672529`, and `0.6725318` are withdrawn. The pinned upstream constant
 `0.6725007037...` is unaffected.
+
+## Post-kill interaction-control audit
+
+Audited local state: `21ad0d49720a288b1d428d46664d623a0f6c4282`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Lower bound for `2tr(PQ)` | FAILED | pinned `ZeroSide.lean:470-555` | `Q=-tP` has positive index zero and sends the interaction to negative infinity |
+| Positive recovery coefficient | FAILED | pinned rank-trace lemma at `c=2` | Gaussian-integer family forces `theta <= 3/(2m^2+1)` |
+| Prime-side moment objection | CLOSED | paper's trace and Frobenius summaries | rational direct-sum family has `tr(A)=N`, approaches the printed second moment, and has normalized slack below the full old floor |
+| Surviving rigidity floor | NONE | all rows above | every fixed positive portion is excluded by the family |
+| Missing input | IDENTIFIED | comparison of gap data with zero-side interface | signed on/off incidence with horizontal depth, ordinate offset, and overlap consistency |
+| Next hierarchy | DESIGNED | `INTERACTION-CONTROL-REPORT.md` | marked incidence cells, marked gap words, projective consistency, then local potentials |
+
+Disposition: **NO CONTROL FROM EXISTING INPUTS**. No new decimal search is
+opened. The next admissible task is to find an unconditional signed-incidence
+constraint that rejects the exact obstruction family.

@@ -27,6 +27,15 @@ formal obstruction, and reproduction commands are in
 interaction is `-2`. A five-on-line-point witness makes the proposed additive
 inequality demand `9 >= 13`.
 
+The follow-up audit is closed in `INTERACTION-CONTROL-REPORT.md`. The paper's
+existing rank, trace, positive-index, and prime-side moment inputs do not bound
+the negative on/off interaction in the required direction. An exact family
+forces every universal recovery coefficient to zero, and a direct-sum version
+simultaneously matches `tr(A)=N` and approaches the paper's printed Frobenius
+ratio while leaving less slack than the full old gap floor. The missing
+invariant is a signed joint on/off incidence law, not a richer unmarked gap
+distribution.
+
 ## 1. THREAD 1 answered: the measure-level LP collapses
 
 `wide_search` left one open route to the interval (0.6725007, 0.68185): a
