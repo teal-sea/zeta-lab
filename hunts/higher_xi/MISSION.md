@@ -10,6 +10,10 @@ coefficients, equations (10.2) and (11.5), and the reported `0.9544` and
 `0.9774` simplicity proportions are mutually consistent. No higher-derivative
 constant may be computed until the normalization survives this audit.
 
+That obligation is closed in `RESOLUTION-2008-DISCREPANCY.md`. Page 93 changes
+three coefficient signs and its two percentages follow from neither printed
+row. The fault is a chapter-11 calculation error, not a normalization variant.
+
 If it survives, or after the precise defect is isolated, build an independent
 completed-CUE experiment for the zeros of angular derivatives of
 

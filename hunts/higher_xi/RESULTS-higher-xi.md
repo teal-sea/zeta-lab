@@ -2,10 +2,11 @@
 
 ## Status
 
-The first fatal test found an exact internal inconsistency in Ji Bian's 2008
-thesis. Its Figure 10.1 coefficient rows, inserted into its own equation
-(11.5), do not yield the reported `0.9544` and `0.9774` proportions for simple
-zeros of the second and third derivatives of xi.
+The 2008 discrepancy is resolved at source level. Ji Bian's Figure 10.1
+coefficient rows, inserted into equation (11.5), do not yield the reported
+`0.9544` and `0.9774` proportions for simple zeros of the second and third
+derivatives of xi. Page 93 first changes three signs and then reports numbers
+produced by neither coefficient row.
 
 Two independent discovery routes then pointed to the same replacement picture:
 
@@ -102,10 +103,11 @@ and the `kappa=1` Figure 10.1 row give
 matching the thesis's known `0.8584` control. The exact checker is
 `bian_audit.py`.
 
-The narrow conclusion is therefore unavoidable: the thesis's displayed data
-do not support its higher-derivative percentages. This audit does not yet
-decide whether the original fault is in Figure 10.1, the Mathematica output,
-an omitted transformation, or the manual arithmetic leading to page 93.
+The source-level diagnosis is a chapter-11 calculation error. An unprinted tail
+cannot reconcile the claim under the page's own premise: obtaining the reported
+values would require omitted weighted tails canceling `95.46%` and `99.76%` of
+the displayed `kappa=2` and `kappa=3` sums. The exact resolution, including the
+required tail fractions, is in `RESOLUTION-2008-DISCREPANCY.md`.
 
 ## Oracle 1: completed CUE derivatives
 

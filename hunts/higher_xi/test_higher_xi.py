@@ -15,6 +15,8 @@ from bian_audit import (
     alpha_expression,
     audit,
     endpoint_expression,
+    required_weighted_tail,
+    tail_cancellation_ratio,
 )
 from cue_oracle import angular_derivative_levels, bian_truncation, f1_closed
 from dirichlet_recurrence import (
@@ -81,6 +83,31 @@ def test_exact_bian_internal_obstruction() -> None:
     assert result["kappa2_figure_expression"] == Fraction(-202, 36855)
     assert result["kappa2_page93_expression"] == Fraction(-107714, 184275)
     assert result["kappa3_figure_expression"] == Fraction(-10284002, 1216215)
+
+
+def test_page_93_changes_exactly_three_kappa2_signs() -> None:
+    changed = [
+        index
+        for index, (figure, page93) in enumerate(
+            zip(FIGURE_10_1[2], PAGE_93_KAPPA_2), start=1
+        )
+        if figure != page93
+    ]
+    assert changed == [8, 9, 10]
+    assert all(PAGE_93_KAPPA_2[index - 1] > 0 for index in changed)
+
+
+def test_reported_values_require_non_negligible_unprinted_tails() -> None:
+    kappa2_tail = required_weighted_tail(FIGURE_10_1[2], Fraction(1193, 1250))
+    kappa3_tail = required_weighted_tail(FIGURE_10_1[3], Fraction(4887, 5000))
+    assert kappa2_tail == Fraction(-8844103, 18427500)
+    assert kappa3_tail == Fraction(-11472730541, 2432430000)
+    assert tail_cancellation_ratio(
+        FIGURE_10_1[2], Fraction(1193, 1250)
+    ) == Fraction(8844103, 9264250)
+    assert tail_cancellation_ratio(
+        FIGURE_10_1[3], Fraction(4887, 5000)
+    ) == Fraction(11472730541, 11500217000)
 
 
 def test_endpoint_is_alpha_one_expression() -> None:
