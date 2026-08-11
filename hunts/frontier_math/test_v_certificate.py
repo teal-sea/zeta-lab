@@ -92,6 +92,25 @@ def test_joint_cap_dominates_greedy_joint_adversary(vc, pinch_verdict):
     assert greedy <= pinch_verdict["j_cap"] + 1e-9
 
 
+def test_extended_greedy_stays_inside_the_seam_budget():
+    """The seam kill control: even the extended adversary (wider range,
+    denser packing) extracts far less than the budget where both bounds
+    fail — the hole is bound looseness, not adversary strength."""
+    vc = VCertificate()
+    pairs = [(k / 1.3, 0.49) for k in range(13)]
+    pe = vc.pe
+    budget = sum(pe.slack(y) for _, y in pairs)
+    t_signed = 0.0
+    for i, (t1, y1) in enumerate(pairs):
+        for j in range(i + 1, len(pairs)):
+            t2, y2 = pairs[j]
+            t_signed += 2 * pe.T(t1 - t2, y1, y2)
+    budget += t_signed
+    profit = greedy_joint_profit(vc, pairs, 0.02, kmax=60,
+                                 halfext=6.0, minsp=0.0625)
+    assert profit < budget / 3, (profit, budget)
+
+
 def test_theta_one_makes_the_cap_infinite(vc):
     assert not math.isfinite(vc.joint_cap(PINCH, theta=1.0))
 

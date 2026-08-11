@@ -6,8 +6,8 @@
    of level 6b — an on-line-configuration-free upper bound on the joint
    profit against a pair cluster — is delivered in the Fourier bridge's one
    variable (`v_certificate.py`).  At the level-6b pinch (nu_p = 1.5,
-   y = 0.49, 15 pairs), the cap is 40.62 against a budget of 41.11:
-   **margin +0.49**, where the greedy measured adversary of level 6b
+   y = 0.49, 15 pairs), the cap is 37.36 against a budget of 41.11:
+   **margin +3.75**, where the greedy measured adversary of level 6b
    reached 5.00.  The verdict quality is *measured* (double-precision
    quadrature with one-sided grid/Lipschitz structure); the arb pass is
    the named hardening.
@@ -75,8 +75,8 @@ beyond v1):
 minimised over the (G_near, v1, rho) ladder — every choice one-sided, so
 the min is.  At the pinch (v1 = 1.4, rho = 0.02, S = 13.33):
 
-    dp_I 0.58 + M_II 25.62 + leak 7.27 + dp_mid 6.48 + far 0.68 = 40.62
-    budget = slack 511.26 + T -470.16 = 41.11        margin +0.49
+    dp_I 0.58 + M_II 25.62 + leak 7.27 + dp_mid 3.22 + far 0.68 = 37.36
+    budget = slack 511.26 + T -470.16 = 41.11        margin +3.75
 
 The pinch's spectral anatomy (from `fourier_bridge.pinch_spectrum`): the
 pair deficit lives at |v| in [3, 7] (peak -176 per bin), the mean at
@@ -92,7 +92,7 @@ hides in the coherent band where the safe cell and LAW M defend it.
 | safe cell | cross >= 0 on the coherent cell | worst +3.22 |
 | LAW M taper independence | int W_I dg = 2 x 1.8032 | defect < 2e-5 |
 | pinch budget vs level 6b | slack 511.26, T -470.16 | reproduced |
-| domination (greedy joint) | greedy <= cap | 5.00 <= 40.62 |
+| domination (greedy joint) | greedy <= cap | 5.00 <= 37.36 (extended greedy 5.56) |
 | theta = 1 must fail | cap infinite | infinite (charges vanish) |
 | single-pair domination (levels 3/4) | measured profit <= cap | 0.14<=6.17, 1.85<=13.82, 6.73<=42.09 |
 | sub-critical lattice (naive pointwise form) | defeats fixed d(v) linearly in N | H(4.7) drops -1436 -> -1508 as N 20 -> 80 while `\|F_on(4.7)\|^2` stays O(1) |
@@ -122,54 +122,79 @@ configuration; a row is covered when either is positive.
 
 | configuration | budget | J_cap | v-margin | sep margin | covered by |
 |---|---|---|---|---|---|
-| lattice nu=0.75 y=0.45 | 200.09 | 225.55 | -25.47 | +0.9-ish flank | separable |
-| lattice nu=1.0 y=0.45 | 370.04 | 397.93 | -27.89 | +0.93 | separable |
-| lattice nu=1.0 y=0.49 | 606.98 | 642.45 | -35.47 | +1.10 | separable |
-| lattice nu=1.25 y=0.49 | 36.57 | 49.15 | -12.58 | **-0.59** | **NEITHER** |
-| lattice nu=1.3 y=0.49 | 35.11 | 45.88 | -10.77 | -0.60 | **NEITHER** |
-| lattice nu=1.4 y=0.49 | 36.50 | 42.16 | -5.67 | -0.60 | **NEITHER** |
-| lattice nu=1.45 y=0.49 | 37.83 | 41.23 | -3.40 | ~-0.60 | **NEITHER** |
-| lattice nu=1.5 y=0.49 (pinch) | 41.11 | 40.62 | **+0.49** | -0.599 | v-cap |
-| lattice nu=1.5 y=0.45 | 33.99 | 31.38 | +2.61 | -0.596 | v-cap |
-| lattice nu=2.0 y=0.49 | 84.65 | 50.25 | +34.40 | -0.555 | v-cap |
-| lattice nu=3.0 y=0.49 | 237.30 | 74.95 | +162.35 | (breaks) | v-cap |
-| alternating nu=1.0 | 139.43 | 160.36 | -20.92 | +0.53 | separable |
-| edge cluster nu=1.0 | 606.98 | 642.45 | -35.47 | +1.10 | separable |
-| sandwich nu=1.0 | 806.19 | 783.45 | +22.74 | +1.68 | both |
-| shallow sandwich nu=1.0 | 800.92 | 778.06 | +22.85 | +1.67 | both |
-| alternating nu=1.5 | 120.54 | 118.94 | +1.60 | — | v-cap |
-| staggered / sandwich / shallow sandwich nu=1.5 | 207-226 | 40-60 | > +166 | — | v-cap |
-| staggered nu=2.0 | 420.21 | 62.53 | +357.68 | — | v-cap |
+| lattice nu=0.75 y=0.45 | 200.09 | 223.23 | -23.15 | +0.73-ish flank | separable |
+| lattice nu=1.0 y=0.45 | 370.04 | 393.82 | -23.78 | +0.93 | separable |
+| lattice nu=1.0 y=0.49 | 606.98 | 636.69 | -29.71 | +1.10 | separable |
+| lattice nu=1.05 y=0.49 | — | — | -24.11 | +0.500 | separable |
+| lattice nu=1.1 y=0.49 | — | — | -19.10 | **-0.165** | **NEITHER** |
+| lattice nu=1.2 y=0.49 | — | — | -11.70 | -0.573 | **NEITHER** |
+| lattice nu=1.25 y=0.49 | 36.57 | 45.63 | -9.06 | -0.590 | **NEITHER** |
+| lattice nu=1.3 y=0.49 | 35.11 | 42.07 | -6.97 | -0.600 | **NEITHER** |
+| lattice nu=1.35 y=0.49 | — | — | -4.58 | -0.601 | **NEITHER** |
+| lattice nu=1.45 y=0.49 | — | — | +0.50 | -0.600 | v-cap |
+| lattice nu=1.5 y=0.49 (pinch) | 41.11 | 37.36 | **+3.75** | -0.599 | v-cap |
+| lattice nu=1.5 y=0.45 | 33.99 | 28.88 | +5.11 | -0.596 | v-cap |
+| lattice nu=2.0 y=0.49 | 84.65 | 44.50 | +40.15 | -0.555 | v-cap |
+| lattice nu=3.0 y=0.49 | 237.30 | 71.71 | +165.59 | (breaks) | v-cap |
+| alternating nu=1.0 | 139.43 | 157.29 | -17.86 | +0.53 | separable |
+| edge cluster nu=1.0 | 606.98 | 636.69 | -29.71 | +1.10 | separable |
+| sandwich nu=1.0 | 806.19 | 777.68 | +28.51 | +1.68 | both |
+| shallow sandwich nu=1.0 | 800.92 | 772.30 | +28.61 | +1.67 | both |
+| alternating nu=1.5 | 120.54 | 116.71 | +3.83 | — | v-cap |
+| staggered / sandwich / shallow sandwich nu=1.5 | 207-226 | 39-57 | > +168 | — | v-cap |
+| staggered nu=2.0 | 420.21 | 60.37 | +359.83 | — | v-cap |
 
-Reading: the certificate closes nu_p >= 1.5 — including every mixed-depth
+Reading: the certificate closes nu_p >= 1.45 — including every mixed-depth
 battery shape and the shallow sandwich that defeats the eta assembly —
 which is exactly where the level-6b separable budget breaks (worst -0.599
 at the pinch).  The separable level-6a caps close everything at
-nu_p <= 1.0.  **The seam nu_p in [1.25, 1.45] deep is a genuine two-sided
-hole**: both bounds fail there, while the measured greedy joint adversary
-extracts only ~5 against budgets of ~35-38 — the truth appears to hold
-with a wide margin the bounds cannot yet see.
+nu_p <= 1.05.  **The seam nu_p in [1.1, 1.4] deep is a genuine two-sided
+hole** (post-tightening map, y = 0.49):
+
+| nu_p | v-margin | separable | status |
+|---|---|---|---|
+| 1.05 | -24.11 | +0.500 | separable |
+| 1.10 | -19.10 | -0.165 | **HOLE** |
+| 1.20 | -11.70 | -0.573 | **HOLE** |
+| 1.25 | -9.06 | -0.590 | **HOLE** |
+| 1.30 | -6.97 | -0.600 | **HOLE** (also -5.60 at y = 0.45) |
+| 1.35 | -4.58 | -0.601 | **HOLE** |
+| 1.45 | +0.50 | -0.600 | v-cap |
+| 1.50 | +3.75 | -0.599 | v-cap (the pinch) |
+
+The truth sits far inside the budget throughout: the **extended greedy**
+(sites to +-8 beyond the window, up to 100 zeros, min spacing 1/16)
+extracts 7.23 with 18 zeros at nu = 1.3 against a budget of 35.11, and
+5.56 at nu = 1.5 against 41.11 — the hole is bound looseness, not
+adversary strength, and that control is now a permanent test.
 
 **The escaping v-band, pinned.**  The seam's excess cap is M_II mass in
 v in [5, 7]: the pair lattice's first spectral spike sits at 2 pi nu_p
-(8.17 at nu = 1.3, 9.42 at 1.5), and as nu_p drops below 1.5 its shoulder
-re-enters the kernel band top (M_II share of [5, 7]: 17.8 at nu = 1.3 vs
-11.7 at nu = 1.5, against a budget 6.0 smaller).  The Cauchy-Schwarz
-grants full anti-alignment against that shoulder; the g-space truth
-shields it (the greedy reaches ~5).  **The next kill control is therefore
-the seam lattice (nu_p in [1.25, 1.45], y = 0.49) attacked in
-v in [5, 7]**, and the next theorem object is the g-localised v-cell
-dual: per-v-cell damage kernels W_c(g, y) (band-passed, taper-smoothed)
-with their own counting DPs, replacing the C-S grant by honest g-space
-charges in exactly that band.  The remaining seam terms (leak ~7.1,
-dp_mid ~7) are secondary and shrink with the same localisation.
+(8.17 at nu = 1.3, 9.42 at 1.5), and as nu_p drops below ~1.45 its
+shoulder re-enters the kernel band top (M_II share of [5, 7]: 17.8 at
+nu = 1.3 vs 11.7 at nu = 1.5, against a budget 6.0 smaller).  The
+Cauchy-Schwarz grants full anti-alignment against that shoulder; the
+g-space truth shields it.  At nu = 1.3 the residual -6.97 decomposes as
+M_II-term 30.8 (of which the [5, 7] band carries 17.8) + leak 7.2 +
+dp_mid 3.3 + far 0.6 against budget 35.1: reversing it needs the band
+grant cut by ~x0.6 — **the next theorem object is the g-localised v-cell
+dual** (per-v-cell damage kernels W_c(g, y), band-passed and
+taper-smoothed, with honest g-space charges in exactly that band), and
+**the next kill control is the seam lattice (nu_p in [1.1, 1.4],
+y = 0.49) attacked in v in [5, 7]**.
 
 **The span boundary.**  The leak term is window-fixed, so short clusters
-do not amortise it: at the pinch density, span 6 is open (v-margin -4.36,
-separable -0.574 — inside the hole), span 10 closes (+0.49), span 16
-closes with room (+9.56, separable -0.614).  The certificate's closure at
-nu_p = 1.5 is a span >= 10 statement; short deep clusters at seam-adjacent
-densities belong to the same named hole.
+do not amortise it: at the pinch density, span 6 is open (v-margin
+-1.09), span 8 closes (+1.24), span 10 closes (+3.75), span 16 with room
+(+9.56 pre-tightening).  The certificate's closure at nu_p >= 1.45 is a
+span >= 8 statement; shorter deep clusters at seam-adjacent densities
+belong to the same named hole.
+
+**Instrument v2.**  After the first audit, the mid-zone cell margins were
+made per-cell (the blanket global-slope margin over ~500 cells was most
+of dp_mid at seam-scale budgets: 6.5 -> 3.2 at the pinch), moving the
+pinch margin from +0.49 to +3.75 and nu = 1.45 from -3.40 to +0.50.  The
+sweep table above and the audit log reflect the v2 instrument.
 
 ## The full-ladder scan record (level 6a corrected)
 
@@ -201,7 +226,7 @@ ratio below ~0.41 because the deep partners' own budgets are nearly
 saturated.  The joint accounting has no such bookkeeping: the shallow
 layer's spectral mass is coherent (cosh(0.02 v) ~ 1) and hides at v ~ 0.
 Joint verdict on the failing shape (shallow sandwich, y = 0.02 + 0.49):
-margin **+166.59** at nu_p = 1.5 and **+22.85** at nu_p = 1.0 (both close;
+margin **+169.85** at nu_p = 1.5 and **+28.61** at nu_p = 1.0 (both close;
 at nu_p = 1.0 the separable accounting also holds it at +1.67 per slack).
 The eta band is a bookkeeping failure of the linear per-depth assembly,
 not a failure of theta_full's joint content on the tested shapes.

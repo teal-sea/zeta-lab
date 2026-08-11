@@ -328,21 +328,24 @@ class VCertificate:
                 run.append(sum(max(0.0, -2 * pe.W(g - t, y))
                                for t, y in pairs))
             vals.append(run)
-        slope = max(
-            abs(run[i + 1] - run[i]) / mid_step
-            for run in vals for i in range(len(run) - 1)
-        )
-        margin = 2 * slope * mid_step
 
         best = math.inf
         for delta in self.delta_choices:
             per = max(1, int(round(delta / mid_step)))
             cells = []
             for run in vals:
-                cells.extend(
-                    max(run[j:j + per], default=0.0) + margin
-                    for j in range(0, len(run), per)
-                )
+                for j in range(0, len(run), per):
+                    seg = run[j:j + per + 1]  # include the shared endpoint
+                    if not seg:
+                        continue
+                    # per-cell margin from the cell's own measured slope:
+                    # a blanket global-slope margin over ~500 cells was
+                    # most of dp_mid at the seam budgets
+                    local = max(
+                        (abs(seg[i + 1] - seg[i]) for i in range(len(seg) - 1)),
+                        default=0.0,
+                    )
+                    cells.append(max(seg) + 2 * local)
             cK1 = c * cb.K_delta(delta)
             cK2 = c * cb.K_delta(2 * delta)
             best = min(best, chain_dp(cells, cK1, cK2))
@@ -491,25 +494,30 @@ def mixed_depth_configs(nu_values=(1.0, 1.5, 2.0), span=10.0):
                [(k * spacing, 0.49) for k in range(n)])
 
 
-def greedy_joint_profit(vc: VCertificate, pairs, theta=0.02,
-                        kmax=40) -> float:
+def greedy_joint_profit(vc: VCertificate, pairs, theta=0.02, kmax=40,
+                        halfext=2.0, minsp=0.125) -> float:
     """The level-6b greedy joint adversary (lower bound on J), for the
-    domination control."""
+    domination control.  The extended variant (halfext=8, kmax=100,
+    minsp=1/16) is the seam kill control: at nu_p = 1.3, y = 0.49 it
+    extracts 7.23 with 18 zeros against a budget of 35.1 — the truth
+    sits far inside the budget where both bounds fail."""
     rec = Recovery(vc.L, vc.w)
     ts = [t for t, _ in pairs]
-    lo, hi = min(ts) - 2.0, max(ts) + 2.0
+    lo, hi = min(ts) - halfext, max(ts) + halfext
     sites = [lo + 0.02 * i for i in range(int((hi - lo) / 0.02))]
     c = 1 - theta
     chosen: list[float] = []
+    dmg_cache: dict[float, float] = {}
     profit = 0.0
     for _ in range(kmax):
         best_gain, best_x = 0.0, None
         for x in sites:
-            if any(abs(x - p) < 0.125 for p in chosen):
+            if any(abs(x - p) < minsp for p in chosen):
                 continue
-            dmg = -sum(2 * rec.W(x - t, y) for t, y in pairs)
+            if x not in dmg_cache:
+                dmg_cache[x] = -sum(2 * rec.W(x - t, y) for t, y in pairs)
             internal = 2 * c * sum(rec.omega_sq(x - p) for p in chosen)
-            gain = dmg - internal
+            gain = dmg_cache[x] - internal
             if gain > best_gain:
                 best_gain, best_x = gain, x
         if best_x is None:
