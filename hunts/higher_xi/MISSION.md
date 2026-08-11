@@ -46,28 +46,48 @@ prediction.
 `URMS2-ATTACK.md` attacks that named target and closes at Outcome D. The full
 inverse is bounded in a weighted Wiener algebra and on its companion Dirichlet
 Hilbert space. Its exact coefficient envelope converges below `alpha=1/2` at
-level one and `alpha=1/4` at level two. Neither threshold is yet a zero-side
-bridge: the available resummed square sum is `x(log x)^2`, one logarithm above
-the required `x log x` scale. The same gap already blocks URMS1. The smallest
-remaining package is the early-smoothed contour estimate `RC-kappa` plus the
-resummed almost-prime square asymptotic `RAMS-kappa`.
+level one and `alpha=1/4` at level two. At that stage neither threshold was a
+zero-side bridge: the available resummed square sum was `x(log x)^2`, one
+logarithm above the required `x log x` scale. The then-smallest package was the
+early-smoothed contour estimate `RC-kappa` plus the resummed almost-prime
+square asymptotic `RAMS-kappa`.
 
 `RAMS1-ATTACK.md` resolves where the elementary extra logarithm comes from.
 On squarefree support exactly one convolution depth survives, with an explicit
 factorial formula. The crude `x(log x)^2` bound loses prime support density
-already at depth zero. The full RAMS1 limit is still open because the
-fixed-depth collision errors have no recorded constants summable uniformly in
-depth. The all-depth squarefree contribution is `O_r(x log x)`, and pure prime
-powers are lower order by an exact binomial formula. Only mixed repeated-prime
-collision strata remain. Early smoothing turns the false Cauchy-tail step into an exact `L2`
-contraction, but the required local square bound for the full resolvent remains
-open.
+already at depth zero. That attack left mixed repeated-prime collision strata
+open after closing the all-depth squarefree and pure-prime-power pieces. Early
+smoothing also turned the false Cauchy-tail step into an exact `L2`
+contraction. The subsequent closure below resolves both remaining level-one
+obligations.
 
 The same attack finds the full second-moment generating object. The exact
 identity `alpha_k(n)=log(n) Lambda_k(n)/k` converts the ordinary resolvent into
 a Laplace transform of a multiplicative exponential-convolution family. Its
-Hadamard square has an explicit two-parameter Euler product. RAMS1 is now a
-uniform Borel-Hadamard Tauberian problem for that product.
+Hadamard square has an explicit two-parameter Euler product. This reduced
+RAMS1 to a uniform Borel-Hadamard Tauberian problem for that product.
+
+`URMS1-CLOSURE.md` closes that Tauberian problem by the unique
+powerful-squarefree support split. The squarefree strata give the factorial
+main series, while powerful corrections have finite harmonic mass and vanish
+by dominated convergence. The same report rebuilds RC1 on the untouched right
+contour line and establishes URMS1 on compact positive bands inside
+`|alpha|<1/4`. This is
+Outcome B: level one repaired, level two blocked. The exact new level-two
+target is `RAMS2-Cluster`, forced by the connected `A*A` atom at the coprime
+integer 6.
+
+`RAMS2-CLUSTER.md` resolves that target on the explicit coefficient band
+`0<r<=1/10`. Borel transformation turns the denominator inverse into a
+rank-one monomer-dimer model. In the Hadamard square its connected components
+are exactly alternating paths and even cycles. Their all-support-size
+majorant has successive ratio `O(1/r)`; the powerful-squarefree split then
+removes repeated-prime strata from the main term. The connected atom changes
+the corrected level-two coefficient but not the `x log x` scale. Reusing the
+early-smoothed right-line architecture gives the level-two bridge on compact
+bands inside `|alpha|<1/100`. This reaches Outcome B on a deliberately narrow
+band. It does not reach the support of the simplicity window, so no percentage
+is opened.
 
 The completed-CUE experiment uses angular derivatives of
 

@@ -2,21 +2,14 @@
 
 ## Status
 
-The source of the elementary `x(log x)^2` bound is now exact. It is a support
+The source of the elementary `x(log x)^2` bound is exact. It is a support
 overcount, not genuine mass in the level-one resummed coefficient family.
 
-The full RAMS1 asymptotic is not yet established. The remaining arithmetic
-gap is narrower: the fixed-depth main terms have the right `x log x` scale,
-and all cross-depth terms outside the prime layer lose one logarithm at every
-fixed pair of depths. What is missing is a bound on the constants that is
-summable uniformly over all depths in the exact resummed object.
-
-RC1 is also not promoted. Early smoothing replaces the false pointwise
-contour estimate by an exact `L2` contraction, but the required local `L2`
-bound for the resummed right-line remainder is still absent.
-
-Consequently this is an intermediate result, not Outcome A, B, C, D, or E of
-the directive. No zero-statistics band or level-one bridge is claimed.
+The powerful-squarefree factorization added after this attack closes the
+remaining mixed-prime uniformity. `URMS1-CLOSURE.md` gives the resulting full
+RAMS1 theorem, the early-smoothed RC1 argument, and a rebuilt level-one bridge
+on every compact `|alpha|<1/4`. This file remains the derivation ledger for the
+support and Borel-Hadamard discoveries.
 
 ## 1. The exact level-one object
 
@@ -470,7 +463,7 @@ remainder. The estimate must be uniform in the Laplace variables strongly
 enough to justify both integrations. A theorem for each fixed `t,u` is not
 sufficient.
 
-## 8. RC1 after early smoothing
+## 8. Interim RC1 reduction, superseded by the closure
 
 Put `a=sigma-1/2>0` and
 
@@ -500,9 +493,10 @@ with `o(T log T)` local square error on an enlarged height interval. Neither
 the Wiener norm nor the fixed-depth source estimate supplies that local square
 bound.
 
-Thus the Cauchy kernel itself is no longer mysterious. RC1 is blocked by the
-same resummed local mean square that RAMS1 is intended to control, together
-with boundary localization for the finite height interval.
+At this point in the attack, RC1 was blocked by the same resummed local mean
+square and by finite-height boundary localization. `URMS1-CLOSURE.md` resolves
+both points using the powerful-squarefree RAMS1 bound, the right-line Cauchy
+partial fraction, and a separate infinite-tail cutoff.
 
 ## 9. Trust boundary and reproduction
 

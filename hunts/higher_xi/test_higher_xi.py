@@ -75,14 +75,34 @@ from urms2_attack import (
 from rams1 import (
     alpha_symmetry_defects,
     borel_multiplicativity_defects,
+    cauchy_partial_fraction_defect,
+    cauchy_two_range_exponent_defects,
+    commutator_local_mass,
     formal_level_one_layers,
     independent_resolvent_defect,
     phi1,
+    powerful_factorization_defects,
+    powerful_split_coefficient_defects,
+    powerful_squarefree_defects,
     prime_power_layer,
     prime_power_resummed,
     square_density_decomposition,
     squarefree_identity_defects,
     support_loss_control,
+)
+from rams2_cluster import (
+    connected_component_defects,
+    exact_route_defects,
+    full_squarefree_majorant_coefficient,
+    inverse_series_terms,
+    majorant_ratios,
+    pq_borel_defect,
+    pq_connected_defect,
+    pq_direct_resolvent,
+    prime_power_q_cluster,
+    prime_power_q_direct,
+    rc2_parameter_margins,
+    squarefree_q_cluster,
 )
 from window_certificate import exact_window_check, positivity_floor
 
@@ -371,6 +391,27 @@ def test_borel_convolution_generator_is_multiplicative() -> None:
     assert all(defect == 0 for defect in borel_multiplicativity_defects())
 
 
+def test_powerful_squarefree_support_split_is_exact() -> None:
+    assert all(defect == 0 for defect in powerful_squarefree_defects())
+    assert all(defect == 0 for defect in powerful_factorization_defects())
+
+
+def test_resummed_coefficient_factors_over_the_powerful_split() -> None:
+    assert all(defect == 0 for defect in powerful_split_coefficient_defects())
+
+
+def test_early_smoothed_cauchy_kernel_selects_the_two_ranges() -> None:
+    assert cauchy_partial_fraction_defect() == 0
+    assert cauchy_two_range_exponent_defects() == (0, 0)
+    radius = sp.Symbol("R", positive=True)
+    variable = sp.Symbol("u", positive=True)
+    direct = 2 * sp.integrate(
+        variable / (1 + variable**2),
+        (variable, 0, radius),
+    )
+    assert sp.simplify(direct - commutator_local_mass(radius)) == 0
+
+
 def test_level_one_depth_sum_matches_independent_exact_inverse() -> None:
     assert independent_resolvent_defect() < 1e-13
 
@@ -427,6 +468,83 @@ def test_support_control_distinguishes_a_genuine_second_logarithm() -> None:
     assert large["prime_supported_over_x_log_x"] > 0.8
     assert large["dense_toy_over_x_log_x"] > small["dense_toy_over_x_log_x"]
     assert large["dense_toy_over_x_log_x"] > 5
+
+
+def test_level_two_inverse_has_an_exact_untruncated_ab_expansion() -> None:
+    terms = inverse_series_terms(6)
+    assert terms[0] == {(0, 0): 1}
+    assert terms[1] == {(1, 0): 2}
+    assert terms[2] == {(2, 0): 3, (0, 1): -1}
+    assert terms[4] == {(4, 0): 5, (2, 1): -10, (0, 2): 1}
+
+
+def test_level_two_squarefree_inverse_agrees_by_three_exact_routes() -> None:
+    assert exact_route_defects(5) == (sp.Integer(0),) * 10
+
+
+def test_pq_is_the_first_exact_connected_defect() -> None:
+    z, t, lp, lq = sp.symbols("z t lp lq")
+    assert pq_direct_resolvent(lp, lq, z) == sp.expand(
+        6 * lp * lq * z**2
+        - 4 * lp * lq * (lp + lq) * z**3
+        + 2 * lp**2 * lq**2 * z**4
+    )
+    assert sp.expand(
+        pq_connected_defect(lp, lq, z)
+        - lp * lq * z**2 * (2 - 2 * z * (lp + lq) + z**2 * lp * lq)
+    ) == 0
+    assert pq_borel_defect(lp, lq, z, t) == -2 * t * z**2 * lp * lq
+
+
+def test_hadamard_clusters_are_alternating_paths_and_even_cycles() -> None:
+    assert connected_component_defects(6) == (sp.Integer(0),) * 6
+
+
+def test_gaussian_cluster_route_includes_repeated_prime_support() -> None:
+    z, log_prime = sp.symbols("z log_prime")
+    for exponent in range(1, 5):
+        assert sp.expand(
+            prime_power_q_cluster(exponent, log_prime, z)
+            - prime_power_q_direct(exponent, log_prime, z)
+        ) == 0
+
+
+def test_squarefree_q_matching_formula_starts_with_corrected_words() -> None:
+    z, lp, lq = sp.symbols("z lp lq")
+    assert squarefree_q_cluster((lp,), z) == (
+        -lp + 2 * z * lp**2 - z**2 * lp**3
+    )
+    assert squarefree_q_cluster((lp, lq), z) == sp.expand(
+        (lp + lq)
+        * z**2
+        * lp
+        * lq
+        * ((2 - z * lp) * (2 - z * lq) - 2)
+    )
+
+
+def test_all_support_size_majorant_is_uniformly_summable() -> None:
+    coefficients = [full_squarefree_majorant_coefficient(size) for size in range(1, 21)]
+    ratios = majorant_ratios(20)
+    assert coefficients[:5] == [
+        4,
+        3,
+        Fraction(49, 45),
+        Fraction(289, 840),
+        Fraction(1681, 18900),
+    ]
+    assert all(ratio < 1 for ratio in ratios)
+    assert ratios[-1] < Fraction(1, 12)
+
+
+def test_first_rc2_band_has_strict_exact_parameter_margins() -> None:
+    margins = rc2_parameter_margins()
+    assert margins == {
+        "target_rams": Fraction(3, 50),
+        "upper_cutoff_rams": Fraction(3, 250),
+        "tail_at_epsilon_zero": Fraction(1, 500),
+        "maximum_epsilon": Fraction(1, 22),
+    }
 
 
 def test_target_window_has_only_a_simple_overlap_zero_at_band_edge() -> None:

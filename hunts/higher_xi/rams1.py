@@ -222,6 +222,125 @@ def borel_multiplicativity_defects(limit: int = 35) -> list[sp.Expr]:
     return defects
 
 
+def powerful_squarefree_split(
+    integer: int, factors: np.ndarray
+) -> tuple[int, int]:
+    """Return the unique ``integer = powerful * squarefree`` support split.
+
+    Prime powers of exponent at least two go into the powerful factor.  Primes
+    of exponent one go into the squarefree factor.
+    """
+
+    powerful = 1
+    squarefree = 1
+    for prime, exponent in factorization(integer, factors):
+        if exponent == 1:
+            squarefree *= prime
+        else:
+            powerful *= prime**exponent
+    return powerful, squarefree
+
+
+def powerful_squarefree_defects(limit: int = 80) -> list[int]:
+    """Check reconstruction, coprimality, and both support properties."""
+
+    factors = smallest_prime_factors(limit)
+    defects: list[int] = []
+    for integer in range(1, limit + 1):
+        powerful, squarefree = powerful_squarefree_split(integer, factors)
+        squarefree_parts = factorization(squarefree, factors)
+        powerful_parts = factorization(powerful, factors)
+        defects.extend(
+            (
+                integer - powerful * squarefree,
+                math.gcd(powerful, squarefree) - 1,
+                sum(exponent != 1 for _prime, exponent in squarefree_parts),
+                sum(exponent < 2 for _prime, exponent in powerful_parts),
+            )
+        )
+    return defects
+
+
+def powerful_factorization(integer: int, factors: np.ndarray) -> tuple[int, int]:
+    """Represent a powerful integer as ``a^2 b^3`` with squarefree ``b``."""
+
+    first = 1
+    second = 1
+    for prime, exponent in factorization(integer, factors):
+        if exponent < 2:
+            raise ValueError("integer is not powerful")
+        if exponent % 2:
+            first *= prime ** ((exponent - 3) // 2)
+            second *= prime
+        else:
+            first *= prime ** (exponent // 2)
+    return first, second
+
+
+def powerful_factorization_defects(limit: int = 250) -> list[int]:
+    """Check the ``a^2 b^3`` representation for every powerful integer."""
+
+    factors = smallest_prime_factors(limit)
+    defects: list[int] = []
+    for integer in range(1, limit + 1):
+        parts = factorization(integer, factors)
+        if any(exponent == 1 for _prime, exponent in parts):
+            continue
+        first, second = powerful_factorization(integer, factors)
+        second_parts = factorization(second, factors)
+        defects.append(integer - first**2 * second**3)
+        defects.append(sum(exponent != 1 for _prime, exponent in second_parts))
+    return defects
+
+
+def powerful_split_coefficient_defects(limit: int = 55) -> list[sp.Expr]:
+    """Check the exact resummed coefficient after the support split.
+
+    If ``n=q*m``, ``q`` is powerful, ``m`` is squarefree and
+    ``j=omega(m)>0``, then the positive part of ``a_z(n)`` equals
+
+    ``(j-1)! z^j log(n) product_(p|m)log(p) B_(q,j)(z)``,
+
+    where ``B_(q,j)`` is the coefficient at ``q`` of ``(1-z*A)^(-j)``.
+    """
+
+    max_depth = int(math.log(limit, 2))
+    layers, logs, lambda_powers = _formal_level_one_data(limit, max_depth)
+    factors = smallest_prime_factors(limit)
+    z = sp.Symbol("z")
+    defects: list[sp.Expr] = []
+    for integer in range(2, limit + 1):
+        powerful, squarefree = powerful_squarefree_split(integer, factors)
+        squarefree_parts = factorization(squarefree, factors)
+        depth = len(squarefree_parts)
+        if depth == 0:
+            continue
+        log_integer = sum(
+            exponent * logs[prime]
+            for prime, exponent in factorization(integer, factors)
+        )
+        squarefree_weight = sp.prod(logs[prime] for prime, _ in squarefree_parts)
+        powerful_multiplier = sum(
+            sp.binomial(depth + power - 1, power)
+            * z**power
+            * lambda_powers[power][powerful]
+            for power in range(max_depth + 1)
+        )
+        predicted = (
+            sp.factorial(depth - 1)
+            * z**depth
+            * log_integer
+            * squarefree_weight
+            * powerful_multiplier
+        )
+        actual = sum(
+            z**power * layers[power][integer]
+            for power in range(1, max_depth + 1)
+        )
+        defects.append(sp.expand(actual - predicted))
+    return defects
+
+
 def squarefree_closed_form(
     integer: int, depth: int, factors: np.ndarray, logs: dict[int, sp.Symbol]
 ) -> sp.Expr:
@@ -311,6 +430,45 @@ def support_loss_control(limit: int) -> dict[str, float]:
         ),
         "dense_toy_over_x_log_x": float(np.dot(logs, logs) / scale),
     }
+
+
+def cauchy_partial_fraction_defect() -> sp.Expr:
+    """Exact defect in the early-smoothed right-line kernel split."""
+
+    sigma, contour, frequency = sp.symbols(
+        "sigma contour frequency", real=True
+    )
+    left_distance = sigma - sp.Rational(1, 2) - contour
+    right_distance = sigma - sp.Rational(1, 2) + contour
+    kernel = (2 * sigma - 1) / (
+        (-left_distance + sp.I * frequency)
+        * (right_distance + sp.I * frequency)
+    )
+    split = 1 / (-left_distance + sp.I * frequency) - 1 / (
+        right_distance + sp.I * frequency
+    )
+    return sp.factor(kernel - split)
+
+
+def cauchy_two_range_exponent_defects() -> tuple[sp.Expr, sp.Expr]:
+    """Check the two exponents selected by the Fourier transform.
+
+    The contour variable has real part ``contour`` before the extra
+    ``n^(-1/2)`` in the logarithmic-derivative Dirichlet series is included.
+    """
+
+    sigma, contour = sp.symbols("sigma contour", real=True)
+    left_distance = sigma - sp.Rational(1, 2) - contour
+    right_distance = sigma - sp.Rational(1, 2) + contour
+    below_x = sp.expand(contour + sp.Rational(1, 2) - right_distance)
+    above_x = sp.expand(contour + sp.Rational(1, 2) + left_distance)
+    return sp.expand(below_x - (1 - sigma)), sp.expand(above_x - sigma)
+
+
+def commutator_local_mass(radius: sp.Expr) -> sp.Expr:
+    """Exact first-moment mass of ``1/(1+u^2)`` on ``[-radius,radius]``."""
+
+    return sp.log(1 + radius**2)
 
 
 @dataclass(frozen=True)
