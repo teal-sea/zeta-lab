@@ -1,0 +1,37 @@
+{
+  "schema": 1,
+  "object": "regular form-factor coefficients for zeros of xi double prime",
+  "normalization": "F_2(alpha,T) = spike + sum_i C_2,i |alpha|^i + fixed-truncation error, with L = (1/2) log(T/(2 pi))",
+  "sources": {
+    "bian_thesis_sha256": "ec1143f4f6c83288b717cfd4cd0aa6cc620f8c68b892f510a2a8d1708f36bfb7",
+    "farmer_gonek_arxiv_source_sha256": "f6cdc7b71db06187dac655647e24312843441aa2598e41a3b53834dd1b36822f"
+  },
+  "regeneration": {
+    "route_a": "R_{j+1}=R_j+D(R_j)/R_j under formal Dirichlet convolution, iterated from R_0=L-Lambda",
+    "route_b": "D log(1+2gx+(g'+g^2)x^2), expanded as independent operator words, where g=zeta'/zeta and x=1/L",
+    "mean_square_a": "explicit relative-permutation sum",
+    "mean_square_b": "factorial permanent by subset dynamic programming",
+    "coefficient_formula": "C_i=2^(i-1) sum_{p+q=i-1} <q_p,q_q>",
+    "basis_inner_product": "<(b_1,...,b_r),(d_1,...,d_r)>=sum_perm product_j (b_j+d_perm(j)+1)!/(2r+sum(b)+sum(d)-1)!; unequal lengths give zero"
+  },
+  "first_obstruction": {
+    "q_0": "-Lambda",
+    "q_1": "2 Lambda log",
+    "derived_C_2_2": "-8",
+    "bian_C_2_2": "-4",
+    "cause": "M(v_l)M(w_k) is present before Theorem 3 on thesis page 71 and absent in the following displayed asymptotic and equation (8.1)"
+  },
+  "coefficients": [
+    {"i": 1, "route_a": "1", "route_b": "1", "leading_inner_sum": "1", "bian_figure_10_1": "1", "status": "MATCH", "minimal_regeneration_expression": "1*sum_{p+q=0}<q_p,q_q>"},
+    {"i": 2, "route_a": "-8", "route_b": "-8", "leading_inner_sum": "-4", "bian_figure_10_1": "-4", "status": "MISMATCH", "minimal_regeneration_expression": "2*sum_{p+q=1}<q_p,q_q>"},
+    {"i": 3, "route_a": "24", "route_b": "24", "leading_inner_sum": "6", "bian_figure_10_1": "4", "status": "MISMATCH", "minimal_regeneration_expression": "4*sum_{p+q=2}<q_p,q_q>"},
+    {"i": 4, "route_a": "-32", "route_b": "-32", "leading_inner_sum": "-4", "bian_figure_10_1": "-16", "status": "MISMATCH", "minimal_regeneration_expression": "8*sum_{p+q=3}<q_p,q_q>"},
+    {"i": 5, "route_a": "64/3", "route_b": "64/3", "leading_inner_sum": "4/3", "bian_figure_10_1": "28", "status": "MISMATCH", "minimal_regeneration_expression": "16*sum_{p+q=4}<q_p,q_q>"},
+    {"i": 6, "route_a": "-64/3", "route_b": "-64/3", "leading_inner_sum": "-2/3", "bian_figure_10_1": "16", "status": "MISMATCH", "minimal_regeneration_expression": "32*sum_{p+q=5}<q_p,q_q>"},
+    {"i": 7, "route_a": "1216/45", "route_b": "1216/45", "leading_inner_sum": "19/45", "bian_figure_10_1": "544/45", "status": "MISMATCH", "minimal_regeneration_expression": "64*sum_{p+q=6}<q_p,q_q>"},
+    {"i": 8, "route_a": "-256/15", "route_b": "-256/15", "leading_inner_sum": "-2/15", "bian_figure_10_1": "-512/45", "status": "MISMATCH", "minimal_regeneration_expression": "128*sum_{p+q=7}<q_p,q_q>"},
+    {"i": 9, "route_a": "1088/63", "route_b": "1088/63", "leading_inner_sum": "17/252", "bian_figure_10_1": "-104/63", "status": "MISMATCH", "minimal_regeneration_expression": "256*sum_{p+q=8}<q_p,q_q>"},
+    {"i": 10, "route_a": "-11776/945", "route_b": "-11776/945", "leading_inner_sum": "-23/945", "bian_figure_10_1": "-416/945", "status": "MISMATCH", "minimal_regeneration_expression": "512*sum_{p+q=9}<q_p,q_q>"},
+    {"i": 11, "route_a": "42496/4725", "route_b": "42496/4725", "leading_inner_sum": "83/9450", "bian_figure_10_1": "6688/1575", "status": "MISMATCH", "minimal_regeneration_expression": "1024*sum_{p+q=10}<q_p,q_q>"}
+  ]
+}

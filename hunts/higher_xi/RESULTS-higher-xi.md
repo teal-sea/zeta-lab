@@ -1,23 +1,35 @@
-# Higher xi derivatives: an exact thesis obstruction and two numerical oracles
+# Higher xi derivatives: corrected coefficients and a tail barrier
 
 ## Status
 
-The 2008 discrepancy is resolved at source level. Ji Bian's Figure 10.1
-coefficient rows, inserted into equation (11.5), do not yield the reported
-`0.9544` and `0.9774` proportions for simple zeros of the second and third
-derivatives of xi. Page 93 first changes three signs and then reports numbers
-produced by neither coefficient row.
+The arithmetic object has now been reconstructed independently. The first
+causal defect is on Bian thesis page 71: `M(v_l)M(w_k)` occurs in the exact
+square for `A(x)`, then disappears in the next displayed asymptotic and in
+equation (8.1). The constants from equation (7.8) do not contain those weights.
 
-Two independent discovery routes then pointed to the same replacement picture:
+Keeping them gives
+
+```text
+C[2,i] =
+1, -8, 24, -32, 64/3, -64/3, 1216/45, -256/15,
+1088/63, -11776/945, 42496/4725.
+```
+
+Only the first entry matches Figure 10.1. `C2_PROVENANCE.md`,
+`C2_EXACT.json`, and `exact_c2.py` give the derivation, exact fixture, and two
+independent regeneration paths.
+
+Two numerical discovery routes remain available as falsification tools:
 
 1. angular derivatives of completed Haar-unitary characteristic polynomials;
 2. a direct finite Dirichlet recurrence for successive logarithmic derivatives.
 
 The CUE route matches the known first-derivative curve within its fixed-size
 Monte Carlo error. The direct recurrence has the right scale but retains a
-`14.7%` finite-`ell` deficit at its last rung. Both place the measured
-second-derivative form factor below Bian's eleven-term polynomial over the
-tested band. The direct recurrence's observed window ladder decreases
+`14.7%` finite-`ell` deficit at its last rung. Earlier runs placed the measured
+second-derivative form factor below Bian's incorrect eleven-term polynomial.
+That comparison is now historical only. The direct recurrence's observed
+window ladder decreases
 
 ```text
 0.9342893, 0.9329638, 0.9319386, 0.9311081
@@ -25,9 +37,11 @@ tested band. The direct recurrence's observed window ladder decreases
 
 on the tested `ell = 8,10,12,14` ladder. Four rungs do not determine its limit.
 
-Only the internal inconsistency is an exact finite statement. The CUE and
-Dirichlet outputs are measured discovery objects. No higher-derivative zeta
-constant, conditional or unconditional, is claimed here.
+The coefficient correction is an exact finite statement. The full tail remains
+open for the precise reason recorded in `TAIL-BARRIER.md`: the available
+theorem controls each fixed truncation but supplies no remainder uniform in
+truncation level over bandwidth one. The CUE and Dirichlet outputs are measured
+discovery objects. No higher-derivative window or zeta constant is claimed here.
 
 ## Pinned primary source
 
@@ -51,7 +65,10 @@ The load-bearing pages were visually inspected in the rendered PDF:
 The `kappa=1` normalization is independently pinned by Farmer and Gonek's
 closed form, arXiv:0803.0425, later published with Yoonbok Lee.
 
-## Exact obstruction
+## Historical Chapter 11 obstruction
+
+This section is retained only as source forensics. Its printed rows and decimals
+are not calibration data for the corrected calculation.
 
 Equation (11.5) gives the eleven-term endpoint expression
 
@@ -109,7 +126,7 @@ values would require omitted weighted tails canceling `95.46%` and `99.76%` of
 the displayed `kappa=2` and `kappa=3` sums. The exact resolution, including the
 required tail fractions, is in `RESOLUTION-2008-DISCREPANCY.md`.
 
-## Oracle 1: completed CUE derivatives
+## Historical pre-derivation oracle run: completed CUE derivatives
 
 For even `N`, sample Haar `U(N)` and form the real completed characteristic
 polynomial
@@ -163,7 +180,7 @@ with the eleven-term polynomial at the tested sizes. Their error bars do not
 include finite-`N` bias, model error in the CUE analogy, or polynomial
 evaluation error. This is not a derivation of the arithmetic form factor.
 
-## Oracle 2: direct Dirichlet recurrence
+## Historical pre-derivation oracle run: direct Dirichlet recurrence
 
 Freeze
 
@@ -205,7 +222,10 @@ nearer the independent CUE value `0.00752` than the unadjusted `0.00616`.
 This rescaling is ad hoc and diagnostic only. The raw oracle values differ by
 `18.1%`, so their agreement is directional rather than quantitative.
 
-## Weighted-window experiment
+## Historical pre-derivation window experiment
+
+This optimization predates the coefficient correction and has no promotion
+status. The window phase is locked until the tail in `TAIL-BARRIER.md` closes.
 
 The August 2026 method does not need a pointwise closed form if the positive
 coefficient measure can be inserted directly into its autocorrelation
@@ -257,7 +277,7 @@ the August 2026 rank-trace machinery would separately require:
 2. a one-sided tail bound for the direct coefficient measure;
 3. a fresh symbolic zero-side transpose audit, including off-line blocks.
 
-The next exact target is the window-weighted tail
+The next exact target is a uniform remainder bound for the window-weighted tail
 
 ```text
 sum_i C[2,i] lambda^i M_i(v)
@@ -272,6 +292,7 @@ From the repository root:
 
 ```bash
 .venv/bin/python hunts/higher_xi/bian_audit.py
+.venv/bin/python hunts/higher_xi/exact_c2.py
 .venv/bin/python hunts/higher_xi/cue_oracle.py --sizes 32:1000,48:600
 .venv/bin/python hunts/higher_xi/dirichlet_recurrence.py --ells 8,10,12,14
 .venv/bin/python hunts/higher_xi/window_probe.py --ells 8,10,12,14

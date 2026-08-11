@@ -30,8 +30,8 @@ import math
 import numpy as np
 from scipy.integrate import quad
 
-from bian_audit import FIGURE_10_1
 from cue_oracle import f1_closed
+from exact_c2 import derive_c2
 
 
 def smallest_prime_factors(limit: int) -> np.ndarray:
@@ -102,10 +102,10 @@ def next_log_derivative(coefficients: np.ndarray, factors: np.ndarray) -> np.nda
     )
 
 
-def bian_integral(kappa: int, alpha: float) -> float:
+def derived_level_two_integral(alpha: float) -> float:
     return sum(
         float(coefficient) * alpha ** (index + 1) / (index + 1)
-        for index, coefficient in enumerate(FIGURE_10_1[kappa], start=1)
+        for index, coefficient in derive_c2(11)["coefficients"].items()
     )
 
 
@@ -153,8 +153,8 @@ def run_ell(ell: int, alphas: tuple[float, ...]) -> dict[str, object]:
         "cumulative": levels,
         "controls": {
             "fgl_level1_integral": [f1_integral(alpha) for alpha in alphas],
-            "bian_level2_11_term_integral": [
-                bian_integral(2, alpha) for alpha in alphas
+            "derived_level2_11_term_integral": [
+                derived_level_two_integral(alpha) for alpha in alphas
             ],
         },
     }

@@ -2,6 +2,7 @@
 
 from fractions import Fraction
 from pathlib import Path
+import json
 import sys
 
 import numpy as np
@@ -18,7 +19,7 @@ from bian_audit import (
     required_weighted_tail,
     tail_cancellation_ratio,
 )
-from cue_oracle import angular_derivative_levels, bian_truncation, f1_closed
+from cue_oracle import angular_derivative_levels, derived_truncation, f1_closed
 from dirichlet_recurrence import (
     dirichlet_convolution,
     dirichlet_inverse,
@@ -26,6 +27,7 @@ from dirichlet_recurrence import (
     smallest_prime_factors,
 )
 from window_probe import KNOWN_XIPRIME_H, optimize_measure
+from exact_c2 import derive_c2, derive_level_one
 
 
 def _direct_completed_derivative_roots(
@@ -117,9 +119,54 @@ def test_endpoint_is_alpha_one_expression() -> None:
 
 def test_level_one_closed_curve_matches_its_displayed_series() -> None:
     alpha = np.array([0.05, 0.10, 0.20])
-    truncation = bian_truncation(1, alpha)
+    truncation = derived_truncation(1, alpha)
     exact = f1_closed(alpha)
     assert np.max(np.abs(truncation - exact)) < 2e-12
+
+
+def test_level_one_exact_generator_matches_farmer_gonek_lee() -> None:
+    expected = dict(enumerate(FIGURE_10_1[1], start=1))
+    assert derive_level_one(11) == expected
+
+
+def test_level_two_exact_routes_agree_and_reject_bian_row() -> None:
+    expected = {
+        1: Fraction(1),
+        2: Fraction(-8),
+        3: Fraction(24),
+        4: Fraction(-32),
+        5: Fraction(64, 3),
+        6: Fraction(-64, 3),
+        7: Fraction(1216, 45),
+        8: Fraction(-256, 15),
+        9: Fraction(1088, 63),
+        10: Fraction(-11776, 945),
+        11: Fraction(42496, 4725),
+    }
+    assert derive_c2(11)["coefficients"] == expected
+    assert expected[1] == FIGURE_10_1[2][0]
+    assert all(expected[index] != FIGURE_10_1[2][index - 1] for index in range(2, 12))
+
+
+def test_first_level_two_divergence_is_the_missing_binomial_weight() -> None:
+    q = derive_c2(2)["dirichlet_coefficients"]
+    assert q[0] == {(0,): Fraction(-1)}
+    assert q[1] == {(1,): Fraction(2)}
+    assert derive_c2(2)["coefficients"][2] == Fraction(-8)
+    assert FIGURE_10_1[2][1] == Fraction(-4)
+
+
+def test_exact_fixture_matches_both_generators() -> None:
+    fixture_path = Path(__file__).with_name("C2_EXACT.json")
+    fixture = json.loads(fixture_path.read_text())
+    derived = derive_c2(11)["coefficients"]
+    for row in fixture["coefficients"]:
+        index = row["i"]
+        route_a = Fraction(row["route_a"])
+        route_b = Fraction(row["route_b"])
+        printed = Fraction(row["bian_figure_10_1"])
+        assert route_a == route_b == derived[index]
+        assert (route_a == printed) == (row["status"] == "MATCH")
 
 
 def test_completed_picket_fence_stays_a_picket_fence() -> None:

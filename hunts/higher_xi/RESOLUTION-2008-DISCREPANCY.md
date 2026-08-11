@@ -1,5 +1,11 @@
 # Resolution of the 2008 higher-derivative discrepancy
 
+> Superseded in part by `C2_PROVENANCE.md`. This document records the first
+> finite-row arithmetic obstruction. The later first-principles audit locates
+> an earlier causal defect: thesis page 71 drops `M(v_l)M(w_k)` before equation
+> (8.1), so the displayed higher-derivative coefficient rows are themselves
+> incorrect from index 2 onward.
+
 ## Disposition
 
 The `0.9544` and `0.9774` proportions on page 93 of Ji Bian's 2008 thesis are

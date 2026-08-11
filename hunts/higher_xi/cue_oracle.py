@@ -16,7 +16,7 @@ The experiment estimates
 
 Level zero has the exact CUE expectation ``m/N`` for ``m <= N``.  Level one
 has the Farmer-Gonek-Lee limiting curve.  Those are the two controls before
-level two is compared with Bian's displayed polynomial.
+level two is compared with the independently regenerated finite series.
 """
 
 from __future__ import annotations
@@ -29,7 +29,7 @@ from pathlib import Path
 import numpy as np
 from scipy.optimize import brentq
 
-from bian_audit import FIGURE_10_1
+from exact_c2 import derive_c2, derive_level_one
 
 
 TWO_PI = 2.0 * np.pi
@@ -48,8 +48,13 @@ def f1_closed(alpha: np.ndarray, terms: int = 60) -> np.ndarray:
     return result
 
 
-def bian_truncation(kappa: int, alpha: np.ndarray) -> np.ndarray:
-    coefficients = FIGURE_10_1[kappa]
+def derived_truncation(derivative_level: int, alpha: np.ndarray) -> np.ndarray:
+    if derivative_level == 1:
+        coefficients = derive_level_one(11).values()
+    elif derivative_level == 2:
+        coefficients = derive_c2(11)["coefficients"].values()
+    else:
+        raise ValueError("only derivative levels one and two are available")
     a = np.asarray(alpha, dtype=float)
     return sum(float(value) * a**index for index, value in enumerate(coefficients, 1))
 
@@ -164,7 +169,7 @@ class SizeResult:
             "controls": {
                 "cue_level0": alpha.tolist(),
                 "fgl_level1": f1_closed(alpha).tolist(),
-                "bian_level2_11_terms": bian_truncation(2, alpha).tolist(),
+                "derived_level2_11_terms": derived_truncation(2, alpha).tolist(),
             },
         }
 
