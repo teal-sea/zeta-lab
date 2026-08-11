@@ -6,16 +6,24 @@ for the blocked one. This file is the operating state.
 
 ## Where things are
 
-- **Branch `hunt/wide-search-xiprime`**, one commit (`38a2d1e`), **not pushed**.
-  `main` is clean and carries the merge of PR #9 (`902294c`).
+- **Everything is landed.** `main` carries the merge of PR #10
+  (`hunt/wide-search-xiprime`, the sharp constant) and of PR #12
+  (`hunt/pair-ceiling-reproduction`, `6bc5869`, the ceiling reproduction).
+  Nothing this hunt owns is sitting unpushed.
 - Everything this hunt owns is under `hunts/wide_search/`:
   - `xiprime.py` — the instrument. Takes a pair-correlation form factor, returns
     `1/c`, `H`, `Hd`, and the optimal window. Its zeta control reproduces the
     source paper's Theorem D to 10 digits.
+  - `pair_ceiling.py` — reads the public `LawN256.lean` and recomputes the
+    ceiling data from the enclosures with exact rationals. Takes the path to
+    that file as its one argument; reports the scale, the worst interior row,
+    `D(1)`, the stability coefficient, the simple fraction, and whether the
+    underlying certificate artifact was supplied.
   - `probe.py` — the four standing controls (precision response, rival battery,
     null band). `precision_response` is calibrated in both directions: zeta(2)
     settles to 41 digits, a random value to 0.
-  - `RESULTS-xiprime.md`, `RESULTS-higher-derivatives.md`, `MISSION.md`.
+  - `RESULTS-xiprime.md`, `RESULTS-pair-ceiling.md`,
+    `RESULTS-higher-derivatives.md`, `MISSION.md`.
 
 ## The source paper — get it first, it is not in the repo
 
@@ -64,7 +72,12 @@ Reproduce in one line from the repo root:
     .venv/bin/python -c "import sys; sys.path.insert(0,'hunts/wide_search'); \
       from xiprime import optimise; print(optimise(kernel='xiprime')['H'])"
 
-## THREAD 1 (open, harder, worth the most) — can zeta's 0.6725 move?
+## THREAD 1 (partly closed, still worth the most) — can zeta's 0.6725 move?
+
+**Read `RESULTS-pair-ceiling.md` before spending anything here.** The cheap
+half of this thread is done and the answer was the one predicted below: the
+scalar-moment formulation collapses. What survives is narrower and stated at
+the end of this section.
 
 The paper's Remark 1.1 states that no certificate reading bandwidth-one data
 "configuration by configuration" can exceed **0.68185**, while its Theorem D
@@ -94,6 +107,38 @@ Framing, worked out but barely begun:
 
 An agent was launched on this and stopped almost immediately; nothing from it
 was kept.
+
+### What is now closed, and what is left
+
+Measured in `RESULTS-pair-ceiling.md`, landed as PR #12:
+
+- **The scalar-moment LP collapses, exactly.** If the datum retained per window
+  is only `(tr, ||.||_F^2)`, the joint feasible set is the intersection of the
+  half-lines `s_1/N >= H(v)`, which is `s_1/N >= sup_v H(v)`. So that
+  formulation cannot move `0.6725007037...`, and the bet recorded above was
+  right. Any non-collapsing formulation has to keep cross-window information,
+  or act on the whole bandwidth-one form-factor measure before it is reduced to
+  one Rayleigh quotient.
+- **The 0.68185 check was run as far as the public data allows.**
+  `pair_ceiling.py` reproduces, from the published enclosures alone, the `2^140`
+  scale, 256 rows, the worst interior error `1.83670992316e-40` at `j = 1`
+  against the advertised `3e-40`, `D(1) = 0.8239531607128352`, the stability
+  coefficient `2.5431315104166665e-6`, and the simple fraction
+  `0.6818286874638315`. All agree. Reconstructing the extremal law itself needs
+  `cert_N256_blk_b128m.json`, which is not in the public repository; the authors
+  state it is available on request. **Ask them for it before treating "cannot
+  reconstruct the extremal configuration" as understanding failure.**
+- **One gap fell out that is worth more than the collapse.** Remark 1.1 states
+  a bare uniform ceiling of `0.68185`, but the `N = 256` law delivers it only
+  for certificates with `abs(r'(1)) + integral abs(r'') <= 8.38043022204...`.
+  The Lean statement carries the error terms and makes no such elision, so this
+  is visible only by putting the paper and the artifact side by side. Nothing
+  here says the sentence is false.
+
+**What is left of this thread:** the full-data LP over marked periodic
+configurations, which does not reduce to the single-window bounds and remains a
+legitimate route to something in `(0.6725007, 0.68185)`. That is now the whole
+thread. Do not re-run the scalar-moment version.
 
 ## THREAD 2 (open, blocked) — closed form for `F_k`, `k >= 2`
 

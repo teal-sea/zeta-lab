@@ -62,8 +62,8 @@ control roles — and the checks are the ones the tree already owns:
 
 ### The wide search (`wide_search/`)
 
-**Status: one measured constant and one negative result, both about somebody
-else's method — not a result about zeta.**
+**Status: one measured constant, two negative results and one reproduction, all
+about somebody else's method — not a result about zeta.**
 
 An operator asked for one externally checkable mathematical contribution
 adjacent to zeta: generate in volume, kill aggressively, search prior art,
@@ -98,11 +98,33 @@ reaches Wu's unconditional 0.86957.
   bandwidth the method needs (`F_4(1) ~ 2476` against `F_1(1) ~ 2.78`, giving
   proportions of 1.198 and −2.64).
 
+A second pass took the remaining thread — whether ζ's own 0.6725 can be moved
+toward the 0.68185 ceiling — as far as the public material allows.
+`wide_search/RESULTS-pair-ceiling.md`:
+
+- **The scalar-moment formulation collapses, exactly.** Retaining only
+  `(tr, ||.||_F^2)` per window makes the joint feasible set the intersection of
+  the single-window half-lines, hence `sup_v H(v) = 0.6725007037...`. That route
+  cannot move the number, and is closed rather than unfinished.
+- **The published ceiling data reproduces.** `wide_search/pair_ceiling.py`
+  recomputes, from the enclosures in the public `LawN256.lean` alone and with
+  exact rationals, the `2^140` scale, 256 rows, the worst interior error
+  `1.83670992316e-40`, `D(1) = 0.8239531607128352`, the stability coefficient
+  `2.5431315104166665e-6` and the simple fraction `0.6818286874638315`. All
+  agree with the repository. The extremal law itself needs a certificate file
+  the authors state is available on request.
+- **Remark 1.1's ceiling is stated more uniformly than its finite instance
+  supports.** The `N = 256` law gives the `0.68185` sentence for certificates
+  with `abs(r'(1)) + integral abs(r'') <= 8.38043022204...`. The formalisation
+  carries the error terms and does not make that elision.
+
 **Disposition:** the ξ′ constant and its negative consequence stand, and are
-reproducible from this directory. Two threads were left unfinished and no
-claim is made from them: a closed form for `F_k`, `k >= 2`, and whether ζ's own
-0.6725 can be moved toward the 0.68185 ceiling its author states. No claim
-promoted, no ledger entry. Nothing here is evidence for or against RH.
+reproducible from this directory. One thread is closed (the scalar-moment LP),
+one is blocked (a closed form for `F_k`, `k >= 2`), and one remains genuinely
+open: the full-data LP over marked periodic configurations, which does not
+reduce to the single-window bounds. No claim promoted, no ledger entry. Nothing
+here is evidence for or against RH, and nothing here is a defect report against
+the paper's Theorems A-E.
 
 ### The director run (`director_run/`)
 

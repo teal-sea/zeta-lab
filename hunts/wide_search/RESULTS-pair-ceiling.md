@@ -1,9 +1,16 @@
 # The all-window question and the bandwidth-one ceiling
 
-**Status: one exact collapse result, and a full reproduction of every number the
-public artifact makes reproducible. No improved proportion is claimed. Nothing
-here is evidence for or against RH, and nothing here is a defect report against
-the paper or its formalisation.**
+**Status: one exact collapse result, a full reproduction of every number the
+public artifact makes reproducible, and one measured gap between the paper's
+prose ceiling and the finite law behind it. No improved proportion is claimed.
+Nothing here is evidence for or against RH, and nothing here is a defect report
+against Theorems A-E or their formalisation.**
+
+Sources, both read directly: *More than two thirds of the zeros of the Riemann
+zeta function lie on the critical line*, 10 August 2026
+(`www-cdn.anthropic.com/564f962e60643842f5fcb4a17c9dbc8f608f1c37.pdf`,
+Remark 1.1 and Remark 7.3), and `github.com/anthropics/zeta-23-lean` at commit
+`3635e74826a4c1fcece7d1cd2b6fa75e43a00510`.
 
 ## The question from the handoff
 
@@ -101,9 +108,10 @@ from the authors", and
 > `LawN256.lean`.
 
 The header of `LawN256.lean` repeats it ("the certificate file is available
-from the authors"; "DISPLAYED HYPOTHESIS downstream: EnclOK ... verified
-outside Lean by interval arithmetic"), and `AUDIT.md` records that the ceiling
-theorems "carry the displayed hypothesis `EnclOK` described in the README".
+from the authors"), names `EnclOK` as the displayed hypothesis downstream and
+records that it is established outside Lean by interval arithmetic; and
+`AUDIT.md` records that the ceiling theorems "carry the displayed hypothesis
+`EnclOK` described in the README".
 
 Concretely, on the public side of that boundary:
 
@@ -116,25 +124,41 @@ Concretely, on the public side of that boundary:
   row inequalities, the edge bound, the sign of the edge term, and the analytic
   stability inequality.
 
-So the artifact is exactly as advertised. What a third party can verify without
-the certificate file is the entire chain from the enclosures onward, plus the
-arithmetic reproduction in the table above, which is what `pair_ceiling.py`
-does. What requires the authors' file is the construction of an `S` satisfying
+So the artifact is exactly as advertised. What a third party can re-derive
+without the certificate file is the entire chain from the enclosures onward,
+plus the arithmetic reproduction in the table above, which is what
+`pair_ceiling.py` does. What requires the authors' file is the construction of an `S` satisfying
 `EnclOK`, together with its law weights, its simple fraction, and
 configuration-by-configuration validity.
 
 ### On how the ceiling is quantified
 
-The README states the result with its error terms carried explicitly:
+The paper states the ceiling as one bare number. Remark 1.1:
 
-> every bandwidth-one certificate certifies a proportion of simple zeros at
-> most 0.6818287 + 2.55e-6 * (abs(r'(1)) + integral abs(r'')).
+> An explicit extremal law on configurations shows that no certificate of this
+> kind, reading only this bandwidth-one data and holding configuration by
+> configuration, can certify a proportion of simple zeros exceeding 0.68185.
 
-That is the correct form, and it is what the `N = 256` theorem gives. Worth
-noting only for readers working from a rounded `0.68185` quoted without those
-terms: a single finite law does not by itself yield a certificate-independent
-ceiling without a uniform bound on the derivative term or a sequence of laws
-with `N -> infinity`. The formal statement does not make that elision.
+The formal statement carries error terms that this sentence does not. The
+README's form of the `N = 256` theorem is
+
+    value(r) <= 0.6818287 + 2.55e-6 * (abs(r'(1)) + integral abs(r'')),
+
+and the law's own simple fraction `p0 = 0.681828687463831474...` sits
+`2.1312536e-5` below `0.68185`. So the finite law yields Remark 1.1's sentence
+exactly for those certificates satisfying
+
+    abs(r'(1)) + integral abs(r'') <= 8.38043022204...
+
+and says nothing above that threshold, whereas Remark 1.1 quantifies over every
+certificate of the kind it describes with no such restriction stated.
+
+Measured here, and recorded as a gap between a prose statement and the finite
+instance behind it. It is not a claim that the sentence is false: closing it
+needs either a uniform bound on the derivative term over the admissible class,
+or a sequence of laws with `N -> infinity`, and neither is in the public
+artifact. The gap is invisible from the Lean, which states the inequality
+correctly.
 
 ## Disposition
 
@@ -146,6 +170,12 @@ with `N -> infinity`. The formal statement does not make that elision.
   `pair_ceiling.py` and matches. Independently reconstructing the extremal law
   itself requires the certificate file, which the authors state is available on
   request.
+- Remark 1.1's `0.68185` is delivered by the `N = 256` law for certificates with
+  `abs(r'(1)) + integral abs(r'') <= 8.38043022204...`, and the public artifact
+  supplies no uniform bound on that quantity. The Lean statement carries the
+  error terms and does not make the elision; the gap is in the prose sentence
+  alone, and is the one thing here that a reader of the paper could not see
+  from the paper.
 - Nothing here is a claim that the extremal law is false, and nothing here is a
   defect in Theorems A-E. The `0.6725` result does not depend on the ceiling
   remark.
