@@ -84,6 +84,29 @@ def endpoint_expression(coefficients: tuple[Fraction, ...]) -> Fraction:
     return F(1) - 2 * weighted_sum(coefficients)
 
 
+def required_weighted_tail(
+    coefficients: tuple[Fraction, ...], claimed_proportion: Fraction
+) -> Fraction:
+    """Tail required to reconcile a displayed row with a claimed proportion.
+
+    If ``S`` is the displayed weighted sum and ``R`` is the omitted weighted
+    tail, equation (11.5) reads ``claimed = 1 - 2 * (S + R)``.
+    """
+
+    return (F(1) - claimed_proportion) / 2 - weighted_sum(coefficients)
+
+
+def tail_cancellation_ratio(
+    coefficients: tuple[Fraction, ...], claimed_proportion: Fraction
+) -> Fraction:
+    """Absolute required tail divided by the displayed weighted sum."""
+
+    shown = weighted_sum(coefficients)
+    if shown == 0:
+        raise ZeroDivisionError("the displayed weighted sum is zero")
+    return abs(required_weighted_tail(coefficients, claimed_proportion) / shown)
+
+
 def alpha_expression(coefficients: tuple[Fraction, ...], alpha: Fraction) -> Fraction:
     """The pre-limit expression from equations (11.2)-(11.5).
 
@@ -112,6 +135,18 @@ def audit() -> dict[str, Fraction]:
         "kappa3_figure_expression": endpoint_expression(FIGURE_10_1[3]),
         "kappa2_claim": CLAIMED[2],
         "kappa3_claim": CLAIMED[3],
+        "kappa2_required_tail": required_weighted_tail(
+            FIGURE_10_1[2], CLAIMED[2]
+        ),
+        "kappa2_tail_cancellation_ratio": tail_cancellation_ratio(
+            FIGURE_10_1[2], CLAIMED[2]
+        ),
+        "kappa3_required_tail": required_weighted_tail(
+            FIGURE_10_1[3], CLAIMED[3]
+        ),
+        "kappa3_tail_cancellation_ratio": tail_cancellation_ratio(
+            FIGURE_10_1[3], CLAIMED[3]
+        ),
     }
 
     # The kappa=1 row is the normalization control: it gives 0.85840579...,
@@ -124,6 +159,12 @@ def audit() -> dict[str, Fraction]:
     assert result["kappa2_figure_expression"] != result["kappa2_claim"]
     assert result["kappa2_page93_expression"] != result["kappa2_claim"]
     assert result["kappa3_figure_expression"] != result["kappa3_claim"]
+
+    # An unprinted tail cannot be both negligible and reconcile the claims.
+    # It would have to cancel over 95% of the shown kappa=2 weighted sum and
+    # over 99% of the shown kappa=3 weighted sum.
+    assert result["kappa2_tail_cancellation_ratio"] > F(95, 100)
+    assert result["kappa3_tail_cancellation_ratio"] > F(99, 100)
     return result
 
 
