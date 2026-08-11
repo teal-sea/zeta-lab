@@ -60,6 +60,22 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Higher xi derivatives (`higher_xi/`)
+
+**Status: probe complete, one exact source inconsistency and two measured
+oracles, no higher-derivative zeta constant claimed.** Ji Bian's Figure 10.1
+coefficients, substituted exactly into equation (11.5), give
+`-202/36855` for `kappa=2` and `-10284002/1216215` for `kappa=3`, not the
+reported `0.9544` and `0.9774`. The same substitution at `kappa=1` gives
+`348002/405405 = 0.8584057917...`, matching the known control, so this is not
+a global normalization mismatch. A completed-CUE experiment and an
+independent Dirichlet-coefficient recurrence both put the tested
+second-derivative form factor well below the displayed eleven-term
+polynomial. The finite-cutoff window ladder decreases from `0.9342893` at
+`ell=8` to `0.9311081` at `ell=14`; it is a discovery sequence, not a limit or
+a theorem. Full arithmetic, controls, source hash and reproduction commands
+are in `higher_xi/RESULTS-higher-xi.md`.
+
 ### Frontier math (`frontier_math/`)
 
 **Status: clean kill of the candidate constant, one measured collapse, one
