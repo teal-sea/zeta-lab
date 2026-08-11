@@ -82,3 +82,28 @@ Disposition: **LEVEL 2 OPEN FOR LEVEL 3**. The improvement is asymptotic in
 `n` (crossover stated, not hidden) and the size bound is a function of `nu`
 (tabulated, not averaged away). No decimal search was run and no proportion
 is claimed.
+
+## Level 2, marked two-gap coexistence (2026-08-11)
+
+Full account: `LEVEL2-TWO-GAP-MARKED.md`; instrument `two_gap_marked.py`;
+controls `test_two_gap_marked.py`. The directive's immediate question is
+answered NO, and the outcome is mixed by lane.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Immediate question: joint saturation across two gaps | ANSWERED **NO** | Cauchy-Schwarz equality needs `sin(gu) ~ sinh(yu)`, Taylor forces `g(g^2+y^2)=0` | no cell saturates at any offset; at `g=0`, `W = +2.8046` against floor `-0.8623` |
+| Phase 1 exact identities | DELIVERED | parity of `phi^2` in the `C`/`S` split | translation covariance, evenness in `g` and in `y`, shared kernel column; defects `< 1e-12` |
+| LAW I: one-cell tightening | DELIVERED (**OUTCOME A**) | sharpened Cauchy-Schwarz against `sin^2` | `W >= -(1+m0) sigma^2`, `m0 = 0.2137172540`; uniform slack `x1.6478` over level 1; holds pointwise on a dense grid |
+| LAW J: periodic word identity | DELIVERED | Poisson; the density vanishes at the dual points | `sum_k W = 2b/a^2 = 2.2959062623` exactly, independent of depth and ordinate; defect `< 6e-8` |
+| Phase 2/3: two-gap coexistence penalty | **COLLAPSES (OUTCOME B)** | evenness of `W` in `g`; distinctness only | mirror pair at `s = 2g*` gives penalty `< 4e-13`; clusters give penalty/cell `-> 0` (`7e-5` at `n=10`, `delta=1e-3`) |
+| Projective-consistency LP | NOT BUILT, deliberately | the value is zero on an explicit family | building it would rediscover the two constructions above at cost |
+| Escaping family | **PINNED (OUTCOME C)** | the `+-g*(y)` cluster | a near-multiple zero at the kernel's optimal offset; controlled only by density/multiplicity, never by gap geometry — this is the level-3 kill control |
+| Phase 4 lesions | HELD | see report's ledger | independent cells buy `0.3827`; conjugate-transpose geometry destroys every sign; broken spacing defect `3.5e-2`; independent *depths* recorded as a negative lesion |
+| Phase 5 epsilon robustness | DELIVERED | LAW I, no coexistence input needed | no cell within `(1-m0) sigma^2(y)` of the level-1 floor; margin linear in `n` |
+| Phase 6 decimal gate | **NOT PASSED** | both conditions fail | LAW I tightens the envelope, not a proportion; the coexistence route that could give an additive floor is the one that collapsed |
+
+Disposition: **COEXISTENCE CLOSED, ENVELOPE TIGHTENED**. Level 3 should not
+re-derive the coexistence route. It inherits two objects: LAW I's pointwise
+gap-dependent form (the shape a telescoping potential consumes) and the
+`+-g*` cluster as its mandatory kill control. No decimal search was run and
+no proportion is claimed.
