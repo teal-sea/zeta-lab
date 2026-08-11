@@ -26,12 +26,13 @@ from __future__ import annotations
 import argparse
 import json
 import math
+from fractions import Fraction
 
 import numpy as np
 from scipy.integrate import quad
 
 from cue_oracle import f1_closed
-from exact_c2 import derive_c2
+from corrected_form_factor import truncated_integral
 
 
 def smallest_prime_factors(limit: int) -> np.ndarray:
@@ -103,10 +104,7 @@ def next_log_derivative(coefficients: np.ndarray, factors: np.ndarray) -> np.nda
 
 
 def derived_level_two_integral(alpha: float) -> float:
-    return sum(
-        float(coefficient) * alpha ** (index + 1) / (index + 1)
-        for index, coefficient in derive_c2(11)["coefficients"].items()
-    )
+    return float(truncated_integral(Fraction(str(alpha)), cutoff=40))
 
 
 def f1_integral(alpha: float) -> float:
@@ -153,7 +151,7 @@ def run_ell(ell: int, alphas: tuple[float, ...]) -> dict[str, object]:
         "cumulative": levels,
         "controls": {
             "fgl_level1_integral": [f1_integral(alpha) for alpha in alphas],
-            "derived_level2_11_term_integral": [
+            "corrected_level2_40_term_integral": [
                 derived_level_two_integral(alpha) for alpha in alphas
             ],
         },

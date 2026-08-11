@@ -29,7 +29,8 @@ from pathlib import Path
 import numpy as np
 from scipy.optimize import brentq
 
-from exact_c2 import derive_c2, derive_level_one
+from corrected_form_factor import corrected_coefficients
+from exact_c2 import derive_level_one
 
 
 TWO_PI = 2.0 * np.pi
@@ -50,13 +51,13 @@ def f1_closed(alpha: np.ndarray, terms: int = 60) -> np.ndarray:
 
 def derived_truncation(derivative_level: int, alpha: np.ndarray) -> np.ndarray:
     if derivative_level == 1:
-        coefficients = derive_level_one(11).values()
+        coefficients = derive_level_one(11)
     elif derivative_level == 2:
-        coefficients = derive_c2(11)["coefficients"].values()
+        coefficients = corrected_coefficients(40)
     else:
         raise ValueError("only derivative levels one and two are available")
     a = np.asarray(alpha, dtype=float)
-    return sum(float(value) * a**index for index, value in enumerate(coefficients, 1))
+    return sum(float(value) * a**index for index, value in coefficients.items())
 
 
 def haar_eigenangles(size: int, rng: np.random.Generator) -> np.ndarray:
@@ -169,7 +170,7 @@ class SizeResult:
             "controls": {
                 "cue_level0": alpha.tolist(),
                 "fgl_level1": f1_closed(alpha).tolist(),
-                "derived_level2_11_terms": derived_truncation(2, alpha).tolist(),
+                "corrected_level2_40_terms": derived_truncation(2, alpha).tolist(),
             },
         }
 

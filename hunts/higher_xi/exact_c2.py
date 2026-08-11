@@ -25,11 +25,12 @@ subset dynamic programming.
 
 from __future__ import annotations
 
+import argparse
 from collections import defaultdict
 from fractions import Fraction
 from functools import lru_cache
 from itertools import permutations
-from math import factorial
+from math import comb, factorial, prod
 from typing import TypeAlias
 
 
@@ -228,6 +229,37 @@ def operator_word_route(max_index: int = 11) -> dict[int, Expression]:
     return result
 
 
+def closed_form_route(max_index: int = 11) -> dict[int, Expression]:
+    """Return q_p from the rational generating function for Q.
+
+    If ``A=Lambda``, ``B=Lambda log`` and ``C=Lambda log^2``, then
+
+        Q(z) = -A + (2 B z - (2 A*B + C) z^2)
+                    / ((1 - A z)^2 + B z^2).
+
+    Expanding the quadratic denominator gives the binomial formula below.
+    This route shares no series-inversion helper with Routes A or B.
+    """
+
+    if max_index < 1:
+        raise ValueError("max_index must be positive")
+    result: dict[int, Expression] = {0: {(0,): F(-1)}}
+    for power in range(1, max_index):
+        expression: defaultdict[Beta, Fraction] = defaultdict(F)
+        for index in range((power - 1) // 2 + 1):
+            word = tuple(
+                sorted((0,) * (power - 1 - 2 * index) + (1,) * (index + 1))
+            )
+            expression[word] += 2 * (-1) ** index * comb(power - 1, 2 * index)
+        for index in range((power - 2) // 2 + 1):
+            word = tuple(
+                sorted((0,) * (power - 2 - 2 * index) + (1,) * index + (2,))
+            )
+            expression[word] -= (-1) ** index * comb(power - 1, 2 * index + 1)
+        result[power] = _clean(dict(expression))
+    return result
+
+
 # ---------------------------------------------------------------------------
 # Two independent leading mean-square calculations
 # ---------------------------------------------------------------------------
@@ -276,6 +308,95 @@ def _mean_constant_permanent(beta: Beta, delta: Beta) -> Fraction:
     return F(numerator, denominator)
 
 
+def _type_counts(word: Beta) -> tuple[int, int, int]:
+    if any(exponent not in (0, 1, 2) for exponent in word):
+        raise ValueError("compressed mean-square routes require exponents 0, 1, 2")
+    return tuple(word.count(exponent) for exponent in range(3))  # type: ignore[return-value]
+
+
+@lru_cache(maxsize=None)
+def _mean_constant_count_dp(beta: Beta, delta: Beta) -> Fraction:
+    """Factorial permanent using column-type counts instead of column labels."""
+
+    if len(beta) != len(delta):
+        return F(0)
+    target = _type_counts(delta)
+    states: dict[tuple[int, int, int], int] = {(0, 0, 0): 1}
+    for left in beta:
+        following: dict[tuple[int, int, int], int] = {}
+        for used, value in states.items():
+            for right in range(3):
+                remaining = target[right] - used[right]
+                if not remaining:
+                    continue
+                new_used = list(used)
+                new_used[right] += 1
+                state = tuple(new_used)
+                following[state] = following.get(state, 0) + (
+                    value * remaining * factorial(left + right + 1)
+                )
+        states = following
+    numerator = states[target]
+    denominator = factorial(2 * len(beta) + sum(beta) + sum(delta) - 1)
+    return F(numerator, denominator)
+
+
+def _bounded_distributions(
+    total: int, bounds: tuple[int, int, int]
+) -> list[tuple[int, int, int]]:
+    distributions = []
+    for first in range(min(total, bounds[0]) + 1):
+        for second in range(min(total - first, bounds[1]) + 1):
+            third = total - first - second
+            if third <= bounds[2]:
+                distributions.append((first, second, third))
+    return distributions
+
+
+@lru_cache(maxsize=None)
+def _mean_constant_contingencies(beta: Beta, delta: Beta) -> Fraction:
+    """Factorial permanent by independent 3-by-3 contingency enumeration."""
+
+    if len(beta) != len(delta):
+        return F(0)
+    row_counts = _type_counts(beta)
+    column_counts = _type_counts(delta)
+    matrices: list[tuple[tuple[int, int, int], ...]] = []
+
+    def extend(
+        row: int,
+        remaining: tuple[int, int, int],
+        rows: tuple[tuple[int, int, int], ...],
+    ) -> None:
+        if row == 3:
+            if remaining == (0, 0, 0):
+                matrices.append(rows)
+            return
+        for distribution in _bounded_distributions(row_counts[row], remaining):
+            extend(
+                row + 1,
+                tuple(remaining[index] - distribution[index] for index in range(3)),
+                (*rows, distribution),
+            )
+
+    extend(0, column_counts, ())
+    numerator = 0
+    row_factorials = prod(factorial(count) for count in row_counts)
+    column_factorials = prod(factorial(count) for count in column_counts)
+    for matrix in matrices:
+        multiplicity = row_factorials * column_factorials // prod(
+            factorial(entry) for row in matrix for entry in row
+        )
+        weight = prod(
+            factorial(left + right + 1) ** matrix[left][right]
+            for left in range(3)
+            for right in range(3)
+        )
+        numerator += multiplicity * weight
+    denominator = factorial(2 * len(beta) + sum(beta) + sum(delta) - 1)
+    return F(numerator, denominator)
+
+
 def _form_factor_by_permutations(
     coefficients: dict[int, Expression], max_index: int
 ) -> dict[int, Fraction]:
@@ -316,6 +437,46 @@ def _form_factor_by_permanents(
     return constants
 
 
+def _form_factor_by_count_dp(
+    coefficients: dict[int, Expression], max_index: int
+) -> dict[int, Fraction]:
+    constants: dict[int, Fraction] = {}
+    for index in range(1, max_index + 1):
+        total = F(0)
+        for left_power in range(index):
+            right_power = index - 1 - left_power
+            for left_word, left_value in coefficients[left_power].items():
+                for right_word, right_value in coefficients[right_power].items():
+                    total += (
+                        left_value
+                        * right_value
+                        * _mean_constant_count_dp(left_word, right_word)
+                    )
+        constants[index] = 2 ** (index - 1) * total
+    return constants
+
+
+def _form_factor_by_contingencies(
+    coefficients: dict[int, Expression], max_index: int
+) -> dict[int, Fraction]:
+    constants: dict[int, Fraction] = {}
+    for index in range(1, max_index + 1):
+        total = F(0)
+        for left_power, left_expression in coefficients.items():
+            right_power = index - 1 - left_power
+            if right_power not in coefficients:
+                continue
+            for left_word, left_value in left_expression.items():
+                for right_word, right_value in coefficients[right_power].items():
+                    total += (
+                        left_value
+                        * right_value
+                        * _mean_constant_contingencies(left_word, right_word)
+                    )
+        constants[index] = (1 << (index - 1)) * total
+    return constants
+
+
 def derive_level_one(max_index: int = 11) -> dict[int, Fraction]:
     """Independent normalization control against Farmer-Gonek-Lee."""
 
@@ -328,31 +489,55 @@ def derive_c2(max_index: int = 11) -> dict[str, object]:
 
     recurrence = recurrence_route(max_index, derivative_level=2)
     operator_words = operator_word_route(max_index)
-    if recurrence != operator_words:
+    closed_form = closed_form_route(max_index)
+    if recurrence != operator_words or recurrence != closed_form:
         differing = [
             power
             for power in range(max_index)
-            if recurrence.get(power) != operator_words.get(power)
+            if not (
+                recurrence.get(power)
+                == operator_words.get(power)
+                == closed_form.get(power)
+            )
         ]
         raise ArithmeticError(f"Dirichlet coefficient routes differ at powers {differing}")
 
-    permutation_values = _form_factor_by_permutations(recurrence, max_index)
-    permanent_values = _form_factor_by_permanents(operator_words, max_index)
-    if permutation_values != permanent_values:
+    count_values = _form_factor_by_count_dp(recurrence, max_index)
+    contingency_values = _form_factor_by_contingencies(operator_words, max_index)
+    if count_values != contingency_values:
         differing = [
             index
             for index in range(1, max_index + 1)
-            if permutation_values[index] != permanent_values[index]
+            if count_values[index] != contingency_values[index]
         ]
         raise ArithmeticError(f"mean-square routes differ at indices {differing}")
 
+    # Retain the original literal implementations as a small-range control.
+    literal_limit = min(max_index, 11)
+    permutation_values = _form_factor_by_permutations(recurrence, literal_limit)
+    permanent_values = _form_factor_by_permanents(operator_words, literal_limit)
+    if not all(
+        permutation_values[index]
+        == permanent_values[index]
+        == count_values[index]
+        for index in range(1, literal_limit + 1)
+    ):
+        raise ArithmeticError("literal and compressed mean-square routes differ")
+
     return {
-        "coefficients": permutation_values,
+        "coefficients": count_values,
         "dirichlet_coefficients": recurrence,
     }
 
 
-if __name__ == "__main__":
-    derived = derive_c2(11)
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--max-index", type=int, default=11)
+    args = parser.parse_args()
+    derived = derive_c2(args.max_index)
     for index, value in derived["coefficients"].items():
         print(f"C2[{index}] = {value} = {float(value):.15g}")
+
+
+if __name__ == "__main__":
+    main()

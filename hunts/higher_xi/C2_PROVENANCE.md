@@ -74,9 +74,9 @@ Bian's equation (2.21) independently exposes the same factor: for `kappa=2`,
 its first term from `f'/(1+f)` is `2g'/L`. The printed `-4` cannot follow from
 that equation.
 
-## Two independent exact routes
+## Independent exact routes
 
-`exact_c2.py` implements two coefficient generators.
+`exact_c2.py` implements three coefficient generators.
 
 Route A starts from
 
@@ -97,9 +97,22 @@ Route B starts from
 and expands its logarithmic derivative by separate operator-word code. It does
 not call Route A's expression or series helpers.
 
-The mean-square constant is also evaluated twice. One implementation enumerates
-relative permutations. The other evaluates the corresponding factorial
-permanent by subset dynamic programming. For basis words
+Route C uses the independently derived rational generating object
+
+\[
+Q(z)=-\Lambda+
+\frac{2(\Lambda\log)z-
+[2\Lambda*(\Lambda\log)+\Lambda\log^2]z^2}
+{(1-\Lambda z)^2+(\Lambda\log)z^2}
+\]
+
+and expands its quadratic denominator by a closed binomial formula. It shares
+neither series-inversion implementation.
+
+The mean-square constant retains the original two literal checks through index
+11: relative permutations and subset-permanent dynamic programming. Two
+additional implementations scale to index 40: a column-type count recurrence
+and an independent enumeration of 3-by-3 contingency tables. For basis words
 `beta=(b_1,...,b_r)` and `delta=(d_1,...,d_r)`, both calculate
 
 \[
@@ -115,7 +128,10 @@ Words of unequal length pair to zero. Finally,
 C_{2,i}=2^{i-1}\sum_{p+q=i-1}\langle q_p,q_q\rangle.
 \]
 
-The two full paths agree exactly at every coefficient through index 11.
+All coefficient routes agree exactly through index 40. Both scalable
+mean-square routes agree there, and both literal routes agree through index 11.
+`C2_EXTENDED.json` is the authoritative 40-entry fixture. The infinite
+structure and tail are in `CORRECTED-F2.md`.
 
 ## Level-1 normalization control
 
@@ -146,8 +162,9 @@ the form-factor normalization.
 | 10 | -11776/945 | -11776/945 | -416/945 | MISMATCH |
 | 11 | 42496/4725 | 42496/4725 | 6688/1575 | MISMATCH |
 
-`C2_EXACT.json` is the authoritative machine-readable fixture. Rational strings,
-not decimal renderings, are the stored values.
+`C2_EXACT.json` is the historical comparison fixture through index 11.
+`C2_EXTENDED.json` is the corrected machine-readable fixture through index 40.
+Rational strings, not decimal renderings, are the stored values.
 
 ## Consequence for the historical calculation
 
@@ -162,6 +179,6 @@ targets, normalization controls, or expected oracle outputs.
 ## Reproduction
 
 ```bash
-.venv/bin/python hunts/higher_xi/exact_c2.py
+.venv/bin/python hunts/higher_xi/exact_c2.py --max-index 40
 .venv/bin/python -m pytest -q hunts/higher_xi/test_higher_xi.py
 ```
