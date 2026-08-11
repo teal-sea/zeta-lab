@@ -383,6 +383,36 @@ enforced in one directory and by review everywhere else.
 
 ---
 
+## 6.1 One explorer survivor, replicated — and its headline number did not hold
+
+The candidate-generation programme produced one observation that outlived its
+cheap attack: that the miss rate of a fixed-step sign-change scan should inherit
+the GUE cubic level repulsion `P(gap < h) ~ h³`, reported as a fitted exponent
+of **2.90 against a predicted 3**. The director re-measured it with an
+independent implementation over the same 10 142 cached ordinates.
+
+| grid | step | miss rate (director) |
+| --- | --- | --- |
+| mean/4 | 0.246 | 2.1e-3 |
+| mean/10 | 0.098 | 1.3e-4 |
+| **mean/20 (the shipped default)** | 0.049 | **2.5e-5** |
+| mean/28 | 0.035 | 0 |
+
+The *actionable* part replicates: the default policy misses on the order of two
+zeros in 10⁵ below T = 10⁴, and mean/28 is clean on this sample — which turns
+hunt #3's qualitative blind spot ("the default grid is wider than the Lehmer
+gap") into a grid-choice rule. **The headline number does not replicate**: the
+director's fit is **2.66**, not 2.90. Two implementations of "the same"
+measurement differ in the third significant figure of an exponent fitted to
+counts that reach zero at the small-`h` end, where the fit is least constrained.
+
+Recorded because the honest reading is the point: this is *not* a measurement of
+the cubic exponent, and reporting it as "2.90 against a predicted 3" would have
+claimed a precision the data does not carry. What the data supports is a steep
+power law consistent with level repulsion, plus a usable operational number.
+
+---
+
 ## 7. Where to go next
 
 - **The formal arm.** Re-plan rung 3 at the measured constants (`nLog = 36`,
