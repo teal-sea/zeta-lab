@@ -60,6 +60,31 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #7 — the quasicrystal that is a theorem (`golden_control/`)
+
+**Status: probe, complete. The quasicrystal lane gains its ground-truth
+universe, and the exact stage caught the operator mis-remembering a
+classical theorem.**
+
+The quasicrystal gate's instrument had never been run against an aperiodic
+point set whose atomic diffraction is *proved*. This hunt points a tapered
+transform — calibrated on ℤ, where the answer is Poisson summation
+(6.4e-14) — at a golden cut-and-project set, with the Fourier module and
+intensity law derived in code from the embedding lattice rather than quoted.
+Measured: peak positions to 8.7e-9, amplitudes against the window-transform
+law to 2.5e-8, off-module silence 9717× (ζ's arithmetic gate measured 26.8×
+with 1000 zeros — the theorem universe shows what the instrument does with
+no truncation), Debye–Waller lesion slopes within 1%, Poisson null clean,
+precision response monotone to 1e-10. The golden thread pinned exactly:
+the DH rival's quartic character squares to χ₅, the ℚ(√5) character. **One
+registered claim was false and the computation caught it at first contact**
+(π(p) | p − χ₅(p) fails at p = 3; the split/inert-asymmetric statement
+π(p) | p−1 vs 2(p+1) holds for all p < 500) — recorded with its
+counterexample, as the derive-never-remember rule intends.
+
+**Disposition:** instrument validation, not a result about ζ; no ledger
+entry. Nothing here is evidence for or against RH.
+
 ### Hunt #6 — the Jensen clock (`jensen_clock/`)
 
 **Status: probe, complete. Instrument kept; no claim promoted; the headline
