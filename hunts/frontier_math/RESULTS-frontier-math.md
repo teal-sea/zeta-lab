@@ -1,10 +1,9 @@
 # RESULTS — frontier math after the 10 August 2026 paper
 
-**Status: one candidate unconditional constant with named remaining lemmas,
-one measured collapse answering `wide_search` THREAD 1, one quantified wall,
-one transplant reduced to a single named obstruction. Nothing here is a
-result until it survives outside review; the candidate is a *mechanism plus
-computed constants*, not a theorem.**
+**Status: CLEAN KILL. The unconditional candidates `0.6725124`, `0.672529`,
+and `0.6725318` are withdrawn. Gate 0 failed: the zero-side summand uses
+transpose, not conjugate transpose, so the asserted on/off cross-block sign is
+false. The measure-level collapse and quantified walls below are unaffected.**
 
 Everything reproduces from the repo root:
 
@@ -18,6 +17,16 @@ follow its pdftotext rendering), Cheer–Goldston PAMS 118 (1993) 365–372,
 Chirre–Gonçalves–de Laat Adv. Math. 361 (2020) (arXiv:1810.08843),
 Baluyot–Goldston–Suriajaya–Turnage-Butterbaugh (arXiv:2306.04799).
 
+## 0. Closure: the candidate is withdrawn
+
+The exact failure, pinned dependencies, smallest Gaussian-integer obstruction,
+formal obstruction, and reproduction commands are in
+`CLEAN-KILL-REPORT.md`. The first false statement was
+`tr(P1 Q') >= 0`. The old `blockpos.py` constructed `u u*`; upstream uses
+`u u^T`. For the one-dimensional vectors `1`, `i`, and `-i`, the correct
+interaction is `-2`. A five-on-line-point witness makes the proposed additive
+inequality demand `9 >= 13`.
+
 ## 1. THREAD 1 answered: the measure-level LP collapses
 
 `wide_search` left one open route to the interval (0.6725007, 0.68185): a
@@ -27,8 +36,9 @@ joint formulation keeping cross-window information. Formulated here
 ρ ≥ 0) subject to the bandwidth-one data R̂₂(α) = δ(α)+|α| on [−1,1].
 
 - **The type structure reduces out exactly**: eliminating (p_m, q) against
-  the density constraint gives min p₁ = 2 − sup D pointwise (the m ≥ 3 and
-  off-line types enter with nonnegative coefficients m²−3m+2 and 0). So the
+  the density constraint gives
+  `p₁ = 2 − D + Σ_{m≥3}(m²−2m)p_m` (the m ≥ 3 and off-line types enter with
+  nonnegative coefficients `m²−2m` and 0). So the
   LP value is the dual of the Montgomery–Taylor extremal problem, and
   integrality devices beyond (m−1)(m−2) buy nothing at the measure level.
 - **Measured**: the (X, J, ε) ladder descends 0.6794 → 0.6776 → 0.6765
@@ -57,10 +67,10 @@ C = 1 + o(1) — HL itself — closes it. This makes Remark 1.1's wall
 ("0.70 needs support ≈ 1.04") mechanism-explicit: no constant-factor upper
 bound on prime pair correlations, however sharp, opens the band.
 
-## 3. The candidate: Cheer–Goldston made unconditional
+## 3. WITHDRAWN: the Cheer–Goldston transplant
 
-**Claim shape** (candidate, not a theorem): the paper's Theorem D constant
-for simple zeros on the critical line improves unconditionally,
+**Withdrawn claim shape:** the paper's Theorem D constant for simple zeros on
+the critical line was claimed to improve unconditionally,
 
     N₀ˢ(T,2T) ≥ (0.6725124 + o(1)) N(T,2T)    [paper: 0.6725007…]
 
@@ -69,17 +79,11 @@ Frobenius counting. The floor: consecutive gaps of on-line zeros cannot all
 sit at zeros λ_k of the MT kernel, because abutting near-λ₁ gaps force
 next-to-consecutive gaps near 2λ₁, and λ₂ = 2.03007 ≠ 2λ₁ = 2.11455.
 
-**Why it transplants where pointwise positivity does not.** The paper
-replaces Montgomery's "discard cross terms by g ≥ 0" (which fails for
-complex ordinate differences) with inertia counting. But the discarded
-object survives off the line in a stronger form: for a conjugate-closed
-multiset, the zero-side expansion of ‖Â‖²_F decomposes over pairs of
-conjugate classes with **every block a sum of squared moduli** —
-on–on blocks B(γ,γ')², on–off blocks 2|B(γ,γ')|², off–off blocks
-2|B(γ̄₁,γ₂)|² + 2|B(γ₁,γ₂)|² (`blockpos.py`: identity check to 1e-16;
-adversarial scan over 400 mixed configurations incl. depth 0.4 pairs and a
-DH-depth case: minimum cross-block +8.1, never negative). The counting
-chain then strengthens additively, with no von Neumann step:
+**The failed step.** The old instrument replaced the upstream transpose
+summand `u u^T` by the Hermitian summand `u u*`. That changed correct on/off
+blocks `2 Re(B(γ,z)^2)`, which can be negative, into
+`2|B(γ,z)|^2`. The following advertised chain therefore breaks at its middle
+line:
 
     ‖Â‖²_F = tr P₁² + 2 tr(P₁Q′) + tr Q′²
     tr P₁²  = s₁ + cross₁₁            (exact: simple on-line, B(γ,γ)→1)
@@ -87,11 +91,9 @@ chain then strengthens additively, with no von Neumann step:
     tr Q′²  ≥ 4 tr Q′ − 4(s₂+p)        (per-eigenvalue (x−2)² ≥ 0; n₊(Q′) ≤
                                         s₂+p is the paper's Prop 4.1)
 
-so the paper's inequality (its Prop 4.4 route) gains exactly +cross₁₁, and
-cross₁₁ gets CG's bucket floor computed over **on-line zeros only** — which
-are real-ordered without any hypothesis. The gap-census input is
-bootstrapped from the paper itself: simple on-line zeros are distinct
-on-line points, so the census density is ν_on ≥ 0.6725007.
+The middle line is false. Hence the upstream inequality does not gain
+`+cross11`, and the computed ordered-gap floors below do not imply a zeta-zero
+bound.
 
 **Computed** (`cg_transplant.py`):
 
@@ -101,7 +103,7 @@ on-line points, so the census density is ν_on ≥ 0.6725007.
 | CG conditional constant | 0.6727535 | CG printed 0.6727534 |
 | transplant floor c_u at ν_on = 0.6725007 | 5.8384e-6 | stable across 16× g-table refinement |
 | edges attaining it | (0.92252, 1.03787, 1.35395, 1.99782) | |
-| **candidate unconditional H** | **0.6725124** | = 0.6725007 + 2c_u |
+| withdrawn arithmetic value | 0.6725124 | no zeta implication after Gate 0 failure |
 | lesion: λ₂ → 2λ₁ | floor = 0.00000000 | the mechanism dies exactly where it must |
 
 The floor is 22× smaller than CG's because the unconditional census is
@@ -109,25 +111,8 @@ thinner (ν_on = 0.6725 vs 0.83625: the adversary has fewer gaps to place,
 mean gap 1.49 vs 1.20, so the length constraint pinches less — but
 all-gaps-beyond-d is still infeasible: 1.99782 × 0.6725 = 1.336 > 1).
 
-**What remains before this is a theorem** (named, in expected order of
-difficulty, all believed standard-shaped):
-
-1. *Kernel matching with the taper*: the on–on cross kernel is the paper's
-   Φ(γ−γ')², equal to CG's g up to O(1/l) from the ramp (paper §7.1); the
-   bucket values g(a), g(b), h, j need that correction folded in.
-2. *Grid truncation*: B is the truncated (k ∈ [0,d)) sum, not the full-grid
-   Poisson identity; edge zeros within O(D₀) of the window ends need the
-   paper's own I′-margin treatment (its §4.1). Both corrections are o(1)
-   against a fixed positive floor.
-3. *The census formalised*: "consecutive distinct on-line gaps tile
-   (T, 2T]" and ν_on ≥ s₁-floor via bootstrap — elementary, but must be
-   stated inside the paper's normalisation.
-
-A referee should attack (2) first; it is where an o(1) could secretly be
-O(1). Prior-art note: no unconditional constant above 0.6725007 for simple
-on-line zeros is known to this hunt after searching; the paper is one day
-old and cites CG93 without transplanting it. Risk that its authors have
-this in hand: real, and irrelevant to whether it is correct.
+Taper, truncation, census, bootstrap, and exact-LP work cannot repair the
+failed algebraic implication. They are closed as moot for this candidate.
 
 ## 4. The CGdL transplant reduces to one named obstruction
 
@@ -148,14 +133,14 @@ out-of-band constraint added (`configuration_lp.py`, BGSTB positivity as
 data): the class value at (X=80, J=320) is 0.6863 and still descending
 with X — consistent with landing near CGdL's 0.6792 for ζ unconditionally.
 
-## 5. The gap-distribution LP: the bucket floor generalised
+## 5. WITHDRAWN AS A ZETA INPUT: the gap-distribution LP
 
 `gap_lp.py` replaces CG's five hand-tuned buckets with the full projection
 of the configuration LP onto gap statistics: a fine-binned distribution of
 consecutive distinct on-line gap lengths, chain levels 2 and 3 (pairs j
 apart in the ordering are disjoint classes, so per-class floors add with no
-double counting), the length constraint as an *equality* (consecutive gaps
-tile (T, 2T]), and the census bootstrap iterated to its fixed point (it
+double counting), a conservative total-internal-length constraint with
+boundary slack, and the census bootstrap iterated to its fixed point (it
 converges in two rounds).
 
 **A control earned its keep here, twice.** The first implementation
@@ -171,21 +156,23 @@ claim is withdrawn. Recorded because the defect is the instructive part:
 a chain-count credit is a claim about *which cell a gap is in*, and any
 discretisation that answers optimistically manufactures floor.
 
-**Settled numbers** (fixed snapped edges, floor valid at every h and
-monotone in refinement):
+**Historical discovery numbers** (fixed snapped edges and monotone in the
+reported refinement ladder; sampled kernel minima are not exact continuum
+lower objects):
 
-| census ν | floor (h = 0.005) | bound |
+| census ν | floor (h = 0.005) | withdrawn arithmetic value |
 |---|---|---|
-| 0.6725007 (unconditional bootstrap start) | 1.4371e-5 | **H ≥ 0.6725294** |
-| same, edges re-checked at h = 0.0025 | 1.5554e-5 | H ≥ 0.6725318 |
+| 0.6725007 (unconditional bootstrap start) | 1.4371e-5 | 0.6725294 |
+| same, edges re-checked at h = 0.0025 | 1.5554e-5 | 0.6725318 |
 | 0.83625 (CG's conditional census) | ~1.0–1.4e-4, edge-sensitive | does **not** beat CG's 0.6727534 at current search depth |
 
-The unconditional candidate therefore stands at **≥ 0.672529**
-(conservative settled value). The grid-locked edge optimisation has since
+These values are ordered-real-configuration optimization outputs only. They
+do not yield an unconditional zeta bound. The former unconditional candidate
+**0.672529 is withdrawn**. The grid-locked edge optimisation had
 completed for the unconditional census: at edges (1.035, 1.085, 1.900) the
 floor is monotone under fixed-cell refinement — 1.4371e-5 (h = 0.005),
 1.4710e-5 (0.0025), 1.4988e-5 (0.00125) — so the trend value is
-H ≥ 0.6725307 and the conservative claim stays 0.672529. The matching
+the arithmetic trend was 0.6725307, but no bound survives. The matching
 conditional search was interrupted mid-run (HANDOFF has the resume note). The
 conditional lane's verdict is honest: the generalised LP has not so far
 beaten the 1993 constant once the discretisation is done correctly — CG's
@@ -214,7 +201,7 @@ kernel should focus.
 | calibration (CG 1993 reproduction) | `cg_transplant.py` | floor and constant to their printed digits |
 | lesion (λ₂ → 2λ₁) | `cg_transplant.py` | floor exactly 0 |
 | precision ladder | `cg_transplant.py` | c_u stable to 5 digits across 16× refinement |
-| identity check | `blockpos.py` | Frobenius vs block-sum rel. err ≤ 1e-16 |
-| adversarial scan (rival-flavoured: off-line configs incl. DH depth) | `blockpos.py` | min cross-block +8.1 over 400 trials |
+| exact obstruction | `clean_kill.py` | `tr(P1 Q') = -2`; proposed inequality `9 >= 13` |
+| corrected zero-side check | `blockpos.py` | negative on/off blocks now occur |
 | GUE anchor | `configuration_lp.py` | τ = −sinc² satisfies the data rows at the truncation floor |
 | LP ladder direction checks | `configuration_lp.py` | value ↑ as ε ↓, ↓ as X ↑, both as predicted |

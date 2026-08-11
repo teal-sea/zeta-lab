@@ -1,4 +1,4 @@
-"""The Cheer-Goldston floor, and its transplant into the unconditional frame.
+"""Historical Cheer-Goldston floor computation for a withdrawn transplant.
 
 Cheer-Goldston (PAMS 118 (1993) 365-372) improve Montgomery-Taylor's
 RH-conditional bound "N_s >= 0.6725007 N" to 0.6727534 by lower-bounding the
@@ -9,20 +9,19 @@ g > 0. Their argument needs three inputs: the kernel g (with its zeros), a
 lower bound nu on the density of consecutive distinct gaps, and the total
 length constraint. Nothing else.
 
-The transplant observation (RESULTS-frontier-math.md section 3): in the
-August 2026 paper's machinery, the Frobenius zero-side expansion of the Gram
-matrix is BLOCKWISE nonnegative for conjugate-closed multisets (blockpos.py),
-so the cross-mass between simple on-line zeros adds to the paper's counting
-inequality additively:
+The former transplant observation was false. It used conjugate-transpose
+rank-one terms where the pinned upstream zero side uses transpose terms.
+Consequently ``tr(P1 Q')`` can be negative and the following historical chain
+breaks at its middle line:
 
     ||A||_F^2 = tr P1^2 + 2 tr(P1 Q') + tr Q'^2
     tr P1^2   = s1 + cross          (exact identity, simple on-line zeros)
     tr(P1 Q') >= 0                  (blockwise nonnegativity)
     tr Q'^2   >= 4 tr Q' - 4(s2+p)  (per-eigenvalue (x-2)^2 >= 0 + Prop 4.1)
 
-and the CG bucket floor applies to `cross` with the gap census taken over
-ON-LINE zeros only (real-ordered even without RH), with count density
-nu_on >= 0.6725007 bootstrapped from the paper's own Theorem D.
+The LP values below remain useful calibration outputs for the ordered-real
+configuration problem, but they imply no unconditional zeta improvement.
+See ``CLEAN-KILL-REPORT.md`` and ``clean_kill.py``.
 
 This module computes the bucket floor as an LP: buckets A0 (< a), B0 (a,b),
 Nn (b,c), C0 (c,d), R (> d) of consecutive distinct gap counts per unit
@@ -77,8 +76,16 @@ class _GTable:
     def __init__(self, n: int = 600001, hi: float = 6.0):
         self.x = np.linspace(0.0, hi, n)
         self.v = g_kernel(self.x)
+        self.roots = lambda_roots(max(1, int(np.ceil(hi))))
 
     def minimum(self, lo: float, hi: float) -> float:
+        """Discovery-stage sampled minimum, with known root cells set to zero.
+
+        Away from known roots this remains a sampled value, not a one-sided
+        continuum enclosure.
+        """
+        if any(lo <= root <= hi for root in self.roots):
+            return 0.0
         i, j = np.searchsorted(self.x, [lo, hi])
         return float(self.v[max(i - 1, 0): j + 1].min())
 
@@ -164,9 +171,9 @@ def main() -> None:
 
     nu_on = H_PAPER  # bootstrap: simple on-line zeros are distinct on-line points
     best = optimize_edges(nu_on)
-    print(f"transplant  nu_on = {nu_on:.7f}: floor c_u = {best[0]:.8f} "
+    print(f"withdrawn arithmetic  nu_on = {nu_on:.7f}: floor c_u = {best[0]:.8f} "
           f"at edges {tuple(round(x, 5) for x in best[1])}")
-    print(f"         candidate unconditional H >= {H_PAPER + 2 * best[0]:.7f}")
+    print(f"         withdrawn arithmetic value = {H_PAPER + 2 * best[0]:.7f}")
 
     le = lesion_wrong_lambda2(nu_on, best[1])
     print(f"lesion  (lambda_2 -> 2 lambda_1): floor = {le:.8f}  (must be ~0)")

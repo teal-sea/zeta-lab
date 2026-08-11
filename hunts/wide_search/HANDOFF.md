@@ -144,9 +144,11 @@ thread. Do not re-run the scalar-moment version.
 > `RESULTS-frontier-math.md`): at the pair-*measure* level the LP reduces
 > exactly to 2 − sup D and descends to the single-window optimum — the
 > measure relaxation collapses, so what the interval measures is
-> configuration realizability. The constructive residue is a Cheer–Goldston
-> gap-rigidity transplant with a computed positive floor (candidate
-> 0.6725124, not a theorem yet). This thread's remaining open half is the
+> configuration realizability. The attempted constructive residue was a
+> Cheer–Goldston gap-rigidity transplant, now withdrawn: it used
+> conjugate-transpose zero-side terms where the pinned upstream argument uses
+> transpose terms, and the resulting on/off interaction can be negative. See
+> `../frontier_math/CLEAN-KILL-REPORT.md`. This thread's remaining open half is the
 > configuration-level LP proper, for which the paper's `N = 256` extremal
 > law artifact (`cert_N256_blk_b128m.json`, available on request per
 > RESULTS-pair-ceiling.md) is the natural starting point.

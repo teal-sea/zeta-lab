@@ -1,11 +1,10 @@
-"""Numeric check: blockwise nonnegativity of the Frobenius zero-side expansion.
+"""Regression instrument for the withdrawn blockwise-positivity claim.
 
-Model of the paper's Gram matrix: tau_k = k (k = 0..d-1), window transform
-phihat(z) entire (raised cosine on [-1/2,1/2]), conjugate-closed multiset of
-ordinates gamma with weights m. A_kl = sum_rho m phihat(gamma-tau_k)
-phihat(conj(gamma)-tau_l). Claim under test: ||A||_F^2 decomposes over pairs
-of conjugate classes (on-line singletons, off-line pairs) with EVERY block
-sum nonnegative, even for deep off-line pairs.
+The upstream zero-side summand is ``m u_gamma u_gamma^T``, with transpose and
+not conjugate transpose.  For an off-line pair ``u = x + iy`` this gives the
+hyperbolic block ``2m(xx^T - yy^T)``.  Consequently on/off and off/off
+Frobenius blocks may be negative.  The previous version of this file built
+``u_gamma u_gamma^*`` instead, making every scan positive by construction.
 """
 import numpy as np
 
@@ -28,7 +27,8 @@ def gram(classes, d=48):
             pts.append((complex(c[1], -c[2]), c[3]))
     A = np.zeros((d, d), complex)
     for gam, m in pts:
-        A += m * np.outer(phihat(gam - tau), phihat(np.conj(gam) - tau))
+        u = phihat(gam - tau)
+        A += m * np.outer(u, u)
     return A, pts, tau
 
 def B(z, w, tau):
@@ -51,7 +51,7 @@ def block_sums(classes, d=48):
             s = 0.0 + 0.0j
             for gi, mi in ci:
                 for gj, mj in cj:
-                    s += mi * mj * B(np.conj(gi), gj, tau) * B(np.conj(gj), gi, tau)
+                    s += mi * mj * B(gi, gj, tau) * B(gj, gi, tau)
             blocks[i, j] = s.real  # imag must vanish; checked via total
     return {"hermiticity_defect": herm, "frobenius": frob,
             "block_total": float(blocks.sum()), "min_block": float(blocks.min()),
@@ -77,18 +77,15 @@ if __name__ == "__main__":
 
 
 def adversarial_scan(trials: int = 400, seed: int = 7, d: int = 48):
-    """Search for a negative cross-block over random mixed configurations.
-
-    Returns the minimum off-diagonal block found. The claim under test is
-    that it is never negative; a single negative value refutes the blockwise
-    lemma and with it the transplant chain in cg_transplant.py.
-    """
+    """Search for the negative cross-block the old instrument could not see."""
     rng = np.random.default_rng(seed)
     center = 24.0
     worst = (np.inf, None)
     for trial in range(trials):
         kind = trial % 4
-        sep = rng.uniform(0.05, 4.0)
+        # Wide separations are load-bearing: near a zero of the full-grid
+        # kernel, a small imaginary displacement makes Re(B^2) negative.
+        sep = rng.uniform(0.05, 8.0 * np.pi)
         d1 = rng.uniform(0.0, 0.49)
         d2 = rng.uniform(0.0, 0.49)
         if kind == 0:

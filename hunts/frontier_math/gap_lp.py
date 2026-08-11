@@ -1,4 +1,4 @@
-"""The gap-distribution LP: the full configuration-level floor.
+"""Gap-distribution LP retained from the withdrawn zeta transplant.
 
 Generalises Cheer-Goldston's 5-bucket argument (cg_transplant.py) to an LP
 over the empirical distribution of consecutive distinct on-line gap lengths,
@@ -6,8 +6,8 @@ with chain levels. The cross-mass between on-line zeros decomposes over
 DISJOINT pair classes -- pairs j apart in the on-line ordering ("level j") --
 so per-class floors add with no double counting:
 
-  level 1: every consecutive gap of length u is a pair at distance u; floor
-           contribution g_min(bin) per gap, exactly.
+  level 1: every consecutive gap of length u is a pair at distance u; the
+           discovery LP uses a sampled bin minimum.
   level j >= 2, within a cell I of a fixed partition: among nu gaps, if n_I
            lie in I, at least j*n_I - (j-1)*nu chains of j consecutive gaps
            are all in I (the CG device, level 2 = their N2); each is a pair
@@ -15,15 +15,17 @@ so per-class floors add with no double counting:
 
 Improvements over CG's printed argument, each floor-raising:
   - fine level-1 bins (their A/B buckets are two coarse bins);
-  - the length constraint as an EQUALITY interval (gaps tile (T, 2T]),
-    with per-bin length variables bounded by bin edges;
+  - boundary slack represented by ``ellR``; after eliminating it, the length
+    condition is the conservative inequality total internal length <= 1;
   - chain levels 2 and 3 over a partition whose boundaries are optimised;
   - census bootstrap iterated to its fixed point: the floor improves the
     simple-zero bound, which raises the census nu_on, which raises the floor.
 
-The adversary minimises the total floor subject to the census and length
-constraints; the LP value is a valid lower bound for the discarded
-cross-mass per TL for ANY on-line configuration with those counts.
+The adversary minimises an ordered-real-configuration floor. The former claim
+that this floor could be inserted additively into the unconditional zeta
+counting argument was withdrawn after Gate 0 failed. See
+``CLEAN-KILL-REPORT.md``. SciPy output is discovery data, not an exact lower
+object.
 
 Controls: with CG's two-bucket structure this reproduces their floor
 (cg_transplant.py holds that calibration); the lambda_2 -> 2*lambda_1
@@ -38,6 +40,12 @@ import numpy as np
 from scipy.optimize import linprog
 
 from cg_transplant import H_PAPER, MT_CONST, _GTable, g_kernel, lambda_roots
+
+
+def finite_linear_chain_floor(n_gaps: int, n_in_cell: int, level: int) -> int:
+    """Exact finite endpoint-aware lower bound for all-in-cell chains."""
+
+    return max(0, level * n_in_cell - (level - 1) * n_gaps - (level - 1))
 
 
 def gap_floor(nu, boundaries, U=3.0, h=0.01, levels=(2, 3), table=None):
@@ -86,7 +94,7 @@ def gap_floor(nu, boundaries, U=3.0, h=0.01, levels=(2, 3), table=None):
     beq[0] = nu                       # census
     Aeq[1, iv_ell:iv_ell + nbins] = 1.0
     Aeq[1, iv_ellR] = 1.0
-    beq[1] = 1.0                      # gaps tile the interval: equality
+    beq[1] = 1.0                      # ellR absorbs boundary and long-gap slack
 
     rows = []
     rhs = []
@@ -97,7 +105,9 @@ def gap_floor(nu, boundaries, U=3.0, h=0.01, levels=(2, 3), table=None):
         rows.append(r); rhs.append(0.0)
     r = np.zeros(nv); r[iv_ellR] = -1.0; r[iv_R] = U
     rows.append(r); rhs.append(0.0)   # ell_R >= U * R
-    for ci in range(ncell):           # chain floors: t >= j n_c - (j-1) nu
+    # Asymptotic chain floors. The exact finite count loses at most j-1
+    # endpoint chains; finite_linear_chain_floor records that regression.
+    for ci in range(ncell):           # t >= j n_c - (j-1) nu + o(1)
         sel = (bin_cell == ci)
         for li, j in enumerate(levels):
             r = np.zeros(nv)
@@ -157,7 +167,7 @@ if __name__ == "__main__":
     print(f"  gap-LP floor = {fl:.8f} at boundaries {np.round(edges, 4)}"
           f"  -> conditional H >= {2 - (MT_CONST - 2 * fl):.7f}  (CG: 0.6727534)")
 
-    print("unconditional transplant with bootstrap:")
+    print("withdrawn transplant arithmetic with bootstrap:")
     for nu, fl, Hn, ed in bootstrap(table=table):
         print(f"  census nu = {nu:.7f}: floor = {fl:.8f} "
               f"(boundaries {np.round(ed, 4)}) -> H >= {Hn:.7f}")

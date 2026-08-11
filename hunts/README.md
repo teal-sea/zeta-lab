@@ -62,26 +62,22 @@ control roles — and the checks are the ones the tree already owns:
 
 ### Frontier math (`frontier_math/`)
 
-**Status: one candidate unconditional constant (mechanism + computed floor,
-named remaining lemmas — not a theorem), one measured collapse, one
+**Status: clean kill of the candidate constant, one measured collapse, one
 quantified wall.** Continues `wide_search` THREAD 1 against the 10 August
 2026 paper. Measured: the pair-measure LP (positivity + bandwidth-one data +
 multiplicity types) reduces exactly to 2 − sup D and descends toward the
 paper's 0.6725007 — the measure level adds nothing, answering THREAD 1's
 residual question; the ceiling gap is configuration realizability. The
-constructive half: Cheer–Goldston's 1993 gap-rigidity floor transplants into
-the paper's Frobenius counting because the zero-side expansion is blockwise
-nonnegative for conjugate-closed multisets (identity checked to 1e-16;
-400-trial adversarial scan incl. off-line depths finds no negative block),
-giving a candidate unconditional bound **N₀ˢ ≥ 0.672529·N** (bucket floor
-5.8384e-6 raised to 1.44e-5 by the gap-distribution LP in `gap_lp.py`;
-CG's printed constants reproduced as the calibration, lesion λ₂→2λ₁ kills
-the floor exactly, and the bin-width ladder caught and killed an invalid
-midpoint-assignment inflation before it shipped). Also recorded: the sieve route to λ > 1
+constructive half is withdrawn: the scan used `u u*`, while upstream uses
+`u u^T`; the exact witness `1`, `i`, `-i` gives `tr(P₁Q′)=-2`, and the
+proposed additive inequality can demand `9 ≥ 13`. The former candidate
+**N₀ˢ ≥ 0.672529·N** therefore has no zeta implication. The ordered-gap LP
+remains a measured configuration problem, and the bin-width ladder still
+records its earlier midpoint-assignment defect. Also recorded: the sieve route to λ > 1
 fails at scale T^{λ−1} (only HL itself closes it), and the CGdL transplant
 reduces to one named obstruction (inertia counting for non-Gram kernels),
-with BGSTB 2023's unconditional F ≥ 0 pinned as known. Record in
-`frontier_math/RESULTS-frontier-math.md`.
+with BGSTB 2023's unconditional F ≥ 0 pinned as known. Closure record in
+`frontier_math/CLEAN-KILL-REPORT.md`.
 
 ### The frontier map (`frontier_map/`)
 

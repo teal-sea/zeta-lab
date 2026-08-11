@@ -1,0 +1,5 @@
+import ZetaLean.FrontierMathObstruction
+
+#print axioms ZetaLean.FrontierMathObstruction.offPair_I
+#print axioms ZetaLean.FrontierMathObstruction.crossInteraction_I_negative
+#print axioms ZetaLean.FrontierMathObstruction.proposedAdditiveBound_false

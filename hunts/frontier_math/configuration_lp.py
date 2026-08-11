@@ -15,7 +15,7 @@ Discretisation: tau on a grid of step h truncated at X (a RESTRICTION of the
 adversary; values decrease as X grows), data constraints on an alpha-grid of
 J+1 points as a band of half-width eps (the truncation error floor is
 ~1/(pi^2 X); values increase as eps shrinks). The objective reduction
-p1 = 2 - D + sum_{m>=3}(m^2-3m+2) p_m (+0*q) means the in-band LP value is
+p1 = 2 - D + sum_{m>=3}(m^2-2m) p_m (+0*q) means the in-band LP value is
 exactly 2 - sup D over the discretised feasible set: the LP measures the
 Montgomery-Taylor dual.
 
@@ -27,6 +27,21 @@ from __future__ import annotations
 
 import numpy as np
 from scipy.optimize import linprog
+
+
+def reconstruct_p1(type_densities, off_pair_density=0):
+    """Exact elimination identity from density and diagonal mass.
+
+    ``type_densities[m]`` is ``p_m``. The function deliberately performs no
+    float conversion, so callers may use ``fractions.Fraction``.
+    """
+
+    total_density = sum(m * p for m, p in type_densities.items()) + 2 * off_pair_density
+    diagonal_mass = sum(m * m * p for m, p in type_densities.items()) + 4 * off_pair_density
+    correction = sum(
+        (m * m - 2 * m) * p for m, p in type_densities.items() if m >= 3
+    )
+    return 2 * total_density - diagonal_mass + correction
 
 
 def solve(J=640, X=160.0, h=1 / 16, eps=2.5e-3, M=6, A_out=None,
