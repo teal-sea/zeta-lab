@@ -77,6 +77,18 @@ Outcome B: level one repaired, level two blocked. The exact new level-two
 target is `RAMS2-Cluster`, forced by the connected `A*A` atom at the coprime
 integer 6.
 
+`RAMS2-CLUSTER.md` resolves that target on the explicit coefficient band
+`0<r<=1/10`. Borel transformation turns the denominator inverse into a
+rank-one monomer-dimer model. In the Hadamard square its connected components
+are exactly alternating paths and even cycles. Their all-support-size
+majorant has successive ratio `O(1/r)`; the powerful-squarefree split then
+removes repeated-prime strata from the main term. The connected atom changes
+the corrected level-two coefficient but not the `x log x` scale. Reusing the
+early-smoothed right-line architecture gives the level-two bridge on compact
+bands inside `|alpha|<1/100`. This reaches Outcome B on a deliberately narrow
+band. It does not reach the support of the simplicity window, so no percentage
+is opened.
+
 The completed-CUE experiment uses angular derivatives of
 
 ```text

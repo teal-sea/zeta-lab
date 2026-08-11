@@ -238,9 +238,18 @@ Cauchy partial fraction selects the two Dirichlet ranges by Fourier support,
 and the height-freezing commutator costs `O(log(T)/T)`. Together with a
 separate Hilbert-space bound for the infinite upper range, this establishes
 URMS1 on compact positive bands inside `|alpha|<1/4`. The limit agrees with the infinite
-Farmer-Gonek-Lee regular expression. The lift to level two is blocked by the
-connected `A*A` denominator atom, which destroys Borel multiplicativity at
-the coprime input 6. The missing estimate is named `RAMS2-Cluster`.
+Farmer-Gonek-Lee regular expression.
+
+The subsequent `RAMS2-CLUSTER.md` attack organizes the level-two `A*A` atom
+exactly. The Borel inverse is a rank-one monomer-dimer model, and the Hadamard
+square has only alternating-path and even-cycle connected components. Direct
+summation of all matching pairs gives a support-size majorant with ratio
+`O(1/r)`. Repeated primes are lower order after the powerful-squarefree split.
+Thus the connected term changes the corrected coefficient but not the
+`x log x` scale on `0<r<=1/10`. The early-smoothed right-line argument then
+gives the level-two bridge on compact bands inside `|alpha|<1/100`. This band
+does not reach the existing simplicity window, so the historical percentages
+remain quarantined.
 
 A slowly growing Hilbert projection would need order only
 `J(T)=O(log log T)` on a strict sub-quarter band. The fixed-order source does
