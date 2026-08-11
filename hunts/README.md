@@ -60,6 +60,50 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### The wide search (`wide_search/`)
+
+**Status: one measured constant and one negative result, both about somebody
+else's method — not a result about zeta.**
+
+An operator asked for one externally checkable mathematical contribution
+adjacent to zeta: generate in volume, kill aggressively, search prior art,
+reproduce independently, call nothing new without a novelty gate. Mission and
+scope in `wide_search/MISSION.md`.
+
+The breadth-first phase was abandoned as the wrong altitude. The target became
+the paper of 10 August 2026 that raised the unconditional proportion of zeros
+of ζ on the critical line to 0.6725, and specifically the one place it leaves a
+variational problem unsolved: its Remark 7.3 on the zeros of ξ′, where it
+reports a flat window and an unexplained quartic and records that neither
+reaches Wu's unconditional 0.86957.
+
+- **The sharp constant for that method is
+  `0.86864150052976706411...`** (simple and on the critical line;
+  `0.93432075...` distinct), attained at `lambda = 1`. Full account, with the
+  functional and its provenance, in `wide_search/RESULTS-xiprime.md`.
+- **It does not reach Wu's 0.86957**, falling short by `9.285e-4`. No admissible
+  window closes the gap, so the comparison the paper leaves open is settled
+  negatively. The paper's own quartic was already within `1.5e-6` of sharp.
+- Checks: the instrument reproduces the paper's Theorem D to 10 digits before
+  being pointed at anything unknown; the functional reproduces all four
+  published constants of Remark 7.3 to every printed digit; three independent
+  derivations of it agree and five independent computations of the optimum
+  agree to 14 digits; the coefficient formula is checked exactly by Dirichlet
+  convolution; and Bian's 2008 thesis reproduces the same `k = 1` coefficients
+  exactly, from sixteen years earlier.
+- **Higher derivatives are blocked, and `RESULTS-higher-derivatives.md` records
+  why**: `F_k` for `k >= 2` already exists in an unpublished 2008 Rochester
+  thesis, it has no closed form, its author states he cannot bound the tail, and
+  the tabulated 11-term truncations are measured here to diverge at the
+  bandwidth the method needs (`F_4(1) ~ 2476` against `F_1(1) ~ 2.78`, giving
+  proportions of 1.198 and −2.64).
+
+**Disposition:** the ξ′ constant and its negative consequence stand, and are
+reproducible from this directory. Two threads were left unfinished and no
+claim is made from them: a closed form for `F_k`, `k >= 2`, and whether ζ's own
+0.6725 can be moved toward the 0.68185 ceiling its author states. No claim
+promoted, no ledger entry. Nothing here is evidence for or against RH.
+
 ### The director run (`director_run/`)
 
 **Status: not a hunt in the usual sense and not a result — a directorate record.
