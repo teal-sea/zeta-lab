@@ -181,9 +181,12 @@ monotone in refinement):
 | 0.83625 (CG's conditional census) | ~1.0–1.4e-4, edge-sensitive | does **not** beat CG's 0.6727534 at current search depth |
 
 The unconditional candidate therefore stands at **≥ 0.672529**
-(conservative settled value; the finer-grid value 0.6725318 and a
-grid-locked edge optimisation still running at the time of this commit may
-tighten the last digits, and any update lands as a follow-up commit). The
+(conservative settled value). The grid-locked edge optimisation has since
+completed for the unconditional census: at edges (1.035, 1.085, 1.900) the
+floor is monotone under fixed-cell refinement — 1.4371e-5 (h = 0.005),
+1.4710e-5 (0.0025), 1.4988e-5 (0.00125) — so the trend value is
+H ≥ 0.6725307 and the conservative claim stays 0.672529. The matching
+conditional search was interrupted mid-run (HANDOFF has the resume note). The
 conditional lane's verdict is honest: the generalised LP has not so far
 beaten the 1993 constant once the discretisation is done correctly — CG's
 hand-tuned edges were good, and the inflation that briefly suggested

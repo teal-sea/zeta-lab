@@ -3,7 +3,62 @@
 Concise records: what was believed, what invalidated it, what now catches the
 problem, what conclusion is currently justified. Decisions live in
 `ROADMAP.md`; this file is the between-session state. Last snapshot:
-2026-08-10.
+2026-08-11 (frontier math).
+
+---
+
+## Record: frontier math — the measure LP collapses, and a candidate
+## unconditional 0.672529 via a Cheer–Goldston transplant (2026-08-11)
+
+Full record in `hunts/frontier_math/RESULTS-frontier-math.md`; instruments
+in the same directory; landscape context in `hunts/frontier_map/`. Nothing
+below is promoted: the improvement is a **candidate with three named
+unproven lemmas**, recorded by a hunt that may not judge itself. What a
+next session must not re-derive:
+
+**1. `wide_search` THREAD 1 is answered at the measure level.** The LP over
+(pair-measure positivity + bandwidth-one data + multiplicity types) reduces
+*identically* to 2 − sup D — the type space eliminates with nonnegative
+coefficients — so it is the Montgomery–Taylor dual and descends to the
+paper's 0.6725007 on the (X, J, ε) ladder. Measure positivity and
+integrality buy nothing in-band; the interval (0.6725007, 0.68185) is
+entirely about configuration realizability (ordered real sequences). Do not
+re-run measure-level formulations.
+
+**2. The constructive residue transplants.** For a conjugate-closed
+multiset the zero-side expansion of ‖Â‖²_F is blockwise nonnegative — every
+cross-block a sum of squared moduli, including off-line and deep pairs
+(`blockpos.py`: identity to 1e-16, 400-trial adversarial scan) — so
+Cheer–Goldston's 1993 gap-rigidity floor applies to the on-line zeros
+(real-ordered without hypothesis) inside the paper's counting chain,
+additively: tr P₁² = s₁ + cross exactly, tr(P₁Q′) ≥ 0 blockwise,
+tr Q′² ≥ 4trQ′ − 4(s₂+p) per-eigenvalue. Candidate:
+**N₀ˢ ≥ 0.672529·N unconditionally** (gap-LP floor 1.44e-5 at h = 0.005,
+monotone to 1.50e-5 at h = 0.00125, census bootstrapped from Theorem D).
+Remaining lemmas, in attack order: grid-truncation edge effects (the o(1)
+that could secretly be O(1)), taper correction to the kernel values, the
+census formalised in the paper's normalisation.
+
+**3. Two dead routes, with mechanisms.** (a) Sieve upper bounds cannot open
+bandwidth λ > 1: beyond the band the prime-side pieces are of scale
+T^{λ−1}·N and cancel only under Hardy–Littlewood; a sieve constant C
+multiplies the x-scale term, fatal for any C > 1+o(1). (b) The CGdL
+transplant (RH: 0.6792) reduces to exactly one obstruction: the paper's
+inertia counting applies only to Gram/autocorrelation kernels, and ĝ ≤ 0
+out-of-band is not one; BGSTB 2023 (arXiv:2306.04799 Thm 1) already give
+the *other* missing input (F ≥ 0 unconditionally — known; do not re-derive).
+
+**4. An instrument defect, caught by its own control.** Midpoint bin-to-cell
+assignment inflated chain counts and briefly produced a conditional
+0.6728294 "beating" CG 1993; the bin-width ladder caught it (floor fell
+under refinement), the claim was withdrawn before shipping, and edges now
+snap to the bin grid. CG's conditional 0.6727534 stands unbeaten at current
+search depth. Open items: the grid-locked conditional edge search was
+interrupted mid-run (re-run `gap_lp.py`-style with edges on the 0.005 grid
+if resuming); higher chain levels and laminar cell families are the
+floor-raising lanes; the paper's `cert_N256_blk_b128m.json` (available on
+request, per `hunts/wide_search/RESULTS-pair-ceiling.md`) is the natural
+start for the configuration-level LP proper.
 
 ---
 
