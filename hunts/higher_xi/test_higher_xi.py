@@ -49,6 +49,15 @@ from corrected_form_factor import (
 )
 from window_probe import KNOWN_XIPRIME_H, optimize_measure
 from exact_c2 import derive_c2, derive_level_one
+from resummed_bridge import (
+    absolute_word_mass,
+    closed_absolute_word_mass,
+    coefficientwise_ratio,
+    exact_denominator_split_defect,
+    exact_numerator_split_defect,
+    frozen_q_defect,
+    level_two_resolvent_defect,
+)
 from window_certificate import exact_window_check, positivity_floor
 
 
@@ -257,6 +266,28 @@ def test_distinct_fixed_orders_cannot_have_one_pointwise_limit() -> None:
     first = level_one_fixed_b_value(1, alpha)
     second = level_one_fixed_b_value(2, alpha)
     assert second - first == Fraction(1, 24)
+
+
+def test_untruncated_level_two_resolvent_identities_are_exact() -> None:
+    assert level_two_resolvent_defect() == 0
+    assert exact_denominator_split_defect() == 0
+    assert exact_numerator_split_defect() == 0
+
+
+def test_frozen_resolvent_is_the_corrected_q_object() -> None:
+    assert frozen_q_defect() == 0
+
+
+def test_absolute_word_mass_has_closed_geometric_growth() -> None:
+    assert [absolute_word_mass(power) for power in range(20)] == [
+        closed_absolute_word_mass(power) for power in range(20)
+    ]
+
+
+def test_elementary_absolute_resummation_boundary_is_one_quarter() -> None:
+    assert coefficientwise_ratio(Fraction(1, 5)) == Fraction(4, 5)
+    assert coefficientwise_ratio(Fraction(1, 4)) == 1
+    assert coefficientwise_ratio(Fraction(1, 3)) == Fraction(4, 3)
 
 
 def test_target_window_has_only_a_simple_overlap_zero_at_band_edge() -> None:

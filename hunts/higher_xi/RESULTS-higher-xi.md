@@ -7,7 +7,8 @@ The present outcome is split:
 
 1. the historical coefficient audit is closed;
 2. the exact coefficient-series tail is closed;
-3. the analytic bridge audit closes at Outcome C under the available estimates.
+3. the historical fixed-order bridge audit closes at Outcome C;
+4. the replacement, resummed bridge audit closes at Outcome D.
 
 The corrected arithmetic starts
 
@@ -143,6 +144,32 @@ required allowance for the rational test window is below `3.279e-9`.
 audits every error class, and records the trust boundary. No replacement ξ''
 simplicity percentage is published.
 
+## Replacement representation
+
+The coefficient-order cutoff is not intrinsic. With `U=xi'/xi`, direct
+differentiation gives the exact identity
+
+\[
+\frac{\xi'''}{\xi''}
+=U+\frac{2UU'+U''}{U^2+U'}.
+\]
+
+On a right half-plane, the full denominator can be convolution-inverted as one
+height-dependent Dirichlet object. Freezing the archimedean derivatives turns
+its arithmetic part into exactly the corrected rational `Q(z)` above.
+`resummed_bridge.py` checks these identities symbolically.
+
+This avoids the incompatible geometric-order requirements, but it exposes the
+actual missing estimate: a local-uniform mean-square theorem for the full
+resummed coefficient family. `RESUMMED-BRIDGE.md` names the smallest target
+`URMS2` and records its exact implication chain. No searched source supplies
+that uniformity.
+
+The level-1 Farmer-Gonek-Lee proof uses the same failed contour-tail estimate
+in its printed explicit formula, and the term feeds its mean-square theorem.
+No repair was located. This is a gap classification for the printed proof, not
+a claim that the level-1 prediction is false.
+
 ## Pinned source and historical correction
 
 The pinned source is Ji Bian, *The Pair Correlation of Zeros of Derivatives of
@@ -165,6 +192,7 @@ Chapter 11 arithmetic obstruction.
 .venv/bin/python hunts/higher_xi/exact_c2.py --max-index 40
 .venv/bin/python hunts/higher_xi/corrected_form_factor.py
 .venv/bin/python hunts/higher_xi/window_certificate.py
+.venv/bin/python hunts/higher_xi/resummed_bridge.py
 .venv/bin/python hunts/higher_xi/cue_oracle.py --sizes 24:200,32:200,48:200
 .venv/bin/python hunts/higher_xi/dirichlet_recurrence.py --ells 8,10,12,14
 .venv/bin/python -m pytest -q hunts/higher_xi/test_higher_xi.py -n0

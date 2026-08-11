@@ -33,6 +33,16 @@ incompatible truncation-order requirements in the geometric tail and the
 fixed-order mean-square error. No fixed positive alpha band, including the
 target weighted window, follows from the recorded estimates.
 
+`RESUMMED-BRIDGE.md` changes the representation rather than patching that
+argument. It derives the exact untruncated resolvent for `xi'''/xi''` and shows
+that its frozen arithmetic part is exactly the corrected rational `Q(z)`
+object. The replacement audit closes at Outcome D: no available source gives
+the required uniform mean square for the full height-dependent convolution
+inverse. The minimal new target is named `URMS2`. The same source defect is
+load-bearing in the printed Farmer-Gonek-Lee level-1 proof, which is classified
+as a proof gap with no located repair, not as a contradiction of the limiting
+prediction.
+
 The completed-CUE experiment uses angular derivatives of
 
 ```text
@@ -50,7 +60,7 @@ The controls are forced:
 The desired outputs, in order, are:
 
 1. an exact coefficient provenance table and smallest obstruction;
-2. a rigorous full-band coefficient tail and a quantified analytic bridge;
+2. an exact full-band coefficient tail and a quantified analytic bridge;
 3. independent numerical oracles for the corrected object;
 4. only after the finite-height bridge closes, a zero-statistics window result.
 
