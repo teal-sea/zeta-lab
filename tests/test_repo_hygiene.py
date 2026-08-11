@@ -12,6 +12,7 @@ below rather than hidden in the pattern.
 from __future__ import annotations
 
 import re
+import subprocess
 from pathlib import Path
 
 import pytest
@@ -54,11 +55,17 @@ _PINNED_BLIND_MODULES = frozenset(
 
 
 def _tracked_text_files() -> list[Path]:
-    out = []
-    for path in _REPO_ROOT.rglob("*"):
+    tracked = subprocess.check_output(
+        ["git", "ls-files", "-z"], cwd=_REPO_ROOT
+    ).decode("utf-8").split("\0")
+    out: list[Path] = []
+    for relative in tracked:
+        if not relative:
+            continue
+        path = _REPO_ROOT / relative
         if not path.is_file() or path.suffix not in _TEXT_SUFFIXES:
             continue
-        if any(part in _SKIP_DIRS for part in path.relative_to(_REPO_ROOT).parts):
+        if any(part in _SKIP_DIRS for part in Path(relative).parts):
             continue
         out.append(path)
     return out
