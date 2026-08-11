@@ -206,3 +206,25 @@ operating rule; the value is that it is positive. Next, in order: the
 level-6b T-kernel dual (configuration-free eta), the full-ladder hardened
 scan, then Phase 7's reconnect — the gap floor against the error budget.
 No decimal search was run and no proportion is claimed.
+
+## Level 6b: the density question answered by mutual exclusion (2026-08-11)
+
+Full account: `LEVEL6B-DENSITY.md`; instrument `pair_density.py`; controls
+`test_pair_density.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Separable global budget | **BREAKS, recorded** | summed per-pair hardened caps are valid but simultaneous-worst-case | 24/68 configurations fail; worst −0.599 at nu_p = 1.5 deep — the level-5 lesson one level up |
+| Compensation factor | MEASURED | greedy joint on-line adversary vs whole lattices | chi = 0.14–0.17 at nu 1, **0.016–0.018 at nu 2** — dense pair clusters are nearly immune to on-line attack |
+| Joint budget across the density sweep | **HOLDS** | joint on-line profit + T-deficit vs total slack | worst margin **+0.0704** at the pinch (nu 1.25–1.5, deep); both flanks grow; theta_full = 0.02 corroborated at the joint level |
+| Stacking floor | DELIVERED (one-sided) | grid + Lipschitz margin on T at |dt| <= delta_p | +2.78 at delta_p = 0.2 across all depth pairs; dies by 0.3 at the strip edge — the third self-defeat (depth, on-line density, pair density) |
+| The mutual-exclusion structure | IDENTIFIED | band-overlap geometry: one pair's g* is a neighbour's positive region | the two adversaries cannot both show up; the trade-off curve is measured with its pinch |
+| Joint cap dual | **NAMED THEOREM GAP** | level-4 machinery with the damage field summed over pair centres | would upper-bound the joint profit and make this verdict configuration-free; the greedy is a lower bound on the sup |
+| Phase 7 decimal gate | **NOT ENTERED** | joint cap + full-ladder hardened scan outstanding | no proportion computed |
+
+Disposition: **THE DENSITY LOOPHOLE CLOSES BY MUTUAL EXCLUSION, MEASURED.**
+The chain now reads: theta = 0.1 hardened single-pair; theta_full = 0.02 at
+the assembly; joint verdict positive across all tested densities with the
+pinch mapped at +0.07. The remaining theorem objects before Phase 7, in
+order: the joint cap dual, mixed-depth joint sweeps, the full-ladder
+hardened scan. No decimal search was run and no proportion is claimed.
