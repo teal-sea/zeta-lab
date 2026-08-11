@@ -60,6 +60,49 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #6 — the Jensen clock (`jensen_clock/`)
+
+**Status: probe, complete. Instrument kept; no claim promoted; the headline
+is a measured dictionary between the two real-rootedness lanes, plus a null
+control that explains it.**
+
+Connected `zeta/li.py`'s Jensen/hyperbolicity lane to hunt #4's de
+Bruijn–Newman flow measurements on Davenport–Heilbronn. The exact identity
+J^{d,0}(x/d) = Σ γ(j)/j!·Π_{i<j}(1−i/d)·x^j makes the degree-d binomial
+damping a Gaussian coefficient multiplier — de Bruijn's smoothing applied by
+the degree itself — matching the flow multiplier e^{tu²} at a pair image x₀
+with **t_eff = |x₀|/(8d)**. Measured, with raw numbers in
+`jensen_clock/results.json`:
+
+- The DH height-85.7 pair's image in J^{d,0} tracks the PDE flow trajectory
+  under that dictionary at 7.8e-8 → 4e-4 relative over half the flow; the
+  landing degree d\* = 20785.13 reads t\*_J = 0.0441690 against hunt #4's
+  t\* = 0.0441263 — **0.097%**, while the isolated-pair value is 7.2% away.
+  Pair 2 (γ ≈ 114): d\* = 146365, clock agreement **0.011%**. Flowing before
+  damping, the two clocks add: t_land(d) + |x₀|/(8d) = t\* to 0.03–0.06%.
+- **The corollary**: a blind hyperbolicity scan at d ≤ 32, n ≤ 250 sees
+  nothing, and the dictionary says that is structural — degree d ≲ 2·10⁴ has
+  already flowed this violation past its landing before the polynomial is
+  inspected. Textbook-degree Jensen scans are the wrong side of the landing,
+  not weak detectors.
+- **Null control, the explanation**: a pair planted into ζ's γ-table at
+  exactly x₀ lands at 0.0436212; the arithmetic-free N-body dynamics run on
+  the plant's actual configuration lands at 0.0435805 — 0.094% — while DH's
+  clock sits 1.1% away and the isolated formula 8.3% away. The clock reads
+  zero configuration, not arithmetic (hunt #4's null, now on the coefficient
+  side). The mission's own quantitative guess for this control was wrong
+  (it forgot the ordinate doubling in the x-plane) and is recorded as a
+  failed prediction in `jensen_clock/RESULTS.md`.
+- Controls: ζ specificity (winding 1.3e-63, Newton relative Im 1.2e-200);
+  instrument checked against `zeta.li`'s twice-derived γ-table to 1.3e-51
+  and hunt #4's polished pair to 40 digits; d\* precision-flat to the printed
+  digits across dps 130 → 160 and two quadrature geometries; truncation
+  margin 36 orders at the deciding contour.
+
+**Disposition:** portrait and closure, not conjecture — no ledger entry.
+Nothing here is evidence for or against RH. Spine candidates in
+`jensen_clock/NOTES.md`.
+
 ### Higher xi derivatives (`higher_xi/`)
 
 **Status: 2008 discrepancy resolved as a chapter-11 calculation error, two

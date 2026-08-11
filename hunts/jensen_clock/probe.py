@@ -211,24 +211,20 @@ def contour_moments(c, center, radius, dps, npts=96, ks=(0, 1, 2)):
     return q, minmod
 
 
-def tail_bound(G, jmax_used, x_abs, dps):
-    """Numeric bound on the dropped series tail at |x|: the damping factors are
-    at most 1, so sum_{j>jmax_used} gamma(j) |x|^j / j! bounds every F_d."""
+def tail_bound(G, x_abs, dps):
+    """Numeric bound on the series tail beyond the gamma table at |x|: the
+    damping factors are at most 1, so the undamped tail bounds every F_d.
+    The last two tabulated terms give the geometric ratio for the extension;
+    the terms are factorially decaying there, so the ratio is conservative."""
     with mp.workdps(dps):
         x_abs = mp.mpf(x_abs)
-        s, term_prev = mp.mpf(0), None
-        for j in range(jmax_used + 1, len(G)):
-            term = abs(G[j]) * x_abs ** j / mp.factorial(j)
-            s += term
-            term_prev = term
-        # geometric extension beyond the table, ratio from the last two terms
-        if len(G) >= jmax_used + 3 and term_prev:
-            j = len(G) - 1
-            prev = abs(G[j - 1]) * x_abs ** (j - 1) / mp.factorial(j - 1)
-            r = term_prev / prev if prev > 0 else mp.mpf("0.5")
-            if r < 1:
-                s += term_prev * r / (1 - r)
-    return s
+        j = len(G) - 1
+        last = abs(G[j]) * x_abs ** j / mp.factorial(j)
+        prev = abs(G[j - 1]) * x_abs ** (j - 1) / mp.factorial(j - 1)
+        r = last / prev if prev > 0 else mp.mpf("0.5")
+        if r >= 1:
+            return mp.inf
+        return last * r / (1 - r)
 
 
 def pair_delta(c, center, radius, dps, npts=96):
@@ -482,12 +478,12 @@ def stage_dstar():
     nd = dh_nodes(DPS)
     G = gammas_from_nodes(nd, JMAX_DEFAULT, DPS)
     with mp.workdps(DPS):
-        dstar, rec = _find_dstar(G, x0, d_hi=30000, d_lo=10000, dps=DPS)
+        dstar, rec = _find_dstar(G, x0, d_hi=30000, d_lo=20000, dps=DPS)
         t_j = abs(x0) / (8 * dstar)
         tstar = mp.mpf(pair["tstar"])
         tnaive = mp.mpf(pair["tstar_naive"])
         # truncation margin at the final contour
-        tb = tail_bound(G, JMAX_DEFAULT, abs(x0) + 70, DPS)
+        tb = tail_bound(G, abs(x0) + 70, DPS)
         out = {
             "dps": DPS,
             "dstar": nstr(dstar, 12),
@@ -530,7 +526,6 @@ def stage_pair2():
             "t_pde": nstr(tstar, 12),
             "t_naive_isolated": nstr(mp.mpf(pair["tstar_naive"]), 12),
             "rel_defect_vs_pde": nstr(abs(t_j - tstar) / tstar, 4),
-            "dstar_ratio_vs_pair1_pred": None,  # filled by figure stage if both exist
             "contour_count": nstr(rec["count"], 8),
             "contour_min_mod_log10": nstr(mp.log10(rec["min_mod_on_contour"]), 5),
             "seconds": round(time.time() - t0, 2),
@@ -574,12 +569,14 @@ def stage_planted():
 
         ds = [10 ** 7, 10 ** 6, 10 ** 5, 40000, 30000, 25000, 22000, 20500]
         rows, _ = _trajectory_ladder(Gp, rootp, ds, DPS)
-        dstar, rec = _find_dstar(Gp, x0, d_hi=25000, d_lo=12000, dps=DPS, radius=70)
+        dstar, rec = _find_dstar(Gp, x0, d_hi=25000, d_lo=17500, dps=DPS, radius=70)
         t_j = abs(x0) / (8 * dstar)
-        # isolated-pair reference: t = y0^2/2 with y0 = Im sqrt(x0) in the
-        # z-coordinates of E_zeta's own transform
-        y0z = mp.im(mp.sqrt(x0))
+        # isolated-pair reference: t = y0^2/2 where y0 is the pair's distance
+        # from the real axis in the real-rooted z-plane (x = -z^2 there), i.e.
+        # y0 = |Im sqrt(-x0)| = Re sqrt(x0)
+        y0z = mp.re(mp.sqrt(x0))
         t_iso = y0z ** 2 / 2
+        t_ode = nbody_landing_planted(x0)
         out = {
             "dps": DPS,
             "specificity_no_plant": specificity,
@@ -589,6 +586,8 @@ def stage_planted():
             "t_jensen_planted": nstr(t_j, 12),
             "t_isolated_pair": nstr(t_iso, 12),
             "t_pde_dh_pair1": nstr(mp.mpf(pair["tstar"]), 12),
+            "t_nbody_null": nstr(t_ode, 8),
+            "rel_defect_vs_nbody_null": nstr(abs(t_j - mp.mpf(t_ode)) / mp.mpf(t_ode), 4),
             "rel_defect_vs_isolated": nstr(abs(t_j - t_iso) / t_iso, 4),
             "rel_separation_from_dh_clock": nstr(
                 abs(t_j - mp.mpf(pair["tstar"])) / mp.mpf(pair["tstar"]), 4
@@ -597,6 +596,86 @@ def stage_planted():
             "seconds": round(time.time() - t0, 2),
         }
     save("planted", out)
+
+
+
+def nbody_landing_planted(x0, n_ordinates=80, dt=2e-4):
+    """Arithmetic-free null for the planted configuration (hunt #4's method):
+    integrate dz/dt = 2 sum 1/(z - z') for the union of the planted pair and
+    the zeros of E_zeta in the real-rooted w-plane (x = -w^2, so line zeros
+    sit at w = +-2 gamma_k), and return the pair's landing time.  The pair is
+    tracked in the collision-safe variables (x_c, Q = -y^2):
+
+        dQ/dt = 2 - 4 Q sum_a 1/((x_c - a)^2 - Q),
+        dx_c/dt = sum_a 2 (x_c - a)/((x_c - a)^2 - Q),
+
+    exact for the N-body dynamics and analytic through Q = 0.  External real
+    zeros evolve under the same dynamics; mirrors at -a and the mirrored pair
+    are included explicitly.  Plain float arithmetic: the target here is the
+    ~1% level, and hunt #4 measured the same ODE against the PDE at 0.04%."""
+    w = mp.sqrt(-x0)          # pair at (Re w, -+ Im w), Im w < 0
+    x_c, y0 = float(mp.re(w)), abs(float(mp.im(w)))
+    Q = -y0 * y0
+    ext = [2 * float(mp.im(mp.zetazero(k))) for k in range(1, n_ordinates + 1)]
+
+    def derivs(x_c, Q, ext):
+        # pair equations: sum over all externals and both mirror images,
+        # plus the mirrored pair (two complex members, conjugate sum -> real)
+        sum_inv, sum_drift = 0.0, 0.0
+        for a in ext:
+            for aa in (a, -a):
+                den = (x_c - aa) ** 2 - Q
+                sum_inv += 1.0 / den
+                sum_drift += 2.0 * (x_c - aa) / den
+        y = (-Q) ** 0.5 if Q < 0 else 0.0
+        for sgn in (1.0, -1.0):
+            zm = complex(-x_c, sgn * y)
+            den = (x_c - zm) ** 2 - Q
+            sum_inv += (1.0 / den).real
+            sum_drift += (2.0 * (x_c - zm.real) / den).real
+        dQ = 2.0 - 4.0 * Q * sum_inv
+        dx = sum_drift
+        # external equations
+        dext = []
+        for i, a in enumerate(ext):
+            si = 0.0
+            for j, b in enumerate(ext):
+                if j != i:
+                    si += 1.0 / (a - b)
+                si += 1.0 / (a + b)
+            for xc_s in (x_c, -x_c):
+                si += 2.0 * (a - xc_s) / ((a - xc_s) ** 2 - Q)
+            dext.append(2.0 * si)
+        return dx, dQ, dext
+
+    t = 0.0
+    state = (x_c, Q, ext)
+    while state[1] < 0.0 and t < 0.2:
+        x_c, Q, ext = state
+
+        def step(sx, sQ, se, h, dx, dQ, de):
+            return (sx + h * dx, sQ + h * dQ, [a + h * d for a, d in zip(se, de)])
+
+        k1 = derivs(x_c, Q, ext)
+        s2 = step(x_c, Q, ext, dt / 2, *k1)
+        k2 = derivs(*s2)
+        s3 = step(x_c, Q, ext, dt / 2, *k2)
+        k3 = derivs(*s3)
+        s4 = step(x_c, Q, ext, dt, *k3)
+        k4 = derivs(*s4)
+        Q_prev, t_prev = Q, t
+        state = (
+            x_c + dt / 6 * (k1[0] + 2 * k2[0] + 2 * k3[0] + k4[0]),
+            Q + dt / 6 * (k1[1] + 2 * k2[1] + 2 * k3[1] + k4[1]),
+            [a + dt / 6 * (d1 + 2 * d2 + 2 * d3 + d4)
+             for a, d1, d2, d3, d4 in zip(ext, k1[2], k2[2], k3[2], k4[2])],
+        )
+        t += dt
+    # linear interpolation of the Q = 0 crossing inside the last step
+    Q_new = state[1]
+    if Q_new >= 0.0 and Q_new != Q_prev:
+        return t_prev + dt * (-Q_prev) / (Q_new - Q_prev)
+    return t
 
 
 def stage_additivity():
@@ -664,7 +743,7 @@ def stage_precision():
         with mp.workdps(dps):
             c = damped_coeffs(G, 30000, dps)
             root, _ = newton_root(c, x0, dps, tol_exp=-(dps - 40))
-            dstar, _ = _find_dstar(G, x0, d_hi=30000, d_lo=10000, dps=dps)
+            dstar, _ = _find_dstar(G, x0, d_hi=30000, d_lo=20000, dps=dps)
             runs.append({
                 "dps": dps, "jmax": jmax, "U": U, "segs": segs, "gldeg": gldeg,
                 "root_im_at_d30000": nstr(mp.im(root), 20),
