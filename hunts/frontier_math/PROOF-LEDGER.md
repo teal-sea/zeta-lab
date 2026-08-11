@@ -182,3 +182,27 @@ half the dropped non-adjacent payments) or the pair split; then the
 level-6 counting dual on the T kernel at mixed depths, against the dense
 pair lattice kill control. No decimal search was run and no proportion is
 claimed.
+
+## Level 6a delivered: theta_full = 0.02, the overdraw closed (2026-08-11)
+
+Full account: `LEVEL6A-THETA-FULL.md`; instrument `penta_bound.py`
+(including the ball-hardened `EnclosedPenta`); controls
+`test_penta_bound.py`. Both level-5 reversing estimates landed.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Lever 1: pentadiagonal counting dual | DELIVERED | three one-sided charge ranges inside omega's first positive stretch; exact (n_{j-1}, n_j)-state DP | reduces to the level-4 chain at K3 = 0 (< 1e-6); dominates every level-3/4/5 measured adversary; x1.26 gain at the deficit's home depth |
+| Lever 2: optimal charge split | DELIVERED | min-max over free split weights, single-worst-depth adversary | eta drops 0.487 -> 0.303 max; eta(0.01) = 0.000 exactly (depth grading) |
+| The optimiser bug | RECORDED | a sum over neighbour depths is a density-6nu_p adversary | the density budget makes the worst mix a single depth: max, not sum; the buggy version RAISED eta to 0.78 and was caught by comparison with the proportional split |
+| theta_full | **DELIVERED: 0.02 > 0** | combined budget cap/slack + eta <= 1 per depth | float scan closes at 0.02 (worst 0.9991 at y = 0.45), opens at 0.03; hardened at all seven probe depths |
+| Hardened caps | DELIVERED (probe grid) | EnclosedPenta: ball kernels + penta DP + 1e-9 inflation | cap fractions 0.571-0.696; binding margin 9e-4 of slack at y = 0.45, stated not rounded |
+| Configuration-free pair layer | **NAMED (level 6b)** | counting dual on T at mixed depths | eta is measured on its adversary family; the dense pair lattice remains the kill control |
+| Full-ladder hardened penta scan | NAMED (compute) | same machinery, longer run | probe grid spans the strip; shallow cells close at 0.571 with charge 0 |
+| Phase 7 decimal gate | **NOT ENTERED** | 6b outstanding | no proportion computed |
+
+Disposition: **THETA_FULL POSITIVE AT UNIT PAIR DENSITY — the milestone
+equation holds within its stated labels.** Not optimised further, per the
+operating rule; the value is that it is positive. Next, in order: the
+level-6b T-kernel dual (configuration-free eta), the full-ladder hardened
+scan, then Phase 7's reconnect — the gap floor against the error budget.
+No decimal search was run and no proportion is claimed.
