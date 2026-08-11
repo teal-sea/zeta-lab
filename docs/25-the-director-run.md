@@ -306,6 +306,39 @@ boxes (all on one edge), one re-planned box, one machine under heavy load. The
 `ρ_W` measurement has not been made on the low-σ left edge, which is where the
 cost concentrates and where the model is least tested.
 
+### 4.4 Two kernel-checked theorems, in the universe where RH is a theorem
+
+With the toolchain replicated (§4.2), the Formalizer role was staffed on a real
+target rather than a survey. `lean/ZetaLean/FiniteFieldTrace.lean` adds, with
+zero `sorry`s, two statements about the whole family of Weierstrass equations
+`y² = x³ + ax + b` over `ZMod p` for odd `p`, with the Frobenius trace defined
+as the character sum `a(a,b) = −Σ_x χ(x³+ax+b)`:
+
+    ∑_{a} ∑_{b} a(a,b)   =  0
+    ∑_{a} ∑_{b} a(a,b)²  =  p³ − p²
+
+The first is short by design — translating `b` by the constant `x³+ax` permutes
+the field, so the inner sum is `Σ_u χ(u) = 0`. The second is the one with
+content: only the diagonal `x = y` of the doubled character sum survives, each
+of the `p` values of `x` contributing `p(p−1)`, and every off-diagonal pair
+contributing exactly zero.
+
+Both were checked by the director in two ways that the file itself cannot
+supply: independently recomputed in Python over `p = 5 … 29` (exact integer
+arithmetic, agreement at every prime), and `#print axioms` on both theorems,
+which reports only `propext, Classical.choice, Quot.sound` — no `sorryAx`. The
+build is wired into `ZetaLean.lean` and `lake build` covers it (8716 jobs).
+
+**Honest scope, and it matters here.** These are statements about a family of
+equations over a finite field, not about ζ. The sum ranges over **all** pairs
+`(a, b)`, singular ones included, which is exactly why the proofs are short; the
+nonsingular subfamily obeys the different identity `(p−1)²(p+1)`, measured
+elsewhere in this run and *not* proved. The mathematics is classical
+(vertical Sato–Tate moments, Birch 1968); what is new is only that this tree now
+kernel-checks two of them, in the one setting where its subject is a theorem.
+A prior Lean rung took a session; this one took an afternoon on a toolchain that
+did not exist when the run started.
+
 ---
 
 ## 5. What surprised the director
