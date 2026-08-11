@@ -157,3 +157,28 @@ REDUCTION**. The first level-3 gap is closed modulo the enclosure pass; the
 promotion order is now (i) enclosure hardening, (ii) the psd moment problem
 for the theta gap, (iii) the multi-pair layer. No decimal search was run
 and no proportion is claimed.
+
+## Level 5 delivered: enclosure pass and the multi-pair energy (2026-08-11)
+
+Full account: `LEVEL5-ENCLOSURE-AND-PAIRS.md`; instruments
+`enclosure_pass.py` (gate 1) and `pair_energy.py` (gate 2); controls
+`test_level5.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Gate 1: ball-arithmetic hardening | DELIVERED | acb/arb closed forms, exact rational `aL`, geometric series tails, directed endpoints, DP total inflated `1+1e-9` | full ladder at original resolution: hardened theta* = 0.1, worst margin +1.1e-5 at the shallow binding cells (~10% relative); probe cells +0.27 to +2.03 |
+| The resolution scare | RECORDED | Lipschitz inflation scales with the sup-grid step | a 2x-coarser hardened grid FAILS by up to −3.0; original resolution passes — the economy was the failure, not the balls; kept as a negative control |
+| LAW L: pair-pair cross via the single-pair kernel | DELIVERED (exact) | `u_r.u_s` and `u_r.conj(u_s)` are LAW D instances | `T(dt,y,y') = W(dt,y−y') + W(dt,y+y')`; defect 8.9e-16; difference layer nonnegative (min +6e-10) |
+| Phase 2 energy algebra | DELIVERED | LAW K self terms + LAW L cross | decomposition matches brute force < 1e-9; sign-indefinite terms exactly identified |
+| Phase 3 partition | MEASURED | proportional depth split from the sinh addition bound | eta(0.5) = 0.594, eta(1) = 0.487 < 1; shallow pairs charged asymptotically nothing |
+| Phase 4 collective modes | HELD | six named configurations, both densities | all survive; worst cross/slack −0.876 > −1 |
+| Dense pair lattice | **PROMOTED TO LEVEL-6 KILL CONTROL** | eta = 7.7 at nu_p = 2 while collective energy survives | pairwise charging is the weak link, exactly as per-cell reasoning was at level 4 |
+| Phase 6: theta_full | **OUTCOME B — NOT CLAIMED** | combined budget cap/slack + eta > 1 at every depth | overdraw 0.151–0.387 quantified per depth; reversing estimates named: level-4 cap looseness (1.4–2.7x) or pair-split looseness (~2x); either suffices |
+| Phase 7 decimal gate | **NOT ENTERED** | theta_full unproved | no proportion computed |
+
+Disposition: **GATE 1 CLOSED, GATE 2 QUANTIFIED (OUTCOME B)**. The next
+admissible tasks, in order: sharpen the level-4 shallow-cell caps (recover
+half the dropped non-adjacent payments) or the pair split; then the
+level-6 counting dual on the T kernel at mixed depths, against the dense
+pair lattice kill control. No decimal search was run and no proportion is
+claimed.
