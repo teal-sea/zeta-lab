@@ -2,6 +2,13 @@
 
 ## Disposition
 
+**Bandwidth update.** `BANDWIDTH-FORENSICS.md` audits the constants used below.
+The `rho<=1/10` and `|alpha|<1/100` values in this report are the first
+explicit promotion, not final endpoints. A finite-prime peel permits an
+arbitrarily small Cauchy radius on the tail-prime Euler product. RAMS2 then
+holds on every fixed compact `rho` band, and the current contour architecture
+reaches every compact band inside `|alpha|<1/2`.
+
 The level-two arithmetic obstruction has a smaller exact structure than a
 general graph gas.
 
@@ -553,12 +560,34 @@ The pure powerful stratum `m=1` is smaller directly.  Powerful integers up to
 
 Thus repeated primes do not create a second main logarithm.
 
-## 8. RAMS2-Cluster
-
-For every fixed
+The displayed `R=3/4` estimate is not a radius barrier.  Fix any finite
+`rho_0`.  Choose a tail radius `0<R<1` for which
 
 \[
- 0<\rho_{\min}\leq\rho\leq\rho_0=\frac1{10},
+ 2\frac{R}{1-R}\rho_0
+ +\left(\frac{R}{(1-R)^2}+\frac{R^2}{(1-R)^2}\right)\rho_0^2<1/2.
+\]
+
+Peel off the finitely many primes `p<=R^-2`.  For `p>R^-2`, the powerful
+Hadamard mass
+
+\[
+ \prod_{p>R^{-2}}\left(1+
+ \sum_{e\geq2}\frac{R^{-2e}}{p^e}\right)
+\]
+
+converges.  Give each peeled prime its own radius `R_p>p^-1/2`; its exponent
+sum converges, and the total logarithm of the peeled set is fixed.  Since
+`z` tends to zero, its extra Laplace rate is `o(1)` and fits in the remaining
+half-gap.  The preceding dominated-convergence argument therefore holds on
+every fixed compact `rho` band.
+
+## 8. RAMS2-Cluster
+
+For every fixed finite
+
+\[
+ 0<\rho_{\min}\leq\rho\leq\rho_0,
 \]
 
 the frozen exact level-two coefficient family satisfies

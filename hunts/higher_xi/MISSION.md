@@ -89,6 +89,23 @@ bands inside `|alpha|<1/100`. This reaches Outcome B on a deliberately narrow
 band. It does not reach the support of the simplicity window, so no percentage
 is opened.
 
+`BANDWIDTH-FORENSICS.md` removes the artificial endpoint in that first
+promotion. The unchanged parameter inequalities reach `|alpha|<1/40`.
+Inserting the existing pointwise coefficient envelope before the far Hilbert
+tail reaches `|alpha|<1/20`. Optimizing the powerful-core Cauchy radius extends
+RAMS2 to `rho<0.1454524603...` and the full bridge to
+`|alpha|<0.0727262301...`; `alpha=0.07` has an exact rational witness. Peeling
+off finitely many small primes then removes the fixed-rho restriction and
+extends the full bridge to every compact band inside `|alpha|<1/2`. The first
+failed checkpoint is `0.50`, where the far-tail cutoff conflicts with the
+finite mean-value length. Independently, the downstream window
+problem now has exact bounds `0.5<=beta_useful<=0.51`. Cauchy-Schwarz,
+operator coercivity, and completion of squares exclude all admissible
+spectral-factor windows through `0.5`; the constant window at `0.51` is
+useful. No theorem currently follows: the bridge and the window obstruction
+meet at the strict endpoint `0.5`. The next explicit target is `0.51`, not the
+historical `0.68213` window.
+
 The completed-CUE experiment uses angular derivatives of
 
 ```text
