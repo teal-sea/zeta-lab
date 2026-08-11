@@ -67,3 +67,18 @@ git show e7d52b6:harness/integrity.py > /tmp/integrity_before.py
 `SHA256SUMS.txt` pins the ten modules as they were when they were scored. No
 blind-authored battery is edited, for any reason, including to make it pass or
 fail (`docs/23` §7).
+
+## A note on paths in this directory
+
+The ten `department.py` modules are byte-identical to what `SHA256SUMS.txt`
+pins, and are not edited for any reason — including this one. They still carry
+the absolute `sys.path` bootstrap of the machine that ran the experiment.
+
+Everything *not* under the pin — `check.py` and the ten `NOTES.md` — has had
+machine-local absolute paths replaced by the placeholders `$REPO` (this
+repository's root) and `$BLIND` (the scratch directory the modules were
+authored in). The substitution is textual and changes no command's meaning.
+`check.py` now resolves the repository from its own location instead.
+
+`tests/test_repo_hygiene.py` pins this so the paths cannot come back, and
+records the pinned modules as the one deliberate exception.

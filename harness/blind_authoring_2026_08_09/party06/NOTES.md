@@ -129,11 +129,11 @@ scrupulously honest everywhere else. The eighteen passing checks are all true.
 Command:
 
 ```bash
-/Users/thomas/Zeta/.venv/bin/python -c "
-import sys; sys.path.insert(0,'/Users/thomas/Zeta')
+$REPO/.venv/bin/python -c "
+import sys; sys.path.insert(0,'$REPO')
 import importlib.util
 from harness.protocol import run_battery
-spec = importlib.util.spec_from_file_location('cand','/Users/thomas/.claude/jobs/8a57a257/tmp/blind/party06/department.py')
+spec = importlib.util.spec_from_file_location('cand','$BLIND/party06/department.py')
 m = importlib.util.module_from_spec(spec); spec.loader.exec_module(m)
 v = run_battery(m.DEPARTMENT.battery, m.ABSURD_CLAIM, name=m.ABSURD_CLAIM_TEXT)
 print('claim:', v.claim)
