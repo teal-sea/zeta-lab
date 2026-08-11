@@ -107,3 +107,31 @@ re-derive the coexistence route. It inherits two objects: LAW I's pointwise
 gap-dependent form (the shape a telescoping potential consumes) and the
 `+-g*` cluster as its mandatory kill control. No decimal search was run and
 no proportion is claimed.
+
+## Level 3 delivered: theta > 0 at the single-pair reduction (2026-08-11)
+
+Full account: `LEVEL3-THETA-RECOVERY.md`; instrument `theta_recovery.py`;
+controls `test_theta_recovery.py`. The milestone ("theta > 0, or an exact
+reason theta must still be zero") is answered in the positive at the
+single-pair reduction.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| LAW K: exact pair spectrum | DELIVERED | LAW D forces `u.u = 1` real, hence `x _|_ y` | spectrum `{2(1+s^2), -2s^2}` to 8 digits vs actual grid, `x.y ~ 1e-16`; retained slack exactly `8s^2 + 8s^4` |
+| Three-zero lemma | DELIVERED (proved fragment) | LAW I + LAW K slack | margin `8 - 6(1+m0) = 0.7177 > 0`, placement- and depth-free, at theta = 1 |
+| Phase 2: worst-case cancellation, one pair | MEASURED SAFE | dense-lattice + greedy families, depths 0.05-0.49 | worst net `+0.046` at every theta through 0.9; binding regime is the shallow limit where net ~ `(8 - D/s2) s2` |
+| Scan power (theta = 1 fails) | HELD | dense regime | violated as it must be; damage 24s^2 beats slack 13s^2, internal mass 1274 drowns it below theta ~ 0.99 |
+| Phase 3: dual-certificate seed | DELIVERED (shape) | `FT[omega^2] = (phi^2 * phi^2)`-shaped `>= 0` | packing form psd, `Lambda(theta,y)` finite for theta < 1; per-pair net `>= (8 - Lambda) s^2 + 8 s^4` |
+| Phase 4: asymptotics | CLASSIFIED | scale-matching of both self-defeats | recovery range nu-free and sigma-free: `theta -> theta_0 > 0` at this reduction |
+| Phase 5: extremal battery | HELD | all eight named classes | table in the report; every extremal accounted, none violates |
+| Multi-pair slack partition | **NAMED GAP** | dipole worst `-2.84..-16.3` vs slacks | covered by factors 2.8-6.7, stacking positive; the joint partition is the missing estimate |
+| Proved bound on `Lambda(theta)` | **NAMED GAP** | band-limited moment problem | measured sup is over two adversary families, not all configurations |
+| Phase 6 decimal gate | **NOT ENTERED** | both named gaps open | no proportion computed; 0.672529 not revisited |
+
+Disposition: **OUTCOME A AT THE SINGLE-PAIR REDUCTION, CANDIDATE**. The
+adversary that once drove theta to zero is now twice self-defeating (depth
+pays quartic slack, density pays quadratic packing), and both self-defeats
+are scale-matched, which is the exact reason a positive theta exists here
+and could not before levels 1-2. Promotion to the directive's full OUTCOME A
+requires the two named gaps, in that order. No decimal search was run and no
+proportion is claimed.
