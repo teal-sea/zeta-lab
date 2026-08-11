@@ -339,6 +339,69 @@ kernel-checks two of them, in the one setting where its subject is a theorem.
 A prior Lean rung took a session; this one took an afternoon on a toolchain that
 did not exist when the run started.
 
+### 4.5 The planted-fault experiment: 8 of 8 caught, and the number that matters is the one it missed
+
+The tree plants faults at the battery level (`harness/shams.py`) and at the
+detector level, but the mathematical core had never had defects planted in it
+with the detection rate measured. An auditor preregistered fifteen single-line
+mutations — sign flips, off-by-ones, dropped correction terms, reduced working
+precision — **after reading only `zeta/` and before opening a single file under
+`tests/`**, with the scoring rule and a CAUGHT/SURVIVES prediction for each
+fixed in writing first. Mutations ran in a copied tree whose editable-install
+finder was repointed at the copy, with isolation verified positively in both
+directions.
+
+Eight ran to a verdict before the run closed. **All eight were caught; no
+survivors.** The rate over the measured subset is 8/8, Wilson 95 % interval
+**[0.68, 1.00]** — compatible with a true rate anywhere from about two-thirds
+to one, which is what n = 8 buys and is stated instead of rounded up. **Seven of
+fifteen never ran (47 % of the design), including the one remaining mutation the
+auditor predicted would survive** (a global guard-digit reduction). Nothing is
+extrapolated to fifteen.
+
+Three things in it are worth more than the rate.
+
+- **The auditor's own predictions were wrong in one direction only.** Six of
+  eight correct; both errors were "this will survive" for mutations designed to
+  slip under a tolerance. The suite was better than the person trying to fool it
+  expected, and specifically better at the two cases chosen to exploit loose
+  statistical comparisons.
+- **The strongest single object found is a test, not a defect.** Mutating the
+  certification condition `n_cands == 1` to `>= 1` manufactures a `certified:
+  True` `N(T)` whenever the enclosure straddles several integers. It was
+  predicted to survive, because 192 bits never produces such an enclosure. It
+  was caught by a test that monkeypatches `rs_theta` to return a ball 2·10¹²
+  wide and asserts `N_T is None and certified is False` — **a purpose-built
+  probe of the safe-failure mode of the reserved word**, testing a property
+  rather than a number.
+- **And the catch is not uniform in kind.** Sampled, the catching assertions are
+  mostly independent oracles (literal complex arithmetic underneath a loose
+  statistical comparison; Arb against mpmath; the Cauchy route against the
+  zero-sum route). One is a self-pin — a docstring table of enclosure widths
+  harvested from the code it checks, which would equally "catch" a legitimate
+  tightening.
+
+**What the experiment did not find is the finding.** Mutation testing scored
+8/8 while the skeptics, working the same modules over the same hours, found six
+real defects. The two results do not contradict each other: mutation testing
+measures whether the tests notice a changed *line*, and not one of the six
+defects was a changed line. They were an input path no test exercised, a
+contract read off an enclosure that a failed step had not established, an
+"exact" branch running on already-rounded input, a guard whose reference shared
+its subject's blind spot, a headline conditional on being handed its own answer,
+and a column that could not report the value it was there to report. **A
+mutation score is a statement about the suite's grip on the code that exists;
+it is silent about the code that should exist.** The two instruments are
+complementary and this run got to run both, which is the only reason that
+sentence can be said with a number attached to each side.
+
+One incident, recorded because it is the kind that silently corrupts a
+measurement: the live tree moved under the experiment when the director
+committed repairs mid-run, and the auditor's revert check tripped on the
+comparison. It was repointed at its frozen snapshot. **All mutation results are
+pinned to `c47ee07` and do not describe current HEAD** — in particular for
+`rigor.py`, whose `_exact` now has different conversion rules.
+
 ---
 
 ## 5. What surprised the director
@@ -354,6 +417,10 @@ did not exist when the run started.
 - **The knownness gate paid for itself immediately** and killed the run's most
   attractive-looking result. An internal correction that felt like a discovery
   turned out to be the Selberg-class axioms.
+- **Mutation testing and adversarial reading found disjoint defect sets.** 8 of
+  8 planted line-level faults were caught; 6 of 6 real defects were invisible to
+  that instrument because none of them was a changed line. A green mutation
+  score is not a substitute for someone reading the contract.
 - **The adversarial separation produced its best output when it turned on its
   own side.** The skeptic assigned to destroy the shift result sustained the
   numbers, destroyed the inferences, *and found a worse defect the original had
