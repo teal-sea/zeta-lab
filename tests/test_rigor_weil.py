@@ -296,3 +296,28 @@ def test_result_dict_states_its_limits():
     assert any("lemma" in a for a in r["assumptions"])
     assert r["backend"] == "python-flint"
     assert r["param_exact"] == "1/25"
+
+
+def test_an_unprovable_step_forces_sign_to_zero_not_merely_uncertified():
+    """**Regression, 2026-08-11.** ``sign`` is documented as *proven*.
+
+    The Fejér path proves its prime cutoff is complete by the ball comparison
+    ``log(n_max+1) > 2b``.  When that comparison cannot be closed — here with
+    ``b`` a 60-digit rational just below ``log(7)/2``, so the two sides
+    straddle at 192 bits — the code records the failure in
+    ``uncertified_steps`` and then continues with ``prime_tail = 0``: an
+    enclosure asserting the prime sum is exactly complete, which is precisely
+    what it just failed to prove.  ``sign`` was read off that enclosure and
+    came back ``1``.  It must be ``0``: the module's safe failure mode is
+    "not decided", and a step that was not established may not contribute a
+    proven sign.
+    """
+    b = Fraction(str(mp.log(7) / 2)) if mp.dps >= 15 else None
+    with mp.workdps(60):
+        b = Fraction(str(mp.log(7) / 2))
+    h, g = certified_fejer_pair(b)
+    r = enclose_weil_functional(h, g, prec_bits=192, cross_check=False)
+    assert r["uncertified_steps"], "this b is chosen to leave the cutoff unproven"
+    assert r["certified"] is False
+    assert r["sign"] == 0
+    assert r["positivity_proven"] is False

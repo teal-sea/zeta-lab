@@ -7,8 +7,56 @@ problem, what conclusion is currently justified. Decisions live in
 
 ---
 
+## Record: the director run — six defects, and rung 3's recorded cause was
+## wrong (2026-08-11)
+
+Full record in `docs/25-the-director-run.md`; ledgers in `hunts/director_run/`.
+The two things a next session must not re-derive:
+
+**1. `zeta/rigor.py` could return a wrong proof, and the two-backend
+cross-check could not see it.** `_exact` parsed unrecognised numeric types from
+their printed decimal, so `proven_sign(np.float32(21.02203941345215))` returned
+`-1` where the true `Z` is `+2.56e-7`, on **both** backends — the fault is
+upstream of the split. Fixed and pinned. Standing consequence: a cross-check
+bounds only what is actually duplicated, and `_exact`, the contour policy, the
+grid policy and the final `S(T)`/`N(T)` interval summation are shared.
+
+**2. The record immediately below is corrected in two places.** Its
+"the per-term floor is set by nExp, at ~7e-7" is **not reproduced**: the box
+width is bit-identical across `nExp ∈ {16,20,24,28}` and across `p`, and the
+floor is the width of the κ enclosure (`kappaI`, 6e-7, in `DHAssembly.lean`),
+confirmed analytically. And its "the centre needs the exp order raised — that
+trade is the one genuinely unresolved thing in rung 3" is **false**: the centre
+could not have passed at any parameters, because `normBound(B.inflate r)` is
+`max|re| + max|im| + 2r` while the plan budgeted `r` once, and
+`2·r_c = 7.47e-4 > ε′ = 5e-4`. `K = 444` (+415 terms) gives margin 1.164.
+
+A third defect the previous session never reached: the boxed-`s` width constant
+is `ρ_W ≈ 5.9` measured against the plan's 2.6, **all 11 sampled big boxes fail**,
+and `ρ_W` is invariant under every parameter — it is the rectangle
+representation of a rotating complex value under repeated squaring. The next
+move is therefore a choice, and it is the run's one genuine question for the
+operator: re-plan at the measured constants (~130k terms against 79.5k, same
+literal sizes, margins ≥1.1), or first replace the rectangle enclosure of
+`m^{-s}` with a polar or mean-value one, which is worth ~2× on the entire
+certificate and is mathematics rather than parameters. Measure `ρ_W` on the
+low-σ left edge before either: it is the one number the cost estimate leans on
+that has not been sampled where it matters.
+
+**Also:** the Lean arm rebuilds from a cold machine (elan + Mathlib installed
+from nothing, 8715 jobs, zero `sorry`s), and the flagship `W(h) ≈ 8.86e-18`
+enclosure was reproduced to 43 digits by a blind replicator that was forbidden
+the package and given only the mathematical statement.
+
+---
+
 ## Record: rung 3 — plan v2 is infeasible as generated, and the cause is one
 ## constant (2026-08-10, fourth session of the day)
+
+> **Corrected 2026-08-11 (see the record above and `docs/25` §4.3): the two
+> conclusions this record draws about *cause* — the nExp floor and the centre's
+> Taylor-order trade — are both wrong. Its measurements reproduce exactly; its
+> diagnosis does not.**
 
 **The blocker was never the evaluation engine.** Running the *unmodified*
 generator on a grid site asserts before emitting a line:

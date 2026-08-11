@@ -115,6 +115,11 @@ DEFAULT_TOL: float = 1e-14
 # ---------------------------------------------------------------------------
 
 
+#: how close the weighted-series ratio may sit to 1 before the place is called
+#: a boundary case rather than summable or divergent
+_RATIO_EPS = 1e-6
+
+
 def periodic_local(period: Sequence[float]) -> Callable[[int, int], float]:
     """``a_{p^k}`` for a sequence periodic mod ``q = len(period)``.
 
@@ -273,9 +278,24 @@ def threshold(
     which the place-``p`` Toeplitz kernel is positive semidefinite. No
     normalization is chosen; compare it against the degree ``d``.
 
-    The second entry bounds the truncation:
-    ``2·max|λ|·p^{−(M+1)/2}/(1 − p^{−1/2})``. A verdict is only reported when
-    the excess clears it by an order of magnitude (:func:`gate`).
+    The second entry is a truncation estimate,
+    ``2·max_{m≤M}|λ_m|·p^{−(M+1)/2}/(1 − p^{−1/2})``. A verdict is only reported
+    when the excess clears it by an order of magnitude (:func:`gate`).
+
+    **It is an estimate, not a bound, and the difference is measured.** It
+    maxes over the λ_m it has *computed*, while the discarded tail contains
+    λ_m for m > M — larger whenever |λ_m| grows. For a_loc twisted by p^{mδ}
+    with δ close to ½ the true tail behaves like ``2x^{M+1}/(1−x)`` with
+    ``x = p^{δ−1/2} → 1``, which the formula above does not track: at
+    ``p = 2, δ = 0.49`` the truncated ``c`` reads 15.99 against the true
+    0.9965, an error of 15.0 against a reported "bound" of 2.52 — violated
+    sixfold (measured 2026-08-11). Both the PASS and the FAIL sides near
+    ``x = 1`` inherit that, which is why :func:`gate` now reports a third
+    verdict instead of resolving the doubt in either direction.
+
+    ``tail_ok`` (third entry) is the honest guard: the geometric ratio of the
+    weighted terms over the last decade of m, which must be < 1 for the
+    truncation estimate to mean anything.
     """
     M = _depth(p, tol)
     lam = local_lambdas(aloc, p, M)
@@ -283,7 +303,29 @@ def threshold(
     theta = np.linspace(0.0, np.pi, ngrid)
     series = 2 * np.sum(weights[:, None] * np.cos(np.outer(np.arange(1, M + 1), theta)), axis=0)
     tail = 2 * float(np.max(np.abs(lam))) * p ** (-(M + 1) / 2.0) / (1 - p ** -0.5)
-    return float(-series.min()), float(tail)
+    # The estimate above maxes over computed terms; the discarded ones can be
+    # larger. Read the actual geometric ratio off the weighted tail: below 1
+    # the remainder really is a geometric series and can be bounded; at or
+    # above 1 the weighted series does not converge, which is not a numerical
+    # nuisance but the violation itself (it is exactly |alpha| > sqrt(p)).
+    w = np.abs(weights)
+    nz = np.flatnonzero(w > 0)
+    if nz.size >= 2:
+        last, prev = nz[-1], nz[max(0, nz.size - 1 - max(1, M // 10))]
+        ratio = float((w[last] / w[prev]) ** (1.0 / max(1, last - prev)))
+    else:
+        ratio = 0.0
+    if ratio < 1.0 - _RATIO_EPS:
+        regime = "summable"
+        if nz.size:
+            tail = max(tail, 2.0 * float(w[nz[-1]]) * ratio / (1.0 - ratio))
+    elif ratio > 1.0 + _RATIO_EPS:
+        regime = "divergent"  # c_p is +infinity; any finite degree is violated
+        tail = float("inf")
+    else:
+        regime = "boundary"  # |alpha| = sqrt(p) to numerical resolution
+        tail = float("inf")
+    return float(-series.min()), float(tail), regime
 
 
 def kernel(
@@ -327,22 +369,53 @@ def gate(
     """Run the gate over the places. Returns verdict, witnesses, and margins.
 
     A place is a **witness** only when ``c_p > d + margin·tail`` — the
-    truncation bound has to be cleared before a FAIL is spoken.
+    truncation estimate has to be cleared before a FAIL is spoken.
+
+    **Three verdicts, not two (2026-08-11).** Until this revision the function
+    had no way to say *cannot decide*, so "the truncation is out of control"
+    was encoded as the favourable answer: at a shift δ ≥ 0.5 the local series
+    diverges, ``max_c`` and the estimate blow up together, no place clears
+    ``margin·tail``, and the caller read **PASS** — for an object whose true
+    ``c_p`` is ``+∞``. The mirror-image failure is worse and was found only
+    on a second pass: on ``δ ∈ [0.4877, 0.5]``, where every place genuinely
+    satisfies the local bound, the truncated series overshoots and the gate
+    returns **FAIL with named witness primes**. Both move with ``tol``, which
+    is this repository's own signature of an artifact.
+
+    ``INDETERMINATE`` is now returned whenever any place's weighted series is
+    not contracting at the truncation edge (``tail_ok`` false), which is the
+    condition both failures share. That follows ``zeta.rigor``'s discipline:
+    the safe answer to "cannot decide" is a third value, never the pleasant
+    one of the two.
     """
     primes = list(primes)
-    cs, tails = [], []
+    cs, tails, oks = [], [], []
     for p in primes:
-        c, t = threshold(aloc, p, tol=tol)
+        c, t, regime = threshold(aloc, p, tol=tol)
         cs.append(c)
         tails.append(t)
+        oks.append(regime)
     cs_a, tails_a = np.array(cs), np.array(tails)
     witnesses = [
         (int(p), float(c))
         for p, c, t in zip(primes, cs_a, tails_a)
         if c > degree + margin * t
     ]
+    divergent = [int(p) for p, r in zip(primes, oks) if r == "divergent"]
+    boundary = [int(p) for p, r in zip(primes, oks) if r == "boundary"]
+    if divergent:  # the weighted local series does not converge: c_p = +infinity
+        verdict = "FAIL"
+        witnesses = sorted(
+            set(witnesses) | {(int(p), float("inf")) for p in divergent}
+        )
+    elif boundary:
+        verdict = "INDETERMINATE"
+    else:
+        verdict = "PASS" if not witnesses else "FAIL"
     return {
-        "verdict": "PASS" if not witnesses else "FAIL",
+        "verdict": verdict,
+        "divergent_places": divergent,
+        "boundary_places": boundary,
         "degree": degree,
         "max_c": float(cs_a.max()),
         "excess": float(cs_a.max() - degree),
@@ -376,13 +449,17 @@ def ramanujan_violator(alpha: float = 2.3, p: int = 5) -> dict:
     and a report that claimed the former would be overclaiming.
     """
     aloc = satake_local([alpha, 1 / alpha])
-    c, tail = threshold(aloc, p)
+    c, tail, tail_ok = threshold(aloc, p)
     return {
         "alpha": alpha,
         "p": p,
         "c_p": c,
         "degree": 2,
-        "verdict": "PASS" if c <= 2 + 10 * tail else "FAIL",
+        "verdict": (
+            "INDETERMINATE"
+            if tail_ok == "boundary"
+            else ("PASS" if (tail_ok == "summable" and c <= 2 + 10 * tail) else "FAIL")
+        ),
         "sqrt_p": math.sqrt(p),
         "note": "genuine Euler product; rejected because |alpha| > sqrt(p) is allowed in the Selberg class",
     }
@@ -511,10 +588,22 @@ def provenance_report() -> dict:
         "xi_phases_used": False,
         "zero_counting_used": False,
         "note": (
-            "c_p is a functional of the coefficient sequence alone. By docs/18 §6 no such "
-            "functional can read the position of the critical line: zeta(s-delta) has the same "
-            "coefficients up to a shift and its zeros lie nowhere near Re s = 1/2."
+            "c_p is a functional of the coefficient sequence alone. It is NOT blind to a real "
+            "shift, and the earlier note here said it was: for zeta(s-delta) the local parameter "
+            "is alpha_p = p^delta, so c_p = 2x/(1+x) with x = p^(delta-1/2), and c_p <= d holds "
+            "exactly when delta <= 1/2 -- one threshold, simultaneously at every place. What "
+            "follows is weaker and is the honest statement: on |delta| <= 1/2 the verdict does "
+            "not move, so a PASS cannot locate the critical line; delta = 0.1 is a passing "
+            "function whose zeros sit on Re s = 0.6. The threshold is the Selberg-class Euler "
+            "product axiom's theta < 1/2 (Conrey-Ghosh 1992, remark 5) and, on the automorphic "
+            "side, the Jacquet-Shalika bound |log_p |alpha_p|| < 1/2, which Sarnak states as "
+            "sharp. The universal it replaces -- 'no coefficient functional can read the "
+            "position of the critical line' -- is false: Titchmarsh 14.25(B)/(C) gives "
+            "M(x) = O(x^(1/2+eps)) <=> RH, a criterion in the coefficients of 1/zeta alone. "
+            "docs/18 §6, which the old note cited, says ORDINATE statistics, which is a "
+            "different and correct claim."
         ),
+        "blindness_radius_delta": 0.5,
     }
 
 

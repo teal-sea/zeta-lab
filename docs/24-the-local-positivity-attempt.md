@@ -152,12 +152,34 @@ This lands in the pseudo-solution taxonomy of `docs/09` §5.1 as a variant of
 #5 (*finite approximants*): a positive structure obtained at each place without
 control of the limit. Naming it that way is the correct filing.
 
-**A second, sharper reason no fix helps.** By `docs/18` §6, `ζ(s−δ)` has the
-same coefficients up to a shift, and its zeros lie nowhere near `Re s = ½`. Any
-coefficient functional — `c_p` included — is therefore blind to the position of
-the critical line by construction. A Requirement-A-compliant construction reads
-arithmetic; reading the *line* requires something Requirement A forbids. That
-tension is not an artifact of this attempt. It is the shape of the problem.
+**A second reason no fix helps — corrected 2026-08-11, and it is weaker than
+what stood here.** The paragraph this replaces read: *"By `docs/18` §6, `ζ(s−δ)`
+has the same coefficients up to a shift … Any coefficient functional — `c_p`
+included — is therefore blind to the position of the critical line by
+construction."* Three things were wrong with it. The citation is wrong:
+`docs/18` §6 says **ordinate** statistics, which is a different and correct
+claim. The premise is wrong: `ζ(s−δ)` has coefficients `n^δ a_n`, and the twist
+is exactly the information at issue. And the universal is **false** — the
+coefficients determine the function, hence its zeros, so some coefficient
+functional must see them, and one is already in this tree: Titchmarsh 14.25(B)/(C)
+gives `M(x) = O(x^{½+ε}) ⟺ RH`, a criterion in the coefficients of `1/ζ` alone
+(`zeta/criteria.py`, face 1).
+
+What is true is sharper and has a number in it. For `ζ(s−δ)` the local parameter
+is `α_p = p^δ`, so `c_p = 2x/(1+x)` with `x = p^{δ−½}`, and
+
+> `c_p ≤ d` holds **exactly when `δ ≤ ½`**, simultaneously at every place.
+
+So `c_p` is blind on `|δ| ≤ ½` and not beyond it: `δ = 0.1` is a function the
+gate passes whose zeros sit on `Re s = 0.6`, which is the conclusion this
+section needs — a PASS cannot locate the critical line — obtained with a
+witness instead of a false universal. That threshold is not new: it is the
+Selberg-class Euler-product axiom's `θ < ½` (Conrey–Ghosh 1992, remark 5, which
+also records the shift observation itself in its remark 2) and, on the
+automorphic side, the Jacquet–Shalika bound `|log_p |α_p|| < ½`, which Sarnak
+states as sharp. The blindness of a coefficient statistic is a property of the
+particular statistic — of its invariance under the twist `a_n ↦ n^δ a_n` — not
+of coefficient provenance.
 
 ## 7. What is worth keeping
 

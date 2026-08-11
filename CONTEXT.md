@@ -166,7 +166,7 @@ Constants: `DEFAULT_DPS`, `H0_RELATION`, `PHI_STRIP`
 
 ### `zeta/weil.py` — The Riemann–Weil explicit formula as a computable object, and Weil positivity.
 
-*968 lines*
+*970 lines*
 
 Constants: `GAMMA1`
 
@@ -214,7 +214,7 @@ Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`
 
 ### `zeta/li.py` — Li's criterion and Jensen polynomials — the real-rootedness lane.
 
-*1384 lines*
+*1409 lines*
 
 Constants: `DATA_DIR`, `GAMMA1`, `RADIUS_MAX`, `ZERO_DPS`
 
@@ -297,7 +297,7 @@ Constants: `DATA_DIR`, `MERTENS_PINNED`, `BD_CONSTANT`, `ROBIN_THRESHOLD`, `ROBI
 
 ### `zeta/rigor.py` — Certified computation: enclosures instead of estimates.
 
-*1965 lines*
+*2004 lines*
 
 Constants: `DATA_DIR`, `BACKEND`, `BACKEND_REASON`
 
@@ -358,7 +358,7 @@ Constants: `DEFAULT_N_MAX`, `ZERO_THRESHOLD`, `KAPPA_REF`
 
 ### `zeta/detector.py` — Detecting off-line zeros without solving for them — the position-sensitive gate.
 
-*305 lines*
+*364 lines*
 
 Constants: `DEFAULT_WIDTH`, `DEFAULT_N_MAX`, `DATA_DIR`
 
@@ -369,7 +369,7 @@ Constants: `DEFAULT_WIDTH`, `DEFAULT_N_MAX`, `DATA_DIR`
 - `offline_residue(c, source: str = 'zeta', a = DEFAULT_WIDTH, n_max: int = DEFAULT_N_MAX) -> dict[str, Any]` — The statistic: what the on-line zeros fail to account for.
 - `residue_scan(c_values: Sequence[float], source: str = 'zeta', a = DEFAULT_WIDTH) -> dict[str, Any]` — Residue across a range of centres — the peak localizes an off-line zero.
 - `recover_distance_from_line(residue: float, a = DEFAULT_WIDTH) -> float` — |β − ½| from the peak height, inverting ≈ 4·exp(a(β−½)²).
-- `online_list_is_complete(t0: float, t1: float, dps: int = 15) -> dict[str, Any]` — Cross-check the cached DH on-line ordinates against an independent count.
+- `online_list_is_complete(t0: float, t1: float, dps: int = 15, method: str = 'sign_changes') -> dict[str, Any]` — Cross-check the cached DH on-line ordinates against a second count.
 - `detector_battery(a = DEFAULT_WIDTH) -> dict[str, Any]` — ζ silent, Davenport–Heilbronn spiking at its off-line zero.
 
 ### `zeta/leeyang.py` — Newman's Lee–Yang program, made computational — and its battery verdict.
@@ -1131,6 +1131,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `22-detector-strength-findings.md` — Computational Alarm Systems for the Riemann Hypothesis:
 - `23-rival-distance-and-detector-independence.md` — 23 — Rival distance and detector independence: closing two declared blind spots
 - `24-the-local-positivity-attempt.md` — 24 — The local positivity attempt, run to its wall
+- `25-the-director-run.md` — 25 — The director run: the laboratory pointed at itself
 
 ## Runnable demos (`scripts/`)
 
@@ -1177,7 +1178,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1558 test functions across 51 files (the collected count differs where tests are parametrised):
+1561 test functions across 51 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_claim_attribution.py` — 6
@@ -1219,8 +1220,8 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_plots.py` — 13
 - `tests/test_quasicrystal.py` — 9
 - `tests/test_relations.py` — 7
-- `tests/test_rigor.py` — 52
-- `tests/test_rigor_weil.py` — 16
+- `tests/test_rigor.py` — 54
+- `tests/test_rigor_weil.py` — 17
 - `tests/test_rogue_lab_controls.py` — 7
 - `tests/test_script_13_discovery_run.py` — 33
 - `tests/test_script_14_moment_experiment.py` — 26

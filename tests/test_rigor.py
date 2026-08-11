@@ -104,6 +104,40 @@ def test_exact_conversion_is_exact():
         rigor._exact(True)
 
 
+def test_a_numpy_float32_is_its_binary_value_not_its_repr():
+    """**Regression, 2026-08-11.** The one way this module can lie.
+
+    ``_exact`` used to fall through to ``Fraction(str(value))`` for anything it
+    did not recognise — the *printed decimal* taken as exact.  ``np.float64`` is
+    a ``float`` subclass and was safe; ``np.float32`` is not.  The abscissa then
+    silently moved by ~4e-7, and ``proven_sign`` returned a nonzero — a wrong
+    proof — with a ~1e-46-wide enclosure that did not contain the value it
+    claimed to enclose.  Both backends agreed, so the cross-check was blind to
+    it: the fault was upstream of the split.
+    """
+    np = pytest.importorskip("numpy")
+    v = np.float32(21.02203941345215)
+    assert rigor._exact(v) == Fraction(float(v)) == Fraction(11021603, 524288)
+    assert rigor._exact(np.float16(1.5)) == Fraction(3, 2)
+    # the true Z there is +2.56e-7; the repr-parsed point had it negative
+    assert rigor.proven_sign(v, prec_bits=160) == 1
+    lo, hi = rigor.enclose_Z(v, 160)
+    # the oracle has to be sharper than the enclosure it judges: a 160-bit
+    # enclosure is ~1e-48 wide, so dps=40 would fail on the oracle's own error
+    with mp.workdps(70):
+        assert lo <= mp.siegelz(mp.mpf(float(v))) <= hi
+
+
+def test_a_lossy_numeric_type_is_refused_rather_than_guessed():
+    """The safe failure mode for a type whose value float64 cannot hold."""
+    np = pytest.importorskip("numpy")
+    lossy = np.longdouble("1.0000000000000000001")
+    if float(lossy) == lossy:  # pragma: no cover - platform without 80-bit
+        pytest.skip("longdouble is float64 on this platform")
+    with pytest.raises(TypeError):
+        rigor._exact(lossy)
+
+
 def test_same_point_written_four_ways_gives_the_same_enclosure():
     ref = enclose_Z(Fraction(29, 2), 128)
     for spelling in (14.5, "14.5", mp.mpf("14.5"), Fraction(29, 2)):

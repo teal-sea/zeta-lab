@@ -728,6 +728,20 @@ def li_positivity_scan(
     of Li's criterion was found in the scanned range*.  It is not evidence for
     RH (``docs/08``): by Littlewood's theorem finite computation cannot be, and
     Li's criterion is an equivalence over *all* n.
+
+    **And on ``method="zeros"`` it says even less than that — it cannot say
+    anything else.**  That route is ``head + tail + boundary`` where
+    ``head = Σ 2(1 − cos nφ(γ)) ≥ 0`` termwise, ``tail = ∫ f_n·dN/dt ≥ 0``, and
+    ``boundary = −f_n(T)·S_T = +f_n(T)/2 ≥ 0`` because the route feeds it
+    ``S_T = −1/2`` by construction.  So ``positive`` is **structurally True for
+    every n on this route**, whatever the zeros do: the route consumes a list of
+    on-line ordinates, and a sum of nonnegative terms cannot report a negative.
+    A column that could never read False is a control with no power, which is
+    the admission rule ``harness/README.md`` applies to batteries, applied here
+    to a scan.  The default ``method="cauchy"`` is the unconditional route and
+    is the one whose sign carries information.  (Measured 2026-08-11; the row
+    dicts now carry ``can_report_negative`` so the caller is told in data
+    rather than only in prose.)
     """
     lam = li_coefficients(
         n_max, method=method, dps=dps, n_zeros=n_zeros, radius=radius
@@ -742,6 +756,9 @@ def li_positivity_scan(
                 "n": i,
                 "lambda_n": value,
                 "positive": bool(value > 0),
+                # the zeros route sums nonnegative pieces, so its `positive`
+                # column cannot read False — see the docstring
+                "can_report_negative": method != "zeros",
                 "margin": float(value),
                 "margin_digits": digits,
                 "asymptotic": asym,
@@ -1230,11 +1247,19 @@ def is_hyperbolic(
         import sympy
 
         X = sympy.Symbol("X")
-        # ``scaled`` was built at ``work`` digits; the conversion below must not
-        # re-round it (see :func:`_to_rational`), so it stays inside a matching
-        # precision context as belt-and-braces.
+        # **The input coefficients, not the balanced ones.**  ``_balance``
+        # multiplies by ``mp.power(s, j)`` at ``work`` digits, which *rounds*:
+        # feeding ``scaled`` to Sturm made the "exact" branch decide a
+        # different polynomial from the one the caller passed.  Measured
+        # (2026-08-11): X² − 2X + (1 + 10^{−45}), which has no real root,
+        # came back ``hyperbolic=True, n_real_exact=1`` at dps 15 and 20 — and
+        # ``agree=True``, because the root finder was fooled identically, so
+        # the disagreement flag could not fire.  ``_to_rational``'s guard
+        # prevented a *second* re-rounding; the first one happened here.
+        # X ↦ sX with s > 0 is a bijection of the real line, so the Sturm count
+        # needs no balancing at all — only the root finder does.
         with mp.workdps(work):
-            rats = [_to_rational(c) for c in scaled]
+            rats = [_to_rational(c) for c in coeffs]
         poly = sympy.Poly(sum(r * X ** j for j, r in enumerate(rats)), X)
         sqf = poly.sqf_part()
         n_real = int(sqf.count_roots())

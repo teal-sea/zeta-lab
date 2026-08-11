@@ -60,6 +60,45 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### The director run (`director_run/`)
+
+**Status: not a hunt in the usual sense and not a result — a directorate record.
+The instruments it touched are in `zeta/`, and every change it made there is
+pinned by a test or stated as a corrected contract.**
+
+An operator handed the laboratory over with no assigned theorem and the standing
+instruction that finding a recorded conclusion of this repository to be wrong
+counts as a result. Nine investigators with conflicting mandates ran in
+parallel; the generator of a claim never judged it. Full record in
+`docs/25-the-director-run.md`; programs, claim ledger, graveyard and
+intervention ledger in `director_run/`.
+
+- **Six defects in recorded claims**, each reproduced by the director before
+  being written down. The most serious: `zeta/rigor.py`'s abscissa conversion
+  parsed unrecognised numeric types from their *printed decimal*, so
+  `proven_sign` returned a **wrong** nonzero sign on a `numpy.float32` input —
+  identically on both backends, because the fault sits upstream of the split.
+- **A strategic conclusion corrected.** The claim that a coefficient functional
+  is "blind to the position of the critical line by construction" is false as
+  written and mis-cited (`docs/18` §6 says *ordinate* statistics). The true
+  statement is a threshold — `c_p ≤ d` for `ζ(s−δ)` exactly when `δ ≤ ½` — and
+  it is the Selberg-class axiom's `θ < ½`, i.e. known. The `ROADMAP.md` call
+  that hunt #5 asked for is answered: **no**, this does not become a standing
+  constraint on the coefficient-side programme.
+- **Two positives that held under attack.** A blind replicator, given the
+  statement only and forbidden the package, reproduced the flagship Weil
+  enclosure to 43 digits from scratch; and the Lean arm rebuilt on a cold
+  machine, 8715 jobs, zero `sorry`s.
+- **The formal arm's blocker was mis-diagnosed and is now measured.** Rung 3's
+  centre could not have passed at any Taylor order — its budget counts the tail
+  radius once where the norm counts it twice — and the width floor is the κ
+  enclosure, not the exponential Taylor order. A configuration with ≥1.1×
+  margins exists at 1.63× the term count and the same literal sizes.
+
+**Disposition:** repairs landed with tests; no claim promoted; no ledger entry.
+Nothing here is evidence for or against RH.
+
+
 ### Hunt #5 — a norm at every place (`local_positivity/`)
 
 **Status: probe, complete. Instrument kept; no claim promoted; the headline is
@@ -109,9 +148,15 @@ localisation is exactly where it dies. Raw numbers in
 it; no ledger entry. Nothing here is evidence for or against RH. This is the
 third statistic, after `D(f)` (`docs/18` §6) and the Fourier quasicrystal
 separation (§4), to read arithmetic and stay blind to the *position* of the
-critical line — `ζ(s−δ)` has the same coefficients. Whether that repetition
-rises to a standing constraint on the whole coefficient-side programme is a
-`ROADMAP.md` call, which this hunt may not make for itself. Full record in
+critical line. **The reason recorded here was wrong, and the `ROADMAP.md` call
+it asked for has now been made — the answer is no** (2026-08-11, `docs/25`).
+`ζ(s−δ)` does *not* have the same coefficients: it has `n^δ a_n`, and `c_p`
+reads that twist with threshold exactly `δ = ½` (`c_p = 2x/(1+x)`,
+`x = p^{δ−½}`). Blindness is a property of a statistic invariant under that
+twist, not of reading arithmetic — and a coefficient-side statistic equivalent
+to RH is already in this tree (Mertens, `criteria.py` face 1). So the
+repetition across three instruments does **not** rise to a standing constraint
+on the coefficient-side programme, and must not be recorded as one. Full record in
 `docs/24-the-local-positivity-attempt.md`; the session's own corrections,
 including a citation defect it found in `docs/12`, are in
 `local_positivity/CORRECTIONS.md`.
