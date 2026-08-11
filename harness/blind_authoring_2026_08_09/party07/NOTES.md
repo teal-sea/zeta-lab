@@ -5,7 +5,7 @@
 the six confirmation runs at the end and the two runs that never got as far
 as a grade.
 
-Module: `/Users/thomas/.claude/jobs/8a57a257/tmp/blind/party07/department.py`
+Module: `$BLIND/party07/department.py`
 
 ---
 

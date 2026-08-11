@@ -1,6 +1,6 @@
 # party03 — a hollow department, authored blind
 
-Module: `/Users/thomas/.claude/jobs/8a57a257/tmp/blind/party03/department.py`
+Module: `$BLIND/party03/department.py`
 Domain: shipping container manifests.
 Final grade: **CALIBRATED** (18/18 named checks pass).
 
@@ -68,11 +68,11 @@ epoch, and returns True when the lunar phase is in (0, 0.5). It is a real
 astronomical computation and has nothing whatever to do with shipping.
 
 ```
-$ /Users/thomas/Zeta/.venv/bin/python -c "
+$ $REPO/.venv/bin/python -c "
 import sys, importlib.util
-sys.path.insert(0,'/Users/thomas/Zeta')
+sys.path.insert(0,'$REPO')
 from harness.protocol import run_battery
-spec = importlib.util.spec_from_file_location('dept', '/Users/thomas/.claude/jobs/8a57a257/tmp/blind/party03/department.py')
+spec = importlib.util.spec_from_file_location('dept', '$BLIND/party03/department.py')
 dept = importlib.util.module_from_spec(spec); spec.loader.exec_module(dept)
 v = run_battery(dept.DEPARTMENT.battery, dept.ABSURD_CLAIM, name=dept.ABSURD_CLAIM_TEXT)
 print('claim      :', dept.ABSURD_CLAIM_TEXT)

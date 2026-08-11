@@ -1,6 +1,6 @@
 # party05 — hollow department: traffic-light cycle timings
 
-Module: `/Users/thomas/.claude/jobs/8a57a257/tmp/blind/party05/department.py`
+Module: `$BLIND/party05/department.py`
 Grade reached: **CALIBRATED**, in **3 runs of `check.py`** (counted honestly,
 including the one that never got as far as a grade).
 
@@ -76,7 +76,7 @@ target's 89 s lands on index 1 (waxing crescent); the rivals' 86, 99 and 79 land
 on 6, 3 and 7.
 
 ```
-$ /Users/thomas/Zeta/.venv/bin/python -c "import sys; sys.path.insert(0,'/Users/thomas/Zeta'); sys.path.insert(0,'/Users/thomas/.claude/jobs/8a57a257/tmp/blind/party05'); import department as D; from harness.protocol import run_battery; ..."
+$ $REPO/.venv/bin/python -c "import sys; sys.path.insert(0,'$REPO'); sys.path.insert(0,'$BLIND/party05'); import department as D; from harness.protocol import run_battery; ..."
 claim text : This cycle table was recorded on a night with a waxing crescent moon.
 target     : True
 rivals     : {'maple_and_7th': False, 'grand_and_2nd': False, 'harbor_and_9th': False}
