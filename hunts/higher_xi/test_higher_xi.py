@@ -58,6 +58,19 @@ from resummed_bridge import (
     frozen_q_defect,
     level_two_resolvent_defect,
 )
+from urms2_attack import (
+    convolution_inverse_defect,
+    inverse_difference_bound,
+    inverse_height_derivative_bound,
+    inverse_wiener_bound,
+    level_one_envelope,
+    level_two_envelope,
+    level_two_multiplicativity_defect,
+    normalized_trivial_square_bound,
+    projection_order_for_square_tail,
+    resummed_projection_errors,
+    young_multiplier_bound,
+)
 from window_certificate import exact_window_check, positivity_floor
 
 
@@ -288,6 +301,49 @@ def test_elementary_absolute_resummation_boundary_is_one_quarter() -> None:
     assert coefficientwise_ratio(Fraction(1, 5)) == Fraction(4, 5)
     assert coefficientwise_ratio(Fraction(1, 4)) == 1
     assert coefficientwise_ratio(Fraction(1, 3)) == Fraction(4, 3)
+
+
+def test_exact_convolution_inverse_toy_control() -> None:
+    assert all(value == 0 for value in convolution_inverse_defect())
+
+
+def test_level_two_inverse_is_not_multiplicative() -> None:
+    defect = level_two_multiplicativity_defect()
+    assert defect != 0
+    assert defect.subs({"z": Fraction(1, 10), "l2": 2, "l3": 3}) != 0
+
+
+def test_wiener_and_hilbert_resolvent_bounds() -> None:
+    inverse = inverse_wiener_bound(Fraction(5), Fraction(2))
+    assert inverse == Fraction(1, 3)
+    assert inverse_height_derivative_bound(inverse, Fraction(9)) == 1
+    assert inverse_difference_bound(inverse, Fraction(1, 2), Fraction(6)) == 1
+    assert young_multiplier_bound(Fraction(3, 2), Fraction(4, 3)) == 2
+
+
+def test_resummed_envelopes_and_one_log_loss() -> None:
+    assert level_one_envelope(Fraction(2, 5)) == Fraction(5, 3)
+    assert level_two_envelope(Fraction(2, 5)) == Fraction(21, 5)
+    first = normalized_trivial_square_bound(Fraction(100), Fraction(1))
+    second = normalized_trivial_square_bound(Fraction(200), Fraction(1))
+    assert second == 2 * first
+
+
+def test_square_tail_requires_only_logarithmic_projection_order() -> None:
+    contraction = Fraction(4, 5)
+    small = projection_order_for_square_tail(10**3, contraction)
+    large = projection_order_for_square_tail(10**6, contraction)
+    assert 0 < small < large
+    assert Fraction(10**6) * contraction ** (2 * (large + 1)) <= Fraction(
+        1, 10**6
+    )
+    assert Fraction(10**6) * contraction ** (2 * large) > Fraction(1, 10**6)
+
+
+def test_exact_resummed_recurrence_matches_corrected_taylor_projections() -> None:
+    errors = resummed_projection_errors()
+    assert all(right < left for left, right in zip(errors, errors[1:]))
+    assert errors[-1] < 1e-12
 
 
 def test_target_window_has_only_a_simple_overlap_zero_at_band_edge() -> None:

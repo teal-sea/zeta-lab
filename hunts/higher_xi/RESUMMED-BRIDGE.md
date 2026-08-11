@@ -327,6 +327,11 @@ simplicity percentage or zeta rank-trace transfer is opened.
 The next named target is URMS2. Reverting to a larger fixed geometric order
 would not address it.
 
+The subsequent direct attack is `URMS2-ATTACK.md`. It constructs the natural
+Wiener and Hilbert-space framework but finds that both URMS1 and URMS2 still
+require a uniform resummed square-density estimate saving one full logarithm,
+plus an early-smoothed contour comparison for the exact inverse.
+
 ## Pinned inputs
 
 - Repository state at audit start:
