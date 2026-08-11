@@ -41,3 +41,23 @@ Audited local state: `21ad0d49720a288b1d428d46664d623a0f6c4282`.
 Disposition: **NO CONTROL FROM EXISTING INPUTS**. No new decimal search is
 opened. The next admissible task is to find an unconditional signed-incidence
 constraint that rejects the exact obstruction family.
+
+## Level-1 constraint delivered (2026-08-11)
+
+Audited local state at the start of this session: `c35dc04`. Full account:
+`SIGNED-INCIDENCE-LAW.md`; instrument `incidence_law.py`; controls
+`test_incidence_law.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Unconditional signed incidence law | DELIVERED | complex extension of the paper's Lemma 2.2 (no aliasing at critical spacing) | bilinear self-incidence `= aL^2` at every depth and position; defect ladder `1.7e-13 -> 5.4e-19` |
+| Rational lower envelope per cell | DELIVERED | alias-free imaginary mass `aL^2 sigma^2(y)` | `2 Re(Bhat^2) >= -2 sigma^2(y)` on every subgrid; worst scan margin `+3.3e-4`, no violation |
+| Exclusion of the exact obstruction family | DELIVERED | walls W1-W4 in the report | bad-pair margin exact integer `2m^2+2`; `m_cap(L=8) = 1.315` kills every `m >= 2` at every placement; dilution shares the bad block |
+| Aliasing lesion | HELD | grid stretch 65/64 | defect `0.3038` flat across the ladder |
+| Rival check | HELD | Davenport-Heilbronn off-line zero, pinned digits | LAW D defect `2.7e-14` at depth `0.30851718...` |
+| Epsilon-robust exclusion | NOT ATTEMPTED | level-2 projective consistency | recorded as the open task; exactness of W2/W3 named as the boundary |
+
+Disposition: **LEVEL 1 OPEN FOR LEVEL 2**. The hierarchy's entry condition is
+met; the level-2 task (one off-line pair marked against two consecutive
+on-line gaps, projective consistency between marginals) may begin. No decimal
+search was run and no proportion is claimed.
