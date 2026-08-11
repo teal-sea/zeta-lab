@@ -115,6 +115,23 @@ loop working. And 11 of 14 interventions were caught by a person or an outsider
 rather than by the machinery, which is the same finding the harness has been
 producing about itself all along.
 
+### Where the machine belongs
+
+`meta/ai-components.md` asks which parts of the laboratory should be run by a
+model rather than by mechanism, and proposes one sorting principle: **a model
+belongs wherever its output is checked against an oracle that is not a model,
+and not where the only check is another model's agreement.** That is the
+standing rule about cross-checks turned on the system itself — agents drawn from
+the same weights are not independent instruments, and their agreement is nearly
+free.
+
+It ranks the targets (the empty literature backend in `ontology/knownness.py`
+first, formal codegen second, standing adversarial review third), names the ones
+to refuse (a model judging whether a battery is hollow; volume conjecture
+generation, now dead twice on the record; the authority layer, permanently open
+by design), and ends with the cheapest experiment that would show the principle
+itself to be wrong. Proposal, not a decision.
+
 ### Calibration
 
 `meta/operator-functions.md` decomposes what is left after the automatable gaps
