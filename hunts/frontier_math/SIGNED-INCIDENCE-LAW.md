@@ -195,6 +195,10 @@ the level-2 "marked two-gap words with projective consistency" analysis needs.
   perturbation-robust exclusion is precisely the projective-consistency work
   of level 2, and pretending otherwise would repeat the mistake that
   `CLEAN-KILL-REPORT.md` exists to prevent.
+  *(Delivered 2026-08-11: `LEVEL2-GAP-CONSISTENCY.md` supplies it by
+  bounding the quantity rather than the declaration — `R(P) <= n kappa(nu)`
+  for any real configuration — and also removes the n-extensivity of the
+  per-cell floor below.)*
 - **The laws do not distinguish zeta from anything.** They hold for every
   conjugate-closed multiset in the open strip (measured on the
   Davenport–Heilbronn off-line zero, defect `2.7e-14`). Gate #3 does not

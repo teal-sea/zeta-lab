@@ -61,3 +61,24 @@ Disposition: **LEVEL 1 OPEN FOR LEVEL 2**. The hierarchy's entry condition is
 met; the level-2 task (one off-line pair marked against two consecutive
 on-line gaps, projective consistency between marginals) may begin. No decimal
 search was run and no proportion is claimed.
+
+## Level 2 delivered (2026-08-11)
+
+Full account: `LEVEL2-GAP-CONSISTENCY.md`; instrument `gap_consistency.py`;
+controls `test_gap_consistency.py`. Both defects level 1 recorded against
+itself are repaired by using LAW D off-diagonal.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Projective consistency (one-gap marginals vs marked two-gap words) | DELIVERED | LAW D off-diagonal: incidence is `omega(g) = Phi2(g)/Phi2(0)` | correlation 0.99 buys gap <= 0.0719; independent outer declaration refuted, residual `0.13228305` |
+| Anti-duplication (aggregate caps) | DELIVERED | paper's (2.17) majorant + unconditional `N(t+1)-N(t) <= A_0 log(t+3)` | `kappa(3) = 6.825`, `kappa_cross(3, 0.3) = 31.036`; aggregate flat across `n = 20, 80, 240` |
+| Kill control: one pair duplicated in overlapping cells | HELD | n-independence of `kappa_cross` | level-1-legal cheat rejected past the crossover `n = 72`, margin growing linearly |
+| Epsilon-robust family exclusion | DELIVERED | `R(P) <= n kappa(nu)` bounds the quantity, not the declaration | family needs `n-1` per label; at `nu = 3` every `m >= 2` excluded, `m = 10` by 29.5x |
+| Residue for the recovery coefficient | IMPROVED | density cap replaces depth cap | floor `3/kappa(nu) ~ 1/log T` beats level 1's `~e^{-L/2}` from `L >= 16`, by 544x at `L = 32` |
+| Decoy / lesion / rival | HELD | see report's ledger | cap planted 4x small violated 11/12; collapse saturates at exactly `n-1`; DH depth obeys the laws |
+| Admissible `theta` for an actual inequality | NOT ATTEMPTED | level 3 telescoping potential | named as the open task; nothing here proposes a strengthened inequality |
+
+Disposition: **LEVEL 2 OPEN FOR LEVEL 3**. The improvement is asymptotic in
+`n` (crossover stated, not hidden) and the size bound is a function of `nu`
+(tabulated, not averaged away). No decimal search was run and no proportion
+is claimed.
