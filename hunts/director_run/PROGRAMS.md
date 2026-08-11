@@ -206,6 +206,29 @@ budget to the program with the highest realized information per unit — and
 
 ---
 
+## Scorecard, applied at the close of the run
+
+Scored by the rule fixed above, not by how interesting the work felt.
+
+| programme | allocated | returned | verdict |
+| --- | --- | --- | --- |
+| P1 AUDIT | 2 | six defects in recorded claims, four of them in `zeta/`, all reproduced independently before being recorded | **kept and extended.** Highest realized information per unit in the run |
+| P2 SHIFT | 1 | a false universal in five places, corrected; a `ROADMAP.md` call answered; no new mathematics (prior-art search, ~0.9 confidence) | **paid, then closed.** It did what it was funded to do and has nothing left to give |
+| P3 RUNG3 | 1 | the recorded cause of the blocker not reproduced; two arithmetic errors in the plan; a feasible configuration with ≥1.1× margins, priced | **kept.** The only programme with an open build decision |
+| P4 CANDIDATES | 1 | 82 candidates, 10 attacked, 6 died cheaply, 0 survivors of attack **and** prior art; one survivor's headline exponent failed replication by the director | **not renewed**, exactly as its own pre-registered falsification test specified |
+| P5 LESION | 1 | 8 of 15 preregistered mutations scored, 8 caught, 0 survivors; the auditor's own predictions wrong in one direction only | **kept.** Its value turned out to be the contrast with P1, not its own rate |
+| P6 FORMALIZE | 0.5 | toolchain replicated from nothing; the repository's zero-`sorry` claim reproduced; two new kernel-checked theorems | **kept.** Cheapest information per unit of the run once the cache was warm |
+
+**What the scorecard says about the allocation.** The two programmes that paid
+best (P1, P6) were the two aimed at *checking* rather than *discovering*, and
+the one aimed squarely at discovery (P4) returned nothing that survived both an
+attack and a citation — which is what this laboratory's own recorded funnel
+yield predicts, and is the reason the yield is documented as approximately zero
+by design. A director who wanted a discovery would have over-funded P4. The
+pre-registered rule prevented that, and it is the single piece of this run's
+machinery most worth keeping.
+
 ## Amendments
 
-*(appended as the run proceeds)*
+*(none: no programme's thesis, objection or scoring rule was edited after
+results began to return. The allocation changed; the criteria did not.)*
