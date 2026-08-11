@@ -7,6 +7,7 @@ import math
 import sys
 
 import numpy as np
+import sympy as sp
 from scipy.optimize import brentq
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
@@ -70,6 +71,18 @@ from urms2_attack import (
     projection_order_for_square_tail,
     resummed_projection_errors,
     young_multiplier_bound,
+)
+from rams1 import (
+    alpha_symmetry_defects,
+    borel_multiplicativity_defects,
+    formal_level_one_layers,
+    independent_resolvent_defect,
+    phi1,
+    prime_power_layer,
+    prime_power_resummed,
+    square_density_decomposition,
+    squarefree_identity_defects,
+    support_loss_control,
 )
 from window_certificate import exact_window_check, positivity_floor
 
@@ -344,6 +357,76 @@ def test_exact_resummed_recurrence_matches_corrected_taylor_projections() -> Non
     errors = resummed_projection_errors()
     assert all(right < left for left, right in zip(errors, errors[1:]))
     assert errors[-1] < 1e-12
+
+
+def test_level_one_squarefree_support_has_exactly_one_depth() -> None:
+    assert all(defect == 0 for defect in squarefree_identity_defects())
+
+
+def test_level_one_alpha_is_log_n_over_k_times_lambda_k() -> None:
+    assert all(defect == 0 for defect in alpha_symmetry_defects())
+
+
+def test_borel_convolution_generator_is_multiplicative() -> None:
+    assert all(defect == 0 for defect in borel_multiplicativity_defects())
+
+
+def test_level_one_depth_sum_matches_independent_exact_inverse() -> None:
+    assert independent_resolvent_defect() < 1e-13
+
+
+def test_level_one_prime_formula_is_exact() -> None:
+    layers, logs = formal_level_one_layers(10, 3)
+    for prime in (2, 3, 5, 7):
+        assert layers[0][prime] == -logs[prime]
+        assert layers[1][prime] == logs[prime] ** 2
+        assert layers[2][prime] == 0
+        assert layers[3][prime] == 0
+
+
+def test_level_one_prime_power_layers_and_resummation_are_exact() -> None:
+    layers, logs = formal_level_one_layers(32, 5)
+    z = Fraction(2, 7)
+    for prime, exponent in ((2, 5), (3, 3), (5, 2)):
+        integer = prime**exponent
+        for depth in range(1, 6):
+            assert layers[depth][integer] == prime_power_layer(
+                exponent, depth, logs[prime]
+            )
+        reconstructed = layers[0][integer] + sum(
+            z**depth * layers[depth][integer] for depth in range(1, 6)
+        )
+        assert sp.expand(
+            reconstructed - prime_power_resummed(exponent, z, logs[prime])
+        ) == 0
+
+
+def test_exact_finite_square_density_partitions_by_support_and_depth() -> None:
+    result = square_density_decomposition(300, 0.5)
+    assert result.total > 0
+    assert math.isclose(result.total, sum(result.categories.values()), rel_tol=1e-12)
+    assert math.isclose(
+        result.total,
+        result.depth_diagonal
+        + result.depth_cross_positive
+        + result.depth_cross_negative,
+        rel_tol=1e-12,
+    )
+    assert result.depth_cross_negative < 0
+
+
+def test_level_one_fixed_depth_mains_define_the_expected_square_factor() -> None:
+    assert abs(phi1(0.0) - 1.0) < 1e-15
+    assert abs(phi1(0.5) - 0.2552963145041274) < 1e-15
+
+
+def test_support_control_distinguishes_a_genuine_second_logarithm() -> None:
+    small = support_loss_control(1000)
+    large = support_loss_control(10000)
+    assert large["prime_supported_over_x_log_x"] < 1.2
+    assert large["prime_supported_over_x_log_x"] > 0.8
+    assert large["dense_toy_over_x_log_x"] > small["dense_toy_over_x_log_x"]
+    assert large["dense_toy_over_x_log_x"] > 5
 
 
 def test_target_window_has_only_a_simple_overlap_zero_at_band_edge() -> None:

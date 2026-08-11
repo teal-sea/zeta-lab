@@ -203,6 +203,30 @@ package:
 2. `RAMS-kappa`, a uniform resummed almost-prime square asymptotic saving one
    full logarithm.
 
+The follow-up `RAMS1-ATTACK.md` identifies the lost logarithm exactly. The
+pointwise majorant counts a logarithmic envelope on every integer, while the
+actual depth-zero and depth-one terms live on prime powers. On squarefree
+integers with `r` prime factors, `alpha_k` vanishes unless `k=r`, and then
+
+```text
+alpha_r(n) = (r-1)! log(n) product_(p|n) log(p).
+```
+
+This reconstructs the fixed-depth `x log x` main terms and confines all
+non-prime cross-depth interactions to repeated-prime collision strata. The
+all-depth squarefree contribution has an `O_r(x log x)` prime-measure
+majorant. Pure prime powers satisfy the exact formula
+`a_z(p^a)=log(p)((1+z log(p))^a-2)` and are lower order. The remaining RAMS1
+obligation is an order-uniform summable bound for mixed repeated-prime
+collision errors. It is not supplied by the fixed-depth source estimates.
+
+An exact generating mechanism is available for that last obstruction:
+`alpha_k(n)=log(n)Lambda_k(n)/k`. Borel resummation turns the full ordinary
+inverse into a Laplace integral of a multiplicative coefficient family, and
+the Hadamard square of that family has an Euler product. The remaining analytic
+target is a two-parameter Tauberian estimate uniform in both Laplace variables
+when `z` and `s-1` are simultaneously of order `1/log x`.
+
 A slowly growing Hilbert projection would need order only
 `J(T)=O(log log T)` on a strict sub-quarter band. The fixed-order source does
 not give error constants uniform at that scale. `urms2_attack.py` records the

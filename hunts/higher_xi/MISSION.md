@@ -52,6 +52,23 @@ the required `x log x` scale. The same gap already blocks URMS1. The smallest
 remaining package is the early-smoothed contour estimate `RC-kappa` plus the
 resummed almost-prime square asymptotic `RAMS-kappa`.
 
+`RAMS1-ATTACK.md` resolves where the elementary extra logarithm comes from.
+On squarefree support exactly one convolution depth survives, with an explicit
+factorial formula. The crude `x(log x)^2` bound loses prime support density
+already at depth zero. The full RAMS1 limit is still open because the
+fixed-depth collision errors have no recorded constants summable uniformly in
+depth. The all-depth squarefree contribution is `O_r(x log x)`, and pure prime
+powers are lower order by an exact binomial formula. Only mixed repeated-prime
+collision strata remain. Early smoothing turns the false Cauchy-tail step into an exact `L2`
+contraction, but the required local square bound for the full resolvent remains
+open.
+
+The same attack finds the full second-moment generating object. The exact
+identity `alpha_k(n)=log(n) Lambda_k(n)/k` converts the ordinary resolvent into
+a Laplace transform of a multiplicative exponential-convolution family. Its
+Hadamard square has an explicit two-parameter Euler product. RAMS1 is now a
+uniform Borel-Hadamard Tauberian problem for that product.
+
 The completed-CUE experiment uses angular derivatives of
 
 ```text
