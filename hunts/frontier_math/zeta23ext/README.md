@@ -80,3 +80,46 @@ Build note: a full local `lake build` compiles Mathlib for this pin
 (hours, gigabytes); the working path is service-side proving per module
 plus a single assembly build at the end. Do not add a partial build's
 `.lake/` to the tree.
+
+## Research-grade results (statements we did not know how to prove)
+
+The four modules above are machine-checked verification of constructions
+we had already built.  These two are different: the statements were open
+to us, we had numerics and no proof, and we asked the service to prove
+or refute.
+
+6. `PairEnergy.lean` — **PROVED, SHARP** (project 481e49bf; 785 lines,
+   36 theorems, sorry-free, standard axioms).  For the bandlimited
+   kernel c2 = g*g of the paper window, every k, and ALL real depths and
+   positions:
+
+       (1/A^2) * integral c2(w) |sum_i 2 cosh(y_i w) e^{i t_i w}|^2 dw  >=  4k.
+
+   Sharp (attained at k=1, y=t=0), and the two hypotheses we asked for
+   (k >= 1, y in [0,1/2]) turned out to be unnecessary and were dropped.
+   The proof is an inertia argument: the Gram matrix of u -> e^{zeta_a u}
+   against the nonnegative weight g is PSD with a fixed-point-free
+   involution structure, and trace Cauchy-Schwarz with a regularisation
+   gives sum Q^2 >= 4k without spectral theory.  This is the pair-energy
+   half of the E-form obligation, and it is now closed.
+
+7. `EForm/` — **PARTIAL, WITH THE OBSTRUCTION NAMED** (project 00643d5e;
+   5 modules, ~1200 lines, sorry-free, standard axioms).  The single-pair
+   retention inequality at the exact constants theta = 199/200:
+   * `retention_gap` — an EXACT reduction of the problem for every n,
+     configuration, shift and depth;
+   * `retention_le_three` — the target inequality proved at the exact
+     constants for n <= 3 on-line points, uniformly in shift and depth;
+   * `Icross_localized` — damage localisation: a single on-line point
+     does no damage at all outside an explicit region;
+   * `retention_of_few_near` — the inequality for ARBITRARY n provided
+     at most three offsets are damaging.
+   Not obtained: the unrestricted statement, and no counterexample - it
+   "looks robustly true".  The obstruction is recorded exactly: any
+   bound of the form -Icross <= kappa * Shq(y) with kappa uniform in the
+   offset can only reach n <= 2A/kappa (here kappa = (A + 1/4)/2 gives
+   n <= 3; even the numerically optimal uniform kappa would give n <= 7).
+   Closing it needs the 1/s^2 far-field decay plus a band/cluster
+   repulsion argument with near-sharp constants - which is precisely the
+   structure of our own band dual.  So this partial is also a finding:
+   it shows the band structure is NECESSARY, not merely convenient.
