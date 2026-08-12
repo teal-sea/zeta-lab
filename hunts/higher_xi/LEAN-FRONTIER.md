@@ -299,6 +299,12 @@ separate formal obligation.
     comparison against `\int_0^V te^tg(t)\,dt` and the exact identity
     `\int_0^V te^tE_j(V-t)\,dt = E_{j+1}(V)` by Fubini on a triangle.
 
+    **Both chains are captured in full in `HPRIME-ROUTES.md`** — every lemma
+    with its formalisation cost, every numeric margin, and both obstruction
+    arguments including route B's measured impossibility of any subset-local
+    charging scheme (it crosses at `X ~ 2e4` and diverges like `sqrt(X)/log X`).
+    They existed only in a transient agent transcript; do not re-derive them.
+
     Already unconditional and kernel-checked in `ZetaLean/ChebyshevBounds.lean`:
     `theta_le_mul_log_four` (Mathlib's `Chebyshev.theta_le_log4_mul_x`,
     re-expressed over this tree's index set), `theta_sq_le` and
