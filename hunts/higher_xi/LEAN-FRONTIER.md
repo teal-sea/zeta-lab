@@ -190,6 +190,17 @@ separate formal obligation.
     support-density, and uniform-growth estimates remain analytic hypotheses;
     this step does not establish the RAMS2 asymptotic.
 
+17. Local structure of a two-colour matching union. Each colour contributes
+    at most one incident edge at a vertex, so the coloured degree is at most
+    two, and distinct incident union edges have opposite colours. The existing
+    cut predicate forces a connected pair on at least two support vertices to
+    cover the full support, hence every support vertex has coloured degree one
+    or two. Degree one is the endpoint case; degree two supplies exactly one
+    edge of each colour. If every vertex has degree two, both colours are
+    perfect matchings with equal edge counts and the support cardinality is
+    even. This is the finite alternating path/even-cycle constraint, not a
+    global component-classification theorem.
+
 ## First missing analytic inputs
 
 The exact dependency boundary is now:
@@ -218,6 +229,7 @@ PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.LogMeanValue
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.MeanSquareAssembly
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.AristotleRAMS2
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.ClusterMajorant
+PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.MatchingPairStructure
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.RC2PrefixAssembly
 PATH="$HOME/.elan/bin:$PATH" lake build
 ```
