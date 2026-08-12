@@ -300,3 +300,27 @@ RE-RUN.** The critical path to the decimal is now: T1 (the retention
 chain at the MT window, compute with existing machinery), then T5 (pin
 the upstream zero-side window in the external Lean file). No proportion
 is claimed.
+
+
+## T1 first session: the MT-window re-run (2026-08-12, branch claude/transplant-lemma)
+
+Full account: `TRANSPLANT-LEMMA.md` (T1 section); instrument
+`mt_chain.py`; controls in `test_transplant_lemma.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| LAW D at MT | **EXACT — alias claim corrected** | width-1 support cannot reach the +-2pi combs (Poisson) | truncation control: defect scales 1/K (3.8e-3 -> 6.0e-5 over K 80 -> 5120) |
+| LAW K at MT | HOLDS | same algebra, LAW D exact | grid pair-block spectrum matches {2(1+s2), -2s2} at y = 0.45 |
+| LAW-I-style envelope | DELIVERED (one-sided) | fine grid + Lipschitz + Im-majorant tail | W >= -0.54 sigma^2 (y = 0.49), -0.70 (y = 0.3); hunt window: -1.21 |
+| Single-pair trade at MT | **MEASURED HEALTHY** | explicit band-riding adversary | D = 0.030 vs slack 0.142 at y = 0.49 (4.7x inside at theta = 1); only the +-1.10-mean-gap band pair is ever profitable |
+| Level-4 chain DP at MT | **DOES NOT TRANSPLANT, pinned** | damage bands at kernel zeros persist ~1/g^2; interval charge floors straddle the same zeros | min omega^2 over [d, 3d] = 0.182/0.023/0.000; true point repulsion at band separations 0.017/0.011/0.001 — the DP grants the far bands free |
+| The named T1 theorem object | NAMED | band-lattice counting dual with point-separation charges | charge the k-th band pair its actual omega^2 at the near-arithmetic separation, not an interval minimum |
+| Candidate reading | RE-FOUNDED, value unchanged | hunt-kernel floor = 0 (finding 1) removes the old support | now rests on MT retention (measured) + one-sided g-floor + calibrated plumbing + census + T5; no proportion claimed |
+
+Disposition: **THE LAWS TRANSPLANT; THE COUNTING DUAL DOES NOT — AND THE
+REASON IS THE SAME ARITHMETIC THAT MAKES THE FLOOR LIVE.** The sqrt2
+modulation that gives the CG mechanism its non-arithmetic zeros also
+parks the damage bands on the repulsion nulls, so interval-charge
+counting is structurally blind here. The trade itself is healthy by 4.7x
+at the explicit adversary; making that configuration-free needs the
+band-lattice dual. No proportion is claimed.

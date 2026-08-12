@@ -45,3 +45,32 @@ def test_mt_entry_card_is_friendlier_than_the_hunt_window():
         assert row["ratio"] > -0.5                  # envelope ~ -0.43 sigma^2
         # the negative band sits at the lambda_1 geometry (~1.1 mean gaps)
         assert 1.0 < row["at_g"] / (2 * math.pi) < 1.2
+
+
+def test_mt_chain_law_d_is_truncation_not_alias():
+    from mt_chain import law_d_truncation_control
+    rows = law_d_truncation_control(Ks=(80, 640))
+    # 8x truncation range -> ~8x smaller defect (pure 1/K)
+    assert 5 < rows[0][1] / rows[1][1] < 12
+
+
+def test_mt_chain_law_k_spectrum():
+    from mt_chain import law_k_control
+    r = law_k_control()
+    assert abs(r["eig_minus"] - r["pred_minus"]) < 2e-3
+    assert abs(r["eig_plus"] - r["pred_plus"]) < 5e-3
+
+
+def test_mt_explicit_adversary_stays_inside_slack():
+    from mt_chain import MTChain, explicit_single_pair_adversary
+    mt = MTChain()
+    for y in (0.3, 0.49):
+        rec = explicit_single_pair_adversary(mt, y)
+        assert rec["D"] < mt.slack(y) / 3          # inside even at theta = 1
+
+
+def test_mt_band_charge_degeneracy_is_real():
+    from mt_chain import MTChain, band_charge_degeneracy
+    ko, pts = band_charge_degeneracy(MTChain())
+    assert ko[3.0] < 1e-6                        # interval floor dies
+    assert pts[6.11] > 0.005                       # point repulsion survives
