@@ -122,6 +122,14 @@ bound from `C2_EXTENDED.json`, and checks the multiplicity normalization.
 Every internal gate passes. External mathematical review remains the next
 promotion gate.
 
+`LEAN-FRONTIER.md` records the first kernel-checked slice of this package.
+`ZetaLean/HigherXi.lean` contains the exact parameter witness, logarithmic
+spacing majorant, full finite Dirichlet-polynomial expansion, multiplicity
+normalization, and rational output positivity. It deliberately does not state
+URMS2-051: the weighted Montgomery--Vaughan inequality, RAMS2 asymptotic,
+marked-cluster freezing, contour transfer, and in-Lean coefficient/tail
+reconstruction remain separate formal obligations.
+
 The completed-CUE experiment uses angular derivatives of
 
 ```text
