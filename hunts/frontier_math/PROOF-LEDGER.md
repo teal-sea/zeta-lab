@@ -919,3 +919,29 @@ worst point of the rho map the finite margin goes negative from m = 24.
 Until that is resolved as real or as a coarse-instrument artifact, the
 multi-pair verdict at theta = 0.995 is IN DOUBT, not merely unproved.
 No proportion is claimed, and the candidate reading is not defended.
+
+
+## The truncation bridge is kernel-checked (2026-08-12)
+
+Instrument: `zeta23ext/Zeta23Ext/TruncEst/` (theorem-proving service,
+project 9b5d5969, 1h26m; 6 modules, 1383 lines, 91 declarations, every
+one reporting only propext / Classical.choice / Quot.sound; no sorry,
+no admit, no native_decide).
+
+| Obligation | Status | Evidence |
+|---|---|---|
+| Lemma 1: far-field decay | **KERNEL-CHECKED** | `abs_T_le : \|T dt y\| <= Cdec/dt^2` for dt != 0, y in [0,1/2], with **Cdec = 200** - a single primitive delivering both integrations by parts on [0,1] plus uniform hyperbolic bounds (the chain gives 180, rounded to 200). Deliberately loose, as the submission permitted |
+| Lemma 2: Poisson step | **KERNEL-CHECKED** | `poisson_T` via Mathlib's `Real.tsum_eq_tsum_fourier_of_rpow_decay` on the rescaled kernel - **exactly the route the Sphere-Packing-Lean audit identified**, needing continuity plus polynomial decay and no smoothness; `poisson_rhs_finite` establishes the dual sum has finite support, `bInf_eq_poisson` gives the equivalent closed form |
+| Main: the two-sided estimate | **KERNEL-CHECKED** | `abs_bM_sub_bInf_le`: for m >= 1, s > 0, y in [0,1/2], \|b_m - b_inf\| <= (2 Cdec/s^2)(H_{m-1}/m + 1/(m - 1/2)) - our derived shape, proved by the difference identity, head bound and the telescoping tail |
+| **Fidelity to our own definitions** | **KERNEL-CHECKED, UNPROMPTED** | `c2_eq_autocorrelation : c2 w = integral g u * g(u - w) du` and `integral_g : integral g = A`. The closed form we hand-derived IS the autocorrelation, proved rather than assumed - a defect class this session hit twice by other routes |
+| Constant gap, recorded | the proved Cdec = 200 vs our measured C_T = 27.4970 | ~7x looser. Immaterial to the verdict: the bridge already failed to close the periodic family at the sharper constant, so the formal constant changes nothing about m0 except making it worse. The sharper value stays available for planning, the proved one for the formal statement |
+| Edit to the artifact | DISCLOSED | one docstring word reworded in `Sums.lean` for the hunts/ lexical rules; no proof content altered, sorry count 0 before and after |
+| **Session defect #14, the coordinator's** | CAUGHT BY THE PARALLEL SESSION'S TEST, AFTER I PUSHED IT | I landed the six modules with their original `import RequestProject.X` lines instead of the package namespace, so the package would have failed to assemble at the first import. `tests/test_zeta23ext_imports.py` - written by the other session - caught it. Worse: my gate command piped pytest into `tail`, which masked the non-zero exit code, so the `&&` chain pushed to main anyway. Imports rewritten, gates re-run WITHOUT the pipe (18 passed, exit 0). The lesson is mechanical and worth keeping: **never pipe a gate command whose exit status the next step depends on** |
+
+Disposition: **THE BRIDGE ITSELF IS NOW A THEOREM, AND IT STILL DOES NOT
+CLOSE THE FAMILY.** Both halves stand: the finite-to-infinite comparison
+is kernel-checked with an explicit constant, and m0 remains too large at
+the resonance and at the budget floor. What the formal artifact adds is
+that the estimate can now be cited rather than measured, and that the
+Poisson route the audit recommended over a sorried dependency worked
+exactly as predicted. No proportion is claimed to have moved.
