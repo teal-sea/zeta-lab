@@ -3,9 +3,9 @@
 ## Status
 
 The `HigherXi`, `LogMeanValue`, `ComplexLogMeanValue`, `TwoRangeWeights`,
-`PowerMargin`, and `MeanSquareAssembly` modules are the first formal slices of
-the rebuilt level-two bridge. The Lean kernel accepts all six with no `sorry`
-declarations.
+`PowerMargin`, `MeanSquareAssembly`, `AristotleRAMS2`, and
+`RC2PrefixAssembly` modules are the first formal slices of the rebuilt
+level-two bridge. The Lean kernel accepts them with no `sorry` declarations.
 
 This is not yet a Lean derivation of URMS2-051. The module intentionally stops
 before the analytic inputs which remain absent from the formal tree.
@@ -136,6 +136,72 @@ separate formal obligation.
 13. The exact `6/25` exponent margin absorbs every fixed logarithmic power and
     the actual cutoff envelope `1+(21/20) log H`.
 
+14. Exact finite Abel summation and both RC2 endpoint-energy consequences.
+    Aristotle supplied a lower bound and a cutoff-independent inverse-square
+    tail with constant `10`:
+
+    \[
+    \sum_{X<n\leq W}\frac{|a(n)|^2}{n^2}
+    \leq \frac{10C(1+\log X)}{X}.
+    \]
+
+    Multiplication by `X^2` gives the required `O(CX(1+log X))` upper-range
+    endpoint energy uniformly in `W`. The lower `n^2` sum has the matching
+    order after division by `X^2`. A proposed independent improvement to
+    constant `4` failed a clean merged-tree build and is not retained.
+
+15. Conditional assembly of the RAMS2 prefix bound into the finite RC2
+    mean-square estimate. If
+
+    \[
+    \sum_{n\leq N}|a(n)|^2\leq C N(1+\log N),
+    \]
+
+    then for natural `1 <= X <= W` the exact two-range endpoint energy obeys
+
+    \[
+    E_{X,W}\leq 11 C X(1+\log X),
+    \]
+
+    uniformly in `W`, and the finite off-diagonal remainder obeys
+
+    \[
+    |R_{U,X,W}|\leq
+      66 H_W C X(1+\log X).
+    \]
+
+    The arithmetic prefix estimate remains a hypothesis. The new module does
+    not assert the connected-cluster asymptotic or contour transfer.
+
+16. A finite signed-to-nonnegative majorant for the connected two-colour
+    matching mass. Pointwise bounds on every monomer and dimer weight now lift
+    to the connected mass on one support and to its finite prefix sum. A
+    second finite step bounds the connected mass by the square of the explicit
+    all-matching polynomial
+
+    \[
+    \left(\sum_{0\leq a\leq r/2}N(r,a)w_a\right)^2,
+    \qquad
+    N(r,a)=\frac{r!}{2^a a!(r-2a)!}.
+    \]
+
+    The exact matching-slice cardinality theorem now discharges the
+    concrete-family fibre count. The one-matching weight bound remains the
+    explicit finite interface. The prime-simplex,
+    support-density, and uniform-growth estimates remain analytic hypotheses;
+    this step does not establish the RAMS2 asymptotic.
+
+17. Local structure of a two-colour matching union. Each colour contributes
+    at most one incident edge at a vertex, so the coloured degree is at most
+    two, and distinct incident union edges have opposite colours. The existing
+    cut predicate forces a connected pair on at least two support vertices to
+    cover the full support, hence every support vertex has coloured degree one
+    or two. Degree one is the endpoint case; degree two supplies exactly one
+    edge of each colour. If every vertex has degree two, both colours are
+    perfect matchings with equal edge counts and the support cardinality is
+    even. This is the finite alternating path/even-cycle constraint, not a
+    global component-classification theorem.
+
 ## First missing analytic inputs
 
 The exact dependency boundary is now:
@@ -149,11 +215,11 @@ The exact dependency boundary is now:
    data and its tail bound inside Lean.
 
 The spacing-sensitive finite mean-value input, complex lift, two-range weight
-algebra, diagonal/off-diagonal assembly, and logarithmic-loss absorption are
-no longer open formal dependencies for this application. The finite
-harmonic-loss theorem is weaker than the sharp general Montgomery--Vaughan
-inequality, but it is strong enough for the strict exponent margin recorded in
-`URMS2-051.md`.
+algebra, diagonal/off-diagonal assembly, partial-summation endpoint bounds, and
+logarithmic-loss absorption are no longer open formal dependencies for this
+application. The finite harmonic-loss theorem is weaker than the sharp general
+Montgomery--Vaughan inequality, but it is strong enough for the strict exponent
+margin recorded in `URMS2-051.md`.
 
 ## Reproduction
 
@@ -162,5 +228,9 @@ cd lean
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.HigherXi
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.LogMeanValue
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.MeanSquareAssembly
+PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.AristotleRAMS2
+PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.ClusterMajorant
+PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.MatchingPairStructure
+PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.RC2PrefixAssembly
 PATH="$HOME/.elan/bin:$PATH" lake build
 ```
