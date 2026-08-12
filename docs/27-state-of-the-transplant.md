@@ -109,9 +109,13 @@ the joint cap under a sum of single-pair caps. It fails twice.
    caps by up to 3.4× for coincident stacks, with exact excess
    `[2Σ_{i<j}F_iF_j − (k−1)(cK)²]/(4cK)`. What moves is the occupancy, not the
    band set.
-2. Decisively, the route could not have worked at all. From three pairs on a
-   unit lattice the **sum of single-pair caps already exceeds the budget** while
-   the joint verdict closes with 40 % margin. The joint field's shielding is
+2. Decisively, the route could not have worked at all. From four pairs on a
+   unit lattice — three at float grade only; the k = 3 line sits inside the
+   float-vs-hardened gap and fits under budget at the hardened cap (+0.006) —
+   the **sum of single-pair caps already exceeds the budget** while the joint
+   verdict closes with 40 % margin. (The k = 3 boundary was first stated one
+   grade too strongly; session defect #12, corrected in the ledger row it
+   overstated.) The joint field's shielding is
    load-bearing, so no per-pair argument reaches θ = 0.995 in either direction.
    The slack assumed additive is not: its pair term is signed and erodes up to
    84 % of a pair's slack on the worst lattice.
