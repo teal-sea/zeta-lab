@@ -25,13 +25,19 @@ point is the audit trail, which we believe is unusually complete for a
 two-day, single-operator, consumer-hardware project, and which is
 published in full.
 
-**This is a candidate, not a theorem.**  Two inputs are cited from the
-source paper rather than re-derived (its prime-side trace asymptotics
-and its Theorem B simple-zero density), and no external expert has yet
-reviewed the chain.  Everything else is measured, interval-hardened, or
-kernel-checked as detailed below.  We state plainly what would make it
-a theorem: review of the composition against the paper's §4–6
-bookkeeping, and nothing else that we know of.
+**This is a candidate, not a theorem, and one mathematical obligation
+is open.**  Two inputs are cited from the source paper rather than
+re-derived (its prime-side trace asymptotics and its Theorem B
+simple-zero density).  Everything else is measured, interval-hardened,
+or kernel-checked as detailed below.  What is missing is not only
+review: the retention inequality is established as a genuine one-sided
+supremum over on-line configurations, but only at **four sampled pair
+depths** and over a **swept family of pair sets** — uniformity in the
+depth and over arbitrary pair sets is unproved, and without it the
+composition's hypothesis `D >= theta*R0` is not available.  A fresh-clone
+adversarial audit that states the obligation exactly, and records two
+instrument defects it found, is in
+[`EXTERNAL-AUDIT-2026-08-12.md`](EXTERNAL-AUDIT-2026-08-12.md).
 
 ## What is kernel-checked (Lean 4 + Mathlib, sorry-free, standard axioms)
 

@@ -30,6 +30,7 @@ weakest step — so the reading above is a **candidate**, not a theorem:
 | The retention θ = 0.995 | hardened — one-sided dual, independent adversary hunt, ball arithmetic — plus a finite certificate that closes in **pure rational arithmetic** |
 | The census floor c_u | hardened, plus an exact **rational LP dual certificate** |
 | Prime-side asymptotics, simple-zero density | *cited* from the source paper, not re-derived |
+| Retention uniform in the pair depth and over arbitrary pair sets | **open** — established at four sampled depths and over swept families, not uniformly; the composition's hypothesis rests on it |
 | External review | **none yet — this is the ask** |
 
 Nothing here is evidence about the Riemann Hypothesis itself and the
