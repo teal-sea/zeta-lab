@@ -173,6 +173,12 @@ separate formal obligation.
     The arithmetic prefix estimate remains a hypothesis. The new module does
     not assert the connected-cluster asymptotic or contour transfer.
 
+16. A finite signed-to-nonnegative majorant for the connected two-colour
+    matching mass. Pointwise bounds on every monomer and dimer weight now lift
+    to the connected mass on one support and to its finite prefix sum. The
+    support-count and prime-sum estimates remain hypotheses; this step does
+    not establish their uniform growth.
+
 ## First missing analytic inputs
 
 The exact dependency boundary is now:
@@ -200,6 +206,7 @@ PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.HigherXi
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.LogMeanValue
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.MeanSquareAssembly
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.AristotleRAMS2
+PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.ClusterMajorant
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.RC2PrefixAssembly
 PATH="$HOME/.elan/bin:$PATH" lake build
 ```
