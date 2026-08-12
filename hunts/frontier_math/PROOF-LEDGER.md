@@ -611,3 +611,23 @@ re-run).
 Disposition: **THE FLOOR IS NOW ARITHMETIC PLUS FOUR ONE-VARIABLE TRIG
 LEMMAS.** Submitted to the theorem-proving service. No proportion is
 claimed to have moved.
+
+
+## Formal chain, track 2: the retention as a rational certificate (2026-08-12)
+
+Instruments: `band_certificate.py`, `data_band_certificate.json` (agent
+build, coordinator re-checked in a fresh process).
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| theta = 995/1000 in pure rational arithmetic | **CLOSES, all four depths** | checker imports fractions + math.isqrt only ("numerical modules imported by this path: none"); sin/cos by Taylor with Lagrange remainders, sqrt2 by isqrt, pi by Machin enclosure | margins +1.28e-4 / +3.16e-3 / +2.77e-2 / +4.49e-2, exact fractions recorded |
+| Cover completeness as a cover property | STRUCTURAL | 15 band intervals + negativity cells tile (0, 98] exactly in Q | tiling checked in Q; ~840-1273 cells per depth |
+| One-sided directions | STATED PER FIELD | F up, K down, slack down, tail up, cap up | square completion monotone-safe in one-sided F/K |
+| Where it stops | HONEST BOUNDARY | closes at 995, 996, 997; fails at 998/1000 | worst -2.58e-2 at y = 49/100 (multiplicity branch), consistent with the hardened scan's 0.9988 failure |
+| Cross-checks | PASS | dps-40 midpoints inside every sampled enclosure; rational cells intersect the acb balls; planted corruptions rejected | near-arb tightness (widths 1.6e-4 vs 1.2e-4 at band 1) |
+| Lean readiness | DRAFTED | LawN256 pattern, leaves L1-L6 | submission prepared |
+
+Disposition: **THE RETENTION IS NOW ~1000 RATIONAL INEQUALITIES PER
+DEPTH PLUS TAYLOR-ENCLOSURE TRIG LEAVES.** Together with track 1 the
+two measured pillars of the candidate are certificate-shaped. No
+proportion is claimed to have moved.
