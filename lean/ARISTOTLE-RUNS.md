@@ -114,3 +114,30 @@ the target. The refusal scan plus a local kernel check on this machine is what
 separated them, exactly as `proof_adapter.py` was built to do. Aristotle's
 self-report was *honest about its limitation* and still shipped a
 non-building artifact — that is the failure mode to keep expecting.
+
+## Batch 3 — Bridge and the last assembly blocker (submitted 2026-08-12, sprint 3)
+
+| id | project | task | status |
+| --- | --- | --- | --- |
+| bridge-A-algebra | `d54aea65-6679-46f9-9c7d-b64f154cf9a1` | the three Bridge identities (Hermitian expansion, Gram identity, and `D = R + 2 tr(PQ) + ‖Q‖²_F`), self-contained over Mathlib with upstream's definitions carried verbatim | **collected — accepted** |
+| port-D-pairenergy | `f7dc3271-da10-4b1d-97cf-8fdb4a77d96a` | `PairEnergy.lean`, the last assembly blocker: `Matrix.posSemidef_iff_eq_conjTranspose_mul_self` does not exist under this Mathlib (lines 87, 230), plus a brittle `<;>` simp chain at 314 | submitted |
+
+**bridge-A accepted, and note what its acceptance did NOT rest on.** Its summary
+carried the same caveat that produced a refusal in batch 2 — it could only build
+against v4.28.0, not the target pin. The local check under `v4.33.0-rc2` passed
+this time: all three theorems build, each reporting only
+`[propext, Classical.choice, Quot.sound]`. Same caveat, opposite outcome, which
+is exactly why the caveat is not the decision procedure and the local kernel
+check is.
+
+One structural change it made and flagged: the definition block is wrapped in a
+`noncomputable section`, because `Real.sqrt` has no executable code and `Wmat`
+would otherwise be rejected by the compiler IR check. Definition texts are
+unchanged; no statement weakened.
+
+**What is still owed on Bridge.** It is landed as `Zeta23Ext/Bridge.lean`
+carrying its own copies of `rtrace`, `frobSq`, `Wmat`, `Pmat`, `xsq` — that is
+what made it provable without the dependency. The point of the module is to sit
+on *upstream's* objects, so replacing those local copies with `import Zeta23`
+and re-checking is an outstanding step, not a finished one. `BRIDGE-SPEC.md` §1
+lists each definition against its upstream source line for exactly that swap.
