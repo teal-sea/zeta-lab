@@ -84,3 +84,60 @@ is wrong; the artifacts were landed without their import paths rewritten,
 and no local assembly had ever been attempted to notice. The rewrite is
 mechanical (`RequestProject.` → `Zeta23Ext.BandCert.`) and is folded into
 port-C's prompt rather than done blind here, so one artifact carries both.
+
+### Batch 2 collection (2026-08-12, same day)
+
+All three returned within hours. **Two accepted, one refused and repaired
+locally**; the split is the reason the local kernel check exists.
+
+| id | outcome |
+| --- | --- |
+| port-A-gridincidence | **collected — accepted.** Builds under `v4.33.0-rc2`; all 18 declarations report `[propext, Classical.choice, Quot.sound]`; declaration lines byte-identical to the original, changes confined to proof bodies. It set up a real v4.33.0-rc2 environment, reproduced both failures, and found the **root cause both sites share**: `convert … using 1` on a `HasSum` goal now leaves an `AddCommMonoid` instance-equality goal first, so the following `rw` has nothing to act on. Replaced with explicit `have key : … ; rw [key]; exact h`. |
+| port-B-floorcert | **collected — refused, then repaired here.** Its own summary carried the honest caveat that it could only build against v4.28.0. The local check under `v4.33.0-rc2` failed at a site it never saw: `ring` (reporting as `ring_nf`) after `convert h using 1` in `geom_hasSum` — *the same root cause port-A had already isolated*. It had fixed a different `mul_pow`/`ring_nf` site instead. Repaired here with `simpa [mul_comm] using h`, isolated in a 6-line scratch file first to iterate in seconds. Now builds; `theoremA`, `B1`–`B4`, `corollary` all report the three standard axioms. |
+| port-C-bandcert-leaves | **collected — accepted.** Import path corrected as asked and the line-144 mismatch replaced with a normal-form-independent `rw`/`ring` argument. |
+
+**`Phi.lean` was repaired locally, not submitted.** With `Leaves` ported, the
+chain's next module failed at 13 sites, all one shape: projection-through-
+definition (`(a.add b).1` vs `a.1.add b.1`) that the newer `simp` no longer
+unfolds. A uniform fix — naming the `CIv` operation in each `simpa` set, plus
+three `ofR`/`AIV` sites — cleared all 13. Cheaper to do than to describe in a
+prompt.
+
+**The whole `BandCert` chain now builds under `v4.33.0-rc2`**: 8 modules,
+8704 jobs, `Verify` alone taking 1513 s. Zero `sorryAx` anywhere in the log;
+`cap_le_slack` and `f_nonpos_off_bands` report only the three standard axioms.
+
+**What this cost, and the lesson.** Two of three service artifacts were
+correct as delivered; the third was confidently wrong in a way its own
+verification could not have detected, because its environment could not build
+the target. The refusal scan plus a local kernel check on this machine is what
+separated them, exactly as `proof_adapter.py` was built to do. Aristotle's
+self-report was *honest about its limitation* and still shipped a
+non-building artifact — that is the failure mode to keep expecting.
+
+## Batch 3 — Bridge and the last assembly blocker (submitted 2026-08-12, sprint 3)
+
+| id | project | task | status |
+| --- | --- | --- | --- |
+| bridge-A-algebra | `d54aea65-6679-46f9-9c7d-b64f154cf9a1` | the three Bridge identities (Hermitian expansion, Gram identity, and `D = R + 2 tr(PQ) + ‖Q‖²_F`), self-contained over Mathlib with upstream's definitions carried verbatim | **collected — accepted** |
+| port-D-pairenergy | `f7dc3271-da10-4b1d-97cf-8fdb4a77d96a` | `PairEnergy.lean`, the last assembly blocker: `Matrix.posSemidef_iff_eq_conjTranspose_mul_self` does not exist under this Mathlib (lines 87, 230), plus a brittle `<;>` simp chain at 314 | submitted |
+
+**bridge-A accepted, and note what its acceptance did NOT rest on.** Its summary
+carried the same caveat that produced a refusal in batch 2 — it could only build
+against v4.28.0, not the target pin. The local check under `v4.33.0-rc2` passed
+this time: all three theorems build, each reporting only
+`[propext, Classical.choice, Quot.sound]`. Same caveat, opposite outcome, which
+is exactly why the caveat is not the decision procedure and the local kernel
+check is.
+
+One structural change it made and flagged: the definition block is wrapped in a
+`noncomputable section`, because `Real.sqrt` has no executable code and `Wmat`
+would otherwise be rejected by the compiler IR check. Definition texts are
+unchanged; no statement weakened.
+
+**What is still owed on Bridge.** It is landed as `Zeta23Ext/Bridge.lean`
+carrying its own copies of `rtrace`, `frobSq`, `Wmat`, `Pmat`, `xsq` — that is
+what made it provable without the dependency. The point of the module is to sit
+on *upstream's* objects, so replacing those local copies with `import Zeta23`
+and re-checking is an outstanding step, not a finished one. `BRIDGE-SPEC.md` §1
+lists each definition against its upstream source line for exactly that swap.

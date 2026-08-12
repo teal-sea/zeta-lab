@@ -1,4 +1,4 @@
-import RequestProject.Leaves
+import Zeta23Ext.BandCert.Leaves
 
 /-!
 # The paper field `Phi2`, its closed form, and the interval evaluators
@@ -32,31 +32,31 @@ def div (a b : CIv) : CIv :=
 def ofR (a : EIv) : CIv := (a, EIv.pt 0)
 
 theorem add_mem {a b : CIv} {z w : ℂ} (ha : a.mem z) (hb : b.mem w) : (add a b).mem (z + w) :=
-  ⟨by simpa [Complex.add_re] using EIv.add_mem ha.1 hb.1,
-   by simpa [Complex.add_im] using EIv.add_mem ha.2 hb.2⟩
+  ⟨by simpa [add, Complex.add_re] using EIv.add_mem ha.1 hb.1,
+   by simpa [add, Complex.add_im] using EIv.add_mem ha.2 hb.2⟩
 
 theorem sub_mem {a b : CIv} {z w : ℂ} (ha : a.mem z) (hb : b.mem w) : (sub a b).mem (z - w) :=
-  ⟨by simpa [Complex.sub_re] using EIv.sub_mem ha.1 hb.1,
-   by simpa [Complex.sub_im] using EIv.sub_mem ha.2 hb.2⟩
+  ⟨by simpa [sub, Complex.sub_re] using EIv.sub_mem ha.1 hb.1,
+   by simpa [sub, Complex.sub_im] using EIv.sub_mem ha.2 hb.2⟩
 
 theorem mul_mem {a b : CIv} {z w : ℂ} (ha : a.mem z) (hb : b.mem w) : (mul a b).mem (z * w) :=
-  ⟨by simpa [Complex.mul_re] using EIv.sub_mem (EIv.mul_mem ha.1 hb.1) (EIv.mul_mem ha.2 hb.2),
-   by simpa [Complex.mul_im] using EIv.add_mem (EIv.mul_mem ha.1 hb.2) (EIv.mul_mem ha.2 hb.1)⟩
+  ⟨by simpa [mul, mulInt, mulR, Complex.mul_re] using EIv.sub_mem (EIv.mul_mem ha.1 hb.1) (EIv.mul_mem ha.2 hb.2),
+   by simpa [mul, mulInt, mulR, Complex.mul_im] using EIv.add_mem (EIv.mul_mem ha.1 hb.2) (EIv.mul_mem ha.2 hb.1)⟩
 
 theorem mulInt_mem {a : CIv} {z : ℂ} {k : ℤ} (ha : a.mem z) : (mulInt a k).mem (z * (k:ℂ)) := by
   constructor
   · have := EIv.mulInt_mem (k := k) ha.1
-    simpa [Complex.mul_re] using this
+    simpa [mul, mulInt, mulR, Complex.mul_re] using this
   · have := EIv.mulInt_mem (k := k) ha.2
-    simpa [Complex.mul_im] using this
+    simpa [mul, mulInt, mulR, Complex.mul_im] using this
 
 theorem mulR_mem {a : CIv} {r : EIv} {z : ℂ} {x : ℝ} (ha : a.mem z) (hr : r.mem x) :
     (mulR a r).mem (z * (x:ℂ)) := by
   constructor
   · have := EIv.mul_mem ha.1 hr
-    simpa [Complex.mul_re] using this
+    simpa [mul, mulInt, mulR, Complex.mul_re] using this
   · have := EIv.mul_mem ha.2 hr
-    simpa [Complex.mul_im] using this
+    simpa [mul, mulInt, mulR, Complex.mul_im] using this
 
 theorem div_mem {a b : CIv} {z w : ℂ} (ha : a.mem z) (hb : b.mem w) : (div a b).mem (z / w) := by
   have hn2 : (EIv.add (EIv.sqr b.1) (EIv.sqr b.2)).mem (w.re * w.re + w.im * w.im) :=
@@ -72,9 +72,9 @@ theorem div_mem {a b : CIv} {z w : ℂ} (ha : a.mem z) (hb : b.mem w) : (div a b
     rwa [heq] at h
 
 theorem ofR_mem {a : EIv} {x : ℝ} (ha : a.mem x) : (ofR a).mem ((x : ℂ)) := by
-  refine ⟨by simpa using ha, ?_⟩
+  refine ⟨by simpa [ofR] using ha, ?_⟩
   have := EIv.pt_mem 0
-  simpa using this
+  simpa [ofR] using this
 
 end CIv
 
@@ -297,7 +297,7 @@ def AIV : EIv := phiR (EIv.pt 0)
 
 theorem AIV_mem : AIV.mem Acst := by
   have h := phiR_mem (X := EIv.pt 0) (r := 0) (by simpa using EIv.pt_mem 0)
-  simpa [Acst] using h
+  simpa [AIV, Acst] using h
 
 /-- Enclosure of `A²`. -/
 def A2IV : EIv := EIv.sqr AIV

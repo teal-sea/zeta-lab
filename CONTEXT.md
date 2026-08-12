@@ -1081,7 +1081,7 @@ Constants: `GRAVES`
 
 ### `harness/departments/guard_ledger.py` — The repository's guard ledger — the guard offensive's opening entries.
 
-*118 lines*
+*155 lines*
 
 Constants: `GUARDS`
 
@@ -1266,7 +1266,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1682 test functions across 63 files (the collected count differs where tests are parametrised):
+1685 test functions across 64 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_claim_attribution.py` — 6
@@ -1331,6 +1331,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_synthesis.py` — 6
 - `tests/test_weil.py` — 44
 - `tests/test_zeros.py` — 58
+- `tests/test_zeta23ext_imports.py` — 3
 
 ```bash
 .venv/bin/python -m pytest -q -m 'not slow'   # fast tier
