@@ -175,9 +175,20 @@ separate formal obligation.
 
 16. A finite signed-to-nonnegative majorant for the connected two-colour
     matching mass. Pointwise bounds on every monomer and dimer weight now lift
-    to the connected mass on one support and to its finite prefix sum. The
-    support-count and prime-sum estimates remain hypotheses; this step does
-    not establish their uniform growth.
+    to the connected mass on one support and to its finite prefix sum. A
+    second finite step bounds the connected mass by the square of the explicit
+    all-matching polynomial
+
+    \[
+    \left(\sum_{0\leq a\leq r/2}N(r,a)w_a\right)^2,
+    \qquad
+    N(r,a)=\frac{r!}{2^a a!(r-2a)!}.
+    \]
+
+    The theorem keeps the concrete-family fibre count and the one-matching
+    weight bound as explicit finite interfaces. The prime-simplex,
+    support-density, and uniform-growth estimates remain analytic hypotheses;
+    this step does not establish the RAMS2 asymptotic.
 
 ## First missing analytic inputs
 
