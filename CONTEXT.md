@@ -1218,6 +1218,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `24-the-local-positivity-attempt.md` — 24 — The local positivity attempt, run to its wall
 - `25-the-director-run.md` — 25 — The director run: the laboratory pointed at itself
 - `26-the-adopted-builds.md` — 26 — The adopted builds: the decision of 2026-08-11, made runnable
+- `27-state-of-the-transplant.md` — 27 — State of the transplant: what is kernel-checked, what is refuted, what is open
 
 ## Runnable demos (`scripts/`)
 
