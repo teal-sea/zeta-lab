@@ -463,3 +463,41 @@ pairing settled in favour of g, the correctly-paired figure would be
 0.6725106958 — but only after burden (a) re-establishes theta at the
 correct field.  Until then the reading of record stays **0.6725087070,
 a candidate**, and no proportion is claimed.
+
+
+## Burden (a) discharged: the chain at the paper's field
+
+Instrument: `paper_chain.py` (an agent build, coordinator-reviewed);
+controls in `test_paper_chain.py` (11 tests).
+
+The band-dual chain was re-run with the incidence kernel swapped to the
+paper's field, Phi2 = FT(cos box) = the v*-transform (A = 0.9187253699;
+band lattice = the MT-kernel zeros, 63 bands in (0, 400], first centre
+1.0443, separations 0.980-0.998 mean gaps, non-arithmetic).  Result:
+
+    theta*_paper = 0.995  (same grid point as the T1 window),
+    margins roughly 2x the T1 run in relative terms:
+      y=0.02: cap 0.000111 vs slack 0.000248
+      y=0.10: cap 0.002636 vs slack 0.006208
+      y=0.30: cap 0.023905 vs slack 0.056436
+      y=0.49: cap 0.091090 vs slack 0.153435
+    theta = 0.999 fails at y = 0.49 (margin -0.116), consistent with
+    the multiplicity threshold 0.98922 there.
+
+All mandatory controls ran: kernel identity to 2.5e-16, closed-form
+derivative pins (one transient differencer-roundoff false alarm,
+documented in the control's docstring; the closed form was right),
+no-missed-band ratios 328-7154 with off-band allowance exactly 0,
+cap divergence at theta = 1, greedy adversary strictly inside the cap,
+free-band ratio 0.42-0.45, and a distinctness control showing this is
+not a re-run of the T1 numbers.  The task prompt's series coefficient
+for s'(u) was wrong (u^3/1920); sympy pinned u^3/960 - the agent caught
+it, which is the control doing its job.
+
+**Consequence.**  theta* = 0.995 is now a measurement about the paper's
+own window, not a neighbour's.  With the pairing already settled in
+favour of g (previous section), the correctly-paired candidate
+H + 2 * 0.995 * c_u(g) = 0.6725106958 no longer waits on the field; it
+waits on burden (b) (the ramp) and burden (c) (the multiplicative-theta
+derivation), which are unchanged.  The reading of record moves to
+**0.6725106958, still a candidate**; no proportion is claimed.

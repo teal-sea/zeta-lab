@@ -444,3 +444,24 @@ on phi squared; ours put it on phi. That dissolves the kernel ambiguity
 (in favour of g) and simultaneously reveals the T1 field was built at a
 strictly weaker class member. Next build: the kernel swap (burden (a)).
 No proportion is claimed to have moved.
+
+
+## Burden (a): chain re-run at the paper field (2026-08-12)
+
+Instruments: `paper_chain.py`, `test_paper_chain.py` (11 tests).
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Field swap Phi2 -> FT(cos box) | **DELIVERED** | closed-form s, s', s'' with series joins (mismatch <= 5e-9); kernel identity (phihat/A)^2 = g to 2.5e-16 | band lattice = MT-kernel zeros, 63 bands in (0, 400], non-arithmetic |
+| theta* at the paper field | **0.995** | one-sided band dual, no blanket margins (off-band allowance exactly 0) | caps 0.000111/0.002636/0.023905/0.091090 vs slacks 0.000248/0.006208/0.056436/0.153435 at y = 0.02/0.1/0.3/0.49; 0.999 fails at y = 0.49 |
+| Completeness | CLEAR | q vs curvature, local closed-form d2 | ratios 328/1618/4670/7154 |
+| Convention control | PASS | cap(theta = 1) must diverge | inf, as required |
+| Dual dominates primal | PASS | greedy adversary at theta* | 0.02102 <= 0.02391 (y=0.3), 0.05960 <= 0.09109 (y=0.49) |
+| Distinctness | PASS | paper field != T1 field at first band centre by > 1e-3 | not a re-run of the same numbers |
+| Prompt-series defect | CAUGHT BY CONTROL | s' cubic coefficient: prompt said u^3/1920, sympy pins u^3/960 | derivative pins 4.8e-10 / 6.2e-8 after fix |
+| Reading of record | **MOVES to 0.6725106958** | pairing settled (g) + theta at the correct field | still a candidate: ramp (b) and multiplicative theta (c) remain |
+
+Disposition: **THE RETENTION SURVIVES THE WINDOW CORRECTION.** Same
+theta* grid point, larger margins. Burdens (b) and (c) unchanged; (c)
+is still the load-bearing unknown. No proportion is claimed to have
+moved.
