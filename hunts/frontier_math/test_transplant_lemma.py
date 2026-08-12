@@ -332,3 +332,30 @@ def test_identification_end_to_end_gross_and_sharp():
     # the adversarial placements must actually bite (positive damage)
     adv = [r for r in rows if r["name"].startswith("ADV")]
     assert adv and all(r["damage"] > 0 for r in adv)
+
+
+def test_closing_census_floor_monotone_in_nu():
+    from closing_bookkeeping import floor_is_monotone, floor_nu_ladder
+    rows = floor_nu_ladder()
+    assert floor_is_monotone(rows)
+    assert rows[0][1] == 0.0 and rows[-1][1] > 1e-4
+
+
+def test_closing_n_ladder_converges_to_lattice_reference():
+    from closing_bookkeeping import n_ladder
+    rows = n_ladder(Ns=(9, 17), K=300)
+    assert all(r["defect"] < 2e-3 for r in rows)
+
+
+def test_closing_truncation_bias_direction_is_the_refuted_one():
+    """The control that refuted this module's own first-draft claim:
+    the truncated assembly OVER-reports R (norms inflate)."""
+    from closing_bookkeeping import retained_mass_truncation_bias
+    vals = [v for _, v in retained_mass_truncation_bias(Ks=(150, 300))]
+    assert vals[1] < vals[0]
+
+
+def test_closing_tail_majorant_covers_real_beyond_window_bands():
+    from closing_bookkeeping import tail_majorant_covers
+    for r in tail_majorant_covers(ys=(0.49,)):
+        assert r["covered"] and r["n_beyond"] > 30

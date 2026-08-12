@@ -752,3 +752,61 @@ o(N) bookkeeping of the paper's (P) side against these finite-grid
 units, and T4's taper/truncation one-sidedness.  The candidate
 0.6725106958 stays a candidate; the seam list is now bookkeeping-grade
 rather than derivation-grade.  No proportion is claimed.
+
+
+## Closing the bookkeeping: census, units, T4
+
+Instrument: `closing_bookkeeping.py`; 4 controls appended to
+`test_transplant_lemma.py`.
+
+**Census (R >= R0).**  The LP floor is measured NONDECREASING in nu at
+fixed edges (0 at nu = 0.5 rising to 1.26e-4 at CG's 0.83625), so the
+reading's nu = H_pinned - a lower bound on the true distinct-gap
+density via the paper's Theorem B - can only under-state the floor.
+Under-reporting nu is one-sided in the safe direction.  A grade note
+surfaced on the way: the discovery-grade kernel table would put the
+fixed-edge floor near 8e-6 where the reading carries the
+hardened-table 5.021179e-6 - the reading already sits on the
+conservative side of its own instrument ladder.
+
+**Units.**  On growing nu = 1 lattices, R/N converges to the
+translation-invariant reference sum_{k != 0} omega^2(2 pi k) =
+0.00612719 (defects 4e-4 / 1.5e-5 / 2.7e-4 at N = 9 / 17 / 33, the
+residue being the assembly's own ~1/K truncation), and per-pair damage
+is N-stable.  The finite-N identities survive the per-N normalisation
+with 1/N edge defects - the shape the paper's o(N) absorbs.
+
+**T4 (truncation directions).**  The beyond-window tail: the 64 real
+bands in (G, 2G] carry 5.0e-5 / 1.3e-4 (y = 0.3 / 0.49) of band maxima
+against the closed-form allowance 6.6e-4 / 1.8e-3 the cap already
+charges - covered with an order to spare.  The LAW D grid truncation is
+the assembly ladder's measured ~1/K.  And one more of this session's
+defects, caught by its own control: the module's first draft claimed
+the truncated assembly under-reports R; it OVER-reports (the dropped
+squares live in the norms, inflating the normalised inner products).
+The reading is unaffected - its floor uses the exact closed-form
+kernel, never truncated grids - and the refuted claim is kept in the
+module as the standing lesson.
+
+**What is cited, not re-derived** - the boundary of this laboratory's
+remit, stated plainly: the paper's (P)-side prime evaluation of tr and
+tr^2, the Theorem B simple-zero density feeding the census, and the
+D0-window edge accounting.  Those are the source paper's theorems.
+Everything on this side of that boundary is measured, hardened, or
+kernel-checked, and every step's grade is in this ledger.
+
+**Final state of the hunt.**  Candidate reading 0.6725106958 =
+H_pinned + 2 * 0.995 * 5.021179e-6, with: the window pinned from the
+source; the kernel pairing settled by construction at that window;
+theta* = 0.995 measured at the paper field (float + ball, single-pair
++ joint, box + ramped); the composition and LAW D kernel-checked
+sorry-free; the dual-to-hypothesis dictionary measured term by term
+with its last hole-candidate (negative cross traces) found and
+covered; and the bookkeeping items closed above.  The word for what
+remains between this and "the proportion moved" is the cited (P)-side
+- the paper's own asymptotics - plus review.  Per the honest-scope
+rule this tree does not claim it; the ledger is the deliverable.  The
+session's caught-defect count stands at nine, every one found by a
+control or an independent route, none by inspection - which is the
+argument for the controls, and the argument for reading this ledger
+before believing any number in it.

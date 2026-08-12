@@ -572,3 +572,25 @@ Disposition: **THE DICTIONARY IS MEASURED AND THE LAST HOLE-CANDIDATE
 (NEGATIVE CROSS TERMS) IS FOUND AND COVERED.** The dual's verdict now
 IS the corollary's hypothesis over the swept scope. Candidate
 unchanged at 0.6725106958. No proportion is claimed to have moved.
+
+
+## Closing bookkeeping (2026-08-12)
+
+Instrument: `closing_bookkeeping.py`; 4 controls in
+`test_transplant_lemma.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Census: floor monotone in nu | MEASURED | LP at fixed edges | 0 -> 1.26e-4 over nu = 0.5 -> 0.83625; under-reporting nu is safe |
+| Census: nu input | CITED (Theorem B) + one-sided | H_pinned lower-bounds the distinct density | monotonicity makes the citation's direction safe |
+| Grade note | RECORDED | hardened vs discovery table | reading's 5.02e-6 < discovery ~8e-6: conservative side |
+| Units: R/N -> lattice reference | MEASURED | reference 0.00612719 | defects 4e-4/1.5e-5/2.7e-4 at N=9/17/33; damage N-stable |
+| T4: beyond-window tail | COVERED | real (G,2G] bands vs closed-form allowance | 5.0e-5 vs 6.6e-4 (y=0.3); 1.3e-4 vs 1.8e-3 (y=0.49) |
+| T4: assembly truncation direction | **FIRST-DRAFT CLAIM REFUTED BY OWN CONTROL** | truncated norms inflate R; assembly is not a one-sided device | R(K) decreasing 0.0279/0.0258/0.0249; reading unaffected (exact-kernel floor) |
+| Boundary of remit | STATED | (P)-side, Theorem B, D0 edges are the paper's theorems | cited, never re-measured |
+
+Disposition: **THE BOOKKEEPING IS CLOSED AND THE BOUNDARY IS DRAWN.**
+Candidate 0.6725106958 with every in-remit step measured, hardened, or
+kernel-checked; session defect count nine, all caught by controls or
+independent routes. No proportion is claimed to have moved; the ledger
+is the deliverable.
