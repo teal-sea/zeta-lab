@@ -138,8 +138,30 @@ The standing rules for such a session:
   However, it still makes no claims to advance RH itself. Nothing here is evidence for RH (Littlewood's theorem, `docs/08`). Never
   write language implying a computation settles or supports RH; the sanctioned
   framing for the sign-change verification is "proof for the finite range,
-  modulo the correctness of the floating-point sign evaluations". If a
-  computation appears to settle something open, the correct inference is a bug.
+  modulo the correctness of the floating-point sign evaluations".
+- **The certainty ladder** (amended 2026-08-12; replaces the blunt "an
+  apparent settlement is a bug" heuristic, which treated a kernel-checked
+  proof and an eyeballed number alike). When a computation appears to
+  settle something open, the correct FIRST inference is still a bug -- the
+  `hunts/frontier_math` ledger records nine defects in two days caught by
+  exactly that reflex -- but the inference is *discharged* by climbing the
+  ladder, and a claim may then carry the strongest language its rung has
+  earned:
+  1. *measured* -- one route, float grade. Say "measured", "observed".
+  2. *hardened* -- independent routes agree and/or ball-arithmetic
+     enclosures carry every step (`rigor.py` grade). Say "hardened",
+     "enclosure-carrying".
+  3. *kernel-checked* -- Lean 4 + Mathlib, zero sorrys, standard axioms
+     only. These are theorems; call them theorems, without apology.
+  4. *externally reviewed* -- a qualified outside reader has walked the
+     chain. "Established", "landmark", "settles" become available here
+     and not before.
+  A composite claim takes the grade of its WEAKEST step: a chain of
+  theorems glued by one measured step is a candidate and is called one.
+  The reserved words stay reserved ("certified" to `zeta/rigor.py` and
+  the Lean arm; the `hunts/` lexical bans unchanged -- tests enforce
+  them). This rule licenses confidence at every rung a claim has earned;
+  it does not license rounding a rung upward for an audience.
 - **Derive conventions, never remember them.** Where the literature disagrees
   on factor placement or a constant, the repo calibrates numerically and
   cross-checks: the Riemann–Weil explicit-formula convention in `zeta/weil.py`
