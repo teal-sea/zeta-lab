@@ -136,6 +136,20 @@ separate formal obligation.
 13. The exact `6/25` exponent margin absorbs every fixed logarithmic power and
     the actual cutoff envelope `1+(21/20) log H`.
 
+14. Exact finite Abel summation and both RC2 endpoint-energy consequences.
+    Aristotle supplied a lower bound and a cutoff-independent inverse-square
+    tail with constant `10`:
+
+    \[
+    \sum_{X<n\leq W}\frac{|a(n)|^2}{n^2}
+    \leq \frac{10C(1+\log X)}{X}.
+    \]
+
+    Multiplication by `X^2` gives the required `O(CX(1+log X))` upper-range
+    endpoint energy uniformly in `W`. The lower `n^2` sum has the matching
+    order after division by `X^2`. A proposed independent improvement to
+    constant `4` failed a clean merged-tree build and is not retained.
+
 ## First missing analytic inputs
 
 The exact dependency boundary is now:
@@ -149,11 +163,11 @@ The exact dependency boundary is now:
    data and its tail bound inside Lean.
 
 The spacing-sensitive finite mean-value input, complex lift, two-range weight
-algebra, diagonal/off-diagonal assembly, and logarithmic-loss absorption are
-no longer open formal dependencies for this application. The finite
-harmonic-loss theorem is weaker than the sharp general Montgomery--Vaughan
-inequality, but it is strong enough for the strict exponent margin recorded in
-`URMS2-051.md`.
+algebra, diagonal/off-diagonal assembly, partial-summation endpoint bounds, and
+logarithmic-loss absorption are no longer open formal dependencies for this
+application. The finite harmonic-loss theorem is weaker than the sharp general
+Montgomery--Vaughan inequality, but it is strong enough for the strict exponent
+margin recorded in `URMS2-051.md`.
 
 ## Reproduction
 
@@ -162,5 +176,6 @@ cd lean
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.HigherXi
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.LogMeanValue
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.MeanSquareAssembly
+PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.AristotleRAMS2
 PATH="$HOME/.elan/bin:$PATH" lake build
 ```

@@ -113,22 +113,41 @@ commit. Three isolated worktrees handled the independent modules in parallel.
 
 | event | local time | status |
 | --- | --- | --- |
-| full-project submission | `2026-08-11 23:55:20 -05:00` | running |
-| narrow Abel submission | `2026-08-12 00:03:27 -05:00` | running |
-| first returned source | pending | pending |
-| pinned-toolchain acceptance | pending | pending |
-| integrated commit | pending | pending |
+| full-project submission | `2026-08-11 23:55:20 -05:00` | complete |
+| narrow Abel submission | `2026-08-12 00:03:27 -05:00` | complete |
+| narrow completion | `2026-08-12 00:16:32 -05:00` | 13m 04.763s service wall time |
+| broad completion | `2026-08-12 00:26:57 -05:00` | 31m 37.411s service wall time |
+| broad pinned-toolchain acceptance | `2026-08-12 00:32` | unchanged source |
+| integrated broad commit | `2026-08-12 00:32:41 -05:00` | `25c166d` |
 
-No speedup ratio is stated while the denominator is incomplete. When the
-narrow job finishes, record:
+The broad artifact contains 393 total lines and 310 non-comment, nonblank Lean
+lines. It supplies half-open Abel summation, the lower `n^2` endpoint bound,
+and a cutoff-independent inverse-square tail with explicit constant `10`.
+The theorem statements were not weakened. The service worker built under Lean
+`v4.28.0`. A clean merged-tree build under Lean `v4.33.0-rc2` required one
+compatibility repair: deleting a redundant `ring` after `simp` had already
+closed the narrow control case. Repair time was under one minute. The source
+scan found no `sorry`, `admit`, declared axiom, `unsafe`, or `native_decide`.
 
-- service wall time;
-- returned non-comment Lean lines;
-- locally accepted lines;
-- human repair minutes;
-- local build minutes;
-- rejected or weakened theorem count;
-- end-to-end time from submission to integrated commit.
+The broad service produced 9.80 accepted non-comment lines per minute. From
+submission to the integrated commit, the window was 37m 21s, or 8.30 accepted
+non-comment lines per minute. The previous three-worktree baseline was 685
+total Lean lines in 53m 32s, or 12.80 total lines per minute. These rates do
+not establish a raw wall-clock speedup because the theorem sets and line-count
+definitions differ. The measured Aristotle advantage in this batch is
+different: autonomous closure of both endpoint bounds with a one-line local
+repair after submission.
+
+An independent local lane proposed the same cutoff-independent structure with
+the sharper constant `4`. Its isolated-branch report claimed a passing build,
+but a clean merged-tree build exposed parser errors and unfinished
+elaboration. The module was removed and the constant `4` is not part of the
+formal result. This lesion is useful: branch-local status is not evidence
+until the merged tree rebuilds the source.
+
+A second local Abel control used a different `Finset.sum_Ico_by_parts` route,
+but its final build was interrupted under concurrent compiler load, so it is
+not counted as an accepted comparison.
 
 The primary comparison is end-to-end time per locally accepted theorem. A
 secondary comparison records human repair time. Parallel service time and
@@ -137,7 +156,7 @@ overstate either method.
 
 ## Boundary after this handoff
 
-Closing these finite partial-summation bounds does not formalize the RAMS2
-cluster asymptotic itself. It isolates the next genuine input as the uniform
+The finite partial-summation bounds are closed. They do not formalize the
+RAMS2 cluster asymptotic itself. The next genuine input is now the uniform
 prefix square-density theorem for the level-two coefficient family, followed
 by the marked-cluster height-freezing estimate.

@@ -105,7 +105,6 @@ theorem finite_abel_summation (b w : ℕ → ℝ) (N : ℕ) :
     rcases Nat.eq_zero_or_pos N with hN | hN
     · subst hN
       simp [prefixMass]
-      ring
     · rw [Finset.sum_Ico_succ_top hN]
       ring
 
