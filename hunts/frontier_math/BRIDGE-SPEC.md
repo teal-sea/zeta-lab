@@ -102,10 +102,27 @@ the target without it has proved something else.
 
 ## 5. Before submitting
 
-- Resolve `N I'` to the upstream counting function's real name (it is
-  referenced as the Theorem B/D density in `PROOF-LEDGER.md`; the mapping to
-  `ZeroBlockData` was not chased in this sprint and is the one open item in
-  this spec).
+- ~~Resolve `N I'`~~ **RESOLVED** (2026-08-12, read from `Zeta23/Defs.lean`
+  and `Zeta23/ZeroSide.lean` at the pinned rev). The names are:
+
+  ```lean
+  -- Defs.lean:146   N(T₁,T₂), counted WITH multiplicity
+  def N (T₁ T₂ : ℝ) : ℕ := ∑ᶠ ρ ∈ Z.window T₁ T₂, Z.mult ρ
+  -- Defs.lean:333   N(I') := N(T−D₀, 2T+D₀)   [eq:Ncount]
+  def NIprime (Z : ZeroConfig) (T : ℝ) : ℕ := Z.N (T - D0 T) (2 * T + D0 T)
+  -- Defs.lean:335   N_on(I') := Σ_{ρ ∈ 𝒮₁ ∪ 𝒮₂} m_ρ
+  def NonIprime (Z : ZeroConfig) (T : ℝ) : ℕ := Z.N0 (T - D0 T) (2 * T + D0 T)
+  -- ZeroSide.lean:195  the block-level count on ZeroBlockData
+  def Ncount : ℕ := ∑ z, D.m z
+  ```
+
+  So the target's `N I'` is `Z.NIprime T` at the `ZeroConfig` level, and the
+  on-line multiplicity sum in §3 should be written against
+  `ZeroBlockData.Ncount` / `D.onLine` at the block level. One care: these
+  live at two different abstraction layers (`ZeroConfig` in `Defs.lean`,
+  `ZeroBlockData` in `ZeroSide.lean`); the bridge statement should stay at
+  the `ZeroBlockData` layer and let the upstream seam (`ZeroSide` →
+  `Defs`) carry the identification, as upstream's own pipeline does.
 - Confirm `Bridge.lean` imports `Zeta23` and not just `Mathlib`, unlike
   `Composition.lean`; that makes it the first module whose local build needs
   the upstream dependency fetched, so the scratch-target trick used for the

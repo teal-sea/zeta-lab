@@ -1,4 +1,4 @@
-import RequestProject.Iv
+import Zeta23Ext.BandCert.Iv
 
 set_option maxRecDepth 40000
 
@@ -141,7 +141,10 @@ theorem exp_partial_eq' (t : ℝ) :
     (∑ m ∈ Finset.range 22, (-t) ^ m / (Nat.factorial m : ℝ))
       = hornerR coshL (t * t) - t * hornerR sinhL (t * t) := by
   have h := exp_partial_eq (-t)
-  simpa [neg_mul_neg] using h
+  have hn : (-t) * (-t) = t * t := by ring
+  rw [hn] at h
+  rw [h]
+  ring
 
 theorem exp_bound' (t : ℝ) (ht : |t| ≤ 1) :
     |Real.exp t - (∑ m ∈ Finset.range 22, t ^ m / (Nat.factorial m : ℝ))| ≤ RB := by

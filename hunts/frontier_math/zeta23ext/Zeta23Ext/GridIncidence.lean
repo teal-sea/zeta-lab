@@ -48,7 +48,7 @@ Let `phi : ℝ → ℝ` be supported in `[-1/2, 1/2]` and set
   from the `phi ^ 2` form: for the indicator of `(0, 1/2]` and `x = y = 0` the grid sum is `0`
   while `2 π ∫ phi ^ 2 = π`. The `phi u * phi (-u)` version above is the correct general form
   (as it must be: the grid sum only sees the autocorrelation `∫ phi(u) phi(u+t)` through
-  `phi ⋆ phǐ`).
+  `phi ⋆ phǐ`).
 
 ## Hypotheses and why the required windows satisfy them
 
@@ -105,10 +105,12 @@ theorem hasSum_inner_fourierCoeff {T : ℝ} [hT : Fact (0 < T)]
       ← HilbertBasis.repr_apply_apply, ← HilbertBasis.repr_apply_apply, fourierBasis_repr,
       fourierBasis_repr]
   simp_rw [e1] at h
-  convert h using 1
-  rw [MeasureTheory.L2.inner_def]
-  simp only [RCLike.inner_apply]
-  exact integral_congr_ae (.of_forall fun a => by ring)
+  have key : (∫ t : AddCircle T, conj (f t) * g t ∂haarAddCircle) = (inner ℂ f g : ℂ) := by
+    rw [MeasureTheory.L2.inner_def]
+    simp only [RCLike.inner_apply]
+    exact integral_congr_ae (.of_forall fun a => by ring)
+  rw [key]
+  exact h
 
 /-- Polarised Parseval identity for the Fourier coefficients of functions on an interval
 `(a, b]`. -/
@@ -117,7 +119,7 @@ theorem hasSum_inner_fourierCoeffOn {a b : ℝ} {f g : ℝ → ℂ} (hab : a < b
     (hg : MemLp g 2 (volume.restrict (Set.Ioc a b))) :
     HasSum (fun i : ℤ => conj (fourierCoeffOn hab f i) * fourierCoeffOn hab g i)
       ((b - a)⁻¹ • ∫ x in a..b, conj (f x) * g x) := by
-  haveI := Fact.mk (by linarith : 0 < b - a)
+  have := Fact.mk (by linarith : 0 < b - a)
   rw [← add_sub_cancel a b] at hf hg
   have hf' := hf.memLp_liftIoc.haarAddCircle
   have hg' := hg.memLp_liftIoc.haarAddCircle
@@ -285,43 +287,49 @@ theorem hasSum_phihat_mul_phihat {phi : ℝ → ℝ} (hm : Measurable phi) {C : 
       phihat_sub_intCast phi hsupp y n]
     ring
   simp only [hsummand] at h2
-  convert h2 using 1
   -- identify the two limits
-  rw [Complex.real_smul]
-  have hstep : (∫ u in (-π)..π, conj (((fun v => phi (-v)) u : ℂ) *
-      Complex.exp (Complex.I * x * u)) * ((phi u : ℂ) * Complex.exp (Complex.I * y * u)))
-      = ∫ u in (-π)..π, (phi u : ℂ) * (phi (-u) : ℂ) *
-          Complex.exp (Complex.I * ((y : ℂ) - x) * u) := by
-    refine intervalIntegral.integral_congr (fun u _ => ?_)
-    simp only [map_mul, ← Complex.exp_conj, Complex.conj_ofReal, map_mul, Complex.conj_I]
-    rw [show (Complex.I * ((y : ℂ) - x) * u) = (-Complex.I * x * u) + (Complex.I * y * u) by ring,
-      Complex.exp_add]
+  have key : (2 * (π : ℂ) * ∫ u : ℝ, (phi u : ℂ) * (phi (-u) : ℂ) *
+        Complex.exp (Complex.I * ((x : ℂ) - y) * u))
+      = (2 * (π : ℂ)) * (2 * (π : ℂ)) *
+        ((π - -π : ℝ)⁻¹ • ∫ u in (-π)..π, conj (((fun v => phi (-v)) u : ℂ) *
+          Complex.exp (Complex.I * x * u)) * ((phi u : ℂ) * Complex.exp (Complex.I * y * u))) := by
+    rw [Complex.real_smul]
+    have hstep : (∫ u in (-π)..π, conj (((fun v => phi (-v)) u : ℂ) *
+        Complex.exp (Complex.I * x * u)) * ((phi u : ℂ) * Complex.exp (Complex.I * y * u)))
+        = ∫ u in (-π)..π, (phi u : ℂ) * (phi (-u) : ℂ) *
+            Complex.exp (Complex.I * ((y : ℂ) - x) * u) := by
+      refine intervalIntegral.integral_congr (fun u _ => ?_)
+      simp only [map_mul, ← Complex.exp_conj, Complex.conj_ofReal, map_mul, Complex.conj_I]
+      rw [show (Complex.I * ((y : ℂ) - x) * u) = (-Complex.I * x * u) + (Complex.I * y * u) by ring,
+        Complex.exp_add]
+      ring
+    rw [hstep]
+    -- pass from the interval to the whole line, then reflect
+    have hline : (∫ u in (-π)..π, (phi u : ℂ) * (phi (-u) : ℂ) *
+        Complex.exp (Complex.I * ((y : ℂ) - x) * u))
+        = ∫ u : ℝ, (phi u : ℂ) * (phi (-u) : ℂ) *
+            Complex.exp (Complex.I * ((y : ℂ) - x) * u) := by
+      refine (integral_eq_intervalIntegral _ (fun u hu => ?_)).symm
+      rw [hsupp u (half_lt_abs_of_not_mem hu)]
+      simp
+    rw [hline]
+    have hrefl : (∫ u : ℝ, (phi u : ℂ) * (phi (-u) : ℂ) *
+        Complex.exp (Complex.I * ((y : ℂ) - x) * u))
+        = ∫ u : ℝ, (phi u : ℂ) * (phi (-u) : ℂ) *
+            Complex.exp (Complex.I * ((x : ℂ) - y) * u) := by
+      rw [← integral_neg_eq_self (fun u : ℝ => (phi u : ℂ) * (phi (-u) : ℂ) *
+        Complex.exp (Complex.I * ((x : ℂ) - y) * u)) volume]
+      refine integral_congr_ae (.of_forall fun u => ?_)
+      simp only [neg_neg]
+      rw [show (Complex.I * ((x : ℂ) - y) * ((-u : ℝ) : ℂ)) = Complex.I * ((y : ℂ) - x) * u by
+        push_cast; ring]
+      ring
+    rw [hrefl]
+    push_cast
+    field_simp
     ring
-  rw [hstep]
-  -- pass from the interval to the whole line, then reflect
-  have hline : (∫ u in (-π)..π, (phi u : ℂ) * (phi (-u) : ℂ) *
-      Complex.exp (Complex.I * ((y : ℂ) - x) * u))
-      = ∫ u : ℝ, (phi u : ℂ) * (phi (-u) : ℂ) *
-          Complex.exp (Complex.I * ((y : ℂ) - x) * u) := by
-    refine (integral_eq_intervalIntegral _ (fun u hu => ?_)).symm
-    rw [hsupp u (half_lt_abs_of_not_mem hu)]
-    simp
-  rw [hline]
-  have hrefl : (∫ u : ℝ, (phi u : ℂ) * (phi (-u) : ℂ) *
-      Complex.exp (Complex.I * ((y : ℂ) - x) * u))
-      = ∫ u : ℝ, (phi u : ℂ) * (phi (-u) : ℂ) *
-          Complex.exp (Complex.I * ((x : ℂ) - y) * u) := by
-    rw [← integral_neg_eq_self (fun u : ℝ => (phi u : ℂ) * (phi (-u) : ℂ) *
-      Complex.exp (Complex.I * ((x : ℂ) - y) * u)) volume]
-    refine integral_congr_ae (.of_forall fun u => ?_)
-    simp only [neg_neg]
-    rw [show (Complex.I * ((x : ℂ) - y) * ((-u : ℝ) : ℂ)) = Complex.I * ((y : ℂ) - x) * u by
-      push_cast; ring]
-    ring
-  rw [hrefl]
-  push_cast
-  field_simp
-  ring
+  rw [key]
+  exact h2
 
 /-- **Grid incidence law, the form stated in the problem.**
 
@@ -421,10 +429,10 @@ theorem tsum_phihat_of_continuous {phi : ℝ → ℝ} (hc : Continuous phi)
   · have : 1 / 2 < |u| := by
       rw [Set.mem_Icc, not_and_or] at hu
       rcases hu with h | h
-      · push_neg at h
+      · have h' := not_le.mp h
         rw [abs_of_nonpos (by linarith)]
         linarith
-      · push_neg at h
+      · have h' := not_le.mp h
         rw [abs_of_pos (by linarith)]
         linarith
     rw [hsupp u this]

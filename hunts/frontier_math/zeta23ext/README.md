@@ -22,17 +22,33 @@ pinned toolchain. As of the scaffold commit:
   the drift is in the goal shape upstream of each site. Out for port as
   batch 2 (`lean/ARISTOTLE-RUNS.md`).
 
-**The port status of every module, measured 2026-08-12** (drop the module
-into `lean/` as a scratch target against its already-compiled Mathlib
-`v4.33.0-rc2`, build, delete — minutes, and it does not require compiling
-Mathlib for this package):
+**The port is DONE. Every module in this package builds under Mathlib
+`v4.33.0-rc2`** (measured 2026-08-12 by dropping each into `lean/` as a
+scratch target against its already-compiled Mathlib, building, deleting —
+minutes, and it never requires compiling Mathlib for this package):
 
-| module | verdict | failure |
+| module | first verdict | now |
 | --- | --- | --- |
-| `Composition.lean` | builds clean | — |
-| `GridIncidence.lean` | fails | lines 109, 290 (`rw` pattern) |
-| `FloorCert.lean` | fails | line 82 (`ring_nf` no progress) |
-| `BandCert/Leaves.lean` | fails | line 144 (type mismatch after simp) |
+| `Composition.lean` | builds clean | unchanged |
+| `GridIncidence.lean` | failed at 109, 290 | **builds** (batch 2 port-A) |
+| `FloorCert.lean` | failed at 82 | **builds** (port-B + one local repair) |
+| `BandCert/Leaves.lean` | failed at 144 | **builds** (batch 2 port-C) |
+| `BandCert/Phi.lean` | not reached | **builds** (13 sites, repaired locally) |
+| `BandCert/` ×8 chain | not reached | **builds**, 8704 jobs, `Verify` 1513 s |
+
+Zero `sorryAx` in any build log. `cap_le_slack` and `f_nonpos_off_bands`
+(BandCert) and `theoremA`, `B1`–`B4`, `corollary` (FloorCert) all report only
+`[propext, Classical.choice, Quot.sound]`.
+
+**One root cause explains most of it.** `convert … using 1` on a `HasSum`
+goal now leaves an `AddCommMonoid` instance-equality goal first, so the
+tactic after it has nothing to act on. That is both `GridIncidence` sites and
+the `FloorCert` one. `Phi`'s 13 sites are a second, separate drift:
+projection-through-definition (`(a.add b).1` vs `a.1.add b.1`) that the newer
+`simp` no longer unfolds.
+
+Collection detail, including the one artifact that was refused and why, is in
+`lean/ARISTOTLE-RUNS.md` under "Batch 2 collection".
 
 The `BandCert/` imports form a single chain (Iv → Leaves → Phi → Check →
 Cap → Data → Verify → Main): `Iv`, upstream of `Leaves`, built clean; the

@@ -1,5 +1,21 @@
 import Mathlib
 
+open scoped BigOperators
+open scoped Real
+open scoped Nat
+open scoped Classical
+open scoped Pointwise
+
+set_option maxHeartbeats 8000000
+set_option maxRecDepth 4000
+set_option synthInstance.maxHeartbeats 20000
+set_option synthInstance.maxSize 128
+
+set_option relaxedAutoImplicit false
+set_option autoImplicit false
+
+set_option grind.warning false
+
 /-!
 # A rational weak-duality certificate for a 6-variable LP, plus four trig inequalities
 
@@ -60,7 +76,8 @@ theorem term_le (r : ℝ) (M : ℕ) (hq : 2 * r ^ 2 ≤ (M + 1) * (M + 2)) (i : 
     apply pow_le_pow_left₀ (by positivity)
     push_cast
     linarith
-  have he : (r ^ 2) ^ i * 2 ^ i = (2 * r ^ 2) ^ i := by rw [← mul_pow]; ring_nf
+  have he : (r ^ 2) ^ i * 2 ^ i = (2 * r ^ 2) ^ i := by
+    rw [mul_comm (2 : ℝ) (r ^ 2), mul_pow]
   have hYG : (r ^ 2) ^ i * (M ! : ℝ) * 2 ^ i ≤ (((M + 2 * i)! : ℕ) : ℝ) := by
     calc (r ^ 2) ^ i * (M ! : ℝ) * 2 ^ i = (M ! : ℝ) * ((r ^ 2) ^ i * 2 ^ i) := by ring
       _ = (M ! : ℝ) * (2 * r ^ 2) ^ i := by rw [he]
@@ -78,8 +95,7 @@ private theorem geom_hasSum (C : ℝ) : HasSum (fun i : ℕ => C * (1 / 2 : ℝ)
   have h := (hasSum_geometric_of_lt_one (by norm_num : (0:ℝ) ≤ 1/2)
     (by norm_num : (1/2:ℝ) < 1)).mul_left C
   norm_num at h
-  convert h using 1
-  ring
+  simpa [mul_comm] using h
 
 /-- Explicit truncation error for the Taylor series of `cos`. -/
 theorem abs_cos_sub_taylor (r : ℝ) (N : ℕ) (hq : 2 * r ^ 2 ≤ (2 * N + 1) * (2 * N + 2)) :
@@ -966,3 +982,4 @@ theorem corollary (x1 x2 x3 x4 x5 x6 : ℝ)
   linarith
 
 end MTKernel
+

@@ -1,4 +1,4 @@
-import RequestProject.Verify
+import Zeta23Ext.BandCert.Verify
 
 /-!
 # The band-dual verdict
