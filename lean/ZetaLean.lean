@@ -28,3 +28,4 @@ import ZetaLean.ClusterPrefix
 import ZetaLean.ClusterMajorant
 import ZetaLean.RC2PrefixAssembly
 import ZetaLean.MatchingCount
+import ZetaLean.MarkedClusterFreezing
