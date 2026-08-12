@@ -33,6 +33,8 @@ import ZetaLean.MarkedClusterFreezing
 import ZetaLean.SupportSizeMajorant
 import ZetaLean.WeightedSimplex
 import ZetaLean.PrimeSimplex
+import ZetaLean.ChebyshevBounds
+import ZetaLean.MajorantBypass
 import ZetaLean.RootedMatchingBound
 import ZetaLean.RootedSupportAssembly
 import ZetaLean.RepeatedPrimeDominated
