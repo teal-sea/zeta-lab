@@ -729,3 +729,33 @@ non-effective liminf with existential constants, so the composed
 statement is the same logical type, not a weaker one; but anyone reading
 "improvement" as "better at computable heights" would be wrong, and the
 preprint must say so. No proportion is claimed to have moved.
+
+
+## Blocker 2 NOT closed: the per-pair route is refuted (2026-08-12)
+
+Instruments: `joint_universal.py`, `test_joint_universal.py` (24 tests);
+coordinator re-ran the suite.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| **Rung 1: subadditivity at the cap level** | **FALSE** | the field-level intuition is right - `max(0, sum) <= sum max(0,.)` holds with worst violation exactly 0.0 - but it does NOT survive the square completion | joint cap / sum of single caps reaches 1.4475 (k=2) to 3.3796 (k=6) for coincident stacks at theta = 0.995; exact closed-form excess `[2 sum_{i<j} F_i F_j - (k-1)(cK)^2]/(4cK)`, defect 2.8e-17. The adversary collects k times the damage from one stack and pays the internal charge once |
+| Which half moves | **THE SQUARE COMPLETION, NOT THE BANDS** | for a coincident triple the joint band SET is identical to one pair's (shielded fraction 0.000) while m* jumps 3 -> 7 | the band set can only shrink; the occupancy grows |
+| **The decisive finding: the route could not have worked** | **PER-PAIR ARGUMENTS ARE DEAD, EITHER DIRECTION** | at k = 3 on a nu=1 lattice, `sum cap_single` ALREADY EXCEEDS the budget (-0.00595, open) while the joint verdict closes with +40% relative margin | no argument bounding the joint cap by a sum of single-pair caps can establish universality at theta* = 0.995, because its conclusion is false. **The joint field's shielding is load-bearing** |
+| Slack additivity (the coordinator assumed it) | **FALSE, AND SIGNED** | `budget(P) = sum_i slack(y_i) + sum_{i != j} T(t_i - t_j, y_i, y_j)`, reproducing PaperJoint.budget to <1e-9 | the pair term runs +8.31 (coincident) to -0.756 (nu=1 lattice, k=8); worst infinite-lattice erosion -0.1288 = 84% of one pair's slack against a single-pair surplus of only 0.0587, so even a separated-configurations version dies |
+| Rung-2 repair A: even-split lemma | **PROVEN AND USELESS** | `B(sum F_p, K) <= sum_p B(F_p, K/k)`, i.e. cap_joint <= sum cap_single at theta_k = 1 - (1-theta)/k | exact per cell, equality for equal F_p; but theta_2 = 0.9975 and the single-pair dual already fails at 0.999 |
+| Rung-2 repair B: union refinement | **ONE-SIDED THE WRONG WAY** | band maxima do not increase under refinement, but the CAP does - each sub-cell inherits the parent maximum while the cell count grows | ladder 0.08745 (62 cells) -> 0.17050 (124) -> 0.33890 (248) |
+| Rung 3: randomised adversarial search | **EVIDENCE ONLY, LABELLED** | 320 configurations, k in 2..12, jittered lattices, near-coincident clusters, mixed depths, 12-rung depth ladder, conservative instance | **0 opened the verdict**; worst relative margin +0.2749 at full resolution, and it is a two-pair configuration at 2.05 mean gaps - the sparse-lattice family that binds `paper_joint`'s own sweep, rediscovered blind. 37/320 broke rung-1 domination (worst 1.41) |
+| Planted-violation lesion | FIRES | x1 closes, x2/x4/x8 open | budget provably untouched by the lesion |
+| **The obligation, reshaped** | **ONE INEQUALITY** | with `c2 = phi^2 * phi^2` (closed form, supported [-1,1], positive inside, `int c2 = A^2` to 0.0), `E[G] = (1/A^2) int c2 \|G\|^2`, `F_on = sum_x e^{ixw}`, `F_p = sum_i 2 cosh(y_i w) e^{it_i w}` | universality <=> `E[F_on + F_p] >= theta E[F_on] + (1-theta) n + 4k` for all finite X and P. Restates the whole verdict in one variable, defect ~1e-11 on mixed configurations |
+
+Disposition: **THE COORDINATOR'S PROPOSED ROUTE IS REFUTED, AND THE
+REFUTATION IS THE RESULT.** Session defect #11: the per-pair domination
+plan was stated in the brief as the likely route and is false twice over
+- the cap is superadditive above the multiplicity threshold, and even
+where it is not, the per-pair sum exceeds the budget from three pairs
+on. Blocker 2 remains OPEN. What replaces it is better posed than what
+it replaces: a single bandlimited nonnegative-kernel inequality in two
+exponential sums, which is a target both an attack and a formalisation
+can aim at. Multi-pair universality is still a statement about a tested
+set - now 320 configurations wider, with the binding family rediscovered
+blind. No proportion is claimed to have moved.
