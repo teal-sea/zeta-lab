@@ -976,3 +976,30 @@ the theorem does not yet cover the configurations the application needs.
 The quantitative gap is now explicit and small in shape: bring delta
 from 26 down toward 6.28, or handle the near-field cluster separately.
 No proportion is claimed to have moved.
+
+
+## Cross-arm transfer proposal: answered, and it does not survive (2026-08-12)
+
+The higher-xi arm proposed that this arm's multi-pair universality step
+might be finite rather than infinite-dimensional: if the binding case is
+k = 2, the open step becomes a compact 3-parameter problem in
+(d, y1, y2). It supplied its own kill-switch - a four-order discrepancy
+between its shallow 2-pair budget (9.42e-05) and this arm's recorded
+worst (0.2907) - and asked that it be resolved first.
+
+| Question | Answer |
+|---|---|
+| The discrepancy | **RESOLVED, both numbers correct.** Their budget reproduces here to six figures (9.417199e-05). The two are not comparable because **at shallow depth the cap is exactly zero** - relative margin 1.0000 at y = 0.01 and 0.05 - so a tiny budget costs nothing. This arm's 0.2907 is a deep budget where the cap bites. Their number measures budget erosion; the verdict consumes budget minus cap |
+| Their k-monotonicity at their spacing | **REPRODUCES, and is stronger than claimed**: at d = 6.640 grid = 1.0568 mean gaps, relative margin rises 0.3825 / 0.5031 / 0.6538 / 0.7809 / 0.9062 for k = 1..6, so k = **1** binds there, not k = 2 |
+| **Does it generalise** | **NO. The k-dependence CHANGES SIGN with spacing.** Below ~1.2 mean gaps it rises; at and beyond 2 mean gaps it falls monotonically: at d = 2.002 mean gaps, k = 1..6 gives 0.3825 / 0.3649 / 0.3408 / 0.3213 / 0.2935, still decreasing |
+| Why their data could not show it | their scan was d in [5.5, 7.5] grid = **[0.875, 1.194] mean gaps**; the binding family sits at 2.002 mean gaps = **12.579 grid units**, a factor ~1.7 outside the top of their window. Dense grid, wrong interval |
+| Corroboration | that address is where this arm's own instruments independently landed: `cluster_universal`'s rho argmax (2.002 gaps, y -> 1/2) and `truncation_bridge`'s degrading finite-size ladder. Three instruments, one address |
+| What survives from their work | their shallow ratio sum_slack/\|pair_term\| = 4.16, flat in y, agrees with this arm's independently derived limit slack/y^2 -> 8 L2/A = 0.6199944; their observation that only the nearest-neighbour gap contributes negatively is correct and explains the monotone budget rise; and the three-arm convergence on a fixed nonnegative autocorrelation kernel holds |
+| Reciprocal correction sent | this arm's `PairEnergy.lean` is prior art (source paper Lemma 3.1 + 3.3, specialisation printed in its 7.5(a)); flagged in case the higher-xi arm leans on a similar Gram bound |
+
+Disposition: **THE TRANSFER IS ANSWERED NO, BY A MEASUREMENT ITS OWN
+INSTRUCTION ASKED FOR.** The configuration space cannot be truncated at
+two pairs. Reply written to `CROSS-ARM-REPLY.md` with the full tables
+and a suggested next probe their machinery is better placed to run than
+ours: whether the falling branch beyond 2 mean gaps has a positive limit
+in k or crosses zero. No proportion is claimed to have moved.
