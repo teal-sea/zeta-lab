@@ -613,3 +613,39 @@ hardening of the joint sweep if wanted.  One-sided/measured grade
 throughout; grid thetas only; the no-bands branch reports cap 0 without
 the beyond-window tail (mirrors mt_joint, noted in code).  No
 proportion is claimed.
+
+
+## Burden (b) discharged: the ramp does not move theta*
+
+Instrument: `ramped_field.py` (agent build, coordinator-reviewed);
+controls in `test_ramped_field.py` (14 tests).
+
+The retention scan was re-run with the paper's ramp mollification in
+place: taper Psi((1/2 - |u|)/eps) with Psi the C^3 degree-7 smoothstep
+(endpoint derivatives pinned by sympy), squared taper on phi^2, field
+by error-pinned mpmath quadrature (ladder + dps-30 oracle; one-sided
+quadrature pins ADDED to every margin), band lattice recomputed from
+each ramped field's own zeros.  Result:
+
+    theta*(1/8)  = 0.995   (worst allowed ramp)
+    theta*(1/16) = 0.995
+    theta*(1/32) = 0.995
+    theta*(0)    = 0.995   (box reference)
+
+Stable at 0.995 across the entire allowed ramp range; caps and slacks
+converge monotonically to the box values as eps -> 0, with the measured
+field defect cleanly O(eps) (constant 0.877 against a derived bound
+1.226 via c_psi = int(1 - Psi^2) = 0.595183).  The thinnest margin
+anywhere is y = 0.02 at eps = 1/8 (+1.05e-4, ~57% of the box margin).
+Multiplicity thresholds at y = 0.49 sit at 0.9899-0.9920, below 0.995,
+and 0.999 fails at every eps.  A one-point shape-dependence check
+(degree-9 smoothstep) moves the binding cap by 1.6% without changing
+any verdict; recorded as a caveat-measurer, not a supremum over shapes.
+
+**Where the reading stands.**  Burdens (a) and (b) are both discharged:
+theta* = 0.995 is measured at the paper's own window, box and ramped,
+float and (for the box) ball-agreed, single-pair and joint.  The
+candidate 0.6725106958 now rests on exactly the two burden-(c) seams:
+the unit conversion (LAW D exactness is on the formal bench) and the
+identification of the dual's cap with D >= theta*R0.  No proportion is
+claimed.

@@ -509,3 +509,23 @@ Disposition: **THE JOINT LAYER HOLDS AT THE PAPER WINDOW.** theta_full
 = 0.995 across all swept families, float grade, single-pair skeleton
 ball-agreed. Open: ramp (b), the two (c) seams, optional joint
 hardening. No proportion is claimed to have moved.
+
+
+## Burden (b): ramp mollification (2026-08-12)
+
+Instruments: `ramped_field.py`, `test_ramped_field.py` (14 tests).
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| theta* under the paper's ramp | **0.995 AT EVERY eps** (1/8, 1/16, 1/32) | C^3 degree-7 smoothstep taper squared on phi^2; band lattice from each field's own zeros | caps/slacks converge monotonically to box values; 0.999 fails at every eps at y=0.49 |
+| Field construction | PINNED | mpmath quadrature, no global state leak | ladder worst 2.9e-14, dps-30 oracle worst 8.9e-16; one-sided pins added to every margin |
+| eps -> 0 convergence | MEASURED O(eps) | taper differs from 1 on a 2*eps fraction | constant 0.877 (ratio 0.9997 across eps = 1e-3 -> 1e-4) vs derived bound 1.226 |
+| Completeness at every (eps, y) | CLEAR | local curvature, zero off-band allowance | ratios 324-7495 |
+| Convention + domination controls | PASS | cap(theta=1) = inf at every eps; paper_chain greedy reused unchanged | adversary inside cap at all spot depths |
+| Psi shape dependence | MEASURED (one point) | degree-9 vs degree-7 smoothstep | binding cap moves 1.6%, verdicts unchanged; caveat recorded, not a supremum |
+| Thinnest margin | NOTED | y=0.02 at eps=1/8 | +1.05e-4 (~57% of the box margin) |
+
+Disposition: **THE RAMP COSTS MARGIN, NOT THE VERDICT.** Burdens (a)
+and (b) are discharged; the candidate 0.6725106958 rests on the two
+burden-(c) seams alone (units / identification). No proportion is
+claimed to have moved.
