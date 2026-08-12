@@ -649,3 +649,51 @@ candidate 0.6725106958 now rests on exactly the two burden-(c) seams:
 the unit conversion (LAW D exactness is on the formal bench) and the
 identification of the dual's cap with D >= theta*R0.  No proportion is
 claimed.
+
+
+## Seam (i), core: LAW D exactness is kernel-checked
+
+Instrument: `law_d_incidence.lean` (Aristotle service, project c6519a2a;
+Lean 4 + Mathlib, sorry-free, axioms propext / Classical.choice /
+Quot.sound only; service-side kernel check, artifact in-tree with its
+#print axioms lines).
+
+What is now theorem-shaped, for phihat(x) = int phi(u) e^{ixu} du:
+
+- **hasSum_phihat_mul_phihat**: for phi measurable, bounded, supported
+  in [-1/2, 1/2] — no continuity, no decay, no smoothness — the grid
+  family n |-> phihat(x-n) phihat(y-n) is SUMMABLE over Z with sum
+  2 pi * int phi(u) phi(-u) e^{i(x-y)u} du (the autocorrelation form).
+- **tsum_phihat_mul_phihat_even**: with evenness added, the sum equals
+  2 pi * FT(phi^2)(x - y) — LAW D as the chain uses it.
+- The three windows of this hunt are handled as explicit theorems, not
+  prose: `tsum_phihat_windowA` (cos(sqrt2 u) box — jumps at the edges),
+  `tsum_phihat_windowB` (sqrt(cos(sqrt2 u)) box — the paper's Theorem D
+  profile), `tsum_phihat_of_continuous` (any continuous even window,
+  covering every C^3 ramp mollification; boundedness derived).
+
+**A defect in our own submission, caught by the prover.**  The phi^2
+form as we stated it is FALSE without evenness: the file contains
+`grid_incidence_needs_even`, exhibiting the indicator of (0, 1/2] with
+grid sum 0 against 2 pi int phi^2 = pi.  Every window this hunt uses is
+even, so the intended applications are unaffected — but the submission
+had not said "even", and a prover that silently added the hypothesis
+would have hidden that.  Logged with the session's other caught defects.
+
+**Method note.**  The proof does not use Poisson summation at all: with
+support in an interval of length 1 < 2 pi, phihat(x - n) are (2 pi
+times) Fourier coefficients of the modulated window on R / 2 pi Z, and
+the identity is a polarised Parseval (built from Mathlib's fourierBasis,
+which only ships the norm-squared form).  That is why bounded
+measurable suffices — strictly weaker hypotheses than the BV/decay
+route the submission sketched, and one-sided in exactly the right way:
+the aliasing question for the truncated grid sums (the measured ~1/K
+truncation defect of `mt_law_d`) is now the ONLY gap between the
+chain's finite sums and the exact identity.
+
+**Where the seams stand.**  Seam (i)'s analytic core is closed; what
+remains of it is bookkeeping (the paper's aL^2 units of (4.4) against
+the chain's 2 pi Phi2(0) normalisation, plus the finite-truncation
+accounting already measured).  Seam (ii) — the dual's cap as the
+statement D >= theta * R0 — is unchanged and is the next piece of work.
+No proportion is claimed.

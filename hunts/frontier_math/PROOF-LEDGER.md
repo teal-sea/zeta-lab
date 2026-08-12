@@ -529,3 +529,24 @@ Disposition: **THE RAMP COSTS MARGIN, NOT THE VERDICT.** Burdens (a)
 and (b) are discharged; the candidate 0.6725106958 rests on the two
 burden-(c) seams alone (units / identification). No proportion is
 claimed to have moved.
+
+
+## Seam (i) core: LAW D kernel-checked (2026-08-12)
+
+Instrument: `law_d_incidence.lean` (Aristotle service, project
+c6519a2a; sorry-free, standard axioms only).
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Grid incidence = 2 pi FT(phi^2) | **KERNEL-CHECKED** (service-side) | phi measurable, bounded, supp in [-1/2,1/2], EVEN | tsum_phihat_mul_phihat_even; summability included (hasSum form) |
+| Our three windows admissible | **KERNEL-CHECKED** (service-side) | edge jumps allowed; continuity NOT assumed | tsum_phihat_windowA / windowB / of_continuous (ramps covered, boundedness derived) |
+| Our submission's phi^2 form without evenness | **FALSE — CAUGHT BY THE PROVER** | indicator of (0, 1/2]: grid sum 0 vs pi | grid_incidence_needs_even, in the same file |
+| Hypothesis-free form | KERNEL-CHECKED | autocorrelation RHS 2 pi int phi(u) phi(-u) e^{i(x-y)u} | hasSum_phihat_mul_phihat |
+| Method | Parseval on R/2piZ, not Poisson | support width 1 < 2 pi; polarised Parseval built from fourierBasis | bounded measurable suffices; no BV/decay needed |
+| Remaining of seam (i) | BOOKKEEPING | aL^2 units of (4.4) vs 2 pi Phi2(0); finite-truncation accounting (measured ~1/K) | named, open |
+| Seam (ii) | UNCHANGED | dual's cap as D >= theta*R0 | next piece of work |
+
+Disposition: **THE UNITS SEAM'S ANALYTIC CORE IS CLOSED, AND THE PROVER
+CAUGHT A MISSING HYPOTHESIS IN OUR SUBMISSION.** The evenness
+counterexample joins the session's defect list. Seam (ii) remains. No
+proportion is claimed to have moved.
