@@ -23,7 +23,11 @@ if str(_REPO_ROOT) not in sys.path:
     sys.path.insert(0, str(_REPO_ROOT))
 
 from ontology.knownness import LiteratureStatus, funnel_label  # noqa: E402
-from ontology.scout_online import ArxivBackend, OeisBackend  # noqa: E402
+from ontology.scout_online import (  # noqa: E402
+    ArxivBackend,
+    OeisBackend,
+    ZbMathBackend,
+)
 
 _FIB = SimpleNamespace(claim={"sequence": [1, 1, 2, 3, 5, 8, 13, 21]}, label="")
 _TEXTUAL = SimpleNamespace(claim={"subject": "pair correlation"}, label="")
@@ -149,6 +153,57 @@ def test_the_arxiv_source_has_no_route_to_found() -> None:
         "ArxivBackend accesses LiteratureStatus.FOUND: a title match is "
         "lexical and may never assert prior art"
     )
+
+
+# ---------------------------------------------------------------------------
+# 2b. zbMATH Open: the reviewing database, leads-only, no credentials
+# ---------------------------------------------------------------------------
+
+_ZBMATH_TWO = json.dumps(
+    {
+        "status": {"nr_total_results": 184},
+        "result": [
+            {"title": {"title": "Beyond pair correlation"}, "identifier": "1234.11001"},
+            {"title": {"title": "Pair correlation and twin primes revisited"}},
+        ],
+    }
+)
+_ZBMATH_EMPTY = json.dumps({"status": {"nr_total_results": 0}, "result": []})
+
+
+def test_zbmath_hits_are_reviewed_literature_to_read() -> None:
+    result = ZbMathBackend(fetch=_fetch(_ZBMATH_TWO)).lookup(_TEXTUAL)
+    assert result.status is LiteratureStatus.NOT_FOUND
+    assert result.sources_queried == ("zbMATH Open",)
+    assert "184 result(s)" in result.detail
+    assert "Beyond pair correlation" in result.detail
+    assert "zbMATH:1234.11001" in result.detail
+    assert "not prior art established" in result.detail
+
+
+def test_zbmath_empty_is_bounded() -> None:
+    result = ZbMathBackend(fetch=_fetch(_ZBMATH_EMPTY)).lookup(_TEXTUAL)
+    assert result.status is LiteratureStatus.NOT_FOUND
+    assert "not absence from the literature" in result.detail
+
+
+def test_zbmath_failure_is_unknown_offline() -> None:
+    result = ZbMathBackend(fetch=_broken_fetch).lookup(_TEXTUAL)
+    assert result.status is LiteratureStatus.UNKNOWN
+    assert result.online is False
+
+
+def test_the_zbmath_source_has_no_route_to_found() -> None:
+    import ast
+    import textwrap
+
+    source = textwrap.dedent(inspect.getsource(ZbMathBackend))
+    found_refs = [
+        node
+        for node in ast.walk(ast.parse(source))
+        if isinstance(node, ast.Attribute) and node.attr == "FOUND"
+    ]
+    assert found_refs == []
 
 
 # ---------------------------------------------------------------------------

@@ -16,6 +16,10 @@ that makes the scout trustworthy:
   abstract matching your words is a paper to read, not prior art
   established; hits ride in ``detail`` as leads for a human, exactly like
   the local corpus backend.
+* **zbMATH Open** (:class:`ZbMathBackend`) — the reviewing database's free
+  public API (api.zbmath.org, no credentials since 2021). Same rule as
+  arXiv: reviewed-literature leads with zbMATH identifiers, never
+  ``FOUND`` — a search hit in a review database is still a lexical hit.
 
 Failure is honest by construction: a query that never reached the service
 returns ``UNKNOWN`` with ``online=False`` and the error named —
@@ -47,6 +51,7 @@ from ontology.knownness import (
 __all__ = [
     "ArxivBackend",
     "OeisBackend",
+    "ZbMathBackend",
 ]
 
 _USER_AGENT: Final[str] = "zeta-lab-scout/0.1 (research tool; single queries)"
@@ -259,5 +264,77 @@ class ArxivBackend(LiteratureBackend):
             backend=self.name,
             online=True,
             sources_queried=("arXiv",),
+            detail=detail,
+        )
+
+
+class ZbMathBackend(LiteratureBackend):
+    """zbMATH Open as a lead generator. No credentials, and no ``FOUND``."""
+
+    name = "zbmath-open"
+    online = True
+
+    def __init__(
+        self,
+        fetch: Fetch = _default_fetch,
+        timeout: float = 20.0,
+        max_results: int = 10,
+    ) -> None:
+        self.fetch = fetch
+        self.timeout = timeout
+        self.max_results = max_results
+
+    def lookup(self, candidate) -> LiteratureResult:
+        terms = _terms_from(candidate)
+        if not terms:
+            return LiteratureResult(
+                status=LiteratureStatus.UNKNOWN,
+                label=NOT_RECOGNISED_OFFLINE,
+                backend=self.name,
+                online=False,
+                detail="the candidate carries no searchable text; no query ran",
+            )
+        url = (
+            "https://api.zbmath.org/v1/document/_search?"
+            + urllib.parse.urlencode(
+                {
+                    "search_string": " ".join(terms),
+                    "results_per_page": str(self.max_results),
+                }
+            )
+        )
+        try:
+            payload = json.loads(self.fetch(url, self.timeout))
+        except Exception as exc:  # noqa: BLE001
+            return _did_not_reach(self.name, exc)
+
+        total = (payload.get("status") or {}).get("nr_total_results")
+        entries = payload.get("result") or []
+        leads = []
+        for entry in entries:
+            title_field = entry.get("title")
+            if isinstance(title_field, dict):
+                title = title_field.get("title") or "(untitled)"
+            else:
+                title = title_field or "(untitled)"
+            ident = entry.get("identifier") or entry.get("zbmath_url") or ""
+            leads.append(f"{str(title)[:120]}" + (f" <zbMATH:{ident}>" if ident else ""))
+        if leads:
+            detail = (
+                f"zbMATH Open reports {total} result(s) for {terms!r}; the "
+                f"first {len(leads)} — reviewed literature to read, not "
+                "prior art established: " + "; ".join(leads)
+            )
+        else:
+            detail = (
+                f"zbMATH Open returned no results for {terms!r}; absence "
+                "from this query is not absence from the literature"
+            )
+        return LiteratureResult(
+            status=LiteratureStatus.NOT_FOUND,
+            label=NOT_RECOGNISED_OFFLINE,
+            backend=self.name,
+            online=True,
+            sources_queried=("zbMATH Open",),
             detail=detail,
         )

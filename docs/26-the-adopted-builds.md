@@ -191,12 +191,25 @@ Verified live against both services: the Fibonacci probe came back
 `FOUND https://oeis.org/A000045`, and the live check stays in the suite
 as a slow test that skips where the network does not answer.
 
+The "needs credentials" line above was itself audited after the operator
+challenged it, and half of it dissolved: **zbMATH Open has had a free
+public API since 2021**, no credentials at all, and its backend landed the
+same night (`ZbMathBackend`, leads-only like arXiv, verified live — 184
+results for the pair-correlation probe including Montgomery's own title).
+What genuinely remains gated: **MathSciNet** (AMS institutional
+subscription, no self-serve tier — zbMATH Open is the free substitute and
+is now wired), **Aristotle** (needs an account and key the operator
+creates at aristotle.harmonic.fun; account creation is the one step the
+tooling will not do on anyone's behalf), and **AlphaEvolve GA** (a Google
+Cloud onboarding). The lesson is recorded because it generalizes: *"needs
+credentials" is a claim to verify against the service, not a memory to
+repeat* — one of the three named services turned out to be free.
+
 Still deliberately unbuilt from the specification, with the reason
 standing: durable orchestration and start/pause/steer controls — the
 memo's own build order puts them behind everything above, and `meta/`'s
 rule (measure the loop before automating it) has not been satisfied by a
-single measured loop yet. zbMATH/MathSciNet need credentials the lab does
-not have; they stay named as absent rather than pretended at.
+single measured loop yet.
 
 ## What this document does not claim
 
