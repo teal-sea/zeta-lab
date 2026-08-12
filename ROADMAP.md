@@ -1182,6 +1182,15 @@ than improvising them; and proof-adapter work cannot ride in a nightly
 mission on a machine with no Lean toolchain, because the zero-`sorry` check
 must run locally.
 
+**Landed, same day.** Adopted builds 1–4 shipped within hours of the
+decision: `harness/independence.py` with the rigor cross-check as worked
+subject, `harness/guards.py` with a five-record ledger (three demonstrated
+by live mutants, two honestly undemonstrated), `hunts/HUNTSPEC.md` with its
+validator, and `lean/proof_adapter.py` exercised once end to end against
+the real kernel. `docs/26-the-adopted-builds.md` is the record, including
+each piece's honest edge and the alpha-ecosystem inventory
+(`external/`, `.venv-tools` — machine state, not repository state).
+
 ## Known gaps
 
 Listed because an undocumented gap becomes an assumption.

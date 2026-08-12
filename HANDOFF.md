@@ -52,6 +52,15 @@ untracked, zero runs so far) is the memo's "targeted autonomous frontier
 hunt" already built; arming it is the operator's switch, and no
 proof-adapter work rides on a machine without a Lean toolchain.
 
+**5. Builds 1–4 landed the same day** — `harness/independence.py` (rigor
+cross-check declared: radius 3 of 5, agreement is evidence about the ball
+arithmetic alone), `harness/guards.py` + the opening five-record ledger,
+`hunts/HUNTSPEC.md` + validator, `lean/proof_adapter.py` (end-to-end once
+against the real kernel; submission half waits on ARISTOTLE_API_KEY).
+Record with honest edges: `docs/26-the-adopted-builds.md`. Alpha ecosystem
+cloned to `external/` with `.venv-tools` (openevolve, aristotlelib) —
+machine state, see `external/README.md` for the two remaining human steps.
+
 ---
 
 ## Record: frontier math — the 0.672529 candidate is cleanly killed

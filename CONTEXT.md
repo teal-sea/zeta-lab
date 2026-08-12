@@ -893,6 +893,26 @@ The falsification protocol with the subject factored out. Four instrument roles 
 
 - `main(argv: list[str] | None = None) -> int`
 
+### `harness/guards.py` — ``harness.guards`` — detection power as a record, not a feeling.
+
+*152 lines*
+
+- `class GuardRecordError` — A guard record that claims more or less than its fields carry.
+- `class GuardRecord` — One guard, its intended lesion, and whether its power was ever shown.
+- `undemonstrated(records: tuple[GuardRecord, ...]) -> tuple[str, ...]` — The guards whose power nobody has shown — the offensive's worklist.
+- `dead_guards(records: tuple[GuardRecord, ...]) -> tuple[str, ...]` — Guards demonstrated *not* to fire on their own lesion.
+- `offensive_worklist(records: tuple[GuardRecord, ...]) -> tuple[str, ...]` — Every open item the ledger implies, one disputable sentence each.
+
+### `harness/independence.py` — ``harness.independence`` — verification independence as declared structure.
+
+*228 lines*
+
+- `class IndependenceError` — A path or comparison that cannot be measured as declared.
+- `class VerificationPath` — One route from input to verdict, as an ordered tuple of named layers.
+- `class IndependenceReport` — What two declared paths share, where, and what that bounds.
+- `compare(a: VerificationPath, b: VerificationPath) -> IndependenceReport` — Measure what two declared paths actually duplicate.
+- `agreement_bounds(report: IndependenceReport) -> tuple[str, ...]` — Every reason an agreement between the two paths is bounded evidence.
+
 ### `harness/integrity.py` — ``harness.integrity`` — the referee, refereed.
 
 *1560 lines*
@@ -1008,6 +1028,13 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `P`, `CURVE_A`, `CURVE_B`, `
 - `claim_functional_equation(payload: dict) -> bool` — Self-duality: the counts follow a degree-2 Lefschetz recursion with αβ = p.
 - `claim_hasse_bound(payload: dict) -> bool` — RH for the curve: both Frobenius roots on |α| = sqrt(p), i.e. a² ≤ 4p.
 
+### `harness/departments/guard_ledger.py` — The repository's guard ledger — the guard offensive's opening entries.
+
+*118 lines*
+
+Constants: `GUARDS`
+
+
 ### `harness/departments/referee_department.py` — Department #5: the referee itself — batteries as subjects, audited like one.
 
 *689 lines*
@@ -1039,9 +1066,9 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `N_FEATURES`, `W_TRUE`, `NOI
 
 ### `harness/departments/zeta_department.py` — ``harness.departments.zeta_department`` — department #1, and the reference wiring.
 
-*497 lines*
+*547 lines*
 
-Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LESION_HEIGHT`, `LESION_DELTAS`, `TARGET`, `RIVALS`, `DECOYS`, `SURROGATES`, `LESIONS`, `LI_PROJECTION_THRESHOLD`, `DETECTORS`, `BATTERY`, `REFERENCE_CLAIMS`, `DEPARTMENT`
+Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LESION_HEIGHT`, `LESION_DELTAS`, `TARGET`, `RIVALS`, `DECOYS`, `SURROGATES`, `LESIONS`, `LI_PROJECTION_THRESHOLD`, `DETECTORS`, `BATTERY`, `REFERENCE_CLAIMS`, `DEPARTMENT`, `RIGOR_SHARED_LAYERS`, `RIGOR_SHARED_TAIL`, `RIGOR_BACKEND_PATHS`
 
 - `class InterfaceSubject` — A subject whose payload is one of ``zeta.epstein``'s interface dicts.
 - `class PrimeDecoy` — A substitution acting on a sequence of primes.
@@ -1132,6 +1159,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `23-rival-distance-and-detector-independence.md` — 23 — Rival distance and detector independence: closing two declared blind spots
 - `24-the-local-positivity-attempt.md` — 24 — The local positivity attempt, run to its wall
 - `25-the-director-run.md` — 25 — The director run: the laboratory pointed at itself
+- `26-the-adopted-builds.md` — 26 — The adopted builds: the decision of 2026-08-11, made runnable
 
 ## Runnable demos (`scripts/`)
 
@@ -1178,7 +1206,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1583 test functions across 54 files (the collected count differs where tests are parametrised):
+1631 test functions across 58 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_claim_attribution.py` — 6
@@ -1202,9 +1230,11 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_factorization.py` — 13
 - `tests/test_finitefield.py` — 53
 - `tests/test_frontier_math_clean_kill.py` — 6
+- `tests/test_guard_ledger.py` — 10
 - `tests/test_harness_croniter_department.py` — 11
 - `tests/test_harness_demo.py` — 5
 - `tests/test_harness_finitefield_department.py` — 12
+- `tests/test_harness_independence.py` — 17
 - `tests/test_harness_integrity.py` — 20
 - `tests/test_harness_promotion.py` — 48
 - `tests/test_harness_protocol.py` — 49
@@ -1213,12 +1243,14 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_harness_zeta_department.py` — 9
 - `tests/test_heatflow.py` — 38
 - `tests/test_hunt_probe_discipline.py` — 6
+- `tests/test_huntspec.py` — 11
 - `tests/test_inverse.py` — 8
 - `tests/test_leeyang.py` — 7
 - `tests/test_li.py` — 56
 - `tests/test_meta_ledger.py` — 24
 - `tests/test_moments.py` — 26
 - `tests/test_plots.py` — 13
+- `tests/test_proof_adapter.py` — 10
 - `tests/test_quasicrystal.py` — 9
 - `tests/test_relations.py` — 7
 - `tests/test_repo_hygiene.py` — 7
