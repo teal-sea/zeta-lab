@@ -20,16 +20,37 @@ model can actually do, and the one thing it should not attempt.
 `sorry`s. Fast tier: 2217 passed, 1 skipped (platform-conditional
 `test_rigor.py:136`, benign), 3 xfailed. `scripts/make_context.py --check`
 clean. Preflight (`scripts/science_preflight.py`) exits 0 with
-`rigor.BACKEND = python-flint` and both backends present. Next free doc number
-is **26**.
+`rigor.BACKEND = python-flint` and both backends present.
 
-**Four other threads are live and must not be touched**:
+**Doc numbering, with a live hazard.** The preflight reports **26** as next
+free, and on `main` that is correct — but the unmerged branch
+`worktree-lab-direction-decision` already carries a document numbered 26
+(`26-the-adopted-builds.md`, written without its directory prefix here so this
+paragraph does not itself become a dangling reference). Taking 26 would collide
+the moment that branch lands. **Take 27**, or run
+`git log --all --name-only -- 'docs/*'` first. The preflight cannot see this
+because it reads the working tree, not other branches; that is a real gap in
+the instrument and is worth closing.
+
+**Five other threads are live and must not be touched**:
 `claude/math-genius-repo-f082zw` (5 ahead),
 `claude/post-formalization-automation-f3vqc6`,
 `claude/v-cell-certificate-decimal-4b57mi`,
-`claude/zeta-constants-discrepancy-8zm0qs`. They are the operator's parallel
-runs, some proving their own Lean. Report them; never merge them. Only
-fast-forward `main`, only rebase your own branch.
+`claude/zeta-constants-discrepancy-8zm0qs`, and
+`worktree-lab-direction-decision` (14 ahead, the largest). They are the
+operator's parallel runs, some proving their own Lean. Report them; never merge
+them. Only fast-forward `main`, only rebase your own branch.
+
+`worktree-lab-direction-decision` was **local-only until 2026-08-12** — 14
+commits on one disk with no backup, carrying an Aristotle proof-agent adapter
+wired to the real SDK and authenticated live, a zbMATH Open backend, a
+literature scout with OEIS content checks, four Sturm-track lemmas
+kernel-checked in that tree, and its own document numbered 26. It is now
+pushed **as a backup
+only**; it is still unmerged and still another session's work. It also lives in
+a locked worktree at `.claude/worktrees/lab-direction-decision`, so a session
+may be active there. Do not merge, do not rebase it, do not delete the
+worktree.
 
 ### The economics, which change what to work on
 
@@ -97,9 +118,12 @@ Hard constraints for this session:
 - Frontier-model tokens are exhausted; the operator funds this personally.
   Prefer tasks a machine decides over tasks an argument decides. Running the
   test suite and lake build costs wall-clock, not tokens: use them freely.
-- Four claude/* branches ahead of main are the operator's parallel runs.
+- Five branches ahead of main are the operator's parallel runs (four claude/*
+  plus worktree-lab-direction-decision, which also holds a locked worktree).
   Report them, never merge them. Only fast-forward main; only rebase your own
   branch. Check `git fetch` before landing anything.
+- Doc numbers: the preflight says 26 is free, but an unmerged branch already
+  uses 26. Take 27, or run `git log --all --name-only -- 'docs/*'` first.
 - Do NOT start the hdom / Abel-Fubini formalization (HANDOFF says why). If you
   find yourself writing measure-theory Lean, stop and say so.
 - The Lean arm counts nothing with a sorry. The word "certified" belongs to
