@@ -60,9 +60,11 @@ an unresolved transfer — not a request for anyone's blessing:
    false twice over.  The field-level inequality holds exactly, but does
    not survive the square completion — a coincident stack collects k
    times the damage while paying the internal charge once, with excess
-   `[2Σ_{i<j}F_iF_j − (k−1)(cK)²]/(4cK)` — and, decisively, from three
-   pairs on a unit lattice the *sum of single-pair caps already exceeds
-   the budget* while the joint verdict closes with 40 % margin.  The
+   `[2Σ_{i<j}F_iF_j − (k−1)(cK)²]/(4cK)` — and, decisively, from four
+   pairs on a unit lattice (three at float grade; the k = 3 line sits
+   inside the float-vs-hardened gap) the *sum of single-pair caps
+   already exceeds the budget* while the joint verdict closes with 40 %
+   margin.  The
    joint field's shielding is load-bearing, so no per-pair argument can
    reach θ = 0.995 in either direction.  The slack we assumed additive
    is not: its pair term is signed and erodes up to 84 % of a pair's

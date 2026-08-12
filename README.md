@@ -41,9 +41,10 @@ source paper's units is derived, with conversion factor exactly 1, and
 the improvement does not drown in that paper's error terms. **Still
 open:** the many-pair case.  Our own proposed route for it — bounding
 the joint cap by a sum of single-pair caps — was refuted this session:
-it fails above the multiplicity threshold, and from three pairs on the
-per-pair sum already exceeds the budget while the joint verdict closes
-comfortably, so the joint field's shielding is load-bearing.  The
+it fails above the multiplicity threshold, and from four pairs on (three
+at float grade) the per-pair sum already exceeds the budget while the
+joint verdict closes comfortably, so the joint field's shielding is
+load-bearing.  The
 obligation is now a single bandlimited nonnegative-kernel inequality in
 two exponential sums, which is a sharper target than what it replaced.
 
