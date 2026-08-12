@@ -247,3 +247,328 @@ mutual exclusion of level 6b is pointwise structure here: the cross term
 that damages and the pair mass that pays live at the same frequency. Next:
 the v-cell certificate; then mixed-depth sweeps and the full-ladder scan;
 then Phase 7. No decimal search was run and no proportion is claimed.
+
+## Level 7: the v-cell joint cap, the ladder correction, the first reading (2026-08-11)
+
+Full account: `LEVEL7-VCELL.md`; instruments `v_certificate.py`,
+`full_ladder_scan.py`, `reconnect.py`; controls `test_v_certificate.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| LAW N: windowed spectral floor | DELIVERED (exact) | phasor arguments within vS/2 of the window midpoint | `\|F_on(v)\| >= n cos(vS/2)` on `\|v\| <= pi/S`; forces `R >= kappa_00 n^2 - n` — the fourth self-defeat (spectral concentration) |
+| The safe cell | DELIVERED (exact) | common-window phase coherence | cross integrand >= 0 on `\|v\| <= pi/(2S)`: the chi collapse of 6b, pointwise |
+| Naive pointwise-in-v budget | **DEAD, recorded** | sub-critical lattice (spacing < 2 pi/L) empties the band | diagonal-subtracted integrand ~ -(1-theta) N mid-band, linear in N; the aliasing family again; the certificate survives it only through LAW N |
+| The joint cap (on-line configuration-free) | DELIVERED, two routes; **ARB-HARDENED at the binding configurations** | direct: chain DP on the joint field at full charge (mean-value ball cells — the naive interval route amplifies radii ~1.8e5 and is recorded); v-route: three-zone split + taper + LAW M mean + LAW N leak cap + cell C-S | every swept configuration closes via the direct route (float: +6.5..+769); hardened (`hardened_direct.py`, budget directed down, cap directed up): former hole +17.33..+159.05, pinch +25.45, sparse +115.48, shallow sandwich +213.33 — worst hardened margin **+17.33** at nu 1.3; greedy 5.00, extended greedy 5.56; theta = 1 cap infinite |
+| Mixed-depth joint sweeps (phase 2a) | DELIVERED | same instrument, battery shapes + shallow sandwich | all nu >= 1.5 shapes close (shallow sandwich +166.6); nu = 1.0 shapes covered separably (+0.53..+1.68) |
+| **The seam** nu_p in [1.1, 1.4] deep | **CLOSED (direct route)** | the level-4 chain DP on the JOINT damage field `(-(sum_r 2W))_+` at full charge — 6b's original named object, tight only with the positive part of the joint sum | direct margins +15.7..+153.7 across the former hole; short spans close (span 4 at nu 1.3: +10.4); per-pair clipping (the separable ghost, field inflated ~10x) recorded as a permanent control; the v-route's [5, 7]-band looseness diagnosis kept as the record of why the spectral route needed the g-local shielding |
+| Full-ladder hardened penta scan (phase 2b) | **RUN — 6a CORRECTED** | honest cell widths (1.05/1.012 ratios, 220 cells) + ten-point eta grid | 45 cells FAIL in two bands: shallow y in [0.010, 0.050] (worst −0.056; the eta(0.02) = 0.4066 spike the probe grid missed) and deep y in [0.419, 0.472] (worst −0.012; the 9e-4 probe margin does not survive honest widths); theta_full via the per-depth assembly is reduced to the passing bands; the shallow band closes at the joint level (shallow sandwich +166.6 / +22.9), the deep band coincides with the seam |
+| The reconnect (phase 3) | **CANDIDATE ARITHMETIC RECORDED, GATE CLOSED** | one-sided ordered-gap floor x theta_full through the withdrawn chain's plumbing | c_u = 5.02e-6 one-sided (ladder-stable, CG calibration <= printed, lesion dies); candidate = 0.6725007037 + 2(0.02)(5.02e-6) = **0.6725009045** (+2.01e-7); named unproven steps: the transplant lemma, the arb pass, the seam, taper/truncation |
+| Phase 7 decimal gate | **NOT ENTERED** | the seam + the assembly correction + measured-grade caps | no proportion is claimed to have moved |
+
+Disposition: **THE JOINT VERDICT IS ON-LINE-CONFIGURATION-FREE ACROSS THE
+ENTIRE SWEPT AXIS (measured grade), WITH TWO INDEPENDENT ROUTES AND THE
+SEPARABLE CAPS AS CROSS-CHECKS.** The seam that stood open for one session
+closed the moment the 6b-named direct object was built correctly (joint
+positive part); the near-miss that had hidden it is a permanent control.
+Level 6a's full-ladder extrapolation is corrected, not extended — the
+probe grid missed both failing bands (the shallow eta spike and the deep
+cells whose 9e-4 probe margins vanish at honest widths); that lesson
+(resolution fragility, third occurrence) is now a permanent scan.  The
+first reading of the decimal exists as candidate arithmetic only; with
+the binding configurations now arb-hardened, the road to it runs through
+pair-side placement freeness and the transplant lemma (plus the
+mechanical full-sweep hardening), in that order. No proportion is
+claimed.
+
+
+## The transplant lemma dissected (2026-08-12, branch claude/transplant-lemma)
+
+Full account: `TRANSPLANT-LEMMA.md`; instrument `transplant_lemma.py`;
+controls `test_transplant_lemma.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Direct floor at the hunt kernel | **DEAD, measured** | omega(L=8) zeros arithmetic to 1e-4 — the floor's own lesion condition | bucket LP floor = 0.00e+00 exactly; ratios 1 : 2.0001 : 3.0003 |
+| Direct floor at the Hann grid kernel | **DEAD EXACTLY** | 2 lambda_1 = lambda_4 (zeros 6pi, 8pi, 10pi, 12pi) | 2 lambda_1 - lambda_4 = -5e-13; LAW D there is alias-free (defect 3.7e-8) |
+| The MT kernel identified | DELIVERED (exact) | g_MT = normalised (FT of cos(sqrt2 t) width-1 box)^2 | identity defect 2.5e-16; the sqrt2 modulation is the unique non-degeneracy of the three |
+| The lemma decomposed | DELIVERED | no kernel comparison needed — the chain moves to the floor's own kernel | T1 chain re-run at the MT window (alias defect 0.53% to carry one-sidedly), T2 census (measured consistent: damage band at 1.10-1.12 mean gaps ~ lambda_1), T3 plumbing (calibrated), T4 taper/truncation, T5 the upstream Lean window pin (external) |
+| MT-window entry card | MEASURED | Phi2_mt closed form | minW/sigma^2 = -0.40..-0.43 vs the hunt's -(1+m0) = -1.21: 3x friendlier; sigma^2(0.49) = 0.0175 |
+| Candidate status | UNCHANGED | all of the above | the reading 0.6725009045 stays a candidate; the "incomparable kernels" failure mode is eliminated, the "floor dies at the paper's kernel" risk is now a measured fact with the MT modulation as the unique escape |
+
+Disposition: **THE TRANSPLANT LEMMA IS NOT AN INEQUALITY — IT IS A
+RE-RUN.** The critical path to the decimal is now: T1 (the retention
+chain at the MT window, compute with existing machinery), then T5 (pin
+the upstream zero-side window in the external Lean file). No proportion
+is claimed.
+
+
+## T1 first session: the MT-window re-run (2026-08-12, branch claude/transplant-lemma)
+
+Full account: `TRANSPLANT-LEMMA.md` (T1 section); instrument
+`mt_chain.py`; controls in `test_transplant_lemma.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| LAW D at MT | **EXACT — alias claim corrected** | width-1 support cannot reach the +-2pi combs (Poisson) | truncation control: defect scales 1/K (3.8e-3 -> 6.0e-5 over K 80 -> 5120) |
+| LAW K at MT | HOLDS | same algebra, LAW D exact | grid pair-block spectrum matches {2(1+s2), -2s2} at y = 0.45 |
+| LAW-I-style envelope | DELIVERED (one-sided) | fine grid + Lipschitz + Im-majorant tail | W >= -0.54 sigma^2 (y = 0.49), -0.70 (y = 0.3); hunt window: -1.21 |
+| Single-pair trade at MT | **MEASURED HEALTHY** | explicit band-riding adversary | D = 0.030 vs slack 0.142 at y = 0.49, 4.7x inside at FULL charge (c = 1, theta = 0); only the +-1.10-mean-gap band pair is ever profitable. (A first write-up said "even at theta = 1" — false: at theta = 1 the charge vanishes and stacking is unbounded. Caught by the adversary hunt; kept in the record.) |
+| Level-4 chain DP at MT | **DOES NOT TRANSPLANT, pinned** | damage bands at kernel zeros persist ~1/g^2; interval charge floors straddle the same zeros | min omega^2 over [d, 3d] = 0.182/0.023/0.000; true point repulsion at band separations 0.017/0.011/0.001 — the DP grants the far bands free |
+| The named T1 theorem object | NAMED | band-lattice counting dual with point-separation charges | charge the k-th band pair its actual omega^2 at the near-arithmetic separation, not an interval minimum |
+| Candidate reading | RE-FOUNDED, value unchanged | hunt-kernel floor = 0 (finding 1) removes the old support | now rests on MT retention (measured) + one-sided g-floor + calibrated plumbing + census + T5; no proportion claimed |
+
+Disposition: **THE LAWS TRANSPLANT; THE COUNTING DUAL DOES NOT — AND THE
+REASON IS THE SAME ARITHMETIC THAT MAKES THE FLOOR LIVE.** The sqrt2
+modulation that gives the CG mechanism its non-arithmetic zeros also
+parks the damage bands on the repulsion nulls, so interval-charge
+counting is structurally blind here. The trade itself is healthy by 4.7x
+at the explicit adversary; making that configuration-free needs the
+band-lattice dual. No proportion is claimed.
+
+
+## T1 second session: the band-lattice dual (2026-08-12, branch claude/transplant-lemma)
+
+Full account: `TRANSPLANT-LEMMA.md` (T1 second session); instruments
+`band_dual.py`, `mt_pairs.py`, `mt_adversary.py`; controls in
+`test_transplant_lemma.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| The first session's named obstruction | **WITHDRAWN** | omega^2 is a square, so cross-band charges drop one-sidedly | the band/kernel-zero coincidence was never load-bearing; the 0.44 cap was mostly a blanket-margin artifact (~800 uniform cells x 1.7e-3), the third occurrence of that failure mode in this hunt |
+| The band partition is complete | DELIVERED (one-sided) | a band is exactly where q = Re^2 - Im^2 < 0; an unresolved dip needs an interior minimum | q / ((1/8)\|q''\| step^2) >= 326 (y = 0.02) to 7347 (y = 0.49) off the widened bands, so the off-band allowance is exactly 0 |
+| Band structure | MEASURED | closed-form Phi2, Phi2', Phi2'' | 63 bands in (0, 400]; width 0.970 grid units; first at 1.106 mean gaps; maxima decay 4.93/2.33/1.80/1.57 vs the 1/g^2 law |
+| The free-band ratio | **MEASURED 0.34-0.36, depth-flat** | band sum + closed-form tail | granting every band maximum at zero internal cost takes only ~a third of the slack, at every depth from 0.02 to 0.49 |
+| Secured single-pair theta at MT | **DELIVERED: theta* = 0.995** | band dual, one-sided | hunt window secured 0.1; the binding constraint is same-band multiplicity alone, not damage |
+| Projection + kill controls | HELD | measured band-riding adversary; theta = 1 | 0.0102 <= 0.0179 (y = 0.3), 0.0298 <= 0.0493 (y = 0.49); cap(theta = 1) infinite |
+| Pair layer at MT | MEASURED, friendlier | LAW L (defect pure 1/K truncation, 3 lesions reject) | stacking floor 0.979 mean gaps (vs 0.255); worst dipole cover 8.84-9.91 (vs 2.8-6.7); **no dense-deep pinch**; single soft window nu_p ~ 0.97, T/slack -0.381 |
+| The joint cap at MT | **NOT RUN** | the level-7 direct dual rebuilt on the band partition | named; until it runs, theta_full^MT is unknown and no new reading is computed |
+| Candidate reading | UNCHANGED | the joint layer is what the composition needs | 0.6725009045 stands; conditional arithmetic at theta_full^MT = 0.2 / 0.995 would give +2.0e-6 / +1.0e-5, explicitly not readings |
+
+Disposition: **THE RETENTION COEFFICIENT AT THE FLOOR'S OWN KERNEL IS
+FIFTY TIMES THE HUNT WINDOW'S, AT THE SINGLE-PAIR REDUCTION.** The
+window that makes the Cheer-Goldston mechanism live also makes the
+retention trade easy: its damage is confined to narrow bands carrying a
+third of the slack in total, and its pair layer's stacking floor nearly
+fills the mean gap. The next object is the joint cap on the band
+partition. No proportion is claimed to have moved.
+
+
+## T1 third session: the joint cap and the coherent composition (2026-08-12)
+
+Full account: `TRANSPLANT-LEMMA.md` (T1 third session); instruments
+`mt_joint.py`, `mt_adversary.py`; controls in `test_transplant_lemma.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Joint cap at MT (theta_full's object) | **DELIVERED** | level-7 direct route on the band partition; joint positive part; cross-cell charges dropped; partition completeness Q-test | closes every swept configuration at theta = 0.995; worst case is the ISOLATED pair (budget 0.1423, cap 0.0653, margin +0.0771) |
+| Density at MT | **DEFENCE, not danger** | LAW M's positive mean summed over pairs | at nu_p >= ~1 the joint field has NO positive region: max over a 200-unit halo is -7.5e-4 vs a single pair's +1.5e-2; cap is exactly 0 for every nu_p >= 1.25 row |
+| theta_full at MT | **= theta* = 0.995** | the joint layer imposes no loss | inverted ordering vs the hunt window, where the joint layer cost 5x (0.1 -> 0.02) and needed a mutual-exclusion argument for a dense-deep pinch |
+| Independent adversary hunt | HELD | exhaustive n <= 6 with gradients, band lattices, multiplicity, phase/depth/theta sweeps | no configuration beats the two-zero band pair; charge-free envelope 0.325-0.335 of slack (independent of the dual's one-sided 0.34-0.36); measured largest safe theta 0.9990 at y = 0.49 |
+| **theta\* sandwiched** | MEASURED | one-sided dual vs measured adversary | **0.995 <= theta\* <= 0.999**: the configuration-free bound is within 0.4% of the measured truth |
+| Convention error | **CORRECTED, recorded** | at theta = 1 the charge vanishes and stacking is unbounded | an earlier line claimed the trade held "even at theta = 1"; false as written - the figure was the full-charge case (c = 1, theta = 0). Both duals correctly report cap(theta = 1) = infinity |
+| Window coherence of the composition | **REPAIRED** | g_MT is exactly the MT window's kernel (defect 2.5e-16) | floor and retention now live on ONE kernel; the previous pairing drew retention from a window whose own floor is 0 (it sits on the floor's lesion) |
+| Candidate reading | **RECOMPUTED, still a candidate** | window-coherent composition | 0.6725007037 + 2(0.995)(5.0212e-6) = **0.6725106958**, i.e. +9.99e-6 vs the hunt-window composition's +2.01e-7 |
+| The five open steps | UNCHANGED | plumbing linearity, census conversion, taper/truncation one-sided, the arb pass, T5 (external Lean window pin) | any one alone withholds the word improvement; no proportion is claimed |
+
+Disposition: **THE JOINT LAYER IS FREE AT THE FLOOR'S OWN KERNEL, AND THE
+COMPOSITION IS COHERENT FOR THE FIRST TIME.** The window that makes the
+Cheer-Goldston mechanism live also makes density a defence rather than a
+danger: dense pair sets leave the on-line adversary no positive field to
+stand on. The candidate reading is recomputed at 0.6725106958 and remains
+a candidate behind five named steps, one of them external. No proportion
+is claimed to have moved.
+
+
+## T1 fourth session: arb pass + the kernel-pairing error (2026-08-12)
+
+Instruments: `hardened_band.py`, `kernel_pairing.py`; controls in
+`test_transplant_lemma.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Arb pass over the single-pair band dual | **DELIVERED** | interval-argument acb enclosures; no Lipschitz margin granted anywhere | amplification 1.06 -> 0.0024 over g = 1.1 -> 300 (hunt window: ~1.8e5), so the MT form is interval-friendly; hardened margins +1.53e-4 (y=0.02) to +9.32e-2 (y=0.49) at theta = 0.99 |
+| Hardened vs float | **TIGHTER, not looser** | the cover removes the float pass's blanket slope margins | hardened cap below float cap at every depth; largest surviving theta 0.9988 with an identical float boundary (clears .9988, fails .9989) |
+| No-missed-band under hardening | **STRONGER FORM** | continuum cover, not grid inference | every unflagged cell has f <= 0 throughout the cell; the curvature test reproduced with directed endpoints clears at 8.1-118.9 |
+| **Kernel-pairing error in our own composition** | **FOUND AND CORRECTED** | theta_full retains sum omega^2 (omega = FT(phi^2) normalised); c_u is computed in g = (FT phi)^2 | (FT phi^2) != (FT phi)^2: ratio 1.02/1.12/1.70/0.66 at u = 0.3/0.6/0.9/1.5, zeros differ 6% (1.1208 vs 1.0573). The product mixed two kernels, undeclared |
+| Own-kernel floor | DELIVERED (one-sided, ladder-stable) | omega^2 zeros non-arithmetic (1, 1.839, 2.713) so the floor is live | c_u(omega^2) = 4.021769e-06 vs c_u(g) = 5.021179e-06, ratio 0.801; both stable across n = 600k/1.2M/2.4M; lambda_2 lesion dies on both |
+| Reading of record | **REVISED DOWNWARD** | conservative pairing | **0.6725087070** (+8.00e-6), replacing 0.6725106958 |
+| Residual T3 | SHARPENED | which pairing the upstream count requires | now a precise question about the paper's Theorem D derivation - is its discarded mass an omega^2 sum or a g sum? - not a vague plumbing worry |
+
+Disposition: **THE HARDENING COSTS NOTHING AND THE COMPOSITION COST A
+KERNEL.** The arb pass moves theta by less than a scan step (0.9988), but
+auditing what the symbols denote found the reading pairing two different
+kernels; the conservative repairing lowers it to 0.6725087070. Still a
+candidate: T3 (now sharp), the census conversion, taper/truncation, and
+T5 (external) remain. No proportion is claimed to have moved.
+
+
+## Confidence audit (2026-08-12)
+
+| Claim | Grade | What it rests on |
+|---|---|---|
+| MT-window retention: theta* in [0.995, 0.999], arb-hardened 0.9988 | **strong** | one-sided dual + independent adversary hunt + ball arithmetic, three routes agreeing |
+| LAW D / LAW K / band structure at MT | **strong** | exact identities, truncation-scaling controls, independent grid routes |
+| Joint layer free at MT | **good** | configuration-free on the on-line side; pair side is families + stacking floor |
+| omega^2 != g, floors differ by 0.801 | **strong** | direct computation, ladder-stable, lesions die |
+| The paper's window is MT | **one number** | the pinned constant IS the MT constant to 2e-11 (rounding) — real evidence, and the only evidence |
+| **theta enters `H + 2 theta c_u` multiplicatively** | **NOT ESTABLISHED** | the formula's coefficient and linearity are calibrated against CG (conditional, Montgomery framework); the multiplicative entry of a Frobenius-framework retention is derived nowhere. **If false, the reading is vacuous** |
+| T5 (upstream Lean window pin) | **open, external** | outside this session |
+
+Defects of our own found and corrected in this session: the
+blanket-margin artifact (x3, three guises), a theta = 1 convention
+mislabel, the kernel-pairing mix, a propagated stale comment. All found
+by controls or independent routes, none by inspection.
+
+
+## T3/T5 paper session (2026-08-12)
+
+Instrument: `paper_pin.py`; the paper itself, SHA-256
+6792988e6cd0e17690621ce898abd5d534f98407741bc7cb14bbe7d07c77d72f,
+section 7.1 + Theorem D proof (pp. 20-21) and the (Z)(P)(L) skeleton
+(pp. 4-5).
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| T5: upstream window pin | **ANSWERED FROM SOURCE** | "Writing phi^2(u) = v(u/L)"; Theorem D takes phi = cos(sqrt2 u/l)^(1/2) box, ramp-mollified, rho = 1 | functional (7.3) implemented once reproduces MT constant at v* (defect 6.8e-9, ladder-shrinking), Montgomery's 2/3 at v = 1 |
+| T3 kernel half | **ANSWERED FROM SOURCE** | K = |vhat|^2 in (7.3); LAW D weight = FT(phi^2)^2; for the paper's window FT(phi^2) = v*-transform | omega^2 = g to 2.5e-16 under the paper's window; gap >= 7% under the T1 window — the ambiguity belonged to the wrong window |
+| T1 window class membership | **STRICTLY WEAKER** | v-profile cos^2 vs cos | H(cos^2) = 0.6673241, 5.2e-3 below the optimum; every T1 field was built at this member |
+| Burden (a): chain re-run at Phi2 = FT(cos box) | NAMED, OPEN | one kernel swap in mt_chain/band_dual/mt_joint | theta* = 0.995 is currently a measurement about a neighbouring window |
+| Burden (b): ramp mollification | NAMED, OPEN | paper's window is ramped; theta* was at the pure box | paper states O(log l / l) window-constant corrections |
+| Burden (c): multiplicative theta | UNCHANGED, LOAD-BEARING | "(2 tr P - r) + (4 tr Q - 4b) plays the role that sum (2m-1) plays" — (L) consumes the Frobenius mass whole | derived nowhere; if false the reading is vacuous |
+| Reading of record | UNCHANGED | conservative pairing until burden (a) lands | **0.6725087070**, a candidate; correctly-paired figure 0.6725106958 waits on (a) |
+| Stale comment digits in cg_transplant.py | CORRECTED (again, this copy) | comments printed 1.3274992766 / 0.6725007233 | now 1.3274992963 / 0.6725007036; value itself was always right and is pinned by test |
+
+Disposition: **BOTH QUESTIONS THE AUDIT LEFT OPEN ARE ANSWERED, AND THE
+ANSWER INDICTS OUR OWN WINDOW.** The paper's window puts the cos profile
+on phi squared; ours put it on phi. That dissolves the kernel ambiguity
+(in favour of g) and simultaneously reveals the T1 field was built at a
+strictly weaker class member. Next build: the kernel swap (burden (a)).
+No proportion is claimed to have moved.
+
+
+## Burden (a): chain re-run at the paper field (2026-08-12)
+
+Instruments: `paper_chain.py`, `test_paper_chain.py` (11 tests).
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Field swap Phi2 -> FT(cos box) | **DELIVERED** | closed-form s, s', s'' with series joins (mismatch <= 5e-9); kernel identity (phihat/A)^2 = g to 2.5e-16 | band lattice = MT-kernel zeros, 63 bands in (0, 400], non-arithmetic |
+| theta* at the paper field | **0.995** | one-sided band dual, no blanket margins (off-band allowance exactly 0) | caps 0.000111/0.002636/0.023905/0.091090 vs slacks 0.000248/0.006208/0.056436/0.153435 at y = 0.02/0.1/0.3/0.49; 0.999 fails at y = 0.49 |
+| Completeness | CLEAR | q vs curvature, local closed-form d2 | ratios 328/1618/4670/7154 |
+| Convention control | PASS | cap(theta = 1) must diverge | inf, as required |
+| Dual dominates primal | PASS | greedy adversary at theta* | 0.02102 <= 0.02391 (y=0.3), 0.05960 <= 0.09109 (y=0.49) |
+| Distinctness | PASS | paper field != T1 field at first band centre by > 1e-3 | not a re-run of the same numbers |
+| Prompt-series defect | CAUGHT BY CONTROL | s' cubic coefficient: prompt said u^3/1920, sympy pins u^3/960 | derivative pins 4.8e-10 / 6.2e-8 after fix |
+| Reading of record | **MOVES to 0.6725106958** | pairing settled (g) + theta at the correct field | still a candidate: ramp (b) and multiplicative theta (c) remain |
+
+Disposition: **THE RETENTION SURVIVES THE WINDOW CORRECTION.** Same
+theta* grid point, larger margins. Burdens (b) and (c) unchanged; (c)
+is still the load-bearing unknown. No proportion is claimed to have
+moved.
+
+
+## Burden (c) first half + burden (a) hardening (2026-08-12)
+
+Instruments: `t3_composition_skeleton.lean` (Aristotle service, project
+2e5d794d; sorry-free, standard axioms only), `hardened_paper.py`,
+`test_hardened_paper.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Composition skeleton s >= 2N - \|\|P+Q\|\|_F^2 + D | **KERNEL-CHECKED** (service-side) | exact identities \|\|P\|\|_F^2 = sum m_i^2 + R, 2m - m^2 <= 1 for positive integers | Lean 4 + Mathlib, no sorry, axioms propext/Classical.choice/Quot.sound; artifact in-tree with #print axioms |
+| Conditional composition s >= (2-C)N + theta*R0 | **KERNEL-CHECKED** (service-side) | \|\|P+Q\|\|_F^2 <= C*N and D >= theta*R0 | result2_conditional, same file |
+| Unit-conversion seam (i) | NAMED, OPEN | paper's (4.4) units vs chain's LAW D normalisation | carries half the remaining weight |
+| Identification seam (ii): the dual's cap IS D >= theta*R0 | NAMED, OPEN | 2 tr(PQ) with transpose pair blocks = the W-field | test_mt_W_normalisation pins a piece at the T1 field; paper-field version open |
+| Ball-arithmetic pass at the paper field | **DELIVERED** | interval-argument acb, both sides enclosed, no blanket margins | theta = 0.995 survives; 0.9988 fails at y=0.49 (multiplicity threshold 0.989249); hardened tighter than float everywhere (0.94-0.996) |
+| Singular-branch series | PINNED | explicit remainder bounds; mpmath oracle at dps 40 + 45 guard digits | 27 checks, reference inside every ball; the oracle trap (24-digit cancellation in s'' near u=1e-8) recorded |
+| Cross-backend spot check | PASS | flint midpoints vs mpmath | defects 1.5e-39..1.9e-39, all inside radii |
+| Inherited-prose defect (T1 multiplicity print) | FOUND, RECORDED | direction of the profitable side | T1 files untouched; correct direction stated in hardened_paper.py |
+
+Disposition: **THE FORMULA IS NOW THEOREM-SHAPED AND THE FIELD IS
+BALL-AGREED.** What remains of burden (c) is two named seams, not an
+analogy. Joint layer at the paper field still running; ramp (b) still
+open. No proportion is claimed to have moved.
+
+
+## Joint layer at the paper field (2026-08-12)
+
+Instruments: `paper_joint.py`, `test_paper_joint.py` (10 tests).
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| theta_full at the paper field | **0.995** | joint band dual over configuration families; positive part of the JOINT field only | 0.999 fails at lattice nu=0.5 y=0.49 (-1.29 rel); binding config at 0.995 is the same lattice (+0.33 rel) |
+| Soft window re-derived | DELIVERED | this field's own band geometry, not the T1 copy | nu_p = 0.9576 (first band centre 1.0443 mean gaps); at it only 4 residual band cells survive shielding |
+| Dense-lattice shielding | PASS | joint clipping order | nu >= 1.25 caps exactly 0 with positive budget; per-pair clipping strictly larger (the control has power) |
+| Completeness on the joint field | CLEAR | local curvature, no blankets | ratios 166-3673, off-band allowance exactly 0; the non-clear branch exercised at a coarse step reports a positive allowance |
+| No band merging | PASS | widest joint band 0.968 grid units | vs first kernel zero 6.643 |
+| Cap divergence at theta = 1 | PASS | convention control | inf on isolated and dipole |
+| Greedy dominated | PASS | dual dominates primal at 0.995 | 0.0476<=0.0947, 0.1077<=0.1901, 0.0587<=0.1344 |
+| Distinctness vs T1 joint | PASS | matched config, theta 0.9 | caps 26% apart, budgets 7.5% apart |
+
+Disposition: **THE JOINT LAYER HOLDS AT THE PAPER WINDOW.** theta_full
+= 0.995 across all swept families, float grade, single-pair skeleton
+ball-agreed. Open: ramp (b), the two (c) seams, optional joint
+hardening. No proportion is claimed to have moved.
+
+
+## Burden (b): ramp mollification (2026-08-12)
+
+Instruments: `ramped_field.py`, `test_ramped_field.py` (14 tests).
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| theta* under the paper's ramp | **0.995 AT EVERY eps** (1/8, 1/16, 1/32) | C^3 degree-7 smoothstep taper squared on phi^2; band lattice from each field's own zeros | caps/slacks converge monotonically to box values; 0.999 fails at every eps at y=0.49 |
+| Field construction | PINNED | mpmath quadrature, no global state leak | ladder worst 2.9e-14, dps-30 oracle worst 8.9e-16; one-sided pins added to every margin |
+| eps -> 0 convergence | MEASURED O(eps) | taper differs from 1 on a 2*eps fraction | constant 0.877 (ratio 0.9997 across eps = 1e-3 -> 1e-4) vs derived bound 1.226 |
+| Completeness at every (eps, y) | CLEAR | local curvature, zero off-band allowance | ratios 324-7495 |
+| Convention + domination controls | PASS | cap(theta=1) = inf at every eps; paper_chain greedy reused unchanged | adversary inside cap at all spot depths |
+| Psi shape dependence | MEASURED (one point) | degree-9 vs degree-7 smoothstep | binding cap moves 1.6%, verdicts unchanged; caveat recorded, not a supremum |
+| Thinnest margin | NOTED | y=0.02 at eps=1/8 | +1.05e-4 (~57% of the box margin) |
+
+Disposition: **THE RAMP COSTS MARGIN, NOT THE VERDICT.** Burdens (a)
+and (b) are discharged; the candidate 0.6725106958 rests on the two
+burden-(c) seams alone (units / identification). No proportion is
+claimed to have moved.
+
+
+## Seam (i) core: LAW D kernel-checked (2026-08-12)
+
+Instrument: `law_d_incidence.lean` (Aristotle service, project
+c6519a2a; sorry-free, standard axioms only).
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Grid incidence = 2 pi FT(phi^2) | **KERNEL-CHECKED** (service-side) | phi measurable, bounded, supp in [-1/2,1/2], EVEN | tsum_phihat_mul_phihat_even; summability included (hasSum form) |
+| Our three windows admissible | **KERNEL-CHECKED** (service-side) | edge jumps allowed; continuity NOT assumed | tsum_phihat_windowA / windowB / of_continuous (ramps covered, boundedness derived) |
+| Our submission's phi^2 form without evenness | **FALSE — CAUGHT BY THE PROVER** | indicator of (0, 1/2]: grid sum 0 vs pi | grid_incidence_needs_even, in the same file |
+| Hypothesis-free form | KERNEL-CHECKED | autocorrelation RHS 2 pi int phi(u) phi(-u) e^{i(x-y)u} | hasSum_phihat_mul_phihat |
+| Method | Parseval on R/2piZ, not Poisson | support width 1 < 2 pi; polarised Parseval built from fourierBasis | bounded measurable suffices; no BV/decay needed |
+| Remaining of seam (i) | BOOKKEEPING | aL^2 units of (4.4) vs 2 pi Phi2(0); finite-truncation accounting (measured ~1/K) | named, open |
+| Seam (ii) | UNCHANGED | dual's cap as D >= theta*R0 | next piece of work |
+
+Disposition: **THE UNITS SEAM'S ANALYTIC CORE IS CLOSED, AND THE PROVER
+CAUGHT A MISSING HYPOTHESIS IN OUR SUBMISSION.** The evenness
+counterexample joins the session's defect list. Seam (ii) remains. No
+proportion is claimed to have moved.
+
+
+## Seam (ii): the identification (2026-08-12)
+
+Instrument: `identification_seam.py`; 4 controls in
+`test_transplant_lemma.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Gram = omega under LAW D normalisation | MEASURED | unit norms 2 pi A; truncation ~1/K | defect 4.4e-4 at K=1200, ladder decreasing |
+| u^T Q_p u = W (the dual bounds -2 tr PQ) | MEASURED | transpose pair convention | worst defect 5.4e-5 |
+| Pair surplus = slack(y) | MEASURED | tr Q_p = 2, b_p = 1 measured | defects 2e-6..6e-4 across depths |
+| Pair-pair cross terms | **NEGATIVE, COVERED** | 4-per-pair cushion (4 tr Q_p - 4 b_p) | cross -0.066..-0.342 vs cushion 4p; recorded |
+| End-to-end gross: D >= theta*R | HOLDS (all 11 configs) | direct matrix assembly | including field-derived adversarial placements |
+| End-to-end sharp: damage <= (1-theta)R + slack | HOLDS (all 11) | the dual's statement on explicit matrices | worst adversarial damage +0.0796 < hardened cap 0.0907 < budget 0.1534 |
+| First-run quadrature defect | CAUGHT, KEPT AS CONTROL | fixed GL order fails beyond \|x\| ~ 150 | ladder ran backwards; sized rule restores 1/K |
+| Remaining | BOOKKEEPING-GRADE | R >= R0 census (nu at the paper window), (P)-side o(N) units, T4 | named, open |
+
+Disposition: **THE DICTIONARY IS MEASURED AND THE LAST HOLE-CANDIDATE
+(NEGATIVE CROSS TERMS) IS FOUND AND COVERED.** The dual's verdict now
+IS the corollary's hypothesis over the swept scope. Candidate
+unchanged at 0.6725106958. No proportion is claimed to have moved.
