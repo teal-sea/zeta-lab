@@ -101,6 +101,29 @@ a `sorry` in it costs the arm its meaning.
 
 ### Queue, cheapest and highest-value first
 
+0. **Operator decisions, 2026-08-12 — these override the ordering below.**
+   The `hdom` hold is now the operator's call, not a recommendation: do not
+   spend remaining frontier budget on it. And the Mathlib route is to be
+   approached differently — the operator's read is that its review culture is
+   hostile to AI-assisted contributions. That read has substance, but the
+   friction is mostly a *slop-volume* problem rather than an ideological one:
+   maintainers were flooded with unreviewed PRs whose authors could not answer
+   review questions. A 15-line elementary lemma the library demonstrably lacks,
+   submitted by a named human who can defend it, is the opposite of that. So:
+
+   - **Ask on Zulip before opening anything** (`#mathlib4 > Is there code for
+     X?`): post the two statements, ask whether they are wanted. Standard front
+     door, nearly free, converts a cold PR into an invited one, and a "not
+     wanted" answer saves the whole effort.
+   - **The gatekeeper-free alternative may be the better first shot.** The
+     Remark 1.1 gap already measured in `hunts/wide_search/RESULTS-pair-ceiling.md`
+     — the paper's prose quantifies over every certificate of its kind while the
+     finite `N = 256` law delivers `0.68185` only below
+     `|r'(1)| + ∫|r''| ≤ 8.38043` — is a careful-reader finding, useful to the
+     authors, and reporting it needs no submission queue. External engagement
+     without a gatekeeper, which is what the institutional question actually
+     wants.
+
 1. **Upstream `theta_sq_le` to Mathlib.** Confirmed absent from the pinned
    checkout (grep for `log p ^ 2` in `Mathlib/NumberTheory/Chebyshev.lean`
    returns nothing), while `Chebyshev.theta` and `theta_le_log4_mul_x` are
