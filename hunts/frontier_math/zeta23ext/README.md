@@ -118,14 +118,16 @@ Build note: a full local `lake build` compiles Mathlib for this pin
 plus a single assembly build at the end. Do not add a partial build's
 `.lake/` to the tree.
 
-## Research-grade results (statements we did not know how to prove)
+## Two further results, one of which is prior art (correction)
 
 The four modules above are machine-checked verification of constructions
-we had already built.  These two are different: the statements were open
-to us, we had numerics and no proof, and we asked the service to prove
-or refute.
+we had already built.  These two were statements WE could not prove, so
+we asked the service to prove or refute.  A novelty check afterwards
+established that the first is **not new** - see the correction inside
+item 6.  Both files remain useful to the chain; the framing of item 6 as
+research-grade was the coordinator's error and is retracted.
 
-6. `PairEnergy.lean` — **PROVED, SHARP** (project 481e49bf; 785 lines,
+6. `PairEnergy.lean` — **PROVED, SHARP, AND NOT NEW** (project 481e49bf; 785 lines,
    36 theorems, sorry-free, standard axioms).  For the bandlimited
    kernel c2 = g*g of the paper window, every k, and ALL real depths and
    positions:
@@ -139,6 +141,20 @@ or refute.
    involution structure, and trace Cauchy-Schwarz with a regularisation
    gives sum Q^2 >= 4k without spectral theory.  This is the pair-energy
    half of the E-form obligation, and it is now closed.
+
+   **CORRECTION (novelty check, same day).**  This is a corollary of two
+   lemmas the source paper already states, proves and formalises:
+   Sylvester inertia in pull-back form (their Lemma 3.1,
+   `RHLinalg.posIndex_conj_le`) and Cauchy-Schwarz on positive
+   eigenvalues (their Lemma 3.3 at theta = 0,
+   `RHLinalg.cauchySchwarz_count`).  Worse for any novelty claim, the
+   exact numerical specialisation is printed in that paper's section
+   7.5(a): with all zeros off-line, "Lemma 3.2 would then force
+   \|\|Ahat\|\|_F^2 >= 2N" - which at N = 2n is our 4n.  The involution
+   structure is their Prop 4.1(ii) off-line block, and the cosh weight
+   is literally the sum of exponentials for rho and 1 - conj rho.  The
+   spectral-theorem-free route here is formalisation engineering, not
+   new mathematics.  Keep the file, cite the paper, claim nothing.
 
 7. `EForm/` — **PARTIAL, WITH THE OBSTRUCTION NAMED** (project 00643d5e;
    5 modules, ~1200 lines, sorry-free, standard axioms).  The single-pair
