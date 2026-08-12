@@ -1,0 +1,5 @@
+# Funding for Zeta Lab.
+# Renders the GitHub "Sponsor" button once this file is on the default branch.
+# The Polar organisation's public storefront must be enabled for the link to
+# resolve (Polar dashboard -> Settings), otherwise polar.sh/<slug> returns 404.
+polar: zeta-lab
