@@ -646,10 +646,34 @@ service, project 029bed09, 2h27m; 968 lines).
 | Method purity | NO ESCAPE HATCHES | no `sorry`, no `admit`, no `native_decide`, no floats | axioms: propext, Classical.choice, Quot.sound |
 | Constant fidelity | **CROSS-CHECKED IN Q** | Lean constants vs `lp_certificate.py` | F_RAT identical as a Fraction; edges, duals, r_* all match |
 | Independent consistency | NOTED | the formal B2 margin reproduces the measured one | relative slack 4.19e-8 against the measured 1.049e-11 absolute margin |
-| Edit to the artifact | DISCLOSED | one comment reworded ("certified" -> "enclosure-carrying") for the hunts/ lexical rules | no proof content altered; sorry count 0 before and after |
+| Edit to the artifact | DISCLOSED | one comment in the service output used the reserved word of `zeta/rigor.py`; reworded to "enclosure-carrying" for the hunts/ lexical rules | no proof content altered; sorry count 0 before and after. NOTE: this row itself first quoted the reserved word literally and tripped `test_no_hunt_claims_the_reserved_word` - session defect #10, caught by the gate, fixed here |
 
 Disposition: **THE CENSUS FLOOR IS NO LONGER A MEASUREMENT.** c_u >=
 5.021172019e-6 is a theorem about the Montgomery-Taylor kernel, checked
 by the Lean kernel, with the LP half stated generally enough to survive
 any future re-derivation of the kernel bounds. The candidate's floor
 pillar is at rung 3. No proportion is claimed to have moved.
+
+
+## Formal chain, track 2: the retention certificate's arithmetic is kernel-checked (2026-08-12)
+
+Instrument: `zeta23ext/Zeta23Ext/BandCert/` (theorem-proving service,
+project 7fb5612e; 8 modules, 2280 lines, sorry-free import chain).
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Certificate arithmetic closes at the four depths | **KERNEL-CHECKED, UNCONDITIONAL** | kernel `decide`; `cap` built from the TRUE band sup/inf, recorded numbers only as one-sided bounds | `cap_le_slack`, `cap_le_slack_at_depths`; margins +1.26e-4 / +3.12e-3 / +2.66e-2 / +2.95e-2 |
+| No band missed | **KERNEL-CHECKED** | property of the recorded cover, not an assumption | `f_nonpos_off_bands` over (0, 98] |
+| Analytic leaves L1-L6 | **KERNEL-CHECKED** | Taylor enclosures via `Complex.exp_bound`, rational 2pi enclosure, sqrt2 integer bounds, s(u) series branch | proved from Mathlib, quantified over the data |
+| **The dual layer H3** | **NOT FORMALISED — NAMED HYPOTHESIS** | "the cap bounds D - (1-theta) R for every configuration" is the modelling step; it is ours, on paper | `band_dual_verdict` takes it as a hypothesis rather than burying it |
+| Independent regeneration | **BONUS CROSS-CHECK** | the JSON was not shipped; the service rebuilt the certificate from PROBLEM.md via its own mirror | closed with different margins (+2.95e-2 vs our +4.49e-2 at y=49/100), both positive |
+| Toolchain divergence | NOTED, PORT REQUIRED | this package Mathlib v4.28.0 vs upstream Zeta23 v4.33.0-rc2 | integration blocker, mechanical |
+| Edit to the artifact | DISCLOSED | one comment reworded in `Iv.lean` for the hunts/ lexical rules | no proof content altered; sorry count 0 before and after |
+
+Disposition: **THE RETENTION'S ARITHMETIC IS A THEOREM; ITS MODELLING
+STEP IS NOT.** What the kernel now guarantees is that the recorded
+certificate really does close - with the cap defined by genuine suprema,
+so the guarantee is not about our bookkeeping but about the field. What
+remains is the reduction of the retention to that certificate (H3), and
+that reduction is also where blocker 1 (depth-uniformity: four recorded
+depths, not all y) lives. No proportion is claimed to have moved.
