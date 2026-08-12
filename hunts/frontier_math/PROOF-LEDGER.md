@@ -806,9 +806,40 @@ Lean artifacts, these were OPEN statements: we had numerics and no proof.
 | Reading of that obstruction | **A FINDING IN ITS OWN RIGHT** | the capped route is exactly the naive one | it shows our band-dual structure is NECESSARY rather than merely convenient - a uniform-constant argument provably cannot reach large n |
 | Edit to the artifacts | DISCLOSED | one comment reworded in `PairEnergy.lean` for the hunts/ lexical rules | no proof content altered; sorry count 0 before and after |
 
-Disposition: **THE PAIR-ENERGY HALF IS A THEOREM WE DID NOT KNOW, AND
-THE OTHER HALF NOW HAS ITS OBSTRUCTION NAMED.** The prover closed an
-open statement sharply, dropped two hypotheses we had assumed necessary,
-and on the second problem declined to reach past what it could prove -
-recording instead the exact reason the naive uniform-constant route
-caps out. No proportion is claimed to have moved.
+Disposition (CORRECTED, see the row below): **THE PAIR-ENERGY RESULT IS
+NOT NEW, AND THE COORDINATOR OVERCLAIMED IT.** It is a corollary of two
+classical lemmas that the source paper already states, proves and
+formalises, and its exact numerical specialisation is printed in that
+paper's own text. The formalisation remains useful to our chain; the
+novelty framing was wrong and is retracted here. The second problem's
+outcome stands: the uniform-constant obstruction is named and real. No
+proportion is claimed to have moved.
+
+## CORRECTION, same day: the pair-energy result is prior art
+
+A novelty check was run before any public claim - and refuted the
+framing.
+
+| Finding | Detail |
+|---|---|
+| **Verdict** | **(b) FOLLOWS EASILY from known results. Do NOT claim novelty.** |
+| The reduction | sum Q(a,b)^2 = tr((QS)^2) with tr(QS) = 2n; writing Q = B*B, C = BSB*, the claim is exactly tr(C^2) >= (tr C)^2/n |
+| Ingredient (a) | sigma fixed-point-free on 2n points => S has signature (n,n) => n_+(C) <= n. **Sylvester's law of inertia in pull-back form** - the source paper's Lemma 3.1, formalised there as `RHLinalg.posIndex_conj_le` (`Zeta23/LinAlg/Inertia.lean`) |
+| Ingredient (b) | (tr C)^2 <= n_+(C) tr(C^2): Cauchy-Schwarz on positive eigenvalues, the Hermitian case of \|\|X\|\|_*^2 <= rank \|\|X\|\|_F^2. **The source paper's Lemma 3.3 at theta = 0**, formalised as `RHLinalg.cauchySchwarz_count` (`Zeta23/LinAlg/Weyl.lean`); also falls out of their `rank_trace_ineq` at P=0, r=0, b=n, c=2 |
+| **The killer citation** | the paper's own **section 7.5(a)**: "In the extreme hypothetical configuration in which all zeros in [T,2T] are off-line pairs, Proposition 4.1 gives rank P = 0, n_+(Q) <= N/2, while Lemma 3.2 would then force \|\|Ahat\|\|_F^2 >= 2N." With N = 2n that is >= 4n - our inequality, our constant, in print |
+| The structure was theirs too | their Prop 4.1(ii) gives each off-line pair a 2x2 hyperbolic block; our `Fin n x Bool` involution IS that pairing, and 2cosh(yw)e^{itw} is literally the sum of exponentials for rho and 1 - conj rho - their Gram matrix, not an analogy |
+| Cosmetic defect in our statement | the `Re` is unnecessary: under hypothesis (ii) the sum is provably real. Stating it as a real part makes the result look more delicate than it is, and a referee would notice |
+| The proof route | the spectral-theorem-free regularised-projection argument is a re-derivation of (a)+(b) - proof engineering for formalisation, not new mathematics |
+| Independent numerics | 2000 random feasible complex instances, n in {1,2,3,5,8}: imaginary part vanished every time, n_+ <= n every time, min ratio 1.0251, equality at n=1 |
+| Naming | moot. If a local Lean label is wanted, "involution-normalised inertia bound" is accurate and collision-free; "rank-trace inequality" and "thresholded Cauchy-Schwarz count" are taken by the very source that pre-empts this |
+
+Session defect #13, the coordinator's: after the prover returned the
+result, the ledger, the package README and the operator were all told
+this was "a theorem we did not know" and "research-grade". True only in
+the sense that WE did not know it; false in the sense that matters. The
+check that caught it was run before any public claim, which is the
+system working - but the overclaim was written down first and had to be
+retracted, which is the system working late. What survives, and is worth
+keeping: the Lean file is a correct formalisation of a step our chain
+uses, obtained in 104 minutes, and it now carries the citation it
+should have carried from the start.
