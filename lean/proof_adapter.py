@@ -161,38 +161,68 @@ def check_lean_artifact(
 def submit_to_aristotle(statement: str) -> str:
     """Send one precise, standalone statement to the Aristotle API.
 
-    Returns the generated Lean source. The result is INPUT — feed it to
-    :func:`check_lean_artifact`; nothing about the service's own verification
-    status is read, recorded, or trusted. Requires ``aristotlelib``
-    (``.venv-tools``) and ``ARISTOTLE_API_KEY`` in the environment. Batch
-    submissions overnight: the published case study measured ~8 hours for a
-    hard problem, and local lemmas, never "the theorem", are the right grain.
+    Creates a Project (``aristotlelib.project.Project.create``, verified
+    against aristotlelib 2.1.0's real async surface) and returns its
+    ``project_id`` immediately — Aristotle runs for hours, so the submit
+    and the collect are separate steps. Collect later with
+    :func:`collect_from_aristotle`. The eventual Lean is INPUT — feed it to
+    :func:`check_lean_artifact`; nothing about the service's own
+    verification status is read, recorded, or trusted. Local lemmas, never
+    "the theorem", are the right grain (the Grasshopper case study's
+    lesson).
+
+    Requires ``ARISTOTLE_API_KEY`` in the environment and ``aristotlelib``
+    on this interpreter (it lives in ``.venv-tools``, not the lab venv).
     """
 
+    project = _aristotle_project_class()
+    import asyncio
+
+    created = asyncio.run(project.create(prompt=statement))
+    return str(created.project_id)
+
+
+def collect_from_aristotle(project_id: str, destination: str | os.PathLike | None = None) -> dict:
+    """Fetch a submitted project's status and, when finished, its files.
+
+    Returns ``{"status": ..., "files": path-or-None}``. The files are raw
+    generated input for :func:`check_lean_artifact`; a status other than
+    finished returns ``files: None`` and the caller waits — polling every
+    few hours is the right cadence, not every few seconds.
+    """
+
+    project_class = _aristotle_project_class()
+    import asyncio
+
+    async def _collect():
+        project = await project_class.from_id(project_id)
+        status = getattr(project, "status", None)
+        files = None
+        # aristotlelib 2.1.0's ProjectStatus is UNKNOWN / RUNNING / IDLE:
+        # IDLE is "done working", and the files are whatever the run left.
+        if status is not None and getattr(status, "name", "") == "IDLE":
+            files = str(await project.get_files(destination))
+        return {"status": getattr(status, "name", str(status)), "files": files}
+
+    return asyncio.run(_collect())
+
+
+def _aristotle_project_class():
     if not os.environ.get("ARISTOTLE_API_KEY"):
         raise RuntimeError(
             "ARISTOTLE_API_KEY is not set: create a key at "
-            "aristotle.harmonic.fun (Dashboard -> API Keys)"
+            "aristotle.harmonic.fun (Dashboard -> API Keys), or source "
+            "~/.zshrc where it is stored"
         )
     try:
-        import aristotlelib  # noqa: F401
+        from aristotlelib.project import Project
     except ImportError as exc:  # pragma: no cover - environment-dependent
         raise RuntimeError(
             "aristotlelib is not importable from this interpreter; it is "
             "installed in .venv-tools — run this command with "
             ".venv-tools/bin/python, or install it where you stand"
         ) from exc
-    # aristotlelib's surface has changed between releases; resolve the entry
-    # point at call time and fail with the real names rather than guessing.
-    for candidate in ("prove", "prove_statement", "solve"):
-        fn = getattr(aristotlelib, candidate, None)
-        if callable(fn):
-            return fn(statement)  # pragma: no cover - network
-    raise RuntimeError(  # pragma: no cover - environment-dependent
-        "no known entry point on aristotlelib "
-        f"(looked for prove/prove_statement/solve; module has: "
-        f"{', '.join(sorted(n for n in dir(aristotlelib) if not n.startswith('_')))})"
-    )
+    return Project
 
 
 def _main(argv: list[str]) -> int:
