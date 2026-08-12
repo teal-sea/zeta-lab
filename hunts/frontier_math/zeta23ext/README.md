@@ -12,9 +12,45 @@ pinned toolchain. As of the scaffold commit:
 - `Zeta23Ext/Composition.lean` — the composition skeleton, kernel-checked
   earlier today against current Mathlib on the theorem-proving service
   (axioms: propext, Classical.choice, Quot.sound). Included verbatim; it
-  imports only Mathlib. Not yet rebuilt under THIS package's pin —
-  rebuild is the package's first CI obligation.
-- `Zeta23Ext/GridIncidence.lean` — the grid-incidence law, same status.
+  imports only Mathlib. **Rebuilt locally 2026-08-12 under Mathlib
+  `v4.33.0-rc2`: builds clean, zero `sorry`, same three axioms.** Since it
+  imports only Mathlib, that test is decisive for this module.
+- `Zeta23Ext/GridIncidence.lean` — the grid-incidence law, same provenance,
+  **but it does not build under `v4.33.0-rc2`**: two `rw` sites (lines 109,
+  290) fail with "did not find an occurrence of the pattern", and `simp only`
+  makes no progress at either. Both lemmas named there exist unchanged, so
+  the drift is in the goal shape upstream of each site. Out for port as
+  batch 2 (`lean/ARISTOTLE-RUNS.md`).
+
+**The port status of every module, measured 2026-08-12** (drop the module
+into `lean/` as a scratch target against its already-compiled Mathlib
+`v4.33.0-rc2`, build, delete — minutes, and it does not require compiling
+Mathlib for this package):
+
+| module | verdict | failure |
+| --- | --- | --- |
+| `Composition.lean` | builds clean | — |
+| `GridIncidence.lean` | fails | lines 109, 290 (`rw` pattern) |
+| `FloorCert.lean` | fails | line 82 (`ring_nf` no progress) |
+| `BandCert/Leaves.lean` | fails | line 144 (type mismatch after simp) |
+
+The remaining `BandCert/` modules are downstream of `Leaves` and were not
+reached. The correction to the pin note below: this package's
+`lean-toolchain` already reads `v4.33.0-rc2` and it declares no Mathlib
+requirement of its own (Mathlib arrives through the `Zeta23` dependency),
+so the earlier "this package pins v4.28.0" note described what the service
+proved against, not what the tree says. The port is nonetheless real; it is
+four named tactic sites, not a rebuild.
+
+**A defect the survey found, independent of the port.** All eight
+`BandCert/` modules carry `import RequestProject.X` — the proving service's
+own project-local namespace — while `Zeta23Ext.lean` imports
+`Zeta23Ext.BandCert.Main`. The package could not have assembled at any pin:
+the first `lake build` dies on an unknown module before reaching any
+mathematics. The proofs are not implicated; the artifacts were landed
+without their import paths rewritten, and no local assembly had been
+attempted to notice. Folded into the port-C prompt so one artifact carries
+both.
 
 **Planned modules** (from the reconnaissance report in
 `../PROOF-LEDGER.md` and the zeta-23-lean mapping; not yet written):
