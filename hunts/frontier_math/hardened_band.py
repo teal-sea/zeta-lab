@@ -66,31 +66,46 @@ WHAT IS DIRECTED WHICH WAY
   double-precision arithmetic on directed inputs; the band total is
   inflated by (1 + 1e-9), as at gate 1.
 
-RESULTS (:func:`audit`, theta = 0.99, G = 400, 63 bands per side).
-The hardening costs between one and two percent of the float margin and
-changes no verdict:
+RESULTS (:func:`audit`, theta = 0.99, G = 400, 63 bands per side, all
+four bands single-occupancy there).  The hardening costs nothing that
+shows: at every depth the hardened cap comes in BELOW the float cap,
+because the cover removes the float pass's blanket Lipschitz margins
+(the float F_k carried ``slope * step``; an interval cell owes none):
 
-    y      slack_lo    cap_up      margin        cap/slack
-    0.02   2.2989e-4   8.7126e-5   +1.4276e-4    0.379
-    0.10   5.7674e-3   2.0304e-3   +3.7370e-3    0.352
-    0.30   5.2407e-2   1.8331e-2   +3.4076e-2    0.350
-    0.49   1.4233e-1   5.0330e-2   +9.2003e-2    0.354
+    y      slack >=      cap <=        margin >=     cap/slack
+    0.02   2.304683e-4   7.739518e-5   +1.530731e-4   0.336
+    0.10   5.768282e-3   1.938606e-3   +3.829677e-3   0.336
+    0.30   5.241061e-2   1.778540e-2   +3.462521e-2   0.339
+    0.49   1.423407e-1   4.912314e-2   +9.321760e-2   0.345
 
-The no-missed-band property survives hardening at every depth in the
-stronger, cover-based form (every off-band cell has f <= 0 throughout,
-so the off-band allowance is exactly 0), and the curvature witness also
-clears with worst ratio 11 (y = 0.02) to 174 (y = 0.49) at its own
-coarse step.  The largest scanned theta surviving the hardened pass at
-all four depths is 0.9985; 0.999 fails first at y = 0.49, where double
-occupancy of the first band has turned profitable (the hardened
-multiplicity threshold there is 0.99187).  The binding term is the
-multiplicity threshold, not the damage sum — the same conclusion the
-float pass reached, at slightly lower theta.
+(float ``band_dual`` at the same theta: 0.357 / 0.341 / 0.341 / 0.346.)
+The hardened F_1 lands between the float raw grid sup and the float
+margined F_1 at every depth, which is the control:
+5.3884e-3 <= 5.3925e-3 <= 5.4200e-3 at y = 0.3.
+
+The no-missed-band property survives hardening at every depth, in the
+stronger cover-based form: of 20000 coarse cells, 221 / 708 / 1935 /
+3054 are flagged at y = 0.02 / 0.1 / 0.3 / 0.49, and every cell not
+flagged has f <= 0 THROUGHOUT the cell, not merely at a grid point, so
+the off-band allowance is exactly 0.  The independent curvature witness
+also clears at its own (coarse) step, worst ratio 8.1 / 24.2 / 69.0 /
+118.9.
+
+The largest scanned theta surviving the hardened pass at all four
+depths is 0.9988 (worst margin +1.53e-4, at y = 0.02, where the slack
+itself is only 2.3e-4); 0.9989 fails at y = 0.49 by -4.80e-3.  The
+float pass has the same boundary — it clears 0.9988 by +3.96e-3 and
+fails 0.9989 by -5.60e-3 — so the hardening moves the surviving theta
+by less than one scan step.  The binding term is the multiplicity
+threshold, exactly as in the float pass: at y = 0.49 double occupancy
+of the first band turns profitable below theta = 0.991929, and by
+theta = 0.9989 the square completion has m* = 8 there.  The damage sum
+is never the binding term at any tested theta.
 
 Nothing here computes a proportion, and nothing here is evidence about
 the Riemann Hypothesis.
 
-Run ``.venv/bin/python hunts/frontier_math/hardened_band.py`` (~4 min).
+Run ``.venv/bin/python hunts/frontier_math/hardened_band.py`` (~45 s).
 """
 
 from __future__ import annotations
@@ -534,6 +549,24 @@ def ball_agrees_with_float(hb: HardenedBand, y: float = 0.3):
     }
 
 
+def resolution_ladder(theta: float = 0.99, ys=(0.02, 0.49)):
+    """The hardened margins must not be an artifact of the cover step.
+
+    Three rungs of (coarse, fine, k_step); a cover-based bound can only
+    move by the interval overestimation it removes, so the margins
+    should agree to a few parts in 1e4.
+    """
+    rungs = [(0.05, 0.002, 0.005), (0.02, 0.0005, 0.002),
+             (0.01, 0.00025, 0.001)]
+    out = []
+    for coarse, fine, k_step in rungs:
+        hb = HardenedBand(coarse=coarse, fine=fine, k_step=k_step)
+        out.append({"coarse": coarse, "fine": fine, "k_step": k_step,
+                    "margins": [hb.verdict(theta, y)["margin"] for y in ys],
+                    "F1_deep": hb.bands(max(ys))[0][2]})
+    return out
+
+
 def theta_one_must_fail(hb: HardenedBand, y: float = 0.49):
     """No charge, unbounded multiplicity: the cap must diverge."""
     return hb.cap_up(1.0, y)["cap"]
@@ -598,6 +631,12 @@ def audit():
     print(f"  largest scanned theta surviving the hardened pass = {star}")
 
     print("= controls =", flush=True)
+    print("  resolution ladder (theta=0.99, margins at y=0.02 / 0.49):")
+    for r in resolution_ladder():
+        print(f"    coarse {r['coarse']:<5} fine {r['fine']:<8} k_step "
+              f"{r['k_step']:<6}: "
+              + " / ".join(f"{m:+.6e}" for m in r["margins"])
+              + f"   F_1(0.49) <= {r['F1_deep']:.6e}")
     ag = ball_agrees_with_float(hb)
     print(f"  vs float band_dual at y=0.3: bands {ag['n_ball']} (float "
           f"{ag['n_float']})")

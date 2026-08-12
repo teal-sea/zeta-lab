@@ -193,3 +193,34 @@ def test_joint_cap_is_infinite_at_theta_one():
     and stacking is unbounded, so the cap MUST diverge."""
     from mt_joint import MTJoint
     assert not math.isfinite(MTJoint().cap(_soft_window_pairs(), 1.0)["cap"])
+
+
+def test_the_two_kernels_are_genuinely_different():
+    """The retained mass lives in omega^2 = (FT phi^2)^2, the CG floor in
+    g = (FT phi)^2.  Conflating them is a normalisation error of exactly
+    the class the clean-kill report was written about."""
+    from kernel_pairing import kernel_comparison
+    rows, oz, lz = kernel_comparison()
+    assert abs(rows[0]["ratio"] - 1.0) < 1e-9         # agree at u = 0
+    assert max(r["ratio"] for r in rows[1:]) > 1.5    # and diverge after
+    assert abs(oz[0] / lz[0] - 1) > 0.05              # zeros differ by ~6%
+
+
+def test_both_kernels_support_a_live_floor():
+    """Non-arithmetic zeros in both cases - unlike the hunt window, whose
+    omega is arithmetic and whose floor is exactly 0."""
+    from kernel_pairing import lambda_roots, omega_zeros
+    for zs in (omega_zeros(4), lambda_roots(4)):
+        assert abs(zs[1] / zs[0] - 2.0) > 0.05
+
+
+def test_own_kernel_floor_is_ladder_stable_and_lesions_die():
+    from cg_transplant import lesion_wrong_lambda2
+    from kernel_pairing import readings
+    rec = readings()
+    for kern in ("g", "omega"):
+        vals = list(rec["ladder"][kern].values())
+        assert max(vals) - min(vals) < 1e-12          # ladder-stable
+        assert min(vals) > 0
+    assert lesion_wrong_lambda2(0.6725007037, rec["edges"]["omega"]) < 1e-9
+    assert rec["conservative"] <= rec["reading_g"]

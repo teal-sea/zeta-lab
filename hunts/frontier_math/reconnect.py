@@ -75,6 +75,10 @@ H_PINNED = 0.6725007037
 #: HUNT window (L = 8 septic ramp)
 THETA_FULL = 0.02
 
+#: NOTE: the floor `c_u` below is computed with CG's kernel g.  The mass
+#: theta_full retains is measured in the incidence kernel omega^2, which
+#: is a DIFFERENT function (see `kernel_pairing.py`); the conservative
+#: pairing uses the smaller own-kernel floor and gives 0.6725087070.
 #: the same quantity at the MT window (`band_dual.py` single-pair dual,
 #: `mt_joint.py` joint sweep).  Measured grade, one-sided structure, arb
 #: pass named.  See :func:`mt_reading` for what may and may not be said.

@@ -377,3 +377,26 @@ danger: dense pair sets leave the on-line adversary no positive field to
 stand on. The candidate reading is recomputed at 0.6725106958 and remains
 a candidate behind five named steps, one of them external. No proportion
 is claimed to have moved.
+
+
+## T1 fourth session: arb pass + the kernel-pairing error (2026-08-12)
+
+Instruments: `hardened_band.py`, `kernel_pairing.py`; controls in
+`test_transplant_lemma.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Arb pass over the single-pair band dual | **DELIVERED** | interval-argument acb enclosures; no Lipschitz margin granted anywhere | amplification 1.06 -> 0.0024 over g = 1.1 -> 300 (hunt window: ~1.8e5), so the MT form is interval-friendly; hardened margins +1.53e-4 (y=0.02) to +9.32e-2 (y=0.49) at theta = 0.99 |
+| Hardened vs float | **TIGHTER, not looser** | the cover removes the float pass's blanket slope margins | hardened cap below float cap at every depth; largest surviving theta 0.9988 with an identical float boundary (clears .9988, fails .9989) |
+| No-missed-band under hardening | **STRONGER FORM** | continuum cover, not grid inference | every unflagged cell has f <= 0 throughout the cell; the curvature test reproduced with directed endpoints clears at 8.1-118.9 |
+| **Kernel-pairing error in our own composition** | **FOUND AND CORRECTED** | theta_full retains sum omega^2 (omega = FT(phi^2) normalised); c_u is computed in g = (FT phi)^2 | (FT phi^2) != (FT phi)^2: ratio 1.02/1.12/1.70/0.66 at u = 0.3/0.6/0.9/1.5, zeros differ 6% (1.1208 vs 1.0573). The product mixed two kernels, undeclared |
+| Own-kernel floor | DELIVERED (one-sided, ladder-stable) | omega^2 zeros non-arithmetic (1, 1.839, 2.713) so the floor is live | c_u(omega^2) = 4.021769e-06 vs c_u(g) = 5.021179e-06, ratio 0.801; both stable across n = 600k/1.2M/2.4M; lambda_2 lesion dies on both |
+| Reading of record | **REVISED DOWNWARD** | conservative pairing | **0.6725087070** (+8.00e-6), replacing 0.6725106958 |
+| Residual T3 | SHARPENED | which pairing the upstream count requires | now a precise question about the paper's Theorem D derivation - is its discarded mass an omega^2 sum or a g sum? - not a vague plumbing worry |
+
+Disposition: **THE HARDENING COSTS NOTHING AND THE COMPOSITION COST A
+KERNEL.** The arb pass moves theta by less than a scan step (0.9988), but
+auditing what the symbols denote found the reading pairing two different
+kernels; the conservative repairing lowers it to 0.6725087070. Still a
+candidate: T3 (now sharp), the census conversion, taper/truncation, and
+T5 (external) remain. No proportion is claimed to have moved.

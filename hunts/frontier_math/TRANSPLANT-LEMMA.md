@@ -287,3 +287,61 @@ the FULL-charge case (c = 1, i.e. theta = 0).  Corrected in
 counter-control worth keeping: the natural concave-QP relaxation that
 would give an upper bound overshoots by 66x, because fractional
 multiplicities make the self-charge negative.
+
+
+## T1 fourth session: the arb pass, and a kernel-pairing error found in our own composition
+
+### The arb pass survives, and is *tighter* than the float pass
+
+`hardened_band.py` hardens the single-pair band dual in ball arithmetic.
+The notable difference from the previous window: **interval-argument
+evaluation is essentially lossless here** (amplification 1.06 at g = 1.1,
+falling to 0.0024 at g = 300, against ~1.8e5 at the hunt window), because
+the MT form is three trigonometric terms with no ramp^2 integer assembly
+and no moment recursion for interval radii to lose.  So the cover is by
+genuine continuum enclosures and **no Lipschitz margin is granted
+anywhere** — "no band narrower than the grid" becomes a property of the
+cover rather than an inference.
+
+| y | slack >= | cap <= | margin >= | cap/slack (float) |
+|---|---|---|---|---|
+| 0.02 | 2.304683e-4 | 7.739518e-5 | +1.530731e-4 | 0.336 (0.357) |
+| 0.10 | 5.768282e-3 | 1.938606e-3 | +3.829677e-3 | 0.336 (0.341) |
+| 0.30 | 5.241061e-2 | 1.778540e-2 | +3.462521e-2 | 0.339 (0.341) |
+| 0.49 | 1.423407e-1 | 4.912314e-2 | +9.321760e-2 | 0.345 (0.346) |
+
+The hardened cap comes in BELOW the float cap at every depth.  Largest
+surviving theta **0.9988** (float boundary identical: clears 0.9988,
+fails 0.9989), so hardening moves the answer by less than one scan step,
+and the binding term remains multiplicity, never the damage sum.
+
+### The kernel-pairing error, in our own composition
+
+Asking what two symbols denote turned up a real defect in the reading:
+
+- **theta_full** retains the paper's Frobenius/incidence mass
+  R = sum omega^2(gaps) with omega = Phi2/Phi2(0), Phi2 = FT(phi^2) —
+  because the grid bilinear form is proportional to Phi2 (LAW D);
+- **c_u** is CG's bucket floor in the Montgomery-Taylor kernel g, which
+  `transplant_lemma.py` measured to be exactly (FT phi / FT phi(0))^2.
+
+**(FT phi^2) is not (FT phi)^2** — the first is a self-convolution, the
+second a square.  Measured: the two agree at u = 0 by normalisation and
+diverge at once (ratio 1.02 / 1.12 / 1.70 / 0.66 at u = 0.3 / 0.6 / 0.9 /
+1.5), and their zeros differ by 6% (omega's first at 1.1208 mean gaps
+against lambda_1 = 1.0573).  Multiplying theta_full by c_u was therefore
+mixing two kernels, undeclared.
+
+Both zero sets are non-arithmetic, so **both kernels carry a live floor**
+(unlike the hunt window's omega, arithmetic to 1e-4 with floor exactly
+0).  Computed on one ladder, stable across n = 600k / 1.2M / 2.4M, with
+the lambda_2 lesion dying on both:
+
+    c_u(g)      = 5.021179e-06        reading 0.6725106958
+    c_u(omega^2) = 4.021769e-06       reading 0.6725087070   <- conservative
+
+**The reading of record therefore becomes 0.6725087070** (+8.00e-6), the
+conservative pairing.  Which pairing the upstream count actually requires
+is the residual T3 — and it is now a sharp question about the paper's
+Theorem D derivation (is its discarded mass an omega^2 sum or a g sum?)
+rather than a vague worry about plumbing.  Instrument: `kernel_pairing.py`.
