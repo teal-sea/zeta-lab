@@ -3,7 +3,124 @@
 Concise records: what was believed, what invalidated it, what now catches the
 problem, what conclusion is currently justified. Decisions live in
 `ROADMAP.md`; this file is the between-session state. Last snapshot:
-2026-08-12 (relay salvage).
+2026-08-12 (session handoff under a token constraint — **start there**).
+
+---
+
+## Record: session handoff under a token constraint (2026-08-12)
+
+Written because the operator is funding this out of pocket and **frontier-model
+tokens are exhausted until further notice**. The next session is likely a
+cheaper model. This record is the state, the queue sorted by what a cheaper
+model can actually do, and the one thing it should not attempt.
+
+### State
+
+`main` = `a311a6f`, clean, everything pushed. `lake build`: 8739 jobs, zero
+`sorry`s. Fast tier: 2217 passed, 1 skipped (platform-conditional
+`test_rigor.py:136`, benign), 3 xfailed. `scripts/make_context.py --check`
+clean. Preflight (`scripts/science_preflight.py`) exits 0 with
+`rigor.BACKEND = python-flint` and both backends present. Next free doc number
+is **26**.
+
+**Four other threads are live and must not be touched**:
+`claude/math-genius-repo-f082zw` (5 ahead),
+`claude/post-formalization-automation-f3vqc6`,
+`claude/v-cell-certificate-decimal-4b57mi`,
+`claude/zeta-constants-discrepancy-8zm0qs`. They are the operator's parallel
+runs, some proving their own Lean. Report them; never merge them. Only
+fast-forward `main`, only rebase your own branch.
+
+### The economics, which change what to work on
+
+Verification in this laboratory costs **wall-clock, not tokens**: `lake build`
+is 8739 kernel jobs and the fast tier is 2200 tests, and neither consumes model
+output. Judgment costs tokens. So under a token constraint the correct strategy
+inverts the usual one: **run things instead of reasoning about them**, and
+prefer tasks whose correctness is decided by a machine rather than by
+argument. The repo is unusually well suited to this — the mirror-before-kernel
+pattern (`scripts/61_rung3_mirror.py`) prices an expensive formal computation
+in Python seconds, and `hunts/frontier_math` records nine defects in two days
+caught by cheap mechanical checks.
+
+### Do not attempt on a cheap model
+
+**The `hdom` formalization.** It is the mathematical frontier (see
+`hunts/higher_xi/LEAN-FRONTIER.md` item 20) and it needs an Abel comparison
+against `∫₀^V t e^t g(t) dt` plus the Fubini-on-a-triangle identity
+`∫₀^V t e^t E_j(V−t) dt = E_{j+1}(V)`. Mathlib's `intervalIntegral` and measure
+theory API is where weaker models burn the most tokens for the least progress.
+The paper argument is complete and numerically verified at `X = 250` and
+`X = 5000`; route A (`D = log 16 ≈ 2.7726`) is the one to formalise. **Wait for
+frontier tokens.** Leaving this undone costs nothing; a half-formalisation with
+a `sorry` in it costs the arm its meaning.
+
+### Queue, cheapest and highest-value first
+
+1. **Upstream `theta_sq_le` to Mathlib.** Confirmed absent from the pinned
+   checkout (grep for `log p ^ 2` in `Mathlib/NumberTheory/Chebyshev.lean`
+   returns nothing), while `Chebyshev.theta` and `theta_le_log4_mul_x` are
+   both there. The proof is ~15 lines in `ZetaLean/ChebyshevBounds.lean`, is
+   elementary, compiles, and is exactly the kind of small gap Mathlib accepts.
+   Why this is first: `docs/reviews`' futures analysis and `ROADMAP.md`'s known
+   gaps both make **one external acceptance** the milestone that gates every
+   institutional hypothesis, and this is the cheapest available shot at it.
+   The mathematics is done; what remains is PR mechanics and Mathlib style,
+   which is mechanical work a cheaper model does well. Take
+   `theta_pow_succ_le` along as the general form.
+2. **Finish the rung-3 215-site margin sweep.** Named open item, interrupted at
+   60/215 (see the 2026-08-11 director-run record and `docs/25` §4.3). Pure
+   Python against the already-written mirror; no Lean, no new mathematics. The
+   question it answers is whether the re-plan at measured constants clears
+   every site or only most of them — currently 30 of 59 evaluated grid sites
+   fail, all within ±2% of threshold, so the answer decides whether rung 3
+   needs a re-plan or a headroom bump.
+3. **`meta/` E1 continuation.** Append interventions to
+   `meta/interventions.jsonl` as they occur during whatever work happens.
+   Costs nothing, and the baseline (14 interventions, architecture caught 3 of
+   14) needs 20–30 sessions before its numbers mean anything. Read
+   `meta/README.md` first; the instrument refuses an `automated` claim without
+   a named artifact, and it is meant to be hard to flatter.
+4. **Documentation consistency.** `scripts/make_context.py --check`,
+   `tests/test_docs_numbering.py`, `tests/test_claim_attribution.py` — all
+   cheap, all mechanical, all catch real defects (the last one exists because
+   an outside reader found a citation defect 2135 tests had walked past).
+
+### The prompt for the next session
+
+```
+You are picking up Zeta Lab (/Users/thomas/Zeta) mid-project. Read, in order:
+CLAUDE.md (binding operating rules), the top two records of HANDOFF.md, and
+hunts/higher_xi/LEAN-FRONTIER.md item 20.
+
+Hard constraints for this session:
+- Frontier-model tokens are exhausted; the operator funds this personally.
+  Prefer tasks a machine decides over tasks an argument decides. Running the
+  test suite and lake build costs wall-clock, not tokens: use them freely.
+- Four claude/* branches ahead of main are the operator's parallel runs.
+  Report them, never merge them. Only fast-forward main; only rebase your own
+  branch. Check `git fetch` before landing anything.
+- Do NOT start the hdom / Abel-Fubini formalization (HANDOFF says why). If you
+  find yourself writing measure-theory Lean, stop and say so.
+- The Lean arm counts nothing with a sorry. The word "certified" belongs to
+  zeta/rigor.py and the Lean arm only. Under hunts/, "verified", "confirmed",
+  "definitively" and "proves" are banned lexically, including inside a
+  sentence disclaiming them — tests read the bytes.
+- Every mathematical claim gets a numerical check or an explicit hedge at the
+  point of use. If a computation appears to settle something open, the first
+  inference is a bug; climb the certainty ladder in CLAUDE.md rather than
+  rounding a rung upward.
+
+First task, unless the operator redirects: prepare the Mathlib upstream PR for
+theta_sq_le (and theta_pow_succ_le) from lean/ZetaLean/ChebyshevBounds.lean.
+Confirm the lemmas are still absent upstream, match Mathlib naming and style,
+open the PR against leanprover-community/mathlib4. One external acceptance is
+worth more to this project than another internal result.
+
+Report concretely: what you ran, what it printed, what you changed. Negative
+results are first-class here — recording that something does not work, with
+the mechanism, is the house's most valued output.
+```
 
 ---
 
