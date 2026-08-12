@@ -677,3 +677,28 @@ so the guarantee is not about our bookkeeping but about the field. What
 remains is the reduction of the retention to that certificate (H3), and
 that reduction is also where blocker 1 (depth-uniformity: four recorded
 depths, not all y) lives. No proportion is claimed to have moved.
+
+
+## Blocker 1 closed (single-pair layer): depth-uniform retention (2026-08-12)
+
+Instruments: `depth_uniform.py`, `test_depth_uniform.py` (27 tests);
+coordinator re-ran both.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| **theta over ALL y in (0, 1/2], not sampled depths** | **CLOSED at 0.995** | 18 cells tiling (0,1/2] exactly; endpoints shared as objects so adjacency is exact, not a tolerance | closes at 0.995 and 0.996; fails at 0.997 (-0.078), always on the deepest cell; binding cells are the three deepest, where the square completion turns on |
+| The shallow end (no smallest point) | **CLOSED BY HOMOGENEITY, NOT CELLS** | f+(g,y) <= y^2 Fhat(g); B convex through the origin so B(lambda F) <= lambda B(F); slack(y)/y^2 >= 8 L2/A = 0.6199944 (the y->0+ limit, sinh t >= t) | one finite inequality covers an interval with no smallest point; a geometric ladder cannot reach 0 and would have left (0, 0.002) open - the same missing quantifier one decade lower |
+| Derivative constants | DERIVED TWO WAYS, NOT COPIED | Cauchy-Riemann gives dC/dy = dS/dg and dS/dy = -dC/dg, so two magnitudes bound four; Cauchy-Schwarz vs direct majorant, module takes the min | direct majorants beat Cauchy-Schwarz throughout (0.055476 vs 0.064328; 0.226506 vs 0.463826 at y=1/2); numeric/bound worst ratios 0.65-0.74 with margin; attainment 0.85 on a dense scan, so near-sharp |
+| Worst-corner choice | MEASURED, NOT ASSUMED | sigma^2, E, c_im increase in y (damage at the deep lip); slack/y^2 increases in y (budget at the shallow lip) | direction control passes on every cell used |
+| **Consistency vs the point results** | **PARTIAL DEVIATION, REPORTED NOT TUNED** | strict domination of `paper_chain`'s inflated number fails at all four sampled depths (ratios 0.9413/0.9881/0.9963/0.9971) | traced: paper_chain inflates a whole band by a global constant, this module inflates each bin by its own centre gradient plus curvature. The meaningful check - domination of the TRUE field - holds: worst (true - F_up) = 0, worst relative -5.4e-5 (-1.4e-3 shallow); both caps under slack at all four depths; measured adversary dominated |
+| Convention + lesion | PASS | cap diverges at theta=1 including on the shallow cell where the y^2 scaling could have hidden it; lesion (drop inflation) fires at 7.08e-3 | |
+| Precision response | SETTLES | cap falls monotonically 1.0543e-1 -> 9.996e-2 over step 0.01->0.00125, slices 2->8, G 120->200 | <0.7% total drift |
+| **Incidental defect found in an existing module** | RECORDED | `PaperChain.sigma2`'s difference form (Phi2(2iy)-A)/(2A) loses ~4 digits by y~1e-4, worthless by y~1e-6 | a second reason the shallow end cannot be reached by evaluating the point bound at ever smaller depths; the shallow cell uses closed forms only |
+| Named open, NOT closed here | STATED | (i) single-pair layer only - `paper_joint.py`'s multi-pair depth quantifier remains open (blocker 2); (ii) double precision - the arb and rational covers exist for four sampled depths, re-running either over these 18 cells is the named next hardening; (iii) band period beyond G measured on the resolved region and assumed to persist, inherited from `paper_chain.tail_sum` | |
+
+Disposition: **THE DEPTH QUANTIFIER IS CLOSED FOR THE SINGLE-PAIR LAYER
+AT theta = 0.995, AND COSTS NOTHING.** Depth-uniformity costs one grid
+step at the far end (0.997 vs the rational cover's 0.997 at sampled
+depths) and nothing at the retention of record. Grade: hardened
+(double precision), not kernel-checked. No proportion is claimed to have
+moved.
