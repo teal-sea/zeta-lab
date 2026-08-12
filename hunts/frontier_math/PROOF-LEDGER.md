@@ -646,7 +646,7 @@ service, project 029bed09, 2h27m; 968 lines).
 | Method purity | NO ESCAPE HATCHES | no `sorry`, no `admit`, no `native_decide`, no floats | axioms: propext, Classical.choice, Quot.sound |
 | Constant fidelity | **CROSS-CHECKED IN Q** | Lean constants vs `lp_certificate.py` | F_RAT identical as a Fraction; edges, duals, r_* all match |
 | Independent consistency | NOTED | the formal B2 margin reproduces the measured one | relative slack 4.19e-8 against the measured 1.049e-11 absolute margin |
-| Edit to the artifact | DISCLOSED | one comment reworded ("certified" -> "enclosure-carrying") for the hunts/ lexical rules | no proof content altered; sorry count 0 before and after |
+| Edit to the artifact | DISCLOSED | one comment in the service output used the reserved word of `zeta/rigor.py`; reworded to "enclosure-carrying" for the hunts/ lexical rules | no proof content altered; sorry count 0 before and after. NOTE: this row itself first quoted the reserved word literally and tripped `test_no_hunt_claims_the_reserved_word` - session defect #10, caught by the gate, fixed here |
 
 Disposition: **THE CENSUS FLOOR IS NO LONGER A MEASUREMENT.** c_u >=
 5.021172019e-6 is a theorem about the Montgomery-Taylor kernel, checked
