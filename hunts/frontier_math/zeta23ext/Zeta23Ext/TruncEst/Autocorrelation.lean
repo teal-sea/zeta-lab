@@ -1,4 +1,4 @@
-import RequestProject.Kernel
+import Zeta23Ext.TruncEst.Kernel
 
 /-!
 # `c2` really is the autocorrelation of `g`, and `A = ∫ g`

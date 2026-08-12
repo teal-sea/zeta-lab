@@ -1,8 +1,8 @@
-import RequestProject.Kernel
-import RequestProject.Decay
-import RequestProject.Sums
-import RequestProject.Poisson
-import RequestProject.Autocorrelation
+import Zeta23Ext.TruncEst.Kernel
+import Zeta23Ext.TruncEst.Decay
+import Zeta23Ext.TruncEst.Sums
+import Zeta23Ext.TruncEst.Poisson
+import Zeta23Ext.TruncEst.Autocorrelation
 
 /-!
 # Axiom audit

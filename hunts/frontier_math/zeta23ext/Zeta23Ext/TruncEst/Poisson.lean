@@ -1,4 +1,4 @@
-import RequestProject.Sums
+import Zeta23Ext.TruncEst.Sums
 
 /-!
 # Lemma 2 of `PROBLEM.md`: Poisson summation

@@ -1,4 +1,4 @@
-import RequestProject.Decay
+import Zeta23Ext.TruncEst.Decay
 
 /-!
 # The finite and infinite lattice sums, and the two-sided truncation estimate
