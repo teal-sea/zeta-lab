@@ -25,3 +25,4 @@ import ZetaLean.TwoRangeWeights
 import ZetaLean.MeanSquareAssembly
 import ZetaLean.AristotleRAMS2
 import ZetaLean.ClusterPrefix
+import ZetaLean.RC2PrefixAssembly

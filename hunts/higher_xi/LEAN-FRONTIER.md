@@ -3,9 +3,9 @@
 ## Status
 
 The `HigherXi`, `LogMeanValue`, `ComplexLogMeanValue`, `TwoRangeWeights`,
-`PowerMargin`, and `MeanSquareAssembly` modules are the first formal slices of
-the rebuilt level-two bridge. The Lean kernel accepts all six with no `sorry`
-declarations.
+`PowerMargin`, `MeanSquareAssembly`, `AristotleRAMS2`, and
+`RC2PrefixAssembly` modules are the first formal slices of the rebuilt
+level-two bridge. The Lean kernel accepts them with no `sorry` declarations.
 
 This is not yet a Lean derivation of URMS2-051. The module intentionally stops
 before the analytic inputs which remain absent from the formal tree.
@@ -150,6 +150,29 @@ separate formal obligation.
     order after division by `X^2`. A proposed independent improvement to
     constant `4` failed a clean merged-tree build and is not retained.
 
+15. Conditional assembly of the RAMS2 prefix bound into the finite RC2
+    mean-square estimate. If
+
+    \[
+    \sum_{n\leq N}|a(n)|^2\leq C N(1+\log N),
+    \]
+
+    then for natural `1 <= X <= W` the exact two-range endpoint energy obeys
+
+    \[
+    E_{X,W}\leq 11 C X(1+\log X),
+    \]
+
+    uniformly in `W`, and the finite off-diagonal remainder obeys
+
+    \[
+    |R_{U,X,W}|\leq
+      66 H_W C X(1+\log X).
+    \]
+
+    The arithmetic prefix estimate remains a hypothesis. The new module does
+    not assert the connected-cluster asymptotic or contour transfer.
+
 ## First missing analytic inputs
 
 The exact dependency boundary is now:
@@ -177,5 +200,6 @@ PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.HigherXi
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.LogMeanValue
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.MeanSquareAssembly
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.AristotleRAMS2
+PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.RC2PrefixAssembly
 PATH="$HOME/.elan/bin:$PATH" lake build
 ```
