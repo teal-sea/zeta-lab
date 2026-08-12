@@ -15,12 +15,10 @@ pinned toolchain. As of the scaffold commit:
   imports only Mathlib. **Rebuilt locally 2026-08-12 under Mathlib
   `v4.33.0-rc2`: builds clean, zero `sorry`, same three axioms.** Since it
   imports only Mathlib, that test is decisive for this module.
-- `Zeta23Ext/GridIncidence.lean` — the grid-incidence law, same provenance,
-  **but it does not build under `v4.33.0-rc2`**: two `rw` sites (lines 109,
-  290) fail with "did not find an occurrence of the pattern", and `simp only`
-  makes no progress at either. Both lemmas named there exist unchanged, so
-  the drift is in the goal shape upstream of each site. Out for port as
-  batch 2 (`lean/ARISTOTLE-RUNS.md`).
+- `Zeta23Ext/GridIncidence.lean` — the grid-incidence law, same provenance.
+  It did **not** build under `v4.33.0-rc2` at two `rw` sites (lines 109, 290);
+  ported in batch 2 and now builds, 18 declarations on the three standard
+  axioms (`lean/ARISTOTLE-RUNS.md`).
 
 **The port is DONE. Every module in this package builds under Mathlib
 `v4.33.0-rc2`** (measured 2026-08-12 by dropping each into `lean/` as a
@@ -51,23 +49,20 @@ Collection detail, including the one artifact that was refused and why, is in
 `lean/ARISTOTLE-RUNS.md` under "Batch 2 collection".
 
 The `BandCert/` imports form a single chain (Iv → Leaves → Phi → Check →
-Cap → Data → Verify → Main): `Iv`, upstream of `Leaves`, built clean; the
-six modules downstream of `Leaves` were not reached. The correction to the pin note below: this package's
-`lean-toolchain` already reads `v4.33.0-rc2` and it declares no Mathlib
-requirement of its own (Mathlib arrives through the `Zeta23` dependency),
-so the earlier "this package pins v4.28.0" note described what the service
-proved against, not what the tree says. The port is nonetheless real; it is
-four named tactic sites, not a rebuild.
+Cap → Data → Verify → Main), and it now builds end to end. On the pin note
+further down: this package's `lean-toolchain` already reads `v4.33.0-rc2`
+and it declares no Mathlib requirement of its own (Mathlib arrives through
+the `Zeta23` dependency), so the older "this package pins v4.28.0" line
+described what the service proved against, not what the tree says.
 
-**A defect the survey found, independent of the port.** All eight
-`BandCert/` modules carry `import RequestProject.X` — the proving service's
-own project-local namespace — while `Zeta23Ext.lean` imports
+**A defect the survey found, independent of the port — now FIXED.** All
+eight `BandCert/` modules carried `import RequestProject.X`, the proving
+service's own project-local namespace, while `Zeta23Ext.lean` imports
 `Zeta23Ext.BandCert.Main`. The package could not have assembled at any pin:
-the first `lake build` dies on an unknown module before reaching any
-mathematics. The proofs are not implicated; the artifacts were landed
+the first `lake build` died on an unknown module before reaching any
+mathematics. The proofs were never implicated; the artifacts had been landed
 without their import paths rewritten, and no local assembly had been
-attempted to notice. Folded into the port-C prompt so one artifact carries
-both.
+attempted to notice. All eight now import `Zeta23Ext.BandCert.X`.
 
 **Planned modules** (from the reconnaissance report in
 `../PROOF-LEDGER.md` and the zeta-23-lean mapping; not yet written):
@@ -117,9 +112,10 @@ both.
    STEP (H3) is not. Two notes: the service regenerated the certificate
    itself (the JSON was not shipped with the submission), an
    independent-regeneration cross-check that closed with different but
-   still positive margins (+2.95e-2 vs our +4.49e-2 at y = 49/100); and
-   this package pins Mathlib v4.28.0 while upstream Zeta23 pins
-   v4.33.0-rc2, so a port is required before integration.
+   still positive margins (+2.95e-2 vs our +4.49e-2 at y = 49/100). The
+   port to `v4.33.0-rc2` that this entry once listed as outstanding is
+   done (see the port table above); the chain builds, `Verify` alone
+   taking 1513 s.
 
 5. `RetentionHypothesis.lean` — theta = 995/1000 as a NAMED hypothesis
    (`of_literature` style) until H3 above is discharged.
