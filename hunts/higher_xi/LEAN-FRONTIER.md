@@ -220,6 +220,27 @@ separate formal obligation.
     recurrence for distinct-prime logarithmic weights remains an analytic
     input; the abstract theorem does not assert it.
 
+19. The concrete finite distinct-prime logarithmic mass
+
+    \[
+    A_j(X)=\sum_{\substack{|S|=j\\\prod_{p\in S}p\leq X}}
+      \left(\sum_{p\in S}\log p\right)^2
+      \prod_{p\in S}(\log p)^2.
+    \]
+
+    Marking one prime in an order-`j+1` support is proved to count that support
+    exactly `j+1` times. The resulting deletion mass is connected to the
+    abstract weighted-simplex theorem, so a first-order bound and the single
+    prime-specific estimate
+
+    \[
+    (2j)(2j+1)D_j(X)\leq B A_j(X)
+    \]
+
+    imply the full `j!(2j-1)!` denominator. Establishing this inequality from
+    a weighted Chebyshev estimate remains the analytic input; it is not
+    asserted by the Lean module.
+
 ## First missing analytic inputs
 
 The exact dependency boundary is now:
@@ -250,6 +271,7 @@ PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.AristotleRAMS2
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.ClusterMajorant
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.MatchingPairStructure
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.WeightedSimplex
+PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.PrimeSimplex
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.RC2PrefixAssembly
 PATH="$HOME/.elan/bin:$PATH" lake build
 ```

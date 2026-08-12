@@ -32,5 +32,6 @@ import ZetaLean.MatchingPairStructure
 import ZetaLean.MarkedClusterFreezing
 import ZetaLean.SupportSizeMajorant
 import ZetaLean.WeightedSimplex
+import ZetaLean.PrimeSimplex
 import ZetaLean.RootedMatchingBound
 import ZetaLean.RepeatedPrimeDominated
