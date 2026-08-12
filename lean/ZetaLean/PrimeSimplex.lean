@@ -45,7 +45,14 @@ noncomputable def distinctPrimeLogMass (X j : ℕ) : ℝ :=
   ∑ S ∈ distinctPrimeSupports X j, distinctPrimeLogWeight S
 
 /-- The mass with one support prime marked for deletion.  This is the exact
-finite object to which a one-label insertion estimate applies. -/
+finite object to which a one-label insertion estimate applies.
+
+Naming trap, stated so nobody falls into it: nothing is deleted in this
+summand — the inner weight is `distinctPrimeLogWeight T`, not `T.erase p`,
+so this is the *marked* mass and equals `(j+1) · A_{j+1}(X)` exactly
+(`distinctPrimeDeletionMass_eq`).  The genuine deleted-weight comparison,
+`w(T)` against `w(T \ {p})`, is precisely the analytic hypothesis `hprime`
+that the theorems below take as input and that no Lean here asserts. -/
 noncomputable def distinctPrimeDeletionMass (X j : ℕ) : ℝ :=
   ∑ T ∈ distinctPrimeSupports X (j + 1),
     ∑ _p ∈ T, distinctPrimeLogWeight T
