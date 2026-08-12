@@ -67,6 +67,13 @@ from harness.protocol import (
     validate_battery,
     validate_department,
 )
+from harness.independence import (
+    IndependenceError,
+    IndependenceReport,
+    VerificationPath,
+    agreement_bounds,
+    compare,
+)
 from harness.provenance import (
     Provenance,
     contamination_reasons,
@@ -85,6 +92,8 @@ __all__ = [
     "DepartmentError",
     "DetectorVerdict",
     "HarnessError",
+    "IndependenceError",
+    "IndependenceReport",
     "Lesion",
     "NamedDetector",
     "NullBandVerdict",
@@ -94,8 +103,11 @@ __all__ = [
     "ReferenceClaim",
     "Subject",
     "Surrogate",
+    "VerificationPath",
+    "agreement_bounds",
     "battery_reasons",
     "clear_departments",
+    "compare",
     "contamination_reasons",
     "department_reasons",
     "dependence_reasons",

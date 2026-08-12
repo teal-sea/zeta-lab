@@ -50,6 +50,7 @@ from harness.protocol import (
     ReferenceClaim,
     register_department,
 )
+from harness.independence import IndependenceReport, VerificationPath, compare
 from harness.provenance import Provenance
 from zeta import epstein, surrogate
 from zeta.detectors import _lesion_zeros
@@ -495,3 +496,52 @@ DEPARTMENT = Department(
 )
 
 register_department(DEPARTMENT, replace=True)
+
+
+# ---------------------------------------------------------------------------
+# The rigor two-backend cross-check, declared as verification paths
+# ---------------------------------------------------------------------------
+#
+# docs/25 measured the lesson these declarations carry: `proven_sign` returned
+# a wrong sign on *both* backends because the fault sat in `_exact`, a parsing
+# layer the two paths share upstream of everything either one duplicates. The
+# shared list below is HANDOFF's own enumeration (the 2026-08-11 director-run
+# record): `_exact`, the grid policy, the contour policy, and the final
+# S(T)/N(T) interval summation. Only the ball-arithmetic layer is implemented
+# twice, so agreement between the backends is evidence about that layer alone.
+# `tests/test_harness_independence.py` pins both the structure and the fact
+# that the declared anchor (`zeta.rigor._exact`) still exists.
+
+RIGOR_SHARED_LAYERS = (
+    "numeric input parsing (zeta.rigor._exact)",
+    "evaluation grid policy",
+    "contour policy",
+)
+
+RIGOR_SHARED_TAIL = ("S(T)/N(T) interval summation",)
+
+RIGOR_BACKEND_PATHS = (
+    VerificationPath(
+        name="rigor backend: python-flint (Arb)",
+        layers=RIGOR_SHARED_LAYERS
+        + ("ball arithmetic: python-flint (Arb)",)
+        + RIGOR_SHARED_TAIL,
+    ),
+    VerificationPath(
+        name="rigor backend: mpmath.iv",
+        layers=RIGOR_SHARED_LAYERS
+        + ("ball arithmetic: mpmath.iv",)
+        + RIGOR_SHARED_TAIL,
+    ),
+)
+
+
+def rigor_backend_independence() -> IndependenceReport:
+    """The two-backend cross-check's declared independence structure.
+
+    Radius 3 of 5, one reconvergent layer, and exactly one layer implemented
+    twice: the report is the machine-readable form of docs/25's standing
+    consequence — a cross-check bounds only what is actually duplicated.
+    """
+
+    return compare(*RIGOR_BACKEND_PATHS)
