@@ -9,6 +9,11 @@ arbitrarily small Cauchy radius on the tail-prime Euler product. RAMS2 then
 holds on every fixed compact `rho` band, and the current contour architecture
 reaches every compact band inside `|alpha|<1/2`.
 
+`URMS2-051.md` subsequently removes the strict half-band RC2 loss by retaining
+the exact logarithmic spacings in the weighted two-range polynomial. RAMS2 at
+the rational far-cutoff ratio `14/5` then supports the bridge through
+`|alpha|<=51/100`.
+
 The level-two arithmetic obstruction has a smaller exact structure than a
 general graph gas.
 

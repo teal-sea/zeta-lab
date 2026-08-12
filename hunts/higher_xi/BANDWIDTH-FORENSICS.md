@@ -1,5 +1,11 @@
 # Level-two bandwidth forensics
 
+**Half-band update.** `URMS2-051.md` retains the individual `log n` spacings
+and the exact two-range coefficient weights in the finite mean square. Its
+off-diagonal error is `O(x log x)`, independent of the far cutoff length. This
+removes `gamma<delta`, reaches bandwidth `0.51`, and opens the first corrected
+conditional xi-double-prime simplicity statement.
+
 ## Disposition
 
 The promoted endpoint `1/100` was not a theorem boundary.  It was the result

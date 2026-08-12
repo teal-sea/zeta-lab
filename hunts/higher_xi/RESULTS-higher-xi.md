@@ -262,9 +262,16 @@ the far-tail cutoff versus finite mean-value length rather than RAMS2. The downs
 problem has the exact bounds `0.5<=beta_useful<=0.51`: Cauchy-Schwarz,
 operator coercivity, and completion of squares exclude every admissible
 spectral-factor window through `0.5`; the constant window at `0.51` gives a
-positive conditional value. No actual zero-simplicity percentage follows
-yet; the bridge and the obstruction meet at the strict endpoint `0.5`, and
-the first exact useful candidate is at `0.51`.
+positive conditional value.
+
+`URMS2-051.md` removes the half-band obstruction without a new shifted-sum
+input. The exact two-range weights and the individual `log n` spacings reduce
+the finite off-diagonal error to `O(x log x)`, independent of the far cutoff.
+With `alpha=51/100`, `delta=3/4`, `gamma=21/20`, and `epsilon=1/100`, the
+mean-value margin is `6/25` and the infinite-tail margin is `9/1000`. The
+rebuilt bridge therefore supports the bandwidth-`0.51` constant window. Under
+RH, the resulting first corrected xi-double-prime statement has simple-zero
+proportion at least `0.0147728663285376...` in the limiting lower sense.
 
 A slowly growing Hilbert projection would need order only
 `J(T)=O(log log T)` on a strict sub-quarter band. The fixed-order source does
