@@ -963,6 +963,158 @@ previously-uncatchable hollow batteries now caught, four still not.
 real constraining power is over *mechanical* emptiness — and the choice that
 decides whether a battery can reject anything is still the author's.
 
+## The outside memos, triaged (2026-08-11)
+
+Two outside recommendation documents arrived and are landed in
+`docs/reviews/` (the directory's contract is in its README: memos propose,
+the tree decides, nothing there is a result). One is a strategy memo — evolve
+the lab into a research operating system around the harness, under the rule
+**"no agent without an oracle"** — and one is a 16-programme research
+portfolio with an allocation table for ~30 agents. This section is the
+decision: what was adopted, what was already running, what is queued,
+deferred, or rejected, and why.
+
+Three constraints were applied before any triage:
+
+1. **Two threads were live when the memos arrived** — the frontier-math
+   configuration-realizability campaign (already at Level 7, past the
+   portfolio's Level-6 framing) and the Jensen heat-clock hunt. Live threads
+   are not reallocated by a memo; they run to their own kill conditions.
+2. **Standing decisions stand unless a memo brings new evidence.** Where a
+   recommendation restates something this file already decided (Sturm as the
+   Mathlib target, no N(T), rung 3 needs a headroom re-plan before compute),
+   the memo is agreement, not input.
+3. **The ~30-agent table is read as a priority ordering, not a headcount.**
+   Real concurrency here is a handful of sessions (2 live threads + 1–2
+   interactive), not 30; the portfolio's *ordering* survives that reduction,
+   its team sizes do not.
+
+**Adopted — the next three infrastructure builds, in order.**
+
+1. **Verifier-independence measurement** (portfolio §13; strategy memo
+   integration #3). The one recommendation both memos make independently and
+   that the tree's own newest evidence demands: the director run (`docs/25`)
+   found `rigor.py` returning a wrong `proven_sign` on *both* backends
+   because the fault sat in shared input parsing — exactly the memo's "two
+   implementations sharing a faulty conversion layer are not independent."
+   The shape: extend the ancestry discipline `harness/provenance.py` already
+   applies to batteries so a cross-check can state its **independence
+   radius** — the earliest layer at which two verification paths genuinely
+   diverge. First subject: `rigor.py`'s own two-backend paths, whose shared
+   layers (`_exact`, contour policy, grid policy, the S(T)/N(T) interval
+   summation) are already enumerated in `HANDOFF.md`.
+2. **The guard offensive** (portfolio §14). Same evidence base: three of the
+   director run's six defects were guards that could not do their job, and
+   `docs/22` measured detector strength for departments but not for the
+   repo's ad-hoc guards. Per guard: name the intended lesion, build the
+   smallest mutant exhibiting it, confirm the guard fires, map the nearby
+   lesions it misses, record its true scope. This is `SHAM_MODES` discipline
+   applied outside the harness. Destroyer work only — no feature development
+   in the same pass.
+3. **HuntSpec, on probation** (strategy memo primitive #1). A
+   machine-readable contract block inside each new hunt's `MISSION.md` —
+   question, current frontier, known dead routes, required oracles, kill
+   conditions, agents-may / agents-may-not — plus a validating test. Adopted
+   as an *experiment* under the same rule as `dossier/`: the resumption
+   benchmark (2026-08-09) showed typed machinery does not automatically earn
+   its keep, so no new package and no orchestration until a kill condition
+   fires mechanically or an oracle requirement blocks an ungrounded status
+   claim at least once. Live hunts are not retrofitted mid-flight.
+
+**Already running — the memos agree with the tree; no allocation change.**
+
+- The portfolio's flagship (configuration realizability, §1) *is* live
+  thread 1. Its subteam structure (configuration adversary, independent
+  theorem reconstruction, exact certification) matches how the frontier-math
+  campaign already operates after the transpose kill.
+- The heat-flow lane (§10) is live thread 2's neighborhood.
+- The ξ″ bridge past 0.51 (§3) is main's four newest commits. The memo's
+  method — a complete exponent budget per α, then classify the *first*
+  inequality that fails at 0.6, 0.75, 0.9, 1 − ε — is recorded here as the
+  continuation prompt for whoever resumes that lane.
+- Kernel-checked Davenport–Heilbronn (§7) is the standing next-build below.
+  The memo's one concrete technical idea — replace rectangular enclosures
+  for m^{−s} with a polar or mean-value representation to cut dependency
+  inflation — is exactly a candidate for the headroom re-plan that rung 3 is
+  waiting on, and is recorded there.
+- Mathlib upstreaming (§8) restates the decisions already in "The upstream
+  track" below: Sturm is the contribution target, Hardy Z is the lab's rung,
+  N(T) stays untouched.
+
+**Queued — next new mathematics lanes, opened only as live threads finish,
+each behind a HuntSpec.**
+
+- **General higher-ξ hierarchy** (portfolio §2) is first in the queue: it
+  grows directly out of the landed Bian/URMS2 work, and the portfolio's
+  framing — treat repaired ξ″ as the k = 2 instance of R_k = ξ⁽ᵏ⁾/ξ⁽ᵏ⁺¹⁾ with
+  independent Bell-polynomial, Dirichlet-convolution, and generating-function
+  constructions — is the right next question. Precondition: the four
+  unmerged `agent/*` ξ branches land or close first; opening a new ξ lane
+  over unlanded ξ branches invites exactly the collision `AGENTS.md` warns
+  about.
+- CUE F_k theorem (§4), the local process of derivative zeros (§5), and the
+  identification of corrected F₂ (§6) queue behind the hierarchy — same
+  family, and §6's own rule (PSLQ may discover, only proof promotes) is
+  house style already.
+- The local-to-global positivity moonshot (§9) stays alive at most as one
+  long-horizon lane. `docs/24` is its entry ledger; the mandatory-adversary
+  requirement (structurally exclude Davenport–Heilbronn and Epstein rivals)
+  is gate #3 and `zeta.epstein.battery`, already standing.
+- The certified adversarial Weil explorer (§12) queues behind adopted item 1
+  — its "third implementation sharing no upstream transformation" *is* an
+  independence-radius requirement, and `rigor.enclose_weil_functional`'s
+  known gap (no `iv` quadrature, so no two-backend cross-check there) is the
+  natural first work item when it opens.
+
+**Deferred — right idea, wrong time.**
+
+- Literature scout on `ontology/knownness.py` (strategy memo #1): deferred
+  behind the verification builds, but its contract is adopted now — output
+  is databases searched, sources inspected, candidate matches, and "no
+  matching result located"; never the word NOVEL, because failure to find
+  prior art is not proof of novelty.
+- Standing (continuous) adversarial review: the practice exists by hand —
+  `REDTEAM.md`, the director run — and becomes standing only when durable
+  orchestration exists to stand on.
+- Orchestration, the research UI, the attention queue, start/pause controls:
+  the strategy memo's own build order puts these at positions 6–9 of 11, and
+  `meta/`'s rule applies — measure the loop before automating it. The memo's
+  constraint is adopted in advance: workflow state may live in an
+  orchestration layer, evidence may not; the canonical record stays in tree
+  artifacts and git history.
+- The equivalence-web scheduler (§16): needs the dependency graph as a data
+  model first; nothing exists to schedule against yet.
+- The external-referee experiment (§15): already recorded in `docs/20` §8 as
+  the experiment most likely to hurt; it needs an actual outside party, which
+  is not something a session allocates.
+
+**Rejected.**
+
+- Continuous, indiscriminate funnel generation — rejected by both memos and
+  already rejected by this file (known gap #3: expected yield ≈ 0 is the
+  machine working).
+- Any reading of the memos as bending the honest-scope rule. The portfolio
+  speaks of "a genuinely new route to RH"; nothing adopted here is an attempt
+  on RH, nothing computed here is evidence for it, and the sanctioned framing
+  in `AGENTS.md` stands unchanged.
+
+**Adopted as standing practice, now written down.**
+
+- **Constructor / independent reconstructor / destroyer are separate roles**
+  (portfolio's organizational rule). This is how the frontier-math kill and
+  the director run actually worked; for major claims the destroyer works
+  blind first — hostile examples before the constructor's reasoning.
+- **The do-not-fund list** (portfolio's final section) is adopted wholesale.
+  Every entry on it matches a kill already recorded in `HANDOFF.md` or this
+  file — the memo's contribution is the consolidated form, and the list is
+  the standing answer to "why not just re-run X with bigger parameters."
+- **The strategy memo's charter** names what the lab already practices and
+  is adopted as the phase framing: agents produce artifacts for
+  verification, not verdicts; model agreement never substitutes for
+  independent evidence; the headline question is *what do we know now that
+  we did not know before, and why are we entitled to believe it.* The three
+  adopted builds above are its first enforcement mechanisms.
+
 ## Known gaps
 
 Listed because an undocumented gap becomes an assumption.

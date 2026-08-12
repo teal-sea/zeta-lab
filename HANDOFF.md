@@ -3,7 +3,39 @@
 Concise records: what was believed, what invalidated it, what now catches the
 problem, what conclusion is currently justified. Decisions live in
 `ROADMAP.md`; this file is the between-session state. Last snapshot:
-2026-08-11 (frontier math).
+2026-08-11 (outside memos triaged).
+
+---
+
+## Record: two outside memos triaged; the next three builds are decided
+## (2026-08-11)
+
+Two outside recommendation documents (a next-phase strategy memo and a
+16-programme research portfolio) are landed in `docs/reviews/`, and the full
+adopt / already-running / queue / defer / reject decision is in `ROADMAP.md`
+("The outside memos, triaged"). What a next session needs:
+
+**1. The next three infrastructure builds, in order:** (a) verifier
+independence made measurable — extend `harness/provenance.py`'s ancestry
+discipline to computations, first subject `rigor.py`'s own two-backend paths
+(shared layers already enumerated in the director-run record below);
+(b) the repository-wide guard offensive — per guard: intended lesion,
+smallest mutant, does it fire, what nearby lesions it misses; (c) HuntSpec,
+a machine-readable contract block in new hunts' `MISSION.md`, on probation
+under the dossier rule — it earns its place the first time a kill condition
+fires mechanically. None of these touch live hunt directories.
+
+**2. The queue for new mathematics lanes** (opened only as live threads
+finish, each behind a HuntSpec): the general higher-ξ hierarchy first —
+precondition: the four unmerged `agent/*` ξ branches land or close — then
+CUE F_k, the derivative-zero local process, the F₂ identification, the Weil
+explorer. The moonshot (local-to-global positivity, `docs/24` is the entry
+ledger) stays one long-horizon lane at most.
+
+**3. Do not re-litigate:** the do-not-fund list in the portfolio memo is
+adopted wholesale (it matches this file's recorded kills item for item); the
+30-agent allocation table is a priority ordering, not a headcount; and
+nothing in either memo bends the honest-scope rule.
 
 ---
 
