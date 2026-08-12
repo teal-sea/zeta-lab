@@ -185,8 +185,9 @@ separate formal obligation.
     N(r,a)=\frac{r!}{2^a a!(r-2a)!}.
     \]
 
-    The theorem keeps the concrete-family fibre count and the one-matching
-    weight bound as explicit finite interfaces. The prime-simplex,
+    The exact matching-slice cardinality theorem now discharges the
+    concrete-family fibre count. The one-matching weight bound remains the
+    explicit finite interface. The prime-simplex,
     support-density, and uniform-growth estimates remain analytic hypotheses;
     this step does not establish the RAMS2 asymptotic.
 

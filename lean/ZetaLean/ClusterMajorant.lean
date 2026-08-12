@@ -31,17 +31,19 @@ noncomputable def matchingCountPolynomial (r : ℕ) (weight : ℕ → ℝ) : ℝ
 
 omit [DecidableEq α] in
 /-- Group a weight depending only on the number of matching edges into the
-explicit `matchingCount` coefficients.  The hypothesis is the finite bridge
-identifying the concrete matching-family fibres with `MatchingCount`'s
-labelled count. -/
+explicit `matchingCount` coefficients.  `card_matchingSlice` supplies the
+finite bridge from the concrete matching-family fibres to the arithmetic
+count. -/
 theorem sum_matching_weight_eq_matchingCountPolynomial
-    (S : Finset α) (weight : ℕ → ℝ)
-    (hcount : ∀ a,
-      ((matchingFamily S).filter fun M ↦ M.card = a).card =
-        matchingCount S.card a) :
+    (S : Finset α) (weight : ℕ → ℝ) :
     (∑ M ∈ matchingFamily S, weight M.card) =
       matchingCountPolynomial S.card weight := by
   classical
+  have hcount : ∀ a,
+      ((matchingFamily S).filter fun M ↦ M.card = a).card =
+        matchingCount S.card a := by
+    intro a
+    simpa [matchingSlice] using card_matchingSlice S a
   have hcard : (matchingFamily S : Set (Finset (Finset α))).MapsTo
       Finset.card (Finset.range (S.card / 2 + 1)) := by
     intro M hM
@@ -184,10 +186,9 @@ theorem abs_connectedMatchingMass_le_of_pointwise
 /-- A finite connected two-colour mass is bounded by the square of an explicit
 one-colour matching-count polynomial.
 
-`hcount` is the finite labelled-enumeration interface between the concrete
-matching family and `matchingCount`. `hterm` is the remaining local weight
-estimate for one matching. No support-density or prime-sum estimate occurs in
-this theorem. -/
+`card_matchingSlice` supplies the exact finite labelled enumeration. `hterm`
+is the remaining local weight estimate for one matching. No support-density
+or prime-sum estimate occurs in this theorem. -/
 theorem abs_connectedMatchingMass_le_matchingCountPolynomial_sq
     (S : Finset α) (monomer monomerMajorant : α → ℝ)
     (dimer dimerMajorant : Finset α → ℝ) (weight : ℕ → ℝ)
@@ -197,10 +198,7 @@ theorem abs_connectedMatchingMass_le_matchingCountPolynomial_sq
     (hdimer : ∀ e ∈ S.powersetCard 2, |dimer e| ≤ dimerMajorant e)
     (hweight : ∀ a ∈ Finset.range (S.card / 2 + 1), 0 ≤ weight a)
     (hterm : ∀ M ∈ matchingFamily S,
-      matchingTerm M S monomerMajorant dimerMajorant ≤ weight M.card)
-    (hcount : ∀ a,
-      ((matchingFamily S).filter fun M ↦ M.card = a).card =
-        matchingCount S.card a) :
+      matchingTerm M S monomerMajorant dimerMajorant ≤ weight M.card) :
     |connectedMatchingMass S monomer dimer| ≤
       matchingCountPolynomial S.card weight ^ 2 := by
   classical
@@ -218,7 +216,7 @@ theorem abs_connectedMatchingMass_le_matchingCountPolynomial_sq
       _ ≤ ∑ M ∈ matchingFamily S, weight M.card :=
         Finset.sum_le_sum hterm
       _ = matchingCountPolynomial S.card weight :=
-        sum_matching_weight_eq_matchingCountPolynomial S weight hcount
+        sum_matching_weight_eq_matchingCountPolynomial S weight
   have hcoefficient_nonneg :
       0 ≤ monomerDimerCoefficient S monomerMajorant dimerMajorant := by
     unfold monomerDimerCoefficient
