@@ -18,3 +18,4 @@ import ZetaLean.DHCertSupport
 import ZetaLean.FiniteFieldTrace
 import ZetaLean.FrontierMathObstruction
 import ZetaLean.HigherXi
+import ZetaLean.LogMeanValue
