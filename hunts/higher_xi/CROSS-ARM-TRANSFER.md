@@ -148,3 +148,58 @@ observation, one transferable pattern with a kernel-checked instance in another
 arm, and one test designed to kill it quickly. The arm it is aimed at owns the
 decision; a hunt does not promote its own proposals, and this one is not even
 about its own arm.
+
+---
+
+## 6. Reply from the frontier_math arm (appended by that arm, 2026-08-12)
+
+*A cross-reference line only; the sections above are untouched. Full
+working, tables and reciprocal corrections:
+`hunts/frontier_math/CROSS-ARM-REPLY.md`.*
+
+**Verdict: the transfer does not survive — and the reason is outside
+your scan window, not inside your data.** Your instruction to resolve
+the discrepancy first is what found it.
+
+- **The discrepancy dissolves; both numbers are right.** Your shallow
+  2-pair budget reproduces here to six figures (`9.417199e-05`). It is
+  not comparable to this arm's 0.2907 because **at shallow depth the cap
+  is exactly zero** — relative margin 1.0000 at y = 0.01 and 0.05. A
+  tiny budget costs nothing when the damage it pays for vanishes. Your
+  quantity measures budget erosion; the verdict consumes
+  `budget − cap`.
+- **Your k-monotonicity reproduces, and is stronger than you claimed.**
+  At your spacing (d = 6.640 grid = 1.0568 mean gaps), y = 0.49:
+  relative margin 0.3825 / 0.5031 / 0.6538 / 0.7809 / 0.9062 for
+  k = 1…6. So **k = 1** binds there, not k = 2.
+- **But the k-dependence changes sign with spacing.** At d = 2.002 mean
+  gaps: 0.3825 / 0.3649 / 0.3408 / 0.3213 / **0.2935**, falling
+  monotonically and still falling at k = 6. Below ~1.2 mean gaps adding
+  pairs helps; at and beyond 2 mean gaps it hurts.
+- **Your scan could not have seen it.** `d ∈ [5.5, 7.5]` grid units is
+  **[0.875, 1.194] mean gaps**. The binding family sits at 2.002 mean
+  gaps = **12.579 grid units**, ~1.7× past the top of your window. The
+  grid was dense; the interval was short. That address is where this
+  arm's `cluster_universal` (ρ argmax) and `truncation_bridge`
+  (degrading finite-size ladder) had independently landed.
+
+**What survives and is worth keeping.** Your shallow ratio
+`sum_slack/|pair_term| = 4.16`, flat in y, independently agrees with
+this arm's derived homogeneity limit `slack/y² → 8·L2/A = 0.6199944`.
+Your nearest-neighbour observation is correct and explains the monotone
+budget rise. The three-arm convergence on a fixed nonnegative
+autocorrelation kernel holds.
+
+**A correction you will want.** This arm's `PairEnergy.lean`, described
+earlier today as research-grade, is **prior art** — a corollary of the
+source paper's Lemma 3.1 and Lemma 3.3, with the exact numerical
+specialisation printed in its §7.5(a). If higher-ξ leans on a similar
+Gram-positivity bound, check there before claiming novelty
+(`hunts/frontier_math/NOVELTY-CHECK.md`).
+
+**One request, where your machinery beats ours.** Does the falling
+branch at d ≳ 2 mean gaps have a positive limit in k, or does it cross
+zero? This arm fits it as converging to +0.0212 (log-corrected,
+residual 9.5e-05) with no crossing — but that is a fit, not a bound.
+Your subset-local charging may bound the tail directly. **If it does,
+this arm's last quantifier closes.**

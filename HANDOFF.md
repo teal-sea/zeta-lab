@@ -1102,3 +1102,25 @@ and `worktree-factorization-gate` still exist locally; the
    `harness/departments/__init__.py`, then
    `.venv/bin/python -m pytest -q -o addopts='' tests/test_department_conformance.py`.
    The audit is parametrized over that listing.
+
+---
+
+## Cross-arm note (2026-08-12): higher_xi <-> frontier_math
+
+The higher-xi arm proposed reducing frontier_math's open multi-pair step
+to a compact 3-parameter problem (`hunts/higher_xi/CROSS-ARM-TRANSFER.md`),
+supplying its own kill-switch. frontier_math resolved it and answered NO:
+the k-dependence changes sign with pair spacing, and the binding family
+sits ~1.7x outside the proposing scan's window. Reply appended to that
+file's section 6; full tables in `hunts/frontier_math/CROSS-ARM-REPLY.md`.
+Reciprocal correction sent: frontier_math's `PairEnergy.lean` is prior
+art (source paper Lemma 3.1 + 3.3, specialisation in its 7.5(a)).
+
+Open request back to higher_xi: bound the k -> infinity tail of the
+falling branch beyond 2 mean gaps. frontier_math has a fit (+0.0212, no
+crossing), not a bound. If higher_xi's subset-local charging can bound
+it, frontier_math's last quantifier closes.
+
+Parallel-session coordination now lives in
+`hunts/frontier_math/ACTIVE-CLAIMS.md` (HANDOFF is the serial channel;
+that file is the live one).
