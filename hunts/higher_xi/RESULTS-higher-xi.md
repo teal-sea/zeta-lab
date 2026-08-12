@@ -273,6 +273,14 @@ rebuilt bridge therefore supports the bandwidth-`0.51` constant window. Under
 RH, the resulting first corrected xi-double-prime statement has simple-zero
 proportion at least `0.0147728663285376...` in the limiting lower sense.
 
+`URMS2-051-AUDIT.md` independently reconstructs all load-bearing passages.
+The audit found one omitted statement, height freezing beyond the old
+pointwise radius, and closes it by differentiating the summable cluster
+majorant. It also corrects the stale cross-range phase description in
+`URMS1-CLOSURE.md`. The source theorem, spacing sum, tail, multiplicity
+normalization, and independent JSON-based window calculation all pass. The
+remaining promotion gate is external mathematical review.
+
 A slowly growing Hilbert projection would need order only
 `J(T)=O(log log T)` on a strict sub-quarter band. The fixed-order source does
 not give error constants uniform at that scale. `urms2_attack.py` records the

@@ -115,6 +115,13 @@ closed bandwidth `0.51`, and the exact constant window gives a conditional
 simple-zero proportion lower bound `0.0147728663285376...` for xi-double-prime
 under RH. Bandwidth optimization stops at this first corrected theorem.
 
+`URMS2-051-AUDIT.md` is the independent internal audit. It reconstructs the
+two-range phase, maps the exact weighted Montgomery-Vaughan theorem, adds the
+marked-cluster height-freezing estimate at ratio `14/5`, rebuilds the window
+bound from `C2_EXTENDED.json`, and checks the multiplicity normalization.
+Every internal gate passes. External mathematical review remains the next
+promotion gate.
+
 The completed-CUE experiment uses angular derivatives of
 
 ```text

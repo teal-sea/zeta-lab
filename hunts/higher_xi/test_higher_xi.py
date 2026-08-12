@@ -106,6 +106,15 @@ from urms2_attack import (
     resummed_projection_errors,
     young_multiplier_bound,
 )
+from urms2_051_audit import (
+    exact_two_range_phase_defects,
+    gate_status as urms2_051_gate_status,
+    independent_window_bound,
+    marked_cluster_freezing_exponents,
+    multiplicity_inequality_values,
+    reflection_parity_defect,
+    weighted_partial_summation_constants,
+)
 from rams1 import (
     alpha_symmetry_defects,
     borel_multiplicativity_defects,
@@ -747,6 +756,26 @@ def test_finite_height_spacing_cost_beats_the_generic_length_lesion() -> None:
     assert high["spacing_over_x_log_x"] < low["spacing_over_x_log_x"]
     assert low["generic_to_spacing_ratio"] > 3
     assert high["generic_to_spacing_ratio"] > 6
+
+
+def test_urms2_051_independent_audit_gates_pass() -> None:
+    assert all(urms2_051_gate_status().values())
+    assert exact_two_range_phase_defects() == (0, 0)
+    assert reflection_parity_defect() == 0
+    assert weighted_partial_summation_constants() == {
+        "lower_log_constant": 3,
+        "upper_log_constant": 3,
+    }
+    assert marked_cluster_freezing_exponents()["difference_square_log_power"] == -1
+    assert all(slack >= 0 for slack in multiplicity_inequality_values(100))
+
+
+def test_independent_json_window_route_matches_the_first_route() -> None:
+    independent = independent_window_bound()
+    first = corrected_simplicity_bound()
+    assert independent["bandwidth"] == first["bandwidth"]
+    assert independent["denominator_upper"] == first["denominator_upper"]
+    assert independent["simple_proportion_lower"] == first["simple_proportion_lower"]
 
 
 def test_target_window_has_only_a_simple_overlap_zero_at_band_edge() -> None:
