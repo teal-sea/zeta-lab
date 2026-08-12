@@ -501,3 +501,84 @@ H + 2 * 0.995 * c_u(g) = 0.6725106958 no longer waits on the field; it
 waits on burden (b) (the ramp) and burden (c) (the multiplicative-theta
 derivation), which are unchanged.  The reading of record moves to
 **0.6725106958, still a candidate**; no proportion is claimed.
+
+
+## Burden (c), first half: the composition skeleton is now kernel-checked
+
+Instrument: `t3_composition_skeleton.lean` (produced by the Aristotle
+theorem-proving service, project 2e5d794d, task 025d9691; Lean 4 +
+Mathlib, sorry-free, axioms propext / Classical.choice / Quot.sound
+only; the kernel check ran on the service side and the file plus its
+`#print axioms` lines are the artifact).
+
+Two theorems, exactly as submitted:
+
+- **result1_exact_skeleton**: for unit vectors u_i, positive integer
+  multiplicities m_i with N = sum m_i, P = sum m_i u_i u_i^T, Q an
+  arbitrary symmetric matrix, R = sum_{i != j} m_i m_j <u_i, u_j>^2 and
+  D = R + 2 tr(PQ) + ||Q||_F^2:
+
+      s >= 2N - ||P + Q||_F^2 + D.
+
+  The route is the exact arithmetic this hunt had been treating as an
+  analogy: ||P||_F^2 = sum m_i^2 + R exactly, ||P+Q||_F^2 expands, and
+  2m - m^2 <= 1 for positive integers.
+
+- **result2_conditional**: adding ||P+Q||_F^2 <= C*N and D >= theta*R0
+  gives s >= (2 - C)*N + theta*R0.
+
+**What this closes.**  The multiplicative entry of theta into the
+composed reading is no longer an analogy borrowed from Cheer-Goldston:
+IF the chain's measured retention is the statement D >= theta*R0, THEN
+s >= (2-C)N + theta*R0 follows by kernel-checked arithmetic.  The
+coefficient and the linearity are now theorem-shaped, not calibrated.
+
+**What this does not close.**  Two seams, both named before, now carry
+the whole weight:
+
+  (i) the paper's prime side evaluates ||G-tilde||_F^2 = C*N in its own
+      units; matching those units to the chain's (LAW D normalisation,
+      the aL^2 scaling of (4.4)) is the unit-conversion seam;
+ (ii) that the band dual's damage cap IS the statement
+      D >= theta*R0 - i.e. that 2 tr(PQ) with the paper's
+      transpose-structure pair blocks is exactly the W-field the dual
+      bounds, and that ||Q||_F^2's contribution is one-sided - is the
+      identification seam.  The `test_mt_W_normalisation` control pins
+      a piece of it at the T1 field; the paper-field version is open.
+
+Until (i) and (ii) are discharged the reading stays a candidate.
+
+
+## Burden (a) hardened: the ball-arithmetic pass at the paper field
+
+Instrument: `hardened_paper.py` (agent build, coordinator-reviewed);
+controls in `test_hardened_paper.py` (9 tests, plus the discipline
+suite).
+
+The paper-field band dual survives hardening at **theta = 0.995**, the
+same grid point as the float pass, with both sides enclosed (slack
+lower endpoint vs cap upper endpoint; sigma2 radii ~2.5e-38 at prec
+128).  Margins at theta = 0.995: +1.44e-4 / +3.61e-3 / +3.26e-2 /
++6.27e-2 at y = 0.02 / 0.1 / 0.3 / 0.49.  Unlike the T1 field, 0.9988
+does NOT survive here: the boundary is the multiplicity threshold at
+y = 0.49 (double occupancy pays above theta = 0.989249, hardened), and
+0.9988 fails by -7.6e-2.  The two-term field is even more
+interval-friendly than the T1 three-term form (amplification 0.25 down
+to 0.002 across the band range, no mean-value form needed); the
+hardened caps are TIGHTER than float everywhere (ratios 0.94-0.996),
+the same removed-blanket mechanism as the T1 hardening.  The
+singular-branch series carries explicit remainder bounds, pinned
+against an mpmath oracle that itself needed 45 guard digits (the s''
+closed form cancels ~24 digits near u = 1e-8 - an oracle trap recorded
+in the module).
+
+One inherited-prose defect found: the T1 modules' multiplicity print
+states the profitable side of the threshold backwards (their own
+numbers show occupancy paying ABOVE 1 - F/(2K)).  The new module
+states the correct direction; the T1 print is left as-is and recorded
+here.
+
+**Where the reading stands.**  theta* = 0.995 at the paper field is now
+float-and-ball agreed, single-pair.  The candidate 0.6725106958 waits
+on: the joint layer at the paper field (running), the ramp (burden b),
+and the two seams of burden (c) above.  No proportion is claimed.

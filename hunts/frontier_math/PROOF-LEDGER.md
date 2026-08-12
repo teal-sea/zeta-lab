@@ -465,3 +465,26 @@ Disposition: **THE RETENTION SURVIVES THE WINDOW CORRECTION.** Same
 theta* grid point, larger margins. Burdens (b) and (c) unchanged; (c)
 is still the load-bearing unknown. No proportion is claimed to have
 moved.
+
+
+## Burden (c) first half + burden (a) hardening (2026-08-12)
+
+Instruments: `t3_composition_skeleton.lean` (Aristotle service, project
+2e5d794d; sorry-free, standard axioms only), `hardened_paper.py`,
+`test_hardened_paper.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Composition skeleton s >= 2N - \|\|P+Q\|\|_F^2 + D | **KERNEL-CHECKED** (service-side) | exact identities \|\|P\|\|_F^2 = sum m_i^2 + R, 2m - m^2 <= 1 for positive integers | Lean 4 + Mathlib, no sorry, axioms propext/Classical.choice/Quot.sound; artifact in-tree with #print axioms |
+| Conditional composition s >= (2-C)N + theta*R0 | **KERNEL-CHECKED** (service-side) | \|\|P+Q\|\|_F^2 <= C*N and D >= theta*R0 | result2_conditional, same file |
+| Unit-conversion seam (i) | NAMED, OPEN | paper's (4.4) units vs chain's LAW D normalisation | carries half the remaining weight |
+| Identification seam (ii): the dual's cap IS D >= theta*R0 | NAMED, OPEN | 2 tr(PQ) with transpose pair blocks = the W-field | test_mt_W_normalisation pins a piece at the T1 field; paper-field version open |
+| Ball-arithmetic pass at the paper field | **DELIVERED** | interval-argument acb, both sides enclosed, no blanket margins | theta = 0.995 survives; 0.9988 fails at y=0.49 (multiplicity threshold 0.989249); hardened tighter than float everywhere (0.94-0.996) |
+| Singular-branch series | PINNED | explicit remainder bounds; mpmath oracle at dps 40 + 45 guard digits | 27 checks, reference inside every ball; the oracle trap (24-digit cancellation in s'' near u=1e-8) recorded |
+| Cross-backend spot check | PASS | flint midpoints vs mpmath | defects 1.5e-39..1.9e-39, all inside radii |
+| Inherited-prose defect (T1 multiplicity print) | FOUND, RECORDED | direction of the profitable side | T1 files untouched; correct direction stated in hardened_paper.py |
+
+Disposition: **THE FORMULA IS NOW THEOREM-SHAPED AND THE FIELD IS
+BALL-AGREED.** What remains of burden (c) is two named seams, not an
+analogy. Joint layer at the paper field still running; ramp (b) still
+open. No proportion is claimed to have moved.
