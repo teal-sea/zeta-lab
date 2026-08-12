@@ -594,3 +594,20 @@ Candidate 0.6725106958 with every in-remit step measured, hardened, or
 kernel-checked; session defect count nine, all caught by controls or
 independent routes. No proportion is claimed to have moved; the ledger
 is the deliverable.
+
+
+## Formal chain, track 1: the LP floor as a rational certificate (2026-08-12)
+
+Instrument: `lp_certificate.py` (agent build, coordinator-reviewed and
+re-run).
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Rational dual certificate for the census LP | **EXACT IN Q** | dual feasibility checked in fractions arithmetic, no floats | F_rat = 5.021172019e-6, gap to the float floor -7e-12; all 8 dual inequalities exact; strong-duality control 1.9e-20 |
+| One-sided direction | STATED AND SAFE | cost lower bounds can only lower a minimization | the four kernel values enter as LOWER bounds r_a, r_b, r_h, r_j |
+| The four trig leaves | NUMERIC (dps 40 + slope margin), STATED AS THE LEAN LEMMAS | margins 9.4e-8 / 1.05e-11 / 4.1e-6 / 4.5e-6 | r_b is the tight one; the Aristotle submission carries them as Theorems B1-B4 |
+| Candidate under the rational floor | UNCHANGED at printed precision | H + 2*0.995*F_rat | 0.6725106958 (down 1.4e-11) |
+
+Disposition: **THE FLOOR IS NOW ARITHMETIC PLUS FOUR ONE-VARIABLE TRIG
+LEMMAS.** Submitted to the theorem-proving service. No proportion is
+claimed to have moved.
