@@ -2,9 +2,10 @@
 
 ## Status
 
-`lean/ZetaLean/HigherXi.lean` and `lean/ZetaLean/LogMeanValue.lean` are the
-first formal slices of the rebuilt level-two bridge. The Lean kernel accepts
-both with no `sorry` declarations.
+The `HigherXi`, `LogMeanValue`, `ComplexLogMeanValue`, `TwoRangeWeights`,
+`PowerMargin`, and `MeanSquareAssembly` modules are the first formal slices of
+the rebuilt level-two bridge. The Lean kernel accepts all six with no `sorry`
+declarations.
 
 This is not yet a Lean derivation of URMS2-051. The module intentionally stops
 before the analytic inputs which remain absent from the formal tree.
@@ -102,26 +103,57 @@ separate formal obligation.
    `H_W <= 1 + log W` is also connected to the local definition. The extra
    logarithm is absorbed by the strict power margin in the analytic audit.
 
+10. The complex-coefficient lift used by RC2, including both orientations of
+    every strict pair, the exact logarithmic integral expansion, and the
+    diagonal identity.
+
+11. The exact two-range algebra at `sigma=3/2`: removal of the common phase,
+    shared `log n` frequencies, lower and upper amplitudes, disjoint range
+    partition, and the square weights
+
+    \[
+    n/x^2,\quad x^2/n^3
+    \]
+
+    for the diagonal and
+
+    \[
+    n^2/x^2,\quad x^2/n^2
+    \]
+
+    for the endpoint-weighted energy.
+
+12. A finite square-sum partition and the assembled RC2 mean-square bound:
+
+    \[
+    \left|\int_U^{2U}|P(t)|^2dt
+      -U\sum_{n\leq W}|c_n|^2\right|
+    \leq 6H_W\sum_{n\leq W}n|c_n|^2.
+    \]
+
+    The same theorem is instantiated directly with the two-range coefficient.
+
+13. The exact `6/25` exponent margin absorbs every fixed logarithmic power and
+    the actual cutoff envelope `1+(21/20) log H`.
+
 ## First missing analytic inputs
 
 The exact dependency boundary is now:
 
-1. Specialize the exact complex finite mean-square expansion to logarithmic
-   frequencies and discharge its off-diagonal norm with the new six-harmonic
-   theorem. The analytic bound is now in the kernel; this remaining step is
-   bookkeeping across the complex expansion and the two contour ranges.
-2. The RAMS2 connected-cluster square-density asymptotic, including uniformity
+1. The RAMS2 connected-cluster square-density asymptotic, including uniformity
    on the fixed ratio band through `14/5`.
-3. The marked-cluster derivative estimate used for height freezing.
-4. The smoothed contour transfer from the level-two arithmetic resolvent to
+2. The marked-cluster derivative estimate used for height freezing.
+3. The smoothed contour transfer from the level-two arithmetic resolvent to
    the zero statistic.
-5. Reconstruction of the exact downstream rational from the 40 coefficient
+4. Reconstruction of the exact downstream rational from the 40 coefficient
    data and its tail bound inside Lean.
 
-The previous first item, the spacing-sensitive mean-value input, is no longer
-an open formal dependency for this application. The finite harmonic-loss
-theorem is weaker than the sharp general Montgomery--Vaughan inequality, but
-it is strong enough for the strict exponent margin recorded in `URMS2-051.md`.
+The spacing-sensitive finite mean-value input, complex lift, two-range weight
+algebra, diagonal/off-diagonal assembly, and logarithmic-loss absorption are
+no longer open formal dependencies for this application. The finite
+harmonic-loss theorem is weaker than the sharp general Montgomery--Vaughan
+inequality, but it is strong enough for the strict exponent margin recorded in
+`URMS2-051.md`.
 
 ## Reproduction
 
@@ -129,5 +161,6 @@ it is strong enough for the strict exponent margin recorded in `URMS2-051.md`.
 cd lean
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.HigherXi
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.LogMeanValue
+PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.MeanSquareAssembly
 PATH="$HOME/.elan/bin:$PATH" lake build
 ```

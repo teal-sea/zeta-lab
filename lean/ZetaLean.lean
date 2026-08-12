@@ -19,3 +19,7 @@ import ZetaLean.FiniteFieldTrace
 import ZetaLean.FrontierMathObstruction
 import ZetaLean.HigherXi
 import ZetaLean.LogMeanValue
+import ZetaLean.ComplexLogMeanValue
+import ZetaLean.PowerMargin
+import ZetaLean.TwoRangeWeights
+import ZetaLean.MeanSquareAssembly

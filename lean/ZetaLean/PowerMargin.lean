@@ -27,7 +27,8 @@ theorem tendsto_rpow_neg_mul_log_pow_atTop (eta : ℝ) (k : ℕ) (heta : 0 < eta
   apply h.congr'
   filter_upwards [eventually_ge_atTop (1 : ℝ)] with H hH
   rw [Real.rpow_natCast]
-  rw [Real.rpow_neg hH.le]
+  rw [Real.rpow_neg (zero_le_one.trans hH)]
+  simp only [div_eq_mul_inv]
   ring
 
 /-- Equivalent exponent-difference form, convenient for bridge parameters. -/
@@ -58,13 +59,14 @@ theorem tendsto_urms2_051_harmonic_envelope :
     Tendsto
       (fun H : ℝ => H ^ ((alpha : ℝ) - (delta : ℝ)) * (1 + Real.log H))
       atTop (𝓝 0) := by
-  have hzero := tendsto_rpow_neg_atTop_nhds_zero_of_pos (show 0 < (6 / 25 : ℝ) by norm_num)
+  have hzero := tendsto_rpow_neg_atTop (show 0 < (6 / 25 : ℝ) by norm_num)
   have hlog := tendsto_urms2_051_power_margin 1
   convert hzero.add hlog using 1
   · ext H
     rw [urms2_051_meanValue_exponent]
     simp only [pow_one]
     ring
+  · simp
 
 /-- The actual cutoff `W = H^gamma` contributes the affine logarithmic
 envelope `1 + gamma * log H`; its rational factor does not consume any of the
@@ -74,12 +76,13 @@ theorem tendsto_urms2_051_cutoff_harmonic_envelope :
       (fun H : ℝ => H ^ ((alpha : ℝ) - (delta : ℝ)) *
         (1 + (gamma : ℝ) * Real.log H))
       atTop (𝓝 0) := by
-  have hzero := tendsto_rpow_neg_atTop_nhds_zero_of_pos (show 0 < (6 / 25 : ℝ) by norm_num)
+  have hzero := tendsto_rpow_neg_atTop (show 0 < (6 / 25 : ℝ) by norm_num)
   have hlog := (tendsto_urms2_051_power_margin 1).const_mul (gamma : ℝ)
   convert hzero.add hlog using 1
   · ext H
     rw [urms2_051_meanValue_exponent]
     simp only [pow_one]
     ring
+  · simp
 
 end ZetaLean.HigherXi
