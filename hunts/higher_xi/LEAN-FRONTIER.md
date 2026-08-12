@@ -241,6 +241,71 @@ separate formal obligation.
     a weighted Chebyshev estimate remains the analytic input; it is not
     asserted by the Lean module.
 
+20. **The `hprime` gate is retargeted, and the reason is measured**
+    (2026-08-12). Two independent derivation attempts and one adversarial pass
+    agree: item 19's inequality **cannot be proved as stated** by a Chebyshev
+    route, and the obstruction is not a missing trick.
+
+    *The recurrence is asymptotically tight.* Measured for `X` from `10^2` to
+    `10^7` (SPF sieve, exact enumeration of every squarefree support): the
+    ratio `(j+1)(2j)(2j+1)A_{j+1}/A_j` is maximal at `j = 1` at every cutoff,
+    strictly decreasing in `j`, and
+
+    \[
+    r_1(X)=12A_2/A_1=(\log X)^2-2\log X+O(1)=(1-o(1))(1+\log X)^2 .
+    \]
+
+    The extremal family is pairs `{p,q}` with `pq` near `X`, whose weight has
+    the `Beta(2,2)` split profile. Measured `D` with
+    `B^*(X) <= D(1+\log X)^2`: 0.383 at `10^2` rising monotonically to 0.724
+    at `10^7`; a linear-in-log envelope is **refuted** (that ratio grows
+    without bound). So `(1+\log X)^2` is exactly the right order and any
+    absolute `D` must satisfy `D >= 1`.
+
+    Consequently `hprime` needs an order-uniform *lower* bound on `A_j` with a
+    matching constant. Chebyshev is an upper bound; a route through separate
+    upper and lower bounds inherits a `(C/c)^j` mismatch incompatible with an
+    absolute `D`. Recorded as a dead route, with its mechanism.
+
+    *What survives, and it is what the mathematics consumes.* Nothing
+    downstream uses the recurrence — `RAMS2-CLUSTER.md` §6 consumes only the
+    endpoint display. The display survives domination, so the gate becomes a
+    plain domination against an explicit majorant:
+
+    \[
+    M_j(X)=c\,B^{j-1}X(1+\log X)^{2j+1}/\bigl(j!(2j-1)!\bigr),
+    \]
+
+    which satisfies the insertion recurrence **with equality** at
+    `B(1+\log X)^2` — the factorial denominator is built so that
+    `(j+1)(2j)(2j+1)` is exactly `denominator(j+1)/denominator(j)`. So the
+    tightness that defeats `hprime` on the true masses is precisely the
+    equality the majorant enjoys. Kernel-checked in
+    `ZetaLean/MajorantBypass.lean`: `mass_le_of_dominated_majorant`,
+    `powerMajorant_step` (the equality), and
+    `distinctPrimeLogMass_le_of_dominated`.
+
+    Both derivation routes then proved `A_j <= M_j` on paper, by integral
+    comparison in log coordinates — the argument
+    `RAMS1-ATTACK.md` §4.2 already sketches. Route A gives `D = \log 16
+    = 2.7726`; route B gives `D = 60\log 4 = 83.18`. Route A is the one to
+    formalise. Every intermediate inequality of both chains was verified
+    numerically at `X = 250` and `X = 5000`, and both dominate the measured
+    `r_1` with margin, so the retarget is not a weakening of the endpoint.
+
+    **The remaining formal obligation is therefore exactly one hypothesis**,
+    `hdom : A_j(X) <= powerMajorant c B X j` — a domination, not tight, and
+    strictly weaker than `hprime`. Its Lean cost is real analysis: an Abel
+    comparison against `\int_0^V te^tg(t)\,dt` and the exact identity
+    `\int_0^V te^tE_j(V-t)\,dt = E_{j+1}(V)` by Fubini on a triangle.
+
+    Already unconditional and kernel-checked in `ZetaLean/ChebyshevBounds.lean`:
+    `theta_le_mul_log_four` (Mathlib's `Chebyshev.theta_le_log4_mul_x`,
+    re-expressed over this tree's index set), `theta_sq_le` and
+    `theta_pow_succ_le` (absent from Mathlib), the base bound
+    `distinctPrimeLogMass_one_le : A_1(X) <= (\log X)^3X\log 4`, and
+    `logSum_le_log_of_mem_distinctPrimeSupports`.
+
 ## First missing analytic inputs
 
 The exact dependency boundary is now:
