@@ -258,7 +258,7 @@ Full account: `LEVEL7-VCELL.md`; instruments `v_certificate.py`,
 | LAW N: windowed spectral floor | DELIVERED (exact) | phasor arguments within vS/2 of the window midpoint | `\|F_on(v)\| >= n cos(vS/2)` on `\|v\| <= pi/S`; forces `R >= kappa_00 n^2 - n` — the fourth self-defeat (spectral concentration) |
 | The safe cell | DELIVERED (exact) | common-window phase coherence | cross integrand >= 0 on `\|v\| <= pi/(2S)`: the chi collapse of 6b, pointwise |
 | Naive pointwise-in-v budget | **DEAD, recorded** | sub-critical lattice (spacing < 2 pi/L) empties the band | diagonal-subtracted integrand ~ -(1-theta) N mid-band, linear in N; the aliasing family again; the certificate survives it only through LAW N |
-| The joint cap (on-line configuration-free) | DELIVERED (measured grade), two routes | direct: chain DP on the joint field at full charge; v-route: three-zone split + taper + LAW M mean + LAW N leak cap + cell C-S | pinch (nu 1.5, y 0.49): direct cap 14.78 vs budget 41.11, **margin +26.33** (v-route +3.75); every swept configuration closes via the direct route (+6.5..+769); greedy 5.00, extended greedy 5.56; theta = 1 cap infinite; dominates every level-3/4 measured adversary |
+| The joint cap (on-line configuration-free) | DELIVERED, two routes; **ARB-HARDENED at the binding configurations** | direct: chain DP on the joint field at full charge (mean-value ball cells — the naive interval route amplifies radii ~1.8e5 and is recorded); v-route: three-zone split + taper + LAW M mean + LAW N leak cap + cell C-S | every swept configuration closes via the direct route (float: +6.5..+769); hardened (`hardened_direct.py`, budget directed down, cap directed up): former hole +17.33..+159.05, pinch +25.45, sparse +115.48, shallow sandwich +213.33 — worst hardened margin **+17.33** at nu 1.3; greedy 5.00, extended greedy 5.56; theta = 1 cap infinite |
 | Mixed-depth joint sweeps (phase 2a) | DELIVERED | same instrument, battery shapes + shallow sandwich | all nu >= 1.5 shapes close (shallow sandwich +166.6); nu = 1.0 shapes covered separably (+0.53..+1.68) |
 | **The seam** nu_p in [1.1, 1.4] deep | **CLOSED (direct route)** | the level-4 chain DP on the JOINT damage field `(-(sum_r 2W))_+` at full charge — 6b's original named object, tight only with the positive part of the joint sum | direct margins +15.7..+153.7 across the former hole; short spans close (span 4 at nu 1.3: +10.4); per-pair clipping (the separable ghost, field inflated ~10x) recorded as a permanent control; the v-route's [5, 7]-band looseness diagnosis kept as the record of why the spectral route needed the g-local shielding |
 | Full-ladder hardened penta scan (phase 2b) | **RUN — 6a CORRECTED** | honest cell widths (1.05/1.012 ratios, 220 cells) + ten-point eta grid | 45 cells FAIL in two bands: shallow y in [0.010, 0.050] (worst −0.056; the eta(0.02) = 0.4066 spike the probe grid missed) and deep y in [0.419, 0.472] (worst −0.012; the 9e-4 probe margin does not survive honest widths); theta_full via the per-depth assembly is reduced to the passing bands; the shallow band closes at the joint level (shallow sandwich +166.6 / +22.9), the deep band coincides with the seam |
@@ -274,6 +274,8 @@ Level 6a's full-ladder extrapolation is corrected, not extended — the
 probe grid missed both failing bands (the shallow eta spike and the deep
 cells whose 9e-4 probe margins vanish at honest widths); that lesson
 (resolution fragility, third occurrence) is now a permanent scan.  The
-first reading of the decimal exists as candidate arithmetic only; the road
-to it now runs through the arb pass, pair-side placement freeness, and
-the transplant lemma, in that order. No proportion is claimed.
+first reading of the decimal exists as candidate arithmetic only; with
+the binding configurations now arb-hardened, the road to it runs through
+pair-side placement freeness and the transplant lemma (plus the
+mechanical full-sweep hardening), in that order. No proportion is
+claimed.

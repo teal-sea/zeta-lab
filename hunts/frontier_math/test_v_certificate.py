@@ -167,6 +167,52 @@ def test_reconnect_controls():
     assert abs(vals[-1] - vals[-2]) < 1e-9
 
 
+def test_hardened_direct_phi2_prime_and_field():
+    """The arb pass's Phi2' ball must match a finite difference, and the
+    hardened joint-field cells must majorise the float field tightly."""
+    import dataclasses
+
+    from flint import acb, arb
+
+    from gap_consistency import _phi2_hat_f
+    from hardened_direct import EnclosedDirect
+
+    ed = EnclosedDirect()
+    z0 = 0.7 + 0.49j
+    fd = (_phi2_hat_f(z0 + 1e-6, 8.0, 1.0)
+          - _phi2_hat_f(z0 - 1e-6, 8.0, 1.0)) / 2e-6
+    _, pp = ed.phi2_pair_acb(acb(arb(0.7), arb(0.49)))
+    assert abs(float(pp.real.mid()) - fd.real) < 1e-5
+    assert abs(float(pp.imag.mid()) - fd.imag) < 1e-5
+    assert float(pp.real.rad()) < 1e-12
+
+    pe = VCertificate().pe
+    pairs = [(k / 1.3, 0.49) for k in range(5)]
+    cells = ed.field_cells(pairs, -2.0, 2.0)
+    for i, cell_up in enumerate(cells):
+        g = -2.0 + (i + 0.5) * ed.fine
+        f_float = max(0.0, sum(-2 * pe.W(g - t, y) for t, y in pairs))
+        assert cell_up >= f_float - 1e-9
+    assert max(cells) < max(
+        max(0.0, sum(-2 * pe.W(-2.0 + (i + 0.5) * ed.fine - t, y)
+                     for t, y in pairs))
+        for i in range(len(cells))
+    ) + 0.2  # tight, not blanket
+
+
+def test_hardened_direct_closes_a_former_hole_config():
+    """One hardened end-to-end verdict (coarser fine grid for speed:
+    coarser cells only enlarge the remainder, so the run stays one-sided)."""
+    import dataclasses
+
+    from hardened_direct import EnclosedDirect
+
+    ed = dataclasses.replace(EnclosedDirect(), fine=0.02)
+    pairs = [(k / 0.75, 0.49) for k in range(7)]
+    rec = ed.verdict(pairs, 0.02)
+    assert rec["closes"], rec
+
+
 def test_eta_bracket_is_conservative():
     from full_ladder_scan import eta_for_cell  # noqa: E402
     etas = {0.01: 0.0, 0.05: 0.28, 0.15: 0.30}

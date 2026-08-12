@@ -149,6 +149,36 @@ separable margins (closing nu_p <= 1.05) are retained in the audit log as
 the two independent cross-checks; the direct route dominates both
 everywhere tested.
 
+## The arb pass (`hardened_direct.py`)
+
+Gate-1 discipline applied to the direct dual at the binding
+configurations.  The interval trap is recorded in the module docstring: a
+naive interval-argument Phi2 evaluation amplifies input radii by ~1.8e5
+(the ramp^2 integer coefficients cancel analytically; interval radii
+add), so the hardened field uses the mean-value form — tight point balls
+for W and W' (Phi2' via index-shifted moment enclosures, radius ~2e-16,
+checked against finite differences) plus the global curvature blanket
+|W''| <= 2 L^2 E(y)^2, whose r^2 remainder is ~1e-3 per pair per
+0.005-cell.  Charges, DP inflation (1 + 1e-9), psi_S tail, slack and
+T_signed are all directed as at gate 1 (budget downward, cap upward).
+
+| configuration | budget >= | cap <= | hardened margin |
+|---|---|---|---|
+| former hole nu=1.1 y=0.49 | 192.76 | 33.71 | **+159.05** |
+| former hole nu=1.2 y=0.49 | 43.42 | 22.32 | +21.10 |
+| former hole nu=1.3 y=0.49 | 35.11 | 17.78 | **+17.33 (worst)** |
+| former hole nu=1.4 y=0.49 | 36.50 | 16.32 | +20.18 |
+| pinch nu=1.5 y=0.49 | 41.11 | 15.66 | +25.45 |
+| sparse nu=0.75 y=0.49 | 294.39 | 178.91 | +115.48 |
+| shallow sandwich nu=1.5 | 225.95 | 12.61 | +213.33 |
+
+The hardened caps are *tighter* than the float ones (fine 0.005 vs
+0.0125: the resolution gain outweighs the directed inflation) — the
+opposite of the level-5 resolution scare, and a sign the float grid was
+the loose part, not the mathematics.  The rest of the sweep remains
+float-measured; hardening it end to end is mechanical repetition of this
+pass.
+
 Reading: the v-route closes nu_p >= 1.45, the separable accounting closes
 nu_p <= 1.05, and the band between them — the seam that was, for one
 session, a genuine two-sided hole — **is closed by the direct route with
