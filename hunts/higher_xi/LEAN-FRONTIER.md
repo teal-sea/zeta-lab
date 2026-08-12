@@ -202,6 +202,24 @@ separate formal obligation.
     even. This is the finite alternating path/even-cycle constraint, not a
     global component-classification theorem.
 
+18. The abstract weighted-simplex induction that creates the exact
+    `j! (2j-1)!` denominator. If an order-`j` nonnegative mass obeys the
+    one-label insertion recurrence
+
+    \[
+    (j+1)(2j)(2j+1)A_{j+1}\leq B A_j,
+    \]
+
+    then Lean derives
+
+    \[
+    A_j\leq \frac{A_1 B^{j-1}}{j!(2j-1)!}.
+    \]
+
+    The prime-specific Chebyshev/insertion estimate establishing this
+    recurrence for distinct-prime logarithmic weights remains an analytic
+    input; the abstract theorem does not assert it.
+
 ## First missing analytic inputs
 
 The exact dependency boundary is now:
@@ -231,6 +249,7 @@ PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.MeanSquareAssembly
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.AristotleRAMS2
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.ClusterMajorant
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.MatchingPairStructure
+PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.WeightedSimplex
 PATH="$HOME/.elan/bin:$PATH" lake build ZetaLean.RC2PrefixAssembly
 PATH="$HOME/.elan/bin:$PATH" lake build
 ```
