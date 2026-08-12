@@ -1115,6 +1115,73 @@ each behind a HuntSpec.**
   we did not know before, and why are we entitled to believe it.* The three
   adopted builds above are its first enforcement mechanisms.
 
+### The AI-implementation half (2026-08-11, same day)
+
+The first pass above triaged the mathematics and buried the automation in one
+deferred bullet. That was a gap: the strategy memo's proof-agent adapter is
+*not* orchestration, and the external prover/discovery ecosystem the lab sits
+next to had never been assessed in this tree (zero mentions before this
+section). Assessed 2026-08-11 against live sources, not memory:
+
+- **Aristotle (Harmonic)** is a working public API: key from
+  aristotle.harmonic.fun, Python SDK `aristotlelib` on PyPI (latest release
+  June 2026), autonomously produces multi-thousand-line Lean 4 proofs, IMO
+  2025 gold equivalent. A published case study (arXiv 2605.20120, the
+  Grasshopper problem) measured the shape of its competence: it proved the
+  four local helper lemmas and left the global counting argument as a
+  `sorry`, in a run of roughly eight hours — and its artifacts require
+  per-declaration inspection because compilation alone does not exclude
+  `sorry`s. That last finding is this repo's existing rule, discovered
+  independently by an outside team.
+- **AlphaProof Nexus (DeepMind)** is closed — no API, no integration
+  possible. Its *results corpus* is public (github.com/google-deepmind/
+  alphaproof-nexus-results): kernel-checked Lean proofs of 9 previously open
+  Erdős problems and 44 OEIS conjectures (May 2026 paper). A corpus, not a
+  service.
+- **AlphaEvolve (DeepMind)** is closed, but the pattern — an LLM mutates
+  code, a non-model evaluator scores it, evolution keeps what scores — has
+  open implementations: OpenEvolve (PyPI), CodeEvolve (arXiv 2510.14150,
+  matches or beats AlphaEvolve on 5 of 9 of its own benchmark problems),
+  ShinkaEvolve. The pattern is "no agent without an oracle" in loop form.
+
+Three further adoptions follow, numbered continuing the list above:
+
+4. **The proof-agent adapter, with Aristotle as first backend.** Carved out
+   of the deferred-orchestration bucket because it is the one integration
+   where the model cannot persuade the verifier: the contract is generated
+   Lean → this repo's `lake build` → kernel → zero `sorry`s, and nothing
+   counts until *our* build says so — server-side verification claims are
+   input, not evidence. First targets are bounded lemmas on the Mathlib
+   upstream track (the Sturm chain has many), **not** rung 3, whose
+   remaining gap is a computation, not a lemma. The case study's economics
+   apply: hours per attempt, so submissions batch overnight and each carries
+   a precise standalone statement (local lemmas, never "the theorem").
+5. **Evolutionary search as a hunt instrument** (OpenEvolve/CodeEvolve
+   class, or a hand-rolled loop — the pattern matters, not the framework).
+   Admissible only behind a HuntSpec whose `required_oracles` name an exact
+   non-model evaluator, which makes HuntSpec (adopted build 3) its
+   prerequisite. First natural clients, when their lanes open: hostile
+   configuration generation for the realizability programme (score = exact
+   violation margin of a candidate inequality) and extremal test-function
+   search for the Weil explorer (score = a certified enclosure from
+   `rigor.enclose_weil_functional`). Search proposes; only the oracle
+   scores.
+6. **The AlphaProof Nexus corpus as a prior-art surface.** When the
+   literature scout builds (still deferred), that corpus joins its sources:
+   kernel-checked proofs to collide claims against are primary sources in
+   exactly the sense the scout's contract demands.
+
+And the automation that already exists is named here so it stops being
+invisible: the nightly rig (`automation/` in the working checkout, untracked
+— mission, journal, arm/disarm switch) has run zero nights. It *is* the
+strategy memo's build-order item 10, "run a highly targeted autonomous
+frontier hunt," already built and waiting on the operator's switch. Two
+consequences recorded: its `mission.md` should carry a HuntSpec block once
+that primitive exists, so the nightly agent inherits kill conditions rather
+than improvising them; and proof-adapter work cannot ride in a nightly
+mission on a machine with no Lean toolchain, because the zero-`sorry` check
+must run locally.
+
 ## Known gaps
 
 Listed because an undocumented gap becomes an assumption.

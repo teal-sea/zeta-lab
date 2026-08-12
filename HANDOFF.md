@@ -37,6 +37,21 @@ adopted wholesale (it matches this file's recorded kills item for item); the
 30-agent allocation table is a priority ordering, not a headcount; and
 nothing in either memo bends the honest-scope rule.
 
+**4. The AI-implementation half (added same day):** three further adoptions
+in `ROADMAP.md` §"The AI-implementation half". (a) Proof-agent adapter with
+Harmonic's Aristotle as first backend — public API, `aristotlelib` on PyPI;
+nothing counts until *this repo's* `lake build` shows zero `sorry`s; first
+targets are bounded Sturm-track lemmas, not rung 3 (its gap is compute).
+(b) Evolutionary search (OpenEvolve/CodeEvolve-class) as a hunt instrument,
+admissible only behind a HuntSpec naming an exact non-model evaluator.
+(c) The AlphaProof Nexus public results corpus (kernel-checked Erdős/OEIS
+proofs) queued as a prior-art surface for the eventual literature scout —
+the system itself is closed, no API. Ecosystem facts were verified against
+live sources 2026-08-11, not recalled. The nightly rig (`automation/`,
+untracked, zero runs so far) is the memo's "targeted autonomous frontier
+hunt" already built; arming it is the operator's switch, and no
+proof-adapter work rides on a machine without a Lean toolchain.
+
 ---
 
 ## Record: frontier math — the 0.672529 candidate is cleanly killed
