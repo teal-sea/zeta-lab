@@ -112,3 +112,87 @@ reading now rests on: MT-window retention (measured healthy, awaiting
 the band-lattice dual for configuration-freeness) + the one-sided
 g-floor + calibrated plumbing + the census + T5.  No proportion is
 claimed.
+
+
+## T1 second session: the band-lattice dual — theta* = 0.995 at the MT window
+
+Instruments: `band_dual.py` (the dual), `mt_pairs.py` (the pair layer),
+`mt_adversary.py` (the kill-control hunt).  Controls in
+`test_transplant_lemma.py`.
+
+### The first session's obstruction was not one
+
+The first session reported the uniform-cell chain DP failing at every
+theta (cap 0.44 vs slack 0.14) and named a band/kernel-zero arithmetic
+coincidence as the obstruction.  Both halves are now corrected:
+
+- **the number was mostly an artifact.**  A uniform delta-cell partition
+  of a +-600-unit range makes ~800 cells, each granted its own Lipschitz
+  margin (~1.7e-3), i.e. ~1.3 of damage granted out of thin air.  The
+  blanket margin, not the mathematics.  This is the THIRD occurrence of
+  that failure mode in this hunt (level-5 resolution scare, level-7
+  mid-zone blanket, here) and it has now been met three different ways;
+  the standing lesson is that any per-cell allowance must be local and
+  must scale with the quantity it is protecting.
+- **the coincidence was never load-bearing.**  omega^2 is a *square*, so
+  every cross-band internal charge may be dropped one-sidedly.  The dual
+  needs no charge floor at band separations at all — precisely the
+  quantity whose vanishing was blamed.
+
+### The dual
+
+Partition by the damage field's own structure, not by a ruler.  At MT the
+damage lives in narrow, well-separated bands (width 0.97 grid units at
+y = 0.49, recurring every ~1 mean gap, the first at 1.106 mean gaps),
+with maxima decaying like 1/g^2 (measured ratios 4.93, 2.33, 1.80, 1.57
+against the law's 4, 2.3, 1.8, 1.6).  Then
+
+    cap(theta) = 2 sum_k max_m [ m F_k - (1-theta) m (m-1) K_k ]
+                 + closed-form 1/g^2 tail,
+
+with F_k the band maximum (local slope margin, from closed-form Phi2'),
+K_k the one-sided min of omega^2 over the band width, cross-band charges
+dropped.  **The partition is complete, not assumed**: a band is exactly
+where q = Re(Phi2)^2 - Im(Phi2)^2 < 0, and an unresolved band would need
+an interior dip of q, excluded whenever q > (1/8)|q''| step^2 off the
+resolved bands.  Measured worst ratio 326 (y = 0.02) to 7347 (y = 0.49),
+so the off-band allowance is **exactly zero** rather than a blanket.
+
+### Results
+
+| quantity | hunt window | MT window |
+|---|---|---|
+| free-band ratio (every band granted, zero charge) | — | **0.34-0.36, flat in depth** (0.357 at y = 0.02, 0.346 at 0.49) |
+| secured single-pair theta* | 0.1 | **0.995** |
+| what binds | the counting cap | same-band multiplicity only (double occupancy of the first band turns profitable below theta ~ 0.992-0.9997) |
+| stacking floor (pair layer) | 0.255 mean gaps | **0.979 mean gaps** (~3.8x wider) |
+| worst dipole cover factor | 2.8-6.7 | **8.84-9.91** |
+| dense-deep pinch | +0.07 at nu_p 1.25-1.5 | **none**; only a ~10%-wide soft window at nu_p ~ 0.97 (T/slack -0.381), where nearest-neighbour spacing sits on the damage band |
+
+The adversary cannot reach the slack even at theta = 1 with single
+occupancy: the entire band sum, both sides, is about a third of it.  The
+projection control holds (measured band-riding adversary 0.0102 <= cap
+0.0179 at y = 0.3), theta = 1 makes the cap infinite as it must, and the
+pair layer's LAW L defect is pure truncation (1/K scaling over a 16x
+range), with three lesions rejecting.
+
+### What this does and does not do to the decimal
+
+theta* = 0.995 is the **single-pair reduction**.  The composed reading
+needs theta_full, the JOINT value; at the hunt window the joint layer
+cost a factor 5 (0.1 -> 0.02).  The MT pair layer is measurably
+friendlier (no pinch, wider floor, larger cover), so the joint loss
+should be smaller, but **the joint run at MT has not been done** and no
+new reading is claimed.  For scale only, and explicitly conditional: if
+theta_full^MT landed at 0.2 (the hunt window's 5x loss) the candidate
+would move +2.0e-6 instead of +2.0e-7; at 0.995 it would be +1.0e-5.
+Both are conditional arithmetic, not readings.  The reading of record
+remains 0.6725009045, a candidate.
+
+### Named next objects
+
+1. the joint (on-line + pair) cap at MT — the direct joint-field dual of
+   level 7 rebuilt on the band partition;
+2. the nu_p ~ 0.97 soft window, now the pair layer's only kill control;
+3. the arb pass over the band dual (same shape as `hardened_direct.py`);
+4. T5, the upstream Lean window pin, unchanged and external.

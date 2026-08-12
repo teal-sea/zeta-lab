@@ -74,3 +74,50 @@ def test_mt_band_charge_degeneracy_is_real():
     ko, pts = band_charge_degeneracy(MTChain())
     assert ko[3.0] < 1e-6                        # interval floor dies
     assert pts[6.11] > 0.005                       # point repulsion survives
+
+
+def test_band_dual_partition_is_complete():
+    """No band is narrower than the grid: the off-band allowance is then
+    exactly zero rather than a per-cell blanket (which does not scale
+    with depth and swamped the shallow end)."""
+    from band_dual import BandDual
+    bd = BandDual()
+    for y in (0.02, 0.1, 0.49):
+        rec = bd.no_missed_band(y)
+        assert rec["clear"], (y, rec)
+        assert rec["worst_ratio"] > 100
+        assert bd.off_band_allowance(y) == 0.0
+
+
+def test_band_dual_free_ratio_is_depth_stable_and_under_one():
+    """Granting the adversary EVERY band maximum at zero internal cost
+    still leaves it at ~a third of the slack, at every depth."""
+    from band_dual import BandDual
+    bd = BandDual()
+    ratios = [bd.free_ratio(y) for y in (0.02, 0.1, 0.3, 0.49)]
+    assert max(ratios) < 0.4
+    assert max(ratios) - min(ratios) < 0.03      # depth-stable
+
+
+def test_band_dual_secures_theta_far_above_the_hunt_window():
+    from band_dual import BandDual
+    bd = BandDual()
+    star, _ = bd.theta_scan(ys=(0.02, 0.1, 0.3, 0.49),
+                            thetas=(0.9, 0.99, 0.995))
+    assert star is not None and star >= 0.99   # hunt window secured 0.1
+
+
+def test_band_dual_dominates_the_measured_adversary_and_fails_at_theta_one():
+    from band_dual import BandDual, dominates_explicit_adversary
+    bd = BandDual()
+    for row in dominates_explicit_adversary(bd):
+        assert row["dominated"], row
+    assert not math.isfinite(bd.cap(1.0, 0.49)["cap"])
+
+
+def test_cross_band_charges_may_be_dropped():
+    """omega^2 is a square: dropping cross-band internal charges is
+    one-sided, which is why the arithmetic band/zero coincidence the
+    first T1 session named was never load-bearing."""
+    from band_dual import BandDual, cross_band_drop_is_one_sided
+    assert cross_band_drop_is_one_sided(BandDual()) >= 0.0

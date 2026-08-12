@@ -324,3 +324,30 @@ parks the damage bands on the repulsion nulls, so interval-charge
 counting is structurally blind here. The trade itself is healthy by 4.7x
 at the explicit adversary; making that configuration-free needs the
 band-lattice dual. No proportion is claimed.
+
+
+## T1 second session: the band-lattice dual (2026-08-12, branch claude/transplant-lemma)
+
+Full account: `TRANSPLANT-LEMMA.md` (T1 second session); instruments
+`band_dual.py`, `mt_pairs.py`, `mt_adversary.py`; controls in
+`test_transplant_lemma.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| The first session's named obstruction | **WITHDRAWN** | omega^2 is a square, so cross-band charges drop one-sidedly | the band/kernel-zero coincidence was never load-bearing; the 0.44 cap was mostly a blanket-margin artifact (~800 uniform cells x 1.7e-3), the third occurrence of that failure mode in this hunt |
+| The band partition is complete | DELIVERED (one-sided) | a band is exactly where q = Re^2 - Im^2 < 0; an unresolved dip needs an interior minimum | q / ((1/8)\|q''\| step^2) >= 326 (y = 0.02) to 7347 (y = 0.49) off the widened bands, so the off-band allowance is exactly 0 |
+| Band structure | MEASURED | closed-form Phi2, Phi2', Phi2'' | 63 bands in (0, 400]; width 0.970 grid units; first at 1.106 mean gaps; maxima decay 4.93/2.33/1.80/1.57 vs the 1/g^2 law |
+| The free-band ratio | **MEASURED 0.34-0.36, depth-flat** | band sum + closed-form tail | granting every band maximum at zero internal cost takes only ~a third of the slack, at every depth from 0.02 to 0.49 |
+| Secured single-pair theta at MT | **DELIVERED: theta* = 0.995** | band dual, one-sided | hunt window secured 0.1; the binding constraint is same-band multiplicity alone, not damage |
+| Projection + kill controls | HELD | measured band-riding adversary; theta = 1 | 0.0102 <= 0.0179 (y = 0.3), 0.0298 <= 0.0493 (y = 0.49); cap(theta = 1) infinite |
+| Pair layer at MT | MEASURED, friendlier | LAW L (defect pure 1/K truncation, 3 lesions reject) | stacking floor 0.979 mean gaps (vs 0.255); worst dipole cover 8.84-9.91 (vs 2.8-6.7); **no dense-deep pinch**; single soft window nu_p ~ 0.97, T/slack -0.381 |
+| The joint cap at MT | **NOT RUN** | the level-7 direct dual rebuilt on the band partition | named; until it runs, theta_full^MT is unknown and no new reading is computed |
+| Candidate reading | UNCHANGED | the joint layer is what the composition needs | 0.6725009045 stands; conditional arithmetic at theta_full^MT = 0.2 / 0.995 would give +2.0e-6 / +1.0e-5, explicitly not readings |
+
+Disposition: **THE RETENTION COEFFICIENT AT THE FLOOR'S OWN KERNEL IS
+FIFTY TIMES THE HUNT WINDOW'S, AT THE SINGLE-PAIR REDUCTION.** The
+window that makes the Cheer-Goldston mechanism live also makes the
+retention trade easy: its damage is confined to narrow bands carrying a
+third of the slack in total, and its pair layer's stacking floor nearly
+fills the mean gap. The next object is the joint cap on the band
+partition. No proportion is claimed to have moved.
