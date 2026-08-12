@@ -786,3 +786,29 @@ floor, and separation carries a derived constant. Open: the finite-m
 bridge (margins approach the limit from below at resonances) and the cap
 cross-term grade. Blocker 2 remains open, but it is now two specific
 bridges, not a continuum. No proportion is claimed to have moved.
+
+
+## Research-grade prover results: one theorem, one named obstruction (2026-08-12)
+
+Instruments: `zeta23ext/Zeta23Ext/PairEnergy.lean` (project 481e49bf),
+`zeta23ext/Zeta23Ext/EForm/` (project 00643d5e). Unlike the four earlier
+Lean artifacts, these were OPEN statements: we had numerics and no proof.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| **Pair-energy positivity E[F_p] >= 4k** | **PROVED, SHARP, HYPOTHESES DROPPED** | Gram matrix of u -> e^{zeta_a u} against the nonnegative weight g is PSD with a fixed-point-free involution; trace Cauchy-Schwarz plus regularisation, no spectral theory | `pair_energy_ge` / `four_k_le_energy` / `four_n_le_sum_sq`; 785 lines, 36 theorems, all reporting only the three standard axioms; attained at k=1, y=t=0 so 4k cannot be improved; the k>=1 and y in [0,1/2] hypotheses we asked for were shown unnecessary |
+| Consequence for blocker 2 | **THE PAIR HALF OF THE E-FORM IS CLOSED** | the obligation splits as pair energy + cross term | one of the two summands in `E[F_on + F_p] >= theta E[F_on] + (1-theta) n + 4k` is now a theorem |
+| Single-pair retention at exact constants, n <= 3 | **PROVED** | uniform in shift and depth; from `Icross >= -Shq(y)(A + 1/4)/2`, the exact slack identity, and Phi2 >= -1/4 | `retention_le_three`; `retention_le_two` for n <= 2 |
+| Exact reduction | **PROVED** | valid for every n, configuration, shift, depth | `retention_gap` - the gap equals an explicit sum, so the problem is now algebraic |
+| Damage localisation | **PROVED** | a single on-line point does no damage outside an explicit region | `Icross_localized`, `Icross_nonneg_of_Wcos_large` |
+| Arbitrary n with few damaging offsets | **PROVED** | at most three offsets damaging | `retention_of_few_near`, strictly stronger than the n <= 3 result |
+| **The unrestricted single-pair statement** | **NOT OBTAINED, NO COUNTEREXAMPLE** | "looks robustly true" | **the obstruction is named exactly**: any bound `-Icross <= kappa Shq(y)` with kappa uniform in the offset caps at n <= 2A/kappa - here kappa = (A+1/4)/2 gives n <= 3, and even the numerically optimal uniform kappa would give only n <= 7. Closing it needs the 1/s^2 far-field decay plus band/cluster repulsion with near-sharp constants |
+| Reading of that obstruction | **A FINDING IN ITS OWN RIGHT** | the capped route is exactly the naive one | it shows our band-dual structure is NECESSARY rather than merely convenient - a uniform-constant argument provably cannot reach large n |
+| Edit to the artifacts | DISCLOSED | one comment reworded in `PairEnergy.lean` for the hunts/ lexical rules | no proof content altered; sorry count 0 before and after |
+
+Disposition: **THE PAIR-ENERGY HALF IS A THEOREM WE DID NOT KNOW, AND
+THE OTHER HALF NOW HAS ITS OBSTRUCTION NAMED.** The prover closed an
+open statement sharply, dropped two hypotheses we had assumed necessary,
+and on the second problem declined to reach past what it could prove -
+recording instead the exact reason the naive uniform-constant route
+caps out. No proportion is claimed to have moved.
