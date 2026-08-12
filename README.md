@@ -33,15 +33,23 @@ weakest step — so the reading above is a **candidate**, not a theorem:
 | Prime-side asymptotics, simple-zero density | *cited* from the source paper, not re-derived |
 | External review | none yet — invited, not required |
 
-**Three named mathematical gaps remain**, and they are missing
-quantifiers rather than missing paperwork: the retention is established
-at four sampled depths but an off-line pair sits at an arbitrary depth;
-the many-pair case is swept over configuration families rather than
-quantified over all configurations; and the transfer from our finite
-grids to the source paper's asymptotic count is supported by a ladder
-rather than derived — including the open question of whether a 10⁻⁵
-improvement survives that paper's error terms at feasible heights. All
-three are under active attack; the preprint states each precisely.
+**Of the three gaps the audit named, two are now closed and one
+remains.** The retention is quantified over *all* off-line depths, not
+four samples — the shallow end, which no grid can reach, by a
+homogeneity argument rather than a finer grid. The transfer into the
+source paper's units is derived, with conversion factor exactly 1, and
+the improvement does not drown in that paper's error terms. **Still
+open:** the many-pair case is swept over configuration families rather
+than quantified over all configurations.
+
+**One caveat belongs up here rather than in a footnote.** The
+improvement is real as a liminf statement — the same logical type as the
+source's own — but it is **not numerically effective at any reachable
+height**: the crossover sits near T ≈ 10^(1.7×10⁶). That shape is
+inherited from the source's own o(1) coefficients, not introduced by us,
+and it is what an ε-improvement to a non-effective bound costs. Read
+"improvement" as a statement about the limit, not about heights anyone
+can compute.
 
 Nothing here is evidence about the Riemann Hypothesis itself and the
 laboratory claims no progress toward it; the improvement is +1.0×10⁻⁵ on
