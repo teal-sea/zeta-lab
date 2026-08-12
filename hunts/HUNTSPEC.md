@@ -87,3 +87,33 @@ agents_may_not:
   - declare theorem status
   - promote their own claim
 ```
+
+## Run manifests
+
+The other half of the primitive (the specification's item 1 is "HuntSpec
+*and run manifests*"): each autonomous run against a hunt appends a
+`runmanifest` block — same flat subset, same validator home, same probation
+— to the hunt's `RUNS.md` (or `MISSION.md` if the hunt prefers one file).
+A run that produced nothing records that it produced nothing; the manifest
+is how a night of work stays a fact instead of a vibe.
+
+Required keys: `id`, `hunt`, `started`, `finished` (scalars; timestamps as
+text), `ran` (list, non-empty — the commands or scripts executed),
+`artifacts` (list, may be empty — what the run left behind, by path),
+`outcome` (scalar — one plain sentence; the hunts' lexical rules apply to
+it like to every other byte under `hunts/`).
+
+This template is also validated by the test:
+
+```runmanifest
+id: example_hunt-2026-08-11-night1
+hunt: example_hunt
+started: 2026-08-11T22:00-05:00
+finished: 2026-08-12T05:40-05:00
+ran:
+  - .venv/bin/python hunts/example_hunt/probe.py --grid 0.005
+outcome: the probe closed 3 of 7 cells; the remaining 4 need a finer grid
+artifacts:
+  - hunts/example_hunt/results_grid0.005.json
+```
+

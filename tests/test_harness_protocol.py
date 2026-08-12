@@ -530,6 +530,7 @@ _DOMAIN_AGNOSTIC_FILES = (
     "independence.py",
     "guards.py",
     "review.py",
+    "graveyard.py",
     "integrity.py",
     "shams.py",
     "preregistration.py",

@@ -135,6 +135,57 @@ generate; the lab's oracles decide. An evolutionary search runs only behind
 a HuntSpec naming an exact non-model evaluator, and an external prover's
 output goes through the adapter above or it does not count.
 
+## 6. The second wave: the rest of the specification, same day
+
+The first four builds were the triage's "adopt now" list; the operator's
+correction — *that wasn't all* — was right, and the remainder of the
+specification landed in a second wave:
+
+- **Run manifests** (`hunts/HUNTSPEC.md`, "Run manifests"): the other half
+  of the specification's first primitive. Each autonomous run appends a
+  `runmanifest` block — what ran, when, what it left behind, one plain
+  outcome sentence — under the same probation and the same validator home
+  as HuntSpec. A run that produced nothing records that it produced
+  nothing.
+- **The literature scout** (`ontology/scout.py`): searches the corpora this
+  machine actually has (`references/`, the fetched DeepMind collections),
+  reports sources searched / sources missing / candidate passages /
+  truncation — all loud — and has **no code path to `FOUND`**: a lexical
+  hit is a lead for a human, and an AST test pins that the module never
+  references that status. Both outcomes survive `funnel_label`, so the
+  funnel cannot hear novelty from a scout run.
+- **The standing adversarial review** (`harness/review.py`): two briefs per
+  claim, blind and white-box, with blindness structural (the blind brief's
+  materials are built without the reasoning field, so a leak is a type
+  error, not a broken promise). Withdrawals cost named artifacts. The
+  ledger opens with the 0.672529 clean kill as the checkable exemplar and
+  URMS2 0.51 as the open case, its two missing attacks surfaced as
+  worklist. The machinery records outcomes and never resolves them — the
+  system may not referee a dispute it is party to (`meta/`).
+- **The graveyard** (`harness/graveyard.py`): killed results as typed
+  cards — status, why, caught-by, regression test, formal obstruction,
+  recurrence guard. Three opening graves, transcribed from landed records:
+  the transpose kill (cited to its regression test and its kernel-checked
+  obstruction, both pinned to exist), the bin-artifact withdrawal, and the
+  closed placewise-positivity route. An unguarded grave is storable but
+  loud: `unguarded()` is a worklist, and deletion is never the fix.
+- **The research-state view** (`scripts/70_lab_state.py`): one static HTML
+  page rendered from the ledgers and declarations — attention queue,
+  graveyard, guard power, independence, standing reviews, the hunts' case
+  log. No scripts, no network, no orchestration state: research state, not
+  agent activity, per the specification's own emphasis. The **attention
+  queue** is derived, not declared: undemonstrated guards, unguarded
+  graves, and reviews missing an attack, rendered as the human-decision
+  worklist.
+
+Still deliberately unbuilt from the specification, with reasons standing:
+durable orchestration and start/pause/steer controls (the memo's own build
+order puts them behind everything above, and `meta/`'s rule — measure the
+loop before automating it — has not been satisfied by a single measured
+loop yet), and the networked half of the literature scout (OEIS, arXiv,
+zbMATH need a network session; the local-corpus half is the part that
+collides with primary documents offline).
+
 ## What this document does not claim
 
 Nothing here is a mathematical result, and none of it moved a bound. Four

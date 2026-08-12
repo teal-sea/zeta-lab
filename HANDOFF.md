@@ -52,6 +52,18 @@ untracked, zero runs so far) is the memo's "targeted autonomous frontier
 hunt" already built; arming it is the operator's switch, and no
 proof-adapter work rides on a machine without a Lean toolchain.
 
+**5a. The second wave landed the rest of the specification** — run
+manifests (`hunts/HUNTSPEC.md`), the literature scout (`ontology/scout.py`,
+no code path to FOUND, corpora searched/missing loud), the standing
+adversarial review (`harness/review.py` + ledger: the 0.672529 kill as
+checkable exemplar, URMS2 0.51 open with both attacks missing), the
+graveyard (`harness/graveyard.py` + three transcribed graves), and the
+research-state view (`scripts/70_lab_state.py`, static, artifact-derived,
+with the attention queue). Still unbuilt with reasons: orchestration and
+steer controls (measure the loop first), the networked scout half.
+`docs/26` §6 is the record. Full fast tier green at the first-wave point
+(2271 passed); rerun after the second wave before merging.
+
 **5. Builds 1–4 landed the same day** — `harness/independence.py` (rigor
 cross-check declared: radius 3 of 5, agreement is evidence about the ball
 arithmetic alone), `harness/guards.py` + the opening five-record ledger,

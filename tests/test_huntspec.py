@@ -117,6 +117,34 @@ def _blocks_in(text: str) -> list[str]:
     return _BLOCK.findall(text)
 
 
+# --- run manifests: the primitive's other half, same subset, same home ----
+
+_MANIFEST_BLOCK = re.compile(r"```runmanifest\n(.*?)```", re.DOTALL)
+
+MANIFEST_SCALARS = ("id", "hunt", "started", "finished", "outcome")
+MANIFEST_LISTS = ("ran", "artifacts")
+
+
+def validate_runmanifest(spec: dict) -> tuple[str, ...]:
+    problems: list[str] = []
+    for key in MANIFEST_SCALARS:
+        if key not in spec:
+            problems.append(f"missing required key {key!r}")
+        elif not isinstance(spec[key], str):
+            problems.append(f"{key!r} must be a single-line scalar")
+    for key in MANIFEST_LISTS:
+        if key not in spec:
+            problems.append(f"missing required key {key!r}")
+        elif not isinstance(spec[key], list):
+            problems.append(f"{key!r} must be a list")
+    if isinstance(spec.get("ran"), list) and not spec["ran"]:
+        problems.append("'ran' must be non-empty: a run that ran nothing is not a run")
+    for key in spec:
+        if key not in MANIFEST_SCALARS + MANIFEST_LISTS:
+            problems.append(f"unknown key {key!r}")
+    return tuple(problems)
+
+
 # ---------------------------------------------------------------------------
 # 1. the parser: exactly the promised subset
 # ---------------------------------------------------------------------------
@@ -207,6 +235,51 @@ def test_the_spec_pages_template_is_valid() -> None:
     assert len(blocks) == 1, "hunts/HUNTSPEC.md must carry exactly one template block"
     spec = parse_huntspec(blocks[0])
     assert validate_huntspec(spec) == (), validate_huntspec(spec)
+
+
+_MANIFEST_GOOD = """\
+id: sample-run
+hunt: sample
+started: 2026-08-11T22:00-05:00
+finished: 2026-08-12T05:40-05:00
+ran:
+  - a command
+outcome: it measured a thing
+artifacts:
+"""
+
+
+def test_the_good_manifest_validates() -> None:
+    spec = parse_huntspec(_MANIFEST_GOOD)
+    assert validate_runmanifest(spec) == ()
+    assert spec["artifacts"] == []  # empty is allowed: nothing produced, said
+
+
+def test_a_manifest_that_ran_nothing_is_refused() -> None:
+    spec = parse_huntspec(_MANIFEST_GOOD)
+    spec["ran"] = []
+    assert any("not a run" in p for p in validate_runmanifest(spec))
+
+
+def test_a_manifest_missing_its_outcome_is_reported() -> None:
+    spec = parse_huntspec(_MANIFEST_GOOD.replace("outcome: it measured a thing\n", ""))
+    assert any("outcome" in p for p in validate_runmanifest(spec))
+
+
+def test_the_spec_pages_manifest_template_is_valid() -> None:
+    page = (_HUNTS / "HUNTSPEC.md").read_text(encoding="utf-8")
+    blocks = _MANIFEST_BLOCK.findall(page)
+    assert len(blocks) == 1, "hunts/HUNTSPEC.md must carry exactly one manifest template"
+    spec = parse_huntspec(blocks[0])
+    assert validate_runmanifest(spec) == (), validate_runmanifest(spec)
+
+
+def test_every_runmanifest_block_in_the_tree_validates() -> None:
+    for path in sorted(_HUNTS.glob("*/*.md")):
+        for block in _MANIFEST_BLOCK.findall(path.read_text(encoding="utf-8")):
+            spec = parse_huntspec(block)
+            problems = validate_runmanifest(spec)
+            assert problems == (), f"{path}: {problems}"
 
 
 def test_every_mission_huntspec_block_in_the_tree_validates() -> None:
