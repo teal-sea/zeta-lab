@@ -807,6 +807,29 @@ Constants: `NOTE_NAMES`
 - `get_primes(limit)`
 - `calculate_reflection(k, primes, N_limit)` — Calculates the Bragg reflection amplitude R(k) for wavenumber k.
 
+### `ontology/scout.py` — ``ontology.scout`` — the literature scout: passages, never verdicts.
+
+*308 lines*
+
+Constants: `MAX_HITS_PER_CORPUS`, `DEFAULT_CORPORA`
+
+- `class ScoutError` — A scout invocation that cannot mean anything.
+- `class CorpusSpec` — One searchable corpus: a name a report can cite, and where it lives.
+- `class SourceHit` — One candidate passage. A passage is a lead, not a finding.
+- `class ScoutReport` — What was searched, what was absent, and every passage located.
+- `class LocalCorpusBackend` — The scout as a :func:`ontology.knownness.check_literature` backend.
+- `search_corpora(terms, corpora: tuple[CorpusSpec, ...] = DEFAULT_CORPORA) -> ScoutReport` — Search every available corpus for files containing *all* terms.
+
+### `ontology/scout_online.py` — ``ontology.scout_online`` — the scout's networked half: OEIS and arXiv.
+
+*345 lines*
+
+Constants: `MIN_SEQUENCE_TERMS`
+
+- `class OeisBackend` — OEIS, with ``FOUND`` reserved for content-verified sequence matches.
+- `class ArxivBackend` — arXiv as a lead generator. It has no route to ``FOUND`` on purpose.
+- `class ZbMathBackend` — zbMATH Open as a lead generator. No credentials, and no ``FOUND``.
+
 ### `ontology/domains/zeta_domain.py` — ontology.domains.zeta_domain — the only module that knows what is studied.
 
 *3617 lines*
@@ -893,6 +916,34 @@ The falsification protocol with the subject factored out. Four instrument roles 
 
 - `main(argv: list[str] | None = None) -> int`
 
+### `harness/graveyard.py` — ``harness.graveyard`` — killed results as first-class records.
+
+*121 lines*
+
+- `class GraveyardError` — A grave that cannot say how its occupant died.
+- `class KilledResult` — One withdrawn result, with everything a reader needs to trust the kill.
+- `unguarded(graves: tuple[KilledResult, ...]) -> tuple[str, ...]` — Every grave nothing now guards, one sentence each.
+
+### `harness/guards.py` — ``harness.guards`` — detection power as a record, not a feeling.
+
+*152 lines*
+
+- `class GuardRecordError` — A guard record that claims more or less than its fields carry.
+- `class GuardRecord` — One guard, its intended lesion, and whether its power was ever shown.
+- `undemonstrated(records: tuple[GuardRecord, ...]) -> tuple[str, ...]` — The guards whose power nobody has shown — the offensive's worklist.
+- `dead_guards(records: tuple[GuardRecord, ...]) -> tuple[str, ...]` — Guards demonstrated *not* to fire on their own lesion.
+- `offensive_worklist(records: tuple[GuardRecord, ...]) -> tuple[str, ...]` — Every open item the ledger implies, one disputable sentence each.
+
+### `harness/independence.py` — ``harness.independence`` — verification independence as declared structure.
+
+*228 lines*
+
+- `class IndependenceError` — A path or comparison that cannot be measured as declared.
+- `class VerificationPath` — One route from input to verdict, as an ordered tuple of named layers.
+- `class IndependenceReport` — What two declared paths share, where, and what that bounds.
+- `compare(a: VerificationPath, b: VerificationPath) -> IndependenceReport` — Measure what two declared paths actually duplicate.
+- `agreement_bounds(report: IndependenceReport) -> tuple[str, ...]` — Every reason an agreement between the two paths is bounded evidence.
+
 ### `harness/integrity.py` — ``harness.integrity`` — the referee, refereed.
 
 *1560 lines*
@@ -953,6 +1004,19 @@ Constants: `ALLOW`, `BLOCK`, `POLICY_VERSION`, `NAIVE_POLICY_VERSION`, `REQUIRED
 - `dependence_reasons(provenance: Provenance) -> tuple[str, ...]` — Every declared dependence between the evidence and what it checks.
 - `undeclared_fields(provenance: Provenance) -> tuple[str, ...]` — The tri-state fields nobody has declared, so silence stays visible.
 
+### `harness/review.py` — ``harness.review`` — the standing adversarial review: two attacks per claim.
+
+*200 lines*
+
+Constants: `WHITEBOX_CHECKLIST`, `THE_QUESTION`
+
+- `class ReviewError` — A review record that cannot mean what it claims.
+- `class ClaimUnderReview` — A promising result, packaged for attack.
+- `class AttackBrief` — One attacker's packet. ``materials`` is everything they may read.
+- `class AttackOutcome` — What one attack found. Recording is not resolving.
+- `generate_briefs(claim: ClaimUnderReview) -> tuple[AttackBrief, AttackBrief]` — The two attacks, generated deterministically from one record.
+- `standing_reasons(claim: ClaimUnderReview, outcomes: tuple[AttackOutcome, ...]) -> tuple[str, ...]` — Everything still missing before this claim's review is standing.
+
 ### `harness/shams.py` — ``harness.shams`` — planted corruptions of batteries, for measuring the audit.
 
 *384 lines*
@@ -1008,6 +1072,20 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `P`, `CURVE_A`, `CURVE_B`, `
 - `claim_functional_equation(payload: dict) -> bool` — Self-duality: the counts follow a degree-2 Lefschetz recursion with αβ = p.
 - `claim_hasse_bound(payload: dict) -> bool` — RH for the curve: both Frobenius roots on |α| = sqrt(p), i.e. a² ≤ 4p.
 
+### `harness/departments/graveyard_ledger.py` — The repository's graveyard — the opening graves, entered from the records.
+
+*74 lines*
+
+Constants: `GRAVES`
+
+
+### `harness/departments/guard_ledger.py` — The repository's guard ledger — the guard offensive's opening entries.
+
+*118 lines*
+
+Constants: `GUARDS`
+
+
 ### `harness/departments/referee_department.py` — Department #5: the referee itself — batteries as subjects, audited like one.
 
 *689 lines*
@@ -1021,6 +1099,13 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `SPECIMEN`, `TARGET`, `RIVAL
 - `integrity_pass_count(bundle: Department) -> float` — The ablation/null statistic: how many audit checks pass on the bundle.
 - `random_bundle(seed: int) -> Department` — A structurally plausible department assembled with zero calibration
 - `integrity_flags(bundle: Department) -> bool` — The department's detector: fires when the audit grade is not CALIBRATED.
+
+### `harness/departments/review_ledger.py` — The repository's standing-review ledger — real claims, real attacks.
+
+*85 lines*
+
+Constants: `CLAIMS`, `OUTCOMES`
+
 
 ### `harness/departments/stateval_department.py` — Department #6: statistical model evaluation — claims about distributions.
 
@@ -1039,9 +1124,9 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `N_FEATURES`, `W_TRUE`, `NOI
 
 ### `harness/departments/zeta_department.py` — ``harness.departments.zeta_department`` — department #1, and the reference wiring.
 
-*497 lines*
+*547 lines*
 
-Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LESION_HEIGHT`, `LESION_DELTAS`, `TARGET`, `RIVALS`, `DECOYS`, `SURROGATES`, `LESIONS`, `LI_PROJECTION_THRESHOLD`, `DETECTORS`, `BATTERY`, `REFERENCE_CLAIMS`, `DEPARTMENT`
+Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `DPS`, `EPSTEIN_FORMS`, `LESION_HEIGHT`, `LESION_DELTAS`, `TARGET`, `RIVALS`, `DECOYS`, `SURROGATES`, `LESIONS`, `LI_PROJECTION_THRESHOLD`, `DETECTORS`, `BATTERY`, `REFERENCE_CLAIMS`, `DEPARTMENT`, `RIGOR_SHARED_LAYERS`, `RIGOR_SHARED_TAIL`, `RIGOR_BACKEND_PATHS`
 
 - `class InterfaceSubject` — A subject whose payload is one of ``zeta.epstein``'s interface dicts.
 - `class PrimeDecoy` — A substitution acting on a sequence of primes.
@@ -1132,6 +1217,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `23-rival-distance-and-detector-independence.md` — 23 — Rival distance and detector independence: closing two declared blind spots
 - `24-the-local-positivity-attempt.md` — 24 — The local positivity attempt, run to its wall
 - `25-the-director-run.md` — 25 — The director run: the laboratory pointed at itself
+- `26-the-adopted-builds.md` — 26 — The adopted builds: the decision of 2026-08-11, made runnable
 
 ## Runnable demos (`scripts/`)
 
@@ -1170,6 +1256,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/50_dossier.py` — Validate research dossiers and print their status.
 - `scripts/60_rung3_generate.py` — Generate the rung-3 certificate Lean files from a plan JSON.
 - `scripts/61_rung3_mirror.py` — Bit-exact Fraction mirror of the ZetaLean rational interval arithmetic.
+- `scripts/70_lab_state.py` — 70_lab_state.py — the read-only research-state view, rendered from artifacts.
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/mathlib_gaps.py` — Which of Mathlib's 1000 famous theorems are still unformalized.
@@ -1178,7 +1265,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1583 test functions across 54 files (the collected count differs where tests are parametrised):
+1682 test functions across 63 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_claim_attribution.py` — 6
@@ -1202,9 +1289,12 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_factorization.py` — 13
 - `tests/test_finitefield.py` — 53
 - `tests/test_frontier_math_clean_kill.py` — 6
+- `tests/test_graveyard.py` — 7
+- `tests/test_guard_ledger.py` — 10
 - `tests/test_harness_croniter_department.py` — 11
 - `tests/test_harness_demo.py` — 5
 - `tests/test_harness_finitefield_department.py` — 12
+- `tests/test_harness_independence.py` — 17
 - `tests/test_harness_integrity.py` — 20
 - `tests/test_harness_promotion.py` — 48
 - `tests/test_harness_protocol.py` — 49
@@ -1213,19 +1303,25 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_harness_zeta_department.py` — 9
 - `tests/test_heatflow.py` — 38
 - `tests/test_hunt_probe_discipline.py` — 6
+- `tests/test_huntspec.py` — 16
 - `tests/test_inverse.py` — 8
+- `tests/test_lab_state.py` — 1
 - `tests/test_leeyang.py` — 7
 - `tests/test_li.py` — 56
 - `tests/test_meta_ledger.py` — 24
 - `tests/test_moments.py` — 26
 - `tests/test_plots.py` — 13
+- `tests/test_proof_adapter.py` — 10
 - `tests/test_quasicrystal.py` — 9
 - `tests/test_relations.py` — 7
 - `tests/test_repo_hygiene.py` — 7
+- `tests/test_review.py` — 11
 - `tests/test_rigor.py` — 54
 - `tests/test_rigor_weil.py` — 17
 - `tests/test_rogue_lab_controls.py` — 7
 - `tests/test_rung3_mirror.py` — 9
+- `tests/test_scout.py` — 12
+- `tests/test_scout_online.py` — 15
 - `tests/test_script_13_discovery_run.py` — 33
 - `tests/test_script_14_moment_experiment.py` — 26
 - `tests/test_spectral_gate.py` — 14

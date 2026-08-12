@@ -43,6 +43,16 @@ req*.json
 # of conjectures/ above.
 automation/
 
+# cloned outside repositories (115 MB of other people's artifacts, each a
+# shallow clone with its own .git, plus the separate .venv-tools interpreter).
+# Machine state: re-clone to update. The README is tracked on purpose — a
+# HANDOFF record points at it for the two steps that still need a human, and a
+# repository record must not point at an untracked file. Same shape as the
+# conjectures/ rule above.
+external/*
+!external/README.md
+.venv-tools/
+
 # exploratory scratch. The Lean files here sit outside ZetaLean.lean's import
 # graph, so `lake build` never sees them; keeping them untracked keeps it that
 # way rather than relying on nobody adding an import.
