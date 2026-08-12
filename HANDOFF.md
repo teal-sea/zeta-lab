@@ -110,7 +110,7 @@ a `sorry` in it costs the arm its meaning.
 ### The prompt for the next session
 
 ```
-You are picking up Zeta Lab (/Users/thomas/Zeta) mid-project. Read, in order:
+You are picking up Zeta Lab (at your local checkout) mid-project. Read, in order:
 CLAUDE.md (binding operating rules), the top two records of HANDOFF.md, and
 hunts/higher_xi/LEAN-FRONTIER.md item 20.
 

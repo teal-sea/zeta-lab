@@ -17,28 +17,76 @@ framework:
 
     candidate:   H  =  0.6725007037 + 2·θ·c_u  =  **0.6725106958**,
 
-with θ = 0.995 the measured adversarial retention of the on-line
-internal Gram mass and c_u = 5.021179×10⁻⁶ the hardened bucket floor of
-the Montgomery–Taylor kernel at density ν = H.  The improvement is
+with θ = 0.995 the adversarial retention of the on-line internal Gram
+mass and c_u the census floor of the Montgomery–Taylor kernel at density
+ν = H.  The floor is now a kernel-checked lower bound
+(c_u ≥ 5.021172019×10⁻⁶, §"What is kernel-checked" item 0); the
+retention is hardened, with its certificate arithmetic kernel-checked
+and its reduction still on paper.  The improvement is
 +1.0×10⁻⁵ — small, but the point of this paper is not its size; the
 point is the audit trail, which we believe is unusually complete for a
 two-day, single-operator, consumer-hardware project, and which is
 published in full.
 
-**This is a candidate, not a theorem.**  Two inputs are cited from the
-source paper rather than re-derived (its prime-side trace asymptotics
-and its Theorem B simple-zero density), and no external expert has yet
-reviewed the chain.  Everything else is measured, interval-hardened, or
-kernel-checked as detailed below.  We state plainly what would make it
-a theorem: review of the composition against the paper's §4–6
-bookkeeping, and nothing else that we know of.
+**This is a candidate, not a theorem, and we name why.**  Three
+load-bearing steps are not yet established in the generality the
+argument needs.  These are mathematical gaps — missing quantifiers and
+an unresolved transfer — not a request for anyone's blessing:
+
+1. **Depth-uniformity of the retention.**  The retention bound is
+   established at four sampled depths y ∈ {0.02, 0.1, 0.3, 0.49}.  An
+   off-line zero pair sits at an arbitrary y ∈ (0, ½).  Until the bound
+   is quantified over all y, the hypothesis the composition consumes —
+   `D ≥ θ·R` for *every* admissible configuration — does not follow.
+   The machinery to close it exists in this repository at an earlier
+   window (`counting_bound.py` quantifies over depth *cells* rather
+   than points) and is being ported.
+2. **Multi-pair universality.**  The joint (many-pair) verdict is
+   established by sweeping configuration families, not over all
+   configurations.  The likely route is per-pair domination — damage is
+   additive across pairs before the positive-part clipping, and
+   `max(0, Σ) ≤ Σ max(0, ·)` — against a per-pair-additive slack
+   budget, but that argument is not yet written.
+3. **The finite-grid → asymptotic transfer.**  Our identities are exact
+   on truncated grids with measured ~1/K defects; the source paper's
+   count is asymptotic with explicit error terms.  The transfer is
+   currently supported by an N-ladder, not derived.  It carries a real
+   risk we are measuring rather than assuming: whether a +10⁻⁵
+   improvement survives the paper's `calE`-scale error terms at any
+   feasible height T.
+
+Two further inputs are *cited* from the source paper rather than
+re-derived: its prime-side trace asymptotics and its Theorem B/D
+density.  Everything else is measured, interval-hardened, or
+kernel-checked as detailed below.  We do not treat "not yet formalised"
+as "not yet mathematics"; the three items above are the actual
+obstructions, and when they close we will say so plainly.
 
 ## What is kernel-checked (Lean 4 + Mathlib, sorry-free, standard axioms)
 
-Both files were produced through the Aristotle theorem-proving service
-and are in this repository with their `#print axioms` lines; the
-statements were specified by us, the proofs machine-found and
-kernel-checked.
+All four were produced through the Aristotle theorem-proving service and
+are in this repository with their `#print axioms` lines; the statements
+were specified by us, the proofs machine-found and kernel-checked.  None
+uses `native_decide` or floating point.
+
+0. **The census floor** (`zeta23ext/Zeta23Ext/FloorCert.lean`).  For the
+   genuine Montgomery–Taylor kernel — built from `Real.sin`,
+   `Real.sqrt 2`, `π`, not a rational surrogate — the census LP's value
+   is at least F = 5.021172019×10⁻⁶, by explicit rational weak duality
+   plus four kernel bounds proved with from-scratch Taylor machinery
+   (explicit truncation error, no `native_decide`, no floating point).
+   Stated for any cost vector dominating the four rational bounds, so it
+   survives re-derivation of those bounds.
+
+0b. **The retention certificate's arithmetic**
+   (`zeta23ext/Zeta23Ext/BandCert/`).  The recorded band-dual
+   certificate closes at its four depths, with `cap` defined by the
+   *genuine* band supremum and infimum of ω² — the recorded numbers
+   enter only as one-sided bounds, so the statement cannot be vacuous —
+   together with "no band was missed" as a property of the cover.  The
+   reduction of the retention to that certificate is carried as an
+   explicit named hypothesis (`H3`) rather than hidden: that step is
+   ours, on paper, and is the same seam as gap (1) above.
 
 1. **The composition skeleton** (`t3_composition_skeleton.lean`).  For
    unit vectors u_i, positive integer multiplicities m_i, N = Σm_i,

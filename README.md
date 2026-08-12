@@ -27,10 +27,21 @@ weakest step — so the reading above is a **candidate**, not a theorem:
 | The composition inequality `s ≥ 2N − ‖P+Q‖²_F + D` and its θ-corollary | **kernel-checked** (Lean 4 + Mathlib, sorry-free, standard axioms only) |
 | The grid-incidence law `Σₙ φ̂(x−n)φ̂(y−n) = 2π·FT(φ²)(x−y)` | **kernel-checked** (same; ships with a counterexample showing evenness is necessary) |
 | The window identification (the paper's Theorem D profile is the MT window) | measured against the paper's own variational functional, defect 7×10⁻⁹ |
-| The retention θ = 0.995 | hardened — one-sided dual, independent adversary hunt, ball arithmetic — plus a finite certificate that closes in **pure rational arithmetic** |
-| The census floor c_u | hardened, plus an exact **rational LP dual certificate** |
+| The census floor `c_u ≥ 5.021172019×10⁻⁶` | **kernel-checked** — rational weak duality plus four bounds on the genuine MT kernel (`Real.sin`, `Real.sqrt 2`, `π`), no `native_decide`, no floats |
+| The retention certificate's arithmetic | **kernel-checked** — the recorded cover closes, with `cap` defined by the genuine band supremum, so it cannot be vacuous |
+| The retention θ = 0.995 itself | hardened — one-sided dual, independent adversary hunt, ball arithmetic; the reduction to the certificate is carried as an explicit hypothesis, not hidden |
 | Prime-side asymptotics, simple-zero density | *cited* from the source paper, not re-derived |
-| External review | **none yet — this is the ask** |
+| External review | none yet — invited, not required |
+
+**Three named mathematical gaps remain**, and they are missing
+quantifiers rather than missing paperwork: the retention is established
+at four sampled depths but an off-line pair sits at an arbitrary depth;
+the many-pair case is swept over configuration families rather than
+quantified over all configurations; and the transfer from our finite
+grids to the source paper's asymptotic count is supported by a ladder
+rather than derived — including the open question of whether a 10⁻⁵
+improvement survives that paper's error terms at feasible heights. All
+three are under active attack; the preprint states each precisely.
 
 Nothing here is evidence about the Riemann Hypothesis itself and the
 laboratory claims no progress toward it; the improvement is +1.0×10⁻⁵ on
