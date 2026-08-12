@@ -33,7 +33,16 @@ load-bearing steps are not yet established in the generality the
 argument needs.  These are mathematical gaps — missing quantifiers and
 an unresolved transfer — not a request for anyone's blessing:
 
-1. **Depth-uniformity of the retention.**  The retention bound is
+1. ~~**Depth-uniformity of the retention.**~~  **CLOSED** for the
+   single-pair layer at θ = 0.995 (`depth_uniform.py`): eighteen cells
+   tile (0, ½] exactly, and the shallow end — which no ladder of cells
+   can reach — is closed by homogeneity instead, since the damage scales
+   as y², the square completion is convex through the origin, and
+   slack/y² is bounded below by its own limit at 0.  One finite
+   inequality for an interval with no smallest point.  Grade: hardened
+   (double precision); arb or rational hardening over the eighteen cells
+   is a named next step, and the *multi-pair* layer's depth quantifier
+   folds into item 2.  The superseded statement of this gap:  The retention bound is
    established at four sampled depths y ∈ {0.02, 0.1, 0.3, 0.49}.  An
    off-line zero pair sits at an arbitrary y ∈ (0, ½).  Until the bound
    is quantified over all y, the hypothesis the composition consumes —
@@ -47,13 +56,24 @@ an unresolved transfer — not a request for anyone's blessing:
    additive across pairs before the positive-part clipping, and
    `max(0, Σ) ≤ Σ max(0, ·)` — against a per-pair-additive slack
    budget, but that argument is not yet written.
-3. **The finite-grid → asymptotic transfer.**  Our identities are exact
-   on truncated grids with measured ~1/K defects; the source paper's
-   count is asymptotic with explicit error terms.  The transfer is
-   currently supported by an N-ladder, not derived.  It carries a real
-   risk we are measuring rather than assuming: whether a +10⁻⁵
-   improvement survives the paper's `calE`-scale error terms at any
-   feasible height T.
+3. ~~**The finite-grid → asymptotic transfer.**~~  **RESOLVED**, with a
+   caveat that belongs in the headline rather than a footnote.  The
+   dictionary into the source's units is derived and the conversion
+   factor is exactly 1 (the normalised Gram is grid-step independent);
+   `a` equals our `A` bit-identically; and since `‖P‖²_F = Σm² + R`
+   exactly, the hypothesis becomes, purely in the source's own objects,
+   `‖Â‖²_F ≥ Σ_{S₁∪S₂} m_ρ² + 2θc_u·N(I′)`.  The improvement does **not**
+   drown: it is a fixed constant against o(1) errors, so the composed
+   statement is the same logical type as the source's own ε-form.
+   **But it is not numerically effective at any reachable height.**  The
+   crossover — where the error budget falls below the improvement — sits
+   at T ≈ 10^(1.7×10⁶).  The shape is `T₀ ≈ exp(38.5/ε)` for an
+   ε-improvement, and it is inherited from the *source's* o(1)
+   coefficients, not introduced by the transplant.  The dominant term is
+   not the paper's `calE` but a window-moment drift whose constant we
+   derive from parts (35.519106, matching measurement to four digits).
+   Anyone reading "improvement" as "better at heights anyone can compute"
+   would be wrong, and we would rather say so than be asked.
 
 Two further inputs are *cited* from the source paper rather than
 re-derived: its prime-side trace asymptotics and its Theorem B/D
