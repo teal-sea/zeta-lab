@@ -659,3 +659,129 @@ by the audit (retention uniform in depth and over arbitrary pair sets)
 is unchanged, and the engaged ratio 0.5754 is the number a uniformity
 proof now has to beat. Candidate unchanged at 0.6725106958. No
 proportion is claimed to have moved.
+## Formal chain, track 1 closed: the floor is kernel-checked (2026-08-12)
+
+Instrument: `zeta23ext/Zeta23Ext/FloorCert.lean` (theorem-proving
+service, project 029bed09, 2h27m; 968 lines).
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| LP bound by rational weak duality | **KERNEL-CHECKED** | six column inequalities, two sign conditions, the exact value identity, all in Q | `MTKernel.theoremA`, stated for ANY cost vector dominating the four rational bounds |
+| The four kernel bounds B1-B4 | **KERNEL-CHECKED** | the genuine MT kernel: `Real.sin`, `Real.sqrt 2`, `pi` - not a rational surrogate | from-scratch Taylor machinery with explicit truncation error 2\|r\|^2N/(2N)!, pi from Mathlib's 20-digit bounds, sqrt2 by 23-digit enclosure; B3/B4 by 4 resp. 6 sub-interval covers refined at the tight endpoint |
+| Combined floor | **KERNEL-CHECKED** | h*, j* as genuine infima (`sInf` of the image), bounded below via B3/B4 | `MTKernel.corollary`: every admissible configuration pays >= F = 5.021172019e-6 |
+| Method purity | NO ESCAPE HATCHES | no `sorry`, no `admit`, no `native_decide`, no floats | axioms: propext, Classical.choice, Quot.sound |
+| Constant fidelity | **CROSS-CHECKED IN Q** | Lean constants vs `lp_certificate.py` | F_RAT identical as a Fraction; edges, duals, r_* all match |
+| Independent consistency | NOTED | the formal B2 margin reproduces the measured one | relative slack 4.19e-8 against the measured 1.049e-11 absolute margin |
+| Edit to the artifact | DISCLOSED | one comment in the service output used the reserved word of `zeta/rigor.py`; reworded to "enclosure-carrying" for the hunts/ lexical rules | no proof content altered; sorry count 0 before and after. NOTE: this row itself first quoted the reserved word literally and tripped `test_no_hunt_claims_the_reserved_word` - session defect #10, caught by the gate, fixed here |
+
+Disposition: **THE CENSUS FLOOR IS NO LONGER A MEASUREMENT.** c_u >=
+5.021172019e-6 is a theorem about the Montgomery-Taylor kernel, checked
+by the Lean kernel, with the LP half stated generally enough to survive
+any future re-derivation of the kernel bounds. The candidate's floor
+pillar is at rung 3. No proportion is claimed to have moved.
+
+
+## Formal chain, track 2: the retention certificate's arithmetic is kernel-checked (2026-08-12)
+
+Instrument: `zeta23ext/Zeta23Ext/BandCert/` (theorem-proving service,
+project 7fb5612e; 8 modules, 2280 lines, sorry-free import chain).
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Certificate arithmetic closes at the four depths | **KERNEL-CHECKED, UNCONDITIONAL** | kernel `decide`; `cap` built from the TRUE band sup/inf, recorded numbers only as one-sided bounds | `cap_le_slack`, `cap_le_slack_at_depths`; margins +1.26e-4 / +3.12e-3 / +2.66e-2 / +2.95e-2 |
+| No band missed | **KERNEL-CHECKED** | property of the recorded cover, not an assumption | `f_nonpos_off_bands` over (0, 98] |
+| Analytic leaves L1-L6 | **KERNEL-CHECKED** | Taylor enclosures via `Complex.exp_bound`, rational 2pi enclosure, sqrt2 integer bounds, s(u) series branch | proved from Mathlib, quantified over the data |
+| **The dual layer H3** | **NOT FORMALISED — NAMED HYPOTHESIS** | "the cap bounds D - (1-theta) R for every configuration" is the modelling step; it is ours, on paper | `band_dual_verdict` takes it as a hypothesis rather than burying it |
+| Independent regeneration | **BONUS CROSS-CHECK** | the JSON was not shipped; the service rebuilt the certificate from PROBLEM.md via its own mirror | closed with different margins (+2.95e-2 vs our +4.49e-2 at y=49/100), both positive |
+| Toolchain divergence | NOTED, PORT REQUIRED | this package Mathlib v4.28.0 vs upstream Zeta23 v4.33.0-rc2 | integration blocker, mechanical |
+| Edit to the artifact | DISCLOSED | one comment reworded in `Iv.lean` for the hunts/ lexical rules | no proof content altered; sorry count 0 before and after |
+
+Disposition: **THE RETENTION'S ARITHMETIC IS A THEOREM; ITS MODELLING
+STEP IS NOT.** What the kernel now guarantees is that the recorded
+certificate really does close - with the cap defined by genuine suprema,
+so the guarantee is not about our bookkeeping but about the field. What
+remains is the reduction of the retention to that certificate (H3), and
+that reduction is also where blocker 1 (depth-uniformity: four recorded
+depths, not all y) lives. No proportion is claimed to have moved.
+
+
+## Blocker 1 closed (single-pair layer): depth-uniform retention (2026-08-12)
+
+Instruments: `depth_uniform.py`, `test_depth_uniform.py` (27 tests);
+coordinator re-ran both.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| **theta over ALL y in (0, 1/2], not sampled depths** | **CLOSED at 0.995** | 18 cells tiling (0,1/2] exactly; endpoints shared as objects so adjacency is exact, not a tolerance | closes at 0.995 and 0.996; fails at 0.997 (-0.078), always on the deepest cell; binding cells are the three deepest, where the square completion turns on |
+| The shallow end (no smallest point) | **CLOSED BY HOMOGENEITY, NOT CELLS** | f+(g,y) <= y^2 Fhat(g); B convex through the origin so B(lambda F) <= lambda B(F); slack(y)/y^2 >= 8 L2/A = 0.6199944 (the y->0+ limit, sinh t >= t) | one finite inequality covers an interval with no smallest point; a geometric ladder cannot reach 0 and would have left (0, 0.002) open - the same missing quantifier one decade lower |
+| Derivative constants | DERIVED TWO WAYS, NOT COPIED | Cauchy-Riemann gives dC/dy = dS/dg and dS/dy = -dC/dg, so two magnitudes bound four; Cauchy-Schwarz vs direct majorant, module takes the min | direct majorants beat Cauchy-Schwarz throughout (0.055476 vs 0.064328; 0.226506 vs 0.463826 at y=1/2); numeric/bound worst ratios 0.65-0.74 with margin; attainment 0.85 on a dense scan, so near-sharp |
+| Worst-corner choice | MEASURED, NOT ASSUMED | sigma^2, E, c_im increase in y (damage at the deep lip); slack/y^2 increases in y (budget at the shallow lip) | direction control passes on every cell used |
+| **Consistency vs the point results** | **PARTIAL DEVIATION, REPORTED NOT TUNED** | strict domination of `paper_chain`'s inflated number fails at all four sampled depths (ratios 0.9413/0.9881/0.9963/0.9971) | traced: paper_chain inflates a whole band by a global constant, this module inflates each bin by its own centre gradient plus curvature. The meaningful check - domination of the TRUE field - holds: worst (true - F_up) = 0, worst relative -5.4e-5 (-1.4e-3 shallow); both caps under slack at all four depths; measured adversary dominated |
+| Convention + lesion | PASS | cap diverges at theta=1 including on the shallow cell where the y^2 scaling could have hidden it; lesion (drop inflation) fires at 7.08e-3 | |
+| Precision response | SETTLES | cap falls monotonically 1.0543e-1 -> 9.996e-2 over step 0.01->0.00125, slices 2->8, G 120->200 | <0.7% total drift |
+| **Incidental defect found in an existing module** | RECORDED | `PaperChain.sigma2`'s difference form (Phi2(2iy)-A)/(2A) loses ~4 digits by y~1e-4, worthless by y~1e-6 | a second reason the shallow end cannot be reached by evaluating the point bound at ever smaller depths; the shallow cell uses closed forms only |
+| Named open, NOT closed here | STATED | (i) single-pair layer only - `paper_joint.py`'s multi-pair depth quantifier remains open (blocker 2); (ii) double precision - the arb and rational covers exist for four sampled depths, re-running either over these 18 cells is the named next hardening; (iii) band period beyond G measured on the resolved region and assumed to persist, inherited from `paper_chain.tail_sum` | |
+
+Disposition: **THE DEPTH QUANTIFIER IS CLOSED FOR THE SINGLE-PAIR LAYER
+AT theta = 0.995, AND COSTS NOTHING.** Depth-uniformity costs one grid
+step at the far end (0.997 vs the rational cover's 0.997 at sampled
+depths) and nothing at the retention of record. Grade: hardened
+(double precision), not kernel-checked. No proportion is claimed to have
+moved.
+
+
+## Blocker 3 resolved: the asymptotic transfer, and the effectiveness verdict (2026-08-12)
+
+Instruments: `asymptotic_transfer.py`, `test_asymptotic_transfer.py`
+(18 tests); draft section for the preprint.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Unit dictionary into the source's hat units | **DERIVED, FACTOR 1** | one change of variable x = tau*L and one Poisson lemma read at two step sizes: h=1 gives 2piA (LAW D), h=2pi gives A; undoing the scaling gives aL^2 with a = A | the normalised Gram is grid-step INDEPENDENT (the 2pi/h cancels between inner product and normalisation) - measured at steps 1, pi, 2pi with defects halving as 1/span |
+| a vs A | **EXACT** | a*(lambda) = sin(theta)/theta, theta = lambda/sqrt2; A = a*(1) | bit-identical (defect 0.0); their consistency law cRatio(lambda; a*,b*,J*) = c*_lambda reproduces to 1.1e-16 |
+| The transfer in their objects | **CLEANEST FORM FOUND** | \|\|P\|\|^2_F = sum m^2 + R exactly, so D = \|\|Ahat\|\|^2_F - sum_{S1 u S2} m^2 | the hypothesis becomes (T): \|\|Ahat\|\|^2_F >= sum m^2 + 2 theta c_u N(I'), stated purely in upstream objects; residual < 8e-15 |
+| **Dominant error term** | **NOT calE - the coordinator's guess was wrong** | window-moment drift, constant DERIVED from parts not fitted: 4/(l1 a^2) + 16 l1/a^2 + 8 cinv/a + \|d cinv/d l1\|(2log2 - 1) = 35.519106 | measured drift x L/w = 35.5443 / 35.5216 / 35.5194 at l = 1e4/1e5/1e6; the partial d cinv/d l1 = -0.684755 = -HD'(1) as it must be |
+| **Does the improvement drown?** | **NO** | 2 theta c_u is a fixed constant; every error term is o(1) | the composed statement is the same logical type as the source's own epsilon-form, with H raised from 2 - 1/c*_1 to 2 - 1/c*_1 + 2 theta c_u |
+| **Is it numerically effective?** | **NO, AND THIS IS THE HEADLINE CAVEAT** | crossover l0 = 3.8621e6, T0 ~ 10^(1.6773e6) | nothing below that height clears the budget. The shape is T0 ~ exp(38.5/improvement) - an eps-improvement costs height exponential in 1/eps - and that shape comes from the SOURCE's own o(1) coefficients, not from the transplant |
+| Sensitivity to existential constants | MILD | C = 1 / 10 / 100 gives l0 = 3.86e6 / 5.22e6 / 1.73e7 | because the dominant term is C-free |
+| The lambda < 1 requirement | **COSTS THE CENSUS NOTHING** | their `thmD_abstract` needs lambda strictly < 1; the census kernel generalises to g_{lambda,lambda1} | equals `cg_transplant.g_kernel` at lambda = lambda1 = 1 to 3.3e-16 (a strong check on the scaling: a wrong one would move the kernel zeros); re-running the LP on the deformed kernel reproduces c_u to 1 ulp, and dc_u/dlambda ~ -5.3e-4 means the floor RISES as lambda falls - safe direction |
+| Lesion + admissibility controls | PASS | carrying our 2piA onto their grid gives unit norm 1/2pi exactly; lambda=1, w=0.5, 8w>L each rejected | |
+| Residual, named | STATED | (i) T0 is a reference not an effective bound - four existential EvBound constants would make it effective and nothing else in the budget would; (ii) prime-side and Theorem B cited; (iii) **theta = 0.995 is measured at lambda = 1 only**, its lambda-sensitivity unmeasured (the deformation at 1 - lambda1 ~ 5e-7 is far below that measurement's resolution, but this is named, not closed); (iv) grid instruments truncated ~1/span | |
+
+Disposition: **THE TRANSFER GOES THROUGH AND THE IMPROVEMENT IS REAL AS
+A LIMINF STATEMENT - AND IT IS NOT EFFECTIVE AT ANY REACHABLE HEIGHT.**
+Both halves are the result. The source's theorem is itself a
+non-effective liminf with existential constants, so the composed
+statement is the same logical type, not a weaker one; but anyone reading
+"improvement" as "better at computable heights" would be wrong, and the
+preprint must say so. No proportion is claimed to have moved.
+
+
+## Blocker 2 NOT closed: the per-pair route is refuted (2026-08-12)
+
+Instruments: `joint_universal.py`, `test_joint_universal.py` (24 tests);
+coordinator re-ran the suite.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| **Rung 1: subadditivity at the cap level** | **FALSE** | the field-level intuition is right - `max(0, sum) <= sum max(0,.)` holds with worst violation exactly 0.0 - but it does NOT survive the square completion | joint cap / sum of single caps reaches 1.4475 (k=2) to 3.3796 (k=6) for coincident stacks at theta = 0.995; exact closed-form excess `[2 sum_{i<j} F_i F_j - (k-1)(cK)^2]/(4cK)`, defect 2.8e-17. The adversary collects k times the damage from one stack and pays the internal charge once |
+| Which half moves | **THE SQUARE COMPLETION, NOT THE BANDS** | for a coincident triple the joint band SET is identical to one pair's (shielded fraction 0.000) while m* jumps 3 -> 7 | the band set can only shrink; the occupancy grows |
+| **The decisive finding: the route could not have worked** | **PER-PAIR ARGUMENTS ARE DEAD, EITHER DIRECTION** | on a nu=1 lattice `sum cap_single` exceeds the budget from k = 3 at FLOAT grade (-0.00595) and from k = 4 at HARDENED grade (-0.03953; k = 3 fits at +0.00614) while the joint verdict closes with +40% relative margin; worst-lattice erosion 0.129/pair vs hardened surplus 0.063, so the accounting goes negative regardless of grade | no argument bounding the joint cap by a sum of single-pair caps can establish universality at theta* = 0.995, because its conclusion is false from k = 4 on at every grade. **The joint field's shielding is load-bearing.** CORRECTION (session defect #12): the original row said "from three pairs on" unconditionally - a float-grade artifact on a 2% margin, caught by re-checking at the hardened cap when asked "are you sure" |
+| Slack additivity (the coordinator assumed it) | **FALSE, AND SIGNED** | `budget(P) = sum_i slack(y_i) + sum_{i != j} T(t_i - t_j, y_i, y_j)`, reproducing PaperJoint.budget to <1e-9 | the pair term runs +8.31 (coincident) to -0.756 (nu=1 lattice, k=8); worst infinite-lattice erosion -0.1288 = 84% of one pair's slack against a single-pair surplus of only 0.0587, so even a separated-configurations version dies |
+| Rung-2 repair A: even-split lemma | **PROVEN AND USELESS** | `B(sum F_p, K) <= sum_p B(F_p, K/k)`, i.e. cap_joint <= sum cap_single at theta_k = 1 - (1-theta)/k | exact per cell, equality for equal F_p; but theta_2 = 0.9975 and the single-pair dual already fails at 0.999 |
+| Rung-2 repair B: union refinement | **ONE-SIDED THE WRONG WAY** | band maxima do not increase under refinement, but the CAP does - each sub-cell inherits the parent maximum while the cell count grows | ladder 0.08745 (62 cells) -> 0.17050 (124) -> 0.33890 (248) |
+| Rung 3: randomised adversarial search | **EVIDENCE ONLY, LABELLED** | 320 configurations, k in 2..12, jittered lattices, near-coincident clusters, mixed depths, 12-rung depth ladder, conservative instance | **0 opened the verdict**; worst relative margin +0.2749 at full resolution, and it is a two-pair configuration at 2.05 mean gaps - the sparse-lattice family that binds `paper_joint`'s own sweep, rediscovered blind. 37/320 broke rung-1 domination (worst 1.41) |
+| Planted-violation lesion | FIRES | x1 closes, x2/x4/x8 open | budget provably untouched by the lesion |
+| **The obligation, reshaped** | **ONE INEQUALITY** | with `c2 = phi^2 * phi^2` (closed form, supported [-1,1], positive inside, `int c2 = A^2` to 0.0), `E[G] = (1/A^2) int c2 \|G\|^2`, `F_on = sum_x e^{ixw}`, `F_p = sum_i 2 cosh(y_i w) e^{it_i w}` | universality <=> `E[F_on + F_p] >= theta E[F_on] + (1-theta) n + 4k` for all finite X and P. Restates the whole verdict in one variable, defect ~1e-11 on mixed configurations |
+
+Disposition: **THE COORDINATOR'S PROPOSED ROUTE IS REFUTED, AND THE
+REFUTATION IS THE RESULT.** Session defect #11: the per-pair domination
+plan was stated in the brief as the likely route and is false twice over
+- the cap is superadditive above the multiplicity threshold, and even
+where it is not, the per-pair sum exceeds the budget from three pairs
+on. Blocker 2 remains OPEN. What replaces it is better posed than what
+it replaces: a single bandlimited nonnegative-kernel inequality in two
+exponential sums, which is a target both an attack and a formalisation
+can aim at. Multi-pair universality is still a statement about a tested
+set - now 320 configurations wider, with the binding family rediscovered
+blind. No proportion is claimed to have moved.

@@ -231,3 +231,27 @@ the ledger entry "Audit follow-through" has the full record.
   budget** — worse than every swept family, 1.7× short of violation. The
   §6 obligation is unchanged; 0.5754 is now the number a uniformity proof
   has to beat.
+
+## 8. Supersession (same day, parallel sessions on main)
+
+Sessions working from this audit closed part of §6 before this branch
+merged; the ledger's three "Blocker" sections are the record. Current
+state of the §6 obligation:
+
+- **Depth uniformity: CLOSED at the single-pair layer** (hardened, not
+  kernel-checked): `depth_uniform.py`, 18 cells tiling (0, ½] with the
+  shallow end closed by homogeneity rather than by cells — the y² damage
+  scaling and the convexity of the square completion give one finite
+  inequality for an interval with no smallest point.
+- **Pair-set uniformity: still OPEN, and the per-pair route is refuted.**
+  The joint cap is superadditive above the multiplicity threshold, and
+  from four pairs on a unit lattice the per-pair sum exceeds the budget
+  while the joint verdict closes — the joint field's shielding is
+  load-bearing, exactly the corner §3 flagged. The obligation is now one
+  bandlimited nonnegative-kernel inequality in two exponential sums
+  (ledger, "Blocker 2").
+- **The asymptotic transfer is derived** (factor exactly 1) with a
+  headline caveat: the improvement is a liminf statement, not effective
+  below T ≈ 10^(1.7×10⁶).
+
+This section is a pointer, not a re-audit; grades are the ledger's.

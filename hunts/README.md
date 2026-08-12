@@ -36,6 +36,16 @@ A hunt that wants its claim to count takes it through the battery
 (`docs/doors/refute.md`) or the funnel (`docs/doors/discover.md`). Those are
 the two routes that can say "yes", and neither of them is the hunt itself.
 
+## HuntSpec (new hunts, from 2026-08-11)
+
+A hunt opened after 2026-08-11 carries a **HuntSpec** — a fenced contract
+block in its `MISSION.md` stating the question, the frontier, the dead
+routes, the non-model oracles allowed to assign truth, the kill conditions,
+and what its agents may and may not do. Format, rules and the validated
+template: `hunts/HUNTSPEC.md`. Existing hunts are not retrofitted;
+`tests/test_huntspec.py` validates any block that exists. The primitive is
+on probation — see the spec page's terms.
+
 ## The standing checklist
 
 Before a hunt's finding leaves `hunts/`, it must have survived the four

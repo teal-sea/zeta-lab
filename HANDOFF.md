@@ -52,6 +52,29 @@ a locked worktree at `.claude/worktrees/lab-direction-decision`, so a session
 may be active there. Do not merge, do not rebase it, do not delete the
 worktree.
 
+### Where the off-repo material lives
+
+Two classes of artifact are deliberately **not** in this repository, and both are
+now backed up so neither depends on one disk:
+
+- **Strategy and outside review** — the futures map (a hypothesis register for
+  what the lab could become: ten futures, four killed, each with a falsification
+  test and a promotion-or-death condition), the matched blind pair evaluating a
+  consultant's productization thesis, and the five-document E1–E3 protocol. They
+  live in `~/zeta-reviews-private/` and are captured in the operator's private
+  vault at `teal-sea/brain`, under
+  `raw/2026-08-12-zeta-lab-futures-and-reviews/` with a pointer note in
+  `inbox/`. They stay out of this repo because it is public and because
+  publishing a strategy document creates a standing incentive to write the next
+  one more flatteringly — the self-validation `meta/` exists to detect.
+- **The `conjectures/` ledger** — gitignored by design; see the note in
+  `CLAUDE.md` and `scripts/ledger_sync.sh`.
+
+If a session needs the futures map's conclusions without reading it: the
+verification asymmetry it rests on is now stated in
+`hunts/higher_xi/HPRIME-ROUTES.md` §0 and in `meta/asymmetry-experiment.md`,
+both in-repo.
+
 ### The economics, which change what to work on
 
 Verification in this laboratory costs **wall-clock, not tokens**: `lake build`
@@ -110,7 +133,7 @@ a `sorry` in it costs the arm its meaning.
 ### The prompt for the next session
 
 ```
-You are picking up Zeta Lab (/Users/thomas/Zeta) mid-project. Read, in order:
+You are picking up Zeta Lab (at your local checkout) mid-project. Read, in order:
 CLAUDE.md (binding operating rules), the top two records of HANDOFF.md, and
 hunts/higher_xi/LEAN-FRONTIER.md item 20.
 
@@ -218,6 +241,85 @@ Fast tier: 2217 passed, 1 skipped (above), 3 xfailed. The twelve
 `/private/tmp` worktrees and ten stale `codex*` branches are fully harvested
 and safe to sweep — modulo the symlink warning — but are left in place; they
 are another agent's infrastructure.
+
+---
+
+## Record: two outside memos triaged; the next three builds are decided
+## (2026-08-11)
+
+Two outside recommendation documents (a next-phase strategy memo and a
+16-programme research portfolio) are landed in `docs/reviews/`, and the full
+adopt / already-running / queue / defer / reject decision is in `ROADMAP.md`
+("The outside memos, triaged"). What a next session needs:
+
+**1. The next three infrastructure builds, in order:** (a) verifier
+independence made measurable — extend `harness/provenance.py`'s ancestry
+discipline to computations, first subject `rigor.py`'s own two-backend paths
+(shared layers already enumerated in the director-run record below);
+(b) the repository-wide guard offensive — per guard: intended lesion,
+smallest mutant, does it fire, what nearby lesions it misses; (c) HuntSpec,
+a machine-readable contract block in new hunts' `MISSION.md`, on probation
+under the dossier rule — it earns its place the first time a kill condition
+fires mechanically. None of these touch live hunt directories.
+
+**2. The queue for new mathematics lanes** (opened only as live threads
+finish, each behind a HuntSpec): the general higher-ξ hierarchy first —
+precondition: the four unmerged `agent/*` ξ branches land or close — then
+CUE F_k, the derivative-zero local process, the F₂ identification, the Weil
+explorer. The moonshot (local-to-global positivity, `docs/24` is the entry
+ledger) stays one long-horizon lane at most.
+
+**3. Do not re-litigate:** the do-not-fund list in the portfolio memo is
+adopted wholesale (it matches this file's recorded kills item for item); the
+30-agent allocation table is a priority ordering, not a headcount; and
+nothing in either memo bends the honest-scope rule.
+
+**4. The AI-implementation half (added same day):** three further adoptions
+in `ROADMAP.md` §"The AI-implementation half". (a) Proof-agent adapter with
+Harmonic's Aristotle as first backend — public API, `aristotlelib` on PyPI;
+nothing counts until *this repo's* `lake build` shows zero `sorry`s; first
+targets are bounded Sturm-track lemmas, not rung 3 (its gap is compute).
+(b) Evolutionary search (OpenEvolve/CodeEvolve-class) as a hunt instrument,
+admissible only behind a HuntSpec naming an exact non-model evaluator.
+(c) The AlphaProof Nexus public results corpus (kernel-checked Erdős/OEIS
+proofs) queued as a prior-art surface for the eventual literature scout —
+the system itself is closed, no API. Ecosystem facts were verified against
+live sources 2026-08-11, not recalled. The nightly rig (`automation/`,
+untracked, zero runs so far) is the memo's "targeted autonomous frontier
+hunt" already built; arming it is the operator's switch, and no
+proof-adapter work rides on a machine without a Lean toolchain.
+
+**5b. The proof-agent loop ran end to end, and four theorems landed** —
+Aristotle batch 1 (four graded Sturm-track lemmas) came back in ~70
+minutes, all four passed the full local contract (verbatim statements,
+refusal scan, lake build on the pinned toolchain despite the service
+generating against v4.28.0), the full library rebuilt green with them
+wired in, and they live in `lean/ZetaLean/Sturm*.lean` with
+`lean/ARISTOTLE-RUNS.md` as the ledger. Calibration verdict: bounded
+single lemmas at these grades are reliable and fast; the next batch can
+carry real Sturm-chain steps (sign-variation machinery). The operator's
+own dashboard project (`0701719a`) remains his.
+
+**5a. The second wave landed the rest of the specification** — run
+manifests (`hunts/HUNTSPEC.md`), the literature scout (`ontology/scout.py`,
+no code path to FOUND, corpora searched/missing loud), the standing
+adversarial review (`harness/review.py` + ledger: the 0.672529 kill as
+checkable exemplar, URMS2 0.51 open with both attacks missing), the
+graveyard (`harness/graveyard.py` + three transcribed graves), and the
+research-state view (`scripts/70_lab_state.py`, static, artifact-derived,
+with the attention queue). Still unbuilt with reasons: orchestration and
+steer controls (measure the loop first), the networked scout half.
+`docs/26` §6 is the record. Full fast tier green at the first-wave point
+(2271 passed); rerun after the second wave before merging.
+
+**5. Builds 1–4 landed the same day** — `harness/independence.py` (rigor
+cross-check declared: radius 3 of 5, agreement is evidence about the ball
+arithmetic alone), `harness/guards.py` + the opening five-record ledger,
+`hunts/HUNTSPEC.md` + validator, `lean/proof_adapter.py` (end-to-end once
+against the real kernel; submission half waits on ARISTOTLE_API_KEY).
+Record with honest edges: `docs/26-the-adopted-builds.md`. Alpha ecosystem
+cloned to `external/` with `.venv-tools` (openevolve, aristotlelib) —
+machine state, see `external/README.md` for the two remaining human steps.
 
 ---
 

@@ -347,7 +347,7 @@ The standing rules for such a session:
   `06_tour.py` (~90 s full story), `make_figures.py [--quick|--full]`.
   `13_discovery_run.py` is the funnel's operator console (`--dry-run`,
   `--report`).
-- `docs/` 00–22: a reading course; keep cross-references consistent with
+- `docs/` 00–26: a reading course; keep cross-references consistent with
   actual filenames (doc 05 is `05-de-bruijn-newman.md`; a bare `docs/08`
   always means `08-why-it-is-hard.md` — the detector-strength findings that
   once shared the number are `22-detector-strength-findings.md`).

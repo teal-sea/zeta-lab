@@ -27,18 +27,44 @@ weakest step — so the reading above is a **candidate**, not a theorem:
 | The composition inequality `s ≥ 2N − ‖P+Q‖²_F + D` and its θ-corollary | **kernel-checked** (Lean 4 + Mathlib, sorry-free, standard axioms only) |
 | The grid-incidence law `Σₙ φ̂(x−n)φ̂(y−n) = 2π·FT(φ²)(x−y)` | **kernel-checked** (same; ships with a counterexample showing evenness is necessary) |
 | The window identification (the paper's Theorem D profile is the MT window) | measured against the paper's own variational functional, defect 7×10⁻⁹ |
-| The retention θ = 0.995 | hardened — one-sided dual, independent adversary hunt, ball arithmetic — plus a finite certificate that closes in **pure rational arithmetic** |
-| The census floor c_u | hardened, plus an exact **rational LP dual certificate** |
+| The census floor `c_u ≥ 5.021172019×10⁻⁶` | **kernel-checked** — rational weak duality plus four bounds on the genuine MT kernel (`Real.sin`, `Real.sqrt 2`, `π`), no `native_decide`, no floats |
+| The retention certificate's arithmetic | **kernel-checked** — the recorded cover closes, with `cap` defined by the genuine band supremum, so it cannot be vacuous |
+| The retention θ = 0.995 itself | hardened — one-sided dual, independent adversary hunt, ball arithmetic; the reduction to the certificate is carried as an explicit hypothesis, not hidden |
 | Prime-side asymptotics, simple-zero density | *cited* from the source paper, not re-derived |
-| Retention uniform in the pair depth and over arbitrary pair sets | **open** — established at four sampled depths and over swept families, not uniformly; the composition's hypothesis rests on it |
-| External review | **none yet — this is the ask** |
+| External review | none yet — invited, not required |
+
+**Of the three gaps the audit named, two are now closed and one
+remains.** The retention is quantified over *all* off-line depths, not
+four samples — the shallow end, which no grid can reach, by a
+homogeneity argument rather than a finer grid. The transfer into the
+source paper's units is derived, with conversion factor exactly 1, and
+the improvement does not drown in that paper's error terms. **Still
+open:** the many-pair case.  Our own proposed route for it — bounding
+the joint cap by a sum of single-pair caps — was refuted this session:
+it fails above the multiplicity threshold, and from four pairs on (three
+at float grade) the per-pair sum already exceeds the budget while the
+joint verdict closes comfortably, so the joint field's shielding is
+load-bearing.  The
+obligation is now a single bandlimited nonnegative-kernel inequality in
+two exponential sums, which is a sharper target than what it replaced.
+
+**One caveat belongs up here rather than in a footnote.** The
+improvement is real as a liminf statement — the same logical type as the
+source's own — but it is **not numerically effective at any reachable
+height**: the crossover sits near T ≈ 10^(1.7×10⁶). That shape is
+inherited from the source's own o(1) coefficients, not introduced by us,
+and it is what an ε-improvement to a non-effective bound costs. Read
+"improvement" as a statement about the limit, not about heights anyone
+can compute.
 
 Nothing here is evidence about the Riemann Hypothesis itself and the
 laboratory claims no progress toward it; the improvement is +1.0×10⁻⁵ on
 one constant in one theorem.
 
 **The audit trail is the point.** The work is published with its failures
-attached: nine defects of our own were caught during it — a recurring
+attached: eleven defects of our own were caught during it — including a
+route this session proposed for the last open gap and then refuted with
+its own controls — a recurring
 blanket-margin artifact, a kernel-pairing conflation that forced us to
 revise our own headline downward, a quadrature under-resolution that ran a
 convergence ladder backwards, a hypothesis gap the theorem prover refuted
