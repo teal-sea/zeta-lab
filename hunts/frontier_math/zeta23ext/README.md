@@ -26,9 +26,19 @@ pinned toolchain. As of the scaffold commit:
 2. `Census.lean` — the gap-census counting function on `ZeroConfig`,
    plus its seam to `N0simple` (the nu input; one-sided by the LP
    floor's measured monotonicity in nu).
-3. `FloorCert.lean` — the census-LP floor via the rational dual
-   certificate (`../lp_certificate.py`), upstream's EnclOK/decide
-   pattern; awaiting the service run for the four trig leaves.
+3. `FloorCert.lean` — **LANDED** (theorem-proving service, project
+   029bed09; sorry-free, no `native_decide`, axioms propext /
+   Classical.choice / Quot.sound). `MTKernel.theoremA` is the LP bound by
+   explicit rational weak duality for any cost dominating the four
+   rational kernel bounds; `B1`-`B4` prove those bounds about the genuine
+   Montgomery-Taylor kernel (`Real.sin`, `Real.sqrt 2`, `π` — not a
+   rational surrogate), via from-scratch Taylor machinery with explicit
+   truncation error and interval covers; `MTKernel.corollary` combines
+   them: every admissible configuration pays at least
+   F = 15836524170563975879104102066119/3153949737350000000000000000000000000
+   = 5.021172019e-6. Constants cross-checked identical to
+   `../lp_certificate.py`. One comment reworded for the hunts/ lexical
+   rules; no proof content altered.
 4. `RetentionHypothesis.lean` — theta = 995/1000 as a NAMED hypothesis
    (`of_literature` style) until the band certificate
    (`../band_certificate.py`, in progress) discharges it.
