@@ -280,3 +280,55 @@ def test_composition_formula_is_calibrated_against_cheer_goldston():
     fl = bucket_floor(CG_NU, *CG_EDGES)
     assert abs(fl - CG_FLOOR) < 1e-7
     assert abs((2 - (MT_CONST - 2 * fl)) - CG_CONST) < 2e-7
+
+
+def test_identification_quadrature_control_and_ladder():
+    """The module's own first-run defect, kept as a control: fixed-order
+    GL fails at large arguments; the sized rule restores the 1/K ladder."""
+    from identification_seam import quadrature_order_control, truncation_ladder
+    qc = quadrature_order_control()
+    assert qc["bad_off"] > 1.0 and qc["good_off"] < 5e-3
+    lad = truncation_ladder(Ks=(300, 600))
+    assert lad[600]["unit"] < lad[300]["unit"]
+    assert lad[600]["gram"] < lad[300]["gram"]
+
+
+def test_identification_dictionary_holds():
+    """Gram = omega, u^T Q_p u = W, pair surplus = slack(y), b_p = 1."""
+    import math
+
+    from identification_seam import GridAssembly, slack_identity
+    from paper_chain import PaperChain
+    ch = PaperChain()
+    ga = GridAssembly([0.0, 2 * math.pi], [1, 1], [(math.pi, 0.49)], K=400)
+    assert ga.unit_defect() < 5e-3
+    assert ga.gram_vs_omega() < 5e-3
+    assert ga.trPQ_vs_W(ch) < 5e-3
+    for r in slack_identity(ch, ys=(0.1, 0.49), K=400):
+        assert r["defect"] < 5e-3 and r["b"] == 1
+        assert abs(r["tr"] - 2.0) < 5e-3
+
+
+def test_identification_cross_terms_are_negative_but_covered():
+    """The measured hole-candidate: pair-pair cross traces are negative;
+    the 4 tr Q_p - 4 b_p = 4-per-pair cushion covers them by orders."""
+    import math
+
+    from identification_seam import GridAssembly
+    ga = GridAssembly([k * 2 * math.pi for k in range(5)], [1] * 5,
+                      [(math.pi, 0.49), (math.pi + 6.406, 0.49)], K=400)
+    c = ga.cross_total()
+    terms = ga.pair_terms()
+    cushion = sum(4 * t["tr"] - 4 * t["b"] for t in terms)
+    assert c < 0
+    assert cushion + c > 0.9 * cushion
+
+
+def test_identification_end_to_end_gross_and_sharp():
+    from identification_seam import end_to_end
+    rows = end_to_end(theta=0.995, K=400)
+    assert all(r["holds"] for r in rows)
+    assert all(r["sharp_holds"] for r in rows)
+    # the adversarial placements must actually bite (positive damage)
+    adv = [r for r in rows if r["name"].startswith("ADV")]
+    assert adv and all(r["damage"] > 0 for r in adv)

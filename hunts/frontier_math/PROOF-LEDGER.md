@@ -550,3 +550,25 @@ Disposition: **THE UNITS SEAM'S ANALYTIC CORE IS CLOSED, AND THE PROVER
 CAUGHT A MISSING HYPOTHESIS IN OUR SUBMISSION.** The evenness
 counterexample joins the session's defect list. Seam (ii) remains. No
 proportion is claimed to have moved.
+
+
+## Seam (ii): the identification (2026-08-12)
+
+Instrument: `identification_seam.py`; 4 controls in
+`test_transplant_lemma.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Gram = omega under LAW D normalisation | MEASURED | unit norms 2 pi A; truncation ~1/K | defect 4.4e-4 at K=1200, ladder decreasing |
+| u^T Q_p u = W (the dual bounds -2 tr PQ) | MEASURED | transpose pair convention | worst defect 5.4e-5 |
+| Pair surplus = slack(y) | MEASURED | tr Q_p = 2, b_p = 1 measured | defects 2e-6..6e-4 across depths |
+| Pair-pair cross terms | **NEGATIVE, COVERED** | 4-per-pair cushion (4 tr Q_p - 4 b_p) | cross -0.066..-0.342 vs cushion 4p; recorded |
+| End-to-end gross: D >= theta*R | HOLDS (all 11 configs) | direct matrix assembly | including field-derived adversarial placements |
+| End-to-end sharp: damage <= (1-theta)R + slack | HOLDS (all 11) | the dual's statement on explicit matrices | worst adversarial damage +0.0796 < hardened cap 0.0907 < budget 0.1534 |
+| First-run quadrature defect | CAUGHT, KEPT AS CONTROL | fixed GL order fails beyond \|x\| ~ 150 | ladder ran backwards; sized rule restores 1/K |
+| Remaining | BOOKKEEPING-GRADE | R >= R0 census (nu at the paper window), (P)-side o(N) units, T4 | named, open |
+
+Disposition: **THE DICTIONARY IS MEASURED AND THE LAST HOLE-CANDIDATE
+(NEGATIVE CROSS TERMS) IS FOUND AND COVERED.** The dual's verdict now
+IS the corollary's hypothesis over the swept scope. Candidate
+unchanged at 0.6725106958. No proportion is claimed to have moved.

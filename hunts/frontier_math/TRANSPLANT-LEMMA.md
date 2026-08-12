@@ -697,3 +697,58 @@ the chain's 2 pi Phi2(0) normalisation, plus the finite-truncation
 accounting already measured).  Seam (ii) — the dual's cap as the
 statement D >= theta * R0 — is unchanged and is the next piece of work.
 No proportion is claimed.
+
+
+## Seam (ii): the identification, derived and measured
+
+Instrument: `identification_seam.py` (coordinator-built); controls
+appended to `test_transplant_lemma.py` (4 tests).
+
+The dictionary between the band dual and the kernel-checked composition
+hypothesis D >= theta*R0, term by term, each measured on explicit
+truncated-grid matrices at the paper field (never dense - all low-rank
+inner products):
+
+1. **Gram = omega.**  With LAW D normalisation (unit norms via
+   2 pi A), <u_i, u_j> = Phi2(dx)/A: defect 4.4e-4 at K = 1200,
+   shrinking 1/K.  So R = sum m_i m_j omega^2 - the chain's retained
+   mass in the chain's kernel.
+2. **The pair trace is the W field.**  u^T Q_p u = W(x - t, y) to
+   5.4e-5: the dual's damage field IS -2 tr(PQ) per unit multiplicity.
+3. **The pair surplus is slack(y).**  ||Q_p||_F^2 - (4 tr Q_p - 4 b_p)
+   = 8 sigma^2 + 8 sigma^4 to 2e-6..6e-4 (truncation), with tr Q_p =
+   1.9982 ~ 2 and b_p = 1 measured, not assumed.
+4. **Cross terms are NEGATIVE - measured, and covered.**  tr(Q_p Q_p')
+   summed over p != p' is negative in every multi-pair configuration
+   (-0.066 to -0.342).  This was the last place a hole could hide: the
+   composition needs ||Q||_F^2 whole, and the per-pair budget does not
+   include cross terms.  They are covered - by orders - by the
+   4 tr Q_p - 4 b_p = 4-per-pair cushion that the composition keeps and
+   the paper's (L) would have consumed.  Recorded, not waved at.
+
+End-to-end, gross and sharp, at theta = 0.995 over the binding families
+plus adversarial placements derived from the field itself (on-line
+points AT the damage minima, where total damage is positive and the
+inequality actually bites): D >= theta*R holds everywhere, and the
+sharp form damage <= (1-theta)R + sum slack_p holds everywhere, with
+the worst adversarial damage +0.0796 (double zeros at the first
+minimum) against budget 0.1534 - coherent with the hardened dual's cap
+0.0907 at the same depth, which sits between the measured adversary and
+the budget exactly as a one-sided cap should.
+
+The module's own first run had a defect, kept as a control: fixed-order
+Gauss-Legendre cannot resolve e^{ixu} beyond |x| ~ 150, and the
+truncation ladder ran BACKWARDS.  The argument-sized rule restores the
+1/K law; `quadrature_order_control` measures both.
+
+**What the identification does and does not close.**  The dual's
+verdict now translates, through measured identities, into exactly the
+hypothesis the kernel-checked corollary consumes, over the dual's
+swept families and with the joint layer's one-sided completeness.
+Remaining, named: the R >= R0 census step (the CG-LP floor under the
+gap constraints, instrumented in `kernel_pairing.py`; its nu input at
+the paper window is the standing census conversion), the asymptotic
+o(N) bookkeeping of the paper's (P) side against these finite-grid
+units, and T4's taper/truncation one-sidedness.  The candidate
+0.6725106958 stays a candidate; the seam list is now bookkeeping-grade
+rather than derivation-grade.  No proportion is claimed.
