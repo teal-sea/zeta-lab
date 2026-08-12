@@ -39,8 +39,13 @@ four samples — the shallow end, which no grid can reach, by a
 homogeneity argument rather than a finer grid. The transfer into the
 source paper's units is derived, with conversion factor exactly 1, and
 the improvement does not drown in that paper's error terms. **Still
-open:** the many-pair case is swept over configuration families rather
-than quantified over all configurations.
+open:** the many-pair case.  Our own proposed route for it — bounding
+the joint cap by a sum of single-pair caps — was refuted this session:
+it fails above the multiplicity threshold, and from three pairs on the
+per-pair sum already exceeds the budget while the joint verdict closes
+comfortably, so the joint field's shielding is load-bearing.  The
+obligation is now a single bandlimited nonnegative-kernel inequality in
+two exponential sums, which is a sharper target than what it replaced.
 
 **One caveat belongs up here rather than in a footnote.** The
 improvement is real as a liminf statement — the same logical type as the
@@ -56,7 +61,9 @@ laboratory claims no progress toward it; the improvement is +1.0×10⁻⁵ on
 one constant in one theorem.
 
 **The audit trail is the point.** The work is published with its failures
-attached: nine defects of our own were caught during it — a recurring
+attached: eleven defects of our own were caught during it — including a
+route this session proposed for the last open gap and then refuted with
+its own controls — a recurring
 blanket-margin artifact, a kernel-pairing conflation that forced us to
 revise our own headline downward, a quadrature under-resolution that ran a
 convergence ladder backwards, a hypothesis gap the theorem prover refuted

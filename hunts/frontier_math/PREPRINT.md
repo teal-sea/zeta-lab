@@ -50,12 +50,34 @@ an unresolved transfer — not a request for anyone's blessing:
    The machinery to close it exists in this repository at an earlier
    window (`counting_bound.py` quantifies over depth *cells* rather
    than points) and is being ported.
-2. **Multi-pair universality.**  The joint (many-pair) verdict is
-   established by sweeping configuration families, not over all
-   configurations.  The likely route is per-pair domination — damage is
-   additive across pairs before the positive-part clipping, and
-   `max(0, Σ) ≤ Σ max(0, ·)` — against a per-pair-additive slack
-   budget, but that argument is not yet written.
+2. **Multi-pair universality — OPEN, and the obvious route is now
+   refuted.**  The joint verdict is established over a tested set of
+   configurations (320 randomised ones opened nothing, and the search
+   rediscovered the binding family blind), not over all of them.  We
+   proposed closing it by per-pair domination: damage is additive across
+   pairs before the positive-part clipping, so `max(0, Σ) ≤ Σ max(0, ·)`
+   should push the joint cap under a sum of single-pair caps.  That is
+   false twice over.  The field-level inequality holds exactly, but does
+   not survive the square completion — a coincident stack collects k
+   times the damage while paying the internal charge once, with excess
+   `[2Σ_{i<j}F_iF_j − (k−1)(cK)²]/(4cK)` — and, decisively, from three
+   pairs on a unit lattice the *sum of single-pair caps already exceeds
+   the budget* while the joint verdict closes with 40 % margin.  The
+   joint field's shielding is load-bearing, so no per-pair argument can
+   reach θ = 0.995 in either direction.  The slack we assumed additive
+   is not: its pair term is signed and erodes up to 84 % of a pair's
+   slack.
+   What replaces the obligation is better posed than what it replaces.
+   With `c₂ = φ²∗φ²` (closed form, supported in [−1,1], positive
+   inside), `E[G] = A⁻²∫c₂|G|²`, `F_on(w) = Σ_x e^{ixw}` and
+   `F_p(w) = Σ_i 2cosh(y_i w)e^{it_i w}`, the entire verdict is one
+   inequality:
+
+       E[F_on + F_p]  ≥  θ·E[F_on] + (1−θ)·n + 4k,
+
+   for all finite on-line sets and pair configurations — a bandlimited
+   nonnegative-kernel statement in two exponential sums.  That is the
+   remaining mathematics.
 3. ~~**The finite-grid → asymptotic transfer.**~~  **RESOLVED**, with a
    caveat that belongs in the headline rather than a footnote.  The
    dictionary into the source's units is derived and the conversion
