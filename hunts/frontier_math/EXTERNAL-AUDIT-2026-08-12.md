@@ -214,3 +214,20 @@ follow from the source paper's theorems.
 The rest of the outstanding work — the units seam, the unit-vector
 hypothesis, the Lean leaves for the four kernel minima, the multi-pair rows
 in the battery — is bookkeeping and mechanisation, not discovery.
+
+## 7. Follow-through (same day)
+
+Both instrument defects are repaired and the untested corner is measured;
+the ledger entry "Audit follow-through" has the full record.
+
+- **Finding A**: the cross term is on the left of the sharp row and three
+  joint-minima rows are in the battery; all 14 rows hold.
+- **Finding B**: `PaperBandDual.for_depth` resolves shallow depths (the
+  y = 5e-4 ratio moves 1.436 → 0.5088) and the empty-band silent pass now
+  reports undecided.
+- **The co-optimizing adversary** (`coopt_adversary.py`): 57 restarts
+  choosing pair positions, depths, on-line points and multiplicities
+  together find no violation; the engaged worst case reaches **0.5754 of
+  budget** — worse than every swept family, 1.7× short of violation. The
+  §6 obligation is unchanged; 0.5754 is now the number a uniformity proof
+  has to beat.
