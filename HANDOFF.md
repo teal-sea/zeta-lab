@@ -52,6 +52,29 @@ a locked worktree at `.claude/worktrees/lab-direction-decision`, so a session
 may be active there. Do not merge, do not rebase it, do not delete the
 worktree.
 
+### Where the off-repo material lives
+
+Two classes of artifact are deliberately **not** in this repository, and both are
+now backed up so neither depends on one disk:
+
+- **Strategy and outside review** — the futures map (a hypothesis register for
+  what the lab could become: ten futures, four killed, each with a falsification
+  test and a promotion-or-death condition), the matched blind pair evaluating a
+  consultant's productization thesis, and the five-document E1–E3 protocol. They
+  live in `~/zeta-reviews-private/` and are captured in the operator's private
+  vault at `teal-sea/brain`, under
+  `raw/2026-08-12-zeta-lab-futures-and-reviews/` with a pointer note in
+  `inbox/`. They stay out of this repo because it is public and because
+  publishing a strategy document creates a standing incentive to write the next
+  one more flatteringly — the self-validation `meta/` exists to detect.
+- **The `conjectures/` ledger** — gitignored by design; see the note in
+  `CLAUDE.md` and `scripts/ledger_sync.sh`.
+
+If a session needs the futures map's conclusions without reading it: the
+verification asymmetry it rests on is now stated in
+`hunts/higher_xi/HPRIME-ROUTES.md` §0 and in `meta/asymmetry-experiment.md`,
+both in-repo.
+
 ### The economics, which change what to work on
 
 Verification in this laboratory costs **wall-clock, not tokens**: `lake build`
