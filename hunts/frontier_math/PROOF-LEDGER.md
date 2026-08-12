@@ -945,3 +945,34 @@ the resonance and at the budget floor. What the formal artifact adds is
 that the estimate can now be cited rather than measured, and that the
 Poisson route the audit recommended over a sorried dependency worked
 exactly as predicted. No proportion is claimed to have moved.
+
+
+## E-form retry: the first all-n result, and why it does not yet apply (2026-08-12)
+
+Instrument: `zeta23ext/Zeta23Ext/EForm2/` (theorem-proving service,
+project 8f2e43b0, 1h43m; 7 modules, 1570 lines, sorry-free, no
+native_decide, standard axioms only). The submission quoted the earlier
+attempt's own stated obstruction back to it and supplied the two
+ingredients it named as missing.
+
+| Obligation | Status | Evidence |
+|---|---|---|
+| Exact reduction | **KERNEL-CHECKED** | `retention_gap`: an exact identity for the gap, for every n, configuration, shift and depth |
+| Clean sufficient condition | **KERNEL-CHECKED** | `retention_of_damage`: the inequality holds once the total damage sum_j Qim(y, x_j - t)^2 is at most 2 A Shq(y) |
+| n <= 3, improved | **KERNEL-CHECKED** | `retention_le_three` now needs **no** hypothesis on the configuration and **no** restriction on y - the earlier attempt's y <= 1/2 turned out unnecessary |
+| **All n under separation** | **KERNEL-CHECKED** | `retention_separated`: the inequality for EVERY n, every t, every y in (0, 1/2], provided the on-line points satisfy x_i + delta <= x_{i+1} with **delta >= 26**. This is the first all-n result of the chain |
+| The far-field ingredient, as formalised | DELIVERED | `Qim_far`: \|Qim y s\| <= (14/5) y/\|s\| by one integration by parts; with Shq y >= y^2/16 this gives Qim^2 <= (3136/25) Shq(y)/s^2. **Measuring the damage against the slack rather than an absolute C/s^2 is what makes the summation close** - a better idea than the one we supplied |
+| The repulsion ingredient, as formalised | DELIVERED | `Counting.lean`: a weight bounded by K and by C/s_i^2 over delta-separated offsets sums to at most 2K + (10/3) C/delta^2, using sum 1/k^2 <= 5/3 and that at most two offsets sit nearest the origin |
+| **THE CAVEAT THAT MATTERS** | **delta >= 26 grid units = 4.14 MEAN GAPS** | real on-line zeros have mean spacing of exactly one mean gap by construction, so the hypothesis wants configurations **4.1x sparser than actual zeros**. `retention_separated` is a genuine all-n theorem about a class our application does not live in |
+| Why it stops there, in its own words | STATED | with the uniform damage constant kappa = (A + 27/100)/2 ~ 0.594 the uniform argument stops at n <= 2A/kappa ~ 3.09; the far-field bound only beats the uniform bound for \|s\| >~ 17 (= 2.71 mean gaps); and the repulsion term of the exact reduction is not large enough at these constants to pay for a fourth point |
+| Refutation | NONE CLAIMED | |
+
+Disposition: **A REAL ADVANCE IN FORM, NOT YET IN REACH.** The chain now
+has an all-n theorem and a clean sufficient condition, and the far-field
+idea it invented - measuring damage against the slack rather than an
+absolute constant - is better than the one supplied to it. But the
+separation constant is 4.14 mean gaps against real spacing of one, so
+the theorem does not yet cover the configurations the application needs.
+The quantitative gap is now explicit and small in shape: bring delta
+from 26 down toward 6.28, or handle the near-field cluster separately.
+No proportion is claimed to have moved.
