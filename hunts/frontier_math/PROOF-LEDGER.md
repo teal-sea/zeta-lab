@@ -279,3 +279,24 @@ the binding configurations now arb-hardened, the road to it runs through
 pair-side placement freeness and the transplant lemma (plus the
 mechanical full-sweep hardening), in that order. No proportion is
 claimed.
+
+
+## The transplant lemma dissected (2026-08-12, branch claude/transplant-lemma)
+
+Full account: `TRANSPLANT-LEMMA.md`; instrument `transplant_lemma.py`;
+controls `test_transplant_lemma.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Direct floor at the hunt kernel | **DEAD, measured** | omega(L=8) zeros arithmetic to 1e-4 — the floor's own lesion condition | bucket LP floor = 0.00e+00 exactly; ratios 1 : 2.0001 : 3.0003 |
+| Direct floor at the Hann grid kernel | **DEAD EXACTLY** | 2 lambda_1 = lambda_4 (zeros 6pi, 8pi, 10pi, 12pi) | 2 lambda_1 - lambda_4 = -5e-13; LAW D there is alias-free (defect 3.7e-8) |
+| The MT kernel identified | DELIVERED (exact) | g_MT = normalised (FT of cos(sqrt2 t) width-1 box)^2 | identity defect 2.5e-16; the sqrt2 modulation is the unique non-degeneracy of the three |
+| The lemma decomposed | DELIVERED | no kernel comparison needed — the chain moves to the floor's own kernel | T1 chain re-run at the MT window (alias defect 0.53% to carry one-sidedly), T2 census (measured consistent: damage band at 1.10-1.12 mean gaps ~ lambda_1), T3 plumbing (calibrated), T4 taper/truncation, T5 the upstream Lean window pin (external) |
+| MT-window entry card | MEASURED | Phi2_mt closed form | minW/sigma^2 = -0.40..-0.43 vs the hunt's -(1+m0) = -1.21: 3x friendlier; sigma^2(0.49) = 0.0175 |
+| Candidate status | UNCHANGED | all of the above | the reading 0.6725009045 stays a candidate; the "incomparable kernels" failure mode is eliminated, the "floor dies at the paper's kernel" risk is now a measured fact with the MT modulation as the unique escape |
+
+Disposition: **THE TRANSPLANT LEMMA IS NOT AN INEQUALITY — IT IS A
+RE-RUN.** The critical path to the decimal is now: T1 (the retention
+chain at the MT window, compute with existing machinery), then T5 (pin
+the upstream zero-side window in the external Lean file). No proportion
+is claimed.
