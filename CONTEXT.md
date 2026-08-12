@@ -820,6 +820,15 @@ Constants: `MAX_HITS_PER_CORPUS`, `DEFAULT_CORPORA`
 - `class LocalCorpusBackend` — The scout as a :func:`ontology.knownness.check_literature` backend.
 - `search_corpora(terms, corpora: tuple[CorpusSpec, ...] = DEFAULT_CORPORA) -> ScoutReport` — Search every available corpus for files containing *all* terms.
 
+### `ontology/scout_online.py` — ``ontology.scout_online`` — the scout's networked half: OEIS and arXiv.
+
+*263 lines*
+
+Constants: `MIN_SEQUENCE_TERMS`
+
+- `class OeisBackend` — OEIS, with ``FOUND`` reserved for content-verified sequence matches.
+- `class ArxivBackend` — arXiv as a lead generator. It has no route to ``FOUND`` on purpose.
+
 ### `ontology/domains/zeta_domain.py` — ontology.domains.zeta_domain — the only module that knows what is studied.
 
 *3617 lines*
@@ -1255,7 +1264,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1667 test functions across 62 files (the collected count differs where tests are parametrised):
+1678 test functions across 63 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_claim_attribution.py` — 6
@@ -1311,6 +1320,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_rogue_lab_controls.py` — 7
 - `tests/test_rung3_mirror.py` — 9
 - `tests/test_scout.py` — 12
+- `tests/test_scout_online.py` — 11
 - `tests/test_script_13_discovery_run.py` — 33
 - `tests/test_script_14_moment_experiment.py` — 26
 - `tests/test_spectral_gate.py` — 14

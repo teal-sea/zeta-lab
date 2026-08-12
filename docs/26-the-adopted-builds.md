@@ -178,13 +178,25 @@ specification landed in a second wave:
   graves, and reviews missing an attack, rendered as the human-decision
   worklist.
 
-Still deliberately unbuilt from the specification, with reasons standing:
-durable orchestration and start/pause/steer controls (the memo's own build
-order puts them behind everything above, and `meta/`'s rule — measure the
-loop before automating it — has not been satisfied by a single measured
-loop yet), and the networked half of the literature scout (OEIS, arXiv,
-zbMATH need a network session; the local-corpus half is the part that
-collides with primary documents offline).
+The scout's networked half landed the same night, after the operator
+correctly refused "needs a network session" as an excuse from a session
+that had one (`ontology/scout_online.py`): an OEIS backend where `FOUND`
+is reserved for digit-for-digit content confirmation with a citable
+A-number — the one place a machine may assert prior art on its own,
+because the match is verified against returned content, not against words
+— and an arXiv backend that is structurally a lead generator (an AST test
+pins that its source never touches `FOUND`). A query that never reaches
+the service returns `UNKNOWN` with `online=False` and the error named.
+Verified live against both services: the Fibonacci probe came back
+`FOUND https://oeis.org/A000045`, and the live check stays in the suite
+as a slow test that skips where the network does not answer.
+
+Still deliberately unbuilt from the specification, with the reason
+standing: durable orchestration and start/pause/steer controls — the
+memo's own build order puts them behind everything above, and `meta/`'s
+rule (measure the loop before automating it) has not been satisfied by a
+single measured loop yet. zbMATH/MathSciNet need credentials the lab does
+not have; they stay named as absent rather than pretended at.
 
 ## What this document does not claim
 
