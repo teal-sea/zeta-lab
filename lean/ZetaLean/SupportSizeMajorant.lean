@@ -14,9 +14,9 @@ for its later support-size summation.
 
 The exact finite sum uses `matchingCount`.  The envelope has successive ratio
 `O(1/r)` and remains summable after multiplication by any fixed exponential
-weight.  Connecting the exact sum to the envelope requires the local rooted
-matching-weight estimate from the analytic cluster expansion; that estimate,
-the prime-simplex asymptotic, and RAMS2 are not asserted here.
+weight.  The exact coefficient is bounded by this envelope on the positive
+support-size range.  The prime-simplex asymptotic and RAMS2 are not asserted
+here.
 -/
 
 namespace ZetaLean.HigherXi
@@ -52,6 +52,13 @@ theorem exactSupportSizeCoefficient_nonneg (r : ℕ) :
   unfold exactSupportSizeCoefficient
   positivity
 
+/-- The literal natural-number formula has a spurious value at support size
+zero because both occurrences of `r - 1` are truncated.  Support sizes in the
+cluster expansion start at one. -/
+theorem exactSupportSizeCoefficient_zero : exactSupportSizeCoefficient 0 = 1 := by
+  norm_num [exactSupportSizeCoefficient, rootedMatchingSum,
+    rootedMatchingSummand, matchingCount, pairingCount]
+
 /-- The first exact coefficient is the section-6 value `4`. -/
 theorem exactSupportSizeCoefficient_one : exactSupportSizeCoefficient 1 = 4 := by
   norm_num [exactSupportSizeCoefficient, rootedMatchingSum,
@@ -80,6 +87,123 @@ theorem rootedMatchingSummand_eq_factorial_div {r a : ℕ} (h : 2 * a ≤ r) :
   rw [rootedMatchingSummand, matchingCount_cast_eq_factorial_div h]
   field_simp
   ring
+
+private theorem factorial_segment_le_pow_mul {r a : ℕ}
+    (hr : 1 ≤ r) (ha : 2 * a ≤ r) :
+    r * (r - a - 1).factorial ≤ r ^ a * (r - 2 * a).factorial := by
+  rcases a with _ | a
+  · simpa using (Nat.mul_factorial_pred (n := r) (by omega)).le
+  have hadd : r - 2 * (a + 1) + a = r - (a + 1) - 1 := by omega
+  have hfac := Nat.factorial_mul_ascFactorial (r - 2 * (a + 1)) a
+  rw [hadd] at hfac
+  have hasc : (r - 2 * (a + 1) + 1).ascFactorial a ≤ r ^ a := by
+    calc
+      (r - 2 * (a + 1) + 1).ascFactorial a ≤
+          (r - 2 * (a + 1) + a) ^ a :=
+        Nat.ascFactorial_le_pow_add (r - 2 * (a + 1)) a
+      _ ≤ r ^ a := Nat.pow_le_pow_left (by omega) a
+  calc
+    r * (r - (a + 1) - 1).factorial =
+        r * ((r - 2 * (a + 1)).factorial *
+          (r - 2 * (a + 1) + 1).ascFactorial a) := by rw [hfac]
+    _ ≤ r * ((r - 2 * (a + 1)).factorial * r ^ a) := by gcongr
+    _ = r ^ (a + 1) * (r - 2 * (a + 1)).factorial := by
+      rw [pow_succ]
+      ring
+
+/-- Each exact matching summand is dominated by the corresponding exponential
+series term. -/
+theorem rootedMatchingSummand_le_expSeriesTerm {r a : ℕ}
+    (hr : 1 ≤ r) (ha : 2 * a ≤ r) :
+    rootedMatchingSummand r a ≤
+      ((r - 1).factorial : ℝ) * ((r : ℝ) / 4) ^ a /
+        (a.factorial : ℝ) := by
+  rw [rootedMatchingSummand_eq_factorial_div ha]
+  have hsegment :
+      (r : ℝ) * ((r - a - 1).factorial : ℝ) ≤
+        (r : ℝ) ^ a * ((r - 2 * a).factorial : ℝ) := by
+    exact_mod_cast factorial_segment_le_pow_mul hr ha
+  have hrfac : (r.factorial : ℝ) =
+      (r : ℝ) * ((r - 1).factorial : ℝ) := by
+    exact_mod_cast (Nat.mul_factorial_pred (n := r) (by omega)).symm
+  rw [hrfac]
+  have hden : 0 < (2 : ℝ) ^ (2 * a) * (a.factorial : ℝ) *
+      ((r - 2 * a).factorial : ℝ) := by positivity
+  rw [div_le_iff₀ hden]
+  calc
+    ((r : ℝ) * (r - 1).factorial) * (r - a - 1).factorial ≤
+        (r - 1).factorial *
+          ((r : ℝ) ^ a * (r - 2 * a).factorial) := by
+      nlinarith [show (0 : ℝ) ≤ ((r - 1).factorial : ℝ) by positivity]
+    _ = (((r - 1).factorial : ℝ) * ((r : ℝ) / 4) ^ a /
+          (a.factorial : ℝ)) *
+        ((2 : ℝ) ^ (2 * a) * (a.factorial : ℝ) *
+          ((r - 2 * a).factorial : ℝ)) := by
+      rw [div_pow]
+      field_simp
+      rw [show (2 : ℝ) ^ (2 * a) = 4 ^ a by
+        norm_num [mul_comm a 2, pow_mul]]
+
+/-- Exponential-series bound for the exact finite rooted matching sum. -/
+theorem rootedMatchingSum_le_factorial_mul_exp {r : ℕ} (hr : 1 ≤ r) :
+    rootedMatchingSum r ≤
+      ((r - 1).factorial : ℝ) * Real.exp ((r : ℝ) / 4) := by
+  unfold rootedMatchingSum
+  calc
+    ∑ a ∈ Finset.range (r / 2 + 1), rootedMatchingSummand r a ≤
+        ∑ a ∈ Finset.range (r / 2 + 1),
+          ((r - 1).factorial : ℝ) * ((r : ℝ) / 4) ^ a /
+            (a.factorial : ℝ) := by
+      apply Finset.sum_le_sum
+      intro a ha
+      apply rootedMatchingSummand_le_expSeriesTerm hr
+      simp only [Finset.mem_range] at ha
+      omega
+    _ = ((r - 1).factorial : ℝ) *
+        ∑ a ∈ Finset.range (r / 2 + 1),
+          ((r : ℝ) / 4) ^ a / (a.factorial : ℝ) := by
+      rw [Finset.mul_sum]
+      apply Finset.sum_congr rfl
+      intro a _
+      ring
+    _ ≤ ((r - 1).factorial : ℝ) * Real.exp ((r : ℝ) / 4) := by
+      gcongr
+      exact Real.sum_le_exp_of_nonneg (by positivity) _
+
+private theorem exp_half_le_two : Real.exp ((1 : ℝ) / 2) ≤ 2 := by
+  calc
+    Real.exp ((1 : ℝ) / 2) ≤ 1 / (1 - (1 : ℝ) / 2) :=
+      Real.exp_bound_div_one_sub_of_interval (by norm_num) (by norm_num)
+    _ = 2 := by norm_num
+
+/-- Squared form of the rooted matching sum bound, with the exponential
+constant replaced by the arithmetic bound `2^r`. -/
+theorem rootedMatchingSum_sq_le_two_pow_mul_factorial_sq {r : ℕ}
+    (hr : 1 ≤ r) :
+    rootedMatchingSum r ^ 2 ≤
+      (2 : ℝ) ^ r * ((r - 1).factorial : ℝ) ^ 2 := by
+  have hsum := rootedMatchingSum_le_factorial_mul_exp hr
+  have hsq : rootedMatchingSum r ^ 2 ≤
+      (((r - 1).factorial : ℝ) * Real.exp ((r : ℝ) / 4)) ^ 2 := by
+    gcongr
+    exact rootedMatchingSum_nonneg r
+  have hexp : Real.exp ((r : ℝ) / 2) ≤ (2 : ℝ) ^ r := by
+    calc
+      Real.exp ((r : ℝ) / 2) = Real.exp ((1 : ℝ) / 2) ^ r := by
+        rw [← Real.exp_nat_mul]
+        congr 1
+        ring
+      _ ≤ (2 : ℝ) ^ r :=
+        pow_le_pow_left₀ (Real.exp_nonneg _) exp_half_le_two r
+  calc
+    rootedMatchingSum r ^ 2 ≤
+        (((r - 1).factorial : ℝ) * Real.exp ((r : ℝ) / 4)) ^ 2 := hsq
+    _ = ((r - 1).factorial : ℝ) ^ 2 * Real.exp ((r : ℝ) / 2) := by
+      rw [mul_pow, ← Real.exp_nat_mul]
+      congr 1
+      ring_nf
+    _ ≤ ((r - 1).factorial : ℝ) ^ 2 * (2 : ℝ) ^ r := by gcongr
+    _ = (2 : ℝ) ^ r * ((r - 1).factorial : ℝ) ^ 2 := by ring
 
 /-! ## A summable factorial-denominator envelope -/
 
@@ -165,6 +289,30 @@ theorem supportSizeFactorialMajorant_le_pow_div_factorial
       mul_le_mul_of_nonneg_left hfac'' (by positivity)
     _ = 8 ^ r * (r * (2 * r - 1).factorial) := rfl
 
+/-- Exact comparison of the arithmetic support-size coefficient with the
+factorial envelope on its natural positive-support domain. -/
+theorem exactSupportSizeCoefficient_le_supportSizeFactorialMajorant
+    {r : ℕ} (hr : 1 ≤ r) :
+    exactSupportSizeCoefficient r ≤ supportSizeFactorialMajorant r := by
+  have hsq := rootedMatchingSum_sq_le_two_pow_mul_factorial_sq hr
+  have hrfac : (r.factorial : ℝ) =
+      (r : ℝ) * ((r - 1).factorial : ℝ) := by
+    exact_mod_cast (Nat.mul_factorial_pred (n := r) (by omega)).symm
+  unfold exactSupportSizeCoefficient supportSizeFactorialMajorant
+  rw [hrfac]
+  calc
+    (4 : ℝ) ^ r * rootedMatchingSum r ^ 2 /
+          ((r * (r - 1).factorial) * (2 * r - 1).factorial) ≤
+        (4 : ℝ) ^ r *
+            ((2 : ℝ) ^ r * ((r - 1).factorial : ℝ) ^ 2) /
+          ((r * (r - 1).factorial) * (2 * r - 1).factorial) := by
+      gcongr
+    _ = (8 : ℝ) ^ r * ((r - 1).factorial : ℝ) /
+          (r * (2 * r - 1).factorial) := by
+      field_simp
+      rw [← mul_pow]
+      norm_num
+
 /-- The support-size envelope remains summable after every fixed exponential
 weight.  This is the usable order-uniform support-size conclusion; it is
 independent of any prime-simplex estimate. -/
@@ -184,20 +332,25 @@ theorem summable_supportSizeFactorialMajorant_mul_pow (K : ℝ) :
         exact supportSizeFactorialMajorant_le_pow_div_factorial (by omega)
       _ = (8 * |K|) ^ (r + 1) / ((r + 1).factorial : ℝ) := by ring
 
-/-- Once the remaining arithmetic comparison from the exact coefficient to
-the factorial envelope is supplied, the exact support-size series is summable
-for every fixed exponential weight.  The comparison is deliberately visible
-as a hypothesis. -/
-theorem summable_exactSupportSizeCoefficient_mul_pow_of_le
-    (K : ℝ)
-    (hmajorant : ∀ r, exactSupportSizeCoefficient r ≤
-      supportSizeFactorialMajorant r) :
-    Summable (fun r : ℕ ↦ exactSupportSizeCoefficient r * K ^ r) := by
+/-- On the correct positive-support indexing, the exact coefficient remains
+summable after every fixed exponential weight. -/
+theorem summable_exactSupportSizeCoefficient_mul_pow_positive (K : ℝ) :
+    Summable (fun n : ℕ ↦
+      exactSupportSizeCoefficient (n + 1) * K ^ (n + 1)) := by
   apply Summable.of_norm_bounded
-    (summable_supportSizeFactorialMajorant_mul_pow |K|)
-  intro r
+    ((summable_nat_add_iff 1).2
+      (summable_supportSizeFactorialMajorant_mul_pow |K|))
+  intro n
   rw [Real.norm_eq_abs, abs_mul, abs_pow,
-    abs_of_nonneg (exactSupportSizeCoefficient_nonneg r)]
-  exact mul_le_mul_of_nonneg_right (hmajorant r) (by positivity)
+    abs_of_nonneg (exactSupportSizeCoefficient_nonneg (n + 1))]
+  exact mul_le_mul_of_nonneg_right
+    (exactSupportSizeCoefficient_le_supportSizeFactorialMajorant (by omega))
+    (by positivity)
+
+/-- Adding the single formal `r = 0` term does not affect summability. -/
+theorem summable_exactSupportSizeCoefficient_mul_pow (K : ℝ) :
+    Summable (fun r : ℕ ↦ exactSupportSizeCoefficient r * K ^ r) := by
+  exact (summable_nat_add_iff 1).1
+    (summable_exactSupportSizeCoefficient_mul_pow_positive K)
 
 end ZetaLean.HigherXi
