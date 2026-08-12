@@ -34,8 +34,9 @@ Mathlib for this package):
 | `FloorCert.lean` | fails | line 82 (`ring_nf` no progress) |
 | `BandCert/Leaves.lean` | fails | line 144 (type mismatch after simp) |
 
-The remaining `BandCert/` modules are downstream of `Leaves` and were not
-reached. The correction to the pin note below: this package's
+The `BandCert/` imports form a single chain (Iv → Leaves → Phi → Check →
+Cap → Data → Verify → Main): `Iv`, upstream of `Leaves`, built clean; the
+six modules downstream of `Leaves` were not reached. The correction to the pin note below: this package's
 `lean-toolchain` already reads `v4.33.0-rc2` and it declares no Mathlib
 requirement of its own (Mathlib arrives through the `Zeta23` dependency),
 so the earlier "this package pins v4.28.0" note described what the service

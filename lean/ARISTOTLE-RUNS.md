@@ -62,7 +62,7 @@ projects and not four:**
 | `Composition.lean` | **builds clean** — zero `sorry`, axioms `[propext, Classical.choice, Quot.sound]`. No port needed, nothing submitted. |
 | `GridIncidence.lean` | 2 failures (lines 109, 290) |
 | `FloorCert.lean` | 1 failure (line 82) |
-| `BandCert/Leaves.lean` | 1 failure (line 144); blocks the 4 modules downstream of it |
+| `BandCert/Leaves.lean` | 1 failure (line 144); blocks the 6 modules downstream of it (the imports are a single chain Iv → Leaves → Phi → Check → Cap → Data → Verify → Main) |
 
 | id | project | task | status |
 | --- | --- | --- | --- |
