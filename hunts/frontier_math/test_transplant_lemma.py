@@ -121,3 +121,33 @@ def test_cross_band_charges_may_be_dropped():
     first T1 session named was never load-bearing."""
     from band_dual import BandDual, cross_band_drop_is_one_sided
     assert cross_band_drop_is_one_sided(BandDual()) >= 0.0
+
+
+def test_mt_W_normalisation_against_the_direct_grid():
+    """The level-4 soundness incident in this hunt was a factor-2 leak in
+    exactly this quantity, and the projection controls share its
+    convention, so they cannot catch one.  This checks W against an
+    independent grid assembly: on-line block u u^T against the pair block
+    2(x x^T - y y^T), normalised by LAW D's grid norm 2 pi Phi2(0)."""
+    import cmath
+
+    import numpy as np
+
+    from mt_chain import A, MTChain, S2
+
+    def ph(w):
+        def s(u):
+            if abs(u) < 1e-12:
+                return 0.5 + 0j
+            return cmath.sin(u / 2) / u
+        return s(w + S2) + s(w - S2)
+
+    mt = MTChain()
+    tau = np.arange(-600, 601, 1.0)
+    norm = 2 * math.pi * A
+    for x, t, y in ((0.0, 6.9, 0.49), (1.3, 7.4, 0.3), (0.0, 3.0, 0.45)):
+        ux = np.array([ph(complex(x, 0) - s) for s in tau]).real / math.sqrt(norm)
+        uz = np.array([ph(complex(t, y) - s) for s in tau]) / math.sqrt(norm)
+        cross = 2 * ((ux @ uz.real) ** 2 - (ux @ uz.imag) ** 2)
+        closed = float(mt.W(np.array([x - t]), y)[0])
+        assert abs(cross - closed) < 0.02 * max(abs(closed), 1e-3)
