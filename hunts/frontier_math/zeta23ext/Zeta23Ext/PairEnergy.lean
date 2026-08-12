@@ -84,7 +84,11 @@ omit [DecidableEq ι] in
 /-- The trace of a product of positive semidefinite matrices is nonnegative. -/
 lemma trace_mul_nonneg {A K : Matrix ι ι ℂ} (hA : A.PosSemidef) (hK : K.PosSemidef) :
     0 ≤ (A * K).trace := by
-  obtain ⟨B, hB⟩ := Matrix.posSemidef_iff_eq_conjTranspose_mul_self.mp hA
+  obtain ⟨B, hB⟩ : ∃ B : Matrix ι ι ℂ, A = Bᴴ * B := by
+    classical
+    open scoped MatrixOrder in
+    obtain ⟨B, hB⟩ := CStarAlgebra.nonneg_iff_eq_star_mul_self.mp hA.nonneg
+    exact ⟨B, by rw [hB, Matrix.star_eq_conjTranspose]⟩
   rw [hB, Matrix.mul_assoc, Matrix.trace_mul_comm Bᴴ (B * K)]
   have h2 : (B * K * Bᴴ).PosSemidef := by
     have := hK.conjTranspose_mul_mul_same (Bᴴ)
@@ -227,7 +231,10 @@ have `card κ` columns, then `(tr (Q P))² ≤ card κ * tr ((Q P)²)`. -/
 theorem trace_sq_ge (Q : Matrix ι ι ℂ) (hQ : Q.PosSemidef) (V W : Matrix ι κ ℂ)
     (P : Matrix ι ι ℂ) (hP : P = V * Vᴴ - W * Wᴴ) (hpos : 0 ≤ (Q * P).trace.re) :
     ((Q * P).trace.re) ^ 2 ≤ (Fintype.card κ : ℝ) * ((Q * P * (Q * P)).trace.re) := by
-  obtain ⟨B, hB⟩ := Matrix.posSemidef_iff_eq_conjTranspose_mul_self.mp hQ
+  obtain ⟨B, hB⟩ : ∃ B : Matrix ι ι ℂ, Q = Bᴴ * B := by
+    open scoped MatrixOrder in
+    obtain ⟨B, hB⟩ := CStarAlgebra.nonneg_iff_eq_star_mul_self.mp hQ.nonneg
+    exact ⟨B, by rw [hB, Matrix.star_eq_conjTranspose]⟩
   set Z := B * V with hZ
   set Y := (B * W) * (B * W)ᴴ with hY
   have hYpsd : Y.PosSemidef := Matrix.posSemidef_self_mul_conjTranspose _
@@ -305,14 +312,63 @@ theorem four_n_le_sum_sq (n : ℕ) (Q : Matrix (Fin n × Bool) (Fin n × Bool) �
   set W : Matrix (Fin n × Bool) (Fin n) ℂ :=
     fun a j => if a.1 = j then (if a.2 then 1 else -1) else 0 with hWdef
   have hP : P = V * Vᴴ - W * Wᴴ := by
+    have hPap : ∀ c d : Fin n × Bool, P c d = if c = (d.1, !d.2) then (2 : ℂ) else 0 := by
+      intro c d; rw [hPdef]
+    have hVap : ∀ (c : Fin n × Bool) (j : Fin n), V c j = if c.1 = j then (1 : ℂ) else 0 := by
+      intro c j; rw [hVdef]
+    have hWap : ∀ (c : Fin n × Bool) (j : Fin n),
+        W c j = if c.1 = j then (if c.2 then (1 : ℂ) else -1) else 0 := by
+      intro c j; rw [hWdef]
     ext a b
-    obtain ⟨i, x⟩ := a
-    obtain ⟨j, y⟩ := b
-    simp only [hPdef, hVdef, hWdef, Matrix.sub_apply, Matrix.mul_apply,
-      Matrix.conjTranspose_apply, Prod.mk.injEq]
-    cases x <;> cases y <;>
-      simp [Finset.sum_ite_eq, apply_ite (starRingEnd ℂ), eq_comm] <;>
-      by_cases h : i = j <;> simp [h] <;> norm_num
+    have hVV : (V * Vᴴ) a b = if a.1 = b.1 then (1 : ℂ) else 0 := by
+      rw [Matrix.mul_apply, Finset.sum_eq_single a.1]
+      · rw [Matrix.conjTranspose_apply, hVap, hVap, if_pos rfl]
+        by_cases h : a.1 = b.1
+        · rw [if_pos h.symm, if_pos h]
+          simp
+        · have h' : ¬ (b.1 = a.1) := fun hh => h hh.symm
+          rw [if_neg h', if_neg h]
+          simp
+      · intro l _ hl
+        rw [hVap, if_neg (Ne.symm hl), zero_mul]
+      · intro h
+        exact absurd (Finset.mem_univ a.1) h
+    have hWW : (W * Wᴴ) a b = if a.1 = b.1 then
+        ((if a.2 then (1 : ℂ) else -1) * (if b.2 then (1 : ℂ) else -1)) else 0 := by
+      rw [Matrix.mul_apply, Finset.sum_eq_single a.1]
+      · rw [Matrix.conjTranspose_apply, hWap, hWap, if_pos rfl]
+        by_cases h : a.1 = b.1
+        · rw [if_pos h.symm, if_pos h]
+          cases hb : b.2 <;> simp
+        · have h' : ¬ (b.1 = a.1) := fun hh => h hh.symm
+          rw [if_neg h', if_neg h]
+          simp
+      · intro l _ hl
+        rw [hWap, if_neg (Ne.symm hl), zero_mul]
+      · intro h
+        exact absurd (Finset.mem_univ a.1) h
+    rw [Matrix.sub_apply, hVV, hWW, hPap]
+    by_cases h1 : a.1 = b.1
+    · rw [if_pos h1, if_pos h1]
+      rcases Bool.eq_false_or_eq_true a.2 with hab | hab <;>
+        rcases Bool.eq_false_or_eq_true b.2 with hb | hb
+      · have hne : a ≠ (b.1, !b.2) := by
+          intro h; rw [h] at hab; simp [hb] at hab
+        rw [if_neg hne, hab, hb]; norm_num
+      · have heq : a = (b.1, !b.2) := by
+          rw [Prod.ext_iff]; exact ⟨h1, by simp [hab, hb]⟩
+        rw [if_pos heq, hab, hb]; norm_num
+      · have heq : a = (b.1, !b.2) := by
+          rw [Prod.ext_iff]; exact ⟨h1, by simp [hab, hb]⟩
+        rw [if_pos heq, hab, hb]; norm_num
+      · have hne : a ≠ (b.1, !b.2) := by
+          intro h; rw [h] at hab; simp [hb] at hab
+        rw [if_neg hne, hab, hb]; norm_num
+    · have hne : a ≠ (b.1, !b.2) := by
+        intro h
+        exact h1 (by rw [h])
+      rw [if_neg hne, if_neg h1, if_neg h1]
+      ring
   have hQP : ∀ a b, (Q * P) a b = 2 * Q a (b.1, !b.2) := by
     intro a b
     rw [Matrix.mul_apply]
@@ -551,10 +607,10 @@ lemma gram_posSemidef {ι : Type*} [Fintype ι] [DecidableEq ι] (e : ι → ℝ
       · rw [hA]; exact Complex.continuous_conj.comp (continuous_const.mul (he b))
     have hswap : (∑ a, ∑ b, ∫ u : ℝ, (gker u : ℂ) * (A a u * (starRingEnd ℂ) (A b u)))
         = ∫ u : ℝ, ∑ a, ∑ b, (gker u : ℂ) * (A a u * (starRingEnd ℂ) (A b u)) := by
-      rw [MeasureTheory.integral_finset_sum _
-        (fun a _ => integrable_finset_sum _ fun b _ => hint a b)]
+      rw [MeasureTheory.integral_finsetSum _
+        (fun a _ => integrable_finsetSum _ fun b _ => hint a b)]
       exact Finset.sum_congr rfl fun a _ =>
-        (MeasureTheory.integral_finset_sum _ fun b _ => hint a b).symm
+        (MeasureTheory.integral_finsetSum _ fun b _ => hint a b).symm
     have hpt : ∀ u : ℝ, (∑ a, ∑ b, (gker u : ℂ) * (A a u * (starRingEnd ℂ) (A b u)))
         = ((gker u * Complex.normSq (∑ a, A a u) : ℝ) : ℂ) := by
       intro u
@@ -679,10 +735,10 @@ lemma energy_eq_sum_Psi (y t : Fin k → ℝ) :
     rw [Complex.ofReal_mul, Ssum_normSq, Finset.mul_sum]
     exact Finset.sum_congr rfl fun a _ => by rw [Finset.mul_sum]
   simp_rw [hpt]
-  rw [MeasureTheory.integral_finset_sum _
-    (fun a _ => integrable_finset_sum _ fun b _ => integrable_c2_exp _)]
+  rw [MeasureTheory.integral_finsetSum _
+    (fun a _ => integrable_finsetSum _ fun b _ => integrable_c2_exp _)]
   refine Finset.sum_congr rfl fun a _ => ?_
-  rw [MeasureTheory.integral_finset_sum _ (fun b _ => integrable_c2_exp _)]
+  rw [MeasureTheory.integral_finsetSum _ (fun b _ => integrable_c2_exp _)]
   exact Finset.sum_congr rfl fun b _ => integral_c2_exp _
 
 /-- The energy integral over `[-1, 1]` agrees with the integral over the whole line. -/
@@ -693,7 +749,7 @@ lemma interval_energy_eq (y t : Fin k → ℝ) :
   refine MeasureTheory.setIntegral_eq_integral_of_forall_compl_eq_zero (fun x hx => ?_)
   have hx1 : 1 ≤ |x| := by
     rw [Set.mem_Ioc] at hx
-    push_neg at hx
+    push Not at hx
     rcases le_or_gt x (-1) with h | h
     · rw [abs_of_nonpos (by linarith)]; linarith
     · have := hx h
