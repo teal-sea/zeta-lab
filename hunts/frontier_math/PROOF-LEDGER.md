@@ -488,3 +488,24 @@ Disposition: **THE FORMULA IS NOW THEOREM-SHAPED AND THE FIELD IS
 BALL-AGREED.** What remains of burden (c) is two named seams, not an
 analogy. Joint layer at the paper field still running; ramp (b) still
 open. No proportion is claimed to have moved.
+
+
+## Joint layer at the paper field (2026-08-12)
+
+Instruments: `paper_joint.py`, `test_paper_joint.py` (10 tests).
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| theta_full at the paper field | **0.995** | joint band dual over configuration families; positive part of the JOINT field only | 0.999 fails at lattice nu=0.5 y=0.49 (-1.29 rel); binding config at 0.995 is the same lattice (+0.33 rel) |
+| Soft window re-derived | DELIVERED | this field's own band geometry, not the T1 copy | nu_p = 0.9576 (first band centre 1.0443 mean gaps); at it only 4 residual band cells survive shielding |
+| Dense-lattice shielding | PASS | joint clipping order | nu >= 1.25 caps exactly 0 with positive budget; per-pair clipping strictly larger (the control has power) |
+| Completeness on the joint field | CLEAR | local curvature, no blankets | ratios 166-3673, off-band allowance exactly 0; the non-clear branch exercised at a coarse step reports a positive allowance |
+| No band merging | PASS | widest joint band 0.968 grid units | vs first kernel zero 6.643 |
+| Cap divergence at theta = 1 | PASS | convention control | inf on isolated and dipole |
+| Greedy dominated | PASS | dual dominates primal at 0.995 | 0.0476<=0.0947, 0.1077<=0.1901, 0.0587<=0.1344 |
+| Distinctness vs T1 joint | PASS | matched config, theta 0.9 | caps 26% apart, budgets 7.5% apart |
+
+Disposition: **THE JOINT LAYER HOLDS AT THE PAPER WINDOW.** theta_full
+= 0.995 across all swept families, float grade, single-pair skeleton
+ball-agreed. Open: ramp (b), the two (c) seams, optional joint
+hardening. No proportion is claimed to have moved.

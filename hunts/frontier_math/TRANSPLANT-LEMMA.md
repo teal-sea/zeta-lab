@@ -582,3 +582,34 @@ here.
 float-and-ball agreed, single-pair.  The candidate 0.6725106958 waits
 on: the joint layer at the paper field (running), the ramp (burden b),
 and the two seams of burden (c) above.  No proportion is claimed.
+
+
+## The joint layer at the paper field: theta_full = 0.995
+
+Instrument: `paper_joint.py` (agent build, coordinator-reviewed);
+controls in `test_paper_joint.py` (10 tests).
+
+The multi-pair sweep at the paper field lands on the same grid point as
+the single-pair dual: **theta_full = 0.995** (0.999 fails at the
+nu = 0.5 lattice, y = 0.49, by a factor -1.29 relative).  The binding
+configuration at 0.995 is that same sparse lattice (+0.33 relative);
+the isolated pair binds only at lower thetas.  The soft-window density
+was re-derived from this field's own band geometry — nu_p = 0.9576
+(first damage-band centre 1.0443 mean gaps), distinct from both the T1
+value 0.97 and the bare kernel-zero reciprocal 0.9458 — and at it the
+joint shielding leaves only 4 residual band cells (cap 0.0746 against
+an isolated-pair 0.0947).  Dense lattices cap at exactly 0 with
+positive budget, and the positive-part discipline control shows the
+clipping order has measured power (per-pair clipping is strictly
+larger).  Distinctness against the T1 joint at a matched configuration:
+caps 26% apart — not a re-run.
+
+**Consequence.**  theta_full = 0.995 is now a statement about the
+paper's own window across the swept configuration families, float
+grade, with the single-pair skeleton ball-agreed.  Remaining before the
+candidate 0.6725106958 can be called a reading: the ramp (burden b),
+the two burden-(c) seams (units; the dual's cap as D >= theta*R0), and
+hardening of the joint sweep if wanted.  One-sided/measured grade
+throughout; grid thetas only; the no-bands branch reports cap 0 without
+the beyond-window tail (mirrors mt_joint, noted in code).  No
+proportion is claimed.
