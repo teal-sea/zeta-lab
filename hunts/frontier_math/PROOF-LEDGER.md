@@ -759,3 +759,30 @@ exponential sums, which is a target both an attack and a formalisation
 can aim at. Multi-pair universality is still a statement about a tested
 set - now 320 configurations wider, with the binding family rediscovered
 blind. No proportion is claimed to have moved.
+
+
+## Blocker 2, second campaign: the cluster decomposition (2026-08-12)
+
+Instruments: `cluster_universal.py`, `test_cluster_universal.py`
+(20 tests); coordinator re-ran the suite.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Separation lemma constant | **DERIVED** | two integrations by parts; c2 has a CORNER at w=0 (autocorrelation of a jump window, one-sided slopes -(1+cos sqrt2)/2 closed-form) | C_T = 27.4970 with every factor closed-form except one quadrature; measured worst \|T\| dt^2 / C_T = 0.618 - holds with 38% headroom; eps_T(Delta) = 2 C_T/(2 pi Delta)^2 |
+| **The periodic family: CLOSED** | sup rho(s,y) = **0.9286 < 1** | budget by Poisson/Dirac comb in closed form; for s <= 1 mean gap the per-pair budget is DEPTH-FREE with floor +0.024509 at s = 1 and diverges as s -> 0 (the coincident limit: budget wins, cap 0 by shielding - the multiplicity branch never gets to fight) | 636-point map, 511/636 fully shielded (cap exactly 0); nonzero caps only in narrow resonance windows at near-integer s, decaying 0.852/0.775/0.714/0.668/0.651 toward the isolated-pair 0.594; worst member (s, y) = (2.002 gaps, 0.4999); refinement moves the sup DOWN (0.955/0.929/0.915) so the record is the conservative end; >= 7.1% uniform relative margin |
+| Jitter direction | SUPPORTED | coherent = worst: margin rises monotonically with jitter at every seed | mean +0.103 -> +0.888 over amplitudes 0 -> 1.2 grid units |
+| **Lattice extremality** | **CONJECTURE, LABELLED** | the lattice is NOT a stationary point in position space (max gradient 0.186, compression -0.222); the extremum lives in the spacing parameter | stated as EXTREMALITY_CONJECTURE in the artifact, test-pinned as a conjecture, not claimed |
+| **Finite-m bridge** | **OPEN - THE BROKEN RUNG, REPORTED WITH ITS NUMBERS** | per-pair margins approach the m->infinity limit from BELOW at resonance spacings (s=2.0: +0.0240 -> +0.0056 with limit +0.0135; s=1.0 similar) and from above elsewhere | every finite rung closes, but the infinite-lattice verdict does not one-sidedly dominate finite clusters; no bridge in either direction |
+| Cap cross term | MEASURED ONLY | the joint instrument optimises one cell width per configuration; the mismatch does not decay in Delta | never decisive on 40/40 separation configs (worst +3.9e-2); named, not papered over |
+| Assembly campaign | 40/40 | margin(whole) >= sum margin(clusters) - derived budget eps alone | worst one-sided slack +0.13 |
+| Coordinator's pre-refutation | REPRODUCED | k=8 cluster in a legal-density window: deficit 0.448 vs pair-free credit 1.28e-3 | short by a factor ~350; the density rescue stays dead |
+
+Disposition: **THE ADVERSARY'S CONTINUUM IS PINNED TO A ONE-PARAMETER
+RESONANCE FAMILY WHOSE WORST MEMBER IS COMPUTED, AND TWO NAMED BRIDGES
+REMAIN.** The periodic family - which contains every binding
+configuration every search has found - closes uniformly with 7.1%
+margin, dense clusters are budget-positive with a depth-free closed-form
+floor, and separation carries a derived constant. Open: the finite-m
+bridge (margins approach the limit from below at resonances) and the cap
+cross-term grade. Blocker 2 remains open, but it is now two specific
+bridges, not a continuum. No proportion is claimed to have moved.
