@@ -52,6 +52,17 @@ untracked, zero runs so far) is the memo's "targeted autonomous frontier
 hunt" already built; arming it is the operator's switch, and no
 proof-adapter work rides on a machine without a Lean toolchain.
 
+**5b. The proof-agent loop ran end to end, and four theorems landed** —
+Aristotle batch 1 (four graded Sturm-track lemmas) came back in ~70
+minutes, all four passed the full local contract (verbatim statements,
+refusal scan, lake build on the pinned toolchain despite the service
+generating against v4.28.0), the full library rebuilt green with them
+wired in, and they live in `lean/ZetaLean/Sturm*.lean` with
+`lean/ARISTOTLE-RUNS.md` as the ledger. Calibration verdict: bounded
+single lemmas at these grades are reliable and fast; the next batch can
+carry real Sturm-chain steps (sign-variation machinery). The operator's
+own dashboard project (`0701719a`) remains his.
+
 **5a. The second wave landed the rest of the specification** — run
 manifests (`hunts/HUNTSPEC.md`), the literature scout (`ontology/scout.py`,
 no code path to FOUND, corpora searched/missing loud), the standing
