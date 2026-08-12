@@ -843,3 +843,30 @@ retracted, which is the system working late. What survives, and is worth
 keeping: the Lean file is a correct formalisation of a step our chain
 uses, obtained in 104 minutes, and it now carries the citation it
 should have carried from the start.
+
+
+## Sphere-Packing-Lean audit: a dependency avoided, and the bridge located (2026-08-12)
+
+Instrument: `SPL-AUDIT.md` (agent build; repo cloned read-only at HEAD
+bad3de9, 2026-08-05, 77 files, 18194 lines).
+
+| Finding | Detail |
+|---|---|
+| **The repo is NOT sorry-free** | 61 real (non-comment) sorrys across 19 files - **including the headline `SpherePacking.MainTheorem`, whose entire proof is `sorry`**. The "formally complete Feb 2026" report the tool survey relayed is not borne out by the tree |
+| **The exact scaffolding we wanted is a sorry** | `SchwartzMap.PoissonSummation_Lattices` is `sorry`, lives in a file whose own header says it "SHOULD EVENTUALLY BE REMOVED", and its hypothesis predicate `PSF_Conditions` contains a `sorry` **in its definition** |
+| **Trap avoided** | requiring the library would have imported those sorrys; `PoissonSummation_Lattices` would typecheck downstream and be an axiom-tainted lie. Pin conflict too (their Mathlib v4.32.0 vs our v4.33.0-rc2) |
+| **Mathlib already has better** | `Real.tsum_eq_tsum_fourier_of_rpow_decay`: continuity plus polynomial decay, **no smoothness at all**. Our c2's corner never enters because c2 appears only as the TRANSFORM; both hypotheses hold at b = 2 with f = c2hat = \|ghat\|^2. Only real work is rescaling Z -> sZ |
+| **The bridge is absent by design** | Cohn-Elkies routes finite -> periodic -> infinite and never truncates; no truncation lemma, tail bound or remainder anywhere in the repo |
+| **STOP LOOKING FOR A ONE-SIDED LEMMA** | our own data (m=4: +0.0240, m=32: +0.0056, limit +0.0135) says the finite-m value CROSSES the limit, so no one-sided lemma exists to borrow |
+| **The tractable statement, located** | a TWO-SIDED estimate \|b_m - b_inf\| <= E(m, s, y), elementary precisely because c2 is compactly supported: the dual sum is ALREADY FINITE (\|2 pi k/s\| < 1), so the discrepancy is a boundary term over O(1) pairs at the cluster ends, not a divergent tail. Self-contained against Mathlib alone |
+| No positivity scaffolding either | no Beurling, Selberg, bandlimit, Paley-Wiener; the magic function's two Cohn-Elkies conditions are not formalised at all, so there is no worked example of establishing a Fourier transform nonnegative |
+| Verdict | **(iv) not usable as a dependency**, shading into (iii) proof-pattern reference |
+
+Disposition: **THE SURVEY'S RECOMMENDATION #4 IS REFUTED BY ITS OWN
+AUDIT, AND THE AUDIT FOUND THE ROUTE ANYWAY.** A vendor-adjacent
+"formally complete" claim did not survive a grep; the scaffolding we
+were told to build on is a sorry inside a file marked for deletion. What
+replaces it is better: Mathlib's own Poisson result needs strictly
+weaker hypotheses than the sorried one, and the bridge is a two-sided
+boundary estimate over O(1) cluster-end pairs. No proportion is claimed
+to have moved.
