@@ -109,4 +109,34 @@ theorem twoRangeEndpointEnergy_frozenDifference_le
   exact frozenDifference_prefixMass_le_of_markedPrefixMass_le
     hDelta hmark hfreeze hpre
 
+/-- The exact finite RC2 mean-square remainder for the moving-minus-frozen
+coefficient family.  The marked derivative prefix estimate and the
+coefficientwise freezing estimate remain explicit hypotheses; this theorem
+only performs their finite mean-square assembly. -/
+theorem norm_twoRange_mean_square_sub_diagonal_frozenDifference_le
+    (U : ℝ) {moving frozen : ℕ → ℂ} {mark : ℕ → ℝ}
+    {Delta C : ℝ} {X W : ℕ}
+    (hX : 1 ≤ X) (hXW : X ≤ W) (hDelta : 0 ≤ Delta) (hC : 0 ≤ C)
+    (hmark : ∀ n, 0 ≤ mark n)
+    (hfreeze : ∀ n, ‖moving n - frozen n‖ ≤ Delta * mark n)
+    (hpre : ∀ N, 1 ≤ N →
+      prefixMass (fun n ↦ mark n ^ 2) N ≤
+        C * N * (1 + Real.log N)) :
+    ‖(∫ t in U..2 * U,
+        starRingEnd ℂ
+            (logarithmicDirichletPolynomial W
+              (twoRangeCoefficient X (fun n ↦ moving n - frozen n)) t) *
+          logarithmicDirichletPolynomial W
+            (twoRangeCoefficient X (fun n ↦ moving n - frozen n)) t) -
+        (U : ℂ) * ∑ n ∈ Finset.Icc 1 W,
+          starRingEnd ℂ
+              (twoRangeCoefficient X (fun n ↦ moving n - frozen n) n) *
+            twoRangeCoefficient X (fun n ↦ moving n - frozen n) n‖ ≤
+      66 * realHarmonicMass W * (Delta ^ 2 * C) * X *
+        (1 + Real.log X) := by
+  apply norm_twoRange_mean_square_sub_diagonal_le_of_prefixMass_le U
+    hX hXW (mul_nonneg (sq_nonneg Delta) hC)
+  exact frozenDifference_prefixMass_le_of_markedPrefixMass_le
+    hDelta hmark hfreeze hpre
+
 end ZetaLean.HigherXi
