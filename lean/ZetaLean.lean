@@ -31,3 +31,4 @@ import ZetaLean.MatchingCount
 import ZetaLean.MatchingPairStructure
 import ZetaLean.MarkedClusterFreezing
 import ZetaLean.SupportSizeMajorant
+import ZetaLean.RootedMatchingBound
