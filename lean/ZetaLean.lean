@@ -39,3 +39,7 @@ import ZetaLean.RootedMatchingBound
 import ZetaLean.RootedSupportAssembly
 import ZetaLean.RepeatedPrimeDominated
 import ZetaLean.PowerfulDecomposition
+import ZetaLean.SturmPolyIVT
+import ZetaLean.SturmDerivRight
+import ZetaLean.SturmCoprimeSimple
+import ZetaLean.SturmOddSignChange

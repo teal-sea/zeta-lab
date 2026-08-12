@@ -527,6 +527,10 @@ _DOMAIN_AGNOSTIC_FILES = (
     "__init__.py",
     "protocol.py",
     "provenance.py",
+    "independence.py",
+    "guards.py",
+    "review.py",
+    "graveyard.py",
     "integrity.py",
     "shams.py",
     "preregistration.py",
@@ -555,7 +559,8 @@ def test_the_protocol_imports_nothing_from_any_laboratory(filename) -> None:
 def test_importing_the_protocol_pulls_in_no_laboratory_module() -> None:
     code = (
         "import sys; sys.path.insert(0, %r);"
-        "import harness.protocol, harness.provenance, harness.integrity, harness.shams;"
+        "import harness.protocol, harness.provenance, harness.independence,"
+        " harness.guards, harness.review, harness.integrity, harness.shams;"
         "bad=[m for m in sys.modules if m.split('.')[0] in %r];"
         "print(','.join(sorted(bad)))" % (str(_REPO_ROOT), _FORBIDDEN_ROOTS)
     )
