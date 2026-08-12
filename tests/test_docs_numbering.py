@@ -45,7 +45,22 @@ _SKIP_DIRS = {
     "figures",
     "conjectures",
     "automation",
+    # agent worktrees and vendored outside checkouts live under these; each is
+    # a whole other working tree whose docs/ numbering is its own business
+    ".claude",
+    "external",
 }
+
+
+def _is_other_checkout(path: str) -> bool:
+    """A directory containing a `.git` entry is another working tree.
+
+    Nested worktrees (``git worktree add`` writes a `.git` *file*) and vendored
+    clones must not be scanned: their cross-references resolve against their
+    own tree, not this one, and scanning them once double-reported a live
+    worktree's docs as this repository's defects.
+    """
+    return os.path.exists(os.path.join(path, ".git"))
 
 # Text we own and cite from. CONTEXT.md is generated, and is included on
 # purpose: a stale generated index pointing at a renamed doc is still a defect.
@@ -71,7 +86,11 @@ def _numbered_docs() -> dict[str, list[str]]:
 def _scanned_files() -> list[str]:
     found = []
     for dirpath, dirnames, filenames in os.walk(REPO_ROOT):
-        dirnames[:] = [d for d in dirnames if d not in _SKIP_DIRS]
+        dirnames[:] = [
+            d
+            for d in dirnames
+            if d not in _SKIP_DIRS and not _is_other_checkout(os.path.join(dirpath, d))
+        ]
         for name in filenames:
             if os.path.splitext(name)[1] in _SCAN_SUFFIXES:
                 found.append(os.path.join(dirpath, name))

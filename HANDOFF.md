@@ -3,7 +3,80 @@
 Concise records: what was believed, what invalidated it, what now catches the
 problem, what conclusion is currently justified. Decisions live in
 `ROADMAP.md`; this file is the between-session state. Last snapshot:
-2026-08-11 (frontier math).
+2026-08-12 (relay salvage).
+
+---
+
+## Record: the Codex relay is fully harvested — three modules landed, every
+## other artifact accounted for (2026-08-12)
+
+The Codex formalization relay (the higher-ξ / RAMS2 / RC2 run that began at
+the Bian 2008 discrepancy) ran out of tokens mid-sprint, leaving state spread
+across twelve worktrees under `/private/tmp/zeta-*`, ten local `codex*`
+branches, one unpushed commit on this checkout's `main`, and two uncommitted
+orphan files. Every artifact was audited (six independent auditors: per-file
+duplication against origin, vacuousness, and numeric verification in Python)
+before disposition. Nothing was landed on trust.
+
+**Landed, kernel-checked (8737 jobs, zero sorrys), authorship preserved:**
+
+- `PrimeSimplex.lean` — LEAN-FRONTIER item 19. The concrete distinct-prime
+  logarithmic mass `A_j(X)`; the marking identity
+  `D_j(X) = (j+1)·A_{j+1}(X)` proved unconditionally (verified exactly in
+  Python at X = 60 and 250, including the single order-4 support at 250);
+  the `(2j)(2j+1)` insertion estimate wired through the landed
+  `WeightedSimplex` induction to the full `j!(2j-1)!` majorant. The analytic
+  content lives in the hypothesis `hprime`, which the module states rather
+  than asserts — that hypothesis, a weighted Chebyshev estimate, **is the
+  open frontier of the run**. A naming trap flagged by audit is now a
+  docstring warning: nothing is deleted in the "deletion mass" summand.
+- `PowerfulDecomposition.lean` — the coprime powerful×squarefree
+  decomposition of every nonzero natural, discharging the obligation
+  `RepeatedPrimeDominated.lean` declared out of scope, plus the exact local
+  geometric tail. Verified: decomposition holds with 0 failures on
+  n ≤ 10000 (uniqueness holds numerically on n ≤ 2000, stronger than the
+  file asserts); tail identity to 2.5e-20.
+- `RootedSupportAssembly.lean` — two glue theorems assembling the landed
+  rooted matching bound with the support-size comparison; 2400 random
+  matching-enumeration trials, 0 violations.
+
+**Dropped as superseded, with the audit trail as the record:**
+
+- Orphan `RAMS2PartialSummation.lean` (zeta-abel-local, untracked) —
+  statement-identical to the landed `finite_abel_summation`; origin carries
+  strictly more (the Ioc generalization and both RC2 endpoint bounds).
+  `ARISTOTLE-HANDOFF.md` already recorded it as the uncounted second local
+  control.
+- Orphan `RAMS2PrefixToRC2.lean` (zeta-aristotle-prefix, untracked, one
+  `sorry`) — an abandoned scaffold of exactly the statement
+  `RC2PrefixAssembly.lean` now proves, same constant 66. The `sorry`'d goal
+  is the landed theorem; there is no gap behind it.
+- `RAMS2InverseTail.lean` — deliberately deleted by the hardening commit
+  99f7bb3; not resurrected.
+- Branch-tip variants of `AristotleRAMS2` and `PowerMargin` — origin's
+  landed versions build under the pinned toolchain; the variants were
+  Mathlib-compat detours.
+
+**The sweep found no other mathematical content unlanded**: both result
+tarballs are the landed proofs, both `/private/tmp` PR drafts landed
+(21aeba3, 07ec287), the audit dirs are byte-identical extractions, and four
+dirs are build junk. One live wire, recorded so nobody trips it:
+`/private/tmp/zeta-rams2-integrate-lake-link` **symlinks into this repo's
+`lean/.lake`** — deleting it with a trailing slash would recurse into the
+live build cache. Remove the link only, never through it.
+
+Also fixed en route: the docs-numbering scanner walked into nested checkouts
+(`.claude/worktrees/`, `external/`) and reported another tree's references as
+this repository's defects; it now prunes any directory containing a `.git`
+entry, with detector power shown in both directions. And the fast tier's one
+skip is identified and benign: `test_rigor.py:136` self-skips where
+`np.longdouble` is `float64` (Apple Silicon), added by the director run's
+`_exact` fix.
+
+Fast tier: 2217 passed, 1 skipped (above), 3 xfailed. The twelve
+`/private/tmp` worktrees and ten stale `codex*` branches are fully harvested
+and safe to sweep — modulo the symlink warning — but are left in place; they
+are another agent's infrastructure.
 
 ---
 
