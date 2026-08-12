@@ -71,8 +71,14 @@ from cg_transplant import (  # noqa: E402
 #: reading is taken against the pinned (smaller, conservative) value.
 H_PINNED = 0.6725007037
 
-#: level-6a/7 retained fraction of the on-line internal mass
+#: level-6a/7 retained fraction of the on-line internal mass, at the
+#: HUNT window (L = 8 septic ramp)
 THETA_FULL = 0.02
+
+#: the same quantity at the MT window (`band_dual.py` single-pair dual,
+#: `mt_joint.py` joint sweep).  Measured grade, one-sided structure, arb
+#: pass named.  See :func:`mt_reading` for what may and may not be said.
+THETA_FULL_MT = 0.995
 
 
 class HardenedGTable(_GTable):
@@ -156,5 +162,62 @@ def first_reading(theta_full: float = THETA_FULL, verbose: bool = True):
     return reading
 
 
+def mt_reading(theta_full: float = THETA_FULL_MT, verbose: bool = True):
+    """The reading with the retention taken at the FLOOR'S OWN kernel.
+
+    WHY THIS COMPOSITION IS COHERENT AND THE OLD ONE WAS NOT.  `c_u` is
+    computed with the Montgomery-Taylor kernel g, and `transplant_lemma.py`
+    measures g to be exactly the normalised squared Fourier transform of
+    the MT window (defect 2.5e-16).  The retention now comes from the SAME
+    window (`band_dual.py`, `mt_joint.py`), so both factors of the product
+    live on one kernel.  The previous composition took the retention from
+    the hunt window, whose own ordered-gap floor is 0 (its kernel zeros are
+    arithmetic to 1e-4, i.e. it sits on the floor's lesion) — so that
+    pairing was never coherent, which is the finding that forced T1.
+
+    WHAT IS MEASURED, AND AT WHICH GRADE:
+
+    - theta_full at MT: single-pair dual one-sided with a complete band
+      partition (no missed bands, ratio 326-7347); joint sweep closes with
+      the cap at 17-46% of budget and imposes NO extra loss, so the
+      binding case is the isolated pair.  Double precision with one-sided
+      structure; the arb pass is named, not done here.
+    - c_u: one-sided ordered-gap floor, ladder-stable, CG calibration
+      below the printed value, lambda_2 lesion dies.
+
+    WHAT IS NOT ESTABLISHED (unchanged by this session, and each of these
+    alone withholds the word "improvement"):
+
+    1. the transplant plumbing: that the paper's constant is linear in the
+       retained cross mass with coefficient 1;
+    2. the census/normalisation conversion (measured consistent only);
+    3. taper/truncation of the upstream count, restated one-sided;
+    4. T5 - which window the pinned upstream Lean zero-side carries; the
+       in-repo regression shape is Hann, the Theorem-D kernel is MT, and
+       the arbiter is external to this session;
+    5. the arb pass over the band dual and the joint cap.
+
+    So this is a CANDIDATE READING, not a proportion.  Nothing here is
+    evidence about the Riemann Hypothesis.
+    """
+    base = first_reading(theta_full=theta_full, verbose=False)
+    if verbose:
+        print("= the reading with retention at the floor's own kernel =")
+        print(f"  c_u (one-sided, nu_on = {H_PINNED}) = "
+              f"{base['floor_one_sided']:.8f}")
+        print(f"  theta_full at MT = {theta_full}  (hunt window: {THETA_FULL})")
+        print(f"  candidate = {H_PINNED} + 2 * {theta_full} * "
+              f"{base['floor_one_sided']:.8f}")
+        print(f"            = {base['candidate']:.10f}")
+        print(f"  against the pinned constant: "
+              f"{base['improvement']:+.3e}   (hunt-window composition: "
+              f"+2.01e-07)")
+        print("  STATUS: CANDIDATE. The composition is now window-coherent,")
+        print("  which it was not before; five named steps remain open, and")
+        print("  T5 (the upstream window pin) is external. No proportion is")
+        print("  claimed to have moved.")
+    return base
+
+
 if __name__ == "__main__":
-    first_reading()
+    mt_reading()

@@ -312,7 +312,7 @@ Full account: `TRANSPLANT-LEMMA.md` (T1 section); instrument
 | LAW D at MT | **EXACT — alias claim corrected** | width-1 support cannot reach the +-2pi combs (Poisson) | truncation control: defect scales 1/K (3.8e-3 -> 6.0e-5 over K 80 -> 5120) |
 | LAW K at MT | HOLDS | same algebra, LAW D exact | grid pair-block spectrum matches {2(1+s2), -2s2} at y = 0.45 |
 | LAW-I-style envelope | DELIVERED (one-sided) | fine grid + Lipschitz + Im-majorant tail | W >= -0.54 sigma^2 (y = 0.49), -0.70 (y = 0.3); hunt window: -1.21 |
-| Single-pair trade at MT | **MEASURED HEALTHY** | explicit band-riding adversary | D = 0.030 vs slack 0.142 at y = 0.49 (4.7x inside at theta = 1); only the +-1.10-mean-gap band pair is ever profitable |
+| Single-pair trade at MT | **MEASURED HEALTHY** | explicit band-riding adversary | D = 0.030 vs slack 0.142 at y = 0.49, 4.7x inside at FULL charge (c = 1, theta = 0); only the +-1.10-mean-gap band pair is ever profitable. (A first write-up said "even at theta = 1" — false: at theta = 1 the charge vanishes and stacking is unbounded. Caught by the adversary hunt; kept in the record.) |
 | Level-4 chain DP at MT | **DOES NOT TRANSPLANT, pinned** | damage bands at kernel zeros persist ~1/g^2; interval charge floors straddle the same zeros | min omega^2 over [d, 3d] = 0.182/0.023/0.000; true point repulsion at band separations 0.017/0.011/0.001 — the DP grants the far bands free |
 | The named T1 theorem object | NAMED | band-lattice counting dual with point-separation charges | charge the k-th band pair its actual omega^2 at the near-arithmetic separation, not an interval minimum |
 | Candidate reading | RE-FOUNDED, value unchanged | hunt-kernel floor = 0 (finding 1) removes the old support | now rests on MT retention (measured) + one-sided g-floor + calibrated plumbing + census + T5; no proportion claimed |
@@ -351,3 +351,29 @@ retention trade easy: its damage is confined to narrow bands carrying a
 third of the slack in total, and its pair layer's stacking floor nearly
 fills the mean gap. The next object is the joint cap on the band
 partition. No proportion is claimed to have moved.
+
+
+## T1 third session: the joint cap and the coherent composition (2026-08-12)
+
+Full account: `TRANSPLANT-LEMMA.md` (T1 third session); instruments
+`mt_joint.py`, `mt_adversary.py`; controls in `test_transplant_lemma.py`.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Joint cap at MT (theta_full's object) | **DELIVERED** | level-7 direct route on the band partition; joint positive part; cross-cell charges dropped; partition completeness Q-test | closes every swept configuration at theta = 0.995; worst case is the ISOLATED pair (budget 0.1423, cap 0.0653, margin +0.0771) |
+| Density at MT | **DEFENCE, not danger** | LAW M's positive mean summed over pairs | at nu_p >= ~1 the joint field has NO positive region: max over a 200-unit halo is -7.5e-4 vs a single pair's +1.5e-2; cap is exactly 0 for every nu_p >= 1.25 row |
+| theta_full at MT | **= theta* = 0.995** | the joint layer imposes no loss | inverted ordering vs the hunt window, where the joint layer cost 5x (0.1 -> 0.02) and needed a mutual-exclusion argument for a dense-deep pinch |
+| Independent adversary hunt | HELD | exhaustive n <= 6 with gradients, band lattices, multiplicity, phase/depth/theta sweeps | no configuration beats the two-zero band pair; charge-free envelope 0.325-0.335 of slack (independent of the dual's one-sided 0.34-0.36); measured largest safe theta 0.9990 at y = 0.49 |
+| **theta\* sandwiched** | MEASURED | one-sided dual vs measured adversary | **0.995 <= theta\* <= 0.999**: the configuration-free bound is within 0.4% of the measured truth |
+| Convention error | **CORRECTED, recorded** | at theta = 1 the charge vanishes and stacking is unbounded | an earlier line claimed the trade held "even at theta = 1"; false as written - the figure was the full-charge case (c = 1, theta = 0). Both duals correctly report cap(theta = 1) = infinity |
+| Window coherence of the composition | **REPAIRED** | g_MT is exactly the MT window's kernel (defect 2.5e-16) | floor and retention now live on ONE kernel; the previous pairing drew retention from a window whose own floor is 0 (it sits on the floor's lesion) |
+| Candidate reading | **RECOMPUTED, still a candidate** | window-coherent composition | 0.6725007037 + 2(0.995)(5.0212e-6) = **0.6725106958**, i.e. +9.99e-6 vs the hunt-window composition's +2.01e-7 |
+| The five open steps | UNCHANGED | plumbing linearity, census conversion, taper/truncation one-sided, the arb pass, T5 (external Lean window pin) | any one alone withholds the word improvement; no proportion is claimed |
+
+Disposition: **THE JOINT LAYER IS FREE AT THE FLOOR'S OWN KERNEL, AND THE
+COMPOSITION IS COHERENT FOR THE FIRST TIME.** The window that makes the
+Cheer-Goldston mechanism live also makes density a defence rather than a
+danger: dense pair sets leave the on-line adversary no positive field to
+stand on. The candidate reading is recomputed at 0.6725106958 and remains
+a candidate behind five named steps, one of them external. No proportion
+is claimed to have moved.

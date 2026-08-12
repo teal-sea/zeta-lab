@@ -151,3 +151,45 @@ def test_mt_W_normalisation_against_the_direct_grid():
         cross = 2 * ((ux @ uz.real) ** 2 - (ux @ uz.imag) ** 2)
         closed = float(mt.W(np.array([x - t]), y)[0])
         assert abs(cross - closed) < 0.02 * max(abs(closed), 1e-3)
+
+
+def _soft_window_pairs():
+    """The pair layer's own kill control: the nu_p ~ 0.97 density where
+    nearest-neighbour spacing sits on the damage band."""
+    from mt_chain import MEAN_GAP
+    return [(k * MEAN_GAP / 0.97, 0.49) for k in range(7)]
+
+
+def test_joint_partition_is_complete_on_the_soft_window():
+    from mt_joint import MTJoint
+    rec = MTJoint().no_missed_band(_soft_window_pairs())
+    assert rec["clear"] and rec["worst_ratio"] > 100
+
+
+def test_joint_bands_do_not_merge_into_wide_cells():
+    """Coincident-pair shielding keeps the JOINT bands narrow; a band
+    wider than omega's first zero (6.64) would kill the charge floor."""
+    from mt_joint import MTJoint
+    bs = MTJoint().bands(_soft_window_pairs())
+    assert bs and max(hi - lo for lo, hi, _ in bs) < 2.0
+
+
+def test_joint_cap_closes_the_soft_window():
+    from mt_joint import MTJoint
+    rec = MTJoint().verdict(_soft_window_pairs(), 0.9)
+    assert rec["closes"], rec
+    assert rec["cap"] < rec["budget"] / 2      # not a near miss
+
+
+def test_joint_cap_dominates_the_joint_greedy():
+    from mt_joint import MTJoint, joint_greedy
+    mj = MTJoint()
+    pairs = _soft_window_pairs()
+    assert joint_greedy(mj, pairs, 0.9) <= mj.cap(pairs, 0.9)["cap"] + 1e-9
+
+
+def test_joint_cap_is_infinite_at_theta_one():
+    """The convention control: at theta = 1 the internal charge vanishes
+    and stacking is unbounded, so the cap MUST diverge."""
+    from mt_joint import MTJoint
+    assert not math.isfinite(MTJoint().cap(_soft_window_pairs(), 1.0)["cap"])

@@ -341,8 +341,16 @@ def explicit_single_pair_adversary(mt: MTChain, y: float = 0.49,
     """Greedy band-riding adversary against one pair: the true trade.
 
     Returns (profit at the given theta, zeros used, D, R).  Measured at
-    y = 0.49: D = 0.030, R = 0.004 with 2 zeros — net stays far inside
-    the slack 0.142 even at theta = 1.  The counting CAP above is what
+    y = 0.49 with FULL charge (c = 1, i.e. theta = 0): D = 0.030,
+    R = 0.004 with 2 zeros, against slack 0.142 — 4.7x inside.
+
+    CONVENTION WARNING, recorded because an earlier version of this
+    docstring got it wrong: the default argument theta = 1.0 here selects
+    c = 1 (full charge), NOT the theta = 1 case of the inequality.  At
+    theta = 1 the internal charge is multiplied by zero and sup_X D is
+    genuinely UNBOUNDED (stack m zeros on one band), which is why the
+    band-lattice dual reports cap(theta = 1) = infinity.  Any claim of
+    the form "inside the slack even at theta = 1" is false as written.  The counting CAP above is what
     fails, not the trade: the interval charge floors K_[delta,3delta]
     straddle the kernel zeros (band separations are near-arithmetic
     differences of kernel zeros), so the chain DP grants the persistent
@@ -420,8 +428,8 @@ def audit():
     for y in (0.3, 0.49):
         rec = explicit_single_pair_adversary(mt, y)
         print(f"  y={y}: D {rec['D']:.5f}  R {rec['R']:.5f}  zeros "
-              f"{rec['zeros']}  net-at-theta-1 {rec['D'] - 0:.5f} "
-              f"vs slack {mt.slack(y):.5f}  "
+              f"{rec['zeros']}  (full charge c=1) vs slack "
+              f"{mt.slack(y):.5f}  "
               f"{'inside' if rec['D'] < mt.slack(y) else 'EXCEEDS'}")
     print("= the direct joint cap across the sweep =")
     theta_probe = (0.1, 0.3, 0.5)

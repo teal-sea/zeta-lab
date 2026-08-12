@@ -87,9 +87,13 @@ envelope, one-sided: W >= -0.54 sigma^2 at y = 0.49 (-0.70 at 0.3), vs
 the hunt window's -(1+m0) = -1.21.
 
 **The trade itself is measured healthy** (explicit band-riding
-adversary, one pair): total damage D = 0.030 against slack 0.142 at
-y = 0.49 (0.011 vs 0.052 at y = 0.3) — inside by 4.7x even at theta = 1,
-with only two zeros ever profitable (the +-1.10-mean-gap band pair).
+adversary, one pair): at FULL charge (c = 1, i.e. theta = 0) the total
+damage is D = 0.030 against slack 0.142 at y = 0.49 (0.011 vs 0.052 at
+y = 0.3) — 4.7x inside, with only two zeros ever profitable (the
++-1.10-mean-gap band pair).  (A first version of this line said "even at
+theta = 1"; that is false — at theta = 1 the charge is multiplied by
+zero and the supremum is unbounded by stacking.  Corrected by the
+adversary hunt, and the mislabel is kept in the record.)
 
 **The level-4 chain DP does NOT transplant.**  Its cap fails at every
 theta (0.44 vs slack 0.14) for a structural reason now pinned: at the MT
@@ -196,3 +200,90 @@ remains 0.6725009045, a candidate.
 2. the nu_p ~ 0.97 soft window, now the pair layer's only kill control;
 3. the arb pass over the band dual (same shape as `hardened_direct.py`);
 4. T5, the upstream Lean window pin, unchanged and external.
+
+
+## T1 third session: the joint cap, and the composition made coherent
+
+Instrument: `mt_joint.py` (the joint cap on the band partition);
+`mt_adversary.py` (the independent kill-control hunt).
+
+### The joint layer costs nothing at MT
+
+The level-7 direct route, rebuilt on the band partition: bands from the
+JOINT field (never per pair), sub-partitioned into delta-cells with the
+square completion per cell, cross-cell charges dropped, partition shown
+complete (worst Q / curvature ratio 874-60889 across the sweep).
+
+| configuration | pairs | budget | cap | margin |
+|---|---|---|---|---|
+| **isolated single pair y=0.49** (the binding case) | 1 | 0.1423 | 0.0653 | **+0.0771** |
+| isolated single pair y=0.3 | 1 | 0.0524 | 0.0194 | +0.0331 |
+| two pairs far apart y=0.49 | 2 | 0.2847 | 0.1308 | +0.1538 |
+| two pairs at the worst dipole y=0.49 | 2 | 0.2203 | 0.0611 | +0.1592 |
+| lattice nu=0.5 y=0.49 | 4 | 0.5304 | 0.0891 | +0.4414 |
+| lattice nu=0.97 y=0.49 (the pair layer's soft window) | 7 | 0.6274 | 0.0837 | +0.5436 |
+| lattice nu>=1.25, all depths, all battery shapes | 10-24 | 9.4-186 | **0.0000** | budget |
+
+(margins at theta = 0.995; the nu >= 1.25 rows close at every theta.)
+
+**At pair density >= ~1 per mean gap the joint damage field has no
+positive region at all.**  Measured directly: the maximum of the summed
+field over a 200-grid-unit halo is -7.5e-4 (at the far window edge, where
+it approaches 0 from below), against -3.9 inside the lattice, versus a
+single pair's +1.5e-2.  LAW M's positive mean, summed over enough pairs,
+swamps every band — the on-line adversary has nowhere to stand.
+
+So the ordering is **inverted relative to the hunt window**: there,
+density was the danger and the joint layer cost a factor 5 (0.1 ->
+0.02), with a dense-deep pinch needing an entire mutual-exclusion
+argument.  Here density is the defence, and the binding configuration is
+the ISOLATED pair — i.e. the joint layer imposes no loss at all and
+
+    theta_full(MT)  =  theta*(MT)  =  0.995  (measured grade).
+
+### The composition is now window-coherent
+
+`c_u` is computed with the Montgomery-Taylor kernel g, and g is exactly
+the normalised squared Fourier transform of the MT window (defect
+2.5e-16).  The retention now comes from the same window.  The previous
+composition drew its retention from the hunt window, whose own
+ordered-gap floor is **0** — it sits on the floor's lesion — so that
+pairing was never coherent.  That incoherence is what forced T1, and it
+is now repaired:
+
+    candidate = 0.6725007037 + 2 * 0.995 * 5.0212e-6 = **0.6725106958**
+
+i.e. +9.99e-6 against the pinned constant, where the hunt-window
+composition gave +2.01e-7.
+
+**This is a candidate reading, not a proportion, and five named steps
+remain open**: the transplant plumbing (linearity with coefficient 1),
+the census conversion (measured consistent only), taper/truncation
+restated one-sided, the arb pass over the band dual and the joint cap,
+and T5 — which window the pinned upstream Lean zero-side carries, whose
+arbiter is external to this session.  Any one of them alone withholds the
+word improvement.
+
+### The independent adversary hunt (`mt_adversary.py`) and one correction it forced
+
+A separate search (exhaustive n = 1..6 with analytic gradients, band
+lattices, multiplicity, phase offsets, depth and theta sweeps) found no
+configuration beating the two-zero band pair: worst measured take
+0.2091 of slack at y = 0.49, and a charge-free one-per-band envelope of
+0.325-0.335 of slack across all depths — an independent measurement of
+the same ~1/3 the band dual bounds one-sidedly at 0.34-0.36.  Its
+measured largest safe theta is 0.9990 at y = 0.49, rising to ~1 at the
+shallow end.  **So theta* is now sandwiched: 0.995 (one-sided dual) <=
+theta* <= 0.999 (measured adversary) — the bound is within 0.4% of the
+truth.**
+
+The hunt also caught a wording error of ours, kept in the record: an
+earlier line read "the trade stays inside the slack even at theta = 1".
+False as written — at theta = 1 the internal charge is multiplied by
+zero and stacking m zeros on one band is unbounded, which is exactly why
+both duals report cap(theta = 1) = infinity.  The measured figure was
+the FULL-charge case (c = 1, i.e. theta = 0).  Corrected in
+`mt_chain.py`, here, and in the ledger.  It also recorded a
+counter-control worth keeping: the natural concave-QP relaxation that
+would give an upper bound overshoots by 66x, because fractional
+multiplicities make the self-charge negative.
