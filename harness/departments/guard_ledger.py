@@ -115,4 +115,41 @@ GUARDS: tuple[GuardRecord, ...] = (
         scope="undetermined until demonstrated",
         incident="",
     ),
+    GuardRecord(
+        name=(
+            "tests/test_zeta23ext_imports.py::"
+            "test_no_module_imports_a_proving_service_namespace"
+        ),
+        guards_against=(
+            "a Lean artifact landed into hunts/frontier_math/zeta23ext with "
+            "the proving service's own module prefix (RequestProject) left in "
+            "its import lines, so the package fails to assemble at the first "
+            "module while every proof in it is good"
+        ),
+        smallest_mutant=(
+            "one landed .lean file whose first line is "
+            "'import RequestProject.Iv' instead of 'import Zeta23Ext.BandCert.Iv'"
+        ),
+        fired=True,
+        demonstrated_by=(
+            "tests/test_zeta23ext_imports.py::"
+            "test_the_guard_fires_on_the_smallest_mutant"
+        ),
+        known_misses=(
+            "an import naming an allowed prefix that nonetheless does not "
+            "exist (e.g. 'Zeta23Ext.Nope') — the scan reads the root only",
+            "whether a module actually builds; only the assembly build shows "
+            "that, and this guard exists precisely because that build is too "
+            "expensive to run in the fast tier",
+        ),
+        scope=(
+            "the root of every import line under the package resolves to "
+            "something the package could provide; nothing about proof content"
+        ),
+        incident=(
+            "twice on 2026-08-12: all eight BandCert/ modules, then the five "
+            "EForm/ modules landed after that fix — a repair that recurred, "
+            "which is what turned it into a guard"
+        ),
+    ),
 )
