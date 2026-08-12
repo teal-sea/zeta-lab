@@ -1,0 +1,10 @@
+name = "Zeta23Ext"
+defaultTargets = ["Zeta23Ext"]
+
+[[require]]
+name = "Zeta23"
+git = "https://github.com/anthropics/zeta-23-lean"
+rev = "3635e74826a4c1fcece7d1cd2b6fa75e43a00510"
+
+[[lean_lib]]
+name = "Zeta23Ext"
