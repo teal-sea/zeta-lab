@@ -11,6 +11,14 @@ This hunt works that frontier: what is the best unconditional constant the
 paper's kind of data can deliver, and can any known conditional refinement be
 made unconditional through the paper's machinery?
 
+## Concurrent sessions
+
+More than one session has worked this directory at once. **Read
+`ACTIVE-CLAIMS.md` before launching an agent, a prover submission, or a
+build here**, and add a row for anything you start that runs longer than
+a few minutes. `HANDOFF.md` remains the serial, between-sessions record;
+`ACTIVE-CLAIMS.md` is the live one.
+
 ## Scope
 
 **This hunt may write**: `hunts/frontier_math/` and `figures/`. It may add a
