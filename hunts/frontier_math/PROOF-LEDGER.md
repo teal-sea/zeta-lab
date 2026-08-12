@@ -843,3 +843,79 @@ retracted, which is the system working late. What survives, and is worth
 keeping: the Lean file is a correct formalisation of a step our chain
 uses, obtained in 104 minutes, and it now carries the citation it
 should have carried from the start.
+
+
+## Sphere-Packing-Lean audit: a dependency avoided, and the bridge located (2026-08-12)
+
+Instrument: `SPL-AUDIT.md` (agent build; repo cloned read-only at HEAD
+bad3de9, 2026-08-05, 77 files, 18194 lines).
+
+| Finding | Detail |
+|---|---|
+| **The repo is NOT sorry-free** | 61 real (non-comment) sorrys across 19 files - **including the headline `SpherePacking.MainTheorem`, whose entire proof is `sorry`**. The "formally complete Feb 2026" report the tool survey relayed is not borne out by the tree |
+| **The exact scaffolding we wanted is a sorry** | `SchwartzMap.PoissonSummation_Lattices` is `sorry`, lives in a file whose own header says it "SHOULD EVENTUALLY BE REMOVED", and its hypothesis predicate `PSF_Conditions` contains a `sorry` **in its definition** |
+| **Trap avoided** | requiring the library would have imported those sorrys; `PoissonSummation_Lattices` would typecheck downstream and be an axiom-tainted lie. Pin conflict too (their Mathlib v4.32.0 vs our v4.33.0-rc2) |
+| **Mathlib already has better** | `Real.tsum_eq_tsum_fourier_of_rpow_decay`: continuity plus polynomial decay, **no smoothness at all**. Our c2's corner never enters because c2 appears only as the TRANSFORM; both hypotheses hold at b = 2 with f = c2hat = \|ghat\|^2. Only real work is rescaling Z -> sZ |
+| **The bridge is absent by design** | Cohn-Elkies routes finite -> periodic -> infinite and never truncates; no truncation lemma, tail bound or remainder anywhere in the repo |
+| **STOP LOOKING FOR A ONE-SIDED LEMMA** | our own data (m=4: +0.0240, m=32: +0.0056, limit +0.0135) says the finite-m value CROSSES the limit, so no one-sided lemma exists to borrow |
+| **The tractable statement, located** | a TWO-SIDED estimate \|b_m - b_inf\| <= E(m, s, y), elementary precisely because c2 is compactly supported: the dual sum is ALREADY FINITE (\|2 pi k/s\| < 1), so the discrepancy is a boundary term over O(1) pairs at the cluster ends, not a divergent tail. Self-contained against Mathlib alone |
+| No positivity scaffolding either | no Beurling, Selberg, bandlimit, Paley-Wiener; the magic function's two Cohn-Elkies conditions are not formalised at all, so there is no worked example of establishing a Fourier transform nonnegative |
+| Verdict | **(iv) not usable as a dependency**, shading into (iii) proof-pattern reference |
+
+Disposition: **THE SURVEY'S RECOMMENDATION #4 IS REFUTED BY ITS OWN
+AUDIT, AND THE AUDIT FOUND THE ROUTE ANYWAY.** A vendor-adjacent
+"formally complete" claim did not survive a grep; the scaffolding we
+were told to build on is a sorry inside a file marked for deletion. What
+replaces it is better: Mathlib's own Poisson result needs strictly
+weaker hypotheses than the sorried one, and the bridge is a two-sided
+boundary estimate over O(1) cluster-end pairs. No proportion is claimed
+to have moved.
+
+
+## The SOS/Gram route is CLOSED, with an exact witness (2026-08-12)
+
+Instruments: `sos_certificate.py`, `test_sos_certificate.py` (23 tests).
+
+| Obligation | Status | Evidence |
+|---|---|---|
+| Matrix form of the full obligation | **EXACT** | `Xi(Q) = sum c(a,b) Q(a,b)^2 - 4k` with c = 1 except (1-theta) on the on-line off-diagonal and 0 on its diagonal; validated against the Fourier evaluator to 2.55e-11, and the residual is the REFERENCE's quadrature error (falls as h^2) - the matrix side is closed-form |
+| Degree-2 SDP relaxation | **LOOSE** | cannot even reproduce the kernel-checked `E[F_p] >= 4k` for k >= 2: that is an INERTIA fact (how many positive eigenvalues perm(sigma) has), invisible to a degree-2 lift on entries of Q |
+| **The Gram cone itself is insufficient** | **PROVED INSUFFICIENT, EXACT RATIONAL WITNESS** | `cone_violator`: on-line block all-ones, cross entries +/- i t, pair diagonal 1 + 2t^2, satisfying PSD (two-line identity), the involution relations, diag >= 1 and Cauchy-Schwarz - with Xi = (1-theta)n(n-1) + 2(1+2t^2)^2 - 2 - 4n t^2 -> **-infinity**. Re-checked exactly in fractions with rational LDL^T: Xi = -47/100 (n=3), -36/25 (n=4), -157/20 (n=6) |
+| Why it does not refute the target | the witness is NOT REALIZABLE as a configuration | relative fit residual 0.135 - it is not a Gram matrix of exponentials |
+| Derived window ranges added | **SHRINK 50x, DO NOT CLOSE** | psi(1) = 1.039221, psi(1/2) = 1.009717 (sharper than Cauchy-Schwarz by log-convexity of Psi), min Phi2/A = -0.180414; deficits -0.045 (3,1) to -0.245 (4,2), still growing in n and k |
+| The lesson | **a pointwise entry bound cannot close a joint obligation** | what is missing is the R-vs-D trade: the on-line atoms cannot all sit at the damage minimum at once |
+| Size-independent multiplier | **EXISTS AND IS PROVABLY INSUFFICIENT** | the generalised inertia bound `sum Q^2 >= (n+2k)^2/(n+k)` (recovering PairEnergy exactly at n=0) has a fixed kernel multiplier h(a,b) = 2[b = sigma a], and the (0,1) SDP dual is proportional to I - perm(sigma), the same kernel - but it falls short by exactly `nk/(n+k) + theta R` |
+
+Disposition: **THE ROUTE THROUGH GRAM POSITIVITY ALONE IS CLOSED.** Any
+proof must use analytic properties of Psi beyond g >= 0, supplying a
+JOINT constraint coupling the on-line block to the cross block - not
+entrywise bounds - and must supply `nk/(n+k) + theta R` over the inertia
+bound. The degree-2 moment hierarchy is the wrong instrument because it
+cannot see inertia. No proportion is claimed to have moved.
+
+
+## The truncation bridge: derived, and it does NOT close the family (2026-08-12)
+
+Instruments: `truncation_bridge.py`, `test_truncation_bridge.py` (19
+tests). **Contains a finding that must be chased before anything else -
+see the flagged row.**
+
+| Obligation | Status | Evidence |
+|---|---|---|
+| Convergence rate | **DERIVED, AND NOT 1/m** | it is (a + b log m)/m: the corner of c2 at w = 0 leaves a NON-oscillating 1/d piece whose partial sums are log m. Fitted exponents 0.72-0.86; the derived log-coefficient matches the fit to within 0.3% at every probe |
+| Why no one-sided lemma exists | **MECHANISM FOUND** | the coefficient bracket FLIPS SIGN at commensurate spacings: at s in 2 pi Z it is + kappa(cosh^2 y - 1) > 0 (finite above the limit), off resonance it is c2'(0+) < 0 (below). Pinned as a test |
+| The two-sided estimate E | **DERIVED** | E_crude = (2 C_T/s^2)(H_{m-1}/m + 1/(m - 1/2)), depth-free, C_T reused from `cluster_universal`; the tail bound is closed-form by telescoping, no zeta(2) needed; an elementary majorisation gives C <= 77 |
+| E validated | **HOLDS EVERYWHERE** | 504 grid points; worst measured/E = 0.3544 (crude, headroom x2.82), 0.8166 (hybrid, x1.22); planted inflation breaks it in both directions |
+| **m0, the payoff** | **NOT SMALL - THE FAMILY DOES NOT CLOSE** | m0 is 2-4 over most of the range but blows up in two thin regions: the resonance s ~ 2 gaps (little room, rho = 0.89) and the budget floor at s = 1 gap (b_inf = 0.0245 is tiny), where m0 reaches 6157-8454 |
+| **FLAGGED: negative finite margin at the rho-map argmax** | **MUST BE CHASED** | at (s, y) = (2.002 gaps, 0.4999) the finite ladder margin goes NEGATIVE from m = 24: +0.02890 / +0.00760 / +0.00037 / **-0.00264** / **-0.00685** at m = 2/8/16/24/64. The budget side behaves exactly as the derived estimate predicts; **the cap side is the cause** |
+| Is it real or an instrument artifact? | **UNRESOLVED - the reason it must be chased** | the cap is step-dependent and moves DOWN with refinement (rho = 0.9685/0.9547/0.9286 at step 0.005/0.004/0.002), so coarse-step finite caps may be overestimates. But finite per-pair caps also RISE with m past cap_inf (0.1127/0.1156/0.1184/0.1205 at m = 4/8/16/32), which is the wrong direction |
+| Named gaps | G1 cap side not derived and measured wrong-way; G2 m < m0 checked on a ladder, not exhaustively; G3 cap step-dependence | recorded in the module, pinned as tests that assert the FAILURES rather than hopes |
+
+Disposition: **THE BRIDGE IS DERIVED AND THE FAMILY STILL DOES NOT
+CLOSE, AND THERE IS A POSSIBLE COUNTEREXAMPLE ON THE TABLE.** The
+budget side is now understood exactly, including why no one-sided lemma
+could ever have existed. But m0 blows up in two thin regions, and at the
+worst point of the rho map the finite margin goes negative from m = 24.
+Until that is resolved as real or as a coarse-instrument artifact, the
+multi-pair verdict at theta = 0.995 is IN DOUBT, not merely unproved.
+No proportion is claimed, and the candidate reading is not defended.
