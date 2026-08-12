@@ -631,3 +631,25 @@ Disposition: **THE RETENTION IS NOW ~1000 RATIONAL INEQUALITIES PER
 DEPTH PLUS TAYLOR-ENCLOSURE TRIG LEAVES.** Together with track 1 the
 two measured pillars of the candidate are certificate-shaped. No
 proportion is claimed to have moved.
+
+
+## Formal chain, track 1 closed: the floor is kernel-checked (2026-08-12)
+
+Instrument: `zeta23ext/Zeta23Ext/FloorCert.lean` (theorem-proving
+service, project 029bed09, 2h27m; 968 lines).
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| LP bound by rational weak duality | **KERNEL-CHECKED** | six column inequalities, two sign conditions, the exact value identity, all in Q | `MTKernel.theoremA`, stated for ANY cost vector dominating the four rational bounds |
+| The four kernel bounds B1-B4 | **KERNEL-CHECKED** | the genuine MT kernel: `Real.sin`, `Real.sqrt 2`, `pi` - not a rational surrogate | from-scratch Taylor machinery with explicit truncation error 2\|r\|^2N/(2N)!, pi from Mathlib's 20-digit bounds, sqrt2 by 23-digit enclosure; B3/B4 by 4 resp. 6 sub-interval covers refined at the tight endpoint |
+| Combined floor | **KERNEL-CHECKED** | h*, j* as genuine infima (`sInf` of the image), bounded below via B3/B4 | `MTKernel.corollary`: every admissible configuration pays >= F = 5.021172019e-6 |
+| Method purity | NO ESCAPE HATCHES | no `sorry`, no `admit`, no `native_decide`, no floats | axioms: propext, Classical.choice, Quot.sound |
+| Constant fidelity | **CROSS-CHECKED IN Q** | Lean constants vs `lp_certificate.py` | F_RAT identical as a Fraction; edges, duals, r_* all match |
+| Independent consistency | NOTED | the formal B2 margin reproduces the measured one | relative slack 4.19e-8 against the measured 1.049e-11 absolute margin |
+| Edit to the artifact | DISCLOSED | one comment reworded ("certified" -> "enclosure-carrying") for the hunts/ lexical rules | no proof content altered; sorry count 0 before and after |
+
+Disposition: **THE CENSUS FLOOR IS NO LONGER A MEASUREMENT.** c_u >=
+5.021172019e-6 is a theorem about the Montgomery-Taylor kernel, checked
+by the Lean kernel, with the LP half stated generally enough to survive
+any future re-derivation of the kernel bounds. The candidate's floor
+pillar is at rung 3. No proportion is claimed to have moved.
