@@ -35,3 +35,4 @@ import ZetaLean.WeightedSimplex
 import ZetaLean.PrimeSimplex
 import ZetaLean.RootedMatchingBound
 import ZetaLean.RepeatedPrimeDominated
+import ZetaLean.PowerfulDecomposition
