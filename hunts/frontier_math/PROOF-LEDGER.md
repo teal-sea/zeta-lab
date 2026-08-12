@@ -702,3 +702,30 @@ step at the far end (0.997 vs the rational cover's 0.997 at sampled
 depths) and nothing at the retention of record. Grade: hardened
 (double precision), not kernel-checked. No proportion is claimed to have
 moved.
+
+
+## Blocker 3 resolved: the asymptotic transfer, and the effectiveness verdict (2026-08-12)
+
+Instruments: `asymptotic_transfer.py`, `test_asymptotic_transfer.py`
+(18 tests); draft section for the preprint.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Unit dictionary into the source's hat units | **DERIVED, FACTOR 1** | one change of variable x = tau*L and one Poisson lemma read at two step sizes: h=1 gives 2piA (LAW D), h=2pi gives A; undoing the scaling gives aL^2 with a = A | the normalised Gram is grid-step INDEPENDENT (the 2pi/h cancels between inner product and normalisation) - measured at steps 1, pi, 2pi with defects halving as 1/span |
+| a vs A | **EXACT** | a*(lambda) = sin(theta)/theta, theta = lambda/sqrt2; A = a*(1) | bit-identical (defect 0.0); their consistency law cRatio(lambda; a*,b*,J*) = c*_lambda reproduces to 1.1e-16 |
+| The transfer in their objects | **CLEANEST FORM FOUND** | \|\|P\|\|^2_F = sum m^2 + R exactly, so D = \|\|Ahat\|\|^2_F - sum_{S1 u S2} m^2 | the hypothesis becomes (T): \|\|Ahat\|\|^2_F >= sum m^2 + 2 theta c_u N(I'), stated purely in upstream objects; residual < 8e-15 |
+| **Dominant error term** | **NOT calE - the coordinator's guess was wrong** | window-moment drift, constant DERIVED from parts not fitted: 4/(l1 a^2) + 16 l1/a^2 + 8 cinv/a + \|d cinv/d l1\|(2log2 - 1) = 35.519106 | measured drift x L/w = 35.5443 / 35.5216 / 35.5194 at l = 1e4/1e5/1e6; the partial d cinv/d l1 = -0.684755 = -HD'(1) as it must be |
+| **Does the improvement drown?** | **NO** | 2 theta c_u is a fixed constant; every error term is o(1) | the composed statement is the same logical type as the source's own epsilon-form, with H raised from 2 - 1/c*_1 to 2 - 1/c*_1 + 2 theta c_u |
+| **Is it numerically effective?** | **NO, AND THIS IS THE HEADLINE CAVEAT** | crossover l0 = 3.8621e6, T0 ~ 10^(1.6773e6) | nothing below that height clears the budget. The shape is T0 ~ exp(38.5/improvement) - an eps-improvement costs height exponential in 1/eps - and that shape comes from the SOURCE's own o(1) coefficients, not from the transplant |
+| Sensitivity to existential constants | MILD | C = 1 / 10 / 100 gives l0 = 3.86e6 / 5.22e6 / 1.73e7 | because the dominant term is C-free |
+| The lambda < 1 requirement | **COSTS THE CENSUS NOTHING** | their `thmD_abstract` needs lambda strictly < 1; the census kernel generalises to g_{lambda,lambda1} | equals `cg_transplant.g_kernel` at lambda = lambda1 = 1 to 3.3e-16 (a strong check on the scaling: a wrong one would move the kernel zeros); re-running the LP on the deformed kernel reproduces c_u to 1 ulp, and dc_u/dlambda ~ -5.3e-4 means the floor RISES as lambda falls - safe direction |
+| Lesion + admissibility controls | PASS | carrying our 2piA onto their grid gives unit norm 1/2pi exactly; lambda=1, w=0.5, 8w>L each rejected | |
+| Residual, named | STATED | (i) T0 is a reference not an effective bound - four existential EvBound constants would make it effective and nothing else in the budget would; (ii) prime-side and Theorem B cited; (iii) **theta = 0.995 is measured at lambda = 1 only**, its lambda-sensitivity unmeasured (the deformation at 1 - lambda1 ~ 5e-7 is far below that measurement's resolution, but this is named, not closed); (iv) grid instruments truncated ~1/span | |
+
+Disposition: **THE TRANSFER GOES THROUGH AND THE IMPROVEMENT IS REAL AS
+A LIMINF STATEMENT - AND IT IS NOT EFFECTIVE AT ANY REACHABLE HEIGHT.**
+Both halves are the result. The source's theorem is itself a
+non-effective liminf with existential constants, so the composed
+statement is the same logical type, not a weaker one; but anyone reading
+"improvement" as "better at computable heights" would be wrong, and the
+preprint must say so. No proportion is claimed to have moved.
