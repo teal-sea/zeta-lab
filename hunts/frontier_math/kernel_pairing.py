@@ -38,6 +38,15 @@ and whether that count's discarded mass is an omega^2 sum or a g sum is a
 question about the paper's Theorem D derivation, not about anything
 measurable here.
 
+RESOLVED (see ``paper_pin.py``): the paper's Theorem D window carries the
+cos(sqrt2 .) profile on **phi squared**, for which FT(phi^2) is the
+v*-transform and omega^2 IS the MT kernel g - the two pairings coincide by
+construction.  The ambiguity this module measures is real, but it belongs
+to the T1 window (phi = cos box), which the functional (7.3) shows is a
+strictly weaker member of the paper's class (H = 0.667324).  This module
+stays as the record of the discrepancy and of the conservative reading
+that was in force while the pairing was unknown.
+
 Run ``.venv/bin/python hunts/frontier_math/kernel_pairing.py`` (~4 min).
 """
 

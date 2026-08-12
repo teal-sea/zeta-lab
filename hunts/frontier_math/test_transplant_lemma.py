@@ -236,6 +236,38 @@ def test_pinned_constant_is_exactly_the_montgomery_taylor_constant():
     assert abs(MT_CONST - 1.3274992963205885) < 1e-12
 
 
+def test_paper_functional_reproduces_the_three_constants():
+    """The paper's (7.3) implemented once must yield the MT constant at
+    v* = cos(sqrt2 s), Montgomery's 2/3 at v = 1, and a STRICTLY weaker
+    constant at cos^2 - the T1 chain's profile.  The last is the point:
+    the T1 window put the cos profile on phi instead of phi^2."""
+    from paper_pin import V_FLAT, V_STAR, V_T1, h_of
+    from reconnect import H_PINNED
+    assert abs(h_of(V_STAR, 2001) - H_PINNED) < 1e-6
+    assert abs(h_of(V_FLAT, 2001) - 2.0 / 3.0) < 1e-6
+    assert H_PINNED - h_of(V_T1, 2001) > 4e-3
+
+
+def test_paper_functional_converges_on_the_ladder():
+    from cg_transplant import MT_CONST
+    from paper_pin import convergence_ladder
+    defects = [abs(h - (2.0 - MT_CONST))
+               for h in convergence_ladder((1001, 2001, 4001)).values()]
+    assert defects[0] > defects[1] > defects[2]
+    assert defects[2] < 1e-8
+
+
+def test_mass_kernel_equals_g_only_for_the_paper_window():
+    """For the paper's window (phi^2 = cos box) the incidence weight
+    omega^2 IS the MT kernel, so the kernel-pairing ambiguity dissolves;
+    for the T1 window (phi = cos box) it was real."""
+    from paper_pin import (
+        paper_window_mass_kernel_is_g, t1_window_mass_kernel_is_not_g,
+    )
+    assert paper_window_mass_kernel_is_g() < 1e-12
+    assert t1_window_mass_kernel_is_not_g() > 0.05
+
+
 def test_composition_formula_is_calibrated_against_cheer_goldston():
     """H + 2*floor reproduces CG's printed 1993 constant from their own
     inputs.  This calibrates the coefficient 2 and the linearity WITHIN

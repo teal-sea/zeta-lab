@@ -418,3 +418,29 @@ Defects of our own found and corrected in this session: the
 blanket-margin artifact (x3, three guises), a theta = 1 convention
 mislabel, the kernel-pairing mix, a propagated stale comment. All found
 by controls or independent routes, none by inspection.
+
+
+## T3/T5 paper session (2026-08-12)
+
+Instrument: `paper_pin.py`; the paper itself, SHA-256
+6792988e6cd0e17690621ce898abd5d534f98407741bc7cb14bbe7d07c77d72f,
+section 7.1 + Theorem D proof (pp. 20-21) and the (Z)(P)(L) skeleton
+(pp. 4-5).
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| T5: upstream window pin | **ANSWERED FROM SOURCE** | "Writing phi^2(u) = v(u/L)"; Theorem D takes phi = cos(sqrt2 u/l)^(1/2) box, ramp-mollified, rho = 1 | functional (7.3) implemented once reproduces MT constant at v* (defect 6.8e-9, ladder-shrinking), Montgomery's 2/3 at v = 1 |
+| T3 kernel half | **ANSWERED FROM SOURCE** | K = |vhat|^2 in (7.3); LAW D weight = FT(phi^2)^2; for the paper's window FT(phi^2) = v*-transform | omega^2 = g to 2.5e-16 under the paper's window; gap >= 7% under the T1 window — the ambiguity belonged to the wrong window |
+| T1 window class membership | **STRICTLY WEAKER** | v-profile cos^2 vs cos | H(cos^2) = 0.6673241, 5.2e-3 below the optimum; every T1 field was built at this member |
+| Burden (a): chain re-run at Phi2 = FT(cos box) | NAMED, OPEN | one kernel swap in mt_chain/band_dual/mt_joint | theta* = 0.995 is currently a measurement about a neighbouring window |
+| Burden (b): ramp mollification | NAMED, OPEN | paper's window is ramped; theta* was at the pure box | paper states O(log l / l) window-constant corrections |
+| Burden (c): multiplicative theta | UNCHANGED, LOAD-BEARING | "(2 tr P - r) + (4 tr Q - 4b) plays the role that sum (2m-1) plays" — (L) consumes the Frobenius mass whole | derived nowhere; if false the reading is vacuous |
+| Reading of record | UNCHANGED | conservative pairing until burden (a) lands | **0.6725087070**, a candidate; correctly-paired figure 0.6725106958 waits on (a) |
+| Stale comment digits in cg_transplant.py | CORRECTED (again, this copy) | comments printed 1.3274992766 / 0.6725007233 | now 1.3274992963 / 0.6725007036; value itself was always right and is pinned by test |
+
+Disposition: **BOTH QUESTIONS THE AUDIT LEFT OPEN ARE ANSWERED, AND THE
+ANSWER INDICTS OUR OWN WINDOW.** The paper's window puts the cos profile
+on phi squared; ours put it on phi. That dissolves the kernel ambiguity
+(in favour of g) and simultaneously reveals the T1 field was built at a
+strictly weaker class member. Next build: the kernel swap (burden (a)).
+No proportion is claimed to have moved.

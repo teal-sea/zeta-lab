@@ -396,3 +396,70 @@ theta* sandwiched in [0.995, 0.999] by a one-sided dual and an
 independent adversary hunt, arb-hardened at 0.9988, and the joint layer
 costing nothing.  Those are statements about the window and are
 cross-checked several ways.  What they are NOT is a proportion.
+
+
+## T3/T5 from the source: the window pin and the kernel resolution
+
+The paper itself (SHA-256 pinned below in the ledger) was read for the
+two questions the confidence audit left open.  Instrument:
+`paper_pin.py`; every sentence below that can be computed is a test.
+
+**T5 is answered.**  Section 7.1 and the Theorem D proof pin the
+upstream window completely: rho = 1, box of width L, ends mollified by
+the fixed-width ramp, and — the sentence that decides everything —
+*"Writing phi^2(u) = v(u/L) ... the constant is the scale-free
+functional (7.3)"* with maximiser *v\*(s) = cos(sqrt2 s)*.  The
+variational profile belongs to **phi squared**, and the Theorem D window
+is phi(u) = cos(sqrt2 u/l)^(1/2) on the box (the proof checks
+cos >= cos(1/sqrt2) > 0 on the support precisely so the square root is
+admissible).  The external Lean double-check is thereby downgraded to
+optional.
+
+**The functional, implemented once, reproduces three constants.**
+1/c(v) = (int v^2 + int int |s-s'| v v) / (int v)^2 — Montgomery's
+K(0)/(Khat(0) + int |Khat|) with K = |vhat|^2 — gives
+
+    v* = cos(sqrt2 s):  H = 0.6725006969 (n=4001; defect 6.8e-9, shrinking on the ladder)
+    v  = 1:             H = 0.6666666562 (Montgomery's 2/3)
+    v  = cos^2:         H = 0.6673241112
+
+The third line is the new fact: **the T1 chain's window (phi = cos box,
+so v-profile cos^2) is an admissible but strictly weaker member of the
+class — 5.2e-3 below the optimum**, three orders of magnitude larger
+than the 8e-6 floor under negotiation.
+
+**T3's kernel half is answered, and the ambiguity dissolves.**  tr G^2
+is the pair sum weighted by B^2, LAW D makes B proportional to
+FT(phi^2), and for the paper's window FT(phi^2) is the transform of the
+cos(sqrt2 .) box — already measured (`mt_kernel_identity`, defect
+2.5e-16) to be the square root of the MT kernel.  So under the paper's
+window **omega^2 IS g**: the mass kernel and the Cheer-Goldston floor
+kernel coincide by construction, and (7.3) says so in words
+(K = |vhat|^2).  The omega^2-vs-g split that forced the conservative
+reading was an artifact of the T1 window putting the cos profile on phi
+instead of phi^2; it is absent from the paper's chain.
+
+**What this costs.**  The entire T1 re-run — mt_chain, band_dual,
+mt_joint, the adversary hunt, the arb pass, theta* = 0.995 — was
+computed on the damage field of the WRONG class member: every field was
+built from Phi2 = FT(cos^2 box) where the paper's chain has
+Phi2 = FT(cos box).  The named burdens behind the candidate are now:
+
+  (a) chain re-run at Phi2 = FT(cos box) — same machinery, one kernel
+      swap; until it lands, theta* = 0.995 is a measurement about a
+      neighbouring window, not the paper's;
+  (b) the ramp: theta* at the pure box vs the paper's ramp-mollified
+      window, O(log l / l) constant corrections;
+  (c) T3's multiplicative half, unchanged and still the load-bearing
+      unknown: the paper's (L) consumes ||P+Q||_F^2 whole via
+      *"(2 tr P - r) + (4 tr Q - 4b) plays the role that sum (2m-1)
+      plays in Montgomery's argument"*; that the eroded on-line
+      off-diagonal mass enters as theta times a CG floor in the paper's
+      units is derived nowhere.
+
+**Where the reading stands.**  The conservative figure 0.6725087070 was
+the right thing to report while the pairing was unknown.  With the
+pairing settled in favour of g, the correctly-paired figure would be
+0.6725106958 — but only after burden (a) re-establishes theta at the
+correct field.  Until then the reading of record stays **0.6725087070,
+a candidate**, and no proportion is claimed.
