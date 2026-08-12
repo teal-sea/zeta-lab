@@ -92,6 +92,31 @@ def test_joint_cap_dominates_greedy_joint_adversary(vc, pinch_verdict):
     assert greedy <= pinch_verdict["j_cap"] + 1e-9
 
 
+def test_direct_route_closes_the_former_seam():
+    """The corrected joint-field DP closes nu_p in [1.1, 1.4] deep,
+    where both the v-route and the separable accounting fail."""
+    vc = VCertificate()
+    for nu in (1.2, 1.3):
+        pairs = [(k / nu, 0.49) for k in range(int(10 * nu))]
+        rec = vc.verdict(pairs, 0.02)
+        assert rec["closes"], (nu, rec["margin"])
+        assert rec["detail"]["route"] == "direct"
+
+
+def test_per_pair_clipping_is_the_recorded_near_miss():
+    """Positive part must be of the JOINT field: clipping per pair
+    discards the coincident-pair shielding and inflates the field by an
+    order of magnitude at the seam (the separable accounting's ghost)."""
+    vc = VCertificate()
+    pe = vc.pe
+    pairs = [(k / 1.3, 0.49) for k in range(13)]
+    g = 4.65
+    joint = max(0.0, sum(-2 * pe.W(g - t, y) for t, y in pairs))
+    per_pair = sum(max(0.0, -2 * pe.W(g - t, y)) for t, y in pairs)
+    assert joint == 0.0
+    assert per_pair > 4.0
+
+
 def test_extended_greedy_stays_inside_the_seam_budget():
     """The seam kill control: even the extended adversary (wider range,
     denser packing) extracts far less than the budget where both bounds

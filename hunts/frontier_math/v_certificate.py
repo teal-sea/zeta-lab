@@ -62,7 +62,18 @@ v1, m_I + m_II = 1):
             + DP_mid + err_far,
 
 minimised over the (v1, rho) ladder — each choice is one-sided, so the min
-is.  The verdict per pair configuration:  margin = budget - J_cap.
+is.
+
+THE DIRECT ROUTE (:meth:`VCertificate.direct_cap`).  Level 6b's originally
+named object — the level-4 chain counting dual on the damage field summed
+over pair centres, f(g) = (-(sum_r 2 W(g - t_r, y_r)))_+ , at full charge —
+turns out to dominate the v-route almost everywhere once the positive part
+is taken of the JOINT field (clipping per pair would discard the
+coincident-pair shielding and reproduce the separable accounting's
+looseness; that near-miss is kept as a control).  The v-route remains the
+independent cross-check and the carrier of the exact laws; the final cap
+is the min of the two routes, each one-sided.  The verdict per pair
+configuration:  margin = budget - J_cap.
 
 WHAT THE MEASUREMENTS MUST SHOW (the directive's kill controls): J_cap
 dominates the greedy joint adversary and every lower level's measured
@@ -325,8 +336,8 @@ class VCertificate:
             run = []
             for i in range(n):
                 g = start + side * i * mid_step
-                run.append(sum(max(0.0, -2 * pe.W(g - t, y))
-                               for t, y in pairs))
+                run.append(max(0.0, sum(-2 * pe.W(g - t, y)
+                                        for t, y in pairs)))
             vals.append(run)
 
         best = math.inf
@@ -366,6 +377,68 @@ class VCertificate:
                 g += delta
         return best, err_far
 
+    # -- the direct route: the counting DP on the joint damage field ----------
+
+    def direct_cap(self, pairs, theta: float,
+                   fine: float = 0.0125) -> float:
+        """Level 6b's originally named object: the level-4 chain counting
+        dual with the damage field summed over pair centres,
+
+            f(g) = sum_r max(0, -2 W(g - t_r, y_r)),
+
+        one DP over the whole interaction range at full charge (1-theta).
+        No taper, no leak, no Cauchy-Schwarz: LAW M's positive mean sits
+        inside the summed field itself, so at lattice densities the field
+        is negative-part-small and the cap is tight exactly where the
+        v-route's band-edge grant is loose (the seam).  Field sups are
+        dense-grid measured with per-cell measured-slope margins (same
+        grade as the mid zone; the arb pass is the named hardening).
+        """
+        pe, cb = self.pe, self.cb
+        ts = [t for t, _ in pairs]
+        lo, hi = min(ts) - self.G_mid, max(ts) + self.G_mid
+        c = 1 - theta
+        # the positive part of the JOINT field — clipping per pair instead
+        # would discard the coincident-pair shielding and reproduce the
+        # separable accounting's looseness
+        n = int((hi - lo) / fine) + 1
+        run = [
+            max(0.0, sum(-2 * pe.W(lo + i * fine - t, y) for t, y in pairs))
+            for i in range(n)
+        ]
+        best = math.inf
+        for delta in self.delta_choices:
+            per = max(1, int(round(delta / fine)))
+            cells = []
+            for j in range(0, len(run), per):
+                seg = run[j:j + per + 1]
+                if not seg:
+                    continue
+                local = max(
+                    (abs(seg[i + 1] - seg[i]) for i in range(len(seg) - 1)),
+                    default=0.0,
+                )
+                cells.append(max(seg) + 2 * local)
+            cK1 = c * cb.K_delta(delta)
+            cK2 = c * cb.K_delta(2 * delta)
+            best = min(best, chain_dp(cells, cK1, cK2))
+        # far tail beyond G_mid, linear-regime psi cells (both sides)
+        delta = self.delta_choices[0]
+        cK1 = c * cb.K_delta(delta)
+        far = 0.0
+        for side in (-1, 1):
+            g = 0.0
+            while True:
+                edge = (lo - g) if side < 0 else (hi + g)
+                F = sum(cb.tail_sup_damage(abs(edge - t), y) for t, y in pairs)
+                if F > 2 * cK1:
+                    raise AssertionError("far cell left the linear regime")
+                far += F
+                if F < 1e-12:
+                    break
+                g += delta
+        return best + far
+
     # -- the joint cap ---------------------------------------------------------
 
     #: near-window half-extension ladder (each choice is one-sided)
@@ -377,7 +450,8 @@ class VCertificate:
             # every internal charge vanishes: the cap is honestly infinite
             return (math.inf, None) if detail else math.inf
         ts = [t for t, _ in pairs]
-        best = (math.inf, None)
+        direct = self.direct_cap(pairs, theta)
+        best = (direct, {"route": "direct", "direct": direct})
         for G in self.G_near_choices:
             S = (max(ts) - min(ts)) + 2 * G
             dp_mid, err_far = self.mid_far_caps(pairs, theta, G=G)
@@ -391,10 +465,12 @@ class VCertificate:
                     cap = dp1 + m2 / cII + cII / (4 * k00) + dp_mid + err_far
                     if cap < best[0]:
                         best = (cap, {
+                            "route": "v-cells",
                             "G_near": G, "v1": v1, "rho": rho, "dp_I": dp1,
                             "M_II": m2, "M_II_term": m2 / cII,
                             "leak": cII / (4 * k00), "kappa00": k00,
                             "dp_mid": dp_mid, "err_far": err_far, "S": S,
+                            "direct": direct,
                         })
         return best if detail else best[0]
 
@@ -570,10 +646,12 @@ def audit():
     d = rec["detail"]
     print(f"  budget = slack {rec['slack_total']:.2f} + T {rec['t_signed']:.2f}"
           f" = {rec['budget']:.2f}")
-    print(f"  J_cap = {rec['j_cap']:.2f}  [dp_I {d['dp_I']:.2f} + M_II-term "
-          f"{d['M_II_term']:.2f} + leak {d['leak']:.2f} + dp_mid "
-          f"{d['dp_mid']:.2f} + far {d['err_far']:.2f}] at v1={d['v1']}, "
-          f"rho={d['rho']}, S={d['S']:.0f}")
+    print(f"  J_cap = {rec['j_cap']:.2f} via {d['route']} "
+          f"(direct {d['direct']:.2f}); v-route detail: "
+          + ("[dp_I {dp_I:.2f} + M_II-term {M_II_term:.2f} + leak "
+             "{leak:.2f} + dp_mid {dp_mid:.2f} + far {err_far:.2f}] "
+             "at v1={v1}, rho={rho}".format(**d)
+             if d['route'] == 'v-cells' else '(direct wins)'))
     print(f"  margin = {rec['margin']:+.2f}  closes={rec['closes']}")
     greedy = greedy_joint_profit(vc, pairs, theta)
     print(f"  domination control: greedy joint profit {greedy:.2f} <= cap "
@@ -607,8 +685,7 @@ def audit():
         print(f"  {name:26s} budget {rec['budget']:8.2f}  cap "
               f"{rec['j_cap']:8.2f}  margin {rec['margin']:+9.2f}  "
               f"{'closes' if rec['closes'] else 'OPEN'}  "
-              f"[dpI {d['dp_I']:.1f} MII {d['M_II_term']:.1f} "
-              f"leak {d['leak']:.1f} mid {d['dp_mid']:.1f}]")
+              f"route {d['route']} (direct {d['direct']:.1f})")
     print("= the sweep: mixed depths (phase 2a) =")
     for name, pairs in mixed_depth_configs():
         rec = vc.verdict(pairs, theta)
@@ -616,8 +693,7 @@ def audit():
         print(f"  {name:26s} budget {rec['budget']:8.2f}  cap "
               f"{rec['j_cap']:8.2f}  margin {rec['margin']:+9.2f}  "
               f"{'closes' if rec['closes'] else 'OPEN'}  "
-              f"[dpI {d['dp_I']:.1f} MII {d['M_II_term']:.1f} "
-              f"leak {d['leak']:.1f} mid {d['dp_mid']:.1f}]")
+              f"route {d['route']} (direct {d['direct']:.1f})")
 
 
 if __name__ == "__main__":

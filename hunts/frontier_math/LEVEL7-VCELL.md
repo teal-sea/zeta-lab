@@ -2,15 +2,20 @@
 
 ## Disposition (three results, stated in the order they matter)
 
-1. **The joint cap exists and closes the pinch.**  The named theorem object
-   of level 6b — an on-line-configuration-free upper bound on the joint
-   profit against a pair cluster — is delivered in the Fourier bridge's one
-   variable (`v_certificate.py`).  At the level-6b pinch (nu_p = 1.5,
-   y = 0.49, 15 pairs), the cap is 37.36 against a budget of 41.11:
-   **margin +3.75**, where the greedy measured adversary of level 6b
-   reached 5.00.  The verdict quality is *measured* (double-precision
-   quadrature with one-sided grid/Lipschitz structure); the arb pass is
-   the named hardening.
+1. **The joint cap exists and closes the entire swept density axis.**  The
+   named theorem object of level 6b — an on-line-configuration-free upper
+   bound on the joint profit against a pair cluster — is delivered twice
+   over in `v_certificate.py`: the v-cell route (the spectral laws below)
+   and the **direct route**, the level-4 chain counting dual on the damage
+   field summed over pair centres with the positive part taken of the
+   JOINT field.  The final cap is the min of the two.  At the level-6b
+   pinch (nu_p = 1.5, y = 0.49, 15 pairs) the direct cap is 14.78 against
+   a budget of 41.11: **margin +26.33** (v-route: +3.75; greedy adversary:
+   5.00).  Every lattice density nu_p in [0.75, 3], every mixed-depth
+   battery shape, and every short-span cluster tested now closes — there
+   is no uncovered configuration in the sweep.  The verdict quality is
+   *measured* (double-precision grids with one-sided structure); the arb
+   pass is the named hardening.
 
 2. **The level-6a full-ladder claim is corrected, not extended.**  The
    full-ladder hardened penta scan (`full_ladder_scan.py`) — the compute
@@ -78,6 +83,9 @@ the min is.  At the pinch (v1 = 1.4, rho = 0.02, S = 13.33):
     dp_I 0.58 + M_II 25.62 + leak 7.27 + dp_mid 3.22 + far 0.68 = 37.36
     budget = slack 511.26 + T -470.16 = 41.11        margin +3.75
 
+(the v-route's pinch verdict; the direct route reaches 14.78 there, and
+the final cap is the min of the two)
+
 The pinch's spectral anatomy (from `fourier_bridge.pinch_spectrum`): the
 pair deficit lives at |v| in [3, 7] (peak -176 per bin), the mean at
 v ~ 0 (+59), and the certificate's accounting matches: the dense cluster's
@@ -92,7 +100,8 @@ hides in the coherent band where the safe cell and LAW M defend it.
 | safe cell | cross >= 0 on the coherent cell | worst +3.22 |
 | LAW M taper independence | int W_I dg = 2 x 1.8032 | defect < 2e-5 |
 | pinch budget vs level 6b | slack 511.26, T -470.16 | reproduced |
-| domination (greedy joint) | greedy <= cap | 5.00 <= 37.36 (extended greedy 5.56) |
+| domination (greedy joint) | greedy <= cap | 5.00 <= 14.78 (extended greedy 5.56) |
+| joint vs per-pair positive part | per-pair clipping inflates the field ~10x | at nu 1.3, g 4.65: joint 0, clipped > 4 |
 | theta = 1 must fail | cap infinite | infinite (charges vanish) |
 | single-pair domination (levels 3/4) | measured profit <= cap | 0.14<=6.17, 1.85<=13.82, 6.73<=42.09 |
 | sub-critical lattice (naive pointwise form) | defeats fixed d(v) linearly in N | H(4.7) drops -1436 -> -1508 as N 20 -> 80 while `\|F_on(4.7)\|^2` stays O(1) |
@@ -116,85 +125,77 @@ object with a spectral floor, not a pointwise envelope.**
 
 ## The sweep (joint verdicts, on-line-configuration-free)
 
-Budget = sum slack + T_signed (exact); cap = J_cap; margins absolute.
-`sep` is the level-6b separable margin (per-slack units) for the same
-configuration; a row is covered when either is positive.
+Budget = sum slack + T_signed (exact); cap = min(direct, v-route); margins
+absolute.  **Every configuration closes, all via the direct route.**
 
-| configuration | budget | J_cap | v-margin | sep margin | covered by |
-|---|---|---|---|---|---|
-| lattice nu=0.75 y=0.45 | 200.09 | 223.23 | -23.15 | +0.73-ish flank | separable |
-| lattice nu=1.0 y=0.45 | 370.04 | 393.82 | -23.78 | +0.93 | separable |
-| lattice nu=1.0 y=0.49 | 606.98 | 636.69 | -29.71 | +1.10 | separable |
-| lattice nu=1.05 y=0.49 | — | — | -24.11 | +0.500 | separable |
-| lattice nu=1.1 y=0.49 | — | — | -19.10 | **-0.165** | **NEITHER** |
-| lattice nu=1.2 y=0.49 | — | — | -11.70 | -0.573 | **NEITHER** |
-| lattice nu=1.25 y=0.49 | 36.57 | 45.63 | -9.06 | -0.590 | **NEITHER** |
-| lattice nu=1.3 y=0.49 | 35.11 | 42.07 | -6.97 | -0.600 | **NEITHER** |
-| lattice nu=1.35 y=0.49 | — | — | -4.58 | -0.601 | **NEITHER** |
-| lattice nu=1.45 y=0.49 | — | — | +0.50 | -0.600 | v-cap |
-| lattice nu=1.5 y=0.49 (pinch) | 41.11 | 37.36 | **+3.75** | -0.599 | v-cap |
-| lattice nu=1.5 y=0.45 | 33.99 | 28.88 | +5.11 | -0.596 | v-cap |
-| lattice nu=2.0 y=0.49 | 84.65 | 44.50 | +40.15 | -0.555 | v-cap |
-| lattice nu=3.0 y=0.49 | 237.30 | 71.71 | +165.59 | (breaks) | v-cap |
-| alternating nu=1.0 | 139.43 | 157.29 | -17.86 | +0.53 | separable |
-| edge cluster nu=1.0 | 606.98 | 636.69 | -29.71 | +1.10 | separable |
-| sandwich nu=1.0 | 806.19 | 777.68 | +28.51 | +1.68 | both |
-| shallow sandwich nu=1.0 | 800.92 | 772.30 | +28.61 | +1.67 | both |
-| alternating nu=1.5 | 120.54 | 116.71 | +3.83 | — | v-cap |
-| staggered / sandwich / shallow sandwich nu=1.5 | 207-226 | 39-57 | > +168 | — | v-cap |
-| staggered nu=2.0 | 420.21 | 60.37 | +359.83 | — | v-cap |
-
-Reading: the certificate closes nu_p >= 1.45 — including every mixed-depth
-battery shape and the shallow sandwich that defeats the eta assembly —
-which is exactly where the level-6b separable budget breaks (worst -0.599
-at the pinch).  The separable level-6a caps close everything at
-nu_p <= 1.05.  **The seam nu_p in [1.1, 1.4] deep is a genuine two-sided
-hole** (post-tightening map, y = 0.49):
-
-| nu_p | v-margin | separable | status |
+| configuration | budget | direct cap | margin |
 |---|---|---|---|
-| 1.05 | -24.11 | +0.500 | separable |
-| 1.10 | -19.10 | -0.165 | **HOLE** |
-| 1.20 | -11.70 | -0.573 | **HOLE** |
-| 1.25 | -9.06 | -0.590 | **HOLE** |
-| 1.30 | -6.97 | -0.600 | **HOLE** (also -5.60 at y = 0.45) |
-| 1.35 | -4.58 | -0.601 | **HOLE** |
-| 1.45 | +0.50 | -0.600 | v-cap |
-| 1.50 | +3.75 | -0.599 | v-cap (the pinch) |
+| lattice nu=0.75 y=0.3 / 0.45 / 0.49 | 45.9 / 200.1 / 294.4 | 14.2 / 141.0 / 230.7 | +31.7 / +59.1 / +63.7 |
+| lattice nu=1.0 y=0.3 / 0.45 / 0.49 | 57.4 / 370.0 / 607.0 | 5.1 / 53.1 / 119.4 | +52.3 / +317.0 / +487.6 |
+| lattice nu=1.05..1.45 y=0.49 (the former hole) | 34.7-401.9 | 14.9-47.6 | **+15.7 .. +354.4** |
+| lattice nu=1.25 y=0.3 / 0.45 / 0.49 | 9.2 / 25.5 / 36.6 | 2.6 / 13.8 / 20.9 | +6.5 / +11.7 / +15.7 |
+| lattice nu=1.5 y=0.3 / 0.45 / 0.49 (pinch) | 22.5 / 34.0 / 41.1 | 1.4 / 9.7 / 14.8 | +21.1 / +24.3 / **+26.3** |
+| lattice nu=2.0 y=0.3 / 0.45 / 0.49 | 64.1 / 77.2 / 84.7 | 0.9 / 8.9 / 13.8 | +63.2 / +68.3 / +70.8 |
+| lattice nu=3.0 y=0.3 / 0.45 / 0.49 | 201.6 / 224.7 / 237.3 | 0.9 / 11.5 / 19.2 | +200.8 / +213.2 / +218.1 |
+| alternating nu=1.0 / 1.5 / 2.0 | 139.4 / 120.5 / 314.8 | 11.9 / 1.5 / 12.7 | +127.6 / +119.0 / +302.1 |
+| staggered nu=1.0 / 1.5 / 2.0 | 108.1 / 207.9 / 420.2 | 4.2 / 3.3 / 3.5 | +103.8 / +204.7 / +416.7 |
+| sandwich nu=1.0 / 1.5 / 2.0 | 806.2 / 226.2 / 434.3 | 37.3 / 10.6 / 8.1 | +768.9 / +215.6 / +426.2 |
+| shallow sandwich (y=0.02+0.49) nu=1.0 / 1.5 / 2.0 | 800.9 / 226.0 / 434.0 | 37.0 / 10.5 / 7.9 | +763.9 / +215.4 / +426.0 |
+| edge cluster nu=1.0 / 1.5 / 2.0 | 607.0 / 41.1 / 84.7 | 119.4 / 14.8 / 13.8 | +487.6 / +26.3 / +70.8 |
+| short spans: span 6 nu=1.5; span 4 nu=1.3 | 32.4 / 27.8 | 14.6 / 17.5 | +17.8 / +10.4 |
 
-The truth sits far inside the budget throughout: the **extended greedy**
-(sites to +-8 beyond the window, up to 100 zeros, min spacing 1/16)
-extracts 7.23 with 18 zeros at nu = 1.3 against a budget of 35.11, and
-5.56 at nu = 1.5 against 41.11 — the hole is bound looseness, not
-adversary strength, and that control is now a permanent test.
+The v-route's own margins (closing nu_p >= 1.45, open below) and the
+separable margins (closing nu_p <= 1.05) are retained in the audit log as
+the two independent cross-checks; the direct route dominates both
+everywhere tested.
 
-**The escaping v-band, pinned.**  The seam's excess cap is M_II mass in
-v in [5, 7]: the pair lattice's first spectral spike sits at 2 pi nu_p
-(8.17 at nu = 1.3, 9.42 at 1.5), and as nu_p drops below ~1.45 its
-shoulder re-enters the kernel band top (M_II share of [5, 7]: 17.8 at
-nu = 1.3 vs 11.7 at nu = 1.5, against a budget 6.0 smaller).  The
-Cauchy-Schwarz grants full anti-alignment against that shoulder; the
-g-space truth shields it.  At nu = 1.3 the residual -6.97 decomposes as
-M_II-term 30.8 (of which the [5, 7] band carries 17.8) + leak 7.2 +
-dp_mid 3.3 + far 0.6 against budget 35.1: reversing it needs the band
-grant cut by ~x0.6 — **the next theorem object is the g-localised v-cell
-dual** (per-v-cell damage kernels W_c(g, y), band-passed and
-taper-smoothed, with honest g-space charges in exactly that band), and
-**the next kill control is the seam lattice (nu_p in [1.1, 1.4],
-y = 0.49) attacked in v in [5, 7]**.
+Reading: the v-route closes nu_p >= 1.45, the separable accounting closes
+nu_p <= 1.05, and the band between them — the seam that was, for one
+session, a genuine two-sided hole — **is closed by the direct route with
+wide margins** (y = 0.49):
 
-**The span boundary.**  The leak term is window-fixed, so short clusters
-do not amortise it: at the pinch density, span 6 is open (v-margin
--1.09), span 8 closes (+1.24), span 10 closes (+3.75), span 16 with room
-(+9.56 pre-tightening).  The certificate's closure at nu_p >= 1.45 is a
-span >= 8 statement; shorter deep clusters at seam-adjacent densities
-belong to the same named hole.
+| nu_p | v-margin | separable | direct margin | status |
+|---|---|---|---|---|
+| 1.05 | -24.11 | +0.500 | +354.36 | closed |
+| 1.10 | -19.10 | -0.165 | +153.67 | closed (was the hole) |
+| 1.20 | -11.70 | -0.573 | +19.48 | closed (was the hole) |
+| 1.25 | -9.06 | -0.590 | +15.72 | closed (was the hole) |
+| 1.30 | -6.97 | -0.600 | +16.93 | closed (was the hole) |
+| 1.35 | -4.58 | -0.601 | +17.81 | closed (was the hole) |
+| 1.45 | +0.50 | -0.600 | +22.90 | closed |
+| 1.50 (pinch) | +3.75 | -0.599 | +26.33 | closed |
+
+Short spans close too: span 6 at nu = 1.5 (+17.76 direct vs -1.09
+v-route), span 4 at nu = 1.3 (+10.38).  Sparse lattices close directly as
+well (nu = 0.75, y = 0.49: +63.68), so the direct route alone covers the
+axis; the v-route and the separable caps stand as independent
+cross-checks.
+
+**Why the direct route was almost missed, and what the seam taught.**
+The direct object — "the level-4 machinery with the damage field summed
+over pair centres", named verbatim at level 6b — is tight *only* if the
+positive part is taken of the JOINT field: clipping per pair discards the
+coincident-pair shielding (a deep pair's own +2E(y)^2 hump protecting its
+neighbour's negative band) and inflates the field by an order of
+magnitude (at nu = 1.3, g = 4.65: joint field 0, per-pair-clipped field
+> 4).  That near-miss is the separable accounting's ghost, and it is now
+a permanent control.  The seam diagnosis (the v-route's Cauchy-Schwarz
+granting anti-alignment against the band-edge spike shoulder in
+v in [5, 7]) stands as the record of why the v-route is loose there —
+the mutual exclusion that protects the lattice is g-local shielding,
+visible to the direct field and invisible to band-wise moduli.
+
+**The extended greedy** (sites to +-8 beyond the window, up to 100 zeros,
+min spacing 1/16) extracts 7.23 at nu = 1.3 against the direct cap 18.18
+and budget 35.11: adversary, cap and budget are now in the right order
+with honest daylight at every tested density, and the control is a
+permanent test.
 
 **Instrument v2.**  After the first audit, the mid-zone cell margins were
 made per-cell (the blanket global-slope margin over ~500 cells was most
-of dp_mid at seam-scale budgets: 6.5 -> 3.2 at the pinch), moving the
-pinch margin from +0.49 to +3.75 and nu = 1.45 from -3.40 to +0.50.  The
-sweep table above and the audit log reflect the v2 instrument.
+of dp_mid at seam-scale budgets: 6.5 -> 3.2 at the pinch), and the direct
+route was added.  The sweep table above and the audit log reflect the v2
+instrument.
 
 ## The full-ladder scan record (level 6a corrected)
 
