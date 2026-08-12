@@ -124,7 +124,32 @@ a `sorry` in it costs the arm its meaning.
      without a gatekeeper, which is what the institutional question actually
      wants.
 
-1. **Upstream `theta_sq_le` to Mathlib.** Confirmed absent from the pinned
+1. **Upstream the powerful-number decomposition to Mathlib — not
+   `theta_sq_le`.** Checked 2026-08-12: **Mathlib has no powerful-number
+   machinery at all.** No `IsPowerful` predicate, no `powerfulPart`, no
+   `squarefreePart` as a definition, zero files mentioning any of them. And
+   `lean/ZetaLean/PowerfulDecomposition.lean` is already kernel-checked with the
+   classical structure theorem plus a full API:
+   `exists_powerful_coprime_squarefree_decomposition` (every nonzero natural is
+   (powerful)·(squarefree) with the parts coprime), the two `factorization_`
+   lemmas, both `dvd` lemmas, and the nonzero lemmas.
+
+   It beats the Chebyshev bound as a submission for three reasons: it is a named
+   textbook structure theorem *with an API* rather than a one-off inequality, so
+   "why would we want this" is not a question anyone asks; it is how the
+   powerful-number counting asymptotic is proved, so it is obviously wanted; and
+   nothing about it looks agent-shaped. Its numeric check before landing was also
+   stronger than the file asserts — uniqueness of the decomposition holds by full
+   divisor enumeration for `n ≤ 2000`, which is a free extra theorem if anyone
+   wants it.
+
+   **Not candidates, checked:** the four Sturm modules. Mathlib has the general
+   intermediate value theorem and coprime-derivative separability machinery
+   (`FieldDivision.lean`, `Separable.lean`); ours are local specializations, and
+   submitting them would be exactly the low-value PR that earned agent
+   contributors their reputation.
+
+2. **`theta_sq_le` / `theta_pow_succ_le` — the second candidate, still real.** Confirmed absent from the pinned
    checkout (grep for `log p ^ 2` in `Mathlib/NumberTheory/Chebyshev.lean`
    returns nothing), while `Chebyshev.theta` and `theta_le_log4_mul_x` are
    both there. The proof is ~15 lines in `ZetaLean/ChebyshevBounds.lean`, is
@@ -135,20 +160,20 @@ a `sorry` in it costs the arm its meaning.
    The mathematics is done; what remains is PR mechanics and Mathlib style,
    which is mechanical work a cheaper model does well. Take
    `theta_pow_succ_le` along as the general form.
-2. **Finish the rung-3 215-site margin sweep.** Named open item, interrupted at
+3. **Finish the rung-3 215-site margin sweep.** Named open item, interrupted at
    60/215 (see the 2026-08-11 director-run record and `docs/25` §4.3). Pure
    Python against the already-written mirror; no Lean, no new mathematics. The
    question it answers is whether the re-plan at measured constants clears
    every site or only most of them — currently 30 of 59 evaluated grid sites
    fail, all within ±2% of threshold, so the answer decides whether rung 3
    needs a re-plan or a headroom bump.
-3. **`meta/` E1 continuation.** Append interventions to
+4. **`meta/` E1 continuation.** Append interventions to
    `meta/interventions.jsonl` as they occur during whatever work happens.
    Costs nothing, and the baseline (14 interventions, architecture caught 3 of
    14) needs 20–30 sessions before its numbers mean anything. Read
    `meta/README.md` first; the instrument refuses an `automated` claim without
    a named artifact, and it is meant to be hard to flatter.
-4. **Documentation consistency.** `scripts/make_context.py --check`,
+5. **Documentation consistency.** `scripts/make_context.py --check`,
    `tests/test_docs_numbering.py`, `tests/test_claim_attribution.py` — all
    cheap, all mechanical, all catch real defects (the last one exists because
    an outside reader found a citation defect 2135 tests had walked past).
@@ -181,10 +206,12 @@ Hard constraints for this session:
   inference is a bug; climb the certainty ladder in CLAUDE.md rather than
   rounding a rung upward.
 
-First task, unless the operator redirects: prepare the Mathlib upstream PR for
-theta_sq_le (and theta_pow_succ_le) from lean/ZetaLean/ChebyshevBounds.lean.
-Confirm the lemmas are still absent upstream, match Mathlib naming and style,
-open the PR against leanprover-community/mathlib4. One external acceptance is
+First task, unless the operator redirects: do NOT open a PR first. Ask on Zulip
+(#mathlib4 > Is there code for X?) whether the powerful-number decomposition is
+wanted — lean/ZetaLean/PowerfulDecomposition.lean, kernel-checked, and Mathlib has
+no powerful-number machinery at all. Lead with that, not with theta_sq_le. A "yes"
+converts a cold PR into an invited one; a "no" saves the whole effort. One
+external acceptance is
 worth more to this project than another internal result.
 
 Report concretely: what you ran, what it printed, what you changed. Negative
