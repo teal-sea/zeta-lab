@@ -353,11 +353,13 @@ parameters. This is the step that currently restricts the clean RC1 band to
 
 ### 4.5 Dirichlet mean-value off-diagonal
 
-Truncate the upper range at `Y`. Montgomery-Vaughan applies to both finite
-ranges. The lower-range relative error is `O(x/T)` and the upper-range error
-is `O(Y/T)`. Both vanish. The cross-range phase contains `log(mn)` rather than
-`log(m/n)` and integration by parts makes it smaller. No fixed convolution
-depth enters these estimates.
+Truncate the upper range at `Y`. Montgomery-Vaughan applies to the combined
+two-range polynomial. The lower-range relative error is `O(x/T)` and the
+generic upper-range error is `O(Y/T)`. Both vanish on the band used here. The
+cross-range terms have the same `log(m/n)` phase and are already included in
+the arbitrary-coefficient Montgomery-Vaughan bound. No fixed convolution
+depth enters these estimates. `URMS2-051-AUDIT.md` records the exact phase
+calculation and the sharper individual-spacing form.
 
 ### 4.6 From dyadic height to the source normalization
 

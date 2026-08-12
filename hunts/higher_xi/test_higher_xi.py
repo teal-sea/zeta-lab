@@ -71,6 +71,19 @@ from corrected_form_factor import (
 )
 from window_probe import KNOWN_XIPRIME_H, optimize_measure
 from exact_c2 import derive_c2, derive_level_one
+from half_band_crossing import (
+    corrected_simplicity_bound,
+    current_half_band_deficit,
+    endpoint_status,
+    finite_height_spacing_experiment,
+    generic_length_lesion,
+    log_spacing_inverse_majorant,
+    smoothing_fourier_transform,
+    spacing_weight,
+    two_range_square_weight,
+    urms2_051_margins_positive,
+    urms2_051_witness,
+)
 from resummed_bridge import (
     absolute_word_mass,
     closed_absolute_word_mass,
@@ -92,6 +105,15 @@ from urms2_attack import (
     projection_order_for_square_tail,
     resummed_projection_errors,
     young_multiplier_bound,
+)
+from urms2_051_audit import (
+    exact_two_range_phase_defects,
+    gate_status as urms2_051_gate_status,
+    independent_window_bound,
+    marked_cluster_freezing_exponents,
+    multiplicity_inequality_values,
+    reflection_parity_defect,
+    weighted_partial_summation_constants,
 )
 from rams1 import (
     alpha_symmetry_defects,
@@ -680,6 +702,80 @@ def test_exploratory_window_scan_finds_no_candidate_below_half() -> None:
     assert 0.014 < above["simplicity_value"] < 0.016
     assert below["window_minimum"] > 0
     assert above["window_minimum"] > 0
+
+
+def test_spacing_sensitive_mean_value_crosses_point_51() -> None:
+    witness = urms2_051_witness()
+    assert urms2_051_margins_positive()
+    assert witness["mean_value_margin"] == Fraction(6, 25)
+    assert witness["far_tail_margin"] == Fraction(9, 1000)
+    assert witness["initial_interval_margin"] == Fraction(1, 4)
+    assert witness["central_segment_margin"] == Fraction(7399, 10000)
+    assert witness["far_cutoff_rho_on_lowest_block"] == Fraction(14, 5)
+
+
+def test_two_range_weights_make_the_spacing_error_lower_endpoint_driven() -> None:
+    x = 10
+    assert two_range_square_weight(5, x) == Fraction(1, 20)
+    assert two_range_square_weight(20, x) == Fraction(1, 80)
+    assert spacing_weight(5, x) == Fraction(1, 4)
+    assert spacing_weight(20, x) == Fraction(1, 4)
+    for n in range(2, 1001):
+        inverse_spacing = 1 / math.log1p(1 / n)
+        assert inverse_spacing <= log_spacing_inverse_majorant(n)
+
+
+def test_half_band_lesions_and_requested_endpoints() -> None:
+    assert current_half_band_deficit() == Fraction(1, 50)
+    lesion = generic_length_lesion()
+    assert lesion["required_gamma_lower"] == Fraction(51, 50)
+    assert lesion["generic_gamma_upper"] == 1
+    for alpha in (
+        Fraction(499, 1000),
+        Fraction(1, 2),
+        Fraction(501, 1000),
+        Fraction(51, 100),
+    ):
+        assert endpoint_status(alpha)["reached"]
+
+
+def test_smoothing_transform_and_first_corrected_simplicity_bound() -> None:
+    frequency = sp.Symbol("frequency", real=True)
+    assert smoothing_fourier_transform(frequency) == 2 * sp.pi * sp.exp(
+        -2 * sp.Abs(frequency)
+    )
+    result = corrected_simplicity_bound()
+    assert result["bandwidth"] == Fraction(51, 100)
+    assert result["simple_proportion_lower"] > Fraction(1477, 100000)
+    assert result["denominator_upper"] + result["simple_proportion_lower"] == 2
+
+
+def test_finite_height_spacing_cost_beats_the_generic_length_lesion() -> None:
+    low = finite_height_spacing_experiment(6)
+    high = finite_height_spacing_experiment(8)
+    assert high["spacing_over_x_log_x"] < low["spacing_over_x_log_x"]
+    assert low["generic_to_spacing_ratio"] > 3
+    assert high["generic_to_spacing_ratio"] > 6
+
+
+def test_urms2_051_independent_audit_gates_pass() -> None:
+    assert all(urms2_051_gate_status().values())
+    assert exact_two_range_phase_defects() == (0, 0)
+    assert reflection_parity_defect() == 0
+    assert weighted_partial_summation_constants() == {
+        "lower_log_constant": 3,
+        "upper_log_constant": 3,
+    }
+    assert marked_cluster_freezing_exponents()["difference_square_log_power"] == -1
+    assert all(slack >= 0 for slack in multiplicity_inequality_values(100))
+
+
+def test_independent_json_window_route_matches_the_first_route() -> None:
+    independent = independent_window_bound()
+    first = corrected_simplicity_bound()
+    assert independent["bandwidth"] == first["bandwidth"]
+    assert independent["denominator_upper"] == first["denominator_upper"]
+    assert independent["simple_proportion_lower"] == first["simple_proportion_lower"]
 
 
 def test_target_window_has_only_a_simple_overlap_zero_at_band_edge() -> None:

@@ -99,12 +99,28 @@ off finitely many small primes then removes the fixed-rho restriction and
 extends the full bridge to every compact band inside `|alpha|<1/2`. The first
 failed checkpoint is `0.50`, where the far-tail cutoff conflicts with the
 finite mean-value length. Independently, the downstream window
-problem now has exact bounds `0.5<=beta_useful<=0.51`. Cauchy-Schwarz,
+problem has exact bounds `0.5<=beta_useful<=0.51`. Cauchy-Schwarz,
 operator coercivity, and completion of squares exclude all admissible
 spectral-factor windows through `0.5`; the constant window at `0.51` is
-useful. No theorem currently follows: the bridge and the window obstruction
-meet at the strict endpoint `0.5`. The next explicit target is `0.51`, not the
-historical `0.68213` window.
+useful.
+
+`URMS2-051.md` crosses the remaining gap. At `sigma=3/2`, the two contour
+ranges form one polynomial with square weights `n/x^2` below `x` and
+`x^2/n^3` above `x`. Retaining the individual `log n` spacings in the
+Montgomery-Vaughan estimate makes the off-diagonal error `O(x log x)`,
+independent of the far cutoff length. The old `gamma<delta` condition was a
+worst-spacing loss. The rational choice `alpha=51/100`, `delta=3/4`,
+`gamma=21/20`, `epsilon=1/100` has positive margins. URMS2 now contains the
+closed bandwidth `0.51`, and the exact constant window gives a conditional
+simple-zero proportion lower bound `0.0147728663285376...` for xi-double-prime
+under RH. Bandwidth optimization stops at this first corrected theorem.
+
+`URMS2-051-AUDIT.md` is the independent internal audit. It reconstructs the
+two-range phase, maps the exact weighted Montgomery-Vaughan theorem, adds the
+marked-cluster height-freezing estimate at ratio `14/5`, rebuilds the window
+bound from `C2_EXTENDED.json`, and checks the multiplicity normalization.
+Every internal gate passes. External mathematical review remains the next
+promotion gate.
 
 The completed-CUE experiment uses angular derivatives of
 
