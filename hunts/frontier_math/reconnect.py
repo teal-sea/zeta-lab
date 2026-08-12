@@ -66,9 +66,15 @@ from cg_transplant import (  # noqa: E402
     lambda_roots, lesion_wrong_lambda2, optimize_edges,
 )
 
-#: the pinned upstream Theorem D constant (PROOF-LEDGER.md); the exact MT
-#: arithmetic 2 - MT_CONST = 0.6725007233... sits 2e-8 above it, and the
-#: reading is taken against the pinned (smaller, conservative) value.
+#: the pinned upstream Theorem D constant (PROOF-LEDGER.md).  It IS the
+#: Montgomery-Taylor constant: 2 - (1/2 + cot(1/sqrt2)/sqrt2) =
+#: 0.67250070368, which agrees with the pinned digits to 2e-11 (pure
+#: rounding).  An earlier comment here claimed a 2e-8 gap, copied from a
+#: stale comment in cg_transplant.py whose printed MT_CONST digits are
+#: also wrong (1.3274992766 against the computed 1.3274992963); neither
+#: number was ever used in a computation, both are corrected here.  That
+#: the paper's constant is exactly MT's is the one piece of evidence
+#: that the paper's window is the MT window.
 H_PINNED = 0.6725007037
 
 #: level-6a/7 retained fraction of the on-line internal mass, at the

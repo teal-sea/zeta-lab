@@ -224,3 +224,27 @@ def test_own_kernel_floor_is_ladder_stable_and_lesions_die():
         assert min(vals) > 0
     assert lesion_wrong_lambda2(0.6725007037, rec["edges"]["omega"]) < 1e-9
     assert rec["conservative"] <= rec["reading_g"]
+
+
+def test_pinned_constant_is_exactly_the_montgomery_taylor_constant():
+    """The single piece of evidence that the paper's window is the MT
+    window.  Also guards the stale printed digits that were wrong in two
+    comments (and were copied into a third before being caught)."""
+    from cg_transplant import MT_CONST
+    from reconnect import H_PINNED
+    assert abs((2 - MT_CONST) - H_PINNED) < 1e-10
+    assert abs(MT_CONST - 1.3274992963205885) < 1e-12
+
+
+def test_composition_formula_is_calibrated_against_cheer_goldston():
+    """H + 2*floor reproduces CG's printed 1993 constant from their own
+    inputs.  This calibrates the coefficient 2 and the linearity WITHIN
+    CG's (RH-conditional) framework.  It does NOT calibrate the step the
+    reading actually needs - that theta enters this formula
+    multiplicatively - which is the residual T3."""
+    from cg_transplant import (
+        CG_CONST, CG_EDGES, CG_FLOOR, CG_NU, MT_CONST, bucket_floor,
+    )
+    fl = bucket_floor(CG_NU, *CG_EDGES)
+    assert abs(fl - CG_FLOOR) < 1e-7
+    assert abs((2 - (MT_CONST - 2 * fl)) - CG_CONST) < 2e-7

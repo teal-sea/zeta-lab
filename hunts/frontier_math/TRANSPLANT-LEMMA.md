@@ -345,3 +345,54 @@ conservative pairing.  Which pairing the upstream count actually requires
 is the residual T3 — and it is now a sharp question about the paper's
 Theorem D derivation (is its discarded mass an omega^2 sum or a g sum?)
 rather than a vague worry about plumbing.  Instrument: `kernel_pairing.py`.
+
+
+## Confidence audit: what would have to be true
+
+Asked point-blank whether the reading is certain, the honest answer is
+no, and the reasons are worth writing down in order of how much each
+would cost.
+
+**1. T3 is not a detail; it is the load-bearing unknown.**  The formula
+`H + 2 * theta * c_u` is inherited from the arithmetic that was CLEAN
+KILLED.  Two halves of it separate cleanly:
+
+- *calibrated*: `H + 2 * floor` reproduces Cheer-Goldston's printed 1993
+  constant from their own inputs (recomputed floor 0.00012638 against
+  their 0.00012636; constant 0.6727535 against their 0.6727534).  So the
+  coefficient 2 and the linearity are right **within CG's framework**.
+- *not calibrated, and never derived anywhere*: that `theta` enters that
+  formula **multiplicatively**.  CG's improvement is RH-conditional and
+  lives in Montgomery's pair-correlation framework; `theta` is a
+  retention in the paper's Frobenius/incidence framework.  Nothing in
+  this hunt establishes that a retention in the second plugs into the
+  arithmetic of the first.  **If it does not, the reading is vacuous no
+  matter how large theta is.**
+
+**2. The window identification rests on one number.**  The pinned
+constant is exactly the Montgomery-Taylor constant (2 - MT_CONST =
+0.67250070368, agreeing with the pinned digits to 2e-11 — pure
+rounding).  That is real evidence that the paper's window is the MT
+window, and it is the only evidence there is.  (Checking it also caught
+two stale comments in the repo printing wrong digits for MT_CONST and
+H_PAPER, one of which had already been copied into a third file here
+before being noticed.  Corrected, and both facts are now tests.)
+
+**3. T5 remains external.**  Which window the pinned upstream Lean
+zero-side actually carries cannot be settled from this session.
+
+**4. The measured error rate in this work is not small.**  This session
+alone produced, and then caught, four defects of our own: the
+blanket-margin artifact (three separate times, in three different
+guises), a theta = 1 convention mislabel, the kernel-pairing mix, and a
+propagated stale comment.  Every one was found by a control or by an
+independent route rather than by inspection.  That is the argument for
+the controls, and simultaneously the argument against confidence in any
+step no control has yet touched.
+
+**What would survive even if T3 fails:** the MT-window results
+themselves — LAW D exact, the band structure, the free-band ratio ~1/3,
+theta* sandwiched in [0.995, 0.999] by a one-sided dual and an
+independent adversary hunt, arb-hardened at 0.9988, and the joint layer
+costing nothing.  Those are statements about the window and are
+cross-checked several ways.  What they are NOT is a proportion.

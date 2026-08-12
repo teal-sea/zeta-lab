@@ -400,3 +400,21 @@ auditing what the symbols denote found the reading pairing two different
 kernels; the conservative repairing lowers it to 0.6725087070. Still a
 candidate: T3 (now sharp), the census conversion, taper/truncation, and
 T5 (external) remain. No proportion is claimed to have moved.
+
+
+## Confidence audit (2026-08-12)
+
+| Claim | Grade | What it rests on |
+|---|---|---|
+| MT-window retention: theta* in [0.995, 0.999], arb-hardened 0.9988 | **strong** | one-sided dual + independent adversary hunt + ball arithmetic, three routes agreeing |
+| LAW D / LAW K / band structure at MT | **strong** | exact identities, truncation-scaling controls, independent grid routes |
+| Joint layer free at MT | **good** | configuration-free on the on-line side; pair side is families + stacking floor |
+| omega^2 != g, floors differ by 0.801 | **strong** | direct computation, ladder-stable, lesions die |
+| The paper's window is MT | **one number** | the pinned constant IS the MT constant to 2e-11 (rounding) — real evidence, and the only evidence |
+| **theta enters `H + 2 theta c_u` multiplicatively** | **NOT ESTABLISHED** | the formula's coefficient and linearity are calibrated against CG (conditional, Montgomery framework); the multiplicative entry of a Frobenius-framework retention is derived nowhere. **If false, the reading is vacuous** |
+| T5 (upstream Lean window pin) | **open, external** | outside this session |
+
+Defects of our own found and corrected in this session: the
+blanket-margin artifact (x3, three guises), a theta = 1 convention
+mislabel, the kernel-pairing mix, a propagated stale comment. All found
+by controls or independent routes, none by inspection.
