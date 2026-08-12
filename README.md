@@ -4,6 +4,56 @@ A computational and formal workbench around the Riemann zeta function, plus
 a reusable validation framework for testing whether an empirical claim is
 about its subject at all.
 
+---
+
+## Current work: a machine-audited candidate past the two-thirds constant
+
+On 10 August 2026 a paper established, unconditionally, that more than
+0.6725007036… of the zeros of ζ in a dyadic window lie on the critical
+line — the Montgomery–Taylor constant, via a finite Frobenius/rank-trace
+argument. Two days later this laboratory assembled and audited a
+**candidate** strengthening of the same chain, transplanting a
+Cheer–Goldston gap-census floor into the paper's framework:
+
+> **H = 0.6725007037 + 2·θ·c_u = 0.6725106958**, with θ = 0.995 the
+> adversarial retention of the on-line Gram mass and c_u = 5.021179×10⁻⁶
+> the census floor of the Montgomery–Taylor kernel.
+
+Every step carries a grade, and a composite claim takes the grade of its
+weakest step — so the reading above is a **candidate**, not a theorem:
+
+| Step | Grade |
+|---|---|
+| The composition inequality `s ≥ 2N − ‖P+Q‖²_F + D` and its θ-corollary | **kernel-checked** (Lean 4 + Mathlib, sorry-free, standard axioms only) |
+| The grid-incidence law `Σₙ φ̂(x−n)φ̂(y−n) = 2π·FT(φ²)(x−y)` | **kernel-checked** (same; ships with a counterexample showing evenness is necessary) |
+| The window identification (the paper's Theorem D profile is the MT window) | measured against the paper's own variational functional, defect 7×10⁻⁹ |
+| The retention θ = 0.995 | hardened — one-sided dual, independent adversary hunt, ball arithmetic — plus a finite certificate that closes in **pure rational arithmetic** |
+| The census floor c_u | hardened, plus an exact **rational LP dual certificate** |
+| Prime-side asymptotics, simple-zero density | *cited* from the source paper, not re-derived |
+| External review | **none yet — this is the ask** |
+
+Nothing here is evidence about the Riemann Hypothesis itself and the
+laboratory claims no progress toward it; the improvement is +1.0×10⁻⁵ on
+one constant in one theorem.
+
+**The audit trail is the point.** The work is published with its failures
+attached: nine defects of our own were caught during it — a recurring
+blanket-margin artifact, a kernel-pairing conflation that forced us to
+revise our own headline downward, a quadrature under-resolution that ran a
+convergence ladder backwards, a hypothesis gap the theorem prover refuted
+with a counterexample — every one caught by a control or an independent
+route, none by inspection.
+
+- **[`hunts/frontier_math/PREPRINT.md`](hunts/frontier_math/PREPRINT.md)** — the working paper: statement, what is proved, what is cited, how to reproduce.
+- **[`hunts/frontier_math/PROOF-LEDGER.md`](hunts/frontier_math/PROOF-LEDGER.md)** — every obligation with its grade, and every defect found.
+- **[`hunts/frontier_math/zeta23ext/`](hunts/frontier_math/zeta23ext/)** — a Lean package pinned against the source paper's own formalization, into which the chain lands as each piece is kernel-checked.
+
+We are seeking adversarial review. The fastest way to make this a theorem —
+or to add a tenth line to the defect ledger — is for someone who knows the
+source paper's §4–6 to read the ledger against it. Both outcomes are wins.
+
+---
+
 Stated plainly, up front:
 
 - **Zeta Lab does not prove RH and does not claim progress toward proving
