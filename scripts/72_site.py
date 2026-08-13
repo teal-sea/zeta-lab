@@ -397,6 +397,8 @@ th{text-align:left;font-weight:500;font-size:.6rem;letter-spacing:.12em;
   text-transform:uppercase;color:var(--soft);padding:0 .8rem .5rem 0;
   border-bottom:1px solid var(--rule);white-space:nowrap}
 th.r,td.r{text-align:right}
+/* figures that read as one unit must not wrap into a ragged stack */
+td.nw{white-space:nowrap}
 th:last-child,td:last-child{padding-right:0}
 td{padding:.55rem .8rem .55rem 0;border-bottom:1px solid var(--hair);
   vertical-align:baseline;color:var(--ink2)}
@@ -567,20 +569,23 @@ not work.</p>
 ])}
 
 <section>
-<h2><span class='num'>§1</span> What this is</h2>
-<p class="lede">The laboratory reconstructs, tests, connects and falsifies ideas
-around the Riemann hypothesis. It does not attempt a proof, and nothing computed
-inside it is evidence for one — a position held deliberately and enforced in the
-vocabulary as well as in the code.</p>
-<p>The <strong>measured arm</strong> is arbitrary-precision numerics:
-{num(py['lines'])} lines across {py['modules']} core modules, where every
-identity is exposed as a measured <em>defect</em> function rather than assumed,
-and every number quoted in a docstring is pinned by a test. The
-<strong>certified arm</strong> is Lean 4 and Mathlib: {num(lean['lines'])} lines
-in which nothing counts until the kernel accepts it.</p>
-<p>The word <em>certified</em> is reserved. Only enclosure-carrying numerics and
-the proof kernel may use it; everything else here is at best <em>accurate</em>,
-which is a weaker and different claim.</p>
+<h2><span class='num'>§1</span> Two arms</h2>
+<div class="wrap"><table>
+<thead><tr><th>arm</th><th class='r'>extent</th><th>unit of truth</th>
+<th>what disqualifies a claim</th></tr></thead><tbody>
+<tr><td>measured</td><td class='r nw'>{num(py['lines'])} lines · {py['modules']} modules</td>
+<td class='note'>agreement between independent routes</td>
+<td class='note'>a number in a docstring with no test behind it</td></tr>
+<tr><td>hardened</td><td class='r nw'>2 backends</td>
+<td class='note'>an interval enclosure carried through every step</td>
+<td class='note'>any step that silently falls back to floats</td></tr>
+<tr><td>certified</td><td class='r nw'>{num(lean['lines'])} lines · {lean['files']} modules</td>
+<td class='note'>acceptance by the Lean kernel</td>
+<td class='note'>one <code>sorry</code></td></tr>
+</tbody></table></div>
+<p>No computation here is evidence for or against the hypothesis, and none can
+be. <em>Certified</em> is a reserved word: everything outside those two regimes
+is at best <em>accurate</em>, which is weaker and different.</p>
 </section>
 
 <section>
@@ -633,8 +638,7 @@ def page_zeta(r, lean, py, gr) -> str:
     return shell(f"Zeta — {IDENTITY['name']}", f"""
 <h1>Zeta</h1>
 <p class="stand">A computational and formal investigation around the Riemann
-hypothesis. It claims nothing about whether the hypothesis is true; the
-interesting part is what can be measured, proved, or ruled out.</p>
+hypothesis, claiming nothing about whether it is true.</p>
 
 {vitals([
     (num(lean['theorems']), 'theorems', False),
@@ -673,17 +677,28 @@ distinguished nothing.</p>
 
 <section>
 <h2><span class='num'>§2</span> The measured arm</h2>
-<p>{py['modules']} core modules, {num(py['lines'])} lines, {num(py['public'])}
-public functions, checked by {num(py['test_fns'])} tests across
-{py['test_files']} files and {num(py['test_lines'])} lines of test code —
-more test code than core code, which is the intended ratio.</p>
-<p>The suite uses independent oracles rather than its own arithmetic: mpmath's
-<code>zetazero</code>, <code>siegelz</code>, <code>grampoint</code> and
-<code>nzeros</code> cross-check the hand-rolled machinery. Interval arithmetic
-runs on two backends — Arb and mpmath — so that each can check the other, and
-when only one is installed the cross-check is absent and the suite reports it
-rather than passing quietly.</p>
-<div class="statement">A dict that reports <code>certified: True</code> is
+<div class="wrap"><table>
+<thead><tr><th></th><th class='r'>count</th><th></th></tr></thead><tbody>
+<tr><td>core modules</td><td class='r'>{py['modules']}</td>
+<td class='note'>ζ, zeros, explicit formula, heat flow, Weil, rigor, Li, criteria</td></tr>
+<tr><td>core lines</td><td class='r'>{num(py['lines'])}</td>
+<td class='note'>arbitrary precision throughout; mp.dps set explicitly</td></tr>
+<tr><td>public functions</td><td class='r'>{num(py['public'])}</td>
+<td class='note'>counted from the module ASTs, not a maintained list</td></tr>
+<tr><td>tests</td><td class='r'>{num(py['test_fns'])}</td>
+<td class='note'>across {py['test_files']} files</td></tr>
+<tr><td>test lines</td><td class='r'>{num(py['test_lines'])}</td>
+<td class='note'>more test code than core code, which is the intended ratio</td></tr>
+<tr><td>ball-arithmetic backends</td><td class='r'>2</td>
+<td class='note'>Arb and mpmath, each checking the other</td></tr>
+</tbody></table></div>
+<p>Identities are exposed as measured <em>defect</em> functions rather than
+assumed, and the suite checks itself against outside oracles — mpmath's
+<code>zetazero</code>, <code>siegelz</code>, <code>grampoint</code>,
+<code>nzeros</code> — rather than against its own arithmetic. When only one
+interval backend is installed the cross-check is absent, and the suite says so
+instead of passing quietly.</p>
+<div class="statement">A dict reporting <code>certified: True</code> is
 asserting a theorem. If any step silently falls back to floats, that is a
 critical defect and not a rounding detail.</div>
 </section>
