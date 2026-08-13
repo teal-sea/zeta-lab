@@ -1019,3 +1019,43 @@ The prover reported both back before finishing. Both are mine.
 | Disposition | **let it run.** Its plan is better than the one it was given, it is a fifth of the way in, and its independent rebuild of machinery we already hold is an unplanned cross-check on that machinery. The waste is real and is the coordinator's to own; interrupting a working run to fix the coordinator's packaging would compound it |
 
 No proportion is claimed to have moved.
+
+
+## Note for the meta arm: the prover's effect on the result (2026-08-13)
+
+`PROVER-CONTRIBUTION.md` records, from the job history rather than from
+impression, which properties of this result would differ had the
+theorem-proving service not been in the loop. Nine submissions, free
+tier, no payment method attached. Summary of the finding, with the
+caveat that it was written by a party to the comparison:
+
+- **Corrections to the coordinator's mathematics: two.** A false
+  statement of the grid-incidence law, shipped back with an explicit
+  counterexample establishing the missing hypothesis is necessary; and a
+  prescribed far-field route that cannot hold, refused rather than
+  attempted, and afterwards substantiated numerically here.
+- **Better methods than specified: three.** Polarised Parseval in place
+  of Poisson summation (which is why the theorem covers this hunt's
+  jump-discontinuous windows at all); damage measured against the slack
+  rather than an absolute constant; a near-field cancellation an earlier
+  run had discarded.
+- **Hypotheses dropped that the coordinator assumed necessary: two.**
+- **An obstruction named as arithmetic** (uniform damage bounds cap at
+  n <= 2A/kappa), which is what made the following submission's first
+  all-n theorem possible. The diagnosis was worth more than the theorem
+  it arrived with.
+- **An unrequested fidelity check** establishing that this hunt's
+  hand-derived kernel closed form really is the autocorrelation it was
+  meant to be - closing a defect class that had already bitten twice.
+- **What it did not do**: notice prior art (submission 5 is a corollary
+  of the source paper's own lemmas; the prover said nothing about
+  novelty because it was not asked, and the resulting overclaim was
+  entirely the coordinator's), choose targets, or judge significance.
+- **What it cost**: two full rebuilds, both caused by the coordinator
+  shipping project directories without the artifacts their briefs told
+  the prover to reuse.
+
+The load-bearing observation for `meta/`: across nine submissions the
+prover's highest-value outputs were the three occasions it contradicted
+its instructions, not the theorems it produced on request. n = 9, one
+hunt, self-reported.
