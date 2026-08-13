@@ -1,0 +1,163 @@
+# Harness gate v3 — frozen protocol
+
+**Status at this commit: pre-registration. No arm has run. No result exists.**
+Items, key and mutation family are held outside the repository during execution;
+only their digest is frozen here.
+
+## Why there is a v3, and what is different this time
+
+v1 and v2 both returned **FAIL on a ceiling** — control 12/12, then 13/13. Two
+failures with the same shape identify two distinct design errors, and v3 fixes
+both. Neither prior result is retracted.
+
+**Error 1 — the subject had no headroom.** `frozen_croniter` is deterministic
+and fully enumerable over 2024, and neither arm was deprived of a shell. Asking
+"is this claim true" in a cheap-oracle domain leaves no correctness headroom for
+any tool to occupy. A third claim set would have failed identically.
+
+**Error 2 — the outcome variable was wrong, and this is the larger error.** A
+battery reports whether evidence for a property **also holds of structure-matched
+negative controls** (`shared_with`, `distinguishes`). It is a discrimination
+instrument, not a truth oracle. v1 and v2 benchmarked it on truth-determination,
+which it does not claim to improve.
+
+The failed runs contain direct evidence of the mis-specification. Arm B agents
+volunteered the discrimination finding unprompted and the rubric scored it at
+zero — e.g. v2 D13-B: *"the claim fires True for the target, but
+`distinguishes=False` … forward/backward reversibility is a true but
+non-load-bearing property here."* The signal was produced in nearly every
+treatment run and the experiment was built not to see it.
+
+## 1. The one question
+
+> Does using the harness reduce the rate at which an agent endorses evidence that
+> fails to discriminate the property being claimed, compared with the same agent
+> workflow without it, under comparable model budget?
+
+No decomposition, no tuning, no mechanism investigation. As before.
+
+## 2. The task
+
+Each item shows an agent an **evidence bundle**: 5–7 cron expressions whose
+firing behaviour over 2024 was recorded and matched against
+`harness/departments/croniter_fixtures/frozen_croniter.py`. A **declared scope**
+of 20 expressions is stated. The question is whether the bundle *establishes*
+that the implementation is correct across that scope.
+
+Answering `NOT ESTABLISHED` requires **exhibiting a witness**: a single textual
+edit to the frozen source producing a variant that
+
+1. reproduces the bundle's recorded behaviour **exactly**, and
+2. differs from the frozen original on **at least one in-scope expression**.
+
+Both conditions are checked by execution in `score.py`. This is the load-bearing
+change: the correct answer on a trap item cannot be reached by judgment, only by
+**constructing a negative control**. That is precisely the work a confident agent
+skips, and precisely what the harness exists to systematize.
+
+## 3. Ground truth, and why a treatment win cannot be circular
+
+Truth is **mutation adequacy**, computed by enumeration over a frozen family of
+15 live single-edit mutants (`mutants.py` → `family.json`):
+
+- `ESTABLISHED` — every live mutant differs from the original somewhere **in**
+  the bundle; the bundle kills the family.
+- `NOT ESTABLISHED` — some live mutant agrees with the original across the whole
+  bundle yet differs in scope.
+
+Equivalent mutants — variants behaviourally identical across the entire scope —
+are **discarded, not counted as kills**. 6 of 21 candidate mutations were
+dropped that way.
+
+Ground truth is never the harness's own `distinguishes`. A tool that computes X
+trivially helps you compute X; that was the reasoning in v1 §2 and it still
+holds.
+
+## 4. Scoring, frozen
+
+| Response | Scored |
+|---|---|
+| `ESTABLISHED`, key ESTABLISHED | correct |
+| `ESTABLISHED`, key NOT ESTABLISHED | incorrect |
+| `NOT ESTABLISHED` + witness that verifies, key NOT ESTABLISHED | correct |
+| `NOT ESTABLISHED` **without a verifying witness** | **incorrect**, even when the key agrees |
+| unparseable final line | incorrect |
+| `NOT ESTABLISHED` + witness that verifies, key **ESTABLISHED** | **key refuted → item VOID for both arms**, reported, key never silently amended |
+
+The fourth row is what stops an arm winning by answering `NOT ESTABLISHED` to
+everything; the 6/6 balance is the other half of that guard. The last row makes
+the experiment self-correcting: my claim that no witness exists is checked
+against every agent that goes looking.
+
+Scorer verified before any arm ran, on five planted cases — a valid witness, the
+same witness on an item where it fails the bundle, an empty edit, and both
+verdicts on both classes. It returned 2/5 with the right two.
+
+## 5. Confound guards
+
+**Bundle size must not predict truth.** If ESTABLISHED bundles were larger, both
+arms could score by counting assertions and the experiment would measure
+arithmetic. Items are size-matched: sizes `[5, 5, 6, 6, 7, 7]` in **both**
+classes, and `bundles.py` refuses to emit a set that does not balance.
+
+**Selection on outcome.** Items were generated by exhaustive combination search
+over the scope and drawn by a seeded RNG under the size constraint — not chosen
+by trying them against an arm.
+
+## 6. The pilot, and the abort rule — the thing v1 and v2 lacked
+
+**The full gate does not run until headroom is measured.** Both prior
+experiments assumed the control could fail and spent 24 and 28 runs discovering
+it could not.
+
+Stage 1 is **control arm only**, 12 items, 12 runs. Arm B does not exist yet, so
+nothing here can be selection on the paired difference.
+
+Pre-declared stopping rules on control accuracy `p_A`:
+
+| observed | consequence |
+|---|---|
+| `p_A > 0.85` | **the gate does not run.** Report "no headroom in this domain" and stop. |
+| `p_A < 0.25` | floor risk: items ambiguous or unfair. Report and stop. |
+| otherwise | proceed to stage 2 |
+
+Calibrating item difficulty against the **control** is item calibration and is
+legitimate; selecting on the **paired difference** would not be, and Arm B does
+not exist during stage 1. Residual regression-to-the-mean is handled by scoring
+stage 2 on **fresh** control runs and reporting pilot `p_A` beside scored `p_A`
+so any regression is visible rather than hidden.
+
+## 7. The criterion
+
+Paired, both arms over the surviving items:
+
+- **b** = items where Arm B is correct and Arm A is wrong
+- **c** = items where Arm A is correct and Arm B is wrong
+
+> ## GATE PASSES if and only if **b − c ≥ 3**.
+> ## Any other outcome, including a ceiling, is a FAIL.
+
+Held at 3, unchanged from v1 and v2, so v3 is not easier to pass than either.
+**`n` is set by an explicit power computation from the pilot's measured `p_A`,
+and frozen before Arm B runs** — the step missing from both prior experiments,
+and the reason neither saw its ceiling coming.
+
+## 8. What this still cannot conclude
+
+One task class, one domain, one model. Arm B is handed a department whose rivals
+were authored before these items existed; if it wins, this cannot separate "the
+harness supplies rivals" from "the harness instils the habit of looking for
+one". That decomposition is explicitly a later experiment and is not attempted
+here.
+
+**Frozen digest** of `items.json` + `key.json`:
+
+```
+3b5388bf0fe13c8d8d47d8e457559ff6b0fa70711d6477842a4d68e69ad32db6
+```
+
+---
+
+**Freeze.** This commit contains this protocol and nothing else. Items, key,
+family, runner and results follow in a later commit and must hash to the digest
+above.
