@@ -116,6 +116,31 @@ The standing rules for such a session:
   `tests/test_docs_numbering.py`, `tests/test_hunt_probe_discipline.py`,
   `tests/test_doors.py`, and `scripts/make_context.py --check`.
 
+## Where the operating material lives
+
+This repository is the **public research record**: mathematics, tests, proofs,
+evidence, and enough method that an outside reader can evaluate or reproduce a
+claim. That is why it is public, and it is the standard for what belongs here.
+
+**How the laboratory is operated lives in a separate private repository**
+(`fulcrum`): operator strategy, hunt briefs and their generation, the prompt
+corpus, session launching, telemetry economics, and any future routing or
+allocation logic. Those have no bearing on whether a scientific claim here is
+correct, so they are not published.
+
+The boundary, applied with judgment rather than by a rule engine:
+
+> If an outside observer needs it to **evaluate or reproduce a public claim**,
+> it belongs here. If it teaches the lab how to **allocate, route, prompt, or
+> operate itself**, it belongs in fulcrum unless reproducibility needs it.
+
+Preregistrations and protocols stay here even when unflattering — the harness
+gate record (`harness/VERDICT.md`, `harness/gate-evidence/`) is public precisely
+because a negative result about our own tooling is credibility, not capability.
+
+Flag genuinely ambiguous cases to the operator. Do not build a framework to
+adjudicate them.
+
 ## How the work is organised
 
 Two working ideas and one objective. None is settled; all three are here rather

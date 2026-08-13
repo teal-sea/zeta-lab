@@ -97,17 +97,19 @@ look rather than a verdict.
 ### T-004  Two archaeology documents at the root are now partly superseded
 **Noticed**   `ARCHITECTURE-ARCHAEOLOGY.md` and `INSTITUTION-FUTURES.md` both
 describe `harness/` as an expanding central capability and an open question.
-The question is now answered (`harness/VERDICT.md`), but the documents are
-historical records of what was believed at the time.
+The question is now answered (`harness/VERDICT.md`).
 **Matters**   Leaving them uncorrected misleads; rewriting them destroys the
 record of a belief that was later tested and refuted, which is exactly the kind
-of thing this lab should keep. The resolution is a pointer, not a rewrite.
+of thing this lab should keep.
 **From**      This pass. `INSTITUTION-FUTURES.md` §7 already called the harness an
 unproven claim and named the measurement that settled it.
-**Resume**    Add a dated one-line header to each pointing at
-`harness/VERDICT.md`. Do not edit their bodies.
-**Status**    parked 2026-08-13 — deferred as out of scope for a demotion pass
-that was asked not to produce more architecture documents.
+**Resume**    Resolved differently than planned: both documents **moved to the
+private operating repository** (`fulcrum/strategy/`) rather than being annotated
+here, because both are about how the laboratory is built and operated rather
+than about any scientific claim. They remain in this repository's git history at
+`d75d659~1`, unedited. Nothing further is owed here.
+**Status**    dead 2026-08-13 — superseded by the public/private split; the
+documents are preserved, in history and in fulcrum.
 
 ### T-005  Hunt Automation v0 — the loop exists in pieces and has no runner
 **Noticed**   The concrete hunt workflow is already conventional and already runs
