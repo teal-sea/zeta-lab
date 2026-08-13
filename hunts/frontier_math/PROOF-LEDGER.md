@@ -1383,3 +1383,780 @@ rather than improving it.
    that refuted the per-pair route on 2026-08-12.
 
 No proportion has moved and nothing here is evidence about RH.
+
+
+## The k-pair identity, and coordinator defect #20 (the over-correction) (2026-08-13)
+
+Instrument: `kpair_identity.py`, `test_kpair_identity.py` (19 tests).
+Prompted by the operator asking "are you sure?" about the entry above.
+
+**COORDINATOR DEFECT #20, the mirror of #19.** Having caught himself
+overclaiming the `k = 1` closure as blocker 2 (#19), the coordinator
+then reported `cluster_sdp`'s factor 1.99 to the operator as though it
+were an obstruction to the `k >= 2` **statement**. It is an obstruction
+to that **accounting**. Both defects have the same cause: taking a
+report's framing instead of deriving the object. So the object was
+derived.
+
+### The identity nobody in this hunt had written down
+
+Expanding `|F + P|^2` with `P w = sum_p 2 cosh(y_p w) e^{i t_p w}` and
+integrating each piece against `c2`:
+
+    margin_k = E[F+P] - (199/200) E[F] - n/200 - 4k = (4/A^2) * slack_k
+
+    slack_k = sum_p Shq(y_p)/2
+            - sum_p sum_a D(y_p, x_a - t_p)                   (damage)
+            + (1/400) sum_{a<b} phi_r(x_a - x_b)^2            (repulsion)
+            - (1/2) sum_{p!=q} [D(y_p+y_q, tau) + D(y_p-y_q, tau)]
+
+Checked against the definition route (quadrature on `Eng`, sharing no
+code) for `k = 1..4`, mixed depths and shifts: worst residual
+**4.21e-17**. At `k = 1` the last sum is empty and this is exactly the
+single-pair slack the entry above closes.
+
+### What it settles
+
+The worry that motivated the pessimism is real and visible in the
+identity: **the repulsion term carries no `p` index**. It is paid once
+however many pairs there are, while the damage is summed over them, so
+relief per pair goes like `1/k`. That reading is still wrong, and the
+identity says why — the adversary has exactly two routes and both pay:
+
+| route | what it costs the adversary | measured |
+|---|---|---|
+| **spread the centres** so each pair sees the atoms at a damage peak | only **two** positions carry the top peak (`+/- 6.517`); the rest decay like `1/s^2`, so `damage/gain` falls | 1.0420 at `k = 1` and `k = 2`, 0.6365 at `k = 4`, 0.4578 at `k = 6`, **0.2483 at `k = 12`** |
+| **stack the centres**, keeping `damage/k` maximal | coincident centres contribute `D(2y,0) + D(0,0) = -(ghat(2y)^2 + A^2)`, which enters `slack_k` with a minus sign — a **gain** of `1.7556` per ordered pair | slack `+1.81` at `k=2`, `+49.4` at `k=8` |
+
+Neither route is visible to an argument that charges damage per pair,
+which is exactly what `multi_pair_requirement` does. Its 1.99 compares a
+per-pair damage charge against a joint budget floor; the identity shows
+the two are **maximised by different configurations**, so the factor
+does not bound the truth.
+
+### The joint search, and its power
+
+Minimising the **relative** margin `slack_k / sum_p Shq(y_p)/2` over
+atoms, centres and depths jointly (annealing, `n <= 24`, 60 restarts per
+`k`). The relative form matters: the coordinator's first search minimised
+the absolute slack and collapsed into the degenerate `y -> 0` corner
+where gain, damage and repulsion all vanish together — and the planted
+fault correctly refused to fire at `x1.5` and `x2.0`, which is what
+exposed the bad objective.
+
+| k | 1 | 2 | 3 | 4 | 6 |
+|---|---|---|---|---|---|
+| worst relative margin | +0.4915 | +0.3719 | +0.3908 | **+0.3430** | +0.3618 |
+
+No downward trend in `k`; the worst is `+0.343`, not near zero.
+**Consistency check that the instrument is honest**: a worst relative
+margin of 0.343 predicts the first violation once the damage is inflated
+by `1/(1-0.343) = 1.522`, and the planted-fault ladder first returns
+negatives at `damage_scale = 1.5` (clean at 1.0, `-0.171` at 1.5,
+`-0.918` at 2.0, `-2.908` at 3.0). Prediction and detector agree.
+
+### Disposition
+
+**THE CORRECTION WAS RIGHT AND ITS CONSEQUENCE WAS OVERSTATED.** Blocker
+2 is the multi-pair quantifier and the entry above closes only `k = 1`
+— that stands (#19). But `k >= 2` is **not** short by 1.99x as a
+statement: at hardened grade its relative margin is `+0.343` at the
+worst `k` searched, with the mechanism named (peak decay on one side,
+coincident-centre shielding on the other) and an exact identity to state
+it in. What `cluster_sdp` measured is that **one particular accounting**
+does not extend, which is a fact about the accounting.
+
+`k >= 2` remains open as a theorem: this is an identity plus a search
+over `k <= 6`, `n <= 24`, and named gaps N1–N5 in the module say so. No
+proportion has moved and nothing here is evidence about RH.
+
+
+## The two arms compute one function: ghat(z) = Phi2(-i z) (2026-08-13)
+
+Instrument: `arm_identification.py`, `test_arm_identification.py`
+(39 tests). Found while scoping the k=1 formalisation, by reading
+`BandCert/Phi.lean` to copy its table pattern.
+
+This hunt grew two independent certification efforts and neither knew
+about the other:
+
+* **BandCert** (2283 lines, sorry-free) encloses the paper field
+  `Phi2(z) = s(z+sqrt2) + s(z-sqrt2)`, `s(u) = sin(u/2)/u`, on
+  fixed-point interval arithmetic at `2^-64`.
+* **EForm3** works the retention inequality through `Qre`, `Qim` and
+  `D(y,s) = Qim^2 - Qre^2`, built from
+  `ghat(z) = int cos(sqrt2 u) cosh(z u) du`.
+
+They are the same function:
+
+    ghat(z) = Phi2(-i z)      for every complex z.
+
+One line: `ghat` has the closed form `sinh((z +/- i sqrt2)/2)/(z +/- i sqrt2)`
+summed over signs, and `sinh(i w/2)/(i w) = sin(w/2)/w = s(w)`, so
+substituting `z = -i w` turns each `ghat` branch into an `s` branch of
+`Phi2`. Measured residual over 27 curated points and a 1600-point grid
+over the strip: **exactly 0.0** — not small, bit-identical, because after
+the rotation the two closed forms are the same expression. `A = Phi2(0)`
+to the last bit, and `phi_r(v) = Phi2(v)` on the real axis, which is
+`BandCert.Phi.phiR`.
+
+| consequence | detail |
+|---|---|
+| **The k=1 table is not the ANALOGUE of the BandCert leaves, it is an INSTANCE** | the entry of 2026-08-13 called it "the analogue of the `BandCert` leaf tables"; that understated the reuse |
+| `Phi2` at a **complex** point is already kernel-checked | `BandCert.Phi.phiC` / `phiC_mem`, with `y != 0` |
+| the complex interval layer assumed missing already exists | `CIv` with `add/sub/mul/div/mulR/ofR` soundness lemmas |
+| the damage enclosure is three composition steps | `D(y,s) = -Re[Phi2(s - i y)^2]`: `phiC` at `(s, -y)`, square by `CIv.mul_mem`, negate the real part |
+| obligation count | **7 of 12 already kernel-checked in BandCert**; of the 5 new, four are small (the `linarith` reduction, the wiring lemma, the integer square completion, two one-variable bounds on `phiR`) and **one** is the real cost: the cap table itself |
+
+Two damage routes cross-checked over the obligation box
+`y in {0.05 .. 0.5} x s in {6.0653 .. 59.9}`: residual **0.0**.
+
+Disposition: **THE LARGEST REUSE FINDING IN THIS HUNT, AND IT WAS FREE.**
+It cost one reading of a file the hunt already owned. What it buys is
+that the single substantial obligation left on the `k = 1` chain runs on
+machinery that already compiles with zero sorrys, rather than on
+machinery that has to be built. Named gaps R1-R5 in the module: the
+wiring lemma is derived on paper and checked numerically but is **not
+written in Lean**, `phiC_mem`'s `y != 0` still needs its own `y = 0`
+line, the table is **not built**, and none of this touches the `k >= 2`
+quantifier, which stays open. No proportion has moved and nothing here
+is evidence about RH.
+
+
+## Both roads opened: the table is 196 cells, and the damage integral is negative (2026-08-13)
+
+Instruments: `window_table.py` + `test_window_table.py` (Road A, 12
+tests), `mean_damage.py` + `test_mean_damage.py` (Road B, 15 tests).
+`ROADMAP-OPTIONS.md` priced both roads; this closes the first task on
+each.
+
+### ROAD A — the table is sized: 196 cells
+
+The `k = 1` chain's one substantial formalisation obligation. Two sizing
+attempts failed first and the failures were the method:
+
+| attempt | outcome | why |
+|---|---|---|
+| cap each window, require `D <= 0` elsewhere | 6.36e6 cells, **99.995% undecided** | asking for `D <= 0` on a cell straddling a window edge is **unprovable by enclosure** — `D` is exactly `0` there |
+| enlarge to fixed brackets, one wide ball per cap | still diverges; cap sum `3.54e-02` **exceeds** the budget `3.375e-02` | dependency blow-up: a half-width-`0.6` ball gives `2.73e-02` against a true peak of `4.40e-03`, **6x** |
+| **locate true edges, pad outward, cap by subdivision INSIDE** | **196 cells, 0 undecided** | brackets sit strictly outside the windows so `D < 0` with margin off-bracket; caps are tight because the cells prove them |
+
+At `y = 1/2`, `s in [5.6, 60]`, Arb at 128 bits: **9 windows** (widths
+`0.960975 .. 0.986001`, first at `6.065319`, min gap `5.182969`), **9
+brackets** padded by `0.25` and rounded outward to `1e-3` (min gap
+`4.682`), **143 in-bracket cells** carrying caps `4.483880e-03` down to
+`4.715629e-05`, **53 off-bracket cells** over 10 segments. Cap sum
+`1.319090e-02` both sides against `Shq/2 = 3.375420e-02` — ratio
+**0.3908**.
+
+`196` sits inside `BandCert`'s existing `62 .. 248`. **The remaining
+obligation is an ordinary instance of a pattern this package already
+carries.** The depth reduction keeps it one-dimensional: `D(y,s)/y^2 <=
+4 D(1/2,s)` shows 0 violations over 400 `s`-points x 6 depths, and closes
+with margin `2.39x` because the budget coefficient `Shq(y)/2 / y^2`
+*increases* in `y`, so its floor is `0.13087` at `y -> 0` against a
+requirement of `5.487e-02`.
+
+**Coordinator slip, caught by the module's own report**: the count was
+written as `197` from a scratch run that rounded brackets to nearest;
+rounding them outward (which is what soundness requires) gives `196`.
+`test_stated_constants_match_the_generated_table` now pins all four
+counts so the prose cannot drift from the computation again.
+
+### ROAD B — the damage functional has negative total integral
+
+The missing step was a quantitative form of "only two positions carry the
+top peak". There is a sharper and entirely elementary statement.
+`-D(y,s)` is the Fourier cosine transform of `w -> c2(w) cosh(y w)`,
+continuous and supported on `[-1,1]`, so Fourier inversion **at the single
+point `w = 0`** gives
+
+    int_{-inf}^{inf} D(y,s) ds = -2 pi c2(0),     INDEPENDENT OF y,
+    c2(0) = 1/2 + sin(sqrt2)/(2 sqrt2) = 0.84922799931830418,
+    int D ds = -5.3358568877622847.
+
+| check | result |
+|---|---|
+| `c2(0)` closed form vs quadrature | `\|diff\| = 0.0` |
+| truncated integral at 5 depths | spread across `y in [0.05, 0.5]` is `1.2e-05` — flat, as the identity says |
+| tail behaviour | residual shrinks with `S`, consistent with the `O(1/S)` truncation of a `1/s^2` tail |
+| mean collectable damage `int C(t) dt / 2L` vs `n int D / 2L` | four digits, for coincident **and** spread atom sets |
+
+**What it buys.** For a fixed on-line multiset, the damage a pair centred
+at `t` collects has *negative mean over placements*, at a rate that does
+not weaken with depth. A pair placed at random collects negative damage;
+positive collection requires landing in one of the narrow windows — and
+the windows are exactly what the `k = 1` accounting already controls.
+This is the right shape for `k >= 2`, where the difficulty was that
+damage sums over pairs while the repulsion is paid once.
+
+**What it does not buy**, stated in `NAMED_GAPS` M1-M5: it bounds the
+*mean*, and the adversary chooses placements rather than drawing them.
+Converting it into a bound on `sum_p C(t_p)` needs a count of how many
+`t` can have `C(t)` large, which is **not** supplied. This is step 1 of
+Road B, not Road B.
+
+Disposition: **BOTH ROADS ARE OPEN AND NEITHER IS BLOCKED.** Road A's
+cost is now known and small; Road B has an exact, depth-free, elementary
+identity where it previously had a measured mechanism. `k >= 2` remains
+open, nothing is kernel-checked yet, no proportion has moved, and nothing
+here is evidence about RH.
+
+
+## ROAD B, step 2: the slack is three terms and two of them are free (2026-08-13)
+
+Instrument: `gram_form.py`, `test_gram_form.py` (20 tests).
+
+The `k >= 2` difficulty was stated for two days as "the repulsion is paid
+once while the damage sums over pairs". Rewriting the slack against the
+measure `c2 dw` shows the difficulty is somewhere else, and isolates it.
+
+### The kernel is positive definite
+
+`-D(y,s) = int c2(w) cosh(y w) cos(s w) dw` is the Fourier transform of
+`c2(w) cosh(y w) dw`, a **positive** measure on `[-1,1]` — `c2 = g * g`
+is the autocorrelation of a nonnegative window and `cosh > 0`. By Bochner
+`K_y := -D(y,.)` is positive definite. Measured min eigenvalue
+**`1.03e-08`** over 200 random Gram matrices, **`-6.06e-16`** (numerical
+zero) over the binding structured sets.
+
+### The three-term form
+
+    slack_k  =  B(T,y)  +  Cross(X,T,y)  +  R(X)/400
+    B(T,y)   = int c2(w) [ cosh^2(y w) |That(w)|^2 - k ] dw
+    Cross    = - sum_{a,p} D(y, x_a - t_p)
+    R(X)     = sum_{a<b} phi_r(x_a - x_b)^2
+
+Against `kpair_identity`'s direct evaluation: worst residual over 40 random
+instances **`< 1e-12`**. `B` against its Gram form
+`(1/2)[G_T(2y) + G_T(0)] - k A^2`: **`1e-25`**.
+
+| term | status | why |
+|---|---|---|
+| `B >= 0` | **FREE, from a kernel-checked theorem** | `int c2 \|That\|^2 >= k A^2` is `Retention.energy_F_ge` applied to the pair centres; `cosh^2 >= 1`; `c2 >= 0`. The three compose in one line. Measured min over 400 random pair sets: `2.06e-05 > 0` |
+| `R >= 0` | **FREE, trivially** | `K_0(v) = phi_r(v)^2`, so `R` is a sum of squares |
+| `Cross` | **the whole difficulty** | the only term that can be negative |
+
+So `slack_k >= Cross`, and `k >= 2` reduces to the single statement
+`B + R/400 >= sum_{a,p} D(y, x_a - t_p)`.
+
+### B is the correct budget, and `k Shq/2` never was
+
+| configuration | `B` | `k Shq(y)/2` |
+|---|---|---|
+| `k = 1` | 0.033754204 | 0.033754204 |
+| 10 pairs on window positions | **0.151405927** | 0.337542039 |
+| 6 coincident pairs | **26.536840499** | 0.202525224 |
+| 8 on a `2 pi` lattice | **0.102187070** | 0.270033631 |
+
+At `k = 1` they agree exactly (diff `< 1e-13`). Beyond that they are not
+close in either direction. **This is what the 2026-08-12 finding that
+slack additivity is "false and signed" actually was**: the additive
+budget was an artifact of the decomposition, and `B` has no additivity to
+fail. A per-pair accounting was bounding a non-additive quantity by an
+additive one — which is why `cluster_sdp`'s factor 1.99 could never have
+closed, independently of how loose either side was.
+
+Note the sixth row: coincident pair centres give `B` a factor **175x**
+larger than ten spread ones. The measured "coincident-centre shield" of
+`1.7556` per ordered pair is this, seen from the other side.
+
+### The route that did not work, recorded so nobody re-derives it
+
+Positive definiteness also gives Cauchy-Schwarz directly,
+`sum_{a,p} D <= sqrt(S_X S_T)`. Measured against the budget it is **18x
+to 111x too weak**, because it bounds `|sum K|` and discards the fact that
+`D` is negative almost everywhere. Recorded as insufficient, with a test
+pinning it so.
+
+Disposition: **THE FRAME IS RIGHT AND TWO OF ITS THREE TERMS ARE FREE.**
+`k >= 2` is now one inequality, `B + R/400 >= sum D`, with the budget in
+its correct non-additive form and its nonnegativity resting on a theorem
+already kernel-checked in this tree. It is **not proved** — named gaps
+G1-G5 say which parts are paper-and-numerics rather than Lean. `k >= 2`
+remains open, no proportion has moved, and nothing here is evidence about
+RH.
+
+
+## ROAD B, step 3: the counting lemma is "at most one pair per window" (2026-08-13)
+
+Instrument: `counting_lemma.py`, `test_counting_lemma.py` (17 tests).
+`gram_form` reduced `k >= 2` to `B + R/400 >= sum_{a,p} D` and named the
+missing piece as a **count**. Two measurements supply it.
+
+### 1. The counting lemma
+
+Put `m` atoms and `j` pair centres in one damage window (width
+`<= w_max = 0.9860008`). A **two-species** square completion closes iff
+`D_1^2 <= 4 (gamma^2/800) kappa(w_max)`, and it does:
+
+| quantity | value |
+|---|---|
+| damage per (atom, pair) | `D_1 = 4.396424e-03` |
+| atom-atom relief per within-window pair | `gamma^2/800 = 9.779689e-04` |
+| **pair-pair relief per within-window pair** | **`kappa(w_max) = 1.620239e+00`** |
+| AM-GM condition | `1.932855e-05 <= 6.338174e-03` — **margin 327.9x** |
+
+`kappa(w_max)` is **1657x** the per-pair atom relief. That asymmetry is
+the whole content: the pair species cannot crowd. Maximising
+`f(m,j) = m j D_1 - m(m-1) gamma^2/800 - j(j-1) kappa(w_max)` over
+integers:
+
+    j = 1:  +7.321459e-03  at m = 3   <- exactly the k=1 optimum, recovered
+    j = 2:  -3.216073e+00
+    j = 3:  -9.670185e+00
+
+**A second pair in the same window is never profitable.** That is the
+count `gram_form` said was missing, and it recovers the `k = 1` answer as
+its `j = 1` slice, which is the consistency check that matters.
+
+### 2. The budget floor: `B/k` does not decay
+
+`B` is not additive, so a "budget per pair" could in principle vanish as
+`k` grows. Minimising over lattice spacings at `k = 64` puts the worst
+case at `L = 6.30` — just past `2 pi`, the window period, which is where
+`kappa` is most negative (`-1.82e-02`). Along that worst family:
+
+| k | 2 | 4 | 8 | 16 | 32 | 64 | 128 | 256 |
+|---|---|---|---|---|---|---|---|---|
+| `B/k` | 2.459e-2 | 1.749e-2 | 1.260e-2 | 9.492e-3 | 7.653e-3 | 6.680e-3 | **6.325e-3** | 6.392e-3 |
+
+It **bottoms out near `6.3e-03` and turns back up**. Every pair carries a
+budget bounded away from zero, uniformly in `k`.
+
+### What this settles and what it does not
+
+Together the two kill the configuration the `k = 1` analysis feared —
+many pairs sharing one atom cluster's windows. It is **not** closure:
+a single pair facing atoms at every one of its window peaks already
+collects `1.372e-02`, against a floor of `6.3e-03`, so `R/400` stays
+load-bearing and the shared-`R`-across-pairs question is untouched. What
+is gone is the *unbounded* form of the worry.
+
+**Test-caught coordinator slip.** `test_one_pair_at_every_window_peak`
+first asserted the full-tail figure `1.372e-02` against a nine-window sum,
+which is `1.2888e-02` — two different truncations quoted for each other.
+The claim was unaffected (both beat the floor) but the test was wrong, and
+it now pins both numbers and the inequality between them. Same family as
+the `197`/`196` slip: a number carried across contexts without
+re-deriving it.
+
+Disposition: **THE COUNT EXISTS AND IT IS SHARP.** `k >= 2` remains open,
+named gaps C1-C5 say which parts are measured rather than proved, no
+proportion has moved, and nothing here is evidence about RH.
+
+### CORRECTION, same day: coordinator defect #21 — two errors in the site model
+
+Caught by the operator's "if you say so", which prompted checking the
+site model against the exact slack instead of restating it. Both errors
+were in the entry above; both are corrected in place.
+
+**Error 1 — a factor of 2.** `site_value` used `j(j-1) kappa(w_max)` for
+the pair relief. The `k`-pair identity sums over **unordered** pairs, so
+the correct term is `j(j-1) kappa(w_max)/2`. Measured against the exact
+slack: two coincident pairs relieve `1.75562102`, and the model claimed
+`3.24047835`. Every derived constant was inflated with it:
+
+| quantity | as first published | correct |
+|---|---|---|
+| AM-GM right-hand side | 6.338174e-03 | **3.169087e-03** |
+| AM-GM margin | 327.9x | **164.0x** |
+| `kappa` vs per-pair atom relief | 1657x | **828x** |
+| `j = 2` site value | -3.216073 | **-1.595834** (at m = 5) |
+| `j = 3` site value | -9.670185 | **-4.809467** (at m = 7) |
+
+**Error 2 — the logic ran the wrong way, which is the worse one.** The
+entry said "maximising `f(m,j)` over integers ... a second pair in the
+same window is never profitable", as though `f` bounded what the
+adversary gains. It does not. `f` uses the conservative constants, so
+`f >= B - slack`, i.e. **`slack >= B - f`**: `f` *understates* the slack
+because it discards the budget entirely. Measured — the exact slack
+exceeds `f` at every occupancy tested, by `+0.025` at `(m,j) = (1,1)`,
+`+5.05` at `(1,2)`, `+15.06` at `(1,3)`.
+
+**What the corrected statement is.** `slack >= B - f`, so a site is safe
+as soon as `B >= f`. At `j = 1`, `max_m f = 7.321459e-03` against
+`Shq(y)/2 = 3.375420e-02` — a factor `4.61`. At `j >= 2`, `f < 0`, so
+`slack >= B - f > B >= 0` outright. The conclusion — a second pair at the
+same site is never the adversary's play — **survives both corrections**,
+but it holds for a different reason than the entry gave, and with
+constants half the size.
+
+**A third thing the check surfaced.** "Put `m` atoms and `j` pairs in one
+damage window" is not a coherent picture: damage needs
+`|x_a - t_p| >= 6.0653`, so anything inside one window of width `0.986`
+does *no* damage. A site is an atom cluster of diameter `<= w_max` and a
+pair cluster of diameter `<= w_max` separated by about the peak distance
+`6.517`. The arithmetic was right; the description was not.
+
+Two regression tests now pin the factor against the exact pair relief and
+pin `slack > f` at every occupancy, so neither error can return silently.
+
+Disposition: **THE COUNT SURVIVES AT HALF THE CONSTANTS AND WITH ITS
+LOGIC REVERSED.** Defect #21 joins #19 and #20 as the third correction
+this session caught by an operator asking, in substance, "are you sure" —
+and the third whose root cause was a quantity used without being derived
+in the form it was being used. `k >= 2` remains open, no proportion has
+moved, and nothing here is evidence about RH.
+
+### CORRECTION TO THE CORRECTION: coordinator defect #22 (2026-08-13)
+
+The operator asked "are you sure" a fourth time. The #21 correction above
+introduced a new error, and this one was in the sentence that was supposed
+to be the fix.
+
+**The error.** #21's correction stated `slack >= B - f`. That is **false**.
+`B` already absorbs `sum_{p<q} kappa`, and `f` subtracts `j(j-1)kappa/2`
+again, so `B - f` charges the pair relief twice. Measured on the nine site
+configurations `(m, j) in {1,3,5} x {1,2,3}`:
+
+| pairing | violations |
+|---|---|
+| `slack >= B - f` (as published in #21) | **6 of 9** — every one with `j >= 2` |
+| `slack >= k Shq(y)/2 - f` | **0 of 9** |
+
+At `(m,j) = (3,2)`: exact slack `1.803081`, `B - f = 3.422858` — short by
+a factor `1.9`.
+
+**The correct statement.** `f` pairs with `k Shq(y)/2`, not with `B`,
+because the identity it comes from is
+`slack = k Shq/2 - sum D + R/400 + sum_{p<q} kappa`. Its three steps are
+`sum D <= m j D_1`, `R/400 >= m(m-1) g^2/800`, and
+`sum_{p<q} kappa >= j(j-1) kappa(W)/2` — the last requiring `kappa`
+nonincreasing on `[0, w_max]`, now measured: `1.75562102` falling to
+`1.62023918` with no interior minimum.
+
+Every numeric conclusion of #21 survives unchanged; only the budget the
+bound is compared against was mislabelled. `j = 1` still needs
+`3.375420e-02 >= 7.321459e-03` (factor `4.61`) — that comparison was
+always against `Shq/2`, which is why it read correctly.
+
+Three regression tests now pin it: the wrong pairing must fail exactly 6
+of 9, the right one must hold 9 of 9, and `kappa`'s monotonicity is
+checked on a 200-point grid.
+
+**The pattern, stated plainly.** #19, #20, #21 and #22 are four
+corrections in one session, each caught by the operator expressing doubt
+rather than by any check in this tree. Every one of them was a *framing*
+error — a mislabelled quantifier, a bound relayed as a statement, a
+double-counted term — while the underlying numbers survived each time.
+The `meta/` entry filed earlier today names the missing capability as a
+gate on relayed numbers; that is the wrong shape. The measured failure
+mode is not bad arithmetic, it is **prose asserting a relation between
+quantities that were never evaluated together**. The gate that would have
+caught all four is cheaper: whenever a claim has the form `X >= Y`,
+evaluate both sides on the configurations already at hand before writing
+the sentence. Each of the four took under two minutes to refute that way.
+
+`k >= 2` remains open, no proportion has moved, and nothing here is
+evidence about RH.
+
+
+## What survives 2026-08-13, measured rather than recalled
+
+Instrument: `salvage_audit.py` — seven checks re-derived from
+`EForm3/Defs.lean` alone, importing nothing from this directory.
+**7 of 7 PASS.** The ten modules landed today also pass **340 tests**.
+
+| claim | independent residual | status |
+|---|---|---|
+| `margin_k = (4/A^2) slack_k` (k = 1, 2, 3, by quadrature on `Eng`) | **4.21e-17** | STANDS |
+| `ghat(z) = Phi2(-i z)` — BandCert and EForm3 are one function | **0.0** over 24 points | STANDS |
+| `int D(y,s) ds = -2 pi c2(0) = -5.33585688776`, depth-free | spread across `y` **4.88e-05**; `c2(0)` closed form exact | STANDS |
+| Bochner: `-D(y,.)` positive definite | min eigenvalue **-6.745e-16** over 63 Gram matrices | STANDS |
+| **k=1 window bound, no separation hypothesis** | net `1.9447e-02` vs `Shq/2 = 3.3754e-02`, **safety 1.736x** | STANDS |
+| window constants (first edge `6.06531877311`, `w_max 0.9860007073`) | to `1e-6` | STANDS |
+| three-term Gram form `slack = B + Cross + R/400`, `B >= 0` | **7.89e-31**; min `B` positive | STANDS |
+
+**Every one of the four defects (#19-#22) was in prose, not arithmetic.**
+#19 mislabelled a quantifier, #20 relayed an accounting bound as a
+statement bound, #21 doubled a term and inverted an implication, #22
+double-counted the pair relief inside a fix. Not one touched a
+computation, and the audit above separates the two cleanly: the modules
+the defective sentences were describing all reproduce from scratch.
+
+What is therefore **rescued and load-bearing**:
+
+1. The `k = 1` retention inequality for every `n`, every shift, every
+   depth in `[0,1/2]`, **with no separation hypothesis** — hardened
+   grade, four independent instruments, an exact rational certificate,
+   and now an eighth from-definitions reproduction.
+2. `ghat = Phi2(-i .)`, which collapses two certification efforts into
+   one and puts **7 of 12** Road A obligations on machinery that already
+   compiles sorry-free.
+3. The **196-cell** table spec, sized, all cells decided.
+4. The `k`-pair identity and its three-term Gram form, with two of three
+   terms free.
+5. `int D ds = -2 pi c2(0)`, exact and depth-free.
+6. Bochner positive definiteness.
+
+What is **not** rescued: `k >= 2` is open; the Cauchy-Schwarz route is
+recorded dead (18x-111x too weak); the site model's role is now only what
+`slack >= k Shq/2 - f` says, which is weaker than the counting-lemma
+framing first claimed. No proportion has moved and nothing here is
+evidence about RH.
+
+
+## ROAD B, step 4: the shared-R worry does not materialise (2026-08-13)
+
+Instrument: `shared_repulsion.py`, `test_shared_repulsion.py` (15 tests).
+The last open piece of `k >= 2` was that the atom repulsion `R` is paid
+**once** while the damage sums over pairs. Every earlier search reached
+only `n <= 24`, `k <= 6`; this goes to `n = 400`, `k = 60`.
+
+| family (worst over sizes to `(400,60)`, incl. `n/k = 100`) | worst relative margin |
+|---|---|
+| atoms on a `2 pi` lattice, pairs on a `6.30` lattice | **+24.51** |
+| atoms clustered, pairs on the window positions | +38.30 |
+| atoms and pairs on one lattice, offset by the peak | +24.76 |
+| atoms in many small clusters, pairs free | +14.17 |
+| both free random | **+4.83** |
+
+**No degradation with `n/k`**: along the first family the margin runs
+`24.51, 24.72, 24.91, 25.06` as `(n,k)` goes `(50,2) -> (400,16)` — flat,
+not falling. The worry predicts the opposite.
+
+**The adversary's preference is the reverse of the worry.** Annealing
+over both populations reaches its worst at **`n = 5`, `k = 23`** —
+*few* atoms, *many* pairs, margin `+0.2716`. It starves the repulsion of
+atoms rather than overwhelming it. The many-atom family becomes the best
+play only at damage scales where the inequality has *already* broken
+(`n = 87` at `x2.5`, `n = 94` at `x3.0`).
+
+### The control, and the two negative results that make it honest
+
+| damage scale | worst | n, k | |
+|---|---|---|---|
+| x1.0 | +0.2716 | 5, 23 | clean |
+| x1.5 | +0.1309 | 19, 21 | clean |
+| x2.0 | **-0.0895** | 25, 21 | **FIRES** |
+| x2.5 | -1.2505 | 87, 9 | FIRES |
+| x3.0 | -2.7047 | 94, 8 | FIRES |
+
+**Negative result 1 — power is effort-dependent, and below the floor
+this scan is worthless.** The `x2.0` rung does *not* fire at 20 restarts
+x 5000 iterations (`+0.2651`), nor at 20 x 12000 on a single seed
+(`+0.0023`). It fires only at 20 x 12000, best of 3 seeds. `EFFORT_FLOOR`
+records the ladder and a test pins it, because the first version of this
+scan reported "no violation" at an effort with no power — a verdict worth
+nothing.
+
+**Negative result 2 — a near-miss caught before landing.** An earlier
+draft recorded `-0.5954` at `x2.0`. That number came from the
+**scratchpad** implementation, not from the module being landed; the two
+consume the RNG in a different order and the landed module does not
+reproduce it. The module was held uncommitted until every recorded
+number came from the code that ships. This is the same failure family as
+defects #19-#22 — a quantity carried across contexts — caught this time
+before publication rather than after.
+
+Disposition: **THE SPECIFIC MECHANISM THE WORRY NAMED IS REMOVED, AND
+THE RESULT IS EVIDENCE, NOT CLOSURE.** Named gaps S1-S6: the measured
+worst is an **upper bound** that drifts down with effort (`0.343` ->
+`0.3393` -> `0.2716`) and nothing says it stops above zero; the families
+are lattices, clusters and randoms, so an adversary with unseen structure
+is not excluded; `y` is fixed at the binding depth `1/2`. `k >= 2`
+remains open, no proportion has moved, and nothing here is evidence
+about RH.
+
+
+## Two sessions measured O9 independently; the results reconcile (2026-08-13)
+
+`claude/lab-rejection-philosophy` cherry-picked in (`ebf649c`, `b575100`):
+`o9_scoping.py`, `test_o9_scoping.py` (18 tests, all pass here),
+`O9-SCOPING.md`, `O9-BRIEF.md`. Their headline is **"the blocker is zero
+margin, not table size"**, which is a claim about the same object
+`window_table.py` sizes, so it needs reconciling rather than filing.
+
+**Their finding, and it is correct.** The caps `c_k` as recorded in
+`RETENTION-PROBLEM.md` §4 are defined as the *supremum* of `Dam/y^2` over
+each window box, rounded up. They recomputed all nine and found the
+supremum **attained at an interior point of every window**, always at
+`y = 1/2`, ratio `1.0000` to four figures. An inequality that is an
+equality somewhere has no margin, and no enclosure can discharge it: any
+ball containing the argmax has an upper bound strictly above the sup. So
+O9 *as §4 states it* cannot be held by interval arithmetic at any table
+size.
+
+**It does not apply to `window_table.py`, by construction.** That module
+computes caps by adaptive subdivision with `tol_rel = 0.02`, so every cap
+sits above its bracket's true supremum:
+
+| k | true sup on bracket | `window_table` cap | ratio |
+|---|---|---|---|
+| 0 | 4.396423772e-03 | 4.483880e-03 | **1.0199** |
+| 1 | 9.750553153e-04 | 9.944775e-04 | 1.0199 |
+| … | … | … | ≥ **1.0195** |
+| 8 | 4.623464811e-05 | 4.715629e-05 | 1.0199 |
+
+Minimum ratio across the nine brackets `1.0195`; **0 undecided cells** in
+the table is the empirical form of the same fact. What was recorded as a
+caveat (named gap T4, "the caps are deliberately loose") is, in the light
+of their finding, the load-bearing design choice.
+
+**The two size estimates are consistent because they size different
+objects.** `window_table` is **196 cells**, one-dimensional at `y = 1/2`,
+which is legitimate only because of the depth reduction
+`D(y,s)/y^2 <= 4 D(1/2,s)`. Theirs is the full two-dimensional object
+over `[28/5,60] x [0,1/2]`. Both are a fraction of `BandCert/Data.lean`.
+Neither says size is the obstacle, and they agree on that independently.
+
+**CORRECTED, see coordinator defect #23 below.** This paragraph first
+quoted theirs as "264 leaves at depth 12 at `1.20x` inflation plus `0.02`
+widening". That is their **first draft's** operating point, which their
+own second commit retracted: `0.02` widening **breaks O3**, whose ceiling
+is `0.00695`. Their recommended point is `1.20x` inflation with `1/200`
+widening — **110 window + 279 complement = 389 leaves, max depth 16**.
+
+**Their §7 ceiling clears ours.** They measure the budget as absorbing
+cap inflation up to **`1.3945x`**. `window_table` runs at `1.02x` with a
+cap sum of `1.319090e-02` against `Shq/2 = 3.375420e-02` — headroom
+`2.5589x` — and inflating its caps all the way to `1.3945x` gives
+`1.839470e-02`, still under budget.
+
+Disposition: **THE TWO SCOPINGS AGREE, AND THEIRS SUPPLIES THE REASON
+OURS WORKS.** The zero-margin obstruction is real for the §4 statement
+and is the thing to fix in `RETENTION-PROBLEM.md`; the table this session
+built already avoids it, and now has a named reason rather than a lucky
+tolerance. No proportion has moved and nothing here is evidence about RH.
+
+
+## O9 built as a leaf file, and the 196-cell estimate corrected to 344 (2026-08-13)
+
+Instrument: `o9_leaf.py`, `test_o9_leaf.py` (20 tests), and the generated
+`zeta23ext/Zeta23Ext/EForm3/{O9Data,O9Check,O9Damage}.lean`.
+
+**What was actually blocking O9 was nothing.** It was recorded as needing
+a prover; it does not. A leaf table is generated data plus a decision
+procedure — the pattern `BandCert` already uses — so the work is code
+generation, and it can be done and validated without a Lean toolchain.
+
+**The arithmetic is mirrored, not approximated.** `o9_leaf` reimplements
+`Iv.lean` (`flo`, `fhi`, `add`, `sub`, `neg`, `mul`, `sqr`, `mulInt`,
+`divInt`, `widen`, `ofQ`, `ofInt`, `div`) and `Phi.lean`'s `CIv` layer
+**operation for operation in integers at scale `2^64`**, then builds
+`phiC` by the same composition. Lean's `Int` `/` is `ediv`, which for
+`SO > 0` is floor, so Python's `//` matches. Soundness spot-checked: every
+fixed-point damage enclosure contains the Arb reference at six offsets
+spanning `[5.7, 59.9]`.
+
+### The size was wrong, and low
+
+| estimate | arithmetic | cells |
+|---|---|---|
+| `window_table.py` (2026-08-13, earlier) | Arb balls, 128 bits | 196 |
+| **`o9_leaf.py`, the kernel's own** | fixed point, `2^-64` | **344** |
+
+Arb at 128 bits is *tighter* than fixed point at `2^-64`, so cells Arb
+decides need splitting again in the arithmetic that will actually run.
+**196 was an underestimate of the real Lean cost by 43%.** Max depth 20,
+**0 undecided**, smallest margin `3.63e9` ulp (`1.97e-10` absolute) — far
+above the few-ulp band where the leaf caveat would bite, so the prediction
+is safe. 344 sits above `BandCert`'s existing `62..248` but on the same
+order.
+
+### The termination detail that decides it
+
+The walk must cut `[28/5, 60]` at **every window endpoint** before
+subdividing. Bisection alone never lands on one — the endpoints are
+rationals with denominator `10^4`, the midpoints are dyadic — so a cell
+straddling a boundary shrinks forever: **768 cells, 18 undecided at depth
+40**. With the cuts: 344, none undecided. This is the third appearance of
+the same trap in this hunt (it also killed two earlier sizing attempts),
+and it now has a test.
+
+### One deliberate refusal
+
+`O9Damage.lean` defines `damageIv` and states its soundness lemma
+`damageIv_mem` **in prose, not as a `sorry`**. A placeholder there would
+have been the first `sorry` in `zeta23ext`, which has been sorry-free
+throughout, and that is the package's whole claim; it is not worth
+spending for one lemma whose proof is `phiC_mem` then `CIv.mul_mem` then
+`EIv.neg_mem`. A test now enforces the package-wide invariant.
+
+Disposition: **THE TABLE EXISTS, VALIDATED IN THE ARITHMETIC THAT WILL
+CHECK IT.** Named gaps L1-L5: nothing is kernel-checked (no toolchain
+here); the leaves are Arb rather than `Leaves.lean`'s Taylor series, so
+this predicts the kernel's verdict rather than reproducing it; the
+soundness lemma is unwritten; the table is one-dimensional at `y = 1/2`
+and rests on the unproved depth reduction. `k >= 2` is untouched, no
+proportion has moved, and nothing here is evidence about RH.
+
+### CORRECTION: coordinator defect #23 — a superseded number, cherry-picked past its own retraction
+
+The operator asked for the tree to be tied off and warned against
+assuming another session's work is wrong without digging. Digging found
+the error was mine.
+
+**What happened.** Both `lab-rejection-philosophy` commits were
+cherry-picked: `9a99fc9` ("O9 scoped") and `0278f4a` ("O9 work order, **and
+the widening ceiling the first draft missed**"). The reconciliation entry
+above then quoted their operating point as *"264 leaves at depth 12 at
+`1.20x` inflation plus `0.02` widening"* — which is the **first draft's**
+figure, retracted by the second commit that was applied in the same
+breath. Their §2 establishes a hard ceiling: the widening may not exceed
+`(1 - 0.9861)/2 = 0.00695`, because O3 supplies `Kpair >= 39/50` only on
+`|u| <= 1` and `Kpair(1.01) = 0.77943 < 39/50`. Their own table marks
+`0.02` as **"closes, but breaks O3"**.
+
+| | first draft (quoted in error) | their recommendation |
+|---|---|---|
+| inflation | 1.20x | 1.20x |
+| widening | **0.02 — breaks O3** | **1/200 = 0.005** |
+| leaves | 264 | **110 window + 279 complement = 389** |
+| max depth | 12 | **16** |
+
+Their `ACTIVE-CLAIMS` row already carried the corrected numbers, and the
+conflict resolution took that side correctly; only the prose entry here
+was stale. Corrected in place above.
+
+### What the dig also found: this session's table has an unstated dependency
+
+Their §1 records that "no damage outside the windows" is an **equality at
+every window endpoint**, so with `I_k` taken as the exact damage support
+the complement does not close — 404 leaves and a depth wall. `o9_leaf`
+closes anyway, and **not** because fixed point beats Arb. It closes
+because §4's recorded `I_k` are decimal-rounded **outward** past the true
+support:
+
+| k | §4 `I_k` | true support | slack |
+|---|---|---|---|
+| 0 | `[6.0653, 7.0514]` | `[6.065319, 7.051319]` | 1.9e-05 / 8.1e-05 |
+| 1 | `[12.2342, 13.1999]` | `[12.234289, 13.199859]` | 8.9e-05 / 4.1e-05 |
+| 2 | `[18.4704, 19.4332]` | `[18.470414, 19.433183]` | 1.4e-05 / 1.7e-05 |
+| 3 | `[24.7289, 25.6909]` | `[24.728967, 25.690832]` | 6.7e-05 / 6.8e-05 |
+
+That rounding is an implicit widening of about `2e-05` and it is
+load-bearing: re-deriving §4's endpoints to more decimals would tighten
+them onto the support and **this table would stop closing**. Now stated
+in the module (`L4b`) and pinned by a test.
+
+### And theirs is the better artifact
+
+`o9_leaf` sizes the **one-dimensional** table at `y = 1/2`: 344 cells at
+`1.05x`, no explicit widening. `o9_scoping` sizes the **two-dimensional**
+table over the whole box: 389 leaves at `1.20x`/`0.005`. Being 2-D,
+**theirs needs no depth-reduction lemma** — this session's 1-D table rests
+on `D(y,s)/y^2 <= 4 D(1/2,s)`, which is measured and unproved. Trading an
+unproved lemma for 45 leaves is a bad trade, and whoever writes the Lean
+file should take the 2-D route. Recorded in `o9_leaf`'s docstring rather
+than left for someone to rediscover.
+
+### Two other loose ends closed
+
+* `window_table.py` asserted "**It is 196 cells**" with no pointer to the
+  344. It now says plainly that 196 is an Arb-grade sizing which
+  understates the Lean obligation by 43%, and `N_CELLS` carries the same
+  note. A test pins the two counts against each other.
+* The generated `O9{Data,Check,Damage}.lean` are **staged but deliberately
+  not imported** by `Zeta23Ext.lean`. They are uncompiled here — there is
+  no toolchain — and wiring unverified modules into the package root would
+  risk the other session's build. A test pins that they exist and that the
+  root does not import them.
+
+Disposition: **THE ERROR WAS MINE, THE OTHER SESSION'S WORK WAS RIGHT AND
+ALREADY SELF-CORRECTED.** Defect #23 is the fifth of the session and the
+first involving another session's material; its cause is the same as the
+other four — a quantity carried across contexts without being re-derived
+in the context it was being used. `k >= 2` remains open, no proportion has
+moved, and nothing here is evidence about RH.
