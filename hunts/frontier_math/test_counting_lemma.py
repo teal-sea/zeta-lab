@@ -14,7 +14,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from counting_lemma import (  # noqa: E402
     ATOM_RELIEF, A_CONST, BUDGET_FLOOR, D_ONE, KAPPA_W, NAMED_GAPS, W_MAX,
     am_gm_margin, budget, budget_floor_ladder, budget_per_pair, damage,
-    kappa, kernel, phi_r, site_value, window_occupancy, worst_spacing,
+    kappa, kappa_is_nonincreasing, kernel, phi_r, site_lower_bound,
+    site_value, window_occupancy, worst_spacing,
 )
 
 
@@ -67,6 +68,41 @@ def test_site_value_uses_the_unordered_pair_count():
     assert modelled < exact_two_coincident          # conservative direction
     assert modelled == pytest.approx(KAPPA_W, rel=1e-12)
     assert exact_two_coincident == pytest.approx(1.7556, abs=1e-3)
+
+
+def test_site_value_pairs_with_k_shq_not_with_B():
+    """Defect #22: `slack >= B - f` double-counts the pair relief.
+
+    `B` already contains `sum_{p<q} kappa`, which `f` subtracts again.
+    The wrong form must FAIL for j >= 2 and the right one must hold.
+    """
+    from gram_form import slack_direct, budget, shq
+    bad_B = ok_S = 0
+    for j in (1, 2, 3):
+        for m in (1, 3, 5):
+            xs, ts = [0.0] * m, [6.516999776] * j
+            sl, B, f = slack_direct(xs, ts, 0.5), budget(ts, 0.5), site_value(m, j)
+            bad_B += sl < B - f - 1e-12
+            ok_S += sl >= j * shq(0.5) / 2 - f - 1e-12
+    assert bad_B == 6, bad_B      # the wrong pairing really is wrong
+    assert ok_S == 9, ok_S        # the right one holds everywhere
+
+
+def test_kappa_nonincreasing_on_the_window():
+    """The step `sum kappa >= j(j-1) kappa(w_max)/2` needs this."""
+    r = kappa_is_nonincreasing()
+    assert r["nonincreasing"]
+    assert r["start"] == pytest.approx(1.75562102, rel=1e-8)
+    assert r["end"] == pytest.approx(1.62023918, rel=1e-8)
+    assert r["min"] == pytest.approx(r["end"], rel=1e-12)
+
+
+def test_site_lower_bound_is_cleared_by_the_exact_slack():
+    from gram_form import slack_direct
+    for j in (1, 2, 3):
+        for m in (1, 3, 5):
+            xs, ts = [0.0] * m, [6.516999776] * j
+            assert slack_direct(xs, ts, 0.5) >= site_lower_bound(m, j) - 1e-12
 
 
 def test_site_value_is_not_a_bound_on_the_adversary():

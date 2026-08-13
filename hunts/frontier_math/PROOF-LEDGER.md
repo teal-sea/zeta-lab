@@ -1772,3 +1772,55 @@ this session caught by an operator asking, in substance, "are you sure" —
 and the third whose root cause was a quantity used without being derived
 in the form it was being used. `k >= 2` remains open, no proportion has
 moved, and nothing here is evidence about RH.
+
+### CORRECTION TO THE CORRECTION: coordinator defect #22 (2026-08-13)
+
+The operator asked "are you sure" a fourth time. The #21 correction above
+introduced a new error, and this one was in the sentence that was supposed
+to be the fix.
+
+**The error.** #21's correction stated `slack >= B - f`. That is **false**.
+`B` already absorbs `sum_{p<q} kappa`, and `f` subtracts `j(j-1)kappa/2`
+again, so `B - f` charges the pair relief twice. Measured on the nine site
+configurations `(m, j) in {1,3,5} x {1,2,3}`:
+
+| pairing | violations |
+|---|---|
+| `slack >= B - f` (as published in #21) | **6 of 9** — every one with `j >= 2` |
+| `slack >= k Shq(y)/2 - f` | **0 of 9** |
+
+At `(m,j) = (3,2)`: exact slack `1.803081`, `B - f = 3.422858` — short by
+a factor `1.9`.
+
+**The correct statement.** `f` pairs with `k Shq(y)/2`, not with `B`,
+because the identity it comes from is
+`slack = k Shq/2 - sum D + R/400 + sum_{p<q} kappa`. Its three steps are
+`sum D <= m j D_1`, `R/400 >= m(m-1) g^2/800`, and
+`sum_{p<q} kappa >= j(j-1) kappa(W)/2` — the last requiring `kappa`
+nonincreasing on `[0, w_max]`, now measured: `1.75562102` falling to
+`1.62023918` with no interior minimum.
+
+Every numeric conclusion of #21 survives unchanged; only the budget the
+bound is compared against was mislabelled. `j = 1` still needs
+`3.375420e-02 >= 7.321459e-03` (factor `4.61`) — that comparison was
+always against `Shq/2`, which is why it read correctly.
+
+Three regression tests now pin it: the wrong pairing must fail exactly 6
+of 9, the right one must hold 9 of 9, and `kappa`'s monotonicity is
+checked on a 200-point grid.
+
+**The pattern, stated plainly.** #19, #20, #21 and #22 are four
+corrections in one session, each caught by the operator expressing doubt
+rather than by any check in this tree. Every one of them was a *framing*
+error — a mislabelled quantifier, a bound relayed as a statement, a
+double-counted term — while the underlying numbers survived each time.
+The `meta/` entry filed earlier today names the missing capability as a
+gate on relayed numbers; that is the wrong shape. The measured failure
+mode is not bad arithmetic, it is **prose asserting a relation between
+quantities that were never evaluated together**. The gate that would have
+caught all four is cheaper: whenever a claim has the form `X >= Y`,
+evaluate both sides on the configurations already at hand before writing
+the sentence. Each of the four took under two minutes to refute that way.
+
+`k >= 2` remains open, no proportion has moved, and nothing here is
+evidence about RH.

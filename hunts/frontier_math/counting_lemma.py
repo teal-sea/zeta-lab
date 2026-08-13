@@ -22,12 +22,23 @@ with `kappa(tau) = K_0(tau) + K_{2y}(tau)` the pair-pair term of the
 
     f(m,j) = m j D_1 - m(m-1) g^2/800 - j(j-1) kappa(W)/2
 
-`f` is NOT a bound on anything the adversary gains.  Because its
-constants are the conservative ones, `f >= B - slack`, i.e.
+`f` is NOT a bound on anything the adversary gains.  Its constants are
+the conservative ones, so, pairing it with the budget it belongs to,
 
-    slack  >=  B - f,        B >= 0 free from `energy_F_ge`,
+    slack  >=  k Shq(y)/2  -  f.
 
-so the site is safe as soon as `B >= f`.  A two-species square completion
+**It pairs with `k Shq(y)/2`, NOT with `B`** (coordinator defect #22): the
+identity is `slack = k Shq/2 - sum D + R/400 + sum_{p<q} kappa`, and `B`
+already absorbs that last sum, so `B - f` would subtract the pair relief
+twice.  Measured: `slack >= B - f` fails on 6 of 9 site configurations,
+every one with `j >= 2`; `slack >= k Shq/2 - f` fails on none.
+
+The three steps are `sum D <= m j D_1`, `R/400 >= m(m-1) g^2/800`, and
+`sum_{p<q} kappa >= j(j-1) kappa(W)/2`, the last needing `kappa`
+nonincreasing on `[0, w_max]` — measured, `1.75562102` down to
+`1.62023918` with no interior minimum (:func:`kappa_is_nonincreasing`).
+
+So the site is safe as soon as `k Shq(y)/2 >= f`.  A two-species square completion
 makes `f` bounded above, and closes iff
 
     D_1^2  <=  4 (g^2/800) (kappa(W)/2) = 2 (g^2/800) kappa(W),
@@ -40,9 +51,9 @@ which holds at **1.932855e-05 vs 3.169087e-03 — a margin of 164.0x**
     j = 2:  -1.595834e+00  (at m = 5)
     j = 3:  -4.809467e+00  (at m = 7)
 
-At `j = 1` the requirement `B >= f` reads `Shq(y)/2 = 3.375420e-02 >=
-7.321459e-03`, which holds with a factor `4.61`; at `j >= 2`, `f < 0`
-so `slack >= B - f > B >= 0` outright.  **A second pair at the same site
+At `j = 1` the requirement `k Shq(y)/2 >= f` reads `3.375420e-02 >=
+7.321459e-03`, a factor `4.61`; at `j >= 2`, `f < 0` so
+`slack >= k Shq/2 - f > k Shq/2 > 0` outright.  **A second pair at the same site
 is never the adversary's play**, and `kappa(W)/2 = 0.810` is 828x the
 per-pair atom relief, which is why the pair species is the one that
 cannot crowd.
@@ -89,7 +100,8 @@ import math
 __all__ = [
     "A_CONST", "W_MAX", "D_ONE", "ATOM_RELIEF", "KAPPA_W", "kappa",
     "kernel", "damage", "budget", "am_gm_margin", "window_occupancy",
-    "budget_floor_ladder", "worst_spacing", "BUDGET_FLOOR", "NAMED_GAPS",
+    "budget_floor_ladder", "worst_spacing", "kappa_is_nonincreasing",
+    "site_lower_bound", "BUDGET_FLOOR", "NAMED_GAPS",
     "report",
 ]
 
@@ -177,6 +189,19 @@ def window_occupancy(js=(1, 2, 3), m_max: int = 40) -> list:
     return out
 
 
+def kappa_is_nonincreasing(n: int = 200) -> dict:
+    """`kappa` nonincreasing on `[0, w_max]` — the step `f` needs."""
+    vals = [kappa(W_MAX * i / n) for i in range(n + 1)]
+    return {"start": vals[0], "end": vals[-1], "min": min(vals),
+            "nonincreasing": all(vals[i] >= vals[i + 1] - 1e-14
+                                 for i in range(n))}
+
+
+def site_lower_bound(m: int, j: int, y: float = 0.5) -> float:
+    """`k Shq(y)/2 - f(m,j)` — the bound `slack` must clear."""
+    return j * (_gh(2 * y, 0.0).real ** 2 - _A2) / 2 - site_value(m, j)
+
+
 # --- 2. the budget floor ---------------------------------------------------
 
 def budget_per_pair(L: float, k: int, y: float = 0.5) -> float:
@@ -223,7 +248,12 @@ NAMED_GAPS = (
     "bounded the adversary's gain. It does not -- `slack >= B - f`, so a "
     "positive `f` must be covered by `B`. Both found by checking `f` "
     "against the exact slack, which exceeds it everywhere.",
-    "C6 nothing here is evidence about RH.",
+    "C6 coordinator defect #22, corrected in place: the correction to "
+    "#21 stated `slack >= B - f`, which double-counts the pair relief "
+    "because `B` already contains `sum_{p<q} kappa`. It fails on 6 of 9 "
+    "site configurations. The correct pairing is `slack >= k Shq/2 - f`, "
+    "which fails on none.",
+    "C7 nothing here is evidence about RH.",
 )
 
 
