@@ -78,3 +78,94 @@ batches so neither arm systematically runs under different system load.
 
 **Freeze.** This commit contains this protocol and nothing else. Claims, key,
 runner and results follow in a later commit and must hash to the digest above.
+
+---
+
+# RESULTS
+
+**Executed 2026-08-13, after the protocol above was committed at `8bf77e2`.** The
+claims and key in `gate2/` hash to the frozen digest
+`0cc1d5a0e3f6fc9146954717ac2332fa90d85e44c854e2bd276b51a1f3bb22bc`, verified
+after execution.
+
+28 runs were launched, 14 claims × 2 arms. **13 pairs completed and are scored
+below.** One pair (`D06`) was still executing when the experiment was stopped;
+it is reported as outstanding rather than imputed, and it is **arithmetically
+immaterial** — see below.
+
+## The gate
+
+```
+paired claims           : 13   (D06 outstanding)
+Arm A correct (control) : 13/13
+Arm B correct (harness) : 13/13
+b (B right, A wrong)    : 0
+c (A right, B wrong)    : 0
+b - c                   : 0
+max b - c still attainable from the outstanding pair : 1
+
+CRITERION (frozen): b - c >= 3
+OBSERVED         : b - c = 0
+```
+
+> ## GATE: **FAIL**
+
+The outstanding pair cannot change this. With 13 concordant pairs, the single
+remaining pair can contribute at most `b = 1`, so `b − c ≤ 1 < 3` no matter what
+D06 returns. The criterion was unreachable before the last run finished.
+
+| | D01 | D02 | D03 | D04 | D05 | D06 | D07 | D08 | D09 | D10 | D11 | D12 | D13 | D14 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| truth | D | D | D | S | D | S | S | D | D | S | S | D | S | D |
+| Arm A | ✓ | ✓ | ✓ | ✓ | ✓ | — | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Arm B | ✓ | ✓ | ✓ | ✓ | ✓ | — | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+## Why it failed: ceiling, again
+
+**The harder claim set did not lower the control's accuracy at all.** v1's
+control answered 12/12; v2's control answered 13/13 on claims deliberately drawn
+from trap classes — monthly step resets, `#`/`W` suppressing the union default,
+the DOW `7→0` alias not applying in the six-field form, `W` clamping where a bare
+day does not, iterator endpoint conventions. Every one of those traps was
+disarmed by the same move: run the expression and count.
+
+§"What changed" pre-committed that v2 might hit a ceiling again and that this
+would be another FAIL. It is recorded as one.
+
+**The two failures together identify the defect, and it is not the claim set.**
+It is the choice of subject. `frozen_croniter.py` is deterministic,
+dependency-free and fully enumerable over the 2024 window, and **neither arm was
+deprived of a shell**. In a domain with a cheap executable oracle, a competent
+agent settles a factual claim by execution, so there is no correctness headroom
+for any tool to occupy. A third claim set in this subject would fail the same
+way.
+
+This is a defect of the experimental design, twice. It licenses nothing about
+the harness in either direction.
+
+## Cost, which separated the arms in both experiments
+
+| Resource | Arm A (control) | Arm B (harness) | ratio |
+|---|---|---|---|
+| tokens, total over 13 runs | 692,672 | 768,591 | 1.11× |
+| tokens, median per run | 46,020 | 59,103 | 1.28× |
+| wall-clock, median per run | 47 s | 128 s | **2.72×** |
+| tool uses, median per run | 7 | 17 | **2.43×** |
+| wall-clock, total | 714 s | 1,642 s | **2.30×** |
+
+This replicates v1 (3.22× median wall-clock, 3.40× median tool uses, 1.15×
+tokens) on an independent claim set. For identical correctness, the harness arm
+costs roughly 2.5–3× the wall-clock and tool activity at ~1.1× the tokens.
+
+**That is the only quantity two experiments have established**, and it is a cost,
+not a benefit. No mechanism is proposed and none was investigated, per the
+standing instruction.
+
+## Status
+
+v1 and v2 both stand as recorded FAILs. Neither is retracted or reinterpreted.
+The question in §"The one question" — does the harness improve correctness of
+research-claim evaluation — **remains unanswered**, and cannot be answered in
+this subject. Any third attempt requires a different domain and a different
+outcome variable, pre-registered as a new experiment with its own power
+calculation; it is not a third iteration of this one.
