@@ -672,3 +672,90 @@ def test_the_cli_records_a_reconstructed_run_when_it_cites_a_source(
     run = read_run(tmp_path, rid)
     assert run.capture == "reconstructed"
     assert run.reconstructed_from == "git log 32e4428"
+
+
+# ---------------------------------------------------------------------------
+# the hook installer — opt-in, per-worktree, and refusing what it should refuse
+# ---------------------------------------------------------------------------
+
+
+def _install(argv, cwd: Path) -> int:
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location(
+        "tel_install", Path(__file__).resolve().parents[1] / "telemetry/hooks/install.py"
+    )
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module.main(["--worktree", str(cwd), *argv])
+
+
+def test_the_installer_writes_only_the_gitignored_local_settings(repo: Path) -> None:
+    """The tracked .claude/settings.json is shared; an opt-in never belongs there."""
+    tracked = repo / ".claude" / "settings.json"
+    tracked.parent.mkdir(exist_ok=True)
+    tracked.write_text('{"worktree": {"bgIsolation": "none"}}\n', encoding="utf-8")
+    before = tracked.read_text()
+
+    assert _install([], repo) == 0
+    assert tracked.read_text() == before, "the shared settings file was modified"
+
+    local = json.loads((repo / ".claude" / "settings.local.json").read_text())
+    assert "SessionStart" in local["hooks"] and "Stop" in local["hooks"]
+
+
+def test_the_installer_preserves_someone_elses_hook_on_the_same_event(repo: Path) -> None:
+    local = repo / ".claude" / "settings.local.json"
+    local.parent.mkdir(exist_ok=True)
+    local.write_text(json.dumps({
+        "hooks": {"SessionStart": [{"hooks": [
+            {"type": "command", "command": "echo not-ours"}]}]},
+        "env": {"KEEP": "me"},
+    }), encoding="utf-8")
+
+    assert _install([], repo) == 0
+    settings = json.loads(local.read_text())
+    commands = [h["command"] for g in settings["hooks"]["SessionStart"] for h in g["hooks"]]
+    assert "echo not-ours" in commands, "a foreign hook was clobbered"
+    assert any("session_start.py" in c for c in commands)
+    assert settings["env"] == {"KEEP": "me"}, "unrelated settings were dropped"
+
+
+def test_installing_twice_changes_nothing(repo: Path) -> None:
+    _install([], repo)
+    first = (repo / ".claude" / "settings.local.json").read_text()
+    _install([], repo)
+    assert (repo / ".claude" / "settings.local.json").read_text() == first
+
+
+def test_uninstall_removes_ours_and_leaves_theirs(repo: Path) -> None:
+    local = repo / ".claude" / "settings.local.json"
+    local.parent.mkdir(exist_ok=True)
+    local.write_text(json.dumps({"hooks": {"Stop": [{"hooks": [
+        {"type": "command", "command": "echo theirs"}]}]}}), encoding="utf-8")
+    _install([], repo)
+    _install(["--uninstall"], repo)
+    settings = json.loads(local.read_text())
+    commands = [h["command"] for g in settings["hooks"].get("Stop", []) for h in g["hooks"]]
+    assert commands == ["echo theirs"]
+    assert "SessionStart" not in settings.get("hooks", {})
+
+
+def test_the_git_hook_refuses_while_another_worktree_of_the_clone_exists(
+    repo: Path, tmp_path: Path
+) -> None:
+    """`.git/hooks` is shared across worktrees — the one blast radius that crosses
+    the isolation boundary, so it stays a deliberate act."""
+    other = tmp_path / "sibling"
+    subprocess.run(["git", "worktree", "add", "-q", "--detach", str(other)],
+                   cwd=repo, check=True, capture_output=True)
+    assert _install(["--git-hook"], repo) == 1
+    assert not (repo / ".git" / "hooks" / "prepare-commit-msg").exists()
+
+
+def test_a_malformed_settings_file_stops_the_installer_loudly(repo: Path) -> None:
+    local = repo / ".claude" / "settings.local.json"
+    local.parent.mkdir(exist_ok=True)
+    local.write_text("{ not json", encoding="utf-8")
+    with pytest.raises(SystemExit, match="not valid JSON"):
+        _install([], repo)

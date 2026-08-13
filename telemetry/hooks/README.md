@@ -22,33 +22,36 @@ the live sessions have landed.
 
 ## Turning it on (one worktree at a time)
 
-`.claude/settings.local.json` is **gitignored** and per-checkout, so enabling
-hooks there affects one worktree and cannot follow a merge into anyone else's
-session. That is the whole reason the template targets it rather than the
-tracked `.claude/settings.json`.
-
 ```bash
-# from the worktree you want instrumented, and only that one
-python3 - <<'PY'
-import json, pathlib
-p = pathlib.Path(".claude/settings.local.json")
-existing = json.loads(p.read_text()) if p.exists() else {}
-template = json.loads(pathlib.Path("telemetry/hooks/settings.telemetry.json").read_text())
-existing.setdefault("hooks", {}).update(template["hooks"])
-p.parent.mkdir(exist_ok=True)
-p.write_text(json.dumps(existing, indent=2) + "\n")
-print("wrote", p)
-PY
+python3 telemetry/hooks/install.py            # wire the session hooks here
+python3 telemetry/hooks/install.py --status   # what is wired in this checkout
+python3 telemetry/hooks/install.py --uninstall
 ```
 
-The git hook is the one with a shared blast radius — `.git/hooks` is common to
-every worktree of a clone — so it is **not** wired by the snippet above:
+It writes `.claude/settings.local.json`, which is **gitignored and
+per-checkout**, so enabling telemetry in one worktree cannot follow a merge into
+anyone else's session. The tracked `.claude/settings.json` is never touched.
+
+The installer is idempotent, preserves any existing hook on the same event
+(reporting it rather than clobbering it), and refuses outright on a malformed
+settings file — a broken settings file silently disables every setting in it.
+
+`settings.telemetry.json` is the same wiring as a readable template, for anyone
+who would rather paste it than run a script.
+
+**The commit-trailer git hook is separate and off by default**, because
+`.git/hooks` is common to every worktree of a clone — the one blast radius here
+that crosses the isolation boundary:
 
 ```bash
-cp telemetry/hooks/prepare-commit-msg .git/hooks/ && chmod +x .git/hooks/prepare-commit-msg
+python3 telemetry/hooks/install.py --git-hook
 ```
 
-Do that only when no other worktree of the same clone has a session running.
+It refuses while any other worktree of the clone exists, and names them.
+`--force` overrides, and should be used only when nothing else is running.
+
+**Hooks fire on the NEXT session in that worktree, never the current one.** If
+they do not, open `/hooks` once — that reloads config — or restart.
 
 ## What the hooks cannot capture
 
