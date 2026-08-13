@@ -180,7 +180,30 @@ def _shc(x):
 
 
 def leaves2d(s_lo: F, s_hi: F, y_lo: F, y_hi: F) -> dict:
-    """Every leaf the two compositions need, over the box, as `Iv`."""
+    """Every leaf the two compositions need, over the box, as `Iv`.
+
+    **Kernel-grade since 2026-08-13.**  This used to build its leaves with Arb
+    at 300 bits and a 4-ulp outward pad, which is not what `Leaves.lean` does;
+    the first Lean build refuted a table generated that way on 7 of 9 chunks
+    (`O9-2D-STATUS.md` §0).  The leaves now come from `o9_leaves_kernel`, which
+    mirrors `Leaves.lean` operation for operation and is pinned against Lean's
+    own `#eval` output integer for integer by
+    `tests/test_o9_leaves_kernel.py`.
+
+    The Arb path is retained below as `leaves2d_arb` for the width comparison
+    only.  It must never feed a table again.
+    """
+    from o9_leaves_kernel import kernel_leaves2d
+
+    return kernel_leaves2d(s_lo, s_hi, y_lo, y_hi)
+
+
+def leaves2d_arb(s_lo: F, s_hi: F, y_lo: F, y_hi: F) -> dict:
+    """The superseded Arb-plus-pad leaves — kept only to measure the gap.
+
+    Retained because "the model was too narrow" is a claim that should stay
+    measurable rather than becoming folklore.  Not for generating tables.
+    """
     arb = _arb()
     S = _ball(s_lo, s_hi)
     Y = _ball(y_lo, y_hi)

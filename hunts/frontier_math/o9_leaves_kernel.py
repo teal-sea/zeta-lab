@@ -38,6 +38,7 @@ from fractions import Fraction as F
 from o9_leaf import SO, Iv, ofInt, ofQ
 
 __all__ = [
+    "kernel_leaves2d",
     "SQ2",
     "coshL",
     "cosL",
@@ -184,6 +185,41 @@ def _cell_iv(lo: F, hi: F) -> Iv:
 
 def _rat_iv(q: F) -> Iv:
     return ofQ(q.numerator, q.denominator)
+
+
+def _box_iv(lo: F, hi: F) -> Iv:
+    """The box `[lo,hi]` as an `Iv`, rounded outward onto the grid."""
+    return Iv((lo.numerator * SO) // lo.denominator,
+              -((-(hi.numerator * SO)) // hi.denominator))
+
+
+def kernel_leaves2d(s_lo: F, s_hi: F, y_lo: F, y_hi: F) -> dict[str, Iv]:
+    """`leaves2d`, computed the way the kernel computes it.
+
+    Drop-in replacement for `o9_leaf2d.leaves2d`, same keys.  The 2-D route
+    carries `y` as an interval rather than a point, so the hyperbolic leaves
+    are evaluated on `[y_lo, y_hi]/2 ⊆ [0, 1/4]` — inside the small-argument
+    range, so no reduction is needed there.  `s` reaches 60, so the trig
+    leaves go through `sinCosIv`.
+
+    `shc` is `sinh(v)/v` on the same half-`y` interval, which is what makes
+    `y = 0` an ordinary point of this route rather than a removable
+    singularity: the series is evaluated directly, never a quotient.
+    """
+    X = _box_iv(s_lo, s_hi)
+    Y = _box_iv(y_lo, y_hi)
+    half_s = X.divInt(2)
+    half_y = Y.divInt(2)
+    sinX2, cosX2 = sinCosIv(half_s)
+    sh, ch = sinhCoshSmall(half_y)
+    sinc, cosc = sinCosSmall(SQ2.divInt(2))
+    return {
+        "X": X, "Y": Y,
+        "sinh": sh, "cosh": ch,
+        "shc": shcSmall(half_y),
+        "sinX2": sinX2, "cosX2": cosX2,
+        "SQ2": SQ2, "SINC": sinc, "COSC": cosc,
+    }
 
 
 def kernel_leaves(lo: F, hi: F, y: F) -> dict[str, Iv]:
