@@ -1059,3 +1059,29 @@ The load-bearing observation for `meta/`: across nine submissions the
 prover's highest-value outputs were the three occasions it contradicted
 its instructions, not the theorems it produced on request. n = 9, one
 hunt, self-reported.
+
+
+## The negative-margin question, closed: instrument artifact (2026-08-13)
+
+Instruments: `negative_margin_probe.py`, `adversary_evolution.py`, and
+their tests (78 tests, 39 min, all passing). Both modules survived a
+container restart that killed their agents; they were run directly.
+
+| Obligation | Status | Evidence |
+|---|---|---|
+| **Is the crossing at m = 24 real?** | **NO - INSTRUMENT ARTIFACT, MECHANISM NAMED** | it is a property of the settings, not the configuration. **The dominant channel is the per-pair tail allowance at G = 60: 0.027096, i.e. 20.9% of b_inf, which the periodic instrument it is compared against does not pay at all.** An apples-to-oranges comparison |
+| Which refinement clears it | **THE WINDOW, NOT THE GRID** | refining the grid step alone moves the crossing out (m* = 24 / 48 / 64 / beyond) but leaves the m -> infinity margin negative at G = 60 at every step measured. Refining the window clears it: no negative m at G >= 120, and the limit margin is positive there at both readings |
+| Attribution, quantified | RECORDED | at m = 24 the cap runs 0.134657 -> 0.128546 (step) -> 0.115805 (window) -> 0.109741 (both); step channel +0.006110, window channel +0.018852 - the window is 3.1x the grid |
+| Ball-arithmetic decision | **DECIDED POSITIVE** | 128-bit enclosures, one-sided: m=24 G=60 margin_lo +0.003822; m=24 G=200 +0.022650; the worst pinned case (m=64, G=60) flips -0.000211 -> +0.000345 on a single fine-step refinement, i.e. it sat inside the instrument's own noise |
+| Largest theta that closes | **0.995** | 0.999 opens (-0.293); theta = 1 diverges in both float and ball arithmetic |
+| **Independent second opinion** | **AGREES** | `adversary_evolution`: **20421 scored configurations, none reached a nonpositive margin**, worst promoted relative margin +0.154966. Planted-inflation control has power (inflate 4.0 finds 33 negatives) |
+| Its own honest scoping | RECORDED VERBATIM | "This bounds the adversary from below and the quantifier not at all" |
+
+Disposition: **THE RETENTION SURVIVED ITS FIRST SERIOUS ATTEMPT AT
+REFUTATION.** Three routes - window/grid refinement with the channel
+attributed, ball arithmetic at 128 bits, and a 20421-configuration
+adversarial search with demonstrated detector power - agree that
+theta = 0.995 holds and that the crossing was the instrument. The
+quantifier over all configurations remains open and is unaffected by
+this; what closed is the suspicion, not the obligation. No proportion is
+claimed to have moved.
