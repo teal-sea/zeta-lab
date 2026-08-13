@@ -1105,13 +1105,46 @@ native_decide, every theorem on propext / Classical.choice / Quot.sound).
 | Its own stated limit | RECORDED | the first far-field offset alone costs 0.0383 y^2 per wing, so this route cannot go much below delta ~ 3.5 without also moving the near-field threshold |
 | **The empty-directory cost, restated by the prover** | CONFIRMED | none of EForm2's results were present; definitions, integrability, the master identity, closed forms, Taylor and numeric bounds, near and far field estimates, counting and the retention theorems were all rebuilt from the brief. Coordinator defect #16, now measured: ~2571 lines rebuilt |
 
-Disposition: **THE RETENTION NOW HOLDS FOR ALL n AT A SEPARATION BELOW
-THE MEAN SPACING OF ON-LINE ZEROS.** Two iterations moved the hypothesis
-from 4.14 mean gaps to 0.64. The separation is still a hypothesis - real
-zeros are not separated by construction and close pairs exist - so
-blocker 2 is not closed unconditionally; what changed is that the
-hypothesis is now weaker than the typical configuration rather than four
-times stronger. And the coordinator's erroneous instruction is now a
-kernel-checked falsity in the tree, which is the most direct form the
-ledger's defect record has ever taken. No proportion is claimed to have
-moved.
+Disposition: **A REAL IMPROVEMENT, AND THE SEPARATION ROUTE CANNOT CLOSE
+BLOCKER 2 AT ANY delta.** Two iterations moved the hypothesis from 4.14
+mean gaps to 0.64, and the coordinator's erroneous instruction is now a
+kernel-checked falsity in the tree - the most direct form this ledger's
+defect record has taken. But see the correction below before reading the
+delta as small enough. No proportion is claimed to have moved.
+
+### CORRECTION, same session: "weaker than the typical spacing" was wrong
+
+Coordinator defect #17, caught by the operator asking "are you sure".
+
+The hypothesis is `x_i + delta <= x_{i+1}` for **every** consecutive
+pair. The coordinator reported delta = 4 = 0.6366 mean gaps as "now
+weaker than the typical spacing of on-line zeros, rather than four times
+stronger". That is true of the **mean** and false of the **requirement**.
+
+Zero gaps follow GUE statistics (Montgomery). Under the Wigner surmise
+for beta = 2 (normalisation checked, int p = 1.000000):
+
+| normalised gap x | P(gap < x) |
+|---|---|
+| 0.2000 | 0.0084 |
+| 0.4000 | 0.0613 |
+| **0.6366 (= delta 4)** | **0.2065** |
+| 1.0000 | 0.5331 |
+
+So roughly **21% of consecutive gaps fall below the hypothesis** - about
+207 violations in a run of 1000 on-line zeros. A generic real
+configuration does not satisfy it, and never will:
+
+**The structural consequence.** Real zero gaps have no positive lower
+bound, so a separation hypothesis of ANY positive delta fails on a
+positive fraction of configurations. **The separation route cannot close
+blocker 2 unconditionally at any constant, however small.** Driving
+delta from 26 to 4 to 3.5 buys plausibility, not closure.
+
+What closure would need instead: the near-coincident case handled by the
+**repulsion** rather than excluded by hypothesis - clustered on-line
+points inflate R, which is the term that pays for the damage, so the
+configurations the separation hypothesis excludes are exactly the ones
+where the budget is largest. That trade is visible in the exact gap
+identity and is not being used. It is the natural next target, and it is
+a different lemma from the one just proved.
