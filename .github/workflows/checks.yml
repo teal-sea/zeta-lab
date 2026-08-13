@@ -44,8 +44,13 @@ jobs:
         run: python -m pip install --quiet --disable-pip-version-check pytest
 
       - name: the tree's own invariants
+        # -o addopts="" clears the repo-wide `-n auto`, which needs pytest-xdist.
+        # This tier installs bare pytest on purpose, so `-n0` is not available
+        # either -- it is an xdist flag. Overriding addopts is the repo's own
+        # idiom (see the door commands in README.md) and keeps this tier
+        # dependency-free. Caught by CI on its first run.
         run: |
-          python -m pytest -q -p no:cacheprovider -n0 --no-header \
+          python -m pytest -q -p no:cacheprovider -o addopts="" --no-header \
             tests/test_docs_numbering.py \
             tests/test_repo_hygiene.py \
             tests/test_threads.py \
