@@ -358,9 +358,10 @@ def frontier():
     on the page, and one removed from it leaves.
 
     Original, not novel. That this laboratory produced these is a claim about
-    provenance, answerable from the record. Whether an equivalent exists
-    somewhere in the literature is a separate question, unsearched, and not
-    asserted either way.
+    provenance, answerable from the record. It is not a claim that no
+    equivalent exists anywhere, which is a different and much larger assertion:
+    these results are positioned against a cited source paper whose theorems
+    are used as published, and the improvement is stated as a delta against it.
     """
     root = REPO / "hunts" / "frontier_math"
     thm = lem = sry = lines = 0
@@ -677,10 +678,10 @@ def page_index(r, lean, py, gr, threads, c, fr) -> str:
     return shell(IDENTITY["name"], f"""
 <h1>{headline}</h1>
 <p class="stand">A computational and formal laboratory for the Riemann
-hypothesis. Original means this laboratory produced them rather than
-re-deriving a known target; whether an equivalent exists in the literature is a
-separate question and is not asserted here. Every figure was counted from the
-repository at the revision named above.</p>
+hypothesis. These are positioned against named prior art: the source paper is
+cited, its theorems are used as published, and what this laboratory adds is
+stated as a delta against it. Every figure was counted from the repository at
+the revision named above.</p>
 
 <section>
 <h2><span class='num'>§1</span> What this laboratory established</h2>
@@ -728,11 +729,10 @@ than standing</td></tr>
 <tr><td>survived an adversarial pass</td><td class='r'>{c['survived']}</td>
 <td class='note'></td></tr>
 </tbody></table></div>
-<p>Originality is not self-assessed. This laboratory's rules forbid an agent
-declaring a result novel, and its literature check reports <em>the literature
-was not consulted</em> rather than <em>absent from the literature</em>, because
-failing to find prior art is not proof that none exists. So the scoreboard
-counts what was recorded and what happened to it.</p>
+<p>The scoreboard counts what was recorded and what happened to it, which a
+stranger can check. Prior art is engaged directly rather than waved at: the
+constant these results strengthen is a published one, cited, with the
+improvement stated as a number against it.</p>
 </section>
 
 <div class="statement">Four preregistered experiments asked whether this

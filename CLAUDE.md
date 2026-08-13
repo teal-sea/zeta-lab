@@ -265,10 +265,16 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
     from the record — the git history, the ledgers, the working paper — and it
     is **claimable**. Say "original result", name it, and give its rung.
   - **Novel** is a claim about *the world*: no one has established this before.
-    It requires a literature search, and the standing rule holds for that word
-    only — `ontology/knownness.py` reports "the literature was not consulted"
-    rather than "absent from the literature", because failing to find prior art
-    is not proof that none exists.
+    It is a much larger assertion than originality and it needs evidence of a
+    search. `ontology/knownness.py` defaults to "the literature was not
+    consulted" so that an *unrun* check can never read as absence of prior art.
+    That default describes the tool, not the laboratory: where a search has
+    actually been run, **say what was searched and what it found**. The
+    frontier results are positioned against a cited source paper whose theorems
+    are used as published, with the improvement stated as a delta against it,
+    and `references/papers.md` tracks the sources. Backends exist for OEIS,
+    arXiv and zbMATH. Do not describe engaged prior art as unsearched; that
+    understates the work as badly as claiming novelty overstates it.
 
   A result is not downgraded to nothing because its novelty is unsearched. A
   kernel-checked statement this lab produced is an original kernel-checked
