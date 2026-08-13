@@ -1323,7 +1323,8 @@ is the fact half: Mathlib's own `docs/1000.yaml` lists 1179 famous theorems and
 does not have. The judgment half is here.
 
 Verified against Mathlib master and PrimeNumberTheoremAnd (2026-08-06, code
-search plus open-PR search):
+search plus open-PR search; **superseded in part — see the 2026-08-12
+re-audit below**):
 
 | target | in Mathlib | claimed elsewhere |
 | --- | --- | --- |
@@ -1358,6 +1359,65 @@ principle; duplicating it is the one way this track wastes effort.
 Honest risk on both: neither has been scoped in Lean, and Sturm in particular
 is a multi-thousand-line development, not a weekend. Sequencing accordingly —
 land something small and reviewable before opening a PR that large.
+
+### Prior-art re-audit (2026-08-12): the 2026-08-06 table is stale in three rows
+
+Web audit (repo inspection, code search, press), run 2026-08-12. These are
+web-checked findings with sources, recorded at that strength — leads for the
+next in-tree verification pass, not in-tree facts. The landscape moved on
+2026-08-10, two days before this audit, and three of the table's rows are
+affected.
+
+- **`anthropics/zeta-23-lean` (announced 2026-08-10).** A sorry-free Lean 4 +
+  Mathlib formalization that more than two thirds of ζ's nontrivial zeros lie
+  on the critical line (`Zeta23.two_thirds_on_critical_line`, liminf
+  N₀\*(T)/N(T) ≥ 2/3, stated against Mathlib's `riemannZeta`), including
+  kernel-checked Riemann–von Mangoldt zero counting, Backlund's bound via
+  Jensen, and the Weil explicit formula for ζ and primitive Dirichlet
+  L-functions; reported as externally reviewed (Conrey, Goldston).
+  https://github.com/anthropics/zeta-23-lean
+  Consequences for the table: the *Critical line theorem (Hardy 1914)* row is
+  no longer an open primacy target — the 2/3 result together with N(T) → ∞
+  subsumes Hardy's infinitude qualitatively — and kernel-checked zero
+  *counting* now exists outside PNT+ as well. Note what it does **not**
+  contain: no numerical verification of any specific zero, and its
+  Davenport–Heilbronn / Epstein "proves-too-much" controls are numerical
+  only, not formalized. Rung 3's target (kernel-checked localization of a
+  specific individual off-line zero of an L-function-like object) remains
+  unclaimed as of this audit, as does any kernel-checked finite-height
+  verification that specific ζ zeros lie on the line.
+- **Hardy 1914 is also being attempted directly** by
+  `JohnNDvorak/Littlewood_Proof` (Lean 4, sorry-carrying, states Hardy's
+  theorem as a named gap). The "claimed elsewhere: no" cell is out of date in
+  both directions.
+- **Sturm's theorem: still absent from Mathlib, but now contested ground.**
+  Loogle confirms only the modular-forms Sturm bound; nearest machinery is
+  Descartes' rule (`Polynomial.signVariations`). Two PRs adding Sturm
+  (mathlib4 #42558, #42559) were opened 2026-08-08 and **closed unmerged
+  2026-08-10 by triage for inadequate AI-usage disclosure**. Two standing
+  consequences: the target could be resubmitted by that author any week, and
+  any PR from this repository must plan its AI-usage disclosure to Mathlib's
+  standard *before* opening — the closure above is what skipping that looks
+  like. Also recorded for honest wording: Sturm has long been formalized in
+  Isabelle (AFP `Sturm_Sequences`, 2014) and Coq (math-comp `real-closed`),
+  so the available first was only ever "first in Lean/Mathlib".
+- **PNT+ status re-checked**: `Backlund/ZeroCountCrude.lean` is sorry-free
+  (|N(T)| ≤ A·T^{3/2}, unconditional); `IEANTN/` carries explicit-estimate
+  work; no critical-line occupancy work found. **"Do not go after N(T)"
+  stands, stronger than before.** PNT+ also now consumes `LeanCert`
+  (kernel-checked interval arithmetic with root-existence/exclusion/Krawczyk
+  certificates for elementary functions — no ζ, no L-functions, no Dirichlet
+  series), i.e. the ecosystem is assembling certified-numerics ingredients
+  adjacent to this repo's interval layers. The window for finite-height
+  firsts is open but should be assumed to be closing.
+
+Decision deltas, recorded so they are not re-litigated: Sturm remains the
+contribution target (with the disclosure requirement above); the Hardy Z
+construction decision stands unchanged, but its *justification* narrows —
+the "on-ramp to Q205966" argument is withdrawn (Q205966's content is
+subsumed), and Hardy Z's value is now the lab's own rung: the sign lemma is
+the dossier's one discriminating obligation and remains unformalized
+everywhere as far as this audit could see.
 
 ---
 
