@@ -2,6 +2,7 @@ import Zeta23Ext.Composition
 import Zeta23Ext.GridIncidence
 import Zeta23Ext.Bridge
 import Zeta23Ext.RetentionAlgebra
+import Zeta23Ext.RetentionWired
 import Zeta23Ext.FloorCert
 import Zeta23Ext.BandCert.Main
 import Zeta23Ext.PairEnergy

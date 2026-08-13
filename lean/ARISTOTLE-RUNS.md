@@ -199,3 +199,31 @@ end at kernel grade. What is untouched: the multi-pair statement of blocker 2
 `7df6ed8` (defect #19). The lemmas here are stated over abstract reals, so
 wiring them to `EForm3`'s objects — discharging the two hypotheses from the
 tree's own theorems — is a remaining step, not a finished one.
+
+## Batch 5 — the EForm3 port (submitted 2026-08-13)
+
+Found by trying to make batch 4 load-bearing. `RetentionWired.lean` discharges
+`RetentionAlgebra`'s four abstract hypotheses from the tree's own
+`retention_gap`, `energy_F`, `Qre_zero_even` and `Qre_zero_zero`. It cannot be
+checked yet, because **`EForm3` itself does not build at the target pin** —
+the fourth module set in this package landed without ever being built there.
+
+| id | project | task | status |
+| --- | --- | --- | --- |
+| eform3-A-taylor | `24b0a7ad-f71f-4b7e-b4be-c54178785c6f` | `Taylor.lean`: type mismatches after simplification at 42, 57, 85, 104; `ring_nf` no progress at 63, 109 | submitted |
+| eform3-B-closedform | `e3753571-74c1-4efd-abb1-034021025dc2` | `ClosedForm.lean`: `field_simp` no progress at 74, 104 | submitted |
+
+Both prompts carry the two failure classes this package's port has already
+taught us — `convert … using 1` leaving an instance-equality goal first, and
+projection-through-definition no longer unfolded by `simp` — since a prompt
+that names the drift gets a normal-form-independent repair rather than another
+brittle one.
+
+**The pattern is now worth stating as a pattern.** Four separate module sets
+(`BandCert/`, `EForm/`, `PairEnergy`, `EForm3/`) have been landed into this
+package without a build at the pin they must integrate under. Each time the
+proofs were fine and the port was a handful of tactic sites. The cost is not
+the repair, it is that nothing downstream can be verified until it is done:
+`RetentionWired` is written and unverifiable purely because of this.
+`assemble.sh` exists to make that check one command; it only helps if it runs
+before landing rather than after.
