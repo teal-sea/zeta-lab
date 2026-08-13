@@ -1,0 +1,61 @@
+# Tier 2 — the numerical suite. Pull requests and pushes to main only.
+#
+# Needs the real dependency set and the editable install, so it costs a minute
+# of setup before a test runs. That is why it is not the gate: tier 1 catches
+# governance breakage in seconds, and this catches mathematics.
+#
+# Runs the fast tier (`-m "not slow"`) with xdist, which CLAUDE.md measures at
+# ~115 s against ~320 s serial. The slow tier belongs to full.yml.
+#
+# python-flint is installed deliberately. Without it zeta/rigor.py falls back to
+# mpmath's iv context -- correct, ~1600x slower, and it silently skips the five
+# tests that cross-check Arb against mpmath. Those are the only reason rigor.py
+# may use the word "certified", so a green run without them is not the run we
+# think it is. The step below fails loudly if the backend is not Arb.
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: tests-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fast-tier:
+    name: fast tier (not slow)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: install
+        run: |
+          python -m pip install --quiet --disable-pip-version-check -r requirements.txt
+          python -m pip install --quiet --disable-pip-version-check -e .
+
+      - name: the ball-arithmetic backend must really be Arb
+        run: |
+          python - <<'PY'
+          from zeta import rigor
+          print("backend:", rigor.BACKEND, rigor.available_backends())
+          assert rigor.BACKEND != "mpmath.iv", (
+              "python-flint missing: rigor.py fell back to mpmath's iv context. "
+              "Correct but ~1600x slower, and the two-backend cross-check that "
+              "licenses the word 'certified' silently disappears."
+          )
+          PY
+
+      - name: fast tier
+        run: python -m pytest -q -m "not slow" --durations=10
