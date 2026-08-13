@@ -633,6 +633,32 @@ two measured pillars of the candidate are certificate-shaped. No
 proportion is claimed to have moved.
 
 
+## Audit follow-through: the co-optimizing adversary and two instrument repairs (2026-08-12)
+
+Instruments: `coopt_adversary.py` (new), `test_coopt_adversary.py` (8
+tests), repairs in `paper_chain.py` and `identification_seam.py`.
+Executes the trajectory set by `EXTERNAL-AUDIT-2026-08-12.md`: attack
+the untested corner before building the depth cover.
+
+| Obligation | Status | Exact dependency | Evidence |
+|---|---|---|---|
+| Co-optimized attack: pairs AND zeros chosen together | **NO VIOLATION, 57 restarts** | closed-form (*) objective (W, T, omega2, slack), Nelder-Mead over positions, depths, multiplicities 1-3; every search path point evaluated | 0 of 57 reach V > 0; top-3 verified on explicit K=1200 matrices, defect 7.5e-7 |
+| The trivial supremum is decoupling | RECORDED | sup V = 0 approached by walking zeros away and shrinking depth | the difference objective says nothing about engaged attacks; hence the ratio hunt |
+| Engaged worst case under co-design | **0.5754 of budget** | ratio objective (damage - cross)/((1-theta)R + slack) on structured seeds | worse than every swept family (joint sweeps ~0.49) -- the audit's untested corner was real -- and 1.7x short of violation (> 1) |
+| Self-stacking charge | MODELED AND PINNED | band dual charges m(m-1)K, so R includes m_i(m_i-1) omega^2(0); GridAssembly verification expands multiplicities into coincident points | test pins the +2 for an m=2 point, closed form and matrix |
+| Dictionary control | PASS | budget_terms vs GridAssembly on the battery ADV rows | worst defect 1.2e-4 (truncation grade) |
+| Lesion: slack deleted from budget | FIRES | battery worst row must violate a slackless budget | V = +0.0598 > 0 |
+| Convention: theta = 1 | PASS | uncharged stacking profit must grow linearly in m and end positive | -0.133 / -0.074 / +0.166 at m = 1/4/16 |
+| Shallow-depth false negative (audit finding B) | **REPAIRED** | `PaperBandDual.for_depth` ties step to y/40; `cap()` returns undecided (inf), never 0, when bands are empty but `no_missed_band` is not clear | at y = 5e-4 the ratio moves 1.436 -> 0.5088; at y = 1e-4 the old silent false PASS now reports undecided, and for_depth resolves 15 bands with ratio 0.5088 |
+| Battery omission (audit finding A) | **REPAIRED** | cross term on the LEFT of the sharp row; three new rows with zeros at JOINT minima of multi-pair fields | all 14 rows hold; worst joint-minima row at (damage - cross)/budget ~ 0.62, coherent with the co-opt hunt's 0.5754 |
+
+Disposition: **THE CO-DESIGNED CORNER IS MEASURED AND IT HOLDS, WITH A
+THINNER MARGIN THAN ANY SWEPT FAMILY -- WHICH IS WHY IT NEEDED
+MEASURING.** This is a search, not a proof: the open obligation named
+by the audit (retention uniform in depth and over arbitrary pair sets)
+is unchanged, and the engaged ratio 0.5754 is the number a uniformity
+proof now has to beat. Candidate unchanged at 0.6725106958. No
+proportion is claimed to have moved.
 ## Formal chain, track 1 closed: the floor is kernel-checked (2026-08-12)
 
 Instrument: `zeta23ext/Zeta23Ext/FloorCert.lean` (theorem-proving

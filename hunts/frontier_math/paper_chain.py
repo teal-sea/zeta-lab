@@ -161,13 +161,30 @@ class PaperChain:
 
 @dataclass(frozen=True)
 class PaperBandDual:
-    """band_dual.BandDual transplanted to Phi2 = phihat_mt."""
+    """band_dual.BandDual transplanted to Phi2 = phihat_mt.
+
+    RESOLUTION CAVEAT (audit 2026-08-12).  A damage band has half-width
+    ~y, and ``bands()`` adds a slope margin proportional to ``step``, so
+    at the default step the cap is inflated by a factor ~(1 + 2 step/y):
+    at y = 5e-4 the verdict comes out falsely NEGATIVE, and below
+    y ~ 1e-4 no band is resolved at all.  Use :meth:`for_depth` for any
+    probe below y ~ 5e-3; the four certificate depths are all safely
+    above the artifact."""
 
     pc: PaperChain = PaperChain()
     #: fine step for band location and maxima (grid units)
     step: float = 0.0005
     #: resolved region; beyond, the closed-form 1/g^2 tail takes over
     G: float = 400.0
+
+    @classmethod
+    def for_depth(cls, y_min: float, G: float = 400.0,
+                  pc: PaperChain | None = None) -> "PaperBandDual":
+        """An instance whose grid resolves bands at depth y_min: forty
+        cells across the band half-width (measured to bring the shipped
+        step's shallow-depth cap inflation under ~2%)."""
+        return cls(pc=pc or PaperChain(),
+                   step=min(0.0005, y_min / 40.0), G=G)
 
     @property
     def L2(self) -> float:
@@ -272,6 +289,14 @@ class PaperBandDual:
         c = 1 - theta
         bs = self.bands(y)
         if not bs:
+            # An empty band list is a verdict ("the field is nonpositive
+            # everywhere") ONLY if the completeness control agrees no
+            # band hides between grid points.  Below y ~ step/5 it does
+            # not, and the old silent {"cap": 0.0} here was a false PASS
+            # (audit 2026-08-12): report undecided instead.
+            if not self.no_missed_band(y)["clear"]:
+                return {"cap": math.inf, "bands": 0, "m_star": None,
+                        "tail": None, "off_band": None, "undecided": True}
             return {"cap": 0.0, "bands": 0, "m_star": 0, "tail": 0.0,
                     "off_band": 0.0}
         total = 0.0
