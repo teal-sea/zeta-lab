@@ -1,9 +1,10 @@
 # The public reading surface, generated from public evidence.
 #
-# `scripts/70_lab_state.py` already renders the research-state view as one
-# static HTML file — its own docstring: "no scripts and no network: a page you
-# can read, not an app you can be reassured by". It has never been built
-# anywhere, so the page existed and nobody could see it. This publishes it.
+# `scripts/72_site.py` renders the public reading surface — four pages, every
+# fact on them read from a repository artifact. `scripts/70_lab_state.py`
+# renders the internal research-state view and is published alongside it at
+# /state.html. Both follow the same rule: "no scripts and no network: a page
+# you can read, not an app you can be reassured by".
 #
 # Generated rather than written, for the same reason the script derives rather
 # than declares: a hand-maintained page rots and then reads as authoritative.
@@ -49,23 +50,29 @@ jobs:
           python -m pip install --quiet --disable-pip-version-check -r requirements.txt
           python -m pip install --quiet --disable-pip-version-check -e .
 
-      - name: render the state page
+      - name: build the site
         run: |
-          mkdir -p _site
-          python scripts/70_lab_state.py --out _site/index.html
+          python scripts/72_site.py --out _site
+          # the internal research-state view, kept alongside the public pages
+          python scripts/70_lab_state.py --out _site/state.html
           cp interactive_lab/prime_genesis.html _site/prime_genesis.html
 
-      - name: the page must be self-contained
+      - name: the pages must be self-contained
         run: |
-          # The contract this page keeps: no scripts, no network. If either
-          # appears, the page has stopped being a thing you can read offline
-          # and started being an app, and that is a change worth blocking.
-          if grep -qi "<script" _site/index.html; then
-            echo "::error::the state page grew a <script> tag"; exit 1
-          fi
-          if grep -qE "https?://" _site/index.html; then
-            echo "::error::the state page grew an external request"; exit 1
-          fi
+          # The contract every page here keeps: no scripts, no network. If
+          # either appears, the site has stopped being a thing you can read
+          # offline and started being an app, and that is worth blocking.
+          # 72_site.py asserts this itself; this is the independent check.
+          fail=0
+          for f in $(find _site -name '*.html' -not -name 'prime_genesis.html'); do
+            if grep -qi "<script" "$f"; then
+              echo "::error file=$f::grew a <script> tag"; fail=1
+            fi
+            if grep -oE "https?://[^\"'<> ]+" "$f" | grep -qv "^https://github.com/"; then
+              echo "::error file=$f::grew an external request"; fail=1
+            fi
+          done
+          [ "$fail" = 0 ] || exit 1
           echo "self-contained: no scripts, no external requests"
 
       - uses: actions/upload-pages-artifact@v3
