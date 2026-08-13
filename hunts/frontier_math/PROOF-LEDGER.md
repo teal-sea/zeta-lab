@@ -1575,3 +1575,78 @@ cost is now known and small; Road B has an exact, depth-free, elementary
 identity where it previously had a measured mechanism. `k >= 2` remains
 open, nothing is kernel-checked yet, no proportion has moved, and nothing
 here is evidence about RH.
+
+
+## ROAD B, step 2: the slack is three terms and two of them are free (2026-08-13)
+
+Instrument: `gram_form.py`, `test_gram_form.py` (20 tests).
+
+The `k >= 2` difficulty was stated for two days as "the repulsion is paid
+once while the damage sums over pairs". Rewriting the slack against the
+measure `c2 dw` shows the difficulty is somewhere else, and isolates it.
+
+### The kernel is positive definite
+
+`-D(y,s) = int c2(w) cosh(y w) cos(s w) dw` is the Fourier transform of
+`c2(w) cosh(y w) dw`, a **positive** measure on `[-1,1]` — `c2 = g * g`
+is the autocorrelation of a nonnegative window and `cosh > 0`. By Bochner
+`K_y := -D(y,.)` is positive definite. Measured min eigenvalue
+**`1.03e-08`** over 200 random Gram matrices, **`-6.06e-16`** (numerical
+zero) over the binding structured sets.
+
+### The three-term form
+
+    slack_k  =  B(T,y)  +  Cross(X,T,y)  +  R(X)/400
+    B(T,y)   = int c2(w) [ cosh^2(y w) |That(w)|^2 - k ] dw
+    Cross    = - sum_{a,p} D(y, x_a - t_p)
+    R(X)     = sum_{a<b} phi_r(x_a - x_b)^2
+
+Against `kpair_identity`'s direct evaluation: worst residual over 40 random
+instances **`< 1e-12`**. `B` against its Gram form
+`(1/2)[G_T(2y) + G_T(0)] - k A^2`: **`1e-25`**.
+
+| term | status | why |
+|---|---|---|
+| `B >= 0` | **FREE, from a kernel-checked theorem** | `int c2 \|That\|^2 >= k A^2` is `Retention.energy_F_ge` applied to the pair centres; `cosh^2 >= 1`; `c2 >= 0`. The three compose in one line. Measured min over 400 random pair sets: `2.06e-05 > 0` |
+| `R >= 0` | **FREE, trivially** | `K_0(v) = phi_r(v)^2`, so `R` is a sum of squares |
+| `Cross` | **the whole difficulty** | the only term that can be negative |
+
+So `slack_k >= Cross`, and `k >= 2` reduces to the single statement
+`B + R/400 >= sum_{a,p} D(y, x_a - t_p)`.
+
+### B is the correct budget, and `k Shq/2` never was
+
+| configuration | `B` | `k Shq(y)/2` |
+|---|---|---|
+| `k = 1` | 0.033754204 | 0.033754204 |
+| 10 pairs on window positions | **0.151405927** | 0.337542039 |
+| 6 coincident pairs | **26.536840499** | 0.202525224 |
+| 8 on a `2 pi` lattice | **0.102187070** | 0.270033631 |
+
+At `k = 1` they agree exactly (diff `< 1e-13`). Beyond that they are not
+close in either direction. **This is what the 2026-08-12 finding that
+slack additivity is "false and signed" actually was**: the additive
+budget was an artifact of the decomposition, and `B` has no additivity to
+fail. A per-pair accounting was bounding a non-additive quantity by an
+additive one — which is why `cluster_sdp`'s factor 1.99 could never have
+closed, independently of how loose either side was.
+
+Note the sixth row: coincident pair centres give `B` a factor **175x**
+larger than ten spread ones. The measured "coincident-centre shield" of
+`1.7556` per ordered pair is this, seen from the other side.
+
+### The route that did not work, recorded so nobody re-derives it
+
+Positive definiteness also gives Cauchy-Schwarz directly,
+`sum_{a,p} D <= sqrt(S_X S_T)`. Measured against the budget it is **18x
+to 111x too weak**, because it bounds `|sum K|` and discards the fact that
+`D` is negative almost everywhere. Recorded as insufficient, with a test
+pinning it so.
+
+Disposition: **THE FRAME IS RIGHT AND TWO OF ITS THREE TERMS ARE FREE.**
+`k >= 2` is now one inequality, `B + R/400 >= sum D`, with the budget in
+its correct non-additive form and its nonnegativity resting on a theorem
+already kernel-checked in this tree. It is **not proved** — named gaps
+G1-G5 say which parts are paper-and-numerics rather than Lean. `k >= 2`
+remains open, no proportion has moved, and nothing here is evidence about
+RH.
