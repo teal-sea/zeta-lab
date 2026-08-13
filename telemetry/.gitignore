@@ -1,0 +1,16 @@
+# The prompt store is local and private, and stays that way.
+#
+# This repository is public. Prompts routinely carry strategy material, private
+# paths and third-party context, and HANDOFF.md already records why strategy
+# documents are kept off-tree. The run record carries the sha256 of every
+# prompt, so a clone can verify a prompt has not changed and cannot read it.
+# That asymmetry is deliberate and is documented in RUN-TELEMETRY.md.
+prompts/*
+!prompts/.gitkeep
+
+# Working scratch from `python -m telemetry wrap`.
+*.tmp
+
+# Per-session state written by the opt-in hooks (maps a live session to its
+# open run so the Stop hook can close it). Machine state, never a record.
+.active/

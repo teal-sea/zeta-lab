@@ -1,0 +1,25 @@
+{
+  "_comment": "Merge into .claude/settings.local.json (gitignored, per-worktree). Never into the tracked .claude/settings.json.",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 telemetry/hooks/session_start.py"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 telemetry/hooks/session_stop.py"
+          }
+        ]
+      }
+    ]
+  }
+}

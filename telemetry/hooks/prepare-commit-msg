@@ -1,0 +1,30 @@
+#!/bin/sh
+# prepare-commit-msg — append `Run-Id: <uuid>` automatically. Opt-in; see README.md.
+#
+# NOT INSTALLED by this repository. `.git/hooks` is shared by every worktree of
+# a clone, so installing it while another worktree has a live session would
+# change how that session commits. Copy it deliberately, when nobody else is
+# running.
+#
+# Source of the run id, in order: $TELEMETRY_RUN_ID, else the single open run
+# marker under telemetry/.active/. Ambiguity is left alone rather than resolved
+# by picking one.
+set -eu
+MSG_FILE="$1"
+[ -n "${2:-}" ] && case "$2" in merge|squash) exit 0;; esac
+
+if grep -qiE '^Run-Id:' "$MSG_FILE" 2>/dev/null; then exit 0; fi
+
+RUN_ID="${TELEMETRY_RUN_ID:-}"
+if [ -z "$RUN_ID" ]; then
+  ROOT="$(git rev-parse --show-toplevel 2>/dev/null || echo .)/telemetry/.active"
+  if [ -d "$ROOT" ]; then
+    COUNT=$(find "$ROOT" -name '*.run' 2>/dev/null | wc -l | tr -d ' ')
+    if [ "$COUNT" = "1" ]; then
+      RUN_ID=$(cat "$(find "$ROOT" -name '*.run' | head -1)" 2>/dev/null || true)
+    fi
+  fi
+fi
+
+[ -z "$RUN_ID" ] && exit 0
+printf '\nRun-Id: %s\n' "$RUN_ID" >> "$MSG_FILE"
