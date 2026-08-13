@@ -8,6 +8,7 @@ import Zeta23Ext.EForm3.Gap
 -- on every build. What it does NOT buy is a statement about `Dam`: the `_mem`
 -- seams are unwritten, so this is table-consistency, not soundness.
 import Zeta23Ext.EForm3.O9Check2
+import Zeta23Ext.EForm3.O9Audit
 
 open scoped BigOperators
 open scoped Real

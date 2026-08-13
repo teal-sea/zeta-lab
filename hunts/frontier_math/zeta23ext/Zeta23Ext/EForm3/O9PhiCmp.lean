@@ -1,5 +1,5 @@
+import Zeta23Ext.BandCert.Phi
 import Zeta23Ext.EForm3.O9Comp
-import Zeta23Ext.EForm3.O9Damage
 
 /-!
 # Does `phiC`'s real part already equal `qreIv`?
