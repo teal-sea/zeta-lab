@@ -1,0 +1,7 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "",
+  "buildCommand": "python3 scripts/72_site.py --out _site && cp interactive_lab/prime_genesis.html _site/prime_genesis.html",
+  "outputDirectory": "_site"
+}

@@ -45,10 +45,6 @@ IDENTITY = {
     "source": "https://github.com/teal-sea/zeta-lab",
 }
 
-# Ref namespaces written by CI rather than by anyone working. Excluded from
-# the live-threads view so the publishing branch never reads as research.
-MACHINE_REFS = ("deploy/",)
-
 
 def esc(t: Any) -> str:
     return html.escape(str(t), quote=True)
@@ -134,20 +130,12 @@ def gate_results() -> list[dict[str, str]]:
 
 
 def live_threads() -> list[dict[str, str]]:
-    """Branches carrying commits not on main. Right by construction or empty.
-
-    Refs under `deploy/` are excluded: they are written by CI, not by anyone
-    working, so counting them here would report the publishing machinery as a
-    line of research. The rule is the namespace, not a list of names — a second
-    machine-owned branch inherits the exclusion without editing this function.
-    """
+    """Branches carrying commits not on main. Right by construction or empty."""
     rows = []
     for ref in git("for-each-ref", "--format=%(refname:short)",
                    "refs/remotes/origin").splitlines():
         ref = ref.strip()
         if not ref or ref.endswith("/HEAD") or ref == "origin/main":
-            continue
-        if ref.replace("origin/", "").startswith(MACHINE_REFS):
             continue
         n = git("rev-list", "--count", f"origin/main..{ref}")
         if not n or n == "0":

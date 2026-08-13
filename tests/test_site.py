@@ -94,38 +94,39 @@ def test_the_facts_come_from_artifacts_not_literals(built: Path) -> None:
     assert f">{docs}<" in zeta, f"document count {docs} not rendered"
 
 
-def _load(path: Path):
-    """Import a numbered script by path — `72_site` is not a module name."""
-    import importlib.util
+def test_the_host_build_needs_no_scientific_stack() -> None:
+    """The deploy build must stay stdlib-only, and `vercel.json` must say so.
 
-    spec = importlib.util.spec_from_file_location(path.stem.lstrip("0123456789_"), path)
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
-
-
-CANNED_REFS = "origin/main\norigin/HEAD\norigin/deploy/site\norigin/claude/a-real-hunt\n"
-
-
-def test_a_publishing_branch_is_not_a_line_of_research(monkeypatch) -> None:
-    """CI force-pushes built pages to `deploy/site`. That is machinery, not work.
-
-    Both views enumerate branches ahead of main to derive what is live, which
-    is right by construction only while every such branch is somebody working.
-    A publishing branch is always ahead of main and never anyone's research, so
-    it would sit permanently at the top of both lists — the derived view's one
-    failure mode, telling you something true about git and false about the lab.
+    `70_lab_state.py` reaches numpy, mpmath and scipy through the harness
+    departments; `72_site.py` reaches none of them. That difference is the
+    whole reason the host can build this site in seconds with no install step,
+    so it is worth pinning: an import added to the generator would be invisible
+    here but would turn every deploy into a scientific-stack build, and the
+    first symptom would be a slow or failing deploy rather than a test.
     """
-    site = _load(SITE)
-    monkeypatch.setattr(site, "git", lambda *a: (
-        CANNED_REFS if a[:1] == ("for-each-ref",) else "3" if a[:1] == ("rev-list",) else "x"
-    ))
-    names = {r["name"] for r in site.live_threads()}
-    assert names == {"claude/a-real-hunt"}, f"deploy/ ref leaked into the public page: {names}"
+    import json
 
-    state = _load(REPO / "scripts" / "70_lab_state.py")
-    monkeypatch.setattr(state, "_git", lambda *a: (
-        CANNED_REFS if a[:1] == ("for-each-ref",) else "3" if a[:1] == ("rev-list",) else "x"
-    ))
-    refs = {r["ref"] for r in state._threads()}
-    assert refs == {"origin/claude/a-real-hunt"}, f"deploy/ ref leaked into state view: {refs}"
+    cfg = json.loads((REPO / "vercel.json").read_text(encoding="utf-8"))
+    assert cfg["outputDirectory"] == "_site"
+    assert SITE.name in cfg["buildCommand"], "the build must run the generator"
+    assert cfg["installCommand"] == "", "an install step would defeat the point"
+
+    stub = REPO / "tests" / "_no_deps"
+    stub.mkdir(exist_ok=True)
+    for mod in ("numpy", "scipy", "mpmath", "matplotlib", "sympy", "flint"):
+        (stub / f"{mod}.py").write_text(f'raise ImportError("{mod} absent")\n')
+    try:
+        out = REPO / "tests" / "_no_deps_out"
+        r = subprocess.run(
+            [sys.executable, str(SITE), "--out", str(out)],
+            capture_output=True, text=True, timeout=300,
+            env={**__import__("os").environ, "PYTHONPATH": str(stub)},
+        )
+        assert r.returncode == 0, (
+            "the generator reached a scientific dependency:\n" + r.stdout + r.stderr
+        )
+    finally:
+        import shutil
+
+        shutil.rmtree(stub, ignore_errors=True)
+        shutil.rmtree(REPO / "tests" / "_no_deps_out", ignore_errors=True)
