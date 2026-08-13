@@ -80,6 +80,59 @@ def test_no_module_imports_a_proving_service_namespace() -> None:
     )
 
 
+def _reachable_from_root() -> set[str]:
+    """Module names reachable from the package root by following imports."""
+    root = PKG / "Zeta23Ext.lean"
+    if not root.is_file():  # pragma: no cover - package removed
+        return set()
+
+    def _mod_to_path(mod: str) -> pathlib.Path:
+        return PKG / pathlib.Path(*mod.split(".")).with_suffix(".lean")
+
+    seen: set[str] = set()
+    stack = [m for m in _IMPORT.findall(root.read_text(encoding="utf-8"))]
+    while stack:
+        mod = stack.pop()
+        if mod in seen or not mod.startswith("Zeta23Ext"):
+            continue
+        seen.add(mod)
+        path = _mod_to_path(mod)
+        if path.is_file():
+            stack.extend(_IMPORT.findall(path.read_text(encoding="utf-8", errors="ignore")))
+    return seen
+
+
+def test_no_module_is_orphaned_from_the_root() -> None:
+    """Every module in the package is reachable from ``Zeta23Ext.lean``.
+
+    Second incident, same day as the first: an edit to the root module
+    replaced ``import Zeta23Ext.Bridge`` with another import, so a
+    kernel-checked module stopped being built by the default target while its
+    file sat untouched on disk. It happened twice, by one-line edits, and the
+    import-root scan above is blind to it -- that miss is recorded on the
+    ledger entry, and this is the guard that closes it.
+
+    An orphan is not a build error. It is worse: the module rots silently and
+    the package still reports success.
+    """
+    root = PKG / "Zeta23Ext.lean"
+    if not root.is_file():  # pragma: no cover
+        return
+    reachable = _reachable_from_root()
+    orphans = []
+    for path in _lean_files():
+        if path.name == "Zeta23Ext.lean":
+            continue
+        mod = ".".join(path.relative_to(PKG).with_suffix("").parts)
+        if mod not in reachable:
+            orphans.append(mod)
+    assert not orphans, (
+        "these modules exist in the package but nothing imports them from "
+        "Zeta23Ext.lean, so `lake build` never touches them and they rot "
+        "silently:\n  " + "\n  ".join(sorted(orphans))
+    )
+
+
 def test_the_guard_fires_on_the_smallest_mutant(tmp_path) -> None:
     """Demonstration of detection power, per ``harness.guards``.
 
@@ -100,3 +153,39 @@ def test_the_guard_fires_on_the_smallest_mutant(tmp_path) -> None:
 
     assert _offending(mutant) == ["RequestProject.Iv"], "guard missed the mutant"
     assert _offending(control) == [], "guard fires on the fixed file (false positive)"
+
+
+def test_the_orphan_guard_fires_on_a_dropped_import(tmp_path) -> None:
+    """Demonstration of detection power for the orphan check.
+
+    The smallest mutant is the incident itself: a root module that no longer
+    imports a module still present on disk.
+    """
+    pkg = tmp_path
+    (pkg / "Pkg").mkdir()
+    (pkg / "Pkg" / "Kept.lean").write_text("import Mathlib\n")
+    (pkg / "Pkg" / "Dropped.lean").write_text("import Mathlib\n")
+
+    def _orphans(root_text: str) -> list[str]:
+        (pkg / "Pkg.lean").write_text(root_text)
+        reachable: set[str] = set()
+        stack = list(_IMPORT.findall(root_text))
+        while stack:
+            mod = stack.pop()
+            if mod in reachable or not mod.startswith("Pkg"):
+                continue
+            reachable.add(mod)
+            p = pkg / pathlib.Path(*mod.split(".")).with_suffix(".lean")
+            if p.is_file():
+                stack.extend(_IMPORT.findall(p.read_text()))
+        found = []
+        for p in pkg.rglob("*.lean"):
+            if p.name == "Pkg.lean":
+                continue
+            mod = ".".join(p.relative_to(pkg).with_suffix("").parts)
+            if mod not in reachable:
+                found.append(mod)
+        return sorted(found)
+
+    assert _orphans("import Pkg.Kept\n") == ["Pkg.Dropped"], "orphan guard missed the mutant"
+    assert _orphans("import Pkg.Kept\nimport Pkg.Dropped\n") == [], "false positive"
