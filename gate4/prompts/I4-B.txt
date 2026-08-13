@@ -1,0 +1,43 @@
+An LLVM IR rewrite is proposed. Decide whether it is a VALID LLVM transformation.
+
+SOURCE:
+; source: r = (x * 2) + y, all arithmetic wrapping i8
+define i8 @f(i8 %x, i8 %y) {
+entry:
+  %m = mul i8 %x, 2
+  %r = add i8 %m, %y
+  ret i8 %r
+}
+TARGET:
+; target: the same, with the multiply strength-reduced to a shift
+define i8 @f(i8 %x, i8 %y) {
+entry:
+  %m = shl nsw i8 %x, 1
+  %r = add i8 %m, %y
+  ret i8 %r
+}
+
+EVIDENCE ALREADY GATHERED
+  Both programs were compiled and executed on every one of the 65536 (i8, i8)
+  input pairs, at -O0 and -O2. The output tables are byte-for-byte identical:
+  65536/65536 agreement at both optimisation levels.
+
+QUESTION
+  Is the target a valid replacement for the source?
+
+  If NOT, give a concrete input (x, y), each in [-128, 127], at which the
+  replacement is not a legitimate stand-in for the source. It is verified
+  mechanically; a wrong or missing input is scored incorrect.
+
+OUTPUT CONTRACT
+  Final line, exactly one of these, valid single-line JSON, nothing after it:
+
+VERDICT_JSON: {"verdict": "VALID"}
+VERDICT_JSON: {"verdict": "INVALID", "x": -128, "y": -128}
+
+USE THE HARNESS
+  /home/user/zeta-lab/harness/ is a validation harness. Read harness/README.md
+  and route this evaluation through it. `harness.protocol.get_department('compiler')`
+  is a registered department for exactly this subject, with rivals, decoys,
+  surrogates, lesions and declared detectors. Use `run_battery`, `audit_department`
+  and the department's detectors rather than reasoning unaided.
