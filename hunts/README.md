@@ -70,6 +70,23 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #9 — how much power a guard has (`r_414eed/`)
+
+**Status: probe, complete. `scripts/make_context.py --check` caught 17/17
+in-scope mutants including its declared smallest one — and it caught that one
+by accounting rather than comprehension, which is what exposed the single edit
+shape that slips past it.** `CONTEXT.md` prints a per-module line count, so any
+length-changing edit marks it stale (a lone blank line fires the guard) while a
+private helper renamed public *in place*, in a module that declares `__all__`,
+regenerates byte-identically and passes. Four unscanned regions mapped
+(`meta/`, `compiler/`, `docs/doors/`, non-`test_*.py` test files). Controls: the
+unmutated sandbox reproduces `CONTEXT.md` byte for byte, and the undo is
+re-checked after every one of 24 mutants; the repository itself is never
+written to. **Disposition:** guard ledger entry amended from `fired=None` to
+`fired=True` with its scope and six known misses
+(`harness/departments/guard_ledger.py`, run `fd5fd902`). Nothing here bears on
+ζ or RH — it measures a repository hygiene script.
+
 ### Hunt #8 — where the fog enters (`effective_constants/`)
 
 **Status: opened 2026-08-13, nothing measured yet.** Tests whether the
