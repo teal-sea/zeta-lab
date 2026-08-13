@@ -1,8 +1,11 @@
 # Zeta Lab
 
-A computational and formal workbench around the Riemann zeta function, plus
-a reusable validation framework for testing whether an empirical claim is
-about its subject at all.
+A computational and formal workbench around the Riemann zeta function.
+
+Its purpose is that you can **check it yourself**: clone it, run it, and
+re-derive the numbers rather than take them. Every number claimed in a
+docstring is pinned by a test, identities are exposed as measured *defect*
+functions rather than assumed, and the Lean arm is checked by a proof kernel.
 
 ---
 
@@ -147,6 +150,25 @@ the live thing that will consume it.**
 | [discover](docs/doors/discover.md) | run the conjecture funnel and see its measured hit rate | `.venv/bin/python scripts/13_discovery_run.py --dry-run` |
 | [adopt](docs/doors/adopt.md) | *(demoted — read `harness/VERDICT.md` first)* the validation framework and why it was frozen | `.venv/bin/python -m pytest -q -o addopts='' tests/test_harness_protocol.py` |
 
+**Or check the whole thing.** Continuous integration runs on every push, in
+three tiers cut by measured cost:
+
+| tier | when | what | cost |
+|---|---|---|---|
+| `checks` | every push and PR | 339 tests, **stdlib + pytest only** — no numpy, scipy, mpmath, no editable install — plus `make_context.py --check` | ~7 s |
+| `tests` | PRs and pushes to `main` | the fast tier with the real dependency set; asserts `rigor.BACKEND` is genuinely Arb before running, because the mpmath fallback silently drops the cross-check that licenses the word *certified* | ~20 min |
+| `full` | nightly, and on demand | the complete suite including slow, plus the Lean arm as its own job with a zero-`sorry` scan | up to an hour |
+
+That CI is young and has already earned its place: its first complete run found
+a `PROVED` formal record citing a kernel build older than the file it certified
+— stale for six days, because until then nothing ran the suite unless a human
+remembered to ([#20](https://github.com/teal-sea/zeta-lab/issues/20)).
+
+**Open observations live as issues.** Something measured, noticed, broken or
+bounded is a fact about the subject or about this tree, and it is true whether
+or not anyone is pursuing it. Those are filed openly rather than kept in a
+backlog file — see the [open issues](https://github.com/teal-sea/zeta-lab/issues).
+
 ## What this is (and is not)
 
 This is an instrument for building intuition and numerics about RH — for
@@ -175,7 +197,7 @@ Nothing in `lean/` counts until it compiles with zero `sorry`s.
 ## Quickstart
 
 ```bash
-cd Zeta
+cd zeta-lab
 python3 -m venv .venv                # once (Python >= 3.11)
 source .venv/bin/activate
 pip install -e .
@@ -497,7 +519,12 @@ ontology/           the conjecture funnel — a discovery pipeline that logs its
   knownness.py      the already-known gate: PSLQ closed forms, a fact registry, no novelty
   historical_cases.py  replay claims whose outcome is already settled
   domains/          the only subject-aware code in the package (zeta_domain, zeta_history)
-harness/            the validation framework: four control roles (rival, decoy,
+harness/            DEMOTED 2026-08-13 — read harness/VERDICT.md first. Two things:
+                    the ledgers (graveyard, guards, review) are live lab bookkeeping
+                    with a consumer in scripts/70_lab_state.py and stay; the
+                    generalized framework below was tested against the practice it
+                    meant to improve and did not earn its keep.
+                    four control roles (rival, decoy,
                     surrogate, lesion), a Battery, a Department — domain-agnostic
                     by test
   departments/      the only subject-aware code in the package (zeta_department)

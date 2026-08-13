@@ -29,6 +29,8 @@ Two prior findings shape the design and are not assumed to be correct:
   the Davenport–Heilbronn rival).
 - The **generalized abstraction** over them does not, yet.
   `ARCHITECTURE-ARCHAEOLOGY.md` and `INSTITUTION-FUTURES.md` §7 measured that
+  (both since moved to the private operating repository; they remain in this
+  history at `d75d659`, unedited)
   `run_battery` / `validate_battery` / `audit_department` / `ClaimReport` have
   no call site outside `harness/` and `tests/`, that live hunts import
   `zeta.epstein.battery` directly, and that `hunts/wide_search/probe.py`

@@ -3,8 +3,13 @@
 One page per way into the repository. A repository with several purposes
 does not get several repositories; it gets one verified core and several
 short entry points. The core is `zeta/` and its tests, `ontology/` and its
-seam, `harness/` and its protocol. Each guide names an audience, states
-what they can do here, and gives the first command to run.
+seam. Each guide names an audience, states what they can do here, and gives
+the first command to run.
+
+`harness/` was a third; it was **demoted on 2026-08-13** after being tested
+against the practice it was meant to improve. Its guide is kept and banners
+the verdict, because deleting the guide to a thing you decided against is how
+a lab forgets what it learned (`harness/VERDICT.md`).
 
 The cost of adding a purpose is a guide page plus a test that the page's
 command still works. A purpose that will not pay that cost stays a
@@ -21,7 +26,7 @@ references these paths, so the name stays.)
 | [refute.md](refute.md) | test a claim about the zeros against the control battery | `.venv/bin/python scripts/23_gate_3_battery.py` |
 | [certify.md](certify.md) | work in a regime where nothing is measured — Lean proofs and interval enclosures | `cd lean && PATH="$HOME/.elan/bin:$PATH" lake build` |
 | [discover.md](discover.md) | run the conjecture funnel and see its measured hit rate | `.venv/bin/python scripts/13_discovery_run.py --dry-run` |
-| [adopt.md](adopt.md) | reuse the validation framework for a subject that is not ζ | `.venv/bin/python -m pytest -q -o addopts='' tests/test_harness_protocol.py tests/test_department_conformance.py` |
+| [adopt.md](adopt.md) | *(demoted)* the validation framework, and why it was frozen | `.venv/bin/python -m pytest -q -o addopts='' tests/test_harness_protocol.py tests/test_department_conformance.py` |
 
 If you are new and unsure: **[refute.md](refute.md)** — it is the one thing
 this repository does that a textbook, a notebook or a literature survey
