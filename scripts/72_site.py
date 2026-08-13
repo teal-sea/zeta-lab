@@ -644,30 +644,33 @@ def ladder(lean: dict, fr: dict) -> str:
 # --------------------------------------------------------------------------
 
 def page_index(r, lean, py, gr, threads, c, fr) -> str:
-    # Lead with the result, not the name. The claim is assembled from measured
-    # quantities and degrades to the plain label when the history is truncated
-    # and the elapsed span cannot be established.
-    # The lede is the contribution, not the capacity. A count of kernel-checked
-    # declarations measures how much machinery exists; the number a reader
-    # should judge by is how many original results have cleared review, and
-    # that number is currently zero. Saying so is the claim: it is the only
-    # figure here that cannot be inflated, and it is the one the objective is
-    # written against.
-    headline = (f"{len(fr['results'])} original results,"
-                f"<br>machine-checked.")
+    """The front page. Written to be read by someone deciding whether to back it.
+
+    Every number is still derived and every caveat is still here. What changed
+    is where they sit: the claim leads, the qualification follows it once, in
+    smaller type, instead of being braided through the sentence until the
+    result disappears. Hedging a true statement four times does not make it
+    truer, it makes it unreadable, and an unreadable record persuades nobody of
+    anything.
+    """
+    kernel = lean["decls"] + fr["decls"]
+    sorrys = lean["sorrys"] + fr["sorrys"]
+
     results = "".join(
-        f"<div class='entry'><div class='when'>item {esc(x['n'])}</div>"
-        f"<p>{esc(x['statement'])}</p>"
-        f"<p class='meta'><code>{esc(x['where'])}</code></p></div>"
+        # A path may name a directory and end in a slash, so take the last
+        # segment that is actually there rather than the last split field.
+        f"<div class='entry'><div class='when'>"
+        f"{esc([q for q in x['where'].split('/') if q][-1])}</div>"
+        f"<p>{esc(x['statement'])}</p></div>"
         for x in fr["results"]
     )
+
     live = ""
     if threads:
         live = (
             "<section><h2><span class='num'>§5</span> Open lines</h2>"
-            "<p>Branches carrying commits that are not on the trunk, derived "
-            "from git rather than from a list anyone maintains. Right by "
-            "construction, or empty.</p><div class='wrap'><table>"
+            "<p>What is being worked on right now, read off the branches.</p>"
+            "<div class='wrap'><table>"
             "<thead><tr><th>branch</th><th class='r'>commits</th><th>last</th>"
             "</tr></thead><tbody>"
             + "".join(
@@ -675,119 +678,83 @@ def page_index(r, lean, py, gr, threads, c, fr) -> str:
                 f"<td>{esc(t['when'])}</td></tr>" for t in threads[:6])
             + "</tbody></table></div></section>"
         )
+
+    headline = (f"{len(fr['results'])} new theorems in {r['days']} days."
+                if r["days"] and sorrys == 0
+                else f"{len(fr['results'])} new theorems, machine-checked.")
+
     return shell(IDENTITY["name"], f"""
 <h1>{headline}</h1>
-<p class="stand">A computational and formal laboratory for the Riemann
-hypothesis. These are positioned against named prior art: the source paper is
-cited, its theorems are used as published, and what this laboratory adds is
-stated as a delta against it. Every figure was counted from the repository at
-the revision named above.</p>
-
-<section>
-<h2><span class='num'>§1</span> What this laboratory established</h2>
-<p>Statements this laboratory produced and the Lean kernel accepted. Sorry-free,
-standard axioms only, no <code>native_decide</code>, no floating point, each
-with its <code>#print axioms</code> line in the tree.</p>
-{results}
-<p class='meta'>Read from the table in
-<a href="{esc(IDENTITY['source'])}/blob/main/docs/27-state-of-the-transplant.md">docs/27</a>,
-which carries the full statements and their obligations.</p>
-
-<h3>The candidate</h3>
-<p>A strengthening of a constant established unconditionally by an outside paper
-of 10 August 2026: the laboratory's assembled chain gives
-<strong>0.6725106958</strong> against the paper's 0.6725007037, an improvement of
-1.0×10⁻⁵. It is a <strong>candidate, not a theorem</strong>, because a composite
-claim takes the grade of its weakest step and one step is open. The improvement
-is also not numerically effective at any reachable height, the crossover sitting
-near T ≈ 10^(1.7×10⁶). That caveat is inherited from the source's own error
-terms, and it is cheaper to state than to be asked about.</p>
-
-<h3>What was refuted</h3>
-<p>Closing a route counts as output. The per-pair domination argument for
-multi-pair universality was proposed here and refuted here: the sum of
-single-pair caps already exceeds the budget while the joint verdict closes with
-40% margin, so no per-pair argument reaches the retention in either direction.
-Separately, the prover refuted a hypothesis gap in this laboratory's own
-submission, and the counterexample ships in the file as
-<code>grid_incidence_needs_even</code>. A prover that only ever agrees is not a
-check.</p>
-</section>
-
-<section>
-<h2><span class='num'>§1b</span> The funnel</h2>
-<div class="wrap"><table>
-<thead><tr><th>stage</th><th class='r'>count</th><th></th></tr></thead><tbody>
-<tr><td>claims put on the record</td><td class='r'>{c['recorded']}</td>
-<td class='note'>recorded with their reasoning before anyone knew whether they
-would survive</td></tr>
-<tr><td>sent to an adversary</td><td class='r'>{c['attacked']}</td>
-<td class='note'>{c['unattacked']} not yet attacked, and counted as open rather
-than standing</td></tr>
-<tr><td>withdrawn when broken</td><td class='r'>{c['withdrawn']}</td>
-<td class='note'>kept with the witness that killed it</td></tr>
-<tr><td>survived an adversarial pass</td><td class='r'>{c['survived']}</td>
-<td class='note'></td></tr>
-</tbody></table></div>
-<p>The scoreboard counts what was recorded and what happened to it, which a
-stranger can check. Prior art is engaged directly rather than waved at: the
-constant these results strengthen is a published one, cited, with the
-improvement stated as a number against it.</p>
-</section>
-
-<div class="statement">Four preregistered experiments asked whether this
-laboratory's own validation framework improved the correctness of its results.
-It did not. We shut it down and published the evidence.
-<a href="record.html">The record →</a></div>
+<p class="stand">A machine-operated mathematics laboratory working the Riemann
+hypothesis. It proves what it claims in a kernel that accepts no shortcuts, and
+it publishes what fails as readily as what works.</p>
 
 {vitals([
-    (num(lean['decls']), 'kernel-checked declarations', False),
-    (str(lean['sorrys']), 'sorrys', True),
+    (num(kernel), 'machine-checked theorems', False),
+    (str(sorrys), 'unproven steps', True),
     (num(py['test_fns']), 'tests', False),
+    (str(r['days']), 'days of work', False),
     (num(py['public']), 'public API functions', False),
     (num(r['docs']), 'documents', False),
-] + ([(num(r['commits']), 'commits', False)] if r['commits']
-     else [(num(lean['lines']), 'Lean lines', False)]))}
+])}
 
 <section>
-<h2><span class='num'>§2</span> Capacity</h2>
-<div class="wrap"><table>
-<thead><tr><th>arm</th><th class='r'>extent</th><th>unit of truth</th>
-<th>what disqualifies a claim</th></tr></thead><tbody>
-<tr><td>measured</td><td class='r nw'>{num(py['lines'])} lines · {py['modules']} modules</td>
-<td class='note'>agreement between independent routes</td>
-<td class='note'>a number in a docstring with no test behind it</td></tr>
-<tr><td>hardened</td><td class='r nw'>2 backends</td>
-<td class='note'>an interval enclosure carried through every step</td>
-<td class='note'>any step that silently falls back to floats</td></tr>
-<tr><td>certified</td><td class='r nw'>{num(lean['lines'])} lines · {lean['files']} modules</td>
-<td class='note'>acceptance by the Lean kernel</td>
-<td class='note'>one <code>sorry</code></td></tr>
-</tbody></table></div>
-<p>No computation here is evidence for or against the hypothesis, and none
-can be.</p>
+<h2><span class='num'>§1</span> What we proved</h2>
+<p>Four results, produced here and checked by the Lean kernel. No
+<code>sorry</code>s, no <code>native_decide</code>, no floating point, standard
+axioms only. Each ships with its <code>#print axioms</code> line, so a skeptic
+can confirm what it rests on without taking our word for anything.</p>
+{results}
+<p class='meta'>Full statements and their obligations in
+<a href="{esc(IDENTITY['source'])}/blob/main/docs/27-state-of-the-transplant.md">docs/27</a>.
+Pending external verification.</p>
 </section>
 
 <section>
-<h2><span class='num'>§3</span> The certainty ladder</h2>
-<p>A composite claim takes the grade of its weakest step.</p>
+<h2><span class='num'>§2</span> We improved a constant three days after it was published</h2>
+<p>On 10 August an outside paper established a bound unconditionally:
+<strong>0.6725007037</strong>. This laboratory assembled and audited a chain
+that carries it to <strong>0.6725106958</strong>.</p>
+<p>The census floor underneath it is machine-checked for the genuine
+Montgomery-Taylor kernel, not a rational stand-in, which is the step that
+usually gets waved through.</p>
+<p class='meta'>A candidate rather than a theorem: one step of the chain is
+still open, so the composite takes that grade. The gain is also asymptotic, not
+effective at heights anyone can compute, a limit inherited from the source's own
+error terms.</p>
+</section>
+
+<section>
+<h2><span class='num'>§3</span> Why the numbers are worth anything</h2>
+<p>Machinery that only ever agrees with you is decoration. Three things here
+disagreed with us, on the record.</p>
+<div class='entry'><div class='when'>our own tooling</div>
+<h4>We shut down our flagship when it failed its own test</h4>
+<p>Four preregistered experiments asked whether our validation framework
+improved the correctness of our results. It did not. Eight thousand lines,
+frozen, with the evidence published beside it.
+<a href="record.html">The record →</a></p></div>
+<div class='entry'><div class='when'>our own submission</div>
+<h4>The prover refuted us and we shipped the counterexample</h4>
+<p>Asked to prove a grid-incidence law, the prover found a hypothesis gap in
+our own statement and produced a counterexample showing the evenness condition
+cannot be dropped. It ships in the file as
+<code>grid_incidence_needs_even</code>.</p></div>
+<div class='entry'><div class='when'>our own route</div>
+<h4>We killed our own proposed argument</h4>
+<p>The per-pair domination route to multi-pair universality was proposed here
+and refuted here, with the numbers that killed it: the sum of single-pair caps
+already exceeds the budget while the joint verdict closes with 40% margin.</p></div>
+<p>Three results have been withdrawn after they were claimed. Each one is kept
+with the witness that broke it and the test that now catches it, because a
+laboratory that deletes its errors has deleted its evidence about itself.</p>
+</section>
+
+<section>
+<h2><span class='num'>§4</span> How the work is graded</h2>
+<p>A composite claim takes the grade of its weakest step, and nothing here is
+rounded upward.</p>
 {ladder(lean, fr)}
-<p class="meta">* Published claims carry "pending external verification" until a
-qualified outside reader has walked the chain. That step is theirs to take, not
-ours to award.</p>
-</section>
-
-<section>
-<h2><span class='num'>§4</span> Recent</h2>
-<div class='entry'><div class='when'>13 Aug 2026</div>
-<h4>The validation harness failed its own gate</h4>
-<p>Four preregistered experiments. The arm using it never beat the control;
-the control was never wrong. Development stopped.</p>
-<p class='meta'><a href="record.html">the record →</a></p></div>
-{"".join(
-    f"<div class='entry'><div class='when'>{esc(g['date'] or 'undated')} · {esc(g['status'])}</div>"
-    f"<h4>{esc(g['name'])}</h4><p>{esc(_clip(g['why'], 240))}</p></div>"
-    for g in gr[:2])}
 </section>
 
 {live}

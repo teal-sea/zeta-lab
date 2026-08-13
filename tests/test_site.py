@@ -111,9 +111,22 @@ def test_the_facts_come_from_artifacts_not_literals(built: Path) -> None:
     assert f">{sorrys}<" in zeta, "the sorry count must be shown even at zero"
     assert f">{docs:,}<" in index, f"document count {docs} not rendered"
 
-    # The claim the whole certified arm rests on, stated as a number.
-    assert sorrys == 0, "a sorry is present; the site must not call these theorems"
-    assert f">{thms + lems:,}<" in index, "declaration total missing from the front page"
+    # The front page counts both Lean corpora: the re-derived ladder in
+    # lean/ZetaLean and the frontier work in hunts/frontier_math. Counting only
+    # the first was the undercount that made the site report infrastructure as
+    # if it were output, so the total is checked here against both trees.
+    frontier_src = "\n".join(
+        p.read_text(errors="ignore")
+        for p in sorted((REPO / "hunts" / "frontier_math").rglob("*.lean"))
+    )
+    f_thms = len(re.findall(r"^\s*theorem\b", frontier_src, re.M))
+    f_lems = len(re.findall(r"^\s*lemma\b", frontier_src, re.M))
+    f_sorrys = len(re.findall(r"^\s*sorry\b", frontier_src, re.M))
+
+    assert sorrys + f_sorrys == 0, "a sorry is present; these must not be called theorems"
+    assert f">{thms + lems + f_thms + f_lems:,}<" in index, (
+        "the front page's kernel-checked total does not match both Lean trees"
+    )
 
 
 def test_every_document_is_reachable_and_described(built: Path) -> None:
