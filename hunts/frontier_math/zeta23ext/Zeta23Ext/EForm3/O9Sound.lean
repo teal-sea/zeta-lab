@@ -85,8 +85,40 @@ theorem dam_le_of_mode1 {y s c : ℝ} (hy0 : 0 ≤ y) (hc : 0 ≤ c)
     have : y ^ 2 * ((Qim y s / y) ^ 2 - c) ≤ 0 := mul_nonpos_of_nonneg_of_nonpos hy2 hle
     exact this.trans (sq_nonneg _)
 
+/-- **Mode 2 is sound.**
+
+The test the table records is `y_hi² · (sup R² − c) ≤ inf Qre²`: one inequality
+at the box's *largest* depth, standing in for every depth in it. This lemma is
+why that suffices.
+
+The case split is the content. When `sup R² ≤ c` the branch is under the cap
+outright and mode 1's argument applies at every depth. When it is not, the
+excess is positive, so scaling it by `y² ≤ y_hi²` only shrinks it — and the
+recorded inequality at `y_hi` therefore covers every smaller depth in the box.
+Monotonicity in `y` is doing the work, and it runs the right way only because
+the excess is nonnegative in that branch. -/
+theorem dam_le_of_mode2 {y yhi s c Rsq : ℝ} (hy0 : 0 ≤ y) (hy : y ≠ 0)
+    (hyhi : y ≤ yhi)
+    (hR : (Qim y s / y) ^ 2 ≤ Rsq)
+    (h : yhi ^ 2 * (Rsq - c) ≤ Qre y s ^ 2) :
+    Dam y s ≤ c * y ^ 2 := by
+  refine dam_le_of_branch hy ?_
+  by_cases hc : Rsq ≤ c
+  · have hle : (Qim y s / y) ^ 2 - c ≤ 0 := by linarith
+    have : y ^ 2 * ((Qim y s / y) ^ 2 - c) ≤ 0 :=
+      mul_nonpos_of_nonneg_of_nonpos (sq_nonneg y) hle
+    exact this.trans (sq_nonneg _)
+  · push_neg at hc
+    have hpos : 0 ≤ Rsq - c := by linarith
+    have hsq : y ^ 2 ≤ yhi ^ 2 := by nlinarith
+    calc y ^ 2 * ((Qim y s / y) ^ 2 - c)
+        ≤ y ^ 2 * (Rsq - c) := by nlinarith [sq_nonneg y]
+      _ ≤ yhi ^ 2 * (Rsq - c) := by nlinarith
+      _ ≤ Qre y s ^ 2 := h
+
 end Retention
 
 #print axioms Retention.dam_zero_le
 #print axioms Retention.dam_le_of_branch
 #print axioms Retention.dam_le_of_mode1
+#print axioms Retention.dam_le_of_mode2
