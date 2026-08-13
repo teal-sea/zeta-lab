@@ -95,11 +95,12 @@ Stated plainly, up front:
   counterexample. Identities are exposed as measured *defect* functions
   rather than assumed, and every number claimed in a docstring is pinned by
   a test.
-- `harness/` is a domain-agnostic validation framework: structure-matched
-  negative controls, ablations, null models, and planted faults, with the
-  detectors' own power and specificity measured. The non-zeta subjects
-  (curves over F_p, LLVM IR rewrites, cron schedule semantics, statistical
-  model evaluation) exist to test that the framework generalizes.
+- Claims are tested against **structure-matched negative controls** — a claim
+  that a rival sharing the same structure also satisfies has distinguished
+  nothing. For ζ this is `zeta.epstein.battery` (`docs/09` gate #3), which is
+  where the practice is actually used. `harness/` generalized it into a
+  framework; the framework was tested, did not earn its keep, and is demoted
+  (`harness/VERDICT.md`).
 - Two verification regimes are stronger than "numerically accurate":
   `zeta/rigor.py` computes in interval/ball arithmetic, so every step
   carries an enclosure; `lean/` holds Lean 4 + Mathlib proofs checked by
@@ -109,34 +110,32 @@ Stated plainly, up front:
 - Failed and withdrawn claims are kept, together with the test that now
   catches each mistake (`HANDOFF.md`, `hunts/README.md`).
 
-## The validation framework
+## Negative controls, and one framework that did not earn its keep
 
-Any subject registered with `harness/` must supply a battery of controls
-that could actually fail: at least one structure-matched negative control
-(a *rival*: shares the structure a claim leans on, lacks the property),
-at least one ablation (*decoy*) or null model (*surrogate*), and at least
-one planted fault (*lesion*) that its detectors are required to notice.
-`validate_battery` refuses a battery missing any of these, because such a
-battery could never reject anything. Each subject also declares reference
-claims with known verdicts — at least one its battery must reject and one
-it must pass — and `tests/test_department_conformance.py` re-derives those
-verdicts rather than trusting the labels.
+The practice is load-bearing and stays: a claim is worth something only if a
+**rival** — an object sharing the structure the claim leans on but lacking the
+property — fails it. For ζ that rival is the Davenport–Heilbronn function, which
+has the functional equation, real coefficients and a real Hardy Z, **and violates
+RH**. `zeta.epstein.battery` runs a claimed property against it and two Epstein
+zetas; `docs/09` gate #3 is the rule, and it needs no framework.
 
-The framework is applied to itself: the audit layer (`harness/integrity.py`)
-runs sixteen named checks against every battery, grades it, and pairs every
-claim outcome with the grade of the battery that produced it. This exists
-because the project twice caught its own verification being hollow while
-structurally complete (a placeholder battery a human had to catch, and a
-benchmark showing blinded agents reliably miss hollow verification); the
-known blind spots of the audit are themselves pinned in tests. One command
-runs the whole arrangement with every verdict re-derived live:
+`harness/` generalized that into a subject-independent framework with pluggable
+departments. In August 2026 it was tested against the practice it was meant to
+improve: four preregistered experiments, three subjects, 74 agent runs. The
+harness arm never outperformed the control, the control was 37/37, and at
+identical correctness the harness cost 1.1–1.7× the tokens and 2.4–5.0× the tool
+calls. Live hunts had meanwhile reimplemented the same four control roles by hand
+rather than import them.
 
-```bash
-.venv/bin/python -m harness.demo
-```
+It is therefore **demoted, not deleted**: the ledgers under `harness/` (dead
+ends, guards, reviews) have a live consumer in `scripts/70_lab_state.py` and stay
+as ordinary bookkeeping; the framework is frozen. The full record, including the
+protocols frozen before each run, is `harness/VERDICT.md` and
+`harness/gate-evidence/`.
 
-([`harness/README.md`](harness/README.md), [`docs/doors/`](docs/doors/README.md),
-[`docs/20`](docs/20-verification-integrity.md).)
+The negative result is kept because it is the more useful artifact. It also
+supplies the rule in `AGENTS.md`: **do not build an abstraction without naming
+the live thing that will consume it.**
 
 ## Where to start
 
@@ -146,7 +145,7 @@ runs the whole arrangement with every verdict re-derived live:
 | [refute](docs/doors/refute.md) | test a claim about the zeros against the control battery | `.venv/bin/python scripts/23_gate_3_battery.py` |
 | [certify](docs/doors/certify.md) | Lean proofs and interval enclosures | `cd lean && PATH="$HOME/.elan/bin:$PATH" lake build` |
 | [discover](docs/doors/discover.md) | run the conjecture funnel and see its measured hit rate | `.venv/bin/python scripts/13_discovery_run.py --dry-run` |
-| [adopt](docs/doors/adopt.md) | reuse the validation framework for a non-zeta subject | `.venv/bin/python -m pytest -q -o addopts='' tests/test_harness_protocol.py tests/test_department_conformance.py` |
+| [adopt](docs/doors/adopt.md) | *(demoted — read `harness/VERDICT.md` first)* the validation framework and why it was frozen | `.venv/bin/python -m pytest -q -o addopts='' tests/test_harness_protocol.py` |
 
 ## What this is (and is not)
 

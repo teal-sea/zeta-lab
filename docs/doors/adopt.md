@@ -1,5 +1,15 @@
 # Guide: reuse the validation framework for a subject that is not ζ
 
+> **Demoted 2026-08-13. Read `harness/VERDICT.md` before acting on this page.**
+> The framework this guide walks you through was tested against the practice it
+> was meant to improve — four preregistered experiments, three subjects, 74 agent
+> runs — and did not earn its keep: the harness arm never beat the control, and
+> cost 2.4–5.0× the tool calls for the same answers. It is frozen, not deleted,
+> and this page is kept because the reasoning below is still worth reading and
+> because deleting the guide to a thing you decided against is how a lab forgets
+> what it learned. **Do not start a new department.** The practice the framework
+> generalized is alive and simpler: `zeta.epstein.battery`, `docs/09` gate #3.
+
 **For you if** you care less about the Riemann Hypothesis than about the
 problem it forced this repository to solve: when plausible ideas cost minutes
 to generate, the scarce resource is **reliable rejection** — and a rejector

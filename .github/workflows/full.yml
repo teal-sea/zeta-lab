@@ -1,0 +1,75 @@
+# Tier 3 — everything, on a schedule rather than on every commit.
+#
+# The full suite is 2189 tests and 10-20 minutes; the Lean arm is 8739 build
+# jobs. Running either on every push would buy almost nothing over tier 2 and
+# would train everyone to ignore a slow red badge, which is worse than no badge.
+# Nightly is frequent enough to catch drift and rare enough to stay trusted.
+#
+# Lean is its own job so a numerical failure and a proof failure are
+# distinguishable at a glance, and so the toolchain cache is not invalidated by
+# Python changes.
+name: full
+
+on:
+  schedule:
+    - cron: "0 7 * * *"   # 07:00 UTC daily
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  full-suite:
+    name: full suite including slow
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: install
+        run: |
+          python -m pip install --quiet --disable-pip-version-check -r requirements.txt
+          python -m pip install --quiet --disable-pip-version-check -e .
+      - name: full suite
+        run: python -m pytest -q --durations=20
+
+  lean:
+    name: lean arm, zero sorrys
+    runs-on: ubuntu-latest
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: cache elan and lake
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.elan
+            lean/.lake
+          key: lean-${{ runner.os }}-${{ hashFiles('lean/lean-toolchain', 'lean/lakefile.lean', 'lean/lake-manifest.json') }}
+
+      - name: install elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+            | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: build
+        working-directory: lean
+        run: lake build
+
+      - name: no sorrys in the certified arm
+        working-directory: lean
+        run: |
+          # A `sorry` in a proof is an uncertified step. Comments discussing the
+          # rule are fine; a real one is not. Match only proof positions.
+          if grep -rnE '(^|[^[:alnum:]_])sorry([^[:alnum:]_]|$)' ZetaLean/*.lean \
+               | grep -vE '^\s*[^:]+:[0-9]+:\s*(--|/-)' \
+               | grep -vE '`sorry`'; then
+            echo "::error::a sorry reached the certified arm"
+            exit 1
+          fi
+          echo "zero sorrys"

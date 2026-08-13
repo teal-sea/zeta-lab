@@ -1,0 +1,12 @@
+{"item":"E06","arm":"A","verdict":"NOT ESTABLISHED","witness_old":"return day - 1  # Friday","witness_new":"return day + 2  # Friday","wall_seconds":72.1,"tokens":72279,"tool_uses":10}
+{"item":"E12","arm":"A","verdict":"NOT ESTABLISHED","witness_old":"{7: 0}","witness_new":"{7: 6}","wall_seconds":83.8,"tokens":72996,"tool_uses":10}
+{"item":"E02","arm":"A","verdict":"NOT ESTABLISHED","witness_old":"d = range_val","witness_new":"d = range_val - 1","wall_seconds":105.7,"tokens":73741,"tool_uses":9}
+{"item": "E01", "arm": "A", "verdict": "NOT ESTABLISHED", "witness_old": "elif len(c) < n:", "witness_new": "elif len(c) <= n:", "wall_seconds": 110.7, "tokens": 76269, "tool_uses": 12}
+{"item": "E03", "arm": "A", "verdict": "NOT ESTABLISHED", "witness_old": "{7: 0}", "witness_new": "{7: 6}", "wall_seconds": 106.7, "tokens": 77454, "tool_uses": 10}
+{"item": "E07", "arm": "A", "verdict": "NOT ESTABLISHED", "witness_old": "return day - 1  # Friday", "witness_new": "return day + 2  # Friday", "wall_seconds": 100.6, "tokens": 75794, "tool_uses": 11}
+{"item": "E08", "arm": "A", "verdict": "NOT ESTABLISHED", "witness_old": "            return day + 1  # Monday", "witness_new": "            return day + 2  # Monday", "wall_seconds": 100.3, "tokens": 80613, "tool_uses": 8}
+{"item": "E11", "arm": "A", "verdict": "NOT ESTABLISHED", "witness_old": "return day - 2  # Friday (last day is Sun, go back to Fri)", "witness_new": "return day - 3  # Friday (last day is Sun, go back to Fri)", "wall_seconds": 96.6, "tokens": 77508, "tool_uses": 10}
+{"item": "E10", "arm": "A", "verdict": "NOT ESTABLISHED", "witness_old": "w = (day_of_week + 6) % 7", "witness_new": "w = (day_of_week + 5) % 7", "wall_seconds": 115.7, "tokens": 77945, "tool_uses": 11}
+{"item": "E04", "arm": "A", "verdict": "NOT ESTABLISHED", "witness_old": "r\"%d-%d\\1\" % (cls.RANGES[field_index][0], cls.RANGES[field_index][1]),", "witness_new": "r\"%d-%d\\1\" % (cls.RANGES[field_index][0] + 1, cls.RANGES[field_index][1]),", "wall_seconds": 130.3, "tokens": 81973, "tool_uses": 11}
+{"item": "E05", "arm": "A", "verdict": "NOT ESTABLISHED", "witness_old": "d = range_val", "witness_new": "d = range_val - 1", "wall_seconds": 130.2, "tokens": 83237, "tool_uses": 9}
+{"item": "E09", "arm": "A", "verdict": "NOT ESTABLISHED", "witness_old": "                    d = range_val\n", "witness_new": "                    d = range_val - 1\n", "wall_seconds": 129.5, "tokens": 83150, "tool_uses": 12}

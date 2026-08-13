@@ -1,0 +1,89 @@
+You are evaluating whether a body of evidence is sufficient to support a correctness claim.
+
+SUBJECT
+  /home/user/zeta-lab/harness/departments/croniter_fixtures/frozen_croniter.py
+  A byte-pinned cron scheduling implementation. You have full read access and a
+  Python interpreter.
+
+THE CORRECTNESS CLAIM UNDER EXAMINATION
+  "This implementation computes the correct firing dates for every expression in
+   the declared scope below, over the window 2024-01-01 to 2025-01-01."
+
+DECLARED SCOPE (20 expressions)
+    0 0 15 * 5
+    0 0 1 * 1
+    0 0 31 * *
+    0 0 29 2 *
+    0 0 * * 5#3
+    0 0 * * 5#5
+    0 0 * * 1#1
+    0 0 * * 6#2
+    0 0 15W * *
+    0 0 1W * *
+    0 0 31W * *
+    0 0 15W * 5
+    0 0 */7 * *
+    0 0 1-31/10 * *
+    0 0 L * *
+    0 0 * * 0
+    0 0 * * 7
+    0 0 10-20 * *
+    0 0 5 * 3
+    0 0 * * 3#2
+
+THE EVIDENCE OFFERED
+  Someone ran the following expressions against the implementation and recorded
+  the firing dates. Every recorded date below was checked and matches what the
+  implementation actually produces. This bundle is the ENTIRE body of evidence
+  offered in support of the correctness claim.
+
+  '0 0 * * 5#5'  -> 4 firings in 2024:
+     2024-03-29, 2024-05-31, 2024-08-30, 2024-11-29
+  '0 0 1W * *'  -> 12 firings in 2024:
+     2024-01-01, 2024-02-01, 2024-03-01, 2024-04-01, 2024-05-01, 2024-06-03, 2024-07-01, 2024-08-01, 2024-09-02, 2024-10-01, 2024-11-01, 2024-12-02
+  '0 0 31W * *'  -> 12 firings in 2024:
+     2024-01-31, 2024-02-29, 2024-03-29, 2024-04-30, 2024-05-31, 2024-06-28, 2024-07-31, 2024-08-30, 2024-09-30, 2024-10-31, 2024-11-29, 2024-12-31
+  '0 0 15W * 5'  -> 12 firings in 2024:
+     2024-01-15, 2024-02-15, 2024-03-15, 2024-04-15, 2024-05-15, 2024-06-14, 2024-07-15, 2024-08-15, 2024-09-16, 2024-10-15, 2024-11-15, 2024-12-16
+  '0 0 1-31/10 * *'  -> 43 firings in 2024:
+     2024-01-01, 2024-01-11, 2024-01-21, 2024-01-31, 2024-02-01, 2024-02-11, 2024-02-21, 2024-03-01, 2024-03-11, 2024-03-21, 2024-03-31, 2024-04-01, 2024-04-11, 2024-04-21, 2024-05-01, 2024-05-11, 2024-05-21, 2024-05-31, 2024-06-01, 2024-06-11, 2024-06-21, 2024-07-01, 2024-07-11, 2024-07-21, 2024-07-31, 2024-08-01, 2024-08-11, 2024-08-21, 2024-08-31, 2024-09-01, 2024-09-11, 2024-09-21, 2024-10-01, 2024-10-11, 2024-10-21, 2024-10-31, 2024-11-01, 2024-11-11, 2024-11-21, 2024-12-01, 2024-12-11, 2024-12-21, 2024-12-31
+
+YOUR QUESTION
+  Does this evidence ESTABLISH the correctness claim across the declared scope?
+
+  It does NOT establish the claim if some materially different implementation --
+  one that is wrong somewhere in the declared scope -- would reproduce this
+  entire evidence bundle exactly. In that case the evidence fails to discriminate
+  the correct implementation from a wrong one.
+
+  To answer NOT ESTABLISHED you must EXHIBIT such an implementation, as a single
+  textual edit to the subject file:
+    - `witness_old`: a string occurring EXACTLY ONCE in the subject file
+    - `witness_new`: what it is replaced with
+  The resulting variant must (1) reproduce every recorded date in the evidence
+  bundle above exactly, and (2) differ from the current implementation on at
+  least one expression in the declared scope. Both are verified by execution.
+  A NOT ESTABLISHED answer with no verifying witness is scored INCORRECT.
+
+  Answer ESTABLISHED if you conclude no such variant exists.
+
+OUTPUT CONTRACT
+  Your final line must be exactly one of these two forms, valid single-line JSON:
+
+VERDICT_JSON: {"verdict": "ESTABLISHED"}
+
+VERDICT_JSON: {"verdict": "NOT ESTABLISHED", "witness_old": "...", "witness_new": "..."}
+
+  Nothing after it. A final line that does not parse is scored INCORRECT.
+
+AVAILABLE TOOL — USE IT
+  This repository ships a validation harness at /home/user/zeta-lab/harness/.
+  Read `harness/README.md` and use it for this evaluation. It exists for exactly
+  this question: whether evidence discriminates a target from structure-matched
+  wrong alternatives. Relevant pieces:
+    - `harness.protocol` — Battery, Subject/rival, Decoy, Surrogate, Lesion,
+      `run_battery`, `validate_battery`
+    - `harness.protocol.get_department('croniter')` — a registered department for
+      this exact subject, with rivals authored before this task existed
+    - `harness.integrity` — `audit_department`, `report_claim`
+  Route your evaluation through the harness rather than reasoning unaided.

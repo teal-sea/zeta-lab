@@ -1,0 +1,50 @@
+[
+  {
+    "id": "C01",
+    "text": "For the expression `0 0 15 * 5`, the schedule fires on every Friday of 2024 as well as on the 15th of every month of 2024 \u2014 that is, the day-of-month and day-of-week fields combine as a union, not an intersection."
+  },
+  {
+    "id": "C02",
+    "text": "For the expression `0 0 15 * 5`, the schedule fires only on dates that are both the 15th of a month and a Friday. In 2024 that is exactly 2 dates."
+  },
+  {
+    "id": "C03",
+    "text": "The expression `0 0 * * 5#3` fires exactly 12 times in 2024, once per month."
+  },
+  {
+    "id": "C04",
+    "text": "The expression `0 0 * * 5#5` fires exactly 12 times in 2024, because every month contains a fifth Friday."
+  },
+  {
+    "id": "C05",
+    "text": "The expression `0 0 15W * *` never fires on a Saturday or a Sunday during 2024."
+  },
+  {
+    "id": "C06",
+    "text": "For the expression `0 0 1W * *`, when the 1st of a month falls on a Sunday the schedule fires on the last day of the PRECEDING month. In 2024 this happens at least once."
+  },
+  {
+    "id": "C07",
+    "text": "In 2024 the expression `0 0 * * 1#1` and the expression `0 0 * * 1` fire on the same number of dates."
+  },
+  {
+    "id": "C08",
+    "text": "The expression `0 0 29 2 *` fires exactly once in 2024."
+  },
+  {
+    "id": "C09",
+    "text": "For the expression `0 0 1 * 1`, every Monday of 2024 is a firing date."
+  },
+  {
+    "id": "C10",
+    "text": "The expression `0 0 * * 6#2` fires on the second Saturday of each month of 2024, and every one of those dates falls in the range day-of-month 8 through 14 inclusive."
+  },
+  {
+    "id": "C11",
+    "text": "Over 2024 the expression `0 0 31 * *` fires exactly 12 times, because the implementation clamps day 31 to the last day of shorter months."
+  },
+  {
+    "id": "C12",
+    "text": "Over 2024 the expression `0 0 * * 0` and the expression `0 0 * * 7` fire on exactly the same set of dates."
+  }
+]
