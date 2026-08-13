@@ -161,3 +161,115 @@ here.
 **Freeze.** This commit contains this protocol and nothing else. Items, key,
 family, runner and results follow in a later commit and must hash to the digest
 above.
+
+---
+
+# RESULTS — stage 1 pilot
+
+**Executed 2026-08-13, after the protocol above was committed at `548f3da`.**
+`items.json` + `key.json` still hash to the frozen digest
+`3b5388bf0fe13c8d8d47d8e457559ff6b0fa70711d6477842a4d68e69ad32db6`, verified
+after execution.
+
+12 control-arm runs, 12 items, all completed. None errored, none was re-run,
+every response ended with a parseable `VERDICT_JSON` line. **Arm B was never
+launched.**
+
+## The abort rule fired
+
+```
+items                          : 12
+key refuted, VOID both arms    : 6   (E02 E03 E04 E05 E09 E12)
+surviving items                : 6   (E01 E06 E07 E08 E10 E11)
+Arm A correct on survivors     : 6/6
+p_A                            : 1.00
+
+RULE (frozen, §6): p_A > 0.85  ->  the gate does not run
+OBSERVED                      : p_A = 1.00
+```
+
+> ## STAGE 2 NOT RUN. No gate result exists, and none is claimed.
+
+## What happened: every ESTABLISHED item was refuted
+
+**All six items keyed `ESTABLISHED` were refuted by a verified witness**, so all
+six voided under §4. The witnesses were checked by execution, not accepted on
+assertion: each reproduces its bundle exactly and differs from the frozen
+original somewhere in the declared scope.
+
+| item | witness the control found | in-scope divergence |
+|---|---|---|
+| E02 | `d = range_val` → `- 1` (the `"l"` sentinel) | `0 0 L * *` |
+| E03 | `LOWMAP` `{7: 0}` → `{7: 6}` | `0 0 * * 7` |
+| E04 | `*/n` rewrite lower bound `+ 1` | `0 0 */7 * *` |
+| E05 | `d = range_val` → `- 1` | `0 0 L * *` |
+| E09 | `d = range_val` → `- 1` | `0 0 L * *` |
+| E12 | `LOWMAP` `{7: 0}` → `{7: 6}` | `0 0 * * 7` |
+
+**My mutation family was too narrow, by a wide margin.** Ground truth was
+computed over 15 live mutants drawn from 21 hand-written operators concentrated
+on the union split, `#`/`W` and the field ranges. The control found valid
+witnesses in `_get_nearest_weekday`'s Saturday and Sunday branches, the `LOWMAP`
+day-of-week alias, the `"l"` sentinel in `_get_next_nearest_diff`, and the `*/n`
+lower-bound rewrite — **none of which any of my operators touched**. Labelling
+those bundles `ESTABLISHED` was a claim that no single-edit witness exists, and
+that claim was false six times out of six.
+
+The §4 clause held: the key was refuted, never amended, and the items voided for
+both arms. The design caught my own error instead of silently scoring agents
+wrong for being right. That is the one part of this that worked as intended.
+
+## Why this is a design failure and not a finding about the harness
+
+After voiding, the surviving item set is **six items that all have the same
+correct answer**. A balanced binary task collapsed into a constant one, on which
+an arm answering `NOT ESTABLISHED` with any valid witness scores 6/6. That
+measures witness *construction*, not discrimination *judgment*, and the two arms
+could not have been separated by it.
+
+The deeper reason is a property of the domain, and it is the third distinct way
+this subject has defeated a gate:
+
+- v1, v2: **no headroom** — a cheap executable oracle settles any factual claim.
+- v3: **no positive class** — with 20 scope expressions covering many
+  independent code paths and bundles of 5–7, some path is *always* left
+  unconstrained, so "this evidence establishes correctness over the scope" is
+  essentially never true. Sufficiency is not sometimes-achieved here; it is
+  never achieved.
+
+Neither the harness nor the criterion is implicated. Nothing about the harness
+was measured, and nothing is claimed about it.
+
+## What the pilot did measure
+
+Reported as an observation, not as a gate outcome, and with **no treatment arm
+to compare against**:
+
+**12 of 12 control runs produced a valid, execution-verified witness** — a
+working rival implementation that passes the offered evidence and is wrong
+inside the scope. Unaided, with no harness and no instruction to seek negative
+controls, the control constructed one every time.
+
+| | Arm A (control), 12 runs |
+|---|---|
+| valid witnesses produced | 12/12 |
+| tokens, total | 932,959 |
+| tokens, median per run | 77,481 |
+| wall-clock, median per run | 106 s |
+| tool uses, median per run | 10 |
+
+## Cost of failing this way
+
+12 runs and ~933k tokens, against 24 for v1 and 28 for v2 — and it stopped
+*before* the treatment arm was spent rather than after. That is the abort rule
+doing exactly the job it was added for, and it is the only reason this failure
+was cheaper than the two before it.
+
+## Status
+
+v1, v2 and v3 all stand as recorded failures, none retracted. The question in §1
+remains **unanswered**. Three attempts now say the same thing about the venue
+rather than about the instrument: `frozen_croniter` cannot host this comparison.
+A fourth attempt needs a domain where evidential sufficiency is *sometimes
+genuinely achieved*, and that is a new experiment with its own pre-registration
+— not a fourth item set here.
