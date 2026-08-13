@@ -159,6 +159,27 @@ def test_an_unattacked_claim_is_not_presented_as_a_result(built: Path) -> None:
         )
 
 
+def test_the_pages_commit_to_one_appearance(built: Path) -> None:
+    """A record sent to people must look the same to all of them.
+
+    While the pages followed `prefers-color-scheme`, the author screenshotted
+    the light rendering and the reader on a dark system saw something else —
+    same commit, same content, two appearances, and no way to tell which one a
+    given reader got. The palette is now unconditional. This also requires an
+    explicit background on `body`: without one the page borrows whatever ground
+    the browser or an embedding host paints, which reintroduces the drift by
+    another route.
+    """
+    for page in _pages(built):
+        text = page.read_text(errors="ignore")
+        assert "prefers-color-scheme" not in text, (
+            f"{page.name} follows the reader's system theme; the look must be pinned"
+        )
+        assert re.search(r"body\{[^}]*background:", text), (
+            f"{page.name} leaves the page background to the host"
+        )
+
+
 def test_the_host_build_needs_no_scientific_stack() -> None:
     """The deploy build must stay stdlib-only, and `vercel.json` must say so.
 

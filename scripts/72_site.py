@@ -320,10 +320,11 @@ CSS = """
   --sans:-apple-system,BlinkMacSystemFont,Segoe UI,system-ui,sans-serif;
   --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
 }
-@media (prefers-color-scheme:dark){:root{
-  --paper:#0a0b0d; --ink:#eef0f3; --ink2:#b3bac3; --soft:#858d97; --faint:#5d656f;
-  --rule:#282d34; --hair:#191d22; --mark:#9dc0e8; --track:#171b20;
-}}
+/* One committed look, deliberately. This page is sent to people as a record,
+   and a record that changes appearance with the reader's operating system is
+   one you cannot screenshot, cite or predict: the author sees paper white and
+   half the readers see something else. The palette above is the whole palette;
+   there is no theme to follow. */
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--ink);
@@ -444,7 +445,6 @@ td.note{font-family:var(--serif);font-size:.93rem;min-width:13rem}
   text-transform:uppercase;padding:.14rem .45rem;border:1px solid currentColor;
   color:var(--soft);white-space:nowrap}
 .pill.fail{color:#9c4f18}
-@media (prefers-color-scheme:dark){.pill.fail{color:#d9a06b}}
 
 nav.foot{margin-top:4.5rem;padding-top:1rem;border-top:1px solid var(--rule);
   font-family:var(--mono);font-size:.63rem;letter-spacing:.12em;
