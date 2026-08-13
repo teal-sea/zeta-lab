@@ -329,7 +329,13 @@ html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--ink);
   font:17px/1.6 var(--serif);-webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility}
-.page{max-width:58rem;margin:0 auto;padding:0 1.6rem 6rem}
+/* One centred measure. The prose fills it rather than being capped narrower
+   than the frame, which reads as a broken layout rather than a restrained one.
+   Tables and the vitals band break out wider on large screens. */
+.page{max-width:44rem;margin:0 auto;padding:0 1.6rem 6rem}
+@media (min-width:68rem){
+  .vitals,.wrap,.ladder{width:52rem;margin-left:-4rem}
+}
 a{color:var(--mark);text-decoration:none;border-bottom:1px solid transparent}
 a:hover{border-bottom-color:currentColor}
 a:focus-visible{outline:2px solid var(--mark);outline-offset:3px}
@@ -344,29 +350,32 @@ a:focus-visible{outline:2px solid var(--mark);outline-offset:3px}
 
 h1{font-size:clamp(2.3rem,6.5vw,3.7rem);line-height:1;letter-spacing:-.025em;
   font-weight:400;margin:2.6rem 0 0;text-wrap:balance}
-.stand{max-width:34rem;font-size:1.16rem;line-height:1.5;color:var(--ink2);
+.stand{font-size:1.16rem;line-height:1.5;color:var(--ink2);
   margin:1.4rem 0 0;text-wrap:pretty}
 
 /* vitals */
-.vitals{display:grid;grid-template-columns:repeat(auto-fit,minmax(9rem,1fr));
-  gap:1px;background:var(--hair);border:1px solid var(--hair);margin:2.8rem 0 0}
-.vitals>div{background:var(--paper);padding:1.05rem 1rem .95rem}
-.vitals .n{font-family:var(--mono);font-size:1.9rem;line-height:1;
-  letter-spacing:-.03em;font-variant-numeric:tabular-nums;display:block}
-.vitals .k{font-family:var(--mono);font-size:.585rem;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--soft);margin-top:.5rem;display:block;
+.vitals{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+  background:var(--hair);border:1px solid var(--hair);margin:2.9rem 0 0}
+.vitals>div{background:var(--paper);padding:1.35rem 1.25rem 1.2rem}
+.vitals .n{font-family:var(--mono);font-size:2.8rem;line-height:.95;
+  letter-spacing:-.045em;font-variant-numeric:tabular-nums;display:block}
+.vitals .k{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;
+  text-transform:uppercase;color:var(--soft);margin-top:.7rem;display:block;
   line-height:1.35}
+/* The zero is the load-bearing figure in the whole arm, not a null result. */
 .vitals .zero .n{color:var(--mark)}
+@media (max-width:34rem){.vitals{grid-template-columns:repeat(2,1fr)}
+  .vitals .n{font-size:2.1rem}}
 
 section{margin-top:3.6rem}
-h2{font-family:var(--mono);font-size:.685rem;letter-spacing:.16em;
-  text-transform:uppercase;font-weight:500;margin:0 0 1.35rem;
-  padding-bottom:.58rem;border-bottom:1px solid var(--rule);display:flex;
+h2{font-family:var(--mono);font-size:.78rem;letter-spacing:.15em;
+  text-transform:uppercase;font-weight:600;margin:0 0 1.45rem;
+  padding-bottom:.6rem;border-bottom:2px solid var(--ink);display:flex;
   gap:1.1rem;color:var(--ink)}
 h2 .num{color:var(--mark);font-variant-numeric:tabular-nums}
 h3{font-family:var(--mono);font-size:.625rem;letter-spacing:.13em;
   text-transform:uppercase;font-weight:500;color:var(--soft);margin:2rem 0 .8rem}
-p{margin:0 0 1rem;max-width:34rem;text-wrap:pretty}
+p{margin:0 0 1.05rem;text-wrap:pretty}
 .lede{font-size:1.1rem;color:var(--ink2)}
 .meta{font-family:var(--mono);font-size:.7rem;color:var(--faint);
   letter-spacing:.02em;font-variant-numeric:tabular-nums}
@@ -398,11 +407,21 @@ td.note{font-family:var(--serif);font-size:.93rem;min-width:13rem}
 .bar i{position:absolute;inset:0 auto 0 0;background:var(--ink);display:block}
 
 /* ladder */
-.rung{display:grid;grid-template-columns:2.4rem 1fr;gap:0 1.1rem;
-  padding:.9rem 0;border-bottom:1px solid var(--hair);align-items:start}
-.rung:first-child{border-top:1px solid var(--rule)}
-.rung .lvl{font-family:var(--mono);font-size:.7rem;color:var(--mark);
-  font-variant-numeric:tabular-nums;padding-top:.1rem}
+.ladder{margin:1.5rem 0 1.2rem}
+.rung{display:grid;grid-template-columns:1.9rem 1fr;gap:0 1.3rem;
+  padding:1rem 0;align-items:start;position:relative}
+/* the spine: one rail down the rungs, filled where the rung is occupied */
+.rung::before{content:"";position:absolute;left:.52rem;top:0;bottom:0;
+  width:1px;background:var(--rule)}
+.rung:first-child::before{top:.95rem}
+.rung:last-child::before{bottom:auto;height:.95rem}
+.rung .lvl{font-family:var(--mono);font-size:.66rem;color:var(--soft);
+  font-variant-numeric:tabular-nums;padding-top:.72rem;position:relative;
+  z-index:1;background:var(--paper)}
+.rung .lvl::before{content:"";display:block;width:9px;height:9px;
+  margin:0 0 .5rem .1rem;border:1px solid var(--ink);background:var(--paper)}
+.rung.on .lvl::before{background:var(--ink)}
+.rung.off .lvl::before{border-color:var(--faint)}
 .rung .nm{font-family:var(--mono);font-size:.7rem;letter-spacing:.11em;
   text-transform:uppercase;color:var(--ink);margin-bottom:.28rem}
 .rung .ds{font-size:.96rem;color:var(--ink2);line-height:1.45;max-width:36rem}
@@ -531,11 +550,12 @@ def page_index(r, lean, py, gr, threads) -> str:
             + "</tbody></table></div></section>"
         )
     return shell(IDENTITY["name"], f"""
-<h1>{esc(IDENTITY["line"])}</h1>
-<p class="stand">A small laboratory running two separate regimes of certainty:
-quantities that are <em>measured</em>, and statements a proof kernel has
-<em>accepted</em>. Every figure on this site was counted from the repository at
-the revision named above.</p>
+<h1>Nothing counts until<br>the kernel accepts it.</h1>
+<p class="stand">A small laboratory working the Riemann hypothesis in two
+regimes of certainty — quantities that are <em>measured</em>, and statements a
+proof kernel has <em>accepted</em>. Every figure below was counted from the
+repository at the revision named above, including the ones that record what did
+not work.</p>
 
 {vitals([
     (num(lean['decls']), 'kernel-checked declarations', False),
@@ -834,9 +854,10 @@ evidence about itself.</p>
 def page_about(r, lean, py) -> str:
     return shell(f"About — {IDENTITY['name']}", f"""
 <h1>About</h1>
-<p class="stand">A small laboratory. It explores several directions cheaply,
+<p class="stand"><em>{esc(IDENTITY['line'])}</em> A small laboratory that
+explores several directions cheaply,
 feeds the ones that produce something, stops feeding the ones that don't, and
-keeps the loose ends it isn't pulling — so that choosing one direction doesn't
+keeps the loose ends it isn't pulling — so that choosing one direction does not
 mean forgetting the others.</p>
 
 <section>
