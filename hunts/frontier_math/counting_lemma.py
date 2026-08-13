@@ -13,27 +13,44 @@ large damage.  Two measurements supply it.
 Within one damage window (width `<= w_max = 0.9860008`) put `m` atoms and
 `j` pair centres.  Then
 
-    damage        <=  m j D_1,          D_1        = 4.396424e-03
-    atom relief   >=  m(m-1) g^2/800,   g^2/800    = 9.779689e-04
-    pair relief   >=  j(j-1) kappa(W),  kappa(W)   = 1.620239e+00
+    damage        <=  m j D_1,            D_1       = 4.396424e-03
+    atom relief   >=  m(m-1) g^2/800,     g^2/800   = 9.779689e-04
+    pair relief   >=  j(j-1) kappa(W)/2,  kappa(W)  = 1.620239e+00
 
 with `kappa(tau) = K_0(tau) + K_{2y}(tau)` the pair-pair term of the
-`k`-pair identity.  A two-species square completion closes iff
+`k`-pair identity.  **Read the logic in the right direction.**  Writing
 
-    D_1^2  <=  4 (g^2/800) kappa(W),
+    f(m,j) = m j D_1 - m(m-1) g^2/800 - j(j-1) kappa(W)/2
 
-and it does, at **1.932855e-05 vs 6.338174e-03 — a margin of 327.9x**
-(:func:`am_gm_margin`).  The consequence is sharper than the AM-GM
-statement itself: maximising `f(m,j) = m j D_1 - m(m-1) g^2/800 -
-j(j-1) kappa(W)` over integers gives
+`f` is NOT a bound on anything the adversary gains.  Because its
+constants are the conservative ones, `f >= B - slack`, i.e.
+
+    slack  >=  B - f,        B >= 0 free from `energy_F_ge`,
+
+so the site is safe as soon as `B >= f`.  A two-species square completion
+makes `f` bounded above, and closes iff
+
+    D_1^2  <=  4 (g^2/800) (kappa(W)/2) = 2 (g^2/800) kappa(W),
+
+which holds at **1.932855e-05 vs 3.169087e-03 — a margin of 164.0x**
+(:func:`am_gm_margin`).  Maximising `f` over integers
+(:func:`window_occupancy`):
 
     j = 1:  +7.321459e-03  (at m = 3 — exactly the k=1 optimum)
-    j = 2:  -3.216073e+00
-    j = 3:  -9.670185e+00
+    j = 2:  -1.595834e+00  (at m = 5)
+    j = 3:  -4.809467e+00  (at m = 7)
 
-so **a second pair in the same window is never profitable**
-(:func:`window_occupancy`).  `kappa(W) = 1.62` is 1657x the per-pair atom
-relief, which is why the pair species is the one that cannot crowd.
+At `j = 1` the requirement `B >= f` reads `Shq(y)/2 = 3.375420e-02 >=
+7.321459e-03`, which holds with a factor `4.61`; at `j >= 2`, `f < 0`
+so `slack >= B - f > B >= 0` outright.  **A second pair at the same site
+is never the adversary's play**, and `kappa(W)/2 = 0.810` is 828x the
+per-pair atom relief, which is why the pair species is the one that
+cannot crowd.
+
+**The two clusters are not in the same place.**  Damage needs
+`|x_a - t_p| >= 6.0653`, so a "site" is an atom cluster of diameter
+`<= w_max` and a pair cluster of diameter `<= w_max` separated by about
+the peak distance `6.517` — not one interval holding both.
 
 ## 2. The budget floor: `B/k` does not decay
 
@@ -132,17 +149,23 @@ def budget(ts, y: float = 0.5) -> float:
 # --- 1. the counting lemma -------------------------------------------------
 
 def am_gm_margin() -> dict:
-    """`D_1^2 <= 4 (gamma^2/800) kappa(w_max)` — the closure condition."""
+    """`D_1^2 <= 4 (gamma^2/800) (kappa(w_max)/2)` — the closure condition."""
     lhs = D_ONE ** 2
-    rhs = 4 * ATOM_RELIEF * KAPPA_W
+    rhs = 4 * ATOM_RELIEF * (KAPPA_W / 2)
     return {"lhs": lhs, "rhs": rhs, "holds": lhs <= rhs, "margin": rhs / lhs,
             "D_one": D_ONE, "atom_relief": ATOM_RELIEF, "kappa_w": KAPPA_W,
-            "kappa_over_atom_relief": KAPPA_W / ATOM_RELIEF}
+            "kappa_over_atom_relief": (KAPPA_W / 2) / ATOM_RELIEF}
 
 
 def site_value(m: int, j: int) -> float:
-    """`m j D_1 - m(m-1) gamma^2/800 - j(j-1) kappa(w_max)`."""
-    return m * j * D_ONE - m * (m - 1) * ATOM_RELIEF - j * (j - 1) * KAPPA_W
+    """`m j D_1 - m(m-1) gamma^2/800 - j(j-1) kappa(w_max)/2`.
+
+    `slack >= B - site_value`, so a positive value must be covered by the
+    budget `B` and a negative one is safe outright.  This is NOT a bound
+    on the adversary's gain.
+    """
+    return (m * j * D_ONE - m * (m - 1) * ATOM_RELIEF
+            - j * (j - 1) * KAPPA_W / 2)
 
 
 def window_occupancy(js=(1, 2, 3), m_max: int = 40) -> list:
@@ -194,7 +217,13 @@ NAMED_GAPS = (
     "C4 kappa(tau) is NOT a pure repulsion -- it is positive at short "
     "range but reaches about -1.82e-02 near tau = 2 pi, which is why the "
     "worst spacing sits just past the window period.",
-    "C5 nothing here is evidence about RH.",
+    "C5 coordinator defect #21, corrected in place: `site_value` first "
+    "used `j(j-1) kappa` where the identity gives `j(j-1) kappa/2` (the "
+    "sum is over unordered pairs), and the module described `f` as if it "
+    "bounded the adversary's gain. It does not -- `slack >= B - f`, so a "
+    "positive `f` must be covered by `B`. Both found by checking `f` "
+    "against the exact slack, which exceeds it everywhere.",
+    "C6 nothing here is evidence about RH.",
 )
 
 

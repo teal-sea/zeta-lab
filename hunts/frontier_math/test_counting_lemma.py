@@ -47,16 +47,46 @@ def test_kappa_is_not_a_pure_repulsion():
 # -- 1. the counting lemma --------------------------------------------------
 
 def test_am_gm_condition_holds_with_margin():
+    """Defect #21: the pair relief is `j(j-1) kappa/2`, not `j(j-1) kappa`.
+
+    The sum in the k-pair identity is over UNORDERED pairs. The first
+    version doubled it, which doubled this margin too.
+    """
     a = am_gm_margin()
     assert a["holds"]
-    assert a["margin"] > 300
+    assert a["margin"] == pytest.approx(164.0, rel=1e-2)
     assert a["lhs"] == pytest.approx(1.932855e-05, rel=1e-4)
-    assert a["rhs"] == pytest.approx(6.338174e-03, rel=1e-4)
+    assert a["rhs"] == pytest.approx(3.169087e-03, rel=1e-4)
+
+
+def test_site_value_uses_the_unordered_pair_count():
+    """Pin the factor that was wrong, against the exact pair relief."""
+    # two coincident pairs relieve exactly kappa(0), not 2 kappa(0)
+    exact_two_coincident = kappa(0.0)
+    modelled = 2 * 1 * KAPPA_W / 2
+    assert modelled < exact_two_coincident          # conservative direction
+    assert modelled == pytest.approx(KAPPA_W, rel=1e-12)
+    assert exact_two_coincident == pytest.approx(1.7556, abs=1e-3)
+
+
+def test_site_value_is_not_a_bound_on_the_adversary():
+    """Defect #21, second half: `slack >= B - f`, so `f` understates slack.
+
+    The exact slack exceeds `f` at every occupancy, because `f` discards
+    the budget entirely. `f < 0` therefore means "safe outright", not
+    "the adversary loses".
+    """
+    from gram_form import slack_direct
+    for m in (1, 3, 5):
+        for j in (1, 2, 3):
+            xs, ts = [0.0] * m, [6.516999776] * j
+            assert slack_direct(xs, ts, 0.5) > site_value(m, j)
 
 
 def test_pair_species_cannot_crowd():
-    """`kappa(w_max)` dwarfs the per-pair atom relief."""
-    assert am_gm_margin()["kappa_over_atom_relief"] > 1000
+    """`kappa(w_max)/2` dwarfs the per-pair atom relief."""
+    r = am_gm_margin()["kappa_over_atom_relief"]
+    assert r == pytest.approx(828, rel=2e-2)
 
 
 def test_at_most_one_pair_per_window_is_profitable():
@@ -65,7 +95,7 @@ def test_at_most_one_pair_per_window_is_profitable():
     assert rows[1]["profitable"]
     assert not rows[2]["profitable"]
     assert not rows[3]["profitable"]
-    assert rows[2]["best"] < -3.0
+    assert rows[2]["best"] < -1.5
     assert rows[3]["best"] < rows[2]["best"]
 
 

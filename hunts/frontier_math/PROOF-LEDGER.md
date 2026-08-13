@@ -1718,3 +1718,57 @@ re-deriving it.
 Disposition: **THE COUNT EXISTS AND IT IS SHARP.** `k >= 2` remains open,
 named gaps C1-C5 say which parts are measured rather than proved, no
 proportion has moved, and nothing here is evidence about RH.
+
+### CORRECTION, same day: coordinator defect #21 — two errors in the site model
+
+Caught by the operator's "if you say so", which prompted checking the
+site model against the exact slack instead of restating it. Both errors
+were in the entry above; both are corrected in place.
+
+**Error 1 — a factor of 2.** `site_value` used `j(j-1) kappa(w_max)` for
+the pair relief. The `k`-pair identity sums over **unordered** pairs, so
+the correct term is `j(j-1) kappa(w_max)/2`. Measured against the exact
+slack: two coincident pairs relieve `1.75562102`, and the model claimed
+`3.24047835`. Every derived constant was inflated with it:
+
+| quantity | as first published | correct |
+|---|---|---|
+| AM-GM right-hand side | 6.338174e-03 | **3.169087e-03** |
+| AM-GM margin | 327.9x | **164.0x** |
+| `kappa` vs per-pair atom relief | 1657x | **828x** |
+| `j = 2` site value | -3.216073 | **-1.595834** (at m = 5) |
+| `j = 3` site value | -9.670185 | **-4.809467** (at m = 7) |
+
+**Error 2 — the logic ran the wrong way, which is the worse one.** The
+entry said "maximising `f(m,j)` over integers ... a second pair in the
+same window is never profitable", as though `f` bounded what the
+adversary gains. It does not. `f` uses the conservative constants, so
+`f >= B - slack`, i.e. **`slack >= B - f`**: `f` *understates* the slack
+because it discards the budget entirely. Measured — the exact slack
+exceeds `f` at every occupancy tested, by `+0.025` at `(m,j) = (1,1)`,
+`+5.05` at `(1,2)`, `+15.06` at `(1,3)`.
+
+**What the corrected statement is.** `slack >= B - f`, so a site is safe
+as soon as `B >= f`. At `j = 1`, `max_m f = 7.321459e-03` against
+`Shq(y)/2 = 3.375420e-02` — a factor `4.61`. At `j >= 2`, `f < 0`, so
+`slack >= B - f > B >= 0` outright. The conclusion — a second pair at the
+same site is never the adversary's play — **survives both corrections**,
+but it holds for a different reason than the entry gave, and with
+constants half the size.
+
+**A third thing the check surfaced.** "Put `m` atoms and `j` pairs in one
+damage window" is not a coherent picture: damage needs
+`|x_a - t_p| >= 6.0653`, so anything inside one window of width `0.986`
+does *no* damage. A site is an atom cluster of diameter `<= w_max` and a
+pair cluster of diameter `<= w_max` separated by about the peak distance
+`6.517`. The arithmetic was right; the description was not.
+
+Two regression tests now pin the factor against the exact pair relief and
+pin `slack > f` at every occupancy, so neither error can return silently.
+
+Disposition: **THE COUNT SURVIVES AT HALF THE CONSTANTS AND WITH ITS
+LOGIC REVERSED.** Defect #21 joins #19 and #20 as the third correction
+this session caught by an operator asking, in substance, "are you sure" —
+and the third whose root cause was a quantity used without being derived
+in the form it was being used. `k >= 2` remains open, no proportion has
+moved, and nothing here is evidence about RH.
