@@ -1357,3 +1357,89 @@ rather than improving it.
    that refuted the per-pair route on 2026-08-12.
 
 No proportion has moved and nothing here is evidence about RH.
+
+
+## The k-pair identity, and coordinator defect #20 (the over-correction) (2026-08-13)
+
+Instrument: `kpair_identity.py`, `test_kpair_identity.py` (19 tests).
+Prompted by the operator asking "are you sure?" about the entry above.
+
+**COORDINATOR DEFECT #20, the mirror of #19.** Having caught himself
+overclaiming the `k = 1` closure as blocker 2 (#19), the coordinator
+then reported `cluster_sdp`'s factor 1.99 to the operator as though it
+were an obstruction to the `k >= 2` **statement**. It is an obstruction
+to that **accounting**. Both defects have the same cause: taking a
+report's framing instead of deriving the object. So the object was
+derived.
+
+### The identity nobody in this hunt had written down
+
+Expanding `|F + P|^2` with `P w = sum_p 2 cosh(y_p w) e^{i t_p w}` and
+integrating each piece against `c2`:
+
+    margin_k = E[F+P] - (199/200) E[F] - n/200 - 4k = (4/A^2) * slack_k
+
+    slack_k = sum_p Shq(y_p)/2
+            - sum_p sum_a D(y_p, x_a - t_p)                   (damage)
+            + (1/400) sum_{a<b} phi_r(x_a - x_b)^2            (repulsion)
+            - (1/2) sum_{p!=q} [D(y_p+y_q, tau) + D(y_p-y_q, tau)]
+
+Checked against the definition route (quadrature on `Eng`, sharing no
+code) for `k = 1..4`, mixed depths and shifts: worst residual
+**4.21e-17**. At `k = 1` the last sum is empty and this is exactly the
+single-pair slack the entry above closes.
+
+### What it settles
+
+The worry that motivated the pessimism is real and visible in the
+identity: **the repulsion term carries no `p` index**. It is paid once
+however many pairs there are, while the damage is summed over them, so
+relief per pair goes like `1/k`. That reading is still wrong, and the
+identity says why — the adversary has exactly two routes and both pay:
+
+| route | what it costs the adversary | measured |
+|---|---|---|
+| **spread the centres** so each pair sees the atoms at a damage peak | only **two** positions carry the top peak (`+/- 6.517`); the rest decay like `1/s^2`, so `damage/gain` falls | 1.0420 at `k = 1` and `k = 2`, 0.6365 at `k = 4`, 0.4578 at `k = 6`, **0.2483 at `k = 12`** |
+| **stack the centres**, keeping `damage/k` maximal | coincident centres contribute `D(2y,0) + D(0,0) = -(ghat(2y)^2 + A^2)`, which enters `slack_k` with a minus sign — a **gain** of `1.7556` per ordered pair | slack `+1.81` at `k=2`, `+49.4` at `k=8` |
+
+Neither route is visible to an argument that charges damage per pair,
+which is exactly what `multi_pair_requirement` does. Its 1.99 compares a
+per-pair damage charge against a joint budget floor; the identity shows
+the two are **maximised by different configurations**, so the factor
+does not bound the truth.
+
+### The joint search, and its power
+
+Minimising the **relative** margin `slack_k / sum_p Shq(y_p)/2` over
+atoms, centres and depths jointly (annealing, `n <= 24`, 60 restarts per
+`k`). The relative form matters: the coordinator's first search minimised
+the absolute slack and collapsed into the degenerate `y -> 0` corner
+where gain, damage and repulsion all vanish together — and the planted
+fault correctly refused to fire at `x1.5` and `x2.0`, which is what
+exposed the bad objective.
+
+| k | 1 | 2 | 3 | 4 | 6 |
+|---|---|---|---|---|---|
+| worst relative margin | +0.4915 | +0.3719 | +0.3908 | **+0.3430** | +0.3618 |
+
+No downward trend in `k`; the worst is `+0.343`, not near zero.
+**Consistency check that the instrument is honest**: a worst relative
+margin of 0.343 predicts the first violation once the damage is inflated
+by `1/(1-0.343) = 1.522`, and the planted-fault ladder first returns
+negatives at `damage_scale = 1.5` (clean at 1.0, `-0.171` at 1.5,
+`-0.918` at 2.0, `-2.908` at 3.0). Prediction and detector agree.
+
+### Disposition
+
+**THE CORRECTION WAS RIGHT AND ITS CONSEQUENCE WAS OVERSTATED.** Blocker
+2 is the multi-pair quantifier and the entry above closes only `k = 1`
+— that stands (#19). But `k >= 2` is **not** short by 1.99x as a
+statement: at hardened grade its relative margin is `+0.343` at the
+worst `k` searched, with the mechanism named (peak decay on one side,
+coincident-centre shielding on the other) and an exact identity to state
+it in. What `cluster_sdp` measured is that **one particular accounting**
+does not extend, which is a fact about the accounting.
+
+`k >= 2` remains open as a theorem: this is an identity plus a search
+over `k <= 6`, `n <= 24`, and named gaps N1–N5 in the module say so. No
+proportion has moved and nothing here is evidence about RH.
