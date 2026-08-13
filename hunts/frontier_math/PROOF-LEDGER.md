@@ -1148,3 +1148,32 @@ configurations the separation hypothesis excludes are exactly the ones
 where the budget is largest. That trade is visible in the exact gap
 identity and is not being used. It is the natural next target, and it is
 a different lemma from the one just proved.
+
+
+## The spectral form of the gap, and a coordinator claim refuted by its own module (2026-08-13)
+
+Instrument: `spectral_gap.py` (coordinator-built while four agents worked
+the near-coincident case).
+
+| Finding | Status | Evidence |
+|---|---|---|
+| **The gap is ONE convex functional of the on-line sum** | **EXACT, checked to 6.7e-16** | `gap A^2 = (1/200)[int c2 \|F\|^2 - n A^2] + 4 int c2(w) e^{-yw} Re[e^{-itw} F(w)] dw + 8 A Shq + 8 Shq^2` on five configurations including a tight cluster and a unit lattice |
+| Step 1 | exact, 2.2e-17 | `ghat(s + iy) = Pre(y,s) + i Qim(y,s)` - the two transform components are one complex transform |
+| Step 2 | exact, 1.1e-16 | `Pre^2 - Qim^2 = Re[c2hat(s + iy)]` - **the damage profile is the c2-transform at a complex argument**, which is what collapses two kernels into one |
+| Step 3 | exact, 8.9e-16 | `sum_{j,k} phiR(x_j-x_k)^2 = int c2 \|F\|^2` since `c2hat = \|ghat\|^2 = phiR^2` (Bochner; c2 >= 0) |
+| Why it matters | STRUCTURAL | the repulsion and the damage were being handled by separate machinery - band covers for one, near/far splits for the other. They are the quadratic and linear parts of a single functional against a single positive measure |
+| **COORDINATOR DEFECT #18** | **CLAIM REFUTED BY THE MODULE'S OWN AUDIT, WITHIN A MINUTE** | the docstring asserted that since the quadratic coefficient is positive, clustering raises the gap, so "the separation hypothesis was excluding the safe cases". The audit printed the opposite in the same run |
+| The confound | FOUND | the first experiment varied cluster spacing without holding the centre, so the cluster drifted off the damage peak. It was measuring escape, not clustering |
+| **The trade, measured properly** | **NON-MONOTONE** | centre fixed at the damage peak (offset 6.517, y = 0.49), gap by cluster size at spacing 0.01: m = 1..6, 8, 12, 16 gives 0.1335 / **0.1235** / 0.1236 / 0.1337 / 0.1538 / 0.1840 / 0.2747 / 0.5776 / 1.043 |
+| Direction, corrected | **SEPARATION EXCLUDED THE DANGEROUS CASES** | a tight PAIR on the damage peak is the worst configuration in this family; separation is exactly what forbids it. The coordinator had told the operator the opposite |
+| The good news that survives | **THE WORST IS +0.1235, POSITIVE WITH ROOM** | and the minimum over cluster size is at m = 2, not at either extreme: the m^2 repulsion overtakes the m damage from m = 4 on. Away from the damage peak clustering helps at every m (4.245 -> 12.408) |
+| What this buys | A BETTER-SHAPED SEARCH | the adversary's best play in this family is a PAIR at the peak, and it does not win. That is a two-parameter question, not a search over all configurations |
+
+Disposition: **THE REFORMULATION IS REAL AND THE INTERPRETATION WAS
+WRONG.** The identity is exact and collapses the problem to one convex
+functional; the coordinator's reading of what its positive quadratic
+coefficient implied was refuted by the module's own measurement inside a
+minute, and the operator was told the wrong thing in between. What
+stands: the worst configuration in the clustered family is a pair on the
+damage peak at +0.1235, and the repulsion does win from m = 4 upward. No
+proportion is claimed to have moved.
