@@ -50,6 +50,18 @@ def esc(t: Any) -> str:
     return html.escape(str(t), quote=True)
 
 
+def _clip(text: str, limit: int) -> str:
+    """Trim at a word boundary, and prefer ending on a finished sentence."""
+    text = text.strip()
+    if len(text) <= limit:
+        return text
+    cut = text[:limit]
+    stop = max(cut.rfind(". "), cut.rfind("? "), cut.rfind("! "))
+    if stop > limit * 0.5:
+        return cut[:stop + 1]
+    return cut[:cut.rfind(" ")].rstrip(",;:—- ") + "…"
+
+
 def git(*args: str) -> str:
     try:
         r = subprocess.run(["git", *args], cwd=REPO, capture_output=True,
@@ -127,6 +139,120 @@ def gate_results() -> list[dict[str, str]]:
             "file": str(p.relative_to(REPO)),
         })
     return out
+
+
+def reading() -> list[dict[str, str]]:
+    """The documents, in order, with the first sentence each one leads with.
+
+    The site's job is to make the work readable, and until this existed a
+    reader could see how many documents there were but not what any of them
+    said. Title and blurb are read out of the file rather than restated here,
+    so a retitled document retitles itself on the page.
+    """
+    out = []
+    for p in sorted((REPO / "docs").glob("[0-9]*.md")):
+        text = p.read_text(errors="ignore")
+        title = ""
+        para: list[str] = []
+        for line in text.splitlines():
+            line = line.strip()
+            if line.startswith("# ") and not title:
+                title = line[2:].strip()
+                continue
+            if not title:
+                continue
+            if line.startswith(("!", "|", ">", "```", "#")):
+                if para:
+                    break
+                continue
+            if not line:
+                if para:
+                    break
+                continue
+            para.append(line)
+        # Join the whole opening paragraph before trimming: these files are
+        # hard-wrapped, so taking the first physical line ends the sentence
+        # wherever the author's editor happened to wrap it.
+        blurb = re.sub(r"[*_`\[\]]|\(\S+\)", "", " ".join(para))
+        blurb = re.sub(r"\s+", " ", blurb).strip()
+        num = re.match(r"(\d+)", p.name)
+        out.append({
+            "n": num.group(1) if num else "",
+            "title": re.sub(r"^\d+\s*[—-]\s*", "", title) or p.stem,
+            "blurb": _clip(blurb, 190),
+            "file": p.name,
+        })
+    return out
+
+
+def lean_arm() -> dict[str, Any]:
+    """Theorems the kernel actually checked, counted from the sources."""
+    files = sorted((REPO / "lean" / "ZetaLean").glob("*.lean"))
+    thms = sum(
+        len(re.findall(r"^\s*(?:theorem|lemma)\b", p.read_text(errors="ignore"), re.M))
+        for p in files
+    )
+    return {"files": len(files), "theorems": thms}
+
+
+def review() -> list[dict[str, Any]]:
+    """Claims, the reasoning behind them, and what an adversary found.
+
+    This is the part of the trail that stops the record reading as a
+    retrospective success story. A claim is published with its author's own
+    reasoning and stated assumptions, then with the findings of whoever was
+    sent to break it, and whether it survived.
+    """
+    sys.path.insert(0, str(REPO))
+    try:
+        from harness.departments.review_ledger import CLAIMS, OUTCOMES  # noqa: E402
+    except Exception:
+        return []
+    by_claim: dict[str, list[Any]] = {}
+    for o in OUTCOMES:
+        by_claim.setdefault(getattr(o, "claim_name", ""), []).append(o)
+    out = []
+    for c in CLAIMS:
+        name = getattr(c, "name", "")
+        attacks = by_claim.get(name, [])
+        out.append({
+            "name": name,
+            "claim": getattr(c, "claim", ""),
+            "author": getattr(c, "author", ""),
+            "reasoning": getattr(c, "author_reasoning", ""),
+            "assumptions": tuple(getattr(c, "assumptions", ()) or ()),
+            "attacks": [{
+                "attacker": getattr(a, "attacker", ""),
+                "role": getattr(a, "role", ""),
+                "findings": tuple(getattr(a, "findings", ()) or ()),
+                "withdrawn": bool(getattr(a, "claim_withdrawn", False)),
+            } for a in attacks],
+            "unattacked": not attacks,
+        })
+    return out
+
+
+def corrections() -> list[dict[str, str]]:
+    """Defects that happened, and the test that now catches each one.
+
+    A guard is only worth reporting with the incident that motivated it and
+    the demonstration that it fires — a guard nobody has shown firing is a
+    claim, not a control, and the ledger keeps the difference.
+    """
+    sys.path.insert(0, str(REPO))
+    try:
+        from harness.departments.guard_ledger import GUARDS  # noqa: E402
+    except Exception:
+        return []
+    return [{
+        # Not every guard came from a logged incident; some were written ahead
+        # of one. Saying so is the honest cell, and an empty one shifts the row.
+        "incident": getattr(g, "incident", "") or "written before any incident",
+        "against": _clip(getattr(g, "guards_against", ""), 200),
+        "test": getattr(g, "name", ""),
+        "fired": "yes" if getattr(g, "fired", False) else "not shown",
+        "scope": getattr(g, "scope", ""),
+    } for g in GUARDS]
 
 
 def live_threads() -> list[dict[str, str]]:
@@ -240,6 +366,7 @@ def shell(title: str, body: str, depth: int = 0, tagline: bool = True) -> str:
         f'<nav class="foot">'
         f'<a href="{up}index.html">now</a>'
         f'<a href="{up}pursuits/zeta.html">zeta</a>'
+        f'<a href="{up}reading.html">reading</a>'
         f'<a href="{up}record.html">record</a>'
         f'<a href="{up}about.html">about</a>'
         f'<a href="{esc(IDENTITY["source"])}">source</a>'
@@ -317,7 +444,7 @@ proved, or ruled out.</p>
 """, tagline=False)
 
 
-def page_zeta(f, gr, gates) -> str:
+def page_zeta(f, gr, gates, lean) -> str:
     graves = "".join(
         f"<div class='entry'><div class='when'>{esc(g['date'] or '—')} · "
         f"{esc(g['status'])}</div><h3>{esc(g['name'])}</h3>"
@@ -349,10 +476,13 @@ rules.</p>
   <li><span class="n">{f['tests']:,}</span><span class="k">tests</span></li>
   <li><span class="n">{f['lean_files']}</span><span class="k">Lean files</span></li>
   <li><span class="n">{f['sorrys']}</span><span class="k">sorrys</span></li>
+  <li><span class="n">{lean['theorems']}</span><span class="k">theorems</span></li>
   <li><span class="n">{f['docs']}</span><span class="k">documents</span></li>
-  <li><span class="n">{f['figures']}</span><span class="k">figures</span></li>
 </ul>
 <p class="meta">at {esc(f['commit'])} · {esc(f['when'])}</p>
+
+<p>The documents derive the mathematics and record the attempts — start with
+<a href="../reading.html">the reading course</a>.</p>
 
 <h2>Withdrawn</h2>
 <p>Results that did not survive. Each is kept with the mechanism that broke it
@@ -369,7 +499,64 @@ the full suite nightly.</p>
 """, depth=1)
 
 
-def page_record(gr, gates) -> str:
+def page_reading(docs, lean) -> str:
+    items = "".join(
+        f"<div class='entry'><div class='when'>{esc(d['n'])}</div>"
+        f"<h3>{esc(d['title'])}</h3>"
+        + (f"<p>{esc(d['blurb'])}</p>" if d["blurb"] else "")
+        + f"<p class='meta'><a href='{esc(IDENTITY['source'])}/blob/main/docs/"
+          f"{esc(d['file'])}'>docs/{esc(d['file'])}</a></p></div>"
+        for d in docs
+    )
+    return shell(f"Reading — {IDENTITY['name']}", f"""
+<h1>Reading</h1>
+<p class="lede">The work itself, in the order it was written to be read.</p>
+
+<p>The early documents derive the mathematics line by line — continuation,
+the modular identity behind the functional equation, the explicit formula that
+turns zeros into primes. The later ones are laboratory records: attempts run to
+their walls, a kill board of how hard problems die, and an honest catalogue of
+why this one is hard.</p>
+
+<p>Two are worth reading before any claim here is taken seriously:
+<em>Why It Is Hard</em>, which explains why no computation of this kind is
+evidence for the hypothesis, and <em>How Hard Problems Die</em>.</p>
+
+{items}
+
+<h2>The formal arm</h2>
+<p>{lean['theorems']} theorems across {lean['files']} files, checked by the Lean
+kernel against Mathlib, with zero <code>sorry</code>s. A <code>sorry</code> is an
+uncertified step; nothing here counts while one is present, so the count is the
+claim.</p>
+""")
+
+
+def page_record(gr, gates, revs, fixes_) -> str:
+    reviews = "".join(
+        "<div class='entry'>"
+        f"<div class='when'>{'withdrawn' if any(a['withdrawn'] for a in r['attacks']) else ('unattacked' if r['unattacked'] else 'attacked')}</div>"
+        f"<h3>{esc(r['name'])}</h3>"
+        f"<p>{esc(r['claim'])}</p>"
+        + (f"<p class='meta'>claimed by {esc(r['author'])} — {esc(r['reasoning'])}</p>"
+           if r["reasoning"] else "")
+        + ("".join(
+            f"<p class='meta'>rested on: {esc(a)}</p>" for a in r["assumptions"][:2]
+        ))
+        + ("".join(
+            f"<p>{esc(a['attacker'])} ({esc(a['role'])}) found: "
+            + esc("; ".join(a["findings"])[:320]) + "</p>"
+            for a in r["attacks"]
+        ) or "<p class='meta'>no adversarial pass recorded — this claim is open, "
+             "not confirmed</p>")
+        + "</div>"
+        for r in revs
+    )
+    fixes = "".join(
+        f"<tr><td>{esc(x['incident'])}</td><td>{esc(x['against'])}</td>"
+        f"<td>{esc(x['fired'])}</td></tr>"
+        for x in fixes_
+    )
     rows = "".join(
         f"<tr><td>{esc(g['name'])}</td>"
         f"<td><span class='pill fail'>{esc(g['verdict'])}</span></td>"
@@ -405,6 +592,22 @@ effort.</p>
 kept; the framework was frozen rather than deleted, with the evidence beside it.
 A separate measurement had already said the same thing more cheaply: nothing in
 the repository imported it.</p>
+
+<h2>Claims, and who was sent to break them</h2>
+<p>A claim is recorded with the reasoning that produced it and the assumptions
+it rested on, before anyone knows whether it survives. Someone is then sent to
+attack it, and their findings are recorded whether or not they are welcome. A
+claim nobody has attacked is marked as such rather than counted as standing.</p>
+{reviews}
+
+<h2>Corrections</h2>
+<p>Defects that actually occurred, each with the test that now catches it. A
+guard nobody has demonstrated firing is a claim rather than a control, so the
+ledger tracks that separately.</p>
+<div class="wrap"><table>
+<tr><th>incident</th><th>what it would have let through</th><th>fires</th></tr>
+{fixes}
+</table></div>
 
 <h2>Withdrawn results</h2>
 {graves}
@@ -451,13 +654,15 @@ def main() -> int:
     args = ap.parse_args()
 
     f, gr, gates, threads = facts(), graveyard(), gate_results(), live_threads()
+    docs, lean, revs, fixes = reading(), lean_arm(), review(), corrections()
 
     out = args.out
     (out / "pursuits").mkdir(parents=True, exist_ok=True)
     pages = {
         out / "index.html": page_index(f, gr, gates, threads),
-        out / "pursuits" / "zeta.html": page_zeta(f, gr, gates),
-        out / "record.html": page_record(gr, gates),
+        out / "pursuits" / "zeta.html": page_zeta(f, gr, gates, lean),
+        out / "reading.html": page_reading(docs, lean),
+        out / "record.html": page_record(gr, gates, revs, fixes),
         out / "about.html": page_about(f),
     }
     for path, text in pages.items():

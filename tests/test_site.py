@@ -39,7 +39,8 @@ def _pages(root: Path) -> list[Path]:
 
 def test_the_site_builds_every_page(built: Path) -> None:
     names = {p.relative_to(built).as_posix() for p in _pages(built)}
-    assert names == {"index.html", "record.html", "about.html", "pursuits/zeta.html"}
+    assert names == {"index.html", "reading.html", "record.html", "about.html",
+                     "pursuits/zeta.html"}
 
 
 def test_no_page_runs_a_script(built: Path) -> None:
@@ -92,6 +93,49 @@ def test_the_facts_come_from_artifacts_not_literals(built: Path) -> None:
     zeta = (built / "pursuits" / "zeta.html").read_text(errors="ignore")
     assert f">{lean}<" in zeta, f"Lean file count {lean} not rendered"
     assert f">{docs}<" in zeta, f"document count {docs} not rendered"
+
+
+def test_every_document_is_reachable_and_described(built: Path) -> None:
+    """The site's job is to make the work readable, not to count it.
+
+    Before the reading page existed a visitor could see how many documents
+    there were and read none of them. Each must appear with its own title and
+    a link to its source, so adding a document publishes it rather than only
+    incrementing a number.
+    """
+    page = (built / "reading.html").read_text(errors="ignore")
+    docs = sorted((REPO / "docs").glob("[0-9]*.md"))
+    assert docs, "no numbered documents found"
+    missing = [d.name for d in docs if d.name not in page]
+    assert not missing, f"documents absent from the reading page: {missing}"
+
+
+def test_an_unattacked_claim_is_not_presented_as_a_result(built: Path) -> None:
+    """The record must not sanitize the process into a success story.
+
+    A claim with no adversarial pass recorded is open, and the page has to say
+    so in those terms. This is the property that makes the review trail worth
+    publishing at all: if an unreviewed claim rendered identically to a
+    survived one, the section would be decoration.
+    """
+    import importlib
+
+    sys.path.insert(0, str(REPO))
+    ledger = importlib.import_module("harness.departments.review_ledger")
+    attacked = {getattr(o, "claim_name", "") for o in ledger.OUTCOMES}
+    open_claims = [c for c in ledger.CLAIMS if getattr(c, "name", "") not in attacked]
+
+    page = (built / "record.html").read_text(errors="ignore")
+    for claim in open_claims:
+        assert getattr(claim, "name", "") in page, "an open claim is missing entirely"
+    if open_claims:
+        assert "open, not confirmed" in page, (
+            "an unattacked claim is rendered without saying it is unattacked"
+        )
+    for claim in ledger.CLAIMS:
+        assert getattr(claim, "author", "") in page, (
+            "a claim is published without whose reasoning produced it"
+        )
 
 
 def test_the_host_build_needs_no_scientific_stack() -> None:
