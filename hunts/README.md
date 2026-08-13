@@ -70,6 +70,107 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #7 — the quasicrystal that is a theorem (`golden_control/`)
+
+**Status: probe, complete. The quasicrystal lane gains its ground-truth
+universe, and the exact stage caught the operator mis-remembering a
+classical theorem.**
+
+The quasicrystal gate's instrument had never been run against an aperiodic
+point set whose atomic diffraction is *proved*. This hunt points a tapered
+transform — calibrated on ℤ, where the answer is Poisson summation
+(6.4e-14) — at a golden cut-and-project set, with the Fourier module and
+intensity law derived in code from the embedding lattice rather than quoted.
+Measured: peak positions to 8.7e-9, amplitudes against the window-transform
+law to 2.5e-8, off-module silence 9717× (ζ's arithmetic gate measured 26.8×
+with 1000 zeros — the theorem universe shows what the instrument does with
+no truncation), Debye–Waller lesion slopes within 1%, Poisson null clean,
+precision response monotone to 1e-10. The golden thread pinned exactly:
+the DH rival's quartic character squares to χ₅, the ℚ(√5) character. **One
+registered claim was false and the computation caught it at first contact**
+(π(p) | p − χ₅(p) fails at p = 3; the split/inert-asymmetric statement
+π(p) | p−1 vs 2(p+1) holds for all p < 500) — recorded with its
+counterexample, as the derive-never-remember rule intends.
+
+**Disposition:** instrument validation, not a result about ζ; no ledger
+entry. Nothing here is evidence for or against RH.
+
+### Hunt #6 — the Jensen clock (`jensen_clock/`)
+
+**Status: probe, complete. Instrument kept; no claim promoted; the headline
+is a measured dictionary between the two real-rootedness lanes, plus a null
+control that explains it.**
+
+Connected `zeta/li.py`'s Jensen/hyperbolicity lane to hunt #4's de
+Bruijn–Newman flow measurements on Davenport–Heilbronn. The exact identity
+J^{d,0}(x/d) = Σ γ(j)/j!·Π_{i<j}(1−i/d)·x^j makes the degree-d binomial
+damping a Gaussian coefficient multiplier — de Bruijn's smoothing applied by
+the degree itself — matching the flow multiplier e^{tu²} at a pair image x₀
+with **t_eff = |x₀|/(8d)**. Measured, with raw numbers in
+`jensen_clock/results.json`:
+
+- The DH height-85.7 pair's image in J^{d,0} tracks the PDE flow trajectory
+  under that dictionary at 7.8e-8 → 4e-4 relative over half the flow; the
+  landing degree d\* = 20785.13 reads t\*_J = 0.0441690 against hunt #4's
+  t\* = 0.0441263 — **0.097%**, while the isolated-pair value is 7.2% away.
+  Pair 2 (γ ≈ 114): d\* = 146365, clock agreement **0.011%**. Flowing before
+  damping, the two clocks add: t_land(d) + |x₀|/(8d) = t\* to 0.03–0.06%.
+- **The corollary**: a blind hyperbolicity scan at d ≤ 32, n ≤ 250 sees
+  nothing, and the dictionary says that is structural — degree d ≲ 2·10⁴ has
+  already flowed this violation past its landing before the polynomial is
+  inspected. Textbook-degree Jensen scans are the wrong side of the landing,
+  not weak detectors.
+- **Null control, the explanation**: a pair planted into ζ's γ-table at
+  exactly x₀ lands at 0.0436212; the arithmetic-free N-body dynamics run on
+  the plant's actual configuration lands at 0.0435805 — 0.094% — while DH's
+  clock sits 1.1% away and the isolated formula 8.3% away. The clock reads
+  zero configuration, not arithmetic (hunt #4's null, now on the coefficient
+  side). The mission's own quantitative guess for this control was wrong
+  (it forgot the ordinate doubling in the x-plane) and is recorded as a
+  failed prediction in `jensen_clock/RESULTS.md`.
+- Controls: ζ specificity (winding 1.3e-63, Newton relative Im 1.2e-200);
+  instrument checked against `zeta.li`'s twice-derived γ-table to 1.3e-51
+  and hunt #4's polished pair to 40 digits; d\* precision-flat to the printed
+  digits across dps 130 → 160 and two quadrature geometries; truncation
+  margin 36 orders at the deciding contour.
+
+**Phase 2 (the shift axis)**: the shifted Jensen polynomial is the damped
+n-th derivative, and one differentiation is worth **3.69×** the violation's
+entire flow budget (c₀ = 0.1628 vs t\* = 0.0441, measured by re-lifting the
+landed pair with backward flow; per-step clock not constant, c₁ = 0.1826).
+All six boundary cells of the (d, n) detection map agree with the additive
+budget rule |x₀|/(8d) + g(n) < t\* — and the map degenerates: the n = 0 row
+flips exactly at phase 1's d\*, and **every n ≥ 1 cell is blind at every
+degree**, so by the budget rule all nine known DH pairs are invisible to
+every shifted Jensen polynomial with n ≥ 1. The GORZ direction (fixed d,
+growing n), where hyperbolicity is a theorem for ζ, is for *detection* the
+maximally blind direction. Two registered numeric guesses failed and are
+recorded as such (the c₀ bracket; phase 1's planted-pair neighborhood); the
+strong three-clock additivity test was not run and is marked untested.
+Prior-art hooks recorded: Csordas–Norfolk–Varga's 1988 Λ ≥ −50 came from
+non-hyperbolic Jensen polynomials of the flowed function, and its successors
+dropped Jensen polynomials as needing impractical degrees — the dictionary
+is a quantitative law of that documented inefficiency.
+
+**Phase 3 (falsifier + trichotomy)**: the strong additivity test — re-measure
+t_land(n=1) at d = 10⁶, predicted from the d = 10⁸ value and the degree
+budget alone — passed at defect 1.46e-5 against a registered ±1e-4 bar, so
+degree, shift and flow measurably spend one budget. The third
+coefficient-side detector, Li's criterion, has the opposite geometry: a
+planted quadruple at ρ = 0.8 + 2.5i turns the Bombieri–Lagarias sum negative
+first at n = 95 (registered interval [80, 160]; one trough n = 95–98, period
+16, positive again at 99), and the same amplification formula puts DH pair
+1's Li onset at n ≈ 3.3·10⁵ (order-of-magnitude, ζ-shaped background hedge).
+Trichotomy recorded in `jensen_clock/RESULTS.md`: two erasing clocks (degree,
+shift — blind sets cofinal) against one accumulating discriminator (Li —
+blind set an initial segment); none of the three blindnesses is a matter of
+effort. One auxiliary statistic (the coded envelope-crossing indicator) was
+mis-specified and is recorded as unusable.
+
+**Disposition:** portrait and closure, not conjecture — no ledger entry.
+Nothing here is evidence for or against RH. Spine candidates in
+`jensen_clock/NOTES.md`.
+
 ### Higher xi derivatives (`higher_xi/`)
 
 **Status: 2008 discrepancy resolved as a chapter-11 calculation error, two
