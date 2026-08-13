@@ -138,6 +138,25 @@ Preregistrations and protocols stay here even when unflattering — the harness
 gate record (`harness/VERDICT.md`, `harness/gate-evidence/`) is public precisely
 because a negative result about our own tooling is credibility, not capability.
 
+**Fulcrum is private, not secret**, and the distinction matters when you are
+deciding what to write. Three separate questions get confused into one: *where
+does this artifact belong* (ownership), *can someone clone this repository*
+(visibility), and *what process should outsiders be able to inspect*
+(transparency). A private operating repository does not make the research
+process private — this tree stays unusually open about criticism, corrections
+and claims that did not survive. Name fulcrum plainly wherever doing so
+accurately explains how the lab works; do not euphemise it, and do not credit
+it with capabilities it has not demonstrated.
+
+The shape, so a session launched into this tree knows which side it is on:
+`teal sea` is the parent, `fulcrum` is the operating plane that directs
+pursuits, and this repository is a pursuit. The research is yours to do and
+commit here. Two things are **not**: if you find an infrastructure idea, do not
+reach across and edit fulcrum — report it as a Core candidate. If you find an
+interesting loose end outside your mission, do not pursue it — report it as a
+thread. Zeta is a worker target, not the operator's console, and it must not
+grow into fulcrum's operating database.
+
 Flag genuinely ambiguous cases to the operator. Do not build a framework to
 adjudicate them.
 

@@ -638,6 +638,24 @@ are published whether or not they are flattering.</p>
 <p><a href="pursuits/zeta.html">Zeta</a> is the first pursuit. It is not the
 boundary of what this can be about.</p>
 
+<h2>How this is organised</h2>
+<p>Two repositories, split by what an outside reader needs rather than by
+secrecy. <strong>Fulcrum</strong> is the operating layer — the private
+repository through which pursuits are directed and managed. <strong>Zeta</strong>
+is this pursuit, and it is public.</p>
+
+<p>The rule that decides where something goes: if you need it to evaluate or
+reproduce a claim, it is here, in the open. If it teaches the laboratory how to
+allocate, route, prompt or operate itself, it lives in Fulcrum. Which repository
+holds a thing, whether that repository can be cloned, and how much of the
+research process outsiders can inspect are three separate questions, and the
+answer to the last one is <em>as much as is meaningful</em> — including the
+criticism, the corrections and the claims that did not survive.</p>
+
+<p class="meta">Fulcrum is private, not secret. The supervisor loop that would
+launch and collect work across the two is not built yet; when it is, the runs it
+produces are provenance and belong on this side.</p>
+
 <h2>Colophon</h2>
 <p class="meta">Every page here is generated from repository artifacts by
 <code>scripts/72_site.py</code> — counts from the sources, withdrawn results
