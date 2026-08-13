@@ -331,15 +331,16 @@ lemma Aconst_ge : (3:ℝ)/4 ≤ Aconst := by
   have h2 : (0:ℝ) < Real.sqrt 2 := Real.sqrt_pos.2 (by norm_num)
   have hsq : Real.sqrt 2 ^ 2 = 2 := Real.sq_sqrt (by norm_num)
   have hx0 : 0 < 1 / Real.sqrt 2 := by positivity
-  have hx1 : 1 / Real.sqrt 2 ≤ 1 := by
-    rw [div_le_one h2]
-    nlinarith
-  have h := Real.sin_gt_sub_cube hx0 hx1
-  have hcube : (1 / Real.sqrt 2) ^ 3 / 4 = 1 / (8 * Real.sqrt 2) := by
+  -- `Real.sin_gt_sub_cube` now takes only `0 < x` and gives the strictly
+  -- stronger `x - x ^ 3 / 6 < sin x` (it used to require `x ≤ 1` and give
+  -- `x ^ 3 / 4`), so the `x ≤ 1` hypothesis is gone and the constants below
+  -- move from 4 and 7/8 to 6 and 11/12. The conclusion is unchanged.
+  have h := Real.sin_gt_sub_cube hx0
+  have hcube : (1 / Real.sqrt 2) ^ 3 / 6 = 1 / (12 * Real.sqrt 2) := by
     field_simp
     nlinarith
   rw [hcube] at h
-  have hval : Real.sqrt 2 * (1 / Real.sqrt 2 - 1 / (8 * Real.sqrt 2)) = 7/8 := by
+  have hval : Real.sqrt 2 * (1 / Real.sqrt 2 - 1 / (12 * Real.sqrt 2)) = 11/12 := by
     field_simp
     nlinarith
   nlinarith [Real.sin_le_one (1 / Real.sqrt 2)]

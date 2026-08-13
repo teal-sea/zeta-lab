@@ -141,3 +141,114 @@ what made it provable without the dependency. The point of the module is to sit
 on *upstream's* objects, so replacing those local copies with `import Zeta23`
 and re-checking is an outstanding step, not a finished one. `BRIDGE-SPEC.md` §1
 lists each definition against its upstream source line for exactly that swap.
+
+## Batch 4 — the k=1 retention reduction (submitted 2026-08-12/13)
+
+The 2026-08-12 closure (`f39dc49`, corrected to k=1 only by `7df6ed8`,
+defect #19) states its reduction is "algebra on two sorry-free theorems
+already in the tree". This submits exactly that algebra, so the step moves
+from hardened grade to kernel-checked.
+
+| id | project | task | status |
+| --- | --- | --- | --- |
+| retention-algebra | `281fd3e5-8077-44c4-8497-a51b613092a0` | `margin_eq` (the exact retention margin from the gap identity) and `energy_sub_card` (`E[F] − n` equals twice the strictly-upper-triangular repulsion sum, from the energy identity plus the diagonal normalisation) | submitted |
+
+**Stated over abstract reals on purpose.** Aristotle does not have this
+package's `EForm3` modules, and the reduction needs none of them: both
+`retention_gap` and `energy_F` enter as *hypotheses* of the submitted lemmas
+rather than as facts to be reproved. That makes the file self-contained
+against Mathlib alone, and it makes the artifact reusable — the analysis is
+already sorry-free in the tree, and only the algebra was ever missing.
+
+Composing the two gives the closure's own formula,
+
+    margin = (4/A²)·[ Shq(y)/2 − Σ_j D_j + (1/400)·Σ_{j<k} φ_r(x_j−x_k)² ]
+
+which is the statement that the repulsion term is not optional: the weaker
+route discards it by using `n ≤ E[F]` in place of the identity, and that route's
+hypothesis is arithmetically false from n = 8.
+
+**Both statements were checked numerically before submission** (2000 random
+instances each, `margin_eq` and `energy_sub_card` both exact), because a wrong
+statement costs a multi-hour round trip and the ledger already records one
+submission refuted by the prover for a missing hypothesis.
+
+### Batch 4 collection
+
+**collected — accepted.** Both theorems build here under `v4.33.0-rc2`,
+statements byte-identical to the submission, each reporting only
+`[propext, Classical.choice, Quot.sound]`. Static scan clean. Landed as
+`Zeta23Ext/RetentionAlgebra.lean`.
+
+`energy_sub_card` rests on one `private` helper, `sum_sq_split`, which splits
+the double sum by trichotomy into strictly-upper, strictly-lower and diagonal
+parts and identifies the two off-diagonal halves through the symmetry
+hypothesis; the diagonal then collapses under the normalisation.
+
+Its summary carried the same "built against v4.28.0, not the target pin"
+caveat that preceded a refusal in batch 2 and a clean pass in batch 3. Third
+occurrence, and the caveat remains uninformative in both directions — which is
+the argument for the local kernel check being the gate rather than the
+service's own report.
+
+**What this does and does not move.** The k=1 retention reduction's *algebra*
+is now kernel-checked. The analysis it composes (`retention_gap`, `energy_F`)
+was already sorry-free in the tree, so the k=1 layer's chain is closed end to
+end at kernel grade. What is untouched: the multi-pair statement of blocker 2
+(k blocks at different depths and centres) is still open, per the correction in
+`7df6ed8` (defect #19). The lemmas here are stated over abstract reals, so
+wiring them to `EForm3`'s objects — discharging the two hypotheses from the
+tree's own theorems — is a remaining step, not a finished one.
+
+## Batch 5 — the EForm3 port (submitted 2026-08-13)
+
+Found by trying to make batch 4 load-bearing. `RetentionWired.lean` discharges
+`RetentionAlgebra`'s four abstract hypotheses from the tree's own
+`retention_gap`, `energy_F`, `Qre_zero_even` and `Qre_zero_zero`. It cannot be
+checked yet, because **`EForm3` itself does not build at the target pin** —
+the fourth module set in this package landed without ever being built there.
+
+| id | project | task | status |
+| --- | --- | --- | --- |
+| eform3-A-taylor | `24b0a7ad-f71f-4b7e-b4be-c54178785c6f` | `Taylor.lean`: type mismatches after simplification at 42, 57, 85, 104; `ring_nf` no progress at 63, 109 | submitted |
+| eform3-B-closedform | `e3753571-74c1-4efd-abb1-034021025dc2` | `ClosedForm.lean`: `field_simp` no progress at 74, 104 | submitted |
+
+Both prompts carry the two failure classes this package's port has already
+taught us — `convert … using 1` leaving an instance-equality goal first, and
+projection-through-definition no longer unfolded by `simp` — since a prompt
+that names the drift gets a normal-form-independent repair rather than another
+brittle one.
+
+**The pattern is now worth stating as a pattern.** Four separate module sets
+(`BandCert/`, `EForm/`, `PairEnergy`, `EForm3/`) have been landed into this
+package without a build at the pin they must integrate under. Each time the
+proofs were fine and the port was a handful of tactic sites. The cost is not
+the repair, it is that nothing downstream can be verified until it is done:
+`RetentionWired` is written and unverifiable purely because of this.
+`assemble.sh` exists to make that check one command; it only helps if it runs
+before landing rather than after.
+
+### Batch 5 collection, and batch 6
+
+| id | outcome |
+| --- | --- |
+| eform3-A-taylor | **collected — accepted.** Builds under `v4.33.0-rc2`, declarations byte-identical, scan clean. |
+| eform3-B-closedform | **collected — accepted.** Same, and it repaired two further sites carrying the identical fragile pattern that had not been reported as failing. |
+| eform3-C-numerics | `c272510e-da2d-427c-8e57-433cb95bc866` — the last blocker in the chain (lines 95, 138, 143). Submitted. |
+
+**Both repairs removed the dependence rather than patching the symptom**, which
+is why each fixed several reported sites at once. `Taylor` replaced every
+`simpa`-built `HasDerivAt` and every `convert … using 1; ring` with an
+explicitly ascribed term corrected by `HasDerivAt.congr_deriv`, so the side
+goals are plain real identities. `ClosedForm` replaced
+`convert h using 1; field_simp; ring` with
+`refine h.congr_deriv ?_; rw [div_eq_iff hne]; ring`, using the nonvanishing
+hypothesis explicitly instead of letting `field_simp` pick a normal form.
+Batch 6's prompt carries both patterns verbatim, since a prompt that names the
+drift gets a durable repair rather than another brittle one.
+
+**Fixing a layer reveals the next.** Taylor and ClosedForm landing exposed
+`Numerics`, which the earlier survey could not see because the build stopped
+above it. That is the expected shape of a port and not a new defect — but it
+does mean "the survey found N sites" is a lower bound until the chain builds
+end to end.

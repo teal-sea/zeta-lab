@@ -70,8 +70,8 @@ lemma integral_sinh_sin (a k : ℝ) (h : a ^ 2 + k ^ 2 ≠ 0) (c d : ℝ) :
     have h4 : HasDerivAt (fun u : ℝ => Real.cos (k*u)) (-Real.sin (k*u) * k) u :=
       (Real.hasDerivAt_cos (k*u)).comp u hlk
     have h5 := (((h1.const_mul a).mul h2).sub ((h3.const_mul k).mul h4)).div_const (a^2+k^2)
-    convert h5 using 1
-    field_simp
+    refine h5.congr_deriv ?_
+    rw [div_eq_iff h]
     ring
   rw [intervalIntegral.integral_eq_sub_of_hasDerivAt (fun u _ => hderiv u)]
   exact (Continuous.intervalIntegrable (by fun_prop) c d)
@@ -100,8 +100,8 @@ lemma integral_cosh_cos (a k : ℝ) (h : a ^ 2 + k ^ 2 ≠ 0) (c d : ℝ) :
     have h4 : HasDerivAt (fun u : ℝ => Real.cos (k*u)) (-Real.sin (k*u) * k) u :=
       (Real.hasDerivAt_cos (k*u)).comp u hlk
     have h5 := (((h3.const_mul a).mul h4).add ((h1.const_mul k).mul h2)).div_const (a^2+k^2)
-    convert h5 using 1
-    field_simp
+    refine h5.congr_deriv ?_
+    rw [div_eq_iff h]
     ring
   rw [intervalIntegral.integral_eq_sub_of_hasDerivAt (fun u _ => hderiv u)]
   exact (Continuous.intervalIntegrable (by fun_prop) c d)
@@ -114,7 +114,7 @@ lemma integral_cosh_cos_half (a k : ℝ) (h : a^2+k^2 ≠ 0) :
   rw [show a * -(1/2) = -(a/2) by ring, show k * -(1/2) = -(k/2) by ring,
     show a * (1/2:ℝ) = a/2 by ring, show k * (1/2:ℝ) = k/2 by ring,
     Real.sinh_neg, Real.cosh_neg, Real.cos_neg, Real.sin_neg]
-  field_simp
+  rw [div_sub_div_same, div_eq_div_iff h h]
   ring
 
 lemma integral_sinh_sin_half (a k : ℝ) (h : a^2+k^2 ≠ 0) :
@@ -125,7 +125,7 @@ lemma integral_sinh_sin_half (a k : ℝ) (h : a^2+k^2 ≠ 0) :
   rw [show a * -(1/2) = -(a/2) by ring, show k * -(1/2) = -(k/2) by ring,
     show a * (1/2:ℝ) = a/2 by ring, show k * (1/2:ℝ) = k/2 by ring,
     Real.sinh_neg, Real.cosh_neg, Real.cos_neg, Real.sin_neg]
-  field_simp
+  rw [div_sub_div_same, div_eq_div_iff h h]
   ring
 
 /-- Closed form for `Qim`. -/
@@ -205,8 +205,13 @@ lemma Qre_zero_zero : Qre 0 0 = Aconst := by
   have h2 : Real.sqrt 2 ^ 2 = 2 := sqrt2_sq
   rw [Qre_closed 0 0 (by rw [zero_add]; nlinarith) (by rw [zero_sub]; nlinarith)]
   rw [Aconst, ← sqrt2_half]
-  simp
-  rw [show (-Real.sqrt 2/2 : ℝ) = -(Real.sqrt 2/2) by ring, Real.sin_neg]
+  have e1 : (0:ℝ)^2 + Real.sqrt 2 ^ 2 = 2 := by rw [h2]; norm_num
+  have e2 : (0:ℝ)^2 + (-Real.sqrt 2) ^ 2 = 2 := by rw [neg_pow, h2]; norm_num
+  rw [show (0:ℝ) / 2 = 0 by norm_num, Real.sinh_zero, Real.cosh_zero,
+    show (0:ℝ) + Real.sqrt 2 = Real.sqrt 2 by ring,
+    show (0:ℝ) - Real.sqrt 2 = -Real.sqrt 2 by ring,
+    show (-Real.sqrt 2) / 2 = -(Real.sqrt 2 / 2) by ring,
+    Real.sin_neg, Real.cos_neg, e1, e2]
   ring
 
 end Retention

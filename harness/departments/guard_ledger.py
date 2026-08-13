@@ -152,4 +152,41 @@ GUARDS: tuple[GuardRecord, ...] = (
             "which is what turned it into a guard"
         ),
     ),
+    GuardRecord(
+        name=(
+            "tests/test_zeta23ext_imports.py::test_no_module_is_orphaned_from_the_root"
+        ),
+        guards_against=(
+            "a module that exists in the package but is reachable from no "
+            "import chain out of Zeta23Ext.lean, so `lake build` never "
+            "touches it: it rots silently while the package still reports "
+            "success — strictly worse than a build error, which is at least "
+            "loud"
+        ),
+        smallest_mutant=(
+            "delete one 'import Zeta23Ext.Bridge' line from the root module "
+            "while leaving Bridge.lean on disk"
+        ),
+        fired=True,
+        demonstrated_by=(
+            "tests/test_zeta23ext_imports.py::"
+            "test_the_orphan_guard_fires_on_a_dropped_import"
+        ),
+        known_misses=(
+            "a module reachable from the root but whose theorems nothing "
+            "downstream uses — reachability is not relevance",
+        ),
+        scope=(
+            "reachability of every .lean file from the package root; says "
+            "nothing about whether the module builds or is used"
+        ),
+        incident=(
+            "twice on 2026-08-12: 'import Zeta23Ext.Bridge' was replaced by "
+            "another import in the root module by a one-line edit, twice, "
+            "leaving a kernel-checked module unbuilt. Enabling it immediately "
+            "found three further orphans (TruncEst.Poisson, .Autocorrelation "
+            "and .Axioms — the last being that chain's own axiom audit, which "
+            "was therefore never running)"
+        ),
+    ),
 )

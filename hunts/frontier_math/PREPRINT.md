@@ -105,6 +105,9 @@ density.  Everything else is measured, interval-hardened, or
 kernel-checked as detailed below.  We do not treat "not yet formalised"
 as "not yet mathematics"; the three items above are the actual
 obstructions, and when they close we will say so plainly.
+The fresh-clone adversarial audit that first named these
+obligations exactly — and found two instrument defects on the way —
+is [`EXTERNAL-AUDIT-2026-08-12.md`](EXTERNAL-AUDIT-2026-08-12.md).
 
 ## What is kernel-checked (Lean 4 + Mathlib, sorry-free, standard axioms)
 

@@ -236,6 +236,24 @@ def _damage_minima(chain: PaperChain, y: float, nbands: int = 2):
     return outs
 
 
+def _joint_damage_minima(chain: PaperChain, pairs, n: int = 3,
+                         span: float = 30.0):
+    """The n deepest local minima of the JOINT field sum_p W(. - t_p, y_p).
+
+    Added by the 2026-08-12 audit: the battery's multi-pair rows placed
+    on-line points on a benign lattice, so the configuration the joint
+    dual actually bounds -- zeros AT the joint minima of a multi-pair
+    field -- was never exercised on explicit matrices."""
+    g = np.arange(-span, span, 0.002)
+    w = np.zeros_like(g)
+    for t, y in pairs:
+        w += chain.W(g - t, y)
+    idx = [k for k in range(1, len(g) - 1)
+           if w[k] < w[k - 1] and w[k] <= w[k + 1] and w[k] < 0]
+    idx.sort(key=lambda k: w[k])
+    return [float(g[k]) for k in idx[:n]]
+
+
 def configurations():
     """The end-to-end battery: binding families from the sweeps, plus
     adversarial placements derived from the field itself (on-line points
@@ -248,10 +266,20 @@ def configurations():
     adv1 = ([-g1, g1], [1, 1], [(0.0, 0.49)])
     adv2 = ([-g2, -g1, g1, g2], [1] * 4, [(0.0, 0.49)])
     adv3 = ([-g1, g1], [2, 2], [(0.0, 0.49)])
+    dip = [(0.0, 0.49), (6.406, 0.49)]
+    jm_dip = _joint_damage_minima(chain, dip, 3)
+    lat4 = [(x, 0.49) for x in _lattice(0.5, 4)]
+    jm_lat = _joint_damage_minima(chain, lat4, 3)
+    adv4 = (jm_dip, [1] * len(jm_dip), dip)
+    adv5 = (jm_dip, [2] * len(jm_dip), dip)
+    adv6 = (jm_lat, [2] * len(jm_lat), lat4)
     return {
         "ADV: zeros at first damage minimum": adv1,
         "ADV: zeros at first two minima": adv2,
         "ADV: double zeros at first minimum": adv3,
+        "ADV: zeros at JOINT minima of dipole": adv4,
+        "ADV: double zeros at JOINT minima of dipole": adv5,
+        "ADV: double zeros at JOINT minima of nu=0.5 lattice": adv6,
         "single pair y=0.49": (on9, [1] * 9, [(mid, 0.49)]),
         "single pair y=0.3": (on9, [1] * 9, [(mid, 0.3)]),
         "single pair y=0.02": (on9, [1] * 9, [(mid, 0.02)]),
@@ -274,25 +302,31 @@ def end_to_end(theta: float = 0.995, K: int = 600):
     consistency control, not the sharp content.
 
     SHARP (what the dual's verdict asserts through the dictionary):
-        damage := -2 tr(P Q) <= (1 - theta) * R + sum_p slack_p,
-    i.e. the pair block's erosion of the retained mass stays inside the
-    per-pair Frobenius surplus plus the ceded (1-theta) fraction.  The
-    dual bounds exactly this sup over its swept families; here it is
-    evaluated on explicit matrices.
+        damage - cross := -2 tr(P Q) - sum_{p != p'} tr(Q_p Q_p')
+                       <= (1 - theta) * R + sum_p slack_p,
+    i.e. the pair block's erosion of the retained mass, INCLUDING the
+    pair-pair cross term -- measured negative, so it belongs on this
+    side (audit 2026-08-12 finding A: the first draft omitted it, and
+    its binding rows were single-pair, where it vanishes identically) --
+    stays inside the per-pair Frobenius surplus plus the ceded
+    (1-theta) fraction.  The joint dual budgets exactly this: its
+    T_signed IS the cross term (measured identity, `coopt_adversary`
+    dictionary control).  Here it is evaluated on explicit matrices.
     """
     chain = PaperChain()
     rows = []
     for name, (xs, ms, pairs) in configurations().items():
         ga = GridAssembly(xs, ms, pairs, K=K)
         damage = -2 * ga.trPQ()
+        cross = ga.cross_total()
         budget = (1 - theta) * ga.R() + sum(chain.slack(y) for _, y in pairs)
         rows.append({
             "name": name, "R": ga.R(), "trPQ": ga.trPQ(),
-            "fro2Q": ga.fro2_Q(), "cross": ga.cross_total(),
+            "fro2Q": ga.fro2_Q(), "cross": cross,
             "D": ga.D(), "thetaR": theta * ga.R(),
             "holds": ga.D() >= theta * ga.R(),
             "damage": damage, "budget": budget,
-            "sharp_holds": damage <= budget,
+            "sharp_holds": damage - cross <= budget,
         })
     return rows
 
