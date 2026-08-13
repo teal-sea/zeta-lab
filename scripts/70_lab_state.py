@@ -120,6 +120,10 @@ def _threads() -> list[dict]:
         ref = ref.strip()
         if not ref or ref in ("origin/main", "origin/HEAD") or ref.endswith("/HEAD"):
             continue
+        # Refs under `deploy/` are written by CI, not by anyone working. A
+        # publishing branch is not a line of research and must not read as one.
+        if ref.replace("origin/", "").startswith("deploy/"):
+            continue
         count = _git("rev-list", "--count", f"origin/main..{ref}").strip()
         if not count or count == "0":
             continue

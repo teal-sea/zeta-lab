@@ -92,3 +92,40 @@ def test_the_facts_come_from_artifacts_not_literals(built: Path) -> None:
     zeta = (built / "pursuits" / "zeta.html").read_text(errors="ignore")
     assert f">{lean}<" in zeta, f"Lean file count {lean} not rendered"
     assert f">{docs}<" in zeta, f"document count {docs} not rendered"
+
+
+def _load(path: Path):
+    """Import a numbered script by path — `72_site` is not a module name."""
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location(path.stem.lstrip("0123456789_"), path)
+    mod = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(mod)
+    return mod
+
+
+CANNED_REFS = "origin/main\norigin/HEAD\norigin/deploy/site\norigin/claude/a-real-hunt\n"
+
+
+def test_a_publishing_branch_is_not_a_line_of_research(monkeypatch) -> None:
+    """CI force-pushes built pages to `deploy/site`. That is machinery, not work.
+
+    Both views enumerate branches ahead of main to derive what is live, which
+    is right by construction only while every such branch is somebody working.
+    A publishing branch is always ahead of main and never anyone's research, so
+    it would sit permanently at the top of both lists — the derived view's one
+    failure mode, telling you something true about git and false about the lab.
+    """
+    site = _load(SITE)
+    monkeypatch.setattr(site, "git", lambda *a: (
+        CANNED_REFS if a[:1] == ("for-each-ref",) else "3" if a[:1] == ("rev-list",) else "x"
+    ))
+    names = {r["name"] for r in site.live_threads()}
+    assert names == {"claude/a-real-hunt"}, f"deploy/ ref leaked into the public page: {names}"
+
+    state = _load(REPO / "scripts" / "70_lab_state.py")
+    monkeypatch.setattr(state, "_git", lambda *a: (
+        CANNED_REFS if a[:1] == ("for-each-ref",) else "3" if a[:1] == ("rev-list",) else "x"
+    ))
+    refs = {r["ref"] for r in state._threads()}
+    assert refs == {"origin/claude/a-real-hunt"}, f"deploy/ ref leaked into state view: {refs}"

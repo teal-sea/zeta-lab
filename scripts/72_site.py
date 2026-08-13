@@ -13,8 +13,8 @@ Lean sources, the graveyard ledger, the gate evidence, git. If the repository
 changes the site changes; if nobody updates the repository the site says so.
 A second, hand-maintained version of reality is exactly what this must not be.
 
-The parent identity is provisional and lives in IDENTITY, which is the only
-place it appears. Renaming the lab is editing one dict.
+The parent identity lives in IDENTITY, which is the only place it appears, so
+renaming the lab is editing one dict rather than sweeping the file.
 
 Usage:
     python scripts/72_site.py                 # writes _site/
@@ -34,14 +34,20 @@ from typing import Any
 REPO = Path(__file__).resolve().parent.parent
 
 # --------------------------------------------------------------------------
-# The only place the parent identity appears. Provisional by design: Website
-# v0 exists partly to find out whether the name survives contact with the work.
+# The only place the parent identity appears — one string, so a rename is one
+# edit rather than a sweep. The name is not a placeholder this script invented:
+# `teal-sea` is the account these repositories already live under. What is
+# still open is the house site above this one, which does not exist yet.
 # --------------------------------------------------------------------------
 IDENTITY = {
     "name": "teal sea",
     "line": "We follow interesting problems.",
     "source": "https://github.com/teal-sea/zeta-lab",
 }
+
+# Ref namespaces written by CI rather than by anyone working. Excluded from
+# the live-threads view so the publishing branch never reads as research.
+MACHINE_REFS = ("deploy/",)
 
 
 def esc(t: Any) -> str:
@@ -128,12 +134,20 @@ def gate_results() -> list[dict[str, str]]:
 
 
 def live_threads() -> list[dict[str, str]]:
-    """Branches carrying commits not on main. Right by construction or empty."""
+    """Branches carrying commits not on main. Right by construction or empty.
+
+    Refs under `deploy/` are excluded: they are written by CI, not by anyone
+    working, so counting them here would report the publishing machinery as a
+    line of research. The rule is the namespace, not a list of names — a second
+    machine-owned branch inherits the exclusion without editing this function.
+    """
     rows = []
     for ref in git("for-each-ref", "--format=%(refname:short)",
                    "refs/remotes/origin").splitlines():
         ref = ref.strip()
         if not ref or ref.endswith("/HEAD") or ref == "origin/main":
+            continue
+        if ref.replace("origin/", "").startswith(MACHINE_REFS):
             continue
         n = git("rev-list", "--count", f"origin/main..{ref}")
         if not n or n == "0":
