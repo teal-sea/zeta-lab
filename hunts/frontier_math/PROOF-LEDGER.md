@@ -1869,3 +1869,66 @@ recorded dead (18x-111x too weak); the site model's role is now only what
 `slack >= k Shq/2 - f` says, which is weaker than the counting-lemma
 framing first claimed. No proportion has moved and nothing here is
 evidence about RH.
+
+
+## ROAD B, step 4: the shared-R worry does not materialise (2026-08-13)
+
+Instrument: `shared_repulsion.py`, `test_shared_repulsion.py` (15 tests).
+The last open piece of `k >= 2` was that the atom repulsion `R` is paid
+**once** while the damage sums over pairs. Every earlier search reached
+only `n <= 24`, `k <= 6`; this goes to `n = 400`, `k = 60`.
+
+| family (worst over sizes to `(400,60)`, incl. `n/k = 100`) | worst relative margin |
+|---|---|
+| atoms on a `2 pi` lattice, pairs on a `6.30` lattice | **+24.51** |
+| atoms clustered, pairs on the window positions | +38.30 |
+| atoms and pairs on one lattice, offset by the peak | +24.76 |
+| atoms in many small clusters, pairs free | +14.17 |
+| both free random | **+4.83** |
+
+**No degradation with `n/k`**: along the first family the margin runs
+`24.51, 24.72, 24.91, 25.06` as `(n,k)` goes `(50,2) -> (400,16)` — flat,
+not falling. The worry predicts the opposite.
+
+**The adversary's preference is the reverse of the worry.** Annealing
+over both populations reaches its worst at **`n = 5`, `k = 23`** —
+*few* atoms, *many* pairs, margin `+0.2716`. It starves the repulsion of
+atoms rather than overwhelming it. The many-atom family becomes the best
+play only at damage scales where the inequality has *already* broken
+(`n = 87` at `x2.5`, `n = 94` at `x3.0`).
+
+### The control, and the two negative results that make it honest
+
+| damage scale | worst | n, k | |
+|---|---|---|---|
+| x1.0 | +0.2716 | 5, 23 | clean |
+| x1.5 | +0.1309 | 19, 21 | clean |
+| x2.0 | **-0.0895** | 25, 21 | **FIRES** |
+| x2.5 | -1.2505 | 87, 9 | FIRES |
+| x3.0 | -2.7047 | 94, 8 | FIRES |
+
+**Negative result 1 — power is effort-dependent, and below the floor
+this scan is worthless.** The `x2.0` rung does *not* fire at 20 restarts
+x 5000 iterations (`+0.2651`), nor at 20 x 12000 on a single seed
+(`+0.0023`). It fires only at 20 x 12000, best of 3 seeds. `EFFORT_FLOOR`
+records the ladder and a test pins it, because the first version of this
+scan reported "no violation" at an effort with no power — a verdict worth
+nothing.
+
+**Negative result 2 — a near-miss caught before landing.** An earlier
+draft recorded `-0.5954` at `x2.0`. That number came from the
+**scratchpad** implementation, not from the module being landed; the two
+consume the RNG in a different order and the landed module does not
+reproduce it. The module was held uncommitted until every recorded
+number came from the code that ships. This is the same failure family as
+defects #19-#22 — a quantity carried across contexts — caught this time
+before publication rather than after.
+
+Disposition: **THE SPECIFIC MECHANISM THE WORRY NAMED IS REMOVED, AND
+THE RESULT IS EVIDENCE, NOT CLOSURE.** Named gaps S1-S6: the measured
+worst is an **upper bound** that drifts down with effort (`0.343` ->
+`0.3393` -> `0.2716`) and nothing says it stops above zero; the families
+are lattices, clusters and randoms, so an adversary with unseen structure
+is not excluded; `y` is fixed at the binding depth `1/2`. `k >= 2`
+remains open, no proportion has moved, and nothing here is evidence
+about RH.

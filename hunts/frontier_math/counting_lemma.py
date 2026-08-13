@@ -172,9 +172,11 @@ def am_gm_margin() -> dict:
 def site_value(m: int, j: int) -> float:
     """`m j D_1 - m(m-1) gamma^2/800 - j(j-1) kappa(w_max)/2`.
 
-    `slack >= B - site_value`, so a positive value must be covered by the
-    budget `B` and a negative one is safe outright.  This is NOT a bound
-    on the adversary's gain.
+    `slack >= k Shq(y)/2 - site_value`, so a positive value must be
+    covered by `k Shq(y)/2` and a negative one is safe outright.  This is
+    NOT a bound on the adversary's gain, and it does NOT pair with `B` —
+    `B` already absorbs `sum_{p<q} kappa`, which this subtracts again
+    (coordinator defect #22).
     """
     return (m * j * D_ONE - m * (m - 1) * ATOM_RELIEF
             - j * (j - 1) * KAPPA_W / 2)
