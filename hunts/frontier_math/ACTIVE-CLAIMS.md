@@ -40,3 +40,9 @@ holds, take it and say so in the row — but take it knowingly.
   kernel check is. (That rule came from the other session and is right.)
 - Never pipe a gate command whose exit status the next step depends on —
   `pytest ... | tail` masks the failure and the `&&` chain proceeds.
+- **A submission's project directory must contain every artifact its brief
+  tells the prover to reuse.** Naming a file is not shipping it. This has
+  cost two full rebuilds (the band certificate, then eform3).
+- **A function and its autocorrelation have different decay.** `c2 = g⋆g`
+  is continuous and gives 1/s²; `g` itself jumps at the support edge and
+  gives only 1/s. Conflating them has caused two defects in this hunt.

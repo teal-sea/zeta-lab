@@ -1003,3 +1003,19 @@ two pairs. Reply written to `CROSS-ARM-REPLY.md` with the full tables
 and a suggested next probe their machinery is better placed to run than
 ours: whether the falling branch beyond 2 mean gaps has a positive limit
 in k or crosses zero. No proportion is claimed to have moved.
+
+
+## Two coordinator defects on the eform3 submission (2026-08-13)
+
+The prover reported both back before finishing. Both are mine.
+
+| Defect | Detail |
+|---|---|
+| **#15, mathematical: the prescribed route cannot work** | The brief asked for `\|Qim(y,s)\| <= C2 y/s^2` by two integrations by parts, reasoning from `TruncEst.Decay`'s 1/dt^2 bound. **Qim decays exactly like 1/\|s\| and no better.** Measured: `\|Qim\| * s` stays in 0.13-0.30 across s = 20..1600 while `\|Qim\| * s^2` grows 5 -> 220. The cause is one number: the integrand's boundary value `cos(sqrt2/2) sinh(y/2) = 0.153 != 0`, so `g(u) sinh(y u)` JUMPS at +/- 1/2, and a jump gives 1/s |
+| Why the coordinator got it wrong | `TruncEst`'s 1/dt^2 is about a quantity built from **c2 = g * g**, which is CONTINUOUS - an autocorrelation vanishes at the edge of its support. Qim is built from **g times sinh directly**, which does not. **This is the same class of error as the omega^2-vs-g kernel-pairing defect earlier in this hunt**: a function and its autocorrelation were treated as interchangeable. Twice now |
+| **#16, process: the project was shipped empty** | The brief said "reuse all of it" and listed six prior results by name - and the submission directory contained only `PROBLEM.md`. None of EForm2's 1570 lines were shipped. The prover is rebuilding the window, the autocorrelation, the energy functional, the Fubini identity, the gap identity and the transform bounds from nothing |
+| Why the coordinator got it wrong, again | **the identical failure as the band-certificate submission**, where the certificate JSON was not shipped and the service regenerated it. That one was recorded as a lucky cross-check and the lesson was not turned into a rule. It is one now: **a submission's project directory must contain every artifact its brief tells the prover to reuse; naming a file is not shipping it** |
+| What the prover proposes instead | its own route: a sharp far-field bound at the true 1/\|s\| rate combined with **a near-field cancellation the earlier run discarded**, which its arithmetic puts at the target separation 2 pi with about 1.5x margin, with a stated fallback to the smallest explicit separation its constants support |
+| Disposition | **let it run.** Its plan is better than the one it was given, it is a fifth of the way in, and its independent rebuild of machinery we already hold is an unplanned cross-check on that machinery. The waste is real and is the coordinator's to own; interrupting a working run to fix the coordinator's packaging would compound it |
+
+No proportion is claimed to have moved.
