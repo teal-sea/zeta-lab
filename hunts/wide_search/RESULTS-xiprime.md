@@ -66,7 +66,7 @@ not have.
 |---|---|---|---|
 | `xi'` simple and on the line | 0.7869 | unconditional | Conrey 1983-II, Cor. 1 |
 | `xi'` simple and on the line | **0.8686415005** | unconditional | this note (sharp for the method) |
-| `xi'` on the line, no simplicity | 0.86957 | unconditional | Wu 2015, §3 |
+| `xi'` on the line, no simplicity | 0.86957 | unconditional | Wu 2015, §3 (arXiv:1206.3737) |
 | `xi'` simple | 0.8584 | RH | Farmer-Gonek-Lee, Cor. 1.3 |
 | `xi'` simple | 0.8825 | RH | Chirre-Goncalves-de Laat, Cor. 7 |
 
@@ -84,6 +84,43 @@ conclusive. The published unconditional constant that *was* located is
 Conrey 1983-II's `beta_1 > 0.7869`, and 79.874% is the natural `theta = 4/7`
 mollifier upgrade of it. The table above uses the located value. Either way the
 comparison is unaffected: 0.8686415 exceeds both.
+
+**Wu's 0.86957, read at the primary source rather than through Remark 7.3.**
+The row above was originally taken from the paper's own citation. It has since
+been checked against Wu's text (X. Wu, *Distinct zeros of the Riemann
+zeta-function*, Q. J. Math. **66** (2015) 759-771; arXiv:1206.3737), because a
+constant that travels between papers is exactly where a quantity gets swapped
+for a neighbouring one. What that paper says:
+
+- §3 is titled *"zeros of ξ′(s) on the critical line (1/2-line)"*.
+- `N_{xi',c}(T)` is defined in §1 as "the number of zeros of `xi'(1/2 + it)`
+  with `0 < t < T`" — on the line, with **no** simplicity condition and **no**
+  distinctness condition.
+- §3 ends at `N_{xi',c}(T) >= 0.86957 N(T)`, from `theta = 4/7 - eps`,
+  `R = 1.104`, `delta = 0.869` and a named `(P, Q)` pair.
+- Its closing sentence is the one this note relies on for the novelty
+  argument, verbatim: "one may find that this way is useless when consider
+  simple zeros of `xi^(n)(s)`, `n >= 1` on the critical line."
+
+So the classification in the table — `xi'`, on the line, no simplicity — is the
+paper's own, and the comparison in §"The answer" is between two constants
+counting the same zeros of the same function.
+
+Two things worth recording alongside it, because they are the ways this
+constant is misread. First, the **66.036%** in that paper's title and abstract
+is a statement about *distinct zeros of zeta*, not about `xi'`; 0.86957 is an
+input to it (§4: `N_d(T) >= (1/2 + 0.434785 - 0.27442) N(T) > 0.66036 N(T)`).
+A reader meeting 0.86957 by way of the title will take it for a distinctness
+proportion, and the two sit on opposite sides of that derivation. Second, if it
+*were* the distinctness constant the comparator would be `Hd* = 0.9343207`, not
+`H* = 0.8686415`, and the negative result of §"The answer" would invert — so
+this is not a bookkeeping detail, and it is why the row is now sourced.
+
+Wu's §3 also reports the prior unconditional `xi'` on-line constants as
+Levinson 71%, Conrey 81.37%, and 82.402% with the `theta = 4/7` mollifier.
+Those count zeros merely on the line, so they do not settle the caveat above,
+which is about a *simple*-and-on-line attribution; they are recorded here as
+the nearest located data for whoever takes that caveat further.
 
 ## Novelty
 
