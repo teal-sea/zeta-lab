@@ -137,21 +137,70 @@ def _threads() -> list[dict]:
     return rows
 
 
+def _pill(power: str) -> str:
+    """A measured guard and an undemonstrated one should not read alike."""
+    if power.startswith("fires"):
+        rest = power.split("—", 1)[1].strip() if "—" in power else ""
+        tail = f" <code class='muted'>{_esc(rest)}</code>" if rest else ""
+        return f"<span class='pill ok'>fires</span>{tail}"
+    return "<span class='pill open'>never demonstrated</span>"
+
+
 def render() -> str:
     parts: list[str] = []
     parts.append(
         "<!doctype html><html><head><meta charset='utf-8'>"
         "<title>Zeta Lab — research state</title><style>"
-        "body{font:15px/1.5 -apple-system,system-ui,sans-serif;margin:2rem auto;"
-        "max-width:60rem;padding:0 1rem;color:#1a1a1a;background:#fbfbf9}"
-        "h1,h2{line-height:1.2} h2{margin-top:2.2rem;border-bottom:1px solid #ddd}"
-        "pre{background:#f2f1ec;padding:.8rem 1rem;overflow-x:auto;font-size:13px}"
-        "table{border-collapse:collapse;width:100%} td,th{border:1px solid #ddd;"
-        "padding:.35rem .6rem;text-align:left;vertical-align:top}"
-        "th{background:#f2f1ec} .muted{color:#666} .attn{color:#8a3b00}"
-        "@media(prefers-color-scheme:dark){body{color:#e8e6e0;background:#191919}"
-        "pre,th{background:#242424} td,th,h2{border-color:#3a3a3a} .muted{color:#9a9a9a}"
-        ".attn{color:#e0a060}}"
+        ":root{--ink:#15181c;--soft:#5a636d;--faint:#868f99;--rule:#dfe3e8;"
+        "--hair:#eceff2;--paper:#fcfcfa;--card:#f6f6f2;--warn:#8a4b1a;"
+        "--good:#2f6b45;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}"
+        "@media(prefers-color-scheme:dark){:root{--ink:#e4e7ea;--soft:#a3acb6;"
+        "--faint:#7d868f;--rule:#2f353c;--hair:#242a30;--paper:#14171a;"
+        "--card:#1c2126;--warn:#d59a63;--good:#7fb894}}"
+        "*{box-sizing:border-box}"
+        "body{font:16px/1.6 -apple-system,BlinkMacSystemFont,\"Segoe UI\",system-ui,sans-serif;"
+        "margin:0 auto;max-width:58rem;padding:3rem 1.25rem 6rem;color:var(--ink);"
+        "background:var(--paper);-webkit-font-smoothing:antialiased}"
+        "h1{font-size:1.55rem;font-weight:600;letter-spacing:-.01em;margin:0 0 .4rem}"
+        "h2{font-size:.72rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;"
+        "color:var(--faint);margin:3.2rem 0 .9rem;padding-bottom:.5rem;"
+        "border-bottom:1px solid var(--rule)}"
+        "h2 .n{color:var(--faint);font-weight:500}"
+        "p{margin:0 0 1rem}"
+        ".muted{color:var(--soft);font-size:.92rem}"
+        "code{font-family:var(--mono);font-size:.86em}"
+        "table{border-collapse:collapse;width:100%;font-size:.92rem;"
+        "font-variant-numeric:tabular-nums}"
+        "th{font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;"
+        "color:var(--faint);text-align:left;padding:0 .8rem .45rem 0;"
+        "border-bottom:1px solid var(--rule)}"
+        "td{padding:.5rem .8rem .5rem 0;border-bottom:1px solid var(--hair);"
+        "vertical-align:top}"
+        "tr:last-child td{border-bottom:none}"
+        ".wrap{overflow-x:auto}"
+        "ul{margin:0;padding:0;list-style:none}"
+        ".item{padding:.7rem 0;border-bottom:1px solid var(--hair);display:grid;"
+        "grid-template-columns:minmax(0,22rem) minmax(0,1fr);gap:.2rem 1.4rem}"
+        ".item:last-child{border-bottom:none}"
+        ".item .who{font-family:var(--mono);font-size:.78rem;color:var(--ink);"
+        "word-break:break-word}"
+        ".item .gap{color:var(--soft);font-size:.92rem}"
+        ".item .verb{display:block;font-size:.68rem;letter-spacing:.07em;"
+        "text-transform:uppercase;color:var(--warn);margin-top:.15rem}"
+        ".card{background:var(--card);border:1px solid var(--rule);border-radius:2px;"
+        "padding:1rem 1.15rem;margin:0 0 .8rem}"
+        ".card .title{font-weight:600;margin-bottom:.6rem}"
+        ".card dl{display:grid;grid-template-columns:minmax(0,10rem) minmax(0,1fr);"
+        "gap:.35rem 1.2rem;margin:0;font-size:.9rem}"
+        ".card dt{font-size:.65rem;letter-spacing:.08em;text-transform:uppercase;"
+        "color:var(--faint);padding-top:.15rem}"
+        ".card dd{margin:0;color:var(--soft)}"
+        ".pill{display:inline-block;font-size:.64rem;font-weight:700;letter-spacing:.07em;"
+        "text-transform:uppercase;padding:.15rem .45rem;border-radius:2px;"
+        "border:1px solid currentColor;white-space:nowrap}"
+        ".pill.ok{color:var(--good)} .pill.open{color:var(--warn)}"
+        "@media(max-width:44rem){.item,.card dl{grid-template-columns:1fr}"
+        ".item .who{font-size:.74rem}}"
         "</style></head><body>"
     )
     parts.append("<h1>Zeta Lab — research state</h1>")
@@ -166,8 +215,22 @@ def render() -> str:
     queue = _attention_queue()
     parts.append(f"<h2>Attention queue ({len(queue)})</h2>")
     if queue:
+        # Each item reads "<kind> '<name>' <verb>: <gap>". Splitting it puts the
+        # subject and the gap in separate columns instead of one run-on line;
+        # anything that does not match that shape is rendered whole rather than
+        # mangled to fit.
         parts.append("<ul>")
-        parts.extend(f"<li class='attn'>{_esc(item)}</li>" for item in queue)
+        for item in queue:
+            m = re.match(r"^(guard|claim) '(.+?)' (.+?): (.+)$", item, re.S)
+            if m:
+                _kind, name, verb, gap = m.groups()
+                parts.append(
+                    f"<li class='item'><div class='who'>{_esc(name)}"
+                    f"<span class='verb'>{_esc(verb)}</span></div>"
+                    f"<div class='gap'>{_esc(gap)}</div></li>"
+                )
+            else:
+                parts.append(f"<li class='item'><div class='gap'>{_esc(item)}</div></li>")
         parts.append("</ul>")
     else:
         parts.append("<p>Empty — which is a statement about the ledgers' coverage.</p>")
@@ -192,7 +255,7 @@ def render() -> str:
                 f"<td>{_esc(row['ahead'])}</td><td>{_esc(row['when'])}</td>"
                 f"<td>{_esc(row['subject'])}</td></tr>"
             )
-        parts.append("</table>")
+        parts.append("</table></div>")
     else:
         parts.append(
             "<p>Nothing unmerged — either everything landed, or git was unreadable "
@@ -206,10 +269,24 @@ def render() -> str:
         "failure that will not need re-deriving.</p>"
     )
     for grave in GRAVES:
-        parts.append(f"<pre>{_esc(grave.card())}</pre>")
+        # grave.card() is "TITLE\nLABEL  value" lines. A <pre> preserves the
+        # alignment and nothing else; a definition list makes the labels
+        # scannable and lets the values wrap.
+        lines = [ln for ln in grave.card().splitlines() if ln.strip()]
+        title, rows = lines[0], []
+        for ln in lines[1:]:
+            m = re.match(r"^([A-Z][A-Z ?'()]+?)\s{2,}(.+)$", ln)
+            rows.append(m.groups() if m else ("", ln.strip()))
+        body = "".join(
+            f"<dt>{_esc(k.strip().lower())}</dt><dd>{_esc(v)}</dd>" for k, v in rows
+        )
+        parts.append(
+            f"<div class='card'><div class='title'>{_esc(title)}</div>"
+            f"<dl>{body}</dl></div>"
+        )
 
     parts.append(f"<h2>Guard ledger ({len(GUARDS)})</h2>")
-    parts.append("<table><tr><th>guard</th><th>guards against</th><th>power</th></tr>")
+    parts.append("<div class='wrap'><table><tr><th>guard</th><th>guards against</th><th>power</th></tr>")
     for guard in GUARDS:
         power = {
             True: f"fires — {guard.demonstrated_by}",
@@ -217,10 +294,11 @@ def render() -> str:
             None: "never demonstrated",
         }[guard.fired]
         parts.append(
-            f"<tr><td>{_esc(guard.name)}</td><td>{_esc(guard.guards_against)}</td>"
-            f"<td>{_esc(power)}</td></tr>"
+            f"<tr><td><code>{_esc(guard.name)}</code></td>"
+            f"<td>{_esc(guard.guards_against)}</td>"
+            f"<td>{_pill(power)}</td></tr>"
         )
-    parts.append("</table>")
+    parts.append("</table></div>")
     open_guards = undemonstrated(GUARDS)
     if open_guards:
         parts.append(
@@ -234,7 +312,7 @@ def render() -> str:
     parts.append("</ul>")
 
     parts.append(f"<h2>Standing reviews ({len(CLAIMS)})</h2>")
-    parts.append("<table><tr><th>claim</th><th>status</th></tr>")
+    parts.append("<div class='wrap'><table><tr><th>claim</th><th>status</th></tr>")
     for claim in CLAIMS:
         missing = standing_reasons(claim, OUTCOMES)
         withdrawn = any(
@@ -247,7 +325,7 @@ def render() -> str:
         else:
             status = "standing: both attacks recorded"
         parts.append(f"<tr><td>{_esc(claim.name)}</td><td>{_esc(status)}</td></tr>")
-    parts.append("</table>")
+    parts.append("</table></div>")
 
     hunts = _hunts()
     parts.append(f"<h2>Hunts ({len(hunts)})</h2>")
@@ -261,7 +339,7 @@ def render() -> str:
             f"<tr><td>{_esc(hunt['name'])}</td><td>{_esc(hunt['title'])}</td>"
             f"<td>{'yes' if hunt['huntspec'] else '—'}</td></tr>"
         )
-    parts.append("</table>")
+    parts.append("</table></div>")
 
     parts.append("</body></html>")
     return "".join(parts)
