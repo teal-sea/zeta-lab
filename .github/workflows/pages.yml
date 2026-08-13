@@ -1,0 +1,83 @@
+# The public reading surface, generated from public evidence.
+#
+# `scripts/70_lab_state.py` already renders the research-state view as one
+# static HTML file — its own docstring: "no scripts and no network: a page you
+# can read, not an app you can be reassured by". It has never been built
+# anywhere, so the page existed and nobody could see it. This publishes it.
+#
+# Generated rather than written, for the same reason the script derives rather
+# than declares: a hand-maintained page rots and then reads as authoritative.
+# Every section comes from a tree artifact — the graveyard, guard and review
+# ledgers, the hunts' case logs, and branches ahead of main. If the tree
+# changes, the page changes; if nobody updates the tree, the page says so.
+#
+# Requires GitHub Pages to be enabled for the repository with source "GitHub
+# Actions". Until then this workflow builds the artifact and the deploy step
+# fails loudly rather than silently publishing nothing.
+name: pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false   # never cancel a half-finished publish
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # the live-threads section reads branches
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: install
+        run: |
+          python -m pip install --quiet --disable-pip-version-check -r requirements.txt
+          python -m pip install --quiet --disable-pip-version-check -e .
+
+      - name: render the state page
+        run: |
+          mkdir -p _site
+          python scripts/70_lab_state.py --out _site/index.html
+          cp interactive_lab/prime_genesis.html _site/prime_genesis.html
+
+      - name: the page must be self-contained
+        run: |
+          # The contract this page keeps: no scripts, no network. If either
+          # appears, the page has stopped being a thing you can read offline
+          # and started being an app, and that is a change worth blocking.
+          if grep -qi "<script" _site/index.html; then
+            echo "::error::the state page grew a <script> tag"; exit 1
+          fi
+          if grep -qE "https?://" _site/index.html; then
+            echo "::error::the state page grew an external request"; exit 1
+          fi
+          echo "self-contained: no scripts, no external requests"
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
