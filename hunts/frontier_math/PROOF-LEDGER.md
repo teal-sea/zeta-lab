@@ -1824,3 +1824,48 @@ the sentence. Each of the four took under two minutes to refute that way.
 
 `k >= 2` remains open, no proportion has moved, and nothing here is
 evidence about RH.
+
+
+## What survives 2026-08-13, measured rather than recalled
+
+Instrument: `salvage_audit.py` — seven checks re-derived from
+`EForm3/Defs.lean` alone, importing nothing from this directory.
+**7 of 7 PASS.** The ten modules landed today also pass **340 tests**.
+
+| claim | independent residual | status |
+|---|---|---|
+| `margin_k = (4/A^2) slack_k` (k = 1, 2, 3, by quadrature on `Eng`) | **4.21e-17** | STANDS |
+| `ghat(z) = Phi2(-i z)` — BandCert and EForm3 are one function | **0.0** over 24 points | STANDS |
+| `int D(y,s) ds = -2 pi c2(0) = -5.33585688776`, depth-free | spread across `y` **4.88e-05**; `c2(0)` closed form exact | STANDS |
+| Bochner: `-D(y,.)` positive definite | min eigenvalue **-6.745e-16** over 63 Gram matrices | STANDS |
+| **k=1 window bound, no separation hypothesis** | net `1.9447e-02` vs `Shq/2 = 3.3754e-02`, **safety 1.736x** | STANDS |
+| window constants (first edge `6.06531877311`, `w_max 0.9860007073`) | to `1e-6` | STANDS |
+| three-term Gram form `slack = B + Cross + R/400`, `B >= 0` | **7.89e-31**; min `B` positive | STANDS |
+
+**Every one of the four defects (#19-#22) was in prose, not arithmetic.**
+#19 mislabelled a quantifier, #20 relayed an accounting bound as a
+statement bound, #21 doubled a term and inverted an implication, #22
+double-counted the pair relief inside a fix. Not one touched a
+computation, and the audit above separates the two cleanly: the modules
+the defective sentences were describing all reproduce from scratch.
+
+What is therefore **rescued and load-bearing**:
+
+1. The `k = 1` retention inequality for every `n`, every shift, every
+   depth in `[0,1/2]`, **with no separation hypothesis** — hardened
+   grade, four independent instruments, an exact rational certificate,
+   and now an eighth from-definitions reproduction.
+2. `ghat = Phi2(-i .)`, which collapses two certification efforts into
+   one and puts **7 of 12** Road A obligations on machinery that already
+   compiles sorry-free.
+3. The **196-cell** table spec, sized, all cells decided.
+4. The `k`-pair identity and its three-term Gram form, with two of three
+   terms free.
+5. `int D ds = -2 pi c2(0)`, exact and depth-free.
+6. Bochner positive definiteness.
+
+What is **not** rescued: `k >= 2` is open; the Cauchy-Schwarz route is
+recorded dead (18x-111x too weak); the site model's role is now only what
+`slack >= k Shq/2 - f` says, which is weaker than the counting-lemma
+framing first claimed. No proportion has moved and nothing here is
+evidence about RH.
