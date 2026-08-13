@@ -34,6 +34,7 @@ def main() -> int:
         payload = {}
 
     try:
+        from telemetry.prompts import capture_text
         from telemetry.registry import append_event, new_run_id, probe_context, utc_now
         from telemetry.schema import Event
 
@@ -51,13 +52,27 @@ def main() -> int:
         run_id = new_run_id()
         context = probe_context(REPO)
         env = context.pop("env", None)
+
+        # The opening prompt, stored locally and referenced by digest. The text
+        # lands in the gitignored private store (`telemetry/.gitignore` line
+        # `prompts/*`); only the digest travels in the committed run record, so
+        # provenance is public and wording is not. A session that declares no
+        # prompt still records `store: absent` with a null digest — unknown
+        # stays unknown, and an absent prompt is not a failed one.
+        text = payload.get("prompt")
+        if isinstance(text, str) and text.strip():
+            ref = capture_text(ROOT, text, source="session-start-hook")
+            prompt = {**ref.as_dict(), "captured_at": ref.captured_at or utc_now()}
+        else:
+            prompt = {"digest": None, "store": "absent", "ref": None,
+                      "bytes": None, "source": "session-start-hook",
+                      "captured_at": utc_now()}
+
         body = {
             "capture": "contemporaneous",
-            "task": payload.get("prompt") or "(agent session; task not declared at start)",
+            "task": text or "(agent session; task not declared at start)",
             "role": "agent-session",
-            "prompt": {"digest": None, "store": "absent", "ref": None,
-                       "bytes": None, "source": "session-start-hook",
-                       "captured_at": utc_now()},
+            "prompt": prompt,
             **context,
         }
         if env:
