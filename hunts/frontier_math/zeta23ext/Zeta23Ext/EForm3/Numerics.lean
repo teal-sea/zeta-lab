@@ -28,7 +28,7 @@ lemma inv_sqrt2_sq : (1 / Real.sqrt 2) ^ 2 = 1 / 2 := by
   rw [div_pow, one_pow, sqrt2_sq]
 
 lemma sqrt2_mul_inv_sqrt2 : Real.sqrt 2 * (1 / Real.sqrt 2) = 1 := by
-  field_simp
+  rw [mul_one_div, div_self sqrt2_ne_zero]
 
 /-! ### `cos (1/√2)` and `sin (1/√2)` -/
 
@@ -91,8 +91,7 @@ lemma sinh_le_mul_cosh {t : ℝ} (ht : 0 ≤ t) : Real.sinh t ≤ t * Real.cosh 
       have h1 : HasDerivAt (fun z : ℝ => z * Real.cosh z)
           (1 * Real.cosh z + z * Real.sinh z) z :=
         (hasDerivAt_id z).mul (Real.hasDerivAt_cosh z)
-      have := h1.sub (Real.hasDerivAt_sinh z)
-      convert this using 1; ring
+      exact (h1.sub (Real.hasDerivAt_sinh z)).congr_deriv (by ring)
     · intro z hz
       exact mul_nonneg hz (Real.sinh_nonneg_iff.2 hz)
   linarith [key t ht]
@@ -115,10 +114,11 @@ lemma cosh_sub_one_le (t : ℝ) : Real.cosh t - 1 ≤ t^2/2 * Real.cosh t := by
     nlinarith [Real.cosh_pos (z/2), sq_nonneg (z/2), Real.cosh_pos z]
   rcases le_total 0 t with h | h
   · exact main t h
-  · have := main (-t) (by linarith)
-    rw [Real.cosh_neg] at this
-    have : (-t)^2 = t^2 := by ring
-    nlinarith [main (-t) (by linarith), Real.cosh_neg t]
+  · have hneg := main (-t) (by linarith)
+    rw [Real.cosh_neg] at hneg
+    have hsq : (-t)^2 = t^2 := by ring
+    rw [hsq] at hneg
+    exact hneg
 
 /-- `cosh t ≤ 32/31` for `|t| ≤ 1/4`. -/
 lemma cosh_le_of_abs_le_quarter {t : ℝ} (ht : |t| ≤ 1/4) : Real.cosh t ≤ 32/31 := by
@@ -135,12 +135,14 @@ lemma cosh_ge_one_add_sq (t : ℝ) : 1 + t^2/2 ≤ Real.cosh t := by
   have main : ∀ z : ℝ, 0 ≤ z → 0 ≤ Real.cosh z - (1 + z^2/2) := by
     refine nonneg_of_deriv_nonneg (F := fun z => Real.sinh z - z) ?_ (by simp) ?_
     · intro z
-      have h1 : HasDerivAt (fun z : ℝ => 1 + z^2/2) (0 + 2*z/2) z := by
-        have := (hasDerivAt_const z (1:ℝ)).add ((hasDerivAt_pow 2 z).div_const 2)
-        convert this using 1
-        norm_num
-      have := (Real.hasDerivAt_cosh z).sub h1
-      convert this using 1; ring
+      have hid : HasDerivAt (fun x : ℝ => x) 1 z := hasDerivAt_id z
+      have hfun : (fun z : ℝ => 1 + z^2/2) = fun z : ℝ => 1 + z * z / 2 := by
+        funext y; ring
+      have h1 : HasDerivAt (fun z : ℝ => 1 + z^2/2) z z := by
+        rw [hfun]
+        exact ((hasDerivAt_const z (1:ℝ)).add
+          ((hid.mul hid).div_const 2)).congr_deriv (by ring)
+      exact (Real.hasDerivAt_cosh z).sub h1
     · intro z hz
       have := Real.self_le_sinh_iff.mpr hz
       linarith

@@ -1,6 +1,13 @@
 import Mathlib
 import Zeta23Ext.EForm3.Counting
 import Zeta23Ext.EForm3.Gap
+-- O9's two-dimensional checker. Imported so a plain `lake build` elaborates
+-- it: `O9-2D-STATUS.md` §5 records that it was orphaned, so a green build said
+-- nothing whatever about the one obligation §4 calls "the only real work".
+-- What the import buys is that the 699-cell table is re-decided by the kernel
+-- on every build. What it does NOT buy is a statement about `Dam`: the `_mem`
+-- seams are unwritten, so this is table-consistency, not soundness.
+import Zeta23Ext.EForm3.O9Check2
 
 open scoped BigOperators
 open scoped Real
