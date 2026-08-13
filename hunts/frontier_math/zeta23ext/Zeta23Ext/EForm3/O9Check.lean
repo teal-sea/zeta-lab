@@ -1,4 +1,5 @@
 import Zeta23Ext.EForm3.O9Data
+import Zeta23Ext.EForm3.O9Damage
 
 /-!
 # Running the O9 checker

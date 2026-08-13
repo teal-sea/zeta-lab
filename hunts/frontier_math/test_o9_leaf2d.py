@@ -116,7 +116,13 @@ def test_caps_are_the_recorded_suprema_times_the_inflation():
 
 @pytest.mark.slow
 def test_the_table_closes_at_the_recommended_operating_point():
-    """339 cells at `1.20x`, every one decided.
+    """339 cells at `1.20x`, every one decided **by the model**.
+
+    Not by the kernel. The same leaf layer declared the 1-D table 344-for-344
+    and `decide +kernel` refuted 7 of its 9 chunks (`O9-2D-STATUS.md` §0), so
+    this number pins the generator's behaviour and predicts nothing about a
+    Lean build.
+
 
     Read against the 1-D route's 344 (`o9_leaf.N_CELLS_KERNEL`) this looks
     like a saving, and the comparison is **not** like-for-like: the 1-D table

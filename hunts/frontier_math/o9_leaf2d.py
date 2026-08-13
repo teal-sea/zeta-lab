@@ -37,11 +37,20 @@ evaluation in `test_o9_leaf2d.py`.
 
 ## What is mirrored
 
-The integer layer (`Iv`, `CIv`, the leaf rounding) is imported from
-`o9_leaf.py` unchanged, so this module decides cells in the same fixed-point
-arithmetic at scale `2^64` that `decide +kernel` will run.  The leaf caveat
-of that module applies here verbatim, plus one new leaf (`shc`), computed by
-its series on `|x| <= 1/4` with an explicit tail bound and rounded outward.
+The integer layer (`Iv`, `CIv`) is imported from `o9_leaf.py` unchanged, so
+the *arithmetic* is the fixed-point arithmetic at scale `2^64` that
+`decide +kernel` runs.
+
+**The leaves are not.**  `o9_leaf.py`'s LEAF CAVEAT applies here verbatim and
+is no longer hypothetical: on 2026-08-13 the Lean arm was built for the first
+time and `decide +kernel` returned `false` on 7 of the 9 chunks of the 1-D
+table that the same leaf layer had declared 344-for-344 with margin to spare
+(`O9-2D-STATUS.md` §0).  The transcendental leaves here come from Arb rounded
+outward with a 4-ulp pad; `Leaves.lean` builds them from truncated series with
+`EIv.widen` and an argument reduction carrying a `2^-64` enclosure of pi, and
+is wider.  **A cell count from this module therefore does not predict a kernel
+outcome**, and the table below is a table of *candidate* cells.  Making it
+predictive means computing the leaves the way `Leaves.lean` does.
 
 ## What it is not
 

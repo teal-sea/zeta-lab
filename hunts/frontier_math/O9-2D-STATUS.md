@@ -1,5 +1,53 @@
 # O9, two-dimensional: what it costs and what still blocks it
 
+> **READ §0 FIRST.** The Lean arm was built for the first time on 2026-08-13,
+> and it refutes the O9 leaf table that this repository has been generating.
+> Every cell count below — including this file's own 339 — is a statement
+> about a *Python model* of the kernel's arithmetic, and that model is now
+> measured to be wrong in the optimistic direction.
+
+## 0. The kernel refutes the generated table
+
+`O9Check.lean` had never been elaborated (§5 explains why: nothing imports it,
+and it was additionally missing the import of its own `damageIv`). With that
+import added, `decide +kernel` runs and returns **`false` on 7 of the 9
+chunks**:
+
+```
+error: Tactic `decide` proved that the proposition
+  o9Walk (List.take 40 (List.drop 0 o9cells)) = true
+is false
+```
+
+Refuted: offsets 0, 40, 80, 120, 160, 240, 320. Passing: 200, 280.
+Whole target elaborates in ~22 s, so **kernel reduction at this table size is
+not the bottleneck** — `O9-SCOPING.md` §4.4 named that as "the real risk", and
+it is not the risk. The table is simply false as generated.
+
+`o9_leaf.py` predicted the opposite: 344 of 344 cells decided, minimum margin
+`3.6e9` ulp. The gap between that prediction and the kernel's verdict is the
+**LEAF CAVEAT** stated in `o9_leaf.py`'s own docstring — the transcendental
+leaves (`sin`, `cos`, `sinh`, `cosh`, `√2`) are computed there with Arb at 300
+bits and rounded outward onto the `2^-64` grid, whereas `Leaves.lean` builds
+them from truncated series with `EIv.widen` and, for `|s|` up to 60, an
+argument reduction carrying a `2^-64` enclosure of π. Lean's leaves are wider,
+so its enclosures are wider, so cells the model decides the kernel need not.
+The caveat was written down before any build existed; this is the first
+measurement of how much it costs, and the answer is that it is fatal to the
+table rather than marginal.
+
+**This applies to the 2-D table in this file too.** `o9_leaf2d.py` imports
+`o9_leaf.py`'s leaf layer unchanged, so its 339 cells rest on the same
+too-narrow leaves and must be assumed refutable in the same way until it is
+built. Nothing in §1 below has been kernel-checked.
+
+**The fix is to the generator, not the table**: leaves must be computed the way
+`Leaves.lean` computes them (`hornerI` over the same coefficient lists, the
+same `widen`, the same reduction), not with Arb and a 4-ulp pad. Until then no
+cell count from either module predicts a kernel outcome, and the honest reading
+of both is "a table of candidate cells", not "a validated table".
+
+
 **Date:** 2026-08-13. **Code:** `o9_leaf2d.py`, `test_o9_leaf2d.py` (21 pins).
 **Reads:** `O9-SCOPING.md` (the route), `RETENTION-PROBLEM.md` §4 (the statement).
 **Supersedes** `O9-SCOPING.md` §3's leaf count and §4's shopping list, on both of
@@ -82,7 +130,31 @@ needed for `y ∈ (0, 1/2]`, where `phiC_mem` applies unchanged and the boxes
 touching `y = 0` still cover it. Whoever writes the Lean should write that
 split first, so the `y ≠ 0` side condition never has to be weakened.
 
-## 5. A defect this file exists partly to record
+## 5. The O9 files are not in the build at all
+
+`Zeta23Ext.lean` imports fourteen modules. **None of them reaches
+`EForm3/O9Data.lean`, `O9Check.lean` or `O9Damage.lean`**, and no other module
+imports them either:
+
+```bash
+grep -rn "O9Check\|O9Data\|O9Damage" Zeta23Ext.lean Zeta23Ext/ | grep -v EForm3/O9
+# (no matches)
+```
+
+`lakefile.toml` sets `defaultTargets = ["Zeta23Ext"]`, so `lake build` never
+elaborates any of them. This matters more than it looks: a green `lake build`
+on this package would say **nothing whatever** about the O9 table, and the
+natural reading of a green build — "the staged work compiles" — would be wrong
+about the one obligation `RETENTION-PROBLEM.md` §4 calls "the only real work".
+
+Whichever route lands, the file has to be imported by `EForm3/Main.lean` (or
+named as a target) or it is decoration. Build it explicitly meanwhile:
+
+```bash
+lake build Zeta23Ext.EForm3.O9Check
+```
+
+## 6. A defect this file exists partly to record
 
 The first draft of `r_iv` had the **wrong sign**. `Phi2(s + iy)` has real part
 `Qre` and imaginary part `-Qim`, and the table uses `R` only through `R^2`, so
@@ -96,7 +168,7 @@ carried across contexts without being re-derived in the context it is used.
 The specific lesson is narrower and worth keeping: **a quantity that enters
 only squared has no self-check, so it needs an external one.**
 
-## 6. Scope
+## 7. Scope
 
 This lands a generator and a pre-validated table. It does **not** land a Lean
 file: the checker needs `shcSmall`, its truncation lemma, the `y = 0` split of
