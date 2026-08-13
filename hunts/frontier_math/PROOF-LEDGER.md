@@ -1179,7 +1179,21 @@ damage peak at +0.1235, and the repulsion does win from m = 4 upward. No
 proportion is claimed to have moved.
 
 
-## BLOCKER 2 CLOSED at hardened grade: the repulsion pays for the damage (2026-08-13)
+## The SINGLE-PAIR retention closed at hardened grade: the repulsion pays for the damage (2026-08-13)
+
+**HEADING CORRECTED — coordinator defect #19.** This entry was first
+written, committed and pushed under the heading "BLOCKER 2 CLOSED".
+That was an overclaim by one quantifier; it is corrected here rather
+than rewritten away. What closes below is the `k = 1` layer: retention
+for **one** pair block, every `n`, every `t`, every `y in [0,1/2]`, with
+no separation hypothesis. Blocker 2 as originally posed (2026-08-12,
+"the per-pair route is refuted") is the **multi-pair** quantifier
+`E[F_on + F_p] >= theta E[F_on] + (1-theta) n + 4k` with `F_p` carrying
+`k` blocks at different depths and centres. That is **still open**, and
+`cluster_sdp.py` now names why this accounting does not extend to it —
+see the `k >= 2` row at the end. Recent entries had drifted into using
+"blocker 2" for the single-pair retention quantifier; the two are not
+the same statement, and the drift is what let the overclaim through.
 
 Instruments: `near_coincident.py` (40 tests), `repulsion_trade.py` (55),
 `exact_gap_attack.py` (32) — three agents, three independent routes, run
@@ -1302,9 +1316,44 @@ not an arithmetic one.
 | **the 9-window table** (endpoints and damage caps on `[28/5, 60] x [0, 1/2]`) | **the real remaining cost**: a two-variable interval-arithmetic statement, the analogue of the `BandCert` leaf tables already in this package |
 | the whole chain | **HARDENED**, not kernel-checked |
 
-**What is closed**: blocker 2 — retention for every `n`, every `t`,
-every `y in [0,1/2]`, with **no separation hypothesis** — at hardened
-grade, by four instruments that agree to three digits and one exact
-rational certificate. **What is not**: none of it is in Lean yet. The
-tree still carries retention only under `d >= 4` or `n <= 3`. No
-proportion has moved and nothing here is evidence about RH.
+### The fourth route, and the quantifier it does NOT reach
+
+`cluster_sdp.py` (86 tests) came in last, from the SDP/moment side, and
+lands on the same accounting from a different direction — a fourth
+independent agreement.
+
+| Finding | Status | Evidence |
+|---|---|---|
+| Window occupancy bound, single pair | **+0.000932 (y=0.05) … +0.0672 (y=0.5)** | positive at every depth, 42–60% of budget surviving; `+0.0672` against `exact_gap_attack`'s `+0.06718` and the coordinator's `+0.0678` |
+| Its moment-program form picks the true minimiser blind | STRUCTURAL | 2.63 atoms at `±6.5`, one each at `±12.5`, `±19` — the `3,1,1,…` schedule all four instruments found |
+| **A closed form for the far-field peak envelope** | **DERIVED, rel. err 3.0e-4** | `D_j s_j^2 -> 2 cos^2(1/sqrt2)(cosh y - 1)`; coordinator measured `0.1475305` against the closed form `0.1475273` at `s` up to 502 |
+| Consequence | **it replaces the certificate's one measured constant** | the `637/1000` far-tail coefficient above was standing in for exactly this; the closed form makes the tail derivable rather than read off a scan |
+| Normalisation trap, noted | `psi = ghat/A`, so `cluster_sdp`'s `-4 Re psi^2` is `4/A^2` times the damage used elsewhere in this hunt | the raw numbers differ by 1.185 and look like a discrepancy until converted — the fourth such normalisation collision in this hunt |
+| `cone_violator` excluded, and by which constraint | MACHINE-CHECKED | the depth cap kills it at the published `t=1/2`; at the largest depth-admissible `t=0.1400` it still violates and **(T3)** kills it — cross entries purely imaginary give `Re(C^2) = -0.0196` where (T3) allows only `-0.0052`, short by 3.76x. Pinning its moments returns `infeasible` at every `t`, `n = 3,4,6`; lesion control drops below the witness with (T2)/(T3)/(T4) deleted |
+| **`k >= 2`: NOT reached, reason named** | **OPEN, on the BUDGET side** | the same accounting needs `budget(P) >= 0.5799 sum_p slack(y_p)`; `joint_universal` measures the floor at `0.2918 sum_p slack(y_p)` (500 restarts, binding shape a lattice at 1.005 mean gaps). **Short by a factor 1.99.** Not the damage side |
+| Why it does not extend for free | an on-line atom can sit in one damage window **of each pair at once**, so the damage side scales with `k` while the budget does not — slack additivity is false and signed (ledger 2026-08-12: the pair term runs `+8.31` to `-0.756`) | |
+| Entry-level SDP, size independence | **PROVABLY INSUFFICIENT past n = 7.68** | a dual with no size in it gives `Xi >= (d^2-1)(2 - 4 n C_D)`; counting how many atoms fit in a damage window is degree >= 3 in the entries, so no degree-2 cut on pairs of entries can supply it. Same shape of finding as `inertia_multiplier` |
+
+### Grade and quantifier, stated exactly
+
+**What is closed**: the `k = 1` retention inequality — one pair block,
+**every** `n`, every `t`, every `y in [0,1/2]`, with **no separation
+hypothesis** — at **hardened** grade, by four instruments that agree to
+three digits plus one exact rational certificate and one independent
+coordinator reproduction. That is strictly stronger than what the tree
+carries (`d >= 4`, or `n <= 3`), and it retires the separation route
+rather than improving it.
+
+**What is not closed**, both named:
+
+1. **Formalisation.** None of it is in Lean. The remaining cost is the
+   9-window interval table above; the other three obligations are
+   hours, not research.
+2. **The multi-pair quantifier — blocker 2 proper.** `k >= 2` is open
+   and the obstruction is arithmetic, not presentational: budget floor
+   `0.2918` against a requirement of `0.5799`, a factor **1.99** on the
+   **budget** side. Closing `k = 1` does not close it, and no argument
+   that charges damage per pair can — that is the same superadditivity
+   that refuted the per-pair route on 2026-08-12.
+
+No proportion has moved and nothing here is evidence about RH.
