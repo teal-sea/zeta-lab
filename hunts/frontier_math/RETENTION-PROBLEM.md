@@ -120,27 +120,43 @@ decreasing on `[0, 2π]`, so `min_{|u| ≤ w} Kpair u = Kpair w` for `w ≤ 2π`
 > For every `y ∈ [0, 1/2]` and every `s` with `28/5 ≤ s ≤ 60`: either
 > `Dam y s = 0`, or `s ∈ I_k` for exactly one `k < 9`, and then `Dam y s ≤ c_k y²`.
 
-| k | `I_k` (rational endpoints) | length | `c_k` |
+| k | `I_k` (rational endpoints) | length | `c_k` (= 21/20 × sup) |
 |---|---|---|---|
-| 0 | `[60653/10000, 35257/5000]` | 0.9861 | `439643/25000000 = 1.7585720e−2` |
-| 1 | `[61171/5000, 131999/10000]` | 0.9657 | `390023/100000000 = 3.9002300e−3` |
-| 2 | `[11544/625, 48583/2500]` | 0.9628 | `169313/100000000 = 1.6931300e−3` |
-| 3 | `[247289/10000, 256909/10000]` | 0.9620 | `18889/20000000 = 9.4445000e−4` |
-| 4 | `[309971/10000, 159793/5000]` | 0.9615 | `6021/10000000 = 6.0210000e−4` |
-| 5 | `[372701/10000, 76463/2000]` | 0.9614 | `10431/25000000 = 4.1724000e−4` |
-| 6 | `[21773/500, 27817/625]` | 0.9612 | `6123/20000000 = 3.0615000e−4` |
-| 7 | `[498237/10000, 507849/10000]` | 0.9612 | `1171/5000000 = 2.3420000e−4` |
-| 8 | `[280513/5000, 570637/10000]` | 0.9611 | `9247/50000000 = 1.8494000e−4` |
+| 0 | `[60653/10000, 35257/5000]` | 0.9861 | `9232503/500000000 = 1.8465006e-02` |
+| 1 | `[61171/5000, 131999/10000]` | 0.9657 | `8190483/2000000000 = 4.0952415e-03` |
+| 2 | `[11544/625, 48583/2500]` | 0.9628 | `3555573/2000000000 = 1.7777865e-03` |
+| 3 | `[247289/10000, 256909/10000]` | 0.9620 | `396669/400000000 = 9.9167250e-04` |
+| 4 | `[309971/10000, 159793/5000]` | 0.9615 | `126441/200000000 = 6.3220500e-04` |
+| 5 | `[372701/10000, 76463/2000]` | 0.9614 | `219051/500000000 = 4.3810200e-04` |
+| 6 | `[21773/500, 27817/625]` | 0.9612 | `128583/400000000 = 3.2145750e-04` |
+| 7 | `[498237/10000, 507849/10000]` | 0.9612 | `24591/100000000 = 2.4591000e-04` |
+| 8 | `[280513/5000, 570637/10000]` | 0.9611 | `194187/1000000000 = 1.9418700e-04` |
 
 Each `I_k` has length `< 1`; the `I_k` are pairwise disjoint (left endpoints
 spaced by more than `6.16`); `I_0` starts at `6.0653 > 28/5`; `I_8` ends at
 `57.0637 < 60`. Negative `s` is the mirror image (`Dam` is even in `s`: `Qre` is
 even and `Qim` is odd in the second argument).
 
-The caps are `sup` over `I_k × [0,1/2]` of `Dam y s / y²`, rounded up. Measured
-worst case of `(Dam y s / y²) / c_k` over `y ∈ {0.45, …, 0.02}` is `0.995985`, so
-the `y = 1/2` profile dominates; the windows also **nest** (`I_k(y) ⊆ I_k(1/2)`
-for `y ≤ 1/2`), which is why one table serves every `y`.
+**The caps carry deliberate slack, and this is load-bearing.** An earlier
+draft of this file set `c_k` equal to the `sup` of `Dam y s / y²` over
+`I_k × [0,1/2]`, rounded up at the seventh decimal. That version of O9 is
+**not provable by interval arithmetic at any table size**: the supremum is
+attained at an *interior* point of every window (always at `y = 1/2`;
+`o9_scoping.py` recomputes all nine and finds ratio `1.0000` to four
+figures), and any enclosure of a box containing the argmax has an upper
+bound strictly greater than the supremum. An inequality that is an equality
+somewhere has no margin for a ball to fit in.
+
+The caps above are therefore `21/20` times that supremum — a documented
+`1.05×` inflation. Two independent measurements bound the room available:
+`o9_scoping.py` §7 finds the budget absorbs inflation up to **`1.3945×`**
+before the surplus reaches zero, and `window_table.py` builds the `y = 1/2`
+leaf table at `1.02×` with **0 undecided cells** in 196. `1.05×` sits inside
+both, and §7 below is recomputed at it.
+
+Measured worst case of `(Dam y s / y²) / sup_k` over `y ∈ {0.45, …, 0.02}` is
+`0.995985`, so the `y = 1/2` profile dominates; the windows also **nest**
+(`I_k(y) ⊆ I_k(1/2)` for `y ≤ 1/2`), which is why one table serves every `y`.
 
 ---
 
@@ -207,14 +223,21 @@ Budget: `2 Shq y ≥ (51944/100000) · (1/4) = 0.12986`.
 
 | contribution | value at `y = 1/2` |
 |---|---|
-| window `k=0`, best integer `m = 3` | `2.9357160e−2` |
-| windows `k=1..8`, each best at `m = 1` | `8.2824400e−3` (sum) |
-| the nine windows, both sides | `7.5279200e−2` |
+| window `k=0`, best integer `m = 3` | `3.1995018e−2` |
+| windows `k=1..8`, each best at `m = 1` | `8.6965620e−3` (sum) |
+| the nine windows, both sides | `8.1383160e−2` |
 | far intervals `[60+6j, 60+6(j+1))`, `j < 57`, both sides (best `m ≤ 3`) | `3.6305145e−3` |
 | far tail beyond `s = 400`, both sides, closed form | `5.414634e−4` |
-| **total deficit** | **`7.9451178e−2`** |
+| **total deficit** | **`8.5555138e−2`** |
 | **budget** | **`1.2986000e−1`** |
-| **surplus** | **`5.0408822e−2` > 0**, margin `1.6345×` |
+| **surplus** | **`4.4304862e−2` > 0**, margin `1.5179×` |
+
+Recomputed at the `21/20` cap inflation of §4. The optimal multiplicities are
+unchanged (`m = 3` on `k = 0`, `m = 1` on `k = 1..8`), and the far-field rows
+are untouched because they rest on `Wt` (O6/O7), a proved majorant that already
+carries its own slack. At the old zero-slack caps the surplus read
+`5.0408822e−2` and the margin `1.6345×`; buying enclosure margin costs
+`6.104e−3` of surplus.
 
 The closed-form tail uses `Wt w ≤ (637/1000)/w` for `w ≥ 1368` (O7) and
 `∑_{j≥0} ((400+6j)² − 2)^{-1} ≤ (400²−2)^{-1} + (1/6)(400−2)^{-1}`; beyond
@@ -223,7 +246,7 @@ there.
 
 Consequence, in the original variables:
 
-    Eng(F+P) − (199/200) Eng F − n/200 − 4  ≥  5.0408822e−2 / A²  =  5.972e−2 > 0
+    Eng(F+P) − (199/200) Eng F − n/200 − 4  ≥  4.4304862e−2 / A²  =  5.249e−2 > 0
 
 at `y = 1/2`, for every `n`, every `x`, every `t`.
 
