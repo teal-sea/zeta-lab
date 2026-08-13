@@ -19,6 +19,7 @@ from flint import arb  # noqa: E402
 
 from o9_scoping import (  # noqa: E402
     ACONST,
+    O3_RADIUS,
     WIDEN,
     WINDOWS,
     Qim,
@@ -81,6 +82,23 @@ def test_the_recorded_cap_is_the_supremum_not_a_bound() -> None:
     assert y_at == pytest.approx(0.5, abs=1e-9), "the maximiser sits at the deepest y"
 
 
+def test_the_widening_stays_inside_the_o3_radius() -> None:
+    """§5 step 3 charges `Kpair >= 39/50`, which O3 gives only on `|u| <= 1`.
+
+    A widened window wider than `1` holds two of its own points further apart
+    than O3 covers, and `Kpair` is already under `39/50` just past `1`.  The
+    ceiling is `(1 - widest) / 2`; an earlier draft of the brief used `1/50`,
+    which breaks it.
+    """
+    widest = max(hi - lo for lo, hi, _c in WINDOWS)
+    ceiling = (O3_RADIUS - widest) / 2
+    assert float(ceiling) == pytest.approx(0.00695, abs=1e-7)
+    assert WIDEN <= ceiling
+    assert float(Qre(arb(0), arb(1)) ** 2) >= 0.78
+    assert float(Qre(arb(0), arb("1.01")) ** 2) < 0.78
+    assert max(hi - lo + 2 * WIDEN for lo, hi, _c in WINDOWS) <= O3_RADIUS
+
+
 def test_widening_a_window_does_not_raise_its_cap() -> None:
     """The added strips carry no damage, so the caps survive the widening."""
     for lo, hi, cap in WINDOWS[:3]:
@@ -141,8 +159,8 @@ def test_a_twenty_percent_inflation_closes_every_window_cheaply() -> None:
         assert ok
         total += n
         deepest = max(deepest, d)
-    assert total <= 80, f"window leaves grew to {total}"
-    assert deepest <= 8
+    assert total <= 130, f"window leaves grew to {total}"
+    assert deepest <= 9
 
 
 def test_the_complement_closes_once_the_windows_are_widened() -> None:
@@ -152,12 +170,12 @@ def test_the_complement_closes_once_the_windows_are_widened() -> None:
     n, d, ok, gaps = complement_leaf_count(WIDEN, max_depth=30)
     assert ok
     assert len(gaps) == 10
-    assert n <= 260, f"complement leaves grew to {n}"
-    assert d <= 14
+    assert n <= 320, f"complement leaves grew to {n}"
+    assert d <= 18
 
 
 def test_the_whole_object_is_smaller_than_the_band_certificate() -> None:
-    """~264 leaves against the 3005 recorded integers of `BandCert/Data.lean`."""
+    """~389 leaves against the 3005 recorded integers of `BandCert/Data.lean`."""
     infl = Fraction(6, 5)
     windows = sum(
         leaf_count(lo - WIDEN, hi + WIDEN, cap * infl, max_depth=30)[0]
@@ -165,4 +183,4 @@ def test_the_whole_object_is_smaller_than_the_band_certificate() -> None:
     )
     comp, _d, ok, _g = complement_leaf_count(WIDEN, max_depth=30)
     assert ok
-    assert windows + comp < 400
+    assert windows + comp < 500

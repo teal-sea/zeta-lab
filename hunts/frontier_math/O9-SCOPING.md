@@ -76,46 +76,58 @@ windows alone.
 
 **Knob B — widen the windows.** The recorded `I_k` are the damage support, and
 they sit in a `[28/5, 60]` interval at a 15.3 % duty cycle: width `~0.96` at
-spacing `>6.16`. There is room to grow each window by a margin on both sides,
-and because the added strips carry no damage, **the caps do not move** — grid
-suprema over the widened boxes stay under `c_k` at every `k`
-(`test_widening_a_window_does_not_raise_its_cap`). Widening costs nothing on the
-window side and buys a strict margin on the complement side.
+spacing `>6.16`. Growing each window on both sides costs nothing on the cap
+side, because the added strips carry no damage — grid suprema over the widened
+boxes stay under `c_k` at every `k`
+(`test_widening_a_window_does_not_raise_its_cap`) — and it buys a strict margin
+on the complement.
+
+**But knob B has a ceiling, and it is O3, not taste.** §5 step 3 groups the
+offsets inside one window and charges every pair of them `Kpair >= 39/50`, which
+O3 supplies only on `|u| <= 1`. A widened window wider than `1` holds two of its
+own points further apart than that, and the charge is gone: `Kpair` is
+decreasing there, and `Kpair(1.01) = 0.77943` is already under `39/50`. The
+widest recorded window is `0.9861`, so
+
+> **the widening may not exceed `(1 - 0.9861)/2 = 0.00695`.**
+
+This is asserted in `o9_scoping.py` rather than remembered. An earlier draft of
+this file recommended `0.02`, which silently breaks O3.
 
 ## 3. The measured cost
 
-Windows widened by `0.02`, adaptive bisection on the longer side, Arb balls at
-160 bits:
+Windows widened by `1/200 = 0.005` (inside the O3 ceiling), adaptive bisection
+on the longer side, Arb balls at 160 bits:
 
 | inflation | §7 surplus | window leaves | max depth | status |
 |---|---|---|---|---|
-| 1.00x | 5.041e-02 | 14 398+ | 30 | does not close |
-| 1.05x | 4.430e-02 | 307 | 10 | closes |
-| 1.10x | 3.820e-02 | 151 | 8 | closes |
-| 1.15x | 3.210e-02 | 89 | 8 | closes |
-| **1.20x** | **2.599e-02** | **63** | **6** | **closes** |
-| 1.25x | 1.989e-02 | 47 | 6 | closes |
-| 1.30x | 1.379e-02 | 36 | 6 | closes |
-| 1.35x | 7.000e-03 | 29 | 5 | closes |
+| 1.00x | 5.041e-02 | 12 616+ | 30 | does not close |
+| 1.05x | 4.430e-02 | 506 | 11 | closes |
+| 1.10x | 3.820e-02 | 255 | 9 | closes |
+| 1.15x | 3.210e-02 | 151 | 7 | closes |
+| **1.20x** | **2.599e-02** | **110** | **7** | **closes** |
+| 1.25x | 1.989e-02 | 77 | 7 | closes |
+| 1.30x | 1.379e-02 | 46 | 6 | closes |
+| 1.35x | 7.000e-03 | 42 | 5 | closes |
 
 The complement, over the ten gaps between the widened windows:
 
 | widening | leaves | max depth | status |
 |---|---|---|---|
 | 0.00 | 404+ | 30 | does not close |
-| 0.01 | 241 | 14 | closes |
-| **0.02** | **201** | **12** | **closes** |
-| 0.05 | 159 | 10 | closes |
-| 0.10 | 120 | 8 | closes |
+| 0.0025 | 315 | 18 | closes |
+| **0.005** | **279** | **16** | **closes** |
+| 0.00695 | 260 | 15 | closes (the O3 ceiling) |
+| 0.02 | 201 | 12 | closes, but **breaks O3** |
 
-**Recommended operating point: inflation `1.20x`, widening `0.02`.**
-That is **63 + 201 = 264 leaves, maximum depth 12**, and it leaves the §7
+**Recommended operating point: inflation `1.20x`, widening `1/200`.**
+That is **110 + 279 = 389 leaves, maximum depth 16**, and it leaves the §7
 arithmetic a surplus of `2.599e-02` against a budget of `1.2986e-01` — a 1.16x
 margin still in hand against the `1.3945x` wall. The whole sweep runs in under a
 second.
 
 For scale: `BandCert/Data.lean`, which already compiles in this package, records
-**3005 integers in 70 KB**. O9 at the recommended point is roughly a third of
+**3005 integers in 70 KB**. O9 at the recommended point is roughly an eighth of
 that. **Size was never the obstacle.**
 
 ## 4. What the build actually needs

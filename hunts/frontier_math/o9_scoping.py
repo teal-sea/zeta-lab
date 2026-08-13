@@ -140,7 +140,17 @@ WINDOWS: list[tuple[Fraction, Fraction, Fraction]] = [
 #: added strips carry no damage, so the caps are unmoved (checked in [3]); what
 #: they buy is a strict margin on the complement, where the bare window edge is
 #: a tangency by construction.
-WIDEN = Fraction(1, 50)
+#:
+#: **Bounded above by O3, not by taste.**  §5 step 3 groups the offsets inside
+#: one window and charges every pair `Kpair >= 39/50`, which O3 supplies only on
+#: `|u| <= 1`.  A widened window wider than `1` puts two of its own points
+#: further apart than that, and the charge is no longer available: `Kpair` is
+#: decreasing there, and `Kpair(1.01) = 0.77943 < 39/50` already.  The widest
+#: recorded window is `0.9861`, so the widening may not exceed `0.00695`.
+WIDEN = Fraction(1, 200)
+
+#: The radius on which O3 supplies `Kpair >= 39/50`.
+O3_RADIUS = Fraction(1)
 
 Q_NEAR = Fraction(39, 10000)  # (39/50)/200
 Q_FAR = Fraction(1, 25000)  # (1/125)/200
@@ -400,7 +410,18 @@ def main() -> None:
     print(f"\n    largest admissible cap inflation: {float(infl):.4f}x")
     print(f"    at that inflation: deficit {float(at['deficit']):.7e}, surplus {float(at['surplus']):.3e}")
 
-    print("\n[3] Does widening a window move its cap?  (grid sup on the widened box)")
+    print("\n[3] The widening is bounded by O3, not by taste")
+    widest = max(hi - lo for lo, hi, _c in WINDOWS)
+    ceiling = (O3_RADIUS - widest) / 2
+    print(f"    widest recorded window          {float(widest):.4f}")
+    print(f"    O3 radius (Kpair >= 39/50)      {float(O3_RADIUS):.4f}")
+    print(f"    => widening may not exceed      {float(ceiling):.5f}")
+    print(f"    chosen WIDEN                    {float(WIDEN):.5f}")
+    for r in ("1.0", "1.01", "1.05"):
+        print(f"      Kpair({r:>5s}) = {float(Qre(arb(0), arb(r)) ** 2):.8f}")
+    assert WIDEN <= ceiling, "widening breaks the O3 hypothesis in §5 step 3"
+
+    print("\n[3b] Does widening a window move its cap?  (grid sup on the widened box)")
     widen = WIDEN
     for k, (lo, hi, cap) in enumerate(WINDOWS):
         sup, _s, _y = window_sup(lo - widen, hi + widen, ns=400, ny=30)
@@ -447,7 +468,15 @@ def main() -> None:
             print(f"                  per window: {per}")
 
     print("\n[5] The complement, and the widening it needs")
-    for w in [Fraction(0), Fraction(1, 100), Fraction(1, 50), Fraction(1, 20), Fraction(1, 10)]:
+    print(f"    (only widenings <= {float(ceiling):.5f} are admissible; the rest are shown")
+    print("     to show the trend, and are not usable without weakening O3)")
+    for w in [
+        Fraction(0),
+        Fraction(1, 400),
+        Fraction(1, 200),
+        Fraction(139, 20000),
+        Fraction(1, 50),
+    ]:
         t0 = time.time()
         n, d, ok, gaps = complement_leaf_count(w, max_depth=30)
         dt = time.time() - t0
