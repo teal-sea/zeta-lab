@@ -557,9 +557,16 @@ def page_record(gr, gates, revs, fixes_) -> str:
         f"<td>{esc(x['fired'])}</td></tr>"
         for x in fixes_
     )
+    # Only FAIL is styled as a failure. v3 is RECORDED — its key was wrong on
+    # every positive item, so that run refutes itself rather than the harness,
+    # and colouring it like a verdict would overstate what the evidence says.
+    def _pill(verdict: str) -> str:
+        cls = "pill fail" if verdict == "FAIL" else "pill"
+        return f"<span class='{cls}'>{esc(verdict)}</span>"
+
     rows = "".join(
         f"<tr><td>{esc(g['name'])}</td>"
-        f"<td><span class='pill fail'>{esc(g['verdict'])}</span></td>"
+        f"<td>{_pill(g['verdict'])}</td>"
         f"<td><code>{esc(g['file'])}</code></td></tr>"
         for g in gates
     )
