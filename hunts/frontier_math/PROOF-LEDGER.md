@@ -1495,3 +1495,83 @@ written in Lean**, `phiC_mem`'s `y != 0` still needs its own `y = 0`
 line, the table is **not built**, and none of this touches the `k >= 2`
 quantifier, which stays open. No proportion has moved and nothing here
 is evidence about RH.
+
+
+## Both roads opened: the table is 196 cells, and the damage integral is negative (2026-08-13)
+
+Instruments: `window_table.py` + `test_window_table.py` (Road A, 12
+tests), `mean_damage.py` + `test_mean_damage.py` (Road B, 15 tests).
+`ROADMAP-OPTIONS.md` priced both roads; this closes the first task on
+each.
+
+### ROAD A — the table is sized: 196 cells
+
+The `k = 1` chain's one substantial formalisation obligation. Two sizing
+attempts failed first and the failures were the method:
+
+| attempt | outcome | why |
+|---|---|---|
+| cap each window, require `D <= 0` elsewhere | 6.36e6 cells, **99.995% undecided** | asking for `D <= 0` on a cell straddling a window edge is **unprovable by enclosure** — `D` is exactly `0` there |
+| enlarge to fixed brackets, one wide ball per cap | still diverges; cap sum `3.54e-02` **exceeds** the budget `3.375e-02` | dependency blow-up: a half-width-`0.6` ball gives `2.73e-02` against a true peak of `4.40e-03`, **6x** |
+| **locate true edges, pad outward, cap by subdivision INSIDE** | **196 cells, 0 undecided** | brackets sit strictly outside the windows so `D < 0` with margin off-bracket; caps are tight because the cells prove them |
+
+At `y = 1/2`, `s in [5.6, 60]`, Arb at 128 bits: **9 windows** (widths
+`0.960975 .. 0.986001`, first at `6.065319`, min gap `5.182969`), **9
+brackets** padded by `0.25` and rounded outward to `1e-3` (min gap
+`4.682`), **143 in-bracket cells** carrying caps `4.483880e-03` down to
+`4.715629e-05`, **53 off-bracket cells** over 10 segments. Cap sum
+`1.319090e-02` both sides against `Shq/2 = 3.375420e-02` — ratio
+**0.3908**.
+
+`196` sits inside `BandCert`'s existing `62 .. 248`. **The remaining
+obligation is an ordinary instance of a pattern this package already
+carries.** The depth reduction keeps it one-dimensional: `D(y,s)/y^2 <=
+4 D(1/2,s)` shows 0 violations over 400 `s`-points x 6 depths, and closes
+with margin `2.39x` because the budget coefficient `Shq(y)/2 / y^2`
+*increases* in `y`, so its floor is `0.13087` at `y -> 0` against a
+requirement of `5.487e-02`.
+
+**Coordinator slip, caught by the module's own report**: the count was
+written as `197` from a scratch run that rounded brackets to nearest;
+rounding them outward (which is what soundness requires) gives `196`.
+`test_stated_constants_match_the_generated_table` now pins all four
+counts so the prose cannot drift from the computation again.
+
+### ROAD B — the damage functional has negative total integral
+
+The missing step was a quantitative form of "only two positions carry the
+top peak". There is a sharper and entirely elementary statement.
+`-D(y,s)` is the Fourier cosine transform of `w -> c2(w) cosh(y w)`,
+continuous and supported on `[-1,1]`, so Fourier inversion **at the single
+point `w = 0`** gives
+
+    int_{-inf}^{inf} D(y,s) ds = -2 pi c2(0),     INDEPENDENT OF y,
+    c2(0) = 1/2 + sin(sqrt2)/(2 sqrt2) = 0.84922799931830418,
+    int D ds = -5.3358568877622847.
+
+| check | result |
+|---|---|
+| `c2(0)` closed form vs quadrature | `\|diff\| = 0.0` |
+| truncated integral at 5 depths | spread across `y in [0.05, 0.5]` is `1.2e-05` — flat, as the identity says |
+| tail behaviour | residual shrinks with `S`, consistent with the `O(1/S)` truncation of a `1/s^2` tail |
+| mean collectable damage `int C(t) dt / 2L` vs `n int D / 2L` | four digits, for coincident **and** spread atom sets |
+
+**What it buys.** For a fixed on-line multiset, the damage a pair centred
+at `t` collects has *negative mean over placements*, at a rate that does
+not weaken with depth. A pair placed at random collects negative damage;
+positive collection requires landing in one of the narrow windows — and
+the windows are exactly what the `k = 1` accounting already controls.
+This is the right shape for `k >= 2`, where the difficulty was that
+damage sums over pairs while the repulsion is paid once.
+
+**What it does not buy**, stated in `NAMED_GAPS` M1-M5: it bounds the
+*mean*, and the adversary chooses placements rather than drawing them.
+Converting it into a bound on `sum_p C(t_p)` needs a count of how many
+`t` can have `C(t)` large, which is **not** supplied. This is step 1 of
+Road B, not Road B.
+
+Disposition: **BOTH ROADS ARE OPEN AND NEITHER IS BLOCKED.** Road A's
+cost is now known and small; Road B has an exact, depth-free, elementary
+identity where it previously had a measured mechanism. `k >= 2` remains
+open, nothing is kernel-checked yet, no proportion has moved, and nothing
+here is evidence about RH.
