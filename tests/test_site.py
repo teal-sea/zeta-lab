@@ -87,12 +87,33 @@ def test_the_parent_identity_is_a_single_edit() -> None:
 
 
 def test_the_facts_come_from_artifacts_not_literals(built: Path) -> None:
-    """The counts on the page must match what the tree actually contains."""
-    lean = len(list((REPO / "lean" / "ZetaLean").glob("*.lean")))
-    docs = len(list((REPO / "docs").glob("*.md")))
+    """Every headline number must match what the tree actually contains.
+
+    Counted here independently of the generator — a second implementation of
+    the same count, so the two have to agree for the test to pass. A number
+    that drifted from its source would otherwise be invisible: it renders just
+    as confidently as a correct one, which is the whole failure mode a
+    generated page exists to prevent.
+    """
+    lean_files = sorted((REPO / "lean" / "ZetaLean").rglob("*.lean"))
+    src = "\n".join(p.read_text(errors="ignore") for p in lean_files)
+    thms = len(re.findall(r"^\s*theorem\b", src, re.M))
+    lems = len(re.findall(r"^\s*lemma\b", src, re.M))
+    sorrys = len(re.findall(r"^\s*sorry\b", src, re.M))
+    docs = len(list((REPO / "docs").glob("[0-9]*.md")))
+
     zeta = (built / "pursuits" / "zeta.html").read_text(errors="ignore")
-    assert f">{lean}<" in zeta, f"Lean file count {lean} not rendered"
-    assert f">{docs}<" in zeta, f"document count {docs} not rendered"
+    index = (built / "index.html").read_text(errors="ignore")
+
+    assert f">{len(lean_files)}<" in zeta, f"Lean module count {len(lean_files)} not rendered"
+    assert f">{thms:,}<" in zeta, f"theorem count {thms} not rendered"
+    assert f">{lems:,}<" in zeta, f"lemma count {lems} not rendered"
+    assert f">{sorrys}<" in zeta, "the sorry count must be shown even at zero"
+    assert f">{docs:,}<" in index, f"document count {docs} not rendered"
+
+    # The claim the whole certified arm rests on, stated as a number.
+    assert sorrys == 0, "a sorry is present; the site must not call these theorems"
+    assert f">{thms + lems:,}<" in index, "declaration total missing from the front page"
 
 
 def test_every_document_is_reachable_and_described(built: Path) -> None:
