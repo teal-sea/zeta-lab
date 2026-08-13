@@ -172,3 +172,30 @@ hypothesis is arithmetically false from n = 8.
 instances each, `margin_eq` and `energy_sub_card` both exact), because a wrong
 statement costs a multi-hour round trip and the ledger already records one
 submission refuted by the prover for a missing hypothesis.
+
+### Batch 4 collection
+
+**collected — accepted.** Both theorems build here under `v4.33.0-rc2`,
+statements byte-identical to the submission, each reporting only
+`[propext, Classical.choice, Quot.sound]`. Static scan clean. Landed as
+`Zeta23Ext/RetentionAlgebra.lean`.
+
+`energy_sub_card` rests on one `private` helper, `sum_sq_split`, which splits
+the double sum by trichotomy into strictly-upper, strictly-lower and diagonal
+parts and identifies the two off-diagonal halves through the symmetry
+hypothesis; the diagonal then collapses under the normalisation.
+
+Its summary carried the same "built against v4.28.0, not the target pin"
+caveat that preceded a refusal in batch 2 and a clean pass in batch 3. Third
+occurrence, and the caveat remains uninformative in both directions — which is
+the argument for the local kernel check being the gate rather than the
+service's own report.
+
+**What this does and does not move.** The k=1 retention reduction's *algebra*
+is now kernel-checked. The analysis it composes (`retention_gap`, `energy_F`)
+was already sorry-free in the tree, so the k=1 layer's chain is closed end to
+end at kernel grade. What is untouched: the multi-pair statement of blocker 2
+(k blocks at different depths and centres) is still open, per the correction in
+`7df6ed8` (defect #19). The lemmas here are stated over abstract reals, so
+wiring them to `EForm3`'s objects — discharging the two hypotheses from the
+tree's own theorems — is a remaining step, not a finished one.
