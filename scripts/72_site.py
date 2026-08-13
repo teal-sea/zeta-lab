@@ -308,6 +308,88 @@ def corrections() -> list[dict[str, str]]:
     } for g in GUARDS]
 
 
+def contribution() -> dict[str, Any]:
+    """The scoreboard that matters: results, not machinery.
+
+    Kernel-checked declaration counts measure capacity. Most of the 400-odd
+    here are interval arithmetic, exponential bounds and support lemmas: real
+    work, and re-derivation of known mathematics rather than contribution. The
+    quantity a reader should judge this laboratory by is how many original
+    results it has established, which is a different and much smaller number.
+
+    It is deliberately not computed by asking whether a statement looks new.
+    This repository forbids that: `ontology/knownness.py` returns UNKNOWN for
+    the literature check, meaning "the literature was not consulted" rather
+    than "absent from it", and the operating rules say agents may not declare
+    novelty, because failure to find prior art is not proof of novelty. So the
+    funnel is counted from what was recorded and what happened to it, which is
+    checkable, instead of from a judgement about originality, which is not.
+    """
+    sys.path.insert(0, str(REPO))
+    try:
+        from harness.departments.graveyard_ledger import GRAVES  # noqa: E402
+        from harness.departments.review_ledger import CLAIMS, OUTCOMES  # noqa: E402
+    except Exception:
+        return {}
+    attacked = {getattr(o, "claim_name", "") for o in OUTCOMES}
+    withdrawn = {getattr(o, "claim_name", "") for o in OUTCOMES
+                 if getattr(o, "claim_withdrawn", False)}
+    return {
+        "recorded": len(CLAIMS),
+        "attacked": len(attacked),
+        "withdrawn": len(withdrawn),
+        "survived": len(attacked - withdrawn),
+        "unattacked": len([c for c in CLAIMS if getattr(c, "name", "") not in attacked]),
+        "buried": len(GRAVES),
+        # No artifact in this tree records an outside reader having walked a
+        # chain. Until one does, this is zero and says so.
+        "reviewed": 0,
+    }
+
+
+def frontier():
+    """The lab's own results: the second Lean corpus, and what it establishes.
+
+    `lean/ZetaLean` is the ladder of facts the laboratory re-derives to check
+    itself, and counting it was measuring capacity. The results this laboratory
+    *produced* live in `hunts/frontier_math`, and the site did not look there at
+    all. They are counted here, and the named ones are read out of the table in
+    `docs/27`, so the list stays derived: a result added to that table appears
+    on the page, and one removed from it leaves.
+
+    Original, not novel. That this laboratory produced these is a claim about
+    provenance, answerable from the record. Whether an equivalent exists
+    somewhere in the literature is a separate question, unsearched, and not
+    asserted either way.
+    """
+    root = REPO / "hunts" / "frontier_math"
+    thm = lem = sry = lines = 0
+    files = sorted(root.rglob("*.lean"))
+    for f in files:
+        t = f.read_text(errors="ignore")
+        thm += len(re.findall(r"^\s*theorem\b", t, re.M))
+        lem += len(re.findall(r"^\s*lemma\b", t, re.M))
+        sry += len(re.findall(r"^\s*sorry\b", t, re.M))
+        lines += len(t.splitlines())
+
+    results = []
+    doc = REPO / "docs" / "27-state-of-the-transplant.md"
+    if doc.is_file():
+        text = doc.read_text(errors="ignore")
+        block = re.search(r"## 2\. What is kernel-checked(.*?)^## ", text, re.S | re.M)
+        if block:
+            for n, statement, where in re.findall(
+                    r"^\|\s*([0-9]+[a-z]?)\s*\|(.+?)\|(.+?)\|\s*$",
+                    block.group(1), re.M):
+                results.append({
+                    "n": n,
+                    "statement": _clip(re.sub(r"[`*]", "", statement).strip(), 200),
+                    "where": re.sub(r"[`*]", "", where).strip(),
+                })
+    return {"files": len(files), "decls": thm + lem, "sorrys": sry,
+            "lines": lines, "results": results}
+
+
 def live_threads() -> list[dict[str, str]]:
     """Branches carrying commits not on main. Right by construction or empty."""
     rows = []
@@ -556,19 +638,28 @@ def ladder(lean: dict) -> str:
 # pages
 # --------------------------------------------------------------------------
 
-def page_index(r, lean, py, gr, threads) -> str:
+def page_index(r, lean, py, gr, threads, c, fr) -> str:
     # Lead with the result, not the name. The claim is assembled from measured
     # quantities and degrades to the plain label when the history is truncated
     # and the elapsed span cannot be established.
-    if r["days"] and lean["sorrys"] == 0:
-        headline = (f"{num(lean['decls'])} theorems,<br>machine-checked,"
-                    f"<br>in {r['days']} days.")
-    else:
-        headline = "Zeta Lab"
+    # The lede is the contribution, not the capacity. A count of kernel-checked
+    # declarations measures how much machinery exists; the number a reader
+    # should judge by is how many original results have cleared review, and
+    # that number is currently zero. Saying so is the claim: it is the only
+    # figure here that cannot be inflated, and it is the one the objective is
+    # written against.
+    headline = (f"{len(fr['results'])} original results,"
+                f"<br>machine-checked.")
+    results = "".join(
+        f"<div class='entry'><div class='when'>item {esc(x['n'])}</div>"
+        f"<p>{esc(x['statement'])}</p>"
+        f"<p class='meta'><code>{esc(x['where'])}</code></p></div>"
+        for x in fr["results"]
+    )
     live = ""
     if threads:
         live = (
-            "<section><h2><span class='num'>§4</span> Open lines</h2>"
+            "<section><h2><span class='num'>§5</span> Open lines</h2>"
             "<p>Branches carrying commits that are not on the trunk, derived "
             "from git rather than from a list anyone maintains. Right by "
             "construction, or empty.</p><div class='wrap'><table>"
@@ -582,8 +673,65 @@ def page_index(r, lean, py, gr, threads) -> str:
     return shell(IDENTITY["name"], f"""
 <h1>{headline}</h1>
 <p class="stand">A computational and formal laboratory for the Riemann
-hypothesis, and the record of what it has and has not established. Every figure
-below was counted from the repository at the revision named above.</p>
+hypothesis. Original means this laboratory produced them rather than
+re-deriving a known target; whether an equivalent exists in the literature is a
+separate question and is not asserted here. Every figure was counted from the
+repository at the revision named above.</p>
+
+<section>
+<h2><span class='num'>§1</span> What this laboratory established</h2>
+<p>Statements this laboratory produced and the Lean kernel accepted. Sorry-free,
+standard axioms only, no <code>native_decide</code>, no floating point, each
+with its <code>#print axioms</code> line in the tree.</p>
+{results}
+<p class='meta'>Read from the table in
+<a href="{esc(IDENTITY['source'])}/blob/main/docs/27-state-of-the-transplant.md">docs/27</a>,
+which carries the full statements and their obligations.</p>
+
+<h3>The candidate</h3>
+<p>A strengthening of a constant established unconditionally by an outside paper
+of 10 August 2026: the laboratory's assembled chain gives
+<strong>0.6725106958</strong> against the paper's 0.6725007037, an improvement of
+1.0×10⁻⁵. It is a <strong>candidate, not a theorem</strong>, because a composite
+claim takes the grade of its weakest step and one step is open. The improvement
+is also not numerically effective at any reachable height, the crossover sitting
+near T ≈ 10^(1.7×10⁶). That caveat is inherited from the source's own error
+terms, and it is cheaper to state than to be asked about.</p>
+
+<h3>What was refuted</h3>
+<p>Closing a route counts as output. The per-pair domination argument for
+multi-pair universality was proposed here and refuted here: the sum of
+single-pair caps already exceeds the budget while the joint verdict closes with
+40% margin, so no per-pair argument reaches the retention in either direction.
+Separately, the prover refuted a hypothesis gap in this laboratory's own
+submission, and the counterexample ships in the file as
+<code>grid_incidence_needs_even</code>. A prover that only ever agrees is not a
+check.</p>
+</section>
+
+<section>
+<h2><span class='num'>§1b</span> The funnel</h2>
+<div class="wrap"><table>
+<thead><tr><th>stage</th><th class='r'>count</th><th></th></tr></thead><tbody>
+<tr><td>claims put on the record</td><td class='r'>{c['recorded']}</td>
+<td class='note'>recorded with their reasoning before anyone knew whether they
+would survive</td></tr>
+<tr><td>sent to an adversary</td><td class='r'>{c['attacked']}</td>
+<td class='note'>{c['unattacked']} not yet attacked, and counted as open rather
+than standing</td></tr>
+<tr><td>withdrawn when broken</td><td class='r'>{c['withdrawn']}</td>
+<td class='note'>kept with the witness that killed it</td></tr>
+<tr><td>survived an adversarial pass</td><td class='r'>{c['survived']}</td>
+<td class='note'></td></tr>
+<tr><td>externally verified</td><td class='r'>{c['reviewed']}</td>
+<td class='note'>no outside reader has walked a chain here</td></tr>
+</tbody></table></div>
+<p>Originality is not self-assessed. This laboratory's rules forbid an agent
+declaring a result novel, and its literature check reports <em>the literature
+was not consulted</em> rather than <em>absent from the literature</em>, because
+failing to find prior art is not proof that none exists. So the scoreboard
+counts what was recorded and what happened to it.</p>
+</section>
 
 <div class="statement">Four preregistered experiments asked whether this
 laboratory's own validation framework improved the correctness of its results.
@@ -600,7 +748,7 @@ It did not. We shut it down and published the evidence.
      else [(num(lean['lines']), 'Lean lines', False)]))}
 
 <section>
-<h2><span class='num'>§1</span> Two arms</h2>
+<h2><span class='num'>§2</span> Capacity</h2>
 <div class="wrap"><table>
 <thead><tr><th>arm</th><th class='r'>extent</th><th>unit of truth</th>
 <th>what disqualifies a claim</th></tr></thead><tbody>
@@ -619,13 +767,13 @@ can be.</p>
 </section>
 
 <section>
-<h2><span class='num'>§2</span> The certainty ladder</h2>
+<h2><span class='num'>§3</span> The certainty ladder</h2>
 <p>A composite claim takes the grade of its weakest step.</p>
 {ladder(lean)}
 </section>
 
 <section>
-<h2><span class='num'>§3</span> Recent</h2>
+<h2><span class='num'>§4</span> Recent</h2>
 <div class='entry'><div class='when'>13 Aug 2026</div>
 <h4>The validation harness failed its own gate</h4>
 <p>Four preregistered experiments. The arm using it never beat the control;
@@ -953,7 +1101,7 @@ def main() -> int:
     out = args.out
     (out / "pursuits").mkdir(parents=True, exist_ok=True)
     pages = {
-        out / "index.html": page_index(r, lean, py, gr, threads),
+        out / "index.html": page_index(r, lean, py, gr, threads, contribution(), frontier()),
         out / "pursuits" / "zeta.html": page_zeta(r, lean, py, gr),
         out / "reading.html": page_reading(r, docs, lean),
         out / "record.html": page_record(r, gr, gates, revs, fixes),

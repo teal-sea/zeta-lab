@@ -186,6 +186,8 @@ def test_the_pages_add_no_em_dashes_of_their_own(built: Path) -> None:
         quoted += str(c).count("—")
     for x in site.corrections():
         quoted += sum(str(v).count("—") for v in x.values())
+    for x in site.frontier()["results"]:
+        quoted += sum(str(v).count("—") for v in x.values())
 
     rendered = sum(p.read_text(errors="ignore").count("—") for p in _pages(built))
     assert rendered <= quoted, (

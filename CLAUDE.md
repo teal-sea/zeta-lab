@@ -257,6 +257,25 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   write language implying a computation settles or supports RH; the sanctioned
   framing for the sign-change verification is "proof for the finite range,
   modulo the correctness of the floating-point sign evaluations".
+- **Original is not novel, and the lab may claim original** (director's ruling,
+  2026-08-13). These are two different claims and conflating them was costing
+  the laboratory its own output:
+  - **Original** is a claim about *provenance*: this laboratory produced this
+    result, rather than re-deriving a target it was handed. It is answerable
+    from the record — the git history, the ledgers, the working paper — and it
+    is **claimable**. Say "original result", name it, and give its rung.
+  - **Novel** is a claim about *the world*: no one has established this before.
+    It requires a literature search, and the standing rule holds for that word
+    only — `ontology/knownness.py` reports "the literature was not consulted"
+    rather than "absent from the literature", because failing to find prior art
+    is not proof that none exists.
+
+  A result is not downgraded to nothing because its novelty is unsearched. A
+  kernel-checked statement this lab produced is an original kernel-checked
+  result, full stop, and the front of the house should say so. The certainty
+  ladder below still governs *how strongly* it may be phrased; the ladder grades
+  confidence, it does not decide authorship. Refutations count as output too —
+  a route closed with a witness is a result, not an absence of one.
 - **The certainty ladder** (amended 2026-08-12; replaces the blunt "an
   apparent settlement is a bug" heuristic, which treated a kernel-checked
   proof and an eyeballed number alike). When a computation appears to
