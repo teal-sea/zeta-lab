@@ -11,8 +11,9 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from o9_leaf import (  # noqa: E402
-    CAPS, NAMED_GAPS, SO, WINDOWS, Iv, _seed_segments, build, cell_verdict,
-    damage_iv, emit_lean, ofInt, ofQ, validate,
+    CAPS, NAMED_GAPS, N_CELLS_KERNEL, SO, TRUE_SUPPORT, WINDOWS, Iv,
+    _seed_segments, build, cell_verdict, damage_iv, emit_lean, ofInt, ofQ,
+    validate,
 )
 
 _LEAN = (Path(__file__).resolve().parent / "zeta23ext" / "Zeta23Ext"
@@ -184,8 +185,45 @@ def test_the_package_stays_sorry_free():
         assert not re.search(r"\bsorry\s*$", src, re.M), f
 
 
+def test_s4_windows_strictly_contain_the_true_support():
+    """The dependency that makes the complement decidable.
+
+    `o9_scoping.py` shows that with the windows taken as the exact damage
+    support, "no damage outside" is an equality at every endpoint and the
+    complement does not close (404 leaves, depth wall). This table closes
+    only because S4's `I_k` are decimal-rounded OUTWARD past the support.
+    Tightening those endpoints would break this table.
+    """
+    for (wl, wh), (tl, th) in zip(WINDOWS, TRUE_SUPPORT):
+        assert wl < tl, (wl, tl)
+        assert th < wh, (th, wh)
+        assert tl - wl < F(1, 1000)
+        assert wh - th < F(1, 1000)
+
+
+def test_kernel_count_disagrees_with_the_arb_grade_count():
+    """196 is Arb-grade; the kernel's arithmetic needs 344."""
+    from window_table import N_CELLS as ARB_GRADE
+    assert ARB_GRADE == 196
+    assert N_CELLS_KERNEL == 344
+    assert N_CELLS_KERNEL > ARB_GRADE
+
+
+def test_o9_is_staged_but_not_wired_into_the_package():
+    """Deliberate: the files are uncompiled here, so importing them from
+    `Zeta23Ext.lean` would risk the other session's build."""
+    root = _LEAN.parent.parent / "Zeta23Ext.lean"
+    src = root.read_text()
+    assert "import Zeta23Ext.EForm3.Main" in src          # the wired ones
+    for orphan in ("O9Data", "O9Check", "O9Damage"):
+        assert orphan not in src, orphan
+    for f in ("O9Data.lean", "O9Check.lean", "O9Damage.lean"):
+        assert (_LEAN / f).exists(), f
+
+
 def test_named_gaps_are_honest():
     joined = " ".join(NAMED_GAPS)
     assert "NOT kernel-checked" in joined
     assert "LEAF CAVEAT" in joined
+    assert "OUTWARD" in joined          # L4b, the widening dependency
     assert "RH" in joined

@@ -1971,11 +1971,16 @@ of their finding, the load-bearing design choice.
 **The two size estimates are consistent because they size different
 objects.** `window_table` is **196 cells**, one-dimensional at `y = 1/2`,
 which is legitimate only because of the depth reduction
-`D(y,s)/y^2 <= 4 D(1/2,s)`. Theirs is **264 leaves at depth 12**, the
-full two-dimensional object over `[28/5,60] x [0,1/2]` at `1.20x` cap
-inflation plus `0.02` window widening. Both are a fraction of
-`BandCert/Data.lean`. Neither says size is the obstacle, and they agree
-on that independently.
+`D(y,s)/y^2 <= 4 D(1/2,s)`. Theirs is the full two-dimensional object
+over `[28/5,60] x [0,1/2]`. Both are a fraction of `BandCert/Data.lean`.
+Neither says size is the obstacle, and they agree on that independently.
+
+**CORRECTED, see coordinator defect #23 below.** This paragraph first
+quoted theirs as "264 leaves at depth 12 at `1.20x` inflation plus `0.02`
+widening". That is their **first draft's** operating point, which their
+own second commit retracted: `0.02` widening **breaks O3**, whose ceiling
+is `0.00695`. Their recommended point is `1.20x` inflation with `1/200`
+widening — **110 window + 279 complement = 389 leaves, max depth 16**.
 
 **Their §7 ceiling clears ours.** They measure the budget as absorbing
 cap inflation up to **`1.3945x`**. `window_table` runs at `1.02x` with a
@@ -2050,3 +2055,82 @@ this predicts the kernel's verdict rather than reproducing it; the
 soundness lemma is unwritten; the table is one-dimensional at `y = 1/2`
 and rests on the unproved depth reduction. `k >= 2` is untouched, no
 proportion has moved, and nothing here is evidence about RH.
+
+### CORRECTION: coordinator defect #23 — a superseded number, cherry-picked past its own retraction
+
+The operator asked for the tree to be tied off and warned against
+assuming another session's work is wrong without digging. Digging found
+the error was mine.
+
+**What happened.** Both `lab-rejection-philosophy` commits were
+cherry-picked: `9a99fc9` ("O9 scoped") and `0278f4a` ("O9 work order, **and
+the widening ceiling the first draft missed**"). The reconciliation entry
+above then quoted their operating point as *"264 leaves at depth 12 at
+`1.20x` inflation plus `0.02` widening"* — which is the **first draft's**
+figure, retracted by the second commit that was applied in the same
+breath. Their §2 establishes a hard ceiling: the widening may not exceed
+`(1 - 0.9861)/2 = 0.00695`, because O3 supplies `Kpair >= 39/50` only on
+`|u| <= 1` and `Kpair(1.01) = 0.77943 < 39/50`. Their own table marks
+`0.02` as **"closes, but breaks O3"**.
+
+| | first draft (quoted in error) | their recommendation |
+|---|---|---|
+| inflation | 1.20x | 1.20x |
+| widening | **0.02 — breaks O3** | **1/200 = 0.005** |
+| leaves | 264 | **110 window + 279 complement = 389** |
+| max depth | 12 | **16** |
+
+Their `ACTIVE-CLAIMS` row already carried the corrected numbers, and the
+conflict resolution took that side correctly; only the prose entry here
+was stale. Corrected in place above.
+
+### What the dig also found: this session's table has an unstated dependency
+
+Their §1 records that "no damage outside the windows" is an **equality at
+every window endpoint**, so with `I_k` taken as the exact damage support
+the complement does not close — 404 leaves and a depth wall. `o9_leaf`
+closes anyway, and **not** because fixed point beats Arb. It closes
+because §4's recorded `I_k` are decimal-rounded **outward** past the true
+support:
+
+| k | §4 `I_k` | true support | slack |
+|---|---|---|---|
+| 0 | `[6.0653, 7.0514]` | `[6.065319, 7.051319]` | 1.9e-05 / 8.1e-05 |
+| 1 | `[12.2342, 13.1999]` | `[12.234289, 13.199859]` | 8.9e-05 / 4.1e-05 |
+| 2 | `[18.4704, 19.4332]` | `[18.470414, 19.433183]` | 1.4e-05 / 1.7e-05 |
+| 3 | `[24.7289, 25.6909]` | `[24.728967, 25.690832]` | 6.7e-05 / 6.8e-05 |
+
+That rounding is an implicit widening of about `2e-05` and it is
+load-bearing: re-deriving §4's endpoints to more decimals would tighten
+them onto the support and **this table would stop closing**. Now stated
+in the module (`L4b`) and pinned by a test.
+
+### And theirs is the better artifact
+
+`o9_leaf` sizes the **one-dimensional** table at `y = 1/2`: 344 cells at
+`1.05x`, no explicit widening. `o9_scoping` sizes the **two-dimensional**
+table over the whole box: 389 leaves at `1.20x`/`0.005`. Being 2-D,
+**theirs needs no depth-reduction lemma** — this session's 1-D table rests
+on `D(y,s)/y^2 <= 4 D(1/2,s)`, which is measured and unproved. Trading an
+unproved lemma for 45 leaves is a bad trade, and whoever writes the Lean
+file should take the 2-D route. Recorded in `o9_leaf`'s docstring rather
+than left for someone to rediscover.
+
+### Two other loose ends closed
+
+* `window_table.py` asserted "**It is 196 cells**" with no pointer to the
+  344. It now says plainly that 196 is an Arb-grade sizing which
+  understates the Lean obligation by 43%, and `N_CELLS` carries the same
+  note. A test pins the two counts against each other.
+* The generated `O9{Data,Check,Damage}.lean` are **staged but deliberately
+  not imported** by `Zeta23Ext.lean`. They are uncompiled here — there is
+  no toolchain — and wiring unverified modules into the package root would
+  risk the other session's build. A test pins that they exist and that the
+  root does not import them.
+
+Disposition: **THE ERROR WAS MINE, THE OTHER SESSION'S WORK WAS RIGHT AND
+ALREADY SELF-CORRECTED.** Defect #23 is the fifth of the session and the
+first involving another session's material; its cause is the same as the
+other four — a quantity carried across contexts without being re-derived
+in the context it was being used. `k >= 2` remains open, no proportion has
+moved, and nothing here is evidence about RH.

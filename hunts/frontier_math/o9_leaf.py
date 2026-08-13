@@ -67,6 +67,40 @@ denominator `10^4`, the midpoints are dyadic), so a cell straddling a
 window boundary shrinks forever without deciding — 768 cells with 18
 undecided at depth 40.  With the cuts, 344 and none undecided.
 
+## A dependency this table rests on, which is easy to miss
+
+`o9_scoping.py` (the other session) records that the companion claim "no
+damage outside the windows" is an **equality at every window endpoint**, so
+with the windows taken as the exact damage support the complement does not
+close: 404 leaves and a depth wall.  This table closes anyway, and the
+reason is not that the fixed-point arithmetic is better — it is that §4's
+recorded `I_k` are decimal-rounded **outward**, so they strictly contain the
+true support:
+
+    k=0  [6.0653, 7.0514]   vs true [6.065319, 7.051319]   slack 1.9e-05 / 8.1e-05
+    k=1  [12.2342, 13.1999] vs true [12.234289, 13.199859] slack 8.9e-05 / 4.1e-05
+    k=2  [18.4704, 19.4332] vs true [18.470414, 19.433183] slack 1.4e-05 / 1.7e-05
+    k=3  [24.7289, 25.6909] vs true [24.728967, 25.690832] slack 6.7e-05 / 6.8e-05
+
+That rounding is an **implicit widening of about `2e-05`**, and it is what
+makes the complement decidable here.  It is a real dependency: re-deriving
+§4's endpoints to more decimals would tighten them onto the support and
+this table would stop closing.  `test_o9_leaf.py` pins it.
+
+## Two different objects, and theirs needs one lemma fewer
+
+`o9_scoping.py` sizes the **two-dimensional** table over
+`[28/5, 60] x [0, 1/2]`; its recommended operating point is inflation
+`1.20x` with widening `1/200`, giving **110 window + 279 complement = 389
+leaves, max depth 16**.  This module sizes the **one-dimensional** table at
+`y = 1/2` only: 344 cells at inflation `1.05x` with no explicit widening.
+
+The two are close in size, and **theirs is the stronger artifact**: being
+two-dimensional it does not need the depth reduction
+`D(y,s)/y^2 <= 4 D(1/2,s)`, which is measured and unproved.  This module
+trades that lemma for about 45 leaves.  Whoever builds the Lean file should
+probably take the 2-D route for that reason alone.
+
 ## What it produces
 
 `emit_lean()` writes the `Zeta23Ext/EForm3/O9Data.lean` and
@@ -87,10 +121,15 @@ from pathlib import Path
 __all__ = [
     "SO", "Iv", "civ_mul", "phiC", "damage_iv", "CAPS", "WINDOWS",
     "cell_verdict", "validate", "emit_lean", "build", "_seed_segments",
+    "N_CELLS_KERNEL", "TRUE_SUPPORT",
     "NAMED_GAPS", "report",
 ]
 
 SO = 1 << 64
+
+#: Cells in the kernel's fixed-point arithmetic (`window_table.N_CELLS`
+#: is the Arb-grade 196, which understates this by 43%).
+N_CELLS_KERNEL = 344
 
 
 # ---------------------------------------------------------------------------
@@ -287,6 +326,15 @@ CAPS = [F(9232503, 500000000), F(8190483, 2000000000), F(3555573, 2000000000),
 
 S_LO, S_HI = F(28, 5), F(60)
 
+#: The TRUE damage support, measured by `window_table.windows()`.  S4's
+#: `WINDOWS` are decimal-rounded OUTWARD past these, and that implicit
+#: widening (~2e-05) is what makes the complement decidable — see the
+#: module docstring.
+TRUE_SUPPORT = [
+    (F('6.065319'), F('7.051319')), (F('12.234289'), F('13.199859')),
+    (F('18.470414'), F('19.433183')), (F('24.728967'), F('25.690832')),
+]
+
 
 def _cap_for(lo: F, hi: F):
     """The cap of the window containing the cell, or `None` (needs `D<=0`)."""
@@ -463,7 +511,12 @@ NAMED_GAPS = (
     "throughout. Until that lemma exists, O9Check checks the table and "
     "proves nothing about `Dam`.",
     "L4 the table is one-dimensional at y = 1/2 and rests on the measured "
-    "depth reduction D(y,s)/y^2 <= 4 D(1/2,s), which is not proved.",
+    "depth reduction D(y,s)/y^2 <= 4 D(1/2,s), which is not proved. "
+    "o9_scoping.py's 2-D table (389 leaves at 1.20x/0.005) needs no such "
+    "lemma and is the stronger artifact for 45 more leaves.",
+    "L4b it also rests on S4's I_k being decimal-rounded OUTWARD past the "
+    "true damage support (~2e-05). That implicit widening is what makes "
+    "the complement decidable; tightening the endpoints would break it.",
     "L5 k >= 2 is untouched and nothing here is evidence about RH.",
 )
 

@@ -5,7 +5,17 @@ a leaf table deciding, on every cell of `s in [28/5, 60]` at `y = 1/2`,
 either `D <= 0` or `D <= cap_k` for the window the cell belongs to.
 `arm_identification.py` shows the enclosure machinery already exists
 (`BandCert.Phi.phiC_mem`, since `ghat(z) = Phi2(-i z)`); what was missing
-was the table's size.  It is **196 cells**.
+was the table's size.  Measured with Arb balls at 128 bits it is
+**196 cells**.
+
+**That is not the Lean cost.**  `o9_leaf.py` re-measures the same table in
+the arithmetic the kernel actually runs — fixed point at `2^-64`, mirrored
+from `Iv.lean` — and gets **344 cells**.  Arb at 128 bits is tighter than
+fixed point at `2^-64`, so cells Arb decides need splitting again there;
+the `196` below understates the real obligation by 43%.  It is kept as
+what it is: an Arb-grade sizing, useful for the roadmap comparison in
+`ROADMAP-OPTIONS.md`, superseded by `o9_leaf` for anything that will be
+compiled.
 
 ## Two sizing attempts failed first, and the failures are the method
 
@@ -71,7 +81,8 @@ __all__ = [
 
 #: `Shq(1/2)/2`, the budget the caps are measured against.
 SHQ_HALF = 0.0337542039303139753
-#: Total leaf cells the table needs (143 in-bracket + 53 off-bracket).
+#: Arb-grade cell count (143 in-bracket + 53 off-bracket).  NOT the Lean
+#: cost: `o9_leaf.N_CELLS_KERNEL` is 344 in fixed point at `2^-64`.
 N_CELLS = 196
 N_IN_BRACKET = 143
 N_OFF_BRACKET = 53
@@ -250,7 +261,10 @@ NAMED_GAPS = (
     "T4 cap_by_subdivision stops at a relative tolerance of 2%, so the "
     "caps are deliberately loose; the budget has room for that and the "
     "looseness is one-sided.",
-    "T5 k >= 2 is untouched and nothing here is evidence about RH.",
+    "T5 this is an ARB-grade sizing. In the kernel's fixed-point "
+    "arithmetic the same table is 344 cells (`o9_leaf.py`), 43% larger; "
+    "use that number for anything that will be compiled.",
+    "T6 k >= 2 is untouched and nothing here is evidence about RH.",
 )
 
 
