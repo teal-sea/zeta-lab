@@ -82,6 +82,61 @@ def _attention_queue() -> list[str]:
     return queue
 
 
+def _git(*args: str) -> str:
+    """Read-only git, from the repository root. Empty string on any failure."""
+    import subprocess
+
+    try:
+        out = subprocess.run(
+            ["git", *args],
+            cwd=REPO_ROOT,
+            capture_output=True,
+            text=True,
+            timeout=20,
+            check=False,
+        )
+        return out.stdout if out.returncode == 0 else ""
+    except Exception:  # noqa: BLE001 - a state page must never fail on git
+        return ""
+
+
+def _threads() -> list[dict]:
+    """Who is holding what, derived from git rather than declared.
+
+    Several agents and sessions work this repository in parallel, and until now
+    the only way to find out what was live was to read commit logs by hand —
+    which is how one session concluded, wrongly, that nobody was attacking the
+    transplant chain. A hand-maintained registry would answer that, and would
+    also rot silently and then read as authoritative, which is the same failure
+    class as an import nobody ran or an axiom audit nobody imported.
+
+    So this is derived: every branch carrying commits that are not on
+    `origin/main`, with its last commit's age and subject. It is right by
+    construction or it is empty, and it needs nobody to remember to update it.
+    """
+    rows: list[dict] = []
+    listing = _git("for-each-ref", "--format=%(refname:short)", "refs/heads", "refs/remotes")
+    for ref in listing.splitlines():
+        ref = ref.strip()
+        if not ref or ref in ("origin/main", "origin/HEAD") or ref.endswith("/HEAD"):
+            continue
+        count = _git("rev-list", "--count", f"origin/main..{ref}").strip()
+        if not count or count == "0":
+            continue
+        last = _git("log", "-1", "--format=%cr\t%s", ref).strip()
+        when, _, subject = last.partition("\t")
+        rows.append(
+            {
+                "ref": ref,
+                "ahead": count,
+                "when": when,
+                "subject": subject[:90],
+            }
+        )
+    rows.sort(key=lambda r: int(r["ahead"]), reverse=True)
+    return rows
+
+
 def render() -> str:
     parts: list[str] = []
     parts.append(
@@ -116,6 +171,33 @@ def render() -> str:
         parts.append("</ul>")
     else:
         parts.append("<p>Empty — which is a statement about the ledgers' coverage.</p>")
+
+    threads = _threads()
+    parts.append(f"<h2>Live threads ({len(threads)})</h2>")
+    parts.append(
+        "<p class='muted'>Every branch carrying commits not on <code>origin/main</code>, "
+        "newest work first. Derived from git, not declared: it is right by construction "
+        "or it is empty, and nobody has to remember to update it. Parallel sessions are "
+        "normal here — an unmerged branch is usually live work, not debris, so read this "
+        "before assuming a lane is unattended.</p>"
+    )
+    if threads:
+        parts.append(
+            "<table><tr><th>branch</th><th>ahead</th><th>last commit</th>"
+            "<th>subject</th></tr>"
+        )
+        for row in threads:
+            parts.append(
+                f"<tr><td><code>{_esc(row['ref'])}</code></td>"
+                f"<td>{_esc(row['ahead'])}</td><td>{_esc(row['when'])}</td>"
+                f"<td>{_esc(row['subject'])}</td></tr>"
+            )
+        parts.append("</table>")
+    else:
+        parts.append(
+            "<p>Nothing unmerged — either everything landed, or git was unreadable "
+            "from here. This section never guesses.</p>"
+        )
 
     parts.append(f"<h2>Graveyard ({len(GRAVES)})</h2>")
     parts.append(
