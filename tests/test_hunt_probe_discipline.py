@@ -38,6 +38,22 @@ if str(_REPO_ROOT) not in sys.path:  # pragma: no cover - import bootstrap
 
 _HUNTS = _REPO_ROOT / "hunts"
 
+#: Directory names that hold vendored or generated output rather than probe
+#: files.  A hunt may carry a Lean package (`hunts/frontier_math/zeta23ext`),
+#: and building it drops Mathlib's entire source tree — thousands of `.md`,
+#: `.json` and `.py` files nobody here wrote — inside `hunts/`.  The lexical
+#: scan below then reads *those* bytes and reports the reserved word against
+#: the hunt.  That is exactly what happened the first time the Lean arm was
+#: built, so the exclusion is load-bearing rather than tidy: without it the
+#: gate fails for everyone who runs `lake build`, and the obvious way to make
+#: it pass again is to stop building, which is the wrong lesson.
+_BUILD_DIRS = {".lake", ".git", "__pycache__", ".venv", "node_modules"}
+
+
+def _is_build_artifact(path: Path) -> bool:
+    """True for anything under a vendored or generated tree."""
+    return any(part in _BUILD_DIRS for part in path.parts)
+
 #: ζ's first two ordinates, the only ones below the t_max the hunt scanned.
 GAMMA_1 = 14.134725141734694
 GAMMA_2 = 21.022039638771555
@@ -82,12 +98,36 @@ def test_no_hunt_claims_the_reserved_word() -> None:
     for path in _HUNTS.rglob("*"):
         if path.suffix.lower() not in {".py", ".md", ".json"}:
             continue
+        if _is_build_artifact(path):
+            continue
         if path.name == "README.md" and path.parent == _HUNTS:
             continue  # the case log may quote the rule it enforces
         text = path.read_text(encoding="utf-8", errors="ignore").lower()
         if "certified" in text:
             offenders.append(str(path.relative_to(_REPO_ROOT)))
     assert not offenders, f"reserved word 'certified' used in probe files: {offenders}"
+
+
+def test_the_build_exclusion_does_not_swallow_real_probe_files() -> None:
+    """The control for the exclusion above.
+
+    Widening a lexical gate's skip list is the easy way to make it pass while
+    turning it off.  This pins both directions: a Mathlib file dropped into the
+    hunt tree by `lake build` is skipped, and an ordinary probe file sitting in
+    the same hunt is not.
+    """
+    hunt = _HUNTS / "frontier_math"
+    assert _is_build_artifact(hunt / "zeta23ext" / ".lake" / "packages" / "x.md")
+    assert not _is_build_artifact(hunt / "PROOF-LEDGER.md")
+    assert not _is_build_artifact(hunt / "zeta23ext" / "Zeta23Ext" / "Bridge.lean")
+
+    # and the gate still reaches every tracked file in the hunt
+    scanned = [
+        p
+        for p in _HUNTS.rglob("*.md")
+        if not _is_build_artifact(p)
+    ]
+    assert len(scanned) > 20, "the exclusion is eating the hunt's own documents"
 
 
 # ---------------------------------------------------------------------------
@@ -164,6 +204,7 @@ def test_the_hunt_does_not_call_the_completeness_gate() -> None:
     sources = "\n".join(
         p.read_text(encoding="utf-8", errors="ignore")
         for p in _HUNTS.rglob("*.py")
+        if not _is_build_artifact(p)
     )
     assert "online_list_is_complete" not in sources, (
         "a hunt now calls the completeness gate — revisit hunts/README.md's "
