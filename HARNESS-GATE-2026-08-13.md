@@ -155,3 +155,93 @@ response length per arm.
 **Freeze.** This commit contains this protocol and nothing else. The claims, the
 key, the runner and the results follow in a later commit, and must hash to the
 digest in §2.
+
+---
+
+# RESULTS
+
+**Executed 2026-08-13, after the protocol above was committed and pushed at
+`c77a5a3`.** The claims and key in `gate/` hash to the digest frozen in §2 —
+`77ff70172a89c43d6b84b59f38a4a6e291e5ddfc6ef5cf5a7cb404366f6c41d9` — verified
+after execution, so the ordering is checkable and neither was edited.
+
+24 runs, 12 claims × 2 arms, all completed. None errored, none was re-run, none
+was voided, and every response ended with a parseable verdict line.
+
+## The gate
+
+```
+paired claims           : 12
+Arm A correct (control) : 12/12
+Arm B correct (harness) : 12/12
+b (B right, A wrong)    : 0
+c (A right, B wrong)    : 0
+b - c                   : 0
+
+CRITERION (frozen): b - c >= 3
+OBSERVED         : b - c = 0
+```
+
+> ## GATE: **FAIL**
+
+Every claim, both arms:
+
+| | C01 | C02 | C03 | C04 | C05 | C06 | C07 | C08 | C09 | C10 | C11 | C12 |
+|---|---|---|---|---|---|---|---|---|---|---|---|---|
+| truth | S | D | S | D | S | D | D | S | S | S | D | S |
+| Arm A | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+| Arm B | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ | ✓ |
+
+Zero discordant pairs. The exact McNemar p is undefined with no discordance and
+is reported as such; it was never part of the gate.
+
+## Why it failed: ceiling
+
+**The control arm answered every claim correctly.** With `b` defined as claims
+the harness arm got right and the control got wrong, `b = 0` is then forced
+arithmetically, and no result from the treatment arm could have moved it. The
+gate could not have been passed by any Arm B performance whatsoever.
+
+§7 anticipated this case and pre-committed that a ceiling counts as a FAIL, so
+it is recorded as one. Stating it plainly: **this experiment did not measure the
+harness. It measured a claim set that was too easy to separate the arms**, and
+that is a defect of the experiment, not a finding about the harness.
+
+What the result does and does not license:
+
+- It **does not** show the harness is useless. No claim in this set was hard
+  enough for the control to fail, so the harness had no opportunity to help.
+- It **does not** show the harness is useful. Nothing was demonstrated in
+  either direction on correctness.
+- It **does** stand as a recorded FAIL against the pre-registered criterion,
+  and the criterion is not being reinterpreted after the fact to rescue it.
+
+## Cost, which was measured and did separate the arms
+
+Token counts turned out to be available per run after all — the subagent
+completion record reports them — which is better than §4.1 assumed, and is
+recorded as a correction to that section rather than quietly used.
+
+| Resource | Arm A (control) | Arm B (harness) | ratio |
+|---|---|---|---|
+| tokens, total across 12 runs | 683,782 | 787,716 | **1.15×** |
+| tokens, median per run | 66,032 | 61,302 | 0.93× |
+| wall-clock, median per run | 38 s | 124 s | **3.22×** |
+| tool uses, median per run | 5 | 17 | **3.40×** |
+| wall-clock, total | 482 s | 1,494 s | **3.10×** |
+
+For identical correctness (12/12 versus 12/12), the harness arm took roughly
+three times the wall-clock and three times the tool activity, at 1.15× the total
+tokens. This is a measurement, not an interpretation, and no mechanism for it is
+proposed here.
+
+## Scope
+
+Unchanged from §9, and now load-bearing: one task class, one decidable domain,
+n = 12 pairs, one model. The ceiling means the effective information about
+correctness from this run is nil.
+
+**Per the standing instruction, no decomposition, tuning, or investigation of
+mechanism was performed, and none follows from this document.** The harness was
+not modified at any point during the experiment; `harness/` is byte-identical to
+`main` at `cde2d5d`.
