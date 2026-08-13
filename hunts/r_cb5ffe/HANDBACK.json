@@ -1,0 +1,42 @@
+{
+  "run_id": "4e33ba25-3586-455f-a89d-e1800becea06",
+  "status": "settled",
+  "conclusion": "Against a ten-mutant battery, tests/test_doors.py detects 5/10 door-breaking mutants: four on the fast tier (README naming a missing script, a script renamed on disk, and the two interactive_lab contract clauses) and one only on the slow tier (the ledger's own named mutant, a README-quoted command that exits non-zero). The five escapes share one cause — the guard reads only the docs/doors/README.md table and only for the regex scripts/[\\w.]+\\.py, so commands quoted inside door pages, and README rows naming no script at all (the certify and adopt doors), are outside its field of view entirely.",
+  "confidence": "High for the catch/escape verdicts themselves: the null control passes both tiers, each verdict is a pytest process exit status, and the five escapes were also run simultaneously on one tree that stayed green on both tiers. Lower for the number 5/10 as a characterisation of the guard: ten mutants chosen by one reader of the source is a sample, not a census, and at least three further plausible misses (inline import(), an empty <title>, a second interactive_lab page) were named but not built.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "docs/doors/learn.md promotes scripts/03_primes_from_zeros.py as 'the one that makes the subject real', and nothing in the tree runs or existence-checks it",
+      "why_it_might_matter": "it is the second command a new reader types at the learn door, and the first one no guard covers; mutants M3 and M4 both exploit exactly this",
+      "first_step": "widen _door_script_commands() to read docs/doors/*.md rather than only README.md — a one-line change that would have caught M3 and M4"
+    },
+    {
+      "what": "the certify door (a Lean build) and the adopt door (a pytest invocation) are checked neither for existence nor for exit status",
+      "why_it_might_matter": "docs/doors/README.md states the cost of a purpose as 'a guide page plus a test that the page's command still works', and two of five doors do not pay it",
+      "first_step": "add a static existence check for the non-script commands (the lakefile, and the test files the adopt command names); no runtime cost"
+    },
+    {
+      "what": "M5 — the mutant the guard ledger itself names — is invisible to the fast tier and caught only by the slow tier",
+      "why_it_might_matter": "AGENTS.md tells a fresh clone to run -m 'not slow' before changing anything, so the recommended check misses the named lesion",
+      "first_step": "decide whether the ~25 s refute-door exit-status check belongs in the fast tier; the 118 s cold tour plainly does not"
+    },
+    {
+      "what": "a git worktree of this repo shares the main checkout's editable install and warm data/ cache — 06_tour.py ran 118 s cold in the main tree and 2.0 s inside a fresh worktree",
+      "why_it_might_matter": "a future hunt that mutates zeta/ in a worktree and measures the effect may be measuring the unmutated package; no mutant here touched zeta/, so no verdict in this hunt is affected",
+      "first_step": "have any worktree-based probe assert zeta.__file__ starts with the worktree path before trusting a number"
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "a small mutation-probe harness: throwaway git worktree, apply mutant, run a named test selection, record exit status, reset — the loop in hunts/r_cb5ffe/probe.py stripped of its ten door-specific mutants",
+      "why_reusable": "harness/guards.py lists guards still at fired=None (scripts/make_context.py --check is the next one), and every such demonstration needs the same isolate-mutate-run-reset loop; three of the six defects docs/25 found were guards trusted because they existed",
+      "first_step": "point the same loop at the make_context guard with one mutant (add a public symbol, leave CONTEXT.md stale) and see whether the loop survives contact with a second subject before generalising it"
+    },
+    {
+      "what": "the combined-escape-tree trick: apply every predicted-escape mutant at once and run the expensive tier a single time",
+      "why_reusable": "turns N expensive tier runs into one while keeping each escape measured rather than argued; cost here was 3 slow runs instead of 11",
+      "first_step": "none needed — it is four lines of the probe, reusable by copying"
+    }
+  ],
+  "notes_for_operator": "The measurement supports flipping the tests/test_doors.py record from fired=None to fired=True with a named scope and four known_misses; the proposed text is in RESULTS.md. I did not apply it: guard_ledger.py is in the demoted half of harness/, my brief forbids extending harness/, and a hunt may not promote its own claim. One scope deviation to note: I added a case-log entry for r_cb5ffe to hunts/README.md, outside hunts/r_cb5ffe/, because tests/test_hunt_probe_discipline.py::test_every_hunt_directory_is_covered_by_the_case_log fails without one. Nothing else outside the hunt directory was touched."
+}
