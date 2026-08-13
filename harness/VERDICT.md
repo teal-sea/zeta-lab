@@ -165,3 +165,22 @@ The four-experiment record, the cost finding and the adoption finding all stand
 as written. This section narrows what may be concluded from them, and it was
 found by grepping the tree during the demotion pass rather than by reasoning
 from the report.
+
+
+---
+
+# How to read this verdict (added 2026-08-13)
+
+Not as a blunder. The framework was a reasonable thing to build, it was built
+carefully, it was tested against the practice it was meant to improve, and it
+lost. Those are four separate facts and only the last one is negative.
+
+What the record is worth keeping for: a thing the lab invested in was measured
+against a preregistered criterion that was never moved, and then stopped. The
+willingness to end an investment on evidence is the part to imitate. Retiring
+this is a success of the method and a failure of the artifact — do not collapse
+the two, in either direction.
+
+What it does **not** license: any conclusion about verification in general, or
+about work not tested here. Four experiments in three subjects measured one
+framework's effect on verdict correctness. That is all they measured.

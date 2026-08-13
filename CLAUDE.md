@@ -155,6 +155,13 @@ build infrastructure without a live consumer, do not generalize a workflow
 before the concrete workflow earns it, and do not build a meta-system to manage
 the meta-system. `harness/VERDICT.md` is what the alternative cost.
 
+  Read that verdict as a bet properly made and properly ended, not as a blunder.
+  It was a reasonable thing to try, it was built well, it was tested against the
+  practice it meant to improve, and it lost. **Being able to kill something you
+  funded, on evidence, is the habit worth keeping** — a lab that cannot do that
+  has preferences rather than a method. Retiring it is a success of the process
+  and a failure of the thing, and the two are not the same judgement.
+
 ## Loose threads
 
 Things worth remembering that nobody is pursuing right now. `THREADS.md` is the
