@@ -1650,3 +1650,71 @@ already kernel-checked in this tree. It is **not proved** — named gaps
 G1-G5 say which parts are paper-and-numerics rather than Lean. `k >= 2`
 remains open, no proportion has moved, and nothing here is evidence about
 RH.
+
+
+## ROAD B, step 3: the counting lemma is "at most one pair per window" (2026-08-13)
+
+Instrument: `counting_lemma.py`, `test_counting_lemma.py` (17 tests).
+`gram_form` reduced `k >= 2` to `B + R/400 >= sum_{a,p} D` and named the
+missing piece as a **count**. Two measurements supply it.
+
+### 1. The counting lemma
+
+Put `m` atoms and `j` pair centres in one damage window (width
+`<= w_max = 0.9860008`). A **two-species** square completion closes iff
+`D_1^2 <= 4 (gamma^2/800) kappa(w_max)`, and it does:
+
+| quantity | value |
+|---|---|
+| damage per (atom, pair) | `D_1 = 4.396424e-03` |
+| atom-atom relief per within-window pair | `gamma^2/800 = 9.779689e-04` |
+| **pair-pair relief per within-window pair** | **`kappa(w_max) = 1.620239e+00`** |
+| AM-GM condition | `1.932855e-05 <= 6.338174e-03` — **margin 327.9x** |
+
+`kappa(w_max)` is **1657x** the per-pair atom relief. That asymmetry is
+the whole content: the pair species cannot crowd. Maximising
+`f(m,j) = m j D_1 - m(m-1) gamma^2/800 - j(j-1) kappa(w_max)` over
+integers:
+
+    j = 1:  +7.321459e-03  at m = 3   <- exactly the k=1 optimum, recovered
+    j = 2:  -3.216073e+00
+    j = 3:  -9.670185e+00
+
+**A second pair in the same window is never profitable.** That is the
+count `gram_form` said was missing, and it recovers the `k = 1` answer as
+its `j = 1` slice, which is the consistency check that matters.
+
+### 2. The budget floor: `B/k` does not decay
+
+`B` is not additive, so a "budget per pair" could in principle vanish as
+`k` grows. Minimising over lattice spacings at `k = 64` puts the worst
+case at `L = 6.30` — just past `2 pi`, the window period, which is where
+`kappa` is most negative (`-1.82e-02`). Along that worst family:
+
+| k | 2 | 4 | 8 | 16 | 32 | 64 | 128 | 256 |
+|---|---|---|---|---|---|---|---|---|
+| `B/k` | 2.459e-2 | 1.749e-2 | 1.260e-2 | 9.492e-3 | 7.653e-3 | 6.680e-3 | **6.325e-3** | 6.392e-3 |
+
+It **bottoms out near `6.3e-03` and turns back up**. Every pair carries a
+budget bounded away from zero, uniformly in `k`.
+
+### What this settles and what it does not
+
+Together the two kill the configuration the `k = 1` analysis feared —
+many pairs sharing one atom cluster's windows. It is **not** closure:
+a single pair facing atoms at every one of its window peaks already
+collects `1.372e-02`, against a floor of `6.3e-03`, so `R/400` stays
+load-bearing and the shared-`R`-across-pairs question is untouched. What
+is gone is the *unbounded* form of the worry.
+
+**Test-caught coordinator slip.** `test_one_pair_at_every_window_peak`
+first asserted the full-tail figure `1.372e-02` against a nine-window sum,
+which is `1.2888e-02` — two different truncations quoted for each other.
+The claim was unaffected (both beat the floor) but the test was wrong, and
+it now pins both numbers and the inequality between them. Same family as
+the `197`/`196` slip: a number carried across contexts without
+re-deriving it.
+
+Disposition: **THE COUNT EXISTS AND IT IS SHARP.** `k >= 2` remains open,
+named gaps C1-C5 say which parts are measured rather than proved, no
+proportion has moved, and nothing here is evidence about RH.
