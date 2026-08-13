@@ -70,6 +70,40 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #8 — where the fog enters (`effective_constants/`)
+
+**Status: opened 2026-08-13, nothing measured yet.** Tests whether the
+transplant chain's ineffectivity is extractable bookkeeping or an essential
+obstruction.
+
+The chain's headline caveat is that the improved constant is a liminf
+statement with crossover `T₀ ≈ 10^(1.6773e6)` — unreachable at any computable
+height — and that this is *inherited* from the source paper. "Inherited"
+currently functions as an explanation and is not one, so the hunt asks where
+exactly the fog enters and whether it has to.
+
+Two facts already in the tree say it may not. `PROOF-LEDGER.md` (blocker 3,
+residual (i)) records that **four existential `EvBound` constants would make
+the chain effective and nothing else in the budget would** — the ineffectivity
+is localised, and the dominant error term is already derived from parts
+(`35.519106`, matching measurement to four digits). And upstream those facts
+are *assumptions*: fields of a `Facts` structure carrying the paper's own
+references, whose shape is `∃ C > 0, ∃ T₀, ∀ T ≥ T₀, |f| ≤ C·g` and whose own
+docstring says "explicit inequality with named constants, no filter-o(1) until
+the final liminf wrapper". The constants were not lost to an obstruction; they
+were not carried across an interface, because the source's goal was a limit
+statement.
+
+Either verdict is worth having. Extractable means an effective form of the
+underlying bound is arithmetic rather than new mathematics — and that would
+stand independently of the `+1.0e-5` improvement it was reached through, since
+the improvement is unreachable at any computable height while an effective
+constant is usable above its threshold. Essential means the obstruction finally
+has a name and a location.
+
+Opened after the operator asked why the fog has to be inherited at all. It is
+the first hunt to attack the chain *upstream* of where the transplant begins.
+
 ### Hunt #7 — the quasicrystal that is a theorem (`golden_control/`)
 
 **Status: probe, complete. The quasicrystal lane gains its ground-truth
