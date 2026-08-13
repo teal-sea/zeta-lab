@@ -1443,3 +1443,55 @@ does not extend, which is a fact about the accounting.
 `k >= 2` remains open as a theorem: this is an identity plus a search
 over `k <= 6`, `n <= 24`, and named gaps N1–N5 in the module say so. No
 proportion has moved and nothing here is evidence about RH.
+
+
+## The two arms compute one function: ghat(z) = Phi2(-i z) (2026-08-13)
+
+Instrument: `arm_identification.py`, `test_arm_identification.py`
+(39 tests). Found while scoping the k=1 formalisation, by reading
+`BandCert/Phi.lean` to copy its table pattern.
+
+This hunt grew two independent certification efforts and neither knew
+about the other:
+
+* **BandCert** (2283 lines, sorry-free) encloses the paper field
+  `Phi2(z) = s(z+sqrt2) + s(z-sqrt2)`, `s(u) = sin(u/2)/u`, on
+  fixed-point interval arithmetic at `2^-64`.
+* **EForm3** works the retention inequality through `Qre`, `Qim` and
+  `D(y,s) = Qim^2 - Qre^2`, built from
+  `ghat(z) = int cos(sqrt2 u) cosh(z u) du`.
+
+They are the same function:
+
+    ghat(z) = Phi2(-i z)      for every complex z.
+
+One line: `ghat` has the closed form `sinh((z +/- i sqrt2)/2)/(z +/- i sqrt2)`
+summed over signs, and `sinh(i w/2)/(i w) = sin(w/2)/w = s(w)`, so
+substituting `z = -i w` turns each `ghat` branch into an `s` branch of
+`Phi2`. Measured residual over 27 curated points and a 1600-point grid
+over the strip: **exactly 0.0** — not small, bit-identical, because after
+the rotation the two closed forms are the same expression. `A = Phi2(0)`
+to the last bit, and `phi_r(v) = Phi2(v)` on the real axis, which is
+`BandCert.Phi.phiR`.
+
+| consequence | detail |
+|---|---|
+| **The k=1 table is not the ANALOGUE of the BandCert leaves, it is an INSTANCE** | the entry of 2026-08-13 called it "the analogue of the `BandCert` leaf tables"; that understated the reuse |
+| `Phi2` at a **complex** point is already kernel-checked | `BandCert.Phi.phiC` / `phiC_mem`, with `y != 0` |
+| the complex interval layer assumed missing already exists | `CIv` with `add/sub/mul/div/mulR/ofR` soundness lemmas |
+| the damage enclosure is three composition steps | `D(y,s) = -Re[Phi2(s - i y)^2]`: `phiC` at `(s, -y)`, square by `CIv.mul_mem`, negate the real part |
+| obligation count | **7 of 12 already kernel-checked in BandCert**; of the 5 new, four are small (the `linarith` reduction, the wiring lemma, the integer square completion, two one-variable bounds on `phiR`) and **one** is the real cost: the cap table itself |
+
+Two damage routes cross-checked over the obligation box
+`y in {0.05 .. 0.5} x s in {6.0653 .. 59.9}`: residual **0.0**.
+
+Disposition: **THE LARGEST REUSE FINDING IN THIS HUNT, AND IT WAS FREE.**
+It cost one reading of a file the hunt already owned. What it buys is
+that the single substantial obligation left on the `k = 1` chain runs on
+machinery that already compiles with zero sorrys, rather than on
+machinery that has to be built. Named gaps R1-R5 in the module: the
+wiring lemma is derived on paper and checked numerically but is **not
+written in Lean**, `phiC_mem`'s `y != 0` still needs its own `y = 0`
+line, the table is **not built**, and none of this touches the `k >= 2`
+quantifier, which stays open. No proportion has moved and nothing here
+is evidence about RH.
