@@ -6,6 +6,11 @@
 # the work is checkable, and until now every check depended on a human
 # remembering to run it.
 #
+# Membership is verified, not assumed: a file that merely avoids importing numpy
+# can still shell out to a script that needs it. tests/test_lab_state.py does
+# exactly that -- it subprocesses 70_lab_state.py, which imports harness ->
+# zeta_department -> numpy -- and CI caught it here. It now runs in tier 2.
+#
 # What it deliberately does NOT do: the numerical suite, the doors (which
 # execute real scripts), or Lean. Those are tiers 2 and 3 — see full.yml and
 # lean.yml. Cost here is measured in operator attention on a red build, not
@@ -59,7 +64,6 @@ jobs:
             tests/test_meta_ledger.py \
             tests/test_graveyard.py \
             tests/test_review.py \
-            tests/test_lab_state.py \
             tests/test_dossier_schema.py \
             tests/test_discovery_schema.py
 

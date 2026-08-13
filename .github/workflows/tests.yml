@@ -58,4 +58,6 @@ jobs:
           PY
 
       - name: fast tier
+        # Includes tests/test_lab_state.py, which tier 1 cannot run: it
+        # subprocesses a script whose imports reach numpy.
         run: python -m pytest -q -m "not slow" --durations=10
