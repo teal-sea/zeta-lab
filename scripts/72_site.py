@@ -552,12 +552,10 @@ def page_index(r, lean, py, gr, threads) -> str:
             + "</tbody></table></div></section>"
         )
     return shell(IDENTITY["name"], f"""
-<h1>Nothing counts until<br>the kernel accepts it.</h1>
-<p class="stand">A small laboratory working the Riemann hypothesis in two
-regimes of certainty — quantities that are <em>measured</em>, and statements a
-proof kernel has <em>accepted</em>. Every figure below was counted from the
-repository at the revision named above, including the ones that record what did
-not work.</p>
+<h1>Zeta Lab</h1>
+<p class="stand">A computational and formal laboratory for the Riemann
+hypothesis. Every figure below was counted from the repository at the revision
+named above.</p>
 
 {vitals([
     (num(lean['decls']), 'kernel-checked declarations', False),
@@ -583,16 +581,13 @@ not work.</p>
 <td class='note'>acceptance by the Lean kernel</td>
 <td class='note'>one <code>sorry</code></td></tr>
 </tbody></table></div>
-<p>No computation here is evidence for or against the hypothesis, and none can
-be. <em>Certified</em> is a reserved word: everything outside those two regimes
-is at best <em>accurate</em>, which is weaker and different.</p>
+<p>No computation here is evidence for or against the hypothesis, and none
+can be.</p>
 </section>
 
 <section>
 <h2><span class='num'>§2</span> The certainty ladder</h2>
-<p>Claims are graded, and a composite claim takes the grade of its weakest step.
-The laboratory occupies the first three rungs and states plainly that it does
-not occupy the fourth.</p>
+<p>A composite claim takes the grade of its weakest step.</p>
 {ladder(lean)}
 </section>
 
@@ -600,10 +595,8 @@ not occupy the fourth.</p>
 <h2><span class='num'>§3</span> Recent</h2>
 <div class='entry'><div class='when'>13 Aug 2026</div>
 <h4>The validation harness failed its own gate</h4>
-<p>Four preregistered experiments asked whether the laboratory's own validation
-framework improved the correctness of research-claim evaluation. It did not: the
-arm using it never out-performed the control, and the control was never wrong.
-Development stopped and the evidence was kept.</p>
+<p>Four preregistered experiments. The arm using it never beat the control;
+the control was never wrong. Development stopped.</p>
 <p class='meta'><a href="record.html">the record →</a></p></div>
 {"".join(
     f"<div class='entry'><div class='when'>{esc(g['date'] or '—')} · {esc(g['status'])}</div>"
@@ -651,10 +644,8 @@ hypothesis, claiming nothing about whether it is true.</p>
 
 <section>
 <h2><span class='num'>§1</span> The certified arm</h2>
-<p>{lean['files']} modules, <strong>{num(lean['decls'])} theorem and lemma
-declarations</strong>, and <strong>zero <code>sorry</code>s</strong>. A
-<code>sorry</code> is an uncertified step: nothing in this arm counts while one
-is present, which is what makes the second number the load-bearing one.</p>
+<p>A <code>sorry</code> is an uncertified step. Nothing in this arm counts
+while one is present.</p>
 <div class="wrap"><table>
 <caption>Largest modules by declaration count</caption>
 <thead><tr><th>module</th><th class='r'>decls</th><th class='barcell'></th>
@@ -663,16 +654,14 @@ is present, which is what makes the second number the load-bearing one.</p>
 source. {lean['files'] - len(top)} further modules not shown.</p>
 
 <h3>The result that moved the arm</h3>
-<p><code>DH_demo_ne_zero</code> — that the Davenport–Heilbronn function is
-non-zero at <code>3/2 + 3i</code> — is kernel-checked with no oracle input. It
-matters less as arithmetic than as a demonstration that the pipeline closes end
-to end, from rational interval arithmetic through certified transcendentals to a
-contour criterion.</p>
-<p>The Davenport–Heilbronn function is not a curiosity here. It shares ζ's
-functional equation, has real coefficients and a real Hardy-style Z — and it
-violates the Riemann hypothesis. Any structural property claimed to explain RH
-is run against it first, because a property this counterexample shares has
-distinguished nothing.</p>
+<p><code>DH_demo_ne_zero</code> — the Davenport–Heilbronn function is
+non-zero at <code>3/2 + 3i</code> — kernel-checked with no oracle input. The
+pipeline closes end to end: rational interval arithmetic, certified
+transcendentals, contour criterion.</p>
+<p>That function shares ζ's functional equation, has real coefficients and a
+real Hardy-style Z — and violates the Riemann hypothesis. Every structural
+claim here is run against it first. A property it also has has explained
+nothing.</p>
 </section>
 
 <section>
@@ -693,11 +682,9 @@ distinguished nothing.</p>
 <td class='note'>Arb and mpmath, each checking the other</td></tr>
 </tbody></table></div>
 <p>Identities are exposed as measured <em>defect</em> functions rather than
-assumed, and the suite checks itself against outside oracles — mpmath's
-<code>zetazero</code>, <code>siegelz</code>, <code>grampoint</code>,
-<code>nzeros</code> — rather than against its own arithmetic. When only one
-interval backend is installed the cross-check is absent, and the suite says so
-instead of passing quietly.</p>
+assumed, and the suite checks itself against mpmath's oracles rather than its
+own arithmetic. With one interval backend installed the cross-check is absent,
+and the suite says so instead of passing quietly.</p>
 <div class="statement">A dict reporting <code>certified: True</code> is
 asserting a theorem. If any step silently falls back to floats, that is a
 critical defect and not a rounding detail.</div>
@@ -705,18 +692,15 @@ critical defect and not a rounding detail.</div>
 
 <section>
 <h2><span class='num'>§3</span> Withdrawn</h2>
-<p>Results that did not survive. Each is kept with the mechanism that broke it
-and, where one exists, the test that now catches it — so it does not need
-re-deriving.</p>
+<p>Kept with the mechanism that broke each one, and the test that now catches
+it.</p>
 {graves or "<p class='meta'>none recorded</p>"}
 </section>
 
 <section>
 <h2><span class='num'>§4</span> Checking it</h2>
-<p>The repository exists to be checked rather than believed. Clone it, install
-it, run the suite; the Lean arm builds with a proof kernel and zero
-<code>sorry</code>s. Continuous integration runs the fast tier on every push and
-the full suite nightly. The documents derive the mathematics and record the
+<p>Clone it, install it, run the suite. CI runs the fast tier on every push
+and the full suite nightly. The documents derive the mathematics and record the
 attempts — start with <a href="../reading.html">the reading course</a>.</p>
 <p><a href="{esc(IDENTITY['source'])}">{esc(IDENTITY['source'])}</a></p>
 </section>
