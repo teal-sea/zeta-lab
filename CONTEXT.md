@@ -1263,6 +1263,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/mathlib_gaps.py` — Which of Mathlib's 1000 famous theorems are still unformalized.
 - `scripts/science_preflight.py` — Preflight for a session running this lab from an outside environment.
+- `scripts/build_site.sh` — Build the public reading surface for a host, with history the counts need.
 - `scripts/ledger_sync.sh` — Sync the private discovery ledger between machines.
 
 ## Tests (`tests/`)
