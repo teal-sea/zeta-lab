@@ -1988,3 +1988,65 @@ OURS WORKS.** The zero-margin obstruction is real for the §4 statement
 and is the thing to fix in `RETENTION-PROBLEM.md`; the table this session
 built already avoids it, and now has a named reason rather than a lucky
 tolerance. No proportion has moved and nothing here is evidence about RH.
+
+
+## O9 built as a leaf file, and the 196-cell estimate corrected to 344 (2026-08-13)
+
+Instrument: `o9_leaf.py`, `test_o9_leaf.py` (20 tests), and the generated
+`zeta23ext/Zeta23Ext/EForm3/{O9Data,O9Check,O9Damage}.lean`.
+
+**What was actually blocking O9 was nothing.** It was recorded as needing
+a prover; it does not. A leaf table is generated data plus a decision
+procedure — the pattern `BandCert` already uses — so the work is code
+generation, and it can be done and validated without a Lean toolchain.
+
+**The arithmetic is mirrored, not approximated.** `o9_leaf` reimplements
+`Iv.lean` (`flo`, `fhi`, `add`, `sub`, `neg`, `mul`, `sqr`, `mulInt`,
+`divInt`, `widen`, `ofQ`, `ofInt`, `div`) and `Phi.lean`'s `CIv` layer
+**operation for operation in integers at scale `2^64`**, then builds
+`phiC` by the same composition. Lean's `Int` `/` is `ediv`, which for
+`SO > 0` is floor, so Python's `//` matches. Soundness spot-checked: every
+fixed-point damage enclosure contains the Arb reference at six offsets
+spanning `[5.7, 59.9]`.
+
+### The size was wrong, and low
+
+| estimate | arithmetic | cells |
+|---|---|---|
+| `window_table.py` (2026-08-13, earlier) | Arb balls, 128 bits | 196 |
+| **`o9_leaf.py`, the kernel's own** | fixed point, `2^-64` | **344** |
+
+Arb at 128 bits is *tighter* than fixed point at `2^-64`, so cells Arb
+decides need splitting again in the arithmetic that will actually run.
+**196 was an underestimate of the real Lean cost by 43%.** Max depth 20,
+**0 undecided**, smallest margin `3.63e9` ulp (`1.97e-10` absolute) — far
+above the few-ulp band where the leaf caveat would bite, so the prediction
+is safe. 344 sits above `BandCert`'s existing `62..248` but on the same
+order.
+
+### The termination detail that decides it
+
+The walk must cut `[28/5, 60]` at **every window endpoint** before
+subdividing. Bisection alone never lands on one — the endpoints are
+rationals with denominator `10^4`, the midpoints are dyadic — so a cell
+straddling a boundary shrinks forever: **768 cells, 18 undecided at depth
+40**. With the cuts: 344, none undecided. This is the third appearance of
+the same trap in this hunt (it also killed two earlier sizing attempts),
+and it now has a test.
+
+### One deliberate refusal
+
+`O9Damage.lean` defines `damageIv` and states its soundness lemma
+`damageIv_mem` **in prose, not as a `sorry`**. A placeholder there would
+have been the first `sorry` in `zeta23ext`, which has been sorry-free
+throughout, and that is the package's whole claim; it is not worth
+spending for one lemma whose proof is `phiC_mem` then `CIv.mul_mem` then
+`EIv.neg_mem`. A test now enforces the package-wide invariant.
+
+Disposition: **THE TABLE EXISTS, VALIDATED IN THE ARITHMETIC THAT WILL
+CHECK IT.** Named gaps L1-L5: nothing is kernel-checked (no toolchain
+here); the leaves are Arb rather than `Leaves.lean`'s Taylor series, so
+this predicts the kernel's verdict rather than reproducing it; the
+soundness lemma is unwritten; the table is one-dimensional at `y = 1/2`
+and rests on the unproved depth reduction. `k >= 2` is untouched, no
+proportion has moved, and nothing here is evidence about RH.
