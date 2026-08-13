@@ -227,3 +227,28 @@ the repair, it is that nothing downstream can be verified until it is done:
 `RetentionWired` is written and unverifiable purely because of this.
 `assemble.sh` exists to make that check one command; it only helps if it runs
 before landing rather than after.
+
+### Batch 5 collection, and batch 6
+
+| id | outcome |
+| --- | --- |
+| eform3-A-taylor | **collected — accepted.** Builds under `v4.33.0-rc2`, declarations byte-identical, scan clean. |
+| eform3-B-closedform | **collected — accepted.** Same, and it repaired two further sites carrying the identical fragile pattern that had not been reported as failing. |
+| eform3-C-numerics | `c272510e-da2d-427c-8e57-433cb95bc866` — the last blocker in the chain (lines 95, 138, 143). Submitted. |
+
+**Both repairs removed the dependence rather than patching the symptom**, which
+is why each fixed several reported sites at once. `Taylor` replaced every
+`simpa`-built `HasDerivAt` and every `convert … using 1; ring` with an
+explicitly ascribed term corrected by `HasDerivAt.congr_deriv`, so the side
+goals are plain real identities. `ClosedForm` replaced
+`convert h using 1; field_simp; ring` with
+`refine h.congr_deriv ?_; rw [div_eq_iff hne]; ring`, using the nonvanishing
+hypothesis explicitly instead of letting `field_simp` pick a normal form.
+Batch 6's prompt carries both patterns verbatim, since a prompt that names the
+drift gets a durable repair rather than another brittle one.
+
+**Fixing a layer reveals the next.** Taylor and ClosedForm landing exposed
+`Numerics`, which the earlier survey could not see because the build stopped
+above it. That is the expected shape of a port and not a new defect — but it
+does mean "the survey found N sites" is a lower bound until the chain builds
+end to end.
