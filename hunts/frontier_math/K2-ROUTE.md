@@ -147,3 +147,60 @@ So `PROOF-LEDGER.md`'s "the route that drops the repulsion term is
 arithmetically dead" holds, reached here from a different direction. Repulsion
 is load-bearing, it is paid once however large `k` is, and any proof must
 carry that asymmetry rather than route around it.
+
+## 7. The extremal configuration lives on a `2*pi` lattice
+
+The saved `k = 12` witness (`k_trend.WITNESS_K12`) has centre gaps
+
+    37.553  131.918  44.043  12.632  6.225  6.236  12.803  6.235  6.238
+    12.904  18.789
+
+and dividing by `2*pi` gives `5.977, 20.995, 7.010, 2.010, 0.991, 0.992,
+2.038, 0.992, 0.993, 2.054, 2.990` — every one within 2..5% of an integer.
+The atoms show the same thing, in clusters of near-coincident points separated
+by multiples of the same step.
+
+That is not decoration. The nine damage windows sit at `6.5167, 12.6988,
+18.9400, ...`, whose successive gaps run `6.182, 6.241, 6.260, 6.270, 6.274,
+6.277, 6.279, 6.279` — converging to `2*pi`. The adversary needs its atoms
+inside the damage windows of as many pairs at once as possible, and the window
+spacing *is* the lattice step.
+
+**The restriction is essentially free.** Minimising with centres and atoms
+confined to `c0 + 2*pi*Z` and `x0 + 2*pi*Z` (two real offsets, integer sites,
+depths free):
+
+| k | 2 | 4 | 8 | 12 | 16 |
+|---|---|---|---|---|---|
+| lattice-restricted | +0.4510 | +0.3473 | **+0.2796** | +0.2500 | +0.2434 |
+| free, best known | ~0.372 | ~0.343 | ~0.284 | ~0.2305 | ~0.2365 |
+
+At `k = 8` the restricted search finds a *worse* configuration than the free
+one, and by `k = 16` the two agree to `0.007`. Restricting costs nothing and
+searches better, because the space is smaller.
+
+**This is a genuine reduction**: the continuum of centre and atom positions
+collapses to integers plus two offsets. It is not yet a finite problem, since
+`k` and the occupancy pattern remain.
+
+## 8. But the occupancy is not periodic, so there is no small cell
+
+The obvious next hope — if the sites are a lattice, take the occupancy periodic
+and let `k -> infinity` on one cell — **fails**. Occupying every `p`-th site
+with centres and every `q`-th with atoms, at depth `1/2`, offsets optimised on
+a `24 x 24` grid:
+
+| p, q | 1,1 | 1,2 | 2,2 | 3,3 | best |
+|---|---|---|---|---|---|
+| margin at `k = 32` | +24.45 | +12.66 | **+0.694** | +0.911 | **+0.694** |
+
+Every uniform periodic pattern is *benign* — the best is `+0.694` against a
+binding `~0.24`, a factor of three of slack. The margins do converge in `k`
+(`p=q=2` runs `0.8100, 0.7514, 0.7154, 0.6940`), so the limits exist; they are
+simply not where the adversary lives.
+
+What the binding configurations use is the lattice **with irregular occupancy
+and mixed depths** — at `k = 12`, ten of twelve depths on an endpoint and a
+gap pattern `1,1,2,1,1,2,3,...` rather than a constant stride. So the
+`k -> infinity` problem does not reduce to a small periodic cell, and the
+combinatorics of *which* sites are occupied is carrying the difficulty.

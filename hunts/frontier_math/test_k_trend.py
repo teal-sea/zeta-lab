@@ -74,3 +74,32 @@ def test_the_stock_search_collapses_to_one_atom_at_large_k():
         if best is None or s < best[0]:
             best = (s, st)
     assert len(best[1][0]) <= 3, "expected the atom set to collapse"
+
+
+def test_the_witness_centres_sit_on_a_two_pi_lattice():
+    """The structural finding of K2-ROUTE section 7, pinned on a saved
+    configuration so it costs no search to re-check.
+
+    Every centre gap is a near-integer multiple of 2*pi, because the damage
+    windows are spaced 2*pi apart asymptotically and the adversary needs its
+    atoms inside as many of them at once as it can manage.
+    """
+    import math
+
+    ts = sorted(T.WITNESS_K12["ts"])
+    gaps = [ts[i + 1] - ts[i] for i in range(len(ts) - 1)]
+    assert len(gaps) == 11
+    for g in gaps:
+        r = g / (2 * math.pi)
+        assert abs(r - round(r)) < 0.06, f"gap {g} is not a 2*pi multiple"
+
+
+def test_the_occupancy_is_not_a_constant_stride():
+    """Section 8: the sites are a lattice but the pattern on them is not
+    periodic, which is why there is no small-cell reduction."""
+    import math
+
+    ts = sorted(T.WITNESS_K12["ts"])
+    strides = [round((ts[i + 1] - ts[i]) / (2 * math.pi))
+               for i in range(len(ts) - 1)]
+    assert len(set(strides)) > 2, "a constant stride would give a periodic cell"
