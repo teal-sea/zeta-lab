@@ -84,8 +84,11 @@ source paper's §4–6 to read the ledger against it. Both outcomes are wins.
 Stated plainly, up front:
 
 - **Zeta Lab does not prove RH and does not claim progress toward proving
-  it.** If a computation here appears to settle something open, the working
-  assumption is a bug (`docs/00-orientation.md`).
+  it.** A computation that appears to settle something open is checked before
+  it is believed — refined, re-run by an independent route, and graded on the
+  certainty ladder (`AGENTS.md`) — and it may then carry the strongest language
+  its rung has earned. That is a discharge procedure, not a presumption of
+  guilt (`docs/00-orientation.md`).
 - `zeta/` implements the classical machinery at arbitrary precision: theta
   functions, the functional equation, Hardy's Z, the explicit formula, GUE
   statistics, heat flow on Ξ, Weil positivity, the Davenport–Heilbronn
