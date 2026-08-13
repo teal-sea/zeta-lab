@@ -280,6 +280,16 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   the Lean arm; the `hunts/` lexical bans unchanged -- tests enforce
   them). This rule licenses confidence at every rung a claim has earned;
   it does not license rounding a rung upward for an audience.
+- **House style: no em dashes in prose you write.** Use a period, a colon, or a
+  pair of commas; an em dash almost always marks a clause that wanted to be its
+  own sentence. This is a style rule, not a moral one, and it applies to text
+  *you* author: docstrings, comments, documents, commit messages, generated
+  pages. It does **not** license repunctuating quoted material — a ledger
+  entry, a document blurb, an adversary's recorded findings — because editing
+  someone's recorded words to satisfy a style rule is editing evidence.
+  `tests/test_site.py` enforces exactly that split for the public pages: the
+  em dash count on a rendered page may not exceed the count in the artifacts it
+  quotes.
 - **Derive conventions, never remember them.** Where the literature disagrees
   on factor placement or a constant, the repo calibrates numerically and
   cross-checks: the Riemann–Weil explicit-formula convention in `zeta/weil.py`

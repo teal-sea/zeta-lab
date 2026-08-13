@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
-"""72_site.py — the public reading surface, generated from repository artifacts.
+"""72_site.py: the public reading surface, generated from repository artifacts.
 
 `scripts/70_lab_state.py` renders the *internal* research-state view. This
 renders the *public* one, on the same principle and for the same reason:
 
-    one static file per page, no scripts and no network — pages you can read,
+    one static file per page, no scripts and no network. Pages you can read,
     not an app you can be reassured by
 
 The rule that matters is **derived, not declared**. Every count, every module
@@ -40,7 +40,7 @@ from typing import Any
 REPO = Path(__file__).resolve().parent.parent
 
 # --------------------------------------------------------------------------
-# The only place the parent identity appears — one string, so a rename is one
+# The only place the parent identity appears. One string, so a rename is one
 # edit rather than a sweep. The name is not a placeholder this script invented:
 # `teal-sea` is the account these repositories already live under. What is
 # still open is the house site above this one, which does not exist yet.
@@ -82,7 +82,7 @@ def git(*args: str) -> str:
 
 
 # --------------------------------------------------------------------------
-# measurement — every number below is counted from a file, never typed in
+# measurement: every number below is counted from a file, never typed in
 # --------------------------------------------------------------------------
 
 def lean_arm() -> dict[str, Any]:
@@ -92,8 +92,8 @@ def lean_arm() -> dict[str, Any]:
     of object to the kernel and a different kind of claim to a reader, and the
     sorry count is the one that decides whether any of it counts at all. A
     `sorry` is an uncertified step: nothing in this arm is a theorem while one
-    is present, so the number is reported even when — especially when — it is
-    zero.
+    is present, so the number is reported even when it is zero. Especially
+    then.
     """
     root = REPO / "lean" / "ZetaLean"
     mods: list[dict[str, Any]] = []
@@ -158,7 +158,7 @@ def repo_facts() -> dict[str, Any]:
     at, not with the history. The published page said this laboratory had ten
     commits for exactly that reason: the host's git integration checks out
     depth 10, and the number rendered as confidently as a true one. A count
-    that cannot be trusted is not reported — same discipline as `proven_sign`
+    that cannot be trusted is not reported. Same discipline as `proven_sign`
     returning zero for "not decided" rather than guessing a sign.
     """
     shallow = git("rev-parse", "--is-shallow-repository") == "true"
@@ -523,8 +523,8 @@ def ladder(lean: dict) -> str:
 
     Rung 3 is occupied only while the sorry count is zero, which is measured.
     Rung 4 is vacant because no artifact in this repository records an outside
-    reader having walked a chain — and saying so plainly is the point of having
-    the rung at all.
+    reader having walked a chain. Saying so plainly is the point of having the
+    rung at all.
     """
     rungs = [
         ("01", "Measured", "One route, floating-point or arbitrary-precision "
@@ -632,7 +632,7 @@ can be.</p>
 the control was never wrong. Development stopped.</p>
 <p class='meta'><a href="record.html">the record →</a></p></div>
 {"".join(
-    f"<div class='entry'><div class='when'>{esc(g['date'] or '—')} · {esc(g['status'])}</div>"
+    f"<div class='entry'><div class='when'>{esc(g['date'] or 'undated')} · {esc(g['status'])}</div>"
     f"<h4>{esc(g['name'])}</h4><p>{esc(_clip(g['why'], 240))}</p></div>"
     for g in gr[:2])}
 </section>
@@ -652,7 +652,7 @@ def page_zeta(r, lean, py, gr) -> str:
         for m in top
     )
     graves = "".join(
-        f"<div class='entry'><div class='when'>{esc(g['date'] or '—')} · "
+        f"<div class='entry'><div class='when'>{esc(g['date'] or 'undated')} · "
         f"{esc(g['status'])}</div><h4>{esc(g['name'])}</h4>"
         f"<p>{esc(g['why'])}</p>"
         f"<p class='meta'>caught by {esc(g['caught'])}"
@@ -661,7 +661,7 @@ def page_zeta(r, lean, py, gr) -> str:
         + "</p></div>"
         for g in gr
     )
-    return shell(f"Zeta — {IDENTITY['name']}", f"""
+    return shell(f"Zeta · {IDENTITY['name']}", f"""
 <h1>Zeta</h1>
 <p class="stand">A computational and formal investigation around the Riemann
 hypothesis, claiming nothing about whether it is true.</p>
@@ -687,12 +687,12 @@ while one is present.</p>
 source. {lean['files'] - len(top)} further modules not shown.</p>
 
 <h3>The result that moved the arm</h3>
-<p><code>DH_demo_ne_zero</code> — the Davenport–Heilbronn function is
-non-zero at <code>3/2 + 3i</code> — kernel-checked with no oracle input. The
+<p><code>DH_demo_ne_zero</code>: the Davenport-Heilbronn function is non-zero
+at <code>3/2 + 3i</code>, kernel-checked with no oracle input. The
 pipeline closes end to end: rational interval arithmetic, certified
 transcendentals, contour criterion.</p>
 <p>That function shares ζ's functional equation, has real coefficients and a
-real Hardy-style Z — and violates the Riemann hypothesis. Every structural
+real Hardy-style Z, and violates the Riemann hypothesis. Every structural
 claim here is run against it first. A property it also has has explained
 nothing.</p>
 </section>
@@ -734,7 +734,7 @@ it.</p>
 <h2><span class='num'>§4</span> Checking it</h2>
 <p>Clone it, install it, run the suite. CI runs the fast tier on every push
 and the full suite nightly. The documents derive the mathematics and record the
-attempts — start with <a href="../reading.html">the reading course</a>.</p>
+attempts. Start with <a href="../reading.html">the reading course</a>.</p>
 <p><a href="{esc(IDENTITY['source'])}">{esc(IDENTITY['source'])}</a></p>
 </section>
 """, depth=1, mast=masthead(r, "../"))
@@ -749,11 +749,11 @@ def page_reading(r, docs, lean) -> str:
           f"{esc(d['file'])}'>docs/{esc(d['file'])}</a></p></div>"
         for d in docs
     )
-    return shell(f"Reading — {IDENTITY['name']}", f"""
+    return shell(f"Reading · {IDENTITY['name']}", f"""
 <h1>Reading</h1>
 <p class="stand">The work itself, in the order it was written to be read. The
 early documents derive the mathematics line by line; the later ones are
-laboratory records — attempts run to their walls, a kill board of how hard
+laboratory records: attempts run to their walls, a kill board of how hard
 problems die, and an honest catalogue of why this one is hard.</p>
 
 <section>
@@ -772,14 +772,14 @@ Die</em> scores RH against eight problems and the mechanism that killed each.</p
 <section>
 <h2><span class='num'>§3</span> The formal arm</h2>
 <p>{num(lean['decls'])} declarations across {lean['files']} modules, checked by
-the Lean kernel against Mathlib, with zero <code>sorry</code>s — the count is
+the Lean kernel against Mathlib, with zero <code>sorry</code>s. The count is
 the claim. <a href="pursuits/zeta.html">The module breakdown →</a></p>
 </section>
 """, mast=masthead(r))
 
 
 def page_record(r, gr, gates, revs, fixes_) -> str:
-    # Only FAIL is styled as a failure. v3 is RECORDED — its key was wrong on
+    # Only FAIL is styled as a failure. v3 is RECORDED: its key was wrong on
     # every positive item, so that run refutes itself rather than the harness,
     # and colouring it like a verdict would overstate what the evidence says.
     def pill(v: str) -> str:
@@ -794,14 +794,14 @@ def page_record(r, gr, gates, revs, fixes_) -> str:
         "<div class='entry'>"
         f"<div class='when'>{'withdrawn' if any(a['withdrawn'] for a in c['attacks']) else ('unattacked' if c['unattacked'] else 'attacked')}</div>"
         f"<h4>{esc(c['name'])}</h4><p>{esc(c['claim'])}</p>"
-        + (f"<p class='meta'>claimed by {esc(c['author'])} — {esc(c['reasoning'])}</p>"
+        + (f"<p class='meta'>claimed by {esc(c['author'])}. {esc(c['reasoning'])}</p>"
            if c["reasoning"] else "")
         + "".join(f"<p class='meta'>rested on: {esc(a)}</p>" for a in c["assumptions"][:2])
         + ("".join(
             f"<p>{esc(a['attacker'])} ({esc(a['role'])}) found: "
             + esc(_clip("; ".join(a["findings"]), 320)) + "</p>"
             for a in c["attacks"])
-           or "<p class='meta'>no adversarial pass recorded — this claim is "
+           or "<p class='meta'>no adversarial pass recorded. This claim is "
               "open, not confirmed</p>")
         + "</div>"
         for c in revs
@@ -812,12 +812,12 @@ def page_record(r, gr, gates, revs, fixes_) -> str:
         for x in fixes_
     )
     graves = "".join(
-        f"<div class='entry'><div class='when'>{esc(g['date'] or '—')} · "
+        f"<div class='entry'><div class='when'>{esc(g['date'] or 'undated')} · "
         f"{esc(g['status'])}</div><h4>{esc(g['name'])}</h4>"
         f"<p>{esc(g['why'])}</p></div>"
         for g in gr
     )
-    return shell(f"Record — {IDENTITY['name']}", f"""
+    return shell(f"Record · {IDENTITY['name']}", f"""
 <h1>Record</h1>
 <p class="stand">Things that actually happened, including the ones that did not
 work. A record that only lists successes is not a record.</p>
@@ -825,7 +825,7 @@ work. A record that only lists successes is not a record.</p>
 <section>
 <h2><span class='num'>§1</span> The validation harness</h2>
 <p>We built a framework for testing whether an empirical claim is about its
-subject at all — structure-matched controls, ablations, null models, planted
+subject at all: structure-matched controls, ablations, null models, planted
 faults. Then we tested whether using it improved the correctness of
 research-claim evaluation.</p>
 <p>Four preregistered experiments, three subjects, 74 agent runs. Every protocol
@@ -884,12 +884,12 @@ evidence about itself.</p>
 
 
 def page_about(r, lean, py) -> str:
-    return shell(f"About — {IDENTITY['name']}", f"""
+    return shell(f"About · {IDENTITY['name']}", f"""
 <h1>About</h1>
 <p class="stand"><em>{esc(IDENTITY['line'])}</em> A small laboratory that
 explores several directions cheaply,
 feeds the ones that produce something, stops feeding the ones that don't, and
-keeps the loose ends it isn't pulling — so that choosing one direction does not
+keeps the loose ends it isn't pulling, so that choosing one direction does not
 mean forgetting the others.</p>
 
 <section>
@@ -908,7 +908,7 @@ boundary of what this can be about.</p>
 <section>
 <h2><span class='num'>§2</span> How this is organised</h2>
 <p>Two repositories, split by what an outside reader needs rather than by
-secrecy. <strong>Fulcrum</strong> is the operating layer — the private
+secrecy. <strong>Fulcrum</strong> is the operating layer: the private
 repository through which pursuits are directed and managed.
 <strong>Zeta</strong> is this pursuit, and it is public.</p>
 <p>The rule that decides where something goes: if you need it to evaluate or
@@ -916,7 +916,7 @@ reproduce a claim, it is here, in the open. If it teaches the laboratory how to
 allocate, route, prompt or operate itself, it lives in Fulcrum. Which repository
 holds a thing, whether that repository can be cloned, and how much of the
 research process outsiders can inspect are three separate questions, and the
-answer to the last is <em>as much as is meaningful</em> — including the
+answer to the last is <em>as much as is meaningful</em>, including the
 criticism, the corrections and the claims that did not survive.</p>
 <p class="meta">Fulcrum is private, not secret. The supervisor loop that would
 launch and collect work across the two is not built yet; when it is, the runs it

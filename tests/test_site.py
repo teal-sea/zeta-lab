@@ -159,6 +159,41 @@ def test_an_unattacked_claim_is_not_presented_as_a_result(built: Path) -> None:
         )
 
 
+def test_the_pages_add_no_em_dashes_of_their_own(built: Path) -> None:
+    """House style: the generator's own prose uses no em dash.
+
+    Quoted material is a different matter. Document blurbs, ledger entries,
+    module titles and adversaries' findings are read out of repository
+    artifacts, and silently repunctuating someone's recorded words to satisfy a
+    style rule would be editing evidence. So the rule is not "no em dashes on
+    the page" but "none the generator introduced": the count on every page must
+    equal the count in the material it quotes.
+    """
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("site_gen_dash", SITE)
+    site = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(site)
+
+    quoted = 0
+    for d in site.reading():
+        quoted += d["blurb"].count("—") + d["title"].count("—")
+    for m in site.lean_arm()["modules"]:
+        quoted += m["title"].count("—")
+    for g in site.graveyard():
+        quoted += sum(str(v).count("—") for v in g.values())
+    for c in site.review():
+        quoted += str(c).count("—")
+    for x in site.corrections():
+        quoted += sum(str(v).count("—") for v in x.values())
+
+    rendered = sum(p.read_text(errors="ignore").count("—") for p in _pages(built))
+    assert rendered <= quoted, (
+        f"{rendered - quoted} em dash(es) on the pages came from the generator's "
+        f"own prose, not from quoted material"
+    )
+
+
 def test_a_truncated_history_is_not_reported_as_a_number(monkeypatch) -> None:
     """A shallow checkout must not become a published commit count.
 
@@ -226,8 +261,17 @@ def test_the_host_build_needs_no_scientific_stack() -> None:
 
     cfg = json.loads((REPO / "vercel.json").read_text(encoding="utf-8"))
     assert cfg["outputDirectory"] == "_site"
-    assert SITE.name in cfg["buildCommand"], "the build must run the generator"
     assert cfg["installCommand"] == "", "an install step would defeat the point"
+
+    # The build reaches the generator through a script, so follow the chain
+    # rather than only checking the command string: the point is that the
+    # deployed pages come from this generator, however many hops away it is.
+    chain = cfg["buildCommand"]
+    for script in re.findall(r"[\w/]+\.sh", cfg["buildCommand"]):
+        path = REPO / script
+        if path.is_file():
+            chain += "\n" + path.read_text(encoding="utf-8")
+    assert SITE.name in chain, "the build does not reach the generator"
 
     stub = REPO / "tests" / "_no_deps"
     stub.mkdir(exist_ok=True)

@@ -1258,7 +1258,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/60_rung3_generate.py` — Generate the rung-3 certificate Lean files from a plan JSON.
 - `scripts/61_rung3_mirror.py` — Bit-exact Fraction mirror of the ZetaLean rational interval arithmetic.
 - `scripts/70_lab_state.py` — 70_lab_state.py — the read-only research-state view, rendered from artifacts.
-- `scripts/72_site.py` — 72_site.py — the public reading surface, generated from repository artifacts.
+- `scripts/72_site.py` — 72_site.py: the public reading surface, generated from repository artifacts.
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/mathlib_gaps.py` — Which of Mathlib's 1000 famous theorems are still unformalized.
@@ -1268,7 +1268,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1770 test functions across 66 files (the collected count differs where tests are parametrised):
+1771 test functions across 66 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_claim_attribution.py` — 6
@@ -1327,7 +1327,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_scout_online.py` — 15
 - `tests/test_script_13_discovery_run.py` — 33
 - `tests/test_script_14_moment_experiment.py` — 26
-- `tests/test_site.py` — 12
+- `tests/test_site.py` — 13
 - `tests/test_spectral_gate.py` — 14
 - `tests/test_statistics.py` — 54
 - `tests/test_surrogate.py` — 23
