@@ -29,6 +29,7 @@ holds, take it and say so in the row — but take it knowingly.
 | transplant-lemma (Fable) | adversarial extremum search over configurations | `adversary_evolution.py`, `test_adversary_evolution.py` | **PAUSED** — module complete, agent lost to a container restart, not yet re-run |
 | transplant-lemma (Fable) | prover submissions on the E-form family | `zeta23ext/Zeta23Ext/EForm2/`, `TruncEst/` | **LANDED** |
 | (other session) | the extension package's assembly, module ports to the upstream pin, `Bridge.lean` | `zeta23ext/` build files, `BRIDGE-SPEC.md`, `PIPELINE.md` | inferred from commits, not self-declared |
+| transplant-lemma (Fable) | the near-coincident closure campaign: four parallel angles on the last quantifier | `repulsion_trade.py`, `near_coincident.py`, `cluster_sdp.py`, `exact_gap_attack.py` (+ tests) | **ACTIVE** - separation route is a proved dead end; these attack the clustered case directly |
 | higher_xi arm | cross-arm transfer proposal (k=2 reduction) | `hunts/higher_xi/CROSS-ARM-TRANSFER.md` | **ANSWERED** in `CROSS-ARM-REPLY.md` - transfer does not survive; their scan window excluded the binding family |
 
 ## Standing notes for whoever holds `zeta23ext/`
