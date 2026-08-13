@@ -141,3 +141,34 @@ what made it provable without the dependency. The point of the module is to sit
 on *upstream's* objects, so replacing those local copies with `import Zeta23`
 and re-checking is an outstanding step, not a finished one. `BRIDGE-SPEC.md` §1
 lists each definition against its upstream source line for exactly that swap.
+
+## Batch 4 — the k=1 retention reduction (submitted 2026-08-12/13)
+
+The 2026-08-12 closure (`f39dc49`, corrected to k=1 only by `7df6ed8`,
+defect #19) states its reduction is "algebra on two sorry-free theorems
+already in the tree". This submits exactly that algebra, so the step moves
+from hardened grade to kernel-checked.
+
+| id | project | task | status |
+| --- | --- | --- | --- |
+| retention-algebra | `281fd3e5-8077-44c4-8497-a51b613092a0` | `margin_eq` (the exact retention margin from the gap identity) and `energy_sub_card` (`E[F] − n` equals twice the strictly-upper-triangular repulsion sum, from the energy identity plus the diagonal normalisation) | submitted |
+
+**Stated over abstract reals on purpose.** Aristotle does not have this
+package's `EForm3` modules, and the reduction needs none of them: both
+`retention_gap` and `energy_F` enter as *hypotheses* of the submitted lemmas
+rather than as facts to be reproved. That makes the file self-contained
+against Mathlib alone, and it makes the artifact reusable — the analysis is
+already sorry-free in the tree, and only the algebra was ever missing.
+
+Composing the two gives the closure's own formula,
+
+    margin = (4/A²)·[ Shq(y)/2 − Σ_j D_j + (1/400)·Σ_{j<k} φ_r(x_j−x_k)² ]
+
+which is the statement that the repulsion term is not optional: the weaker
+route discards it by using `n ≤ E[F]` in place of the identity, and that route's
+hypothesis is arithmetically false from n = 8.
+
+**Both statements were checked numerically before submission** (2000 random
+instances each, `margin_eq` and `energy_sub_card` both exact), because a wrong
+statement costs a multi-hour round trip and the ledger already records one
+submission refuted by the prover for a missing hypothesis.
