@@ -1,0 +1,104 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>About — teal sea</title><style>
+:root{
+  --paper:#fbfaf7; --ink:#16181a; --soft:#5d6469; --faint:#8b9298;
+  --rule:#e3e0d9; --hair:#efece6; --accent:#1f5f5b;
+  --serif:Iowan Old Style,Palatino Linotype,Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,Segoe UI,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --paper:#121315; --ink:#e8e5df; --soft:#a3a8ac; --faint:#7c8288;
+  --rule:#2b2e31; --hair:#202325; --accent:#6fb3ac;
+}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:17px/1.65 var(--serif);-webkit-font-smoothing:antialiased}
+.page{max-width:44rem;margin:0 auto;padding:2.5rem 1.25rem 6rem}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent}
+a:hover{border-bottom-color:currentColor}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header.top{display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap;
+  padding-bottom:1.1rem;border-bottom:1px solid var(--rule);margin-bottom:2rem}
+.word{font-family:var(--sans);font-size:1.15rem;font-weight:600;
+  letter-spacing:.005em;color:var(--ink)}
+.word a{color:inherit}
+.tag{font-family:var(--sans);font-size:.88rem;color:var(--soft)}
+
+h1{font-family:var(--sans);font-size:1.5rem;font-weight:600;line-height:1.25;
+  letter-spacing:-.015em;margin:0 0 .5rem;text-wrap:balance}
+h2{font-family:var(--sans);font-size:.68rem;font-weight:700;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--faint);margin:3rem 0 1rem}
+h3{font-family:var(--sans);font-size:1rem;font-weight:600;margin:0 0 .3rem}
+p{margin:0 0 1rem}
+.lede{font-size:1.12rem;color:var(--soft)}
+small,.meta{font-family:var(--mono);font-size:.76rem;color:var(--faint);
+  font-variant-numeric:tabular-nums}
+code{font-family:var(--mono);font-size:.85em}
+
+.entry{padding:1.1rem 0;border-bottom:1px solid var(--hair)}
+.entry:last-child{border-bottom:none}
+.entry .when{font-family:var(--mono);font-size:.74rem;color:var(--faint);
+  text-transform:uppercase;letter-spacing:.06em}
+.entry p{margin:.35rem 0 0;color:var(--soft);font-size:.97rem}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(7rem,1fr));
+  gap:1.1rem 1.4rem;margin:0 0 1rem;padding:0;list-style:none}
+.grid li{border-top:1px solid var(--rule);padding-top:.5rem}
+.grid .n{font-family:var(--sans);font-size:1.5rem;font-weight:600;
+  font-variant-numeric:tabular-nums;display:block;line-height:1.1}
+.grid .k{font-family:var(--sans);font-size:.7rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--faint)}
+
+.pill{font-family:var(--sans);font-size:.63rem;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;padding:.16rem .45rem;border:1px solid currentColor;
+  border-radius:2px;white-space:nowrap}
+.pill.fail{color:#8a4b1a} .pill.ok{color:var(--accent)}
+@media (prefers-color-scheme:dark){.pill.fail{color:#d59a63}}
+
+.wrap{overflow-x:auto;margin:0 0 1rem}
+table{border-collapse:collapse;width:100%;font-family:var(--sans);
+  font-size:.9rem;font-variant-numeric:tabular-nums}
+th{font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--faint);text-align:left;padding:0 .9rem .4rem 0;
+  border-bottom:1px solid var(--rule)}
+td{padding:.45rem .9rem .45rem 0;border-bottom:1px solid var(--hair);
+  vertical-align:top;color:var(--soft)}
+td:first-child{color:var(--ink)}
+tr:last-child td{border-bottom:none}
+
+nav.foot{margin-top:4rem;padding-top:1.1rem;border-top:1px solid var(--rule);
+  font-family:var(--sans);font-size:.88rem;display:flex;gap:1.4rem;flex-wrap:wrap}
+nav.foot .right{margin-left:auto;color:var(--faint)}
+@media (max-width:34rem){
+  body{font-size:16px} .page{padding:2rem 1.1rem 4rem}
+  nav.foot .right{margin-left:0;width:100%}
+}
+</style></head><body><div class='page'><header class='top'><span class='word'><a href='index.html'>teal sea</a></span><span class='tag'>We follow interesting problems.</span></header>
+<h1>About</h1>
+<p class="lede">A small laboratory. It explores several directions cheaply,
+feeds the ones that produce something, stops feeding the ones that don't, and
+keeps the loose ends it isn't pulling — so that choosing one direction doesn't
+mean forgetting the others.</p>
+
+<p>The impulse is roughly <em>wait, what happens if we pull on this?</em> Most
+of the time the answer is nothing much, which is why the record below has as
+many dead ends in it as findings.</p>
+
+<p>Work is public where it can be checked. The mathematics, the tests, the
+proofs and the evidence are in the open, because the point of publishing them is
+that someone can re-derive the numbers rather than take our word for it. Results
+are published whether or not they are flattering.</p>
+
+<p><a href="pursuits/zeta.html">Zeta</a> is the first pursuit. It is not the
+boundary of what this can be about.</p>
+
+<h2>Colophon</h2>
+<p class="meta">Every page here is generated from repository artifacts by
+<code>scripts/72_site.py</code> — counts from the sources, withdrawn results
+from the graveyard ledger, experiments from the gate evidence, open lines from
+git. Nothing on this site is maintained by hand, so nothing on it can quietly
+disagree with the repository. No scripts, no tracking, no network requests.</p>
+<p class="meta">Built at fbfd2a5 · 13 Aug 2026</p>
+<nav class="foot"><a href="index.html">now</a><a href="pursuits/zeta.html">zeta</a><a href="record.html">record</a><a href="about.html">about</a><a href="https://github.com/teal-sea/zeta-lab">source</a></nav></div></body></html>

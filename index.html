@@ -1,0 +1,98 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>teal sea</title><style>
+:root{
+  --paper:#fbfaf7; --ink:#16181a; --soft:#5d6469; --faint:#8b9298;
+  --rule:#e3e0d9; --hair:#efece6; --accent:#1f5f5b;
+  --serif:Iowan Old Style,Palatino Linotype,Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,Segoe UI,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --paper:#121315; --ink:#e8e5df; --soft:#a3a8ac; --faint:#7c8288;
+  --rule:#2b2e31; --hair:#202325; --accent:#6fb3ac;
+}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:17px/1.65 var(--serif);-webkit-font-smoothing:antialiased}
+.page{max-width:44rem;margin:0 auto;padding:2.5rem 1.25rem 6rem}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent}
+a:hover{border-bottom-color:currentColor}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header.top{display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap;
+  padding-bottom:1.1rem;border-bottom:1px solid var(--rule);margin-bottom:2rem}
+.word{font-family:var(--sans);font-size:1.15rem;font-weight:600;
+  letter-spacing:.005em;color:var(--ink)}
+.word a{color:inherit}
+.tag{font-family:var(--sans);font-size:.88rem;color:var(--soft)}
+
+h1{font-family:var(--sans);font-size:1.5rem;font-weight:600;line-height:1.25;
+  letter-spacing:-.015em;margin:0 0 .5rem;text-wrap:balance}
+h2{font-family:var(--sans);font-size:.68rem;font-weight:700;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--faint);margin:3rem 0 1rem}
+h3{font-family:var(--sans);font-size:1rem;font-weight:600;margin:0 0 .3rem}
+p{margin:0 0 1rem}
+.lede{font-size:1.12rem;color:var(--soft)}
+small,.meta{font-family:var(--mono);font-size:.76rem;color:var(--faint);
+  font-variant-numeric:tabular-nums}
+code{font-family:var(--mono);font-size:.85em}
+
+.entry{padding:1.1rem 0;border-bottom:1px solid var(--hair)}
+.entry:last-child{border-bottom:none}
+.entry .when{font-family:var(--mono);font-size:.74rem;color:var(--faint);
+  text-transform:uppercase;letter-spacing:.06em}
+.entry p{margin:.35rem 0 0;color:var(--soft);font-size:.97rem}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(7rem,1fr));
+  gap:1.1rem 1.4rem;margin:0 0 1rem;padding:0;list-style:none}
+.grid li{border-top:1px solid var(--rule);padding-top:.5rem}
+.grid .n{font-family:var(--sans);font-size:1.5rem;font-weight:600;
+  font-variant-numeric:tabular-nums;display:block;line-height:1.1}
+.grid .k{font-family:var(--sans);font-size:.7rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--faint)}
+
+.pill{font-family:var(--sans);font-size:.63rem;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;padding:.16rem .45rem;border:1px solid currentColor;
+  border-radius:2px;white-space:nowrap}
+.pill.fail{color:#8a4b1a} .pill.ok{color:var(--accent)}
+@media (prefers-color-scheme:dark){.pill.fail{color:#d59a63}}
+
+.wrap{overflow-x:auto;margin:0 0 1rem}
+table{border-collapse:collapse;width:100%;font-family:var(--sans);
+  font-size:.9rem;font-variant-numeric:tabular-nums}
+th{font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--faint);text-align:left;padding:0 .9rem .4rem 0;
+  border-bottom:1px solid var(--rule)}
+td{padding:.45rem .9rem .45rem 0;border-bottom:1px solid var(--hair);
+  vertical-align:top;color:var(--soft)}
+td:first-child{color:var(--ink)}
+tr:last-child td{border-bottom:none}
+
+nav.foot{margin-top:4rem;padding-top:1.1rem;border-top:1px solid var(--rule);
+  font-family:var(--sans);font-size:.88rem;display:flex;gap:1.4rem;flex-wrap:wrap}
+nav.foot .right{margin-left:auto;color:var(--faint)}
+@media (max-width:34rem){
+  body{font-size:16px} .page{padding:2rem 1.1rem 4rem}
+  nav.foot .right{margin-left:0;width:100%}
+}
+</style></head><body><div class='page'><header class='top'><span class='word'><a href='index.html'>teal sea</a></span></header>
+<h1>We follow interesting problems.</h1>
+<p class="lede">Explore broadly, notice strange things, pull the promising
+threads, stop feeding the weak ones, and keep what was learned either way.</p>
+
+<h2>Now</h2>
+<h3><a href="pursuits/zeta.html">Zeta</a></h3>
+<p>Computational and formal work around the Riemann hypothesis. Nothing here
+is evidence for or against it — the interesting part is what can be measured,
+proved, or ruled out.</p>
+<ul class="grid">
+  <li><span class="n">1,766</span><span class="k">tests</span></li>
+  <li><span class="n">45</span><span class="k">Lean files</span></li>
+  <li><span class="n">0</span><span class="k">sorrys</span></li>
+  <li><span class="n">12</span><span class="k">hunts</span></li>
+</ul>
+
+<h2>Recent</h2>
+<div class='entry'><div class='when'>13 Aug 2026</div><h3>Validation harness</h3><p>Four preregistered experiments asked whether it improved the correctness of research-claim evaluation. It did not. Investment stopped; the record is kept.</p></div><div class='entry'><div class='when'>11 Aug 2026</div><h3>blockpos 0.672529 (and siblings 0.6725124, 0.6725318)</h3><p>the construction used u u* where the pinned upstream zero side uses u u^T; an off-line pair is the hyperbolic block 2m(xx^T - yy^T), whose interaction with the on-line part can be …</p></div><div class='entry'><div class='when'>12 Aug 2026</div><h3>conditional 0.6728294 (the bin artifact)</h3><p>midpoint bin-to-cell assignment inflated chain counts, briefly producing a conditional bound past CG 1993</p></div>
+<h2>Open lines</h2><div class='wrap'><table><tr><th>branch</th><th>commits</th><th>last</th></tr><tr><td><code>claude/o9-first-build</code></td><td>39</td><td>24 minutes ago</td></tr><tr><td><code>claude/transplant-lemma</code></td><td>19</td><td>8 hours ago</td></tr><tr><td><code>claude/harness-gate</code></td><td>11</td><td>6 hours ago</td></tr><tr><td><code>claude/lab-rejection-philosophy-sgvdxr</code></td><td>2</td><td>10 hours ago</td></tr></table></div>
+<nav class="foot"><a href="index.html">now</a><a href="pursuits/zeta.html">zeta</a><a href="record.html">record</a><a href="about.html">about</a><a href="https://github.com/teal-sea/zeta-lab">source</a></nav></div></body></html>

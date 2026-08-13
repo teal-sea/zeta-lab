@@ -1,0 +1,116 @@
+<!doctype html><html lang='en'><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>Zeta — teal sea</title><style>
+:root{
+  --paper:#fbfaf7; --ink:#16181a; --soft:#5d6469; --faint:#8b9298;
+  --rule:#e3e0d9; --hair:#efece6; --accent:#1f5f5b;
+  --serif:Iowan Old Style,Palatino Linotype,Palatino,Georgia,serif;
+  --sans:-apple-system,BlinkMacSystemFont,Segoe UI,system-ui,sans-serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){:root{
+  --paper:#121315; --ink:#e8e5df; --soft:#a3a8ac; --faint:#7c8288;
+  --rule:#2b2e31; --hair:#202325; --accent:#6fb3ac;
+}}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);
+  font:17px/1.65 var(--serif);-webkit-font-smoothing:antialiased}
+.page{max-width:44rem;margin:0 auto;padding:2.5rem 1.25rem 6rem}
+a{color:var(--accent);text-decoration:none;border-bottom:1px solid transparent}
+a:hover{border-bottom-color:currentColor}
+a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+header.top{display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap;
+  padding-bottom:1.1rem;border-bottom:1px solid var(--rule);margin-bottom:2rem}
+.word{font-family:var(--sans);font-size:1.15rem;font-weight:600;
+  letter-spacing:.005em;color:var(--ink)}
+.word a{color:inherit}
+.tag{font-family:var(--sans);font-size:.88rem;color:var(--soft)}
+
+h1{font-family:var(--sans);font-size:1.5rem;font-weight:600;line-height:1.25;
+  letter-spacing:-.015em;margin:0 0 .5rem;text-wrap:balance}
+h2{font-family:var(--sans);font-size:.68rem;font-weight:700;letter-spacing:.15em;
+  text-transform:uppercase;color:var(--faint);margin:3rem 0 1rem}
+h3{font-family:var(--sans);font-size:1rem;font-weight:600;margin:0 0 .3rem}
+p{margin:0 0 1rem}
+.lede{font-size:1.12rem;color:var(--soft)}
+small,.meta{font-family:var(--mono);font-size:.76rem;color:var(--faint);
+  font-variant-numeric:tabular-nums}
+code{font-family:var(--mono);font-size:.85em}
+
+.entry{padding:1.1rem 0;border-bottom:1px solid var(--hair)}
+.entry:last-child{border-bottom:none}
+.entry .when{font-family:var(--mono);font-size:.74rem;color:var(--faint);
+  text-transform:uppercase;letter-spacing:.06em}
+.entry p{margin:.35rem 0 0;color:var(--soft);font-size:.97rem}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(7rem,1fr));
+  gap:1.1rem 1.4rem;margin:0 0 1rem;padding:0;list-style:none}
+.grid li{border-top:1px solid var(--rule);padding-top:.5rem}
+.grid .n{font-family:var(--sans);font-size:1.5rem;font-weight:600;
+  font-variant-numeric:tabular-nums;display:block;line-height:1.1}
+.grid .k{font-family:var(--sans);font-size:.7rem;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--faint)}
+
+.pill{font-family:var(--sans);font-size:.63rem;font-weight:700;letter-spacing:.08em;
+  text-transform:uppercase;padding:.16rem .45rem;border:1px solid currentColor;
+  border-radius:2px;white-space:nowrap}
+.pill.fail{color:#8a4b1a} .pill.ok{color:var(--accent)}
+@media (prefers-color-scheme:dark){.pill.fail{color:#d59a63}}
+
+.wrap{overflow-x:auto;margin:0 0 1rem}
+table{border-collapse:collapse;width:100%;font-family:var(--sans);
+  font-size:.9rem;font-variant-numeric:tabular-nums}
+th{font-size:.66rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  color:var(--faint);text-align:left;padding:0 .9rem .4rem 0;
+  border-bottom:1px solid var(--rule)}
+td{padding:.45rem .9rem .45rem 0;border-bottom:1px solid var(--hair);
+  vertical-align:top;color:var(--soft)}
+td:first-child{color:var(--ink)}
+tr:last-child td{border-bottom:none}
+
+nav.foot{margin-top:4rem;padding-top:1.1rem;border-top:1px solid var(--rule);
+  font-family:var(--sans);font-size:.88rem;display:flex;gap:1.4rem;flex-wrap:wrap}
+nav.foot .right{margin-left:auto;color:var(--faint)}
+@media (max-width:34rem){
+  body{font-size:16px} .page{padding:2rem 1.1rem 4rem}
+  nav.foot .right{margin-left:0;width:100%}
+}
+</style></head><body><div class='page'><header class='top'><span class='word'><a href='../index.html'>teal sea</a></span><span class='tag'>We follow interesting problems.</span></header>
+<h1>Zeta</h1>
+<p class="lede">A computational and formal investigation around the Riemann
+hypothesis.</p>
+
+<p>The machinery computes ζ by independent routes and compares them, exposes
+identities as measured <em>defect</em> functions rather than assuming them, and
+pins every number claimed in a docstring to a test. Two things here are stronger
+than “accurate”: interval arithmetic that carries an enclosure through every
+step, and Lean proofs checked by a kernel.</p>
+
+<p>It claims nothing about whether the hypothesis is true. A computation that
+appears to settle it is a bug, and the repository says so in its own house
+rules.</p>
+
+<h2>State</h2>
+<ul class="grid">
+  <li><span class="n">25</span><span class="k">modules</span></li>
+  <li><span class="n">1,766</span><span class="k">tests</span></li>
+  <li><span class="n">45</span><span class="k">Lean files</span></li>
+  <li><span class="n">0</span><span class="k">sorrys</span></li>
+  <li><span class="n">28</span><span class="k">documents</span></li>
+  <li><span class="n">26</span><span class="k">figures</span></li>
+</ul>
+<p class="meta">at fbfd2a5 · 13 Aug 2026</p>
+
+<h2>Withdrawn</h2>
+<p>Results that did not survive. Each is kept with the mechanism that broke it
+and, where one exists, the test that now catches it — so it does not need
+re-deriving.</p>
+<div class='entry'><div class='when'>11 Aug 2026 · withdrawn</div><h3>blockpos 0.672529 (and siblings 0.6725124, 0.6725318)</h3><p>the construction used u u* where the pinned upstream zero side uses u u^T; an off-line pair is the hyperbolic block 2m(xx^T - yy^T), whose interaction with the on-line part can be negative, and the proposed final additive inequality reads 9 &gt;= 13</p><p class='meta'>caught by an exact Gaussian-integer counterexample: u_x=1, u_z=i, u_conj(z)=-i gives tr(P1 Q&#x27;) = -2 · pinned by <code>tests/test_frontier_math_clean_kill.py</code></p></div><div class='entry'><div class='when'>12 Aug 2026 · withdrawn</div><h3>conditional 0.6728294 (the bin artifact)</h3><p>midpoint bin-to-cell assignment inflated chain counts, briefly producing a conditional bound past CG 1993</p><p class='meta'>caught by the bin-width ladder: the floor fell under refinement, and the claim was withdrawn before shipping</p></div><div class='entry'><div class='when'>11 Aug 2026 · closed</div><h3>naive prime-by-prime (placewise) positivity</h3><p>individual place contributions can sometimes be represented as norms, but the local pieces do not consistently carry the sign naive global assembly needs</p><p class='meta'>caught by the local-positivity hunt&#x27;s own instruments; zeta.criteria face 1 is the in-tree counterexample to the coefficient-blindness universal (ROADMAP known gap #0)</p></div>
+
+<h2>Checking it</h2>
+<p>The repository exists to be checked rather than believed. Clone it, install
+it, run the suite; the Lean arm builds with a proof kernel and zero
+<code>sorry</code>s. Continuous integration runs the fast tier on every push and
+the full suite nightly.</p>
+<p><a href="https://github.com/teal-sea/zeta-lab">Source</a></p>
+<nav class="foot"><a href="../index.html">now</a><a href="../pursuits/zeta.html">zeta</a><a href="../record.html">record</a><a href="../about.html">about</a><a href="https://github.com/teal-sea/zeta-lab">source</a></nav></div></body></html>
