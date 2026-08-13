@@ -51,22 +51,25 @@ compare against `refinement()`. Disagreement on any of the three poison traps is
 a real finding about the model.
 **Status**    parked 2026-08-13 — needs a toolchain install, not a decision.
 
-### T-002  Telemetry records no outcome, so prompts cannot be scored
+### T-002  Nothing automatically records a run outcome, so prompts cannot be scored
 **Noticed**   `telemetry/schema.py` defines
-`OUTCOMES = (landed, no-change, killed, blocked, refused, crashed)` and nothing
-in the tree ever writes one. Every run record carries `status: completed`, which
-means the process exited, not that it produced anything.
+`OUTCOMES = (landed, no-change, killed, blocked, refused, crashed)`, and
+`python -m telemetry wrap --outcome ...` **does** record one correctly — verified
+end to end this pass. What is missing is any *caller*: no script, hook or runner
+passes it, so every real run record carries `status: completed` and no outcome.
 **Matters**   The prompt store now captures what an agent was asked. Without an
-outcome beside it there is no `(prompt, result)` pair, so "which prompts work" is
-unanswerable no matter how many runs accumulate. Half the join key exists.
-**From**      `telemetry/schema.py` `OUTCOMES`; the gap was found while fixing the
-SessionStart hook to capture prompts at all (commit `35afd18`).
-**Resume**    `landed` vs `no-change` is mechanically derivable — commits already
-carry a `Run-Id:` trailer, so a run with commits landed and one without did not.
-The judgment outcomes (`killed`, `blocked`, `refused`) must be operator-declared;
-per `meta/README.md` a system that grades its own output flatters itself.
-**Status**    parked 2026-08-13 — deliberately not built until enough runs exist
-to score. Three run records is not a dataset.
+outcome beside it there is no `(prompt, result)` pair, so "which prompts work"
+stays unanswerable however many runs accumulate. Half the join key exists, and
+the other half is a flag nobody passes rather than a feature nobody built.
+**From**      `telemetry/cli.py` `wrap`; gap found while sizing hunt automation.
+Corrected from an earlier version of this thread that wrongly said the outcome
+mechanism did not exist.
+**Resume**    Give it a caller — the hunt runner in T-005 is the obvious first
+one. `landed` vs `no-change` is also mechanically derivable after the fact, since
+commits already carry a `Run-Id:` trailer. The judgment outcomes
+(`killed`, `blocked`, `refused`) must stay operator-declared; per `meta/README.md`
+a system that grades its own output flatters itself.
+**Status**    parked 2026-08-13 — blocked on having a caller, not on design.
 
 ### T-003  Gate v5 never ran its arms: does the harness help on the lab's own subject?
 **Noticed**   Four gates tested the harness on croniter and LLVM IR — neither is
@@ -100,3 +103,24 @@ unproven claim and named the measurement that settled it.
 `harness/VERDICT.md`. Do not edit their bodies.
 **Status**    parked 2026-08-13 — deferred as out of scope for a demotion pass
 that was asked not to produce more architecture documents.
+
+### T-005  Hunt Automation v0 — the loop exists in pieces and has no runner
+**Noticed**   The concrete hunt workflow is already conventional and already runs
+end to end by hand: `hunts/<name>/MISSION.md` + `probe.py` → `results.json`.
+Four hunts carry all three (`flow_repair`, `golden_control`, `jensen_clock`,
+`lehmer_pair`); twelve carry a MISSION. Separately,
+`python -m telemetry wrap --outcome ...` already opens a run, hashes the
+artifacts a command produced, and closes it with an outcome. **Nothing joins
+them.** There is no `scripts/*hunt*` runner; every probe is invoked by a human.
+**Matters**   This is the whole automatable loop — thread → bounded run →
+artifacts + telemetry → outcome → new threads — and almost all of it exists. The
+missing piece is one script, not a research operating system.
+**From**      This pass, sizing goal E. Verified: `wrap --outcome landed`
+records outcome and artifact hashes correctly.
+**Resume**    See `AGENTS.md` → "Loose threads" and the v0 sketch in the pass
+report: a `scripts/71_run_hunt.py <hunt>` that shells `probe.py` through
+`telemetry wrap`, maps exit status to an outcome, and prints the `Run-Id`. Build
+it against the four hunts that already have probes, and only for those — do not
+generalize it to hunts that do not yet have a probe.
+**Status**    parked 2026-08-13 — named as the next bounded engineering target,
+deliberately not built in a pass whose job was demotion.
