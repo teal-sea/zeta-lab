@@ -116,6 +116,57 @@ The standing rules for such a session:
   `tests/test_docs_numbering.py`, `tests/test_hunt_probe_discipline.py`,
   `tests/test_doors.py`, and `scripts/make_context.py --check`.
 
+## How the work is organised
+
+Two working ideas and one objective. None is settled; all three are here rather
+than in a strategy document because you should meet them while working.
+
+**Core ↔ Pursuits.** *Core* is work that improves the lab's reusable ability to
+work: infrastructure, tooling, telemetry, agent coordination, reusable method.
+*Pursuits* are what the lab is chasing outward: research questions, hunts,
+investigations. They are **not** a hierarchy and not an ancestry — they create
+each other in both directions. A hunt that needs a tool produces Core; Core work
+that trips over a phenomenon produces a Pursuit; a piece of Core can itself
+become the subject of a Pursuit (`harness/` did exactly that, and lost). The
+distinction describes a thing's **current role**, not its rank or its origin.
+Do not rename directories to make the tree look like the metaphor.
+
+**Forage, don't roadmap.** Explore several directions cheaply; when one produces
+credible signal, feed it more; when it stops, stop feeding it. Preserve the
+threads you are not pulling, so choosing one direction does not require
+forgetting the others — that is what `THREADS.md` is for. This is a working
+strategy, not a proven optimal policy.
+
+**The economic objective: maximize valuable output per monetary unit of input.**
+This is *not* "minimize tokens". Money is the input and valuable output is the
+objective; models, tokens, extra agents, verification, formalization,
+infrastructure and operator time are all allocation choices. **A more expensive
+approach is the right one whenever the extra output justifies the cost** — and a
+cheap approach that yields low-value or unreliable output is not efficient, it
+is just cheap. We do not yet have a complete metric for "valuable output". Do
+not invent one and treat it as settled; it is an open research question, not
+a KPI.
+
+**Design discipline, learned the expensive way.** Before adding any abstraction,
+answer: *what live thing in this repository will use this immediately?* If the
+answer is "future agents might", do not build it. Prefer real need → smallest
+implementation → actual use → measurement → only then generalization. Do not
+build infrastructure without a live consumer, do not generalize a workflow
+before the concrete workflow earns it, and do not build a meta-system to manage
+the meta-system. `harness/VERDICT.md` is what the alternative cost.
+
+## Loose threads
+
+Things worth remembering that nobody is pursuing right now. `THREADS.md` is the
+whole mechanism: a flat file, one block per thread, five fields. Add one the
+moment you notice something and decide not to chase it — the cost of writing it
+down is seconds and the cost of losing it is a rediscovery.
+
+`scripts/70_lab_state.py` already derives *live* work from git (every branch
+ahead of `origin/main`). It cannot derive a parked thread, because a parked
+thread has no branch — that gap is exactly what the file covers, and it is the
+only reason it exists rather than being derived.
+
 ## Hard rules
 
 - **Python**: ALWAYS `.venv/bin/python (from the repo root)` — never bare
@@ -242,57 +293,39 @@ The standing rules for such a session:
   case studies and `tests/test_rogue_lab_controls.py` pins their control
   results. They are outside the domain-agnostic seam, and no new work should
   be added there — new exploration goes under `hunts/`.
-- Package: `harness/` — the validation framework, factored out of the
-  laboratory; subjects plug in as **departments**. `protocol.py` is
-  domain-agnostic under the same three seam tests as `ontology/schema.py` and
-  defines four control roles — `Subject` (the genuine article and its rivals,
-  i.e. structure-matched negative controls), `Decoy` (ablation), `Surrogate`
-  (null model), `Lesion` (planted fault for detector power) — bundled into a
-  `Battery`, plus a `Department` = battery + guide page + reference claims.
-  Subject matter lives only in `harness/departments/`; `zeta_department.py`
-  is the worked example. Admission rule: `validate_battery` refuses a battery
-  with no rival, with neither decoy nor surrogate, or with no lesion — such a
-  battery could never fail. A department must also declare reference claims
-  with known verdicts — at least one its battery rejects and one it passes —
-  so a validator that only ever says "no" is caught.
-  `tests/test_department_conformance.py` is parametrized over
-  `harness.departments.KNOWN_DEPARTMENTS`, so listing a department there is
-  what turns its audit on. Read `harness/README.md` before adding one. Like
-  `ontology`, it is not part of the editable install.
-  The package also carries the verification-integrity layer
-  (`docs/20-verification-integrity.md` is the record): `provenance.py`
-  (independence/contamination as declared data), `integrity.py` (16 named
-  checks → five grades, the `SHAM_MODES` catalog with pinned blind spots,
-  and `ClaimReport`, which pairs every claim outcome with its battery's
-  integrity grade and cannot state one without the other), and `shams.py`
-  (planted battery corruptions — the planted-fault principle applied to the
-  batteries themselves). The Department contract also requires declared
-  `detectors` (power *and* specificity measured; a constant-True detector is
-  caught) and a `scope`, and accepts a `provenance` record. Six departments
-  are registered: `zeta`, `finitefield`, `compiler`, `croniter`, `referee`
-  (the verification machinery as its own subject; the reconstructed 431cc74
-  sham battery is its held-out negative control) and `stateval`
-  (distributional claims; contributed `run_null_band` and `payloads_same` to
-  the shared layer). `python -m harness.demo` runs everything live;
-  `python -m harness.new_department <name>` scaffolds questions, not
-  placeholder instruments.
-  `preregistration.py` + `promotion.py`
-  (`docs/21-forward-deployed-verification.md` is the record; this is an
-  experiment, not a spine obligation) make the integrity grade enforcing
-  rather than advisory: `decide()` turns a `ClaimReport` into ALLOW/BLOCK
-  with every machine-readable reason at once, `Boundary.audit()` reconciles
-  `promoted/` against `decisions/` so a bypass is visible, and
-  `Preregistration` records the digests of evidence that already existed at
-  freeze time, so contamination and criteria drift are derived from
-  artifacts rather than read off a declaration. `NaiveGate` is the mandatory
-  null control in the same file — it passes the clean, blind and
-  honestly-declared-contaminated cases just as well; only a report that
-  declares itself clean while its artifacts disagree separates the two. Two
-  negative results are recorded as failures, not reframed: the mirror
-  condition (gate more permissive than naive) is unreachable, and the gate
-  inherits every blind spot of the audit beneath it — it promotes a held-out
-  hollow battery's claim with an empty reason list. Read `docs/21` §10
-  before treating any of it as a capability.
+- Package: `harness/` — **two things, and only one of them is live.** Read
+  `harness/VERDICT.md` before doing anything here.
+  - **Live, ordinary lab bookkeeping — keep, use, extend as needed.** The
+    ledgers and their readers: `graveyard.py` (dead ends recorded so they are
+    not re-entered), `guards.py` (guards recorded so they can be attacked),
+    `review.py`, `independence.py`, and the three ledgers under
+    `departments/` (`graveyard_ledger`, `guard_ledger`, `review_ledger`).
+    Their live consumer is `scripts/70_lab_state.py`, the research-state view.
+    ~1,050 lines, with a real reader.
+  - **Demoted, 2026-08-13 — do not extend.** The generalized
+    battery/department/integrity framework: `protocol.py`, `integrity.py`,
+    `promotion.py`, `preregistration.py`, `provenance.py`, `shams.py`, and
+    the six subject packs under `departments/` that exist to populate it.
+    ~8,000 lines with **zero live consumers**. It was tested and did not earn
+    core status: four preregistered experiments, three subjects, 74 agent
+    runs, the harness arm never once beat the control, the control was 37/37,
+    and where correctness was identical the harness cost 1.1–1.7× the tokens
+    and 2.4–5.0× the tool calls. Meanwhile live hunts reimplemented the same
+    four control roles by hand rather than import them. The evidence is in
+    `harness/gate-evidence/`; the negative result stands and is not to be
+    quietly relitigated.
+  - **What survived the demotion, because it is independently true**: the
+    four control roles are still good research practice — a claim that a
+    structure-matched rival also satisfies has distinguished nothing, and
+    `zeta.epstein.battery` enforces exactly that for ζ without any of this
+    framework. `compiler/semantics.py` records a measured fact worth keeping:
+    exhaustive concrete testing over all 65,536 i8 inputs cannot see
+    poison-class defects, with a planted fault pinning it. Scope discipline —
+    stating what a verdict does *not* cover — earned its keep and costs
+    nothing.
+  - The lesson generalizes and is the reason for the rule two sections down:
+    **an abstraction with no live consumer is a liability, however elegant.**
+
 - Package: `dossier/` — an experiment, not a department. It represents
   mathematical research state (intent, definition, rejected alternatives,
   semantic obligations, evidence) so an agent can *resume* work. Two ideas
