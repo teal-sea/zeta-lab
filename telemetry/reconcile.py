@@ -48,6 +48,7 @@ FINDING_KINDS: tuple[str, ...] = (
     "untrailered_commit",
     "multi_commit_run",
     "prompt_unrecoverable",
+    "prompt_local_only",
     "prompt_absent",
 )
 
@@ -216,6 +217,18 @@ def reconcile(
                     "gap",
                     f"run {run_id} captured no prompt; what this run was asked is "
                     f"not recoverable",
+                    run_id=run_id,
+                )
+            )
+        elif prompts.missing_locally(root, ref):
+            findings.append(
+                Finding(
+                    "prompt_local_only",
+                    "gap",
+                    f"run {run_id}: prompt {ref.digest[:12]}… is referenced but its "
+                    f"text is not in this checkout's store — expected on any fresh "
+                    f"clone, since the store is gitignored by design. The digest "
+                    f"still verifies for whoever holds the text",
                     run_id=run_id,
                 )
             )

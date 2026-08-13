@@ -39,6 +39,7 @@ from telemetry.registry import prompts_dir, utc_now
 
 __all__ = [
     "PromptRef",
+    "missing_locally",
     "STORES",
     "digest_text",
     "capture_text",
@@ -152,6 +153,23 @@ def resolve(root: Path | str, ref: PromptRef) -> Path | None:
         return None
     path = prompts_dir(root) / f"{ref.digest}.txt"
     return path if path.exists() else None
+
+
+def missing_locally(root: Path | str, ref: PromptRef) -> bool:
+    """True when a local-private prompt's text is simply not on this machine.
+
+    Not the same thing as a broken record, and the distinction is load-bearing.
+    The store is gitignored by design, so **every fresh clone** is in this
+    state: the digest travels, the text does not. Reporting that as a defect
+    would make ``reconcile --strict`` fail on a clean checkout, and a guard
+    that fires on correct behaviour is one nobody reads — which this
+    repository has catalogued as a failure mode rather than tolerated.
+
+    A *mismatching* digest is a different matter and stays a defect.
+    """
+    if ref.store != "local-private" or not ref.digest:
+        return False
+    return not (prompts_dir(root) / f"{ref.digest}.txt").exists()
 
 
 def verify_reasons(root: Path | str, ref: PromptRef) -> tuple[str, ...]:

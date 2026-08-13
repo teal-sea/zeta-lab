@@ -541,6 +541,38 @@ def test_a_tampered_prompt_shows_up_in_reconciliation(tmp_path: Path, repo: Path
     assert any(f.severity == "defect" for f in findings if f.kind == "prompt_unrecoverable")
 
 
+def test_a_prompt_absent_from_this_clone_is_a_gap_not_a_defect(
+    tmp_path: Path, repo: Path
+) -> None:
+    """The store is gitignored, so every fresh clone is in this state.
+
+    Reporting it as a defect would make `reconcile --strict` fail on a clean
+    checkout — a guard firing on correct behaviour. Caught by verifying a
+    trial merge, not by inspection.
+    """
+    root = tmp_path / "tel"
+    ref = prompts.capture_text(root, "the brief")
+    append_event(root, started(prompt=ref.as_dict()))
+    append_event(root, finished(outcome="no-change"))
+    prompts.resolve(root, ref).unlink()  # simulate a fresh clone
+    findings = reconcile(root, repo)
+    local_only = [f for f in findings if f.kind == "prompt_local_only"]
+    assert local_only and local_only[0].severity == "gap"
+    assert not [f for f in findings if f.severity == "defect"]
+
+
+def test_a_tampered_prompt_stays_a_defect_even_though_absence_is_not(
+    tmp_path: Path, repo: Path
+) -> None:
+    root = tmp_path / "tel"
+    ref = prompts.capture_text(root, "original")
+    append_event(root, started(prompt=ref.as_dict()))
+    append_event(root, finished(outcome="no-change"))
+    prompts.resolve(root, ref).write_text("swapped", encoding="utf-8")
+    findings = reconcile(root, repo)
+    assert [f.kind for f in findings if f.severity == "defect"] == ["prompt_unrecoverable"]
+
+
 def test_grandfathered_commits_are_not_defects_by_default(tmp_path: Path, repo: Path) -> None:
     """Work that predates instrumentation must not drown the real findings."""
     root = tmp_path / "tel"

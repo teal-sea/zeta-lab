@@ -195,7 +195,7 @@ python3 -m telemetry reconcile --strict              # exit 1 on any defect
 python3 -m telemetry reconcile --require-trailer-since <rev>
 ```
 
-Twelve findings, three severities, no aggregate and no score:
+Thirteen findings, three severities, no aggregate and no score:
 
 | Severity | Meaning |
 |---|---|
@@ -206,9 +206,9 @@ Twelve findings, three severities, no aggregate and no score:
 Detected: `corrupt_record`, `unfoldable_run`, `duplicate_run_id`,
 `interrupted_run`, `run_without_commit`, `missing_commit`, `orphan_commit`,
 `commit_mismatch`, `untrailered_commit`, `multi_commit_run`,
-`prompt_unrecoverable`, `prompt_absent`.
+`prompt_unrecoverable`, `prompt_local_only`, `prompt_absent`.
 
-Two deliberate defaults:
+Three deliberate defaults:
 
 - **`untrailered_commit` is opt-in.** Every commit made before this system
   existed has no trailer; reporting all of them would bury the findings that
@@ -216,6 +216,11 @@ Two deliberate defaults:
 - **`missing_commit` says "absent from this checkout".** A shallow clone
   cannot distinguish a lost commit from an unfetched one, and this clone is
   shallow.
+- **A prompt absent from this machine is a `gap`, not a `defect`.** The store
+  is gitignored, so every fresh clone is in that state; grading it a defect
+  would make `reconcile --strict` fail on a clean checkout, and a guard that
+  fires on correct behaviour is one nobody reads. A *mismatching* digest stays
+  a defect — that is tampering, not locality. Both are pinned by tests.
 
 ## 9. Reconstructed history
 
@@ -240,7 +245,8 @@ sessions have no run records and are not going to grow fabricated ones.
 4. **Artifact attribution is temporal, not causal** — `wrap` records what
    changed in the repository during the run, which for a run that overlaps
    manual editing will over-attribute.
-5. **The prompt store does not survive a fresh clone.** Digests do.
+5. **The prompt store does not survive a fresh clone.** Digests do, and
+   reconciliation reports the difference as a gap rather than a defect.
 6. **`reconcile` scans a bounded range** (default 200 commits).
 7. **Nothing enforces truthfulness.** `--model`, `--outcome` and `--task` are
    declarations, in the same sense as `harness/provenance.py`: declared data,
@@ -269,7 +275,7 @@ registry should be allowed to reach that point before anything is migrated.
 python -m pytest tests/test_telemetry.py -q -o addopts=''
 ```
 
-62 tests, stdlib + pytest only — they pass in a checkout with none of the
+64 tests, stdlib + pytest only — they pass in a checkout with none of the
 laboratory's numerical dependencies installed, because telemetry that needs
 `mpmath` to run stops running exactly when a session is least able to fix it.
 Every test uses a `tmp_path` root and a throwaway git repository; none reads or
