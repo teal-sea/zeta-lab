@@ -1,4 +1,4 @@
-# AGENTS.md — operating context for the repo root
+# AGENTS.md — operating context for agents that build this laboratory
 
 A computational laboratory for the Riemann zeta function and RH. Read
 `README.md` for the front door and `docs/00-orientation.md` for scope.
@@ -6,9 +6,46 @@ A computational laboratory for the Riemann zeta function and RH. Read
 `ROADMAP.md` carries the project's decisions, deliberate non-goals, known gaps
 and the next planned build — read it before proposing or planning work.
 
-This file is the single source of operating context for **any** coding agent
-working in this repository (Claude Code, Codex, Cursor, Aider, …). `CLAUDE.md`
-is a pointer to this file; do not duplicate content between them.
+## Who this file is for
+
+**This file is for agents building and maintaining the laboratory** — working
+with the operator on infrastructure, tooling, documentation, refactors and
+decisions about direction. If you were asked to change how the lab works, this
+is your operating context. `CLAUDE.md` is a pointer to it; do not duplicate
+content between them.
+
+**It is not the instruction set for an agent running an experiment here.** Those
+are two different populations and conflating them is a recurring mistake:
+
+| | builds the lab | runs an experiment in it |
+|---|---|---|
+| instructed by | this file, `ROADMAP.md`, the operator | **its own run prompt, written for that run** |
+| scope | the repository | one hunt, one question, one bounded task |
+| may change | tooling, docs, structure | only its own working directory |
+| decides direction | proposes it to the operator | no — direction arrives in the prompt |
+
+An experiment agent's instructions are **written fresh for it each time**, plus
+the hunt's own `MISSION.md` and HuntSpec block. Direction, question, budget and
+kill conditions come from there. They do not come from this file, and this file
+must not try to anticipate them.
+
+**But you will be handed this file anyway**, because `CLAUDE.md` points here and
+the harness loads it for every session in this repository — experiment agents
+included. So, if you are running an experiment and reading this:
+
+- **Your run prompt wins.** Where it and this file differ on *what to do*,
+  follow the prompt and say you noticed the difference.
+- **The house rules below still bind you** — they are physical facts about this
+  tree, not direction: the interpreter to use, `matplotlib` headless before
+  importing pyplot, explicit `mp.dps`, the reserved word *certified*, the
+  lexical bans under `hunts/`, writing only where your mission says you may.
+  Ignoring those breaks the repository regardless of what you were asked to do.
+- **Everything about strategy, direction, allocation and organisation is not
+  addressed to you.** Read it as background if useful; do not act on it.
+
+When adding to this file, ask which population the addition is for. If the
+answer is "an experiment agent", it belongs in a run prompt or a `MISSION.md`,
+not here.
 
 ## Setup (first run in a fresh clone)
 
@@ -168,6 +205,11 @@ Things worth remembering that nobody is pursuing right now. `THREADS.md` is the
 whole mechanism: a flat file, one block per thread, five fields. Add one the
 moment you notice something and decide not to chase it — the cost of writing it
 down is seconds and the cost of losing it is a rediscovery.
+
+Open to both populations, but not automatic for either: a lab-building agent
+writes one when it defers something; an experiment agent writes one **only if
+its run prompt tells it to**. Do not assume a hunt will deposit its loose ends
+here on its own — if you want that, put it in the prompt.
 
 `scripts/70_lab_state.py` already derives *live* work from git (every branch
 ahead of `origin/main`). It cannot derive a parked thread, because a parked
