@@ -152,10 +152,30 @@ def python_arm() -> dict[str, Any]:
 
 
 def repo_facts() -> dict[str, Any]:
+    """Repository history, and a refusal to report it when it is truncated.
+
+    A shallow checkout answers `rev-list --count` with the depth it was cloned
+    at, not with the history. The published page said this laboratory had ten
+    commits for exactly that reason: the host's git integration checks out
+    depth 10, and the number rendered as confidently as a true one. A count
+    that cannot be trusted is not reported — same discipline as `proven_sign`
+    returning zero for "not decided" rather than guessing a sign.
+    """
+    shallow = git("rev-parse", "--is-shallow-repository") == "true"
     first = git("log", "--reverse", "--format=%ad", "--date=format:%Y-%m-%d").splitlines()
+    since = first[0] if first and not shallow else ""
+    days = 0
+    if since:
+        from datetime import date
+        y, m, d = (int(x) for x in since.split("-"))
+        last = git("log", "-1", "--format=%ad", "--date=format:%Y-%m-%d")
+        ly, lm, ld = (int(x) for x in last.split("-"))
+        days = (date(ly, lm, ld) - date(y, m, d)).days
     return {
-        "commits": int(git("rev-list", "--count", "HEAD") or 0),
-        "since": first[0] if first else "",
+        "shallow": shallow,
+        "days": days,
+        "commits": 0 if shallow else int(git("rev-list", "--count", "HEAD") or 0),
+        "since": since,
         "commit": git("rev-parse", "--short", "HEAD"),
         "when": git("log", "-1", "--format=%ad", "--date=format:%d %b %Y"),
         "docs": len(list((REPO / "docs").glob("[0-9]*.md"))),
@@ -537,6 +557,14 @@ def ladder(lean: dict) -> str:
 # --------------------------------------------------------------------------
 
 def page_index(r, lean, py, gr, threads) -> str:
+    # Lead with the result, not the name. The claim is assembled from measured
+    # quantities and degrades to the plain label when the history is truncated
+    # and the elapsed span cannot be established.
+    if r["days"] and lean["sorrys"] == 0:
+        headline = (f"{num(lean['decls'])} theorems,<br>machine-checked,"
+                    f"<br>in {r['days']} days.")
+    else:
+        headline = "Zeta Lab"
     live = ""
     if threads:
         live = (
@@ -552,10 +580,15 @@ def page_index(r, lean, py, gr, threads) -> str:
             + "</tbody></table></div></section>"
         )
     return shell(IDENTITY["name"], f"""
-<h1>Zeta Lab</h1>
+<h1>{headline}</h1>
 <p class="stand">A computational and formal laboratory for the Riemann
-hypothesis. Every figure below was counted from the repository at the revision
-named above.</p>
+hypothesis, and the record of what it has and has not established. Every figure
+below was counted from the repository at the revision named above.</p>
+
+<div class="statement">Four preregistered experiments asked whether this
+laboratory's own validation framework improved the correctness of its results.
+It did not. We shut it down and published the evidence.
+<a href="record.html">The record →</a></div>
 
 {vitals([
     (num(lean['decls']), 'kernel-checked declarations', False),
@@ -563,8 +596,8 @@ named above.</p>
     (num(py['test_fns']), 'tests', False),
     (num(py['public']), 'public API functions', False),
     (num(r['docs']), 'documents', False),
-    (num(r['commits']), 'commits', False),
-])}
+] + ([(num(r['commits']), 'commits', False)] if r['commits']
+     else [(num(lean['lines']), 'Lean lines', False)]))}
 
 <section>
 <h2><span class='num'>§1</span> Two arms</h2>

@@ -159,6 +159,38 @@ def test_an_unattacked_claim_is_not_presented_as_a_result(built: Path) -> None:
         )
 
 
+def test_a_truncated_history_is_not_reported_as_a_number(monkeypatch) -> None:
+    """A shallow checkout must not become a published commit count.
+
+    The host's git integration checks out at depth 10, so `rev-list --count`
+    answered 10 and the front page told the world this laboratory had ten
+    commits. It has hundreds. The number rendered exactly as confidently as a
+    true one, which is the failure worth a test: a count that cannot be trusted
+    is withheld rather than guessed, and the headline degrades to the plain
+    label rather than asserting a span it cannot establish.
+    """
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("site_gen", SITE)
+    site = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(site)
+
+    real = site.git
+
+    def shallow_git(*args):
+        if args[:2] == ("rev-parse", "--is-shallow-repository"):
+            return "true"
+        if args[:1] == ("rev-list",):
+            return "10"
+        return real(*args)
+
+    monkeypatch.setattr(site, "git", shallow_git)
+    facts = site.repo_facts()
+    assert facts["commits"] == 0, "a depth-limited count was reported as history"
+    assert facts["since"] == "", "a truncated history claimed a start date"
+    assert facts["days"] == 0, "a truncated history claimed an elapsed span"
+
+
 def test_the_pages_commit_to_one_appearance(built: Path) -> None:
     """A record sent to people must look the same to all of them.
 
