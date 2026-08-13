@@ -72,11 +72,16 @@ def test_internal_links_resolve(built: Path) -> None:
 
 
 def test_the_parent_identity_is_a_single_edit() -> None:
-    """The name is provisional; renaming must not be a refactor."""
+    """The name is provisional; renaming must not be a refactor.
+
+    Reads the name out of IDENTITY rather than hardcoding it, so this test
+    survives the rename it exists to protect.
+    """
     source = SITE.read_text(encoding="utf-8")
-    assert source.count('"name": "Further"') == 1
-    assert len(re.findall(r"\bFurther\b", source)) == 1, (
-        "the parent name appears outside IDENTITY; it must live in one place"
+    name = re.search(r'"name":\s*"([^"]+)"', source).group(1)
+    assert source.count(f'"name": "{name}"') == 1
+    assert len(re.findall(re.escape(name), source)) == 1, (
+        f"the parent name {name!r} appears outside IDENTITY; it must live in one place"
     )
 
 

@@ -38,7 +38,7 @@ REPO = Path(__file__).resolve().parent.parent
 # v0 exists partly to find out whether the name survives contact with the work.
 # --------------------------------------------------------------------------
 IDENTITY = {
-    "name": "Further",
+    "name": "teal sea",
     "line": "We follow interesting problems.",
     "source": "https://github.com/teal-sea/zeta-lab",
 }
@@ -176,7 +176,7 @@ a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 header.top{display:flex;align-items:baseline;gap:.9rem;flex-wrap:wrap;
   padding-bottom:1.1rem;border-bottom:1px solid var(--rule);margin-bottom:2rem}
 .word{font-family:var(--sans);font-size:1.15rem;font-weight:600;
-  letter-spacing:-.01em;color:var(--ink)}
+  letter-spacing:.005em;color:var(--ink)}
 .word a{color:inherit}
 .tag{font-family:var(--sans);font-size:.88rem;color:var(--soft)}
 
@@ -416,12 +416,14 @@ either way. A record that only lists successes is not a record.</p>
 def page_about(f) -> str:
     return shell(f"About — {IDENTITY['name']}", f"""
 <h1>About</h1>
-<p class="lede">{esc(IDENTITY['line'])}</p>
+<p class="lede">A small laboratory. It explores several directions cheaply,
+feeds the ones that produce something, stops feeding the ones that don't, and
+keeps the loose ends it isn't pulling — so that choosing one direction doesn't
+mean forgetting the others.</p>
 
-<p>{esc(IDENTITY['name'])} is a small laboratory. It explores several
-directions cheaply, feeds the ones that produce something, stops feeding the
-ones that don't, and keeps the loose ends it isn't pulling so that choosing one
-direction doesn't mean forgetting the others.</p>
+<p>The impulse is roughly <em>wait, what happens if we pull on this?</em> Most
+of the time the answer is nothing much, which is why the record below has as
+many dead ends in it as findings.</p>
 
 <p>Work is public where it can be checked. The mathematics, the tests, the
 proofs and the evidence are in the open, because the point of publishing them is
