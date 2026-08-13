@@ -151,3 +151,42 @@ already runs. The third is the honest one and the most disruptive — it changes
 what a fresh clone gets without running anything.
 **Status**    parked 2026-08-13 — needs an operator call on whether a fresh clone
 must contain the index without running a command.
+
+### T-007  A PROVED formal record is stale, and had been for six days unnoticed
+**Noticed**   `tests/test_dossier_hardy_z.py` fails on main: the Hardy Z dossier
+records a `FormalStatus.PROVED` obligation citing a dated kernel observation, and
+`lean/ZetaLean/HardyZ.lean` was edited *after* that date (commit `d245381`, six
+days ago, a dossier change). The guard's own words: "re-observe (re-run lake
+build) and update the record".
+**Matters**   This is the dossier's staleness guard doing exactly its job — a
+citation to a kernel run that no longer covers the file it certifies. It is also
+the clearest justification for the CI work: the very first full numerical run
+surfaced a six-day-old defect in the formal record that no human had noticed,
+because nothing ran the suite unless someone remembered to.
+**From**      CI run on `3d138a78`, `tests` tier: 2416 passed, 1 failed, 19m44s.
+Confirmed pre-existing — `HardyZ.lean` last changed in `d245381`; this session
+never touched it.
+**Resume**    Re-run `cd lean && lake build`, confirm zero sorrys, and update the
+observation date in the Hardy Z dossier record to the real date of that run.
+**Do not simply bump the date** — that records an observation that did not
+happen, which is the failure this guard exists to catch. Needs a Lean toolchain;
+this container has none.
+**Status**    parked 2026-08-13 — blocked on a toolchain, not on a decision. The
+`tests` tier stays red until it is re-observed.
+
+### T-008  The "fast" CI tier takes 20 minutes, which is too slow to gate a PR
+**Noticed**   `tests.yml` runs `pytest -m "not slow"` and took **19m44s** on a
+GitHub runner (2416 tests). `CLAUDE.md` measures the same tier at ~115s locally
+with `-n auto`.
+**Matters**   A 20-minute gate is one people learn to ignore, which is the
+failure mode CI tiering was supposed to avoid. The tier-1 gate is 7 seconds and
+does its job; tier 2 is currently mis-sized for the cadence it runs at.
+**From**      Same CI run, `3d138a78`. The gap is probably core count — a hosted
+runner has far fewer than this container — but that is a hypothesis, not a
+measurement.
+**Resume**    Measure first: check the runner's core count and `--durations=10`
+output already emitted by the job. Then choose — move tier 2 to merge-queue or
+nightly, split it, or accept 20 minutes on pull requests only. Do not tune it by
+guessing which tests are slow; the durations are already in the log.
+**Status**    parked 2026-08-13 — wait for the HardyZ fix first, since a red tier
+cannot be timed honestly.
