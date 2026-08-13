@@ -37,11 +37,13 @@ lemma sin_ge_taylor3 {x : ℝ} (hx : 0 ≤ x) : x - x^3/6 ≤ Real.sin x := by
     refine nonneg_of_deriv_nonneg (F := fun z => Real.cos z - (1 - z^2/2)) ?_ (by simp) ?_
     · intro z
       have h1 : HasDerivAt (fun z : ℝ => Real.sin z) (Real.cos z) z := Real.hasDerivAt_sin z
-      have h2 : HasDerivAt (fun z : ℝ => z - z^3/6) (1 - z^2/2) z := by
-        have : HasDerivAt (fun z : ℝ => z - z^3/6) (1 - 3*z^2/6) z := by
-          simpa using (hasDerivAt_id z).sub (((hasDerivAt_pow 3 z)).div_const 6)
-        convert this using 1; ring
-      exact h1.sub h2
+      have hp3 : HasDerivAt (fun x : ℝ => x ^ 3) (3 * z ^ 2) z :=
+        (hasDerivAt_pow 3 z).congr_deriv (by norm_num)
+      have h2 : HasDerivAt (fun z : ℝ => z - z^3/6) (1 - z^2/2) z :=
+        ((hasDerivAt_id' z).sub (hp3.div_const 6)).congr_deriv (by ring)
+      have h3 : HasDerivAt (fun z : ℝ => Real.sin z - (z - z^3/6))
+          (Real.cos z - (1 - z^2/2)) z := h1.sub h2
+      exact h3
     · intro z _
       have := Real.one_sub_sq_div_two_le_cos (x := z)
       linarith
@@ -52,15 +54,17 @@ lemma cos_le_taylor4 (x : ℝ) : Real.cos x ≤ 1 - x^2/2 + x^4/24 := by
   have key : ∀ z : ℝ, 0 ≤ z → 0 ≤ (1 - z^2/2 + z^4/24) - Real.cos z := by
     refine nonneg_of_deriv_nonneg (F := fun z => (-z + z^3/6) + Real.sin z) ?_ (by simp) ?_
     · intro z
-      have h1 : HasDerivAt (fun z : ℝ => 1 - z^2/2 + z^4/24) (-z + z^3/6) z := by
-        have : HasDerivAt (fun z : ℝ => 1 - z^2/2 + z^4/24) (0 - 2*z/2 + 4*z^3/24) z := by
-          simpa using
-            ((hasDerivAt_const z (1:ℝ)).sub ((hasDerivAt_pow 2 z).div_const 2)).add
-              ((hasDerivAt_pow 4 z).div_const 24)
-        convert this using 1; ring
+      have hp2 : HasDerivAt (fun x : ℝ => x ^ 2) (2 * z) z :=
+        (hasDerivAt_pow 2 z).congr_deriv (by norm_num)
+      have hp4 : HasDerivAt (fun x : ℝ => x ^ 4) (4 * z ^ 3) z :=
+        (hasDerivAt_pow 4 z).congr_deriv (by norm_num)
+      have h1 : HasDerivAt (fun z : ℝ => 1 - z^2/2 + z^4/24) (-z + z^3/6) z :=
+        (((hasDerivAt_const z (1:ℝ)).sub (hp2.div_const 2)).add
+          (hp4.div_const 24)).congr_deriv (by ring)
       have h2 : HasDerivAt (fun z : ℝ => Real.cos z) (-Real.sin z) z := Real.hasDerivAt_cos z
-      have := h1.sub h2
-      convert this using 1; ring
+      have h3 : HasDerivAt (fun z : ℝ => (1 - z^2/2 + z^4/24) - Real.cos z)
+          ((-z + z^3/6) + Real.sin z) z := (h1.sub h2).congr_deriv (by ring)
+      exact h3
     · intro z hz
       have := sin_ge_taylor3 hz
       linarith
@@ -79,14 +83,16 @@ lemma sin_le_taylor5 {x : ℝ} (hx : 0 ≤ x) : Real.sin x ≤ x - x^3/6 + x^5/1
   have key : ∀ z : ℝ, 0 ≤ z → 0 ≤ (z - z^3/6 + z^5/120) - Real.sin z := by
     refine nonneg_of_deriv_nonneg (F := fun z => (1 - z^2/2 + z^4/24) - Real.cos z) ?_ (by simp) ?_
     · intro z
-      have h1 : HasDerivAt (fun z : ℝ => z - z^3/6 + z^5/120) (1 - z^2/2 + z^4/24) z := by
-        have : HasDerivAt (fun z : ℝ => z - z^3/6 + z^5/120)
-            (1 - 3*z^2/6 + 5*z^4/120) z := by
-          simpa using
-            ((hasDerivAt_id z).sub ((hasDerivAt_pow 3 z).div_const 6)).add
-              ((hasDerivAt_pow 5 z).div_const 120)
-        convert this using 1; ring
-      exact h1.sub (Real.hasDerivAt_sin z)
+      have hp3 : HasDerivAt (fun x : ℝ => x ^ 3) (3 * z ^ 2) z :=
+        (hasDerivAt_pow 3 z).congr_deriv (by norm_num)
+      have hp5 : HasDerivAt (fun x : ℝ => x ^ 5) (5 * z ^ 4) z :=
+        (hasDerivAt_pow 5 z).congr_deriv (by norm_num)
+      have h1 : HasDerivAt (fun z : ℝ => z - z^3/6 + z^5/120) (1 - z^2/2 + z^4/24) z :=
+        (((hasDerivAt_id' z).sub (hp3.div_const 6)).add
+          (hp5.div_const 120)).congr_deriv (by ring)
+      have h3 : HasDerivAt (fun z : ℝ => (z - z^3/6 + z^5/120) - Real.sin z)
+          ((1 - z^2/2 + z^4/24) - Real.cos z) z := h1.sub (Real.hasDerivAt_sin z)
+      exact h3
     · intro z _
       linarith [cos_le_taylor4 z]
   linarith [key x hx]
@@ -97,16 +103,20 @@ lemma cos_ge_taylor6 (x : ℝ) : 1 - x^2/2 + x^4/24 - x^6/720 ≤ Real.cos x := 
     refine nonneg_of_deriv_nonneg
       (F := fun z => (z - z^3/6 + z^5/120) - Real.sin z) ?_ (by simp) ?_
     · intro z
+      have hp2 : HasDerivAt (fun x : ℝ => x ^ 2) (2 * z) z :=
+        (hasDerivAt_pow 2 z).congr_deriv (by norm_num)
+      have hp4 : HasDerivAt (fun x : ℝ => x ^ 4) (4 * z ^ 3) z :=
+        (hasDerivAt_pow 4 z).congr_deriv (by norm_num)
+      have hp6 : HasDerivAt (fun x : ℝ => x ^ 6) (6 * z ^ 5) z :=
+        (hasDerivAt_pow 6 z).congr_deriv (by norm_num)
       have h1 : HasDerivAt (fun z : ℝ => 1 - z^2/2 + z^4/24 - z^6/720)
-          (-z + z^3/6 - z^5/120) z := by
-        have : HasDerivAt (fun z : ℝ => 1 - z^2/2 + z^4/24 - z^6/720)
-            (0 - 2*z/2 + 4*z^3/24 - 6*z^5/720) z := by
-          simpa using
-            (((hasDerivAt_const z (1:ℝ)).sub ((hasDerivAt_pow 2 z).div_const 2)).add
-              ((hasDerivAt_pow 4 z).div_const 24)).sub ((hasDerivAt_pow 6 z).div_const 720)
-        convert this using 1; ring
-      have := (Real.hasDerivAt_cos z).sub h1
-      convert this using 1; ring
+          (-z + z^3/6 - z^5/120) z :=
+        ((((hasDerivAt_const z (1:ℝ)).sub (hp2.div_const 2)).add
+          (hp4.div_const 24)).sub (hp6.div_const 720)).congr_deriv (by ring)
+      have h3 : HasDerivAt (fun z : ℝ => Real.cos z - (1 - z^2/2 + z^4/24 - z^6/720))
+          ((z - z^3/6 + z^5/120) - Real.sin z) z :=
+        ((Real.hasDerivAt_cos z).sub h1).congr_deriv (by ring)
+      exact h3
     · intro z hz
       linarith [sin_le_taylor5 hz]
   rcases le_total 0 x with h | h
