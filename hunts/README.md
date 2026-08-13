@@ -4,15 +4,6 @@ A **hunt** is an exploratory study: a scoped directory where an agent or a
 person pursues one specific idea, with the understanding that most such
 ideas fail.
 
-**An agent running a hunt is instructed by its own run prompt plus this hunt's
-`MISSION.md` and HuntSpec block — not by `AGENTS.md`.** `AGENTS.md` is the
-operating context for agents *building* the laboratory; a hunt agent will be
-handed it automatically (`CLAUDE.md` points there) and should treat only its
-house rules as binding — interpreter, headless matplotlib, explicit precision,
-the reserved word *certified*, the lexical bans below, and writing nowhere
-outside this hunt. Direction, question, budget and kill conditions come from the
-prompt and the MISSION, and nowhere else.
-
 `hunts/` is the one place in this repository where a claim can be written
 down before any control has been run against it. So the classification is
 explicit:
