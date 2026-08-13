@@ -1085,3 +1085,33 @@ theta = 0.995 holds and that the crossing was the instrument. The
 quantifier over all configurations remains open and is unaffected by
 this; what closed is the suspicion, not the obligation. No proportion is
 claimed to have moved.
+
+
+## Blocker 2, the retention at realistic separation: DELIVERED at delta = 4 (2026-08-13)
+
+Instrument: `zeta23ext/Zeta23Ext/EForm3/` (theorem-proving service,
+project fbb89dd4, 2h42m; 12 modules, 2571 lines, sorry-free, no
+native_decide, every theorem on propext / Classical.choice / Quot.sound).
+
+| Obligation | Status | Evidence |
+|---|---|---|
+| **Retention for ALL n under separation** | **DELIVERED AT delta = 4**, better than the delta = 2 pi requested | `retention_separated_of_le`; `retention_separated` at 2 pi is a corollary; `retention_le_three` still needs no separation at all |
+| **In mean gaps** | **0.6366 mean gaps** | the hypothesis went 4.1380 -> 0.6366 mean gaps across two iterations, i.e. from four times the mean spacing of on-line zeros to about two thirds of it |
+| **Task (1) of the brief is FALSE, and is now a Lean theorem** | **KERNEL-CHECKED REFUTATION OF THE COORDINATOR'S INSTRUCTION** | `no_second_order_far_field : not exists C, forall y s, ... \|Qim y s\| <= C y/s^2`, with the matching lower bound `Qim_lower_at_even_multiple` giving `\|Qim\| >= 0.7 y/s` along s in 4 pi Z, which beats any C y/s^2 for s > (10/7) C. Structural cause: the window jumps at +/- 1/2 since cos(1/sqrt2) ~ 0.76 != 0, so the second integration by parts leaves a non-vanishing boundary term |
+| **What actually bought the improvement** | **NOT the exponent - the interference** | keeping the sqrt2-interference in the numerator instead of taking absolute values: the two shifted poles partially cancel and the majorant near the near/far threshold drops by a factor ~2.6 |
+| The far-field majorant | PROVED | `Qim_far_sq`: `Qim^2 <= y^2 Wt(s^2 - 2)` for s >= 28/5, `Wt w = (5/8)/w + (611/50)/w^2 + (6711/100)/w^3 + (2583/25)/w^4`; `Qim_far_first_order`: `\|Qim\| <= (6/5) y/\|s\|`, the true order |
+| The near field | PROVED DAMAGE-FREE | `uniform_damage`: `Qim^2 - Qre^2 <= 0.0383 y^2` for every s; the split uses a damage-free near field \|s\| <= 28/5 and two far-field wings compared through a rank function against the progression 28/5 + 4m, with the majorant sum <= 0.0614 as nine explicit terms plus a telescoping tail |
+| Budget | **5.7% margin** | gain `Shq y/2 >= 0.129861 y^2` against damage `<= 0.1228 y^2` |
+| Its own stated limit | RECORDED | the first far-field offset alone costs 0.0383 y^2 per wing, so this route cannot go much below delta ~ 3.5 without also moving the near-field threshold |
+| **The empty-directory cost, restated by the prover** | CONFIRMED | none of EForm2's results were present; definitions, integrability, the master identity, closed forms, Taylor and numeric bounds, near and far field estimates, counting and the retention theorems were all rebuilt from the brief. Coordinator defect #16, now measured: ~2571 lines rebuilt |
+
+Disposition: **THE RETENTION NOW HOLDS FOR ALL n AT A SEPARATION BELOW
+THE MEAN SPACING OF ON-LINE ZEROS.** Two iterations moved the hypothesis
+from 4.14 mean gaps to 0.64. The separation is still a hypothesis - real
+zeros are not separated by construction and close pairs exist - so
+blocker 2 is not closed unconditionally; what changed is that the
+hypothesis is now weaker than the typical configuration rather than four
+times stronger. And the coordinator's erroneous instruction is now a
+kernel-checked falsity in the tree, which is the most direct form the
+ledger's defect record has ever taken. No proportion is claimed to have
+moved.
