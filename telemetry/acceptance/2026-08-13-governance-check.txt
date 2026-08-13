@@ -1,0 +1,13 @@
+governance check — 2026-08-13T12:20:51Z
+worktree branch: claude/lab-observability  base: ad2f79a
+
+$ pytest tests/test_repo_hygiene.py tests/test_docs_numbering.py tests/test_huntspec.py tests/test_telemetry.py
+........................................................................ [ 79%]
+...................                                                      [100%]
+91 passed in 4.82s
+
+$ python3 scripts/make_context.py --check
+CONTEXT.md is up to date.
+
+note: the lab suite (2200 tests) and lake build (8739 jobs) were NOT run —
+this checkout has none of the numerical dependencies and no Lean toolchain.
