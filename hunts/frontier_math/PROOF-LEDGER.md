@@ -1177,3 +1177,134 @@ minute, and the operator was told the wrong thing in between. What
 stands: the worst configuration in the clustered family is a pair on the
 damage peak at +0.1235, and the repulsion does win from m = 4 upward. No
 proportion is claimed to have moved.
+
+
+## BLOCKER 2 CLOSED at hardened grade: the repulsion pays for the damage (2026-08-13)
+
+Instruments: `near_coincident.py` (40 tests), `repulsion_trade.py` (55),
+`exact_gap_attack.py` (32) — three agents, three independent routes, run
+without sight of each other. Plus an independent coordinator
+reproduction written from `EForm3/Defs.lean` alone
+(`scratchpad/verify_lemma_c.py`, imports nothing from this directory).
+
+### The reduction (algebra, on two kernel-checked theorems)
+
+`retention_gap` and `energy_F` are already sorry-free in the tree.
+Substituting both into the obligation and cancelling gives, with
+`D(y,s) = Qim^2 - Qre^2` the damage of one offset and
+`phi_r = Qre 0` the window transform:
+
+    margin  =  E[F+P] - (199/200) E[F] - n/200 - 4  =  (4/A^2) * slack,
+    slack   =  Shq(y)/2 - sum_j D(y, x_j - t) + (1/400) sum_{j<k} phi_r(x_j - x_k)^2.
+
+The third term is exactly what `retention_of_damage` discards when it
+uses `energy_F_ge` (`E[F] >= n`) instead of the identity. It is the
+**repulsion**: two offsets a distance v apart relax the damage budget by
+`phi_r(v)^2/400`. Coordinator re-derived this by hand and checked it
+against the definition route (Gauss-Legendre on `Eng`) at dps=40 on six
+configurations: worst residual **3.95e-17**.
+
+### Why the repulsion is not optional
+
+| Finding | Status | Evidence |
+|---|---|---|
+| `retention_of_damage`'s hypothesis is **false from n = 8** | MEASURED, two agents independently | 8 offsets on the peak: `8 x 4.396424e-03 = 3.5171e-02 > Shq/2 = 3.3754e-02`; seven fit, eight do not |
+| Consequence | **NO sharpening of the damage constants can close blocker 2** | the route that drops the repulsion term is arithmetically dead, not merely lossy |
+| Consequence for defect #17 | its verdict stands and is now moot | separation cannot close blocker 2 at any positive constant; it does not have to |
+
+### The closure (window decomposition)
+
+`D(y, .)` is positive only on windows around the zeros of `phi_r`.
+Measured at `y = 1/2`, reproduced by the coordinator independently:
+
+| structural fact | agent value | coordinator value |
+|---|---|---|
+| innermost window edge (no damage inside) | 6.0653188 | **6.06531877311** |
+| max window width `w_max` | 0.9860008 | **0.9860007073** |
+| min gap between windows | 5.18297 | **5.182969399** |
+| `gamma = phi_r(w_max)`, `phi_r` nonincreasing on `[0, w_max]` | 0.88452 | **0.8845197389**, nonincreasing: yes |
+| top peak `D_1` and its position | 4.396424e-03 at 6.517 | **4.396424118e-03 at 6.516999776** |
+
+Two offsets in one window are at most `w_max` apart, so each such pair
+relieves at least `gamma^2/400`; offsets outside every window do no
+damage; cross-window relief is discarded. The problem decouples window
+by window and the per-window maximum is over an **integer**
+multiplicity — which is the whole point, since the real relaxation is
+unbounded below (see below):
+
+    sum_j D_j - (1/400) sum_{j<k} phi_r^2  <=  sum_k max_{m in Z>=0} [ m D_k - (gamma^2/800) m(m-1) ]
+
+| quantity | near_coincident | repulsion_trade | exact_gap_attack | coordinator |
+|---|---|---|---|---|
+| bound on net damage, `y=1/2` | 1.95721e-02 | 1.9617e-02 | — | **1.9447e-02** (60 windows) |
+| `Shq/2` | 3.37542e-02 | 3.3754e-02 | — | **3.375420393e-02** |
+| safety factor | 1.7246x | 1.72x | 1.724x | **1.7357x** |
+| margin lower bound | 6.72091e-02 | — | +0.06718 | **6.780e-02** |
+
+Maximising multiplicity: **3 on the innermost window of each side, 1 on
+every other** — all four instruments agree. `y = 1/2` is the binding
+depth (the relief carries no `y^2` while damage and budget both do):
+coordinator's net/budget ratio runs 0.3915 / 0.3925 / 0.3942 / 0.4658 /
+**0.5725** at `y = 0.1 ... 0.5`.
+
+### The majorant is conservative where it counts
+
+Coordinator evaluated the **exact** slack at the majorant's own
+extremal profile and around it:
+
+| test | result |
+|---|---|
+| exact net damage at the extremal profile | 0.017960 <= majorant 0.019278 |
+| spreading the clusters (0 -> 0.986) | net damage falls 0.01796 -> **-0.05349**; coincidence is the dangerous end |
+| multiplicity on the top window, m = 1..12 | worst at **m = 3** (0.017960), then falls; m = 6 already negative net damage |
+| uniform multiplicity m on all 25 windows | m=1 net 0.013092, m=2 **-0.079993**, monotone down to m=8 |
+
+So the `m^2` repulsion overtakes the `m` damage exactly where the
+majorant says it does, and no configuration in any of the four searches
+(three agents' ~70k configurations, free-position annealing to n=64, plus
+the coordinator's own) produced negative slack.
+
+### Why a convex relaxation cannot do this (agent 3's negative result)
+
+Over nonnegative **measures** the infimum is `-1/200` per unit mass and
+crosses zero at n = 23 (`y=1/2`); it falls without bound. Mass can leave
+as dust: spread thin it pays no self-energy and collects no damage. The
+minimiser is fractional (2.078 at the first window) and unrealisable.
+`-n A^2` is the self-energy of `n` **unit atoms** and only integrality
+pays it back — so **no convex relaxation of the atom constraint can
+close this**, and the SOS/Gram route closed earlier (`sos_certificate.py`)
+was closed for the same underlying reason.
+
+### The exact-rational certificate
+
+`exact_gap_attack.rational_certificate` re-runs the bound in
+`fractions.Fraction` on the tree's own kernel-checked constants —
+`Wt` (`FarField.Qim_far_sq`) and `Shq_half_lower` — plus a 9-window
+table with rational endpoints, `K >= 39/50` on `|u| <= 1` and
+`K >= 1/125` on `|u| <= 6`:
+
+    deficit 7.9451178e-02   budget 1.2986e-01   surplus 5.0408822e-02 > 0
+    margin 1.6345x, gap >= 0.0597, as a statement about rationals.
+
+Coordinator re-checked the one undocumented constant in it (`637/1000`,
+the far-tail coefficient): it is a sound rational majorant of
+`s^2 Wt(s^2-2)`, which is 0.62508 at s=400 and decreasing to 5/8. The
+code does not say where it came from — a documentation defect, logged,
+not an arithmetic one.
+
+### Grade, stated exactly
+
+| layer | grade |
+|---|---|
+| `margin = (4/A^2) slack` | algebra from two **kernel-checked** theorems; the Lean proof is `linarith` from `retention_gap` + `energy_F` and is not yet written |
+| the integer square completion per window | elementary, not yet written |
+| `K >= 39/50` on `\|u\| <= 1`, `K >= 1/125` on `\|u\| <= 6` | one-variable bounds on an explicit elementary function, not yet written |
+| **the 9-window table** (endpoints and damage caps on `[28/5, 60] x [0, 1/2]`) | **the real remaining cost**: a two-variable interval-arithmetic statement, the analogue of the `BandCert` leaf tables already in this package |
+| the whole chain | **HARDENED**, not kernel-checked |
+
+**What is closed**: blocker 2 — retention for every `n`, every `t`,
+every `y in [0,1/2]`, with **no separation hypothesis** — at hardened
+grade, by four instruments that agree to three digits and one exact
+rational certificate. **What is not**: none of it is in Lean yet. The
+tree still carries retention only under `d >= 4` or `n <= 3`. No
+proportion has moved and nothing here is evidence about RH.
