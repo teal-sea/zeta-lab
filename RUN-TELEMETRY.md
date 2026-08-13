@@ -70,19 +70,25 @@ python3 -m telemetry note "$RUN" "route A refuted; switching to the dual"
 python3 -m telemetry finish "$RUN" --status completed --outcome landed
 ```
 
-### Hooks — shipped, **not installed**
+### Hooks — one command, per worktree
 
-`telemetry/hooks/` carries a `SessionStart`/`Stop` pair, a `prepare-commit-msg`
-hook that appends the trailer, and a settings template. None is active.
+```bash
+python3 telemetry/hooks/install.py            # session hooks, this checkout
+python3 telemetry/hooks/install.py --status
+python3 telemetry/hooks/install.py --git-hook # commit trailer (shared; refuses if other worktrees exist)
+```
+
+This is the boundary that makes emission automatic rather than remembered.
+Hooks fire on the **next** session in that worktree, not the current one.
 
 Two frontier research sessions were live when this landed and are
 **grandfathered**: no hook, wrapper, environment variable, prompt change or
-provider configuration was injected into them. Turning hooks on is an operator
-decision — `telemetry/hooks/README.md` has the procedure. The settings template
-targets `.claude/settings.local.json`, which is gitignored and per-worktree, so
-enabling it in one checkout cannot follow a merge into anyone else's session.
-The git hook is the one with a shared blast radius (`.git/hooks` is common to
-every worktree of a clone) and is deliberately left to a deliberate `cp`.
+provider configuration was injected into them, and installing here does not
+reach them. The installer writes only `.claude/settings.local.json` — gitignored
+and per-worktree — so enabling telemetry in one checkout cannot follow a merge
+into anyone else's session. The git hook is the one with a shared blast radius
+(`.git/hooks` is common to every worktree of a clone); it is off by default and
+the installer refuses it while another worktree of the clone exists.
 
 ## 4. Fields, and which are authoritative
 
@@ -235,9 +241,10 @@ sessions have no run records and are not going to grow fabricated ones.
 
 ## 10. Known blind spots
 
-1. **Sessions are only instrumented if someone turns the hooks on**, and the
-   hooks are off. Until then, coverage depends on `wrap` and `start`/`finish`
-   being used — which is the failure mode this design is most exposed to.
+1. **Sessions are only instrumented in worktrees where the hooks were
+   installed**, and installation is per-checkout by design. A fresh clone starts
+   uninstrumented; `install.py --status` is how you find out. This remains the
+   failure mode the design is most exposed to.
 2. **No model, no tokens, no cost from this provider** (§7). The most-wanted
    fields are the least available, and `--model` is a declaration a careless
    caller can get wrong.
@@ -275,7 +282,7 @@ registry should be allowed to reach that point before anything is migrated.
 python -m pytest tests/test_telemetry.py -q -o addopts=''
 ```
 
-64 tests, stdlib + pytest only — they pass in a checkout with none of the
+70 tests, stdlib + pytest only — they pass in a checkout with none of the
 laboratory's numerical dependencies installed, because telemetry that needs
 `mpmath` to run stops running exactly when a session is least able to fix it.
 Every test uses a `tmp_path` root and a throwaway git repository; none reads or
