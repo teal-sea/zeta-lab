@@ -98,3 +98,52 @@ centre gap, and playing that against `Psi` summed over the same gaps.
 
 **This is a direction, not a schedule.** Nothing above is a proof of `k >= 2`,
 and none of it moves the constant. Nothing here is evidence about RH.
+
+## 5. The anatomy of the binding configurations
+
+Decomposing `slack_k` into its four terms at the worst configuration found for
+each `k` (fixed-`n` annealer, 20 000 iterations):
+
+| k | gain | damage | repulsion | cross | slack | rel | max incidences |
+|---|---|---|---|---|---|---|---|
+| 2 | 0.0675 | 0.0358 | 0.0150 | **-0.0184** | 0.0284 | 0.420 | 2 |
+| 4 | 0.0675 | 0.0189 | 0.0064 | **-0.0289** | 0.0261 | 0.387 | 3 |
+| 8 | 0.1688 | 0.0591 | 0.0106 | **-0.0517** | 0.0686 | 0.407 | 5 |
+| 12 | 0.2777 | 0.1421 | 0.0551 | **-0.1018** | 0.0889 | 0.320 | 10 |
+
+Three things this says, none of them obvious from the identity:
+
+1. **The cross term is a cost, not a gain, at every binding configuration**,
+   and by `k = 12` it is comparable to the damage (`-0.102` against `0.142`).
+   The `+1.7556`-per-ordered-pair *gain* from coincident centres is real but
+   the adversary does not take it — stacking buys relief it does not want.
+2. **Incidence is not limited.** One atom sits inside the damage window of
+   10 of the 12 pairs at `k = 12`. Whatever "at most one pair per damage
+   window" bounds, it is not this, so the damage side scales with `k`
+   essentially in full.
+3. **Everything scales linearly in `k`.** `cross/k` runs `0.0092, 0.0072,
+   0.0065, 0.0085`; gain and damage likewise. That is *why* the relative
+   margin stabilises instead of collapsing, and it means an argument has to
+   be linear in `k` too — anything that loses a factor of `k` cannot work.
+
+## 6. Repulsion cannot be dropped (confirming the ledger independently)
+
+The table above shows repulsion contributing under 20% of the gain at the
+binding configurations, which invites the thought that it could be discarded
+and the shared-repulsion difficulty with it. **It cannot.** Minimising the
+relative margin with the repulsion term deleted:
+
+| k | 1 | 2 | 4 | 8 | 12 |
+|---|---|---|---|---|---|
+| margin without repulsion | **-0.2990** | -0.1343 | -0.0668 | -0.1810 | +0.0247 |
+
+Negative already at `k = 1`, decisively. (The `k = 12` positive is search
+weakness on a harder landscape, not a reversal.) The small repulsion values in
+§5 are an artefact of reading them off configurations chosen to bind the
+*full* slack; an adversary allowed to ignore repulsion immediately picks
+different ones.
+
+So `PROOF-LEDGER.md`'s "the route that drops the repulsion term is
+arithmetically dead" holds, reached here from a different direction. Repulsion
+is load-bearing, it is paid once however large `k` is, and any proof must
+carry that asymmetry rather than route around it.
