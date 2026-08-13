@@ -159,7 +159,8 @@ Do not rename directories to make the tree look like the metaphor.
 **Forage, don't roadmap.** Explore several directions cheaply; when one produces
 credible signal, feed it more; when it stops, stop feeding it. Preserve the
 threads you are not pulling, so choosing one direction does not require
-forgetting the others — that is what `THREADS.md` is for. This is a working
+forgetting the others — observations become issues, leads go to the roster
+in `fulcrum`. This is a working
 strategy, not a proven optimal policy.
 
 **The economic objective: maximize valuable output per monetary unit of input.**
@@ -187,17 +188,32 @@ the meta-system. `harness/VERDICT.md` is what the alternative cost.
   has preferences rather than a method. Retiring it is a success of the process
   and a failure of the thing, and the two are not the same judgement.
 
-## Loose threads
+## Observations, and the work roster
 
-Things worth remembering that nobody is pursuing right now. `THREADS.md` is the
-whole mechanism: a flat file, one block per thread, five fields. Add one the
-moment you notice something and decide not to chase it — the cost of writing it
-down is seconds and the cost of losing it is a rediscovery.
+Two different things that were once one file, split by **what kind of statement
+they are** rather than by where they lived.
 
-`scripts/70_lab_state.py` already derives *live* work from git (every branch
-ahead of `origin/main`). It cannot derive a parked thread, because a parked
-thread has no branch — that gap is exactly what the file covers, and it is the
-only reason it exists rather than being derived.
+**An observation is public.** Something measured, noticed, broken or bounded is
+a fact about the subject or about this tree, and it is true whether or not
+anyone pursues it. Those go in the open, as a GitHub issue on this repository,
+or as a doc and a test when they are big enough to deserve one. Issue #21 is a
+measured result about which properties of ζ discriminate; issue #22 is a scope
+caveat that bounds every claim `compiler/` makes; issue #20 is a defect. All
+three are checkable by a stranger, which is the point.
+
+**A lead is private.** *That* we intend to chase something, in what order, with
+what budget, lives in the roster in `fulcrum`. A backlog announces what the lab
+is about to work on, which is allocation, and allocation is operating material.
+
+The line: an issue says *"this is true and unresolved."* The roster says
+*"this one is next."*
+
+If you notice something and are not chasing it now, **open an issue** — do not
+start a backlog file here. Record the observation; leave the priority to the
+roster.
+
+`scripts/70_lab_state.py` still derives *live* work from git — every branch
+ahead of `origin/main`, right by construction, needing nobody to maintain it.
 
 ## Hard rules
 

@@ -58,7 +58,6 @@ jobs:
           python -m pytest -q -p no:cacheprovider -o addopts="" --no-header \
             tests/test_docs_numbering.py \
             tests/test_repo_hygiene.py \
-            tests/test_threads.py \
             tests/test_telemetry.py \
             tests/test_huntspec.py \
             tests/test_meta_ledger.py \
