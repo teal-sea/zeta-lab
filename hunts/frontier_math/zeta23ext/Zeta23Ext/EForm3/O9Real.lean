@@ -1,4 +1,4 @@
-import Mathlib
+import Zeta23Ext.BandCert.Iv
 
 /-!
 # The real-arithmetic content of `qreIv` and `rIv`
@@ -73,6 +73,48 @@ theorem im_div_over_y (a bOverY c dOverY y : ℝ) (hy : y ≠ 0)
 
 end O9Real
 
+/-! ## The interval seam
+
+The identities above say what the componentwise formulas compute. These say the
+interval expressions `qreIv` and `rIv` are built from enclose it, given
+enclosures of the four components. They are stated on the *shape* of the
+composition rather than on `boxParts`, so they are independent of how the
+leaves are assembled and stay true if the leaf layer is rebuilt again.
+-/
+
+namespace O9Seam
+
+open BandDual
+
+/-- The composition `qreIv` performs, sound. -/
+theorem qre_comp_mem {A B C D E : EIv} {a b c d : ℝ}
+    (hA : A.mem a) (hB : B.mem b) (hC : C.mem c) (hD : D.mem d)
+    (hE : E.mem (c * c + d * d)) :
+    (EIv.div (EIv.add (EIv.mul A C) (EIv.mul B D)) E).mem
+      ((a * c + b * d) / (c * c + d * d)) :=
+  EIv.div_mem (EIv.add_mem (EIv.mul_mem hA hC) (EIv.mul_mem hB hD)) hE
+
+/-- The composition `rIv` performs, sound.
+
+`B` and `D` are the `/y` variants, so nothing here divides by `y`; the negation
+is the one `rIv` carries because `Phi2 (s + i y)` has imaginary part `−Qim`. -/
+theorem r_comp_mem {A B C D E : EIv} {a bOverY c dOverY : ℝ}
+    (hA : A.mem a) (hB : B.mem bOverY) (hC : C.mem c) (hD : D.mem dOverY)
+    (hE : E.mem (c * c + dOverY * dOverY)) :
+    (EIv.neg (EIv.div (EIv.sub (EIv.mul B C) (EIv.mul A D)) E)).mem
+      (-((bOverY * c - a * dOverY) / (c * c + dOverY * dOverY))) :=
+  EIv.neg_mem (EIv.div_mem (EIv.sub_mem (EIv.mul_mem hB hC) (EIv.mul_mem hA hD)) hE)
+
+/-- `denAbs2`'s shape is sound: it encloses `c*c + d*d`. -/
+theorem denAbs2_mem {C D : EIv} {c d : ℝ} (hC : C.mem c) (hD : D.mem d) :
+    (EIv.add (EIv.sqr C) (EIv.sqr D)).mem (c * c + d * d) :=
+  EIv.add_mem (EIv.sqr_mem hC) (EIv.sqr_mem hD)
+
+end O9Seam
+
 #print axioms O9Real.re_div_eq
 #print axioms O9Real.im_div_eq
 #print axioms O9Real.im_div_over_y
+#print axioms O9Seam.qre_comp_mem
+#print axioms O9Seam.r_comp_mem
+#print axioms O9Seam.denAbs2_mem
