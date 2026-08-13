@@ -290,9 +290,15 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
      "enclosure-carrying".
   3. *kernel-checked* -- Lean 4 + Mathlib, zero sorrys, standard axioms
      only. These are theorems; call them theorems, without apology.
-  4. *externally reviewed* -- a qualified outside reader has walked the
-     chain. "Established", "landmark", "settles" become available here
-     and not before.
+     **The ladder ends here, because this is where our certification
+     ends** (director's ruling, 2026-08-13). Outside review is a real and
+     necessary step and it is not ours to award: it depends on someone
+     else stepping up. It was previously carried as a vacant fourth rung,
+     which read as a standing deficiency in the work rather than as an
+     open invitation. It is now a footnote instead -- a published claim
+     carries *pending external verification* until a qualified outside
+     reader has walked the chain, and that footnote is small because the
+     work is done and the waiting is somebody else's.
   A composite claim takes the grade of its WEAKEST step: a chain of
   theorems glued by one measured step is a candidate and is called one.
   The reserved words stay reserved ("certified" to `zeta/rigor.py` and

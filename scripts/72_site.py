@@ -600,13 +600,17 @@ def vitals(items: list[tuple[str, str, bool]]) -> str:
     ) + "</div>"
 
 
-def ladder(lean: dict) -> str:
+def ladder(lean: dict, fr: dict) -> str:
     """The certainty ladder, with occupancy read off the tree where it can be.
 
     Rung 3 is occupied only while the sorry count is zero, which is measured.
-    Rung 4 is vacant because no artifact in this repository records an outside
-    reader having walked a chain. Saying so plainly is the point of having the
-    rung at all.
+
+    The ladder stops there because that is where this laboratory's own
+    certification stops. Review by an outside reader is a real and necessary
+    step, but it is not a rung the lab can occupy or fail to occupy: it depends
+    on someone else stepping up. Carrying it as a vacant fourth rung read as a
+    standing deficiency in the work rather than as an open invitation, which is
+    both bad PR and bad epistemics. It is a footnote on the claims instead.
     """
     rungs = [
         ("01", "Measured", "One route, floating-point or arbitrary-precision "
@@ -617,14 +621,14 @@ def ladder(lean: dict) -> str:
          "enclosures carry every step. Two backends check each other; when only "
          "one is installed the cross-check is absent and the suite says so.",
          True, "occupied · two backends"),
+        # Both Lean corpora count: the ladder of re-derived facts and the
+        # frontier work. A rung is occupied only while every sorry is zero.
         ("03", "Kernel-checked", "Accepted by Lean 4 with Mathlib, zero "
          "<code>sorry</code>s, standard axioms only. These are theorems and are "
-         "called theorems.", lean["sorrys"] == 0,
-         f"occupied · {num(lean['decls'])} declarations" if lean["sorrys"] == 0
-         else f"blocked · {lean['sorrys']} sorrys"),
-        ("04", "Externally reviewed", "A qualified outside reader has walked the "
-         "chain. The words <em>established</em> and <em>settles</em> become "
-         "available at this rung and not before.", False, "not occupied"),
+         "called theorems.", lean["sorrys"] + fr["sorrys"] == 0,
+         f"occupied · {num(lean['decls'] + fr['decls'])} declarations"
+         if lean["sorrys"] + fr["sorrys"] == 0
+         else f"blocked · {lean['sorrys'] + fr['sorrys']} sorrys"),
     ]
     return "".join(
         f"<div class='rung {'on' if on else 'off'}'><span class='lvl'>{lvl}</span>"
@@ -723,8 +727,6 @@ than standing</td></tr>
 <td class='note'>kept with the witness that killed it</td></tr>
 <tr><td>survived an adversarial pass</td><td class='r'>{c['survived']}</td>
 <td class='note'></td></tr>
-<tr><td>externally verified</td><td class='r'>{c['reviewed']}</td>
-<td class='note'>no outside reader has walked a chain here</td></tr>
 </tbody></table></div>
 <p>Originality is not self-assessed. This laboratory's rules forbid an agent
 declaring a result novel, and its literature check reports <em>the literature
@@ -769,7 +771,10 @@ can be.</p>
 <section>
 <h2><span class='num'>§3</span> The certainty ladder</h2>
 <p>A composite claim takes the grade of its weakest step.</p>
-{ladder(lean)}
+{ladder(lean, fr)}
+<p class="meta">* Published claims carry "pending external verification" until a
+qualified outside reader has walked the chain. That step is theirs to take, not
+ours to award.</p>
 </section>
 
 <section>
