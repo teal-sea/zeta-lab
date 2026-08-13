@@ -16,6 +16,35 @@ sys.path.insert(0, str(Path(__file__).parent))
 import depth_bangbang as B  # noqa: E402
 
 
+def test_bang_bang_is_false():
+    """The claim this module was written to support, refuted.
+
+    A targeted annealer maximising `min(endpoints) - min(all)` found this at
+    `k = 2, n = 2` -- the smallest case it was given -- after a 540-config
+    sampling sweep found nothing. Sampling looks where the measure is, not
+    where the adversary is.
+    """
+    assert B.counterexample_advantage(fine=True) > 1e-3
+    assert B.counterexample_advantage(fine=False) > 1e-3
+
+
+def test_the_counterexample_is_not_a_grid_artifact():
+    coarse = B.counterexample_advantage(fine=False)
+    fine = B.counterexample_advantage(fine=True)
+    assert abs(fine - coarse) < 1e-5
+
+
+def test_the_counterexample_is_not_in_the_binding_regime():
+    """It sits at margin ~0.75 against a binding ~0.23, which is why (BB)
+    might still hold where the question is actually decided -- and why that
+    is a different, harder claim rather than a rescue of this one."""
+    import kpair_identity as K
+
+    c = B.COUNTEREXAMPLE
+    m = K.slack_k(c["xs"], list(zip(c["ys"], c["ts"])), 1.0, True)
+    assert m > 0.5
+
+
 def test_the_detector_finds_a_planted_interior_minimum():
     """Full power, or the clean sweeps below mean nothing.
 
@@ -46,16 +75,22 @@ def test_a_fixed_height_bump_is_the_underpowered_control():
     assert fired < 15, "a fixed bump should NOT reliably dominate the scan"
 
 
-def test_no_interior_minimum_over_random_configurations():
+def test_random_sampling_misses_the_counterexample():
+    """Pins the failure, not a finding.
+
+    Sampling reports a clean sweep even though `COUNTEREXAMPLE` exists, which
+    is exactly why the clean sweep was not evidence. Kept so the shape of the
+    mistake stays visible.
+    """
     assert B.sweep(trials=60)["interior"] == 0
 
 
-def test_no_interior_minimum_over_lattice_configurations():
+def test_lattice_sampling_misses_it_too():
     assert B.sweep(trials=60, seed=7, structured=True)["interior"] == 0
 
 
 @pytest.mark.slow
-def test_no_interior_minimum_on_a_finer_grid():
+def test_sampling_misses_it_on_a_finer_grid_too():
     """241 points rather than 61, in case 61 was straddling a shallow dip."""
     assert B.sweep(trials=40, fine=True)["interior"] == 0
 
