@@ -1932,3 +1932,59 @@ are lattices, clusters and randoms, so an adversary with unseen structure
 is not excluded; `y` is fixed at the binding depth `1/2`. `k >= 2`
 remains open, no proportion has moved, and nothing here is evidence
 about RH.
+
+
+## Two sessions measured O9 independently; the results reconcile (2026-08-13)
+
+`claude/lab-rejection-philosophy` cherry-picked in (`ebf649c`, `b575100`):
+`o9_scoping.py`, `test_o9_scoping.py` (18 tests, all pass here),
+`O9-SCOPING.md`, `O9-BRIEF.md`. Their headline is **"the blocker is zero
+margin, not table size"**, which is a claim about the same object
+`window_table.py` sizes, so it needs reconciling rather than filing.
+
+**Their finding, and it is correct.** The caps `c_k` as recorded in
+`RETENTION-PROBLEM.md` §4 are defined as the *supremum* of `Dam/y^2` over
+each window box, rounded up. They recomputed all nine and found the
+supremum **attained at an interior point of every window**, always at
+`y = 1/2`, ratio `1.0000` to four figures. An inequality that is an
+equality somewhere has no margin, and no enclosure can discharge it: any
+ball containing the argmax has an upper bound strictly above the sup. So
+O9 *as §4 states it* cannot be held by interval arithmetic at any table
+size.
+
+**It does not apply to `window_table.py`, by construction.** That module
+computes caps by adaptive subdivision with `tol_rel = 0.02`, so every cap
+sits above its bracket's true supremum:
+
+| k | true sup on bracket | `window_table` cap | ratio |
+|---|---|---|---|
+| 0 | 4.396423772e-03 | 4.483880e-03 | **1.0199** |
+| 1 | 9.750553153e-04 | 9.944775e-04 | 1.0199 |
+| … | … | … | ≥ **1.0195** |
+| 8 | 4.623464811e-05 | 4.715629e-05 | 1.0199 |
+
+Minimum ratio across the nine brackets `1.0195`; **0 undecided cells** in
+the table is the empirical form of the same fact. What was recorded as a
+caveat (named gap T4, "the caps are deliberately loose") is, in the light
+of their finding, the load-bearing design choice.
+
+**The two size estimates are consistent because they size different
+objects.** `window_table` is **196 cells**, one-dimensional at `y = 1/2`,
+which is legitimate only because of the depth reduction
+`D(y,s)/y^2 <= 4 D(1/2,s)`. Theirs is **264 leaves at depth 12**, the
+full two-dimensional object over `[28/5,60] x [0,1/2]` at `1.20x` cap
+inflation plus `0.02` window widening. Both are a fraction of
+`BandCert/Data.lean`. Neither says size is the obstacle, and they agree
+on that independently.
+
+**Their §7 ceiling clears ours.** They measure the budget as absorbing
+cap inflation up to **`1.3945x`**. `window_table` runs at `1.02x` with a
+cap sum of `1.319090e-02` against `Shq/2 = 3.375420e-02` — headroom
+`2.5589x` — and inflating its caps all the way to `1.3945x` gives
+`1.839470e-02`, still under budget.
+
+Disposition: **THE TWO SCOPINGS AGREE, AND THEIRS SUPPLIES THE REASON
+OURS WORKS.** The zero-margin obstruction is real for the §4 statement
+and is the thing to fix in `RETENTION-PROBLEM.md`; the table this session
+built already avoids it, and now has a named reason rather than a lucky
+tolerance. No proportion has moved and nothing here is evidence about RH.
