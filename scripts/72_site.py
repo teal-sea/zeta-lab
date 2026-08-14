@@ -474,28 +474,25 @@ def stack() -> dict[str, Any]:
                          {"numpy": "bulk statistics",
                           "scipy": "quadrature and interpolation",
                           "sympy": "exact symbolic work"}[name]))
+    # The agent CLIs get parallel treatment. An earlier version of this table
+    # credited one of them with "the driver for most of the tree", which is not
+    # derivable from anything: Codex work landed with authorship preserved, so
+    # commit authorship does not partition sessions by CLI, and the telemetry
+    # only sees the runtime it runs inside. Ranking them on that basis would
+    # have been the tool that wrote this page grading its own vendor first.
+    agents = []
     for prov in sorted(providers):
-        rows.append((prov.replace("-", " ").title(), "agent runtime",
-                     "the sessions telemetry captured, and the driver for most "
-                     "of the tree."))
-
-    # Codex is in the repository's own record, not merely in the operator's
-    # account: HANDOFF.md logs the formalization relay and what it landed. The
-    # telemetry not having captured those sessions says nothing about whether
-    # they happened, which is the same error as reading an unrun literature
-    # check as absence of prior art.
+        agents.append((prov.replace("-", " ").title(),
+                       "sessions across the tree, captured in telemetry."))
     handoff = REPO / "HANDOFF.md"
     if handoff.is_file() and "Codex relay" in handoff.read_text(errors="ignore"):
-        rows.append(("Codex", "agent runtime",
-                     "the higher-xi / RAMS2 / RC2 formalization relay. Three "
-                     "modules landed kernel-checked after audit by six "
-                     "independent auditors; nothing was landed on trust."))
-
-    # Attested by the operator, who is the sole human author of this tree. The
-    # source is named rather than the row demoted.
-    rows.append(("Antigravity", "agent runtime",
-                 "also used to drive this repository. Recorded on the "
-                 "operator's account; the tree logs no session it did not run."))
+        agents.append(("Codex",
+                       "the higher-xi / RAMS2 / RC2 formalization relay. Three "
+                       "modules landed kernel-checked after audit by six "
+                       "independent auditors; nothing was landed on trust."))
+    agents.append(("Antigravity", "sessions across the tree."))
+    for name, did in sorted(agents):
+        rows.append((name, "agent CLI", did))
     return {"rows": rows}
 
 
@@ -883,9 +880,10 @@ specific about which parts carried the weight.</p>
 <thead><tr><th>tool</th><th>version</th><th>what it did</th></tr></thead>
 <tbody>{stackrows}</tbody></table></div>
 <p class='meta'>Versions read from <code>lean/lean-toolchain</code> and
-<code>requirements.txt</code>; the Claude Code and Codex rows from the telemetry
-records and <code>HANDOFF.md</code> respectively. The repository is deliberately
-portable across agent CLIs rather than tied to one.</p>
+<code>requirements.txt</code>. The repository is deliberately portable across
+agent CLIs and tied to none of them, and no split of the work between them is
+derivable from the tree: work landed with authorship preserved, so commit
+authorship does not partition sessions by the tool that produced them.</p>
 </section>
 
 <section>
