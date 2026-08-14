@@ -878,22 +878,23 @@ field years, and they are usually argued on paper. This one is machine checked
 underneath.</p>
 
 <h3>Where this sits</h3>
-<p>The 67.25007% is Anthropic's. On 10 August 2026 they published a result in
-which an unreleased research model, running as Claude, carried the proven
-fraction from 41.6% to 67.25007%. That is a genuine advance, it is theirs, and
-its Lean formalization is public.</p>
-<p>Two things about that run are worth knowing. The model behind it was never
-released, so nobody outside Anthropic can reproduce how the result was found;
-and it was reported to take two Claude Code sessions, sixty subagents and
-roughly 31 million output tokens.</p>
-<p>This laboratory began from their published theorem two days later and
-carried it to 67.25107%. The difference worth your attention is not the size of
-the step. It is that this one runs on tools anyone can rent, and every part of
-it, the chain, the audit, the refutations and the code, is on this site and in
-the repository. Claude Code is in our stack too, named below alongside
-everything else.</p>
+<p>The 67.25007% is Anthropic's, and theirs is much the larger piece of work.
+On 10 August 2026 they published a result in which a research model, running as
+Claude, carried the proven fraction from 41.6% to 67.25007%, with the Lean
+formalization public alongside it. That is more than twenty-five percentage
+points on a number the field had been moving in fractions of one. Everything on
+this page begins from their theorem and carries it a further one thousandth of
+a percentage point.</p>
+<p>So what this laboratory adds is not size. Their model has not been released,
+so the route to their result cannot be re-run from outside Anthropic. This one
+was assembled two days later out of tools anyone can rent, and the chain, the
+audit, the refutations and the code are all on this site and in the repository.
+Both of those are worth having and only the second is ours.</p>
 <p>The step underneath it is checked against the real function rather than a
 convenient stand-in, which is the shortcut this kind of argument usually takes.</p>
+<p class='meta'>Three agent CLIs carried this work, Antigravity, Claude Code and
+Codex, and no claim here rests on which one produced a given step. They are
+named in §4 with the rest of the stack.</p>
 <p class='meta'>A candidate rather than a theorem: one step of the chain is
 still open, so the composite takes that grade. The gain is also asymptotic, not
 effective at heights anyone can compute, a limit inherited from the source's own
@@ -937,7 +938,12 @@ worth naming which parts carried the weight.</p>
 <code>requirements.txt</code>. The repository is deliberately portable across
 agent CLIs and tied to none of them, and no split of the work between them is
 derivable from the tree: work landed with authorship preserved, so commit
-authorship does not partition sessions by the tool that produced them.</p>
+authorship does not partition sessions by the tool that produced them. Read the
+three CLI rows for what the tree records, not for how much each did. Codex has
+a specific line because <code>HANDOFF.md</code> records that relay, Claude Code
+because the telemetry runs inside it, and Antigravity a short one because
+nothing in the tree records its sessions. Length here measures the evidence,
+not the contribution.</p>
 </section>
 
 <section>
