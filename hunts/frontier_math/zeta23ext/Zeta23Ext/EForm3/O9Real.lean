@@ -96,13 +96,23 @@ theorem qre_comp_mem {A B C D E : EIv} {a b c d : ℝ}
 
 /-- The composition `rIv` performs, sound.
 
-`B` and `D` are the `/y` variants, so nothing here divides by `y`; the negation
-is the one `rIv` carries because `Phi2 (s + i y)` has imaginary part `−Qim`. -/
-theorem r_comp_mem {A B C D E : EIv} {a bOverY c dOverY : ℝ}
+`B` and `D` are the `/y` variants, so nothing in the numerator divides by `y`;
+the negation is the one `rIv` carries because `Phi2 (s + i y)` has imaginary
+part `−Qim`.
+
+**The denominator is `c*c + d*d`, the undivided `|den|²`, and getting that
+wrong is exactly the mistake this statement first made.** Only the numerator's
+two terms carry the `/y`; dividing `Im(num/den)` by `y` pushes `y` into the
+numerator alone, because `Im(num)` and `Im(den)` are each linear in `y` and one
+factor of `y` cancels against the other. So `d` here is a parameter independent
+of `dOverY`, related to it by `d = dOverY * y` at the call site — and a version
+stated with `dOverY * dOverY` in the denominator is true, parametric, and
+uninstantiable, since no `denAbs2` ever encloses that. -/
+theorem r_comp_mem {A B C D E : EIv} {a bOverY c d dOverY : ℝ}
     (hA : A.mem a) (hB : B.mem bOverY) (hC : C.mem c) (hD : D.mem dOverY)
-    (hE : E.mem (c * c + dOverY * dOverY)) :
+    (hE : E.mem (c * c + d * d)) :
     (EIv.neg (EIv.div (EIv.sub (EIv.mul B C) (EIv.mul A D)) E)).mem
-      (-((bOverY * c - a * dOverY) / (c * c + dOverY * dOverY))) :=
+      (-((bOverY * c - a * dOverY) / (c * c + d * d))) :=
   EIv.neg_mem (EIv.div_mem (EIv.sub_mem (EIv.mul_mem hB hC) (EIv.mul_mem hA hD)) hE)
 
 /-- `denAbs2`'s shape is sound: it encloses `c*c + d*d`. -/

@@ -40,19 +40,57 @@ theorem qreIv_mem {a b c d : ℝ}
 /-- **`rIv` encloses the removable branch.**
 
 With `bOverY = Im num / y` and `dOverY = Im den / y`, this is
-`−(bOverY·c − a·dOverY)/(c² + dOverY²·y²)`. Nothing here divides by `y`:
-`O9Real.im_div_over_y` is the identity that says this equals `Qim/y`, and it is
-why the enclosure exists at `y = 0` at all. -/
-theorem rIv_mem {a bOverY c dOverY : ℝ}
+`−(bOverY·c − a·dOverY)/(c² + d²)` — note the denominator is the *undivided*
+`|den|²`, matching `denAbs2`. Only the numerator's terms carry the `/y`, which
+is what `O9Real.im_div_over_y` states and what makes the enclosure exist at
+`y = 0` at all.
+
+The first version of this lemma put `dOverY * dOverY` in the denominator. It
+compiled and was true, because `E` is a parameter — and it was uninstantiable,
+because no `denAbs2` encloses that quantity. A lemma can be true, well-typed,
+and still say something other than what is needed; only trying to apply it
+finds out. -/
+theorem rIv_mem {a bOverY c d dOverY : ℝ}
     (hA : EIv.mem (boxParts sLo sHi yLo yHi).reNum a)
     (hB : EIv.mem (boxParts sLo sHi yLo yHi).imNumOverY bOverY)
     (hC : EIv.mem (boxParts sLo sHi yLo yHi).reDen c)
     (hD : EIv.mem (boxParts sLo sHi yLo yHi).imDenOverY dOverY)
-    (hE : EIv.mem (boxParts sLo sHi yLo yHi).denAbs2 (c * c + dOverY * dOverY)) :
+    (hE : EIv.mem (boxParts sLo sHi yLo yHi).denAbs2 (c * c + d * d)) :
     EIv.mem (rIv sLo sHi yLo yHi)
-      (-((bOverY * c - a * dOverY) / (c * c + dOverY * dOverY))) := by
+      (-((bOverY * c - a * dOverY) / (c * c + d * d))) := by
   unfold rIv
   exact O9Seam.r_comp_mem hA hB hC hD hE
+
+/-! ## Instantiated at a real box
+
+The statements above are parametric, and the previous version of `rIv_mem` was
+true and uninstantiable in exactly that gap. So both are now applied at an
+actual box, with the denominator supplied by `O9Parts.denAbs2_mem` rather than
+assumed. If a statement drifts from what `denAbs2` provides again, this fails
+to elaborate.
+-/
+
+/-- `rIv` at a real box, with every hypothesis discharged from `O9Parts`. -/
+theorem rIv_mem_box {s y : ℝ} {a bOverY : ℝ}
+    (hs : EIv.mem (some ⟨sLo, sHi⟩) s) (hy : EIv.mem (some ⟨yLo, yHi⟩) y)
+    (hA : EIv.mem (boxParts sLo sHi yLo yHi).reNum a)
+    (hB : EIv.mem (boxParts sLo sHi yLo yHi).imNumOverY bOverY) :
+    EIv.mem (rIv sLo sHi yLo yHi)
+      (-((bOverY * (s * s - y * y - ((2:ℤ):ℝ)) - a * (s * ((2:ℤ):ℝ)))
+        / ((s * s - y * y - ((2:ℤ):ℝ)) * (s * s - y * y - ((2:ℤ):ℝ))
+          + (s * ((2:ℤ):ℝ) * y) * (s * ((2:ℤ):ℝ) * y)))) :=
+  rIv_mem hA hB (reDen_mem hs hy) (imDenOverY_mem hs hy) (denAbs2_mem hs hy)
+
+/-- `qreIv` at a real box, likewise. -/
+theorem qreIv_mem_box {s y : ℝ} {a b : ℝ}
+    (hs : EIv.mem (some ⟨sLo, sHi⟩) s) (hy : EIv.mem (some ⟨yLo, yHi⟩) y)
+    (hA : EIv.mem (boxParts sLo sHi yLo yHi).reNum a)
+    (hB : EIv.mem (boxParts sLo sHi yLo yHi).imNum b) :
+    EIv.mem (qreIv sLo sHi yLo yHi)
+      ((a * (s * s - y * y - ((2:ℤ):ℝ)) + b * (s * ((2:ℤ):ℝ) * y))
+        / ((s * s - y * y - ((2:ℤ):ℝ)) * (s * s - y * y - ((2:ℤ):ℝ))
+          + (s * ((2:ℤ):ℝ) * y) * (s * ((2:ℤ):ℝ) * y))) :=
+  qreIv_mem hA hB (reDen_mem hs hy) (imDen_mem hs hy) (denAbs2_mem hs hy)
 
 /-! ## What remains
 
@@ -70,3 +108,5 @@ end Retention
 
 #print axioms Retention.qreIv_mem
 #print axioms Retention.rIv_mem
+#print axioms Retention.qreIv_mem_box
+#print axioms Retention.rIv_mem_box
