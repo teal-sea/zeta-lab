@@ -416,6 +416,70 @@ def operators() -> int:
     return len(people)
 
 
+def stack() -> dict[str, Any]:
+    """What the work was built with, read off the pins rather than remembered.
+
+    Versions come from `lean/lean-toolchain` and `requirements.txt`, so the
+    table cannot drift from what the tree actually installs. The agent runtime
+    is read from the telemetry records, which name the provider that produced
+    each run.
+
+    One line here is attested rather than derived, and is marked as such on the
+    page: the operator also drove this repository from other agent CLIs, and
+    the public tree carries no record of a session it did not capture. Saying
+    which rows are evidence and which are testimony costs one sentence.
+    """
+    toolchain = ""
+    tc = REPO / "lean" / "lean-toolchain"
+    if tc.is_file():
+        toolchain = tc.read_text(errors="ignore").strip().split(":")[-1]
+
+    pins: dict[str, str] = {}
+    req = REPO / "requirements.txt"
+    if req.is_file():
+        for line in req.read_text(errors="ignore").splitlines():
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            m = re.match(r"([A-Za-z0-9_.-]+)\s*>=\s*([0-9.]+)", line)
+            if m:
+                pins[m.group(1).lower()] = m.group(2)
+
+    providers: set[str] = set()
+    for f in (REPO / "telemetry" / "runs").glob("*.jsonl"):
+        for line in f.read_text(errors="ignore").splitlines():
+            m = re.search(r'"provider":\s*"([^"]+)"', line)
+            if m:
+                providers.add(m.group(1))
+
+    rows = []
+    if toolchain:
+        rows.append(("Lean 4 + Mathlib", toolchain,
+                     "the proof kernel. Nothing counts until it accepts."))
+    if (REPO / "lean" / "proof_adapter.py").is_file():
+        rows.append(("Aristotle", "Harmonic",
+                     "proof search. Statements are specified here, proofs are "
+                     "machine-found, and the kernel checks them. It also "
+                     "refuted one of our own statements."))
+    if "python-flint" in pins:
+        rows.append(("Arb, via python-flint", pins["python-flint"],
+                     "ball arithmetic. Carries an enclosure through every step."))
+    if "mpmath" in pins:
+        rows.append(("mpmath", pins["mpmath"],
+                     "arbitrary precision, the second interval backend, and the "
+                     "independent oracle the suite checks itself against."))
+    for name in ("numpy", "scipy", "sympy"):
+        if name in pins:
+            rows.append((name, pins[name],
+                         {"numpy": "bulk statistics",
+                          "scipy": "quadrature and interpolation",
+                          "sympy": "exact symbolic work"}[name]))
+    for prov in sorted(providers):
+        rows.append((prov.replace("-", " ").title(), "agent runtime",
+                     "the sessions that did the work, captured in telemetry."))
+    return {"rows": rows}
+
+
 def live_threads() -> list[dict[str, str]]:
     """Branches carrying commits not on main. Right by construction or empty."""
     rows = []
@@ -670,7 +734,7 @@ def ladder(lean: dict, fr: dict) -> str:
 # pages
 # --------------------------------------------------------------------------
 
-def page_index(r, lean, py, gr, threads, c, fr) -> str:
+def page_index(r, lean, py, gr, threads, c, fr, st) -> str:
     """The front page. Written to be read by someone deciding whether to back it.
 
     Every number is still derived and every caveat is still here. What changed
@@ -695,7 +759,7 @@ def page_index(r, lean, py, gr, threads, c, fr) -> str:
     live = ""
     if threads:
         live = (
-            "<section><h2><span class='num'>§5</span> Open lines</h2>"
+            "<section><h2><span class='num'>§6</span> Open lines</h2>"
             "<p>What is being worked on right now, read off the branches.</p>"
             "<div class='wrap'><table>"
             "<thead><tr><th>branch</th><th class='r'>commits</th><th>last</th>"
@@ -707,6 +771,11 @@ def page_index(r, lean, py, gr, threads, c, fr) -> str:
         )
 
     people = operators()
+    stackrows = "".join(
+        f"<tr><td>{esc(a)}</td><td class='nw'>{esc(b)}</td>"
+        f"<td class='note'>{esc(c)}</td></tr>"
+        for a, b, c in st["rows"]
+    )
     headline = (f"{len(fr['results'])} new theorems."
                 f"<br>{'One person' if people == 1 else f'{people} people'}."
                 f"<br>{r['days']} days."
@@ -787,7 +856,22 @@ laboratory that deletes its errors has deleted its evidence about itself.</p>
 </section>
 
 <section>
-<h2><span class='num'>§4</span> How the work is graded</h2>
+<h2><span class='num'>§4</span> The stack</h2>
+<p>Nothing here was built for us. The whole point is that this is off-the-shelf
+machinery pointed at a hard problem by one operator, so it is worth being
+specific about which parts carried the weight.</p>
+<div class="wrap"><table>
+<thead><tr><th>tool</th><th>version</th><th>what it did</th></tr></thead>
+<tbody>{stackrows}</tbody></table></div>
+<p class='meta'>Versions read from <code>lean/lean-toolchain</code> and
+<code>requirements.txt</code>, the agent runtime from the telemetry records.
+The operator also drove this repository from other agent CLIs, including Codex
+and Antigravity; the tree carries no record of a session it did not capture, so
+that line is testimony rather than evidence and is marked as such.</p>
+</section>
+
+<section>
+<h2><span class='num'>§5</span> How the work is graded</h2>
 <p>A composite claim takes the grade of its weakest step, and nothing here is
 rounded upward.</p>
 {ladder(lean, fr)}
@@ -1120,7 +1204,7 @@ def main() -> int:
     out = args.out
     (out / "pursuits").mkdir(parents=True, exist_ok=True)
     pages = {
-        out / "index.html": page_index(r, lean, py, gr, threads, contribution(), frontier()),
+        out / "index.html": page_index(r, lean, py, gr, threads, contribution(), frontier(), stack()),
         out / "pursuits" / "zeta.html": page_zeta(r, lean, py, gr),
         out / "reading.html": page_reading(r, docs, lean),
         out / "record.html": page_record(r, gr, gates, revs, fixes),
