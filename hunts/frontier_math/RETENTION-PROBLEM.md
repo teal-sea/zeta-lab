@@ -194,6 +194,14 @@ Built by `o9_leaf2d.py` at the `O9-SCOPING.md` operating point (widening
 | undecided | 0 |
 | smallest carrying margin | `1.05e-08` (`1.9e11` ulp) |
 | emitted size | 205 KB, 49 `decide +kernel` chunks |
+| **kernel verdict** | **all 49 chunks pass**, `O9Check2.lean` builds in 211 s |
+| axioms | `[propext]` — no `sorryAx`, no `Classical.choice` |
+
+So the *numeric* content of O9 is kernel-checked, over the whole rectangle,
+with no depth-reduction lemma. What is **not** yet proved is the seam to the
+analysis: O9a and O9b below. Until they exist the kernel has checked a table
+and said nothing about `Dam`, which is the same position `BandCert` was in
+before its own membership lemmas landed.
 
 Leaves that hold a zero of `Qre(0,·)` report zero margin under the obvious
 metric and are **not** close calls: there both sides of the general test
