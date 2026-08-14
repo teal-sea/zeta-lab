@@ -808,168 +808,138 @@ def live_threads() -> list[dict[str, str]]:
 # --------------------------------------------------------------------------
 
 CSS = """
+/* A public scientific record, styled like one. Plain background, black text,
+   default link colours, one monospace face for everything structural and a
+   serif only where there is prose to read. No cards, shadows, gradients or
+   hover theatre: the page is not trying to persuade anyone, and a reader
+   should be able to view-source it and find nothing but the record. */
 :root{
-  --paper:#fdfcfa; --ink:#0f1113; --ink2:#3c434b; --soft:#666e77; --faint:#949ba3;
-  --rule:#cdd2d8; --hair:#e8e9ec; --mark:#14425f; --track:#eceef1;
-  --serif:Iowan Old Style,Charter,Palatino Linotype,Palatino,Georgia,serif;
-  --sans:-apple-system,BlinkMacSystemFont,Segoe UI,system-ui,sans-serif;
-  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --paper:#fff; --ink:#000; --ink2:#1a1a1a; --soft:#555; --faint:#767676;
+  --rule:#000; --hair:#d8d8d8; --track:#ececec;
+  --link:#00e; --seen:#551a8b;
+  /* teal, used only for section numbers and one hairline */
+  --mark:#0f6b68;
+  --serif:Georgia,Times New Roman,Times,serif;
+  --mono:ui-monospace,SFMono-Regular,Menlo,Consolas,DejaVu Sans Mono,monospace;
 }
-/* One committed look, deliberately. This page is sent to people as a record,
-   and a record that changes appearance with the reader's operating system is
-   one you cannot screenshot, cite or predict: the author sees paper white and
-   half the readers see something else. The palette above is the whole palette;
-   there is no theme to follow. */
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--ink);
-  font:17px/1.6 var(--serif);-webkit-font-smoothing:antialiased;
-  text-rendering:optimizeLegibility}
-/* One centred measure. The prose fills it rather than being capped narrower
-   than the frame, which reads as a broken layout rather than a restrained one.
-   Tables and the vitals band break out wider on large screens. */
-.page{max-width:44rem;margin:0 auto;padding:0 1.6rem 6rem}
-@media (min-width:68rem){
-  .vitals,.wrap,.ladder{width:52rem;margin-left:-4rem}
-}
-a{color:var(--mark);text-decoration:none;border-bottom:1px solid transparent}
-a:hover{border-bottom-color:currentColor}
-a:focus-visible{outline:2px solid var(--mark);outline-offset:3px}
+  font:15px/1.5 var(--mono)}
+.page{max-width:47rem;margin:0 auto;padding:0 1.1rem 4rem}
+a{color:var(--link)}
+a:visited{color:var(--seen)}
 
-/* masthead */
-.mast{border-top:3px solid var(--ink);margin-top:2.6rem;padding:.75rem 0 .7rem;
-  border-bottom:1px solid var(--rule);display:flex;flex-wrap:wrap;
-  gap:.35rem 2.4rem;font-family:var(--mono);font-size:.645rem;
-  letter-spacing:.14em;text-transform:uppercase;color:var(--soft)}
-.mast b{color:var(--ink2);font-weight:500}
-.mast a{color:inherit}
+/* masthead: identity, then the stamp that says which tree this is */
+.mast{padding:1.1rem 0 .4rem;font-family:var(--mono);font-size:.75rem;
+  text-transform:lowercase;
+  color:var(--soft);line-height:1.5}
+.mast .who{color:var(--ink);display:block}
+.mast b{font-weight:400;color:var(--ink2)}
 
-h1{font-size:clamp(2.3rem,6.5vw,3.7rem);line-height:1;letter-spacing:-.025em;
-  font-weight:400;margin:2.6rem 0 0;text-wrap:balance}
-.stand{font-size:1.16rem;line-height:1.5;color:var(--ink2);
-  margin:1.4rem 0 0;text-wrap:pretty}
+h1{font-family:var(--mono);font-size:1.15rem;font-weight:700;line-height:1.35;
+  margin:1.1rem 0 .6rem;letter-spacing:0}
+.stand{font-family:var(--serif);font-size:1rem;line-height:1.55;
+  color:var(--ink);margin:0 0 1.1rem;max-width:40rem}
 
-/* vitals */
-.vitals{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
-  background:var(--hair);border:1px solid var(--hair);margin:2.9rem 0 0}
-.vitals>div{background:var(--paper);padding:1.35rem 1.25rem 1.2rem}
-.vitals .n{font-family:var(--mono);font-size:2.8rem;line-height:.95;
-  letter-spacing:-.045em;font-variant-numeric:tabular-nums;display:block}
-.vitals .k{font-family:var(--mono);font-size:.6rem;letter-spacing:.13em;
-  text-transform:uppercase;color:var(--soft);margin-top:.7rem;display:block;
-  line-height:1.35}
-/* The zero is the load-bearing figure in the whole arm, not a null result. */
-.vitals .zero .n{color:var(--mark)}
-@media (max-width:34rem){.vitals{grid-template-columns:repeat(2,1fr)}
-  .vitals .n{font-size:2.1rem}}
+/* metrics: record metadata, not a dashboard */
+table.vitals{width:auto;min-width:0;margin:.2rem 0 1.4rem;font-size:.78rem}
+table.vitals td{border:none;padding:.1rem 1.1rem .1rem 0;color:var(--ink)}
+table.vitals td.n{text-align:right;font-weight:700;padding-right:.7rem}
+table.vitals td.k{color:var(--soft)}
+table.vitals tr.zero td.n{color:var(--mark)}
 
-section{margin-top:3.6rem}
-h2{font-family:var(--mono);font-size:.78rem;letter-spacing:.15em;
-  text-transform:uppercase;font-weight:600;margin:0 0 1.45rem;
-  padding-bottom:.6rem;border-bottom:2px solid var(--ink);display:flex;
-  gap:1.1rem;color:var(--ink)}
-h2 .num{color:var(--mark);font-variant-numeric:tabular-nums}
-h3{font-family:var(--mono);font-size:.625rem;letter-spacing:.13em;
-  text-transform:uppercase;font-weight:500;color:var(--soft);margin:2rem 0 .8rem}
-p{margin:0 0 1.05rem;text-wrap:pretty}
-.lede{font-size:1.1rem;color:var(--ink2)}
-.meta{font-family:var(--mono);font-size:.7rem;color:var(--faint);
-  letter-spacing:.02em;font-variant-numeric:tabular-nums}
-code{font-family:var(--mono);font-size:.85em}
-strong{font-weight:600}
+hr,.rule{border:none;border-top:1px solid var(--hair);margin:1.5rem 0;height:0}
 
-.statement{border-left:3px solid var(--mark);padding:.1rem 0 .1rem 1.4rem;
-  margin:1.8rem 0;max-width:34rem;font-size:1.12rem;line-height:1.45}
+section{margin-top:2rem;border-top:1px solid var(--hair);padding-top:1.1rem}
+h2{font-family:var(--mono);font-size:.85rem;font-weight:700;margin:0 0 .8rem;
+  text-transform:lowercase;letter-spacing:0;color:var(--ink)}
+h2 .num{color:var(--mark);font-variant-numeric:tabular-nums;
+  margin-right:.5rem}
+h3{font-family:var(--mono);font-size:.78rem;font-weight:700;color:var(--ink);
+  margin:1.4rem 0 .5rem;text-transform:lowercase}
+p{margin:0 0 .85rem;max-width:40rem;font-family:var(--serif)}
+.lede{font-size:1rem}
+.meta,p.meta{font-family:var(--mono);font-size:.73rem;color:var(--soft);
+  font-variant-numeric:tabular-nums}
+code{font-family:var(--mono);font-size:.9em}
+strong{font-weight:700}
+.statement{margin:1rem 0;padding-left:1rem;border-left:2px solid var(--hair);
+  max-width:40rem}
 
-/* tables */
-.wrap{overflow-x:auto;margin:0 0 1.3rem}
-table{width:100%;min-width:28rem;border-collapse:collapse;font-family:var(--mono);
-  font-size:.775rem;font-variant-numeric:tabular-nums}
-caption{caption-side:top;text-align:left;font-family:var(--mono);font-size:.625rem;
-  letter-spacing:.13em;text-transform:uppercase;color:var(--soft);
-  padding-bottom:.7rem}
-th{text-align:left;font-weight:500;font-size:.6rem;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--soft);padding:0 .8rem .5rem 0;
+/* tables: plain, ruled, monospace */
+.wrap{overflow-x:auto;margin:0 0 1.1rem}
+table{width:100%;border-collapse:collapse;font-family:var(--mono);
+  font-size:.75rem;font-variant-numeric:tabular-nums;text-align:left}
+caption{caption-side:top;text-align:left;font-size:.73rem;color:var(--soft);
+  padding-bottom:.45rem}
+th{text-align:left;font-weight:700;color:var(--ink);padding:0 1rem .3rem 0;
   border-bottom:1px solid var(--rule);white-space:nowrap}
+td{padding:.28rem 1rem .28rem 0;border-bottom:1px solid var(--hair);
+  vertical-align:top;color:var(--ink)}
 th.r,td.r{text-align:right}
-/* figures that read as one unit must not wrap into a ragged stack */
 td.nw{white-space:nowrap}
 th:last-child,td:last-child{padding-right:0}
-td{padding:.55rem .8rem .55rem 0;border-bottom:1px solid var(--hair);
-  vertical-align:baseline;color:var(--ink2)}
-td:first-child{color:var(--ink)}
-tr:last-child td{border-bottom:1px solid var(--rule)}
-td.note{font-family:var(--serif);font-size:.93rem;min-width:13rem}
-.barcell{width:6.5rem}
-.bar{display:block;height:6px;background:var(--track);position:relative}
+td.note{font-family:var(--serif);font-size:.9rem;min-width:12rem}
+.barcell{width:5rem}
+.bar{display:block;height:5px;background:var(--track);position:relative}
 .bar i{position:absolute;inset:0 auto 0 0;background:var(--ink);display:block}
 
-/* ladder */
-.ladder{margin:1.5rem 0 1.2rem}
-.rung{display:grid;grid-template-columns:1.9rem 1fr;gap:0 1.3rem;
-  padding:1rem 0;align-items:start;position:relative}
-/* the spine: one rail down the rungs, filled where the rung is occupied */
-.rung::before{content:"";position:absolute;left:.52rem;top:0;bottom:0;
-  width:1px;background:var(--rule)}
-.rung:first-child::before{top:.95rem}
-.rung:last-child::before{bottom:auto;height:.95rem}
-.rung .lvl{font-family:var(--mono);font-size:.66rem;color:var(--soft);
-  font-variant-numeric:tabular-nums;padding-top:.72rem;position:relative;
-  z-index:1;background:var(--paper)}
-.rung .lvl::before{content:"";display:block;width:9px;height:9px;
-  margin:0 0 .5rem .1rem;border:1px solid var(--ink);background:var(--paper)}
-.rung.on .lvl::before{background:var(--ink)}
-.rung.off .lvl::before{border-color:var(--faint)}
-.rung .nm{font-family:var(--mono);font-size:.7rem;letter-spacing:.11em;
-  text-transform:uppercase;color:var(--ink);margin-bottom:.28rem}
-.rung .ds{font-size:.96rem;color:var(--ink2);line-height:1.45;max-width:36rem}
-.rung .st{font-family:var(--mono);font-size:.585rem;letter-spacing:.12em;
-  text-transform:uppercase;margin-top:.4rem;display:inline-block;
-  padding:.14rem .48rem;border:1px solid var(--rule);color:var(--soft)}
-.rung.on .st{border-color:var(--ink);color:var(--ink)}
-.rung.off .nm,.rung.off .ds{color:var(--faint)}
+/* certainty ladder: a numbered list, not a diagram */
+.ladder{margin:.6rem 0 1rem}
+.rung{display:grid;grid-template-columns:2.2rem 1fr;gap:0 .8rem;
+  padding:.45rem 0;border-bottom:1px solid var(--hair)}
+.rung:last-child{border-bottom:none}
+.rung .lvl{font-family:var(--mono);font-size:.75rem;color:var(--soft)}
+.rung .nm{font-family:var(--mono);font-size:.75rem;font-weight:700;
+  color:var(--ink)}
+.rung .ds{font-family:var(--serif);font-size:.92rem;color:var(--ink);
+  line-height:1.45;margin-top:.15rem}
+.rung .st{font-family:var(--mono);font-size:.7rem;color:var(--soft);
+  margin-top:.2rem;display:block}
+.rung.off .nm,.rung.off .ds,.rung.off .st{color:var(--faint)}
 
-/* entries */
-.entry{padding:1.05rem 0;border-bottom:1px solid var(--hair);max-width:38rem}
-.entry:last-child{border-bottom:none}
-.entry .when{font-family:var(--mono);font-size:.6rem;color:var(--soft);
-  text-transform:uppercase;letter-spacing:.12em}
-.entry h4{font-family:var(--sans);font-size:1rem;font-weight:600;margin:.25rem 0 .3rem}
-.entry p{margin:.3rem 0 0;color:var(--ink2);font-size:.96rem}
-.entry .meta{margin-top:.4rem}
+/* entries: a definition list in all but name */
+.entry{padding:.5rem 0;border-bottom:1px solid var(--hair);max-width:40rem}
+.entry:last-of-type{border-bottom:none}
+.entry .when{font-family:var(--mono);font-size:.7rem;color:var(--soft)}
+.entry h4{font-family:var(--mono);font-size:.8rem;font-weight:700;
+  margin:.1rem 0 .15rem}
+.entry p{font-family:var(--serif);margin:.15rem 0 0;font-size:.92rem}
+.entry .meta{font-family:var(--mono);margin-top:.2rem}
 
-.pill{font-family:var(--mono);font-size:.585rem;font-weight:500;letter-spacing:.11em;
-  text-transform:uppercase;padding:.14rem .45rem;border:1px solid currentColor;
-  color:var(--soft);white-space:nowrap}
-.pill.fail{color:#9c4f18}
+.pill{font-family:var(--mono);font-size:.7rem;color:var(--soft);
+  white-space:nowrap}
+.pill.fail{color:#a33}
 
-nav.foot{margin-top:4.5rem;padding-top:1rem;border-top:1px solid var(--rule);
-  font-family:var(--mono);font-size:.63rem;letter-spacing:.12em;
-  text-transform:uppercase;display:flex;gap:.4rem 2rem;flex-wrap:wrap;
-  color:var(--soft)}
+nav.foot{margin-top:2.4rem;padding-top:.6rem;border-top:1px solid var(--rule);
+  font-family:var(--mono);font-size:.75rem;color:var(--soft)}
+nav.foot a{margin-right:.15rem}
+nav.foot span.sep{color:var(--hair);margin-right:.15rem}
 
 /* a document, rendered here rather than on a code host */
-.crumb{font-family:var(--mono);font-size:.63rem;letter-spacing:.11em;
-  text-transform:uppercase;color:var(--soft);margin:0 0 1.2rem}
-.doc{max-width:38rem;margin-top:2.2rem}
-.doc h2{font-family:var(--sans);font-size:1.32rem;letter-spacing:0;
-  text-transform:none;font-weight:600;border-bottom:1px solid var(--rule);
-  display:block;margin:2.8rem 0 1rem;padding-bottom:.45rem;color:var(--ink)}
-.doc h3{font-family:var(--sans);font-size:1.08rem;letter-spacing:0;
-  text-transform:none;font-weight:600;color:var(--ink);margin:2.1rem 0 .7rem}
-.doc h4,.doc h5,.doc h6{font-family:var(--sans);font-size:.98rem;
-  font-weight:600;margin:1.6rem 0 .5rem}
-.doc p{margin:0 0 1.15rem}
-.doc ul,.doc ol{margin:0 0 1.15rem;padding-left:1.3rem}
-.doc li{margin:.3rem 0}
-.doc pre{background:var(--track);padding:.9rem 1rem;overflow-x:auto;
-  margin:0 0 1.2rem;font-size:.83rem;line-height:1.5}
+.crumb{font-family:var(--mono);font-size:.73rem;color:var(--soft);
+  margin:.9rem 0 .3rem}
+.doc{max-width:40rem;margin-top:1.2rem;font-family:var(--serif);font-size:1rem;
+  line-height:1.55}
+.doc h2{font-family:var(--mono);font-size:.95rem;text-transform:none;
+  margin:1.8rem 0 .6rem;border-bottom:1px solid var(--hair);
+  padding-bottom:.25rem}
+.doc h3{font-family:var(--mono);font-size:.85rem;text-transform:none;
+  margin:1.4rem 0 .4rem}
+.doc h4,.doc h5,.doc h6{font-family:var(--mono);font-size:.8rem;font-weight:700;
+  margin:1.1rem 0 .35rem}
+.doc p{margin:0 0 .85rem}
+.doc ul,.doc ol{margin:0 0 .85rem;padding-left:1.4rem}
+.doc li{margin:.15rem 0}
+.doc pre{background:var(--track);padding:.6rem .7rem;overflow-x:auto;
+  margin:0 0 .9rem;font-size:.78rem;line-height:1.45}
 .doc pre code{font-size:inherit}
-.doc blockquote{margin:0 0 1.2rem;padding:.1rem 0 .1rem 1.2rem;
-  border-left:3px solid var(--rule);color:var(--ink2)}
+.doc blockquote{margin:0 0 .9rem;padding-left:1rem;
+  border-left:2px solid var(--hair)}
 .doc blockquote p:last-child{margin-bottom:0}
-.doc hr{border:none;border-top:1px solid var(--rule);margin:2.4rem 0}
-.doc table{font-size:.9rem}
+.doc hr{margin:1.6rem 0}
+.doc table{font-size:.75rem}
 /* A citation URL is text a reader can copy, not a link this page follows.
    Rendering it as an anchor would make a document quotation an outbound
    navigation the laboratory did not choose; leaving it out would edit the
@@ -977,9 +947,9 @@ nav.foot{margin-top:4.5rem;padding-top:1rem;border-top:1px solid var(--rule);
 .doc .url{font-family:var(--mono);font-size:.85em;color:var(--soft);
   word-break:break-all}
 
-@media (max-width:660px){
-  body{font-size:16px} .page{padding:0 1.1rem 4rem}
-  .mast{gap:.3rem 1.4rem} .vitals .n{font-size:1.6rem}
+@media (max-width:40rem){
+  body{font-size:14px} .page{padding:0 .8rem 3rem}
+  table.vitals{font-size:.75rem}
 }
 """
 
@@ -988,14 +958,16 @@ def shell(title: str, body: str, depth: int = 0, mast: str = "") -> str:
     up = "../" * depth
     nav = (
         f'<nav class="foot">'
-        f'<a href="{up}index.html">index</a>'
-        f'<a href="{up}pursuits/zeta.html">zeta</a>'
-        f'<a href="{up}reading.html">course</a>'
-        f'<a href="{up}library.html">library</a>'
-        f'<a href="{up}record.html">record</a>'
-        f'<a href="{up}about.html">about</a>'
-        f'<a href="{esc(IDENTITY["source"])}">source</a>'
-        f'</nav>'
+        + '<span class="sep"> | </span>'.join([
+            f'<a href="{up}index.html">index</a>',
+            f'<a href="{up}pursuits/zeta.html">zeta</a>',
+            f'<a href="{up}reading.html">course</a>',
+            f'<a href="{up}library.html">library</a>',
+            f'<a href="{up}record.html">record</a>',
+            f'<a href="{up}about.html">about</a>',
+            f'<a href="{esc(IDENTITY["source"])}">source</a>',
+        ])
+        + '</nav>'
     )
     return (
         "<!doctype html><html lang='en'><head><meta charset='utf-8'>"
@@ -1007,22 +979,22 @@ def shell(title: str, body: str, depth: int = 0, mast: str = "") -> str:
 
 
 def masthead(r: dict, up: str = "") -> str:
+    """Who this is and which tree it was compiled from. Nothing else."""
     return (
-        f"<span><a href='{up}index.html'>{esc(IDENTITY['name'])}</a>"
-        f" &nbsp;·&nbsp; <b>state of record</b></span>"
-        f"<span>compiled <b>{esc(r['when'])}</b></span>"
-        f"<span>revision <b>{esc(r['commit'])}</b></span>"
-        f"<span><a href='{esc(IDENTITY['source'])}'>"
-        f"<b>{esc(IDENTITY['source'].split('//', 1)[-1])}</b></a></span>"
+        f"<span class='who'><a href='{up}index.html'>{esc(IDENTITY['name'])}</a>"
+        f" / zeta-lab</span>"
+        f"state of record &middot; compiled <b>{esc(r['when'])}</b>"
+        f" &middot; revision <b>{esc(r['commit'])}</b>"
+        f" &middot; <a href='{esc(IDENTITY['source'])}'>source</a>"
     )
 
 
 def vitals(items: list[tuple[str, str, bool]]) -> str:
-    return "<div class='vitals'>" + "".join(
-        f"<div{' class=zero' if zero else ''}><span class='n'>{esc(n)}</span>"
-        f"<span class='k'>{esc(k)}</span></div>"
+    return "<table class='vitals'><tbody>" + "".join(
+        f"<tr{' class=zero' if zero else ''}>"
+        f"<td class='n'>{esc(n)}</td><td class='k'>{esc(k)}</td></tr>"
         for n, k, zero in items
-    ) + "</div>"
+    ) + "</tbody></table>"
 
 
 def ladder(lean: dict, fr: dict) -> str:
@@ -1092,7 +1064,7 @@ def page_index(r, lean, py, gr, threads, c, fr, st, lib) -> str:
     live = ""
     if threads:
         live = (
-            "<section><h2><span class='num'>§6</span> Open lines</h2>"
+            "<section><h2><span class='num'>06.</span> Open lines</h2>"
             "<p>What is being worked on right now, read off the branches.</p>"
             "<div class='wrap'><table>"
             "<thead><tr><th>branch</th><th class='r'>commits</th><th>last</th>"
@@ -1109,32 +1081,32 @@ def page_index(r, lean, py, gr, threads, c, fr, st, lib) -> str:
         f"<td class='note'>{esc(c)}</td></tr>"
         for a, b, c in st["rows"]
     )
-    headline = (f"{len(fr['results'])} new theorems."
-                f"<br>{'One person' if people == 1 else f'{people} people'}."
-                f"<br>{r['days']} days."
+    headline = (f"{len(fr['results'])} new theorems. "
+                f"{'one person' if people == 1 else f'{people} people'}. "
+                f"{r['days']} days."
                 if r["days"] and sorrys == 0
                 else f"{len(fr['results'])} new theorems, machine-checked.")
 
     return shell(IDENTITY["name"], f"""
 <h1>{headline}</h1>
 <p class="stand">One person, AI anyone can rent, and a proof checker that
-accepts no unfinished step. Pointed by <strong>Fulcrum</strong>, our own
-process, at a problem open since 1859. In {r['days']} days it returned
-{len(fr['results'])} original theorems the kernel accepts and a machine-audited
-candidate past the best published bound. The process is ours. Everything it
-produced is below, in full, including what did not work.</p>
+accepts no unfinished step. Fulcrum directed the pursuit at a problem open
+since 1859. Thirteen days later: {len(fr['results'])} original theorems
+accepted by the kernel and a machine-audited candidate past the best published
+bound. Everything the pursuit produced is below, including what did not
+work.</p>
 
 {vitals([
     (str(len(fr['results'])), 'new theorems', False),
     (num(kernel), 'kernel-checked theorems', False),
-    (str(sorrys), 'gaps in the proofs', True),
+    (str(sorrys), 'proof gaps', True),
     (str(people), 'person' if people == 1 else 'people', False),
     (str(r['days']), 'days', False),
     (num(py['test_fns']), 'automatic checks', False),
 ])}
 
 <section>
-<h2><span class='num'>§1</span> The first pursuit, and what it returned</h2>
+<h2><span class='num'>01.</span> The first pursuit, and what it returned</h2>
 <p>The Riemann hypothesis says every one of infinitely many special points sits
 exactly on a particular line. Proving that outright is the open problem, and
 nothing here touches it. Proving that <em>at least some fraction</em> of them
@@ -1160,9 +1132,8 @@ fractions of one. Everything below begins from their theorem and carries it a
 further one thousandth of a percentage point.</p>
 <p>So what this laboratory adds is not size, it is repeatability. Their model
 has not been released, so the route to their result cannot be re-run from
-outside Anthropic. This one was assembled two days later out of tools anyone
-can rent, by a laboratory whose operating machinery is the actual subject of
-the exercise.</p>
+outside Anthropic. This one was assembled two days later from tools anyone can
+rent. The models are not the unusual part. How they were directed is.</p>
 <p class='meta'>A candidate rather than a theorem: one step of the chain is
 still open, so the composite takes that grade, and nothing here is rounded
 upward. The gain is also asymptotic rather than effective at heights anyone can
@@ -1173,7 +1144,7 @@ Pending external verification.</p>
 </section>
 
 <section>
-<h2><span class='num'>§2</span> Why any of it is worth reading</h2>
+<h2><span class='num'>02.</span> Why any of it is worth reading</h2>
 <p>A laboratory that generates candidates quickly is worth nothing without
 something that refuses the bad ones, and the refusing is the part that is hard
 to fake. Two mechanisms do it here.</p>
@@ -1200,7 +1171,7 @@ readable here rather than on a code host.
 </section>
 
 <section>
-<h2><span class='num'>§3</span> Everything, published</h2>
+<h2><span class='num'>03.</span> Everything, published</h2>
 <p>The working paper, the obligation ledger, every hunt, every frozen protocol
 and every correction. Not a summary of them.</p>
 <p>{num(sum(len(s['items']) for s in lib))} documents,
@@ -1210,7 +1181,7 @@ page on this site. <a href="library.html">The library →</a></p>
 </section>
 
 <section>
-<h2><span class='num'>§4</span> The stack</h2>
+<h2><span class='num'>04.</span> The stack</h2>
 <p>Every part of this is available to anyone, which is the point, so it is
 worth naming which parts carried the weight.</p>
 <div class="wrap"><table>
@@ -1229,13 +1200,12 @@ not the contribution.</p>
 </section>
 
 <section>
-<h2><span class='num'>§5</span> How the work is graded</h2>
+<h2><span class='num'>05.</span> How the work is graded</h2>
 <p>A composite claim takes the grade of its weakest step, and nothing here is
 rounded upward.</p>
 {ladder(lean, fr)}
-<p class='meta'>Counted from the public research repository. Fulcrum is not
-reflected in any figure above, so these measure the published research rather
-than the total work behind it.</p>
+<p class='meta'>Figures above cover the public Zeta record only. Fulcrum is
+excluded.</p>
 </section>
 
 {live}
@@ -1278,7 +1248,7 @@ is allowed to vouch for the other.</p>
 ])}
 
 <section>
-<h2><span class='num'>§1</span> The certified arm</h2>
+<h2><span class='num'>01.</span> The certified arm</h2>
 <p>A <code>sorry</code> is a hole left in a proof, and Lean will happily accept
 a file full of them. This arm has none, which is why its declarations are called
 theorems here without qualification.</p>
@@ -1301,7 +1271,7 @@ nothing.</p>
 </section>
 
 <section>
-<h2><span class='num'>§2</span> The measured arm</h2>
+<h2><span class='num'>02.</span> The measured arm</h2>
 <div class="wrap"><table>
 <thead><tr><th></th><th class='r'>count</th><th></th></tr></thead><tbody>
 <tr><td>core modules</td><td class='r'>{py['modules']}</td>
@@ -1327,14 +1297,14 @@ critical defect and not a rounding detail.</div>
 </section>
 
 <section>
-<h2><span class='num'>§3</span> Withdrawn</h2>
+<h2><span class='num'>03.</span> Withdrawn</h2>
 <p>Kept with the mechanism that broke each one, and the test that now catches
 it.</p>
 {graves or "<p class='meta'>none recorded</p>"}
 </section>
 
 <section>
-<h2><span class='num'>§4</span> Check it yourself</h2>
+<h2><span class='num'>04.</span> Check it yourself</h2>
 <p>Clone it, install it, run the suite; every claim on this site is one you
 can re-derive. The Lean arm builds under a proof kernel that rejects anything
 unfinished. Continuous integration runs the fast tier on every push and the
@@ -1365,7 +1335,7 @@ laboratory records: attempts run to their walls, a kill board of how hard
 problems die, and a catalogue of exactly why this one resists.</p>
 
 <section>
-<h2><span class='num'>§1</span> Start here</h2>
+<h2><span class='num'>01.</span> Start here</h2>
 <p>Two documents bound every claim on this site, and reading them first will
 save you the trouble of asking whether we are overselling. <em>Why It Is
 Hard</em> catalogues the known ceiling of every technique used here, including
@@ -1374,19 +1344,19 @@ and the mechanism that killed each.</p>
 </section>
 
 <section>
-<h2><span class='num'>§2</span> The course</h2>
+<h2><span class='num'>02.</span> The course</h2>
 {items}
 </section>
 
 <section>
-<h2><span class='num'>§3</span> The formal arm</h2>
+<h2><span class='num'>03.</span> The formal arm</h2>
 <p>{num(lean['decls'])} declarations across {lean['files']} modules, checked
 against Mathlib by a kernel that accepts no unfinished proofs, with zero
 <code>sorry</code>s. <a href="pursuits/zeta.html">The module breakdown →</a></p>
 </section>
 
 <section>
-<h2><span class='num'>§4</span> Everything else</h2>
+<h2><span class='num'>04.</span> Everything else</h2>
 <p>The course above is the written-up part. Most of what this laboratory
 produced is working record: hunts, obligation ledgers, frozen protocols, routes
 opened and closed. It is all published, and it is all indexed.
@@ -1428,9 +1398,14 @@ def page_document(r, it, published: dict[str, str]) -> str:
                 return up + published[key] + anchor
         return None
 
+    # The page <h1> is the file's own `# ` heading, so drop it from the body
+    # rather than printing the title twice.
+    lines = src.split("\n")
+    for i, line in enumerate(lines):
+        if line.startswith("# "):
+            src = "\n".join(lines[i + 1:])
+            break
     body = md_to_html(src, resolve)
-    # The title is the file's own `# ` heading, already extracted; strip the
-    # first rendered <h2> when it repeats it, so the page has one title.
     return shell(f"{it['title']} · {IDENTITY['name']}", f"""
 <p class='crumb'><a href='{up}library.html'>Library</a> ·
 <code>{esc(rel)}</code></p>
@@ -1466,7 +1441,7 @@ def page_library(r, lib) -> str:
     total = sum(len(s["items"]) for s in lib)
     lines = sum(s["lines"] for s in lib)
     shelves = "".join(
-        f"<section><h2><span class='num'>§{i}</span> {esc(s['label'])}</h2>"
+        f"<section><h2><span class='num'>{i:02d}.</span> {esc(s['label'])}</h2>"
         f"<p>{esc(s['note'])}</p>"
         f"<p class='meta'>{num(len(s['items']))} documents · "
         f"{num(s['lines'])} lines</p>"
@@ -1554,7 +1529,7 @@ def page_record(r, gr, gates, revs, fixes_) -> str:
 that lists only successes is advertising.</p>
 
 <section>
-<h2><span class='num'>§1</span> We shut down our own flagship</h2>
+<h2><span class='num'>01.</span> We shut down our own flagship</h2>
 <p>We built a framework for testing whether an empirical claim is about its
 subject at all: structure-matched controls, ablations, null models, planted
 faults. Roughly eight thousand lines. Then, instead of shipping it, we tested
@@ -1578,7 +1553,7 @@ than a method.</div>
 </section>
 
 <section>
-<h2><span class='num'>§2</span> Claims, and who was sent to break them</h2>
+<h2><span class='num'>02.</span> Claims, and who was sent to break them</h2>
 <p>Every claim goes on the record with the reasoning that produced it and the
 assumptions it rested on, before anyone knows whether it survives. Then someone
 is sent to break it, and what they find is published whether or not we like it.
@@ -1588,7 +1563,7 @@ as standing.</p>
 </section>
 
 <section>
-<h2><span class='num'>§3</span> Corrections</h2>
+<h2><span class='num'>03.</span> Corrections</h2>
 <p>Defects that actually occurred, each with the test that now catches it. A
 guard nobody has watched fire is a claim rather than a control, so the ledger
 tracks which is which instead of flattering itself.</p>
@@ -1599,12 +1574,12 @@ tracks which is which instead of flattering itself.</p>
 </section>
 
 <section>
-<h2><span class='num'>§4</span> Withdrawn results</h2>
+<h2><span class='num'>04.</span> Withdrawn results</h2>
 {graves}
 </section>
 
 <section>
-<h2><span class='num'>§5</span> Scope</h2>
+<h2><span class='num'>05.</span> Scope</h2>
 <p>This laboratory works on the structure around the Riemann hypothesis, and
 what it establishes are results about that structure. Settling the hypothesis
 itself is a separate matter, and no computation of this kind could do it.</p>
@@ -1625,7 +1600,7 @@ not, and keep the loose ends we are not pulling so that choosing one direction
 does not mean forgetting the others.</p>
 
 <section>
-<h2><span class='num'>§1</span> How it works</h2>
+<h2><span class='num'>01.</span> How it works</h2>
 <p>The impulse is roughly <em>what happens if we pull on this?</em> Most of the
 time the answer is nothing much, which is why the record carries as many dead
 ends as findings, and why we would rather show you both.</p>
@@ -1637,7 +1612,7 @@ others.</p>
 </section>
 
 <section>
-<h2><span class='num'>§2</span> How this is organised</h2>
+<h2><span class='num'>02.</span> How this is organised</h2>
 <p><strong>The results are public. The process is not.</strong></p>
 <p>Everything needed to check a claim is in the open: the mathematics, the
 proofs, the tests, the corrections and the claims that did not survive. The
@@ -1650,7 +1625,7 @@ research, and none of it counts the work on the other side of that line.</p>
 </section>
 
 <section>
-<h2><span class='num'>§3</span> Colophon</h2>
+<h2><span class='num'>03.</span> Colophon</h2>
 <p>Every page here is generated from the repository by
 <code>scripts/72_site.py</code>: theorem counts from the Lean sources, module
 titles from their own header blocks, the public surface from the Python AST,
