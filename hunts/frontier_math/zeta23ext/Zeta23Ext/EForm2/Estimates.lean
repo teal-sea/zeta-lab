@@ -399,7 +399,8 @@ lemma Qim_far {y s : ℝ} (hy0 : 0 ≤ y) (hy1 : y ≤ 1/2) (hs : s ≠ 0) :
     have ha : HasDerivAt (fun u : ℝ => s * u) s x := by
       simpa using (hasDerivAt_id x).const_mul s
     have h1 := ((ha.cos).neg).div_const s
-    convert h1 using 1
+    refine h1.congr_deriv ?_
+    symm
     field_simp
   have hibp := intervalIntegral.integral_mul_deriv_eq_deriv_mul
     (u := fun u : ℝ => Real.cos (Real.sqrt 2 * u) * Real.sinh (y*u))

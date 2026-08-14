@@ -63,9 +63,9 @@ The seam to the analysis is the membership lemma
 
 together with `shfnIv_mem` for the new leaf.  Neither is proved here, and **no
 `sorry` stands in for either**: this package has been sorry-free throughout and
-a placeholder would be the first.  They are recorded as obligations in
-`hunts/frontier_math/O9-2D.md`.  Until they exist, `O9Check2.lean` checks the
-table and proves nothing about `Dam`.
+a placeholder would be the first.  They are recorded as obligations O9a/O9b in
+`hunts/frontier_math/RETENTION-PROBLEM.md` §4.  Until they exist,
+`O9Check2.lean` checks the table and proves nothing about `Dam`.
 
 Generated companion data: `O9Data2.lean` (leaves), `O9Check2.lean` (the walk),
 both from `hunts/frontier_math/o9_leaf2d.py`.

@@ -40,8 +40,10 @@ theorem margin_identity (n : ℕ) (x : ℕ → ℝ) (y t : ℝ) :
     (Eng (fun w => Fsum n x w + Pfun y t w)) (Shq y)
     (fun j => Qim y (x j - t) ^ 2 - Qre y (x j - t) ^ 2) Aconst_ne_zero ?_
   rw [retention_gap]
-  congr 2
-  refine Finset.sum_congr rfl (fun j _ => by ring)
+  -- the two sides differ only by `-(a - b)` against `b - a` inside the sum;
+  -- `congr 2` used to land exactly on the `Finset.sum` and no longer does, so
+  -- rewrite the summand instead of peeling congruence layers.
+  simp only [neg_sub]
 
 /-- **The repulsion is exactly the slack in `n ≤ E[F]`.**
 

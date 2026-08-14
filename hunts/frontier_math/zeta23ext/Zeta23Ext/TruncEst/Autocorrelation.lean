@@ -64,8 +64,11 @@ lemma hasDerivAt_antideriv (w u : ℝ) :
   have h2 : HasDerivAt (fun u : ℝ => Real.sin (Real.sqrt 2 * (2 * u - w)) / (4 * Real.sqrt 2))
       (Real.cos (Real.sqrt 2 * (2 * u - w)) * (Real.sqrt 2 * 2) / (4 * Real.sqrt 2)) u :=
     (hlin.sin).div_const _
-  have h := h1.add h2
-  convert h using 1
+  -- the function parts are defeq (`Pi.add` against the lambda); only the
+  -- derivative differs, so `congr_deriv` replaces `convert`, and `symm`
+  -- restores the orientation the rest of this block was written for.
+  refine (h1.add h2).congr_deriv ?_
+  symm
   have hne : Real.sqrt 2 ≠ 0 := ne_of_gt sqrt2_pos
   have hprod : Real.cos (Real.sqrt 2 * u) * Real.cos (Real.sqrt 2 * (u - w))
       = (Real.cos (Real.sqrt 2 * w) + Real.cos (Real.sqrt 2 * (2 * u - w))) / 2 := by
@@ -155,7 +158,8 @@ theorem integral_g : ∫ u : ℝ, g u = A := by
     intro u
     have hlin : HasDerivAt (fun u : ℝ => Real.sqrt 2 * u) (Real.sqrt 2) u := hd_lin2 u
     have h := (hlin.sin).div_const (Real.sqrt 2)
-    convert h using 1
+    refine h.congr_deriv ?_
+    symm
     have hne : Real.sqrt 2 ≠ 0 := ne_of_gt sqrt2_pos
     field_simp
   rw [hcongr, intervalIntegral.integral_eq_sub_of_hasDerivAt (fun u _ => hderiv u)

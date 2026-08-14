@@ -158,6 +158,64 @@ Measured worst case of `(Dam y s / y²) / sup_k` over `y ∈ {0.45, …, 0.02}` 
 `0.995985`, so the `y = 1/2` profile dominates; the windows also **nest**
 (`I_k(y) ⊆ I_k(1/2)` for `y ≤ 1/2`), which is why one table serves every `y`.
 
+### O9 as a two-variable table (2026-08-14) — no depth-reduction lemma
+
+The `y = 1/2` table (`o9_leaf.py`, 344 cells) reaches the other depths only
+through `D(y,s)/y² ≤ 4 D(1/2,s)`, which is **measured and unproved**. The
+two-variable table below removes that step. It is not a matter of resolution:
+
+* A naive 2-D check on a box touching `y = 0` bounds `c·y²` below by `c·0 = 0`
+  and so demands `Qim² ≤ Qre²`, **false at the zeros of `Qre(0,·)`** — and
+  those zeros are *inside* the windows, one per window, at
+  `s* = 6.6431, 12.7553, 18.9767, 25.2285, 31.4926, 37.7631, 44.0372, 50.3135,
+  56.5914`.
+* Layering in `y` does not help either. Measured, the `y → 0` limit of
+  `sup_s Dam/y²` is `0.936 c_0` and `0.970–0.979 c_k` for `k ≥ 1`, so the
+  supremum is nearly attained at *every* depth; a layer `[y_lo, y_hi]` checked
+  against `lo(y²)` needs `y_hi/y_lo ≤ √1.20 = 1.0954`, and covering `(0,1/2]`
+  in such layers takes infinitely many.
+
+The cure is to factor the removable zero out. `Qim` is odd in `y`, so
+`Qim = y·R` with `R` analytic across `y = 0`, and the check becomes
+
+> **(O9′)**  `y² (R² − c) ≤ Qre²`
+
+whose two sides are `O(1)` where the original pair was `O(y²)`. At `y = 0` the
+left side is `0` and the right side is `Qre(0,s)² ≥ 0`. With `c = 0`, (O9′) is
+*also* the complement claim, so one shape covers windows and gaps alike.
+
+Built by `o9_leaf2d.py` at the `O9-SCOPING.md` operating point (widening
+`1/200`, inflation `6/5`), in the kernel's own fixed-point arithmetic:
+
+| | |
+|---|---|
+| leaves | **598** |
+| max depth | 18 |
+| undecided | 0 |
+| smallest carrying margin | `1.85e-08` (`3.4e11` ulp) |
+| emitted size | 61.8 KB, 15 `decide +kernel` chunks |
+
+Nine leaves report zero margin under the obvious metric and are **not** close
+calls: each holds a zero of `Qre(0,·)`, where both sides of the general test
+vanish, and each is carried instead by `R² ≤ c` with `0.02 %`–`10 %` relative
+slack. `cell_verdict` reports whichever slack carries the cell.
+
+For scale: this is 598 leaves against the 1-D route's 344, so dropping the
+unproved depth-reduction lemma costs 254 extra leaves. `O9-SCOPING.md` §3
+predicted 389 for a 2-D route; that estimate was for a different decomposition
+and is 35 % low.
+
+**Two new obligations replace O9, and neither is proved:**
+
+| # | statement | status |
+|---|---|---|
+| O9a | `shfnIv_mem`: `shfnIv` encloses `sinh(u/2)/u` | **new**, mirrors `sfnIv_mem` (`Leaves.lean` L6) |
+| O9b | `o9Field_mem`: `o9Field` encloses `(Re Φ₂, Im Φ₂ / y)` on the cell | **new**, the real/imaginary decomposition |
+
+`O9Field.lean` defines the field and the `shfnL` series; `O9Data2.lean` and
+`O9Check2.lean` are generated. **No `sorry` stands in for O9a or O9b** — until
+they exist the checker checks the table and says nothing about `Dam`.
+
 ---
 
 ## 5. The proof of (★★)
