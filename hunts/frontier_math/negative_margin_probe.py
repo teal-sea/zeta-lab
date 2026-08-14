@@ -178,6 +178,17 @@ from dataclasses import dataclass, field
 from pathlib import Path
 
 import numpy as np
+from flint import ctx
+
+# The instrument this module reports under (`HARDENED_INSTRUMENT` below says
+# `prec_bits: 128`).  Every sibling that records ball readings establishes it
+# at import — `hardened_paper`, `hardened_band`, `hardened_direct`,
+# `enclosure_pass`, `window_table` all set exactly this.  This module declared
+# the setting without ever applying it, so on a bare import `ctx.prec` stayed
+# at flint's default 53 and `test_the_hardened_record_names_its_instrument`
+# failed unless some other module happened to be imported first and set 128 as
+# a side effect.  The test was right and the module was wrong.
+ctx.prec = 128
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from paper_chain import MEAN_GAP  # noqa: E402

@@ -232,10 +232,17 @@ def test_arb_would_have_been_optimistic():
     """
     from flint import arb, ctx
 
-    ctx.prec = 300
-    lo, hi = 5.6 / 2, 6.0603 / 2
-    ball = arb((lo + hi) / 2, (hi - lo) / 2).sin()
-    arb_width = float(ball.upper()) - float(ball.lower())
+    # `ctx.prec` is process-global, and other modules in this hunt assert their
+    # own value of it (`negative_margin_probe` wants 128).  Restore it rather
+    # than leave a trap for whatever runs next in this worker.
+    saved = ctx.prec
+    try:
+        ctx.prec = 300
+        lo, hi = 5.6 / 2, 6.0603 / 2
+        ball = arb((lo + hi) / 2, (hi - lo) / 2).sin()
+        arb_width = float(ball.upper()) - float(ball.lower())
+    finally:
+        ctx.prec = saved
     kernel_width = 6745460439469300102 / SO
     assert arb_width < kernel_width, "Arb is not narrower -- the premise is wrong"
     assert kernel_width / arb_width > 1.4
