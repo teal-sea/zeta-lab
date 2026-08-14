@@ -1,0 +1,37 @@
+{
+  "run_id": "5849dba6-1f35-48cf-98ac-a1a002febf21",
+  "status": "settled",
+  "conclusion": "Issue #23 holds and now has its number: rebuilding o9_leaf.py's 1-D O9 walk on o9_leaves_kernel's mirror of Leaves.lean gives 476 cells at max depth 22, all decided, against the recorded 344 at depth 20 - so 344 was 38% low, and 85 of its 344 cells (24.7%) fail outright on the kernel's leaves. The caveat's safety argument is not merely optimistic but incommensurable: a cell whose recorded Arb margin is 9.21e16 ulp, 2.5e7 times the 3.63e9 minimum the module offers as evidence of safety, still fails, so no threshold on that margin separates safe predictions from unsafe ones.",
+  "confidence": "High on the refutation and on the cell-level failure count; both are exact integer arithmetic with no floating point in the decision path, and the strongest check is independent: bucketing the 85 failures into the 40-cell chunks emit_lean writes reproduces the 2026-08-13 Lean build's verdict nine chunks for nine, including both chunks that passed (200 and 280 have zero failures here). That control was not used to tune anything. Medium on 476 as the count decide +kernel will actually reach: no Lean was built here (zeta23ext has no .lake cache, so it would need Mathlib from source), so 476 is a prediction at the grade the 2-D repair already validated, not a kernel verdict. It is measured, rung 1. The 1.38x factor here is much gentler than the 2-D table's 3.2x and my explanation for that (the 2-D route carries y as an interval to 0 and compounds the leaf widths) is a conjecture about the mechanism, not something I measured.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "o9_leaf.py still exports N_CELLS_KERNEL = 344 in __all__, still computes its leaves with Arb, still defaults max_depth to a value at which the corrected walk leaves a cell undecided, and its LEAF CAVEAT still presents the margin as a safety argument. This hunt's scope forbade touching hunts/frontier_math/.",
+      "why_it_might_matter": "Anything importing the constant inherits a figure now measured wrong by 38%, and the caveat's shape of reasoning is exactly what produced the table decide +kernel refuted. It is a live wrong number in an exported API, not a stale comment.",
+      "first_step": "In hunts/frontier_math/o9_leaf.py: set N_CELLS_KERNEL = 476, point leaves() at o9_leaves_kernel.kernel_leaves, raise the default max_depth above 20, and rewrite the LEAF CAVEAT to cite O9-2D-STATUS.md section 0 rather than a margin. hunts/r_2926e4/probe.py reproduces every number in 0.6 s."
+    },
+    {
+      "what": "o9_leaf.py's gap L4 recommends the 2-D route over the 1-D one by comparing 344 leaves against O9-SCOPING.md section 3's 389, i.e. 45 extra leaves to drop the unproved depth reduction. Corrected, that comparison is 476 against the measured 1939.",
+      "why_it_might_matter": "The recorded advice is that whoever builds the Lean file should take the 2-D route on cost grounds. At the corrected figures the 2-D route costs about 4x the leaves, not 1.13x, which may reverse the recommendation and is currently the standing guidance for a build nobody has done yet.",
+      "first_step": "Recompute O9-SCOPING.md section 3's table with kernel_leaves2d at inflation 1.20x / widening 1/200 and restate L4's trade against the corrected pair, saying plainly what the unproved lemma is now worth in leaves."
+    },
+    {
+      "what": "The blow-up is confined to the two leaves whose argument is the cell (sinX2 mean 1.54x, cosX2 mean 8.15x, worst 43.5x at s = 31.478), and it comes from dbl squaring an interval, so it should shrink superlinearly as bisection narrows the cell.",
+      "why_it_might_matter": "If the per-cell penalty falls faster than the cell count rises, a different reduction (three quarterings rather than two doublings, or sinCosSmall on a finer split) could recover much of the 132 extra cells without touching any mathematics. It would also transfer directly to the 2-D table, where the same leaves cost 3.2x.",
+      "first_step": "Plot kernel cosX2 width against cell width across the 476 cells and check whether the fitted exponent exceeds 1."
+    },
+    {
+      "what": "The kernel's constant leaves are NARROWER than the Arb path's: SQ2 by 9x, sinh and cosh by 3x, COSC by 1.8x, all exactly constant ratios across every sampled cell.",
+      "why_it_might_matter": "The constancy says the 4-ulp outward pad in _to_iv is the whole of those ratios and is pure loss on constant leaves. More usefully, it refutes the tempting generalisation that an Arb model is uniformly optimistic: it is optimistic only on leaves whose argument is the cell, which is a sharper and more portable statement of the failure mode.",
+      "first_step": "Re-run section 1's width table with pad=0 in o9_leaf._to_iv to confirm the pad accounts for those three ratios exactly."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A standing round-trip control for any script that predicts a proof-kernel verdict: the generator's arithmetic must be pinned against the kernel's own evaluation output, value for value, and the pin must run in CI. o9_leaves_kernel.py plus tests/test_o9_leaves_kernel.py is one instance, built after the fact; this hunt used it and it worked, reproducing the kernel's chunk verdicts nine for nine.",
+      "why_reusable": "The failure it catches is not arithmetic error, it is modelling a checker with tighter arithmetic than the checker has, which reads as conservative and is not. Both O9 tables hit it independently, at 3.2x and 1.38x, and each was found only by a build. Any future Lean-backed table in this laboratory has the same exposure, and the honest default for an unpinned generator is that its counts are candidates rather than predictions.",
+      "first_step": "Fulcrum decides whether to fund it. If yes, the cheap version is a documented convention rather than a framework: a generator that claims to predict a kernel verdict carries a test that runs the kernel on a sample and asserts equality of the emitted values, and says in its docstring that it is a candidate table until that test has run."
+    }
+  ],
+  "notes_for_operator": "Two things worth your attention. First, a correction to issue #23: its outstanding item 1 says the 344-cell table 'has never been put to the kernel'. It has, on 2026-08-13, and it was refuted on 7 of 9 chunks (O9-2D-STATUS.md section 0). What had never been done is the rebuild, which is what this hunt did. The issue's substance is unaffected. Second, the case-log entry landed as Hunt #18 as assigned; #18 was free. Budget: the mathematics was settled in about 12 minutes because o9_leaves_kernel already existed and was a drop-in replacement for o9_leaf.leaves, so the whole hunt is a leaf-layer swap plus four measurements; the rest of the time went to the write-up. Getting the actual kernel verdict was not attempted: zeta23ext has no .lake cache in this container and would need Mathlib from source, which is not a 30-minute job."
+}
