@@ -1,0 +1,195 @@
+{
+  "hunt": "gate5_p6_c",
+  "property": "in a box strictly off the critical line, the completed function has no zeros (docs/09 gate #3, property 6)",
+  "dps": 20,
+  "route": "argument principle, zeta.epstein.count_zeros_box, default forced subdivision step",
+  "preregistered": "hunts/gate5_p6_c/MISSION.md, committed before any winding number was computed",
+  "boxes": {
+    "B1": {
+      "sigma": [
+        0.7,
+        0.9
+      ],
+      "t": [
+        85.5,
+        85.9
+      ],
+      "blind": false,
+      "why": "band A at the height of the pinned Davenport-Heilbronn off-critical-line zero 0.808517 + 85.699348i (Spira 1994); declared non-blind, present to realise the 'a rival fails' pole of the well-posedness question"
+    },
+    "B2": {
+      "sigma": [
+        0.7,
+        0.9
+      ],
+      "t": [
+        10.0,
+        14.0
+      ],
+      "blind": true,
+      "why": "band A, blind low window; cheapest boundary in the design"
+    },
+    "B3": {
+      "sigma": [
+        0.7,
+        0.9
+      ],
+      "t": [
+        40.0,
+        44.0
+      ],
+      "blind": true,
+      "why": "band A, blind middling window; checks whether B2 is typical"
+    },
+    "B4": {
+      "sigma": [
+        1.05,
+        1.55
+      ],
+      "t": [
+        10.0,
+        14.0
+      ],
+      "blind": true,
+      "why": "band B, strictly right of sigma = 1 and clear of the Lambda_Q pole at s = 1; zeta is zero-free here as a theorem"
+    }
+  },
+  "counts": {
+    "B1": {
+      "riemann_zeta": {
+        "zeros": 0,
+        "satisfies_property_6": true,
+        "dps": 20,
+        "evaluations": 24,
+        "seconds": 0.03,
+        "counted_on": "xi"
+      },
+      "davenport_heilbronn": {
+        "zeros": 1,
+        "satisfies_property_6": false,
+        "dps": 20,
+        "evaluations": 24,
+        "seconds": 0.57,
+        "counted_on": "f (= F in sigma > 0)"
+      },
+      "epstein_2_1_3": {
+        "zeros": null,
+        "satisfies_property_6": null,
+        "skipped": "needs dps ~ 79 (0.6822 * 85.9 digits of cancellation) at ~9 s per evaluation; ~24 boundary evaluations per form before adaptive refinement, so ~7 minutes per form, ~15 minutes for both",
+        "counted_on": "Lambda_Q, form (2,1,3)"
+      },
+      "epstein_1_1_6": {
+        "zeros": null,
+        "satisfies_property_6": null,
+        "skipped": "needs dps ~ 79 (0.6822 * 85.9 digits of cancellation) at ~9 s per evaluation; ~24 boundary evaluations per form before adaptive refinement, so ~7 minutes per form, ~15 minutes for both",
+        "counted_on": "Lambda_Q, form (1,1,6)"
+      }
+    },
+    "B2": {
+      "riemann_zeta": {
+        "zeros": 0,
+        "satisfies_property_6": true,
+        "dps": 20,
+        "evaluations": 84,
+        "seconds": 0.06,
+        "counted_on": "xi"
+      },
+      "davenport_heilbronn": {
+        "zeros": 0,
+        "satisfies_property_6": true,
+        "dps": 20,
+        "evaluations": 84,
+        "seconds": 0.55,
+        "counted_on": "f (= F in sigma > 0)"
+      },
+      "epstein_2_1_3": {
+        "zeros": 0,
+        "satisfies_property_6": true,
+        "dps": 30,
+        "evaluations": 84,
+        "seconds": 112.19,
+        "counted_on": "Lambda_Q, form (2,1,3)"
+      },
+      "epstein_1_1_6": {
+        "zeros": 0,
+        "satisfies_property_6": true,
+        "dps": 30,
+        "evaluations": 84,
+        "seconds": 116.22,
+        "counted_on": "Lambda_Q, form (1,1,6)"
+      }
+    },
+    "B3": {
+      "riemann_zeta": {
+        "zeros": 0,
+        "satisfies_property_6": true,
+        "dps": 20,
+        "evaluations": 124,
+        "seconds": 0.09,
+        "counted_on": "xi"
+      },
+      "davenport_heilbronn": {
+        "zeros": 0,
+        "satisfies_property_6": true,
+        "dps": 20,
+        "evaluations": 124,
+        "seconds": 0.99,
+        "counted_on": "f (= F in sigma > 0)"
+      },
+      "epstein_2_1_3": {
+        "zeros": null,
+        "satisfies_property_6": null,
+        "skipped": "needs dps ~ 50 at ~3.5 s per evaluation; ~124 boundary evaluations per form, so ~7 minutes per form, ~15 minutes for both",
+        "counted_on": "Lambda_Q, form (2,1,3)"
+      },
+      "epstein_1_1_6": {
+        "zeros": null,
+        "satisfies_property_6": null,
+        "skipped": "needs dps ~ 50 at ~3.5 s per evaluation; ~124 boundary evaluations per form, so ~7 minutes per form, ~15 minutes for both",
+        "counted_on": "Lambda_Q, form (1,1,6)"
+      }
+    },
+    "B4": {
+      "riemann_zeta": {
+        "zeros": 0,
+        "satisfies_property_6": true,
+        "dps": 20,
+        "evaluations": 92,
+        "seconds": 0.06,
+        "counted_on": "xi"
+      },
+      "davenport_heilbronn": {
+        "zeros": 0,
+        "satisfies_property_6": true,
+        "dps": 20,
+        "evaluations": 92,
+        "seconds": 0.57,
+        "counted_on": "f (= F in sigma > 0)"
+      },
+      "epstein_2_1_3": {
+        "zeros": 0,
+        "satisfies_property_6": true,
+        "dps": 30,
+        "evaluations": 92,
+        "seconds": 128.36,
+        "counted_on": "Lambda_Q, form (2,1,3)"
+      },
+      "epstein_1_1_6": {
+        "zeros": 0,
+        "satisfies_property_6": true,
+        "dps": 30,
+        "evaluations": 92,
+        "seconds": 134.29,
+        "counted_on": "Lambda_Q, form (1,1,6)"
+      }
+    }
+  },
+  "verdict_per_box": {
+    "B1": "DISTINGUISHES (partial: not all rivals run)",
+    "B2": "VACUOUS",
+    "B3": "VACUOUS",
+    "B4": "VACUOUS"
+  },
+  "complete": true,
+  "precision_rule": "dps = 20 for xi and f; for Lambda_Q, 20 + ceil(0.6822 * t_max) to carry the exp(-pi t / 2) cancellation in epstein_completed (see probe.py)"
+}
