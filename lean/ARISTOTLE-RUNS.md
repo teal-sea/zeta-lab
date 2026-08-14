@@ -252,3 +252,16 @@ drift gets a durable repair rather than another brittle one.
 above it. That is the expected shape of a port and not a new defect — but it
 does mean "the survey found N sites" is a lower bound until the chain builds
 end to end.
+
+## Batch 7: the O9 Boolean box bridge (submitted 2026-08-14)
+
+| id | project | task | status |
+| --- | --- | --- | --- |
+| o9-box-sound | `8c39ae10-9969-4dbb-b310-d45db409c75b` | Prove `Retention.o9Box_sound_nonzero` without weakening its statement. The theorem extracts the real damage inequality from either successful `o9Box` mode after the interval quotients have been identified with `Qre` and `Qim / y`. The prompt points to branch `codex/frontier-o9-denominator-bridge` at green prerequisite `d933e7f` and includes the complete first-pass module plus its local compiler failures. | submitted |
+
+The first local pass exposed a proof-engineering problem, not a new
+mathematical obligation: repeated unfolding of `o9Box` exhausted the default
+heartbeat budget, two rewrites met the definitionally equal `EIv.pt` spelling,
+and two fixed-point scaling inequalities needed explicit normalization. The
+returned file remains input. It counts only after the refusal scan and a local
+zero-`sorry` build on the pinned toolchain.
