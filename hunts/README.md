@@ -70,6 +70,36 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #18: the O9 leaf table, repriced (`r_2926e4/`)
+
+**Status: settled. `o9_leaf.py`'s 1-D O9 table is 476 cells at max depth 22 on
+the leaves the kernel actually computes, not the 344 at depth 20 it records,
+and 85 of those 344 cells (24.7%) fail outright once the leaves are the
+kernel's.** The module's LEAF CAVEAT argues that a cell passing with margin is
+safely predicted; the hunt measures that the margin is the wrong quantity, not
+a mis-calibrated one. A cell with a recorded Arb margin of `9.21e16` ulp,
+`2.5e7` times the `3.63e9` minimum the module cites as its safety evidence,
+still fails, so no threshold on that margin separates the safe predictions from
+the unsafe ones. The mechanism is confined to the two leaves whose argument is
+the cell rather than a constant: `sinCosIv` reduces mod `2π` and applies `dbl`
+twice, `dbl` squares an interval, and the width grows with the cell (`cosX2`
+mean `8.15×` Arb's width, worst `43.5×`). The four constant leaves and the two
+hyperbolic ones go the *other* way, `3×` to `9×` narrower than Arb-plus-4-ulp-pad,
+so "the Arb model is uniformly optimistic" is the wrong generalisation.
+**Control:** bucketing the 85 failures into the 40-cell chunks `emit_lean`
+writes reproduces the 2026-08-13 Lean build's verdict nine chunks for nine,
+including both chunks that passed (offsets 200 and 280 contain zero failures);
+that comparison is against a real `decide +kernel` run and tuned nothing.
+The table still closes after the repair, which was not guaranteed: the
+complement test lives on the ~`2e-05` of slack in §4's outward-rounded `I_k`,
+and the wider leaves do not eat it. **Disposition:** no ledger entry; the
+repair belongs to `hunts/frontier_math/o9_leaf.py`, which is outside this
+hunt's scope and still exports `N_CELLS_KERNEL = 344`. Corrects issue #23,
+which says the 344-cell table was never put to the kernel: it was, on
+2026-08-13, and refuted on 7 of 9 chunks. No Lean was built here, so 476 is
+measured, one route, and the route is a model of the kernel. Nothing here bears
+on RH.
+
 ### Hunt #9 — how much power a guard has (`r_414eed/`)
 
 **Status: probe, complete. `scripts/make_context.py --check` caught 17/17
