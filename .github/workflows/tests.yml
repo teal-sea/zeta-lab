@@ -34,6 +34,14 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
+        with:
+          # The suite asks git history questions and a depth-1 clone answers
+          # them with the checkout instead. test_dossier_hardy_z compares the
+          # recorded kernel observation against the last commit to touch
+          # HardyZ.lean; shallow, that query returns the checkout's own date,
+          # so the check passed only while CI ran on the same calendar day as
+          # the last re-observation and failed at the next midnight.
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
