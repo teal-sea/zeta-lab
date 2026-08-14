@@ -828,7 +828,7 @@ What did not work is published here alongside what did.</p>
 {vitals([
     (str(len(fr['results'])), 'new theorems', False),
     (num(kernel), 'kernel-checked theorems', False),
-    (str(sorrys), 'steps taken on faith', True),
+    (str(sorrys), 'gaps in the proofs', True),
     (str(people), 'person' if people == 1 else 'people', False),
     (str(r['days']), 'days', False),
     (num(py['test_fns']), 'automatic checks', False),
@@ -838,8 +838,14 @@ What did not work is published here alongside what did.</p>
 argument and refuses it if a step is missing. That is the strongest guarantee
 mathematics has, and until recently getting one meant years of specialist work.
 Every result here has been through it.</p>
-<p>So <em>steps taken on faith: 0</em> means every step is proved. Our
+<p>So <em>gaps in the proofs: 0</em> means every step is proved. Our
 confidence does not enter into it, and neither does yours.</p>
+<p>That number is about the proofs, not the process. The process was full of
+guessing. Blind alleys, hunches, and prompts that told the model to behave like
+a mad scientist and see what fell out. The checker is what makes that a
+reasonable way to work: it does not care where an idea came from, only whether
+the argument closes. You can afford to be reckless at the front of the pipeline
+when nothing reaches the end of it unproved.</p>
 
 <p class="meta">Counted from the public research repository. The lab's
 operating side is a separate private repository and none of it is reflected
