@@ -13,3 +13,14 @@ pytest-xdist>=3.6
 # tier look hung.  Install it unless you are deliberately testing the fallback;
 # `zeta.rigor.available_backends()` reports which are live.
 python-flint>=0.6
+
+# Convex/SDP solving, used by the frontier_math hunt's relaxation probes
+# (`sos_certificate.py`, `cluster_sdp.py`, `configuration_lp.py`, ...).
+#
+# Undeclared until 2026-08-14, which cost a fresh clone **40 hard failures**
+# rather than 40 skips: those tests call `relax(...)` directly and get a bare
+# `ModuleNotFoundError`, so the suite reads as broken mathematics instead of a
+# missing wheel.  The handoff of the day listed cvxpy as "already working"
+# because the container it was written on had it installed ad hoc, which is
+# exactly the kind of environment fact a snapshot cannot carry.
+cvxpy>=1.5
