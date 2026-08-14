@@ -391,6 +391,31 @@ def frontier():
             "lines": lines, "results": results}
 
 
+def operators() -> int:
+    """How many people this took, counted from the authorship of the history.
+
+    The claim the front page makes is not that a large team moved fast; it is
+    that one person with the right machinery produced verified mathematics. So
+    the number is derived, and it will change on its own if that stops being
+    true.
+
+    Machine commits are excluded because the point of the number is the human
+    denominator. The two `teal-sea` addresses are one GitHub account, and
+    collapsing them is the only judgement in here: git records the identity a
+    commit was authored with, not the person behind it, and this person has
+    committed under both a noreply alias and a personal address.
+    """
+    machine = ("noreply@anthropic.com",)
+    aliases = {"teal-sea@users.noreply.github.com": "thomaslincez@gmail.com"}
+    people = set()
+    for line in git("log", "--format=%ae").splitlines():
+        email = line.strip().lower()
+        if not email or email in machine:
+            continue
+        people.add(aliases.get(email, email))
+    return len(people)
+
+
 def live_threads() -> list[dict[str, str]]:
     """Branches carrying commits not on main. Right by construction or empty."""
     rows = []
@@ -679,21 +704,25 @@ def page_index(r, lean, py, gr, threads, c, fr) -> str:
             + "</tbody></table></div></section>"
         )
 
-    headline = (f"{len(fr['results'])} new theorems in {r['days']} days."
+    people = operators()
+    headline = (f"{len(fr['results'])} new theorems."
+                f"<br>{'One person' if people == 1 else f'{people} people'}."
+                f"<br>{r['days']} days."
                 if r["days"] and sorrys == 0
                 else f"{len(fr['results'])} new theorems, machine-checked.")
 
     return shell(IDENTITY["name"], f"""
 <h1>{headline}</h1>
-<p class="stand">A machine-operated mathematics laboratory working the Riemann
-hypothesis. It proves what it claims in a kernel that accepts no shortcuts, and
-it publishes what fails as readily as what works.</p>
+<p class="stand">No institution, no research group, no model of our own. One
+operator directing off-the-shelf models at a problem open since 1859, with
+every result checked by a proof kernel that accepts no shortcuts, and every
+failure published as readily as every success.</p>
 
 {vitals([
     (num(kernel), 'machine-checked theorems', False),
     (str(sorrys), 'unproven steps', True),
     (num(py['test_fns']), 'tests', False),
-    (str(r['days']), 'days of work', False),
+    (str(operators()), 'people', False),
     (num(py['public']), 'public API functions', False),
     (num(r['docs']), 'documents', False),
 ])}
