@@ -1,0 +1,47 @@
+{
+  "run_id": "d9ae5359-933a-4a85-a0e7-28c04e36bc26",
+  "status": "settled",
+  "conclusion": "Gate-5 property 6 is VACUOUS: in two independently decided preregistered boxes (0.70-0.92 x 1.5-11.5i and 1.05-1.60 x 1.5-11.5i) all three RH-violating rivals have zero count 0 exactly as zeta does, so under gate #3's own rule the property distinguishes nothing. It is also box-dependent by construction, demonstrated rather than argued: the Davenport-Heilbronn function satisfies property 6 on those two boxes and fails it on a third box built around its pinned off-line zero, and the only well posed version that quantifies over all boxes is RH for the function itself, which is circular as a proof step.",
+  "confidence": "High for the VACUOUS verdict, moderate-to-high for the well-posedness finding. The verdict rests on ten decided argument-principle counts, each with its winding within 1e-6 of an integer and each replicated at fifteen extra digits with worst relative disagreement 3.5e-22 against a 1e-6 threshold; two fully decided boxes give the same answer independently, and either alone suffices. The one positive control available passed: the box-B Davenport-Heilbronn cell returns exactly 1, recovering the off-line zero pinned in zeta/epstein.py and published by Spira, Math. Comp. 1994. Grade is measured, not hardened: one route, floating-point mpmath, no ball-arithmetic enclosures. The parameters were committed at 623e800 before any count was computed, so the verdict is not an artefact of choosing the box after seeing an answer. What would weaken it: box B's two Epstein cells are undecided by cost, so the box-dependence demonstration is complete on two of four functions rather than all four.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "Box B's two Epstein cells (discriminant -23 forms (2,1,3) and (1,1,6) on 0.70-0.92 x 85.2-86.2i) were recorded NOT-DECIDED-BY-COST at dps 79: 14.26 and 13.93 seconds per evaluation times 22 forced segments times 2, about 21 minutes each in mpmath.",
+      "why_it_might_matter": "They would close box B and make the box-dependence demonstration complete on all four functions. They cannot change the verdict, since boxes A and C each return VACUOUS on their own.",
+      "first_step": "Rerun probe.py with the cell cap raised past 700 seconds, or route epstein_completed through a ball-arithmetic backend, which should cut the cost by orders of magnitude."
+    },
+    {
+      "what": "zeta.epstein.battery cannot answer any zero-counting question above roughly t = 25 and does not say so: both epstein_interface and dh_interface pass dps=min(dps, 20) into count_zeros_box, and at t = 85.7 the completed Epstein function at dps 20 returns 1.2e-34 against a true 1.617e-58.",
+      "why_it_might_matter": "An argument-principle count over noise usually still lands on an integer, so count_zeros_box's own integrality check does not catch it. Any future gate-#3 property phrased in terms of zeros at height would get a confidently wrong number from the battery.",
+      "first_step": "Open an issue on this repository; the fix is to pass the caller's dps or refuse a box taller than the cap can support, pinned by a test that a count at height disagrees with itself between two precisions."
+    },
+    {
+      "what": "epstein_completed builds an exponentially small quantity out of O(1e-2) terms, costing about 0.6822 * t digits of relative precision.",
+      "why_it_might_matter": "This is the cost barrier that stopped box B, and it will stop every future hunt that needs Epstein zeros above t of about 30.",
+      "first_step": "Factor the Gamma(s) decay out of the Mellin split before summing, and measure the recovered digits against the current routine at t = 85.7."
+    },
+    {
+      "what": "The laboratory has never located an off-line zero of either discriminant -23 Epstein form, although Davenport and Heilbronn prove they exist.",
+      "why_it_might_matter": "Without one pinned, no box can be built that puts all three battery rivals under the same off-line test at once, which is precisely what made box B's DISTINGUISHES attempt structurally unable to succeed.",
+      "first_step": "Reuse zeta.epstein.find_offline_zero's box-versus-line strategy against epstein_completed once the evaluator is affordable at height."
+    },
+    {
+      "what": "The prepare-commit-msg hook that writes the Run-Id trailer is not installed in a fresh clone, so telemetry's commit linkage is silently absent unless the trailer is written by hand.",
+      "why_it_might_matter": "Runs launched into fresh containers are the normal case, so the linkage is probably missing across many runs, not just this one.",
+      "first_step": "Check whether the hook is meant to be installed by a setup step, and whether other fresh-container runs are missing the trailer."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A precision-adequacy guard: evaluate at dps D and dps D+15 at the same point and require relative agreement before any derived quantity is read. Four lines in this hunt's probe.py.",
+      "why_reusable": "It is the only reason this run knows its Epstein numbers are real rather than round-off, and it is route-independent: it needs no analytic estimate of how many digits a routine loses. Every hunt that evaluates a completed L-function away from the real axis has the same exposure, and nothing in zeta/ offers the check.",
+      "first_step": "Lift it into zeta/ as a small helper taking a function of dps and a point, and call it from the interfaces in zeta.epstein.battery before any count is returned."
+    },
+    {
+      "what": "A cost-arithmetic gate that records a cell as undecided from measured per-evaluation cost times the contour's forced-segment count, instead of burning a wall-clock cap to confirm the same arithmetic.",
+      "why_reusable": "This run recovered about 20 minutes of budget that the prior attempt on this question spent hitting a 50-minute timeout, and it produced a reportable number ('627 s against a 480 s cap') rather than a silence. Any contour-integral hunt on an expensive integrand has the same shape.",
+      "first_step": "Generalize the projected-cost estimate in probe.py to any contour routine that exposes its subdivision count, and report the projection alongside the verdict."
+    }
+  ],
+  "notes_for_operator": "Three agents were run on this question in parallel; this branch did not look at the other two and did not read any other hunts/gate5_p6_* directory. Independence held. Two items that are Fulcrum's rather than the science's, named and not pursued: whether the parallel-triplication of this question was worth its cost given that boxes A and C each settled it in about 10 minutes of compute, and whether the missing prepare-commit-msg hook in fresh containers is degrading telemetry across the fleet rather than only here. Budget note for calibration, not a request: the preregistration plus probe plus write-up ran over the 45-minute figure in the brief, and the overrun was almost entirely the two Epstein cells in box A and box C at about 140 seconds each."
+}

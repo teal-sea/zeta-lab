@@ -70,6 +70,35 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #14 — gate-5 property 6 is vacuous (`gate5_p6_b/`)
+
+**Status: probe, complete. VACUOUS, with the parameters committed before the
+first count and the commit order left in the history as the evidence.** The
+open property of `zeta.epstein.battery` was *"in a box strictly off the
+critical line, the completed function has no zeros"*. Three boxes and a
+precision rule were fixed in `MISSION.md` at `623e800`; the probe ran
+afterwards. In box A (`σ ∈ [0.70, 0.92]`, `t ∈ [1.5, 11.5]`) and box C
+(`σ ∈ [1.05, 1.60]`, same heights) all four functions return a zero count of
+**0**, so all three rivals satisfy the property and it distinguishes nothing.
+
+The box-dependence the property carries by construction was measured rather
+than argued: Davenport–Heilbronn **satisfies** property 6 on boxes A and C and
+**fails** it on box B (`σ ∈ [0.70, 0.92]`, `t ∈ [85.2, 86.2]`), which was built
+around the off-line zero pinned in `zeta/epstein.py` — and the box-B cell
+returns exactly **1**, recovering that zero where Spira (*Math. Comp.* 1994)
+puts it, the run's one positive control. So property 6 is a box-indexed family
+rather than one claim, and the version that quantifies over all boxes is RH for
+the function, which is circular as a proof step. Box B's two Epstein cells are
+undecided on cost (about 21 minutes of mpmath each at `dps = 79`), reported
+undecided rather than skipped.
+
+One defect found on the way, reported and not patched (`zeta/` is outside the
+hunt's scope): both rival interfaces in `battery` pass `dps=min(dps, 20)` into
+`count_zeros_box`, and at `t = 85.7` the completed Epstein function at `dps
+= 20` returns `1.2e-34` against a true `1.617e-58`. A winding count over that
+noise still lands on an integer, so the routine's own integrality check does
+not catch it.
+
 ### Hunt #9 — how much power a guard has (`r_414eed/`)
 
 **Status: probe, complete. `scripts/make_context.py --check` caught 17/17
