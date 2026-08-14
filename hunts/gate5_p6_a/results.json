@@ -1,0 +1,328 @@
+{
+  "hunt": "gate5_p6_a",
+  "hunt_number": 13,
+  "property": "in a box strictly off the critical line, the completed function has no zeros",
+  "grade": "measured (rung 1: one route, float grade)",
+  "dps": 20,
+  "cap_seconds": 420.0,
+  "boxes": {
+    "A": {
+      "sigma": [
+        0.7,
+        0.92
+      ],
+      "t": [
+        85.55,
+        85.85
+      ],
+      "why": "contains the pinned Davenport-Heilbronn off-line zero; the box most favourable to a DISTINGUISHES verdict"
+    },
+    "B": {
+      "sigma": [
+        0.7,
+        0.92
+      ],
+      "t": [
+        70.1,
+        70.4
+      ],
+      "why": "same shape, unrelated ordinate; measures box dependence"
+    },
+    "C": {
+      "sigma": [
+        1.02,
+        1.6
+      ],
+      "t": [
+        0.5,
+        50.5
+      ],
+      "why": "the half plane where zeta's completed function is zero-free as a theorem; exploratory, run only if affordable"
+    }
+  },
+  "pinned_dh_offline_zero": {
+    "re": "0.80851718245663738555335196060684412785067026830502",
+    "im": "85.699348485377592171929267708941729037987829423408"
+  },
+  "controls": {
+    "straddling_box_xi_gamma1": {
+      "function": "riemann_zeta",
+      "sigma": [
+        0.2,
+        0.8
+      ],
+      "t": [
+        13.6,
+        14.6
+      ],
+      "dps": 20,
+      "retries": [],
+      "count": 1,
+      "status": "ok",
+      "nudges_used": 0,
+      "step_halvings_used": 0,
+      "t_actual": [
+        13.6,
+        14.6
+      ],
+      "seconds": 0.02,
+      "expected": 1,
+      "passed": true
+    },
+    "dh_box_A_contains_pinned_zero": {
+      "expected": ">= 1",
+      "observed": 1,
+      "passed": true
+    }
+  },
+  "cells": [
+    {
+      "function": "riemann_zeta",
+      "sigma": [
+        0.7,
+        0.92
+      ],
+      "t": [
+        85.55,
+        85.85
+      ],
+      "dps": 20,
+      "retries": [],
+      "count": 0,
+      "status": "ok",
+      "nudges_used": 0,
+      "step_halvings_used": 0,
+      "t_actual": [
+        85.55,
+        85.85
+      ],
+      "seconds": 0.02,
+      "box": "A"
+    },
+    {
+      "function": "davenport_heilbronn",
+      "sigma": [
+        0.7,
+        0.92
+      ],
+      "t": [
+        85.55,
+        85.85
+      ],
+      "dps": 20,
+      "retries": [],
+      "count": 1,
+      "status": "ok",
+      "nudges_used": 0,
+      "step_halvings_used": 0,
+      "t_actual": [
+        85.55,
+        85.85
+      ],
+      "seconds": 0.46,
+      "box": "A"
+    },
+    {
+      "function": "epstein_2_1_3",
+      "sigma": [
+        0.7,
+        0.92
+      ],
+      "t": [
+        85.55,
+        85.85
+      ],
+      "dps": 20,
+      "retries": [],
+      "count": 0,
+      "status": "ok",
+      "nudges_used": 0,
+      "step_halvings_used": 0,
+      "t_actual": [
+        85.55,
+        85.85
+      ],
+      "seconds": 28.95,
+      "box": "A"
+    },
+    {
+      "function": "epstein_1_1_6",
+      "sigma": [
+        0.7,
+        0.92
+      ],
+      "t": [
+        85.55,
+        85.85
+      ],
+      "dps": 20,
+      "retries": [],
+      "status": "timeout",
+      "count": null,
+      "seconds": 420.0,
+      "box": "A"
+    },
+    {
+      "function": "riemann_zeta",
+      "sigma": [
+        0.7,
+        0.92
+      ],
+      "t": [
+        70.1,
+        70.4
+      ],
+      "dps": 20,
+      "retries": [],
+      "count": 0,
+      "status": "ok",
+      "nudges_used": 0,
+      "step_halvings_used": 0,
+      "t_actual": [
+        70.1,
+        70.4
+      ],
+      "seconds": 0.02,
+      "box": "B"
+    },
+    {
+      "function": "davenport_heilbronn",
+      "sigma": [
+        0.7,
+        0.92
+      ],
+      "t": [
+        70.1,
+        70.4
+      ],
+      "dps": 20,
+      "retries": [],
+      "count": 0,
+      "status": "ok",
+      "nudges_used": 0,
+      "step_halvings_used": 0,
+      "t_actual": [
+        70.1,
+        70.4
+      ],
+      "seconds": 0.24,
+      "box": "B"
+    },
+    {
+      "function": "epstein_2_1_3",
+      "sigma": [
+        0.7,
+        0.92
+      ],
+      "t": [
+        70.1,
+        70.4
+      ],
+      "dps": 20,
+      "retries": [],
+      "status": "timeout",
+      "count": null,
+      "seconds": 420.0,
+      "box": "B"
+    },
+    {
+      "function": "epstein_1_1_6",
+      "sigma": [
+        0.7,
+        0.92
+      ],
+      "t": [
+        70.1,
+        70.4
+      ],
+      "dps": 20,
+      "retries": [],
+      "status": "timeout",
+      "count": null,
+      "seconds": 420.0,
+      "box": "B"
+    }
+  ],
+  "cost_probe": {
+    "riemann_zeta": 0.0009,
+    "davenport_heilbronn": 0.0099,
+    "epstein_2_1_3": 0.9895,
+    "epstein_1_1_6": 1.0154,
+    "box_C_forced_segments": 747.3,
+    "box_C_projected_seconds": {
+      "riemann_zeta": 2.7,
+      "davenport_heilbronn": 29.6,
+      "epstein_2_1_3": 2957.7,
+      "epstein_1_1_6": 3035.1
+    },
+    "box_C_attempted": false
+  },
+  "verdicts": {
+    "A": {
+      "verdict": "VACUOUS",
+      "counts": {
+        "riemann_zeta": 0,
+        "davenport_heilbronn": 1,
+        "epstein_2_1_3": 0,
+        "epstein_1_1_6": null
+      },
+      "survivors": [
+        "epstein_2_1_3"
+      ],
+      "unfinished": [
+        "epstein_1_1_6"
+      ]
+    },
+    "B": {
+      "verdict": "VACUOUS",
+      "counts": {
+        "riemann_zeta": 0,
+        "davenport_heilbronn": 0,
+        "epstein_2_1_3": null,
+        "epstein_1_1_6": null
+      },
+      "survivors": [
+        "davenport_heilbronn"
+      ],
+      "unfinished": [
+        "epstein_2_1_3",
+        "epstein_1_1_6"
+      ]
+    }
+  },
+  "robustness": [
+    {
+      "cell": "box A / epstein_2_1_3",
+      "why": "the surviving rival; the whole verdict rests on this count",
+      "runs": [
+        {
+          "step_halvings": 1,
+          "count": null,
+          "status": "timeout",
+          "seconds": 420.0
+        },
+        {
+          "step_halvings": 2,
+          "count": null,
+          "status": "timeout",
+          "seconds": 420.0
+        }
+      ],
+      "confirmed": false,
+      "reads": "both finer-step re-counts hit the 420 s cap, so the decisive count of 0 was NOT independently reconfirmed at finer resolution; the guard that did hold is count_zeros_box's own refusal of a winding residual above 1e-6"
+    }
+  ],
+  "overall": {
+    "verdict": "VACUOUS",
+    "settled_by": "box A, the box preregistered as most favourable to DISTINGUISHES",
+    "surviving_rival": "epstein_2_1_3",
+    "well_posed": false,
+    "why_not_well_posed": "box A and box B assign opposite truth values to davenport_heilbronn, so property 6 is a property of a (function, box) pair rather than of a function",
+    "proposed_well_posed_version": "the completed function has no zeros in Re s > 1"
+  },
+  "run_notes": [
+    "the robustness block was produced by a separate `probe.py --confirm` invocation",
+    "that invocation raced the main run and overwrote results.json with a stale copy; the full cell table here was restored from a snapshot taken before the overwrite, and probe.py now re-reads results.json immediately before writing",
+    "box C was not attempted: the preregistered cost gate projected 2957.7 s and 3035.1 s for the two Epstein functions against a 420 s cap"
+  ]
+}
