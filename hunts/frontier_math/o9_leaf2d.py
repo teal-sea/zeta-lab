@@ -158,30 +158,108 @@ def _o3_ceiling_ok() -> bool:
 # ---------------------------------------------------------------------------
 
 
-def _leaves(slo: F, shi: F, ylo: F, yhi: F) -> dict[str, Iv]:
-    """Transcendental leaves over the 2-D cell, rounded outward (see CAVEAT)."""
-    arb = _arb()
-    b = _cell_ball(slo, shi)
-    yb = _cell_ball(ylo, yhi)
-    half, yhalf = b / 2, yb / 2
-    s2 = arb(2).sqrt()
-    # sinh(y/2)/y = sinh(t)/(2t) at t = y/2 -- through the series, so that
-    # y = 0 is not special.  14 terms leave a tail below 2^-160 on |t| <= 1/4.
-    t = yhalf
-    tot, fact = arb(0), 1
-    for n in range(14):
-        if n:
-            fact *= (2 * n) * (2 * n + 1)
-        tot += t ** (2 * n) / fact
-    shq = (tot + arb(0, arb(2) ** -160)) / 2
-    return {
-        "X": _to_iv(b), "Y": _to_iv(yb),
-        "sn": _to_iv(half.sin()), "cs": _to_iv(half.cos()),
-        "sh": _to_iv(yhalf.sinh()), "ch": _to_iv(yhalf.cosh()),
-        "shq": _to_iv(shq),
-        "SQ2": _to_iv(s2), "SINC": _to_iv((s2 / 2).sin()),
-        "COSC": _to_iv((s2 / 2).cos()),
-    }
+# --- Leaves.lean, mirrored exactly ------------------------------------------
+#
+# The first version of this module took its `sin`/`cos`/`sinh`/`cosh` leaves
+# from Arb and rounded them outward, as `o9_leaf.py` does, on the strength of
+# that module's LEAF CAVEAT ("the two agree to well under 2^-60").
+#
+# **That caveat is false on wide cells, and the kernel said so.**  Arb encloses
+# `sin` over a wide interval by its actual range; `Leaves.sinCosIv` reduces mod
+# 2*pi, quarters, evaluates a 22-term Taylor interval, and then applies the
+# double-angle map twice -- and `dbl` squares an interval, so width grows.  On
+# the very first cell (`s` in [5.6, 6.0603]) Arb gives `sin` width 0.224 and
+# the kernel gives 0.366.  Predicting with Arb was therefore optimistic, and 14
+# of 15 `decide +kernel` chunks failed on a table this module had called sound.
+#
+# So the leaves below are Lean's own algorithms, in Lean's own integer
+# arithmetic, rather than Arb rounded outward.  There is nothing left to
+# caveat: `_leaves` now computes what the kernel computes.
+
+PIQA = 14488038916154245652
+PIQB = 14488038916154245716
+SQ2N = 26087635650665564424
+
+SINL = [(1, 1), (-1, 6), (1, 120), (-1, 5040), (1, 362880), (-1, 39916800),
+        (1, 6227020800), (-1, 1307674368000), (1, 355687428096000),
+        (-1, 121645100408832000), (1, 51090942171709440000)]
+COSL = [(1, 1), (-1, 2), (1, 24), (-1, 720), (1, 40320), (-1, 3628800),
+        (1, 479001600), (-1, 87178291200), (1, 20922789888000),
+        (-1, 6402373705728000), (1, 2432902008176640000)]
+SINHL = [(n, d) if n > 0 else (-n, d) for n, d in SINL]
+COSHL = [(n, d) if n > 0 else (-n, d) for n, d in COSL]
+#: `sinh(u/2)/u`: `SINHL` halved, exactly as `sfnL` is `sinL` halved.
+SHFNL = [(n, 2 * d) for n, d in SINHL]
+
+
+def _horner(cs: list[tuple[int, int]], x: Iv) -> Iv:
+    """`hornerI`: `c0 + (horner cs' x) * x`, folded from the right."""
+    acc = ofInt(0)
+    for n, d in reversed(cs):
+        acc = ofQ(n, d).add(acc.mul(x))
+    return acc
+
+
+def _sin_cos_small(a: Iv) -> tuple[Iv, Iv]:
+    x2 = a.sqr()
+    return (_horner(SINL, x2).mul(a).widen(1), _horner(COSL, x2).widen(1))
+
+
+def _dbl(sc: tuple[Iv, Iv]) -> tuple[Iv, Iv]:
+    s, c = sc
+    return (s.mul(c).mulInt(2), ofInt(1).sub(s.sqr().mulInt(2)))
+
+
+_TOPI = Iv(-SO, SO)
+_PI2 = Iv(8 * PIQA, 8 * PIQB)
+
+
+def _sin_cos_iv(a: Iv) -> tuple[Iv, Iv]:
+    """`sinCosIv`: reduce mod 2pi, quarter, evaluate, double twice."""
+    m = a.lo + a.hi
+    ps = _PI2.lo + _PI2.hi
+    k = (m + ps // 2) // ps          # Lean's Int `/` is ediv; floor for ps > 0
+    r = a.sub(_PI2.mulInt(k))
+    t = r.divInt(4)
+    if -SO <= t.lo and t.hi <= SO:
+        return _dbl(_dbl(_sin_cos_small(t)))
+    return (_TOPI, _TOPI)
+
+
+def _sinh_cosh_small(a: Iv) -> tuple[Iv, Iv]:
+    x2 = a.sqr()
+    return (_horner(SINHL, x2).mul(a).widen(1), _horner(COSHL, x2).widen(1))
+
+
+def _shfn_iv(u: Iv) -> Iv | None:
+    """`shfnIv`: the series branch of `sinh(u/2)/u`, valid on `|u| <= 2`."""
+    if -(2 * SO) <= u.lo and u.hi <= 2 * SO:
+        return _horner(SHFNL, u.divInt(2).sqr()).widen(1)
+    return None
+
+
+_SQ2 = Iv(SQ2N, SQ2N + 1)
+_HSQ2 = _SQ2.divInt(2)
+_SINC, _COSC = _sin_cos_small(_HSQ2)
+
+
+def _leaves(slo: F, shi: F, ylo: F, yhi: F) -> dict[str, Iv] | None:
+    """The leaves over the 2-D cell, computed the way the kernel computes them."""
+    def dn(x: F) -> int:
+        return (x * SO).__floor__()
+
+    def up(x: F) -> int:
+        return -((-(x * SO)).__floor__())
+
+    X = Iv(dn(slo), up(shi))
+    Y = Iv(dn(ylo), up(yhi))
+    sn, cs = _sin_cos_iv(X.divInt(2))
+    sh, ch = _sinh_cosh_small(Y.divInt(2))
+    shq = _shfn_iv(Y)
+    if shq is None:
+        return None
+    return {"X": X, "Y": Y, "sn": sn, "cs": cs, "sh": sh, "ch": ch,
+            "shq": shq, "SQ2": _SQ2, "SINC": _SINC, "COSC": _COSC}
 
 
 @dataclass(frozen=True)
@@ -194,6 +272,8 @@ class Field:
 def field_iv(slo: F, shi: F, ylo: F, yhi: F) -> Field | None:
     """`R = Qim/y` and `Qre` over the cell, in the kernel's arithmetic."""
     L = _leaves(slo, shi, ylo, yhi)
+    if L is None:
+        return None
     X, Y = L["X"], L["Y"]
     sn, cs, sh, ch, shq = L["sn"], L["cs"], L["sh"], L["ch"], L["shq"]
     C, S, r = L["COSC"], L["SINC"], L["SQ2"]

@@ -56,5 +56,73 @@ theorem o9_2_chunk13 : o9Walk2 (o9cells2.drop 520 |>.take 40) = true := by
   decide +kernel
 theorem o9_2_chunk14 : o9Walk2 (o9cells2.drop 560 |>.take 40) = true := by
   decide +kernel
+theorem o9_2_chunk15 : o9Walk2 (o9cells2.drop 600 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk16 : o9Walk2 (o9cells2.drop 640 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk17 : o9Walk2 (o9cells2.drop 680 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk18 : o9Walk2 (o9cells2.drop 720 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk19 : o9Walk2 (o9cells2.drop 760 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk20 : o9Walk2 (o9cells2.drop 800 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk21 : o9Walk2 (o9cells2.drop 840 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk22 : o9Walk2 (o9cells2.drop 880 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk23 : o9Walk2 (o9cells2.drop 920 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk24 : o9Walk2 (o9cells2.drop 960 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk25 : o9Walk2 (o9cells2.drop 1000 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk26 : o9Walk2 (o9cells2.drop 1040 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk27 : o9Walk2 (o9cells2.drop 1080 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk28 : o9Walk2 (o9cells2.drop 1120 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk29 : o9Walk2 (o9cells2.drop 1160 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk30 : o9Walk2 (o9cells2.drop 1200 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk31 : o9Walk2 (o9cells2.drop 1240 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk32 : o9Walk2 (o9cells2.drop 1280 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk33 : o9Walk2 (o9cells2.drop 1320 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk34 : o9Walk2 (o9cells2.drop 1360 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk35 : o9Walk2 (o9cells2.drop 1400 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk36 : o9Walk2 (o9cells2.drop 1440 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk37 : o9Walk2 (o9cells2.drop 1480 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk38 : o9Walk2 (o9cells2.drop 1520 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk39 : o9Walk2 (o9cells2.drop 1560 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk40 : o9Walk2 (o9cells2.drop 1600 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk41 : o9Walk2 (o9cells2.drop 1640 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk42 : o9Walk2 (o9cells2.drop 1680 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk43 : o9Walk2 (o9cells2.drop 1720 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk44 : o9Walk2 (o9cells2.drop 1760 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk45 : o9Walk2 (o9cells2.drop 1800 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk46 : o9Walk2 (o9cells2.drop 1840 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk47 : o9Walk2 (o9cells2.drop 1880 |>.take 40) = true := by
+  decide +kernel
+theorem o9_2_chunk48 : o9Walk2 (o9cells2.drop 1920 |>.take 40) = true := by
+  decide +kernel
 
 end Retention

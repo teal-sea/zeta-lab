@@ -190,22 +190,66 @@ def test_every_cell_decides(table):
     assert v["all_decided"]
 
 
-def test_margins_clear_the_leaf_caveat(table):
-    """No cell may be decided by the Arb-vs-Taylor leaf disagreement.
-
-    That disagreement is under `2^-60` (~16 ulp at the `2^-64` grid); the
-    smallest carrying margin here is ~`3.4e11` ulp.
-    """
+def test_margins_are_not_at_the_resolution_floor(table):
+    """No cell may be decided by a handful of ulp."""
     v = L.validate(table)
     assert v["min_margin_ulp"] >= L.MIN_MARGIN_ULP
     assert v["min_margin_ulp"] >= 1 << 30
 
 
+def test_leaves_reproduce_the_kernel_bit_for_bit():
+    """The leaves must be Lean's algorithm, not Arb rounded outward.
+
+    This is the regression guard for the defect that broke the first version
+    of this table: Arb encloses `sin` over a wide interval by its range, while
+    `Leaves.sinCosIv` reduces mod 2pi, quarters, evaluates a Taylor interval
+    and doubles twice -- and `dbl` squares, so width grows.  Predicting with
+    Arb was optimistic and 14 of 15 kernel chunks rejected the result.
+
+    The numbers on the right are `#eval` output from the Lean side, on the
+    first leaf of the table (`s in [5.6, 6.0603]`, `y in [0, 1/4]`).
+    """
+    slo, shi = 103301766812773489049, 111792803109901995659
+    ylo, yhi = 0, 4611686018427387904
+    lv = L._leaves(F(slo, SO), F(shi, SO), F(ylo, SO), F(yhi, SO))
+    assert lv is not None
+    assert lv["sn"].hi - lv["sn"].lo == 6745460439469300102
+    assert lv["cs"].hi - lv["cs"].lo == 10968483517214303660
+    assert lv["sh"].hi - lv["sh"].lo == 2311852501712101811
+    assert (lv["shq"].lo, lv["shq"].hi) == (9223372036854775807, 9247410006848407235)
+    f = L.field_iv(F(slo, SO), F(shi, SO), F(ylo, SO), F(yhi, SO))
+    assert f is not None
+    assert (f.R.lo, f.R.hi) == (-5985588334490985545, -1145147955005946551)
+    assert f.Qre.hi - f.Qre.lo == 4016879156219165848
+
+
+def test_arb_would_have_been_optimistic():
+    """The control that makes the test above non-vacuous.
+
+    Arb's enclosure of `sin` on this cell is strictly narrower than the
+    kernel's.  If it were not, the defect could not have happened and the
+    faithful mirror would be pointless machinery.
+    """
+    from flint import arb, ctx
+
+    ctx.prec = 300
+    lo, hi = 5.6 / 2, 6.0603 / 2
+    ball = arb((lo + hi) / 2, (hi - lo) / 2).sin()
+    arb_width = float(ball.upper()) - float(ball.lower())
+    kernel_width = 6745460439469300102 / SO
+    assert arb_width < kernel_width, "Arb is not narrower -- the premise is wrong"
+    assert kernel_width / arb_width > 1.4
+
+
 def test_table_size_is_pinned(table):
-    """598 leaves at depth 18 -- recorded so a regression is visible."""
+    """1939 leaves at depth 20 -- recorded so a regression is visible.
+
+    The Arb-based predecessor of this table said 598.  That number was wrong,
+    not merely loose: the kernel rejected it.
+    """
     v = L.validate(table)
-    assert v["cells"] == 598
-    assert v["max_depth"] == 18
+    assert v["cells"] == 1939
+    assert v["max_depth"] == 20
 
 
 def test_cells_tile_the_rectangle_exactly(table):

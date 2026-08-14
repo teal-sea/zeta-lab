@@ -189,21 +189,42 @@ Built by `o9_leaf2d.py` at the `O9-SCOPING.md` operating point (widening
 
 | | |
 |---|---|
-| leaves | **598** |
-| max depth | 18 |
+| leaves | **1939** |
+| max depth | 20 |
 | undecided | 0 |
-| smallest carrying margin | `1.85e-08` (`3.4e11` ulp) |
-| emitted size | 61.8 KB, 15 `decide +kernel` chunks |
+| smallest carrying margin | `1.05e-08` (`1.9e11` ulp) |
+| emitted size | 205 KB, 49 `decide +kernel` chunks |
 
-Nine leaves report zero margin under the obvious metric and are **not** close
-calls: each holds a zero of `Qre(0,·)`, where both sides of the general test
-vanish, and each is carried instead by `R² ≤ c` with `0.02 %`–`10 %` relative
-slack. `cell_verdict` reports whichever slack carries the cell.
+Leaves that hold a zero of `Qre(0,·)` report zero margin under the obvious
+metric and are **not** close calls: there both sides of the general test
+vanish, and the leaf is carried instead by `R² ≤ c`. `cell_verdict` reports
+whichever of the two slacks carries the cell.
 
-For scale: this is 598 leaves against the 1-D route's 344, so dropping the
-unproved depth-reduction lemma costs 254 extra leaves. `O9-SCOPING.md` §3
-predicted 389 for a 2-D route; that estimate was for a different decomposition
-and is 35 % low.
+### The leaf caveat was false, and the kernel caught it
+
+`o9_leaf.py`'s LEAF CAVEAT says its Arb leaves and `Leaves.lean`'s Taylor
+leaves "agree to well under `2^-60`", so a cell passing with margin is safe.
+**That is true for narrow intervals and false for wide ones**, because the two
+compute different things: Arb encloses `sin` over an interval by its *range*,
+while `sinCosIv` reduces mod `2π`, quarters, evaluates a 22-term Taylor
+interval and then applies `dbl` twice — and `dbl` squares an interval, so
+width grows. On the first cell of this table (`s ∈ [5.6, 6.0603]`) Arb gives
+`sin` width `0.224` against the kernel's `0.366`, a factor `1.63`.
+
+A first version of this table, built on Arb leaves, reported **598 leaves**
+with smallest margin `1.85e-08` — and `decide +kernel` **rejected 14 of its
+15 chunks**. The leaves in `o9_leaf2d.py` are now Lean's own algorithms in
+Lean's own integer arithmetic, checked bit-for-bit against `#eval` output
+(`test_leaves_reproduce_the_kernel_bit_for_bit`, with
+`test_arb_would_have_been_optimistic` as its control). There is no caveat left
+to state: the module computes what the kernel computes.
+
+The honest cost of that correction is `598 → 1939` leaves, and the honest cost
+of dropping the unproved depth-reduction lemma is `344 → 1939`.
+`O9-SCOPING.md` §3 predicted 389 for a 2-D route; that estimate used Arb
+leaves and is **5× low**. Its 1-D counterpart (`o9_leaf.py`, 344 cells) rests
+on the same false caveat and has never been put to the kernel; its count
+should be assumed low by a similar factor until it is.
 
 **Two new obligations replace O9, and neither is proved:**
 
