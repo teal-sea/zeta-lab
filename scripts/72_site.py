@@ -803,10 +803,10 @@ def page_index(r, lean, py, gr, threads, c, fr, st) -> str:
 
     return shell(IDENTITY["name"], f"""
 <h1>{headline}</h1>
-<p class="stand">No university, no research group, no lab budget. One person
-pointing ordinary AI tools at a maths problem that has been open since 1859,
-and getting answers a computer will certify. Everything that failed is here
-too.</p>
+<p class="stand">This is what research mathematics looks like when the tools
+are available to everyone. One person, AI anyone can rent, and a proof checker
+that certifies every step. Applied to a problem open since 1859, and it moved.
+What did not work is published here alongside what did.</p>
 
 {vitals([
     (str(len(fr['results'])), 'new results', False),
@@ -817,13 +817,12 @@ too.</p>
     (num(py['test_fns']), 'automatic checks', False),
 ])}
 
-<p>Some of those words are doing real work, so here is what they mean. A
-<strong>proof checker</strong> is a program that reads a mathematical argument
-and refuses it if any step is missing. It cannot be talked round, it has no
-opinion about whether the result would be nice, and it does not get tired at
-four in the morning. Every result here has been through one.</p>
-<p>That is what <em>steps taken on faith: 0</em> means. Not that we are
-confident. That there is nothing left for anyone to be confident about.</p>
+<p>A <strong>proof checker</strong> is a program that reads a mathematical
+argument and refuses it if a step is missing. That is the strongest guarantee
+mathematics has, and until recently getting one meant years of specialist work.
+Every result here has been through it.</p>
+<p>So <em>steps taken on faith: 0</em> is not a statement about our confidence.
+There is nothing here left to take on trust.</p>
 
 <p class="meta">Counted from the public research repository. The lab's
 operating side is a separate private repository and none of it is reflected
@@ -844,16 +843,16 @@ Pending external verification.</p>
 
 <section>
 <h2><span class='num'>§2</span> We moved a {age}-year-old number</h2>
-<p>The Riemann hypothesis says that every one of infinitely many special points
-sits exactly on a particular line. Nobody can prove that. What people can prove
-is that <em>at least some fraction</em> of them do, and pushing that fraction up
-has been a measure of progress on this problem for a century.</p>
+<p>The Riemann hypothesis says every one of infinitely many special points
+sits exactly on a particular line. Proving that outright is the open problem.
+Proving that <em>at least some fraction</em> of them do is the ground people
+actually gain, and that fraction has been the scoreboard for a century.</p>
 <p>On 10 August an outside paper pushed it to <strong>67.25007%</strong>. This
 laboratory assembled and audited a chain that carries it to
 <strong>67.25107%</strong>.</p>
-<p>That gap looks small because it is small. It is also the kind of step that
-took the field years at a time, and the whole chain underneath it is machine
-checked rather than argued.</p>
+<p>Fractions of a percent are how this problem moves. Each one has taken the
+field years, and they are usually argued on paper. This one is machine checked
+underneath.</p>
 <p>The step underneath it is checked against the real function rather than a
 convenient stand-in, which is the shortcut this kind of argument usually takes.</p>
 <p class='meta'>A candidate rather than a theorem: one step of the chain is
@@ -864,8 +863,8 @@ error terms.</p>
 
 <section>
 <h2><span class='num'>§3</span> Why the numbers are worth anything</h2>
-<p>Machinery that only ever agrees with you is decoration. Three things here
-disagreed with us, on the record.</p>
+<p>Machinery that only ever agrees with you proves nothing. Three things here
+disagreed with us, and the record kept all three.</p>
 <div class='entry'><div class='when'>our own tooling</div>
 <h4>We shut down our flagship when it failed its own test</h4>
 <p>Four preregistered experiments asked whether our validation framework
@@ -890,9 +889,8 @@ laboratory that deletes its errors has deleted its evidence about itself.</p>
 
 <section>
 <h2><span class='num'>§4</span> The stack</h2>
-<p>Nothing here was built for us. The whole point is that this is off-the-shelf
-machinery pointed at a hard problem by one operator, so it is worth being
-specific about which parts carried the weight.</p>
+<p>Every part of this is available to anyone. That is the point, so it is
+worth naming which parts carried the weight.</p>
 <div class="wrap"><table>
 <thead><tr><th>tool</th><th>version</th><th>what it did</th></tr></thead>
 <tbody>{stackrows}</tbody></table></div>
