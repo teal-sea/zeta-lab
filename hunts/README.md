@@ -70,6 +70,32 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #12 — Hardy–Ramanujan, and the lemma Mathlib does not have (`r_0339c1/`)
+
+**Status: not settled, and the wall is named. The Hardy–Ramanujan theorem is
+not proved. Turán's Chebyshev half is kernel-checked as an implication with
+zero `sorry`s, the unconditional first step of the other half is kernel-checked
+outright, and the remaining half stops at a specific library absence: Mathlib
+v4.33.0-rc2 has no Mertens second theorem.**
+
+The target was Wikidata Q5656674, which Mathlib records as wanted and unbuilt.
+`lean/ZetaLean/HardyRamanujantheorem.lean` states the density form as a `Prop`,
+proves `sum_omega_eq_sum_div` (`∑_{n ≤ N} ω n = ∑_{p ≤ N} ⌊N/p⌋`, by double
+counting, unconditional) and proves `hardyRamanujan_of_turanVariance`, which is
+the whole Chebyshev step. `TuranVariance` is a hypothesis in that file and not
+a theorem, so the implication is a reduction and the file's own docstring says
+it does not contain the theorem. `lake build` printed
+`✔ [8697/8697] Built ZetaLean.HardyRamanujantheorem`; all four results depend
+only on `propext`, `Classical.choice`, `Quot.sound`.
+
+The obstruction is `∑_{p ≤ x} 1/p = log log x + O(1)`. Mathlib has the
+*divergence* of `∑ 1/p` (`not_summable_one_div_on_primes`) and nothing with a
+rate, and `grep -rln "Mertens"` over the pinned checkout hits one unrelated
+file. Two incidental traps for the next attempt: `NumberTheory/Chebyshev.lean`
+is about Chebyshev polynomials, not prime bounds, and `NumberTheory/AbelSummation.lean`
+supplies the machinery Mertens is normally derived through while the derivation
+itself is absent. Nothing here bears on ζ or RH.
+
 ### Hunt #9 — how much power a guard has (`r_414eed/`)
 
 **Status: probe, complete. `scripts/make_context.py --check` caught 17/17
