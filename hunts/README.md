@@ -87,6 +87,23 @@ written to. **Disposition:** guard ledger entry amended from `fired=None` to
 (`harness/departments/guard_ledger.py`, run `fd5fd902`). Nothing here bears on
 ζ or RH — it measures a repository hygiene script.
 
+### Hunt #11: what the hunt lexical guard actually reads (`r_03a798/`)
+
+**Status: settled. The guard matches one literal substring, case-insensitively,
+and everything outside it passes.**
+
+The attention item that opened this hunt asserted that
+`test_no_hunt_claims_the_reserved_word` misses synonyms, and that *verified*,
+*confirmed*, *definitively* and *proves* are caught "by other checks". The hunt
+measures both halves and reports the first as true and the second as false:
+those other checks do not exist. It copies the guard **unmodified** into a
+sandbox repo root and runs it against one planted specimen at a time, so each
+verdict is the guard's own exit status rather than a re-implementation, with an
+empty-specimen control green so a failure is attributable to the specimen.
+
+Reproduce: `python hunts/r_03a798/probe.py` (~40 s, no mpmath, no network).
+Data: `results.json`.
+
 ### Hunt #10 — what the doors guard actually catches (`r_cb5ffe/`)
 
 **Status: probe, complete. The guard's power is measured at 5/10 against a
