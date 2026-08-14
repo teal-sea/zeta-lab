@@ -1,9 +1,10 @@
 """One number, stated in four places, that must not drift apart.
 
 The candidate reading of the two-thirds constant is quoted on the public front
-page, in `docs/27`, on the hunt's own start page, and as a percentage on the
-generated site. On 2026-08-13 three of those said `0.6725106958` and the fourth
-said `0.6725087070`, for eleven hours, in public.
+page, in `docs/27`, and on the hunt's own start page. It is also printed as a
+percentage by the site generator, which lives in another repository and carries
+this same check there. On 2026-08-13 three of those said `0.6725106958` and the
+fourth said `0.6725087070`, for eleven hours, in public.
 
 Nothing had gone wrong with the mathematics. `PROOF-LEDGER.md` revised the
 reading downward pending burden (a), then burden (a) landed and the reading
@@ -78,20 +79,4 @@ def test_every_page_quotes_the_ledger_s_current_reading(rel: Path) -> None:
         f"{rel.as_posix()} does not state the current reading of record "
         f"{reading}. If the ledger moved, this file did not move with it, and "
         f"it is published."
-    )
-
-
-def test_the_site_percentage_matches_the_reading() -> None:
-    """The site renders the reading as a percentage, and types it in by hand.
-
-    Every other number on that page is derived from an artifact. This one is
-    prose, so it gets a test instead: whatever percentage the generator prints,
-    it must be the ledger's reading rounded to five decimal places.
-    """
-    reading = _reading_of_record()
-    expected = f"{round(float(reading) * 100, 5):.5f}%"
-    source = (REPO / "scripts" / "72_site.py").read_text(errors="ignore")
-    assert expected in source, (
-        f"the site does not print {expected}, which is the ledger's reading "
-        f"{reading} as a percentage"
     )

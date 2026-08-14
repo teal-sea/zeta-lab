@@ -1258,17 +1258,15 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/60_rung3_generate.py` — Generate the rung-3 certificate Lean files from a plan JSON.
 - `scripts/61_rung3_mirror.py` — Bit-exact Fraction mirror of the ZetaLean rational interval arithmetic.
 - `scripts/70_lab_state.py` — 70_lab_state.py — the read-only research-state view, rendered from artifacts.
-- `scripts/72_site.py` — 72_site.py: the public reading surface, generated from repository artifacts.
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/mathlib_gaps.py` — Which of Mathlib's 1000 famous theorems are still unformalized.
 - `scripts/science_preflight.py` — Preflight for a session running this lab from an outside environment.
-- `scripts/build_site.sh` — Build the public reading surface for a host, with history the counts need.
 - `scripts/ledger_sync.sh` — Sync the private discovery ledger between machines.
 
 ## Tests (`tests/`)
 
-1783 test functions across 68 files (the collected count differs where tests are parametrised):
+1768 test functions across 68 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_claim_attribution.py` — 6
@@ -1317,7 +1315,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_plots.py` — 13
 - `tests/test_proof_adapter.py` — 10
 - `tests/test_quasicrystal.py` — 9
-- `tests/test_reading_of_record.py` — 3
+- `tests/test_reading_of_record.py` — 2
 - `tests/test_relations.py` — 7
 - `tests/test_repo_hygiene.py` — 7
 - `tests/test_review.py` — 11
@@ -1329,7 +1327,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_scout_online.py` — 15
 - `tests/test_script_13_discovery_run.py` — 33
 - `tests/test_script_14_moment_experiment.py` — 26
-- `tests/test_site.py` — 15
+- `tests/test_site.py` — 1
 - `tests/test_spectral_gate.py` — 14
 - `tests/test_statistics.py` — 54
 - `tests/test_surrogate.py` — 23

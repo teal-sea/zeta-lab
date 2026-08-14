@@ -317,9 +317,9 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   pages. It does **not** license repunctuating quoted material — a ledger
   entry, a document blurb, an adversary's recorded findings — because editing
   someone's recorded words to satisfy a style rule is editing evidence.
-  `tests/test_site.py` enforces exactly that split for the public pages: the
-  em dash count on a rendered page may not exceed the count in the artifacts it
-  quotes.
+  The site generator enforces exactly that split for the public pages, in the
+  repository it now lives in: the em dash count on a rendered page may not
+  exceed the count in the artifacts it quotes.
 - **Derive conventions, never remember them.** Where the literature disagrees
   on factor placement or a constant, the repo calibrates numerically and
   cross-checks: the Riemann–Weil explicit-formula convention in `zeta/weil.py`

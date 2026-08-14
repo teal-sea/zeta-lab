@@ -8,9 +8,10 @@ docstring is pinned by a test, identities are exposed as measured *defect*
 functions rather than assumed, and the Lean arm is checked by a proof kernel.
 
 The public reading surface is <https://zeta.teal-sea.com>: what has been
-established, what is still a candidate, and what was withdrawn. It is generated
-from this repository by `scripts/72_site.py` and rebuilt on every push, so it
-cannot quietly disagree with the tree it describes.
+established, what is still a candidate, and what was withdrawn. Every figure on
+it is derived from this tree at build time rather than typed in, so it cannot
+quietly disagree with the repository it describes. Its generator lives in a
+separate repository; this one holds the record, not the presentation of it.
 
 ---
 
