@@ -225,6 +225,9 @@ def confirm() -> int:
         print(block["runs"][-1], flush=True)
     counts = {r["count"] for r in block["runs"] if r["count"] is not None}
     block["stable"] = counts == {0}
+    # Re-read immediately before writing: `main()` may have appended cells
+    # while this was running, and the copy loaded at entry is stale.
+    results = json.loads(OUT.read_text())
     results.setdefault("robustness", []).append(block)
     OUT.write_text(json.dumps(results, indent=2) + "\n")
     return 0

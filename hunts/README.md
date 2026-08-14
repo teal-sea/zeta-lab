@@ -87,6 +87,28 @@ written to. **Disposition:** guard ledger entry amended from `fired=None` to
 (`harness/departments/guard_ledger.py`, run `fd5fd902`). Nothing here bears on
 ζ or RH — it measures a repository hygiene script.
 
+### Hunt #13 — the box that was chosen to lose (`gate5_p6_a/`)
+
+**Status: settled, and the property it settles is one the battery should stop
+carrying.** Gate #3 battery property 6, "in a box strictly off the critical
+line, the completed function has no zeros", is **VACUOUS**. The box was fixed
+and committed one commit *before* `probe.py` existed, and it was chosen
+adversarially: `sigma in [0.70, 0.92]`, `t in [85.55, 85.85]` is the one region
+in this repository where a rival is known in advance to have an off-line zero
+(the pinned Davenport-Heilbronn zero at `0.808517... + 85.699348...i`), and so
+the box most favourable to a DISTINGUISHES verdict. It lost anyway: the Epstein
+zeta of the non-principal discriminant -23 form has **0** zeros there and
+satisfies the property exactly as `xi` does. **Disposition:** the larger finding
+is that property 6 is not well posed as a gate input, because a second box at
+`t in [70.10, 70.40]` gives the Davenport-Heilbronn function the *opposite*
+answer. Property 6 is a property of a (function, box) pair; quantified over all
+boxes its zeta column is RH restricted to a region and so unknowable, and
+instantiated on any affordable box it is vacuous. A box-free replacement is
+proposed in `RESULTS.md` (`no zeros in Re s > 1`), with the caveat that it
+distinguishes only by restating the Euler product. Measured, float grade, one
+resolution: the planned reconfirmation at halved step did not finish inside its
+cap, and three of eight cells are recorded gaps. Nothing here bears on RH.
+
 ### Hunt #11: what the hunt lexical guard actually reads (`r_03a798/`)
 
 **Status: settled. The guard matches one literal substring, case-insensitively,

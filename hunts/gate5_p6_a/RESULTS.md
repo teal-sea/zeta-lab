@@ -45,8 +45,12 @@ argument principle.
 | --- | --- | --- | --- |
 | `riemann_zeta` (xi) | 0 | 0.02 | satisfies P6 |
 | `davenport_heilbronn` | **0** | 0.24 | **satisfies P6** |
-| `epstein_2_1_3` | see `results.json` | | |
-| `epstein_1_1_6` | see `results.json` | | |
+| `epstein_2_1_3` | not finished | 420 (cap) | recorded gap |
+| `epstein_1_1_6` | not finished | 420 (cap) | recorded gap |
+
+Box B is settled too, and by its second row: the Davenport-Heilbronn function
+satisfies property 6 here. Its two Epstein cells did not finish, and cannot
+change that.
 
 Controls, both run and reported before the verdict was read:
 
@@ -57,11 +61,18 @@ Controls, both run and reported before the verdict was read:
   **1**, matching the zero pinned inside it. That column was known before the
   run, which is exactly why it is a control and not evidence.
 
-Robustness of the one cell the verdict rests on: `epstein_2_1_3` on box A was
-re-counted at halved and quartered forced-subdivision length
-(`probe.py --confirm`); see the `robustness` block of `results.json`.
-`count_zeros_box` independently refuses any contour whose winding residual
-exceeds `1e-6`, so an under-resolved edge raises rather than rounds to zero.
+**Robustness of the one cell the verdict rests on, and it did not deliver.**
+`epstein_2_1_3` on box A was re-counted at halved and quartered
+forced-subdivision length (`probe.py --confirm`). **Both re-counts hit the
+420 s cap**, on a box the same function completed in 29 s at the default step.
+So the decisive count of 0 was *not* independently reconfirmed at finer
+resolution, and this write-up does not claim it was.
+
+What did hold is the routine's own guard, which is not nothing: the default
+step already forces every boundary segment under about 1/8 of a phase turn
+*before* the adaptive refinement runs, and `count_zeros_box` raises rather than
+rounds if the accumulated winding lands further than `1e-6` from an integer.
+The count of 0 passed that. Read the verdict at that strength, not higher.
 
 ## Reading it
 
@@ -135,17 +146,27 @@ saying so is more useful than banking a DISTINGUISHES.
 
 ## What I could not settle
 
-- **`epstein_1_1_6` on box A** did not finish inside its 420 s cap and is
-  recorded as a gap. It does not affect the verdict (one survivor already
-  settles it), but the asymmetry is itself a measurement: the principal form
-  `(1,1,6)` is far more expensive to evaluate than the non-principal `(2,1,3)`,
-  which finished the same box in 29 s. More than a 14x cost ratio on the same
-  contour, from the same code path.
+- **Three of the eight cells did not finish** inside their 420 s caps
+  (`epstein_1_1_6` on box A, both Epstein cells on box B) and are recorded as
+  gaps. None of them affects either verdict, since one survivor settles a box.
+  The single-point cost probe puts the two Epstein functions at about 1 s per
+  evaluation against 0.0099 s for `completed_dh` and 0.0009 s for `xi`, so the
+  Epstein contour work is roughly **100x** the Davenport-Heilbronn contour work
+  and **1000x** the zeta contour work. That ratio, not the box, is what makes
+  this question expensive.
+- **The decisive cell was not reconfirmed at finer resolution**, as above. A
+  count that cannot be re-run at half the step inside seven minutes is a count
+  with one route and one resolution behind it.
 - **The rivals' half of the proposed well posed version was not verified here.**
   Box C (`sigma in [1.02, 1.60]`, `t in [0.50, 50.50]`) was fixed in advance for
-  exactly that purpose and gated on a measured cost projection; see the
-  `cost_probe` block of `results.json` for whether it was affordable and what it
-  returned. Finding an explicit zero with `Re s > 1` for each of the three
+  exactly that purpose and gated on a measured cost projection. The gate said
+  no, on numbers: the measured per-evaluation cost is 0.0009 s for `xi`, 0.0099 s
+  for `completed_dh`, 0.9895 s for `epstein_2_1_3` and 1.0154 s for
+  `epstein_1_1_6`, and box C forces about 747 boundary segments, projecting
+  2.7 s and 29.6 s for the first two against **2957.7 s and 3035.1 s** for the
+  two Epstein functions. So box C was not attempted. That is the preregistered
+  cost rule doing its job rather than a result. Finding an explicit zero with
+  `Re s > 1` for each of the three
   rivals would upgrade the proposal from "quoted theorem" to "quoted theorem
   plus a witness in this tree", which is what this repository normally requires
   of a claim it leans on.
@@ -165,10 +186,17 @@ saying so is more useful than banking a DISTINGUISHES.
   poles at `s = -1, -3, -5, ...`, and a box reaching into `Re s < 0` would count
   different things in different columns. This probe used `completed_dh`
   explicitly to keep the four columns identical. Worth an issue.
-- **The `(1,1,6)` evaluation cost.** A 14x-plus gap between the principal and
-  non-principal forms of the same discriminant, on the same contour, is either a
-  real property of the theta-series split in `epstein_completed` or a slow path
-  worth finding. It is the reason one cell of this table is empty.
+- **Where the Epstein contour cost actually goes.** The two forms cost the same
+  *per evaluation* (0.9895 s and 1.0154 s at `1.3 + 25i`), yet `(2,1,3)` finished
+  box A in 29 s while `(1,1,6)` did not finish in 420 s, and halving the step for
+  `(2,1,3)` on the same box turned 29 s into a cap hit. Since the forced
+  subdivision count is identical for both, the blowup is in the *adaptive*
+  refinement of `_arg_variation`, which means the phase of `epstein_completed`
+  is turning much faster along those edges than the step heuristic assumes. That
+  heuristic is derived from the phase-turn rate of the Davenport-Heilbronn
+  function and is simply the wrong scale for an Epstein zeta. A step matched to
+  the Epstein density would probably make all three unfinished cells cheap, and
+  it is the single change most likely to make this question affordable.
 - **Where the Davenport-Heilbronn zeros with `Re s > 1` actually are.** Spira
   1994 computed off-line zeros of the Davenport-Heilbronn function; this tree
   pins exactly one, at `Re = 0.8085`, which is not in `Re s > 1`. A witness in
