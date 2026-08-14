@@ -39,6 +39,23 @@ from typing import Any
 
 REPO = Path(__file__).resolve().parent.parent
 
+#: Directory names holding vendored or generated code rather than ours.
+#: `hunts/frontier_math/zeta23ext` is a Lean package, and building it drops
+#: Mathlib's entire source tree inside `hunts/`. A bare `rglob("*.lean")` then
+#: counts **124,719 Mathlib theorems and 89 Mathlib sorrys** as this
+#: laboratory's output -- an inflation of roughly 370x on the headline number
+#: this site exists to report. It does not happen on a fresh clone only
+#: because nobody has run `lake build` there yet.
+_VENDORED = {".lake", ".git", "__pycache__", ".venv", "node_modules"}
+
+
+def lean_sources(root: Path) -> list[Path]:
+    """Every `.lean` file under `root` that this repository actually wrote."""
+    return sorted(
+        p for p in root.rglob("*.lean")
+        if not any(part in _VENDORED for part in p.parts)
+    )
+
 # --------------------------------------------------------------------------
 # The only place the parent identity appears. One string, so a rename is one
 # edit rather than a sweep. The name is not a placeholder this script invented:
@@ -98,7 +115,7 @@ def lean_arm() -> dict[str, Any]:
     root = REPO / "lean" / "ZetaLean"
     mods: list[dict[str, Any]] = []
     tot = {"theorems": 0, "lemmas": 0, "defs": 0, "sorrys": 0, "lines": 0}
-    for p in sorted(root.rglob("*.lean")):
+    for p in lean_sources(root):
         text = p.read_text(errors="ignore")
         thm = len(re.findall(r"^\s*theorem\b", text, re.M))
         lem = len(re.findall(r"^\s*lemma\b", text, re.M))
@@ -365,7 +382,7 @@ def frontier():
     """
     root = REPO / "hunts" / "frontier_math"
     thm = lem = sry = lines = 0
-    files = sorted(root.rglob("*.lean"))
+    files = lean_sources(root)
     for f in files:
         t = f.read_text(errors="ignore")
         thm += len(re.findall(r"^\s*theorem\b", t, re.M))

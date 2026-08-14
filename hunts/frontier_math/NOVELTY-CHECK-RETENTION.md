@@ -32,8 +32,8 @@ Zeta23Ext/EForm3/Main.lean:84   theorem retention_separated_of_le  (hypothesis h
 Zeta23Ext/EForm3/Main.lean:105  theorem retention_le_three         (hypothesis n <= 3)
 ```
 
-The upstream pin — `anthropics/zeta-23-lean` @ `3635e74`, the paper's own
-complete `sorry`-free formalisation of Theorems A-E, 316 Lean files — contains
+The upstream pin, `anthropics/zeta-23-lean` @ `3635e74`, the paper's own
+complete `sorry`-free formalisation of Theorems A-E, 316 Lean files, contains
 **no occurrence of `retention`, `Eng`, `Kpair` or `Dam`**. The energy
 functional `Eng`, the pair kernel `Kpair`, the damage `Dam` and every
 `retention_*` lemma are defined in `Zeta23Ext/EForm3/Defs.lean` and
@@ -59,7 +59,7 @@ That is the weakest form of novelty there is, and it is not what a reader means
 by the word.
 
 **On significance.** The route exists to improve the constant, and improving
-the constant needs the multi-pair quantifier `k >= 2`, which is open — three
+the constant needs the multi-pair quantifier `k >= 2`, which is open, three
 separate approaches to it were eliminated on 2026-08-13 (`K2-ROUTE.md`).
 Without `k >= 2` the inequality has no downstream consequence: the constant is
 unchanged and nothing else in the tree depends on it.
@@ -74,8 +74,8 @@ unfinished.
 
 Two things, and they are not the theorem:
 
-1. **The formalisation is real and checkable.** O9 — a two-variable
-   interval-arithmetic bound over `[28/5, 60] x [0, 1/2]` — went from never
+1. **The formalisation is real and checkable.** O9, a two-variable
+   interval-arithmetic bound over `[28/5, 60] x [0, 1/2]`, went from never
    having been compiled to `decide +kernel` on 699 cells with no `sorry`, no
    `native_decide` and no added axiom, in a day.
 2. **The first table was false and this laboratory is what found out.** The
@@ -96,3 +96,31 @@ This file assesses novelty and consequence. It does not assess correctness:
 the `k = 1` inequality is at hardened grade by four instruments plus an exact
 rational certificate, and O9 beneath it is kernel-checked. Nothing here
 disputes either. Nothing here moves the constant.
+
+## 6. Reconciling this with the director's ruling of the same day
+
+`CLAUDE.md` now separates two claims that this file could be read as
+collapsing. They are different axes and the `k = 1` result sits differently on
+each:
+
+* **Original** (provenance: did this laboratory produce it?): **Yes**, and
+  the ruling says say so. The route, the functional, the inequality and the
+  formalisation are this tree's work, answerable from the git history. O9
+  beneath it is an original kernel-checked result and should be called one.
+* **Novel** (does the world already have it?): weak, *by construction*
+  rather than by defeat. Nobody holds this statement because the objects are
+  ours; there is no prior art to lose to, and none to claim victory over.
+* **Consequential** (does anything follow?): not yet, and this is the axis
+  that matters for a public claim. The route exists to move the constant and
+  the constant needs `k >= 2`.
+
+The ruling also says a search that was run should say what it found rather
+than defaulting to "unsearched". This file is that record: the upstream pin
+was read directly and the paper's formalisation carries none of the machinery.
+That is an engaged prior-art check with a definite answer, not an absent one.
+
+So the correction this file makes is narrow and it is not "the result is
+worthless". It is that **"strictly stronger than what the tree carries" must
+not be read as a comparison with the literature**, and that a public claim
+should lead with what the laboratory produced and what grade it sits at,
+rather than with an implied priority contest it never entered.

@@ -2,7 +2,7 @@
 
 > **READ §0 FIRST.** The Lean arm was built for the first time on 2026-08-13,
 > and it refutes the O9 leaf table that this repository has been generating.
-> Every cell count below — including this file's own 339 — is a statement
+> Every cell count below, including this file's own 339, is a statement
 > about a *Python model* of the kernel's arithmetic, and that model is now
 > measured to be wrong in the optimistic direction.
 
@@ -21,12 +21,12 @@ is false
 
 Refuted: offsets 0, 40, 80, 120, 160, 240, 320. Passing: 200, 280.
 Whole target elaborates in ~22 s, so **kernel reduction at this table size is
-not the bottleneck** — `O9-SCOPING.md` §4.4 named that as "the real risk", and
+not the bottleneck**, `O9-SCOPING.md` §4.4 named that as "the real risk", and
 it is not the risk. The table is simply false as generated.
 
 `o9_leaf.py` predicted the opposite: 344 of 344 cells decided, minimum margin
 `3.6e9` ulp. The gap between that prediction and the kernel's verdict is the
-**LEAF CAVEAT** stated in `o9_leaf.py`'s own docstring — the transcendental
+**LEAF CAVEAT** stated in `o9_leaf.py`'s own docstring, the transcendental
 leaves (`sin`, `cos`, `sinh`, `cosh`, `√2`) are computed there with Arb at 300
 bits and rounded outward onto the `2^-64` grid, whereas `Leaves.lean` builds
 them from truncated series with `EIv.widen` and, for `|s|` up to 60, an
@@ -113,7 +113,7 @@ def shcSmall (a : EIv) : EIv := EIv.widen (hornerI sinhL (EIv.sqr a)) 1
 ```
 
 with `hornerI_mem sinhL sinhL_pos` supplying the series side already. What is
-genuinely new is only its truncation lemma — the analogue of `sinh_taylor` for
+genuinely new is only its truncation lemma, the analogue of `sinh_taylor` for
 `sinh v / v` rather than `sinh v`, which cannot be borrowed because
 `sinh_taylor`'s bound divided by `|v|` blows up exactly where this branch is
 used.
@@ -144,7 +144,7 @@ grep -rn "O9Check\|O9Data\|O9Damage" Zeta23Ext.lean Zeta23Ext/ | grep -v EForm3/
 `lakefile.toml` sets `defaultTargets = ["Zeta23Ext"]`, so `lake build` never
 elaborates any of them. This matters more than it looks: a green `lake build`
 on this package would say **nothing whatever** about the O9 table, and the
-natural reading of a green build — "the staged work compiles" — would be wrong
+natural reading of a green build, "the staged work compiles", would be wrong
 about the one obligation `RETENTION-PROBLEM.md` §4 calls "the only real work".
 
 Whichever route lands, the file has to be imported by `EForm3/Main.lean` (or
@@ -174,5 +174,5 @@ This lands a generator and a pre-validated table. It does **not** land a Lean
 file: the checker needs `shcSmall`, its truncation lemma, the `y = 0` split of
 §4, and the `rIv`/`qreIv` compositions with their `_mem` seams, none of which
 is written. Nothing here is kernel-checked. O9 remains open, the `k = 1` chain
-remains at hardened grade, and `k >= 2` — the actual open mathematics — is
+remains at hardened grade, and `k >= 2`, the actual open mathematics, is
 untouched. Nothing here is evidence about RH.

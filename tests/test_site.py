@@ -13,6 +13,7 @@ Stdlib + pytest only.
 
 from __future__ import annotations
 
+import importlib.util
 import re
 import subprocess
 import sys
@@ -21,6 +22,18 @@ from pathlib import Path
 import pytest
 
 REPO = Path(__file__).resolve().parents[1]
+
+# The `.lake` exclusion lives in the generator, and is imported rather than
+# restated so the page and its test can never disagree about what counts as
+# this repository's own Lean. Restating it is how the two drift apart, and a
+# drifted count renders exactly as confidently as a correct one.
+_spec = importlib.util.spec_from_file_location(
+    "site_gen", REPO / "scripts" / "72_site.py"
+)
+_site_gen = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_site_gen)
+lean_sources = _site_gen.lean_sources
+
 SITE = REPO / "scripts" / "72_site.py"
 
 
@@ -95,7 +108,7 @@ def test_the_facts_come_from_artifacts_not_literals(built: Path) -> None:
     as confidently as a correct one, which is the whole failure mode a
     generated page exists to prevent.
     """
-    lean_files = sorted((REPO / "lean" / "ZetaLean").rglob("*.lean"))
+    lean_files = lean_sources(REPO / "lean" / "ZetaLean")
     src = "\n".join(p.read_text(errors="ignore") for p in lean_files)
     thms = len(re.findall(r"^\s*theorem\b", src, re.M))
     lems = len(re.findall(r"^\s*lemma\b", src, re.M))
@@ -117,7 +130,7 @@ def test_the_facts_come_from_artifacts_not_literals(built: Path) -> None:
     # if it were output, so the total is checked here against both trees.
     frontier_src = "\n".join(
         p.read_text(errors="ignore")
-        for p in sorted((REPO / "hunts" / "frontier_math").rglob("*.lean"))
+        for p in lean_sources(REPO / "hunts" / "frontier_math")
     )
     f_thms = len(re.findall(r"^\s*theorem\b", frontier_src, re.M))
     f_lems = len(re.findall(r"^\s*lemma\b", frontier_src, re.M))
@@ -307,3 +320,30 @@ def test_the_host_build_needs_no_scientific_stack() -> None:
 
         shutil.rmtree(stub, ignore_errors=True)
         shutil.rmtree(REPO / "tests" / "_no_deps_out", ignore_errors=True)
+
+
+def test_vendored_lean_is_not_counted_as_our_own() -> None:
+    """The headline number must not include Mathlib.
+
+    `hunts/frontier_math/zeta23ext` is a Lean package; building it drops
+    Mathlib's whole source tree under `hunts/`. Before this exclusion a bare
+    `rglob("*.lean")` there saw 9,833 vendored files against 63 of ours,
+    carrying 124,719 theorems and 89 sorrys, an inflation of roughly 370x on
+    the count this site exists to report. It passed on a fresh clone only
+    because nobody had run `lake build` yet, so the failure would have arrived
+    the first time anyone did.
+
+    Both directions are pinned: vendored trees are skipped, and our own files
+    are still found.
+    """
+    root = REPO / "hunts" / "frontier_math"
+    ours = lean_sources(root)
+    assert ours, "the scan must still find this repository's own Lean"
+    assert all(".lake" not in p.parts for p in ours)
+
+    lake = root / "zeta23ext" / ".lake"
+    if lake.is_dir():
+        everything = sorted(root.rglob("*.lean"))
+        assert len(everything) > len(ours), (
+            "a built tree is present, so the exclusion must be doing work"
+        )

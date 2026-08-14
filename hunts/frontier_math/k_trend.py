@@ -26,14 +26,14 @@ made with `ks=(1,2,3,4,6)`.  The numbers are seed-stable only for the exact
 ## What a better-resourced search finds
 
 The stock annealer varies `n` by add/remove moves, and past `k >= 12` it
-collapses to `n = 1` — it strips the atoms rather than finding a bad
+collapses to `n = 1`, it strips the atoms rather than finding a bad
 configuration, and then reports a *high* margin because damage has nowhere to
 act.  Holding `n` fixed, seeding depths on the corners and raising the
 iteration count from 6 000 to 25 000 removes that failure mode:
 
 | k | 4 | 6 | 8 | 12 | 16 | 24 |
 |---|---|---|---|---|---|---|
-| stock, `n` free | — | — | — | `n=1`, junk | `n=1`, junk | `n=1`, junk |
+| stock, `n` free | - |, | - | `n=1`, junk | `n=1`, junk | `n=1`, junk |
 | fixed `n`, 25k iters | +0.3959 | **+0.2973** | +0.2840 | **+0.2305** | +0.2365 | +0.2533 |
 
 Neither search dominates: at `k = 4` the stock search finds `+0.3430` and this
@@ -45,7 +45,7 @@ best-known worst at each `k` is the minimum over both.
 **"No downward trend in `k`" does not survive extension past `k = 6`.**
 Best-known worst falls from `+0.3430` at `k = 4` to `+0.2305` at `k = 12`,
 then flattens around `0.23 .. 0.25` through `k = 24`.  The flattening is not
-established — it is equally consistent with the search weakening as `k` grows.
+established, it is equally consistent with the search weakening as `k` grows.
 
 **The margin has not crossed zero anywhere tested**, so `k >= 2` is not
 falsified.  What changes is the headline: the number to quote is not `+0.343`

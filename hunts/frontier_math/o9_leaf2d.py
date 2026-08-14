@@ -199,7 +199,7 @@ def leaves2d(s_lo: F, s_hi: F, y_lo: F, y_hi: F) -> dict:
 
 
 def leaves2d_arb(s_lo: F, s_hi: F, y_lo: F, y_hi: F) -> dict:
-    """The superseded Arb-plus-pad leaves — kept only to measure the gap.
+    """The superseded Arb-plus-pad leaves, kept only to measure the gap.
 
     Retained because "the model was too narrow" is a claim that should stay
     measurable rather than becoming folklore.  Not for generating tables.

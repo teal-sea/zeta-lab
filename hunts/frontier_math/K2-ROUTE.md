@@ -68,7 +68,7 @@ on the atoms `X`.** Spread the centres and `D(., tau) -> 0`, so the left side
 goes to zero while `R(X)` is untouched and can be large.
 
 The escape "use only a fraction `lambda` of `R` per pair" needs `lambda <= 1/k`,
-i.e. a `k = 1` bound that is asymptotically repulsion-free — and
+i.e. a `k = 1` bound that is asymptotically repulsion-free, and
 `PROOF-LEDGER.md` already records that the repulsion-free route is
 "arithmetically dead, not merely lossy".
 
@@ -81,11 +81,11 @@ one-line proof rather than a measurement behind it.
 Any proof of (Q) has to be genuinely joint in `X` and `T`. The two adversary
 routes both pay, and a proof has to make that quantitative in one argument:
 
-* **Spread the centres** so every pair sees atoms at a damage peak — but only
+* **Spread the centres** so every pair sees atoms at a damage peak, but only
   two positions carry the top peak (`+/- 6.517`) and the rest decay like
   `1/s^2`, so `damage/gain` falls (measured `1.0420` at `k = 2`, `0.2483` at
   `k = 12`).
-* **Stack the centres** to keep `damage/k` maximal — but coincident centres
+* **Stack the centres** to keep `damage/k` maximal, but coincident centres
   contribute `D(2y,0) + D(0,0)`, which enters with a minus sign and is a
   *gain* of `1.7556` per ordered pair.
 
@@ -116,7 +116,7 @@ Three things this says, none of them obvious from the identity:
 1. **The cross term is a cost, not a gain, at every binding configuration**,
    and by `k = 12` it is comparable to the damage (`-0.102` against `0.142`).
    The `+1.7556`-per-ordered-pair *gain* from coincident centres is real but
-   the adversary does not take it — stacking buys relief it does not want.
+   the adversary does not take it, stacking buys relief it does not want.
 2. **Incidence is not limited.** One atom sits inside the damage window of
    10 of the 12 pairs at `k = 12`. Whatever "at most one pair per damage
    window" bounds, it is not this, so the damage side scales with `k`
@@ -124,7 +124,7 @@ Three things this says, none of them obvious from the identity:
 3. **Everything scales linearly in `k`.** `cross/k` runs `0.0092, 0.0072,
    0.0065, 0.0085`; gain and damage likewise. That is *why* the relative
    margin stabilises instead of collapsing, and it means an argument has to
-   be linear in `k` too — anything that loses a factor of `k` cannot work.
+   be linear in `k` too, anything that loses a factor of `k` cannot work.
 
 ## 6. Repulsion cannot be dropped (confirming the ledger independently)
 
@@ -156,13 +156,13 @@ The saved `k = 12` witness (`k_trend.WITNESS_K12`) has centre gaps
     12.904  18.789
 
 and dividing by `2*pi` gives `5.977, 20.995, 7.010, 2.010, 0.991, 0.992,
-2.038, 0.992, 0.993, 2.054, 2.990` — every one within 2..5% of an integer.
+2.038, 0.992, 0.993, 2.054, 2.990`, every one within 2..5% of an integer.
 The atoms show the same thing, in clusters of near-coincident points separated
 by multiples of the same step.
 
 That is not decoration. The nine damage windows sit at `6.5167, 12.6988,
 18.9400, ...`, whose successive gaps run `6.182, 6.241, 6.260, 6.270, 6.274,
-6.277, 6.279, 6.279` — converging to `2*pi`. The adversary needs its atoms
+6.277, 6.279, 6.279`, converging to `2*pi`. The adversary needs its atoms
 inside the damage windows of as many pairs at once as possible, and the window
 spacing *is* the lattice step.
 
@@ -185,8 +185,8 @@ collapses to integers plus two offsets. It is not yet a finite problem, since
 
 ## 8. But the occupancy is not periodic, so there is no small cell
 
-The obvious next hope — if the sites are a lattice, take the occupancy periodic
-and let `k -> infinity` on one cell — **fails**. Occupying every `p`-th site
+The obvious next hope, if the sites are a lattice, take the occupancy periodic
+and let `k -> infinity` on one cell, **fails**. Occupying every `p`-th site
 with centres and every `q`-th with atoms, at depth `1/2`, offsets optimised on
 a `24 x 24` grid:
 
@@ -194,13 +194,13 @@ a `24 x 24` grid:
 |---|---|---|---|---|---|
 | margin at `k = 32` | +24.45 | +12.66 | **+0.694** | +0.911 | **+0.694** |
 
-Every uniform periodic pattern is *benign* — the best is `+0.694` against a
+Every uniform periodic pattern is *benign*, the best is `+0.694` against a
 binding `~0.24`, a factor of three of slack. The margins do converge in `k`
 (`p=q=2` runs `0.8100, 0.7514, 0.7154, 0.6940`), so the limits exist; they are
 simply not where the adversary lives.
 
 What the binding configurations use is the lattice **with irregular occupancy
-and mixed depths** — at `k = 12`, ten of twelve depths on an endpoint and a
+and mixed depths**, at `k = 12`, ten of twelve depths on an endpoint and a
 gap pattern `1,1,2,1,1,2,3,...` rather than a constant stride. So the
 `k -> infinity` problem does not reduce to a small periodic cell, and the
 combinatorics of *which* sites are occupied is carrying the difficulty.
