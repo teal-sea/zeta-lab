@@ -25,6 +25,7 @@ holds, take it and say so in the row — but take it knowingly.
 
 | Session | Holding | Files it will write | Status |
 |---|---|---|---|
+| codex-o9-denominator-bridge | the O9 denominator normalization and final per-cell `Dam` soundness assembly | `zeta23ext/Zeta23Ext/EForm3/O9Assemble.lean`, `O9Sound.lean`, `O9Audit.lean`, `START-HERE.md`, `ACTIVE-CLAIMS.md` | **ACTIVE**: continuing the bounded next action in `START-HERE.md` §6; no prover submission |
 | transplant-lemma (Fable) | the negative-margin question: does the multi-pair verdict survive at theta = 995/1000 for large clusters at the resonance spacing | `negative_margin_probe.py`, `test_negative_margin_probe.py` | **ACTIVE** — refinement running |
 | transplant-lemma (Fable) | adversarial extremum search over configurations | `adversary_evolution.py`, `test_adversary_evolution.py` | **PAUSED** — module complete, agent lost to a container restart, not yet re-run |
 | transplant-lemma (Fable) | prover submissions on the E-form family | `zeta23ext/Zeta23Ext/EForm2/`, `TruncEst/` | **LANDED** |
