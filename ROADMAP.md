@@ -30,6 +30,51 @@ RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 
 ---
 
+## Decision: the site publishes the whole record, not a selection (2026-08-14)
+
+The public site linked **28 files, and every one of them was `docs/NN-*.md`**.
+No page pointed at `hunts/frontier_math/PREPRINT.md`, at the 2,162-line
+obligation ledger, at `harness/VERDICT.md`, at the gate evidence, or at any of
+the 88 documents under `hunts/`. All of it was already public in the
+repository. None of it was reachable from the surface built to present the
+repository.
+
+That is not a small omission dressed up. A reader arriving at the site saw the
+finished course and the four theorems, which is the flattering tenth of what
+this laboratory produced, and had no route to the working record that makes
+those claims checkable. **A selection nobody chose still reads as a choice.**
+
+**Decided:** the site indexes every markdown document git tracks.
+`library.html` lists 181 documents and 45,623 lines across seven shelves, with
+each entry's title and description read from that file's own first heading and
+opening paragraph, so the index cannot describe a document as something other
+than what it says it is. Enumeration is `git ls-files`, not a filesystem walk:
+a built tree carries Mathlib's whole source under
+`hunts/frontier_math/zeta23ext`, which a walk would shelve as ours, and asking
+git also settles what *published* means for free and keeps the gitignored
+`conjectures/` notebook off the page by construction.
+
+**Decided, and it is the harder half:** the working record goes up as it is.
+Routes opened and abandoned, tables sized wrong and resized three times,
+corrections to our own corrections. A laboratory that publishes only its
+results has published the smallest and least checkable part of what it did,
+and the parts that did not work are the parts an outside reader can most
+easily use against us. That is the point.
+
+**Not decided:** curation of the library into a narrative. It is an index in
+tree order, not a reading path. `reading.html` remains the curated route for
+someone who wants one.
+
+**What building it caught**, which is the usual argument for building the thing
+rather than describing it: a blurb extractor that stripped every underscore as
+markdown emphasis and so published `hunts/frontiermath/`, a path that does not
+exist; and, once the parent name was styled `teal-sea` and became a substring
+of the account slug, a masthead printing `github.com/teal-sea/zeta-lab` as a
+literal instead of deriving it from `IDENTITY`. The identity test could not see
+that for as long as the name had a space in it.
+
+---
+
 ## Decision: the generalized harness is demoted (2026-08-13)
 
 Phase 6 above built `harness/` on the bet that the referee, factored out of the

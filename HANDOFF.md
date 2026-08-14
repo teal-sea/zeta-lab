@@ -3,7 +3,86 @@
 Concise records: what was believed, what invalidated it, what now catches the
 problem, what conclusion is currently justified. Decisions live in
 `ROADMAP.md`; this file is the between-session state. Last snapshot:
-2026-08-12 (session handoff under a token constraint — **start there**).
+2026-08-14 (the public surface, corrected and widened). The 2026-08-12
+token-constraint record below is still the fullest statement of continuation
+state for the mathematics.
+
+---
+
+## Record: the start page carried a retracted number, in public, for eleven
+## hours (2026-08-14)
+
+- **Believed:** that `hunts/frontier_math/START-HERE.md`, written 2026-08-13
+  as "the honest state of the frontier_math hunt", carried the current
+  reading of record. It named `0.6725087070` (+8.00e-6) and said the higher
+  figure "waits on a burden that has not landed".
+- **Invalidated by:** `PROOF-LEDGER.md` itself. Line 394 revises the reading
+  down to `0.6725087070`; line 438 holds it there *"until burden (a) lands"*;
+  the section beginning line 449 delivers burden (a), the chain re-run at the
+  paper field; and line 462 records **"Reading of record | MOVES to
+  0.6725106958"**. Lines 529, 574, 593, 609 and 660 hold it there. The page
+  was written from the pending row rather than the settled one, so `README.md`,
+  `docs/27` and the generated site were right and the page told readers they
+  were wrong.
+- **Now caught by:** `tests/test_reading_of_record.py`. The ledger's last
+  `Reading of record` row is the source; `README.md`, `docs/27` and
+  `START-HERE.md` must all state that figure, and the percentage the site
+  prints must be it rounded to five places. A ledger row naming two figures
+  fails the test loudly rather than picking one, the same safe failure mode as
+  `proven_sign` returning 0. Verified by replaying the actual defect and
+  watching it fire, then by drifting the site percentage.
+- **Justified conclusion:** the mathematics never moved. This was a
+  transcription defect of the same shape as coordinator defect #23, logged in
+  the same ledger two screens below the row it misread: a superseded figure
+  carried past its own retraction by a session reading one row instead of the
+  last row. The correction is recorded in the page rather than swept.
+- **Also stale on that page, and corrected with it:** "nothing kernel-checked"
+  was never true of the chain (`FloorCert`, `BandCert`,
+  `t3_composition_skeleton`, `law_d_incidence` are), and "nothing compiled"
+  plus the whole next-action section were overtaken within hours of being
+  written. The arm was built 2026-08-13, `decide +kernel` refuted the O9 table
+  on 7 of 9 chunks, and the repaired 699-cell table now decides on all 18.
+
+### State (2026-08-14)
+
+`main` = `5c254cf`, clean, everything pushed. Fast tier: 2426 passed, 1
+skipped, 3 xfailed. `scripts/make_context.py --check` exit 0. Preflight
+backend is `python-flint` with both backends present, so the cross-check that
+licenses the reserved word actually ran.
+
+The public surface changed in three ways beyond the correction above, all in
+`scripts/72_site.py` and all landed:
+
+- **Credit.** The source paper's step is 41.6% to 67.25007%, more than
+  twenty-five percentage points; ours is one thousandth of a percentage point
+  on top of it. The page now says that in that order. A paragraph tallying the
+  source run's subagents and output tokens is gone: placed directly after a
+  credit it read as a deduction from it, and it carried no part of the
+  argument. The reproducibility contrast is kept and reframed as what this
+  laboratory has rather than what the other lacks.
+- **The agent CLIs get even treatment.** The section closed by naming Claude
+  Code alone on a page whose stack table already refuses to rank them. It now
+  points at the table, which names Antigravity, Claude Code and Codex. The
+  table's own asymmetry is disclosed: row length there measures what the tree
+  records, not what each tool did. Worth knowing for anyone auditing that
+  claim: **Antigravity appears nowhere in this repository except hardcoded in
+  the site generator**, so its row is testimony with no artifact behind it.
+- **The library.** The site linked 28 files and every one was `docs/NN-*.md`.
+  The working paper, the obligation ledger, the gate evidence and all 88 hunt
+  documents were public the whole time and unreachable from the site. See the
+  decision in `ROADMAP.md`.
+
+Repository housekeeping, since it was empty and is the first thing a visitor
+reads: the GitHub **About** description and topics are now set. That is a
+GitHub setting rather than a tree artifact, so unlike every page of the site it
+can drift without anything noticing.
+
+Live threads at this snapshot, none touched, all another session's work:
+`claude/zeta-constant-improvement-xxnm9a` (14 ahead),
+`claude/harness-gate` (11), `claude/o9-first-build` (4),
+`hunt/gate5-p6-a` / `-b` / `-c` (4/3/4), `hunt/r-0339c1` (2),
+`claude/lab-rejection-philosophy-sgvdxr` (2), `deploy/site` (1).
+Report them; do not merge them.
 
 ---
 
