@@ -9,7 +9,7 @@ Expanding `E[F+P]` by the master identity gives an exact formula for the retenti
 open scoped BigOperators
 open MeasureTheory ComplexConjugate
 
-namespace Retention
+namespace Retention.EForm2
 
 lemma c2_eq_zero {w : ℝ} (h : 1 < |w|) : c2 w = 0 := by
   unfold c2
@@ -293,4 +293,4 @@ theorem retention_gap (n : ℕ) (x : ℕ → ℝ) (t y : ℝ) :
   field_simp
   ring
 
-end Retention
+end Retention.EForm2

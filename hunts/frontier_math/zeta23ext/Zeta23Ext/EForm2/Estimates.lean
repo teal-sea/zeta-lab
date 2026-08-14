@@ -14,7 +14,7 @@ import Zeta23Ext.EForm2.Bridge
 open scoped BigOperators
 open MeasureTheory
 
-namespace Retention
+namespace Retention.EForm2
 
 /-! ### Elementary bounds on the window and on `sinh`, `cosh` -/
 
@@ -530,4 +530,4 @@ lemma Qim_sq_far {y s : ℝ} (hy0 : 0 ≤ y) (hy1 : y ≤ 1/2) (hs : s ≠ 0) :
   calc (Qim y s) ^ 2 ≤ (196/25) * y ^ 2 / s ^ 2 := by rw [← h3]; exact h2
     _ ≤ (3136/25) * Shq y / s ^ 2 := by gcongr
 
-end Retention
+end Retention.EForm2

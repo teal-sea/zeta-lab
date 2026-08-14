@@ -10,7 +10,7 @@ support and measurability facts about the window and its autocorrelation.
 open scoped BigOperators
 open MeasureTheory
 
-namespace Retention
+namespace Retention.EForm2
 
 /-! ### Basic facts about the window -/
 
@@ -172,4 +172,4 @@ lemma master (z : ℂ) :
   rw [h3]
   ring
 
-end Retention
+end Retention.EForm2

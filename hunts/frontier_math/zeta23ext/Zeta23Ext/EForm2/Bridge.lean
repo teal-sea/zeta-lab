@@ -10,7 +10,7 @@ real quantities `phiR`, `Pre`, `Qim`, `Shq`, `Aconst`.
 open scoped BigOperators
 open MeasureTheory
 
-namespace Retention
+namespace Retention.EForm2
 
 /-- Integral of an odd function over a symmetric interval. -/
 lemma integral_odd_symm (f : ℝ → ℝ) (a : ℝ) (hodd : ∀ x, f (-x) = -f x) :
@@ -187,4 +187,4 @@ lemma Phi2_zero : Phi2 0 = (Aconst : ℂ) := by
   have := Phi2_ofReal 0
   simpa [phiR_zero] using this
 
-end Retention
+end Retention.EForm2

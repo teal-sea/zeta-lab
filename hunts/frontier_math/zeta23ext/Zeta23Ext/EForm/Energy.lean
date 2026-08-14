@@ -4,7 +4,7 @@ open scoped BigOperators
 open scoped Real
 open MeasureTheory
 
-namespace Retention
+namespace Retention.EForm
 
 /-! ## The Fubini / autocorrelation identity -/
 
@@ -218,4 +218,4 @@ lemma Ichy_double (y : ℝ) : 4 * Ichy y ≤ Ichy (2 * y) := by
   have h1 : Real.cosh (y * w) ≥ 1 := Real.one_le_cosh _
   nlinarith [mul_nonneg hc (sq_nonneg (Real.cosh (y * w) - 1))]
 
-end Retention
+end Retention.EForm

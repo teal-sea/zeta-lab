@@ -4,7 +4,7 @@ open scoped BigOperators
 open scoped Real
 open MeasureTheory
 
-namespace Retention
+namespace Retention.EForm
 
 /-!
 # A single-pair bandlimited retention inequality
@@ -183,4 +183,4 @@ theorem retention_le_two {n : ℕ} (hn : n ≤ 2) (x : Fin n → ℝ) (hx : Stri
 #print axioms Icos_eq_sq
 #print axioms Aconst_ge
 
-end Retention
+end Retention.EForm

@@ -5,7 +5,7 @@ open scoped Real
 
 set_option maxHeartbeats 1000000
 
-namespace Retention
+namespace Retention.EForm
 
 /-- The window `g(u) = cos (√2 u)` on `|u| ≤ 1/2`, and `0` outside. -/
 noncomputable def gker (u : ℝ) : ℝ := if |u| ≤ 1/2 then Real.cos (Real.sqrt 2 * u) else 0
@@ -184,4 +184,4 @@ lemma interval_to_full (f : ℝ → ℝ) :
     exact hx (by rcases abs_le.1 h with ⟨h1, h2⟩; exact ⟨h1, h2⟩)
   rw [c2_zero_of_gt this, zero_mul]
 
-end Retention
+end Retention.EForm

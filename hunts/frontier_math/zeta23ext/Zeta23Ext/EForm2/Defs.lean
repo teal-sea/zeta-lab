@@ -11,7 +11,7 @@ at a complex frequency, and `Ener G = (1/A²) ∫_{-1}^{1} c2 w ‖G w‖² dw`.
 open scoped BigOperators
 open MeasureTheory
 
-namespace Retention
+namespace Retention.EForm2
 
 /-- The window `g(u) = cos (√2 u)` for `|u| ≤ 1/2`, `0` otherwise. -/
 noncomputable def gwin (u : ℝ) : ℝ := if |u| ≤ 1/2 then Real.cos (Real.sqrt 2 * u) else 0
@@ -53,4 +53,4 @@ noncomputable def Fsum (n : ℕ) (x : ℕ → ℝ) : ℝ → ℂ :=
 noncomputable def Ppair (t y : ℝ) : ℝ → ℂ :=
   fun w => 2 * (Real.cosh (y * w) : ℂ) * Complex.exp (Complex.I * (t : ℂ) * (w : ℂ))
 
-end Retention
+end Retention.EForm2

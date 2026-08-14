@@ -18,7 +18,7 @@ Main results.
 open scoped BigOperators
 open MeasureTheory
 
-namespace Retention
+namespace Retention.EForm2
 
 /-- If the damage of the on-line points is inside the budget, retention holds. -/
 theorem retention_of_damage (n : ℕ) (x : ℕ → ℝ) (t y : ℝ)
@@ -96,4 +96,4 @@ theorem retention_separated (n : ℕ) (x : ℕ → ℝ) (t y δ : ℝ) (hδ : 26
       _ = (1568/2535) * Shq y := by ring
   nlinarith [hbound, htail, mul_nonneg (by linarith : (0:ℝ) ≤ Aconst - 11/12) hShq]
 
-end Retention
+end Retention.EForm2

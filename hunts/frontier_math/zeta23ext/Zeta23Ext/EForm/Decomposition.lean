@@ -4,7 +4,7 @@ open scoped BigOperators
 open scoped Real
 open MeasureTheory
 
-namespace Retention
+namespace Retention.EForm
 
 /-- The on-line exponential sum `F(w) = ∑_j exp (I x_j w)`. -/
 noncomputable def Fsum {n : ℕ} (x : Fin n → ℝ) (w : ℝ) : ℂ :=
@@ -129,4 +129,4 @@ lemma diag_bound {n : ℕ} (x : Fin n → ℝ) :
         rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul]
     _ ≤ ∑ j, ∑ k, Icos (x j - x k) := Finset.sum_le_sum (fun j _ => hterm j)
 
-end Retention
+end Retention.EForm

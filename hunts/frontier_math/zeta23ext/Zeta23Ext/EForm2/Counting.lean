@@ -10,7 +10,7 @@ at most `2 K + (10/3) C / δ^2`.
 
 open scoped BigOperators
 
-namespace Retention
+namespace Retention.EForm2
 
 /-- `∑_{k=1}^{N+1} 1/k² ≤ 5/3 - 1/(N + 3/2)`. -/
 lemma sum_inv_sq_le_aux (N : ℕ) :
@@ -216,4 +216,4 @@ lemma sum_le_of_separated {n : ℕ} (s : ℕ → ℝ) (δ K C : ℝ) (f : ℕ �
       linarith
     exact step _ hk ((k : ℝ) + 1) (by positivity) hbound
 
-end Retention
+end Retention.EForm2
