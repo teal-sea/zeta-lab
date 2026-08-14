@@ -50,10 +50,51 @@ def _pages(root: Path) -> list[Path]:
     return sorted(root.rglob("*.html"))
 
 
+def _written(root: Path) -> list[Path]:
+    """The pages this laboratory composed, as opposed to ones it quotes.
+
+    Everything under `read/` is a repository document rendered to HTML. Its
+    words are the file's, not the site's, so the rules that govern our own
+    prose are applied to the six pages we actually wrote.
+    """
+    return [p for p in _pages(root)
+            if not p.relative_to(root).as_posix().startswith("read/")]
+
+
+def _quoted(root: Path) -> list[Path]:
+    return [p for p in _pages(root)
+            if p.relative_to(root).as_posix().startswith("read/")]
+
+
 def test_the_site_builds_every_page(built: Path) -> None:
-    names = {p.relative_to(built).as_posix() for p in _pages(built)}
+    names = {p.relative_to(built).as_posix() for p in _written(built)}
     assert names == {"index.html", "reading.html", "library.html",
                      "record.html", "about.html", "pursuits/zeta.html"}
+
+
+def test_every_tracked_document_is_readable_on_the_site(built: Path) -> None:
+    """The library must be a library, not a bibliography.
+
+    It shipped once as 181 links to `github.com/.../blob/main/...`, which sent
+    anyone who wanted the working paper to raw markdown in a file browser. A
+    document the laboratory asks people to check should be a page here.
+    """
+    import importlib.util
+
+    spec = importlib.util.spec_from_file_location("site_gen_docs", SITE)
+    site = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(site)
+
+    expected = {it["url"] for shelf in site.library() for it in shelf["items"]}
+    assert expected, "the library is empty, which cannot be right"
+    got = {p.relative_to(built).as_posix() for p in _quoted(built)}
+    assert expected == got, (
+        f"missing: {sorted(expected - got)[:5]}, extra: {sorted(got - expected)[:5]}"
+    )
+
+    index = (built / "library.html").read_text(errors="ignore")
+    for url in sorted(expected)[:20]:
+        assert f"href='{url}'" in index, f"library does not link {url}"
 
 
 def test_no_page_runs_a_script(built: Path) -> None:
@@ -63,8 +104,27 @@ def test_no_page_runs_a_script(built: Path) -> None:
 
 
 def test_no_page_makes_an_external_request(built: Path) -> None:
-    """Offline-readable. The only outbound links are to the public source."""
+    """Offline-readable, and split by what the page is.
+
+    Every page must render with the network unplugged, so no page may load a
+    subresource or link anywhere but our own source. On the pages we wrote,
+    the stricter rule also holds: no external URL appears at all.
+
+    Rendered documents are the exception, and for the same reason the em dash
+    rule exempts quoted material. A document cites papers. Deleting a citation
+    to satisfy a house rule would be editing the record, so the URL is shown
+    as text that goes nowhere. Text is not a request.
+    """
     for p in _pages(built):
+        text = p.read_text(errors="ignore")
+        assert not re.findall(r"(?:src|srcset)\s*=\s*[\"']", text), (
+            f"{p.name} loads a subresource"
+        )
+        for href in re.findall(r"<a[^>]+href\s*=\s*[\"']([^\"']+)", text):
+            if href.startswith(("http://", "https://")):
+                assert href.startswith("https://github.com/"), f"{p.name}: {href}"
+
+    for p in _written(built):
         for url in re.findall(r"https?://[^\"'\s<>]+", p.read_text(errors="ignore")):
             assert url.startswith("https://github.com/"), f"{p.name}: {url}"
 
@@ -261,7 +321,7 @@ def test_the_pages_add_no_em_dashes_of_their_own(built: Path) -> None:
     for x in site.frontier()["results"]:
         quoted += sum(str(v).count("—") for v in x.values())
 
-    rendered = sum(p.read_text(errors="ignore").count("—") for p in _pages(built))
+    rendered = sum(p.read_text(errors="ignore").count("—") for p in _written(built))
     assert rendered <= quoted, (
         f"{rendered - quoted} em dash(es) on the pages came from the generator's "
         f"own prose, not from quoted material"

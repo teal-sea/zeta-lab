@@ -233,6 +233,179 @@ def _head(path: Path, limit: int = 190) -> tuple[str, str]:
     return title, _clip(re.sub(r"\s+", " ", blurb).strip(), limit)
 
 
+_CODE_FENCE = re.compile(r"^\s*```+\s*(\S*)\s*$")
+_HEADING = re.compile(r"^(#{1,6})\s+(.*)$")
+_LIST_ITEM = re.compile(r"^(\s*)([-*+]|\d+[.)])\s+(.*)$")
+_TABLE_SEP = re.compile(r"^\s*\|?[\s:|-]+\|[\s:|-]*$")
+_LINK = re.compile(r"\[([^\]]+)\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
+_BOLD = re.compile(r"\*\*(?=\S)(.+?)(?<=\S)\*\*", re.S)
+_ITALIC = re.compile(r"(?<![\w*])\*(?=\S)([^*]+?)(?<=\S)\*(?![\w*])")
+_UNDERSCORE_I = re.compile(r"(?<![\w_])_(?=\S)([^_]+?)(?<=\S)_(?![\w_])")
+_AUTOLINK = re.compile(r"(?<![\"'>=])\bhttps?://[^\s<>\"')\]]+")
+
+
+def _inline(text: str, resolve=None) -> str:
+    """Inline markdown over already-escaped text.
+
+    Code spans are pulled out first and restored last, so a backticked
+    `**not bold**` stays literal. Everything else is ordinary substitution.
+    """
+    spans: list[str] = []
+
+    def _stash(m: re.Match) -> str:
+        spans.append(m.group(1))
+        return f"\x00{len(spans) - 1}\x00"
+
+    text = re.sub(r"`([^`]+)`", _stash, text)
+
+    def _link(m: re.Match) -> str:
+        label, href = m.group(1), m.group(2)
+        target = resolve(href) if resolve else None
+        if target is None:
+            # Not a document this site publishes. Keep the words, drop the
+            # anchor for anything we cannot resolve or vouch for, and let a
+            # citation stand as text the reader can copy.
+            return label if href.endswith(".md") else f"{label} ({href})"
+        return f"<a href='{target}'>{label}</a>"
+
+    text = _LINK.sub(_link, text)
+    text = re.sub(r"~~(?=\S)(.+?)(?<=\S)~~", r"<del>\1</del>", text, flags=re.S)
+    text = _BOLD.sub(r"<strong>\1</strong>", text)
+    text = _ITALIC.sub(r"<em>\1</em>", text)
+    text = _UNDERSCORE_I.sub(r"<em>\1</em>", text)
+    text = _AUTOLINK.sub(lambda m: f"<span class='url'>{m.group(0)}</span>", text)
+
+    for i, code in enumerate(spans):
+        text = text.replace(f"\x00{i}\x00", f"<code>{code}</code>")
+    return text
+
+
+def md_to_html(src: str, resolve=None) -> str:
+    """A markdown subset, rendered without leaving the standard library.
+
+    The site has no dependencies and is built by whatever `python3` the host
+    provides, so a markdown package is not available and is not worth adding
+    for one page shape. This covers what the repository's documents actually
+    use: headings, paragraphs, fenced code, lists, tables, blockquotes, rules,
+    and inline emphasis, code and links. Anything it does not recognise falls
+    through as escaped text, which is the safe direction: an unrendered
+    construct is ugly, a swallowed one is a lie about what the file says.
+
+    `resolve` maps a markdown link target to a site URL, or returns None for
+    targets this site does not publish. Unresolvable links keep their text.
+    """
+    out: list[str] = []
+    lines = src.replace("\r\n", "\n").split("\n")
+    i, n = 0, len(lines)
+    para: list[str] = []
+
+    def flush() -> None:
+        if para:
+            out.append("<p>" + _inline(" ".join(para), resolve) + "</p>")
+            para.clear()
+
+    while i < n:
+        raw = lines[i]
+        line = raw.rstrip()
+
+        fence = _CODE_FENCE.match(line)
+        if fence:
+            flush()
+            i += 1
+            body: list[str] = []
+            while i < n and not _CODE_FENCE.match(lines[i].rstrip()):
+                body.append(lines[i])
+                i += 1
+            i += 1
+            out.append("<pre><code>" + esc("\n".join(body)) + "</code></pre>")
+            continue
+
+        if not line.strip():
+            flush()
+            i += 1
+            continue
+
+        if re.fullmatch(r"\s*([-*_])(\s*\1){2,}\s*", line):
+            flush()
+            out.append("<hr>")
+            i += 1
+            continue
+
+        head = _HEADING.match(line)
+        if head:
+            flush()
+            lvl = min(len(head.group(1)) + 1, 6)   # page <h1> is the title
+            out.append(f"<h{lvl}>{_inline(esc(head.group(2)), resolve)}</h{lvl}>")
+            i += 1
+            continue
+
+        if line.lstrip().startswith(">"):
+            flush()
+            quote: list[str] = []
+            while i < n and lines[i].lstrip().startswith(">"):
+                quote.append(lines[i].lstrip()[1:].lstrip())
+                i += 1
+            out.append("<blockquote>" + md_to_html("\n".join(quote), resolve)
+                       + "</blockquote>")
+            continue
+
+        # A table needs its separator row; without one these are just pipes.
+        if line.lstrip().startswith("|") and i + 1 < n and _TABLE_SEP.match(lines[i + 1]):
+            flush()
+
+            def cells(row: str) -> list[str]:
+                row = row.strip()
+                if row.startswith("|"):
+                    row = row[1:]
+                if row.endswith("|"):
+                    row = row[:-1]
+                return [c.strip() for c in row.split("|")]
+
+            head_cells = cells(line)
+            i += 2
+            body_rows = []
+            while i < n and lines[i].strip().startswith("|"):
+                body_rows.append(cells(lines[i]))
+                i += 1
+            thead = "".join(f"<th>{_inline(esc(c), resolve)}</th>" for c in head_cells)
+            tbody = "".join(
+                "<tr>" + "".join(f"<td>{_inline(esc(c), resolve)}</td>" for c in row)
+                + "</tr>" for row in body_rows
+            )
+            out.append("<div class='wrap'><table><thead><tr>" + thead
+                       + "</tr></thead><tbody>" + tbody + "</tbody></table></div>")
+            continue
+
+        item = _LIST_ITEM.match(line)
+        if item:
+            flush()
+            ordered = not item.group(2)[:1] in "-*+"
+            tag = "ol" if ordered else "ul"
+            items: list[str] = []
+            while i < n:
+                m = _LIST_ITEM.match(lines[i].rstrip())
+                if m:
+                    items.append(m.group(3))
+                    i += 1
+                    continue
+                # A wrapped continuation line belongs to the item above it.
+                if items and lines[i].strip() and lines[i][:1] in " \t":
+                    items[-1] += " " + lines[i].strip()
+                    i += 1
+                    continue
+                break
+            out.append(f"<{tag}>" + "".join(
+                f"<li>{_inline(esc(it), resolve)}</li>" for it in items
+            ) + f"</{tag}>")
+            continue
+
+        para.append(esc(line.strip()))
+        i += 1
+
+    flush()
+    return "".join(out)
+
+
 def reading() -> list[dict[str, str]]:
     """The documents, in order, with the paragraph each one opens with."""
     out = []
@@ -280,6 +453,18 @@ _SHELF_ROOT = ("Operating record",
                "rules any agent working this tree has to read first.")
 
 
+def doc_url(rel: str) -> str:
+    """Where a repository document is published on this site.
+
+    `read/` mirrors the repository layout so a path a reader sees in a commit,
+    a citation or a test failure is the path they can find here, minus the
+    extension. The alternative, flat slugs, means two files called README lose
+    their context and every cross-reference in the tree stops being a usable
+    address.
+    """
+    return "read/" + rel[:-3] + ".html" if rel.endswith(".md") else ""
+
+
 def library() -> list[dict[str, Any]]:
     """Every markdown document git tracks, shelved, titled and counted.
 
@@ -311,6 +496,8 @@ def library() -> list[dict[str, Any]]:
             "title": re.sub(r"^\d+\s*[—-]\s*", "", title) or path.stem,
             "blurb": blurb,
             "path": rel,
+            "url": doc_url(rel),
+            "words": len(path.read_text(errors="ignore").split()),
             "lines": lines,
         })
     order = [lbl for _, lbl, _ in _SHELVES] + [_SHELF_ROOT[0], _SHELF_REST[0]]
@@ -761,6 +948,35 @@ nav.foot{margin-top:4.5rem;padding-top:1rem;border-top:1px solid var(--rule);
   text-transform:uppercase;display:flex;gap:.4rem 2rem;flex-wrap:wrap;
   color:var(--soft)}
 
+/* a document, rendered here rather than on a code host */
+.crumb{font-family:var(--mono);font-size:.63rem;letter-spacing:.11em;
+  text-transform:uppercase;color:var(--soft);margin:0 0 1.2rem}
+.doc{max-width:38rem;margin-top:2.2rem}
+.doc h2{font-family:var(--sans);font-size:1.32rem;letter-spacing:0;
+  text-transform:none;font-weight:600;border-bottom:1px solid var(--rule);
+  display:block;margin:2.8rem 0 1rem;padding-bottom:.45rem;color:var(--ink)}
+.doc h3{font-family:var(--sans);font-size:1.08rem;letter-spacing:0;
+  text-transform:none;font-weight:600;color:var(--ink);margin:2.1rem 0 .7rem}
+.doc h4,.doc h5,.doc h6{font-family:var(--sans);font-size:.98rem;
+  font-weight:600;margin:1.6rem 0 .5rem}
+.doc p{margin:0 0 1.15rem}
+.doc ul,.doc ol{margin:0 0 1.15rem;padding-left:1.3rem}
+.doc li{margin:.3rem 0}
+.doc pre{background:var(--track);padding:.9rem 1rem;overflow-x:auto;
+  margin:0 0 1.2rem;font-size:.83rem;line-height:1.5}
+.doc pre code{font-size:inherit}
+.doc blockquote{margin:0 0 1.2rem;padding:.1rem 0 .1rem 1.2rem;
+  border-left:3px solid var(--rule);color:var(--ink2)}
+.doc blockquote p:last-child{margin-bottom:0}
+.doc hr{border:none;border-top:1px solid var(--rule);margin:2.4rem 0}
+.doc table{font-size:.9rem}
+/* A citation URL is text a reader can copy, not a link this page follows.
+   Rendering it as an anchor would make a document quotation an outbound
+   navigation the laboratory did not choose; leaving it out would edit the
+   document. So it is shown, and it goes nowhere. */
+.doc .url{font-family:var(--mono);font-size:.85em;color:var(--soft);
+  word-break:break-all}
+
 @media (max-width:660px){
   body{font-size:16px} .page{padding:0 1.1rem 4rem}
   .mast{gap:.3rem 1.4rem} .vitals .n{font-size:1.6rem}
@@ -774,7 +990,7 @@ def shell(title: str, body: str, depth: int = 0, mast: str = "") -> str:
         f'<nav class="foot">'
         f'<a href="{up}index.html">index</a>'
         f'<a href="{up}pursuits/zeta.html">zeta</a>'
-        f'<a href="{up}reading.html">reading</a>'
+        f'<a href="{up}reading.html">course</a>'
         f'<a href="{up}library.html">library</a>'
         f'<a href="{up}record.html">record</a>'
         f'<a href="{up}about.html">about</a>'
@@ -851,7 +1067,7 @@ def ladder(lean: dict, fr: dict) -> str:
 # pages
 # --------------------------------------------------------------------------
 
-def page_index(r, lean, py, gr, threads, c, fr, st) -> str:
+def page_index(r, lean, py, gr, threads, c, fr, st, lib) -> str:
     """The front page. Written to be read by someone deciding whether to back it.
 
     Every number is still derived and every caveat is still here. What changed
@@ -876,7 +1092,7 @@ def page_index(r, lean, py, gr, threads, c, fr, st) -> str:
     live = ""
     if threads:
         live = (
-            "<section><h2><span class='num'>§6</span> Open lines</h2>"
+            "<section><h2><span class='num'>§7</span> Open lines</h2>"
             "<p>What is being worked on right now, read off the branches.</p>"
             "<div class='wrap'><table>"
             "<thead><tr><th>branch</th><th class='r'>commits</th><th>last</th>"
@@ -888,26 +1104,20 @@ def page_index(r, lean, py, gr, threads, c, fr, st) -> str:
         )
 
     people = operators()
-    # Riemann stated the hypothesis in 1859. Derived from the build date so the
-    # sentence cannot quietly go stale, and so it is right rather than close.
-    age = int(r["when"].split()[-1]) - 1859 if r["when"] else 0
     stackrows = "".join(
         f"<tr><td>{esc(a)}</td><td class='nw'>{esc(b)}</td>"
         f"<td class='note'>{esc(c)}</td></tr>"
         for a, b, c in st["rows"]
     )
-    headline = (f"{len(fr['results'])} new theorems."
-                f"<br>{'One person' if people == 1 else f'{people} people'}."
-                f"<br>{r['days']} days."
-                if r["days"] and sorrys == 0
-                else f"{len(fr['results'])} new theorems, machine-checked.")
-
     return shell(IDENTITY["name"], f"""
-<h1>{headline}</h1>
-<p class="stand">This is what research mathematics looks like when the tools
-are available to everyone. One person, AI anyone can rent, and a proof checker
-that certifies every step. Applied to a problem open since 1859, and it moved.
-What did not work is published here alongside what did.</p>
+<h1>Fulcrum points the work.<br>Zeta is what came back.</h1>
+<p class="stand"><strong>{IDENTITY['name']}</strong> is a research laboratory
+run by one person and a fleet of rented AI. <strong>Fulcrum</strong> is its
+operating plane: the machinery that decides what to chase, writes the brief,
+launches the sessions and prices what returns. <strong>Zeta</strong> was the
+first thing it was pointed at, a problem open since 1859. In {r['days']} days
+it came back with {len(fr['results'])} original theorems a proof kernel
+accepts, and a machine-audited candidate past the best published bound.</p>
 
 {vitals([
     (str(len(fr['results'])), 'new theorems', False),
@@ -918,111 +1128,119 @@ What did not work is published here alongside what did.</p>
     (num(py['test_fns']), 'automatic checks', False),
 ])}
 
-<p>A <strong>proof checker</strong> is a program that reads a mathematical
-argument and refuses it if a step is missing. That is the strongest guarantee
-mathematics has, and until recently getting one meant years of specialist work.
-Every result here has been through it.</p>
-<p>So <em>gaps in the proofs: 0</em> means every step is proved. Our
-confidence does not enter into it, and neither does yours.</p>
-<p>That number is about the proofs, not the process. The process was full of
-guessing. Blind alleys, hunches, and prompts that told the model to behave like
-a mad scientist and see what fell out. The checker is what makes that a
-reasonable way to work: it does not care where an idea came from, only whether
-the argument closes. You can afford to be reckless at the front of the pipeline
-when nothing reaches the end of it unproved.</p>
-
-<p class="meta">Counted from the public research repository. The lab's
-operating side is a separate private repository and none of it is reflected
-above, so these figures measure the published research rather than the total
-work behind it.</p>
+<section>
+<h2><span class='num'>§1</span> Fulcrum</h2>
+<p>The research on this site is the demonstration. <strong>The thing being
+built is the laboratory itself.</strong></p>
+<p>Fulcrum is where the operating decisions live: which questions are worth
+opening, what a session is told before it starts, how many run at once, what a
+returning result costs against what it is worth, and when to stop feeding a
+direction that has stopped producing. It is a separate, private repository, and
+it is deliberately not published, because none of it is needed to check whether
+a claim on this site is true.</p>
+<p>The working strategy it implements is <em>forage, do not roadmap</em>: open
+several directions cheaply, feed the one that produces credible signal, stop
+feeding the ones that do not, and keep the threads you are not pulling so that
+choosing a direction does not mean forgetting the others. The objective it is
+tuned against is stated as plainly as we can state it: <strong>maximum
+valuable output per unit of money in</strong>. Not minimum spend. A more
+expensive approach is the right one whenever the extra output justifies it, and
+a cheap approach that returns unreliable work is not efficient, it is just
+cheap.</p>
+<p>What that bought on the first pursuit is the rest of this page.</p>
+<p class='meta'>Stated so the boundary is not oversold: Fulcrum directs the
+work and holds the briefs, the prompt corpus, the session launching and the
+telemetry economics. The supervisor loop that would launch and collect runs
+across both repositories on its own is not built yet. Fulcrum is private, not
+secret, and naming what it does not do yet is part of what makes the rest
+checkable. <a href="about.html">How the two repositories split →</a></p>
+</section>
 
 <section>
-<h2><span class='num'>§1</span> What we proved</h2>
-<p>{len(fr['results'])} theorems, proved here and checked by the Lean kernel. No
-<code>sorry</code>s, no <code>native_decide</code>, no floating point, standard
-axioms only. Each ships with its <code>#print axioms</code> line, so a skeptic
-can confirm what it rests on without taking our word for anything.</p>
+<h2><span class='num'>§2</span> The first pursuit, and what it returned</h2>
+<p>The Riemann hypothesis says every one of infinitely many special points sits
+exactly on a particular line. Proving that outright is the open problem, and
+nothing here touches it. Proving that <em>at least some fraction</em> of them
+do is the ground people actually gain, and that fraction has been the
+scoreboard for a century.</p>
+<p>On 10 August 2026 an outside paper carried it to <strong>67.25007%</strong>.
+This laboratory assembled and audited a chain that carries it to
+<strong>67.25107%</strong>, and produced {len(fr['results'])} theorems of its
+own along the way, each one checked by the Lean kernel with no
+<code>sorry</code>, no <code>native_decide</code> and no floating point.</p>
 {results}
-<p class='meta'>Full statements and their obligations in
-<a href="{esc(IDENTITY['source'])}/blob/main/docs/27-state-of-the-transplant.md">docs/27</a>.
+<p>Fractions of a percent are how this problem moves. Each one has taken the
+field years, and they are argued on paper. This one is machine checked
+underneath, against the real function rather than a convenient stand-in, which
+is the shortcut this kind of argument usually takes.</p>
+
+<h3>Credit where the larger step belongs</h3>
+<p>The 67.25007% is Anthropic's, and theirs is much the larger piece of work.
+A research model running as Claude carried the proven fraction from 41.6% to
+67.25007%, with the Lean formalization public alongside it. That is more than
+twenty-five percentage points on a number the field had been moving in
+fractions of one. Everything below begins from their theorem and carries it a
+further one thousandth of a percentage point.</p>
+<p>So what this laboratory adds is not size, it is repeatability. Their model
+has not been released, so the route to their result cannot be re-run from
+outside Anthropic. This one was assembled two days later out of tools anyone
+can rent, by a laboratory whose operating machinery is the actual subject of
+the exercise.</p>
+<p class='meta'>A candidate rather than a theorem: one step of the chain is
+still open, so the composite takes that grade, and nothing here is rounded
+upward. The gain is also asymptotic rather than effective at heights anyone can
+compute, a limit inherited from the source's own error terms. Full statements
+and obligations in
+<a href="read/docs/27-state-of-the-transplant.html">docs/27</a>.
 Pending external verification.</p>
 </section>
 
 <section>
-<h2><span class='num'>§2</span> We moved a {age}-year-old number</h2>
-<p>The Riemann hypothesis says every one of infinitely many special points
-sits exactly on a particular line. Proving that outright is the open problem.
-Proving that <em>at least some fraction</em> of them do is the ground people
-actually gain, and that fraction has been the scoreboard for a century.</p>
-<p>On 10 August an outside paper pushed it to <strong>67.25007%</strong>. This
-laboratory assembled and audited a chain that carries it to
-<strong>67.25107%</strong>.</p>
-<p>Fractions of a percent are how this problem moves. Each one has taken the
-field years, and they are usually argued on paper. This one is machine checked
-underneath.</p>
-
-<h3>Where this sits</h3>
-<p>The 67.25007% is Anthropic's, and theirs is much the larger piece of work.
-On 10 August 2026 they published a result in which a research model, running as
-Claude, carried the proven fraction from 41.6% to 67.25007%, with the Lean
-formalization public alongside it. That is more than twenty-five percentage
-points on a number the field had been moving in fractions of one. Everything on
-this page begins from their theorem and carries it a further one thousandth of
-a percentage point.</p>
-<p>So what this laboratory adds is not size. Their model has not been released,
-so the route to their result cannot be re-run from outside Anthropic. This one
-was assembled two days later out of tools anyone can rent, and the chain, the
-audit, the refutations and the code are all on this site and in the repository.
-Both of those are worth having and only the second is ours.</p>
-<p>The step underneath it is checked against the real function rather than a
-convenient stand-in, which is the shortcut this kind of argument usually takes.</p>
-<p class='meta'>Three agent CLIs carried this work, Antigravity, Claude Code and
-Codex, and no claim here rests on which one produced a given step. They are
-named in §4 with the rest of the stack.</p>
-<p class='meta'>A candidate rather than a theorem: one step of the chain is
-still open, so the composite takes that grade. The gain is also asymptotic, not
-effective at heights anyone can compute, a limit inherited from the source's own
-error terms.</p>
+<h2><span class='num'>§3</span> Why any of it is worth reading</h2>
+<p>A laboratory that generates candidates quickly is worth nothing without
+something that refuses the bad ones, and the refusing is the part that is hard
+to fake. Two mechanisms do it here.</p>
+<p><strong>A proof checker.</strong> Lean reads a mathematical argument and
+rejects it if a step is missing. That is the strongest guarantee mathematics
+has, and until recently getting one meant years of specialist work. So
+<em>gaps in the proofs: {sorrys}</em> is not a claim about our confidence, or
+a request for yours. It is a machine's verdict, and every result ships with the
+<code>#print axioms</code> line that says what it rests on.</p>
+<p>That number is about the proofs, not the process. The process is full of
+guessing: blind alleys, hunches, and prompts that tell a model to behave like a
+mad scientist and see what falls out. The checker is what makes that a rational
+way to spend money. It does not care where an idea came from, only whether the
+argument closes, so you can afford to be reckless at the front of a pipeline
+when nothing reaches the end of it unproved.</p>
+<p><strong>A record that keeps what went wrong.</strong>
+{num(len(gr))} claimed results have been withdrawn, each kept with the witness
+that broke it and the test that now catches it. We have shut down our own
+flagship tooling on its own evidence, shipped a counterexample the prover found
+in one of our own statements, and killed a route we proposed ourselves. None of
+that is written up for this page: the working record is published whole, and
+readable here rather than on a code host.
+<a href="record.html">What did not survive →</a></p>
 </section>
 
 <section>
-<h2><span class='num'>§3</span> Why the numbers are worth anything</h2>
-<p>Three things here disagreed with us, and the record kept all three. That
-is the test of a lab: whether its own machinery can tell it no.</p>
-<div class='entry'><div class='when'>our own tooling</div>
-<h4>We shut down our flagship when it failed its own test</h4>
-<p>Four preregistered experiments asked whether our validation framework
-improved the correctness of our results. It did not. Eight thousand lines,
-frozen, with the evidence published beside it.
-<a href="record.html">The record →</a></p></div>
-<div class='entry'><div class='when'>our own submission</div>
-<h4>The prover refuted us and we shipped the counterexample</h4>
-<p>Asked to prove a grid-incidence law, the prover found a hypothesis gap in
-our own statement and produced a counterexample showing the evenness condition
-cannot be dropped. It ships in the file as
-<code>grid_incidence_needs_even</code>.</p></div>
-<div class='entry'><div class='when'>our own route</div>
-<h4>We killed our own proposed argument</h4>
-<p>The per-pair domination route to multi-pair universality was proposed here
-and refuted here, with the numbers that killed it: the sum of single-pair caps
-already exceeds the budget while the joint verdict closes with 40% margin.</p></div>
-<p>Three results have been withdrawn after they were claimed. Each one is kept
-with the witness that broke it and the test that now catches it, because a
-laboratory that deletes its errors has deleted its evidence about itself.</p>
-<p>None of that is a summary written for this page. The working record it comes
-from is published whole: the working paper, the obligation ledger, every hunt
-and every frozen protocol. <a href="library.html">The library →</a></p>
+<h2><span class='num'>§4</span> Everything, published</h2>
+<p>The working paper, the obligation ledger, every hunt, every frozen protocol
+and every correction. Not a summary of them.</p>
+<p>{num(sum(len(s['items']) for s in lib))} documents,
+{num(sum(s['lines'] for s in lib))} lines, indexed straight off
+<code>git ls-files</code> so nothing can be quietly left off, and each one a
+page on this site. <a href="library.html">The library →</a></p>
 </section>
 
 <section>
-<h2><span class='num'>§4</span> The stack</h2>
-<p>Every part of this is available to anyone. That is the point, so it is
+<h2><span class='num'>§5</span> The stack</h2>
+<p>Every part of this is available to anyone, which is the point, so it is
 worth naming which parts carried the weight.</p>
 <div class="wrap"><table>
 <thead><tr><th>tool</th><th>version</th><th>what it did</th></tr></thead>
 <tbody>{stackrows}</tbody></table></div>
 <p class='meta'>Versions read from <code>lean/lean-toolchain</code> and
-<code>requirements.txt</code>. The repository is deliberately portable across
+<code>requirements.txt</code>. The laboratory is deliberately portable across
 agent CLIs and tied to none of them, and no split of the work between them is
 derivable from the tree: work landed with authorship preserved, so commit
 authorship does not partition sessions by the tool that produced them. Read the
@@ -1034,10 +1252,13 @@ not the contribution.</p>
 </section>
 
 <section>
-<h2><span class='num'>§5</span> How the work is graded</h2>
+<h2><span class='num'>§6</span> How the work is graded</h2>
 <p>A composite claim takes the grade of its weakest step, and nothing here is
 rounded upward.</p>
 {ladder(lean, fr)}
+<p class='meta'>Counted from the public research repository. Fulcrum is not
+reflected in any figure above, so these measure the published research rather
+than the total work behind it.</p>
 </section>
 
 {live}
@@ -1151,9 +1372,11 @@ reading course</a>.</p>
 def page_reading(r, docs, lean) -> str:
     items = "".join(
         f"<div class='entry'><div class='when'>{esc(d['n'])}</div>"
-        f"<h4>{esc(d['title'])}</h4>"
+        f"<h4><a href='{esc(doc_url('docs/' + d['file']))}'>"
+        f"{esc(d['title'])}</a></h4>"
         + (f"<p>{esc(d['blurb'])}</p>" if d["blurb"] else "")
-        + f"<p class='meta'><a href='{esc(IDENTITY['source'])}/blob/main/docs/"
+        + f"<p class='meta'><a href='{esc(doc_url('docs/' + d['file']))}'>read"
+          f"</a> · <a href='{esc(IDENTITY['source'])}/blob/main/docs/"
           f"{esc(d['file'])}'>docs/{esc(d['file'])}</a></p></div>"
         for d in docs
     )
@@ -1195,6 +1418,65 @@ opened and closed. It is all published, and it is all indexed.
 """, mast=masthead(r))
 
 
+def page_document(r, it, published: dict[str, str]) -> str:
+    """One repository document, readable here rather than on someone else's site.
+
+    The library used to be 181 links to `github.com/.../blob/main/...`, which
+    is not a library. It is a bibliography pointing at a code host, and a
+    reader who wanted the working paper got raw markdown in a file browser.
+    A document the laboratory asks people to check should be a page.
+    """
+    rel = it["path"]
+    src = (REPO / rel).read_text(errors="ignore")
+    depth = it["url"].count("/")
+    up = "../" * depth
+    here = Path(rel).parent
+
+    def resolve(href: str) -> str | None:
+        """A markdown target, as a URL on this site, or None to keep it text."""
+        if href.startswith("#"):
+            return href
+        if href.startswith(("http://", "https://", "mailto:")):
+            return None
+        target = href.split("#", 1)[0]
+        anchor = href[len(target):]
+        if not target.endswith(".md"):
+            return None
+        # Try the link as written relative to the document, then from the root,
+        # because this tree does both and a reader should not care which.
+        for cand in ((here / target), Path(target)):
+            key = cand.resolve().relative_to(REPO.resolve()).as_posix() \
+                if cand.is_absolute() else _norm(cand)
+            if key in published:
+                return up + published[key] + anchor
+        return None
+
+    body = md_to_html(src, resolve)
+    # The title is the file's own `# ` heading, already extracted; strip the
+    # first rendered <h2> when it repeats it, so the page has one title.
+    return shell(f"{it['title']} · {IDENTITY['name']}", f"""
+<p class='crumb'><a href='{up}library.html'>Library</a> ·
+<code>{esc(rel)}</code></p>
+<h1>{esc(it['title'])}</h1>
+<p class='meta'>{num(it['words'])} words · {num(it['lines'])} lines ·
+<a href='{esc(IDENTITY['source'])}/blob/main/{esc(rel)}'>source</a></p>
+<article class='doc'>{body}</article>
+""", depth=depth, mast=masthead(r, up))
+
+
+def _norm(p: Path) -> str:
+    """Collapse `a/b/../c` without touching the filesystem."""
+    parts: list[str] = []
+    for seg in p.as_posix().split("/"):
+        if seg in ("", "."):
+            continue
+        if seg == ".." and parts:
+            parts.pop()
+        elif seg != "..":
+            parts.append(seg)
+    return "/".join(parts)
+
+
 def page_library(r, lib) -> str:
     """Every tracked document, shelved.
 
@@ -1212,11 +1494,13 @@ def page_library(r, lib) -> str:
         f"<p class='meta'>{num(len(s['items']))} documents · "
         f"{num(s['lines'])} lines</p>"
         + "".join(
-            f"<div class='entry'><h4>{esc(it['title'])}</h4>"
+            f"<div class='entry'>"
+            f"<h4><a href='{esc(it['url'])}'>{esc(it['title'])}</a></h4>"
             + (f"<p>{esc(it['blurb'])}</p>" if it["blurb"] else "")
-            + f"<p class='meta'><a href='{esc(IDENTITY['source'])}/blob/main/"
-              f"{esc(it['path'])}'>{esc(it['path'])}</a> · "
-              f"{num(it['lines'])} lines</p></div>"
+            + f"<p class='meta'><a href='{esc(it['url'])}'>read</a> · "
+              f"{num(it['words'])} words · "
+              f"<a href='{esc(IDENTITY['source'])}/blob/main/"
+              f"{esc(it['path'])}'>{esc(it['path'])}</a></p></div>"
             for it in s["items"]
         )
         + "</section>"
@@ -1432,30 +1716,53 @@ def main() -> int:
     out = args.out
     (out / "pursuits").mkdir(parents=True, exist_ok=True)
     pages = {
-        out / "index.html": page_index(r, lean, py, gr, threads, contribution(), frontier(), stack()),
+        out / "index.html": page_index(r, lean, py, gr, threads, contribution(), frontier(), stack(), lib),
         out / "pursuits" / "zeta.html": page_zeta(r, lean, py, gr),
         out / "reading.html": page_reading(r, docs, lean),
         out / "library.html": page_library(r, lib),
         out / "record.html": page_record(r, gr, gates, revs, fixes),
         out / "about.html": page_about(r, lean, py),
     }
-    for path, text in pages.items():
+    # Every document git tracks becomes a page, so the library is a library
+    # and not a bibliography pointing at a code host.
+    items = [it for shelf in lib for it in shelf["items"]]
+    published = {it["path"]: it["url"] for it in items}
+    docpages = {out / it["url"]: page_document(r, it, published) for it in items}
+
+    for path, text in {**pages, **docpages}.items():
+        path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(text, encoding="utf-8")
 
+    # The contract, split by what the page is. A page this laboratory wrote
+    # links only to its own source. A page that *quotes* a document keeps the
+    # document's citations as inert text, for the same reason the em dash rule
+    # exempts quoted material: repunctuating or deleting someone's recorded
+    # reference to satisfy a house rule is editing the record. Neither kind
+    # may load anything over the network, which is what the contract is for.
     bad = []
-    for path, text in pages.items():
+    for path, text in {**pages, **docpages}.items():
         if "<script" in text.lower():
             bad.append(f"{path.name}: has a <script> tag")
-        for url in re.findall(r"https?://[^\"'\s<>]+", text):
-            if not url.startswith("https://github.com/"):
-                bad.append(f"{path.name}: external request {url}")
+        for attr in re.findall(r"(?:src|srcset)\s*=\s*[\"']([^\"']+)", text):
+            bad.append(f"{path.name}: loads a subresource {attr}")
+        for href in re.findall(r"<a[^>]+href\s*=\s*[\"']([^\"']+)", text):
+            if href.startswith(("http://", "https://")) \
+                    and not href.startswith("https://github.com/"):
+                bad.append(f"{path.name}: external link {href}")
+        if path in pages:
+            for url in re.findall(r"https?://[^\"'\s<>]+", text):
+                if not url.startswith("https://github.com/"):
+                    bad.append(f"{path.name}: external request {url}")
     if bad:
         print("CONTRACT VIOLATED:", *bad, sep="\n  ", file=sys.stderr)
         return 1
 
     for path in pages:
         print(f"  {path.relative_to(out)}  {path.stat().st_size / 1024:.1f} KB")
-    print(f"{len(pages)} pages -> {out}   no scripts, no external requests")
+    kb = sum(p.stat().st_size for p in docpages) / 1024
+    print(f"  read/  {len(docpages)} documents  {kb:.0f} KB")
+    print(f"{len(pages) + len(docpages)} pages -> {out}"
+          f"   no scripts, nothing loaded over the network")
     return 0
 
 
