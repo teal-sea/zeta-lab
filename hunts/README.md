@@ -70,6 +70,47 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #17: a second opinion on one Epstein value (`support_e6241336/`)
+
+**Status: support run, complete and settled. The number the parent run asked
+about is right, and the `dps=60` return that produced it is good to 16 digits,
+not 60.**
+
+A run working elsewhere asked one bounded question: is
+`abs(epstein_completed(0.8+85.7i, (2,1,3)))` at `dps=60` within an order of
+magnitude of `1.6e-58`? Measured: `1.617452632377971461454064e-58`, which is
+`1.0109 x` the claimed value, so 1.1% rather than an order of magnitude.
+
+The evaluation cancels: the Mellin split's pole terms are of size 1e-3 and the
+answer is of size 1e-58, so about 55 of the `dps + 10` working digits are spent
+before the answer starts. The ladder shows it. `dps=40` is still the roundoff
+floor and reads 5 orders too large, `dps=50` has 5 correct digits, `dps=60` has
+16.0, and 80 and 120 agree to all 25 digits printed, reproducing
+`hunts/dps_cap`'s converged value exactly.
+
+Three checks that are not the same routine run again. The completion's
+normalisation against the convergent lattice sum at `s = 4` (3.7e-17). The
+functional equation across the inverse class (1.5e-75 at `dps=120`). And the
+one that carries the weight: the class-number-3 Dedekind identity for
+discriminant `-23`, `sum_Q Lambda_Q(s) = 2 (sqrt(23)/2pi)^s Gamma(s) zeta(s)
+L(s, chi_-23)`, whose right-hand side is built from mpmath's `zeta` and Hurwitz
+`zeta` and so reaches 1e-58 with **no cancellation at all**. The two routes
+agree to 4.0e-17 at `dps=60` and 6.3e-76 at `dps=120`.
+
+Control on this run's own instrument, which failed first: the opening pass built
+`s` at mpmath's default 15 digits, rounding the argument to 53 bits, and since
+`d/ds log Lambda` is about 4.5 here that moved the 15th digit and produced a
+false disagreement with Hunt #12. `epstein_completed` cannot repair a short
+argument, so the fix belongs to the caller and the trap is recorded rather than
+patched.
+
+Scope: one point, one form, two routines. Nothing here bears on the Riemann
+hypothesis, and nothing here says where the Davenport-Heilbronn off-line zero
+sits, despite the point being near it. This hunt promotes nothing.
+
+Reproduce: `python hunts/support_e6241336/measure.py` (~80 s). Data:
+`results.json`; judgment in `HANDBACK.json`.
+
 ### Hunt #12 — what the precision cap costs (`dps_cap/`)
 
 **Status: probe, complete. One quantity at two precisions. At
