@@ -239,7 +239,27 @@ should be assumed low by a similar factor until it is.
 | # | statement | status |
 |---|---|---|
 | O9a | `shfnIv_mem`: `shfnIv` encloses `sinh(u/2)/u` | ⟨have⟩ **proved**, `O9Field.lean`, standard axioms |
-| O9b | `o9Field_mem`: `o9Field` encloses `(Re Φ₂, Im Φ₂ / y)` on the cell | **open**, the real/imaginary decomposition |
+| O9b-analytic | `phi2_re_eq`, `phi2_im_eq`: `Re Φ₂ = Qref` and **`Im Φ₂ = y · Rf`** | ⟨have⟩ **proved**, `O9Sound.lean`, standard axioms |
+| O9b-interval | `o9Field` encloses `(Qref, Rf)` on the cell | **open**, mechanical composition of the `_mem` lemmas |
+
+`phi2_im_eq` is the identity the whole two-variable route rests on: `Im Φ₂`
+carries an explicit factor of `y`, so `Rf` is an honest `Qim/y`, finite at
+`y = 0` where `Qim/y` reads as `0/0`. Two things it needed that the package
+did not already have:
+
+* **A side condition from `s`, not from `y`.** `Phi2_closed` wants `z² ≠ 2`,
+  and `sq_ne_two_of_im_ne_zero` supplies it from `y ≠ 0` — exactly the
+  hypothesis unavailable here. `sq_ne_two_of_re_gt` supplies it from
+  `√2 < s`, which holds throughout `[28/5, 60]`.
+* **The bridge `shfunR_mul : y · shfunR y = sinh(y/2)`**, true at `y = 0` as
+  `0 · ½ = 0 = sinh 0`. That is the step that lets `sinh(y/2)` be traded for
+  `y · shq` and the `y` pulled out front.
+
+What is left of O9b is the interval half: that `o9Field`'s composition of
+`sinCosIv`, `sinhCoshSmall`, `shfnIv`, `EIv.mul/add/sub/div` encloses `Qref`
+and `Rf`. Every constituent `_mem` lemma exists (O9a supplied the only missing
+one), so this is composition rather than new mathematics — but it is not
+written, and **no `sorry` stands in for it**.
 
 O9a needed one thing that was not already in `Leaves.lean`. Its `sinh_taylor`
 bounds the remainder by `RB` flat, having spent the `|t|^22` that

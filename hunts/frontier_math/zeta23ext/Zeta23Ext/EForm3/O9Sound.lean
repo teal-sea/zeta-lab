@@ -140,26 +140,34 @@ theorem half_split (y s : ℝ) :
     ((s : ℂ) + (y : ℝ) * I) / 2 = ((s / 2 : ℝ) : ℂ) + ((y / 2 : ℝ) : ℝ) * I := by
   push_cast; ring
 
+/-- The structural `re`/`im` lemmas, and **only** those.
+
+A full `simp` here is actively harmful: it renormalises `(↑s + ↑y*I)/2` into
+`↑s * (1/2) + ↑y * I * (1/2)`, which no longer matches the `a + b*I` shape
+`sin_addI_re` and friends are stated over, so those never fire and the goal is
+left with uncomputed `Complex.re`s.  Everything must be rewritten in one
+`simp only`, before any arithmetic normalisation gets a turn. -/
+
 theorem Numc_re (y s : ℝ) : (Numc y s).re = ReNf y s := by
-  simp only [Numc, half_split, ReNf]
-  simp [Complex.add_re, Complex.add_im, Complex.mul_re, Complex.mul_im,
-    Complex.sub_re, Complex.sub_im, Complex.ofReal_re, Complex.ofReal_im,
-    Complex.I_re, Complex.I_im, sin_addI_re, sin_addI_im, cos_addI_re, cos_addI_im]
+  simp only [Numc, half_split, sin_addI_re, sin_addI_im, cos_addI_re, cos_addI_im,
+    Complex.mul_re, Complex.mul_im, Complex.sub_re, Complex.sub_im,
+    Complex.add_re, Complex.add_im, Complex.ofReal_re, Complex.ofReal_im,
+    Complex.I_re, Complex.I_im, Complex.re_ofNat, Complex.im_ofNat, ReNf]
   ring
 
 /-- **The factor of `y` comes out.**  This is the identity the whole
 two-variable route rests on. -/
 theorem Numc_im (y s : ℝ) : (Numc y s).im = 2 * y * Ntilf y s := by
-  simp only [Numc, half_split, Ntilf]
-  simp [Complex.add_re, Complex.add_im, Complex.mul_re, Complex.mul_im,
-    Complex.sub_re, Complex.sub_im, Complex.ofReal_re, Complex.ofReal_im,
-    Complex.I_re, Complex.I_im, sin_addI_re, sin_addI_im, cos_addI_re, cos_addI_im]
-  rw [show Real.sinh (y / 2) = y * shfunR y from (shfunR_mul y).symm]
+  simp only [Numc, half_split, sin_addI_re, sin_addI_im, cos_addI_re, cos_addI_im,
+    Complex.mul_re, Complex.mul_im, Complex.sub_re, Complex.sub_im,
+    Complex.add_re, Complex.add_im, Complex.ofReal_re, Complex.ofReal_im,
+    Complex.I_re, Complex.I_im, Complex.re_ofNat, Complex.im_ofNat, Ntilf]
+  -- the only non-ring step: `sinh (y/2)` becomes `y * shfunR y`, valid at `y = 0`
+  rw [← shfunR_mul y]
   ring
 
 theorem den_re (y s : ℝ) : ((((s : ℂ) + (y : ℝ) * I) ^ 2 - 2)).re = ReDf y s := by
   simp [pow_two, Complex.mul_re, Complex.mul_im, Complex.sub_re, ReDf]
-  ring
 
 theorem den_im (y s : ℝ) : ((((s : ℂ) + (y : ℝ) * I) ^ 2 - 2)).im = 2 * s * y := by
   simp [pow_two, Complex.mul_re, Complex.mul_im, Complex.sub_im]
