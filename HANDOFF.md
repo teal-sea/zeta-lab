@@ -43,6 +43,46 @@ state for the mathematics.
   written. The arm was built 2026-08-13, `decide +kernel` refuted the O9 table
   on 7 of 9 chunks, and the repaired 699-cell table now decides on all 18.
 
+## Record: the fast tier was on a midnight timer, and nobody had noticed
+## (2026-08-14)
+
+- **Believed:** that `tests/test_dossier_hardy_z.py`'s staleness check was
+  green in CI because the recorded kernel observation genuinely postdated the
+  last edit to `HardyZ.lean`.
+- **Invalidated by:** running it against a shallow clone. `.github/workflows/
+  tests.yml` checked out with `actions/checkout@v4` and no `fetch-depth`, so
+  the fast tier ran on a depth-1 clone. `git log -1 --date=short --
+  lean/ZetaLean/HardyZ.lean` then has exactly one commit to answer from and
+  returns **the checkout's own date** rather than the file's. Measured both
+  ways on 2026-08-14: full clone `2026-08-07` (correct), shallow clone
+  `2026-08-14`. The check was therefore comparing the record against today,
+  which is true on the day of a re-observation and false every day after.
+  `7ecb11d` ("Re-observe the HardyZ kernel run ... record was stale",
+  2026-08-13) is the same failure treated as a symptom: re-observing reset the
+  clock for one day.
+- **Now caught by, landed:** the test asks `git rev-parse
+  --is-shallow-repository` first and **skips with a reason** rather than
+  comparing against a meaningless date. That is `proven_sign` returning 0 for
+  "not decided" rather than guessing a sign. Verified by cloning this tree at
+  `--depth 1`: the old test reproduces the CI failure there, the new one skips,
+  and the full clone still runs the real comparison and passes.
+- **The better fix, prepared and NOT landed.** `tests.yml` and `full.yml`
+  should check out with `fetch-depth: 0`, as `checks.yml` already does for
+  `scripts/70_lab_state.py`, so CI *runs* the staleness check instead of
+  skipping it. The push was refused: the `teal-sea` OAuth token carries
+  `repo` but not `workflow`, so it may not update `.github/workflows/`.
+  Restore the scope with `gh auth refresh -h github.com -u teal-sea -s
+  workflow` and apply the two-line change. **Until that lands the check does
+  not run in CI at all**, which is weaker than it looks green: skipping is
+  honest but it is not coverage.
+- **Justified conclusion:** the HardyZ record was never stale and no kernel
+  re-run was needed. This is the third instance in this tree of the same
+  class, after the site's commit count and the Lean theorem count: **a query
+  answered from a truncated view, rendering exactly as confidently as a true
+  one.** The general shape is worth more than the fix. Any git question asked
+  by a test or a generator has to state what it does when the history is not
+  there.
+
 ### State (2026-08-14)
 
 `main` = `5c254cf`, clean, everything pushed. Fast tier: 2426 passed, 1

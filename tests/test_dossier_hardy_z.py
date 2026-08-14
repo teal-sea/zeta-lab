@@ -229,6 +229,24 @@ def test_proved_cites_a_watched_dated_kernel_run_the_tree_corroborates(hardy_z) 
             assert f"lemma {lemma}" in source, lemma
         # (d) the observation must postdate the last edit of what it certifies
         if shutil.which("git") and (_REPO_ROOT / ".git").exists():
+            # A depth-1 clone has one commit in it, so `log -1 -- <path>`
+            # answers with the checkout rather than with the file's history.
+            # That is not a stricter check, it is a different and meaningless
+            # one: it passed only while CI ran on the same calendar day as the
+            # last re-observation, then failed at midnight and read as "the
+            # record is stale" when nothing had changed. Refuse to answer
+            # instead, the same way `rigor.proven_sign` returns 0 for "not
+            # decided" rather than guessing a sign.
+            shallow = subprocess.run(
+                ["git", "rev-parse", "--is-shallow-repository"],
+                cwd=_REPO_ROOT, capture_output=True, text=True,
+            ).stdout.strip()
+            if shallow == "true":
+                pytest.skip(
+                    "shallow checkout: the last change to HardyZ.lean cannot "
+                    "be read from a truncated history, so the staleness check "
+                    "is not run. Clone with fetch-depth: 0 to restore it."
+                )
             last = subprocess.run(
                 ["git", "log", "-1", "--format=%ad", "--date=short", "--",
                  "lean/ZetaLean/HardyZ.lean"],
