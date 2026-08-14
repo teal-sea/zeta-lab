@@ -98,11 +98,11 @@ theorem qre_comp_mem {A B C D E : EIv} {a b c d : ℝ}
 
 `B` and `D` are the `/y` variants, so nothing here divides by `y`; the negation
 is the one `rIv` carries because `Phi2 (s + i y)` has imaginary part `−Qim`. -/
-theorem r_comp_mem {A B C D E : EIv} {a bOverY c dOverY : ℝ}
+theorem r_comp_mem {A B C D E : EIv} {a bOverY c dOverY e : ℝ}
     (hA : A.mem a) (hB : B.mem bOverY) (hC : C.mem c) (hD : D.mem dOverY)
-    (hE : E.mem (c * c + dOverY * dOverY)) :
+    (hE : E.mem e) :
     (EIv.neg (EIv.div (EIv.sub (EIv.mul B C) (EIv.mul A D)) E)).mem
-      (-((bOverY * c - a * dOverY) / (c * c + dOverY * dOverY))) :=
+      (-((bOverY * c - a * dOverY) / e)) :=
   EIv.neg_mem (EIv.div_mem (EIv.sub_mem (EIv.mul_mem hB hC) (EIv.mul_mem hA hD)) hE)
 
 /-- `denAbs2`'s shape is sound: it encloses `c*c + d*d`. -/

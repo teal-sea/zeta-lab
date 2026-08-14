@@ -44,26 +44,30 @@ With `bOverY = Im num / y` and `dOverY = Im den / y`, this is
 `O9Real.im_div_over_y` is the identity that says this equals `Qim/y`, and it is
 why the enclosure exists at `y = 0` at all. -/
 theorem rIv_mem {a bOverY c dOverY : ℝ}
+    {y : ℝ}
     (hA : EIv.mem (boxParts sLo sHi yLo yHi).reNum a)
     (hB : EIv.mem (boxParts sLo sHi yLo yHi).imNumOverY bOverY)
     (hC : EIv.mem (boxParts sLo sHi yLo yHi).reDen c)
     (hD : EIv.mem (boxParts sLo sHi yLo yHi).imDenOverY dOverY)
-    (hE : EIv.mem (boxParts sLo sHi yLo yHi).denAbs2 (c * c + dOverY * dOverY)) :
+    (hE : EIv.mem (boxParts sLo sHi yLo yHi).denAbs2
+      (c * c + (dOverY * y) * (dOverY * y))) :
     EIv.mem (rIv sLo sHi yLo yHi)
-      (-((bOverY * c - a * dOverY) / (c * c + dOverY * dOverY))) := by
+      (-((bOverY * c - a * dOverY) / (c * c + (dOverY * y) * (dOverY * y)))) := by
   unfold rIv
   exact O9Seam.r_comp_mem hA hB hC hD hE
 
 /-! ## What remains
 
-`qreIv_mem` and `rIv_mem` take the denominator enclosure at `c*c + d*d` and at
-`c*c + dOverY*dOverY` respectively. Those are different reals — the second is
-the first divided by `y²` — so a box using **mode 2** needs both forms, related
-by `y ≠ 0`. `O9Parts.denAbs2_mem` supplies the first directly.
+`qreIv_mem` and `rIv_mem` now consume the same denominator:
+`c*c + (dOverY*y)*(dOverY*y)`, with `d = dOverY*y`. The apparent mismatch was
+an abstraction defect in the old `r_comp_mem` statement. Its interval
+composition never required the denominator to be reconstructed from the
+components used in the numerator.
 
-That relation, and the two mode arithmetics that consume it
-(`dam_le_of_mode1` is already proved; mode 2 is not), are the last step. No
-`sorry` stands in for them.
+What remains is to instantiate these structural lemmas with the actual
+numerator and denominator parts, identify the quotients with `Qre` and
+`Qim/y`, and feed their enclosures into the two mode lemmas. No `sorry` stands
+in for that assembly.
 -/
 
 end Retention
