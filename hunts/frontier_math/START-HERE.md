@@ -54,9 +54,43 @@ Grade **hardened** = measured many ways with controls that have power;
   named sub-worries were measured and none binds — unbounded crowding,
   decaying budget, the counting question, shared-`R`. What is missing is
   a *proof*, and there is no route with a schedule.
-* **Everything in Lean.** O9 is sized twice (344 cells 1-D here; **389
-  leaves 2-D** by `lab-rejection-philosophy`, whose route is better
-  because it needs no unproved depth-reduction lemma). Nothing compiled.
+* **The Lean root does not load.** See §4b.
+
+## 4b. What the first Lean build found (2026-08-14)
+
+Until this date no session in this hunt had a toolchain, so `zeta23ext` had
+**never been compiled**. It did not build.
+
+* **Seven modules failed**, in three cascading layers (each reachable only
+  once the layer before it compiled): `EForm2/{Bridge,Estimates}`,
+  `EForm3/Numerics`, `TruncEst/{Kernel,Decay,Autocorrelation}`,
+  `RetentionWired`. All seven were Mathlib drift, not mathematics, and all
+  seven are now fixed. `EForm3/Numerics` is on the `k = 1` chain.
+* **`RetentionWired.margin_identity` was carrying a `sorryAx`** induced by
+  its own build error. Nobody wrote a `sorry`; the failed proof supplied one.
+  The tree now reports zero.
+* **The root still does not load, and not because of drift.**
+  `Zeta23Ext.lean` imports both arms and both define `Retention.Aconst` and
+  `Retention.c2` (`EForm/Basic.lean` over `gker` with `u - w`;
+  `EForm3/Defs.lean` over `g` with `u + w`). Deciding which arm owns those
+  names is an architecture call, not a rename — ~200 references each, across
+  four arms — and it is left to whoever holds `zeta23ext/` assembly.
+* **The `k = 1` retention chain does build**, as a target rather than through
+  the root: `lake build Zeta23Ext.EForm3.{Master,Main,Refutation}
+  Zeta23Ext.RetentionWired Zeta23Ext.BandCert.Main` → 0 errors, 0 `sorryAx`.
+* **O9 is now a two-variable table needing no depth-reduction lemma**
+  (`o9_leaf2d.py`, 1939 leaves, depth 20, 0 undecided). Its two membership
+  lemmas are stated and **not** proved, with no `sorry` standing in.
+* **A caveat that was load-bearing turned out to be false.** Both O9 tables
+  predicted the kernel's verdict using Arb leaves, on the claim that Arb and
+  `Leaves.lean` "agree to well under `2^-60`". They do not, on wide cells —
+  Arb encloses by range, Lean evaluates a Taylor interval and doubles twice.
+  The first 2-D table was rejected by `decide +kernel` on 14 of 15 chunks.
+  `o9_leaf2d.py` now mirrors Lean's algorithms bit-for-bit;
+  **`o9_leaf.py` still does not, and its 344 has never met the kernel.**
+
+Build cost, for whoever plans the next one: Mathlib cache ~8 GB,
+`BandCert/Verify.lean` alone takes **640 s**, peak RSS ~9.4 GB.
 
 ## 5. What to ignore
 
@@ -73,14 +107,19 @@ reading end to end.
 
 ## 6. The one next action
 
-Get a container with **elan + Lean 4 `v4.33.0-rc2`** and network access to
-`github.com/anthropics/zeta-23-lean` @ `3635e74`. Then build the 2-D O9
-table by `o9_scoping`'s route and run `lake build`. Every Road A
-obligation is staged and none has ever been compiled; one build converts
-a pile of staged work into a list of what actually fails.
+*Superseded 2026-08-14 — the build has now been run; see §4b. What it asked
+for is done, and the list of what actually fails is above.*
+
+The next action is now **the `Retention.Aconst` / `Retention.c2` collision**,
+because until it is resolved the root module cannot load and no amount of
+staged work can be checked through it. That is an architecture decision, not
+a rename.
+
+After it: prove O9a/O9b (the two membership lemmas for the 2-D table), and
+re-cost `o9_leaf.py` against the kernel rather than against Arb.
 
 `k >= 2` is a separate, open-ended research effort and should not be
-sequenced behind that.
+sequenced behind any of that.
 
 ## 7. What went wrong in the session that produced this
 
