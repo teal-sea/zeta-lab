@@ -29,7 +29,7 @@ invoked.
 |---|---|
 | build its own instruments under `hunts/<name>/` | modify `zeta/`, `ontology/` or `harness/` without explicit permission |
 | record raw measurements in its own `results*.json` | write a verdict into `README.md`, `ROADMAP.md` or `HANDOFF.md` as an established finding |
-| use the word *measured*, *observed*, *consistent with* | use *verified*, *confirmed*, *definitively*, *proves* — and never *certified*, which `zeta/rigor.py` owns |
+| use the word *measured*, *observed*, *consistent with* | use *certified*, which `zeta/rigor.py` owns |
 | propose a candidate for the funnel or the battery | promote its own claim |
 
 A hunt that wants its claim to count takes it through the battery
@@ -69,6 +69,46 @@ control roles — and the checks are the ones the tree already owns:
    does not respond to added precision; a real quantity does.**
 
 ## Case log
+
+### Hunt #9 — how much power a guard has (`r_414eed/`)
+
+**Status: probe, complete. `scripts/make_context.py --check` caught 17/17
+in-scope mutants including its declared smallest one — and it caught that one
+by accounting rather than comprehension, which is what exposed the single edit
+shape that slips past it.** `CONTEXT.md` prints a per-module line count, so any
+length-changing edit marks it stale (a lone blank line fires the guard) while a
+private helper renamed public *in place*, in a module that declares `__all__`,
+regenerates byte-identically and passes. Four unscanned regions mapped
+(`meta/`, `compiler/`, `docs/doors/`, non-`test_*.py` test files). Controls: the
+unmutated sandbox reproduces `CONTEXT.md` byte for byte, and the undo is
+re-checked after every one of 24 mutants; the repository itself is never
+written to. **Disposition:** guard ledger entry amended from `fired=None` to
+`fired=True` with its scope and six known misses
+(`harness/departments/guard_ledger.py`, run `fd5fd902`). Nothing here bears on
+ζ or RH — it measures a repository hygiene script.
+
+### Hunt #10 — what the doors guard actually catches (`r_cb5ffe/`)
+
+**Status: probe, complete. The guard's power is measured at 5/10 against a
+ten-mutant battery, and its five misses share one cause.**
+
+`harness/departments/guard_ledger.py` carried `tests/test_doors.py` with
+`fired: None` and `scope: undetermined until demonstrated` — existence
+recorded, power never measured. This hunt builds the mutant the record names
+(a door command that exits non-zero) plus nine neighbours, applies each to a
+throwaway `git worktree`, and records which tier of the guard notices.
+
+Measured: four mutants caught on the fast tier, one only on the slow tier,
+five escaped. The escapes are structural rather than scattered — the guard's
+whole notion of "a door's command" is the regex `scripts/[\w.]+\.py` applied
+to `docs/doors/README.md`, so a command quoted *inside* a door page is
+unguarded, and a README row naming no script (the certify door's Lean build,
+the adopt door's pytest invocation) is outside its field of view. A tree
+carrying all five escapes at once passes both tiers green.
+
+The hunt reports a proposed ledger amendment and does not apply it:
+`harness/` is demoted (`harness/VERDICT.md`) and a hunt may not promote its
+own claim.
 
 ### Hunt #8 — where the fog enters (`effective_constants/`)
 

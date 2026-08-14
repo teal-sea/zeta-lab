@@ -122,7 +122,11 @@ def test_the_facts_come_from_artifacts_not_literals(built: Path) -> None:
     assert f">{thms:,}<" in zeta, f"theorem count {thms} not rendered"
     assert f">{lems:,}<" in zeta, f"lemma count {lems} not rendered"
     assert f">{sorrys}<" in zeta, "the sorry count must be shown even at zero"
-    assert f">{docs:,}<" in index, f"document count {docs} not rendered"
+    # The document count is no longer a front-page tile: it meant little to a
+    # reader outside the trade. Every document still has to appear on the
+    # reading page, which test_every_document_is_reachable_and_described checks
+    # by name rather than by total, so nothing stopped being verified.
+    assert docs > 0, "no numbered documents found"
 
     # The front page counts both Lean corpora: the re-derived ladder in
     # lean/ZetaLean and the frontier work in hunts/frontier_math. Counting only

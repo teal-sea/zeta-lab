@@ -1,0 +1,279 @@
+{
+  "guard": "tests/test_doors.py",
+  "head": "40e42f7f46d22fbf06388266576b8e0e60fc3708",
+  "python": "3.11.15",
+  "tiers": {
+    "fast": "pytest tests/test_doors.py -m \"not slow\"",
+    "slow": "pytest tests/test_doors.py -m slow"
+  },
+  "mutants": [
+    {
+      "id": "M1",
+      "what": "the doors README table names a script that does not exist",
+      "family": "README command unrunnable",
+      "predicted_tier": "fast",
+      "fast": {
+        "returncode": 1,
+        "seconds": 0.2,
+        "last_line": "1 failed, 1 passed, 2 deselected in 0.03s",
+        "failed_nodes": [
+          "test_the_doors_readme_names_only_scripts_that_exist"
+        ]
+      },
+      "slow": null,
+      "fast_verdict": "caught",
+      "slow_verdict": "not-run",
+      "caught": true
+    },
+    {
+      "id": "M2",
+      "what": "a door's script is renamed on disk, README left pointing at the old name",
+      "family": "README command unrunnable",
+      "predicted_tier": "fast",
+      "fast": {
+        "returncode": 1,
+        "seconds": 0.2,
+        "last_line": "1 failed, 1 passed, 2 deselected in 0.03s",
+        "failed_nodes": [
+          "test_the_doors_readme_names_only_scripts_that_exist"
+        ]
+      },
+      "slow": null,
+      "fast_verdict": "caught",
+      "slow_verdict": "not-run",
+      "caught": true
+    },
+    {
+      "id": "M3",
+      "what": "a door *page* (learn.md) names a script that does not exist; README untouched",
+      "family": "door-page command unrunnable",
+      "predicted_tier": "none",
+      "fast": {
+        "returncode": 0,
+        "seconds": 0.2,
+        "last_line": "2 passed, 2 deselected in 0.02s",
+        "failed_nodes": []
+      },
+      "slow": {
+        "returncode": 0,
+        "seconds": 27.1,
+        "last_line": "2 passed, 2 deselected in 26.88s",
+        "failed_nodes": [],
+        "via": "combined_escape_tree"
+      },
+      "fast_verdict": "escaped",
+      "slow_verdict": "escaped",
+      "caught": false
+    },
+    {
+      "id": "M4",
+      "what": "a command quoted only by a door page exits non-zero",
+      "family": "door-page command unrunnable",
+      "predicted_tier": "none",
+      "fast": {
+        "returncode": 0,
+        "seconds": 0.2,
+        "last_line": "2 passed, 2 deselected in 0.02s",
+        "failed_nodes": []
+      },
+      "slow": {
+        "returncode": 0,
+        "seconds": 27.1,
+        "last_line": "2 passed, 2 deselected in 26.88s",
+        "failed_nodes": [],
+        "via": "combined_escape_tree"
+      },
+      "fast_verdict": "escaped",
+      "slow_verdict": "escaped",
+      "caught": false
+    },
+    {
+      "id": "M5",
+      "what": "the command quoted by the README refute row exits non-zero",
+      "family": "README command unrunnable",
+      "predicted_tier": "slow",
+      "fast": {
+        "returncode": 0,
+        "seconds": 0.2,
+        "last_line": "2 passed, 2 deselected in 0.02s",
+        "failed_nodes": []
+      },
+      "slow": {
+        "returncode": 1,
+        "seconds": 0.2,
+        "last_line": "1 failed, 3 deselected in 0.05s",
+        "failed_nodes": [
+          "test_the_refute_door_command_runs"
+        ]
+      },
+      "fast_verdict": "escaped",
+      "slow_verdict": "caught",
+      "caught": true
+    },
+    {
+      "id": "M6",
+      "what": "a README row's command is replaced by one naming no script at all",
+      "family": "README command unrunnable",
+      "predicted_tier": "none",
+      "fast": {
+        "returncode": 0,
+        "seconds": 0.2,
+        "last_line": "2 passed, 2 deselected in 0.02s",
+        "failed_nodes": []
+      },
+      "slow": {
+        "returncode": 0,
+        "seconds": 27.1,
+        "last_line": "2 passed, 2 deselected in 26.88s",
+        "failed_nodes": [],
+        "via": "combined_escape_tree"
+      },
+      "fast_verdict": "escaped",
+      "slow_verdict": "escaped",
+      "caught": false
+    },
+    {
+      "id": "M7",
+      "what": "the certify door's Lean command is misspelled",
+      "family": "README command unrunnable",
+      "predicted_tier": "none",
+      "fast": {
+        "returncode": 0,
+        "seconds": 0.2,
+        "last_line": "2 passed, 2 deselected in 0.02s",
+        "failed_nodes": []
+      },
+      "slow": {
+        "returncode": 0,
+        "seconds": 27.1,
+        "last_line": "2 passed, 2 deselected in 26.88s",
+        "failed_nodes": [],
+        "via": "combined_escape_tree"
+      },
+      "fast_verdict": "escaped",
+      "slow_verdict": "escaped",
+      "caught": false
+    },
+    {
+      "id": "M8",
+      "what": "the adopt door's pytest command names a test file that does not exist",
+      "family": "README command unrunnable",
+      "predicted_tier": "none",
+      "fast": {
+        "returncode": 0,
+        "seconds": 0.2,
+        "last_line": "2 passed, 2 deselected in 0.02s",
+        "failed_nodes": []
+      },
+      "slow": {
+        "returncode": 0,
+        "seconds": 27.1,
+        "last_line": "2 passed, 2 deselected in 26.88s",
+        "failed_nodes": [],
+        "via": "combined_escape_tree"
+      },
+      "fast_verdict": "escaped",
+      "slow_verdict": "escaped",
+      "caught": false
+    },
+    {
+      "id": "M9",
+      "what": "an interactive_lab page loads code from another host",
+      "family": "interactive_lab contract",
+      "predicted_tier": "fast",
+      "fast": {
+        "returncode": 1,
+        "seconds": 0.2,
+        "last_line": "1 failed, 1 passed, 2 deselected in 0.03s",
+        "failed_nodes": [
+          "test_interactive_lab_pages_are_single_file_and_script_free"
+        ]
+      },
+      "slow": null,
+      "fast_verdict": "caught",
+      "slow_verdict": "not-run",
+      "caught": true
+    },
+    {
+      "id": "M10",
+      "what": "an interactive_lab page loses its <title>",
+      "family": "interactive_lab contract",
+      "predicted_tier": "fast",
+      "fast": {
+        "returncode": 1,
+        "seconds": 0.2,
+        "last_line": "1 failed, 1 passed, 2 deselected in 0.03s",
+        "failed_nodes": [
+          "test_interactive_lab_pages_are_single_file_and_script_free"
+        ]
+      },
+      "slow": null,
+      "fast_verdict": "caught",
+      "slow_verdict": "not-run",
+      "caught": true
+    }
+  ],
+  "null_control": {
+    "fast": {
+      "returncode": 0,
+      "seconds": 0.2,
+      "last_line": "2 passed, 2 deselected in 0.02s",
+      "failed_nodes": []
+    },
+    "slow": {
+      "returncode": 0,
+      "seconds": 25.0,
+      "last_line": "2 passed, 2 deselected in 24.79s",
+      "failed_nodes": []
+    },
+    "passes": true
+  },
+  "combined_escape_tree": {
+    "mutants": [
+      "M3",
+      "M4",
+      "M6",
+      "M7",
+      "M8"
+    ],
+    "fast": {
+      "returncode": 0,
+      "seconds": 0.2,
+      "last_line": "2 passed, 2 deselected in 0.02s",
+      "failed_nodes": []
+    },
+    "slow": {
+      "returncode": 0,
+      "seconds": 27.1,
+      "last_line": "2 passed, 2 deselected in 26.88s",
+      "failed_nodes": []
+    }
+  },
+  "summary": {
+    "mutants_built": 10,
+    "caught": [
+      "M1",
+      "M2",
+      "M5",
+      "M9",
+      "M10"
+    ],
+    "escaped": [
+      "M3",
+      "M4",
+      "M6",
+      "M7",
+      "M8"
+    ],
+    "caught_by_fast_tier": [
+      "M1",
+      "M2",
+      "M9",
+      "M10"
+    ],
+    "caught_only_by_slow_tier": [
+      "M5"
+    ],
+    "power": "5/10"
+  }
+}
