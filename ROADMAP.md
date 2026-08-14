@@ -30,6 +30,41 @@ RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem.
 
 ---
 
+## Decision: the generalized harness is demoted (2026-08-13)
+
+Phase 6 above built `harness/` on the bet that the referee, factored out of the
+laboratory, would make the lab extensible by department. **That bet was tested
+and lost.** Four preregistered experiments, three subjects, 74 agent runs, every
+protocol frozen and pushed before its arms ran: the harness arm never once
+outperformed the control, the control answered 37 of 37, and where correctness
+was identical the harness cost 1.1–1.7× the tokens and 2.4–5.0× the tool calls.
+Independently, the four framework entry points had zero live call sites while
+live hunts reimplemented the same control roles by hand.
+
+**Decided:** stop developing the generalized framework. Do not add departments.
+Do not extend `protocol.py`, `integrity.py`, `promotion.py` or
+`preregistration.py`. The evidence is `harness/VERDICT.md` and
+`harness/gate-evidence/`, and the negative result is not to be quietly
+relitigated.
+
+**Not decided, and deliberately so:** deletion. The ledgers under `harness/`
+have a live consumer (`scripts/70_lab_state.py`) and are ordinary lab
+bookkeeping; the demotion is of the framework and its subject packs, not of
+them.
+
+**Deliberate non-goal, added:** subject-independent verification infrastructure.
+The practice it generalized — a claim must fail on a structure-matched rival —
+is alive, cheaper and already enforced for ζ by `zeta.epstein.battery`.
+
+**What the episode bought**, and the reason it is recorded rather than erased:
+the rule now in `AGENTS.md` — *name the live consumer before building the
+abstraction* — plus a measured fact worth keeping in `compiler/semantics.py`
+(exhaustive concrete testing over all 65,536 i8 inputs cannot see poison-class
+defects) and a replicated cost finding for routing work through heavier
+machinery.
+
+---
+
 ## The strategic bet, and its honest status
 
 Of the attacks catalogued in `docs/08-why-it-is-hard.md`, every one has a

@@ -1,0 +1,71 @@
+# Tier 1 — the gate. Runs on every push and pull request.
+#
+# Stdlib + pytest only: no numpy, scipy, mpmath, sympy or editable install, so
+# there is nothing to build and nothing to cache. 342 tests in ~6 seconds
+# locally. This tier exists because the public repository's whole claim is that
+# the work is checkable, and until now every check depended on a human
+# remembering to run it.
+#
+# Membership is verified, not assumed: a file that merely avoids importing numpy
+# can still shell out to a script that needs it. tests/test_lab_state.py does
+# exactly that -- it subprocesses 70_lab_state.py, which imports harness ->
+# zeta_department -> numpy -- and CI caught it here. It now runs in tier 2.
+#
+# What it deliberately does NOT do: the numerical suite, the doors (which
+# execute real scripts), or Lean. Those are tiers 2 and 3 — see full.yml and
+# lean.yml. Cost here is measured in operator attention on a red build, not
+# money: this repository is public, so GitHub-hosted standard runners bill zero.
+# The scarce thing is a fast, trustworthy signal, and a gate that takes ten
+# minutes is one nobody waits for.
+name: checks
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: checks-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  governance:
+    name: governance and hygiene (no numerical deps)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # lab_state derives live threads from git history
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: install pytest only
+        run: python -m pip install --quiet --disable-pip-version-check pytest
+
+      - name: the tree's own invariants
+        # -o addopts="" clears the repo-wide `-n auto`, which needs pytest-xdist.
+        # This tier installs bare pytest on purpose, so `-n0` is not available
+        # either -- it is an xdist flag. Overriding addopts is the repo's own
+        # idiom (see the door commands in README.md) and keeps this tier
+        # dependency-free. Caught by CI on its first run.
+        run: |
+          python -m pytest -q -p no:cacheprovider -o addopts="" --no-header \
+            tests/test_docs_numbering.py \
+            tests/test_repo_hygiene.py \
+            tests/test_telemetry.py \
+            tests/test_huntspec.py \
+            tests/test_meta_ledger.py \
+            tests/test_graveyard.py \
+            tests/test_review.py \
+            tests/test_dossier_schema.py \
+            tests/test_discovery_schema.py \
+            tests/test_site.py
+
+      - name: CONTEXT.md is not stale
+        run: python scripts/make_context.py --check

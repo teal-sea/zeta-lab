@@ -6,6 +6,9 @@
 > building intuition, **not** a proof attempt — nothing computed here is
 > evidence for RH, and `docs/08` explains why no computation could be.
 
+The generated public record of what is established, candidate or withdrawn is
+at <https://zeta-record.vercel.app>, built from this tree on every push.
+
 Everything is Python + mpmath/Arb, tested against independent oracles. The
 organising idea: theta is the heat kernel, Poisson summation gives its modular
 identity, the Mellin transform turns that into the functional equation whose

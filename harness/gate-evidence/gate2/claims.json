@@ -1,0 +1,58 @@
+[
+  {
+    "id": "D01",
+    "text": "For the expression `0 0 */7 * *`, the interval between consecutive firings is 7 days throughout 2024."
+  },
+  {
+    "id": "D02",
+    "text": "For the expression `0 0 15W * 5` with the constructor's default settings, the schedule fires on every Friday of 2024 in addition to the nearest weekday to the 15th of each month."
+  },
+  {
+    "id": "D03",
+    "text": "In the six-field (seconds-resolution) form, the expressions `0 0 0 * * 7` and `0 0 0 * * 0` expand to the same internal representation, because day-of-week 7 is aliased to 0."
+  },
+  {
+    "id": "D04",
+    "text": "The expression `0 0 31W * *` fires in every month of 2024, including February."
+  },
+  {
+    "id": "D05",
+    "text": "A croniter positioned exactly on a firing instant returns that same instant from get_prev()."
+  },
+  {
+    "id": "D06",
+    "text": "croniter_range() includes both of its endpoints when those endpoints are themselves firing instants."
+  },
+  {
+    "id": "D07",
+    "text": "The expression `0 0 * * 1#5` fires in exactly 5 of the 12 months of 2024."
+  },
+  {
+    "id": "D08",
+    "text": "The expression `0 0 1-31/10 * *` fires on day 1, day 11, day 21 and day 31 of every month of 2024."
+  },
+  {
+    "id": "D09",
+    "text": "Passing implement_cron_bug=True changes which dates the expression `0 0 1 * 1` fires on in 2024."
+  },
+  {
+    "id": "D10",
+    "text": "The expressions `0 0 L * *` and `0 0 l * *` fire on exactly the same dates in 2024."
+  },
+  {
+    "id": "D11",
+    "text": "For `0 0 15W * 5`, passing day_or_union=True makes the schedule fire on strictly more dates in 2024 than the default settings do."
+  },
+  {
+    "id": "D12",
+    "text": "For the expression `0 0 31 * *`, the number of firings in 2024 equals the number of firings of `0 0 31W * *` in 2024."
+  },
+  {
+    "id": "D13",
+    "text": "Iterating `0 0 15W * *` backwards with get_prev() from 2025-01-01 yields exactly the reverse of the forward get_next() sequence over 2024."
+  },
+  {
+    "id": "D14",
+    "text": "For the expression `0 0 */7 * *`, the total number of firings in 2024 is 52."
+  }
+]

@@ -116,6 +116,124 @@ The standing rules for such a session:
   `tests/test_docs_numbering.py`, `tests/test_hunt_probe_discipline.py`,
   `tests/test_doors.py`, and `scripts/make_context.py --check`.
 
+## Where the operating material lives
+
+This repository is the **public research record**: mathematics, tests, proofs,
+evidence, and enough method that an outside reader can evaluate or reproduce a
+claim. That is why it is public, and it is the standard for what belongs here.
+
+**How the laboratory is operated lives in a separate private repository**
+(`fulcrum`): operator strategy, hunt briefs and their generation, the prompt
+corpus, session launching, telemetry economics, and any future routing or
+allocation logic. Those have no bearing on whether a scientific claim here is
+correct, so they are not published.
+
+The boundary, applied with judgment rather than by a rule engine:
+
+> If an outside observer needs it to **evaluate or reproduce a public claim**,
+> it belongs here. If it teaches the lab how to **allocate, route, prompt, or
+> operate itself**, it belongs in fulcrum unless reproducibility needs it.
+
+Preregistrations and protocols stay here even when unflattering — the harness
+gate record (`harness/VERDICT.md`, `harness/gate-evidence/`) is public precisely
+because a negative result about our own tooling is credibility, not capability.
+
+**Fulcrum is private, not secret**, and the distinction matters when you are
+deciding what to write. Three separate questions get confused into one: *where
+does this artifact belong* (ownership), *can someone clone this repository*
+(visibility), and *what process should outsiders be able to inspect*
+(transparency). A private operating repository does not make the research
+process private — this tree stays unusually open about criticism, corrections
+and claims that did not survive. Name fulcrum plainly wherever doing so
+accurately explains how the lab works; do not euphemise it, and do not credit
+it with capabilities it has not demonstrated.
+
+The shape, so a session launched into this tree knows which side it is on:
+`teal sea` is the parent, `fulcrum` is the operating plane that directs
+pursuits, and this repository is a pursuit. The research is yours to do and
+commit here. Two things are **not**: if you find an infrastructure idea, do not
+reach across and edit fulcrum — report it as a Core candidate. If you find an
+interesting loose end outside your mission, do not pursue it — report it as a
+thread. Zeta is a worker target, not the operator's console, and it must not
+grow into fulcrum's operating database.
+
+Flag genuinely ambiguous cases to the operator. Do not build a framework to
+adjudicate them.
+
+## How the work is organised
+
+Two working ideas and one objective. None is settled; all three are here rather
+than in a strategy document because you should meet them while working.
+
+**Core ↔ Pursuits.** *Core* is work that improves the lab's reusable ability to
+work: infrastructure, tooling, telemetry, agent coordination, reusable method.
+*Pursuits* are what the lab is chasing outward: research questions, hunts,
+investigations. They are **not** a hierarchy and not an ancestry — they create
+each other in both directions. A hunt that needs a tool produces Core; Core work
+that trips over a phenomenon produces a Pursuit; a piece of Core can itself
+become the subject of a Pursuit (`harness/` did exactly that, and lost). The
+distinction describes a thing's **current role**, not its rank or its origin.
+Do not rename directories to make the tree look like the metaphor.
+
+**Forage, don't roadmap.** Explore several directions cheaply; when one produces
+credible signal, feed it more; when it stops, stop feeding it. Preserve the
+threads you are not pulling, so choosing one direction does not require
+forgetting the others — observations become issues, leads go to the roster
+in `fulcrum`. This is a working
+strategy, not a proven optimal policy.
+
+**The economic objective: maximize valuable output per monetary unit of input.**
+This is *not* "minimize tokens". Money is the input and valuable output is the
+objective; models, tokens, extra agents, verification, formalization,
+infrastructure and operator time are all allocation choices. **A more expensive
+approach is the right one whenever the extra output justifies the cost** — and a
+cheap approach that yields low-value or unreliable output is not efficient, it
+is just cheap. We do not yet have a complete metric for "valuable output". Do
+not invent one and treat it as settled; it is an open research question, not
+a KPI.
+
+**Design discipline, learned the expensive way.** Before adding any abstraction,
+answer: *what live thing in this repository will use this immediately?* If the
+answer is "future agents might", do not build it. Prefer real need → smallest
+implementation → actual use → measurement → only then generalization. Do not
+build infrastructure without a live consumer, do not generalize a workflow
+before the concrete workflow earns it, and do not build a meta-system to manage
+the meta-system. `harness/VERDICT.md` is what the alternative cost.
+
+  Read that verdict as a bet properly made and properly ended, not as a blunder.
+  It was a reasonable thing to try, it was built well, it was tested against the
+  practice it meant to improve, and it lost. **Being able to kill something you
+  funded, on evidence, is the habit worth keeping** — a lab that cannot do that
+  has preferences rather than a method. Retiring it is a success of the process
+  and a failure of the thing, and the two are not the same judgement.
+
+## Observations, and the work roster
+
+Two different things that were once one file, split by **what kind of statement
+they are** rather than by where they lived.
+
+**An observation is public.** Something measured, noticed, broken or bounded is
+a fact about the subject or about this tree, and it is true whether or not
+anyone pursues it. Those go in the open, as a GitHub issue on this repository,
+or as a doc and a test when they are big enough to deserve one. Issue #21 is a
+measured result about which properties of ζ discriminate; issue #22 is a scope
+caveat that bounds every claim `compiler/` makes; issue #20 is a defect. All
+three are checkable by a stranger, which is the point.
+
+**A lead is private.** *That* we intend to chase something, in what order, with
+what budget, lives in the roster in `fulcrum`. A backlog announces what the lab
+is about to work on, which is allocation, and allocation is operating material.
+
+The line: an issue says *"this is true and unresolved."* The roster says
+*"this one is next."*
+
+If you notice something and are not chasing it now, **open an issue** — do not
+start a backlog file here. Record the observation; leave the priority to the
+roster.
+
+`scripts/70_lab_state.py` still derives *live* work from git — every branch
+ahead of `origin/main`, right by construction, needing nobody to maintain it.
+
 ## Hard rules
 
 - **Python**: ALWAYS `.venv/bin/python (from the repo root)` — never bare
@@ -139,6 +257,31 @@ The standing rules for such a session:
   write language implying a computation settles or supports RH; the sanctioned
   framing for the sign-change verification is "proof for the finite range,
   modulo the correctness of the floating-point sign evaluations".
+- **Original is not novel, and the lab may claim original** (director's ruling,
+  2026-08-13). These are two different claims and conflating them was costing
+  the laboratory its own output:
+  - **Original** is a claim about *provenance*: this laboratory produced this
+    result, rather than re-deriving a target it was handed. It is answerable
+    from the record — the git history, the ledgers, the working paper — and it
+    is **claimable**. Say "original result", name it, and give its rung.
+  - **Novel** is a claim about *the world*: no one has established this before.
+    It is a much larger assertion than originality and it needs evidence of a
+    search. `ontology/knownness.py` defaults to "the literature was not
+    consulted" so that an *unrun* check can never read as absence of prior art.
+    That default describes the tool, not the laboratory: where a search has
+    actually been run, **say what was searched and what it found**. The
+    frontier results are positioned against a cited source paper whose theorems
+    are used as published, with the improvement stated as a delta against it,
+    and `references/papers.md` tracks the sources. Backends exist for OEIS,
+    arXiv and zbMATH. Do not describe engaged prior art as unsearched; that
+    understates the work as badly as claiming novelty overstates it.
+
+  A result is not downgraded to nothing because its novelty is unsearched. A
+  kernel-checked statement this lab produced is an original kernel-checked
+  result, full stop, and the front of the house should say so. The certainty
+  ladder below still governs *how strongly* it may be phrased; the ladder grades
+  confidence, it does not decide authorship. Refutations count as output too —
+  a route closed with a witness is a result, not an absence of one.
 - **The certainty ladder** (amended 2026-08-12; replaces the blunt "an
   apparent settlement is a bug" heuristic, which treated a kernel-checked
   proof and an eyeballed number alike). When a computation appears to
@@ -153,15 +296,31 @@ The standing rules for such a session:
      "enclosure-carrying".
   3. *kernel-checked* -- Lean 4 + Mathlib, zero sorrys, standard axioms
      only. These are theorems; call them theorems, without apology.
-  4. *externally reviewed* -- a qualified outside reader has walked the
-     chain. "Established", "landmark", "settles" become available here
-     and not before.
+     **The ladder ends here, because this is where our certification
+     ends** (director's ruling, 2026-08-13). Outside review is a real and
+     necessary step and it is not ours to award: it depends on someone
+     else stepping up. It was previously carried as a vacant fourth rung,
+     which read as a standing deficiency in the work rather than as an
+     open invitation. It is now a footnote instead -- a published claim
+     carries *pending external verification* until a qualified outside
+     reader has walked the chain, and that footnote is small because the
+     work is done and the waiting is somebody else's.
   A composite claim takes the grade of its WEAKEST step: a chain of
   theorems glued by one measured step is a candidate and is called one.
   The reserved words stay reserved ("certified" to `zeta/rigor.py` and
   the Lean arm; the `hunts/` lexical bans unchanged -- tests enforce
   them). This rule licenses confidence at every rung a claim has earned;
   it does not license rounding a rung upward for an audience.
+- **House style: no em dashes in prose you write.** Use a period, a colon, or a
+  pair of commas; an em dash almost always marks a clause that wanted to be its
+  own sentence. This is a style rule, not a moral one, and it applies to text
+  *you* author: docstrings, comments, documents, commit messages, generated
+  pages. It does **not** license repunctuating quoted material — a ledger
+  entry, a document blurb, an adversary's recorded findings — because editing
+  someone's recorded words to satisfy a style rule is editing evidence.
+  `tests/test_site.py` enforces exactly that split for the public pages: the
+  em dash count on a rendered page may not exceed the count in the artifacts it
+  quotes.
 - **Derive conventions, never remember them.** Where the literature disagrees
   on factor placement or a constant, the repo calibrates numerically and
   cross-checks: the Riemann–Weil explicit-formula convention in `zeta/weil.py`
@@ -242,57 +401,39 @@ The standing rules for such a session:
   case studies and `tests/test_rogue_lab_controls.py` pins their control
   results. They are outside the domain-agnostic seam, and no new work should
   be added there — new exploration goes under `hunts/`.
-- Package: `harness/` — the validation framework, factored out of the
-  laboratory; subjects plug in as **departments**. `protocol.py` is
-  domain-agnostic under the same three seam tests as `ontology/schema.py` and
-  defines four control roles — `Subject` (the genuine article and its rivals,
-  i.e. structure-matched negative controls), `Decoy` (ablation), `Surrogate`
-  (null model), `Lesion` (planted fault for detector power) — bundled into a
-  `Battery`, plus a `Department` = battery + guide page + reference claims.
-  Subject matter lives only in `harness/departments/`; `zeta_department.py`
-  is the worked example. Admission rule: `validate_battery` refuses a battery
-  with no rival, with neither decoy nor surrogate, or with no lesion — such a
-  battery could never fail. A department must also declare reference claims
-  with known verdicts — at least one its battery rejects and one it passes —
-  so a validator that only ever says "no" is caught.
-  `tests/test_department_conformance.py` is parametrized over
-  `harness.departments.KNOWN_DEPARTMENTS`, so listing a department there is
-  what turns its audit on. Read `harness/README.md` before adding one. Like
-  `ontology`, it is not part of the editable install.
-  The package also carries the verification-integrity layer
-  (`docs/20-verification-integrity.md` is the record): `provenance.py`
-  (independence/contamination as declared data), `integrity.py` (16 named
-  checks → five grades, the `SHAM_MODES` catalog with pinned blind spots,
-  and `ClaimReport`, which pairs every claim outcome with its battery's
-  integrity grade and cannot state one without the other), and `shams.py`
-  (planted battery corruptions — the planted-fault principle applied to the
-  batteries themselves). The Department contract also requires declared
-  `detectors` (power *and* specificity measured; a constant-True detector is
-  caught) and a `scope`, and accepts a `provenance` record. Six departments
-  are registered: `zeta`, `finitefield`, `compiler`, `croniter`, `referee`
-  (the verification machinery as its own subject; the reconstructed 431cc74
-  sham battery is its held-out negative control) and `stateval`
-  (distributional claims; contributed `run_null_band` and `payloads_same` to
-  the shared layer). `python -m harness.demo` runs everything live;
-  `python -m harness.new_department <name>` scaffolds questions, not
-  placeholder instruments.
-  `preregistration.py` + `promotion.py`
-  (`docs/21-forward-deployed-verification.md` is the record; this is an
-  experiment, not a spine obligation) make the integrity grade enforcing
-  rather than advisory: `decide()` turns a `ClaimReport` into ALLOW/BLOCK
-  with every machine-readable reason at once, `Boundary.audit()` reconciles
-  `promoted/` against `decisions/` so a bypass is visible, and
-  `Preregistration` records the digests of evidence that already existed at
-  freeze time, so contamination and criteria drift are derived from
-  artifacts rather than read off a declaration. `NaiveGate` is the mandatory
-  null control in the same file — it passes the clean, blind and
-  honestly-declared-contaminated cases just as well; only a report that
-  declares itself clean while its artifacts disagree separates the two. Two
-  negative results are recorded as failures, not reframed: the mirror
-  condition (gate more permissive than naive) is unreachable, and the gate
-  inherits every blind spot of the audit beneath it — it promotes a held-out
-  hollow battery's claim with an empty reason list. Read `docs/21` §10
-  before treating any of it as a capability.
+- Package: `harness/` — **two things, and only one of them is live.** Read
+  `harness/VERDICT.md` before doing anything here.
+  - **Live, ordinary lab bookkeeping — keep, use, extend as needed.** The
+    ledgers and their readers: `graveyard.py` (dead ends recorded so they are
+    not re-entered), `guards.py` (guards recorded so they can be attacked),
+    `review.py`, `independence.py`, and the three ledgers under
+    `departments/` (`graveyard_ledger`, `guard_ledger`, `review_ledger`).
+    Their live consumer is `scripts/70_lab_state.py`, the research-state view.
+    ~1,050 lines, with a real reader.
+  - **Demoted, 2026-08-13 — do not extend.** The generalized
+    battery/department/integrity framework: `protocol.py`, `integrity.py`,
+    `promotion.py`, `preregistration.py`, `provenance.py`, `shams.py`, and
+    the six subject packs under `departments/` that exist to populate it.
+    ~8,000 lines with **zero live consumers**. It was tested and did not earn
+    core status: four preregistered experiments, three subjects, 74 agent
+    runs, the harness arm never once beat the control, the control was 37/37,
+    and where correctness was identical the harness cost 1.1–1.7× the tokens
+    and 2.4–5.0× the tool calls. Meanwhile live hunts reimplemented the same
+    four control roles by hand rather than import them. The evidence is in
+    `harness/gate-evidence/`; the negative result stands and is not to be
+    quietly relitigated.
+  - **What survived the demotion, because it is independently true**: the
+    four control roles are still good research practice — a claim that a
+    structure-matched rival also satisfies has distinguished nothing, and
+    `zeta.epstein.battery` enforces exactly that for ζ without any of this
+    framework. `compiler/semantics.py` records a measured fact worth keeping:
+    exhaustive concrete testing over all 65,536 i8 inputs cannot see
+    poison-class defects, with a planted fault pinning it. Scope discipline —
+    stating what a verdict does *not* cover — earned its keep and costs
+    nothing.
+  - The lesson generalizes and is the reason for the rule two sections down:
+    **an abstraction with no live consumer is a liability, however elegant.**
+
 - Package: `dossier/` — an experiment, not a department. It represents
   mathematical research state (intent, definition, rejected alternatives,
   semantic obligations, evidence) so an agent can *resume* work. Two ideas

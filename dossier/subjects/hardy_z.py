@@ -202,7 +202,7 @@ def build() -> Dossier:
                     formal=AxisRecord(
                         status=FormalStatus.PROVED,
                         detail=(
-                            "hardyZ_is_real: kernel run observed 2026-08-07 — "
+                            "hardyZ_is_real: kernel run observed 2026-08-13 — "
                             "lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
                             "root import wired"
                         ),
@@ -262,7 +262,7 @@ def build() -> Dossier:
                     formal=AxisRecord(
                         status=FormalStatus.PROVED,
                         detail=(
-                            "abs_hardyZ_eq_abs_zeta: kernel run observed 2026-08-07 — "
+                            "abs_hardyZ_eq_abs_zeta: kernel run observed 2026-08-13 — "
                             "lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
                             "root import wired"
                         ),
@@ -313,7 +313,7 @@ def build() -> Dossier:
                     formal=AxisRecord(
                         status=FormalStatus.PROVED,
                         detail=(
-                            "hardyZ_even: kernel run observed 2026-08-07 — "
+                            "hardyZ_even: kernel run observed 2026-08-13 — "
                             "lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
                             "root import wired"
                         ),
@@ -354,7 +354,7 @@ def build() -> Dossier:
                     "— hardyZ_is_real, abs_hardyZ_eq_abs_zeta, hardyZ_even, "
                     "hardyZ_zero_iff, continuous_hardyZ — accepted by the kernel in a "
                     "watched run: lake build, 8706 jobs, leanprover/lean4:v4.33.0-rc2, "
-                    "observed 2026-08-07. The root import has wired ZetaLean.HardyZ "
+                    "observed 2026-08-13. The root import has wired ZetaLean.HardyZ "
                     "since 150ac05 (whose build compiled it for the first time); the "
                     "file itself is unchanged since d11f297. 'Proved' is a statement "
                     "about these five lemmas, not the dossier: the discriminating sign "
@@ -382,7 +382,7 @@ def build() -> Dossier:
                 ),
                 blocked_on="riemannZeta_conj and completedRiemannZeta_one_sub in Mathlib",
                 resolution=(
-                    "Both, additively. hardyZ_is_real was kernel-checked 2026-08-07 "
+                    "Both, additively. hardyZ_is_real was kernel-checked 2026-08-13 "
                     "(see the subject-level formal record above), so "
                     "lean/ZetaLean/HardyZ.lean now also carries hardyZReal : R -> R "
                     "(:= (hardyZ t).re) plus real-valued restatements of the other "
@@ -390,7 +390,7 @@ def build() -> Dossier:
                     "hardyZReal_even, hardyZReal_zero_iff, continuous_hardyZReal -- "
                     "each derived from the existing C-valued ones via the R -> C "
                     "coercion, without editing any of them. lake build, 8706 jobs, "
-                    "0 sorry, watched 2026-08-07. The original hardyZ : R -> C stays: "
+                    "0 sorry, watched 2026-08-13. The original hardyZ : R -> C stays: "
                     "it is what hardyZReal and its lemmas are proved against, not a "
                     "rejected alternative."
                 ),
