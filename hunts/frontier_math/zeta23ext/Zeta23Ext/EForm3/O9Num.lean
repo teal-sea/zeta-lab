@@ -23,6 +23,29 @@ open BandDual
 
 variable {sLo sHi yLo yHi : ℤ} {s y : ℝ}
 
+/-- The exact real part of the numerator used by `boxParts`. -/
+noncomputable def reNumValue (s y : ℝ) : ℝ :=
+  (((s * Real.sin (s / ((2:ℤ):ℝ)) * Real.cosh (y / ((2:ℤ):ℝ))
+      - y * Real.cos (s / ((2:ℤ):ℝ)) * Real.sinh (y / ((2:ℤ):ℝ)))
+        * Real.cos (Real.sqrt 2 / ((2:ℤ):ℝ))
+    - Real.cos (s / ((2:ℤ):ℝ)) * Real.cosh (y / ((2:ℤ):ℝ))
+        * Real.sin (Real.sqrt 2 / ((2:ℤ):ℝ)) * Real.sqrt 2)
+    * ((2:ℤ):ℝ))
+
+/-- The exact imaginary part of the numerator divided by `y`, with its
+removable value at `y = 0`. -/
+noncomputable def imNumOverYValue (s y : ℝ) : ℝ :=
+  (((s * Real.cos (s / ((2:ℤ):ℝ))
+        * ((if y / ((2:ℤ):ℝ) = 0 then 1
+            else Real.sinh (y / ((2:ℤ):ℝ)) / (y / ((2:ℤ):ℝ))) / ((2:ℤ):ℝ))
+      + Real.sin (s / ((2:ℤ):ℝ)) * Real.cosh (y / ((2:ℤ):ℝ)))
+        * Real.cos (Real.sqrt 2 / ((2:ℤ):ℝ))
+    - -(Real.sin (s / ((2:ℤ):ℝ))
+        * ((if y / ((2:ℤ):ℝ) = 0 then 1
+            else Real.sinh (y / ((2:ℤ):ℝ)) / (y / ((2:ℤ):ℝ))) / ((2:ℤ):ℝ)))
+        * Real.sin (Real.sqrt 2 / ((2:ℤ):ℝ)) * Real.sqrt 2)
+    * ((2:ℤ):ℝ))
+
 /-- The four leaves the numerator consumes, at one box. -/
 theorem leaves_mem (hs : EIv.mem (some ⟨sLo, sHi⟩) s)
     (hy : EIv.mem (some ⟨yLo, yHi⟩) y)
@@ -48,19 +71,17 @@ theorem leaves_mem (hs : EIv.mem (some ⟨sLo, sHi⟩) s)
 expression below. -/
 theorem reNum_mem (hs : EIv.mem (some ⟨sLo, sHi⟩) s)
     (hy : EIv.mem (some ⟨yLo, yHi⟩) y)
-    (hy1 : |y / ((2:ℤ):ℝ)| ≤ 1)
-    {sc ss cc : ℝ}
-    (hsc : EIv.mem (sinCosSmall (EIv.divInt SQ2 2)).1 ss)
-    (hcc : EIv.mem (sinCosSmall (EIv.divInt SQ2 2)).2 cc)
-    (hq : EIv.mem SQ2 sc) :
-    EIv.mem (boxParts sLo sHi yLo yHi).reNum
-      (((s * Real.sin (s / ((2:ℤ):ℝ)) * Real.cosh (y / ((2:ℤ):ℝ))
-          - y * Real.cos (s / ((2:ℤ):ℝ)) * Real.sinh (y / ((2:ℤ):ℝ))) * cc
-        - Real.cos (s / ((2:ℤ):ℝ)) * Real.cosh (y / ((2:ℤ):ℝ)) * ss * sc)
-        * ((2:ℤ):ℝ)) := by
+    (hy1 : |y / ((2:ℤ):ℝ)| ≤ 1) :
+    EIv.mem (boxParts sLo sHi yLo yHi).reNum (reNumValue s y) := by
+  unfold reNumValue
+  have hsqrt : |Real.sqrt 2 / ((2:ℤ):ℝ)| ≤ 1 := by
+    rw [abs_of_nonneg (div_nonneg (Real.sqrt_nonneg 2) (by norm_num))]
+    nlinarith [Real.sqrt_nonneg 2, Real.sq_sqrt (by norm_num : (0:ℝ) ≤ 2)]
+  obtain ⟨hsc, hcc⟩ := sinCosSmall_mem (EIv.divInt_mem (by norm_num) SQ2_mem) hsqrt
   obtain ⟨hsn, hcs, hsh, hch⟩ := leaves_mem hs hy hy1
   unfold boxParts
-  refine EIv.mulInt_mem (EIv.sub_mem (EIv.mul_mem ?_ hcc) (EIv.mul_mem (EIv.mul_mem ?_ hsc) hq))
+  refine EIv.mulInt_mem
+    (EIv.sub_mem (EIv.mul_mem ?_ hcc) (EIv.mul_mem (EIv.mul_mem ?_ hsc) SQ2_mem))
   · exact EIv.sub_mem (EIv.mul_mem (EIv.mul_mem hs hsn) hch)
       (EIv.mul_mem (EIv.mul_mem hy hcs) hsh)
   · exact EIv.mul_mem hcs hch
@@ -74,21 +95,13 @@ lemma has none either — which is exactly what makes the boxes reaching `y = 0`
 ordinary. -/
 theorem imNumOverY_mem (hs : EIv.mem (some ⟨sLo, sHi⟩) s)
     (hy : EIv.mem (some ⟨yLo, yHi⟩) y)
-    (hy1 : |y / ((2:ℤ):ℝ)| ≤ 1)
-    {sc ss cc : ℝ}
-    (hsc : EIv.mem (sinCosSmall (EIv.divInt SQ2 2)).1 ss)
-    (hcc : EIv.mem (sinCosSmall (EIv.divInt SQ2 2)).2 cc)
-    (hq : EIv.mem SQ2 sc) :
-    EIv.mem (boxParts sLo sHi yLo yHi).imNumOverY
-      (((s * Real.cos (s / ((2:ℤ):ℝ))
-            * ((if y / ((2:ℤ):ℝ) = 0 then 1
-                else Real.sinh (y / ((2:ℤ):ℝ)) / (y / ((2:ℤ):ℝ))) / ((2:ℤ):ℝ))
-          + Real.sin (s / ((2:ℤ):ℝ)) * Real.cosh (y / ((2:ℤ):ℝ))) * cc
-        - -(Real.sin (s / ((2:ℤ):ℝ))
-            * ((if y / ((2:ℤ):ℝ) = 0 then 1
-                else Real.sinh (y / ((2:ℤ):ℝ)) / (y / ((2:ℤ):ℝ))) / ((2:ℤ):ℝ)))
-            * ss * sc)
-        * ((2:ℤ):ℝ)) := by
+    (hy1 : |y / ((2:ℤ):ℝ)| ≤ 1) :
+    EIv.mem (boxParts sLo sHi yLo yHi).imNumOverY (imNumOverYValue s y) := by
+  unfold imNumOverYValue
+  have hsqrt : |Real.sqrt 2 / ((2:ℤ):ℝ)| ≤ 1 := by
+    rw [abs_of_nonneg (div_nonneg (Real.sqrt_nonneg 2) (by norm_num))]
+    nlinarith [Real.sqrt_nonneg 2, Real.sq_sqrt (by norm_num : (0:ℝ) ≤ 2)]
+  obtain ⟨hsc, hcc⟩ := sinCosSmall_mem (EIv.divInt_mem (by norm_num) SQ2_mem) hsqrt
   obtain ⟨hsn, hcs, hsh, hch⟩ := leaves_mem hs hy hy1
   have hhy : EIv.mem (EIv.divInt (some ⟨yLo, yHi⟩) 2) (y / ((2:ℤ):ℝ)) :=
     EIv.divInt_mem (by norm_num) hy
@@ -99,12 +112,21 @@ theorem imNumOverY_mem (hs : EIv.mem (some ⟨sLo, sHi⟩) s)
     EIv.divInt_mem (by norm_num) hshc
   unfold boxParts
   refine EIv.mulInt_mem (EIv.sub_mem (EIv.mul_mem ?_ hcc)
-    (EIv.mul_mem (EIv.mul_mem ?_ hsc) hq))
+    (EIv.mul_mem (EIv.mul_mem ?_ hsc) SQ2_mem))
   · exact EIv.add_mem (EIv.mul_mem (EIv.mul_mem hs hcs) hsov) (EIv.mul_mem hsn hch)
   · exact EIv.neg_mem (EIv.mul_mem hsn hsov)
+
+/-- The full imaginary numerator is the removable value times `y`. -/
+theorem imNum_mem (hs : EIv.mem (some ⟨sLo, sHi⟩) s)
+    (hy : EIv.mem (some ⟨yLo, yHi⟩) y)
+    (hy1 : |y / ((2:ℤ):ℝ)| ≤ 1) :
+    EIv.mem (boxParts sLo sHi yLo yHi).imNum (imNumOverYValue s y * y) := by
+  unfold boxParts
+  exact EIv.mul_mem (imNumOverY_mem hs hy hy1) hy
 
 end Retention
 
 #print axioms Retention.leaves_mem
 #print axioms Retention.reNum_mem
 #print axioms Retention.imNumOverY_mem
+#print axioms Retention.imNum_mem
