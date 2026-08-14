@@ -7,6 +7,11 @@ re-derive the numbers rather than take them. Every number claimed in a
 docstring is pinned by a test, identities are exposed as measured *defect*
 functions rather than assumed, and the Lean arm is checked by a proof kernel.
 
+The public reading surface is <https://zeta-record.vercel.app>: what has been
+established, what is still a candidate, and what was withdrawn. It is generated
+from this repository by `scripts/72_site.py` and rebuilt on every push, so it
+cannot quietly disagree with the tree it describes.
+
 ---
 
 ## Current work: a machine-audited candidate past the two-thirds constant
@@ -155,7 +160,7 @@ three tiers cut by measured cost:
 
 | tier | when | what | cost |
 |---|---|---|---|
-| `checks` | every push and PR | 339 tests, **stdlib + pytest only** — no numpy, scipy, mpmath, no editable install — plus `make_context.py --check` | ~7 s |
+| `checks` | every push and PR | 342 tests, **stdlib + pytest only** — no numpy, scipy, mpmath, no editable install — plus `make_context.py --check` | ~7 s |
 | `tests` | PRs and pushes to `main` | the fast tier with the real dependency set; asserts `rigor.BACKEND` is genuinely Arb before running, because the mpmath fallback silently drops the cross-check that licenses the word *certified* | ~20 min |
 | `full` | nightly, and on demand | the complete suite including slow, plus the Lean arm as its own job with a zero-`sorry` scan | up to an hour |
 

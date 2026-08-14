@@ -783,8 +783,9 @@ def page_zeta(r, lean, py, gr) -> str:
     )
     return shell(f"Zeta · {IDENTITY['name']}", f"""
 <h1>Zeta</h1>
-<p class="stand">A computational and formal investigation around the Riemann
-hypothesis, claiming nothing about whether it is true.</p>
+<p class="stand">The first pursuit: a computational and formal attack on the
+structure around the Riemann hypothesis. Two arms run side by side, and neither
+is allowed to vouch for the other.</p>
 
 {vitals([
     (num(lean['theorems']), 'theorems', False),
@@ -797,8 +798,9 @@ hypothesis, claiming nothing about whether it is true.</p>
 
 <section>
 <h2><span class='num'>§1</span> The certified arm</h2>
-<p>A <code>sorry</code> is an uncertified step. Nothing in this arm counts
-while one is present.</p>
+<p>A <code>sorry</code> is a hole left in a proof, and Lean will happily accept
+a file full of them. This arm has none, which is why its declarations are called
+theorems here without qualification.</p>
 <div class="wrap"><table>
 <caption>Largest modules by declaration count</caption>
 <thead><tr><th>module</th><th class='r'>decls</th><th class='barcell'></th>
@@ -851,10 +853,13 @@ it.</p>
 </section>
 
 <section>
-<h2><span class='num'>§4</span> Checking it</h2>
-<p>Clone it, install it, run the suite. CI runs the fast tier on every push
-and the full suite nightly. The documents derive the mathematics and record the
-attempts. Start with <a href="../reading.html">the reading course</a>.</p>
+<h2><span class='num'>§4</span> Check it yourself</h2>
+<p>Nothing here asks to be believed. Clone it, install it, run the suite; the
+Lean arm builds under a proof kernel that will reject anything unfinished.
+Continuous integration runs the fast tier on every push and the whole thing
+nightly, so the tree is green because it is green, not because someone
+remembered to look. Start with <a href="../reading.html">the reading
+course</a>.</p>
 <p><a href="{esc(IDENTITY['source'])}">{esc(IDENTITY['source'])}</a></p>
 </section>
 """, depth=1, mast=masthead(r, "../"))
@@ -871,17 +876,18 @@ def page_reading(r, docs, lean) -> str:
     )
     return shell(f"Reading · {IDENTITY['name']}", f"""
 <h1>Reading</h1>
-<p class="stand">The work itself, in the order it was written to be read. The
-early documents derive the mathematics line by line; the later ones are
+<p class="stand">The whole course, in the order it was written to be read.
+The early documents derive the mathematics line by line. The later ones are
 laboratory records: attempts run to their walls, a kill board of how hard
-problems die, and an honest catalogue of why this one is hard.</p>
+problems die, and a catalogue of exactly why this one resists.</p>
 
 <section>
-<h2><span class='num'>§1</span> Before anything else</h2>
-<p>Two documents bound every claim on this site. <em>Why It Is Hard</em>
-catalogues the known ceiling of each technique used here and explains why no
-computation of this kind is evidence for the hypothesis. <em>How Hard Problems
-Die</em> scores RH against eight problems and the mechanism that killed each.</p>
+<h2><span class='num'>§1</span> Start here</h2>
+<p>Two documents bound every claim on this site, and reading them first will
+save you the trouble of asking whether we are overselling. <em>Why It Is
+Hard</em> catalogues the known ceiling of every technique used here, including
+ours. <em>How Hard Problems Die</em> scores this problem against eight others
+and the mechanism that killed each.</p>
 </section>
 
 <section>
@@ -891,9 +897,9 @@ Die</em> scores RH against eight problems and the mechanism that killed each.</p
 
 <section>
 <h2><span class='num'>§3</span> The formal arm</h2>
-<p>{num(lean['decls'])} declarations across {lean['files']} modules, checked by
-the Lean kernel against Mathlib, with zero <code>sorry</code>s. The count is
-the claim. <a href="pursuits/zeta.html">The module breakdown →</a></p>
+<p>{num(lean['decls'])} declarations across {lean['files']} modules, checked
+against Mathlib by a kernel that accepts no unfinished proofs, with zero
+<code>sorry</code>s. <a href="pursuits/zeta.html">The module breakdown →</a></p>
 </section>
 """, mast=masthead(r))
 
@@ -939,15 +945,15 @@ def page_record(r, gr, gates, revs, fixes_) -> str:
     )
     return shell(f"Record · {IDENTITY['name']}", f"""
 <h1>Record</h1>
-<p class="stand">Things that actually happened, including the ones that did not
-work. A record that only lists successes is not a record.</p>
+<p class="stand">Everything that happened, including what went wrong. A record
+that lists only successes is advertising.</p>
 
 <section>
-<h2><span class='num'>§1</span> The validation harness</h2>
+<h2><span class='num'>§1</span> We shut down our own flagship</h2>
 <p>We built a framework for testing whether an empirical claim is about its
 subject at all: structure-matched controls, ablations, null models, planted
-faults. Then we tested whether using it improved the correctness of
-research-claim evaluation.</p>
+faults. Roughly eight thousand lines. Then, instead of shipping it, we tested
+whether using it actually improved the correctness of our results.</p>
 <p>Four preregistered experiments, three subjects, 74 agent runs. Every protocol
 was committed before its arms ran, so the ordering is checkable in the git log.
 The arm using the harness never out-performed the control, the control was never
@@ -957,10 +963,10 @@ five times the effort.</p>
 <caption>Preregistered experiments and their verdicts</caption>
 <thead><tr><th>experiment</th><th>result</th><th>evidence</th></tr></thead>
 <tbody>{rows}</tbody></table></div>
-<p>Development stopped. The ledgers inside it that something actually uses were
-kept; the framework was frozen rather than deleted, with the evidence beside it.
-A separate measurement had already said the same thing more cheaply: nothing in
-the repository imported it.</p>
+<p>Development stopped that day. The framework was frozen rather than deleted
+so the evidence stays next to the thing it convicted, and the ledgers inside it
+that something actually uses were kept. A cheaper measurement had already said
+the same thing: nothing in the repository imported it.</p>
 <div class="statement">Being able to kill something you funded, on evidence, is
 the habit worth keeping. A laboratory that cannot do that has preferences rather
 than a method.</div>
@@ -968,18 +974,19 @@ than a method.</div>
 
 <section>
 <h2><span class='num'>§2</span> Claims, and who was sent to break them</h2>
-<p>A claim is recorded with the reasoning that produced it and the assumptions
-it rested on, before anyone knows whether it survives. Someone is then sent to
-attack it, and their findings are recorded whether or not they are welcome. A
-claim nobody has attacked is marked as such rather than counted as standing.</p>
+<p>Every claim goes on the record with the reasoning that produced it and the
+assumptions it rested on, before anyone knows whether it survives. Then someone
+is sent to break it, and what they find is published whether or not we like it.
+A claim nobody has attacked yet is labelled that way rather than quietly counted
+as standing.</p>
 {reviews}
 </section>
 
 <section>
 <h2><span class='num'>§3</span> Corrections</h2>
 <p>Defects that actually occurred, each with the test that now catches it. A
-guard nobody has demonstrated firing is a claim rather than a control, so the
-ledger tracks that difference instead of hiding it.</p>
+guard nobody has watched fire is a claim rather than a control, so the ledger
+tracks which is which instead of flattering itself.</p>
 <div class="wrap"><table>
 <caption>Guards, and the incidents behind them</caption>
 <thead><tr><th>incident</th><th>what it would have let through</th>
@@ -992,13 +999,12 @@ ledger tracks that difference instead of hiding it.</p>
 </section>
 
 <section>
-<h2><span class='num'>§5</span> What is not claimed</h2>
+<h2><span class='num'>§5</span> What we do not claim</h2>
 <p>Nothing computed here is evidence for or against the Riemann hypothesis, and
-no computation in this tree can be. The house rule is that an apparent
-settlement is first inferred to be a defect, and this record contains the
-occasions when that inference was correct. They are kept in the tree rather than
-removed from it, because a laboratory that deletes its errors has deleted its
-evidence about itself.</p>
+no computation in this tree could be. When a result looks like it settles
+something, our first assumption is that we have a bug, and this record contains
+the occasions when that assumption was right. They stay in the tree, because a
+laboratory that deletes its errors has deleted the evidence about itself.</p>
 </section>
 """, mast=masthead(r))
 
@@ -1006,21 +1012,19 @@ evidence about itself.</p>
 def page_about(r, lean, py) -> str:
     return shell(f"About · {IDENTITY['name']}", f"""
 <h1>About</h1>
-<p class="stand"><em>{esc(IDENTITY['line'])}</em> A small laboratory that
-explores several directions cheaply,
-feeds the ones that produce something, stops feeding the ones that don't, and
-keeps the loose ends it isn't pulling, so that choosing one direction does not
-mean forgetting the others.</p>
+<p class="stand"><em>{esc(IDENTITY['line'])}</em> We explore several directions
+cheaply, feed the ones that produce something, stop feeding the ones that do
+not, and keep the loose ends we are not pulling so that choosing one direction
+does not mean forgetting the others.</p>
 
 <section>
 <h2><span class='num'>§1</span> How it works</h2>
-<p>The impulse is roughly <em>wait, what happens if we pull on this?</em> Most
-of the time the answer is nothing much, which is why the record has as many dead
-ends in it as findings.</p>
-<p>Work is public where it can be checked. The mathematics, the tests, the
-proofs and the evidence are in the open, because the point of publishing them is
-that someone can re-derive the numbers rather than take our word for it. Results
-are published whether or not they are flattering.</p>
+<p>The impulse is roughly <em>what happens if we pull on this?</em> Most of the
+time the answer is nothing much, which is why the record carries as many dead
+ends as findings, and why we would rather show you both.</p>
+<p>The mathematics, the tests, the proofs and the evidence are public, because
+the point of publishing them is that a stranger can re-derive the numbers
+instead of trusting us. Results go up whether or not they flatter us.</p>
 <p><a href="pursuits/zeta.html">Zeta</a> is the first pursuit. It is not the
 boundary of what this can be about.</p>
 </section>
@@ -1045,15 +1049,16 @@ produces are provenance and belong on this side.</p>
 
 <section>
 <h2><span class='num'>§3</span> Colophon</h2>
-<p>Every page here is generated from repository artifacts by
-<code>scripts/72_site.py</code>: declaration counts from the Lean sources,
-module titles from their own header blocks, the public surface from the Python
-AST, withdrawn results from the graveyard ledger, experiments from the gate
-evidence, open lines from git. Nothing on this site is maintained by hand, so
-nothing on it can quietly disagree with the repository.</p>
-<p>That rule is not decoration. A page compiled by hand on 12 August was still
-advertising the validation harness as this laboratory's strongest capability on
-13 August, the day the gate record demoted it. A generated page cannot do that.</p>
+<p>Every page here is generated from the repository by
+<code>scripts/72_site.py</code>: theorem counts from the Lean sources, module
+titles from their own header blocks, the public surface from the Python AST,
+withdrawn results from the graveyard ledger, experiments from the gate evidence,
+open lines from git. Nothing is maintained by hand, so nothing here can quietly
+disagree with the tree it describes.</p>
+<p>That is not decoration. A page compiled by hand on 12 August was still
+advertising our validation framework as this laboratory's strongest capability
+on 13 August, the day our own experiments demoted it. A generated page cannot
+make that mistake.</p>
 <p class="meta">No scripts, no tracking, no network requests. Built at
 {esc(r['commit'])} · {esc(r['when'])} · {num(r['commits'])} commits since
 {esc(r['since'])}.</p>

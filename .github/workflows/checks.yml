@@ -1,7 +1,7 @@
 # Tier 1 — the gate. Runs on every push and pull request.
 #
 # Stdlib + pytest only: no numpy, scipy, mpmath, sympy or editable install, so
-# there is nothing to build and nothing to cache. 340 tests in ~7 seconds
+# there is nothing to build and nothing to cache. 342 tests in ~6 seconds
 # locally. This tier exists because the public repository's whole claim is that
 # the work is checkable, and until now every check depended on a human
 # remembering to run it.
@@ -64,7 +64,8 @@ jobs:
             tests/test_graveyard.py \
             tests/test_review.py \
             tests/test_dossier_schema.py \
-            tests/test_discovery_schema.py
+            tests/test_discovery_schema.py \
+            tests/test_site.py
 
       - name: CONTEXT.md is not stale
         run: python scripts/make_context.py --check
