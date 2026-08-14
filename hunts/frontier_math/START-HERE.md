@@ -69,15 +69,20 @@ Until this date no session in this hunt had a toolchain, so `zeta23ext` had
 * **`RetentionWired.margin_identity` was carrying a `sorryAx`** induced by
   its own build error. Nobody wrote a `sorry`; the failed proof supplied one.
   The tree now reports zero.
-* **The root still does not load, and not because of drift.**
-  `Zeta23Ext.lean` imports both arms and both define `Retention.Aconst` and
-  `Retention.c2` (`EForm/Basic.lean` over `gker` with `u - w`;
-  `EForm3/Defs.lean` over `g` with `u + w`). Deciding which arm owns those
-  names is an architecture call, not a rename — ~200 references each, across
-  four arms — and it is left to whoever holds `zeta23ext/` assembly.
-* **The `k = 1` retention chain does build**, as a target rather than through
-  the root: `lake build Zeta23Ext.EForm3.{Master,Main,Refutation}
-  Zeta23Ext.RetentionWired Zeta23Ext.BandCert.Main` → 0 errors, 0 `sorryAx`.
+* **The root now loads, for the first time.** `lake build` → **0 errors, 0
+  `sorryAx`**, with the O9 kernel check inside the default target.
+  It had never loaded: three arms each declared `Retention.Aconst` and
+  `Retention.c2` (`EForm/Basic`, `EForm2/Defs`, `EForm3/Defs`), so the second
+  import always failed. I first called that an architecture decision and
+  deferred it; that was wrong, and I reached it by counting strings rather
+  than reading code. All four `Aconst` are textually identical and the `c2`s
+  differ only in the window's *name* and `u-w` against `u+w`, equal by
+  substitution — duplication, not divergence. Fixed by scoping the two legacy
+  arms to `Retention.EForm` / `Retention.EForm2`; `EForm3` keeps the bare
+  name because `RetentionWired` imports it unqualified. Safe because each file
+  has one namespace block, there are zero explicit `Retention.` prefixes
+  inside either arm, and there are no cross-arm imports. **The duplication
+  itself is untouched** (issue #24).
 * **O9 is now a two-variable table needing no depth-reduction lemma**
   (`o9_leaf2d.py`, 1939 leaves, depth 20, 0 undecided), and **the kernel
   accepts it**: all 49 `decide +kernel` chunks pass, `O9Check2.lean` builds
@@ -117,13 +122,16 @@ reading end to end.
 *Superseded 2026-08-14 — the build has now been run; see §4b. What it asked
 for is done, and the list of what actually fails is above.*
 
-The next action is now **the `Retention.Aconst` / `Retention.c2` collision**,
-because until it is resolved the root module cannot load and no amount of
-staged work can be checked through it. That is an architecture decision, not
-a rename.
+*Also superseded: the collision is fixed and the root builds.*
 
-After it: prove O9a/O9b (the two membership lemmas for the 2-D table), and
-re-cost `o9_leaf.py` against the kernel rather than against Arb.
+The next action is **O9b's interval half** — `o9Field_mem`, that the integer
+arithmetic encloses the closed forms `Qref`/`Rf`. Its analytic half is done
+(`O9Sound.lean`: `phi2_re_eq`, `phi2_im_eq`, including `Im Φ₂ = y · Rf`), and
+O9a is done. That is the last step between a kernel-checked table and a
+kernel-checked statement about `Dam`.
+
+Then: O3, O4, O10, O11; and re-cost `o9_leaf.py` against the kernel rather
+than against Arb (issue #23).
 
 `k >= 2` is a separate, open-ended research effort and should not be
 sequenced behind any of that.
