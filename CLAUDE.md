@@ -121,40 +121,35 @@ This repository is the **public research record**: mathematics, tests, proofs,
 evidence, and enough method that an outside reader can evaluate or reproduce a
 claim. That is why it is public, and it is the standard for what belongs here.
 
-**How the laboratory is operated lives in a separate private repository**
-(`fulcrum`): operator strategy, hunt briefs and their generation, the prompt
-corpus, session launching, telemetry economics, and any future routing or
-allocation logic. Those have no bearing on whether a scientific claim here is
-correct, so they are not published.
+**How the laboratory is operated lives in a separate private repository**:
+operator strategy, hunt briefs and their generation, the prompt corpus, session
+launching, telemetry economics, and any future routing or allocation logic.
+Those have no bearing on whether a scientific claim here is correct, so they are
+not published.
 
 The boundary, applied with judgment rather than by a rule engine:
 
 > If an outside observer needs it to **evaluate or reproduce a public claim**,
 > it belongs here. If it teaches the lab how to **allocate, route, prompt, or
-> operate itself**, it belongs in fulcrum unless reproducibility needs it.
+> operate itself**, it belongs there unless reproducibility needs it.
 
 Preregistrations and protocols stay here even when unflattering — the harness
 gate record (`harness/VERDICT.md`, `harness/gate-evidence/`) is public precisely
 because a negative result about our own tooling is credibility, not capability.
 
-**Fulcrum is private, not secret**, and the distinction matters when you are
-deciding what to write. Three separate questions get confused into one: *where
-does this artifact belong* (ownership), *can someone clone this repository*
-(visibility), and *what process should outsiders be able to inspect*
-(transparency). A private operating repository does not make the research
-process private — this tree stays unusually open about criticism, corrections
-and claims that did not survive. Name fulcrum plainly wherever doing so
-accurately explains how the lab works; do not euphemise it, and do not credit
-it with capabilities it has not demonstrated.
+A private operating repository does not make the research process private:
+this tree stays unusually open about criticism, corrections and claims that did
+not survive. Ownership and visibility are separate questions from transparency,
+and only the last one is a promise this repository makes.
 
 The shape, so a session launched into this tree knows which side it is on:
-`teal-sea` is the parent, `fulcrum` is the operating plane that directs
-pursuits, and this repository is a pursuit. The research is yours to do and
-commit here. Two things are **not**: if you find an infrastructure idea, do not
-reach across and edit fulcrum — report it as a Core candidate. If you find an
-interesting loose end outside your mission, do not pursue it — report it as a
+`teal-sea` is the parent, the operating repository directs pursuits, and this
+repository is a pursuit. The research is yours to do and commit here. Two
+things are **not**: if you find an infrastructure idea, do not reach across and
+edit the operating repository, report it as a Core candidate. If you find an
+interesting loose end outside your mission, do not pursue it, report it as a
 thread. Zeta is a worker target, not the operator's console, and it must not
-grow into fulcrum's operating database.
+grow into an operating database.
 
 Flag genuinely ambiguous cases to the operator. Do not build a framework to
 adjudicate them.
@@ -178,7 +173,7 @@ Do not rename directories to make the tree look like the metaphor.
 credible signal, feed it more; when it stops, stop feeding it. Preserve the
 threads you are not pulling, so choosing one direction does not require
 forgetting the others — observations become issues, leads go to the roster
-in `fulcrum`. This is a working
+with the operator. This is a working
 strategy, not a proven optimal policy.
 
 **The economic objective: maximize valuable output per monetary unit of input.**
@@ -220,7 +215,7 @@ caveat that bounds every claim `compiler/` makes; issue #20 is a defect. All
 three are checkable by a stranger, which is the point.
 
 **A lead is private.** *That* we intend to chase something, in what order, with
-what budget, lives in the roster in `fulcrum`. A backlog announces what the lab
+what budget, lives in the operator's roster. A backlog announces what the lab
 is about to work on, which is allocation, and allocation is operating material.
 
 The line: an issue says *"this is true and unresolved."* The roster says
