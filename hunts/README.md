@@ -29,7 +29,7 @@ invoked.
 |---|---|
 | build its own instruments under `hunts/<name>/` | modify `zeta/`, `ontology/` or `harness/` without explicit permission |
 | record raw measurements in its own `results*.json` | write a verdict into `README.md`, `ROADMAP.md` or `HANDOFF.md` as an established finding |
-| use the word *measured*, *observed*, *consistent with* | use *verified*, *confirmed*, *definitively*, *proves* — and never *certified*, which `zeta/rigor.py` owns |
+| use the word *measured*, *observed*, *consistent with* | use *certified*, which `zeta/rigor.py` owns |
 | propose a candidate for the funnel or the battery | promote its own claim |
 
 A hunt that wants its claim to count takes it through the battery

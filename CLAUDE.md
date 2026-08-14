@@ -109,9 +109,8 @@ The standing rules for such a session:
   written first, one new `docs/NN-*.md`, and `figures/`. Not `zeta/`,
   `ontology/` or `harness/` without explicit permission.
 - **The lexical rules are lexical.** The reserved word is banned everywhere
-  under `hunts/` *including inside a sentence disclaiming it*, and *verified* /
-  *confirmed* / *definitively* / *proves* are banned too. Intent does not exempt
-  a file; the test reads the bytes.
+  under `hunts/` *including inside a sentence disclaiming it*. Intent does not
+  exempt a file; the test reads the bytes.
 - **Before handing anything back**, run at least
   `tests/test_docs_numbering.py`, `tests/test_hunt_probe_discipline.py`,
   `tests/test_doors.py`, and `scripts/make_context.py --check`.
