@@ -148,7 +148,7 @@ accurately explains how the lab works; do not euphemise it, and do not credit
 it with capabilities it has not demonstrated.
 
 The shape, so a session launched into this tree knows which side it is on:
-`teal sea` is the parent, `fulcrum` is the operating plane that directs
+`teal-sea` is the parent, `fulcrum` is the operating plane that directs
 pursuits, and this repository is a pursuit. The research is yours to do and
 commit here. Two things are **not**: if you find an infrastructure idea, do not
 reach across and edit fulcrum — report it as a Core candidate. If you find an
