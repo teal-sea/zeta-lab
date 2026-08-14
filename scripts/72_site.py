@@ -1133,7 +1133,7 @@ further one thousandth of a percentage point.</p>
 <p>So what this laboratory adds is not size, it is repeatability. Their model
 has not been released, so the route to their result cannot be re-run from
 outside Anthropic. This one was assembled two days later from tools anyone can
-rent. The models are not the unusual part. How they were directed is.</p>
+rent. The models are not the unusual part. Fulcrum is.</p>
 <p class='meta'>A candidate rather than a theorem: one step of the chain is
 still open, so the composite takes that grade, and nothing here is rounded
 upward. The gain is also asymptotic rather than effective at heights anyone can
@@ -1159,7 +1159,8 @@ guessing: blind alleys, hunches, and prompts that tell a model to behave like a
 mad scientist and see what falls out. The checker is what makes that a rational
 way to spend money. It does not care where an idea came from, only whether the
 argument closes, so you can afford to be reckless at the front of a pipeline
-when nothing reaches the end of it unproved.</p>
+when nothing reaches the end of it unproved. Fulcrum directs the pursuit. The
+checker decides what survives.</p>
 <p><strong>A record that keeps what went wrong.</strong>
 {num(len(gr))} claimed results have been withdrawn, each kept with the witness
 that broke it and the test that now catches it. We have shut down our own
@@ -1615,9 +1616,7 @@ others.</p>
 <h2><span class='num'>02.</span> How this is organised</h2>
 <p><strong>The results are public. The process is not.</strong></p>
 <p>Everything needed to check a claim is in the open: the mathematics, the
-proofs, the tests, the corrections and the claims that did not survive. The
-machinery that decides what to chase and how it gets run is
-<strong>Fulcrum</strong>, and Fulcrum is ours.</p>
+proofs, the tests, the corrections and the claims that did not survive.</p>
 <p>One consequence, because a reader counting commits here could otherwise
 draw the wrong conclusion in either direction: this repository is the research
 record, not the whole laboratory. Every figure on this site counts published
