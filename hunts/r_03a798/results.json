@@ -1,0 +1,585 @@
+{
+  "run_id": "a93167f3-0bef-44db-9d98-c9e25bc69c34",
+  "question": "Does test_no_hunt_claims_the_reserved_word detect synonyms, and do the 'other checks' the premise refers to exist?",
+  "census": [
+    {
+      "test_file": "test_frontier_math_clean_kill.py",
+      "addresses_hunts_tree": true,
+      "reads_file_text": false,
+      "scans_whole_hunts_tree": false,
+      "lexical_vocabulary": [],
+      "enforces_documented_bans": []
+    },
+    {
+      "test_file": "test_guard_ledger.py",
+      "addresses_hunts_tree": false,
+      "reads_file_text": true,
+      "scans_whole_hunts_tree": false,
+      "lexical_vocabulary": [
+        "def {test_name}("
+      ],
+      "enforces_documented_bans": []
+    },
+    {
+      "test_file": "test_hunt_probe_discipline.py",
+      "addresses_hunts_tree": true,
+      "reads_file_text": true,
+      "scans_whole_hunts_tree": true,
+      "lexical_vocabulary": [
+        "<the-reserved-word>",
+        "no department without a battery",
+        "not a result",
+        "nothing in `hunts/` is a result",
+        "online_list_is_complete"
+      ],
+      "enforces_documented_bans": []
+    },
+    {
+      "test_file": "test_huntspec.py",
+      "addresses_hunts_tree": true,
+      "reads_file_text": true,
+      "scans_whole_hunts_tree": false,
+      "lexical_vocabulary": [],
+      "enforces_documented_bans": []
+    },
+    {
+      "test_file": "test_zeta23ext_imports.py",
+      "addresses_hunts_tree": true,
+      "reads_file_text": true,
+      "scans_whole_hunts_tree": true,
+      "lexical_vocabulary": [],
+      "enforces_documented_bans": []
+    }
+  ],
+  "specimen_baseline": {
+    "empty_specimen_guard_green": true,
+    "tail": "robe_discipline.py:156\n  /tmp/tmpr2rj3_jc/tests/test_hunt_probe_discipline.py:156: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html\n    @pytest.mark.slow\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n1 passed, 2 warnings in 0.09s\n"
+  },
+  "specimens": [
+    {
+      "specimen": "reserved_plain",
+      "class": "reserved-word",
+      "body": "The bound is <the-reserved-word> to 40 digits.",
+      "documented_rule_says": "caught",
+      "guard_detected": true,
+      "agrees_with_documented_rule": true
+    },
+    {
+      "specimen": "reserved_titlecase",
+      "class": "reserved-word",
+      "body": "<the-reserved-word> enclosure for the third ordinate.",
+      "documented_rule_says": "caught",
+      "guard_detected": true,
+      "agrees_with_documented_rule": true
+    },
+    {
+      "specimen": "reserved_upper",
+      "class": "reserved-word",
+      "body": "RESULT: <the-reserved-word>.",
+      "documented_rule_says": "caught",
+      "guard_detected": true,
+      "agrees_with_documented_rule": true
+    },
+    {
+      "specimen": "reserved_inside_disclaimer",
+      "class": "reserved-word",
+      "body": "Nothing here is <the-reserved-word>; that word belongs to zeta/rigor.py.",
+      "documented_rule_says": "caught",
+      "guard_detected": true,
+      "agrees_with_documented_rule": true
+    },
+    {
+      "specimen": "reserved_in_json_value",
+      "class": "reserved-word",
+      "body": "{\"status\": \"<the-reserved-word>\"}",
+      "documented_rule_says": "caught",
+      "guard_detected": true,
+      "agrees_with_documented_rule": true
+    },
+    {
+      "specimen": "reserved_verb",
+      "class": "reserved-morphology",
+      "body": "We <the-reserved-word> the sign of Z on this interval.",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "reserved_noun",
+      "class": "reserved-morphology",
+      "body": "This is a <the-reserved-word> of the enclosure.",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "reserved_adjective",
+      "class": "reserved-morphology",
+      "body": "The step is <the-reserved-word> by ball arithmetic.",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "reserved_hyphen_broken",
+      "class": "reserved-evasion",
+      "body": "the quantity is certi-\nfied by Arb",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "reserved_emphasis_split",
+      "class": "reserved-evasion",
+      "body": "the result is cert*ified* by the enclosure",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "reserved_zero_width",
+      "class": "reserved-evasion",
+      "body": "the result is cert\u200bified by the enclosure",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "reserved_homoglyph",
+      "class": "reserved-evasion",
+      "body": "the result is \u0441ertified by the enclosure",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "reserved_spaced",
+      "class": "reserved-evasion",
+      "body": "the result is C E R T I F I E D",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "ban_verified",
+      "class": "documented-synonym",
+      "body": "The inequality was verified for every pair in the sweep.",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "ban_confirmed",
+      "class": "documented-synonym",
+      "body": "The second route confirmed the first.",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "ban_definitively",
+      "class": "documented-synonym",
+      "body": "This definitively rules out the off-line explanation.",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "ban_proves",
+      "class": "documented-synonym",
+      "body": "The computation proves the bound on this range.",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "fresh_establishes",
+      "class": "fresh-vocabulary",
+      "body": "This establishes the bound for all T in range.",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "fresh_settles",
+      "class": "fresh-vocabulary",
+      "body": "The scan settles the question for K <= 1200.",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "fresh_we_have_shown",
+      "class": "fresh-vocabulary",
+      "body": "We have shown that no counterexample exists below T = 10^6.",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "fresh_beyond_doubt",
+      "class": "fresh-vocabulary",
+      "body": "The effect is real beyond any reasonable doubt.",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "fresh_qed",
+      "class": "fresh-vocabulary",
+      "body": "Therefore the claim holds. QED.",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "fresh_theorem",
+      "class": "fresh-vocabulary",
+      "body": "Theorem (this hunt). The residue vanishes identically.",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "fresh_conclusively",
+      "class": "fresh-vocabulary",
+      "body": "The lesion test conclusively demonstrates the mechanism.",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "fresh_guaranteed",
+      "class": "fresh-vocabulary",
+      "body": "The enclosure guarantees the sign at every sample point.",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "fresh_kernel_checked_lie",
+      "class": "fresh-vocabulary",
+      "body": "Every step of this chain is kernel-checked by Lean with zero sorrys.",
+      "documented_rule_says": "caught",
+      "guard_detected": false,
+      "agrees_with_documented_rule": false
+    },
+    {
+      "specimen": "ok_measured",
+      "class": "sanctioned",
+      "body": "We measured a residue of 3.1e-4 at c = 14.1.",
+      "documented_rule_says": "clean",
+      "guard_detected": false,
+      "agrees_with_documented_rule": true
+    },
+    {
+      "specimen": "ok_observed",
+      "class": "sanctioned",
+      "body": "Observed: the null reproduces the effect at the 27th percentile.",
+      "documented_rule_says": "clean",
+      "guard_detected": false,
+      "agrees_with_documented_rule": true
+    },
+    {
+      "specimen": "ok_consistent_with",
+      "class": "sanctioned",
+      "body": "The scan is consistent with a complete on-line list.",
+      "documented_rule_says": "clean",
+      "guard_detected": false,
+      "agrees_with_documented_rule": true
+    }
+  ],
+  "specimen_summary_by_class": {
+    "reserved-word": {
+      "n": 5,
+      "detected": 5
+    },
+    "reserved-morphology": {
+      "n": 3,
+      "detected": 0
+    },
+    "reserved-evasion": {
+      "n": 5,
+      "detected": 0
+    },
+    "documented-synonym": {
+      "n": 4,
+      "detected": 0
+    },
+    "fresh-vocabulary": {
+      "n": 9,
+      "detected": 0
+    },
+    "sanctioned": {
+      "n": 3,
+      "detected": 0
+    }
+  },
+  "corpus": {
+    "verified": {
+      "total": 13,
+      "files": 11,
+      "by_kind": {
+        "use": 8,
+        "rule-mention": 5,
+        "disclaimer": 0
+      },
+      "hits": [
+        {
+          "file": "hunts/README.md",
+          "line": 32,
+          "kind": "rule-mention",
+          "text": "| use the word *measured*, *observed*, *consistent with* | use *verified*, *confirmed*, *definitively*, *proves* \u2014 and never *<the-reserved-word>*, which `zeta/rigor.py` "
+        },
+        {
+          "file": "hunts/README.md",
+          "line": 520,
+          "kind": "use",
+          "text": "controls the Weil position residue, and recorded a \"verified\" correlation on"
+        },
+        {
+          "file": "hunts/director_run/CLAIMS.md",
+          "line": 18,
+          "kind": "use",
+          "text": "| FORMALLY VERIFIED | kernel-checked by Lean with zero `sorry` |"
+        },
+        {
+          "file": "hunts/director_run/CLAIMS.md",
+          "line": 124,
+          "kind": "use",
+          "text": "string is prose about the rule \u00b7 **disposition: FORMALLY VERIFIED (as a build"
+        },
+        {
+          "file": "hunts/factorization_vs_position/MISSION.md",
+          "line": 21,
+          "kind": "use",
+          "text": "This is part of Phase II of Zeta Lab: aiming to produce one genuinely new, externally verified mathematical statement that humanity didn't previously know."
+        },
+        {
+          "file": "hunts/flow_repair/probe.py",
+          "line": 92,
+          "kind": "use",
+          "text": "#: repo's own 50-digit pinned zero (zeta/epstein.py, re-verified by its test"
+        },
+        {
+          "file": "hunts/frontier_map/MISSION.md",
+          "line": 69,
+          "kind": "rule-mention",
+          "text": "say *verified*, *confirmed*, *definitively*, and it never uses the reserved"
+        },
+        {
+          "file": "hunts/frontier_math/MISSION.md",
+          "line": 71,
+          "kind": "rule-mention",
+          "text": "`zeta/rigor.py`; not *verified*, *confirmed*, *definitively*. A \"candidate"
+        },
+        {
+          "file": "hunts/frontier_math/PROOF-LEDGER.md",
+          "line": 645,
+          "kind": "use",
+          "text": "| Co-optimized attack: pairs AND zeros chosen together | **NO VIOLATION, 57 restarts** | closed-form (*) objective (W, T, omega2, slack), Nelder-Mead over posit"
+        },
+        {
+          "file": "hunts/frontier_math/fourier_bridge.py",
+          "line": 39,
+          "kind": "use",
+          "text": "pair block energy).  Verified here to machine precision on mixed"
+        },
+        {
+          "file": "hunts/higher_xi/LEAN-FRONTIER.md",
+          "line": 292,
+          "kind": "use",
+          "text": "formalise. Every intermediate inequality of both chains was verified"
+        },
+        {
+          "file": "hunts/wide_search/HANDOFF.md",
+          "line": 213,
+          "kind": "rule-mention",
+          "text": "*verified / confirmed / definitively / proves* are banned by documentation but"
+        },
+        {
+          "file": "hunts/wide_search/MISSION.md",
+          "line": 88,
+          "kind": "rule-mention",
+          "text": "*verified*, *confirmed*, *definitively* or *proves*, and it never uses the"
+        }
+      ]
+    },
+    "confirmed": {
+      "total": 9,
+      "files": 8,
+      "by_kind": {
+        "use": 4,
+        "rule-mention": 5,
+        "disclaimer": 0
+      },
+      "hits": [
+        {
+          "file": "hunts/README.md",
+          "line": 32,
+          "kind": "rule-mention",
+          "text": "| use the word *measured*, *observed*, *consistent with* | use *verified*, *confirmed*, *definitively*, *proves* \u2014 and never *<the-reserved-word>*, which `zeta/rigor.py` "
+        },
+        {
+          "file": "hunts/director_run/GRAVEYARD.md",
+          "line": 75,
+          "kind": "use",
+          "text": "precision. The floor is the \u03ba enclosure's own 6e-7 width, confirmed by an"
+        },
+        {
+          "file": "hunts/director_run/GRAVEYARD.md",
+          "line": 137,
+          "kind": "use",
+          "text": "confirmed defects were controls that could not fire (a completeness check"
+        },
+        {
+          "file": "hunts/frontier_map/MISSION.md",
+          "line": 69,
+          "kind": "rule-mention",
+          "text": "say *verified*, *confirmed*, *definitively*, and it never uses the reserved"
+        },
+        {
+          "file": "hunts/frontier_math/BRIDGE-SPEC.md",
+          "line": 47,
+          "kind": "use",
+          "text": "(`Zeta23Ext/Composition.lean`, kernel-checked and confirmed to build under"
+        },
+        {
+          "file": "hunts/frontier_math/MISSION.md",
+          "line": 71,
+          "kind": "rule-mention",
+          "text": "`zeta/rigor.py`; not *verified*, *confirmed*, *definitively*. A \"candidate"
+        },
+        {
+          "file": "hunts/frontier_math/PROOF-LEDGER.md",
+          "line": 1132,
+          "kind": "use",
+          "text": "| **The empty-directory cost, restated by the prover** | CONFIRMED | none of EForm2's results were present; definitions, integrability, the master identity, clo"
+        },
+        {
+          "file": "hunts/wide_search/HANDOFF.md",
+          "line": 213,
+          "kind": "rule-mention",
+          "text": "*verified / confirmed / definitively / proves* are banned by documentation but"
+        },
+        {
+          "file": "hunts/wide_search/MISSION.md",
+          "line": 88,
+          "kind": "rule-mention",
+          "text": "*verified*, *confirmed*, *definitively* or *proves*, and it never uses the"
+        }
+      ]
+    },
+    "definitively": {
+      "total": 5,
+      "files": 5,
+      "by_kind": {
+        "use": 0,
+        "rule-mention": 5,
+        "disclaimer": 0
+      },
+      "hits": [
+        {
+          "file": "hunts/README.md",
+          "line": 32,
+          "kind": "rule-mention",
+          "text": "| use the word *measured*, *observed*, *consistent with* | use *verified*, *confirmed*, *definitively*, *proves* \u2014 and never *<the-reserved-word>*, which `zeta/rigor.py` "
+        },
+        {
+          "file": "hunts/frontier_map/MISSION.md",
+          "line": 69,
+          "kind": "rule-mention",
+          "text": "say *verified*, *confirmed*, *definitively*, and it never uses the reserved"
+        },
+        {
+          "file": "hunts/frontier_math/MISSION.md",
+          "line": 71,
+          "kind": "rule-mention",
+          "text": "`zeta/rigor.py`; not *verified*, *confirmed*, *definitively*. A \"candidate"
+        },
+        {
+          "file": "hunts/wide_search/HANDOFF.md",
+          "line": 213,
+          "kind": "rule-mention",
+          "text": "*verified / confirmed / definitively / proves* are banned by documentation but"
+        },
+        {
+          "file": "hunts/wide_search/MISSION.md",
+          "line": 88,
+          "kind": "rule-mention",
+          "text": "*verified*, *confirmed*, *definitively* or *proves*, and it never uses the"
+        }
+      ]
+    },
+    "proves": {
+      "total": 6,
+      "files": 6,
+      "by_kind": {
+        "use": 3,
+        "rule-mention": 3,
+        "disclaimer": 0
+      },
+      "hits": [
+        {
+          "file": "hunts/README.md",
+          "line": 32,
+          "kind": "rule-mention",
+          "text": "| use the word *measured*, *observed*, *consistent with* | use *verified*, *confirmed*, *definitively*, *proves* \u2014 and never *<the-reserved-word>*, which `zeta/rigor.py` "
+        },
+        {
+          "file": "hunts/frontier_math/BRIDGE-SPEC.md",
+          "line": 100,
+          "kind": "use",
+          "text": "hypothesis may not be discharged**, only carried. An artifact that \"proves\""
+        },
+        {
+          "file": "hunts/frontier_math/PROOF-LEDGER.md",
+          "line": 837,
+          "kind": "use",
+          "text": "classical lemmas that the source paper already states, proves and"
+        },
+        {
+          "file": "hunts/frontier_math/zeta23ext/README.md",
+          "line": 158,
+          "kind": "use",
+          "text": "lemmas the source paper already states, proves and formalises:"
+        },
+        {
+          "file": "hunts/wide_search/HANDOFF.md",
+          "line": 213,
+          "kind": "rule-mention",
+          "text": "*verified / confirmed / definitively / proves* are banned by documentation but"
+        },
+        {
+          "file": "hunts/wide_search/MISSION.md",
+          "line": 88,
+          "kind": "rule-mention",
+          "text": "*verified*, *confirmed*, *definitively* or *proves*, and it never uses the"
+        }
+      ]
+    }
+  },
+  "findings": {
+    "tests_scanning_whole_hunts_tree": [
+      "test_hunt_probe_discipline.py",
+      "test_zeta23ext_imports.py"
+    ],
+    "tests_enforcing_any_documented_ban": [],
+    "documented_bans_with_no_enforcing_test": [
+      "verified",
+      "confirmed",
+      "definitively",
+      "proves"
+    ],
+    "guard_detects_reserved_word_substring": true,
+    "guard_detects_any_documented_synonym": false,
+    "guard_detects_any_fresh_vocabulary": false,
+    "sanctioned_vocabulary_false_positives": [],
+    "documented_ban_uses_live_in_tree_now": {
+      "verified": 8,
+      "confirmed": 4,
+      "definitively": 0,
+      "proves": 3
+    }
+  }
+}

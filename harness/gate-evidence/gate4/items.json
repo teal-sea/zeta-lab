@@ -1,0 +1,32 @@
+[
+  {
+    "id": "I1",
+    "source_ir": "; source: r = (x * 2) + y, all arithmetic wrapping i8\ndefine i8 @f(i8 %x, i8 %y) {\nentry:\n  %m = mul i8 %x, 2\n  %r = add i8 %m, %y\n  ret i8 %r\n}\n",
+    "target_ir": "; target: the same, with the multiply strength-reduced to a shift\ndefine i8 @f(i8 %x, i8 %y) {\nentry:\n  %m = shl i8 %x, 1\n  %r = add i8 %m, %y\n  ret i8 %r\n}\n"
+  },
+  {
+    "id": "I2",
+    "source_ir": "; source: r = (x * 2) + y, all arithmetic wrapping i8\ndefine i8 @f(i8 %x, i8 %y) {\nentry:\n  %m = mul i8 %x, 2\n  %r = add i8 %m, %y\n  ret i8 %r\n}\n",
+    "target_ir": "; source: r = (x * 2) + y, all arithmetic wrapping i8\ndefine i8 @f(i8 %x, i8 %y) {\nentry:\n  %m = mul i8 %x, 2\n  %r = add i8 %y, %m\n  ret i8 %r\n}\n"
+  },
+  {
+    "id": "I3",
+    "source_ir": "; source: r = (x udiv 4) + y  -- unsigned division\ndefine i8 @f(i8 %x, i8 %y) {\nentry:\n  %m = udiv i8 %x, 4\n  %r = add i8 %m, %y\n  ret i8 %r\n}\n",
+    "target_ir": "; source: r = (x udiv 4) + y  -- unsigned division\ndefine i8 @f(i8 %x, i8 %y) {\nentry:\n  %m = udiv i8 %x, 4\n  %r = add i8 %m, %y\n  ret i8 %r\n}\n"
+  },
+  {
+    "id": "I4",
+    "source_ir": "; source: r = (x * 2) + y, all arithmetic wrapping i8\ndefine i8 @f(i8 %x, i8 %y) {\nentry:\n  %m = mul i8 %x, 2\n  %r = add i8 %m, %y\n  ret i8 %r\n}\n",
+    "target_ir": "; target: the same, with the multiply strength-reduced to a shift\ndefine i8 @f(i8 %x, i8 %y) {\nentry:\n  %m = shl nsw i8 %x, 1\n  %r = add i8 %m, %y\n  ret i8 %r\n}\n"
+  },
+  {
+    "id": "I5",
+    "source_ir": "; source: r = (x * 2) + y, all arithmetic wrapping i8\ndefine i8 @f(i8 %x, i8 %y) {\nentry:\n  %m = mul i8 %x, 2\n  %r = add i8 %m, %y\n  ret i8 %r\n}\n",
+    "target_ir": "; source: r = (x * 2) + y, all arithmetic wrapping i8\ndefine i8 @f(i8 %x, i8 %y) {\nentry:\n  %m = mul i8 %x, 2\n  %r = add nuw i8 %m, %y\n  ret i8 %r\n}\n"
+  },
+  {
+    "id": "I6",
+    "source_ir": "; source: r = (x udiv 4) + y  -- unsigned division\ndefine i8 @f(i8 %x, i8 %y) {\nentry:\n  %m = udiv i8 %x, 4\n  %r = add i8 %m, %y\n  ret i8 %r\n}\n",
+    "target_ir": "; source: r = (x udiv 4) + y  -- unsigned division\ndefine i8 @f(i8 %x, i8 %y) {\nentry:\n  %m = udiv exact i8 %x, 4\n  %r = add i8 %m, %y\n  ret i8 %r\n}\n"
+  }
+]

@@ -20,7 +20,7 @@ results.
 
 **Why O9 needed one.** On 2026-08-13 the O9 development was built for the first
 time, and `tests/test_zeta23ext_imports.py` reported **thirteen** modules that
-nothing imported from `Zeta23Ext.lean` — the whole soundness chain among them.
+nothing imported from `Zeta23Ext.lean`, the whole soundness chain among them.
 `EForm3/Main.lean` imported `O9Check2`, so the *table* was re-decided by a
 plain `lake build`, but every lemma establishing that the table says anything
 about `Dam` was invisible to it. Those files had been built by hand, once, and
@@ -29,7 +29,7 @@ nothing afterwards would have noticed them rotting.
 That is the same defect, in the same directory, that the morning's build found
 in the 1-D route: `O9Check.lean` was orphaned *and* did not compile, and both
 facts had gone unnoticed because no target reached it. The guard exists
-because an orphan is worse than a build error — the package still reports
+because an orphan is worse than a build error, the package still reports
 success.
 
 The refuted 1-D route (`O9Data`, `O9Check`, `O9Damage`) is deleted rather than

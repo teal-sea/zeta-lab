@@ -29,7 +29,7 @@ invoked.
 |---|---|
 | build its own instruments under `hunts/<name>/` | modify `zeta/`, `ontology/` or `harness/` without explicit permission |
 | record raw measurements in its own `results*.json` | write a verdict into `README.md`, `ROADMAP.md` or `HANDOFF.md` as an established finding |
-| use the word *measured*, *observed*, *consistent with* | use *verified*, *confirmed*, *definitively*, *proves* — and never *certified*, which `zeta/rigor.py` owns |
+| use the word *measured*, *observed*, *consistent with* | use *certified*, which `zeta/rigor.py` owns |
 | propose a candidate for the funnel or the battery | promote its own claim |
 
 A hunt that wants its claim to count takes it through the battery
@@ -69,6 +69,97 @@ control roles — and the checks are the ones the tree already owns:
    does not respond to added precision; a real quantity does.**
 
 ## Case log
+
+### Hunt #9 — how much power a guard has (`r_414eed/`)
+
+**Status: probe, complete. `scripts/make_context.py --check` caught 17/17
+in-scope mutants including its declared smallest one — and it caught that one
+by accounting rather than comprehension, which is what exposed the single edit
+shape that slips past it.** `CONTEXT.md` prints a per-module line count, so any
+length-changing edit marks it stale (a lone blank line fires the guard) while a
+private helper renamed public *in place*, in a module that declares `__all__`,
+regenerates byte-identically and passes. Four unscanned regions mapped
+(`meta/`, `compiler/`, `docs/doors/`, non-`test_*.py` test files). Controls: the
+unmutated sandbox reproduces `CONTEXT.md` byte for byte, and the undo is
+re-checked after every one of 24 mutants; the repository itself is never
+written to. **Disposition:** guard ledger entry amended from `fired=None` to
+`fired=True` with its scope and six known misses
+(`harness/departments/guard_ledger.py`, run `fd5fd902`). Nothing here bears on
+ζ or RH — it measures a repository hygiene script.
+
+### Hunt #11: what the hunt lexical guard actually reads (`r_03a798/`)
+
+**Status: settled. The guard matches one literal substring, case-insensitively,
+and everything outside it passes.**
+
+The attention item that opened this hunt asserted that
+`test_no_hunt_claims_the_reserved_word` misses synonyms, and that *verified*,
+*confirmed*, *definitively* and *proves* are caught "by other checks". The hunt
+measures both halves and reports the first as true and the second as false:
+those other checks do not exist. It copies the guard **unmodified** into a
+sandbox repo root and runs it against one planted specimen at a time, so each
+verdict is the guard's own exit status rather than a re-implementation, with an
+empty-specimen control green so a failure is attributable to the specimen.
+
+Reproduce: `python hunts/r_03a798/probe.py` (~40 s, no mpmath, no network).
+Data: `results.json`.
+
+### Hunt #10 — what the doors guard actually catches (`r_cb5ffe/`)
+
+**Status: probe, complete. The guard's power is measured at 5/10 against a
+ten-mutant battery, and its five misses share one cause.**
+
+`harness/departments/guard_ledger.py` carried `tests/test_doors.py` with
+`fired: None` and `scope: undetermined until demonstrated` — existence
+recorded, power never measured. This hunt builds the mutant the record names
+(a door command that exits non-zero) plus nine neighbours, applies each to a
+throwaway `git worktree`, and records which tier of the guard notices.
+
+Measured: four mutants caught on the fast tier, one only on the slow tier,
+five escaped. The escapes are structural rather than scattered — the guard's
+whole notion of "a door's command" is the regex `scripts/[\w.]+\.py` applied
+to `docs/doors/README.md`, so a command quoted *inside* a door page is
+unguarded, and a README row naming no script (the certify door's Lean build,
+the adopt door's pytest invocation) is outside its field of view. A tree
+carrying all five escapes at once passes both tiers green.
+
+The hunt reports a proposed ledger amendment and does not apply it:
+`harness/` is demoted (`harness/VERDICT.md`) and a hunt may not promote its
+own claim.
+
+### Hunt #8 — where the fog enters (`effective_constants/`)
+
+**Status: opened 2026-08-13, nothing measured yet.** Tests whether the
+transplant chain's ineffectivity is extractable bookkeeping or an essential
+obstruction.
+
+The chain's headline caveat is that the improved constant is a liminf
+statement with crossover `T₀ ≈ 10^(1.6773e6)` — unreachable at any computable
+height — and that this is *inherited* from the source paper. "Inherited"
+currently functions as an explanation and is not one, so the hunt asks where
+exactly the fog enters and whether it has to.
+
+Two facts already in the tree say it may not. `PROOF-LEDGER.md` (blocker 3,
+residual (i)) records that **four existential `EvBound` constants would make
+the chain effective and nothing else in the budget would** — the ineffectivity
+is localised, and the dominant error term is already derived from parts
+(`35.519106`, matching measurement to four digits). And upstream those facts
+are *assumptions*: fields of a `Facts` structure carrying the paper's own
+references, whose shape is `∃ C > 0, ∃ T₀, ∀ T ≥ T₀, |f| ≤ C·g` and whose own
+docstring says "explicit inequality with named constants, no filter-o(1) until
+the final liminf wrapper". The constants were not lost to an obstruction; they
+were not carried across an interface, because the source's goal was a limit
+statement.
+
+Either verdict is worth having. Extractable means an effective form of the
+underlying bound is arithmetic rather than new mathematics — and that would
+stand independently of the `+1.0e-5` improvement it was reached through, since
+the improvement is unreachable at any computable height while an effective
+constant is usable above its threshold. Essential means the obstruction finally
+has a name and a location.
+
+Opened after the operator asked why the fog has to be inherited at all. It is
+the first hunt to attack the chain *upstream* of where the transplant begins.
 
 ### Hunt #7 — the quasicrystal that is a theorem (`golden_control/`)
 

@@ -759,3 +759,69 @@ def test_a_malformed_settings_file_stops_the_installer_loudly(repo: Path) -> Non
     local.write_text("{ not json", encoding="utf-8")
     with pytest.raises(SystemExit, match="not valid JSON"):
         _install([], repo)
+
+
+# ---------------------------------------------------------------------------
+# The SessionStart hook captures the opening prompt.
+#
+# The store and the digest machinery existed from the first commit; the hook
+# hardcoded ``store: "absent"`` and never called them, so every automatic run
+# record carried a null digest and the prompt corpus stayed empty. These pin
+# the fix, and pin the half of it that must NOT change: the text is local and
+# gitignored, only the digest travels.
+# ---------------------------------------------------------------------------
+
+
+def _run_session_start(root: Path, payload: dict) -> dict | None:
+    """Invoke the hook as the harness does — JSON on stdin — and fold the record."""
+    hook = Path(__file__).resolve().parents[1] / "telemetry" / "hooks" / "session_start.py"
+    proc = subprocess.run(
+        [sys.executable, str(hook)],
+        input=json.dumps(payload),
+        capture_output=True,
+        text=True,
+        env={"PATH": "/usr/bin:/bin", "TELEMETRY_ROOT": str(root)},
+        cwd=str(root.parent),
+    )
+    assert proc.returncode == 0, proc.stderr
+    records = sorted((root / "runs").glob("*.jsonl"))
+    if not records:
+        return None
+    return json.loads(records[-1].read_text().splitlines()[0])
+
+
+def test_prompt_ref_round_trips_through_the_local_store(tmp_path: Path) -> None:
+    """capture -> digest -> resolve returns the same bytes."""
+    text = "Investigate whether the harness improves evaluation correctness."
+    ref = prompts.capture_text(tmp_path, text, source="session-start-hook")
+
+    assert ref.store == "local-private"
+    assert ref.digest == prompts.digest_text(text)
+    assert ref.bytes == len(text.encode("utf-8"))
+
+    resolved = prompts.resolve(tmp_path, ref)
+    assert resolved is not None and resolved.read_text(encoding="utf-8") == text
+
+
+def test_capturing_the_same_prompt_twice_is_idempotent(tmp_path: Path) -> None:
+    """Content addressing: the same wording is one entry, not two."""
+    text = "run the governance checks and record the result"
+    first = prompts.capture_text(tmp_path, text)
+    second = prompts.capture_text(tmp_path, text)
+
+    assert first.digest == second.digest
+    assert len(list((tmp_path / "prompts").glob("*.txt"))) == 1
+
+
+def test_an_absent_prompt_stays_absent_rather_than_being_guessed(tmp_path: Path) -> None:
+    """A session that declares no prompt records unknown, not an invention."""
+    ref = prompts.PromptRef.from_dict({"digest": None, "store": "absent"})
+    assert ref.digest is None
+    assert ref.store == "absent"
+    assert prompts.resolve(tmp_path, ref) is None
+
+
+def test_the_prompt_store_is_gitignored_so_wording_never_travels(repo: Path) -> None:
+    """The digest is public; the text must not be. Enforced by the ignore rule."""
+    ignore = (Path(__file__).resolve().parents[1] / "telemetry" / ".gitignore").read_text()
+    assert "prompts/*" in ignore, "the prompt store must stay out of the committed tree"

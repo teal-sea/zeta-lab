@@ -91,12 +91,24 @@ def test_every_demonstration_artifact_in_this_file_exists() -> None:
                 f"guard {record.name!r} cites demonstration {test_name!r}, "
                 "which this file does not define"
             )
+        else:
+            # Demonstrations may live outside tests/ (a standalone mutation
+            # run, say). The file still has to be on disk, or the record
+            # cites something nobody can rerun.
+            path = _REPO_ROOT / artifact.split("::", 1)[0].split(" ", 1)[0]
+            assert path.exists(), (
+                f"guard {record.name!r} cites demonstration artifact "
+                f"{str(path)!r}, which is not in the tree"
+            )
 
 
 def test_the_worklist_surfaces_the_undemonstrated_entries() -> None:
     open_names = undemonstrated(GUARDS)
     assert "tests/test_doors.py" in open_names
-    assert "scripts/make_context.py --check" in open_names
+    # 'scripts/make_context.py --check' left this list on 2026-08-13, when
+    # hunts/r_414eed/probe.py ran 24 mutants past it. The entry moving off
+    # the worklist is the ledger working: an outcome cost a demonstration.
+    assert "scripts/make_context.py --check" not in open_names
     reasons = offensive_worklist(GUARDS)
     assert any("never had its power demonstrated" in r for r in reasons)
     # Known misses surface too: the ledger implies work even where guards fire.

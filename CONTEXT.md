@@ -1081,7 +1081,7 @@ Constants: `GRAVES`
 
 ### `harness/departments/guard_ledger.py` — The repository's guard ledger — the guard offensive's opening entries.
 
-*192 lines*
+*229 lines*
 
 Constants: `GUARDS`
 
@@ -1258,15 +1258,17 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/60_rung3_generate.py` — Generate the rung-3 certificate Lean files from a plan JSON.
 - `scripts/61_rung3_mirror.py` — Bit-exact Fraction mirror of the ZetaLean rational interval arithmetic.
 - `scripts/70_lab_state.py` — 70_lab_state.py — the read-only research-state view, rendered from artifacts.
+- `scripts/72_site.py` — 72_site.py: the public reading surface, generated from repository artifacts.
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/mathlib_gaps.py` — Which of Mathlib's 1000 famous theorems are still unformalized.
 - `scripts/science_preflight.py` — Preflight for a session running this lab from an outside environment.
+- `scripts/build_site.sh` — Build the public reading surface for a host, with history the counts need.
 - `scripts/ledger_sync.sh` — Sync the private discovery ledger between machines.
 
 ## Tests (`tests/`)
 
-1761 test functions across 66 files (the collected count differs where tests are parametrised):
+1779 test functions across 67 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_claim_attribution.py` — 6
@@ -1326,11 +1328,12 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_scout_online.py` — 15
 - `tests/test_script_13_discovery_run.py` — 33
 - `tests/test_script_14_moment_experiment.py` — 26
+- `tests/test_site.py` — 14
 - `tests/test_spectral_gate.py` — 14
 - `tests/test_statistics.py` — 54
 - `tests/test_surrogate.py` — 23
 - `tests/test_synthesis.py` — 6
-- `tests/test_telemetry.py` — 67
+- `tests/test_telemetry.py` — 71
 - `tests/test_weil.py` — 44
 - `tests/test_zeros.py` — 58
 - `tests/test_zeta23ext_imports.py` — 5

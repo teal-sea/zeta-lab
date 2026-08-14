@@ -4,13 +4,18 @@ Machinery in :mod:`harness.guards`; this file is the subject side, where real
 tests and real incidents may be named. Three records open the ledger with
 their power demonstrated live in ``tests/test_guard_ledger.py`` (each
 demonstration constructs the smallest mutant and watches the guard fire), and
-two are recorded honestly as undemonstrated — the visible head of the
+two were recorded honestly as undemonstrated — the visible head of the
 offensive's worklist, per the adopted decision in ``ROADMAP.md`` ("The
 outside memos, triaged", adopted build 2).
 
 The ledger grows one demonstrated record at a time. The rule for adding one:
 ``fired`` may only move off ``None`` in the same change that adds the
 demonstration, and a demonstration is a runnable artifact, not a sentence.
+The artifact need not live in ``tests/``: ``scripts/make_context.py --check``
+moved to ``fired=True`` on 2026-08-13 carrying ``hunts/r_414eed/probe.py``,
+a standalone mutation run, which is why the conformance test checks cited
+paths exist rather than only cited test nodes. One entry
+(``tests/test_doors.py``) is still open.
 """
 
 from __future__ import annotations
@@ -110,9 +115,41 @@ GUARDS: tuple[GuardRecord, ...] = (
         smallest_mutant=(
             "one added public symbol with CONTEXT.md left unregenerated"
         ),
-        fired=None,
-        known_misses=(),
-        scope="undetermined until demonstrated",
+        fired=True,
+        demonstrated_by=(
+            "hunts/r_414eed/probe.py (24 mutants against a throwaway copy of "
+            "the tree; 17/17 in scope caught, results in "
+            "hunts/r_414eed/results.json and RESULTS.md)"
+        ),
+        known_misses=(
+            "a private helper renamed public *in place*, in a module that "
+            "declares __all__, by a length-neutral edit — the regenerated "
+            "CONTEXT.md is byte-identical and the guard is quiet (probe "
+            "mutant B06, the one miss inside the guard's own subject matter)",
+            "public functions added under meta/ — the package is not scanned "
+            "at all (B01)",
+            "public functions added under compiler/ — likewise unscanned "
+            "(B02)",
+            "documents added under docs/doors/ — doc_index globs docs/*.md, "
+            "not docs/**/*.md (B03)",
+            "test files whose names do not match test_*.py, e.g. "
+            "tests/mutant_helper.py (B04)",
+            "a public docstring changed below its first line — only the "
+            "first line is indexed (B07, by construction)",
+        ),
+        scope=(
+            "the invariant it actually enforces is 'CONTEXT.md is a "
+            "byte-exact function of the scanned tree' (zeta/, ontology/, "
+            "harness/, dossier/, docs/*.md, scripts/, tests/test_*.py), "
+            "which is broader *and* shallower than 'the public API index is "
+            "current': CONTEXT.md records a per-module line count, so any "
+            "edit changing a scanned file's length fires the guard even when "
+            "no symbol reaches the index — the declared smallest mutant "
+            "(probe M01) and a lone appended blank line (B08) both fire that "
+            "way. A catch therefore does not establish that the guard saw "
+            "the symbol, and the misses above are the edits that change no "
+            "length"
+        ),
         incident="",
     ),
     GuardRecord(

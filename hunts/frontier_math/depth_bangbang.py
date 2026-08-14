@@ -1,6 +1,6 @@
 """ROAD B: does the depth quantifier in `k >= 2` collapse to the corners?
 
-**NO. (BB) IS FALSE — see `COUNTEREXAMPLE` below.  This module is kept as
+**NO. (BB) IS FALSE, see `COUNTEREXAMPLE` below.  This module is kept as
 the record of a claim that a sampling sweep supported and a targeted search
 destroyed within the hour.**
 
@@ -13,7 +13,7 @@ tested one structural claim that would have removed that continuum:
           single `y_p` at an ENDPOINT of the allowed range.
 
 Had (BB) held, the worst case over depths would live on the `2^k` corners of
-`[y_min, 1/2]^k`, i.e. `k + 1` cases once the pairs are identified — a
+`[y_min, 1/2]^k`, i.e. `k + 1` cases once the pairs are identified, a
 continuum quantifier made finite.  **It does not hold, so that reduction is
 not available and the depth quantifier stays continuous.**
 
@@ -25,10 +25,10 @@ control firing 60/60.  That is a real measurement and it is **worthless as
 evidence for (BB)**, because sampling looks where the measure is, not where
 the adversary is.
 
-An annealer pointed at the quantity the claim forbids — maximise
-`min(endpoints) - min(all)` over atoms, centres and the other depths —
-found a violation at the **smallest case it was given**, `k = 2, n = 2`,
-in minutes.  The lesson is the one this hunt keeps relearning: a sweep that
+An annealer pointed at the quantity the claim forbids (maximise
+`min(endpoints) - min(all)` over atoms, centres and the other depths) found
+a violation at the **smallest case it was given**, `k = 2, n = 2`, in
+minutes.  The lesson is the one this hunt keeps relearning: a sweep that
 does not optimise against its own claim measures the sweep, not the claim.
 
 ## Why it was worth testing
@@ -38,14 +38,14 @@ at `k = 4` the extremum came back with depths `[0.01, 0.025, 0.5, 0.5]`, and
 re-running under depth floors from `0.001` to `0.30` the extremum sat on the
 floor and the ceiling every time, never in between (worst relative margin
 stayed in `0.335 .. 0.399` throughout, so the floor is also not an artifact
-of the degenerate `y -> 0` corner — a corner an earlier search in this hunt
+of the degenerate `y -> 0` corner, a corner an earlier search in this hunt
 did collapse into, which is why the objective is the relative one).
 
 ## The control, and why the first one was worthless
 
 A scan that reports "no interior minimum" is worth nothing unless it can be
 shown to *find* one.  The first control here planted a fixed-height bump and
-fired on 3 of 60 cases — the bump was simply smaller than the variation it
+fired on 3 of 60 cases, the bump was simply smaller than the variation it
 was competing with, so it tested nothing.  Scaling the planted bump to each
 scan's own range makes the planted minimum genuinely global, and the detector
 then fires 60/60.  Only against that does `0 / 540` mean anything.
@@ -54,7 +54,7 @@ then fires 60/60.  Only against that does `0 / 540` mean anything.
 
 Only this: the *binding* configurations the joint search returns still look
 bang-bang (at `k = 12` ten of twelve depths sit within `0.02` of an end).  So
-(BB) may well hold near the infimum while failing in general — the
+(BB) may well hold near the infimum while failing in general, the
 counterexample sits at relative margin `0.7475`, three times the binding
 `~0.23`, i.e. nowhere near where the question is decided.  That is a much
 weaker and much harder statement: it needs the region where it holds to be
@@ -88,9 +88,18 @@ __all__ = [
     "report",
 ]
 
+#: The depth range.  `Y_LO` is a floor, not `0`: at `y = 0` the pair
+#: degenerates (gain and damage vanish together) and the relative margin is
+#: a `0/0`.
+Y_LO, Y_HI = 0.01, 0.5
+
+#: 61 points is enough to separate an endpoint minimum from an interior one
+#: at the scale the bump control operates on; `sweep` re-checks at 241.
+GRID = [Y_LO + (Y_HI - Y_LO) * j / 60 for j in range(61)]
+
 #: The configuration that refutes (BB).  Scanning `y_0` over `[0.01, 0.5]`:
 #: endpoints give `3.233353` and `0.749598`, and the minimum is `0.747516`
-#: at `y_0 = 0.35104` — interior, by `2.0823e-03`.  Coarse (61 points) and
+#: at `y_0 = 0.35104`, interior, by `2.0823e-03`.  Coarse (61 points) and
 #: fine (2001 points) agree to `5e-07`, so it is not a grid artifact.
 COUNTEREXAMPLE = {
     "xs": [-48.71286266, -42.68243098],
@@ -111,15 +120,6 @@ def counterexample_advantage(fine: bool = True) -> float:
     )
     vals = scan_depth(c["xs"], c["ts"], c["ys"], c["index"], grid)
     return min(vals[0], vals[-1]) - min(vals)
-
-#: The depth range.  `Y_LO` is a floor, not `0`: at `y = 0` the pair
-#: degenerates (gain and damage vanish together) and the relative margin is
-#: a `0/0`.
-Y_LO, Y_HI = 0.01, 0.5
-
-#: 61 points is enough to separate an endpoint minimum from an interior one
-#: at the scale the bump control operates on; `sweep` re-checks at 241.
-GRID = [Y_LO + (Y_HI - Y_LO) * j / 60 for j in range(61)]
 
 
 def _peaks() -> list:
