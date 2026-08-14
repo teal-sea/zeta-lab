@@ -826,8 +826,8 @@ that certifies every step. Applied to a problem open since 1859, and it moved.
 What did not work is published here alongside what did.</p>
 
 {vitals([
-    (str(len(fr['results'])), 'new results', False),
-    (num(kernel), 'proofs a computer checked', False),
+    (str(len(fr['results'])), 'new theorems', False),
+    (num(kernel), 'kernel-checked theorems', False),
     (str(sorrys), 'steps taken on faith', True),
     (str(people), 'person' if people == 1 else 'people', False),
     (str(r['days']), 'days', False),
@@ -848,7 +848,7 @@ work behind it.</p>
 
 <section>
 <h2><span class='num'>§1</span> What we proved</h2>
-<p>Four results, produced here and checked by the Lean kernel. No
+<p>{len(fr['results'])} theorems, proved here and checked by the Lean kernel. No
 <code>sorry</code>s, no <code>native_decide</code>, no floating point, standard
 axioms only. Each ships with its <code>#print axioms</code> line, so a skeptic
 can confirm what it rests on without taking our word for anything.</p>
