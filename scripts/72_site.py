@@ -870,6 +870,22 @@ laboratory assembled and audited a chain that carries it to
 <p>Fractions of a percent are how this problem moves. Each one has taken the
 field years, and they are usually argued on paper. This one is machine checked
 underneath.</p>
+
+<h3>Where this sits</h3>
+<p>The 67.25007% is Anthropic's. On 10 August 2026 they published a result in
+which an unreleased research model, running as Claude, carried the proven
+fraction from 41.6% to 67.25007%. That is a genuine advance, it is theirs, and
+its Lean formalization is public.</p>
+<p>Two things about that run are worth knowing. The model behind it was never
+released, so nobody outside Anthropic can reproduce how the result was found;
+and it was reported to take two Claude Code sessions, sixty subagents and
+roughly 31 million output tokens.</p>
+<p>This laboratory began from their published theorem two days later and
+carried it to 67.25107%. The difference worth your attention is not the size of
+the step. It is that this one runs on tools anyone can rent, and every part of
+it, the chain, the audit, the refutations and the code, is on this site and in
+the repository. Claude Code is in our stack too, named below alongside
+everything else.</p>
 <p>The step underneath it is checked against the real function rather than a
 convenient stand-in, which is the shortcut this kind of argument usually takes.</p>
 <p class='meta'>A candidate rather than a theorem: one step of the chain is
