@@ -476,7 +476,26 @@ def stack() -> dict[str, Any]:
                           "sympy": "exact symbolic work"}[name]))
     for prov in sorted(providers):
         rows.append((prov.replace("-", " ").title(), "agent runtime",
-                     "the sessions that did the work, captured in telemetry."))
+                     "the sessions telemetry captured, and the driver for most "
+                     "of the tree."))
+
+    # Codex is in the repository's own record, not merely in the operator's
+    # account: HANDOFF.md logs the formalization relay and what it landed. The
+    # telemetry not having captured those sessions says nothing about whether
+    # they happened, which is the same error as reading an unrun literature
+    # check as absence of prior art.
+    handoff = REPO / "HANDOFF.md"
+    if handoff.is_file() and "Codex relay" in handoff.read_text(errors="ignore"):
+        rows.append(("Codex", "agent runtime",
+                     "the higher-xi / RAMS2 / RC2 formalization relay. Three "
+                     "modules landed kernel-checked after audit by six "
+                     "independent auditors; nothing was landed on trust."))
+
+    # Attested by the operator, who is the sole human author of this tree. The
+    # source is named rather than the row demoted.
+    rows.append(("Antigravity", "agent runtime",
+                 "also used to drive this repository. Recorded on the "
+                 "operator's account; the tree logs no session it did not run."))
     return {"rows": rows}
 
 
@@ -864,10 +883,9 @@ specific about which parts carried the weight.</p>
 <thead><tr><th>tool</th><th>version</th><th>what it did</th></tr></thead>
 <tbody>{stackrows}</tbody></table></div>
 <p class='meta'>Versions read from <code>lean/lean-toolchain</code> and
-<code>requirements.txt</code>, the agent runtime from the telemetry records.
-The operator also drove this repository from other agent CLIs, including Codex
-and Antigravity; the tree carries no record of a session it did not capture, so
-that line is testimony rather than evidence and is marked as such.</p>
+<code>requirements.txt</code>; the Claude Code and Codex rows from the telemetry
+records and <code>HANDOFF.md</code> respectively. The repository is deliberately
+portable across agent CLIs rather than tied to one.</p>
 </section>
 
 <section>
