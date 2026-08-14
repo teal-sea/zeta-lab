@@ -1,0 +1,423 @@
+{
+  "hunt": "gate5_p6_b",
+  "run_id": "d9ae5359-933a-4a85-a0e7-28c04e36bc26",
+  "property": "in a box strictly off the critical line, the completed function has no zeros",
+  "preregistered_in": "hunts/gate5_p6_b/MISSION.md",
+  "boxes": {
+    "A": {
+      "sigma": [
+        0.7,
+        0.92
+      ],
+      "t": [
+        1.5,
+        11.5
+      ]
+    },
+    "B": {
+      "sigma": [
+        0.7,
+        0.92
+      ],
+      "t": [
+        85.2,
+        86.2
+      ]
+    },
+    "C": {
+      "sigma": [
+        1.05,
+        1.6
+      ],
+      "t": [
+        1.5,
+        11.5
+      ]
+    }
+  },
+  "davenport_heilbronn_offline_zero": {
+    "re": "0.80851718245663738555335196060684412785067026830502",
+    "im": "85.699348485377592171929267708941729037987829423408",
+    "inside_box_B": true
+  },
+  "cells": {
+    "A": {
+      "riemann_zeta": {
+        "function": "riemann_zeta",
+        "box": "A",
+        "sigma": [
+          0.7,
+          0.92
+        ],
+        "t": [
+          1.5,
+          11.5
+        ],
+        "dps": 20,
+        "adequacy": {
+          "corner": "0.92+11.5i",
+          "value_at_dps": "(0.013016169 + 0.0045492794j)",
+          "value_at_dps_plus_15": "(0.013016169 + 0.0045492794j)",
+          "relative_difference": 3.2586584784909316e-22,
+          "passed": true
+        },
+        "seconds_per_evaluation": 0.0014723539352416992,
+        "forced_segments": 92,
+        "projected_seconds": 0.27091312408447266,
+        "zeros": 0,
+        "status": "DECIDED",
+        "seconds": 0.07977628707885742,
+        "distinct_evaluations": 92
+      },
+      "davenport_heilbronn": {
+        "function": "davenport_heilbronn",
+        "box": "A",
+        "sigma": [
+          0.7,
+          0.92
+        ],
+        "t": [
+          1.5,
+          11.5
+        ],
+        "dps": 20,
+        "adequacy": {
+          "corner": "0.92+11.5i",
+          "value_at_dps": "(0.86190511 - 0.55798045j)",
+          "value_at_dps_plus_15": "(0.86190511 - 0.55798045j)",
+          "relative_difference": 2.8259611788400873e-22,
+          "passed": true
+        },
+        "seconds_per_evaluation": 0.22398555278778076,
+        "forced_segments": 92,
+        "projected_seconds": 41.21334171295166,
+        "zeros": 0,
+        "status": "DECIDED",
+        "seconds": 0.7249393463134766,
+        "distinct_evaluations": 92
+      },
+      "epstein_2_1_3": {
+        "function": "epstein_2_1_3",
+        "box": "A",
+        "sigma": [
+          0.7,
+          0.92
+        ],
+        "t": [
+          1.5,
+          11.5
+        ],
+        "dps": 28,
+        "adequacy": {
+          "corner": "0.92+11.5i",
+          "value_at_dps": "(9.3548159e-8 + 3.3277097e-8j)",
+          "value_at_dps_plus_15": "(9.3548159e-8 + 3.3277097e-8j)",
+          "relative_difference": 7.58081811552924e-30,
+          "passed": true
+        },
+        "seconds_per_evaluation": 2.1163700819015503,
+        "forced_segments": 92,
+        "projected_seconds": 389.41209506988525,
+        "zeros": 0,
+        "status": "DECIDED",
+        "seconds": 125.52405548095703,
+        "distinct_evaluations": 92
+      },
+      "epstein_1_1_6": {
+        "function": "epstein_1_1_6",
+        "box": "A",
+        "sigma": [
+          0.7,
+          0.92
+        ],
+        "t": [
+          1.5,
+          11.5
+        ],
+        "dps": 28,
+        "adequacy": {
+          "corner": "0.92+11.5i",
+          "value_at_dps": "(2.4037013e-8 + 1.2540977e-7j)",
+          "value_at_dps_plus_15": "(2.4037013e-8 + 1.2540977e-7j)",
+          "relative_difference": 1.02815158912424e-30,
+          "passed": true
+        },
+        "seconds_per_evaluation": 2.2361327409744263,
+        "forced_segments": 92,
+        "projected_seconds": 411.44842433929443,
+        "zeros": 0,
+        "status": "DECIDED",
+        "seconds": 142.87018632888794,
+        "distinct_evaluations": 93
+      }
+    },
+    "B": {
+      "riemann_zeta": {
+        "function": "riemann_zeta",
+        "box": "B",
+        "sigma": [
+          0.7,
+          0.92
+        ],
+        "t": [
+          85.2,
+          86.2
+        ],
+        "dps": 20,
+        "adequacy": {
+          "corner": "0.92+86.2i",
+          "value_at_dps": "(-2.162071e-26 - 9.4998682e-27j)",
+          "value_at_dps_plus_15": "(-2.162071e-26 - 9.4998682e-27j)",
+          "relative_difference": 2.0634039892628342e-22,
+          "passed": true
+        },
+        "seconds_per_evaluation": 0.0017483234405517578,
+        "forced_segments": 22,
+        "projected_seconds": 0.07692623138427734,
+        "zeros": 0,
+        "status": "DECIDED",
+        "seconds": 0.02850484848022461,
+        "distinct_evaluations": 22
+      },
+      "davenport_heilbronn": {
+        "function": "davenport_heilbronn",
+        "box": "B",
+        "sigma": [
+          0.7,
+          0.92
+        ],
+        "t": [
+          85.2,
+          86.2
+        ],
+        "dps": 20,
+        "adequacy": {
+          "corner": "0.92+86.2i",
+          "value_at_dps": "(0.38864908 + 0.4980786j)",
+          "value_at_dps_plus_15": "(0.38864908 + 0.4980786j)",
+          "relative_difference": 3.480379621859416e-22,
+          "passed": true
+        },
+        "seconds_per_evaluation": 0.02073955535888672,
+        "forced_segments": 22,
+        "projected_seconds": 0.9125404357910156,
+        "zeros": 1,
+        "status": "DECIDED",
+        "seconds": 0.5015575885772705,
+        "distinct_evaluations": 22
+      },
+      "epstein_2_1_3": {
+        "function": "epstein_2_1_3",
+        "box": "B",
+        "sigma": [
+          0.7,
+          0.92
+        ],
+        "t": [
+          85.2,
+          86.2
+        ],
+        "dps": 79,
+        "adequacy": {
+          "corner": "0.92+86.2i",
+          "value_at_dps": "(-1.1170692e-58 - 6.9478657e-59j)",
+          "value_at_dps_plus_15": "(-1.1170692e-58 - 6.9478657e-59j)",
+          "relative_difference": 5.580208871171905e-35,
+          "passed": true
+        },
+        "seconds_per_evaluation": 14.259881973266602,
+        "forced_segments": 22,
+        "projected_seconds": 627.4348068237305,
+        "status": "NOT-DECIDED-BY-COST",
+        "cost_arithmetic": "14.26 s/eval x 22 forced segments x 2 = 627 s, against a 480 s cell cap and 921 s of global budget"
+      },
+      "epstein_1_1_6": {
+        "function": "epstein_1_1_6",
+        "box": "B",
+        "sigma": [
+          0.7,
+          0.92
+        ],
+        "t": [
+          85.2,
+          86.2
+        ],
+        "dps": 79,
+        "adequacy": {
+          "corner": "0.92+86.2i",
+          "value_at_dps": "(1.1544014e-58 - 3.4895309e-58j)",
+          "value_at_dps_plus_15": "(1.1544014e-58 - 3.4895309e-58j)",
+          "relative_difference": 7.019652601185904e-35,
+          "passed": true
+        },
+        "seconds_per_evaluation": 13.928237199783325,
+        "forced_segments": 22,
+        "projected_seconds": 612.8424367904663,
+        "status": "NOT-DECIDED-BY-COST",
+        "cost_arithmetic": "13.93 s/eval x 22 forced segments x 2 = 613 s, against a 480 s cell cap and 893 s of global budget"
+      }
+    },
+    "C": {
+      "riemann_zeta": {
+        "function": "riemann_zeta",
+        "box": "C",
+        "sigma": [
+          1.05,
+          1.6
+        ],
+        "t": [
+          1.5,
+          11.5
+        ],
+        "dps": 20,
+        "adequacy": {
+          "corner": "1.6+11.5i",
+          "value_at_dps": "(0.0098744204 + 0.01150219j)",
+          "value_at_dps_plus_15": "(0.0098744204 + 0.01150219j)",
+          "relative_difference": 2.1698300627720136e-22,
+          "passed": true
+        },
+        "seconds_per_evaluation": 0.0011521577835083008,
+        "forced_segments": 96,
+        "projected_seconds": 0.22121429443359375,
+        "zeros": 0,
+        "status": "DECIDED",
+        "seconds": 0.07343816757202148,
+        "distinct_evaluations": 96
+      },
+      "davenport_heilbronn": {
+        "function": "davenport_heilbronn",
+        "box": "C",
+        "sigma": [
+          1.05,
+          1.6
+        ],
+        "t": [
+          1.5,
+          11.5
+        ],
+        "dps": 20,
+        "adequacy": {
+          "corner": "1.6+11.5i",
+          "value_at_dps": "(0.97637404 - 0.20090056j)",
+          "value_at_dps_plus_15": "(0.97637404 - 0.20090056j)",
+          "relative_difference": 2.6037651700729106e-22,
+          "passed": true
+        },
+        "seconds_per_evaluation": 0.010156750679016113,
+        "forced_segments": 96,
+        "projected_seconds": 1.9500961303710938,
+        "zeros": 0,
+        "status": "DECIDED",
+        "seconds": 0.7448203563690186,
+        "distinct_evaluations": 96
+      },
+      "epstein_2_1_3": {
+        "function": "epstein_2_1_3",
+        "box": "C",
+        "sigma": [
+          1.05,
+          1.6
+        ],
+        "t": [
+          1.5,
+          11.5
+        ],
+        "dps": 28,
+        "adequacy": {
+          "corner": "1.6+11.5i",
+          "value_at_dps": "(9.2217528e-8 + 2.154395e-7j)",
+          "value_at_dps_plus_15": "(9.2217528e-8 + 2.154395e-7j)",
+          "relative_difference": 4.091128101665126e-30,
+          "passed": true
+        },
+        "seconds_per_evaluation": 2.2592309713363647,
+        "forced_segments": 96,
+        "projected_seconds": 433.77234649658203,
+        "zeros": 0,
+        "status": "DECIDED",
+        "seconds": 139.8086667060852,
+        "distinct_evaluations": 96
+      },
+      "epstein_1_1_6": {
+        "function": "epstein_1_1_6",
+        "box": "C",
+        "sigma": [
+          1.05,
+          1.6
+        ],
+        "t": [
+          1.5,
+          11.5
+        ],
+        "dps": 28,
+        "adequacy": {
+          "corner": "1.6+11.5i",
+          "value_at_dps": "(-5.2227486e-7 + 3.3929521e-7j)",
+          "value_at_dps_plus_15": "(-5.2227486e-7 + 3.3929521e-7j)",
+          "relative_difference": 8.762520526450297e-30,
+          "passed": true
+        },
+        "seconds_per_evaluation": 2.36449658870697,
+        "forced_segments": 96,
+        "projected_seconds": 453.9833450317383,
+        "zeros": 0,
+        "status": "DECIDED",
+        "seconds": 156.39474606513977,
+        "distinct_evaluations": 96
+      }
+    }
+  },
+  "verdicts": {
+    "A": {
+      "box": "A",
+      "claim_holds": {
+        "riemann_zeta": true,
+        "davenport_heilbronn": true,
+        "epstein_2_1_3": true,
+        "epstein_1_1_6": true
+      },
+      "shared_with": [
+        "davenport_heilbronn",
+        "epstein_1_1_6",
+        "epstein_2_1_3"
+      ],
+      "undecided": [],
+      "verdict": "VACUOUS"
+    },
+    "B": {
+      "box": "B",
+      "claim_holds": {
+        "riemann_zeta": true,
+        "davenport_heilbronn": false,
+        "epstein_2_1_3": null,
+        "epstein_1_1_6": null
+      },
+      "shared_with": [],
+      "undecided": [
+        "epstein_1_1_6",
+        "epstein_2_1_3"
+      ],
+      "verdict": "NOT-DECIDED"
+    },
+    "C": {
+      "box": "C",
+      "claim_holds": {
+        "riemann_zeta": true,
+        "davenport_heilbronn": true,
+        "epstein_2_1_3": true,
+        "epstein_1_1_6": true
+      },
+      "shared_with": [
+        "davenport_heilbronn",
+        "epstein_1_1_6",
+        "epstein_2_1_3"
+      ],
+      "undecided": [],
+      "verdict": "VACUOUS"
+    }
+  },
+  "overall": "VACUOUS",
+  "wall_clock_seconds": 641.6006526947021,
+  "scope": "Nothing here is evidence for or against RH (docs/08). A hunt is a probe, not a result. Grade: measured."
+}
