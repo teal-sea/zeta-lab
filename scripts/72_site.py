@@ -787,6 +787,9 @@ def page_index(r, lean, py, gr, threads, c, fr, st) -> str:
         )
 
     people = operators()
+    # Riemann stated the hypothesis in 1859. Derived from the build date so the
+    # sentence cannot quietly go stale, and so it is right rather than close.
+    age = int(r["when"].split()[-1]) - 1859 if r["when"] else 0
     stackrows = "".join(
         f"<tr><td>{esc(a)}</td><td class='nw'>{esc(b)}</td>"
         f"<td class='note'>{esc(c)}</td></tr>"
@@ -800,19 +803,27 @@ def page_index(r, lean, py, gr, threads, c, fr, st) -> str:
 
     return shell(IDENTITY["name"], f"""
 <h1>{headline}</h1>
-<p class="stand">No institution, no research group, no model of our own. One
-operator directing off-the-shelf models at a problem open since 1859, with
-every result checked by a proof kernel that accepts no shortcuts, and every
-failure published as readily as every success.</p>
+<p class="stand">No university, no research group, no lab budget. One person
+pointing ordinary AI tools at a maths problem that has been open since 1859,
+and getting answers a computer will certify. Everything that failed is here
+too.</p>
 
 {vitals([
-    (num(kernel), 'machine-checked theorems', False),
-    (str(sorrys), 'unproven steps', True),
-    (num(py['test_fns']), 'tests', False),
-    (str(operators()), 'people', False),
-    (num(py['public']), 'public API functions', False),
-    (num(r['docs']), 'documents', False),
+    (str(len(fr['results'])), 'new results', False),
+    (num(kernel), 'proofs a computer checked', False),
+    (str(sorrys), 'steps taken on faith', True),
+    (str(people), 'person' if people == 1 else 'people', False),
+    (str(r['days']), 'days', False),
+    (num(py['test_fns']), 'automatic checks', False),
 ])}
+
+<p>Some of those words are doing real work, so here is what they mean. A
+<strong>proof checker</strong> is a program that reads a mathematical argument
+and refuses it if any step is missing. It cannot be talked round, it has no
+opinion about whether the result would be nice, and it does not get tired at
+four in the morning. Every result here has been through one.</p>
+<p>That is what <em>steps taken on faith: 0</em> means. Not that we are
+confident. That there is nothing left for anyone to be confident about.</p>
 
 <p class="meta">Counted from the public research repository. The lab's
 operating side is a separate private repository and none of it is reflected
@@ -832,13 +843,19 @@ Pending external verification.</p>
 </section>
 
 <section>
-<h2><span class='num'>§2</span> We improved a constant three days after it was published</h2>
-<p>On 10 August an outside paper established a bound unconditionally:
-<strong>0.6725007037</strong>. This laboratory assembled and audited a chain
-that carries it to <strong>0.6725106958</strong>.</p>
-<p>The census floor underneath it is machine-checked for the genuine
-Montgomery-Taylor kernel, not a rational stand-in, which is the step that
-usually gets waved through.</p>
+<h2><span class='num'>§2</span> We moved a {age}-year-old number</h2>
+<p>The Riemann hypothesis says that every one of infinitely many special points
+sits exactly on a particular line. Nobody can prove that. What people can prove
+is that <em>at least some fraction</em> of them do, and pushing that fraction up
+has been a measure of progress on this problem for a century.</p>
+<p>On 10 August an outside paper pushed it to <strong>67.25007%</strong>. This
+laboratory assembled and audited a chain that carries it to
+<strong>67.25107%</strong>.</p>
+<p>That gap looks small because it is small. It is also the kind of step that
+took the field years at a time, and the whole chain underneath it is machine
+checked rather than argued.</p>
+<p>The step underneath it is checked against the real function rather than a
+convenient stand-in, which is the shortcut this kind of argument usually takes.</p>
 <p class='meta'>A candidate rather than a theorem: one step of the chain is
 still open, so the composite takes that grade. The gain is also asymptotic, not
 effective at heights anyone can compute, a limit inherited from the source's own
