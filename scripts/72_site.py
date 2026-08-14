@@ -63,7 +63,7 @@ def lean_sources(root: Path) -> list[Path]:
 # still open is the house site above this one, which does not exist yet.
 # --------------------------------------------------------------------------
 IDENTITY = {
-    "name": "teal sea",
+    "name": "teal-sea",
     "line": "We follow interesting problems.",
     "source": "https://github.com/teal-sea/zeta-lab",
 }
@@ -201,40 +201,123 @@ def repo_facts() -> dict[str, Any]:
     }
 
 
+def _head(path: Path, limit: int = 190) -> tuple[str, str]:
+    """A markdown file's `# ` title and the paragraph it opens with."""
+    text = path.read_text(errors="ignore")
+    title = ""
+    para: list[str] = []
+    for line in text.splitlines():
+        line = line.strip()
+        if line.startswith("# ") and not title:
+            title = line[2:].strip()
+            continue
+        if not title:
+            continue
+        if line.startswith(("!", "|", ">", "```", "#")):
+            if para:
+                break
+            continue
+        if not line:
+            if para:
+                break
+            continue
+        para.append(line)
+    # Join the whole opening paragraph before trimming: these files are
+    # hard-wrapped, so taking the first physical line ends the sentence
+    # wherever the author's editor happened to wrap it.
+    # Strip markdown emphasis, but only where it IS emphasis: an unguarded
+    # `_` class turns `frontier_math` into `frontiermath`, which publishes a
+    # path that does not exist. Underscores inside a word stay.
+    blurb = re.sub(r"[*`\[\]]|\(\S+\)|(?<![A-Za-z0-9])_|_(?![A-Za-z0-9])",
+                   "", " ".join(para))
+    return title, _clip(re.sub(r"\s+", " ", blurb).strip(), limit)
+
+
 def reading() -> list[dict[str, str]]:
     """The documents, in order, with the paragraph each one opens with."""
     out = []
     for p in sorted((REPO / "docs").glob("[0-9]*.md")):
-        text = p.read_text(errors="ignore")
-        title = ""
-        para: list[str] = []
-        for line in text.splitlines():
-            line = line.strip()
-            if line.startswith("# ") and not title:
-                title = line[2:].strip()
-                continue
-            if not title:
-                continue
-            if line.startswith(("!", "|", ">", "```", "#")):
-                if para:
-                    break
-                continue
-            if not line:
-                if para:
-                    break
-                continue
-            para.append(line)
-        # Join the whole opening paragraph before trimming: these files are
-        # hard-wrapped, so taking the first physical line ends the sentence
-        # wherever the author's editor happened to wrap it.
-        blurb = re.sub(r"[*_`\[\]]|\(\S+\)", "", " ".join(para))
+        title, blurb = _head(p)
         m = re.match(r"(\d+)", p.name)
         out.append({
             "n": m.group(1) if m else "",
             "title": re.sub(r"^\d+\s*[—-]\s*", "", title) or p.stem,
-            "blurb": _clip(re.sub(r"\s+", " ", blurb).strip(), 190),
+            "blurb": blurb,
             "file": p.name,
         })
+    return out
+
+
+#: Where each tracked document goes on the library page, longest prefix first.
+#: Order is display order; the label is the section heading.
+_SHELVES: list[tuple[str, str, str]] = [
+    ("hunts/frontier_math/", "The frontier work",
+     "The transplant into the source paper's chain: the working paper, the "
+     "obligation ledger, every route opened and every one closed. The largest "
+     "single body of working record in the tree, and the least finished."),
+    ("hunts/", "Hunts",
+     "Exploratory studies, explicitly not results. A hunt records a claim "
+     "before any control has been run against it, which is why each one "
+     "carries a mission stating what it may touch."),
+    ("harness/", "The gate record",
+     "The framework this laboratory built, tested against the practice it "
+     "meant to improve, and shut down. Protocols were frozen and published "
+     "before their arms ran, so the negative result cannot be re-cut."),
+    ("meta/", "The second laboratory",
+     "Evidence about the research system rather than about zeta: what a human "
+     "had to do that the machinery could not, with the missing capability "
+     "named."),
+    ("docs/", "The course",
+     "The reading path, derived line by line. Laid out in order on the "
+     "reading page; listed here for completeness."),
+]
+
+_SHELF_REST = ("Design notes and references",
+               "How the pieces are built and why, plus the annotated reading "
+               "list and the records the other pages cite.")
+_SHELF_ROOT = ("Operating record",
+               "The decisions, the between-session state, and the standing "
+               "rules any agent working this tree has to read first.")
+
+
+def library() -> list[dict[str, Any]]:
+    """Every markdown document git tracks, shelved, titled and counted.
+
+    `git ls-files` rather than `rglob` on purpose, and the reason is the same
+    one that made `_VENDORED` necessary for the Lean count: a built tree has
+    Mathlib's whole source inside `hunts/frontier_math/zeta23ext`, and a walk
+    of the filesystem would shelve thousands of somebody else's files as this
+    laboratory's library. Asking git also settles the definition of published
+    for free. `conjectures/` is gitignored because it is a private notebook of
+    unreviewed leads, so it never appears here, and neither does anything else
+    the repository deliberately does not carry.
+    """
+    tracked = [p for p in git("ls-files", "*.md").splitlines() if p]
+    shelves: dict[str, dict[str, Any]] = {}
+    for rel in sorted(tracked):
+        path = REPO / rel
+        if not path.is_file():
+            continue
+        for prefix, label, note in _SHELVES:
+            if rel.startswith(prefix):
+                break
+        else:
+            label, note = _SHELF_ROOT if "/" not in rel else _SHELF_REST
+        title, blurb = _head(path)
+        lines = len(path.read_text(errors="ignore").splitlines())
+        shelf = shelves.setdefault(label, {"label": label, "note": note,
+                                           "items": []})
+        shelf["items"].append({
+            "title": re.sub(r"^\d+\s*[—-]\s*", "", title) or path.stem,
+            "blurb": blurb,
+            "path": rel,
+            "lines": lines,
+        })
+    order = [lbl for _, lbl, _ in _SHELVES] + [_SHELF_ROOT[0], _SHELF_REST[0]]
+    out = [shelves[lbl] for lbl in dict.fromkeys(order) if lbl in shelves]
+    for shelf in out:
+        shelf["items"].sort(key=lambda d: d["path"])
+        shelf["lines"] = sum(d["lines"] for d in shelf["items"])
     return out
 
 
@@ -692,6 +775,7 @@ def shell(title: str, body: str, depth: int = 0, mast: str = "") -> str:
         f'<a href="{up}index.html">index</a>'
         f'<a href="{up}pursuits/zeta.html">zeta</a>'
         f'<a href="{up}reading.html">reading</a>'
+        f'<a href="{up}library.html">library</a>'
         f'<a href="{up}record.html">record</a>'
         f'<a href="{up}about.html">about</a>'
         f'<a href="{esc(IDENTITY["source"])}">source</a>'
@@ -713,7 +797,7 @@ def masthead(r: dict, up: str = "") -> str:
         f"<span>compiled <b>{esc(r['when'])}</b></span>"
         f"<span>revision <b>{esc(r['commit'])}</b></span>"
         f"<span><a href='{esc(IDENTITY['source'])}'>"
-        f"<b>github.com/teal-sea/zeta-lab</b></a></span>"
+        f"<b>{esc(IDENTITY['source'].split('//', 1)[-1])}</b></a></span>"
     )
 
 
@@ -925,6 +1009,9 @@ already exceeds the budget while the joint verdict closes with 40% margin.</p></
 <p>Three results have been withdrawn after they were claimed. Each one is kept
 with the witness that broke it and the test that now catches it, because a
 laboratory that deletes its errors has deleted its evidence about itself.</p>
+<p>None of that is a summary written for this page. The working record it comes
+from is published whole: the working paper, the obligation ledger, every hunt
+and every frozen protocol. <a href="library.html">The library →</a></p>
 </section>
 
 <section>
@@ -1097,6 +1184,67 @@ and the mechanism that killed each.</p>
 against Mathlib by a kernel that accepts no unfinished proofs, with zero
 <code>sorry</code>s. <a href="pursuits/zeta.html">The module breakdown →</a></p>
 </section>
+
+<section>
+<h2><span class='num'>§4</span> Everything else</h2>
+<p>The course above is the written-up part. Most of what this laboratory
+produced is working record: hunts, obligation ledgers, frozen protocols, routes
+opened and closed. It is all published, and it is all indexed.
+<a href="library.html">The library →</a></p>
+</section>
+""", mast=masthead(r))
+
+
+def page_library(r, lib) -> str:
+    """Every tracked document, shelved.
+
+    This page exists because the site had a reading page listing 28 documents
+    and no route at all to the other 150-odd the repository publishes. The
+    working paper, the obligation ledger, the gate evidence and every hunt
+    were public the whole time and unreachable from here, which reads as a
+    curated selection when it was only an unbuilt index.
+    """
+    total = sum(len(s["items"]) for s in lib)
+    lines = sum(s["lines"] for s in lib)
+    shelves = "".join(
+        f"<section><h2><span class='num'>§{i}</span> {esc(s['label'])}</h2>"
+        f"<p>{esc(s['note'])}</p>"
+        f"<p class='meta'>{num(len(s['items']))} documents · "
+        f"{num(s['lines'])} lines</p>"
+        + "".join(
+            f"<div class='entry'><h4>{esc(it['title'])}</h4>"
+            + (f"<p>{esc(it['blurb'])}</p>" if it["blurb"] else "")
+            + f"<p class='meta'><a href='{esc(IDENTITY['source'])}/blob/main/"
+              f"{esc(it['path'])}'>{esc(it['path'])}</a> · "
+              f"{num(it['lines'])} lines</p></div>"
+            for it in s["items"]
+        )
+        + "</section>"
+        for i, s in enumerate(lib, start=1)
+    )
+    return shell(f"Library · {IDENTITY['name']}", f"""
+<h1>Library</h1>
+<p class="stand">Everything the repository publishes, not only the parts that
+worked. {num(total)} documents, {num(lines)} lines, listed straight off
+<code>git ls-files</code> so nothing can be quietly left off.</p>
+
+{vitals([(num(total), 'documents', False), (num(lines), 'lines', False),
+         (num(len(lib)), 'shelves', False)])}
+
+<p>Most of this is working record rather than finished writing: routes opened
+and abandoned, tables sized wrong and resized, corrections to our own
+corrections. It is here because a laboratory that publishes only its results
+has published the smallest and least checkable part of what it did. Titles and
+descriptions are the files' own first heading and opening paragraph, so this
+index cannot describe a document as something other than what it says it is.</p>
+
+<p class='meta'>One directory is deliberately absent. <code>conjectures/</code>
+is the discovery ledger, a private notebook of unreviewed leads, and it is
+gitignored, so it never reaches this page. Nothing in it is evidence for
+anything. The operating side of the laboratory lives in a separate private
+repository and is not counted above either.</p>
+
+{shelves}
 """, mast=masthead(r))
 
 
@@ -1279,6 +1427,7 @@ def main() -> int:
     r, lean, py = repo_facts(), lean_arm(), python_arm()
     gr, gates, threads = graveyard(), gate_results(), live_threads()
     docs, revs, fixes = reading(), review(), corrections()
+    lib = library()
 
     out = args.out
     (out / "pursuits").mkdir(parents=True, exist_ok=True)
@@ -1286,6 +1435,7 @@ def main() -> int:
         out / "index.html": page_index(r, lean, py, gr, threads, contribution(), frontier(), stack()),
         out / "pursuits" / "zeta.html": page_zeta(r, lean, py, gr),
         out / "reading.html": page_reading(r, docs, lean),
+        out / "library.html": page_library(r, lib),
         out / "record.html": page_record(r, gr, gates, revs, fixes),
         out / "about.html": page_about(r, lean, py),
     }

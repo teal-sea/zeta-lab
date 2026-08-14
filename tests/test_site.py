@@ -52,8 +52,8 @@ def _pages(root: Path) -> list[Path]:
 
 def test_the_site_builds_every_page(built: Path) -> None:
     names = {p.relative_to(built).as_posix() for p in _pages(built)}
-    assert names == {"index.html", "reading.html", "record.html", "about.html",
-                     "pursuits/zeta.html"}
+    assert names == {"index.html", "reading.html", "library.html",
+                     "record.html", "about.html", "pursuits/zeta.html"}
 
 
 def test_no_page_runs_a_script(built: Path) -> None:
@@ -91,11 +91,44 @@ def test_the_parent_identity_is_a_single_edit() -> None:
     Reads the name out of IDENTITY rather than hardcoding it, so this test
     survives the rename it exists to protect.
     """
+    import ast
+
     source = SITE.read_text(encoding="utf-8")
     name = re.search(r'"name":\s*"([^"]+)"', source).group(1)
     assert source.count(f'"name": "{name}"') == 1
-    assert len(re.findall(re.escape(name), source)) == 1, (
-        f"the parent name {name!r} appears outside IDENTITY; it must live in one place"
+
+    # Counted over string literals rather than over raw text, and addresses
+    # are not counted at all. Styling the name `teal-sea` made it a substring
+    # of the GitHub account slug, so a plain text count started flagging the
+    # repository URL and a git author alias, neither of which is a place the
+    # laboratory's name is written down: they are where the repository and a
+    # commit identity live, and renaming the lab does not move either. Working
+    # over the AST also drops comments and docstrings, which are prose about
+    # the account and not rename sites. The narrowing cost nothing in teeth
+    # and immediately earned its keep: it caught the masthead printing
+    # `github.com/teal-sea/zeta-lab` as a literal instead of deriving it from
+    # IDENTITY, which the old test could not see while the name had a space.
+    tree = ast.parse(source)
+    docstrings = set()
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.Module, ast.ClassDef,
+                             ast.FunctionDef, ast.AsyncFunctionDef)):
+            doc = node.body[0] if node.body else None
+            if (isinstance(doc, ast.Expr) and isinstance(doc.value, ast.Constant)
+                    and isinstance(doc.value.value, str)):
+                docstrings.add(id(doc.value))
+
+    hits = [
+        node.value for node in ast.walk(tree)
+        if isinstance(node, ast.Constant) and isinstance(node.value, str)
+        and id(node) not in docstrings
+        and name in node.value
+        and "@" not in node.value
+        and "//" not in node.value
+    ]
+    assert hits == [name], (
+        f"the parent name {name!r} appears outside IDENTITY; it must live in "
+        f"one place. Found: {hits}"
     )
 
 
@@ -208,6 +241,15 @@ def test_the_pages_add_no_em_dashes_of_their_own(built: Path) -> None:
     quoted = 0
     for d in site.reading():
         quoted += d["blurb"].count("—") + d["title"].count("—")
+    # The library page is nothing but quoted material: every entry's title and
+    # description is the file's own first heading and opening paragraph, read
+    # out verbatim. This laboratory writes without em dashes, but it has been
+    # doing so for less time than it has been writing, so the older documents
+    # carry plenty. Repunctuating their headings to make a style test pass
+    # would be editing the record to flatter the rule.
+    for shelf in site.library():
+        for it in shelf["items"]:
+            quoted += it["title"].count("—") + it["blurb"].count("—")
     for m in site.lean_arm()["modules"]:
         quoted += m["title"].count("—")
     for g in site.graveyard():
