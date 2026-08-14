@@ -32,7 +32,7 @@ the cast gets pushed inward by `simp` and the `ofReal` lemmas stop matching,
 which is a Lean detail rather than a mathematical one but costs a proof either
 way. `Phi.lean` proves the same split inline where its arguments are already
 atomic. -/
-private theorem csin_re (x b : ℝ) :
+theorem csin_re (x b : ℝ) :
     (Complex.sin ((x : ℂ) + (b : ℝ) * I)).re = Real.sin x * Real.cosh b := by
   rw [Complex.sin_add_mul_I]
   simp [Complex.sin_ofReal_re, Complex.cos_ofReal_re, Complex.sinh_ofReal_re,
@@ -40,7 +40,7 @@ private theorem csin_re (x b : ℝ) :
     Complex.sinh_ofReal_im, Complex.cosh_ofReal_im]
 
 /-- `Im (sin (x + i b)) = cos x · sinh b`. -/
-private theorem csin_im (x b : ℝ) :
+theorem csin_im (x b : ℝ) :
     (Complex.sin ((x : ℂ) + (b : ℝ) * I)).im = Real.cos x * Real.sinh b := by
   rw [Complex.sin_add_mul_I]
   simp [Complex.sin_ofReal_re, Complex.cos_ofReal_re, Complex.sinh_ofReal_re,
