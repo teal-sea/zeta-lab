@@ -70,6 +70,24 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #12: what the `dps` cap costs (`dps_cap/`)
+
+**Status: probe, complete. One number at two precisions.**
+`abs(epstein_completed(0.8 + 85.7i, (2,1,3)))` measures `4.84638192796e-35` at
+`dps = 20` and `1.61745263238e-58` at `dps = 60`, a gap of 23 orders of
+magnitude, with `dps = 80` reproducing the `dps = 60` value to all twelve
+digits printed. So the low-precision value has no correct digits rather than
+fewer of them: `epstein_completed` reaches `1.6e-58` by cancelling `O(1)`
+terms, and 20 digits do not survive 58 digits of cancellation. Control (4),
+precision response, is the whole measurement. An independent route confirms
+which value is the function: the gamma factor alone gives `2.64e-58`, so the
+`dps = 60` value implies `|zeta_Q| = 0.613` and the `dps = 20` value implies
+`|zeta_Q| = 1.8e+23`. The single site that forces this precision is
+`zeta/epstein.py:1091-1093`, inside the rival interface's `count_zeros_box`
+entry. **Disposition:** measurement recorded, no change to `zeta/`, no claim
+about any battery verdict. Whether a winding number computed at `dps = 20`
+is also wrong is a separate measurement this hunt did not run.
+
 ### Hunt #9 — how much power a guard has (`r_414eed/`)
 
 **Status: probe, complete. `scripts/make_context.py --check` caught 17/17
