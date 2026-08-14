@@ -37,6 +37,14 @@ is the same rounding the rest of the package uses and matches
 construction rather than by coincidence. -/
 def sqrScaled (n : ℤ) : EIv := some (Iv.ofQ (n * n) (SO * SO))
 
+/-- `sqrScaled n` contains the square of the represented grid value. -/
+theorem sqrScaled_mem (n : ℤ) :
+    (sqrScaled n).mem (((n : ℝ) / (SO : ℝ)) ^ 2) := by
+  have hden : (0 : ℤ) < SO * SO := mul_pos SO_pos SO_pos
+  have h := EIv.ofQ_mem (n := n * n) hden
+  unfold sqrScaled EIv.ofQ at *
+  convert h using 1 <;> push_cast <;> field_simp <;> ring
+
 end EIv
 end BandDual
 
