@@ -60,9 +60,9 @@ lemma sqrt2_ub : Real.sqrt 2 < 1.415 := by
 lemma A_sq_gt : (3:ℝ)/4 < A^2 := by
   have h2 : (0:ℝ) < Real.sqrt 2 := sqrt2_pos
   have h1 : (0:ℝ) < 1 / Real.sqrt 2 := by positivity
-  have h3 : 1 / Real.sqrt 2 ≤ 1 := by
-    rw [div_le_one h2]; nlinarith [sqrt2_lb]
-  have key := Real.sin_gt_sub_cube h1 h3
+  -- `sin_gt_sub_cube` now needs only `0 < x`, and gives the tighter `x^3/6`
+  -- form; the old `x ≤ 1` side condition is gone.
+  have key := Real.sin_gt_sub_cube h1
   have hcube : (1 / Real.sqrt 2)^3 = (1/Real.sqrt 2) / 2 := by
     field_simp
     nlinarith [sqrt2_sq]
@@ -182,13 +182,16 @@ lemma hasDerivAt_c2core (w : ℝ) : HasDerivAt c2core (d1c2 w) w := by
   have hA : HasDerivAt (fun w : ℝ => Real.sin (Real.sqrt 2 * (1 - w)) / (2 * Real.sqrt 2))
       (Real.cos (Real.sqrt 2 * (1-w)) * (-Real.sqrt 2) / (2 * Real.sqrt 2)) w :=
     (h1.sin).div_const _
+  -- `HasDerivAt.mul` concludes about `c * d` (`Pi.mul`), which is *definitionally*
+  -- the lambda but is no longer rewritten there by `simpa`; `congr_deriv` on a
+  -- defeq statement is the stable idiom.
+  have hlin : HasDerivAt (fun w : ℝ => 1 - w) (-1 : ℝ) w :=
+    ((hasDerivAt_const w (1:ℝ)).sub (hasDerivAt_id w)).congr_deriv (by norm_num)
   have hB0 : HasDerivAt (fun w : ℝ => (1 - w) * Real.cos (Real.sqrt 2 * w))
       ((-1) * Real.cos (Real.sqrt 2 * w)
-        + (1-w) * (-Real.sin (Real.sqrt 2 * w) * Real.sqrt 2)) w := by
-    have := ((hasDerivAt_const w (1:ℝ)).sub (hasDerivAt_id w)).mul (h2.cos)
-    simpa using this
-  have h := hA.add (hB0.div_const 2)
-  convert h using 1
+        + (1-w) * (-Real.sin (Real.sqrt 2 * w) * Real.sqrt 2)) w :=
+    hlin.mul (h2.cos)
+  refine (hA.add (hB0.div_const 2)).congr_deriv ?_
   unfold d1c2
   have hs : Real.sqrt 2 ≠ 0 := ne_of_gt sqrt2_pos
   field_simp
@@ -201,22 +204,24 @@ lemma hasDerivAt_d1c2 (w : ℝ) : HasDerivAt d1c2 (d2c2 w) w := by
       (-(-Real.sin (Real.sqrt 2 * (1-w)) * (-Real.sqrt 2)) / 2) w := (h1.cos.neg).div_const _
   have hB : HasDerivAt (fun w : ℝ => Real.cos (Real.sqrt 2 * w) / 2)
       ((-Real.sin (Real.sqrt 2 * w) * Real.sqrt 2) / 2) w := (h2.cos).div_const _
+  have hlin : HasDerivAt (fun w : ℝ => 1 - w) (-1 : ℝ) w :=
+    ((hasDerivAt_const w (1:ℝ)).sub (hasDerivAt_id w)).congr_deriv (by norm_num)
   have hC0 : HasDerivAt (fun w : ℝ => (Real.sqrt 2 / 2) * ((1 - w) * Real.sin (Real.sqrt 2 * w)))
       ((Real.sqrt 2 / 2) * ((-1) * Real.sin (Real.sqrt 2 * w)
-        + (1-w) * (Real.cos (Real.sqrt 2 * w) * Real.sqrt 2))) w := by
-    have := (((hasDerivAt_const w (1:ℝ)).sub (hasDerivAt_id w)).mul
-      (h2.sin)).const_mul (Real.sqrt 2 / 2)
-    simpa using this
-  have h4 : HasDerivAt d1c2
-      ((-(-Real.sin (Real.sqrt 2 * (1-w)) * (-Real.sqrt 2)) / 2)
-        - ((-Real.sin (Real.sqrt 2 * w) * Real.sqrt 2) / 2)
-        - ((Real.sqrt 2 / 2) * ((-1) * Real.sin (Real.sqrt 2 * w)
-            + (1-w) * (Real.cos (Real.sqrt 2 * w) * Real.sqrt 2)))) w := by
-    have h := (hA.sub hB).sub hC0
-    convert h using 1
-    funext x; simp only [Pi.sub_apply]; unfold d1c2; ring
-  convert h4 using 1
+        + (1-w) * (Real.cos (Real.sqrt 2 * w) * Real.sqrt 2))) w :=
+    (hlin.mul (h2.sin)).const_mul (Real.sqrt 2 / 2)
+  -- `d1c2` associates its last product as `(√2/2 * (1-w)) * sin`, while `hC0`
+  -- produces `√2/2 * ((1-w) * sin)`; those are equal but not defeq, so the
+  -- reassociation is done once here rather than through `convert`.
+  have hfun : d1c2 = fun w : ℝ =>
+      (-Real.cos (Real.sqrt 2 * (1 - w)) / 2 - Real.cos (Real.sqrt 2 * w) / 2)
+        - (Real.sqrt 2 / 2) * ((1 - w) * Real.sin (Real.sqrt 2 * w)) := by
+    funext x; unfold d1c2; ring
+  rw [hfun]
+  refine ((hA.sub hB).sub hC0).congr_deriv ?_
   unfold d2c2
-  linear_combination ((1 - w) * Real.cos (Real.sqrt 2 * w) / 2) * sqrt2_mul
+  -- `congr_deriv` orients the goal as `f' = d2c2 w`, the opposite of what
+  -- `convert` produced, so the combination coefficient changes sign.
+  linear_combination (-((1 - w) * Real.cos (Real.sqrt 2 * w) / 2)) * sqrt2_mul
 
 end TruncEst

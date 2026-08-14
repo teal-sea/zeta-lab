@@ -91,8 +91,7 @@ lemma sinh_le_mul_cosh {t : ℝ} (ht : 0 ≤ t) : Real.sinh t ≤ t * Real.cosh 
       have h1 : HasDerivAt (fun z : ℝ => z * Real.cosh z)
           (1 * Real.cosh z + z * Real.sinh z) z :=
         (hasDerivAt_id z).mul (Real.hasDerivAt_cosh z)
-      have := h1.sub (Real.hasDerivAt_sinh z)
-      convert this using 1; ring
+      exact (h1.sub (Real.hasDerivAt_sinh z)).congr_deriv (by ring)
     · intro z hz
       exact mul_nonneg hz (Real.sinh_nonneg_iff.2 hz)
   linarith [key t ht]
@@ -135,12 +134,10 @@ lemma cosh_ge_one_add_sq (t : ℝ) : 1 + t^2/2 ≤ Real.cosh t := by
   have main : ∀ z : ℝ, 0 ≤ z → 0 ≤ Real.cosh z - (1 + z^2/2) := by
     refine nonneg_of_deriv_nonneg (F := fun z => Real.sinh z - z) ?_ (by simp) ?_
     · intro z
-      have h1 : HasDerivAt (fun z : ℝ => 1 + z^2/2) (0 + 2*z/2) z := by
-        have := (hasDerivAt_const z (1:ℝ)).add ((hasDerivAt_pow 2 z).div_const 2)
-        convert this using 1
-        norm_num
-      have := (Real.hasDerivAt_cosh z).sub h1
-      convert this using 1; ring
+      have h1 : HasDerivAt (fun z : ℝ => 1 + z^2/2) z z :=
+        ((hasDerivAt_const z (1:ℝ)).add
+          ((hasDerivAt_pow 2 z).div_const 2)).congr_deriv (by norm_num)
+      exact ((Real.hasDerivAt_cosh z).sub h1).congr_deriv (by ring)
     · intro z hz
       have := Real.self_le_sinh_iff.mpr hz
       linarith

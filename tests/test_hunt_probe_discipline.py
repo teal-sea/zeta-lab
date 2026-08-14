@@ -82,6 +82,15 @@ def test_no_hunt_claims_the_reserved_word() -> None:
     for path in _HUNTS.rglob("*"):
         if path.suffix.lower() not in {".py", ".md", ".json"}:
             continue
+        if ".lake" in path.parts:
+            # Lean build trees are *downloaded dependencies*, not probe files:
+            # `hunts/frontier_math/zeta23ext/.lake/` holds Mathlib, whose own
+            # `CITATION.md` contains the word.  Scanning it made this gate fail
+            # for any session that had actually built the Lean arm — which is
+            # to say, it only fired at the one moment it should have stayed
+            # quiet.  `test_zeta23ext_imports._lean_files` already skips
+            # `.lake` for the same reason.
+            continue
         if path.name == "README.md" and path.parent == _HUNTS:
             continue  # the case log may quote the rule it enforces
         text = path.read_text(encoding="utf-8", errors="ignore").lower()

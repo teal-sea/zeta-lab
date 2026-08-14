@@ -81,7 +81,6 @@ lemma Phi2_shift (y s : ℝ) :
       (by apply Continuous.intervalIntegrable; fun_prop)]
     rw [integral_odd_symm (fun u => Real.cos (Real.sqrt 2 * u) *
         (Real.cos (s * u) * Real.sinh (y * u))) _ (fun x => by
-      simp only
       rw [show Real.sqrt 2 * -x = -(Real.sqrt 2 * x) by ring, show s * -x = -(s * x) by ring,
         show y * -x = -(y * x) by ring, Real.cos_neg, Real.cos_neg, Real.sinh_neg]
       ring)]
@@ -93,7 +92,6 @@ lemma Phi2_shift (y s : ℝ) :
       (by apply Continuous.intervalIntegrable; fun_prop)]
     rw [integral_odd_symm (fun u => Real.cos (Real.sqrt 2 * u) *
         (Real.sin (s * u) * Real.cosh (y * u))) _ (fun x => by
-      simp only
       rw [show Real.sqrt 2 * -x = -(Real.sqrt 2 * x) by ring, show s * -x = -(s * x) by ring,
         show y * -x = -(y * x) by ring, Real.cos_neg, Real.sin_neg, Real.cosh_neg]
       ring)]
@@ -157,7 +155,6 @@ lemma Phi2_two_mul_I (y : ℝ) :
   rw [intervalIntegral.integral_sub (by apply Continuous.intervalIntegrable; fun_prop)
       (by apply Continuous.intervalIntegrable; fun_prop),
     integral_odd_symm (fun u => Real.cos (Real.sqrt 2 * u) * Real.sinh (2 * y * u)) _ (fun x => by
-      simp only
       rw [show Real.sqrt 2 * -x = -(Real.sqrt 2 * x) by ring,
         show 2 * y * -x = -(2 * y * x) by ring, Real.cos_neg, Real.sinh_neg]
       ring)]
