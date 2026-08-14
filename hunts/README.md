@@ -70,6 +70,34 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #15 — is gate-5 property 6 vacuous or distinguishing? (`gate5_p6_c/`)
+
+**Status: settled, and the answer is that the question as written has no
+truth value.** Property 6 of the `docs/09` gate #3 battery reads "in a box
+strictly off the critical line, the completed function has no zeros" — and
+the box is a free parameter of that sentence. Holding the σ-band fixed at
+[0.7, 0.9] and changing only the height window flips the verdict:
+Davenport–Heilbronn has one zero in t ∈ [85.5, 85.9] and none in
+t ∈ [10, 14] or [40, 44], while ξ has none in any of them. Same property,
+same band, same code, opposite verdicts. The mechanism is that an
+RH-violating function does not violate RH everywhere, so a local zero-free
+statement cannot carry a global distinction. Every repair that gives
+property 6 a truth value and still distinguishes turns out to be either RH
+itself or the Euler product, which is property 5 — so property 6 does not
+look like an independent sixth property. Parameters were preregistered and
+committed before any winding number was computed (`MISSION.md` at `c29c876`,
+`results.json` after). **Not settled:** the Epstein arm on the two high
+boxes, declared out of budget, and unable to change the conclusion — the
+VACUOUS boxes are already forced by Davenport–Heilbronn, since gate #3 asks
+the structure be ungrantable to *every* rival. **Two defects found in
+`zeta/epstein.py` and reported, not fixed** (out of the hunt's scope):
+`epstein_completed` silently loses ≈ 0.6822·t digits to cancellation, so at
+the documented dps = 20 its phase is noise above t ≈ 30; and
+`count_zeros_box` has no evaluation ceiling, so a noisy phase makes it
+recurse to depth 45 per segment and never return rather than raise. Nothing
+here bears on RH (`docs/08`); it is about what separates ζ from
+RH-violating look-alikes.
+
 ### Hunt #9 — how much power a guard has (`r_414eed/`)
 
 **Status: probe, complete. `scripts/make_context.py --check` caught 17/17
