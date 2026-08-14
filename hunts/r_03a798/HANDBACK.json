@@ -1,0 +1,37 @@
+{
+  "run_id": "a93167f3-0bef-44db-9d98-c9e25bc69c34",
+  "status": "settled",
+  "conclusion": "The guard is a case-insensitive substring match on one word, so it detects no synonym and no fresh overclaim vocabulary (0/13 across four documented bans and nine fresh terms), and the premise's 'other checks' do not exist — no test anywhere in tests/ enforces verified, confirmed, definitively or proves under hunts/. Two gaps the question did not raise: the guard misses 8 of 13 reserved-word specimens including the ordinary inflections certify and certification, and the four documented-only words already occur 33 times in the committed hunts/ tree with the suite green.",
+  "confidence": "High on everything measured, and the measurement is the guard's own exit status rather than my reading of its source: the unmodified test file was run by pytest in a sandbox repo root, one specimen at a time, with an empty-specimen baseline confirming green. The census over tests/*.py is exhaustive and hand-checked, so 'no enforcing test exists' is a real absence rather than a failed search. Lean less on two things: the use/rule-mention split in the corpus scan is a crude heuristic that over-counts (several hits describe the literature, not the hunt's own claim), and the battery is 29 specimens I chose, so absence of detection is measured while absence of other gaps is not.",
+  "operator_decision_required": "Two decisions, neither of which is a hunt's to make. (1) The four words are stated as banned in hunts/README.md and CLAUDE.md and enforced nowhere; either extend the guard to cover them — accepting false positives on legitimate prose such as 'the source paper proves', which needs an exemption mechanism the guard does not have — or demote them in both documents from implied-enforced to stated review discipline. (2) hunts/README.md needs a one-line case-log entry for r_03a798; test_every_hunt_directory_is_covered_by_the_case_log fails on this branch without it, and the brief's write scope forbade this hunt from adding it.",
+  "threads": [
+    {
+      "what": "Every scoped hunt brief structurally collides with the case-log guard: 'write only inside hunts/<name>/' cannot satisfy a guard requiring an entry in hunts/README.md, so the branch lands red through no fault of the agent.",
+      "why_it_might_matter": "It trains agents either to violate their declared write scope or to hand back a failing suite, and both are bad habits to install at scale. It will recur on every hunt opened this way, not just this one.",
+      "first_step": "Decide which side gives: grant briefs a one-line exemption for the case log, or teach the guard to accept a hunt directory whose MISSION.md carries a valid huntspec block as self-classifying."
+    },
+    {
+      "what": "The reserved-word guard misses ordinary inflections of the word it owns — certify, certification, certifiable all pass.",
+      "why_it_might_matter": "Unlike the homoglyph and zero-width gaps, this one has an innocent failure mode: it is what a careful writer types without meaning to claim anything, so the guard is silent exactly where a real accidental overclaim would land.",
+      "first_step": "Change the guard's needle from the full word to its six-letter stem, run the suite, and read the false-positive count off the corpus scan already in results.json before committing to it."
+    },
+    {
+      "what": "The lexical guards have no exemption mechanism except one hard-coded path (hunts/README.md), so a hunt that studies a guard has to obfuscate itself. This probe assembles the reserved word at runtime and redacts it from its own JSON output.",
+      "why_it_might_matter": "It makes the lexical guards the one part of the tree that resists being studied in place, which is a poor property for a mechanism the lab relies on for credibility.",
+      "first_step": "Consider a per-file opt-out marker the guard honours, and count how many files in the tree would legitimately claim it — right now the answer appears to be one."
+    },
+    {
+      "what": "hunts/director_run/CLAIMS.md uses 'FORMALLY VERIFIED' as a disposition label in a claims ledger.",
+      "why_it_might_matter": "That is the banned vocabulary functioning as a status assignment rather than as prose about the literature — the load-bearing use the rule exists to stop, and the one case in the corpus scan where the wording carries epistemic weight.",
+      "first_step": "Read that file's disposition vocabulary against CLAUDE.md's certainty ladder and check whether the labels and the rungs agree."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "The sandbox-guard harness in probe.py: copy a guard test unmodified into a temporary repo root, plant one specimen file at a time, and take pytest's exit status as the verdict. It measures what a guard detects rather than what its source appears to say, with an empty-specimen baseline as the control.",
+      "why_reusable": "It generalises to any of this tree's lexical or structural guards, and it is the only way to answer 'does this guard actually catch X' without either re-implementing the guard (which measures the reader) or mutating the shared tree (which collides with parallel sessions). It also gives guards negative controls, which they currently do not have — nothing in tests/ checks that a guard fires on the thing it exists to catch.",
+      "first_step": "Pick a second guard with a stated detection claim, run the same harness against it, and see whether the pattern holds up outside the case it was built for before anyone considers making it a module."
+    }
+  ],
+  "notes_for_operator": "Prior art credited in the artifacts: hunts/wide_search/HANDOFF.md already recorded 'banned by documentation but not by a test' as a session note, so the qualitative half of the finding was known. What is new is the measurement, the census establishing that no enforcing test exists anywhere, the reserved word's own leaky boundary, and the fact that the gap is already realised in the committed tree. The policy question — whether to widen the ban list or demote the wording — is deliberately left unanswered: it is a decision about what the lab is willing to fail a build over, which reads to me as Fulcrum's rather than a hunt's, and harness/VERDICT.md is what happens when that call is made by whoever holds the keyboard. Nothing in this run is mathematics or evidence for or against RH. Run finished inside budget; the only thing left red on the branch is the case-log entry named above."
+}
