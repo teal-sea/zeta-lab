@@ -1092,7 +1092,7 @@ def page_index(r, lean, py, gr, threads, c, fr, st, lib) -> str:
     live = ""
     if threads:
         live = (
-            "<section><h2><span class='num'>§7</span> Open lines</h2>"
+            "<section><h2><span class='num'>§6</span> Open lines</h2>"
             "<p>What is being worked on right now, read off the branches.</p>"
             "<div class='wrap'><table>"
             "<thead><tr><th>branch</th><th class='r'>commits</th><th>last</th>"
@@ -1109,15 +1109,20 @@ def page_index(r, lean, py, gr, threads, c, fr, st, lib) -> str:
         f"<td class='note'>{esc(c)}</td></tr>"
         for a, b, c in st["rows"]
     )
+    headline = (f"{len(fr['results'])} new theorems."
+                f"<br>{'One person' if people == 1 else f'{people} people'}."
+                f"<br>{r['days']} days."
+                if r["days"] and sorrys == 0
+                else f"{len(fr['results'])} new theorems, machine-checked.")
+
     return shell(IDENTITY["name"], f"""
-<h1>Fulcrum points the work.<br>Zeta is what came back.</h1>
-<p class="stand"><strong>{IDENTITY['name']}</strong> is a research laboratory
-run by one person and a fleet of rented AI. <strong>Fulcrum</strong> is its
-operating plane: the machinery that decides what to chase, writes the brief,
-launches the sessions and prices what returns. <strong>Zeta</strong> was the
-first thing it was pointed at, a problem open since 1859. In {r['days']} days
-it came back with {len(fr['results'])} original theorems a proof kernel
-accepts, and a machine-audited candidate past the best published bound.</p>
+<h1>{headline}</h1>
+<p class="stand">One person, AI anyone can rent, and a proof checker that
+accepts no unfinished step. Pointed by <strong>Fulcrum</strong>, our own
+process, at a problem open since 1859. In {r['days']} days it returned
+{len(fr['results'])} original theorems the kernel accepts and a machine-audited
+candidate past the best published bound. The process is ours. Everything it
+produced is below, in full, including what did not work.</p>
 
 {vitals([
     (str(len(fr['results'])), 'new theorems', False),
@@ -1129,35 +1134,7 @@ accepts, and a machine-audited candidate past the best published bound.</p>
 ])}
 
 <section>
-<h2><span class='num'>§1</span> Fulcrum</h2>
-<p>The research on this site is the demonstration. <strong>The thing being
-built is the laboratory itself.</strong></p>
-<p>Fulcrum is where the operating decisions live: which questions are worth
-opening, what a session is told before it starts, how many run at once, what a
-returning result costs against what it is worth, and when to stop feeding a
-direction that has stopped producing. It is a separate, private repository, and
-it is deliberately not published, because none of it is needed to check whether
-a claim on this site is true.</p>
-<p>The working strategy it implements is <em>forage, do not roadmap</em>: open
-several directions cheaply, feed the one that produces credible signal, stop
-feeding the ones that do not, and keep the threads you are not pulling so that
-choosing a direction does not mean forgetting the others. The objective it is
-tuned against is stated as plainly as we can state it: <strong>maximum
-valuable output per unit of money in</strong>. Not minimum spend. A more
-expensive approach is the right one whenever the extra output justifies it, and
-a cheap approach that returns unreliable work is not efficient, it is just
-cheap.</p>
-<p>What that bought on the first pursuit is the rest of this page.</p>
-<p class='meta'>Stated so the boundary is not oversold: Fulcrum directs the
-work and holds the briefs, the prompt corpus, the session launching and the
-telemetry economics. The supervisor loop that would launch and collect runs
-across both repositories on its own is not built yet. Fulcrum is private, not
-secret, and naming what it does not do yet is part of what makes the rest
-checkable. <a href="about.html">How the two repositories split →</a></p>
-</section>
-
-<section>
-<h2><span class='num'>§2</span> The first pursuit, and what it returned</h2>
+<h2><span class='num'>§1</span> The first pursuit, and what it returned</h2>
 <p>The Riemann hypothesis says every one of infinitely many special points sits
 exactly on a particular line. Proving that outright is the open problem, and
 nothing here touches it. Proving that <em>at least some fraction</em> of them
@@ -1196,7 +1173,7 @@ Pending external verification.</p>
 </section>
 
 <section>
-<h2><span class='num'>§3</span> Why any of it is worth reading</h2>
+<h2><span class='num'>§2</span> Why any of it is worth reading</h2>
 <p>A laboratory that generates candidates quickly is worth nothing without
 something that refuses the bad ones, and the refusing is the part that is hard
 to fake. Two mechanisms do it here.</p>
@@ -1223,7 +1200,7 @@ readable here rather than on a code host.
 </section>
 
 <section>
-<h2><span class='num'>§4</span> Everything, published</h2>
+<h2><span class='num'>§3</span> Everything, published</h2>
 <p>The working paper, the obligation ledger, every hunt, every frozen protocol
 and every correction. Not a summary of them.</p>
 <p>{num(sum(len(s['items']) for s in lib))} documents,
@@ -1233,7 +1210,7 @@ page on this site. <a href="library.html">The library →</a></p>
 </section>
 
 <section>
-<h2><span class='num'>§5</span> The stack</h2>
+<h2><span class='num'>§4</span> The stack</h2>
 <p>Every part of this is available to anyone, which is the point, so it is
 worth naming which parts carried the weight.</p>
 <div class="wrap"><table>
@@ -1252,7 +1229,7 @@ not the contribution.</p>
 </section>
 
 <section>
-<h2><span class='num'>§6</span> How the work is graded</h2>
+<h2><span class='num'>§5</span> How the work is graded</h2>
 <p>A composite claim takes the grade of its weakest step, and nothing here is
 rounded upward.</p>
 {ladder(lean, fr)}
@@ -1661,26 +1638,15 @@ others.</p>
 
 <section>
 <h2><span class='num'>§2</span> How this is organised</h2>
-<p>Two repositories, split by what an outside reader needs rather than by
-secrecy. <strong>Fulcrum</strong> is the operating layer: the private
-repository through which pursuits are directed and managed.
-<strong>Zeta</strong> is this pursuit, and it is public.</p>
-<p>The rule that decides where something goes: if you need it to evaluate or
-reproduce a claim, it is here, in the open. If it teaches the laboratory how to
-allocate, route, prompt or operate itself, it lives in Fulcrum. Which repository
-holds a thing, whether that repository can be cloned, and how much of the
-research process outsiders can inspect are three separate questions, and the
-answer to the last is <em>as much as is meaningful</em>, including the
-criticism, the corrections and the claims that did not survive.</p>
-<p>One consequence is worth stating plainly, because a reader counting commits
-here could otherwise draw the wrong conclusion in either direction. This
-repository is the research record, not the whole laboratory. Briefs, operating
-strategy, telemetry economics and the machinery that directs the work live in
-Fulcrum, so every figure on this site counts published research and none of it
-counts the effort on the other side of that line.</p>
-<p class="meta">Fulcrum is private, not secret. The supervisor loop that would
-launch and collect work across the two is not built yet; when it is, the runs it
-produces are provenance and belong on this side.</p>
+<p><strong>The results are public. The process is not.</strong></p>
+<p>Everything needed to check a claim is in the open: the mathematics, the
+proofs, the tests, the corrections and the claims that did not survive. The
+machinery that decides what to chase and how it gets run is
+<strong>Fulcrum</strong>, and Fulcrum is ours.</p>
+<p>One consequence, because a reader counting commits here could otherwise
+draw the wrong conclusion in either direction: this repository is the research
+record, not the whole laboratory. Every figure on this site counts published
+research, and none of it counts the work on the other side of that line.</p>
 </section>
 
 <section>
