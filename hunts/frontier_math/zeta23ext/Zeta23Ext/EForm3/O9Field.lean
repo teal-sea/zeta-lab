@@ -61,10 +61,10 @@ The seam to the analysis is the membership lemma
            f.Qre.mem (Phi2 (s + y*I)).re ∧
            f.R.mem   (if y = 0 then _ else (Phi2 (s + y*I)).im / y)
 
-together with `shfnIv_mem` for the new leaf.  Neither is proved here, and **no
-`sorry` stands in for either**: this package has been sorry-free throughout and
-a placeholder would be the first.  They are recorded as obligations O9a/O9b in
-`hunts/frontier_math/RETENTION-PROBLEM.md` §4.  Until they exist,
+**O9a (`shfnIv_mem`, the new leaf) is proved below.  O9b is not**, and **no
+`sorry` stands in for it**: this package has been sorry-free throughout and a
+placeholder would be the first.  Both are recorded in
+`hunts/frontier_math/RETENTION-PROBLEM.md` §4.  Until O9b exists,
 `O9Check2.lean` checks the table and proves nothing about `Dam`.
 
 Generated companion data: `O9Data2.lean` (leaves), `O9Check2.lean` (the walk),
@@ -106,6 +106,108 @@ def shfnIv (u : EIv) : EIv :=
       if -(2 * SO) ≤ a.lo ∧ a.hi ≤ 2 * SO then
         EIv.widen (hornerI shfnL (EIv.sqr (EIv.divInt (some a) 2))) 1
       else none
+
+/-! `Leaves.sinh_taylor` bounds the remainder by `RB` flat, having spent the
+`|t|^22` that `Real.exp_bound` supplies on `|t|^22 ≤ 1`.  That is enough for
+`sinhCoshSmall`, but not here: `shfunR` divides by `t`, so the remainder has
+to keep a factor of `t` to survive.  `Leaves.sin_taylor` keeps its factor (it
+comes through `exp_it_bound`), which is exactly why `sfunR_taylor` works and a
+naive copy of it for `sinh` does not.  These two recover the factor. -/
+
+theorem exp_bound_sharp (t : ℝ) (ht : |t| ≤ 1) :
+    |Real.exp t - (∑ m ∈ Finset.range 22, t ^ m / (Nat.factorial m : ℝ))|
+      ≤ |t| ^ 22 * RB := by
+  have h := Real.exp_bound ht (n := 22) (by norm_num)
+  refine le_trans h ?_
+  have h2 : ((Nat.succ 22 : ℕ) : ℝ) / (((Nat.factorial 22 : ℕ) : ℝ) * (22 : ℕ)) ≤ RB := by
+    norm_num [Nat.factorial, RB]
+  have hp : (0 : ℝ) ≤ |t| ^ 22 := by positivity
+  exact mul_le_mul_of_nonneg_left h2 hp
+
+theorem sinh_taylor_sharp (t : ℝ) (ht : |t| ≤ 1) :
+    |Real.sinh t - t * hornerR sinhL (t * t)| ≤ |t| ^ 22 * RB := by
+  have h1 := exp_bound_sharp t ht
+  rw [exp_partial_eq] at h1
+  have h2 : |Real.exp (-t) - (hornerR coshL (t * t) - t * hornerR sinhL (t * t))|
+      ≤ |t| ^ 22 * RB := by
+    have h := exp_bound_sharp (-t) (by rwa [abs_neg])
+    rw [exp_partial_eq'] at h
+    simpa using h
+  obtain ⟨a1, a2⟩ := abs_le.mp h1
+  obtain ⟨b1, b2⟩ := abs_le.mp h2
+  rw [Real.sinh_eq, abs_le]
+  constructor <;> linarith
+
+/-- The Taylor bound for `shfunR`, from `sinh_taylor_sharp` exactly as
+`sfunR_taylor` comes from `sin_taylor`. -/
+theorem shfunR_taylor (u : ℝ) (hu : |u| ≤ 2) :
+    |shfunR u - hornerR shfnL ((u / 2) * (u / 2))| ≤ RB := by
+  have hRB := RB_nonneg
+  rcases eq_or_ne u 0 with rfl | hne
+  · simp only [shfunR, hornerR_shfnL]
+    norm_num [hornerR, sinhL]
+    exact hRB
+  · set t : ℝ := u / 2 with hts
+    have htne : t ≠ 0 := by simp [hts]; exact hne
+    have hta : |t| ≤ 1 := by
+      rw [hts, abs_div]
+      rw [div_le_one (by norm_num)]
+      simpa using hu
+    have h := sinh_taylor_sharp t hta
+    have hu2 : u = 2 * t := by rw [hts]; ring
+    have hsf : shfunR u = Real.sinh t / (2 * t) := by
+      simp only [shfunR, if_neg hne]
+      rw [hu2]
+      congr 1
+      rw [hts]
+      ring_nf
+    have hpoly : hornerR shfnL (t * t) = hornerR sinhL (t * t) / 2 := hornerR_shfnL _
+    rw [hsf, hpoly]
+    have hkey : Real.sinh t / (2 * t) - hornerR sinhL (t * t) / 2
+        = (Real.sinh t - t * hornerR sinhL (t * t)) / (2 * t) := by
+      field_simp
+    rw [hkey, abs_div]
+    have habs : |2 * t| = 2 * |t| := by rw [abs_mul]; norm_num
+    rw [habs]
+    have htpos : 0 < |t| := abs_pos.mpr htne
+    rw [div_le_iff₀ (by positivity)]
+    have h21 : |t| ^ 22 = |t| ^ 21 * |t| := by ring
+    have h21' : |t| ^ 21 ≤ 1 := pow_le_one₀ (abs_nonneg t) hta
+    calc |Real.sinh t - t * hornerR sinhL (t * t)| ≤ |t| ^ 22 * RB := h
+      _ = (|t| ^ 21 * RB) * |t| := by rw [h21]; ring
+      _ ≤ (1 * RB) * (2 * |t|) := by
+            nlinarith [mul_nonneg (mul_nonneg (sub_nonneg.mpr h21') hRB) (le_of_lt htpos),
+              mul_nonneg hRB (le_of_lt htpos)]
+      _ = RB * (2 * |t|) := by ring
+
+/-- **O9a.** `shfnIv` encloses `sinh (u/2) / u`. -/
+theorem shfnIv_mem {u : EIv} {v : ℝ} (hu : u.mem v) : (shfnIv u).mem (shfunR v) := by
+  cases u with
+  | none => trivial
+  | some a =>
+      simp only [shfnIv]
+      split_ifs with h1
+      · have hv2 : |v| ≤ 2 := by
+          obtain ⟨g1, g2⟩ := h1
+          obtain ⟨hl, hh⟩ := hu
+          have hS := SOR_pos
+          have g1' : ((-(2 * SO) : ℤ) : ℝ) ≤ ((a.lo : ℤ) : ℝ) := by exact_mod_cast g1
+          have g2' : ((a.hi : ℤ) : ℝ) ≤ ((2 * SO : ℤ) : ℝ) := by exact_mod_cast g2
+          push_cast at g1' g2'
+          rw [abs_le]
+          constructor <;> nlinarith
+        have hhalf : EIv.mem (EIv.divInt (some a) 2) (v / ((2 : ℤ) : ℝ)) :=
+          EIv.divInt_mem (by norm_num) hu
+        have hsq : EIv.mem (EIv.sqr (EIv.divInt (some a) 2))
+            ((v / ((2 : ℤ) : ℝ)) * (v / ((2 : ℤ) : ℝ))) := EIv.sqr_mem hhalf
+        have hh := hornerI_mem shfnL shfnL_pos hsq
+        refine widen_of_abs hh ?_
+        have := shfunR_taylor v hv2
+        have heq : (v / ((2 : ℤ) : ℝ)) * (v / ((2 : ℤ) : ℝ)) = (v / 2) * (v / 2) := by
+          push_cast; ring
+        rw [heq]
+        exact this
+      · trivial
 
 /-! ### The field on a two-variable cell -/
 

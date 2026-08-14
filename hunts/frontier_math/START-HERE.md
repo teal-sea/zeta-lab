@@ -82,10 +82,10 @@ Until this date no session in this hunt had a toolchain, so `zeta23ext` had
   (`o9_leaf2d.py`, 1939 leaves, depth 20, 0 undecided), and **the kernel
   accepts it**: all 49 `decide +kernel` chunks pass, `O9Check2.lean` builds
   in 211 s, axioms `[propext]` only. That makes the *numeric* content of O9
-  kernel-checked over the whole rectangle. Its two membership lemmas — the
-  seam to `Dam` — are stated and **not** proved, with no `sorry` standing
-  in, so the kernel has checked a table and not yet an inequality about the
-  damage.
+  kernel-checked over the whole rectangle. Of the two membership lemmas that
+  are the seam to `Dam`, **O9a (`shfnIv_mem`) is proved** and **O9b
+  (`o9Field_mem`) is not**, with no `sorry` standing in — so the kernel has
+  checked a table and not yet an inequality about the damage.
 * **A caveat that was load-bearing turned out to be false.** Both O9 tables
   predicted the kernel's verdict using Arb leaves, on the claim that Arb and
   `Leaves.lean` "agree to well under `2^-60`". They do not, on wide cells —

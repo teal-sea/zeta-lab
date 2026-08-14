@@ -234,16 +234,24 @@ leaves and is **5× low**. Its 1-D counterpart (`o9_leaf.py`, 344 cells) rests
 on the same false caveat and has never been put to the kernel; its count
 should be assumed low by a similar factor until it is.
 
-**Two new obligations replace O9, and neither is proved:**
+**Two new obligations replace O9:**
 
 | # | statement | status |
 |---|---|---|
-| O9a | `shfnIv_mem`: `shfnIv` encloses `sinh(u/2)/u` | **new**, mirrors `sfnIv_mem` (`Leaves.lean` L6) |
-| O9b | `o9Field_mem`: `o9Field` encloses `(Re Φ₂, Im Φ₂ / y)` on the cell | **new**, the real/imaginary decomposition |
+| O9a | `shfnIv_mem`: `shfnIv` encloses `sinh(u/2)/u` | ⟨have⟩ **proved**, `O9Field.lean`, standard axioms |
+| O9b | `o9Field_mem`: `o9Field` encloses `(Re Φ₂, Im Φ₂ / y)` on the cell | **open**, the real/imaginary decomposition |
 
-`O9Field.lean` defines the field and the `shfnL` series; `O9Data2.lean` and
-`O9Check2.lean` are generated. **No `sorry` stands in for O9a or O9b** — until
-they exist the checker checks the table and says nothing about `Dam`.
+O9a needed one thing that was not already in `Leaves.lean`. Its `sinh_taylor`
+bounds the remainder by `RB` flat, having spent the `|t|^22` that
+`Real.exp_bound` supplies on `|t|^22 ≤ 1`. That is enough for `sinhCoshSmall`
+but not here: `shfunR` divides by `t`, so the remainder must keep a factor of
+`t` to survive. (`sin_taylor` *does* keep its factor, via `exp_it_bound` —
+which is exactly why `sfunR_taylor` works and a naive transcription of it for
+`sinh` does not.) `exp_bound_sharp` and `sinh_taylor_sharp` recover it.
+
+`O9Field.lean` defines the field, the `shfnL` series and O9a; `O9Data2.lean`
+and `O9Check2.lean` are generated. **No `sorry` stands in for O9b** — until it
+exists the checker checks the table and says nothing about `Dam`.
 
 ---
 
