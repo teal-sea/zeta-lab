@@ -298,6 +298,22 @@ def test_cells_outside_every_window_carry_cap_zero(table):
             assert c["cap"] == 0
 
 
+def test_the_emitted_chunks_cover_every_leaf(table):
+    """`o9Walk2` is run in `drop i*c |>.take c` chunks; they must tile the list.
+
+    A chunking that is one short leaves leaves unchecked while every emitted
+    theorem still passes -- the failure mode looks exactly like success. The
+    kernel run is only worth its 211 s if it covered all 1939.
+    """
+    n = len(table["cells"])
+    chunk = 40
+    chunks = max(1, (n + chunk - 1) // chunk)
+    covered = set()
+    for i in range(chunks):
+        covered |= set(range(i * chunk, min((i + 1) * chunk, n)))
+    assert covered == set(range(n)), "the emitted chunks do not tile the leaf list"
+
+
 def test_caps_are_the_recorded_suprema_times_the_inflation():
     for c_sup, c_inf in zip(L.CAPS_SUP, L.inflated_caps()):
         assert c_inf == c_sup * L.INFLATION
