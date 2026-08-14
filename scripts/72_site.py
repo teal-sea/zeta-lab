@@ -615,6 +615,8 @@ def masthead(r: dict, up: str = "") -> str:
         f" &nbsp;·&nbsp; <b>state of record</b></span>"
         f"<span>compiled <b>{esc(r['when'])}</b></span>"
         f"<span>revision <b>{esc(r['commit'])}</b></span>"
+        f"<span><a href='{esc(IDENTITY['source'])}'>"
+        f"<b>github.com/teal-sea/zeta-lab</b></a></span>"
     )
 
 
@@ -726,6 +728,11 @@ failure published as readily as every success.</p>
     (num(py['public']), 'public API functions', False),
     (num(r['docs']), 'documents', False),
 ])}
+
+<p class="meta">Counted from the public research repository. The lab's
+operating side is a separate private repository and none of it is reflected
+above, so these figures measure the published research rather than the total
+work behind it.</p>
 
 <section>
 <h2><span class='num'>§1</span> What we proved</h2>
@@ -1071,6 +1078,12 @@ holds a thing, whether that repository can be cloned, and how much of the
 research process outsiders can inspect are three separate questions, and the
 answer to the last is <em>as much as is meaningful</em>, including the
 criticism, the corrections and the claims that did not survive.</p>
+<p>One consequence is worth stating plainly, because a reader counting commits
+here could otherwise draw the wrong conclusion in either direction. This
+repository is the research record, not the whole laboratory. Briefs, operating
+strategy, telemetry economics and the machinery that directs the work live in
+Fulcrum, so every figure on this site counts published research and none of it
+counts the effort on the other side of that line.</p>
 <p class="meta">Fulcrum is private, not secret. The supervisor loop that would
 launch and collect work across the two is not built yet; when it is, the runs it
 produces are provenance and belong on this side.</p>
