@@ -94,12 +94,24 @@ evaluated at mpmath's default 15 digits and truncates to 16.
 `print_check.py` pins that, and the flawed check was removed rather than
 kept.
 
+Corroborated by a route that does not use the Mellin split under test
+(`scale_check.py`): dividing the measured Λ_Q by mpmath's own `Gamma(s)` and
+the `(sqrt(d)/pi)^s` prefactor leaves an implied `|zeta_Q(s)|` of `0.6127` for
+the `D=60` reading, which is the O(1) an Epstein zeta should be at
+`Re(s) = 0.8`, and `1.285e24` for the `D=20` reading, which is not a possible
+value. Γ decay alone accounts for `10^-57.48`, so the exponent is forced.
+
 Scope: one point, one form, one function. This does **not** show that any
 battery verdict is wrong, and it bounds nothing about the heights at which
 `count_zeros_box` is actually called. It measures a cost, and proposes a
 candidate: the caps are undocumented at their call sites and no returned dict
 records that the caller's `dps` was discarded. A hunt may not promote its own
 claim, and this one does not.
+
+The requested outside check did not arrive: the support run launched for it
+returned `working` on every poll and committed nothing, so this hunt's
+independent evidence is the scale check above plus a prior run's roster record
+of the same point. `HANDBACK.json` says which of those is accepted and why.
 
 Reproduce: `python hunts/dps_cap/measure.py` (~30 s). Data: `results.json`.
 
