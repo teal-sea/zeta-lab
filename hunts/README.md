@@ -70,6 +70,39 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #12 — what the precision cap costs (`dps_cap/`)
+
+**Status: probe, complete. One quantity at two precisions. At
+`s = 0.8 + 85.7i` on the form `(2,1,3)`, the capped precision returns a
+magnitude 24 orders too large with no correct digits.**
+
+`zeta/epstein.py` accepts a `dps` from its caller and then discards it inside
+the three rival interfaces it hands the battery: `count_zeros_box` is called
+with `min(dps, 20)` in all three (lines 1092, 1126, 1142) and `zeros_on_line`
+with `min(dps, 15)` (line 1073). Measured:
+`abs(epstein_completed(0.8+85.7i, (2,1,3), dps=D))` is `3.39e-34` at `D=20`
+and `1.617452632377971296327251e-58` at `D=60`. A ladder at `D=30, 40, 80,
+100` separates the two readings: 80 and 100 agree to all 25 digits printed,
+while 20, 30 and 40 fall by one order per digit of `dps`, which is roundoff
+descending rather than a quantity resolving. The capped value is the noise
+floor, not a coarse answer.
+
+Control on the instrument itself: two early check scripts disagreed with
+`measure.py` at the 17th digit, and the cause was theirs, not the
+measurement's. `abs()` of the returned `mpc` outside a `workdps` block is
+evaluated at mpmath's default 15 digits and truncates to 16.
+`print_check.py` pins that, and the flawed check was removed rather than
+kept.
+
+Scope: one point, one form, one function. This does **not** show that any
+battery verdict is wrong, and it bounds nothing about the heights at which
+`count_zeros_box` is actually called. It measures a cost, and proposes a
+candidate: the caps are undocumented at their call sites and no returned dict
+records that the caller's `dps` was discarded. A hunt may not promote its own
+claim, and this one does not.
+
+Reproduce: `python hunts/dps_cap/measure.py` (~30 s). Data: `results.json`.
+
 ### Hunt #9 — how much power a guard has (`r_414eed/`)
 
 **Status: probe, complete. `scripts/make_context.py --check` caught 17/17
