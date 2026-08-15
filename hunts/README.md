@@ -70,6 +70,10 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #27: AGY conversation context and handback 8 (`r_test_agy_8/`)
+
+**Status: settled. A framework probe successfully validated the operational envelope.** The AGY process context correctly ran a script that imported the `.venv`-installed `zeta` package, computed values using `zeta.explicit.li(x)` with `mpmath` at specified precision, and wrote a complete evaluation to the local directory without incident. Nothing here bears on RH; it is a test of the test mechanism.
+
 ### Hunt #18: the O9 leaf table, repriced (`r_2926e4/`)
 
 **Status: settled. `o9_leaf.py`'s 1-D O9 table is 476 cells at max depth 22 on
