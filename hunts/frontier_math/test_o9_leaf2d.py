@@ -124,7 +124,7 @@ def test_the_table_closes_at_the_recommended_operating_point():
     Lean build.
 
 
-    Read against the 1-D route's 344 (`o9_leaf.N_CELLS_KERNEL`) this looks
+    Read against the 1-D route's 476 (`o9_leaf.N_CELLS_KERNEL`) this looks
     like a saving, and the comparison is **not** like-for-like: the 1-D table
     is built at `1.05x`.  `test_the_2d_route_is_dearer_at_equal_inflation`
     below is the honest side-by-side.  What is true is that the 2-D route is
@@ -153,7 +153,7 @@ def test_the_2d_route_is_dearer_at_equal_inflation():
     """
     import o9_leaf as A
 
-    assert A.N_CELLS_KERNEL == 344
+    assert A.N_CELLS_KERNEL == 476
     v = M.validate(M.build(inflation=F(21, 20)))
     assert v["undecided"] == 0
     assert v["cells"] == 601
