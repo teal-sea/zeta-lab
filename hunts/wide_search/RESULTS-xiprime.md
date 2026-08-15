@@ -4,6 +4,10 @@
 theorem — an optimisation, run to its exact answer, of a functional somebody
 else derived. Nothing here is evidence for or against RH.**
 
+The full-space variational step, including coercivity, inverse existence,
+optimizer positivity, and the endpoint `lambda = 1`, is supplied in
+[`RESULTS-xiprime-global-optimality.md`](RESULTS-xiprime-global-optimality.md).
+
 ## The question, and who left it open
 
 The August 2026 paper *More than two thirds of the zeros of the Riemann zeta
@@ -231,10 +235,12 @@ mpmath at 50 digits) agrees with the double-precision spectral run to `1e-14`.
 An artifact does not respond to added precision this way; the constant is real
 to the digits quoted.
 
-**`lambda = 1` is optimal.** `H(lambda)` is monotone increasing on `(0,1]`
-(measured at `lambda = 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 0.99, 1.0`), and
-`lambda <= 1` is forced: beyond it the prime side needs information on prime
-pairs.
+**`lambda = 1` is optimal.** After scaling to the interval
+`[-lambda/2,lambda/2]`, extension by zero shows that the optimized quotient is
+nondecreasing on `(0,1]`; see `RESULTS-xiprime-global-optimality.md`. The
+previously measured values at `lambda = 0.5, 0.6, 0.7, 0.8, 0.9, 0.95, 0.99,
+1.0` agree with that theorem. `lambda <= 1` is forced: beyond it the prime side
+needs information on prime pairs.
 
 ## Scope, stated plainly
 
