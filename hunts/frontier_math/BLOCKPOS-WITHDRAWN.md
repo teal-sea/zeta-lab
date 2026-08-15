@@ -39,6 +39,8 @@ A separately executed blind attack was run against `blockpos-0.672529` without p
 
 **Branch:** `research/blind-attack-blockpos`
 **Research commit:** `b5788357bdd52e137fdf273c5fcd4815dafea535`
+**Canonical PR:** `#39`
+**Canonical merge:** `78656b0230f92de5636c1d2aa604de3ccffa42de`
 
 **The question posed:** What modification of the world would preserve the appearance of this result while making its interpretation false?
 
@@ -49,7 +51,7 @@ A separately executed blind attack was run against `blockpos-0.672529` without p
 - Script: `hunts/frontier_math/blind_attack.py`
 - Ledger entry: `harness/departments/review_ledger.py` (AttackOutcome, role="blind", claim_withdrawn=True)
 - Test: `tests/test_review.py`
-- Integration commit: pending canonical merge of `research/blind-attack-blockpos`
+- Integration commit: `78656b0230f92de5636c1d2aa604de3ccffa42de` (PR #39)
 
 The blind attack independently reached the same structural diagnosis as the white-box kill. Both failure routes are preserved separately. They are not collapsed into one event.
 
