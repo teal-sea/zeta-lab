@@ -1,0 +1,1 @@
+Zeta Lab prepares working manuscripts privately. Historical draft material is not a publication of record. Only manuscripts and associated artifacts explicitly approved for release are indexed here. Canonical scientific evidence remains public in this repository.
