@@ -70,6 +70,10 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #34: claim 'urms2-0.51' has no recorded blind attack (`r_fb9c81/`)
+
+**Status: settled. The stated analytical assumption holds structurally, and the mean-value evaluation is valid.** The blind attack searched for a numerical consequence of replacing the exact polynomial frequency spacing with its generic mean bound, testing whether length $W \gg U$ could collapse the off-diagonal bounds while keeping the formal appearance of the claim. A numerical probe on a scaled configuration ($x = 1000, \alpha = 0.51, \delta = 0.75$) proved that the Montgomery-Vaughan mean-value off-diagonal cost remains identically bounded by $O(x \log x)$. The true frequency separation limits the spacing error such that the main diagonal term $U \log x$ unconditionally dominates. The $0.51$ parameter therefore does not survive merely on an invalid archimedean assumption; its required analytical decay is physical and rigorous. Full evidence and reasoning are recorded in `hunts/r_fb9c81/RESULTS.md`. Nothing here is evidence for or against RH.
+
 ### Hunt #27: AGY conversation context and handback 8 (`r_test_agy_8/`)
 
 **Status: settled. A framework probe successfully validated the operational envelope.** The AGY process context correctly ran a script that imported the `.venv`-installed `zeta` package, computed values using `zeta.explicit.li(x)` with `mpmath` at specified precision, and wrote a complete evaluation to the local directory without incident. Nothing here bears on RH; it is a test of the test mechanism.
