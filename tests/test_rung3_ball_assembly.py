@@ -78,6 +78,43 @@ def test_ball_encloses_and_is_strictly_tighter_than_the_rectangle(site):
     assert float(ball["nl_box"]) <= a <= float(ball["nb_box"]), site["id"]
 
 
+gc = importlib.import_module("64_rung3_grid_centre")
+
+
+def test_the_rect_harness_reproduces_the_recorded_centre_failure():
+    """The control that licenses everything else: run the shipped arithmetic and
+    the harness must land on `docs/25` §4.3's recorded numbers, not near them."""
+    small, c = gc.PLAN["small"], gc.PLAN["centre"]
+    n = gc.evaluate(F(small["cre"]), F(small["cim"]), c["K"], F(c["r"]), "rect")
+    eps = F(small["eps"])
+    margin = float(eps / n["normBound"])
+    assert abs(margin - 0.6321) < 5e-4, margin              # recorded: FAIL at x0.6321
+    assert abs(float(n["normBound"]) - 7.9e-4) < 2e-5       # recorded: normBound 7.9e-4
+
+
+def test_the_centre_ball_enclosure_contains_the_true_value():
+    """The centre asserts |DH| < eps'.  A ball that passed by *losing* DH would
+    be the worst possible defect here, so it is checked against the Hurwitz route."""
+    small, c = gc.PLAN["small"], gc.PLAN["centre"]
+    cre, cim = F(small["cre"]), F(small["cim"])
+    n = gc.evaluate(cre, cim, c["K"], F(c["r"]), "ball")
+    a = abs(_true_dh(cre, cim))
+    assert float(n["normLower"]) <= a <= float(n["normBound"]), (
+        float(n["normLower"]), float(a), float(n["normBound"]))
+    assert n["normBound"] < F(small["eps"])
+
+
+@pytest.mark.parametrize("gid", ["g_bottom_00", "g_left_13", "g_right_00"])
+def test_grid_ball_normLower_really_bounds_the_modulus_below(gid):
+    """`normLower` is a claim that |DH| is at least that big.  Ball arithmetic
+    raises it by up to 1.3x, which is only legitimate if it stays below |DH|."""
+    site = next(s for s in gc.PLAN["grid"] if s["id"] == gid)
+    re, im = gc.site_point(site)
+    n = gc.evaluate(re, im, site["K"], F(site["r"]), "ball")
+    a = abs(_true_dh(re, im))
+    assert float(n["normLower"]) <= a, (gid, float(n["normLower"]), float(a))
+
+
 def test_the_ball_gain_is_in_the_width_term_not_the_centre():
     """Attribute the 14x: it must come from the boxed-vs-point difference
     (rotation wrapping), not from the point evaluation moving."""
