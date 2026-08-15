@@ -116,15 +116,22 @@ def certify() -> bool:
     u_norm = sqrt_upper(u_sq)
 
     C = 2 * one_u - u_A0u + rho * u_sq + INV_NORM_BOUND * (resid_norm + rho * u_norm) ** 2
-    if not C > 0:
-        print("Certificate: FAIL (C <= 0)")
+    L = 2 * one_u - u_A0u - rho * u_sq
+    
+    if not C > 0 or not L > 0:
+        print("Certificate: FAIL (C <= 0 or L <= 0)")
         return False
-    # Round C up to 12 decimals: a printable rational that is still >= c*.
-    scale = 10**12
+        
+    # Round C up and L down to 18 decimals: printable rationals preserving the bounds.
+    scale = 10**18
     C_r = Fraction(-((-C.numerator * scale) // C.denominator), scale)
-    if not C_r >= C:
-        raise ArithmeticError("rounding must not decrease the bound")
+    L_r = Fraction((L.numerator * scale) // L.denominator, scale)
+    
+    if not (C_r >= C and L_r <= L):
+        raise ArithmeticError("rounding must not violate the bound")
+        
     H_upper = 2 - 1 / C_r
+    H_lower = 2 - 1 / L_r
     passed = H_upper < TARGET
 
     print("--- EXACT RATIONAL CERTIFICATE (M = %d, ||A^-1|| <= %s) ---" % (M, INV_NORM_BOUND))
@@ -135,14 +142,15 @@ def certify() -> bool:
     print(f"rho         = {rho}   (~{float(rho):.3e})")
     print(f"sqrt bounds : ||1-A0u|| <= {float(resid_norm):.6e}, ||u|| <= {float(u_norm):.12f}")
     print("---------------------------------------")
-    print(f"C_exact (c* <= C_exact) ~ {float(C):.18f}")
-    print(f"C = ceil(C_exact*1e12)/1e12 = {C_r}")
-    print(f"H* <= 2 - 1/C = {H_upper}")
-    print(f"target        = {TARGET}")
-    print(f"exact comparison 2 - 1/C < target: {passed}")
+    print(f"Two-sided enclosure: L <= c* <= U")
+    print(f"L = floor(L_exact*1e18)/1e18 = {L_r}")
+    print(f"U = ceil(C_exact*1e18)/1e18  = {C_r}")
+    print(f"H* enclosure: {H_lower} <= H* <= {H_upper}")
+    print(f"target                       = {TARGET}")
+    print(f"exact comparison H_upper < target: {passed}")
     print("--- decimal approximations (display only, not part of the proof) ---")
-    print(f"c*  <= {float(C_r):.12f}")
-    print(f"H*  <= {float(H_upper):.12f}")
+    print(f"{float(L_r):.18f} <= c* <= {float(C_r):.18f}")
+    print(f"{float(H_lower):.18f} <= H* <= {float(H_upper):.18f}")
     print(f"margin target - bound ~ {float(TARGET - H_upper):.6e}")
     print("---------------------------------------")
     print("Certificate: PASS" if passed else "Certificate: FAIL")
