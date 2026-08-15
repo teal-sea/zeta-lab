@@ -41,7 +41,24 @@ rho_W is only *approximately* scale-invariant in delta: within the left edge it
 drifts 4.92 -> 5.59 as delta goes 0.0026 -> 0.0085.  `K` co-varies with delta in
 this sample, so the two are confounded and neither is isolated here.
 
-Run: .venv/bin/python scripts/62_rung3_rho_w.py [--boxes N] [--out FILE]
+`--arith ball` re-runs the identical sites through `63_rung3_ball_mirror.py`.
+Measured on the same 15 boxes, paired:
+
+    rho_W    rect mean 5.09  ->  ball mean 0.37     gain 13.7x (12.0-15.3x)
+    verdict  rect 0/15 PASS  ->  ball 15/15 PASS    margins 2.14 - 3.76
+
+The gain is larger than the ~2x `docs/25` §4.3 estimated for a polar or
+mean-value enclosure, and it lands *below* the planner's own assumed 2.60 by 7x:
+with rotation wrapping gone, plan v2's width budget is conservative rather than
+optimistic.  Enclosure is not being dropped to get there — the assembled ball is
+checked against `zeta.epstein.dh_f`, the Hurwitz route, in
+`tests/test_rung3_ball_assembly.py`, alongside the rectangle case as a control.
+
+Scope of that claim: big boxes only.  Grid sites are point evaluations, where
+rho_W does not apply, and the centre has its own budget defect (`docs/25` §4.3
+defect 1, the radius counted twice); neither is measured here.
+
+Run: .venv/bin/python scripts/62_rung3_rho_w.py [--boxes N] [--arith rect|ball]
 """
 from __future__ import annotations
 
@@ -58,7 +75,33 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 import importlib
 
-mirror = importlib.import_module("61_rung3_mirror")
+_box = importlib.import_module("61_rung3_mirror")
+mirror = _box
+_ball = None
+
+
+def use_arith(kind: str):
+    """Swap the arithmetic layer, in both directions.
+
+    Both modules expose the same operation names, so only the construction of the
+    `s` enclosure differs.  Restoring on "rect" is load-bearing: an earlier
+    version only ever swapped *to* ball, so an in-process rect/ball comparison
+    silently compared ball against itself and reported them identical.
+    """
+    global mirror, _ball
+    if kind == "ball":
+        _ball = importlib.import_module("63_rung3_ball_mirror")
+        mirror = _ball
+    else:
+        _ball = None
+        mirror = _box
+    return mirror
+
+
+def make_S(relo, rehi, imlo, imhi):
+    if _ball is not None:
+        return _ball.from_box(relo, rehi, imlo, imhi)
+    return mirror.C(mirror.I(relo, rehi), mirror.I(imlo, imhi))
 
 PLAN = json.loads((ROOT / "lean" / "cert" / "rung3_plan2.json").read_text())
 
@@ -140,9 +183,9 @@ def box_norms(site: dict) -> dict:
                         mirror.cneg(antiBox))
         return mirror.cinflate(B, r)
 
-    boxed = assemble(mirror.C(mirror.I(relo, rehi), mirror.I(imlo, imhi)))
+    boxed = assemble(make_S(relo, rehi, imlo, imhi))
     cre, cim = (relo + rehi) / 2, (imlo + imhi) / 2
-    point = assemble(mirror.C(mirror.I(cre, cre), mirror.I(cim, cim)))
+    point = assemble(make_S(cre, cre, cim, cim))
     return {
         "nb_box": mirror.normBound(boxed),
         "nb_point": mirror.normBound(point),
@@ -161,11 +204,15 @@ def main() -> None:
     ap.add_argument("--boxes", type=int, default=6,
                     help="how many boxes per edge to sample")
     ap.add_argument("--out", default=None)
+    ap.add_argument("--arith", choices=("rect", "ball"), default="rect",
+                    help="rectangle enclosures (as shipped) or ball enclosures")
     args = ap.parse_args()
+    use_arith(args.arith)
 
     M = F(PLAN["M"])
     print(f"M = {float(M):.5f}   planned width coefficient rho_W = 2.60   "
-          f"(config nLog={NLOG}, nExp={NEXP}, p={P}, kE={KE}, chains)\n")
+          f"(config nLog={NLOG}, nExp={NEXP}, p={P}, kE={KE}, chains, "
+          f"arith={args.arith})\n")
 
     print("Sigma convention calibration (must reproduce the plan report):")
     weighted = None

@@ -1258,6 +1258,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/60_rung3_generate.py` — Generate the rung-3 certificate Lean files from a plan JSON.
 - `scripts/61_rung3_mirror.py` — Bit-exact Fraction mirror of the ZetaLean rational interval arithmetic.
 - `scripts/62_rung3_rho_w.py` — Phase 0: measure the boxed-`s` width constant rho_W on the low-sigma left edge.
+- `scripts/63_rung3_ball_mirror.py` — Ball-arithmetic mirror: the same interval layer, centre+radius instead of a box.
 - `scripts/70_lab_state.py` — 70_lab_state.py — the read-only research-state view, rendered from artifacts.
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
@@ -1267,7 +1268,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1768 test functions across 68 files (the collected count differs where tests are parametrised):
+1778 test functions across 70 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_claim_attribution.py` — 6
@@ -1323,6 +1324,8 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_rigor.py` — 54
 - `tests/test_rigor_weil.py` — 17
 - `tests/test_rogue_lab_controls.py` — 7
+- `tests/test_rung3_ball_assembly.py` — 3
+- `tests/test_rung3_ball_mirror.py` — 7
 - `tests/test_rung3_mirror.py` — 9
 - `tests/test_scout.py` — 12
 - `tests/test_scout_online.py` — 15
