@@ -1,0 +1,67 @@
+{
+  "run_id": "ed50af7f-4e1c-4057-a5ba-ceb4faf2bd79",
+  "hunt": "r_3c1cbb",
+  "target": "Mertens's theorems (Wikidata Q1196729), recorded by Mathlib wanted-theorems tracking as wanted and unbuilt",
+  "mathlib_pin": "v4.33.0-rc2",
+  "toolchain": "leanprover/lean4:v4.33.0-rc2",
+  "outcome": {
+    "mertens_first_theorem": "landed, zero sorrys, both von Mangoldt and prime forms with explicit constants",
+    "mertens_second_theorem": "not built; route mapped, obstruction stated in RESULTS.md (discrete partial summation block, est. 150-250 lines)",
+    "mertens_third_theorem": "not attempted; needs Mertens constant and Euler-Mascheroni machinery"
+  },
+  "artifacts": {
+    "lean_file": "lean/ZetaLean/Mertensstheorems.lean",
+    "lean_file_lines": 409,
+    "import_line_added": "lean/ZetaLean.lean"
+  },
+  "build": {
+    "command": "cd lean && PATH=\"$HOME/.elan/bin:$PATH\" lake build",
+    "exit_status": 0,
+    "final_line": "Build completed successfully (8744 jobs).",
+    "targeted_module_build": "Built ZetaLean.Mertensstheorems (8.1s), Build completed successfully (2758 jobs).",
+    "sorry_count_added_file": 0
+  },
+  "statements": [
+    {
+      "name": "ZetaLean.Mertens.sum_log_eq_sum_vonMangoldt_mul_div",
+      "informal": "sum_{n<=N} log n = sum_{d<=N} Lambda(d) * floor(N/d)"
+    },
+    {
+      "name": "ZetaLean.Mertens.sum_log_ge",
+      "informal": "N log N - N + 1 <= sum_{n<=N} log n for N >= 1, by induction from log(1+1/M) <= 1/M"
+    },
+    {
+      "name": "ZetaLean.Mertens.abs_sum_vonMangoldt_div_sub_log_le",
+      "informal": "|sum_{n<=N} Lambda(n)/n - log N| <= log 4 + 4 for N >= 1"
+    },
+    {
+      "name": "ZetaLean.Mertens.mertens_first_theorem",
+      "informal": "|sum_{p<=N, p prime} (log p)/p - log N| <= log 4 + 16 for N >= 1"
+    }
+  ],
+  "mathlib_declarations_used": [
+    "ArithmeticFunction.vonMangoldt_sum",
+    "ArithmeticFunction.vonMangoldt_nonneg",
+    "ArithmeticFunction.vonMangoldt_apply_prime",
+    "ArithmeticFunction.vonMangoldt_apply_pow",
+    "ArithmeticFunction.vonMangoldt_ne_zero_iff",
+    "Nat.Ioc_filter_dvd_card_eq_div",
+    "Chebyshev.psi_le_const_mul_self",
+    "Chebyshev.sum_PrimePow_eq_sum_sum",
+    "Nat.cast_div_le",
+    "Nat.sub_one_lt_floor",
+    "Nat.floor_div_natCast",
+    "Real.log_le_sub_one_of_pos",
+    "Real.log_sqrt",
+    "Real.sq_sqrt",
+    "Real.rpow_le_self_of_one_le"
+  ],
+  "mathlib_declarations_sought_not_found": [
+    "any Mertens prime-sum statement (grep hits only Dedekind-Mertens content lemma)",
+    "log log asymptotics for prime sums",
+    "partial-sum bound for sum n^(-3/2) (only the 1/n^2 case sum_Ioc_inv_sq_le_sub exists)",
+    "discrete derivative-free Abel summation with 1/log weights"
+  ],
+  "compile_cycles": 4,
+  "notes": "Nothing here is evidence for or against RH."
+}

@@ -1,0 +1,37 @@
+{
+  "run_id": "ed50af7f-4e1c-4057-a5ba-ceb4faf2bd79",
+  "status": "settled",
+  "conclusion": "Mertens's first theorem is now kernel-checked in the Lean arm with zero sorrys, in both the von Mangoldt form (|sum Lambda(n)/n - log N| <= log 4 + 4) and the prime form (|sum (log p)/p - log N| <= log 4 + 16), against pinned Mathlib v4.33.0-rc2 which carries no Mertens statement of its own. The second theorem was route-mapped but not built: the sole remaining obstruction is a discrete partial-summation block estimated at 150 to 250 lines, with no new mathematics needed; the third is out of elementary reach.",
+  "confidence": "The landed half is as strong as this tree gets short of outside review: lake build exit 0, 8744 jobs, sorry count 0 on the added file, and the statements are quoted verbatim in RESULTS.md so a reader can check they are the classical theorem and not a restatement. The unbuilt half is an estimate: the 150-250 line sizing of the Abel block is my judgment from having written the analogous blocks in this file, not a measurement.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "Mertens's second theorem is one discrete Abel-summation block away; the full route with error accounting is written down in RESULTS.md.",
+      "why_it_might_matter": "It is the load-bearing statement the operator addendum named, Q1196729 stays half-open without it, and the remaining work is bounded and purely mechanical.",
+      "first_step": "Budget one 60-90 minute session for exactly the Finset summation-by-parts block against A(n) = sum log p/p with 1/log n weights, reusing mertens_first_theorem as the drift bound."
+    },
+    {
+      "what": "The explicit constants are slack by roughly a factor of 6 in the prime form.",
+      "why_it_might_matter": "A later consumer citing the file may want the classical-strength constant (error bounded by 2); the slack is in three named local steps, each independently tightenable.",
+      "first_step": "Replace log n <= 2*sqrt(n) with a sharper majorant in sum_log_div_sq_le and start the telescope at n = 2."
+    },
+    {
+      "what": "Mathlib's PSeries.lean has partial-sum bounds only at exponent 2; the 3/2 case was hand-built here as sum_inv_mul_sqrt_le.",
+      "why_it_might_matter": "A general n^(-s) partial-sum bound looks like a small upstreamable Mathlib gap that several prime-sum arguments would consume.",
+      "first_step": "Check mathlib4 open PRs for a general p-series partial-sum bound before drafting one."
+    },
+    {
+      "what": "The operator addendum's map of Mathlib is out of date at this pin: Chebyshev.lean is now a full prime-counting file (upstreamed in part from PrimeNumberTheoremAnd), not the polynomials file the addendum warns about.",
+      "why_it_might_matter": "Future Lean briefs written from the same source would steer agents away from exactly the file that now carries the needed bounds.",
+      "first_step": "Refresh the brief-side Mathlib notes against v4.33.0-rc2 before the next formalization hunt is cut."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A reusable discrete (Finset-indexed, derivative-free) Abel summation lemma family for the Lean arm: summation by parts over Ioc/Icc against a partial-sum function with a bounded drift, with the 1/log weight case worked out.",
+      "why_reusable": "It is the missing step for Mertens 2 here, and the same shape recurs in every elementary prime-sum estimate this arm may attempt (sums weighted by 1/log, 1/n^s, or indicator-restricted); Mathlib's AbelSummation.lean is integral-form and drags in MeasureTheory side conditions that discrete arguments do not need.",
+      "first_step": "Extract the statement list from the route in RESULTS.md section 'The obstruction for the second theorem' and check it against Finset.sum_range_by_parts before writing anything."
+    }
+  ],
+  "notes_for_operator": "The prior-run addendum was the single highest-value input this run received: the cache-get-first instruction converted a cold container into three fast compile cycles, exactly as predicted. One environment note: the container had no repo venv, so the Python-side guard tests were run only to the extent the system interpreter allowed; the Lean result does not depend on them. Telemetry was started and closed under the assigned run id with usage summed from this session's own transcript."
+}

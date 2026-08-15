@@ -70,6 +70,27 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #30: Mertens's theorems, settled through the first theorem (`r_3c1cbb/`)
+
+**Status: settled in part, and the part is stated exactly.** The target
+(Wikidata Q1196729, recorded by Mathlib's wanted-theorems tracking as wanted
+and unbuilt) was any of Mertens's three theorems, kernel-checked. What landed:
+`lean/ZetaLean/Mertensstheorems.lean` compiles against pinned Mathlib
+v4.33.0-rc2 with zero sorrys and carries Mertens's **first** theorem in both
+classical forms with explicit constants: the von Mangoldt form
+`|Σ_{n≤N} Λ(n)/n − log N| ≤ log 4 + 4` and the prime form
+`|Σ_{p≤N} (log p)/p − log N| ≤ log 4 + 16`, each for `N ≥ 1`. The argument is
+fully elementary: the summatory identity from
+`ArithmeticFunction.vonMangoldt_sum` by counting multiples, Mathlib's
+Chebyshev bound `psi_le_const_mul_self`, an induction replacing Stirling with
+`log(1+1/M) ≤ 1/M`, and a telescoping `Σ n^(-3/2)` bound for the prime-power
+correction. The **second** theorem (`Σ 1/p = log log x + O(1)`) was
+route-mapped but not built: the wall is the discrete partial-summation step,
+recorded with the relevant Mathlib declaration names in `RESULTS.md`. The
+**third** is out of reach at this budget (needs the Mertens constant and γ).
+Constants are far from optimal by design; sharpening them is a loose thread.
+Nothing here is evidence for or against RH.
+
 ### Hunt #34: claim 'urms2-0.51' has no recorded blind attack (`r_fb9c81/`)
 
 **Status: settled. The stated analytical assumption holds structurally, and the mean-value evaluation is valid.** The blind attack searched for a numerical consequence of replacing the exact polynomial frequency spacing with its generic mean bound, testing whether length $W \gg U$ could collapse the off-diagonal bounds while keeping the formal appearance of the claim. A numerical probe on a scaled configuration ($x = 1000, \alpha = 0.51, \delta = 0.75$) proved that the Montgomery-Vaughan mean-value off-diagonal cost remains identically bounded by $O(x \log x)$. The true frequency separation limits the spacing error such that the main diagonal term $U \log x$ unconditionally dominates. The $0.51$ parameter therefore does not survive merely on an invalid archimedean assumption; its required analytical decay is physical and rigorous. Full evidence and reasoning are recorded in `hunts/r_fb9c81/RESULTS.md`. Nothing here is evidence for or against RH.
