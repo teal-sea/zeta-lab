@@ -312,6 +312,241 @@ theorem contains_ofInterval {B : ComplexInterval} {z : ℂ} {hw : ℚ}
   rw [hrad]
   nlinarith [norm_nonneg (z - (ofInterval B hw).centre)]
 
+
+/-! ### A computable rational upper bound for `‖c‖`
+
+The product needs `‖c‖` bounded above by a rational.  Two routes were measured
+in the Python mirror before either was formalized
+(`scripts/62_rung3_rho_w.py --arith ball --absmode {sqrt,l1}`):
+
+* `|cre| + |cim|` needs no square root and proves in one line from
+  `Complex.norm_le_abs_re_add_abs_im`, but it is loose by up to `√2` per
+  product, and **that looseness compounds through the `kE` squarings**: `ρ_W`
+  goes back to `5.6-6.8` and 13 of 15 big boxes fail again.  The shortcut
+  destroys the entire gain.
+* The tight rational square root keeps `ρ_W` at `0.37` and all 15 pass.
+
+So tightness here is load-bearing, not a refinement, and `Nat.sqrt` earns its
+place.  `sqrtUpperQ q p` is the smallest `k / 2^p` whose square is at least `q`,
+computed by one `Nat.sqrt` — which the kernel evaluates on GMP-backed naturals. -/
+
+/-- Smallest `k / 2^p` with `k : ℕ` whose square is at least `q`. -/
+def sqrtUpperQ (q : ℚ) (p : ℕ) : ℚ :=
+  ((Nat.sqrt ((q.num.toNat * 4 ^ p) / q.den) + 1 : ℕ) : ℚ) / ((2 ^ p : ℕ) : ℚ)
+
+theorem sqrtUpperQ_nonneg (q : ℚ) (p : ℕ) : 0 ≤ sqrtUpperQ q p := by
+  unfold sqrtUpperQ
+  positivity
+
+theorem le_sq_sqrtUpperQ {q : ℚ} (hq : 0 ≤ q) (p : ℕ) :
+    q ≤ (sqrtUpperQ q p) ^ 2 := by
+  have hb0 : 0 < q.den := q.pos
+  have hb0' : (0 : ℚ) < (q.den : ℚ) := by exact_mod_cast hb0
+  -- `M < k*k` for `k = sqrt M + 1`, then clear the floor division.
+  have h1 : q.num.toNat * 4 ^ p / q.den
+      < (Nat.sqrt (q.num.toNat * 4 ^ p / q.den) + 1)
+        * (Nat.sqrt (q.num.toNat * 4 ^ p / q.den) + 1) := by
+    have h := Nat.lt_succ_sqrt' (q.num.toNat * 4 ^ p / q.den)
+    simpa [pow_two] using h
+  have hlt : q.num.toNat * 4 ^ p
+      < ((Nat.sqrt (q.num.toNat * 4 ^ p / q.den) + 1)
+        * (Nat.sqrt (q.num.toNat * 4 ^ p / q.den) + 1)) * q.den :=
+    (Nat.div_lt_iff_lt_mul hb0).mp h1
+  have hltQ : ((q.num.toNat : ℚ)) * (4 : ℚ) ^ p
+      ≤ (((Nat.sqrt (q.num.toNat * 4 ^ p / q.den) + 1 : ℕ) : ℚ)
+        * ((Nat.sqrt (q.num.toNat * 4 ^ p / q.den) + 1 : ℕ) : ℚ)) * (q.den : ℚ) := by
+    exact_mod_cast hlt.le
+  -- `q = num / den` with `num = toNat num` because `q` is non-negative.
+  have hnum : ((q.num.toNat : ℕ) : ℚ) = (q.num : ℚ) := by
+    have := Int.toNat_of_nonneg (Rat.num_nonneg.mpr hq)
+    exact_mod_cast congrArg (fun z : ℤ => (z : ℚ)) this
+  have hqv : q = ((q.num.toNat : ℕ) : ℚ) / (q.den : ℚ) := by
+    rw [hnum]; exact (Rat.num_div_den q).symm
+  have hexp : sqrtUpperQ q p
+      = ((Nat.sqrt (q.num.toNat * 4 ^ p / q.den) + 1 : ℕ) : ℚ) / (2 : ℚ) ^ p := by
+    unfold sqrtUpperQ; push_cast; ring
+  have h4 : ((2 : ℚ) ^ p) ^ 2 = (4 : ℚ) ^ p := by
+    rw [← pow_mul, mul_comm, pow_mul]; norm_num
+  -- Rewrite `sqrtUpperQ` away FIRST.  Rewriting `q = num/den` before this point
+  -- also fires inside `sqrtUpperQ`'s own body, leaving `(num/den).num.toNat`.
+  rw [hexp, div_pow, h4, le_div_iff₀ (by positivity : (0:ℚ) < (4:ℚ) ^ p)]
+  have hqd : q * (q.den : ℚ) = ((q.num.toNat : ℕ) : ℚ) := by
+    rw [hnum]; exact_mod_cast q.mul_den_eq_num
+  push_cast at hltQ ⊢
+  nlinarith [hltQ, hqd, hb0']
+
+/-- A rational upper bound on `‖c‖`, computed. -/
+def absUpper (p : ℕ) (x : ComplexBall) : ℚ := sqrtUpperQ (x.cre ^ 2 + x.cim ^ 2) p
+
+theorem norm_centre_le_absUpper (p : ℕ) (x : ComplexBall) :
+    ‖x.centre‖ ≤ ((absUpper p x : ℚ) : ℝ) :=
+  norm_centre_le (sqrtUpperQ_nonneg _ _)
+    (le_sq_sqrtUpperQ (by positivity) p)
+
+/-- The self-contained product: no modulus arguments, so a tower can recurse. -/
+def mulA (p : ℕ) (x y : ComplexBall) : ComplexBall :=
+  mul x y (absUpper p x) (absUpper p y)
+
+theorem contains_mulA (p : ℕ) {x y : ComplexBall} {a b : ℂ}
+    (hx : x.contains a) (hy : y.contains b) : (mulA p x y).contains (a * b) :=
+  contains_mul (norm_centre_le_absUpper p x) (norm_centre_le_absUpper p y) hx hy
+
+/-- Widening the radius alone. -/
+def widenRad (x : ComplexBall) (r' : ℚ) : ComplexBall := ⟨x.cre, x.cim, r'⟩
+
+theorem contains_widenRad {x : ComplexBall} {z : ℂ} {r' : ℚ}
+    (hx : x.contains z) (h : x.rad ≤ r') : (widenRad x r').contains z := by
+  have hx' : ‖z - x.centre‖ ≤ (x.rad : ℝ) := hx
+  have hc : (widenRad x r').centre = x.centre := rfl
+  have h' : (x.rad : ℝ) ≤ (r' : ℝ) := by exact_mod_cast h
+  rw [contains, hc]
+  exact le_trans hx' h'
+
+/-- Round a rational UP to a multiple of `2^{-p}`. -/
+def ceilP (p : ℕ) (q : ℚ) : ℚ := ((⌈q * 2 ^ p⌉ : ℤ) : ℚ) / 2 ^ p
+
+theorem le_ceilP (p : ℕ) (q : ℚ) : q ≤ ceilP p q := by
+  have hp : (0 : ℚ) < 2 ^ p := by positivity
+  rw [ceilP, le_div_iff₀ hp]
+  exact_mod_cast Int.le_ceil (q * 2 ^ p)
+
+/-- Outward rounding of BOTH centre and radius to multiples of `2^{-p}`.
+
+Rounding the radius is not cosmetic.  `mulA`'s radius is
+`ux·r₂ + uy·r₁ + r₁r₂`, so leaving it unrounded lets denominators compound
+through the tower exactly as the rectangle layer's endpoints did: measured by
+`#eval`, an unrounded `expCrB 20 64 10` produces a radius with a denominator of
+tens of thousands of bits.  The Python mirror rounded both from the start; this
+definition did not, until the `#eval` said so. -/
+def coarsenB (p : ℕ) (x : ComplexBall) : ComplexBall :=
+  let y := x.recentre ((round (x.cre * 2 ^ p) : ℚ) / 2 ^ p)
+                      ((round (x.cim * 2 ^ p) : ℚ) / 2 ^ p)
+  widenRad y (ceilP p y.rad)
+
+theorem contains_coarsenB (p : ℕ) {x : ComplexBall} {z : ℂ} (hx : x.contains z) :
+    (coarsenB p x).contains z :=
+  contains_widenRad (contains_recentre _ _ hx) (le_ceilP p _)
+
+/-- The rational bound on `‖z‖` valid for every `z` the ball encloses. -/
+def normBoundB (p : ℕ) (x : ComplexBall) : ℚ := absUpper p x + x.rad
+
+theorem norm_le_normBoundB (p : ℕ) {x : ComplexBall} {z : ℂ} (hx : x.contains z) :
+    ‖z‖ ≤ ((normBoundB p x : ℚ) : ℝ) :=
+  norm_le_normBound (norm_centre_le_absUpper p x) hx
+
+/-! ### The exponential tower, in balls -/
+
+def powIB (p : ℕ) (x : ComplexBall) : ℕ → ComplexBall
+  | 0 => exact 1 0
+  | m + 1 => mulA p (powIB p x m) x
+
+theorem contains_powIB (p : ℕ) {x : ComplexBall} {z : ℂ} (hx : x.contains z) :
+    ∀ m, (powIB p x m).contains (z ^ m)
+  | 0 => by
+    rw [pow_zero]
+    have h := contains_exact (1 : ℚ) (0 : ℚ)
+    rw [show ((⟨((1 : ℚ) : ℝ), ((0 : ℚ) : ℝ)⟩ : ℂ)) = (1 : ℂ) by
+      apply Complex.ext <;> simp] at h
+    simpa [powIB] using h
+  | m + 1 => by
+    rw [pow_succ]
+    exact contains_mulA p (contains_powIB p hx m) hx
+
+def expSumCB (p : ℕ) (x : ComplexBall) : ℕ → ComplexBall
+  | 0 => exact 0 0
+  | m + 1 => (expSumCB p x m).add (smulQ (1 / m.factorial) (powIB p x m))
+
+theorem contains_expSumCB (p : ℕ) {x : ComplexBall} {z : ℂ} (hx : x.contains z) :
+    ∀ m, (expSumCB p x m).contains (∑ i ∈ Finset.range m, z ^ i / i.factorial)
+  | 0 => by
+    have h := contains_exact (0 : ℚ) (0 : ℚ)
+    rw [show ((⟨((0 : ℚ) : ℝ), ((0 : ℚ) : ℝ)⟩ : ℂ)) = (0 : ℂ) by
+      apply Complex.ext <;> simp] at h
+    simpa [expSumCB] using h
+  | m + 1 => by
+    rw [Finset.sum_range_succ]
+    have h := contains_smulQ (q := 1 / m.factorial) (contains_powIB p hx m)
+    rw [show ((((1 / m.factorial : ℚ)) : ℂ)) * z ^ m = z ^ m / m.factorial by
+      push_cast; ring] at h
+    exact contains_add (contains_expSumCB p hx m) h
+
+/-- Widening to cover a value at a bounded distance from an enclosed one — the
+Taylor-remainder step. -/
+theorem contains_inflate_of_dist {x : ComplexBall} {z w : ℂ} (r : ℚ)
+    (hx : x.contains z) (h : ‖w - z‖ ≤ (r : ℝ)) : (x.inflate r).contains w := by
+  have hx' : ‖z - x.centre‖ ≤ (x.rad : ℝ) := hx
+  have hc : (x.inflate r).centre = x.centre := rfl
+  have htri : ‖w - x.centre‖ ≤ ‖w - z‖ + ‖z - x.centre‖ := by
+    have he : w - x.centre = (w - z) + (z - x.centre) := by ring
+    rw [he]; exact norm_add_le _ _
+  have hr : (r : ℝ) ≤ |(r : ℝ)| := le_abs_self _
+  rw [contains, hc]
+  push_cast [inflate]
+  linarith
+
+/-- `exp` on a ball of norm at most 1, by Taylor sum plus Mathlib's remainder. -/
+def expSmallB (n p : ℕ) (x : ComplexBall) : ComplexBall :=
+  (expSumCB p x n).inflate (normBoundB p x ^ n * ((n + 1) / (n.factorial * n)))
+
+theorem contains_expSmallB {n : ℕ} (hn : 0 < n) (p : ℕ) {x : ComplexBall} {z : ℂ}
+    (hx : x.contains z) (hb : normBoundB p x ≤ 1) :
+    (expSmallB n p x).contains (Complex.exp z) := by
+  have hzb : ‖z‖ ≤ ((normBoundB p x : ℚ) : ℝ) := norm_le_normBoundB p hx
+  have hz1 : ‖z‖ ≤ 1 := hzb.trans (by exact_mod_cast hb)
+  have h := Complex.exp_bound hz1 hn
+  refine contains_inflate_of_dist _ (contains_expSumCB p hx n) (h.trans ?_)
+  have h1 : ‖z‖ ^ n ≤ ((normBoundB p x : ℚ) : ℝ) ^ n :=
+    pow_le_pow_left₀ (norm_nonneg z) hzb n
+  have h2 : (0 : ℝ) ≤ (n.succ : ℝ) * ((n.factorial * n : ℝ))⁻¹ := by positivity
+  calc ‖z‖ ^ n * ((n.succ : ℝ) * ((n.factorial * n : ℝ))⁻¹)
+      ≤ ((normBoundB p x : ℚ) : ℝ) ^ n * ((n.succ : ℝ) * ((n.factorial * n : ℝ))⁻¹) :=
+        mul_le_mul_of_nonneg_right h1 h2
+    _ = ((normBoundB p x ^ n * ((n + 1) / (n.factorial * n)) : ℚ) : ℝ) := by
+        push_cast [Nat.succ_eq_add_one]
+        ring
+
+/-! ### The squaring tower
+
+The rectangle tower halves its argument *recursively*, which makes the side
+condition `normBound x ≤ 2^k` and needs `normBound (halve x) = normBound x / 2`.
+That identity is unavailable here: `absUpper` rounds to the `2^{-p}` grid, so
+halving is only exact up to `2^{-p}`.  Scaling down once by the exact rational
+`1/2^k` and then squaring `k` times avoids the issue entirely and leaves a
+*single* side condition, decidable by `norm_num` at a generated call site. -/
+
+def sqIter (p : ℕ) : ℕ → ComplexBall → ComplexBall
+  | 0, y => y
+  | k + 1, y => let z := sqIter p k y; coarsenB p (mulA p z z)
+
+theorem contains_sqIter (p : ℕ) :
+    ∀ (k : ℕ) {y : ComplexBall} {w : ℂ}, y.contains w →
+      (sqIter p k y).contains (w ^ (2 ^ k))
+  | 0, y, w, hy => by simpa [sqIter] using hy
+  | k + 1, y, w, hy => by
+    have h := contains_sqIter p k hy
+    have h2 := contains_mulA p h h
+    rw [show w ^ (2 ^ k) * w ^ (2 ^ k) = w ^ (2 ^ (k + 1)) by
+      rw [← pow_add]; congr 1; ring] at h2
+    exact contains_coarsenB p h2
+
+/-- `exp` by scale-down-and-square, with outward rounding after each squaring. -/
+def expCrB (n p k : ℕ) (x : ComplexBall) : ComplexBall :=
+  sqIter p k (expSmallB n p (smulQ (1 / 2 ^ k) x))
+
+theorem contains_expCrB {n : ℕ} (hn : 0 < n) (p k : ℕ) {x : ComplexBall} {z : ℂ}
+    (hx : x.contains z) (hb : normBoundB p (smulQ (1 / 2 ^ k) x) ≤ 1) :
+    (expCrB n p k x).contains (Complex.exp z) := by
+  have hs : (smulQ (1 / 2 ^ k) x).contains (((1 / 2 ^ k : ℚ) : ℂ) * z) :=
+    contains_smulQ hx
+  have he := contains_expSmallB hn p hs hb
+  have h := contains_sqIter p k he
+  rw [show (Complex.exp (((1 / 2 ^ k : ℚ) : ℂ) * z)) ^ (2 ^ k) = Complex.exp z by
+    rw [← Complex.exp_nat_mul]
+    congr 1
+    push_cast
+    field_simp] at h
+  exact h
+
 end ComplexBall
 
 end ZetaLean

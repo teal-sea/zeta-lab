@@ -87,7 +87,18 @@ class C:
         return f"Ball({float(self.cre):.6g}+{float(self.cim):.6g}i, r={float(self.rad):.3g})"
 
 
+# Which upper bound on ‖centre‖ the product uses.  "sqrt" is the tight rational
+# square root; "l1" is `|cre| + |cim|`, which needs no square root at all and so
+# admits a *computable recursive* tower in Lean with a one-line soundness proof
+# (`Complex.norm_le_abs_re_add_abs_im`), at up to sqrt(2) looseness per product.
+# Whether that looseness compounds through the kE squarings is a measurement, not
+# a guess: see `scripts/62_rung3_rho_w.py --arith ball --absmode l1`.
+ABSMODE = "sqrt"
+
+
 def _absc_upper(x: C) -> F:
+    if ABSMODE == "l1":
+        return abs(x.cre) + abs(x.cim)
     return sqrt_upper(x.cre * x.cre + x.cim * x.cim)
 
 

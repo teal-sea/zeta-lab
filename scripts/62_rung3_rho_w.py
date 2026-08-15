@@ -206,13 +206,18 @@ def main() -> None:
     ap.add_argument("--out", default=None)
     ap.add_argument("--arith", choices=("rect", "ball"), default="rect",
                     help="rectangle enclosures (as shipped) or ball enclosures")
+    ap.add_argument("--absmode", choices=("sqrt", "l1"), default="sqrt",
+                    help="ball only: modulus bound used by the product")
     args = ap.parse_args()
     use_arith(args.arith)
+    if _ball is not None:
+        _ball.ABSMODE = args.absmode
 
     M = F(PLAN["M"])
     print(f"M = {float(M):.5f}   planned width coefficient rho_W = 2.60   "
           f"(config nLog={NLOG}, nExp={NEXP}, p={P}, kE={KE}, chains, "
-          f"arith={args.arith})\n")
+          f"arith={args.arith}"
+          f"{'/' + args.absmode if args.arith == 'ball' else ''})\n")
 
     print("Sigma convention calibration (must reproduce the plan report):")
     weighted = None
