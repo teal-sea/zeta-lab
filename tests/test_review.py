@@ -141,12 +141,8 @@ def test_the_open_case_surfaces_its_missing_attacks() -> None:
     assert all("urms2-0.51" in r for r in reasons)
 
 
-def test_the_exemplars_review_is_missing_only_the_blind_half() -> None:
+def test_the_exemplars_review_is_now_standing() -> None:
     blockpos = next(c for c in CLAIMS if c.name == "blockpos-0.672529")
     reasons = standing_reasons(blockpos, OUTCOMES)
-    # The kill was white-box (it read everything). Honest bookkeeping: no
-    # blind attack was ever run, and the ledger says so rather than
-    # backfilling one. The claim is withdrawn, so this is a record of how
-    # the standard was met historically, not a demand to attack a corpse.
-    assert len(reasons) == 1
-    assert "blind" in reasons[0]
+    # Both a blind and white-box attack have now been run. The review is standing.
+    assert len(reasons) == 0

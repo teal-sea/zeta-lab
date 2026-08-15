@@ -66,6 +66,20 @@ CLAIMS: tuple[ClaimUnderReview, ...] = (
 OUTCOMES: tuple[AttackOutcome, ...] = (
     AttackOutcome(
         claim_name="blockpos-0.672529",
+        role="blind",
+        attacker="Antigravity Zeta Lab Researcher",
+        findings=(
+            "If an instrument evaluates u u^* instead of u u^T, it constructs a Gram matrix that is PSD by definition. This preserves the appearance of block positivity, but makes the interpretation false.",
+            "For an off-line root, u u^T + u_conj u_conj^T = 2(xx^T - yy^T), which is a hyperbolic block. A dedicated scan confirms cross-block interaction evaluates to approximately -0.000435.",
+        ),
+        artifacts=(
+            "hunts/frontier_math/blind_attack.py",
+            "hunts/frontier_math/BLIND-ATTACK-REPORT.md",
+        ),
+        claim_withdrawn=True,
+    ),
+    AttackOutcome(
+        claim_name="blockpos-0.672529",
         role="white-box",
         attacker="frontier_math clean-kill session (2026-08-11)",
         findings=(
