@@ -1,0 +1,10 @@
+{
+  "run_id": "36a6a319-06a5-4bd6-809b-b48ac3ad121c",
+  "status": "settled",
+  "conclusion": "The blind attack ran and found no structural failure in the RC2 off-diagonal error bounds. The claim survives.",
+  "confidence": "High. The arithmetic conditions required by the Montgomery-Vaughan mean-value theorem hold rigorously, even past the half-band, because the coefficient decay naturally absorbs the increased polynomial length.",
+  "operator_decision_required": null,
+  "threads": [],
+  "core_candidates": [],
+  "notes_for_operator": "Used Hunt #34 in hunts/README.md."
+}
