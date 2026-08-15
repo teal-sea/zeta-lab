@@ -70,6 +70,32 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #35: Mertens's second theorem, the mapped block built (`r_3c1cbb/`)
+
+**Status: settled.** Continuation of Hunt #30, building exactly the block
+its route map named and nothing else. What landed:
+`lean/ZetaLean/MertensSecond.lean` compiles against pinned Mathlib
+v4.33.0-rc2 with zero sorrys and carries Mertens's **second** theorem in the
+`log log x + O(1)` form with an explicit constant:
+`|Σ_{p≤N} 1/p − log log N| ≤ 76` for every natural `N`
+(`mertens_second_theorem`; the content is at `N ≥ 2`, below that the sum is
+empty and Mathlib's `log 0 = 0` makes the bound trivial). The argument is
+the classical partial summation against
+`A(n) = Σ_{p≤n} log p/p = log n + O(1)`, the `O(1)` band being Hunt #30's
+`mertens_first_theorem` consumed as-is, with the termwise bracket
+`(v−u)/v ≤ log v − log u ≤ (v−u)/u` telescoping to `log log N` and the
+overshoot closed by `Σ 1/n² ≤ 1`. One deviation from the route map, worth
+keeping: the discrete Abel identity went in by direct `Nat.le_induction`
+from `N = 2` (`sum_inv_primes_eq`), not by reindexing Mathlib's
+range-indexed summation by parts, which removed the labor the map had
+priced at 150 to 250 lines of reindexing. The constant `76` is deliberately
+coarse (a sieve to `10^6` puts the true deviation near `0.26`); its slack
+decomposes into named local steps, nearly all inherited from the first
+theorem's `log 4 + 16` band. The sharper `log log x + M + o(1)` form and
+the third theorem need the Mertens constant and are recorded as out of
+scope. Details in `r_3c1cbb/RESULTS-second.md`. Nothing here is evidence
+for or against RH.
+
 ### Hunt #30: Mertens's theorems, settled through the first theorem (`r_3c1cbb/`)
 
 **Status: settled in part, and the part is stated exactly.** The target

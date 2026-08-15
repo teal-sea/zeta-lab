@@ -56,3 +56,18 @@ agents_may_not:
   - declare novelty
   - promote their own claim
 ```
+
+## Continuation run 05c755d3 (2026-08-15)
+
+Run `05c755d3-1e75-4596-98b3-34ca2c084175` continues this hunt from the
+collected output of run `ed50af7f` (Hunt #30). Its target, per the operator
+addendum, is the second theorem only, in the form
+`|sum_{p<=N} 1/p - log log N| <= C` for an explicit `C`, zero sorrys,
+following the route map in `RESULTS.md`. Scope adjustment for this run:
+writes allowed are one new file `lean/ZetaLean/MertensSecond.lean`
+(importing `ZetaLean.Mertensstheorems`), its import line in
+`lean/ZetaLean.lean`, additions under this directory
+(`RESULTS-second.md`, `results-second.json`, this section, an updated
+`HANDBACK.json` for the new run id), and the Hunt #35 case-log entry in
+`hunts/README.md`. The predecessor's records and lemmas are not to be
+edited. Findings are in `RESULTS-second.md`.
