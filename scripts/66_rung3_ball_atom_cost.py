@@ -8,19 +8,22 @@ same way — by trying it rather than estimating it:
 * This script's finding (balls): asking `norm_num` to unfold a whole
   `dirichletTermBallB` is worse still — **stack overflow after 376 s**.
 
-The cause is isolated and specific.  `mulA` computes its modulus bound through
-`absUpper -> sqrtUpperQ -> Nat.sqrt`, and **`Nat.sqrt` does not reduce under
-`norm_num`**.  The rest of the arithmetic reduces fine: the failing goal is a
-single ceiling expression with two unreduced `Nat.sqrt` applications inside it.
+The first diagnosis was wrong, and the correction is recorded here rather than
+swept.  This docstring originally blamed `Nat.sqrt` for not reducing under
+`norm_num`; in fact Mathlib has an extension for exactly that
+(`Mathlib.Tactic.NormNum.NatSqrt`, verified directly on the 127-bit literal from
+the failing goal).  The real blocker was the `Int.toNat` inside `sqrtUpperQ`
+hiding the literal from the extension — with `Int.toNat` in the simp set the
+same `mulA` atom discharges in ~6.5 s.
 
-So the recursive tower (`expCrB`, `sqIter`, `powIB`, `expSumCB`, `mulA`) is for
-the *soundness story* — it is what `contains_expCrB` is proved about — and is
-**not** what a generated certificate should ask the kernel to evaluate.  The
-generator must emit `ComplexBall.mul` with the modulus bounds supplied as
-literals, discharging `norm_centre_le`'s one rational inequality per product.
-That is the design `ZetaLean.Ball` was built for in the first place ("moduli are
-arguments, not computations"); `mulA` was added afterwards for the recursion and
-should never appear in emitted code.
+The design decision survives its own corrected diagnosis, but as a cost choice
+rather than an impossibility: ~6.5 s per computed-sqrt atom against ~0.55 s per
+literal-bounds atom is ~12x, across ~78k obligations.  So the generator emits
+`ComplexBall.mul` with the modulus bounds supplied as literals, discharging
+`norm_centre_le`'s one rational inequality per product — the design
+`ZetaLean.Ball` was built for ("moduli are arguments, not computations").  The
+recursive tower (`expCrB`, `sqIter`, `powIB`, `expSumCB`, `mulA`) remains the
+soundness story, not the evaluated one.
 
 Measured here, 10 realistic composite-chain atoms over 64-bit-coarsened literals:
 **8 s wall including a ~2.5 s import baseline, so ~0.55 s per atom**, which is
@@ -72,8 +75,8 @@ def main() -> None:
            "",
            "-- Each atom: one coarsened ball product over 64-bit-coarsened inputs,",
            "-- with the two modulus bounds supplied as literals.  This is the shape",
-           "-- a generated certificate emits; `mulA` is deliberately NOT used, since",
-           "-- its `Nat.sqrt` does not reduce under `norm_num`.",
+           "-- a generated certificate emits; `mulA` is not used because computing",
+           "-- its sqrt bounds in-tactic costs ~12x more (see module docstring).",
            ""]
     for i, (a, b) in enumerate(pairs[:args.atoms]):
         A = ball.dirichletTermBox2(NLOG, NEXP, P, a.bit_length(), KE, a, S)

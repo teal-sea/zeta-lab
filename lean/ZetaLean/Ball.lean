@@ -385,15 +385,20 @@ theorem norm_centre_le_absUpper (p : ℕ) (x : ComplexBall) :
 
 /-- The self-contained product: no modulus arguments, so a tower can recurse.
 
-**Not for generated code.**  `absUpper` goes through `sqrtUpperQ` and hence
-`Nat.sqrt`, which does **not** reduce under `norm_num`: asking the tactic to
-unfold a `dirichletTermBallB` built on `mulA` stack-overflows after ~376 s, and
-the goal that survives is a single ceiling with unreduced `Nat.sqrt` inside
-(`scripts/66_rung3_ball_atom_cost.py` records the measurement).  A generated
-certificate must emit `mul` with the two modulus bounds as *literals* and
-discharge `norm_centre_le`'s rational inequality per product — measured at
-~0.55 s per atom.  `mulA` exists so the tower below can recurse and be *proved*
-about; it is not what the kernel should evaluate. -/
+**Dispreferred for generated code, on cost — and the first diagnosis here was
+wrong.**  This docstring originally claimed `Nat.sqrt` "does not reduce under
+`norm_num`"; that is false.  Mathlib carries a `norm_num` extension for it
+(`Mathlib.Tactic.NormNum.NatSqrt`) that evaluates 127-bit literals without
+difficulty.  The observed failure — a one-shot unfolding of `dirichletTermBallB`
+stack-overflowing at ~376 s with unreduced `Nat.sqrt` in the surviving goal —
+was caused by the `Int.toNat` in `sqrtUpperQ` hiding the literal from the
+extension.  With `Int.toNat` in the simp set the same `mulA` atom discharges in
+~6.5 s.  Measured against ~0.55 s for the identical atom with the two modulus
+bounds supplied as literals (`scripts/66_rung3_ball_atom_cost.py`), the literal
+route is ~12× cheaper, so a generated certificate should still emit `mul` with
+literal bounds — a cost decision now, not an impossibility.  One-shot unfolding
+of a whole term stays off the table in either style: the rectangle layer's
+negative result #2 died the same death with no square root in sight. -/
 def mulA (p : ℕ) (x y : ComplexBall) : ComplexBall :=
   mul x y (absUpper p x) (absUpper p y)
 
