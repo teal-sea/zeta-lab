@@ -68,12 +68,12 @@ Then:
    Hence the global bandwidth-one optimum occurs at \(\lambda=1\), and its
    optimizing profile is proportional to \(A^{-1}\mathbf1\).
 
-The Hilbert space is the natural closure of the source paper's real, even,
-nonnegative profiles in (7.3). Smooth nonnegative even profiles are dense in
-this cone, and fixed smooth profiles can be given the source paper's
-fixed-width endpoint taper. Thus the original test-window class has the same
-supremum, even though a compactly supported physical window realizes a limiting
-profile rather than the untapered endpoint values literally.
+Equality with the source paper's physical-window class is not a consequence of
+density in the whole nonnegative cone: Section 7.1 also requires radial
+monotonicity.  `RESULTS-xiprime-admissible-closure.md` discharges that missing
+condition.  It gives an exact-rational strict-concavity bound for
+\(w=A^{-1}\mathbf1\), proves that \(w\) decreases strictly in \(|s|\), and
+constructs source-admissible endpoint tapers converging to \(w\) in \(L^2\).
 
 Farmer, Gonek, and Lee state the form-factor asymptotic for \(|x|<1\), and
 Chirre, Goncalves, and de Laat give the uniformly convergent infinite-series
