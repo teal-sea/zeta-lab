@@ -281,9 +281,24 @@ The service's own verification claim is not recorded and was not relied on.
 | K | `0171902b-9d64-4dd6-a3da-c4ee01dedc84` | form symmetry, energy Cauchy-Schwarz, and `⟨Aw,v⟩ = ⟨1,v⟩` | collected — accepted, ported unchanged |
 | M | `05973d17-6d83-4795-8631-a7cbecb9d40f` | mass and form bounds turning `L²` convergence into quotient convergence | collected — accepted, ported unchanged |
 
-**Measured turnaround:** batch 5 (A, B, C, D) returned in roughly 35 minutes;
-E1 and E2, the two series-analysis targets, took about an hour.  This is the
-first batch with wall-clock actually observed rather than estimated.
+**Measured turnaround.**  Submit-to-collect, per project.  These are upper
+bounds: collection was polled, not instantaneous, so the true service time is at
+most the figure shown.
+
+| batch | submitted | collected | elapsed |
+| --- | --- | --- | --- |
+| A, B, C, D | 01:19 | 01:38 | <= 19 min |
+| E1, E2 | 01:19 | 01:50 | <= 31 min |
+| F, H, J | 02:02 | 02:18 | <= 16 min |
+| K | 02:14 | 02:33 | <= 19 min |
+| M | 02:14 | 02:43 | <= 29 min |
+| H2 | 02:25 | 02:43 | <= 18 min |
+
+All twelve landed inside about 1h25m of wall clock across three overlapping
+batches.  This is the first entry in this ledger with wall-clock actually
+observed rather than estimated, and it revises the standing "hours" figure down
+by roughly an order of magnitude: the Grasshopper case study's ~8 h is not what
+these bounded lemmas cost.
 
 **The recurring port defect, worth naming.** Five of the twelve failed here for
 the same two reasons, both version drift rather than mathematics:
