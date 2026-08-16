@@ -1799,6 +1799,7 @@ and the third whose root cause was a quantity used without being derived
 in the form it was being used. `k >= 2` remains open, no proportion has
 moved, and nothing here is evidence about RH.
 
+
 ### CORRECTION TO THE CORRECTION: coordinator defect #22 (2026-08-13)
 
 The operator asked "are you sure" a fourth time. The #21 correction above
@@ -2160,3 +2161,63 @@ first involving another session's material; its cause is the same as the
 other four — a quantity carried across contexts without being re-derived
 in the context it was being used. `k >= 2` remains open, no proportion has
 moved, and nothing here is evidence about RH.
+
+
+## The `6.3e-3` budget floor was a fixed-spacing artifact (2026-08-15)
+
+Instrument: `counting_lemma.py`, `test_counting_lemma.py` (26 tests).
+
+The operator redirected the continuation to the open `k >= 2` mathematics.
+An independent attack re-ran the lattice budget with the spacing minimised at
+every `k`, rather than selecting the `k = 64` spacing once and reusing it.
+That falsifies the step-3 record above which said the ladder bottoms near
+`6.3e-3` and turns upward.
+
+The direct `O(k^2)` budget and the difference-sum `O(k)` reduction agree to
+`1.45e-14` on the checked cases. Global scans on `L in [2,14]`, followed by
+bounded local refinement, give:
+
+| k | optimal L | B/k |
+|---:|---:|---:|
+| 64 | 6.290443334 | 0.006576488990 |
+| 128 | 6.286906495 | 0.005958524642 |
+| 256 | 6.285072736 | 0.005607671434 |
+| 512 | 6.284136666 | 0.005411069294 |
+| 1024 | 6.283663129 | 0.005302105906 |
+| 65536 | 6.283192813 | 0.005174740145 |
+
+The spacing approaches `2*pi`, and the limit there is not merely a decimal.
+Writing
+
+    kappa(s) = K_0(s) + K_1(s)
+             = int_{-1}^1 c2(w) (1 + cosh w) cos(sw) dw,
+
+Poisson summation at spacing `2*pi` gives
+
+    sum_{n in Z} kappa(2*pi*n) = 2*c2(0).
+
+The endpoint aliases vanish because `c2(+/-1) = 0`. Therefore the exact
+critical-lattice limit is
+
+    lim B/k = c2(0) - A^2
+            = 1/2 + sin(sqrt(2))/(2*sqrt(2))
+                - 2*sin(1/sqrt(2))^2
+            = 0.00517169408367867955...
+
+The kernel-side symmetric partial sum independently converges to this closed
+form. The old fixed-`L = 6.3` ladder still turns upward, which is now retained
+as the lesion that demonstrates the defect's power; the re-optimised ladder
+does not.
+
+**What changes.** The measured `6.3e-3` constant and the upward-turn
+narrative are withdrawn. The positive critical-lattice limit survives, but
+it is **not** a proved uniform floor over finite or non-lattice pair sets.
+The single-pair full-window damage `0.01372` is now 2.65 times, rather than
+2.18 times, this lattice target, so the shared `R/400` term is more
+load-bearing than the old record priced it. The `k >= 2` statement remains
+open and the reading of record does not move.
+
+Disposition: **DEFECT #24, CORRECTED WITH AN EXACT LIMIT.** This is the same
+failure class as defects #19-#23: a number carried into a context where its
+optimisation variable had silently been frozen. Nothing here is evidence
+about RH.
