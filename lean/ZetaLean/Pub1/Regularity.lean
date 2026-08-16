@@ -4,6 +4,8 @@ Released under MIT license.
 -/
 import Mathlib
 import ZetaLean.Pub1.Aristotle.N
+import ZetaLean.Pub1.Aristotle.S
+import ZetaLean.Pub1.Setting
 
 /-!
 # Pub 1 strong closure: `C²` regularity of the kernel convolution
@@ -74,5 +76,70 @@ theorem splitKernel_second_deriv (f : ℝ → ℝ) (hf : ContDiff ℝ 3 f) (hf0 
       AristotleN.splitKernelIntegral]
   rw [hrw]
   exact hmain
+
+/-! ### The Pub 1 kernel
+
+`F₁ x = fKer |x|` with `fKer` the entire half-line form factor of
+`Aristotle/S`, which satisfies `fKer 0 = 0` and `fKer'(0) = 1`.  Those two facts
+are exactly what the split-kernel argument needs: the first makes the boundary
+terms cancel at the first differentiation, the second makes them add up to
+`2 v(s)` at the second.  That `2` is the delta mass, and it is not optional. -/
+
+/-- The Pub 1 kernel is the half-line form factor composed with `|·|`. -/
+theorem F1_eq_fKer (x : ℝ) : F1 x = AristotleS.fKer |x| := by
+  show AristotleE1.F1 x = AristotleS.fKer |x|
+  rw [AristotleE1.F1, AristotleS.fKer, sq_abs]
+  exact rfl
+
+/-- `fKer 0 = 0`: the moving-endpoint terms cancel at the first derivative. -/
+theorem fKer_zero : AristotleS.fKer 0 = 0 := AristotleS.fKer_zero
+
+/-- **`fKer'(0) = 1`.**  This is the coefficient that becomes the delta mass:
+the two moving endpoints each contribute `fKer'(0) v(s)`, so the second
+derivative carries `2 v(s)`, matching `F₁'' = 2δ₀ + q` exactly. -/
+theorem fKer_deriv_zero : deriv AristotleS.fKer 0 = 1 := AristotleS.fKer_deriv_zero
+
+/-- `q = fKer''` is continuous, from `fKer ∈ C³`. -/
+theorem fKer_second_deriv_continuous : Continuous (deriv (deriv AristotleS.fKer)) := by
+  have h3 : ContDiff ℝ 3 AristotleS.fKer := AristotleS.fKer_contDiff
+  have h2 : ContDiff ℝ 2 (deriv AristotleS.fKer) := by
+    have := (contDiff_succ_iff_deriv (n := 2) (f := AristotleS.fKer)).mp (by exact_mod_cast h3)
+    exact this.2.2
+  have h1 : ContDiff ℝ 1 (deriv (deriv AristotleS.fKer)) := by
+    have := (contDiff_succ_iff_deriv (n := 1) (f := deriv AristotleS.fKer)).mp
+      (by exact_mod_cast h2)
+    exact this.2.2
+  exact h1.continuous
+
+/-- **The second derivative of the Pub 1 kernel convolution.**
+
+    (T v)''(s) = 2 v(s) + ∫_I q(|s-t|) v(t) dt,   q = fKer''.
+
+The `2 v(s)` is the `2 δ₀` of the informal identity, and it arises here from the
+two moving endpoints of the split integral, with no distribution theory. -/
+theorem pub1_kernel_second_deriv (v : ℝ → ℝ) (hv : Continuous v) (s : ℝ)
+    (hs : |s| ≤ 1 / 2) :
+    HasDerivAt
+      (fun σ : ℝ => (∫ t in (-(1:ℝ)/2)..σ, deriv AristotleS.fKer (σ - t) * v t)
+        - ∫ t in σ..(1/2:ℝ), deriv AristotleS.fKer (t - σ) * v t)
+      (2 * v s
+        + ∫ t in (-(1:ℝ)/2)..(1/2), deriv (deriv AristotleS.fKer) |s - t| * v t) s := by
+  have h := splitKernel_second_deriv AristotleS.fKer AristotleS.fKer_contDiff
+    AristotleS.fKer_zero v hv s hs fKer_second_deriv_continuous
+  rwa [AristotleS.fKer_deriv_zero, mul_one] at h
+
+/-- On `I`, the Pub 1 operator is the split integral the derivative theorem
+applies to. -/
+theorem F1_conv_eq_split (v : ℝ → ℝ) (hv : Continuous v) (s : ℝ) (hs : |s| ≤ 1 / 2) :
+    (∫ t in (-(1:ℝ)/2)..(1/2), F1 (s - t) * v t)
+      = AristotleN.splitKernelIntegral AristotleS.fKer v s := by
+  have hc : Continuous AristotleS.fKer :=
+    AristotleS.fKer_contDiff.continuous
+  have hcongr : (∫ t in (-(1:ℝ)/2)..(1/2), F1 (s - t) * v t)
+      = ∫ t in (-(1:ℝ)/2)..(1/2), AristotleS.fKer |s - t| * v t := by
+    refine intervalIntegral.integral_congr ?_
+    intro t _
+    simp only [F1_eq_fKer]
+  rw [hcongr, integral_eq_splitKernel AristotleS.fKer hc v hv s hs]
 
 end ZetaLean.Pub1

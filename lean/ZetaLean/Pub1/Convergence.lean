@@ -45,6 +45,19 @@ theorem profile_even {w : ℝ → ℝ} (hw : IsProfile w) : ∀ s : ℝ, w (-s) 
   AristotleH2.solution_even clampedKernel clampedKernel_continuous clampedKernel_refl
     clampedKernel_row_abs w hw.1 hw.2.1 hw.2.2
 
+/-- **Obligation C, discharged.**  The positivity the square-root taper needs.
+
+`√(w(u/L))` is only defined and `C²` where `w > 0`, and the taper argument needs
+that on an open neighbourhood of `I`, not just on `I` itself.  It comes for free:
+the row-bound argument gives `1/5 ≤ w` at *every* real `s`, because the clamped
+kernel makes `w` constant outside `I`.  No stronger positivity is assumed. -/
+theorem profile_pos {w : ℝ → ℝ} (hw : IsProfile w) (s : ℝ) : 0 < w s :=
+  lt_of_lt_of_le (by norm_num) ((profile_bounds hw).1 s)
+
+/-- The neighbourhood form consumed by `Aristotle/J`'s taper smoothness. -/
+theorem profile_pos_on (hw : IsProfile w) :
+    ∀ s ∈ Set.Ioo (-(3 / 5) : ℝ) (3 / 5), 0 < w s := fun s _ => profile_pos hw s
+
 /-- **`c* > 0`**, unconditionally. -/
 theorem cStar_pos_of_profile {w : ℝ → ℝ} (hw : IsProfile w) : 0 < cStar w :=
   cStar_pos_of_lower hw.1 (fun s _ => (profile_bounds hw).1 s)
