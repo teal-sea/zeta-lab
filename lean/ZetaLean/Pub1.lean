@@ -30,6 +30,7 @@ import ZetaLean.Pub1.Aristotle.W
 import ZetaLean.Pub1.Aristotle.TU2
 import ZetaLean.Pub1.Aristotle.J2
 import ZetaLean.Pub1.TaperAdmissible
+import ZetaLean.Pub1.ZResolvent
 import ZetaLean.Pub1.CertBounds
 import ZetaLean.Pub1.Regularity
 import ZetaLean.Pub1.Aristotle.S

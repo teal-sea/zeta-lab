@@ -60,13 +60,12 @@ Proved, all exact and kernel-checked:
 | the whole certificate arithmetic, margin `4.4e-13` | `CertArith.zpp_arith` |
 | that arithmetic implies `w'' < -0.59326318` | `CertArith.concavity_closes` |
 
-**The one remaining gap** is the analytic assembly that ties them together:
+**The remaining gap** is the analytic assembly that ties them together.
+`z_resolvent_eq` is now proved (`ZetaLean/Pub1/ZResolvent.lean`) — pure algebra
+from `IsProfile.eq_on_I` and `r0_identity` — leaving four signatures:
 
 ```lean
 -- z := w - uPoly,  Eu s := ∫_I (F₁ - truncKernel)(s-t) · uPoly t dt
-theorem z_resolvent_eq (hw : IsProfile w) {s : ℝ} (hs : |s| ≤ 1/2) :
-    (w s - uPoly s) + (∫ t in (-(1:ℝ)/2)..(1/2), F1 (s - t) * (w t - uPoly t))
-      = r0Poly s - Eu s
 theorem Eu_bounds : ‖Eu‖_∞ ≤ rhoC * usupC ∧ ‖Eu‖₂ ≤ rhoC * usupC
 theorem Eupp_bound : ‖(Eu)''‖_∞ ≤ stC * usupC          -- = ‖(q - q_M) * u‖_∞
 theorem zpp_identity : z'' = r₀'' - (Eu)'' - 2z - q*z
@@ -74,7 +73,6 @@ theorem zpp_bound (hw : IsProfile w) {s : ℝ} (hs : s ∈ Iint) :
     |deriv (deriv w) s - deriv (deriv uPoly) s| < 6060899845 / 10 ^ 12
 ```
 
-`z_resolvent_eq` is pure algebra from `IsProfile.eq_on_I` and `r0_identity`.
 `Eupp_bound` needs no new analysis: `(Eu)'' = (q - q_M) * u` is the difference of
 `pub1_kernel_second_deriv` and `TruncKernel.truncKernel_second_deriv`, and the
 `2u` delta terms cancel because `fKerM'(0) = fKer'(0) = 1`.  What is genuinely
