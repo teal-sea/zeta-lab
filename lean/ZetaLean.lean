@@ -47,4 +47,5 @@ import ZetaLean.SturmCoprimeSimple
 import ZetaLean.SturmOddSignChange
 import ZetaLean.Mertensstheorems
 import ZetaLean.MertensSecond
+import ZetaLean.HardyRamanujantheorem
 import ZetaLean.Pub1

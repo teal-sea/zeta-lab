@@ -1,160 +1,154 @@
-# R-0339C1 results — Hardy–Ramanujan, formalized in half
+# R-0339C1 results: Hardy–Ramanujan, settled
 
-**Outcome: not settled.** The Hardy–Ramanujan theorem is *not* proved. What is
-proved, kernel-checked with zero `sorry`s, is the Chebyshev half of Turán's
-argument as an implication, plus the unconditional first step of the other
-half. The wall is named below, and it is a specific Mathlib absence, not a
-tactic that failed.
+**Outcome: settled.** The Hardy–Ramanujan theorem is proved, kernel-checked
+with zero `sorry`s: `ZetaLean.HardyRamanujan.hardy_ramanujan` establishes the
+density form of Turán's argument, with every constant explicit. This closes
+the hunt that run 1 (`16585a2a`, 2026-08-14) left at a named wall; the wall
+was Mertens' second theorem, and it was removed by hunt r_3c1cbb
+(`ZetaLean.Mertens.mertens_second_theorem`, band `76`, on main).
 
 ## What compiles
 
-`lean/ZetaLean/HardyRamanujantheorem.lean`, 146 lines, imported from
+`lean/ZetaLean/HardyRamanujantheorem.lean`, 380 lines, imported from
 `lean/ZetaLean.lean`. `lake build ZetaLean.HardyRamanujantheorem` printed:
 
 ```
-✔ [8697/8697] Built ZetaLean.HardyRamanujantheorem (10s)
-Build completed successfully (8697 jobs).
+✔ [8699/8699] Built ZetaLean.HardyRamanujantheorem (22s)
+Build completed successfully (8699 jobs).
 ```
 
-Zero `sorry`s. The only occurrence of the string in the file is the word inside
-the module docstring. All four results use standard axioms only:
+The module compiled on the first attempt; a subsequent full `lake build` of
+the package is recorded in `results.json`. Zero `sorry`s: the string does not
+occur in the file at all. All results use standard axioms only; `#print
+axioms` on the seven public theorems printed, for each of
+`hardy_ramanujan`, `turan_variance`, `sum_sq_dev_le`, `second_moment_upper`,
+`first_moment_lower`, `sum_omega_sq_eq`, `sum_omega_eq_sum_div`:
 
 ```
-'ZetaLean.HardyRamanujan.primeFactors_eq_filter' depends on axioms: [propext, Classical.choice, Quot.sound]
-'ZetaLean.HardyRamanujan.sum_omega_eq_sum_div' depends on axioms: [propext, Classical.choice, Quot.sound]
-'ZetaLean.HardyRamanujan.card_exceptional_mul_le' depends on axioms: [propext, Classical.choice, Quot.sound]
-'ZetaLean.HardyRamanujan.hardyRamanujan_of_turanVariance' depends on axioms: [propext, Classical.choice, Quot.sound]
+depends on axioms: [propext, Classical.choice, Quot.sound]
 ```
 
-### The statement
+### The statement proved
 
-`HardyRamanujanTheorem` is the density form: for every `ε > 0`,
-
-```
-#{ n ∈ (0, N] : |ω n − log log N| > ε · log log N } / N → 0   as N → ∞.
-```
-
-It is a `def ... : Prop`. It is stated, not proved, and the file says so in its
-docstring rather than leaving a reader to infer it.
-
-### The two theorems
-
-**1. `sum_omega_eq_sum_div` (unconditional).**
+`HardyRamanujanTheorem` is the density form (unchanged from run 1): for every
+`ε > 0`,
 
 ```
-∑_{n ∈ (0,N]} ω n = ∑_{p ∈ (0,N], p prime} N / p        (Nat division, so ⌊N/p⌋)
+#{ n ∈ (0, N] : |ω n − log log N| > ε · log log N } / N → 0   as N → ∞,
 ```
 
-This is genuinely the first step of Turán's variance estimate and it is
-unconditional. Proof is double counting: rewrite `ω n` as the count of primes in
-`(0, N]` dividing `n` (`primeFactors_eq_filter`, which needs `n ≤ N` to know no
-prime factor escapes the window), expand both cards as indicator sums, swap with
-`Finset.sum_comm`, and evaluate the inner sum with
-`Nat.Ioc_filter_dvd_card_eq_div`.
+with `ω n = n.primeFactors.card` and `loglog N = Real.log (Real.log N)`.
+`hardy_ramanujan : HardyRamanujanTheorem` is a theorem, not a hypothesis or a
+reduction. Which form was landed, plainly: this is the **normal-order density
+form at scale `N`** (deviation measured from `log log N`, the form Turán's
+proof directly gives), not the pointwise-normalised variant with
+`log log n` inside the counter. The variance bound is landed separately as
+`sum_sq_dev_le` with the explicit constant `5855`, so the quantitative core
+is available to later work independently of the limit statement.
 
-**2. `hardyRamanujan_of_turanVariance` (an implication, not the theorem).**
+### The proof, piece by piece
 
-```
-TuranVariance → HardyRamanujanTheorem
-```
+New in run 2 (the second moment and the assembly):
 
-where `TuranVariance` is `∃ C, ∀ᶠ N, ∑_{n ∈ (0,N]} (ω n − log log N)² ≤ C·N·log log N`.
-This is the whole Chebyshev half, with the Chebyshev inequality itself isolated
-as `card_exceptional_mul_le`: on the exceptional set each summand is at least
-`(ε log log N)²`, so `#E · (ε log log N)² ≤ V`; divide by `N`, and the bound
-`C / (ε² log log N)` goes to `0` because `log log N → ∞`.
+1. `card_dvd_pair`: for primes `p, q`, the number of `n ∈ (0, N]` divisible
+   by both is `⌊N/p⌋` if `p = q` and `⌊N/(pq)⌋` otherwise. Distinct primes
+   are coprime (`Nat.coprime_primes`), joint divisibility is divisibility by
+   the product (`Nat.Coprime.mul_dvd_of_dvd_of_dvd`), and the count is
+   `Nat.Ioc_filter_dvd_card_eq_div` applied at `p * q`. Run 1 priced this
+   step "mostly bookkeeping once Mertens exists" and that is what it was.
+2. `sum_omega_sq_eq`: `∑_{n ≤ N} ω(n)²` expanded over ordered pairs of
+   primes, by squaring the indicator sum and swapping summation twice.
+3. `second_moment_upper`: `∑_{n ≤ N} ω(n)² ≤ N·S² + N·S` with
+   `S = ∑_{p ≤ N} 1/p`. The off-diagonal is dominated by the full square
+   `N·S²` (the discarded diagonal of the square is nonnegative), the
+   diagonal by `N·S`.
+4. `first_moment_upper` / `first_moment_lower`:
+   `N·S − N ≤ ∑_{n ≤ N} ω(n) ≤ N·S`, from run 1's double-counting identity
+   plus the floor bracket `N/p − 1 < ⌊N/p⌋ ≤ N/p` and `π(N) ≤ N`.
+5. `sum_sq_dev_le`: for every `N` with `1 ≤ log log N`,
+   `∑_{n ≤ N} (ω(n) − log log N)² ≤ 5855 · N · log log N`. Writing
+   `D = S − log log N`, the expansion of the square gives
+   `V = M₂ − 2·L·M₁ + N·L²` and the moment bounds give
+   `V ≤ N·D² + N·S + 2·N·L`; Mertens II (`|D| ≤ 76`) and `L ≥ 1` give
+   `5776 + 76 + 3 ≤ 5855` as the constant. Coarse on purpose: the brief's
+   bar is explicit constants of any size, and every slack step is local.
+6. `turan_variance : TuranVariance` (the `∀ᶠ` form, constant `5855`), then
+   `hardy_ramanujan` by run 1's `hardyRamanujan_of_turanVariance`.
 
-**`TuranVariance` is a hypothesis in this file, not a theorem.** The implication
-is therefore a reduction. It is not the Hardy–Ramanujan theorem and the file
-must not be read as containing it.
+Reused verbatim from run 1's branch (`hunt/r-0339c1`, unmerged; copied with
+attribution in the module docstring because existing proofs are not this
+run's to edit and the branch is not on main): the definitions (`omega`,
+`loglog`, `exceptional`, the two `Prop`s), `primeFactors_eq_filter`,
+`sum_omega_eq_sum_div`, `card_exceptional_mul_le`,
+`hardyRamanujan_of_turanVariance`, `tendsto_loglog`. One new helper
+`omega_eq_sum_ite` restates run 1's indicator step in filtered form for the
+squaring.
 
-## The obstruction, precisely
+From this repository's Lean arm (used, not edited):
+`ZetaLean.Mertens.mertens_second_theorem` (`|∑_{p ≤ N} 1/p − log log N| ≤ 76`
+for every natural `N`), which imports `mertens_first_theorem`.
 
-The remaining half is the variance estimate, and it stops at one missing input.
+## Mathlib declarations relied on
 
-**Mertens' second theorem is not in Mathlib.** `grep -rln "Mertens\|mertens"`
-over the pinned checkout (`v4.33.0-rc2`, `.lake/packages/mathlib/Mathlib/`)
-returns exactly one file, `Mathlib/RingTheory/Polynomial/ContentIdeal.lean`, and
-that hit is an unrelated identifier. There is no
+The load-bearing ones, all present at the pin (`v4.33.0-rc2`):
 
-```
-∑_{p ≤ x} 1/p = log log x + M + O(1/log x)
-```
+| Declaration | Role |
+| --- | --- |
+| `Nat.Ioc_filter_dvd_card_eq_div` | multiples of `d` in `(0, N]` number `⌊N/d⌋`; used at `d = p` and `d = p*q` |
+| `Nat.coprime_primes`, `Nat.Coprime.mul_dvd_of_dvd_of_dvd` | distinct primes are coprime; `p ∣ n ∧ q ∣ n → pq ∣ n` |
+| `Nat.cast_div_le` | `⌊N/d⌋ ≤ N/d` after casting to `ℝ` |
+| `Nat.div_add_mod`, `Nat.mod_lt` | the lower floor bracket `N/d − 1 < ⌊N/d⌋` |
+| `Finset.sum_mul_sum` | expanding `ω(n)²` over ordered pairs |
+| `Finset.sum_comm`, `Finset.card_filter`, `Finset.sum_filter`, `Finset.filter_congr` | the double counting |
+| `Finset.sum_ite_eq` | collapsing the diagonal of the pair sum |
+| `Finset.card_nsmul_le_sum`, `squeeze_zero'` | run 1's Chebyshev step |
+| `Real.tendsto_log_atTop`, `tendsto_natCast_atTop_atTop` | `log log N → ∞` |
 
-nor its weaker cousin `∑_{p ≤ x} 1/p = log log x + O(1)`, under that name or any
-other I could find.
+Searched for and still **not found** in Mathlib: any Mertens-rate statement,
+any normal-order statement about `ω` or `Ω`, and any Turán-variance analogue.
+Run 1's finding stands: the library absence was real, and this repository's
+`MertensSecond.lean` is what closed it.
 
-What Mathlib does have, and why each one is not enough:
+## What the run cost, in shape
 
-| Declaration | File | Why it does not close the gap |
-| --- | --- | --- |
-| `Nat.Ioc_filter_dvd_card_eq_div` | `Data/Nat/Factorization/Basic.lean` | Used, and it is what makes step 1 work. Counts multiples, says nothing about `∑ 1/p`. |
-| `Nat.card_multiples`, `Nat.card_multiples'` | `Data/Nat/Factorization/Basic.lean` | Same content in `range` form. |
-| `not_summable_one_div_on_primes`, `Nat.Primes.not_summable_one_div` | `NumberTheory/SumPrimeReciprocals.lean` | Divergence of `∑ 1/p` only. Qualitative; carries no rate, so it cannot produce `log log x`. |
-| `Nat.Primes.summable_rpow` | `NumberTheory/SumPrimeReciprocals.lean` | Convergence iff exponent `< −1`. Again no asymptotic at the boundary. |
-| `Nat.primeCounting`, `tendsto_primeCounting` | `NumberTheory/PrimeCounting.lean` | `π` diverges. No Chebyshev-type `π x ≍ x / log x` bound stated as an asymptotic here. |
-| `Nat.ArithmeticFunction.cardDistinctFactors` (`ω`) | `NumberTheory/ArithmeticFunction.lean` | The definition of `ω` and its multiplicativity. Nothing about its distribution. |
-| `Mathlib/NumberTheory/AbelSummation.lean` | | The summation-by-parts machinery Mertens is normally derived through. Present, but the derivation itself is not. |
-| `Mathlib/NumberTheory/Chebyshev.lean` | | Chebyshev polynomials, not Chebyshev's prime bounds. A name collision worth flagging to the next attempt. |
-
-Searched for and **not found**: `Mertens`, `sum_one_div_prime`, `primeCounting`
-asymptotics, `sum_primesBelow_one_div`, any `IsBigO`/`IsEquivalent` statement
-about a sum over primes, and any normal-order or `Filter`-density statement
-about `ω` or `Ω`.
-
-So the honest chain for the missing half is:
-
-1. Chebyshev's bound `θ x = O(x)` or `π x = O(x / log x)`.
-2. Abel summation (available) against that bound to get
-   `∑_{p ≤ x} 1/p = log log x + O(1)`.
-3. `∑_{n ≤ N} ω n = N log log N + O(N)` from step 1 of this file plus (2).
-4. The second moment `∑_{n ≤ N} ω(n)² `, which needs the same estimate applied
-   to pairs `p ≠ q` and the square of Mertens, and is where the `O(N log log N)`
-   comes from.
-5. `TuranVariance`, then this file's implication.
-
-Steps 1 and 2 are each a substantial formalization on their own. Nothing about
-them is deep; they are simply not in the library, and neither fits a 60 minute
-budget alongside a cold Mathlib fetch.
-
-## What the run actually cost, in shape
-
-Roughly two thirds of the budget went to environment, not mathematics: `elan`
-was not installed, `lean/.lake` did not exist, and `lake exe cache get` pulled
-8,681 files (about 6.2 GB) before a single line could be checked. Three
-compile-edit cycles were then enough, at about 10 s each once Mathlib's `.olean`
-files were warm. The three fixes were: `div_le_div_iff` is now `div_le_div_iff₀`
-in this Mathlib; a `sq_le_sq'` detour parse-errored and cascaded through the
-rest of the file, masking otherwise-correct proofs; and `nsmul_eq_mul` wants
-`↑n * a`, so the `mul_comm` before it was wrong.
+The environment was cold again (no elan, no `.lake`): toolchain install plus
+`lake exe cache get` (8681 files) took roughly 12 minutes before the first
+compile. The mathematics itself compiled on the first attempt at 22 s for the
+module. Reading run 1's file and threads before writing anything is what made
+that possible: the route, the trap list (`Chebyshev.lean` is polynomials, not
+prime bounds) and the pricing of the off-diagonal step were all already paid
+for.
 
 ## Scope
 
-Nothing here is evidence for or against RH (`docs/08`). The reserved word that
-`zeta/rigor.py` and the Lean arm own is not claimed anywhere in this hunt, and
-the lexical ban on it under `hunts/` is respected to the byte. The two theorems
-that exist are **kernel-checked**, which is the rung the certainty ladder gives
-them; the target statement is not proved at all and carries no rung.
+Nothing here is evidence for or against RH (`docs/08`). The reserved word
+that `zeta/rigor.py` and the Lean arm own is not claimed anywhere in this
+hunt, and the lexical ban on it under `hunts/` is respected to the byte. On
+the certainty ladder the result is **kernel-checked**: `hardy_ramanujan` and
+the chain under it are theorems under `propext`, `Classical.choice`,
+`Quot.sound`, and may be called theorems. External review remains pending, as
+it does for every claim this laboratory publishes.
 
 ## Loose threads
 
-- **Mertens' second theorem is the reusable object, not Hardy–Ramanujan.**
-  `∑_{p ≤ x} 1/p = log log x + O(1)` is what is actually missing from Mathlib,
-  and it is upstream of Hardy–Ramanujan, Erdős–Kac, and the normal order of
-  `Ω(n)` alike. A hunt aimed at Mertens rather than at Hardy–Ramanujan would
-  buy more per unit of formalization.
-- **Chebyshev's `θ x = O(x)` may be closer than it looks.** `Mathlib/NumberTheory/Bertrand.lean`
-  and `Primorial.lean` both carry central-binomial-coefficient bounds of the
-  kind Chebyshev's proof uses. Whether either exposes a reusable `θ x ≤ c x` was
-  not checked; that check is cheap and was outside this budget.
-- **`Mathlib/NumberTheory/Chebyshev.lean` is about Chebyshev polynomials.** Any
-  future search for prime-counting bounds that greps for "Chebyshev" will land
-  there first and waste a cycle.
-- **The second moment needs a pair version of step 1.** `∑_{n ≤ N} ω(n)² `
-  expands into `∑_{p,q ≤ N} ⌊N/pq⌋` over ordered pairs of distinct primes plus
-  the diagonal. The diagonal is step 1 again; the off-diagonal wants
-  `Nat.Ioc_filter_dvd_card_eq_div` applied to `p*q`, which is available. So
-  step 4 above is mostly bookkeeping once step 2 exists.
-- **`SelbergSieve.lean` exists in this Mathlib.** Not examined. If it carries a
-  usable prime-sum estimate as a byproduct, the chain above may be shorter than
-  five steps.
+- **The constant `5855` is soft.** It inherits Mertens's deliberately coarse
+  band `76` quadratically. Tightening `mertens_first_theorem`'s `log 4 + 16`
+  would propagate automatically; the classical band is `4`, which would put
+  the variance constant near `4² + 4 + 3 = 23`. Local work, no new ideas.
+- **The pointwise form is a short step away.** The statement here normalises
+  by `log log N` at scale `N`; the textbook variant with `log log n` needs
+  only the standard comparison `log log n ~ log log N` on `(N^δ, N]` plus a
+  trivial count below `N^δ`. All ingredients are now in the file.
+- **Erdős–Kac is the natural next target.** The first two moments of `ω` are
+  now formal; the central limit theorem for `(ω(n) − log log n)/√(log log n)`
+  is the canonical continuation, though it needs either moment control to all
+  orders or a formalised Berry–Esseen route, each a real project.
+- **Mathlib upstreaming.** Q5656674 is a wanted-and-unbuilt record; this
+  file, `MertensSecond.lean` and `Mertensstheorems.lean` are within polishing
+  distance of a Mathlib contribution, but the normalisations (`Ioc 0 N`
+  rather than `range`, explicit constants rather than `IsBigO`) would need
+  aligning with Mathlib house style. That is operator-priced work.
+- **`omega` vs `ArithmeticFunction.cardDistinctFactors`.** The file keeps run
+  1's spelled-out `omega n = n.primeFactors.card`. A bridging lemma to the
+  `ArithmeticFunction` coercion would cost three lines and make the result
+  easier to cite from other Mathlib-facing work.
