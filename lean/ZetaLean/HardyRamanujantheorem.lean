@@ -24,11 +24,13 @@ This file proves it, by Turán's argument, with every constant explicit:
    and counting multiples of `p*q` gives `∑_{n ≤ N} ω(n)² ≤ N·S(N)² + N·S(N)`.
 3. **Mertens' second theorem** (`ZetaLean.Mertens.mertens_second_theorem`,
    proved in this repository on top of `mertens_first_theorem`):
-   `|S(N) − loglog N| ≤ 76` for every `N`.
+   `|S(N) − loglog N| ≤ 16` for every `N`.
 4. **Turán's variance bound** (`sum_sq_dev_le`, `turan_variance`): combining
-   1–3, `∑_{n ≤ N} (ω n − loglog N)² ≤ 5855 · N · loglog N` whenever
-   `1 ≤ loglog N`, hence eventually; the constant `5855` inherits Mertens'
-   deliberately coarse `76` (as `76² + 76 + 3 ≤ 5855`) and is far from optimal.
+   1–3, `∑_{n ≤ N} (ω n − loglog N)² ≤ 275 · N · loglog N` whenever
+   `1 ≤ loglog N`, hence eventually; the constant `275` is `16² + 16 + 3`,
+   where `16` is Mertens' band, and it moves quadratically with it.  It
+   replaces the `5855 = 76² + 76 + 3` this file first carried: nothing in
+   the variance argument changed, only the band it is fed.
 5. **Chebyshev step** (`card_exceptional_mul_le`,
    `hardyRamanujan_of_turanVariance`): the variance bound forces the
    exceptional set below any positive density.
@@ -69,7 +71,7 @@ def HardyRamanujanTheorem : Prop :=
     Tendsto (fun N : ℕ => ((exceptional N ε).card : ℝ) / (N : ℝ)) atTop (𝓝 0)
 
 /-- **Turán's variance estimate**, as a proposition.  Proved below as
-`turan_variance`, with the explicit constant `5855`. -/
+`turan_variance`, with the explicit constant `275`. -/
 def TuranVariance : Prop :=
   ∃ C : ℝ, ∀ᶠ N : ℕ in atTop,
     ∑ n ∈ Finset.Ioc 0 N, ((omega n : ℝ) - loglog N) ^ 2 ≤ C * (N : ℝ) * loglog N
@@ -283,15 +285,17 @@ theorem second_moment_upper (N : ℕ) :
 
 /-! ### Turán's variance bound -/
 
-/-- **Turán's variance bound, with the explicit constant `5855`**: whenever
-`1 ≤ loglog N`, `∑_{n ≤ N} (ω n − loglog N)² ≤ 5855 · N · loglog N`.
+/-- **Turán's variance bound, with the explicit constant `275`**: whenever
+`1 ≤ loglog N`, `∑_{n ≤ N} (ω n − loglog N)² ≤ 275 · N · loglog N`.
 
-The constant decomposes as `76² + 76 + 3 ≤ 5855`, where `76` is the
-(deliberately coarse) Mertens band of `ZetaLean.Mertens.mertens_second_theorem`. -/
+The constant decomposes as `16² + 16 + 3 = 275`, where `16` is the Mertens
+band of `ZetaLean.Mertens.mertens_second_theorem`.  The dependence on that
+band is quadratic, which is why tightening Mertens is the whole lever
+here: the `76` this file was first proved with gave `5855`. -/
 theorem sum_sq_dev_le {N : ℕ} (hL : 1 ≤ loglog N) :
     ∑ n ∈ Finset.Ioc 0 N, ((omega n : ℝ) - loglog N) ^ 2
-      ≤ 5855 * (N : ℝ) * loglog N := by
-  have hMert : |(∑ p ∈ Finset.Ioc 0 N with p.Prime, ((p : ℝ))⁻¹) - loglog N| ≤ 76 :=
+      ≤ 275 * (N : ℝ) * loglog N := by
+  have hMert : |(∑ p ∈ Finset.Ioc 0 N with p.Prime, ((p : ℝ))⁻¹) - loglog N| ≤ 16 :=
     ZetaLean.Mertens.mertens_second_theorem N
   obtain ⟨hMl, hMu⟩ := abs_le.mp hMert
   have hN0 : (0 : ℝ) ≤ (N : ℝ) := Nat.cast_nonneg N
@@ -315,10 +319,10 @@ theorem sum_sq_dev_le {N : ℕ} (hL : 1 ≤ loglog N) :
   have key : 2 * L * ((N : ℝ) * S - N)
       ≤ 2 * L * ((∑ n ∈ Finset.Ioc 0 N, omega n : ℕ) : ℝ) :=
     mul_le_mul_of_nonneg_left hM1l (by linarith)
-  have hsq : (S - L) ^ 2 ≤ 5776 := by nlinarith
-  have hD2 : (N : ℝ) * (S - L) ^ 2 ≤ (N : ℝ) * 5776 :=
+  have hsq : (S - L) ^ 2 ≤ 256 := by nlinarith
+  have hD2 : (N : ℝ) * (S - L) ^ 2 ≤ (N : ℝ) * 256 :=
     mul_le_mul_of_nonneg_left hsq hN0
-  have hSu : (N : ℝ) * S ≤ (N : ℝ) * (L + 76) :=
+  have hSu : (N : ℝ) * S ≤ (N : ℝ) * (L + 16) :=
     mul_le_mul_of_nonneg_left (by linarith) hN0
   have hNL : (N : ℝ) * 1 ≤ (N : ℝ) * L := mul_le_mul_of_nonneg_left hL hN0
   nlinarith [hexp, hM2, key, hD2, hSu, hNL]
@@ -326,9 +330,9 @@ theorem sum_sq_dev_le {N : ℕ} (hL : 1 ≤ loglog N) :
 private theorem tendsto_loglog : Tendsto loglog atTop atTop :=
   Real.tendsto_log_atTop.comp (Real.tendsto_log_atTop.comp tendsto_natCast_atTop_atTop)
 
-/-- **Turán's variance estimate**, with the explicit constant `5855`. -/
+/-- **Turán's variance estimate**, with the explicit constant `275`. -/
 theorem turan_variance : TuranVariance := by
-  refine ⟨5855, ?_⟩
+  refine ⟨275, ?_⟩
   filter_upwards [tendsto_loglog.eventually_ge_atTop 1] with N hL
   exact sum_sq_dev_le hL
 

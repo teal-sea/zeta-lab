@@ -70,6 +70,40 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #39: the Mertens constants, tightened (`r_4218d4/`)
+
+**Status: settled. The Turán variance constant of Hunt #37 falls from `5855`
+to `275`, a factor of 21.3, with every statement's shape preserved, no
+hypothesis added, no `sorry`, a green `lake build` and an unchanged axiom
+audit.** Hunt #37 wrote that its constant is "coarse because the Mertens band
+is, and tightens automatically if that does". This run did that, and the
+prediction was right: no new mathematics was needed anywhere.
+
+Three local steps upstream, then arithmetic. (i) Mathlib's
+`Chebyshev.psi_le` gives `ψ x ≤ x log 4 + 2√x log x`, and its packaged
+corollary bounds the remainder by `4x` — i.e. by `log t/√t ≤ 2`, where the
+supremum is `2/e`. A one-line lemma `log t ≤ t/e` (`log x ≤ x − 1` applied at
+`x = t/e`) gives `(4/e)x`, stated as `3/2`. (ii) The same majorant replaces
+`log n ≤ 2√n` in `sum_log_div_sq_le`, and dropping its vanishing `n = 1` term
+lets the telescope start at `2`, where it is bounded by `2` instead of `3`;
+`6` becomes `3/2` and the prime-power tail `12` becomes `3`. (iii) Mertens I
+is asymmetric — its lower half loses `1`, its upper half the whole Chebyshev
+constant — and the original proof paid both by routing the prime form through
+the symmetric von Mangoldt band; a one-sided
+`log_sub_one_le_sum_vonMangoldt_div` keeps them apart, worth `1.5`. Result:
+`mertens_first_theorem` `log 4 + 16 → log 4 + 3`; `mertens_second_theorem`
+`76 → 16` (with `1/log 2 < 2` also sharpened to `< 1.443`); `sum_sq_dev_le`
+`5855 → 275 = 16² + 16 + 3`.
+
+The classical constants (`2` for Mertens I, `4` for Mertens II) are still out
+of reach and the run did not chase them, per its brief. What remains is
+priced in `hunts/r_4218d4/RESULTS.md`: the largest single term left is the
+`log 4` in Chebyshev's bound, which is 39% slack and whose removal is the
+prime number theorem, not a constant. Earlier case-log entries and the
+`r_3c1cbb` / `r_0339c1` write-ups still quote the old constants; those are
+records of what those runs proved and are left as written. Nothing here bears
+on ζ or RH (`docs/08`); external verification remains pending.
+
 ### Hunt #36: claim 'urms2-0.51' has no recorded white-box attack (`r_065f29/`)
 
 **Status: settled as an attack, not as a verdict. The claim is not withdrawn;

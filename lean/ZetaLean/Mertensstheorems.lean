@@ -3,6 +3,7 @@ Copyright (c) 2026 Thomas Lince. All rights reserved.
 Released under MIT license as described in the file LICENSE.
 Authors: Thomas Lince
 -/
+import Mathlib.Analysis.Complex.ExponentialBounds
 import Mathlib.NumberTheory.Chebyshev
 
 /-!
@@ -15,22 +16,31 @@ Mertens statement of its own.
 * `sum_log_eq_sum_vonMangoldt_mul_div`: the summatory identity
   `∑_{n ≤ N} log n = ∑_{d ≤ N} Λ(d) ⌊N/d⌋`, from
   `ArithmeticFunction.vonMangoldt_sum` by counting multiples.
+* `log_sub_one_le_sum_vonMangoldt_div`: the lower half on its own, where
+  the loss is only `1`: `log N − 1 ≤ ∑_{n ≤ N} Λ(n)/n` for `N ≥ 1`.
 * `abs_sum_vonMangoldt_div_sub_log_le`: Mertens's first theorem, von
-  Mangoldt form: `|∑_{n ≤ N} Λ(n)/n − log N| ≤ log 4 + 4` for `N ≥ 1`.
+  Mangoldt form: `|∑_{n ≤ N} Λ(n)/n − log N| ≤ log 4 + 3/2` for `N ≥ 1`.
 * `mertens_first_theorem`: Mertens's first theorem, prime form:
-  `|∑_{p ≤ N} (log p)/p − log N| ≤ log 4 + 16` for `N ≥ 1`.
+  `|∑_{p ≤ N} (log p)/p − log N| ≤ log 4 + 3` for `N ≥ 1`.
 
-The constants are explicit and far from optimal (the true error in the
+The constants are explicit and still not optimal (the true error in the
 prime form is bounded by 2); they are what the elementary argument gives
 without any numerical case analysis.
 
-The upper Chebyshev input is Mathlib's `Chebyshev.psi_le_const_mul_self`
-(`ψ x ≤ (log 4 + 4) x`).  The factorial bounds are replaced by an
-induction using `log (1 + 1/M) ≤ 1/M`, so no integral comparison and no
-Stirling estimate is needed anywhere in the file.  The prime-power
-correction is controlled by `Chebyshev.sum_PrimePow_eq_sum_sum`, a
-geometric tail in the exponent, and a telescoping bound for
-`∑ n^(-3/2)`.
+The upper Chebyshev input is Mathlib's `Chebyshev.psi_le`
+(`ψ x ≤ x log 4 + 2 √x log x`), whose remainder is majorised here by
+`log_le_div_exp_one` rather than by Mathlib's own
+`psi_le_const_mul_self`: writing `log x = 2 log √x ≤ 2 √x / e` gives
+`2 √x log x ≤ (4/e) x ≤ (3/2) x`, where Mathlib's packaged corollary
+settles for `4 x`.  The factorial bounds are replaced by an induction
+using `log (1 + 1/M) ≤ 1/M`, so no integral comparison and no Stirling
+estimate is needed anywhere in the file.  The prime-power correction is
+controlled by `Chebyshev.sum_PrimePow_eq_sum_sum`, a geometric tail in
+the exponent, and a telescoping bound for `∑ n^(-3/2)`.
+
+The same `log t ≤ t/e` majorant is what replaces `log n ≤ 2 √n` in
+`sum_log_div_sq_le`; together with dropping the vanishing `n = 1` term
+that carries `∑_{n ≤ N} (log n)/n²` from `6` to `3/2`.
 -/
 
 namespace ZetaLean.Mertens
@@ -101,18 +111,88 @@ theorem sum_log_ge (N : ℕ) (hN : 1 ≤ N) :
       push_cast
       nlinarith [key, ihM]
 
+/-! ## The `log t ≤ t/e` majorant and a sharper Chebyshev constant -/
+
+/-- `log t ≤ t / e` for `t > 0`: apply `log x ≤ x − 1` at `x = t/e` and use
+`log e = 1`.  This is the sharp form of the crude `log x ≤ x − 1`, and it
+is the majorant that replaces `log n ≤ 2 √n` below: composing it with
+`log t = 2 log √t` gives `log t ≤ (2/e) √t`, whose constant `2/e` is the
+best possible (it is attained at `t = e²`). -/
+theorem log_le_div_exp_one {t : ℝ} (ht : 0 < t) : log t ≤ t / exp 1 := by
+  have he0 : (0 : ℝ) < exp 1 := exp_pos 1
+  have h := log_le_sub_one_of_pos (x := t / exp 1) (by positivity)
+  rw [log_div ht.ne' he0.ne', log_exp] at h
+  linarith
+
+/-- A sharper Chebyshev constant than Mathlib's packaged
+`Chebyshev.psi_le_const_mul_self` (`ψ x ≤ (log 4 + 4) x`): for `x ≥ 1`,
+`ψ x ≤ (log 4 + 3/2) x`.
+
+The main term `x log 4` is Mathlib's and untouched; only the remainder of
+`Chebyshev.psi_le` is re-estimated.  Mathlib bounds `2 √x log x` by `4 x`;
+writing `log x = 2 log √x` and applying `log_le_div_exp_one` to `√x` gives
+`2 √x log x ≤ (4/e) x`, and `4/e < 3/2` because `3 e > 8`. -/
+theorem psi_le_const_mul_self' {x : ℝ} (hx : 1 ≤ x) :
+    Chebyshev.psi x ≤ (log 4 + 3 / 2) * x := by
+  have hx0 : (0 : ℝ) < x := by linarith
+  have hs : (0 : ℝ) < √x := sqrt_pos.mpr hx0
+  have hss : √x * √x = x := mul_self_sqrt hx0.le
+  have he : (2.7182818283 : ℝ) < exp 1 := exp_one_gt_d9
+  have he0 : (0 : ℝ) < exp 1 := exp_pos 1
+  have hlogx : log x = 2 * log (√x) := by rw [log_sqrt hx0.le]; ring
+  have hlogs : log (√x) ≤ √x / exp 1 := log_le_div_exp_one hs
+  have h2 : √x * (√x / exp 1) = x / exp 1 := by rw [← mul_div_assoc, hss]
+  have h3 : x / exp 1 ≤ (3 / 8) * x := by
+    rw [div_le_iff₀ he0]
+    nlinarith [mul_le_mul_of_nonneg_left he.le hx0.le, hx0]
+  have hrem : 2 * √x * log x ≤ (3 / 2) * x := by
+    have h1 : 4 * (√x * log (√x)) ≤ 4 * (√x * (√x / exp 1)) := by
+      have := mul_le_mul_of_nonneg_left hlogs hs.le
+      linarith
+    calc 2 * √x * log x = 4 * (√x * log (√x)) := by rw [hlogx]; ring
+      _ ≤ 4 * (√x * (√x / exp 1)) := h1
+      _ = 4 * (x / exp 1) := by rw [h2]
+      _ ≤ (3 / 2) * x := by linarith
+  calc Chebyshev.psi x ≤ log 4 * x + 2 * √x * log x := Chebyshev.psi_le hx
+    _ ≤ log 4 * x + (3 / 2) * x := by linarith
+    _ = (log 4 + 3 / 2) * x := by ring
+
 /-! ## Mertens's first theorem, von Mangoldt form -/
 
 /-- `Chebyshev.psi` at a natural argument is the plain finite sum. -/
 theorem psi_natCast (N : ℕ) : Chebyshev.psi (N : ℝ) = ∑ n ∈ Ioc 0 N, Λ n := by
   rw [Chebyshev.psi, Nat.floor_natCast]
 
-/-- Mertens's first theorem, von Mangoldt form, with the explicit
-constant `log 4 + 4`: for `N ≥ 1`,
-`|∑_{n ≤ N} Λ(n)/n − log N| ≤ log 4 + 4`. -/
-theorem abs_sum_vonMangoldt_div_sub_log_le {N : ℕ} (hN : 1 ≤ N) :
-    |(∑ d ∈ Ioc 0 N, Λ d / d) - log N| ≤ log 4 + 4 := by
+/-- The lower half of Mertens's first theorem in von Mangoldt form, stated
+separately because its loss is only `1`, against the `log 4 + 3/2` the
+upper half costs: for `N ≥ 1`, `log N − 1 ≤ ∑_{n ≤ N} Λ(n)/n`.
+
+The prime form inherits this asymmetry, so keeping the halves apart is
+what lets `mertens_first_theorem` carry `log 4 + 3` rather than the
+`log 4 + 3/2 + 3` a symmetric band would force. -/
+theorem log_sub_one_le_sum_vonMangoldt_div {N : ℕ} (hN : 1 ≤ N) :
+    log N - 1 ≤ ∑ d ∈ Ioc 0 N, Λ d / d := by
   have hN0 : (0 : ℝ) < N := by exact_mod_cast hN
+  have hTle : ∑ n ∈ Ioc 0 N, log n ≤ (N : ℝ) * ∑ d ∈ Ioc 0 N, Λ d / d := by
+    rw [sum_log_eq_sum_vonMangoldt_mul_div, mul_sum]
+    refine sum_le_sum fun d hd => ?_
+    rw [mem_Ioc] at hd
+    have hd0 : (0 : ℝ) < d := by exact_mod_cast hd.1
+    calc Λ d * ((N / d : ℕ) : ℝ) ≤ Λ d * ((N : ℝ) / d) :=
+          mul_le_mul_of_nonneg_left Nat.cast_div_le vonMangoldt_nonneg
+      _ = (N : ℝ) * (Λ d / d) := by ring
+  have hTlb := sum_log_ge N hN
+  have h1 : (N : ℝ) * (log N - 1) ≤ (N : ℝ) * ∑ d ∈ Ioc 0 N, Λ d / d := by
+    nlinarith [hTle, hTlb]
+  exact le_of_mul_le_mul_left h1 hN0
+
+/-- Mertens's first theorem, von Mangoldt form, with the explicit
+constant `log 4 + 3/2`: for `N ≥ 1`,
+`|∑_{n ≤ N} Λ(n)/n − log N| ≤ log 4 + 3/2`. -/
+theorem abs_sum_vonMangoldt_div_sub_log_le {N : ℕ} (hN : 1 ≤ N) :
+    |(∑ d ∈ Ioc 0 N, Λ d / d) - log N| ≤ log 4 + 3 / 2 := by
+  have hN0 : (0 : ℝ) < N := by exact_mod_cast hN
+  have hN1R : (1 : ℝ) ≤ (N : ℝ) := by exact_mod_cast hN
   -- upper bound for T := ∑ log n in terms of S := ∑ Λ d / d
   have hTle : ∑ n ∈ Ioc 0 N, log n ≤ (N : ℝ) * ∑ d ∈ Ioc 0 N, Λ d / d := by
     rw [sum_log_eq_sum_vonMangoldt_mul_div, mul_sum]
@@ -135,22 +215,18 @@ theorem abs_sum_vonMangoldt_div_sub_log_le {N : ℕ} (hN : 1 ≤ N) :
     calc (N : ℝ) * (Λ d / d) - Λ d = Λ d * ((N : ℝ) / d - 1) := by ring
       _ ≤ Λ d * ((N / d : ℕ) : ℝ) :=
           mul_le_mul_of_nonneg_left hfloor.le vonMangoldt_nonneg
-  have hpsi : Chebyshev.psi (N : ℝ) ≤ (log 4 + 4) * N :=
-    Chebyshev.psi_le_const_mul_self (Nat.cast_nonneg N)
+  have hpsi : Chebyshev.psi (N : ℝ) ≤ (log 4 + 3 / 2) * N :=
+    psi_le_const_mul_self' hN1R
   have hTub := sum_log_le N
-  have hTlb := sum_log_ge N hN
   rw [abs_le]
   constructor
-  · -- S ≥ log N − 1 ≥ log N − (log 4 + 4)
-    have h1 : (N : ℝ) * (log N - 1) ≤ (N : ℝ) * ∑ d ∈ Ioc 0 N, Λ d / d := by
-      nlinarith [hTle, hTlb]
-    have h2 : log N - 1 ≤ ∑ d ∈ Ioc 0 N, Λ d / d :=
-      le_of_mul_le_mul_left h1 hN0
+  · -- S ≥ log N − 1 ≥ log N − (log 4 + 3/2)
+    have h2 := log_sub_one_le_sum_vonMangoldt_div hN
     have h4 : (0 : ℝ) ≤ log 4 := log_nonneg (by norm_num)
     linarith
-  · -- S ≤ log N + (log 4 + 4)
+  · -- S ≤ log N + (log 4 + 3/2)
     have h1 : (N : ℝ) * (∑ d ∈ Ioc 0 N, Λ d / d)
-        ≤ (N : ℝ) * (log N + (log 4 + 4)) := by nlinarith [hTge, hTub, hpsi]
+        ≤ (N : ℝ) * (log N + (log 4 + 3 / 2)) := by nlinarith [hTge, hTub, hpsi]
     have h2 := le_of_mul_le_mul_left h1 hN0
     linarith
 
@@ -203,37 +279,70 @@ theorem sum_inv_mul_sqrt_le (N : ℕ) (hN : 1 ≤ N) :
             exact add_le_add ihM key
         _ = 3 - 2 / √(((M + 1 : ℕ) : ℝ)) := by rw [hcast]; ring
 
-/-- `∑_{n ≤ N} (log n)/n² ≤ 6`, via `log n ≤ 2√n` and the telescoping
-bound. -/
+/-- `∑_{n ≤ N} (log n)/n² ≤ 3/2`.
+
+Two independent tightenings of the same telescoping argument: the
+majorant is `log n ≤ (2/e) √n` (`log_le_div_exp_one` composed with
+`log n = 2 log √n`) rather than `log n ≤ 2 √n`, and the vanishing `n = 1`
+term is dropped before the telescope is applied, which turns
+`∑_{n ≤ N} n^{-3/2} ≤ 3` into `∑_{2 ≤ n ≤ N} n^{-3/2} ≤ 2`.  Together
+they give `(2/e)·2 = 4/e < 3/2`, against the `2·3 = 6` of the crude
+route.  For reference, the limit is `−ζ'(2) = 0.9375…`. -/
 theorem sum_log_div_sq_le (N : ℕ) (hN : 1 ≤ N) :
-    ∑ n ∈ Ioc 0 N, log n / (n : ℝ) ^ 2 ≤ 6 := by
-  have hstep : ∀ n ∈ Ioc 0 N, log n / (n : ℝ) ^ 2 ≤ 2 * ((n : ℝ) * √(n : ℝ))⁻¹ := by
+    ∑ n ∈ Ioc 0 N, log n / (n : ℝ) ^ 2 ≤ 3 / 2 := by
+  have he0 : (0 : ℝ) < exp 1 := exp_pos 1
+  have he : (2.7182818283 : ℝ) < exp 1 := exp_one_gt_d9
+  have h01 : (Ioc 0 1 : Finset ℕ) = {1} := by
+    ext x
+    simp only [mem_Ioc, mem_singleton]
+    omega
+  -- the n = 1 term vanishes, so the sum starts at 2
+  have hdrop : ∑ n ∈ Ioc 0 N, log n / (n : ℝ) ^ 2
+      = ∑ n ∈ Ioc 1 N, log n / (n : ℝ) ^ 2 := by
+    rw [← Finset.sum_Ioc_consecutive _ (Nat.zero_le 1) hN, h01, sum_singleton]
+    norm_num
+  -- likewise the telescoped sum loses its n = 1 term, which is 1
+  have hsplit : ∑ n ∈ Ioc 0 N, ((n : ℝ) * √(n : ℝ))⁻¹
+      = 1 + ∑ n ∈ Ioc 1 N, ((n : ℝ) * √(n : ℝ))⁻¹ := by
+    rw [← Finset.sum_Ioc_consecutive _ (Nat.zero_le 1) hN, h01, sum_singleton]
+    norm_num
+  have htel : ∑ n ∈ Ioc 1 N, ((n : ℝ) * √(n : ℝ))⁻¹ ≤ 2 := by
+    have h := sum_inv_mul_sqrt_le N hN
+    rw [hsplit] at h
+    have hsN : (0 : ℝ) < √(N : ℝ) := sqrt_pos.mpr (by exact_mod_cast hN)
+    have : (0 : ℝ) < 2 / √(N : ℝ) := by positivity
+    linarith
+  have hstep : ∀ n ∈ Ioc 1 N,
+      log n / (n : ℝ) ^ 2 ≤ 2 * ((n : ℝ) * √(n : ℝ))⁻¹ / exp 1 := by
     intro n hn
     rw [mem_Ioc] at hn
-    have hn1 : (1 : ℝ) ≤ (n : ℝ) := by exact_mod_cast hn.1
+    have hn1 : (1 : ℝ) ≤ (n : ℝ) := by exact_mod_cast hn.1.le
     have hn0 : (0 : ℝ) < (n : ℝ) := by linarith
     have hs : (0 : ℝ) < √(n : ℝ) := sqrt_pos.mpr hn0
     have hss : √(n : ℝ) * √(n : ℝ) = (n : ℝ) := mul_self_sqrt hn0.le
-    have hlog : log n ≤ 2 * √(n : ℝ) := by
+    have hEq : 2 * √(n : ℝ) / (n : ℝ) ^ 2 = 2 * ((n : ℝ) * √(n : ℝ))⁻¹ := by
+      rw [eq_comm, mul_comm 2 _, inv_mul_eq_div, div_eq_div_iff (by positivity) (by positivity)]
+      nlinarith [hss]
+    have hlog : log n ≤ 2 * √(n : ℝ) / exp 1 := by
       have h1 : log ((n : ℝ)) = 2 * log (√(n : ℝ)) := by
         rw [log_sqrt hn0.le]; ring
-      have h2 : log (√(n : ℝ)) ≤ √(n : ℝ) - 1 := log_le_sub_one_of_pos hs
-      nlinarith [h1, h2]
-    calc log n / (n : ℝ) ^ 2 ≤ 2 * √(n : ℝ) / (n : ℝ) ^ 2 := by
-          gcongr
-      _ = 2 * ((n : ℝ) * √(n : ℝ))⁻¹ := by
-          rw [eq_comm, mul_comm 2 _, inv_mul_eq_div, div_eq_div_iff (by positivity) (by positivity)]
-          nlinarith [hss]
+      have h2 : log (√(n : ℝ)) ≤ √(n : ℝ) / exp 1 := log_le_div_exp_one hs
+      rw [h1]
+      calc 2 * log (√(n : ℝ)) ≤ 2 * (√(n : ℝ) / exp 1) := by linarith
+        _ = 2 * √(n : ℝ) / exp 1 := by ring
+    calc log n / (n : ℝ) ^ 2 ≤ (2 * √(n : ℝ) / exp 1) / (n : ℝ) ^ 2 := by gcongr
+      _ = (2 * √(n : ℝ) / (n : ℝ) ^ 2) / exp 1 := by ring
+      _ = 2 * ((n : ℝ) * √(n : ℝ))⁻¹ / exp 1 := by rw [hEq]
+  have hSnn : (0 : ℝ) ≤ ∑ n ∈ Ioc 1 N, ((n : ℝ) * √(n : ℝ))⁻¹ :=
+    sum_nonneg fun n _ => by positivity
   calc ∑ n ∈ Ioc 0 N, log n / (n : ℝ) ^ 2
-      ≤ ∑ n ∈ Ioc 0 N, 2 * ((n : ℝ) * √(n : ℝ))⁻¹ := sum_le_sum hstep
-    _ = 2 * ∑ n ∈ Ioc 0 N, ((n : ℝ) * √(n : ℝ))⁻¹ := by rw [mul_sum]
-    _ ≤ 2 * (3 - 2 / √(N : ℝ)) := by
-        have := sum_inv_mul_sqrt_le N hN
-        have hsN : (0 : ℝ) < √(N : ℝ) := sqrt_pos.mpr (by exact_mod_cast hN)
-        nlinarith [this]
-    _ ≤ 6 := by
-        have hsN : (0 : ℝ) < √(N : ℝ) := sqrt_pos.mpr (by exact_mod_cast hN)
-        have : 0 < 2 / √(N : ℝ) := by positivity
+      = ∑ n ∈ Ioc 1 N, log n / (n : ℝ) ^ 2 := hdrop
+    _ ≤ ∑ n ∈ Ioc 1 N, 2 * ((n : ℝ) * √(n : ℝ))⁻¹ / exp 1 := sum_le_sum hstep
+    _ = 2 * (∑ n ∈ Ioc 1 N, ((n : ℝ) * √(n : ℝ))⁻¹) / exp 1 := by
+        rw [← sum_div, ← mul_sum]
+    _ ≤ 2 * 2 / exp 1 := by gcongr
+    _ ≤ 3 / 2 := by
+        rw [div_le_iff₀ he0]
         linarith
 
 /-- Geometric tail `∑_{k=2}^{K} 2⁻ᵏ ≤ 2⁻¹ − 2⁻ᴷ` for `K ≥ 1`. -/
@@ -251,15 +360,26 @@ theorem sum_geom_tail_le (K : ℕ) (hK : 1 ≤ K) :
 
 /-! ## Mertens's first theorem, prime form -/
 
-/-- Mertens's first theorem with the explicit constant `log 4 + 16`:
-for `N ≥ 1`, `|∑_{p ≤ N} (log p)/p − log N| ≤ log 4 + 16`.
+/-- Mertens's first theorem with the explicit constant `log 4 + 3`:
+for `N ≥ 1`, `|∑_{p ≤ N} (log p)/p − log N| ≤ log 4 + 3`.
 
 The sum runs over primes `p ≤ N`.  The distance to the von Mangoldt form
 is the prime-power correction `∑_{p^k ≤ N, k ≥ 2} (log p)/p^k`, which is
-nonnegative and at most `12`. -/
+nonnegative and at most `3`.  (Its limit is `0.7553…`.)
+
+The two sides are bounded by different routes, which is why the band is
+`log 4 + 3` and not `(log 4 + 3/2) + 3`: above, the prime sum is at most
+the von Mangoldt sum, so it inherits `log 4 + 3/2`; below, it exceeds
+`log N − 1 − 3 = log N − 4`, using the one-sided
+`log_sub_one_le_sum_vonMangoldt_div` rather than the symmetric band, and
+`4 ≤ log 4 + 3` because `1 ≤ log 4`. -/
 theorem mertens_first_theorem {N : ℕ} (hN : 1 ≤ N) :
-    |(∑ p ∈ Ioc 0 N with p.Prime, log p / p) - log N| ≤ log 4 + 16 := by
+    |(∑ p ∈ Ioc 0 N with p.Prime, log p / p) - log N| ≤ log 4 + 3 := by
   have h4 : (0 : ℝ) ≤ log 4 := log_nonneg (by norm_num)
+  have h41 : (1 : ℝ) ≤ log 4 := by
+    have hlt : exp 1 ≤ (4 : ℝ) := by linarith [exp_one_lt_d9]
+    calc (1 : ℝ) = log (exp 1) := (log_exp 1).symm
+      _ ≤ log 4 := log_le_log (exp_pos 1) hlt
   rcases eq_or_lt_of_le hN with hN1 | hN2
   · -- N = 1: both sums are empty or zero
     subst hN1
@@ -364,7 +484,7 @@ theorem mertens_first_theorem {N : ℕ} (hN : 1 ≤ N) :
         _ = 4 * ((2 : ℝ)⁻¹) ^ (2 + j) * ∑ n ∈ Ioc 0 N, log n / (n : ℝ) ^ 2 := by
             rw [pow_add]
             ring_nf
-    -- sum the layers: tail ≤ 2 B ≤ 12
+    -- sum the layers: tail ≤ 2 B ≤ 3
     have hB := sum_log_div_sq_le N hN
     have hBnn : (0 : ℝ) ≤ ∑ n ∈ Ioc 0 N, log n / (n : ℝ) ^ 2 := by
       refine sum_nonneg fun n hn => ?_
@@ -373,7 +493,7 @@ theorem mertens_first_theorem {N : ℕ} (hN : 1 ≤ N) :
       exact div_nonneg (log_nonneg this) (by positivity)
     have htail_le : (∑ k ∈ Ioc 1 K,
         ∑ p ∈ Ioc 0 ⌊(N : ℝ) ^ ((1 : ℝ) / k)⌋₊ with p.Prime,
-          Λ (p ^ k) / ((p ^ k : ℕ) : ℝ)) ≤ 12 := by
+          Λ (p ^ k) / ((p ^ k : ℕ) : ℝ)) ≤ 3 := by
       have hIoc : (Ioc 1 K : Finset ℕ) = Icc 2 K := by
         ext x
         simp only [mem_Ioc, mem_Icc]
@@ -392,18 +512,19 @@ theorem mertens_first_theorem {N : ℕ} (hN : 1 ≤ N) :
             have := sum_geom_tail_le K hK1
             have hpow : (0 : ℝ) < (2⁻¹ : ℝ) ^ K := by positivity
             linarith
-        _ ≤ 4 * 6 * (2 : ℝ)⁻¹ := by
-            have h6 : (0 : ℝ) < 6 := by norm_num
+        _ ≤ 4 * (3 / 2) * (2 : ℝ)⁻¹ := by
+            have h6 : (0 : ℝ) < 3 / 2 := by norm_num
             nlinarith [hB, hBnn]
-        _ = 12 := by norm_num
+        _ = 3 := by norm_num
     -- assemble
     have hvM := abs_sum_vonMangoldt_div_sub_log_le hN
+    have hlow := log_sub_one_le_sum_vonMangoldt_div hN
     rw [hfil] at hdec
     rw [abs_le] at hvM ⊢
     constructor
-    · -- lower: prime sum ≥ Λ sum − 12 ≥ log N − (log 4 + 4) − 12
-      nlinarith [hdec, htail_le, hvM.1]
-    · -- upper: prime sum ≤ Λ sum ≤ log N + log 4 + 4
+    · -- lower: prime sum ≥ Λ sum − 3 ≥ log N − 1 − 3 ≥ log N − (log 4 + 3)
+      nlinarith [hdec, htail_le, hlow, h41]
+    · -- upper: prime sum ≤ Λ sum ≤ log N + log 4 + 3/2
       nlinarith [hdec, htail_nonneg, hvM.2]
 
 end ZetaLean.Mertens
