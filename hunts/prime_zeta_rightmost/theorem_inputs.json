@@ -1,0 +1,125 @@
+{
+  "hunt": "prime_zeta_rightmost",
+  "task": "WP3 demonstration inputs for THEOREM.md, both backends",
+  "date": "2026-08-16",
+  "versions": {
+    "python-flint": "0.9.0",
+    "mpmath": "1.3.0"
+  },
+  "vocabulary": "decided = interval/ball enclosure with exact endpoint sign logic",
+  "decisions": {
+    "D1_h_at_7_over_4_gt_1_over_128": {
+      "statement": "h(7/4) = P(7/4) - 2^(-3/4) > 1/128",
+      "flint": {
+        "interval": [
+          "0.009465637293734518587514821979513",
+          "0.009465637293734518587514821979514"
+        ],
+        "width": "1.275e-65",
+        "backend": "python-flint (arb)",
+        "precision": "350 bits",
+        "method": "Moebius series K=120 with decided tail (instrument.py docstring 1); exact rational compare of the lower endpoint against 1/128",
+        "time_s": 0.004,
+        "decided": true
+      },
+      "mpmath_iv": {
+        "interval": [
+          "0.00946563729373",
+          "0.00946563729374"
+        ],
+        "width": "1.284e-17",
+        "backend": "mpmath.iv",
+        "precision": "dps 40",
+        "method": "Moebius series K=40, per-term finite-sum zeta enclosures (instrument.py docstring 2), same tail bound",
+        "time_s": 0.111,
+        "decided": true
+      }
+    },
+    "D2_u_at_9_over_5_gt_1_over_256": {
+      "statement": "u(9/5) = sum_{p>=5} p^(-9/5) - 3^(-9/5) > 1/256",
+      "flint": {
+        "interval": [
+          "0.004312491729413063275865581947004",
+          "0.004312491729413063275865581947005"
+        ],
+        "width": "1.897e-67",
+        "backend": "python-flint (arb)",
+        "precision": "350 bits",
+        "method": "Moebius series K=120; exact rational compare of the lower endpoint against 1/256",
+        "time_s": 0.004,
+        "decided": true
+      },
+      "mpmath_iv": {
+        "interval": [
+          "0.00431249172941",
+          "0.00431249172942"
+        ],
+        "width": "8.153e-18",
+        "backend": "mpmath.iv",
+        "precision": "dps 40",
+        "method": "same machinery",
+        "time_s": 0.102,
+        "decided": true
+      }
+    },
+    "D3_log2_69_over_5log23_gt_17_over_8": {
+      "statement": "log2(69/(5*log 23)) > 17/8, so the {p >= 23} wall exceeds 2.125",
+      "flint": {
+        "interval": [
+          "2.137903503656002856060611381367",
+          "2.137903503656002856060611381368"
+        ],
+        "width": "1.423e-104",
+        "backend": "python-flint (arb)",
+        "precision": "350 bits",
+        "method": "direct ball arithmetic; exact rational compare of the lower endpoint against 17/8",
+        "time_s": 0.0,
+        "decided": true
+      },
+      "mpmath_iv": {
+        "interval": [
+          "2.137903503656002856060611381367",
+          "2.137903503656002856060611381368"
+        ],
+        "width": "1.837e-40",
+        "backend": "mpmath.iv",
+        "precision": "dps 40",
+        "method": "direct interval arithmetic",
+        "time_s": 0.0,
+        "decided": true
+      }
+    }
+  },
+  "window_comparisons": {
+    "W1_x_star_hi_lt_173_over_100": {
+      "statement": "hi(x_star) < 173/100 on both backends, so Re s >= 1.73 implies Re s > x_star",
+      "flint": true,
+      "mpmath_iv": true
+    },
+    "W2_sigma_c_lo_gt_7_over_4": {
+      "statement": "lo(sigma_c) > 7/4 on both backends, so 7/4 lies in (1, sigma_c)",
+      "flint": true,
+      "mpmath_iv": true
+    },
+    "W3_sigma_c_lo_gt_177_over_100": {
+      "statement": "lo(sigma_c) > 177/100 on both backends, so (1.73, 1.77) lies inside (1, sigma_c)",
+      "flint": true,
+      "mpmath_iv": true
+    },
+    "W4_sigma_c_hi_lt_89_over_50": {
+      "statement": "hi(sigma_c) < 89/50 on both backends, so Re s >= 1.78 implies Re s > sigma_c",
+      "flint": true,
+      "mpmath_iv": true
+    },
+    "W5_sigma_3_lo_gt_91_over_50": {
+      "statement": "lo(sigma_3) > 91/50 on both backends, so (1.78, 1.82) lies inside (1, sigma_3)",
+      "flint": true,
+      "mpmath_iv": true
+    },
+    "note": "exact Fraction comparisons of the outward-rounded decimal endpoints recorded in decided.json; outward rounding only widens an interval, so a comparison that succeeds against the rounded endpoint also holds for the underlying enclosure"
+  },
+  "notes": {
+    "instrument_defect_found_by_D3": "the first run of D3 produced disjoint enclosures on the two backends (iv leg collapsed to a 53-bit point value); traced to iv_endpoints converting through the global mp context (dps 15) instead of reading the raw _mpi_ endpoints. Sign decisions were never at risk (nearest rounding at relative precision cannot cross zero), value enclosures were; fixed in instrument.py, decide.py re-run afterwards reproduced decided.json identically except timings. The cross-backend disjointness check did exactly what MISSION.md kill condition 3 says it is for: it marked the instrument as the artifact."
+  },
+  "all_decided": true
+}

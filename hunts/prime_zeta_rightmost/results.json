@@ -1,0 +1,210 @@
+{
+  "hunt": "prime_zeta_rightmost",
+  "date": "2026-08-16",
+  "vocabulary": "decided = interval/ball enclosure with exact endpoint sign logic, stated with backend and precision; measured = one float route; heuristic = order-of-magnitude model with measured inputs; composite = decided numerics glued by classical proved or cited mathematics, graded by its weakest step",
+  "claims": {
+    "x_star": {
+      "statement": "x* is the unique real root of zeta(x) = 2 in (1, 2); OEIS A107311's constant",
+      "value_or_interval": {
+        "flint": ["1.7286472389981836181351030102976660", "1.7286472389981836181351030102977450"],
+        "flint_width": "7.889e-32",
+        "mpmath_iv": ["1.7286472389981835995", "1.7286472389981836884"],
+        "mpmath_iv_width": "8.882e-17"
+      },
+      "grade": "decided",
+      "backend": "python-flint (arb) and mpmath.iv",
+      "precision": "350 bits / dps 40",
+      "source_file": "decided.json"
+    },
+    "sigma_c": {
+      "statement": "sigma_c is the unique root in (1, infinity) of P(sigma) = 2^(1-sigma); the supremum of the real parts of the zeros of the prime zeta function (Corollary B1)",
+      "value_or_interval": {
+        "flint": ["1.7795446535469941164458987869654405", "1.7795446535469941164458987869655195"],
+        "flint_width": "7.889e-32",
+        "mpmath_iv": ["1.7795446535469636", "1.7795446535470547"],
+        "mpmath_iv_width": "9.095e-14",
+        "decided_digits_both_endpoints_agree": "1.779544653546994116445898786965"
+      },
+      "grade": "decided (the enclosure); composite (its role as the zero supremum, via Theorems A and B)",
+      "backend": "python-flint (arb) and mpmath.iv",
+      "precision": "350 bits / dps 40",
+      "source_file": "decided.json"
+    },
+    "sigma_3": {
+      "statement": "sigma_3 is the unique root of the {p >= 3} subset balance 3^(-s) = sum_{p>=5} p^(-s); the zero supremum for P_3",
+      "value_or_interval": {
+        "flint": ["1.8252259560738457623878727108889264", "1.8252259560738457623878727108890054"],
+        "flint_width": "7.889e-32",
+        "mpmath_iv": ["1.8252259559929", "1.8252259560861"],
+        "mpmath_iv_width": "9.313e-11"
+      },
+      "grade": "decided (the enclosure); composite (its role as the zero supremum)",
+      "backend": "python-flint (arb) and mpmath.iv",
+      "precision": "350 bits / dps 40",
+      "source_file": "decided.json"
+    },
+    "separation_sigma_c_minus_x_star": {
+      "statement": "sigma_c - x* > 1/20",
+      "value_or_interval": {
+        "lower_bound_flint": "0.050897414548810498310795776667695",
+        "lower_bound_mpmath_iv": "0.05089741454877"
+      },
+      "grade": "decided",
+      "backend": "python-flint (arb) and mpmath.iv, exact rational endpoint compare",
+      "precision": "350 bits / dps 40",
+      "source_file": "decided.json"
+    },
+    "margin_h_at_x_star": {
+      "statement": "h(x*) = P(x*) - 2^(1-x*) > 1/60, evaluated over the whole x* enclosure",
+      "value_or_interval": {
+        "flint": ["0.016907377213856298105802854273997", "0.016907377213856298105802854274113"],
+        "mpmath_iv": ["0.01690737721385", "0.01690737721386"]
+      },
+      "grade": "decided",
+      "backend": "python-flint (arb) and mpmath.iv",
+      "precision": "350 bits / dps 40",
+      "source_file": "decided.json"
+    },
+    "D1_h_at_7_over_4": {
+      "statement": "h(7/4) > 1/128 (ring margin for Theorem B's q = 2 instance)",
+      "value_or_interval": {
+        "flint": ["0.009465637293734518587514821979513", "0.009465637293734518587514821979514"],
+        "mpmath_iv": ["0.00946563729373", "0.00946563729374"]
+      },
+      "grade": "decided",
+      "backend": "python-flint (arb) and mpmath.iv",
+      "precision": "350 bits / dps 40",
+      "source_file": "theorem_inputs.json"
+    },
+    "D2_u_at_9_over_5": {
+      "statement": "u(9/5) > 1/256 (ring margin for Theorem C1's q = 3 instance)",
+      "value_or_interval": {
+        "flint": ["0.004312491729413063275865581947004", "0.004312491729413063275865581947005"],
+        "mpmath_iv": ["0.00431249172941", "0.00431249172942"]
+      },
+      "grade": "decided",
+      "backend": "python-flint (arb) and mpmath.iv",
+      "precision": "350 bits / dps 40",
+      "source_file": "theorem_inputs.json"
+    },
+    "D3_wall_of_p_ge_23": {
+      "statement": "log2(69/(5 log 23)) > 17/8: the {p >= 23} tail-subset wall exceeds 2.125 (Theorem C2 instance)",
+      "value_or_interval": {
+        "flint": ["2.137903503656002856060611381367", "2.137903503656002856060611381368"],
+        "mpmath_iv": ["2.137903503656002856060611381367", "2.137903503656002856060611381368"]
+      },
+      "grade": "decided",
+      "backend": "python-flint (arb) and mpmath.iv",
+      "precision": "350 bits / dps 40",
+      "source_file": "theorem_inputs.json"
+    },
+    "window_comparisons_W1_to_W5": {
+      "statement": "hi(x*) < 173/100; lo(sigma_c) > 7/4; lo(sigma_c) > 177/100; hi(sigma_c) < 89/50; lo(sigma_3) > 91/50",
+      "value_or_interval": "all true on both backends, exact Fraction compares against outward-rounded endpoints",
+      "grade": "decided",
+      "backend": "python-flint (arb) and mpmath.iv",
+      "precision": "350 bits / dps 40",
+      "source_file": "theorem_inputs.json"
+    },
+    "sigma_3_minus_sigma_c": {
+      "statement": "sigma_3 - sigma_c > 0.0456813: the {p >= 3} subset out-walls the full series",
+      "value_or_interval": {"lower_bound_flint": "0.0456813"},
+      "grade": "decided",
+      "backend": "python-flint (arb), exact rational endpoint compare",
+      "precision": "350 bits",
+      "source_file": "THEOREM.md"
+    },
+    "conjecture_1_refuted": {
+      "statement": "OEIS A107311 Conjecture 1 is false: P has infinitely many zeros with Re s in (1.73, 1.77), each exceeding x*; the true supremum is sigma_c, approached and not attained",
+      "value_or_interval": "falls by Theorems A + B (Corollaries B1, B2) with decided inputs T1, D1, W1, W3",
+      "grade": "composite: decided numerics + proofs in THEOREM.md + cited-classical steps",
+      "backend": "python-flint (arb) and mpmath.iv for every numeric input",
+      "precision": "350 bits / dps 40",
+      "source_file": "THEOREM.md"
+    },
+    "conjecture_2_refuted": {
+      "statement": "OEIS A107311 Conjecture 2 is false twice over: {p >= 3} has infinitely many zeros with Re s in (1.78, 1.82), beyond x* and beyond sigma_c; tail subsets {p >= p_k} have walls tending to infinity, so no replacement constant exists",
+      "value_or_interval": "falls by Theorem C1 (decided D2, W1, W4, W5) and by Theorem C2 + Corollary C3 (Rosser-Schoenfeld (3.8); decided instance D3)",
+      "grade": "composite: decided numerics + proofs in THEOREM.md + cited-classical steps",
+      "backend": "python-flint (arb) and mpmath.iv for every numeric input",
+      "precision": "350 bits / dps 40",
+      "source_file": "THEOREM.md"
+    },
+    "calibration_partial_sums": {
+      "statement": "same solver object pointed at the zeta-partial-sums balance recovers x*; OEIS value interval inside both enclosures; 31 digits reproduced (flint), 13 (iv)",
+      "value_or_interval": {
+        "flint": ["1.7286472389981836181351030102976660", "1.7286472389981836181351030102977450"],
+        "mpmath_iv": ["1.7286472389981099", "1.7286472389982010"]
+      },
+      "grade": "decided; control verdict PASS",
+      "backend": "python-flint (arb) and mpmath.iv",
+      "precision": "350 bits / dps 40",
+      "source_file": "controls_results.json"
+    },
+    "lesion_1_drop_p3": {
+      "statement": "removing the p = 3 tail term moves the root by a decided ~0.35: the solver reads its input",
+      "value_or_interval": {
+        "flint_root": ["1.4293161356678019330620811031492544", "1.4293161356678019330620811031493235"],
+        "shift_from_sigma_c": ["0.3502285178791921833838176838161", "0.3502285178791921833838176838163"]
+      },
+      "grade": "decided; control verdict PASS",
+      "backend": "python-flint (arb) (mpmath.iv confirming)",
+      "precision": "350 bits / dps 40",
+      "source_file": "controls_results.json"
+    },
+    "lesion_2_mis_port": {
+      "statement": "the conjecture's mis-port made mechanical (2^(-s) against sum_{n>=3} n^(-s)) lands at ~2.424, decidedly neither x* nor sigma_c",
+      "value_or_interval": {
+        "flint_root": ["2.4241112509134051299681251496785051", "2.4241112509134051299681251496785939"]
+      },
+      "grade": "decided; control verdict PASS",
+      "backend": "python-flint (arb) (mpmath.iv confirming)",
+      "precision": "350 bits / dps 40",
+      "source_file": "controls_results.json"
+    },
+    "precision_response": {
+      "statement": "sigma_c widths shrink strictly with working precision",
+      "value_or_interval": {"60_bits": "1.421e-15", "120_bits": "6.163e-34", "200_bits": "1.020e-57"},
+      "grade": "decided widths; control verdict PASS",
+      "backend": "python-flint (arb)",
+      "precision": "60 / 120 / 200 bits",
+      "source_file": "controls_results.json"
+    },
+    "witness_absence_P4": {
+      "statement": "no explicit witness zero of P found below t = 1e8 on sigma = 7/4; P4 confirmed; box counter validated on null and planted controls but never fired in earnest",
+      "value_or_interval": {
+        "eps0_budget_flint": ["0.009465637293734518587514821979513", "0.009465637293734518587514821979514"],
+        "min_absP_found_measured": 0.010021062926148282,
+        "min_absP_location_t": 56316681.50996085,
+        "candidates_below_1e-4": 0,
+        "expected_t_heuristic_line": 1.6376823600773134e16,
+        "expected_t_heuristic_window": 16851710604.191057
+      },
+      "grade": "decided (margin), measured (screen), heuristic (expected height); witness_decided_exists = false",
+      "backend": "python-flint (arb) 350 bits for the margin; numpy float64 for the screen; python-flint (acb) 192 bits for the box counter controls",
+      "precision": "350 bits / float64 / 192 bits",
+      "source_file": "witness_results.json"
+    },
+    "predictions": {
+      "statement": "pre-registered predictions, settled",
+      "value_or_interval": {
+        "P1_enclosure_windows_and_separation": "held",
+        "P2_calibration_recovers_x_star": "held (31 digits, flint leg)",
+        "P3_sigma_3_window": "held",
+        "P4_no_witness_below_1e8": "held"
+      },
+      "grade": "decided (P1-P3), measured screen (P4)",
+      "backend": "python-flint (arb) and mpmath.iv; numpy float64 for the P4 screen",
+      "precision": "350 bits / dps 40 / float64",
+      "source_file": "decided.json, controls_results.json, witness_results.json"
+    },
+    "scope_and_novelty": {
+      "statement": "refutation covers every reading of 'zeros of the prime zeta function' (refuting zeros sit in Re s > 1 where all readings agree); nothing claimed about Re s <= 1, finite subsets, or RH; no prior source found by the logged searches, but a general-Dirichlet-series specialist may consider the threshold folklore-derivable; the deliverable is the OEIS correction plus the first explicit treatment found for P",
+      "value_or_interval": null,
+      "grade": "composite, not kernel-checked; original claimed, novelty claimed only as 'no prior source found by the logged searches'",
+      "backend": null,
+      "precision": null,
+      "source_file": "SOURCE.md, THEOREM.md, RESULTS.md"
+    }
+  }
+}

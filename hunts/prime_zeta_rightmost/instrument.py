@@ -147,14 +147,29 @@ def arb_endpoints(x: arb) -> Tuple[Fraction, Fraction]:
 
 
 def iv_endpoints(x) -> Tuple[Fraction, Fraction]:
-    """Exact rational endpoints of an iv.mpf interval."""
+    """Exact rational endpoints of an iv.mpf interval, read from the raw
+    representation ``x._mpi_`` and never through a context conversion.
 
-    def to_fr(v) -> Fraction:
-        sign, man, exp, _ = mpmath.mpf(v)._mpf_
+    Instrument defect, found and fixed 2026-08-16: the first version went
+    through ``mpmath.mpf(x.a)``, and ``x.a`` is itself an interval object, so
+    that call converts through the *global* mp context (default dps 15) and
+    rounds both endpoints to the nearest 53-bit float. Rounding to nearest at
+    relative precision can never move a value across zero, so every recorded
+    sign decision made through the old path was sound; but value enclosures
+    were collapsed to zero width and misplaced beyond the 16th digit. Caught
+    by a cross-backend check: the two legs' enclosures of log2(69/(5 log 23))
+    came out disjoint, which marks the instrument, not the mathematics
+    (MISSION.md kill condition 3). ``_mpi_`` holds the true endpoint pair as
+    raw mpf tuples; converting those to Fractions is exact.
+    """
+
+    def to_fr(t) -> Fraction:
+        sign, man, exp, _ = t
         f = Fraction(int(man)) * (Fraction(2) ** int(exp))
         return -f if sign else f
 
-    return to_fr(x.a), to_fr(x.b)
+    a_raw, b_raw = x._mpi_
+    return to_fr(a_raw), to_fr(b_raw)
 
 
 def outward_decimal(lo: Fraction, hi: Fraction, digits: int) -> Tuple[str, str]:
