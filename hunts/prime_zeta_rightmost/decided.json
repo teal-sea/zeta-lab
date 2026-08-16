@@ -1,0 +1,206 @@
+{
+  "hunt": "prime_zeta_rightmost",
+  "task": "WP2 + WP4 decided constants, both backends",
+  "date": "2026-08-16",
+  "versions": {
+    "python-flint": "0.9.0",
+    "mpmath": "1.3.0"
+  },
+  "vocabulary": "decided = interval/ball enclosure with exact endpoint sign logic; measured = one float route",
+  "preregistered_checks": {
+    "P1_sigma_c_in_[1.77954465,1.77954466]": true,
+    "P1_x_star_in_[1.72864723,1.72864724]": true,
+    "P1_separation_gt_1_over_20": true,
+    "P3_sigma_3_in_[1.82522,1.82523]": true
+  },
+  "constants": {
+    "x_star": {
+      "flint": {
+        "interval": [
+          "1.7286472389981836181351030102976660",
+          "1.7286472389981836181351030102977450"
+        ],
+        "width": "7.889e-32",
+        "backend": "python-flint (arb)",
+        "precision": "350 bits",
+        "method": "bisection on zeta(x)-2 with arb zeta; bracket [1.7, 1.8]",
+        "time_s": 0.016,
+        "iterations": 100,
+        "sign_stalled": false
+      },
+      "mpmath_iv": {
+        "interval": [
+          "1.7286472389981835995",
+          "1.7286472389981836884"
+        ],
+        "width": "8.882e-17",
+        "backend": "mpmath.iv",
+        "precision": "dps 40",
+        "method": "bisection; zeta by Dirichlet sum N=4000 plus Euler-Maclaurin tail with decided remainder (instrument.py docstring 2); iv.zeta raises on call in mpmath 1.3.0 so it was not used",
+        "time_s": 6.398,
+        "iterations": 50,
+        "sign_stalled": false,
+        "dirichlet_N": 4000
+      },
+      "cross_checks": {
+        "oeis_a107311_digits": "1.72864723899818361813510301029769146423410984933503573232128590842317859653571008677274608108898264401",
+        "oeis_value_interval_inside_flint_interval": true,
+        "oeis_value_interval_inside_iv_interval": true,
+        "backends_intersect": true,
+        "flint_interval_inside_iv_interval": true
+      }
+    },
+    "sigma_c": {
+      "flint": {
+        "interval": [
+          "1.7795446535469941164458987869654405",
+          "1.7795446535469941164458987869655195"
+        ],
+        "width": "7.889e-32",
+        "backend": "python-flint (arb)",
+        "precision": "350 bits",
+        "method": "bisection on P(s)-2^(1-s); P by Moebius series K=120 with tail |sum_{k>K}| <= 3*2^(-(K+1)s)/((K+1)(1-2^(-s))) from 0 < log zeta(y) <= 3*2^(-y) for y >= 2 (instrument.py docstring 1); bracket [1.7, 1.9]",
+        "time_s": 0.369,
+        "iterations": 101,
+        "sign_stalled": false,
+        "moebius_K": 120
+      },
+      "mpmath_iv": {
+        "interval": [
+          "1.7795446535469636",
+          "1.7795446535470547"
+        ],
+        "width": "9.095e-14",
+        "backend": "mpmath.iv",
+        "precision": "dps 40",
+        "method": "bisection; Moebius series K=40, each zeta(k s) enclosed by finite sum + Euler-Maclaurin tail (N: 2000/400/100/30 by k), same Moebius tail bound as the flint leg",
+        "time_s": 4.312,
+        "iterations": 41,
+        "sign_stalled": false,
+        "moebius_K": 40
+      },
+      "cross_checks": {
+        "backends_intersect": true,
+        "flint_interval_inside_iv_interval": true
+      }
+    },
+    "sigma_3": {
+      "flint": {
+        "interval": [
+          "1.8252259560738457623878727108889264",
+          "1.8252259560738457623878727108890054"
+        ],
+        "width": "7.889e-32",
+        "backend": "python-flint (arb)",
+        "precision": "350 bits",
+        "method": "bisection on u(s) = P(s) - 2^(-s) - 2*3^(-s), the {p>=3} subset balance 3^(-s) = sum_{p>=5} p^(-s); same Moebius machinery as sigma_c; bracket [1.80, 1.85]",
+        "time_s": 0.361,
+        "iterations": 99,
+        "sign_stalled": false,
+        "moebius_K": 120
+      },
+      "mpmath_iv": {
+        "interval": [
+          "1.8252259559929",
+          "1.8252259560861"
+        ],
+        "width": "9.313e-11",
+        "backend": "mpmath.iv",
+        "precision": "dps 40",
+        "method": "bisection, same iv machinery as sigma_c, deliberately shallower target width (the weaker leg confirms, the flint leg decides depth)",
+        "time_s": 3.022,
+        "iterations": 29,
+        "sign_stalled": false,
+        "moebius_K": 40
+      },
+      "cross_checks": {
+        "backends_intersect": true,
+        "flint_interval_inside_iv_interval": true
+      }
+    }
+  },
+  "decisions": {
+    "separation_sigma_c_minus_x_star_gt_1_over_20": {
+      "statement": "sigma_c - x_star > 1/20",
+      "flint": {
+        "decided": true,
+        "lower_bound_of_difference": "0.050897414548810498310795776667695",
+        "compare": "exact rational: lo(sigma_c) - hi(x_star) vs 1/20"
+      },
+      "mpmath_iv": {
+        "decided": true,
+        "lower_bound_of_difference": "0.05089741454877"
+      }
+    },
+    "margin_P_at_x_star_minus_2_pow_1_minus_x_star_gt_1_over_60": {
+      "statement": "P(x_star) - 2^(1-x_star) > 1/60",
+      "flint": {
+        "decided": true,
+        "h_enclosure": [
+          "0.016907377213856298105802854273997",
+          "0.016907377213856298105802854274113"
+        ],
+        "compare": "exact rational: lower endpoint vs 1/60",
+        "time_s": 0.004
+      },
+      "mpmath_iv": {
+        "decided": true,
+        "h_enclosure": [
+          "0.01690737721385",
+          "0.01690737721386"
+        ],
+        "time_s": 0.097
+      }
+    },
+    "h_prime_negative_on_1p7_1p9": {
+      "statement": "h'(s) < 0 for all s in [1.7, 1.9], so the sigma_c root is unique there",
+      "bound": "h'(s) <= log2*2^(-s) - sum_{3<=p<=1000} log p * p^(-s); dropping the positive prime tail only raises the value",
+      "flint": {
+        "decided": true,
+        "upper_bound_enclosure_upper_endpoint": "-0.1752097421293288",
+        "prime_cutoff": 1000,
+        "time_s": 0.001
+      },
+      "mpmath_iv": {
+        "decided": true,
+        "upper_bound_enclosure_upper_endpoint": "-0.1752097754628339",
+        "prime_cutoff": 1000,
+        "time_s": 0.007
+      }
+    },
+    "u_prime_negative_on_1p80_1p85": {
+      "statement": "u'(s) < 0 for all s in [1.80, 1.85], so the sigma_3 root is unique there",
+      "bound": "u'(s) <= log2*2^(-s) + 2 log3*3^(-s) - sum_{p<=1000} log p * p^(-s)",
+      "flint": {
+        "decided": true,
+        "upper_bound_enclosure_upper_endpoint": "-0.11990810263771595",
+        "prime_cutoff": 1000,
+        "time_s": 0.001
+      },
+      "mpmath_iv": {
+        "decided": true,
+        "upper_bound_enclosure_upper_endpoint": "-0.11990812373872732",
+        "prime_cutoff": 1000,
+        "time_s": 0.007
+      }
+    },
+    "zeta_strictly_decreasing_on_1_2": {
+      "statement": "zeta'(x) = -sum_{n>=2} log n * n^(-x) < 0 termwise for x > 1; exact, no numerics needed; the x_star root is unique in (1,2)",
+      "decided": true,
+      "kind": "termwise-exact, both backends unnecessary"
+    },
+    "bracket_endpoint_signs": {
+      "note": "each bisection first decided the bracket endpoint signs (f(lo) > 0, f(hi) < 0) on its own backend; a bracket with undecided endpoints raises and no such raise occurred",
+      "brackets": {
+        "x_star": "[1.7, 1.8]",
+        "sigma_c": "[1.7, 1.9]",
+        "sigma_3": "[1.80, 1.85]"
+      }
+    }
+  },
+  "notes": {
+    "backend_story": "flint (arb, 350 bits) carries everything to width < 1e-30: arb.zeta directly for x_star, the Moebius series with K=120 and the decided 2^(-(K+1)s) tail for P. mpmath.iv (dps 40) is the weaker leg by construction: iv.zeta exists as an attribute in mpmath 1.3.0 but raises AttributeError('bernoulli') on call, so the iv leg carries a finite Dirichlet sum plus an Euler-Maclaurin tail whose remainder is bounded by y(y+1)(y+2)a^(-y-3)/720 and added as an interval. That enclosure decides x_star to ~1e-16, sigma_c to ~1e-13 and sigma_3 to ~1e-10, and it independently confirms every sign decision the flint leg makes (separation, margin, both derivative guards). What iv could not carry: 30-digit widths (the per-term Euler-Maclaurin remainder floor and iv arithmetic cost cap the useful depth), and any use of a library zeta. All bracket bookkeeping is exact Fractions on both legs, so backend rounding can widen but never misplace an interval.",
+    "uniqueness_argument": "Each constant is the unique root of a strictly decreasing function on its bracket: zeta on (1,2) termwise-exactly; h and u by the decided derivative guards above. Bisection preserves decided opposite signs at the bracket ends, so each reported interval contains the root.",
+    "moebius_tail_bound": "|sum_{k>K} mu(k)/k log zeta(ks)| <= 3*2^(-(K+1)s)/((K+1)(1-2^(-s))) for s >= 1, K >= 1, from 0 < log zeta(y) <= zeta(y)-1 <= 3*2^(-y) for y >= 2; full derivation in instrument.py."
+  }
+}
