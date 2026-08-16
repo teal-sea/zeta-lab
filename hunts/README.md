@@ -100,6 +100,36 @@ this proof's novelty. Evidence in `hunts/r_065f29/RESULTS.md`; the outcome is
 recorded as a white-box `AttackOutcome` in
 `harness/departments/review_ledger.py`. Nothing here is evidence for or
 against RH.
+### Hunt #37: Hardy–Ramanujan, settled (`r_0339c1/`)
+
+**Status: settled. The Hardy–Ramanujan theorem is kernel-checked with zero
+`sorry`s: `ZetaLean.HardyRamanujan.hardy_ramanujan` proves the density form,
+by Turán's proof, with every constant explicit.** This is the retry of Hunt
+#12 with its named wall removed: Mertens' second theorem now exists on main
+(`ZetaLean.Mertens.mertens_second_theorem`, band `76`, from hunt `r_3c1cbb`),
+and the remaining half of Turán's argument was, as Hunt #12 priced it,
+bookkeeping.
+
+Hunt #12's kernel-checked halves are reused as written (copied with
+attribution; its branch is unmerged): the statement, the double-counting
+identity `∑_{n ≤ N} ω(n) = ∑_{p ≤ N} ⌊N/p⌋`, and the whole Chebyshev step.
+New in this run: the second moment expands `ω(n)²` over ordered pairs of
+primes, `Nat.Ioc_filter_dvd_card_eq_div` at `p*q` counts the off-diagonal,
+and `∑_{n ≤ N} ω(n)² ≤ N·S² + N·S` with `S = ∑_{p ≤ N} 1/p` follows. With
+the first-moment bracket `N·S − N ≤ ∑ ω ≤ N·S` and `|S − log log N| ≤ 76`,
+the variance obeys `∑_{n ≤ N} (ω(n) − log log N)² ≤ 5855 · N · log log N`
+whenever `log log N ≥ 1` (`sum_sq_dev_le`; the constant is `76² + 76 + 3`,
+coarse because the Mertens band is, and tightens automatically if that
+does). `lake build` printed `✔ [8699/8699] Built
+ZetaLean.HardyRamanujantheorem`; the seven public theorems each depend only
+on `propext`, `Classical.choice`, `Quot.sound`. The module compiled on the
+first attempt, which is what reading Hunt #12's route and trap list before
+writing anything buys. Nothing here bears on ζ or RH (`docs/08`); external
+review remains pending, as it does for every claim this laboratory
+publishes.
+
+**Numbering note.** This run was assigned #36 by its brief and found #36 already taken by `r_065f29` when the two branches met at the merge. Per the brief's own rule — "if it is occupied say so rather than renumbering silently" — it is recorded here as #37. Two coordinators assigned the same number independently; the case-number reservation is not shared across sessions.
+
 ### Hunt #12 — Hardy–Ramanujan, and the lemma Mathlib does not have (`r_0339c1/`)
 
 **Status: not settled, and the wall is named. The Hardy–Ramanujan theorem is
