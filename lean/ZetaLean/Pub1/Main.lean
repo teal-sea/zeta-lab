@@ -21,9 +21,9 @@ that is minimized.  `orientation_not_symmetric` records that the two are not
 interchangeable.
 
 `StrongClosureData` is the interface: it names exactly the analytic facts the
-argument consumes.  Fields marked *discharged* below have unconditional proofs
-in this development; the rest are the remaining formal obligations, and are
-listed in `ZetaLean/Pub1/OBLIGATIONS.md`.
+argument consumes.  Every field now has an unconditional proof, assembled in
+`ZetaLean.Pub1.Unconditional`; the theorems here take the interface as a
+hypothesis and are the `*_of_data` layer beneath it.
 -/
 
 open Filter Topology MeasureTheory Set
@@ -99,8 +99,9 @@ theorem cStar_pos_of_lower {w : ℝ → ℝ} (hwc : Continuous w)
 
 /-! ### The interface -/
 
-/-- The analytic inputs the strong-closure theorem consumes, named one by one so
-that what is proved and what is still open can be read off. -/
+/-- The analytic inputs the strong-closure theorem consumes, named one by one.
+All of them are proved; `Unconditional.strongClosureData_final` supplies the
+whole structure. -/
 structure StrongClosureData (w : ℝ → ℝ) (C₁ C₂ : ℝ) : Prop where
   /-- `w` solves `Aw = 1`.  *Discharged* by `exists_profile`. -/
   isProfile : IsProfile w
