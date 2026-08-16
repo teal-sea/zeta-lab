@@ -7,6 +7,7 @@ import ZetaLean.Pub1.WRegularity
 import ZetaLean.Pub1.Window
 import ZetaLean.Pub1.Aristotle.J2
 import ZetaLean.Pub1.Aristotle.TU2
+import ZetaLean.Pub1.Concave
 
 /-!
 # Pub 1 strong closure: obligation D, discharged
@@ -71,6 +72,44 @@ theorem taper_secondDeriv_L1_of_profile (hw : IsProfile w) {L : ℝ} (hL : 8 ≤
     linarith
   have heq : taper w L' = fun u : ℝ => Real.sqrt (w (u / L')) * eta (L' / 2 - |u|) := rfl
   rw [heq]
+  exact le_trans h hmono
+
+/-- `φ_L² = w(·/L)·η(L/2-|·|)²`, since `(√w)² = w`. -/
+theorem taper_sq_eq (hw : IsProfile w) (L : ℝ) :
+    (fun u : ℝ => taper w L u ^ 2) = fun u : ℝ => w (u / L) * eta (L / 2 - |u|) ^ 2 := by
+  funext u
+  rw [taper, mul_pow, Real.sq_sqrt (le_of_lt (profile_pos hw _))]
+
+/-- **`‖(φ_L²)''‖₁` is bounded uniformly in `L ≥ 8`.** -/
+theorem taper_sq_secondDeriv_L1_of_profile (hw : IsProfile w) :
+    ∃ C₂ : ℝ, ∀ L : ℝ, 8 ≤ L →
+      (∫ u : ℝ, |iteratedDeriv 2 (fun y : ℝ => taper w L y ^ 2) u|) ≤ C₂ := by
+  obtain ⟨C0, C1, C2, hC⟩ : ∃ C0 C1 C2 : ℝ, ∀ s ∈ Iint,
+      |w s| ≤ C0 ∧ |deriv w s| ≤ C1 ∧ |deriv (deriv w) s| ≤ C2 :=
+    ⟨1, wB2 / 2, wB2, fun s hs => ⟨by
+      rw [abs_le]
+      exact ⟨by linarith [(profile_bounds hw).1 s], (profile_bounds hw).2 s⟩,
+      w_deriv_bound hw hs, w_second_deriv_bound hw hs⟩⟩
+  refine ⟨C2 / 8 + 4 * C1 / 8 + (20615 / 858) * C0, fun L' hL' => ?_⟩
+  have hφ : ContDiff ℝ 2 (fun u : ℝ => w (u / L') * eta (L' / 2 - |u|) ^ 2) := by
+    have h := (taper_contDiff_of_profile hw hL').pow 2
+    rw [taper_sq_eq hw L'] at h
+    exact h
+  have h := AristotleTU2.taper_sq_second_deriv_L1_bound_open w L' C0 C1 C2 hL'
+    (w_contDiffOn hw) hφ (fun y hy => (hC y hy).1) (fun y hy => (hC y hy).2.1)
+    (fun y hy => (hC y hy).2.2)
+  have hC0nn : 0 ≤ C0 := le_trans (abs_nonneg _) (hC 0 (by rw [Iint]; constructor <;> norm_num)).1
+  have hC1nn : 0 ≤ C1 :=
+    le_trans (abs_nonneg _) (hC 0 (by rw [Iint]; constructor <;> norm_num)).2.1
+  have hC2nn : 0 ≤ C2 :=
+    le_trans (abs_nonneg _) (hC 0 (by rw [Iint]; constructor <;> norm_num)).2.2
+  have hmono : C2 / L' + 4 * C1 / L' + (20615 / 858) * C0
+      ≤ C2 / 8 + 4 * C1 / 8 + (20615 / 858) * C0 := by
+    have h8 : (0:ℝ) < 8 := by norm_num
+    have e1 : C2 / L' ≤ C2 / 8 := div_le_div_of_nonneg_left hC2nn h8 hL'
+    have e2 : 4 * C1 / L' ≤ 4 * C1 / 8 := div_le_div_of_nonneg_left (by linarith) h8 hL'
+    linarith
+  rw [taper_sq_eq hw L']
   exact le_trans h hmono
 
 end ZetaLean.Pub1

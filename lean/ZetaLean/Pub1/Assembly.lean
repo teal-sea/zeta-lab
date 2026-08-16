@@ -51,14 +51,14 @@ theorem strongClosureData_of_member (hw : IsProfile w)
 theorem pub1_strong_closure_of_member (hw : IsProfile w)
     (hmem : ∀ n : ℕ, profile w (8 + (n : ℝ)) ∈ sourceAdmissible C₁ C₂) :
     IsLUB (quot '' sourceAdmissible C₁ C₂) (cStar w) :=
-  pub1_strong_closure (strongClosureData_of_member hw hmem)
+  pub1_strong_closure_of_data (strongClosureData_of_member hw hmem)
 
 /-- The reciprocal orientation, likewise. -/
 theorem pub1_strong_closure_reciprocal_of_member (hw : IsProfile w)
     (hmem : ∀ n : ℕ, profile w (8 + (n : ℝ)) ∈ sourceAdmissible C₁ C₂)
     (hmass : ∀ v ∈ sourceAdmissible C₁ C₂, massI v ≠ 0) :
     IsGLB (recipQuot '' sourceAdmissible C₁ C₂) (cStar w)⁻¹ :=
-  pub1_strong_closure_reciprocal (strongClosureData_of_member hw hmem) hmass
+  pub1_strong_closure_reciprocal_of_data (strongClosureData_of_member hw hmem) hmass
 
 /-! ### Reducing admissibility to three analytic facts -/
 

@@ -9,6 +9,14 @@ import ZetaLean.Pub1.Concavity
 import ZetaLean.Pub1.Window
 import ZetaLean.Pub1.Setting
 import ZetaLean.Pub1.Profile
+import ZetaLean.Pub1.QDiff
+import ZetaLean.Pub1.ZBounds
+import ZetaLean.Pub1.UppFormula
+import ZetaLean.Pub1.ZppBound
+import ZetaLean.Pub1.UpolyD2
+import ZetaLean.Pub1.Concave
+import ZetaLean.Pub1.Unconditional
+import ZetaLean.Pub1.Aristotle.Y
 import ZetaLean.Pub1.Main
 import ZetaLean.Pub1.Convergence
 import ZetaLean.Pub1.Assembly

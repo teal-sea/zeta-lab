@@ -82,4 +82,18 @@ theorem concavity_closes_final :
     uSecondDerivBound + (r2C + stC * usupC + 2 * zinfC + qabsC * zl2C) < concavityBound := by
   norm_num [uSecondDerivBound, r2C, stC, usupC, zinfC, qabsC, zl2C, concavityBound, c1]
 
+/-- **Residual lesion on the final assembly.**  Inflating every residual-derived
+bound by the factor 101 recorded in the evidence document destroys the verdict:
+the total no longer clears the target. -/
+theorem zpp_arith_lesioned :
+    ¬ (101 * r2C + stC * usupC + 2 * (101 * zinfC) + qabsC * (101 * zl2C)
+      < 6060899845 / 10 ^ 12) := by
+  norm_num [r2C, stC, usupC, zinfC, qabsC, zl2C]
+
+/-- And strict concavity fails under the same lesion. -/
+theorem concavity_lesioned_final :
+    concavityBound
+      < uSecondDerivBound + (101 * r2C + stC * usupC + 2 * (101 * zinfC) + qabsC * (101 * zl2C)) := by
+  norm_num [concavityBound, uSecondDerivBound, c1, r2C, stC, usupC, zinfC, qabsC, zl2C]
+
 end ZetaLean.Pub1
