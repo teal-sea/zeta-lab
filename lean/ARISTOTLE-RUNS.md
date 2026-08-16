@@ -312,3 +312,37 @@ applications in preference to `simpa`/`convert`.
 Prompts are pinned in the private operating repo at
 `fulcrum/records/aristotle-prompts/pub1/` (the prompt corpus is the private side
 of the boundary; the statements themselves are public, in the .lean files).
+
+## Batch 8 — Pub 1 analytic obligations (submitted 2026-08-16, later same day)
+
+Seven further bounded lemmas aimed at removing the four analytic assumptions
+recorded in `lean/ZetaLean/Pub1/OBLIGATIONS.md`.  Same rules as batches 5-7, and
+the prompts now carry the porting notes distilled from those batches (explicit
+antiderivatives instead of `norm_num` on interval integrals; `congr_deriv`
+instead of `convert`; no `simpa` on lambdas).  That guidance paid: six of seven
+ported unchanged, against seven of twelve in the previous round.
+
+| tag | project | statement | status |
+| --- | --- | --- | --- |
+| N | `ef6f7ba0-bb8f-4a90-a5b5-98b7457c6e09` | second derivative of a convolution against a kernel with a `\|x\|` kink, via splitting at `t = s`; the two moving endpoints produce `2 f'(0) v(s)` | collected — accepted, ported unchanged |
+| O | `8a0369d6-ee00-4962-bbf4-3e7625d9b9ff` | `∫_I \|s-t\|^m t^n dt` in closed form | collected — accepted, ported unchanged |
+| R | `bf7c9cd9-68b7-49b1-8e87-ae61ae9a5183` | the two resolvent estimates `‖z‖ ≤ (9/5)‖g‖` in `L^∞` and `L²` | collected — accepted, ported unchanged |
+| S | `f6285416-5ef5-471b-8aeb-8b906917dbe2` | the half-line form factor is entire; `f 0 = 0`, `f'(0) = 1`, `f'' = q` | collected — accepted, ported unchanged |
+| T | `34c103b7-ec61-4128-bd19-771f462dcc69` | uniform `L¹` bound on `φ_L''` for `L ≥ 8` | collected — accepted, ported unchanged |
+| U | `d0e0056a-4800-4385-8f1d-7e82197de3ea` | the same for `(φ_L²)''` | submitted |
+
+**What N bought, and why it matters.** The informal chain says
+`F₁'' = 2δ₀ + q`, and Mathlib has no convenient distributional-derivative API for
+this kernel. Rather than build one, N differentiates the split integral twice and
+recovers the delta mass as the sum of two moving-endpoint boundary terms. The
+coefficient `2` is then a theorem, not a convention: it is `2 f'(0)` with
+`f'(0) = 1` proved separately in S. This is the cheaper route by a wide margin
+and it is the one the operator prompt suggested.
+
+**Measured turnaround** (submit to collect, upper bounds; collection was polled):
+N, O ~55 min and ~20 min; R ~35 min; S ~65 min; T ~75 min. The two
+series-analysis targets (S) and the product-rule/`L¹` target (T) were the slow
+ones, consistent with batch 5-7 where the series work also ran longest.
+
+Prompts are pinned in the private operating repo at
+`fulcrum/records/aristotle-prompts/pub1/`.

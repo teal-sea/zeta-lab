@@ -35,6 +35,22 @@ open ZetaLean.Pub1
 #print axioms ZetaLean.Pub1.F1_row_bound
 #print axioms ZetaLean.Pub1.taper_radial
 #print axioms ZetaLean.Pub1.taper_support
+-- obligation A: the F1'' = 2 delta_0 + q step
+#print axioms ZetaLean.Pub1.pub1_kernel_second_deriv
+#print axioms ZetaLean.Pub1.splitKernel_second_deriv
+#print axioms ZetaLean.Pub1.F1_eq_fKer
+#print axioms ZetaLean.Pub1.fKer_deriv_zero
+-- obligation B: the exact residual certificate
+#print axioms ZetaLean.Pub1.r0_identity
+#print axioms ZetaLean.Pub1.r0Sum_lt_decimal
+#print axioms ZetaLean.Pub1.r0Sum2_lt_decimal
+#print axioms ZetaLean.Pub1.deriv_deriv_r0Sum
+#print axioms AristotleR.resolvent_linf_bound
+#print axioms AristotleR.resolvent_l2_bound
+-- obligation C
+#print axioms ZetaLean.Pub1.profile_pos
+-- obligation D (first half)
+#print axioms AristotleT.taper_second_deriv_L1_bound
 #print axioms ZetaLean.Pub1.eta_contDiff
 #print axioms ZetaLean.Pub1.taper_contDiff
 #print axioms ZetaLean.Pub1.profile_bounds
