@@ -115,6 +115,43 @@ def test_grid_ball_normLower_really_bounds_the_modulus_below(gid):
     assert float(n["normLower"]) <= a, (gid, float(n["normLower"]), float(a))
 
 
+def test_ball_width_sits_just_above_the_first_order_floor():
+    """The ball width is bracketed by calculus, from both sides.
+
+    Over an `s`-ball of radius delta/2, each term `m^{-s}` genuinely varies by
+    about `log(m) * m^{-sigma} * delta/2`, so the coefficient-weighted sum of
+    those is an information-theoretic floor no sound enclosure can beat.
+    Measured over 15 big boxes, the ball evaluator's width term sits at
+    1.09-1.20x that floor: the rect -> ball gain (13.7x) is exactly the
+    rotation waste, and what remains is the irreducible variation plus
+    Taylor/coarsening slop.
+
+    Pinned from both sides at one site because each side kills a different
+    defect: width BELOW the floor means enclosure is being dropped (the
+    too-good-to-be-true failure mode), width far ABOVE it means the wrapping
+    waste has crept back in.
+    """
+    import math
+
+    site = next(b for b in meas.PLAN["big"]["boxes"] if b["id"] == "B_right_06")
+    n = _assembled(site, "ball")
+    delta = float(n["delta"])
+    width = float(n["nb_box"] - n["nb_point"])
+    sigma = float(F(site["sigma_lo"]))
+    kappa = 0.2840791
+    s_w = s_u = 0.0
+    for m in range(2, 5 * site["K"]):
+        j = m % 5
+        if j == 0:
+            continue
+        c = kappa if j in (2, 3) else 1.0
+        v = m ** (-sigma) * math.log(m)
+        s_w += c * v
+        s_u += v
+    floor = 0.5 * delta * s_w
+    assert 0.95 * floor <= width <= 1.35 * floor, (width, floor, width / floor)
+
+
 def test_the_ball_gain_is_in_the_width_term_not_the_centre():
     """Attribute the 14x: it must come from the boxed-vs-point difference
     (rotation wrapping), not from the point evaluation moving."""
