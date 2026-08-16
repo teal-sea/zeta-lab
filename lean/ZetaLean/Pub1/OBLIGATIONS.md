@@ -44,20 +44,36 @@ Supporting, all kernel-checked: `Aristotle/N` (the two differentiations),
 **Still open — the smallest missing statement:**
 
 ```lean
-theorem w_contDiffOn :
-    ContDiffOn ℝ 2 wExt (Set.Ioo (-(3/5) : ℝ) (3/5))
+theorem w_contDiffOn_open :
+    ContDiffOn ℝ 2 w (Set.Ioo (-(1/2) : ℝ) (1/2))
+theorem w_deriv_bounded :
+    ∃ B₁ B₂, ∀ s ∈ Set.Ioo (-(1/2) : ℝ) (1/2), |deriv w s| ≤ B₁ ∧ |deriv (deriv w) s| ≤ B₂
 ```
 
-where `wExt s = 1 - ∫_I F₁(s-t) · w t dt` is the natural extension of `w` off
-`I`.  Two steps remain, neither blocked by Mathlib:
+Both follow from `pub1_kernel_second_deriv` applied with `v = w`: the formula
+`w'' = -(2w + q*w)` is continuous on the *closed* interval, hence bounded.  Not
+blocked by Mathlib.
 
-1. apply `pub1_kernel_second_deriv` with `v = w` to get `w'' = -(2w + q*w)` on
-   the interior of `I`, and conclude `ContDiffOn` there from continuity of the
-   right-hand side;
-2. cross `|s| = 1/2`.  The `w` produced by `exists_profile` solves the equation
-   for the *clamped* kernel, so it is constant outside `I` and is not `C²`
-   across the endpoints.  `wExt` is, because `F₁` is entire and `s - t` never
-   vanishes for `|s| > 1/2`, `|t| ≤ 1/2`, so no kink arises there.
+**A correction, recorded here rather than swept.**  An earlier revision of this
+file named `ContDiffOn ℝ 2 wExt (Ioo (-3/5) (3/5))` as the target, for the
+natural extension `wExt s = 1 - ∫_I F₁(s-t)w(t)dt`.  That statement is **false**.
+Inside `I` the second derivative carries the `2w(s)` delta-mass term; outside `I`
+it does not (`s - t` never vanishes there, so no kink); so `wExt''` jumps by
+exactly `2w(±1/2) ≥ 2/5` at the endpoints.  `wExt ∈ C¹` but not `C²` across
+`±1/2`.  The evidence document never claims otherwise: it asserts `w ∈ C²(I)` on
+the closed interval from inside, and gets `φ_L ∈ C_c²` from the fourth-order
+vanishing of `η` at the window edge, which is enough.
+
+Consequences for what is already landed:
+
+* `Aristotle/J` (`taper_contDiff`) and its wrapper `sourceWindow_taper` take
+  `ContDiffOn ℝ 2 w (Ioo (-3/5) (3/5))` as a hypothesis.  Those theorems are
+  true, but **the hypothesis is unsatisfiable for the real `w`**, so they cannot
+  be instantiated.  J must be re-proved with the weaker, correct hypothesis:
+  `w ∈ C²` on the open interval with bounded `w'`, `w''`, and the boundary
+  handled by `η(L/2-|u|) = O((L/2-|u|)⁴)`.  The mathematics is the same; the
+  prompt over-asked.
+* `profile_pos_on` (positivity on the larger interval) is unaffected and true.
 
 ## Obligation B — the exact residual certificate
 
@@ -133,7 +149,9 @@ theorem taper_sq_second_deriv_L1_bound :
 ```
 
 plus the instantiation of both with `P = √w` and `P = w`, which needs the
-`‖w'‖_∞`, `‖w''‖_∞` bounds from obligation A.
+`‖w'‖_∞`, `‖w''‖_∞` bounds from obligation A.  Note `Aristotle/T` (and `U`)
+take `ContDiff ℝ 2 P` on all of `ℝ`; for `P = √w` that is the same
+over-strong hypothesis as J and needs the same weakening.
 
 ## The lesion test
 
