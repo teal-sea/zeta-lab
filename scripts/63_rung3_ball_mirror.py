@@ -38,7 +38,11 @@ from __future__ import annotations
 import math
 from fractions import Fraction as F
 
-SQRT_P = 96  # bits for the rational modulus bounds; well below the coarsening cost
+# MUST equal the coarsening precision `p` used by the tower: `ZetaLean.Ball`'s
+# `absUpper p` rounds the modulus bound to `p` bits, and a mirror that rounds it
+# to a different precision produces boxes the kernel refuses.  This was 96 until
+# a bit-exactness comparison against `#eval` caught it.
+SQRT_P = 64
 
 
 # --- rational square-root bounds ----------------------------------------------
@@ -146,7 +150,9 @@ def ccoarsen(p: int, x: C) -> C:
     tp = F(2) ** p
     nre = F(round(x.cre * tp)) / tp
     nim = F(round(x.cim * tp)) / tp
-    disp = sqrt_upper((nre - x.cre) ** 2 + (nim - x.cim) ** 2)
+    # L1, matching `ComplexBall.recentre`: |dre| + |dim| bounds the modulus and
+    # needs no square root, so the Lean lemma has none.
+    disp = abs(nre - x.cre) + abs(nim - x.cim)
     return C(nre, nim, _ceil_bits(x.rad + disp, p))
 
 

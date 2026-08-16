@@ -529,16 +529,24 @@ theorem contains_sqIter (p : ℕ) :
       rw [← pow_add]; congr 1; ring] at h2
     exact contains_coarsenB p h2
 
-/-- `exp` by scale-down-and-square, with outward rounding after each squaring. -/
+/-- `exp` by scale-down-and-square, with outward rounding after the Taylor sum
+and after every squaring.
+
+Rounding the *base* matters as much as rounding the squarings: `expSumCB` sums
+`n` terms of the form `x^i / i!`, whose exact rationals are the widest literals
+in the whole tower.  Leaving that one unrounded also put this definition out of
+step with the Python mirror, which had rounded it from the start — and the
+mirror must agree with the kernel bit for bit or every generated literal
+equality is refused. -/
 def expCrB (n p k : ℕ) (x : ComplexBall) : ComplexBall :=
-  sqIter p k (expSmallB n p (smulQ (1 / 2 ^ k) x))
+  sqIter p k (coarsenB p (expSmallB n p (smulQ (1 / 2 ^ k) x)))
 
 theorem contains_expCrB {n : ℕ} (hn : 0 < n) (p k : ℕ) {x : ComplexBall} {z : ℂ}
     (hx : x.contains z) (hb : normBoundB p (smulQ (1 / 2 ^ k) x) ≤ 1) :
     (expCrB n p k x).contains (Complex.exp z) := by
   have hs : (smulQ (1 / 2 ^ k) x).contains (((1 / 2 ^ k : ℚ) : ℂ) * z) :=
     contains_smulQ hx
-  have he := contains_expSmallB hn p hs hb
+  have he := contains_coarsenB p (contains_expSmallB hn p hs hb)
   have h := contains_sqIter p k he
   rw [show (Complex.exp (((1 / 2 ^ k : ℚ) : ℂ) * z)) ^ (2 ^ k) = Complex.exp z by
     rw [← Complex.exp_nat_mul]
