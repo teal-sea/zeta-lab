@@ -215,6 +215,15 @@
       "precision": "500 bits",
       "source_file": "strip_results.json:kappa_ball, validation.json:kappa"
     },
+    "kappa_closed_form": {
+      "value_or_interval": "kappa = -phi + sqrt(1 + phi^2) with phi = (1 + sqrt 5)/2; root of kappa^2 + 2 phi kappa - 1 = 0 over Q(sqrt 5) and of kappa^4 + 2 kappa^3 - 6 kappa^2 - 2 kappa + 1 = 0 over Q; equal forms (sqrt(10 - 2 sqrt 5) - 2)/(sqrt 5 - 1), 5^{1/4} sqrt(phi) - phi, 2 sin(pi/5)/(sqrt 5 + 2 sin(2 pi/5))",
+      "frame": "frame-free",
+      "grade": "decided",
+      "grade_detail": "the identity is cited (Bombieri-Ghosh 2011 section 6, their tau_+; the radical form is Titchmarsh's) and nothing about it is claimed as novel; the containments are decided: kappa_ball(500) contains the closed-form ball, the quadratic residual ball contains 0 (radius 5.80e-148), and the tan-identity, Titchmarsh, quartic and trig forms all contain 0 at 500 bits; the iv leg encloses the trig form at dps 40 with cross-backend midpoint agreement 5.31e-43",
+      "backend": "python-flint 0.9.0 (Arb); mpmath.iv cross-leg",
+      "precision": "500 bits (flint), dps 40 (iv)",
+      "source_file": "KAPPA-CLOSED-FORM.md, tests/test_lambda_dh_separation.py"
+    },
     "strip_statement": {
       "value_or_interval": "every zero of the completed F lies in the open strip 1 - sigma_0 < Re s < sigma_0; equivalently every zero of Xi_DH has |Im z| < Delta = sigma_0 - 1/2",
       "frame": "narrow for Delta; the s-plane strip is frame-free",
@@ -549,6 +558,15 @@
       "backend": "python-flint 0.9.0 (Arb) on the DH side",
       "precision": "420 bits on the DH side",
       "source_file": "FRAME.md section 7"
+    },
+    "separation_lambda_dh_gt_lambda_zeta": {
+      "value_or_interval": "0 <= Lambda_zeta <= 0.22 < 0.2304 = 144/625 < Lambda_DH <= 1.6025374835598228 in the wide frame, hence Lambda_DH > Lambda_zeta unconditionally; exact rational core 144/625 > 11/50 by 144*50 = 7200 > 6875 = 11*625; frame-invariant, narrow frame 0.055 = 11/200 < 36/625 = 0.0576 by the same cross-multiplication 36*200 = 7200 > 6875",
+      "frame": "wide as stated; the inequality itself is frame-invariant (the factor 4 cancels)",
+      "grade": "cited",
+      "grade_detail": "composite cited plus decided, weakest step cited: Rodgers-Tao Theorem 1 and Polymath 15 Theorem 1.1 (cited, pinned at source in POLYMATH-PIN.md), Dobner Theorem 1 for strictness (cited), winding N = 1 at t = 36/625 narrow (decided; second witness mpmath dps 130) and the derived frame factor 4; inherits the M2 prose lemma through the decided link; the sanctioned novelty phrasing carries the mandatory qualifier 'both constants nonnegative' (SEPARATION.md section 6)",
+      "backend": "python-flint 0.9.0 (Arb) on the DH side; exact rational arithmetic for the comparison",
+      "precision": "420 bits (winding); exact rationals (core); as published (cited links)",
+      "source_file": "SEPARATION.md, POLYMATH-PIN.md section 4, winding_results.json, tests/test_lambda_dh_separation.py"
     },
     "upper_bound_looseness": {
       "value_or_interval": "phase-minimum refinement at M = 12 already gives 0.38710055 (narrow); deepest measured DH zeros reach |Im z| = 0.347 against Delta = 0.895136; the same coefficient domination applied to zeta returns sigma_0(zeta) = 1.7286472389981836181 and Delta^2/2 = 3.0191480758 in the wide frame where the truth is 1/2, a factor 6.04",

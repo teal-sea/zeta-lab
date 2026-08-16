@@ -1220,6 +1220,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `26-the-adopted-builds.md` — 26 — The adopted builds: the decision of 2026-08-11, made runnable
 - `27-state-of-the-transplant.md` — 27 — State of the transplant: what is kernel-checked, what is refuted, what is open
 - `28-prime-zeta-rightmost-zeros.md` — 28: The rightmost zeros of the prime zeta function
+- `29-de-bruijn-newman-davenport-heilbronn.md` — The de Bruijn-Newman constant of the Davenport-Heilbronn function
 
 ## Runnable demos (`scripts/`)
 
@@ -1267,7 +1268,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1784 test functions across 69 files (the collected count differs where tests are parametrised):
+1791 test functions across 70 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_claim_attribution.py` — 6
@@ -1308,6 +1309,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_huntspec.py` — 16
 - `tests/test_inverse.py` — 8
 - `tests/test_lab_state.py` — 1
+- `tests/test_lambda_dh_separation.py` — 7
 - `tests/test_leeyang.py` — 7
 - `tests/test_li.py` — 56
 - `tests/test_meta_ledger.py` — 24

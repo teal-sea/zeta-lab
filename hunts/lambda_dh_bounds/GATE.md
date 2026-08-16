@@ -95,6 +95,22 @@ section "The sentence", with the superseded one kept verbatim beside it:
 > (arXiv:1301.3158) ... and are four times smaller than the same constant in
 > the normalization of Newman, Rodgers-Tao, Polymath 15 and Dobner.
 
+**The separation (named surviving item, added 2026-08-16, after this gate
+closed).** In the common wide frame the decided floor beats the best
+published zeta upper bound: `Lambda_zeta <= 0.22` (Polymath 15 Theorem 1.1,
+pinned at source in `POLYMATH-PIN.md`) while `Lambda_DH > 0.2304 = 144/625`
+(this hunt), so `Lambda_DH > Lambda_zeta` unconditionally, with the exact
+rational core `144/625 > 11/50` (`7200 > 6875`, cross-multiplied) and the
+same inequality in the narrow frame (`0.055 < 0.0576`, the identical
+cross-multiplication). A dedicated novelty adversary killed the unqualified
+phrasing "first strict inequality between the de Bruijn-Newman constants of
+two Dirichlet series" against the function-field literature
+(Andrade-Chang-Miller arXiv:1310.3477; CMMRSY arXiv:1411.2071) and
+sanctioned the narrower claim: the first, so far as the searches reach, in
+which both constants are nonnegative. Full statement, chain, caveat list
+verbatim and grade: `SEPARATION.md`. Composite grade cited plus decided,
+weakest step cited.
+
 **The claim to `sigma_0` is withdrawn and the claim to the bracket is what is
 left.** The first pass named `sigma_0` and the decided off-line zero of `H_t`
 at `t = 36/625` as "the genuinely new numbers"; half of that is now known to be
@@ -321,6 +337,15 @@ Not the frame any more, and not the novelty sentence. In order:
 3. **The remaining prior art.** academia.edu 166936409, Bombieri-Mueller 2008,
    and a single-source forward-citation sweep. Each is named in `NOVELTY.md`
    with what it might contain. None of them can touch a computed number.
+
+Note added 2026-08-16, after this gate closed: the separation
+`Lambda_DH > Lambda_zeta` (`SEPARATION.md`) offers the same referee nothing
+new to attack but inherits both exposures above through its two kinds of
+links. Through its decided link (the winding floor `36/625`) it inherits the
+`M2` blind spot of item 1 in full; through its cited link it stands on
+Polymath 15's Theorem 1.1 as published, unverified in-tree, so an error in
+that paper's `0.22` would erase the separation while moving nothing else in
+this directory.
 
 ## Closure log
 

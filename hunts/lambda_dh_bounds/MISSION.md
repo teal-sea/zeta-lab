@@ -19,6 +19,15 @@ directory.
 > there. Conversion table, derivation and per-row numerical checks:
 > `FRAME.md`.
 
+> **Post-registration note added 2026-08-16**, after the gate closed
+> (`GATE.md`, verdict YES). Nothing in the preregistration below is altered.
+> A corollary of the decided floor was recognized only after the gate: in
+> the wide frame the floor `0.2304 = 144/625` exceeds Polymath 15's
+> unconditional `Lambda_zeta <= 0.22`, so `Lambda_DH > Lambda_zeta`
+> unconditionally. This separation was not preregistered, was not a work
+> package, and is recorded with its chain, its grade (cited plus decided)
+> and its adversary-sanctioned phrasing in `SEPARATION.md`.
+
 ## The question
 
 `hunts/flow_repair/` (closed, 2026-08-07) measured the backward-heat repair

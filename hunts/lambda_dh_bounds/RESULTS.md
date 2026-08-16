@@ -70,6 +70,34 @@ for zeta. Stated in the narrow frame alone, `0.0576` sits below `0.22` and a
 reader draws the opposite conclusion. That single comparison is the reason the
 frame goes in the sentence every time.
 
+That comparison is now carried as a named claim, **the separation**
+(`SEPARATION.md`; sources pinned at source in `POLYMATH-PIN.md`). The chain
+in full, every link graded:
+
+    0 <= Lambda_zeta                     cited (Rodgers-Tao Theorem 1)
+    Lambda_zeta <= 0.22                  cited (Polymath 15 Theorem 1.1,
+                                         unconditional)
+    0.22 = 11/50 < 144/625 = 0.2304      exact rational arithmetic:
+                                         144 * 50 = 7200 > 6875 = 11 * 625
+    0.2304 = 4 * (36/625) < Lambda_DH    decided (winding N = 1 at t = 36/625
+                                         narrow, python-flint 0.9.0 (Arb),
+                                         420 bits; second witness mpmath dps
+                                         130) modulo cited (Dobner Theorem 1)
+                                         and the derived frame factor 4
+    Lambda_DH <= 1.6025374835598228      decided strip constant fed to cited
+                                         de Bruijn 1950 Theorem 13 (not
+                                         needed for the separation)
+
+hence, in the wide frame, `Lambda_DH > Lambda_zeta` **unconditionally**.
+Composite grade cited plus decided, weakest step cited; the decided link
+carries the `M2` prose lemma of section 5. Frame-invariant: in the narrow
+frame the chain reads `0 <= Lambda_zeta <= 0.055 < 0.0576 < Lambda_DH`, the
+same inequality by the same cross-multiplication (`36 * 200 = 7200 > 6875`).
+The sanctioned novelty phrasing, its qualifier ("both constants
+nonnegative") and the function-field precedents that make the qualifier
+mandatory are in `SEPARATION.md` sections 5 and 6; the exact rational core
+is pinned by `tests/test_lambda_dh_separation.py`.
+
 ---
 
 ## 1. Instrument truth-telling

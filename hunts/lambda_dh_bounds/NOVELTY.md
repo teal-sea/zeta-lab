@@ -352,6 +352,19 @@ function.**
 > sentence carried **no frame**, while the number it names is
 > frame-dependent by a factor of 4.
 
+> *Superseded (extended 2026-08-16).* Before the separation corollary was
+> recognized (`SEPARATION.md`), the adopted sentence ended after its second
+> sentence, as follows; nothing in it changed, it gained a third and fourth
+> sentence carrying the separation at the strength the separation adversary
+> sanctioned: "So far as the literature search recorded in `NOVELTY.md`
+> reaches, these are the first quantitative bounds, from either side, on the
+> de Bruijn-Newman constant of a Dirichlet series with a Riemann-type
+> functional equation whose Riemann hypothesis is false. They are stated in
+> the normalization of Stopple (arXiv:1301.3158), in which
+> `Phi(u) = 4 sum_n a_n n exp(3u/2 - pi n^2 e^{2u}/5)`, and are four times
+> smaller than the same constant in the normalization of Newman,
+> Rodgers-Tao, Polymath 15 and Dobner."
+
 The sentence, as adopted:
 
 > So far as the literature search recorded in `NOVELTY.md` reaches, these are
@@ -361,7 +374,15 @@ The sentence, as adopted:
 > Stopple (arXiv:1301.3158), in which
 > `Phi(u) = 4 sum_n a_n n exp(3u/2 - pi n^2 e^{2u}/5)`, and are four times
 > smaller than the same constant in the normalization of Newman,
-> Rodgers-Tao, Polymath 15 and Dobner.
+> Rodgers-Tao, Polymath 15 and Dobner. In that shared wide normalization the
+> decided floor `0.2304 = 144/625` exceeds Polymath 15's unconditional
+> `Lambda_zeta <= 0.22`, so `Lambda_DH > Lambda_zeta` unconditionally; so
+> far as the searches recorded here and in `SEPARATION.md` reach, this is
+> the first strict inequality between de Bruijn-Newman constants of two
+> Dirichlet series in which both constants are nonnegative, strict orderings
+> without that qualifier being one-line corollaries of exact function-field
+> determinations in print since 2013-2014 (Andrade-Chang-Miller
+> arXiv:1310.3477; Chang-Mehrle-Miller-Reiter-Stahl-Yott arXiv:1411.2071).
 
 The footnote, which is mandatory and is not to be compressed:
 
@@ -401,4 +422,5 @@ If one line is needed rather than a paragraph, the safe short form is:
 > normalization, subject to two named unread sources.
 
 Do not use "L-function". Do not drop "so far as the search reaches". Do not
-drop the frame.
+drop the frame. Do not state the separation without "in which both constants
+are nonnegative" (`SEPARATION.md` section 6).
