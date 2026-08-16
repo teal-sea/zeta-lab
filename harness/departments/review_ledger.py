@@ -96,4 +96,21 @@ OUTCOMES: tuple[AttackOutcome, ...] = (
         ),
         claim_withdrawn=True,
     ),
+    AttackOutcome(
+        claim_name="urms2-0.51",
+        role="blind",
+        attacker="Fulcrum hunt R-FB9C81 (run 36a6a319, Antigravity, 2026-08-15)",
+        findings=(
+            "no structural failure found in the RC2 off-diagonal error "
+            "bounds: the claim survives this attack",
+            "the arithmetic conditions the Montgomery-Vaughan mean-value "
+            "theorem requires hold past the half-band, because coefficient "
+            "decay absorbs the increased polynomial length",
+        ),
+        artifacts=(
+            "hunts/r_fb9c81/RESULTS.md",
+            "hunts/r_fb9c81/probe.py",
+            "hunts/r_fb9c81/HANDBACK.json",
+        ),
+    ),
 )

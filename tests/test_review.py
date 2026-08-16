@@ -135,10 +135,22 @@ def test_the_exemplars_artifacts_exist() -> None:
 
 
 def test_the_open_case_surfaces_its_missing_attacks() -> None:
+    """The blind attack ran (Fulcrum R-FB9C81); the white-box one has not.
+
+    This used to assert both were missing, which was true until 2026-08-15.
+    What the ledger is for is saying which attacks have run, so the assertion
+    is now the specific one that is still outstanding rather than a count.
+    """
     urms2 = next(c for c in CLAIMS if c.name == "urms2-0.51")
     reasons = standing_reasons(urms2, OUTCOMES)
-    assert len(reasons) == 2, "urms2-0.51 should be missing both attacks"
     assert all("urms2-0.51" in r for r in reasons)
+    assert not any("blind attack" in r for r in reasons), (
+        "the blind attack is recorded in the ledger; standing_reasons should "
+        "no longer ask for it"
+    )
+    assert any("white-box attack" in r for r in reasons), (
+        "the white-box attack has not run: the review is still not standing"
+    )
 
 
 def test_the_exemplars_review_is_now_standing() -> None:
