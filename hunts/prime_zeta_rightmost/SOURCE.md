@@ -281,7 +281,150 @@ sources say.
 
 ## 4. Prior literature on zeros of P(s) itself
 
-### Froberg 1968, the one source found
+**Corrected 2026-08-16, after the first version of this section was found to
+be wrong.** The first version ended with the sentence "No source was found
+naming any rightmost-zero threshold for P(s), so nothing found here trips kill
+condition 2 of MISSION.md." That sentence is false. Two published sources own
+the threshold and the mechanism, and both were located by a later adjudication
+sweep on the same day. The false sentence is removed rather than softened, and
+what replaces it is below. Everything that was *found* by the first sweep
+(Froberg, the zbMATH review, the search log) is kept unchanged, because the
+queries were really run and what came back is really what came back; only the
+conclusion drawn from their emptiness was wrong.
+
+### 4.0 Kill condition 2 has fired
+
+MISSION.md's kill condition 2 reads:
+
+> a literature source is found proving the sigma_c threshold for P, in which
+> case the finding is reclassified as a rediscovery and the OEIS correction
+> cites that source instead of this work
+
+Such a source exists, was published on 3 June 2025, and states the same
+constant sigma_c = 1.77954465354699... by the same triangle-inequality proof.
+A second, older source owns the general theorem of which the whole hunt is a
+specialization, and it is *stronger* than what the hunt proved. The condition
+has fired on both counts. Consequences, applied throughout this directory:
+
+- the hunt's Theorem A(a), Theorem B, Corollary B1, Lemma 2, Lemma 4, the
+  aggregated-tail device and the value of sigma_c are **pure rediscovery**;
+- the OEIS correction cites Belovas et al. for the threshold, not this work
+  (`OEIS-CORRECTION.md`, rewritten);
+- what survives as this hunt's own is listed in `PRIOR-ART.md` section 9 and
+  restated in `RESULTS.md` section 7.1, and it is narrow.
+
+### 4.1 The source that owns the threshold: Belovas, Cepaityte and Sabaliauskas (2025)
+
+Full pin: Igoris Belovas, Rugile Cepaityte and Martynas Sabaliauskas, "On the
+zero-free region and the distribution of zeros of the prime zeta function",
+Analele Stiintifice ale Universitatii Ovidius Constanta, Seria Matematica
+**33**(2) (2025), 27-44. DOI `10.2478/auom-2025-0017`. Received 07.10.2024,
+accepted 28.02.2025. Open access, CC BY-NC-ND. PDF:
+`https://www.anstuocmath.ro/mathematics/anale2025v2/2_Igoris_Belovas_et_al.pdf`
+(2.2 MB, image-scanned; the text used here was obtained by downloading the file
+and running `pdftotext`, not by fetching the page). Bibliographic note: the
+PDF's own running header says 27-43 while external indexing and the last
+printed folio give 27-44; cite 27-44.
+
+Their Theorem 1, verbatim:
+
+> **Theorem 1.** The prime zeta function has no zeros in the half-plane
+> sigma > sigma_0. Here sigma_0 = 1.77954465354699... is the zero of the
+> function U(sigma) = 2^{1-sigma} - zeta_P(sigma).
+
+Their proof, verbatim, which is the hunt's Theorem A(a) argument:
+
+> First we note that |zeta_P(s)| = |1/2^s + 1/3^s + 1/5^s + ...| >
+> 1/2^sigma - 1/3^sigma - 1/5^sigma - ... = 2^{1-sigma} - zeta_P(sigma) =
+> U(sigma).
+
+Their Lemma 1, verbatim, which is the hunt's Lemma 1 (uniqueness of the root):
+
+> **Lemma 1.** Let the function U(sigma) be defined as above and
+> sigma_1 = 2.18, then U'(sigma) > 0 if 1 < sigma <= sigma_1, and
+> U(sigma) > 0 if sigma >= sigma_1.
+
+Their Remark 1 and Conjecture 1, verbatim (the printed Remark writes
+`zeta_P(sigma) = 0` where it means `zeta_P(s) = 0` with s = sigma + it; the
+typo is in the source and the meaning is unambiguous):
+
+> **Remark 1.** Let M = 200000 and define
+>
+>     sigma_T = max_{|t| < T} { sigma | zeta_P(sigma) = 0 },        (2)
+>
+> then we receive sigma_M = 1.682628788045196... . Thus, the result of Theorem
+> 1 can not be refined by more than Delta = 0.097.
+
+> **Conjecture 1.** The estimate for the zero-free plane given by Theorem 1 can
+> not be improved, that is, if sigma_T is defined as above (see (2)), then
+>
+>     lim_{T -> infinity} sigma_T = sigma_0.                        (3)
+
+What their paper does **not** contain, established by word-level search over
+the extracted text: no occurrence of `A107311`, `Jasinski` or `1.72864`, and
+no occurrence of `almost period`, `Moreno`, `Sepulcre`, `Vidal`, `Kronecker`,
+`Bohr`, `exponential polynomial` or `subset`. There is one incidental
+`oeis.org` URL, in reference [2], hosting Cohen's Hardy-Littlewood-constants
+preprint; it is not a reference to A107311. So the paper does not engage the
+OEIS conjectures, does not refute them (its bound 1.7795 is *weaker* than the
+conjectured 1.72864, and its numerics stop at 1.6826, below x*), and does not
+treat prime subsets.
+
+### 4.2 The source that owns the mechanism: Sepulcre and Vidal (2022, preprint 2018)
+
+Full pin: J. M. Sepulcre and T. Vidal, "On the real projections of zeros of
+analytic almost periodic functions", Carpathian Journal of Mathematics **38**
+(2022), no. 2, 489-501. MSC 30B50, 30D20, 30Axx, 11J72. Preprint:
+arXiv:1805.02041 [math.CV], 5 May 2018, titled "On the real projections of
+zeros of almost periodic functions" (the journal title adds "analytic").
+**Preprint Theorem 6 = journal Theorem 4.3**, statements word for word
+identical apart from the label.
+
+Their Theorem 4.3, verbatim from the journal text, with R_f defined at their
+equation (1.4) as `R_f := closure{Re s : f(s) = 0, s in U} intersect
+(alpha, beta)`:
+
+> **Theorem 4.3.** Let f(s) be an almost periodic function in a vertical strip
+> U = {s = sigma + it : alpha < sigma < beta} whose Dirichlet series is given by
+> sum_{n >= 1} a_n e^{lambda_n s} with {lambda_1, lambda_2, ..., lambda_k, ...}
+> Q-linearly independent and k > 2. Let sigma_0 in (alpha, beta). Then
+> sigma_0 in R_f if and only if
+>
+>     |a_j| e^{sigma_0 lambda_j} <= sum_{i >= 1, i != j} |a_i| e^{sigma_0 lambda_i}
+>                                                   (j = 1, 2, ..., k, ...).   (4.8)
+
+Specialized to P(s) = sum_p p^{-s} (a_n = 1, lambda_n = -log p_n), condition
+(4.8) becomes `2 p_j^{-sigma_0} <= P(sigma_0)`, whose binding instance is
+j = 1, that is `U(sigma_0) = 2^{1-sigma_0} - P(sigma_0) <= 0`: exactly Belovas
+et al.'s U. The specialization is worked out hypothesis by hypothesis in
+`PRIOR-ART.md` section 6. The conclusion it yields,
+`closure{Re s : P(s) = 0, Re s > 1} intersect (1, infinity) = (1, sigma_c]`,
+is strictly stronger than the hunt's Theorem B.
+
+The proof of the "if" direction also contains, in print, the hunt's
+aggregated-tail device: the infinite tail is collapsed into a single polygon
+side of length `r := sum_{j >= n_0} |a_j| e^{sigma_0 lambda_j}`, with the
+polygon step attributed to Moreno at `[14, p.71]`.
+
+### 4.3 Moreno (1973)
+
+C. J. Moreno, "The zeros of exponential polynomials (I)", Compositio
+Mathematica **26** (1973), no. 1, 69-78. Not fetched; cited here on the
+strength of Sepulcre and Vidal's citations at `[14, p.71]` for the polygon
+construction (the hunt's Lemma 2) and `[14, Lemma, p.73]` elsewhere. The
+adjudication further records that Moreno himself applies the Geometric
+Principle to `sum_{p <= M} p^{-s}`; that statement is accepted from the
+adjudication and was not verified against the paper.
+
+Also named by the adjudication and not checked in this directory: Sepulcre and
+Vidal, "On the non-isolation of the real projections of the zeros of
+exponential polynomials", J. Math. Anal. Appl. **437** (2016), no. 1, 513-525
+(Proposition 5 and Corollary 6: supremum of real parts equals the balance root,
+and is not attained, for finite sums), and a Math.StackExchange comment (question
+3894479, K. Conrad, 2020-11-05) giving the balance equation and the
+triangle-inequality argument publicly.
+
+### 4.4 Froberg 1968, the one source the first sweep found
 
 Full pin: C.-E. Froberg, "On the prime zeta function", BIT 8 (1968),
 no. 3, pp. 187-202, doi:10.1007/BF01933420, Zbl 0167.04201. Access attempt
@@ -324,10 +467,12 @@ verbatim including its dropped word:
 
 > According to Fröberg (1968), very little is known about the roots P(s).
 
-### Search log
+### 4.5 Search log, first sweep
 
 Queries run 2026-08-16 through this session's web search tool, with what
-came back:
+came back. This is the sweep that missed both sources in 4.1 and 4.2; it is
+kept verbatim because the record of a failed search is the evidence for the
+lesson in 4.6.
 
 1. `Froberg 1968 "On the prime zeta function" BIT 8 zeros roots analytic
    continuation`: the MathWorld page, the Semantic Scholar record
@@ -358,16 +503,73 @@ on Number Theory and Discrete Mathematics 22 (2016), no. 4, retracted) and
 a published refutation of it (arXiv:2103.09418) concern identities
 relating P to zeta and the Riemann hypothesis, not zero locations of P.
 
-### Finding
+### 4.6 Why the first sweep missed both sources
 
-As of 2026-08-16 the only literature found that touches zeros of P(s) is
-Froberg 1968: four numerically observed roots in Table I and the remark
-that very little is known. No source was found naming any rightmost-zero
-threshold for P(s), so nothing found here trips kill condition 2 of
-MISSION.md (a prior source proving a sigma_c threshold would reclassify
-the hunt as rediscovery). This is a record of the queries above on the
-dates above, not a completed search of record: zbMATH full-text search and
-MathSciNet were not available beyond the single API record quoted.
+Two distinct failures, needing two distinct countermeasures. Neither is a
+failure of effort, which is what makes them worth recording.
+
+**Failure 1, the venue gap.** The hunt's exact-phrase query
+`"zeros of the prime zeta function"` (query 2 above) is a *literal substring*
+of the Belovas et al. title, "On the zero-free region and the distribution of
+zeros of the prime zeta function". The query was re-run during the adjudication
+and the failure **reproduces exactly**: ten results, MathWorld's prime zeta
+page among them, and the Belovas et al. paper not among them. Contributing
+causes, each of which alone defeats a standard sweep: the paper was never
+preprinted on arXiv; it lives in a Sciendo/DOAJ journal that an
+arXiv-plus-MathWorld-plus-zbMATH title sweep does not reach; and its PDF is
+image-scanned, so a retrieval step that reads landing pages rather than
+downloading and extracting files yields nothing even after finding it.
+
+*Countermeasure*: an exact-title-substring query that returns nothing proves
+nothing. Search the DOI registries and open-access aggregators (Crossref, DOAJ,
+Sciendo) by title, not only the engines and arXiv, and treat an image-scanned
+PDF as a document that must be downloaded and extracted.
+
+**Failure 2, the classification gap.** Sepulcre and Vidal Theorem 4.3 is filed
+under almost periodic functions, MSC 30B50 and 30D20, not number theory, and
+the paper **never names a prime**. No query about prime zeta functions can
+reach it. It was reachable only by searching for the *device* rather than the
+application.
+
+*Countermeasure*: when an argument's engine is a general device (here, rational
+independence of frequencies plus a polygon construction), search for the device
+under its own name in its own field. The hunt's own Lemma 2 and Lemma 4 were
+the signposts, and a query for "real projections of zeros", "exponential
+polynomials" or "almost periodic Dirichlet series" lands on the right MSC class
+immediately.
+
+The transferable corollary: `ontology/knownness.py` defaults to "the literature
+was not consulted", and this episode is the argument for that default. Four
+independent searches returned nothing on the core result while two published
+papers owned it outright. **An unrun or unsuccessful search is not evidence of
+absence.**
+
+### 4.7 Finding, corrected
+
+As of 2026-08-16, after the adjudication sweep:
+
+- **The threshold sigma_c for P(s) is in the literature**: Belovas et al.
+  (2025), Theorem 1, same constant, same proof (section 4.1).
+- **The mechanism is in the literature and is more general**: Sepulcre and
+  Vidal Theorem 4.3 (2022, preprint 2018), which subsumes the hunt's Theorems
+  A(a) and B and contains the aggregated-tail device (section 4.2), standing in
+  turn on Moreno (1973) for the polygon step (section 4.3).
+- **Kill condition 2 has fired** (section 4.0). The hunt's core is reclassified
+  as rediscovery and the OEIS correction cites Belovas et al. for the constant.
+- Froberg 1968 remains the earliest source found touching zeros of P at all:
+  four numerically observed roots in Table I and the remark that very little is
+  known.
+- Neither published source engages OEIS A107311, and neither treats prime
+  subsets. That is where the hunt's remaining contribution lives, and it is
+  itemized in `PRIOR-ART.md` section 9.
+
+Even now this is a record of queries run on the dates above, not a completed
+search of record: MathSciNet was not available, zbMATH full-text search was
+not available beyond the single API record quoted, and the density statement
+behind the hunt's Lemma 4 sits in classical almost-periodic territory (Jessen
+and Tornehave) that has not been searched at all. Do not read the corrected
+section as a completed audit; read it as a sweep that found what it found
+after a first sweep found nothing.
 
 ## 5. What this file settles for the other work packages
 
@@ -377,5 +579,11 @@ MathSciNet were not available beyond the single API record quoted.
   partial sums must reproduce beta_X rising toward x*, and at the limit
   equation zeta(sigma) = 2 the entry's digits.
 - Kill condition 4 (the entry means something narrower) now has a fixed
-  text to be re-read against; kill condition 2 has, so far, nothing to
-  cite.
+  text to be re-read against.
+- **Kill condition 2 has fired** (section 4.0, corrected 2026-08-16). Belovas
+  et al. (2025) prove the sigma_c threshold for P and Sepulcre and Vidal (2022)
+  own the general mechanism, so the hunt's core is rediscovery and
+  `OEIS-CORRECTION.md` cites those sources for the constant rather than this
+  work. WP1's transcription and WP5's calibration target are unaffected; what
+  changes is the ownership of WP2, WP3 and WP4's mathematics, not its
+  correctness.

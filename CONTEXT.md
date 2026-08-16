@@ -1219,6 +1219,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `25-the-director-run.md` — 25 — The director run: the laboratory pointed at itself
 - `26-the-adopted-builds.md` — 26 — The adopted builds: the decision of 2026-08-11, made runnable
 - `27-state-of-the-transplant.md` — 27 — State of the transplant: what is kernel-checked, what is refuted, what is open
+- `28-prime-zeta-rightmost-zeros.md` — 28: The rightmost zeros of the prime zeta function
 
 ## Runnable demos (`scripts/`)
 
@@ -1266,7 +1267,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1768 test functions across 68 files (the collected count differs where tests are parametrised):
+1784 test functions across 69 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_claim_attribution.py` — 6
@@ -1313,6 +1314,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_moments.py` — 26
 - `tests/test_o9_leaves_kernel.py` — 6
 - `tests/test_plots.py` — 13
+- `tests/test_prime_zeta_rightmost.py` — 16
 - `tests/test_proof_adapter.py` — 10
 - `tests/test_quasicrystal.py` — 9
 - `tests/test_reading_of_record.py` — 2

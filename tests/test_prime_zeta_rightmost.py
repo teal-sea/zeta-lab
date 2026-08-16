@@ -372,6 +372,40 @@ def test_doc_witness_figures_match_record():
     assert witness["verdict"]["P4_outcome"].startswith("confirmed")
 
 
+def test_doc_leads_with_the_prior_art_and_claims_no_priority():
+    """The page's framing, pinned.
+
+    The hunt's own novelty caveat ("the first explicit treatment found for P
+    specifically") was falsified on 2026-08-16 by two located sources, and
+    the hunt's second kill condition fired. The doc was rewritten to lead
+    with the prior art; this pin exists so the retracted framing cannot come
+    back, and so the attribution cannot quietly drop out. The adjudication
+    itself is `hunts/prime_zeta_rightmost/PRIOR-ART.md`.
+    """
+    doc = DOC.read_text(encoding="utf-8")
+
+    # the three owners are named, and named early: the ownership section must
+    # come before any of the mathematics it disclaims.
+    for name in ("Belovas", "Sepulcre", "Moreno"):
+        assert name in doc, f"doc no longer names the prior-art source {name!r}"
+    assert doc.index("## 1. Who owns what") < doc.index("## 2. The two conjectures")
+    for name in ("Belovas", "Sepulcre", "Moreno"):
+        assert doc.index(name) < doc.index("## 2. The two conjectures"), (
+            f"{name!r} is named only after the mathematics starts"
+        )
+
+    # the grade of the core is stated, not implied
+    assert "pure rediscovery" in doc
+
+    # and the retracted claims are gone
+    for retracted in (
+        "the first explicit treatment found",
+        "Novelty caveat",
+        "no source stating any rightmost-zero threshold",
+    ):
+        assert retracted not in doc, f"doc still carries the retracted claim: {retracted!r}"
+
+
 def test_doc_quotes_the_pinned_conjecture_text_verbatim():
     """The doc's section 1 quote must match SOURCE.md's pinned bytes: the
     refutation attacks the served words, not a paraphrase, and so must the

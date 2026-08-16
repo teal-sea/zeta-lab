@@ -11,20 +11,64 @@ an order-of-magnitude model with measured inputs. Nothing in this directory
 is a repo-level result until the case log in `hunts/README.md` says how the
 hunt ended.
 
-**The headline.** Both conjectures in OEIS A107311's Dec 21 2024 comment
-are false. The supremum of the real parts of the zeros of the prime zeta
-function P(s) = sum_p p^(-s) is not x* = 1.7286... (the root of
-zeta(x) = 2) but sigma_c = 1.779544653546994116445898786965...
-(decided, both backends), the root of the balance P(sigma) = 2^(1-sigma),
-which exceeds x* by more than 1/20 (decided). The supremum is approached
-by infinitely many zeros and attained by none (Theorems A and B,
-THEOREM.md). The subset conjecture fails without bound: {p >= 3} already
-has zeros beyond sigma_c, and the tail subsets {p >= p_k} have thresholds
-tending to infinity (Theorems C1, C2). The refuting zeros live in
-Re s > 1, where every reading of "the prime zeta function" agrees with the
-series, so the refutation is reading-independent. No explicit zero is
-exhibited; existence is by a Bohr-Kronecker-Rouche argument with every
-numeric inequality decided on both backends.
+**The headline, rewritten 2026-08-16 after an adjudication of prior art.**
+**The mathematics in this directory is prior art.** The wall at
+sigma_c = 1.779544653546994116445898786965... , its triangle-inequality
+proof, the existence of zeros filling every window below it, and the value
+of the constant were all in print before this hunt opened. Belovas,
+Cepaityte and Sabaliauskas, "On the zero-free region and the distribution
+of zeros of the prime zeta function", An. St. Univ. Ovidius Constanta Ser.
+Mat. 33(2) (2025), 27-44, state the identical constant by the identical
+argument as their Theorem 1; and Sepulcre and Vidal, "On the real
+projections of zeros of analytic almost periodic functions", Carpathian J.
+Math. 38 (2022), no. 2, 489-501 (preprint arXiv:1805.02041, 2018), own the
+general theorem that implies all of it and more. MISSION.md's kill
+condition 2 has therefore **fired**, the hunt's core is reclassified as
+rediscovery, and the OEIS correction now cites those sources for the
+constant rather than this work (section 8).
+
+The refutation of OEIS A107311 stands, and so does every theorem and every
+proof below: none of the mathematics is wrong, and none of it is new. What
+survives as **this hunt's own** is narrow, and it is exactly five items
+(section 7.1):
+
+1. the line-by-line refutation of A107311's two conjectures, which no
+   source in the literature engages (new as a connection, zero new
+   mathematics);
+2. Theorem C2 and Corollary C3, that the tail subsets {p >= p_k} have
+   thresholds >= log2(3 p_k / (5 log p_k)) growing without bound, so no
+   constant bounds the zeros across all prime subsets (new, small,
+   elementary corollary of a published framework plus Rosser-Schoenfeld);
+3. the constant sigma_3 = 1.82522595607384576238787271088... for
+   {p >= 3}, which out-walls the full series by more than 0.045 (new
+   instance of prior-art theory);
+4. two-backend enclosures of sigma_c, sigma_3 and x* with exact endpoint
+   sign logic (rediscovery in sharper form: Belovas et al. print 15 digits
+   and note that any precision is available);
+5. one observation about the literature rather than about mathematics:
+   Belovas et al.'s Conjecture 1, left open in their paper, is a corollary
+   of Sepulcre and Vidal's Theorem 4.3, whose other direction already
+   contains their Theorem 1 (section 7.2). This is the most publishable
+   item here.
+
+The substance that is now known to be prior art, restated once so the
+record is readable on its own: the supremum of the real parts of the zeros
+of P(s) = sum_p p^(-s) is not x* = 1.7286... (the root of zeta(x) = 2) but
+sigma_c (decided here on both backends), the root of the balance
+P(sigma) = 2^(1-sigma), which exceeds x* by more than 1/20 (decided); the
+supremum is approached by infinitely many zeros and attained by none
+(Theorems A and B, THEOREM.md). The subset conjecture fails without bound:
+{p >= 3} already has zeros beyond sigma_c, and the tail subsets
+{p >= p_k} have thresholds tending to infinity (Theorems C1, C2). The
+refuting zeros live in Re s > 1, where every reading of "the prime zeta
+function" agrees with the series, so the refutation is
+reading-independent. No explicit zero is exhibited; existence is by a
+Bohr-Kronecker-Rouche argument with every numeric inequality decided on
+both backends.
+
+Ownership item by item is in `PRIOR-ART.md` section 8, which also verifies
+that the general theorem really does specialize to P and that the bridge
+in item 5 has no gap.
 
 ## 0. The source
 
@@ -44,10 +88,18 @@ section 1. The comment field, word for word as served (spelling as served:
 "This constant" is x*, the real root of zeta(x) = 2, whose correct role is
 the partial-sums-of-zeta threshold (Borwein, Fee, Ferguson, van der Waall
 2007, Theorem 3.1, pinned through two independent secondary quotes in
-SOURCE.md section 3: Platt-Trudgian 2016 and Gonek-Ledoan 2010). The only
-prior literature found on zeros of P itself is Froberg 1968 (four
-numerically observed roots, "very little is known"); the search log is
-SOURCE.md section 4.
+SOURCE.md section 3: Platt-Trudgian 2016 and Gonek-Ledoan 2010).
+
+The prior literature on zeros of P itself, as it stands after the
+adjudication sweep (SOURCE.md section 4, corrected): Belovas, Cepaityte and
+Sabaliauskas (2025) prove the sigma_c threshold and conjecture that it is
+sharp; Sepulcre and Vidal (2022, preprint 2018) prove the general theorem
+that gives both; Moreno (1973) supplies the polygon step both rest on; and
+Froberg (1968) is the earliest source touching zeros of P at all (four
+numerically observed roots, "very little is known"). The hunt's own first
+search sweep found only Froberg and concluded from that emptiness that no
+threshold was in the literature. That conclusion was wrong; SOURCE.md
+sections 4.5 and 4.6 keep the failed queries and record why they failed.
 
 ## 1. The decided constants
 
@@ -99,7 +151,9 @@ true.
 
 ## 2. The replacement theorem
 
-Full statements and proofs in THEOREM.md; the shape:
+Full statements and proofs in THEOREM.md; the shape. **Every item carries
+its ownership tag, per the map in `PRIOR-ART.md` section 8.** The proofs
+are unchanged and remain correct; the tags say who got there first.
 
 - **Theorem A (the wall, proved there).** For prime q and sigma_c(q) the
   unique root of the balance q^(-sigma) = sum_{p>q} p^(-sigma): P_q has no
@@ -108,6 +162,15 @@ Full statements and proofs in THEOREM.md; the shape:
   multiplicative independence of the primes (Lemma 3, from unique
   factorization). Exact mathematics, no numeric input; the numerics only
   locate sigma_c and sigma_3 and compare them with x*.
+  **Ownership: pure rediscovery.** Part (a) is Belovas et al. (2025)
+  Theorem 1 for q = 2, same constant and same proof; earlier still, it is
+  the "only if" half of Sepulcre and Vidal Theorem 4.3 (2022, preprint
+  2018). Part (b) is pure rediscovery by adjudication (Sepulcre and Vidal,
+  JMAA 437 (2016), Prop. 5 and Cor. 6), with one precision note recorded
+  rather than argued: those results are stated for finite exponential
+  polynomials and the finite-to-infinite step is not automatic, so the
+  honest phrasing is "the same argument gives the infinite-series case"
+  rather than a verbatim citation.
 - **Theorem B (existence up to the wall, proved there).** For every
   window (sigma_1 - eps, sigma_1 + eps) inside (1, sigma_c(q)), P_q has
   infinitely many zeros with Re s within eps/2 of sigma_1, imaginary parts
@@ -117,16 +180,50 @@ Full statements and proofs in THEOREM.md; the shape:
   proved via Weyl's method with positive lower density) and transfer the
   zero by Rouche. Corollary B1: sup of the real parts equals sigma_c(q),
   not attained.
+  **Ownership: pure rediscovery, and the prior art is stronger.** Sepulcre
+  and Vidal Theorem 4.3 gives that the closure of the real projections,
+  intersected with (1, infinity), is exactly (1, sigma_c]; that statement
+  implies Theorem B's "infinitely many per window" clause, which in turn
+  implies its existence clause, and neither converse holds
+  (`PRIOR-ART.md` section 6(vi)). Corollary B1 is likewise pure
+  rediscovery (Sepulcre and Vidal JMAA (2016), Prop. 5 and Cor. 6, as the
+  finite ancestor). The only clause not delivered by Theorem 4.3 is the
+  *positive lower density in t* of admissible heights (Lemma 4), and that
+  is not claimed as new either: it sits in classical almost-periodic
+  territory (Jessen and Tornehave) which has not been searched. Recorded
+  as an unverified lead, not a credit.
+- **Corollary B2 (A107311 Conjecture 1 is false).**
+  **Ownership: new as a connection, zero new mathematics.** No source in
+  the literature engages the OEIS entry. Belovas et al. do not refute it:
+  their bound 1.7795 is *weaker* than the conjectured 1.72864, and their
+  numerics stop at sigma_M = 1.6826..., below x*, so their paper is
+  consistent with the entry as far as it goes.
 - **Theorem C1 (subsets, proved there).** The same pair of theorems for
   q = 3: zeros of sum_{p>=3} p^(-s) fill windows below sigma_3, in
   particular (1.78, 1.82), which is beyond sigma_c: the decided enclosures
   give sigma_3 - sigma_c > 0.0456813 (exact rational compare on the flint
   legs).
+  **Ownership: new instance of prior-art theory.** The theory is Sepulcre
+  and Vidal's; the constant sigma_3 and the observation that a subset
+  out-walls the full series are this hunt's.
 - **Theorem C2 (unbounded walls, proved there).** For p_k >= 23,
   sigma_c(p_k) >= log2(3 p_k / (5 log p_k)) -> infinity, from
   Rosser-Schoenfeld Corollary 3, inequality (3.8). Decided instance: the
   {p >= 23} wall exceeds 17/8 (D3). Corollary C3: no constant bounds the
   zeros over all subsets.
+  **Ownership: new, small, elementary corollary** of a published framework
+  plus Rosser-Schoenfeld. No prior art was located by four independent
+  searches, which after the episode recorded in section 8 is a statement
+  about the searches and not about the world.
+- **Lemmas.** Lemma 1 (U has a unique root) is Belovas et al.'s Lemma 1:
+  pure rediscovery. Lemma 2 (the polygon lemma) is Moreno's Geometric
+  Principle, Compos. Math. 26 (1973), p. 71, used verbatim as the
+  aggregated-tail device in the proof of Sepulcre and Vidal Theorem 4.3:
+  pure rediscovery, and the aggregation trick is theirs too. Lemma 3
+  ({log p} is Q-linearly independent) is unique factorization and was never
+  a claim. Lemma 4 (phase steering with positive lower density) is
+  classical Kronecker-Weyl: pure rediscovery, with the density residue as
+  noted above.
 
 Proof status of each step (THEOREM.md section 6): **decided** on both
 backends: every numeric input (section 1 above; no claim rests on a
@@ -270,7 +367,7 @@ was the pre-registered expectation and changes nothing above.
 - **P4 (no explicit witness below t = 1e8): held.** The screen found no
   candidate; the pleasant surprise did not occur.
 
-## 7. Honest scope
+## 7. Honest scope and ownership
 
 - **Which reading of "zeros of the prime zeta function" is covered.**
   All of them. The refuting zeros have Re s > 1, inside the half-plane of
@@ -280,17 +377,41 @@ was the pre-registered expectation and changes nothing above.
   0 < Re s <= 1, where the continuation has logarithmic branch points and
   the line Re s = 0 is a natural boundary, and nothing about finite
   subsets.
-- **Novelty caveat.** The wall-plus-Bohr-steering mechanism is classical
-  for general Dirichlet series, and a specialist may regard the
-  sigma_c threshold as folklore-derivable; the searches logged in
-  SOURCE.md section 4 (2026-08-16: exact-phrase, zbMATH API, MathWorld,
-  citation hunts) found no source stating any rightmost-zero threshold
-  for P, and only Froberg 1968 touching its zeros at all, but that is a
-  record of queries run, not a completed search of record (no MathSciNet,
-  no zbMATH full text). The deliverable therefore stands as: the OEIS
-  correction, plus the first explicit treatment found for P specifically,
-  with decided constants. **Original is claimed; novel is claimed only as
-  "no prior source found by the logged searches".**
+- **Novelty caveat. SUPERSEDED 2026-08-16. Its text is quoted below, word
+  for word, as the record of what was believed at the time.** Two sources
+  were located
+  after this file was written and they own the core: Belovas, Cepaityte
+  and Sabaliauskas (2025) Theorem 1 for the wall and its constant, and
+  Sepulcre and Vidal (2022) Theorem 4.3 for the general statement, with
+  Moreno (1973) supplying the polygon step both of them rest on and
+  Sepulcre and Vidal's JMAA (2016) paper as the finite-sum ancestor.
+  MISSION.md kill condition 2 fired and the finding is reclassified as a
+  rediscovery. The adjudication, the verbatim sources and the
+  statement-by-statement ownership map are in `PRIOR-ART.md`; the
+  corrected public page is `docs/28-prime-zeta-rightmost-zeros.md`. The
+  paragraph that follows is **false as to novelty**. It is quoted rather
+  than deleted, because editing a record to match a later finding is
+  editing evidence; it is quoted rather than left as running text, so that
+  nothing in it can be read as a live claim.
+
+  > The wall-plus-Bohr-steering mechanism is classical
+  > for general Dirichlet series, and a specialist may regard the
+  > sigma_c threshold as folklore-derivable; the searches logged in
+  > SOURCE.md section 4 (2026-08-16: exact-phrase, zbMATH API, MathWorld,
+  > citation hunts) found no source stating any rightmost-zero threshold
+  > for P, and only Froberg 1968 touching its zeros at all, but that is a
+  > record of queries run, not a completed search of record (no MathSciNet,
+  > no zbMATH full text). The deliverable therefore stands as: the OEIS
+  > correction, plus the first explicit treatment found for P specifically,
+  > with decided constants. **Original is claimed; novel is claimed only as
+  > "no prior source found by the logged searches".**
+
+  What is false in it, named so the correction is checkable: "found no
+  source stating any rightmost-zero threshold for P" is true of the
+  searches and false of the world (Belovas et al. state exactly that
+  threshold); "the first explicit treatment found for P specifically" is
+  false outright; and "novel is claimed only as no prior source found" is
+  a claim this file no longer makes at all, since the core is prior art.
 - **Composite grade.** Decided numeric inputs (both backends, exact
   endpoint sign logic) glued by classical mathematics proved in
   THEOREM.md or cited with checked hypotheses. By the certainty ladder a
@@ -299,6 +420,104 @@ was the pre-registered expectation and changes nothing above.
   section 5 is a labeled aside that carries no claim. Nothing here uses
   the reserved enclosure vocabulary of `zeta/rigor.py`, and nothing here
   bears on RH.
+- **Original is still claimed where it is due, and only there.** By the
+  repo's ruling, *original* is a claim about provenance and *novel* is a
+  claim about the world. This hunt derived its results itself, and the five
+  items in 7.1 are the ones for which the world had nothing. For the rest
+  the correct word is neither: published mathematics was re-derived without
+  knowing it, which is a rediscovery, and it is named as one.
+
+### 7.1 What survives as this hunt's own
+
+Five items, no more, each with the grade the adjudication and the
+verification in `PRIOR-ART.md` support.
+
+| item | grade |
+|---|---|
+| (a) the line-by-line refutation of OEIS A107311's two conjectures. No source in the literature engages the entry, and Belovas et al. do not refute it: their bound 1.7795 is *weaker* than the conjectured 1.72864 and their numerics stop at 1.6826, below x* | new as a connection, zero new mathematics |
+| (b) Theorem C2 and Corollary C3: the tail subsets {p >= p_k} have thresholds >= log2(3 p_k / (5 log p_k)), unbounded, so Conjecture 2 fails for every replacement constant | new, small, elementary corollary of a published framework plus Rosser-Schoenfeld |
+| (c) the constant sigma_3 for {p >= 3}, and that a subset out-walls the full series by more than 0.045 (decided: sigma_3 - sigma_c > 0.0456813) | new instance of prior-art theory |
+| (d) two-backend enclosures of sigma_c, sigma_3 and x* with exact endpoint sign logic, plus the decided separation and margin | rediscovery in sharper form: Belovas et al. print 15 digits and note any precision is available |
+| (e) the bridge, section 7.2 | new as a literature observation |
+
+Item (b)'s "no prior art located" rests on four independent searches, and
+after section 8 that phrase should be read for exactly what it is: a
+statement about the searches, not about the world.
+
+### 7.2 The bridge: two papers that jointly close a stated open problem
+
+The most publishable item here, and it is a claim about the literature, not
+about mathematics. Stated at the confidence the verification supports and
+no higher.
+
+Belovas et al. (2025) prove that P has no zeros with Re s > sigma_c (their
+Theorem 1) and leave open, as their Conjecture 1, whether that bound is
+sharp: whether sigma_T = max{sigma : P(sigma + it) = 0, |t| < T} tends to
+sigma_c as T grows. Their own numerics reach only sigma_M = 1.6826... at
+|t| < 200000, which is 0.097 short, which is why the conjecture looked
+open.
+
+**Sepulcre and Vidal Theorem 4.3 settles that conjecture, and its other
+direction re-proves their theorem.** Specialized to P, the "only if"
+direction says every sigma_0 > sigma_c fails their condition (4.8) and so
+is not in the closure of the real projections of zeros, which is precisely
+Belovas et al.'s Theorem 1. The "if" direction puts sigma_c itself in that
+closure, so there are honest zeros at finite (uncontrolled, possibly
+astronomical) heights with real part arbitrarily close to sigma_c; since
+sigma_T is non-decreasing in T and bounded above by sigma_c, its limit is
+sigma_c. Their theorem and their open conjecture are the two directions of
+one published characterization that predates both, and neither paper cites
+the other: one is filed under number theory, the other under almost
+periodic functions (MSC 30B50, 30D20).
+
+Grade, stated exactly. The specialization of Theorem 4.3 to P and the
+derivation above were **proved in `PRIOR-ART.md`** (sections 6 and 7)
+against both sources read verbatim, and **no gap was found** in either. It
+is not refereed and not kernel-checked, and it carries *pending external
+verification*. This hunt did not prove Theorem 4.3 and did not prove
+Conjecture 1; it noticed that one implies the other. Say it in those terms
+and no stronger.
+
+## 8. The kill condition fired, and what that cost
+
+Recorded rather than fixed quietly, in the register this repository uses
+for its own withdrawals.
+
+MISSION.md pre-registered kill condition 2: *a literature source is found
+proving the sigma_c threshold for P, in which case the finding is
+reclassified as a rediscovery and the OEIS correction cites that source
+instead of this work.* It fired on 2026-08-16, hours after the hunt closed,
+and against two sources rather than one. Both consequences have been
+applied: the reclassification throughout this file, and the citation change
+in `OEIS-CORRECTION.md` sections 1 and 2.
+
+**What it cost.** Work package 3 and the larger part of work package 4
+re-derived published mathematics. `THEOREM.md` is retained in full and
+unedited: a proof does not become wrong by being second, and the write-up
+is the evidence that this hunt actually derived the statements rather than
+paraphrasing a source it had already found. What was lost is the claim, not
+the work. Unaffected and retained: the decided instruments, the calibration
+and lesion controls, the witness screen, and the refutation of the OEIS
+entry, which no published source performs.
+
+**What the pre-registration bought.** The kill condition was written before
+the search, named the exact evidence that would fire it, and named the
+consequence in advance. When the evidence arrived there was nothing to
+negotiate, and this file has no room to argue for its own result. That is
+what writing kill conditions down is for, and it is worth more than the
+claim it cost.
+
+**Why the search failed, so that it is not repeated.** The hunt's
+exact-phrase query was a literal substring of the title of the paper that
+owns its main theorem, and the engine did not return it; the general
+theorem was out of reach of every query the hunt could have phrased,
+because it is filed under almost periodic functions and never names a
+prime. Countermeasures for both failures are in SOURCE.md section 4.6. The
+uncomfortable part is the asymmetry: the skepticism reflex was fully
+present in the numerics, where nine instrument defects were caught during
+the run and kill condition 3 fired once on a backend disagreement, and it
+was absent in the literature search, where an empty result was read as an
+absence rather than as a failed query.
 
 ## Disposition
 

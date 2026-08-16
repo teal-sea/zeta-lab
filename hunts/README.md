@@ -81,12 +81,82 @@ and pre-registered predictions in its `MISSION.md`; novelty sweep in its
 
 ### Hunt #35: the rightmost zeros of the prime zeta function (`prime_zeta_rightmost/`)
 
-**Status: open (2026-08-16).** Attacks the two conjectures posted on OEIS
-A107311 (2024-12-21): that x* = 1.7286... (root of zeta(x) = 2) bounds the
-real parts of the zeros of the prime zeta function and of every prime-subset
-series. The scouted truth is a different threshold, sigma_c = 1.7795...
-(root of P(sigma) = 2^(1-sigma)), which would refute both. Contract and
-pre-registered predictions in its `MISSION.md`.
+**Status: settled. The threshold is correct, the conjectures are false, and
+the core is a rediscovery of published work: kill condition 2 fired.** The
+hunt attacked the two conjectures posted on OEIS A107311 (2024-12-21), that
+x* = 1.7286... (root of zeta(x) = 2) bounds the real parts of the zeros of
+the prime zeta function P(s) = sum_p p^(-s) and of every prime-subset
+series. It decided on both backends (python-flint arb at 350 bits and
+mpmath.iv at dps 40, exact Fraction endpoint logic) the balance root
+sigma_c = 1.779544653546994116445898786965... of P(sigma) = 2^(1-sigma),
+x* = 1.728647238998183618135103010297..., the separation sigma_c - x* >
+1/20, the margin P(x*) - 2^(1-x*) = 0.0169073772138... > 1/60, the subset
+constant sigma_3 = 1.8252259560738457... with sigma_3 - sigma_c > 0.0456813,
+and log2(69/(5 log 23)) = 2.1379035036560028... > 17/8. It wrote out both
+halves of the threshold theorem with proofs (triangle-inequality wall;
+Bohr-Kronecker-Rouche existence below it), ran the WP5 calibration control
+(the same solver object, pointed at the zeta partial sums, reproduced 31
+digits of the literature's x*), two lesions and a precision-response check,
+and settled predictions P1-P4, P4 including a screen of sigma = 7/4 to
+t = 1e8 whose global |P| minimum was about 0.010021 at t about 5.63e7, far
+above the alignment budget.
+
+**Then the prior art was found, and it owns the core.** Belovas, Cepaityte
+and Sabaliauskas, *On the zero-free region and the distribution of zeros of
+the prime zeta function*, An. St. Univ. Ovidius Constanta Ser. Mat. 33(2)
+(2025) 27-44, Theorem 1: the same wall, the same constant to every digit
+they print, the same triangle-inequality proof. Sepulcre and Vidal,
+Carpathian J. Math. 38 (2022) 489-501 (preprint arXiv:1805.02041, 2018),
+Theorem 4.3: the general characterization, strictly stronger than the
+hunt's existence half, with Moreno's Geometric Principle (Compositio Math.
+26, 1973) as the finite ancestor and the source of the aggregated-tail
+device the hunt reinvented as its Lemma 2. `MISSION.md` kill condition 2
+reads: "a literature source is found proving the sigma_c threshold for P,
+in which case the finding is reclassified as a rediscovery and the OEIS
+correction cites that source instead of this work." It fired. The
+reclassification is done, in `hunts/prime_zeta_rightmost/PRIOR-ART.md`
+(statement-by-statement ownership map, verbatim source texts, the worked
+specialization) and in the rewritten `docs/28-prime-zeta-rightmost-zeros.md`,
+which now leads with the prior art.
+
+**What survives as the hunt's own**, and nothing beyond it: (a) the
+line-by-line refutation of the two OEIS conjectures, since no source in the
+literature engages that entry and the published wall does not by itself
+refute Conjecture 1 (1.7795 is weaker than the conjectured 1.72864, and
+Belovas et al.'s numerics stop at 1.6826, below x*), graded new as a
+connection with zero new mathematics; (b) the unbounded tail-subset walls, {p >= p_k}
+walled at or above log2(3 p_k / (5 log p_k)) via Rosser-Schoenfeld, so no
+constant bounds the real parts across all prime subsets and Conjecture 2
+fails for every replacement constant, graded new, small and elementary, and
+the only mathematics here not located in print; (c) the constant sigma_3 and the
+fact that a subset out-walls the full series by more than 0.045, a new
+instance of prior-art theory; (d) the two-backend enclosures, rediscovery in
+sharper form, the source printing 15 digits and noting that any precision
+is available; and (e) one literature observation, that Belovas et
+al.'s Conjecture 1, left open in their paper, is a corollary of Sepulcre
+and Vidal Theorem 4.3, which neither paper cites. The steering lemma's
+positive lower density in t is carried as an unverified lead, since the
+Jessen-Tornehave literature was not searched.
+
+**The lesson, which is the most transferable thing the episode produced.**
+Two independent search failures, needing two different countermeasures, and
+both reproduce on demand. The exact-phrase query "zeros of the prime zeta
+function" is a literal substring of the Belovas et al. title and the engine
+still does not return it: no arXiv preprint, a Sciendo/DOAJ venue outside
+the sweep, and an image-scanned PDF that has to be downloaded and extracted
+rather than fetched. The general theorem was missed for an unrelated
+reason: it is filed under almost periodic functions, MSC 30B50/30D20, and
+never names a prime, so no prime-zeta query can reach it, and it was
+reachable only by searching for the device rather than the application.
+Four independent searches returned nothing while two published papers owned
+the result outright, which is the standing argument for
+`ontology/knownness.py` defaulting to "the literature was not consulted".
+
+**Disposition:** instruments retained; nothing promoted; the OEIS
+correction drafts in `OEIS-CORRECTION.md` remain unposted and now need
+rewriting to cite Belovas et al. for the threshold, which is what the kill
+condition requires. Nothing here bears on RH: the zeros discussed are zeros
+of P and of subset series in Re s > 1, not zeros of zeta.
 
 ### Hunt #34: claim 'urms2-0.51' has no recorded blind attack (`r_fb9c81/`)
 

@@ -11,6 +11,8 @@
         "mpmath_iv": ["1.7286472389981835995", "1.7286472389981836884"],
         "mpmath_iv_width": "8.882e-17"
       },
+      "ownership": "sharper_form",
+      "ownership_note": "The constant is OEIS A107311's and belongs to the Borwein-Fee-Ferguson-van der Waall partial-sums line; this hunt contributes only the two-backend decided enclosure.",
       "grade": "decided",
       "backend": "python-flint (arb) and mpmath.iv",
       "precision": "350 bits / dps 40",
@@ -25,6 +27,8 @@
         "mpmath_iv_width": "9.095e-14",
         "decided_digits_both_endpoints_agree": "1.779544653546994116445898786965"
       },
+      "ownership": "prior_art",
+      "ownership_note": "Belovas, Cepaityte and Sabaliauskas (2025) Theorem 1 states the same constant (1.77954465354699...) by the same triangle-inequality proof; the 'only if' half of Sepulcre and Vidal (2022) Theorem 4.3 gives it earlier still, and their 'if' half gives the supremum role. The decided enclosure alone is sharper_form.",
       "grade": "decided (the enclosure); composite (its role as the zero supremum, via Theorems A and B)",
       "backend": "python-flint (arb) and mpmath.iv",
       "precision": "350 bits / dps 40",
@@ -38,6 +42,8 @@
         "mpmath_iv": ["1.8252259559929", "1.8252259560861"],
         "mpmath_iv_width": "9.313e-11"
       },
+      "ownership": "new_instance",
+      "ownership_note": "New instance of prior-art theory: the framework is Sepulcre and Vidal's, the constant and the observation that a prime subset out-walls the full series are this hunt's. No source located treats prime subsets.",
       "grade": "decided (the enclosure); composite (its role as the zero supremum)",
       "backend": "python-flint (arb) and mpmath.iv",
       "precision": "350 bits / dps 40",
@@ -49,6 +55,8 @@
         "lower_bound_flint": "0.050897414548810498310795776667695",
         "lower_bound_mpmath_iv": "0.05089741454877"
       },
+      "ownership": "sharper_form",
+      "ownership_note": "Both constants are published; the decided separation is the sharper form. Belovas et al. print 15 digits of sigma_c and note any precision is available.",
       "grade": "decided",
       "backend": "python-flint (arb) and mpmath.iv, exact rational endpoint compare",
       "precision": "350 bits / dps 40",
@@ -60,6 +68,8 @@
         "flint": ["0.016907377213856298105802854273997", "0.016907377213856298105802854274113"],
         "mpmath_iv": ["0.01690737721385", "0.01690737721386"]
       },
+      "ownership": "sharper_form",
+      "ownership_note": "A decided evaluation of Belovas et al.'s U at the OEIS constant; the sign is what the refutation connection uses.",
       "grade": "decided",
       "backend": "python-flint (arb) and mpmath.iv",
       "precision": "350 bits / dps 40",
@@ -71,6 +81,8 @@
         "flint": ["0.009465637293734518587514821979513", "0.009465637293734518587514821979514"],
         "mpmath_iv": ["0.00946563729373", "0.00946563729374"]
       },
+      "ownership": "sharper_form",
+      "ownership_note": "Decided input to Theorem B, which is prior art (implied by Sepulcre and Vidal Theorem 4.3, which is stronger).",
       "grade": "decided",
       "backend": "python-flint (arb) and mpmath.iv",
       "precision": "350 bits / dps 40",
@@ -82,6 +94,8 @@
         "flint": ["0.004312491729413063275865581947004", "0.004312491729413063275865581947005"],
         "mpmath_iv": ["0.00431249172941", "0.00431249172942"]
       },
+      "ownership": "new_instance",
+      "ownership_note": "Decided input to Theorem C1, the {p >= 3} instance.",
       "grade": "decided",
       "backend": "python-flint (arb) and mpmath.iv",
       "precision": "350 bits / dps 40",
@@ -93,6 +107,8 @@
         "flint": ["2.137903503656002856060611381367", "2.137903503656002856060611381368"],
         "mpmath_iv": ["2.137903503656002856060611381367", "2.137903503656002856060611381368"]
       },
+      "ownership": "new_small",
+      "ownership_note": "Decided input to Theorem C2, the tail-subset unboundedness, for which no prior art was located by four independent searches.",
       "grade": "decided",
       "backend": "python-flint (arb) and mpmath.iv",
       "precision": "350 bits / dps 40",
@@ -101,6 +117,8 @@
     "window_comparisons_W1_to_W5": {
       "statement": "hi(x*) < 173/100; lo(sigma_c) > 7/4; lo(sigma_c) > 177/100; hi(sigma_c) < 89/50; lo(sigma_3) > 91/50",
       "value_or_interval": "all true on both backends, exact Fraction compares against outward-rounded endpoints",
+      "ownership": "sharper_form",
+      "ownership_note": "W1-W4 support prior-art statements about P; W5 supports the {p >= 3} instance.",
       "grade": "decided",
       "backend": "python-flint (arb) and mpmath.iv",
       "precision": "350 bits / dps 40",
@@ -109,6 +127,8 @@
     "sigma_3_minus_sigma_c": {
       "statement": "sigma_3 - sigma_c > 0.0456813: the {p >= 3} subset out-walls the full series",
       "value_or_interval": {"lower_bound_flint": "0.0456813"},
+      "ownership": "new_instance",
+      "ownership_note": "That a prime subset out-walls the full series is this hunt's observation, inside a published framework.",
       "grade": "decided",
       "backend": "python-flint (arb), exact rational endpoint compare",
       "precision": "350 bits",
@@ -117,6 +137,8 @@
     "conjecture_1_refuted": {
       "statement": "OEIS A107311 Conjecture 1 is false: P has infinitely many zeros with Re s in (1.73, 1.77), each exceeding x*; the true supremum is sigma_c, approached and not attained",
       "value_or_interval": "falls by Theorems A + B (Corollaries B1, B2) with decided inputs T1, D1, W1, W3",
+      "ownership": "new_connection",
+      "ownership_note": "New as a connection, zero new mathematics: the mathematics is prior art (Theorems A and B are Belovas et al. 2025 and Sepulcre and Vidal 2022), and what is this hunt's own is that nobody had pointed it at OEIS A107311. Belovas et al. do not refute the entry: their bound 1.7795 is weaker than the conjectured 1.72864 and their numerics stop at 1.6826, below x*.",
       "grade": "composite: decided numerics + proofs in THEOREM.md + cited-classical steps",
       "backend": "python-flint (arb) and mpmath.iv for every numeric input",
       "precision": "350 bits / dps 40",
@@ -125,6 +147,8 @@
     "conjecture_2_refuted": {
       "statement": "OEIS A107311 Conjecture 2 is false twice over: {p >= 3} has infinitely many zeros with Re s in (1.78, 1.82), beyond x* and beyond sigma_c; tail subsets {p >= p_k} have walls tending to infinity, so no replacement constant exists",
       "value_or_interval": "falls by Theorem C1 (decided D2, W1, W4, W5) and by Theorem C2 + Corollary C3 (Rosser-Schoenfeld (3.8); decided instance D3)",
+      "ownership": "new_small",
+      "ownership_note": "Two halves with two ownerships. The {p >= 3} half is new_instance (Theorem C1). The tail-subset unboundedness (Theorem C2, Corollary C3) is new_small: an elementary corollary of the published framework plus Rosser-Schoenfeld, with no prior art located. The act of refuting the OEIS entry is new_connection, as for Conjecture 1.",
       "grade": "composite: decided numerics + proofs in THEOREM.md + cited-classical steps",
       "backend": "python-flint (arb) and mpmath.iv for every numeric input",
       "precision": "350 bits / dps 40",
@@ -136,6 +160,8 @@
         "flint": ["1.7286472389981836181351030102976660", "1.7286472389981836181351030102977450"],
         "mpmath_iv": ["1.7286472389981099", "1.7286472389982010"]
       },
+      "ownership": "prior_art",
+      "ownership_note": "Calibration control: the constant recovered is the published partial-sums threshold. No ownership claim, the point is that the code path reproduces the literature.",
       "grade": "decided; control verdict PASS",
       "backend": "python-flint (arb) and mpmath.iv",
       "precision": "350 bits / dps 40",
@@ -147,6 +173,8 @@
         "flint_root": ["1.4293161356678019330620811031492544", "1.4293161356678019330620811031493235"],
         "shift_from_sigma_c": ["0.3502285178791921833838176838161", "0.3502285178791921833838176838163"]
       },
+      "ownership": "sharper_form",
+      "ownership_note": "Instrument control, not a mathematical claim; the contribution is the two-backend decided methodology.",
       "grade": "decided; control verdict PASS",
       "backend": "python-flint (arb) (mpmath.iv confirming)",
       "precision": "350 bits / dps 40",
@@ -157,6 +185,8 @@
       "value_or_interval": {
         "flint_root": ["2.4241112509134051299681251496785051", "2.4241112509134051299681251496785939"]
       },
+      "ownership": "sharper_form",
+      "ownership_note": "Instrument control, not a mathematical claim.",
       "grade": "decided; control verdict PASS",
       "backend": "python-flint (arb) (mpmath.iv confirming)",
       "precision": "350 bits / dps 40",
@@ -165,6 +195,8 @@
     "precision_response": {
       "statement": "sigma_c widths shrink strictly with working precision",
       "value_or_interval": {"60_bits": "1.421e-15", "120_bits": "6.163e-34", "200_bits": "1.020e-57"},
+      "ownership": "sharper_form",
+      "ownership_note": "Instrument control, not a mathematical claim.",
       "grade": "decided widths; control verdict PASS",
       "backend": "python-flint (arb)",
       "precision": "60 / 120 / 200 bits",
@@ -180,6 +212,8 @@
         "expected_t_heuristic_line": 1.6376823600773134e16,
         "expected_t_heuristic_window": 16851710604.191057
       },
+      "ownership": "new_small",
+      "ownership_note": "A negative screen on the line sigma = 7/4 up to t = 1e8. Related prior computation exists and is different in kind: Belovas et al. (2025) search zeros of P to |t| < 200000 and report max real part sigma_M = 1.682628788045196..., and exhibit 10318 zeros with t < 1e4. Their search is for zeros anywhere; this one is for a zero on one fixed line, and found none.",
       "grade": "decided (margin), measured (screen), heuristic (expected height); witness_decided_exists = false",
       "backend": "python-flint (arb) 350 bits for the margin; numpy float64 for the screen; python-flint (acb) 192 bits for the box counter controls",
       "precision": "350 bits / float64 / 192 bits",
@@ -193,18 +227,91 @@
         "P3_sigma_3_window": "held",
         "P4_no_witness_below_1e8": "held"
       },
+      "ownership": "sharper_form",
+      "ownership_note": "Pre-registration bookkeeping. Ownership of the underlying statements is per the individual claim entries above.",
       "grade": "decided (P1-P3), measured screen (P4)",
       "backend": "python-flint (arb) and mpmath.iv; numpy float64 for the P4 screen",
       "precision": "350 bits / dps 40 / float64",
       "source_file": "decided.json, controls_results.json, witness_results.json"
     },
     "scope_and_novelty": {
-      "statement": "refutation covers every reading of 'zeros of the prime zeta function' (refuting zeros sit in Re s > 1 where all readings agree); nothing claimed about Re s <= 1, finite subsets, or RH; no prior source found by the logged searches, but a general-Dirichlet-series specialist may consider the threshold folklore-derivable; the deliverable is the OEIS correction plus the first explicit treatment found for P",
+      "statement": "refutation covers every reading of 'zeros of the prime zeta function' (refuting zeros sit in Re s > 1 where all readings agree); nothing claimed about Re s <= 1, finite subsets, or RH. The threshold sigma_c and the mechanism are PRIOR ART: Belovas et al. (2025) Theorem 1 and Sepulcre and Vidal (2022) Theorem 4.3, see the top-level prior_art block. MISSION.md kill condition 2 has fired and the core is reclassified as rediscovery. The surviving deliverable is the OEIS correction as a connection, the tail-subset unboundedness, sigma_3, the decided enclosures, and the literature observation that Belovas et al.'s open Conjecture 1 follows from Sepulcre and Vidal Theorem 4.3.",
       "value_or_interval": null,
-      "grade": "composite, not kernel-checked; original claimed, novelty claimed only as 'no prior source found by the logged searches'",
+      "ownership": "prior_art",
+      "ownership_note": "This entry's statement was rewritten on 2026-08-16: its earlier text claimed 'no prior source found by the logged searches' and 'the first explicit treatment found for P', both of which are false.",
+      "grade": "composite, not kernel-checked; original claimed for provenance where due, novel NOT claimed for the core, which is published; pending external verification",
       "backend": null,
       "precision": null,
       "source_file": "SOURCE.md, THEOREM.md, RESULTS.md"
     }
+  },
+  "prior_art": {
+    "status": "MISSION.md kill condition 2 has fired",
+    "adjudicated": "2026-08-16",
+    "summary": "The core of this hunt is prior art. The wall at sigma_c, its triangle-inequality proof, the existence of zeros filling every window below it, and the value of the constant are published. The hunt's core is reclassified as rediscovery. What survives as its own is listed under surviving_contribution below and in RESULTS.md section 7.1.",
+    "citations": [
+      {
+        "key": "belovas_2025",
+        "authors": "Igoris Belovas, Rugile Cepaityte, Martynas Sabaliauskas",
+        "title": "On the zero-free region and the distribution of zeros of the prime zeta function",
+        "venue": "Analele Stiintifice ale Universitatii Ovidius Constanta, Seria Matematica 33(2) (2025), 27-44",
+        "doi": "10.2478/auom-2025-0017",
+        "published": "2025-06-03",
+        "access": "open access, CC BY-NC-ND; image-scanned PDF, must be downloaded and extracted",
+        "url": "https://www.anstuocmath.ro/mathematics/anale2025v2/2_Igoris_Belovas_et_al.pdf",
+        "owns": "Theorem 1: P has no zeros in sigma > sigma_0 with sigma_0 = 1.77954465354699..., the zero of U(sigma) = 2^(1-sigma) - P(sigma). Same constant and same proof as this hunt's Theorem A(a). Their Lemma 1 is this hunt's Lemma 1. Their Conjecture 1 (that the bound is sharp) is left open in their paper.",
+        "does_not_contain": "no mention of A107311, Jasinski or 1.72864; no mention of almost periodic functions, Moreno, Sepulcre or Vidal; no treatment of prime subsets. One incidental oeis.org URL appears in their reference [2], hosting a Cohen preprint, and is not a reference to A107311."
+      },
+      {
+        "key": "sepulcre_vidal_2022",
+        "authors": "J. M. Sepulcre, T. Vidal",
+        "title": "On the real projections of zeros of analytic almost periodic functions",
+        "venue": "Carpathian Journal of Mathematics 38 (2022), no. 2, 489-501",
+        "preprint": "arXiv:1805.02041 [math.CV], 5 May 2018 (preprint Theorem 6 = journal Theorem 4.3)",
+        "msc": "30B50, 30D20, 30Axx, 11J72",
+        "owns": "Theorem 4.3: for an almost periodic f on a vertical strip with Q-linearly independent frequencies, sigma_0 lies in R_f (the closure of the real projections of the zeros) if and only if condition (4.8) holds. Specialized to P this gives closure{Re s : P(s) = 0, Re s > 1} = (1, sigma_c], which is strictly stronger than this hunt's Theorem B, and its 'only if' half is Belovas et al.'s Theorem 1. The proof of the 'if' direction contains the aggregated-tail polygon device, this hunt's Lemma 2 plus tail aggregation."
+      },
+      {
+        "key": "moreno_1973",
+        "authors": "C. J. Moreno",
+        "title": "The zeros of exponential polynomials (I)",
+        "venue": "Compositio Mathematica 26 (1973), no. 1, 69-78",
+        "owns": "The Geometric Principle at p. 71-72, which is this hunt's Lemma 2, cited as [14, p.71] in the proof of Sepulcre and Vidal Theorem 4.3; and the Main Theorem at p. 73 (domination condition for Q-independent frequencies). Not fetched in this directory; cited on the strength of Sepulcre and Vidal's citations."
+      }
+    ],
+    "also_named_by_the_adjudication": [
+      "Sepulcre and Vidal, On the non-isolation of the real projections of the zeros of exponential polynomials, J. Math. Anal. Appl. 437 (2016), no. 1, 513-525: Proposition 5 and Corollary 6, the finite-sum ancestor of this hunt's Theorem A(b) and Corollary B1. Precision note: stated for finite exponential polynomials, so the finite-to-infinite step is not automatic and the honest phrasing is 'the same argument gives the infinite-series case'.",
+      "Math.StackExchange 3894479, comment by K. Conrad, 2020-11-05: the balance equation and the triangle-inequality argument, publicly posted."
+    ],
+    "kill_condition": {
+      "id": "MISSION.md kill_conditions item 2",
+      "text": "a literature source is found proving the sigma_c threshold for P, in which case the finding is reclassified as a rediscovery and the OEIS correction cites that source instead of this work",
+      "fired": true,
+      "fired_on": "2026-08-16",
+      "fired_against": [
+        "belovas_2025",
+        "sepulcre_vidal_2022"
+      ],
+      "consequences_applied": [
+        "core reclassified as rediscovery (RESULTS.md headline and section 2 ownership tags)",
+        "OEIS-CORRECTION.md rewritten to cite Belovas et al. for the threshold constant",
+        "SOURCE.md section 4 rewritten; the false 'no source was found' finding removed",
+        "results.json: per-claim ownership fields and this block added"
+      ],
+      "cost": "WP3 and the larger part of WP4 re-derived published mathematics. THEOREM.md is retained unedited and remains correct: a proof does not become wrong by being second. What was lost is the claim, not the work."
+    },
+    "surviving_contribution": [
+      "(a) the line-by-line refutation of OEIS A107311's two conjectures: new_connection, zero new mathematics",
+      "(b) Theorem C2 and Corollary C3, tail-subset thresholds unbounded: new_small",
+      "(c) sigma_3 for {p >= 3} and the subset out-walling the full series: new_instance",
+      "(d) two-backend enclosures with exact endpoint sign logic: sharper_form",
+      "(e) the bridge, that Belovas et al.'s open Conjecture 1 is a corollary of Sepulcre and Vidal Theorem 4.3, whose other direction contains their Theorem 1: new_connection as a literature observation, and the most publishable item here"
+    ],
+    "search_failure_lesson": {
+      "failure_1_venue_gap": "the hunt's exact-phrase query 'zeros of the prime zeta function' is a literal substring of the Belovas et al. title and the engine did not return it; the failure reproduces on demand. The paper was never preprinted on arXiv, lives in a Sciendo/DOAJ journal an arXiv-plus-MathWorld-plus-zbMATH title sweep does not reach, and its PDF is image-scanned so it must be downloaded and extracted rather than fetched.",
+      "failure_2_classification_gap": "Sepulcre and Vidal Theorem 4.3 is filed under almost periodic functions (MSC 30B50, 30D20), not number theory, and never names a prime, so no prime-zeta query can reach it. It was reachable only by searching for the device rather than the application.",
+      "rule": "an unrun or unsuccessful search is not evidence of absence, which is why ontology/knownness.py defaults to 'the literature was not consulted'"
+    },
+    "verification": "PRIOR-ART.md records both load-bearing sources read verbatim, the hypothesis-by-hypothesis specialization of Theorem 4.3 to P, and the bridge derivation. No gap was found in either. Not refereed and not kernel-checked; pending external verification."
   }
 }
