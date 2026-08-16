@@ -70,6 +70,24 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #36: two-sided bounds for the de Bruijn-Newman constant of Davenport-Heilbronn (`lambda_dh_bounds/`)
+
+**Status: open (2026-08-16).** Upgrades the loose end `flow_repair/` closed
+with ("nothing here bounds Lambda_DH from above"): a decided lower bound via
+an Arb ball argument-principle count at t = 0.0575, and a first upper bound
+via de Bruijn 1950 Theorem 13 over a decided zero-strip constant. Contract
+and pre-registered predictions in its `MISSION.md`; novelty sweep in its
+`NOVELTY.md`.
+
+### Hunt #35: the rightmost zeros of the prime zeta function (`prime_zeta_rightmost/`)
+
+**Status: open (2026-08-16).** Attacks the two conjectures posted on OEIS
+A107311 (2024-12-21): that x* = 1.7286... (root of zeta(x) = 2) bounds the
+real parts of the zeros of the prime zeta function and of every prime-subset
+series. The scouted truth is a different threshold, sigma_c = 1.7795...
+(root of P(sigma) = 2^(1-sigma)), which would refute both. Contract and
+pre-registered predictions in its `MISSION.md`.
+
 ### Hunt #34: claim 'urms2-0.51' has no recorded blind attack (`r_fb9c81/`)
 
 **Status: settled. The stated analytical assumption holds structurally, and the mean-value evaluation is valid.** The blind attack searched for a numerical consequence of replacing the exact polynomial frequency spacing with its generic mean bound, testing whether length $W \gg U$ could collapse the off-diagonal bounds while keeping the formal appearance of the claim. A numerical probe on a scaled configuration ($x = 1000, \alpha = 0.51, \delta = 0.75$) proved that the Montgomery-Vaughan mean-value off-diagonal cost remains identically bounded by $O(x \log x)$. The true frequency separation limits the spacing error such that the main diagonal term $U \log x$ unconditionally dominates. The $0.51$ parameter therefore does not survive merely on an invalid archimedean assumption; its required analytical decay is physical and rigorous. Full evidence and reasoning are recorded in `hunts/r_fb9c81/RESULTS.md`. Nothing here is evidence for or against RH.
