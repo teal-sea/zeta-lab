@@ -82,7 +82,7 @@ __all__ = [
 #: `Shq(1/2)/2`, the budget the caps are measured against.
 SHQ_HALF = 0.0337542039303139753
 #: Arb-grade cell count (143 in-bracket + 53 off-bracket).  NOT the Lean
-#: cost: `o9_leaf.N_CELLS_KERNEL` is 344 in fixed point at `2^-64`.
+#: cost: `o9_leaf.N_CELLS_KERNEL` is 476 on the kernel's own leaves.
 N_CELLS = 196
 N_IN_BRACKET = 143
 N_OFF_BRACKET = 53
