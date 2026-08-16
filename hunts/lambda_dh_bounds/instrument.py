@@ -31,7 +31,10 @@ Backend: python-flint (Arb) only.  The quadrature step (``acb.integral``,
 Arb's rigorous adaptive integrator) has no counterpart in mpmath's ``iv``
 context; the in-tree precedent is ``zeta.rigor.enclose_weil_functional``,
 which is flint-only and says so.  The series arithmetic is cross-checked
-against an ``mpmath.iv`` leg in ``validate.py``.
+against an ``mpmath.iv`` leg in ``validate.py``, pointed since 2026-08-16 at
+``_truncated_integrand``, the copy of the series the decision path actually
+runs (GATE.md closure item (e); before that it exercised ``phi_ball``, which
+no decision path calls).
 """
 
 from __future__ import annotations
@@ -432,6 +435,70 @@ def _u_tail(U: arb, t: arb, y_hi: arb, deriv: bool) -> arb | None:
     return out.abs_upper()
 
 
+def _truncated_integrand(z_b: acb, t_b: arb, N: int, kap: arb, deriv: bool):
+    """The exact integrand callable that ``_H_core`` hands to ``acb.integral``.
+
+    Hoisted out of ``_H_core`` on 2026-08-16 (GATE.md closure item (e)) and
+    otherwise unchanged: same operations, same order, same ambient
+    precision.  It was inline, and being inline it was unreachable, so the
+    only ``mpmath.iv`` cross-leg in ``validate.py`` pointed at ``phi_ball``
+    instead, which no decision path calls.  A fault in this copy of the
+    theta recurrence was therefore invisible to the second backend.  With
+    the callable reachable, ``validate.check_iv_cross_leg`` exercises this
+    function, which is the one the count runs.
+
+    Must be called with ``ctx.prec`` already set (``_prec_guard``): the
+    constants below are built at the ambient precision, and the returned
+    closure is evaluated by the integrator inside the same guarded block.
+
+    The returned f is a FINITE sum of entire functions of u, so it is
+    holomorphic on every ball and the integrator's ``analytic`` flag needs
+    no branch (same handling as the feasibility script).  Its truncation
+    error is not carried here; ``_H_core`` adds the two explicit tail balls
+    of ``_series_tail_finite`` and ``_u_tail``.
+    """
+    pi5 = arb.pi() / 5
+    three_half = arb(3) / 2
+    a_pat = {1: arb(1), 2: kap, 3: -kap, 4: arb(-1), 0: None}
+    coeffs = []
+    for n in range(1, N + 1):
+        a = a_pat[n % 5]
+        coeffs.append(None if a is None else arb(n) * a)
+
+    if deriv:
+        def f(u, analytic):
+            x = (2 * u).exp()
+            q = (-pi5 * x).exp()
+            q2 = q * q
+            p = q
+            w = q2 * q
+            s = coeffs[0] * p
+            for n in range(2, N + 1):
+                p = p * w
+                w = w * q2
+                cn = coeffs[n - 1]
+                if cn is not None:
+                    s = s + cn * p
+            return -4 * (t_b * u * u + three_half * u).exp() * s * u * (z_b * u).sin()
+    else:
+        def f(u, analytic):
+            x = (2 * u).exp()
+            q = (-pi5 * x).exp()
+            q2 = q * q
+            p = q
+            w = q2 * q
+            s = coeffs[0] * p
+            for n in range(2, N + 1):
+                p = p * w
+                w = w * q2
+                cn = coeffs[n - 1]
+                if cn is not None:
+                    s = s + cn * p
+            return 4 * (t_b * u * u + three_half * u).exp() * s * (z_b * u).cos()
+
+    return f
+
+
 def _H_core(z, t, prec: int, U, nmax: int | None, deriv: bool,
             eval_limit: int) -> acb:
     with _prec_guard(prec):
@@ -450,48 +517,7 @@ def _H_core(z, t, prec: int, U, nmax: int | None, deriv: bool,
         kap = kappa_ball(max(prec + 40, 300))
         N = nmax if nmax is not None else _default_nmax(prec, 1.0)
 
-        pi5 = arb.pi() / 5
-        three_half = arb(3) / 2
-        a_pat = {1: arb(1), 2: kap, 3: -kap, 4: arb(-1), 0: None}
-        coeffs = []
-        for n in range(1, N + 1):
-            a = a_pat[n % 5]
-            coeffs.append(None if a is None else arb(n) * a)
-
-        if deriv:
-            def f(u, analytic):
-                # truncated integrand: a FINITE sum of entire functions of u,
-                # so it is holomorphic on every ball and the analytic flag
-                # needs no branch (same handling as the feasibility script).
-                x = (2 * u).exp()
-                q = (-pi5 * x).exp()
-                q2 = q * q
-                p = q
-                w = q2 * q
-                s = coeffs[0] * p
-                for n in range(2, N + 1):
-                    p = p * w
-                    w = w * q2
-                    cn = coeffs[n - 1]
-                    if cn is not None:
-                        s = s + cn * p
-                return -4 * (t_b * u * u + three_half * u).exp() * s * u * (z_b * u).sin()
-        else:
-            def f(u, analytic):
-                # truncated integrand, entire in u; analytic flag ignorable.
-                x = (2 * u).exp()
-                q = (-pi5 * x).exp()
-                q2 = q * q
-                p = q
-                w = q2 * q
-                s = coeffs[0] * p
-                for n in range(2, N + 1):
-                    p = p * w
-                    w = w * q2
-                    cn = coeffs[n - 1]
-                    if cn is not None:
-                        s = s + cn * p
-                return 4 * (t_b * u * u + three_half * u).exp() * s * (z_b * u).cos()
+        f = _truncated_integrand(z_b, t_b, N, kap, deriv)
 
         I = acb.integral(f, 0, U_b, eval_limit=eval_limit)
         e1 = _series_tail_finite(N, U_b, t_b, y_hi, deriv)

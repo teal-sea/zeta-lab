@@ -5,6 +5,16 @@ in `strip_results.json`. Vocabulary per `MISSION.md`: *decided* means an
 interval or ball whose exact endpoints settle a sign, stated with backend
 and precision; *measured* means one float route.
 
+> **Frame (added 2026-08-16, `GATE.md` closure item (a)).** `sigma_0` is a
+> point in the `s` plane and is frame-free. `Delta = sigma_0 - 1/2` and
+> `Delta^2/2` are **not**: they are stated here in the normalization
+> `s = 1/2 + iz` (Stopple, arXiv:1301.3158, and this hunt). In the
+> normalization `s = (1+iz)/2` used by de Bruijn as usually quoted, Newman,
+> Rodgers-Tao, Polymath 15 and Dobner, `Delta` doubles to
+> 1.7902723164702194421227177424... and `Delta^2/2` quadruples to
+> 1.6025374835598228. Conversion table and derivation: `FRAME.md`.
+> `sigma_0` itself is unchanged in either.
+
 ## 1. Statement
 
 Let f(s) = sum_{n>=1} a_n n^{-s} with the period-5 Davenport-Heilbronn

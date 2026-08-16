@@ -66,8 +66,9 @@ Write cos(zu) = (e^{izu} + e^{-izu})/2, G(u) = e^{t u^2} Phi_DH(u), so
 
 G is holomorphic on the strip |Im u| < pi/4 (Phi_DH(u) = 4 e^{3u/2}
 omega(e^{2u}) and the omega series converges locally uniformly where
-Re e^{2u} = e^{2 Re u} cos(2 Im u) > 0) and G is even (n a_n e^{-pi n^2
-e^{2u}/5} is even in u termwise).  Fix v in (0, pi/4).  Shift the first
+Re e^{2u} = e^{2 Re u} cos(2 Im u) > 0), and G is even (derived in the
+section "Why G is even" below; this is the step that cancels the vertical
+legs and is what makes M2 a bound at all).  Fix v in (0, pi/4).  Shift the first
 integral to the contour 0 -> iv -> iv + inf and the second to
 0 -> -iv -> -iv + inf; the far sides vanish (double-exponential decay of
 G beats every other factor, cos(2 sigma) >= cos(2v) > 0 on the way).  The
@@ -111,9 +112,136 @@ c = (pi/5) cos 2v - (t S^2 + beta S) e^{-2S}, decided c > 0, and
 
 The contour height v = pi/4 - eps is chosen by trying a few exact dyadic
 eps and keeping the smallest bound; the choice steers tightness only,
-every candidate bound is decided.  At x_lo ~ 240.1 this yields M2 ~ 1e-78
-against a measured |H_t''| scale ~ 1e-81: three digits of slack, which the
-h^2 in the tube radius absorbs at subsegment half-lengths ~ 1e-3.
+every candidate bound is decided.
+
+How much slack M2 actually has (corrected 2026-08-16)
+-----------------------------------------------------
+
+At x_lo ~ 240.1 the bound is M2 = 1.1887e-78, against a directly measured
+sup |H_t''| of 2.1357e-80 on the t1 box.  That is a factor of 55.7, i.e.
+1.75 digits of slack.  The measurement is a 41 x 9 grid over the box plus
+a 65-point sweep of the left edge at |Im z| <= y_hi, mpmath dps 140, by
+direct quadrature of -int_0^inf e^{t u^2} Phi_DH(u) u^2 cos(zu) du on
+flow_repair's Gauss-Legendre rule, which shares no code with the
+shifted-contour bound; it is float grade, so *measured*.  The sup sits on
+the box's top edge near Re z = 240.16, and |H_t''| falls off to the right
+(9.7e-81 at x_lo + 1, 1.5e-83 at x_lo + 8), which is why the half-strip
+scope Re z >= x_lo is not costing anything.
+
+  CORRECTION (gate closure item b).  The superseded sentence read: "At
+  x_lo ~ 240.1 this yields M2 ~ 1e-78 against a measured |H_t''| scale ~
+  1e-81: three digits of slack, which the h^2 in the tube radius absorbs
+  at subsegment half-lengths ~ 1e-3."  The scale was wrong by a factor of
+  about 20 and the slack is 1.75 digits, not three.
+
+The correction costs the count nothing: the tube radius is M2 h^2 / 2 and
+the subdivision halves h until a segment decides, so a factor of 55.7 in
+M2 is about three extra halvings in the worst case, not a lost decision.
+What the slack does NOT buy is any margin against the derivation itself
+being wrong, and that is the exposure: see control 5 in ``controls.py``,
+where deflating M2 by 100 makes this routine return the WRONG integer
+N = 0 with status "decided" and no complaint.  ``measured_h2_guard``
+below is the cheap necessary check that lesion motivated.
+
+Why G is even (the step that cancels the vertical legs)
+-------------------------------------------------------
+
+e^{t u^2} is even in u, so the whole content of the claim is
+
+    Phi_DH(-u) = Phi_DH(u),   equivalently, with x = e^{2u},
+    omega(1/x) = x^{3/2} omega(x),   omega(x) = sum_{n>=1} n a_n e^{-pi n^2 x/5}.
+
+This is the theta transformation attached to the Davenport-Heilbronn
+functional equation F(s) = F(1-s), and it is precisely what the constant
+kappa is chosen to produce.  (The theta below is the theta of a Dirichlet
+character; it is none of the three thetas in the repo's naming trap.)
+
+(i) *From Hecke's transformation.*  Let chi be an odd primitive character
+    mod 5 and theta_chi(x) = sum_{n>=1} n chi(n) e^{-pi n^2 x/5}.
+    Classically (Hecke; Davenport, *Multiplicative Number Theory*, ch. 9;
+    Iwaniec-Kowalski ch. 4),
+
+        theta_chi(1/x) = -i tau(chi) 5^{-1/2} x^{3/2} theta_{conj chi}(x),
+        tau(chi) = sum_{n mod 5} chi(n) e^{2 pi i n/5},  |tau(chi)| = 5^{1/2}.
+
+    The period-5 pattern a = (1, kappa, -kappa, -1, 0) is real and
+    supported off 5, so it is a real combination of the two odd characters
+    mod 5: a_n = alpha chi(n) + conj(alpha) conj(chi)(n) with
+    2 Re alpha = a_1 = 1 and Im alpha fixed by kappa, hence
+    omega = alpha theta_chi + conj(alpha) theta_{conj chi}.  Applying the
+    transformation to each half and matching the two independent theta
+    terms, omega(1/x) = x^{3/2} omega(x) holds if and only if
+
+        alpha = conj(alpha) * (-i tau(conj chi) 5^{-1/2}),
+
+    one real condition on the one real unknown in alpha, hence on kappa
+    (the two matched equations are conjugates of each other, using
+    conj(tau(conj chi)) = chi(-1) tau(chi) = -tau(chi)).  That condition
+    is the functional equation: it is the same equation
+    ``instrument.kappa_ball`` solves as a linear solve on the completed
+    L-functions at one point, and the same one ``zeta.epstein`` solves.
+    So the evenness of Phi_DH is not an accident of the series; it is
+    F(s) = F(1-s), transported.
+
+(ii) *The Mellin transport, showing (i) and F(s) = F(1-s) are one fact.*
+    omega(x) = O(1/x) as x -> 0+ (crudely, sum n e^{-pi n^2 x/5} <=
+    5/(2 pi x) + O(x^{-1/2})) and O(e^{-pi x/5}) as x -> inf, so for
+    Re w > 1 the Mellin transform converges absolutely and may be summed
+    term by term:
+
+        M(w) := int_0^inf omega(x) x^w dx/x
+              = Gamma(w) (pi/5)^{-w} sum_{n>=1} a_n n^{1-2w}.
+
+    With s = 2w - 1 this is M((s+1)/2) = (pi/5)^{-(s+1)/2}
+    Gamma((s+1)/2) L(s) = F(s), the completed Davenport-Heilbronn
+    function.  Substituting x -> 1/x,
+
+        int_0^inf [x^{-3/2} omega(1/x)] x^w dx/x = M(3/2 - w)
+                                                 = F(2 - 2w) = F(1 - s),
+
+    so omega(1/x) = x^{3/2} omega(x) is exactly the statement that turns
+    F(s) into F(1-s) under the transform.  The derivation is written in
+    the direction Hecke -> functional equation, which is the sound one:
+    the two Mellin integrals converge on the disjoint strips Re w > 1 and
+    Re w < 1/2, so running the implication backwards would need an
+    inversion argument in a strip they do not share.  F(s) = F(1-s) is in
+    any case carried by this hunt as a cited classical fact (GATE.md,
+    known assumption 5), and (i) puts the evenness at exactly the same
+    standing rather than at a weaker one.
+
+(iii) *Complex u, which is what the vertical legs need.*  (i) and (ii)
+    give Phi_DH(-u) = Phi_DH(u) for real u.  Phi_DH is holomorphic on the
+    strip |Im u| < pi/4 (same convergence statement as above), the strip
+    is connected and symmetric under u -> -u, and Phi_DH(-u) - Phi_DH(u)
+    is holomorphic there and vanishes on the real axis; by the identity
+    theorem it vanishes on the whole strip.  That is what G(+i s) =
+    G(-i s) requires at u = +/- i s, and the superseded justification did
+    not reach it at all.
+
+*Measured* (dps 260, both sides evaluated directly from the series with no
+evenness fold, so the check is not circular): the relative defect
+|Phi_DH(u) - Phi_DH(-u)| / |Phi_DH(u)| at real u reads
+
+    u    = 0.05      0.1      0.25   0.5      1     1.5      2       2.5    3
+    defect 1.8e-261  5.4e-261 0      2.6e-261 0     2.5e-257 1.6e-248 8.5e-225 2.4e-154
+
+and at the complex points u = 0.5 + 0.5i, 1 + 0.7i, 1.5 - 0.6i,
+2 + 0.75i inside the strip it is at or below 4.9e-260.  The growth with u
+is the arithmetic, not the identity: at u the reflected evaluation runs
+the series at the small argument e^{-2u}, where it is a cancellation
+about (pi/5) e^{2u} / ln 10 digits deep, which is about 110 digits at
+u = 3 and accounts for the whole of the 2.4e-154 there.  The gate
+measured the same identity independently at relative 1.0e-34.
+
+  CORRECTION (gate closure item b).  Until 2026-08-16 the evenness of G
+  was justified, in full, by the parenthesis: "(n a_n e^{-pi n^2
+  e^{2u}/5} is even in u termwise)".  That is false.  The individual term
+  n a_n e^{-pi n^2 e^{2u}/5} carries e^{2u} at u and e^{-2u} at -u and is
+  not even; neither is omega(e^{2u}).  The evenness lives in the product
+  with the prefactor 4 e^{3u/2} and comes from the functional equation, as
+  above.  The conclusion was and is true, so no decided number in
+  ``winding_results.json`` moves: this repaired only the justification,
+  and the re-run after the repair reproduced every decided value.
 
 Mirror rectangle (the safety complement)
 ----------------------------------------
@@ -166,6 +294,30 @@ def _fr_str(q: Fraction) -> str:
 # ---------------------------------------------------------------------------
 
 
+_FLOW_CACHE: dict[tuple, object] = {}
+
+
+def _dhflow(dps: int, z_scale: float):
+    """flow_repair's DHFlow quadrature, built once per (dps, z_scale).
+
+    Measured, mpmath, float grade.  Two callers share it (the locating
+    pass and ``measured_h2_guard``), so the Gauss-Legendre rule and its
+    memoised Phi_DH node values are paid for once; construction arguments
+    are unchanged from the original inline call, so the locating pass
+    returns exactly what it returned before the cache existed.
+    """
+    key = (int(dps), float(z_scale))
+    got = _FLOW_CACHE.get(key)
+    if got is None:
+        if FLOW_REPAIR not in sys.path:
+            sys.path.insert(0, FLOW_REPAIR)
+        from probe import DHFlow
+
+        got = DHFlow(dps=int(dps), z_scale=float(z_scale))
+        _FLOW_CACHE[key] = got
+    return got
+
+
 def locate_pair(ts: list[str], dps: int = 112) -> dict:
     """Newton-polish the pair-5 zero of H_t at each t (measured, mpmath).
 
@@ -176,13 +328,11 @@ def locate_pair(ts: list[str], dps: int = 112) -> dict:
     zeros at float grade.  Nothing here is decided; the winding count does
     not depend on this pass being right, only the box placement does.
     """
-    sys.path.insert(0, FLOW_REPAIR)
     from mpmath import mp
-    from probe import DHFlow
 
     t0 = time.time()
     mp.dps = dps
-    flow = DHFlow(dps=dps, z_scale=242.0)
+    flow = _dhflow(dps, 242.0)
     out: dict = {"dps": dps, "evaluator": "flow_repair DHFlow (measured)"}
     seed = mp.mpc("240.4165", "0.02")
     for t in ts:
@@ -331,6 +481,108 @@ def second_derivative_bound(
         "backend": BACKEND,
         "seconds": round(time.time() - t0, 2),
     }
+
+
+# ---------------------------------------------------------------------------
+# the cheap necessary check on M2 (gate closure item b, control 5's countermeasure)
+# ---------------------------------------------------------------------------
+
+
+def measured_h2_guard(
+    m2_info: dict,
+    box: tuple[Fraction, Fraction, Fraction, Fraction],
+    t: Fraction,
+    dps: int = 112,
+    n_re: int = 9,
+    n_im: int = 3,
+) -> dict:
+    """Check that M2 dominates a DIRECTLY MEASURED sample of |H_t''| on the box.
+
+    Why this exists.  M2 is the one load-bearing analytic step in the
+    route whose derivation is prose (GATE.md known assumption 6), and the
+    M2 lesion recorded as control 5 in ``controls.py`` shows what a wrong
+    M2 buys: deflate it by 100 and ``winding_rectangle`` returns status
+    "decided" with the wrong integer N = 0, while its own health metric
+    ``min_chord_margin_digits`` improves from 0.02 to 0.11.  The health
+    metric moves the WRONG way under the lesion, so it cannot be used as a
+    guard; this can.
+
+    What it is, stated at its true strength.  This is a NECESSARY, NOT
+    SUFFICIENT check, and it is *measured* (mpmath floats, no enclosure):
+    -int_0^inf e^{t u^2} Phi_DH(u) u^2 cos(zu) du is evaluated on
+    flow_repair's Gauss-Legendre rule at ``n_re * n_im`` points of the
+    closed box, and the largest modulus found must not exceed M2's decided
+    upper bound.  Passing it does not make M2 right; failing it proves M2
+    wrong.  It shares no code with the shifted-contour derivation, which
+    is the whole point: the two routes to |H_t''| are the derivation under
+    test and a direct quadrature of the definition.
+
+    Scope.  M2's scope is the half-strip Re z >= x_lo, |Im z| <= y_hi;
+    the sample covers the box only, and |Im z| >= 0 only, the latter with
+    no loss because H_t(conj z) = conj(H_t(z)) gives
+    |H_t''(conj z)| = |H_t''(z)|.  Measured decay to the right of the box
+    (a factor ~1e-3 by Re z = x_lo + 8) is why sampling the box rather
+    than the half-strip is not the weak part; the weak part is that a
+    finite grid can miss a peak between its nodes, which is exactly why
+    this is necessary and not sufficient.
+    """
+    from mpmath import mp
+
+    t0 = time.time()
+    x_lo, x_hi, y_lo, y_hi = box
+    flow = _dhflow(dps, 242.0)
+    with mp.workdps(dps):
+        tt = mp.mpf(t.numerator) / t.denominator
+
+        def h2(x: Fraction, y: Fraction):
+            z = mp.mpc(mp.mpf(x.numerator) / x.denominator,
+                       mp.mpf(y.numerator) / y.denominator)
+            tot = mp.mpc(0)
+            for u, w, ph in zip(flow.nodes, flow.weights, flow.phis):
+                e = mp.expj(z * u)
+                tot += w * ph * mp.exp(tt * u * u) * u * u * (e + 1 / e)
+            return -(tot / 2)
+
+        best = mp.mpf(0)
+        best_at = None
+        for i in range(n_re):
+            x = x_lo + (x_hi - x_lo) * Fraction(i, max(n_re - 1, 1))
+            for j in range(n_im):
+                y = y_lo + (y_hi - y_lo) * Fraction(j, max(n_im - 1, 1))
+                v = abs(h2(x, y))
+                if v > best:
+                    best = v
+                    best_at = (float(x), float(y))
+        sup_measured = float(best)
+
+    M2_up = m2_info["M2_upper_float"]
+    passed = bool(M2_up >= sup_measured)
+    out = {
+        "check": "M2 >= directly measured sup |H_t''| on a grid over the box",
+        "strength": (
+            "NECESSARY, NOT SUFFICIENT: passing does not make M2 right, "
+            "failing proves M2 wrong"
+        ),
+        "grade": f"measured (mpmath dps {dps}, float); M2 itself is decided",
+        "evaluator": (
+            "direct quadrature of -int_0^inf e^{t u^2} Phi_DH(u) u^2 cos(zu) du "
+            "on flow_repair's DHFlow rule; shares no code with the "
+            "shifted-contour derivation of M2"
+        ),
+        "grid": {"n_re": n_re, "n_im": n_im, "box_floats": [
+            float(x_lo), float(x_hi), float(y_lo), float(y_hi)]},
+        "measured_sup_absH2": sup_measured,
+        "measured_sup_at": best_at,
+        "M2_upper_float": M2_up,
+        "ratio_M2_over_measured": M2_up / sup_measured if sup_measured > 0 else None,
+        "im_negative_note": (
+            "|Im z| < 0 is not sampled: H_t(conj z) = conj(H_t(z)) makes "
+            "|H_t''| symmetric in Im z"
+        ),
+        "verdict": "PASS" if passed else "FAIL",
+    }
+    out["seconds"] = round(time.time() - t0, 1)
+    return out
 
 
 # ---------------------------------------------------------------------------
@@ -592,7 +844,13 @@ def main() -> None:
         m2 = second_derivative_bound(box[0], box[3], t, prec=300)
         print(f"  M2 upper = {m2['M2_upper_float']:.3e}  (v = {m2['v']}, "
               f"{m2['seconds']} s)", flush=True)
+        guard = measured_h2_guard(m2, box, t)
+        print(f"  M2 guard = {guard['verdict']}: measured sup |H''| = "
+              f"{guard['measured_sup_absH2']:.4e}, M2 / measured = "
+              f"{guard['ratio_M2_over_measured']:.1f}  "
+              f"({guard['seconds']} s)", flush=True)
         res = winding_rectangle(box, t, prec, m2)
+        res["m2_measured_guard"] = guard
         print(f"  status = {res['status']}  N = {res.get('N')}  "
               f"segments = {res['n_segments']}  evals = {res['n_H_evals']}  "
               f"wall = {res['wall_seconds']} s", flush=True)
@@ -606,6 +864,19 @@ def main() -> None:
         floor = "23/400"
     if runs[1].get("N") == 1 and runs[1]["status"] == "decided":
         floor = "36/625"
+    guard_failures = [
+        r["t"] for r in runs if r["m2_measured_guard"]["verdict"] != "PASS"
+    ]
+    if guard_failures:
+        # the necessary check on M2 failed, so M2 is wrong and every
+        # segment decision that used it is void; refuse rather than report
+        floor = None
+        out["m2_guard_refusal"] = (
+            "measured_h2_guard FAILED at t in "
+            f"{guard_failures}: M2 does not dominate a directly measured "
+            "sample of |H_t''| on the box, so M2 is not an upper bound and "
+            "no segment decision that used it stands.  Floor refused."
+        )
     out["decided_floor_t"] = floor
     out["headline"] = (
         None

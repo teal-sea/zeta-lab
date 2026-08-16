@@ -1,0 +1,315 @@
+{
+  "hunt": "lambda_dh_bounds",
+  "item": "GATE.md closure item (e): the independence story, measured",
+  "tool": "harness/independence.py (docs/25, docs/26 section 1)",
+  "granularity_note": "a layer is one identifiable implementation stage between an exact input coordinate and an integer; the headline count depends on that choice and the invariant does not",
+  "anchors": {
+    "all_present": true,
+    "rows": [
+      {
+        "module": "instrument",
+        "attribute": "kappa_ball",
+        "present": true
+      },
+      {
+        "module": "instrument",
+        "attribute": "_truncated_integrand",
+        "present": true
+      },
+      {
+        "module": "instrument",
+        "attribute": "_series_tail_finite",
+        "present": true
+      },
+      {
+        "module": "instrument",
+        "attribute": "_u_tail",
+        "present": true
+      },
+      {
+        "module": "instrument",
+        "attribute": "default_U",
+        "present": true
+      },
+      {
+        "module": "winding",
+        "attribute": "second_derivative_bound",
+        "present": true
+      },
+      {
+        "module": "winding",
+        "attribute": "_chord_clearance",
+        "present": true
+      },
+      {
+        "module": "winding",
+        "attribute": "winding_rectangle",
+        "present": true
+      },
+      {
+        "module": "winding_quad",
+        "attribute": "moment_integrals",
+        "present": true
+      },
+      {
+        "module": "winding_quad",
+        "attribute": "taylor_remainders",
+        "present": true
+      }
+    ],
+    "strength": "drift check only: a declaration is not an attestation, and an undeclared shared layer stays invisible to it"
+  },
+  "paths": {
+    "route 1: segment-argument winding (winding.py)": [
+      "exact rational input conversion (instrument._exact_q / _q_to_arb / _as_acb)",
+      "kappa by the self-duality linear solve at s0 = 3/4 + 3i/2 (instrument.kappa_ball, Arb Hurwitz zeta)",
+      "period-5 coefficient table a_n = (1, kappa, -kappa, -1, 0) (instrument._truncated_integrand)",
+      "truncated omega by the theta recurrence q^{n^2} (instrument._truncated_integrand)",
+      "series truncation tail bound (instrument._series_tail_finite via _omega_tail_upper)",
+      "discarded-u-tail bound on [U, inf) (instrument._u_tail)",
+      "integration limit policy U (instrument.default_U)",
+      "rigorous adaptive integrator (flint acb.integral)",
+      "ball arithmetic backend: python-flint 0.9.0 (Arb)",
+      "uniform second-derivative bound M2 by the shifted u-contour (winding.second_derivative_bound)",
+      "chord-tube segment decision with dyadic subdivision (winding._chord_clearance, winding.winding_rectangle)",
+      "integer from the sum of per-segment Arg q divided by 2 pi (winding.winding_rectangle)"
+    ],
+    "route 2: H'/H ball quadrature (winding_quad.py)": [
+      "exact rational input conversion (instrument._exact_q / _q_to_arb / _as_acb)",
+      "kappa by the self-duality linear solve at s0 = 3/4 + 3i/2 (instrument.kappa_ball, Arb Hurwitz zeta)",
+      "period-5 coefficient table a_n = (1, kappa, -kappa, -1, 0) (instrument._truncated_integrand)",
+      "truncated omega by the theta recurrence q^{n^2} (instrument._truncated_integrand)",
+      "series truncation tail bound (instrument._series_tail_finite via _omega_tail_upper)",
+      "discarded-u-tail bound on [U, inf) (instrument._u_tail)",
+      "integration limit policy U (instrument.default_U)",
+      "rigorous adaptive integrator (flint acb.integral)",
+      "ball arithmetic backend: python-flint 0.9.0 (Arb)",
+      "panel-local Taylor models of H and H' with explicit remainder balls (winding_quad.moment_integrals, winding_quad.taylor_remainders)",
+      "contour quadrature of H'/H along the four edges (winding_quad.main)",
+      "integer from the contour-integral ball (winding_quad.main)"
+    ],
+    "route 3: DHFlow argument-principle count (crosscheck_dhflow_winding.py)": [
+      "float input conversion (mpmath mpf/mpc from the exact box rationals)",
+      "kappa by the zeta.epstein mpmath linear solve (different implementation, SAME equation as instrument.kappa_ball)",
+      "omega_dh direct summation with a term-size stopping rule (flow_repair.probe.omega_dh)",
+      "Phi_DH memoised at fixed quadrature nodes (flow_repair.probe.phi_dh_raw)",
+      "composite Gauss-Legendre rule on [0, U] with an oscillation-resolving panel count (flow_repair.probe.DHFlow)",
+      "float arithmetic backend: mpmath at dps 130",
+      "uniform boundary sampling with continuous-argument tracking and step refinement (crosscheck_dhflow_winding.winding_sampled)",
+      "integer from the total argument divided by 2 pi (crosscheck_dhflow_winding.winding_sampled)"
+    ],
+    "route 4: quadrature-free ball evaluator (crosscheck_quadfree.py)": [
+      "exact rational input conversion (crosscheck_quadfree.q, its own)",
+      "kappa from the Gauss sum tau(chi) of the odd character mod 5 (crosscheck_quadfree.kappa_gauss, a DIFFERENT equation)",
+      "F(s) by Hurwitz zeta, no series in u and no quadrature (crosscheck_quadfree.F_ball)",
+      "Taylor in t from dH/dt = -d^2H/dz^2, coefficients by acb_series (crosscheck_quadfree.F_taylor)",
+      "explicit Taylor truncation remainder bound (crosscheck_quadfree.taylor_remainder)",
+      "ball arithmetic backend: python-flint 0.9.0 (Arb)"
+    ]
+  },
+  "reports": {
+    "route1_vs_route2": {
+      "path_a": "route 1: segment-argument winding (winding.py)",
+      "path_b": "route 2: H'/H ball quadrature (winding_quad.py)",
+      "n_layers_a": 12,
+      "n_layers_b": 12,
+      "radius": 9,
+      "n_shared": 9,
+      "shared": [
+        "exact rational input conversion (instrument._exact_q / _q_to_arb / _as_acb)",
+        "kappa by the self-duality linear solve at s0 = 3/4 + 3i/2 (instrument.kappa_ball, Arb Hurwitz zeta)",
+        "period-5 coefficient table a_n = (1, kappa, -kappa, -1, 0) (instrument._truncated_integrand)",
+        "truncated omega by the theta recurrence q^{n^2} (instrument._truncated_integrand)",
+        "series truncation tail bound (instrument._series_tail_finite via _omega_tail_upper)",
+        "discarded-u-tail bound on [U, inf) (instrument._u_tail)",
+        "integration limit policy U (instrument.default_U)",
+        "rigorous adaptive integrator (flint acb.integral)",
+        "ball arithmetic backend: python-flint 0.9.0 (Arb)"
+      ],
+      "reconvergent": [],
+      "distinct_a": [
+        "uniform second-derivative bound M2 by the shifted u-contour (winding.second_derivative_bound)",
+        "chord-tube segment decision with dyadic subdivision (winding._chord_clearance, winding.winding_rectangle)",
+        "integer from the sum of per-segment Arg q divided by 2 pi (winding.winding_rectangle)"
+      ],
+      "distinct_b": [
+        "panel-local Taylor models of H and H' with explicit remainder balls (winding_quad.moment_integrals, winding_quad.taylor_remainders)",
+        "contour quadrature of H'/H along the four edges (winding_quad.main)",
+        "integer from the contour-integral ball (winding_quad.main)"
+      ],
+      "describe": "route 1: segment-argument winding (winding.py) vs route 2: H'/H ball quadrature (winding_quad.py): radius 9 of 12; shared: exact rational input conversion (instrument._exact_q / _q_to_arb / _as_acb), kappa by the self-duality linear solve at s0 = 3/4 + 3i/2 (instrument.kappa_ball, Arb Hurwitz zeta), period-5 coefficient table a_n = (1, kappa, -kappa, -1, 0) (instrument._truncated_integrand), truncated omega by the theta recurrence q^{n^2} (instrument._truncated_integrand), series truncation tail bound (instrument._series_tail_finite via _omega_tail_upper), discarded-u-tail bound on [U, inf) (instrument._u_tail), integration limit policy U (instrument.default_U), rigorous adaptive integrator (flint acb.integral), ball arithmetic backend: python-flint 0.9.0 (Arb); agreement is evidence about: uniform second-derivative bound M2 by the shifted u-contour (winding.second_derivative_bound), chord-tube segment decision with dyadic subdivision (winding._chord_clearance, winding.winding_rectangle), integer from the sum of per-segment Arg q divided by 2 pi (winding.winding_rectangle), panel-local Taylor models of H and H' with explicit remainder balls (winding_quad.moment_integrals, winding_quad.taylor_remainders), contour quadrature of H'/H along the four edges (winding_quad.main), integer from the contour-integral ball (winding_quad.main)",
+      "agreement_bounds": [
+        "layer 'exact rational input conversion (instrument._exact_q / _q_to_arb / _as_acb)' is one implementation run by both paths (upstream of the divergence): agreement cannot see a fault in it",
+        "layer 'kappa by the self-duality linear solve at s0 = 3/4 + 3i/2 (instrument.kappa_ball, Arb Hurwitz zeta)' is one implementation run by both paths (upstream of the divergence): agreement cannot see a fault in it",
+        "layer 'period-5 coefficient table a_n = (1, kappa, -kappa, -1, 0) (instrument._truncated_integrand)' is one implementation run by both paths (upstream of the divergence): agreement cannot see a fault in it",
+        "layer 'truncated omega by the theta recurrence q^{n^2} (instrument._truncated_integrand)' is one implementation run by both paths (upstream of the divergence): agreement cannot see a fault in it",
+        "layer 'series truncation tail bound (instrument._series_tail_finite via _omega_tail_upper)' is one implementation run by both paths (upstream of the divergence): agreement cannot see a fault in it",
+        "layer 'discarded-u-tail bound on [U, inf) (instrument._u_tail)' is one implementation run by both paths (upstream of the divergence): agreement cannot see a fault in it",
+        "layer 'integration limit policy U (instrument.default_U)' is one implementation run by both paths (upstream of the divergence): agreement cannot see a fault in it",
+        "layer 'rigorous adaptive integrator (flint acb.integral)' is one implementation run by both paths (upstream of the divergence): agreement cannot see a fault in it",
+        "layer 'ball arithmetic backend: python-flint 0.9.0 (Arb)' is one implementation run by both paths (upstream of the divergence): agreement cannot see a fault in it"
+      ]
+    },
+    "route1_vs_route3_dhflow": {
+      "path_a": "route 1: segment-argument winding (winding.py)",
+      "path_b": "route 3: DHFlow argument-principle count (crosscheck_dhflow_winding.py)",
+      "n_layers_a": 12,
+      "n_layers_b": 8,
+      "radius": 0,
+      "n_shared": 0,
+      "shared": [],
+      "reconvergent": [],
+      "distinct_a": [
+        "exact rational input conversion (instrument._exact_q / _q_to_arb / _as_acb)",
+        "kappa by the self-duality linear solve at s0 = 3/4 + 3i/2 (instrument.kappa_ball, Arb Hurwitz zeta)",
+        "period-5 coefficient table a_n = (1, kappa, -kappa, -1, 0) (instrument._truncated_integrand)",
+        "truncated omega by the theta recurrence q^{n^2} (instrument._truncated_integrand)",
+        "series truncation tail bound (instrument._series_tail_finite via _omega_tail_upper)",
+        "discarded-u-tail bound on [U, inf) (instrument._u_tail)",
+        "integration limit policy U (instrument.default_U)",
+        "rigorous adaptive integrator (flint acb.integral)",
+        "ball arithmetic backend: python-flint 0.9.0 (Arb)",
+        "uniform second-derivative bound M2 by the shifted u-contour (winding.second_derivative_bound)",
+        "chord-tube segment decision with dyadic subdivision (winding._chord_clearance, winding.winding_rectangle)",
+        "integer from the sum of per-segment Arg q divided by 2 pi (winding.winding_rectangle)"
+      ],
+      "distinct_b": [
+        "float input conversion (mpmath mpf/mpc from the exact box rationals)",
+        "kappa by the zeta.epstein mpmath linear solve (different implementation, SAME equation as instrument.kappa_ball)",
+        "omega_dh direct summation with a term-size stopping rule (flow_repair.probe.omega_dh)",
+        "Phi_DH memoised at fixed quadrature nodes (flow_repair.probe.phi_dh_raw)",
+        "composite Gauss-Legendre rule on [0, U] with an oscillation-resolving panel count (flow_repair.probe.DHFlow)",
+        "float arithmetic backend: mpmath at dps 130",
+        "uniform boundary sampling with continuous-argument tracking and step refinement (crosscheck_dhflow_winding.winding_sampled)",
+        "integer from the total argument divided by 2 pi (crosscheck_dhflow_winding.winding_sampled)"
+      ],
+      "describe": "route 1: segment-argument winding (winding.py) vs route 3: DHFlow argument-principle count (crosscheck_dhflow_winding.py): radius 0 of 8; agreement is evidence about: exact rational input conversion (instrument._exact_q / _q_to_arb / _as_acb), kappa by the self-duality linear solve at s0 = 3/4 + 3i/2 (instrument.kappa_ball, Arb Hurwitz zeta), period-5 coefficient table a_n = (1, kappa, -kappa, -1, 0) (instrument._truncated_integrand), truncated omega by the theta recurrence q^{n^2} (instrument._truncated_integrand), series truncation tail bound (instrument._series_tail_finite via _omega_tail_upper), discarded-u-tail bound on [U, inf) (instrument._u_tail), integration limit policy U (instrument.default_U), rigorous adaptive integrator (flint acb.integral), ball arithmetic backend: python-flint 0.9.0 (Arb), uniform second-derivative bound M2 by the shifted u-contour (winding.second_derivative_bound), chord-tube segment decision with dyadic subdivision (winding._chord_clearance, winding.winding_rectangle), integer from the sum of per-segment Arg q divided by 2 pi (winding.winding_rectangle), float input conversion (mpmath mpf/mpc from the exact box rationals), kappa by the zeta.epstein mpmath linear solve (different implementation, SAME equation as instrument.kappa_ball), omega_dh direct summation with a term-size stopping rule (flow_repair.probe.omega_dh), Phi_DH memoised at fixed quadrature nodes (flow_repair.probe.phi_dh_raw), composite Gauss-Legendre rule on [0, U] with an oscillation-resolving panel count (flow_repair.probe.DHFlow), float arithmetic backend: mpmath at dps 130, uniform boundary sampling with continuous-argument tracking and step refinement (crosscheck_dhflow_winding.winding_sampled), integer from the total argument divided by 2 pi (crosscheck_dhflow_winding.winding_sampled)",
+      "agreement_bounds": []
+    },
+    "route1_vs_route4_quadfree": {
+      "path_a": "route 1: segment-argument winding (winding.py)",
+      "path_b": "route 4: quadrature-free ball evaluator (crosscheck_quadfree.py)",
+      "n_layers_a": 12,
+      "n_layers_b": 6,
+      "radius": 0,
+      "n_shared": 1,
+      "shared": [
+        "ball arithmetic backend: python-flint 0.9.0 (Arb)"
+      ],
+      "reconvergent": [
+        "ball arithmetic backend: python-flint 0.9.0 (Arb)"
+      ],
+      "distinct_a": [
+        "exact rational input conversion (instrument._exact_q / _q_to_arb / _as_acb)",
+        "kappa by the self-duality linear solve at s0 = 3/4 + 3i/2 (instrument.kappa_ball, Arb Hurwitz zeta)",
+        "period-5 coefficient table a_n = (1, kappa, -kappa, -1, 0) (instrument._truncated_integrand)",
+        "truncated omega by the theta recurrence q^{n^2} (instrument._truncated_integrand)",
+        "series truncation tail bound (instrument._series_tail_finite via _omega_tail_upper)",
+        "discarded-u-tail bound on [U, inf) (instrument._u_tail)",
+        "integration limit policy U (instrument.default_U)",
+        "rigorous adaptive integrator (flint acb.integral)",
+        "uniform second-derivative bound M2 by the shifted u-contour (winding.second_derivative_bound)",
+        "chord-tube segment decision with dyadic subdivision (winding._chord_clearance, winding.winding_rectangle)",
+        "integer from the sum of per-segment Arg q divided by 2 pi (winding.winding_rectangle)"
+      ],
+      "distinct_b": [
+        "exact rational input conversion (crosscheck_quadfree.q, its own)",
+        "kappa from the Gauss sum tau(chi) of the odd character mod 5 (crosscheck_quadfree.kappa_gauss, a DIFFERENT equation)",
+        "F(s) by Hurwitz zeta, no series in u and no quadrature (crosscheck_quadfree.F_ball)",
+        "Taylor in t from dH/dt = -d^2H/dz^2, coefficients by acb_series (crosscheck_quadfree.F_taylor)",
+        "explicit Taylor truncation remainder bound (crosscheck_quadfree.taylor_remainder)"
+      ],
+      "describe": "route 1: segment-argument winding (winding.py) vs route 4: quadrature-free ball evaluator (crosscheck_quadfree.py): radius 0 of 6; shared: ball arithmetic backend: python-flint 0.9.0 (Arb); reconvergent: ball arithmetic backend: python-flint 0.9.0 (Arb); agreement is evidence about: exact rational input conversion (instrument._exact_q / _q_to_arb / _as_acb), kappa by the self-duality linear solve at s0 = 3/4 + 3i/2 (instrument.kappa_ball, Arb Hurwitz zeta), period-5 coefficient table a_n = (1, kappa, -kappa, -1, 0) (instrument._truncated_integrand), truncated omega by the theta recurrence q^{n^2} (instrument._truncated_integrand), series truncation tail bound (instrument._series_tail_finite via _omega_tail_upper), discarded-u-tail bound on [U, inf) (instrument._u_tail), integration limit policy U (instrument.default_U), rigorous adaptive integrator (flint acb.integral), uniform second-derivative bound M2 by the shifted u-contour (winding.second_derivative_bound), chord-tube segment decision with dyadic subdivision (winding._chord_clearance, winding.winding_rectangle), integer from the sum of per-segment Arg q divided by 2 pi (winding.winding_rectangle), exact rational input conversion (crosscheck_quadfree.q, its own), kappa from the Gauss sum tau(chi) of the odd character mod 5 (crosscheck_quadfree.kappa_gauss, a DIFFERENT equation), F(s) by Hurwitz zeta, no series in u and no quadrature (crosscheck_quadfree.F_ball), Taylor in t from dH/dt = -d^2H/dz^2, coefficients by acb_series (crosscheck_quadfree.F_taylor), explicit Taylor truncation remainder bound (crosscheck_quadfree.taylor_remainder)",
+      "agreement_bounds": [
+        "layer 'ball arithmetic backend: python-flint 0.9.0 (Arb)' is one implementation run by both paths (downstream of the divergence): agreement cannot see a fault in it"
+      ]
+    },
+    "route3_vs_route4": {
+      "path_a": "route 3: DHFlow argument-principle count (crosscheck_dhflow_winding.py)",
+      "path_b": "route 4: quadrature-free ball evaluator (crosscheck_quadfree.py)",
+      "n_layers_a": 8,
+      "n_layers_b": 6,
+      "radius": 0,
+      "n_shared": 0,
+      "shared": [],
+      "reconvergent": [],
+      "distinct_a": [
+        "float input conversion (mpmath mpf/mpc from the exact box rationals)",
+        "kappa by the zeta.epstein mpmath linear solve (different implementation, SAME equation as instrument.kappa_ball)",
+        "omega_dh direct summation with a term-size stopping rule (flow_repair.probe.omega_dh)",
+        "Phi_DH memoised at fixed quadrature nodes (flow_repair.probe.phi_dh_raw)",
+        "composite Gauss-Legendre rule on [0, U] with an oscillation-resolving panel count (flow_repair.probe.DHFlow)",
+        "float arithmetic backend: mpmath at dps 130",
+        "uniform boundary sampling with continuous-argument tracking and step refinement (crosscheck_dhflow_winding.winding_sampled)",
+        "integer from the total argument divided by 2 pi (crosscheck_dhflow_winding.winding_sampled)"
+      ],
+      "distinct_b": [
+        "exact rational input conversion (crosscheck_quadfree.q, its own)",
+        "kappa from the Gauss sum tau(chi) of the odd character mod 5 (crosscheck_quadfree.kappa_gauss, a DIFFERENT equation)",
+        "F(s) by Hurwitz zeta, no series in u and no quadrature (crosscheck_quadfree.F_ball)",
+        "Taylor in t from dH/dt = -d^2H/dz^2, coefficients by acb_series (crosscheck_quadfree.F_taylor)",
+        "explicit Taylor truncation remainder bound (crosscheck_quadfree.taylor_remainder)",
+        "ball arithmetic backend: python-flint 0.9.0 (Arb)"
+      ],
+      "describe": "route 3: DHFlow argument-principle count (crosscheck_dhflow_winding.py) vs route 4: quadrature-free ball evaluator (crosscheck_quadfree.py): radius 0 of 6; agreement is evidence about: float input conversion (mpmath mpf/mpc from the exact box rationals), kappa by the zeta.epstein mpmath linear solve (different implementation, SAME equation as instrument.kappa_ball), omega_dh direct summation with a term-size stopping rule (flow_repair.probe.omega_dh), Phi_DH memoised at fixed quadrature nodes (flow_repair.probe.phi_dh_raw), composite Gauss-Legendre rule on [0, U] with an oscillation-resolving panel count (flow_repair.probe.DHFlow), float arithmetic backend: mpmath at dps 130, uniform boundary sampling with continuous-argument tracking and step refinement (crosscheck_dhflow_winding.winding_sampled), integer from the total argument divided by 2 pi (crosscheck_dhflow_winding.winding_sampled), exact rational input conversion (crosscheck_quadfree.q, its own), kappa from the Gauss sum tau(chi) of the odd character mod 5 (crosscheck_quadfree.kappa_gauss, a DIFFERENT equation), F(s) by Hurwitz zeta, no series in u and no quadrature (crosscheck_quadfree.F_ball), Taylor in t from dH/dt = -d^2H/dz^2, coefficients by acb_series (crosscheck_quadfree.F_taylor), explicit Taylor truncation remainder bound (crosscheck_quadfree.taylor_remainder), ball arithmetic backend: python-flint 0.9.0 (Arb)",
+      "agreement_bounds": []
+    }
+  },
+  "gate_granularity_recheck": {
+    "report": {
+      "path_a": "route 1 (gate granularity)",
+      "path_b": "route 2 (gate granularity)",
+      "n_layers_a": 11,
+      "n_layers_b": 11,
+      "radius": 8,
+      "n_shared": 8,
+      "shared": [
+        "exact rational input conversion (instrument._exact_q / _q_to_arb / _as_acb)",
+        "kappa by the self-duality linear solve at s0 = 3/4 + 3i/2 (instrument.kappa_ball, Arb Hurwitz zeta)",
+        "Phi_DH truncated series, coefficients and theta recurrence together (instrument._truncated_integrand)",
+        "series truncation tail bound (instrument._series_tail_finite via _omega_tail_upper)",
+        "discarded-u-tail bound on [U, inf) (instrument._u_tail)",
+        "integration limit policy U (instrument.default_U)",
+        "rigorous adaptive integrator (flint acb.integral)",
+        "ball arithmetic backend: python-flint 0.9.0 (Arb)"
+      ],
+      "reconvergent": [],
+      "distinct_a": [
+        "uniform second-derivative bound M2 by the shifted u-contour (winding.second_derivative_bound)",
+        "chord-tube segment decision with dyadic subdivision (winding._chord_clearance, winding.winding_rectangle)",
+        "integer from the sum of per-segment Arg q divided by 2 pi (winding.winding_rectangle)"
+      ],
+      "distinct_b": [
+        "panel-local Taylor models of H and H' with explicit remainder balls (winding_quad.moment_integrals, winding_quad.taylor_remainders)",
+        "contour quadrature of H'/H along the four edges (winding_quad.main)",
+        "integer from the contour-integral ball (winding_quad.main)"
+      ],
+      "describe": "route 1 (gate granularity) vs route 2 (gate granularity): radius 8 of 11; shared: exact rational input conversion (instrument._exact_q / _q_to_arb / _as_acb), kappa by the self-duality linear solve at s0 = 3/4 + 3i/2 (instrument.kappa_ball, Arb Hurwitz zeta), Phi_DH truncated series, coefficients and theta recurrence together (instrument._truncated_integrand), series truncation tail bound (instrument._series_tail_finite via _omega_tail_upper), discarded-u-tail bound on [U, inf) (instrument._u_tail), integration limit policy U (instrument.default_U), rigorous adaptive integrator (flint acb.integral), ball arithmetic backend: python-flint 0.9.0 (Arb); agreement is evidence about: uniform second-derivative bound M2 by the shifted u-contour (winding.second_derivative_bound), chord-tube segment decision with dyadic subdivision (winding._chord_clearance, winding.winding_rectangle), integer from the sum of per-segment Arg q divided by 2 pi (winding.winding_rectangle), panel-local Taylor models of H and H' with explicit remainder balls (winding_quad.moment_integrals, winding_quad.taylor_remainders), contour quadrature of H'/H along the four edges (winding_quad.main), integer from the contour-integral ball (winding_quad.main)",
+      "agreement_bounds": [
+        "layer 'exact rational input conversion (instrument._exact_q / _q_to_arb / _as_acb)' is one implementation run by both paths (upstream of the divergence): agreement cannot see a fault in it",
+        "layer 'kappa by the self-duality linear solve at s0 = 3/4 + 3i/2 (instrument.kappa_ball, Arb Hurwitz zeta)' is one implementation run by both paths (upstream of the divergence): agreement cannot see a fault in it",
+        "layer 'Phi_DH truncated series, coefficients and theta recurrence together (instrument._truncated_integrand)' is one implementation run by both paths (upstream of the divergence): agreement cannot see a fault in it",
+        "layer 'series truncation tail bound (instrument._series_tail_finite via _omega_tail_upper)' is one implementation run by both paths (upstream of the divergence): agreement cannot see a fault in it",
+        "layer 'discarded-u-tail bound on [U, inf) (instrument._u_tail)' is one implementation run by both paths (upstream of the divergence): agreement cannot see a fault in it",
+        "layer 'integration limit policy U (instrument.default_U)' is one implementation run by both paths (upstream of the divergence): agreement cannot see a fault in it",
+        "layer 'rigorous adaptive integrator (flint acb.integral)' is one implementation run by both paths (upstream of the divergence): agreement cannot see a fault in it",
+        "layer 'ball arithmetic backend: python-flint 0.9.0 (Arb)' is one implementation run by both paths (upstream of the divergence): agreement cannot see a fault in it"
+      ]
+    },
+    "matches_gate_8_of_11": true,
+    "note": "the gate declared the coefficient table and the theta recurrence as one layer and reported 8 shared of 11; the finer split reports 9 shared of 12.  The two declarations differ by that one merge and agree on every layer's status."
+  },
+  "headline": "routes 1 and 2 share 9 of 12 declared layers with independence radius 9: the whole evaluator is one implementation run twice, and their agreement is evidence about the bookkeeping that turns H-balls into an integer and about nothing else.  Route 3 shares no layer with route 1 (radius 0) and route 4 shares only the ball arithmetic backend, reconvergent.",
+  "what_route1_route2_agreement_is_NOT_evidence_about": [
+    "exact rational input conversion (instrument._exact_q / _q_to_arb / _as_acb)",
+    "kappa by the self-duality linear solve at s0 = 3/4 + 3i/2 (instrument.kappa_ball, Arb Hurwitz zeta)",
+    "period-5 coefficient table a_n = (1, kappa, -kappa, -1, 0) (instrument._truncated_integrand)",
+    "truncated omega by the theta recurrence q^{n^2} (instrument._truncated_integrand)",
+    "series truncation tail bound (instrument._series_tail_finite via _omega_tail_upper)",
+    "discarded-u-tail bound on [U, inf) (instrument._u_tail)",
+    "integration limit policy U (instrument.default_U)",
+    "rigorous adaptive integrator (flint acb.integral)",
+    "ball arithmetic backend: python-flint 0.9.0 (Arb)"
+  ],
+  "caveat": "harness/independence.py measures a declaration, not the code.  Nothing here verifies that these layer lists are complete.  An undeclared shared layer is precisely the fault this structure cannot see, which is the standing lesson of docs/25."
+}

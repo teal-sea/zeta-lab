@@ -9,6 +9,15 @@ allows, with math ASCII-normalized. Page numbers are the printed journal pages
 (Duke Math. J. 17 (1950), 197-226). All numbers in section 6 are measured,
 with backend and precision stated; nothing in this file is an enclosure.
 
+> **Corrected 2026-08-16** (`GATE.md` closure item (a)). Section 6 asserted
+> that this hunt's deformation and Dobner's "share Lambda exactly". They
+> differ by a factor of exactly 4. The false sentence is preserved inside the
+> correction box in section 6, together with the derivation that replaces it
+> and a record of what it was routed into. Every Lambda number in this
+> directory now carries its frame: this hunt sits at `s = 1/2 + iz`
+> (Stopple, arXiv:1301.3158), the Newman line sits at `s = (1+iz)/2`, and
+> `Lambda(that frame) = 4 Lambda(this one)`. Conversion table: `FRAME.md`.
+
 ## 1. Verbatim statements, with page numbers
 
 ### de Bruijn's standing hypotheses: condition (1.4), p. 197
@@ -282,6 +291,17 @@ closed at the left end: without closedness the real-rooted set could be
 Dobner, strictness via Dobner, exactly as the vocabulary contract's
 "decided modulo Dobner's Theorem 1" phrasing anticipated.
 
+**How Dobner's theorem reaches this frame** (added 2026-08-16; the earlier
+route ran through section 6's false sentence and is corrected there). His
+Theorem 1 is a statement in *his* frame: {t : xi_t^F all real} =
+[Lambda_F, inf), closed at the left. Section 6 derives
+xi_t^F((1+iz)/2) = H_{t/4}(z/2), and t -> t/4 is an increasing bijection of
+the real line, so it carries closed half-lines to closed half-lines. Hence
+{t : H_t all real} = [Lambda_F/4, inf), also closed at the left, which is
+everything the strictness argument needs. What does *not* transfer is the
+value: Lambda_F = 4 Lambda_DH. The strictness of the lower bound was never at
+risk from the error; only the number's label was.
+
 ## 5. Hypothesis check for Phi_DH
 
 Phi_DH(u) = 4 e^{3u/2} sum_{n>=1} n a_n exp(-pi n^2 e^{2u}/5), with a_n the
@@ -350,11 +370,115 @@ is the closed half-line [Lambda_DH, inf), and Lambda_DH >= 0.
 | de Bruijn Thm 13 | e^{(1/2)lambda^2 t^2} | Delta^2 -> Delta^2 - lambda^2 | lambda >= Delta |
 | Dobner Thm 3 / hunt H_t | e^{t u^2} (t = lambda^2/2) | Delta^2 -> Delta^2 - 2t | t >= Delta^2/2 |
 | Ki-Kim 2003 Thm 2.2 | e^{-lambda D^2} operator (their lambda = t) | Delta^2 -> Delta^2 - 2 lambda | all-but-finitely-many only |
+| Newman-Wu 2020 Thm 7 | e^{lambda u^2 / 2} (lambda = 2t) | Delta^2 -> Delta^2 - lambda | lambda >= Delta^2, i.e. t >= Delta^2/2 |
 
-Dobner's deformation xi_t^F((1+iz)/2) = int e^{tu^2} Phi_F(u) e^{izu} du is
-the hunt's H_t up to the constant factor 2 (Phi even turns the full-line
-integral into 2 int_0^inf ... cos(zu) du), so the two share zeros and share
-Lambda exactly.
+**This table is about the multiplier, and only about the multiplier.** All
+four rows say the same thing once the kernels are matched, and all four are
+frame-free: the threshold t >= Delta^2/2 is a statement about the ratio
+t/Delta^2, which the z-rescaling below leaves invariant. The *other* axis of
+normalization, where the critical line is parameterised, is a separate
+question and is the subject of the next two subsections and of `FRAME.md`.
+Confusing the two axes is what produced the correction below.
+
+### Dobner's frame is not this frame: the factor is 4
+
+> **Correction, 2026-08-16** (`GATE.md` closure item (a)). This section
+> previously ended its dictionary with the sentence
+>
+> > Dobner's deformation xi_t^F((1+iz)/2) = int e^{tu^2} Phi_F(u) e^{izu} du
+> > is the hunt's H_t up to the constant factor 2 (Phi even turns the
+> > full-line integral into 2 int_0^inf ... cos(zu) du), so the two share
+> > zeros and share Lambda exactly.
+>
+> **The factor 2 is right and the conclusion is false.** The substitution
+> also carries z -> z/2, which the z-rescaling paragraph of this same
+> section (kept unchanged, at the end) already said moves t quadratically:
+> the false sentence contradicted the paragraph it sat next to. The correct
+> statement is Phi_F(u) = Phi_DH(2u) and xi_t^F((1+iz)/2) = H_{t/4}(z/2), so
+> Lambda(Dobner) = 4 Lambda(hunt). The sentence is kept here rather than
+> deleted because two claims in this directory were routed through it and a
+> reader is entitled to see what they were routed through.
+>
+> **What it would have caused, and what it did cause.** It did *not* damage
+> the strictness of the lower bound: t -> t/4 is an increasing bijection of
+> the time axis, so Dobner's closed half-line {t : all zeros real} =
+> [Lambda_F, inf) transfers to this frame as a closed half-line, and section
+> 4c's use of it stands unaltered. What it would have licensed is quoting
+> Dobner's Lambda_F for DH as this hunt's number, which is four times too
+> large. What it did cause is one file down: `NOVELTY.md` calibrated the
+> upper bound 0.4006 against the zeta record 0.22 and 1/2 with no
+> conversion, which are 0.055 and 1/8 here, so the comparison flattered the
+> hunt by exactly that factor and, worse, concealed that in the common frame
+> the DH lower bound 0.2304 sits *above* the best published upper bound for
+> zeta. Both are repaired; the full conversion table is `FRAME.md`.
+
+**The derivation.** Dobner's (5) and (6), quoted in section 1, are
+
+    Phi_F(u) := (1/2pi) int_{-inf}^{inf} xi^F((1+ix)/2) e^{-ixu} dx,
+    xi_t^F((1+iz)/2) := int_{-inf}^{inf} e^{t u^2} Phi_F(u) e^{izu} du.
+
+His argument is (1+ix)/2 = 1/2 + i x/2, while this hunt's is 1/2 + i z. So
+xi^F((1+ix)/2) = Xi_DH(x/2), and by the inversion that defines Phi_DH from
+Xi_DH,
+
+    Phi_F(u) = (1/2pi) int_{-inf}^{inf} Xi_DH(x/2) e^{-ixu} dx
+             = (1/pi)  int_{-inf}^{inf} Xi_DH(y) e^{-2iyu} dy   (y = x/2)
+             = Phi_DH(2u).
+
+Now substitute u = v/2 in his (6), using that Phi_F is even:
+
+    xi_t^F((1+iz)/2) = 2 int_0^inf e^{t u^2} Phi_DH(2u) cos(zu) du
+                     = int_0^inf e^{(t/4) v^2} Phi_DH(v) cos((z/2) v) dv
+                     = H_{t/4}(z/2).
+
+At matched arguments the two deformations are the *same function*; what
+differs is the label on the time axis. Since t -> t/4 is an increasing
+bijection,
+
+    xi_t^F has only real zeros  <=>  H_{t/4} has only real zeros
+                                <=>  t >= 4 Lambda_DH(this frame),
+
+so
+
+    Lambda(Dobner frame) = 4 * Lambda(this frame),
+    Delta(Dobner frame)  = 2 * Delta(this frame).
+
+**Measured, this session, by code sharing nothing with `instrument.py`**
+(scratchpad `frame_check.py`, `frame_deform2.py`; kappa from a linear solve
+on F(s) = F(1-s), f from Hurwitz zeta at r/5, and Dobner's Phi_F computed
+only from his own (5) by direct Fourier inversion, never by substituting
+Phi_DH(2u)):
+
+| u | Phi_F(u) from Dobner (5), dps 40 | rel. vs Phi_DH(2u) | rel. vs Phi_DH(u) |
+|---|---|---|---|
+| 0.15 | 2.032945249046710636167 | 6.2e-24 | 0.0919 |
+| 0.4 | 0.5911191932630095506773 | 2.9e-23 | 0.674 |
+| 0.7 | 0.001063508494264118824889 | 7.2e-21 | 0.9988 |
+
+and the deformation identity itself, checked end to end at four (z, t) with
+Phi_F again taken only from (5):
+
+| z | t | xi_t^F((1+iz)/2) from Dobner (5)+(6) | rel. vs H_{t/4}(z/2) | rel. vs H_t(z), which the false sentence licensed |
+|---|---|---|---|---|
+| 1 | 1/5 | 1.411782501208473636314 | 7.7e-15 | 0.0484 |
+| 3 | 2/5 | 1.159034557111109238044 | 2.6e-15 | 0.567 |
+| 7/10 | 36/625 | 1.420001737196666980069 | 7.2e-15 | 0.0280 |
+| 2 + 0.3i | 1/4 | 1.314420783825719854807 - 0.040120424537588350713i | 9.1e-15 | 0.270 |
+
+(mpmath dps 28; Phi_F on 50 composite Gauss-Legendre nodes, each value a
+separate Fourier inversion of Xi_DH(x/2) out to x = 80; the node set's own
+quality against the analytically known 2 int_0^inf Phi_F cos(3u) du =
+Xi_DH(3/2) is 7.6e-16, which is the floor for this table. The t = 0 endpoint
+xi_0^F((1+iz)/2) = Xi_DH(z/2) reproduces to 7.5e-15, 7.6e-16 and 1.6e-12 at
+z = 1, 3, 9.) The correct conversion holds to 15 digits; the reading the false
+sentence licensed is wrong in the second significant digit.
+
+**Neither frame is more correct.** This one is Stopple's, published and
+refereed (arXiv:1301.3158, his equation (1) and his Xi_t(x, chi) at D = 5);
+that one is Dobner's, Newman's, Rodgers-Tao's and Polymath 15's. What is not
+allowed is a number without its frame. See `FRAME.md`.
+
+### z-rescaling (unchanged)
 
 z-rescaling scales t quadratically: if Htilde_0(z) = c H_0(a z), i.e.
 Phitilde(u) = (c/a) Phi(u/a), then Htilde_t(z) = c H_{a^2 t}(a z). Strips
@@ -367,6 +491,13 @@ flow_repair measured H_0 = c Xi_DH(a z) with |c - 1| = 4.2e-42,
 taken directly as sigma_0 - 1/2 (scouted float value
 sigma_0 = 1.39513615823511, giving Delta^2/2 = 0.400634; deciding that strip
 is WP2's job, not this file's).
+
+*(Read the last four words of that paragraph narrowly. "DH needs no
+conversion" says only that H_0 equals Xi_DH with no constant and no
+z-rescaling, so Delta may be read straight off the s-plane strip. It does
+**not** say that this frame agrees with Dobner's; a = 1/2 is exactly the
+rescaling that separates them, and it is the same a that turns zeta's
+Delta = 1/2 into Delta = 1 two sentences earlier.)*
 
 ### Calibration of the factor Delta^2/2 (derived, never recalled)
 
@@ -431,4 +562,13 @@ triggered. The remaining load on WP2 is the strip itself: decide that all
 zeros of Xi_DH lie in |Im z| <= sigma_0 - 1/2, with interval arithmetic on
 both backends. The lower-bound logic gains a Dobner-independent weak form
 (section 4c); strictness of Lambda_DH > t1 still cites Dobner's Theorem 1,
-whose S# hypotheses DH meets (section 5).
+whose S# hypotheses DH meets (section 5), applied through the conversion
+t -> t/4 derived in section 6 rather than through the frame identification
+that section used to assert.
+
+**And the verdict carries a frame.** Delta^2/2 = 0.4006343708899557 is the
+threshold in the normalization s = 1/2 + iz (Stopple's, arXiv:1301.3158). In
+the normalization s = (1+iz)/2 (de Bruijn as usually quoted, Newman,
+Rodgers-Tao, Polymath 15, Dobner) the same threshold is
+1.6025374835598228, because Delta doubles there. Neither is more correct;
+a number without its frame is what is wrong. See `FRAME.md`.

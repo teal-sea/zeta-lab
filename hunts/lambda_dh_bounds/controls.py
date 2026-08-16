@@ -1,8 +1,17 @@
 """WP4: the control battery for the lambda_dh_bounds hunt.
 
-Four controls, per MISSION.md WP4, run against the route-1 machinery
-(``winding.py``) and the ball instrument (``instrument.py``), imported and
-never duplicated.
+Five controls.  Four are the pre-registered MISSION.md WP4 battery; the
+fifth was added on 2026-08-16 as gate closure item (c), because the gate
+found that the single load-bearing analytic step no control touched was
+also the one whose health metric moves the wrong way when it breaks.  All
+five run against the route-1 machinery (``winding.py``) and the ball
+instrument (``instrument.py``), imported and never duplicated.
+
+Read control 5 before reading the verdicts: it does not pass, it is not
+meant to pass, and it is recorded as a named blind spot rather than
+quietly repaired.  ``all_pass`` is therefore False from 2026-08-16
+onward, and ``controls_1_to_4_pass`` carries the older statement
+unchanged.
 
 1. LESION, mis-centred box: the route-1 winding on a same-size rectangle
    displaced by +2 in Re (empty per the measured census of the
@@ -27,6 +36,16 @@ never duplicated.
    The chord-tube margin is excluded by design: adaptive subdivision stops
    at the first decided pass, so that margin measures the stopping rule,
    not the instrument.
+
+5. LESION, M2 deflated (added 2026-08-16, gate closure item c): M2, the
+   uniform bound on |H_t''| that makes every chord-tube decision a
+   decision, is divided by a factor and the route-1 winding re-run on the
+   unchanged t1 geometry.  A detector that could see this lesion would
+   refuse.  It does not: at factor 100 it returns status "decided" with
+   the WRONG integer N = 0 after four segments, and reports
+   ``min_chord_margin_digits`` = 0.11 against the correct run's 0.02, so
+   its own health metric looks five times better while the answer is
+   wrong.  Recorded as a blind spot with its numbers, not repaired.
 
 Plus the two no-compute notes MISSION.md WP4 asks for: the rival framing
 (zeta gets no positive floor from this pipeline) and the battery
@@ -55,6 +74,7 @@ from instrument import H_ball, _prec_guard  # noqa: E402
 from winding import (  # noqa: E402
     BACKEND,
     _fr_str,
+    measured_h2_guard,
     second_derivative_bound,
     winding_rectangle,
 )
@@ -335,6 +355,162 @@ def assess_artifact(runs: dict) -> dict:
 
 
 # ---------------------------------------------------------------------------
+# control 5: lesion, M2 deflated (the recorded blind spot)
+# ---------------------------------------------------------------------------
+
+
+DEFLATION_FACTORS = (1, 10, 72, 75, 100, 1000)
+
+
+def lesion_m2_deflated(geom: dict, prec: int = 420,
+                       factors: tuple = DEFLATION_FACTORS) -> dict:
+    """Divide M2 by a factor and re-run the route-1 winding: what breaks, and how.
+
+    M2 is the uniform bound for |H_t''| over the box.  It enters exactly
+    one place, the chord tube of radius M2 h^2 / 2 that a segment's image
+    must clear before its argument increment is accepted, so a wrongly
+    SMALL M2 accepts segments whose true argument variation may exceed pi,
+    and the per-segment congruence Delta == Arg q (mod 2pi) is then
+    resolved to the wrong branch.  Deflation is the honest lesion for it:
+    the derivation in ``winding.py`` is prose, and prose is what an error
+    would live in.
+
+    Everything else is held fixed: the same t1 box the route decided N = 1
+    on, the same precision, the same instrument, the same subdivision
+    rule.  Only the number M2 changes.
+
+    The M2 guard (``winding.measured_h2_guard``) is evaluated against each
+    deflated M2 too, so the table shows which lesions the cheap necessary
+    check would have caught.  It is measured once, on the honest M2, and
+    then compared arithmetically per factor: the measured sup of |H_t''|
+    does not depend on M2.
+
+    This control does not pass and is not meant to.  Its verdict is
+    "BLIND SPOT" and its output is a map of the failure, in the repo's
+    habit of pinning a blind spot as blind.
+    """
+    t0 = time.time()
+    m2_honest = second_derivative_bound(geom["box"][0], geom["box"][3],
+                                        geom["t"], prec=300)
+    guard = measured_h2_guard(m2_honest, geom["box"], geom["t"])
+    measured_sup = guard["measured_sup_absH2"]
+
+    rows = []
+    for factor in factors:
+        with _prec_guard(300):
+            lesioned = dict(m2_honest)
+            lesioned["M2"] = m2_honest["M2"] / factor
+            lesioned["M2_upper_float"] = float(lesioned["M2"].abs_upper())
+        res = winding_rectangle(geom["box"], geom["t"], prec, lesioned)
+        rows.append({
+            "deflation_factor": factor,
+            "M2_upper_float": lesioned["M2_upper_float"],
+            "status": res["status"],
+            "N": res.get("N"),
+            "N_correct": res.get("N") == geom["reference_N"],
+            "n_segments": res["n_segments"],
+            "min_chord_margin_digits": res.get("min_chord_margin_digits"),
+            "min_ball_margin_digits": res.get("min_ball_margin_digits"),
+            "failure_reason": (res.get("failure") or {}).get("reason"),
+            "m2_guard_verdict": (
+                "PASS" if lesioned["M2_upper_float"] >= measured_sup else "FAIL"
+            ),
+        })
+
+    wrong = [r for r in rows if r["status"] == "decided" and not r["N_correct"]]
+    silent_wrong = [r for r in wrong if r["failure_reason"] is None]
+    caught = [r for r in wrong if r["m2_guard_verdict"] == "FAIL"]
+    onset = min((r["deflation_factor"] for r in wrong), default=None)
+
+    return {
+        "expectation_as_written": (
+            "a detector that could see this lesion would refuse (status "
+            "undecided), never return an integer"
+        ),
+        "observed": (
+            "it returns integers.  Deflating M2 by 100 gives status "
+            "'decided' with N = 0 after four segments, and it is not the "
+            "quiet kind of wrong: min_chord_margin_digits reads 0.11 "
+            "against the correct run's 0.02, so the routine's own health "
+            "metric looks about five times better while the answer is "
+            "wrong."
+        ),
+        "held_fixed": (
+            "t1 box, t = 23/400, prec 420, instrument, subdivision rule; "
+            "only the number M2 is changed"
+        ),
+        "reference_N": geom["reference_N"],
+        "table": rows,
+        "wrong_answer_onset_factor": onset,
+        "n_wrong_and_silent": len(silent_wrong),
+        "m2_measured_guard_on_honest_M2": guard,
+        "guard_catches_all_observed_wrong_rows": bool(wrong) and len(caught) == len(wrong),
+        "blind_spot": BLIND_SPOT_M2,
+        "verdict": "BLIND SPOT",
+        "seconds": round(time.time() - t0, 1),
+    }
+
+
+BLIND_SPOT_M2 = {
+    "name": "M2 is unguarded prose, and the health metric moves the wrong way",
+    "what_is_blind": (
+        "M2, the uniform bound for |H_t''| on the box, is the single "
+        "load-bearing analytic step in the lower-bound route whose "
+        "derivation is prose rather than an enclosure or a cited theorem "
+        "(its numerical ingredients are ball-computed; the shifted-contour "
+        "argument that assembles them is not).  Controls 1 to 4 do not "
+        "touch it: the displaced and edge-on-zero lesions move geometry, "
+        "the precision controls move prec, and M2 is held fixed by all "
+        "four."
+    ),
+    "why_it_matters": (
+        "M2 too large costs only compute (more subdivision).  M2 too small "
+        "silently licenses a segment whose true argument variation exceeds "
+        "pi, and the branch resolution Delta = Arg q is then wrong by 2pi, "
+        "which lands in the sum as a whole unit of winding.  The failure "
+        "mode is a wrong integer with status 'decided', which is the one "
+        "output this routine promises never to produce."
+    ),
+    "the_perverse_metric": (
+        "min_chord_margin_digits is log10(dist(0, chord) / tube radius) "
+        "minimised over accepted segments.  Deflating M2 shrinks the tube, "
+        "so the ratio grows: the correct run reports 0.02 and the "
+        "N = 0 run at factor 100 reports 0.11, at factor 1000 reports "
+        "1.11.  The metric therefore reads HEALTHIER exactly as the "
+        "detector gets more wrong, and it may not be used as a guard on "
+        "M2.  min_ball_margin_digits is no better here: it moves from "
+        "40.32 to 42.61 across the same lesion, because the wrong runs "
+        "accept fewer and larger segments and never sample the tight ones."
+    ),
+    "countermeasure_now_in_place": (
+        "winding.measured_h2_guard: M2 must dominate a directly measured "
+        "sup |H_t''| sampled on the box by quadrature of the defining "
+        "integral, sharing no code with the shifted-contour derivation.  "
+        "It is NECESSARY, NOT SUFFICIENT and it is measured, not decided: "
+        "passing it does not make M2 right.  winding.py's main() refuses "
+        "the floor when it fails."
+    ),
+    "what_is_still_blind": (
+        "Three things.  (1) The guard is a finite grid of a smooth "
+        "function; a peak between nodes is invisible to it.  (2) The guard "
+        "is float grade, so it cannot upgrade M2 from prose to decided; "
+        "only an in-tree or Lean derivation of the shifted-contour step "
+        "would do that.  (3) The ordering that makes the guard useful on "
+        "THIS box is luck, not structure: the guard fires once M2 falls "
+        "below the measured sup 2.14e-80 (deflation past 55.7), while the "
+        "first wrong integer observed here appears at deflation 75, so the "
+        "guard happens to trip before the failure.  Nothing guarantees "
+        "that ordering on another box, and a derivation wrong by a factor "
+        "under 55 would pass the guard and could still be wrong."
+    ),
+    "recorded_rather_than_repaired": (
+        "This is a standing blind spot in the lower-bound route, not a "
+        "closed defect.  Any statement of the bound carries it."
+    ),
+}
+
+
+# ---------------------------------------------------------------------------
 # the no-compute notes
 # ---------------------------------------------------------------------------
 
@@ -404,6 +580,15 @@ def main() -> None:
     print(f"  4  {c4['verdict']}: margins = "
           f"{c4['min_ball_margin_digits_by_prec']}", flush=True)
 
+    print(f"control 5: lesion, M2 deflated by {DEFLATION_FACTORS} ...", flush=True)
+    c5 = lesion_m2_deflated(geom)
+    print(f"  {c5['verdict']}: " + ", ".join(
+        f"/{r['deflation_factor']} -> {r['status']} N={r['N']} "
+        f"chord={r['min_chord_margin_digits']}" for r in c5["table"]), flush=True)
+    print(f"  wrong-answer onset at deflation {c5['wrong_answer_onset_factor']}; "
+          f"guard catches every wrong row observed: "
+          f"{c5['guard_catches_all_observed_wrong_rows']}", flush=True)
+
     out = {
         "hunt": "lambda_dh_bounds",
         "wp": "WP4 control battery",
@@ -417,6 +602,7 @@ def main() -> None:
             "3a_precision_response_fixed_point": c3a,
             "3b_precision_response_winding_width": c3b,
             "4_artifact_check_ball_margin": c4,
+            "5_lesion_m2_deflated": c5,
         },
         "winding_runs_by_prec": wruns,
         "notes": {
@@ -425,13 +611,28 @@ def main() -> None:
         },
         "wall_seconds_total": round(time.time() - t_all, 1),
     }
-    verdicts = [c["verdict"] for c in out["controls"].values()]
-    out["all_pass"] = all(v == "PASS" for v in verdicts)
+    verdicts = {k: c["verdict"] for k, c in out["controls"].items()}
+    out["verdicts"] = verdicts
+    out["controls_1_to_4_pass"] = all(
+        v == "PASS" for k, v in verdicts.items() if not k.startswith("5_")
+    )
+    out["all_pass"] = all(v == "PASS" for v in verdicts.values())
+    out["all_pass_note"] = (
+        "all_pass was True through 2026-08-16 over controls 1 to 4, and "
+        "controls_1_to_4_pass preserves that statement unchanged: their "
+        "verdicts and numbers did not move.  all_pass is False from "
+        "2026-08-16 because control 5 was added and the detector does not "
+        "survive it.  Control 5 is a recorded blind spot, not a control "
+        "the battery is expected to pass: see controls.5_lesion_m2_deflated"
+        ".blind_spot.  Reporting only controls_1_to_4_pass would be the "
+        "flattering read and is not the headline."
+    )
 
     with open(RESULTS_PATH, "w") as f:
         json.dump(out, f, indent=1)
     print(f"wrote {RESULTS_PATH}  all_pass = {out['all_pass']}  "
-          f"({out['wall_seconds_total']} s)", flush=True)
+          f"(controls 1-4 pass = {out['controls_1_to_4_pass']}; control 5 is "
+          f"a recorded blind spot)  ({out['wall_seconds_total']} s)", flush=True)
 
 
 if __name__ == "__main__":

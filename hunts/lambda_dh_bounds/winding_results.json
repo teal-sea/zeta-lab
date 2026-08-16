@@ -19,7 +19,7 @@
    "abs_dH_measured": 1.8510608446702873e-82,
    "real_axis_sign_changes_pm_0.7": []
   },
-  "seconds": 53.7
+  "seconds": 65.6
  },
  "symmetry_note": "H_t(conj z) = conj(H_t(z)): kappa's ball decides kappa real, the integrand has real coefficients and H_t is real on the real axis, so zeros come in conjugate pairs; the mirror rectangle in the lower half-plane therefore carries the same decided count N = 1 with no further computation.",
  "t1_run": {
@@ -50,14 +50,15 @@
    "tail_upper_float": 5.363521871577477e-40,
    "scope": "decided upper bound for sup |H_t''| on Re z >= 122929/512, |Im z| <= 61/1024",
    "backend": "python-flint 0.9.0 (Arb)",
-   "seconds": 0.03
+   "seconds": 0.04
   },
   "n_segments": 71,
   "n_H_evals": 71,
-  "wall_seconds": 5.3,
+  "wall_seconds": 6.0,
   "winding_sum_over_2pi": {
    "lower": 1.0,
-   "upper": 1.0
+   "upper": 1.0,
+   "width": 1.8935338382884234e-40
   },
   "status": "decided",
   "N": 1,
@@ -1058,7 +1059,33 @@
     "tube_radius_upper": 4.2864196302262945e-82,
     "margin_digits": 0.16
    }
-  ]
+  ],
+  "m2_measured_guard": {
+   "check": "M2 >= directly measured sup |H_t''| on a grid over the box",
+   "strength": "NECESSARY, NOT SUFFICIENT: passing does not make M2 right, failing proves M2 wrong",
+   "grade": "measured (mpmath dps 112, float); M2 itself is decided",
+   "evaluator": "direct quadrature of -int_0^inf e^{t u^2} Phi_DH(u) u^2 cos(zu) du on flow_repair's DHFlow rule; shares no code with the shifted-contour derivation of M2",
+   "grid": {
+    "n_re": 9,
+    "n_im": 3,
+    "box_floats": [
+     240.095703125,
+     240.595703125,
+     0.005859375,
+     0.0595703125
+    ]
+   },
+   "measured_sup_absH2": 2.1357367685579024e-80,
+   "measured_sup_at": [
+    240.158203125,
+    0.0595703125
+   ],
+   "M2_upper_float": 1.1886642645115153e-78,
+   "ratio_M2_over_measured": 55.65593485165909,
+   "im_negative_note": "|Im z| < 0 is not sampled: H_t(conj z) = conj(H_t(z)) makes |H_t''| symmetric in Im z",
+   "verdict": "PASS",
+   "seconds": 14.4
+  }
  },
  "t2_stretch_run": {
   "t": "36/625",
@@ -1088,14 +1115,15 @@
    "tail_upper_float": 4.729259004017576e-40,
    "scope": "decided upper bound for sup |H_t''| on Re z >= 245909/1024, |Im z| <= 35/1024",
    "backend": "python-flint 0.9.0 (Arb)",
-   "seconds": 0.03
+   "seconds": 0.04
   },
   "n_segments": 79,
   "n_H_evals": 79,
-  "wall_seconds": 5.9,
+  "wall_seconds": 6.3,
   "winding_sum_over_2pi": {
    "lower": 1.0,
-   "upper": 1.0
+   "upper": 1.0,
+   "width": 5.454660423479934e-40
   },
   "status": "decided",
   "N": 1,
@@ -2208,9 +2236,35 @@
     "tube_radius_upper": 1.388040653565105e-82,
     "margin_digits": 0.45
    }
-  ]
+  ],
+  "m2_measured_guard": {
+   "check": "M2 >= directly measured sup |H_t''| on a grid over the box",
+   "strength": "NECESSARY, NOT SUFFICIENT: passing does not make M2 right, failing proves M2 wrong",
+   "grade": "measured (mpmath dps 112, float); M2 itself is decided",
+   "evaluator": "direct quadrature of -int_0^inf e^{t u^2} Phi_DH(u) u^2 cos(zu) du on flow_repair's DHFlow rule; shares no code with the shifted-contour derivation of M2",
+   "grid": {
+    "n_re": 9,
+    "n_im": 3,
+    "box_floats": [
+     240.1455078125,
+     240.544921875,
+     0.0029296875,
+     0.0341796875
+    ]
+   },
+   "measured_sup_absH2": 2.1103034250765648e-80,
+   "measured_sup_at": [
+    240.1455078125,
+    0.0341796875
+   ],
+   "M2_upper_float": 1.137082903400534e-78,
+   "ratio_M2_over_measured": 53.882436520202255,
+   "im_negative_note": "|Im z| < 0 is not sampled: H_t(conj z) = conj(H_t(z)) makes |H_t''| symmetric in Im z",
+   "verdict": "PASS",
+   "seconds": 13.7
+  }
  },
  "decided_floor_t": "36/625",
  "headline": "decided: H_t has a zero strictly inside the open upper half-plane at t = 36/625; with Dobner's half-line structure (Theorem 1, arXiv:2005.05142) this gives Lambda_DH > 36/625.  Composite grade: decided modulo that cited theorem.",
- "wall_seconds_total": 65.8
+ "wall_seconds_total": 106.2
 }

@@ -7,6 +7,18 @@ discipline: the strongest words used are *measured*, *observed* and *decided*
 enclosure word belongs to `zeta/rigor.py` and appears nowhere in this
 directory.
 
+> **Frame note added 2026-08-16** (`GATE.md` closure item (a)). Nothing in
+> the preregistration below is altered; this note only says which
+> normalization its numbers are in, because the mission did not say and a
+> `Lambda` number means nothing without it. The deformation defined below
+> sits at `s = 1/2 + iz`, which is Stopple's published frame
+> (arXiv:1301.3158). de Bruijn as usually quoted, Newman, Rodgers-Tao,
+> Polymath 15 and Dobner all sit at `s = (1+iz)/2`, where the same constant
+> is **four times larger**. So the pre-registered prediction P5,
+> "0.0575 < Lambda_DH <= 0.400634", reads "0.2300 < Lambda_DH <= 1.602537"
+> there. Conversion table, derivation and per-row numerical checks:
+> `FRAME.md`.
+
 ## The question
 
 `hunts/flow_repair/` (closed, 2026-08-07) measured the backward-heat repair
@@ -38,6 +50,22 @@ de Bruijn-Newman constant of any RH-violating L-function. The deliverable is
 that number, from both sides.
 
 ## Work packages
+
+> **Independence note added 2026-08-16** (`GATE.md` closure item (e)). The
+> preregistration below is not altered; this note says what WP1's phrase
+> "two independent winding routes" turned out to be worth, because the word
+> *independent* was never measured when it was written. Measured with
+> `harness/independence.py`, the two routes share the whole evaluator:
+> independence radius 9 of 12 declared layers at the granularity of
+> `independence_decl.py`, 8 of 11 at the gate's slightly coarser one, the
+> same declaration either way. Their agreement is evidence about the two
+> schemes that turn H-balls into an integer and about nothing else, and
+> route 2 ran at one t and one box. The independence the claim rests on
+> comes from two other legs, both landed here as runnable scripts:
+> `crosscheck_dhflow_winding.py` (radius 0, N = 1 at **both** t) and
+> `crosscheck_quadfree.py` (radius 0, one reconvergent layer, a different
+> kappa equation). Layer lists, the two repaired validation gaps and what
+> is still not covered: `INDEPENDENCE.md`.
 
 - **WP1 (lower bound, decided).** At the pre-registered t1 = 0.0575 (stretch
   0.0576), an argument-principle count with every evaluation an Arb ball

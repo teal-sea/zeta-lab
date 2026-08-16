@@ -1,0 +1,654 @@
+{
+  "hunt": "lambda_dh_bounds",
+  "written": "2026-08-16",
+  "prose": "RESULTS.md",
+  "gate_verdict": "NOT YET (GATE.md, 2026-08-16); closure items (a)-(e) repaired, open items listed under open_items below",
+  "vocabulary": {
+    "measured": "one float route",
+    "observed": "a pattern in measured data",
+    "decided": "an enclosure whose exact endpoints settle a sign or an integer, with backend and precision",
+    "cited": "somebody else's theorem",
+    "composite_rule": "a composite claim takes the weakest grade of its steps"
+  },
+  "frames": {
+    "narrow": "s = 1/2 + i z (Stopple arXiv:1301.3158; this hunt; Newman-Wu's kernel)",
+    "wide": "s = (1 + i z)/2 (de Bruijn as usually quoted; Newman; Rodgers-Tao; Polymath 15; Dobner; zeta/heatflow.py)",
+    "conversion": "Lambda(wide) = 4 * Lambda(narrow); Delta(wide) = 2 * Delta(narrow)",
+    "derivation": "FRAME.md sections 2 and 3; THEOREM13.md section 6"
+  },
+
+  "claims": {
+
+    "headline_narrow": {
+      "value_or_interval": "0.0576 < Lambda_DH <= 0.4006343708899557",
+      "frame": "narrow (s = 1/2 + iz, Stopple arXiv:1301.3158)",
+      "grade": "cited",
+      "grade_detail": "composite: decided enclosures on both sides, assembled by cited theorems (de Bruijn 1950 Thm 13, Dobner 2020 Thm 1), with one prose analytic step (M2) inside the lower side",
+      "backend": "python-flint 0.9.0 (Arb), cross-checked mpmath.iv on the upper side",
+      "precision": "420 bits (winding), 192 bits (strip bisection), 500 bits (kappa)",
+      "source_file": "winding_results.json, strip_results.json, RESULTS.md section 0"
+    },
+    "headline_wide": {
+      "value_or_interval": "0.2304 < Lambda_DH <= 1.6025374835598228",
+      "frame": "wide (s = (1+iz)/2, Newman / Rodgers-Tao / Polymath 15 / Dobner)",
+      "grade": "cited",
+      "grade_detail": "same composite as headline_narrow, multiplied through by the frame factor 4",
+      "backend": "python-flint 0.9.0 (Arb)",
+      "precision": "as headline_narrow",
+      "source_file": "FRAME.md section 6, RESULTS.md section 0"
+    },
+    "bracket_ratio": {
+      "value_or_interval": 6.955,
+      "frame": "frame-free (Lambda/Delta^2 is invariant under the z-rescaling)",
+      "grade": "measured",
+      "backend": "n/a (ratio of the two headline decimals)",
+      "precision": "4 significant digits as printed",
+      "source_file": "FRAME.md section 6"
+    },
+
+    "lower_bound_t_decided_narrow": {
+      "value_or_interval": "36/625 = 0.0576 exactly",
+      "frame": "narrow",
+      "grade": "decided",
+      "grade_detail": "the integer count is decided; converting it to Lambda_DH > t adds two cited theorems (see lower_bound_logic)",
+      "backend": "python-flint 0.9.0 (Arb)",
+      "precision": "420 bits, exact rational contour",
+      "source_file": "winding_results.json:decided_floor_t"
+    },
+    "lower_bound_t_decided_wide": {
+      "value_or_interval": "144/625 = 0.2304 exactly",
+      "frame": "wide",
+      "grade": "decided",
+      "backend": "python-flint 0.9.0 (Arb)",
+      "precision": "420 bits",
+      "source_file": "FRAME.md section 6"
+    },
+    "lower_bound_logic": {
+      "value_or_interval": "nonreal zero of H_t at t -> Lambda_DH >= t by de Bruijn Thm 13 at Delta = 0 (monotonicity, no Dobner needed) -> Lambda_DH > t by Dobner 2020 Thm 1's closed half-line, transported by the increasing bijection t -> t/4",
+      "frame": "stated in narrow; Dobner's theorem is a wide-frame statement, transported",
+      "grade": "cited",
+      "backend": "n/a",
+      "precision": "n/a",
+      "source_file": "THEOREM13.md section 4c and section 6, RESULTS.md section 2.3"
+    },
+
+    "winding_N_t1_route1": {
+      "value_or_interval": "N = 1, winding sum / 2 pi in [1.0, 1.0], width 1.8935338382884234e-40",
+      "frame": "narrow, t = 23/400 = 0.0575",
+      "grade": "decided",
+      "backend": "python-flint 0.9.0 (Arb)",
+      "precision": "420 bits; box Re in [122929/512, 123185/512], Im in [3/512, 61/1024]; 71 segments; min_ball_margin_digits 40.32; min_chord_margin_digits 0.02",
+      "source_file": "winding_results.json:t1_run"
+    },
+    "winding_N_t2_route1": {
+      "value_or_interval": "N = 1, winding sum / 2 pi in [1.0, 1.0], width 5.454660423479934e-40",
+      "frame": "narrow, t = 36/625 = 0.0576",
+      "grade": "decided",
+      "backend": "python-flint 0.9.0 (Arb)",
+      "precision": "420 bits; box Re in [245909/1024, 123159/512], Im in [3/1024, 35/1024]; 79 segments; min_ball_margin_digits 39.87; min_chord_margin_digits 0.02",
+      "source_file": "winding_results.json:t2_stretch_run"
+    },
+    "winding_N_t1_route2": {
+      "value_or_interval": "N = 1, winding ball 1 +/- 1.2847214340538232e-12",
+      "frame": "narrow, t = 23/400; box Re in [2400953/10000, 2405953/10000], Im in [1/250, 3/50] (overlapping but not identical to route 1's)",
+      "grade": "decided",
+      "backend": "python-flint 0.9.0 (Arb)",
+      "precision": "420 bits winding, 700 bits Taylor coefficients, degree 48 panel-local models, 512 panels",
+      "source_file": "winding_quad_results.json:N_ball, decided_N",
+      "caveat": "route 2 was never run at the headline t = 36/625"
+    },
+    "winding_N_route3_dhflow_both_t": {
+      "value_or_interval": "total argument 6.283185307179587, N = 1.0000000000000002, on both boxes t = 23/400 and t = 36/625, using route 1's own boxes; agrees_at_both_t true, 348.2 s",
+      "frame": "narrow",
+      "grade": "measured",
+      "grade_detail": "float grade by construction: it cannot decide an integer and does not claim to, its job is to catch a wrong one. Independence radius 0 against route 1. One layer it does not duplicate: its kappa comes from zeta.epstein.kappa, the mpmath form of the SAME self-duality solve, so it is not evidence about the equation defining kappa; crosscheck_quadfree.py supplies that leg from the Gauss sum.",
+      "backend": "mpmath (flow_repair DHFlow composite Gauss-Legendre), sharing no code with the instrument",
+      "precision": "dps 130, uniform dense boundary sampling with continuous-argument tracking refined until every step is under 1 radian",
+      "precision_detail": "5814 DHFlow nodes at flow_U = 3.1457857827268754, 256 boundary evaluations per box, max consecutive argument step 0.2854607296912167 and 0.39463362905733557; minimum |H_t| on the boundary 2.4488139927472482e-84 at t = 23/400 and 8.644114156488054e-85 at t = 36/625",
+      "source_file": "crosscheck_dhflow_results.json; also GATE.md 'Independent cross-check' item (1) and INDEPENDENCE.md section 4"
+    },
+    "conjugate_symmetry": {
+      "value_or_interval": "H_t(conj z) = conj(H_t(z)); the mirror rectangle in the lower half-plane carries the same decided N = 1 with no further computation",
+      "frame": "narrow",
+      "grade": "decided",
+      "grade_detail": "rests on kappa's ball deciding kappa real plus real integrand coefficients",
+      "backend": "python-flint 0.9.0 (Arb)",
+      "precision": "500 bits (kappa)",
+      "source_file": "winding_results.json:symmetry_note"
+    },
+
+    "sigma_0_flint": {
+      "value_or_interval": ["1.3951361582351097210613588712", "1.3951361582351097210613589375"],
+      "frame": "frame-free (sigma_0 is a point in the s plane)",
+      "grade": "decided",
+      "backend": "python-flint (Arb)",
+      "precision": "192 bits, bisection width < 1e-25, 79 sign decisions, exact rational endpoints",
+      "source_file": "strip_results.json:sigma0.flint"
+    },
+    "sigma_0_iv": {
+      "value_or_interval": ["1.395136158235109178", "1.395136158235109747"],
+      "frame": "frame-free",
+      "grade": "decided",
+      "backend": "mpmath.iv",
+      "precision": "dps 40, bisection width < 1e-15, 46 sign decisions, 100 finite terms per residue class plus 8 Euler-Maclaurin terms",
+      "source_file": "strip_results.json:sigma0.iv"
+    },
+    "delta_narrow_flint": {
+      "value_or_interval": ["0.8951361582351097210613588712", "0.8951361582351097210613589375"],
+      "frame": "narrow",
+      "grade": "decided",
+      "backend": "python-flint (Arb)",
+      "precision": "192 bits",
+      "source_file": "strip_results.json:delta.flint"
+    },
+    "delta_wide": {
+      "value_or_interval": "1.7902723164702194421227177424...8750",
+      "frame": "wide",
+      "grade": "decided",
+      "backend": "python-flint (Arb)",
+      "precision": "192 bits, doubled from the narrow endpoints",
+      "source_file": "FRAME.md section 6"
+    },
+    "delta_sq_over_2_narrow_flint": {
+      "value_or_interval": ["0.4006343708899556944469547527", "0.4006343708899556944469548120"],
+      "frame": "narrow",
+      "grade": "decided",
+      "backend": "python-flint (Arb)",
+      "precision": "192 bits",
+      "source_file": "strip_results.json:upper_bound_delta_sq_over_2.flint"
+    },
+    "delta_sq_over_2_narrow_iv": {
+      "value_or_interval": ["0.400634370889955208", "0.400634370889955718"],
+      "frame": "narrow",
+      "grade": "decided",
+      "backend": "mpmath.iv",
+      "precision": "dps 40",
+      "source_file": "strip_results.json:upper_bound_delta_sq_over_2.iv"
+    },
+    "delta_sq_over_2_wide": {
+      "value_or_interval": ["1.6025374835598227777878190108", "1.6025374835598227777878192480"],
+      "frame": "wide",
+      "grade": "decided",
+      "backend": "python-flint (Arb)",
+      "precision": "192 bits, quadrupled from the narrow interval",
+      "source_file": "FRAME.md section 6"
+    },
+    "upper_bound_headline_narrow": {
+      "value_or_interval": "Lambda_DH <= 0.4006343708899557",
+      "frame": "narrow",
+      "grade": "cited",
+      "grade_detail": "decided strip constant fed to de Bruijn 1950 Theorem 13 (cited); the decimal is rounded outward, sitting 5.553e-18 above the decided upper endpoint",
+      "backend": "python-flint (Arb), cross-checked on mpmath.iv",
+      "precision": "192 bits",
+      "source_file": "strip_results.json, attack_adversary3_upperbound.md section 2.7"
+    },
+    "upper_bound_headline_wide": {
+      "value_or_interval": "Lambda_DH <= 1.6025374835598228",
+      "frame": "wide",
+      "grade": "cited",
+      "backend": "python-flint (Arb)",
+      "precision": "192 bits",
+      "source_file": "FRAME.md section 6"
+    },
+    "delta_sq_over_2_lt_0_4007": {
+      "value_or_interval": "decided true on both backends, by exact rational comparison of the outward upper endpoint against 4007/10000",
+      "frame": "narrow",
+      "grade": "decided",
+      "backend": "python-flint (Arb) and mpmath.iv",
+      "precision": "192 bits / dps 40",
+      "source_file": "strip_results.json:upper_bound_delta_sq_over_2.decided_lt_0.4007"
+    },
+    "g_of_2_negative": {
+      "value_or_interval": [["-0.7333360538690251425955054390", "-0.7333360538690251425955054389"], ["-0.733336053869025143", "-0.733336053869025142"]],
+      "frame": "frame-free",
+      "grade": "decided",
+      "backend": "python-flint (Arb) and mpmath.iv",
+      "precision": "192 bits / dps 40",
+      "source_file": "strip_results.json:coarse_strip_g2"
+    },
+    "kappa": {
+      "value_or_interval": ["0.284079043840412296028291832393126169091088088", "0.284079043840412296028291832393126169091088089"],
+      "frame": "frame-free",
+      "grade": "decided",
+      "grade_detail": "Arb linear solve on F(s) = F(1-s); inside KAPPA_REF +/- 1e-39 by exact rational comparison; ball radius 1.520111982412233e-148",
+      "backend": "python-flint (Arb)",
+      "precision": "500 bits",
+      "source_file": "strip_results.json:kappa_ball, validation.json:kappa"
+    },
+    "strip_statement": {
+      "value_or_interval": "every zero of the completed F lies in the open strip 1 - sigma_0 < Re s < sigma_0; equivalently every zero of Xi_DH has |Im z| < Delta = sigma_0 - 1/2",
+      "frame": "narrow for Delta; the s-plane strip is frame-free",
+      "grade": "decided",
+      "grade_detail": "elementary exact analysis on top of decided constants, plus classical facts cited without in-tree proof (Gamma nonvanishing with poles only at s = -1,-3,...; F entire with F(s) = F(1-s)); the boundary-equality case Re s = sigma_0 is closed exactly by the 12 = 3*4 phase argument, and the trivial zeros at s = -1,-3,-5,... are zeros of f and not of F",
+      "backend": "python-flint (Arb) and mpmath.iv",
+      "precision": "192 bits / dps 40",
+      "source_file": "STRIP.md sections 3(a)-(f)"
+    },
+
+    "de_bruijn_theorem_13": {
+      "value_or_interval": "if F satisfies Theorem 10's conditions and all roots of int F(t) e^{izt} dt lie in |Im z| <= Delta, then all roots of int F(t) e^{(1/2)lambda^2 t^2} e^{izt} dt lie in |Im z| <= max(Delta^2 - lambda^2, 0)^{1/2}; in the e^{tu^2} convention the all-real threshold is t >= Delta^2/2",
+      "frame": "frame-free (a statement about the multiplier, i.e. about the ratio t/Delta^2)",
+      "grade": "cited",
+      "grade_detail": "transcribed from the image-only publisher scan (Duke Math. J. 17 (1950), p. 205) by visual read; re-read independently from the same scan by adversary 3; corroborated by two typeset restatements (Dobner Thm 3, Newman-Wu 2020 Thm 7); all-zeros form in both hypothesis and conclusion, no positivity hypothesis",
+      "backend": "n/a",
+      "precision": "n/a",
+      "source_file": "THEOREM13.md section 1, attack_adversary3_upperbound.md section 2.1"
+    },
+    "theorem_13_hypotheses_for_phi_dh": {
+      "value_or_interval": "integrability, hermitian symmetry (here evenness, from F(s) = F(1-s)), and O(e^{-|u|^b}) with b = 3 > 2 via |Phi_DH(u)| <= 4 e^{3u/2} e^{-(pi/5) e^{2u}} S(0), S(0) = 1.32368007594847",
+      "frame": "narrow",
+      "grade": "measured",
+      "grade_detail": "the decay margin g(u) = (pi/5)e^{2u} - (3/2)u - u^3 is 23.305029408743852 at u = 2 and asserted increasing on [2, 30] from a 201-point grid, which is a bounded-range check standing in for an unbounded-range claim; the fact is immediate from the domination and one derivative line settles it",
+      "backend": "mpmath",
+      "precision": "dps 30",
+      "source_file": "calibration.json:phi_dh_decay_domination, THEOREM13.md section 5"
+    },
+    "delta_sq_over_2_calibration": {
+      "value_or_interval": "route A ratios 2t*/Delta^2 = 1.0, 1.0000000000000, 1.0 at Delta = 0.6, 0.895136, 1.2; route B 0.8366, 0.9839, 0.99967; route C 0.9329, 0.99506, 0.99980",
+      "frame": "frame-free",
+      "grade": "measured",
+      "grade_detail": "backward-heat operator identity residuals 0.0 (quadrature, dps 30) and 4.195081744635483e-06 (float64 central differences, h = 1e-5); the factor 1/2 is exact on the bare pair and sharp in the c -> 1+ cosine limit; Delta^2/8 and 2 Delta^2 each refuted by a factor of 4",
+      "backend": "mpmath / numpy floats",
+      "precision": "dps 30 and float64",
+      "source_file": "calibration.json, attack_adversary3_upperbound.md section 2.8"
+    },
+    "dobner_theorems": {
+      "value_or_interval": "Thm 1: for every F in S# there is a real Lambda_F with all zeros of xi_t^F on the critical line iff t >= Lambda_F (closed half-line). Thm 2: Lambda_F >= 0.",
+      "frame": "wide (his deformation sits at s = (1+iz)/2)",
+      "grade": "cited",
+      "grade_detail": "S# membership of the Davenport-Heilbronn function verified condition by condition in-tree and independently against Dobner's verbatim (i)-(iii); no Euler product is required by S#, and the function has none (a_6 = a_1 = 1 while a_2 a_3 = -kappa^2). Thm 1 is load-bearing only for the strictness of the lower bound; Thm 2 is load-bearing for neither side.",
+      "backend": "n/a",
+      "precision": "n/a",
+      "source_file": "THEOREM13.md sections 1 and 5, attack_adversary1_normalization.md section 4"
+    },
+    "frame_conversion_verified": {
+      "value_or_interval": "Phi_F(u) = Phi_DH(2u) to relative 6.2e-24, 2.9e-23, 7.2e-21 at u = 0.15, 0.4, 0.7; xi_t^F((1+iz)/2) = H_{t/4}(z/2) to relative 7.7e-15, 2.6e-15, 7.2e-15, 9.1e-15 at four (z, t); the frame-identified reading the false sentence licensed is wrong by 0.0484, 0.567, 0.0280, 0.270 at the same points",
+      "frame": "narrow to wide",
+      "grade": "measured",
+      "backend": "mpmath, code sharing nothing with instrument.py; Dobner's Phi_F computed only from his own equation (5) by direct Fourier inversion",
+      "precision": "dps 28 to 40, inversion truncation R = 80 to 140",
+      "source_file": "FRAME.md section 5, THEOREM13.md section 6"
+    },
+    "h0_equals_xi_dh": {
+      "value_or_interval": "relative defect 1.7e-41 to 5.4e-39 over z = 0.3, 1.0, 5.0, 14.7, 2+0.4i (FRAME.md); 1.09e-52 to 2.35e-51 over nine points (adversary 1); rivals (c,a) = (1/8, 1/2) and (1, 2) excluded at relative distance 0.09 to 1.08",
+      "frame": "narrow",
+      "grade": "measured",
+      "backend": "mpmath, independent quadrature against zeta.epstein.completed_dh",
+      "precision": "dps 30 to 40",
+      "source_file": "FRAME.md section 5, attack_adversary1_normalization.md section 1"
+    },
+
+    "census_coverage": {
+      "value_or_interval": "25 windows, heights 412.05 to 600.0, all_windows_closed true; n_strip = n_line + 2 * n_quadruples: 179 = 167 + 2*6",
+      "frame": "n/a",
+      "grade": "measured",
+      "grade_detail": "integer winding numbers at float grade with residual defect below 1e-6 enforced; nothing in the census is decided",
+      "backend": "mpmath",
+      "precision": "dps 20 boxes, dps 15 line grid, zeros polished at dps 40-50 with |f| residual below 1e-25",
+      "source_file": "census_results.json:summary.coverage, summary.totals"
+    },
+    "census_deepest_new_pair": {
+      "value_or_interval": "gamma = 531.27972689652, beta = 0.846953803092049052883788978175, y0 = 0.34695380309204904; naive y0^2/2 = 0.060188470740018166, ODE landing 0.05033975468118168, shave-model landing 0.048403",
+      "frame": "narrow",
+      "grade": "measured",
+      "backend": "mpmath N-body ODE null control (float grade), validated to 0.04 percent against the Xi-plane contour route on flow_repair pairs 1-5",
+      "precision": "800 ODE steps, window 40.0, t_end 0.075; the dps-206 Xi-plane contour measurement was skipped on budget",
+      "source_file": "census_results.json:ode_landing_pair_531, summary.p4_verdict"
+    },
+    "prediction_P1": {
+      "value_or_interval": "held on the ball margin (min_ball_margin_digits 40.32 >= 30, decided N = 1 on the first budget, 71 segments); not held if read as every margin (min_chord_margin_digits 0.02)",
+      "frame": "narrow, t = 23/400",
+      "grade": "decided",
+      "backend": "python-flint 0.9.0 (Arb)",
+      "precision": "420 bits",
+      "source_file": "winding_results.json:t1_run, controls_results.json:controls.4_artifact_check_ball_margin"
+    },
+    "prediction_P2": {
+      "value_or_interval": "held as stated (both routes decide N = 1); the adjective 'independent' did not hold: the routes share 8 of 11 declared layers, the whole evaluator, and route 2 ran only at t = 23/400",
+      "frame": "narrow",
+      "grade": "decided",
+      "backend": "python-flint 0.9.0 (Arb)",
+      "precision": "420 bits",
+      "source_file": "winding_results.json, winding_quad_results.json, GATE.md 'Independent cross-check'"
+    },
+    "prediction_P3": {
+      "value_or_interval": "held exactly: both backend intervals lie in [1.3949, 1.3954] and overlap, and both lie inside the scouted 1.39513615823511 +/- 5e-15",
+      "frame": "frame-free",
+      "grade": "decided",
+      "backend": "python-flint (Arb) and mpmath.iv",
+      "precision": "192 bits / dps 40",
+      "source_file": "strip_results.json:agreement"
+    },
+    "prediction_P4": {
+      "value_or_interval": "held: no pair in (412.05, 600.0) beats the flow_repair floor 0.05765184034869543; the one naive candidate lands 12 to 16 percent below it",
+      "frame": "narrow",
+      "grade": "observed",
+      "backend": "mpmath",
+      "precision": "dps 15 to 50 across the survey",
+      "source_file": "census_results.json:summary.p4_verdict"
+    },
+    "prediction_P5": {
+      "value_or_interval": "held, and better on the lower side: 0.0576 < Lambda_DH <= 0.4006343708899557 (narrow), ratio 6.955 against the predicted 'about 7'; the prediction carried no frame and needs one",
+      "frame": "narrow (P5 as pre-registered was frameless)",
+      "grade": "cited",
+      "backend": "python-flint 0.9.0 (Arb)",
+      "precision": "420 bits / 192 bits",
+      "source_file": "MISSION.md, winding_results.json, strip_results.json, FRAME.md section 6"
+    },
+
+    "control_1_displaced_box": {
+      "value_or_interval": "PASS: decided N = 0 on an empty box displaced Re + 2; 23 segments; winding ball [-7.615150562506776e-42, +7.615150562506776e-42]; min_ball_margin_digits 41.11",
+      "frame": "narrow, t = 23/400",
+      "grade": "decided",
+      "backend": "python-flint 0.9.0 (Arb)",
+      "precision": "420 bits",
+      "source_file": "controls_results.json:controls.1_lesion_displaced_box"
+    },
+    "control_2a_on_axis_box": {
+      "value_or_interval": "PASS: ValueError from the box validator before any H evaluation (n_H_evals = 0), message 'box must lie strictly inside the open upper half-plane'",
+      "frame": "narrow",
+      "grade": "decided",
+      "backend": "python-flint 0.9.0 (Arb)",
+      "precision": "420 bits",
+      "source_file": "controls_results.json:controls.2a_lesion_on_axis_box"
+    },
+    "control_2b_edge_through_zero": {
+      "value_or_interval": "PASS: status undecided, failure reason 'min_halflen reached', after 72 segments; edge-to-zero distance about 2e-18",
+      "frame": "narrow, t = 23/400",
+      "grade": "decided",
+      "backend": "python-flint 0.9.0 (Arb)",
+      "precision": "420 bits",
+      "source_file": "controls_results.json:controls.2b_lesion_edge_through_zero"
+    },
+    "control_3_precision_response": {
+      "value_or_interval": "PASS: H ball radii 1.424785356074593e-94, 1.1628170916995106e-124, 8.939323500992647e-155 at 320/420/520 bits (factors 1.2252875935906684e+30, 1.3007886911916636e+30); N ball widths 2.316476455099803e-10, 1.8935338382884234e-40, 1.4530280591334086e-70",
+      "frame": "narrow, t = 23/400",
+      "grade": "decided",
+      "backend": "python-flint 0.9.0 (Arb)",
+      "precision": "320, 420, 520 bits",
+      "source_file": "controls_results.json:controls.3a_precision_response_fixed_point, 3b_precision_response_winding_width"
+    },
+    "control_4_ball_margin_growth": {
+      "value_or_interval": "PASS: min_ball_margin_digits 10.23, 40.32, 70.44 at 320/420/520 bits, growth 30.09 and 30.12; min_chord_margin_digits flat at 0.02 and excluded from the gate by design",
+      "frame": "narrow, t = 23/400",
+      "grade": "decided",
+      "backend": "python-flint 0.9.0 (Arb)",
+      "precision": "320, 420, 520 bits",
+      "source_file": "controls_results.json:controls.4_artifact_check_ball_margin"
+    },
+    "control_5_m2_lesion": {
+      "value_or_interval": "BLIND SPOT: deflating M2 by 75, 100 and 1000 returns status 'decided' with the WRONG integer N = 0 (3 wrong and silent rows); wrong_answer_onset_factor = 75; min_chord_margin_digits reads 0.02 on the correct run and 0.11 and 1.11 on wrong runs, so the health metric moves the wrong way; min_ball_margin_digits moves from 40.32 to 42.61 across the same lesion",
+      "frame": "narrow, t = 23/400, t1 box, prec 420, only M2 changed",
+      "grade": "decided",
+      "grade_detail": "the lesion outputs themselves are decided runs of the instrument; what they establish is a defect in the detector, not a mathematical value",
+      "backend": "python-flint 0.9.0 (Arb)",
+      "precision": "420 bits, M2 at 300 bits",
+      "source_file": "controls_results.json:controls.5_lesion_m2_deflated"
+    },
+    "controls_overall": {
+      "value_or_interval": "controls_1_to_4_pass = true; all_pass = false",
+      "frame": "n/a",
+      "grade": "decided",
+      "backend": "python-flint 0.9.0 (Arb)",
+      "precision": "320 to 520 bits",
+      "source_file": "controls_results.json:verdicts, all_pass, all_pass_note"
+    },
+    "m2_bound_values": {
+      "value_or_interval": "M2_upper = 1.1886642645115153e-78 on the t1 box, 1.137082903400534e-78 on the t2 box (v = pi/4 - 1/256, eps = 1/256, S = 5, 800 panels, J_upper 3786.359728210144 / 3766.0398568709134, tail_upper 5.363521871577477e-40 / 4.729259004017576e-40)",
+      "frame": "narrow",
+      "grade": "measured",
+      "grade_detail": "the numerical ingredients are ball-computed at 300 bits, but the shifted-contour derivation that assembles them is prose, so the bound as a whole is neither decided nor cited; this is the standing blind spot",
+      "backend": "python-flint 0.9.0 (Arb)",
+      "precision": "300 bits",
+      "source_file": "winding_results.json:t1_run.M2_bound, t2_stretch_run.M2_bound"
+    },
+    "m2_measured_guard": {
+      "value_or_interval": "PASS on the honest M2: measured sup |H_t''| = 2.1357367685579024e-80 at the t1 box (2.1103034250765648e-80 at t2) against M2, ratios 55.65593485165909 and 53.882436520202255",
+      "frame": "narrow",
+      "grade": "measured",
+      "grade_detail": "NECESSARY, NOT SUFFICIENT: passing does not make M2 right, failing proves M2 wrong. Finite grid (9 by 3), float grade, and the ordering that makes it useful here (guard trips at deflation 55.7, first wrong integer at 75) is luck rather than structure",
+      "backend": "mpmath, flow_repair DHFlow quadrature of the defining integral, sharing no code with the shifted-contour derivation",
+      "precision": "dps 112",
+      "source_file": "winding_results.json:t1_run.m2_measured_guard, controls_results.json:controls.5_lesion_m2_deflated"
+    },
+
+    "validation_summary": {
+      "value_or_interval": "all_pass true over six checks after the gate's repairs: containment at 11 points all_contained true; kappa ball inside KAPPA_REF +/- 1e-39; evenness enclosures all overlap; precision response strictly shrinking; mpmath.iv cross-leg now on instrument._truncated_integrand, all overlap; tail-bound domination all_dominate true with min ratio 8.016926817753845, max 2.0612326318092295e+96, and 7 stress points at large |Im z| with min ratio 15.616543746598456. Total 160.0 s.",
+      "frame": "narrow",
+      "grade": "decided",
+      "grade_detail": "checks 1-5 are enclosure comparisons; check 6 is measured (mpmath floats, the true remainders are not enclosed) and is necessary rather than sufficient",
+      "backend": "python-flint 0.9.0 (Arb), with an mpmath.iv leg and mpmath float references",
+      "precision": "420 and 600 bits (balls); dps 150 float references",
+      "source_file": "validation.json"
+    },
+    "validation_repair_blindness_radii": {
+      "value_or_interval": "iv cross-leg: a planted recurrence fault (seeding w = q^2 instead of q^3) is caught at 6 of 7 points; the miss is u = 5/2, where exp(-pi e^{2u}/5) is about e^{-93} and the truncated sum is its own first term to well below the interval width, so a check at large u sees only n = 1. Tail-domination: blindness factor 8.02, the smallest domination ratio over eighteen rows, so a bound deflated by less than about a factor of 8 passes. The _truncated_integrand refactor moved no number: H_ball at z = 240.4165 + 0.02i, t = 23/400, prec 420 returns midpoint 4.3658433958660405e-83 and radius 1.4894837452822593e-124, bit-identical to the pre-repair artifact.",
+      "frame": "narrow",
+      "grade": "measured",
+      "backend": "python-flint 0.9.0 (Arb) against mpmath.iv and mpmath floats",
+      "precision": "prec 420; per-row working precisions stated in INDEPENDENCE.md section 5",
+      "source_file": "validation.json:iv_cross_leg, tail_domination; INDEPENDENCE.md section 5"
+    },
+    "validation_no_purchase_on_tails": {
+      "value_or_interval": "series tail 9.47e-210 and u tail 1.68e-160 at the decision point, against ball radius 1.49e-124 and float allowance 1e-135; allowance/e2 = 5.95e+24. Containment would read true even if _u_tail were understated by 1e25 and _series_tail_finite by 1e75",
+      "frame": "narrow",
+      "grade": "measured",
+      "backend": "mpmath at dps 200 against flint at prec 420 and 600",
+      "precision": "dps 200 with 600 extra terms",
+      "source_file": "attack_adversary4_instrument.md section 2e, GATE.md known assumption 8"
+    },
+    "tail_bound_domination_audit": {
+      "value_or_interval": "59 of 59 adversary tests dominate: omega tail 36 cases (ratios 1.001 to 7910), series-truncation tail 12 cases (ratios 978 to 1.8e183), integral tail beyond U 11 cases (ratios 2.28 to 4.41); the discriminating case at the actual decision parameters clears by only 2.28",
+      "frame": "narrow",
+      "grade": "measured",
+      "backend": "mpmath",
+      "precision": "dps 200, prec 600 for the hunt's formulas under comparison",
+      "source_file": "attack_adversary4_instrument.md sections 2a-2c"
+    },
+    "validation_iv_leg_blind": {
+      "value_or_interval": "the mpmath.iv cross-leg and the evenness check both exercised phi_ball, which no decision path calls; a planted fault in _H_core's inline series leaves phi_ball bit-identical while moving H at the box corner from 6.207819689750818e-82 to 1.660848646933020e-07",
+      "frame": "narrow",
+      "grade": "measured",
+      "backend": "python-flint (Arb), fault planted in a copy of the module",
+      "precision": "prec 420",
+      "source_file": "attack_adversary4_instrument.md section 3, GATE.md known assumption 8"
+    },
+    "validation_widening_load_bearing": {
+      "value_or_interval": "4 of 22 component checks are decided by the widening allowance rather than by the data: on the four real-z rows eps/radius on the imaginary component is 1.14e+25 (7.1e+28 at prec 600) and the unwidened check fails, because the dps-150 float reference returns a spurious imaginary part around 2.7e-154 while the instrument's imaginary ball has radius 8.78e-161 and correctly contains 0",
+      "frame": "narrow",
+      "grade": "measured",
+      "grade_detail": "this is the reference's round-off, not an instrument defect",
+      "backend": "python-flint (Arb) against mpmath",
+      "precision": "prec 420 and 600, dps 150 reference",
+      "source_file": "attack_adversary4_instrument.md section 5"
+    },
+    "independent_evaluator_leg_route4": {
+      "value_or_interval": "quadrature-free route (Gauss-sum kappa, Hurwitz-zeta H_0, acb_series Taylor in t with explicit remainder) agrees with instrument.H_ball at 8 of 8 boundary points of the t1 box, 0 mismatches, min_measured_agreement_digits 40.31806475603368; its own remainder ball 3.0012585847746115e-158 against the instrument's radius 1.1628170864163578e-124, about 34 orders tighter. kappa, t = 0 and t > 0 legs all overlap; all_pass true in 7.6 s.",
+      "frame": "narrow, t = 23/400",
+      "grade": "decided",
+      "grade_detail": "both sides are enclosures and they overlap, and the independent one is the tighter, so this is a real agreement rather than a wide ball swallowing a narrow one. It shares with instrument.py only the Arb library, reconvergent, radius 0. It also corrects the gate's own summary against the hunt's interest: the reported agreement 'to about 22 significant digits' was the width of the printed comparison, not a measurement.",
+      "backend": "python-flint (Arb)",
+      "precision": "K = 100 Taylor terms, prec 900",
+      "source_file": "crosscheck_quadfree_results.json, attack_adversary4_instrument.md section 4"
+    },
+    "independence_radius": {
+      "value_or_interval": "routes 1 and 2 share 9 of 12 declared layers, independence radius 9 (the gate's coarser declaration reported 8 of 11 and independence_decl.py re-runs that granularity to confirm the two differ by one layer split in two: matches_gate_8_of_11 true); route 3 (DHFlow, mpmath dps 130) shares 0 of 12, radius 0; route 4 (quadrature-free) shares 1 of 12, the Arb backend, reconvergent, radius 0; routes 3 and 4 share 0",
+      "frame": "n/a",
+      "grade": "measured",
+      "grade_detail": "harness/independence.py measures a declaration, not the code; an undeclared shared layer is precisely the fault the structure cannot see. The invariant that does not depend on granularity: the two winding routes duplicate none of the evaluator. Declaration anchors all present (drift check only).",
+      "backend": "n/a",
+      "precision": "n/a",
+      "source_file": "independence_results.json, independence_decl.py"
+    },
+
+    "novelty_sentence": {
+      "value_or_interval": "So far as the literature search recorded in NOVELTY.md reaches, these are the first quantitative bounds, from either side, on the de Bruijn-Newman constant of a Dirichlet series with a Riemann-type functional equation whose Riemann hypothesis is false. They are stated in the normalization of Stopple (arXiv:1301.3158), in which Phi(u) = 4 sum_n a_n n exp(3u/2 - pi n^2 e^{2u}/5), and are four times smaller than the same constant in the normalization of Newman, Rodgers-Tao, Polymath 15 and Dobner.",
+      "frame": "narrow, named in the sentence",
+      "grade": "cited",
+      "grade_detail": "a claim about a search, not about the world; 'L-function' and 'first quantitative' are both excluded, the first because the function has no Euler product, the second because Stopple and Newman-Wu precede it",
+      "backend": "n/a",
+      "precision": "n/a",
+      "source_file": "NOVELTY.md 'The sentence', GATE.md closure item (c)"
+    },
+    "prior_quantitative_non_zeta_bounds": {
+      "value_or_interval": "Stopple: -1.12929e-7 < Lambda_Kr unconditionally for quadratic Dirichlet L-functions, and Lambda_Kr <= 0 under GRH. Newman-Wu: Lambda(rho) = ln 2 exactly for a three-atom probability measure.",
+      "frame": "Stopple's is narrow (his own frame); Newman-Wu's measure constant is not a critical-line constant",
+      "grade": "cited",
+      "backend": "n/a",
+      "precision": "as published",
+      "source_file": "NOVELTY.md, attack_adversary5_priorart.md section 1.2"
+    },
+    "sigma_0_is_not_new": {
+      "value_or_interval": "Bombieri and Ghosh (Russian Math. Surveys 66:2 (2011), 221-270, section 6) determine the least upper bound of the real parts of the zeros of this very function exactly, sigma(tau_+, 1) = 1.120362, by their Theorem 7. Their tau_+ is this hunt's kappa, agreeing to 34 digits. The decimal 1.39513615823510972... is not in their paper, but the quantity it bounds was determined there in 2011 and their value is sharper.",
+      "frame": "frame-free",
+      "grade": "cited",
+      "backend": "n/a",
+      "precision": "six published decimals; reproduced here as 1.12036249818332508773010350311 at dps 30",
+      "source_file": "BOMBIERI-GHOSH.md sections 3.1-3.4, NOVELTY.md"
+    },
+    "improved_upper_bound_available_not_adopted": {
+      "value_or_interval": "Delta = 0.620362..., Delta^2/2 = 0.192424814576128011 (narrow) and 0.769699258304512045 (wide), a factor 2.08203069740495884852 better than the headline",
+      "frame": "both printed",
+      "grade": "cited",
+      "grade_detail": "cited plus measured, NOT decided: their 1.120362 is a six-decimal value and their Theorem 7 rests on Bohr-Kronecker machinery this tree has not verified. Adopting it needs the hypotheses checked in-tree and the arctan equation re-solved with outward rounding. Do not silently swap the headline.",
+      "backend": "mpmath",
+      "precision": "dps 30",
+      "source_file": "BOMBIERI-GHOSH.md section 6 item 2, FRAME.md section 6"
+    },
+    "bombieri_ghosh_no_de_bruijn_newman_content": {
+      "value_or_interval": "zero occurrences of Bruijn, Newman, heat, Polya, Turan, Lambda or deformation, in the 50-page text and in all 28 references",
+      "frame": "n/a",
+      "grade": "measured",
+      "grade_detail": "case-insensitive counts over the full pdftotext extraction of the free English translation at mathnet.ru id rm9410",
+      "backend": "n/a",
+      "precision": "n/a",
+      "source_file": "BOMBIERI-GHOSH.md section 4"
+    },
+    "bombieri_ghosh_independent_check": {
+      "value_or_interval": "their section 9 claim that the smallest prime set with sum arctan(p^{-1}) > pi/2 over p = 2, 3 mod 5 ends at 6323 with |P| = 420 reproduces exactly by direct prime summation sharing no code",
+      "frame": "n/a",
+      "grade": "decided",
+      "grade_detail": "finite exact prime set, integer answers",
+      "backend": "sympy primes, mpmath",
+      "precision": "dps 30",
+      "source_file": "BOMBIERI-GHOSH.md section 3.4 check A"
+    },
+    "zeta_record_both_frames": {
+      "value_or_interval": "de Bruijn 1950 upper: <= 1/2 wide, <= 1/8 narrow. Ki-Kim-Lee 2009 strict upper: < 1/2 wide, < 1/8 narrow. Polymath 15 / Rodgers-Tao upper: <= 0.22 wide, <= 0.055 narrow. Rodgers-Tao lower: >= 0 in both. Saouter-Gourdon-Demichel 2011 historical lower: > -1.15e-11 wide, > -2.875e-12 narrow.",
+      "frame": "both printed",
+      "grade": "cited",
+      "backend": "n/a",
+      "precision": "as published",
+      "source_file": "FRAME.md section 7, NOVELTY.md"
+    },
+    "lambda_dh_above_lambda_zeta_upper_bound": {
+      "value_or_interval": "in the common wide frame, Lambda_zeta <= 0.22 (Polymath 15) while Lambda_DH > 0.2304 (this hunt), so Lambda_DH > Lambda_zeta",
+      "frame": "wide",
+      "grade": "cited",
+      "grade_detail": "composite: the DH side is decided modulo two cited theorems, the zeta side is cited, so the comparison takes the cited grade and is not a claim this directory proves on its own",
+      "backend": "python-flint 0.9.0 (Arb) on the DH side",
+      "precision": "420 bits on the DH side",
+      "source_file": "FRAME.md section 7"
+    },
+    "upper_bound_looseness": {
+      "value_or_interval": "phase-minimum refinement at M = 12 already gives 0.38710055 (narrow); deepest measured DH zeros reach |Im z| = 0.347 against Delta = 0.895136; the same coefficient domination applied to zeta returns sigma_0(zeta) = 1.7286472389981836181 and Delta^2/2 = 3.0191480758 in the wide frame where the truth is 1/2, a factor 6.04",
+      "frame": "narrow for the first, narrow for the second, wide for the third",
+      "grade": "measured",
+      "backend": "mpmath / numpy floats, L-BFGS with 25 restarts for the phase minimum",
+      "precision": "float grade",
+      "source_file": "attack_adversary3_upperbound.md sections 2.9 and 3, census_results.json"
+    },
+    "rh_scope": {
+      "value_or_interval": "nothing here is evidence about the Riemann hypothesis; the same pipeline pointed at zeta yields no positive floor, because no off-line zero of zeta is known and every honestly placed box would decide N = 0",
+      "frame": "n/a",
+      "grade": "decided",
+      "grade_detail": "the displaced-box lesion is the in-tree demonstration of the N = 0 outcome on an empty window",
+      "backend": "python-flint 0.9.0 (Arb)",
+      "precision": "420 bits",
+      "source_file": "controls_results.json:notes.rival_framing, MISSION.md WP4"
+    }
+  },
+
+  "open_items": {
+    "m2_blind_spot": {
+      "statement": "M2 is prose, load-bearing on the lower side, and its lesion produces a wrong integer with status 'decided' while the detector's own health metric improves. The guard now in place is measured, finite-grid, and useful on this box by luck rather than structure. The lower bound carries this.",
+      "status": "recorded, not repaired",
+      "source_file": "controls_results.json:controls.5_lesion_m2_deflated.blind_spot"
+    },
+    "validation_json_possibly_stale": {
+      "statement": "validate.py was rewritten under GATE.md item (e) to six checks (repaired iv cross-leg pointing at instrument._truncated_integrand, plus a standing tail-domination check). validation.json as summarised here has five checks and neither repair. Re-run validate.py before quoting it.",
+      "status": "open",
+      "source_file": "validate.py docstring, validation.json"
+    },
+    "route2_never_ran_at_headline_t": {
+      "statement": "winding_quad.py ran only at t = 23/400, not at the headline t = 36/625, and on its own recipe box rather than route 1's, because route 1's output file did not exist when it ran. Even the bookkeeping agreement of P2 is one t and one box wide. The second witness at the headline t is the DHFlow count of crosscheck_dhflow_winding.py, which is float grade at mpmath dps 130.",
+      "status": "open",
+      "source_file": "winding_quad_results.json:route1_box, INDEPENDENCE.md section 3"
+    },
+    "validation_repairs_have_small_blindness_radii": {
+      "statement": "The iv cross-leg misses a planted recurrence fault at u = 5/2, because a check at large u sees only the n = 1 term (1 of 7 points). The tail-domination check has a blindness factor of 8.02: a bound deflated by less than about a factor of 8 passes it. Both are measured and neither can upgrade the thing it checks.",
+      "status": "open, recorded rather than repaired",
+      "source_file": "validation.json:iv_cross_leg.planted_fault_measured_2026_08_16, INDEPENDENCE.md section 5"
+    },
+    "no_second_rigorous_integrator": {
+      "statement": "acb.integral has no counterpart in mpmath's iv context, and the in-tree precedent zeta.rigor.enclose_weil_functional is flint-only and says so. Route 4 answers this as a route rather than a backend: it reaches H_t with no quadrature at all. What no leg supplies is a second integrator.",
+      "status": "open by design",
+      "source_file": "INDEPENDENCE.md section 6, validation.json:iv_cross_leg.what_this_leg_does_not_cover"
+    },
+    "m2_exercised_by_no_cross_route": {
+      "statement": "Routes 3 and 4 evaluate H; neither computes a uniform second-derivative bound. M2 is checked only by winding.measured_h2_guard and lesioned by control 5. This is m2_blind_spot seen from the independence side.",
+      "status": "open",
+      "source_file": "INDEPENDENCE.md section 6, GATE.md known assumption 6"
+    },
+    "declaration_is_not_an_attestation": {
+      "statement": "harness/independence.py verifies no layer list is complete, and an undeclared shared layer is exactly the fault the structure cannot see. independence_decl.check_anchors pins ten attribute names against drift, which catches a rename that would make a layer name a fiction; ten anchors are not a completeness proof.",
+      "status": "open by design",
+      "source_file": "INDEPENDENCE.md section 6, independence_results.json:caveat"
+    },
+    "route3_cannot_decide_an_integer": {
+      "statement": "Route 3 is measured, float grade at mpmath dps 130, by construction. It cannot decide an integer and does not claim to; its job is to catch a wrong one. So the second witness at the headline t = 36/625 is a float agreement, not a second enclosure.",
+      "status": "open by design",
+      "source_file": "crosscheck_dhflow_results.json:grade"
+    },
+    "boxes_differ_between_routes": {
+      "statement": "route 1 and route 2 use overlapping but different boxes; both decide N = 1, but no single artifact says so in one place.",
+      "status": "open, cosmetic",
+      "source_file": "attack_adversary4_instrument.md section 6"
+    },
+    "sharper_strip_not_adopted": {
+      "statement": "Bombieri-Ghosh's sigma(tau_+, 1) = 1.120362 would improve the upper bound by a factor 2.082, but it is cited plus measured rather than decided. Not adopted.",
+      "status": "open",
+      "source_file": "BOMBIERI-GHOSH.md section 6 item 2"
+    },
+    "academia_edu_166936409_unread": {
+      "statement": "The one source bearing on the claim still unread; its recovered abstract fragments describe measured lifetimes of Davenport-Heilbronn off-line zeros under this same backward flow, so it may contain, implicitly, a float-grade lower bound. Its provenance could not be determined from inside this checkout.",
+      "status": "open",
+      "source_file": "NOVELTY.md, attack_adversary5_priorart.md section 2"
+    },
+    "dobner_citation_sweep_single_source": {
+      "statement": "The forward-citation search on Dobner ran on Semantic Scholar alone, because OpenAlex returned HTTP 429 with zero daily allowance. Repeat against Google Scholar or MathSciNet.",
+      "status": "open",
+      "source_file": "NOVELTY.md 'Searches run', attack_adversary5_priorart.md section 3"
+    },
+    "decay_monotonicity_discharge_gap": {
+      "statement": "THEOREM13.md section 5.3 discharges the b > 2 decay hypothesis with a 201-point grid asserting a margin function is increasing on [2, 30], a bounded-range check standing in for an unbounded-range claim. The fact is immediate from the artifact's own domination and one derivative line settles it, so this is a discharge gap and not a doubt.",
+      "status": "open, low severity",
+      "source_file": "THEOREM13.md section 5, calibration.json, attack_adversary3_upperbound.md section 4"
+    },
+    "bombieri_mueller_unconsulted": {
+      "statement": "Bombieri-Mueller, 'On the zeros of certain Epstein zeta functions', Forum Math. 20:2 (2008), the parent of the constant that displaced sigma_0, has not been consulted.",
+      "status": "open",
+      "source_file": "BOMBIERI-GHOSH.md section 7"
+    },
+    "classical_facts_not_proved_in_tree": {
+      "statement": "Gamma has no zeros and only the simple poles at s = -1, -3, ...; F is entire with F(s) = F(1-s) (structural, measured in-tree to defect about 1e-50 and test-pinned). Both are used without an in-tree proof.",
+      "status": "open by design",
+      "source_file": "STRIP.md section 3(f), GATE.md known assumption 5"
+    },
+    "residual_float_grade_steps": {
+      "statement": "The dps-112 locating pass that places the boxes, the whole WP3 census, and calibration.json's re-derivation of the Delta^2/2 dictionary are float grade. None is load-bearing and all three are labelled measured in the artifacts.",
+      "status": "open by design",
+      "source_file": "GATE.md known assumption 7, census_results.json:summary.grades"
+    }
+  }
+}

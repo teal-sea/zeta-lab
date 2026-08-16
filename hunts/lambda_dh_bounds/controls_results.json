@@ -36,11 +36,11 @@
      "tail_upper_float": 5.363521871577477e-40,
      "scope": "decided upper bound for sup |H_t''| on Re z >= 123953/512, |Im z| <= 61/1024",
      "backend": "python-flint 0.9.0 (Arb)",
-     "seconds": 0.03
+     "seconds": 0.04
     },
     "n_segments": 23,
     "n_H_evals": 23,
-    "wall_seconds": 1.7,
+    "wall_seconds": 1.9,
     "winding_sum_over_2pi": {
      "lower": -7.615150562506776e-42,
      "upper": 7.615150562506776e-42,
@@ -95,11 +95,11 @@
      "tail_upper_float": 5.363521871577477e-40,
      "scope": "decided upper bound for sup |H_t''| on Re z >= 122929/512, |Im z| <= 61/1024",
      "backend": "python-flint 0.9.0 (Arb)",
-     "seconds": 0.03
+     "seconds": 0.04
     },
     "n_segments": 72,
     "n_H_evals": 84,
-    "wall_seconds": 6.2,
+    "wall_seconds": 6.8,
     "status": "undecided",
     "failure": {
      "reason": "min_halflen reached",
@@ -173,6 +173,126 @@
    "chord_margin_note": "the chord-tube margin is excluded from the gate by design: adaptive subdivision stops at the first decided pass, so it measures the stopping rule, not the instrument",
    "expectation": "> 10 digits of ball-margin growth per 100-bit step (~30 expected)",
    "verdict": "PASS"
+  },
+  "5_lesion_m2_deflated": {
+   "expectation_as_written": "a detector that could see this lesion would refuse (status undecided), never return an integer",
+   "observed": "it returns integers.  Deflating M2 by 100 gives status 'decided' with N = 0 after four segments, and it is not the quiet kind of wrong: min_chord_margin_digits reads 0.11 against the correct run's 0.02, so the routine's own health metric looks about five times better while the answer is wrong.",
+   "held_fixed": "t1 box, t = 23/400, prec 420, instrument, subdivision rule; only the number M2 is changed",
+   "reference_N": 1,
+   "table": [
+    {
+     "deflation_factor": 1,
+     "M2_upper_float": 1.1886642645115153e-78,
+     "status": "decided",
+     "N": 1,
+     "N_correct": true,
+     "n_segments": 71,
+     "min_chord_margin_digits": 0.02,
+     "min_ball_margin_digits": 40.32,
+     "failure_reason": null,
+     "m2_guard_verdict": "PASS"
+    },
+    {
+     "deflation_factor": 10,
+     "M2_upper_float": 1.1886642645115153e-79,
+     "status": "decided",
+     "N": 1,
+     "N_correct": true,
+     "n_segments": 30,
+     "min_chord_margin_digits": 0.06,
+     "min_ball_margin_digits": 40.32,
+     "failure_reason": null,
+     "m2_guard_verdict": "PASS"
+    },
+    {
+     "deflation_factor": 72,
+     "M2_upper_float": 1.6509225895993268e-80,
+     "status": "decided",
+     "N": 1,
+     "N_correct": true,
+     "n_segments": 18,
+     "min_chord_margin_digits": 0.08,
+     "min_ball_margin_digits": 40.32,
+     "failure_reason": null,
+     "m2_guard_verdict": "FAIL"
+    },
+    {
+     "deflation_factor": 75,
+     "M2_upper_float": 1.5848856860153537e-80,
+     "status": "decided",
+     "N": 0,
+     "N_correct": false,
+     "n_segments": 11,
+     "min_chord_margin_digits": 0.0,
+     "min_ball_margin_digits": 40.32,
+     "failure_reason": null,
+     "m2_guard_verdict": "FAIL"
+    },
+    {
+     "deflation_factor": 100,
+     "M2_upper_float": 1.1886642645115152e-80,
+     "status": "decided",
+     "N": 0,
+     "N_correct": false,
+     "n_segments": 4,
+     "min_chord_margin_digits": 0.11,
+     "min_ball_margin_digits": 42.61,
+     "failure_reason": null,
+     "m2_guard_verdict": "FAIL"
+    },
+    {
+     "deflation_factor": 1000,
+     "M2_upper_float": 1.1886642645115152e-81,
+     "status": "decided",
+     "N": 0,
+     "N_correct": false,
+     "n_segments": 4,
+     "min_chord_margin_digits": 1.11,
+     "min_ball_margin_digits": 42.61,
+     "failure_reason": null,
+     "m2_guard_verdict": "FAIL"
+    }
+   ],
+   "wrong_answer_onset_factor": 75,
+   "n_wrong_and_silent": 3,
+   "m2_measured_guard_on_honest_M2": {
+    "check": "M2 >= directly measured sup |H_t''| on a grid over the box",
+    "strength": "NECESSARY, NOT SUFFICIENT: passing does not make M2 right, failing proves M2 wrong",
+    "grade": "measured (mpmath dps 112, float); M2 itself is decided",
+    "evaluator": "direct quadrature of -int_0^inf e^{t u^2} Phi_DH(u) u^2 cos(zu) du on flow_repair's DHFlow rule; shares no code with the shifted-contour derivation of M2",
+    "grid": {
+     "n_re": 9,
+     "n_im": 3,
+     "box_floats": [
+      240.095703125,
+      240.595703125,
+      0.005859375,
+      0.0595703125
+     ]
+    },
+    "measured_sup_absH2": 2.1357367685579024e-80,
+    "measured_sup_at": [
+     240.158203125,
+     0.0595703125
+    ],
+    "M2_upper_float": 1.1886642645115153e-78,
+    "ratio_M2_over_measured": 55.65593485165909,
+    "im_negative_note": "|Im z| < 0 is not sampled: H_t(conj z) = conj(H_t(z)) makes |H_t''| symmetric in Im z",
+    "verdict": "PASS",
+    "seconds": 18.1
+   },
+   "guard_catches_all_observed_wrong_rows": true,
+   "blind_spot": {
+    "name": "M2 is unguarded prose, and the health metric moves the wrong way",
+    "what_is_blind": "M2, the uniform bound for |H_t''| on the box, is the single load-bearing analytic step in the lower-bound route whose derivation is prose rather than an enclosure or a cited theorem (its numerical ingredients are ball-computed; the shifted-contour argument that assembles them is not).  Controls 1 to 4 do not touch it: the displaced and edge-on-zero lesions move geometry, the precision controls move prec, and M2 is held fixed by all four.",
+    "why_it_matters": "M2 too large costs only compute (more subdivision).  M2 too small silently licenses a segment whose true argument variation exceeds pi, and the branch resolution Delta = Arg q is then wrong by 2pi, which lands in the sum as a whole unit of winding.  The failure mode is a wrong integer with status 'decided', which is the one output this routine promises never to produce.",
+    "the_perverse_metric": "min_chord_margin_digits is log10(dist(0, chord) / tube radius) minimised over accepted segments.  Deflating M2 shrinks the tube, so the ratio grows: the correct run reports 0.02 and the N = 0 run at factor 100 reports 0.11, at factor 1000 reports 1.11.  The metric therefore reads HEALTHIER exactly as the detector gets more wrong, and it may not be used as a guard on M2.  min_ball_margin_digits is no better here: it moves from 40.32 to 42.61 across the same lesion, because the wrong runs accept fewer and larger segments and never sample the tight ones.",
+    "countermeasure_now_in_place": "winding.measured_h2_guard: M2 must dominate a directly measured sup |H_t''| sampled on the box by quadrature of the defining integral, sharing no code with the shifted-contour derivation.  It is NECESSARY, NOT SUFFICIENT and it is measured, not decided: passing it does not make M2 right.  winding.py's main() refuses the floor when it fails.",
+    "what_is_still_blind": "Three things.  (1) The guard is a finite grid of a smooth function; a peak between nodes is invisible to it.  (2) The guard is float grade, so it cannot upgrade M2 from prose to decided; only an in-tree or Lean derivation of the shifted-contour step would do that.  (3) The ordering that makes the guard useful on THIS box is luck, not structure: the guard fires once M2 falls below the measured sup 2.14e-80 (deflation past 55.7), while the first wrong integer observed here appears at deflation 75, so the guard happens to trip before the failure.  Nothing guarantees that ordering on another box, and a derivation wrong by a factor under 55 would pass the guard and could still be wrong.",
+    "recorded_rather_than_repaired": "This is a standing blind spot in the lower-bound route, not a closed defect.  Any statement of the bound carries it."
+   },
+   "verdict": "BLIND SPOT",
+   "seconds": 29.6
   }
  },
  "winding_runs_by_prec": {
@@ -206,11 +326,11 @@
      "tail_upper_float": 5.363521871577477e-40,
      "scope": "decided upper bound for sup |H_t''| on Re z >= 122929/512, |Im z| <= 61/1024",
      "backend": "python-flint 0.9.0 (Arb)",
-     "seconds": 0.03
+     "seconds": 0.04
     },
     "n_segments": 71,
     "n_H_evals": 71,
-    "wall_seconds": 3.8,
+    "wall_seconds": 4.2,
     "winding_sum_over_2pi": {
      "lower": 0.9999999998841762,
      "upper": 1.0000000001158238,
@@ -250,11 +370,11 @@
      "tail_upper_float": 5.363521871577477e-40,
      "scope": "decided upper bound for sup |H_t''| on Re z >= 122929/512, |Im z| <= 61/1024",
      "backend": "python-flint 0.9.0 (Arb)",
-     "seconds": 0.03
+     "seconds": 0.04
     },
     "n_segments": 71,
     "n_H_evals": 71,
-    "wall_seconds": 5.2,
+    "wall_seconds": 5.8,
     "winding_sum_over_2pi": {
      "lower": 1.0,
      "upper": 1.0,
@@ -294,11 +414,11 @@
      "tail_upper_float": 5.363521871577477e-40,
      "scope": "decided upper bound for sup |H_t''| on Re z >= 122929/512, |Im z| <= 61/1024",
      "backend": "python-flint 0.9.0 (Arb)",
-     "seconds": 0.03
+     "seconds": 0.04
     },
     "n_segments": 71,
     "n_H_evals": 71,
-    "wall_seconds": 7.2,
+    "wall_seconds": 8.3,
     "winding_sum_over_2pi": {
      "lower": 1.0,
      "upper": 1.0,
@@ -316,6 +436,17 @@
   "rival_framing": "The same pipeline pointed at zeta yields no positive floor: the lower bound needs a box around a zero strictly off the real axis of the corresponding H_t, and no off-line zero of zeta is known; every box this detector could honestly place for zeta would decide N = 0 (as the displaced-box lesion here does for an empty window).  The number produced by this hunt therefore separates DH from zeta only through the already-known off-line zeros (Davenport-Heilbronn 1936; computed by Spira 1994), which is exactly flow_repair's P5 moral.  Nothing here is evidence about RH.",
   "battery_not_applicable": "zeta.epstein.battery referees structural claims that purport to explain RH by distinguishing zeta from an RH-violating rival; DH is that rival.  This hunt makes no RH-explaining structural claim (see MISSION.md: the deliverable is a pair of numbers about DH itself, and WP4 names its controls as lesion, precision response and rival framing), so the battery has no claim to referee here; its subject matter is instead this hunt's object of study."
  },
- "wall_seconds_total": 24.6,
- "all_pass": true
+ "wall_seconds_total": 57.2,
+ "verdicts": {
+  "1_lesion_displaced_box": "PASS",
+  "2a_lesion_on_axis_box": "PASS",
+  "2b_lesion_edge_through_zero": "PASS",
+  "3a_precision_response_fixed_point": "PASS",
+  "3b_precision_response_winding_width": "PASS",
+  "4_artifact_check_ball_margin": "PASS",
+  "5_lesion_m2_deflated": "BLIND SPOT"
+ },
+ "controls_1_to_4_pass": true,
+ "all_pass": false,
+ "all_pass_note": "all_pass was True through 2026-08-16 over controls 1 to 4, and controls_1_to_4_pass preserves that statement unchanged: their verdicts and numbers did not move.  all_pass is False from 2026-08-16 because control 5 was added and the detector does not survive it.  Control 5 is a recorded blind spot, not a control the battery is expected to pass: see controls.5_lesion_m2_deflated.blind_spot.  Reporting only controls_1_to_4_pass would be the flattering read and is not the headline."
 }
