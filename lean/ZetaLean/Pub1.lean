@@ -20,6 +20,8 @@ import ZetaLean.Pub1.Aristotle.R
 import ZetaLean.Pub1.CertDefs
 import ZetaLean.Pub1.CertAtoms
 import ZetaLean.Pub1.Certificate
+import ZetaLean.Pub1.CertL2
+import ZetaLean.Pub1.CertArith
 import ZetaLean.Pub1.CertBounds
 import ZetaLean.Pub1.Regularity
 import ZetaLean.Pub1.Aristotle.S
