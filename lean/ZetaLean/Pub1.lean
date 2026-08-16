@@ -24,6 +24,7 @@ import ZetaLean.Pub1.CertBounds
 import ZetaLean.Pub1.Regularity
 import ZetaLean.Pub1.Aristotle.S
 import ZetaLean.Pub1.Aristotle.T
+import ZetaLean.Pub1.Aristotle.U
 
 /-!
 # Pub 1 source-admissible strong closure

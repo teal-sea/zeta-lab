@@ -51,6 +51,7 @@ open ZetaLean.Pub1
 #print axioms ZetaLean.Pub1.profile_pos
 -- obligation D (first half)
 #print axioms AristotleT.taper_second_deriv_L1_bound
+#print axioms AristotleU.taper_sq_second_deriv_L1_bound
 #print axioms ZetaLean.Pub1.eta_contDiff
 #print axioms ZetaLean.Pub1.taper_contDiff
 #print axioms ZetaLean.Pub1.profile_bounds
