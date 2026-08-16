@@ -1,6 +1,6 @@
 {
   "_source": "lean/ZetaLean/BallTerm.lean dirichletTermBallB, via #eval",
-  "_note": "Byte-pinned kernel output. The generator emits literal equalities the kernel checks by rfl, so a mirror that disagrees here makes every emitted lemma fail. Regenerate only when the Lean definition changes, and say so in the commit.",
+  "_note": "Byte-pinned kernel output. The generator emits literal equalities the kernel checks by rfl, so a mirror that disagrees here makes every emitted lemma fail. Regenerate only when the Lean definition changes, and say so in the commit. The boxed section pins the rad>0 path (segment inputs, mulA radius arithmetic, a composite chain step), which the point section never exercises.",
   "config": {
     "nLog": 32,
     "nExp": 20,
@@ -129,5 +129,23 @@
       "cim": "-62269750298665861/18446744073709551616",
       "rad": "24820053657/18446744073709551616"
     }
+  },
+  "boxed": {
+    "point": {
+      "cre": "589767/1000000",
+      "cim": "4285645517/50000000",
+      "rad": "4272461/2000000000"
+    },
+    "terms": {
+      "2": {
+        "cre": "-11784338130129574327/18446744073709551616",
+        "cim": "-3370760384295631501/18446744073709551616",
+        "rad": "19256865958766245/18446744073709551616"
+      },
+      "7": {
+        "rad": "14372961744998405/9223372036854775808"
+      }
+    },
+    "chain_2x3_rad": "13314730769729823/9223372036854775808"
   }
 }

@@ -72,3 +72,20 @@ def test_the_comparison_has_power():
 def test_the_pinned_config_is_the_one_the_plan_uses():
     """The fixture is only evidence about the configuration it was taken at."""
     assert (CFG["nLog"], CFG["nExp"], CFG["p"], CFG["kE"]) == (32, 20, 64, 10)
+
+
+def test_the_rad_positive_path_is_also_bit_identical():
+    """The point-ball section never exercises `mulA`'s radius arithmetic with a
+    rad > 0 input — the path every big-box site actually takes.  Pinned from the
+    same `#eval` source, including one composite chain step."""
+    bx = FIX["boxed"]
+    S = ball.C(F(bx["point"]["cre"]), F(bx["point"]["cim"]), F(bx["point"]["rad"]))
+    b2 = ball.dirichletTermBox2(CFG["nLog"], CFG["nExp"], CFG["p"], 2, CFG["kE"], 2, S)
+    assert b2.cre == F(bx["terms"]["2"]["cre"])
+    assert b2.cim == F(bx["terms"]["2"]["cim"])
+    assert b2.rad == F(bx["terms"]["2"]["rad"])
+    b7 = ball.dirichletTermBox2(CFG["nLog"], CFG["nExp"], CFG["p"], 3, CFG["kE"], 7, S)
+    assert b7.rad == F(bx["terms"]["7"]["rad"])
+    b3 = ball.dirichletTermBox2(CFG["nLog"], CFG["nExp"], CFG["p"], 2, CFG["kE"], 3, S)
+    chain = ball.ccoarsen(CFG["p"], ball.cmul(b2, b3))
+    assert chain.rad == F(bx["chain_2x3_rad"])
