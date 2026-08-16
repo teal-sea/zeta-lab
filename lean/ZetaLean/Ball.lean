@@ -383,7 +383,17 @@ theorem norm_centre_le_absUpper (p : ℕ) (x : ComplexBall) :
   norm_centre_le (sqrtUpperQ_nonneg _ _)
     (le_sq_sqrtUpperQ (by positivity) p)
 
-/-- The self-contained product: no modulus arguments, so a tower can recurse. -/
+/-- The self-contained product: no modulus arguments, so a tower can recurse.
+
+**Not for generated code.**  `absUpper` goes through `sqrtUpperQ` and hence
+`Nat.sqrt`, which does **not** reduce under `norm_num`: asking the tactic to
+unfold a `dirichletTermBallB` built on `mulA` stack-overflows after ~376 s, and
+the goal that survives is a single ceiling with unreduced `Nat.sqrt` inside
+(`scripts/66_rung3_ball_atom_cost.py` records the measurement).  A generated
+certificate must emit `mul` with the two modulus bounds as *literals* and
+discharge `norm_centre_le`'s rational inequality per product — measured at
+~0.55 s per atom.  `mulA` exists so the tower below can recurse and be *proved*
+about; it is not what the kernel should evaluate. -/
 def mulA (p : ℕ) (x y : ComplexBall) : ComplexBall :=
   mul x y (absUpper p x) (absUpper p y)
 
