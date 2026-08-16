@@ -52,6 +52,21 @@ open ZetaLean.Pub1
 -- obligation D (first half)
 #print axioms AristotleT.taper_second_deriv_L1_bound
 #print axioms AristotleU.taper_sq_second_deriv_L1_bound
+-- path 1: interior C2 regularity of w
+#print axioms ZetaLean.Pub1.w_contDiffOn
+#print axioms ZetaLean.Pub1.w_second_deriv_bound
+#print axioms ZetaLean.Pub1.w_deriv_bound
+#print axioms ZetaLean.Pub1.deriv_w_zero
+-- path 2: certificate ingredients
+#print axioms ZetaLean.Pub1.integral_r0_sq
+#print axioms ZetaLean.Pub1.r0_l2_le
+#print axioms ZetaLean.Pub1.q_abs_le
+#print axioms ZetaLean.Pub1.zpp_arith
+#print axioms ZetaLean.Pub1.concavity_closes
+#print axioms ZetaLean.Pub1.truncKernel_second_deriv
+-- obligation D
+#print axioms ZetaLean.Pub1.taper_contDiff_of_profile
+#print axioms ZetaLean.Pub1.taper_secondDeriv_L1_of_profile
 #print axioms ZetaLean.Pub1.eta_contDiff
 #print axioms ZetaLean.Pub1.taper_contDiff
 #print axioms ZetaLean.Pub1.profile_bounds
