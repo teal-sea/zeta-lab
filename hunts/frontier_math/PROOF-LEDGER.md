@@ -2160,3 +2160,40 @@ first involving another session's material; its cause is the same as the
 other four — a quantity carried across contexts without being re-derived
 in the context it was being used. `k >= 2` remains open, no proportion has
 moved, and nothing here is evidence about RH.
+
+---
+
+## 2026-08-15: blocker 2's first multi-pair case — `k = 2`, equal depths, measured
+
+**Claimed:** the two-species restatement (`two_species.py`: `D(0,tau) =
+-Kpair(tau)`, so the `k`-pair slack is per-centre budgets + centre-centre
+`Kpair` repulsion at rate 2 + atom repulsion at rate 1/200 − atom damage at
+depth `y` − centre-centre damage at depth `2y`; identity vs `slack_direct`
+1.1e-14, general depths vs `kpair_identity.slack_k` 3.6e-15), and on it the
+`k = 2, y_1 = y_2` case of the blocker-2 inequality, all `y in (0,1/2]`,
+all `n`, all `tau`, at MEASURED grade: a 6601-cell tau-table on [0, 132]
+with 0 nonpositive cells in two independently conservative cap modes
+(worst margins +0.0529 signed-field / +0.0033 unsigned, the latter stable
+under 2x grid refinement), closed form beyond `tau = 114.2` (windows end
+at 57.07), depth uniformity by the same v-convexity as the k=1 proof
+(`k2_closure.py`, `K2-TWO-SPECIES.md`).
+
+**Controls:** the module re-derives the k=1 §7 window total to all printed
+digits (8.1383160e-2); the accounting dominates the greedy adversary
+pointwise in `tau`; the adversary-side damage ladder first fires between
+1.5x and 1.7x, consistent with the measured worst relative margin; the
+machine's own caps kill the resonance cell at 1.02x inflation, consistent
+with its worst margin.  Depth-1 landscape corrections recorded on the way:
+the no-damage radius at depth 1 is **5.3984 < 28/5**, and the far constant
+at depth 1 is **0.6636 > 637/1000** — neither proved bound survives at the
+centre-centre depth, and any depth-1 argument must re-derive them.
+
+**Quantifier discipline (defect #19 applies):** this is the FIRST
+multi-pair case, not blocker 2.  Open and named: `k >= 3` (the centre-gas
+split T1/T2 of `K2-TWO-SPECIES.md` §5 is a direction with measurements —
+the gas eats 87.8% of the per-centre budget on the worst uniform lattice
+and the signed field poisons atoms there — not a schedule); unequal depths
+(grid-measured `>= 0`, the convex-majorant route's gap named); hardening
+(interval pass over the same cells, O9-table technology).  `k >= 2` in
+full remains OPEN, no proportion has moved, and nothing here is evidence
+about RH.
