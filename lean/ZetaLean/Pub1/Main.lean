@@ -137,7 +137,7 @@ theorem quot_le_cStar (h : StrongClosureData w C₁ C₂) {v : ℝ → ℝ}
 The upper bound is energy Cauchy-Schwarz, valid for every `v`; the reverse
 inequality is supplied by the explicit endpoint-tapered sequence, which lies in
 the class and whose quotient converges to `c*`. -/
-theorem pub1_strong_closure (h : StrongClosureData w C₁ C₂) :
+theorem pub1_strong_closure_of_data (h : StrongClosureData w C₁ C₂) :
     IsLUB (quot '' sourceAdmissible C₁ C₂) (cStar w) := by
   constructor
   · rintro q ⟨v, hv, rfl⟩
@@ -148,9 +148,9 @@ theorem pub1_strong_closure (h : StrongClosureData w C₁ C₂) :
     exact le_of_tendsto h.quot_tendsto (Eventually.of_forall hle)
 
 /-- The same statement as an `sSup`. -/
-theorem pub1_strong_closure_sSup (h : StrongClosureData w C₁ C₂) :
+theorem pub1_strong_closure_sSup_of_data (h : StrongClosureData w C₁ C₂) :
     sSup (quot '' sourceAdmissible C₁ C₂) = cStar w :=
-  (pub1_strong_closure h).csSup_eq
+  (pub1_strong_closure_of_data h).csSup_eq
     ⟨quot (profile w 8), ⟨profile w (8 + ((0 : ℕ) : ℝ)), h.member 0, by norm_num⟩⟩
 
 /-- **The reciprocal orientation.**
@@ -158,7 +158,7 @@ theorem pub1_strong_closure_sSup (h : StrongClosureData w C₁ C₂) :
 `inf_{v ∈ 𝒜_source} ⟨Av,v⟩/⟨1,v⟩² = 1/c*`.  Proving both this and
 `pub1_strong_closure` is what pins the orientation: the maximized quotient is
 the one with `⟨1,v⟩²` in the numerator. -/
-theorem pub1_strong_closure_reciprocal (h : StrongClosureData w C₁ C₂)
+theorem pub1_strong_closure_reciprocal_of_data (h : StrongClosureData w C₁ C₂)
     (hmass : ∀ v ∈ sourceAdmissible C₁ C₂, massI v ≠ 0) :
     IsGLB (recipQuot '' sourceAdmissible C₁ C₂) (cStar w)⁻¹ := by
   have hcpos : 0 < cStar w := h.cStar_pos
