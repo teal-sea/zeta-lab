@@ -78,7 +78,7 @@ agents_may:
 agents_may_not:
   - choose box parameters after seeing a truth value
   - read a vacuous verdict as evidence for or against RH
-  - use the reserved word certified for any number here
+  - claim the reserved word that belongs to zeta/rigor.py and the Lean arm
   - widen the gate verdict beyond the four functions actually run
 ```
 
