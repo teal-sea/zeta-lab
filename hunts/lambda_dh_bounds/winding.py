@@ -514,6 +514,9 @@ def winding_rectangle(
         result["winding_sum_over_2pi"] = {
             "lower": float(N_ball.lower()),
             "upper": float(N_ball.upper()),
+            # width computed here, inside the precision guard, because the
+            # float lower/upper above cannot resolve a ~1e-38 ball around 1.0
+            "width": float(N_ball.upper() - N_ball.lower()),
         }
         if decided_one:
             result["status"] = "decided"

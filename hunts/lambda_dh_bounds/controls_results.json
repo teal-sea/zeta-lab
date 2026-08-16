@@ -1,0 +1,321 @@
+{
+ "hunt": "lambda_dh_bounds",
+ "wp": "WP4 control battery",
+ "date": "2026-08-16",
+ "backend": "python-flint 0.9.0 (Arb)",
+ "geometry_source": "winding_results.json t1_run (t = 23/400)",
+ "controls": {
+  "1_lesion_displaced_box": {
+   "expectation": "N = 0 decided (empty box, detector tells empty from occupied)",
+   "displacement_re": "+2",
+   "result": {
+    "t": "23/400",
+    "t_float": 0.0575,
+    "box": {
+     "re_lo": "123953/512",
+     "re_hi": "124209/512",
+     "im_lo": "3/512",
+     "im_hi": "61/1024",
+     "floats": [
+      242.095703125,
+      242.595703125,
+      0.005859375,
+      0.0595703125
+     ]
+    },
+    "prec_bits": 420,
+    "backend": "python-flint 0.9.0 (Arb)",
+    "M2_bound": {
+     "M2_upper_float": 2.4903704539267615e-79,
+     "v": "pi/4 - 1/256",
+     "eps": "1/256",
+     "prec_bits": 300,
+     "S": "5/1",
+     "n_panels": 800,
+     "J_upper_float": 3786.359728210144,
+     "tail_upper_float": 5.363521871577477e-40,
+     "scope": "decided upper bound for sup |H_t''| on Re z >= 123953/512, |Im z| <= 61/1024",
+     "backend": "python-flint 0.9.0 (Arb)",
+     "seconds": 0.03
+    },
+    "n_segments": 23,
+    "n_H_evals": 23,
+    "wall_seconds": 1.7,
+    "winding_sum_over_2pi": {
+     "lower": -7.615150562506776e-42,
+     "upper": 7.615150562506776e-42,
+     "width": 1.5230301125013553e-41
+    },
+    "status": "decided",
+    "N": 0,
+    "min_chord_margin_digits": 0.09,
+    "min_ball_margin_digits": 41.11
+   },
+   "verdict": "PASS"
+  },
+  "2a_lesion_on_axis_box": {
+   "expectation": "loud failure or undecided, never an integer",
+   "box_im_lo": "0",
+   "failure_mode": "ValueError raised by the box validator before any H evaluation (n_H_evals = 0)",
+   "exception_message": "box must lie strictly inside the open upper half-plane",
+   "verdict": "PASS"
+  },
+  "2b_lesion_edge_through_zero": {
+   "expectation": "undecided, never an integer",
+   "box_im_hi": "2511959690203571/144115188075855872",
+   "box_im_hi_float": 0.01743022178121425,
+   "edge_to_zero_distance_measured": "~2e-18 (float rounding of the dps-112 Newton value)",
+   "m2_note": "M2 bound reused from the parent geometry (scope Re z >= x_lo, |Im z| <= 61/1024 covers this smaller box)",
+   "failure_mode": "min_halflen reached",
+   "result": {
+    "t": "23/400",
+    "t_float": 0.0575,
+    "box": {
+     "re_lo": "122929/512",
+     "re_hi": "123185/512",
+     "im_lo": "3/512",
+     "im_hi": "2511959690203571/144115188075855872",
+     "floats": [
+      240.095703125,
+      240.595703125,
+      0.005859375,
+      0.01743022178121425
+     ]
+    },
+    "prec_bits": 420,
+    "backend": "python-flint 0.9.0 (Arb)",
+    "M2_bound": {
+     "M2_upper_float": 1.1886642645115153e-78,
+     "v": "pi/4 - 1/256",
+     "eps": "1/256",
+     "prec_bits": 300,
+     "S": "5/1",
+     "n_panels": 800,
+     "J_upper_float": 3786.359728210144,
+     "tail_upper_float": 5.363521871577477e-40,
+     "scope": "decided upper bound for sup |H_t''| on Re z >= 122929/512, |Im z| <= 61/1024",
+     "backend": "python-flint 0.9.0 (Arb)",
+     "seconds": 0.03
+    },
+    "n_segments": 72,
+    "n_H_evals": 84,
+    "wall_seconds": 6.2,
+    "status": "undecided",
+    "failure": {
+     "reason": "min_halflen reached",
+     "segment": {
+      "a": [
+       "31502537/131072",
+       "2511959690203571/144115188075855872"
+      ],
+      "b": [
+       "3937817/16384",
+       "2511959690203571/144115188075855872"
+      ]
+     },
+     "n_segments_done": 72
+    }
+   },
+   "verdict": "PASS"
+  },
+  "3a_precision_response_fixed_point": {
+   "point": [
+    "122929/512",
+    "3/512"
+   ],
+   "t": "23/400",
+   "backend": "python-flint 0.9.0 (Arb)",
+   "H_ball_radius_by_prec": {
+    "320": 1.424785356074593e-94,
+    "420": 1.1628170916995106e-124,
+    "520": 8.939323500992647e-155
+   },
+   "absH_lower_by_prec": {
+    "320": 6.214882537416597e-82,
+    "420": 6.214882537418027e-82,
+    "520": 6.214882537418027e-82
+   },
+   "shrink_factors": {
+    "320->420": 1.2252875935906684e+30,
+    "420->520": 1.3007886911916636e+30
+   },
+   "expectation": "strictly decreasing, factor > 1e10 per 100-bit step",
+   "verdict": "PASS"
+  },
+  "3b_precision_response_winding_width": {
+   "N_ball_width_by_prec": {
+    "320": 2.316476455099803e-10,
+    "420": 1.8935338382884234e-40,
+    "520": 1.4530280591334086e-70
+   },
+   "shrink_factors": {
+    "320->420": 1.2233615308367977e+30,
+    "420->520": 1.3031639866732748e+30
+   },
+   "expectation": "strictly shrinking N ball width, factor > 1e10 per step",
+   "verdict": "PASS"
+  },
+  "4_artifact_check_ball_margin": {
+   "min_ball_margin_digits_by_prec": {
+    "320": 10.23,
+    "420": 40.32,
+    "520": 70.44
+   },
+   "margin_growth_digits": {
+    "320->420": 30.09,
+    "420->520": 30.12
+   },
+   "min_chord_margin_digits_by_prec": {
+    "320": 0.02,
+    "420": 0.02,
+    "520": 0.02
+   },
+   "chord_margin_note": "the chord-tube margin is excluded from the gate by design: adaptive subdivision stops at the first decided pass, so it measures the stopping rule, not the instrument",
+   "expectation": "> 10 digits of ball-margin growth per 100-bit step (~30 expected)",
+   "verdict": "PASS"
+  }
+ },
+ "winding_runs_by_prec": {
+  "m2_prec_bits": 300,
+  "runs": {
+   "320": {
+    "t": "23/400",
+    "t_float": 0.0575,
+    "box": {
+     "re_lo": "122929/512",
+     "re_hi": "123185/512",
+     "im_lo": "3/512",
+     "im_hi": "61/1024",
+     "floats": [
+      240.095703125,
+      240.595703125,
+      0.005859375,
+      0.0595703125
+     ]
+    },
+    "prec_bits": 320,
+    "backend": "python-flint 0.9.0 (Arb)",
+    "M2_bound": {
+     "M2_upper_float": 1.1886642645115153e-78,
+     "v": "pi/4 - 1/256",
+     "eps": "1/256",
+     "prec_bits": 300,
+     "S": "5/1",
+     "n_panels": 800,
+     "J_upper_float": 3786.359728210144,
+     "tail_upper_float": 5.363521871577477e-40,
+     "scope": "decided upper bound for sup |H_t''| on Re z >= 122929/512, |Im z| <= 61/1024",
+     "backend": "python-flint 0.9.0 (Arb)",
+     "seconds": 0.03
+    },
+    "n_segments": 71,
+    "n_H_evals": 71,
+    "wall_seconds": 3.8,
+    "winding_sum_over_2pi": {
+     "lower": 0.9999999998841762,
+     "upper": 1.0000000001158238,
+     "width": 2.316476455099803e-10
+    },
+    "status": "decided",
+    "N": 1,
+    "min_chord_margin_digits": 0.02,
+    "min_ball_margin_digits": 10.23,
+    "N_ball_width": 2.316476455099803e-10
+   },
+   "420": {
+    "t": "23/400",
+    "t_float": 0.0575,
+    "box": {
+     "re_lo": "122929/512",
+     "re_hi": "123185/512",
+     "im_lo": "3/512",
+     "im_hi": "61/1024",
+     "floats": [
+      240.095703125,
+      240.595703125,
+      0.005859375,
+      0.0595703125
+     ]
+    },
+    "prec_bits": 420,
+    "backend": "python-flint 0.9.0 (Arb)",
+    "M2_bound": {
+     "M2_upper_float": 1.1886642645115153e-78,
+     "v": "pi/4 - 1/256",
+     "eps": "1/256",
+     "prec_bits": 300,
+     "S": "5/1",
+     "n_panels": 800,
+     "J_upper_float": 3786.359728210144,
+     "tail_upper_float": 5.363521871577477e-40,
+     "scope": "decided upper bound for sup |H_t''| on Re z >= 122929/512, |Im z| <= 61/1024",
+     "backend": "python-flint 0.9.0 (Arb)",
+     "seconds": 0.03
+    },
+    "n_segments": 71,
+    "n_H_evals": 71,
+    "wall_seconds": 5.2,
+    "winding_sum_over_2pi": {
+     "lower": 1.0,
+     "upper": 1.0,
+     "width": 1.8935338382884234e-40
+    },
+    "status": "decided",
+    "N": 1,
+    "min_chord_margin_digits": 0.02,
+    "min_ball_margin_digits": 40.32,
+    "N_ball_width": 1.8935338382884234e-40
+   },
+   "520": {
+    "t": "23/400",
+    "t_float": 0.0575,
+    "box": {
+     "re_lo": "122929/512",
+     "re_hi": "123185/512",
+     "im_lo": "3/512",
+     "im_hi": "61/1024",
+     "floats": [
+      240.095703125,
+      240.595703125,
+      0.005859375,
+      0.0595703125
+     ]
+    },
+    "prec_bits": 520,
+    "backend": "python-flint 0.9.0 (Arb)",
+    "M2_bound": {
+     "M2_upper_float": 1.1886642645115153e-78,
+     "v": "pi/4 - 1/256",
+     "eps": "1/256",
+     "prec_bits": 300,
+     "S": "5/1",
+     "n_panels": 800,
+     "J_upper_float": 3786.359728210144,
+     "tail_upper_float": 5.363521871577477e-40,
+     "scope": "decided upper bound for sup |H_t''| on Re z >= 122929/512, |Im z| <= 61/1024",
+     "backend": "python-flint 0.9.0 (Arb)",
+     "seconds": 0.03
+    },
+    "n_segments": 71,
+    "n_H_evals": 71,
+    "wall_seconds": 7.2,
+    "winding_sum_over_2pi": {
+     "lower": 1.0,
+     "upper": 1.0,
+     "width": 1.4530280591334086e-70
+    },
+    "status": "decided",
+    "N": 1,
+    "min_chord_margin_digits": 0.02,
+    "min_ball_margin_digits": 70.44,
+    "N_ball_width": 1.4530280591334086e-70
+   }
+  }
+ },
+ "notes": {
+  "rival_framing": "The same pipeline pointed at zeta yields no positive floor: the lower bound needs a box around a zero strictly off the real axis of the corresponding H_t, and no off-line zero of zeta is known; every box this detector could honestly place for zeta would decide N = 0 (as the displaced-box lesion here does for an empty window).  The number produced by this hunt therefore separates DH from zeta only through the already-known off-line zeros (Davenport-Heilbronn 1936; computed by Spira 1994), which is exactly flow_repair's P5 moral.  Nothing here is evidence about RH.",
+  "battery_not_applicable": "zeta.epstein.battery referees structural claims that purport to explain RH by distinguishing zeta from an RH-violating rival; DH is that rival.  This hunt makes no RH-explaining structural claim (see MISSION.md: the deliverable is a pair of numbers about DH itself, and WP4 names its controls as lesion, precision response and rival framing), so the battery has no claim to referee here; its subject matter is instead this hunt's object of study."
+ },
+ "wall_seconds_total": 24.6,
+ "all_pass": true
+}
