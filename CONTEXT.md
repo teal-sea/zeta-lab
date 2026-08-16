@@ -1102,7 +1102,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `SPECIMEN`, `TARGET`, `RIVAL
 
 ### `harness/departments/review_ledger.py` — The repository's standing-review ledger — real claims, real attacks.
 
-*99 lines*
+*158 lines*
 
 Constants: `CLAIMS`, `OUTCOMES`
 
@@ -1271,7 +1271,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1797 test functions across 72 files (the collected count differs where tests are parametrised):
+1798 test functions across 72 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_claim_attribution.py` — 6
@@ -1324,7 +1324,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_reading_of_record.py` — 2
 - `tests/test_relations.py` — 7
 - `tests/test_repo_hygiene.py` — 7
-- `tests/test_review.py` — 11
+- `tests/test_review.py` — 12
 - `tests/test_rigor.py` — 54
 - `tests/test_rigor_weil.py` — 17
 - `tests/test_rogue_lab_controls.py` — 7

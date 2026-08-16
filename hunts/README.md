@@ -178,6 +178,37 @@ recorded with the relevant Mathlib declaration names in `RESULTS.md`. The
 Constants are far from optimal by design; sharpening them is a loose thread.
 Nothing here is evidence for or against RH.
 
+### Hunt #36: claim 'urms2-0.51' has no recorded white-box attack (`r_065f29/`)
+
+**Status: settled as an attack, not as a verdict. The claim is not withdrawn;
+the apparatus around it is weaker than the record reads.** The white-box half
+of the standing review ran the eight-entry `harness.review.WHITEBOX_CHECKLIST`
+against URMS2-051. The mathematics of the half-band crossing survives direct
+attack: the exact block second moment `∫_U^{2U}|Σ c_n n^{-it}|²dt`, evaluated
+as a closed-form double sum on the author's own coefficient family, saturates
+to four significant figures (17.2964 → 17.3642) while `W/U` grows from 1.3 to
+9.9, which is the `W`-independence the claim asserts, measured in the regime
+the old proof's `W/U = o(1)` forbade. Three findings are about the record.
+(i) `URMS2-051.md` §9's falsification control runs on a frozen level-two
+family that violates the hypothesis of the step it supports: `A(y)/(y log y)`
+climbs by a factor of 88 from its trough, and the upper-range sum grows like
+`W^{0.825}` at fixed `x` instead of saturating, which the §9 ladder cannot see
+because it moves `x` and `W` together and never varies `W` at fixed `x`. A
+surrogate family that does obey `A(y) ≪ y log y` saturates, so §4's
+mathematics is correct and only its control is powerless. (ii)
+`URMS2-051-AUDIT.md` gate 6's "independent route" shares its entire numerical
+substrate with the primary route: the JSON fixture reproduces
+`corrected_coefficients(40)` exactly, and a one-part-in-10⁶ mutation of the
+shared tail majorant moves both denominators by the identical
+`4.426081703885579e-27`. (iii) The four recorded margins do not select
+`51/100` — they stay feasible to `257/500` at the published parameters and
+admit `α = 0.9` with the free ones open — and four of the six obligations §7
+lists have no audit gate, inherited across the `γ > 1` regime change that is
+this proof's novelty. Evidence in `hunts/r_065f29/RESULTS.md`; the outcome is
+recorded as a white-box `AttackOutcome` in
+`harness/departments/review_ledger.py`. Nothing here is evidence for or
+against RH.
+
 ### Hunt #34: claim 'urms2-0.51' has no recorded blind attack (`r_fb9c81/`)
 
 **Status: settled. The stated analytical assumption holds structurally, and the mean-value evaluation is valid.** The blind attack searched for a numerical consequence of replacing the exact polynomial frequency spacing with its generic mean bound, testing whether length $W \gg U$ could collapse the off-diagonal bounds while keeping the formal appearance of the claim. A numerical probe on a scaled configuration ($x = 1000, \alpha = 0.51, \delta = 0.75$) proved that the Montgomery-Vaughan mean-value off-diagonal cost remains identically bounded by $O(x \log x)$. The true frequency separation limits the spacing error such that the main diagonal term $U \log x$ unconditionally dominates. The $0.51$ parameter therefore does not survive merely on an invalid archimedean assumption; its required analytical decay is physical and rigorous. Full evidence and reasoning are recorded in `hunts/r_fb9c81/RESULTS.md`. Nothing here is evidence for or against RH.
