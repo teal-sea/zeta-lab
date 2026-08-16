@@ -15,6 +15,11 @@ import ZetaLean.Pub1.Assembly
 import ZetaLean.Pub1.Aristotle.D
 import ZetaLean.Pub1.Aristotle.F
 import ZetaLean.Pub1.Aristotle.H
+import ZetaLean.Pub1.Aristotle.N
+import ZetaLean.Pub1.Aristotle.R
+import ZetaLean.Pub1.CertDefs
+import ZetaLean.Pub1.CertAtoms
+import ZetaLean.Pub1.Certificate
 
 /-!
 # Pub 1 source-admissible strong closure
