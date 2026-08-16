@@ -1,0 +1,42 @@
+{
+  "run_id": "16585a2a-04a0-4eda-925f-1a79df23d758",
+  "status": "not-settled",
+  "conclusion": "The Hardy-Ramanujan theorem is not formalized: the Chebyshev half of Turan's proof and the unconditional double-counting first step of the other half are kernel-checked with zero sorrys, and the target statement is stated but unproved. The wall is a specific library absence, not a failed proof attempt: Mathlib v4.33.0-rc2 contains no Mertens second theorem, only the qualitative divergence of the sum of prime reciprocals, and without a rate there is no route to log log N.",
+  "confidence": "High on both halves of that. The obstruction claim rests on a name-and-statement search over the pinned checkout rather than a proof of absence, so read it as 'not found by a careful search in one hour', which is the standard a next attempt should re-check rather than trust. The two theorems are kernel-checked with standard axioms only, so they can be leaned on fully; the implication is a reduction and must not be cited as the theorem, and the file's own docstring says so.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "Mertens' second theorem, sum_{p<=x} 1/p = log log x + O(1), is what is actually missing from Mathlib",
+      "why_it_might_matter": "It sits upstream of Hardy-Ramanujan, Erdos-Kac and the normal order of Omega(n) alike, so one formalization unlocks a family of wanted targets rather than one. Aiming a hunt at Hardy-Ramanujan aims past it.",
+      "first_step": "Check whether Mathlib/NumberTheory/Bertrand.lean or Primorial.lean already exposes a reusable Chebyshev bound theta(x) <= c*x from their central-binomial estimates; Abel summation is already in Mathlib/NumberTheory/AbelSummation.lean, so that bound is the only missing input."
+    },
+    {
+      "what": "The second-moment step is mostly bookkeeping once Mertens exists",
+      "why_it_might_matter": "It means the cost of the remaining half is concentrated almost entirely in one lemma, which changes how a next attempt should be budgeted.",
+      "first_step": "Expand sum_{n<=N} omega(n)^2 into floor(N/pq) over ordered pairs of distinct primes plus the diagonal; the diagonal is this hunt's sum_omega_eq_sum_div and the off-diagonal is Nat.Ioc_filter_dvd_card_eq_div applied to p*q, both already available."
+    },
+    {
+      "what": "Mathlib/NumberTheory/Chebyshev.lean is about Chebyshev polynomials, not prime counting",
+      "why_it_might_matter": "Any future search for prime-counting bounds that greps for 'Chebyshev' lands there first and burns a cycle. It cost one here.",
+      "first_step": "Note it wherever the lab keeps its Mathlib-search notes."
+    },
+    {
+      "what": "Mathlib/NumberTheory/SelbergSieve.lean was not examined",
+      "why_it_might_matter": "A sieve file may carry a usable prime-sum estimate as a byproduct, which could shorten the five-step chain in RESULTS.md.",
+      "first_step": "Grep its statements for any bound on a sum over primes."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A warm Lean toolchain and Mathlib cache in the environment image",
+      "why_reusable": "Two thirds of this 60 minute budget went to installing elan and fetching 8,681 cache files (about 6.2 GB) before a single line could be checked. Every Lean hunt pays that toll identically, and it is pure overhead: the actual proving took three compile-edit cycles at about 10 seconds each. Any Lean target given a one-hour budget on a cold container is being given about twenty minutes of mathematics.",
+      "first_step": "Bake elan plus the lean-toolchain pin plus a populated lean/.lake into the image used for Lean hunts, or run lake exe cache get as a setup script before the agent starts."
+    },
+    {
+      "what": "A Mathlib declaration-absence probe",
+      "why_reusable": "The load-bearing result of this run is a negative: a named statement is not in the library. That claim was assembled by hand from greps, and its quality is exactly the quality of the search behind it. A small scripted probe that searches by name, by statement shape and by neighbouring file, and emits the searched-and-not-found list as data, would make every future formalization hunt's outcome-2 report checkable instead of anecdotal.",
+      "first_step": "Turn the mathlib_declarations_looked_for_and_not_found block in this hunt's results.json into a script that takes a list of candidate names and statement fragments and reports hits against a pinned checkout."
+    }
+  ],
+  "notes_for_operator": "Two things worth knowing. First, the brief warned against manufacturing a compiling triviality, and that warning shaped the run: the file states the target as an unproved Prop and proves a reduction plus one unconditional lemma, with the docstring and RESULTS.md both saying in plain words that the theorem is not in the file. If that is still too close to the line for the lab's taste, the reduction is the part to cut, not the double-counting identity. Second, the budget shape rather than the mathematics is what decided this run, and that is an allocation observation which belongs to Fulcrum: naming it here and carrying on."
+}

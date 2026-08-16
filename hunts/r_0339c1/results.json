@@ -1,0 +1,147 @@
+{
+  "run_id": "16585a2a-04a0-4eda-925f-1a79df23d758",
+  "hunt": "r_0339c1",
+  "target": {
+    "name": "Hardy-Ramanujan theorem",
+    "wikidata": "Q5656674",
+    "source": "mathlib",
+    "statement": "for every eps > 0, #{n in (0,N] : |omega(n) - log log N| > eps * log log N} / N -> 0 as N -> infinity"
+  },
+  "outcome": "not-settled",
+  "target_theorem_proved": false,
+  "environment": {
+    "lean_toolchain": "leanprover/lean4:v4.33.0-rc2",
+    "mathlib_rev": "v4.33.0-rc2",
+    "elan_preinstalled": false,
+    "lake_cache_present_at_start": false,
+    "cache_files_fetched": 8681,
+    "cache_size_gb": 6.2
+  },
+  "build": {
+    "command": "lake build ZetaLean.HardyRamanujantheorem",
+    "exit_status": 0,
+    "stdout_tail": "✔ [8697/8697] Built ZetaLean.HardyRamanujantheorem (10s)\nBuild completed successfully (8697 jobs).",
+    "errors": 0,
+    "warnings": 0
+  },
+  "added_lean": {
+    "file": "lean/ZetaLean/HardyRamanujantheorem.lean",
+    "lines": 146,
+    "sorry_count": 0,
+    "sorry_string_occurrences_in_file": 1,
+    "sorry_string_note": "the single occurrence is the word inside the module docstring, not a tactic",
+    "imported_from": "lean/ZetaLean.lean",
+    "axioms": ["propext", "Classical.choice", "Quot.sound"],
+    "axioms_note": "standard only; no sorryAx"
+  },
+  "declarations_added": [
+    {
+      "name": "ZetaLean.HardyRamanujan.HardyRamanujanTheorem",
+      "kind": "def : Prop",
+      "role": "the target statement",
+      "proved": false
+    },
+    {
+      "name": "ZetaLean.HardyRamanujan.TuranVariance",
+      "kind": "def : Prop",
+      "role": "the hard half of Turan's proof, as a hypothesis",
+      "proved": false
+    },
+    {
+      "name": "ZetaLean.HardyRamanujan.primeFactors_eq_filter",
+      "kind": "theorem",
+      "role": "for 0 < n <= N the prime factors of n are the primes in (0,N] dividing n",
+      "proved": true,
+      "conditional": false
+    },
+    {
+      "name": "ZetaLean.HardyRamanujan.sum_omega_eq_sum_div",
+      "kind": "theorem",
+      "role": "double counting: sum of omega over (0,N] equals sum of floor(N/p) over primes p <= N; first step of the variance estimate",
+      "proved": true,
+      "conditional": false
+    },
+    {
+      "name": "ZetaLean.HardyRamanujan.card_exceptional_mul_le",
+      "kind": "theorem",
+      "role": "Chebyshev's inequality in the form Turan uses it",
+      "proved": true,
+      "conditional": false
+    },
+    {
+      "name": "ZetaLean.HardyRamanujan.hardyRamanujan_of_turanVariance",
+      "kind": "theorem",
+      "role": "TuranVariance implies HardyRamanujanTheorem; the Chebyshev half in full",
+      "proved": true,
+      "conditional": true,
+      "hypothesis_unproved": "ZetaLean.HardyRamanujan.TuranVariance"
+    }
+  ],
+  "obstruction": {
+    "summary": "Mertens' second theorem is absent from Mathlib v4.33.0-rc2",
+    "missing_statement": "sum over primes p <= x of 1/p = log log x + M + O(1/log x), and even the weaker log log x + O(1)",
+    "evidence": "grep -rln 'Mertens|mertens' over Mathlib/ returns only Mathlib/RingTheory/Polynomial/ContentIdeal.lean, an unrelated identifier",
+    "chain_still_needed": [
+      "Chebyshev's bound theta(x) = O(x) or pi(x) = O(x / log x)",
+      "Abel summation against that bound to get sum_{p<=x} 1/p = log log x + O(1)",
+      "sum_{n<=N} omega(n) = N log log N + O(N), from sum_omega_eq_sum_div plus the previous step",
+      "the second moment sum_{n<=N} omega(n)^2, via floor(N/pq) over ordered pairs of distinct primes",
+      "TuranVariance, then hardyRamanujan_of_turanVariance"
+    ]
+  },
+  "mathlib_declarations_relied_on": [
+    "Nat.Ioc_filter_dvd_card_eq_div",
+    "Nat.mem_primeFactors",
+    "Finset.card_filter",
+    "Finset.sum_comm",
+    "Finset.sum_filter",
+    "Finset.card_nsmul_le_sum",
+    "Finset.sum_le_sum_of_subset_of_nonneg",
+    "Real.tendsto_log_atTop",
+    "tendsto_natCast_atTop_atTop",
+    "Filter.Tendsto.const_mul_atTop",
+    "Filter.Tendsto.const_div_atTop",
+    "squeeze_zero'",
+    "div_le_div_iff₀",
+    "sq_abs",
+    "le_of_mul_le_mul_right"
+  ],
+  "mathlib_declarations_looked_for_and_not_found": [
+    "any Mertens second theorem",
+    "sum_one_div_prime or sum_primesBelow_one_div style asymptotics",
+    "any IsBigO or IsEquivalent statement about a sum over primes",
+    "Chebyshev prime bounds theta(x) = O(x) (Mathlib/NumberTheory/Chebyshev.lean is about Chebyshev polynomials)",
+    "any normal-order or density statement about omega or Omega",
+    "any asymptotic for Nat.primeCounting beyond tendsto_primeCounting"
+  ],
+  "mathlib_declarations_found_but_insufficient": [
+    {
+      "name": "not_summable_one_div_on_primes",
+      "file": "Mathlib/NumberTheory/SumPrimeReciprocals.lean",
+      "why": "divergence only, carries no rate, so it cannot produce log log x"
+    },
+    {
+      "name": "Nat.Primes.summable_rpow",
+      "file": "Mathlib/NumberTheory/SumPrimeReciprocals.lean",
+      "why": "convergence iff exponent < -1; no asymptotic at the boundary"
+    },
+    {
+      "name": "tendsto_primeCounting",
+      "file": "Mathlib/NumberTheory/PrimeCounting.lean",
+      "why": "pi diverges; no Chebyshev-type asymptotic"
+    },
+    {
+      "name": "Nat.ArithmeticFunction.cardDistinctFactors",
+      "file": "Mathlib/NumberTheory/ArithmeticFunction.lean",
+      "why": "the definition of omega and its multiplicativity; nothing about its distribution"
+    }
+  ],
+  "kill_conditions_fired": [
+    "the remaining gap is a named Mathlib absence rather than a provable lemma"
+  ],
+  "scope": {
+    "rh_relevance": "none; nothing here is evidence for or against RH (docs/08)",
+    "reserved_word_claimed": false,
+    "certainty_ladder_rung": "kernel-checked for the two theorems actually proved; the target statement is unproved and carries no rung"
+  }
+}
