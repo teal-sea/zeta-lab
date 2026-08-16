@@ -346,3 +346,26 @@ ones, consistent with batch 5-7 where the series work also ran longest.
 
 Prompts are pinned in the private operating repo at
 `fulcrum/records/aristotle-prompts/pub1/`.
+
+## Batch 9 — Pub 1 analytic closure, second pass (submitted 2026-08-16)
+
+Six lemmas aimed at the two remaining critical paths.  Prompts carried the
+porting notes from batches 5-8.
+
+| tag | project | statement | status |
+| --- | --- | --- | --- |
+| J2 | `099e164b-5b45-4d06-8748-0dfb3b95f214` | taper `C²` and `√w` `C²` with bounds, from `C²` on the OPEN interval only | collected — accepted, ported unchanged |
+| TU2 | `b9af4feb-04f1-4a99-8af6-ce88319c664d` | the two uniform `L¹` bounds under the same weakened hypothesis | collected — accepted after 5 local repairs |
+| V | `5bc0bd6f-ab37-4140-a44a-581d4dffa7cc` | geometric tails `∑_{k≥20} a_k`, `∑_{k≥20} d_k`, and `Summable dCoef` | collected — accepted, ported unchanged |
+| W | `a4602e1b-0eef-4d1d-9f74-1435d2c9de00` | pointwise derivatives ⟹ `ContDiffOn ℝ 2` on an open set; boundedness on the closed one | collected — accepted, ported unchanged |
+
+**Why J2 and TU2 exist at all.**  Batch 8's `J`, `T`, `U` asked for `C²` on a
+*neighbourhood* of the closed interval.  That hypothesis is unsatisfiable: `w''`
+jumps by `2w(±1/2) ≥ 2/5` at the endpoints, because the delta mass contributes
+inside `I` and not outside.  The theorems were true and uninstantiable.  Restated
+over the open interval with bounded derivatives, they instantiate.  The lesson
+for prompt-writing is to ask for the weakest hypothesis the downstream argument
+actually consumes, not the most convenient one to state.
+
+**Turnaround** (submit to collect, upper bounds; polled): V ~40 min, W ~40 min,
+TU2 ~95 min, J2 ~2 h.  Four of four accepted; one needed repair.
