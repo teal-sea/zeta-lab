@@ -1,0 +1,135 @@
+{
+  "instrument": "hunts/lambda_dh_bounds/strip.py",
+  "quantity": "sigma_0: unique root > 1 of sum_{n>=2} |a_n| n^{-sigma} = 1 for the Davenport-Heilbronn coefficients (1, kappa, -kappa, -1, 0); all zeros of the completed F lie in 1 - sigma_0 < Re s < sigma_0 (argument in STRIP.md)",
+  "interval_convention": "decimal strings, outward rounding: printed intervals contain the exact rational bisection endpoints",
+  "sigma0": {
+    "flint": [
+      "1.3951361582351097210613588712",
+      "1.3951361582351097210613589375"
+    ],
+    "iv": [
+      "1.395136158235109178",
+      "1.395136158235109747"
+    ]
+  },
+  "delta": {
+    "definition": "Delta = sigma_0 - 1/2 (zeros of Xi_DH satisfy |Im z| < Delta)",
+    "flint": [
+      "0.8951361582351097210613588712",
+      "0.8951361582351097210613589375"
+    ],
+    "iv": [
+      "0.895136158235109178",
+      "0.895136158235109747"
+    ]
+  },
+  "upper_bound_delta_sq_over_2": {
+    "flint": [
+      "0.4006343708899556944469547527",
+      "0.4006343708899556944469548120"
+    ],
+    "iv": [
+      "0.400634370889955208",
+      "0.400634370889955718"
+    ],
+    "decided_lt_0.4007": {
+      "flint": true,
+      "iv": true
+    },
+    "comparison": "exact rational comparison of the outward upper endpoint against 4007/10000"
+  },
+  "kappa_ball": {
+    "backend": "python-flint (Arb), linear solve of instrument.kappa_ball, prec 500 bits",
+    "interval": [
+      "0.284079043840412296028291832393126169091088088",
+      "0.284079043840412296028291832393126169091088089"
+    ],
+    "inside_KAPPA_REF_pm_1e-39": true,
+    "iv_input": "KAPPA_REF +/- 1e-39 (an enclosure because the flint ball lies inside it; exact rational check)"
+  },
+  "coarse_strip_g2": {
+    "statement": "g(2) < 0 decided on both backends; hence f has no zero in Re s >= 2 and, by the functional equation, F none in Re s <= -1: the in-tree coarse strip -1 < Re s < 2 of zeta/epstein.py",
+    "flint": [
+      "-0.7333360538690251425955054390",
+      "-0.7333360538690251425955054389"
+    ],
+    "iv": [
+      "-0.733336053869025143",
+      "-0.733336053869025142"
+    ],
+    "decided_negative": {
+      "flint": true,
+      "iv": true
+    }
+  },
+  "agreement": {
+    "backend_intervals_overlap": true,
+    "scout_value": "1.39513615823511",
+    "scout_note": "the scout is a 14-decimal rounding; the check is that each decided interval lies inside scout +/- 5e-15 (half an ulp of its last digit)",
+    "decided_inside_scout_pm_5e-15": {
+      "flint": true,
+      "iv": true
+    }
+  },
+  "identity_check": {
+    "all_ok": true,
+    "rows": [
+      {
+        "sigma": "1.5",
+        "direct_float_sum_N": 1000000,
+        "direct_float_sum": 1.736563386213969,
+        "hurwitz_full_sum_mid": 1.7375906494490414,
+        "difference": 0.0010272632350722954,
+        "integral_test_tail_bound": 0.002,
+        "grade": "measured (float64 direct sum vs flint midpoint)",
+        "ok": true
+      },
+      {
+        "sigma": "2",
+        "direct_float_sum_N": 1000000,
+        "direct_float_sum": 1.2666634324993578,
+        "hurwitz_full_sum_mid": 1.2666639461309748,
+        "difference": 5.136316170162303e-07,
+        "integral_test_tail_bound": 1e-06,
+        "grade": "measured (float64 direct sum vs flint midpoint)",
+        "ok": true
+      },
+      {
+        "sigma": "3",
+        "direct_float_sum_N": 1000000,
+        "direct_float_sum": 1.0715873772537692,
+        "hurwitz_full_sum_mid": 1.0715873772540263,
+        "difference": 2.5712765250318625e-13,
+        "integral_test_tail_bound": 5e-13,
+        "grade": "measured (float64 direct sum vs flint midpoint)",
+        "ok": true
+      }
+    ]
+  },
+  "em_tail_check": {
+    "all_contained": true,
+    "n_points": 20,
+    "note": "full rows omitted from disk only for size; rerun check_em_tail to reproduce"
+  },
+  "precisions": {
+    "flint_bisection_bits": 192,
+    "flint_kappa_bits": 500,
+    "iv_dps": 40,
+    "iv_finite_terms_per_class": 100,
+    "iv_euler_maclaurin_terms": 8,
+    "flint_width_target": "1e-25",
+    "iv_width_target": "1e-15",
+    "sign_decisions": {
+      "flint": 79,
+      "iv": 46
+    }
+  },
+  "timings": {
+    "kappa_ball_s": 0.023,
+    "identity_check_s": 0.167,
+    "em_tail_check_s": 0.095,
+    "flint_bisect_s": 0.031,
+    "iv_bisect_s": 0.702,
+    "total_s": 1.027
+  }
+}

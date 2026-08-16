@@ -151,14 +151,23 @@ def routeB_cosine() -> dict:
         assert Delta > 0
 
         # track the zero of e^t cos z + c and bisect on Im z(t) -> 0.
-        # Near the landing the pair merges into a double root, so Newton can
-        # only reach residual ~ (root error)^2; tol is relaxed accordingly and
-        # the classification threshold 1e-9 on |Im z| corresponds to t within
-        # ~1e-18 of the landing (Im z ~ sqrt(t* - t) there).
+        # Hand-rolled Newton with continuation in t (findroot's tolerance
+        # check rejects the near-double root at the landing). Near the landing
+        # Newton converges linearly (rate 1/2), so 120 iterations still push
+        # the error well below the 1e-9 classification threshold; 1e-9 on
+        # |Im z| corresponds to t within ~1e-18 of the landing since
+        # Im z ~ sqrt(t* - t) there.
         def imag_at(t):
-            zt = mp.findroot(
-                lambda z: mp.e**t * mp.cos(z) + c, z0, tol=mp.mpf(10) ** (-20), maxsteps=200
-            )
+            zt = z0
+            for frac in [mp.mpf(k) / 20 for k in range(1, 21)]:
+                tt = t * frac
+                for _ in range(120):
+                    f = mp.e**tt * mp.cos(zt) + c
+                    fp = -(mp.e**tt) * mp.sin(zt)
+                    step = f / fp
+                    zt = zt - step
+                    if abs(step) < mp.mpf(10) ** (-25):
+                        break
             return abs(mp.im(zt))
 
         lo, hi = mp.mpf(0), Delta * Delta  # 2*(Delta^2/2): must land inside
@@ -181,7 +190,7 @@ def routeB_cosine() -> dict:
             }
         )
     return {
-        "what": "H_t = e^t cos z + c; dps 30, zero tracked by findroot continuation, bisection 80 iters",
+        "what": "H_t = e^t cos z + c; dps 30, zero tracked by Newton continuation, bisection 60 iters",
         "cases": out,
     }
 

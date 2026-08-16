@@ -140,8 +140,17 @@ def _as_acb(z) -> acb:
 
 
 def _nonfinite_acb() -> acb:
-    """An indeterminate (non-finite) ball: the loud refusal value."""
-    return acb(arb(float("nan")), arb(float("nan")))
+    """An indeterminate (non-finite) ball: the loud refusal value.
+
+    Construction matters (measured, python-flint 0.9.0): ``arb(float("nan"))``
+    is an EXACT NaN (midpoint nan, radius 0) and ``acb.integral`` gives up
+    after a single evaluation when the integrand returns it, instead of
+    subdividing.  ``arb("nan")`` is nan +/- inf, the indeterminate ball the
+    integrator treats as "subdivide or fail loudly", which is the behaviour
+    every refusal in this file promises.
+    """
+    nan = arb("nan")
+    return acb(nan, nan)
 
 
 # ---------------------------------------------------------------------------

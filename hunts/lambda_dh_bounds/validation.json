@@ -1,0 +1,393 @@
+{
+  "instrument": "hunts/lambda_dh_bounds/instrument.py",
+  "backend": "python-flint 0.9.0 (Arb)",
+  "vocabulary": "enclosure/decided per MISSION.md; float routes are measured",
+  "containment": {
+    "all_contained": true,
+    "n_points": 11,
+    "flow_init_seconds": 27.3,
+    "h_ball_seconds_prec420": [
+      0.094,
+      0.059,
+      0.065,
+      0.062,
+      0.061,
+      0.067,
+      0.075,
+      0.075
+    ],
+    "rows": [
+      {
+        "z": "10 + 0i",
+        "t": "0",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "ball": {
+          "re_mid": 0.003956249831075141,
+          "re_rad": 5.591067520430078e-125,
+          "im_mid": 0.0,
+          "im_rad": 8.781765415051047e-161
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=150",
+        "float_value": "(0.00395624983107514142469968638142 - 7.89172886709712964866331686538e-154j)",
+        "float_error_allowance": "1e-135",
+        "contains_float": true,
+        "seconds_ball": 0.094,
+        "seconds_float": 0.665,
+        "completed_dh_value": "(0.00395624983107514142469968638142 + 5.33715166951925309266862432352e-185j)",
+        "contains_completed_dh": true
+      },
+      {
+        "z": "10 + 0.5i",
+        "t": "0.03",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "ball": {
+          "re_mid": 0.0047262594567943645,
+          "re_rad": 6.046237782747374e-125,
+          "im_mid": -0.0005942001830400928,
+          "im_rad": 9.066019588301437e-126
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=150",
+        "float_value": "(0.00472625945679436467154800846334 - 0.000594200183040092777953229693166j)",
+        "float_error_allowance": "1e-135",
+        "contains_float": true,
+        "seconds_ball": 0.059,
+        "seconds_float": 1.162
+      },
+      {
+        "z": "85.6993 + 0i",
+        "t": "0",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "ball": {
+          "re_mid": -1.9029412766008678e-29,
+          "re_rad": 7.128640968079082e-125,
+          "im_mid": 0.0,
+          "im_rad": 8.781765415051047e-161
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=150",
+        "float_value": "(-1.90294127660086788889970526643e-29 - 7.3899933367591580025022245111e-154j)",
+        "float_error_allowance": "1e-135",
+        "contains_float": true,
+        "seconds_ball": 0.065,
+        "seconds_float": 0.668,
+        "completed_dh_value": "(-1.90294127660086788889970526643e-29 - 1.11297539230463086624298881709e-209j)",
+        "contains_completed_dh": true
+      },
+      {
+        "z": "85.6993 + 0.3085i",
+        "t": "0.03",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "ball": {
+          "re_mid": 1.1542834709965744e-29,
+          "re_rad": 7.464683083386994e-125,
+          "im_mid": -1.1848653346785507e-29,
+          "im_rad": 1.1341210813978948e-125
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=150",
+        "float_value": "(1.1542834709965744764442134206e-29 - 1.18486533467855073128899918232e-29j)",
+        "float_error_allowance": "1e-135",
+        "contains_float": true,
+        "seconds_ball": 0.062,
+        "seconds_float": 1.168
+      },
+      {
+        "z": "85.6993 + 0.3085i",
+        "t": "0.0575",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "ball": {
+          "re_mid": 2.1382796609288325e-29,
+          "re_rad": 7.531438166155901e-125,
+          "im_mid": -2.4220595221124628e-29,
+          "im_rad": 1.1491049203651355e-125
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=150",
+        "float_value": "(2.13827966092883239943741107219e-29 - 2.42205952211246296296056292291e-29j)",
+        "float_error_allowance": "1e-135",
+        "contains_float": true,
+        "seconds_ball": 0.061,
+        "seconds_float": 1.159
+      },
+      {
+        "z": "240.4165 + 0i",
+        "t": "0",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "ball": {
+          "re_mid": 8.053290237731784e-82,
+          "re_rad": 1.4472634054816526e-124,
+          "im_mid": 0.0,
+          "im_rad": 8.781765415051047e-161
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=150",
+        "float_value": "(8.05329023773178365970364223781e-82 - 2.7151167884852476176531739151e-154j)",
+        "float_error_allowance": "1e-135",
+        "contains_float": true,
+        "seconds_ball": 0.067,
+        "seconds_float": 0.666,
+        "completed_dh_value": "(8.05329023773178365970364223781e-82 + 1.21839962843781490695731041042e-261j)",
+        "contains_completed_dh": true
+      },
+      {
+        "z": "240.4165 + 0.02i",
+        "t": "0.0575",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "ball": {
+          "re_mid": 4.3658433958660405e-83,
+          "re_rad": 1.4894837452822593e-124,
+          "im_mid": 2.425744106150811e-83,
+          "im_rad": 1.58023237839055e-126
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=150",
+        "float_value": "(4.36584339586604028601046830523e-83 + 2.4257441061508108306917516288e-83j)",
+        "float_error_allowance": "1e-135",
+        "contains_float": true,
+        "seconds_ball": 0.075,
+        "seconds_float": 1.184
+      },
+      {
+        "z": "240.4165 + 0.25i",
+        "t": "0.03",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "ball": {
+          "re_mid": 1.6497003273741873e-83,
+          "re_rad": 1.4914912764046745e-124,
+          "im_mid": 1.5885272400264864e-82,
+          "im_rad": 1.9011755012629176e-125
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=150",
+        "float_value": "(1.64970032737418716142174306024e-83 + 1.58852724002648639661806082047e-82j)",
+        "float_error_allowance": "1e-135",
+        "contains_float": true,
+        "seconds_ball": 0.075,
+        "seconds_float": 1.187
+      },
+      {
+        "z": "420.0625 + 0i",
+        "t": "0",
+        "backend": "python-flint",
+        "prec_bits": 600,
+        "ball": {
+          "re_mid": 6.960132599229318e-143,
+          "re_rad": 1.1838793459790637e-178,
+          "im_mid": 0.0,
+          "im_rad": 1.4141587787582123e-219
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=205",
+        "float_value": "(6.96013259922931761284299843495e-143 + 2.39311850224569310344268036301e-209j)",
+        "float_error_allowance": "1e-190",
+        "contains_float": true,
+        "seconds_ball": 0.217,
+        "seconds_float": 1.785,
+        "completed_dh_value": "(6.96013259922931761284299843495e-143 + 2.57359188229897088781506869791e-377j)",
+        "contains_completed_dh": true
+      },
+      {
+        "z": "420.0625 + 0.02i",
+        "t": "0.03",
+        "backend": "python-flint",
+        "prec_bits": 600,
+        "ball": {
+          "re_mid": 1.192539555139463e-142,
+          "re_rad": 1.2049619734229099e-178,
+          "im_mid": 5.0165974449914504e-144,
+          "im_rad": 1.2456603705448198e-180
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=205",
+        "float_value": "(1.19253955513946306303798314794e-142 + 5.01659744499145016519653725582e-144j)",
+        "float_error_allowance": "1e-190",
+        "contains_float": true,
+        "seconds_ball": 0.164,
+        "seconds_float": 3.519
+      },
+      {
+        "z": "420.0625 + 0.02i",
+        "t": "0.0575",
+        "backend": "python-flint",
+        "prec_bits": 600,
+        "ball": {
+          "re_mid": 1.743413636019342e-142,
+          "re_rad": 1.2159619753054978e-178,
+          "im_mid": 3.8267889328786547e-144,
+          "im_rad": 1.2618021010255513e-180
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=205",
+        "float_value": "(1.74341363601934197505051625731e-142 + 3.82678893287865449154320948408e-144j)",
+        "float_error_allowance": "1e-190",
+        "contains_float": true,
+        "seconds_ball": 0.163,
+        "seconds_float": 3.545
+      }
+    ]
+  },
+  "kappa": {
+    "backend": "python-flint",
+    "prec_bits": 500,
+    "kappa_mid": 0.28407904384041227,
+    "kappa_rad": 1.520111982412233e-148,
+    "kappa_ref_40_digits": "0.2840790438404122960282918323931261690911",
+    "ball_inside_ref_pm_1e-39": true,
+    "abs_mid_minus_ref_upper": 1.191155426241724e-41,
+    "note": "KAPPA_REF is a 40-digit decimal rounding, so the enclosure check runs ball-inside-decimal-interval; the ball radius ~1.5e-148 makes the direction immaterial."
+  },
+  "evenness": {
+    "all_overlap": true,
+    "rows": [
+      {
+        "u": "1/10",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "phi_pos": {
+          "re_mid": 2.275870173304493,
+          "re_rad": 2.4917101374244245e-125,
+          "im_mid": 0.0,
+          "im_rad": 5.994131539368567e-224
+        },
+        "phi_neg": {
+          "re_mid": 2.275870173304493,
+          "re_rad": 3.850410583877741e-125,
+          "im_mid": 0.0,
+          "im_rad": 8.78615594505757e-200
+        },
+        "overlap": true
+      },
+      {
+        "u": "1/4",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "phi_pos": {
+          "re_mid": 2.1175129305384215,
+          "re_rad": 2.6879971232867465e-125,
+          "im_mid": 0.0,
+          "im_rad": 1.3553580656620525e-236
+        },
+        "phi_neg": {
+          "re_mid": 2.1175129305384215,
+          "re_rad": 3.592794841428874e-125,
+          "im_mid": 0.0,
+          "im_rad": 4.408963675858979e-190
+        },
+        "overlap": true
+      },
+      {
+        "u": "1/2",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "phi_pos": {
+          "re_mid": 1.5399087040123525,
+          "re_rad": 1.8359509764607427e-125,
+          "im_mid": 0.0,
+          "im_rad": 2.7170784396976345e-266
+        },
+        "phi_neg": {
+          "re_mid": 1.5399087040123525,
+          "re_rad": 3.5623742057900284e-125,
+          "im_mid": 0.0,
+          "im_rad": 1.984315709235097e-184
+        },
+        "overlap": true
+      },
+      {
+        "u": "3/4",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "phi_pos": {
+          "re_mid": 0.7374830755081292,
+          "re_rad": 8.312935134070593e-126,
+          "im_mid": 0.0,
+          "im_rad": 1.665631452512e-311
+        },
+        "phi_neg": {
+          "re_mid": 0.7374830755081292,
+          "re_rad": 3.8928776002435976e-125,
+          "im_mid": 0.0,
+          "im_rad": 6.41979827770204e-170
+        },
+        "overlap": true
+      }
+    ]
+  },
+  "precision_response": {
+    "point": "z = 240.4165 + 0.02i, t = 23/400",
+    "strictly_shrinking": true,
+    "rows": [
+      {
+        "prec_bits": 320,
+        "backend": "python-flint",
+        "radius": 1.83781346708179e-94,
+        "seconds": 0.062
+      },
+      {
+        "prec_bits": 420,
+        "backend": "python-flint",
+        "radius": 1.4894837452822593e-124,
+        "seconds": 0.073
+      },
+      {
+        "prec_bits": 520,
+        "backend": "python-flint",
+        "radius": 1.1507722569677904e-154,
+        "seconds": 0.143
+      }
+    ]
+  },
+  "iv_cross_leg": {
+    "all_overlap": true,
+    "kappa_interval_source": "KAPPA_REF +/- 1e-39 (an enclosure per check 2; iv has no Hurwitz zeta)",
+    "quadrature_note": "the H_t quadrature itself is single-backend (python-flint acb.integral); precedent: zeta.rigor.enclose_weil_functional is flint-only and says so",
+    "rows": [
+      {
+        "u": "1/10",
+        "iv_backend": "mpmath.iv, dps=60 (directed rounding)",
+        "iv_interval": [
+          2.275870173304493,
+          2.275870173304493
+        ],
+        "arb_ball": {
+          "re_mid": 2.275870173304493,
+          "re_rad": 2.4917101374244245e-125,
+          "im_mid": 0.0,
+          "im_rad": 5.994131539368567e-224
+        },
+        "overlap": true
+      },
+      {
+        "u": "1/4",
+        "iv_backend": "mpmath.iv, dps=60 (directed rounding)",
+        "iv_interval": [
+          2.1175129305384215,
+          2.1175129305384215
+        ],
+        "arb_ball": {
+          "re_mid": 2.1175129305384215,
+          "re_rad": 2.6879971232867465e-125,
+          "im_mid": 0.0,
+          "im_rad": 1.3553580656620525e-236
+        },
+        "overlap": true
+      },
+      {
+        "u": "1/2",
+        "iv_backend": "mpmath.iv, dps=60 (directed rounding)",
+        "iv_interval": [
+          1.5399087040123525,
+          1.5399087040123525
+        ],
+        "arb_ball": {
+          "re_mid": 1.5399087040123525,
+          "re_rad": 1.8359509764607427e-125,
+          "im_mid": 0.0,
+          "im_rad": 2.7170784396976345e-266
+        },
+        "overlap": true
+      }
+    ]
+  },
+  "all_pass": true,
+  "seconds_total": 49.8
+}
