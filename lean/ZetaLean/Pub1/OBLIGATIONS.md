@@ -1,166 +1,100 @@
 # Pub 1 strong closure — what is proved and what is not
 
-Formalization of `hunts/wide_search/RESULTS-xiprime-admissible-closure.md`
-(Zeta Lab PR #45).  Toolchain `leanprover/lean4:v4.33.0-rc2`, Mathlib
-`v4.33.0-rc2` (`51e6992efd06126df61a496bebf8f49482a4e129`).
+Toolchain `leanprover/lean4:v4.33.0-rc2`, Mathlib `v4.33.0-rc2`
+(`51e6992efd06126df61a496bebf8f49482a4e129`).  `lake build` succeeds; no
+`sorry`, no `admit`, no `axiom` declaration, no `native_decide`; every audited
+theorem depends only on `propext`, `Classical.choice`, `Quot.sound`.
 
-`lake build` succeeds; no `sorry`, no `admit`, no `axiom` declaration, no
-`native_decide`; every audited theorem depends only on `propext`,
-`Classical.choice`, `Quot.sound` (`PrintPub1Axioms.lean`).
+**`pub1_strong_closure` is still conditional.**  Exactly one gap remains, and it
+is named below.
 
-**The principal theorem `pub1_strong_closure` is still conditional.**  This file
-says exactly on what.  Nothing is weakened: the open facts are the true
-statements from the evidence document, carried as explicit named hypotheses
-rather than assumed as axioms.
-
-## The principal theorem
-
-`ZetaLean.Pub1.pub1_strong_closure` : `IsLUB (quot '' sourceAdmissible C₁ C₂) (cStar w)`
-`ZetaLean.Pub1.pub1_strong_closure_reciprocal` : `IsGLB (recipQuot '' …) (cStar w)⁻¹`
-
-`strongClosureData_of_member` discharges every input except membership of the
-constructed sequence in the class; `sourceWindow_taper` reduces that to the four
-obligations below.
-
-## Obligation A — `F₁'' = 2δ₀ + q` and `C²` regularity
-
-**The identity is PROVED**, for the true Pub 1 kernel, unconditionally:
+## Obligation A — `F₁'' = 2δ₀ + q` and interior `C²` of `w`: **CLOSED**
 
 ```
-ZetaLean.Pub1.pub1_kernel_second_deriv :
-  (T v)''(s) = 2 · v s + ∫_I fKer''(|s-t|) · v t dt      (|s| ≤ 1/2, v continuous)
+pub1_kernel_second_deriv : (T v)''(s) = 2·v s + ∫_I fKer''(|s-t|)·v t dt
+w_contDiffOn             : ContDiffOn ℝ 2 w (Ioo (-1/2) (1/2))
+w_second_deriv_bound     : |w''| ≤ wB2 = 2 + 80.963…
+w_deriv_bound            : |w'|  ≤ wB2/2
+deriv_w_zero             : w'(0) = 0
 ```
 
-No distribution theory was built or needed.  Splitting `∫_I F₁(s-t)v(t)dt` at
-`t = s` and differentiating twice makes the two moving-endpoint boundary terms
-*add* rather than cancel, each contributing `fKer'(0)·v(s)`; `Aristotle/S` proves
-`fKer'(0) = 1`, so the coefficient is exactly `2`.  That is the delta mass, and
-dropping it is the lesion the evidence document records.
+No distribution theory.  Splitting at `t = s` and differentiating twice makes
+the two moving-endpoint terms add, each contributing `fKer'(0)·v(s) = v(s)`.
 
-Supporting, all kernel-checked: `Aristotle/N` (the two differentiations),
-`Aristotle/S` (`fKer` entire, `fKer 0 = 0`, `fKer'(0) = 1`, `fKer'' = q`),
-`F1_eq_fKer`, `F1_conv_eq_split`, `fKer_second_deriv_continuous`.
+Only the **open** interval is claimed.  Across `|s| = 1/2` the second derivative
+genuinely jumps — the delta mass gives `2w(s) ≥ 2/5` inside and nothing outside —
+so `C²` there is false and is not asserted.  Two economies kept this small:
+`|w'| ≤ B₂/2` comes from `w'(0) = 0` plus the mean value inequality, needing no
+bound on `‖fKer'‖_∞`; and `|w''| ≤ 2‖w‖_∞ + ‖q‖_∞‖w‖₁` needs only `w ≤ 1`.
 
-**Still open — the smallest missing statement:**
+## Obligation C — positivity: **CLOSED**
+
+`profile_pos : ∀ s, 0 < w s`.
+
+## Obligation D — uniform `L¹` derivative bounds: **CLOSED**
+
+```
+taper_contDiff_of_profile      : ContDiff ℝ 2 (taper w L)          (L ≥ 8)
+taper_secondDeriv_L1_of_profile: ∃ C₁, ∀ L ≥ 8, ‖φ_L''‖₁ ≤ C₁
+AristotleTU2.taper_sq_second_deriv_L1_bound_open : the `(φ_L²)''` analogue
+```
+
+The earlier `T`/`U`/`J` versions asked for `C²` on a neighbourhood of the closed
+interval, which nothing satisfies; `J2`/`TU2` re-prove them with `C²` on the open
+interval plus bounded derivatives, which is what `w` and `√w` actually have.
+
+## Obligation B — the exact residual certificate: **all ingredients proved, assembly open**
+
+Proved, all exact and kernel-checked:
+
+| fact | theorem |
+| --- | --- |
+| `A₀u + r₀ = 1` on `I`, `M = 20` | `r0_identity` |
+| `‖r₀‖_∞ < 2.1710808e-5` | `r0Sum_lt_decimal` |
+| `‖r₀''‖_∞ < 0.005982627` | `r0Sum2_lt_decimal` |
+| `∫_I r₀²` exactly; `‖r₀‖₂ ≤ 7.8749770e-10` | `integral_r0_sq`, `r0_l2_le` |
+| `∑_{k≥20} a_k`, `∑_{k≥20} d_k` geometric tails | `AristotleV.aCoef_tail_le`, `dCoef_tail_le` |
+| `‖q‖_∞ ≤ 80.963` on `[-1,1]` | `q_abs_le` |
+| `‖z‖_∞ ≤ (9/5)‖g‖_∞`, `‖z‖₂ ≤ (9/5)‖g‖₂` | `AristotleR.resolvent_*` |
+| truncated kernel is a half-line polynomial | `TruncKernel.*` |
+| the whole certificate arithmetic, margin `4.4e-13` | `CertArith.zpp_arith` |
+| that arithmetic implies `w'' < -0.59326318` | `CertArith.concavity_closes` |
+
+**The one remaining gap** is the analytic assembly that ties them together:
 
 ```lean
-theorem w_contDiffOn_open :
-    ContDiffOn ℝ 2 w (Set.Ioo (-(1/2) : ℝ) (1/2))
-theorem w_deriv_bounded :
-    ∃ B₁ B₂, ∀ s ∈ Set.Ioo (-(1/2) : ℝ) (1/2), |deriv w s| ≤ B₁ ∧ |deriv (deriv w) s| ≤ B₂
+-- z := w - uPoly,  Eu s := ∫_I (F₁ - truncKernel)(s-t) · uPoly t dt
+theorem z_resolvent_eq (hw : IsProfile w) {s : ℝ} (hs : |s| ≤ 1/2) :
+    (w s - uPoly s) + (∫ t in (-(1:ℝ)/2)..(1/2), F1 (s - t) * (w t - uPoly t))
+      = r0Poly s - Eu s
+theorem Eu_bounds : ‖Eu‖_∞ ≤ rhoC * usupC ∧ ‖Eu‖₂ ≤ rhoC * usupC
+theorem Eupp_bound : ‖(Eu)''‖_∞ ≤ stC * usupC          -- = ‖(q - q_M) * u‖_∞
+theorem zpp_identity : z'' = r₀'' - (Eu)'' - 2z - q*z
+theorem zpp_bound (hw : IsProfile w) {s : ℝ} (hs : s ∈ Iint) :
+    |deriv (deriv w) s - deriv (deriv uPoly) s| < 6060899845 / 10 ^ 12
 ```
 
-Both follow from `pub1_kernel_second_deriv` applied with `v = w`: the formula
-`w'' = -(2w + q*w)` is continuous on the *closed* interval, hence bounded.  Not
-blocked by Mathlib.
+`z_resolvent_eq` is pure algebra from `IsProfile.eq_on_I` and `r0_identity`.
+`Eupp_bound` needs no new analysis: `(Eu)'' = (q - q_M) * u` is the difference of
+`pub1_kernel_second_deriv` and `TruncKernel.truncKernel_second_deriv`, and the
+`2u` delta terms cancel because `fKerM'(0) = fKer'(0) = 1`.  What is genuinely
+unwritten is the `Eu` sup/`L²` bounds (a `tsum` split like `QBound`'s) and the
+application of the resolvent estimates, whose `Aristotle/R` form asks for a
+*minimal* `Bz` and so needs the sup constructed as an `sInf`.
 
-**A correction, recorded here rather than swept.**  An earlier revision of this
-file named `ContDiffOn ℝ 2 wExt (Ioo (-3/5) (3/5))` as the target, for the
-natural extension `wExt s = 1 - ∫_I F₁(s-t)w(t)dt`.  That statement is **false**.
-Inside `I` the second derivative carries the `2w(s)` delta-mass term; outside `I`
-it does not (`s - t` never vanishes there, so no kink); so `wExt''` jumps by
-exactly `2w(±1/2) ≥ 2/5` at the endpoints.  `wExt ∈ C¹` but not `C²` across
-`±1/2`.  The evidence document never claims otherwise: it asserts `w ∈ C²(I)` on
-the closed interval from inside, and gets `φ_L ∈ C_c²` from the fourth-order
-vanishing of `η` at the window edge, which is enough.
-
-Consequences for what is already landed:
-
-* `Aristotle/J` (`taper_contDiff`) and its wrapper `sourceWindow_taper` take
-  `ContDiffOn ℝ 2 w (Ioo (-3/5) (3/5))` as a hypothesis.  Those theorems are
-  true, but **the hypothesis is unsatisfiable for the real `w`**, so they cannot
-  be instantiated.  J must be re-proved with the weaker, correct hypothesis:
-  `w ∈ C²` on the open interval with bounded `w'`, `w''`, and the boundary
-  handled by `η(L/2-|u|) = O((L/2-|u|)⁴)`.  The mathematics is the same; the
-  prompt over-asked.
-* `profile_pos_on` (positivity on the larger interval) is unaffected and true.
-
-## Obligation B — the exact residual certificate
-
-**The core computation is PROVED.**
-
-```
-ZetaLean.Pub1.r0_identity :
-  u x + ∫_I F₁^(M)(x-t) · u t dt + r₀ x = 1        (|x| ≤ 1/2, M = 20)
-```
-
-with `u` the exact rational trial polynomial and `r₀` the transcribed degree-52
-residual (27 nonzero coefficients, up to 65-digit numerators).  This is what
-`admissible_closure.py` computes in `fractions.Fraction`, redone in the kernel:
-`Aristotle/O` gives the atomic integral `∫_I |x-t|^m t^n dt` in closed form,
-`CertAtoms` evaluates the 132 atoms `A₀` needs, and `Certificate` assembles.
-
-Also proved, as exact rationals:
-
-| quantity | theorem | value |
-| --- | --- | --- |
-| `‖r₀‖_∞` | `r0Sum_lt_decimal` | `< 2.1710808e-5` |
-| `‖r₀''‖_∞` | `r0Sum2_lt_decimal` | `< 0.005982627` |
-| `r₀''` is the second derivative | `deriv_deriv_r0Sum` | — |
-| `‖z‖_∞ ≤ (9/5)‖g‖_∞` | `AristotleR.resolvent_linf_bound` | — |
-| `‖z‖₂ ≤ (9/5)‖g‖₂` | `AristotleR.resolvent_l2_bound` | — |
-
-`‖r₀''‖_∞` is the dominant term: it consumes `5.98e-3` of the `6.06e-3` budget.
-
-**Still open**, in dependency order:
-
-```lean
-theorem r0_l2  : (∫ x in (-(1:ℝ)/2)..(1/2), r0Sum x ^ 2) ≤ <exact rational>
-theorem u_l2   : (∫ x in (-(1:ℝ)/2)..(1/2), uPoly x ^ 2) ≤ <exact rational>
-theorem rho_tail        : ∑' k, aCoef (k + 21) ≤ 45088768/2828846926917599723269509375
-theorem second_tail     : ∑' k, dCoef (k + 21) ≤ 666953056256/23065890935073171953452059375
-theorem q_abs           : 8 + ∑' k, dCoef (k+1) ≤ <exact rational>   -- < 80.963
-theorem zpp_identity    : z'' = r₀'' - (Eu)'' - 2z - q*z
-theorem zpp_bound       : ∀ s, |s| ≤ 1/2 → |z'' s| < 6060899845/10^12
-```
-
-`r0_l2` is the one with real cost: `‖r₀‖₂ ≈ 7.9e-10` is 27 000× smaller than
-`‖r₀‖_∞`, so the crude bound `‖r₀‖₂ ≤ ‖r₀‖_∞` is not usable — it would blow the
-budget by a factor of 1.5 — and the exact degree-104 integral `∫ r₀²` is needed.
-`zpp_identity` is `pub1_kernel_second_deriv` applied to `z`, so obligation A's
-proved identity is what it rests on.
-
-## Obligation C — positivity
-
-**DISCHARGED.**  `ZetaLean.Pub1.profile_pos : ∀ s, 0 < w s`.  The row-bound
-argument already gives `1/5 ≤ w` at every real `s`, not merely on `I`, because
-the clamped kernel makes `w` constant outside `I`.  Nothing stronger than the
-square-root taper needs is assumed.
-
-## Obligation D — uniform `L¹` derivative bounds
-
-**The two `L¹` estimates are PROVED.**
-
-```
-AristotleT.taper_second_deriv_L1_bound :
-  ‖φ_L''‖₁ ≤ B₂/L + 4B₁/L + (35/4)B₀        uniformly for L ≥ 8
-```
-
-The `η`-side constants it rests on are all proved: `∫₀¹ η'² = 700/429`,
-`∫₀¹|η''| = 35/8` (`AristotleD`), `‖(η²)''‖₁ ≤ 20615/1716`
-(`ramp_sq_second_deriv_bound`).
-
-**Both halves now PROVED**: `AristotleU.taper_sq_second_deriv_L1_bound` gives
-`‖(φ_L²)''‖₁ ≤ B₂/L + 4B₁/L + (20615/858)B₀`.
-
-**Still open:** the instantiation of both with `P = √w` and `P = w`, which needs the
-`‖w'‖_∞`, `‖w''‖_∞` bounds from obligation A.  Note `Aristotle/T` (and `U`)
-take `ContDiff ℝ 2 P` on all of `ℝ`; for `P = √w` that is the same
-over-strong hypothesis as J and needs the same weakening.
+Downstream of `zpp_bound`, still to do: weaken `Concavity.lean`'s
+`strictAntiOn_w` / `radial_antitone` from `Differentiable ℝ w` on all of `ℝ` to
+the interior (`w` is not differentiable at `±1/2`), then the radial-monotonicity
+field of `sourceWindow_taper`, then `member`, then the two principal theorems.
 
 ## The lesion test
 
-`Pub1LesionTest.lean.expected-fail` **must not compile**, and does not: with the
-residual bound inflated by the factor 101 the arithmetic step reduces to `False`.
-Its kernel-checked positive counterpart is `concavity_margin_lesioned`.
-
-```bash
-cd lean && lake env lean Pub1LesionTest.lean.expected-fail
-```
+`Pub1LesionTest.lean.expected-fail` must not compile, and does not: with the
+residual bound inflated by 101 the arithmetic step reduces to `False`.
 
 ## Provenance
 
-Files under `ZetaLean/Pub1/Aristotle/` came from Harmonic's Aristotle (project
-ids in `lean/ARISTOTLE-RUNS.md`).  Per `lean/proof_adapter.py` the service's own
-verification claim is input, not evidence: each passed the static refusal scan
-and `lake build` on this repository's toolchain before use.
+`ZetaLean/Pub1/Aristotle/` came from Harmonic's Aristotle (ids in
+`lean/ARISTOTLE-RUNS.md`).  Per `lean/proof_adapter.py` the service's own claim
+is input, not evidence: each passed the static refusal scan and `lake build`
+here first.
