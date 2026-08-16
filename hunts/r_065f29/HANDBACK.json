@@ -1,0 +1,42 @@
+{
+  "run_id": "726a6b3f-7940-40fc-bec0-fa365fe9463f",
+  "status": "settled",
+  "conclusion": "The white-box attack ran and the claim is not withdrawn: the load-bearing new step survives direct numerical attack, with the exact block second moment saturating to four significant figures as W/U grows from 1.3 to 9.9, which is the W-independence the claim asserts, measured in the regime the old proof forbade. What the attack did break is the apparatus around the claim: the record's own falsification control runs on a coefficient family that violates the hypothesis of the step it supports, gate 6's 'independent route' shares its entire numerical substrate with the route it audits, and the four recorded margins do not select 51/100.",
+  "confidence": "Lean hard on A2 and A1: they are exact rational arithmetic and a mutation test, and the mutation moved both routes by the identical 4.426081703885579e-27, so there is nothing to interpret. Lean fairly hard on A5: the surrogate-versus-frozen contrast is clean (saturation against W^0.825 growth) and the probe reproduces the record's own ell=8 control number to five digits, so it is the same object read along a second axis. Lean on A3 with one caveat stated in RESULTS.md: it confirms a bound and a saturation at U=300, not an asymptotic, and it does not touch RAMS2 itself. Do not read any of this as a verdict on whether URMS2-051 is true, and do not read A5 as a counterexample to RAMS2 -- dirichlet_recurrence.py says in its own docstring that it is a frozen finite model, not a tail theorem, so the finding is that the control has no power, not that the analysis is wrong.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "The recorded margin system permits every alpha < delta < 1, not just 51/100, so either the result is substantially understated or a real constraint is missing from the record. The four ungated section 7 obligations are where it most likely lives.",
+      "why_it_might_matter": "The difference between bandwidth 0.51 and bandwidth approaching 1 for a level-two pair statistic is not a rounding of the same result. If nothing binds below delta, the higher_xi package proves considerably more than it claims; if something does, it is undocumented and the claim rests on it.",
+      "first_step": "Re-derive the height commutator and contour localization bounds at gamma = 21/20 rather than inheriting them from the gamma < delta < 1 regime, and see which one caps alpha."
+    },
+    {
+      "what": "The docs/25-shaped shared-layer pattern may not be confined to gate 6. bandwidth_forensics.py, urms2_051_audit.py and dirichlet_recurrence.py all import from corrected_form_factor.",
+      "why_it_might_matter": "If other gates in URMS2-051-AUDIT.md share the same substrate, the six-of-six pass rate overstates coverage in the same way gate 6 does, and the audit's verdict table reads stronger than it is.",
+      "first_step": "Run the same one-part-in-1e6 mutation of corrected_form_factor against each of the six gates and record which ones move."
+    },
+    {
+      "what": "finite_height_spacing_experiment sweeps ell only, holding effective gamma at 1, so it cannot vary W at fixed x.",
+      "why_it_might_matter": "That is exactly the quantity section 4 claims is W-independent, so the control is blind to its own subject. It is a two-line change from powerless to powerful.",
+      "first_step": "Add a W parameter to half_band_crossing.finite_height_spacing_experiment and truncate the integer array accordingly. Not done here: hunts/higher_xi/ is outside this hunt's write scope."
+    },
+    {
+      "what": "The frozen level-two family's A(y)/(y log y) has a clean trough near y = e^(0.55 ell) before climbing with a stable slope, at both ell = 8 and ell = 10.",
+      "why_it_might_matter": "If the trough location tracks ell predictably it is a property of the level-two coefficient family rather than an artifact, and it would mark where the frozen model stops proxying the real object.",
+      "first_step": "Locate the trough at ell = 8, 10, 12 and check whether log(y_trough)/ell is stable."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A shared-substrate mutation harness: given two routes that claim to check each other, perturb the modules and fixtures they both import and report whether their outputs move identically. This hunt hand-rolled it in about forty lines for one gate.",
+      "why_reusable": "harness/review.py's WHITEBOX_CHECKLIST names 'non-independent independent checks: shared layers carrying the verdict' as a failure mode the tree has actually recorded (docs/25, compiler/FINDINGS.md section 6), and every future white-box attack on a claim with an internal audit will need to test exactly this. It is also the mutation-and-result shape guard_ledger.py already wants. The live consumer is the standing review itself, not a hypothetical future agent.",
+      "first_step": "Take attack_a2 in hunts/r_065f29/probe.py as the concrete implementation and decide whether it belongs beside harness/independence.py, which already exists for a related purpose."
+    },
+    {
+      "what": "A convention for numerical controls: a control must be run on inputs that satisfy the hypothesis of the step it supports, and the sweep must vary the parameter the claim is about.",
+      "why_reusable": "Section 9's ladder failed both halves at once and still read as reassuring for five days. This is the same class of error as the harness gate's control design, and it is cheap to check at review time rather than at attack time.",
+      "first_step": "Fulcrum decides whether this is worth a line in the review brief template; do not build a checker for it here."
+    }
+  ],
+  "notes_for_operator": "Scope note, flagged rather than assumed: closing the loop mechanically broke tests/test_review.py::test_the_open_case_surfaces_its_missing_attacks, which pinned 'the white-box attack has not run'. That is a third file outside the two exceptions the brief granted, so I am naming it. The test's own docstring says it is updated as attacks land, and commit d09bdba updated it the same way when the blind attack was recorded, so I followed that precedent with the smallest change: it now asserts the review is standing and both roles are present, and I added a test that every recorded outcome cites artifacts that exist. Hunt number 36 was free when I reached hunts/README.md and I used it as assigned. Note that #35 is currently occupied twice (r_f7cd45 and r_3c1cbb) from parallel sessions; I did not touch either entry. The loop is closed and verified: standing_reasons now returns no reasons for either claim in review_ledger.py, and scripts/70_lab_state.py no longer mentions urms2. One ownership flag, one line as instructed: the brief's CLOSE THE LOOP section notes that R-FB9C81 was marked done while the ledger still asked for its outcome, and this run had to be told explicitly to write the outcome down. Whether the launch path should verify the generator before marking a hunt done is a Fulcrum routing question, not a science one, so I am naming it and carrying on."
+}
