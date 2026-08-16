@@ -81,7 +81,9 @@ def test_the_mirror_is_wider_than_the_arb_model_it_replaces() -> None:
     If this ever fails, the mirror has drifted back toward the Arb model and
     the tables it produces stop predicting kernel outcomes.
     """
-    from o9_leaf import leaves as arb_leaves
+    # `o9_leaf.leaves` now IS the kernel mirror (R-2926E4 fix); the Arb path
+    # it replaced survives as `leaves_arb`, which is what this test compares to.
+    from o9_leaf import leaves_arb as arb_leaves
 
     lo, hi, y = F(61, 10), F(62, 10), F(1, 2)
     k = kernel_leaves(lo, hi, y)

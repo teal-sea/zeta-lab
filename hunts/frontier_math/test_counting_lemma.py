@@ -12,10 +12,12 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 from counting_lemma import (  # noqa: E402
-    ATOM_RELIEF, A_CONST, BUDGET_FLOOR, D_ONE, KAPPA_W, NAMED_GAPS, W_MAX,
+    ATOM_RELIEF, A_CONST, C2_ZERO, CRITICAL_LATTICE_LIMIT,
+    D_ONE, KAPPA_W, NAMED_GAPS, W_MAX,
     am_gm_margin, budget, budget_floor_ladder, budget_per_pair, damage,
-    kappa, kappa_is_nonincreasing, kernel, phi_r, site_lower_bound,
-    site_value, window_occupancy, worst_spacing,
+    critical_lattice_limit, critical_lattice_partial_sum, kappa,
+    kappa_is_nonincreasing, kernel, lattice_budget_per_pair, phi_r,
+    site_lower_bound, site_value, window_occupancy, worst_spacing,
 )
 
 
@@ -152,25 +154,59 @@ def test_site_value_is_decreasing_in_j_beyond_one():
 
 def test_worst_spacing_sits_just_past_the_window_period():
     ws = worst_spacing()
-    assert 6.0 < ws["spacing"] < 6.6
+    assert 2 * math.pi < ws["spacing"] < 6.31
     assert ws["min_budget_per_pair"] > 0
+
+
+def test_lattice_difference_sum_matches_direct_budget():
+    """The O(k) reduction must be identical to the original O(k^2) sum."""
+    for k in (2, 8, 64):
+        assert lattice_budget_per_pair(6.3, k) == pytest.approx(
+            budget_per_pair(6.3, k), abs=2e-14)
+
+
+def test_critical_lattice_limit_has_the_poisson_closed_form():
+    expected = (0.5 + math.sin(math.sqrt(2)) / (2 * math.sqrt(2))
+                - 2 * math.sin(1 / math.sqrt(2)) ** 2)
+    assert C2_ZERO == pytest.approx(0.8492279993183042, abs=1e-15)
+    assert CRITICAL_LATTICE_LIMIT == pytest.approx(expected, abs=1e-15)
+    assert critical_lattice_limit() == pytest.approx(
+        0.00517169408367867955, abs=1e-15)
+
+
+def test_poisson_sum_converges_to_the_closed_form_target():
+    """Independent kernel-side check of the analytic Poisson identity."""
+    assert critical_lattice_partial_sum(50000) == pytest.approx(
+        critical_lattice_limit(), abs=4e-7)
 
 
 @pytest.mark.slow
 def test_budget_per_pair_does_not_decay_to_zero():
     ladder = budget_floor_ladder()
     vals = [r["budget_per_pair"] for r in ladder]
-    assert all(v > BUDGET_FLOOR * 0.95 for v in vals), vals
-    # it bottoms out and turns back up rather than decaying
-    assert min(vals) > 6.0e-3
-    assert vals[-1] >= min(vals)
+    assert all(v > CRITICAL_LATTICE_LIMIT for v in vals), vals
+    assert vals[-1] > critical_lattice_limit()
+    assert vals[-1] < 5.31e-3
 
 
 @pytest.mark.slow
-def test_budget_per_pair_ladder_is_monotone_then_flat():
+def test_reoptimised_ladder_keeps_falling_toward_two_pi():
     vals = [r["budget_per_pair"] for r in budget_floor_ladder()]
-    assert vals[0] > vals[1] > vals[2]        # falls at first
-    assert abs(vals[-1] - vals[-2]) < 2e-4    # then flattens
+    spacings = [r["spacing"] for r in budget_floor_ladder()]
+    assert all(a > b for a, b in zip(vals, vals[1:]))
+    assert all(a > b for a, b in zip(spacings, spacings[1:]))
+    assert spacings[-1] - 2 * math.pi < 5e-4
+
+
+@pytest.mark.slow
+def test_fixed_spacing_turnaround_was_an_artifact():
+    """Defect #24: the old ladder reused the k=64 minimiser at every k."""
+    ks = (64, 128, 256, 512, 1024)
+    fixed = [r["budget_per_pair"] for r in budget_floor_ladder(L=6.3, ks=ks)]
+    optimised = [r["budget_per_pair"] for r in budget_floor_ladder(ks=ks)]
+    assert fixed[-1] > min(fixed)
+    assert all(a > b for a, b in zip(optimised, optimised[1:]))
+    assert optimised[-1] < fixed[-1]
 
 
 def test_budget_is_nonnegative_on_random_pair_sets():
@@ -200,14 +236,15 @@ def test_one_pair_at_every_window_peak_still_beats_the_floor():
     nine = 2 * sum(damage(0.5, p) for p in peaks)
     assert nine == pytest.approx(1.2888e-2, rel=1e-3)
     assert nine < 1.372e-2                      # a lower bound for the total
-    assert nine > BUDGET_FLOOR                  # and already beats the floor
-    assert nine / BUDGET_FLOOR > 2.0
+    assert nine > CRITICAL_LATTICE_LIMIT
+    assert nine / CRITICAL_LATTICE_LIMIT > 2.4
 
 
 def test_named_gaps_are_stated():
     joined = " ".join(NAMED_GAPS).lower()
     assert "not closed" in joined
     assert "not proved" in joined
+    assert "re-optimising" in joined
     assert "rh" in joined
 
 

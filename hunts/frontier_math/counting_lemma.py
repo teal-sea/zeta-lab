@@ -63,30 +63,44 @@ cannot crowd.
 `<= w_max` and a pair cluster of diameter `<= w_max` separated by about
 the peak distance `6.517` — not one interval holding both.
 
-## 2. The budget floor: `B/k` does not decay
+## 2. The critical-lattice limit
 
 `B` is not additive, so "budget per pair" is not `Shq(y)/2` and could in
-principle vanish as `k` grows.  It does not.  Minimising over lattice
-spacings at `k = 64` puts the worst case at `L = 6.30` (just past `2 pi`,
-the window period), and along that worst family
+principle vanish as `k` grows.  The first scan fixed the spacing selected at
+`k = 64` and then varied `k`; that produced an apparent floor near `6.3e-3`
+and an apparent turn upward.  Re-optimising the spacing at every `k` refutes
+both readings: the minimising spacing approaches `2 pi` and `B/k` continues
+downward.
 
-    k    = 2, 4, 8, 16, 32, 64, 128, 256
-    B/k  = 2.459e-2, 1.749e-2, 1.260e-2, 9.492e-3, 7.653e-3,
-           6.680e-3, 6.325e-3, 6.392e-3
+The limiting value on the critical `2 pi` lattice is nevertheless positive
+and has a closed form.  If
 
-which bottoms out near **6.3e-03 and turns back up**
-(:func:`budget_floor_ladder`).  So every pair brings a guaranteed budget
-bounded away from zero, uniformly in `k` — measured, not proved.
+    kappa(s) = K_0(s) + K_1(s)
+             = int_{-1}^1 c2(w) (1 + cosh w) cos(sw) dw,
+
+Poisson summation at spacing `2 pi` gives
+
+    sum_{n in Z} kappa(2 pi n) = 2 c2(0),
+
+because `c2` is supported on `[-1,1]` and vanishes at the endpoints.  Hence
+
+    lim_{k -> infinity} B({0,2pi,...,2pi(k-1)})/k
+      = c2(0) - A^2
+      = 1/2 + sin(sqrt(2))/(2 sqrt(2))
+          - 2 sin(1/sqrt(2))^2
+      = 0.00517169408367867955...
+
+(:func:`critical_lattice_limit`).  This is an exact target for the lattice
+family, not a proved uniform floor over all finite or non-lattice pair sets.
 
 ## What this does and does not settle
 
-Together: each pair carries budget `>= ~6.3e-03` and can be crowded by at
-most one pair per window.  That is exactly the count `gram_form` said was
-missing, and it kills the configuration the `k = 1` analysis feared — many
-pairs sharing one atom cluster's windows.
+The one-window occupancy count survives unchanged.  The budget calculation
+now supplies an exact positive asymptotic target for the critical lattice,
+but not a uniform per-pair lower bound.  Those are separate statements.
 
 It does **not** close `k >= 2`.  A single pair facing atoms at every one of
-its window peaks already collects `1.372e-02 > 6.3e-03`, so the atom
+its window peaks already collects `1.372e-02 > 5.171694e-03`, so the atom
 repulsion `R/400` is still load-bearing and the shared-`R`-across-pairs
 question is untouched.  What is gone is the *unbounded* version of the
 worry.  `k >= 2` remains open and nothing here is evidence about RH.
@@ -100,8 +114,10 @@ import math
 __all__ = [
     "A_CONST", "W_MAX", "D_ONE", "ATOM_RELIEF", "KAPPA_W", "kappa",
     "kernel", "damage", "budget", "am_gm_margin", "window_occupancy",
-    "budget_floor_ladder", "worst_spacing", "kappa_is_nonincreasing",
-    "site_lower_bound", "BUDGET_FLOOR", "NAMED_GAPS",
+    "budget_floor_ladder", "worst_spacing", "lattice_budget_per_pair",
+    "critical_lattice_limit", "critical_lattice_partial_sum",
+    "kappa_is_nonincreasing", "site_lower_bound", "C2_ZERO",
+    "CRITICAL_LATTICE_LIMIT", "NAMED_GAPS",
     "report",
 ]
 
@@ -113,8 +129,10 @@ _A2 = A_CONST ** 2
 W_MAX = 0.9860008
 #: top window peak `D(1/2, 6.516999776)`.
 D_ONE = 4.396424118e-03
-#: measured floor of `B/k`, uniform in `k`, at the worst lattice spacing.
-BUDGET_FLOOR = 6.3e-03
+#: `c2(0)`, in the closed form from `mean_damage.py`.
+C2_ZERO = 0.5 + math.sin(SQ2) / (2 * SQ2)
+#: Exact Poisson-summation limit of `B/k` on the critical `2*pi` lattice.
+CRITICAL_LATTICE_LIMIT = C2_ZERO - _A2
 
 
 def _gh(a: float, b: float) -> complex:
@@ -210,34 +228,84 @@ def budget_per_pair(L: float, k: int, y: float = 0.5) -> float:
     return budget([L * i for i in range(k)], y) / k
 
 
+def lattice_budget_per_pair(L: float, k: int, y: float = 0.5) -> float:
+    """`B/k` for an arithmetic progression, reduced from `O(k^2)` to `O(k)`.
+
+    There are `2(k-n)` ordered pairs at displacement `nL`; the factor `1/2`
+    in `B` leaves weight `(k-n)/k` after division by `k`.
+    """
+    if k < 1:
+        raise ValueError("k must be positive")
+    diag = (kernel(2 * y, 0.0) + kernel(0.0, 0.0)) / 2 - _A2
+    return diag + sum((1 - n / k) * (kernel(2 * y, n * L) + kernel(0.0, n * L))
+                      for n in range(1, k))
+
+
+def critical_lattice_limit() -> float:
+    """Closed-form `k -> infinity` limit on the spacing-`2*pi` lattice."""
+    return CRITICAL_LATTICE_LIMIT
+
+
+def critical_lattice_partial_sum(n: int = 10000, y: float = 0.5) -> float:
+    """Symmetric Poisson sum truncated at `|j| <= n`, after subtracting `A^2`."""
+    diag = (kernel(2 * y, 0.0) + kernel(0.0, 0.0)) / 2 - _A2
+    return diag + sum(kernel(2 * y, 2 * math.pi * j) + kernel(0.0, 2 * math.pi * j)
+                      for j in range(1, n + 1))
+
+
+def _golden_min(fn, lo: float, hi: float, steps: int = 64) -> tuple[float, float]:
+    """Deterministic bounded scalar minimisation after the global coarse scan."""
+    gr = (math.sqrt(5) - 1) / 2
+    c, d = hi - gr * (hi - lo), lo + gr * (hi - lo)
+    fc, fd = fn(c), fn(d)
+    for _ in range(steps):
+        if fc <= fd:
+            hi, d, fd = d, c, fc
+            c = hi - gr * (hi - lo)
+            fc = fn(c)
+        else:
+            lo, c, fc = c, d, fd
+            d = lo + gr * (hi - lo)
+            fd = fn(d)
+    x = (lo + hi) / 2
+    return fn(x), x
+
+
 def worst_spacing(k: int = 64, lo: float = 2.0, hi: float = 14.0,
-                  n: int = 120) -> dict:
-    """The lattice spacing that minimises `B/k`."""
-    best = None
-    for i in range(n):
-        L = lo + i * (hi - lo) / n
-        v = budget_per_pair(L, k)
-        if best is None or v < best[0]:
-            best = (v, L)
-    return {"min_budget_per_pair": best[0], "spacing": best[1], "k": k}
+                  n: int = 600) -> dict:
+    """Globally scan, then locally refine, the lattice spacing at this `k`."""
+    step = (hi - lo) / n
+    vals = [(lattice_budget_per_pair(lo + i * step, k), lo + i * step)
+            for i in range(n + 1)]
+    _, coarse = min(vals)
+    left, right = max(lo, coarse - step), min(hi, coarse + step)
+    value, spacing = _golden_min(lambda L: lattice_budget_per_pair(L, k), left, right)
+    return {"min_budget_per_pair": value, "spacing": spacing, "k": k}
 
 
 def budget_floor_ladder(L: float | None = None,
-                        ks=(2, 4, 8, 16, 32, 64, 128, 256)) -> list:
-    """`B/k` along the worst family — must not decay to zero."""
-    if L is None:
-        L = worst_spacing()["spacing"]
-    return [{"k": k, "budget_per_pair": budget_per_pair(L, k)} for k in ks]
+                        ks=(2, 4, 8, 16, 32, 64, 128, 256, 512, 1024)) -> list:
+    """`B/k` ladder, re-optimising the spacing at every `k` by default."""
+    rows = []
+    for k in ks:
+        if L is None:
+            row = worst_spacing(k)
+            rows.append({"k": k, "budget_per_pair": row["min_budget_per_pair"],
+                         "spacing": row["spacing"]})
+        else:
+            rows.append({"k": k, "budget_per_pair": lattice_budget_per_pair(L, k),
+                         "spacing": L})
+    return rows
 
 
 NAMED_GAPS = (
     "C1 `k >= 2` is NOT closed. A single pair facing atoms at every one of "
-    "its window peaks collects 1.372e-02 > the 6.3e-03 budget floor, so "
+    "its window peaks collects 1.372e-02 > the 5.1717e-03 critical-lattice limit, so "
     "R/400 is still load-bearing and the shared-R-across-pairs question "
     "is untouched.",
-    "C2 the budget floor is MEASURED along lattice families to k = 256 and "
-    "minimised over spacing at k = 64; it is not proved, and no search "
-    "over non-lattice pair sets at large k was run.",
+    "C2 the 5.171694e-03 value is exact only as the infinite critical-lattice "
+    "limit. It is not proved to be a uniform floor over finite or non-lattice "
+    "pair sets.",
     "C3 the counting lemma uses the single-window constants (w_max, D_1, "
     "gamma, kappa(w_max)); it is a statement about one window, and the "
     "assembly over windows is not carried out here.",
@@ -256,6 +324,9 @@ NAMED_GAPS = (
     "site configurations. The correct pairing is `slack >= k Shq/2 - f`, "
     "which fails on none.",
     "C7 nothing here is evidence about RH.",
+    "C8 coordinator defect #24: the 6.3e-03 floor and claimed upward turn "
+    "came from fixing the k=64 spacing while varying k. Re-optimising at every "
+    "k makes the ladder decrease toward the exact critical-lattice limit.",
 )
 
 
@@ -271,18 +342,19 @@ def report() -> dict:
     for r in window_occupancy():
         print(f"  j = {r['j']}: max over m = {r['best']:+.6e} at m = {r['m']}"
               f"   profitable: {r['profitable']}")
-    print("= 2. the budget floor: B/k does not decay =")
+    print("= 2. the critical-lattice limit =")
     ws = worst_spacing()
     print(f"  worst lattice spacing at k=64: L = {ws['spacing']:.2f} "
           f"(window period is 2 pi = {2*math.pi:.4f})")
     for r in budget_floor_ladder():
-        print(f"  k = {r['k']:4d}: B/k = {r['budget_per_pair']:.6e}")
-    print(f"  floor taken as {BUDGET_FLOOR:.1e}; Shq/2 = "
+        print(f"  k = {r['k']:4d}: L = {r['spacing']:.9f}  "
+              f"B/k = {r['budget_per_pair']:.9e}")
+    print(f"  exact 2*pi lattice limit = {critical_lattice_limit():.16e}; Shq/2 = "
           f"{(_gh(1.0, 0.0).real ** 2 - _A2) / 2:.6e}")
     print("= named gaps =")
     for g in NAMED_GAPS:
         print(f"  * {g}")
-    return {"am_gm": a, "floor": BUDGET_FLOOR}
+    return {"am_gm": a, "critical_lattice_limit": CRITICAL_LATTICE_LIMIT}
 
 
 if __name__ == "__main__":

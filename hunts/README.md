@@ -70,6 +70,53 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #35: Mertens's second theorem, the mapped block built (`r_3c1cbb/`)
+
+**Status: settled.** Continuation of Hunt #30, building exactly the block
+its route map named and nothing else. What landed:
+`lean/ZetaLean/MertensSecond.lean` compiles against pinned Mathlib
+v4.33.0-rc2 with zero sorrys and carries Mertens's **second** theorem in the
+`log log x + O(1)` form with an explicit constant:
+`|Σ_{p≤N} 1/p − log log N| ≤ 76` for every natural `N`
+(`mertens_second_theorem`; the content is at `N ≥ 2`, below that the sum is
+empty and Mathlib's `log 0 = 0` makes the bound trivial). The argument is
+the classical partial summation against
+`A(n) = Σ_{p≤n} log p/p = log n + O(1)`, the `O(1)` band being Hunt #30's
+`mertens_first_theorem` consumed as-is, with the termwise bracket
+`(v−u)/v ≤ log v − log u ≤ (v−u)/u` telescoping to `log log N` and the
+overshoot closed by `Σ 1/n² ≤ 1`. One deviation from the route map, worth
+keeping: the discrete Abel identity went in by direct `Nat.le_induction`
+from `N = 2` (`sum_inv_primes_eq`), not by reindexing Mathlib's
+range-indexed summation by parts, which removed the labor the map had
+priced at 150 to 250 lines of reindexing. The constant `76` is deliberately
+coarse (a sieve to `10^6` puts the true deviation near `0.26`); its slack
+decomposes into named local steps, nearly all inherited from the first
+theorem's `log 4 + 16` band. The sharper `log log x + M + o(1)` form and
+the third theorem need the Mertens constant and are recorded as out of
+scope. Details in `r_3c1cbb/RESULTS-second.md`. Nothing here is evidence
+for or against RH.
+
+### Hunt #30: Mertens's theorems, settled through the first theorem (`r_3c1cbb/`)
+
+**Status: settled in part, and the part is stated exactly.** The target
+(Wikidata Q1196729, recorded by Mathlib's wanted-theorems tracking as wanted
+and unbuilt) was any of Mertens's three theorems, kernel-checked. What landed:
+`lean/ZetaLean/Mertensstheorems.lean` compiles against pinned Mathlib
+v4.33.0-rc2 with zero sorrys and carries Mertens's **first** theorem in both
+classical forms with explicit constants: the von Mangoldt form
+`|Σ_{n≤N} Λ(n)/n − log N| ≤ log 4 + 4` and the prime form
+`|Σ_{p≤N} (log p)/p − log N| ≤ log 4 + 16`, each for `N ≥ 1`. The argument is
+fully elementary: the summatory identity from
+`ArithmeticFunction.vonMangoldt_sum` by counting multiples, Mathlib's
+Chebyshev bound `psi_le_const_mul_self`, an induction replacing Stirling with
+`log(1+1/M) ≤ 1/M`, and a telescoping `Σ n^(-3/2)` bound for the prime-power
+correction. The **second** theorem (`Σ 1/p = log log x + O(1)`) was
+route-mapped but not built: the wall is the discrete partial-summation step,
+recorded with the relevant Mathlib declaration names in `RESULTS.md`. The
+**third** is out of reach at this budget (needs the Mertens constant and γ).
+Constants are far from optimal by design; sharpening them is a loose thread.
+Nothing here is evidence for or against RH.
+
 ### Hunt #34: claim 'urms2-0.51' has no recorded blind attack (`r_fb9c81/`)
 
 **Status: settled. The stated analytical assumption holds structurally, and the mean-value evaluation is valid.** The blind attack searched for a numerical consequence of replacing the exact polynomial frequency spacing with its generic mean bound, testing whether length $W \gg U$ could collapse the off-diagonal bounds while keeping the formal appearance of the claim. A numerical probe on a scaled configuration ($x = 1000, \alpha = 0.51, \delta = 0.75$) proved that the Montgomery-Vaughan mean-value off-diagonal cost remains identically bounded by $O(x \log x)$. The true frequency separation limits the spacing error such that the main diagonal term $U \log x$ unconditionally dominates. The $0.51$ parameter therefore does not survive merely on an invalid archimedean assumption; its required analytical decay is physical and rigorous. Full evidence and reasoning are recorded in `hunts/r_fb9c81/RESULTS.md`. Nothing here is evidence for or against RH.

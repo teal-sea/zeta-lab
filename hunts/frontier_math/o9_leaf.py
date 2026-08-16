@@ -39,26 +39,35 @@ which `phiC_mem` proves encloses `Phi2(X + i Y)`.  Since
 coefficients, `D(y,s) = -Re[Phi2(s + i y)^2]`, so the damage enclosure is
 `phiC` at `(s, y)`, squared by `CIv.mul`, real part negated.
 
-## LEAF CAVEAT — stated up front
+## LEAF CAVEAT — corrected 2026-08-15 (R-2926E4)
 
-The transcendental leaves (`sin`, `cos` of the cell, `sinh`, `cosh` of
-`y/2`, `sqrt2`, `sin/cos(sqrt2/2)`) are computed here with **Arb**, then
-rounded outward onto the `2^-64` grid.  `BandCert/Leaves.lean` computes
-them with Taylor series plus argument reduction, at its own widths.  The
-two agree to well under `2^-60` on this range, but they are not identical,
-so this module **predicts** the kernel's verdict rather than reproducing
-it bit-for-bit.  Where a cell passes with margin — and every cell here
-does, by the factor reported in `validate()` — the prediction is safe.
-A cell passing by less than a few ulp would not be.
+An earlier version of this module computed the transcendental leaves with
+**Arb** and argued the prediction safe because every cell passed with
+margin.  That argument is **refuted**, twice over: `decide +kernel`
+refuted the Arb-model table on 7 of 9 chunks (`O9-2D-STATUS.md` §0), and
+`hunts/r_2926e4/probe.py` measured that **85 of the 344 Arb-model cells
+fail outright on the kernel's own leaves** — including a cell whose
+recorded Arb margin was `9.21e16` ulp, `2.5e7x` the minimum offered as
+evidence of safety.  No threshold on that margin separates safe
+predictions from unsafe ones; the failure mode is modelling a checker
+with tighter arithmetic than the checker has.
 
-## The size, corrected
+`leaves()` therefore now computes with `o9_leaves_kernel.kernel_leaves`
+— the same coefficient lists, `hornerI`, `widen`, constants and
+`sinCosIv` reduction as `BandCert/Leaves.lean`, pinned integer-for-
+integer by `tests/test_o9_leaves_kernel.py`.  The Arb path survives as
+`leaves_arb()` for comparison only, and predicts nothing.
+
+## The size, corrected twice
 
 `window_table.py` sized this at **196 cells** using Arb balls at 128 bits.
-In the kernel's own arithmetic it is **344 cells** (max depth 20, every one
-decided, smallest margin `3.63e9` ulp `= 1.97e-10`).  The 196 was an
-**underestimate**: Arb at 128 bits is tighter than fixed point at `2^-64`,
-so cells Arb decides need splitting again here.  344 sits somewhat above
-`BandCert`'s existing `62..248`, still the same order.
+The Arb model at `2^-64` fixed point gave **344** (max depth 20).  On the
+kernel's own leaves it is **476 cells** (max depth 22, every one decided,
+smallest margin `3.12e8` ulp `= 1.69e-11`) — the 344 was itself **38%
+low**, for the reason in the LEAF CAVEAT above.  Each correction had the
+same direction: a tighter model than the checker undercounts the
+checker's work.  476 sits above `BandCert`'s existing `62..248`, still
+the same order.
 
 One structural detail decides termination.  The walk must be seeded by
 cutting `[28/5, 60]` at **every window endpoint** before subdividing:
@@ -90,16 +99,17 @@ this table would stop closing.  `test_o9_leaf.py` pins it.
 ## Two different objects, and theirs needs one lemma fewer
 
 `o9_scoping.py` sizes the **two-dimensional** table over
-`[28/5, 60] x [0, 1/2]`; its recommended operating point is inflation
-`1.20x` with widening `1/200`, giving **110 window + 279 complement = 389
-leaves, max depth 16**.  This module sizes the **one-dimensional** table at
-`y = 1/2` only: 344 cells at inflation `1.05x` with no explicit widening.
+`[28/5, 60] x [0, 1/2]`; its Arb-grade operating point was **389 leaves**
+(110 window + 279 complement, inflation `1.20x`, widening `1/200`).  On
+kernel leaves that route measures **1939 cells** (`hunts/r_2926e4/`
+RESULTS §"the 2-D route", 598 -> 1939), against this module's **476**.
 
-The two are close in size, and **theirs is the stronger artifact**: being
-two-dimensional it does not need the depth reduction
-`D(y,s)/y^2 <= 4 D(1/2,s)`, which is measured and unproved.  This module
-trades that lemma for about 45 leaves.  Whoever builds the Lean file should
-probably take the 2-D route for that reason alone.
+The 2-D route is still the stronger artifact — it does not need the
+depth reduction `D(y,s)/y^2 <= 4 D(1/2,s)`, which is measured and
+unproved — but the trade is now about `4x` the cells, not the `1.13x`
+recorded when both figures were Arb-grade.  What that lemma is worth in
+leaves is a decision for whoever builds the Lean file; the earlier
+"take the 2-D route for 45 leaves" advice understated its cost.
 
 ## What it produces
 
@@ -127,9 +137,9 @@ __all__ = [
 
 SO = 1 << 64
 
-#: Cells in the kernel's fixed-point arithmetic (`window_table.N_CELLS`
-#: is the Arb-grade 196, which understates this by 43%).
-N_CELLS_KERNEL = 344
+#: Cells on the kernel's own leaves (`window_table.N_CELLS` is the
+#: Arb-grade 196; the Arb-model 344 was itself 38% low — see LEAF CAVEAT).
+N_CELLS_KERNEL = 476
 
 
 # ---------------------------------------------------------------------------
@@ -234,7 +244,7 @@ def civ_div(a, b):
 
 
 # ---------------------------------------------------------------------------
-# leaves, via Arb, rounded outward onto the 2^-64 grid  (see LEAF CAVEAT)
+# leaves — kernel mirror by default; Arb path kept for comparison only
 # ---------------------------------------------------------------------------
 
 def _arb():
@@ -269,7 +279,17 @@ def _cell_ball(lo: F, hi: F):
 
 
 def leaves(lo: F, hi: F, y: F):
-    """Everything `phiC` needs, as `Iv`, for the cell `[lo,hi]` at depth `y`."""
+    """Everything `phiC` needs, computed the way the kernel computes it.
+
+    Delegates to `o9_leaves_kernel.kernel_leaves` (imported lazily —
+    that module imports this one for `Iv`).  See LEAF CAVEAT.
+    """
+    from o9_leaves_kernel import kernel_leaves
+    return kernel_leaves(lo, hi, y)
+
+
+def leaves_arb(lo: F, hi: F, y: F):
+    """The refuted Arb path, kept for comparison only.  Predicts nothing."""
     arb = _arb()
     b = _cell_ball(lo, hi)
     half = b / 2
@@ -499,11 +519,12 @@ end Retention
 NAMED_GAPS = (
     "L1 NOT kernel-checked: there is no Lean toolchain in this container. "
     "This module predicts the verdict; it does not obtain it.",
-    "L2 LEAF CAVEAT: the transcendental leaves are Arb here and Taylor "
-    "series in BandCert/Leaves.lean. The downstream integer arithmetic is "
-    "mirrored exactly, but the leaf widths are not identical, so a cell "
-    "passing by only a few ulp would not be safely predicted. Every cell "
-    "here passes by far more -- see validate()['min_margin_ulp'].",
+    "L2 LEAF CAVEAT, corrected: leaves() now mirrors the kernel's own "
+    "arithmetic (o9_leaves_kernel), so the table is computed, not "
+    "predicted, at the leaf layer. The Arb path (leaves_arb) was refuted "
+    "as a predictor -- 85 of its 344 cells fail on kernel leaves and no "
+    "margin threshold separates safe from unsafe; see O9-2D-STATUS.md "
+    "section 0 and hunts/r_2926e4/RESULTS.md.",
     "L3 `damageIv` is now written by hand in "
     "`zeta23ext/Zeta23Ext/EForm3/O9Damage.lean`, but its SOUNDNESS lemma "
     "`damageIv_mem` is not: the file records the obligation in prose "

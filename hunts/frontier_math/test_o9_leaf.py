@@ -128,10 +128,10 @@ def test_every_cell_decides(table):
 
 
 def test_table_size_is_recorded_and_reproduces(table):
-    """344 in the kernel's arithmetic -- NOT the 196 that Arb suggested."""
+    """476 on the kernel's leaves -- not Arb's 196, and not the Arb-model 344."""
     v = validate(table)
-    assert v["cells"] == 344
-    assert v["max_depth"] == 20
+    assert v["cells"] == 476
+    assert v["max_depth"] == 22
 
 
 def test_margins_are_far_above_the_leaf_caveat_threshold(table):
@@ -202,10 +202,10 @@ def test_s4_windows_strictly_contain_the_true_support():
 
 
 def test_kernel_count_disagrees_with_the_arb_grade_count():
-    """196 is Arb-grade; the kernel's arithmetic needs 344."""
+    """196 is Arb-grade, 344 was the Arb model; the kernel's leaves need 476."""
     from window_table import N_CELLS as ARB_GRADE
     assert ARB_GRADE == 196
-    assert N_CELLS_KERNEL == 344
+    assert N_CELLS_KERNEL == 476
     assert N_CELLS_KERNEL > ARB_GRADE
 
 
