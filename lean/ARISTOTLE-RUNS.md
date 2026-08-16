@@ -369,3 +369,22 @@ actually consumes, not the most convenient one to state.
 
 **Turnaround** (submit to collect, upper bounds; polled): V ~40 min, W ~40 min,
 TU2 ~95 min, J2 ~2 h.  Four of four accepted; one needed repair.
+
+## Batch 10 — Pub 1 assembly closure (submitted 2026-08-16)
+
+| tag | project | statement | status |
+| --- | --- | --- | --- |
+| Y | `d17ee0f9-cd6a-4aad-a6d4-ed1519c86640` | the `L^∞` resolvent estimate by a maximum principle | collected — accepted, ported unchanged |
+
+One project, and it is the one that mattered: batch 8's `R` form of the same
+estimate asked for a *minimal* bound `Bz`, which would have needed the sup built
+as an `sInf`.  Restated as "`|z|` attains its max on the compact interval, and at
+that point the equation gives the bound directly", it is a short proof and drops
+straight in.  Same lesson as `J2`/`TU2`: ask for the form the downstream argument
+can actually feed.
+
+This batch completed the development.  `pub1_strong_closure` and
+`pub1_strong_closure_reciprocal` are now unconditional.
+
+Prompts are pinned in the private operating repo at
+`fulcrum/records/aristotle-prompts/pub1/`.
