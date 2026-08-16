@@ -319,7 +319,7 @@ Seven further bounded lemmas aimed at removing the four analytic assumptions
 recorded in `lean/ZetaLean/Pub1/OBLIGATIONS.md`.  Same rules as batches 5-7, and
 the prompts now carry the porting notes distilled from those batches (explicit
 antiderivatives instead of `norm_num` on interval integrals; `congr_deriv`
-instead of `convert`; no `simpa` on lambdas).  That guidance paid: six of seven
+instead of `convert`; no `simpa` on lambdas).  That guidance paid: all seven
 ported unchanged, against seven of twelve in the previous round.
 
 | tag | project | statement | status |
@@ -340,7 +340,7 @@ coefficient `2` is then a theorem, not a convention: it is `2 f'(0)` with
 and it is the one the operator prompt suggested.
 
 **Measured turnaround** (submit to collect, upper bounds; collection was polled):
-N, O ~55 min and ~20 min; R ~35 min; S ~65 min; T ~75 min. The two
+N, O ~55 min and ~20 min; R ~35 min; S ~65 min; T ~75 min; U ~85 min. The two
 series-analysis targets (S) and the product-rule/`L¹` target (T) were the slow
 ones, consistent with batch 5-7 where the series work also ran longest.
 

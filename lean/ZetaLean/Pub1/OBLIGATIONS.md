@@ -129,7 +129,7 @@ square-root taper needs is assumed.
 
 ## Obligation D — uniform `L¹` derivative bounds
 
-**Half PROVED.**
+**The two `L¹` estimates are PROVED.**
 
 ```
 AristotleT.taper_second_deriv_L1_bound :
@@ -140,15 +140,10 @@ The `η`-side constants it rests on are all proved: `∫₀¹ η'² = 700/429`,
 `∫₀¹|η''| = 35/8` (`AristotleD`), `‖(η²)''‖₁ ≤ 20615/1716`
 (`ramp_sq_second_deriv_bound`).
 
-**Still open:** the same bound for the square,
+**Both halves now PROVED**: `AristotleU.taper_sq_second_deriv_L1_bound` gives
+`‖(φ_L²)''‖₁ ≤ B₂/L + 4B₁/L + (20615/858)B₀`.
 
-```lean
-theorem taper_sq_second_deriv_L1_bound :
-    (∫ u : ℝ, |iteratedDeriv 2 (fun u : ℝ => P (u / L) * eta (L / 2 - |u|) ^ 2) u|)
-      ≤ B2 / L + 4 * B1 / L + (20615 / 858) * B0
-```
-
-plus the instantiation of both with `P = √w` and `P = w`, which needs the
+**Still open:** the instantiation of both with `P = √w` and `P = w`, which needs the
 `‖w'‖_∞`, `‖w''‖_∞` bounds from obligation A.  Note `Aristotle/T` (and `U`)
 take `ContDiff ℝ 2 P` on all of `ℝ`; for `P = √w` that is the same
 over-strong hypothesis as J and needs the same weakening.
