@@ -70,3 +70,23 @@ prover submission:
   random instances per lemma). A wrong statement costs a multi-hour round
   trip, and this ledger already records one submission the prover refuted
   for a missing hypothesis.
+
+## Landing note, 2026-08-16
+
+`two-species` and `o9-leaf-fix` were developed on separate branches and
+landed together. Both appended a row to the table above at the same
+anchor, which conflicted; the resolution kept **both** rows — the claims
+are independent (one is the k=2 restatement, the other applies run
+R-2926E4's recorded o9_leaf fix) and neither supersedes the other.
+
+Landed onto `main` in this order, each verified before the next:
+`hunt/r-3c1cbb-05c755d3` (Mertens I+II, fast-forward), then
+`claude/o9-leaf-kernel-476`, then `claude/k2-two-species`.
+
+Pre-existing failures on `main` at the time of landing, verified present
+on the untouched trunk and therefore NOT introduced here:
+`test_o9_leaf.py::test_o9_is_staged_but_not_wired_into_the_package`,
+three tests in `test_o9_leaf2d.py`, `test_huntspec.py::
+test_every_mission_huntspec_block_in_the_tree_validates`, and
+`test_lab_state.py::test_the_view_renders_every_section`. They belong to
+other sessions' work and were left untouched.
