@@ -17,10 +17,10 @@ With interior `C²` regularity of `w` and its two sup bounds in hand
 satisfiable, which was not true of the earlier versions: those asked for `C²` on
 a neighbourhood of the closed interval, which is false for `w`.
 
-`sourceWindow_taper_open` assembles seven of the eight source-admissibility
-fields for `φ_L = √w(·/L)·η(L/2-|·|)`.  The eighth, radial monotonicity, is the
-only one still open, and it reduces to strict concavity of `w`, hence to the
-residual certificate.
+This module supplies the two `L¹` admissibility fields for
+`φ_L = √w(·/L)·η(L/2-|·|)`, together with its `C²` regularity.  The eighth
+field, radial monotonicity, comes from `Concave.w_radial`; all eight are
+assembled in `Unconditional.sourceWindow_taper_final`.
 -/
 
 open Set MeasureTheory

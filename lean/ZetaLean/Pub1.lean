@@ -69,7 +69,14 @@ Formalization of the theorem of
 | `Window` | the source-admissible class, the taper `φ_L`, `‖v_L-w‖₂² ≤ 2/L` |
 | `Setting` | `F₁`, the clamped kernel, the coercive form, existence of `w` |
 | `Profile` | the ambient upper bound `⟨1,v⟩² ≤ c*⟨Av,v⟩` |
-| `Main` | the principal theorem, in both orientations |
+| `Main` | the variational engine's `StrongClosureData` interface |
+| `WRegularity` | interior `C²` of `w`, with `‖w'‖_∞` and `‖w''‖_∞` |
+| `Cert*` | the exact-rational certificate: `A₀u + r₀ = 1`, `∫r₀²`, the arithmetic |
+| `QBound`, `QDiff`, `TailBound` | `‖q‖_∞`, `‖q - q_M‖_∞`, and the kernel tail |
+| `ZBounds`, `ZppBound` | `‖z‖_∞`, `‖z‖₂`, and `‖w'' - u''‖_∞ < 0.006060899845` |
+| `Concave` | strict concavity ⟹ radial monotonicity of `w` |
+| `TaperAdmissible` | the taper is `C_c²` with uniform `L¹` derivative bounds |
+| `Unconditional` | **the principal theorems, with no hypothesis left** |
 | `Aristotle/*` | externally generated lemmas, each kernel-checked here |
 
 Everything under `Aristotle/` arrived from an external prover and counts for
@@ -78,5 +85,9 @@ repository's own toolchain — the rule of `lean/proof_adapter.py`.  Several
 needed local repair to build against the `v4.33.0-rc2` pin; each such file says
 so in its header.
 
-The still-open analytic inputs are listed in `ZetaLean/Pub1/OBLIGATIONS.md`.
+The development is complete: `Unconditional.pub1_strong_closure` and
+`Unconditional.pub1_strong_closure_reciprocal` carry no analytic or membership
+hypothesis, and `pub1_strong_closure_exists` carries none at all.
+`ZetaLean/Pub1/OBLIGATIONS.md` is the closure record: it says how each of the
+four analytic obligations was discharged, and is no longer a list of open work.
 -/
