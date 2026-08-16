@@ -21,8 +21,8 @@
     "output": "✔ [8699/8699] Built ZetaLean.HardyRamanujantheorem (22s)\nBuild completed successfully (8699 jobs).",
     "full_package_build": {
       "command": "lake build",
-      "exit_status": null,
-      "note": "still compiling the pre-existing BallTerm and Pub1 modules at commit time; outcome recorded in a follow-up commit"
+      "exit_status": 0,
+      "output": "✔ [8781/8782] Built ZetaLean (5.9s)\nBuild completed successfully (8782 jobs)."
     },
     "toolchain": "leanprover/lean4:v4.33.0-rc2",
     "mathlib_cache_files": 8681,
