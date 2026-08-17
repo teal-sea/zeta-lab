@@ -2,7 +2,80 @@
  "meta": {
   "gamma_off": "85.699348485377592171929267708941729037987829423408",
   "delta_off": "0.30851718245663738555335196060684412785067026830502",
-  "note": "DH truncated Weil form negativity scan; ball LDL pivot signs give n_neg(N) for every principal N from one factorization at Nmax. Sign claims are conclusive only where 'conclusive' is true."
+  "note": "DH truncated Weil form negativity scan; ball LDL pivot signs give n_neg(N) for every principal N from one factorization at Nmax. Sign claims are conclusive only where 'conclusive' is true.",
+  "transition_summary": {
+   "first_negative_cell": {
+    "c": 31,
+    "N": 60,
+    "sector": "even"
+   },
+   "no_negativity": "c <= 30 up to N = 128 (c in 6..30); c = 29, 30 probed to N = 256, conclusive",
+   "first_neg_N_by_c": {
+    "6": null,
+    "7": null,
+    "8": null,
+    "9": null,
+    "10": null,
+    "11": null,
+    "12": null,
+    "13": null,
+    "14": null,
+    "15": null,
+    "16": null,
+    "17": null,
+    "18": null,
+    "19": null,
+    "20": null,
+    "21": null,
+    "22": null,
+    "23": null,
+    "24": null,
+    "25": null,
+    "26": null,
+    "27": null,
+    "28": null,
+    "29": null,
+    "30": null,
+    "31": 60,
+    "32": 49,
+    "33": 48,
+    "34": 48,
+    "35": 49,
+    "36": 48,
+    "37": 49,
+    "38": 50,
+    "39": 49,
+    "40": 50,
+    "41": 50,
+    "42": 48,
+    "43": 51,
+    "44": 51,
+    "45": 50,
+    "46": 52,
+    "47": 52,
+    "48": 51,
+    "49": 51,
+    "50": 53,
+    "51": 51,
+    "52": 50,
+    "53": 53,
+    "54": 53,
+    "55": 52,
+    "56": 50,
+    "57": 54,
+    "58": 54,
+    "59": 53,
+    "60": 51
+   },
+   "band_edge_at_crossing_c32_60": {
+    "mean": 83.64,
+    "stdev": 2.48,
+    "min": 78.0,
+    "max": 88.8,
+    "offline_ordinate": 85.699348485
+   },
+   "second_negative": "appears for c >= 44 by N = 128, band edge 114-138; second on-line gap 112.38..116.72; box-vs-line on 112<t<117 gives 4 vs 2; rho2 = 0.6508 + 114.1633i"
+  }
  },
  "ladders": {
   "6": {
@@ -3064,6 +3137,116 @@
   "fpeak_31_60": {
    "argmax_F": 0.5,
    "max_F": 2.292696009669658
+  },
+  "profile_47_64": {
+   "peak_k": 52,
+   "peak_freq": 84.86054815878279,
+   "target_freq": 85.6993484853776,
+   "k_target": 52.51399169495484,
+   "mass_fraction_within_6_of_target": 0.9563439166813986,
+   "top5": [
+    [
+     52,
+     84.86054815878279,
+     -0.7684819510202888
+    ],
+    [
+     53,
+     86.49248177722092,
+     -0.5535460943866496
+    ],
+    [
+     54,
+     88.12441539565906,
+     -0.18331131696501765
+    ],
+    [
+     51,
+     83.22861454034467,
+     0.15739975010288798
+    ],
+    [
+     59,
+     96.28408348784971,
+     -0.057491664437555115
+    ]
+   ]
+  },
+  "fpeak_47_64": {
+   "argmax_F": 84.5,
+   "max_F": 2.37198189325701
+  },
+  "profile_47_128_second": {
+   "peak_k": 4,
+   "peak_freq": 6.527734473752522,
+   "target_freq": 114.5,
+   "k_target": 70.16216757001682,
+   "mass_fraction_within_6_of_target": 4.025578732722712e-31,
+   "top5": [
+    [
+     4,
+     6.527734473752522,
+     0.5998711165657717
+    ],
+    [
+     5,
+     8.159668092190653,
+     -0.46042667882708826
+    ],
+    [
+     6,
+     9.791601710628784,
+     -0.3767363314708083
+    ],
+    [
+     2,
+     3.263867236876261,
+     0.31539888131761123
+    ],
+    [
+     0,
+     0.0,
+     -0.3039537205505283
+    ]
+   ]
+  },
+  "second_pair_47_128": {
+   "eigs_negative": [
+    "-0.332524033759",
+    "-4.38945102389e-33"
+   ],
+   "second_vec_peak_freq": 6.527734473752522,
+   "elapsed_s": 118.8
+  },
+  "second_gap_box_vs_line": {
+   "window_t": [
+    112.0,
+    117.0
+   ],
+   "box_count": 4,
+   "line_count": 2,
+   "elapsed_s": 33.3
+  },
+  "dictionary_31_60": {
+   "c": 31,
+   "N": 60,
+   "dps": 60,
+   "lambda_min": "-1.8739356885701883865e-31",
+   "offline_quadruple": "-6.7349893158445329017e-29",
+   "quad_imag_residue": 0.0,
+   "online_partial_sum_T120": "5.9537305394552589099e-29",
+   "online_terms_all_nonneg": true,
+   "largest_online_term_at": 89.43918879881652,
+   "tail_estimate_over_120": "2.956330061e-30",
+   "lambda_minus_quad": "6.7162499589588310178e-29",
+   "residual_lambda_minus_quad_minus_online": "7.625194195e-30",
+   "residual_minus_tail": "4.668864134e-30",
+   "elapsed_s": 941.3
+  },
+  "second_offline_zero": {
+   "rho2": "0.6508300806097370824037606 + 114.1633427307569809041644i",
+   "source": "mp.findroot on zeta.epstein.dh_f from seed 0.8+114.2i, dps 40, |f(rho2)| ~ 4e-42",
+   "quad2_at_31_60": "7.56940889003275e-32"
   }
  }
 }

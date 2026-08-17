@@ -394,3 +394,113 @@ The kappa = 2 stability under deepening (5e-5 between truncations 11 and
 20) is measured behavior consistent with a convergent corrected series,
 and is exactly what the tail-bound programme (section 3) would turn into
 a theorem.
+
+## 6. Fifth finding (2026-08-17, theory session): a master formula for the corrected rows, entire-order-2 growth, and deepened bounds
+
+Files: `theory_notes.md` (append-only derivation log), `theory_gf.py`
+(the collapsed formula, general kappa), `theory_validate.py` (battery),
+`row2_ext.json` / `row3_ext.json` (exact extended rows). Everything in
+this section inherits the scope of sections 3 and 5: RH plus the
+hypotheses and fixed-B truncation structure of Bian's Theorem 1; grades
+are named per the house ladder.
+
+### 6.1 The collapse
+
+Summing the generating identity of section 3 over all compositions and
+dimensions collapses the corrected row to an operator resolvent. With
+X = 2 alpha and, for i >= 3,
+
+    C_{kappa,i} = 2^{i-1}/i! * [X^{i-1}] S(X),
+    S(X) = - (1 + D_u)^{-1} g |_{s=0},
+
+where (derivation in `theory_notes.md`, checkpoints 1 and 5): the y-side
+sum over l is a geometric series giving the explicit rational
+
+    F = -(Dm + D2)/(1+A) + Cq B/(1+A)^2
+
+in the z-side power sums s_r = sum_j mu_r(z_j),
+mu_r(z) = (-1)^{r-1}(r-1)!(1-(z+1)^{-r}), and the z-side sum over k is a
+Neumann series in a single constant-coefficient differential operator
+D_u of order kappa in the s-variables (jet coefficients
+e(r,n) = (-1)^{r+n}(r+n-1)!, a kernel depending on r+n only, hence rank
+one under a Gamma-integral). The theta indicator and all sign bookkeeping
+of eq (10.1) are subsumed.
+
+Validation (all exact, `theory_validate.py`): the formula reproduces the
+corrected rows kappa = 2 and kappa = 3 for every i = 3..20 against
+`coefficients.json` (36 values, produced by the independent 14-fold-sum
+engine); the underlying identity reproduces C((a),(b)) =
+(-1)^{a+b}ab/(a+b-1) for all a,b <= 6 and twelve multi-component pairs
+against the symbolic route. Grade: hardened at the instances (two
+independent routes, exact arithmetic); derived in general.
+
+### 6.2 Cost, and the extended rows
+
+The resolvent computation is polynomial where the composition sum was
+exponential: i <= 26 in 0.7 s, i <= 41 in 5 s, i <= 81 in 81 s for
+kappa = 2 (one core; the old engine needed 760 s to reach i = 20).
+Extended exact rows: kappa = 2 to i = 81, kappa = 3 to i = 51.
+
+### 6.3 Growth: every corrected row is entire of order <= 2
+
+Measured (exact coefficients): |C_{2,i}|^{1/i} = 0.643, 0.424, 0.338,
+0.291 at i = 20, 40, 60, 80, still falling; the Gevrey ratio
+tau_i = (|C_{kappa,i}| Gamma(i/2+1))^{1/i} is flat: about 1.13 for
+kappa = 2 (i = 40..81), about 1.4 for kappa = 3, against 0.66 for the
+Farmer-Gonek kappa = 1 row. All three rows sit in one Gevrey-1/2 class
+|C_i| ~ tau^i/(i/2)!, differing only in type.
+
+Derived (proof outline in `theory_notes.md` checkpoint 5, elementary,
+constants not optimized): for every fixed kappa,
+|C_{kappa,i}| <= C_kappa^i / floor(i/2)!. Mechanism: in the graded ring
+every s-monomial of g satisfies degree <= X-order, and each D_u
+application pays one X per consumed s-derivative, so a term reaching
+[X^N] has s-degree at most N/2 and the derivative factorial is capped at
+(N/2)!; this is the discrete form of backward-parabolic Gevrey-1/2
+regularity of the second-order resolvent. Hence
+limsup_i |C_{kappa,i}|^{1/i} = 0: the series is entire of order <= 2,
+and the brief's target limsup < 1 holds with room to spare. Grade:
+derived (the outline is complete but not written as a formal proof;
+instances measured exactly to i = 81).
+
+### 6.4 Consequences for the simple-zeros bounds
+
+The bound formula of section 5 at general alpha in (0,1],
+
+    #simple/N >= 2 - 1/alpha - 2 sum_i C_{kappa,i} alpha^i/((i+1)(i+2)) + o(1),
+
+passes four controls: Montgomery 2/3 (kappa = 0, alpha = 1),
+Farmer-Gonek 0.858384 (kappa = 1, optimum exactly at alpha = 1), and the
+prior session's optimized 0.531 / 0.147 for the published skip rows.
+With the corrected extended rows (tails now controlled by 6.3, series
+absolutely convergent, partial sums stable to ten digits between the two
+truncations shown):
+
+    kappa = 2: alpha -> 1:  0.9532610039   (I = 30 and I = 81 agree)
+               optimized:   0.9578404799 at alpha = 0.9723
+                            (i <= 41 and i <= 81 agree to 10 digits)
+    kappa = 3: alpha -> 1: -0.8555629894   (vacuous; I = 30 = I = 51)
+               optimized:   0.4927221395 at alpha = 0.7464
+
+So under RH and Bian's Theorem 1 hypotheses at each fixed truncation B,
+the corrected kappa = 2 machinery supports 0.9578 for the proportion of
+simple zeros of xi'' once alpha is optimized, above both the corrected
+alpha -> 1 value (0.9533) and Bian's printed headline (0.9544). The
+kappa = 3 question of section 5 is settled in kind: its series converges
+(entire, like every row), the alpha -> 1 limit is genuinely negative,
+and the optimized bound 0.4927 is positive but weaker than Montgomery's
+unconditional-machinery 2/3, so kappa = 3 remains not competitive with
+Conrey's 0.9666 for xi'''. The failure is in the value of the low-order
+coefficients (larger Gevrey type, deeper oscillation), not in
+convergence.
+
+### 6.5 What remains
+
+* Write the general proof of the generating identity (section 3 grades it
+  derived; its instances are exact) and the Gevrey bound with explicit
+  constants; both look routine but are not done.
+* The rank-one Gamma-integral form of the jet kernel suggests a genuinely
+  closed (Fredholm or special-function) expression for S(X); not pursued
+  past the resolvent.
+* The tail-bound programme of section 3 (letting B grow with T) is
+  untouched; nothing here bears on it.

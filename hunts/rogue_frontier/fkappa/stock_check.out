@@ -1,0 +1,4 @@
+stock spot check kappa=2 i=21: AGREE [27s]
+stock spot check kappa=2 i=22: AGREE [47s]
+stock spot check kappa=3 i=21: AGREE [211s]
+stock spot checks: ALL AGREE
