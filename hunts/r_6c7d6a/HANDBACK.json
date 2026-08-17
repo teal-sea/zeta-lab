@@ -1,0 +1,42 @@
+{
+  "run_id": "4df2ee65-1c9a-4e3b-8f7d-2a6b9c4e0f11",
+  "status": "settled",
+  "conclusion": "Six of the seven boxParts fields already had zero-sorry enclosure lemmas before this run; the missing one was imNum, and Retention.imNum_mem now supplies it, so both O9 composition lemmas can be instantiated at a box with every field hypothesis discharged. Doing that discharge exposed a real defect: O9Seam.r_comp_mem writes c*c + dOverY*dOverY under the quotient where rIv actually divides by denAbs2 = c*c + d*d, so r_comp_mem and rIv_mem are true, zero-sorry and vacuous at every box in the table; r_comp_mem' is the corrected statement and rIv_mem_box goes through it.",
+  "confidence": "Lean it fully for what compiles: five new declarations, zero sorrys, lake build Zeta23Ext.EForm3.O9Audit exits 0 and #print axioms reports only [propext, Classical.choice, Quot.sound] for each. Lean it fully for the r_comp_mem defect, which is arithmetic anyone can check in a minute: at s=1, y=0 the hypothesis asks denAbs2 to contain 5 where denAbs2 contains 1, and the box family [28/5,60] x [0,1/2] never makes the two agree. Do not lean on any claim that O9 soundness is closed, because it is not: the field-and-composition layer is closed, the two-mode arithmetic and the leaf-shape identities are not, and this run did not attempt them.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "O9Seam.r_comp_mem and O9Assemble.rIv_mem are now dead weight: true, zero-sorry, and unusable at any box, with #print axioms lines still in O9Audit that read green",
+      "why_it_might_matter": "an audit aggregator that reports two lemmas doing no work is the same class of defect O9Audit.lean was written to prevent, one level up",
+      "first_step": "decide whether to delete them or record them in harness/graveyard.py, and either way drop their audit lines"
+    },
+    {
+      "what": "in-file headers set this run's premise and were stale in three separate places (O9Parts' 'remaining step', O9Assemble's 'mode 2 is not' and its 'different reals' diagnosis)",
+      "why_it_might_matter": "second time in five days a stale header misdirected a run's opening; these headers are load-bearing documentation with no test behind them",
+      "first_step": "check whether START-HERE.md and O9-2D-STATUS.md are stale in the same direction, since neither was touched here"
+    },
+    {
+      "what": "reNum_mem and imNumOverY_mem enclose the shapes the interval arithmetic computes, not Re num and Im num / y; nothing yet applies O9Real.re_div_eq or im_div_over_y at a box, and nothing supplies the sinCosSmall/SQ2 constants those lemmas take as hypotheses",
+      "why_it_might_matter": "it is the next structural step after this one and it is bookkeeping, not new mathematics",
+      "first_step": "supply ss, cc, sc from sinCosSmall_mem at the SQ2 constant, then compose with re_div_eq at one box"
+    },
+    {
+      "what": "Zeta23Ext/RetentionWired.lean:44 fails to build: `ring_nf` made no progress, then a type mismatch on Finset.sum_congr",
+      "why_it_might_matter": "the full package build of zeta23ext is red and has been since before this run, so any future run in this package starts from a red baseline and has to prove its own innocence, as this one did",
+      "first_step": "the goal is `4 * sum (Qre^2 - Qim^2) + 2*Shq = 4 * sum -(Qim^2 - Qre^2) + 2*Shq`; a Finset.sum_congr with an explicit `by ring` per term, as EForm3/Main.lean's retention_of_damage already does, is the likely one-line fix"
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "a check that every field of a Lean structure used as an enclosure record has a corresponding _mem lemma",
+      "why_reusable": "the gap this run closed was a seventh field nobody counted, and the commit that left it claimed 'every boxParts field is now sound'; the same miscount is available to any future enclosure record",
+      "first_step": "extend tests/test_zeta23ext_imports.py, which already walks these modules, to compare structure fields against declared _mem names"
+    },
+    {
+      "what": "a discipline note that a conditional lemma should be landed together with one instantiation that discharges its hypotheses",
+      "why_reusable": "r_comp_mem passed review, compiled, and was audited for three days while being vacuous at every intended instance; only an attempted discharge found it, and an attempted discharge is cheap",
+      "first_step": "record it where the Lean arm's practice is written, not as a framework"
+    }
+  ],
+  "notes_for_operator": "The brief's premise was stale: it was written from O9Parts.lean's header, which commit 6f81078 superseded seven minutes after that header was written, so the numerator half already existed on main. The real gap was one field down from where the brief pointed. Two fulcrum-side topics I am naming rather than writing: how hunt briefs are generated from in-file headers, and the template mismatch the addendum asked about. On the template: the generic brief assumes the repo-root .venv and pytest, and this container had neither, so no Python test in this repository could be run; it also assumes the root lean/ project, while this run's package is the vendored zeta23ext with its own lakefile, its own lean-toolchain and a git dependency on zeta-23-lean at 3635e74. Cold-container setup was elan install plus lake exe cache get (8681 files) and it cost roughly a fifth of the budget, so the addendum's instruction to fetch the cache first was right and should stay. Case-log entry landed as Hunt #42 as assigned; it was free, the log's highest was #37. No collision with the other two live lanes was observed; I touched nothing outside EForm3/ and my own hunt directory. The zeta23ext full build is red at RetentionWired.lean:44 and was red before this run (verified by rebuilding with my changes stashed); the targeted build covering everything I touched is green."
+}

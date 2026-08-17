@@ -59,6 +59,8 @@ namespace Retention
 #print axioms O9Real.im_div_over_y
 #print axioms O9Seam.qre_comp_mem
 #print axioms O9Seam.r_comp_mem
+#print axioms O9Seam.qre_comp_mem'
+#print axioms O9Seam.r_comp_mem'
 #print axioms O9Seam.denAbs2_mem
 
 -- The interval-level parts.
@@ -69,9 +71,16 @@ namespace Retention
 #print axioms Retention.leaves_mem
 #print axioms Retention.reNum_mem
 #print axioms Retention.imNumOverY_mem
+#print axioms Retention.imNum_mem
+#print axioms Retention.denAbs2_mem
 
 -- The compositions joined to the parts: the last structural step.
 #print axioms Retention.qreIv_mem
 #print axioms Retention.rIv_mem
+
+-- The same two with every field hypothesis discharged. `rIv_mem_box` goes
+-- through `r_comp_mem'`, not `r_comp_mem`: see its docstring.
+#print axioms Retention.qreIv_mem_box
+#print axioms Retention.rIv_mem_box
 
 end Retention

@@ -1,0 +1,199 @@
+{
+  "hunt": "r_6c7d6a",
+  "run_id": "4df2ee65-1c9a-4e3b-8f7d-2a6b9c4e0f11",
+  "date": "2026-08-17",
+  "case_log_entry": 42,
+  "case_log_number_assigned_by": "brief",
+  "case_log_number_was_free": true,
+  "target": {
+    "name": "the numerator-side boxParts fields of the O9 two-dimensional checker",
+    "package": "hunts/frontier_math/zeta23ext",
+    "structure": "Retention.Parts (Zeta23Ext/EForm3/O9Comp.lean:55)",
+    "fields": 7
+  },
+  "outcome": "settled",
+  "premise_correction": {
+    "brief_said": "the numerator side is the one named remaining step; O9Parts supplies the denominator and the numerator is not written",
+    "tree_said": "commit 6f81078 (2026-08-13 17:51:32 -0500) landed O9Num.lean with reNum_mem and imNumOverY_mem, seven minutes after O9Parts.lean's header sentence the brief quoted",
+    "actual_gap": "the seventh Parts field, imNum, had no lemma; it is a hypothesis of O9Assemble.qreIv_mem",
+    "stale_sentences_found": [
+      "O9Parts.lean header: 'The numerator side ... is the remaining step'",
+      "O9Assemble.lean What remains: 'mode 2 is not [proved]' - dam_le_of_mode2 has compiled since 2026-08-13",
+      "O9Assemble.lean What remains: 'the second is the first divided by y^2' - c^2 + dOverY^2 is not (c^2 + d^2)/y^2"
+    ]
+  },
+  "field_coverage": {
+    "reNum": {
+      "lemma": "Retention.reNum_mem",
+      "file": "O9Num.lean",
+      "new_this_run": false
+    },
+    "imNumOverY": {
+      "lemma": "Retention.imNumOverY_mem",
+      "file": "O9Num.lean",
+      "new_this_run": false
+    },
+    "imNum": {
+      "lemma": "Retention.imNum_mem",
+      "file": "O9Num.lean",
+      "new_this_run": true
+    },
+    "reDen": {
+      "lemma": "Retention.reDen_mem",
+      "file": "O9Parts.lean",
+      "new_this_run": false
+    },
+    "imDen": {
+      "lemma": "Retention.imDen_mem",
+      "file": "O9Parts.lean",
+      "new_this_run": false
+    },
+    "imDenOverY": {
+      "lemma": "Retention.imDenOverY_mem",
+      "file": "O9Parts.lean",
+      "new_this_run": false
+    },
+    "denAbs2": {
+      "lemma": "Retention.denAbs2_mem",
+      "file": "O9Parts.lean",
+      "new_this_run": false
+    }
+  },
+  "defect_found": {
+    "declaration": "O9Seam.r_comp_mem",
+    "file": "Zeta23Ext/EForm3/O9Real.lean",
+    "kind": "true, zero-sorry, and vacuous at every intended instantiation",
+    "statement_denominator": "c*c + dOverY*dOverY",
+    "denAbs2_encloses": "c*c + d*d, with d = dOverY * y (O9Comp.boxParts)",
+    "identity_agrees_with": "O9Real.im_div_over_y puts c^2 + (dOverY*y)^2 under the quotient",
+    "witness": {
+      "s": 1,
+      "y": 0,
+      "c_eq_s2_minus_y2_minus_2": -1,
+      "dOverY_eq_2s": 2,
+      "d_eq_2sy": 0,
+      "hypothesis_demands": 5,
+      "denAbs2_contains": 1
+    },
+    "agreement_condition": "y^2 = 1 or s = 0",
+    "box_family": "[28/5, 60] x [0, 1/2]",
+    "agreement_reachable_in_box_family": false,
+    "inherited_by": "Retention.rIv_mem (O9Assemble.lean)",
+    "fix": "O9Seam.r_comp_mem' leaves the denominator's real abstract; same proof term",
+    "originals_edited": false,
+    "originals_deleted": false
+  },
+  "declarations_added": [
+    {
+      "name": "Retention.imNum_mem",
+      "file": "Zeta23Ext/EForm3/O9Num.lean",
+      "sorry_count": 0
+    },
+    {
+      "name": "O9Seam.r_comp_mem'",
+      "file": "Zeta23Ext/EForm3/O9Real.lean",
+      "sorry_count": 0
+    },
+    {
+      "name": "O9Seam.qre_comp_mem'",
+      "file": "Zeta23Ext/EForm3/O9Real.lean",
+      "sorry_count": 0
+    },
+    {
+      "name": "Retention.qreIv_mem_box",
+      "file": "Zeta23Ext/EForm3/O9Assemble.lean",
+      "sorry_count": 0
+    },
+    {
+      "name": "Retention.rIv_mem_box",
+      "file": "Zeta23Ext/EForm3/O9Assemble.lean",
+      "sorry_count": 0
+    }
+  ],
+  "declarations_added_count": 5,
+  "sorry_count_added": 0,
+  "declarations_drafted_then_removed": [
+    {
+      "name": "Retention.denAbs2_box_mem",
+      "reason": "restated O9Parts.denAbs2_mem verbatim; it compiled and would have padded the count with nothing"
+    }
+  ],
+  "audit_lines_added_to_O9Audit": [
+    "O9Seam.qre_comp_mem'",
+    "O9Seam.r_comp_mem'",
+    "Retention.imNum_mem",
+    "Retention.denAbs2_mem",
+    "Retention.qreIv_mem_box",
+    "Retention.rIv_mem_box"
+  ],
+  "audit_omission_fixed": "Retention.denAbs2_mem has existed since 2026-08-13 and was never in the audit list",
+  "diff": {
+    "files_changed": 4,
+    "insertions": 120,
+    "deletions": 8,
+    "files": [
+      "Zeta23Ext/EForm3/O9Num.lean",
+      "Zeta23Ext/EForm3/O9Real.lean",
+      "Zeta23Ext/EForm3/O9Assemble.lean",
+      "Zeta23Ext/EForm3/O9Audit.lean"
+    ],
+    "files_outside_scope_touched": 0
+  },
+  "build": {
+    "toolchain": "leanprover/lean4:v4.33.0-rc2",
+    "elan_installed_this_run": true,
+    "dependency": {
+      "name": "Zeta23",
+      "rev": "3635e74826a4c1fcece7d1cd2b6fa75e43a00510"
+    },
+    "mathlib_cache": {
+      "command": "lake exe cache get",
+      "exit_status": 0,
+      "files_decompressed": 8681
+    },
+    "target_build": {
+      "command": "lake build Zeta23Ext.EForm3.O9Audit",
+      "exit_status": 0,
+      "jobs": 8716,
+      "output_tail": "Build completed successfully (8716 jobs).",
+      "covers_full_dependent_closure_of_edited_files": true,
+      "closure_note": "only O9Parts imports O9Real, only O9Num imports O9Parts, only O9Assemble imports O9Num, and O9Audit imports all of them; no module outside O9Audit's closure imports any file this run edited"
+    },
+    "full_package_build": {
+      "command": "lake build",
+      "exit_status": 1,
+      "failing_module": "Zeta23Ext/RetentionWired.lean:44",
+      "error": "`ring_nf` made no progress on the goal; then a Type mismatch on Finset.sum_congr",
+      "pre_existing": true,
+      "pre_existing_check": "the identical two errors reproduce with this run's changes stashed (git stash push -- hunts/frontier_math/zeta23ext/, lake build Zeta23Ext.RetentionWired)",
+      "file_touched_by_this_run": false,
+      "note": "RetentionWired transitively imports EForm3.Main and therefore this run's files, which is why the check was run rather than assumed. Consistent with the landing note of 178d534, 'pre-existing failures at land time'."
+    },
+    "compile_edit_cycles": 1
+  },
+  "axioms": {
+    "checked_via": "#print axioms in O9Audit.lean and in each edited file",
+    "result": "every new declaration depends on [propext, Classical.choice, Quot.sound] and nothing else",
+    "nonstandard_axioms": 0
+  },
+  "python_tests": {
+    "run": false,
+    "reason": "no .venv and no pytest in this container",
+    "not_run_includes": [
+      "tests/test_zeta23ext_imports.py"
+    ],
+    "import_graph_changed": false
+  },
+  "what_is_not_closed": [
+    "the two-mode arithmetic: dam_le_of_mode1 and dam_le_of_mode2 are proved as real-number implications and nothing connects either to the enclosures",
+    "the leaf-shape identities: reNum_mem and imNumOverY_mem enclose the shapes the interval arithmetic computes, not Re num and Im num / y; nothing applies O9Real.re_div_eq or im_div_over_y at a box",
+    "the sinCosSmall/SQ2 constants ss, cc, sc that reNum_mem and imNumOverY_mem take as hypotheses are supplied by nothing"
+  ],
+  "claims_not_made": [
+    "O9 soundness is closed",
+    "anything here is evidence for or against RH"
+  ],
+  "reserved_words": {
+    "certified_used": false
+  }
+}

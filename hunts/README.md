@@ -70,6 +70,35 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #42: the O9 numerator fields, and the seam that could not be instantiated (`r_6c7d6a/`)
+
+**Status: settled, and one defect found on the way.** The run was sent to
+supply the numerator-side `boxParts` fields of the O9 two-dimensional checker
+in the vendored `Zeta23Ext` Lean package. It found the brief's premise stale:
+`O9Parts.lean`'s header calls the numerator side "the remaining step", and
+commit `6f81078` had superseded that sentence seven minutes after it was
+written, landing `reNum_mem` and `imNumOverY_mem`. That commit's own message —
+"every `boxParts` field is now sound" — was the thing actually wrong.
+`Retention.Parts` has **seven** fields and six had lemmas; the seventh,
+`imNum`, is a hypothesis of `qreIv_mem`, so the `Qre` composition could not be
+instantiated at a box at all. `Retention.imNum_mem` supplies it, with the
+component left abstract in the idiom `O9Seam` and `O9Assemble` chose.
+Discharging the rest of the hypotheses is what turned up the finding:
+`O9Seam.r_comp_mem` writes `c*c + dOverY*dOverY` under the quotient, while
+`rIv` divides by `denAbs2 = c*c + d*d` with `d = dOverY·y` and
+`O9Real.im_div_over_y` agrees with `denAbs2`. So `r_comp_mem` and the
+`rIv_mem` built on it are true, zero-sorry, and **vacuous at every box in the
+table** — at `s = 1, y = 0` the hypothesis asks `denAbs2` to contain `5` where
+it contains `1`, and the box family `[28/5, 60] × [0, 1/2]` never makes the two
+agree. `r_comp_mem'` leaves the denominator's real abstract and fixes it with
+the same proof term; `rIv_mem_box` and `qreIv_mem_box` then state both
+compositions at a box with every field hypothesis discharged. Five new
+declarations, zero sorrys, `lake build` green, `#print axioms` reporting only
+`[propext, Classical.choice, Quot.sound]`. What is **not** closed, and is not
+claimed: the two-mode arithmetic and the leaf-shape identities that relate the
+computed expressions to `Re num` and `Im num / y`. Evidence in
+`hunts/r_6c7d6a/RESULTS.md`. Nothing here is evidence for or against RH.
+
 ### Hunt #36: claim 'urms2-0.51' has no recorded white-box attack (`r_065f29/`)
 
 **Status: settled as an attack, not as a verdict. The claim is not withdrawn;
