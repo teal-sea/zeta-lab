@@ -177,3 +177,37 @@ with their mechanism.
   function and tail; data: extend rows, settle kappa = 3; plus the DH
   negative-eigenvalue hunt and window global optimality).
 
+
+## RF-C008 — the corrected series are entire; second derivative at 0.9578, third honestly out
+
+- **Delivered 2026-08-17 (second session), FK-THEORY arm.** Record:
+  `fkappa/RESULTS.md` section 6, `fkappa/theory_notes.md` (6 checkpoints),
+  `theory_gf.py`, `theory_validate.py`, `row2_ext.json`, `row3_ext.json`.
+- **(a) Master generating function.** The grand composition sum collapses
+  to an operator resolvent (geometric series on the y-side, Neumann
+  series of one order-kappa constant-coefficient operator on the z-side,
+  rank-one jet kernel). Validated exactly against the independent
+  14-fold-sum engine on all 36 values (kappa = 2, 3; i = 3..20) and all
+  closed-form controls. Polynomial cost: row 2 extended exactly to
+  i = 81, row 3 to i = 51.
+- **(b) Tail bound, the campaign's target.** Derived (outline complete,
+  constants unoptimized): |C_{kappa,i}| <= C_kappa^i / floor(i/2)!, a
+  Gevrey-1/2 bound forced by the s-degree grading. Hence every corrected
+  row is entire of order <= 2 and limsup |C_i|^{1/i} = 0. Measured
+  exactly to i = 81: (|C_i| Gamma(i/2+1))^{1/i} flat at ~1.13 (kappa 2),
+  ~1.4 (kappa 3), ~0.66 (kappa 1 = Farmer-Gonek).
+- **(c) Consequences, under RH + Bian Theorem 1 hypotheses.** kappa = 2:
+  0.9532610039 at alpha -> 1 (10 digits stable across truncations
+  30..81) and 0.9578404799 at the interior optimum alpha = 0.9723, which
+  exceeds the thesis's printed 0.9544 while sitting strictly inside the
+  expansion's validity range. kappa = 3: the series converges to a
+  genuinely negative alpha -> 1 value (-0.8556; the i <= 20 drift was an
+  oscillating-tail transient), and the alpha-optimum 0.4927 is far below
+  Conrey's unconditional 0.9666, so this route currently says nothing
+  useful about the third derivative: the published 0.9774 is not
+  recoverable.
+- **Status: UNDER CROSS-CHECK.** The resolvent formula is confirmed
+  against the independent engine only on i <= 20; FK-DATA's engine
+  extension will test i > 20 independently before this is promoted.
+  Grades: instances hardened; the identity and Gevrey bound derived
+  (general written proof pending; not kernel-checked).
