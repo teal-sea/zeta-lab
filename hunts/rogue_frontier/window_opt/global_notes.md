@@ -183,6 +183,20 @@ within 3.5e-13 of the measured sup 0.6852870321770. Together with F4:
 both ends exact rationals: the lower end by an explicit admissible witness,
 the upper end by the derived chain.
 
+### F9: exact evaluation of the recorded Chebyshev witness
+
+The best_window.json Chebyshev coefficients define w exactly (dyadic
+rationals); v = w^2 is a degree-28 even polynomial, nonnegative by
+construction. Exact rational evaluation:
+
+  F = 0.6852870321769988738698323 (25 digits; exact fraction available)
+
+so the two-sided bracket tightens to
+
+  0.685287032176999 <= sup F <= 0.892744211644412  (both ends exact).
+
+The lower end is 2.0e-12 below the float-measured sup 0.6852870321770008.
+
 ### F3 (prototype): quartic slice is exactly solvable
 
 Symbolic F(q1, q2) rational of degree 3/3; sympy reproduces the exact

@@ -133,3 +133,4 @@ coefficients_ext.json immediately (atomic replace) as computed.
 - [diag] gate through i=20 complete (all gate-ok vs committed table);
   entering new territory i=21..24 with 2 workers.
 - [row3] i=25: 281.3s NEW bound_thru_i=-0.855563 root=0.6694 c4=192474
+- [row3] i=26: 358.3s NEW bound_thru_i=-0.855563 root=0.6888 c4=266630
