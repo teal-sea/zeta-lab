@@ -142,6 +142,70 @@ prime number theorem, not a constant. Earlier case-log entries and the
 `r_3c1cbb` / `r_0339c1` write-ups still quote the old constants; those are
 records of what those runs proved and are left as written. Nothing here bears
 on ζ or RH (`docs/08`); external verification remains pending.
+### Hunt #45 — the omega bridge, and the pointwise Hardy–Ramanujan (`r_233abe/`)
+
+**Status: settled. Both threads closed, zero `sorry`s, axioms unchanged, no
+statement weakened.** Run `43d363c1` left two threads in
+`lean/ZetaLean/HardyRamanujantheorem.lean` when it landed the density form of
+Hardy–Ramanujan, and this run is both of them.
+
+**The bridge.** `omega n = ArithmeticFunction.cardDistinctFactors n` is `rfl`,
+as the discovering run priced it, but not for the reason the file's docstring
+assumed: this file counts `n.primeFactors.card` and Mathlib counts
+`n.primeFactorsList.dedup.length`. `Nat.primeFactors` is
+`primeFactorsList.toFinset`, so the two unfold to the same term. The docstring
+now names the two definitions it is identifying instead of asserting they are
+one. A one-line `rfl` is a restated definition and the brief is explicit that
+a restated definition is not a result, so the bridge is carried through to
+`hardy_ramanujan_cardDistinctFactors`, in which `omega`, `loglog`,
+`exceptional` and `HardyRamanujanTheorem` have all been unfolded away — every
+name in that statement is Mathlib's, and an `ArithmeticFunction`-facing
+development can cite the theorem without importing anything from this
+namespace. That is the whole interoperability point, and it is the part that
+was worth the run.
+
+**The pointwise form.** `hardy_ramanujan_pointwise` measures each `n` against
+its own `log log n` rather than against the common `log log N`, which is how
+the theorem is usually quoted. The route is the discovering run's, with
+`delta` fixed at `1/2` so no parameter is carried: split `(0, N]` by
+`n * n ≤ N`; below the split there are at most `Nat.sqrt N` integers, which is
+`o(N)`; above it `N < n * n` forces `log N < 2 log n`, so
+`log log N − log 2 < log log n ≤ log log N` and the gap between the two
+normalisations is the constant `log 2`, uniformly in `N`. A deviation of
+`ε · log log n` then forces one of `ε · log log N − (ε+1) log 2`, which is at
+least `(ε/2) · log log N` as soon as `log log N` has outgrown the slack — and
+`hardy_ramanujan` at `ε/2` closes it. **No new arithmetic enters**: the
+variance bound, its constant `275`, and the Mertens band `16` are consumed
+exactly as they stand, and no existing proof was edited. So the pointwise form
+inherits any future sharpening of the density form for free.
+
+`lake build ZetaLean.HardyRamanujantheorem` printed
+`✔ [8699/8699] Built ZetaLean.HardyRamanujantheorem`; `grep -c sorry` over the
+edited file is `0`; the five new public statements and `hardy_ramanujan`
+itself each depend only on `propext`, `Classical.choice`, `Quot.sound`. The
+file grows 384 → 588 lines. Everything that resisted was library-name drift
+against the pinned Mathlib v4.33.0-rc2 (`le_or_lt` and `div_add_div_same` are
+gone; `rw` cannot use the equation lemmas of a `noncomputable def`;
+`Tendsto.inv_tendsto_atTop` returns a `Pi`-form inverse that `simpa` will not
+reconcile with a beta-reduced lambda), not mathematics. Two caveats a reader
+should have rather than discover: the bridge is a `rfl` between two library
+definitions that are spelled differently and would break if either were
+restated, which is why it is now pinned by a theorem; and the pointwise
+statement is the literal classical one, so the finitely many `n` below `e^e`,
+where `log log n` is negative and the condition holds vacuously, sit inside
+the exceptional set at no cost in density.
+
+Nothing here bears on ζ or RH (`docs/08`). No literature search was run and
+none is claimed — Hardy–Ramanujan is a 1917 result, and what is original is
+provenance, not novelty. External verification remains pending, as it does for
+every claim this laboratory publishes. Separately, and outside this hunt's
+scope: `lake build` over the whole package does not currently succeed in this
+container — `ZetaLean.Pub1.CertL2` and `ZetaLean.Pub1.CertAtoms` log failures.
+Neither imports anything from `ZetaLean.HardyRamanujan` (checked by `grep` over
+their import closure), so neither can be a consequence of this run's edit, and
+this run did not diagnose them further. It is recorded here so a green targeted
+build is not read as a green package.
+
 ### Hunt #40: `beta := normLower` lands, the predicted slack does not (`r_908de5/`)
 
 **Status: settled, and one prediction on main is refuted.** `docs/25` §4.3

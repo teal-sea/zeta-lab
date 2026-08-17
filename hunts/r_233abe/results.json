@@ -1,0 +1,128 @@
+{
+  "run_id": "6a292a39-c400-4412-932e-da6ff1ab5bab",
+  "hunt": "r_233abe",
+  "case_log_number": 45,
+  "target": "two threads left in lean/ZetaLean/HardyRamanujantheorem.lean by run 43d363c1: (a) bridge omega to ArithmeticFunction.cardDistinctFactors, (b) the pointwise log log n form of Hardy-Ramanujan",
+  "mathlib_pin": "v4.33.0-rc2",
+  "toolchain": "leanprover/lean4:v4.33.0-rc2",
+  "outcome": {
+    "a_bridge": "landed, zero sorrys",
+    "b_pointwise": "landed, zero sorrys",
+    "statements_weakened": 0,
+    "existing_proofs_edited": 0
+  },
+  "artifacts": {
+    "lean_file": "lean/ZetaLean/HardyRamanujantheorem.lean",
+    "lean_file_lines_before": 384,
+    "lean_file_lines_after": 588,
+    "lines_added": 204,
+    "import_line_added": null,
+    "import_line_note": "no new import needed; ZetaLean.lean already imports ZetaLean.HardyRamanujantheorem, and the file already imports Mathlib"
+  },
+  "build": {
+    "command": "cd lean && PATH=\"$HOME/.elan/bin:$PATH\" lake build ZetaLean.HardyRamanujantheorem",
+    "exit_status": 0,
+    "final_line": "Build completed successfully (8699 jobs).",
+    "targeted_module_build": "✔ [8699/8699] Built ZetaLean.HardyRamanujantheorem (10s)",
+    "full_build_command": "cd lean && PATH=\"$HOME/.elan/bin:$PATH\" lake build",
+    "full_build_exit_status": 1,
+    "full_build_final_line": "error: build failed",
+    "full_build_failing_targets": ["ZetaLean.Pub1.CertL2", "ZetaLean.Pub1.CertAtoms"],
+    "full_build_note": "out of scope and outside the edited module's import closure: neither Pub1 module imports anything from ZetaLean.HardyRamanujan (checked by grep), so neither can be a consequence of this run's edit. Cause not diagnosed; both modules are expensive (one carries maxHeartbeats 4000000) and it may be a container resource limit rather than a source defect. Recorded so a green targeted build is not read as a green package.",
+    "sorry_count_added": 0,
+    "sorry_count_edited_file": 0,
+    "compile_attempts": 3
+  },
+  "axioms": {
+    "checked_by": "#print axioms",
+    "expected": ["propext", "Classical.choice", "Quot.sound"],
+    "ZetaLean.HardyRamanujan.hardy_ramanujan": ["propext", "Classical.choice", "Quot.sound"],
+    "ZetaLean.HardyRamanujan.omega_eq_cardDistinctFactors": ["propext", "Classical.choice", "Quot.sound"],
+    "ZetaLean.HardyRamanujan.exceptional_eq_filter_cardDistinctFactors": ["propext", "Classical.choice", "Quot.sound"],
+    "ZetaLean.HardyRamanujan.hardy_ramanujan_cardDistinctFactors": ["propext", "Classical.choice", "Quot.sound"],
+    "ZetaLean.HardyRamanujan.hardy_ramanujan_pointwise": ["propext", "Classical.choice", "Quot.sound"]
+  },
+  "statements_added": [
+    {
+      "name": "ZetaLean.HardyRamanujan.omega_eq_cardDistinctFactors",
+      "public": true,
+      "informal": "omega n = ArithmeticFunction.cardDistinctFactors n, by rfl",
+      "note": "not the same spelling on the two sides: this file uses n.primeFactors.card, Mathlib uses n.primeFactorsList.dedup.length; Nat.primeFactors is primeFactorsList.toFinset so the two unfold to the same term"
+    },
+    {
+      "name": "ZetaLean.HardyRamanujan.exceptional_eq_filter_cardDistinctFactors",
+      "public": true,
+      "informal": "the exceptional set of hardy_ramanujan, written entirely in Mathlib vocabulary"
+    },
+    {
+      "name": "ZetaLean.HardyRamanujan.hardy_ramanujan_cardDistinctFactors",
+      "public": true,
+      "informal": "Hardy-Ramanujan density form with omega, loglog, exceptional and HardyRamanujanTheorem all unfolded away; every name in the statement is Mathlib's"
+    },
+    {
+      "name": "ZetaLean.HardyRamanujan.exceptionalPointwise",
+      "public": true,
+      "kind": "def",
+      "informal": "{n in (0,N] : eps * log log n < |omega n - log log n|}"
+    },
+    {
+      "name": "ZetaLean.HardyRamanujan.HardyRamanujanPointwise",
+      "public": true,
+      "kind": "def",
+      "informal": "for all eps > 0, card(exceptionalPointwise N eps)/N tends to 0"
+    },
+    {
+      "name": "ZetaLean.HardyRamanujan.loglog_le_loglog",
+      "public": false,
+      "informal": "loglog is monotone from 2 upwards"
+    },
+    {
+      "name": "ZetaLean.HardyRamanujan.loglog_band",
+      "public": false,
+      "informal": "for n <= N with N < n*n and 2 <= N: loglog N - log 2 < loglog n <= loglog N"
+    },
+    {
+      "name": "ZetaLean.HardyRamanujan.exceptionalPointwise_subset",
+      "public": false,
+      "informal": "once (eps+1) log 2 <= (eps/2) loglog N, exceptionalPointwise N eps is contained in {n : n*n <= N} union exceptional N (eps/2)"
+    },
+    {
+      "name": "ZetaLean.HardyRamanujan.tendsto_natSqrt_div",
+      "public": false,
+      "informal": "Nat.sqrt N / N tends to 0"
+    },
+    {
+      "name": "ZetaLean.HardyRamanujan.card_low_range_le",
+      "public": false,
+      "informal": "card {n in (0,N] : n*n <= N} <= Nat.sqrt N"
+    },
+    {
+      "name": "ZetaLean.HardyRamanujan.hardy_ramanujan_pointwise",
+      "public": true,
+      "informal": "for every eps > 0 the density of n <= N with |omega n - log log n| > eps log log n tends to 0"
+    }
+  ],
+  "method_notes": {
+    "split_parameter": "delta fixed at 1/2 (the square root), not carried as a parameter",
+    "slack_cost": "log 2, uniform in N, from N < n*n giving log N < 2 log n",
+    "new_arithmetic_input": "none; the variance bound (constant 275) and the Mertens band (16) are consumed unchanged",
+    "consequence": "the pointwise form inherits any future sharpening of the density form without change to this proof"
+  },
+  "environment": {
+    "toolchain_present_at_start": false,
+    "note": "no lake on PATH and no ~/.elan at session start; the addendum's 'lake exe cache get' failed as command-not-found while the pipeline still reported exit status 0. elan installed from elan.lean-lang.org at the pinned toolchain, then cache get fetched 8681 Mathlib oleans.",
+    "mathlib_oleans_fetched": 8681
+  },
+  "first_build_errors": [
+    "le_or_lt: unknown identifier in this Mathlib (replaced by by_cases)",
+    "div_add_div_same: unknown identifier in this Mathlib (replaced by rw [<- add_div])",
+    "rw with the equation lemmas of the noncomputable def loglog fails (restated as a have closed by rfl)",
+    "Filter.Tendsto.inv_tendsto_atTop yields the Pi-form f-inverse, which simpa would not reconcile with the beta-reduced lambda (exact accepts it by defeq; a show pins the shape)"
+  ],
+  "scope": {
+    "rh_bearing": "none (docs/08)",
+    "novelty_searched": false,
+    "novelty_note": "Hardy-Ramanujan is a 1917 result; no literature search was run and none is claimed. What is original is provenance: this laboratory's Lean development, now in Mathlib vocabulary and in the pointwise form.",
+    "external_verification": "pending"
+  }
+}
