@@ -194,6 +194,6 @@
     "anything here is evidence for or against RH"
   ],
   "reserved_words": {
-    "certified_used": false
+    "reserved_word_used": false
   }
 }

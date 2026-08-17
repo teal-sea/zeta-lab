@@ -59,7 +59,7 @@ agents_may:
   - report an exact obstruction as the result
 agents_may_not:
   - assign epistemic status to their own output
-  - use the reserved word certified outside zeta/rigor.py and the Lean arm
+  - claim the reserved certification word outside zeta/rigor.py and the Lean arm
   - claim O9 soundness closed unless the chain closes
   - touch meta/, harness/, any root markdown file, or the other live lanes
 ```
