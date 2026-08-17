@@ -348,3 +348,49 @@ recurrence found; no OEIS hits.
   or a later paper recomputes these tables, the novelty claim would need
   that search before being made. The lab's knownness default applies: the
   literature was not consulted beyond the sources named here.
+
+## 5. Fourth finding (2026-08-17, later session): the headline constants do not follow from the printed table
+
+The recovered thesis text pins the chain (printed pp. 91-93): with the
+Fejer kernel r(u) = ((sin pi alpha u)/(pi alpha u))^2,
+
+    int F_kappa(beta) rhat(beta) dbeta
+        = 1/alpha + 2 sum_{i=1}^{2 kappa B + 1} C_{kappa,i} alpha^i / ((i+1)(i+2)),
+
+and (11.5) at alpha = 1 - delta:
+
+    #{simple} / N  >=  1 - 2 sum_i C_{kappa,i} / ((i+1)(i+2)) + o(1).
+
+Controls: with kappa = 0 (row = (1)) this gives Montgomery's 2/3 exactly,
+and with the kappa = 1 row it gives 0.858384 (Farmer-Gonek's 85.84%), so
+the formula, indexing and sign conventions are all confirmed on the two
+externally validated rows.
+
+Applying the SAME formula to the thesis's own printed Figure 10.1 rows
+(reproduced exactly by the skip + figure-assembly engine, asserted
+digit for digit):
+
+    kappa = 2:  Sigma = 37057/73710,  bound = -202/36855      = -0.005481
+    kappa = 3:  Sigma = 11500217/2432430,  bound = -10284002/1216215 = -8.4557
+
+Both are vacuous; optimizing alpha over (0,1] reaches at most 0.531
+(kappa = 2) and 0.147 (kappa = 3). The printed headlines 95.44% and
+97.74% therefore do not follow from the printed table and the printed
+formula under any reading tried here. This is a fourth inconsistency,
+at the arithmetic-assembly level, independent of defects A-C.
+
+With the corrected table the same formula gives, at truncation 11 and 20:
+
+    kappa = 2:  14314/15015 = 0.953313  and  0.953261   (stable to 5e-5)
+    kappa = 3:  -0.846655            and  -0.855554     (not settled)
+
+So under RH plus the truncation reading Bian himself used, the corrected
+machinery supports a bound of the same strength as his kappa = 2 claim
+(0.9533, coincidentally close to his printed 0.9544, source of his number
+unknown), while for kappa = 3 no bound can currently be asserted at
+i <= 20: the partial sums are still negative and drifting. Conrey 1983's
+unconditional 0.9666 for xi''' stands unchallenged by this route today.
+The kappa = 2 stability under deepening (5e-5 between truncations 11 and
+20) is measured behavior consistent with a convergent corrected series,
+and is exactly what the tail-bound programme (section 3) would turn into
+a theorem.

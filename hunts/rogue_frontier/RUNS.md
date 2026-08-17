@@ -13,7 +13,7 @@ ran:
   - hunts/rogue_frontier/weil_trunc/ replication, enclosures, Davenport-Heilbronn control
   - hunts/rogue_frontier/fkappa/ literal port, audit, corrected table, closed form
   - hunts/rogue_frontier/nyman_beurling/ Vasyunin pipeline and distance ladder
-outcome: five studies delivered (one promoted, RH-conditional; one audit with exact witnesses; two hardened instrument sets; one partial), three sessions ended early by a monthly budget limit with all state checkpointed
+outcome: five studies delivered (one promoted, RH-conditional; one audit with exact witnesses; two hardened instrument sets; one partial), three sessions ended early by a session token limit with all state checkpointed
 artifacts:
   - hunts/rogue_frontier/RESULTS_LEDGER.md
   - hunts/rogue_frontier/FAILURE_LEDGER.md
