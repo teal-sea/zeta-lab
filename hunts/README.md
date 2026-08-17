@@ -70,6 +70,45 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #44: what the O9 numerator fields actually enclose (`r_938ab4/`)
+
+**Status: settled, and the two fields answer differently.** Hunt #42 left the
+question of whether `reNum_mem` and `imNumOverY_mem` pin `Re num` and
+`Im num / y` or merely the shapes the interval arithmetic computes.
+`Zeta23Ext/EForm3/O9NumShape.lean` settles it. **`reNum` encloses `Re num`
+unconditionally**: once `SQ2_mem`, `SINC_mem` and `COSC_mem` instantiate the
+three constant leaves the computed shape *is* the real part, at every point of
+every box, `y = 0` included, with no hypothesis beyond the ones the leaves
+already carried. **`imNumOverY` encloses `Im num / y` only for `y ≠ 0`**, and
+the hypothesis is necessary rather than incidental: `Im num` vanishes on the
+real axis, so `Im num / y` at `y = 0` is `0` by Lean's division convention,
+while the field carries `shcSmall` and therefore encloses the removable limit
+— `2·cos(√2/2) + √2·sin(√2/2) > 0` at `s = π`. The disequality is stated as a
+disequality, not hedged into a hypothesis. That asymmetry is the design
+working: the removable branch exists so `y = 0` is an ordinary point, and it
+can only be ordinary by enclosing something other than a quotient by `y`
+there; what the run adds is that the something other is now named and pinned.
+With both components identified, `qreIv_mem_phi2` and `rIv_mem_phi2` read the
+two compositions back against `Phi2` itself. **Verdict on the dead weight:**
+`O9Seam.r_comp_mem` and `Retention.rIv_mem` can be retired at no reproof cost
+— `r_comp_mem` has exactly one use site (`rIv_mem`) and `rIv_mem` has none,
+and the route built here goes through `r_comp_mem'` and `rIv_mem_box`
+instead. They were shown unnecessary, not deleted. Twenty-seven declarations,
+zero sorrys, `lake build Zeta23Ext.EForm3.Main` green (8726 jobs),
+`#print axioms` reporting only `[propext, Classical.choice, Quot.sound]` and,
+for `box0_in_table`, no axioms at all. Because a compiling lemma is not a
+lemma with content — hunt #42's finding — every identification is also
+instantiated at the **first recorded row of `o9boxes`** at the interior point
+`(23/4, 1/8)`, with every hypothesis discharged. What is **not** claimed: O9
+soundness is not closed; the two-mode arithmetic and the identity joining
+`Phi2` to `EForm3.Qre`/`Qim` are separate and untouched, and the `y = 0`
+mismatch witness sits at `s = π`, outside the table's `s`-range. Two
+**pre-existing** build failures are recorded rather than absorbed:
+`RetentionWired.lean:44` does not elaborate, and `BandCert.Verify` is killed
+at 704 s with exit 137, both observed on a baseline build made before the new
+file existed. Evidence in `hunts/r_938ab4/RESULTS.md`. Nothing here is
+evidence for or against RH.
+
 ### Hunt #39: the Mertens constants, tightened (`r_4218d4/`)
 
 **Status: settled. The Turán variance constant of Hunt #37 falls from `5855`
