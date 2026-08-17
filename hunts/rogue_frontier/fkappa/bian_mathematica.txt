@@ -1,0 +1,1234 @@
+Transcription of Appendix A ("The Mathematica Code") of Ji Bian,
+"The Pair Correlation of Zeros of xi^(kappa)(s)", PhD thesis,
+University of Rochester, 2008 (advisor: S. Gonek).
+
+Source: thesis PDF, Appendix A, printed pages 99-153 (PDF pages 107-161).
+Transcribed 2026-08-17 from a layout-preserving text extraction of the PDF,
+cross-read against the PDF page images where the extraction was ambiguous.
+
+Transcription notes:
+- Section A.1 (printed pp. 99-100) is a prose list of function names and
+  descriptions; it is summarized in a comment block below rather than
+  reproduced verbatim.
+- The code below reproduces section A.2 (printed pp. 101-153) statement by
+  statement, in the original order. Whitespace and line breaks are
+  normalized; Mathematica syntax is kept as printed.
+- OCR-level uncertainties are marked with (* NOTE ... *) comments. The only
+  substantive one: in cons4vec and cons4veckapa the symbol lencdouterlist is
+  used but does not appear in the printed Module local-variable list; in
+  Mathematica it is then a global symbol. This does not change the computed
+  value.
+- The printed code uses the old (pre-Mathematica-6) argument order
+  ReplacePart[expr, new, pos]; inverseperm and inversepermvec rely on it.
+
+(* ---------------------------------------------------------------- *)
+(* A.1 summary (printed pp. 99-100):                                  *)
+(*   Main module: ctablefull[len, kapa] generates the table of the    *)
+(*     first "len" coefficients C_{kappa i} for kappa from 1 to       *)
+(*     "kapa".                                                        *)
+(*   gencomnormilist[l, kappa, norm]: integral vectors of length l,   *)
+(*     height kappa, norm "norm".                                     *)
+(*   mycomposition[v]: complete set of integral vectors of norm v     *)
+(*     (compositions, zero-padded).                                   *)
+(*   ocv[v]: vector of the odd components of v.                       *)
+(*   inversepermvec[permlist, vec]: inverse permutation applied to    *)
+(*     vec.                                                           *)
+(*   partvecouter[vec]: outer product of composition lists of the     *)
+(*     components of vec.                                             *)
+(*   cons4vec[alfa1, beta1, alfa2, beta2]: the constant               *)
+(*     C(alpha, alpha', beta, beta') defined in chapter 6 (eq 6.23).  *)
+(*   cons2vec[v, w]: the constant C(v, w) defined in chapter 7        *)
+(*     (eq 7.8).                                                      *)
+(*   finalconsikapa[n, kapa]: the coefficient C_{i kappa}.            *)
+(* ---------------------------------------------------------------- *)
+
+(* printed p. 101 *)
+
+gencomnormilist[l_, \[Kappa]_, norm_] :=
+  Module[{i, j, tlen, tn, tdis, clist = {}, indexlist = {}},
+   Which[l == 1 && \[Kappa] >= norm, clist = Append[clist, norm],
+    l == 1 && \[Kappa] < norm, clist = {},
+    l > 1,
+    clist = Range[\[Kappa]];
+    For[i = 1, i < l, i++,
+     clist = Distribute[List[clist, Range[\[Kappa]]], List];
+     clist = Flatten[clist];
+     clist = Partition[clist, i + 1];
+     tlen = Length[clist];
+     indexlist = {};
+     For[j = 1, j < tlen + 1, j++,
+      tn = Total[clist[[j]]]; tdis = norm - tn;
+      Which[l - i - 1 > tdis, indexlist = Append[indexlist, {j}],
+       (l - i - 1) \[Kappa] < tdis, indexlist = Append[indexlist, {j}]
+       ]
+      ];
+     clist = Delete[clist, indexlist]
+     ]
+    ];
+   If[clist == {}, clist = False,
+    If[NumberQ[clist[[1]]], clist = {clist}];
+    ];
+   Return[clist]
+   ]
+
+(* printed p. 102 *)
+
+gennormzerocomlist[l_, \[Kappa]_, norm_] :=
+  Module[{i, j, tlen, tn, tdis, clist = {}, indexlist = {}},
+   Which[\[Kappa] == 0 && norm == 0, clist = Table[0, {l}],
+    l == 1 && \[Kappa] >= norm, clist = Append[clist, norm],
+    l == 1 && \[Kappa] < norm, clist = {},
+    l > 1,
+    clist = Range[0, \[Kappa]];
+    For[i = 1, i < l, i++,
+     clist = Distribute[List[clist, Range[0, \[Kappa]]], List];
+     clist = Flatten[clist];
+     clist = Partition[clist, i + 1];
+     tlen = Length[clist];
+     indexlist = {};
+     For[j = 1, j < tlen + 1, j++,
+      tn = Total[clist[[j]]]; tdis = norm - tn;
+      Which[(l - i - 1) \[Kappa] < tdis,
+       indexlist = Append[indexlist, {j}],
+       tn > norm,
+       indexlist = Append[indexlist, {j}]
+       ]
+      ];
+     clist = Delete[clist, indexlist]
+     ]
+    ];
+   If[clist == {}, clist = False,
+    If[NumberQ[clist[[1]]], clist = {clist}];
+    ];
+   Return[clist]
+   ]
+
+(* printed p. 103 *)
+
+mycomposition[v_] := Module[{i, j, lc, partlist = {}, complist},
+   For[i = 1, i < v + 1, i++,
+    complist = gencomnormilist[i, v, v];
+    lc = Length[complist];
+    For[j = 1, j < lc + 1, j++,
+     Which[NumberQ[complist[[j]]] == True,
+      complist = PadRight[complist, v];
+      partlist = Append[partlist, complist],
+      NumberQ[complist[[j]]] == False,
+      complist[[j]] = PadRight[complist[[j]], v];
+      partlist = Append[partlist, complist[[j]]]
+      ]
+     ]
+    ]; If[partlist == {}, Print["error,mycomposition"]];
+   Return[partlist]
+   ]
+
+(* printed p. 104 *)
+
+halfdim[v_] := Floor[(v + 1)/2]
+
+ocv[v_] := Module[{i, lv, oddcomv = {}},
+   lv = Length[v];
+   For[i = 1, i < lv + 1, i += 2,
+    oddcomv = Append[oddcomv, v[[i]]]
+    ]; If[oddcomv == {}, Print["error,ocv"]];
+   Return[oddcomv]
+   ]
+
+ecv[v_] := Module[{i, lv, lhv, evencomv = {}},
+   lv = Length[v]; lhv = halfdim[lv];
+   For[i = 2, i < lv + 1, i += 2,
+    evencomv = Append[evencomv, v[[i]]]
+    ];
+   evencomv = PadRight[evencomv, lhv];
+   If[evencomv == {}, Print["error,ecv"]];
+   Return[evencomv]
+   ]
+
+mypermutation[i_] := Permutations[Range[i]];
+
+outervt[vtemp1_, vtemp2_] := Distribute[List[vtemp1, vtemp2], List]
+
+inverseperm[permlist_] := Module[{ml, j, invperm},
+   ml = Length[permlist]; invperm = permlist;
+   For[j = 1, j < ml + 1, j++,
+    invperm = ReplacePart[invperm, j, permlist[[j]]]
+    ]; If[invperm == {}, Print["error,inverseperm"]];
+   Return[invperm]
+   ]
+
+(* printed p. 105 *)
+
+inversepermvec[permlist_, vec_] := Module[{invec, i, invperm, tlen},
+   invperm = inverseperm[permlist];
+   invec = vec;
+   tlen = Length[vec];
+   For[i = 1, i < tlen + 1, i++,
+    invec = ReplacePart[invec, vec[[invperm[[i]]]], i]
+    ]; If[invec == {}, Print["error,inversepermvec"]];
+   Return[invec]
+   ]
+
+mynorm[v_] := Total[v]
+
+mytheta[alfa1_, alfa2_] := If[mynorm[alfa1] == mynorm[alfa2], 1, 0]
+
+mydelta[vl_, wk_] := Module[{li, lj, ni, nj, delta},
+   li = Length[vl]; ni = mynorm[vl];
+   lj = Length[wk]; nj = mynorm[wk];
+   Which[Max[li, lj] <= Min[ni, nj], delta = 1,
+    Min[ni, nj] < Max[li, lj], delta = 0
+    ];
+   Return[delta]
+   ]
+
+(* printed p. 106 *)
+
+unitvec[v_] := Module[{i, uv = {}, ll = {}},
+   For[i = 1, i < v + 1, i++,
+    ll = {};
+    ll = PadRight[ll, v];
+    ll[[i]] = 1;
+    uv = Append[uv, ll]
+    ]; If[uv == {}, Print["error,univtvec"]];
+   Return[uv]
+   ]
+
+mcl[alfa_, beta_] := gennormzerocomlist[alfa, beta, beta]
+
+mclpadd[alfa_, beta_, len_] := Module[{i, tl, templist},
+   templist = mcl[alfa, beta];
+   If[Length[templist] == 1,
+    templist = templist[[1]];
+    templist = PadRight[templist, len],
+    tl = Length[templist];
+    For[i = 1, i < tl + 1, i++,
+     templist[[i]] = PadRight[templist[[i]], len]
+     ];
+    ];
+   If[templist == {}, Print["error,mclpadd"]];
+   Return[templist]
+   ]
+
+partvec[vec_] := Module[{i, lv, pv = {}, tlist},
+   (* printed p. 107 *)
+   lv = Length[vec];
+   For[i = 1, i < lv + 1, i++,
+    tlist = mycomposition[vec[[i]]];
+    pv = Append[pv, tlist]
+    ]; If[pv == {}, Print["error,partvec"]];
+   Return[pv]
+   ]
+
+partvecouter[vec_] :=
+  Module[{i, lv, pv = {}, tlist, j, tlen, norm, counter, templ = {},
+    nl = {}, fov = {}},
+   lv = Length[vec]; norm = mynorm[vec];
+   tlist = mycomposition[vec[[1]]];
+   pv = Append[pv, tlist];
+   For[i = 2, i < lv + 1, i++,
+    tlist = mycomposition[vec[[i]]];
+    tlen = Length[pv];
+    For[j = 1, j < tlen + 1, j++,
+     pv[[j]] = Distribute[List[pv[[j]], tlist], List]
+     ];
+    ];
+   pv = Flatten[pv];
+   pv = Partition[pv, norm];
+   tlen = Length[pv]; counter = 0;
+   For[i = 1, i < tlen + 1, i++,
+    counter = 0;
+    For[j = 1, j < lv + 1, j++,
+     (* printed p. 108 *)
+     For[k = 1, k < vec[[j]] + 1, k++,
+      templ = Append[templ, pv[[i, counter + k]]];
+      ];
+     counter += vec[[j]];
+     nl = Append[nl, templ]; templ = {};
+     ];
+    fov = Append[fov, nl]; nl = {};
+    ]; If[fov == {}, Print["error,partvecouter"]];
+   Return[fov]
+   ]
+
+fulllist[alfa_, beta_] := Module[{i, lv, tl, flist = {}, tlist},
+   lv = Length[alfa];
+   tlist = mcl[alfa[[1]], beta[[1]]];
+   flist = tlist;
+   For[i = 2, i < lv + 1, i++,
+    If[alfa[[i]] == 0, Continue[]];
+    tlist = mcl[alfa[[i]], beta[[i]]];
+    flist = Distribute[List[flist, tlist], List];
+    ];
+   tl = Length[flist];
+   For[i = 1, i < tl + 1, i++,
+    flist = ReplacePart[flist, Flatten[flist[[i]]], i]
+    ]; If[flist == {},
+    Print["error,fulllist", "alfa=:", alfa, "beta=:", beta]];
+   Return[flist]
+   ]
+
+(* printed p. 109 *)
+
+prodfacvec[r_] := Product[r[[i]]!, {i, Length[r]}]
+
+idenvec[n_] := Module[{idv = {}, i},
+   For[i = 1, i < n + 1, i++,
+    idv = Append[idv, 1]
+    ]; If[idv == {}, Print["error,prodfacvec"]];
+   Return[idv]
+   ]
+
+cons4vec[alfa1_, beta1_, alfa2_, beta2_] :=
+  Module[{consfin, cons1, conspart1, ttao, tsigma, tnormalfa1,
+    tnormalfa2, tlenalfa1, tlenalfa2, tclist, tdlist, outerlist,
+    lenouterlist, i, cons2, conssum = 0, cons3, conspart3, cons4,
+    cdouterlist = {}, j, cons5},
+   tnormalfa1 = mynorm[alfa1]; tnormalfa2 = mynorm[alfa2];
+   If[tnormalfa1 != tnormalfa2, consfin = 0,
+    cons1 =
+     tnormalfa1! (tnormalfa1 + mynorm[beta1] + tnormalfa2 +
+         mynorm[beta2] - 1)!;
+    conspart1 = 1/cons1;
+    tsigma = mypermutation[tnormalfa1];
+    ttao = mypermutation[tnormalfa1];
+    outerlist = Distribute[List[tsigma, ttao], List];
+    tclist = fulllist[alfa1, beta1];
+    tdlist = fulllist[alfa2, beta2];
+    cdouterlist = Distribute[List[tclist, tdlist], List];
+    (* printed p. 110 *)
+    lenouterlist = Length[outerlist];
+    lencdouterlist = Length[cdouterlist];
+    (* NOTE: lencdouterlist is not in the Module local list as printed *)
+    For[i = 1, i < lenouterlist + 1, i++,
+     For[j = 1, j < lencdouterlist + 1, j++,
+      cons3 =
+       prodfacvec[cdouterlist[[j, 1]]] prodfacvec[
+         cdouterlist[[j, 2]]];
+      conspart3 = 1/cons3;
+      cons2 =
+       prodfacvec[alfa1] prodfacvec[beta1] prodfacvec[
+         alfa2] prodfacvec[beta2];
+      cons4 =
+       prodfacvec[
+        inversepermvec[outerlist[[i, 1]], cdouterlist[[j, 1]]] +
+         inversepermvec[outerlist[[i, 2]], cdouterlist[[j, 2]]] +
+         idenvec[tnormalfa1]];
+      conssum += cons2 conspart3 cons4;
+      ];
+     ];
+    consfin = conspart1 conssum];
+   Return[consfin]
+   ]
+
+(* printed p. 111 *)
+
+myouter1[list1_, list2_] := Module[{egen = {}, i, len, lt},
+   len = Length[list2];
+   If[list1 == {},
+    egen = list2,
+    For[i = 1, i < len + 1, i++,
+     lt = list1;
+     lt = Append[lt, list2[[i]]];
+     egen = Append[egen, lt]
+     ];
+    ];
+   Return[egen]
+   ]
+
+numberouter[list1_, list2_] :=
+  Module[{len1, len2, i, j, myouter = {}, tl = {}},
+   len1 = Length[list1]; len2 = Length[list2];
+   If[list1 == {},
+    myouter = list2,
+    For[i = 1, i < len1 + 1, i++,
+     For[j = 1, j < len2 + 1, j++,
+      tl = {};
+      tl = Append[tl, list1[[i]]];
+      tl = Append[tl, list2[[j]]];
+      myouter = Append[myouter, tl]
+      ]
+     ]
+    ];
+   (* printed p. 112 *)
+   Return[myouter]
+   ]
+
+listouterleft[list1_, list2_] :=
+  Module[{len1, len2, i, j, myouter = {}, tl = {}},
+   len1 = Length[list1]; len2 = Length[list2];
+   For[i = 1, i < len1 + 1, i++,
+    tl = {list1[[i]]};
+    tl = Append[tl, list2];
+    myouter = Append[myouter, tl]
+    ];
+   Return[myouter]
+   ]
+
+listouterright[list1_, list2_] :=
+  Module[{len1, len2, i, j, myouter = {}, tl = {}},
+   len1 = Length[list1]; len2 = Length[list2];
+   For[j = 1, j < len2 + 1, j++,
+    tl = {list2[[j]]};
+    tl = Prepend[tl, list1];
+    myouter = Append[myouter, tl]
+    ];
+   (* printed p. 113 *)
+   Return[myouter]
+   ]
+
+myouter2[list1_, list2_] :=
+  Module[{len1, len2, i, j, myouter = {}, tl = {}},
+   len1 = Length[list1]; len2 = Length[list2];
+   Which[list1 == {},
+    myouter = numberouter[list1, list2],
+    Depth[list1] > Depth[list2],
+    myouter = listouterleft[list1, list2],
+    Depth[list1] <= Depth[list2],
+    myouter = listouterright[list1, list2]
+    ];
+   Return[myouter]
+   ]
+
+betagen[r_] := Module[{i, len, betal = {}},
+   len = Length[r];
+   For[i = 1, i < len + 1, i++,
+    betal = Append[betal, ecv[r[[i]]]]
+    ]; If[betal == {}, Print["error,betagen"]];
+   Return[betal]
+   ]
+
+(* printed p. 114 *)
+
+alfagen[r_] := Module[{i, len, alfal = {}},
+   len = Length[r];
+   For[i = 1, i < len + 1, i++,
+    alfal = Append[alfal, ocv[r[[i]]]]
+    ]; If[alfal == {}, Print["error,alfagen"]];
+   Return[alfal]
+   ]
+
+egen[beta_] :=
+  Module[{el = {}, i, j, len, lenel, fl = {}, cl = {}, lencl, tmc,
+    lentmc, t},
+   len = Length[beta];
+   cl = Append[cl, mclpadd[1, beta[[1]], len]];
+   For[i = 2, i < len + 1, i++,
+    tmc = mclpadd[i, beta[[i]], len]; t = NumberQ[tmc[[1]]];
+    If[t,
+     cl = Distribute[List[cl, {tmc}], List],
+     cl = Distribute[List[cl, tmc], List]
+     ]
+    ];
+   cl = Flatten[cl];
+   cl = Partition[cl, len];
+   cl = Partition[cl, len];
+   If[cl == {}, Print["error,egen"]];
+   (* printed p. 115 *)
+   Return[cl]
+   ]
+
+egenlast[beta_] :=
+  Module[{ell = {}, i, len, f, egen = {}, lt = {}, tmc, t},
+   len = Length[beta];
+   ell = Append[ell, mclpadd[1, beta[[1]], len]];
+   For[i = 2, i < len + 1, i++,
+    tmc = mclpadd[i, beta[[i]], len]; t = NumberQ[tmc[[1]]];
+    If[t,
+     ell = Distribute[List[ell, {tmc}], List],
+     ell = Distribute[List[ell, tmc], List]
+     ]
+    ];
+   ell = Flatten[ell];
+   ell = Partition[ell, len];
+   ell = Partition[ell, len];
+   f = unitvec[len];
+   ell = Distribute[List[ell, f], List];
+   ell = Flatten[ell];
+   ell = Partition[ell, len];
+   ell = Partition[ell, len + 1];
+   If[ell == {}, Print["error,egenlast"]];
+   (* printed p. 116 *)
+   Return[ell]
+   ]
+
+mypartition[vbl_, elgl_] :=
+  Module[{lvbl, tlb, i, j, tlistb, lenel, pvbl = {}, lcounter = 0, k,
+    tl1l = {}, tl2l = {}, tl3l = {}, lenpvbl, tcyles, cylen = 0, p,
+    q},
+   lvbl = Length[vbl]; lenel = Length[elgl];
+   For[p = 1, p < lvbl, p++,
+    cylen += Length[vbl[[p]]]^2
+    ];
+   cylen += Length[vbl[[lvbl]]]^2 + Length[vbl[[lvbl]]];
+   tcyles = lenel/cylen;
+   If[! IntegerQ[tcyles], Print["error", tcyles]];
+   lcounter = 0;
+   For[q = 1, q < tcyles + 1, q++,
+    For[i = 1, i < lvbl, i++,
+     tlb = Length[vbl[[i]]];
+     For[j = 1, j < tlb + 1, j++,
+      For[k = 1, k < tlb + 1, k++,
+       tl1l = Append[tl1l, elgl[[lcounter + 1]]];
+       lcounter++
+       ];
+      (* printed p. 117 *)
+      tl2l = Append[tl2l, tl1l]; tl1l = {}
+      ];
+     tl3l = Append[tl3l, tl2l]; tl2l = {}
+     ];
+    tlb = Length[vbl[[lvbl]]]; tl1l = {}; tl2l = {};
+    For[j = 1, j < tlb + 2, j++,
+     For[k = 1, k < tlb + 1, k++,
+      tl1l = Append[tl1l, elgl[[lcounter + 1]]]; lcounter++
+      ];
+     tl2l = Append[tl2l, tl1l]; tl1l = {}
+     ];
+    tl3l = Append[tl3l, tl2l]; tl2l = {};
+    pvbl = Append[pvbl, tl3l]; tl3l = {};
+    ];
+   If[pvbl == {}, Print["error,mypartition"]];
+   Return[pvbl]
+   ]
+
+elistgen[r_] := Module[{betalist, lenbetal, i, elg = {}, tl = {},},
+   betalist = betagen[r];
+   lenbetal = Length[betalist];
+   (* printed p. 118 *)
+   If[lenbetal == 1,
+    elg = egenlast[betalist[[1]]],
+    elg = egen[betalist[[1]]];
+    For[i = 2, i < lenbetal, i++,
+     elg = Distribute[List[elg, egen[betalist[[i]]]], List];
+     ];
+    elg = Distribute[List[elg, egenlast[betalist[[lenbetal]]]], List];
+    elg = Flatten[elg];
+    elg = mypartition[betalist, elg];
+    ];
+   If[elg == {}, Print["error,elistgen"]];
+   Return[elg]
+   ]
+
+betalink[elist_] :=
+  Module[{i, lenel, felist = {}, j, tb = {}, k, tlist = {}, tlenb,
+    tlenvb, lenlist = {}, lenalfa, templen, stanelist = {}, templ},
+   If[Depth[elist] == 3, stanelist = Append[stanelist, elist];
+    tlenvb = Length[stanelist[[1]]];
+    tb = stanelist[[1, 1]];
+    (* printed p. 119 *)
+    For[j = 2, j < tlenvb + 1, j++,
+     tb = tb + stanelist[[1, j]]
+     ];
+    tlist = Append[tlist, tb];
+    tlist = Flatten[tlist],
+    lenel = Length[elist];
+    For[i = 1, i < lenel + 1, i++,
+     tlenvb = Length[elist[[i]]];
+     tb = elist[[i, 1]];
+     For[j = 2, j < tlenvb + 1, j++,
+      tb = tb + elist[[i, j]]
+      ];
+     tlist = Append[tlist, tb]; tb = {}
+     ];
+    tlist = Flatten[tlist];
+    ];
+   (* printed p. 120 *)
+   If[tlist == {}, Print["error,betalink"]];
+   Return[tlist]
+   ]
+
+alfalink[pvo_] := Module[{alfalist, lenalfa, i},
+   alfalist = alfagen[pvo];
+   If[alfalist == {}, Print["error,alfalink"]];
+   Return[alfalist]
+   ]
+
+consbeta[betalist_] := Module[{cb = 1, i, j, lenbl, tlenb},
+   lenbl = Length[betalist];
+   For[i = 1, i < lenbl + 1, i++,
+    tlenb = Length[betalist[[i]]];
+    For[j = 1, j < tlenb + 1, j++,
+     cb *= betalist[[i, j]]!;
+     ]
+    (* printed p. 121 *)
+    ];
+   Return[cb]
+   ]
+
+conse[elist_] :=
+  Module[{lenel, i, j, k, l, tlen, ce = 1, fe = 1, len1, len2, len3,
+    len4, m, fel = {}},
+   fel = Flatten[elist];
+   lenel = Length[fel];
+   For[i = 1, i < lenel + 1, i++,
+    ce *= fel[[i]]!;
+    ];
+   fe = 1/ce;
+   Return[fe]
+   ]
+
+pvodist[pvo1_, pvo2_] :=
+  Distribute[List[pvo1, pvo2], List]
+
+sumgen[v_, w_] :=
+  Module[{sumv = 0, tpv, i, lentpv, valfa, vbeta, j, tlen, vece, tnorm,
+    thalflen, k, l, tlenl, compe = {}, facprodbeta = 1, facprode = 1,
+    talfa = {}, tbeta = {}, sume = {}, tf, tpw, lencp, cp = {},
+    sign = 1, normv, normw, lenv, lenw, trv, trw, tvalfa, tvbeta,
+    twalfa, twbeta, talfalink, tbetalink, talfaplink, tbetaplink,
+    (* printed p. 122 *)
+    telist = {}, teplist = {}, cptep = {}, lencptep, tempelist = {},
+    tempeplist = {}, tempconse, tempconsbeta, tempconsep,
+    tempconsbetap, fconstemp, tc4, talfalinkfla, talfaplinfla},
+   tpv = partvecouter[v]; tpw = partvecouter[w];
+   cp = pvodist[tpv, tpw];
+   lencp = Length[cp];
+   normv = mynorm[v]; normw = mynorm[w];
+   sign = (-1)^(normv + normw);
+   For[i = 1, i < lencp + 1, i++,
+    trv = cp[[i, 1]]; trw = cp[[i, 2]];
+    talfalink = alfalink[trv]; talfalinkfla = Flatten[talfalink];
+    talfaplink = alfalink[trw]; talfaplinkfla = Flatten[talfaplink];
+    If[mynorm[talfalinkfla] != mynorm[talfaplinkfla], Continue[]];
+    tvbeta = betagen[trv]; twbeta = betagen[trw];
+    telist = elistgen[trv];
+    teplist = elistgen[trw];
+    (* printed p. 123 *)
+    cptep = pvodist[telist, teplist];
+    lencptep = Length[cptep];
+    For[j = 1, j < lencptep + 1, j++,
+     tempelist = cptep[[j, 1]];
+     tempeplist = cptep[[j, 2]];
+     tempconsbeta = consbeta[tvbeta];
+     tempconsbetap = consbeta[twbeta];
+     tempconse = conse[tempelist];
+     tempconsep = conse[tempeplist];
+     tbetalink = betalink[tempelist];
+     tbetaplink = betalink[tempeplist];
+     tc4 =
+      cons4vec[talfalinkfla, tbetalink, talfaplinkfla, tbetaplink];
+     sumv += tempconsbeta tempconsbetap tempconse tempconsep tc4;
+     ];
+    ];
+   sumv *= sign;
+   Return[sumv]
+   (* printed p. 124 *)
+   ]
+
+cons2vec[v_, w_] :=
+  Module[{c2v, tpv, tpw, i, lenw, lenv, outerpart, lenouterpart,
+    outere, lenoutere, j, normv, normw, lenpv, lenpw, k, l, sign},
+   lenv = Length[v]; lenw = Length[w];
+   normv = mynorm[v]; normw = mynorm[w];
+   If[Min[normv, normw] < Max[lenv, lenw],
+    c2v = 0,
+    c2v = sumgen[v, w]
+    ];
+   Return[c2v]
+   ]
+
+partvw[n_, l_, k_] :=
+  Module[{i, j, outerlist = {}, vllist = {}, wklist = {},
+    templist = {}, tlenouter, finallist = {}, tempv = {}, tempw = {},
+    temppair = {}, tcycle},
+   For[i = l, i < n - k + 1, i++,
+    vllist = gencomnormilist[l, i, i];
+    wklist = gencomnormilist[k, n - i, n - i];
+    (* printed p. 125 *)
+    templist = pvodist[vllist, wklist];
+    outerlist = Append[outerlist, templist];
+    ];
+   If[outerlist == {},
+    finallist = False,
+    outerlist = Flatten[outerlist];
+    outerlist = Partition[outerlist, l + k];
+    tlenouter = Length[outerlist];
+    For[i = 1, i < tlenouter + 1, i++,
+     For[j = 1, j < l + 1, j++,
+      tempv = Append[tempv, outerlist[[i, j]]];
+      ];
+     temppair = Append[temppair, tempv]; tempv = {};
+     For[j = 1, j < k + 1, j++,
+      tempw = Append[tempw, outerlist[[i, j + l]]];
+      ];
+     temppair = Append[temppair, tempw]; tempw = {};
+     finallist = Append[finallist, temppair]; temppair = {};
+     ];
+    ];
+   (* printed p. 126 *)
+   Return[finallist]
+   ]
+
+consi[n_, l_, k_] :=
+  Module[{toutervw = {}, tlen, mysum = 0, i, tempc},
+   toutervw = partvw[n, l, k];
+   tlen = Length[toutervw];
+   For[i = 1, i < tlen + 1, i++,
+    tempc = cons2vec[toutervw[[i, 1]], toutervw[[i, 2]]];
+    mysum += tempc;
+    ];
+   Return[mysum]
+   ]
+
+finalconsi[n_] :=
+  Module[{tpower, fcons = 0, sum = 0, tempc, sign, i, j},
+   tpower = 2^(n - 1);
+   For[i = 1, i < n - 1, i++,
+    For[j = 1, j < n - i, j++,
+     sign = (-1)^(i + j);
+     (* printed p. 127 *)
+     tempc = consi[n - 1, i, j];
+     sum += tempc sign
+     ];
+    ];
+   fcons = tpower sum;
+   Return[fcons]
+   ]
+
+coelisttail[nlevelbase_, nlevel_] := Module[{i, colist = {}, tfcons},
+   For[i = nlevelbase, i < nlevel + 1, i++,
+    tfcons = finalconsi[i];
+    colist = Append[colist, tfcons]
+    ];
+   Return[colist]
+   ]
+
+coelistele[nlevel_] := coelisttail[nlevel, nlevel]
+
+(* printed p. 128 *)
+
+coelist[nlevel_] := coelisttail[1, nlevel]
+
+myappend[cele_, clist_] := Module[{},
+   clist = Append[clist, cele[[1]]];
+   Return[clist]
+   ]
+
+cdiag[n_] := Module[{pot, sum = 0, i, fn},
+   pot = 2^(n - 1);
+   fn = Floor[(n - 1)/2];
+   For[i = 1, i < fn + 1, i++,
+    sum += consi[n - 1, i, i]
+    ];
+   sum *= pot;
+   Return[sum]
+   ]
+
+(* printed p. 129 *)
+
+partvwoff[n_, l_, k_] :=
+  Module[{i, j, outerlist = {}, vllist = {}, wklist = {},
+    templist = {}, tlenouter, finallist = {}, tempv = {}, tempw = {},
+    temppair = {}, tcycle},
+   For[i = k, i < n - k + 1, i++,
+    vllist = gencomnormilist[l, i, i];
+    wklist = gencomnormilist[k, n - i, n - i];
+    templist = pvodist[vllist, wklist];
+    outerlist = Append[outerlist, templist];
+    ];
+   If[outerlist == {},
+    finallist = False,
+    outerlist = Flatten[outerlist];
+    outerlist = Partition[outerlist, l + k];
+    tlenouter = Length[outerlist];
+    For[i = 1, i < tlenouter + 1, i++,
+     For[j = 1, j < l + 1, j++,
+      tempv = Append[tempv, outerlist[[i, j]]];
+      ];
+     temppair = Append[temppair, tempv]; tempv = {};
+     For[j = 1, j < k + 1, j++,
+      tempw = Append[tempw, outerlist[[i, j + l]]];
+      (* printed p. 130 *)
+      ];
+     temppair = Append[temppair, tempw]; tempw = {};
+     finallist = Append[finallist, temppair]; temppair = {};
+     ];
+    ];
+   Return[finallist]
+   ]
+
+consioff[n_, l_, k_] :=
+  Module[{toutervw = {}, tlen, mysum = 0, i, tempc},
+   toutervw = partvwoff[n, l, k];
+   tlen = Length[toutervw];
+   For[i = 1, i < tlen + 1, i++,
+    tempc = cons2vec[toutervw[[i, 1]], toutervw[[i, 2]]];
+    mysum += tempc;
+    ];
+   (* printed p. 131 *)
+   Return[mysum]
+   ]
+
+coffdiag[n_] := Module[{pot, i, j, sum = 0, fn, tempf, sign},
+   pot = 2^n;
+   fn = Floor[(n - 2)/2];
+   For[i = 1, i < fn + 1, i++,
+    tempf = Floor[(n - i)/2];
+    For[j = i + 1, j < tempf + 1, j++,
+     sign = (-1)^(i + j);
+     sum += sign consioff[n - 1, i, j]
+     ];
+    ];
+   (* printed p. 132 *)
+   sum *= pot;
+   Return[sum]
+   ]
+
+cinfiop[n_] := cdiag[n] + coffdiag[n]
+
+mycompositionkapa[v_, kapa_] :=
+  Module[{i, j, lc, partlist = {}, complist},
+   For[i = 1, i < v + 1, i++,
+    complist = gencomnormilist[i, Min[v, kapa], v];
+    lc = Length[complist];
+    For[j = 1, j < lc + 1, j++,
+     Which[NumberQ[complist[[j]]] == True,
+      complist = PadRight[complist, v];
+      partlist = Append[partlist, complist],
+      NumberQ[complist[[j]]] == False,
+      complist[[j]] = PadRight[complist[[j]], v];
+      partlist = Append[partlist, complist[[j]]]
+      ]
+     ]
+    ]; If[partlist == {}, Print["error,mycomposition"]];
+   Return[partlist]
+   ]
+
+mclkapa[alfa_, beta_, kapa_] :=
+  (* printed p. 133 *)
+  gennormzerocomlist[alfa, Min[beta, kapa], beta]
+
+mclpaddkapa[alfa_, beta_, len_, kapa_] := Module[{i, tl, templist},
+   templist = mclkapa[alfa, beta, kapa];
+   If[Length[templist] == 1,
+    templist = templist[[1]];
+    templist = PadRight[templist, len],
+    tl = Length[templist];
+    For[i = 1, i < tl + 1, i++,
+     templist[[i]] = PadRight[templist[[i]], len]
+     ];
+    ];
+   If[templist == {}, Print["error,mclpadd"]];
+   Return[templist]
+   ]
+
+partveckapa[vec_, kapa_] := Module[{i, lv, pv = {}, tlist},
+   lv = Length[vec];
+   For[i = 1, i < lv + 1, i++,
+    tlist = mycompositionkapa[vec[[i]], kapa];
+    pv = Append[pv, tlist]
+    ]; If[pv == {}, Print["error,partvec"]];
+   Return[pv]
+   ]
+
+partvecouterkapa[vec_, kapa_] :=
+  Module[{i, lv, pv = {}, tlist, j, tlen, norm, counter, templ = {},
+    nl = {}, fov = {}},
+   (* printed p. 134 *)
+   lv = Length[vec]; norm = mynorm[vec];
+   tlist = mycompositionkapa[vec[[1]], kapa];
+   pv = Append[pv, tlist];
+   For[i = 2, i < lv + 1, i++,
+    tlist = mycompositionkapa[vec[[i]], kapa];
+    tlen = Length[pv];
+    For[j = 1, j < tlen + 1, j++,
+     pv[[j]] = Distribute[List[pv[[j]], tlist], List]
+     ];
+    ];
+   pv = Flatten[pv];
+   pv = Partition[pv, norm];
+   tlen = Length[pv]; counter = 0;
+   For[i = 1, i < tlen + 1, i++,
+    counter = 0;
+    For[j = 1, j < lv + 1, j++,
+     For[k = 1, k < vec[[j]] + 1, k++,
+      templ = Append[templ, pv[[i, counter + k]]];
+      ];
+     counter += vec[[j]];
+     nl = Append[nl, templ]; templ = {};
+     ];
+    fov = Append[fov, nl]; nl = {};
+    ]; If[fov == {}, Print["error,partvecouter"]];
+   Return[fov]
+   ]
+
+(* printed p. 135 *)
+
+fulllistkapa[alfa_, beta_, kapa_] :=
+  Module[{i, lv, tl, flist = {}, tlist},
+   lv = Length[alfa];
+   tlist = mclkapa[alfa[[1]], beta[[1]], kapa];
+   flist = tlist;
+   For[i = 2, i < lv + 1, i++,
+    If[alfa[[i]] == 0, Continue[]];
+    tlist = mclkapa[alfa[[i]], beta[[i]], kapa];
+    flist = Distribute[List[flist, tlist], List];
+    ];
+   tl = Length[flist];
+   For[i = 1, i < tl + 1, i++,
+    flist = ReplacePart[flist, Flatten[flist[[i]]], i]
+    ]; If[flist == {},
+    Print["error,fulllist", "alfa=:", alfa, "beta=:", beta]];
+   Return[flist]
+   ]
+
+cons4veckapa[alfa1_, beta1_, alfa2_, beta2_, kapa_] :=
+  Module[{consfin, cons1, conspart1, ttao, tsigma, tnormalfa1,
+    tnormalfa2, tlenalfa1, tlenalfa2, tclist, tdlist, outerlist,
+    lenouterlist, i, cons2, conssum = 0, cons3, conspart3, cons4,
+    cdouterlist = {}, j, cons5},
+   tnormalfa1 = mynorm[alfa1]; tnormalfa2 = mynorm[alfa2];
+   If[tnormalfa1 != tnormalfa2, consfin = 0,
+    (* printed p. 136 *)
+    cons1 =
+     tnormalfa1! (tnormalfa1 + mynorm[beta1] + tnormalfa2 +
+         mynorm[beta2] - 1)!;
+    conspart1 = 1/cons1;
+    tsigma = mypermutation[tnormalfa1];
+    ttao = mypermutation[tnormalfa1];
+    outerlist = Distribute[List[tsigma, ttao], List];
+    tclist = fulllistkapa[alfa1, beta1, kapa];
+    tdlist = fulllistkapa[alfa2, beta2, kapa];
+    cdouterlist = Distribute[List[tclist, tdlist], List];
+    lenouterlist = Length[outerlist];
+    lencdouterlist = Length[cdouterlist];
+    For[i = 1, i < lenouterlist + 1, i++,
+     For[j = 1, j < lencdouterlist + 1, j++,
+      cons3 =
+       prodfacvec[cdouterlist[[j, 1]]] prodfacvec[
+         cdouterlist[[j, 2]]];
+      conspart3 = 1/cons3;
+      cons2 =
+       prodfacvec[alfa1] prodfacvec[beta1] prodfacvec[
+         alfa2] prodfacvec[beta2];
+      cons4 =
+       prodfacvec[
+        inversepermvec[outerlist[[i, 1]], cdouterlist[[j, 1]]] +
+         (* printed p. 137 *)
+         inversepermvec[outerlist[[i, 2]], cdouterlist[[j, 2]]] +
+         idenvec[tnormalfa1]];
+      conssum += cons2 conspart3 cons4;
+      ];
+     ];
+    consfin = conspart1 conssum
+    ];
+   Return[consfin]
+   ]
+
+egenkapa[beta_, kapa_] :=
+  Module[{el = {}, i, j, len, lenel, fl = {}, cl = {}, lencl, tmc,
+    lentmc, t},
+   len = Length[beta];
+   cl = Append[cl, mclpaddkapa[1, beta[[1]], len, kapa]];
+   For[i = 2, i < len + 1, i++,
+    tmc = mclpaddkapa[i, beta[[i]], len, kapa]; t = NumberQ[tmc[[1]]];
+    If[t,
+     cl = Distribute[List[cl, {tmc}], List],
+     cl = Distribute[List[cl, tmc], List]
+     ]
+    (* printed p. 138 *)
+    ];
+   cl = Flatten[cl];
+   cl = Partition[cl, len];
+   cl = Partition[cl, len];
+   If[cl == {}, Print["error,egen"]];
+   Return[cl]
+   ]
+
+egenlastkapa[beta_, kapa_] :=
+  Module[{ell = {}, i, len, f, egen = {}, lt = {}, tmc, t},
+   len = Length[beta];
+   ell = Append[ell, mclpaddkapa[1, beta[[1]], len, kapa]];
+   For[i = 2, i < len + 1, i++,
+    tmc = mclpaddkapa[i, beta[[i]], len, kapa]; t = NumberQ[tmc[[1]]];
+    If[t,
+     ell = Distribute[List[ell, {tmc}], List],
+     ell = Distribute[List[ell, tmc], List]
+     ]
+    ];
+   ell = Flatten[ell];
+   ell = Partition[ell, len];
+   ell = Partition[ell, len];
+   f = unitvec[len];
+   ell = Distribute[List[ell, f], List];
+   ell = Flatten[ell];
+   ell = Partition[ell, len];
+   ell = Partition[ell, len + 1];
+   (* printed p. 139 *)
+   If[ell == {}, Print["error,egenlast"]];
+   Return[ell]
+   ]
+
+elistgenkapa[r_, kapa_] :=
+  Module[{betalist, lenbetal, i, elg = {}, tl = {},},
+   betalist = betagen[r];
+   lenbetal = Length[betalist];
+   If[lenbetal == 1,
+    elg = egenlastkapa[betalist[[1]], kapa],
+    elg = egenkapa[betalist[[1]], kapa];
+    For[i = 2, i < lenbetal, i++,
+     elg = Distribute[List[elg, egenkapa[betalist[[i]], kapa]], List];
+     ];
+    elg =
+     Distribute[List[elg, egenlastkapa[betalist[[lenbetal]], kapa]],
+      List];
+    elg = Flatten[elg];
+    elg = mypartition[betalist, elg];
+    ];
+   (* printed p. 140 *)
+   If[elg == {}, Print["error,elistgen"]];
+   Return[elg]
+   ]
+
+sumgenkapa[v_, w_, kapa_] :=
+  Module[{sumv = 0, tpv, i, lentpv, valfa, vbeta, j, tlen, vece, tnorm,
+    thalflen, k, l, tlenl, compe = {}, facprodbeta = 1, facprode = 1,
+    talfa = {}, tbeta = {}, sume = {}, tf, tpw, lencp, cp = {},
+    sign = 1, normv, normw, lenv, lenw, trv, trw, tvalfa, tvbeta,
+    twalfa, twbeta, talfalink, tbetalink, talfaplink, tbetaplink,
+    telist = {}, teplist = {}, cptep = {}, lencptep, tempelist = {},
+    tempeplist = {}, tempconse, tempconsbeta, tempconsep,
+    tempconsbetap, fconstemp, tc4, talfalinkfla, talfaplinfla},
+   tpv = partvecouterkapa[v, kapa]; tpw = partvecouterkapa[w, kapa];
+   cp = pvodist[tpv, tpw];
+   lencp = Length[cp];
+   normv = mynorm[v]; normw = mynorm[w];
+   sign = (-1)^(normv + normw);
+   For[i = 1, i < lencp + 1, i++,
+    trv = cp[[i, 1]]; trw = cp[[i, 2]];
+    (* printed p. 141 *)
+    talfalink = alfalink[trv]; talfalinkfla = Flatten[talfalink];
+    talfaplink = alfalink[trw]; talfaplinkfla = Flatten[talfaplink];
+    If[mynorm[talfalinkfla] != mynorm[talfaplinkfla], Continue[]];
+    tvbeta = betagen[trv]; twbeta = betagen[trw];
+    telist = elistgenkapa[trv, kapa];
+    teplist = elistgenkapa[trw, kapa];
+    cptep = pvodist[telist, teplist];
+    lencptep = Length[cptep];
+    For[j = 1, j < lencptep + 1, j++,
+     tempelist = cptep[[j, 1]];
+     tempeplist = cptep[[j, 2]];
+     tempconsbeta = consbeta[tvbeta];
+     tempconsbetap = consbeta[twbeta];
+     tempconse = conse[tempelist];
+     tempconsep = conse[tempeplist];
+     tbetalink = betalink[tempelist];
+     tbetaplink = betalink[tempeplist];
+     tc4 =
+      cons4veckapa[talfalinkfla, tbetalink, talfaplinkfla, tbetaplink,
+       (* printed p. 142 *)
+       kapa];
+     sumv += tempconsbeta tempconsbetap tempconse tempconsep tc4;
+     ];
+    ];
+   sumv *= sign;
+   Return[sumv]
+   ]
+
+cons2veckapa[v_, w_, kapa_] :=
+  Module[{c2v, tpv, tpw, i, lenw, lenv, outerpart, lenouterpart,
+    outere, lenoutere, j, normv, normw, lenpv, lenpw, k, l, sign},
+   lenv = Length[v]; lenw = Length[w];
+   normv = mynorm[v]; normw = mynorm[w];
+   If[Min[normv, normw] < Max[lenv, lenw],
+    c2v = 0,
+    c2v = sumgenkapa[v, w, kapa]
+    ];
+   (* printed p. 143 *)
+   Return[c2v]
+   ]
+
+partvwkapa[n_, l_, k_, kapa_] :=
+  Module[{i, j, outerlist = {}, vllist = {}, wklist = {},
+    templist = {}, tlenouter, finallist = {}, tempv = {}, tempw = {},
+    temppair = {}, tcycle},
+   For[i = l, i < n - k + 1, i++,
+    vllist = gencomnormilist[l, Min[i, kapa], i];
+    If[vllist == False, Continue[]];
+    wklist = gencomnormilist[k, Min[n - i, kapa], n - i];
+    If[wklist == False, Continue[]];
+    templist = pvodist[vllist, wklist];
+    outerlist = Append[outerlist, templist];
+    ];
+   If[outerlist == {},
+    finallist = False,
+    outerlist = Flatten[outerlist];
+    outerlist = Partition[outerlist, l + k];
+    tlenouter = Length[outerlist];
+    For[i = 1, i < tlenouter + 1, i++,
+     For[j = 1, j < l + 1, j++,
+      tempv = Append[tempv, outerlist[[i, j]]];
+      (* printed p. 144 *)
+      ];
+     temppair = Append[temppair, tempv]; tempv = {};
+     For[j = 1, j < k + 1, j++,
+      tempw = Append[tempw, outerlist[[i, j + l]]];
+      ];
+     temppair = Append[temppair, tempw]; tempw = {};
+     finallist = Append[finallist, temppair]; temppair = {};
+     ];
+    ];
+   Return[finallist]
+   ]
+
+consikapa[n_, l_, k_, kapa_] :=
+  Module[{toutervw = {}, tlen, mysum = 0, i, tempc},
+   toutervw = partvwkapa[n, l, k, kapa];
+   If[toutervw == False,
+    mysum = 0,
+    tlen = Length[toutervw];
+    For[i = 1, i < tlen + 1, i++,
+     (* printed p. 145 *)
+     tempc = cons2veckapa[toutervw[[i, 1]], toutervw[[i, 2]], kapa];
+     mysum += tempc
+     ],
+    tlen = Length[toutervw];
+    For[i = 1, i < tlen + 1, i++,
+     tempc = cons2veckapa[toutervw[[i, 1]], toutervw[[i, 2]], kapa];
+     mysum += tempc
+     ]
+    ];
+   Return[mysum]
+   ]
+
+finalconsikapa[n_, kapa_] :=
+  Module[{tpower, fcons = 0, sum = 0, tempc, sign, i, j},
+   tpower = 2^(n - 1);
+   For[i = 1, i < n - 1, i++,
+    (* printed p. 146 *)
+    For[j = 1, j < n - i, j++,
+     sign = (-1)^(i + j);
+     tempc = consikapa[n - 1, i, j, kapa];
+     sum += tempc sign
+     ];
+    ];
+   fcons = tpower sum;
+   Return[fcons]
+   ]
+
+coelisttailkapa[nlevelbase_, nlevel_, kapa_] :=
+  Module[{i, colist = {}, tfcons},
+   For[i = nlevelbase, i < nlevel + 1, i++,
+    tfcons = finalconsikapa[i, kapa];
+    colist = Append[colist, tfcons]
+    ];
+   Return[colist]
+   (* printed p. 147 *)
+   ]
+
+coelistelekapa[nlevel_, kapa_] :=
+  coelisttailkapa[nlevel, nlevel, kapa]
+
+coelistkapa[nlevel_, kapa_] := coelisttailkapa[1, nlevel, kapa]
+
+cdiagkapa[n_, kapa_] := Module[{pot, sum = 0, i, fn},
+   pot = 2^(n - 1);
+   fn = Floor[(n - 1)/2];
+   For[i = 1, i < fn + 1, i++,
+    sum += consikapa[n - 1, i, i, kapa]
+    ];
+   sum *= pot;
+   Return[sum]
+   ]
+
+(* printed p. 148 *)
+
+partvwoffkapa[n_, l_, k_, kapa_] :=
+  Module[{i, j, outerlist = {}, vllist = {}, wklist = {},
+    templist = {}, tlenouter, finallist = {}, tempv = {}, tempw = {},
+    temppair = {}, tcycle},
+   For[i = k, i < n - k + 1, i++,
+    vllist = gencomnormilist[l, Min[i, kapa], i];
+    If[vllist == False, Continue[]];
+    wklist = gencomnormilist[k, Min[n - i, kapa], n - i];
+    If[wklist == False, Continue[]];
+    templist = pvodist[vllist, wklist];
+    outerlist = Append[outerlist, templist];
+    ];
+   If[outerlist == {},
+    finallist = False,
+    outerlist = Flatten[outerlist];
+    outerlist = Partition[outerlist, l + k];
+    tlenouter = Length[outerlist];
+    For[i = 1, i < tlenouter + 1, i++,
+     For[j = 1, j < l + 1, j++,
+      tempv = Append[tempv, outerlist[[i, j]]];
+      ];
+     (* printed p. 149 *)
+     temppair = Append[temppair, tempv]; tempv = {};
+     For[j = 1, j < k + 1, j++,
+      tempw = Append[tempw, outerlist[[i, j + l]]];
+      ];
+     temppair = Append[temppair, tempw]; tempw = {};
+     finallist = Append[finallist, temppair]; temppair = {};
+     ];
+    ];
+   Return[finallist]
+   ]
+
+consioffkapa[n_, l_, k_, kapa_] :=
+  Module[{toutervw = {}, tlen, mysum = 0, i, tempc},
+   toutervw = partvwoffkapa[n, l, k, kapa];
+   If[toutervw == False, mysum = 0,
+    tlen = Length[toutervw];
+    For[i = 1, i < tlen + 1, i++,
+     (* printed p. 150 *)
+     tempc = cons2veckapa[toutervw[[i, 1]], toutervw[[i, 2]], kapa];
+     mysum += tempc;
+     ],
+    tlen = Length[toutervw];
+    For[i = 1, i < tlen + 1, i++,
+     tempc = cons2veckapa[toutervw[[i, 1]], toutervw[[i, 2]], kapa];
+     mysum += tempc;
+     ]
+    ];
+   Return[mysum]
+   ]
+
+coffdiagkapa[n_, kapa_] :=
+  Module[{pot, i, j, sum = 0, fn, tempf, sign},
+   pot = 2^n;
+   fn = Floor[(n - 2)/2];
+   For[i = 1, i < fn + 1, i++,
+    (* printed p. 151 *)
+    tempf = Floor[(n - i)/2];
+    For[j = i + 1, j < tempf + 1, j++,
+     sign = (-1)^(i + j);
+     sum += sign consioffkapa[n - 1, i, j, kapa]
+     ];
+    ];
+   sum *= pot;
+   Return[sum]
+   ]
+
+cinfiopkapa[n_, kapa_] := cdiagkapa[n, kapa] + coffdiagkapa[n, kapa]
+
+coppart[nlevelbase_, nlevel_, kapa_] :=
+  Module[{i, colist = {}, tfcons},
+   (* printed p. 152 *)
+   For[i = nlevelbase, i < nlevel + 1, i++,
+    tfcons = cinfiopkapa[i, kapa];
+    colist = Append[colist, tfcons]
+    ];
+   Return[colist]
+   ]
+
+copele[nlevel_, kapa_] := coppart[nlevel, nlevel, kapa]
+
+coplist[nlevel_, kapa_] := coppart[1, nlevel, kapa]
+
+ctable[lenthb_, lentht_, kapab_, kapat_] :=
+  Module[{i, j, temptable = {}, temprow = {}},
+   For[j = kapab, j < kapat + 1, j++,
+    For[i = lenthb, i < lentht + 1, i++,
+     temprow = Append[temprow, cinfiopkapa[i, j]];
+     ];
+    (* printed p. 153 *)
+    temptable = Append[temptable, temprow]; temprow = {};
+    ];
+   temptable = TableForm[temptable];
+   Return[temptable]
+   ]
+
+ctablefull[len_, kapa_] := ctable[1, len, 1, kapa]
+
+(* end of Appendix A *)
