@@ -103,6 +103,38 @@ prime number theorem, not a constant. Earlier case-log entries and the
 `r_3c1cbb` / `r_0339c1` write-ups still quote the old constants; those are
 records of what those runs proved and are left as written. Nothing here bears
 on ζ or RH (`docs/08`); external verification remains pending.
+### Hunt #40: `beta := normLower` lands, the predicted slack does not (`r_908de5/`)
+
+**Status: settled, and one prediction on main is refuted.** `docs/25` §4.3
+defect 2 named the remedy for the rung-3 grid sites — `pred_beta` was drawn at
+the achievable bound, so `normLower >= pred_beta` sat at the line by
+construction in any arithmetic (12 of 104 sites under 1 %, `g_right_15` at
+0.03 %, commit 44d3133) — and predicted that setting `beta := normLower` moves
+the slack into the cell condition, "which then carries >= 10x slack". The
+first half holds: with beta read off the enclosure the site inequality is true
+by construction, and the obligation that then bites, `eps' + L*h/2 <= beta`
+(the hypothesis of `ZetaLean.DH.DH_lower_on_[hv]cell`, not a modelling
+choice), still passes at all 104 sites with `L = 16` and `eps' = 1/2000`
+untouched. The second half does not: evaluated in exact rationals over the
+committed plan, the worst of the 200 cell obligations clears by **1.3697x** in
+ball arithmetic and **1.3566x** in chained-rect, against a prediction of
+">= 10x" — over by a factor of ~7.3, and barely moved from the 1.3647x it
+already had under `pred_beta`, in either direction. The
+binding constraint turns out to be the gap, not beta: `L*h/2` is 98 % of the
+requirement at every one of the five worst cells, so raising betas buys almost
+nothing, and the remedy moved the worst case by 0.4 %. A second finding sets
+the price of landing it: `scripts/60_rung3_generate.py` emits a *non-chain*
+rect enclosure, 2-3x wider at a point than the chained one `docs/25` measured
+in, where `normLower` is 0.37-0.53x `pred_beta` and the cell condition fails
+outright — so the remedy is contingent on porting the generator's emission to
+composite chains, for which the Lean side (`dirichletTermBox2`,
+`contains_coarsen`, `contains_cpow_mul`) already exists unused. Landed: beta
+is now read off the enclosure with `--beta plan` restoring the old source, and
+the generator asserts the cell requirement at emission time so a site that
+cannot pay it fails loudly instead of passing at the line. No Lean source
+changed; `lake build` green from a cold toolchain. Nothing here bears on RH
+(`docs/08`), and nothing here is a result until the battery or the funnel says
+so.
 ### Hunt #42: the O9 numerator fields, and the seam that could not be instantiated (`r_6c7d6a/`)
 
 **Status: settled, and one defect found on the way.** The run was sent to
