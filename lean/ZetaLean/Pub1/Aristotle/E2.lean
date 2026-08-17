@@ -10,7 +10,7 @@ namespace AristotleE2
 
 The two results are:
 
-* `F1_continuous` : `F1` is continuous (the series is entire, being dominated on
+* `F1_continuous` : `F1` is continuous (the series in `|x|` has infinite radius, being dominated on
   every ball by a multiple of `∑ (4 r ^ 2) ^ k / k !`);
 * `F1_row_bound` : for `|s| ≤ 1/2`, `∫ t in -1/2..1/2, F1 (s - t) ≤ 4/9`.
 
