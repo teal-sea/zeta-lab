@@ -155,3 +155,25 @@ with their mechanism.
   await a tail bound (the open gap this feeds). Everything is under RH
   and Bian's Theorem 1 hypotheses; the general identity is derived, its
   instances exact. Grade: hardened at the witnesses and instances.
+
+## RF-C007 — Bian's headline constants do not follow from his printed table
+
+- **Delivered 2026-08-17 (second session), inline.** Record:
+  `fkappa/RESULTS.md` section 5.
+- **Statement.** Bian's (11.5), validated on the two externally checkable
+  rows (kappa = 0 gives Montgomery's 2/3 exactly; kappa = 1 gives
+  Farmer-Gonek's 0.858384), evaluates his own printed Figure 10.1 rows to
+  -202/36855 (kappa = 2) and -10284002/1216215 (kappa = 3): vacuous, at
+  alpha = 1 and under alpha-optimization alike. The printed 95.44% and
+  97.74% are not consequences of the printed table plus printed formula.
+  With this campaign's corrected table the same formula gives a stable
+  0.9533 for kappa = 2 (truncations 11 and 20 differ by 5e-5) and still
+  nothing for kappa = 3 (partial bounds negative, drifting at i <= 20).
+- **Grade:** hardened (exact rational arithmetic end to end; the formula
+  chain is pinned by two external controls). The 0.9533 inherits RH,
+  Bian's Theorem 1 hypotheses, and the truncation reading he himself
+  used; the tail-bound programme is what would remove that last clause.
+- **Status:** four arms launched on the follow-ups (theory: generating
+  function and tail; data: extend rows, settle kappa = 3; plus the DH
+  negative-eigenvalue hunt and window global optimality).
+
