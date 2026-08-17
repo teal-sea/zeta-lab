@@ -206,11 +206,20 @@ with their mechanism.
   Conrey's unconditional 0.9666, so this route currently says nothing
   useful about the third derivative: the published 0.9774 is not
   recoverable.
-- **Status: UNDER CROSS-CHECK.** The resolvent formula is confirmed
-  against the independent engine only on i <= 20; FK-DATA's engine
-  extension will test i > 20 independently before this is promoted.
-  Grades: instances hardened; the identity and Gevrey bound derived
-  (general written proof pending; not kernel-checked).
+- **Status: PROMOTED (instances hardened; general identity and Gevrey
+  bound derived, written proof pending; nothing kernel-checked).** The
+  FK-DATA arm independently extended the rows with the (optimized,
+  gate-checked) 14-fold-sum engine: kappa = 2 to i = 40, kappa = 3 to
+  i = 28, disjoint code from the resolvent. Coordinator comparison:
+  exact rational equality on every overlapping value, including all 28
+  values beyond the previously validated i <= 20 range. The two arms
+  also agree independently on the derived bounds (0.953261003869 stable
+  to 12 digits; -0.855563 for kappa = 3; alpha-optima 0.957840 at
+  243/250 and 0.492720 at 373/500, exact rationals from FK-DATA).
+  FK-DATA extras: P-recursive structure decisively ruled out at
+  R, D <= 6 in nine normalizations (18/18 negative with held-out
+  prediction discipline); diagonal extended to i = 23, growth exponent
+  near but not settled at 7/3.
 
 ## RF-C009 — first positivity failure of the truncated Weil form on the rival (DH-NEG)
 

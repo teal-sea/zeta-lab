@@ -170,3 +170,73 @@ coefficients_ext.json immediately (atomic replace) as computed.
   (R+1)(D+1) + R + surplus <= N, so e.g. (R,D) = (6,6) is unreachable
   with N = 36; all combinations satisfying the cap were searched.
   Consistent with analyze.py's earlier shallower negatives.
+- [diag] i=22: 2027.1s NEW bound_thru_i=328690.653920 root=2.3422 c4=301681
+
+## Consolidated results (as of diag i = 22 landed; i = 23 in flight)
+
+All values exact rationals in coefficients_ext.json (mode corrected,
+assembly coefficient = eq (10.1)); i <= 20 entries reproduce
+coefficients.json exactly (per-level gate), so the ext file supersedes
+nothing and duplicates the committed table for convenience.
+
+1. kappa = 2: i = 1..40 (target 32). Simple-zeros partial bound
+   1 - 2 sum_{i<=I} C_{2,i}/((i+1)(i+2)):
+   0.953313 (I=11) -> 0.953261205 (I=20) -> 0.953261003869 stable in
+   all 12 shown digits from I = 31 through I = 40. Exact value at
+   I = 40 available from the JSON. Root growth |C_{2,i}|^{1/i}: 0.71
+   (i=10), 0.64 (20), 0.51 (30), 0.42 (40), still declining; against
+   the Farmer-Gonek scale FG_i = (k-1)! 2^i/(2k)! the ratio's i-th
+   root drifts down through ~1.2, consistent with an entire series
+   (radius infinity) of FG factorial type; observed, not identified.
+2. kappa = 3: i = 1..28 (target 28+). Partial bound does NOT turn
+   around; converged at -0.855563 (oscillation < 2e-6 after I = 24).
+   |C_{3,i}|^{1/i}: 0.86 (16), 0.80 (20), 0.72 (23), 0.60-0.65
+   (27-28): limit clearly below 1. Verdict: at alpha = 1 the corrected
+   machinery gives a convergent but NEGATIVE, hence vacuous, bound for
+   xi''' at every reachable depth; alpha-optimization of the same
+   reading does give a positive 0.492720 at alpha = 373/500 (exact
+   rational evaluation, truncation I = 28, i-tail not bounded).
+   Conrey 1983's unconditional 0.9666 for xi''' remains far ahead of
+   this route. For kappa = 2 the same optimization gives 0.957840 at
+   alpha = 243/250 vs 0.953261 at alpha = 1.
+3. Diagonal: i = 1..22 so far (i = 23 in flight). Ratios monotone:
+   r_22 = -2.2135; |C_i|^{1/i} = 2.3422 at i = 22; exponent estimate
+   (i-1/2)(|r|/2 - 1) declines steadily 2.3345 (15) -> 2.2956 (22),
+   about -0.0075/level, no stabilization at 7/3; the radius-1/2
+   picture (r -> -2) keeps strengthening.
+4. Guessing: negative at every bar tried (see milestone above).
+
+Verification chain for the new terms: (i) optimized engine gates 0-2
+(prof_component and _s_sum vs stock on live signatures; corrected
+tables i <= 14 recomputed vs committed JSON); (ii) per-level runner
+gate: every i <= 20 value recomputed and matched against the committed
+table for each target; (iii) stock-engine (unpatched) recomputation of
+kappa=2 i=21,22 and kappa=3 i=21: AGREE; (iv) closed-form generating
+identity vs engine on a norm-18 inner constant: AGREE; (v) diag i=21
+recomputed after runner restart from the c4 cache, matched the earlier
+value (gate-ok).
+- [diag] i=23: 6872.4s NEW bound_thru_i=-666076.754332 root=2.3360 c4=530419
+- [milestone] (c) diagonal COMPLETE through i = 23 (was 20). Level
+  costs under shared load: i=21 774s, i=22 2027s, i=23 6872s; i=24
+  projected ~5-6h with ~15 GB memory (serial signature aggregation and
+  Fraction assembly dominate; the parallelizable inner-constant phase
+  is no longer the bottleneck). Runner stopped by design before i=24.
+- [final] Guessing re-run with the diagonal through i = 23: still
+  18/18 negative at surplus >= 3 and at surplus >= 1
+  (guess_s3_final.out, guess_s1_final.out).
+- [final] Diagonal tail with the two new terms:
+  C_22 = -2933030242989818220544/21655164155625,
+  C_23 = 71088110023809711886336/238206805711875;
+  r_23 = -2.203372, root_23 = 2.335992, exponent estimate 2.2879 and
+  still declining ~0.0077/level (peaked 2.3345 at i = 15). The r -> -2
+  radius-1/2 picture strengthens; the subexponential factor remains
+  unidentified and is NOT consistent with a settled 7/3 exponent over
+  this range.
+- [final] Session artifacts: extend_engine.py (optimized inner sums +
+  gates), extend_run.py (checkpointed runner), extend_report.py
+  (trajectories), extend_guess.py (recurrence discipline),
+  coefficients_ext.json (exact extended tables), c4cache_*.pkl
+  (resumable inner-constant caches), run_*.out / *_check.out /
+  guess_*_final.out (run and verification evidence). Nothing committed
+  to git per instructions. i=24 diagonal is resumable from
+  c4cache_diag.pkl with extend_run.py --target diag --imax 24.
