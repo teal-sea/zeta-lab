@@ -339,6 +339,59 @@ hunt's scope): both rival interfaces in `battery` pass `dps=min(dps, 20)` into
 noise still lands on an integer, so the routine's own integrality check does
 not catch it.
 
+### Hunt #41 — the interval pass over the k=2 tau-table (`r_a97060/`)
+
+**Question.** `hunts/frontier_math/k2_closure.py` closes the `k=2`
+equal-depth case of blocker 2 over 6600 tau-cells, at *measured* grade: every
+supremum in it is a double-precision scan padded by a flat 5%.
+`K2-TWO-SPECIES.md` §6 names the obligation that keeps it there. Does the same
+table close when every sup becomes an enclosure and every credit a lower
+bound?
+
+**Result: yes, in all three cap modes, over the same cells.** 0 of 6600
+nonpositive; worst margin +0.0677 (signed-field caps), +0.0146 (unsigned),
++0.0016 (unsigned with the measured pass's own 1.05 pad kept on top of the
+enclosure, which is the like-for-like row). No cap widened, no tau-cell
+split. The arithmetic is Arb complex balls at 96 bits, not rectangles, on the
+brief's instruction: rung 3 had measured rectangles losing 13.7× of width to
+balls on exactly this shape of quantity, a squared rotating complex value.
+`mpmath.iv` rectangles contain every ball checked and run 1.8–3.5× wider.
+
+**What the enclosure actually cost.** A factor of **1.0000 to 1.0004** on the
+near field, the dominant term. The 1.05 pad it replaces was standing in for an
+error two to three orders of magnitude smaller than itself.
+
+**What the hardening found that the scan could not.** The centre-centre row is
+`sup_{0<y≤1/2} Dam(2y,τ)/y²` — a supremum over an *open* interval with the
+variable in the denominator, which the measured pass took over an 18-point
+grid starting at `y = 0.05`. A first full enclosure pass reported one
+nonpositive cell at `τ ∈ [6.62, 6.64]`, a root of `G(τ)`. It was not a gap: it
+was the `1/y²` corner, where a branch-and-bound stalls because the enclosure
+width there is set by the τ-cell rather than the y-box. The fix is a fact
+about the problem rather than more grid — `ghat` is **even** with real Taylor
+coefficients, so `Re ghat'(iτ) = 0` and `D` has **no depth-linear term**,
+giving `4·max(0,D)/u² ≤ 4·max(0, sup|D''|/2 − G²/b²)` for every `u ≤ b`. That
+is why the ratio is bounded as `y → 0` at all, which the y-grid assumed
+without stating, and no scan can check it.
+
+**Two unstated assumptions recorded** in `k2_closure.py`, neither changing a
+published number: the pair-charge clamp `Kpair(min(dmax,6))` is a lower bound
+only if `Kpair` is monotone out to `dmax`, which holds only because the widest
+near component in the table is 1.9894; and the inner prune of `zone_trade`
+restricts the *adversary's* search, so it is a heuristic on the unsound side
+(measured delta 0.0 on six binding cells).
+
+**Scope, stated rather than implied.** The *table* is enclosure-carrying. The
+*k=2 equal-depth claim* is a composite and still takes the grade of its
+weakest step, which is now the v-convexity transfer off `v = 1/4` — argued,
+not enclosed. `k ≥ 3` and the unequal-depth quantifier are untouched, and
+nothing here is evidence about RH.
+
+**Disposition:** instrument and result retained; `K2-TWO-SPECIES.md` §6 and
+`k2_closure.NAMED_GAPS` G2 amended in the same commit. Budget overrun
+recorded in the handback: 75 minutes allowed, ~100 taken, all of it the
+diagnosis above.
+
 ### Hunt #15 — is gate-5 property 6 vacuous or distinguishing? (`gate5_p6_c/`)
 
 **Status: settled, and the answer is that the question as written has no
