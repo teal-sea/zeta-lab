@@ -61,6 +61,24 @@ theorem denAbs2_mem (hs : EIv.mem (some ⟨sLo, sHi⟩) s)
 theorem X_mem (hs : EIv.mem (some ⟨sLo, sHi⟩) s) :
     EIv.mem (some ⟨sLo, sHi⟩) s := hs
 
+/-- `imNum` encloses `Im(num)`, which is `Im(num)/y` times `y`.
+
+The `/y` field is the primitive one and this is derived from it, not the other
+way round — which is the whole point of the removable branch: the quotient is
+never formed, only multiplied back when the undivided value is wanted. -/
+theorem imNum_mem {b : ℝ}
+    (hb : EIv.mem (boxParts sLo sHi yLo yHi).imNumOverY b)
+    (hy : EIv.mem (some ⟨yLo, yHi⟩) y) :
+    EIv.mem (boxParts sLo sHi yLo yHi).imNum (b * y) := by
+  unfold boxParts at hb ⊢
+  exact EIv.mul_mem hb hy
+
+/-- `EIv.sqrScaled n` encloses `(n / 2^64)²`, the square of the box's stored
+`y_hi`. This is what the `mode = 2` test multiplies the excess by. -/
+theorem sqrScaled_mem (n : ℤ) :
+    EIv.mem (EIv.sqrScaled n) (((n * n : ℤ) : ℝ) / ((SO * SO : ℤ) : ℝ)) :=
+  EIv.ofQ_mem (mul_pos SO_pos SO_pos)
+
 end Retention
 
 #print axioms Retention.reDen_mem
