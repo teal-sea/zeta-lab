@@ -70,6 +70,16 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #38: rogue_frontier, a wide-portfolio campaign (`rogue_frontier/`)
+
+**Status: open, exploratory.** An autonomous research campaign of 2026-08-17:
+survey the RH-adjacent frontier from primary sources, score a large portfolio
+of concrete attack surfaces, and drive the best through a discovery,
+destruction, and rigor pipeline. Its contract and ledgers are in
+`rogue_frontier/MISSION.md`. Nothing in it is a result until it leaves
+`hunts/` by one of the two sanctioned routes, and nothing in it is evidence
+about RH.
+
 ### Hunt #36: claim 'urms2-0.51' has no recorded white-box attack (`r_065f29/`)
 
 **Status: settled as an attack, not as a verdict. The claim is not withdrawn;
