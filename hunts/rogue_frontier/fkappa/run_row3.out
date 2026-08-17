@@ -24,3 +24,4 @@
 - [row3] i=24: 276.4s NEW bound_thru_i=-0.855563 root=0.7176 c4=137218
 - [row3] i=25: 281.3s NEW bound_thru_i=-0.855563 root=0.6694 c4=192474
 - [row3] i=26: 358.3s NEW bound_thru_i=-0.855563 root=0.6888 c4=266630
+- [row3] i=27: 409.0s NEW bound_thru_i=-0.855563 root=0.5975 c4=366190

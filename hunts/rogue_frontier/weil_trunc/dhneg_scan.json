@@ -3247,6 +3247,22 @@
    "rho2": "0.6508300806097370824037606 + 114.1633427307569809041644i",
    "source": "mp.findroot on zeta.epstein.dh_f from seed 0.8+114.2i, dps 40, |f(rho2)| ~ 4e-42",
    "quad2_at_31_60": "7.56940889003275e-32"
+  },
+  "dictionary_47_64": {
+   "c": 47,
+   "N": 64,
+   "dps": 50,
+   "lambda_min": "-0.31630285307606129597",
+   "offline_quadruple": "-0.83065725417702109567",
+   "quad_imag_residue": 0.0,
+   "online_partial_sum_T120": "0.49306094266292595142",
+   "online_terms_all_nonneg": true,
+   "largest_online_term_at": 87.64747633255973,
+   "tail_estimate_over_120": "0.009840889531",
+   "lambda_minus_quad": "0.5143544011009597997",
+   "residual_lambda_minus_quad_minus_online": "0.02129345844",
+   "residual_minus_tail": "0.01145256891",
+   "elapsed_s": 925.7
   }
  },
  "zeta_control_47_64": {

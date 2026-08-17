@@ -134,3 +134,5 @@ coefficients_ext.json immediately (atomic replace) as computed.
   entering new territory i=21..24 with 2 workers.
 - [row3] i=25: 281.3s NEW bound_thru_i=-0.855563 root=0.6694 c4=192474
 - [row3] i=26: 358.3s NEW bound_thru_i=-0.855563 root=0.6888 c4=266630
+- [diag] i=21: 773.7s NEW bound_thru_i=-162043.154140 root=2.3485 c4=174946
+- [row3] i=27: 409.0s NEW bound_thru_i=-0.855563 root=0.5975 c4=366190

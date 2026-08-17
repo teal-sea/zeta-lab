@@ -18,3 +18,4 @@
 - [diag] i=18: 31.4s gate-ok bound_thru_i=19290.155453 root=2.3676 c4=30733
 - [diag] i=19: 126.5s gate-ok bound_thru_i=-39257.617847 root=2.3613 c4=56346
 - [diag] i=20: 415.6s gate-ok bound_thru_i=79806.575974 root=2.3549 c4=97709
+- [diag] i=21: 773.7s NEW bound_thru_i=-162043.154140 root=2.3485 c4=174946
