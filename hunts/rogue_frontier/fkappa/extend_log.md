@@ -136,3 +136,5 @@ coefficients_ext.json immediately (atomic replace) as computed.
 - [row3] i=26: 358.3s NEW bound_thru_i=-0.855563 root=0.6888 c4=266630
 - [diag] i=21: 773.7s NEW bound_thru_i=-162043.154140 root=2.3485 c4=174946
 - [row3] i=27: 409.0s NEW bound_thru_i=-0.855563 root=0.5975 c4=366190
+- [row3] i=28: 407.3s NEW bound_thru_i=-0.855563 root=0.6460 c4=497638
+- [row3] runner done through i=28

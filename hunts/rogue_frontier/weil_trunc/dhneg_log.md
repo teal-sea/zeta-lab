@@ -161,6 +161,29 @@ Largest single on-line term sits at gamma = 89.44, the nearest zero
 beyond the gap edge: the positive leakage lands exactly where the
 beam-in-gap picture says it must.
 
+### Deep-cell attribution and final controls
+
+- Dictionary at (47, 64), dps 50: lam = -0.31630285, quadruple =
+  -0.83065725 (only negative entry), on-line sum = +0.49306094,
+  lam - quad = +0.51435440, bookkeeping closes to 2.2%. Largest
+  on-line term at 87.647, the other gap edge.
+- Zeta control at the deep cell (47, 64), prec 4200: even inertia
+  (65, 0) conclusive, odd (64, 0) conclusive, lam_min = +6.6006e-119.
+  DH at the same cell: -0.3163. Sign flip carried across 119 orders.
+- RESULTS.md section 8 appended; lexical checks clean (no reserved
+  substring, no em dashes in either file); make_context --check green;
+  tests/test_hunt_probe_discipline.py, test_docs_numbering.py,
+  test_doors.py all pass. Nothing committed to git (per mission).
+
+### Provenance note on commits
+
+This session committed nothing (per mission). A parallel rogue_frontier
+arm runs periodic sweep checkpoints of the whole hunt tree; its commits
+(e.g. 0cddad5, 12:35 UTC) picked up the dhneg files and the RESULTS.md
+section 8 append while this study was in flight. Recorded here so the
+history reads correctly: authorship of the dhneg study is this session,
+the checkpoint commits are the other arm's sweeps.
+
 ### Second lab defect note (recorded, none found this session)
 
 The two independent routes (mpmath galerkin vs Arb enclosures) agreed at

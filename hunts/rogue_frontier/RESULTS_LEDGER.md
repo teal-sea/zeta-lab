@@ -211,3 +211,30 @@ with their mechanism.
   extension will test i > 20 independently before this is promoted.
   Grades: instances hardened; the identity and Gevrey bound derived
   (general written proof pending; not kernel-checked).
+
+## RF-C009 — first positivity failure of the truncated Weil form on the rival (DH-NEG)
+
+- **Delivered 2026-08-17 (second session).** Record: `weil_trunc/RESULTS.md`
+  section 8, `dhneg_scan.py`, `dhneg_confirm.py`, `dhneg_localize.py`,
+  `dhneg_scan.json`, `dhneg_log.md`.
+- **Statement.** For the Davenport-Heilbronn port of the truncated Weil
+  form, the first negative eigenvalue on the scanned lattice appears at
+  (c, N) = (31, 60), even sector: Rump enclosure
+  -1.87393568857018838649e-31 with radius ~1e-241, ball LDL inertia
+  conclusive, (31, 59) still positive, and the zeta control at the same
+  cell is positive (+4.82e-100). No negativity for c <= 30 probed to
+  N = 256. For c >= 32 the crossing N tracks the band edge hitting the
+  off-line ordinate 85.699; the eigenvector localizes there (95.6% mass
+  within +-6 at the deep cell), the ported dictionary attributes the
+  negativity to the off-line quadruple term (the only negative entry,
+  359x the eigenvalue), and a second negative eigenvalue from c >= 44
+  tracks a second off-line pair (polished root 0.6508300806 +
+  114.1633427308i, corroborated by a 4-vs-2 box-vs-line count).
+- **Grade:** hardened for every sign statement; measured for the
+  mechanism attribution. "First" is a lattice claim with explicit
+  ceilings, stated as such.
+- **Why it matters:** together with RF-C004(c) this completes the rival
+  control on the 2026 truncated-form programme: the qualitative spectral
+  signature is identical for zeta and an RH-violating function until the
+  truncation resolves the off-line pair, and the failure height is now a
+  measured curve, not a conjecture. Nothing here is evidence about RH.
