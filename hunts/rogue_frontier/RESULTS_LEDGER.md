@@ -76,9 +76,17 @@ with their mechanism.
   headline is unchanged. Honest framing: a measured optimization gain
   inside someone else's theorem chain, exactly like the laboratory's
   flagship transplant, but smaller.
-- **Caveat recorded by the first arm:** the reported sup (0.6852870321770)
-  is a local search outcome over three parametrizations; global
-  optimality over the full admissible class is NOT claimed.
+- **Caveat, upgraded 2026-08-17 (WIN-GLOBAL arm; window_opt/RESULTS.md
+  section 9):** the optimum is now the unique strictly positive
+  stationary window across 336 starts in three parametrizations, exactly
+  unique on the quartic slice (Groebner elimination, all in exact
+  arithmetic), a genuine local maximum by Hessian signature, and the
+  global sup is bracketed by exact rationals:
+  0.685287032176998 <= sup F <= 0.892744211644411 (the upper end a
+  derived moment-relaxation bound; a degree-44 dyadic witness carries
+  the lower end). Global optimality over the full admissible class
+  remains open; closing the factor-1.30 bracket needs spectral
+  information beyond the second moment.
 
 ## RF-C004 — truncated Weil form: replication, enclosures, and the rival control (P-WEIL)
 
