@@ -1081,7 +1081,7 @@ Constants: `GRAVES`
 
 ### `harness/departments/guard_ledger.py` — The repository's guard ledger — the guard offensive's opening entries.
 
-*229 lines*
+*276 lines*
 
 Constants: `GUARDS`
 
@@ -1271,7 +1271,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1798 test functions across 72 files (the collected count differs where tests are parametrised):
+1802 test functions across 73 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_claim_attribution.py` — 6
@@ -1296,7 +1296,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_finitefield.py` — 53
 - `tests/test_frontier_math_clean_kill.py` — 6
 - `tests/test_graveyard.py` — 7
-- `tests/test_guard_ledger.py` — 10
+- `tests/test_guard_ledger.py` — 11
 - `tests/test_harness_croniter_department.py` — 11
 - `tests/test_harness_demo.py` — 5
 - `tests/test_harness_finitefield_department.py` — 12
@@ -1320,6 +1320,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_plots.py` — 13
 - `tests/test_proof_adapter.py` — 10
 - `tests/test_pub1_admissible_closure.py` — 11
+- `tests/test_pub1_status.py` — 3
 - `tests/test_quasicrystal.py` — 9
 - `tests/test_reading_of_record.py` — 2
 - `tests/test_relations.py` — 7

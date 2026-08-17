@@ -226,4 +226,51 @@ GUARDS: tuple[GuardRecord, ...] = (
             "was therefore never running)"
         ),
     ),
+    GuardRecord(
+        name=(
+            "tests/test_pub1_status.py::"
+            "test_docs_27_states_the_grade_the_obligations_file_declares"
+        ),
+        guards_against=(
+            "docs/27's kernel-checked table stating a different grade for the "
+            "Pub 1 strong closure than lean/ZetaLean/Pub1/OBLIGATIONS.md "
+            "declares — the page a reader consults for what each piece "
+            "assumes, disagreeing with the file that owns the answer"
+        ),
+        smallest_mutant=(
+            "flip the bolded grade in the docs/27 item-3 row from "
+            "**Unconditional** to **Conditional** while OBLIGATIONS.md still "
+            "says 'status: CLOSED'"
+        ),
+        fired=True,
+        demonstrated_by=(
+            "tests/test_guard_ledger.py::"
+            "test_the_pub1_status_guard_fires_on_a_flipped_grade"
+        ),
+        known_misses=(
+            "whether the declared status is itself true — OBLIGATIONS.md is "
+            "taken as the source, and a status wrong at the source is copied "
+            "faithfully into docs/27 and passes; only `#print axioms` and the "
+            "kernel decide what the proof actually assumes",
+            "any other document that quotes the grade — the guard reads "
+            "docs/27's item-3 row only, so a third file repeating the stale "
+            "reading is not seen (the same shape "
+            "tests/test_reading_of_record.py answers by enumerating quoters)",
+            "prose inside the row that contradicts the bolded token, since "
+            "only the bolded grade is read as the row's claim",
+        ),
+        scope=(
+            "agreement between two files about one bolded word; says nothing "
+            "about whether the closure is correct or the Lean proof sound"
+        ),
+        incident=(
+            "2026-08-17: the obligations closed over 08-14/16 and "
+            "OBLIGATIONS.md moved to 'status: CLOSED', while the docs/27 row "
+            "went on reading **Conditional** and naming four hypotheses that "
+            "no longer existed. Third instance of the class HANDOFF.md "
+            "already records twice — a status quoted from a superseded row. "
+            "This one underclaimed, which is the harmless direction and "
+            "exactly why it survived three days unnoticed"
+        ),
+    ),
 )

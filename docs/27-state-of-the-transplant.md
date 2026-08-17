@@ -48,7 +48,7 @@ and checked by the kernel.
 | 0b | The retention certificate's arithmetic: the recorded band-dual cover closes at its four depths, with `cap` defined by the genuine band supremum and infimum of ω², so the recorded numbers enter only as one-sided bounds and the statement cannot be vacuous, together with "no band was missed" as a property of the cover. | `zeta23ext/Zeta23Ext/BandCert/` |
 | 1 | The composition inequality `s ≥ 2N − ‖P+Q‖²_F + D`, with the corollary that `‖P+Q‖²_F ≤ C·N` and `D ≥ θ·R₀` give `s ≥ (2−C)N + θR₀`. This is what removes the question "does θ really enter multiplicatively?": it is exact arithmetic, not analogy. | `t3_composition_skeleton.lean` |
 | 2 | The grid-incidence law `Σ_{n∈ℤ} φ̂(x−n)φ̂(y−n) = 2π·FT(φ²)(x−y)` for even, bounded, measurable φ supported in [−½, ½]. Continuity is **not** assumed, which matters: the paper's window jumps at the box edge. | `law_d_incidence.lean` |
-| 3 | The Pub 1 source-admissible strong closure: the supremum of `⟨1,v⟩²/⟨Av,v⟩` over the source-admissible class is `c* = ⟨1, A⁻¹1⟩`, with the reciprocal orientation as the matching infimum, and `orientation_not_symmetric` recording that the two quotients are genuinely different quantities so the load-bearing orientation cannot be silently swapped. **Conditional**: the principal theorem carries four analytic facts about `w` as explicit named hypotheses rather than assuming them as axioms, listed in `ZetaLean/Pub1/OBLIGATIONS.md`. The tree is sorry-free and axiom-clean (`propext`, `Classical.choice`, `Quot.sound`) against pinned Mathlib `v4.33.0-rc2`. | `lean/ZetaLean/Pub1.lean` |
+| 3 | The Pub 1 source-admissible strong closure: the supremum of `⟨1,v⟩²/⟨Av,v⟩` over the source-admissible class is `c* = ⟨1, A⁻¹1⟩`, with the reciprocal orientation as the matching infimum, and `orientation_not_symmetric` recording that the two quotients are genuinely different quantities so the load-bearing orientation cannot be silently swapped. **Unconditional** since 2026-08-16 (this row read *Conditional* until then; see below). The four analytic facts about `w` that were carried as explicit named hypotheses have all been discharged — `strongClosureData_final` holds with no analytic or membership hypothesis, so `pub1_strong_closure` assumes only `IsProfile w`, which *is* the setting rather than a hypothesis about it, and `pub1_strong_closure_exists` carries no hypothesis at all, so nothing is vacuous. The tree is sorry-free and axiom-clean (`propext`, `Classical.choice`, `Quot.sound`) against pinned Mathlib `v4.33.0-rc2`. | `lean/ZetaLean/Pub1.lean`, status in `ZetaLean/Pub1/OBLIGATIONS.md` |
 
 Two things about item 2 are worth recording as method rather than result. The
 prover returned a *better* proof than was requested — polarised Parseval on
@@ -60,6 +60,23 @@ showing evenness is necessary. That counterexample ships in the file as
 The reduction of the retention to the certificate of item 0b is carried as an
 explicit named hypothesis (`H3`), on paper, not hidden inside the Lean
 statement. That seam is named again in §4.
+
+**Item 3 was stale in this table, and the correction is recorded rather than
+swept.** Its four obligations were discharged over 2026-08-14/16 and
+`OBLIGATIONS.md` was updated to `status: CLOSED`, but this row went on saying
+**Conditional** until 2026-08-17 — three days in which the document that exists
+to say what grade each piece holds understated one of them. The direction is
+worth noting precisely because it is the harmless one: a stale row that
+*under*claims costs a reader nothing they can be hurt by, and the same defect
+pointing the other way would have been a false claim of unconditionality. The
+shape is the third instance of the class `HANDOFF.md` already names twice — a
+figure or a status quoted from a superseded row — and it is the reason the
+guard below exists rather than a resolution to read more carefully.
+
+**Now caught by `tests/test_pub1_status.py`.** `OBLIGATIONS.md`'s status line is
+the source; this row must agree with it. The safe failure mode is mandatory, in
+the style of `proven_sign` returning 0: a status the guard does not recognise
+fails loudly rather than being treated as either grade.
 
 ## 3. The two gaps closed on 12 August
 
