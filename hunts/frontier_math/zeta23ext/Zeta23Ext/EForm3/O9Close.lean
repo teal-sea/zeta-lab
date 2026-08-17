@@ -70,8 +70,50 @@ theorem qre_quotient_eq {s y a b c d : ℝ}
     rw [Phi2_closed _ hz, numC, denC]
   rw [hPhi, re_Phi2_eq_Qre y s hp hm]
 
+/-- **The removable-branch quotient.**
+
+Step 2. Same join as `qre_quotient_eq`, through the `/y` variants: with
+`bOverY = Im(numC)/y` and `dOverY = Im(denC)/y`, the componentwise quotient is
+`Qim y s / y`.
+
+The negation is `rIv`'s own — `Phi2 (s + i y)` has imaginary part `−Qim`, so the
+composition computes `−Qim/y` and negating puts it back. The denominator is the
+undivided `c·c + d·d`, since only the numerator's terms carry the `/y`. -/
+theorem r_quotient_eq {s y a bOverY c d dOverY : ℝ}
+    (hy : y ≠ 0)
+    (ha : a = (numC s y).re) (hb : bOverY * y = (numC s y).im)
+    (hc : c = (denC s y).re) (hd : dOverY * y = (denC s y).im)
+    (hden : 0 < c * c + d * d)
+    (hdd : d = dOverY * y)
+    (hz : ((s : ℂ) + (y : ℝ) * I) ^ 2 ≠ 2)
+    (hp : y ^ 2 + (s + Real.sqrt 2) ^ 2 ≠ 0)
+    (hm : y ^ 2 + (s - Real.sqrt 2) ^ 2 ≠ 0) :
+    -((bOverY * c - a * dOverY) / (c * c + d * d)) = Qim y s / y := by
+  -- Eliminate `d` outright. Without this the final cancellation is invisible:
+  -- the numerator's `y` only cancels once `d` is known to carry one.
+  subst hdd
+  have hsq : (0:ℝ) < c ^ 2 + (dOverY * y) ^ 2 := by nlinarith [hden]
+  have hIm : ((⟨a, bOverY * y⟩ : ℂ) / (⟨c, dOverY * y⟩ : ℂ)).im
+      = (bOverY * y * c - a * (dOverY * y)) / (c ^ 2 + (dOverY * y) ^ 2) :=
+    O9Real.im_div_eq a (bOverY * y) c (dOverY * y) hsq
+  have hnum : (⟨a, bOverY * y⟩ : ℂ) = numC s y := by
+    apply Complex.ext <;> simp [ha, hb]
+  have hdenC : (⟨c, dOverY * y⟩ : ℂ) = denC s y := by
+    apply Complex.ext <;> simp [hc, hd]
+  rw [hnum, hdenC] at hIm
+  have hPhi : numC s y / denC s y = Phi2 ((s : ℂ) + (y : ℝ) * I) := by
+    rw [Phi2_closed _ hz, numC, denC]
+  rw [hPhi, im_Phi2_eq_neg_Qim y s hp hm] at hIm
+  have hQ : Qim y s
+      = -((bOverY * y * c - a * (dOverY * y)) / (c ^ 2 + (dOverY * y) ^ 2)) := by
+    rw [← hIm]; ring
+  rw [hQ]
+  have hy2 : c ^ 2 + (dOverY * y) ^ 2 ≠ 0 := ne_of_gt hsq
+  field_simp
+
 end Retention
 
 #print axioms Retention.denC_re
 #print axioms Retention.denC_im
 #print axioms Retention.qre_quotient_eq
+#print axioms Retention.r_quotient_eq
