@@ -549,13 +549,15 @@ def main(which: str = "all") -> None:
         hessian()
     if which in ("all", "best"):
         best_push()
-    print(f"\nBEST F EVER SEEN in this run: {BEST_EVER['F']:.15f} "
-          f"({BEST_EVER['where']})")
-    print(f"claimed sup (RESULTS.md section 4): {BEST_F_CLAIMED}")
-    if BEST_EVER["F"] <= BEST_F_CLAIMED + 5e-10:
-        print("=> no start in any parametrization ever beat the claimed sup")
-    else:
-        print("=> !! the claimed sup WAS BEATEN, investigate !!")
+    if np.isfinite(BEST_EVER["F"]):
+        print(f"\nBEST F EVER SEEN in this run: {BEST_EVER['F']:.15f} "
+              f"({BEST_EVER['where']})")
+        print(f"claimed sup (RESULTS.md section 4): {BEST_F_CLAIMED}")
+        if BEST_EVER["F"] <= BEST_F_CLAIMED + 5e-10:
+            print("=> no start in any parametrization ever beat the "
+                  "claimed sup")
+        else:
+            print("=> !! the claimed sup WAS BEATEN, investigate !!")
 
 
 if __name__ == "__main__":

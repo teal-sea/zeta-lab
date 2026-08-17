@@ -197,6 +197,38 @@ so the two-sided bracket tightens to
 
 The lower end is 2.0e-12 below the float-measured sup 0.6852870321770008.
 
+### F10 (2026-08-17, global_landscape.py full run complete): landscape
+
+Gate: independent mpmath evaluator matched the exact rational to 50
+digits; 30-digit cos reference reproduced to < 1e-28.
+
+- Cosine spectral (J = 6/8/10/12, 150 starts, all converged): exactly one
+  root with v > 0 at every J (the optimum; restricted value climbs
+  0.685275 -> 0.685285 with J); all other roots sign-changing, outside
+  the cone, F <= 0.598.
+- Squared Chebyshev (J = 6/8/10, 118/120 converged): the strictly
+  positive stationary point is unique at every J, F = 0.685287032177 to
+  twelve digits. Other stationary points touch v = 0 at 1..8 isolated
+  points, best 0.6723 (J = 10), i.e. 1.3e-2 below the optimum.
+- Piecewise-linear cone (n = 41/81, 42 diverse starts incl. compact
+  support, bimodal, edge-heavy): every start converged to the same
+  maximum, zero active knots, KKT residual <= 5e-8. Fischer-Burmeister
+  stationarity solve (n = 21): one KKT point, the optimum. No stationary
+  point with v = 0 on positive measure anywhere.
+- Hessian (cosine basis + scale direction): signature 0 pos / 1 zero
+  (scaling ray, eigenvalue 4e-12) / 10 negative in [-2.06, -1.76]:
+  genuine local max.
+- Best F ever seen across all 336 starts: 0.685287032177002 (float noise
+  2e-15 above the 13-digit claim); the pushed Chebyshev J = 16 window,
+  degree-44 polynomial with dyadic coefficients, evaluates EXACTLY to
+  F = 0.685287032176998885912082211843.
+
+Final exact two-sided bracket: 0.685287032176998 <= sup F <=
+0.892744211644412.
+
+RESULTS.md section 9 written (landscape, bound, slices, verdict); Files
+list updated. Lexical scan of everything: clean.
+
 ### F3 (prototype): quartic slice is exactly solvable
 
 Symbolic F(q1, q2) rational of degree 3/3; sympy reproduces the exact

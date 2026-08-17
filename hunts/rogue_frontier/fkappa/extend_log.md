@@ -156,3 +156,17 @@ coefficients_ext.json immediately (atomic replace) as computed.
 - [diag] runner start, imax=24, procs=4, seeds up to i=21
 - [diag] i=19: 54.2s gate-ok bound_thru_i=-39257.617847 root=2.3613 c4=174946
 - [diag] i=20: 176.4s gate-ok bound_thru_i=79806.575974 root=2.3549 c4=174946
+- [diag] i=21: 580.8s gate-ok bound_thru_i=-162043.154140 root=2.3485 c4=174946
+- [milestone] (d) structure guessing COMPLETE on final data
+  (extend_guess.py): exact P-recursive search, orders R <= 6, degrees
+  D <= 6, machinery-only terms i >= 5, on the corrected kappa = 2 row
+  (36 terms, i <= 40) and corrected diagonal (17 terms, i <= 21), each
+  in nine forms (raw, a*i!, a/i!, a*2^i, a/2^i, a*(2i+1)!!/4^i, odd
+  subsequence, even subsequence, partial sums). Protocol: fit without
+  the last term, exact verification on all fitted terms, exact
+  prediction of the held-out term. Outcome: NO recurrence at surplus
+  >= 3, and still none with the bar lowered to surplus >= 1 (18/18
+  combinations negative). Note the feasible envelope is capped by data:
+  (R+1)(D+1) + R + surplus <= N, so e.g. (R,D) = (6,6) is unreachable
+  with N = 36; all combinations satisfying the cap were searched.
+  Consistent with analyze.py's earlier shallower negatives.
