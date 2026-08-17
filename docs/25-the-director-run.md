@@ -286,6 +286,24 @@ Three separate defects were isolated, two of them arithmetic errors in the plan:
 2. **The grid's β was predicted, not measured.** Setting `β := normLower`, which
    the generator already computes, makes the claim exact by construction; the
    cell condition then carries ≥10× slack.
+
+   > **Refuted in part, 2026-08-17 (`hunts/r_908de5`, run 1f0fd344).** The
+   > remedy itself holds: `β := normLower` makes the grid site inequality true
+   > by construction and the cell obligation `ε′ + L·h/2 ≤ β` still holds at
+   > all 200 cell endpoints, in ball and in chained-rect arithmetic, with no
+   > statement weakened. **The "≥10× slack" is wrong.** Measured exactly in
+   > rationals over the committed plan, the worst obligation clears by
+   > **1.3697×** (ball) and **1.3566×** (chained rect), against **1.3647×**
+   > before the remedy — a change of under 1% in either direction, not a
+   > factor of ten. The reason is that the cell condition is **gap-limited,
+   > not β-limited**: `L·h/2` is 98% of the requirement and `ε′` only 2% at
+   > every one of the five worst cells, so a remedy aimed at β was aimed at
+   > the 2%. The remedy is also **contingent**: in the non-chain arithmetic
+   > `scripts/60` emits today, `normLower` is 0.17–0.55× `pred_beta` and the
+   > cell condition fails at every obligation measured, so the emission must
+   > be ported to composite chains first. Anyone planning rung-3 cost from
+   > the sentence above would believe in seven doublings of headroom that do
+   > not exist.
 3. **The boxed-`s` width model is low by 2.3×, and all 11 sampled big boxes
    fail** (margins 0.57–0.66). The constant `ρ_W ≈ 5.9` against the planned 2.6
    is **scale-invariant in δ and invariant under every parameter** — it is the
@@ -294,7 +312,9 @@ Three separate defects were isolated, two of them arithmetic errors in the plan:
    change worth ~2× on the whole certificate, not a re-plan.
 
 A configuration with real headroom exists — measured margins 1.164 (centre) and
-1.139 (big box), ≥10× on the grid inequality — at ~130k certified terms against
+1.139 (big box), and on the grid inequality ≥10× as believed here but **1.37×
+as later measured** (see the refutation box in defect 2) — at ~130k certified
+terms against
 79.5k, with **the same literal sizes** (endpoint size is set by the coarsening
 precision alone, measured). The cheapest single improvement found: coarsening
 the exponent argument once before `expCr` cuts the largest intermediate rational
