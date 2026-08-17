@@ -21,6 +21,7 @@ S. Gonek). All page references are to the printed pagination.
 | `validate_pairs.py` | independent symbolic recomputation of the constants C(v,w) from the defining recursion (3.6) plus the thesis's own Lemma 8; battery of 20 pairs |
 | `validate_numeric.py` | sieve-based numerical check of S(v,w;x) against candidate leading constants |
 | `analyze.py` | structure analysis of the extended tables (growth, recurrences, factorizations, OEIS queries) |
+| `closed_form.py` | closed generating identity for the corrected C(v,w), machine-checked against the symbolic route |
 | `coefficients.json` | checkpointed extended tables, per evaluation mode |
 
 ## 1. What was reimplemented
@@ -75,6 +76,15 @@ So the transcription and the reimplementation are faithful: whatever the
 thesis code computed, this code computes.
 
 ## 3. The audit: what the thesis code computes is not eq (10.1), and eq (6.18) itself overcounts
+
+**The suspected (6.23) discrepancy dissolves.** The starting question was
+whether the printed binomial symbols (beta_i over c_i) in (6.23) (which
+would suggest a division by (beta_i - c_i)!) disagree with the code's
+`prodfacvec[beta1]/prodfacvec[c]`. They do not: (6.14) constrains c_i to
+E_{alpha_i}(beta_i), i.e. |c_i| = beta_i, so the symbol is the
+multinomial beta_i!/(c_{i,1}! ... c_{i,alpha_i}!), which is exactly the
+code's ratio. There is no numerical difference on that point. The real
+divergences are elsewhere.
 
 The reproduction exposed three separate defects. Each is pinned by a
 finite, exactly checkable witness; none of them touches the kappa = 1 row,
@@ -167,13 +177,40 @@ deficits of the prime density approximation are allowed for, and
 inconsistent by factors 4 to 6 with the published constants
 (`validate_numeric.py`, and the slice test in the session log).
 
-A byproduct with its own interest: the true single-component constants
-have the closed form
+### A closed generating identity for the corrected C(v,w)
+
+The corrected constants turn out to be far more tractable than the
+published machinery suggests. Combining the exponential generating
+function sum_j b_j(n) y^j/j! = prod_{p|n} (e^{-y log p} - 1) (from
+zeta(s+y)/zeta(s)) with Lemma 8 in integral form and a Frullani integral
+gives, for v of dimension l and w of dimension k (derivation in the
+docstring of `closed_form.py`):
+
+    Phi = prod_{j<=l} prod_{j'<=k}
+          (y_j + c_{jj'})(z_{j'} + c_{jj'}) / ( c_{jj'} (y_j + z_{j'} + c_{jj'}) ),
+    c_{jj'} = t - lambda [j=l] - mu [j'=k],
+
+    C(v,w) = (prod v_j!)(prod w_j!)/(|v|+|w|+1)!
+             * [y^v z^w lambda mu] Phi at t = 1.
+
+Machine-checked (exact rational arithmetic) against the independent
+symbolic route on all single-component pairs a,b <= 5 and on twelve
+multi-component pairs including ((3,2),(2,2,1)) and ((1,1,1,1),(2,2));
+it also
+returns exact 0 on theta(v,w) = 0 pairs, so the theta bookkeeping is
+subsumed. For single components the coefficient extraction gives the
+closed form
 
     C((a),(b)) = (-1)^{a+b} * ab / (a+b-1)
 
-(checked exactly for a,b <= 5 against both routes). No comparably simple
-form is visible in the published (skip) values.
+(also confirmed by hand for a,b <= 7 against the symbolic route). No
+comparably simple structure is visible in the published (skip) values.
+Grade: the identity is a derived statement whose instances are verified
+exactly on the battery above; a written general proof would be routine
+but has not been written out, so call it hardened at the instances and
+derived in general. It suggests the entire corrected C_{kappa,i} table
+is coefficient extraction from a rational generating object, which is
+the natural follow-up.
 
 ### What survives, what changes
 
@@ -189,7 +226,108 @@ form is visible in the published (skip) values.
   kappa >= 2 and i >= 5 changes. The corrected table begins to differ at
   C_{2,5}: published 28, corrected 52/3.
 
-TO BE FILLED: extended tables and analysis summary (sections 4 and 5).
+## 4. Extended tables (i up to 20; Bian's 2008 computation stopped at i = 11)
+
+Full data in `coefficients.json` (all values exact rationals): per mode
+(`skip`, `corrected`), rows kappa = 1..6 for i = 1..20 in both assemblies,
+and both diagonals. Reproduce with `bian_engine.py --extend 20
+[--reading corrected]`. Highlights:
+
+**Published stable diagonal continued in Bian's own convention** (figure
+assembly, skip mode), i = 12..20, continuing his printed
+1, -4, 4, -16, 332/5, -224, 241424/315, -729784/315, 2912944/405,
+-42709312/2025, 657260864/10395:
+
+    i=12  -363490912/2025
+    i=13   32318975168/61425
+    i=14  -998386095104/675675
+    i=15   102594101460736/23648625
+    i=16  -52520705353984/4343625
+    i=17   8661323223160544/241215975
+    i=18  -3292629906658587904/32564156625
+    i=19   193039973155501766144/618718975875
+    i=20  -20386492282427984896/22915517625
+
+(The same JSON also carries the eq-(10.1)-assembly skip diagonal, which
+fixes Defect A alone.)
+
+**Corrected stable diagonal** (eq (10.1) assembly, corrected mode),
+i = 1..20:
+
+    1, -4, 4, -16, 148/3, -416/3, 3344/9, -14464/15, 769144/315,
+    -5726144/945, 69843904/4725, -1598848/45, 4381591232/51975,
+    -30833961472/155925, 2171755595008/4729725,
+    -224873947749376/212837625, 171076574719936/70945875,
+    -5033594097664/921375, 133459120184121344/10854718875,
+    -298546329313613824/10854718875
+
+**Cost scaling** (seconds per level on one core, computing both
+assemblies and six kappa rows exactly; the engine reaches Bian's whole
+2008 endpoint, i <= 11, in ~0.1 s):
+
+    i:          12    13    14    15    16    17    18    19     20
+    skip:      0.3   0.9   2.0   6.4  15.4  36.9   131   346   1532
+    corrected: 0.5   1.5   4.2   4.2  10.2  33.0   118   324    760
+
+Growth is roughly 2.5-3.5x per level (the signature-pair double sums
+dominate; both modes cost about the same). Extrapolating, i = 24 or so is
+reachable in a day on one core; the 2008 hardware limit at i = 11 is now
+a sub-second computation.
+
+## 5. Structure of the sequences (task 4 analysis)
+
+(a) **kappa = 1 row**: equals the Farmer-Gonek closed form exactly for
+every computed i up to 20, in both assemblies and all three modes:
+C_{1,2k+1} = ((k-1)!/(2k)!) 2^{2k+1} and C_{1,i} = 0 for even i >= 4.
+This is simultaneously the strongest validation of the engine and the
+reason none of the three defects was ever visible from the literature
+side.
+
+(b) **Stable diagonals**:
+
+* No linear recurrence with constant coefficients (searched exactly to
+  order ~N/2) and no P-recursive recurrence (order <= 3, polynomial
+  degree <= 3, exact nullspace search) fits either diagonal, raw or under
+  the factorial normalizations tried (`analyze.py`).
+* OEIS: no hits for the numerator or denominator sequences of either
+  diagonal or of the kappa = 2 rows (queried 2026-08-17).
+* Denominators are 3-smooth-times-primorial-like (e.g. published i = 19:
+  3^7 5^3 7^2 11 13 17 19); numerators carry large sporadic prime
+  factors (e.g. 400758208831 at i = 15), which argues against a simple
+  hypergeometric closed form for the diagonal as a sequence in i.
+* Growth, published diagonal: |C_i|^{1/i} climbs through 2.80 at i = 19
+  with an even/odd ratio oscillation (~2.8 vs ~3.0); no clean one-term
+  asymptotic emerges from 20 terms.
+* Growth, corrected diagonal: strikingly regular compared to the
+  published one. The ratios r_i = C_{i+1}/C_i are monotone in absolute
+  value and decrease steadily toward -2 (exact values in
+  `render_tables.py` output):
+
+      i:    5      8      11     14     17     19
+      r_i:  -2.811 -2.532 -2.404 -2.322 -2.266 -2.237
+
+  The subexponential factor is less settled: a_i = (i+1/2)(|r_i|/2 - 1),
+  which would converge to the exponent a if |C_i| ~ K 2^i i^a, rises to
+  ~2.335 near i = 14 and then drifts down (2.311 at i = 19), so the data
+  is consistent with an exponent in the vicinity of 7/3 but does not pin
+  it; no identification is claimed. Chasing the singularity structure of
+  the generating identity above at alpha = -1/2 is the principled way to
+  settle it.
+* Coherence check on the corrected diagonal: its ratios converge to -2,
+  i.e. radius of convergence exactly 1/2 in |alpha|. Bian's own picket
+  fence model (his Lemma 13, the kappa -> infinity heuristic limit) has
+  its phase transition exactly at |alpha| = 1/2. The published diagonal's
+  ratios drift toward ~2.8-3.0 (radius ~0.35) and admit no such
+  interpretation. This is observed structure, not a proof, but it is the
+  kind of internal consistency the corrected table has and the published
+  one lacks.
+
+(c) **kappa = 2 rows** (both modes): irregular sign patterns (complex
+singularity structure) with |C_{2,i}|^{1/i} still drifting downward at
+i = 20 (~0.64 in the corrected row), so the radius of convergence exceeds
+1 and is not pinned by 20 terms; qualitatively unlike both the kappa = 1
+row (entire, FG closed form) and the stable diagonal (radius 1/2). No
+recurrence found; no OEIS hits.
 
 ## Scope and inheritance
 

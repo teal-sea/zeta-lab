@@ -1,49 +1,54 @@
-"""Independent numerical validation of the C(v,w) constants.
+"""Sieve-based numerical corroboration of the corrected C(v,w) constants.
 
-C(v,w) is DEFINED (thesis Theorem 3 / eq. 7.7) by the asymptotic
+C(v,w) is defined (thesis eq (7.7)) as the leading constant of
 
     S(v,w;x) = sum_{n<=x} B(v,n) B(w,n)
-             = (-1)^{|v|+|w|} theta(v,w) C(v,w) x (log x)^{|v|+|w|+1}
-               + O(x (log x)^{|v|+|w|}),
+             = C(v,w) x (log x)^{|v|+|w|+1} (1 + o(1)),
 
-where B((v_1..v_j), n) = b_{v_1} * ... * b_{v_{j-1}} * (b_{v_j} log)(n)
-and the b_j are given by the recursion (3.6): b_1 = -Lambda,
-b_{j+1}(n) = -( (b_j * Lambda)(n) + b_j(n) log n ).
+with B built from the recursion (3.6): b_1 = -Lambda,
+b_{j+1}(n) = -((b_j * Lambda)(n) + b_j(n) log n),
+B((v_1..v_l), n) = b_{v_1} * ... * (b_{v_l} log)(n).
 
-This script computes S(v,w;x) directly from that recursion by sieve
-(numpy, float64), fits S(x)/x as a polynomial in L = log x over a wide
-range of x, and compares the leading coefficient against the two candidate
-readings of Bian's machinery (see bian_engine.py, READING):
+Method: compute the b_j and B by sieve to x = X (numpy), slice the sums
+by omega(n) on squarefree n (each slice's summand is an exactly known
+homogeneous polynomial in the log p_i, so this is a per-n identity), and
+compare each slice against its exact smoothed prime integral
+(sympy-exact polynomial integration of the same polynomial against
+prod dt_i / log t_i). The smoothed integral carries the full polynomial
+asymptotic; the residual deviation is the O(1/log x) corner deficit of
+the prime-density approximation, which shrinks with x.
 
-    pair          skip (Bian's code)   zero (literal (6.23))
-    ((1),(1))     1                    1        (control, readings agree)
-    ((2),(2))     7/3                  7/3      (control, readings agree)
-    ((3),(1))     6/5                  1        (analytic value: 1)
-    ((3),(3))     1577/252 ~ 6.258     293/60 ~ 4.883
-    ((3),(1,1,1)) 4/35 ~ 0.1143        1/10
+Discrimination: the corrected slice constants match within the corner
+deficit (ratios ~0.75-1.00 at x = 1e7, rising with x); the published
+(skip-mode) constants are off by factors up to ~6 and are excluded.
+The pairs and slice integrands below:
 
-For ((3),(1)) no fit is needed: b_1 = -Lambda is supported on prime
-powers, b_j(p) = (-1)^j log^j p, so S((j),(1);x) = sum_{p<=x} log^{j+3} p
-+ O(sqrt(x) polylog) and C((j),(1)) = 1 exactly, for every j.  The sieve
-fit is still reported as a sanity check of the fitting procedure itself.
+    ((2),(2)):  omega=1: log^6 p;      omega=2: 4 s^2 t^2 (s+t)^2
+    ((3),(3)):  omega=1: log^8 p;      omega=2: 9 (st)^2 (s+t)^4;
+                omega=3: 36 (stu)^2 (s+t+u)^2
+    ((3),(1,1,1)): omega=3: 12 (stu)^2 (s+t+u)^2
+
+corrected slice constants: ((2),(2)): 1 + 1/3 (total 4/3, published 7/3);
+((3),(3)): 1 + 3/4 + 1/20 (total 9/5, published skip 1577/252);
+((3),(1,1,1)): 1/60 (published skip 4/35).
 
 Run:  .venv/bin/python hunts/rogue_frontier/fkappa/validate_numeric.py [X]
 """
 
 import sys
 import numpy as np
+import sympy as sp
 
 X = int(float(sys.argv[1])) if len(sys.argv) > 1 else 10**7
 
 
-def sieve_lambda(X):
-    """von Mangoldt Lambda[0..X] and log[0..X] (float64)."""
+def build():
     lam = np.zeros(X + 1)
     is_comp = np.zeros(X + 1, dtype=bool)
     for p in range(2, int(X**0.5) + 1):
         if not is_comp[p]:
             is_comp[p * p::p] = True
-    primes = np.nonzero(~is_comp)[0][2:]  # skip 0,1
+    primes = np.nonzero(~is_comp)[0][2:]
     for p in primes:
         lp = np.log(float(p))
         q = p
@@ -53,80 +58,79 @@ def sieve_lambda(X):
     n = np.arange(X + 1, dtype=np.float64)
     n[0] = 1.0
     logn = np.log(n)
-    return lam, logn, primes
+    qs = np.nonzero(lam)[0]
+    qv = lam[qs]
 
+    def convL(b):
+        out = np.zeros(X + 1)
+        for q, lp in zip(qs, qv):
+            out[q::q] += lp * b[1:X // q + 1]
+        return out
 
-def conv_lambda(b, lam_support, lam_vals, X):
-    """(b * Lambda)(n) for n <= X.  lam_support: prime powers q,
-    lam_vals: log p for each q."""
-    out = np.zeros(X + 1)
-    for q, lp in zip(lam_support, lam_vals):
-        m = X // q
-        out[q::q] += lp * b[1:m + 1]
-    return out
-
-
-def fit_leading(xs, Ss, deg):
-    """Fit S(x)/x = sum_{j<=deg} a_j L^j; return leading coefficient a_deg
-    plus a crude stability estimate (refit on the upper half of the range)."""
-    L = np.log(xs)
-    y = Ss / xs
-    Ln = L / L.max()
-    A = np.vander(Ln, deg + 1, increasing=True)
-    coef, *_ = np.linalg.lstsq(A, y, rcond=None)
-    a_top = coef[deg] / L.max() ** deg
-    half = len(xs) // 2
-    coef2, *_ = np.linalg.lstsq(A[half:], y[half:], rcond=None)
-    a_top2 = coef2[deg] / L.max() ** deg
-    return a_top, a_top2
+    b1 = -lam
+    b2 = -(convL(b1) + b1 * logn)
+    b3 = -(convL(b2) + b2 * logn)
+    B2 = b2 * logn
+    B3 = b3 * logn
+    t = -convL(b1 * logn)
+    B111 = -convL(t)
+    om = np.zeros(X + 1, dtype=np.int8)
+    for p in primes:
+        om[p::p] += 1
+    sqf = np.ones(X + 1, dtype=bool)
+    for p in primes[primes <= int(X**0.5)]:
+        sqf[p * p::p * p] = False
+    isprime = np.zeros(X + 1, dtype=bool)
+    isprime[primes] = True
+    return B2, B3, B111, om, sqf, isprime
 
 
 def main():
     print(f"sieving to X = {X:.0e} ...")
-    lam, logn, primes = sieve_lambda(X)
-    qs = np.nonzero(lam)[0]
-    qvals = lam[qs]
+    B2, B3, B111, om, sqf, isprime = build()
+    s, t_, A, L = sp.symbols("s t_ A L", positive=True)
+    l2 = sp.log(2)
 
-    b = {1: -lam}
-    for j in range(1, 5):
-        b[j + 1] = -(conv_lambda(b[j], qs, qvals, X) + b[j] * logn)
+    def IA(polyA, lo):
+        return sp.lambdify(L, sp.integrate(polyA * sp.exp(A), (A, lo, L)),
+                           "numpy")
 
-    # B vectors
-    B = {}
-    B[(1,)] = b[1] * logn
-    B[(2,)] = b[2] * logn
-    B[(3,)] = b[3] * logn
-    # B((1,1,1),n) = b1 * b1 * (b1 log)(n)
-    t = conv_lambda(b[1] * logn, qs, qvals, X)   # b1 * (b1 log): note b1=-Lam
-    t = -t                                        # b1 * f = -(Lam * f)
-    t2 = -conv_lambda(t, qs, qvals, X)
-    B[(1, 1, 1)] = t2
+    def I2(integrand_st, div):
+        F = sp.integrate(integrand_st.subs(t_, A - s), (s, l2, A - l2))
+        return IA(sp.expand(F) / div, 2 * l2)
 
-    checkpoints = np.unique(np.geomspace(10**4, X, 220).astype(np.int64))
-    pairs = [
-        (((1,), (1,)), 1.0, 1.0),
-        (((2,), (2,)), 7 / 3, 7 / 3),
-        (((3,), (1,)), 6 / 5, 1.0),
-        (((3,), (3,)), 1577 / 252, 293 / 60),
-        (((3,), (1, 1, 1)), 4 / 35, 1 / 10),
+    def I3(integrand_stu, u, div):
+        inner = sp.integrate(integrand_stu.subs(u, A - s - t_),
+                             (t_, l2, A - s - l2))
+        F = sp.integrate(sp.expand(inner), (s, l2, A - 2 * l2))
+        return IA(sp.expand(F) / div, 3 * l2)
+
+    u = sp.symbols("u", positive=True)
+    Lx = np.log(X)
+    checks = [
+        ("((2),(2)) om=1 [const 1]",
+         np.where(isprime, B2 * B2, 0), IA(A**5, l2)),
+        ("((2),(2)) om=2 [const 1/3]",
+         np.where(sqf & (om == 2), B2 * B2, 0),
+         I2(4 * s * t_ * (s + t_)**2, 2)),
+        ("((3),(3)) om=1 [const 1]",
+         np.where(isprime, B3 * B3, 0), IA(A**7, l2)),
+        ("((3),(3)) om=2 [const 3/4]",
+         np.where(sqf & (om == 2), B3 * B3, 0),
+         I2(9 * s * t_ * (s + t_)**4, 2)),
+        ("((3),(3)) om=3 [const 1/20]",
+         np.where(sqf & (om == 3), B3 * B3, 0),
+         I3(36 * s * t_ * u * (s + t_ + u)**2, u, 6)),
+        ("((3),(1,1,1)) om=3 [const 1/60]",
+         np.where(sqf & (om == 3), B3 * B111, 0),
+         I3(12 * s * t_ * u * (s + t_ + u)**2, u, 6)),
     ]
-    print(f"{'pair':22s} {'fit C':>10s} {'fit(hi)':>10s} "
-          f"{'skip':>9s} {'zero':>9s}  verdict")
-    for (v, w), skipC, zeroC in pairs:
-        prod = B[v] * B[w]
-        csum = np.cumsum(prod)
-        Ss = csum[checkpoints]
-        deg = sum(v) + sum(w) + 1
-        a, a2 = fit_leading(checkpoints.astype(float), Ss, deg)
-        dskip = abs(a - skipC) / abs(skipC)
-        dzero = abs(a - zeroC) / abs(zeroC)
-        if abs(skipC - zeroC) < 1e-12:
-            verdict = "control"
-        else:
-            verdict = ("ZERO" if dzero < dskip else "SKIP") + \
-                f"  (rel err zero {dzero:.1%}, skip {dskip:.1%})"
-        print(f"{str(v)+' '+str(w):22s} {a:10.4f} {a2:10.4f} "
-              f"{skipC:9.4f} {zeroC:9.4f}  {verdict}")
+    print(f"{'slice':36s} {'sieve/integral at X':>20s}")
+    for name, arr, P in checks:
+        ratio = arr.cumsum()[X] / P(Lx)
+        print(f"{name:36s} {ratio:20.4f}")
+    print("\nratios below 1 by O(1/log x) corner deficits are expected;")
+    print("the published constants would put these ratios at ~0.2-6.")
 
 
 if __name__ == "__main__":

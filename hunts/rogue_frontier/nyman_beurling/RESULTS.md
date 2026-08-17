@@ -164,7 +164,14 @@ would need N ~ e^46 ~ 10^20).
   unconditional BBLS/Burnol bound, which constrains only the liminf; they do
   mean the approach to C is from below in this range and that any finite-N
   extrapolation of the constant is delicate: the free-intercept fit lands
-  {{FREE_INTERCEPT_SUMMARY}}.
+  at intercept 0.04407 (free linear, N >= 64, rms 5.3e-4) against the
+  conjectured C = (2 + gamma - log 4pi)/2 = 0.04619, with the quadratic
+  variant overshooting to 0.05263; the spread between fit families is an
+  order of magnitude larger than any fit's internal rms, which is the
+  delicacy being asserted. (This sentence was completed by the campaign
+  coordinator from `results/analysis.json` after the study's session was
+  terminated by a budget limit mid-finalize; every number is read straight
+  from that checkpointed file.)
 - Solve enclosures are rigorous relative to flint's arb; the mpmath arm
   cross-checks the full pipeline only up to N = 32, entry-level checks reach
   q ~ 1500.

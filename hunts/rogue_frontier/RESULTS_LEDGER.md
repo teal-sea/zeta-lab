@@ -23,9 +23,20 @@ with their mechanism.
 
 ## RF-C002 — exact higher sine-Gram moments (P-SG)
 
-- **Statement (target).** Exact values of m_5(1), m_6(1), and the
-  lambda-polynomials, beyond the literature's m_4.
-- **Status:** ACTIVE, computation running.
+- **Delivered 2026-08-17** (session ended by a budget limit during one
+  final spot-check; everything below was already checkpointed). Record:
+  `sine_gram/moments_report.md`, data in `sine_gram/exact_trTk_values*.json`.
+- **Results.** m_5(1) = 101/18 and m_6(1) = 640/63 (and a k = 7 value in
+  the report), extending the paper's m_1..m_4 = 1, 4/3, 2, 13/4; exact
+  quasi-polynomials E tr T^k in N; and a piecewise structure for
+  m_k(lambda): an even polynomial below lambda = 1/floor(k/2) with defect
+  pieces -(j lambda - 1)^{2j+1} g_{k,j}(lambda)/lambda switching on at
+  lambda = 1/j, identified exactly for k = 4, 5, 6 with spare-point checks.
+- **Grade:** hardened (exact integer arithmetic, heavily overdetermined
+  identifications, Monte Carlo control). One loose end: a targeted
+  quadrature check of the lambda^6 Wick coefficient was in flight when the
+  session ended; the coefficient stands on the exact-engine identification
+  alone.
 
 ## RF-C003 — improved window in the RH-conditional cubic certificate (P-WIN)
 
@@ -45,9 +56,20 @@ with their mechanism.
   (v* is admissible exactly as the paper's own windows are, including the
   same two glosses the paper itself carries: the endpoint taper and the
   lambda -> 1 limit of the triple-correlation input).
-- **Status:** UNDER ATTACK. A blinded second arm is re-deriving the
-  functional from the paper and attacking (independent reconstruction +
-  adversarial stage). Not promoted until it survives.
+- **Status: PROMOTED (grade hardened, RH-conditional).** The blinded
+  second arm independently derived the moment functionals from the paper
+  (its own closed form for F(cos(8s/5)), structurally different, agrees
+  to 41 digits) and reproduced the exact rationals bit-identically:
+  F* = 2245228120295149280/3276332462159207451 and final constant
+  50176758585216887915/58973984318865734118 = 0.850828702939872...
+  Its adversarial battery also resolved in the claim's favor: the
+  concentration attack sends F strongly negative (no blow-up, interior
+  optimum meaningful), and v* has strictly smaller regularity norms than
+  the paper's own window (admissibility with room to spare). The
+  verifier's session was ended by a budget limit after these checks; its
+  scripts and outputs are preserved under the campaign scratchpad and the
+  key numbers replayed by the coordinator. Promotion is as a candidate
+  strengthening inside an unrefereed source chain, per the caveats below.
 - **Grade if it survives:** hardened, RH-conditional, inheriting the
   source paper's §7.5(g) machinery and its unrefereed status. The
   improvement is in the sixth decimal; the paper's printed 0.85082
@@ -90,10 +112,46 @@ with their mechanism.
   the data bound the first negative at c > 47 (N <= 32). Candidate for a
   GitHub issue as an observation.
 
-## RF-C005 — rigorous Baez-Duarte distances (P-NB)
+## RF-C005 — enclosure-grade Baez-Duarte distances (P-NB)
 
-- **Status:** ACTIVE.
+- **Delivered 2026-08-17, partial** (session ended by a budget limit
+  mid-finalize; the coordinator completed one summary sentence in
+  `nyman_beurling/RESULTS.md` from the checkpointed `results/analysis.json`
+  and says so inline). Vasyunin-formula pipeline validated five
+  independent ways; arb-rigorous solve enclosures for d_N^2 through
+  N = 2048; the approach to the conjectured constant
+  C = (2 + gamma - log 4pi)/2 is from below in this range, and
+  finite-N extrapolation is measurably delicate (free-intercept fit
+  lands at 0.04407 vs C = 0.04619). Grade: hardened for the computed
+  distances; descriptive only for the fits.
 
-## RF-C006 — Bian F_kappa engine and tail (P-FK)
+## RF-C006 — Bian F_kappa audit: three defects, a corrected table, a closed form (P-FK)
 
-- **Status:** ACTIVE.
+- **Delivered 2026-08-17.** Record: `fkappa/RESULTS.md`.
+- **(a) Faithful reproduction.** The OCR-recovered Figure 10.1 grid
+  (99 cells) is reproduced cell for cell in rational arithmetic by a
+  literal port of the thesis's Mathematica code; the kappa = 1 row equals
+  Farmer-Gonek exactly.
+- **(b) Three defects in the published table, each with an exact finite
+  witness:** an assembly truncation (the figure's off-diagonal loop drops
+  (l,k) pairs from i = 7 on, so the published columns i in {7,9,10,11}
+  for kappa >= 2 are not the coefficients of the thesis's own eq (10.1));
+  phantom slots (terms the printed formula makes exactly zero are
+  evaluated nonzero, first affecting i = 5, kappa = 3); and a
+  normalization overcount by prod alpha_i! (first affecting i = 5,
+  kappa = 2). The kappa = 1 row, the only externally validated one, is
+  immune to all three, which is why nothing caught them since 2008.
+- **(c) Corrected table, validated two independent ways** (exact symbolic
+  set-partition route on 20 pairs; sieve numerics to 10^7), diverging
+  from the published table from C_{2,5} on (published 28, corrected 52/3),
+  extended to i = 20.
+- **(d) A closed generating identity for the corrected C(v,w),**
+  machine-checked exactly on batteries, with the special case
+  C((a),(b)) = (-1)^{a+b} ab/(a+b-1). No comparable structure exists in
+  the published values.
+- **Consequence, stated within scope:** Bian's headline 0.9544 / 0.9774
+  simple-zero proportions for xi'' / xi''' rest on the defective table in
+  addition to his own flagged truncation assumption; corrected constants
+  await a tail bound (the open gap this feeds). Everything is under RH
+  and Bian's Theorem 1 hypotheses; the general identity is derived, its
+  instances exact. Grade: hardened at the witnesses and instances.

@@ -366,7 +366,7 @@ def prefix_agg(kapa, m, l):
     (parts >= 1, <= kapa) with total m.  These are the first l components
     of a vector v (no f)."""
     kapa = min(kapa, m - l + 1) if l > 0 else 0
-    key = (kapa, m, l)
+    key = (kapa, m, l, READING)
     if key in _prefix_cache:
         return _prefix_cache[key]
     if l == 0:
@@ -765,6 +765,21 @@ def selftest(verbose=True):
     chk("C_(1,5) = 4/3", coefficient(5, 1), F(4, 3))
     chk("C_(2,5) = 28", coefficient(5, 2), F(28))
     chk("C_(3,5) = 332/5", coefficient(5, 3), F(332, 5))
+
+    # corrected-mode spot checks (see validate_pairs.py / closed_form.py
+    # for the full battery)
+    global READING
+    saved = READING
+    try:
+        READING = "corrected"
+        chk("corrected C((2),(2)) = 4/3", C_pair((2,), (2,)), F(4, 3))
+        chk("corrected C((3),(1)) = 1", C_pair((3,), (1,)), F(1))
+        chk("corrected C((3),(3)) = 9/5", C_pair((3,), (3,)), F(9, 5))
+        chk("corrected C_(2,5) = 52/3 "
+            "(= 16*(4/3 - 2/6 + 1/12))", coefficient(5, 2), F(52, 3))
+        chk("corrected C_(1,7) = FG 16/45", coefficient(7, 1), F(16, 45))
+    finally:
+        READING = saved
     return ok
 
 

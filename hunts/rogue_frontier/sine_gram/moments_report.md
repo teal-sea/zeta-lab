@@ -106,27 +106,26 @@ re-runs every check):
 
 | lambda | m_2 | m_3 | m_4 | m_5 | m_6 |
 |--------|-----|-----|-----|-----|-----|
-| 1/6 | | | | | 1979282/1640625* |
-| 1/5 | | | 10129/9375 | 2129/1875 | see JSON |
+| 1/6 | | | | | 87413/76545 |
+| 1/5 | | | 10129/9375 | 2129/1875 | 1979282/1640625 |
 | 1/4 | 49/48 | 17/16 | 1081/960 | 233/192 | 17851/13440 |
-| 2/7 | | | | | see JSON |
-| 3/10 | | | | | see JSON |
+| 2/7 | | | | | 17726573/12353145 |
+| 3/10 | | | | | 810809/546875 |
 | 1/3 | 28/27 | 10/9 | 1489/1215 | 337/243 | 122882/76545 |
-| 3/8 | | | | | see JSON |
+| 3/8 | | | | | 100963189/56623104 |
 | 2/5 | 79/75 | 29/25 | 12439/9375 | 2939/1875 | 149912303/78750000 |
-| 3/7 | | | | | see JSON |
-| 4/9 | | | | | see JSON |
+| 3/7 | | | | | 228493586/111178305 |
+| 4/9 | | | | | 766424795/357128352 |
 | 1/2 | 13/12 | 5/4 | 91/60 | 23/12 | 403967/161280 |
 | 6/11 | | | 1706299/1054152 | 73392247/34787016 | |
 | 3/5 | 28/25 | 34/25 | 197387/112500 | 200203/84375 | 49205704/14765625 |
-| 5/8 | | | 46641/25600 | 461807/184320 | PLACEHOLDER_L58 |
+| 5/8 | | | 46641/25600 | 461807/184320 | 1689869423/471859200 |
 | 2/3 | 31/27 | 13/9 | 18871/9720 | 48019/17496 | 4945567/1224720 |
 | 3/4 | 19/16 | 25/16 | 6361/2880 | 11387/3456 | 31751927/6193152 |
-| 4/5 | 91/75 | 41/25 | 358141/150000 | 551191/150000 | PLACEHOLDER_L45 |
+| 4/5 | 91/75 | 41/25 | 358141/150000 | 551191/150000 | 132881447/22500000 |
 | 1 | 4/3 | 2 | 13/4 | 101/18 | 640/63 |
 
-(*the 1/6 value is stored under `1/6` in the JSON; blank cells were not
-needed and not computed. `m_6(1/5) = 1979282/1640625`.)
+(Blank cells were not needed for any fit or check and were not computed.)
 
 The data identify the following piecewise structure, with `J = floor(k/2)`
 and one breakpoint at `lambda = 1/j` for each `j = 2..J`:
@@ -157,8 +156,8 @@ Fit-and-check bookkeeping (all matches are exact rational equalities, run by
   {6/11, 3/5}, reproduced at {5/8, 2/3, 3/4, 4/5, 1} (5 spare).
 - k=6: Wick fitted on {1/6, 1/5, 1/4}, reproduced at {2/7, 3/10, 1/3};
   the j=3 defect fitted on {3/8}, reproduced at {2/5, 3/7, 4/9, 1/2}
-  (4 spare); the j=2 defect fitted on {3/5, 2/3, 3/4}, reproduced at
-  {PLACEHOLDER_K6G2} .
+  (4 spare); the j=2 defect fitted on {3/5, 5/8, 2/3}, reproduced at
+  {3/4, 4/5, 1} (3 spare).
 - Consistency across routes: the piecewise model evaluated at lambda = 1
   returns 13/4, 101/18, 640/63, equal to the independent lambda = 1 sweeps.
 - Independent check of the Wick pieces: the superseded continuum Wick engine
