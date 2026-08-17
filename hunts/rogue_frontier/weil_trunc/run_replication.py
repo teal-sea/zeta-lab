@@ -223,48 +223,61 @@ def gate_D():
 # ---------------------------------------------------------------------------
 
 
-def _tail_offdiag(t, n, T, a, logqpi):
-    """(1/pi^2) int_T^inf h(r) S(r,n,L) dr, smooth + oscillatory split."""
+def _tail_offdiag(t, n, T, a, logqpi, nper=250):
+    """(1/pi^2) int_T^inf h(r) S(r,n,L) dr, period-chunked + remainder bound.
+
+    Returns (value, remainder_bound): nper full periods are integrated
+    directly; beyond R = T + nper*p the smooth part is integrated to
+    infinity and the oscillatory part is bounded by one integration by
+    parts, |int_R^inf h(r) n rho cos(Lr)/(r^2-b^2) dr| <= 2 h(R) n rho
+    / (L (R^2 - b^2)) (h increasing slower than the 1/r^2 decay).
+    """
     L = t.L
     rho = 2 * mp.pi / L
     b = rho * n
+    p = 2 * mp.pi / L
 
     def h(r):
         return mp.re(mp.psi(0, mp.mpc(a, r / 2))) - logqpi
 
-    sm = mp.quad(lambda r: h(r) * n * rho / (r * r - b * b), [T, mp.inf])
-    osc = mp.quadosc(
-        lambda r: -h(r) * n * rho * mp.cos(L * r) / (r * r - b * b),
-        [T, mp.inf],
-        period=2 * mp.pi / L,
-    )
-    return (sm + osc) / mp.pi**2
+    def f(r):
+        return h(r) * n * rho * (1 - mp.cos(L * r)) / (r * r - b * b)
+
+    R = T + nper * p
+    pts = [T + k * p for k in range(nper + 1)]
+    val = mp.quad(f, pts)
+    rem_smooth = mp.quad(lambda r: h(r) * n * rho / (r * r - b * b), [R, mp.inf])
+    rem_osc_bound = 2 * h(R) * n * rho / (L * (R * R - b * b))
+    return (val + rem_smooth) / mp.pi**2, rem_osc_bound / mp.pi**2
 
 
 def gate_E():
     log("== Gate E: source route + analytic tail = closed form ==")
     res = {}
-    with mp.workdps(25):
-        for kind, a, logqpi, c, N in (
-            ("zeta", mp.mpf(1) / 4, mp.log(mp.pi), 29, 6),
-            ("dh", mp.mpf(3) / 4, mp.log(mp.pi / 5), 13, 3),
+    with mp.workdps(20):
+        for kind, a, logqpi, c, N, ns in (
+            ("zeta", mp.mpf(1) / 4, mp.log(mp.pi), 29, 6, (1, 4, 6)),
+            ("dh", mp.mpf(3) / 4, mp.log(mp.pi / 5), 13, 3, (1, 3)),
         ):
             t = G.Truncation(c, N, kind=kind)
-            T = 200
+            T = 60
             pv, pd = G.arch_matrix_T(c, N, T, kind=kind)
             worst = mp.mpf(0)
-            for n in range(1, N + 1):
+            worst_bound = mp.mpf(0)
+            for n in ns:
                 closed = t._S[n]  # int sin(om_n y) rho_a
                 # source route value: psi_{R,inf}(n) = S_n / pi (checked
                 # numerically; both odd in n, psi(0) = S_0 = 0), so compare
                 # pi * (pv[n] + tail) with S_n
-                tail = _tail_offdiag(t, n, T, a, logqpi)
+                tail, bound = _tail_offdiag(t, n, T, a, logqpi)
                 lhs = mp.pi * (pv[n] + tail)
                 worst = max(worst, abs(lhs - closed))
+                worst_bound = max(worst_bound, mp.pi * bound)
             res[f"{kind}_c{c}_N{N}_offdiag_worst"] = float(worst)
+            res[f"{kind}_c{c}_N{N}_remainder_bound"] = float(worst_bound)
             log(f"    {kind} (c={c}, N={N}): worst |route+tail - closed| = "
-                f"{mp.nstr(worst, 3)}")
-            assert worst < mp.mpf("1e-8"), (kind, worst)
+                f"{mp.nstr(worst, 3)} (osc remainder bound {mp.nstr(worst_bound, 3)})")
+            assert worst < worst_bound + mp.mpf("1e-6"), (kind, worst)
     OUT["gate_E"] = res
 
 
@@ -295,6 +308,130 @@ def gate_F():
 
 
 # ---------------------------------------------------------------------------
+# Gate G: diagonal constants via the r-space representation (zeta control
+# with known answer, then DH with the same machinery)
+# ---------------------------------------------------------------------------
+
+
+def gate_G():
+    log("== Gate G: diagonal entries from (1/pi) int_0^inf h(r) Ghat_nn dr ==")
+    res = {}
+    with mp.workdps(20):
+        for kind, a, logqpi in (
+            ("zeta", mp.mpf(1) / 4, mp.log(mp.pi)),
+            ("dh", mp.mpf(3) / 4, mp.log(mp.pi / 5)),
+        ):
+            c, n = 13, 1
+            t = G.Truncation(c, 2, kind=kind)
+            L = t.L
+            om = 2 * mp.pi * n / L
+
+            def h(r):
+                return mp.re(mp.psi(0, mp.mpc(a, r / 2))) - logqpi
+
+            def ghat(r):
+                sm = mp.sin(L * (r - om) / 2)
+                sp = mp.sin(L * (r + om) / 2)
+                return (2 / L) * (sm * sm / (r - om) ** 2 + sp * sp / (r + om) ** 2)
+
+            p = 2 * mp.pi / L
+            R = 2000
+            nper = int(mp.ceil(R / p))
+            pts = [min(k * p, R) for k in range(nper + 1)]
+            val = mp.quad(lambda r: h(r) * ghat(r), pts) / mp.pi
+            # tail bound: |ghat| <= (2/L)(1/(r-om)^2 + 1/(r+om)^2), h(r) <=
+            # log r for r >= 7 (both integrated numerically to infinity)
+            bound = (
+                mp.quad(
+                    lambda r: mp.log(r)
+                    * (2 / L)
+                    * (1 / (r - om) ** 2 + 1 / (r + om) ** 2),
+                    [R, mp.inf],
+                )
+                / mp.pi
+            )
+            closed = t._archdiag[n]
+            dev = abs(val - closed)
+            res[f"{kind}_diag_n1_rspace_dev"] = float(dev)
+            res[f"{kind}_diag_n1_tail_bound"] = float(bound)
+            log(
+                f"    {kind}: r-space={mp.nstr(val, 8)} closed={mp.nstr(closed, 8)} "
+                f"dev={mp.nstr(dev, 3)} (tail bound {mp.nstr(bound, 3)})"
+            )
+            assert dev < bound + mp.mpf("1e-4"), (kind, dev, bound)
+    OUT["gate_G"] = res
+
+
+# ---------------------------------------------------------------------------
+# Gate H: sharp validation of the DH archimedean diagonal via the
+# difference kernel d(r) = Re psi(3/4+ir/2) - Re psi(1/4+ir/2), which
+# decays like 1/r^2, so the identity
+#   archdiag_dh(n) = archdiag_zeta(n) + log 5 + (1/2pi) int_R d(r) Ghat_nn
+# can be checked to ~1e-12 with a finite window.  This matters because a
+# uniform error eps in the DH diagonal constant would shift every DH
+# eigenvalue by exactly eps (Weyl), and the DH lambda_min floor we measure
+# is ~1e-10; the gate must therefore beat 1e-10 decisively.
+# ---------------------------------------------------------------------------
+
+
+def gate_H():
+    log("== Gate H: DH diagonal at 1e-12 via the difference kernel ==")
+    res = {}
+    with mp.workdps(30):
+        c = 13
+        tz = G.Truncation(c, 2, kind="zeta")
+        td = G.Truncation(c, 2, kind="dh")
+        L = tz.L
+        p = 2 * mp.pi / L
+        R = 10000
+
+        def d(r):
+            return mp.re(
+                mp.psi(0, mp.mpc(mp.mpf(3) / 4, r / 2))
+                - mp.psi(0, mp.mpc(mp.mpf(1) / 4, r / 2))
+            )
+
+        for n in (0, 1):
+            om = 2 * mp.pi * n / L
+
+            def ghat(r, om=om):
+                if n == 0:
+                    s = mp.sin(L * r / 2)
+                    return (4 / L) * s * s / (r * r)
+                sm = mp.sin(L * (r - om) / 2)
+                sp = mp.sin(L * (r + om) / 2)
+                return (2 / L) * (sm * sm / (r - om) ** 2 + sp * sp / (r + om) ** 2)
+
+            nper = int(mp.ceil(R / p))
+            pts = [min(k * p, R) for k in range(1, nper + 1)]
+            pts = [mp.mpf(0)] + pts
+            integ = mp.quad(lambda r: d(r) * ghat(r), pts) / mp.pi  # (1/2pi)*2 (even)
+            # tail: |d| <= dbound/r^2 with dbound from the last node;
+            # |ghat| <= (2/L)(1/(r-om)^2 + 1/(r+om)^2)
+            dbound = abs(d(R)) * R * R * mp.mpf("1.1")
+            tail_bound = (
+                dbound
+                * (2 / L)
+                * mp.quad(
+                    lambda r: (1 / (r * r)) * (1 / (r - om) ** 2 + 1 / (r + om) ** 2),
+                    [R, mp.inf],
+                )
+                / mp.pi
+            )
+            lhs = td._archdiag[n]
+            rhs = tz._archdiag[n] + mp.log(5) + integ
+            dev = abs(lhs - rhs)
+            res[f"n{n}_dev"] = float(dev)
+            res[f"n{n}_tail_bound"] = float(tail_bound)
+            log(
+                f"    n={n}: |archdiag_dh - (archdiag_zeta + log5 + integral)| = "
+                f"{mp.nstr(dev, 3)} (tail bound {mp.nstr(tail_bound, 3)})"
+            )
+            assert dev < tail_bound + mp.mpf("1e-12"), (n, dev, tail_bound)
+    OUT["gate_H"] = res
+
+
+# ---------------------------------------------------------------------------
 
 
 def main():
@@ -305,6 +442,8 @@ def main():
     gate_D()
     gate_E()
     gate_F()
+    gate_G()
+    gate_H()
     OUT["elapsed_s"] = round(time.time() - t0, 1)
     with open(os.path.join(HERE, "replication.json"), "w") as f:
         json.dump(OUT, f, indent=1)

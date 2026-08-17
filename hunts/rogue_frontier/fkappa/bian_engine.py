@@ -88,7 +88,18 @@ from math import comb, factorial as fact
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-READING = "skip"  # "skip" (Bian's code) or "zero" (literal (6.23)); see above.
+# Evaluation mode, see module docstring and RESULTS.md:
+#   "skip":      Bian's Appendix-A code as written (reproduces Figure 10.1
+#                together with coefficient_figure).
+#   "zero":      the literal printed (6.23): E_0(beta>0) is empty, so terms
+#                with a log on a phantom slot vanish.  Still carries the
+#                prod alpha_i! overcount of (6.18).
+#   "corrected": "zero" plus removal of the prod alpha_i! prod alpha'_i!
+#                overcount of (6.18) (each side of (6.18) counts every
+#                prime-to-block assignment prod alpha_i! times).  This is
+#                the mathematically correct evaluation of C(v,w); it is
+#                validated independently in validate_pairs.py.
+READING = "skip"
 
 
 # ----------------------------------------------------------------------
@@ -330,7 +341,8 @@ def prof_component(u, is_last):
             pairs = tuple(sorted(
                 (alph[j], mono[j]) for j in range(V)
                 if not (alph[j] == 0 and mono[j] == 0)))
-            if READING == "zero" and any(a == 0 for (a, b) in pairs):
+            if READING in ("zero", "corrected") and \
+                    any(a == 0 for (a, b) in pairs):
                 continue
             out[pairs] = out.get(pairs, 0) + cf
     _prof_cache[key] = out
@@ -513,7 +525,8 @@ def cons4_sig(sigv, sigw):
     side signatures.  Uses the m!*permanent collapse and the block DP."""
     if sigv > sigw:
         sigv, sigw = sigw, sigv
-    key = (sigv, sigw)
+    corrected = (READING == "corrected")
+    key = (sigv, sigw, corrected)
     val = _c4_cache.get(key)
     if val is not None:
         return val
@@ -522,7 +535,7 @@ def cons4_sig(sigv, sigw):
     btw = sum(b for a, b in sigw)
     f0 = 1
     for a, b in itertools.chain(sigv, sigw):
-        f0 *= fact(a) * fact(b)
+        f0 *= fact(b) if corrected else fact(a) * fact(b)
     denom = fact(2 * m + btv + btw - 1)
     vb = tuple((a, b) for a, b in sigv if a > 0)
     wb = tuple((a, b) for a, b in sigw if a > 0)
@@ -812,10 +825,17 @@ CKPT = os.path.join(HERE, "coefficients.json")
 
 
 def load_ckpt():
+    """Checkpoint schema: top-level key per evaluation mode ("skip",
+    "corrected", ...); under it rows / rows_figure / diagonal /
+    diagonal_figure / timing."""
     if os.path.exists(CKPT):
         with open(CKPT) as f:
-            return json.load(f)
-    return {"reading": READING, "rows": {}, "diagonal": {}, "timing": {}}
+            data = json.load(f)
+        if "rows" in data:  # migrate old flat (skip-mode) schema
+            data = {data.get("reading", "skip"):
+                    {k: v for k, v in data.items() if k != "reading"}}
+        return data
+    return {}
 
 
 def save_ckpt(data):
@@ -830,9 +850,11 @@ def extend(imax, kappas=(1, 2, 3, 4, 5, 6), imin=1):
     diagonal, in BOTH assemblies, checkpointing to coefficients.json level
     by level.  rows/diagonal = eq (10.1) full double sum;
     rows_figure/diagonal_figure = the thesis-code assembly (cinfiopkapa)."""
-    data = load_ckpt()
-    data.setdefault("rows_figure", {})
-    data.setdefault("diagonal_figure", {})
+    alldata = load_ckpt()
+    data = alldata.setdefault(READING, {})
+    for k in ("rows", "rows_figure", "diagonal", "diagonal_figure",
+              "timing"):
+        data.setdefault(k, {})
     for i in range(imin, imax + 1):
         t0 = time.time()
         d = diagonal(i)  # computes the most expensive column first
@@ -846,10 +868,10 @@ def extend(imax, kappas=(1, 2, 3, 4, 5, 6), imin=1):
                 str(coefficient_figure(i, kapa))
         dt = time.time() - t0
         data["timing"][str(i)] = round(dt, 2)
-        save_ckpt(data)
+        save_ckpt(alldata)
         print(f"i={i:2d}  diag={d}  diag_fig={df}  "
               f"[{dt:.1f}s, c4 cache {len(_c4_cache)}]", flush=True)
-    return data
+    return alldata
 
 
 def main():
@@ -859,7 +881,8 @@ def main():
     ap.add_argument("--grid-imax", type=int, default=11)
     ap.add_argument("--extend", type=int, metavar="IMAX")
     ap.add_argument("--imin", type=int, default=1)
-    ap.add_argument("--reading", choices=["skip", "zero"], default="skip")
+    ap.add_argument("--reading", choices=["skip", "zero", "corrected"],
+                    default="skip")
     args = ap.parse_args()
     global READING
     READING = args.reading

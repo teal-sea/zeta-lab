@@ -51,6 +51,28 @@ conditional ladder built on the hypotheses HL*(k0, lambda).
 - `exact_moments.py` — the superseded Wick engine, kept with its defect
   documented above.
 
+## 2026-08-17 (later): the programme's step 1 and 2 executed
+
+`fast_moments.py` (an optimized, re-validated reorganisation of
+`exact_finite_N.py`; class-summed, vectorized, still pure integer
+arithmetic) computed `E tr T^k` exactly for k <= 7 at lambda = 1 and for
+k <= 6 across seventeen exact lambda = p/q families. Everything is
+checkpointed in `exact_trTk_values.json` / `exact_trTk_values_lambda.json`,
+and `moments_report.md` carries the full claims-and-evidence record.
+Headlines, each an exact-polynomial identification heavily overdetermined
+on the computed grid and consistent with the Monte Carlo control:
+
+- `m_5(1) = 101/18`, `m_6(1) = 640/63` (and k = 7 in the report),
+  extending the paper's 1, 4/3, 2, 13/4.
+- `E tr T^5 = (101 N^6 - 115 N^4 + 32 N^2)/18` and
+  `E tr T^6 = (640/63)N^7 - (140/9)N^5 + (64/9)N^3 - (5/7)N`, exact for
+  every computed N (odd and even, from N = 5).
+- A piecewise-in-lambda structure for m_k(lambda): an even "Wick"
+  polynomial below `lambda = 1/floor(k/2)`, plus defect pieces
+  `-(j lambda - 1)^{2j+1} g_{k,j}(lambda)/lambda` switching on at each
+  `lambda = 1/j`; identified exactly for k = 4, 5, 6 with spare-point
+  checks (`lambda_structure.py`).
+
 ## Measured so far, and the immediate programme
 
 Monte Carlo at `lambda ~ 1` (naive, finite-size uncorrected):

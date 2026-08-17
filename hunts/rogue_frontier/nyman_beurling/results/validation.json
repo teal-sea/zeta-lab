@@ -268,5 +268,16 @@
    "figure1_range": "d_n from ~0.10 down to ~0.066 over n = 1..20000",
    "figure2_window": "d_n crosses [0.07, 0.08] during n ~ 2000..10000"
   }
+ },
+ "bridge_identity_vs_repo_cache": {
+  "identity": "<A_j,A_k>_{L2(0,1)} = G_jk - G_j1/k - G_1k/j + G_11/(jk), from e_k(t)=1/(kt) on t>1",
+  "cache_file": "data/baez_duarte_gram_N50_dps50.json",
+  "entries_checked": 1225,
+  "worst_abs_diff": 4.84e-61,
+  "worst_pair": [
+   2,
+   4
+  ],
+  "note": "repo cache stores 60 digits, so 1e-61 is the cache rounding floor; the repo entries come from an unrelated digamma closed form (zeta.criteria._bd_gram_block)"
  }
 }

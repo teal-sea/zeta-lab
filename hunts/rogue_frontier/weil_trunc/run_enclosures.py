@@ -30,7 +30,9 @@ import enclosures as EN  # noqa: E402
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-CELLS = [(c, N) for c in (6, 9, 13, 19, 29) for N in (4, 8, 16, 32)]
+CELLS = [(c, N, "zeta") for c in (6, 9, 13, 19, 29) for N in (4, 8, 16, 32)] + [
+    (c, 32, "dh") for c in (6, 9, 13, 19, 29, 37, 47)
+]
 
 
 def one_cell(c, N, kind="zeta"):
@@ -84,11 +86,11 @@ def one_cell(c, N, kind="zeta"):
 def main():
     t0 = time.time()
     rows = []
-    for c, N in CELLS:
-        r = one_cell(c, N)
+    for c, N, kind in CELLS:
+        r = one_cell(c, N, kind=kind)
         rows.append(r)
         print(
-            f"c={c:3d} N={N:3d} prec={r['prec_bits']:5d} "
+            f"{kind} c={c:3d} N={N:3d} prec={r['prec_bits']:5d} "
             f"inertia_even={tuple(r['even_inertia_at_0'])} "
             f"inertia_odd={tuple(r['odd_inertia_at_0'])} "
             f"lam_min={r['lambda_min_float']:.3e} rad={r['eig_ball_rad']:.1e} "

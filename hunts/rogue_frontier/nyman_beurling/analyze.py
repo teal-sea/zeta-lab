@@ -46,6 +46,12 @@ def fit_curve(Ns, es, order: int, fix_C: bool):
 def main() -> None:
     data = json.loads((HERE / "results" / "ladder.json").read_text())
     recs = [r for r in data["records"] if "d2" in r]
+    supp_path = HERE / "results" / "ladder_supplement.json"
+    if supp_path.exists():
+        supp = json.loads(supp_path.read_text())["records"]
+        have = {r["N"] for r in recs}
+        recs += [r for r in supp if r["N"] not in have]
+        recs.sort(key=lambda r: r["N"])
     out: dict = {"C": C}
 
     # main table
@@ -70,11 +76,11 @@ def main() -> None:
         table.append(row)
     out["table"] = table
 
-    # approach-curve fits on the power-of-two points
-    pow2 = [(r["N"], r["d2_logN"]["mid"]) for r in recs
-            if r["N"] > 1 and (r["N"] & (r["N"] - 1)) == 0]
-    Ns = np.array([p[0] for p in pow2], dtype=float)
-    es = np.array([p[1] for p in pow2])
+    # approach-curve fits on every point with N > 1 (powers of two plus
+    # the supplement; least squares needs no even spacing)
+    pts = [(r["N"], r["d2_logN"]["mid"]) for r in recs if r["N"] > 1]
+    Ns = np.array([p[0] for p in pts], dtype=float)
+    es = np.array([p[1] for p in pts])
     fits = {}
     for tail_from in (64, 256):
         m = Ns >= tail_from

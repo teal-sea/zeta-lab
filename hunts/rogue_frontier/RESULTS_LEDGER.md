@@ -58,9 +58,37 @@ with their mechanism.
   is a local search outcome over three parametrizations; global
   optimality over the full admissible class is NOT claimed.
 
-## RF-C004 — truncated Weil form enclosures (P-WEIL)
+## RF-C004 — truncated Weil form: replication, enclosures, and the rival control (P-WEIL)
 
-- **Status:** ACTIVE (source verification stage).
+- **Delivered 2026-08-17.** Three findings, graded separately; the full
+  record is `weil_trunc/RESULTS.md` and `weil_trunc/SOURCE.md`.
+- **(a) Replication of arXiv:2605.20224 / 2607.02828 (Groskin; construction
+  from Connes-van Suijlekom arXiv:2511.23257 Prop 4.1 and CCM
+  arXiv:2511.22755; open question from Connes arXiv:2602.04022 SS6).**
+  Independent implementation from definitions only; eight validation gates
+  against printed values all pass; no defect located in either posting.
+  Two display-level constant slips in CCM (4.4)/(4.14) that cancel in
+  their own tables are documented. The survey's provenance for these IDs
+  was scrambled and is corrected in SOURCE.md. Grade: hardened.
+- **(b) Enclosure-checked spectra.** Ball-arithmetic assembly with
+  explicit tail radii; LDL^T inertia, Rayleigh brackets and Rump
+  eigenvalue enclosures mutually consistent at all 27 grid cells; every
+  eigenvalue of both parity sectors strictly positive over the zeta grid
+  c in {6..29} x N in {4..32} and the DH grid c in {6..47} x N = 32.
+  Grade: hardened.
+- **(c) The rival control, run for the first time.** The RH-violating
+  Davenport-Heilbronn function, fed through the identical pipeline,
+  shows the SAME qualitative signature as zeta: strictly positive
+  spectrum and a ground state locating its on-line zeros (to 1.7e-36 at
+  c = 47). The qualitative spectral picture therefore distinguishes
+  nothing; what separates the two is the N-saturated error floor
+  (zeta ~3.7e-59 vs DH ~1.0e-10 at c = 13, a ~49-order gap), whose
+  attribution (RH-truth vs Euler product vs pole, all differing at once)
+  is measured but NOT settled. Grade: measured, with the confound stated.
+- **Follow-up thread (not pursued, per foraging rule):** Weil positivity
+  is false for DH, so its band minimum must eventually go negative;
+  the data bound the first negative at c > 47 (N <= 32). Candidate for a
+  GitHub issue as an observation.
 
 ## RF-C005 — rigorous Baez-Duarte distances (P-NB)
 

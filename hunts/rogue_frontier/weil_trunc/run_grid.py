@@ -28,10 +28,14 @@ GAMMAS = None  # loaded once
 
 
 def load_gammas(k=12):
+    """Reference ordinates at dps 130 (mpmath.zetazero; generated locally so
+    the comparison is never floored by the repo's dps-30 cache)."""
     global GAMMAS
     if GAMMAS is None:
-        zeros = json.load(open("data/zeros_1000.json"))["zeros"]
-        GAMMAS = [mp.mpf(z) for z in zeros[:k]]
+        path = os.path.join(HERE, "gammas_dps130.json")
+        zeros = json.load(open(path))["zeros"]
+        with mp.workdps(135):  # parse at full stored precision, NOT the
+            GAMMAS = [mp.mpf(z) for z in zeros[:k]]  # ambient cell dps
     return GAMMAS
 
 
