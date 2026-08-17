@@ -7,8 +7,18 @@ stops being an extrapolation.
 
 Verdicts use each site kind's own condition from the plan:
   big box : normBound(B.inflate r) <= M
-  grid    : normLower(B.inflate r) >= pred_beta
+  grid    : normLower(B.inflate r) >= eps' + L*h/2
   centre  : normBound(B.inflate r) <  eps'
+
+The grid verdict changed (hunt `hunts/r_908de5`).  It used to read
+`normLower >= pred_beta`, and `pred_beta` was drawn at the achievable bound, so
+that inequality was true at the line by construction in any arithmetic — 12 of
+104 sites cleared it by under 1 %.  With `beta := normLower` (the remedy of
+`docs/25` §4.3 defect 2, now the generator's default) the site inequality is
+true by construction and measures nothing, so what is reported is the
+obligation the certificate actually spends beta on: the hypothesis of
+`ZetaLean.DH.DH_lower_on_[hv]cell`.  `grid_margin_pred` keeps the old ratio for
+comparison against commit 44d3133.
 
 Run: .venv/bin/python scripts/65_rung3_full_validation.py [--workers N] [--out FILE]
 """
@@ -28,6 +38,31 @@ sys.path.insert(0, str(ROOT / "scripts"))
 
 PLAN = json.loads((ROOT / "lean" / "cert" / "rung3_plan2.json").read_text())
 NLOG, NEXP, P, KE = 32, 20, 64, 10
+
+
+def _cell_need() -> dict:
+    """`eps' + L*h/2` per grid site: the hypothesis of `DH_lower_on_[hv]cell`.
+
+    With `beta := normLower` (hunt `hunts/r_908de5`) the site inequality
+    `normLower >= beta` is true by construction and measures nothing, so the
+    grid verdict here is the obligation that still bites.
+    """
+    L, eps = F(PLAN["L"]), F(PLAN["small"]["eps"])
+    by_seg: dict = {}
+    for g in PLAN["grid"]:
+        by_seg.setdefault(g["segment"], []).append(g)
+    need: dict = {}
+    for gs in by_seg.values():
+        for i, g in enumerate(gs):
+            if g["gap_next"] is None:
+                continue
+            d = eps + L * F(g["gap_next"]) / 2
+            for s in (g, gs[i + 1]):
+                need[s["id"]] = max(need.get(s["id"], F(0)), d)
+    return need
+
+
+CELL_NEED = _cell_need()
 
 
 def _assemble_ball(re_lo, re_hi, im_lo, im_hi, K, r):
@@ -77,10 +112,13 @@ def run_site(job):
             ball, B = _assemble_ball(re, re, im, im, site["K"], site["r"])
             nl = ball.normLower(B)
             beta = F(site["pred_beta"])
+            need = CELL_NEED[site["id"]]
             return {"id": site["id"], "kind": kind, "K": site["K"],
                     "normLower": float(nl), "pred_beta": float(beta),
-                    "margin": float(nl / beta) if beta else float("inf"),
-                    "verdict": "PASS" if nl >= beta else "FAIL",
+                    "margin": float(nl / need),
+                    "grid_margin_pred": float(nl / beta) if beta else float("inf"),
+                    "cell_need": float(need),
+                    "verdict": "PASS" if nl >= need else "FAIL",
                     "secs": round(time.time() - t0, 1)}
         # centre
         small = PLAN["small"]
