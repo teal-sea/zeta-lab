@@ -1,0 +1,194 @@
+# NOVELTY_LEDGER - searches performed
+
+## Frontier-survey queries (2026-08-17)
+
+- [Territory B: zero-density estimates and ] Guth Maynard zero density estimate Riemann zeta 30/13 large values Dirichlet polynomials
+- [Territory B: zero-density estimates and ] explicit zero-free region Riemann zeta Mossinghoff Trudgian Yang 5.558691 improvement 2025
+- [Territory B: zero-density estimates and ] improvement Guth-Maynard zero density exponent 2025 2026 arXiv "zero-density"
+- [Territory B: zero-density estimates and ] Bellotti explicit zero-free region Korobov-Vinogradov 53.989 arXiv
+- [Territory B: zero-density estimates and ] Heath-Brown "large values of Dirichlet polynomials" 2024 arXiv simplification Guth Maynard
+- [Territory B: zero-density estimates and ] Chourasiya explicit zero density estimate Riemann zeta arXiv 2024 2025
+- [Territory B: zero-density estimates and ] "primes in short intervals" improvement 2025 2026 exponent "17/30" OR "0.525" arXiv
+- [Territory B: zero-density estimates and ] Fiori Kadiri Swidinsky explicit estimates psi(x) prime number theorem error term best 2024 2025
+- [Territory B: zero-density estimates and ] "explicit" Guth-Maynard zero density estimate arXiv 2026 explicit version large values
+- [Territory B: zero-density estimates and ] Platt Trudgian Riemann hypothesis verified 3*10^12 arXiv 2004.09765
+- [Territory B: zero-density estimates and ] classical zero-free region improvement "5.558691" OR "R=5.558" successor 2025 2026 zeta
+- [Territory B: zero-density estimates and ] arXiv 2210.14130 trigonometric inequalities Riemann zeta zero-free region best polynomial Mossinghoff Trudgian constant
+- [Territory B: zero-density estimates and ] [fetched] arxiv.org/abs/2607.04632 (Turnage-Butterbaugh survey, July 2026)
+- [Territory B: zero-density estimates and ] [fetched] arxiv.org/abs/2501.16779 and arxiv.org/html/2501.16779v1 (Tao-Trudgian-Yang)
+- [Territory B: zero-density estimates and ] [fetched] arxiv.org/abs/2405.12545, arxiv.org/abs/2311.05136, arxiv.org/abs/2306.10680 (Bellotti)
+- [Territory B: zero-density estimates and ] [fetched] arxiv.org/abs/2507.08296 (Chen-Gupta-Li q-aspect 7/3)
+- [Territory B: zero-density estimates and ] [fetched] teorth.github.io/expdb/blueprint/zero-density-chapter.html (ANTEDB A(sigma) table + explicit results)
+- [Territory B: zero-density estimates and ] [fetched] arxiv.org/abs/2507.15184 (Chourasiya-Simonic explicit Ingham)
+- [Territory B: zero-density estimates and ] [fetched] arxiv.org/abs/2101.12263 (Kadiri-Lumley-Ng)
+- [Territory B: zero-density estimates and ] [fetched] arxiv.org/abs/2308.04458 (Runbo Li Harman sieve 0.52)
+- [Territory B: zero-density estimates and ] [fetched] arxiv.org/abs/2411.13791 (Johnston PNT-transfer optimality)
+- [Territory B: zero-density estimates and ] [fetched] arxiv.org/abs/2411.01385 (Tan optimal cosine polynomials deg 7-8)
+- [Territory B: zero-density estimates and ] [fetched] arxiv.org/abs/2508.18786 (Visser effective short intervals; excluded as unreliable for records)
+- [Territory B: zero-density estimates and ] [fetched] arxiv.org/abs/2004.09765 (Platt-Trudgian)
+- [Territory A: proportions of zeros of zet] arXiv 2026 "more than two thirds" zeros Riemann zeta simple critical line
+- [Territory A: proportions of zeros of zet] Pratt Robles Zaharescu Zeindler "proportion" zeros critical line 0.4172 mollifier
+- [Territory A: proportions of zeros of zet] Pratt Robles Zaharescu Zeindler "41.7" OR "0.4172" simple zeros "40.7" critical line exact proportion
+- [Territory A: proportions of zeros of zet] Chirre Goncalves de Laat "semidefinite programming" pair correlation simple zeros 0.6792 zeta
+- [Territory A: proportions of zeros of zet] arXiv 2025 zeros derivative Riemann zeta function ζ' horizontal distribution Goldston Suriajaya critical line
+- [Territory A: proportions of zeros of zet] arXiv 2024 2025 proportion of zeros "critical line" improvement "5/12" OR "41.7" Levinson mollifier new lower bound
+- [Territory A: proportions of zeros of zet] arXiv zeros of derivatives of the Riemann xi-function critical line proportion Wu 2024 2025 simple
+- [Territory A: proportions of zeros of zet] WebFetch: arxiv.org/abs/2501.14545 (BGSTB, Pair Correlation I)
+- [Territory A: proportions of zeros of zet] WebFetch: arxiv.org/abs/2511.20059 (Goldston-Suriajaya, Zeta Zeros on the Critical Line)
+- [Territory A: proportions of zeros of zet] WebFetch: arxiv.org/abs/2503.15449 (GLSS, PCC I: simple and critical zeros)
+- [Territory A: proportions of zeros of zet] WebFetch: arxiv.org/abs/2603.28104 (Goldston-Suriajaya, Narrow Vertical Box)
+- [Territory A: proportions of zeros of zet] WebFetch: arxiv.org/abs/2306.04799 (BGSTB, Unconditional Montgomery Theorem)
+- [Territory A: proportions of zeros of zet] WebFetch: arxiv.org/abs/2508.11108 (CFKLT, Short mollifiers)
+- [Territory A: proportions of zeros of zet] WebFetch: arxiv.org/abs/1810.08843 (Chirre-Goncalves-de Laat SDP)
+- [Territory A: proportions of zeros of zet] WebFetch + full-text PDF extraction: www-cdn.anthropic.com/564f962e60643842f5fcb4a17c9dbc8f608f1c37.pdf (Claude 2026, all 35 pages parsed: Theorems A-E, Remarks 1.1, 7.2, 7.3, §7.5, §8)
+- [Territory A: proportions of zeros of zet] WebFetch + full-text PDF extraction: arxiv.org/pdf/1802.10521 (PRZZ v3, exact constants 0.417293962 / 0.407511457 and mollifier polynomials from §8)
+- [Territory A: proportions of zeros of zet] WebFetch: github.com/anthropics/zeta-23-lean (formalization scope: Theorems A-E, XiPrime, PairCeiling; sorry-free; standard axioms)
+- [Territory A: proportions of zeros of zet] mpmath verification: c*_1 = 0.75329606785607067722, 1/c*_1 = 1.3274992963205883543, 2 - 1/c*_1 = 0.67250070367941164573, (3 - 1/c*_1)/2 = 0.83625035183970582287
+- [Territory C: moments of the Riemann zeta] Harper sharp upper bounds moments Riemann zeta assuming RH arxiv
+- [Territory C: moments of the Riemann zeta] Heap Radziwill Soundararajan sharp upper bounds moments zeta unconditional k between 0 and 2
+- [Territory C: moments of the Riemann zeta] arxiv 2025 shifted moments Riemann zeta function Curran sharp bounds
+- [Territory C: moments of the Riemann zeta] arxiv 2024 2025 twisted fourth moment zeta Dirichlet polynomial length theta improvement
+- [Territory C: moments of the Riemann zeta] arxiv 2407.20023 optimization implicit constant upper bounds moments Riemann zeta
+- [Territory C: moments of the Riemann zeta] Szabó unconditional upper bounds high moments Riemann zeta twelfth moment arxiv 2024
+- [Territory C: moments of the Riemann zeta] Ng sixth moment Riemann zeta additive divisor conjecture asymptotic
+- [Territory C: moments of the Riemann zeta] "more than two thirds" zeros critical line 2026 Levinson mollifier arxiv
+- [Territory C: moments of the Riemann zeta] arxiv "more than two thirds of the zeros" Riemann zeta critical line August 2026
+- [Territory C: moments of the Riemann zeta] eighth moment Riemann zeta function quaternary additive divisor arxiv 2204.13891
+- [Territory C: moments of the Riemann zeta] Heap Soundararajan lower bounds moments zeta L-functions revisited arxiv
+- [Territory C: moments of the Riemann zeta] negative moments Riemann zeta function Bui Florea arxiv bounds
+- [Territory C: moments of the Riemann zeta] twelfth moment Riemann zeta Heath-Brown T^2 log improvement 2024 2025 arxiv
+- [Territory C: moments of the Riemann zeta] Bettin Chandee Radziwill twisted second moment zeta Dirichlet polynomial length 17/33
+- [Territory C: moments of the Riemann zeta] arxiv 2508.11108 short mollifiers Riemann zeta abstract Kühn result
+- [Territory C: moments of the Riemann zeta] Arguin Bourgade Radziwill Fyodorov-Hiary-Keating conjecture maximum zeta short intervals proof II
+- [Territory C: moments of the Riemann zeta] Bourgain Watt mean square Riemann zeta error term E(T) exponent 1515/4816
+- [Territory C: moments of the Riemann zeta] Pratt Robles Zaharescu Zeindler "five-twelfths" zeros critical line proportion 0.4172 mollifier
+- [Territory D: pair correlation and zero s] arxiv 2026 "more than two thirds" zeros Riemann zeta simple
+- [Territory D: pair correlation and zero s] proportion simple zeros Riemann zeta best known bound 2025 arxiv
+- [Territory D: pair correlation and zero s] Chirre Gonçalves de Laat semidefinite programming pair correlation zeros zeta simple zeros proportion
+- [Territory D: pair correlation and zero s] small gaps between zeros of the Riemann zeta function best bound arxiv 2024 2025 0.50
+- [Territory D: pair correlation and zero s] Carneiro Chandee Chirre Milinovich "pair correlation" Fourier optimization "three integrals" zeta
+- [Territory D: pair correlation and zero s] de la Bretèche Fiorilli pair correlation zeros zeta arxiv
+- [Territory D: pair correlation and zero s] "distinct zeros" proportion Riemann zeta "0.84" OR "0.8477" RH pair correlation semidefinite
+- [Territory D: pair correlation and zero s] large gaps between zeros Riemann zeta function best constant lambda 3.18 arxiv 2024 2025
+- [Territory D: pair correlation and zero s] Pratt Robles Zaharescu Zeindler "critical line" proportion 0.4173 OR "41.7" simple zeros 0.4075 arxiv
+- [Territory D: pair correlation and zero s] de Bruijn-Newman constant upper bound 0.2 Platt Trudgian Riemann hypothesis verified 3·10^12
+- [Territory D: pair correlation and zero s] Bui Heath-Brown simple zeros Riemann zeta 19/27 Riemann Hypothesis improvement arxiv
+- [Territory F: spectral and operator appro] Connes Consani prolate spheroidal operator zeta zeros arxiv 2025 2026
+- [Territory F: spectral and operator appro] Connes Consani "zeta cycles" spectral triple Riemann zeros arxiv
+- [Territory F: spectral and operator appro] Berry-Keating xp Hamiltonian Riemann zeros 2024 2025 arxiv
+- [Territory F: spectral and operator appro] Bender Brody Muller Hamiltonian Riemann hypothesis criticism PT-symmetric self-adjoint
+- [Territory F: spectral and operator appro] Weil positivity trace formula Connes Consani semilocal arxiv "positivity" Riemann
+- [Territory F: spectral and operator appro] transfer operator Mayer Gauss map Lewis-Zagier Selberg zeta 2024 2025 arxiv Riemann
+- [Territory F: spectral and operator appro] LeClair Sierra Yang-Yang statistical mechanics Riemann zeros arxiv 2024 2025
+- [Territory F: spectral and operator appro] de Branges canonical system Riemann hypothesis 2024 2025 arxiv Lagarias Hermite-Biehler
+- [Territory F: spectral and operator appro] Alcantara-Bode Hilbert-Schmidt integral operator Riemann hypothesis equivalence numerical
+- [Territory F: spectral and operator appro] Connes van Suijlekom spectral truncation Weil quadratic form zeta zeros operator system arxiv 2025
+- [Territory F: spectral and operator appro] Sierra review "H=xp" Riemann zeros Rindler massive Dirac 2024 2025 landscape spectral realization
+- [Territory F: spectral and operator appro] arxiv Connes "van Suijlekom" 2025 zeta "operator system" OR "truncation" Riemann critical line theorem
+- [Territory E: equivalent and near-equival] de Bruijn-Newman constant improved upper bound 2024 2025 arxiv
+- [Territory E: equivalent and near-equival] Nyman-Beurling Baez-Duarte distance lower bound arxiv 2024 2025
+- [Territory E: equivalent and near-equival] Li coefficients Riemann hypothesis arxiv 2024 2025 asymptotics
+- [Territory E: equivalent and near-equival] Weil positivity criterion Riemann hypothesis Connes Consani 2024 2025 arxiv
+- [Territory E: equivalent and near-equival] Robin's inequality colossally abundant unconditional 5040 arxiv 2024 2025
+- [Territory E: equivalent and near-equival] Riesz criterion Riemann hypothesis Hardy-Littlewood equivalent arxiv 2024 2025
+- [Territory E: equivalent and near-equival] "de Bruijn-Newman" "0.2" upper bound Polymath improvement Platt Trudgian
+- [Territory E: equivalent and near-equival] new equivalent criterion Riemann hypothesis arxiv 2025 2026
+- [Territory E: equivalent and near-equival] Platt Trudgian de Bruijn-Newman constant "0.2" arxiv 2020
+- [Territory E: equivalent and near-equival] Speiser criterion zeros zeta derivative quantitative arxiv 2024 2025
+- [Territory E: equivalent and near-equival] Burnol lower bound Baez-Duarte distance d_N^2 log N sum zeros 1/|rho|^2 conjecture 2+gamma-log(4 pi)
+- [Territory E: equivalent and near-equival] fetched: arxiv.org/abs/2607.12084, 2606.09096, 2004.09765, 2310.18423, 2006.13771, 2510.23889, 2509.10588, 2405.06349, 1211.5191, en.wikipedia.org/wiki/De_Bruijn-Newman_constant
+- [Territory H: explicit and computer-assis] Platt Trudgian Riemann hypothesis verified 3 10^12 zeros height record
+- [Territory H: explicit and computer-assis] explicit bounds psi(x) Chebyshev function Fiori Kadiri Swidinsky arXiv
+- [Territory H: explicit and computer-assis] Riemann hypothesis numerical verification record 2024 2025 beyond 3e12 zeros new computation
+- [Territory H: explicit and computer-assis] Mossinghoff Trudgian Yang explicit zero-free region zeta 5.558691 arXiv
+- [Territory H: explicit and computer-assis] Johnston Yang explicit estimates pi(x) prime counting function arXiv 2023 2024 unconditional
+- [Territory H: explicit and computer-assis] explicit bounds Mertens function M(x) sqrt x 2024 2025 arXiv improved
+- [Territory H: explicit and computer-assis] improved Turing method zeta zero counting explicit bound arXiv 2024 2025
+- [Territory H: explicit and computer-assis] Hiary Patel Yang explicit bound zeta critical line t^1/6 arXiv
+- [Territory H: explicit and computer-assis] Bellotti explicit Korobov Vinogradov zero-free region 49.5 arXiv 2023 2024 zeta
+- [Territory H: explicit and computer-assis] Cully-Hugill primes between consecutive cubes explicit interval arXiv 2024 2025
+- [Territory H: explicit and computer-assis] de Bruijn-Newman constant lower bound Lambda record Platt Trudgian -0.2 arXiv
+- [Territory H: explicit and computer-assis] Büthe estimating pi(x) partial Riemann hypothesis verification Logan test functions explicit formula
+- [Territory H: explicit and computer-assis] explicit zero density estimate zeta Kadiri Lumley Ng improvement 2024 2025 arXiv
+- [Territory H: explicit and computer-assis] smallest x pi(x) > li(x) Skewes region improvement 2024 2025 arXiv explicit
+- [Territory H: explicit and computer-assis] WebFetch arxiv.org/abs/2602.05614 (Revers new critical-line estimate)
+- [Territory H: explicit and computer-assis] WebFetch arxiv.org/abs/2412.15470 (Bellotti-Wong N(T) bound)
+- [Territory H: explicit and computer-assis] WebFetch arxiv.org/abs/2602.14340 (Lee minimal zero-free regions kth powers)
+- [Territory H: explicit and computer-assis] WebFetch arxiv.org/abs/2508.18786 (Visser effective short intervals)
+- [Territory H: explicit and computer-assis] WebFetch arxiv.org/abs/2603.21490 (Bellotti-Trudgian-Yang 4.896 zero-free region)
+- [Territory H: explicit and computer-assis] WebFetch arxiv.org/abs/2002.11068 (Broadbent et al theta bounds)
+- [Territory G: geometry of the Riemann xi ] de Bruijn-Newman constant upper bound improvement 2024 2025 arxiv
+- [Territory G: geometry of the Riemann xi ] Jensen polynomials Riemann xi hyperbolicity 2024 2025 arxiv Griffin Ono Rolen Zagier
+- [Territory G: geometry of the Riemann xi ] zeros of derivatives of Riemann xi function critical line proportion arxiv 2024 2025
+- [Territory G: geometry of the Riemann xi ] higher order Turán inequalities Riemann xi coefficients arxiv 2024 2025 2026
+- [Territory G: geometry of the Riemann xi ] "Jensen polynomials" xi function hyperbolic "all n" degree bound Griffin Ono Rolen Thorner Tripp Wagner
+- [Territory G: geometry of the Riemann xi ] Polymath15 upper bound de Bruijn-Newman constant conditional 0.1 RH verification height
+- [Territory G: geometry of the Riemann xi ] Rodgers Tao heat flow zeros of zeta H_t dynamics arxiv 2024 2025 pair correlation relaxation
+- [Territory G: geometry of the Riemann xi ] proportion zeros xi' derivative critical line Conrey 1983 improvement arxiv "xi function" derivative simple zeros proportion
+- [Territory G: geometry of the Riemann xi ] arxiv 2025 2026 "de Bruijn-Newman" OR "Laguerre-Polya" new paper zeros heat flow
+- [Territory G: geometry of the Riemann xi ] Chirre de Bruijn-Newman constant pair correlation lower bound arxiv
+- [Territory G: geometry of the Riemann xi ] arxiv 2024 2025 "xi function" Taylor coefficients log-concavity OR "Turan inequalities" degree 4 degree 5 unconditional
+- [Territory G: geometry of the Riemann xi ] Dobner new proof Newman's conjecture generalization arxiv
+- [Territory G: geometry of the Riemann xi ] arxiv 2025 2026 zeros repeated differentiation Riemann xi equally spaced unconditional "critical line"
+- [Territory G: geometry of the Riemann xi ] WebFetch: arxiv.org/abs/2602.20313 (Michalowski PF5 failure, exact enclosure)
+- [Territory G: geometry of the Riemann xi ] WebFetch: arxiv.org/abs/2410.06403 (Campbell-O'Rourke-Renfrew cosine universality)
+- [Territory G: geometry of the Riemann xi ] WebFetch: ar5iv.labs.arxiv.org/html/1910.01227 (GORTTW exact theorems, Corollary 1.3 constants)
+- [Territory G: geometry of the Riemann xi ] WebFetch: michaelnielsen.org/polymath De_Bruijn-Newman_constant wiki (bounds table)
+- [Territory G: geometry of the Riemann xi ] WebFetch: arxiv.org/abs/2004.09765 (Platt-Trudgian 3e12 verification)
+- [Territory G: geometry of the Riemann xi ] WebFetch: arxiv.org/abs/2007.13582 (O'Sullivan)
+- [Territory G: geometry of the Riemann xi ] WebFetch: arxiv.org/abs/2509.18963 (Grigutis-Turcinskas log-derivative positivity)
+- [Territory G: geometry of the Riemann xi ] WebFetch: arxiv.org/abs/2005.05142 (Dobner extended Selberg class)
+- [Territory G: geometry of the Riemann xi ] WebFetch: arxiv.org/abs/2008.07206 (Farmer critique)
+- [Territory G: geometry of the Riemann xi ] WebFetch: arxiv.org/abs/1902.06330 (Romik orthogonal expansions)
+- [Territory G: geometry of the Riemann xi ] WebFetch: arxiv.org/abs/2402.10154 (generalized zeta heat flow PDE)
+- [Territory G: geometry of the Riemann xi ] WebFetch + local PDF text extraction: aimath.org/~kaur/publications/4.pdf (Conrey 1983 II: exact beta_m decimals 0.3485/0.7869/0.9314/0.9666/0.9799/0.9863 extracted from PDF streams)
+- [Territory I: neighboring L-function prob] arxiv 2025 proportion of zeros Dirichlet L-functions critical line q-aspect
+- [Territory I: neighboring L-function prob] Yitang Zhang Landau-Siegel zeros paper status 2025 error gap
+- [Territory I: neighboring L-function prob] arxiv 2024 2025 non-vanishing Dirichlet L-functions central point proportion improvement record
+- [Territory I: neighboring L-function prob] arxiv 2025 2026 moments of L-functions families fourth moment Dirichlet asymptotic
+- [Territory I: neighboring L-function prob] arxiv 2025 2026 quadratic Dirichlet L-functions non-vanishing central value proportion Soundararajan 7/8 improvement
+- [Territory I: neighboring L-function prob] Bergström Diaconu Petersen Westerland moments quadratic L-functions function fields homological stability arxiv
+- [Territory I: neighboring L-function prob] arxiv 2024 2025 elliptic curve L-functions quadratic twists rank Goldfeld conjecture proportion progress
+- [Territory I: neighboring L-function prob] arxiv 2025 2026 one-level density low-lying zeros Dirichlet L-functions support extension beyond (-2,2)
+- [Territory I: neighboring L-function prob] arxiv sixth moment Dirichlet L-functions unconditional asymptotic Chandee Li 2024 2025
+- [Territory I: neighboring L-function prob] Alexander Smith Selmer groups quadratic twists Annals 2026 published distribution 2^k Selmer
+- [Territory I: neighboring L-function prob] "Landau-Siegel" Zhang 2211.02515 verification error referee 2024 2025 accepted incorrect
+- [Territory I: neighboring L-function prob] arxiv 2025 2026 ratios conjecture quadratic Dirichlet L-functions multiple Dirichlet series Cech proved range
+- [Territory I: neighboring L-function prob] arxiv August 2026 "more than two thirds" zeros Riemann zeta critical line
+- [Territory I: neighboring L-function prob] Bhargava Skinner Zhang proportion elliptic curves BSD rank 66% recent 2025 improvement
+- [Territory I: neighboring L-function prob] quadratic Dirichlet L-functions function fields vanishing central point Wanlin Li positive proportion 2024 2025 Chowla analogue fails
+- [Territory J: forgotten, abandoned, or ob] Riesz criterion Riemann hypothesis Riesz function computation arXiv 2024 2025
+- [Territory J: forgotten, abandoned, or ob] Baez-Duarte criterion c_k coefficients numerical computation Maslanka Wolf
+- [Territory J: forgotten, abandoned, or ob] Turán partial sums zeta function zeros Montgomery 1983 approximations abandoned
+- [Territory J: forgotten, abandoned, or ob] Matiyasevich determinant zeta zeros interpolating Dirichlet series eigenvalues arXiv
+- [Territory J: forgotten, abandoned, or ob] de Bruijn-Newman constant upper bound improvement 2024 2025 Polymath 0.2
+- [Territory J: forgotten, abandoned, or ob] Nyman-Beurling Baez-Duarte distance d_N^2 lower bound Bettin Conrey recent arXiv 2024 2025
+- [Territory J: forgotten, abandoned, or ob] arXiv August 2025 Bettin Conrey Farmer Baez-Duarte constant Nyman-Beurling Burnol lower bound
+- [Territory J: forgotten, abandoned, or ob] Keiper-Li coefficients lambda_n large n computation arXiv 2023 2024 2025
+- [Territory J: forgotten, abandoned, or ob] Redheffer matrix eigenvalues Riemann hypothesis Mertens determinant arXiv 2023 2024 2025
+- [Territory J: forgotten, abandoned, or ob] Weil explicit formula positivity numerical verification Yoshida test functions computation
+- [Territory J: forgotten, abandoned, or ob] Csordas Norfolk Varga Turán inequalities Riemann xi moments Grommer determinants computation
+- [Territory J: forgotten, abandoned, or ob] Jensen polynomials Riemann xi hyperbolicity all shifts n verified degree Griffin Ono Rolen numerical bound
+- [Territory J: forgotten, abandoned, or ob] Wolf "failed attempt" disprove Riemann hypothesis Davenport-Heilbronn Baez-Duarte c_k
+- [Territory J: forgotten, abandoned, or ob] Franel Landau criterion Farey fractions numerical computation Riemann hypothesis recent
+- [Territory J: forgotten, abandoned, or ob] Matiyasevich Hankel matrices eigenvalues Riemann hypothesis 2014 conjectures
+- [Territory J: forgotten, abandoned, or ob] Speiser criterion zeros zeta derivative left of critical line numerical verification arXiv
+- [Territory J: forgotten, abandoned, or ob] "Riesz function" sign changes x^(1/4) oscillation bound unconditional estimate
+- [Territory K: systematic sweep of mid-202] arXiv 2026 "more than two thirds" zeros of the Riemann zeta function critical line
+- [Territory K: systematic sweep of mid-202] arXiv 2025 2026 zero-density estimate improvement Guth Maynard follow-up
+- [Territory K: systematic sweep of mid-202] arXiv 2025 2026 explicit zero-free region Riemann zeta Korobov-Vinogradov Bellotti improvement
+- [Territory K: systematic sweep of mid-202] de Bruijn-Newman constant upper bound improvement 2025 2026 arXiv
+- [Territory K: systematic sweep of mid-202] PrimeNumberTheorem+ Lean formalization progress 2026 Tao error term
+- [Territory K: systematic sweep of mid-202] Riemann hypothesis numerical verification record 2025 2026 first 10^13 zeros Platt Trudgian
+- [Territory K: systematic sweep of mid-202] arXiv 2025 2026 proportion simple zeros Riemann zeta function improvement mollifier
+- [Territory K: systematic sweep of mid-202] arXiv 2025 2026 subconvexity Riemann zeta |zeta(1/2+it)| bound improvement 13/84
+- [Territory K: systematic sweep of mid-202] Connes Consani Weil positivity zeta 2025 2026 arXiv
+- [Territory K: systematic sweep of mid-202] arXiv 2025 2026 claimed proof Riemann hypothesis withdrawn retracted
+- [Territory K: systematic sweep of mid-202] Buzzard Fermat Last Theorem Lean project 2026 progress Mathlib analytic number theory contributions
+- [Territory K: systematic sweep of mid-202] arXiv 2026 large values Dirichlet polynomials improvement zero density 30/13 beyond
+- [Territory K: systematic sweep of mid-202] WebFetch: arxiv.org/abs/2511.20059 (Goldston-Suriajaya, Zeta Zeros on the Critical Line)
+- [Territory K: systematic sweep of mid-202] WebFetch: arxiv.org/abs/2501.14545 (Baluyot-Goldston-Suriajaya-Turnage-Butterbaugh, Pair Correlation I)
+- [Territory K: systematic sweep of mid-202] WebFetch: arxiv.org/abs/2603.28104 (Goldston-Suriajaya, Zeta Zeros in a Narrow Vertical Box)
+- [Territory K: systematic sweep of mid-202] WebFetch: arxiv.org/abs/2508.11108 (Conrey-Farmer-Kwan-Lin-Turnage-Butterbaugh, Short mollifiers)
+- [Territory K: systematic sweep of mid-202] WebFetch: arxiv.org/abs/2509.20335 (Florea, moments survey)
+- [Territory K: systematic sweep of mid-202] WebFetch: kingy.ai/blog/claude-riemann-hypothesis-67-percent-result/ (verification status of the Anthropic 67.25% paper)
