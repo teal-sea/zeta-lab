@@ -150,12 +150,36 @@ one-parameter sum to bound; for the joint problem section 8 of
 
 ## 6. Honest scope
 
-Grade: **measured** (one code path, double precision, scan sups; two cap
-modes agree on the verdict; the k=1 arithmetic reproduced to all printed
-digits as a cross-check).  Not hardened: no interval enclosures, no
-independent-instrument replication of the tau-table.  Not kernel-checked:
-nothing here compiles to Lean.  The composite claim "k=2 equal-depth
-retention holds" takes the grade of its weakest step: measured.
+Grade when this page was written: **measured** (one code path, double
+precision, scan sups; two cap modes agree on the verdict; the k=1 arithmetic
+reproduced to all printed digits as a cross-check).
+
+**Amended 2026-08-17 (`hunts/r_a97060`).**  The tau-table itself is no longer
+scan-grade.  An interval pass over the same 6600 cells, in Arb ball arithmetic
+at 96 bits, closes it with **0 nonpositive cells in all three cap modes**:
+worst margin +0.0677 (signed field), +0.0146 (unsigned), and +0.0016 with the
+1.05 cap pad of the measured pass retained on top of the enclosure.  No cap was
+widened, no tau-cell needed splitting, and the enclosure costs a factor of
+1.0000 to 1.0004 on the near field.  `mpmath.iv` rectangles contain every ball
+checked.  So *"no interval enclosures"* no longer describes the table, and
+that step is **enclosure-carrying**.
+
+What is still not hardened, and therefore what the composite claim takes its
+grade from: the **v-convexity transfer** from `v = 1/4` to all `y in (0,1/2]`
+is an argument, not a table, and the hardened pass evaluates at `v = 1/4`
+exactly as the measured one does (`k2_closure.NAMED_GAPS` G3 stands verbatim).
+The far rows and the O8 floor are used as the surrounding tree's proved
+constants, recomputed in exact rationals but not re-derived.  Not
+kernel-checked: nothing here compiles to Lean.  The composite claim "k=2
+equal-depth retention holds" still takes the grade of its weakest step, and
+that step is now the convexity transfer rather than the table.
+
+`hunts/r_a97060/RESULTS.md` also records two load-bearing assumptions of
+`k2_closure.py` that were unstated: the pair-charge clamp `Kpair(min(dmax,6))`
+is a lower bound only if `Kpair` is monotone out to `dmax`, which holds here
+only because the widest near component in the whole table is 1.9894; and the
+inner prune of `zone_trade` is a heuristic restricting the *adversary's*
+search.  Neither changes a published number.
 
 The quantifier discipline of defect #19 applies verbatim: this is the
 **first multi-pair case** of blocker 2, not blocker 2.  The blocker's
