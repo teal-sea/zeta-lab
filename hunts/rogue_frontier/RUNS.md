@@ -21,3 +21,24 @@ artifacts:
   - hunts/rogue_frontier/data/frontier_surveys.json
   - hunts/rogue_frontier/REPORT.md
 ```
+
+```runmanifest
+id: rogue_frontier-2026-08-17-campaign2
+hunt: rogue_frontier
+started: 2026-08-17T10:00Z
+finished: 2026-08-17T13:30Z
+ran:
+  - salvage of first-wave checkpoints (window verification replayed, ledgers closed)
+  - inline exact control of Bian (11.5) against published and corrected tables
+  - FK-THEORY arm (resolvent collapse, Gevrey tail, rows to i = 81)
+  - FK-DATA arm (independent extension to i = 40 and 28, structure guessing)
+  - DH-NEG arm (first rival positivity-failure cell, enclosure package)
+  - WIN-GLOBAL arm (landscape, exact quartic slice, outer bound)
+outcome: RF-C007 and RF-C009 delivered, RF-C008 promoted on a two-engine exact cross-check, RF-C003 caveat upgraded to a two-sided exact bracket; issue #57 opened for the rival observation
+artifacts:
+  - hunts/rogue_frontier/fkappa/theory_notes.md
+  - hunts/rogue_frontier/fkappa/coefficients_ext.json
+  - hunts/rogue_frontier/weil_trunc/dhneg_scan.json
+  - hunts/rogue_frontier/window_opt/global_notes.md
+  - hunts/rogue_frontier/REPORT.md
+```

@@ -68,3 +68,15 @@ single exact rational computation printed by the validators.
 
 Checkpointed coefficients and analysis are under
 `nyman_beurling/results/`.
+
+## Second wave additions
+
+    .venv/bin/python hunts/rogue_frontier/fkappa/theory_validate.py
+    .venv/bin/python hunts/rogue_frontier/fkappa/extend_guess.py
+    .venv/bin/python hunts/rogue_frontier/weil_trunc/dhneg_confirm.py
+    .venv/bin/python hunts/rogue_frontier/window_opt/global_slice.py
+
+The two-engine coefficient cross-check is one comparison of
+`fkappa/coefficients_ext.json` (14-fold-sum engine) against
+`fkappa/row2_ext.json` / `row3_ext.json` (resolvent engine): exact
+rational equality on every overlapping index is the claim.

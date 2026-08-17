@@ -3,7 +3,7 @@
 One autonomous session: environment built from a fresh clone, an 11-way
 primary-source survey of the RH-adjacent frontier, a scored portfolio, five
 studies executed through a discovery / destruction / rigor pipeline, three
-worker sessions ended early by a monthly budget limit with all state
+worker sessions ended early by a session token limit with all state
 checkpointed. Everything below sits inside `hunts/`, so by this
 repository's rules nothing here is a result until it leaves by the battery
 or the funnel; grades are the repository ladder. Nothing here is evidence
@@ -146,3 +146,65 @@ specified.
    Davenport-Heilbronn (c > 47), giving the first quantitative
    positivity-failure height for the 2026 spectral programme and a clean
    discriminating statistic to report as an issue.
+
+---
+
+# ADDENDUM — second wave, 2026-08-17 (later sessions)
+
+The token cutoff ended the first wave; a second session salvaged all
+checkpointed state, then ran four more arms. Everything below is in the
+ledger with full records; grades as stated there.
+
+## The best result upgraded
+
+The Bian audit grew from "the published table is defective" into a
+complete replacement of the thesis's quantitative content:
+
+1. **RF-C007.** The thesis's own bound formula (11.5), validated on two
+   external controls (Montgomery's 2/3, Farmer-Gonek's 0.858384),
+   evaluates the thesis's own printed table to vacuous bounds
+   (-202/36855 and -10284002/1216215). The printed headlines 95.44% and
+   97.74% do not follow from the printed data by the printed formula.
+2. **RF-C008 (PROMOTED).** The corrected coefficients collapse to an
+   operator resolvent; every corrected row is entire (derived
+   Gevrey-1/2 tail bound, the exact property whose absence capped the
+   thesis); two disjoint exact engines agree on every coefficient
+   (kappa = 2 to i = 40, kappa = 3 to i = 28, resolvent values to
+   i = 81/51). Consequences under RH + the thesis's Theorem 1
+   hypotheses: at least 0.953261 of zeros of the second xi derivative
+   are simple (0.957840 at the interior alpha optimum, exact rational
+   243/250), exceeding the unreproducible printed 0.9544; for the third
+   derivative the route is honestly vacuous at alpha -> 1 (series
+   converges to -0.8556) and the alpha optimum 0.4927 stays far below
+   Conrey's unconditional 0.9666. P-recursive structure is ruled out at
+   orders R, D <= 6 in nine normalizations.
+
+## Also landed in the second wave
+
+- **RF-C009.** First positivity failure of the truncated Weil form on
+  the RH-violating rival: (c, N) = (31, 60), enclosure-checked, zeta
+  control positive at the same cell, mechanism pinned to the off-line
+  pair (localization + dictionary attribution), second negative
+  eigenvalue tracking a second off-line pair (polished root
+  0.6508300806 + 114.1633427308i). Published as issue #57.
+- **RF-C003 caveat upgraded.** The window optimum is the unique strictly
+  positive stationary point across 336 starts and exactly unique on the
+  quartic slice; sup F is bracketed by exact rationals
+  [0.685287032176998, 0.892744211644411]. Global optimality remains
+  open and is stated so.
+
+## Revised next three experiments
+
+1. Write the general proof of the resolvent identity and the Gevrey-1/2
+   bound with explicit constants (currently derived with outline), then
+   attack the remaining B-growth tail so the 0.9578 claim carries only
+   RH, not the truncation reading. A Lean formalization of the
+   finite-witness layer (the three table defects and the (11.5)
+   evaluations) is formalization-shaped and would put kernel grade on
+   the audit.
+2. Close the [0.6853, 0.8927] window bracket: rule out near-two-point
+   limiting spectral measures for windowed sine-Gram operators (needs
+   third-moment information; the machinery for it now exists in
+   sine_gram/).
+3. The configuration-level LP against the 0.68185 ceiling (unchanged
+   from the first wave; needs the source paper's N = 256 artifact).
