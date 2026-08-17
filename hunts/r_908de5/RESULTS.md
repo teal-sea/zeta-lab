@@ -133,7 +133,12 @@ That is a bounded piece of generator work, and it is not this hunt's budget.
   `ZetaLean.Pub1.CertAtoms`, were killed with exit 137 (out of memory) after
   489 s and 733 s, because the build was sharing a 4-core, 15 GB container
   with this hunt's exact-rational sweep. That is a resource verdict, not a
-  proof verdict, and it is recorded rather than rounded up.
+  proof verdict, and it is recorded rather than rounded up. A targeted rebuild
+  of the two on an idle machine put `ChebyshevBounds` through in 8.5 s and
+  carried `Pub1.CertAtoms` past 1245 s, well beyond the 733 s at which it was
+  killed, without failing — but it had not finished when this hunt closed, so
+  what is on the record is "8801/8803 built, two OOM kills under contention,
+  rebuild in progress", and not the word green.
 
 ## What this does not settle
 
