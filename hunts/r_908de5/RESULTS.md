@@ -140,6 +140,27 @@ That is a bounded piece of generator work, and it is not this hunt's budget.
   what is on the record is "8801/8803 built, two OOM kills under contention,
   rebuild in progress", and not the word green.
 
+  **Settled 2026-08-17, after this hunt closed.** The rebuild the paragraph
+  above left unfinished was run to completion on an idle 64 GB machine, from
+  the same `origin/main` (`ba657c7`) with `lean/` byte-identical to it —
+  `git diff ba657c7 HEAD -- lean/` empty, so this reads the tree the hunt
+  reported on and not a repaired one. **`lake build` completed all 8803
+  targets, exit 0, zero `error:` lines**, and exits 0 again on an immediate
+  second invocation. `ZetaLean.Pub1.CertAtoms` — the module killed at 733 s —
+  elaborated in **27 m 33 s** without approaching failure;
+  `ZetaLean.ChebyshevBounds` was never in doubt after its 8.5 s clear. So the
+  reading the hunt declined to round up was the right call and the answer it
+  was waiting for is: **the two kills were the container, not the proofs.**
+
+  Recorded here rather than by editing the paragraph above, because the
+  hunt's refusal to say *green* on the evidence it had is the part worth
+  keeping. What this still does not settle: it is one machine, so it bounds
+  the memory a clean build needs from above and nothing else, and CI has not
+  been shown to have that headroom. The operator note that Lean builds and
+  heavy Python sweeps must be scheduled serially in a 15 GB container stands
+  unchanged — this measurement is the reason it stands, not a reason to drop
+  it.
+
 ## What this does not settle
 
 * **The 12-site sample in the non-chain row.** The full 104-site non-chain
