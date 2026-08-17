@@ -318,6 +318,226 @@ Caveats, stated plainly:
   items 2 and 3) but proves neither asymptotic; they remain inherited
   analytic debts of the source, shared equally by its window and ours.
 
+## 9. Global optimality: landscape, exact slices, and a derived outer bound
+
+Section 4's caveat said plainly that 0.6852870321770 was a local-search
+outcome and that global optimality over the admissible class was not
+claimed. This section settles as much of the global question as honest
+rigor allows. Scripts: `global_bound.py` (derived outer bound, exact
+rational arithmetic), `global_landscape.py` (EL landscape, measured),
+`global_slice.py` (exact quartic-slice supremum, measured higher slices);
+working log `global_notes.md`. Every script re-verifies the exact rational
+F(v*) of section 5 before computing anything, and the landscape script
+carries a freshly written mpmath Gauss-Legendre implementation of the
+closed forms (no shared engine with `functional.py`) that agrees with the
+exact rational to 50 digits (the gate demanded 25).
+
+### 9.1 The outer bound: sup F <= 0.892744211644 (derived, exact rationals)
+
+The chain runs through a central-moment identity. With l1 = 1 and
+m0 = m1 = 1, m2 = 1 + D2, m3 = 1 + 3 D2 + D3, the quantities D2 and D3
+are the second and third central moments about 1 of the limiting spectral
+measure mu_v of A = H/l1, so
+
+    F = 2 m2 - m3 = 1 - int lam (lam - 1)^2 dmu_v(lam).
+
+For every finite N the moments m_k^(N) = E tr A^k / N are moments of the
+expected empirical spectral measure, a positive measure on [0, inf)
+because H is Gram, hence PSD. Three consequences survive the limit that
+defines m_k:
+
+1. F <= 1 (lam (lam-1)^2 >= 0 on [0, inf)): the concentration divergence
+   and the flat-window 2/3 both sit under an unconditional ceiling.
+2. F <= 1 - D2^2 pointwise in v (Cauchy-Schwarz (m2)^2 <= m1 m3).
+3. sup F <= 1 - (inf D2)^2, since 1 - D2^2 is decreasing in D2 >= 0.
+
+inf D2 is a quadratic problem solved with exact rational arithmetic:
+D2 = <v, (I - T) v>/l1^2 with T the tri-kernel operator on B (Fourier
+multiplier sinc^2 >= 0, tr T^2 = 1/2 exactly, so ||T|| <= 1/sqrt(2) < 1),
+and for any c and any window normalised to int v = 1,
+
+    <v, (I-T) v> >= 2 c - c^2 <1, (I-T)^{-1} 1>.
+
+T maps polynomials to polynomials, so t_k = <1, T^k 1> are exact
+rationals; with K = 44 terms and the tail bounded by
+t_44 / (1 - 707107/1000000) (valid since 707107^2 >= 5 * 10^11 makes
+707107/1000000 an upper bound for 1/sqrt(2) >= lam_max), the exact
+rational U = 3.053441685709720... satisfies U >= <1, (I-T)^{-1} 1>, and
+c = 1/U gives
+
+    inf D2 >= 1/U = 0.327499295198...,
+    sup F <= 1 - (1/U)^2 = 0.892744211644411...   (exact rational).
+
+Grade: derived inequality chain, exact rational constants end to end,
+resting on the hardened closed forms of section 2 inside the source
+paper's framework. Cross-checks: the T-route D2 equals m2 - 1 from
+`functional.py` as an exact identity of Fractions at two windows; a
+trapezoid-grid discretization of (I-T) v = c converges to the same U with
+O(h^2); and the Neumann window w_K = sum_{k<=K} T^k 1 (nonnegative
+because T preserves nonnegativity) gives the exact upper bracket
+D2(w_24) = 0.327499296325..., so the cone infimum of D2 is pinned to a
+window of width 1.1e-9 and the grid minimizer is strictly positive
+(edge/center = 0.760), making the positivity constraint inactive for the
+D2 problem.
+
+The bound is sharp for its inputs: among positive measures on [0, inf)
+with mean 1 and second central moment d, the maximum of
+int (2 lam^2 - lam^3) is exactly 1 - d^2, attained by
+(d/(1+d)) delta_0 + (1/(1+d)) delta_{1+d}. With inf D2 pinned to 1e-9,
+the value of this relaxation lies in [0.8927442109, 0.8927442116]:
+further progress on the outer bound requires excluding near-two-point
+spectral measures for actual windowed sine-Gram operators (a
+transition-layer statement in the spirit of time-band limiting theory),
+not more computation. That exclusion is the honestly-open part.
+
+For calibration, the same chain pointwise at v* gives 1 - D2(v*)^2 =
+0.892381..., against the true F(v*) = 0.685287...: essentially the whole
+gap of the method is the Cauchy-Schwarz step, which charges nothing for
+third-central-moment structure. The F-optimizer is close to but distinct
+from the D2 minimizer: at the (exactly evaluated) Neumann window w_12,
+D2 = 0.327499354, F = 0.684255566: the optimum spends 5.5e-4 of D2 to
+buy back 1.0e-3 of F through D3.
+
+### 9.2 The first-order landscape (measured)
+
+The EL stationarity system g = dF/dv = 0 (a quadratic integral equation;
+explicit form in `functional.gradient_field`) was SOLVED, not merely
+maximized, from random starts in three parametrizations
+(`global_landscape.py`), so saddles and boundary stationary points were
+findable, not just maxima:
+
+- Cosine spectral, v = 1 + sum_{k<=J} c_k cos(2 pi k s), J = 6/8/10/12,
+  150 starts, all converged (Levenberg-Marquardt on the projected system
+  P_k = int g cos(2 pi k s) = 0). At every J exactly ONE root has v > 0,
+  and it is the known optimum; the restricted critical value climbs
+  0.685275 / 0.685282 / 0.685284 / 0.685285 with J (this basis carries an
+  endpoint-kink truncation bias; its role here is root counting, not
+  precision). Every other root (2 to 4 per J) is sign-changing, i.e.
+  leaves the cone, with F <= 0.598 and 46/50, 45/50, 22/25, 19/25 of the
+  starts landing on the positive root.
+- Squared Chebyshev, v = w^2, J = 6/8/10, 120 starts, 118 converged
+  (least squares on the analytic gradient dF/da). The strictly positive
+  stationary point is unique at every J and identical to twelve digits,
+  F = 0.685287032177 (59 hits across J). All other stationary points (12
+  to 16 per J) are windows TOUCHING ZERO at 1 to 8 isolated points;
+  the best of them sits far below the optimum (0.6460 at J = 6, 0.6644 at
+  J = 8, 0.6723 at J = 10), and the family decays with contact count down
+  to strongly negative F (plus one degenerate l1 -> 0 artifact).
+- Piecewise-linear cone with the exact lattice-aligned evaluator,
+  n = 41 and 81 knots, 42 deliberately diverse starts (flat, cosine,
+  quartic, three compact-support widths, bimodal, increasing profile,
+  edge-heavy, randoms): every start converges to the SAME maximum,
+  zero active knots (positivity inactive), KKT residual <= 5e-8,
+  F = 0.685287031812 (n = 41) and 0.685287032154 (n = 81), the known
+  pw-representation bias below the optimum. A separate Fischer-Burmeister
+  stationarity solve (n = 21, 8 starts, 6 converged) finds exactly one
+  KKT point, the optimum again: no stationary point with active
+  positivity constraints was found anywhere.
+
+Hessian at the optimum (cosine basis, 11 directions including the scaling
+ray): one numerically exact zero eigenvalue along the scaling ray
+(|H . ray| ~ 1e-10, eigenvalue 4e-12) and ten negative eigenvalues in
+[-2.06, -1.76]; signature 0 positive / 1 zero / 10 negative, i.e. a
+genuine local maximum modulo scale invariance, not a saddle.
+
+Landscape verdict (measured): 336 stationarity, KKT, and maximization
+starts across three parametrizations and ten basis resolutions produced exactly
+one strictly positive stationary window, the reported optimum. Every
+other stationary object either leaves the cone (sign-changing) or touches
+v = 0 at isolated points with F at most 0.6723. The best F ever seen by
+anything in this study is 0.685287032177002 (float evaluation of the
+Chebyshev stationary point), i.e. the claimed sup was never beaten beyond
+2e-15 of float noise.
+
+### 9.3 Exact slice suprema and a two-sided witness bracket
+
+The quartic slice v = 1 + q1 s^2 + q2 s^4 is settled exactly
+(`global_slice.py`). On it F is a rational function of (q1, q2) of degree
+3/3, the admissible region is A = {psi(u) = 1 + q1 u + q2 u^2 >= 0 on
+[0, 1/4]}, and sup_A F is located by compactification: interior critical
+points, the two exact boundary families (endpoint zero v(1/2) = 0, i.e.
+q2 = -16 - 4 q1 with q1 >= -8; interior double root (q1, q2) =
+(-2/u, 1/u^2), u in (0, 1/4]), and the arc at infinity, where along
+admissible recession directions h = alpha s^2 + beta s^4 >= 0 the limit
+of F is F(h) by scale invariance and continuity (the denominator's
+leading form l1(h) = alpha/12 + beta/80 is strictly positive there).
+Results, all in exact arithmetic:
+
+- The lex Groebner eliminant of the critical system factors as
+  (cubic) * (quartic) with 5 real roots in q2; exactly ONE critical pair
+  is admissible: q2 = 1.15904242554051... (root of 53574903041239 q2^4
+  - 7719414292779072 q2^3 - 126958598530649600 q2^2
+  + 34764906650381107200 q2 - 40111525465989120000), q1 =
+  -1.46701866547..., with
+
+      F4* = 0.685287023289616136327866177020...
+
+  The four inadmissible critical branches carry F = 0.4675, -1.396,
+  -371.9, -41041.9.
+- Boundary: the endpoint-zero family peaks at F = 0.62175582 (its unique
+  admissible critical point); the corner window (1 - 4 s^2)^2 gives
+  exactly 610/3003 = 0.203130...; the double-root family stays below
+  -0.21.
+- Arc at infinity: everything is <= -0.195 (worst case -10.5 on the
+  double-root family's concentration end).
+
+So sup over the quartic slice = F4*, attained at the unique admissible
+critical point (derived, exact arithmetic; compactification argument as
+above). Consistency: the rational witness v* of section 5 sits 1.55e-12
+below F4* (exact separation), and F4* sits 8.887e-9 below the full-space
+measured sup, exactly the gap section 5 already reported.
+
+Higher slices (measured, 30 starts each): degree 6 reaches
+0.6852870319222, degree 8 reaches 0.6852870321770 (all thirteen digits of
+the claimed sup), degree 10 the same to 1e-13. Nothing beat it. Polishing
+the degree-8 optimum and rounding to clean rationals gives an exactly
+admissible witness (Sturm count: psi has no root in [0, 1/4]):
+
+    v8(s) = 1 - (36773/25000) s^2 + (744/625) s^4 + (1341/25000) s^6
+            - (3397/6250) s^8,
+    F(v8) = 8273865220036096559249598473358
+            / 12073576226528772158039668492375  =  0.685287032176620,
+
+within 3.5e-13 of the measured sup. Pushing harder (Chebyshev J = 16,
+then exact rational evaluation of the resulting degree-44 dyadic-
+coefficient polynomial window, v = w^2 >= 0 automatic) gives the
+sharpest exact witness:
+
+    F = 0.685287032176998885912082211843   (exact rational, 208-digit
+                                            numerator and denominator),
+
+2.1e-15 below the float-measured sup. The global question is therefore
+bracketed by exact rationals on both sides:
+
+    0.685287032176998  <=  sup F  <=  0.892744211644412.
+
+### 9.4 Verdict on the section 4 caveat
+
+What changes:
+
+| statement | grade |
+|---|---|
+| sup F <= 1 (ceiling for every admissible window) | derived |
+| sup F <= 1 - (1/U)^2 = 0.892744211644411, U exact rational | derived chain on hardened closed forms |
+| inf D2 in [0.3274992952, 0.3274992963] | derived two-sided, exact rationals |
+| sup over quartic slice = F4* = 0.68528702328961614..., at the unique admissible critical point | derived, exact arithmetic |
+| sup F >= 0.685287032176998885912... (degree-44 dyadic witness; clean degree-8 witness v8 gives 0.685287032176620) | exact rational arithmetic at explicit witnesses |
+| unique strictly positive stationary window across 336 starts, 3 parametrizations, 10 resolutions; everything else leaves the cone or touches v = 0 with F <= 0.6723 | measured |
+| the optimum is a genuine local maximum (Hessian: one zero mode = scaling, all other eigenvalues negative) | measured |
+
+What does not change: global optimality over the full admissible class
+remains open. The honest state is a factor-1.30 window
+[0.685287, 0.892744] whose upper end is the exact value of the
+(m1, m2)-moment relaxation; closing it requires spectral information
+beyond the second moment (ruling out near-two-point limiting spectral
+measures for windowed sine-Gram operators), which is research, not
+computation. Within everything searched or solved exactly, the reported
+optimum is the unique candidate: RF-C003's caveat can be upgraded from
+"local search outcome, global optimality not claimed" to "unique interior
+critical point across all parametrizations tried, exactly unique on the
+quartic slice, never exceeded anywhere, and globally capped by a derived
+bound 0.2075 above it; global optimality itself remains open".
+
 ## Files
 
 - `functional.py`: derivation notes, four evaluators (float GL, exact
@@ -328,6 +548,13 @@ Caveats, stated plainly:
   writes `best_window.json`.
 - `enclose.py`: two-backend ball enclosures, exact positivity and
   monotonicity, the strict inequality, the new constant.
+- `global_bound.py`: the derived outer bound sup F <= 0.892744211644411
+  (exact rational chain; section 9.1).
+- `global_landscape.py`: EL landscape, KKT search, Hessian, best-ever
+  tracker, and the independent 50-digit evaluator gate (section 9.2).
+- `global_slice.py`: exact quartic-slice supremum and degree 6..10 slice
+  multistarts (section 9.3).
+- `global_notes.md`: the working checkpoint log for section 9.
 
 All four scripts are runnable standalone with `.venv/bin/python` from the
 repo root and re-produce every number in this file.

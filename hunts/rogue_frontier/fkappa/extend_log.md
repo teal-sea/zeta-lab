@@ -155,3 +155,4 @@ coefficients_ext.json immediately (atomic replace) as computed.
   procs=4 (row3's cores freed; two foreign jobs still share the box).
 - [diag] runner start, imax=24, procs=4, seeds up to i=21
 - [diag] i=19: 54.2s gate-ok bound_thru_i=-39257.617847 root=2.3613 c4=174946
+- [diag] i=20: 176.4s gate-ok bound_thru_i=79806.575974 root=2.3549 c4=174946
