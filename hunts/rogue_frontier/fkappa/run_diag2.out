@@ -17,3 +17,4 @@ loaded 174946 cached inner constants
 - [diag] i=16: 1.5s gate-ok bound_thru_i=4638.388395 root=2.3795 c4=174946
 - [diag] i=17: 5.1s gate-ok bound_thru_i=-9463.175725 root=2.3737 c4=174946
 - [diag] i=18: 16.7s gate-ok bound_thru_i=19290.155453 root=2.3676 c4=174946
+- [diag] i=19: 54.2s gate-ok bound_thru_i=-39257.617847 root=2.3613 c4=174946
