@@ -135,3 +135,23 @@ def test_quartic_gaps_match_the_manuscript_claims(built):
     # and they are not vacuously small
     assert built["gap_simple"] > Fraction(9, 10 ** 7)
     assert built["gap_distinct"] > Fraction(4, 10 ** 7)
+
+
+# --------------------------------------------- manuscript gap display pair
+
+
+def test_gap_display_pair_is_consistent_and_bounding(built):
+    """The manuscript prints one pair of quartic-to-ceiling gaps. They must be
+    upper bounds for the exact gaps, and must preserve the exact identity
+    gap_D = gap_H / 2 at display precision, so the paper cannot print a pair
+    that fails a reader's halving check."""
+    gh, gd = built["gap_simple_display"], built["gap_distinct_display"]
+    assert gh >= built["gap_simple"]
+    assert gd >= built["gap_distinct"]
+    assert gd == gh / 2
+    assert built["gap_distinct"] == built["gap_simple"] / 2
+
+
+def test_gap_display_matches_the_values_printed_in_the_manuscript(built):
+    assert certify_display.sci(built["gap_simple_display"], 4) == "9.854e-7"
+    assert certify_display.sci(built["gap_distinct_display"], 4) == "4.927e-7"

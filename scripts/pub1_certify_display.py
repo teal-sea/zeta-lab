@@ -115,6 +115,36 @@ def dec(x: Fraction, places: int) -> str:
     return f"{sign}{s[:-places]}.{s[-places:]}" if places else f"{sign}{s}"
 
 
+def round_up_sig(x: Fraction, sig: int) -> Fraction:
+    """Smallest number with `sig` significant decimal digits that is >= x > 0."""
+    if x <= 0:
+        raise ValueError("positive values only")
+    e = 0
+    y = x
+    while y >= 1:
+        y /= 10
+        e += 1
+    while y < Fraction(1, 10):
+        y *= 10
+        e -= 1
+    # x = y * 10^e with 1/10 <= y < 1
+    return round_up(y, sig) * Fraction(10) ** e
+
+
+def sci(x: Fraction, sig: int) -> str:
+    """Render as d.ddd x 10^-k, exactly (no float touches a displayed digit)."""
+    e = 0
+    y = x
+    while y >= 1:
+        y /= 10
+        e += 1
+    while y < Fraction(1, 10):
+        y *= 10
+        e -= 1
+    mant = y * 10                      # 1 <= mant < 10
+    return f"{dec(round_up(mant, sig - 1), sig - 1)}e{e - 1}"
+
+
 def agreeing_decimals(lo: Fraction, hi: Fraction, cap: int = 40) -> int:
     """Number of decimal places to which lo and hi agree after truncation."""
     for p in range(cap, -1, -1):
@@ -318,8 +348,25 @@ def build() -> dict[str, object]:
     r_quart, t_quart = R_F1(QUARTIC)
     h_flat, h_quart = 2 - r_flat, 2 - r_quart
     d_flat, d_quart = (1 + h_flat) / 2, (1 + h_quart) / 2
+    gap_h = e["H_lower"] - h_quart
+    gap_d = e["D_lower"] - d_quart
+    # The manuscript prints one consistent pair.  Round the simple-zero gap
+    # outward to 4 significant figures and *derive* the distinct-zero gap by
+    # halving, so the exact identity gap_D = gap_H / 2 survives into the paper.
+    gap_h_disp = round_up_sig(gap_h, 4)
+    gap_d_disp = gap_h_disp / 2
+    assert gap_h_disp >= gap_h, "displayed simple gap is not an upper bound"
+    assert gap_d_disp >= gap_d, "displayed distinct gap is not an upper bound"
+    assert gap_d_disp == round_up_sig(gap_d, 4), (
+        "halving the displayed simple gap disagrees with rounding the distinct "
+        "gap independently; the paper would print an inconsistent pair"
+    )
+    assert gap_d == gap_h / 2, "exact identity gap_D = gap_H / 2 failed"
+
     return {
         "k": k, "z": z, "e": e,
+        "gap_simple_display": gap_h_disp,
+        "gap_distinct_display": gap_d_disp,
         "flat": {"R": r_flat, "H": h_flat, "D": d_flat, "tail": t_flat},
         "quart": {"R": r_quart, "H": h_quart, "D": d_quart, "tail": t_quart},
         "gap_simple": e["H_lower"] - h_quart,
@@ -371,8 +418,10 @@ def report(b) -> None:
         d = b[key]
         print(f"    {nm:8s} R={_f(d['R'], 12)}  H={_f(d['H'], 12)} (src {exp_h})"
               f"  D={_f(d['D'], 12)} (src {exp_d})   series tail < {float(d['tail']):.1e}")
-    print(f"\n    gap H* - H(quartic) = {float(b['gap_simple']):.6e}   (< 1.0e-6 : {b['gap_simple'] < Fraction(1, 10**6)})")
-    print(f"    gap D* - D(quartic) = {float(b['gap_distinct']):.6e}   (< 5.0e-7 : {b['gap_distinct'] < Fraction(5, 10**7)})")
+    print(f"\n    gap H* - H(quartic) exact = {float(b['gap_simple']):.6e}   -> manuscript prints {sci(b['gap_simple_display'], 4)}")
+    print(f"    gap D* - D(quartic) exact = {float(b['gap_distinct']):.6e}   -> manuscript prints {sci(b['gap_distinct_display'], 4)}")
+    print(f"    displayed pair satisfies gap_D = gap_H / 2 exactly : "
+          f"{b['gap_distinct_display'] == b['gap_simple_display'] / 2}")
     print(f"\n[5] rho = {k['rhoC']}  (~{float(k['rhoC']):.3e}, < 1.6e-20 : {k['rhoC'] < Fraction(16, 10**21)})")
     print("\n" + "=" * 74)
     print("ALL DISPLAY INVARIANTS HOLD")
@@ -400,6 +449,11 @@ def manifest(b) -> None:
     print(f"D.digits={e['D_digits']}")
     print(f"H.display={dec(round_down(e['H_lower'], e['H_digits']), e['H_digits'])}")
     print(f"D.display={dec(round_down(e['D_lower'], e['D_digits']), e['D_digits'])}")
+    print(f"gap.simple={sci(b['gap_simple_display'], 4)}")
+    print(f"gap.distinct={sci(b['gap_distinct_display'], 4)}")
+    _tex = lambda v: sci(v, 4).replace("e-", " \\times 10^{-") + "}"
+    print(f"gap.simple.latex={_tex(b['gap_simple_display'])}")
+    print(f"gap.distinct.latex={_tex(b['gap_distinct_display'])}")
     print(f"D.lower={e['D_lower']}")
     print(f"D.upper={e['D_upper']}")
 
