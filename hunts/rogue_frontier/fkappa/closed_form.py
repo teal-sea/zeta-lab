@@ -54,41 +54,93 @@ import os
 from fractions import Fraction
 from math import factorial as fact
 
-import sympy as sp
-
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from validate_pairs import true_C
 
+# ---- truncated multivariate polynomial arithmetic over Q ----------------
+# monomial: tuple of exponents over variables (y_1..y_l, z_1..z_k, lam, mu)
+# truncation: y_j <= v_j, z_j <= w_j, lam <= 1, mu <= 1.
+
+
+class TPoly:
+    def __init__(self, caps, d=None):
+        self.caps = caps
+        self.d = d or {}
+
+    @classmethod
+    def const(cls, caps, c):
+        return cls(caps, {tuple(0 for _ in caps): Fraction(c)})
+
+    @classmethod
+    def var(cls, caps, idx, c=1):
+        mono = tuple(1 if i == idx else 0 for i in range(len(caps)))
+        return cls(caps, {mono: Fraction(c)})
+
+    def add(self, other):
+        d = dict(self.d)
+        for m, c in other.d.items():
+            d[m] = d.get(m, Fraction(0)) + c
+            if not d[m]:
+                del d[m]
+        return TPoly(self.caps, d)
+
+    def mul(self, other):
+        caps = self.caps
+        d = {}
+        for m1, c1 in self.d.items():
+            for m2, c2 in other.d.items():
+                m = tuple(a + b for a, b in zip(m1, m2))
+                if any(e > cap for e, cap in zip(m, caps)):
+                    continue
+                d[m] = d.get(m, Fraction(0)) + c1 * c2
+        return TPoly(caps, {m: c for m, c in d.items() if c})
+
+    def inv(self):
+        """1/self, assuming constant term 1 + u with u nilpotent under
+        truncation: geometric series."""
+        caps = self.caps
+        zero = tuple(0 for _ in caps)
+        c0 = self.d.get(zero, Fraction(0))
+        assert c0 != 0
+        u = TPoly(caps, {m: -c / c0 for m, c in self.d.items() if m != zero})
+        out = TPoly.const(caps, 1)
+        term = TPoly.const(caps, 1)
+        for _ in range(sum(caps)):
+            term = term.mul(u)
+            if not term.d:
+                break
+            out = out.add(term)
+        return TPoly(caps, {m: c / c0 for m, c in out.d.items()})
+
 
 def C_closed(v, w):
-    """Evaluate the generating identity for C(v,w)."""
+    """Evaluate the generating identity for C(v,w) by truncated series."""
     l, k = len(v), len(w)
-    ys = sp.symbols(f"y1:{l+1}")
-    zs = sp.symbols(f"z1:{k+1}")
-    lam, mu, t = sp.symbols("lam mu t")
-    Phi = sp.Integer(1)
+    caps = list(v) + list(w) + [1, 1]   # y-caps, z-caps, lam, mu
+    caps = tuple(caps)
+    LAM, MU = len(v) + len(w), len(v) + len(w) + 1
+    Phi = TPoly.const(caps, 1)
+    one = TPoly.const(caps, 1)
     for j in range(l):
         for jp in range(k):
-            c = t - (lam if j == l - 1 else 0) - (mu if jp == k - 1 else 0)
-            Phi *= ((ys[j] + c) * (zs[jp] + c)) / \
-                   (c * (ys[j] + zs[jp] + c))
-    expr = sp.diff(Phi, lam, mu)
-    expr = expr.subs({lam: 0, mu: 0, t: 1})
-    expr = sp.together(expr)
-    # Taylor coefficient of prod y_j^{v_j} z_j^{w_j}
-    for sym, order in list(zip(ys, v)) + list(zip(zs, w)):
-        expr = sp.series(expr, sym, 0, order + 1).removeO()
-        expr = expr.coeff(sym, order)
-        expr = sp.expand(expr)
-    coeff = sp.nsimplify(expr)
-    pref = sp.Integer(1)
-    for x in v:
+            # c = 1 - lam*[j=l-1] - mu*[jp=k-1]   (t = 1)
+            c = TPoly.const(caps, 1)
+            if j == l - 1:
+                c = c.add(TPoly.var(caps, LAM, -1))
+            if jp == k - 1:
+                c = c.add(TPoly.var(caps, MU, -1))
+            y = TPoly.var(caps, j)
+            z = TPoly.var(caps, l + jp)
+            num = y.add(c).mul(z.add(c))
+            den = c.mul(y.add(z).add(c))
+            Phi = Phi.mul(num).mul(den.inv())
+    # coefficient of prod y^{v} z^{w} lam^1 mu^1
+    target = tuple(list(v) + list(w) + [1, 1])
+    coeff = Phi.d.get(target, Fraction(0))
+    pref = 1
+    for x in list(v) + list(w):
         pref *= fact(x)
-    for x in w:
-        pref *= fact(x)
-    val = sp.Rational(pref, fact(sum(v) + sum(w) + 1)) * coeff
-    val = sp.Rational(sp.simplify(val))
-    return Fraction(int(val.p), int(val.q))
+    return coeff * Fraction(pref, fact(sum(v) + sum(w) + 1))
 
 
 def main():
