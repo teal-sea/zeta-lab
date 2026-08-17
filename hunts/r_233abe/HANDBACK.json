@@ -1,0 +1,37 @@
+{
+  "run_id": "6a292a39-c400-4412-932e-da6ff1ab5bab",
+  "status": "settled",
+  "conclusion": "Both threads left in HardyRamanujantheorem.lean by run 43d363c1 are closed with zero sorrys and the standard three axioms: omega is bridged to ArithmeticFunction.cardDistinctFactors by rfl and the density theorem is restated so that every name in it is Mathlib's, and the pointwise log log n form is proved from the density form by splitting (0,N] at the square root of N. No existing statement, constant or proof was weakened or edited; the pointwise form consumes the variance bound (275) and the Mertens band (16) exactly as they stand.",
+  "confidence": "Lean-arm confidence on the mathematics: the kernel accepted it, grep confirms zero sorrys, and #print axioms on all five new public statements returns only propext, Classical.choice, Quot.sound. Someone can lean on it as far as they lean on the Hardy-Ramanujan theorem that was already there, because nothing underneath it changed. Two caveats worth naming rather than burying. First, the bridge is a rfl between two library definitions that are spelled differently (n.primeFactors.card here, n.primeFactorsList.dedup.length in Mathlib); it is true today and would break if either definition were restated, which is exactly why it is now pinned by a theorem instead of assumed by a docstring. Second, the pointwise statement is the literal standard one, so the finitely many n below e^e (where log log n is negative and the condition is vacuously met) are inside the exceptional set; that is the classical statement's own convention and it costs nothing in density, but a reader comparing statement shapes should see it stated rather than discover it.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "Extend the theorem to ArithmeticFunction.cardFactors (big Omega, prime factors with multiplicity), which has the same normal order log log n",
+      "why_it_might_matter": "It would put a second Mathlib-named arithmetic function under the landed theorem for one self-contained double-count, and Omega is the one more often wanted downstream than omega",
+      "first_step": "Prove sum over n <= N of (Omega n - omega n) = sum over prime powers p^k <= N with k >= 2 of floor(N/p^k) <= 2N, in the style of sum_omega_eq_sum_div already in the file, then feed it through the same Chebyshev step"
+    },
+    {
+      "what": "The Erdos-Kac strengthening is out of reach and the file should say so where the pointwise form now sits",
+      "why_it_might_matter": "It is the obvious next question a reader asks after the pointwise form, and leaving it unmarked invites a run to be launched at it on the assumption that the second-moment machinery extends",
+      "first_step": "It does not extend: the method of moments needs all higher moments of the prime-indicator sums plus a CLT. One line in the module docstring naming that as a genuine new development, not a continuation"
+    },
+    {
+      "what": "The variance constant 275 is still hostage to the Mertens band 16, whose largest remaining term is the log 4 in Chebyshev's bound",
+      "why_it_might_matter": "The pointwise form now depends on that band too, so both statements move together; hunts/r_4218d4 prices the slack at 39 percent and identifies its removal as the prime number theorem, not a constant",
+      "first_step": "Not a thread this hunt opened. Recorded only because the dependency widened"
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A preflight that checks for the Lean toolchain itself rather than reading a piped exit status",
+      "why_reusable": "This container had no lake and no ~/.elan at all, so the addendum's 'cd lean && lake exe cache get' printed 'command not found' and the pipeline still exited 0. Any Lean run that trusts that exit status concludes the Mathlib cache is warm when nothing has happened, and only discovers otherwise at first build. scripts/science_preflight.py already does this shape of check for the Python side and reports whether a Lean build is possible at all; the gap is that a Lean-arm brief does not currently tell the run to invoke it first",
+      "first_step": "Have Lean briefs open with scripts/science_preflight.py, or with a two-line 'command -v lake || install elan at the pinned toolchain' guard, before any lake invocation"
+    },
+    {
+      "what": "A short Mathlib-drift list for the pinned v4.33.0-rc2, accumulated across Lean hunts",
+      "why_reusable": "Every compile error this run hit on its first build was a renamed or removed library lemma, not mathematics: le_or_lt and div_add_div_same are gone, rw cannot use the equation lemmas of a noncomputable def, and Tendsto.inv_tendsto_atTop returns the Pi-form inverse that simpa will not reconcile with a beta-reduced lambda. Hunt #37 records that reading the previous run's trap list bought a first-attempt compile; the traps are currently scattered one hunt at a time",
+      "first_step": "Collect the 'what resisted' sections of the Lean hunts into one page under lean/ and have Lean briefs point at it"
+    }
+  ],
+  "notes_for_operator": "Case-log entry taken as Hunt #45 as assigned; #43, #44 and #45 were all free, so no renumbering was needed. One thing the brief could not know and that a reader of a green build should: 'lake build' over the whole ZetaLean package does not currently succeed in this container. ZetaLean.Pub1.CertL2 and ZetaLean.Pub1.CertAtoms log failures. They are outside this hunt's scope, and neither imports anything from ZetaLean.HardyRamanujan (checked by grep over their import closure), so neither can be a consequence of this run's edit. What I did not establish is why they fail: the two modules are expensive (one carries maxHeartbeats 4000000) and re-running them to capture the error was not a good use of the remaining budget, so it is possible this is a container resource limit rather than a source defect. The targeted build of the edited module and its full dependency chain is green; the whole-package build is not. Whether that is a live regression on main or a known state is an allocation question, so it is named here rather than acted on. Budget: the run finished inside 70 minutes, but roughly the first third of it went to installing a toolchain the environment was expected to have, which is the Core candidate above."
+}
