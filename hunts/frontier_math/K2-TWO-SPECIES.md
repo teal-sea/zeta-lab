@@ -181,6 +181,17 @@ only because the widest near component in the whole table is 1.9894; and the
 inner prune of `zone_trade` is a heuristic restricting the *adversary's*
 search.  Neither changes a published number.
 
+The second of those is now settled.  `hunts/r_401bbf/` (2026-08-17) re-solved
+the trade on **every** cell of both cap modes by exhaustive enumeration over
+all multiplicities with `sum m <= 10`, with both of `zone_trade`'s cuts
+removed: max `|delta|` 4.4e-16 across 13200 cell evaluations, no cell above
+1e-15, no margin moved, both worst cells unchanged at +0.0528969 and
++0.0032601.  The residual is float summation noise and takes both signs, while
+a genuine bite could only be positive.  That pass also gives the reason:
+`Kpair` is a square, so every pair charge is nonnegative, and with nonnegative
+charges both cuts are admissible for *any* caps, not only the ones this table
+builds.  The first assumption, the clamp, is still true only by geometry.
+
 The quantifier discipline of defect #19 applies verbatim: this is the
 **first multi-pair case** of blocker 2, not blocker 2.  The blocker's
 statement carries every `k` and per-pair depths; what closes here is

@@ -174,6 +174,33 @@ cannot pay it fails loudly instead of passing at the line. No Lean source
 changed; `lake build` green from a cold toolchain. Nothing here bears on RH
 (`docs/08`), and nothing here is a result until the battery or the funnel says
 so.
+### Hunt #43: the k=2 table with `zone_trade`'s inner prune disabled (`r_401bbf/`)
+
+**Status: settled, outcome (a), on every cell rather than a sample.**
+`k2_closure.zone_trade` cuts its branch-and-bound with a line that refuses to
+descend into a multiplicity which does not immediately improve the running
+value. That cut restricts the *adversary's* search, the unsound direction, so
+wherever it bit the published margin would be optimistic. Hunt #41 measured its
+delta as 0.0 on six binding cells and recorded the assumption as unchecked
+elsewhere. This run re-solved the trade on all 6600 cells in both cap modes,
+13200 evaluations, by exhaustive enumeration over every multiplicity vector
+with `sum m <= 10`, with *both* of the search's cuts removed rather than only
+the one the brief named. Max `|delta|` **4.4e-16**, zero cells above 1e-15, no
+margin moved: worst cells stay at +0.0528969 (signed, tau 12.85) and +0.0032601
+(unsigned, tau 6.33), nonpositive cells 0 in both columns. The residual takes
+both signs, which is what float summation order looks like and is not what a
+bite looks like. The run also supplies the reason, which covers more than the
+table does: the pair charges are `Kpair/200` and `Kpair` is a square, so with
+nonnegative charges the `m = 0` branch dominates every branch the prune drops,
+and both cuts are admissible for *any* caps. The detector-power control is a
+planted instance with one negative charge, where the published search
+understates the trade by 18.6%. `k2_closure.NAMED_GAPS` G2 and
+`K2-TWO-SPECIES.md` now record the discharge; the other assumption Hunt #41
+named, the `Kpair` clamp, is still sound only by geometry. Cost 700 s for the
+census, which is roughly what running the table once costs. Nothing here is
+evidence for or against RH (`docs/08`), and no cap was widened and no zone
+re-tuned.
+
 ### Hunt #42: the O9 numerator fields, and the seam that could not be instantiated (`r_6c7d6a/`)
 
 **Status: settled, and one defect found on the way.** The run was sent to
