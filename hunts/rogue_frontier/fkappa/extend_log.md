@@ -138,3 +138,19 @@ coefficients_ext.json immediately (atomic replace) as computed.
 - [row3] i=27: 409.0s NEW bound_thru_i=-0.855563 root=0.5975 c4=366190
 - [row3] i=28: 407.3s NEW bound_thru_i=-0.855563 root=0.6460 c4=497638
 - [row3] runner done through i=28
+- [milestone] (b) kappa = 3 row COMPLETE through i = 28 (target 28+).
+  The partial bound does NOT turn around: it is converged at
+  -0.855563 (increments < 2e-6 from I = 24 on; the last four partial
+  bounds are -0.855564, -0.855563, -0.855563, -0.855563). At alpha = 1
+  the corrected kappa = 3 machinery therefore yields a vacuous
+  (negative) bound at every reachable depth, settled well before
+  i = 28. |C_{3,i}|^{1/i} trajectory: 0.86 (16) -> 0.80 (20) -> 0.72
+  (23) -> 0.60-0.65 (27-28): the limsup is clearly BELOW 1 (radius of
+  convergence > 1), so the series converges at alpha = 1 and the
+  negative value is what it converges to. The route is not dead,
+  however: alpha-optimization (same reading as RESULTS.md section 5)
+  reaches a POSITIVE bound ~0.493 near alpha = 0.746 for kappa = 3.
+  Exact confirmation of that value at final depth in the report.
+- [plan] row3 stopped at 28 by design; diagonal runner restarted with
+  procs=4 (row3's cores freed; two foreign jobs still share the box).
+- [diag] runner start, imax=24, procs=4, seeds up to i=21

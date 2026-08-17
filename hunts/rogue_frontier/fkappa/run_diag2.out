@@ -1,0 +1,19 @@
+loaded 174946 cached inner constants
+- [diag] i=1: 0.0s gate-ok bound_thru_i=0.666667 root=1.0000 c4=174946
+- [diag] i=2: 0.0s gate-ok bound_thru_i=1.333333 root=2.0000 c4=174946
+- [diag] i=3: 0.0s gate-ok bound_thru_i=0.933333 root=1.5874 c4=174946
+- [diag] i=4: 0.0s gate-ok bound_thru_i=2.000000 root=2.0000 c4=174946
+- [diag] i=5: 0.0s gate-ok bound_thru_i=-0.349206 root=2.1809 c4=174946
+- [diag] i=6: 0.0s gate-ok bound_thru_i=4.603175 root=2.2751 c4=174946
+- [diag] i=7: 0.0s gate-ok bound_thru_i=-5.717813 root=2.3289 c4=174946
+- [diag] i=8: 0.0s gate-ok bound_thru_i=15.710335 root=2.3606 c4=174946
+- [diag] i=9: 0.0s gate-ok bound_thru_i=-28.684701 root=2.3791 c4=174946
+- [diag] i=10: 0.0s gate-ok bound_thru_i=63.124566 root=2.3891 c4=174946
+- [diag] i=11: 0.0s gate-ok bound_thru_i=-126.385416 root=2.3937 c4=174946
+- [diag] i=12: 0.1s gate-ok bound_thru_i=264.053656 root=2.3945 c4=174946
+- [diag] i=13: 0.1s gate-ok bound_thru_i=-538.821578 root=2.3928 c4=174946
+- [diag] i=14: 0.2s gate-ok bound_thru_i=1109.084010 root=2.3894 c4=174946
+- [diag] i=15: 0.5s gate-ok bound_thru_i=-2267.178064 root=2.3849 c4=174946
+- [diag] i=16: 1.5s gate-ok bound_thru_i=4638.388395 root=2.3795 c4=174946
+- [diag] i=17: 5.1s gate-ok bound_thru_i=-9463.175725 root=2.3737 c4=174946
+- [diag] i=18: 16.7s gate-ok bound_thru_i=19290.155453 root=2.3676 c4=174946
