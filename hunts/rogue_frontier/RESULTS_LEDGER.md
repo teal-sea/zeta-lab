@@ -308,3 +308,54 @@ with their mechanism.
   inside one route to formalizing it. The contribution is library-shaped
   content plus one named blocker removed. Nothing here concerns zeta
   or RH.
+
+## RF-C011 — first exact table of the Erdos-Pomerance f(n), and which shape it favours
+
+- **Delivered 2026-08-18 (ERDOS-SCAN arm plus coordinator verification).**
+  Record: `erdos_scan/FINDINGS.md` (17 surviving candidates from a sweep of
+  all 1217 problems, ~20 killed with reasons).
+- **The object.** Erdos problem 710/711: `f(n)` is minimal such that the
+  open interval `(n, n+f(n))` contains distinct `a_1..a_n` with `k | a_k`
+  for every `k <= n`. Erdos offered 2000 rupees for an asymptotic formula.
+  Erdos and Pomerance proved
+  `(2/sqrt e + o(1)) n (log n / log log n)^{1/2} <= f(n) <= (1.7398 + o(1)) n (log n)^{1/2}`,
+  two shapes whose ratio is only `(log log n)^{1/2}`.
+- **What was computed.** `f(n)` is a system of distinct representatives,
+  hence a bipartite matching; `f(n)` is the least window admitting a
+  left-saturating matching. Values (no table exists on the problem page,
+  and OEIS has no such sequence):
+
+      n        100    200    500   1000   2000   4000
+      f(n)     160    340    877   1816   3814   7900
+
+- **Independently verified.** The arm used Kuhn's algorithm; the
+  coordinator re-derived `f(n)` from the definition with a different
+  algorithm (Hopcroft-Karp) and a separate binary search, and reproduces
+  160, 340, 877, 1816, 3814 exactly.
+- **The signal, which is the point.** The two proven shapes move in
+  OPPOSITE directions over the computed range:
+
+      f/(n sqrt(log n))                  0.7456 -> 0.6917   (falling)
+      f/(n sqrt(log n / log log n))      0.9214 -> 0.9851   (rising)
+
+  So the data favour the lower bound's shape, `(log n / log log n)^{1/2}`,
+  as the correct one, with its ratio still climbing toward the proven
+  constant `2/sqrt e = 1.2131` (the `o(1)` is large at these sizes, since
+  `log log 2000 = 2.03`, so this is consistent with the theorem rather
+  than in tension with it).
+- **Grade: measured.** This is data plus a reading of a trend over one
+  decade and a half. It is not a theorem, it does not settle the
+  asymptotic formula, and a trend that reverses further out would
+  overturn the reading. Recorded as the first table, which is checkable
+  by a stranger in seconds, plus an honest direction.
+- **Mining note.** 7 comments on 710, 8 on 711, one self-declared worker
+  on each. Lightly mined, not untouched; no prior table was located.
+
+## Process observation — the shared-checkout hazard, met twice
+
+Both arms reported that a concurrent session in this same checkout swept
+their in-flight files into commits via a broad `git add -A`. That was this
+coordinator, checkpointing against session death. The two habits are in
+direct conflict, and `CLAUDE.md` already names the fix: parallel work
+belongs in `git worktree`s, not in one shared checkout. Recorded because
+the arms were right to flag it and the next campaign should not repeat it.
