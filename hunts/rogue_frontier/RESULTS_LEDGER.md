@@ -263,3 +263,48 @@ with their mechanism.
   signature is identical for zeta and an RH-violating function until the
   truncation resolves the off-line pair, and the failure height is now a
   measured curve, not a conjecture. Nothing here is evidence about RH.
+
+## RF-C010 — the pairing count, kernel-checked (LEAN-MATCH)
+
+- **Delivered 2026-08-18.** Record: `matchings/Matchings.lean`,
+  `matchings/Probe.lean`, `matchings/LOG.md` (11 entries),
+  `matchings/oracle.py`, scope note in `matchings/NOTE.md`.
+- **Statement.** For a finite type with decidable equality and any
+  `s : Finset`, with a pairing represented as an involution fixing
+  everything outside `s`,
+
+      (pairings s).card = if Even s.card then (s.card - 1)!! else 0
+
+  with corollaries `card_pairings_two_mul` (a `2m`-set has `(2m-1)!!`),
+  `card_pairings_eq_zero_of_odd`, `pairings_eq_empty_of_odd`,
+  `two_pow_mul_factorial_mul_card_pairings` (`2^m * m! * count = (2m)!`,
+  the Wick/Isserlis closed form), `even_card_of_pairsUp` (recovers
+  Mathlib's `even_card` in this vocabulary), `card_pairings_univ`.
+- **Grade: kernel-checked.** Zero `sorry`; no `native_decide` in any
+  proof. Coordinator recompiled the file independently of the arm that
+  wrote it: EXIT=0, and all seven public results report
+  `[propext, Classical.choice, Quot.sound]`. 261 substantive lines.
+- **Why it exists.** Hunt #48 (`r_8c3b94`) priced Erdos-Kac in Lean and
+  named this count at step A2c as something "Mathlib does not have". The
+  gap was re-checked here by querying the elaborated environment rather
+  than by grep, because a `#check` can witness presence and never
+  absence: the sweep for `Isserlis`/`Wick` returns empty, and of the 14
+  declarations mentioning `PerfectMatching` the only cardinality result
+  is the parity one. The same object is what this campaign's own
+  `sine_gram` engine enumerates to compute `m_k`, which is how the
+  connection was noticed.
+- **Controls.** Kernel `decide` against the three-route enumeration
+  oracle at n = 0..6 plus, importantly, a PROPER subset
+  (`{0,1,2,3}` inside `Fin 5`, count 3): with `s = univ` the
+  fix-outside-`s` clause is vacuous, so the `Fin n` cases alone cannot
+  see a defect in it. Two lesion tests compile-fail correctly (replacing
+  `(n-1)!!` by `n!!`; deleting the fix-outside clause).
+- **Not done, named so nobody overreads it.** No bridge to
+  `SimpleGraph.Subgraph.IsPerfectMatching` (est. 80-150 lines), and no
+  bridge to `Finpartition`, which is the vocabulary Erdos-Kac step A2c
+  actually consumes (est. 150-250 lines). A2c's *number* is now a
+  theorem; A2c's *structural* need is that bridge and is not written.
+- **Honest scope.** Erdos-Kac is a theorem of 1940 and this is one lemma
+  inside one route to formalizing it. The contribution is library-shaped
+  content plus one named blocker removed. Nothing here concerns zeta
+  or RH.
