@@ -61,3 +61,29 @@ def test_signed_field_is_poisonous_on_the_tight_lattice():
 def test_centre_gas_row_matches_record():
     rec = LANDSCAPE_RECORD["centre_gas"]
     assert abs(centre_gas_row(rec["worst_uniform_lam"]) - rec["row"]) < 5e-4
+
+
+def test_the_centre_gas_row_convention_matches_the_form_itself():
+    """G4's withdrawal, pinned. `centre_gas_row` sums d >= 1 ONCE; the x4
+    factor carries the ordered-pair sum. The net centre-centre cost computed
+    directly from the two-species form must converge to that row, not to
+    twice it — comparing a two-sided chain sum against this one is what made
+    G4 wrong."""
+    import math
+    from two_species import dam, kpair
+    twopi = 2 * math.pi
+    ts_c = [d * twopi for d in range(101)]
+    rep = 2 * sum(kpair(a - b) for i, a in enumerate(ts_c)
+                  for j, b in enumerate(ts_c) if i != j)
+    dmg = 2 * sum(dam(1.0, a - b) for i, a in enumerate(ts_c)
+                  for j, b in enumerate(ts_c) if i != j)
+    net = (dmg - rep) / len(ts_c)
+    row = centre_gas_row(twopi)
+    assert abs(net - row) < 0.01, (net, row)      # converges to the row
+    assert abs(net - 2 * row) > 0.05, "two-sided would be the G4 error"
+
+
+def test_g4_is_withdrawn_with_its_cause_recorded():
+    from two_species import NAMED_GAPS
+    g4 = [g for g in NAMED_GAPS if g.startswith("G4")][0]
+    assert "WITHDRAWN" in g4 and "2.0027" in g4
