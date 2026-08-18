@@ -109,6 +109,52 @@ Also recorded, because it cost this run time: `simp only [o9Box]` and
 asks the elaborator to reduce `rIv b.sLo …` symbolically through the entire
 leaf layer. `unfold o9Box at hb`, then `split at hb`, then one definitional
 `have` does the same job instantly.
+### Hunt #48: Erdős–Kac priced, and one of the two routes is blocked (`r_8c3b94/`)
+
+**Status: settled. A mapping run, not a proving run.** Two earlier runs left
+Erdős–Kac as prose ("a real project", "needs either moment control to all
+orders or a formalised Berry–Esseen route", "out of reach and should be said
+so"). None of that is a coordinate, so this run priced both routes against
+what Mathlib actually carries at this repository's pin, resolving every claim
+by compiling 43 `#check`s rather than by grep. `Probe.lean` in the hunt
+directory is that file; it exits 0 and is imported by nothing.
+
+- **The moment method: ~2,400 to 3,700 lines**, ~1,800 to 2,600 of them novel
+  mathematics. Every obligation is something somebody knows how to write.
+  Hardest step is reindexing k-tuples of primes by the set-partition of the
+  index set: at k = 2 that is `rcases eq_or_ne p q` and costs nothing, uniform
+  in k it has no Mathlib support at all.
+- **The characteristic-function route is blocked, not merely dearer.** It
+  needs the fundamental lemma of sieve theory. Mathlib's sieve
+  (`BoundingSieve`, `siftedSum_le_mainSum_errSum_of_upperMoebius`) is
+  **upper-bound only**; the phrase "fundamental lemma" occurs once in that
+  file, in a docstring. No Lean formalization of it exists.
+- **The reason, and the finding worth keeping**: the moment route needs only
+  k-fold products, so its arithmetic error is `π(y)^k`, polynomial, and it
+  tolerates `y = N^{1/2k}`, which keeps `log log y ~ log log N`. The
+  characteristic function needs all orders at once, so its error is
+  `2^{π(y)}`, which forces `y` down to about `log N`, at which point
+  `log log y` is no longer asymptotic to `log log N` and the theorem's own
+  normalisation dies. The route closes on itself. Derived here, not looked
+  up, and flagged as such.
+- **A prerequisite that looked live is dead.** `hunts/r_0339c1/RESULTS.md`
+  treats tightening the Mertens band `16` as the lever. True for the
+  Hardy–Ramanujan constant `275`; **irrelevant to Erdős–Kac**, which uses the
+  band only as an `O(1)` shift divided by `√(log log N)`. Mertens with its
+  constant is not needed, and this tree does not have it.
+- **Also measured, because a miss is a result**: Mathlib at rev `51e6992e`
+  has an i.i.d.-only CLT and Lévy continuity, and has **no** Berry–Esseen, no
+  Lindeberg, no method of moments, no Carleman, no Gaussian moment beyond the
+  second, no Mertens theorem of any kind, and no Kubilius model.
+  `Nat.stirlingSecond` exists with recurrences and no combinatorial content.
+  Fourteen named misses in `results.json`, each with the term searched for.
+
+**Disposition:** coordinates, not a claim. The recommendation is Route A or
+nothing, with the **k = 4 central moment as a single bounded first file** and
+a stated stop condition (over ~600 lines and the estimate has failed at the
+step that matters). Three sub-obligations are wanted upstream independently of
+whether Erdős–Kac is ever attempted: a triangular-array CLT, the Gaussian
+moments, and a method-of-moments theorem. Nothing here bears on RH.
 
 ### Hunt #44: what the O9 numerator fields actually enclose (`r_938ab4/`)
 
