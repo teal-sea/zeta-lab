@@ -80,7 +80,7 @@ signed by the poster. The threshold and its proof are cited, not claimed.
 > triangle-inequality bounds beta_X of Gonek and Ledoan, and by
 > Montgomery's theorem the real parts of the actual zeros of the partial
 > sums tend to 1, so this constant is not approached by zeros in that
-> family either. - [OPERATOR NAME], [DATE]
+> family either. - Thomas Lince, Aug 18 2026
 
 Attribution inside that comment, so the operator can check it before
 posting: sigma_c and its zero-free half-plane are Belovas et al.'s; the
@@ -103,7 +103,7 @@ comment leans on and should be posted with it):
 > of zeros of analytic almost periodic functions", Carpathian J. Math. 38
 > (2022), no. 2, 489-501.
 
-> [OPERATOR NAME], <a href="[REPOSITORY URL]/hunts/prime_zeta_rightmost">
+> Thomas Lince, <a href="https://github.com/teal-sea/zeta-lab/tree/main/hunts/prime_zeta_rightmost">
 > The rightmost zeros of the prime zeta function</a>, zeta-lab
 > repository, 2026. [The refutation of the conjectures above, the
 > {p prime >= 3} threshold, the tail-subset bound, and interval enclosures
@@ -211,7 +211,7 @@ instrument yields more.
 > arXiv:1805.02041 [math.CV], 2018. [Theorem 6, published as Theorem 4.3:
 > the characterization that makes this constant the supremum.]
 
-> [OPERATOR NAME], <a href="[REPOSITORY URL]/hunts/prime_zeta_rightmost">
+> Thomas Lince, <a href="https://github.com/teal-sea/zeta-lab/tree/main/hunts/prime_zeta_rightmost">
 > The rightmost zeros of the prime zeta function</a>, zeta-lab
 > repository, 2026. [Interval enclosures of this constant on two
 > independent backends.]
