@@ -155,3 +155,65 @@ def test_gap_display_pair_is_consistent_and_bounding(built):
 def test_gap_display_matches_the_values_printed_in_the_manuscript(built):
     assert certify_display.sci(built["gap_simple_display"], 4) == "9.854e-7"
     assert certify_display.sci(built["gap_distinct_display"], 4) == "4.927e-7"
+
+
+# ------------------------------------------- outward-rounded directional decimals
+
+
+def test_negative_upper_bound_is_not_rounded_to_nearest(built):
+    """The exact defect: uSecondDerivBound = -410178/684401 has exact value
+    -0.599324080473289781867..., and round-to-nearest at 18 places yields
+    -0.599324080473289782, which is BELOW it and therefore not a valid upper
+    bound.  A negative upper bound must round toward +infinity."""
+    z = built["z"]
+    exact = z["uSecondDerivBound"]
+    assert exact == Fraction(-410178, 684401)
+    places = z["conc_places"]
+
+    shown = z["u_display"]
+    assert shown >= exact, (
+        f"displayed u'' bound {shown} is not an upper bound for {exact}"
+    )
+
+    # the historical bug, pinned so it cannot silently return
+    from decimal import Decimal, localcontext
+    with localcontext() as ctx:
+        ctx.prec = 60
+        nearest = Fraction(
+            f"{Decimal(exact.numerator) / Decimal(exact.denominator):.{places}f}"
+        )
+    assert nearest < exact, "round-to-nearest no longer reproduces the defect"
+    assert shown != nearest, "the displayed value is still the round-to-nearest one"
+
+
+def test_dec_up_and_dec_down_are_outward_for_negatives_and_positives():
+    up, down = certify_display.dec_up, certify_display.dec_down
+    for x in (Fraction(-410178, 684401), Fraction(410178, 684401),
+              Fraction(-1, 3), Fraction(1, 3), Fraction(-59326318, 10 ** 8)):
+        for places in (2, 8, 18):
+            assert Fraction(up(x, places)) >= x, f"dec_up({x},{places}) not >= x"
+            assert Fraction(down(x, places)) <= x, f"dec_down({x},{places}) not <= x"
+
+
+def test_printed_concavity_chain_is_valid_and_self_consistent(built):
+    """Each printed decimal is a valid bound in its direction, the printed
+    conclusion is the exact sum of the printed summands, and the printed chain
+    is strict -- so a reader adding the printed numbers reaches the printed
+    result and the true statement follows."""
+    z = built["z"]
+    assert z["u_display"] >= z["uSecondDerivBound"]
+    assert z["shown_total"] >= z["exact_total"]
+    assert z["lhs_display"] == z["u_display"] + z["shown_total"]
+    assert z["lhs_display"] >= z["concavity_lhs"]
+    assert z["bound_display"] <= z["concavity_bound"]
+    assert z["lhs_display"] < z["bound_display"]
+
+
+def test_enclosure_endpoints_are_rounded_outward(built):
+    """L <= c* <= U printed at 20 places must not narrow the interval."""
+    e = built["e"]
+    for lo_key, hi_key in (("c_lower", "c_upper"), ("H_lower", "H_upper"),
+                           ("D_lower", "D_upper")):
+        lo, hi = e[lo_key], e[hi_key]
+        assert Fraction(certify_display.dec_down(lo, 20)) <= lo, lo_key
+        assert Fraction(certify_display.dec_up(hi, 20)) >= hi, hi_key
