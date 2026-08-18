@@ -243,8 +243,20 @@ def far_constant(y: float, lo: float = 8.0, hi: float = 400.0,
 def centre_gas_row(lam: float, y: float = 0.5, dmax: int = 200) -> float:
     """Per-centre self-energy of the uniform centre lattice, k -> inf.
 
-    `sum_{d>=1} [4*Dam(2y, d*lam) - 4*Kpair(d*lam)]` (both neighbours), in
-    the x4 normalisation, against the per-centre budget `2*Shq(y)`.
+    `sum_{d>=1} [4*Dam(2y, d*lam) - 4*Kpair(d*lam)]`, in the x4
+    normalisation, against the per-centre budget `2*Shq(y)`.
+
+    **The distance index runs over d >= 1 once, not over both signs**, and
+    that is correct: the two-species form sums over ORDERED pairs, and the
+    factor 4 already carries it. Verified against the form itself rather
+    than argued — the net centre-centre cost per centre computed directly
+    from `four_slack_two_species` on a `2*pi` lattice converges to this
+    value from below (0.099826 at k=21, 0.107251 at k=51, 0.110325 at
+    k=101, against 0.114013 here).
+
+    An earlier version of this docstring said "(both neighbours)". It was a
+    misleading gloss on correct arithmetic, and it cost a wrong entry in
+    NAMED_GAPS G4 — see that entry.
     """
     return sum(4 * dam(2 * y, d * lam) - 4 * kpair(d * lam)
                for d in range(1, dmax + 1))
@@ -258,7 +270,12 @@ LANDSCAPE_RECORD = {
                                1.0: 2.072721e-2},
     "far_constant": {0.5: 0.621997, 1.0: 0.663592, "proved_le_half": 0.637},
     "centre_gas": {"worst_uniform_lam": 6.285, "row": 0.114045,
-                   "budget_floor_per_centre": 0.12986, "ratio": 0.878},
+                   "budget_floor_per_centre": 0.12986, "ratio": 0.878,
+                   "convention": "d >= 1 once; the x4 factor carries the "
+                                 "ordered-pair sum. Checked against "
+                                 "four_slack_two_species, which converges "
+                                 "to this row from below as k grows.",
+                   "irregular_1121123_corrected": 0.0602},
     "kpair_resonant": {6.065: 6.621863e-3, 6.238: 3.088070e-3,
                        6.517: 2.733364e-4, 12.755: 3.2e-10},
 }
@@ -275,10 +292,21 @@ NAMED_GAPS = (
     "carries a measured wobble (9.1e-6 near s=6.67 at depth 1; 9.9e-5 in "
     "the signed-growth profile at s=0): any table built on profile "
     "domination needs those pads.",
-    "G4 the centre-gas extremum over CONFIGURATIONS is not the uniform "
-    "lattice: the 1,1,2,1,1,2,3 pattern at step 2*pi gives a per-row "
-    "0.1200 > 0.1140.  The gas bound (T1 in K2-TWO-SPECIES.md) is an "
-    "optimisation obligation, not a formula.",
+    "G4 WITHDRAWN 2026-08-18, and it was wrong in the operator's favour. "
+    "It read: 'the centre-gas extremum over CONFIGURATIONS is not the "
+    "uniform lattice: the 1,1,2,1,1,2,3 pattern at step 2*pi gives a "
+    "per-row 0.1200 > 0.1140.' The 0.1200 reproduces exactly, but it was "
+    "measured as a middle-centre row over an explicit chain summing "
+    "BOTH sign directions, and compared against centre_gas_row, which "
+    "sums d >= 1 once. A two-sided number against a one-sided one, off by "
+    "exactly 2.0027. Halved to the correct convention the pattern gives "
+    "~0.0602, far BELOW the uniform lattice's 0.114263, so it is not a "
+    "counterexample to lattice extremality and never was. Run 37fb06a9 "
+    "flagged the non-reproduction (its three readings all used 7 centres "
+    "and so missed the long-chain reading that produces the number); the "
+    "cause is recorded here. Lattice extremality now has no recorded "
+    "counterexample. T1 remains an optimisation obligation rather than a "
+    "formula, but for want of a proof, not for want of a counterexample.",
     "G5 k >= 3 remains open; nothing here is evidence about RH.",
 )
 

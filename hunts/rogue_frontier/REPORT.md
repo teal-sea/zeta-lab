@@ -166,7 +166,8 @@ complete replacement of the thesis's quantitative content:
    (-202/36855 and -10284002/1216215). The printed headlines 95.44% and
    97.74% do not follow from the printed data by the printed formula.
 2. **RF-C008 (PROMOTED).** The corrected coefficients collapse to an
-   operator resolvent; every corrected row is entire (derived
+   operator resolvent; every corrected row's coefficient series has
+   infinite radius in the half-line variable (derived
    Gevrey-1/2 tail bound, the exact property whose absence capped the
    thesis); two disjoint exact engines agree on every coefficient
    (kappa = 2 to i = 40, kappa = 3 to i = 28, resolvent values to

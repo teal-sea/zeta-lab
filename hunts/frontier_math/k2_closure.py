@@ -48,7 +48,21 @@ dropped credits are nonnegative):
 
 ## Grade and controls
 
-MEASURED.  Sups are scans (x-step 0.01, 3 tau-samples per cell, stable
+MEASURED here; the same table re-run under ball-arithmetic enclosures in
+`hunts/r_a97060/probe.py` (2026-08-17) closes with 0 nonpositive cells in
+all three cap modes, worst margins +0.0677 signed / +0.0146 unsigned /
++0.0016 unsigned with this module's own 1.05 pad kept on top.  That makes
+the TABLE enclosure-carrying; the composite k=2 claim still takes its grade
+from the v-convexity transfer (G3), which that pass did not touch.
+
+The integer trade itself is EXACT, and audited as such: `hunts/r_401bbf/`
+(2026-08-17) re-solved every cell in both cap modes by enumerating all
+multiplicity vectors with `sum m <= 10`, with both of `zone_trade`'s cuts
+removed, and matched this module to 4.4e-16 (float summation noise, both
+signs) on all 13200 cell evaluations.  The cuts are sound for any
+nonnegative caps because the pair charges are squares.
+
+Sups in THIS module are scans (x-step 0.01, 3 tau-samples per cell, stable
 under x-step 0.005 / cell 0.01 / zones 0.15: worst resonance margin moves
 +0.0033 -> +0.0039).  Controls: (C2) the accounting dominates the greedy
 adversary pointwise in tau; (C3) the adversary-side planted-damage ladder
@@ -297,9 +311,22 @@ NAMED_GAPS = (
     "quantifier is measured >= 0 on a 9x9 grid at binding taus, not "
     "proved (the convex-majorant route and its obstruction are in "
     "K2-TWO-SPECIES.md section 4).",
-    "G2 every sup is a scan; the hardening obligation is the interval "
-    "pass over the same cells (O9-table technology).  The depth-profile "
-    "domination pads of two_species.NAMED_GAPS G3 apply.",
+    "G2 every sup IN THIS MODULE is a scan.  The hardening obligation - "
+    "the interval pass over the same cells - was discharged for the table "
+    "on 2026-08-17 by hunts/r_a97060/probe.py (ball arithmetic, 0 "
+    "nonpositive cells, worst +0.0016 with this module\'s 1.05 pad kept); "
+    "that pass also records two unstated assumptions here, the Kpair "
+    "clamp\'s monotonicity and the zone_trade inner prune.  The SECOND of "
+    "those is now discharged: hunts/r_401bbf/ (2026-08-17) re-solved every "
+    "cell\'s trade by exhaustive enumeration over all multiplicities with "
+    "sum m <= 10, no cuts of any kind, and found max |delta| 4.4e-16 on "
+    "13200 cell evaluations in both cap modes, with 0 cells above 1e-15 "
+    "and no margin moved.  It is sound by argument too, for any "
+    "nonnegative caps: Kpair is a square, so both of zone_trade\'s cuts "
+    "are admissible (the proof is RESULTS.md section 2 there).  The FIRST "
+    "still holds only because the widest near component is 1.94 against a "
+    "Kpair root near 6.65.  The depth-profile domination pads of "
+    "two_species.NAMED_GAPS G3 apply.",
     "G3 the v-convexity transfer to y < 1/2 leans on the kernel-checked "
     "O8 floor and on caps of the form [a*v-b]^+ with b >= 0; the signed "
     "caps' b = Kpair(near-zone) would need O3-style rational floors in a "

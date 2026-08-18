@@ -150,12 +150,85 @@ one-parameter sum to bound; for the joint problem section 8 of
 
 ## 6. Honest scope
 
-Grade: **measured** (one code path, double precision, scan sups; two cap
-modes agree on the verdict; the k=1 arithmetic reproduced to all printed
-digits as a cross-check).  Not hardened: no interval enclosures, no
-independent-instrument replication of the tau-table.  Not kernel-checked:
-nothing here compiles to Lean.  The composite claim "k=2 equal-depth
-retention holds" takes the grade of its weakest step: measured.
+Grade when this page was written: **measured** (one code path, double
+precision, scan sups; two cap modes agree on the verdict; the k=1 arithmetic
+reproduced to all printed digits as a cross-check).
+
+**Amended 2026-08-17 (`hunts/r_a97060`).**  The tau-table itself is no longer
+scan-grade.  An interval pass over the same 6600 cells, in Arb ball arithmetic
+at 96 bits, closes it with **0 nonpositive cells in all three cap modes**:
+worst margin +0.0677 (signed field), +0.0146 (unsigned), and +0.0016 with the
+1.05 cap pad of the measured pass retained on top of the enclosure.  No cap was
+widened, no tau-cell needed splitting, and the enclosure costs a factor of
+1.0000 to 1.0004 on the near field.  `mpmath.iv` rectangles contain every ball
+checked.  So *"no interval enclosures"* no longer describes the table, and
+that step is **enclosure-carrying**.
+
+What is still not hardened, and therefore what the composite claim takes its
+grade from: the **v-convexity transfer** from `v = 1/4` to all `y in (0,1/2]`
+is an argument, not a table, and the hardened pass evaluates at `v = 1/4`
+exactly as the measured one does (`k2_closure.NAMED_GAPS` G3 stands verbatim).
+The far rows and the O8 floor are used as the surrounding tree's proved
+constants, recomputed in exact rationals but not re-derived.  Not
+kernel-checked: nothing here compiles to Lean.  The composite claim "k=2
+equal-depth retention holds" still takes the grade of its weakest step, and
+that step is now the convexity transfer rather than the table.
+
+`hunts/r_a97060/RESULTS.md` also records two load-bearing assumptions of
+`k2_closure.py` that were unstated: the pair-charge clamp `Kpair(min(dmax,6))`
+is a lower bound only if `Kpair` is monotone out to `dmax`, which holds here
+only because the widest near component in the whole table is 1.9894; and the
+inner prune of `zone_trade` is a heuristic restricting the *adversary's*
+search.  Neither changes a published number.
+
+The second of those is now settled.  `hunts/r_401bbf/` (2026-08-17) re-solved
+the trade on **every** cell of both cap modes by exhaustive enumeration over
+all multiplicities with `sum m <= 10`, with both of `zone_trade`'s cuts
+removed: max `|delta|` 4.4e-16 across 13200 cell evaluations, no cell above
+1e-15, no margin moved, both worst cells unchanged at +0.0528969 and
++0.0032601.  The residual is float summation noise and takes both signs, while
+a genuine bite could only be positive.  That pass also gives the reason:
+`Kpair` is a square, so every pair charge is nonnegative, and with nonnegative
+charges both cuts are admissible for *any* caps, not only the ones this table
+builds.  The first assumption, the clamp, is still true only by geometry.
+
+**Amended 2026-08-18 (`hunts/r_b9552d`, run `37fb06a9`).**  Section 5's T1
+is now known to be two obligations rather than one, and its `rho` has a
+closed-form ceiling.  Splitting `gram_form.budget_gram`'s Gram sums into
+diagonal and off-diagonal parts is the identity
+
+    sum_{p!=q}[Dam(2y,tau) - Kpair(tau)]  =  k*Shq(y) - 2B + P,
+    P := sum_{p!=q} [-D(2y,tau)]^+  >=  0
+
+(residual 8.0e-15 over 300 random configurations).  `B >= 0` already follows
+from `Retention.energy_F_ge`, so **T1 with the signed damage and `rho = 0` is
+a consequence of a kernel-checked theorem**, and the whole content of T1 is
+the strict positivity of `rho` together with `P`, which is exactly the credit
+the `D <= Dam` step discards.  T1 then holds with reserve `rho` if and only if
+`rho*k*Shq(y) <= 2B - P`, so `rho <= 2B/(k*Shq)`; on the critical `2*pi`
+lattice `P = 0` (measured to `d = 4000`) and `B/k -> c2(0) - A^2` exactly by
+defect #24, giving
+
+    rho  <=  2 (c2(0) - A^2) / Shq(1/2)  =  0.153216295...
+
+and `0.119590...` against Lean's proved floor `2 Shq y >= 0.51944 y^2`.  That
+replaces the measured "87.8% of the per-centre budget" with a closed form.  It
+is a ceiling on the reserve, not a floor, so it constrains a future atom
+argument and proves nothing about T1.
+
+That run also **failed to reproduce G4**, the `1,1,2,1,1,2,3` row of `0.1200`
+that is the only recorded evidence against lattice extremality: under three
+readings of the pattern it measures `0.0666` (gaps, averaged over centres),
+`0.0902` (gaps, maximised over centres) and `-1.3600` (site multiplicities),
+against `0.1143` for the uniform lattice in the same normalisation.  Three
+searches — exhaustive periodic occupancy for periods up to 14, free periodic
+with up to 8 free positions in a free period, and free finite `k` — all
+returned the uniform `2*pi` lattice, with a planted-fault ladder that first
+fires at 1.20x damage against a 1.18x measured margin.  The discrepancy is
+recorded, not adjudicated: `0.1200` may be a per-centre maximum rather than
+an average, in which case it was never a counterexample to T1, which sums
+over ordered pairs.  Until it is resolved, G4 should be read as unverified
+rather than as established.  Details in `hunts/r_b9552d/RESULTS.md`.
 
 The quantifier discipline of defect #19 applies verbatim: this is the
 **first multi-pair case** of blocker 2, not blocker 2.  The blocker's

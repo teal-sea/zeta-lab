@@ -1,0 +1,112 @@
+{
+  "run_id": "bbe76b9a-ccf3-4d53-bfe9-6480334f4648",
+  "hunt": "r_938ab4",
+  "case_log_entry": "Hunt #44",
+  "date": "2026-08-17",
+  "status": "settled",
+  "question": "Do the reals enclosed by Retention.reNum_mem and Retention.imNumOverY_mem equal Re num and Im num / y, and under what hypotheses?",
+  "artifact": "hunts/frontier_math/zeta23ext/Zeta23Ext/EForm3/O9NumShape.lean",
+  "artifact_lines": 409,
+  "imported_by": "hunts/frontier_math/zeta23ext/Zeta23Ext/EForm3/Main.lean",
+  "sorries_added": 0,
+  "declarations_added": 27,
+  "axioms_reported": ["propext", "Classical.choice", "Quot.sound"],
+  "axiom_exceptions": {
+    "Retention.box0_in_table": "does not depend on any axioms"
+  },
+  "build": {
+    "command": "lake build Zeta23Ext.EForm3.O9NumShape",
+    "exit_status": 0,
+    "jobs": 8708,
+    "toolchain": "leanprover/lean4:v4.33.0-rc2",
+    "mathlib_rev": "51e6992efd06126df61a496bebf8f49482a4e129",
+    "note": "elan and the toolchain were absent from the container at session start; lake was not on PATH and the addendum's cache-get step failed with 'lake: command not found'. elan was installed and the pinned toolchain plus Mathlib cache fetched before any Lean work."
+  },
+  "preexisting_build_failures": [
+    {
+      "target": "Zeta23Ext.RetentionWired",
+      "detail": "Zeta23Ext/RetentionWired.lean:44 - 'ring_nf made no progress on the goal' then a type mismatch",
+      "kind": "elaboration error",
+      "introduced_by_this_run": false,
+      "in_scope": false
+    },
+    {
+      "target": "Zeta23Ext.BandCert.Verify",
+      "detail": "Lean exited with code 137 after 704 s",
+      "kind": "container resource limit (killed), not a proof failure",
+      "introduced_by_this_run": false,
+      "in_scope": false
+    }
+  ],
+  "findings": [
+    {
+      "id": "reNum-unconditional",
+      "claim": "boxParts.reNum encloses Re num with no y != 0 hypothesis; the computed shape is Re num once SQ2_mem / SINC_mem / COSC_mem instantiate the three constant leaves",
+      "declarations": ["Retention.numC_re_eq", "Retention.reNum_mem_numC"],
+      "grade": "kernel-checked"
+    },
+    {
+      "id": "imNumOverY-conditional",
+      "claim": "boxParts.imNumOverY encloses Im num / y exactly when y != 0; at y = 0 it encloses the removable limit instead",
+      "declarations": [
+        "Retention.imOverYShape",
+        "Retention.imNumOverY_mem_shape",
+        "Retention.imOverYShape_eq_im_div",
+        "Retention.imNumOverY_mem_numC"
+      ],
+      "grade": "kernel-checked"
+    },
+    {
+      "id": "y-zero-mismatch-witness",
+      "claim": "The y != 0 hypothesis is necessary, not incidental: Im num vanishes on the real axis so Im num / 0 is 0, while the enclosed limit is 2*cos(sqrt2/2) + sqrt2*sin(sqrt2/2) > 0 at s = pi",
+      "declarations": [
+        "Retention.numC_im_zero",
+        "Retention.imOverYShape_zero",
+        "Retention.imOverYShape_pi_zero_pos",
+        "Retention.imOverYShape_ne_im_div_at_zero"
+      ],
+      "grade": "kernel-checked",
+      "caveat": "the witness point s = pi lies outside the table's s-range [28/5, 60]; a witness inside the table is loose thread 1"
+    },
+    {
+      "id": "compositions-against-Phi2",
+      "claim": "qreIv encloses Re Phi2(s+iy) and rIv encloses -Im Phi2(s+iy)/y, for y != 0",
+      "declarations": ["Retention.denAbs2_pos", "Retention.qreIv_mem_phi2", "Retention.rIv_mem_phi2"],
+      "grade": "kernel-checked",
+      "not_claimed": "O9 soundness is NOT closed; the two-mode arithmetic and the Phi2-to-Qre/Qim identity are separate and untouched"
+    },
+    {
+      "id": "dead-weight-verdict",
+      "claim": "O9Seam.r_comp_mem and Retention.rIv_mem can be retired at no reproof cost: r_comp_mem has exactly one use site (rIv_mem) and rIv_mem has none; the route built here goes through r_comp_mem' and rIv_mem_box instead",
+      "action_taken": "none - shown unnecessary, not deleted",
+      "grade": "measured (grep over the package plus a green build of the alternative route)"
+    },
+    {
+      "id": "instantiability",
+      "claim": "Every identification is instantiated at the first recorded row of Retention.o9boxes at the interior point (23/4, 1/8), with all hypotheses discharged",
+      "declarations": [
+        "Retention.box0_in_table",
+        "Retention.s_in_box0",
+        "Retention.y_in_box0",
+        "Retention.y_small_box0",
+        "Retention.reNum_mem_numC_box0",
+        "Retention.imNumOverY_mem_numC_box0",
+        "Retention.rIv_mem_phi2_box0",
+        "Retention.qreIv_mem_phi2_box0"
+      ],
+      "grade": "kernel-checked"
+    }
+  ],
+  "not_claimed": [
+    "O9 soundness is closed",
+    "the two-mode arithmetic is sound against the recorded table",
+    "the identity joining Phi2 to EForm3.Qre / Qim",
+    "anything for or against the Riemann hypothesis"
+  ],
+  "loose_threads": [
+    "a y = 0 mismatch witness inside the table's own s-range [28/5, 60]",
+    "r_comp_mem and rIv_mem are still present, shown unnecessary but not deleted",
+    "the Phi2 to Qre/Qim identity in ClosedForm.lean was not traced",
+    "Zeta23Ext/RetentionWired.lean:44 does not elaborate (pre-existing, unrelated)"
+  ]
+}

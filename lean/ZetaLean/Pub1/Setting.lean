@@ -26,8 +26,11 @@ pointwise (support, evenness, radial monotonicity, `C²`) and would have to be
 lifted back off representatives anyway.  Completeness is never needed: the
 Cauchy-Schwarz half is algebra, and the limit half only needs boundedness.
 
-*The clamped kernel.*  `F₁` is entire, so its row mass `∫_I F₁(s-t) dt` is
-bounded by `4/9` only for `s ∈ I` — it grows without bound off the interval.
+*The clamped kernel.*  `F₁` is **not** entire, and not even differentiable at the
+origin: `F₁ x = fKer |x|` for the entire half-line function `fKer`, and the `|x|`
+puts a corner at `0`.  What is true, and what matters here, is that `fKer`'s
+series has infinite radius, so `F₁` grows without bound off `[-1,1]`; its row
+mass `∫_I F₁(s-t) dt` is therefore bounded by `4/9` only for `s ∈ I`.
 The Schur and Banach-fixed-point lemmas both want a hypothesis holding for every
 real `s`.  `clampedKernel s t = F₁(clamp s - clamp t)` agrees with `F₁(s-t)` on
 `I × I`, is globally nonnegative, symmetric and continuous, and has globally

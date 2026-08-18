@@ -70,6 +70,373 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #47: the two-mode arithmetic, and the bridge nobody had named (`r_88dc5e/`)
+
+**Status: settled.** `O9Assemble.lean` said the last step between the
+kernel-checked table and O9 was "the arithmetic of the two modes". It was, plus
+one prerequisite that was not on anyone's list. `O9Check2` decides a table in
+the kernel's interval arithmetic; `O9Sound` proves both modes sound over the
+reals in terms of `Retention.Qre` and `Retention.Qim`, which are integrals
+against the window `g`; and the enclosure chain ended at `BandDual.Phi2`, which
+is `s(z+√2) + s(z−√2)`. Those are two different definitions of the same two
+numbers and **nothing in the package connected them**. `EForm3/O9Bridge.lean`
+does: `Re Phi2 (s + iy) = Qre y s` and `Im Phi2 (s + iy) = −Qim y s` for
+`y ≠ 0`, by closed forms on both sides and no new analysis.
+
+With that, `EForm3/O9Modes.lean` turns the checker's `Bool` into the damage
+bound. `dam_le_of_box` says a box `o9Box` accepts bounds `Dam` at every point
+of it, `y = 0` included; the content is that `Iv.mem` is `lo ≤ 2⁶⁴·x ≤ hi`, so
+each recorded comparison is one division away from the real inequality mode 1
+or mode 2 wants. `dam_le_box0` instantiates it at the **first recorded row** at
+the interior point `(23/4, 1/8)`, with the verdict taken from `o9_box_chunk0` —
+the kernel's own `decide +kernel` — rather than from a fresh decision. Zero
+sorrys, axioms `[propext, Classical.choice, Quot.sound]`.
+
+The two dead-weight lemmas are **gone**. The use-site survey run bbe76b9a
+reported was re-run rather than trusted, over the whole repository:
+`O9Seam.r_comp_mem` had exactly one use site (`Retention.rIv_mem`) and
+`rIv_mem` had none. Both are deleted, `r_comp_mem'` carries the corrected
+statement, and nothing was reproved.
+
+**What this does not close.** O9 soundness is not closed and the hunt does not
+claim it is. `dam_le_of_mem_walk` bounds `Dam` at points of boxes the table
+records; the retention obligation needs the whole window, and nothing in Lean
+yet says the recorded boxes **cover** `[28/5, 60] × [0, 1/2]`. That covering,
+and the assembly into the form `Gap`/`FarField` consume, are what is left.
+
+Also recorded, because it cost this run time: `simp only [o9Box]` and
+`rw [o9Box]` both hang on a `whnf` heartbeat timeout — unfolding the checker
+asks the elaborator to reduce `rIv b.sLo …` symbolically through the entire
+leaf layer. `unfold o9Box at hb`, then `split at hb`, then one definitional
+`have` does the same job instantly.
+### Hunt #48: Erdős–Kac priced, and one of the two routes is blocked (`r_8c3b94/`)
+
+**Status: settled. A mapping run, not a proving run.** Two earlier runs left
+Erdős–Kac as prose ("a real project", "needs either moment control to all
+orders or a formalised Berry–Esseen route", "out of reach and should be said
+so"). None of that is a coordinate, so this run priced both routes against
+what Mathlib actually carries at this repository's pin, resolving every claim
+by compiling 43 `#check`s rather than by grep. `Probe.lean` in the hunt
+directory is that file; it exits 0 and is imported by nothing.
+
+- **The moment method: ~2,400 to 3,700 lines**, ~1,800 to 2,600 of them novel
+  mathematics. Every obligation is something somebody knows how to write.
+  Hardest step is reindexing k-tuples of primes by the set-partition of the
+  index set: at k = 2 that is `rcases eq_or_ne p q` and costs nothing, uniform
+  in k it has no Mathlib support at all.
+- **The characteristic-function route is blocked, not merely dearer.** It
+  needs the fundamental lemma of sieve theory. Mathlib's sieve
+  (`BoundingSieve`, `siftedSum_le_mainSum_errSum_of_upperMoebius`) is
+  **upper-bound only**; the phrase "fundamental lemma" occurs once in that
+  file, in a docstring. No Lean formalization of it exists.
+- **The reason, and the finding worth keeping**: the moment route needs only
+  k-fold products, so its arithmetic error is `π(y)^k`, polynomial, and it
+  tolerates `y = N^{1/2k}`, which keeps `log log y ~ log log N`. The
+  characteristic function needs all orders at once, so its error is
+  `2^{π(y)}`, which forces `y` down to about `log N`, at which point
+  `log log y` is no longer asymptotic to `log log N` and the theorem's own
+  normalisation dies. The route closes on itself. Derived here, not looked
+  up, and flagged as such.
+- **A prerequisite that looked live is dead.** `hunts/r_0339c1/RESULTS.md`
+  treats tightening the Mertens band `16` as the lever. True for the
+  Hardy–Ramanujan constant `275`; **irrelevant to Erdős–Kac**, which uses the
+  band only as an `O(1)` shift divided by `√(log log N)`. Mertens with its
+  constant is not needed, and this tree does not have it.
+- **Also measured, because a miss is a result**: Mathlib at rev `51e6992e`
+  has an i.i.d.-only CLT and Lévy continuity, and has **no** Berry–Esseen, no
+  Lindeberg, no method of moments, no Carleman, no Gaussian moment beyond the
+  second, no Mertens theorem of any kind, and no Kubilius model.
+  `Nat.stirlingSecond` exists with recurrences and no combinatorial content.
+  Fourteen named misses in `results.json`, each with the term searched for.
+
+**Disposition:** coordinates, not a claim. The recommendation is Route A or
+nothing, with the **k = 4 central moment as a single bounded first file** and
+a stated stop condition (over ~600 lines and the estimate has failed at the
+step that matters). Three sub-obligations are wanted upstream independently of
+whether Erdős–Kac is ever attempted: a triangular-array CLT, the Gaussian
+moments, and a method-of-moments theorem. Nothing here bears on RH.
+
+### Hunt #44: what the O9 numerator fields actually enclose (`r_938ab4/`)
+
+**Status: settled, and the two fields answer differently.** Hunt #42 left the
+question of whether `reNum_mem` and `imNumOverY_mem` pin `Re num` and
+`Im num / y` or merely the shapes the interval arithmetic computes.
+`Zeta23Ext/EForm3/O9NumShape.lean` settles it. **`reNum` encloses `Re num`
+unconditionally**: once `SQ2_mem`, `SINC_mem` and `COSC_mem` instantiate the
+three constant leaves the computed shape *is* the real part, at every point of
+every box, `y = 0` included, with no hypothesis beyond the ones the leaves
+already carried. **`imNumOverY` encloses `Im num / y` only for `y ≠ 0`**, and
+the hypothesis is necessary rather than incidental: `Im num` vanishes on the
+real axis, so `Im num / y` at `y = 0` is `0` by Lean's division convention,
+while the field carries `shcSmall` and therefore encloses the removable limit
+— `2·cos(√2/2) + √2·sin(√2/2) > 0` at `s = π`. The disequality is stated as a
+disequality, not hedged into a hypothesis. That asymmetry is the design
+working: the removable branch exists so `y = 0` is an ordinary point, and it
+can only be ordinary by enclosing something other than a quotient by `y`
+there; what the run adds is that the something other is now named and pinned.
+With both components identified, `qreIv_mem_phi2` and `rIv_mem_phi2` read the
+two compositions back against `Phi2` itself. **Verdict on the dead weight:**
+`O9Seam.r_comp_mem` and `Retention.rIv_mem` can be retired at no reproof cost
+— `r_comp_mem` has exactly one use site (`rIv_mem`) and `rIv_mem` has none,
+and the route built here goes through `r_comp_mem'` and `rIv_mem_box`
+instead. They were shown unnecessary, not deleted. Twenty-seven declarations,
+zero sorrys, `lake build Zeta23Ext.EForm3.Main` green (8726 jobs),
+`#print axioms` reporting only `[propext, Classical.choice, Quot.sound]` and,
+for `box0_in_table`, no axioms at all. Because a compiling lemma is not a
+lemma with content — hunt #42's finding — every identification is also
+instantiated at the **first recorded row of `o9boxes`** at the interior point
+`(23/4, 1/8)`, with every hypothesis discharged. What is **not** claimed: O9
+soundness is not closed; the two-mode arithmetic and the identity joining
+`Phi2` to `EForm3.Qre`/`Qim` are separate and untouched, and the `y = 0`
+mismatch witness sits at `s = π`, outside the table's `s`-range. Two
+**pre-existing** build failures are recorded rather than absorbed:
+`RetentionWired.lean:44` does not elaborate, and `BandCert.Verify` is killed
+at 704 s with exit 137, both observed on a baseline build made before the new
+file existed. Evidence in `hunts/r_938ab4/RESULTS.md`. Nothing here is
+evidence for or against RH.
+
+### Hunt #39: the Mertens constants, tightened (`r_4218d4/`)
+
+**Status: settled. The Turán variance constant of Hunt #37 falls from `5855`
+to `275`, a factor of 21.3, with every statement's shape preserved, no
+hypothesis added, no `sorry`, a green `lake build` and an unchanged axiom
+audit.** Hunt #37 wrote that its constant is "coarse because the Mertens band
+is, and tightens automatically if that does". This run did that, and the
+prediction was right: no new mathematics was needed anywhere.
+
+Three local steps upstream, then arithmetic. (i) Mathlib's
+`Chebyshev.psi_le` gives `ψ x ≤ x log 4 + 2√x log x`, and its packaged
+corollary bounds the remainder by `4x` — i.e. by `log t/√t ≤ 2`, where the
+supremum is `2/e`. A one-line lemma `log t ≤ t/e` (`log x ≤ x − 1` applied at
+`x = t/e`) gives `(4/e)x`, stated as `3/2`. (ii) The same majorant replaces
+`log n ≤ 2√n` in `sum_log_div_sq_le`, and dropping its vanishing `n = 1` term
+lets the telescope start at `2`, where it is bounded by `2` instead of `3`;
+`6` becomes `3/2` and the prime-power tail `12` becomes `3`. (iii) Mertens I
+is asymmetric — its lower half loses `1`, its upper half the whole Chebyshev
+constant — and the original proof paid both by routing the prime form through
+the symmetric von Mangoldt band; a one-sided
+`log_sub_one_le_sum_vonMangoldt_div` keeps them apart, worth `1.5`. Result:
+`mertens_first_theorem` `log 4 + 16 → log 4 + 3`; `mertens_second_theorem`
+`76 → 16` (with `1/log 2 < 2` also sharpened to `< 1.443`); `sum_sq_dev_le`
+`5855 → 275 = 16² + 16 + 3`.
+
+The classical constants (`2` for Mertens I, `4` for Mertens II) are still out
+of reach and the run did not chase them, per its brief. What remains is
+priced in `hunts/r_4218d4/RESULTS.md`: the largest single term left is the
+`log 4` in Chebyshev's bound, which is 39% slack and whose removal is the
+prime number theorem, not a constant. Earlier case-log entries and the
+`r_3c1cbb` / `r_0339c1` write-ups still quote the old constants; those are
+records of what those runs proved and are left as written. Nothing here bears
+on ζ or RH (`docs/08`); external verification remains pending.
+### Hunt #46 — where the centre-gas obligation T1 resists (`r_b9552d/`)
+
+**Status: not settled, which was the expected outcome.** `k >= 3` is not
+closed, T1 is not proved, and the reading of record does not move. Run
+`37fb06a9` probed the first half of `K2-TWO-SPECIES.md` §5's two-species
+split. Three things came back.
+
+**T1 restated against a budget that is already proved.** Splitting
+`gram_form.budget_gram`'s Gram sums into diagonal and off-diagonal parts
+gives the identity `GAS = k·Shq(y) − 2B + P`, with
+`GAS = Σ_{p≠q}[Dam(2y,τ) − Kpair(τ)]` and
+`P = Σ_{p≠q}[−D(2y,τ)]⁺ ≥ 0` (residual 8.0e-15 over 300 random
+configurations). `B ≥ 0` already follows from `Retention.energy_F_ge`, so
+T1 with the *signed* damage and `ρ = 0` is a consequence of a
+kernel-checked theorem, and the whole content of T1 is the strict
+positivity of `ρ` together with `P`, the credit thrown away by the
+`D ≤ Dam` step.
+
+**An exact ceiling on the atom reserve.** T1 holds with reserve `ρ` exactly
+when `ρ·k·Shq ≤ 2B − P`. On the critical `2π` lattice `P = 0` (measured out
+to `d = 4000`) and `B/k → c2(0) − A²` exactly, by defect #24's Poisson
+summation, so `ρ ≤ 2(c2(0) − A²)/Shq(1/2) = 0.153216295…`, and `0.119590…`
+against Lean's proved floor `2·Shq y ≥ 0.51944 y²`. That is a closed form
+where `K2-TWO-SPECIES.md` §5 had the measured "87.8% of the per-centre
+budget". It is a ceiling, not a floor, so it constrains any future atom
+argument and proves nothing about T1 itself.
+
+**The gas extremum, searched three ways, is the uniform `2π` lattice.**
+Exhaustive periodic occupancy (every subset of `Z_p` for `p ≤ 14`, 230 base
+spacings), free periodic (`m ≤ 8` free positions in a free period), and free
+finite `k` all return it: best row `0.05716` against the budget `0.06751`,
+ratio `0.8466`. The planted-fault ladder first reports a violation at 1.20×
+damage against a 1.18× measured margin, so the verdict comes from a search
+with demonstrated power at that scale — and no demonstrated power against a
+family the search cannot represent.
+
+**One recorded number did not reproduce.** `two_species.NAMED_GAPS` G4
+records the `1,1,2,1,1,2,3` occupancy at step `2π` reaching a per-row
+`0.1200` against the lattice's `0.1140`, and it is the only on-file evidence
+against lattice extremality. Under all three natural readings of the
+pattern this run measures `0.0666` (gaps, averaged), `0.0902` (gaps,
+maximised over centres) and `−1.3600` (multiplicities) against `0.1143` for
+the lattice. This is a failure to reproduce and is reported as exactly that:
+the pattern may mean something the run did not try, or `0.1200` may be a
+per-centre maximum, in which case it was never a counterexample to T1, which
+is an average statement. `hunts/r_b9552d/RESULTS.md` §4 gives all three and
+does not adjudicate.
+
+Also assessed and **not settled**: a Cohn–Elkies-style certificate for T1
+(`G ≥ Dam − Kpair` pointwise with `Ĝ ≤ 0`, giving `GAS ≤ −k·G(0)` for every
+configuration at once). It is not on the recorded dead list and is distinct
+from all five routes there. Its truncated LP value has to clear `0.05716`
+before it bounds anything and stay under `0.06751` for the route to work; it
+reached `0.05410` at horizon 200 and the solver failed above that. Every
+number here is double precision, no enclosures, no Lean. Nothing bears on RH
+(`docs/08`).
+
+### Hunt #45 — the omega bridge, and the pointwise Hardy–Ramanujan (`r_233abe/`)
+
+**Status: settled. Both threads closed, zero `sorry`s, axioms unchanged, no
+statement weakened.** Run `43d363c1` left two threads in
+`lean/ZetaLean/HardyRamanujantheorem.lean` when it landed the density form of
+Hardy–Ramanujan, and this run is both of them.
+
+**The bridge.** `omega n = ArithmeticFunction.cardDistinctFactors n` is `rfl`,
+as the discovering run priced it, but not for the reason the file's docstring
+assumed: this file counts `n.primeFactors.card` and Mathlib counts
+`n.primeFactorsList.dedup.length`. `Nat.primeFactors` is
+`primeFactorsList.toFinset`, so the two unfold to the same term. The docstring
+now names the two definitions it is identifying instead of asserting they are
+one. A one-line `rfl` is a restated definition and the brief is explicit that
+a restated definition is not a result, so the bridge is carried through to
+`hardy_ramanujan_cardDistinctFactors`, in which `omega`, `loglog`,
+`exceptional` and `HardyRamanujanTheorem` have all been unfolded away — every
+name in that statement is Mathlib's, and an `ArithmeticFunction`-facing
+development can cite the theorem without importing anything from this
+namespace. That is the whole interoperability point, and it is the part that
+was worth the run.
+
+**The pointwise form.** `hardy_ramanujan_pointwise` measures each `n` against
+its own `log log n` rather than against the common `log log N`, which is how
+the theorem is usually quoted. The route is the discovering run's, with
+`delta` fixed at `1/2` so no parameter is carried: split `(0, N]` by
+`n * n ≤ N`; below the split there are at most `Nat.sqrt N` integers, which is
+`o(N)`; above it `N < n * n` forces `log N < 2 log n`, so
+`log log N − log 2 < log log n ≤ log log N` and the gap between the two
+normalisations is the constant `log 2`, uniformly in `N`. A deviation of
+`ε · log log n` then forces one of `ε · log log N − (ε+1) log 2`, which is at
+least `(ε/2) · log log N` as soon as `log log N` has outgrown the slack — and
+`hardy_ramanujan` at `ε/2` closes it. **No new arithmetic enters**: the
+variance bound, its constant `275`, and the Mertens band `16` are consumed
+exactly as they stand, and no existing proof was edited. So the pointwise form
+inherits any future sharpening of the density form for free.
+
+`lake build ZetaLean.HardyRamanujantheorem` printed
+`✔ [8699/8699] Built ZetaLean.HardyRamanujantheorem`; `grep -c sorry` over the
+edited file is `0`; the five new public statements and `hardy_ramanujan`
+itself each depend only on `propext`, `Classical.choice`, `Quot.sound`. The
+file grows 384 → 588 lines. Everything that resisted was library-name drift
+against the pinned Mathlib v4.33.0-rc2 (`le_or_lt` and `div_add_div_same` are
+gone; `rw` cannot use the equation lemmas of a `noncomputable def`;
+`Tendsto.inv_tendsto_atTop` returns a `Pi`-form inverse that `simpa` will not
+reconcile with a beta-reduced lambda), not mathematics. Two caveats a reader
+should have rather than discover: the bridge is a `rfl` between two library
+definitions that are spelled differently and would break if either were
+restated, which is why it is now pinned by a theorem; and the pointwise
+statement is the literal classical one, so the finitely many `n` below `e^e`,
+where `log log n` is negative and the condition holds vacuously, sit inside
+the exceptional set at no cost in density.
+
+Nothing here bears on ζ or RH (`docs/08`). No literature search was run and
+none is claimed — Hardy–Ramanujan is a 1917 result, and what is original is
+provenance, not novelty. External verification remains pending, as it does for
+every claim this laboratory publishes. Separately, and outside this hunt's
+scope: `lake build` over the whole package does not currently succeed in this
+container — `ZetaLean.Pub1.CertL2` and `ZetaLean.Pub1.CertAtoms` log failures.
+Neither imports anything from `ZetaLean.HardyRamanujan` (checked by `grep` over
+their import closure), so neither can be a consequence of this run's edit, and
+this run did not diagnose them further. It is recorded here so a green targeted
+build is not read as a green package.
+
+### Hunt #40: `beta := normLower` lands, the predicted slack does not (`r_908de5/`)
+
+**Status: settled, and one prediction on main is refuted.** `docs/25` §4.3
+defect 2 named the remedy for the rung-3 grid sites — `pred_beta` was drawn at
+the achievable bound, so `normLower >= pred_beta` sat at the line by
+construction in any arithmetic (12 of 104 sites under 1 %, `g_right_15` at
+0.03 %, commit 44d3133) — and predicted that setting `beta := normLower` moves
+the slack into the cell condition, "which then carries >= 10x slack". The
+first half holds: with beta read off the enclosure the site inequality is true
+by construction, and the obligation that then bites, `eps' + L*h/2 <= beta`
+(the hypothesis of `ZetaLean.DH.DH_lower_on_[hv]cell`, not a modelling
+choice), still passes at all 104 sites with `L = 16` and `eps' = 1/2000`
+untouched. The second half does not: evaluated in exact rationals over the
+committed plan, the worst of the 200 cell obligations clears by **1.3697x** in
+ball arithmetic and **1.3566x** in chained-rect, against a prediction of
+">= 10x" — over by a factor of ~7.3, and barely moved from the 1.3647x it
+already had under `pred_beta`, in either direction. The
+binding constraint turns out to be the gap, not beta: `L*h/2` is 98 % of the
+requirement at every one of the five worst cells, so raising betas buys almost
+nothing, and the remedy moved the worst case by 0.4 %. A second finding sets
+the price of landing it: `scripts/60_rung3_generate.py` emits a *non-chain*
+rect enclosure, 2-3x wider at a point than the chained one `docs/25` measured
+in, where `normLower` is 0.37-0.53x `pred_beta` and the cell condition fails
+outright — so the remedy is contingent on porting the generator's emission to
+composite chains, for which the Lean side (`dirichletTermBox2`,
+`contains_coarsen`, `contains_cpow_mul`) already exists unused. Landed: beta
+is now read off the enclosure with `--beta plan` restoring the old source, and
+the generator asserts the cell requirement at emission time so a site that
+cannot pay it fails loudly instead of passing at the line. No Lean source
+changed; `lake build` green from a cold toolchain. Nothing here bears on RH
+(`docs/08`), and nothing here is a result until the battery or the funnel says
+so.
+### Hunt #43: the k=2 table with `zone_trade`'s inner prune disabled (`r_401bbf/`)
+
+**Status: settled, outcome (a), on every cell rather than a sample.**
+`k2_closure.zone_trade` cuts its branch-and-bound with a line that refuses to
+descend into a multiplicity which does not immediately improve the running
+value. That cut restricts the *adversary's* search, the unsound direction, so
+wherever it bit the published margin would be optimistic. Hunt #41 measured its
+delta as 0.0 on six binding cells and recorded the assumption as unchecked
+elsewhere. This run re-solved the trade on all 6600 cells in both cap modes,
+13200 evaluations, by exhaustive enumeration over every multiplicity vector
+with `sum m <= 10`, with *both* of the search's cuts removed rather than only
+the one the brief named. Max `|delta|` **4.4e-16**, zero cells above 1e-15, no
+margin moved: worst cells stay at +0.0528969 (signed, tau 12.85) and +0.0032601
+(unsigned, tau 6.33), nonpositive cells 0 in both columns. The residual takes
+both signs, which is what float summation order looks like and is not what a
+bite looks like. The run also supplies the reason, which covers more than the
+table does: the pair charges are `Kpair/200` and `Kpair` is a square, so with
+nonnegative charges the `m = 0` branch dominates every branch the prune drops,
+and both cuts are admissible for *any* caps. The detector-power control is a
+planted instance with one negative charge, where the published search
+understates the trade by 18.6%. `k2_closure.NAMED_GAPS` G2 and
+`K2-TWO-SPECIES.md` now record the discharge; the other assumption Hunt #41
+named, the `Kpair` clamp, is still sound only by geometry. Cost 700 s for the
+census, which is roughly what running the table once costs. Nothing here is
+evidence for or against RH (`docs/08`), and no cap was widened and no zone
+re-tuned.
+
+### Hunt #42: the O9 numerator fields, and the seam that could not be instantiated (`r_6c7d6a/`)
+
+**Status: settled, and one defect found on the way.** The run was sent to
+supply the numerator-side `boxParts` fields of the O9 two-dimensional checker
+in the vendored `Zeta23Ext` Lean package. It found the brief's premise stale:
+`O9Parts.lean`'s header calls the numerator side "the remaining step", and
+commit `6f81078` had superseded that sentence seven minutes after it was
+written, landing `reNum_mem` and `imNumOverY_mem`. That commit's own message —
+"every `boxParts` field is now sound" — was the thing actually wrong.
+`Retention.Parts` has **seven** fields and six had lemmas; the seventh,
+`imNum`, is a hypothesis of `qreIv_mem`, so the `Qre` composition could not be
+instantiated at a box at all. `Retention.imNum_mem` supplies it, with the
+component left abstract in the idiom `O9Seam` and `O9Assemble` chose.
+Discharging the rest of the hypotheses is what turned up the finding:
+`O9Seam.r_comp_mem` writes `c*c + dOverY*dOverY` under the quotient, while
+`rIv` divides by `denAbs2 = c*c + d*d` with `d = dOverY·y` and
+`O9Real.im_div_over_y` agrees with `denAbs2`. So `r_comp_mem` and the
+`rIv_mem` built on it are true, zero-sorry, and **vacuous at every box in the
+table** — at `s = 1, y = 0` the hypothesis asks `denAbs2` to contain `5` where
+it contains `1`, and the box family `[28/5, 60] × [0, 1/2]` never makes the two
+agree. `r_comp_mem'` leaves the denominator's real abstract and fixes it with
+the same proof term; `rIv_mem_box` and `qreIv_mem_box` then state both
+compositions at a box with every field hypothesis discharged. Five new
+declarations, zero sorrys, `lake build` green, `#print axioms` reporting only
+`[propext, Classical.choice, Quot.sound]`. What is **not** closed, and is not
+claimed: the two-mode arithmetic and the leaf-shape identities that relate the
+computed expressions to `Re num` and `Im num / y`. Evidence in
+`hunts/r_6c7d6a/RESULTS.md`. Nothing here is evidence for or against RH.
+
 ### Hunt #38: rogue_frontier, a wide-portfolio campaign (`rogue_frontier/`)
 
 **Status: open, exploratory.** An autonomous research campaign of 2026-08-17:
@@ -314,6 +681,59 @@ hunt's scope): both rival interfaces in `battery` pass `dps=min(dps, 20)` into
 = 20` returns `1.2e-34` against a true `1.617e-58`. A winding count over that
 noise still lands on an integer, so the routine's own integrality check does
 not catch it.
+
+### Hunt #41 — the interval pass over the k=2 tau-table (`r_a97060/`)
+
+**Question.** `hunts/frontier_math/k2_closure.py` closes the `k=2`
+equal-depth case of blocker 2 over 6600 tau-cells, at *measured* grade: every
+supremum in it is a double-precision scan padded by a flat 5%.
+`K2-TWO-SPECIES.md` §6 names the obligation that keeps it there. Does the same
+table close when every sup becomes an enclosure and every credit a lower
+bound?
+
+**Result: yes, in all three cap modes, over the same cells.** 0 of 6600
+nonpositive; worst margin +0.0677 (signed-field caps), +0.0146 (unsigned),
++0.0016 (unsigned with the measured pass's own 1.05 pad kept on top of the
+enclosure, which is the like-for-like row). No cap widened, no tau-cell
+split. The arithmetic is Arb complex balls at 96 bits, not rectangles, on the
+brief's instruction: rung 3 had measured rectangles losing 13.7× of width to
+balls on exactly this shape of quantity, a squared rotating complex value.
+`mpmath.iv` rectangles contain every ball checked and run 1.8–3.5× wider.
+
+**What the enclosure actually cost.** A factor of **1.0000 to 1.0004** on the
+near field, the dominant term. The 1.05 pad it replaces was standing in for an
+error two to three orders of magnitude smaller than itself.
+
+**What the hardening found that the scan could not.** The centre-centre row is
+`sup_{0<y≤1/2} Dam(2y,τ)/y²` — a supremum over an *open* interval with the
+variable in the denominator, which the measured pass took over an 18-point
+grid starting at `y = 0.05`. A first full enclosure pass reported one
+nonpositive cell at `τ ∈ [6.62, 6.64]`, a root of `G(τ)`. It was not a gap: it
+was the `1/y²` corner, where a branch-and-bound stalls because the enclosure
+width there is set by the τ-cell rather than the y-box. The fix is a fact
+about the problem rather than more grid — `ghat` is **even** with real Taylor
+coefficients, so `Re ghat'(iτ) = 0` and `D` has **no depth-linear term**,
+giving `4·max(0,D)/u² ≤ 4·max(0, sup|D''|/2 − G²/b²)` for every `u ≤ b`. That
+is why the ratio is bounded as `y → 0` at all, which the y-grid assumed
+without stating, and no scan can check it.
+
+**Two unstated assumptions recorded** in `k2_closure.py`, neither changing a
+published number: the pair-charge clamp `Kpair(min(dmax,6))` is a lower bound
+only if `Kpair` is monotone out to `dmax`, which holds only because the widest
+near component in the table is 1.9894; and the inner prune of `zone_trade`
+restricts the *adversary's* search, so it is a heuristic on the unsound side
+(measured delta 0.0 on six binding cells).
+
+**Scope, stated rather than implied.** The *table* is enclosure-carrying. The
+*k=2 equal-depth claim* is a composite and still takes the grade of its
+weakest step, which is now the v-convexity transfer off `v = 1/4` — argued,
+not enclosed. `k ≥ 3` and the unequal-depth quantifier are untouched, and
+nothing here is evidence about RH.
+
+**Disposition:** instrument and result retained; `K2-TWO-SPECIES.md` §6 and
+`k2_closure.NAMED_GAPS` G2 amended in the same commit. Budget overrun
+recorded in the handback: 75 minutes allowed, ~100 taken, all of it the
+diagnosis above.
 
 ### Hunt #15 — is gate-5 property 6 vacuous or distinguishing? (`gate5_p6_c/`)
 

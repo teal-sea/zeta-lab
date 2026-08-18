@@ -24,16 +24,29 @@ This file proves it, by Turán's argument, with every constant explicit:
    and counting multiples of `p*q` gives `∑_{n ≤ N} ω(n)² ≤ N·S(N)² + N·S(N)`.
 3. **Mertens' second theorem** (`ZetaLean.Mertens.mertens_second_theorem`,
    proved in this repository on top of `mertens_first_theorem`):
-   `|S(N) − loglog N| ≤ 76` for every `N`.
+   `|S(N) − loglog N| ≤ 16` for every `N`.
 4. **Turán's variance bound** (`sum_sq_dev_le`, `turan_variance`): combining
-   1–3, `∑_{n ≤ N} (ω n − loglog N)² ≤ 5855 · N · loglog N` whenever
-   `1 ≤ loglog N`, hence eventually; the constant `5855` inherits Mertens'
-   deliberately coarse `76` (as `76² + 76 + 3 ≤ 5855`) and is far from optimal.
+   1–3, `∑_{n ≤ N} (ω n − loglog N)² ≤ 275 · N · loglog N` whenever
+   `1 ≤ loglog N`, hence eventually; the constant `275` is `16² + 16 + 3`,
+   where `16` is Mertens' band, and it moves quadratically with it.  It
+   replaces the `5855 = 76² + 76 + 3` this file first carried: nothing in
+   the variance argument changed, only the band it is fed.
 5. **Chebyshev step** (`card_exceptional_mul_le`,
    `hardyRamanujan_of_turanVariance`): the variance bound forces the
    exceptional set below any positive density.
 
 The final statement is `hardy_ramanujan : HardyRamanujanTheorem`.
+
+Two consequences are drawn after it, both by hunt r_233abe:
+
+* **The bridge** (`omega_eq_cardDistinctFactors`,
+  `hardy_ramanujan_cardDistinctFactors`): `omega` is Mathlib's
+  `ArithmeticFunction.cardDistinctFactors`, and the theorem is restated in
+  Mathlib's own vocabulary so a consumer needs nothing from this namespace.
+* **The pointwise form** (`hardy_ramanujan_pointwise`): the deviation measured
+  against `log log n` rather than `log log N`, obtained from the density form
+  by splitting `(0, N]` at `√N`.  No new arithmetic input: the variance bound
+  and Mertens' band are used exactly as they stand.
 
 The statement `HardyRamanujanTheorem`, the reduction
 `hardyRamanujan_of_turanVariance`, and the identities
@@ -69,7 +82,7 @@ def HardyRamanujanTheorem : Prop :=
     Tendsto (fun N : ℕ => ((exceptional N ε).card : ℝ) / (N : ℝ)) atTop (𝓝 0)
 
 /-- **Turán's variance estimate**, as a proposition.  Proved below as
-`turan_variance`, with the explicit constant `5855`. -/
+`turan_variance`, with the explicit constant `275`. -/
 def TuranVariance : Prop :=
   ∃ C : ℝ, ∀ᶠ N : ℕ in atTop,
     ∑ n ∈ Finset.Ioc 0 N, ((omega n : ℝ) - loglog N) ^ 2 ≤ C * (N : ℝ) * loglog N
@@ -283,15 +296,17 @@ theorem second_moment_upper (N : ℕ) :
 
 /-! ### Turán's variance bound -/
 
-/-- **Turán's variance bound, with the explicit constant `5855`**: whenever
-`1 ≤ loglog N`, `∑_{n ≤ N} (ω n − loglog N)² ≤ 5855 · N · loglog N`.
+/-- **Turán's variance bound, with the explicit constant `275`**: whenever
+`1 ≤ loglog N`, `∑_{n ≤ N} (ω n − loglog N)² ≤ 275 · N · loglog N`.
 
-The constant decomposes as `76² + 76 + 3 ≤ 5855`, where `76` is the
-(deliberately coarse) Mertens band of `ZetaLean.Mertens.mertens_second_theorem`. -/
+The constant decomposes as `16² + 16 + 3 = 275`, where `16` is the Mertens
+band of `ZetaLean.Mertens.mertens_second_theorem`.  The dependence on that
+band is quadratic, which is why tightening Mertens is the whole lever
+here: the `76` this file was first proved with gave `5855`. -/
 theorem sum_sq_dev_le {N : ℕ} (hL : 1 ≤ loglog N) :
     ∑ n ∈ Finset.Ioc 0 N, ((omega n : ℝ) - loglog N) ^ 2
-      ≤ 5855 * (N : ℝ) * loglog N := by
-  have hMert : |(∑ p ∈ Finset.Ioc 0 N with p.Prime, ((p : ℝ))⁻¹) - loglog N| ≤ 76 :=
+      ≤ 275 * (N : ℝ) * loglog N := by
+  have hMert : |(∑ p ∈ Finset.Ioc 0 N with p.Prime, ((p : ℝ))⁻¹) - loglog N| ≤ 16 :=
     ZetaLean.Mertens.mertens_second_theorem N
   obtain ⟨hMl, hMu⟩ := abs_le.mp hMert
   have hN0 : (0 : ℝ) ≤ (N : ℝ) := Nat.cast_nonneg N
@@ -315,10 +330,10 @@ theorem sum_sq_dev_le {N : ℕ} (hL : 1 ≤ loglog N) :
   have key : 2 * L * ((N : ℝ) * S - N)
       ≤ 2 * L * ((∑ n ∈ Finset.Ioc 0 N, omega n : ℕ) : ℝ) :=
     mul_le_mul_of_nonneg_left hM1l (by linarith)
-  have hsq : (S - L) ^ 2 ≤ 5776 := by nlinarith
-  have hD2 : (N : ℝ) * (S - L) ^ 2 ≤ (N : ℝ) * 5776 :=
+  have hsq : (S - L) ^ 2 ≤ 256 := by nlinarith
+  have hD2 : (N : ℝ) * (S - L) ^ 2 ≤ (N : ℝ) * 256 :=
     mul_le_mul_of_nonneg_left hsq hN0
-  have hSu : (N : ℝ) * S ≤ (N : ℝ) * (L + 76) :=
+  have hSu : (N : ℝ) * S ≤ (N : ℝ) * (L + 16) :=
     mul_le_mul_of_nonneg_left (by linarith) hN0
   have hNL : (N : ℝ) * 1 ≤ (N : ℝ) * L := mul_le_mul_of_nonneg_left hL hN0
   nlinarith [hexp, hM2, key, hD2, hSu, hNL]
@@ -326,9 +341,9 @@ theorem sum_sq_dev_le {N : ℕ} (hL : 1 ≤ loglog N) :
 private theorem tendsto_loglog : Tendsto loglog atTop atTop :=
   Real.tendsto_log_atTop.comp (Real.tendsto_log_atTop.comp tendsto_natCast_atTop_atTop)
 
-/-- **Turán's variance estimate**, with the explicit constant `5855`. -/
+/-- **Turán's variance estimate**, with the explicit constant `275`. -/
 theorem turan_variance : TuranVariance := by
-  refine ⟨5855, ?_⟩
+  refine ⟨275, ?_⟩
   filter_upwards [tendsto_loglog.eventually_ge_atTop 1] with N hL
   exact sum_sq_dev_le hL
 
@@ -376,5 +391,198 @@ order `log log n`, in the density form.  Turán's proof, assembled from the
 variance bound `turan_variance` and the Chebyshev step. -/
 theorem hardy_ramanujan : HardyRamanujanTheorem :=
   hardyRamanujan_of_turanVariance turan_variance
+
+/-! ### The bridge to Mathlib's `ArithmeticFunction.cardDistinctFactors`
+
+`omega` is spelled out above so that no `ArithmeticFunction` coercion sits
+between the combinatorics and the sums.  That is a convenience for the proof
+and an obstacle for a consumer: anything built on Mathlib's own vocabulary
+names the same quantity `ArithmeticFunction.cardDistinctFactors`, written `ω`
+in that scope.  The two agree definitionally, and the theorem is restated
+below in Mathlib's spelling so it can be cited without unfolding anything
+this file defines. -/
+
+/-- **The bridge**: `omega` is Mathlib's `ArithmeticFunction.cardDistinctFactors`
+(scoped notation `ω`).
+
+The two are spelled differently — this file counts `n.primeFactors.card`,
+Mathlib counts `n.primeFactorsList.dedup.length` — and `Nat.primeFactors` is
+`primeFactorsList.toFinset`, so the two unfold to the same term and the proof
+is `rfl`.  That is worth pinning rather than assuming: the equality is a fact
+about two library definitions, either of which could be restated. -/
+@[simp]
+theorem omega_eq_cardDistinctFactors (n : ℕ) :
+    omega n = ArithmeticFunction.cardDistinctFactors n := rfl
+
+/-- The exceptional set of `hardy_ramanujan`, written with Mathlib's `ω`. -/
+theorem exceptional_eq_filter_cardDistinctFactors (N : ℕ) (ε : ℝ) :
+    exceptional N ε
+      = (Finset.Ioc 0 N).filter fun n =>
+          ε * Real.log (Real.log N)
+            < |((ArithmeticFunction.cardDistinctFactors n : ℕ) : ℝ)
+                - Real.log (Real.log N)| := by
+  rfl
+
+/-- **The Hardy–Ramanujan theorem in Mathlib's vocabulary.**  Identical content
+to `hardy_ramanujan`, with `omega` and `loglog` unfolded to
+`ArithmeticFunction.cardDistinctFactors` and `Real.log (Real.log N)`, so that a
+consumer needs nothing from this namespace to state it. -/
+theorem hardy_ramanujan_cardDistinctFactors (ε : ℝ) (hε : 0 < ε) :
+    Tendsto (fun N : ℕ =>
+        (((Finset.Ioc 0 N).filter fun n =>
+            ε * Real.log (Real.log N)
+              < |((ArithmeticFunction.cardDistinctFactors n : ℕ) : ℝ)
+                  - Real.log (Real.log N)|).card : ℝ) / (N : ℝ))
+      atTop (𝓝 0) :=
+  hardy_ramanujan ε hε
+
+/-! ### The pointwise form
+
+`hardy_ramanujan` normalises every `n ∈ (0, N]` by the same `log log N`.  The
+form usually quoted normalises each `n` by its own `log log n`.  The two differ
+only on a set of density `0`, and the transfer is elementary: split `(0, N]` at
+`√N`.  Below the split there are at most `√N` integers, which is `o(N)`.  Above
+it `n * n > N` forces `log n > (log N)/2`, so `log log n` sits within `log 2`
+of `log log N`, and a deviation of `ε · log log n` eventually forces a deviation
+of `(ε/2) · log log N` — which `hardy_ramanujan` already controls at `ε/2`. -/
+
+/-- The pointwise exceptional set: the deviation of `ω n` is measured against
+`log log n`, not against `log log N`. -/
+noncomputable def exceptionalPointwise (N : ℕ) (ε : ℝ) : Finset ℕ :=
+  (Finset.Ioc 0 N).filter fun n => ε * loglog n < |(omega n : ℝ) - loglog n|
+
+/-- **The Hardy–Ramanujan theorem, pointwise form**, as a proposition.  Proved
+below as `hardy_ramanujan_pointwise`. -/
+def HardyRamanujanPointwise : Prop :=
+  ∀ ε : ℝ, 0 < ε →
+    Tendsto (fun N : ℕ => ((exceptionalPointwise N ε).card : ℝ) / (N : ℝ)) atTop (𝓝 0)
+
+/-- `loglog` is monotone from `2` upwards (below `2` the outer `log` is applied
+to a nonpositive number and the junk value takes over). -/
+private theorem loglog_le_loglog {m n : ℕ} (hm : 2 ≤ m) (hmn : m ≤ n) :
+    loglog m ≤ loglog n := by
+  have hm1 : (1 : ℝ) < (m : ℝ) := by exact_mod_cast (by omega : 1 < m)
+  have hm0 : (0 : ℝ) < (m : ℝ) := by linarith
+  have hlogm : 0 < Real.log (m : ℝ) := Real.log_pos hm1
+  have hmn' : (m : ℝ) ≤ (n : ℝ) := by exact_mod_cast hmn
+  have h1 : Real.log (m : ℝ) ≤ Real.log (n : ℝ) := Real.log_le_log hm0 hmn'
+  exact Real.log_le_log hlogm h1
+
+/-- **The split estimate.**  For `n ≤ N` above the square root of `N`,
+`log log n` lies in `(log log N − log 2, log log N]`. -/
+private theorem loglog_band {N n : ℕ} (hN : 2 ≤ N) (hnN : n ≤ N) (hn : N < n * n) :
+    loglog N - Real.log 2 < loglog n ∧ loglog n ≤ loglog N := by
+  have hn2 : 2 ≤ n := by
+    rcases Nat.lt_or_ge n 2 with h | h
+    · interval_cases n <;> omega
+    · exact h
+  have hN1 : (1 : ℝ) < (N : ℝ) := by exact_mod_cast (by omega : 1 < N)
+  have hN0 : (0 : ℝ) < (N : ℝ) := by linarith
+  have hlogN : 0 < Real.log (N : ℝ) := Real.log_pos hN1
+  have hn1 : (1 : ℝ) < (n : ℝ) := by exact_mod_cast (by omega : 1 < n)
+  have hlogn : 0 < Real.log (n : ℝ) := Real.log_pos hn1
+  refine ⟨?_, loglog_le_loglog hn2 hnN⟩
+  -- `N < n * n` gives `log N < 2 log n`
+  have hlt : (N : ℝ) < (n : ℝ) * (n : ℝ) := by exact_mod_cast hn
+  have hmul : Real.log (N : ℝ) < Real.log ((n : ℝ) * (n : ℝ)) := Real.log_lt_log hN0 hlt
+  rw [Real.log_mul (by linarith) (by linarith)] at hmul
+  have hhalf : Real.log (N : ℝ) / 2 < Real.log (n : ℝ) := by linarith
+  have hhalf0 : 0 < Real.log (N : ℝ) / 2 := by linarith
+  have hstep : Real.log (Real.log (N : ℝ) / 2) < Real.log (Real.log (n : ℝ)) :=
+    Real.log_lt_log hhalf0 hhalf
+  have hrw : loglog N - Real.log 2 = Real.log (Real.log (N : ℝ) / 2) := by
+    rw [Real.log_div (by linarith) (by norm_num)]
+    rfl
+  rw [hrw]
+  exact hstep
+
+/-- The pointwise exceptional set is contained in the low range `n ≤ √N`
+together with the uniform exceptional set at half the tolerance, as soon as
+`log log N` has outgrown the `log 2` slack of the split. -/
+private theorem exceptionalPointwise_subset {N : ℕ} {ε : ℝ} (hε : 0 < ε)
+    (hN : 2 ≤ N) (hL : (ε + 1) * Real.log 2 ≤ ε / 2 * loglog N) :
+    exceptionalPointwise N ε
+      ⊆ ((Finset.Ioc 0 N).filter fun n => n * n ≤ N) ∪ exceptional N (ε / 2) := by
+  intro n hn
+  rw [exceptionalPointwise, Finset.mem_filter, Finset.mem_Ioc] at hn
+  obtain ⟨⟨hn0, hnN⟩, hdev⟩ := hn
+  by_cases hle : n * n ≤ N
+  · exact Finset.mem_union_left _
+      (Finset.mem_filter.mpr ⟨Finset.mem_Ioc.mpr ⟨hn0, hnN⟩, hle⟩)
+  have hlt : N < n * n := by omega
+  refine Finset.mem_union_right _ ?_
+  obtain ⟨h1, h2⟩ := loglog_band hN hnN hlt
+  rw [exceptional, Finset.mem_filter, Finset.mem_Ioc]
+  refine ⟨⟨hn0, hnN⟩, ?_⟩
+  have habs : |(omega n : ℝ) - loglog n|
+      ≤ |(omega n : ℝ) - loglog N| + (loglog N - loglog n) := by
+    have h := abs_sub_le ((omega n : ℝ)) (loglog N) (loglog n)
+    rwa [abs_of_nonneg (by linarith : (0 : ℝ) ≤ loglog N - loglog n)] at h
+  have hmul : ε * (loglog N - Real.log 2) ≤ ε * loglog n :=
+    mul_le_mul_of_nonneg_left h1.le hε.le
+  nlinarith [hdev, habs, hmul, hL, h1, h2]
+
+/-- `√N / N → 0`: the low range of the split has density `0`. -/
+private theorem tendsto_natSqrt_div :
+    Tendsto (fun N : ℕ => ((Nat.sqrt N : ℕ) : ℝ) / (N : ℝ)) atTop (𝓝 0) := by
+  have hs : Tendsto (fun N : ℕ => ((Nat.sqrt N : ℕ) : ℝ)) atTop atTop :=
+    tendsto_natCast_atTop_atTop.comp
+      (tendsto_atTop_atTop.2 fun b => ⟨b * b, fun a ha => by
+        calc b = Nat.sqrt (b * b) := (Nat.sqrt_eq b).symm
+          _ ≤ Nat.sqrt a := Nat.sqrt_le_sqrt ha⟩)
+  refine squeeze_zero' (Eventually.of_forall fun N => by positivity) ?_
+    (show Tendsto (fun N : ℕ => (((Nat.sqrt N : ℕ) : ℝ))⁻¹) atTop (𝓝 0) by
+      exact hs.inv_tendsto_atTop)
+  filter_upwards [eventually_ge_atTop 1] with N hN
+  have hN0 : (0 : ℝ) < (N : ℝ) := by exact_mod_cast hN
+  have hs1 : 1 ≤ Nat.sqrt N := Nat.le_sqrt.mpr (by simpa using hN)
+  have hs0 : (0 : ℝ) < ((Nat.sqrt N : ℕ) : ℝ) := by exact_mod_cast hs1
+  have hkey : ((Nat.sqrt N : ℕ) : ℝ) * ((Nat.sqrt N : ℕ) : ℝ) ≤ (N : ℝ) := by
+    exact_mod_cast Nat.sqrt_le N
+  rw [div_le_iff₀ hN0, inv_mul_eq_div, le_div_iff₀ hs0]
+  exact hkey
+
+/-- The low range of the split has at most `√N` elements. -/
+private theorem card_low_range_le (N : ℕ) :
+    (((Finset.Ioc 0 N).filter fun n => n * n ≤ N).card : ℝ) ≤ ((Nat.sqrt N : ℕ) : ℝ) := by
+  have hsub : ((Finset.Ioc 0 N).filter fun n => n * n ≤ N) ⊆ Finset.Icc 1 (Nat.sqrt N) := by
+    intro n hn
+    rw [Finset.mem_filter, Finset.mem_Ioc] at hn
+    exact Finset.mem_Icc.mpr ⟨hn.1.1, Nat.le_sqrt.mpr hn.2⟩
+  have hcard := Finset.card_le_card hsub
+  rw [Nat.card_Icc] at hcard
+  have : ((Finset.Ioc 0 N).filter fun n => n * n ≤ N).card ≤ Nat.sqrt N := by omega
+  exact_mod_cast this
+
+/-- **The Hardy–Ramanujan theorem, pointwise form**: for every `ε > 0` the
+density of the `n ≤ N` with `|ω n − log log n| > ε · log log n` tends to `0`.
+Deduced from `hardy_ramanujan` by the `√N` split, with no new arithmetic
+input — the variance bound and Mertens' band are used exactly as they stand. -/
+theorem hardy_ramanujan_pointwise : HardyRamanujanPointwise := by
+  intro ε hε
+  have hmain := hardy_ramanujan (ε / 2) (by positivity)
+  refine squeeze_zero' (Eventually.of_forall fun N => by positivity) ?_
+    (by simpa using tendsto_natSqrt_div.add hmain)
+  filter_upwards [eventually_ge_atTop 2,
+    tendsto_loglog.eventually_ge_atTop (2 * (ε + 1) * Real.log 2 / ε)] with N hN2 hNL
+  have hNr : (0 : ℝ) < (N : ℝ) := by exact_mod_cast (by omega : 0 < N)
+  have hL : (ε + 1) * Real.log 2 ≤ ε / 2 * loglog N := by
+    have h := mul_le_mul_of_nonneg_left hNL hε.le
+    have heq : ε * (2 * (ε + 1) * Real.log 2 / ε) = 2 * (ε + 1) * Real.log 2 := by
+      field_simp
+    rw [heq] at h
+    linarith
+  have hsubset := exceptionalPointwise_subset hε hN2 hL
+  have hcard : (exceptionalPointwise N ε).card
+      ≤ ((Finset.Ioc 0 N).filter fun n => n * n ≤ N).card + (exceptional N (ε / 2)).card :=
+    (Finset.card_le_card hsubset).trans (Finset.card_union_le _ _)
+  have hcast : ((exceptionalPointwise N ε).card : ℝ)
+      ≤ ((Nat.sqrt N : ℕ) : ℝ) + ((exceptional N (ε / 2)).card : ℝ) := by
+    have h : ((exceptionalPointwise N ε).card : ℝ)
+        ≤ ((((Finset.Ioc 0 N).filter fun n => n * n ≤ N).card : ℕ) : ℝ)
+          + ((exceptional N (ε / 2)).card : ℝ) := by exact_mod_cast hcard
+    linarith [card_low_range_le N]
+  rw [← add_div]
+  gcongr
 
 end ZetaLean.HardyRamanujan

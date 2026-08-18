@@ -186,7 +186,7 @@ with their mechanism.
   negative-eigenvalue hunt and window global optimality).
 
 
-## RF-C008 — the corrected series are entire; second derivative at 0.9578, third honestly out
+## RF-C008 — the corrected coefficient series have infinite radius; second derivative at 0.9578, third honestly out
 
 - **Delivered 2026-08-17 (second session), FK-THEORY arm.** Record:
   `fkappa/RESULTS.md` section 6, `fkappa/theory_notes.md` (6 checkpoints),
@@ -201,7 +201,15 @@ with their mechanism.
 - **(b) Tail bound, the campaign's target.** Derived (outline complete,
   constants unoptimized): |C_{kappa,i}| <= C_kappa^i / floor(i/2)!, a
   Gevrey-1/2 bound forced by the s-degree grading. Hence every corrected
-  row is entire of order <= 2 and limsup |C_i|^{1/i} = 0. Measured
+  row's coefficient series has infinite radius of convergence, i.e.
+  limsup |C_i|^{1/i} = 0. **Wording corrected 2026-08-18** after main's
+  `d799aac` (a referee's catch on Pub 1's `F1`): the object with infinite
+  radius is the series in the half-line variable, NOT F_kappa(alpha)
+  itself. F_kappa carries |alpha| powers, so it has a corner at the
+  origin and is neither entire nor differentiable there. The tail bound
+  is unaffected: it is a statement about coefficients, and the
+  alpha -> 1 and alpha-optimized evaluations below only ever use the
+  series on the half line. Measured
   exactly to i = 81: (|C_i| Gamma(i/2+1))^{1/i} flat at ~1.13 (kappa 2),
   ~1.4 (kappa 3), ~0.66 (kappa 1 = Farmer-Gonek).
 - **(c) Consequences, under RH + Bian Theorem 1 hypotheses.** kappa = 2:
