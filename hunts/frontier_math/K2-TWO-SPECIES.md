@@ -192,6 +192,44 @@ a genuine bite could only be positive.  That pass also gives the reason:
 charges both cuts are admissible for *any* caps, not only the ones this table
 builds.  The first assumption, the clamp, is still true only by geometry.
 
+**Amended 2026-08-18 (`hunts/r_b9552d`, run `37fb06a9`).**  Section 5's T1
+is now known to be two obligations rather than one, and its `rho` has a
+closed-form ceiling.  Splitting `gram_form.budget_gram`'s Gram sums into
+diagonal and off-diagonal parts is the identity
+
+    sum_{p!=q}[Dam(2y,tau) - Kpair(tau)]  =  k*Shq(y) - 2B + P,
+    P := sum_{p!=q} [-D(2y,tau)]^+  >=  0
+
+(residual 8.0e-15 over 300 random configurations).  `B >= 0` already follows
+from `Retention.energy_F_ge`, so **T1 with the signed damage and `rho = 0` is
+a consequence of a kernel-checked theorem**, and the whole content of T1 is
+the strict positivity of `rho` together with `P`, which is exactly the credit
+the `D <= Dam` step discards.  T1 then holds with reserve `rho` if and only if
+`rho*k*Shq(y) <= 2B - P`, so `rho <= 2B/(k*Shq)`; on the critical `2*pi`
+lattice `P = 0` (measured to `d = 4000`) and `B/k -> c2(0) - A^2` exactly by
+defect #24, giving
+
+    rho  <=  2 (c2(0) - A^2) / Shq(1/2)  =  0.153216295...
+
+and `0.119590...` against Lean's proved floor `2 Shq y >= 0.51944 y^2`.  That
+replaces the measured "87.8% of the per-centre budget" with a closed form.  It
+is a ceiling on the reserve, not a floor, so it constrains a future atom
+argument and proves nothing about T1.
+
+That run also **failed to reproduce G4**, the `1,1,2,1,1,2,3` row of `0.1200`
+that is the only recorded evidence against lattice extremality: under three
+readings of the pattern it measures `0.0666` (gaps, averaged over centres),
+`0.0902` (gaps, maximised over centres) and `-1.3600` (site multiplicities),
+against `0.1143` for the uniform lattice in the same normalisation.  Three
+searches — exhaustive periodic occupancy for periods up to 14, free periodic
+with up to 8 free positions in a free period, and free finite `k` — all
+returned the uniform `2*pi` lattice, with a planted-fault ladder that first
+fires at 1.20x damage against a 1.18x measured margin.  The discrepancy is
+recorded, not adjudicated: `0.1200` may be a per-centre maximum rather than
+an average, in which case it was never a counterexample to T1, which sums
+over ordered pairs.  Until it is resolved, G4 should be read as unverified
+rather than as established.  Details in `hunts/r_b9552d/RESULTS.md`.
+
 The quantifier discipline of defect #19 applies verbatim: this is the
 **first multi-pair case** of blocker 2, not blocker 2.  The blocker's
 statement carries every `k` and per-pair depths; what closes here is

@@ -142,6 +142,63 @@ prime number theorem, not a constant. Earlier case-log entries and the
 `r_3c1cbb` / `r_0339c1` write-ups still quote the old constants; those are
 records of what those runs proved and are left as written. Nothing here bears
 on ζ or RH (`docs/08`); external verification remains pending.
+### Hunt #46 — where the centre-gas obligation T1 resists (`r_b9552d/`)
+
+**Status: not settled, which was the expected outcome.** `k >= 3` is not
+closed, T1 is not proved, and the reading of record does not move. Run
+`37fb06a9` probed the first half of `K2-TWO-SPECIES.md` §5's two-species
+split. Three things came back.
+
+**T1 restated against a budget that is already proved.** Splitting
+`gram_form.budget_gram`'s Gram sums into diagonal and off-diagonal parts
+gives the identity `GAS = k·Shq(y) − 2B + P`, with
+`GAS = Σ_{p≠q}[Dam(2y,τ) − Kpair(τ)]` and
+`P = Σ_{p≠q}[−D(2y,τ)]⁺ ≥ 0` (residual 8.0e-15 over 300 random
+configurations). `B ≥ 0` already follows from `Retention.energy_F_ge`, so
+T1 with the *signed* damage and `ρ = 0` is a consequence of a
+kernel-checked theorem, and the whole content of T1 is the strict
+positivity of `ρ` together with `P`, the credit thrown away by the
+`D ≤ Dam` step.
+
+**An exact ceiling on the atom reserve.** T1 holds with reserve `ρ` exactly
+when `ρ·k·Shq ≤ 2B − P`. On the critical `2π` lattice `P = 0` (measured out
+to `d = 4000`) and `B/k → c2(0) − A²` exactly, by defect #24's Poisson
+summation, so `ρ ≤ 2(c2(0) − A²)/Shq(1/2) = 0.153216295…`, and `0.119590…`
+against Lean's proved floor `2·Shq y ≥ 0.51944 y²`. That is a closed form
+where `K2-TWO-SPECIES.md` §5 had the measured "87.8% of the per-centre
+budget". It is a ceiling, not a floor, so it constrains any future atom
+argument and proves nothing about T1 itself.
+
+**The gas extremum, searched three ways, is the uniform `2π` lattice.**
+Exhaustive periodic occupancy (every subset of `Z_p` for `p ≤ 14`, 230 base
+spacings), free periodic (`m ≤ 8` free positions in a free period), and free
+finite `k` all return it: best row `0.05716` against the budget `0.06751`,
+ratio `0.8466`. The planted-fault ladder first reports a violation at 1.20×
+damage against a 1.18× measured margin, so the verdict comes from a search
+with demonstrated power at that scale — and no demonstrated power against a
+family the search cannot represent.
+
+**One recorded number did not reproduce.** `two_species.NAMED_GAPS` G4
+records the `1,1,2,1,1,2,3` occupancy at step `2π` reaching a per-row
+`0.1200` against the lattice's `0.1140`, and it is the only on-file evidence
+against lattice extremality. Under all three natural readings of the
+pattern this run measures `0.0666` (gaps, averaged), `0.0902` (gaps,
+maximised over centres) and `−1.3600` (multiplicities) against `0.1143` for
+the lattice. This is a failure to reproduce and is reported as exactly that:
+the pattern may mean something the run did not try, or `0.1200` may be a
+per-centre maximum, in which case it was never a counterexample to T1, which
+is an average statement. `hunts/r_b9552d/RESULTS.md` §4 gives all three and
+does not adjudicate.
+
+Also assessed and **not settled**: a Cohn–Elkies-style certificate for T1
+(`G ≥ Dam − Kpair` pointwise with `Ĝ ≤ 0`, giving `GAS ≤ −k·G(0)` for every
+configuration at once). It is not on the recorded dead list and is distinct
+from all five routes there. Its truncated LP value has to clear `0.05716`
+before it bounds anything and stay under `0.06751` for the route to work; it
+reached `0.05410` at horizon 200 and the solver failed above that. Every
+number here is double precision, no enclosures, no Lean. Nothing bears on RH
+(`docs/08`).
+
 ### Hunt #45 — the omega bridge, and the pointwise Hardy–Ramanujan (`r_233abe/`)
 
 **Status: settled. Both threads closed, zero `sorry`s, axioms unchanged, no
