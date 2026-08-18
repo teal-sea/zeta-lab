@@ -1,0 +1,106 @@
+{
+  "run_id": "40c2efbc-2ed1-4de3-a762-fc57524791f6",
+  "hunt": "r_88dc5e",
+  "case_log_entry": 47,
+  "date": "2026-08-18",
+  "package": "hunts/frontier_math/zeta23ext",
+  "toolchain": "leanprover/lean4:v4.33.0-rc2",
+  "status": "settled",
+  "retirement": {
+    "lemmas_retired": ["O9Seam.r_comp_mem", "Retention.rIv_mem"],
+    "use_site_survey_rerun": true,
+    "use_sites_found": {
+      "O9Seam.r_comp_mem": ["Zeta23Ext/EForm3/O9Assemble.lean:55 (Retention.rIv_mem)"],
+      "Retention.rIv_mem": []
+    },
+    "reproof_cost": "none",
+    "files_edited": [
+      "Zeta23Ext/EForm3/O9Real.lean",
+      "Zeta23Ext/EForm3/O9Assemble.lean",
+      "Zeta23Ext/EForm3/O9Audit.lean",
+      "Zeta23Ext/EForm3/O9NumShape.lean"
+    ]
+  },
+  "new_modules": [
+    {
+      "path": "Zeta23Ext/EForm3/O9Bridge.lean",
+      "purpose": "BandDual.Phi2 to the retention integrals Qre and Qim",
+      "sorry_count": 0,
+      "declarations": [
+        "Retention.sin_pt_re_im",
+        "Retention.sq_add_sq_pos",
+        "Retention.sfunC_re_im",
+        "Retention.shift_pt",
+        "Retention.shift_pt'",
+        "Retention.phi2_re_eq_Qre",
+        "Retention.phi2_im_eq_neg_Qim",
+        "Retention.qreIv_mem_Qre",
+        "Retention.rIv_mem_R"
+      ]
+    },
+    {
+      "path": "Zeta23Ext/EForm3/O9Modes.lean",
+      "purpose": "the two-mode arithmetic: o9Box's Bool verdict to the damage bound",
+      "sorry_count": 0,
+      "declarations": [
+        "Retention.pt_mem'",
+        "Retention.dam_le_mode1_of_iv",
+        "Retention.dam_le_mode2_of_iv",
+        "Retention.dam_le_of_box",
+        "Retention.o9Box_of_mem",
+        "Retention.dam_le_of_mem_walk",
+        "Retention.box0_in_chunk0",
+        "Retention.dam_le_box0"
+      ]
+    }
+  ],
+  "build": {
+    "cache_get": "ok",
+    "targets": [
+      {"target": "Zeta23Ext.EForm3.O9Bridge", "exit": 0},
+      {"target": "Zeta23Ext.EForm3.O9Modes", "exit": 0},
+      {"target": "Zeta23Ext.EForm3.O9Audit", "exit": 0},
+      {"target": "Zeta23Ext.EForm3.Main", "exit": 0}
+    ],
+    "whole_package_build": {
+      "exit": 1,
+      "pre_existing": true,
+      "failing_modules": ["Zeta23Ext/TruncEst/Kernel.lean", "Zeta23Ext/EForm2/Bridge.lean"],
+      "touched_by_this_run": false,
+      "cause": "Mathlib drift (sin_gt_sub_cube arity, HasDerivAt instance mismatch, simp made no progress)"
+    }
+  },
+  "axioms": {
+    "all_new_declarations": ["propext", "Classical.choice", "Quot.sound"],
+    "propext_only": ["Retention.o9Box_of_mem", "Retention.box0_in_chunk0"],
+    "sorry_axioms": 0
+  },
+  "instantiation": {
+    "box": [103301766812773489049, 107547284961337742355, 0, 4611686018427387904, 0, 2],
+    "box_index_in_o9boxes": 0,
+    "mode": 2,
+    "cap": 0,
+    "point": {"s": "23/4", "y": "1/8"},
+    "verdict_source": "Retention.o9_box_chunk0 (decide +kernel over rows 0-39)",
+    "theorem": "Retention.dam_le_box0",
+    "vacuous": false
+  },
+  "gap_found_and_closed": {
+    "what": "no lemma related BandDual.Phi2 to Retention.Qre / Retention.Qim",
+    "why_it_mattered": "the enclosure chain reached Phi2 while the damage obligation is stated over the window integrals",
+    "closed_by": ["Retention.phi2_re_eq_Qre", "Retention.phi2_im_eq_neg_Qim"]
+  },
+  "not_claimed": [
+    "O9 soundness closed end to end",
+    "a covering of [28/5,60] x [0,1/2] by the recorded boxes",
+    "assembly of the per-box bound into the Gap/FarField form"
+  ],
+  "budget": {
+    "allotted_minutes": 80,
+    "approx_actual_minutes": 95,
+    "overrun_causes": [
+      "fresh clone: elan install and lake exe cache get before any mathematics",
+      "simp only [o9Box] / rw [o9Box] whnf heartbeat timeout; unfold + split is the working route"
+    ]
+  }
+}

@@ -10,6 +10,8 @@ import Zeta23Ext.EForm3.O9RoundTrip
 import Zeta23Ext.EForm3.O9PhiCmp
 import Zeta23Ext.EForm3.ShcTaylor
 import Zeta23Ext.EForm3.ShcBranch
+import Zeta23Ext.EForm3.O9Bridge
+import Zeta23Ext.EForm3.O9Modes
 
 /-!
 # O9 axiom audit, and the reason this file exists at all
@@ -58,7 +60,6 @@ namespace Retention
 #print axioms O9Real.im_div_eq
 #print axioms O9Real.im_div_over_y
 #print axioms O9Seam.qre_comp_mem
-#print axioms O9Seam.r_comp_mem
 #print axioms O9Seam.qre_comp_mem'
 #print axioms O9Seam.r_comp_mem'
 #print axioms O9Seam.denAbs2_mem
@@ -76,11 +77,24 @@ namespace Retention
 
 -- The compositions joined to the parts: the last structural step.
 #print axioms Retention.qreIv_mem
-#print axioms Retention.rIv_mem
 
 -- The same two with every field hypothesis discharged. `rIv_mem_box` goes
 -- through `r_comp_mem'`, not `r_comp_mem`: see its docstring.
 #print axioms Retention.qreIv_mem_box
 #print axioms Retention.rIv_mem_box
+
+-- The bridge to the quantities the obligation is about.
+#print axioms Retention.phi2_re_eq_Qre
+#print axioms Retention.phi2_im_eq_neg_Qim
+#print axioms Retention.qreIv_mem_Qre
+#print axioms Retention.rIv_mem_R
+
+-- The two-mode arithmetic, and its instantiation at a recorded box.
+#print axioms Retention.dam_le_mode1_of_iv
+#print axioms Retention.dam_le_mode2_of_iv
+#print axioms Retention.dam_le_of_box
+#print axioms Retention.o9Box_of_mem
+#print axioms Retention.dam_le_of_mem_walk
+#print axioms Retention.dam_le_box0
 
 end Retention

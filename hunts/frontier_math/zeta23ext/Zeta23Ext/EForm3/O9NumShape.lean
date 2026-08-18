@@ -41,21 +41,19 @@ rather than left as whatever the arithmetic happened to produce.
 
 ## Consequences for the dead-weight seam lemmas
 
-`O9Seam.r_comp_mem` and `Retention.rIv_mem` are true, zero-sorry and vacuous
-at every box in `o9boxes` (found by run 4df2ee65: they ask `denAbs2` to
+`O9Seam.r_comp_mem` and `Retention.rIv_mem` were true, zero-sorry and vacuous
+at every box in `o9boxes` (found by run 4df2ee65: they asked `denAbs2` to
 enclose `c*c + dOverY*dOverY` where it encloses `c*c + d*d`, `d = dOverY·y`).
-Nothing in this file rescues them, and nothing in this file needs them:
+Nothing in this file rescued them, and nothing in this file needs them:
 `rIv_mem_phi2` below reaches `Phi2` through `r_comp_mem'` and `rIv_mem_box`,
 and `qreIv_mem_phi2` reaches it through `qre_comp_mem` and `qreIv_mem_box`.
-The two lemmas are therefore dead weight in the strict sense — nothing
-downstream is stated in terms of them — and retiring them costs no reproof.
-They are left in place here because deleting a declaration is a different
-decision from showing it unnecessary, and only the second is this file's.
+They were dead weight in the strict sense — nothing downstream was stated in
+terms of them — and both were **retired on 2026-08-18** at no reproof cost.
 
 ## Instantiability
 
 A lemma that compiles is not thereby a lemma with content, which is exactly
-the lesson `r_comp_mem` taught. Every identification below is therefore also
+the lesson the retired `r_comp_mem` taught. Every identification below is therefore also
 instantiated at a *recorded* box: the first row of `Retention.o9boxes`
 (`box0_in_table`), at a concrete interior point, with the memberships
 discharged by `norm_num` rather than assumed.
@@ -255,7 +253,7 @@ theorem imOverYShape_ne_im_div_at_zero :
 
 With both numerator components identified, the compositions can be read back
 against `Phi2` itself rather than against abstract components. Both go through
-the corrected seam lemmas; neither touches `r_comp_mem` or `rIv_mem`. -/
+the corrected seam lemmas, which is why the retirement cost nothing. -/
 
 /-- The denominator's squared modulus is positive off the real axis. -/
 theorem denAbs2_pos {s y : ℝ} (hy : y ≠ 0) :

@@ -15,6 +15,8 @@ import Zeta23Ext.EForm3.O9Audit
 -- is exhibited rather than hedged). Both compositions are then read back
 -- against `Phi2` itself.
 import Zeta23Ext.EForm3.O9NumShape
+import Zeta23Ext.EForm3.O9Bridge
+import Zeta23Ext.EForm3.O9Modes
 
 open scoped BigOperators
 open scoped Real
