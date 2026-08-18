@@ -1,0 +1,184 @@
+{
+  "hunt": "r_8c3b94",
+  "case_log_entry": 48,
+  "run_id": "3d64c841-8905-4cb7-af22-0cf1738220ac",
+  "date": "2026-08-18",
+  "kind": "mapping",
+  "question": "What does each of the two standard routes to a formal Erdos-Kac cost in Lean, given Mathlib at the pin this repository uses and this tree's zero-sorry base?",
+  "status": "settled",
+
+  "environment": {
+    "lean_toolchain": "leanprover/lean4:v4.33.0-rc2",
+    "mathlib_rev": "51e6992efd06126df61a496bebf8f49482a4e129",
+    "mathlib_input_rev": "v4.33.0-rc2",
+    "manifest": "lean/lake-manifest.json",
+    "verification_method": "compiled hunts/r_8c3b94/Probe.lean with `lake env lean` against the pin; exit 0",
+    "probe_checks_mathlib": 43,
+    "probe_checks_this_tree": 9,
+    "note": "a hit is proved by compilation; a miss cannot be, and was established by name search over the pinned Mathlib source tree, recorded below with the search term used"
+  },
+
+  "base_on_main": {
+    "all_zero_sorry": true,
+    "declarations": [
+      "ZetaLean.HardyRamanujan.hardy_ramanujan",
+      "ZetaLean.HardyRamanujan.hardy_ramanujan_pointwise",
+      "ZetaLean.HardyRamanujan.hardy_ramanujan_cardDistinctFactors",
+      "ZetaLean.HardyRamanujan.omega_eq_cardDistinctFactors",
+      "ZetaLean.HardyRamanujan.sum_sq_dev_le",
+      "ZetaLean.HardyRamanujan.second_moment_upper",
+      "ZetaLean.HardyRamanujan.card_dvd_pair",
+      "ZetaLean.Mertens.mertens_second_theorem",
+      "ZetaLean.Mertens.mertens_first_theorem"
+    ],
+    "measured_line_counts": {
+      "lean/ZetaLean/Mertensstheorems.lean": 530,
+      "lean/ZetaLean/MertensSecond.lean": 354,
+      "lean/ZetaLean/HardyRamanujantheorem.lean": 588,
+      "lean/ZetaLean/HardyRamanujantheorem.lean:90-348 (k=2 moment proper)": 259,
+      "lean/ZetaLean/ChebyshevBounds.lean": 207
+    },
+    "calibration_run": {
+      "run_id": "43d363c1-71f0-4ebf-9d9d-632819f96794",
+      "produced": "lean/ZetaLean/HardyRamanujantheorem.lean, 588 lines",
+      "wall_clock_minutes": 34,
+      "output_tokens": 246656,
+      "caveat": "optimistic: reused statement and Chebyshev reduction from an earlier run, and counts surviving lines only"
+    }
+  },
+
+  "mathlib_search": {
+    "found": [
+      {"name": "ProbabilityTheory.tendstoInDistribution_inv_sqrt_mul_sum_sub", "module": "Mathlib/Probability/CentralLimitTheorem.lean", "note": "1-D CLT; hypotheses iIndepFun and IdentDistrib, so unusable for prime indicators"},
+      {"name": "ProbabilityTheory.tendstoInDistribution_inv_sqrt_mul_sum", "module": "Mathlib/Probability/CentralLimitTheorem.lean", "note": "centered unit-variance form, same hypotheses"},
+      {"name": "ProbabilityTheory.charFun_inv_sqrt_mul_sum", "module": "Mathlib/Probability/CentralLimitTheorem.lean", "note": "charFun of a normalised iid sum is a power"},
+      {"name": "MeasureTheory.ProbabilityMeasure.tendsto_iff_tendsto_charFun", "module": "Mathlib/MeasureTheory/Measure/LevyConvergence.lean", "note": "Levy continuity, both directions; the hinge of both routes"},
+      {"name": "MeasureTheory.charFun", "module": "Mathlib/MeasureTheory/Measure/CharacteristicFunction/Basic.lean"},
+      {"name": "ProbabilityTheory.charFun_gaussianReal", "module": "Mathlib/Probability/Distributions/Gaussian/Real.lean"},
+      {"name": "MeasureTheory.taylor_charFun_two", "module": "Mathlib/MeasureTheory/Measure/CharacteristicFunction/TaylorExpansion.lean"},
+      {"name": "ProbabilityTheory.iIndepFun", "module": "Mathlib/Probability/Independence/Basic.lean"},
+      {"name": "MeasureTheory.TendstoInDistribution", "module": "Mathlib/MeasureTheory/Function/ConvergenceInDistribution.lean", "note": "indexed by a family of measure spaces, so a probability space varying with N already fits"},
+      {"name": "ProbabilityTheory.moment", "module": "Mathlib/Probability/Moments/Basic.lean", "note": "definition only"},
+      {"name": "ProbabilityTheory.centralMoment", "module": "Mathlib/Probability/Moments/Basic.lean", "note": "definition only"},
+      {"name": "ProbabilityTheory.centralMoment_two_eq_variance", "module": "Mathlib/Probability/Moments/Basic.lean"},
+      {"name": "ProbabilityTheory.mgf", "module": "Mathlib/Probability/Moments/Basic.lean"},
+      {"name": "ProbabilityTheory.iteratedDeriv_mgf_zero", "module": "Mathlib/Probability/Moments/MGFAnalytic.lean", "note": "moment/mgf link; scaffolding for the moments-to-charFun shortcut"},
+      {"name": "ProbabilityTheory.analyticAt_mgf", "module": "Mathlib/Probability/Moments/MGFAnalytic.lean"},
+      {"name": "ProbabilityTheory.gaussianReal", "module": "Mathlib/Probability/Distributions/Gaussian/Real.lean"},
+      {"name": "ProbabilityTheory.integral_id_gaussianReal", "module": "Mathlib/Probability/Distributions/Gaussian/Real.lean", "note": "first moment; nothing higher exists"},
+      {"name": "ProbabilityTheory.variance_id_gaussianReal", "module": "Mathlib/Probability/Distributions/Gaussian/Real.lean"},
+      {"name": "MeasureTheory.IsTightMeasureSet", "module": "Mathlib/MeasureTheory/Measure/Tight.lean"},
+      {"name": "isCompact_closure_of_isTightMeasureSet", "module": "Mathlib/MeasureTheory/Measure/Prokhorov.lean", "note": "root namespace; the MeasureTheory-qualified spelling is a miss"},
+      {"name": "ProbabilityTheory.uniformOn", "module": "Mathlib/Probability/UniformOn.lean"},
+      {"name": "ProbabilityTheory.uniformOn_apply_finset", "module": "Mathlib/Probability/UniformOn.lean"},
+      {"name": "ArithmeticFunction.cardDistinctFactors", "module": "Mathlib/NumberTheory/ArithmeticFunction/Misc.lean", "note": "omega; rfl-equal to ZetaLean.HardyRamanujan.omega"},
+      {"name": "ArithmeticFunction.cardDistinctFactors_mul", "module": "Mathlib/NumberTheory/ArithmeticFunction/Misc.lean"},
+      {"name": "Chebyshev.pi_le_log4_mul_div", "module": "Mathlib/NumberTheory/Chebyshev.lean", "note": "explicit upper bound on pi(x); bounds the moment route's O(pi(y)^k) error"},
+      {"name": "Chebyshev.pi_ge", "module": "Mathlib/NumberTheory/Chebyshev.lean"},
+      {"name": "Chebyshev.theta_le_log4_mul_x", "module": "Mathlib/NumberTheory/Chebyshev.lean"},
+      {"name": "Chebyshev.psi_le_const_mul_self", "module": "Mathlib/NumberTheory/Chebyshev.lean"},
+      {"name": "Nat.Primes.not_summable_one_div", "module": "Mathlib/NumberTheory/SumPrimeReciprocals.lean", "note": "divergence of sum 1/p with no rate; this is all Mathlib has near Mertens"},
+      {"name": "BoundingSieve", "module": "Mathlib/NumberTheory/SelbergSieve.lean", "note": "root namespace structure; SelbergSieve extends it"},
+      {"name": "BoundingSieve.siftedSum_le_mainSum_errSum_of_upperMoebius", "module": "Mathlib/NumberTheory/SelbergSieve.lean", "note": "upper bound only"},
+      {"name": "BoundingSieve.upperMoebius_lambdaSquared", "module": "Mathlib/NumberTheory/SelbergSieve.lean"},
+      {"name": "Nat.smoothNumbers", "module": "Mathlib/NumberTheory/SmoothNumbers.lean"},
+      {"name": "Nat.Ioc_filter_dvd_card_eq_div", "module": "Mathlib/Data/Nat/Factorization/Basic.lean", "note": "already used by the k=2 moment in this tree"},
+      {"name": "Nat.stirlingSecond", "module": "Mathlib/Combinatorics/Enumerative/Stirling.lean", "note": "recurrence and small values only; no set-partition content"},
+      {"name": "Nat.stirlingSecond_succ_succ", "module": "Mathlib/Combinatorics/Enumerative/Stirling.lean"},
+      {"name": "Nat.doubleFactorial", "module": "Mathlib/Data/Nat/Factorial/DoubleFactorial.lean"},
+      {"name": "Nat.factorial_eq_mul_doubleFactorial", "module": "Mathlib/Data/Nat/Factorial/DoubleFactorial.lean"},
+      {"name": "Real.Gamma_nat_add_half", "module": "Mathlib/Analysis/SpecialFunctions/Gaussian/GaussianIntegral.lean", "note": "Gamma(k+1/2) = (2k-1)!!*sqrt(pi)/2^k; one change of variables from the even Gaussian moments"},
+      {"name": "Real.Gamma_nat_add_one_add_half", "module": "Mathlib/Analysis/SpecialFunctions/Gaussian/GaussianIntegral.lean"},
+      {"name": "integral_gaussian", "module": "Mathlib/Analysis/SpecialFunctions/Gaussian/GaussianIntegral.lean"},
+      {"name": "Finpartition", "module": "Mathlib/Order/Partition/Finpartition.lean", "note": "structure exists; no Finset.sum reindexing lemma tying it to stirlingSecond"},
+      {"name": "ProbabilityTheory.Kernel.HasSubgaussianMGF", "module": "Mathlib/Probability/Moments/SubGaussian.lean", "note": "found by source search, not #check'd; relevant only to the A4-prime shortcut"}
+    ],
+
+    "not_found": [
+      {"searched_for": "berry.?esseen (case-insensitive, whole tree)", "found": false, "consequence": "Route B has no Berry-Esseen theorem to build on; it is also a heavier tool than the route needs"},
+      {"searched_for": "Lindeberg (whole tree)", "found": false, "consequence": "no CLT for triangular arrays and none for independent non-identically-distributed summands; Route B must build one"},
+      {"searched_for": "Carleman", "found": false, "consequence": "no moment-determinacy criterion, so no method of moments"},
+      {"searched_for": "method of moments", "found": false, "consequence": "moment convergence does not imply convergence in distribution anywhere in Mathlib"},
+      {"searched_for": "Hamburger / Stieltjes moment problem", "found": false, "consequence": "same"},
+      {"searched_for": "k-th moment of gaussianReal (integral of x^n against gaussianReal)", "found": false, "consequence": "the (2m-1)!! target of Route A must be proved; Real.Gamma_nat_add_half makes it standard"},
+      {"searched_for": "mertens (case-insensitive, whole tree)", "found": false, "consequence": "no Mertens first or second theorem in Mathlib; the only hit is Mathlib/RingTheory/Polynomial/ContentIdeal.lean, unrelated. This tree's ZetaLean.Mertens has no upstream counterpart"},
+      {"searched_for": "fundamental lemma (of sieve theory) / Brun", "found": false, "consequence": "BLOCKING for Route B. The phrase occurs once in SelbergSieve.lean, in a docstring. No lower-bound sieve, no two-sided asymptotic"},
+      {"searched_for": "Kubilius", "found": false, "consequence": "no probabilistic model of the prime indicators"},
+      {"searched_for": "stirlingSecond set-partition bijection / falling-factorial identity", "found": false, "consequence": "the k-th moment reindexing gets no help from the Stirling file"},
+      {"searched_for": "perfect matchings counted by doubleFactorial", "found": false, "consequence": "the (k-1)!! count in Route A must be proved"},
+      {"searched_for": "erdos / erdos-kac (case-insensitive)", "found": false, "consequence": "the target itself is absent, as expected"},
+      {"searched_for": "MeasureTheory.isCompact_closure_of_isTightMeasureSet", "found": false, "consequence": "spelling miss only; the lemma exists in the root namespace"},
+      {"searched_for": "SelbergSieve.BoundingSieve", "found": false, "consequence": "spelling miss only; BoundingSieve is a root-namespace structure"}
+    ]
+  },
+
+  "routes": {
+    "moment_method": {
+      "label": "Route A",
+      "obligations": [
+        {"id": "A1", "what": "truncate omega to omega_y at y = N^(1/2k); tail mean O_k(1) by the Mertens band, then Markov", "lines_low": 150, "lines_high": 250, "novel_fraction": 0.15, "mathlib_support": ["ZetaLean.Mertens.mertens_second_theorem (this tree, not Mathlib)"]},
+        {"id": "A2a", "what": "k-fold double count: average of a product of prime indicators is floor(N/prod)/N", "lines_low": 150, "lines_high": 250, "novel_fraction": 0.4, "mathlib_support": ["Nat.Ioc_filter_dvd_card_eq_div", "Nat.Coprime"]},
+        {"id": "A2b", "what": "reindex k-tuples of primes by the set-partition of [k] they induce", "lines_low": 400, "lines_high": 700, "novel_fraction": 1.0, "mathlib_support": [], "hardest": true},
+        {"id": "A2c", "what": "per-partition estimate; blocks of size >= 2 each contribute ~lambda; leading term is the (k-1)!! perfect matchings", "lines_low": 400, "lines_high": 600, "novel_fraction": 0.85, "mathlib_support": ["Nat.doubleFactorial"]},
+        {"id": "A2d", "what": "error term O(pi(y)^k / N) at y = N^(1/2k)", "lines_low": 150, "lines_high": 250, "novel_fraction": 0.25, "mathlib_support": ["Chebyshev.pi_le_log4_mul_div"]},
+        {"id": "A3", "what": "Gaussian moments: integral of x^k against gaussianReal 0 1 is (k-1)!! for even k, 0 for odd", "lines_low": 200, "lines_high": 300, "novel_fraction": 0.7, "mathlib_support": ["Real.Gamma_nat_add_half", "integral_gaussian"]},
+        {"id": "A4", "what": "method of moments: tightness, Prokhorov, Gaussian determinacy", "lines_low": 800, "lines_high": 1500, "novel_fraction": 1.0, "mathlib_support": ["MeasureTheory.IsTightMeasureSet", "isCompact_closure_of_isTightMeasureSet"]},
+        {"id": "A4-prime", "what": "alternative to A4: uniform moment bounds give charFun convergence directly, closed by Levy continuity", "lines_low": 300, "lines_high": 500, "novel_fraction": 0.8, "mathlib_support": ["MeasureTheory.ProbabilityMeasure.tendsto_iff_tendsto_charFun", "ProbabilityTheory.iteratedDeriv_mgf_zero"], "note": "preferred; trades A4's determinacy theory for explicit-constant work inside A2"}
+      ],
+      "total_lines_low": 2400,
+      "total_lines_high": 3700,
+      "novel_lines_low": 1800,
+      "novel_lines_high": 2600,
+      "hardest_step": "A2b, reindexing k-tuples of primes by set-partition of the index set. At k=2 this is `rcases eq_or_ne p q` and costs nothing; uniform in k it has no Mathlib support and the widest error band of any obligation.",
+      "blocked": false
+    },
+
+    "characteristic_function": {
+      "label": "Route B",
+      "obligations": [
+        {"id": "B1", "what": "apply Mathlib's CLT directly", "verdict": "impossible", "why": "requires iIndepFun and IdentDistrib; the prime indicators are dependent under the arithmetic measure, non-identically-distributed even under the independent model, and form a triangular array rather than a sequence"},
+        {"id": "B2", "what": "Berry-Esseen", "verdict": "absent from Mathlib, and heavier than the route needs (it supplies a rate; Erdos-Kac needs only the limit)"},
+        {"id": "B3", "what": "CLT for a triangular array of independent, non-identically-distributed, uniformly bounded summands", "lines_low": 600, "lines_high": 900, "novel_fraction": 1.0, "mathlib_support": ["MeasureTheory.charFun", "MeasureTheory.taylor_charFun_two", "ProbabilityTheory.charFun_gaussianReal", "MeasureTheory.ProbabilityMeasure.tendsto_iff_tendsto_charFun"], "reusable": true},
+        {"id": "B4", "what": "transfer from the arithmetic measure to the independent Bernoulli model", "lines_low": 3000, "lines_high": 6000, "novel_fraction": 1.0, "mathlib_support": [], "hardest": true, "blocking": true, "why": "needs the fundamental lemma of sieve theory (Kubilius), which Mathlib does not have (its sieve is upper-bound only) and which has no Lean formalization. The sieve-free variant fails: naive Mobius inclusion-exclusion over y-smooth squarefree divisors has error 2^(pi(y)), forcing y about log N, at which point loglog y is not asymptotic to loglog N and the normalisation dies."}
+      ],
+      "total_lines_low": 3600,
+      "total_lines_high": 6900,
+      "hardest_step": "B4. Not a large amount of known Lean work but a piece of mathematics nobody has formalized, whose cost is not estimable from here.",
+      "blocked": true
+    }
+  },
+
+  "structural_finding": {
+    "statement": "Route A needs only k-fold products, so its accumulated arithmetic error is pi(y)^k, polynomial. Route B's characteristic function needs all orders at once, so its error is 2^(pi(y)), exponential. Polynomial error tolerates y = N^(1/2k), which keeps loglog y asymptotic to loglog N; exponential error does not.",
+    "consequence": "the two routes are not two prices for the same object; one is priced and the other is blocked",
+    "grade": "derived in this run, not taken from a source; elementary, and flagged as a loose thread"
+  },
+
+  "correction_to_prior_prose": {
+    "claim": "the Mertens band 16 does not need tightening for Erdos-Kac",
+    "why": "the moment route uses the band only as an O(1) shift from lambda to loglog N, divided by sqrt(loglog N). Mertens with its constant M is not required and this tree does not have it.",
+    "supersedes": "hunts/r_0339c1/RESULTS.md treats the band as the lever; true for the Hardy-Ramanujan constant 275, not for Erdos-Kac"
+  },
+
+  "recommendation": {
+    "fund": "Route A, or nothing",
+    "do_not_fund": "Route B",
+    "first_obligation": "the k=4 central moment of omega_y with truncation: sum over n<=N of (omega_y(n) - lambda)^4 / N = 3*lambda^2 + O(lambda^1.5), as a single bounded file",
+    "why_k4": "smallest case where A2b is real: it has a 3-block-plus-singleton partition and two distinct perfect matchings, so the (k-1)!! count is exercised. k=3 is degenerate (leading term vanishes).",
+    "stop_condition": "if the k=4 file exceeds roughly 600 lines, more than twice the k=2 moment computation, the general-k estimate has failed and general k is out of reach at this tree's current state",
+    "cheap_alternatives_independent_of_erdos_kac": [
+      "B3, the triangular-array CLT: the most reusable object either route touches, wanted upstream, bounded",
+      "A3, the Gaussian moments: bounded, standard, absent from Mathlib",
+      "A4, method of moments: a Mathlib-grade contribution in its own right",
+      "the normal order of ArithmeticFunction.cardFactors (Omega): ~150 lines, best lines-to-result ratio in sight, on neither route"
+    ]
+  },
+
+  "scope_caveats": [
+    "nothing here is evidence for or against RH (docs/08)",
+    "no part of this run attempted the theorem; kill condition 3 was respected",
+    "line estimates count surviving lines only; the tree does not record discarded work, so every figure is biased low by an unknown factor",
+    "hit rows are proved by compilation; miss rows are name searches over the pinned source and cannot be proved the same way",
+    "Erdos-Kac is a theorem of 1940; a Lean proof of it would be an original kernel-checked result for this laboratory and would not be novel"
+  ]
+}
