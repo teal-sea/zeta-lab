@@ -153,6 +153,47 @@ def test_the_numbering_guard_fires_on_a_duplicate(tmp_path, monkeypatch) -> None
     numbering.test_no_two_docs_share_a_number()
 
 
+def test_the_pub1_status_guard_fires_on_a_flipped_grade(tmp_path, monkeypatch) -> None:
+    """A docs/27 row claiming the grade OBLIGATIONS.md does not must trip the check.
+
+    The mutant is the defect as it actually occurred on 2026-08-17, in the
+    direction that matters: the row bolds a grade the obligations file
+    contradicts. Both directions are exercised, because a guard that only
+    fires when the doc underclaims would be silent on the expensive case — a
+    row saying *unconditional* after an obligation reopened.
+    """
+    status_guard = _load_test_module("test_pub1_status")
+
+    obligations = tmp_path / "OBLIGATIONS.md"
+    doc = tmp_path / "27.md"
+    row = (
+        "| 3 | The Pub 1 source-admissible strong closure: **{grade}** "
+        "since 2026-08-16. | `lean/ZetaLean/Pub1.lean` |\n"
+    )
+    monkeypatch.setattr(status_guard, "OBLIGATIONS", obligations)
+    monkeypatch.setattr(status_guard, "DOC27", doc)
+
+    # Mutant A — obligations CLOSED, row still says Conditional (the real defect).
+    obligations.write_text("# Pub 1 strong closure — status: CLOSED\n", encoding="utf-8")
+    doc.write_text(row.format(grade="Conditional"), encoding="utf-8")
+    with pytest.raises(AssertionError, match="must claim"):
+        status_guard.test_docs_27_states_the_grade_the_obligations_file_declares()
+
+    # Control: the corrected row is silent against the same obligations file.
+    doc.write_text(row.format(grade="Unconditional"), encoding="utf-8")
+    status_guard.test_docs_27_states_the_grade_the_obligations_file_declares()
+
+    # Mutant B — the expensive direction: an obligation reopens, the row does not.
+    obligations.write_text("# Pub 1 strong closure — status: OPEN\n", encoding="utf-8")
+    with pytest.raises(AssertionError, match="must claim"):
+        status_guard.test_docs_27_states_the_grade_the_obligations_file_declares()
+
+    # Mutant C — a status nobody has taught the guard is undecided, not benign.
+    obligations.write_text("# Pub 1 strong closure — status: PARTIAL\n", encoding="utf-8")
+    with pytest.raises(AssertionError, match="does not know how to check"):
+        status_guard.test_the_declared_status_is_one_this_guard_understands()
+
+
 def test_the_reserved_word_guard_fires_on_a_probe_file(tmp_path, monkeypatch) -> None:
     """One overclaiming probe file must trip the lexical scan."""
     discipline = _load_test_module("test_hunt_probe_discipline")

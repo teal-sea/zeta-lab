@@ -103,8 +103,30 @@ theorem imNumOverY_mem (hs : EIv.mem (some ⟨sLo, sHi⟩) s)
   · exact EIv.add_mem (EIv.mul_mem (EIv.mul_mem hs hcs) hsov) (EIv.mul_mem hsn hch)
   · exact EIv.neg_mem (EIv.mul_mem hsn hsov)
 
+/-- **`imNum` is sound** — the seventh field, and the one the numerator half
+left behind.
+
+`boxParts.imNum` is `imNumOverY · Y` by construction, so its enclosure is the
+product of the `/y` variant's and the box's, with no new leaf and no new
+truncation bound. The component `v` is left abstract rather than written out:
+`imNumOverY_mem` is what fixes which real it is, and keeping the two apart is
+the choice `O9Seam` and `O9Assemble` both made, so the layer does not couple to
+the leaves and a change there forces no reproof here.
+
+The abstraction is also what makes the lemma say the right thing at `y = 0`.
+The factor `imNumOverY` carries `sinh(y/2)/y` through `shcSmall`'s branch,
+whose value at `y = 0` is the limit `1/2` rather than a quotient; multiplying
+by `y` afterwards gives `0`, which is `Im num` there. Nothing divides by `y` on
+either side. -/
+theorem imNum_mem {v : ℝ} (hy : EIv.mem (some ⟨yLo, yHi⟩) y)
+    (hv : EIv.mem (boxParts sLo sHi yLo yHi).imNumOverY v) :
+    EIv.mem (boxParts sLo sHi yLo yHi).imNum (v * y) := by
+  unfold boxParts at hv ⊢
+  exact EIv.mul_mem hv hy
+
 end Retention
 
 #print axioms Retention.leaves_mem
 #print axioms Retention.reNum_mem
 #print axioms Retention.imNumOverY_mem
+#print axioms Retention.imNum_mem

@@ -1,0 +1,97 @@
+{
+  "hunt": "r_0339c1",
+  "run_id": "43d363c1-71f0-4ebf-9d9d-632819f96794",
+  "date": "2026-08-16",
+  "target": {
+    "name": "Hardy-Ramanujan theorem",
+    "wikidata": "Q5656674",
+    "statement": "for every eps > 0, #{ n in (0,N] : |omega(n) - log log N| > eps * log log N } / N -> 0 as N -> infinity",
+    "form_landed": "normal-order density form at scale N, deviation measured from log log N"
+  },
+  "outcome": "settled",
+  "artifact": {
+    "file": "lean/ZetaLean/HardyRamanujantheorem.lean",
+    "lines": 380,
+    "sorry_count": 0,
+    "imported_from": "lean/ZetaLean.lean"
+  },
+  "build": {
+    "command": "lake build ZetaLean.HardyRamanujantheorem",
+    "exit_status": 0,
+    "output": "✔ [8699/8699] Built ZetaLean.HardyRamanujantheorem (22s)\nBuild completed successfully (8699 jobs).",
+    "full_package_build": {
+      "command": "lake build",
+      "exit_status": 0,
+      "output": "✔ [8781/8782] Built ZetaLean (5.9s)\nBuild completed successfully (8782 jobs)."
+    },
+    "toolchain": "leanprover/lean4:v4.33.0-rc2",
+    "mathlib_cache_files": 8681,
+    "compile_edit_cycles": 1
+  },
+  "axioms": {
+    "checked": [
+      "hardy_ramanujan",
+      "turan_variance",
+      "sum_sq_dev_le",
+      "second_moment_upper",
+      "first_moment_lower",
+      "sum_omega_sq_eq",
+      "sum_omega_eq_sum_div"
+    ],
+    "result": "each depends only on [propext, Classical.choice, Quot.sound]"
+  },
+  "theorems_new_in_run2": {
+    "card_dvd_pair": "count of n in (0,N] divisible by primes p and q is floor(N/p) on the diagonal, floor(N/(pq)) off it",
+    "sum_omega_sq_eq": "sum of omega(n)^2 over (0,N] equals the pair-count double sum over ordered pairs of primes",
+    "second_moment_upper": "sum omega(n)^2 <= N*S^2 + N*S with S = sum of 1/p over primes p <= N",
+    "first_moment_upper": "sum omega(n) <= N*S",
+    "first_moment_lower": "N*S - N <= sum omega(n)",
+    "sub_one_lt_cast_div": "N/p - 1 < floor(N/p) cast to the reals",
+    "omega_eq_sum_ite": "omega(n) as an indicator sum over primes in (0,N]",
+    "sum_sq_dev_le": "sum over (0,N] of (omega(n) - log log N)^2 <= 5855 * N * log log N whenever log log N >= 1",
+    "turan_variance": "TuranVariance holds with explicit constant 5855",
+    "hardy_ramanujan": "HardyRamanujanTheorem holds"
+  },
+  "reused_from_run1": [
+    "omega",
+    "loglog",
+    "exceptional",
+    "HardyRamanujanTheorem",
+    "TuranVariance",
+    "primeFactors_eq_filter",
+    "sum_omega_eq_sum_div",
+    "card_exceptional_mul_le",
+    "hardyRamanujan_of_turanVariance",
+    "tendsto_loglog"
+  ],
+  "repository_inputs": [
+    "ZetaLean.Mertens.mertens_second_theorem (band 76, every natural N)",
+    "ZetaLean.Mertens.mertens_first_theorem (band log 4 + 16, transitively)"
+  ],
+  "mathlib_inputs": [
+    "Nat.Ioc_filter_dvd_card_eq_div",
+    "Nat.coprime_primes",
+    "Nat.Coprime.mul_dvd_of_dvd_of_dvd",
+    "Nat.cast_div_le",
+    "Nat.div_add_mod",
+    "Nat.mod_lt",
+    "Finset.sum_mul_sum",
+    "Finset.sum_comm",
+    "Finset.card_filter",
+    "Finset.sum_filter",
+    "Finset.filter_congr",
+    "Finset.sum_ite_eq",
+    "Finset.card_nsmul_le_sum",
+    "squeeze_zero'",
+    "Real.tendsto_log_atTop",
+    "tendsto_natCast_atTop_atTop"
+  ],
+  "constants": {
+    "mertens_band": 76,
+    "variance_constant": 5855,
+    "decomposition": "76^2 + 76 + 3 = 5855, valid whenever log log N >= 1",
+    "note": "coarse by design; tightening the Mertens band propagates automatically"
+  },
+  "grade": "kernel-checked",
+  "rh_bearing": "none (docs/08)"
+}

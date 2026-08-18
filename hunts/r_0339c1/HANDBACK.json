@@ -1,0 +1,42 @@
+{
+  "run_id": "43d363c1-71f0-4ebf-9d9d-632819f96794",
+  "status": "settled",
+  "conclusion": "The Hardy-Ramanujan theorem (Q5656674) is now kernel-checked with zero sorrys as ZetaLean.HardyRamanujan.hardy_ramanujan, by Turan's proof with the explicit variance constant 5855 on top of the Mertens band 76. The module compiled on the first attempt because run 1's halves and its recorded route were reused as written.",
+  "confidence": "As far as the Lean kernel reaches: lake build succeeds, the sorry count is zero, and every public theorem depends only on propext, Classical.choice and Quot.sound. The one judgment call to check is whether the density form at scale N (deviation from log log N) is the form a citer wants; RESULTS.md states the distinction plainly.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "Pointwise form with log log n inside the counter",
+      "why_it_might_matter": "It is the textbook statement; some readers will look for it and find the scale-N form instead",
+      "first_step": "Split (0,N] at N^delta, compare log log n with log log N on the upper range, count the lower range trivially; all ingredients are in the file"
+    },
+    {
+      "what": "Tighten the variance constant 5855",
+      "why_it_might_matter": "It inherits Mertens's slack band 76 quadratically; the classical band 4 would give roughly 23",
+      "first_step": "Tighten mertens_first_theorem's log 4 + 16 band locally; everything downstream propagates without new ideas"
+    },
+    {
+      "what": "Erdos-Kac as the continuation",
+      "why_it_might_matter": "The first two moments of omega are now formal; the CLT for (omega(n) - log log n)/sqrt(log log n) is the canonical next rung and is also absent from Mathlib",
+      "first_step": "Price the moment-method route (all moments) against a Berry-Esseen route before committing; both are real projects, not bookkeeping"
+    },
+    {
+      "what": "Mathlib upstreaming of the Mertens files and this one",
+      "why_it_might_matter": "Q5656674 is a wanted-and-unbuilt record; landing it upstream is external verification in kind",
+      "first_step": "Align normalisations (Ioc 0 N vs range, explicit constants vs IsBigO) with Mathlib house style and open a draft PR"
+    },
+    {
+      "what": "Bridge omega to ArithmeticFunction.cardDistinctFactors",
+      "why_it_might_matter": "Makes the result citable from ArithmeticFunction-facing work for the cost of a few lines",
+      "first_step": "State omega n = ArithmeticFunction.cardDistinctFactors n and prove by rfl or simp"
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A warm-container or prebaked-cache path for Lean hunts",
+      "why_reusable": "Both runs of this hunt paid 12 to 40 minutes of a 60 to 90 minute budget on elan install plus lake exe cache get before any mathematics; every future Lean hunt pays it again",
+      "first_step": "Bake elan and the pinned Mathlib cache into the session image, or fetch the cache in the container setup script before the agent starts"
+    }
+  ],
+  "notes_for_operator": "Run 1's branch hunt/r-0339c1 is now fully superseded: every lemma it proved exists in this branch's file with attribution. Closing or archiving that branch is an allocation call, so it is yours. The retry-with-wall-removed pattern worked exactly as briefed and the addendum's route survived contact unchanged."
+}

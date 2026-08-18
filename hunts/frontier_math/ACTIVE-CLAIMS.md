@@ -25,6 +25,7 @@ holds, take it and say so in the row — but take it knowingly.
 
 | Session | Holding | Files it will write | Status |
 |---|---|---|---|
+| codex-counting-lattice | re-audit the large-k budget floor after re-optimising the critical-lattice spacing at every k; derive the `2*pi` lattice limit | `counting_lemma.py`, `test_counting_lemma.py`, `PROOF-LEDGER.md` | **DONE** — fixed-spacing `6.3e-3` floor falsified; exact Poisson limit `c2(0) - A^2 = 0.00517169408367867955` landed with the re-optimised ladder and lesion control |
 | transplant-lemma (Fable) | the negative-margin question: does the multi-pair verdict survive at theta = 995/1000 for large clusters at the resonance spacing | `negative_margin_probe.py`, `test_negative_margin_probe.py` | **ACTIVE** — refinement running |
 | transplant-lemma (Fable) | adversarial extremum search over configurations | `adversary_evolution.py`, `test_adversary_evolution.py` | **PAUSED** — module complete, agent lost to a container restart, not yet re-run |
 | transplant-lemma (Fable) | prover submissions on the E-form family | `zeta23ext/Zeta23Ext/EForm2/`, `TruncEst/` | **LANDED** |
@@ -36,6 +37,8 @@ holds, take it and say so in the row — but take it knowingly.
 | higher_xi arm | cross-arm transfer proposal (k=2 reduction) | `hunts/higher_xi/CROSS-ARM-TRANSFER.md` | **ANSWERED** in `CROSS-ARM-REPLY.md` - transfer does not survive; their scan window excluded the binding family |
 | (other session) | **Road A obligation #8**: the k=1 reduction algebra (`margin_eq`, `energy_sub_card`), submitted to Aristotle as project `281fd3e5-8077-44c4-8497-a51b613092a0`, stated over abstract reals with `retention_gap`/`energy_F` as hypotheses | `lean/ARISTOTLE-RUNS.md` Batch 4 | **SUBMITTED, not landed** - self-declared in their own record; this session is NOT touching it |
 | transplant-lemma (Fable) | **Road A obligation #10**: the 196-cell window table + the wiring lemma `ghat(z) = Phi2(-i z)`, and **Road B**: the counting lemma for `k >= 2` | `window_table.py`, `arm_identification.py`, `mean_damage.py`, `kpair_identity.py`, `ROADMAP-OPTIONS.md` (+ tests, + `data_window_table.json`) | **ACTIVE** - O9 generated as a leaf file: **344 cells** in the kernel's own fixed-point arithmetic (`o9_leaf.py`), 0 undecided. The earlier `196` was an Arb-grade estimate and is 43% low. Staged in `zeta23ext/Zeta23Ext/EForm3/O9{Data,Check,Damage}.lean` and **deliberately NOT imported by `Zeta23Ext.lean`** — uncompiled here, so wiring it would risk the other session's build. Road B: shared-R measured, counting lemma done; `k >= 2` still open |
+| two-species (Fable) | the two-species restatement of blocker 2; the k=2 equal-depth case; the depth-extended (depth <= 1) damage landscape | `two_species.py`, `k2_closure.py`, `test_two_species.py`, `test_k2_closure.py`, `K2-TWO-SPECIES.md` | **LANDED 2026-08-15** — `D(0,tau) = -Kpair(tau)` splits `Psi` and the k-pair slack becomes a two-species system (identity residual 1.1e-14); **k=2 EQUAL DEPTHS CLOSES at measured grade** over a 6601-cell tau-table, 0 nonpositive in both cap modes (worst +0.0529 signed / +0.0033 unsigned), closed form beyond tau = 114.2, v-convexity for all y in (0,1/2]. Depth-1 corrections: no-damage radius 5.3984 < 28/5, far constant 0.6636 > 637/1000. **k >= 3 and unequal depths remain OPEN** (grid-measured >= 0; obligations named). Quantifier discipline: this is the first multi-pair case, NOT blocker 2 |
+| o9-leaf-fix (Fable) | applying run R-2926E4's recorded fix: o9_leaf.py leaves() to kernel arithmetic, N_CELLS_KERNEL 344 -> 476, LEAF CAVEAT rewritten, dependent pins | `o9_leaf.py`, `test_o9_leaf.py`, `test_o9_leaf2d.py` (pin only), `window_table.py` (comment only) | **LANDED 2026-08-15** — every number from `hunts/r_2926e4/probe.py`, reproduced before landing (476 cells, depth 22, 0 undecided, min margin 3.12e8 ulp; baseline recheck 0 of 476 fail). Four pre-existing test failures on main (`test_o9_is_staged_but_not_wired_into_the_package`, three in `test_o9_leaf2d.py`) are unchanged by this and left for their owners |
 
 ## Standing notes for whoever holds `zeta23ext/`
 
@@ -68,3 +71,23 @@ prover submission:
   random instances per lemma). A wrong statement costs a multi-hour round
   trip, and this ledger already records one submission the prover refuted
   for a missing hypothesis.
+
+## Landing note, 2026-08-16
+
+`two-species` and `o9-leaf-fix` were developed on separate branches and
+landed together. Both appended a row to the table above at the same
+anchor, which conflicted; the resolution kept **both** rows — the claims
+are independent (one is the k=2 restatement, the other applies run
+R-2926E4's recorded o9_leaf fix) and neither supersedes the other.
+
+Landed onto `main` in this order, each verified before the next:
+`hunt/r-3c1cbb-05c755d3` (Mertens I+II, fast-forward), then
+`claude/o9-leaf-kernel-476`, then `claude/k2-two-species`.
+
+Pre-existing failures on `main` at the time of landing, verified present
+on the untouched trunk and therefore NOT introduced here:
+`test_o9_leaf.py::test_o9_is_staged_but_not_wired_into_the_package`,
+three tests in `test_o9_leaf2d.py`, `test_huntspec.py::
+test_every_mission_huntspec_block_in_the_tree_validates`, and
+`test_lab_state.py::test_the_view_renders_every_section`. They belong to
+other sessions' work and were left untouched.

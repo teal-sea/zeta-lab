@@ -1,0 +1,47 @@
+{
+  "run_id": "78b4ce8e-faf2-40a1-b74e-b73c8effd515",
+  "status": "settled",
+  "conclusion": "The k=2 equal-depth tau-table closes under ball-arithmetic enclosures over the same 6600 cells on [0,132], with 0 nonpositive cells in all three cap modes: worst margin +0.0677 signed, +0.0146 unsigned, and +0.0016 unsigned with the measured pass's own 1.05 pad retained on top of the enclosure. No cap was widened and no tau-cell needed splitting; the enclosure costs a factor of 1.0000 to 1.0004 on the dominant near-field term, against the 1.05 pad it replaces.",
+  "confidence": "Lean on the tau-table step: it is now outward bounds over whole cells in Arb balls at 96 bits, the mpmath.iv rectangle backend contains every ball checked, the enclosure reproduces the measured near field to 4 decimal places, and the planted-fault ladder still fires (at 1.10x now, against 1.02x for the measured pass). Do NOT lean on 'the k=2 claim is hardened' as a composite: this pass evaluates the table at v = 1/4, and the convexity transfer to all y in (0,1/2] is still an argument rather than an enclosure, so the composite takes that as its weakest step. Two unstated assumptions in k2_closure.py were found and are recorded in RESULTS.md section 4 -- the pair-charge clamp is sound only because no near component exceeds 1.9894, and the zone_trade inner prune is a heuristic in the adversary's favour (measured delta 0.0 on six binding cells, not checked on all 6600).",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "Re-run the full table with the zone_trade inner prune disabled",
+      "why_it_might_matter": "The prune restricts the ADVERSARY's search, so a cell where it bites would silently understate a deficit; it is the last heuristic in the table sitting on the unsound side. Measured delta 0.0 on six binding cells only.",
+      "first_step": "Set exhaustive=True in probe.zone_trade's call site and diff the three worst margins against results.json."
+    },
+    {
+      "what": "Harden the v-convexity transfer, now the weakest step of the composite claim",
+      "why_it_might_matter": "The table is enclosure-carrying at v = 1/4 but the transfer to y < 1/2 is prose, so the pass's gain is partly stranded at the composite level.",
+      "first_step": "Feed the running-minimum Kpair envelope already built in probe.py to the signed caps' b = Kpair(near zone) as an O3-style rational floor, which is what NAMED_GAPS G3 asks for."
+    },
+    {
+      "what": "Recompute the unequal-depth convex majorant knowing the depth-linear term vanishes",
+      "why_it_might_matter": "K2-TWO-SPECIES.md section 4 reports the majorant too fat by ~0.015 at the (1/4, 0) vertex, which is a v -> 0 vertex; ghat being even with real Taylor coefficients kills the linear term in each depth variable separately, which is exactly the slack that vertex is paying.",
+      "first_step": "Redo the vertex bound with the linear term known to be zero and see whether the 0.015 gap survives."
+    },
+    {
+      "what": "The C1 upper bounds carry ~0.002 of slack set by the 0.02 tau-cell width, not by the method",
+      "why_it_might_matter": "Cheap now, possibly not cheap for k >= 3 where the centre-centre row grows.",
+      "first_step": "Subdivide only the ~40 cells with C1 > 0.05 to 0.005 in tau and measure how much of the gap is cell width."
+    },
+    {
+      "what": "The far-field constant 637/1000 does not survive at depth 1 (K2-TWO-SPECIES.md section 2 measures 0.6636)",
+      "why_it_might_matter": "A proved constant going invalid rather than a loose bound; the k=2 far rows are depth-1/2 and unaffected, but any k >= 3 pass that raises depth meets it.",
+      "first_step": "Re-derive the depth-1 far constant with ball_field.D_enclosure, which already takes the depth as an interval."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "The precomputed-envelope pattern: build one ball-arithmetic upper envelope of the expensive field on a fine uniform grid, then answer every cell's supremum as a running-maximum lookup",
+      "why_reusable": "It turned an interval pass that would have cost tens of millions of ball evaluations into 1.9M evaluations done once (22 s) plus numpy lookups, which is what made this run affordable at all. Any table-driven hardening in this tree with one expensive scalar field and many overlapping query boxes has the same shape -- the O9 tables, the far rows, and a k >= 3 pass all do.",
+      "first_step": "Lift build_envelope / mirror / running_max out of hunts/r_a97060/probe.py into a small shared helper once a second consumer exists; do not lift it before then."
+    },
+    {
+      "what": "The second-order corner bound for suprema of the form sup_{u>0} f(u)/u^2",
+      "why_reusable": "Branch-and-bound cannot reach u -> 0 and no scan can either, but when the linear term vanishes a single |f''| enclosure bounds the whole corner. That shape appears wherever this tree normalises a damage by a depth squared, which is the standard normalisation in the retention argument.",
+      "first_step": "Nothing yet -- record it. It is nine lines inside c1_upper and generalising it before a second live consumer would be the mistake harness/VERDICT.md records."
+    }
+  ],
+  "notes_for_operator": "Case-log entry added as Hunt #41 in hunts/README.md; #41 was free. Budget overrun, reported plainly: the brief allowed 75 minutes and the run took roughly 100. The overrun is entirely one diagnosis -- the first complete table reported a nonpositive cell at tau in [6.62, 6.64], and it turned out to be looseness in my own depth bound at a root of G, not a gap in the mathematics. Stopping at the buzzer would have handed back 'the unsigned mode does not survive enclosure', which is false, and would have pointed the next attempt at widening a cap that needs no widening. The 25 extra minutes bought the second-order lemma that fixed it. There is a routing question here that is fulcrum's, not mine, about how a hardening run should be budgeted when a first-pass failure is more likely to be an artifact of the new instrument than a real finding; naming the topic and leaving it there. Per the addendum I stayed out of hunts/frontier_math/zeta23ext/ and scripts/6*_rung3_*; I saw no sign of another agent in the files I touched. [Operator correction 2026-08-17: this run's id was recorded as 78b4ce8e-0d4b-4a4e-9b0f-9e0e5ac1a3d2 in the brief the operator hand-assembled; that id was fabricated (the operator knew only the 8-char prefix from the branch name and invented the rest of the UUID). Fulcrum's own minted id for this run is 78b4ce8e-faf2-40a1-b74e-b73c8effd515, and `fulcrum collect` correctly refused the mismatch. The run_id field and the telemetry filename are corrected here; nothing about the mathematics is affected.]"
+}

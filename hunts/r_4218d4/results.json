@@ -1,0 +1,99 @@
+{
+  "hunt": "r_4218d4",
+  "question": "Tighten the variance constant 5855",
+  "chebyshev_remainder": {
+    "mathlib_packaged": 4.0,
+    "sharp_4_over_e": 1.4715177646857693,
+    "stated_in_lean": 1.5,
+    "note": "2 sqrt(x) log x <= (4/e) x, since sup log t / sqrt t = 2/e"
+  },
+  "sum_log_over_sq": {
+    "old_majorant_constant": 2.0,
+    "new_majorant_constant": 0.7357588823428847,
+    "old_telescope_from_1": 3.0,
+    "new_telescope_from_2": 2.0,
+    "old_bound": 6.0,
+    "new_bound_sharp": 1.4715177646857693,
+    "new_bound_stated": 1.5,
+    "limit": 0.9375482543158437
+  },
+  "sum_log_over_sq_direct_N": {
+    "N": 200000,
+    "value": 0.93748222410519,
+    "limit_minus_zeta_prime_2": 0.9375482543158437
+  },
+  "telescope_direct_N": {
+    "N": 200000,
+    "from_1": 2.607903218320581,
+    "from_2": 1.6079032183206745,
+    "bound_from_1": 3.0,
+    "bound_from_2": 2.0
+  },
+  "prime_power_tail": {
+    "layer_geometric_factor": 2.0,
+    "old_bound": 12.0,
+    "new_bound_sharp": 2.9430355293715387,
+    "new_bound_stated": 3.0,
+    "limit": 0.7553616155371764
+  },
+  "mertens_first": {
+    "before": {
+      "vm_upper": 5.386294361119891,
+      "vm_lower": 1.0,
+      "tail": 12.0,
+      "band_symmetric": 17.38629436111989,
+      "band_split": 13.0,
+      "stated": 17.38629436111989
+    },
+    "after": {
+      "vm_upper": 2.886294361119891,
+      "vm_lower": 1.0,
+      "tail": 3.0,
+      "band_symmetric": 5.886294361119891,
+      "band_split": 4.0,
+      "stated": 4.386294361119891
+    }
+  },
+  "mertens_second": {
+    "before": {
+      "band_c": 17.4,
+      "r": 2.0,
+      "gap": 4.0,
+      "upper": 70.96651292058166,
+      "lower": 72.6,
+      "required": 72.6,
+      "stated": 76.0
+    },
+    "after": {
+      "band_c": 4.4,
+      "r": 1.443,
+      "gap": 4.0,
+      "upper": 14.064912920581666,
+      "lower": 15.6984,
+      "required": 15.6984,
+      "stated": 16.0
+    }
+  },
+  "variance_constant": {
+    "before": {
+      "mertens_band": 76.0,
+      "value": 5855.0,
+      "stated": 5855.0
+    },
+    "after": {
+      "mertens_band": 16.0,
+      "value": 275.0,
+      "stated": 275.0
+    },
+    "decomposition": "m^2 + m + 3"
+  },
+  "headline": {
+    "mertens_first_before": 17.38629436111989,
+    "mertens_first_after": 4.386294361119891,
+    "mertens_second_before": 76.0,
+    "mertens_second_after": 16.0,
+    "variance_before": 5855.0,
+    "variance_after": 275.0,
+    "variance_factor": 21.29090909090909
+  }
+}

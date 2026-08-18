@@ -1,0 +1,76 @@
+{
+  "run_id": "05c755d3-1e75-4596-98b3-34ca2c084175",
+  "hunt": "r_3c1cbb",
+  "continuation_of": "ed50af7f-4e1c-4057-a5ba-ceb4faf2bd79",
+  "target": "Mertens's second theorem in log log x + O(1) form with an explicit constant, the block route-mapped by the predecessor run",
+  "mathlib_pin": "v4.33.0-rc2",
+  "toolchain": "leanprover/lean4:v4.33.0-rc2",
+  "outcome": {
+    "mertens_second_theorem": "landed, zero sorrys: |sum_{p<=N} 1/p - log log N| <= 76 for every natural N (content at N >= 2; trivial below under Mathlib's log 0 = 0)",
+    "mertens_second_sharp_form": "not attempted; the log log x + M + o(1) form needs the Mertens constant, a new target",
+    "mertens_third_theorem": "unchanged from RESULTS.md; not attempted"
+  },
+  "artifacts": {
+    "lean_file": "lean/ZetaLean/MertensSecond.lean",
+    "lean_file_lines": 351,
+    "import_line_added": "lean/ZetaLean.lean",
+    "existing_files_edited": []
+  },
+  "build": {
+    "command": "cd lean && PATH=\"$HOME/.elan/bin:$PATH\" lake build",
+    "exit_status": 0,
+    "final_line": "Build completed successfully (8745 jobs).",
+    "targeted_module_build": "Built ZetaLean.MertensSecond (19s), Build completed successfully (2763 jobs).",
+    "sorry_count_added_file": 0
+  },
+  "statements": [
+    {
+      "name": "ZetaLean.Mertens.mertens_second_theorem",
+      "informal": "|sum_{p<=N, p prime} 1/p - log log N| <= 76 for every natural N"
+    },
+    {
+      "name": "ZetaLean.Mertens.mertens_second_theorem_of_two_le",
+      "informal": "the same bound with the 2 <= N hypothesis, where the content lives"
+    },
+    {
+      "name": "ZetaLean.Mertens.sum_inv_primes_eq",
+      "informal": "discrete Abel identity: sum_{p<=N} 1/p = A(N)/log N + sum_{n=2}^{N-1} A(n)(1/log n - 1/log(n+1)), A(n) = sum_{p<=n} log p/p, by induction rather than by reindexing sum_range_by_parts"
+    },
+    {
+      "name": "ZetaLean.Mertens.log_sub_log_le / sub_div_le_log_sub_log",
+      "informal": "the elementary bracket (v-u)/v <= log v - log u <= (v-u)/u for 0 < u <= v"
+    },
+    {
+      "name": "ZetaLean.Mertens.log_sub_log_le_mul_add",
+      "informal": "log y - log x <= x(1/x - 1/y) + 4c for 1/2 < x <= y with (y-x)^2 <= c, the quantified overshoot of the upper bracket"
+    },
+    {
+      "name": "ZetaLean.Mertens.sum_inv_sq_Ico_le_one",
+      "informal": "sum_{n=2}^{N-1} 1/n^2 <= 1, from Mathlib's sum_Ioc_inv_sq_le_sub"
+    }
+  ],
+  "mathlib_declarations_used": [
+    "Real.log_le_sub_one_of_pos",
+    "Real.one_sub_inv_le_log_of_pos",
+    "Real.log_two_gt_d9",
+    "Real.log_two_lt_d9",
+    "Real.log_div",
+    "Real.log_pow",
+    "Real.log_neg",
+    "Real.log_le_log",
+    "Real.log_pos",
+    "sum_Ioc_inv_sq_le_sub",
+    "Finset.sum_Ioc_succ_top",
+    "Finset.sum_Ico_succ_top",
+    "Finset.sum_filter",
+    "Finset.sum_le_sum_of_subset_of_nonneg",
+    "Finset.sum_neg_distrib",
+    "inv_anti₀",
+    "div_le_iff₀",
+    "Nat.le_induction"
+  ],
+  "route_deviation": "the predecessor's estimate priced a reindex of Finset.sum_range_by_parts to Ioc/Icc; the Abel identity was instead proved by direct Nat.le_induction from N = 2, one field_simp per parity of the prime indicator at the top point, which removed the reindexing labor",
+  "numeric_spot_check": "sieve to 10^6: |sum 1/p - log log N| is 0.8665 at N=2 and falls toward 0.2615 (the Mertens constant), so the formalized inequality is the classical statement with a slack constant",
+  "compile_cycles": 2,
+  "notes": "Nothing here is evidence for or against RH."
+}

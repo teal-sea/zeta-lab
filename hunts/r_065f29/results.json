@@ -1,0 +1,367 @@
+{
+  "claim": "urms2-0.51",
+  "role": "white-box",
+  "a1_witness_does_not_select_0_51": {
+    "recorded_witness": {
+      "alpha": "51/100",
+      "delta": "3/4",
+      "gamma": "21/20",
+      "epsilon": "1/100",
+      "target_rho_on_lowest_block": "34/25",
+      "far_cutoff_rho_on_lowest_block": "14/5",
+      "initial_interval_margin": "1/4",
+      "mean_value_margin": "6/25",
+      "far_tail_margin": "9/1000",
+      "central_segment_margin": "7399/10000"
+    },
+    "published_witness_feasible": true,
+    "alpha_ceiling_at_published_delta_gamma_epsilon": "257/500",
+    "binding_margin_at_published_parameters": "far_tail_margin",
+    "feasible_witnesses_above_0_51": [
+      {
+        "alpha": "3/5",
+        "delta": "4/5",
+        "gamma": "9/5",
+        "epsilon": "1/100",
+        "margins": {
+          "initial_interval_margin": "1/5",
+          "mean_value_margin": "1/5",
+          "far_tail_margin": "141/250",
+          "central_segment_margin": "347/500"
+        }
+      },
+      {
+        "alpha": "7/10",
+        "delta": "17/20",
+        "gamma": "21/10",
+        "epsilon": "1/100",
+        "margins": {
+          "initial_interval_margin": "3/20",
+          "mean_value_margin": "3/20",
+          "far_tail_margin": "329/500",
+          "central_segment_margin": "643/1000"
+        }
+      },
+      {
+        "alpha": "37/50",
+        "delta": "87/100",
+        "gamma": "111/50",
+        "epsilon": "1/100",
+        "margins": {
+          "initial_interval_margin": "13/100",
+          "mean_value_margin": "13/100",
+          "far_tail_margin": "1739/2500",
+          "central_segment_margin": "3113/5000"
+        }
+      },
+      {
+        "alpha": "4/5",
+        "delta": "9/10",
+        "gamma": "12/5",
+        "epsilon": "1/100",
+        "margins": {
+          "initial_interval_margin": "1/10",
+          "mean_value_margin": "1/10",
+          "far_tail_margin": "94/125",
+          "central_segment_margin": "74/125"
+        }
+      },
+      {
+        "alpha": "9/10",
+        "delta": "19/20",
+        "gamma": "27/10",
+        "epsilon": "1/100",
+        "margins": {
+          "initial_interval_margin": "1/20",
+          "mean_value_margin": "1/20",
+          "far_tail_margin": "423/500",
+          "central_segment_margin": "541/1000"
+        }
+      },
+      {
+        "alpha": "19/20",
+        "delta": "39/40",
+        "gamma": "57/20",
+        "epsilon": "1/100",
+        "margins": {
+          "initial_interval_margin": "1/40",
+          "mean_value_margin": "1/40",
+          "far_tail_margin": "893/1000",
+          "central_segment_margin": "1031/2000"
+        }
+      },
+      {
+        "alpha": "99/100",
+        "delta": "199/200",
+        "gamma": "297/100",
+        "epsilon": "1/100",
+        "margins": {
+          "initial_interval_margin": "1/200",
+          "mean_value_margin": "1/200",
+          "far_tail_margin": "4653/5000",
+          "central_segment_margin": "4951/10000"
+        }
+      }
+    ],
+    "verdict": "the four recorded margins do not select 51/100: with (delta, gamma, epsilon) free they admit every alpha < delta < 1, and even at the published (delta, gamma, epsilon) they admit alpha up to 257/500. 51/100 is a chosen target, not a derived frontier."
+  },
+  "a2_gate_6_independence": {
+    "baseline": {
+      "primary_denominator_upper": "4299224616118537850049963443587516184261654933783061624467973395221048489604332664821550064003104441539408966808139727803033577327009318728167899814048842631187244949459607003656912196365523031926709770658423902918934922165531477082337944671787422759187480084462417887841294987815004281242507516130944751/2165608429987347592941818086575432193566556506962129164608418643087071174197923420491008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "audit_denominator_upper": "4299224616118537850049963443587516184261654933783061624467973395221048489604332664821550064003104441539408966808139727803033577327009318728167899814048842631187244949459607003656912196365523031926709770658423902918934922165531477082337944671787422759187480084462417887841294987815004281242507516130944751/2165608429987347592941818086575432193566556506962129164608418643087071174197923420491008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "agree": true,
+      "primary_simplicity": "31992243856157335833672729563348202871458080141196704748863890953093858791514176160465935996895558460591033191860272196966422672990681271832100185951157368812755050540392996343087803634476968073290229341576097081065077834468522917662055328212577240812519915537582112158705012184995718757492483869055249/2165608429987347592941818086575432193566556506962129164608418643087071174197923420491008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "audit_simplicity": "31992243856157335833672729563348202871458080141196704748863890953093858791514176160465935996895558460591033191860272196966422672990681271832100185951157368812755050540392996343087803634476968073290229341576097081065077834468522917662055328212577240812519915537582112158705012184995718757492483869055249/2165608429987347592941818086575432193566556506962129164608418643087071174197923420491008000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "primary_tail_loss": "227690421886484378156817068508200139232724885471256755711697764449360506780393863561112385880441516645716442112687317589763198829536620191752957882709965091312003850304373175033524914871056919979116120892774060437998915133086720768381962440439566428260686035588319240049166982959701/42462910391908776332192511501479062618952088371806454208008208687981787729371047460608000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "audit_tail_loss": "227690421886484378156817068508200139232724885471256755711697764449360506780393863561112385880441516645716442112687317589763198829536620191752957882709965091312003850304373175033524914871056919979116120892774060437998915133086720768381962440439566428260686035588319240049166982959701/42462910391908776332192511501479062618952088371806454208008208687981787729371047460608000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "tail_terms_identical": true
+    },
+    "fixture_reproduces_the_function_exactly": true,
+    "mutation": "fock_upper_coefficient(41) *= 1 + 1e-6 (shared tail majorant)",
+    "primary_route_moved": true,
+    "audit_route_moved": true,
+    "primary_delta": 4.426081703885579e-27,
+    "audit_delta": 4.426081703885579e-27,
+    "deltas_identical": true,
+    "verdict": "the audit route reproduces the primary route's tail term bit for bit and moves identically under a mutation of the shared majorant: gate 6 re-derives the arithmetic, it does not independently source the numbers, so it has no power against a fault in corrected_form_factor or in the C2 fixture."
+  },
+  "a3_mean_value_lemma_at_W_over_U": {
+    "ell": 8,
+    "U": 300.0,
+    "x": 59.14546984988227,
+    "max_W": 2980,
+    "regime": "W/U up to 9.9, i.e. the W > U regime the old proof forbade",
+    "two_range": [
+      {
+        "W": 400,
+        "W_over_U": 1.3333333333333333,
+        "U_times_diagonal": 29.192287820286865,
+        "spacing_bound_sum_n_abs_c2": 13.473305611418613,
+        "block_second_moment": 17.296390242639212,
+        "off_diagonal": -11.895897577647652,
+        "implied_constant": 0.8829234577419435,
+        "spacing_over_x_log_x": 0.05583319898369154
+      },
+      {
+        "W": 800,
+        "W_over_U": 2.6666666666666665,
+        "U_times_diagonal": 36.36948235428832,
+        "spacing_bound_sum_n_abs_c2": 27.104606345526527,
+        "block_second_moment": 17.34545659587125,
+        "off_diagonal": -19.02402575841707,
+        "implied_constant": 0.7018742687460904,
+        "spacing_over_x_log_x": 0.11232112765124688
+      },
+      {
+        "W": 1600,
+        "W_over_U": 5.333333333333333,
+        "U_times_diagonal": 41.56562371217169,
+        "spacing_bound_sum_n_abs_c2": 46.62884869706929,
+        "block_second_moment": 17.359258366188477,
+        "off_diagonal": -24.206365345983215,
+        "implied_constant": 0.5191285228430834,
+        "spacing_over_x_log_x": 0.19322932788502212
+      },
+      {
+        "W": 2980,
+        "W_over_U": 9.933333333333334,
+        "U_times_diagonal": 44.528141121226,
+        "spacing_bound_sum_n_abs_c2": 67.99296040660639,
+        "block_second_moment": 17.364231658049384,
+        "off_diagonal": -27.163909463176616,
+        "implied_constant": 0.39951061552156353,
+        "spacing_over_x_log_x": 0.2817619222305018
+      }
+    ],
+    "generic_control": [
+      {
+        "W": 400,
+        "U_times_diagonal": 299.99999999999994,
+        "spacing_bound_sum_n_abs_c2": 278.4176571020598,
+        "block_second_moment": 38.88461382585848,
+        "off_diagonal": -261.11538617414146,
+        "spacing_bound_growth_vs_W": 278.4176571020598
+      },
+      {
+        "W": 800,
+        "U_times_diagonal": 300.00000000000006,
+        "spacing_bound_sum_n_abs_c2": 582.2442450007454,
+        "block_second_moment": 9.56838575072598,
+        "off_diagonal": -290.43161424927405,
+        "spacing_bound_growth_vs_W": 582.2442450007454
+      },
+      {
+        "W": 1600,
+        "U_times_diagonal": 300.00000000000006,
+        "spacing_bound_sum_n_abs_c2": 1143.2143464747478,
+        "block_second_moment": 7.0380676541415,
+        "off_diagonal": -292.96193234585854,
+        "spacing_bound_growth_vs_W": 1143.2143464747478
+      },
+      {
+        "W": 2980,
+        "U_times_diagonal": 300.0,
+        "spacing_bound_sum_n_abs_c2": 2084.264932627344,
+        "block_second_moment": 10.43254264577159,
+        "off_diagonal": -289.5674573542284,
+        "spacing_bound_growth_vs_W": 2084.264932627344
+      }
+    ],
+    "spacing_bound_W_independent": 5.046494332391779,
+    "control_spacing_bound_growth": 7.486109014498721,
+    "implied_constant_range": [
+      0.39951061552156353,
+      0.8829234577419435
+    ],
+    "block_second_moment_saturation": [
+      17.296390242639212,
+      17.34545659587125,
+      17.359258366188477,
+      17.364231658049384
+    ],
+    "verdict": "the block second moment saturates as W passes U (see block_second_moment_saturation: it moves by under 0.4 percent while W/U goes from 1.3 to 9.9), which is the W-independence the claim asserts, and the deviation from U sum|c_n|^2 stays inside the claimed O(sum n |c_n|^2). Read the implied constant with care: it falls partly because its denominator inflates on this coefficient family (see A5). The saturation of the integral itself does not depend on that and is the load-bearing observation here."
+  },
+  "a5_control_family_violates_its_own_hypothesis": {
+    "ell": 10,
+    "x": 164.0219072999017,
+    "second_moment_law_on_the_control_family": [
+      {
+        "y": 50,
+        "A_y": 31.159375019558148,
+        "A_over_y_log_y": 0.15930057147579557
+      },
+      {
+        "y": 100,
+        "A_y": 33.505859800865814,
+        "A_over_y_log_y": 0.07275705011470004
+      },
+      {
+        "y": 200,
+        "A_y": 37.407462766004606,
+        "A_over_y_log_y": 0.035301266589072164
+      },
+      {
+        "y": 400,
+        "A_y": 55.32468116223653,
+        "A_over_y_log_y": 0.023084790341011525
+      },
+      {
+        "y": 800,
+        "A_y": 189.55693923196444,
+        "A_over_y_log_y": 0.0354465126312758
+      },
+      {
+        "y": 1600,
+        "A_y": 1128.0060562124997,
+        "A_over_y_log_y": 0.0955579863617627
+      },
+      {
+        "y": 3200,
+        "A_y": 6523.096973112064,
+        "A_over_y_log_y": 0.2525698826962414
+      },
+      {
+        "y": 6400,
+        "A_y": 32954.08151177309,
+        "A_over_y_log_y": 0.5875221290842004
+      },
+      {
+        "y": 12800,
+        "A_y": 147953.06644127856,
+        "A_over_y_log_y": 1.2222256868667396
+      },
+      {
+        "y": 22026,
+        "A_y": 448413.1135955925,
+        "A_over_y_log_y": 2.0358397433448903
+      }
+    ],
+    "A_over_y_log_y_trough": 0.023084790341011525,
+    "A_over_y_log_y_at_top": 2.0358397433448903,
+    "law_violation_factor": 88.18965705432888,
+    "upper_range_sum_frozen_family": [
+      {
+        "W": 328,
+        "upper_sum": 4.748026725165932
+      },
+      {
+        "W": 656,
+        "upper_sum": 12.706660399305546
+      },
+      {
+        "W": 1312,
+        "upper_sum": 27.63983452277262
+      },
+      {
+        "W": 2624,
+        "upper_sum": 50.80560787458562
+      },
+      {
+        "W": 22026,
+        "upper_sum": 152.47636793063293
+      }
+    ],
+    "upper_range_sum_law_abiding_surrogate": [
+      {
+        "W": 328,
+        "upper_sum": 441.6471417911261
+      },
+      {
+        "W": 656,
+        "upper_sum": 691.2874895863838
+      },
+      {
+        "W": 1312,
+        "upper_sum": 830.4349136576864
+      },
+      {
+        "W": 2624,
+        "upper_sum": 907.1478514091853
+      },
+      {
+        "W": 22026,
+        "upper_sum": 984.6640252241991
+      }
+    ],
+    "frozen_growth_over_W_sweep": 32.11362883078638,
+    "surrogate_growth_over_W_sweep": 2.229526542911239,
+    "frozen_effective_W_exponent": 0.8246515748768248,
+    "record_ladder_holds_gamma_eff_at_1": true,
+    "verdict": "on the frozen level-two family the record's own control runs on, A(y)/(y log y) is not bounded: it climbs by the reported factor from its trough to the top of the array. Section 4's W-independence is derived from A(y) << y log y, so that control does not satisfy the hypothesis of the step it is offered as evidence for. Swept at fixed x the frozen upper-range sum grows like W to the reported exponent while the law-abiding surrogate saturates. The section 9 ladder cannot see this because it moves x and W together at gamma_eff = 1 and never varies W at fixed x."
+  },
+  "a4_ungated_obligations": {
+    "audit_gate_status": {
+      "two_range_phase": true,
+      "reflection_parity": true,
+      "weighted_partial_summation": true,
+      "marked_cluster_freezing": true,
+      "multiplicity": true,
+      "window_positive": true
+    },
+    "section_7_obligations": [
+      "infinite tail o(U log U) by the 9/1000 exponent margin",
+      "finite off-diagonal o(U log U) by the 6/25 mean-value margin",
+      "initial height interval retains its earlier bound",
+      "height commutator retains its earlier bound",
+      "archimedean freezing retains its earlier bound",
+      "contour localization retains its earlier bound"
+    ],
+    "audit_gates": [
+      "two-range phase and weights",
+      "weighted mean value",
+      "upper-length independence",
+      "height freezing at ratio 14/5",
+      "multiplicity normalization",
+      "0.51 window functional"
+    ],
+    "obligations_with_no_gate": [
+      "infinite tail o(U log U) by the 9/1000 exponent margin",
+      "initial height interval retains its earlier bound",
+      "height commutator retains its earlier bound",
+      "contour localization retains its earlier bound"
+    ],
+    "count_ungated": 4,
+    "verdict": "four of the six obligations section 7 lists are carried by the phrase 'retain their earlier bounds' and have no gate. Those earlier bounds were established under gamma < delta < 1; this proof's whole novelty is gamma = 21/20 > 1. Inheritance across a changed regime is the correlated-assumption shape the checklist names, and it is the one place this attack could not close."
+  },
+  "claim_withdrawn": false
+}

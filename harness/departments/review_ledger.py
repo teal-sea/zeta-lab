@@ -96,4 +96,63 @@ OUTCOMES: tuple[AttackOutcome, ...] = (
         ),
         claim_withdrawn=True,
     ),
+    AttackOutcome(
+        claim_name="urms2-0.51",
+        role="blind",
+        attacker="Fulcrum hunt R-FB9C81 (run 36a6a319, Antigravity, 2026-08-15)",
+        findings=(
+            "no structural failure found in the RC2 off-diagonal error "
+            "bounds: the claim survives this attack",
+            "the arithmetic conditions the Montgomery-Vaughan mean-value "
+            "theorem requires hold past the half-band, because coefficient "
+            "decay absorbs the increased polynomial length",
+        ),
+        artifacts=(
+            "hunts/r_fb9c81/RESULTS.md",
+            "hunts/r_fb9c81/probe.py",
+            "hunts/r_fb9c81/HANDBACK.json",
+        ),
+    ),
+    AttackOutcome(
+        claim_name="urms2-0.51",
+        role="white-box",
+        attacker="Fulcrum hunt R-065F29 (run 726a6b3f, Claude Opus 5, 2026-08-16)",
+        findings=(
+            "the mathematics of the half-band crossing survives: the exact "
+            "block second moment saturates to four significant figures "
+            "(17.2964 to 17.3642) while W/U grows from 1.3 to 9.9, which is "
+            "the W-independence the claim asserts, measured in the regime the "
+            "old proof's W/U = o(1) forbade",
+            "section 4's partial summation is correct under its hypothesis: a "
+            "surrogate family satisfying A(y) << y log y makes the upper-range "
+            "sum saturate over a 67-fold W sweep",
+            "but the record's own falsification control does not satisfy that "
+            "hypothesis. On the frozen level-two family that section 9's "
+            "ell = 6, 8, 10 table runs on, A(y)/(y log y) climbs by a factor of "
+            "88 from its trough, and the upper-range sum grows like W^0.825 at "
+            "fixed x instead of saturating. The ladder cannot see this because "
+            "it moves x and W together at effective gamma = 1 and never varies "
+            "W at fixed x, which is the quantity section 4 claims",
+            "URMS2-051-AUDIT.md gate 6's 'independent route' is a second "
+            "arithmetic assembly of the same numbers: C2_EXTENDED.json "
+            "reproduces corrected_coefficients(40) exactly, both routes import "
+            "the same tail majorant, and a one-part-in-1e6 mutation of "
+            "fock_upper_coefficient(41) moves both denominators by the "
+            "identical 4.426081703885579e-27",
+            "the four recorded margins of urms2_051_witness() do not select "
+            "51/100: they stay feasible to alpha = 257/500 at the published "
+            "(delta, gamma, epsilon) and admit alpha = 0.9 with (delta, gamma, "
+            "epsilon) free, so something binds that is not written down",
+            "four of the six obligations URMS2-051.md section 7 lists have no "
+            "audit gate and are carried by 'retain their earlier bounds' -- "
+            "bounds established under gamma < delta < 1, inherited across the "
+            "gamma = 21/20 > 1 regime change that is this proof's whole novelty",
+        ),
+        artifacts=(
+            "hunts/r_065f29/RESULTS.md",
+            "hunts/r_065f29/probe.py",
+            "hunts/r_065f29/results.json",
+            "hunts/r_065f29/HANDBACK.json",
+        ),
+    ),
 )

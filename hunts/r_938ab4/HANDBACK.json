@@ -1,0 +1,52 @@
+{
+  "run_id": "bbe76b9a-ccf3-4d53-bfe9-6480334f4648",
+  "status": "settled",
+  "conclusion": "The two numerator fields answer differently: `reNum` encloses `Re num` unconditionally, while `imNumOverY` encloses `Im num / y` only for `y != 0` and encloses the removable limit at `y = 0`, where `Im num / y` is `0` by Lean's division convention. Both identifications are proved with zero sorrys and instantiated at the first recorded box of `o9boxes`, and the corrected route reaches `Phi2` itself, so the two dead-weight lemmas (`O9Seam.r_comp_mem`, `Retention.rIv_mem`) can be retired at no reproof cost.",
+  "confidence": "High on the formal half, and deliberately lower on two named edges. The shape identities and both `_mem` results are kernel-checked with axioms limited to propext / Classical.choice / Quot.sound, and instantiability was checked at a real table row rather than assumed, which is the specific failure mode this run was sent to avoid. Two things are weaker and are marked as such in RESULTS.md: the `y = 0` mismatch witness sits at `s = pi`, outside the table's `s`-range, so it establishes the mathematical fact but not a table-local one; and the retire-the-dead-lemmas verdict rests on a grep for use sites plus a green build of the alternative route, which is measured rather than kernel-checked. Nothing here says O9 soundness is closed.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "a y = 0 mismatch witness inside the table's own s-range [28/5, 60]",
+      "why_it_might_matter": "the disequality is currently proved at s = pi, outside the table; a table-local witness would make the necessity of the y != 0 hypothesis a fact about the boxes O9 actually decides rather than about the function in general",
+      "first_step": "instantiate sinCosIv at box 0's s-interval and read off the sign of imOverYShape s 0 by decide"
+    },
+    {
+      "what": "O9Seam.r_comp_mem and Retention.rIv_mem are still in the tree",
+      "why_it_might_matter": "both are vacuous at every box and nothing depends on them; leaving them reads as though the seam has two routes when it has one",
+      "first_step": "delete both declarations plus their #print axioms lines in O9Real.lean, O9Assemble.lean and O9Audit.lean, then rebuild Zeta23Ext.EForm3.Main"
+    },
+    {
+      "what": "the identity joining Phi2 to EForm3.Qre / Qim was not traced",
+      "why_it_might_matter": "O9Sound's mode lemmas are stated about Qre and Qim, which are integrals in EForm3/Defs.lean, while this run's compositions stop at Phi2; until the join is written the O9 chain has a gap there",
+      "first_step": "read ClosedForm.lean for the Qre/Qim closed form and check whether it is already stated against Phi2 or only against the integrals"
+    },
+    {
+      "what": "Zeta23Ext/RetentionWired.lean:44 does not elaborate",
+      "why_it_might_matter": "a package-wide lake build is red for a reason unrelated to O9, which makes it easy for a future run to misread its own build status",
+      "first_step": "open RetentionWired.lean at line 44 and see what ring_nf was expected to do"
+    },
+    {
+      "what": "Zeta23Ext.BandCert.Verify is killed at 704 s with exit 137",
+      "why_it_might_matter": "an OOM looks like a failure in the build log; a run that does not distinguish it from a proof failure will draw the wrong conclusion about the tree",
+      "first_step": "measure peak RSS (it passed 11 GB here) and decide whether the target needs chunking the way O9Check2 chunks its decides"
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "a preflight check that a Lean run's toolchain actually exists before the brief's cache-get step is trusted",
+      "why_reusable": "this container had no elan and no lake; `lake exe cache get` exited 0 with 'lake: command not found', so the run's first budget-protecting step silently did nothing and the cost surfaced ten minutes later. Any Lean-targeted run inherits this",
+      "first_step": "have the Lean brief template open with `which lake || <install elan>` rather than with `lake exe cache get`"
+    },
+    {
+      "what": "record a baseline build result before editing, and report post-edit status as a delta against it",
+      "why_reusable": "this package was already red on two targets before any edit; without the baseline the honest claim 'the new module is green' is indistinguishable from the false claim 'the tree is green', in either direction",
+      "first_step": "make the first command of any Lean run a full build whose failures are captured, then quote both baseline and post-edit status in RESULTS.md"
+    },
+    {
+      "what": "instantiate-at-a-real-datum as a standing check for any seam lemma, not just a lesson from r_comp_mem",
+      "why_reusable": "the vacuity defect was invisible to compilation, to sorry-counting and to axiom auditing; the only thing that catches it is discharging every hypothesis at a recorded datum. That is cheap and it generalises past this package",
+      "first_step": "for each conditional _mem lemma in the package, add one corollary with all hypotheses discharged at a table row and see which ones cannot be stated"
+    }
+  ],
+  "notes_for_operator": "Case-log entry taken as Hunt #44 as assigned; #44 was free. Scope respected: writes confined to hunts/frontier_math/zeta23ext/Zeta23Ext/EForm3/ (one new file, one import line in Main.lean), hunts/r_938ab4/, and the hunts/README.md case log. Nothing touched in meta/, harness/, zeta/, lean/, any root markdown file, hunts/frontier_math/*.py, or lean/ZetaLean/HardyRamanujantheorem.lean. Two operating topics belong on your side rather than in the public record and are named here only: the cold-container Lean cost this run absorbed, and how a brief should sequence toolchain checks against its budget line. Telemetry: the repository has no .venv in this container, so the brief's `.venv/bin/python -m telemetry` line fails; the run was started and finished with the system `python3` instead. Token counts were not surfaced to the agent by the provider, so `--tokens` was omitted rather than filled with zeros."
+}

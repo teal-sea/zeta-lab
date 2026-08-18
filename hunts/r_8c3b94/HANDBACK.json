@@ -1,0 +1,42 @@
+{
+  "run_id": "3d64c841-8905-4cb7-af22-0cf1738220ac",
+  "status": "settled",
+  "conclusion": "The moment method costs roughly 2,400 to 3,700 lines of Lean and every one of its obligations is a thing somebody knows how to write down; the characteristic-function route is not merely dearer but blocked on the fundamental lemma of sieve theory, which Mathlib lacks (its Selberg sieve is upper-bound only) and which has no Lean formalization at all. The reason is one line: the moment route needs only k-fold products, so its arithmetic error is pi(y)^k and it tolerates y = N^(1/2k), while the characteristic function needs all orders at once, so its error is 2^(pi(y)) and forces y down to about log N, where loglog y stops being asymptotic to loglog N and the theorem's own normalisation dies.",
+  "confidence": "Lean hard on the Mathlib inventory and on the blocking finding; lean carefully on the numbers. Every 'present' claim is proved by compiling 43 #checks against the pinned toolchain (mathlib 51e6992e, lean v4.33.0-rc2), exit 0, and every 'absent' claim names the term searched for over that same pinned source. The line estimates are anchored to measured file sizes in lean/ZetaLean (the k=2 moment is 259 lines; MertensSecond is 354; the whole Hardy-Ramanujan file is 588) but they count surviving lines only, since the tree does not record discarded work, so they are biased low by an unknown factor. The one obligation I would not defend to better than a factor of two is A2b, the reindexing of k-tuples of primes by set-partition, precisely because it has no k=2 analogue to calibrate against. Route B's obstruction was derived here rather than looked up; it is elementary and I believe it, and an hour against Granville-Soundararajan or Tenenbaum would either confirm it or find the sieve-free variant I did not.",
+  "operator_decision_required": "Fund Route A or fund nothing; do not fund Route B. If Route A is funded, fund the k=4 central moment of omega_y with truncation as a single bounded file first, not general k: k=4 is the smallest case where the partition machinery is real (a 3-block-plus-singleton partition, and two distinct perfect matchings so the (k-1)!! count is exercised), and it is diagnostic in both directions. If that file lands with visibly k-uniform partition handling, the 2,400-line figure is right and general k is a scale-up. If it alone exceeds roughly 600 lines, more than twice the entire k=2 moment computation, the estimate has failed at the step that matters and general k is out of reach at this tree's current state. Separately, and worth deciding independently: three pieces of Route A and Route B are wanted upstream and do not depend on Erdos-Kac succeeding at all, in descending order of reuse: the triangular-array CLT (B3, roughly 600 to 900 lines, well supported by Mathlib's existing charFun toolkit), the Gaussian moments (A3, roughly 200 to 300), and a method-of-moments theorem (A4, roughly 800 to 1,500). Cost, routing and allocation beyond this recommendation are fulcrum's, not this record's.",
+  "threads": [
+    {
+      "what": "Mathlib still has no Mertens theorem at rev 51e6992e; this tree has two, with explicit bands (log 4 + 3, and 16).",
+      "why_it_might_matter": "run 43d363c1 already flagged upstreaming as operator-priced work; this run establishes only that nobody filled the gap in the interim, so the contribution is still available.",
+      "first_step": "diff ZetaLean/Mertensstheorems.lean and MertensSecond.lean against Mathlib house style: Ioc 0 N versus range, explicit constants versus IsBigO."
+    },
+    {
+      "what": "Nat.stirlingSecond was added to Mathlib in 2025 with recurrences and small values and no combinatorial content: no bijection to partitions of a Finset, no falling-factorial identity, no link to Finpartition.",
+      "why_it_might_matter": "whoever writes Route A's hardest step builds that content anyway, and it is a smaller and cleaner upstream contribution than anything else on either route.",
+      "first_step": "state x^n = sum over k of stirlingSecond n k times the falling factorial, and the Finpartition cardinality lemma."
+    },
+    {
+      "what": "Mathlib's TendstoInDistribution is indexed by a family of measure spaces, so a probability space that varies with N already fits without a new definition.",
+      "why_it_might_matter": "that is unusual and lucky, and nobody appears to have used it for a number-theoretic limit law; it lowers the entry cost of any future arithmetic distribution result, not just this one.",
+      "first_step": "instantiate it with uniformOn (Finset.Ioc 0 N) and check the IsProbabilityMeasure instance resolves."
+    },
+    {
+      "what": "The normal order of ArithmeticFunction.cardFactors (Omega, with multiplicity), via sum over n<=N of (Omega n - omega n) <= 2N.",
+      "why_it_might_matter": "it puts a second Mathlib-named arithmetic function under an existing theorem for perhaps 150 lines, and it is on neither route. Best lines-to-result ratio in sight. Already flagged by hunts/r_233abe; restated because this run's pricing makes the contrast sharp.",
+      "first_step": "the double count over prime powers p^k <= N with k >= 2, in the style of sum_omega_eq_sum_div."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "Proving runs should record lines written against lines landed.",
+      "why_reusable": "every formalization estimate this laboratory makes counts surviving lines, because surviving lines are what the repository holds. The discarded work is invisible, so every such estimate, including this run's, is biased low by an unknown factor. Nothing in the tree measures it.",
+      "first_step": "have a Lean proving run report a count of distinct file states written during the run alongside the final line count; one number, no framework."
+    },
+    {
+      "what": "A pricing run should compile its declaration claims rather than grep them.",
+      "why_reusable": "this run's Probe.lean caught two spelling misses (MeasureTheory.isCompact_closure_of_isTightMeasureSet and SelbergSieve.BoundingSieve, both wrong namespaces) that a grep-based map would have recorded as facts. The pattern costs one file and one lake env lean invocation, and it converts an inventory from remembered to checked.",
+      "first_step": "keep Probe.lean as the shape; any future mapping run against Mathlib copies it."
+    }
+  ],
+  "notes_for_operator": "Case-log entry taken as Hunt #48 as assigned; #48 was free (highest previously used was #45), so no renumbering was needed. Scope respected: nothing outside hunts/r_8c3b94/ and the one hunts/README.md entry was written, no existing Lean file was touched, and hunts/frontier_math was not entered. Environment note, since the brief assumed otherwise: this container had no .venv, no elan and no Mathlib on arrival, so the run installed elan, fetched Mathlib's olean cache (about 2.2 GB) and built ZetaLean before it could compile anything. Telemetry was started with the system python3 rather than .venv/bin/python for that reason. One piece of prior prose in this tree is corrected by this run and the correction should propagate if anyone acts on it: hunts/r_0339c1/RESULTS.md treats tightening the Mertens band 16 as the lever, which is true for the Hardy-Ramanujan constant 275 and irrelevant to Erdos-Kac, whose moment route uses the band only as an O(1) shift divided by sqrt(loglog N). A prerequisite that looked live is dead. Finally, framing: a Lean proof of Erdos-Kac would be an original kernel-checked result for this laboratory and would not be novel, and if it is funded it should be positioned that way from the first commit rather than discovered to be that at the end."
+}

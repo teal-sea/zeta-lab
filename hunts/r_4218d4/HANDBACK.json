@@ -1,0 +1,42 @@
+{
+  "run_id": "4ca4fa60-d2dc-4e7c-98b9-fc2ef95e4039",
+  "status": "settled",
+  "conclusion": "The Turan variance constant falls from 5855 to 275 (factor 21.3), by tightening the Mertens band it inherits quadratically: mertens_first_theorem from log 4 + 16 to log 4 + 3, mertens_second_theorem from 76 to 16, with every statement's shape preserved, no hypothesis added, no sorry, and an unchanged axiom audit. All three tightenings were local and needed no new mathematics, exactly as the discovering runs predicted.",
+  "confidence": "High for the Lean claims: the three edited modules compile against Mathlib v4.33.0-rc2 with zero sorrys, and every theorem in the chain reports only propext, Classical.choice and Quot.sound. Lean an ordinary amount on the arithmetic in RESULTS.md and probe.py, which is float bookkeeping about where the remaining slack sits, not part of the kernel-checked chain. Do not read the run as saying the classical constants (2 for Mertens I, 4 for Mertens II) are now close: they are not, and the largest remaining term, log 4 in Chebyshev's bound, is 39 percent slack whose removal is the prime number theorem rather than a constant tightening.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "The factor 4 in MertensSecond.log_sub_log_le_mul_add comes from 1/(xy) < 4 under the hypothesis 1/2 < x, but every call site has x = log n with n >= 2, where 1/(xy) <= 1/(log 2)^2 = 2.081.",
+      "why_it_might_matter": "It is the largest remaining term in the Mertens II assembly that is not the Mertens band itself. Fixing it takes the band from 16 to roughly 14 and the variance constant from 275 to about 213, with no new mathematics.",
+      "first_step": "Add a second lemma taking hx : c0 <= x and concluding log y - log x <= x*(1/x - 1/y) + c/c0^2, leave the existing lemma untouched (strengthening its hypothesis would weaken it, which this run's addendum forbids), and call the new one with c0 = log 2 in hterm_lb."
+    },
+    {
+      "what": "Mathlib's own Chebyshev.psi_le_const_mul_self carries the same 2/e slack this run removed locally: it bounds 2*sqrt(x)*log x by 4x where 4/e = 1.4715 works.",
+      "why_it_might_matter": "It is a two-line improvement to a Mathlib lemma that every downstream user inherits, and the proof is now written out in this repository as psi_le_const_mul_self' plus log_le_div_exp_one.",
+      "first_step": "Open a Mathlib PR replacing (log 4 + 4) by (log 4 + 3/2) in Mathlib/NumberTheory/Chebyshev.lean. Note Mathlib states it for 0 <= x while the sharp bound needs 1 <= x, so the x < 1 case has to be split off (psi x = 0 there)."
+    },
+    {
+      "what": "HardyRamanujan.first_moment_lower loses one unit per prime and bounds the prime count by N, which is where the +3 of m^2 + m + 3 comes from. The true loss is pi(N) = o(N).",
+      "why_it_might_matter": "Worth only about 2 out of 275 today, but it becomes the dominant remaining term if the Mertens band ever reaches its classical 4: 4^2 + 4 + 3 = 23, of which the 3 is 13 percent.",
+      "first_step": "Replace the card_filter_le step in first_moment_lower by a Chebyshev-type bound on pi(N), e.g. via Chebyshev.psi_le_primeCounting_mul_log read backwards, and check whether the resulting L-dependence still collapses under 1 <= L."
+    },
+    {
+      "what": "sum_inv_mul_sqrt_le is stated from n = 1, where it is tight, but every use wants it from n = 2, where it is not; this run subtracted the n = 1 term at the call site instead of restating the lemma.",
+      "why_it_might_matter": "Any future consumer hits the same friction, and the n = 2 form is the one the mathematics actually wants.",
+      "first_step": "Add sum_inv_mul_sqrt_Ioc_one_le : sum over 2 <= n <= N of (n sqrt n)^-1 <= 2 - 2/sqrt N as the primary lemma and derive the existing one from it."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A constant-provenance ledger for the Lean arm: for each explicit constant in a landed theorem, record which upstream steps feed it, what each step's sharp value is, and what the composite would be with no rounding. This run had to reconstruct that graph by reading three files before it could tell which of five slack steps was worth attacking.",
+      "why_reusable": "The lab now has several Lean developments whose headline number is a rounded composite of other rounded numbers (Mertens, Hardy-Ramanujan, the DH interval layers, the Pub1 certificate margins). Choosing what to tighten is currently a re-derivation each time, and the chooser that ranked this row highest was working from prose in prior runs' RESULTS.md rather than from data.",
+      "first_step": "Have each Lean file that states an explicit constant carry a machine-readable comment naming the constant, its inputs, and its sharp value; then a script that walks the files and prints the slack graph. hunts/r_4218d4/probe.py is a hand-built instance of exactly that graph for one chain and is the obvious template."
+    },
+    {
+      "what": "A cold-container Lean preflight, matching scripts/science_preflight.py for the Python side. This container had no elan at all; the brief's own step 5 (lake exe cache get) could not run, and installing the toolchain plus fetching 7.8 GB of Mathlib cache consumed a noticeable share of a 75 minute budget before any mathematics started.",
+      "why_reusable": "Every Lean-arm hunt pays this, and pays it silently: the failure mode is not an error but a budget that quietly halves. A preflight that reports whether elan, the pinned toolchain and the Mathlib cache are present, and how long fetching them will take, lets a brief price a Lean run honestly.",
+      "first_step": "Add scripts/lean_preflight.py reporting elan presence, lean-toolchain match, .lake cache size and a build timing for one small module, exiting non-zero when the environment cannot support a Lean run at all; have Lean briefs call it as step 0."
+    }
+  ],
+  "notes_for_operator": "Template mismatch, as the addendum anticipated: the brief generator gave this row the generic Python hunt template (probe.py, .venv/bin/python, mpmath), and the operator addendum had to override it wholesale to say the work is in lean/. Worth fixing in the generator so Lean rows get the Lean template, including the cache-get step and a realistic time allowance for a cold container. Two smaller notes. First, the environment had no Lean toolchain at all, not merely a cold cache: elan itself had to be installed before the brief's step 5 could run, which is the kind of thing the core candidate above is meant to surface in advance. Second, this run's tightening makes the constants quoted in hunts/r_3c1cbb/RESULTS.md, hunts/r_3c1cbb/RESULTS-second.md and the Hunt #30/#35/#37 case-log entries stale. I left every one of them as written: they are accurate records of what those runs proved, and editing them to match a later result would be editing evidence rather than correcting it. The Hunt #39 entry says so explicitly, so a reader who meets an old number knows where to look."
+}

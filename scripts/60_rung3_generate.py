@@ -16,8 +16,17 @@ equality — and the mirror doubles as an exact feasibility check at
 generation time: sites whose margins fail are reported *before* any kernel
 compute is spent.
 
+Grid `beta`s are **read off the enclosure, not predicted** (`docs/25` §4.3
+defect 2, hunt `hunts/r_908de5`): a predicted beta drawn at the achievable
+bound makes `normLower >= beta` true at the line by construction, in any
+arithmetic, so the site inequality stops carrying information.  With
+`beta := normLower` the site inequality is true by construction *and says so*,
+and the obligation that still bites — `eps' + L*h/2 <= beta`, the hypothesis of
+`DH_lower_on_[hv]cell` — is checked here, at generation time.
+
 Usage:
   .venv/bin/python scripts/60_rung3_generate.py PLAN.json OUTDIR [--only ID]
+                                                [--beta measured|plan]
 """
 from __future__ import annotations
 
@@ -70,6 +79,40 @@ LIT_SIMPSET = (
     "      ZetaLean.Interval.add, ZetaLean.Interval.neg, ZetaLean.Interval.sub,\n"
     "      ZetaLean.Interval.exact"
 )
+
+
+# Denominator of a measured `beta` literal.  `normLower` is exact but its
+# denominator runs to thousands of bits; rounding DOWN to a multiple of
+# 2^-BETA_BITS keeps the Lean literal small and keeps the claim true, a smaller
+# beta being a weaker statement about the same enclosure.
+BETA_BITS = 40
+
+
+def beta_literal(nl: Fraction) -> Fraction:
+    """Largest multiple of 2^-BETA_BITS that is at most `nl`."""
+    scale = 1 << BETA_BITS
+    return Fraction(int(nl * scale), scale)
+
+
+def cell_requirements(plan: dict) -> dict:
+    """`eps' + L*h/2` per grid site — the hypothesis of `DH_lower_on_[hv]cell`.
+
+    Each site bounds the cells on either side of it, so its requirement is the
+    larger of the two gaps' demands.
+    """
+    L, eps = Fraction(plan["L"]), Fraction(plan["small"]["eps"])
+    by_seg: dict[str, list] = {}
+    for g in plan.get("grid", []):
+        by_seg.setdefault(g["segment"], []).append(g)
+    need: dict[str, Fraction] = {}
+    for gs in by_seg.values():
+        for i, g in enumerate(gs):
+            if g["gap_next"] is None:
+                continue
+            d = eps + L * Fraction(g["gap_next"]) / 2
+            for s in (g, gs[i + 1]):
+                need[s["id"]] = max(need.get(s["id"], Fraction(0)), d)
+    return need
 
 
 def q(x) -> str:
@@ -273,9 +316,23 @@ def emit_site(site: dict, kind: str) -> tuple[str, dict]:
     a(f"    (r := {q(r)}) (by norm_num)")
     a("")
     if kind == "grid":
-        beta = Fraction(site["beta"])
+        # `beta` is *read off* the enclosure by default (`beta_literal` of the
+        # mirror's own `normLower`), not predicted: a predicted beta drawn at
+        # the achievable bound makes the site inequality true at the line in any
+        # arithmetic, which is `docs/25` §4.3 defect 2.  A plan that carries an
+        # explicit `beta` still wins, so the old behaviour stays reachable.
+        beta = (Fraction(site["beta"]) if site.get("beta") is not None
+                else beta_literal(stats["normLower"]))
         assert stats["normLower"] >= beta, (
             f"{sid}: normLower {float(stats['normLower'])} < beta {float(beta)}")
+        # The claim is only worth what the *cell* obligation can spend.  A beta
+        # read off the enclosure clears the site inequality by construction, so
+        # the site inequality stops being evidence of anything; the check that
+        # still bites is the hypothesis of `DH_lower_on_[hv]cell`.
+        need = site.get("beta_need")
+        assert need is None or beta >= Fraction(need), (
+            f"{sid}: beta {float(beta)} < cell requirement eps' + L*h/2 = "
+            f"{float(Fraction(need))} — this site cannot support its grid cell")
         px, py = site["re_lo"], site["im_lo"]
         a(f"noncomputable def z_{sid} : ℂ := ⟨(({q(px)}) : ℝ), (({q(py)}) : ℝ)⟩")
         a("")
@@ -315,6 +372,8 @@ def emit_site(site: dict, kind: str) -> tuple[str, dict]:
 def main() -> None:
     plan_path, outdir = sys.argv[1], pathlib.Path(sys.argv[2])
     only = sys.argv[sys.argv.index("--only") + 1] if "--only" in sys.argv else None
+    beta_from_plan = ("--beta" in sys.argv
+                      and sys.argv[sys.argv.index("--beta") + 1] == "plan")
     plan = json.loads(pathlib.Path(plan_path).read_text())
     outdir.mkdir(parents=True, exist_ok=True)
     sites = []
@@ -324,6 +383,7 @@ def main() -> None:
     c["im_lo"] = c["im_hi"] = plan["small"]["cim"]
     c["eps"] = plan["small"]["eps"]
     sites.append((c, "centre"))
+    need = cell_requirements(plan)
     for g in plan.get("grid", []):
         g = dict(g)
         if g["segment"] in ("bottom", "top"):
@@ -332,7 +392,11 @@ def main() -> None:
         else:
             g["re_lo"] = g["re_hi"] = g["fixed"]
             g["im_lo"] = g["im_hi"] = g["x"]
-        g["beta"] = g.get("beta") or g.get("pred_beta_claim") or g.get("pred_beta")
+        # None => read beta off the enclosure.  `--beta plan` restores the
+        # predicted value the plan carries.
+        g["beta"] = ((g.get("beta") or g.get("pred_beta_claim") or g.get("pred_beta"))
+                     if beta_from_plan else None)
+        g["beta_need"] = str(need[g["id"]]) if g["id"] in need else None
         sites.append((g, "grid"))
     for b in plan.get("big", {}).get("boxes", []):
         b = dict(b)

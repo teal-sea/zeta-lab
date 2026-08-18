@@ -1,0 +1,42 @@
+{
+  "run_id": "5c3b062c-9fe6-431b-9bd3-25083ca3426d",
+  "status": "settled",
+  "conclusion": "Issue #21's table is confirmed cell for cell by a probe that runs end to end: the functional equation, a real Hardy-style Z, and having zeros on the critical line are each shared by 3 of 3 RH-violating rivals and distinguish nothing, while multiplicative and completely multiplicative coefficients are shared by 0 of 3. The sixth property issue #21 calls unsettled was in fact settled by hunts #13, #14 and #15 after the issue was written; this run reproduces that independently and adds the measured reason it keeps costing budget, which is that the Epstein completed function is ~2e-58 at t = 85.5 and needs dps 60, while battery hardcodes dps = 20 into count_zeros_box.",
+  "confidence": "Lean hard on the five properties: every cell was computed, zeta is a positive control on all five, and properties 1 and 4 reuse the packaged claims in zeta/epstein.py rather than restating them, so the published verdict is the packaged claim's verdict. Lean hard on the precision floor: it is a convergence ladder, it reproduces hunt #14's independently derived 0.6822*t digit-loss rule to within two digits, and box B2 recovers the pinned Davenport-Heilbronn zero as a positive control. Lean less on box B2's overall verdict, which is UNDECIDED and stays that way until the Epstein arm is affordable. Grade is measured, not hardened: no enclosure carries any step, and no literature search was run, so originality is claimed and novelty is not.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "battery's rival interfaces hardcode dps=min(dps, 20) into count_zeros_box at zeta/epstein.py:1091 and :1141, below the measured convergence floor of 60 at t = 85.5.",
+      "why_it_might_matter": "The packaged gate-#3 property-6 route is unusable above t ~ 30 and cannot be fixed by the caller. The failure mode is silent: count_zeros_box's integrality check passes, because noise winds to an integer as happily as signal does, so the routine returns a plausible wrong zero count rather than raising. Three hunts have now spent budget on this arm.",
+      "first_step": "Replace min(dps, 20) at those two sites with a floor derived from the box height (hunt #14's 0.6822*t digit loss plus guard digits), and pin it with a test that the count at t ~ 85.5 is stable between dps 60 and dps 100."
+    },
+    {
+      "what": "Property 3 consumed 853.8 s of a 902 s stage for a verdict that is visible in seconds, because zeros_on_line was quantified over t in [10, 40] and that width was not chosen.",
+      "why_it_might_matter": "It is 95% of stage 1's cost for no additional information; the same VACUOUS verdict follows from any window containing one zero of each function.",
+      "first_step": "Narrow LINE_WINDOW to (10, 16) in hunts/r_f7cd45/probe.py and confirm the five verdicts are unchanged."
+    },
+    {
+      "what": "zeta.epstein.battery still carries property 6 as a property, after three hunts concluded it is a (function, box) pair rather than a property.",
+      "why_it_might_matter": "It keeps attracting budget, this run included, and hunt #13 already drafted a box-free replacement that nobody has ruled on.",
+      "first_step": "A zeta/ scope decision, not a hunt's: either retire property 6 or adopt hunt #13's box-free replacement."
+    },
+    {
+      "what": "tests/test_huntspec.py::test_every_mission_huntspec_block_in_the_tree_validates is RED on origin/main, and was before this branch existed. hunts/r_fb9c81/MISSION.md (hunt #34, merged as PR #41) carries a huntspec block using keys 'mission' and 'method' and missing all seven required keys.",
+      "why_it_might_matter": "The suite is red on main, so the next session cannot use a green run as a baseline, which is the first instruction in the setup section of AGENTS.md. The HuntSpec validator is on probation and this is the first block that has failed it in the tree; a validator whose only real-world failure sits unfixed on main will stop being read as a gate.",
+      "first_step": "Rewrite the block in hunts/r_fb9c81/MISSION.md against the seven required keys in hunts/HUNTSPEC.md. Out of this hunt's scope, so it is reported and not touched."
+    },
+    {
+      "what": "Issue #21's 'Not yet settled' section is stale and still names the sixth property as open.",
+      "why_it_might_matter": "It is what routed this run at the sixth property and will route the next one the same way.",
+      "first_step": "Comment on issue #21 pointing at hunts #13, #14, #15 and this artifact, and edit that section."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A convergence-ladder precision audit that runs before an expensive numerical claim and marks cells inadmissible rather than letting them run: evaluate the same point up a dps ladder, take the floor where the value stops moving, and refuse to spend budget below it.",
+      "why_reusable": "It is domain-agnostic and it caught a real error in this run. The preregistered dps = 15 was chosen honestly on cost and would have produced two plausible integer zero counts that were noise, with no exception raised and the routine's own integrality check passing. Any mpmath claim in this laboratory that depends on cancellation has the same failure mode, and the current habit is to discover it after spending the budget, as hunts #14 and #15 did.",
+      "first_step": "Lift run_precision_audit from hunts/r_f7cd45/probe.py into a small helper taking (callable of dps, point, ladder, reltol) and returning a floor, and call it from one live consumer before generalizing further."
+    }
+  ],
+  "notes_for_operator": "Two things worth your time. First, the brief was generated from issue #21 and inherited its stale 'not yet settled' section; hunts #13, #14 and #15 had already settled property 6. The brief-generation path reads the issue but not the case log that answers it, and that is a Fulcrum-side routing question rather than a scientific one, so it is named here and not acted on. Second, I exceeded the 30-minute budget: the run took roughly 75 minutes wall clock, and the overrun is one bad parameter choice, LINE_WINDOW = (10, 40) in property 3, which cost 853.8 s on its own. The stage-2 precision audit was added mid-run after the prior hunts revealed the cancellation defect, and it changed stage 2 from 'produce two box counts' to 'produce two box counts and refuse two more'; that was the right call and it is why stage 2 is honest, but it was not in the original plan. Telemetry token counts are reported from the usage objects on this session's own transcript, summed over 124 assistant messages; no cost figure is passed, since no provider reported money. Third: the guard tests were run and one is red on main through no action of this branch, recorded as a thread above rather than fixed, because hunts/r_fb9c81/ is outside this hunt's write scope."
+}

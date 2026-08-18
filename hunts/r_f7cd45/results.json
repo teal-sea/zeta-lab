@@ -1,0 +1,562 @@
+{
+  "hunt": "r_f7cd45",
+  "run_id": "5c3b062c-9fe6-431b-9bd3-25083ca3426d",
+  "source_issue": "https://github.com/teal-sea/zeta-lab/issues/21",
+  "gate": "docs/09-new-ontologies.md gate #3",
+  "rivals": [
+    "davenport_heilbronn",
+    "epstein_2_1_3",
+    "epstein_1_1_6"
+  ],
+  "scope": "Nothing here is evidence for or against RH (docs/08). Gate #3 is eliminative, never probative: prime-blind implies not an explanation, but prime-sensitive does not imply proof.",
+  "parameters": {
+    "dps_claims": 25,
+    "dps_box": 15,
+    "forms": [
+      [
+        2,
+        1,
+        3
+      ],
+      [
+        1,
+        1,
+        6
+      ]
+    ],
+    "Z_real_samples": [
+      1.0,
+      5.0,
+      14.0,
+      21.0,
+      30.5
+    ],
+    "Z_real_tol": "1e-12",
+    "line_window": [
+      10.0,
+      40.0
+    ],
+    "coprime_pairs": [
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        7
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        2,
+        9
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        9
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        3,
+        8
+      ]
+    ],
+    "any_pairs": [
+      [
+        2,
+        3
+      ],
+      [
+        2,
+        7
+      ],
+      [
+        3,
+        7
+      ],
+      [
+        2,
+        9
+      ],
+      [
+        3,
+        4
+      ],
+      [
+        4,
+        9
+      ],
+      [
+        5,
+        6
+      ],
+      [
+        3,
+        8
+      ],
+      [
+        2,
+        2
+      ],
+      [
+        2,
+        4
+      ],
+      [
+        3,
+        3
+      ],
+      [
+        2,
+        6
+      ],
+      [
+        3,
+        6
+      ],
+      [
+        5,
+        5
+      ]
+    ],
+    "coefficient_tol": "1e-12",
+    "box_wall_clock_cap_s": 600.0
+  },
+  "claims": [
+    {
+      "key": "functional_equation",
+      "claim": "the completed function satisfies F(s) = F(1-s)",
+      "riemann_zeta": true,
+      "per_function": {
+        "davenport_heilbronn": true,
+        "epstein_2_1_3": true,
+        "epstein_1_1_6": true
+      },
+      "rivals_surviving": 3,
+      "rivals_total": 3,
+      "shared_with": [
+        "davenport_heilbronn",
+        "epstein_1_1_6",
+        "epstein_2_1_3"
+      ],
+      "distinguishes": false,
+      "gate3_verdict": "VACUOUS",
+      "seconds": 24.28
+    },
+    {
+      "key": "hardy_Z_real",
+      "claim": "there is a Hardy-style Z real-valued for real t",
+      "riemann_zeta": true,
+      "per_function": {
+        "davenport_heilbronn": true,
+        "epstein_2_1_3": true,
+        "epstein_1_1_6": true
+      },
+      "rivals_surviving": 3,
+      "rivals_total": 3,
+      "shared_with": [
+        "davenport_heilbronn",
+        "epstein_1_1_6",
+        "epstein_2_1_3"
+      ],
+      "distinguishes": false,
+      "gate3_verdict": "VACUOUS",
+      "seconds": 23.94
+    },
+    {
+      "key": "zeros_on_critical_line",
+      "claim": "the function has zeros on the critical line",
+      "riemann_zeta": true,
+      "per_function": {
+        "davenport_heilbronn": true,
+        "epstein_2_1_3": true,
+        "epstein_1_1_6": true
+      },
+      "rivals_surviving": 3,
+      "rivals_total": 3,
+      "shared_with": [
+        "davenport_heilbronn",
+        "epstein_1_1_6",
+        "epstein_2_1_3"
+      ],
+      "distinguishes": false,
+      "gate3_verdict": "VACUOUS",
+      "seconds": 853.83
+    },
+    {
+      "key": "multiplicative_coefficients",
+      "claim": "the Dirichlet coefficients are multiplicative (coprime m, n)",
+      "riemann_zeta": true,
+      "per_function": {
+        "davenport_heilbronn": false,
+        "epstein_2_1_3": false,
+        "epstein_1_1_6": false
+      },
+      "rivals_surviving": 0,
+      "rivals_total": 3,
+      "shared_with": [],
+      "distinguishes": true,
+      "gate3_verdict": "DISTINGUISHES",
+      "seconds": 0.0
+    },
+    {
+      "key": "completely_multiplicative_coefficients",
+      "claim": "the Dirichlet coefficients are completely multiplicative (all m, n)",
+      "riemann_zeta": true,
+      "per_function": {
+        "davenport_heilbronn": false,
+        "epstein_2_1_3": false,
+        "epstein_1_1_6": false
+      },
+      "rivals_surviving": 0,
+      "rivals_total": 3,
+      "shared_with": [],
+      "distinguishes": true,
+      "gate3_verdict": "DISTINGUISHES",
+      "seconds": 0.0
+    }
+  ],
+  "precision_audit": {
+    "point": [
+      0.75,
+      85.5
+    ],
+    "ladder_dps": [
+      15,
+      20,
+      30,
+      40,
+      60,
+      80,
+      100
+    ],
+    "agreement_reltol": "1e-6",
+    "per_function": {
+      "riemann_zeta": {
+        "ladder": [
+          {
+            "dps": 15,
+            "value": "(-3.03918404201e-26 + 1.19372518652e-27j)",
+            "abs": "3.0415275e-26",
+            "seconds": 0.0
+          },
+          {
+            "dps": 20,
+            "value": "(-3.03918404201e-26 + 1.19372518652e-27j)",
+            "abs": "3.0415275e-26",
+            "seconds": 0.0
+          },
+          {
+            "dps": 30,
+            "value": "(-3.03918404201e-26 + 1.19372518652e-27j)",
+            "abs": "3.0415275e-26",
+            "seconds": 0.0
+          },
+          {
+            "dps": 40,
+            "value": "(-3.03918404201e-26 + 1.19372518652e-27j)",
+            "abs": "3.0415275e-26",
+            "seconds": 0.0
+          },
+          {
+            "dps": 60,
+            "value": "(-3.03918404201e-26 + 1.19372518652e-27j)",
+            "abs": "3.0415275e-26",
+            "seconds": 0.01
+          },
+          {
+            "dps": 80,
+            "value": "(-3.03918404201e-26 + 1.19372518652e-27j)",
+            "abs": "3.0415275e-26",
+            "seconds": 0.01
+          },
+          {
+            "dps": 100,
+            "value": "(-3.03918404201e-26 + 1.19372518652e-27j)",
+            "abs": "3.0415275e-26",
+            "seconds": 0.01
+          }
+        ],
+        "converged_value": "(-3.03918404201e-26 + 1.19372518652e-27j)",
+        "converged_abs": "3.0415275e-26",
+        "convergence_floor_dps": 15,
+        "preregistered_dps_is_adequate": true
+      },
+      "davenport_heilbronn": {
+        "ladder": [
+          {
+            "dps": 15,
+            "value": "(-1.26401858694e-29 - 2.71911405139e-29j)",
+            "abs": "2.9985537e-29",
+            "seconds": 0.31
+          },
+          {
+            "dps": 20,
+            "value": "(-1.26401858694e-29 - 2.71911405139e-29j)",
+            "abs": "2.9985537e-29",
+            "seconds": 0.28
+          },
+          {
+            "dps": 30,
+            "value": "(-1.26401858694e-29 - 2.71911405139e-29j)",
+            "abs": "2.9985537e-29",
+            "seconds": 0.26
+          },
+          {
+            "dps": 40,
+            "value": "(-1.26401858694e-29 - 2.71911405139e-29j)",
+            "abs": "2.9985537e-29",
+            "seconds": 0.4
+          },
+          {
+            "dps": 60,
+            "value": "(-1.26401858694e-29 - 2.71911405139e-29j)",
+            "abs": "2.9985537e-29",
+            "seconds": 0.61
+          },
+          {
+            "dps": 80,
+            "value": "(-1.26401858694e-29 - 2.71911405139e-29j)",
+            "abs": "2.9985537e-29",
+            "seconds": 0.84
+          },
+          {
+            "dps": 100,
+            "value": "(-1.26401858694e-29 - 2.71911405139e-29j)",
+            "abs": "2.9985537e-29",
+            "seconds": 1.09
+          }
+        ],
+        "converged_value": "(-1.26401858694e-29 - 2.71911405139e-29j)",
+        "converged_abs": "2.9985537e-29",
+        "convergence_floor_dps": 15,
+        "preregistered_dps_is_adequate": true
+      },
+      "epstein_2_1_3": {
+        "ladder": [
+          {
+            "dps": 15,
+            "value": "(4.94899658781e-30 - 3.53260947193e-30j)",
+            "abs": "6.080452e-30",
+            "seconds": 1.86
+          },
+          {
+            "dps": 20,
+            "value": "(-1.63051234996e-33 - 2.48388141861e-33j)",
+            "abs": "2.971235e-33",
+            "seconds": 2.59
+          },
+          {
+            "dps": 30,
+            "value": "(-1.92014415948e-43 - 2.87593060978e-43j)",
+            "abs": "3.4580241e-43",
+            "seconds": 3.63
+          },
+          {
+            "dps": 40,
+            "value": "(-2.04685701451e-54 + 1.46105303345e-54j)",
+            "abs": "2.514816e-54",
+            "seconds": 4.9
+          },
+          {
+            "dps": 60,
+            "value": "(-1.95547787347e-58 - 3.71088089967e-59j)",
+            "abs": "1.9903769e-58",
+            "seconds": 10.41
+          },
+          {
+            "dps": 80,
+            "value": "(-1.95547787347e-58 - 3.71088089967e-59j)",
+            "abs": "1.9903769e-58",
+            "seconds": 18.52
+          },
+          {
+            "dps": 100,
+            "value": "(-1.95547787347e-58 - 3.71088089967e-59j)",
+            "abs": "1.9903769e-58",
+            "seconds": 26.2
+          }
+        ],
+        "converged_value": "(-1.95547787347e-58 - 3.71088089967e-59j)",
+        "converged_abs": "1.9903769e-58",
+        "convergence_floor_dps": 60,
+        "preregistered_dps_is_adequate": false
+      },
+      "epstein_1_1_6": {
+        "ladder": [
+          {
+            "dps": 15,
+            "value": "(-4.94899658781e-30 + 3.53260947193e-30j)",
+            "abs": "6.080452e-30",
+            "seconds": 1.61
+          },
+          {
+            "dps": 20,
+            "value": "(1.13273542507e-34 - 8.08550141586e-35j)",
+            "abs": "1.391705e-34",
+            "seconds": 1.73
+          },
+          {
+            "dps": 30,
+            "value": "(-4.2798475158e-43 - 5.43810246974e-43j)",
+            "abs": "6.920264e-43",
+            "seconds": 2.98
+          },
+          {
+            "dps": 40,
+            "value": "(2.54237055497e-53 + 3.12886591988e-53j)",
+            "abs": "4.0315568e-53",
+            "seconds": 4.71
+          },
+          {
+            "dps": 60,
+            "value": "(-2.79343497333e-58 + 4.14797024816e-58j)",
+            "abs": "5.0008935e-58",
+            "seconds": 11.85
+          },
+          {
+            "dps": 80,
+            "value": "(-2.79343497333e-58 + 4.14797024816e-58j)",
+            "abs": "5.0008935e-58",
+            "seconds": 17.78
+          },
+          {
+            "dps": 100,
+            "value": "(-2.79343497333e-58 + 4.14797024816e-58j)",
+            "abs": "5.0008935e-58",
+            "seconds": 33.25
+          }
+        ],
+        "converged_value": "(-2.79343497333e-58 + 4.14797024816e-58j)",
+        "converged_abs": "5.0008935e-58",
+        "convergence_floor_dps": 60,
+        "preregistered_dps_is_adequate": false
+      }
+    },
+    "note": "A box count below the convergence floor is a winding number over noise. count_zeros_box's integrality check does not catch that: noise winds to an integer too."
+  },
+  "boxes": {
+    "B1": {
+      "re": [
+        0.6,
+        0.9
+      ],
+      "im": [
+        80.0,
+        81.0
+      ],
+      "why_preregistered": "first unit slice of issue #21's window; no rival zero known to this laboratory inside it",
+      "dps": 15,
+      "per_function": {
+        "riemann_zeta": {
+          "zero_count": 0,
+          "status": "ok",
+          "seconds": 0.06
+        },
+        "davenport_heilbronn": {
+          "zero_count": 0,
+          "status": "ok",
+          "seconds": 1.19
+        },
+        "epstein_2_1_3": {
+          "zero_count": null,
+          "status": "inadmissible_precision",
+          "convergence_floor_dps": 60,
+          "seconds": 0.0,
+          "why": "convergence floor dps=60 exceeds the preregistered dps=15; a count here would be a winding number over noise"
+        },
+        "epstein_1_1_6": {
+          "zero_count": null,
+          "status": "inadmissible_precision",
+          "convergence_floor_dps": 60,
+          "seconds": 0.0,
+          "why": "convergence floor dps=60 exceeds the preregistered dps=15; a count here would be a winding number over noise"
+        }
+      },
+      "property_holds": {
+        "riemann_zeta": true,
+        "davenport_heilbronn": true,
+        "epstein_2_1_3": null,
+        "epstein_1_1_6": null
+      },
+      "rivals_surviving": 1,
+      "rivals_undecided": [
+        "epstein_1_1_6",
+        "epstein_2_1_3"
+      ],
+      "rivals_total": 3,
+      "shared_with": [
+        "davenport_heilbronn"
+      ],
+      "distinguishes": false,
+      "gate3_verdict": "VACUOUS",
+      "verdict_forced_by": [
+        "davenport_heilbronn"
+      ]
+    },
+    "B2": {
+      "re": [
+        0.6,
+        0.9
+      ],
+      "im": [
+        85.0,
+        86.0
+      ],
+      "why_preregistered": "the unit slice holding the pinned Davenport-Heilbronn off-line zero 0.8085171824... + 85.6993484853...i",
+      "dps": 15,
+      "per_function": {
+        "riemann_zeta": {
+          "zero_count": 0,
+          "status": "ok",
+          "seconds": 0.08
+        },
+        "davenport_heilbronn": {
+          "zero_count": 1,
+          "status": "ok",
+          "seconds": 1.01
+        },
+        "epstein_2_1_3": {
+          "zero_count": null,
+          "status": "inadmissible_precision",
+          "convergence_floor_dps": 60,
+          "seconds": 0.0,
+          "why": "convergence floor dps=60 exceeds the preregistered dps=15; a count here would be a winding number over noise"
+        },
+        "epstein_1_1_6": {
+          "zero_count": null,
+          "status": "inadmissible_precision",
+          "convergence_floor_dps": 60,
+          "seconds": 0.0,
+          "why": "convergence floor dps=60 exceeds the preregistered dps=15; a count here would be a winding number over noise"
+        }
+      },
+      "property_holds": {
+        "riemann_zeta": true,
+        "davenport_heilbronn": false,
+        "epstein_2_1_3": null,
+        "epstein_1_1_6": null
+      },
+      "rivals_surviving": 0,
+      "rivals_undecided": [
+        "epstein_1_1_6",
+        "epstein_2_1_3"
+      ],
+      "rivals_total": 3,
+      "shared_with": [],
+      "distinguishes": null,
+      "gate3_verdict": "UNDECIDED",
+      "verdict_forced_by": null
+    }
+  },
+  "stage_note": "stage 1 and stage 2 were run as separate processes and merged; probe.py with no --stage produces this file in one run."
+}

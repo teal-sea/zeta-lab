@@ -1081,7 +1081,7 @@ Constants: `GRAVES`
 
 ### `harness/departments/guard_ledger.py` — The repository's guard ledger — the guard offensive's opening entries.
 
-*229 lines*
+*276 lines*
 
 Constants: `GUARDS`
 
@@ -1102,7 +1102,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `SPECIMEN`, `TARGET`, `RIVAL
 
 ### `harness/departments/review_ledger.py` — The repository's standing-review ledger — real claims, real attacks.
 
-*99 lines*
+*158 lines*
 
 Constants: `CLAIMS`, `OUTCOMES`
 
@@ -1259,16 +1259,22 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/50_dossier.py` — Validate research dossiers and print their status.
 - `scripts/60_rung3_generate.py` — Generate the rung-3 certificate Lean files from a plan JSON.
 - `scripts/61_rung3_mirror.py` — Bit-exact Fraction mirror of the ZetaLean rational interval arithmetic.
+- `scripts/62_rung3_rho_w.py` — Phase 0: measure the boxed-`s` width constant rho_W on the low-sigma left edge.
+- `scripts/63_rung3_ball_mirror.py` — Ball-arithmetic mirror: the same interval layer, centre+radius instead of a box.
+- `scripts/64_rung3_grid_centre.py` — Step 2: the grid sites and the centre, in both arithmetics.
+- `scripts/65_rung3_full_validation.py` — Every site of plan v2 through ball arithmetic — the sampled claim made whole.
+- `scripts/66_rung3_ball_atom_cost.py` — Which ball obligations the kernel can actually discharge, and at what cost.
 - `scripts/70_lab_state.py` — 70_lab_state.py — the read-only research-state view, rendered from artifacts.
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/mathlib_gaps.py` — Which of Mathlib's 1000 famous theorems are still unformalized.
+- `scripts/pub1_certify_display.py` — Publication-safe display values for the Pub 1 xi' ceiling certificate.
 - `scripts/science_preflight.py` — Preflight for a session running this lab from an outside environment.
 - `scripts/ledger_sync.sh` — Sync the private discovery ledger between machines.
 
 ## Tests (`tests/`)
 
-1797 test functions across 70 files (the collected count differs where tests are parametrised):
+1845 test functions across 76 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_claim_attribution.py` — 6
@@ -1293,7 +1299,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_finitefield.py` — 53
 - `tests/test_frontier_math_clean_kill.py` — 6
 - `tests/test_graveyard.py` — 7
-- `tests/test_guard_ledger.py` — 10
+- `tests/test_guard_ledger.py` — 11
 - `tests/test_harness_croniter_department.py` — 11
 - `tests/test_harness_demo.py` — 5
 - `tests/test_harness_finitefield_department.py` — 12
@@ -1318,15 +1324,21 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_plots.py` — 13
 - `tests/test_prime_zeta_rightmost.py` — 16
 - `tests/test_proof_adapter.py` — 10
+- `tests/test_pub1_admissible_closure.py` — 11
+- `tests/test_pub1_display_rounding.py` — 14
+- `tests/test_pub1_status.py` — 3
 - `tests/test_quasicrystal.py` — 9
 - `tests/test_reading_of_record.py` — 2
 - `tests/test_relations.py` — 7
 - `tests/test_repo_hygiene.py` — 7
-- `tests/test_review.py` — 11
+- `tests/test_review.py` — 12
 - `tests/test_rigor.py` — 54
 - `tests/test_rigor_weil.py` — 17
 - `tests/test_rogue_lab_controls.py` — 7
+- `tests/test_rung3_ball_assembly.py` — 7
+- `tests/test_rung3_ball_mirror.py` — 7
 - `tests/test_rung3_mirror.py` — 9
+- `tests/test_rung3_mirror_matches_kernel.py` — 4
 - `tests/test_scout.py` — 12
 - `tests/test_scout_online.py` — 15
 - `tests/test_script_13_discovery_run.py` — 33

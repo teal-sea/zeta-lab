@@ -134,11 +134,36 @@ def test_the_exemplars_artifacts_exist() -> None:
         )
 
 
-def test_the_open_case_surfaces_its_missing_attacks() -> None:
+def test_the_open_case_is_now_standing() -> None:
+    """Both attacks on urms2-0.51 have now run, from attackers who are not the author.
+
+    The history of this test is the ledger working. It first asserted both
+    attacks were missing, true until 2026-08-15; then that the blind attack
+    had run and the white-box one had not, true until 2026-08-16, when
+    Fulcrum R-065F29 recorded the white-box outcome. Standing does not mean
+    the claim is true: it means both required attacks have recorded outcomes
+    and the record says what each found. R-065F29 did not withdraw the claim,
+    and its findings are in the ledger for the operator to resolve.
+    """
     urms2 = next(c for c in CLAIMS if c.name == "urms2-0.51")
-    reasons = standing_reasons(urms2, OUTCOMES)
-    assert len(reasons) == 2, "urms2-0.51 should be missing both attacks"
-    assert all("urms2-0.51" in r for r in reasons)
+    assert standing_reasons(urms2, OUTCOMES) == ()
+
+    roles = {o.role for o in OUTCOMES if o.claim_name == "urms2-0.51"}
+    assert roles == {"blind", "white-box"}
+
+
+def test_every_recorded_outcome_cites_artifacts_that_exist() -> None:
+    """An attack nobody can rerun is a rumor, withdrawal or not."""
+
+    for outcome in OUTCOMES:
+        assert outcome.artifacts, (
+            f"the {outcome.role} attack on {outcome.claim_name!r} names no "
+            "artifact: nothing about it is rerunnable"
+        )
+        for artifact in outcome.artifacts:
+            assert (_REPO_ROOT / artifact).exists(), (
+                f"the review ledger cites {artifact}, which does not exist"
+            )
 
 
 def test_the_exemplars_review_is_now_standing() -> None:

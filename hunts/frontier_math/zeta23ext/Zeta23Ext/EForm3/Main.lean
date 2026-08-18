@@ -9,6 +9,14 @@ import Zeta23Ext.EForm3.Gap
 -- seams are unwritten, so this is table-consistency, not soundness.
 import Zeta23Ext.EForm3.O9Check2
 import Zeta23Ext.EForm3.O9Audit
+-- What the two numerator fields enclose, and how far that reaches: `reNum`
+-- encloses `Re num` unconditionally, `imNumOverY` encloses `Im num / y` only
+-- for `y ≠ 0` (at `y = 0` it encloses the removable limit, and the mismatch
+-- is exhibited rather than hedged). Both compositions are then read back
+-- against `Phi2` itself.
+import Zeta23Ext.EForm3.O9NumShape
+import Zeta23Ext.EForm3.O9Bridge
+import Zeta23Ext.EForm3.O9Modes
 
 open scoped BigOperators
 open scoped Real

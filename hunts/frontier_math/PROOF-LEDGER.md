@@ -1799,6 +1799,7 @@ and the third whose root cause was a quantity used without being derived
 in the form it was being used. `k >= 2` remains open, no proportion has
 moved, and nothing here is evidence about RH.
 
+
 ### CORRECTION TO THE CORRECTION: coordinator defect #22 (2026-08-13)
 
 The operator asked "are you sure" a fourth time. The #21 correction above
@@ -2160,3 +2161,127 @@ first involving another session's material; its cause is the same as the
 other four — a quantity carried across contexts without being re-derived
 in the context it was being used. `k >= 2` remains open, no proportion has
 moved, and nothing here is evidence about RH.
+
+
+## The `6.3e-3` budget floor was a fixed-spacing artifact (2026-08-15)
+
+Instrument: `counting_lemma.py`, `test_counting_lemma.py` (26 tests).
+
+The operator redirected the continuation to the open `k >= 2` mathematics.
+An independent attack re-ran the lattice budget with the spacing minimised at
+every `k`, rather than selecting the `k = 64` spacing once and reusing it.
+That falsifies the step-3 record above which said the ladder bottoms near
+`6.3e-3` and turns upward.
+
+The direct `O(k^2)` budget and the difference-sum `O(k)` reduction agree to
+`1.45e-14` on the checked cases. Global scans on `L in [2,14]`, followed by
+bounded local refinement, give:
+
+| k | optimal L | B/k |
+|---:|---:|---:|
+| 64 | 6.290443334 | 0.006576488990 |
+| 128 | 6.286906495 | 0.005958524642 |
+| 256 | 6.285072736 | 0.005607671434 |
+| 512 | 6.284136666 | 0.005411069294 |
+| 1024 | 6.283663129 | 0.005302105906 |
+| 65536 | 6.283192813 | 0.005174740145 |
+
+The spacing approaches `2*pi`, and the limit there is not merely a decimal.
+Writing
+
+    kappa(s) = K_0(s) + K_1(s)
+             = int_{-1}^1 c2(w) (1 + cosh w) cos(sw) dw,
+
+Poisson summation at spacing `2*pi` gives
+
+    sum_{n in Z} kappa(2*pi*n) = 2*c2(0).
+
+The endpoint aliases vanish because `c2(+/-1) = 0`. Therefore the exact
+critical-lattice limit is
+
+    lim B/k = c2(0) - A^2
+            = 1/2 + sin(sqrt(2))/(2*sqrt(2))
+                - 2*sin(1/sqrt(2))^2
+            = 0.00517169408367867955...
+
+The kernel-side symmetric partial sum independently converges to this closed
+form. The old fixed-`L = 6.3` ladder still turns upward, which is now retained
+as the lesion that demonstrates the defect's power; the re-optimised ladder
+does not.
+
+**What changes.** The measured `6.3e-3` constant and the upward-turn
+narrative are withdrawn. The positive critical-lattice limit survives, but
+it is **not** a proved uniform floor over finite or non-lattice pair sets.
+The single-pair full-window damage `0.01372` is now 2.65 times, rather than
+2.18 times, this lattice target, so the shared `R/400` term is more
+load-bearing than the old record priced it. The `k >= 2` statement remains
+open and the reading of record does not move.
+
+Disposition: **DEFECT #24, CORRECTED WITH AN EXACT LIMIT.** This is the same
+failure class as defects #19-#23: a number carried into a context where its
+optimisation variable had silently been frozen. Nothing here is evidence
+---
+
+## 2026-08-15: blocker 2's first multi-pair case — `k = 2`, equal depths, measured
+
+**Claimed:** the two-species restatement (`two_species.py`: `D(0,tau) =
+-Kpair(tau)`, so the `k`-pair slack is per-centre budgets + centre-centre
+`Kpair` repulsion at rate 2 + atom repulsion at rate 1/200 − atom damage at
+depth `y` − centre-centre damage at depth `2y`; identity vs `slack_direct`
+1.1e-14, general depths vs `kpair_identity.slack_k` 3.6e-15), and on it the
+`k = 2, y_1 = y_2` case of the blocker-2 inequality, all `y in (0,1/2]`,
+all `n`, all `tau`, at MEASURED grade: a 6601-cell tau-table on [0, 132]
+with 0 nonpositive cells in two independently conservative cap modes
+(worst margins +0.0529 signed-field / +0.0033 unsigned, the latter stable
+under 2x grid refinement), closed form beyond `tau = 114.2` (windows end
+at 57.07), depth uniformity by the same v-convexity as the k=1 proof
+(`k2_closure.py`, `K2-TWO-SPECIES.md`).
+
+**Controls:** the module re-derives the k=1 §7 window total to all printed
+digits (8.1383160e-2); the accounting dominates the greedy adversary
+pointwise in `tau`; the adversary-side damage ladder first fires between
+1.5x and 1.7x, consistent with the measured worst relative margin; the
+machine's own caps kill the resonance cell at 1.02x inflation, consistent
+with its worst margin.  Depth-1 landscape corrections recorded on the way:
+the no-damage radius at depth 1 is **5.3984 < 28/5**, and the far constant
+at depth 1 is **0.6636 > 637/1000** — neither proved bound survives at the
+centre-centre depth, and any depth-1 argument must re-derive them.
+
+**Quantifier discipline (defect #19 applies):** this is the FIRST
+multi-pair case, not blocker 2.  Open and named: `k >= 3` (the centre-gas
+split T1/T2 of `K2-TWO-SPECIES.md` §5 is a direction with measurements —
+the gas eats 87.8% of the per-centre budget on the worst uniform lattice
+and the signed field poisons atoms there — not a schedule); unequal depths
+(grid-measured `>= 0`, the convex-majorant route's gap named); hardening
+(interval pass over the same cells, O9-table technology).  `k >= 2` in
+full remains OPEN, no proportion has moved, and nothing here is evidence
+
+---
+
+## Cross-reference, added at landing (2026-08-16)
+
+The two entries above were written in parallel by two sessions and landed
+together; both are kept because neither supersedes the other. They touch,
+and the touch is worth naming:
+
+Defect #24's **exact critical-lattice limit** `lim B/k = c2(0) - A^2 =
+0.00517169408367867955...`, proved by Poisson summation at spacing `2*pi`
+(the endpoint aliases vanish because `c2(+/-1) = 0`), is the rigorous form
+of the quantity the k=2 entry's §5 obligation **T1** measures numerically:
+the two-species centre gas at its worst uniform spacing, measured there at
+`lam = 6.285` (i.e. `2*pi` to 0.03%) eating 87.8% of the per-centre budget.
+The two sessions arrived at the same lattice from opposite directions.
+
+Consequences, stated conservatively:
+
+* T1 now has an exact target at the uniform-lattice limit instead of a
+  scan. It is still NOT a proved uniform floor over finite or non-lattice
+  pair sets — defect #24 says so explicitly, and the k=2 entry's own
+  measurement that IRREGULAR occupancy (the `1,1,2,1,1,2,3` pattern)
+  exceeds the uniform row is the same warning from the other side.
+* Defect #24's finding that the shared `R/400` term is more load-bearing
+  than previously priced agrees with the k=2 entry's signed-field
+  mechanism, where the atom-side credit is what pays for the resonance.
+* Neither entry moves the reading of record; `k >= 2` remains open.
+
+about RH.

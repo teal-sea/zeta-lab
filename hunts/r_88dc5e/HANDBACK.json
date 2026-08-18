@@ -1,0 +1,42 @@
+{
+  "run_id": "40c2efbc-2ed1-4de3-a762-fc57524791f6",
+  "status": "settled",
+  "conclusion": "Both halves landed with zero sorrys and standard axioms only: O9Seam.r_comp_mem and Retention.rIv_mem are retired at no reproof cost after re-running the use-site survey, and the two-mode arithmetic is proved (dam_le_of_box) and instantiated at a real recorded box from the kernel's own chunk verdict (dam_le_box0). Landing it required closing a prerequisite nobody had named: nothing in the package related BandDual.Phi2 to the retention integrals Qre and Qim, so O9Bridge.lean proves that identity first.",
+  "confidence": "Lean-kernel confidence on everything stated: four targeted lake builds exit 0, every new declaration prints [propext, Classical.choice, Quot.sound], and the headline result is instantiated at a point of a table box rather than left conditional, so the vacuity failure mode that killed r_comp_mem is checked and not merely avoided. Lean less on the framing: this closes the step O9Assemble named and does NOT close O9 soundness. Two things stand between it and the retention obligation, both stated in RESULTS.md section 5, and the first (no Lean-side covering of the window by the recorded boxes) is a real piece of work, not a rewrite.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "The recorded boxes are not shown in Lean to cover [28/5, 60] x [0, 1/2].",
+      "why_it_might_matter": "Without it the per-box damage bound does not compose into a per-window bound, so it is the next thing between the two-mode arithmetic and the retention obligation.",
+      "first_step": "State the covering as a decidable predicate over the scaled endpoints of o9boxes and try decide +kernel in chunks, the way O9Check2 decides the table itself."
+    },
+    {
+      "what": "Zeta23Ext/TruncEst/Kernel.lean and Zeta23Ext/EForm2/Bridge.lean do not compile against the current Mathlib; a bare lake build on the package is red for reasons unrelated to O9.",
+      "why_it_might_matter": "A package whose default build is red cannot be used as a signal, and the O9 orphan defect that O9Audit.lean exists to prevent was found by exactly that kind of build.",
+      "first_step": "Fix the four errors (sin_gt_sub_cube arity, HasDerivAt instance mismatch, two simp made no progress) and re-run lake build to green."
+    },
+    {
+      "what": "dam_le_of_box carries a free hypothesis 0 <= b.cap that every recorded row appears to satisfy.",
+      "why_it_might_matter": "It propagates into every downstream statement for no reason if the table already guarantees it.",
+      "first_step": "decide +kernel that every row of o9boxes has 0 <= cap, then discharge the hypothesis once inside dam_le_of_mem_walk."
+    },
+    {
+      "what": "O9PhiCmp.lean is still #evals only.",
+      "why_it_might_matter": "It answered which arithmetic O9 should be built on, and that answer is now load-bearing for qreIv_mem_Qre, but nothing re-runs the comparison.",
+      "first_step": "Turn the three box comparisons into pinned assertions so a change in either composition breaks a build rather than a docstring."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "simp only [f] and rw [f] on a decide-backed checker in this package hang on whnf; unfold f at h, then split at h, then one definitional have is the route that works.",
+      "why_reusable": "The zeta23ext package has several Bool checkers over interval arithmetic (o9Box, o9Walk2, BandCert Verify), and every future run that wants to turn a checker's verdict into a real statement will hit the same wall. This run lost time to it.",
+      "first_step": "Write it down where the next session will meet it: a paragraph in hunts/frontier_math/START-HERE.md or the zeta23ext README, with the O9Modes.dam_le_of_box proof as the worked example."
+    },
+    {
+      "what": "A fresh clone of this repository has neither .venv nor elan, so any Lean-arm brief pays an install plus an 8 GB Mathlib cache fetch before the first line of mathematics.",
+      "why_reusable": "It is a fixed overhead on every Lean run and it is invisible when the budget is set.",
+      "first_step": "Either warm the toolchain in the environment image, or state the fetch as an explicit line item in Lean briefs so the budget covers it."
+    }
+  ],
+  "notes_for_operator": "Budget overrun: allotted 80 minutes, actual roughly 95. Two causes, both in results.json: the fresh-clone toolchain and cache fetch before any mathematics, and one dead end on unfolding the checker (recorded as a Core candidate). No kill condition fired. Scope was respected: only EForm3/*, this hunt directory, and one case-log entry were touched; hunts/frontier_math/*.py was not opened. There is a cost-and-routing observation about Lean-arm briefs that belongs in fulcrum rather than here, and it is the second Core candidate above stated in public-record terms."
+}

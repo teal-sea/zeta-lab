@@ -1,0 +1,20 @@
+import ZetaLean.Pub1
+
+/-! LESION TEST — this file MUST FAIL to compile.
+
+`secondDeriv_lt_of_certificate` closes because the exact rational margin
+`2c₁ + 0.006060899845 < -0.59326318` holds.  Inflate the residual-derived bound
+by the factor 101 recorded in the evidence document and the same proof cannot be
+closed: the arithmetic step is now false. -/
+
+open ZetaLean.Pub1
+
+theorem lesioned_secondDeriv_lt {W U : ℝ}
+    (hU : U ≤ (uSecondDerivBound : ℝ)) (hz : |W - U| ≤ 101 * (residualC2 : ℝ)) :
+    W < (concavityBound : ℝ) := by
+  have hmargin : ((uSecondDerivBound : ℚ) : ℝ) + 101 * ((residualC2 : ℚ) : ℝ)
+      < ((concavityBound : ℚ) : ℝ) := by
+    push_cast
+    norm_num [uSecondDerivBound, residualC2, concavityBound, c1]
+  have h1 : W - U ≤ 101 * (residualC2 : ℝ) := (abs_le.mp hz).2
+  linarith

@@ -252,3 +252,139 @@ drift gets a durable repair rather than another brittle one.
 above it. That is the expected shape of a port and not a new defect — but it
 does mean "the survey found N sites" is a lower bound until the chain builds
 end to end.
+
+## Batches 5-7 — Pub 1 source-admissible strong closure (submitted 2026-08-16)
+
+Twelve bounded lemmas supporting the Lean formalization of
+`hunts/wide_search/RESULTS-xiprime-admissible-closure.md` (PR #45).  Every
+prompt fixed the target toolchain (`v4.33.0-rc2`, Mathlib
+`51e6992efd06126df61a496bebf8f49482a4e129`), required the statement
+character-for-character, and forbade `sorry`/`admit`/`axiom`/`native_decide`.
+Landed files are `lean/ZetaLean/Pub1/Aristotle/<tag>.lean`, each wrapped in a
+namespace `Aristotle<tag>` so they can coexist.
+
+Every artifact was collected, statically scanned, and built here before use.
+The service's own verification claim is not recorded and was not relied on.
+
+| tag | project | statement | status |
+| --- | --- | --- | --- |
+| A | `891558c0-e08b-4dc1-82fe-6ccfb293fec2` | `ContDiff ℝ 3 eta` for the degree-7 smoothstep glued by `0`/`1` | collected — accepted, ported unchanged |
+| B | `a3324dee-ca6d-4156-a6f3-ec4072112ce9` | Schur test for the quadratic form of a nonnegative symmetric continuous kernel on `I` | collected — accepted, ported unchanged |
+| C | `bc93ed8f-703c-4d9b-b2a5-a9fd5ca34e88` | solvability of `w + Tw = 1` by Banach fixed point on `ℝ →ᵇ ℝ` | collected — accepted after 1 local repair (uncurry continuity) |
+| D | `8199d0e7-3da2-4778-ab3a-c9f550907300` | `∫₀¹ η'² = 700/429`, `∫₀¹\|η''\| = 35/8` | collected — accepted after local repair (both endings rewritten with explicit antiderivatives) |
+| E1 | `3a469262-610b-4d77-aefe-bcacf9ad72fd` | `F₁` summable/nonneg/even on `[-1,1]`, `∫₀¹F₁ ≤ 4/9` | collected — accepted after 1 local repair |
+| E2 | `eb98c4b7-e2c1-49ad-9e46-ad0c36ca1833` | `F₁` continuous; row bound `∫_I F₁(s-t)dt ≤ 4/9` for `\|s\| ≤ 1/2` | collected — accepted after 1 local repair |
+| F | `26c4943d-f20c-4b68-b956-234fda2bd876` | `F₁` summable and nonnegative globally (the series is entire) | collected — accepted, ported unchanged |
+| H | `a4a867ab-2525-43e7-8f30-0382cf588620` | `1/5 ≤ w ≤ 1` and evenness, difference-kernel form | collected — accepted, ported unchanged; superseded by H2 |
+| H2 | `0de51d62-89b9-4df7-a632-d616e9c496ad` | same, for a two-variable kernel, plus uniqueness | collected — accepted, ported unchanged |
+| J | `24421b6b-73dd-438b-ac64-331bb7270687` | `η(L/2-\|u\|) ∈ C²`; the taper `√(w(u/L))·η(L/2-\|u\|) ∈ C²` | collected — accepted after 1 local repair |
+| K | `0171902b-9d64-4dd6-a3da-c4ee01dedc84` | form symmetry, energy Cauchy-Schwarz, and `⟨Aw,v⟩ = ⟨1,v⟩` | collected — accepted, ported unchanged |
+| M | `05973d17-6d83-4795-8631-a7cbecb9d40f` | mass and form bounds turning `L²` convergence into quotient convergence | collected — accepted, ported unchanged |
+
+**Measured turnaround.**  Submit-to-collect, per project.  These are upper
+bounds: collection was polled, not instantaneous, so the true service time is at
+most the figure shown.
+
+| batch | submitted | collected | elapsed |
+| --- | --- | --- | --- |
+| A, B, C, D | 01:19 | 01:38 | <= 19 min |
+| E1, E2 | 01:19 | 01:50 | <= 31 min |
+| F, H, J | 02:02 | 02:18 | <= 16 min |
+| K | 02:14 | 02:33 | <= 19 min |
+| M | 02:14 | 02:43 | <= 29 min |
+| H2 | 02:25 | 02:43 | <= 18 min |
+
+All twelve landed inside about 1h25m of wall clock across three overlapping
+batches.  This is the first entry in this ledger with wall-clock actually
+observed rather than estimated, and it revises the standing "hours" figure down
+by roughly an order of magnitude: the Grasshopper case study's ~8 h is not what
+these bounded lemmas cost.
+
+**The recurring port defect, worth naming.** Five of the twelve failed here for
+the same two reasons, both version drift rather than mathematics:
+`norm_num` with the interval-integral simp set no longer evaluates a polynomial
+definite integral (fixed by an explicit antiderivative plus
+`intervalIntegral.integral_eq_sub_of_hasDerivAt`), and `simpa` normalizes a
+lambda into `Pi.mul`/`Function.comp` form that then fails to unify. Prompts for
+future batches should ask for `HasDerivAt.congr_deriv` and explicit `.mpr`
+applications in preference to `simpa`/`convert`.
+
+Prompts are pinned in the private operating repo at
+`fulcrum/records/aristotle-prompts/pub1/` (the prompt corpus is the private side
+of the boundary; the statements themselves are public, in the .lean files).
+
+## Batch 8 — Pub 1 analytic obligations (submitted 2026-08-16, later same day)
+
+Seven further bounded lemmas aimed at removing the four analytic assumptions
+recorded in `lean/ZetaLean/Pub1/OBLIGATIONS.md`.  Same rules as batches 5-7, and
+the prompts now carry the porting notes distilled from those batches (explicit
+antiderivatives instead of `norm_num` on interval integrals; `congr_deriv`
+instead of `convert`; no `simpa` on lambdas).  That guidance paid: all seven
+ported unchanged, against seven of twelve in the previous round.
+
+| tag | project | statement | status |
+| --- | --- | --- | --- |
+| N | `ef6f7ba0-bb8f-4a90-a5b5-98b7457c6e09` | second derivative of a convolution against a kernel with a `\|x\|` kink, via splitting at `t = s`; the two moving endpoints produce `2 f'(0) v(s)` | collected — accepted, ported unchanged |
+| O | `8a0369d6-ee00-4962-bbf4-3e7625d9b9ff` | `∫_I \|s-t\|^m t^n dt` in closed form | collected — accepted, ported unchanged |
+| R | `bf7c9cd9-68b7-49b1-8e87-ae61ae9a5183` | the two resolvent estimates `‖z‖ ≤ (9/5)‖g‖` in `L^∞` and `L²` | collected — accepted, ported unchanged |
+| S | `f6285416-5ef5-471b-8aeb-8b906917dbe2` | the half-line form factor is entire; `f 0 = 0`, `f'(0) = 1`, `f'' = q` | collected — accepted, ported unchanged |
+| T | `34c103b7-ec61-4128-bd19-771f462dcc69` | uniform `L¹` bound on `φ_L''` for `L ≥ 8` | collected — accepted, ported unchanged |
+| U | `d0e0056a-4800-4385-8f1d-7e82197de3ea` | the same for `(φ_L²)''` | submitted |
+
+**What N bought, and why it matters.** The informal chain says
+`F₁'' = 2δ₀ + q`, and Mathlib has no convenient distributional-derivative API for
+this kernel. Rather than build one, N differentiates the split integral twice and
+recovers the delta mass as the sum of two moving-endpoint boundary terms. The
+coefficient `2` is then a theorem, not a convention: it is `2 f'(0)` with
+`f'(0) = 1` proved separately in S. This is the cheaper route by a wide margin
+and it is the one the operator prompt suggested.
+
+**Measured turnaround** (submit to collect, upper bounds; collection was polled):
+N, O ~55 min and ~20 min; R ~35 min; S ~65 min; T ~75 min; U ~85 min. The two
+series-analysis targets (S) and the product-rule/`L¹` target (T) were the slow
+ones, consistent with batch 5-7 where the series work also ran longest.
+
+Prompts are pinned in the private operating repo at
+`fulcrum/records/aristotle-prompts/pub1/`.
+
+## Batch 9 — Pub 1 analytic closure, second pass (submitted 2026-08-16)
+
+Six lemmas aimed at the two remaining critical paths.  Prompts carried the
+porting notes from batches 5-8.
+
+| tag | project | statement | status |
+| --- | --- | --- | --- |
+| J2 | `099e164b-5b45-4d06-8748-0dfb3b95f214` | taper `C²` and `√w` `C²` with bounds, from `C²` on the OPEN interval only | collected — accepted, ported unchanged |
+| TU2 | `b9af4feb-04f1-4a99-8af6-ce88319c664d` | the two uniform `L¹` bounds under the same weakened hypothesis | collected — accepted after 5 local repairs |
+| V | `5bc0bd6f-ab37-4140-a44a-581d4dffa7cc` | geometric tails `∑_{k≥20} a_k`, `∑_{k≥20} d_k`, and `Summable dCoef` | collected — accepted, ported unchanged |
+| W | `a4602e1b-0eef-4d1d-9f74-1435d2c9de00` | pointwise derivatives ⟹ `ContDiffOn ℝ 2` on an open set; boundedness on the closed one | collected — accepted, ported unchanged |
+
+**Why J2 and TU2 exist at all.**  Batch 8's `J`, `T`, `U` asked for `C²` on a
+*neighbourhood* of the closed interval.  That hypothesis is unsatisfiable: `w''`
+jumps by `2w(±1/2) ≥ 2/5` at the endpoints, because the delta mass contributes
+inside `I` and not outside.  The theorems were true and uninstantiable.  Restated
+over the open interval with bounded derivatives, they instantiate.  The lesson
+for prompt-writing is to ask for the weakest hypothesis the downstream argument
+actually consumes, not the most convenient one to state.
+
+**Turnaround** (submit to collect, upper bounds; polled): V ~40 min, W ~40 min,
+TU2 ~95 min, J2 ~2 h.  Four of four accepted; one needed repair.
+
+## Batch 10 — Pub 1 assembly closure (submitted 2026-08-16)
+
+| tag | project | statement | status |
+| --- | --- | --- | --- |
+| Y | `d17ee0f9-cd6a-4aad-a6d4-ed1519c86640` | the `L^∞` resolvent estimate by a maximum principle | collected — accepted, ported unchanged |
+
+One project, and it is the one that mattered: batch 8's `R` form of the same
+estimate asked for a *minimal* bound `Bz`, which would have needed the sup built
+as an `sInf`.  Restated as "`|z|` attains its max on the compact interval, and at
+that point the equation gives the bound directly", it is a short proof and drops
+straight in.  Same lesson as `J2`/`TU2`: ask for the form the downstream argument
+can actually feed.
+
+This batch completed the development.  `pub1_strong_closure` and
+`pub1_strong_closure_reciprocal` are now unconditional.
+
+Prompts are pinned in the private operating repo at
+`fulcrum/records/aristotle-prompts/pub1/`.
