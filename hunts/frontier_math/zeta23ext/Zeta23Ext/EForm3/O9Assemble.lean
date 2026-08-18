@@ -37,22 +37,12 @@ theorem qreIv_mem {a b c d : ℝ}
   unfold qreIv
   exact O9Seam.qre_comp_mem hA hB hC hD hE
 
-/-- **`rIv` encloses the removable branch.**
-
-With `bOverY = Im num / y` and `dOverY = Im den / y`, this is
-`−(bOverY·c − a·dOverY)/(c² + dOverY²·y²)`. Nothing here divides by `y`:
-`O9Real.im_div_over_y` is the identity that says this equals `Qim/y`, and it is
-why the enclosure exists at `y = 0` at all. -/
-theorem rIv_mem {a bOverY c dOverY : ℝ}
-    (hA : EIv.mem (boxParts sLo sHi yLo yHi).reNum a)
-    (hB : EIv.mem (boxParts sLo sHi yLo yHi).imNumOverY bOverY)
-    (hC : EIv.mem (boxParts sLo sHi yLo yHi).reDen c)
-    (hD : EIv.mem (boxParts sLo sHi yLo yHi).imDenOverY dOverY)
-    (hE : EIv.mem (boxParts sLo sHi yLo yHi).denAbs2 (c * c + dOverY * dOverY)) :
-    EIv.mem (rIv sLo sHi yLo yHi)
-      (-((bOverY * c - a * dOverY) / (c * c + dOverY * dOverY))) := by
-  unfold rIv
-  exact O9Seam.r_comp_mem hA hB hC hD hE
+/-! `rIv_mem`, the removable branch's conditional companion to `qreIv_mem`, was
+retired on 2026-08-18. It rested on `O9Seam.r_comp_mem`, whose `denAbs2`
+hypothesis asked for a real the field does not enclose at any box in the table,
+so it could not be instantiated; `rIv_mem_box` below goes through
+`O9Seam.r_comp_mem'` instead and is the live statement. Nothing was reproved to
+retire it: it had no use site. -/
 
 /-! ## The same two, with every hypothesis discharged
 
@@ -88,10 +78,10 @@ theorem qreIv_mem_box {a bOverY : ℝ}
 This one goes through `O9Seam.r_comp_mem'` rather than `r_comp_mem`. The
 difference is the real under the quotient: `rIv` divides by `denAbs2`, which
 encloses `c*c + d*d`, and `O9Real.im_div_over_y` writes `c² + (dOverY·y)²`
-there as well. `r_comp_mem` instead writes `c*c + dOverY*dOverY` into both its
-hypothesis and its conclusion, which is self-consistent and provable but asks
-`denAbs2` for a real it does not enclose, so it cannot be instantiated at a
-box. Nothing here divides by `y`. -/
+there as well. The retired `r_comp_mem` instead wrote `c*c + dOverY*dOverY`
+into both its hypothesis and its conclusion, which was self-consistent and
+provable but asked `denAbs2` for a real it does not enclose, so it could not be
+instantiated at a box. Nothing here divides by `y`. -/
 theorem rIv_mem_box {a bOverY : ℝ}
     (hs : EIv.mem (some ⟨sLo, sHi⟩) s) (hy : EIv.mem (some ⟨yLo, yHi⟩) y)
     (hA : EIv.mem (boxParts sLo sHi yLo yHi).reNum a)
@@ -108,15 +98,13 @@ theorem rIv_mem_box {a bOverY : ℝ}
 
 With all seven fields supplied and both compositions instantiated, what stands
 between the kernel-checked table and O9 is the arithmetic of the two modes.
-`dam_le_of_mode1` is proved; `dam_le_of_mode2` needs the enclosures above read
-back against `Qre` and `Qim` through `BandDual.phiC_mem`, whose `y ≠ 0`
-hypothesis `O9Sound.dam_zero_le` already routes around. No `sorry` stands in
-for any of it.
+Both modes are proved (`O9Sound`), and `O9Bridge`/`O9Modes` now read the
+enclosures back against `Qre` and `Qim` and turn the checker's `Bool` into the
+damage bound. No `sorry` stands in for any of it.
 -/
 
 end Retention
 
 #print axioms Retention.qreIv_mem
-#print axioms Retention.rIv_mem
 #print axioms Retention.qreIv_mem_box
 #print axioms Retention.rIv_mem_box

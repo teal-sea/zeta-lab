@@ -70,6 +70,46 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #47: the two-mode arithmetic, and the bridge nobody had named (`r_88dc5e/`)
+
+**Status: settled.** `O9Assemble.lean` said the last step between the
+kernel-checked table and O9 was "the arithmetic of the two modes". It was, plus
+one prerequisite that was not on anyone's list. `O9Check2` decides a table in
+the kernel's interval arithmetic; `O9Sound` proves both modes sound over the
+reals in terms of `Retention.Qre` and `Retention.Qim`, which are integrals
+against the window `g`; and the enclosure chain ended at `BandDual.Phi2`, which
+is `s(z+√2) + s(z−√2)`. Those are two different definitions of the same two
+numbers and **nothing in the package connected them**. `EForm3/O9Bridge.lean`
+does: `Re Phi2 (s + iy) = Qre y s` and `Im Phi2 (s + iy) = −Qim y s` for
+`y ≠ 0`, by closed forms on both sides and no new analysis.
+
+With that, `EForm3/O9Modes.lean` turns the checker's `Bool` into the damage
+bound. `dam_le_of_box` says a box `o9Box` accepts bounds `Dam` at every point
+of it, `y = 0` included; the content is that `Iv.mem` is `lo ≤ 2⁶⁴·x ≤ hi`, so
+each recorded comparison is one division away from the real inequality mode 1
+or mode 2 wants. `dam_le_box0` instantiates it at the **first recorded row** at
+the interior point `(23/4, 1/8)`, with the verdict taken from `o9_box_chunk0` —
+the kernel's own `decide +kernel` — rather than from a fresh decision. Zero
+sorrys, axioms `[propext, Classical.choice, Quot.sound]`.
+
+The two dead-weight lemmas are **gone**. The use-site survey run bbe76b9a
+reported was re-run rather than trusted, over the whole repository:
+`O9Seam.r_comp_mem` had exactly one use site (`Retention.rIv_mem`) and
+`rIv_mem` had none. Both are deleted, `r_comp_mem'` carries the corrected
+statement, and nothing was reproved.
+
+**What this does not close.** O9 soundness is not closed and the hunt does not
+claim it is. `dam_le_of_mem_walk` bounds `Dam` at points of boxes the table
+records; the retention obligation needs the whole window, and nothing in Lean
+yet says the recorded boxes **cover** `[28/5, 60] × [0, 1/2]`. That covering,
+and the assembly into the form `Gap`/`FarField` consume, are what is left.
+
+Also recorded, because it cost this run time: `simp only [o9Box]` and
+`rw [o9Box]` both hang on a `whnf` heartbeat timeout — unfolding the checker
+asks the elaborator to reduce `rIv b.sLo …` symbolically through the entire
+leaf layer. `unfold o9Box at hb`, then `split at hb`, then one definitional
+`have` does the same job instantly.
+
 ### Hunt #44: what the O9 numerator fields actually enclose (`r_938ab4/`)
 
 **Status: settled, and the two fields answer differently.** Hunt #42 left the

@@ -94,30 +94,21 @@ theorem qre_comp_mem {A B C D E : EIv} {a b c d : ℝ}
       ((a * c + b * d) / (c * c + d * d)) :=
   EIv.div_mem (EIv.add_mem (EIv.mul_mem hA hC) (EIv.mul_mem hB hD)) hE
 
-/-- The composition `rIv` performs, sound.
-
-`B` and `D` are the `/y` variants, so nothing here divides by `y`; the negation
-is the one `rIv` carries because `Phi2 (s + i y)` has imaginary part `−Qim`. -/
-theorem r_comp_mem {A B C D E : EIv} {a bOverY c dOverY : ℝ}
-    (hA : A.mem a) (hB : B.mem bOverY) (hC : C.mem c) (hD : D.mem dOverY)
-    (hE : E.mem (c * c + dOverY * dOverY)) :
-    (EIv.neg (EIv.div (EIv.sub (EIv.mul B C) (EIv.mul A D)) E)).mem
-      (-((bOverY * c - a * dOverY) / (c * c + dOverY * dOverY))) :=
-  EIv.neg_mem (EIv.div_mem (EIv.sub_mem (EIv.mul_mem hB hC) (EIv.mul_mem hA hD)) hE)
-
 /-- **The composition `rIv` performs, with the denominator left abstract.**
 
-`r_comp_mem` above writes `c*c + dOverY*dOverY` into both its `E` hypothesis
-and its conclusion. That is self-consistent, so it is provable, but it is the
-wrong real for the box: `rIv` divides by `denAbs2`, which encloses
-`c*c + d*d` with `d = dOverY * y` (`O9Comp.boxParts`), and `O9Real.im_div_over_y`
-puts `c ^ 2 + (dOverY * y) ^ 2` under the quotient too. Instantiating
-`r_comp_mem` at a box therefore asks `denAbs2` to enclose a real it does not,
-and the lemma goes through vacuously rather than usefully.
+This lemma replaced a version (`r_comp_mem`, retired 2026-08-18) that wrote
+`c*c + dOverY*dOverY` into both its `E` hypothesis and its conclusion. That was
+self-consistent, so it was provable, but it was the wrong real for the box:
+`rIv` divides by `denAbs2`, which encloses `c*c + d*d` with `d = dOverY * y`
+(`O9Comp.boxParts`), and `O9Real.im_div_over_y` puts `c ^ 2 + (dOverY * y) ^ 2`
+under the quotient too. Instantiating the old lemma at a box therefore asked
+`denAbs2` to enclose a real it does not, and it went through vacuously rather
+than usefully: zero sorrys, standard axioms, and about nothing.
 
 Leaving the denominator's real as a variable `e` removes the mismatch without
-weakening anything: the original is the case `e = c*c + dOverY*dOverY`, and
-`rIv_mem_box` uses the case `e = c*c + d*d`, which `denAbs2_mem` discharges. -/
+weakening anything: the retired statement is the case
+`e = c*c + dOverY*dOverY`, and `rIv_mem_box` uses the case `e = c*c + d*d`,
+which `denAbs2_mem` discharges. -/
 theorem r_comp_mem' {A B C D E : EIv} {a bOverY c dOverY e : ℝ}
     (hA : A.mem a) (hB : B.mem bOverY) (hC : C.mem c) (hD : D.mem dOverY)
     (hE : E.mem e) :
@@ -145,7 +136,6 @@ end O9Seam
 #print axioms O9Real.im_div_eq
 #print axioms O9Real.im_div_over_y
 #print axioms O9Seam.qre_comp_mem
-#print axioms O9Seam.r_comp_mem
 #print axioms O9Seam.qre_comp_mem'
 #print axioms O9Seam.r_comp_mem'
 #print axioms O9Seam.denAbs2_mem
