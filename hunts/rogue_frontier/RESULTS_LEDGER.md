@@ -325,8 +325,11 @@ with their mechanism.
   left-saturating matching. Values (no table exists on the problem page,
   and OEIS has no such sequence):
 
-      n        100    200    500   1000   2000   4000
-      f(n)     160    340    877   1816   3814   7900
+      n        100    200    500   1000   2000   4000   8000  16000
+      f(n)     160    340    877   1816   3814   7900  16300  33686
+
+  The last two entries are the coordinator's extension past the arm's
+  range; f(4000) = 7900 agrees with the arm exactly.
 
 - **Independently verified.** The arm used Kuhn's algorithm; the
   coordinator re-derived `f(n)` from the definition with a different
@@ -335,8 +338,12 @@ with their mechanism.
 - **The signal, which is the point.** The two proven shapes move in
   OPPOSITE directions over the computed range:
 
-      f/(n sqrt(log n))                  0.7456 -> 0.6917   (falling)
-      f/(n sqrt(log n / log log n))      0.9214 -> 0.9851   (rising)
+      n                                    100  ->  16000
+      f/(n sqrt(log n))                  0.7456 -> 0.6767   (falling)
+      f/(n sqrt(log n / log log n))      0.9214 -> 1.0195   (rising)
+
+  Over two further decades the separation widens rather than closing, and
+  the rising ratio has crossed 1 on its way toward the proven constant.
 
   So the data favour the lower bound's shape, `(log n / log log n)^{1/2}`,
   as the correct one, with its ratio still climbing toward the proven
