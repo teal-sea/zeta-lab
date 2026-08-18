@@ -635,7 +635,13 @@ file. Two incidental traps for the next attempt: `NumberTheory/Chebyshev.lean`
 is about Chebyshev polynomials, not prime bounds, and `NumberTheory/AbelSummation.lean`
 supplies the machinery Mertens is normally derived through while the derivation
 itself is absent. Nothing here bears on ζ or RH.
-### Hunt #35: three cited properties of ζ distinguish nothing (`r_f7cd45/`)
+### Hunt #51: three cited properties of ζ distinguish nothing (`r_f7cd45/`)
+
+> **Renumbered 2026-08-18.** This landed as #35 on 2026-08-16, one day after
+> `r_3c1cbb/` had already taken that number. Nothing caught it at the time;
+> `tests/test_hunt_numbering.py` now does. The later entry moves, so
+> `r_3c1cbb/` keeps #35 and this one becomes #51. The directory name is
+> unchanged and remains the stable reference.
 
 **Status: settled for the five properties issue #21 left unpublished; the
 sixth was already settled in this tree and what this run adds is the price

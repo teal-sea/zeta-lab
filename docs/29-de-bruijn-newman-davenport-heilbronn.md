@@ -1,6 +1,6 @@
 # The de Bruijn-Newman constant of the Davenport-Heilbronn function
 
-Hunt #36 (`hunts/lambda_dh_bounds/`) produced the first quantitative bounds,
+Hunt #50 (`hunts/lambda_dh_bounds/`) produced the first quantitative bounds,
 from either side, on the de Bruijn-Newman constant of the Davenport-Heilbronn
 function, and one corollary that is sharper than the bracket itself: the
 constant strictly exceeds zeta's, unconditionally. This page is the reading

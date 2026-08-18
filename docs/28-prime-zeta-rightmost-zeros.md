@@ -8,7 +8,7 @@ triangle-inequality proof, and the general statement behind it is Theorem
 4.3 of Sepulcre and Vidal (2022), whose finite ancestor is Moreno's
 Geometric Principle of 1973; what this laboratory adds is the connection to
 OEIS A107311, the unboundedness of the subset thresholds, the constant
-sigma_3, and two-backend interval enclosures. Hunt #35
+sigma_3, and two-backend interval enclosures. Hunt #49
 (`hunts/prime_zeta_rightmost/`) computed the mathematics below before it
 found the papers, and its own second kill condition fired when it did. The
 page is kept because the exposition is correct and useful, and because the
