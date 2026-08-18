@@ -10,6 +10,17 @@ printed in FRAME.md section 6 and carried in results.json, and a containment
 re-check that winding_results.json still decides N = 1 at both t values with
 the exact rationals the floor rests on.
 
+Upper-bound pins added 2026-08-18, when the hardening pass replaced the
+coefficient-domination strip constant with the phase-obstruction one: the
+headline upper endpoint is now the EXACT rational Delta^2/2 at the decided
+abscissa sigma_0' = 112036249819/100000000000, so the pins here check exact
+rational identities rather than a printed rounding, and they check that the
+superseded value is still recorded rather than deleted. The pin that the
+separation is unaffected by the sharpening is the point of
+test_the_sharpened_upper_bound_does_not_touch_the_separation: the floor and
+the cited zeta bound carry the whole claim, and neither appears in the
+sharpened arithmetic.
+
 Kappa closed-form pins (enclosure grade, python-flint):
 kappa = tau_+ = -phi + sqrt(1 + phi^2), Bombieri-Ghosh's identity.
 
@@ -176,24 +187,169 @@ def _headline_endpoints(claim_key):
     return Fraction(m.group(1)), Fraction(m.group(2))
 
 
+#: The decided phase-obstruction abscissa of STRIP2.md section 5.2, as the
+#: exact rational the bisection settled on, and the constants it forces.
+SIGMA_0_PRIME = Fraction(112036249819, 100000000000)
+DELTA_PRIME = SIGMA_0_PRIME - Fraction(1, 2)
+DELTA_SQ_OVER_2_NARROW = DELTA_PRIME * DELTA_PRIME / 2
+
+#: The headline the coefficient-domination route carried through 2026-08-17.
+#: It is still correct and still decided (strip_results.json, STRIP.md); it is
+#: pinned here so a silent deletion of the superseded record fails a test.
+SUPERSEDED_NARROW_HI = Fraction("0.4006343708899557")
+SUPERSEDED_WIDE_HI = Fraction("1.6025374835598228")
+
+
 def test_frame_dictionary_factor_on_the_headline_endpoints():
     """4 * narrow bracket endpoints equal the wide ones, as printed.
 
     FRAME.md section 6 prints the two headlines; results.json carries them
     as headline_narrow and headline_wide. The dictionary Lambda(wide) =
     4 * Lambda(narrow) must hold exactly on both printed endpoints: the
-    lower endpoints are the exact rationals 36/625 and 144/625, and the
-    upper headline decimals were rounded outward once, in the narrow frame,
-    then multiplied by exactly 4 (FRAME.md section 6, GATE.md upper bound).
+    lower endpoints are the exact rationals 36/625 and 144/625, and since
+    2026-08-18 the upper endpoints are exact too, because the abscissa is
+    decided at an exact rational (STRIP2.md section 5.2) rather than at a
+    bisection endpoint that had to be rounded outward.
     """
     narrow_lo, narrow_hi = _headline_endpoints("headline_narrow")
     wide_lo, wide_hi = _headline_endpoints("headline_wide")
     assert narrow_lo == Fraction(36, 625)
     assert wide_lo == Fraction(144, 625)
     assert 4 * narrow_lo == wide_lo
-    assert narrow_hi == Fraction("0.4006343708899557")
-    assert wide_hi == Fraction("1.6025374835598228")
+    assert narrow_hi == DELTA_SQ_OVER_2_NARROW
+    assert wide_hi == 4 * DELTA_SQ_OVER_2_NARROW
     assert 4 * narrow_hi == wide_hi
+
+
+def test_the_sharpened_upper_endpoint_is_exact_delta_squared_over_two():
+    """The headline upper endpoint is Delta^2/2 at the decided abscissa.
+
+    STRIP2.md decides Theta(sigma) < pi - 2 arctan(kappa) at the exact
+    rational sigma_0' = 112036249819/100000000000, so every zero of the
+    completed F has |Im z| < Delta = sigma_0' - 1/2 = 0.62036249819 and de
+    Bruijn 1950 Theorem 13 gives Lambda_DH <= Delta^2/2. Because the
+    abscissa is an exact rational the bound terminates, and the check here
+    is an identity between rationals rather than a comparison against a
+    printed rounding.
+    """
+    assert DELTA_PRIME == Fraction("0.62036249819")
+    assert DELTA_SQ_OVER_2_NARROW == Fraction(
+        3848496291605377532761, 20000000000000000000000
+    )
+    assert DELTA_SQ_OVER_2_NARROW == Fraction("0.19242481458026887663805")
+    assert 4 * DELTA_SQ_OVER_2_NARROW == Fraction("0.7696992583210755065522")
+
+    # STRIP2.md section 5.2 also displays it rounded outward to 22 decimals.
+    # That display must be a valid bound, i.e. at or above the exact value.
+    assert Fraction("0.1924248145802688766381") >= DELTA_SQ_OVER_2_NARROW
+
+    _, narrow_hi = _headline_endpoints("headline_narrow")
+    assert narrow_hi == DELTA_SQ_OVER_2_NARROW
+
+
+def test_the_sharpening_is_the_recorded_factor_and_is_recorded_as_such():
+    """The improvement over the superseded headline is 2.082030697360155.
+
+    The superseded value must still be visible, per the repo's correction
+    style: results.json carries it in the headline claims' `superseded`
+    fields and in the retained decided intervals, and this test fails if it
+    is deleted rather than superseded.
+    """
+    factor = SUPERSEDED_NARROW_HI / DELTA_SQ_OVER_2_NARROW
+    assert abs(float(factor) - 2.082030697360155) < 1e-12
+
+    narrow = _RESULTS["claims"]["headline_narrow"]
+    wide = _RESULTS["claims"]["headline_wide"]
+    assert "0.4006343708899557" in narrow["superseded"]
+    assert "1.6025374835598228" in wide["superseded"]
+
+    # The superseded strip constant is still carried as a decided claim.
+    old = _RESULTS["claims"]["delta_sq_over_2_narrow_flint"]
+    assert old["grade"] == "decided"
+    lo, hi = (Fraction(x) for x in old["value_or_interval"])
+    assert lo < hi, "the retained decided interval must still be an interval"
+    assert SUPERSEDED_NARROW_HI > hi, (
+        "the superseded headline was an outward rounding and must still sit "
+        "above its own decided upper endpoint"
+    )
+    assert 4 * SUPERSEDED_NARROW_HI == SUPERSEDED_WIDE_HI
+
+
+def test_the_sharpened_upper_bound_does_not_touch_the_separation():
+    """The separation rests on the floor, so sharpening the ceiling is inert.
+
+    SEPARATION.md's chain uses `0 <= Lambda_zeta`, `Lambda_zeta <= 0.22`,
+    `11/50 < 144/625` and `144/625 < Lambda_DH`. The upper endpoint appears
+    in the chain only so the claim travels with the whole bracket. This test
+    states that formally: the separation inequality holds for either upper
+    endpoint, and the decided floor is unchanged.
+    """
+    floor_wide = Fraction(144, 625)
+    zeta_wide = Fraction(11, 50)
+    for ceiling in (SUPERSEDED_WIDE_HI, 4 * DELTA_SQ_OVER_2_NARROW):
+        assert zeta_wide < floor_wide < ceiling
+
+    # And the floor itself is still the exact rational the winding count
+    # decided, in both the JSON and the keyed claim.
+    assert Fraction(_WINDING["decided_floor_t"]) == Fraction(36, 625)
+    claim = _RESULTS["claims"]["separation_lambda_dh_gt_lambda_zeta"]
+    assert "144/625" in claim["value_or_interval"]
+    assert "0.7696992583210755065522" in claim["value_or_interval"]
+
+
+def test_the_sharpened_abscissa_is_recorded_with_both_backends():
+    """sigma_0' carries a decided grade and two backends, per the contract.
+
+    Every decided number in this repository travels with its backend and
+    precision. The claim must also name the exact rational it was decided
+    at, because that is what makes Delta^2/2 exact.
+    """
+    claim = _RESULTS["claims"]["sigma_0_prime_headline"]
+    assert claim["grade"] == "decided"
+    assert "112036249819/100000000000" in claim["value_or_interval"]
+    assert "python-flint" in claim["backend"] and "mpmath.iv" in claim["backend"]
+    assert "192 bits" in claim["precision"]
+
+
+def test_the_m2_lemma_is_recorded_as_proved_with_its_one_cited_input():
+    """M2 moved from prose to a proved lemma, and what it rests on is named.
+
+    RESULTS.md section 5.1a and GATE.md assumption 6 record the change. The
+    pin here is that the record does not overstate it: the lemma claim must
+    exist, and the claim naming its single cited input (the evenness of
+    Phi_DH) must still be graded `cited`, since that is what keeps the
+    composite grade of the bracket unchanged.
+    """
+    proved = _RESULTS["claims"]["m2_lemma_proved"]
+    assert "Lemma M2" in proved["value_or_interval"]
+    assert "not kernel-checked" in proved["grade"]
+
+    rests = _RESULTS["claims"]["m2_lemma_what_it_rests_on"]
+    assert rests["grade"] == "cited"
+    assert "Phi_DH(-u) = Phi_DH(u)" in rests["value_or_interval"]
+
+    # The composite headline grade is still the weakest step, a citation.
+    assert _RESULTS["claims"]["headline_narrow"]["grade"] == "cited"
+
+
+def test_m2_lemma_values_do_not_exceed_the_bound_the_count_consumed():
+    """The re-derived M2 must be at most winding.py's, or the count is stale.
+
+    M2-LEMMA.md section 5: the lemma's own value is 1.1886319406143055e-78
+    at t1 against winding.py's 1.1886642645115153e-78, a relative -2.7e-05
+    traced to one panel of 800 where winding.py keeps the larger of two
+    valid majorants. Larger is safe; smaller would mean the consumed bound
+    was not justified by the lemma.
+    """
+    m2 = json.loads((_HUNT / "m2_lemma_results.json").read_text(encoding="utf-8"))
+    winding_m2 = {"t1": 1.1886642645115153e-78, "t2": 1.1370829034005339e-78}
+    for box, consumed in winding_m2.items():
+        lemma = m2[box]["R1_shifted_bound"]["M2_upper_float"]
+        assert lemma <= consumed, (
+            f"{box}: the lemma's M2 {lemma!r} exceeds the {consumed!r} the "
+            "winding count consumed, so the decided integer is not covered"
+        )
+    assert m2["verdict"] == "PASS"
 
 
 def test_separation_claim_is_recorded_with_frame_and_grade():

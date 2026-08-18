@@ -312,6 +312,39 @@ Recorded here; not yet applied to the other artifacts.
    quoted as an improvement available from the literature. **Do not silently swap
    the headline for `0.19242`.**
 
+   > **Update 2026-08-18: conditions (a) and (b) are both met, and the headline
+   > moved by derivation rather than by swap.** `STRIP2.md` and `strip2.py`
+   > derive the **necessary** half of their Theorem 7 in-tree, from the Euler
+   > products of `L(s, chi)` and `L(s, conj chi)` plus one Moebius image, with
+   > no Bohr theory and no Kronecker theorem, and re-solve the arctan equation
+   > with outward-rounded enclosures on **both** backends (python-flint 192
+   > bits and mpmath.iv dps 40, sieve limit `P = 10^5`, 4814 class primes; a
+   > flint-only deep point at 320 bits and `P = 10^7`). The decided abscissa is
+   > the exact rational `sigma_0' = 1.12036249819`, so the headline is now
+   > `Delta^2/2 = 0.19242481458026887663805` narrow and
+   > `0.7696992583210755065522` wide, **decided**, and nothing was swapped
+   > silently: the superseded value is printed beside the new one in
+   > `RESULTS.md` section 0, `FRAME.md` section 6 and `GATE.md`. Their converse,
+   > which turns the abscissa into an exact supremum, is neither used nor
+   > claimed, so the *number* is still theirs and only the grade is this
+   > hunt's. Two of their published constants now serve as controls on the new
+   > instrument, by machinery their Theorem 7 does not share: the section 9
+   > finite claim (threshold prime 6323, cardinality 420) and
+   > `sigma(tau_-, 1) = 2.38228610898712387152...` against their published ten
+   > digits.
+   >
+   > **A correction this forces against check B of this file.** At `P = 10^7`
+   > and 320 bits, `strip2.py` decides that both of check B's 29-digit
+   > re-solves sit on the wrong side of their own root: `sigma(tau_+, 1)` is
+   > high by about `1.2e-17` and `sigma(tau_-, 1)` is low by about `6e-18`.
+   > This corrects two in-tree re-solves and not the published paper, which
+   > prints 1.120362 and 2.3822861089 and which this instrument reproduces
+   > exactly. What it does touch is the 18-digit figure
+   > `0.192424814576128011...` in the table just above, derived from the
+   > `tau_+` re-solve: the decided replacement from the deep point is
+   > `0.1924248145761280190` narrow and `0.7696992583045120759956154` wide,
+   > agreeing to 17 digits.
+
 3. **`STRIP.md`** should note that the quantity `sigma_0` bounds is not merely a
    classical named object (Titchmarsh section 9.41, already noted) but has been
    *computed exactly for this very function* by Bombieri and Ghosh, and cite

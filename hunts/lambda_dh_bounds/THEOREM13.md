@@ -572,3 +572,14 @@ the normalization s = (1+iz)/2 (de Bruijn as usually quoted, Newman,
 Rodgers-Tao, Polymath 15, Dobner) the same threshold is
 1.6025374835598228, because Delta doubles there. Neither is more correct;
 a number without its frame is what is wrong. See `FRAME.md`.
+
+> **Update 2026-08-18.** The two numbers above are the coefficient-domination
+> ones and are superseded as the headline, though not as arithmetic: they are
+> still what Delta = 0.895136... gives in the two frames. The strip constant
+> was sharpened in-tree on 2026-08-18 to Delta = 0.62036249819, giving
+> Delta^2/2 = 0.19242481458026887663805 narrow and 0.7696992583210755065522
+> wide (`STRIP2.md`). **Nothing in this file changes on account of it**:
+> Theorem 13 is the engine either way, its transcription and hypothesis checks
+> are unaffected, and the frame point this paragraph makes is unaffected. The
+> conversion t -> t/4 of section 6 is what carries the new constant between
+> the frames, exactly as it carried the old one.

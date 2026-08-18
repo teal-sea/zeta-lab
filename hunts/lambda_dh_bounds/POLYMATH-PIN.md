@@ -172,25 +172,37 @@ the argument.
                                            (winding_results.json); strictness cited, Dobner
                                            arXiv:2005.05142 Theorem 1 closed half-line;
                                            frame factor 4 derived in FRAME.md section 3
-    Lambda_DH <= 1.6025374835598228        this hunt, decided: 4 x the narrow Delta^2/2
-                                           interval [0.4006343708899556944469547527,
-                                           0.4006343708899556944469548120], sigma_0 bisected
-                                           on both backends (python-flint Arb and mpmath.iv)
-                                           with exact rational sign decisions, kappa at 500
-                                           bits (strip_results.json); de Bruijn 1950
-                                           Theorem 13 cited
+    Lambda_DH <= 0.7696992583210755065522
+                                           this hunt, decided: 4 x the narrow Delta^2/2,
+                                           exactly, at the phase-obstruction abscissa
+                                           sigma_0' = 112036249819/100000000000 decided on
+                                           both backends (python-flint Arb 192 bits and
+                                           mpmath.iv dps 40, sieve limit P = 1e5) with exact
+                                           rational sign decisions, kappa at 500 bits
+                                           (strip2_results.json); de Bruijn 1950 Theorem 13
+                                           cited. Through 2026-08-17 this link read
+                                           <= 1.6025374835598228, from the coefficient-
+                                           domination interval
+                                           [0.4006343708899556944469547527,
+                                           0.4006343708899556944469548120] of
+                                           strip_results.json, which is still correct and is
+                                           retained
 
 Hence, in the wide frame where all four sources above live:
 
-    0 <= Lambda_zeta <= 0.22 < 0.2304 < Lambda_DH <= 1.6025374835598228,
+    0 <= Lambda_zeta <= 0.22 < 0.2304 < Lambda_DH <= 0.7696992583210755065522,
 
 so `Lambda_DH > Lambda_zeta` unconditionally. Composite grade per
 `MISSION.md`: **cited plus decided** (weakest step is a citation; the lower
-bound additionally carries the `M2` prose lemma recorded in `GATE.md`).
+bound additionally carries the `M2` lemma recorded in `GATE.md`, prose when
+this page was written and proved with decided constants since 2026-08-18,
+`M2-LEMMA.md`). **The last link is not used by the separation**, which rests
+on the floor and on the cited zeta bound alone; sharpening it on 2026-08-18
+moved nothing else in this chain.
 
 Frame-invariance check, narrow frame: divide every Lambda by 4.
 
-    0 <= Lambda_zeta <= 0.055 < 0.0576 = 36/625 < Lambda_DH <= 0.4006343708899557,
+    0 <= Lambda_zeta <= 0.055 < 0.0576 = 36/625 < Lambda_DH <= 0.19242481458026887663805,
 
 and the middle comparison is the *same* cross-multiplication, because the
 factor 4 cancels: `0.055 = 11/200`, and `36 * 200 = 7200 > 6875 = 11 * 625`.

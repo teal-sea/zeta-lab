@@ -204,7 +204,7 @@ Hence
 and therefore **`Lambda / Delta^2` is invariant**, which is exactly why the
 de Bruijn threshold `Delta^2/2` can be quoted frame-free while `Lambda` and
 `Delta` separately cannot. A bound of the form `Lambda <= Delta^2/2` is a
-statement about a ratio; a bound of the form `Lambda <= 0.4006` is not.
+statement about a ratio; a bound of the form `Lambda <= 0.1924` is not.
 
 **Verified** at `a = 1/2, 2, 13/10` with `c = 3/7`: relative defects 2.2e-29,
 0.0, 0.0. Numbers and method in section 5.
@@ -362,30 +362,64 @@ backends (`strip_results.json`).
 
 |  | narrow (Stopple / this hunt) | wide (Dobner / Newman / Rodgers-Tao / Polymath 15) |
 |---|---|---|
-| `sigma_0` | 1.3951361582351097210613588712...9375 | same (`sigma_0` is a point in the `s` plane, not a `z`) |
-| `Delta` | 0.8951361582351097210613588712...9375 | 1.7902723164702194421227177424...8750 |
+| `sigma_0'` (phase obstruction, `STRIP2.md`) | 1.12036249819, exactly 112036249819/100000000000 | same (an abscissa is a point in the `s` plane, not a `z`) |
+| `Delta` | 0.62036249819 (exact) | 1.24072499638 (exact) |
 | lower bound on `Lambda_DH` | **> 0.0576**, exactly 36/625 | **> 0.2304**, exactly 144/625 |
+| `Delta^2/2` | 0.19242481458026887663805 (exact, = 3848496291605377532761/20000000000000000000000) | 0.7696992583210755065522 (exact, four times it) |
+| upper bound headline | **<= 0.19242481458026887663805** | **<= 0.7696992583210755065522** |
+| ratio upper/lower | 3.341 | 3.341 (invariant) |
+
+**Note that the abscissa and the ratio are the frame-free quantities**, and
+the ratio is the honest measure of how loose the bracket is. No outward
+rounding is involved in this row: the abscissa is decided at an exact
+rational, so `Delta^2/2` terminates. `STRIP2.md` section 5.2 displays the
+narrow value rounded outward to 22 decimals as `0.1924248145802688766381`,
+which is the same bound one display ulp higher.
+
+**Superseded 2026-08-18, kept because it is still correct.** Through
+2026-08-17 the headline came from the coefficient-domination abscissa of
+`STRIP.md` instead, and that row read:
+
+|  | narrow | wide |
+|---|---|---|
+| `sigma_0` | 1.3951361582351097210613588712...9375 | same |
+| `Delta` | 0.8951361582351097210613588712...9375 | 1.7902723164702194421227177424...8750 |
 | decided `Delta^2/2` interval | [0.4006343708899556944469547527, 0.4006343708899556944469548120] | [1.6025374835598227777878190108, 1.6025374835598227777878192480] |
 | upper bound headline (rounded outward, above the interval's upper endpoint) | **<= 0.4006343708899557** | **<= 1.6025374835598228** |
 | ratio upper/lower | 6.955... | 6.955... (invariant) |
 
-**Note that `sigma_0` and the ratio are the frame-free quantities**, and the
-ratio is the honest measure of how loose the bracket is.
+The sharpening is a factor **2.082030697360155** and it is in-tree: the
+abscissa is derived from a phase obstruction in the Euler products of the two
+Dirichlet L-functions whose combination `f` is, and decided on **both**
+backends (python-flint 192 bits and mpmath.iv dps 40, sieve limit
+`P = 10^5`, 4814 class primes), with a flint-only deep point at 320 bits and
+`P = 10^7` deciding 1.1203624981833251. **The lower bound did not move**, so
+the separation of `SEPARATION.md`, which rests on the floor alone, is
+unaffected.
 
-A sharper strip input exists and is **not** the headline. Bombieri and Ghosh
+The relation to the literature, restated exactly. Bombieri and Ghosh
 (Russian Math. Surveys 66 (2011), section 6, read in full 2026-08-16, see
 `BOMBIERI-GHOSH.md`) determine the exact least upper bound of the real parts
-of the zeros of this function, `sigma(tau_+, 1) = 1.120362`, giving
-`Delta = 0.620362...` and
+of the zeros of this function, `sigma(tau_+, 1) = 1.120362`. The criterion
+`STRIP2.md` decides *is* their Theorem 7 at `q = 1` and `xi = kappa`, term
+for term; only its **necessary** half is used, and that half is derived here
+from the Euler product and one Moebius image, with no Bohr theory and no
+Kronecker theorem. Their converse, which makes the abscissa an exact supremum
+rather than an upper bound, is not used and not claimed. **So the number is
+theirs and the grade is this hunt's**, and neither `sigma_0` nor `sigma_0'`
+may be described as a new number.
 
-| from | narrow | wide |
-|---|---|---|
-| hunt `sigma_0 = 1.395136...` (decided) | 0.400634370889955694... | 1.602537483559822777... |
-| B-G `sigma(tau_+, 1) = 1.120362` (cited, six decimals) | 0.192424814576128011... | 0.769699258304512045... |
-
-a factor 2.082. The second row is **cited plus measured, not decided**, so
-the headline stays in the first row until their Theorem 7 is checked in-tree
-and its arctan equation re-solved with outward rounding.
+**A row this file used to carry, and the correction it needed.** Through
+2026-08-17 the table above had a "B-G `sigma(tau_+, 1) = 1.120362` (cited, six
+decimals)" row printing `0.192424814576128011...` narrow and
+`0.769699258304512045...` wide. `GATE.md`'s closure log flagged that those 18
+digits came from `BOMBIERI-GHOSH.md`'s own 29-digit re-solve rather than from
+the six cited decimals (which alone give 0.192424505522). `strip2.py` now
+decides that the re-solve itself sits about `1.2e-17` *above* its own root, so
+the correct value from the deep point is `0.1924248145761280190` narrow and
+`0.7696992583045120759956154` wide, agreeing with the old row to 17 digits.
+The headline above is the slightly more conservative two-backend `P = 10^5`
+value, and it is exact.
 
 ## 7. The zeta record, in both frames
 

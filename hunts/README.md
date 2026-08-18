@@ -72,22 +72,30 @@ control roles — and the checks are the ones the tree already owns:
 
 ### Hunt #36: two-sided bounds for the de Bruijn-Newman constant of Davenport-Heilbronn (`lambda_dh_bounds/`)
 
-**Status: closed (2026-08-16), gate verdict publication candidate.** The
-bracket, in the wide frame of Rodgers-Tao and Polymath 15:
-0.2304 < Lambda_DH <= 1.6025374835598228 (narrow frame: 0.0576 = 36/625 to
-0.4006343708899557). Lower side decided by ball-arithmetic winding counts
-with a zero-shared-layer second witness; upper side a decided strip constant
-fed to de Bruijn 1950 Theorem 13. The quotable corollary, recognized after
-the gate closed and adversarially narrowed in `SEPARATION.md`:
-**Lambda_DH > Lambda_zeta unconditionally** (0.22 from Polymath 15 against
-the decided 144/625), the first strict order between two such constants with
-both nonnegative. The gate cycle caught and preserved three corrections: a
-factor-of-4 frame error (two normalizations live in the literature,
-`FRAME.md`), the sigma_0 originality claim withdrawn after Bombieri-Ghosh
-2011 was retrieved and read (their exact abscissa 1.120362 displaces it),
-and one prose lemma (M2) recorded as a lesioned blind spot rather than
-repaired. Doc: `docs/29`. Full adjudication: `GATE.md`. Predictions P1-P3
-and P5 held; P4's census found nothing deeper below height 600. Nothing
+**Status: closed (2026-08-16), gate verdict publication candidate; hardened
+2026-08-18, verdict unchanged.** The bracket, in the wide frame of
+Rodgers-Tao and Polymath 15:
+0.2304 < Lambda_DH <= 0.7696992583210755065522 (narrow frame: 0.0576 = 36/625
+to 0.19242481458026887663805), ratio 3.341. Lower side decided by
+ball-arithmetic winding counts with a zero-shared-layer second witness; upper
+side a decided strip constant fed to de Bruijn 1950 Theorem 13. The quotable
+corollary, recognized after the gate closed and adversarially narrowed in
+`SEPARATION.md`: **Lambda_DH > Lambda_zeta unconditionally** (0.22 from
+Polymath 15 against the decided 144/625), the first strict order between two
+such constants with both nonnegative. The gate cycle caught and preserved
+three corrections: a factor-of-4 frame error (two normalizations live in the
+literature, `FRAME.md`), the sigma_0 originality claim withdrawn after
+Bombieri-Ghosh 2011 was retrieved and read (their exact abscissa 1.120362
+displaces it), and one prose lemma (M2) recorded as a lesioned blind spot
+rather than repaired. The 2026-08-18 hardening then took two of those back:
+M2 is proved with decided constants (`M2-LEMMA.md`), and the upper bound
+sharpened by the full factor 2.082 in-tree, from a phase obstruction in the
+Euler products that reaches Bombieri-Ghosh's abscissa and decides it on both
+backends (`STRIP2.md`); the superseded headline
+(<= 1.6025374835598228 wide, <= 0.4006343708899557 narrow, ratio 6.955) is
+kept beside the new one everywhere it appeared, and the lower side did not
+move in any digit. Doc: `docs/29`. Full adjudication: `GATE.md`. Predictions
+P1-P3 and P5 held; P4's census found nothing deeper below height 600. Nothing
 here is evidence about RH.
 
 ### Hunt #35: the rightmost zeros of the prime zeta function (`prime_zeta_rightmost/`)

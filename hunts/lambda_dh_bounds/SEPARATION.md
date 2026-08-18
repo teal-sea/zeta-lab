@@ -9,6 +9,22 @@ one float route, *decided* is an enclosure whose exact endpoints settle a
 sign or an integer, *cited* is somebody else's theorem; a composite takes its
 weakest grade.
 
+> **Note added 2026-08-18, after a hardening pass sharpened the upper bound.**
+> **The separation is untouched.** It rests on the decided floor
+> `144/625 = 0.2304` and on the cited `Lambda_zeta <= 0.22`, and neither moved
+> in any digit. What moved is the last link of the chain below, which the
+> separation does not use and which is printed only so the claim travels with
+> the whole bracket: the wide-frame upper endpoint sharpened from
+> `1.6025374835598228` to `0.7696992583210755065522` (narrow:
+> `0.4006343708899557` to `0.19242481458026887663805`), a factor
+> 2.082030697360155, decided in-tree on both backends by the phase obstruction
+> of `STRIP2.md`. Every occurrence of the old endpoint below is replaced and
+> the superseded value is named where it stood. One other change touches this
+> page only in the reader's favour: `M2`, named below as a prose lemma, is a
+> proved lemma since 2026-08-18 (`M2-LEMMA.md`), so what the decided link
+> inherits is a cited input rather than an unproven step. The claim, its
+> phrasing, its qualifier and its grade are unchanged.
+
 ## 1. The claim
 
 > **In the shared normalization of Newman, Rodgers-Tao, Polymath 15 and
@@ -19,7 +35,9 @@ weakest grade.
 >     Lambda_DH > Lambda_zeta,   unconditionally.
 >
 > Composite grade: **cited plus decided** (weakest step cited), and the
-> decided link carries the `M2` prose lemma recorded in `GATE.md`.
+> decided link carries the `M2` lemma recorded in `GATE.md` (prose when this
+> page was written; proved with decided constants since 2026-08-18,
+> `M2-LEMMA.md`).
 
 The chain, every link graded, with the sources pinned at source in
 `POLYMATH-PIN.md`:
@@ -50,19 +68,28 @@ The chain, every link graded, with the sources pinned at source in
                                          arXiv:2005.05142 Theorem 1, closed
                                          half-line); frame factor 4 derived in
                                          FRAME.md section 3
-    Lambda_DH <= 1.6025374835598228      this hunt: 4 x the narrow Delta^2/2
-                                         interval, sigma_0 bisected on both
-                                         backends with exact rational sign
-                                         decisions (decided,
-                                         strip_results.json), fed to de Bruijn
-                                         1950 Theorem 13 (cited)
+    Lambda_DH <= 0.7696992583210755065522
+                                         this hunt: 4 x the narrow Delta^2/2,
+                                         exactly, from the phase-obstruction
+                                         abscissa sigma_0' = 1.12036249819
+                                         decided on both backends at an exact
+                                         rational (decided,
+                                         strip2_results.json), fed to de Bruijn
+                                         1950 Theorem 13 (cited). This link
+                                         read <= 1.6025374835598228 through
+                                         2026-08-17, from the coefficient-
+                                         domination sigma_0 of
+                                         strip_results.json, which is still
+                                         correct and is retained
 
 Assembled, in the wide frame where all four cited sources live:
 
-    0 <= Lambda_zeta <= 0.22 < 0.2304 < Lambda_DH <= 1.6025374835598228.
+    0 <= Lambda_zeta <= 0.22 < 0.2304 < Lambda_DH <= 0.7696992583210755065522.
 
 The last link is not needed for the separation; it is printed because the
-claim should travel with the whole bracket.
+claim should travel with the whole bracket. **It is also the only link the
+2026-08-18 sharpening touched**, which is why that sharpening changes nothing
+here: the separation is a statement about the floor.
 
 ## 2. The exact rational core, and frame invariance
 
@@ -74,8 +101,9 @@ by cross-multiplication, not by floats:
 Frame invariance: divide every Lambda by 4 to reach the narrow frame
 (Stopple arXiv:1301.3158, `s = 1/2 + iz`, this hunt's own):
 
-    0 <= Lambda_zeta <= 0.055 < 0.0576 = 36/625 < Lambda_DH <= 0.4006343708899557,
+    0 <= Lambda_zeta <= 0.055 < 0.0576 = 36/625 < Lambda_DH <= 0.19242481458026887663805,
 
+(the last endpoint read `0.4006343708899557` through 2026-08-17)
 and the middle comparison is the *same* cross-multiplication, because the
 factor 4 cancels: `0.055 = 11/200` and `36 * 200 = 7200 > 6875 = 11 * 625`.
 The inequality `Lambda_DH > Lambda_zeta` reads identically in both frames,
@@ -96,6 +124,19 @@ this page would not exist. The direction of future movement is asymmetric:
 any further sharpening of the zeta upper bound only widens the separation,
 so what the claim is hostage to is not progress but the correctness of the
 cited 0.22 itself, and of the decided floor.
+
+> **Note added 2026-08-18, and it is headroom rather than a change.** The
+> 2026-08-18 prior-art sweep surfaced Tao, Trudgian and Yang's ANTEDB
+> (`teorth.github.io/expdb`), whose chapter 18 tabulates the de Bruijn-Newman
+> bound history and records **Platt-Trudgian 2021, `Lambda_zeta <= 0.2`**,
+> sharper than the `<= 0.22` this chain cites. The chain is deliberately left
+> on Polymath 15's 0.22, because that is the bound pinned verbatim at source
+> in `POLYMATH-PIN.md` and a claim should stand on the source it actually
+> checked. The direction is the favourable one: `0.2304 > 0.2` as well, so the
+> separation survives the sharper bound with more room, and the asymmetry
+> argued above is confirmed rather than tested. `zeta.heatflow.lambda_facts()`
+> carries 0.2 as the current record and 0.22 as superseded, which is the
+> in-tree ground truth for this.
 
 ## 4. What it means, and what it does not
 
@@ -218,8 +259,8 @@ Weakest-step accounting, per `MISSION.md`'s vocabulary contract:
 | `0 <= Lambda_zeta` | cited (Rodgers-Tao Theorem 1) |
 | `Lambda_zeta <= 0.22` | cited (Polymath 15 Theorem 1.1, unconditional) |
 | `11/50 < 144/625` | exact rational arithmetic, pinned by test |
-| `144/625 < Lambda_DH` | decided (winding N = 1, python-flint 0.9.0 (Arb), 420 bits; second witness mpmath dps 130) modulo cited (Dobner Theorem 1) and the frame factor 4 (derived, `FRAME.md` section 3); carries the `M2` prose lemma |
-| `Lambda_DH <= 1.6025374835598228` | decided strip constant fed to cited theorem (not needed for the separation) |
+| `144/625 < Lambda_DH` | decided (winding N = 1, python-flint 0.9.0 (Arb), 420 bits; second witness mpmath dps 130) modulo cited (Dobner Theorem 1) and the frame factor 4 (derived, `FRAME.md` section 3); carries the `M2` lemma |
+| `Lambda_DH <= 0.7696992583210755065522` | decided strip constant fed to cited theorem (not needed for the separation; read `<= 1.6025374835598228` through 2026-08-17) |
 
 Composite: **cited plus decided**. The separation inherits, through its
 decided link, the `M2` blind spot recorded in `GATE.md` (the one prose
@@ -229,3 +270,15 @@ correctness of Polymath 15's Theorem 1.1, Rodgers-Tao's Theorem 1 and
 Dobner's Theorem 1 as published, none of which is verified in-tree. It is
 not a claim this directory proves on its own, and per `MISSION.md` it is not
 promoted anywhere outside this hunt.
+
+> **Update 2026-08-18.** The inherited `M2` exposure is narrower than the
+> paragraph above describes, and the paragraph is kept as written. `M2` is
+> proved in `M2-LEMMA.md`, with every constant a reported Arb ball and every
+> hypothesis a decided predicate, and four routes plus two falsification
+> attacks stand behind it. What the decided link now inherits is (i) the one
+> cited classical input the proof needs, the evenness
+> `Phi_DH(-u) = Phi_DH(u)`, and (ii) the fact that the detector still cannot
+> see a *corrupted* `M2` by itself, so the lesion table and its wrong silent
+> integers survive as a measure of sensitivity to an implementation fault.
+> The cited links are unchanged, and they are now the weakest steps without
+> qualification. Composite grade unchanged: **cited plus decided**.

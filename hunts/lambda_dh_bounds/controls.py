@@ -372,8 +372,14 @@ def lesion_m2_deflated(geom: dict, prec: int = 420,
     SMALL M2 accepts segments whose true argument variation may exceed pi,
     and the per-segment congruence Delta == Arg q (mod 2pi) is then
     resolved to the wrong branch.  Deflation is the honest lesion for it:
-    the derivation in ``winding.py`` is prose, and prose is what an error
-    would live in.
+    the derivation in ``winding.py`` was prose when this control was
+    written, and prose is what an error would live in.
+
+    Updated 2026-08-18.  ``M2-LEMMA.md`` proves the bound, with every
+    constant a reported ball and every hypothesis a decided predicate, so
+    the lesion no longer stands in for "the derivation might be wrong".
+    It now stands in for "the implementation might be wrong", which is a
+    narrower and still live risk, and the rows are unchanged.
 
     Everything else is held fixed: the same t1 box the route decided N = 1
     on, the same precision, the same instrument, the same subdivision
@@ -385,9 +391,10 @@ def lesion_m2_deflated(geom: dict, prec: int = 420,
     then compared arithmetically per factor: the measured sup of |H_t''|
     does not depend on M2.
 
-    This control does not pass and is not meant to.  Its verdict is
-    "BLIND SPOT" and its output is a map of the failure, in the repo's
-    habit of pinning a blind spot as blind.
+    This control does not pass and is not meant to.  Its verdict was
+    "BLIND SPOT" through 2026-08-17 and is "SENSITIVITY MEASURED (not a
+    pass)" from 2026-08-18; its output is a map of the failure either way,
+    in the repo's habit of pinning a weakness where it is.
     """
     t0 = time.time()
     m2_honest = second_derivative_bound(geom["box"][0], geom["box"][3],
@@ -440,73 +447,187 @@ def lesion_m2_deflated(geom: dict, prec: int = 420,
             "only the number M2 is changed"
         ),
         "reference_N": geom["reference_N"],
+        "what_this_table_measures": (
+            "Through 2026-08-17 this table recorded the exposure of an "
+            "unproven assumption: M2 was prose, and the rows showed what a "
+            "wrong M2 buys.  From 2026-08-18 M2 is a proved lemma "
+            "(M2-LEMMA.md), so the same rows measure something narrower and "
+            "still worth knowing: the detector's sensitivity to a corrupted "
+            "M2, that is, to an implementation fault in "
+            "winding.second_derivative_bound.  The numbers are unchanged and "
+            "the detector is still unable to see the lesion by itself, which "
+            "is why the guard and its refusal path stay in place."
+        ),
         "table": rows,
         "wrong_answer_onset_factor": onset,
         "n_wrong_and_silent": len(silent_wrong),
         "m2_measured_guard_on_honest_M2": guard,
         "guard_catches_all_observed_wrong_rows": bool(wrong) and len(caught) == len(wrong),
         "blind_spot": BLIND_SPOT_M2,
-        "verdict": "BLIND SPOT",
+        "verdict": "SENSITIVITY MEASURED (not a pass)",
+        "verdict_note": (
+            "Not PASS: the expectation as written is still unmet, because "
+            "the detector returns integers under the lesion instead of "
+            "refusing.  Not BLIND SPOT either, which is what this field read "
+            "through 2026-08-17: the thing it named as blind, M2's "
+            "derivation, is now proved with decided constants and exercised "
+            "by four routes.  See blind_spot.what_closed_it and "
+            "blind_spot.what_is_still_open."
+        ),
         "seconds": round(time.time() - t0, 1),
     }
 
 
 BLIND_SPOT_M2 = {
-    "name": "M2 is unguarded prose, and the health metric moves the wrong way",
-    "what_is_blind": (
-        "M2, the uniform bound for |H_t''| on the box, is the single "
-        "load-bearing analytic step in the lower-bound route whose "
-        "derivation is prose rather than an enclosure or a cited theorem "
-        "(its numerical ingredients are ball-computed; the shifted-contour "
-        "argument that assembles them is not).  Controls 1 to 4 do not "
-        "touch it: the displaced and edge-on-zero lesions move geometry, "
-        "the precision controls move prec, and M2 is held fixed by all "
-        "four."
+    "name": (
+        "closed 2026-08-18 in the form it was recorded: M2 is a proved "
+        "lemma, and this table now measures the detector's sensitivity to a "
+        "corrupted M2 rather than the exposure of an unproven assumption"
     ),
-    "why_it_matters": (
+    "status": "CLOSED at source, NARROWED residual named below",
+    "what_was_blind": (
+        "Through 2026-08-17: M2, the uniform bound for |H_t''| on the box, "
+        "was the single load-bearing analytic step in the lower-bound route "
+        "whose derivation was prose rather than an enclosure or a cited "
+        "theorem (its numerical ingredients were ball-computed; the "
+        "shifted-contour argument that assembles them was not), and it was "
+        "exercised by no cross-route.  Controls 1 to 4 do not touch it: the "
+        "displaced and edge-on-zero lesions move geometry, the precision "
+        "controls move prec, and M2 is held fixed by all four."
+    ),
+    "what_closed_it": (
+        "M2-LEMMA.md states the bound as Lemma M2 and proves it: "
+        "differentiation under the integral sign with an explicit dominating "
+        "function, Cauchy's theorem on the shifted contour with the far side "
+        "bounded rather than asserted to vanish, the vertical-leg "
+        "cancellation, separate proofs of both majorants for the theta-like "
+        "sum, and the panel-plus-tail split.  Every constant is a reported "
+        "Arb ball and every hypothesis is a decided predicate, so no step of "
+        "the proof rests on an unverified numerical claim.  Four routes now "
+        "exercise it (m2_lemma.py): an independent re-implementation, an "
+        "unshifted majorant that needs neither Cauchy's theorem nor the "
+        "evenness, a pointwise Arb enclosure of H_t'' that makes the cushion "
+        "decided, and this file's float guard.  Two attacks stand beside "
+        "them: the identity for H_t'' against second central differences of "
+        "H_ball (worst relative gap 7.66e-07 against h^2 = 9.54e-07), and "
+        "both Omega majorants against a sharp truncated enclosure at 24 "
+        "probe points, no refutation."
+    ),
+    "why_it_mattered": (
         "M2 too large costs only compute (more subdivision).  M2 too small "
         "silently licenses a segment whose true argument variation exceeds "
         "pi, and the branch resolution Delta = Arg q is then wrong by 2pi, "
         "which lands in the sum as a whole unit of winding.  The failure "
         "mode is a wrong integer with status 'decided', which is the one "
-        "output this routine promises never to produce."
+        "output this routine promises never to produce.  That failure mode "
+        "is unchanged; what changed is that a wrong M2 now requires an "
+        "implementation fault rather than a wrong derivation."
     ),
     "the_perverse_metric": (
-        "min_chord_margin_digits is log10(dist(0, chord) / tube radius) "
-        "minimised over accepted segments.  Deflating M2 shrinks the tube, "
-        "so the ratio grows: the correct run reports 0.02 and the "
-        "N = 0 run at factor 100 reports 0.11, at factor 1000 reports "
-        "1.11.  The metric therefore reads HEALTHIER exactly as the "
-        "detector gets more wrong, and it may not be used as a guard on "
-        "M2.  min_ball_margin_digits is no better here: it moves from "
-        "40.32 to 42.61 across the same lesion, because the wrong runs "
-        "accept fewer and larger segments and never sample the tight ones."
+        "Unchanged and still true.  min_chord_margin_digits is "
+        "log10(dist(0, chord) / tube radius) minimised over accepted "
+        "segments.  Deflating M2 shrinks the tube, so the ratio grows: the "
+        "correct run reports 0.02 and the N = 0 run at factor 100 reports "
+        "0.11, at factor 1000 reports 1.11.  The metric therefore reads "
+        "HEALTHIER exactly as the detector gets more wrong, and it may not "
+        "be used as a guard on M2.  min_ball_margin_digits is no better "
+        "here: it moves from 40.32 to 42.61 across the same lesion, because "
+        "the wrong runs accept fewer and larger segments and never sample "
+        "the tight ones."
     ),
-    "countermeasure_now_in_place": (
+    "countermeasure_still_in_place": (
         "winding.measured_h2_guard: M2 must dominate a directly measured "
         "sup |H_t''| sampled on the box by quadrature of the defining "
-        "integral, sharing no code with the shifted-contour derivation.  "
-        "It is NECESSARY, NOT SUFFICIENT and it is measured, not decided: "
-        "passing it does not make M2 right.  winding.py's main() refuses "
-        "the floor when it fails."
+        "integral, sharing no code with the shifted-contour derivation.  It "
+        "is NECESSARY, NOT SUFFICIENT and it is measured, not decided.  It "
+        "is kept because the detector still cannot see a corrupted M2 by "
+        "itself, so the guard is now the defence against an implementation "
+        "fault rather than against a wrong derivation.  winding.py's main() "
+        "still refuses the floor when it fails."
     ),
-    "what_is_still_blind": (
-        "Three things.  (1) The guard is a finite grid of a smooth "
-        "function; a peak between nodes is invisible to it.  (2) The guard "
-        "is float grade, so it cannot upgrade M2 from prose to decided; "
-        "only an in-tree or Lean derivation of the shifted-contour step "
-        "would do that.  (3) The ordering that makes the guard useful on "
-        "THIS box is luck, not structure: the guard fires once M2 falls "
-        "below the measured sup 2.14e-80 (deflation past 55.7), while the "
-        "first wrong integer observed here appears at deflation 75, so the "
-        "guard happens to trip before the failure.  Nothing guarantees "
-        "that ordering on another box, and a derivation wrong by a factor "
-        "under 55 would pass the guard and could still be wrong."
+    "the_ordering_question_answered": (
+        "The recorded worry was that the guard trips at deflation 55.7 while "
+        "the first wrong integer appears at 75, so the guard fires first on "
+        "THIS box by luck rather than structure.  That is now partly "
+        "answered and partly not.  Answered: the trip point is the cushion "
+        "M2 / sup |H_t''|, and the cushion is a structural constant of the "
+        "bound rather than a property of these rectangles.  M2 depends on "
+        "x_lo only through e^{-x_lo v} with v = pi/4 - 1/256 against the "
+        "strip half-width pi/4, and across a 40-unit span of Re z over which "
+        "|H_t''| falls by 14 orders of magnitude the decided cushion stays "
+        "between 33 and 204 (m2_lemma_results.json, R6_decay_rate_probe).  "
+        "Not answered: nothing proves the ordering itself on an arbitrary "
+        "box, and the wrong-answer onset depends on the subdivision rule as "
+        "well as on M2.  The ordering matters less than it did, because with "
+        "M2 proved the guard defends against a coding error, not against the "
+        "mathematics."
     ),
-    "recorded_rather_than_repaired": (
-        "This is a standing blind spot in the lower-bound route, not a "
-        "closed defect.  Any statement of the bound carries it."
+    "what_is_still_open": (
+        "Three things, all named, none of them an unverified numerical "
+        "claim.  (1) The proof needs one cited classical input, the evenness "
+        "Phi_DH(-u) = Phi_DH(u), which is Hecke's theta transformation plus "
+        "F(s) = F(1-s) transported; it is GATE.md assumption 5 and it is "
+        "load-bearing for M2, since without it the vertical legs do not "
+        "cancel and no bound of this size exists.  M2-LEMMA.md section 3 "
+        "step 2 shows there is no numerical substitute: the quantity that "
+        "must vanish is identically zero, so enclosing it to 1e-78 would "
+        "take of order 1e78 subdivisions.  (2) The proof is written prose "
+        "plus decided arithmetic, at the hardened rung; it is not "
+        "kernel-checked and it has been read by no human.  (3) The guard "
+        "remains a finite grid of a smooth function, so a peak between nodes "
+        "is invisible to it; the decided sup lower bound of section 7 of "
+        "M2-LEMMA.md has the same finite-grid limitation, and by design, "
+        "since a uniform enclosure over the box is impossible (a z-ball of "
+        "radius 1e-24 already returns an enclosure containing 0)."
     ),
+    "cushion_now_decided": (
+        "The published cushion was measured: sup |H_t''| = 2.1357e-80 by "
+        "float quadrature against M2 = 1.1887e-78, ratio 55.7.  It is now "
+        "decided: an Arb enclosure at the same point reproduces "
+        "2.1357367685579024e-80 to all 17 digits, and a 433-point grid of "
+        "enclosures gives a decided sup >= 2.1358117413634282e-80 at t1 and "
+        ">= 2.1139544551457620e-80 at t2, hence a decided cushion of at most "
+        "55.65 and 53.79.  The published numbers stand and move only in the "
+        "third digit."
+    ),
+    "artifact": "M2-LEMMA.md, m2_lemma.py, m2_lemma_results.json",
+    "superseded_record_kept_verbatim": {
+        "note": (
+            "The record below is the 2026-08-16 state, preserved unedited.  "
+            "It was accurate when written and is retained because the "
+            "repository's correction style is to keep superseded text rather "
+            "than delete it."
+        ),
+        "name": "M2 is unguarded prose, and the health metric moves the wrong way",
+        "what_is_blind": (
+            "M2, the uniform bound for |H_t''| on the box, is the single "
+            "load-bearing analytic step in the lower-bound route whose "
+            "derivation is prose rather than an enclosure or a cited theorem "
+            "(its numerical ingredients are ball-computed; the "
+            "shifted-contour argument that assembles them is not).  Controls "
+            "1 to 4 do not touch it: the displaced and edge-on-zero lesions "
+            "move geometry, the precision controls move prec, and M2 is held "
+            "fixed by all four."
+        ),
+        "what_is_still_blind": (
+            "Three things.  (1) The guard is a finite grid of a smooth "
+            "function; a peak between nodes is invisible to it.  (2) The "
+            "guard is float grade, so it cannot upgrade M2 from prose to "
+            "decided; only an in-tree or Lean derivation of the "
+            "shifted-contour step would do that.  (3) The ordering that "
+            "makes the guard useful on THIS box is luck, not structure: the "
+            "guard fires once M2 falls below the measured sup 2.14e-80 "
+            "(deflation past 55.7), while the first wrong integer observed "
+            "here appears at deflation 75, so the guard happens to trip "
+            "before the failure.  Nothing guarantees that ordering on "
+            "another box, and a derivation wrong by a factor under 55 would "
+            "pass the guard and could still be wrong."
+        ),
+        "recorded_rather_than_repaired": (
+            "This is a standing blind spot in the lower-bound route, not a "
+            "closed defect.  Any statement of the bound carries it."
+        ),
+    },
 }
 
 
@@ -622,17 +743,22 @@ def main() -> None:
         "controls_1_to_4_pass preserves that statement unchanged: their "
         "verdicts and numbers did not move.  all_pass is False from "
         "2026-08-16 because control 5 was added and the detector does not "
-        "survive it.  Control 5 is a recorded blind spot, not a control "
-        "the battery is expected to pass: see controls.5_lesion_m2_deflated"
-        ".blind_spot.  Reporting only controls_1_to_4_pass would be the "
-        "flattering read and is not the headline."
+        "survive it.  Control 5 is not a control the battery is expected to "
+        "pass: see controls.5_lesion_m2_deflated.  Reporting only "
+        "controls_1_to_4_pass would be the flattering read and is not the "
+        "headline.  Amended 2026-08-18: control 5's verdict changed from "
+        "'BLIND SPOT' to 'SENSITIVITY MEASURED (not a pass)' when M2 became "
+        "a proved lemma (M2-LEMMA.md).  all_pass stays False, because the "
+        "detector still cannot see the lesion by itself and the expectation "
+        "as written is still unmet.  Nothing in the table moved."
     )
 
     with open(RESULTS_PATH, "w") as f:
         json.dump(out, f, indent=1)
     print(f"wrote {RESULTS_PATH}  all_pass = {out['all_pass']}  "
-          f"(controls 1-4 pass = {out['controls_1_to_4_pass']}; control 5 is "
-          f"a recorded blind spot)  ({out['wall_seconds_total']} s)", flush=True)
+          f"(controls 1-4 pass = {out['controls_1_to_4_pass']}; control 5 "
+          f"measures the detector's sensitivity to a corrupted M2 and is not "
+          f"expected to pass)  ({out['wall_seconds_total']} s)", flush=True)
 
 
 if __name__ == "__main__":

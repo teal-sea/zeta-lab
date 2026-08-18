@@ -15,6 +15,25 @@ and precision; *measured* means one float route.
 > 1.6025374835598228. Conversion table and derivation: `FRAME.md`.
 > `sigma_0` itself is unchanged in either.
 
+> **Superseded constant (added 2026-08-18). Nothing below is altered and
+> nothing below is wrong.** This document derives `sigma_0` by coefficient
+> domination, `sum_{n>=2} |a_n| n^{-sigma} < 1`, which discards all
+> cancellation. Two facts a reader of this page alone would otherwise miss.
+> First, the quantity `sigma_0` bounds is not new: Bombieri and Ghosh,
+> *Around the Davenport-Heilbronn function*, Russian Math. Surveys 66:2
+> (2011), 221-270, Theorem 7, determine the least upper bound of the real
+> parts of the zeros of this very function exactly, and publish
+> `sigma(tau_+, 1) = 1.120362` (`BOMBIERI-GHOSH.md`). Second, that sharper
+> abscissa is now derived and decided in-tree, on both backends, from an
+> elementary phase obstruction in the Euler products of the two Dirichlet
+> L-functions whose combination `f` is: `STRIP2.md` and `strip2.py` decide
+> `1.12036249819`, giving `Delta^2/2 = 0.1924248145802688766381` narrow and
+> `0.7696992583210755065522` wide, a factor 2.082030697360155 better than
+> the number below. **The upper bound of record is the one in `STRIP2.md`.**
+> This page is kept because the two derivations are independent and a
+> reader should be able to see both, and because its sections 3(d), 3(e)
+> and 5 are used unchanged there.
+
 ## 1. Statement
 
 Let f(s) = sum_{n>=1} a_n n^{-s} with the period-5 Davenport-Heilbronn

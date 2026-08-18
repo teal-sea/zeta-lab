@@ -17,6 +17,17 @@ this file says so at every headline. The reserved enclosure vocabulary of
 
 Machine-readable form of every number below: `results.json`.
 
+> **Revised 2026-08-18, after the gate closed YES**, by a hardening pass of
+> three tasks run against the closed record. Every field they touch carries an
+> update block with the superseded text kept beside it, per the repo's
+> correction style. In one line each: the **upper bound sharpened by the full
+> factor 2.082, in-tree rather than by citation** (section 3.6, `STRIP2.md`);
+> **`M2` is no longer prose but a proved lemma with decided constants**
+> (section 5.1a, `M2-LEMMA.md`); and **the three open prior-art items are
+> closed or reduced**, with the novelty sentence surviving unchanged (section
+> 7.3 items 6, 7 and 9). Nothing broke. No decided lower-bound number moved,
+> so the separation of `SEPARATION.md` is untouched.
+
 ---
 
 ## 0. The claim, in both frames
@@ -39,15 +50,41 @@ announcing itself. Full derivation, sources and per-row numerical checks:
 `Phi_DH(u) = 4 e^{3u/2} sum_{n>=1} n a_n exp(-pi n^2 e^{2u}/5)` and
 `H_t(z) = int_0^inf e^{t u^2} Phi_DH(u) cos(zu) du`:**
 
-    0.0576 < Lambda_DH <= 0.4006343708899557,      0.0576 = 36/625 exactly.
+    0.0576 < Lambda_DH <= 0.19242481458026887663805,   0.0576 = 36/625 exactly.
 
 **In the normalization of Newman, Rodgers-Tao, Polymath 15 and Dobner,
 `s = (1 + iz)/2`, where the same constant is four times larger:**
 
-    0.2304 < Lambda_DH <= 1.6025374835598228,      0.2304 = 144/625 exactly.
+    0.2304 < Lambda_DH <= 0.7696992583210755065522,    0.2304 = 144/625 exactly.
 
-The ratio upper/lower is 6.955 and is frame-free (`FRAME.md` section 6). It is
+The ratio upper/lower is 3.341 and is frame-free (`FRAME.md` section 6). It is
 the honest measure of how loose the bracket is.
+
+> **Sharpened 2026-08-18. The superseded headline is kept here rather than
+> deleted, and it was never wrong.** Through 2026-08-17 this file read
+>
+>     narrow :  0.0576 < Lambda_DH <= 0.4006343708899557
+>     wide   :  0.2304 < Lambda_DH <= 1.6025374835598228
+>     ratio  :  6.955
+>
+> from `Delta = sigma_0 - 1/2` with `sigma_0 = 1.3951361582351097210613...`,
+> the coefficient-domination abscissa of `STRIP.md`, still correct and still
+> decided (sections 3.1 to 3.5 below, unaltered). The upper side is now
+> reached instead by a phase obstruction in the two Euler products
+> (`STRIP2.md`, `strip2.py`, section 3.6 below), which decides the abscissa
+> `sigma_0' = 1.12036249819` on **both** backends, a factor
+> **2.082030697360155** better. **The lower side did not move in any digit**,
+> so the separation corollary `Lambda_DH > Lambda_zeta`, which rests on the
+> floor alone, is unaffected (`SEPARATION.md`). The bracket ratio falls from
+> 6.955 to 3.341.
+>
+> The two new decimals are **exact**, not outward roundings, because the
+> abscissa is decided at an exact rational: `Delta = 0.62036249819` exactly,
+> so `Delta^2/2 = 3848496291605377532761/20000000000000000000000` terminates
+> and the wide value is exactly four times it. `STRIP2.md` section 5.2
+> displays the narrow value rounded outward to 22 decimals as
+> `0.1924248145802688766381`; that is the same bound one display ulp higher,
+> and either may be quoted.
 
 **Grade of the headline: cited plus decided, and neither side is decided
 alone.** The lower side is an enclosure-carrying integer count (decided) turned
@@ -58,6 +95,18 @@ enclosure or a cited theorem (section 5). The upper side is a decided strip
 constant (both backends) fed to de Bruijn 1950 Theorem 13 (cited). Taking the
 weakest step, **the bracket is a cited-theorem statement about decided
 constants, with one prose lemma inside the lower side.**
+
+> **Update 2026-08-18.** `M2` is no longer prose. `M2-LEMMA.md` states it as
+> Lemma M2 and proves it, with every constant a reported Arb ball and every
+> hypothesis a decided predicate, and `m2_lemma.py` exercises it by four
+> routes and two falsification attacks. The composite grade of the bracket
+> does not change, because the weakest step was and remains a citation: the
+> proof's one non-elementary input is the evenness `Phi_DH(-u) = Phi_DH(u)`,
+> which is the cited functional equation already counted above. The last
+> sentence should now read: **the bracket is a cited-theorem statement about
+> decided constants, with one proved lemma inside the lower side whose own
+> weakest input is that same citation.** The paragraph above is kept as
+> written. Section 5 carries the same update in full.
 
 Why publishing both columns is not pedantry. Read in the common wide frame,
 where the zeta literature lives (`FRAME.md` section 7):
@@ -84,13 +133,18 @@ in full, every link graded:
                                          420 bits; second witness mpmath dps
                                          130) modulo cited (Dobner Theorem 1)
                                          and the derived frame factor 4
-    Lambda_DH <= 1.6025374835598228      decided strip constant fed to cited
+    Lambda_DH <= 0.7696992583210755065522
+                                         decided strip constant fed to cited
                                          de Bruijn 1950 Theorem 13 (not
-                                         needed for the separation)
+                                         needed for the separation; this link
+                                         read <= 1.6025374835598228 through
+                                         2026-08-17, and sharpening it moved
+                                         nothing else in the chain)
 
 hence, in the wide frame, `Lambda_DH > Lambda_zeta` **unconditionally**.
 Composite grade cited plus decided, weakest step cited; the decided link
-carries the `M2` prose lemma of section 5. Frame-invariant: in the narrow
+carries `M2` (section 5; a proved lemma since 2026-08-18, `M2-LEMMA.md`,
+rather than the prose one this sentence originally named). Frame-invariant: in the narrow
 frame the chain reads `0 <= Lambda_zeta <= 0.055 < 0.0576 < Lambda_DH`, the
 same inequality by the same cross-multiplication (`36 * 200 = 7200 > 6875`).
 The sanctioned novelty phrasing, its qualifier ("both constants
@@ -364,11 +418,24 @@ calibration in `NOVELTY.md`, now repaired.
 The binding constraint on route 1 is not ball precision. `min_ball_margin_digits`
 is 40.32, while `min_chord_margin_digits` is 0.02, so the chord-clearance versus
 Taylor-tube inequality clears by a factor of about 1.05. That inequality depends
-on `M2`, and `M2` is where section 5 records a standing blind spot.
+on `M2`, and `M2` is where section 5 recorded a standing blind spot. That
+blind spot is closed at source as of 2026-08-18 (`M2-LEMMA.md`); the binding
+constraint itself is unchanged, and so is every number in this paragraph.
 
 ---
 
 ## 3. The upper bound
+
+> **Read 3.6 first if you want the bound of record.** Sections 3.1 to 3.5
+> derive and decide the coefficient-domination abscissa
+> `sigma_0 = 1.3951361582351097210613...` and are kept exactly as written on
+> 2026-08-16. Nothing in them is wrong and nothing in them is altered. They
+> are no longer the headline: section 3.6 records a second, independent and
+> sharper route to a zero-free half-plane, decided on both backends, which
+> supersedes the *constant* of 3.1 to 3.5 and reuses their sections 3.1(d) and
+> 3.1(e) unchanged. `STRIP.md` and `STRIP2.md` stand in the same relation, and
+> both are kept for the same reason: they are two valid derivations and a
+> reader should be able to see both.
 
 ### 3.1 The strip argument
 
@@ -528,6 +595,165 @@ for `t >= Delta^2/2`, hence `Lambda_DH <= Delta^2/2`. The headline decimal
 inequality is safe and the rounding is outward. It is a rounding, not an exact
 value, and should be read as one.
 
+### 3.6 The sharpened bound of record: a phase obstruction
+
+`STRIP2.md` and `strip2.py`, added 2026-08-18; decided values in
+`strip2_results.json`. This section supersedes the *constant* of 3.1 to 3.5,
+not their argument.
+
+**Why coefficient domination is weak, quantified.** Section 3.1(b) replaces
+each `n^{-it}` by an independent worst case, so it is the free-phase
+relaxation and needs the L1 coefficient mass below 1. The phases are not free:
+`n^{-it}` is determined by its values at the primes, multiplicatively. Section
+3.1(c) already uses that once qualitatively, in the `12 = 3 * 4` boundary
+argument. Both sides of the slack, decided at 192 bits:
+
+| what | value |
+|---|---|
+| `sum_{n>=2} \|a_n\| n^{-sigma}` at the true abscissa `sigma = 1.12036249819` | `[3.9384229985187637623766, 3.9384229985187646505552]` |
+| its excess over the 1 that domination needs | 2.938 |
+| `Theta(sigma)` at `sigma_0 = 1.3951361582...` | `[1.5264666943583505966000, 1.5264666943583506708716]` |
+| the phase a zero must supply, `tau = pi - 2 arctan kappa` | `[2.5880182946927479869541106, 2.5880182946927479869541107]` |
+| deficit factor at `sigma_0` | 1.6954305680286197 |
+
+At the true abscissa the relaxation still asks for a coefficient mass of 3.94
+to be below 1; at `sigma_0`, where it finally concludes, the primes can supply
+only 1.526 radians against the 2.588 a zero needs. One fact from either side,
+and the factor 2.082 in `Delta^2/2` is what it costs.
+
+**The obstruction.** With `chi` the odd primitive character mod 5 and
+`A = (1 - i kappa)/2`, `a_n = A chi(n) + conj(A) conj(chi)(n)` for every `n`
+(decided: five acb residual balls containing 0 with radius below `1e-40`,
+`chi` from flint's own Dirichlet character table), so for `Re s > 1`
+
+    f(s) = A L(s, chi) + conj(A) L(s, conj chi),
+    f(s) = 0  <=>  R(s) := L(s, chi)/L(s, conj chi) = -conj(A)/A
+                          = exp(i (pi + 2 arctan kappa)).
+
+Both Euler products converge absolutely and neither vanishes there, so this is
+an equivalence and not merely an implication. In the product
+`R(s) = prod_p (1 - conj(chi)(p) p^{-s})/(1 - chi(p) p^{-s})` only the primes
+with `chi(p) = +-i`, that is `p = 2, 3 mod 5`, contribute anything: for those,
+with `u = chi(p) p^{-s}` and `|u| = p^{-sigma}`, the factor is `(1+u)/(1-u)`,
+whose argument is bounded by `2 arctan(p^{-sigma})`. That bound is a Moebius
+image of a disc: the image has centre `C = (1+r^2)/(1-r^2)` and radius
+`rho = 2r/(1-r^2)`, and `arcsin(rho/C) = 2 arctan r`. Since `C^2 - rho^2 = 1`,
+**the argument-maximising point has modulus exactly 1**, so the `|R| = 1`
+constraint that (3.2) also demands is free there and no modulus-phase trade
+sharpens this further. Hence
+
+> if `Theta(sigma) := sum_{p = 2,3 mod 5} 2 arctan(p^{-sigma}) < tau`, then `f`
+> has no zero on the line `Re s = sigma`,
+
+and `Theta` is a sum of strictly decreasing positive terms, so one decided
+`sigma` closes the whole half-plane. Sections 3.1(d) and 3.1(e), the gamma
+factor and the trivial zeros, then carry it to `F` unchanged.
+
+**No prime counting anywhere.** The head is summed exactly from a sieve; the
+tail is closed by the Euler products of `zeta` and of `L(., chi5)` themselves,
+through `T1 - Tchi = 2 Q + (E_chi - E_1)` with the even-`k` terms cancelling
+exactly because `chi5(p)^2 = 1`. Only odd `k >= 3` survives, giving
+`eps3 = (2/3) P^{1-3 sigma}/((3 sigma - 1)(1 - P^{-2 sigma}))`. Bounding the
+two `E` separately would leave an `O(P^{1-2 sigma})` error instead: at
+`P = 10^5` and `sigma = 1.12036249819` that is `2.52e-07` against `4.42e-13`,
+a factor `5.7e+05`.
+
+**The decided numbers.**
+
+| quantity | python-flint (Arb), 192 bits, `P = 10^5` | mpmath.iv, dps 40, `P = 10^5` |
+|---|---|---|
+| root of `Theta_up = tau` | [1.1203624981833869487276, 1.1203624981833869487332] | [1.1203624981833854, 1.1203624981841131] |
+| sign decisions | 65 | 38 |
+| `Theta` at the headline rational | [2.5880182946402392454052004, 2.5880182946415650528147533] | [2.5880182946402392, 2.5880182946415651] |
+| decided below `tau` | yes | yes |
+
+with 4814 class primes on both legs, overlapping intervals, and margin
+`tau - Theta_up(sigma_0') = 5.12e-11`. Two-sided enclosure of the root itself
+(flint, from bisecting `Theta_lo` as well):
+[1.1203624981832156488068, 1.1203624981833869487332], width `1.71e-13`, which
+is the head/tail systematic and not the ball precision. Hence
+
+    sigma_0' = 1.12036249819  = 112036249819/100000000000   (exact rational)
+    Delta    = 0.62036249819                                 (exact)
+    Delta^2/2 = 0.19242481458026887663805                    (narrow, exact)
+              = 0.7696992583210755065522                     (wide, exact)
+
+A flint-only deep point (320 bits, `P = 10^7`, 332442 class primes, one
+evaluation, 5.9 s) decides `sigma = 1.1203624981833251`, giving
+0.1924248145761280189989039 narrow and 0.7696992583045120759956154 wide.
+
+**The obvious sharpening, tried and decided useless.** Regrouping the series
+into period-5 blocks and applying the mean value theorem gives
+`|B_k| <= |s|[3(5k+1)^{-sigma-1} + kappa(5k+2)^{-sigma-1}]`, correct and
+`O(n^{-sigma-1})` per block. The `|s| = sqrt(sigma^2 + t^2)` is not an
+artifact: both pairs in a period share the midpoint `5k + 5/2` and their
+first-order terms add, `B_k = s(3 + kappa)(5k + 5/2)^{-s-1}(1 + O(|s|/n))`, so
+a trapezoid correction only refines the constant and the next order carries
+`|s|^2`. Measured (mpmath dps 40), the bound tracks `|B_k|` to 1.0062 when
+`|s| << n` and overshoots by 1104 when `|s| >> n`. The hybrid split gives a
+decided but height-restricted strip that climbs back to `sigma_0`:
+`sigma_block(T)` = 1.19585459 (`T = 10`), 1.33701478 (100), 1.37495619 (1000),
+1.38762602 (`10^4`), 1.39224106 (`10^5`), limit 1.3951361582. de Bruijn's
+theorem consumes a half-plane statement, so this cannot feed it, and beyond
+`T = 10` it is already worse than the phase bound.
+
+**Eight controls, each of which aborts the run rather than downgrading a
+claim** (`STRIP2.md` section 6): the character decomposition and the phase
+target as acb residual balls (decided); `zeta.epstein.dh_f` against
+`A L + conj(A) Lbar` at three complex points with large imaginary part, to
+`1.2e-41` (measured); the phase lemma against 4001-point circle samples at
+four radii (measured); **Bombieri and Ghosh's section 9 finite claim
+recomputed from the exact sieve, threshold prime 6323 and cardinality 420,
+both matching** (decided, and it shares no machinery with their Theorem 7);
+the Euler-product tail identity against an explicit partial tail (measured);
+`L(., chi5)` by the Hurwitz combination against flint's `acb.dirichlet_l`
+(decided); the `iv` enclosures of `zeta`, `L` and `arctan` containing the
+corresponding Arb balls at nine points (decided); and `Theta` enclosures at
+`P = 10^3, 10^4, 10^5` intersecting, common width `1.34e-12` (decided). Plus
+a control at the sibling Titchmarsh root: the identical head, tail bound and
+bisection with only the phase target changed decide
+`1/kappa = 3.52014702134020199243...` against their published
+`tau_- = -3.520147021340`, and `sigma(tau_-, 1) = 2.38228610898712387152...`
+against their published `2.3822861089`, hitting all ten digits. Nothing in the
+instrument was built around that constant.
+
+**Relation to Bombieri and Ghosh, stated exactly.** Their Theorem 7 at `q = 1`
+and `xi = kappa` *is* `Theta(sigma) = tau`, term for term. Their necessary
+half is what is derived above, from the Euler product and one Moebius image,
+with no Bohr theory and no Kronecker theorem; their converse, which makes the
+abscissa an exact supremum rather than an upper bound, is not used and not
+claimed. **What is new here is the grade and not the number.**
+`BOMBIERI-GHOSH.md` set the two conditions for adopting the sharper constant
+at the decided rung, that Theorem 7's hypotheses be checked in-tree and the
+equation re-solved with outward rounding; both are now met, and the constant
+no longer needs adopting from the literature at all because the inequality it
+supplies is derived here. One correction falls out, and it is against an
+in-tree artifact rather than against the paper: at `P = 10^7` and 320 bits,
+`BOMBIERI-GHOSH.md` check B's 29-digit re-solves of both abscissae each sit on
+the wrong side of their own root, by about `1.2e-17` for `tau_+` and `6e-18`
+for `tau_-`. Bombieri and Ghosh print six and ten decimals and this instrument
+reproduces both exactly.
+
+**Honest ceiling.** The headline sits `6.8e-12` above the decided lower end of
+the root enclosure at `P = 10^5` and the deep point about `4e-17` above it;
+both error sources fall like `P^{1-3 sigma}`, so accuracy here is essentially
+free and **the strip constant is no longer where the looseness is**. What is
+left on the upper side is (i) the converse, which this argument does not
+establish, so if Bombieri and Ghosh's converse holds `Delta` cannot be
+improved at all; and (ii) the de Bruijn engine plus the sparsity of the
+extreme zeros, which is the whole of the remaining bracket factor 3.34: with
+`Delta = 0.62036249819` the engine returns 0.19242481458 narrow while the
+deepest measured DH zeros reach `|Im z| = 0.347`, which would give 0.0602
+against a decided floor of 0.0576.
+
+**Grades.** `kappa`, `tau`, the `Theta` enclosures, `sigma_0'` and `Delta^2/2`
+are **decided** (python-flint 192 bits and mpmath.iv dps 40 at `P = 10^5`;
+deep point flint 320 bits at `P = 10^7`). The phase obstruction is exact
+elementary analysis on top of them, using the Euler products of two Dirichlet
+L-functions on `Re s > 1`, `F` entire with `F(s) = F(1-s)`, and the classical
+nonvanishing of `Gamma`. `Lambda_DH <= Delta^2/2` is **cited plus decided**,
+weakest step cited (de Bruijn 1950 Theorem 13), unchanged from 3.5.
+
 ---
 
 ## 4. The census and prediction P4
@@ -580,10 +806,21 @@ geometry from `winding_results.json` `t1_run`.
 | 3a, precision response at a fixed point | strictly shrinking radii, factor > 1e10 per 100 bits | 1.42e-94, 1.16e-124, 8.94e-155 at 320/420/520 bits; factors 1.23e30 and 1.30e30 | PASS |
 | 3b, precision response of the `N` ball width | strictly shrinking | 2.32e-10, 1.89e-40, 1.45e-70; factors 1.22e30 and 1.30e30 | PASS |
 | 4, artifact check on the ball margin | more than 10 digits of growth per 100 bits | 10.23, 40.32, 70.44 digits; growth 30.09 and 30.12 | PASS |
-| **5, `M2` deflated** | a detector that could see this lesion would refuse, never return an integer | **it returns integers** | **BLIND SPOT** |
+| **5, `M2` deflated** | a detector that could see this lesion would refuse, never return an integer | **it returns integers** | **SENSITIVITY MEASURED (not a pass)** |
 
 `controls_1_to_4_pass: true`. **`all_pass: false`.** Reporting only
 `controls_1_to_4_pass` would be the flattering read and is not the headline.
+
+> **Update 2026-08-18.** Control 5's verdict field read `BLIND SPOT` through
+> 2026-08-17 and now reads `SENSITIVITY MEASURED (not a pass)`. **Not one
+> number in the table below moved.** What changed is what the table is
+> evidence about: `M2` is now a proved lemma (`M2-LEMMA.md`), so deflating it
+> no longer stands in for "the derivation might be wrong" but for "the
+> implementation might be wrong", which is narrower and still live. It is
+> still not a pass: the expectation as written is still unmet, because the
+> detector returns integers under the lesion instead of refusing, and
+> `all_pass` stays `false`. Section 5.1 below is the 2026-08-17 text, kept as
+> written, with the changes gathered in 5.1a after it.
 
 ### 5.1 Control 5, in full
 
@@ -650,6 +887,58 @@ the `M2` cushion as "three digits of slack" against the measured sup, when the
 measured factor is 55.7; that overstatement was named by the gate and corrected
 in `winding.py`.
 
+### 5.1a What changed on 2026-08-18, and what did not
+
+Section 5.1 above is kept exactly as written on 2026-08-17. Four of its claims
+are now false and are corrected here rather than edited there.
+
+**"whose derivation is prose rather than an enclosure or a cited theorem" and
+"nowhere checked".** Both false since `M2-LEMMA.md`. The bound is Lemma M2
+there, proved: differentiation under the integral sign with an explicit
+dominating function, Cauchy's theorem on the shifted contour with the far side
+bounded rather than asserted to vanish, the vertical-leg cancellation, separate
+proofs of both majorants for the theta-like sum, and the panel-plus-tail split.
+Every constant of the proof is a reported Arb ball and every hypothesis is a
+decided predicate, so **no step of the proof rests on an unverified numerical
+claim**. Four routes exercise it (`m2_lemma.py`): an independent
+re-implementation, an unshifted majorant that needs neither Cauchy's theorem
+nor the evenness, a pointwise Arb enclosure of `H_t''`, and this section's
+float guard. Two attacks stand beside them: the `H_t''` identity against second
+central differences of `H_ball` (worst relative gap `7.66e-07` against
+`h^2 = 9.54e-07`), and both majorants against a sharp truncated enclosure at 24
+probe points, with no refutation.
+
+**"it cannot upgrade `M2` from prose to decided".** The guard still cannot, and
+that sentence was about the guard. But the quantity the guard measures is now
+decided by a different route: an Arb enclosure of `H_t''` at the guard's own
+sup point reproduces `2.1357367685579024e-80` to all 17 digits, and a 433-point
+grid gives a **decided** `sup |H_t''| >= 2.1358117413634282e-80` at `t1` and
+`>= 2.1139544551457620e-80` at `t2`. The cushion is therefore decided as well:
+**at most 55.65 at `t1` and 53.79 at `t2`**, against the measured 55.66 and
+53.88. The published numbers stand and move only in the third digit.
+
+**"the ordering that makes the guard useful on this box is luck, not
+structure".** Partly answered. The trip point is the cushion, and the cushion
+is a structural constant of the bound rather than a property of these
+rectangles: `M2` depends on `x_lo` only through `e^{-x_lo v}` with
+`v = pi/4 - 1/256` against the strip half-width `pi/4`, which is the fastest
+rate any shift of this contour can carry, and across a 40-unit span of `Re z`
+over which `|H_t''|` falls by 14 orders of magnitude the decided cushion stays
+between 33 and 204. What is still not proved is the ordering itself on an
+arbitrary box, and the wrong-answer onset depends on the subdivision rule as
+well as on `M2`.
+
+**What is left, stated at its true size.** The proof needs one cited classical
+input, the evenness `Phi_DH(-u) = Phi_DH(u)`, which is Hecke's theta
+transformation plus `F(s) = F(1-s)` transported and is section 6's assumption
+5 already. It is load-bearing for `M2` and for nothing else in the route, and
+there is no numerical substitute: the quantity that must vanish is identically
+zero, so enclosing it to `1e-78` would take of order `1e78` subdivisions. The
+proof is written prose plus decided arithmetic, at the *hardened* rung, not
+kernel-checked, and it has been read by no human. And the detector still cannot
+see a corrupted `M2` by itself, which is why the guard and its refusal path
+stay in place.
+
 ### 5.2 Rival framing, carried from WP4
 
 The same pipeline pointed at zeta yields no positive floor: the lower bound
@@ -673,7 +962,7 @@ rival; this hunt makes no such claim, and its object of study *is* that rival.
 | **P2** | the two winding routes agree exactly (both decide `N = 1`) | **held as stated, and the adjective in it did not.** Route 1 decided `N = 1` at `t = 23/400` and `t = 36/625`; route 2 decided `N = 1` at `t = 23/400` on an overlapping box, winding ball `1 +/- 1.28e-12`. But the routes share 8 of 11 declared layers, the whole evaluator, so the agreement is evidence about the bookkeeping only, and route 2 never ran at the headline `t`. `MISSION.md`'s phrase "two independent winding routes" is replaced everywhere by that measured radius. |
 | **P3** | `sigma_0` lands in [1.3949, 1.3954] on both backends and the intervals overlap | **held exactly.** flint [1.3951361582351097210613588712, ...9375], iv [1.395136158235109178, ...747], `backend_intervals_overlap: true`, both inside the scouted value plus or minus 5e-15. |
 | **P4** | no surveyed pair beats 0.0576518 below height 600 | **held, observed.** 179 strip zeros, 6 quadruples, 25 closed windows, deepest new pair at `gamma` 531.28 landing 0.05034 (ODE) and 0.048403 (model) against the floor 0.0576518. |
-| **P5** | the headline lands as `0.0575 < Lambda_DH <= 0.400634`, a ratio of about 7 | **held, and slightly better on the lower side**, at the stretch value: `0.0576 < Lambda_DH <= 0.4006343708899557`, ratio 6.955. The prediction carried no frame, and needs one: in the wide frame it reads `0.2304 < Lambda_DH <= 1.6025374835598228`, and the ratio is the frame-free quantity. |
+| **P5** | the headline lands as `0.0575 < Lambda_DH <= 0.400634`, a ratio of about 7 | **held, and slightly better on the lower side**, at the stretch value: `0.0576 < Lambda_DH <= 0.4006343708899557`, ratio 6.955. The prediction carried no frame, and needs one: in the wide frame it reads `0.2304 < Lambda_DH <= 1.6025374835598228`, and the ratio is the frame-free quantity. **The verdict is settled against the preregistered route and is not re-scored**: the 2026-08-18 sharpening (section 3.6) came from an instrument `MISSION.md` did not preregister and brings the headline to `<= 0.19242481458026887663805` narrow at ratio 3.341, which is better than the prediction rather than a correction to it. |
 
 ---
 
@@ -732,11 +1021,20 @@ section 8.
 
 Stated at least as prominently as the positive results, per the house rule.
 
-1. **`M2` is a standing blind spot** (section 5.1). It is prose, it is
-   load-bearing on the lower side, its lesion produces a wrong integer with
-   status `decided`, and the guard that now covers it is measured, finite-grid,
-   and useful on this box by luck rather than by structure. **The lower bound
-   carries this.**
+1. **`M2` was a standing blind spot** (section 5.1). **Closed 2026-08-18**;
+   see section 5.1a. It is proved in `M2-LEMMA.md` with decided constants and
+   exercised by four routes, and the cushion is decided at 55.65 and 53.79.
+   What remains open is narrower and is stated here rather than dropped: the
+   proof needs one cited classical input, the evenness
+   `Phi_DH(-u) = Phi_DH(u)` (section 6 assumption 5), which is load-bearing
+   for `M2` and has no numerical substitute; the proof is written prose plus
+   decided arithmetic, not kernel-checked, and has been read by no human; and
+   the detector still cannot see a corrupted `M2` by itself, so the lesion of
+   section 5.1 still measures a live sensitivity to an implementation fault.
+   Superseded text, kept verbatim: "It is prose, it is load-bearing on the
+   lower side, its lesion produces a wrong integer with status `decided`, and
+   the guard that now covers it is measured, finite-grid, and useful on this
+   box by luck rather than by structure. **The lower bound carries this.**"
 2. **The two validation repairs have stated blindness radii, and they are not
    large.** The `iv` cross-leg misses a planted recurrence fault at `u = 5/2`,
    because a check at large `u` sees only the `n = 1` term (1 of 7 points). The
@@ -751,29 +1049,78 @@ Stated at least as prominently as the positive results, per the house rule.
    is the `DHFlow` count of `crosscheck_dhflow_winding.py`, which is float
    grade at mpmath dps 130, not an enclosure, and it says so: it cannot decide
    an integer and does not claim to, its job is to catch a wrong one.
-4. **The upper bound is visibly loose, by three independent measures.** The
-   phase-minimum refinement inside the hunt's own materials already gives
-   0.38710055 at `M = 12` (adversary 3, section 3, float grade); the deepest
-   measured DH zeros reach `|Im z| = 0.347` against `Delta = 0.895`; and the same
-   coefficient domination applied to zeta returns 3.0191480758 in the wide frame
-   where the truth is 1/2, a factor of 6.04 that the Euler product buys zeta and
-   this function cannot.
+4. **The upper bound is visibly loose, by three independent measures.**
+   **Largely closed 2026-08-18** (section 3.6): the strip constant is no
+   longer where the looseness is, and the bracket ratio falls from 6.955 to
+   3.341. What remains open is narrower and is stated here rather than
+   dropped. (i) The **converse**: the phase argument bounds the supremum of
+   the real parts of the zeros from above and does not show it is attained, so
+   if Bombieri and Ghosh's converse holds `Delta` cannot be improved at all,
+   and if it does not, this argument would not see the improvement. (ii) The
+   **engine**: the deepest measured DH zeros reach `|Im z| = 0.347` against
+   `Delta = 0.620362...`, which would give 0.0602 against the decided floor
+   0.0576, so essentially the whole remaining bracket factor is de Bruijn's
+   theorem plus the sparsity of the extreme zeros. Superseded text, kept
+   verbatim: "The phase-minimum refinement inside the hunt's own materials
+   already gives 0.38710055 at `M = 12` (adversary 3, section 3, float grade);
+   the deepest measured DH zeros reach `|Im z| = 0.347` against
+   `Delta = 0.895`; and the same coefficient domination applied to zeta
+   returns 3.0191480758 in the wide frame where the truth is 1/2, a factor of
+   6.04 that the Euler product buys zeta and this function cannot."
 5. **A sharper strip constant is available by citation and has not been
-   adopted.** Bombieri and Ghosh's `sigma(tau_+, 1) = 1.120362` gives
-   `Delta = 0.620362...` and `Delta^2/2 = 0.192424814576128011` (narrow),
-   `0.769699258304512045` (wide), a factor 2.082 better. It is **cited plus
-   measured, not decided**: their value is a six-decimal Mathematica number and
-   their Theorem 7 rests on Bohr-Kronecker machinery this tree has not verified.
-   Adopting it needs their hypotheses checked in-tree and the arctan equation
-   re-solved with outward rounding. **Do not silently swap the headline.**
+   adopted.** **CLOSED 2026-08-18, and closed the way this item asked for.**
+   It required their hypotheses checked in-tree and the arctan equation
+   re-solved with outward rounding before the headline could move. Both were
+   done, by an in-tree derivation of the necessary half of their Theorem 7
+   from the Euler products (section 3.6), so the constant is now **decided on
+   both backends** rather than cited plus measured, and nothing was silently
+   swapped: the superseded headline is printed beside the new one in section 0
+   and the old derivation is kept intact in sections 3.1 to 3.5. Superseded
+   text, kept verbatim: "Bombieri and Ghosh's `sigma(tau_+, 1) = 1.120362`
+   gives `Delta = 0.620362...` and `Delta^2/2 = 0.192424814576128011`
+   (narrow), `0.769699258304512045` (wide), a factor 2.082 better. It is
+   **cited plus measured, not decided**: their value is a six-decimal
+   Mathematica number and their Theorem 7 rests on Bohr-Kronecker machinery
+   this tree has not verified. Adopting it needs their hypotheses checked
+   in-tree and the arctan equation re-solved with outward rounding. **Do not
+   silently swap the headline.**" One consequence runs the other way and is
+   recorded rather than buried: the 18-digit figure in that superseded text is
+   derived from `BOMBIERI-GHOSH.md`'s own 29-digit re-solve, which the new
+   instrument decides is high by about `1.2e-17`; the decided replacement from
+   the deep point is 0.1924248145761280190 narrow, agreeing to 17 digits.
 6. **One source bearing on the claim is still unread**: academia.edu preprint
-   166936409, whose recovered abstract fragments describe measured lifetimes of
-   Davenport-Heilbronn off-line zeros under this same backward flow, and so may
-   contain, implicitly, a float-grade lower bound. Its provenance could not be
-   determined from inside this checkout.
+   166936409. **CLOSED 2026-08-18, in the hunt's favour.** It is Mesut Ismail,
+   DOI `10.5281/zenodo.21679490`, open access on Zenodo
+   (`Ismail_rh_pf_v18.4.pdf`, 758,872 bytes, 2026-07-29), reached through
+   `r.jina.ai` against the full slug URL after direct fetch returned 403 again
+   and the Wayback machine held no snapshot. It was downloaded, converted and
+   read in full: its subject is the classical wide-frame `Lambda_zeta`, and
+   Davenport-Heilbronn appears only as instrument and negative control. **It
+   contains no `Lambda_DH`, no bound on one from either side, and no claim
+   about one.** Two traps for the next reader are recorded in `NOVELTY.md`
+   section 2: the symbol `Lambda_H` does appear in it, as the DH analogue of
+   the von Mangoldt function and not as a de Bruijn-Newman constant; and its
+   two DH off-line lifetimes, `tau1 = 0.1819` and `tau2 = 0.0449` in the wide
+   frame, are labelled *upper* bounds inside a Numerical Observation, which is
+   the wrong direction to bound `Lambda_DH` from below. Read at face value
+   anyway, `0.1819` wide is `0.045475` narrow, below this hunt's decided floor
+   by a factor 1.267.
 7. **One sweep is single-source**: the forward-citation search on Dobner ran on
    Semantic Scholar alone, because OpenAlex returned HTTP 429 with zero daily
-   allowance. It should be repeated against Google Scholar or MathSciNet.
+   allowance. **CLOSED 2026-08-18**: it was re-run across Semantic Scholar (5
+   records, queried by DOI and arXiv id separately and agreeing),
+   OpenCitations/COCI (1), Google Scholar (2 before rate limiting) and a web
+   sweep that surfaced one preprint none of the three indexes carried. The
+   union is 7 distinct citing works and none attaches a quantitative `Lambda`
+   to any non-zeta object. OpenAlex still returned HTTP 429 with a `$0` daily
+   budget and was not worked around. One citing item is now unread rather than
+   unfound: Voronov, *A Crowding-Normalized Reformulation of Neighboring-Gap
+   Dynamics for the de Bruijn-Newman Flow* (ResearchGate, 2026), whose
+   abstract places it on the zeta-side real spectrum and whose full text is
+   behind Cloudflare. Stronger than any single query, the sweep also turned up
+   Tao, Trudgian and Yang's ANTEDB (`teorth.github.io/expdb`), whose chapter
+   18 is *The de Bruijn-Newman constant* and tabulates the complete known
+   bound history from Newman 1976 onward: **every entry is zeta's.**
 8. **One hypothesis discharge is a bounded-range check standing in for an
    unbounded-range claim.** `THEOREM13.md` section 5.3 asserts the decay margin
    `g(u) = (pi/5) e^{2u} - (3/2)u - u^3` is increasing on [2, 30] from a
@@ -783,6 +1130,19 @@ Stated at least as prominently as the positive results, per the house rule.
    doubt.
 9. **Bombieri-Mueller 2008**, *On the zeros of certain Epstein zeta functions*,
    the parent of the constant that displaced `sigma_0`, has not been consulted.
+   **Reduced 2026-08-18, not closed.** It is identified exactly: E. Bombieri
+   and J. Mueller, Forum Math. 20:2 (2008), 359-385, DOI
+   `10.1515/FORUM.2008.018`, Zbl 1217.11040, MSC 11E45 and 11M41, and it was
+   read at abstract and reference-list level. Per the zbMATH summary it bounds
+   the **rate of approach** of zeros to the boundary of the zero-free
+   half-plane for Epstein zeta functions of class number 2, by Bohr's method
+   for the lower side and a diophantine-type result for the upper; its five
+   deposited references name neither de Bruijn nor Newman. So: no
+   de Bruijn-Newman or heat-flow content, and no rival value for the quantity
+   the strip constant bounds either, since it is a different family and a
+   different quantity. **Its full text is still unread** (De Gruyter answers
+   HTTP 202 behind a human-verification wall, `r.jina.ai` gets HTTP 405, no
+   mirror found), so this is a small named residual rather than a closed item.
 10. **The two winding routes do not use the same box.** They overlap and both
     decide `N = 1`, which is arguably better than identical boxes, but a reader
     should not have to diff two JSON files to learn it.
@@ -801,7 +1161,14 @@ Stated at least as prominently as the positive results, per the house rule.
     resolution. What no leg supplies is a second integrator.
 14. **`M2` is exercised by no cross-route.** Routes 3 and 4 evaluate `H`;
     neither computes a uniform second-derivative bound. This is item 1 seen
-    from the independence side (`INDEPENDENCE.md` section 6).
+    from the independence side (`INDEPENDENCE.md` section 6). **Closed
+    2026-08-18**: `m2_lemma.py` adds an independent re-implementation of the
+    bound, an unshifted majorant that needs neither Cauchy's theorem nor the
+    evenness, and a pointwise Arb enclosure of `H_t''`. Note that the
+    independence radii published in `INDEPENDENCE.md` are unchanged, because
+    the new routes were not declared to `harness/independence.py`: they add
+    evidence about `M2` without moving any published radius, and this file
+    does not restate one as though they had.
 15. **A declaration is not an attestation.** Nothing in
     `harness/independence.py` verifies that the layer lists are complete, and
     an undeclared shared layer is exactly the fault the structure cannot see.
@@ -862,6 +1229,17 @@ exactly, and theirs is sharper. What survives is the derivation and not the
 quantity: an enclosure-carrying elementary route, from a two-line argument that
 invokes no Bohr-Kronecker theory, to a weaker bound on a constant already known.
 
+> **Update 2026-08-18.** The last four words are no longer right and the
+> paragraph is kept as written. The elementary route no longer stops short of
+> their abscissa: section 3.6 reaches it, decided on both backends, from the
+> Euler products and one Moebius image. Their Theorem 7 has moved from being
+> the source of a number this hunt could not use to being the standard the
+> hunt's decided number is measured against, and two of their published
+> constants are now reproduced as controls by machinery their Theorem 7 does
+> not share. The withdrawal of the originality claim is unaffected in either
+> direction: the quantity was determined in 2011, and reaching the same
+> quantity by a different argument does not make it new.
+
 Two independent verification legs were run against their paper. Their section 9
 claim that the smallest prime set with `sum arctan(p^{-1}) > pi/2` for
 `p = 2, 3 mod 5` ends at 6323 with 420 primes reproduces exactly, by direct prime
@@ -888,26 +1266,43 @@ he quotes it.
   exists only because this function has known off-line zeros, which is what makes
   it a counterexample function in the first place (`docs/08`, `docs/09`).
 - The bracket is a statement about `Lambda_DH` in a named frame, and about
-  nothing else. `sigma_0` and the ratio 6.955 are the frame-free quantities.
+  nothing else. The strip abscissa and the bracket ratio are the frame-free
+  quantities: `sigma_0' = 1.12036249819` and 3.341 since 2026-08-18,
+  `sigma_0 = 1.395136...` and 6.955 before it.
 - The upper side is a **cited theorem applied to a decided constant**, not a new
   mechanism, and the constant it is fed is not new either. The lower side is a
   **decided integer count** turned into an inequality by two cited theorems, with
-  one prose lemma (`M2`) inside it.
-- Grades, per the vocabulary contract: `sigma_0`, `Delta`, `Delta^2/2 < 0.4007`,
-  `g(2) < 0`, `kappa`, and the winding integers `N = 1` at both `t` are
-  **decided**, with backends and precisions stated. The census, the calibration,
-  the locating pass, the `M2` measured guard and every cross-check ratio in
-  section 1 are **measured**. de Bruijn Theorem 13, Dobner Theorems 1 and 2,
-  Newman-Wu Theorem 7 and Bombieri-Ghosh Theorem 7 are **cited**.
+  one lemma (`M2`) inside it, proved in `M2-LEMMA.md` since 2026-08-18 and
+  prose before that; the lemma's own weakest input is a citation, so the
+  composite grade is unchanged.
+- **Added 2026-08-18.** The sharpened upper side is still a cited theorem
+  applied to a decided constant, and the constant is still not new: the
+  criterion it solves is Bombieri and Ghosh's Theorem 7 equation, term for
+  term. What is new on that side is the *grade* and the *derivation*, an
+  elementary in-tree route to their necessary half from the Euler products,
+  with their converse neither used nor claimed. The abscissa `sigma_0'` must
+  not be described as a new number, for exactly the reason `sigma_0` must not.
+- Grades, per the vocabulary contract: `sigma_0`, `sigma_0'`, `Delta`,
+  `Delta^2/2` in both frames, `g(2) < 0`, `kappa`, `tau`, the `Theta`
+  enclosures, the `6323 / 420` finite claim, `sigma(tau_-, 1)`, the decided
+  `sup |H_t''|` lower bounds and cushions, and the winding integers `N = 1` at
+  both `t` are **decided**, with backends and precisions stated. The census,
+  the calibration, the locating pass, the `M2` float guard, three of
+  `STRIP2.md`'s eight controls and every cross-check ratio in section 1 are
+  **measured**. de Bruijn Theorem 13, Dobner Theorems 1 and 2, Newman-Wu
+  Theorem 7, Bombieri-Ghosh Theorem 7, Polymath 15 Theorem 1.1, Rodgers-Tao
+  Theorem 1 and the evenness `Phi_DH(-u) = Phi_DH(u)` are **cited**.
 - Per `MISSION.md`, this hunt may not promote its claim into `README.md`,
   `ROADMAP.md` or `HANDOFF.md` as an established finding, and this file does not.
 
 ---
 
-*Artifacts: `MISSION.md`, `FRAME.md`, `STRIP.md`, `THEOREM13.md`, `NOVELTY.md`,
-`BOMBIERI-GHOSH.md`, `INDEPENDENCE.md`, `GATE.md`, the four
+*Artifacts: `MISSION.md`, `FRAME.md`, `STRIP.md`, `STRIP2.md`, `M2-LEMMA.md`,
+`THEOREM13.md`, `NOVELTY.md`, `BOMBIERI-GHOSH.md`, `KAPPA-CLOSED-FORM.md`,
+`POLYMATH-PIN.md`, `SEPARATION.md`, `INDEPENDENCE.md`, `GATE.md`, the four
 `attack_adversary*.md` reports, and the JSON outputs `validation.json`,
-`calibration.json`, `strip_results.json`, `census_results.json`,
-`winding_results.json`, `winding_quad_results.json`, `controls_results.json`,
+`calibration.json`, `strip_results.json`, `strip2_results.json`,
+`m2_lemma_results.json`, `census_results.json`, `winding_results.json`,
+`winding_quad_results.json`, `controls_results.json`,
 `independence_results.json`, `crosscheck_quadfree_results.json` and
 `crosscheck_dhflow_results.json`. Machine-readable claims: `results.json`.*
