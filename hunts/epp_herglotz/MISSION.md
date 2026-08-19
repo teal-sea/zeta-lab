@@ -1,4 +1,4 @@
-# `hunts/epp_herglotz` — one mechanism for RH, stated before it was attacked
+# `hunts/epp_herglotz`: one mechanism for RH, stated before it was attacked
 
 **Nothing in this directory is a result.** `hunts/README.md` classifies the
 area: a hunt is exploratory, and this one was opened to state a single

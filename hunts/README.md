@@ -1316,3 +1316,37 @@ correction to `HANDOFF.md` is in the same commit as this note. What the hunt
 did produce is real and worth keeping: a *generalized* residue detector that
 accepts an arbitrary archimedean bracket, which is the reusable part.
 Pinned by `tests/test_hunt_probe_discipline.py`.
+
+### Hunt #49: one RH mechanism, stated first and dead by the end (`epp_herglotz/`)
+
+**Status: settled, negative.** The hunt stated a mechanism before writing any
+code (`MISSION.md`, in a commit containing nothing else): RH is equivalent to
+`Re (xi'/xi) >= 0` on `Re s > 1/2`, so split `xi'/xi = G - A` into archimedean
+and prime sides and compose the two positivities each side carries. The Euler
+product makes `Lambda(n) >= 0`, which by Bochner makes the prime side
+vertically positive definite; the archimedean side is positive and grows like
+`(1/2) log(t/2pi)`.
+
+**It is false**, and the witness is the symmetric shifted product
+`W_a(s) = zeta(s+a) zeta(s-a)` at `a = 1/4`. It carries an exact `s -> 1-s`
+functional equation for its completion, a real Hardy-style `Z`, a scalar Euler
+product (which neither standing rival of `zeta.epstein.battery` has),
+non-negative Dirichlet coefficients, and log-derivative coefficients
+`Lambda(n)(n^a + n^{-a}) >= 0`. Its Bochner matrix and its archimedean term
+are both *larger* than zeta's. Its zeros are `rho +- a`, so Hardy's theorem
+alone puts infinitely many off its own critical line: four zeros measured in
+the box `[0.1, 0.9] x [10, 25]`, zero sign changes on the line there, and
+`Re (Xi_a'/Xi_a) = -998` at a point where the mechanism says it is
+non-negative.
+
+Two things the run recorded that outlive the mechanism. **A coefficient claim
+taken through the battery carries its truncation as part of the claim**: EPP
+read to `n <= 40` reports as shared with the principal Epstein form of
+discriminant -23, and that form's first negative log-derivative coefficient is
+at `n = 48`. And **the mechanism's target has zero margin on the boundary**:
+the functional equation makes `Re A = Re G` an identity on the critical line,
+the margin just inside is `sum_rho abs(s-rho)^{-2}` (0.0621641 by the analytic
+route, 0.0621709 assembled from 300 ordinates plus a density tail), and the
+bound EPP supplies exceeds the target by a factor growing past 14 by `t = 1e8`.
+So the repaired mechanism needs square-root cancellation in the prime sum,
+which is RH. No progress on RH; the hunt says so itself.
