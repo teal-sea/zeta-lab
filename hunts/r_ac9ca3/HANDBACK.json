@@ -1,0 +1,16 @@
+{
+  "run_id": "88c00bbd-142c-41ab-aab5-1939d1e7bb4c",
+  "status": "settled",
+  "conclusion": "The first positivity failure of the truncated Weil form on Davenport-Heilbronn on the integer lattice is settled at (c, N) = (31, 60) with rigorous enclosure lambda_min = -1.8739e-31 < 0, while (31, 59) is strictly positive (+8.3650e-31) and the Riemann zeta control at (31, 60) remains positive (+4.8216e-100). The failure tracks the first off-line pair at gamma_off = 85.6993, delta = 0.3085, whose negative quadruple contribution (-6.7350e-29) completely accounts for the sign flip in the dictionary decomposition.",
+  "confidence": "Complete confidence across multiple independent routes: conclusive Arb ball LDL^T factorizations, Rump verified eigenvalue enclosures, exact dyadic Rayleigh quotient bounds, and dictionary attribution.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "Continuous-c boundary search for exact c* in (30, 31)",
+      "why_it_might_matter": "On the integer grid c=31 is the first failure, but the continuous threshold c* where the off-line pair first produces negativity at large N lies between 30.0 and 31.0.",
+      "first_step": "Run bisection in c on [30.0, 31.0] at N=128 or N=256 using BallTruncation."
+    }
+  ],
+  "core_candidates": [],
+  "notes_for_operator": ""
+}

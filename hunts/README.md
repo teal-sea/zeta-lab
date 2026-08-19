@@ -228,6 +228,13 @@ prime number theorem, not a constant. Earlier case-log entries and the
 `r_3c1cbb` / `r_0339c1` write-ups still quote the old constants; those are
 records of what those runs proved and are left as written. Nothing here bears
 on ζ or RH (`docs/08`); external verification remains pending.
+
+### Hunt #45: truncated Weil form positivity failure on Davenport-Heilbronn (`r_ac9ca3/`)
+
+**Status: settled.** The first positivity failure of the Connes–van Suijlekom / Connes–Consani–Moscovici Galerkin truncation of the Weil quadratic form on Davenport–Heilbronn on the integer lattice $c \in [6, 60], N \le 128$ occurs at $(c, N) = (31, 60)$.
+
+Integer cutoffs $c \le 30$ are strictly positive definite across all tested $N \le 128$ (and up to $N = 256$ at $c = 29, 30$). At $c = 31$, the even sector develops its first negative eigenvalue at $N = 60$, with rigorous Arb ball enclosure $\lambda_{\min} = -1.87393568857 \times 10^{-31} < 0$ (radius $\sim 3 \times 10^{-192}$) and exact dyadic Rayleigh quotient upper bound $-1.87393568857 \times 10^{-31} < 0$, while $N = 59$ is strictly positive with $\lambda_{\min} = +8.36504566170 \times 10^{-31} > 0$. The odd sector at $(31, 60)$ remains strictly positive (inertia $60$ positive, $0$ negative). The Riemann zeta control at $(31, 60)$ is strictly positive by 100 orders of magnitude: even inertia $(61, 0)$, odd inertia $(60, 0)$, $\lambda_{\min}(\zeta, 31, 60) = +4.82160175 \times 10^{-100} > 0$. The failure tracks the first off-line pair at $\gamma_{\text{off}} = 85.6993, \delta = 0.3085$: across $c \in [32, 60]$ the crossing band edge mean is $83.64 \pm 2.44$, and at $(31, 60)$ the zero-side dictionary decomposition proves the off-line quadruple ($-6.734989 \times 10^{-29}$) is the sole negative contributor, whose subtraction flips the form value positive to $+6.716250 \times 10^{-29} > 0$. Evidence in `hunts/r_ac9ca3/RESULTS.md` and `results.json`. Nothing here bears on RH (`docs/08`).
+
 ### Hunt #46 — where the centre-gas obligation T1 resists (`r_b9552d/`)
 
 **Status: not settled, which was the expected outcome.** `k >= 3` is not
