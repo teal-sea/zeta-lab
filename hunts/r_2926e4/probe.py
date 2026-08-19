@@ -63,6 +63,52 @@ LEAF_KEYS = ("sinX2", "cosX2", "sinh", "cosh", "SQ2", "SINC", "COSC")
 # the walk, with the leaf layer swapped
 # ---------------------------------------------------------------------------
 
+def damage_iv_arb(lo: F, hi: F, y: F = Y):
+    """`o9_leaf.damage_iv`, on Arb leaves."""
+    p = L.phiC(L.leaves_arb(lo, hi, y))
+    if p is None:
+        return None
+    return L.civ_mul(p, p)[0].neg()
+
+
+def cell_verdict_arb(lo: F, hi: F, y: F = Y):
+    """`o9_leaf.cell_verdict`, on Arb leaves."""
+    d = damage_iv_arb(lo, hi, y)
+    if d is None:
+        return False, 0, None
+    cap = L._cap_for(lo, hi)
+    if cap is None:
+        if L._straddles(lo, hi):
+            return False, 0, None
+        target = 0
+    else:
+        target = -((-(cap * y * y * L.SO)).__floor__())
+    return d.hi <= target, target - d.hi, target
+
+
+def build_arb(y: F = Y, max_depth: int = 40):
+    cells, undecided = [], 0
+    stack = [(a, b, 0) for a, b in L._seed_segments()]
+    while stack:
+        lo, hi, d = stack.pop()
+        ok, margin, target = cell_verdict_arb(lo, hi, y)
+        if ok:
+            cells.append({"lo": lo, "hi": hi, "target": target,
+                          "margin_ulp": margin, "depth": d})
+            continue
+        if d >= max_depth:
+            cells.append({"lo": lo, "hi": hi, "target": target,
+                          "margin_ulp": -1, "depth": d})
+            undecided += 1
+            continue
+        mid = (lo + hi) / 2
+        stack.append((lo, mid, d + 1))
+        stack.append((mid, hi, d + 1))
+    cells.sort(key=lambda c: c["lo"])
+    return {"cells": cells, "undecided": undecided,
+            "max_depth": max(c["depth"] for c in cells)}
+
+
 def damage_iv_kernel(lo: F, hi: F, y: F = Y):
     """`o9_leaf.damage_iv`, on `Leaves.lean`'s leaves instead of Arb's."""
     p = L.phiC(kernel_leaves(lo, hi, y))
@@ -149,7 +195,7 @@ def leaf_width_gap(cells, sample: int = 24) -> dict:
     per_leaf = {k: [] for k in LEAF_KEYS}
     widest = None
     for c in picked:
-        a = L.leaves(c["lo"], c["hi"], Y)
+        a = L.leaves_arb(c["lo"], c["hi"], Y)
         k = kernel_leaves(c["lo"], c["hi"], Y)
         for key in LEAF_KEYS:
             wa, wk = a[key].width(), k[key].width()
@@ -237,12 +283,12 @@ def chunk_agreement(cells, chunk: int = 40) -> dict:
 # ---------------------------------------------------------------------------
 
 def main() -> dict:
-    out: dict = {"run_id": "5849dba6-1f35-48cf-98ac-a1a002febf21",
+    out: dict = {"run_id": "7b33f41e-da73-4228-9baf-9da42e17f785",
                  "y": "1/2", "scale": "2^64"}
 
     t0 = time.time()
-    base = L.build()
-    out["baseline_arb_leaves"] = L.validate(base)
+    base = build_arb()
+    out["baseline_arb_leaves"] = summarise(base)
     out["baseline_arb_leaves"]["seconds"] = round(time.time() - t0, 2)
     print(f"baseline (Arb leaves): {out['baseline_arb_leaves']}")
 

@@ -1,15 +1,16 @@
 {
-  "run_id": "5849dba6-1f35-48cf-98ac-a1a002febf21",
+  "run_id": "7b33f41e-da73-4228-9baf-9da42e17f785",
   "y": "1/2",
   "scale": "2^64",
   "baseline_arb_leaves": {
     "cells": 344,
     "undecided": 0,
+    "budget_hit": false,
     "max_depth": 20,
     "min_margin_ulp": 3632804926,
     "min_margin_abs": 1.969347496492621e-10,
     "all_decided": true,
-    "seconds": 0.17
+    "seconds": 0.96
   },
   "leaf_widths": {
     "sampled_cells": 24,
@@ -114,7 +115,7 @@
         "kernel_margin_ulp": -631259661829276
       }
     ],
-    "seconds": 0.04
+    "seconds": 0.4
   },
   "chunk_agreement_vs_lean": {
     "chunks": 9,
@@ -195,7 +196,7 @@
     "min_margin_ulp": -1,
     "min_margin_abs": -5.421010862427522e-20,
     "all_decided": false,
-    "seconds": 0.12,
+    "seconds": 1.12,
     "max_depth_cap": 20
   },
   "rebuild_kernel_leaves_depth30": {
@@ -206,7 +207,7 @@
     "min_margin_ulp": 311559717,
     "min_margin_abs": 1.6889686101518447e-11,
     "all_decided": true,
-    "seconds": 0.13,
+    "seconds": 1.19,
     "max_depth_cap": 30
   },
   "rebuild_settled_at_depth": 30
