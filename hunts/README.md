@@ -70,6 +70,9 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #49: zeta23ext root load, Retention.Aconst / c2 collisions across arms (`r_6f088d/`)
+
+**Status: settled.** The root module load failure in `zeta23ext` was caused by 17 colliding declarations (including `Retention.Aconst` and `Retention.c2`) across `EForm`, `EForm2`, and `EForm3` all declared in the un-scoped `Retention` namespace. In Lean 4, importing modules with duplicate fully-qualified names halts elaboration with an environment collision. The collision is resolved by scoping arms into distinct sub-namespaces or importing only the active `EForm3` iteration, while mathematical duplication remains across the independent development arms.
 ### Hunt #47: the two-mode arithmetic, and the bridge nobody had named (`r_88dc5e/`)
 
 **Status: settled.** `O9Assemble.lean` said the last step between the
