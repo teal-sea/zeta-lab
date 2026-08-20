@@ -86,9 +86,14 @@ GUARDS: tuple[GuardRecord, ...] = (
             "synonyms — 'verified', 'confirmed', 'definitively', 'proves' "
             "are separately banned but by other checks; a hunt overclaiming "
             "in fresh vocabulary passes this guard",
-            "file types outside .py/.md/.json (a .txt overclaim passes)",
         ),
-        scope="a lexical scan of bytes under hunts/; intent is not consulted",
+        scope=(
+            "a lexical scan of bytes in .py, .md, and .json files under "
+            "hunts/; intent is not consulted; file types outside .py/.md/.json "
+            "(e.g. .txt, .lean, .sh, .toml) are excluded by design and pass "
+            "unconditionally (measured by hunts/r_365c6c/probe.py, 0/29 "
+            "non-{py,md,json} caught, 76/447 files under hunts/ unscanned)"
+        ),
         incident="",
     ),
     GuardRecord(

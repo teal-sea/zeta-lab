@@ -1,0 +1,812 @@
+{
+  "hunt": "r_365c6c",
+  "question": "Does test_no_hunt_claims_the_reserved_word detect file types outside .py/.md/.json?",
+  "conclusion": "The guard strictly filters by path.suffix.lower() in {'.py', '.md', '.json'}, so 100% of files with any other extension (.txt, .lean, .sh, .toml, .yaml, .csv, .rst, .tex, .html, .jsonl, extensionless, dotfiles, binaries) pass unconditionally even when containing the reserved word.",
+  "census": {
+    "total_files_in_hunts": 450,
+    "scanned_files_count": 374,
+    "unscanned_files_count": 76,
+    "scanned_percentage": 83.11,
+    "extension_counts": {
+      ".py": 167,
+      ".md": 140,
+      ".lean": 68,
+      ".json": 67,
+      ".png": 4,
+      "(no ext)": 2,
+      ".sh": 1,
+      ".toml": 1
+    },
+    "unscanned_files_summary": {
+      "total_unscanned": 76,
+      "unscanned_with_exact_reserved_word": 0,
+      "unscanned_with_cert_stem": 17,
+      "sample_unscanned_files": [
+        {
+          "path": "hunts/factorization_vs_position/correlation_plot.png",
+          "extension": ".png",
+          "has_reserved_word": false,
+          "has_cert_stem": false
+        },
+        {
+          "path": "hunts/flow_repair/flow_repair.png",
+          "extension": ".png",
+          "has_reserved_word": false,
+          "has_cert_stem": false
+        },
+        {
+          "path": "hunts/frontier_math/law_d_incidence.lean",
+          "extension": ".lean",
+          "has_reserved_word": false,
+          "has_cert_stem": false
+        },
+        {
+          "path": "hunts/frontier_math/t3_composition_skeleton.lean",
+          "extension": ".lean",
+          "has_reserved_word": false,
+          "has_cert_stem": false
+        },
+        {
+          "path": "hunts/frontier_math/zeta23ext/.gitignore",
+          "extension": "(no ext)",
+          "has_reserved_word": false,
+          "has_cert_stem": false
+        },
+        {
+          "path": "hunts/frontier_math/zeta23ext/Zeta23Ext/BandCert/Cap.lean",
+          "extension": ".lean",
+          "has_reserved_word": false,
+          "has_cert_stem": true
+        },
+        {
+          "path": "hunts/frontier_math/zeta23ext/Zeta23Ext/BandCert/Check.lean",
+          "extension": ".lean",
+          "has_reserved_word": false,
+          "has_cert_stem": true
+        },
+        {
+          "path": "hunts/frontier_math/zeta23ext/Zeta23Ext/BandCert/Data.lean",
+          "extension": ".lean",
+          "has_reserved_word": false,
+          "has_cert_stem": true
+        },
+        {
+          "path": "hunts/frontier_math/zeta23ext/Zeta23Ext/BandCert/Iv.lean",
+          "extension": ".lean",
+          "has_reserved_word": false,
+          "has_cert_stem": true
+        },
+        {
+          "path": "hunts/frontier_math/zeta23ext/Zeta23Ext/BandCert/Leaves.lean",
+          "extension": ".lean",
+          "has_reserved_word": false,
+          "has_cert_stem": true
+        },
+        {
+          "path": "hunts/frontier_math/zeta23ext/Zeta23Ext/BandCert/Main.lean",
+          "extension": ".lean",
+          "has_reserved_word": false,
+          "has_cert_stem": true
+        },
+        {
+          "path": "hunts/frontier_math/zeta23ext/Zeta23Ext/BandCert/Phi.lean",
+          "extension": ".lean",
+          "has_reserved_word": false,
+          "has_cert_stem": true
+        },
+        {
+          "path": "hunts/frontier_math/zeta23ext/Zeta23Ext/BandCert/Verify.lean",
+          "extension": ".lean",
+          "has_reserved_word": false,
+          "has_cert_stem": true
+        },
+        {
+          "path": "hunts/frontier_math/zeta23ext/Zeta23Ext/Bridge.lean",
+          "extension": ".lean",
+          "has_reserved_word": false,
+          "has_cert_stem": false
+        },
+        {
+          "path": "hunts/frontier_math/zeta23ext/Zeta23Ext/Composition.lean",
+          "extension": ".lean",
+          "has_reserved_word": false,
+          "has_cert_stem": false
+        },
+        {
+          "path": "hunts/frontier_math/zeta23ext/Zeta23Ext/EForm/Basic.lean",
+          "extension": ".lean",
+          "has_reserved_word": false,
+          "has_cert_stem": false
+        },
+        {
+          "path": "hunts/frontier_math/zeta23ext/Zeta23Ext/EForm/Decomposition.lean",
+          "extension": ".lean",
+          "has_reserved_word": false,
+          "has_cert_stem": false
+        },
+        {
+          "path": "hunts/frontier_math/zeta23ext/Zeta23Ext/EForm/Energy.lean",
+          "extension": ".lean",
+          "has_reserved_word": false,
+          "has_cert_stem": false
+        },
+        {
+          "path": "hunts/frontier_math/zeta23ext/Zeta23Ext/EForm/Main.lean",
+          "extension": ".lean",
+          "has_reserved_word": false,
+          "has_cert_stem": false
+        },
+        {
+          "path": "hunts/frontier_math/zeta23ext/Zeta23Ext/EForm/Sharp.lean",
+          "extension": ".lean",
+          "has_reserved_word": false,
+          "has_cert_stem": false
+        }
+      ]
+    }
+  },
+  "battery_summary": {
+    "scanned_positive": {
+      "total": 6,
+      "caught": 6,
+      "missed": 0
+    },
+    "scanned_clean": {
+      "total": 3,
+      "caught": 0,
+      "missed": 3
+    },
+    "unscanned_clean": {
+      "total": 2,
+      "caught": 0,
+      "missed": 2
+    },
+    "plain_text": {
+      "total": 4,
+      "caught": 0,
+      "missed": 4
+    },
+    "table_data": {
+      "total": 2,
+      "caught": 0,
+      "missed": 2
+    },
+    "config_data": {
+      "total": 8,
+      "caught": 0,
+      "missed": 8
+    },
+    "code_script": {
+      "total": 10,
+      "caught": 0,
+      "missed": 10
+    },
+    "document_markup": {
+      "total": 6,
+      "caught": 0,
+      "missed": 6
+    },
+    "extensionless": {
+      "total": 3,
+      "caught": 0,
+      "missed": 3
+    },
+    "compound_extension": {
+      "total": 2,
+      "caught": 0,
+      "missed": 2
+    },
+    "dotfile": {
+      "total": 2,
+      "caught": 0,
+      "missed": 2
+    },
+    "binary": {
+      "total": 2,
+      "caught": 0,
+      "missed": 2
+    }
+  },
+  "battery_specimens": [
+    {
+      "id": "ctrl_py",
+      "filename": "probe.py",
+      "extension": ".py",
+      "category": "scanned_positive",
+      "has_reserved_word": true,
+      "guard_fired": true,
+      "detected": true,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": true,
+      "status": "CAUGHT"
+    },
+    {
+      "id": "ctrl_md",
+      "filename": "MISSION.md",
+      "extension": ".md",
+      "category": "scanned_positive",
+      "has_reserved_word": true,
+      "guard_fired": true,
+      "detected": true,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": true,
+      "status": "CAUGHT"
+    },
+    {
+      "id": "ctrl_json",
+      "filename": "results.json",
+      "extension": ".json",
+      "category": "scanned_positive",
+      "has_reserved_word": true,
+      "guard_fired": true,
+      "detected": true,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": true,
+      "status": "CAUGHT"
+    },
+    {
+      "id": "ctrl_py_upper",
+      "filename": "PROBE.PY",
+      "extension": ".py",
+      "category": "scanned_positive",
+      "has_reserved_word": true,
+      "guard_fired": true,
+      "detected": true,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": true,
+      "status": "CAUGHT"
+    },
+    {
+      "id": "ctrl_md_upper",
+      "filename": "DOC.MD",
+      "extension": ".md",
+      "category": "scanned_positive",
+      "has_reserved_word": true,
+      "guard_fired": true,
+      "detected": true,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": true,
+      "status": "CAUGHT"
+    },
+    {
+      "id": "ctrl_json_upper",
+      "filename": "DATA.JSON",
+      "extension": ".json",
+      "category": "scanned_positive",
+      "has_reserved_word": true,
+      "guard_fired": true,
+      "detected": true,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": true,
+      "status": "CAUGHT"
+    },
+    {
+      "id": "clean_py",
+      "filename": "clean.py",
+      "extension": ".py",
+      "category": "scanned_clean",
+      "has_reserved_word": false,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": false,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "clean_md",
+      "filename": "clean.md",
+      "extension": ".md",
+      "category": "scanned_clean",
+      "has_reserved_word": false,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": false,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "clean_json",
+      "filename": "clean.json",
+      "extension": ".json",
+      "category": "scanned_clean",
+      "has_reserved_word": false,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": false,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "clean_txt",
+      "filename": "clean.txt",
+      "extension": ".txt",
+      "category": "unscanned_clean",
+      "has_reserved_word": false,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": false,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "clean_lean",
+      "filename": "Clean.lean",
+      "extension": ".lean",
+      "category": "unscanned_clean",
+      "has_reserved_word": false,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": false,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "txt_plain",
+      "filename": "notes.txt",
+      "extension": ".txt",
+      "category": "plain_text",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "txt_log",
+      "filename": "run.log",
+      "extension": ".log",
+      "category": "plain_text",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "txt_out",
+      "filename": "output.out",
+      "extension": ".out",
+      "category": "plain_text",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "txt_dat",
+      "filename": "zeros.dat",
+      "extension": ".dat",
+      "category": "plain_text",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "data_csv",
+      "filename": "table.csv",
+      "extension": ".csv",
+      "category": "table_data",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "data_tsv",
+      "filename": "table.tsv",
+      "extension": ".tsv",
+      "category": "table_data",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "cfg_yaml",
+      "filename": "config.yaml",
+      "extension": ".yaml",
+      "category": "config_data",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "cfg_yml",
+      "filename": "config.yml",
+      "extension": ".yml",
+      "category": "config_data",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "cfg_toml",
+      "filename": "lakefile.toml",
+      "extension": ".toml",
+      "category": "config_data",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "cfg_ini",
+      "filename": "settings.ini",
+      "extension": ".ini",
+      "category": "config_data",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "cfg_cfg",
+      "filename": "setup.cfg",
+      "extension": ".cfg",
+      "category": "config_data",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "cfg_xml",
+      "filename": "manifest.xml",
+      "extension": ".xml",
+      "category": "config_data",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "cfg_jsonl",
+      "filename": "telemetry.jsonl",
+      "extension": ".jsonl",
+      "category": "config_data",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "cfg_ndjson",
+      "filename": "stream.ndjson",
+      "extension": ".ndjson",
+      "category": "config_data",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "code_lean",
+      "filename": "Proof.lean",
+      "extension": ".lean",
+      "category": "code_script",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "code_sh",
+      "filename": "run.sh",
+      "extension": ".sh",
+      "category": "code_script",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "code_bash",
+      "filename": "assemble.bash",
+      "extension": ".bash",
+      "category": "code_script",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "code_zsh",
+      "filename": "script.zsh",
+      "extension": ".zsh",
+      "category": "code_script",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "code_c",
+      "filename": "kernel.c",
+      "extension": ".c",
+      "category": "code_script",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "code_cpp",
+      "filename": "kernel.cpp",
+      "extension": ".cpp",
+      "category": "code_script",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "code_rs",
+      "filename": "lib.rs",
+      "extension": ".rs",
+      "category": "code_script",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "code_go",
+      "filename": "main.go",
+      "extension": ".go",
+      "category": "code_script",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "code_js",
+      "filename": "widget.js",
+      "extension": ".js",
+      "category": "code_script",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "code_ts",
+      "filename": "types.ts",
+      "extension": ".ts",
+      "category": "code_script",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "doc_tex",
+      "filename": "paper.tex",
+      "extension": ".tex",
+      "category": "document_markup",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "doc_bib",
+      "filename": "refs.bib",
+      "extension": ".bib",
+      "category": "document_markup",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "doc_rst",
+      "filename": "index.rst",
+      "extension": ".rst",
+      "category": "document_markup",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "doc_html",
+      "filename": "report.html",
+      "extension": ".html",
+      "category": "document_markup",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "doc_htm",
+      "filename": "page.htm",
+      "extension": ".htm",
+      "category": "document_markup",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "doc_svg",
+      "filename": "plot.svg",
+      "extension": ".svg",
+      "category": "document_markup",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "extless_notes",
+      "filename": "NOTES",
+      "extension": "(no ext)",
+      "category": "extensionless",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "extless_makefile",
+      "filename": "Makefile",
+      "extension": "(no ext)",
+      "category": "extensionless",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "extless_dockerfile",
+      "filename": "Dockerfile",
+      "extension": "(no ext)",
+      "category": "extensionless",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "compound_bak",
+      "filename": "results.json.bak",
+      "extension": ".bak",
+      "category": "compound_extension",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "compound_tmp",
+      "filename": "probe.py.tmp",
+      "extension": ".tmp",
+      "category": "compound_extension",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "dotfile_notes",
+      "filename": ".notes.txt",
+      "extension": ".txt",
+      "category": "dotfile",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "dotfile_raw",
+      "filename": ".scratch",
+      "extension": "(no ext)",
+      "category": "dotfile",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "bin_png",
+      "filename": "plot.png",
+      "extension": ".png",
+      "category": "binary",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    },
+    {
+      "id": "bin_npy",
+      "filename": "array.npy",
+      "extension": ".npy",
+      "category": "binary",
+      "has_reserved_word": true,
+      "guard_fired": false,
+      "detected": false,
+      "expected_catch_by_intent": true,
+      "caught_by_guard": false,
+      "status": "MISSED"
+    }
+  ]
+}

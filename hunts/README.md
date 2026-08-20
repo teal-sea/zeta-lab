@@ -70,6 +70,9 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #51: file-type boundary of the hunt reserved-word guard (`r_365c6c/`)
+
+**Status: settled.** `tests/test_hunt_probe_discipline.py::test_no_hunt_claims_the_reserved_word` enforces an explicit suffix whitelist (`path.suffix.lower() in {".py", ".md", ".json"}`). Every file type outside this three-extension set passes unconditionally (40-specimen battery across 12 format categories in `probe.py`: 6/6 `.py/.md/.json` caught, 0/29 non-{py,md,json} caught). An exhaustive repository census shows 76 of 447 files (17.0%) under `hunts/` are currently unscanned, including 68 `.lean` proof files under `hunts/frontier_math/`. None of the 76 unscanned files contain the reserved word. Evidence in `hunts/r_365c6c/RESULTS.md` and `results.json`. Nothing here bears on RH (`docs/08`).
 ### Hunt #45: truncated Weil form positivity failure on Davenport-Heilbronn (`r_ac9ca3/`)
 
 **Status: settled.** The first positivity failure of the Connes–van Suijlekom / Connes–Consani–Moscovici Galerkin truncation of the Weil quadratic form on Davenport–Heilbronn on the integer lattice $c \in [6, 60], N \le 128$ occurs at $(c, N) = (31, 60)$.
