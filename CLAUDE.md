@@ -469,7 +469,10 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   2026-08-20** across four checkers (Claude, GPT, Gemini, Grok). The co-designed
   audit beat every model checker, 0.889 detection against 0.667, 0.556 and
   0.333, so P1 points the other way; conditional lift is zero or negative across
-  every pair, refuting P2. The load-bearing finding is neither:
+  every pair, refuting P2. That comparison is confounded by access and probably
+  explained by it: the audit *runs* the battery via `run_battery`/`run_detector`
+  while the models were handed static text, which is a capability difference the
+  design never names. The load-bearing finding is neither:
   **`harness/shams.py` cannot plant the modes `harness/integrity.py` says it is
   blind to.** Only three of the six declared blind spots have mutators, and two
   of those plant instances the audit catches, so the dataset held exactly one

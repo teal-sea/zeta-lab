@@ -135,6 +135,23 @@ against 0.667, 0.556 and 0.333. The hypothesis under test was that independent
 checkers would do better. The mechanical checker written by the same process
 that wrote the batteries did better than all three foreign models.
 
+**But that comparison is confounded by access, and the confound is probably the
+whole effect.** The audit does not read a battery, it *runs* it:
+`harness/integrity.py` calls `run_battery` and `run_detector`, evaluating each
+reference claim against target and rivals and watching what the detectors
+actually do. The model checkers were handed a static rendering, between eight
+and eleven thousand characters of text, and had to infer behaviour from source.
+Those are not two authorship conditions, they are two capability conditions, and
+the design's Factor A does not name capability at all.
+
+So the honest statement is narrower than the numbers suggest: *a checker that
+can execute the artifact beat checkers that could only read it.* Whether the
+audit's advantage survives giving a model the same access is untested here, and
+it is the question that would actually be worth answering. This limitation was
+raised by a parallel session working the self-report eval, after the corrected
+numbers were published; it is recorded here rather than absorbed silently
+because it materially weakens the comparison this document leads with.
+
 **No credible checker caught the one genuine blind spot.** `dropped-hardest-
 lesion` was missed by Claude, Gemini and Grok. Only GPT flagged it, while
 flagging everything.
@@ -183,6 +200,8 @@ test, and always was.
 - **n = 1 on the quantity of interest**, and n = 1 on every specificity figure.
 - **Difficulty is confounded with blind-spot status**, and with only one blind
   spot the confound cannot even be examined.
+- **The audit executed and the models read.** See above. No comparison in the
+  result table controls for that, so none of them isolates authorship.
 - **Nothing here is about the mathematics.** It is evidence about the
   laboratory, and by this repository's own rule a session that produced no
   mathematics and a tidy ledger produced nothing.
@@ -198,6 +217,11 @@ Write mutators that plant the *subtle* forms, or accept that the catalog's six
 blind spots are untestable with the tooling that exists and say so in
 `SHAM_MODES` rather than implying a planter exists. That is the prerequisite for
 any further work on this question, and it is worth more than another checker.
+
+Give a model checker the ability to run the battery rather than only read it,
+and re-run. That is the one comparison that would separate access from
+authorship, and until it exists the result table above says less than it looks
+like it says.
 
 A cheap and separate win: add a provenance check asking whether a reference
 claim and the detector that tests it were authored by the same party in the same
