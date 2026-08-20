@@ -16,6 +16,7 @@ from __future__ import annotations
 
 import asyncio
 import hashlib
+import os
 import re
 import sys
 from pathlib import Path
@@ -25,7 +26,17 @@ from inspect_ai.dataset import Sample
 from inspect_ai.scorer import Score, Target, accuracy, scorer, stderr
 from inspect_ai.solver import TaskState, generate, system_message
 
-ROOT = Path(__file__).resolve().parent.parent.parent
+# The scorer needs the BUILT Mathlib, and a git worktree carries the Lean source
+# without lean/.lake (14 GB, hours to rebuild from scratch). ZETA_LEAN_ROOT names
+# a checkout that has one; it defaults to the primary clone. proof_adapter derives
+# LEAN_DIR from its own file location, so importing it from there is what puts the
+# build in the right place.
+ROOT = Path(os.environ.get("ZETA_LEAN_ROOT", str(Path.home() / "zeta-lab"))).resolve()
+if not (ROOT / "lean" / ".lake").is_dir():
+    raise RuntimeError(
+        f"no built Mathlib at {ROOT}/lean/.lake - set ZETA_LEAN_ROOT to a "
+        "checkout that has one"
+    )
 sys.path.insert(0, str(ROOT))
 from lean.proof_adapter import LEAN_DIR, PACKAGE, check_lean_artifact  # noqa: E402
 
