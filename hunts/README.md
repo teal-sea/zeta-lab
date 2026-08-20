@@ -70,6 +70,10 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #50: doc renaming without number change, and doc content drift (`r_c62e44/`)
+
+**Status: settled.** `tests/test_docs_numbering.py::test_no_two_docs_share_a_number` enforces uniqueness of the leading 2-digit number (00..N) across `docs/*.md` filenames and detects collisions (smallest mutant: `05-a.md` and `05-b.md`), but does not detect a document renamed without its number changing when citations use bare references (such as `docs/08`), nor does it detect content drift or heading changes. Sibling test `test_every_full_filename_reference_to_a_doc_resolves` detects renamed documents only when un-updated full-name references exist in the tree. An exhaustive census across all 37 test files mentioning `docs/` confirms zero tests in the suite inspect document body content, validate H1 headings against filenames, or verify that citations match actual content. Measured on a 20-mutant battery in `hunts/r_c62e44/results.json` and `RESULTS.md`.
+
 ### Hunt #45: truncated Weil form positivity failure on Davenport-Heilbronn (`r_ac9ca3/`)
 
 **Status: settled.** The first positivity failure of the Connes–van Suijlekom / Connes–Consani–Moscovici Galerkin truncation of the Weil quadratic form on Davenport–Heilbronn on the integer lattice $c \in [6, 60], N \le 128$ occurs at $(c, N) = (31, 60)$.

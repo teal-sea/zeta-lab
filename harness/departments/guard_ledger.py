@@ -62,10 +62,17 @@ GUARDS: tuple[GuardRecord, ...] = (
             "tests/test_guard_ledger.py::test_the_numbering_guard_fires_on_a_duplicate"
         ),
         known_misses=(
-            "a document renamed without its number changing (references stay "
-            "valid, content drifts from title) — no guard reads content",
+            "a document renamed without its number changing when citations use "
+            "bare references only, as sibling full-name ref test fires only on "
+            "full paths (hunts/r_c62e44 mutants M02, M04, M07)",
+            "content drift or complete body replacement under an existing filename "
+            "(hunts/r_c62e44 mutants M05, M06): no test in the suite reads docs/*.md content",
+            "nested docs under subdirectories (M17) or non-.md files (M16)",
         ),
-        scope="uniqueness of the leading number, nothing about the contents",
+        scope=(
+            "uniqueness of the leading 2-digit number (00..N) in docs/*.md filenames; "
+            "enforces nothing about document titles, content, or semantic citation validity"
+        ),
         incident="two documents shared number 21 on 2026-08-10",
     ),
     GuardRecord(
