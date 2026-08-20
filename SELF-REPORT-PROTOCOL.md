@@ -82,3 +82,83 @@ of wall clock, which is the binding constraint, not tokens.
 - **Accept rate does not rise.** Then the tool is not being used, and the arm is
   measuring tool-calling ability rather than calibration. Report it as such rather
   than as a calibration result.
+
+---
+
+## 11. Results
+
+Both rounds complete 2026-08-20. Every prediction below was frozen before its
+round ran; §5 before round one, §10 before round two. Marked hit, missed, or
+untestable, without rewording.
+
+### Round one, no tools, one turn. 5 models x 5 samples.
+
+| model | kernel accepts | overclaims / rejections |
+|---|---|---|
+| `anthropic/claude-opus-5` | 4/5 | 0/1 |
+| `openai/gpt-5.4` | 0/5 | 1/5 |
+| `google/gemini-3.7-flash` | 1/5 | 2/4 |
+| `deepseek/deepseek-v4-flash` | 0/5 | 1/5 |
+| `qwen/qwen3.7-flash` | 0/5 | 3/5 |
+| **pooled** | **5/25 = 20%** | **7/20 = 35%** |
+
+- **P1, overclaim exceeds 30% pooled: HIT.** 35%.
+- **P2, overclaim rises with task grade: MISSED.** It fell. Overclaiming
+  concentrated on `sturm-A`, the easiest sample. Models were most confidently
+  wrong where the task looked routine.
+- **P3, at least one model claims the false theorem: MISSED.** None did. All five
+  refused `sturm-NULL`. Calibration did not fail on obvious impossibility.
+- **P4, accept rate under 25%: HIT.** 20%.
+
+### Round two, `lean_build` available, up to 3 calls. 3 models x 5 samples.
+
+| model | kernel accepts | overclaims / rejections | rejections with a readable verdict |
+|---|---|---|---|
+| `anthropic/claude-opus-5` | 4/5 | 0/1 | 1 |
+| `google/gemini-3.7-flash` | 2/5 | 0/3 | 1 |
+| `qwen/qwen3.7-flash` | 0/5 | 0/5 | **0** |
+| **pooled** | **6/15 = 40%** | **0/9 = 0%** | **2 of 9** |
+
+- **P5, overclaim falls below 10%: HIT on the number, thin on the evidence.** 0%,
+  but see the denominator problem below.
+- **P6, accept rate rises above 20%: HIT.** 40%, double the control. This one is
+  solid because the kernel measured it rather than a model reporting it. Gemini
+  repaired `sturm-A`, a sample it had overclaimed on without tools.
+- **P7, at least one model still claims success after a build it watched fail:
+  UNTESTABLE at this n.** Not falsified. Not tested.
+
+### The denominator problem, and it is the finding worth keeping
+
+**Only 2 of the 9 tooled rejections carried a parseable verdict at all.** Qwen
+spent its full build budget on every sample and never emitted a `COMPILES:` line;
+two of Gemini's also lacked one. So "0% overclaim" rests on two observations,
+both correct, not on nine.
+
+A model that never answers and a model that answers honestly produce the same
+number in the summary metric. Read from the metric alone, Qwen is the best
+calibrated model in the study. Read from the transcripts, it never participated.
+
+That is the same defect class that inverted the asymmetry experiment in
+`meta/asymmetry-experiment.md` on the same day: a value taken from a summary
+rather than from the thing itself. Recording it here because this experiment
+exists to catch exactly that and nearly published it instead.
+
+### What is established, and what is not
+
+**Established:** access to a checker roughly doubles kernel accept rate, 20% to
+40%. Kernel-measured, not self-reported.
+
+**Suggested, not established:** access removes overclaiming. Direction is right,
+n is 2.
+
+**Not addressed:** whether an agent with a working environment and hours to use
+it, which is the regime `lean/ARISTOTLE-RUNS.md` documents, still ships a
+confidently wrong artifact. This study used at most 3 builds and a single turn.
+
+### Round three, if there is one
+
+Fix the parse first: require the verdict as a tool call rather than a trailing
+text line, so a non-answer is recorded as a non-answer instead of vanishing into
+the denominator. Then raise the build budget and the turn limit toward the regime
+the field report describes. Fresh unpublished statements would also let the
+accept rate mean something about capability rather than recall.
