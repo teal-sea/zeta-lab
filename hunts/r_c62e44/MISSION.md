@@ -39,6 +39,6 @@ agents_may:
   - record measured outcomes in results.json, RESULTS.md, HANDBACK.json, and the guard ledger
 agents_may_not:
   - modify hunts/frontier_math/, meta/, lean/, or root markdown files
-  - declare theorem status or cite uncertified bounds
+  - declare theorem status or cite unproven bounds
   - modify tests outside permitted ledger demonstrations
 ```
