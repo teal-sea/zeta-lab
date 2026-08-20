@@ -129,10 +129,6 @@ GUARDS: tuple[GuardRecord, ...] = (
             "hunts/r_414eed/results.json and RESULTS.md)"
         ),
         known_misses=(
-            "a private helper renamed public *in place*, in a module that "
-            "declares __all__, by a length-neutral edit — the regenerated "
-            "CONTEXT.md is byte-identical and the guard is quiet (probe "
-            "mutant B06, the one miss inside the guard's own subject matter)",
             "public functions added under meta/ — the package is not scanned "
             "at all (B01)",
             "public functions added under compiler/ — likewise unscanned "
@@ -151,11 +147,12 @@ GUARDS: tuple[GuardRecord, ...] = (
             "which is broader *and* shallower than 'the public API index is "
             "current': CONTEXT.md records a per-module line count, so any "
             "edit changing a scanned file's length fires the guard even when "
-            "no symbol reaches the index — the declared smallest mutant "
-            "(probe M01) and a lone appended blank line (B08) both fire that "
-            "way. A catch therefore does not establish that the guard saw "
-            "the symbol, and the misses above are the edits that change no "
-            "length"
+            "no symbol reaches the index. When __all__ is declared, module_api "
+            "filters top-level definitions strictly by declared exports, so "
+            "length-neutral in-place private helper renames in __all__ modules "
+            "pass silently (measured by hunts/r_7ad39f/probe.py, 0/299 unexported "
+            "private symbols caught, 0.0%), while renames in non-__all__ modules "
+            "(4/4) and edits altering line count are 100% caught"
         ),
         incident="",
     ),
