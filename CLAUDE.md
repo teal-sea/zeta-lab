@@ -560,6 +560,34 @@ Tests use mpmath's `zetazero` / `siegelz` / `grampoint` / `nzeros` as an
 independent oracle against the hand-rolled machinery — preserve that pattern
 when adding features: implement the mathematics, then cross-check.
 
+**And mpmath is not the only oracle.** `tests/test_pari_oracle.py` runs the
+same claims past PARI/GP (`cypari2`), a C library written by a different
+community over forty years, sharing no code with mpmath and using different
+algorithms: `lfunzeros` finds zeros through the generic L-function machinery
+rather than by Riemann-Siegel sign changes, `ellap` counts points by
+Shanks-Mestre/SEA rather than by a Legendre-symbol table. It covers ζ on the
+real axis and the critical line, all three of the repo's routes to ζ, Hardy's
+Z, the first twenty ordinates, N(T), the Arb enclosures from `rigor.py`, li(x),
+π(x) and Chebyshev θ, and point counts over F_p and its extensions. The point
+is structural: a defect shared between our code and mpmath, or a defect in
+mpmath alone, is invisible to a suite whose every reference value comes from
+one library.
+
+Two things to know before trusting it. PARI's `lfunhardy` carries an internal
+normalisation (empirically Z_pari/Z → 1.7437585…, not 1), so the file rebuilds
+Z from PARI's own `zeta` and `lngamma` instead; that shares the defining
+identity with `rigor.py` and is independent only in the transcendentals
+underneath. And it is *not* a certificate: PARI computes in floating point at
+a requested precision exactly as mpmath does, so agreement raises confidence
+without moving a claim up the certainty ladder. The one test that touches
+`rigor.py` asks whether PARI lands inside an enclosure Arb already proved,
+which checks the oracle against the certificate, not the other way round.
+
+The file was validated by planting six faults (a 1e-25 shift in `zeta`, an
+off-by-one in `N_of_T`, a dropped zero in the sign hunt, a negated Frobenius
+trace, a shifted `enclose_Z`, a scaled `li`) and confirming each one turns it
+red. A cross-check that cannot fail is not a cross-check.
+
 ## Ground truth for quick assertions
 
 - ζ(2) = π²/6 = 1.6449340668482264…, ζ(0) = −1/2, ζ(−1) = −1/12.

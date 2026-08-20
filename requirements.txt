@@ -13,3 +13,11 @@ pytest-xdist>=3.6
 # tier look hung.  Install it unless you are deliberately testing the fallback;
 # `zeta.rigor.available_backends()` reports which are live.
 python-flint>=0.6
+
+# PARI/GP, the second oracle.  Every numerical claim in this tree is checked
+# against mpmath; without a third-party implementation to disagree with, a
+# defect shared by our code and mpmath -- or one in mpmath alone -- is
+# invisible.  cypari2 ships PARI in the wheel, so no system library is needed.
+# Optional like python-flint: tests/test_pari_oracle.py skips without it, which
+# is why the skip count is worth reading rather than ignoring.
+cypari2>=2.2
