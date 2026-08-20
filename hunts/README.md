@@ -70,6 +70,9 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #57: make_context.py compiler/ unscanned boundary and detection blindness (`r_dc6e6f/`)
+
+**Status: settled.** `scripts/make_context.py --check` does not detect public functions, classes, constants, docstrings, or module additions added under `compiler/` (0/17 curated compiler mutants detected, 0.0% detection rate; 0/37 public symbols detected across an exhaustive AST census, 0.0% detection rate), because `compiler/` is completely omitted from the scanned directory roots in `scripts/make_context.py` (`zeta/`, `ontology/`, `harness/`, `dossier/`, `docs/`, `scripts/`, `tests/`) and from `build_flat()`. Positive controls in scanned packages are 100% caught (5/5 detected). Evidence in `hunts/r_dc6e6f/RESULTS.md` and `results.json`. Nothing here bears on RH (`docs/08`).
 ### Hunt #55: make_context.py in-place helper renames and __all__ boundary (`r_7ad39f/`)
 
 **Status: settled.** `scripts/make_context.py --check` does not detect in-place length-neutral private helper renames in modules that declare `__all__` (0/299 unexported private symbols detected, 0.0% detection rate), because `module_api` filters top-level definitions strictly by `ast.literal_eval(__all__)` and the file length remains unchanged. In non-`__all__` modules, detection is 100% (4/4 symbols caught). Any edit altering line count is 100% detected via the line-count tell. Zero length-neutral private-to-public helper renames have ever occurred in repository git history. Measured on a 25-mutant curated battery and a 305-symbol exhaustive census in `hunts/r_7ad39f/results.json` and `RESULTS.md`. Nothing here bears on RH (`docs/08`).

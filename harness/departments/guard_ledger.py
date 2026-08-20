@@ -131,8 +131,6 @@ GUARDS: tuple[GuardRecord, ...] = (
         known_misses=(
             "public functions added under meta/ — the package is not scanned "
             "at all (B01)",
-            "public functions added under compiler/ — likewise unscanned "
-            "(B02)",
             "documents added under docs/doors/ — doc_index globs docs/*.md, "
             "not docs/**/*.md (B03)",
             "test files whose names do not match test_*.py, e.g. "
@@ -152,7 +150,9 @@ GUARDS: tuple[GuardRecord, ...] = (
             "length-neutral in-place private helper renames in __all__ modules "
             "pass silently (measured by hunts/r_7ad39f/probe.py, 0/299 unexported "
             "private symbols caught, 0.0%), while renames in non-__all__ modules "
-            "(4/4) and edits altering line count are 100% caught"
+            "(4/4) and edits altering line count are 100% caught. Unscanned "
+            "packages like compiler/ are 100% blind (measured by "
+            "hunts/r_dc6e6f/probe.py, 0/37 public symbols caught, 0.0%)"
         ),
         incident="",
     ),
