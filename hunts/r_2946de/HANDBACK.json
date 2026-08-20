@@ -1,0 +1,27 @@
+{
+  "run_id": "12f6caf4-7edb-4d9c-826c-6392bd5ab601",
+  "status": "settled",
+  "conclusion": "scripts/make_context.py --check is completely blind to meta/, detecting 0 of 16 curated mutants and 0 of 32 public AST symbols (0.0% detection rate). The exclusion is structural because scripts/make_context.py hard-codes scan paths and omits meta/ entirely.",
+  "confidence": "High: measured empirically across 16 curated mutants and an exhaustive 32-symbol AST census on isolated sandboxes with baseline and undo controls holding cleanly.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "compiler/ package is likewise completely unindexed by make_context.py (known miss B02).",
+      "why_it_might_matter": "Public function additions or renames under compiler/ are similarly undetected by make_context.py --check.",
+      "first_step": "Run a sibling hunt to map the compiler/ boundary and decide whether compiler/ belongs in CONTEXT.md."
+    },
+    {
+      "what": "Test helpers not matching test_*.py in tests/ (known miss B04) are ignored by test_counts().",
+      "why_it_might_matter": "Adding shared test utilities does not update the test function count in CONTEXT.md.",
+      "first_step": "Check whether test_counts() should scan all *.py in tests/ or maintain the test_*.py convention."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "AST-based repository symbol census and mutation probe harness.",
+      "why_reusable": "Provides an automated framework for testing indexing and static-analysis guard sensitivity across entire package trees without polluting the workspace.",
+      "first_step": "Extract the sandbox setup, AST census, and diff analysis into a shared test utility for guard sensitivity evaluations."
+    }
+  ],
+  "notes_for_operator": ""
+}
