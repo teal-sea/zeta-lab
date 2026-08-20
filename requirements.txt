@@ -28,3 +28,9 @@ cypari2>=2.2
 # was the missing piece, not another way to compute.  Optional like the two
 # above: tests/test_meta_evals.py skips without it.
 inspect_ai>=0.3.250
+
+# Provider SDK for actually running meta/evals against Anthropic models.
+# inspect_ai only ships the provider shim; the SDK itself is a separate
+# dependency, and it is needed only to *run* an eval, never to test one.
+# Credentials go in a gitignored .env at the repo root, never in the tree.
+anthropic>=0.60

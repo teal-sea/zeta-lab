@@ -71,3 +71,6 @@ interactive_lab/wip/
 
 # the generated site — derived from artifacts, built in CI, never committed
 _site/
+
+# API keys for inspect_ai (meta/evals). Never commit.
+.env
