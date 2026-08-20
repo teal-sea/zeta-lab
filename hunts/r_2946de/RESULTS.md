@@ -82,7 +82,7 @@ Both baseline and undo controls ran and held cleanly across the entire run:
 | M17 | public function appended to `zeta/core.py` (in-scope control) | yes | 2 | no (line count tell) |
 | M18 | public function appended to `ontology/schema.py` (in-scope control) | yes | 3 | yes |
 | M19 | public function appended to `harness/protocol.py` (in-scope control) | yes | 3 | yes |
-| M20 | new doc `docs/99-positive-control-doc.md` added (in-scope control) | yes | 1 | yes |
+| M20 | new doc `docs/99_positive_control_doc.md` added (in-scope control) | yes | 1 | yes |
 
 **4 / 4 detected (100% caught).**
 

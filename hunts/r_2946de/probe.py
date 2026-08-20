@@ -416,13 +416,13 @@ def main() -> int:
         ))
 
         def m20_apply(s: Path):
-            p = s / "docs" / "99-positive-control-doc.md"
+            p = s / "docs" / "99_positive_control_doc.md"
             p.write_text("# Positive Control Doc\n\nContent.\n", encoding="utf-8")
             return lambda: p.unlink()
 
         results.append(evaluate_mutant(
             sandbox, baseline_context, "M20",
-            "new doc docs/99-positive-control-doc.md added (positive control)",
+            "new doc docs/99_positive_control_doc.md added (positive control)",
             "positive_control", m20_apply
         ))
 
