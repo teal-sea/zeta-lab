@@ -70,6 +70,14 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #53: three cited properties of ζ distinguish nothing (`r_f7cd45/`)
+
+**Status: settled for the five properties issue #21 left unpublished; the sixth was already settled in this tree and what this run adds is the price tag.** Publishes the artifact issue #21 recorded as queued. Under `docs/09` gate #3, run against the Davenport–Heilbronn function and both discriminant −23 Epstein zetas: the functional equation, a real Hardy-style Z, and having zeros on the critical line are each satisfied by **3 of 3** rivals and are **VACUOUS**; multiplicative and completely multiplicative coefficients are satisfied by **0 of 3** and **DISTINGUISH**. Issue #21's table reproduced cell for cell, from a probe that runs end to end. Only the prime structure kills the rivals.
+
+Issue #21 also lists a sixth property, "no zeros in a box strictly off the critical line", as unfinished at a 50-minute timeout: **stale**, since hunts #13, #14 and #15 settled it (VACUOUS, and ill-posed: the box is a free parameter of the sentence). Reproduced independently here on two boxes preregistered before any winding number: σ ∈ [0.6, 0.9] gives VACUOUS at t ∈ [80, 81], forced by Davenport–Heilbronn alone, and UNDECIDED at t ∈ [85, 86], where the D–H cell returns exactly **1**, recovering the off-line zero the repository pins at 0.8085171824… + 85.6993484853…i.
+
+What is new is the precision floor, measured rather than argued: at 0.75 + 85.5i the Epstein completed function is **2.0e−58** and **5.0e−58**, converging only at **dps 60**, while at the `dps = 20` that `battery` actually uses it returns ≈ 2e−33, noise larger than signal by 25 orders of magnitude. The Epstein box cells are therefore reported *inadmissible on precision*, not merely slow, because `count_zeros_box`'s integrality check does not catch it: noise winds to an integer too. **Defect reported, not patched** (`zeta/` is outside scope): both rival interfaces hardcode `dps=min(dps, 20)` into `count_zeros_box` (`zeta/epstein.py:1091`, `:1141`), so no caller can reach the floor and the packaged property-6 route is unusable above t ≈ 30. That, not difficulty, is why three hunts in a row have declared the Epstein arm out of budget. Grade: measured, with ζ as a positive control on all five properties. Nothing here is evidence for or against RH (`docs/08`); gate #3 is eliminative, never probative.
+
 ### Hunt #50: doc renaming without number change, and doc content drift (`r_c62e44/`)
 
 **Status: settled.** `tests/test_docs_numbering.py::test_no_two_docs_share_a_number` enforces uniqueness of the leading 2-digit number (00..N) across `docs/*.md` filenames and detects collisions (smallest mutant: `05-a.md` and `05-b.md`), but does not detect a document renamed without its number changing when citations use bare references (such as `docs/08`), nor does it detect content drift or heading changes. Sibling test `test_every_full_filename_reference_to_a_doc_resolves` detects renamed documents only when un-updated full-name references exist in the tree. An exhaustive census across all 37 test files mentioning `docs/` confirms zero tests in the suite inspect document body content, validate H1 headings against filenames, or verify that citations match actual content. Measured on a 20-mutant battery in `hunts/r_c62e44/results.json` and `RESULTS.md`.
@@ -536,42 +544,6 @@ file. Two incidental traps for the next attempt: `NumberTheory/Chebyshev.lean`
 is about Chebyshev polynomials, not prime bounds, and `NumberTheory/AbelSummation.lean`
 supplies the machinery Mertens is normally derived through while the derivation
 itself is absent. Nothing here bears on ζ or RH.
-### Hunt #35: three cited properties of ζ distinguish nothing (`r_f7cd45/`)
-
-**Status: settled for the five properties issue #21 left unpublished; the
-sixth was already settled in this tree and what this run adds is the price
-tag.** Publishes the artifact issue #21 recorded as queued. Under `docs/09`
-gate #3, run against the Davenport–Heilbronn function and both discriminant
-−23 Epstein zetas: the functional equation, a real Hardy-style Z, and having
-zeros on the critical line are each satisfied by **3 of 3** rivals and are
-**VACUOUS**; multiplicative and completely multiplicative coefficients are
-satisfied by **0 of 3** and **DISTINGUISH**. Issue #21's table reproduced cell
-for cell, from a probe that runs end to end. Only the prime structure kills
-the rivals.
-
-Issue #21 also lists a sixth property, "no zeros in a box strictly off the
-critical line", as unfinished at a 50-minute timeout — **stale**, since hunts
-#13, #14 and #15 settled it (VACUOUS, and ill-posed: the box is a free
-parameter of the sentence). Reproduced independently here on two boxes
-preregistered at `53c8cd1` before any winding number: σ ∈ [0.6, 0.9] gives
-VACUOUS at t ∈ [80, 81], forced by Davenport–Heilbronn alone, and UNDECIDED at
-t ∈ [85, 86], where the D–H cell returns exactly **1**, recovering the
-off-line zero the repository pins at 0.8085171824… + 85.6993484853…i.
-
-What is new is the precision floor, measured rather than argued: at
-0.75 + 85.5i the Epstein completed function is **2.0e−58** and **5.0e−58**,
-converging only at **dps 60**, while at the `dps = 20` that `battery` actually
-uses it returns ≈ 2e−33 — noise larger than signal by 25 orders of magnitude.
-The Epstein box cells are therefore reported *inadmissible on precision*, not
-merely slow, because `count_zeros_box`'s integrality check does not catch it:
-noise winds to an integer too. **Defect reported, not patched** (`zeta/` is
-outside scope): both rival interfaces hardcode `dps=min(dps, 20)` into
-`count_zeros_box` (`zeta/epstein.py:1091`, `:1141`), so no caller can reach
-the floor and the packaged property-6 route is unusable above t ≈ 30. That,
-not difficulty, is why three hunts in a row have declared the Epstein arm out
-of budget. Grade: measured, with ζ as a positive control on all five
-properties. Nothing here is evidence for or against RH (`docs/08`); gate #3 is
-eliminative, never probative.
 ### Hunt #35: Mertens's second theorem, the mapped block built (`r_3c1cbb/`)
 
 **Status: settled.** Continuation of Hunt #30, building exactly the block

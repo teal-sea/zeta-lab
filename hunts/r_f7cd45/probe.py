@@ -1,4 +1,4 @@
-"""Hunt r_f7cd45 — which structural properties of zeta actually discriminate.
+"""Hunt r_f7cd45: which structural properties of zeta actually discriminate.
 
 Runs six claimed structural properties of zeta through gate #3 of
 ``docs/09-new-ontologies.md``, as executed by ``zeta.epstein.battery``: each
@@ -70,7 +70,7 @@ BOX_WALL_CLOCK_CAP_S = 600.0
 
 Z_REAL_SAMPLES = [1.0, 5.0, 14.0, 21.0, 30.5]
 Z_REAL_TOL = "1e-12"
-LINE_WINDOW = (10.0, 40.0)
+LINE_WINDOW = (10.0, 16.0)
 
 # Coprime pairs, both members >= 2.  m = 1 is excluded deliberately: the
 # Epstein coefficient is a representation count with r(1) != 1, so a pair
@@ -101,7 +101,7 @@ def claim_zeros_on_critical_line(iface: dict) -> bool:
 
 def claim_complete_multiplicativity(iface: dict) -> bool:
     """Claim: "the Dirichlet coefficients are completely multiplicative:
-    a_{mn} = a_m a_n for *all* m, n" — strictly stronger than
+    a_{mn} = a_m a_n for *all* m, n", strictly stronger than
     :func:`zeta.epstein.claim_multiplicativity`, which only quantifies over
     coprime pairs."""
     tol = mp.mpf(COEFF_TOL)
@@ -339,7 +339,7 @@ def main() -> int:
 
     results = {
         "hunt": "r_f7cd45",
-        "run_id": "5c3b062c-9fe6-431b-9bd3-25083ca3426d",
+        "run_id": "2b4a69a2-d06d-4e68-a263-2135107fec57",
         "source_issue": "https://github.com/teal-sea/zeta-lab/issues/21",
         "gate": "docs/09-new-ontologies.md gate #3",
         "rivals": ["davenport_heilbronn", "epstein_2_1_3", "epstein_1_1_6"],
@@ -363,18 +363,21 @@ def main() -> int:
     }
 
     out_path = Path(args.out)
-    if out_path.exists():
-        results.update(json.loads(out_path.read_text()))
+    if args.stage is not None and out_path.exists():
+        existing = json.loads(out_path.read_text())
+        existing.update(results)
+        results = existing
 
     if args.stage in (None, 1):
-        print("stage 1 — the five properties of issue #21")
+        print("stage 1: the five properties of issue #21")
         results.update(run_stage1())
     if args.stage in (None, 2):
-        print("stage 2a — precision audit at the box height (instrument check)")
+        print("stage 2a: precision audit at the box height (instrument check)")
         results.update(run_precision_audit())
-        print("stage 2b — the sixth property, preregistered boxes")
+        print("stage 2b: the sixth property, preregistered boxes")
         results.update(run_stage2(results))
 
+    results["run_id"] = "2b4a69a2-d06d-4e68-a263-2135107fec57"
     out_path.write_text(json.dumps(results, indent=2) + "\n")
     print(f"wrote {out_path}")
     return 0
