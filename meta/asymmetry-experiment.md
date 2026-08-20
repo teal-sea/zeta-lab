@@ -187,9 +187,12 @@ their keep before any run: six of nine corrupted artifacts initially hashed
 identical to the clean control, because the renderer showing the battery to a
 checker truncated above the depth the payloads live at. That eval would have
 measured nothing while reporting numbers, which is the precise hollowness this
-experiment studies. Second, Inspect coerces a string score value to a float
-before metrics see it, so a metric written the obvious way reads zero for every
-sample. Both are pinned in `tests/test_meta_evals.py`.
+experiment studies. Second, Inspect passes score values through
+`value_to_float` before a metric sees them, and it maps neither `sound` nor
+`unsound`, so a metric written the obvious way reads zero for every sample.
+That second one is documented and parameterisable behaviour rather than a
+defect in Inspect, and it is recorded here as a footgun this repository guards,
+not as a fault to report. Both are pinned in `tests/test_meta_evals.py`.
 
 Measurement 5, conditional detection lift, is not covered: it compares two
 checkers and needs two arms, so it stays with E1.

@@ -52,10 +52,20 @@ declines is not thereby wrong, and folding "undecided" into either bucket is
 the failure mode the preregistration warns about.
 
 **Ground truth is read from sample metadata, never from the score value.**
-Inspect coerces a string ``Score`` value to a float before metrics see it
-(``"unsound"`` and ``"sound"`` both arrive as ``0.0``), so a metric written the
-obvious way reads zero for everything and reports a plausible-looking number.
-``tests/test_meta_evals.py`` pins that trap.
+A ``Score`` keeps whatever string it was given, but the metric machinery runs
+that value through ``inspect_ai.scorer.value_to_float`` before a metric sees
+it, and that maps only boolean-ish strings (``yes``/``no``/``true``/``false``)
+plus the configured correct/incorrect/partial/noanswer literals.  ``sound`` and
+``unsound`` are none of those, so both arrive at a metric as ``0.0``.
+
+This is documented, intended behaviour, and it is parameterisable: pass your
+own ``correct``/``incorrect`` values or a custom ``ValueToFloat``.  It is not a
+defect in Inspect and should not be reported as one.  It is still worth
+guarding, because of how it fails: the conversion emits ``Unable to convert
+value to float`` as a log line rather than a Python warning, and the eval
+display suppresses that line, so a metric comparing ``score.value`` to a
+verdict string reads zero for every sample and reports a plausible number with
+nothing on screen to explain it.  ``tests/test_meta_evals.py`` pins it.
 """
 
 from __future__ import annotations
@@ -422,9 +432,11 @@ def checker_verdict() -> Any:
     """Record the checker's verdict; the metrics above do the measuring.
 
     The ``Score`` value is kept as a plain string for the log viewer, but every
-    metric reads ``metadata``: Inspect coerces string values to floats before
-    metrics run, so a metric that compared ``score.value`` to ``"unsound"``
-    would silently measure nothing.
+    metric reads ``metadata``.  Inspect passes score values through
+    ``value_to_float`` before metrics run and neither ``sound`` nor ``unsound``
+    is a string it maps, so a metric comparing ``score.value`` to a verdict
+    would see ``0.0`` for every sample.  Documented behaviour, not a bug; see
+    the module docstring for why it is guarded anyway.
     """
 
     async def score(state: Any, target: Any) -> Score:

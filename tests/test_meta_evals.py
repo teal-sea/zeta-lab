@@ -10,8 +10,9 @@ written, rather than hazards imagined afterwards:
 
 * the artifacts rendered byte-identical to the clean control, because the
   renderer cut off above the depth the corruptions live at;
-* Inspect coerces a string ``Score`` value to a float before metrics see it, so
-  a metric comparing ``score.value == "unsound"`` reads zero for everything;
+* score values reach a metric as floats, because Inspect runs them through
+  ``value_to_float`` first and it maps neither ``sound`` nor ``unsound``, so a
+  metric comparing ``score.value == "unsound"`` reads zero for everything;
 * a rate over an empty denominator reported as ``0.0`` would let an empty arm
   read as a perfect one.
 
@@ -201,11 +202,15 @@ def test_false_confidence_is_not_one_minus_detection(artifacts, log_dir):
 def test_metrics_read_metadata_because_inspect_coerces_score_values(artifacts, log_dir):
     """The trap, pinned.
 
-    Inspect converts a string ``Score`` value to a float before metrics run, so
-    ``"unsound"`` and ``"sound"`` both arrive as ``0.0``.  A metric comparing
-    ``score.value`` to a verdict string reads zero for every sample and reports
-    a plausible number.  If these two runs ever produce the same detection
-    rate, the metrics have started reading the coerced value again.
+    Inspect runs a score value through ``value_to_float`` before metrics see
+    it.  That maps boolean-ish strings and the configured correct/incorrect
+    literals; ``sound`` and ``unsound`` are neither, so both arrive as ``0.0``.
+    Documented and parameterisable behaviour rather than a framework defect,
+    but the failure is quiet: the conversion logs ``Unable to convert value to
+    float`` and the eval display suppresses it, so a metric comparing
+    ``score.value`` to a verdict reads zero for every sample and reports a
+    plausible number.  If these two runs ever produce the same detection rate,
+    the metrics have started reading the converted value again.
     """
     hollow = _run("UNSOUND", artifacts, log_dir)
     fine = _run("SOUND", artifacts, log_dir)
