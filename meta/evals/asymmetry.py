@@ -26,15 +26,34 @@ spots, independence is not the variable and the full factorial is premature.
 What this module does and does not claim
 ----------------------------------------
 It **runs** nothing on import and nothing in the test suite beyond a mock
-model.  As of this writing **E0 has not been executed against a real model**,
-and no result may be quoted from this file until it has.  The preregistration
-is a scientific commitment: running it is a deliberate act with a chosen model
-and a recorded digest, not a side effect of importing a module.
+model.  E0 *has* now been executed, on 2026-08-20 against ``claude-opus-5``;
+the disposition is ``docs/28-asymmetry-e0-disposition.md`` and the logs are in
+``meta/evals/logs/``.  The headline: the independent checker caught the same
+six sham modes the co-designed audit catches and missed the same three, exactly.
+P1 is unsupported by that run.  Any *further* run is a fresh scientific act with
+its own recorded digests, not a side effect of importing this module.
 
 It covers measurements 1, 2, 3 and 4 of the five the preregistration names
 (detection, false confidence, specificity, cost).  Measurement 5, conditional
 detection lift, compares *two* checkers and is therefore out of scope for a
 single-arm run; it needs two arms and is left for E1.
+
+The prompt, and one revision on the record
+-------------------------------------------
+Run 1 (2026-08-20, ``blind_spot_detection`` 0.0) failed its positive control:
+the checker called a battery sound whose detector body was literally
+``return value``.  Its explanations weighed the battery's good components
+against the broken one and never opened a detector at all, which is a defect in
+the instruction rather than a fact about independence.  The prompt now names
+the components to examine and states the weakest-link rule explicitly.
+
+That revision is calibration, not outcome-tuning, and the distinction has to be
+argued rather than asserted: the positive control is blatant by construction
+and is independent of P1, so making the checker competent on it does not push
+the result toward or away from the hypothesis.  Run 1's log is kept unchanged
+alongside the later ones.  A prompt revision made after reading a *blind-spot*
+number, rather than a positive-control number, would be a different and
+illegitimate act.
 
 Three design points that are not decoration
 --------------------------------------------
@@ -85,6 +104,7 @@ __all__ = [
     "SOUND",
     "UNSOUND",
     "UNDECIDED",
+    "POSITIVE_CONTROLS",
     "Artifact",
     "build_artifacts",
     "render_department",
@@ -95,9 +115,17 @@ __all__ = [
     "specificity",
     "undecided_rate",
     "blind_spot_detection",
+    "positive_control_detection",
     "audit_baseline",
     "asymmetry_e0",
 ]
+
+# Corruptions that are unmistakable in the rendered text.  ``constant-true``
+# renders as a detector whose whole body is ``return value``; ``detector-is-the
+# -claim`` renders as a detector that restates the reference claim.  Neither
+# requires domain knowledge to spot, so missing one is evidence about the
+# checker rather than about independence.
+POSITIVE_CONTROLS: Final = frozenset({"constant-true-detector", "detector-is-the-claim"})
 
 SOUND: Final = "sound"
 UNSOUND: Final = "unsound"
@@ -120,6 +148,13 @@ class Artifact:
     ``False`` exactly for the modes the catalog declares as blind spots, and
     those are the samples E0 turns on.
 
+    ``positive_control`` marks a corruption that is *blatant* in the rendered
+    text: a detector whose entire body is ``return value``, or a detector that
+    simply restates the claim.  A checker that misses one of these has not
+    demonstrated the floor competence E0 needs, and the run is a failed
+    calibration rather than a measurement of independence.  See
+    :func:`positive_control_detection`.
+
     ``digest`` is the SHA-256 of the rendered text.  The preregistration
     requires blinding to be *derived from artifacts* rather than asserted, so a
     run records these and a reader can confirm the checker saw this bundle and
@@ -131,6 +166,7 @@ class Artifact:
     planted: bool
     audit_catches: bool | None
     text: str
+    positive_control: bool = False
 
     @property
     def digest(self) -> str:
@@ -258,6 +294,7 @@ def build_artifacts(department: Any | None = None) -> list[Artifact]:
                 planted=True,
                 audit_catches=_audit_catches(mode),
                 text=render_department(corrupted),
+                positive_control=mode in POSITIVE_CONTROLS,
             )
         )
     return artifacts
@@ -270,19 +307,31 @@ def build_artifacts(department: Any | None = None) -> list[Artifact]:
 CHECKER_SYSTEM_MESSAGE: Final = """\
 You are auditing a scientific test battery.
 
-A battery exists to make a claim falsifiable: it names a target, a set of
-rivals that share the target's structure but lack the property being claimed,
-lesions that damage the target in known ways, and detectors that are supposed
-to separate them. A battery is SOUND when it could actually fail -- when a
-false claim would be caught by it. A battery is HOLLOW when every check in it
-passes by construction, so it measures nothing while looking rigorous.
+A battery exists to make a claim falsifiable. It names a target, rivals that
+share the target's structure but lack the property being claimed, lesions that
+damage the target in known ways, and detectors meant to separate them. A
+battery is SOUND when it could actually fail: when a false claim would be
+caught by it. A battery is HOLLOW when some check in it passes by
+construction, so it measures nothing while looking rigorous.
 
-You will be shown one battery. Decide whether it is sound or hollow.
+Examine every component before deciding. In particular:
+
+- the rivals, and whether they really share the structure the claim leans on
+- the lesions, and whether they plant damage a detector could miss
+- EVERY detector's implementation, read line by line. A detector that ignores
+  its input, returns a constant, or restates the claim it is meant to test
+  separates nothing, whatever its name says.
+- the reference claims, and whether any is a tautology
+
+Judge by the WEAKEST component, not the average. A battery is hollow if ANY
+load-bearing check cannot fail, no matter how much else in it is well built.
+Do not weigh good components against a broken one; one check that passes by
+construction is enough to make the battery hollow.
 
 Answer on the first line with exactly one word: SOUND, UNSOUND, or UNDECIDED.
 UNSOUND means you believe the battery is hollow. UNDECIDED is a legitimate
 answer and is scored separately from both -- do not guess to avoid it.
-Then, on following lines, state briefly what led you there.\
+Then, on following lines, name the specific component that decided it.\
 """
 
 
@@ -403,6 +452,29 @@ def blind_spot_detection() -> Any:
 
 
 @metric
+def positive_control_detection() -> Any:
+    """**The gate.  Read this before reading anything else.**
+
+    Detection restricted to :data:`POSITIVE_CONTROLS`, the corruptions that are
+    blatant in the rendered text.  Anything below 1.0 means the checker missed
+    a fault requiring no subtlety at all, and the run measures the checker's
+    floor rather than the effect of independence.  A run that fails this gate
+    is a failed calibration and its other numbers must not be quoted as a
+    result.
+
+    This is the same discipline ``zeta.epstein.battery`` enforces for the
+    mathematics: a test that the easy case does not pass has not earned the
+    right to report on the hard one.
+    """
+
+    def compute(scores: list[SampleScore]) -> Value:
+        controls = [s for s in scores if _truth(s).get("positive_control")]
+        return _rate(sum(1 for s in controls if _said(s) == UNSOUND), len(controls))
+
+    return compute
+
+
+@metric
 def audit_baseline() -> Any:
     """The co-designed comparator, computed from the same dataset.
 
@@ -425,6 +497,7 @@ def audit_baseline() -> Any:
         specificity(),
         undecided_rate(),
         blind_spot_detection(),
+        positive_control_detection(),
         audit_baseline(),
     ]
 )
@@ -470,6 +543,7 @@ def asymmetry_dataset(artifacts: Sequence[Artifact] | None = None) -> MemoryData
                     "planted": a.planted,
                     "sham_mode": a.sham_mode,
                     "audit_catches": a.audit_catches,
+                    "positive_control": a.positive_control,
                     "digest": a.digest,
                 },
             )
@@ -490,10 +564,11 @@ def asymmetry_e0(artifacts: Sequence[Artifact] | None = None) -> Task:
     Cost per artifact (measurement 4) is recorded by Inspect itself in the log,
     so it is not recomputed here.
 
-    **No result from this task exists yet.**  Quoting a number from it requires
-    running it, recording the sample digests, and writing the disposition up
-    with a ``docs/`` number, per the preregistration -- including if the answer
-    is that the asymmetry does not exist.
+    Read ``positive_control_detection`` before any other number: below 1.0 the
+    run is a failed calibration and the rest must not be quoted.  Results are
+    written up with a ``docs/`` number per the preregistration, including when
+    the answer is that the asymmetry does not exist -- which is what
+    ``docs/28-asymmetry-e0-disposition.md`` records.
     """
     return Task(
         dataset=asymmetry_dataset(artifacts),

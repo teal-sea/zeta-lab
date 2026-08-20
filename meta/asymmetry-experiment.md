@@ -197,6 +197,11 @@ not as a fault to report. Both are pinned in `tests/test_meta_evals.py`.
 Measurement 5, conditional detection lift, is not covered: it compares two
 checkers and needs two arms, so it stays with E1.
 
-**Status: not run.** Executing E0 requires choosing a model, recording the
-sample digests, and writing the disposition up with a `docs/` number, including
-if the answer is that the asymmetry does not exist.
+**Status: run 2026-08-20.** E0 was executed against `claude-opus-5`. The
+independent checker caught the same six sham modes the co-designed audit catches
+and missed the same three, artifact for artifact: detection 0.667 against the
+audit's 0.667, blind-spot detection 0 of 3. P1 is unsupported by that run and P2's
+shared-blind-spot mechanism is what was observed, so the design's own stopping
+rule applies and the full factorial is premature. The first run failed its
+positive control and is kept as a failed calibration. Disposition, limits, and
+cost: `docs/28-asymmetry-e0-disposition.md`.

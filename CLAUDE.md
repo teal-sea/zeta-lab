@@ -466,10 +466,15 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   read from `SHAM_MODES` rather than restated. Its five measurements are kept
   apart and never averaged, because the design is explicit that false confidence
   is not one minus detection and that specificity is what stops a checker
-  answering "hollow" to everything from scoring perfectly. **E0 has not been run
-  against a real model**, and no number may be quoted from it until it has:
-  running a preregistration is a deliberate act with a chosen model and recorded
-  artifact digests, not a side effect of importing a module. `operator-functions.md` decomposes what is
+  answering "hollow" to everything from scoring perfectly. **E0 was run on
+  2026-08-20** against `claude-opus-5` and the independent checker reproduced
+  the co-designed audit's blind spots exactly, catching the same six sham modes
+  and missing the same three; P1 is unsupported and the full factorial is
+  premature by the design's own stopping rule. The disposition, including what
+  the run does not show, is `docs/28-asymmetry-e0-disposition.md`. Read
+  `positive_control_detection` before any other number: the first run failed
+  that gate by calling a battery sound whose detector body was `return value`,
+  and it is kept as a failed calibration rather than deleted. `operator-functions.md` decomposes what is
   left of the operator's role once the automatable friction is subtracted, into
   severity calibration, scope discipline, skepticism routing and authority — and
   reframes the target: you do not automate judgment, you measure *calibration*,
