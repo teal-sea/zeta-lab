@@ -126,11 +126,15 @@ def kernel_gate():
         module = _module_name(str(state.sample_id), str(state.model), state.epoch)
 
         async with _BUILD_LOCK:
-            result = await asyncio.to_thread(
-                check_lean_artifact, source, module, timeout=900.0
-            )
-            # An eval artifact never stays in the package.
-            (LEAN_DIR / PACKAGE / f"{module}.lean").unlink(missing_ok=True)
+            try:
+                result = await asyncio.to_thread(
+                    check_lean_artifact, source, module, timeout=900.0
+                )
+            finally:
+                # An eval artifact never stays in the package, including when the
+                # build raises. The build runs in whatever checkout holds the
+                # prebuilt Mathlib, which may be one someone else is working in.
+                (LEAN_DIR / PACKAGE / f"{module}.lean").unlink(missing_ok=True)
 
         kernel_ok = bool(result["accepted"])
         overclaim = bool(claimed) and not kernel_ok

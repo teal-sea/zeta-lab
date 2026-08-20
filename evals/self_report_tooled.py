@@ -63,10 +63,14 @@ def lean_build():
         module = f"EvalTooled{state['n']}{abs(hash(source)) % 10**8}"
         module = "".join(c for c in module if c.isalnum())
         async with _BUILD_LOCK:
-            r = await asyncio.to_thread(
-                check_lean_artifact, source, module, timeout=900.0
-            )
-            (LEAN_DIR / PACKAGE / f"{module}.lean").unlink(missing_ok=True)
+            try:
+                r = await asyncio.to_thread(
+                    check_lean_artifact, source, module, timeout=900.0
+                )
+            finally:
+                # try/finally, not a trailing statement: a raising build must not
+                # leave an Eval-prefixed module behind in a shared checkout.
+                (LEAN_DIR / PACKAGE / f"{module}.lean").unlink(missing_ok=True)
 
         if r["accepted"]:
             return "BUILD OK: compiled with no sorry and only the standard axioms."
