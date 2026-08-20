@@ -129,8 +129,6 @@ GUARDS: tuple[GuardRecord, ...] = (
             "hunts/r_414eed/results.json and RESULTS.md)"
         ),
         known_misses=(
-            "public functions added under meta/ — the package is not scanned "
-            "at all (B01)",
             "public functions added under compiler/ — likewise unscanned "
             "(B02)",
             "documents added under docs/doors/ — doc_index globs docs/*.md, "
@@ -152,7 +150,10 @@ GUARDS: tuple[GuardRecord, ...] = (
             "length-neutral in-place private helper renames in __all__ modules "
             "pass silently (measured by hunts/r_7ad39f/probe.py, 0/299 unexported "
             "private symbols caught, 0.0%), while renames in non-__all__ modules "
-            "(4/4) and edits altering line count are 100% caught"
+            "(4/4) and edits altering line count are 100% caught. Unscanned "
+            "packages like meta/ are completely excluded from the index pipeline "
+            "(measured by hunts/r_2946de/probe.py, 0/16 curated mutants and 0/32 "
+            "public symbols detected, 0.0%)"
         ),
         incident="",
     ),

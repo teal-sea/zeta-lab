@@ -70,6 +70,10 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #56: make_context.py blind region on meta/ package (`r_2946de/`)
+
+**Status: settled.** `scripts/make_context.py --check` does not detect public functions, classes, constants, docstrings, or new modules added under `meta/` (0/16 curated mutants detected, 0.0% detection rate; 0/32 public AST symbols detected, 0.0% detection rate), because `meta/` is structurally excluded from the hard-coded scan paths in `make_context.py` and produces zero diff in `CONTEXT.md` (exit 0). In contrast, in-scope positive controls in scanned directories (`zeta/`, `ontology/`, `harness/`, `docs/`) are 100% detected (4/4 caught). Measured on a 16-mutant curated battery and a 32-symbol exhaustive AST census in `hunts/r_2946de/results.json` and `RESULTS.md`. Nothing here bears on RH (`docs/08`).
+
 ### Hunt #55: make_context.py in-place helper renames and __all__ boundary (`r_7ad39f/`)
 
 **Status: settled.** `scripts/make_context.py --check` does not detect in-place length-neutral private helper renames in modules that declare `__all__` (0/299 unexported private symbols detected, 0.0% detection rate), because `module_api` filters top-level definitions strictly by `ast.literal_eval(__all__)` and the file length remains unchanged. In non-`__all__` modules, detection is 100% (4/4 symbols caught). Any edit altering line count is 100% detected via the line-count tell. Zero length-neutral private-to-public helper renames have ever occurred in repository git history. Measured on a 25-mutant curated battery and a 305-symbol exhaustive census in `hunts/r_7ad39f/results.json` and `RESULTS.md`. Nothing here bears on RH (`docs/08`).
