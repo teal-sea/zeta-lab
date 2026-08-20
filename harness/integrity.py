@@ -259,8 +259,15 @@ SHAM_MODES: Final[tuple[ShamMode, ...]] = (
         ),
         caught_by=None,
         countermeasure=(
-            "no mechanical check can know what was meant to be there; pin the "
-            "lesion set in tests, declare frozen_before_execution in provenance"
+            "no mechanical check *inside the audit* can know what was meant to "
+            "be there, so this remains a blind spot of the audit itself. The "
+            "removal is nonetheless caught from outside it: "
+            "tests/test_lesion_sets_are_pinned.py pins every department's lesion "
+            "set and carries a negative control that plants this exact sham and "
+            "asserts the pin goes red. That test was written on 2026-08-20, "
+            "after docs/28 measured that no checker, model or otherwise, caught "
+            "this mode; the instruction to write it had sat unfollowed in this "
+            "very string. Still declare frozen_before_execution in provenance"
         ),
     ),
     ShamMode(

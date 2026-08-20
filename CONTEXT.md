@@ -946,7 +946,7 @@ The falsification protocol with the subject factored out. Four instrument roles 
 
 ### `harness/integrity.py` — ``harness.integrity`` — the referee, refereed.
 
-*1560 lines*
+*1567 lines*
 
 Constants: `PASS`, `FAIL`, `UNKNOWN`, `CALIBRATED`, `DETECTOR_INADEQUATE`, `UNMEASURED`, `CONTAMINATED`, `HOLLOW`, `GRADES`, `SHAM_MODES`, `AUDIT_BLIND_SPOTS`
 
@@ -1273,7 +1273,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1848 test functions across 76 files (the collected count differs where tests are parametrised):
+1852 test functions across 77 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_claim_attribution.py` — 6
@@ -1315,6 +1315,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_inverse.py` — 8
 - `tests/test_lab_state.py` — 1
 - `tests/test_leeyang.py` — 7
+- `tests/test_lesion_sets_are_pinned.py` — 4
 - `tests/test_li.py` — 56
 - `tests/test_meta_evals.py` — 14
 - `tests/test_meta_ledger.py` — 24
