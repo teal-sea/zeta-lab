@@ -467,14 +467,19 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   apart and never averaged, because the design is explicit that false confidence
   is not one minus detection and that specificity is what stops a checker
   answering "hollow" to everything from scoring perfectly. **E0 was run on
-  2026-08-20** against `claude-opus-5` and the independent checker reproduced
-  the co-designed audit's blind spots exactly, catching the same six sham modes
-  and missing the same three; P1 is unsupported and the full factorial is
-  premature by the design's own stopping rule. The disposition, including what
-  the run does not show, is `docs/28-asymmetry-e0-disposition.md`. Read
-  `positive_control_detection` before any other number: the first run failed
-  that gate by calling a battery sound whose detector body was `return value`,
-  and it is kept as a failed calibration rather than deleted. `operator-functions.md` decomposes what is
+  2026-08-20** across four checkers (Claude, GPT, Gemini, Grok, all through
+  Perplexity's Agent API). Claude reproduced the co-designed audit exactly, same
+  six sham modes caught and same three missed; a foreign model caught one blind
+  spot, `co-designed-calibration`, which is the mode most directly about
+  co-design. But conditional detection lift is zero or negative across every
+  eligible pair, so P2 is refuted and the misses are correlated: hard artifacts
+  are hard for everyone. GPT scored 3 of 3 on blind spots by answering "hollow"
+  to all ten including the clean control, and `specificity` is what caught it.
+  The disposition, including what the run does not show, is
+  `docs/28-asymmetry-e0-disposition.md`. Read `positive_control_detection`
+  before any other number: the first run failed that gate by calling a battery
+  sound whose detector body was `return value`, and it is kept as a failed
+  calibration rather than deleted. `operator-functions.md` decomposes what is
   left of the operator's role once the automatable friction is subtracted, into
   severity calibration, scope discipline, skepticism routing and authority — and
   reframes the target: you do not automate judgment, you measure *calibration*,

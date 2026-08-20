@@ -197,11 +197,14 @@ not as a fault to report. Both are pinned in `tests/test_meta_evals.py`.
 Measurement 5, conditional detection lift, is not covered: it compares two
 checkers and needs two arms, so it stays with E1.
 
-**Status: run 2026-08-20.** E0 was executed against `claude-opus-5`. The
-independent checker caught the same six sham modes the co-designed audit catches
-and missed the same three, artifact for artifact: detection 0.667 against the
-audit's 0.667, blind-spot detection 0 of 3. P1 is unsupported by that run and P2's
-shared-blind-spot mechanism is what was observed, so the design's own stopping
-rule applies and the full factorial is premature. The first run failed its
-positive control and is kept as a failed calibration. Disposition, limits, and
-cost: `docs/28-asymmetry-e0-disposition.md`.
+**Status: run 2026-08-20, four checkers.** Claude reproduced the co-designed
+audit exactly, artifact for artifact. Foreign models (GPT, Gemini, Grok) caught
+`co-designed-calibration`, one of the three blind spots, and it is the mode whose
+countermeasure text is about co-design. P1 is contradicted on its own terms: the
+foreign checkers have *higher* false confidence (0.444, 0.556) than Claude
+(0.333). P2 is refuted, and P2 was the informative one: conditional detection
+lift is zero or negative in all six eligible pairs, so misses are correlated and
+"independent parties fail in uncorrelated ways" is not observed. The stopping
+rule applies and the full factorial is premature. GPT answered hollow to all ten
+artifacts including the clean control, which `specificity` caught. Disposition,
+limits, and cost: `docs/28-asymmetry-e0-disposition.md`.

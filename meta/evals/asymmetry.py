@@ -27,10 +27,12 @@ What this module does and does not claim
 ----------------------------------------
 It **runs** nothing on import and nothing in the test suite beyond a mock
 model.  E0 *has* now been executed, on 2026-08-20 against ``claude-opus-5``;
-the disposition is ``docs/28-asymmetry-e0-disposition.md`` and the logs are in
-``meta/evals/logs/``.  The headline: the independent checker caught the same
-six sham modes the co-designed audit catches and missed the same three, exactly.
-P1 is unsupported by that run.  Any *further* run is a fresh scientific act with
+and again across GPT, Gemini and Grok; the disposition is
+``docs/28-asymmetry-e0-disposition.md`` and the logs are in
+``meta/evals/logs/``.  The headline: Claude reproduced the co-designed audit
+exactly, a foreign model caught one of the three blind spots, and conditional
+detection lift is zero or negative across every eligible pair, so P1 and P2 are
+both unsupported.  Any *further* run is a fresh scientific act with
 its own recorded digests, not a side effect of importing this module.
 
 It covers measurements 1, 2, 3 and 4 of the five the preregistration names
