@@ -1264,18 +1264,21 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/65_rung3_full_validation.py` — Every site of plan v2 through ball arithmetic — the sampled claim made whole.
 - `scripts/66_rung3_ball_atom_cost.py` — Which ball obligations the kernel can actually discharge, and at what cost.
 - `scripts/70_lab_state.py` — 70_lab_state.py — the read-only research-state view, rendered from artifacts.
+- `scripts/check_secrets.py` — Refuse to publish a credential. Scans git objects for secret patterns.
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/mathlib_gaps.py` — Which of Mathlib's 1000 famous theorems are still unformalized.
 - `scripts/pub1_certify_display.py` — Publication-safe display values for the Pub 1 xi' ceiling certificate.
 - `scripts/science_preflight.py` — Preflight for a session running this lab from an outside environment.
+- `scripts/install_hooks.sh` — Install the pre-push secret guard into this checkout.
 - `scripts/ledger_sync.sh` — Sync the private discovery ledger between machines.
 
 ## Tests (`tests/`)
 
-1855 test functions across 77 files (the collected count differs where tests are parametrised):
+1860 test functions across 78 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
+- `tests/test_check_secrets.py` — 5
 - `tests/test_claim_attribution.py` — 6
 - `tests/test_compiler_candidate.py` — 32
 - `tests/test_core.py` — 97

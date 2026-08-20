@@ -16,8 +16,28 @@ is a pointer to this file; do not duplicate content between them.
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 .venv/bin/pip install -e .
+bash scripts/install_hooks.sh                 # pre-push secret guard, see below
 .venv/bin/python -m pytest -q -m "not slow"   # confirm green before changing anything
 ```
+
+**Install the hook in every clone and every worktree.** Git hooks live in
+`.git/hooks` and are not version controlled, so nothing installs it for you. On
+2026-08-20 a live OpenRouter API key was committed in plain text to a local
+branch of this repository, in two files across two commits. It was caught by a
+human asking an unrelated question, and nothing mechanical in this tree would
+have stopped the push. `scripts/check_secrets.py` scans the objects a push would
+publish for known credential shapes and refuses; run it directly with
+`--range`, `--all` or `--tree`.
+
+Two things about it are worth knowing rather than assuming. It matches *known
+key shapes*, so it is a floor and not a guarantee, and it cannot recognise a
+credential that looks like ordinary prose. And its first version failed **open**:
+the object lister returned an empty list when git errored, so a malformed
+revision range reported *clean* and the hook allowed the push. A guard that
+fails open is worse than none because it also supplies confidence.
+`tests/test_check_secrets.py` pins that a broken range raises rather than
+passes. Prefer reading a credential at call time over writing it to a file at
+all; a key that never lands on disk cannot be committed.
 
 **Check the ball-arithmetic backend before you trust a green run**:
 
