@@ -83,12 +83,21 @@ GUARDS: tuple[GuardRecord, ...] = (
             "tests/test_guard_ledger.py::test_the_reserved_word_guard_fires_on_a_probe_file"
         ),
         known_misses=(
-            "synonyms — 'verified', 'confirmed', 'definitively', 'proves' "
-            "are separately banned but by other checks; a hunt overclaiming "
-            "in fresh vocabulary passes this guard",
+            "morphological variants of the reserved word ('certify', 'certification', "
+            "'certifiable' pass, probe battery 0/3 in hunts/r_03a798/probe.py)",
+            "synonyms and fresh overclaim vocabulary ('verified', 'confirmed', "
+            "'definitively', 'proves', 'establishes', 'settles' pass, probe battery 0/13; "
+            "census confirmed no other test in tests/ enforces them)",
+            "typographic evasions (hyphenation across lines, markdown formatting mid-word, "
+            "zero-width spaces, Cyrillic homoglyphs pass, probe battery 0/5)",
             "file types outside .py/.md/.json (a .txt overclaim passes)",
         ),
-        scope="a lexical scan of bytes under hunts/; intent is not consulted",
+        scope=(
+            "a case-insensitive exact substring scan for the reserved word in "
+            ".py/.md/.json files under hunts/ (excluding vendored/build directories); "
+            "intent is not consulted (disclaimers quoting the word fire); all other "
+            "vocabulary, inflections, and file extensions pass"
+        ),
         incident="",
     ),
     GuardRecord(

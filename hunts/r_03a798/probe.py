@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Probe R-03A798 — what the hunt lexical guard actually reads.
+"""Probe R-03A798: what the hunt lexical guard actually reads.
 
 The question handed to this hunt was whether
 ``tests/test_hunt_probe_discipline.py::test_no_hunt_claims_the_reserved_word``
@@ -28,6 +28,7 @@ Runnable end to end: ``python hunts/r_03a798/probe.py``. Writes
 from __future__ import annotations
 
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -44,7 +45,7 @@ TESTS = REPO / "tests"
 GUARD_FILE = "test_hunt_probe_discipline.py"
 GUARD_NODE = "test_no_hunt_claims_the_reserved_word"
 
-#: The reserved word, assembled at run time. This file is a *study* of the
+#: The reserved word, assembled at run time. This file is a study of the
 #: guard, so it may not carry the literal substring the guard scans for --
 #: that the study has to obfuscate itself is measurement 4, recorded below.
 RESERVED = "cert" + "ified"
@@ -74,7 +75,7 @@ DOCUMENTED_BANS = ("verified", "confirmed", "definitively", "proves")
 
 _HUNTS_PATH = re.compile(r'"hunts"|/\s*"hunts"|_HUNTS\b')
 _READS_BYTES = re.compile(r"read_text|read_bytes|open\(")
-#: `"word" in text`, `"word" not in sources`, ... — the shape a lexical scan takes.
+#: `"word" in text`, `"word" not in sources`, ...: the shape a lexical scan takes.
 _LEXICAL_CMP = re.compile(r'"([^"\n]{2,40})"\s+(?:not\s+)?in\s+(\w*(?:text|source|sources|body|content|page|log|readme)\w*)')
 
 
@@ -107,8 +108,8 @@ def census() -> list[dict]:
 # 2. Specimen battery, run through the real guard in a sandbox repo root
 # ---------------------------------------------------------------------------
 
-#: (id, class, expectation, body). ``expectation`` is what the *documented*
-#: rule says should happen -- "caught" for anything the rules ban, whatever
+#: (id, class, expectation, body). ``expectation`` is what the documented
+#: rule says should happen: "caught" for anything the rules ban, whatever
 #: the mechanism. The measurement is whether the guard agrees.
 SPECIMENS: list[tuple[str, str, str, str]] = [
     # --- positive controls: the reserved word, plainly ---------------------
@@ -189,8 +190,7 @@ def _build_sandbox(root: Path) -> None:
     (root / "hunts" / "specimen").mkdir(parents=True, exist_ok=True)
     shutil.copy2(TESTS / GUARD_FILE, root / "tests" / GUARD_FILE)
     # hunts/README.md must exist, classify the area, cite the admission rule,
-    # and list every hunt directory -- otherwise the sibling guards fail for
-    # reasons that have nothing to do with the specimen.
+    # and list every hunt directory, otherwise sibling guards fail.
     (root / "hunts" / "README.md").write_text(
         "# hunts\n\nNothing in `hunts/` is a result -- not a result, and not "
         "evidence.\n\nThe admission rule for a department is "
@@ -253,7 +253,7 @@ _NEGATED = re.compile(
 
 
 def _classify(line: str, word: str) -> str:
-    """use | rule-mention | disclaimer -- a heuristic, hand-checkable below."""
+    """use | rule-mention | disclaimer: a heuristic, hand-checkable below."""
     low = line.lower()
     head = low.split(word, 1)[0]
     # A line that lists several of the banned words together is the rule text.
@@ -302,6 +302,7 @@ def corpus_scan() -> dict:
 # ---------------------------------------------------------------------------
 
 def main() -> int:
+    run_id = os.environ.get("TELEMETRY_RUN_ID", "454cd7c2-6331-438c-80f6-773ec6cc9521")
     rows = census()
     specimens, baseline = specimen_battery()
     corpus = corpus_scan()
@@ -317,7 +318,7 @@ def main() -> int:
     uses = {w: c["by_kind"]["use"] for w, c in corpus.items()}
 
     results = {
-        "run_id": "a93167f3-0bef-44db-9d98-c9e25bc69c34",
+        "run_id": run_id,
         "question": (
             "Does test_no_hunt_claims_the_reserved_word detect synonyms, and do "
             "the 'other checks' the premise refers to exist?"

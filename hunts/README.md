@@ -70,6 +70,24 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #50: what the hunt lexical guard actually reads (`r_03a798/`)
+
+**Status: settled. The guard matches one literal substring, case-insensitively,
+and everything outside it passes.**
+
+The attention item that opened this hunt asserted that
+`test_no_hunt_claims_the_reserved_word` misses synonyms, and that *verified*,
+*confirmed*, *definitively* and *proves* are caught "by other checks". The hunt
+measures both halves and reports the first as true and the second as false:
+those other checks do not exist. It copies the guard **unmodified** into a
+sandbox repo root and runs it against one planted specimen at a time, so each
+verdict is the guard's own exit status rather than a re-implementation, with an
+empty-specimen control green so a failure is attributable to the specimen.
+
+Reproduce: `python hunts/r_03a798/probe.py` (~40 s, no mpmath, no network).
+Data: `results.json`.
+
+
 ### Hunt #45: truncated Weil form positivity failure on Davenport-Heilbronn (`r_ac9ca3/`)
 
 **Status: settled.** The first positivity failure of the Connes–van Suijlekom / Connes–Consani–Moscovici Galerkin truncation of the Weil quadratic form on Davenport–Heilbronn on the integer lattice $c \in [6, 60], N \le 128$ occurs at $(c, N) = (31, 60)$.
@@ -799,23 +817,6 @@ proposed in `RESULTS.md` (`no zeros in Re s > 1`), with the caveat that it
 distinguishes only by restating the Euler product. Measured, float grade, one
 resolution: the planned reconfirmation at halved step did not finish inside its
 cap, and three of eight cells are recorded gaps. Nothing here bears on RH.
-
-### Hunt #11: what the hunt lexical guard actually reads (`r_03a798/`)
-
-**Status: settled. The guard matches one literal substring, case-insensitively,
-and everything outside it passes.**
-
-The attention item that opened this hunt asserted that
-`test_no_hunt_claims_the_reserved_word` misses synonyms, and that *verified*,
-*confirmed*, *definitively* and *proves* are caught "by other checks". The hunt
-measures both halves and reports the first as true and the second as false:
-those other checks do not exist. It copies the guard **unmodified** into a
-sandbox repo root and runs it against one planted specimen at a time, so each
-verdict is the guard's own exit status rather than a re-implementation, with an
-empty-specimen control green so a failure is attributable to the specimen.
-
-Reproduce: `python hunts/r_03a798/probe.py` (~40 s, no mpmath, no network).
-Data: `results.json`.
 
 ### Hunt #10 — what the doors guard actually catches (`r_cb5ffe/`)
 

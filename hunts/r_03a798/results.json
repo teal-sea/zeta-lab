@@ -1,5 +1,5 @@
 {
-  "run_id": "a93167f3-0bef-44db-9d98-c9e25bc69c34",
+  "run_id": "454cd7c2-6331-438c-80f6-773ec6cc9521",
   "question": "Does test_no_hunt_claims_the_reserved_word detect synonyms, and do the 'other checks' the premise refers to exist?",
   "census": [
     {
@@ -12,7 +12,7 @@
     },
     {
       "test_file": "test_guard_ledger.py",
-      "addresses_hunts_tree": false,
+      "addresses_hunts_tree": true,
       "reads_file_text": true,
       "scans_whole_hunts_tree": false,
       "lexical_vocabulary": [
@@ -43,6 +43,33 @@
       "enforces_documented_bans": []
     },
     {
+      "test_file": "test_o9_leaves_kernel.py",
+      "addresses_hunts_tree": true,
+      "reads_file_text": false,
+      "scans_whole_hunts_tree": false,
+      "lexical_vocabulary": [],
+      "enforces_documented_bans": []
+    },
+    {
+      "test_file": "test_pub1_admissible_closure.py",
+      "addresses_hunts_tree": true,
+      "reads_file_text": true,
+      "scans_whole_hunts_tree": false,
+      "lexical_vocabulary": [
+        "minimized, not maximized",
+        "the quotient orientation is load-bearing"
+      ],
+      "enforces_documented_bans": []
+    },
+    {
+      "test_file": "test_reading_of_record.py",
+      "addresses_hunts_tree": true,
+      "reads_file_text": true,
+      "scans_whole_hunts_tree": false,
+      "lexical_vocabulary": [],
+      "enforces_documented_bans": []
+    },
+    {
       "test_file": "test_zeta23ext_imports.py",
       "addresses_hunts_tree": true,
       "reads_file_text": true,
@@ -53,7 +80,7 @@
   ],
   "specimen_baseline": {
     "empty_specimen_guard_green": true,
-    "tail": "robe_discipline.py:156\n  /tmp/tmpr2rj3_jc/tests/test_hunt_probe_discipline.py:156: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html\n    @pytest.mark.slow\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n1 passed, 2 warnings in 0.09s\n"
+    "tail": "z5vvs46ndj5tqckb20mwh0000gn/T/tmppq6_lj7y/tests/test_hunt_probe_discipline.py:196: PytestUnknownMarkWarning: Unknown pytest.mark.slow - is this a typo?  You can register custom marks to avoid this warning - for details, see https://docs.pytest.org/en/stable/how-to/mark.html\n    @pytest.mark.slow\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n1 passed, 2 warnings in 0.15s\n"
   },
   "specimens": [
     {
@@ -317,23 +344,23 @@
   },
   "corpus": {
     "verified": {
-      "total": 13,
-      "files": 11,
+      "total": 32,
+      "files": 28,
       "by_kind": {
-        "use": 8,
-        "rule-mention": 5,
-        "disclaimer": 0
+        "use": 25,
+        "rule-mention": 4,
+        "disclaimer": 3
       },
       "hits": [
         {
           "file": "hunts/README.md",
-          "line": 32,
-          "kind": "rule-mention",
-          "text": "| use the word *measured*, *observed*, *consistent with* | use *verified*, *confirmed*, *definitively*, *proves* \u2014 and never *<the-reserved-word>*, which `zeta/rigor.py` "
+          "line": 809,
+          "kind": "use",
+          "text": "`test_no_hunt_claims_the_reserved_word` misses synonyms, and that *verified*,"
         },
         {
           "file": "hunts/README.md",
-          "line": 520,
+          "line": 1290,
           "kind": "use",
           "text": "controls the Weil position residue, and recorded a \"verified\" correlation on"
         },
@@ -368,6 +395,18 @@
           "text": "say *verified*, *confirmed*, *definitively*, and it never uses the reserved"
         },
         {
+          "file": "hunts/frontier_math/ACTIVE-CLAIMS.md",
+          "line": 83,
+          "kind": "use",
+          "text": "Landed onto `main` in this order, each verified before the next:"
+        },
+        {
+          "file": "hunts/frontier_math/ACTIVE-CLAIMS.md",
+          "line": 87,
+          "kind": "use",
+          "text": "Pre-existing failures on `main` at the time of landing, verified present"
+        },
+        {
           "file": "hunts/frontier_math/MISSION.md",
           "line": 71,
           "kind": "rule-mention",
@@ -386,10 +425,112 @@
           "text": "pair block energy).  Verified here to machine precision on mixed"
         },
         {
+          "file": "hunts/frontier_math/two_species.py",
+          "line": 251,
+          "kind": "use",
+          "text": "factor 4 already carries it. Verified against the form itself rather"
+        },
+        {
+          "file": "hunts/gate5_p6_a/MISSION.md",
+          "line": 147,
+          "kind": "use",
+          "text": "- the Davenport-Heilbronn off-line zero pinned in zeta.epstein and re-verified by tests/test_epstein.py"
+        },
+        {
+          "file": "hunts/gate5_p6_a/RESULTS.md",
+          "line": 104,
+          "kind": "disclaimer",
+          "text": "to the off-line region. It cannot be verified for zeta, by anybody, so it"
+        },
+        {
+          "file": "hunts/gate5_p6_a/RESULTS.md",
+          "line": 160,
+          "kind": "disclaimer",
+          "text": "- **The rivals' half of the proposed well posed version was not verified here.**"
+        },
+        {
+          "file": "hunts/gate5_p6_c/HANDBACK.json",
+          "line": 5,
+          "kind": "disclaimer",
+          "text": "\"confidence\": \"High for the well-posedness finding and for the boxes actually run: it rests only on winding numbers of xi and of f, both cheap, both integral to"
+        },
+        {
+          "file": "hunts/gate5_p6_c/RESULTS.md",
+          "line": 118,
+          "kind": "use",
+          "text": "verified account of a run this hunt did not observe."
+        },
+        {
           "file": "hunts/higher_xi/LEAN-FRONTIER.md",
           "line": 292,
           "kind": "use",
           "text": "formalise. Every intermediate inequality of both chains was verified"
+        },
+        {
+          "file": "hunts/r_065f29/HANDBACK.json",
+          "line": 41,
+          "kind": "use",
+          "text": "\"notes_for_operator\": \"Scope note, flagged rather than assumed: closing the loop mechanically broke tests/test_review.py::test_the_open_case_surfaces_its_missin"
+        },
+        {
+          "file": "hunts/r_6c7d6a/HANDBACK.json",
+          "line": 41,
+          "kind": "use",
+          "text": "\"notes_for_operator\": \"The brief's premise was stale: it was written from O9Parts.lean's header, which commit 6f81078 superseded seven minutes after that header"
+        },
+        {
+          "file": "hunts/r_6f088d/RESULTS.md",
+          "line": 5,
+          "kind": "use",
+          "text": "**Status: settled.** The failure mechanism, scoping history, and remaining symbol duplication across the five arms of `zeta23ext` are mapped, measured, and veri"
+        },
+        {
+          "file": "hunts/r_88dc5e/MISSION.md",
+          "line": 13,
+          "kind": "use",
+          "text": "every box in the table. Remove them, having re-verified the use-site claim"
+        },
+        {
+          "file": "hunts/r_8c3b94/MISSION.md",
+          "line": 92,
+          "kind": "use",
+          "text": "outcome: both routes priced against 43 verified Mathlib declarations and 14 named misses; the moment route is recommended and the characteristic-function route "
+        },
+        {
+          "file": "hunts/r_8c3b94/RESULTS.md",
+          "line": 30,
+          "kind": "use",
+          "text": "On `main`, zero sorrys, verified by `#check` in `Probe.lean`:"
+        },
+        {
+          "file": "hunts/r_908de5/HANDBACK.json",
+          "line": 5,
+          "kind": "use",
+          "text": "\"confidence\": \"High on the two headline numbers and on the refutation. The cell obligation is read straight off the Lean lemma DH_lower_on_[hv]cell rather than "
+        },
+        {
+          "file": "hunts/r_ac9ca3/HANDBACK.json",
+          "line": 5,
+          "kind": "use",
+          "text": "\"confidence\": \"Complete confidence across multiple independent routes: conclusive Arb ball LDL^T factorizations, Rump verified eigenvalue enclosures, exact dyad"
+        },
+        {
+          "file": "hunts/r_ac9ca3/MISSION.md",
+          "line": 19,
+          "kind": "use",
+          "text": "- acb_mat.eig Rump verified eigenvalue enclosure"
+        },
+        {
+          "file": "hunts/r_fb9c81/RESULTS.md",
+          "line": 15,
+          "kind": "use",
+          "text": "The numerical probe independently verified that the exact polynomial spacing cost $\\sum n |c_n|^2$ remains tightly bounded by $O(x \\log x)$. Even allowing the u"
+        },
+        {
+          "file": "hunts/r_test_agy_8/HANDBACK.json",
+          "line": 4,
+          "kind": "use",
+          "text": "\"conclusion\": \"The AGY test context successfully loaded the repository, installed the venv, and evaluated a probe script using the internal zeta package. Operat"
         },
         {
           "file": "hunts/wide_search/HANDOFF.md",
@@ -406,19 +547,19 @@
       ]
     },
     "confirmed": {
-      "total": 9,
-      "files": 8,
+      "total": 11,
+      "files": 10,
       "by_kind": {
-        "use": 4,
+        "use": 6,
         "rule-mention": 5,
         "disclaimer": 0
       },
       "hits": [
         {
           "file": "hunts/README.md",
-          "line": 32,
+          "line": 810,
           "kind": "rule-mention",
-          "text": "| use the word *measured*, *observed*, *consistent with* | use *verified*, *confirmed*, *definitively*, *proves* \u2014 and never *<the-reserved-word>*, which `zeta/rigor.py` "
+          "text": "*confirmed*, *definitively* and *proves* are caught \"by other checks\". The hunt"
         },
         {
           "file": "hunts/director_run/GRAVEYARD.md",
@@ -457,6 +598,18 @@
           "text": "| **The empty-directory cost, restated by the prover** | CONFIRMED | none of EForm2's results were present; definitions, integrability, the master identity, clo"
         },
         {
+          "file": "hunts/gate5_p6_a/results.json",
+          "line": 311,
+          "kind": "use",
+          "text": "\"confirmed\": false,"
+        },
+        {
+          "file": "hunts/r_f7cd45/HANDBACK.json",
+          "line": 4,
+          "kind": "use",
+          "text": "\"conclusion\": \"Issue #21's table is confirmed cell for cell by a probe that runs end to end: the functional equation, a real Hardy-style Z, and having zeros on "
+        },
+        {
           "file": "hunts/wide_search/HANDOFF.md",
           "line": 213,
           "kind": "rule-mention",
@@ -481,9 +634,9 @@
       "hits": [
         {
           "file": "hunts/README.md",
-          "line": 32,
+          "line": 810,
           "kind": "rule-mention",
-          "text": "| use the word *measured*, *observed*, *consistent with* | use *verified*, *confirmed*, *definitively*, *proves* \u2014 and never *<the-reserved-word>*, which `zeta/rigor.py` "
+          "text": "*confirmed*, *definitively* and *proves* are caught \"by other checks\". The hunt"
         },
         {
           "file": "hunts/frontier_map/MISSION.md",
@@ -512,19 +665,55 @@
       ]
     },
     "proves": {
-      "total": 6,
-      "files": 6,
+      "total": 34,
+      "files": 23,
       "by_kind": {
-        "use": 3,
+        "use": 27,
         "rule-mention": 3,
-        "disclaimer": 0
+        "disclaimer": 4
       },
       "hits": [
         {
           "file": "hunts/README.md",
-          "line": 32,
+          "line": 77,
+          "kind": "use",
+          "text": "Integer cutoffs $c \\le 30$ are strictly positive definite across all tested $N \\le 128$ (and up to $N = 256$ at $c = 29, 30$). At $c = 31$, the even sector deve"
+        },
+        {
+          "file": "hunts/README.md",
+          "line": 86,
+          "kind": "use",
+          "text": "the kernel's interval arithmetic; `O9Sound` proves both modes sound over the"
+        },
+        {
+          "file": "hunts/README.md",
+          "line": 264,
+          "kind": "use",
+          "text": "argument and proves nothing about T1 itself."
+        },
+        {
+          "file": "hunts/README.md",
+          "line": 481,
+          "kind": "use",
+          "text": "`sorry`s: `ZetaLean.HardyRamanujan.hardy_ramanujan` proves the density form,"
+        },
+        {
+          "file": "hunts/README.md",
+          "line": 518,
+          "kind": "use",
+          "text": "proves `sum_omega_eq_sum_div` (`\u2211_{n \u2264 N} \u03c9 n = \u2211_{p \u2264 N} \u230aN/p\u230b`, by double"
+        },
+        {
+          "file": "hunts/README.md",
+          "line": 519,
+          "kind": "use",
+          "text": "counting, unconditional) and proves `hardyRamanujan_of_turanVariance`, which is"
+        },
+        {
+          "file": "hunts/README.md",
+          "line": 810,
           "kind": "rule-mention",
-          "text": "| use the word *measured*, *observed*, *consistent with* | use *verified*, *confirmed*, *definitively*, *proves* \u2014 and never *<the-reserved-word>*, which `zeta/rigor.py` "
+          "text": "*confirmed*, *definitively* and *proves* are caught \"by other checks\". The hunt"
         },
         {
           "file": "hunts/frontier_math/BRIDGE-SPEC.md",
@@ -533,16 +722,130 @@
           "text": "hypothesis may not be discharged**, only carried. An artifact that \"proves\""
         },
         {
+          "file": "hunts/frontier_math/K2-TWO-SPECIES.md",
+          "line": 68,
+          "kind": "use",
+          "text": "`k2_closure.py` proves-by-table, for all atom configurations, all centre"
+        },
+        {
+          "file": "hunts/frontier_math/K2-TWO-SPECIES.md",
+          "line": 217,
+          "kind": "use",
+          "text": "argument and proves nothing about T1."
+        },
+        {
           "file": "hunts/frontier_math/PROOF-LEDGER.md",
           "line": 837,
           "kind": "use",
           "text": "classical lemmas that the source paper already states, proves and"
         },
         {
+          "file": "hunts/frontier_math/o9_leaf.py",
+          "line": 37,
+          "kind": "use",
+          "text": "which `phiC_mem` proves encloses `Phi2(X + i Y)`.  Since"
+        },
+        {
+          "file": "hunts/frontier_math/o9_leaf.py",
+          "line": 533,
+          "kind": "use",
+          "text": "\"proves nothing about `Dam`.\","
+        },
+        {
+          "file": "hunts/frontier_math/test_kpair_identity.py",
+          "line": 100,
+          "kind": "disclaimer",
+          "text": "\"\"\"A search that cannot find negatives when they exist proves nothing."
+        },
+        {
           "file": "hunts/frontier_math/zeta23ext/README.md",
           "line": 158,
           "kind": "use",
           "text": "lemmas the source paper already states, proves and formalises:"
+        },
+        {
+          "file": "hunts/r_065f29/HANDBACK.json",
+          "line": 10,
+          "kind": "use",
+          "text": "\"why_it_might_matter\": \"The difference between bandwidth 0.51 and bandwidth approaching 1 for a level-two pair statistic is not a rounding of the same result. I"
+        },
+        {
+          "file": "hunts/r_065f29/RESULTS.md",
+          "line": 200,
+          "kind": "use",
+          "text": "encoded margins suggest, the recorded system proves URMS2 well past"
+        },
+        {
+          "file": "hunts/r_2926e4/RESULTS.md",
+          "line": 136,
+          "kind": "disclaimer",
+          "text": "`damageIv_mem` still does not exist, so the table proves nothing about `Dam`"
+        },
+        {
+          "file": "hunts/r_4218d4/RESULTS.md",
+          "line": 35,
+          "kind": "use",
+          "text": "Mathlib proves `Chebyshev.psi_le : psi x <= x log 4 + 2 sqrt(x) log x`, then"
+        },
+        {
+          "file": "hunts/r_4218d4/probe.py",
+          "line": 40,
+          "kind": "use",
+          "text": "# Mathlib proves `Chebyshev.psi_le` in exactly that shape and then packages"
+        },
+        {
+          "file": "hunts/r_88dc5e/HANDBACK.json",
+          "line": 4,
+          "kind": "use",
+          "text": "\"conclusion\": \"Both halves landed with zero sorrys and standard axioms only: O9Seam.r_comp_mem and Retention.rIv_mem are retired at no reproof cost after re-run"
+        },
+        {
+          "file": "hunts/r_908de5/probe.py",
+          "line": 31,
+          "kind": "use",
+          "text": "value the emitted Lean file proves its literal equal to, so it is the"
+        },
+        {
+          "file": "hunts/r_938ab4/RESULTS.md",
+          "line": 53,
+          "kind": "use",
+          "text": "`Retention.imNumOverY_mem_shape` proves the enclosure unconditionally, and"
+        },
+        {
+          "file": "hunts/r_938ab4/RESULTS.md",
+          "line": 54,
+          "kind": "use",
+          "text": "`Retention.imOverYShape_eq_im_div` proves"
+        },
+        {
+          "file": "hunts/r_ac9ca3/RESULTS.md",
+          "line": 13,
+          "kind": "use",
+          "text": "5. Mechanism attribution: At $(31, 60)$, the zero-side dictionary decomposition proves that the off-line quadruple term $4 \\text{Re} g_v(\\gamma_{\\text{off}} - i"
+        },
+        {
+          "file": "hunts/r_b9552d/HANDBACK.json",
+          "line": 5,
+          "kind": "disclaimer",
+          "text": "\"confidence\": \"Lean on the reduction and the ceiling: the reduction is an identity checked to 8.0e-15 over 300 random configurations, and the ceiling composes i"
+        },
+        {
+          "file": "hunts/r_b9552d/RESULTS.md",
+          "line": 237,
+          "kind": "use",
+          "text": "also *below* the achievable row 0.05716 of section 3, which proves the"
+        },
+        {
+          "file": "hunts/r_b9552d/RESULTS.md",
+          "line": 255,
+          "kind": "use",
+          "text": "* **Does not** prove `rho > 0`. It proves `rho <= 0.1532` (and `<= 0.1196`"
+        },
+        {
+          "file": "hunts/r_f7cd45/MISSION.md",
+          "line": 30,
+          "kind": "disclaimer",
+          "text": "eliminated\", not \"proves anything\"."
         },
         {
           "file": "hunts/wide_search/HANDOFF.md",
@@ -555,6 +858,24 @@
           "line": 88,
           "kind": "rule-mention",
           "text": "*verified*, *confirmed*, *definitively* or *proves*, and it never uses the"
+        },
+        {
+          "file": "hunts/wide_search/RESULTS-xiprime-admissible-closure.md",
+          "line": 341,
+          "kind": "use",
+          "text": "inequality for the supremum.  This proves the theorem."
+        },
+        {
+          "file": "hunts/wide_search/RESULTS-xiprime-global-optimality.md",
+          "line": 75,
+          "kind": "use",
+          "text": "\\(w=A^{-1}\\mathbf1\\), proves that \\(w\\) decreases strictly in \\(|s|\\), and"
+        },
+        {
+          "file": "hunts/wide_search/RESULTS-xiprime-global-optimality.md",
+          "line": 193,
+          "kind": "use",
+          "text": "\\(w\\geq1/5\\), the nonnegative cone contains the optimizing ray. This proves"
         }
       ]
     }
@@ -576,10 +897,10 @@
     "guard_detects_any_fresh_vocabulary": false,
     "sanctioned_vocabulary_false_positives": [],
     "documented_ban_uses_live_in_tree_now": {
-      "verified": 8,
-      "confirmed": 4,
+      "verified": 25,
+      "confirmed": 6,
       "definitively": 0,
-      "proves": 3
+      "proves": 27
     }
   }
 }
