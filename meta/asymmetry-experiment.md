@@ -158,3 +158,42 @@ zeta department's and compiler department's batteries as arenas; per
 not a department and cannot become one by growing. Results, when they exist, get a
 `docs/` number and a case-log-style disposition — including if the answer is that
 the asymmetry does not exist.
+
+---
+
+## Addendum, 2026-08-20: a runner exists; nothing has been run
+
+Added after the freeze above. **It changes no prediction and no design**; the
+predictions P1 to P5 stand exactly as written, and this section is separated
+because editing a preregistration's frozen content would destroy the only thing
+that makes it worth having.
+
+`meta/evals/asymmetry.py` implements E0, the "cheapest first step" named above,
+as an Inspect (`inspect_ai`) task. What it supplies is the part this repository
+did not have: a model in the loop at check time, per artifact cost accounting,
+and a log a stranger can audit.
+
+The dataset is real rather than illustrative. Each artifact is a live
+department with one corruption planted by the matching mutator in
+`harness/shams.py`, plus one clean control, and each artifact's ground truth is
+read from `harness.integrity.SHAM_MODES` rather than restated. Nine of the
+fifteen catalogued sham modes can currently be planted; three of those nine are
+modes the audit declares itself blind to, which is what makes E0 informative at
+all.
+
+Two things worth recording because they were found rather than anticipated.
+First, the artifact digests the design asks for as a blinding mechanism earned
+their keep before any run: six of nine corrupted artifacts initially hashed
+identical to the clean control, because the renderer showing the battery to a
+checker truncated above the depth the payloads live at. That eval would have
+measured nothing while reporting numbers, which is the precise hollowness this
+experiment studies. Second, Inspect coerces a string score value to a float
+before metrics see it, so a metric written the obvious way reads zero for every
+sample. Both are pinned in `tests/test_meta_evals.py`.
+
+Measurement 5, conditional detection lift, is not covered: it compares two
+checkers and needs two arms, so it stays with E1.
+
+**Status: not run.** Executing E0 requires choosing a model, recording the
+sample digests, and writing the disposition up with a `docs/` number, including
+if the answer is that the asymmetry does not exist.

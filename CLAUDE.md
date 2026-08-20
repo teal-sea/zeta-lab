@@ -459,7 +459,17 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   until the caller names its numerator, and an `automated` claim that costs a
   named artifact. `suspicions()` reports the shapes a self-validating log takes.
   `asymmetry-experiment.md` is the pre-registered design for the independent-vs-
-  co-designed verification question. `operator-functions.md` decomposes what is
+  co-designed verification question, and `evals/` is now its runner: an Inspect
+  (`inspect_ai`) task implementing E0, the cheapest informative slice that design
+  names for itself. The dataset is real rather than illustrative, built by
+  applying `harness/shams.py`'s mutators to a live department, with ground truth
+  read from `SHAM_MODES` rather than restated. Its five measurements are kept
+  apart and never averaged, because the design is explicit that false confidence
+  is not one minus detection and that specificity is what stops a checker
+  answering "hollow" to everything from scoring perfectly. **E0 has not been run
+  against a real model**, and no number may be quoted from it until it has:
+  running a preregistration is a deliberate act with a chosen model and recorded
+  artifact digests, not a side effect of importing a module. `operator-functions.md` decomposes what is
   left of the operator's role once the automatable friction is subtracted, into
   severity calibration, scope discipline, skepticism routing and authority — and
   reframes the target: you do not automate judgment, you measure *calibration*,

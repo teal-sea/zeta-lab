@@ -21,3 +21,10 @@ python-flint>=0.6
 # Optional like python-flint: tests/test_pari_oracle.py skips without it, which
 # is why the skip count is worth reading rather than ignoring.
 cypari2>=2.2
+
+# Inspect (UK AI Security Institute), the runner for meta/evals/.  meta/ had a
+# pre-registered experiment whose probabilistic cells need a model in the loop
+# at check time, plus per-artifact cost accounting and an auditable log; that
+# was the missing piece, not another way to compute.  Optional like the two
+# above: tests/test_meta_evals.py skips without it.
+inspect_ai>=0.3.250
