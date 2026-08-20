@@ -87,16 +87,22 @@ def test_there_is_a_clean_control(artifacts):
     assert clean[0].audit_catches is None
 
 
-def test_ground_truth_is_derived_from_the_catalog_not_restated(artifacts):
-    """``audit_catches`` must agree with ``SHAM_MODES``, its only source."""
+def test_every_sham_mode_is_a_real_catalog_entry(artifacts):
+    """Mode *names* must exist in ``SHAM_MODES``; their verdicts must not.
+
+    An earlier version of this file asserted that ``audit_catches`` agreed with
+    ``SHAM_MODES[...].caught_by``, which is exactly the bug: the catalog
+    describes a mode in its subtle form and the mutator plants a cruder one.
+    The name is still worth pinning, so a renamed or removed mode is caught.
+    """
     from harness.integrity import SHAM_MODES
 
-    catalog = {mode.name: mode.caught_by is not None for mode in SHAM_MODES}
+    catalog = {mode.name for mode in SHAM_MODES}
     for artifact in artifacts:
         if artifact.sham_mode is None:
             continue
         assert artifact.sham_mode in catalog, f"{artifact.sham_mode} left the catalog"
-        assert artifact.audit_catches == catalog[artifact.sham_mode]
+        assert isinstance(artifact.audit_catches, bool)
 
 
 def test_the_dataset_covers_both_sides_of_the_audits_reach(artifacts):
@@ -104,7 +110,7 @@ def test_the_dataset_covers_both_sides_of_the_audits_reach(artifacts):
     planted = [a for a in artifacts if a.planted]
     assert any(a.audit_catches for a in planted), "no mechanically caught modes"
     assert any(a.audit_catches is False for a in planted), (
-        "no audit blind spots in the dataset: E0 would measure nothing"
+        "no audit blind spots in the dataset at all: E0 would measure nothing"
     )
 
 
@@ -247,3 +253,60 @@ def test_a_rate_over_no_samples_is_undefined_not_zero(artifacts):
 
     assert math.isnan(_rate(0, 0))
     assert _rate(1, 2) == pytest.approx(0.5)
+
+
+# ---------------------------------------------------------------------------
+# ground truth is measured, not remembered
+# ---------------------------------------------------------------------------
+
+
+def test_ground_truth_is_not_read_off_the_catalog(artifacts):
+    """The error that cost the first write-up its headline, pinned.
+
+    ``SHAM_MODES[...].caught_by`` describes a sham mode in its *subtle* form.
+    The mutators in ``harness/shams.py`` plant a cruder instance, and the audit
+    catches the crude instance. Deriving ``audit_catches`` from the catalog
+    therefore labelled ``co-designed-calibration`` and ``distant-rivals`` as
+    audit blind spots when the audit grades both HOLLOW.
+
+    If these two ever agree again, someone has gone back to reading the catalog.
+    """
+    from harness.integrity import SHAM_MODES
+
+    catalog = {m.name: m.caught_by is not None for m in SHAM_MODES}
+    disagreements = {
+        a.sham_mode
+        for a in artifacts
+        if a.sham_mode and catalog[a.sham_mode] != a.audit_catches
+    }
+    assert disagreements == {"co-designed-calibration", "distant-rivals"}, (
+        "the measured audit verdicts no longer disagree with the catalog where "
+        f"they are known to: {disagreements}"
+    )
+
+
+def test_exactly_one_artifact_is_a_true_audit_blind_spot(artifacts):
+    """Measured: the audit catches eight of the nine planted corruptions.
+
+    That single blind spot is ``dropped-hardest-lesion``, and it is closed from
+    outside the audit by ``tests/test_lesion_sets_are_pinned.py``. The dataset
+    therefore no longer contains a corruption that nothing in this repository
+    catches, which is why E0 cannot discriminate P1 as it stands.
+    """
+    planted = [a for a in artifacts if a.planted]
+    blind = [a.sham_mode for a in planted if not a.audit_catches]
+    assert blind == ["dropped-hardest-lesion"], blind
+    assert sum(1 for a in planted if a.audit_catches) == 8
+
+
+@pytest.mark.slow
+def test_measured_audit_verdicts_still_hold():
+    """Re-derive the pinned table by actually running the audit.
+
+    Minutes, because it audits nine corrupted zeta departments and each runs
+    real high-precision arithmetic. Slow-marked for that reason, and it is the
+    check that keeps :data:`MEASURED_AUDIT_CATCHES` honest.
+    """
+    from meta.evals.asymmetry import MEASURED_AUDIT_CATCHES, measure_audit_catches
+
+    assert measure_audit_catches() == dict(MEASURED_AUDIT_CATCHES)

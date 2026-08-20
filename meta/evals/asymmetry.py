@@ -108,6 +108,8 @@ __all__ = [
     "UNDECIDED",
     "POSITIVE_CONTROLS",
     "Artifact",
+    "MEASURED_AUDIT_CATCHES",
+    "measure_audit_catches",
     "build_artifacts",
     "render_department",
     "asymmetry_dataset",
@@ -146,9 +148,9 @@ class Artifact:
     """One battery shown to the checker, with the ground truth kept beside it.
 
     ``audit_catches`` is the co-designed comparator: whether
-    ``harness/integrity.py`` detects this corruption mechanically.  It is
-    ``False`` exactly for the modes the catalog declares as blind spots, and
-    those are the samples E0 turns on.
+    ``harness/integrity.py`` detects this corruption mechanically, **measured
+    by running the audit** rather than read off the catalog.  See
+    :data:`MEASURED_AUDIT_CATCHES`.
 
     ``positive_control`` marks a corruption that is *blatant* in the rendered
     text: a detector whose entire body is ``return value``, or a detector that
@@ -253,18 +255,60 @@ def _mutators() -> list[tuple[str, str, Callable[[Any], Any]]]:
     return out
 
 
+# Whether the audit actually catches each planted corruption, **measured** by
+# running ``harness.integrity.audit_department`` on the corrupted department,
+# not read off ``SHAM_MODES[...].caught_by``.
+#
+# That distinction cost this experiment its headline. The catalog's
+# ``caught_by=None`` describes a sham *mode* in its subtle form. The mutators in
+# ``harness/shams.py`` plant a cruder instance of it, and the audit catches the
+# crude instance. Reading the catalog therefore mislabelled two of nine
+# artifacts as audit blind spots when the audit grades both HOLLOW, and the one
+# encouraging result of the first write-up was an artifact of that error.
+#
+# Pinned rather than computed on import because auditing nine corrupted zeta
+# departments runs real ζ arithmetic and takes minutes. ``tests/
+# test_meta_evals.py`` re-derives it under ``@pytest.mark.slow``.
+MEASURED_AUDIT_CATCHES: Final = {
+    "constant-true-detector": True,           # DETECTOR_INADEQUATE
+    "target-as-rival": True,                  # HOLLOW
+    "inert-lesion": True,                     # HOLLOW
+    "dropped-hardest-lesion": False,          # CALIBRATED -- the only true blind spot
+    "key-asymmetry-label-leak": True,         # HOLLOW
+    "co-designed-calibration": True,          # HOLLOW
+    "distant-rivals": True,                   # HOLLOW
+    "detector-is-the-claim": True,            # DETECTOR_INADEQUATE
+    "agreeable-absent-field-oracle": True,    # HOLLOW
+}
+
+
 def _audit_catches(mode: str) -> bool:
-    """True when `harness/integrity.py` detects this mode mechanically.
+    """Whether ``harness/integrity.py`` detects this planted corruption.
 
-    Derived from the catalog rather than restated here: a mode with
-    ``caught_by=None`` is one of the audit's declared blind spots.
+    Measured, per :data:`MEASURED_AUDIT_CATCHES`.  Deliberately *not* derived
+    from the catalog: see the comment above that table for what reading the
+    catalog cost.
     """
-    from harness.integrity import SHAM_MODES
+    try:
+        return MEASURED_AUDIT_CATCHES[mode]
+    except KeyError:
+        raise KeyError(
+            f"{mode!r} has no measured audit verdict; run the audit on the "
+            "corrupted department and pin the result rather than guessing"
+        ) from None
 
-    for entry in SHAM_MODES:
-        if entry.name == mode:
-            return entry.caught_by is not None
-    raise KeyError(f"{mode!r} is not in SHAM_MODES")
+
+def measure_audit_catches(department: Any | None = None) -> dict[str, bool]:
+    """Re-derive :data:`MEASURED_AUDIT_CATCHES` by running the audit. Slow."""
+    from harness.integrity import audit_department
+
+    if department is None:
+        from harness.departments.zeta_department import DEPARTMENT as department
+
+    return {
+        mode: audit_department(mutate(department)).grade != "CALIBRATED"
+        for mode, _fn_name, mutate in _mutators()
+    }
 
 
 def build_artifacts(department: Any | None = None) -> list[Artifact]:

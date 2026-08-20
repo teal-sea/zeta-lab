@@ -197,14 +197,21 @@ not as a fault to report. Both are pinned in `tests/test_meta_evals.py`.
 Measurement 5, conditional detection lift, is not covered: it compares two
 checkers and needs two arms, so it stays with E1.
 
-**Status: run 2026-08-20, four checkers.** Claude reproduced the co-designed
-audit exactly, artifact for artifact. Foreign models (GPT, Gemini, Grok) caught
-`co-designed-calibration`, one of the three blind spots, and it is the mode whose
-countermeasure text is about co-design. P1 is contradicted on its own terms: the
-foreign checkers have *higher* false confidence (0.444, 0.556) than Claude
-(0.333). P2 is refuted, and P2 was the informative one: conditional detection
-lift is zero or negative in all six eligible pairs, so misses are correlated and
-"independent parties fail in uncorrelated ways" is not observed. The stopping
-rule applies and the full factorial is premature. GPT answered hollow to all ten
-artifacts including the clean control, which `specificity` caught. Disposition,
-limits, and cost: `docs/28-asymmetry-e0-disposition.md`.
+**Status: run 2026-08-20, four checkers, and the design cannot be discriminated
+as it stands.** The co-designed audit caught 8 of 9 planted corruptions; Claude
+6, Gemini 5, Grok 3, and GPT answered hollow to all ten including the clean
+control, which `specificity` caught. P1 points the other way and P2 is refuted by
+zero-or-negative conditional lift in every pair.
+
+The finding that matters is upstream of both. Of the six modes the catalog calls
+blind spots, only three can be planted at all, and two of those three plant
+instances the audit catches. E0's dataset therefore contained exactly one
+artifact that tested the question, which cannot discriminate anything. The
+binding constraint is that `harness/shams.py` cannot produce the modes
+`harness/integrity.py` declares itself blind to, and nothing had ever compared
+the two. Writing subtle mutators, or admitting in `SHAM_MODES` that no planter
+exists, is the prerequisite for further work here.
+
+That one true blind spot, `dropped-hardest-lesion`, is now closed:
+`tests/test_lesion_sets_are_pinned.py`. Disposition, the correction notice for
+the first write-up, limits and cost: `docs/28-asymmetry-e0-disposition.md`.

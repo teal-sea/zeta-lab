@@ -1,8 +1,15 @@
 # 28. E0: the independent checker reproduced the audit's blind spots exactly
 
 *Disposition of the cheapest informative slice of `meta/asymmetry-experiment.md`.
-Run 2026-08-20. Grade: **measured** (one route, one model, one run). Nothing here
-is a mathematical result; it is evidence about the laboratory.*
+Run 2026-08-20, four checkers. Grade: **measured**, one run each. Nothing here is
+a mathematical result; it is evidence about the laboratory.*
+
+> **Corrected 2026-08-20, after first publication.** The first version of this
+> document reported that foreign models caught an audit blind spot the audit
+> could not see. That was wrong, and the error was mine: ground truth was read
+> off `SHAM_MODES[...].caught_by` instead of measured by running the audit. See
+> *The error* below. The corrected result is less flattering to every model
+> checker and to this experiment.
 
 ## The question, and why it was worth asking
 
@@ -69,110 +76,130 @@ the result neither toward nor away from P1. A prompt revised after reading a
 *blind-spot* number would be a different and illegitimate act. Run 1's log is
 unchanged and shipped alongside run 2.
 
+## The error, since it changes every number below
+
+`harness.integrity.SHAM_MODES` marks six modes `caught_by=None`. I took that as
+ground truth for whether the audit catches a given artifact. It is not, and the
+gap is structural rather than a typo.
+
+`caught_by` describes a sham mode in its **subtle** form: reference claims and
+instruments co-authored so that every mechanical check passes. The mutators in
+`harness/shams.py` plant a much **cruder** instance. `with_vacuous_calibration`,
+for example, installs `lambda payload: True` as a claim declared to
+distinguish. The audit's `calibration-rederived` check re-runs every claim
+against the battery and compares the measured verdict to the declared one, so it
+catches that immediately and grades the department HOLLOW.
+
+Measured by running `audit_department` on each corrupted department:
+
+| artifact | catalog said | audit actually grades | caught |
+|---|---|---|---|
+| `constant-true-detector` | catches | DETECTOR_INADEQUATE | yes |
+| `target-as-rival` | catches | HOLLOW | yes |
+| `inert-lesion` | catches | HOLLOW | yes |
+| `key-asymmetry-label-leak` | catches | HOLLOW | yes |
+| `detector-is-the-claim` | catches | DETECTOR_INADEQUATE | yes |
+| `agreeable-absent-field-oracle` | catches | HOLLOW | yes |
+| `co-designed-calibration` | **blind** | HOLLOW | **yes** |
+| `distant-rivals` | **blind** | HOLLOW | **yes** |
+| `dropped-hardest-lesion` | **blind** | CALIBRATED | **no** |
+
+Two of three claimed blind spots are not blind spots. `meta/evals/asymmetry.py`
+now pins measured verdicts and `tests/test_meta_evals.py` re-derives them under
+`@pytest.mark.slow`, with a fast test that fails if anyone reads the catalog
+again.
+
 ## Result
 
-Run 2, `claude-opus-5`: `meta/evals/logs/2026-08-20T17-07-26-*.eval`. Foreign
-arms logged alongside. All four passed the `positive_control_detection` gate.
+All four checkers passed the `positive_control_detection` gate. Ground truth as
+measured above.
 
-| checker | detection | false confidence | specificity (n=1) | blind spots |
+| checker | detection | false confidence | specificity (n=1) | true blind spot |
 |---|---|---|---|---|
-| co-designed audit | 0.667 | 0.333 | n/a | 0 of 3 by construction |
-| `claude-opus-5` | 0.667 | 0.333 | pass | **0 of 3** |
-| `gemini-3.1-pro` | 0.556 | 0.444 | pass | 1 of 3 |
-| `grok-4.6` | 0.333 | 0.556 | pass | 1 of 3 |
-| `gpt-5.6-sol` | 1.000 | 0.000 | **FAIL** | 3 of 3, uninformative |
+| **co-designed audit** | **0.889** | **0.111** | n/a | 0 of 1 |
+| `claude-opus-5` | 0.667 | 0.333 | pass | 0 of 1 |
+| `gemini-3.1-pro` | 0.556 | 0.444 | pass | 0 of 1 |
+| `grok-4.6` | 0.333 | 0.556 | pass | 0 of 1 |
+| `gpt-5.6-sol` | 1.000 | 0.000 | **FAIL** | 1 of 1, uninformative |
 
 **GPT is disqualified, and the measure that disqualified it is the point.** It
-answered *hollow* to all ten artifacts including the clean control. That scores
-perfectly on detection and false confidence while distinguishing nothing, which
-is exactly the degenerate checker `specificity` exists to catch. It caught it.
-The repository's own admission rule, applied to a checker rather than a claim.
-
-### Per artifact
-
-| artifact | audit | claude | gemini | grok |
-|---|---|---|---|---|
-| `co-designed-calibration` | **blind** | sound | **hollow** | **hollow** |
-| `distant-rivals` | **blind** | sound | sound | sound |
-| `dropped-hardest-lesion` | **blind** | sound | sound | sound |
-| `constant-true-detector` | catches | hollow | hollow | hollow |
-| `detector-is-the-claim` | catches | hollow | hollow | hollow |
-| `inert-lesion` | catches | hollow | hollow | sound |
-| `target-as-rival` | catches | hollow | hollow | sound |
-| `key-asymmetry-label-leak` | catches | hollow | sound | sound |
-| `agreeable-absent-field-oracle` | catches | hollow | sound | sound |
-| `clean` | n/a | sound | sound | sound |
+answered *hollow* to all ten artifacts including the clean control: perfect on
+detection and false confidence, distinguishing nothing. `specificity` caught it,
+which is this repository's own admission rule applied to a checker instead of a
+claim.
 
 ## Reading
 
-**Claude reproduced the audit exactly.** Same six caught, same three missed,
-artifact for artifact. Prompt-level independence within the authoring model
-family bought nothing at all.
+**The co-designed audit beat every model checker, and not narrowly.** 0.889
+against 0.667, 0.556 and 0.333. The hypothesis under test was that independent
+checkers would do better. The mechanical checker written by the same process
+that wrote the batteries did better than all three foreign models.
 
-**A foreign model caught one blind spot, and it is the on-point one.**
-`co-designed-calibration` is the mode whose `countermeasure` field reads
-*"independent authorship, held-out mutations authored by a party that has not
-seen the detectors."* It is the mode most directly about co-design, the audit
-cannot see it, Claude did not see it, and every foreign model did. That is the
-single most encouraging observation in this run.
+**No credible checker caught the one genuine blind spot.** `dropped-hardest-
+lesion` was missed by Claude, Gemini and Grok. Only GPT flagged it, while
+flagging everything.
 
-**P1 is not supported, and is contradicted on its own terms.** P1 predicted that
-independent checkers have a *lower* false confidence rate. The foreign checkers
-have higher ones: 0.444 and 0.556 against Claude's 0.333. They are not better
-readers. They are differently blind.
+**P1 is not supported and points the other way.** It predicted lower false
+confidence from independence. Measured: 0.333, 0.444 and 0.556 for the model
+checkers against 0.111 for the co-designed audit.
 
-**P2 is refuted, and P2 is the measurement that matters.** Conditional detection
-lift asks whether B catches A's misses at more than B's own base rate. Across
-every eligible pair it is zero or negative:
+**P2 is refuted.** Conditional detection lift across every eligible pair of
+model checkers is zero or negative; no checker beats its own base rate on what
+another missed. Misses are correlated. Hard artifacts are hard for everyone.
 
-| pair | B on A's misses | B's base rate | lift |
-|---|---|---|---|
-| gemini on claude | 0.333 | 0.556 | -0.222 |
-| grok on claude | 0.333 | 0.333 | 0.000 |
-| claude on gemini | 0.500 | 0.667 | -0.167 |
-| grok on gemini | 0.000 | 0.333 | -0.333 |
-| claude on grok | 0.667 | 0.667 | 0.000 |
-| gemini on grok | 0.333 | 0.556 | -0.222 |
+**But E0 could not have discriminated P1 anyway, and that is the real finding.**
+The question is whether independence helps against the modes the audit cannot
+see. Of the six such modes in the catalog, only three have mutators at all, and
+two of those three plant instances the audit catches. The dataset therefore
+contained exactly **one** artifact that actually tests the question, and one
+artifact cannot discriminate anything.
 
-No checker is better than its own average on what another missed. The misses are
-correlated: hard artifacts are hard for everyone, and *that* is the structure,
-not authorship.
+The binding constraint is not checker independence. It is that
+**`harness/shams.py` cannot plant the modes `harness/integrity.py` says it is
+blind to.** The sham catalog and the sham planter have drifted apart, nobody
+noticed because nothing ever compared them, and this run is what compared them.
 
-**A panel helps, but not for the reason the repository assumed.** Claude alone
-catches 6 of 9 and 0 of 3 blind spots; Claude plus Gemini catches 7 of 9 and 1
-of 3; adding Grok adds nothing further. The gain is real and it is the ordinary
-gain of running more checkers, not evidence that independent checkers cover each
-other's blind spots. With lift at or below zero, that second claim has no support
-here.
+## What was done about it
 
-**What the repository should stop writing.** Six `countermeasure` fields name
-independent authorship as the remedy for what the audit cannot see. On this
-evidence that is one-third true at best, and the mechanism asserted for it,
-independent parties failing in uncorrelated ways, is not observed at all. Say
-"an additional checker sometimes catches co-designed calibration" and stop there.
+The one true blind spot is now closed. `dropped-hardest-lesion` was carried as
+mechanically uncatchable while its own `countermeasure` field said **"pin the
+lesion set in tests."** That instruction had never been followed.
+`tests/test_lesion_sets_are_pinned.py` follows it: every department's lesion set
+pinned by name and magnitude, the minimum-magnitude lesion asserted separately
+because it is the one the sham removes, a negative control that plants the sham
+and asserts the pin goes red, and a coverage test so a later department cannot
+escape the pin.
+
+The mode stays in `AUDIT_BLIND_SPOTS`, which is accurate: the audit still cannot
+see it, and it is now caught from outside the audit. Whether a lesion set was
+*adequate* is a judgment and cannot be mechanised. Regression away from one is a
+test, and always was.
 
 ## What this does not show
 
-- **n is very small.** Three blind-spot artifacts, one run per checker, no
-  variance estimate. One catch out of three is one artifact.
-- **Specificity rests on a single clean control.** Every "pass" above is n=1.
-  Gemini and Grok answered *sound* five and six times out of ten, so neither is
-  degenerate, but that is reassurance rather than measurement. More clean
-  controls is the cheapest improvement available.
-- **Difficulty is confounded with blind-spot status.** The modes the audit cannot
-  catch may simply be harder for any reader. The correlated-miss structure above
-  is consistent with that and does not separate it.
-- **Nothing here is about the mathematics.** It is evidence about the laboratory.
+- **The subtle modes were never tested.** Nothing here says anything about
+  genuine co-designed calibration or genuinely distant rivals, because no
+  artifact instantiated them. The catalog's six blind spots remain untested.
+- **n = 1 on the quantity of interest**, and n = 1 on every specificity figure.
+- **Difficulty is confounded with blind-spot status**, and with only one blind
+  spot the confound cannot even be examined.
+- **Nothing here is about the mathematics.** It is evidence about the
+  laboratory, and by this repository's own rule a session that produced no
+  mathematics and a tidy ledger produced nothing.
 
 ## Cost
 
-Five runs, 50 model calls: about $3.35. Claude two runs ~$1.82, GPT $0.34,
-Gemini $0.49, Grok $0.71. Reasoning tokens dominated throughout and were absent
-from the pre-run estimate of $0.53; Grok alone emitted 105,332 of them.
+Five runs, 50 model calls, about $3.35, plus one audit sweep of nine corrupted
+departments. Grok emitted 105,332 reasoning tokens by itself.
 
 ## Next
 
-More clean controls, which is cheap and fixes the weakest measurement here.
-Repeat runs for variance, since every number above is a single draw. Neither
-requires the full factorial, which the design's stopping rule now advises
-against building.
+Write mutators that plant the *subtle* forms, or accept that the catalog's six
+blind spots are untestable with the tooling that exists and say so in
+`SHAM_MODES` rather than implying a planter exists. That is the prerequisite for
+any further work on this question, and it is worth more than another checker.
+
+A cheap and separate win: add a provenance check asking whether a reference
+claim and the detector that tests it were authored by the same party in the same
+commit. `harness/preregistration.py` already records the digests it would need,
+and unlike an LLM checker it cannot be talked out of its answer.
