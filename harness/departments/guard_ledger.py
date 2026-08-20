@@ -131,10 +131,10 @@ GUARDS: tuple[GuardRecord, ...] = (
         known_misses=(
             "public functions added under meta/ — the package is not scanned "
             "at all (B01)",
+            "public functions added under compiler/ — likewise unscanned "
+            "(B02)",
             "documents added under docs/doors/ — doc_index globs docs/*.md, "
             "not docs/**/*.md (B03)",
-            "test files whose names do not match test_*.py, e.g. "
-            "tests/mutant_helper.py (B04)",
             "a public docstring changed below its first line — only the "
             "first line is indexed (B07, by construction)",
         ),
@@ -150,9 +150,13 @@ GUARDS: tuple[GuardRecord, ...] = (
             "length-neutral in-place private helper renames in __all__ modules "
             "pass silently (measured by hunts/r_7ad39f/probe.py, 0/299 unexported "
             "private symbols caught, 0.0%), while renames in non-__all__ modules "
-            "(4/4) and edits altering line count are 100% caught. Unscanned "
-            "packages like compiler/ are 100% blind (measured by "
-            "hunts/r_dc6e6f/probe.py, 0/37 public symbols caught, 0.0%)"
+            "(4/4) and edits altering line count are 100% caught; non-test_*.py "
+            "test files (e.g. tests/mutant_helper.py, tests/conftest.py), "
+            "nested test files under subdirectories, test assets, and non-test "
+            "helper edits in tests/ are excluded by design and pass silently "
+            "(measured by hunts/r_c35cd1/probe.py, 0/22 non-matching specimens "
+            "caught, 0.0%), while test function changes in test_*.py are "
+            "100% caught (3/3)"
         ),
         incident="",
     ),
