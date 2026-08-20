@@ -1081,7 +1081,7 @@ Constants: `GRAVES`
 
 ### `harness/departments/guard_ledger.py` — The repository's guard ledger — the guard offensive's opening entries.
 
-*283 lines*
+*280 lines*
 
 Constants: `GUARDS`
 
