@@ -29,10 +29,14 @@ It **runs** nothing on import and nothing in the test suite beyond a mock
 model.  E0 *has* now been executed, on 2026-08-20 against ``claude-opus-5``;
 and again across GPT, Gemini and Grok; the disposition is
 ``docs/28-asymmetry-e0-disposition.md`` and the logs are in
-``meta/evals/logs/``.  The headline: Claude reproduced the co-designed audit
-exactly, a foreign model caught one of the three blind spots, and conditional
-detection lift is zero or negative across every eligible pair, so P1 and P2 are
-both unsupported.  Any *further* run is a fresh scientific act with
+``meta/evals/logs/``.  The headline, as corrected on 2026-08-20 after ground
+truth was measured rather than read off ``SHAM_MODES[...].caught_by``: the
+co-designed audit beat every model checker (0.889 detection against 0.667 for
+Claude and less for the foreign models), no checker had a true blind spot
+because the dataset held exactly one artifact that tested the question, and
+conditional detection lift is zero or negative across every eligible pair, so
+P1 and P2 are both unsupported.  The comparison is further confounded by
+access: the audit executes the battery, the model checkers only read it.  Any *further* run is a fresh scientific act with
 its own recorded digests, not a side effect of importing this module.
 
 It covers measurements 1, 2, 3 and 4 of the five the preregistration names
