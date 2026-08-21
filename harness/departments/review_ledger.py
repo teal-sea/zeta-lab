@@ -155,4 +155,51 @@ OUTCOMES: tuple[AttackOutcome, ...] = (
             "hunts/r_065f29/HANDBACK.json",
         ),
     ),
+    AttackOutcome(
+        claim_name="urms2-0.51",
+        role="white-box",
+        attacker="Fulcrum hunt R-2AC05F (run 55786d8e, Claude Opus 5, 2026-08-20)",
+        findings=(
+            "the xi-double-prime form-factor row that hunts/higher_xi/ "
+            "C2_EXACT.json and C2_EXTENDED.json rest on survives an "
+            "independent fourth derivation: a formal Dirichlet word algebra "
+            "written for this adjudication, importing neither hunt, "
+            "reproduces C_2,i = 1, -8, 24, -32, 64/3, -64/3, 1216/45, "
+            "-256/15, 1088/63, -11776/945, 42496/4725 exactly at all eleven "
+            "indices",
+            "its external control passes: the same code at kappa = 1 "
+            "reproduces the Farmer-Gonek closed form (arXiv:0803.0425) "
+            "exactly at all eleven indices, including the four forced zeros",
+            "the conflicting table in hunts/rogue_frontier/fkappa/ (commit "
+            "360c545, corrected mode, rows['2'] = 1, -4, 4, -16, 52/3, ...) "
+            "is wrong from i = 2, and the mechanism is inheritance rather "
+            "than arithmetic: its RESULTS.md section 1 carries Bian's "
+            "Lemma 12 constant C_kappa,2 = -4 as an axiom while auditing the "
+            "code around it",
+            "general form of the defect, derived here and recorded nowhere "
+            "else: the x^1 coefficient of Qhat_kappa = Q_kappa / L^kappa is "
+            "kappa*g for every kappa, so C_kappa,2 = -4*kappa (-4, -8, -12, "
+            "-16, -20 for kappa = 1..5). Lemma 12's universal -4 is the "
+            "dropped M(v_l)M(w_k) weight that C2_PROVENANCE.md names on "
+            "thesis page 71, confirming higher_xi's causal diagnosis",
+            "measured control power rather than asserted: planting exactly "
+            "that defect in this probe leaves the Farmer-Gonek kappa = 1 "
+            "control passing and moves C_2,2 to the published -4, while a "
+            "one-factorial corruption of the pairing turns the same control "
+            "red. The only externally anchored control either hunt ran has "
+            "zero power against the defect that decided the dispute; the "
+            "control that would have caught it is to compute C_kappa,2 for "
+            "kappa = 1, 2, 3 and assert the values differ",
+            "no attack was mounted on the URMS2 bandwidth argument itself; "
+            "this outcome bears only on the coefficient table beneath it, "
+            "which it leaves standing",
+        ),
+        artifacts=(
+            "hunts/r_2ac05f/RESULTS.md",
+            "hunts/r_2ac05f/probe.py",
+            "hunts/r_2ac05f/fault_check.py",
+            "hunts/r_2ac05f/results.json",
+            "hunts/r_2ac05f/HANDBACK.json",
+        ),
+    ),
 )
