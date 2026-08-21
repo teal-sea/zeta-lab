@@ -9,8 +9,9 @@ for research interest, and publishes the exact statement together with the
 review's findings.
 
 Two submission surfaces live here, and nine files exist for that registry and
-for nothing else. The Pub 1 surface is registered; the Davenport-Heilbronn one
-is not (see the bottom of this file).
+for nothing else. Both have passed review and requested registration; the
+Davenport-Heilbronn one took two attempts, and the bottom of this file says
+why.
 
 | File | Surface | Role |
 | --- | --- | --- |
@@ -120,10 +121,12 @@ So the surface now advertises `ZetaLean.PalomarDH.dh_analytic_half` alone.
 them; they are simply no longer offered to an editor to score. **Do not add
 them back to `DHChallenge.lean` without a reason that answers finding 2.**
 
-Palomar does not re-review a refused submission. The corrected commit is a new
-submission, and `m135pipw9ldb` should be withdrawn. Its review is private and
-reachable only through its own access link, which is a credential: it does not
-belong in this repository.
+Palomar does not re-review a refused submission, and permits one submission in
+progress per repository, so `m135pipw9ldb` was abandoned and the corrected
+commit `097215a` went in as a new one. That one returned **no problems were
+identified** and registration was requested on 2026-08-21. A submission's review
+is private and reachable only through its own access link, which is a
+credential: it does not belong in this repository.
 
 ```bash
 cd lean && PATH="$HOME/.elan/bin:$PATH" lake build DHChallenge DHSolution

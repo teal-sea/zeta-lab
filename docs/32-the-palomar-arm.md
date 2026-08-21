@@ -3,10 +3,11 @@
 **21 August 2026.** On 18 August 2026 the Lean FRO and ICARM opened
 [Palomar](https://palomar-registry.org/), a registry of Lean-verified
 mathematics, described by its own documentation as the analogue of a preprint
-server for Lean proofs. Three days later this laboratory submitted one result to
-it. This document records what was submitted, what the check does and does not
-establish, how the submission surface is built, and one measured observation
-about the service itself.
+server for Lean proofs. Three days later this laboratory submitted two results
+to it, one of which was refused on its first attempt. This document records what
+was submitted, what the check does and does not establish, how the submission
+surface is built, one measured observation about the service itself, and what
+the refusal taught.
 
 The short version: the laboratory's Lean arm was already sorry-free and
 axiom-clean, and that had been true for days. What changed is that somebody
@@ -75,10 +76,11 @@ human reader has walked the chain.
 
 ## 3. How the submission surface is built
 
-Five files in `lean/`, and `lean/PALOMAR.md` is the operating guide:
-`Challenge.lean`, `Solution.lean`, `comparator.json`, `formalization.yaml`, and
-`PALOMAR.md` itself. Three design points are not obvious and cost time to
-rediscover.
+Five files in `lean/` per surface, and `lean/PALOMAR.md` is the operating guide.
+For Pub 1: `Challenge.lean`, `Solution.lean`, `comparator.json`,
+`formalization.yaml`, and `PALOMAR.md` itself. The Davenport-Heilbronn surface
+of §8 adds four more on the same pattern. Three design points are not obvious
+and cost time to rediscover.
 
 **The Challenge carries one deliberate `sorry` per advertised statement.** That
 is what the format requires of a statement surface. It is not an uncertified
@@ -185,7 +187,7 @@ checked against the code that enforces it, and the check reversed the
 conclusion. A spec and its implementation are two different artifacts and the
 implementation is the one that runs.
 
-## 8. The second submission was rejected, and the rejection was right
+## 8. The second submission was refused, corrected, and passed
 
 The Davenport-Heilbronn arm was submitted the same day, submission
 `m135pipw9ldb` at commit `e474535`, advertising three declarations: two
@@ -230,9 +232,29 @@ advertise the analytic half alone. The two criteria stay in the development,
 where they are used; they stop being a thing an editor is asked to score.
 
 Both corrections are made and the surface now advertises one declaration,
-`ZetaLean.PalomarDH.dh_analytic_half`. Palomar does not re-review a rejected
-submission: the corrected commit goes in as a new one, and the old submission
-is withdrawn.
+`ZetaLean.PalomarDH.dh_analytic_half`. Palomar does not re-review a refused
+submission, and it permits only one submission in progress per repository, so
+`m135pipw9ldb` was abandoned and the corrected commit went in as a new one.
+
+**That resubmission passed.** Commit `097215a`, submitted 2026-08-21 22:40 UTC,
+verification run
+[32533951368](https://github.com/PalomarRegistry/PalomarSubmission/actions/runs/32533951368):
+mechanical verification succeeded at 22:50, and at 22:58 the editorial review
+returned **no problems were identified**, naming statement, definitions,
+presentation, provenance, literature account and research interest. Registration
+was requested at 23:04. Both findings were therefore real and both fixes
+answered them, which is the useful thing to know about a refusal: it was
+specific enough to act on, and acting on it took one commit.
+
+The delta between the two submissions is worth stating plainly, because it is
+the whole lesson. The mathematics did not change. Not one line of proof was
+added, and the declaration that registered was already present, already proved
+and already kernel-accepted in the submission that was refused. What changed is
+that the metadata stopped asserting something false about the tree, and that
+two elementary lemmas stopped being advertised alongside a substantive one. A
+result can be entirely correct and still be refused for how it is presented and
+what it is bundled with, and neither of those is a defect a test suite has any
+way to see.
 
 One procedural note for whoever runs the next submission. The review, its
 findings and the submitter's identity are private unless the author registers,
