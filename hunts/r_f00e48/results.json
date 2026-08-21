@@ -1,0 +1,173 @@
+{
+  "all_pass": true,
+  "checks": {
+    "crosscheck:agrees_with_landed_hunt_r_ac9ca3": {
+      "detail": "DH lambda_min mid -1.8739356885701883864888... and zeta 4.8216017520231... match hunts/r_ac9ca3/'s independent figures",
+      "pass": true
+    },
+    "excluded:absent": {
+      "detail": "present anyway: []",
+      "pass": true
+    },
+    "excluded:no_pickles": {
+      "detail": "0 .pkl under the landed tree",
+      "pass": true
+    },
+    "excluded:size": {
+      "detail": "1717013 bytes landed (source subtree carries ~58 MB)",
+      "pass": true
+    },
+    "gate:dh_control_grid_is_all_positive": {
+      "detail": "dh_control.json: 28 cells, 0 negative (the failure lives in dhneg_scan.json, not here)",
+      "pass": true
+    },
+    "gate:dh_first_negative_cell_31_60": {
+      "detail": "first DH positivity failure at (c, N) = (31, 60), even sector",
+      "pass": true
+    },
+    "gate:nyman_coeffs_N2048_present": {
+      "detail": "the N = 2048 coefficient checkpoint landed with it",
+      "pass": true
+    },
+    "gate:nyman_reaches_N2048": {
+      "detail": "the Baez-Duarte ladder reaches N = 2048 (main's landed work stops at N = 50)",
+      "pass": true
+    },
+    "gate:sine_gram_m5_m6": {
+      "detail": "m5(1) = 101/18 and m6(1) = 640/63 are stated in the landed RESULTS.md",
+      "pass": true
+    },
+    "gate:weil_enclosures_27_of_27": {
+      "detail": "27/27 enclosure cells conclusive with zero negative inertia",
+      "pass": true
+    },
+    "gate:weil_replication_8_gates": {
+      "detail": "8 replication gates in the landed JSON: A,B,C,D,E,F,G,H",
+      "pass": true
+    },
+    "gate:zeta_control_stays_positive_at_that_cell": {
+      "detail": "zeta at (c, N) = (31, 60): even inertia [61, 0, True], odd [60, 0, True] -- the control the claim needs",
+      "pass": true
+    },
+    "headline:RF-C003_F": {
+      "detail": "F(v*) = 2245228120295149280/3276332462159207451",
+      "pass": true
+    },
+    "headline:RF-C003_document_agrees": {
+      "detail": "the landed RESULTS.md quotes the rational the landed code recomputes",
+      "pass": true
+    },
+    "inventory:nyman_beurling": {
+      "detail": "32 files landed, 32 on the source branch",
+      "pass": true
+    },
+    "inventory:sine_gram": {
+      "detail": "11 files landed, 11 on the source branch",
+      "pass": true
+    },
+    "inventory:weil_trunc": {
+      "detail": "23 files landed, 23 on the source branch",
+      "pass": true
+    },
+    "inventory:window_opt": {
+      "detail": "10 files landed, 10 on the source branch",
+      "pass": true
+    },
+    "lexical:reserved_word": {
+      "detail": "offending files: []",
+      "pass": true
+    },
+    "present:FRONTIER_MAP.md": {
+      "detail": "/Users/thomas/fulcrum/.worktrees/8b5765ae-c860-4a9c-bd11-a69eb60ecd00/hunts/rogue_frontier/FRONTIER_MAP.md",
+      "pass": true
+    },
+    "present:IDEA_PORTFOLIO.md": {
+      "detail": "/Users/thomas/fulcrum/.worktrees/8b5765ae-c860-4a9c-bd11-a69eb60ecd00/hunts/rogue_frontier/IDEA_PORTFOLIO.md",
+      "pass": true
+    },
+    "present:LANDING.md": {
+      "detail": "/Users/thomas/fulcrum/.worktrees/8b5765ae-c860-4a9c-bd11-a69eb60ecd00/hunts/rogue_frontier/LANDING.md",
+      "pass": true
+    },
+    "present:MISSION.md": {
+      "detail": "/Users/thomas/fulcrum/.worktrees/8b5765ae-c860-4a9c-bd11-a69eb60ecd00/hunts/rogue_frontier/MISSION.md",
+      "pass": true
+    },
+    "present:REPRODUCE.md": {
+      "detail": "/Users/thomas/fulcrum/.worktrees/8b5765ae-c860-4a9c-bd11-a69eb60ecd00/hunts/rogue_frontier/REPRODUCE.md",
+      "pass": true
+    },
+    "present:data/frontier_surveys.json": {
+      "detail": "/Users/thomas/fulcrum/.worktrees/8b5765ae-c860-4a9c-bd11-a69eb60ecd00/hunts/rogue_frontier/data/frontier_surveys.json",
+      "pass": true
+    },
+    "reproduce:fkappa_marked_unlanded": {
+      "detail": "4 fkappa paths cited, all under a NOT-LANDED heading",
+      "pass": true
+    },
+    "reproduce:old_symbol_gone": {
+      "detail": "neither broken reference survives in REPRODUCE.md",
+      "pass": true
+    },
+    "reproduce:paths_resolve": {
+      "detail": "cited=20 dangling=[]",
+      "pass": true
+    },
+    "reproduce:symbol_resolves": {
+      "detail": "functional.moments_polyeven_exact imports",
+      "pass": true
+    }
+  },
+  "dh_control": {
+    "dh_control_grid_cells": 28,
+    "dh_control_negative_cells": 0,
+    "first_negative_cell": {
+      "N": 60,
+      "c": 31,
+      "sector": "even"
+    },
+    "zeta_control_at_that_cell": {
+      "N": 60,
+      "c": 31,
+      "even_inertia_at_0": [
+        61,
+        0,
+        true
+      ],
+      "odd_inertia_at_0": [
+        60,
+        0,
+        true
+      ]
+    }
+  },
+  "failures": [],
+  "rf_c003": {
+    "F": "2245228120295149280/3276332462159207451",
+    "F_float": 0.6852870232880678,
+    "m2": "95695869320/72057314637",
+    "m3": "6457052410893815440/3276332462159207451",
+    "q": [
+      "-1467/1000",
+      "1159/1000"
+    ]
+  },
+  "weil_enclosures": {
+    "by_kind": {
+      "dh": 7,
+      "zeta": 20
+    },
+    "conclusive_positive": 27,
+    "total": 27
+  },
+  "weil_replication_gates": [
+    "gate_A",
+    "gate_B",
+    "gate_C",
+    "gate_D",
+    "gate_E",
+    "gate_F",
+    "gate_G",
+    "gate_H"
+  ]
+}
