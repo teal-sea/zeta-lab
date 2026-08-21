@@ -1311,7 +1311,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2312 test functions across 141 files (the collected count differs where tests are parametrised):
+2331 test functions across 143 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adaptive_freeze_archive.py`, 23
 - `tests/test_adele.py`, 4
@@ -1336,6 +1336,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_discovery_schema.py`, 62
 - `tests/test_discovery_zeta_domain.py`, 83
 - `tests/test_docs_numbering.py`, 6
+- `tests/test_docs_paths.py`, 2
 - `tests/test_doors.py`, 5
 - `tests/test_dossier_hardy_z.py`, 22
 - `tests/test_dossier_schema.py`, 37
@@ -1343,6 +1344,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_epstein_count_dps_floor.py`, 3
 - `tests/test_epstein_zeta_height.py`, 3
 - `tests/test_explicit.py`, 45
+- `tests/test_f1_engine_controls.py`, 17
 - `tests/test_factorial_direct_bn.py`, 4
 - `tests/test_factorial_full_cost.py`, 5
 - `tests/test_factorial_pilot_archive.py`, 7

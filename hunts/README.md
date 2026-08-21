@@ -3801,3 +3801,51 @@ degree, because the literature had already met it: GORTTW (Adv. Math. 2022)
 Corollary 1.3 gives all `n` for `d <= 9.36e20`. The Davenport-Heilbronn rival gate is
 preregistered with the prediction that the construction also succeeds for DH, which
 would make the wedge shared structure. Nothing here bears on RH (`docs/08`).
+
+### Hunt #142: controls for the F1 discovery engine (`f1_engine_controls/`, opened 2026-08-21, landed 2026-10-21)
+
+Opened as Hunt #64 on 2026-08-21, on a branch that never reached `main`. #64 is
+`r_b9552d` run 2, #136 and #137 are held by open hunt branches, and #138 to
+#141 by four other landings of 2026-10-21, so this entry is #142.
+
+**Status: closed (2026-10-21), measured; three of the five critiques measured and
+pinned, two left as judgments. Nothing promoted.**
+`docs/15-the-f1-discovery-engine.md` closes with a Reality Check of five
+critiques that dial the document's own rhetoric back. Nothing in the tree
+tested them. Three make checkable assertions, and measuring them moved two.
+
+- **The ln 2 degeneracy** in `ontology/04_transcendental_matrix.py` is a
+  truncation artifact, as claimed, but its multiplicity is the kernel
+  dimension of a hub incidence matrix on the dead-end nodes `2u <= N < 3u`,
+  not the quoted `pi(N/2) - pi(N/3) - 1`. That formula is the special case in
+  which every dead end is prime, and it undercounts from `N = 338`, where the
+  semiprimes `121, 143, 169` first close a pattern over the hubs `11, 13`.
+  Checked at all 251 sizes `N = 10 … 260`, and on a coarser scan to
+  `N = 800`, with no disagreement.
+- **The density failure** is 159 modes below zeta's first ordinate at 400
+  nodes, against none, and refinement widens the gap rather than closing it:
+  low modes accumulate like `0.35 N` while the top of the spectrum creeps
+  like `log N`.
+- **The imposter gauntlet** criticism lands on the operator, which takes only
+  its truncation, and misses the predicate, which consults its input: it
+  rejects the three linear-combination rivals of `zeta.epstein.battery`
+  (`shift=None`). What is actually false in `07`'s conclusion is "immune to
+  false positives": the battery's own Euler-product rival, the shifted
+  product `W_a`, passes the predicate (default battery: `distinguishes:
+  False`, `shared_with: ('shifted_product',)`), and so do the two mod-5
+  L-functions that make up Davenport-Heilbronn. It separates Euler products
+  from linear combinations of them rather than singling out zeta. The third
+  kill condition in `MISSION.md` was written when the standing battery was
+  the three linear-combination rivals, and as literally worded it fires on
+  today's default battery; `RESULTS.md` records both readings and leaves the
+  condition as written.
+
+Reality Check items 1 and 3 (a toy computation; `F_1` geometry is
+speculative) are judgments, not measurements, and stand as written. The
+stale `discovery/` paths in `docs/15` and `docs/09` are repaired, and
+`tests/test_docs_paths.py` now fails when `docs/` cites a Python file that is
+not there. Run against `main` as it stood before this landing, it read 255
+backticked `.py` citations in `docs/` and failed on exactly one, `docs/15`'s
+`discovery/01_f1_geometry.py`. Pinned by `tests/test_f1_engine_controls.py`;
+`docs/15` carries the corrections, and `docs/37-methods.md` carries the guard.
+Nothing here is about zeta, so nothing here goes to the funnel or the battery.

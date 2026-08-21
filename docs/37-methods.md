@@ -67,7 +67,7 @@ stays out of this file. No em dashes.
 - **Lean arm: formalised elementary number theory** (10). Kernel-checked Mertens bands,
   Abel summation by direct induction, and the transfer patterns that make an aggregate
   inequality formalisable.
-- **Certificates, verifiers and exact arithmetic** (21). Exact rational acceptance of
+- **Certificates, verifiers and exact arithmetic** (22). Exact rational acceptance of
   published witnesses, fault-injection ladders for verifiers, and the controls that
   separate an instrument reading from a mathematical claim.
 - **Zero-free half-planes, L(1, chi) and class numbers** (2). An explicit Littlewood
@@ -78,13 +78,15 @@ stays out of this file. No em dashes.
   primes between powers under a zero-free half-plane.
 - **Explicit prime estimates and Robin's criterion** (1). Mertens-product bounds at
   primorials past a verified range, and what they buy for Robin's inequality.
-- **Seen and not admitted** (51). Surfaced by the sweep, below the bar for now.
+- **Seen and not admitted** (55). Surfaced by the sweep, below the bar for now.
 
-Totals: 188 entries from 71 hunts. Kinds: identity 24, lemma 48, bound 12, construction
-16, calibration 7, computational 21, control 39, obstruction 21. (Recounted from the
+Totals: 189 entries from 72 hunts. Kinds: identity 24, lemma 48, bound 12, construction
+16, calibration 7, computational 21, control 40, obstruction 21. (Recounted from the
 entries on 2026-10-19, when hunt #135 added three; the line had read 176 from 67 while
 the themes above already summed to 181. Hunt #138 added four on 2026-10-21, recounted
-again from the entries.)
+again from the entries. Hunt #142 added one control the same day, and "Seen and not
+admitted" was recounted from its bullets: it had read 51 against 54 bullets before
+hunt #142 added one.)
 
 ## Prime pairs and the circle method
 
@@ -5133,6 +5135,8 @@ and the controls that separate an instrument reading from a mathematical claim.
   cover of a uniformity parameter (`jensen_wedge`)
 - control: Claims against recomputation with planted weakenings, and formula plants
   replayed as source edits (`jensen_wedge`)
+- control: Cited-path guard for the reading course: every backticked `.py` path in
+  `docs/` must exist (`f1_engine_controls`)
 
 ### Signed-lattice binomial/trinomial sieve on a support torus
 
@@ -5758,6 +5762,36 @@ Why it travels: Any explicit-constant chain (effective theorems, certificate ver
 intermediate bounds) can be checked against weakened claims cheaply, and the second layer
 names the formula steps a green run does not attest to.
 
+### Cited-path guard for the reading course: every backticked `.py` path in `docs/` must exist
+
+control | `hunts/f1_engine_controls/` | grade: exact finite check (a lexical scan of
+`docs/`; it caught one real stale citation on `main`)
+
+A document in `docs/` that cites a repository-relative Python file is an instruction to a
+reader, and nothing else in the tree resolves it: `scripts/make_context.py --check`
+indexes what exists rather than what is cited, and the site generator publishes prose
+without following its paths. The guard collects every backticked path with a directory
+component and a `.py` suffix in `docs/**/*.md` and fails naming each one that does not
+exist, and a second test requires the scan to find more than 50 citations, so a drifted
+pattern cannot pass by matching nothing. The scope is deliberately narrow, `.py` only and
+`docs/` only, so the rule carries no allowlist: Lean, Markdown and JSON paths in `docs/`
+are often relative to a package root, and hunt write-ups legitimately name files that
+never existed, such as the planted paths of a guard audit. Run against `main` as it stood
+before the hunt landed (2026-10-21), it read 255 citations of 101 distinct paths and
+failed on exactly one, `docs/15` citing discovery/01_f1_geometry.py (written here without
+backticks, since the guard reads this file too), stranded by the rename of `discovery/`
+to `ontology/`.
+
+Evidence: tests/test_docs_paths.py (module docstring, both tests);
+hunts/f1_engine_controls/RESULTS.md 'Disposition'; the correction notice at the head of
+docs/15-the-f1-discovery-engine.md
+Prior art: unsearched; link checking of documentation is standard practice, and the
+narrow scope that removes the allowlist is this tree's choice
+Reused in: it runs in the fast tier, so every later change to `docs/` passes through it
+Why it travels: A directory rename strands citations in prose that no index reads. A guard
+with one rule and no exceptions has nothing to rot, and the drift test stops it passing
+for the wrong reason.
+
 ## Zero-free half-planes, L(1, chi) and class numbers
 
 ### Two-cutoff Littlewood bound for log L(1, chi) under a zero-free half-plane, with Hadamard positivity for the zero sum
@@ -6097,4 +6131,12 @@ them, and so a hunt that later reuses one knows it has just earned an entry abov
   as the null rung (a test that goes red there is byte-pinned), then every numeric leaf
   scaled by 1.1, with the original bytes held in memory and the restore asserted, never
   `git checkout` in a shared tree (`hunts/claim_halflife/`, control): measured; used only
+  inside its hunt.
+- Dead-end kernel law for a degenerate eigenvalue of a prime graph: in the antisymmetric
+  matrix of `ontology/04_transcendental_matrix.py`, the nodes `u` with `2u <= N < 3u` carry
+  a private `ln 2` rung, so the multiplicity of `i ln 2` is `dim ker C` for the incidence
+  matrix of those nodes against the hubs `u/q` below them; `pi(N/2) - pi(N/3) - 1` is the
+  case where every such node is prime, and it first undercounts at `N = 338`
+  (`hunts/f1_engine_controls/`, lemma): derivation self-reviewed, measured against the
+  eigenvalue count at every `N` from 10 to 260 and on a coarser scan to 800; used only
   inside its hunt.
