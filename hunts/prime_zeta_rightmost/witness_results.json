@@ -1,0 +1,503 @@
+{
+  "hunt": "prime_zeta_rightmost",
+  "task": "WP6 bonus witness hunt at sigma_1 = 7/4",
+  "date": "2026-08-16",
+  "versions": {
+    "python-flint": "0.9.0",
+    "mpmath": "1.3.0",
+    "numpy": "2.4.6"
+  },
+  "vocabulary": "decided = enclosure with exact endpoint sign logic, stated with backend and precision; measured = float route; heuristic = order-of-magnitude model with measured inputs",
+  "rng_seed": 20260816,
+  "margin_analysis": {
+    "flint": {
+      "backend": "python-flint (arb)",
+      "precision": "350 bits",
+      "moebius_K": 120,
+      "time_s": 0.004,
+      "P_at_sigma1": {
+        "interval": [
+          "0.604069194795095051946264807259751",
+          "0.604069194795095051946264807259752"
+        ],
+        "width": "1.275e-65"
+      },
+      "r2": {
+        "interval": [
+          "0.297301778750680266679374992640118",
+          "0.297301778750680266679374992640119"
+        ],
+        "width": "1.467e-105"
+      },
+      "R_total_modulus_p_ge_3": {
+        "interval": [
+          "0.306767416044414785266889814619632",
+          "0.306767416044414785266889814619633"
+        ],
+        "width": "1.275e-65"
+      },
+      "eps0_budget_R_minus_r2": {
+        "interval": [
+          "0.009465637293734518587514821979513",
+          "0.009465637293734518587514821979514"
+        ],
+        "width": "1.275e-65"
+      },
+      "head_odd_modulus_3_to_47": {
+        "interval": [
+          "0.293567476571181051027667511675324",
+          "0.293567476571181051027667511675325"
+        ],
+        "width": "1.691e-104"
+      },
+      "prime_tail_T50_p_gt_47": {
+        "interval": [
+          "0.013199939473233734239222302944308",
+          "0.013199939473233734239222302944309"
+        ],
+        "width": "1.275e-65"
+      },
+      "eps0_positive_decided": true,
+      "head_cancellation_feasible": {
+        "statement": "head budget (head_odd max) - (r2 - T50) equals eps0 exactly by construction, and eps0 > 0 is decided, so the p <= 47 head can in principle cancel the p = 2 term with best-case tail phase",
+        "decided": true
+      }
+    },
+    "mpmath_iv": {
+      "backend": "mpmath.iv",
+      "precision": "dps 40",
+      "moebius_K": 40,
+      "time_s": 0.107,
+      "P_at_sigma1": {
+        "interval": [
+          "0.60406919479509",
+          "0.60406919479510"
+        ],
+        "width": "1.284e-17"
+      },
+      "eps0_budget": {
+        "interval": [
+          "0.00946563729373",
+          "0.00946563729374"
+        ],
+        "width": "1.284e-17"
+      },
+      "eps0_positive_decided": true
+    },
+    "cross_checks": {
+      "P_backends_intersect": true,
+      "P_flint_inside_iv": true,
+      "eps0_backends_intersect": true
+    }
+  },
+  "required_alignment": {
+    "grade": "heuristic (measured float inputs; equidistribution model)",
+    "rms_phase_coherence_delta": 0.24841928831515003,
+    "rms_note": "sqrt(2 eps0 / R): rms phase spread of the p >= 3 terms that shrinks the resultant from R to r2 at second order",
+    "per_prime_windows_full_budget": [
+      {
+        "p": 3,
+        "m_p": 0.14623044588361028,
+        "theta_max_rad": 0.3618,
+        "window_fraction": 0.1152
+      },
+      {
+        "p": 5,
+        "m_p": 0.05981395124884882,
+        "theta_max_rad": 0.5703,
+        "window_fraction": 0.1815
+      },
+      {
+        "p": 7,
+        "m_p": 0.033195440034648686,
+        "theta_max_rad": 0.7744,
+        "window_fraction": 0.2465
+      },
+      {
+        "p": 11,
+        "m_p": 0.015050911461470015,
+        "theta_max_rad": 1.1906,
+        "window_fraction": 0.379
+      },
+      {
+        "p": 13,
+        "m_p": 0.011235674095360602,
+        "theta_max_rad": 1.4126,
+        "window_fraction": 0.4496
+      },
+      {
+        "p": 17,
+        "m_p": 0.0070261009857056425,
+        "theta_max_rad": 1.9254,
+        "window_fraction": 0.6129
+      },
+      {
+        "p": 19,
+        "m_p": 0.00578337293609375,
+        "theta_max_rad": 2.261,
+        "window_fraction": 0.7197
+      },
+      {
+        "p": 23,
+        "m_p": 0.0041397707052832555,
+        "theta_max_rad": null,
+        "window_fraction": 1.0,
+        "note": "individually unconstrained, eps0 >= 2 m_p"
+      },
+      {
+        "p": 29,
+        "m_p": 0.0027593291166540827,
+        "theta_max_rad": null,
+        "window_fraction": 1.0,
+        "note": "individually unconstrained, eps0 >= 2 m_p"
+      },
+      {
+        "p": 31,
+        "m_p": 0.002455370511727957,
+        "theta_max_rad": null,
+        "window_fraction": 1.0,
+        "note": "individually unconstrained, eps0 >= 2 m_p"
+      },
+      {
+        "p": 37,
+        "m_p": 0.0018015527498609644,
+        "theta_max_rad": null,
+        "window_fraction": 1.0,
+        "note": "individually unconstrained, eps0 >= 2 m_p"
+      },
+      {
+        "p": 41,
+        "m_p": 0.0015053179859817031,
+        "theta_max_rad": null,
+        "window_fraction": 1.0,
+        "note": "individually unconstrained, eps0 >= 2 m_p"
+      },
+      {
+        "p": 43,
+        "m_p": 0.001384937588983783,
+        "theta_max_rad": null,
+        "window_fraction": 1.0,
+        "note": "individually unconstrained, eps0 >= 2 m_p"
+      },
+      {
+        "p": 47,
+        "m_p": 0.0011853012669515099,
+        "theta_max_rad": null,
+        "window_fraction": 1.0,
+        "note": "individually unconstrained, eps0 >= 2 m_p"
+      }
+    ],
+    "n_constrained_primes": 7,
+    "kronecker_window_products": {
+      "full_budget_product": 0.00038730179705319964,
+      "full_budget_note": "product of individually necessary windows; an upper bound for the coherent-t density within the model, hence a lower bound on expected t",
+      "equal_share_product": 2.562878477706006e-07,
+      "equal_share_note": "budget split evenly over the constrained primes (maximizes the product); optimistic, ignores all smaller primes"
+    },
+    "coherence_probability": {
+      "model": "loss L = sum m_p (1 - cos phi_p) over odd primes p <= 1000; Prob(L <= eps) by von Mises tilted importance sampling; Chernoff upper bound exp(theta eps) prod i0e(theta m_p)",
+      "tail_beyond_cutoff": 0.0009601889799772317,
+      "at_eps0_line_budget": {
+        "prob": 4.1341090124247336e-16,
+        "stderr": 1.21278400087253e-18,
+        "theta": 3053.7439142599314,
+        "n_samples": 500000,
+        "hit_fraction_tilted": 0.525282,
+        "chernoff_upper_log10": -14.36683577185225
+      },
+      "at_eps0_minus_2tail_pessimistic": {
+        "prob": 3.047470406884575e-19,
+        "stderr": 1.4839942709345703e-21,
+        "theta": 4513.333532183649,
+        "n_samples": 200000,
+        "hit_fraction_tilted": 0.52231,
+        "chernoff_upper_log10": -17.461736835925233
+      },
+      "at_window_budget_h_at_x_star": {
+        "prob": 4.017608397927761e-10,
+        "stderr": 1.6188575880801992e-12,
+        "theta": 1091.2092198806554,
+        "n_samples": 200000,
+        "hit_fraction_tilted": 0.530675,
+        "chernoff_upper_log10": -8.480682521154117
+      },
+      "sampler_check_at_eps_0p12": {
+        "plain_mc": {
+          "prob": 0.044488,
+          "stderr": 0.00014578891908509372,
+          "n_samples": 2000000,
+          "hits": 88976
+        },
+        "tilted_is": {
+          "prob": 0.044496187835498066,
+          "stderr": 0.0001088250814464817,
+          "theta": 28.180890074331607,
+          "n_samples": 200000,
+          "hit_fraction_tilted": 0.569315,
+          "chernoff_upper_log10": -0.7781402407267276
+        },
+        "difference_in_combined_stderr_units": 0.04500624475475737
+      },
+      "time_s": 55.5
+    }
+  },
+  "expected_t": {
+    "grade": "heuristic (order of magnitude)",
+    "formula": "t_expected ~ 2 pi / (nu_rel * Prob(L <= eps)); zeros arrive at rate Prob * nu_rel / 2pi per unit t while the resultant direction sweeps the target",
+    "nu_bar_weighted_mean_freq": 1.154236242257783,
+    "nu_odd": 1.6211905513874978,
+    "nu_rel": 0.9280433708275525,
+    "on_line_sigma1_budget_eps0": 1.6376823600773134e+16,
+    "pessimistic_budget": 2.221631878357092e+19,
+    "window_wide_budget_h_at_x_star": 16851710604.191057,
+    "expected_zero_count_below_1e8_line_budget": 6.106190213545384e-09,
+    "expected_zero_count_below_1e8_window_budget": 0.005934115672217264,
+    "beyond_1e12_gate": {
+      "gate": 1000000000000.0,
+      "line_estimate_beyond": true,
+      "note": "whichever side of 1e12 the point estimate falls, every estimate is far beyond the 1e8 screen ceiling, so the plan is unchanged: cheap screen, then stop; P4 expects absence"
+    }
+  },
+  "screen": {
+    "grade": "measured (numpy float64)",
+    "coverage": {
+      "line": "sigma = 7/4 exactly (dyadic, exact in float64)",
+      "t_range": [
+        0.0,
+        100000000.0
+      ],
+      "step": 0.680448364592281,
+      "step_derivation": "(2 pi / nu_bar) / 8, nu_bar the modulus-weighted mean of log p over the head, the mean oscillation scale over 8",
+      "n_points": 146961923,
+      "head_primes_upto": 47,
+      "n_head_primes": 15,
+      "abs_P_vs_abs_F_bound": "||P| - |F47|| <= T50 = 0.013200 pointwise",
+      "sigma_sensitivity_note": "a zero at distance d from the line lifts min |P| by roughly 0.3 d (typical |P'|), so the line screen sees only zeros with |Re s - 1.75| of order 0.01 or less"
+    },
+    "phase_recurrence_max_dev": 1.358186951794238e-09,
+    "time_s": 8.2,
+    "counts_below_thresholds_absF47": {
+      "0.05": 60076,
+      "0.02": 41,
+      "0.01": 0,
+      "0.005": 0,
+      "0.002": 0,
+      "0.001": 0
+    },
+    "coarse_global_min": {
+      "absF47": 0.012511620158623884,
+      "t": 56316681.522087984
+    },
+    "coarse_top10_chunk_minima": [
+      {
+        "absF47": 0.012511620158623884,
+        "t": 56316681.522087984
+      },
+      {
+        "absF47": 0.013831660887565204,
+        "t": 86890999.11120893
+      },
+      {
+        "absF47": 0.014347019301209208,
+        "t": 79260153.79473576
+      },
+      {
+        "absF47": 0.015003170541474764,
+        "t": 63337997.52432013
+      },
+      {
+        "absF47": 0.01581698721716399,
+        "t": 93046415.99066609
+      },
+      {
+        "absF47": 0.01694576246262364,
+        "t": 26725740.424543787
+      },
+      {
+        "absF47": 0.017100713311699267,
+        "t": 94039818.20844674
+      },
+      {
+        "absF47": 0.017126499506791897,
+        "t": 68621425.94858757
+      },
+      {
+        "absF47": 0.01715069488017913,
+        "t": 64403798.08719668
+      },
+      {
+        "absF47": 0.017369921261318803,
+        "t": 78194353.23185922
+      }
+    ],
+    "refinement": {
+      "passA": {
+        "windows": 40,
+        "primes_upto": 10000,
+        "n_primes": 1229,
+        "grid_halfwidth": 0.680448364592281,
+        "grid_points": 257,
+        "time_s": 1.0,
+        "best10": [
+          {
+            "absP_head": 0.010028850637382465,
+            "t": 56316681.511455975
+          },
+          {
+            "absP_head": 0.012818162438398756,
+            "t": 79260153.76815574
+          },
+          {
+            "absP_head": 0.013044309957362834,
+            "t": 34484088.804126605
+          },
+          {
+            "absP_head": 0.014000604042717857,
+            "t": 63337997.54558414
+          },
+          {
+            "absP_head": 0.014166694706755458,
+            "t": 64403798.11377669
+          },
+          {
+            "absP_head": 0.01452779230209944,
+            "t": 86890999.13247295
+          },
+          {
+            "absP_head": 0.015495621817215418,
+            "t": 3239047.8450201415
+          },
+          {
+            "absP_head": 0.015900618490323693,
+            "t": 93046416.0066141
+          },
+          {
+            "absP_head": 0.016179139927966615,
+            "t": 88828788.15585522
+          },
+          {
+            "absP_head": 0.01626136159154467,
+            "t": 78194353.21591121
+          }
+        ]
+      },
+      "passB": {
+        "windows": 10,
+        "primes_upto": 1000000,
+        "n_primes": 78498,
+        "grid_halfwidth": 0.005316002848377195,
+        "grid_points": 257,
+        "time_s": 19.5,
+        "tail_bound_beyond_1e6": 4.2163733758354996e-05,
+        "tail_bound_note": "all-integer bound (1e6)^(-3/4)/(3/4) + (1e6)^(-7/4), measured floats",
+        "best5": [
+          {
+            "absP_head_1e6": 0.010021062926148282,
+            "t": 56316681.50996085,
+            "absP_interval": [
+              0.009978899192389926,
+              0.010063226659906638
+            ]
+          },
+          {
+            "absP_head_1e6": 0.01281805371007563,
+            "t": 79260153.76761582,
+            "absP_interval": [
+              0.012775889976317274,
+              0.012860217443833985
+            ]
+          },
+          {
+            "absP_head_1e6": 0.013039893430409202,
+            "t": 34484088.80524795,
+            "absP_interval": [
+              0.012997729696650846,
+              0.013082057164167557
+            ]
+          },
+          {
+            "absP_head_1e6": 0.014001032808361862,
+            "t": 63337997.54558414,
+            "absP_interval": [
+              0.013958869074603506,
+              0.014043196542120218
+            ]
+          },
+          {
+            "absP_head_1e6": 0.01415153200516979,
+            "t": 64403798.1163101,
+            "absP_interval": [
+              0.014109368271411434,
+              0.014193695738928145
+            ]
+          }
+        ]
+      }
+    },
+    "global_min_refined": {
+      "absP_head_1e6": 0.010021062926148282,
+      "t": 56316681.50996085,
+      "absP_interval": [
+        0.009978899192389926,
+        0.010063226659906638
+      ]
+    },
+    "candidate_threshold_absP": 0.0001,
+    "candidates_found": 0
+  },
+  "box_counter": {
+    "backend": "python-flint (acb)",
+    "precision": "192 bits",
+    "moebius_K": 25,
+    "null_box": {
+      "center": [
+        1.75,
+        14.2894156564379
+      ],
+      "half_width": "1/100",
+      "expected_winding": 0,
+      "result": {
+        "decided": true,
+        "winding": 0,
+        "boundary_points": 96,
+        "attempts": 1
+      },
+      "time_s": 0.2,
+      "note": "center chosen at the coarse-grid |F| maximum, far from any zero of P"
+    },
+    "planted_zero_box": {
+      "center": [
+        1.75,
+        14.7894156564379
+      ],
+      "half_width": "1/100",
+      "expected_winding": 1,
+      "result": {
+        "decided": true,
+        "winding": 1,
+        "boundary_points": 96,
+        "attempts": 1
+      },
+      "time_s": 0.2,
+      "note": "c is the exact dyadic midpoint of the ball P(center), so P - c has a zero within the ball radius of the center by construction; a decided winding 1 validates the counter"
+    },
+    "both_controls_pass": true
+  },
+  "candidate_polish": {
+    "ran": false,
+    "reason": "no refined point reached |P| < 0.0001; the gate stays closed"
+  },
+  "verdict": {
+    "witness_decided_exists": false,
+    "P4_preregistered": "no explicit witness zero below t = 10^8",
+    "P4_outcome": "confirmed: the screen found no candidate",
+    "summary": {
+      "eps0_budget_at_sigma1": 0.009465637293734518,
+      "min_absP_found": 0.010021062926148282,
+      "min_absP_location_t": 56316681.50996085,
+      "expected_t_heuristic_line": 1.6376823600773134e+16,
+      "expected_t_heuristic_window": 16851710604.191057
+    }
+  },
+  "total_time_s": 85.0
+}

@@ -70,6 +70,120 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+> **Renumbered twice.** These two opened as #35 and #36 from a branch
+> 101 commits behind `main`, where both numbers were taken. They were
+> renumbered to #49/#50 on 2026-08-18, and `main` took those two (plus
+> #51, #52, #55-#57 and #59) before this branch landed. They are #60
+> and #61. The directories `lambda_dh_bounds/` and
+> `prime_zeta_rightmost/` are unchanged and are the stable references.
+
+### Hunt #61: two-sided bounds for the de Bruijn-Newman constant of Davenport-Heilbronn (`lambda_dh_bounds/`)
+
+**Status: closed (2026-08-16), gate verdict publication candidate; hardened
+2026-08-18, verdict unchanged.** The bracket, in the wide frame of
+Rodgers-Tao and Polymath 15:
+0.2304 < Lambda_DH <= 0.7696992583210755065522 (narrow frame: 0.0576 = 36/625
+to 0.19242481458026887663805), ratio 3.341. Lower side decided by
+ball-arithmetic winding counts with a zero-shared-layer second witness; upper
+side a decided strip constant fed to de Bruijn 1950 Theorem 13. The quotable
+corollary, recognized after the gate closed and adversarially narrowed in
+`SEPARATION.md`: **Lambda_DH > Lambda_zeta unconditionally** (0.22 from
+Polymath 15 against the decided 144/625), the first strict order between two
+such constants with both nonnegative. The gate cycle caught and preserved
+three corrections: a factor-of-4 frame error (two normalizations live in the
+literature, `FRAME.md`), the sigma_0 originality claim withdrawn after
+Bombieri-Ghosh 2011 was retrieved and read (their exact abscissa 1.120362
+displaces it), and one prose lemma (M2) recorded as a lesioned blind spot
+rather than repaired. The 2026-08-18 hardening then took two of those back:
+M2 is proved with decided constants (`M2-LEMMA.md`), and the upper bound
+sharpened by the full factor 2.082 in-tree, from a phase obstruction in the
+Euler products that reaches Bombieri-Ghosh's abscissa and decides it on both
+backends (`STRIP2.md`); the superseded headline
+(<= 1.6025374835598228 wide, <= 0.4006343708899557 narrow, ratio 6.955) is
+kept beside the new one everywhere it appeared, and the lower side did not
+move in any digit. Doc: `docs/29`. Full adjudication: `GATE.md`. Predictions
+P1-P3 and P5 held; P4's census found nothing deeper below height 600. Nothing
+here is evidence about RH.
+
+### Hunt #60: the rightmost zeros of the prime zeta function (`prime_zeta_rightmost/`)
+
+**Status: settled. The threshold is correct, the conjectures are false, and
+the core is a rediscovery of published work: kill condition 2 fired.** The
+hunt attacked the two conjectures posted on OEIS A107311 (2024-12-21), that
+x* = 1.7286... (root of zeta(x) = 2) bounds the real parts of the zeros of
+the prime zeta function P(s) = sum_p p^(-s) and of every prime-subset
+series. It decided on both backends (python-flint arb at 350 bits and
+mpmath.iv at dps 40, exact Fraction endpoint logic) the balance root
+sigma_c = 1.779544653546994116445898786965... of P(sigma) = 2^(1-sigma),
+x* = 1.728647238998183618135103010297..., the separation sigma_c - x* >
+1/20, the margin P(x*) - 2^(1-x*) = 0.0169073772138... > 1/60, the subset
+constant sigma_3 = 1.8252259560738457... with sigma_3 - sigma_c > 0.0456813,
+and log2(69/(5 log 23)) = 2.1379035036560028... > 17/8. It wrote out both
+halves of the threshold theorem with proofs (triangle-inequality wall;
+Bohr-Kronecker-Rouche existence below it), ran the WP5 calibration control
+(the same solver object, pointed at the zeta partial sums, reproduced 31
+digits of the literature's x*), two lesions and a precision-response check,
+and settled predictions P1-P4, P4 including a screen of sigma = 7/4 to
+t = 1e8 whose global |P| minimum was about 0.010021 at t about 5.63e7, far
+above the alignment budget.
+
+**Then the prior art was found, and it owns the core.** Belovas, Cepaityte
+and Sabaliauskas, *On the zero-free region and the distribution of zeros of
+the prime zeta function*, An. St. Univ. Ovidius Constanta Ser. Mat. 33(2)
+(2025) 27-44, Theorem 1: the same wall, the same constant to every digit
+they print, the same triangle-inequality proof. Sepulcre and Vidal,
+Carpathian J. Math. 38 (2022) 489-501 (preprint arXiv:1805.02041, 2018),
+Theorem 4.3: the general characterization, strictly stronger than the
+hunt's existence half, with Moreno's Geometric Principle (Compositio Math.
+26, 1973) as the finite ancestor and the source of the aggregated-tail
+device the hunt reinvented as its Lemma 2. `MISSION.md` kill condition 2
+reads: "a literature source is found proving the sigma_c threshold for P,
+in which case the finding is reclassified as a rediscovery and the OEIS
+correction cites that source instead of this work." It fired. The
+reclassification is done, in `hunts/prime_zeta_rightmost/PRIOR-ART.md`
+(statement-by-statement ownership map, verbatim source texts, the worked
+specialization) and in the rewritten `docs/30-prime-zeta-rightmost-zeros.md`,
+which now leads with the prior art.
+
+**What survives as the hunt's own**, and nothing beyond it: (a) the
+line-by-line refutation of the two OEIS conjectures, since no source in the
+literature engages that entry and the published wall does not by itself
+refute Conjecture 1 (1.7795 is weaker than the conjectured 1.72864, and
+Belovas et al.'s numerics stop at 1.6826, below x*), graded new as a
+connection with zero new mathematics; (b) the unbounded tail-subset walls, {p >= p_k}
+walled at or above log2(3 p_k / (5 log p_k)) via Rosser-Schoenfeld, so no
+constant bounds the real parts across all prime subsets and Conjecture 2
+fails for every replacement constant, graded new, small and elementary, and
+the only mathematics here not located in print; (c) the constant sigma_3 and the
+fact that a subset out-walls the full series by more than 0.045, a new
+instance of prior-art theory; (d) the two-backend enclosures, rediscovery in
+sharper form, the source printing 15 digits and noting that any precision
+is available; and (e) one literature observation, that Belovas et
+al.'s Conjecture 1, left open in their paper, is a corollary of Sepulcre
+and Vidal Theorem 4.3, which neither paper cites. The steering lemma's
+positive lower density in t is carried as an unverified lead, since the
+Jessen-Tornehave literature was not searched.
+
+**The lesson, which is the most transferable thing the episode produced.**
+Two independent search failures, needing two different countermeasures, and
+both reproduce on demand. The exact-phrase query "zeros of the prime zeta
+function" is a literal substring of the Belovas et al. title and the engine
+still does not return it: no arXiv preprint, a Sciendo/DOAJ venue outside
+the sweep, and an image-scanned PDF that has to be downloaded and extracted
+rather than fetched. The general theorem was missed for an unrelated
+reason: it is filed under almost periodic functions, MSC 30B50/30D20, and
+never names a prime, so no prime-zeta query can reach it, and it was
+reachable only by searching for the device rather than the application.
+Four independent searches returned nothing while two published papers owned
+the result outright, which is the standing argument for
+`ontology/knownness.py` defaulting to "the literature was not consulted".
+
+**Disposition:** instruments retained; nothing promoted; the OEIS
+correction drafts in `OEIS-CORRECTION.md` remain unposted; they cite Belovas
+et al. for the threshold, which is what the kill condition required, and that
+rewrite is done. Nothing here bears on RH: the zeros discussed are zeros
+of P and of subset series in Re s > 1, not zeros of zeta.
+
 ### Hunt #56: make_context.py blind region on meta/ package (`r_2946de/`)
 
 **Status: settled.** `scripts/make_context.py --check` does not detect public functions, classes, constants, docstrings, or new modules added under `meta/` (0/16 curated mutants detected, 0.0% detection rate; 0/32 public AST symbols detected, 0.0% detection rate), because `meta/` is structurally excluded from the hard-coded scan paths in `make_context.py` and produces zero diff in `CONTEXT.md` (exit 0). In contrast, in-scope positive controls in scanned directories (`zeta/`, `ontology/`, `harness/`, `docs/`) are 100% detected (4/4 caught). Measured on a 16-mutant curated battery and a 32-symbol exhaustive AST census in `hunts/r_2946de/results.json` and `RESULTS.md`. Nothing here bears on RH (`docs/08`).
@@ -91,7 +205,10 @@ control roles — and the checks are the ones the tree already owns:
 ### Hunt #51: file-type boundary of the hunt reserved-word guard (`r_365c6c/`)
 
 **Status: settled.** `tests/test_hunt_probe_discipline.py::test_no_hunt_claims_the_reserved_word` enforces an explicit suffix whitelist (`path.suffix.lower() in {".py", ".md", ".json"}`). Every file type outside this three-extension set passes unconditionally (40-specimen battery across 12 format categories in `probe.py`: 6/6 `.py/.md/.json` caught, 0/29 non-{py,md,json} caught). An exhaustive repository census shows 76 of 447 files (17.0%) under `hunts/` are currently unscanned, including 68 `.lean` proof files under `hunts/frontier_math/`. None of the 76 unscanned files contain the reserved word. Evidence in `hunts/r_365c6c/RESULTS.md` and `results.json`. Nothing here bears on RH (`docs/08`).
-### Hunt #45: truncated Weil form positivity failure on Davenport-Heilbronn (`r_ac9ca3/`)
+### Hunt #63: truncated Weil form positivity failure on Davenport-Heilbronn (`r_ac9ca3/`)
+
+> **Renumbered 2026-08-20.** Opened as #45, which `r_233abe/` had taken
+> two days earlier. `hunts/r_ac9ca3/` is the stable reference.
 
 **Status: settled.** The first positivity failure of the Connes–van Suijlekom / Connes–Consani–Moscovici Galerkin truncation of the Weil quadratic form on Davenport–Heilbronn on the integer lattice $c \in [6, 60], N \le 128$ occurs at $(c, N) = (31, 60)$.
 
@@ -551,7 +668,10 @@ file. Two incidental traps for the next attempt: `NumberTheory/Chebyshev.lean`
 is about Chebyshev polynomials, not prime bounds, and `NumberTheory/AbelSummation.lean`
 supplies the machinery Mertens is normally derived through while the derivation
 itself is absent. Nothing here bears on ζ or RH.
-### Hunt #35: three cited properties of ζ distinguish nothing (`r_f7cd45/`)
+### Hunt #62: three cited properties of ζ distinguish nothing (`r_f7cd45/`)
+
+> **Renumbered 2026-08-20.** Opened as #35, which `r_3c1cbb/` had taken
+> the previous day. `hunts/r_f7cd45/` is the stable reference.
 
 **Status: settled for the five properties issue #21 left unpublished; the
 sixth was already settled in this tree and what this run adds is the price
