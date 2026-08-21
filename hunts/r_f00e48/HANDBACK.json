@@ -1,0 +1,47 @@
+{
+  "run_id": "8b5765ae-c860-4a9c-bd11-a69eb60ecd00",
+  "status": "settled",
+  "conclusion": "The four named arms landed intact from origin/claude/riemann-hypothesis-research-ofds8s at 7043621 (1,717,013 bytes against ~58 MB on the branch; fkappa/, 56 MB of pickle and .ext_lock held back), and 29/29 acceptance checks pass, including an exact recomputation of RF-C003's promoted rational from the landed code and digit-for-digit agreement between the salvaged Weil arm and main's own Hunt #45 at (c, N) = (31, 60). Checking turned up a real defect: REPRODUCE.md's headline command for the campaign's only promoted claim named a symbol that never existed under that name or that signature, so a reader following the published recipe got an ImportError; that and two further broken references are fixed and pinned.",
+  "confidence": "Lean hard on the mechanical half: inventory, exclusion, size, the lexical gate, reference resolution and the JSON gate counts are read out of the landed bytes by probe.py and rerun in one command. Lean hard on the (31, 60) figures, which are the one thing here corroborated by an independent route already on main. Do NOT lean on RF-C003's mathematics: probe.py runs that arm's own code and shares every assumption it makes, so it establishes reproducibility and document-code agreement and nothing about the transcription of the source paper's functional or the near-optimality of the rounded quartic. My first version of the DH check passed on a substring against the wrong file, which is a reminder that the confidence here is only as good as each check's stated definition; both halves are now pinned.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "RF-C003, the campaign's one promoted claim and now on main, has never been attacked by anyone who did not run its own code. Its transcription of the source paper's SS7.1/SS7.5(g) functional is load-bearing and unchecked.",
+      "why_it_might_matter": "It is the only claim this salvage promotes into the tree, it is stated as an improvement on a published window, and harness.review.standing_reasons() now correctly reports it as having no blind attack.",
+      "first_step": "Run the blind brief generate_briefs() already emits for 'rf-c003-window': re-derive F for cos(8s/5) from the source paper alone and compare against PAPER_F_30 in window_opt/functional.py before ever looking at the quartic."
+    },
+    {
+      "what": "window_opt/RESULTS.md line 176 asserts that rounding the optimal quartic to (-1467/1000, 1159/1000) costs 8.9e-9 of F. That number is asserted, not enclosed.",
+      "why_it_might_matter": "The promoted improvement over the paper's window is what that rounding is spent against, so the improvement margin needs to exceed the rounding cost by a stated factor and nobody has written the comparison down.",
+      "first_step": "Run window_opt/enclose.py and read whether its enclosure brackets the unrounded optimum or only the rounded window."
+    },
+    {
+      "what": "Two arms appeared on the source branch after the 2026-08-18 sweep that specified this landing: erdos_scan/ (exact Erdos-Pomerance f(n) to n = 16000) and matchings/, which records RF-C010 as the campaign's first kernel-checked Lean result.",
+      "why_it_might_matter": "A kernel-checked result sitting on an abandoned branch is the cheapest unrealised output in the tree, and nothing has assessed either arm.",
+      "first_step": "Build hunts/rogue_frontier/matchings/Matchings.lean from the source branch against the pinned toolchain and count the sorrys; if zero, it is a separate landing decision, not part of this salvage."
+    },
+    {
+      "what": "nyman_beurling/ carries run_supplement.py, ladder_supplement.json and supplement3072.log, suggesting an N = 3072 run beyond the landed N = 2048 headline.",
+      "why_it_might_matter": "If 3072 completed, the landed table understates what the arm actually reached.",
+      "first_step": "Compare the largest N in ladder_supplement.json against ladder.json."
+    },
+    {
+      "what": "tests/test_hunt_probe_discipline.py's lexical gate reads hunts/ for the reserved past participle and nothing adjacent to it. This salvage landed files carrying the noun and adjective forms of the same stem and passed. Second-order: the gate cannot be discussed inside a file it scans, which is why this entry is written around the token and probe.py assembles it from halves.",
+      "why_it_might_matter": "The rule in CLAUDE.md is about a reserved word, and whether its immediate neighbours fall inside it has never been decided. A future arm could claim a great deal in the adjective and stay green.",
+      "first_step": "Decide the question, then either widen the token in that test or write in its docstring that the narrow token is deliberate."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A salvage acceptance probe: given a source ref and a list of paths, assert the landed subtree matches the source tree file-for-file, carries no excluded path, stays under a size ceiling, passes the lexical gate, and resolves every repo-relative path its own markdown cites. Four of this hunt's twenty-nine checks are subject-specific; the rest are that generic pattern, and every cherry-pick from an abandoned branch needs them.",
+      "why_reusable": "This tree has an accumulating population of unlanded agent branches, and the salvage sweep is a recurring operation. The dangling-reference check alone found a broken recipe for a promoted claim that had survived a campaign, an assessor and a sweep, and it is eight lines.",
+      "first_step": "Extract the inventory / exclusion / size / lexical / cited-path-resolution block from hunts/r_f00e48/probe.py into a script taking (source_ref, landed_prefix, excluded_paths, size_ceiling), and run it against the next salvage before deciding whether it deserves to live in scripts/."
+    },
+    {
+      "what": "A repo-wide markdown reference linter: every repo-relative path cited in a .md file must exist, or sit under an explicitly marked NOT-LANDED / historical heading.",
+      "why_reusable": "Three broken references in one 84-line reproduction page, one of them the entry point to the campaign's only promoted claim. A reproduction page that does not run is a credibility defect and is mechanically detectable.",
+      "first_step": "Run the regex from probe.py's reproduce:paths_resolve check across all of docs/ and hunts/ and count the dangling references before deciding whether it earns a test."
+    }
+  ],
+  "notes_for_operator": "Three things. (1) Scope: the brief's SCOPE section says write only inside hunts/r_f00e48/, but the task itself is to land four arms into hunts/rogue_frontier/, so I wrote there, plus the two sanctioned exceptions (hunts/README.md entry #66, which was free, and an append to harness/departments/review_ledger.py). I did not touch zeta/, ontology/, meta/, lean/, other hunts, or any root markdown file. If the boilerplate is meant to be literal, this brief cannot be executed at all and should say so. (2) CLOSE THE LOOP: I checked before writing, and this task did not come from an open harness item. standing_reasons() returned empty for both existing claims, so there was nothing in the generator's output to make disappear; the task came from the operator's salvage sweep. What I recorded therefore ADDS an item rather than clearing one: RF-C003 landed on main this commit with no standing review, I entered it and recorded my own landing check as the white-box outcome it actually is, and the generator now correctly says it has no blind attack. That is the ledger doing its job, and I am flagging it rather than claiming a closure I did not perform. (3) The brief said the source branch moved 2026-08-17 16:27; it is at 2026-08-18 22:38 and has grown two further arms, one of them claiming a kernel-checked Lean result. That is a thread above, not something I acted on. Telemetry: the run record is open and closed, but with NO token counts. This runtime did not hand me a usage object I could read at the point I needed it, and the brief is explicit that an absent field is honest while a zero is a lie, so I passed no --tokens and no --cost. The cost of this run is therefore attributable to the model and the task but not to a token figure; if that matters, it has to come from the transcript on your side."
+}

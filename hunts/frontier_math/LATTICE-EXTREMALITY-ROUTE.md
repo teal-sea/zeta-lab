@@ -186,12 +186,59 @@ violations of `J <= LP_v(rho)`.
 Four gaps as first written. Gap B is now closed; A remains the real one,
 and C and D are routine but unwritten. None should be described as detail.
 
-**Gap A, the sparse side.** For `rho < 1/(2*pi)`, `LP(rho) > LP(1/(2*pi))` and
-the bound says nothing. It is not close: at `rho*2*pi = 0.4` the bound is
-`+2.15` against a true value of `-0.043`, a margin of `2.2`. So sparse
-configurations are far from threatening and completely unprotected by this
-argument. Closing this needs either a second argument for low density or a
-different auxiliary function. **This is where the work is.**
+**Gap A, the sparse side. NARROWED, not closed. See section 6a.** For
+`rho < 1/(2*pi)`, `LP(rho) > LP(1/(2*pi))` and the bound says nothing. It is
+not close: at `rho*2*pi = 0.4` the bound is `+2.15` against a true value of
+`-0.043`, a margin of `2.2`. **This is where the work is.**
+
+## 6a. Gap A: the only possible route, and half of it is already closed off
+
+The bound `2*rho*ghat(0) - 2*g(0)` is linear in `rho`. To hold at every
+density its slope must be non-negative, but `ghat <= 0` everywhere forces
+`ghat(0) <= 0`. So there is exactly one way through:
+
+    ghat(0) = 0    and    g(0) = -LAT/2 = -0.0571650197...,
+
+and then the bound is density-independent and equals the lattice value
+everywhere at once, closing gap A and the dense side together. Writing
+`g = -kappa + c*s + u` with `c = K_1(0)`, this is a problem about `u` alone:
+
+    u >= 0,   u(2*pi*n) = 0 for n != 0,   uhat <= M := khat - c*shat,
+    uhat(0) = M(0) = 4.9441838,   int uhat = uhat(0).
+
+The headroom is *exactly* saturated at the origin: `M(0)` and the required
+`uhat(0)` are the same expression, so the constraint is tight there with no
+slack at all.
+
+**At bandwidth 1 this is infeasible, and not narrowly.** Boas-Kac writes a
+non-negative band-limited `u` as `|h|^2` with `hhat` supported on
+`[-1/2,1/2]`. That is exactly Nyquist for spacing `2*pi`, so Shannon pins `h`
+to its samples at `2*pi*k`, and `u(2*pi*k) = 0` for `k != 0` kills every
+sample but one. What survives is `u = |h(0)|^2 * s`, a multiple of the very
+function gap B already used, and `uhat <= M` caps it at
+
+    uhat(0) <= (1.4698290 - 0.9115647) * 2*pi = 3.5076780,
+
+against the `4.9441838` needed. Short by 29%.
+
+What remains open is whether bandwidth above 1 helps, since `uhat` may go
+negative outside `[-1,1]` where `M` vanishes. Poisson already constrains that
+hard: `uhat(j) = 0` is forced at every non-zero integer, which makes the
+`2*pi`-periodisation of `u` exactly constant. That is a great deal of rigidity
+for a function that must also be non-negative and vanish on the whole
+punctured lattice, but it is not a proof either way.
+
+**A method that does not work, recorded with its witness.** The obvious attack
+is a linear program over `uhat` with `u >= 0` imposed at sampled `x`. It is
+unsound here, and that is demonstrated rather than suspected, on the case
+whose answer is known: at bandwidth 1 the LP returns `4.908534`, exceeding the
+proved ceiling by 40%. Its solution dips to `-7.6e-4` **between its own sample
+points**, reaches `-4.2e-2` beyond them, and violates the lattice zeros by up
+to `0.781` past the last `n` constrained. Sampling a continuum constraint at
+finitely many points relaxes it, and the optimiser finds every gap. The right
+tool is an SDP enforcing `u >= 0` exactly through the Fejer-Riesz
+representation `u = |h|^2`, with the lattice zeros handled structurally by
+factoring `u = s*q` rather than by listing them.
 
 **Gap B, the rectification. CLOSED, see section 5a.** The concrete
 majorant `v = K_1(0)*(sin(x/2)/(x/2))^2` satisfies every constraint with

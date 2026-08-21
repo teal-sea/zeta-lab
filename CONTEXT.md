@@ -1102,7 +1102,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `SPECIMEN`, `TARGET`, `RIVAL
 
 ### `harness/departments/review_ledger.py` — The repository's standing-review ledger — real claims, real attacks.
 
-*158 lines*
+*272 lines*
 
 Constants: `CLAIMS`, `OUTCOMES`
 
@@ -1222,6 +1222,8 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `28-asymmetry-e0-disposition.md` — 28. E0: the independent checker reproduced the audit's blind spots exactly
 - `29-de-bruijn-newman-davenport-heilbronn.md` — The de Bruijn-Newman constant of the Davenport-Heilbronn function
 - `30-prime-zeta-rightmost-zeros.md` — 28: The rightmost zeros of the prime zeta function
+- `31-bian-lemma-12-erratum.md` — Erratum to Bian, Lemma 12: `C_{kappa,2}` is `-4 kappa`, not `-4`
+- `32-the-palomar-arm.md` — 32 — The Palomar arm: what an outside mechanical check adds, and what it does not
 
 ## Runnable demos (`scripts/`)
 
@@ -1270,6 +1272,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/mathlib_gaps.py` — Which of Mathlib's 1000 famous theorems are still unformalized.
+- `scripts/palomar_precheck.py` — Pre-flight check of a Palomar Registry submission.
 - `scripts/pub1_certify_display.py` — Publication-safe display values for the Pub 1 xi' ceiling certificate.
 - `scripts/science_preflight.py` — Preflight for a session running this lab from an outside environment.
 - `scripts/install_hooks.sh` — Install the pre-push secret guard into this checkout.
