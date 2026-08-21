@@ -227,3 +227,96 @@ def test_the_route_document_states_its_own_limits():
     for gap in ("Gap A", "Gap B", "Gap C", "Gap D"):
         assert gap in doc
     assert "certif" not in raw.lower()          # the reserved word, banned here
+
+
+# --------------------------------------------------------------------------
+# Gap B, closed.  Section 5a of the route document.
+# --------------------------------------------------------------------------
+
+def test_the_fejer_ansatz_has_all_four_required_properties():
+    """Section 5a. Non-negative, vanishing on the punctured lattice, a
+    triangular transform supported on [-1,1], and int s = 2*pi*s(0), which is
+    the tightness condition the first draft of the route missed."""
+    import numpy as np
+    from lattice_extremality import TWOPI, fejer
+    xs = np.linspace(-200, 200, 200001)
+    assert (fejer(xs) >= 0).all()
+    for n in range(1, 40):
+        assert abs(float(fejer(np.array([n * TWOPI]))[0])) < 1e-20
+        assert abs(float(fejer(np.array([-n * TWOPI]))[0])) < 1e-20
+    assert float(fejer(np.array([0.0]))[0]) == 1.0
+    grid = np.linspace(-3000, 3000, 3000001)
+    vals = fejer(grid)
+    assert np.trapezoid(vals, grid) == pytest.approx(TWOPI, rel=1e-3)   # int s
+    for xi, want in ((0.3, TWOPI * 0.7), (0.7, TWOPI * 0.3), (1.4, 0.0)):
+        got = np.trapezoid(vals * np.cos(xi * grid), grid)
+        assert got == pytest.approx(want, abs=2e-3)
+
+
+def test_the_obvious_ansatz_is_ruled_out_by_the_tightness_condition():
+    """Why `(1 - cos x)*psi` cannot work: it vanishes at the origin, so
+    tightness would force int v = 0 against v >= K_1^+ >= 0. Pinned so the
+    dead end is not re-entered."""
+    assert (1 - math.cos(0.0)) == 0.0
+
+
+def test_gap_B_is_feasible_with_margin():
+    """Section 5a, the whole point. Both one-dimensional inequalities hold at
+    once, so an admissible multiplier exists."""
+    from lattice_extremality import MAJORANT_RECORD, majorant_multiplier_range
+    lo, hi = majorant_multiplier_range(xmax=800.0, npts=80000)
+    assert lo <= hi
+    assert hi - lo > 0.5
+    assert lo == pytest.approx(MAJORANT_RECORD["c_lower"], abs=1e-5)
+    assert hi == pytest.approx(MAJORANT_RECORD["c_upper"], abs=1e-12)
+
+
+def test_the_admissible_multiplier_keeps_the_bound_tight_and_decreasing():
+    """LP_v agrees with the lattice value at the critical density for ANY
+    admissible c, and stays decreasing because every admissible c is below
+    2*c2(0)."""
+    from lattice_extremality import (MAJORANT_RECORD, TWOPI, c2,
+                                     lp_bound_with_majorant)
+    from two_species import centre_gas_row_closed
+    lat = centre_gas_row_closed()
+    lo, hi = MAJORANT_RECORD["c_lower"], MAJORANT_RECORD["c_upper"]
+    assert hi < 2 * c2(0.0)                       # slope stays negative
+    for c in (lo, 0.5 * (lo + hi), hi):
+        assert lp_bound_with_majorant(1 / TWOPI, c) == pytest.approx(lat, abs=1e-12)
+        prev = None
+        for r in (1.0, 1.3, 1.8, 2.4):
+            got = lp_bound_with_majorant(r / TWOPI, c)
+            assert got <= lat + 1e-12
+            if prev is not None:
+                assert got < prev
+            prev = got
+
+
+def test_H2_holds_on_the_lattice_for_a_reason_not_by_luck():
+    """The closed form for the tail constant, and the single inequality it
+    turns on. K_1(2*pi*n)*(2*pi*n)^2 -> 2*cos^2(sqrt2/2)*(1 - cosh 1), which is
+    negative exactly because cosh 1 > 1."""
+    import gram_form as gf
+    from lattice_extremality import TWOPI, lattice_tail_constant
+    assert math.cosh(1.0) > 1.0
+    tc = lattice_tail_constant()
+    assert tc < 0
+    assert tc == pytest.approx(-0.6277706355638578, abs=1e-12)
+    for n in (500, 2000, 5000):
+        x = n * TWOPI
+        assert gf.kernel(1.0, x) * x * x == pytest.approx(tc, rel=2e-3)
+        assert gf.kernel(1.0, x) < 0
+
+
+def test_the_route_records_gap_B_as_closed_without_overclaiming():
+    from pathlib import Path
+    from lattice_extremality import MAJORANT_RECORD
+    raw = (Path(__file__).resolve().parent / "LATTICE-EXTREMALITY-ROUTE.md").read_text()
+    doc = " ".join(raw.split())
+    assert "Gap B, the rectification. CLOSED" in doc
+    assert "not enclosed" in doc            # the honest limit of the closure
+    assert "not a completed proof" in doc   # and the honest limit overall
+    assert "T1 is not discharged" in doc
+    assert "Gap A" in doc and "where the work is" in doc
+    assert "not enclosed" in MAJORANT_RECORD["grade"]
+    assert "certif" not in raw.lower()

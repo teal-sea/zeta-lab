@@ -114,20 +114,77 @@ and the lattice would not attain the bound.
 
 ## 5. What this proves, and under what hypotheses
 
-> **Under H1 and H2.** Let `T` be a `P`-periodic configuration with
-> `rho = m/P >= 1/(2*pi)` (**H1**) such that `K_1(d) <= 0` at every non-zero
-> difference `d` (**H2**). Then `J(T) <= -4 c2(0) + 2 kappa(0)`, with equality
+> **Under H1 alone.** Let `T` be a `P`-periodic configuration with
+> `rho = m/P >= 1/(2*pi)`. Then `J(T) <= -4 c2(0) + 2 kappa(0)`, with equality
 > if and only if `rho = 1/(2*pi)` and `T` is a translate of the `2*pi` lattice.
 
-H2 is what makes `f = -kappa` on the differences that matter, since
-`f = -kappa + K_1^+` exactly. H2 holds for the extremiser itself:
-`clip_is_idle_on_lattice(5000)` returns `-6.36e-10`, negative throughout, and
-`2*pi` sits mid-band, about `0.75` from the nearest sign change of `K_1`.
+The first version of this section also assumed **H2**, that `K_1(d) <= 0` at
+every non-zero difference, which is what makes `f = -kappa` where it matters.
+Section 5a removes it. H2 is nonetheless true of the extremiser, and for a
+reason worth recording: `clip_is_idle_on_lattice(5000)` is negative
+throughout, and
+
+    lim_n K_1(2*pi*n)*(2*pi*n)^2  =  2*cos^2(sqrt2/2)*(1 - cosh 1)
+                                  =  -0.6277706...
+
+`K_1` has a `1/x^2` asymptotic with two sources. The endpoints of `c2` at
+`w = +-1` contribute `2*c2'(1-)*cosh(1)*cos(x)`, and the kink at `w = 0`
+contributes `-2*c2'(0+)`, which does not oscillate. Both slopes equal
+`-cos^2(sqrt2/2)`, so at `x = 2*pi*n`, where the cosine is `+1`, they combine
+to the constant above. It is negative **precisely because `cosh 1 > 1`**, and
+that single inequality is why the rectification never fires at a lattice
+difference. Predicted `-0.6277706` against a measured `-0.6277713` at `n = 5000`.
+
+## 5a. Gap B, closed: an explicit majorant
+
+Gap B asked for `v >= K_1^+` vanishing on `2*pi*Z` minus the origin with
+`vhat <= kappa_hat`. There is a fourth constraint the first draft of this
+document missed. The bound from `g = -kappa + v` is
+`LP(rho) + 2*rho*vhat(0) - 2*v(0)`, so tightness at `rho = 1/(2*pi)` needs
+
+    int v = 2*pi*v(0).
+
+That kills the obvious ansatz. `v = (1 - cos x)*psi(x)` has the right zeros
+for free, but it also vanishes at the origin, forcing `int v = 0` against
+`v >= K_1^+ >= 0`. What works instead is
+
+    v(x) = c * s(x),    s(x) = (sin(x/2)/(x/2))^2,
+
+because `s >= 0`, `s(2*pi*n) = 0` for `n != 0`, `shat(xi) = 2*pi*(1-|xi|)^+`
+is supported exactly on `[-1,1]`, and `int s = 2*pi = 2*pi*s(0)`, so the
+tightness condition holds for every multiple at once.
+
+Feasibility is then two one-dimensional inequalities:
+
+    c  >=  sup_x K_1(x)^+ / s(x)          =  K_1(0)  =  0.9115647...
+    c  <=  inf_{|xi|<1} khat(xi)/shat(xi) =  cos^2(sqrt2/2)*(1 + cosh 1)
+                                          =  1.4698290...
+
+**Both hold at once, so the problem is feasible with margin `0.558`.** The
+supremum is attained at `x = 0`; the tail of `K_1^+/s` settles at `0.734916`
+by `x = 3000`, comfortably under. The infimum is the limit at `xi -> 1`, and
+it is in closed form because `c2` vanishes linearly there with slope
+`-cos^2(sqrt2/2)`.
+
+Take `c = K_1(0)`. Then `g = -kappa + c*s` satisfies `g >= f` everywhere,
+`ghat = -kappa_hat + c*shat <= 0` everywhere, and `g = f` at every lattice
+difference. The bound becomes
+
+    LP_v(rho) = LP(rho) + 2c(2*pi*rho - 1),
+
+equal to the lattice value at `rho = 1/(2*pi)` for any admissible `c`, and
+still strictly decreasing in `rho` because that needs only `c < 2*c2(0) =
+1.6985...`, which the whole admissible interval satisfies. Uniqueness survives
+too: `ghat < 0` strictly on `(0,1)` since `c` is strictly below the infimum, so
+the Newton argument of section 4 runs unchanged.
+
+Measured end to end: 300 random configurations at `rho >= 1/(2*pi)`, zero
+violations of `J <= LP_v(rho)`.
 
 ## 6. What is missing
 
-Four gaps. The first two are real, the last two are routine but unwritten,
-and none of them should be described as detail.
+Four gaps as first written. Gap B is now closed; A remains the real one,
+and C and D are routine but unwritten. None should be described as detail.
 
 **Gap A, the sparse side.** For `rho < 1/(2*pi)`, `LP(rho) > LP(1/(2*pi))` and
 the bound says nothing. It is not close: at `rho*2*pi = 0.4` the bound is
@@ -136,26 +193,15 @@ configurations are far from threatening and completely unprotected by this
 argument. Closing this needs either a second argument for low density or a
 different auxiliary function. **This is where the work is.**
 
-**Gap B, the rectification.** `Dam = max(0, D)` clips, and `f = -kappa + K_1^+`
-with `K_1^+ >= 0`. Section 3 bounds `J_kappa`, not `J`, and the difference
-`clip_bonus` is not small: `8.3e-2` for a mildly uneven pair, `4.8e-1` for a
-three-centre configuration. It is zero only on the lattice.
+**Gap B, the rectification. CLOSED, see section 5a.** The concrete
+majorant `v = K_1(0)*(sin(x/2)/(x/2))^2` satisfies every constraint with
+margin `0.558`, so hypothesis H2 is gone and section 5 holds for every
+configuration at `rho >= 1/(2*pi)`.
 
-The concrete form of the gap: find `v` with
-
-    v >= K_1^+   pointwise,   v(2*pi*n) = 0 for n != 0,   vhat <= kappa_hat.
-
-Then `g = -kappa + v` dominates `f`, has `ghat <= 0`, agrees with `f` at every
-lattice difference, and the argument closes without H2. That is a
-one-dimensional Cohn-Elkies-style feasibility problem and it can be attacked
-numerically over a finite basis. It is the sharpest next step this route
-suggests.
-
-Measured, and not a substitute for the above: 400 random configurations at
-`rho >= 1/(2*pi)`, many with the clip firing, breached neither the lattice
-value nor their own `LP(rho)`. The empirical picture is that the
-structure-factor penalty dominates the clip bonus by roughly fourfold, but no
-part of that is an argument.
+What is *not* closed about it: the two inequalities in 5a are verified
+numerically on a finite range with a settled tail, not enclosed. `rigor.py`
+is the natural next step and would turn this into an enclosure-carrying
+statement. Both are one-dimensional and should be well within reach.
 
 **Gap C, periodic to general.** `(*)` is stated for periodic configurations.
 General locally finite sets need the autocorrelation-measure form. Standard,

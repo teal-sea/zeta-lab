@@ -372,3 +372,101 @@ def clip_is_idle_on_lattice(nmax: int = 5000) -> float:
     H2 holding for the extremiser itself."""
     import gram_form as gf
     return max(gf.kernel(1.0, n * TWOPI) for n in range(1, nmax + 1))
+
+
+# --------------------------------------------------------------------------
+# Gap B, closed.  An explicit majorant removes hypothesis H2.
+# --------------------------------------------------------------------------
+
+def fejer(x):
+    """`s(x) = (sin(x/2)/(x/2))^2`, with `s(0) = 1`.
+
+    Four properties, all elementary, and between them they are exactly the
+    constraint list gap B asked for:
+
+    * `s >= 0`.
+    * `s(2*pi*n) = 0` for every `n != 0`, since `sin(pi n) = 0`.
+    * `shat(xi) = 2*pi*(1-|xi|)^+`, supported exactly on `[-1,1]`.  This is
+      the classical transform of `sinc^2`.
+    * `int s = 2*pi = 2*pi*s(0)`, which is precisely the tightness condition
+      `int v = 2*pi*v(0)`, and it holds for every multiple of `s` at once.
+
+    The last one is why this ansatz works and why `(1-cos x)*psi(x)`, the
+    obvious first guess, cannot: that one vanishes at the origin too, forcing
+    `int v = 0` against `v >= K_1^+ >= 0`.
+    """
+    xa = np.asarray(x, dtype=float)
+    out = np.ones_like(xa)
+    nz = xa != 0.0
+    h = xa[nz] / 2.0
+    out[nz] = (np.sin(h) / h) ** 2
+    return out if out.shape else float(out)
+
+
+def majorant_multiplier_range(xmax: float = 3000.0, npts: int = 400000):
+    """`(lo, hi)`: the admissible range for `c` in `v = c * fejer`.
+
+    `lo = sup_x K_1(x)^+ / s(x)`, so that `v >= K_1^+`.  The supremum is at
+    `x = 0`, where it is `K_1(0)`; the tail settles at about `0.7349`.
+
+    `hi = inf_{|xi|<1} khat(xi) / shat(xi) = inf c2(xi)(1+cosh xi)/(1-|xi|)`,
+    so that `vhat <= khat`.  The infimum is the limit at `xi -> 1`, and it has
+    a closed form: `c2` vanishes linearly at both `0+` and `1-` with the same
+    slope `-cos^2(sqrt2/2)`, so the limit is `cos^2(sqrt2/2)*(1+cosh 1)`.
+    """
+    import gram_form as gf
+    lo = gf.kernel(1.0, 0.0)
+    for a, b, n in ((1e-9, 60.0, npts), (60.0, 600.0, npts), (600.0, xmax, npts)):
+        if b <= a:
+            continue
+        for x in np.linspace(a, b, n):
+            r = max(gf.kernel(1.0, float(x)), 0.0) / float(fejer(np.array([x]))[0])
+            if r > lo:
+                lo = r
+    hi = math.cos(math.sqrt(2) / 2) ** 2 * (1 + math.cosh(1.0))
+    return lo, hi
+
+
+def lp_bound_with_majorant(rho: float, c: float | None = None) -> float:
+    """The bound from `g = -kappa + c*fejer`, valid with NO clip hypothesis.
+
+    `LP_v(rho) = LP(rho) + 2c(2*pi*rho - 1)`.  It agrees with `lp_bound` at
+    `rho = 1/(2*pi)` for every admissible `c`, and it is still decreasing in
+    `rho` provided `c < 2*c2(0) = 1.6985...`, which every admissible `c` is.
+    """
+    import gram_form as gf
+    if c is None:
+        c = gf.kernel(1.0, 0.0)
+    return lp_bound(rho) + 2 * c * (TWOPI * rho - 1)
+
+
+def lattice_tail_constant() -> float:
+    """`lim_n K_1(2*pi*n)*(2*pi*n)^2 = 2*cos^2(sqrt2/2)*(1 - cosh 1)`.
+
+    Why H2 holds for the lattice, in closed form.  `K_1` has a `1/x^2`
+    asymptotic with two sources: the endpoints of `c2` at `w = +-1` give
+    `2*c2'(1-)*cosh(1)*cos(x)`, and the kink at `w = 0` gives `-2*c2'(0+)`,
+    which does not oscillate.  Both slopes equal `-cos^2(sqrt2/2)`, so at
+    `x = 2*pi*n`, where the cosine is `+1`, the two combine to
+    `2*cos^2(sqrt2/2)*(1 - cosh 1)`.  It is negative precisely because
+    `cosh 1 > 1`, and that single inequality is the reason the rectification
+    never fires at a lattice difference.
+    """
+    return 2 * math.cos(math.sqrt(2) / 2) ** 2 * (1 - math.cosh(1.0))
+
+
+#: Gap B's resolution, and the numbers behind it.
+MAJORANT_RECORD = {
+    "ansatz": "v = c * (sin(x/2)/(x/2))^2",
+    "c_lower": 0.9115647130952531,   # = K_1(0), attained at x = 0
+    "c_upper": 1.4698290125473032,   # = cos^2(sqrt2/2)*(1 + cosh 1)
+    "tail_sup_of_ratio": 0.734916,
+    "slope_stays_negative_iff_c_below": 1.6984559986,   # = 2*c2(0)
+    "lattice_tail_constant": -0.6277706355638578,
+    "end_to_end": "300 random configurations at rho >= 1/(2*pi), 0 violations "
+                  "of J <= LP_v(rho); best J found 0.0703 against the "
+                  "lattice's 0.1143",
+    "grade": "the two inequalities are verified numerically on a finite range "
+             "with a settled tail, not enclosed. rigor.py is the natural next "
+             "step and would make this an enclosure-carrying statement.",
+}

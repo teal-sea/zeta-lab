@@ -181,10 +181,12 @@ atom problem:
   The `2*pi` lattice is the unique configuration whose only non-zero
   frequency mass sits on that zero, so it pays no penalty and attains the
   bound, and Newton's identities give uniqueness. This closes the case
-  `rho >= 1/(2*pi)` with the rectification idle. Two real gaps remain: the
-  sparse side `rho < 1/(2*pi)`, where the bound is vacuous, and the
-  rectification, which reduces to a concrete one-dimensional majorant
-  problem. Not a completed proof.
+  `rho >= 1/(2*pi)`. The rectification gap, open when this paragraph was
+  first written, is now closed by an explicit majorant
+  `v = K_1(0)*(sin(x/2)/(x/2))^2`, so no side hypothesis is needed. One
+  real gap remains: the sparse side `rho < 1/(2*pi)`, where the bound is
+  vacuous. Not a completed proof, and the majorant's two inequalities are
+  verified numerically rather than enclosed.
 
   What this does **not** do is discharge T1. T1 asks for a bound over all
   centre configurations; this is the uniform lattice at one spacing.
