@@ -61,6 +61,39 @@ CLAIMS: tuple[ClaimUnderReview, ...] = (
             "estimates; this one fell to preserving frequency separation"
         ),
     ),
+    ClaimUnderReview(
+        name="rf-c003-window",
+        claim=(
+            "the quartic window v*(s) = 1 - (1467/1000)s^2 + (1159/1000)s^4 "
+            "improves the source paper's cos(8s/5) window, giving "
+            "F(v*) = 2245228120295149280/3276332462159207451 and the "
+            "RH-conditional constant 50176758585216887915/58973984318865734118 "
+            "(hunts/rogue_frontier/window_opt/, landed 2026-08-21)"
+        ),
+        author="rogue_frontier campaign (2026-08-17/18)",
+        assumptions=(
+            "the source paper's SS7.1 and SS7.5(g) functional is transcribed "
+            "correctly, so the optimisation is over the right F",
+            "the claim is RH-conditional and is not stated otherwise",
+            "the rounded rational window is within 8.9e-9 of the true optimum, "
+            "which is asserted by the arm rather than enclosed",
+        ),
+        code_paths=("hunts/rogue_frontier/window_opt/",),
+        controls_run=(
+            "v = 1 reproduces the published sine-Gram moments (4/3, 2) on "
+            "three independent routes (quadrature, piecewise-linear exact, "
+            "Fraction exact)",
+            "the paper's own cos(8s/5) window reproduces its printed 30-digit "
+            "m2, m3 and F on both the float and the sympy routes",
+            "the Fraction route and the sympy route agree exactly on the "
+            "optimised quartic",
+        ),
+        author_reasoning=(
+            "an even quartic has enough freedom to beat the paper's single "
+            "cosine, and the whole functional is exactly rational on that "
+            "class, so the improvement can be stated without any float"
+        ),
+    ),
 )
 
 OUTCOMES: tuple[AttackOutcome, ...] = (
@@ -200,6 +233,40 @@ OUTCOMES: tuple[AttackOutcome, ...] = (
             "hunts/r_2ac05f/fault_check.py",
             "hunts/r_2ac05f/results.json",
             "hunts/r_2ac05f/HANDBACK.json",
+        ),
+    ),
+    AttackOutcome(
+        claim_name="rf-c003-window",
+        role="white-box",
+        attacker="Fulcrum hunt R-F00E48 (run 8b5765ae, Claude Opus 5, 2026-08-21)",
+        findings=(
+            "this is a landing check, not a mathematical attack, and it is "
+            "recorded as one so nobody later mistakes it for review: the "
+            "hunt salvaged window_opt/ onto main and re-ran the arm's own "
+            "code, so it shares every assumption the claim makes",
+            "what it does establish: moments_polyeven_exact(OPT_Q) recomputes "
+            "F = 2245228120295149280/3276332462159207451 exactly from the "
+            "landed source, and the landed RESULTS.md quotes that same "
+            "rational, so the document and the code agree in this tree",
+            "the arm's REPRODUCE.md headline command did not run at all. It "
+            "named functional.exact_F_quartic(1467, 1159), a symbol that has "
+            "never existed under either that name or that signature; the "
+            "function is moments_polyeven_exact(OPT_Q) and it returns "
+            "(m2, m3, F). A reader following the published recipe would have "
+            "got an ImportError, which is a reproducibility defect in a "
+            "promoted claim and is now fixed and pinned",
+            "nothing was attacked in the transcription of the source paper's "
+            "SS7.1/SS7.5(g) functional, in the optimality of the rounded "
+            "quartic, or in the enclosure arm. The claim therefore stands "
+            "with no blind attack and no independent white-box derivation, "
+            "which standing_reasons() will keep saying until someone runs one",
+        ),
+        artifacts=(
+            "hunts/r_f00e48/probe.py",
+            "hunts/r_f00e48/results.json",
+            "hunts/r_f00e48/RESULTS.md",
+            "hunts/r_f00e48/HANDBACK.json",
+            "hunts/rogue_frontier/LANDING.md",
         ),
     ),
 )

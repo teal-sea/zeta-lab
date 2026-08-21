@@ -213,6 +213,42 @@ of P and of subset series in Re s > 1, not zeros of zeta.
 **Status: settled.** The first positivity failure of the Connes–van Suijlekom / Connes–Consani–Moscovici Galerkin truncation of the Weil quadratic form on Davenport–Heilbronn on the integer lattice $c \in [6, 60], N \le 128$ occurs at $(c, N) = (31, 60)$.
 
 Integer cutoffs $c \le 30$ are strictly positive definite across all tested $N \le 128$ (and up to $N = 256$ at $c = 29, 30$). At $c = 31$, the even sector develops its first negative eigenvalue at $N = 60$, with rigorous Arb ball enclosure $\lambda_{\min} = -1.87393568857 \times 10^{-31} < 0$ (radius $\sim 3 \times 10^{-192}$) and exact dyadic Rayleigh quotient upper bound $-1.87393568857 \times 10^{-31} < 0$, while $N = 59$ is strictly positive with $\lambda_{\min} = +8.36504566170 \times 10^{-31} > 0$. The odd sector at $(31, 60)$ remains strictly positive (inertia $60$ positive, $0$ negative). The Riemann zeta control at $(31, 60)$ is strictly positive by 100 orders of magnitude: even inertia $(61, 0)$, odd inertia $(60, 0)$, $\lambda_{\min}(\zeta, 31, 60) = +4.82160175 \times 10^{-100} > 0$. The failure tracks the first off-line pair at $\gamma_{\text{off}} = 85.6993, \delta = 0.3085$: across $c \in [32, 60]$ the crossing band edge mean is $83.64 \pm 2.44$, and at $(31, 60)$ the zero-side dictionary decomposition proves the off-line quadruple ($-6.734989 \times 10^{-29}$) is the sole negative contributor, whose subtraction flips the form value positive to $+6.716250 \times 10^{-29} > 0$. Evidence in `hunts/r_ac9ca3/RESULTS.md` and `results.json`. Nothing here bears on RH (`docs/08`).
+### Hunt #66: four arms salvaged off an abandoned branch (`r_f00e48/`)
+
+**Status: settled.** `claude/riemann-hypothesis-research-ofds8s` ran a
+wide-portfolio RH-adjacent campaign on 2026-08-17/18 and never landed. Four of
+its five arms existed nowhere on `main`; they are now in
+`hunts/rogue_frontier/`: `weil_trunc/` (23 files, 8 replication gates, a 27/27
+conclusive-positive enclosure grid, and the Davenport–Heilbronn positivity
+failure at `(c, N) = (31, 60)`), `sine_gram/` (exact finite-N engine,
+`m_5(1) = 101/18`, `m_6(1) = 640/63`), `window_opt/` (RF-C003, the campaign's
+one promoted claim), and `nyman_beurling/` (Baez-Duarte distances to
+`N = 2048`, against `main`'s previous `N = 50`), plus the survey documents.
+**1,717,013 bytes landed against ~58 MB on the branch**: 56 MB of regenerable
+pickle and a stale `.ext_lock` stayed behind, and so did `fkappa/`, whose
+`kappa = 2` table Hunt #65 had already adjudicated wrong. `LANDING.md` records
+the subset so the gaps do not read as loss. **The defect the checking found:**
+`REPRODUCE.md`'s headline command for RF-C003, the campaign's *only* promoted
+claim, did not run — it named `functional.exact_F_quartic(1467, 1159)`, a
+symbol that never existed under that name or that signature, so a reader
+following the published recipe got an `ImportError`. The function is
+`moments_polyeven_exact(OPT_Q)` returning `(m2, m3, F)`; `probe.py` now
+recomputes `F(v*) = 2245228120295149280/3276332462159207451` from the landed
+source and pins it against the landed document. Two further references were
+repaired. **The one external corroboration:** `main`'s own Hunt #45
+(`r_ac9ca3/`) reached `(31, 60)` independently, and the salvaged
+`dhneg_scan.json` agrees with it digit for digit on the enclosed DH eigenvalue
+(`-1.87393568857018838648…`, radius ~5.7e-208) and the zeta control
+(`+4.82160175202313776…e-100`). **What it does not establish:** re-running an
+arm's own code is not an independent check of it, and RF-C003 is entered in
+`harness/departments/review_ledger.py` with a white-box outcome saying exactly
+that, leaving `standing_reasons()` correctly reporting no blind attack — a new
+open item, honestly created, not one closed. Two further arms (`erdos_scan/`,
+`matchings/`, the latter claiming a kernel-checked Lean result) appeared on the
+branch *after* the sweep that specified this landing and are unreviewed rather
+than rejected. Evidence in `hunts/r_f00e48/RESULTS.md` and `results.json` (29/29
+checks). Nothing here bears on RH (`docs/08`).
+
 ### Hunt #65: the conflicting kappa = 2 tables, adjudicated (`r_2ac05f/`)
 
 **Status: settled.** Two directories carried a table of the same quantity, the regular coefficients `C_{2,i}` of Bian's pair-correlation form factor for the zeros of `xi''`, and disagreed at every index from 2 to 11: `hunts/higher_xi/C2_EXACT.json` (`1, -8, 24, -32, 64/3, ...`) against `hunts/rogue_frontier/fkappa/` corrected mode (`1, -4, 4, -16, 52/3, ...`), with conflicting diagnoses. **`higher_xi` is right.** A fourth derivation written for this adjudication and importing neither hunt — the identity `R_kappa = xi'/xi + D log Q_kappa` expanded in a formal Dirichlet word algebra, exact rationals throughout — reproduces `higher_xi`'s eleven values exactly, and reproduces the externally published Farmer-Gonek `kappa = 1` row (arXiv:0803.0425) exactly as its control, including the four forced zeros. The general defect, derived here and recorded nowhere else: the `x^1` coefficient of `Qhat_kappa = Q_kappa / L^kappa` is `kappa*g`, so **`C_{kappa,2} = -4*kappa`** (`-4, -8, -12, -16, -20` for `kappa = 1..5`), and Bian's Lemma 12 asserting a universal `-4` is the dropped `M(v_l)M(w_k)` weight `C2_PROVENANCE.md` names on thesis page 71. `fkappa` reimplemented the thesis code faithfully and found three real implementation defects in it, but carried Lemma 12's `-4` as an axiom, so its correction sits downstream of a larger error. **The control that would have caught it, measured rather than asserted:** planting exactly that defect in this hunt's probe leaves the Farmer-Gonek `kappa = 1` control passing and moves `C_{2,2}` to the published `-4`, while a one-factorial corruption of the pairing turns the same control red. The only externally anchored control either hunt ran has zero power against the defect that decided the dispute; the control with power is to compute `C_{kappa,2}` for `kappa = 1, 2, 3` and assert the values differ, i.e. an invariance claim needs a control that moves the variable the invariance is asserted over. Evidence in `hunts/r_2ac05f/RESULTS.md`, `results.json` and `fault_check.json`; outcome appended to `harness/departments/review_ledger.py`. Nothing here bears on RH (`docs/08`).
