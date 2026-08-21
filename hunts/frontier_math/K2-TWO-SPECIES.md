@@ -151,6 +151,28 @@ atom problem:
   below 1, so nothing downstream breaks. And the two modules had been
   summing the same kernel with neither one saying so.
 
+  **Attacked 2026-08-20, and it survived.** `lattice_extremality.py`
+  maximised the per-centre cost over `P`-periodic configurations with
+  `m = 2..6` centres per period, 300 Nelder-Mead restarts, at the
+  one-sided convention `centre_gas_row` uses. Every `m` returned to the
+  uniform `2*pi` lattice; the residual shortfalls (`3.6e-6` at worst) are
+  optimiser tolerance, with the returned offsets multiples of `6.2832`.
+  Three structured families were also swept directly, with no optimiser
+  in the loop: alternating gaps (strict symmetric maximum at the lattice),
+  dimers (monotone in separation up to `2*pi`), and vacancies (every
+  density below, deficit diluting from `3.59e-2` at 4 slots to `9.48e-3`
+  at 13).
+
+  The negative result is worth exactly what the detector's power is worth,
+  so that is measured rather than asserted: perturbations the optimiser
+  resolves at `1e-6` move the objective by `1e-2`, four orders larger. A
+  search that could not discriminate would also have found nothing.
+
+  This raises no rung. Lattice extremality remains unproved, the family
+  searched is small and explicitly cannot express aperiodic or multi-scale
+  structure, and a counterexample would most plausibly live there. Read
+  `lattice_extremality.NAMED_GAPS` (L1-L6) before quoting any of it.
+
   What this does **not** do is discharge T1. T1 asks for a bound over all
   centre configurations; this is the uniform lattice at one spacing.
   Lattice extremality still has no proof (G4's withdrawal removed its only
