@@ -34,3 +34,13 @@ roots = ["Challenge"]
 [[lean_lib]]
 name = "Solution"
 roots = ["Solution"]
+
+# The second Palomar submission surface: the Davenport-Heilbronn zero
+# criterion and analytic half. Same Challenge/Solution discipline as above.
+[[lean_lib]]
+name = "DHChallenge"
+roots = ["DHChallenge"]
+
+[[lean_lib]]
+name = "DHSolution"
+roots = ["DHSolution"]
