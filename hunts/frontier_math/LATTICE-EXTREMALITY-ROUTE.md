@@ -240,6 +240,53 @@ tool is an SDP enforcing `u >= 0` exactly through the Fejer-Riesz
 representation `u = |h|^2`, with the lattice zeros handled structurally by
 factoring `u = s*q` rather than by listing them.
 
+## 6b. Gap A above bandwidth 1: the SDP built, and what it says
+
+Section 6a leaves one question open, and names the tool: an SDP enforcing
+`u >= 0` through Fejer-Riesz rather than by sampling, with the lattice zeros
+carried by factoring `u = s*q`. That is `sparse_sdp.py`, pinned by
+`test_sparse_sdp.py`. **The question is still open.** What follows is what the
+tool established and what it did not.
+
+**The reduction in 6a is now independently derived.** This session reached
+`ghat(0) = 0`, `g(0) = -LAT/2`, and the forced vanishing of `uhat` at every
+non-zero integer from the Poisson side, before reading 6a, and landed on the
+same constants. Two derivations by different routes agree.
+
+**Calibration first, because 6a records an LP that failed one.** At bandwidth
+1 the SDP returns `u(0) = 0.558236` against the proved ceiling `0.5582643`,
+at scale `1.0000` with residual `0` and no positive-semidefinite repair
+needed. It reproduces the case whose answer is known, which the sampled LP
+did not.
+
+**Above bandwidth 1, solutions are returned and none of them verify.** Solves
+at `B` up to 4 return points reaching as high as `100.00%` of the value
+needed. Every one collapses to `0` under verification. The reason is specific:
+after projecting the Gram matrix back onto the positive-semidefinite cone,
+`uhat` is strictly positive somewhere in `|xi| > 1`. There `M` vanishes, so no
+positive scaling recovers feasibility, unlike a violation inside `[-1,1]`.
+The solver output was not a witness, and reporting it as one would have
+repeated 6a's own lesson in a new place.
+
+**Why a generic solver will not settle this.** The feasible set has empty
+interior. 6a's knife-edge is forced: the lattice attains the bound at
+`rho = 1/(2*pi)`, so `B_g(1) >= LAT`, and with the zero-density requirement
+`B_g(0) <= LAT` this pins `uhat(0) = M(0)` and `u(0) = M(0)/(2*pi)` exactly.
+An interior-point method has no interior to find, which is what every
+`optimal_inaccurate` status and every eigenvalue near `-1e-5` is reporting.
+Settling bandwidth above 1 needs exact arithmetic or enclosures, or a
+formulation that carries the band-edge constraint structurally rather than as
+one more sampled inequality.
+
+**Three defects found on the way, recorded because each cost real time.**
+The x-space route is unusable here: with the constant in the basis the
+integrand decays like `1/x^2`, and truncation ripple of order `1/x_max` lands
+exactly in `|xi| > 1`, driving every answer to zero. The constant must be in
+the basis at all: `u = a*s` has `q` constant, which no family of decaying
+sincs contains, so leaving it out excludes the one solution known to exist.
+And a scan that read `problem.value` without `problem.status` reported
+`2.4e167` as a number.
+
 **Gap B, the rectification. CLOSED, see section 5a.** The concrete
 majorant `v = K_1(0)*(sin(x/2)/(x/2))^2` satisfies every constraint with
 margin `0.558`, so hypothesis H2 is gone and section 5 holds for every
