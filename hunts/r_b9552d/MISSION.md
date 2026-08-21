@@ -63,5 +63,57 @@ agents_may_not:
 ## Kill conditions actually reached
 
 None of the kill conditions fired. The LP assessment of the certificate
-route (item E of `probe.py`) did **not** settle at this cost, which is
-reported as such in `RESULTS.md` rather than dressed as a bound.
+route (item E of `probe_37fb06a9.py`) did **not** settle at this cost, which
+is reported as such in `RESULTS-37fb06a9.md` rather than dressed as a bound.
+
+---
+
+# Run 2 — `113786a8-1f1c-4220-b772-15160a0274fa`, 2026-08-20
+
+Run 1's artifacts are preserved under their run-tagged names
+(`RESULTS-37fb06a9.md`, `probe_37fb06a9.py`, `results_37fb06a9.json`,
+`HANDBACK-37fb06a9.json`); the unsuffixed files are this run's.
+
+Between the two runs, `main` withdrew the G4 counterexample (`a735965`) and
+closed gap B of `hunts/frontier_math/LATTICE-EXTREMALITY-ROUTE.md`
+(`7efd506`) with an explicit Fejér majorant. Run 1's threads 1 and 2 are
+therefore answered elsewhere, and the same question — T1's gas half — now
+sits entirely on that route's **gap A**, the sparse side `rho < 1/(2*pi)`.
+
+```huntspec
+id: r_b9552d-run2
+question: what must a Cohn-Elkies certificate be to close gap A of the lattice-extremality route (the sparse side rho < 1/(2*pi)), and can the Fejer family that closed gap B be it?
+frontier: gap B closed on main 7efd506 with v = K_1(0)*(sin(x/2)/(x/2))^2, so J(T) <= LP_v(rho) for every configuration at rho >= 1/(2*pi), with LP_v(1/(2*pi)) = L = 0.11433003938654052 the uniform-lattice row; gap A open, the route document's own sparse illustration being +2.15 against a true -0.043 at rho*2*pi = 0.4
+dead_routes:
+  - per-pair domination, the cap is superadditive above the multiplicity threshold
+  - separation hypotheses, real zero gaps have no positive lower bound
+  - convex relaxation of the atom constraint, exact rational witness on file
+  - Cauchy-Schwarz on the positive-definite kernel, 18x to 111x too weak
+  - repulsion-free accounting, arithmetically dead from n=8
+  - the G4 1,1,2,1,1,2,3 configuration, withdrawn on main a735965 as a two-sided number compared against a one-sided one
+required_oracles:
+  - the numpy kernel k1_vec checked pointwise against gram_form.kernel's scalar cmath path
+  - the closed forms 2*c2(0), K_1(0) and cos^2(sqrt2/2)*(1+cosh 1) re-measured by independent scans rather than quoted
+  - two_species.centre_gas_row_closed as the lattice row L, computed on main and not here
+  - a planted-fault ladder on the sup f necessary condition, which must fire before a not-excluded verdict is reported
+kill_conditions:
+  - sup f exceeds L/2, which would exclude every universal certificate and end the route
+  - the bound at c = 2*c2(0) fails to be constant in rho, which would mean the pinning argument is wrong
+  - the planted inflation of f fails to fire the necessary-condition test
+  - a recorded dead route is being re-derived
+agents_may:
+  - derive the constants any density-independent certificate must hit, and test them
+  - report a family as unable to close a gap, with the frequency-domain witness
+  - state a bound weaker than the conjecture when it is the first of its kind on that side
+agents_may_not:
+  - claim gap A closed, lattice extremality proved, T1 proved, or k >= 3
+  - use the reserved certification word
+  - describe a scan sup as an enclosure
+  - present the quoted Paley-Wiener factorisation and sampling steps as proved here
+```
+
+## Kill conditions actually reached, run 2
+
+None fired. `sup f = 0.018743` sits below `L/2 = 0.057165` by a factor
+3.05, so the route survives its necessary condition; the planted 3.05x
+inflation fires the test, so the test has power.
