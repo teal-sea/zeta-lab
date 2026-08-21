@@ -181,9 +181,9 @@ Constants: `GAMMA1`
 
 ### `zeta/epstein.py` — The counterexample battery: Davenport-Heilbronn, gate #3 made computational.
 
-*1231 lines*
+*1605 lines*
 
-Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`
+Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`, `SHIFTED_PRODUCT_SHIFT`
 
 - `chi5(n: int)` — The Dirichlet character mod 5 with chi(2) = i.
 - `L_chi(s, conjugate: bool = False, dps: int = DPS_DEFAULT)` — L(s, chi) for the mod-5 character of :func:`chi5`, via Hurwitz zeta:
@@ -206,11 +206,19 @@ Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`
 - `epstein_class_group_defect(s, discriminant: int, dps: int = DPS_DEFAULT)` — Measured defect of ``sum_Q zeta_Q(s) = w * zeta(s) * L(s, chi_D)``.
 - `Z_epstein(t, form: tuple[int, int, int], dps: int = DPS_DEFAULT)` — The Hardy-style real function ``Lambda_Q(1/2 + it)``.
 - `epstein_interface(form: tuple[int, int, int], dps: int = DPS_DEFAULT) -> dict` — The zeta-like interface for an Epstein zeta (see :func:`zeta_interface`).
+- `shifted_coefficient(n: int, shift = SHIFTED_PRODUCT_SHIFT, dps: int = DPS_DEFAULT)` — Dirichlet coefficient of ``W_a``: ``a_n = sum_{de=n} d^{-a} e^{a}``.
+- `shifted_completed(s, shift = SHIFTED_PRODUCT_SHIFT, dps: int = DPS_DEFAULT)` — ``Xi_a(s) = xi(s+a) xi(s-a)``, entire, with ``Xi_a(1-s) = Xi_a(s)``.
+- `shifted_functional_equation_defect(s, shift = SHIFTED_PRODUCT_SHIFT, dps: int = DPS_DEFAULT)` — Measured ``Xi_a(s) - Xi_a(1-s)``.
+- `shifted_log_derivative_coefficient(n: int, shift = SHIFTED_PRODUCT_SHIFT, dps: int = DPS_DEFAULT)` — ``Lambda_{W_a}(n) = Lambda(n) (n^a + n^{-a}) >= 0``, in closed form.
+- `Z_shifted(t, shift = SHIFTED_PRODUCT_SHIFT, dps: int = DPS_DEFAULT)` — The Hardy-style real function ``Xi_a(1/2 + it)``.
+- `shifted_interface(shift = SHIFTED_PRODUCT_SHIFT, dps: int = DPS_DEFAULT) -> dict` — The zeta-like interface for ``W_a`` (see :func:`zeta_interface`).
+- `log_derivative_coefficients(coefficient, n_max: int, dps: int = DPS_DEFAULT)` — ``Lambda_F(n)`` for ``n <= n_max``, from the Dirichlet coefficients alone.
 - `zeta_interface(dps: int = DPS_DEFAULT) -> dict` — The zeta-like interface for **zeta itself** (via :mod:`zeta.core`):
 - `dh_interface(dps: int = DPS_DEFAULT) -> dict` — The same interface for the Davenport-Heilbronn function (see
 - `claim_functional_equation(iface: dict) -> bool` — Claim: "the completed function satisfies F(s) = F(1-s)" — measured as
 - `claim_multiplicativity(iface: dict) -> bool` — Claim: "the Dirichlet coefficients are multiplicative:
-- `battery(claim_fn, dps: int = DPS_DEFAULT, forms: tuple[tuple[int, int, int], ...] = ((2, 1, 3), (1, 1, 6))) -> dict` — Evaluate a claimed structural property against zeta, the Davenport-Heilbronn
+- `claim_euler_product_positivity(iface: dict, n_max: int = 200, dps: int = 25) -> bool` — Claim: "the coefficients of ``log F`` are non-negative", i.e.
+- `battery(claim_fn, dps: int = DPS_DEFAULT, forms: tuple[tuple[int, int, int], ...] = ((2, 1, 3), (1, 1, 6)), shift = SHIFTED_PRODUCT_SHIFT) -> dict` — Evaluate a claimed structural property against zeta and every rival:
 
 ### `zeta/li.py` — Li's criterion and Jensen polynomials — the real-rootedness lane.
 
@@ -1272,7 +1280,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1816 test functions across 74 files (the collected count differs where tests are parametrised):
+1825 test functions across 74 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_claim_attribution.py` — 6
@@ -1291,7 +1299,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_doors.py` — 4
 - `tests/test_dossier_hardy_z.py` — 22
 - `tests/test_dossier_schema.py` — 37
-- `tests/test_epstein.py` — 43
+- `tests/test_epstein.py` — 52
 - `tests/test_explicit.py` — 45
 - `tests/test_factorization.py` — 13
 - `tests/test_finitefield.py` — 53

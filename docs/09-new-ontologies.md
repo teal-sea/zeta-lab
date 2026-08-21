@@ -230,6 +230,9 @@ accommodate them "proves too much" and is dead on arrival. Concretely: when some
 framework, ask *"where exactly does Davenport–Heilbronn fail to embed?"* If there is no crisp
 answer, stop reading.
 
+A crisp answer that names the Euler product is necessary and is not sufficient, and the battery now
+carries the rival that shows why. See the paragraph on the shifted product in §5.1.
+
 **Gate 4 — The Euler product must be structural.** In the new ontology the primes must be the
 *points* (or orbits, or spectrum) of the hidden object, so that the Euler product is the statement
 "the zeta function is a product over points" — a tautology of the geometry, as it is over finite
@@ -311,7 +314,41 @@ line. So the operational form of the gate is:
 
 `zeta.epstein.battery` runs exactly this: its default rivals are Davenport–Heilbronn plus both
 discriminant −23 forms (class number 3), i.e. two independent linear combinations of genuine
-Euler products. One caution keeps the gate honest in the other direction: no known example
+Euler products, **plus one rival that is not a linear combination at all**.
+
+**A rival with an Euler product, added 2026-08-21.** Every rival above is built by combining Euler
+products, so none of them can test a claim whose content *is* the Euler product: multiplicativity
+of the coefficients, or the non-negativity of the coefficients of `log F`. A claim of that shape
+used to pass Gate 3 without having been tested, which is the same failure mode as a rival set too
+weak to say no. The symmetric shifted product
+
+```
+    W_a(s) = ζ(s+a) ζ(s−a),      Ξ_a(s) = ξ(s+a) ξ(s−a),      a = 1/4
+```
+
+has a scalar Euler product `∏_p (1−p^{−s−a})^{−1}(1−p^{−s+a})^{−1}`, real non-negative
+multiplicative coefficients, log-derivative coefficients `Λ(n)(n^a + n^{−a}) ≥ 0`, an exact
+`Ξ_a(1−s) = Ξ_a(s)`, and a real Hardy-style function on the critical line. Its zeros are the points
+`ρ ± a`, so **Hardy's theorem alone** puts infinitely many of them on `Re s = 1/2 ± a`: no
+assumption about ζ's remaining zeros enters. Measured at `a = 1/4`: four zeros in the box
+`[0.1, 0.9] × [10, 25]` and no sign change on the line there, against Davenport–Heilbronn's five in
+the box and three on the line.
+
+What it changes: `claim_multiplicativity` **no longer distinguishes**. That verdict was published
+here and in `docs/doors/zeta.md`, and it was true of the rivals it was computed against, which is
+exactly the weakness. The construction is not new; the one-sided `ζ(s−δ)` is already in this tree at
+`docs/18` §6 and `docs/24` §6, citing Conrey–Ghosh (1992, remark 2), and the symmetric product is
+the standard reason the Selberg class carries a Ramanujan axiom.
+
+What it does **not** change is the caution in the next paragraph, and reading it as a demolition of
+the Euler product would be the wrong lesson. `W_a` is outside the Selberg class: its coefficients
+grow like `n^a`, its Dirichlet series converges only for `Re s > 1+a`, its gamma factor has
+`Re μ_j = −a/2 < 0`, and its poles sit at `1 ± a`. Those are four faces of one shift and **none of
+them is a positivity**. So the gate it enforces is: a mechanism resting on the Euler product, or on
+any positivity derived from it, must *also* use the normalisation, and must say where. The
+laboratory's own attempt at such a mechanism is `hunts/epp_herglotz`, which this rival killed.
+
+One caution keeps the gate honest in the other direction: no known example
 satisfies the *full* Selberg-class package (Section 3, axioms 1–5) and violates RH — the
 counterexamples conclusively reject weaker packages only. Believing the full package suffices is
 essentially believing GRH; the gate is eliminative, never probative (`prime-blind ⟹ not an

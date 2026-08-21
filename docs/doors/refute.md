@@ -39,6 +39,16 @@ statistics. It is a modus tollens: if the Davenport–Heilbronn function has the
 property too, and it has zeros off the line, then the property cannot be why
 the zeros are on the line.
 
+**If your claim is about the Euler product, read this before you celebrate a
+pass.** Davenport–Heilbronn and the Epstein zetas are built by combining Euler
+products, so neither can test a claim whose content is the Euler product
+itself. The rival set carries one that can: `W_a(s) = ζ(s+a)ζ(s−a)` has a
+scalar Euler product, multiplicative coefficients, the functional equation,
+and zeros on `Re s = 1/2 ± a` by Hardy's theorem alone. Its scope is stated in
+`docs/09` §5.1: it sits outside the Selberg class, so a claim it shares is
+blind to a shift rather than irrelevant, and the repair it forces is that you
+name which normalisation your mechanism uses and where.
+
 ## Running it on your own claim
 
 Write your claim as a predicate over the interface dict and hand it to the

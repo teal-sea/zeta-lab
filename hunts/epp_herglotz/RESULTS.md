@@ -236,3 +236,23 @@ equality, not slack.
 ```bash
 .venv/bin/python hunts/epp_herglotz/probe.py     # writes results.json, ~15 min
 ```
+
+## 9. Afterword, added after the run closed
+
+The run stopped where its terms said to stop, with the observation in section 5
+recorded and not acted on. The operator then asked for the instrument to be
+fixed, so it was, outside this hunt and in the core:
+
+- `zeta.epstein` carries `shifted_interface`, and `zeta.epstein.battery` runs
+  it as a third rival by default. `claim_multiplicativity` consequently no
+  longer distinguishes, and both readings are pinned in
+  `tests/test_epstein.py`. `docs/09` section 5.1 carries the construction and
+  the scope caveat.
+- `claim_euler_product_positivity` and `log_derivative_coefficients` are public,
+  so the claim this hunt died on is now a standing gate-#3 instrument with its
+  truncation as an explicit argument.
+- `battery` records a claim that raises rather than dying on it, and refuses to
+  report `distinguishes` when a rival could not be evaluated.
+
+None of that is a result about RH either. It is the tool that killed this
+hunt's mechanism, made available to kill the next one faster.

@@ -30,9 +30,18 @@ from zeta.epstein import (
     KAPPA_REF,
     OFFLINE_ZERO_IM,
     OFFLINE_ZERO_RE,
+    SHIFTED_PRODUCT_SHIFT,
     L_chi,
     Z_dh,
+    Z_shifted,
     battery,
+    claim_euler_product_positivity,
+    log_derivative_coefficients,
+    shifted_coefficient,
+    shifted_completed,
+    shifted_functional_equation_defect,
+    shifted_interface,
+    shifted_log_derivative_coefficient,
     chi5,
     claim_functional_equation,
     claim_multiplicativity,
@@ -438,11 +447,28 @@ def test_battery_functional_equation_does_not_distinguish():
     assert res["distinguishes"] is False
 
 
-def test_battery_multiplicativity_distinguishes():
+def test_battery_multiplicativity_no_longer_distinguishes():
+    """Multiplicativity separates zeta from every rival that lacks an Euler
+    product, and from none that has one.
+
+    This verdict changed when ``shifted_product`` entered the rival set, and
+    the change is the finding rather than a regression: ``W_a`` has a scalar
+    Euler product, multiplicative coefficients, the functional equation, and
+    zeros off its own critical line.  So the fingerprint of an Euler product
+    is not by itself a reason the zeros are where they are.  The historical
+    two-rival reading is preserved below rather than deleted, because it is
+    still true of the rivals it was computed against.
+    """
     res = battery(claim_multiplicativity)
     assert res["riemann_zeta"] is True
     assert res["davenport_heilbronn"] is False
-    assert res["distinguishes"] is True
+    assert res["shifted_product"] is True
+    assert res["shared_with"] == ("shifted_product",)
+    assert res["distinguishes"] is False
+
+    historical = battery(claim_multiplicativity, shift=None)
+    assert historical["distinguishes"] is True
+    assert historical["shared_with"] == ()
 
 
 def test_battery_reports_claim_name():
@@ -565,8 +591,7 @@ def test_battery_runs_epstein_as_a_second_counterexample():
     assert res["riemann_zeta"]
     assert not res["davenport_heilbronn"]
     assert not res["epstein_2_1_3"] and not res["epstein_1_1_6"]
-    assert res["distinguishes"] is True
-    assert res["shared_with"] == ()
+    assert res["shared_with"] == ("shifted_product",)
 
 
 def test_battery_requires_every_counterexample_to_fail():
@@ -575,7 +600,7 @@ def test_battery_requires_every_counterexample_to_fail():
     res = battery(shared_with_epstein_only, dps=20)
     assert res["riemann_zeta"] and res["epstein_2_1_3"] and res["epstein_1_1_6"]
     assert res["distinguishes"] is False
-    assert res["shared_with"] == ("epstein_1_1_6", "epstein_2_1_3")
+    assert res["shared_with"] == ("epstein_1_1_6", "epstein_2_1_3", "shifted_product")
 
 
 # ---------------------------------------------------------------------------
@@ -706,3 +731,155 @@ def test_dh_tail_bound_required_K_pins_the_cost_model():
         assert min_K(0) == 195301
         assert min_K(1) == 1741
         assert min_K(2) == 243
+
+
+# ---------------------------------------------------------------------------
+# The shifted product -- gate #3's rival that *has* an Euler product
+#
+# W_a(s) = zeta(s+a) zeta(s-a), completed Xi_a(s) = xi(s+a) xi(s-a), a = 1/4.
+# Every literal below was computed in this environment before being asserted.
+# The zeros of Xi_a are the points rho +- a, so Hardy's theorem alone puts
+# infinitely many of them off its own critical line: no RH assumption enters.
+# ---------------------------------------------------------------------------
+
+
+def test_shifted_product_satisfies_the_functional_equation():
+    for s in (mp.mpc("0.3", "2"), mp.mpc("0.9", "17"), mp.mpc("-1.2", "5.5")):
+        defect = shifted_functional_equation_defect(s, dps=30)
+        scale = abs(shifted_completed(s, dps=30))
+        assert abs(defect) < mp.mpf("1e-14") * max(scale, 1)
+
+
+def test_shifted_product_is_real_on_its_critical_line():
+    for t in (2, mp.mpf("9.5"), 31):
+        value = shifted_completed(mp.mpc(mp.mpf(1) / 2, t), dps=30)
+        assert abs(mp.im(value)) < mp.mpf("1e-25") * max(abs(mp.re(value)), 1)
+        assert isinstance(Z_shifted(t, dps=25), mp.mpf)
+
+
+def test_shifted_product_coefficients_are_positive_and_multiplicative():
+    """a_1 = 1, every a_n > 0, and a_{mn} = a_m a_n on coprime pairs.
+
+    Also the Ramanujan violation that keeps this out of the Selberg class and
+    is the only reason it is not a counterexample to RH: a_60 = 14.02 against
+    d(60) = 12, growing like n^(1/4).
+    """
+    with mp.workdps(30):
+        a = lambda n: shifted_coefficient(n, dps=25)
+        assert a(1) == 1
+        assert all(a(n) > 0 for n in range(1, 61))
+        for m, n in ((2, 3), (2, 7), (3, 7), (2, 9), (3, 4)):
+            assert abs(a(m * n) - a(m) * a(n)) < mp.mpf("1e-20")
+        assert mp.mpf("14.0") < a(60) < mp.mpf("14.1")
+
+
+def test_shifted_product_log_derivative_is_non_negative_by_two_routes():
+    """Lambda_W(n) = Lambda(n)(n^a + n^-a) >= 0, from the closed form and from
+    the coefficients, which share no code."""
+    recursion = log_derivative_coefficients(
+        lambda n: shifted_coefficient(n, dps=30), 60, dps=30
+    )
+    closed = [shifted_log_derivative_coefficient(n, dps=30) for n in range(61)]
+    assert max(abs(recursion[n] - closed[n]) for n in range(2, 61)) < mp.mpf("1e-13")
+    assert min(recursion[2:]) > -mp.mpf("1e-25")
+    assert recursion[8] > 1  # 2^3 is a prime power, so this one is not zero
+
+
+def test_shifted_product_has_zeros_off_its_own_critical_line():
+    """Four zeros in the box, none on the line: rho_1 +- a and rho_2 +- a.
+
+    Sharper than the Davenport-Heilbronn window in this module, which has five
+    in the box and three on the line.  Xi_a is entire, so the argument-
+    principle count needs no pole correction.
+    """
+    iface = shifted_interface(dps=20)
+    assert iface["count_zeros_box"](mp.mpc("0.1", "10"), mp.mpc("0.9", "25")) == 4
+    assert iface["zeros_on_line"](mp.mpf(10), mp.mpf(25)) == 0
+
+    gamma_1 = mp.mpf("14.134725141734693790")
+    off_line = shifted_completed(
+        mp.mpc(mp.mpf(1) / 2 + SHIFTED_PRODUCT_SHIFT, gamma_1), dps=30
+    )
+    on_line = shifted_completed(mp.mpc(mp.mpf(1) / 2, gamma_1), dps=30)
+    assert abs(off_line) < mp.mpf("1e-18")
+    assert abs(on_line) > mp.mpf("1e-9")
+
+
+def test_log_derivative_coefficients_refuses_a_function_with_a_1_zero():
+    """The non-principal Epstein form does not represent 1.
+
+    That is a real property of the rival, not a numerical accident, and the
+    recursion has no normalisation without it.  Raising is the contract; a
+    claim that wants to survive it must say what it does.
+    """
+    from zeta.epstein import epstein_interface
+
+    iface = epstein_interface((2, 1, 3), 20)
+    assert iface["coefficient"](1) == 0
+    with pytest.raises(ValueError, match="a_1 = 0"):
+        log_derivative_coefficients(iface["coefficient"], 20, dps=20)
+
+
+def test_battery_records_a_claim_that_raises_instead_of_dying():
+    """A claim that cannot be evaluated on a rival has not been tested against
+    it, and must not be reported as a pass."""
+
+    def raises_on_dh(iface):
+        if iface["name"] == "davenport_heilbronn":
+            raise RuntimeError("no route for this rival")
+        return True
+
+    res = battery(raises_on_dh, dps=20)
+    assert res["davenport_heilbronn"] is False
+    assert res["undefined_for"] == ("davenport_heilbronn",)
+    assert "RuntimeError" in res["undefined_reasons"]["davenport_heilbronn"]
+    assert res["distinguishes"] is False
+
+
+def test_euler_product_positivity_verdict_depends_on_the_truncation():
+    """The trap, pinned as a number.
+
+    EPP read to n <= 40 holds for the principal Epstein form, whose
+    log-derivative coefficients are 0 at 24, 32, 36 and 40; it goes negative
+    first at n = 48.  So the verdict at 40 names a different rival from the
+    verdict at 200, and a coefficient claim carries its truncation as part of
+    the claim.
+    """
+    import functools
+
+    from zeta.epstein import epstein_interface
+
+    short = battery(functools.partial(claim_euler_product_positivity, n_max=40), dps=25)
+    assert short["shared_with"] == ("epstein_1_1_6", "shifted_product")
+
+    long = battery(functools.partial(claim_euler_product_positivity, n_max=200), dps=25)
+    assert long["shared_with"] == ("shifted_product",)
+    assert long["riemann_zeta"] is True
+    assert long["davenport_heilbronn"] is False
+
+    # and at both truncations the non-principal form is untested rather than
+    # passed: it has no a_1 to normalise by, so the claim raises there.
+    for verdict in (short, long):
+        assert verdict["undefined_for"] == ("epstein_2_1_3",)
+        assert "a_1 = 0" in verdict["undefined_reasons"]["epstein_2_1_3"]
+
+    lam = log_derivative_coefficients(
+        epstein_interface((1, 1, 6), 25)["coefficient"], 60, dps=25
+    )
+    assert all(abs(lam[n]) < mp.mpf("1e-20") for n in (24, 32, 36, 40))
+    assert lam[48] < -7
+    assert min(range(2, 61), key=lambda n: lam[n]) == 48
+
+
+def test_battery_names_a_partially_applied_claim_without_an_address():
+    """A claim whose truncation is bound with functools.partial is the normal
+    case here, and repr of a partial carries a memory address, which would put
+    a different string in the output of scripts/23_gate_3_battery.py on every
+    run."""
+    import functools
+
+    res = battery(
+        functools.partial(claim_euler_product_positivity, n_max=40), dps=20
+    )
+    assert res["claim"] == "claim_euler_product_positivity(n_max=40)"
+    assert "0x" not in res["claim"]
