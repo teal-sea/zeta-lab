@@ -185,11 +185,60 @@ checked against the code that enforces it, and the check reversed the
 conclusion. A spec and its implementation are two different artifacts and the
 implementation is the one that runs.
 
-## 8. What is next
+## 8. The second submission was rejected, and the rejection was right
 
-A second submission is prepared for the Davenport-Heilbronn arm: two
-minimum-modulus zero-existence criteria and the analytic half, at
-`lean/comparator-dh.json` with metadata at `lean/palomar-dh/formalization.yaml`.
-None of its advertised statements contains the off-line-zero conjunct, so none
-of them can be read as the Davenport-Heilbronn theorem, and both its Challenge
-documentation and its `status.scope` say so.
+The Davenport-Heilbronn arm was submitted the same day, submission
+`m135pipw9ldb` at commit `e474535`, advertising three declarations: two
+minimum-modulus zero-existence criteria and the analytic half. It cleared the
+mechanical gate exactly as the first one did, `status: pass` with zero errors
+and zero warnings, Comparator matching all three declarations against a
+hole-free Solution. Four minutes later the editorial review returned **problems
+were identified**, and registration was not offered.
+
+The findings are worth recording in full, because between them they say
+something this laboratory could not have learned from its own tests.
+
+**Finding one: the metadata asserted something false.** `review.notes` said
+"the tree is sorry-free". The pinned tree carried six deliberate `sorry`s
+across the two Challenge modules, which is what the Palomar format *requires*
+of a statement surface. Nothing about the proofs was wrong and the reviewer
+said so, noting that Comparator had confirmed the Solution hole-free and
+kernel-accepted. The sentence was still false as written. It had been carried
+over from the first submission's metadata, where it was true, because there the
+word was "the development" rather than "the tree", and a wording that is
+accurate about one object was reused about a larger one. No in-tree test could
+catch this: the claim is prose in a metadata file, and every test in the
+repository passes whether it is true or not.
+
+**Finding two: three advertised statements were two result groups, and only one
+of them earned its place.** The two minimum-modulus criteria are the classical
+minimum-modulus principle, obtained by applying Mathlib's maximum-modulus
+principle to `1/f`. The submission argued their *usefulness*, that they are the
+step converting a finite certified evaluation into an existence statement, and
+that a bounded search of `Mathlib/Analysis` found no statement of that shape.
+The reviewer accepted the usefulness and rejected the inference: usefulness is
+not research interest, and because those two declarations form a distinct
+selected result group, they had to clear the notability floor on their own
+account. They do not.
+
+That is the same lesson §4 records from the first submission, arriving from the
+other direction. There the fix was to write an abstract that argued for the
+result. Here no abstract could have helped, because the problem was in the
+*selection*: bundling an elementary lemma with a substantive one does not
+average out, it adds a group that must pass on its own. The correction is to
+advertise the analytic half alone. The two criteria stay in the development,
+where they are used; they stop being a thing an editor is asked to score.
+
+Both corrections are made and the surface now advertises one declaration,
+`ZetaLean.PalomarDH.dh_analytic_half`. Palomar does not re-review a rejected
+submission: the corrected commit goes in as a new one, and the old submission
+is withdrawn.
+
+One procedural note for whoever runs the next submission. The review, its
+findings and the submitter's identity are private unless the author registers,
+which is Palomar's stated policy and not an accident. Nothing in the public
+Actions record distinguishes a submission whose review found problems from one
+still in the queue, so a session reading only the public runs will infer the
+wrong state. The status page behind the submission's own access link is the
+only place the outcome exists. That link is a credential and must not be
+committed.

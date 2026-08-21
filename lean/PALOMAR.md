@@ -8,15 +8,28 @@ Lean's kernel *and* the independent NanoDa kernel, applies an editorial floor
 for research interest, and publishes the exact statement together with the
 review's findings.
 
-Five files in this directory exist for that registry and for nothing else.
+Two submission surfaces live here, and nine files exist for that registry and
+for nothing else. The Pub 1 surface is registered; the Davenport-Heilbronn one
+is not (see the bottom of this file).
 
-| File | Role |
-| --- | --- |
-| `Challenge.lean` | The advertised statements. Imports Mathlib alone. |
-| `Solution.lean` | The same statements, proved from `ZetaLean.Pub1`. |
-| `comparator.json` | Which declarations are compared, and under which axioms. |
-| `formalization.yaml` | Provenance, scope, automation and review metadata. |
-| `PALOMAR.md` | This file. |
+| File | Surface | Role |
+| --- | --- | --- |
+| `Challenge.lean` | Pub 1 | The advertised statements. Imports Mathlib alone. |
+| `Solution.lean` | Pub 1 | The same statements, proved from `ZetaLean.Pub1`. |
+| `comparator.json` | Pub 1 | Which declarations are compared, and under which axioms. |
+| `formalization.yaml` | Pub 1 | Provenance, scope, automation and review metadata. |
+| `DHChallenge.lean` | DH | The advertised statement. Imports Mathlib alone. |
+| `DHSolution.lean` | DH | The same statement, proved from `ZetaLean.DHAnalytic`. |
+| `comparator-dh.json` | DH | Which declaration is compared, and under which axioms. |
+| `palomar-dh/formalization.yaml` | DH | Provenance, scope, automation and review metadata. |
+| `PALOMAR.md` | both | This file. |
+
+The two surfaces carry **four** deliberate `sorry`s between them, three in
+`Challenge.lean` and one in `DHChallenge.lean`, one per advertised statement.
+Any claim about this tree being sorry-free has to say *which* object it means:
+the development and both Solution modules are sorry-free, the Challenge modules
+are not, and a submission whose metadata blurs the two gets that pointed out.
+One did.
 
 ## `Challenge.lean` contains three deliberate `sorry`s. Do not "fix" them.
 
@@ -86,3 +99,35 @@ PATH="$HOME/.elan/bin:$PATH" lake env lean /tmp/Ax.lean
 ```
 
 Both were run on 2026-08-21 against Mathlib `v4.33.0-rc2` and passed.
+
+## The Davenport-Heilbronn surface, and why it advertises one declaration
+
+Submitted 2026-08-21 as `m135pipw9ldb` at commit `e474535` advertising three
+declarations, it cleared the mechanical gate clean and was then refused by the
+editorial review. Two findings, both recorded in full in
+`docs/32-the-palomar-arm.md` §8:
+
+1. `review.notes` claimed "the tree is sorry-free", which the Challenge modules
+   make false. The table above now states the split explicitly.
+2. The two minimum-modulus criteria were a **separate selected result group**,
+   and an elementary consequence of the maximum-modulus principle does not
+   clear the notability floor on its own account. Usefulness to a later
+   certified search is not research interest.
+
+So the surface now advertises `ZetaLean.PalomarDH.dh_analytic_half` alone.
+`ZetaLean.DH.exists_zero_of_norm_lt_on_sphere` and
+`..._on_frontier` remain in the development, where `DHZeroCriterion.lean` uses
+them; they are simply no longer offered to an editor to score. **Do not add
+them back to `DHChallenge.lean` without a reason that answers finding 2.**
+
+Palomar does not re-review a refused submission. The corrected commit is a new
+submission, and `m135pipw9ldb` should be withdrawn. Its review is private and
+reachable only through its own access link, which is a credential: it does not
+belong in this repository.
+
+```bash
+cd lean && PATH="$HOME/.elan/bin:$PATH" lake build DHChallenge DHSolution
+# expect: one `sorry` warning from DHChallenge.lean, none from DHSolution.lean
+.venv/bin/python scripts/palomar_precheck.py . lean \
+  lean/comparator-dh.json lean/palomar-dh/formalization.yaml
+```

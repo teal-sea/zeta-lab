@@ -1,62 +1,63 @@
 # formalization.yaml v0.4 for the Palomar Registry submission of the Zeta Lab
-# Davenport-Heilbronn zero criterion and analytic half.
+# Davenport-Heilbronn analytic half.
 version: "v0.4"
 
 project:
-  name: "Zeta Lab: minimum-modulus zero existence and the analytic half of Davenport-Heilbronn"
+  name: "Zeta Lab: the analytic half of Davenport-Heilbronn"
   description: >-
     Davenport and Heilbronn (1936) exhibited a Dirichlet series with real
     coefficients satisfying a Riemann-type functional equation which
     nevertheless has zeros off the critical line. It is the standard
     demonstration that a functional equation of Riemann type does not on its
-    own force the Riemann Hypothesis, and the location of its zeros remains an
-    active subject. The function is
+    own force the Riemann Hypothesis, it is the reference counterexample
+    against which structural explanations of the Riemann Hypothesis are
+    tested, and the location of its zeros remains an active subject. The
+    function is
     DH(s) = (1 - i*kappa)/2 * L(s, chi) + (1 + i*kappa)/2 * L(s, chi^-1)
     for a quartic Dirichlet character chi mod 5 and
     kappa = (sqrt(10 - 2*sqrt 5) - 2)/(sqrt 5 - 1), the value that rotates the
     two conjugate root numbers onto each other and so makes the Dirichlet
     coefficients real.
-    This submission advertises three theorems. The first two are a
-    minimum-modulus criterion: if an entire f has strictly smaller norm at the
-    centre of a disk than the bound it satisfies on the boundary sphere, then f
-    has a zero in the closed disk, and the same holds with the disk replaced by
-    any bounded open set and the sphere by its frontier. The proof applies
-    Mathlib's maximum-modulus principle to 1/f; no argument principle and no
-    winding numbers are used. The point of the criterion is that the exact
-    location of a zero of an entire function cannot be certified by evaluating
-    the function anywhere, however precisely, whereas a strict inequality
-    between one central value and a boundary bound does certify that a zero is
-    enclosed. The general boundary form is the one a certified numerical search
-    can consume, because for an axis-aligned rectangle the frontier is four
-    segments, which is the shape interval arithmetic discharges. Mathlib
-    carries the maximum-modulus principle in many forms. A search of
-    Mathlib/Analysis at the revision pinned by this repository, for a theorem
-    concluding that a holomorphic function has a zero in a ball or in a set,
-    returned nothing, so a statement of this shape appears to be absent from
-    Mathlib. That is a bounded search of one directory of one library and is
-    not a claim of novelty against the mathematical literature, in which the
-    minimum-modulus principle is classical.
-    The third theorem is the analytic half of the Davenport-Heilbronn theorem:
-    there exists an entire function represented by the Davenport-Heilbronn
-    Dirichlet series on Re z > 1 whose completion
-    (pi/5)^(-(s+1)/2) * Gamma((s+1)/2) * f(s) is symmetric under s -> 1-s. It
-    is existential in f, so it carries its own non-vacuity and needs none of
-    the character theory used to construct the witness.
+    This submission advertises one theorem, the analytic half of the
+    Davenport-Heilbronn theorem: there exists an entire function represented by
+    the Davenport-Heilbronn Dirichlet series on Re z > 1 whose completion
+    (pi/5)^(-(s+1)/2) * Gamma((s+1)/2) * f(s) is symmetric under s -> 1-s. The
+    statement is existential in f, so it carries its own non-vacuity and needs
+    none of the character theory used to construct the witness.
+    What the work consists of. The Davenport-Heilbronn function is not a
+    library object anywhere we could find, so the development builds it: the
+    quartic character mod 5, the linear combination, entirety on all of C, the
+    identification of the Dirichlet coefficients as the real period-5 sequence
+    1, kappa, -kappa, -1, 0, and the completed functional equation. The last of
+    these is where the content sits. It reduces to a root-number identity whose
+    convention-sensitive constants are derived inside the development, from
+    Mathlib's Real.cos_pi_div_five by radical algebra, rather than transcribed
+    from a table; the standard sources state kappa without deriving it in a
+    form a kernel will accept, and getting it wrong yields a function whose
+    coefficients are not real and which therefore is not the counterexample.
+    The functional equation is stated with explicit guards excluding the poles
+    of the two Gamma factors, because Mathlib's junk value Gamma = 0 at the
+    poles would otherwise make the unrestricted equation false for reasons
+    having nothing to do with the mathematics.
     Audience. The Davenport-Heilbronn function is a named object of analytic
-    number theory with a continuing literature on its zeros, so the analytic
-    half is of direct interest to number theorists working on zeros of
-    L-functions and on what a Riemann-type functional equation does and does
-    not imply. The zero criterion is independently reusable by anyone
-    formalizing a numerical existence proof for a holomorphic function, since
-    it is the step that converts a finite certified evaluation into a
-    mathematical existence statement.
+    number theory with a continuing literature on its zeros, so a machine-checked
+    construction of it is of direct interest to number theorists working on
+    zeros of L-functions and on what a Riemann-type functional equation does
+    and does not imply. It is also the object a formalized treatment of the
+    Davenport-Heilbronn theorem has to have before it can say anything, and
+    this supplies it in a form that carries its own non-vacuity.
+    Prior art. A search of Mathlib at the revision pinned by this repository
+    found no Davenport-Heilbronn function and no formalization of this
+    functional equation. That is a bounded search of one library. No systematic
+    search of other proof assistants or of the mathematical literature for
+    prior formalizations has been run, and no novelty against the literature is
+    claimed: the mathematics is Davenport and Heilbronn's, published in 1936.
     Scope. The Davenport-Heilbronn theorem itself is NOT proved here. Its full
     statement additionally requires a zero s with Re s different from 1/2, and
-    that conjunct appears in none of the three advertised theorems. What is
-    offered is the analytic half together with a general criterion under which
-    a finite certified evaluation would supply the missing half. Discharging
-    that criterion for this function is a numerical obligation this submission
-    does not carry, and no numerical enclosure for any zero of DH is asserted.
+    that conjunct appears nowhere in the advertised theorem. What is offered is
+    the analytic half alone. No numerical enclosure for any zero of DH is
+    asserted, and nothing here is a statement about the Riemann zeta function
+    or the Riemann Hypothesis.
   authors:
     - "Thomas Lince"
   license: "MIT"
@@ -65,7 +66,7 @@ project:
 
 classification:
   arxiv: ["math.NT", "math.CV"]
-  msc2020: ["11M26", "11M41", "30C15"]
+  msc2020: ["11M26", "11M41"]
 
 sources:
   - title: >-
@@ -86,29 +87,14 @@ sources:
       standard one in the subsequent literature, including the value of kappa.
     license: "unknown"
     author_endorsement: "n/a"
-  - title: >-
-      The minimum-modulus principle for holomorphic functions, as a
-      consequence of the maximum-modulus principle applied to the reciprocal
-    type: "folklore"
-    relationship: "background"
-    note: >-
-      The first two advertised theorems are a form of a classical fact of
-      complex analysis and no novelty is claimed for their mathematical
-      content. They are recorded here because Mathlib supplies the
-      maximum-modulus principle but, as far as the authors could determine, no
-      statement concluding the existence of a zero, and because the boundary
-      version stated over an arbitrary bounded open set is the form a certified
-      numerical search consumes. No systematic literature search for prior
-      statements of this exact form has been run, and novelty is not claimed.
 
 status:
   scope: >-
-    Formalized: the three statements advertised in DHChallenge.lean,
-    unconditionally. Those are the minimum-modulus criterion on a disk, the
-    same criterion over an arbitrary bounded open set and its frontier, and the
-    existence of an entire function satisfying the Davenport-Heilbronn series
-    representation on Re z > 1 together with the completed functional equation.
-    Not formalized, and deliberately outside every advertised statement: the
+    Formalized: the single statement advertised in DHChallenge.lean,
+    unconditionally. That is the existence of an entire function satisfying the
+    Davenport-Heilbronn series representation on Re z > 1 together with the
+    completed functional equation.
+    Not formalized, and deliberately outside the advertised statement: the
     existence of a zero of the Davenport-Heilbronn function off the critical
     line, and therefore the Davenport-Heilbronn theorem itself; any numerical
     enclosure, interval evaluation or certificate for any zero; and any
@@ -153,31 +139,24 @@ review:
   status: "self-assessed"
   notes: >-
     No external mathematical review has been performed. Internal checks
-    recorded in the repository: the tree is sorry-free and axiom-clean against
-    pinned Mathlib v4.33.0-rc2; the definitions in DHChallenge.lean are
-    verbatim copies of the development's own definitions and the DHSolution
+    recorded in the repository. The substantive development under lean/ZetaLean
+    and the DHSolution module are sorry-free and axiom-clean against pinned
+    Mathlib v4.33.0-rc2. This claim deliberately excludes the Challenge
+    modules: Challenge.lean and DHChallenge.lean together carry four
+    placeholder sorrys, one per advertised statement across this repository's
+    two submission surfaces, because the Palomar format requires a Challenge to
+    state its claim without proving it. Those placeholders are not steps in any
+    proof, and Comparator checks that the corresponding Solution declarations
+    are hole-free. Further internal checks: the definitions in DHChallenge.lean
+    are verbatim copies of the development's own definitions and the DHSolution
     module reproduces that definition block before bridging it; and the
-    advertised statements were chosen so that none of them contains the
+    advertised statement was chosen so that it does not contain the
     off-line-zero conjunct, so that the analytic half cannot be read as the
     full theorem.
 
 alignment:
   namespace: "ZetaLean.PalomarDH"
   statements:
-    - source: "Minimum-modulus criterion on a disk"
-      lean: "ZetaLean.PalomarDH.exists_zero_of_norm_lt_on_sphere"
-      module: "DHSolution"
-      status: "proved"
-      note: >-
-        In the development this is ZetaLean.DH.exists_zero_of_norm_lt_on_sphere.
-    - source: "Minimum-modulus criterion over a bounded open set and its frontier"
-      lean: "ZetaLean.PalomarDH.exists_zero_of_norm_lt_on_frontier"
-      module: "DHSolution"
-      status: "proved"
-      note: >-
-        Not a corollary of the disk form: it is quantified over an arbitrary
-        bounded open set. In the development this is
-        ZetaLean.DH.exists_zero_of_norm_lt_on_frontier.
     - source: >-
         The analytic half of the Davenport-Heilbronn theorem, existentially
         quantified in the function
@@ -190,6 +169,5 @@ alignment:
         existential, so no character theory enters the statement surface.
 
 acknowledgements: >-
-  Lean 4 and Mathlib, whose maximum-modulus principle and Dirichlet L-function
-  library the development rests on. Davenport and Heilbronn, whose construction
-  is the object formalized.
+  Lean 4 and Mathlib, whose Dirichlet L-function library the development rests
+  on. Davenport and Heilbronn, whose construction is the object formalized.
