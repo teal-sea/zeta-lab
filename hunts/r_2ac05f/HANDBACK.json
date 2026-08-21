@@ -1,0 +1,42 @@
+{
+  "run_id": "55786d8e-bb55-4d23-95ba-178b10fded95",
+  "status": "settled",
+  "conclusion": "hunts/higher_xi/C2_EXACT.json is the correct kappa=2 table: a fourth derivation written for this adjudication, importing neither disputant, reproduces its eleven values exactly while reproducing the published Farmer-Gonek kappa=1 row exactly as its control. hunts/rogue_frontier/fkappa/ is wrong from i=2 because it carried Bian's Lemma 12 constant C_kappa,2 = -4 as an axiom while auditing the code around it, whereas the x^1 coefficient of Qhat_kappa is kappa*g and therefore C_kappa,2 = -4*kappa.",
+  "confidence": "High, and a human can lean on it. Three things carry it: exact rational arithmetic with no floating point and no precision parameter; an external anchor neither hunt owns (Farmer-Gonek arXiv:0803.0425, eleven values including four forced zeros, reproduced exactly by the same code path at kappa=1); and the losing side's own RESULTS.md section 1 stating in writing that it carried C_kappa,2 = -4 rather than deriving it, which makes the mechanism documentary rather than inferred. One honest limit: the probe borrows the basis pairing from higher_xi. That ingredient is kappa-independent by construction and is calibrated by the kappa=1 row, and fault_check.py shows the kappa=1 control does turn red under a one-factorial corruption of it, so the borrowing is anchored rather than circular. A fully independent rederivation of the pairing from the mean-value theorem was not attempted within budget.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "fkappa's i<=20 extension, its closed generating identity C((a),(b)) = (-1)^(a+b) ab/(a+b-1), and its observed radius-1/2 coherence with Bian's picket-fence Lemma 13 were all computed on top of the wrong C_kappa,2",
+      "why_it_might_matter": "the coherence observation (corrected diagonal ratios converging to -2, matching the Lemma 13 phase transition at |alpha| = 1/2, where the published diagonal admits no such reading) is a real structural signal. If it strengthens on the corrected constant it is evidence for the corrected table's structure; if it evaporates it was an artifact and should be withdrawn. Either answer is worth having.",
+      "first_step": "take fkappa's bian_engine.py --extend 20 --reading corrected, replace its hard-carried C_kappa,2 with -4*kappa, recompute the stable diagonal ratios r_i"
+    },
+    {
+      "what": "fkappa's three implementation defects (A: coffdiagkapa truncates the eq (10.1) sum; B: phantom alpha_s = 0 slots evaluated as nonzero; C: eq (6.18) overcounts by prod alpha_i!) are unadjudicated by this hunt",
+      "why_it_might_matter": "they are claims about Bian's code independent of the Lemma 12 error, each pinned by a finite witness, and they are cheap to check. This hunt establishes only that correcting them is insufficient, not that they are wrong.",
+      "first_step": "check witness C by hand against thesis (6.18): a single n = 6 evaluation, Lambda_2(6) log 6 = 2 log2 log3 log6 against the printed RHS 4 log2 log3 log6"
+    },
+    {
+      "what": "the fkappa directory exists on no landed branch; it was read at commit 360c545 on the hunts(rogue_frontier) checkpoint lineage and carries a .ext_lock and a campaign ledger",
+      "why_it_might_matter": "a reader of main cannot see either side of this dispute, only the winning table. The process record is thinner than the work.",
+      "first_step": "operator call: land rogue_frontier/ with a correction notice pointing at hunts/r_2ac05f/, or leave it unlanded and let this hunt's RESULTS.md carry the quotation"
+    },
+    {
+      "what": "C_kappa,2 = -4*kappa is a one-line correction to a published lemma with a three-line proof, currently recorded nowhere but in this hunt and the review ledger",
+      "why_it_might_matter": "two hunts spent considerable compute on this thesis and neither stated the general kappa form; higher_xi derived only the kappa = 2 instance",
+      "first_step": "if higher_xi's Bian findings are ever written up, state the general kappa form rather than the kappa = 2 instance"
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "an invariance control: when a claim asserts a quantity is invariant in a parameter, the control must vary that parameter, and its power must be measured by planting the defect rather than asserted",
+      "why_reusable": "this is the second recorded instance of the same failure shape in this repository. Run 726a6b3f found finite_height_spacing_experiment sweeping ell only and holding effective gamma at 1, so it could not vary W at fixed x, which is exactly the quantity section 4 claims is W-independent. Here fkappa swept kappa = 1..9 throughout while the constant it had fixed sat upstream of everything it varied. Both are controls blind to their own subject, and in both cases the fix was two or three lines.",
+      "first_step": "grep the hunts for claims of the form 'X is universal / independent of Y' and check, per claim, whether any recorded control varies Y; the check is a reading pass, not a build"
+    },
+    {
+      "what": "a fault-injection idiom for control power that fits in one file next to a probe",
+      "why_reusable": "hunts/r_2ac05f/fault_check.py monkeypatches the probe's own machinery to plant (a) the defect under audit and (b) a corruption of the borrowed ingredient, then reports which controls stay green. It turned fkappa's own prose admission ('the kappa = 1 row is simultaneously the strongest validation and the reason none of the defects was visible') into a measured number. Roughly 90 lines, no dependencies, no framework.",
+      "first_step": "nothing to build; the pattern is the artifact. If it recurs a third time, consider a one-page note in docs/doors/refute.md rather than a module"
+    }
+  ],
+  "notes_for_operator": "CLOSE THE LOOP, reported honestly: the generator was already clean when I arrived. scripts/70_lab_state.py ran without emitting a queue item, and standing_reasons() returns () for both blockpos-0.672529 and urms2-0.51, so no harness/ function was asking for this task. The brief's own header says Source: operator, Reference: salvage:2026-08-18, which is consistent. I therefore could not make an item disappear; what I did instead was append an AttackOutcome (role white-box) to the urms2-0.51 claim in harness/departments/review_ledger.py, because that claim's code_paths are hunts/higher_xi/ and the table I adjudicated is the one C2_EXTENDED.json rests on. The outcome states explicitly that it does not attack the URMS2 bandwidth argument itself. Appending it does not create a new standing reason, so the generator stays clean. If the intended loop was a different ledger, say which and I will move it. Second note: no literature search was run beyond the two sources both hunts already cite (Bian's 2008 thesis and Farmer-Gonek arXiv:0803.0425), so C_kappa,2 = -4*kappa is claimed as original in the provenance sense only, not as novel; a published erratum to the thesis would settle that and nobody has looked. Third: hunts/rogue_frontier/ is not on main, so this hunt reads and quotes it but writes nothing to it, per scope."
+}
