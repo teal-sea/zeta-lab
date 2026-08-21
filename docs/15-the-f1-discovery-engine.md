@@ -1,9 +1,20 @@
 # 15 — The F1 Discovery Engine
 **Building the Polya-Hilbert Operator Computationally**
 
+> **Corrected 2026-08-21, after first publication.** Three repairs, all of them
+> to this page rather than to the prototypes. The directory this document called
+> `discovery/` was renamed `ontology/` and the paths below now say so. The
+> multiplicity quoted in Reality Check item 5 is the special case of a wider
+> law and it undercounts from `N = 338`. Reality Check item 4 mis-aims a correct
+> criticism: the operator is input-free, but the predicate section 7 actually
+> runs does consult its input and does discriminate, and the reason "immune to
+> false positives" fails is a different one. Measurements, mechanisms and the
+> tests that now pin them are in *Corrections* at the foot of this page.
+
 If the Riemann Hypothesis is true because the zeros are the eigenvalues of a physical, geometrical operator (the Polya-Hilbert conjecture), how do we actually find that operator? 
 
-This document outlines the `discovery/` lab, where we shifted from auditing past attempts to computationally building new geometries that attempt to model Deninger's $\mathbb{F}_1$ flow.
+This document outlines the prototype lab now in `ontology/` (it was called
+`discovery/` when this was written), where we shifted from auditing past attempts to computationally building new geometries that attempt to model Deninger's $\mathbb{F}_1$ flow.
 
 ## 1. The Deninger Scaffolding (`01_f1_geometry.py`)
 Deninger postulated an infinite-dimensional dynamical system where:
@@ -11,7 +22,7 @@ Deninger postulated an infinite-dimensional dynamical system where:
 - The **Operator** ($\Theta$) acts on the cohomology $H^1$.
 - The **Trace Formula** equates the geometric trace (sum over primes) to the spectral trace (sum over zeros).
 
-In `discovery/01_f1_geometry.py`, we built the software scaffolding for this. We defined `F1Space` (to hold prime orbits) and `Cohomology` (to hold the operator matrix). Any candidate operator we invent must pass the `gate_1_check`—proving that its spectral trace matches the geometric trace of the primes.
+In `ontology/01_f1_geometry.py`, we built the software scaffolding for this. We defined `F1Space` (to hold prime orbits) and `Cohomology` (to hold the operator matrix). Any candidate operator we invent must pass the `gate_1_check`—proving that its spectral trace matches the geometric trace of the primes.
 
 ## 2. The Primordial Instrument (`02_acoustic_f1_matrix.py`)
 To build an operator that is deeply structural, we interpreted the operator as a **Graph Laplacian** (an acoustic wave equation) acting on an Arithmetic Graph.
@@ -85,4 +96,116 @@ If we run our matrices against the rigorous Gates we defined earlier in the proj
 - **Gates 1 & 2 (Classical Math & Weil Positivity):** ❌ Stuck. Nothing classical comes out (no functional equation, no Prime Number Theorem), and there is no positivity slot. 
 - **Gate 3 (The Counterexample Gauntlet):** ➖ N/A. No claim yet reaches the battery to be tested.
 
-**Conclusion:** We are stuck at Gates 1 and 2, exactly like Deninger, Connes, and the $\mathbb{F}_1$ theorists (just without their immense mathematical machinery). The `discovery/` lab successfully translates abstract geometric and physical heuristics (Berry-Keating, Antisymmetry, prime-graphs) into raw, executable Python, providing a fascinating visualization of *why* operators fail to produce the zeros. But the write-up must be clear: no claim yet reaches the rigorous battery.
+**Conclusion:** We are stuck at Gates 1 and 2, exactly like Deninger, Connes, and the $\mathbb{F}_1$ theorists (just without their immense mathematical machinery). The prototype lab successfully translates abstract geometric and physical heuristics (Berry-Keating, Antisymmetry, prime-graphs) into raw, executable Python, providing a fascinating visualization of *why* operators fail to produce the zeros. But the write-up must be clear: no claim yet reaches the rigorous battery.
+
+---
+
+## Corrections (measured 2026-08-21)
+
+*Grade: **measured**. Instruments in `hunts/f1_engine_controls/`, pinned by
+`tests/test_f1_engine_controls.py`. Nothing below changes a prototype: those
+are frozen as historical exploratory work, and they were read, not edited.*
+
+### C1. The ln 2 multiplicity is a kernel dimension, not a prime count
+
+Reality Check item 5 attributes the degenerate eigenvalue at `ln 2` to a
+boundary effect "with multiplicity $\pi(N/2) - \pi(N/3) - 1$". The artifact
+reading is right and the formula is not the law.
+
+Call `u` a **dead end** when `2u <= N < 3u`. An edge above `u` needs a prime
+`p <= N/u < 3`, so the only one is `u -> 2u` carrying `ln 2`, and an edge
+above `2u` needs `p <= N/(2u) < 3/2`, so there is none. Setting
+`v = sum_u c_u (e_u + i e_{2u})` over the dead ends satisfies the eigenvalue
+equation on its own support for *any* coefficients. The constraints come from
+below: a hub `w = u/q`, for a prime `q` dividing `u`, receives `ln q * c_u`
+and must be sent to zero. Collect those into the hub incidence matrix `C`,
+and
+
+$$\text{multiplicity of } i\ln 2 \;=\; \dim \ker C \;=\; |D| - \operatorname{rank} C .$$
+
+If every dead end were prime, the only hub would be `1`, the rank would be
+`1`, and the multiplicity would be $\pi(N/2) - \pi(N/3) - 1$: the quoted
+formula is that special case. A composite dead end usually brings hubs that
+pin its own coefficient to zero and changes neither side, which is why the
+formula survives for a long time. It breaks when the composite dead ends
+close into a pattern. At `N = 338` they first do: `121 = 11^2`,
+`143 = 11 \cdot 13` and `169 = 13^2` are three columns sharing the two hubs
+`11` and `13`, so one extra mode survives.
+
+| N | measured | $\dim \ker C$ | quoted formula |
+|---|---|---|---|
+| 300 | 9 | 9 | 9 |
+| 330 | 8 | 8 | 8 |
+| 338 | 9 | 9 | 8 |
+| 350 | 10 | 10 | 9 |
+| 400 | 13 | 13 | 13 |
+| 600 | 16 | 16 | 15 |
+
+The law was checked against the eigenvalues of the built matrix at all 251
+sizes `N = 10 … 260` plus a coarser scan to `N = 800`, with no disagreement,
+and the rank taken two ways (40-digit elimination and double-precision
+LAPACK) agrees at every size. The eigenvalues themselves sit within about
+`1e-15` of `ln 2`, so this is exact degeneracy rather than a cluster.
+
+### C2. The density failure, as counts, and it widens under refinement
+
+Reality Check item 2 says the model "fails on density: we have dozens of
+frequencies below 17.7, where $\zeta$ only has one zero". Quantified against
+zeta's counting function, at the 400-node truncation of section 6: **171
+modes below 17.7 against one zero**, and **159 modes below the first ordinate
+`14.1347`, where zeta has none at all**.
+
+The direction matters more than the size. The hunts checklist asks whether an
+effect responds to refinement; this one responds by getting worse.
+
+| nodes | modes | top mode | modes below $\gamma_1$ | zeta below $\gamma_1$ |
+|---|---|---|---|---|
+| 100 | 42 | 12.24 | 42 | 0 |
+| 200 | 88 | 15.56 | 87 | 0 |
+| 400 | 172 | 19.12 | 159 | 0 |
+| 800 | 349 | 22.95 | 294 | 0 |
+| 1200 | 522 | 25.34 | 421 | 0 |
+
+Spurious low modes accumulate in proportion to the node count, roughly
+`0.35 N` of them below $\gamma_1$, while the top of the spectrum creeps up
+like `log N`, buying about 3.7 units of frequency per doubling. Extending
+that trend, reaching the 20th ordinate at `77.145` would take on the order of
+`10^7` nodes, and would put some seven million modes below zeta's first zero.
+Read that as an order of magnitude rather than a prediction. The point stands
+without the extrapolation: this gap is not a finite-size effect waiting for a
+bigger matrix.
+
+### C3. What the gauntlet rejects, and what it admits
+
+Reality Check item 4 says section 7 is vacuous because "the construction
+never actually consults $\zeta$" and "a predicate that ignores its input will
+return the same verdict for anything". That criticism is correct about the
+operator and wrong about the predicate, and the distinction is the whole
+point of the section.
+
+1. **The operator is input-free.** `build_polya_hilbert_operator` takes the
+   truncation `N` and nothing else. No candidate function can enter it, so
+   "the geometry structurally rejects the imposter" is not a statement about
+   the geometry.
+2. **The predicate is not the operator, and it does discriminate.** What
+   section 7 runs is a multiplicativity test on Dirichlet coefficients, which
+   this repository owns as `zeta.epstein.claim_multiplicativity`. Through the
+   standing rival set: it passes zeta, and fails Davenport-Heilbronn and both
+   discriminant `-23` Epstein rivals, with `distinguishes: True` and
+   `shared_with: ()`.
+3. **"Immune to false positives" is false anyway, for a different reason.**
+   The two Dirichlet L-functions of the quartic characters mod 5, whose
+   linear combination *is* the Davenport-Heilbronn function, pass the same
+   predicate. Every primitive L-function with an Euler product does. What the
+   test separates is Euler products from linear combinations of them, which
+   is what `zeta.epstein.battery`'s own docstring claims for it and what
+   `docs/11` gate #3 asks for. It is a real answer to a real question. It is
+   not immunity, and it does not single out zeta.
+
+### What did not need correcting
+
+The two headline numbers still come out of the code unchanged: the
+transcendental prime grid's Mode 5 at `8.169` (section 5) and the prototype's
+Mode 20 at `1.937` (section 6). Reality Check items 1 and 3, that this is a
+toy computation and that $\mathbb{F}_1$ geometry is speculative, are
+judgments rather than measurements and stand as written.

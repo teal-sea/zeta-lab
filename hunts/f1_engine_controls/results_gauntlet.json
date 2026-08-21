@@ -1,0 +1,22 @@
+{
+  "geometry": {
+    "parameters": [
+      "N"
+    ],
+    "takes_only_the_truncation": true,
+    "rebuild_is_identical": true
+  },
+  "battery": {
+    "claim": "claim_multiplicativity",
+    "riemann_zeta": true,
+    "davenport_heilbronn": false,
+    "distinguishes": true,
+    "shared_with": [],
+    "epstein_2_1_3": false,
+    "epstein_1_1_6": false
+  },
+  "dh_summands": {
+    "L_chi5": true,
+    "L_chi5_conjugate": true
+  }
+}

@@ -77,6 +77,34 @@ control roles — and the checks are the ones the tree already owns:
 > and #61. The directories `lambda_dh_bounds/` and
 > `prime_zeta_rightmost/` are unchanged and are the stable references.
 
+### Hunt #64: controls for the F1 discovery engine (`f1_engine_controls/`)
+
+**Status: open (2026-08-21), three of five critiques measured.**
+`docs/15-the-f1-discovery-engine.md` closes with a Reality Check of five
+critiques that dial the document's own rhetoric back. Nothing in the tree
+tested them. Three make checkable assertions, and measuring them moved two.
+
+- **The ln 2 degeneracy** in `ontology/04_transcendental_matrix.py` is a
+  truncation artifact, as claimed, but its multiplicity is the kernel
+  dimension of a hub incidence matrix on the dead-end nodes `2u <= N < 3u`,
+  not the quoted `pi(N/2) - pi(N/3) - 1`. That formula is the special case in
+  which every dead end is prime, and it undercounts from `N = 338`, where the
+  semiprimes `121, 143, 169` first close a pattern over the hubs `11, 13`.
+  Checked at all 251 sizes `N = 10 … 260` with no disagreement.
+- **The density failure** is 159 modes below zeta's first ordinate at 400
+  nodes, against none, and refinement widens the gap rather than closing it:
+  low modes accumulate like `0.35 N` while the top of the spectrum creeps
+  like `log N`.
+- **The imposter gauntlet** criticism lands on the operator, which takes only
+  its truncation, and misses the predicate, which does discriminate on
+  `zeta.epstein.battery`. What is actually false in `07`'s conclusion is
+  "immune to false positives": the two mod-5 L-functions that make up
+  Davenport-Heilbronn pass the same test, so it separates Euler products from
+  linear combinations of them rather than singling out zeta.
+
+Pinned by `tests/test_f1_engine_controls.py`; `docs/15` carries the
+corrections. Nothing here is about zeta, so nothing here goes to the funnel.
+
 ### Hunt #61: two-sided bounds for the de Bruijn-Newman constant of Davenport-Heilbronn (`lambda_dh_bounds/`)
 
 **Status: closed (2026-08-16), gate verdict publication candidate; hardened

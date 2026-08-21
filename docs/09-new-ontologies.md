@@ -319,7 +319,7 @@ explanation`, but *not* `prime-sensitive ⟹ proof`).
 
 **What this laboratory can and cannot test.** The three requirements split cleanly. Requirement A
 is mechanically checkable (provenance scans of a construction's definition — the same technology
-as the `discovery/` seam tests). Requirement B is exactly what this repo is built to test: an
+as the `ontology/` seam tests). Requirement B is exactly what this repo is built to test: an
 identity on the test algebra is a measured *defect function* in the house style — compute both
 sides independently over test functions from unrelated families, the protocol that validated the
 `zeta/weil.py` convention; a candidate passing at `1e-30` across families is not proof, but a
