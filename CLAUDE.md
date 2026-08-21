@@ -16,8 +16,28 @@ is a pointer to this file; do not duplicate content between them.
 python3 -m venv .venv
 .venv/bin/pip install -r requirements.txt
 .venv/bin/pip install -e .
+bash scripts/install_hooks.sh                 # pre-push secret guard, see below
 .venv/bin/python -m pytest -q -m "not slow"   # confirm green before changing anything
 ```
+
+**Install the hook in every clone and every worktree.** Git hooks live in
+`.git/hooks` and are not version controlled, so nothing installs it for you. On
+2026-08-20 a live OpenRouter API key was committed in plain text to a local
+branch of this repository, in two files across two commits. It was caught by a
+human asking an unrelated question, and nothing mechanical in this tree would
+have stopped the push. `scripts/check_secrets.py` scans the objects a push would
+publish for known credential shapes and refuses; run it directly with
+`--range`, `--all` or `--tree`.
+
+Two things about it are worth knowing rather than assuming. It matches *known
+key shapes*, so it is a floor and not a guarantee, and it cannot recognise a
+credential that looks like ordinary prose. And its first version failed **open**:
+the object lister returned an empty list when git errored, so a malformed
+revision range reported *clean* and the hook allowed the push. A guard that
+fails open is worse than none because it also supplies confidence.
+`tests/test_check_secrets.py` pins that a broken range raises rather than
+passes. Prefer reading a credential at call time over writing it to a file at
+all; a key that never lands on disk cannot be committed.
 
 **Check the ball-arithmetic backend before you trust a green run**:
 
@@ -71,6 +91,24 @@ or worktrees. To prevent scope creep and collisions:
   own tree.
 - **Verify first**: confirm the suite is green (see Setup) before building
   on a tree.
+- **Look before you report** (added 2026-08-18, after a session stated this
+  repository's state from a clone it had held for hours and was wrong about a
+  sibling's work). The sessions on this account are not blind to each other:
+  `list_sessions` enumerates them with a `post_turn_summary` carrying each
+  one's `status_category` and `needs_action`, and `send_message` reaches a
+  named one. Before you describe repository or manuscript state to the
+  operator, and before you edit a file outside your own hunt directory:
+  `git fetch` and re-read, and call `list_sessions` to see who else is on this
+  repository. The failure that produced this rule was not missing machinery.
+  It was an available call nobody made, so the fix is a habit and not a
+  system: this repository has a 74-run verdict against building coordination
+  frameworks (`harness/VERDICT.md`), and that verdict stands.
+- **Shared repositories get branches too.** A hunt already works on its own
+  branch by convention. Repositories this tree publishes into deserve the same
+  discipline: edit them on a branch and open a pull request rather than
+  committing to `main`, so a concurrent session collides in git rather than in
+  the operator's inbox. Two sessions edited one such file hours apart on
+  2026-08-17; only a rejected push revealed it.
 
 ### Outside environments (read-only mounts, notebook agents)
 
@@ -459,7 +497,35 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   until the caller names its numerator, and an `automated` claim that costs a
   named artifact. `suspicions()` reports the shapes a self-validating log takes.
   `asymmetry-experiment.md` is the pre-registered design for the independent-vs-
-  co-designed verification question. `operator-functions.md` decomposes what is
+  co-designed verification question, and `evals/` is now its runner: an Inspect
+  (`inspect_ai`) task implementing E0, the cheapest informative slice that design
+  names for itself. The dataset is real rather than illustrative, built by
+  applying `harness/shams.py`'s mutators to a live department, with ground truth
+  read from `SHAM_MODES` rather than restated. Its five measurements are kept
+  apart and never averaged, because the design is explicit that false confidence
+  answering "hollow" to everything from scoring perfectly. **E0 was run on
+  2026-08-20** across four checkers (Claude, GPT, Gemini, Grok). The co-designed
+  audit beat every model checker, 0.889 detection against 0.667, 0.556 and
+  0.333, so P1 points the other way; conditional lift is zero or negative across
+  every pair, refuting P2. That comparison is confounded by access and probably
+  explained by it: the audit *runs* the battery via `run_battery`/`run_detector`
+  while the models were handed static text, which is a capability difference the
+  design never names. The load-bearing finding is neither:
+  **`harness/shams.py` cannot plant the modes `harness/integrity.py` says it is
+  blind to.** Only three of the six declared blind spots have mutators, and two
+  of those plant instances the audit catches, so the dataset held exactly one
+  artifact that tested the question. The catalog and the planter had drifted
+  apart and nothing had ever compared them. That one true blind spot,
+  `dropped-hardest-lesion`, is now closed from outside the audit by
+  `tests/test_lesion_sets_are_pinned.py`, whose own countermeasure field had
+  specified that test all along. Read `docs/28-asymmetry-e0-disposition.md`
+  including its correction notice: the first write-up reported a foreign-model
+  win that came from reading `SHAM_MODES[...].caught_by` instead of running the
+  audit. Ground truth in `meta/evals/` is measured now, and a test fails if
+  anyone reads the catalog again. Read `positive_control_detection` before any
+  other number: the first run failed that gate by calling a battery sound whose
+  detector body was `return value`, and it is kept as a failed
+  calibration rather than deleted. `operator-functions.md` decomposes what is
   left of the operator's role once the automatable friction is subtracted, into
   severity calibration, scope discipline, skepticism routing and authority — and
   reframes the target: you do not automate judgment, you measure *calibration*,
@@ -559,6 +625,34 @@ the cost concentrates in `test_li.py`, `test_heatflow.py` and `test_weil.py`
 Tests use mpmath's `zetazero` / `siegelz` / `grampoint` / `nzeros` as an
 independent oracle against the hand-rolled machinery — preserve that pattern
 when adding features: implement the mathematics, then cross-check.
+
+**And mpmath is not the only oracle.** `tests/test_pari_oracle.py` runs the
+same claims past PARI/GP (`cypari2`), a C library written by a different
+community over forty years, sharing no code with mpmath and using different
+algorithms: `lfunzeros` finds zeros through the generic L-function machinery
+rather than by Riemann-Siegel sign changes, `ellap` counts points by
+Shanks-Mestre/SEA rather than by a Legendre-symbol table. It covers ζ on the
+real axis and the critical line, all three of the repo's routes to ζ, Hardy's
+Z, the first twenty ordinates, N(T), the Arb enclosures from `rigor.py`, li(x),
+π(x) and Chebyshev θ, and point counts over F_p and its extensions. The point
+is structural: a defect shared between our code and mpmath, or a defect in
+mpmath alone, is invisible to a suite whose every reference value comes from
+one library.
+
+Two things to know before trusting it. PARI's `lfunhardy` carries an internal
+normalisation (empirically Z_pari/Z → 1.7437585…, not 1), so the file rebuilds
+Z from PARI's own `zeta` and `lngamma` instead; that shares the defining
+identity with `rigor.py` and is independent only in the transcendentals
+underneath. And it is *not* a certificate: PARI computes in floating point at
+a requested precision exactly as mpmath does, so agreement raises confidence
+without moving a claim up the certainty ladder. The one test that touches
+`rigor.py` asks whether PARI lands inside an enclosure Arb already proved,
+which checks the oracle against the certificate, not the other way round.
+
+The file was validated by planting six faults (a 1e-25 shift in `zeta`, an
+off-by-one in `N_of_T`, a dropped zero in the sign hunt, a negated Frobenius
+trace, a shifted `enclose_Z`, a scaled `li`) and confirming each one turns it
+red. A cross-check that cannot fail is not a cross-check.
 
 ## Ground truth for quick assertions
 

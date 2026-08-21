@@ -1,3 +1,12 @@
+> **RETRACTION 2026-08-19.** RF-C008's headline (0.9578 for xi'') is
+> WITHDRAWN and RF-C006(c)'s corrected table is SUPERSEDED by
+> `hunts/higher_xi/C2_EXACT.json`, following main's `docs/31` erratum
+> to Bian's Lemma 12 (`C_{kappa,2} = -4 kappa`, not `-4`), which this
+> campaign carried as given. Corrected bound is 0.8675, below Conrey's
+> unconditional 0.9314. See `RETRACTION-2026-08-19.md`. Entries below
+> are left as written rather than edited, per the lab's habit of not
+> sweeping corrections.
+
 # RESULTS_LEDGER — every serious claim, its status, its grade
 
 Grades use the repository ladder (measured / hardened / kernel-checked); a

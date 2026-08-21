@@ -1,0 +1,99 @@
+{
+  "convention": "multiplier e^{t u^2}; claim: all real for t >= Delta^2/2",
+  "route0_operator_identity": {
+    "what": "backward-heat PDE residual: (i) e^{tu^2}-multiplier Gaussian quadrature, dps 30; (ii) polynomial series, float64 central differences h=1e-5",
+    "worst_relative_residual_multiplier_measured": 0.0,
+    "worst_relative_residual_polynomial_measured": 4.195081744635483e-06
+  },
+  "routeA_bare_pair": {
+    "what": "p = z^2 + Delta^2 under exp(-t D^2); float64, bisection 60 iters, imag tol 1e-10",
+    "cases": [
+      {
+        "Delta": 0.6,
+        "t_star_measured": 0.18,
+        "Delta2_over_2": 0.18,
+        "ratio_2tstar_over_Delta2": 1.0
+      },
+      {
+        "Delta": 0.895136,
+        "t_star_measured": 0.40063422924799996,
+        "Delta2_over_2": 0.400634229248,
+        "ratio_2tstar_over_Delta2": 0.9999999999999999
+      },
+      {
+        "Delta": 1.2,
+        "t_star_measured": 0.72,
+        "Delta2_over_2": 0.72,
+        "ratio_2tstar_over_Delta2": 1.0
+      }
+    ]
+  },
+  "routeB_cosine": {
+    "what": "H_t = e^t cos z + c; dps 30, zero tracked by Newton continuation, bisection 60 iters",
+    "cases": [
+      {
+        "c": "2.0",
+        "Delta_measured": 1.3169578969248168,
+        "t_star_measured": 0.7254724943624705,
+        "Delta2_over_2": 0.8671890511363181,
+        "ratio_2tstar_over_Delta2": 0.8365793980122906
+      },
+      {
+        "c": "1.05",
+        "Delta_measured": 0.3149247566038479,
+        "t_star_measured": 0.048790164169432,
+        "Delta2_over_2": 0.04958880116099641,
+        "ratio_2tstar_over_Delta2": 0.9838948114722207
+      },
+      {
+        "c": "1.001",
+        "Delta_measured": 0.04471763360830931,
+        "t_star_measured": 0.0009995003330835327,
+        "Delta2_over_2": 0.0009998333777634972,
+        "ratio_2tstar_over_Delta2": 0.9996668998181383
+      }
+    ]
+  },
+  "routeC_pair_plus_real": {
+    "what": "(z^2+1)(z^2-A^2) under exp(-t D^2); float64, bisection 60 iters, imag tol 1e-10",
+    "cases": [
+      {
+        "Delta": 1.0,
+        "A": 5.0,
+        "t_star_measured": 0.46644143115812364,
+        "Delta2_over_2": 0.5,
+        "ratio_2tstar_over_Delta2": 0.9328828623162473
+      },
+      {
+        "Delta": 1.0,
+        "A": 20.0,
+        "t_star_measured": 0.4975307738704542,
+        "Delta2_over_2": 0.5,
+        "ratio_2tstar_over_Delta2": 0.9950615477409084
+      },
+      {
+        "Delta": 1.0,
+        "A": 100.0,
+        "t_star_measured": 0.4999000499690215,
+        "Delta2_over_2": 0.5,
+        "ratio_2tstar_over_Delta2": 0.999800099938043
+      }
+    ]
+  },
+  "phi_dh_decay_domination": {
+    "what": "decay margin g(u) = (pi/5)e^{2u} - (3/2)u - u^3 on [2,30], dps 30",
+    "S0_measured": 1.32368007594847,
+    "g_at_2": 23.305029408743852,
+    "min_on_grid": 23.305029408743852,
+    "increasing_on_grid": true
+  },
+  "sharp_class_dirichlet_sum": {
+    "what": "sum |a_n| n^{-sigma}, |a_n| periodic (1,kappa,kappa,1,0), dps 30, mp.nsum",
+    "kappa_measured": 0.28407904384041227,
+    "sums": {
+      "1.05": 1.780850216641546,
+      "1.5": 1.4130800306334796,
+      "2.0": 1.2154438225216704
+    }
+  }
+}

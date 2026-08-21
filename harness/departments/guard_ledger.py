@@ -62,10 +62,17 @@ GUARDS: tuple[GuardRecord, ...] = (
             "tests/test_guard_ledger.py::test_the_numbering_guard_fires_on_a_duplicate"
         ),
         known_misses=(
-            "a document renamed without its number changing (references stay "
-            "valid, content drifts from title) — no guard reads content",
+            "a document renamed without its number changing when citations use "
+            "bare references only, as sibling full-name ref test fires only on "
+            "full paths (hunts/r_c62e44 mutants M02, M04, M07)",
+            "content drift or complete body replacement under an existing filename "
+            "(hunts/r_c62e44 mutants M05, M06): no test in the suite reads docs/*.md content",
+            "nested docs under subdirectories (M17) or non-.md files (M16)",
         ),
-        scope="uniqueness of the leading number, nothing about the contents",
+        scope=(
+            "uniqueness of the leading 2-digit number (00..N) in docs/*.md filenames; "
+            "enforces nothing about document titles, content, or semantic citation validity"
+        ),
         incident="two documents shared number 21 on 2026-08-10",
     ),
     GuardRecord(
@@ -122,12 +129,6 @@ GUARDS: tuple[GuardRecord, ...] = (
             "hunts/r_414eed/results.json and RESULTS.md)"
         ),
         known_misses=(
-            "a private helper renamed public *in place*, in a module that "
-            "declares __all__, by a length-neutral edit — the regenerated "
-            "CONTEXT.md is byte-identical and the guard is quiet (probe "
-            "mutant B06, the one miss inside the guard's own subject matter)",
-            "public functions added under meta/ — the package is not scanned "
-            "at all (B01)",
             "public functions added under compiler/ — likewise unscanned "
             "(B02)",
             "documents added under docs/doors/ — doc_index globs docs/*.md, "
@@ -144,11 +145,15 @@ GUARDS: tuple[GuardRecord, ...] = (
             "which is broader *and* shallower than 'the public API index is "
             "current': CONTEXT.md records a per-module line count, so any "
             "edit changing a scanned file's length fires the guard even when "
-            "no symbol reaches the index — the declared smallest mutant "
-            "(probe M01) and a lone appended blank line (B08) both fire that "
-            "way. A catch therefore does not establish that the guard saw "
-            "the symbol, and the misses above are the edits that change no "
-            "length"
+            "no symbol reaches the index. When __all__ is declared, module_api "
+            "filters top-level definitions strictly by declared exports, so "
+            "length-neutral in-place private helper renames in __all__ modules "
+            "pass silently (measured by hunts/r_7ad39f/probe.py, 0/299 unexported "
+            "private symbols caught, 0.0%), while renames in non-__all__ modules "
+            "(4/4) and edits altering line count are 100% caught. Unscanned "
+            "packages like meta/ are completely excluded from the index pipeline "
+            "(measured by hunts/r_2946de/probe.py, 0/16 curated mutants and 0/32 "
+            "public symbols detected, 0.0%)"
         ),
         incident="",
     ),

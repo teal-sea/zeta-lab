@@ -1,0 +1,113 @@
+{
+  "hunt": "lambda_dh_bounds",
+  "route": "route 3: DHFlow argument-principle count, sharing no code with instrument.py",
+  "provenance": "written by the gate adjudication of 2026-08-16 as a4_indep_winding.py; landed here unchanged in mathematics under GATE.md closure item (e)",
+  "grade": "measured (mpmath floats, dps 130); it cannot decide an integer and does not claim to",
+  "evaluator": "hunts/flow_repair probe.DHFlow, composite Gauss-Legendre on the real u axis with Phi_DH memoised at the nodes",
+  "method": "uniform boundary sampling with continuous-argument tracking; the sample count doubles until every consecutive step is under 1 radian",
+  "independence": "radius 0 against route 1 (winding.py): no declared layer is shared.  See INDEPENDENCE.md and independence_decl.py.",
+  "not_independent_of": "the kappa EQUATION: this route's kappa comes from zeta.epstein.kappa, the mpmath form of the same self-duality linear solve instrument.kappa_ball runs in balls.  crosscheck_quadfree.py carries the Gauss-sum derivation that does not share it.",
+  "dps": 130,
+  "flow_U": 3.1457857827268754,
+  "flow_n_nodes": 5814,
+  "runs": {
+    "0.0575": {
+      "N_float": 1.0000000000000002,
+      "total_argument": 6.283185307179587,
+      "max_step_radians": 0.2854607296912167,
+      "min_absH_on_boundary": 2.4488139927472482e-84,
+      "n_evals": 256,
+      "edges": [
+        {
+          "edge": 0,
+          "n_samples": 64,
+          "argument_sum": 0.08903390415829257,
+          "max_step_radians": 0.279432910343669,
+          "min_absH_on_edge": 2.4488139927472482e-84
+        },
+        {
+          "edge": 1,
+          "n_samples": 64,
+          "argument_sum": 0.3707265593194142,
+          "max_step_radians": 0.0059202816157826,
+          "min_absH_on_edge": 4.787389547223966e-82
+        },
+        {
+          "edge": 2,
+          "n_samples": 64,
+          "argument_sum": 5.3947682602604345,
+          "max_step_radians": 0.2854607296912167,
+          "min_absH_on_edge": 2.953739717969235e-83
+        },
+        {
+          "edge": 3,
+          "n_samples": 64,
+          "argument_sum": 0.42865658344144564,
+          "max_step_radians": 0.00682613690170567,
+          "min_absH_on_edge": 6.214882537418027e-82
+        }
+      ],
+      "seconds": 173.5,
+      "t": "0.0575",
+      "box": {
+        "re_lo": "122929/512",
+        "re_hi": "123185/512",
+        "im_lo": "3/512",
+        "im_hi": "61/1024"
+      },
+      "box_source": "winding_results.json, t1_run",
+      "instrument_claimed_N": 1,
+      "agrees_with_instrument": true
+    },
+    "0.0576": {
+      "N_float": 1.0000000000000002,
+      "total_argument": 6.283185307179587,
+      "max_step_radians": 0.39463362905733557,
+      "min_absH_on_boundary": 8.644114156488054e-85,
+      "n_evals": 256,
+      "edges": [
+        {
+          "edge": 0,
+          "n_samples": 64,
+          "argument_sum": 0.05683674708937505,
+          "max_step_radians": 0.26818950480288406,
+          "min_absH_on_edge": 8.644114156488054e-85
+        },
+        {
+          "edge": 1,
+          "n_samples": 64,
+          "argument_sum": 0.2832615579825566,
+          "max_step_radians": 0.004475232377044108,
+          "min_absH_on_edge": 3.174688700717776e-82
+        },
+        {
+          "edge": 2,
+          "n_samples": 64,
+          "argument_sum": 5.626505945001374,
+          "max_step_radians": 0.39463362905733557,
+          "min_absH_on_edge": 9.682728770501346e-84
+        },
+        {
+          "edge": 3,
+          "n_samples": 64,
+          "argument_sum": 0.31658105710628137,
+          "max_step_radians": 0.0049958149265436685,
+          "min_absH_on_edge": 3.9301303554816056e-82
+        }
+      ],
+      "seconds": 173.3,
+      "t": "0.0576",
+      "box": {
+        "re_lo": "245909/1024",
+        "re_hi": "123159/512",
+        "im_lo": "3/1024",
+        "im_hi": "35/1024"
+      },
+      "box_source": "winding_results.json, t2_stretch_run",
+      "instrument_claimed_N": 1,
+      "agrees_with_instrument": true
+    }
+  },
+  "agrees_at_both_t": true,
+  "seconds_total": 350.5
+}

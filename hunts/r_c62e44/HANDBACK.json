@@ -1,0 +1,32 @@
+{
+  "run_id": "aa4aacde-3218-421c-8469-aaae26ee5389",
+  "status": "settled",
+  "conclusion": "The guard test_no_two_docs_share_a_number detects duplicate leading numbers (05-a.md and 05-b.md) but does not detect a document renamed without its number changing when citations use bare references (such as docs/08). An exhaustive census confirms zero tests across the repository read document body content, validate H1 headings against filenames, or verify citation semantic validity.",
+  "confidence": "High across all measurements. The findings are verified by the 20-mutant battery in hunts/r_c62e44/probe.py executed against a clean sandbox under baseline and per-mutant undo controls, along with a complete static census of all 37 test files mentioning docs/.",
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "Document filename slugs and H1 titles are unconstrained against each other, allowing complete drift between title and filename.",
+      "why_it_might_matter": "Contributors and agents navigating by number and slug can see contradictory subject descriptions without tripping any CI check.",
+      "first_step": "Add an assertion in tests/test_docs_numbering.py verifying that words from the filename slug appear in the document H1 heading."
+    },
+    {
+      "what": "Subdirectories of docs/ are unscanned by tests/test_docs_numbering.py because _numbered_docs() uses non-recursive os.listdir.",
+      "why_it_might_matter": "Numbered documents accidentally placed under subdirectories like docs/doors/ or docs/reviews/ would bypass collision and gap checks.",
+      "first_step": "Add a check in tests/test_docs_numbering.py verifying that no numbered markdown files exist in subdirectories of docs/."
+    },
+    {
+      "what": "The filename slug regex allows trailing dots and symbols (^(\\d{2})-[\\w.-]+\\.md$).",
+      "why_it_might_matter": "Allows malformed filenames like 08-foo..md to match as numbered documents.",
+      "first_step": "Tighten the regex in tests/test_docs_numbering.py to ^(\\d{2})-[a-z0-9-]+\\.md$."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "The parameterized sandbox probe harness in hunts/r_c62e44/probe.py that executes test functions directly against mutated in-memory/disk temporary sandboxes with undo controls.",
+      "why_reusable": "Provides a clean, high-speed (under 5 second) way to evaluate test suite sensitivity and boundary conditions against large mutant batteries without modifying the live repository or spawning slow external processes.",
+      "first_step": "Refactor the sandbox runner into a shared fixture helper for future guard audits."
+    }
+  ],
+  "notes_for_operator": "Hunt #49 was already occupied in hunts/README.md by r_6f088d, so per instructions this hunt took the next free number, Hunt #50. The guard record in harness/departments/guard_ledger.py was updated with the measured scope and known misses, clearing the attention item from the generator output. All 38 tests in the relevant test suites pass cleanly."
+}

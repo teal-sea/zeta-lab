@@ -1,0 +1,19 @@
+{
+  "baseline_farmer_gonek_control_passes": true,
+  "C_kappa_2_for_kappa_1_to_5": {
+    "1": "-4",
+    "2": "-8",
+    "3": "-12",
+    "4": "-16",
+    "5": "-20"
+  },
+  "plant_1_multiplicity_dropped": {
+    "farmer_gonek_control_still_passes": true,
+    "C_2_2_becomes": "-4",
+    "reading": "the kappa=1 control is blind to this defect; the planted value is the published one"
+  },
+  "plant_2_pairing_off_by_one": {
+    "farmer_gonek_control_still_passes": false,
+    "reading": "the kappa=1 control does have power against the ingredient it calibrates"
+  }
+}

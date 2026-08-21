@@ -1,0 +1,242 @@
+{
+  "hunt": "prime_zeta_rightmost",
+  "task": "WP5 calibration control, lesions, precision response",
+  "date": "2026-08-16",
+  "versions": {
+    "python-flint": "0.9.0",
+    "mpmath": "1.3.0"
+  },
+  "vocabulary": "decided = interval/ball enclosure with exact endpoint sign logic; measured = one float route",
+  "solver": {
+    "name": "decide.bisect_decreasing",
+    "identity": "same function object decide.main() calls for sigma_c; asserted identical to instrument.bisect_decreasing at import"
+  },
+  "baseline_sigma_c": {
+    "resolved": {
+      "interval": [
+        "1.7795446535469941164458987869654405",
+        "1.7795446535469941164458987869655195"
+      ],
+      "width": "7.889e-32",
+      "backend": "python-flint (arb)",
+      "precision": "350 bits",
+      "method": "sigma_c re-solved in-process, decide.py's exact flint code path",
+      "time_s": 0.379,
+      "iterations": 101,
+      "sign_stalled": false
+    },
+    "decided_json_interval": [
+      "1.7795446535469941164458987869654405",
+      "1.7795446535469941164458987869655195"
+    ],
+    "interval_strings_match_decided_json": true
+  },
+  "calibration_zeta_partial_sums": {
+    "balance": "leading a_1 = 1 vs tail sum_{n>=2} n^(-sigma); root of zeta(sigma) = 2, OEIS A107311's x*",
+    "monotonicity": "exact, termwise: zeta'(sigma) < 0 for sigma > 1, no numeric guard needed",
+    "flint": {
+      "interval": [
+        "1.7286472389981836181351030102976660",
+        "1.7286472389981836181351030102977450"
+      ],
+      "width": "7.889e-32",
+      "backend": "python-flint (arb)",
+      "precision": "350 bits",
+      "method": "balance (zeta(s)-1) - 1 through decide.bisect_decreasing, sigma_c's bracket [1.7, 1.9] and target width; arb zeta",
+      "time_s": 0.014,
+      "iterations": 101,
+      "sign_stalled": false
+    },
+    "mpmath_iv": {
+      "interval": [
+        "1.7286472389981099",
+        "1.7286472389982010"
+      ],
+      "width": "9.095e-14",
+      "backend": "mpmath.iv",
+      "precision": "dps 40",
+      "method": "same balance and solver; zeta by Dirichlet sum N=4000 plus Euler-Maclaurin tail (instrument.py docstring 2)",
+      "time_s": 5.31,
+      "iterations": 41,
+      "sign_stalled": false,
+      "dirichlet_N": 4000
+    },
+    "oeis_value_interval_inside_flint_enclosure": true,
+    "oeis_value_interval_inside_iv_enclosure": true,
+    "oeis_digits_reproduced_flint": 31,
+    "oeis_digits_reproduced_iv": 13,
+    "enclosure_intersects_decided_json_x_star": true,
+    "pass": true
+  },
+  "lesion_1_drop_p3_from_tail": {
+    "balance": "sum_{p>=5} p^(-s) = 2^(-s), the sigma_c balance with the p = 3 tail term removed",
+    "flint": {
+      "interval": [
+        "1.4293161356678019330620811031492544",
+        "1.4293161356678019330620811031493235"
+      ],
+      "width": "6.903e-32",
+      "backend": "python-flint (arb)",
+      "precision": "350 bits",
+      "method": "balance sum_{p>=5} p^(-s) = 2^(-s) as P(s) - 2^(1-s) - 3^(-s); Moebius series K=120, same tail bound as sigma_c; bracket [1.25, 1.6]",
+      "time_s": 0.482,
+      "iterations": 102,
+      "sign_stalled": false,
+      "moebius_K": 120
+    },
+    "mpmath_iv": {
+      "interval": [
+        "1.429316135402",
+        "1.429316136055"
+      ],
+      "width": "6.519e-10",
+      "backend": "mpmath.iv",
+      "precision": "dps 40",
+      "method": "same lesioned balance, iv machinery, Moebius K=40",
+      "time_s": 3.158,
+      "iterations": 29,
+      "sign_stalled": false,
+      "moebius_K": 40
+    },
+    "cross_checks": {
+      "backends_intersect": true
+    },
+    "uniqueness_guard": {
+      "statement": "les1'(s) < 0 on [1.25, 1.6] via the truncated upper bound (module docstring 2), 16 subintervals",
+      "decided": true,
+      "worst_upper_endpoint": "-0.3325254190194268",
+      "backend": "python-flint (arb)",
+      "precision": "350 bits",
+      "prime_cutoff": 1000,
+      "time_s": 0.008
+    },
+    "shift_from_sigma_c": {
+      "statement": "sigma_c - root(lesion 1), exact rational endpoint arithmetic on the two flint enclosures",
+      "interval": [
+        "0.3502285178791921833838176838161",
+        "0.3502285178791921833838176838163"
+      ],
+      "decided_nonzero": true,
+      "backend": "python-flint (arb)",
+      "precision": "350 bits"
+    },
+    "decidedly_below_x_star_too": true,
+    "reading": "the solver moved by ~0.35 when one tail term was removed, so it reads its input rather than a cache",
+    "pass": true
+  },
+  "lesion_2_wrong_leading_term": {
+    "balance": "the zeta partial-sum series with P's leading term 2^(-sigma) balanced against the tail after it, sum_{n>=3} n^(-sigma): the conjecture's mis-port made mechanical",
+    "flint": {
+      "interval": [
+        "2.4241112509134051299681251496785051",
+        "2.4241112509134051299681251496785939"
+      ],
+      "width": "8.875e-32",
+      "backend": "python-flint (arb)",
+      "precision": "350 bits",
+      "method": "balance 2^(-s) = sum_{n>=3} n^(-s), i.e. zeta(s) - 1 - 2^(1-s) = 0; arb zeta; bracket [2, 2.9]",
+      "time_s": 0.016,
+      "iterations": 103,
+      "sign_stalled": false
+    },
+    "mpmath_iv": {
+      "interval": [
+        "2.4241112509043",
+        "2.4241112509568"
+      ],
+      "width": "5.239e-11",
+      "backend": "mpmath.iv",
+      "precision": "dps 40",
+      "method": "same balance and solver; zeta by Dirichlet sum N=4000 plus Euler-Maclaurin tail",
+      "time_s": 4.398,
+      "iterations": 34,
+      "sign_stalled": false,
+      "dirichlet_N": 4000
+    },
+    "cross_checks": {
+      "backends_intersect": true
+    },
+    "uniqueness_guard": {
+      "statement": "les2'(s) < 0 on [2, 2.9] via zeta'(s) <= -sum_{2<=n<=200} log n * n^(-s) (module docstring 3), 16 subintervals",
+      "decided": true,
+      "worst_upper_endpoint": "-0.030866454077786973",
+      "backend": "python-flint (arb)",
+      "precision": "350 bits",
+      "n_cutoff": 200,
+      "time_s": 0.005
+    },
+    "reproduces_x_star": {
+      "decided_false": true,
+      "compare": "exact rational: lo(lesion 2) > hi(x_star record)"
+    },
+    "reproduces_sigma_c": {
+      "decided_false": true,
+      "compare": "exact rational: lo(lesion 2) > hi(sigma_c re-solve)"
+    },
+    "no_root_variant": "balancing 2^(-sigma) against the full tail sum_{n>=2} instead has no root: zeta(s) - 1 - 2^(-s) = 3^(-s) + 4^(-s) + ... > 0 for all s, exactly",
+    "reading": "the mechanical mis-port lands at ~2.424, near neither constant: the balance template and the series fed to it both matter",
+    "pass": true
+  },
+  "precision_response_sigma_c": {
+    "setup": "decide.py's exact sigma_c flint code path, target width 1e-60 (unreachable at the lower precisions), so the achieved width is set by where the sign stalls",
+    "runs": [
+      {
+        "precision": "60 bits",
+        "backend": "python-flint (arb)",
+        "achieved_width": "1.421e-15",
+        "interval": [
+          "1.7795446535469935156470455694943666458129",
+          "1.7795446535469949367325170896947383880616"
+        ],
+        "iterations": 47,
+        "sign_stalled": true,
+        "time_s": 0.046
+      },
+      {
+        "precision": "120 bits",
+        "backend": "python-flint (arb)",
+        "achieved_width": "6.163e-34",
+        "interval": [
+          "1.7795446535469941164458987869655114186872",
+          "1.7795446535469941164458987869655120349849"
+        ],
+        "iterations": 108,
+        "sign_stalled": true,
+        "time_s": 0.143
+      },
+      {
+        "precision": "200 bits",
+        "backend": "python-flint (arb)",
+        "achieved_width": "1.020e-57",
+        "interval": [
+          "1.7795446535469941164458987869655118171910",
+          "1.7795446535469941164458987869655118171911"
+        ],
+        "iterations": 187,
+        "sign_stalled": true,
+        "time_s": 0.371
+      }
+    ],
+    "strictly_shrinking": true,
+    "pass": true
+  },
+  "decide_rerun_reproducibility": {
+    "statement": "decide.py rerun in a subprocess; fresh decided.json compared to the recorded one line for line with time_s lines masked; recorded bytes restored afterwards",
+    "returncode": 0,
+    "identical_outside_time_s": true,
+    "differing_lines_outside_time_s": 0,
+    "time_s_lines_masked": 12,
+    "decide_py_modified_by_wp5": false,
+    "time_s": 14.996,
+    "pass": true
+  },
+  "summary": {
+    "baseline_sigma_c_matches_decided_json": true,
+    "calibration": "PASS",
+    "lesion_1": "PASS",
+    "lesion_2": "PASS",
+    "precision_response": "PASS",
+    "decide_rerun_reproducibility": "PASS",
+    "overall": "PASS"
+  }
+}

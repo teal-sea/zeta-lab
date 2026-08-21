@@ -27,13 +27,15 @@ First arm (derivation, optimization, enclosures):
 
 Headline check in one line (exact rationals; sympy):
 
-    .venv/bin/python -c "import sys; sys.path.insert(0,'hunts/rogue_frontier/window_opt'); from functional import exact_F_quartic; print(exact_F_quartic(1467,1159))"
+    .venv/bin/python -c "import sys; sys.path.insert(0,'hunts/rogue_frontier/window_opt'); from functional import moments_polyeven_exact, OPT_Q; print(moments_polyeven_exact(OPT_Q)[2])"
 
 Expected: 2245228120295149280/3276332462159207451, and the final constant
 1/2 + F/18 + (4/9)(19/27) = 50176758585216887915/58973984318865734118.
 The blinded verifier's independent scripts (structurally different
-derivation, same rationals) are preserved in the session scratchpad and
-its key outputs are quoted in RESULTS_LEDGER.md; an outside reader
+derivation, same rationals) are preserved in the session scratchpad and its
+key outputs are quoted in `RESULTS_LEDGER.md`, which was **not** landed with
+this arm (it summarises the unlanded `fkappa/` claim too — see `LANDING.md`);
+read it on `origin/claude/riemann-hypothesis-research-ofds8s`. An outside reader
 re-derives independently from the source paper's SS7.1 and SS7.5(g), which
 is the point.
 
@@ -41,14 +43,22 @@ is the point.
 
     .venv/bin/python hunts/rogue_frontier/weil_trunc/run_replication.py
     .venv/bin/python hunts/rogue_frontier/weil_trunc/run_enclosures.py
-    .venv/bin/python hunts/rogue_frontier/weil_trunc/run_dh_control.py
+    .venv/bin/python hunts/rogue_frontier/weil_trunc/run_dh.py
 
 (See `weil_trunc/RESULTS.md` for the exact driver names and the JSON
 gates; `replication.json` must report 8/8, `enclosures.json` 27/27
 conclusive-positive cells.) Sources and equation-level citations:
 `weil_trunc/SOURCE.md`.
 
-## RF-C006 — Bian audit
+## RF-C006 — Bian audit — NOT LANDED, see `LANDING.md`
+
+`fkappa/` was deliberately excluded from the salvage of 2026-08-21 (hunt
+R-F00E48). Its corrected kappa = 2 table contradicts main's landed
+`hunts/higher_xi/` table from i = 2 onward with a conflicting diagnosis, and
+that is an adjudication rather than a merge. The commands below are recorded
+for whoever runs that adjudication; they do not resolve against this tree,
+and every path they name lives only on
+`origin/claude/riemann-hypothesis-research-ofds8s`:
 
     .venv/bin/python hunts/rogue_frontier/fkappa/bian_engine.py --selftest
     .venv/bin/python hunts/rogue_frontier/fkappa/validate_pairs.py
@@ -71,12 +81,20 @@ Checkpointed coefficients and analysis are under
 
 ## Second wave additions
 
-    .venv/bin/python hunts/rogue_frontier/fkappa/theory_validate.py
-    .venv/bin/python hunts/rogue_frontier/fkappa/extend_guess.py
     .venv/bin/python hunts/rogue_frontier/weil_trunc/dhneg_confirm.py
     .venv/bin/python hunts/rogue_frontier/window_opt/global_slice.py
 
-The two-engine coefficient cross-check is one comparison of
-`fkappa/coefficients_ext.json` (14-fold-sum engine) against
-`fkappa/row2_ext.json` / `row3_ext.json` (resolvent engine): exact
-rational equality on every overlapping index is the claim.
+Two further second-wave commands belong to the unlanded `fkappa/` arm and are
+recorded here only so the adjudication can find them:
+`fkappa/theory_validate.py` and `fkappa/extend_guess.py`. The two-engine
+coefficient cross-check is one comparison of `fkappa/coefficients_ext.json`
+(14-fold-sum engine) against `fkappa/row2_ext.json` / `row3_ext.json`
+(resolvent engine): exact rational equality on every overlapping index is the
+claim.
+
+## Davenport-Heilbronn control (RF-C004c)
+
+    .venv/bin/python hunts/rogue_frontier/weil_trunc/run_dh_control.py
+
+The rival control that shows the qualitative spectral signature
+distinguishes nothing; see `weil_trunc/RESULTS.md`.

@@ -1,0 +1,313 @@
+{
+  "meta": {
+    "hunt": "r_e2ee73",
+    "task": "Scope caveat: compiler verdicts rest on a hand-written model, not LLVM semantics (Alive2 absent)",
+    "timestamp": "2026-08-20T14:38:26Z",
+    "elapsed_seconds": 53.895
+  },
+  "backend_census": {
+    "available_backends": [
+      "clang.exhaustive_i8",
+      "pymodel.refinement_i8"
+    ],
+    "status_details": {
+      "clang.exhaustive_i8": "available: clang at /usr/bin/clang accepts LLVM IR input",
+      "pymodel.refinement_i8": "available: pure-Python poison-aware model of the supported subset (this file; needs nothing installed)",
+      "alive2.refinement": "ABSENT: alive-tv not on PATH (rung 3 unavailable: no refinement checking)"
+    },
+    "clang_available": true,
+    "pymodel_available": true,
+    "alive2_available": false,
+    "primary_backend": "clang.exhaustive_i8",
+    "primary_backend_reason": "clang at /usr/bin/clang accepts LLVM IR input"
+  },
+  "cross_check": {
+    "fixtures_count": 10,
+    "total_comparable_points": 655360,
+    "total_mismatches": 0,
+    "overall_agreement_fraction": 1.0,
+    "fixtures": [
+      {
+        "fixture": "host_src",
+        "file": "compiler/fixtures/host_src.ll",
+        "comparable_points": 65536,
+        "mismatches": 0,
+        "agrees": true
+      },
+      {
+        "fixture": "host_tgt",
+        "file": "compiler/fixtures/host_tgt.ll",
+        "comparable_points": 65536,
+        "mismatches": 0,
+        "agrees": true
+      },
+      {
+        "fixture": "mul2_add_src",
+        "file": "compiler/fixtures/mul2_add_src.ll",
+        "comparable_points": 65536,
+        "mismatches": 0,
+        "agrees": true
+      },
+      {
+        "fixture": "mul2_add_tgt",
+        "file": "compiler/fixtures/mul2_add_tgt.ll",
+        "comparable_points": 65536,
+        "mismatches": 0,
+        "agrees": true
+      },
+      {
+        "fixture": "sdiv2_add_src",
+        "file": "compiler/fixtures/sdiv2_add_src.ll",
+        "comparable_points": 65536,
+        "mismatches": 0,
+        "agrees": true
+      },
+      {
+        "fixture": "sdiv2_add_tgt",
+        "file": "compiler/fixtures/sdiv2_add_tgt.ll",
+        "comparable_points": 65536,
+        "mismatches": 0,
+        "agrees": true
+      },
+      {
+        "fixture": "slt_src",
+        "file": "compiler/fixtures/slt_src.ll",
+        "comparable_points": 65536,
+        "mismatches": 0,
+        "agrees": true
+      },
+      {
+        "fixture": "slt_sub_tgt",
+        "file": "compiler/fixtures/slt_sub_tgt.ll",
+        "comparable_points": 65536,
+        "mismatches": 0,
+        "agrees": true
+      },
+      {
+        "fixture": "udiv4_add_src",
+        "file": "compiler/fixtures/udiv4_add_src.ll",
+        "comparable_points": 65536,
+        "mismatches": 0,
+        "agrees": true
+      },
+      {
+        "fixture": "udiv4_add_tgt",
+        "file": "compiler/fixtures/udiv4_add_tgt.ll",
+        "comparable_points": 65536,
+        "mismatches": 0,
+        "agrees": true
+      }
+    ]
+  },
+  "lesion_power": {
+    "concrete_has_power": false,
+    "concrete_blind_to": [
+      "nsw_flag_on_a_wrapping_shift"
+    ],
+    "model_has_power": true,
+    "model_blind_to": [],
+    "lesions": [
+      {
+        "name": "signed_to_unsigned_predicate",
+        "declared_magnitude": 0.5,
+        "visible_concretely": true,
+        "concrete_agreement": {
+          "agrees": false,
+          "disagreements": 32768,
+          "fraction": 0.5,
+          "measured_defect": 0.5
+        },
+        "model_refinement": {
+          "refines": false,
+          "violations": 32768,
+          "value_violations": 32768,
+          "poison_violations": 0,
+          "ub_violations": 0,
+          "fraction": 0.5,
+          "measured_defect": 0.5
+        }
+      },
+      {
+        "name": "strict_to_nonstrict_predicate",
+        "declared_magnitude": 0.00390625,
+        "visible_concretely": true,
+        "concrete_agreement": {
+          "agrees": false,
+          "disagreements": 256,
+          "fraction": 0.99609375,
+          "measured_defect": 0.00390625
+        },
+        "model_refinement": {
+          "refines": false,
+          "violations": 256,
+          "value_violations": 256,
+          "poison_violations": 0,
+          "ub_violations": 0,
+          "fraction": 0.99609375,
+          "measured_defect": 0.00390625
+        }
+      },
+      {
+        "name": "single_point_special_case",
+        "declared_magnitude": 1.52587890625e-05,
+        "visible_concretely": true,
+        "concrete_agreement": {
+          "agrees": false,
+          "disagreements": 1,
+          "fraction": 0.9999847412109375,
+          "measured_defect": 1.52587890625e-05
+        },
+        "model_refinement": {
+          "refines": false,
+          "violations": 1,
+          "value_violations": 1,
+          "poison_violations": 0,
+          "ub_violations": 0,
+          "fraction": 0.9999847412109375,
+          "measured_defect": 1.52587890625e-05
+        }
+      },
+      {
+        "name": "nsw_flag_on_a_wrapping_shift",
+        "declared_magnitude": 0.5,
+        "visible_concretely": false,
+        "concrete_agreement": {
+          "agrees": true,
+          "disagreements": 0,
+          "fraction": 1.0,
+          "measured_defect": 0.0
+        },
+        "model_refinement": {
+          "refines": false,
+          "violations": 32768,
+          "value_violations": 0,
+          "poison_violations": 32768,
+          "ub_violations": 0,
+          "fraction": 0.5,
+          "measured_defect": 0.5
+        }
+      }
+    ]
+  },
+  "rivals_and_nulls": {
+    "rivals": [
+      {
+        "name": "sdiv2_to_ashr",
+        "instructions_removed": 0,
+        "concrete_disagreements": 16384,
+        "model_violations": 16384,
+        "model_value_violations": 16384,
+        "model_poison_violations": 0,
+        "model_ub_violations": 0,
+        "both_backends_agree_on_count": true
+      },
+      {
+        "name": "udiv4_to_ashr",
+        "instructions_removed": 0,
+        "concrete_disagreements": 32768,
+        "model_violations": 32768,
+        "model_value_violations": 32768,
+        "model_poison_violations": 0,
+        "model_ub_violations": 0,
+        "both_backends_agree_on_count": true
+      },
+      {
+        "name": "slt_to_sign_of_difference",
+        "instructions_removed": 0,
+        "concrete_disagreements": 16384,
+        "model_violations": 16384,
+        "model_value_violations": 16384,
+        "model_poison_violations": 0,
+        "model_ub_violations": 0,
+        "both_backends_agree_on_count": true
+      }
+    ],
+    "ablation": {
+      "baseline": 0.75,
+      "decoys": {
+        "narrow_input_window": 1.0,
+        "constant_input_set": 1.0
+      },
+      "survives": true
+    },
+    "nulls": {
+      "observed": 1.0,
+      "surrogates": {
+        "unguided_mutation_11": 0.00390625,
+        "unguided_mutation_23": 0.0078125,
+        "unguided_mutation_57": 0.0078125
+      },
+      "survives": true
+    }
+  },
+  "rejection_safety": [
+    {
+      "case": "floating_point",
+      "caught": true,
+      "exception_type": "ModelUnsupported",
+      "exception_message": "the model does not implement 'fadd': %r = fadd i8 %x, %y",
+      "is_ir_rejected_subclass": true
+    },
+    {
+      "case": "memory_load",
+      "caught": true,
+      "exception_type": "ModelUnsupported",
+      "exception_message": "the model does not recognise this line: '%p = alloca i8'",
+      "is_ir_rejected_subclass": true
+    },
+    {
+      "case": "multi_block_cfg",
+      "caught": true,
+      "exception_type": "ModelUnsupported",
+      "exception_message": "the model does not recognise this line: 'br label %next'",
+      "is_ir_rejected_subclass": true
+    },
+    {
+      "case": "i32_types",
+      "caught": false,
+      "exception_type": "",
+      "exception_message": "",
+      "is_ir_rejected_subclass": false
+    },
+    {
+      "case": "phi_node",
+      "caught": true,
+      "exception_type": "ModelUnsupported",
+      "exception_message": "the model does not recognise this line: 'br i1 %c, label %t, label %f'",
+      "is_ir_rejected_subclass": true
+    },
+    {
+      "case": "freeze_instruction",
+      "caught": true,
+      "exception_type": "ModelUnsupported",
+      "exception_message": "the model does not recognise this line: '%r = freeze i8 %x'",
+      "is_ir_rejected_subclass": true
+    }
+  ],
+  "independence": {
+    "path_a": "concrete backend: clang -O0/-O2 binary",
+    "path_b": "model backend: pure-Python poison-aware interpreter",
+    "radius": 1,
+    "shared_layers": [
+      "LLVM IR text"
+    ],
+    "reconvergent_layers": [],
+    "distinct_a": [
+      "clang frontend parser/lowering",
+      "code generation/compilation to native binary",
+      "driver harness execution over 65536 inputs",
+      "stdout byte capture",
+      "exhaustive byte table comparison"
+    ],
+    "distinct_b": [
+      "regex IR parser (_parse)",
+      "Python AST evaluation (_eval_program)",
+      "poison and immediate UB propagation",
+      "exhaustive tuple generation (65536 points)",
+      "refinement relation check (value/poison/UB)"
+    ],
+    "agreement_bounds": [
+      "layer 'LLVM IR text' is one implementation run by both paths (upstream of the divergence): agreement cannot see a fault in it"
+    ]
+  }
+}

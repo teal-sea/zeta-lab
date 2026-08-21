@@ -1,0 +1,1341 @@
+{
+  "total_lean_files": 64,
+  "total_modules": 64,
+  "root_module": "Zeta23Ext",
+  "root_direct_imports": [
+    "Zeta23Ext.BandCert.Main",
+    "Zeta23Ext.Bridge",
+    "Zeta23Ext.Composition",
+    "Zeta23Ext.EForm.Main",
+    "Zeta23Ext.EForm2.Main",
+    "Zeta23Ext.EForm3.Main",
+    "Zeta23Ext.EForm3.Refutation",
+    "Zeta23Ext.FloorCert",
+    "Zeta23Ext.GridIncidence",
+    "Zeta23Ext.PairEnergy",
+    "Zeta23Ext.RetentionAlgebra",
+    "Zeta23Ext.RetentionWired",
+    "Zeta23Ext.TruncEst.Axioms"
+  ],
+  "root_transitive_reach": [
+    "Zeta23Ext.BandCert.Cap",
+    "Zeta23Ext.BandCert.Check",
+    "Zeta23Ext.BandCert.Data",
+    "Zeta23Ext.BandCert.Iv",
+    "Zeta23Ext.BandCert.Leaves",
+    "Zeta23Ext.BandCert.Main",
+    "Zeta23Ext.BandCert.Phi",
+    "Zeta23Ext.BandCert.Verify",
+    "Zeta23Ext.Bridge",
+    "Zeta23Ext.Composition",
+    "Zeta23Ext.EForm.Basic",
+    "Zeta23Ext.EForm.Decomposition",
+    "Zeta23Ext.EForm.Energy",
+    "Zeta23Ext.EForm.Main",
+    "Zeta23Ext.EForm.Sharp",
+    "Zeta23Ext.EForm2.Bridge",
+    "Zeta23Ext.EForm2.Counting",
+    "Zeta23Ext.EForm2.Defs",
+    "Zeta23Ext.EForm2.Estimates",
+    "Zeta23Ext.EForm2.Expand",
+    "Zeta23Ext.EForm2.Fourier",
+    "Zeta23Ext.EForm2.Main",
+    "Zeta23Ext.EForm3.ClosedForm",
+    "Zeta23Ext.EForm3.Counting",
+    "Zeta23Ext.EForm3.Defs",
+    "Zeta23Ext.EForm3.Estimates",
+    "Zeta23Ext.EForm3.FarField",
+    "Zeta23Ext.EForm3.Gap",
+    "Zeta23Ext.EForm3.Integrability",
+    "Zeta23Ext.EForm3.Main",
+    "Zeta23Ext.EForm3.Master",
+    "Zeta23Ext.EForm3.Numerics",
+    "Zeta23Ext.EForm3.O9Assemble",
+    "Zeta23Ext.EForm3.O9Audit",
+    "Zeta23Ext.EForm3.O9Bridge",
+    "Zeta23Ext.EForm3.O9Check2",
+    "Zeta23Ext.EForm3.O9Comp",
+    "Zeta23Ext.EForm3.O9CompEval",
+    "Zeta23Ext.EForm3.O9Data2",
+    "Zeta23Ext.EForm3.O9Modes",
+    "Zeta23Ext.EForm3.O9Num",
+    "Zeta23Ext.EForm3.O9NumShape",
+    "Zeta23Ext.EForm3.O9Parts",
+    "Zeta23Ext.EForm3.O9PhiCmp",
+    "Zeta23Ext.EForm3.O9Real",
+    "Zeta23Ext.EForm3.O9RoundTrip",
+    "Zeta23Ext.EForm3.O9Shc",
+    "Zeta23Ext.EForm3.O9Sound",
+    "Zeta23Ext.EForm3.Refutation",
+    "Zeta23Ext.EForm3.ShcBranch",
+    "Zeta23Ext.EForm3.ShcTaylor",
+    "Zeta23Ext.EForm3.Taylor",
+    "Zeta23Ext.FloorCert",
+    "Zeta23Ext.GridIncidence",
+    "Zeta23Ext.PairEnergy",
+    "Zeta23Ext.RetentionAlgebra",
+    "Zeta23Ext.RetentionWired",
+    "Zeta23Ext.TruncEst.Autocorrelation",
+    "Zeta23Ext.TruncEst.Axioms",
+    "Zeta23Ext.TruncEst.Decay",
+    "Zeta23Ext.TruncEst.Kernel",
+    "Zeta23Ext.TruncEst.Poisson",
+    "Zeta23Ext.TruncEst.Sums"
+  ],
+  "arms_analysis": {
+    "arms_summary": {
+      "Arm 0 (PairEnergy)": {
+        "root_file": "Zeta23Ext/PairEnergy.lean",
+        "namespace": "(root)",
+        "Aconst": "_root_.Aconst",
+        "c2": "_root_.c2",
+        "g": "_root_.gker",
+        "energy": "(inline inequality in theorem)"
+      },
+      "Arm 1 (EForm)": {
+        "root_file": "Zeta23Ext/EForm/Basic.lean",
+        "namespace": "Retention",
+        "Aconst": "Retention.Aconst",
+        "c2": "Retention.c2",
+        "g": "Retention.gker",
+        "energy": "Retention.En"
+      },
+      "Arm 2 (EForm2)": {
+        "root_file": "Zeta23Ext/EForm2/Defs.lean",
+        "namespace": "Retention",
+        "Aconst": "Retention.Aconst",
+        "c2": "Retention.c2",
+        "g": "Retention.gwin",
+        "energy": "Retention.Ener"
+      },
+      "Arm 3 (EForm3)": {
+        "root_file": "Zeta23Ext/EForm3/Defs.lean",
+        "namespace": "Retention",
+        "Aconst": "Retention.Aconst",
+        "c2": "Retention.c2",
+        "g": "Retention.g",
+        "energy": "Retention.Eng"
+      },
+      "Arm 4 (TruncEst)": {
+        "root_file": "Zeta23Ext/TruncEst/Kernel.lean",
+        "namespace": "TruncEst",
+        "Aconst": "TruncEst.A",
+        "c2": "TruncEst.c2",
+        "g": "TruncEst.g",
+        "energy": "(not defined)"
+      }
+    },
+    "constant_definitions": [
+      {
+        "module": "Zeta23Ext.EForm.Basic",
+        "file": "Zeta23Ext/EForm/Basic.lean",
+        "line": 11,
+        "raw_name": "gker",
+        "namespace": "Retention",
+        "fqn": "Retention.gker",
+        "kind": "def",
+        "snippet": "noncomputable def gker (u : \u211d) : \u211d := if |u| \u2264 1/2 then Real.cos (Real.sqrt 2 * u) else 0"
+      },
+      {
+        "module": "Zeta23Ext.EForm.Basic",
+        "file": "Zeta23Ext/EForm/Basic.lean",
+        "line": 14,
+        "raw_name": "c2",
+        "namespace": "Retention",
+        "fqn": "Retention.c2",
+        "kind": "def",
+        "snippet": "noncomputable def c2 (w : \u211d) : \u211d := \u222b u : \u211d, gker u * gker (u - w)"
+      },
+      {
+        "module": "Zeta23Ext.EForm.Basic",
+        "file": "Zeta23Ext/EForm/Basic.lean",
+        "line": 17,
+        "raw_name": "Aconst",
+        "namespace": "Retention",
+        "fqn": "Retention.Aconst",
+        "kind": "def",
+        "snippet": "noncomputable def Aconst : \u211d := Real.sqrt 2 * Real.sin (1 / Real.sqrt 2)"
+      },
+      {
+        "module": "Zeta23Ext.EForm.Basic",
+        "file": "Zeta23Ext/EForm/Basic.lean",
+        "line": 20,
+        "raw_name": "En",
+        "namespace": "Retention",
+        "fqn": "Retention.En",
+        "kind": "def",
+        "snippet": "noncomputable def En (G : \u211d \u2192 \u2102) : \u211d :="
+      },
+      {
+        "module": "Zeta23Ext.EForm2.Defs",
+        "file": "Zeta23Ext/EForm2/Defs.lean",
+        "line": 17,
+        "raw_name": "gwin",
+        "namespace": "Retention",
+        "fqn": "Retention.gwin",
+        "kind": "def",
+        "snippet": "noncomputable def gwin (u : \u211d) : \u211d := if |u| \u2264 1/2 then Real.cos (Real.sqrt 2 * u) else 0"
+      },
+      {
+        "module": "Zeta23Ext.EForm2.Defs",
+        "file": "Zeta23Ext/EForm2/Defs.lean",
+        "line": 20,
+        "raw_name": "c2",
+        "namespace": "Retention",
+        "fqn": "Retention.c2",
+        "kind": "def",
+        "snippet": "noncomputable def c2 (w : \u211d) : \u211d := \u222b u : \u211d, gwin u * gwin (u + w)"
+      },
+      {
+        "module": "Zeta23Ext.EForm2.Defs",
+        "file": "Zeta23Ext/EForm2/Defs.lean",
+        "line": 23,
+        "raw_name": "Aconst",
+        "namespace": "Retention",
+        "fqn": "Retention.Aconst",
+        "kind": "def",
+        "snippet": "noncomputable def Aconst : \u211d := Real.sqrt 2 * Real.sin (1 / Real.sqrt 2)"
+      },
+      {
+        "module": "Zeta23Ext.EForm2.Defs",
+        "file": "Zeta23Ext/EForm2/Defs.lean",
+        "line": 29,
+        "raw_name": "Ener",
+        "namespace": "Retention",
+        "fqn": "Retention.Ener",
+        "kind": "def",
+        "snippet": "noncomputable def Ener (G : \u211d \u2192 \u2102) : \u211d :="
+      },
+      {
+        "module": "Zeta23Ext.EForm3.Defs",
+        "file": "Zeta23Ext/EForm3/Defs.lean",
+        "line": 16,
+        "raw_name": "g",
+        "namespace": "Retention",
+        "fqn": "Retention.g",
+        "kind": "def",
+        "snippet": "noncomputable def g (u : \u211d) : \u211d := if |u| \u2264 1/2 then Real.cos (Real.sqrt 2 * u) else 0"
+      },
+      {
+        "module": "Zeta23Ext.EForm3.Defs",
+        "file": "Zeta23Ext/EForm3/Defs.lean",
+        "line": 19,
+        "raw_name": "Aconst",
+        "namespace": "Retention",
+        "fqn": "Retention.Aconst",
+        "kind": "def",
+        "snippet": "noncomputable def Aconst : \u211d := Real.sqrt 2 * Real.sin (1 / Real.sqrt 2)"
+      },
+      {
+        "module": "Zeta23Ext.EForm3.Defs",
+        "file": "Zeta23Ext/EForm3/Defs.lean",
+        "line": 22,
+        "raw_name": "c2",
+        "namespace": "Retention",
+        "fqn": "Retention.c2",
+        "kind": "def",
+        "snippet": "noncomputable def c2 (w : \u211d) : \u211d := \u222b u : \u211d, g u * g (u + w)"
+      },
+      {
+        "module": "Zeta23Ext.EForm3.Defs",
+        "file": "Zeta23Ext/EForm3/Defs.lean",
+        "line": 25,
+        "raw_name": "Eng",
+        "namespace": "Retention",
+        "fqn": "Retention.Eng",
+        "kind": "def",
+        "snippet": "noncomputable def Eng (G : \u211d \u2192 \u2102) : \u211d :="
+      },
+      {
+        "module": "Zeta23Ext.PairEnergy",
+        "file": "Zeta23Ext/PairEnergy.lean",
+        "line": 411,
+        "raw_name": "gker",
+        "namespace": "PairEnergy",
+        "fqn": "PairEnergy.gker",
+        "kind": "def",
+        "snippet": "noncomputable def gker (u : \u211d) : \u211d := if |u| \u2264 1 / 2 then Real.cos (Real.sqrt 2 * u) else 0"
+      },
+      {
+        "module": "Zeta23Ext.PairEnergy",
+        "file": "Zeta23Ext/PairEnergy.lean",
+        "line": 414,
+        "raw_name": "Aconst",
+        "namespace": "PairEnergy",
+        "fqn": "PairEnergy.Aconst",
+        "kind": "def",
+        "snippet": "noncomputable def Aconst : \u211d := Real.sqrt 2 * Real.sin (1 / Real.sqrt 2)"
+      },
+      {
+        "module": "Zeta23Ext.PairEnergy",
+        "file": "Zeta23Ext/PairEnergy.lean",
+        "line": 417,
+        "raw_name": "c2",
+        "namespace": "PairEnergy",
+        "fqn": "PairEnergy.c2",
+        "kind": "def",
+        "snippet": "noncomputable def c2 (w : \u211d) : \u211d := \u222b u : \u211d, gker u * gker (u - w)"
+      },
+      {
+        "module": "Zeta23Ext.TruncEst.Kernel",
+        "file": "Zeta23Ext/TruncEst/Kernel.lean",
+        "line": 23,
+        "raw_name": "g",
+        "namespace": "TruncEst",
+        "fqn": "TruncEst.g",
+        "kind": "def",
+        "snippet": "def g (u : \u211d) : \u211d := if |u| \u2264 1 / 2 then Real.cos (Real.sqrt 2 * u) else 0"
+      },
+      {
+        "module": "Zeta23Ext.TruncEst.Kernel",
+        "file": "Zeta23Ext/TruncEst/Kernel.lean",
+        "line": 26,
+        "raw_name": "A",
+        "namespace": "TruncEst",
+        "fqn": "TruncEst.A",
+        "kind": "def",
+        "snippet": "def A : \u211d := Real.sqrt 2 * Real.sin (1 / Real.sqrt 2)"
+      },
+      {
+        "module": "Zeta23Ext.TruncEst.Kernel",
+        "file": "Zeta23Ext/TruncEst/Kernel.lean",
+        "line": 33,
+        "raw_name": "c2",
+        "namespace": "TruncEst",
+        "fqn": "TruncEst.c2",
+        "kind": "def",
+        "snippet": "def c2 (w : \u211d) : \u211d := if |w| \u2264 1 then c2core |w| else 0"
+      }
+    ]
+  },
+  "all_symbol_collisions": [
+    {
+      "fqn": "Retention.Aconst",
+      "distinct_file_count": 3,
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Basic",
+          "file": "Zeta23Ext/EForm/Basic.lean",
+          "line": 17,
+          "kind": "def",
+          "raw_name": "Aconst",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Aconst : \u211d := Real.sqrt 2 * Real.sin (1 / Real.sqrt 2)"
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Defs",
+          "file": "Zeta23Ext/EForm2/Defs.lean",
+          "line": 23,
+          "kind": "def",
+          "raw_name": "Aconst",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Aconst : \u211d := Real.sqrt 2 * Real.sin (1 / Real.sqrt 2)"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Defs",
+          "file": "Zeta23Ext/EForm3/Defs.lean",
+          "line": 19,
+          "kind": "def",
+          "raw_name": "Aconst",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Aconst : \u211d := Real.sqrt 2 * Real.sin (1 / Real.sqrt 2)"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.Aconst_ge",
+      "distinct_file_count": 2,
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Sharp",
+          "file": "Zeta23Ext/EForm/Sharp.lean",
+          "line": 329,
+          "kind": "lemma",
+          "raw_name": "Aconst_ge",
+          "namespace": "Retention",
+          "snippet": "lemma Aconst_ge : (3:\u211d)/4 \u2264 Aconst := by"
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Estimates",
+          "file": "Zeta23Ext/EForm2/Estimates.lean",
+          "line": 100,
+          "kind": "lemma",
+          "raw_name": "Aconst_ge",
+          "namespace": "Retention",
+          "snippet": "lemma Aconst_ge : (11:\u211d)/12 \u2264 Aconst := by"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.Aconst_pos",
+      "distinct_file_count": 3,
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Energy",
+          "file": "Zeta23Ext/EForm/Energy.lean",
+          "line": 87,
+          "kind": "lemma",
+          "raw_name": "Aconst_pos",
+          "namespace": "Retention",
+          "snippet": "lemma Aconst_pos : 0 < Aconst := by"
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Bridge",
+          "file": "Zeta23Ext/EForm2/Bridge.lean",
+          "line": 178,
+          "kind": "lemma",
+          "raw_name": "Aconst_pos",
+          "namespace": "Retention",
+          "snippet": "lemma Aconst_pos : 0 < Aconst := by"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.ClosedForm",
+          "file": "Zeta23Ext/EForm3/ClosedForm.lean",
+          "line": 189,
+          "kind": "lemma",
+          "raw_name": "Aconst_pos",
+          "namespace": "Retention",
+          "snippet": "lemma Aconst_pos : 0 < Aconst := by"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.Fsum",
+      "distinct_file_count": 3,
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Decomposition",
+          "file": "Zeta23Ext/EForm/Decomposition.lean",
+          "line": 10,
+          "kind": "def",
+          "raw_name": "Fsum",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Fsum {n : \u2115} (x : Fin n \u2192 \u211d) (w : \u211d) : \u2102 :="
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Defs",
+          "file": "Zeta23Ext/EForm2/Defs.lean",
+          "line": 49,
+          "kind": "def",
+          "raw_name": "Fsum",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Fsum (n : \u2115) (x : \u2115 \u2192 \u211d) : \u211d \u2192 \u2102 :="
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Defs",
+          "file": "Zeta23Ext/EForm3/Defs.lean",
+          "line": 38,
+          "kind": "def",
+          "raw_name": "Fsum",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Fsum (n : \u2115) (x : \u2115 \u2192 \u211d) (w : \u211d) : \u2102 :="
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.Phi2_shift",
+      "distinct_file_count": 2,
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm2.Bridge",
+          "file": "Zeta23Ext/EForm2/Bridge.lean",
+          "line": 58,
+          "kind": "lemma",
+          "raw_name": "Phi2_shift",
+          "namespace": "Retention",
+          "snippet": "lemma Phi2_shift (y s : \u211d) :"
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Expand",
+          "file": "Zeta23Ext/EForm2/Expand.lean",
+          "line": 127,
+          "kind": "lemma",
+          "raw_name": "Phi2_shift",
+          "namespace": "Retention",
+          "snippet": "lemma Phi2_shift' (y s : \u211d) :"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.Qim",
+      "distinct_file_count": 2,
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm2.Defs",
+          "file": "Zeta23Ext/EForm2/Defs.lean",
+          "line": 41,
+          "kind": "def",
+          "raw_name": "Qim",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Qim (y s : \u211d) : \u211d :="
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Defs",
+          "file": "Zeta23Ext/EForm3/Defs.lean",
+          "line": 32,
+          "kind": "def",
+          "raw_name": "Qim",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Qim (a b : \u211d) : \u211d := \u222b u : \u211d, g u * Real.sinh (a * u) * Real.sin (b * u)"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.Shq",
+      "distinct_file_count": 3,
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Sharp",
+          "file": "Zeta23Ext/EForm/Sharp.lean",
+          "line": 141,
+          "kind": "def",
+          "raw_name": "Shq",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Shq (y : \u211d) : \u211d := \u222b u : \u211d, gker u * Real.sinh (y * u) ^ 2"
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Defs",
+          "file": "Zeta23Ext/EForm2/Defs.lean",
+          "line": 45,
+          "kind": "def",
+          "raw_name": "Shq",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Shq (y : \u211d) : \u211d :="
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Defs",
+          "file": "Zeta23Ext/EForm3/Defs.lean",
+          "line": 35,
+          "kind": "def",
+          "raw_name": "Shq",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Shq (y : \u211d) : \u211d := Qre (2 * y) 0 ^ 2 - Aconst ^ 2"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.Shq_nonneg",
+      "distinct_file_count": 2,
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Sharp",
+          "file": "Zeta23Ext/EForm/Sharp.lean",
+          "line": 152,
+          "kind": "lemma",
+          "raw_name": "Shq_nonneg",
+          "namespace": "Retention",
+          "snippet": "lemma Shq_nonneg (y : \u211d) : 0 \u2264 Shq y :="
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Estimates",
+          "file": "Zeta23Ext/EForm2/Estimates.lean",
+          "line": 247,
+          "kind": "lemma",
+          "raw_name": "Shq_nonneg",
+          "namespace": "Retention",
+          "snippet": "lemma Shq_nonneg (y : \u211d) : 0 \u2264 Shq y := by"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.c2",
+      "distinct_file_count": 3,
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Basic",
+          "file": "Zeta23Ext/EForm/Basic.lean",
+          "line": 14,
+          "kind": "def",
+          "raw_name": "c2",
+          "namespace": "Retention",
+          "snippet": "noncomputable def c2 (w : \u211d) : \u211d := \u222b u : \u211d, gker u * gker (u - w)"
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Defs",
+          "file": "Zeta23Ext/EForm2/Defs.lean",
+          "line": 20,
+          "kind": "def",
+          "raw_name": "c2",
+          "namespace": "Retention",
+          "snippet": "noncomputable def c2 (w : \u211d) : \u211d := \u222b u : \u211d, gwin u * gwin (u + w)"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Defs",
+          "file": "Zeta23Ext/EForm3/Defs.lean",
+          "line": 22,
+          "kind": "def",
+          "raw_name": "c2",
+          "namespace": "Retention",
+          "snippet": "noncomputable def c2 (w : \u211d) : \u211d := \u222b u : \u211d, g u * g (u + w)"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.c2_le_one",
+      "distinct_file_count": 2,
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Basic",
+          "file": "Zeta23Ext/EForm/Basic.lean",
+          "line": 120,
+          "kind": "lemma",
+          "raw_name": "c2_le_one",
+          "namespace": "Retention",
+          "snippet": "lemma c2_le_one (w : \u211d) : c2 w \u2264 1 := by"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Gap",
+          "file": "Zeta23Ext/EForm3/Gap.lean",
+          "line": 46,
+          "kind": "lemma",
+          "raw_name": "c2_le_one",
+          "namespace": "Retention",
+          "snippet": "lemma c2_le_one (w : \u211d) : c2 w \u2264 1 := by"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.c2_nonneg",
+      "distinct_file_count": 2,
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Basic",
+          "file": "Zeta23Ext/EForm/Basic.lean",
+          "line": 57,
+          "kind": "lemma",
+          "raw_name": "c2_nonneg",
+          "namespace": "Retention",
+          "snippet": "lemma c2_nonneg (w : \u211d) : 0 \u2264 c2 w :="
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Integrability",
+          "file": "Zeta23Ext/EForm3/Integrability.lean",
+          "line": 75,
+          "kind": "lemma",
+          "raw_name": "c2_nonneg",
+          "namespace": "Retention",
+          "snippet": "lemma c2_nonneg (w : \u211d) : 0 \u2264 c2 w :="
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.master",
+      "distinct_file_count": 3,
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Energy",
+          "file": "Zeta23Ext/EForm/Energy.lean",
+          "line": 53,
+          "kind": "lemma",
+          "raw_name": "master",
+          "namespace": "Retention",
+          "snippet": "lemma master (h : \u211d \u2192 \u211d) (hc : Continuous h) :"
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Fourier",
+          "file": "Zeta23Ext/EForm2/Fourier.lean",
+          "line": 138,
+          "kind": "lemma",
+          "raw_name": "master",
+          "namespace": "Retention",
+          "snippet": "lemma master (z : \u2102) :"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Master",
+          "file": "Zeta23Ext/EForm3/Master.lean",
+          "line": 95,
+          "kind": "theorem",
+          "raw_name": "master",
+          "namespace": "Retention",
+          "snippet": "theorem master (a b : \u211d) :"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.retention_gap",
+      "distinct_file_count": 3,
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Main",
+          "file": "Zeta23Ext/EForm/Main.lean",
+          "line": 53,
+          "kind": "theorem",
+          "raw_name": "retention_gap",
+          "namespace": "Retention",
+          "snippet": "theorem retention_gap {n : \u2115} (x : Fin n \u2192 \u211d) (t y : \u211d) :"
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Expand",
+          "file": "Zeta23Ext/EForm2/Expand.lean",
+          "line": 283,
+          "kind": "theorem",
+          "raw_name": "retention_gap",
+          "namespace": "Retention",
+          "snippet": "theorem retention_gap (n : \u2115) (x : \u2115 \u2192 \u211d) (t y : \u211d) :"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Main",
+          "file": "Zeta23Ext/EForm3/Main.lean",
+          "line": 60,
+          "kind": "theorem",
+          "raw_name": "retention_gap",
+          "namespace": "Retention",
+          "snippet": "theorem retention_gap (n : \u2115) (x : \u2115 \u2192 \u211d) (y t : \u211d) :"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.retention_le_three",
+      "distinct_file_count": 3,
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Main",
+          "file": "Zeta23Ext/EForm/Main.lean",
+          "line": 150,
+          "kind": "theorem",
+          "raw_name": "retention_le_three",
+          "namespace": "Retention",
+          "snippet": "theorem retention_le_three {n : \u2115} (hn : n \u2264 3) (x : Fin n \u2192 \u211d) (hx : StrictMono x) (t y : \u211d)"
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Main",
+          "file": "Zeta23Ext/EForm2/Main.lean",
+          "line": 59,
+          "kind": "theorem",
+          "raw_name": "retention_le_three",
+          "namespace": "Retention",
+          "snippet": "theorem retention_le_three (n : \u2115) (hn : n \u2264 3) (x : \u2115 \u2192 \u211d) (t y : \u211d) :"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Main",
+          "file": "Zeta23Ext/EForm3/Main.lean",
+          "line": 114,
+          "kind": "theorem",
+          "raw_name": "retention_le_three",
+          "namespace": "Retention",
+          "snippet": "theorem retention_le_three {n : \u2115} {x : \u2115 \u2192 \u211d} {y t : \u211d} (hy0 : 0 \u2264 y) (hy : y \u2264 1/2)"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.retention_of_damage",
+      "distinct_file_count": 2,
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm2.Main",
+          "file": "Zeta23Ext/EForm2/Main.lean",
+          "line": 24,
+          "kind": "theorem",
+          "raw_name": "retention_of_damage",
+          "namespace": "Retention",
+          "snippet": "theorem retention_of_damage (n : \u2115) (x : \u2115 \u2192 \u211d) (t y : \u211d)"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Main",
+          "file": "Zeta23Ext/EForm3/Main.lean",
+          "line": 70,
+          "kind": "theorem",
+          "raw_name": "retention_of_damage",
+          "namespace": "Retention",
+          "snippet": "theorem retention_of_damage (n : \u2115) (x : \u2115 \u2192 \u211d) (y t : \u211d)"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.retention_separated",
+      "distinct_file_count": 2,
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm2.Main",
+          "file": "Zeta23Ext/EForm2/Main.lean",
+          "line": 76,
+          "kind": "theorem",
+          "raw_name": "retention_separated",
+          "namespace": "Retention",
+          "snippet": "theorem retention_separated (n : \u2115) (x : \u2115 \u2192 \u211d) (t y \u03b4 : \u211d) (h\u03b4 : 26 \u2264 \u03b4)"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Main",
+          "file": "Zeta23Ext/EForm3/Main.lean",
+          "line": 105,
+          "kind": "theorem",
+          "raw_name": "retention_separated",
+          "namespace": "Retention",
+          "snippet": "theorem retention_separated {n : \u2115} {x : \u2115 \u2192 \u211d} {y t : \u211d} (hy0 : 0 \u2264 y) (hy : y \u2264 1/2)"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.sep_mono",
+      "distinct_file_count": 2,
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm2.Counting",
+          "file": "Zeta23Ext/EForm2/Counting.lean",
+          "line": 81,
+          "kind": "lemma",
+          "raw_name": "sep_mono",
+          "namespace": "Retention",
+          "snippet": "lemma sep_mono {n : \u2115} (s : \u2115 \u2192 \u211d) (\u03b4 : \u211d)"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Counting",
+          "file": "Zeta23Ext/EForm3/Counting.lean",
+          "line": 44,
+          "kind": "lemma",
+          "raw_name": "sep_mono",
+          "namespace": "Retention",
+          "snippet": "lemma sep_mono {x : \u2115 \u2192 \u211d} {d : \u211d} {n : \u2115} (hsep : \u2200 i, i+1 < n \u2192 x i + d \u2264 x (i+1))"
+        }
+      ]
+    }
+  ],
+  "reachable_collisions_from_root": [
+    {
+      "fqn": "Retention.Aconst",
+      "reachable_modules": [
+        "Zeta23Ext.EForm.Basic",
+        "Zeta23Ext.EForm2.Defs",
+        "Zeta23Ext.EForm3.Defs"
+      ],
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Basic",
+          "file": "Zeta23Ext/EForm/Basic.lean",
+          "line": 17,
+          "kind": "def",
+          "raw_name": "Aconst",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Aconst : \u211d := Real.sqrt 2 * Real.sin (1 / Real.sqrt 2)"
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Defs",
+          "file": "Zeta23Ext/EForm2/Defs.lean",
+          "line": 23,
+          "kind": "def",
+          "raw_name": "Aconst",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Aconst : \u211d := Real.sqrt 2 * Real.sin (1 / Real.sqrt 2)"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Defs",
+          "file": "Zeta23Ext/EForm3/Defs.lean",
+          "line": 19,
+          "kind": "def",
+          "raw_name": "Aconst",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Aconst : \u211d := Real.sqrt 2 * Real.sin (1 / Real.sqrt 2)"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.Aconst_ge",
+      "reachable_modules": [
+        "Zeta23Ext.EForm.Sharp",
+        "Zeta23Ext.EForm2.Estimates"
+      ],
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Sharp",
+          "file": "Zeta23Ext/EForm/Sharp.lean",
+          "line": 329,
+          "kind": "lemma",
+          "raw_name": "Aconst_ge",
+          "namespace": "Retention",
+          "snippet": "lemma Aconst_ge : (3:\u211d)/4 \u2264 Aconst := by"
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Estimates",
+          "file": "Zeta23Ext/EForm2/Estimates.lean",
+          "line": 100,
+          "kind": "lemma",
+          "raw_name": "Aconst_ge",
+          "namespace": "Retention",
+          "snippet": "lemma Aconst_ge : (11:\u211d)/12 \u2264 Aconst := by"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.Aconst_pos",
+      "reachable_modules": [
+        "Zeta23Ext.EForm.Energy",
+        "Zeta23Ext.EForm2.Bridge",
+        "Zeta23Ext.EForm3.ClosedForm"
+      ],
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Energy",
+          "file": "Zeta23Ext/EForm/Energy.lean",
+          "line": 87,
+          "kind": "lemma",
+          "raw_name": "Aconst_pos",
+          "namespace": "Retention",
+          "snippet": "lemma Aconst_pos : 0 < Aconst := by"
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Bridge",
+          "file": "Zeta23Ext/EForm2/Bridge.lean",
+          "line": 178,
+          "kind": "lemma",
+          "raw_name": "Aconst_pos",
+          "namespace": "Retention",
+          "snippet": "lemma Aconst_pos : 0 < Aconst := by"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.ClosedForm",
+          "file": "Zeta23Ext/EForm3/ClosedForm.lean",
+          "line": 189,
+          "kind": "lemma",
+          "raw_name": "Aconst_pos",
+          "namespace": "Retention",
+          "snippet": "lemma Aconst_pos : 0 < Aconst := by"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.Fsum",
+      "reachable_modules": [
+        "Zeta23Ext.EForm.Decomposition",
+        "Zeta23Ext.EForm2.Defs",
+        "Zeta23Ext.EForm3.Defs"
+      ],
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Decomposition",
+          "file": "Zeta23Ext/EForm/Decomposition.lean",
+          "line": 10,
+          "kind": "def",
+          "raw_name": "Fsum",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Fsum {n : \u2115} (x : Fin n \u2192 \u211d) (w : \u211d) : \u2102 :="
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Defs",
+          "file": "Zeta23Ext/EForm2/Defs.lean",
+          "line": 49,
+          "kind": "def",
+          "raw_name": "Fsum",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Fsum (n : \u2115) (x : \u2115 \u2192 \u211d) : \u211d \u2192 \u2102 :="
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Defs",
+          "file": "Zeta23Ext/EForm3/Defs.lean",
+          "line": 38,
+          "kind": "def",
+          "raw_name": "Fsum",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Fsum (n : \u2115) (x : \u2115 \u2192 \u211d) (w : \u211d) : \u2102 :="
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.Phi2_shift",
+      "reachable_modules": [
+        "Zeta23Ext.EForm2.Bridge",
+        "Zeta23Ext.EForm2.Expand"
+      ],
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm2.Bridge",
+          "file": "Zeta23Ext/EForm2/Bridge.lean",
+          "line": 58,
+          "kind": "lemma",
+          "raw_name": "Phi2_shift",
+          "namespace": "Retention",
+          "snippet": "lemma Phi2_shift (y s : \u211d) :"
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Expand",
+          "file": "Zeta23Ext/EForm2/Expand.lean",
+          "line": 127,
+          "kind": "lemma",
+          "raw_name": "Phi2_shift",
+          "namespace": "Retention",
+          "snippet": "lemma Phi2_shift' (y s : \u211d) :"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.Qim",
+      "reachable_modules": [
+        "Zeta23Ext.EForm2.Defs",
+        "Zeta23Ext.EForm3.Defs"
+      ],
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm2.Defs",
+          "file": "Zeta23Ext/EForm2/Defs.lean",
+          "line": 41,
+          "kind": "def",
+          "raw_name": "Qim",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Qim (y s : \u211d) : \u211d :="
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Defs",
+          "file": "Zeta23Ext/EForm3/Defs.lean",
+          "line": 32,
+          "kind": "def",
+          "raw_name": "Qim",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Qim (a b : \u211d) : \u211d := \u222b u : \u211d, g u * Real.sinh (a * u) * Real.sin (b * u)"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.Shq",
+      "reachable_modules": [
+        "Zeta23Ext.EForm.Sharp",
+        "Zeta23Ext.EForm2.Defs",
+        "Zeta23Ext.EForm3.Defs"
+      ],
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Sharp",
+          "file": "Zeta23Ext/EForm/Sharp.lean",
+          "line": 141,
+          "kind": "def",
+          "raw_name": "Shq",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Shq (y : \u211d) : \u211d := \u222b u : \u211d, gker u * Real.sinh (y * u) ^ 2"
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Defs",
+          "file": "Zeta23Ext/EForm2/Defs.lean",
+          "line": 45,
+          "kind": "def",
+          "raw_name": "Shq",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Shq (y : \u211d) : \u211d :="
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Defs",
+          "file": "Zeta23Ext/EForm3/Defs.lean",
+          "line": 35,
+          "kind": "def",
+          "raw_name": "Shq",
+          "namespace": "Retention",
+          "snippet": "noncomputable def Shq (y : \u211d) : \u211d := Qre (2 * y) 0 ^ 2 - Aconst ^ 2"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.Shq_nonneg",
+      "reachable_modules": [
+        "Zeta23Ext.EForm.Sharp",
+        "Zeta23Ext.EForm2.Estimates"
+      ],
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Sharp",
+          "file": "Zeta23Ext/EForm/Sharp.lean",
+          "line": 152,
+          "kind": "lemma",
+          "raw_name": "Shq_nonneg",
+          "namespace": "Retention",
+          "snippet": "lemma Shq_nonneg (y : \u211d) : 0 \u2264 Shq y :="
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Estimates",
+          "file": "Zeta23Ext/EForm2/Estimates.lean",
+          "line": 247,
+          "kind": "lemma",
+          "raw_name": "Shq_nonneg",
+          "namespace": "Retention",
+          "snippet": "lemma Shq_nonneg (y : \u211d) : 0 \u2264 Shq y := by"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.c2",
+      "reachable_modules": [
+        "Zeta23Ext.EForm.Basic",
+        "Zeta23Ext.EForm2.Defs",
+        "Zeta23Ext.EForm3.Defs"
+      ],
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Basic",
+          "file": "Zeta23Ext/EForm/Basic.lean",
+          "line": 14,
+          "kind": "def",
+          "raw_name": "c2",
+          "namespace": "Retention",
+          "snippet": "noncomputable def c2 (w : \u211d) : \u211d := \u222b u : \u211d, gker u * gker (u - w)"
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Defs",
+          "file": "Zeta23Ext/EForm2/Defs.lean",
+          "line": 20,
+          "kind": "def",
+          "raw_name": "c2",
+          "namespace": "Retention",
+          "snippet": "noncomputable def c2 (w : \u211d) : \u211d := \u222b u : \u211d, gwin u * gwin (u + w)"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Defs",
+          "file": "Zeta23Ext/EForm3/Defs.lean",
+          "line": 22,
+          "kind": "def",
+          "raw_name": "c2",
+          "namespace": "Retention",
+          "snippet": "noncomputable def c2 (w : \u211d) : \u211d := \u222b u : \u211d, g u * g (u + w)"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.c2_le_one",
+      "reachable_modules": [
+        "Zeta23Ext.EForm.Basic",
+        "Zeta23Ext.EForm3.Gap"
+      ],
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Basic",
+          "file": "Zeta23Ext/EForm/Basic.lean",
+          "line": 120,
+          "kind": "lemma",
+          "raw_name": "c2_le_one",
+          "namespace": "Retention",
+          "snippet": "lemma c2_le_one (w : \u211d) : c2 w \u2264 1 := by"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Gap",
+          "file": "Zeta23Ext/EForm3/Gap.lean",
+          "line": 46,
+          "kind": "lemma",
+          "raw_name": "c2_le_one",
+          "namespace": "Retention",
+          "snippet": "lemma c2_le_one (w : \u211d) : c2 w \u2264 1 := by"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.c2_nonneg",
+      "reachable_modules": [
+        "Zeta23Ext.EForm.Basic",
+        "Zeta23Ext.EForm3.Integrability"
+      ],
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Basic",
+          "file": "Zeta23Ext/EForm/Basic.lean",
+          "line": 57,
+          "kind": "lemma",
+          "raw_name": "c2_nonneg",
+          "namespace": "Retention",
+          "snippet": "lemma c2_nonneg (w : \u211d) : 0 \u2264 c2 w :="
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Integrability",
+          "file": "Zeta23Ext/EForm3/Integrability.lean",
+          "line": 75,
+          "kind": "lemma",
+          "raw_name": "c2_nonneg",
+          "namespace": "Retention",
+          "snippet": "lemma c2_nonneg (w : \u211d) : 0 \u2264 c2 w :="
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.master",
+      "reachable_modules": [
+        "Zeta23Ext.EForm.Energy",
+        "Zeta23Ext.EForm2.Fourier",
+        "Zeta23Ext.EForm3.Master"
+      ],
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Energy",
+          "file": "Zeta23Ext/EForm/Energy.lean",
+          "line": 53,
+          "kind": "lemma",
+          "raw_name": "master",
+          "namespace": "Retention",
+          "snippet": "lemma master (h : \u211d \u2192 \u211d) (hc : Continuous h) :"
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Fourier",
+          "file": "Zeta23Ext/EForm2/Fourier.lean",
+          "line": 138,
+          "kind": "lemma",
+          "raw_name": "master",
+          "namespace": "Retention",
+          "snippet": "lemma master (z : \u2102) :"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Master",
+          "file": "Zeta23Ext/EForm3/Master.lean",
+          "line": 95,
+          "kind": "theorem",
+          "raw_name": "master",
+          "namespace": "Retention",
+          "snippet": "theorem master (a b : \u211d) :"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.retention_gap",
+      "reachable_modules": [
+        "Zeta23Ext.EForm.Main",
+        "Zeta23Ext.EForm2.Expand",
+        "Zeta23Ext.EForm3.Main"
+      ],
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Main",
+          "file": "Zeta23Ext/EForm/Main.lean",
+          "line": 53,
+          "kind": "theorem",
+          "raw_name": "retention_gap",
+          "namespace": "Retention",
+          "snippet": "theorem retention_gap {n : \u2115} (x : Fin n \u2192 \u211d) (t y : \u211d) :"
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Expand",
+          "file": "Zeta23Ext/EForm2/Expand.lean",
+          "line": 283,
+          "kind": "theorem",
+          "raw_name": "retention_gap",
+          "namespace": "Retention",
+          "snippet": "theorem retention_gap (n : \u2115) (x : \u2115 \u2192 \u211d) (t y : \u211d) :"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Main",
+          "file": "Zeta23Ext/EForm3/Main.lean",
+          "line": 60,
+          "kind": "theorem",
+          "raw_name": "retention_gap",
+          "namespace": "Retention",
+          "snippet": "theorem retention_gap (n : \u2115) (x : \u2115 \u2192 \u211d) (y t : \u211d) :"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.retention_le_three",
+      "reachable_modules": [
+        "Zeta23Ext.EForm.Main",
+        "Zeta23Ext.EForm2.Main",
+        "Zeta23Ext.EForm3.Main"
+      ],
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm.Main",
+          "file": "Zeta23Ext/EForm/Main.lean",
+          "line": 150,
+          "kind": "theorem",
+          "raw_name": "retention_le_three",
+          "namespace": "Retention",
+          "snippet": "theorem retention_le_three {n : \u2115} (hn : n \u2264 3) (x : Fin n \u2192 \u211d) (hx : StrictMono x) (t y : \u211d)"
+        },
+        {
+          "module": "Zeta23Ext.EForm2.Main",
+          "file": "Zeta23Ext/EForm2/Main.lean",
+          "line": 59,
+          "kind": "theorem",
+          "raw_name": "retention_le_three",
+          "namespace": "Retention",
+          "snippet": "theorem retention_le_three (n : \u2115) (hn : n \u2264 3) (x : \u2115 \u2192 \u211d) (t y : \u211d) :"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Main",
+          "file": "Zeta23Ext/EForm3/Main.lean",
+          "line": 114,
+          "kind": "theorem",
+          "raw_name": "retention_le_three",
+          "namespace": "Retention",
+          "snippet": "theorem retention_le_three {n : \u2115} {x : \u2115 \u2192 \u211d} {y t : \u211d} (hy0 : 0 \u2264 y) (hy : y \u2264 1/2)"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.retention_of_damage",
+      "reachable_modules": [
+        "Zeta23Ext.EForm2.Main",
+        "Zeta23Ext.EForm3.Main"
+      ],
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm2.Main",
+          "file": "Zeta23Ext/EForm2/Main.lean",
+          "line": 24,
+          "kind": "theorem",
+          "raw_name": "retention_of_damage",
+          "namespace": "Retention",
+          "snippet": "theorem retention_of_damage (n : \u2115) (x : \u2115 \u2192 \u211d) (t y : \u211d)"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Main",
+          "file": "Zeta23Ext/EForm3/Main.lean",
+          "line": 70,
+          "kind": "theorem",
+          "raw_name": "retention_of_damage",
+          "namespace": "Retention",
+          "snippet": "theorem retention_of_damage (n : \u2115) (x : \u2115 \u2192 \u211d) (y t : \u211d)"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.retention_separated",
+      "reachable_modules": [
+        "Zeta23Ext.EForm2.Main",
+        "Zeta23Ext.EForm3.Main"
+      ],
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm2.Main",
+          "file": "Zeta23Ext/EForm2/Main.lean",
+          "line": 76,
+          "kind": "theorem",
+          "raw_name": "retention_separated",
+          "namespace": "Retention",
+          "snippet": "theorem retention_separated (n : \u2115) (x : \u2115 \u2192 \u211d) (t y \u03b4 : \u211d) (h\u03b4 : 26 \u2264 \u03b4)"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Main",
+          "file": "Zeta23Ext/EForm3/Main.lean",
+          "line": 105,
+          "kind": "theorem",
+          "raw_name": "retention_separated",
+          "namespace": "Retention",
+          "snippet": "theorem retention_separated {n : \u2115} {x : \u2115 \u2192 \u211d} {y t : \u211d} (hy0 : 0 \u2264 y) (hy : y \u2264 1/2)"
+        }
+      ]
+    },
+    {
+      "fqn": "Retention.sep_mono",
+      "reachable_modules": [
+        "Zeta23Ext.EForm2.Counting",
+        "Zeta23Ext.EForm3.Counting"
+      ],
+      "occurrences": [
+        {
+          "module": "Zeta23Ext.EForm2.Counting",
+          "file": "Zeta23Ext/EForm2/Counting.lean",
+          "line": 81,
+          "kind": "lemma",
+          "raw_name": "sep_mono",
+          "namespace": "Retention",
+          "snippet": "lemma sep_mono {n : \u2115} (s : \u2115 \u2192 \u211d) (\u03b4 : \u211d)"
+        },
+        {
+          "module": "Zeta23Ext.EForm3.Counting",
+          "file": "Zeta23Ext/EForm3/Counting.lean",
+          "line": 44,
+          "kind": "lemma",
+          "raw_name": "sep_mono",
+          "namespace": "Retention",
+          "snippet": "lemma sep_mono {x : \u2115 \u2192 \u211d} {d : \u211d} {n : \u2115} (hsep : \u2200 i, i+1 < n \u2192 x i + d \u2264 x (i+1))"
+        }
+      ]
+    }
+  ],
+  "collision_count": 17,
+  "reachable_collision_count": 17,
+  "status": "settled",
+  "verdict": {
+    "root_cause": "Arms EForm (Basic.lean), EForm2 (Defs.lean), and EForm3 (Defs.lean) all defined Aconst and c2 under the identical namespace Retention (i.e., Retention.Aconst and Retention.c2). In Lean 4, importing two modules that define the same fully-qualified name in the environment causes a duplicate declaration collision unless isolated or placed in distinct namespaces.",
+    "current_state": "In the current repository, Zeta23Ext.lean imports Zeta23Ext.EForm.Main, Zeta23Ext.EForm2.Main, and Zeta23Ext.EForm3.Main simultaneously. The duplicate definitions of Retention.Aconst and Retention.c2 remain across the three arms, and the duplication is documented in the arms respective definitions."
+  }
+}
