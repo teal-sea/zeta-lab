@@ -954,7 +954,7 @@ The falsification protocol with the subject factored out. Four instrument roles 
 
 ### `harness/integrity.py` — ``harness.integrity`` — the referee, refereed.
 
-*1560 lines*
+*1567 lines*
 
 Constants: `PASS`, `FAIL`, `UNKNOWN`, `CALIBRATED`, `DETECTOR_INADEQUATE`, `UNMEASURED`, `CONTAMINATED`, `HOLLOW`, `GRADES`, `SHAM_MODES`, `AUDIT_BLIND_SPOTS`
 
@@ -1089,7 +1089,7 @@ Constants: `GRAVES`
 
 ### `harness/departments/guard_ledger.py` — The repository's guard ledger — the guard offensive's opening entries.
 
-*276 lines*
+*281 lines*
 
 Constants: `GUARDS`
 
@@ -1110,7 +1110,7 @@ Constants: `DEPARTMENT_NAME`, `DEPARTMENT_VERSION`, `SPECIMEN`, `TARGET`, `RIVAL
 
 ### `harness/departments/review_ledger.py` — The repository's standing-review ledger — real claims, real attacks.
 
-*158 lines*
+*272 lines*
 
 Constants: `CLAIMS`, `OUTCOMES`
 
@@ -1227,6 +1227,11 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `25-the-director-run.md` — 25 — The director run: the laboratory pointed at itself
 - `26-the-adopted-builds.md` — 26 — The adopted builds: the decision of 2026-08-11, made runnable
 - `27-state-of-the-transplant.md` — 27 — State of the transplant: what is kernel-checked, what is refuted, what is open
+- `28-asymmetry-e0-disposition.md` — 28. E0: the independent checker reproduced the audit's blind spots exactly
+- `29-de-bruijn-newman-davenport-heilbronn.md` — The de Bruijn-Newman constant of the Davenport-Heilbronn function
+- `30-prime-zeta-rightmost-zeros.md` — 28: The rightmost zeros of the prime zeta function
+- `31-bian-lemma-12-erratum.md` — Erratum to Bian, Lemma 12: `C_{kappa,2}` is `-4 kappa`, not `-4`
+- `32-the-palomar-arm.md` — 32 — The Palomar arm: what an outside mechanical check adds, and what it does not
 
 ## Runnable demos (`scripts/`)
 
@@ -1271,18 +1276,22 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/65_rung3_full_validation.py` — Every site of plan v2 through ball arithmetic — the sampled claim made whole.
 - `scripts/66_rung3_ball_atom_cost.py` — Which ball obligations the kernel can actually discharge, and at what cost.
 - `scripts/70_lab_state.py` — 70_lab_state.py — the read-only research-state view, rendered from artifacts.
+- `scripts/check_secrets.py` — Refuse to publish a credential. Scans git objects for secret patterns.
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/mathlib_gaps.py` — Which of Mathlib's 1000 famous theorems are still unformalized.
+- `scripts/palomar_precheck.py` — Pre-flight check of a Palomar Registry submission.
 - `scripts/pub1_certify_display.py` — Publication-safe display values for the Pub 1 xi' ceiling certificate.
 - `scripts/science_preflight.py` — Preflight for a session running this lab from an outside environment.
+- `scripts/install_hooks.sh` — Install the pre-push secret guard into this checkout.
 - `scripts/ledger_sync.sh` — Sync the private discovery ledger between machines.
 
 ## Tests (`tests/`)
 
-1825 test functions across 74 files (the collected count differs where tests are parametrised):
+1905 test functions across 81 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
+- `tests/test_check_secrets.py` — 5
 - `tests/test_claim_attribution.py` — 6
 - `tests/test_compiler_candidate.py` — 32
 - `tests/test_core.py` — 97
@@ -1317,19 +1326,25 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_harness_stateval_department.py` — 12
 - `tests/test_harness_zeta_department.py` — 9
 - `tests/test_heatflow.py` — 38
+- `tests/test_hunt_numbering.py` — 3
 - `tests/test_hunt_probe_discipline.py` — 7
 - `tests/test_huntspec.py` — 16
 - `tests/test_inverse.py` — 8
 - `tests/test_lab_state.py` — 1
+- `tests/test_lambda_dh_separation.py` — 13
 - `tests/test_leeyang.py` — 7
+- `tests/test_lesion_sets_are_pinned.py` — 4
 - `tests/test_li.py` — 56
+- `tests/test_meta_evals.py` — 17
 - `tests/test_meta_ledger.py` — 24
 - `tests/test_moments.py` — 26
 - `tests/test_o9_leaves_kernel.py` — 6
+- `tests/test_pari_oracle.py` — 18
 - `tests/test_plots.py` — 13
+- `tests/test_prime_zeta_rightmost.py` — 16
 - `tests/test_proof_adapter.py` — 10
 - `tests/test_pub1_admissible_closure.py` — 11
-- `tests/test_pub1_display_rounding.py` — 14
+- `tests/test_pub1_display_rounding.py` — 18
 - `tests/test_pub1_status.py` — 3
 - `tests/test_quasicrystal.py` — 9
 - `tests/test_reading_of_record.py` — 2

@@ -1,0 +1,688 @@
+{
+  "instrument": "hunts/lambda_dh_bounds/strip2.py",
+  "quantity": "sigma_0': the phase-obstruction abscissa, root of Theta(sigma) = sum_{p = 2,3 mod 5} 2 arctan(p^{-sigma}) = pi - 2 arctan(kappa); every zero of the completed F lies in 1 - sigma_0' < Re s < sigma_0' (argument in STRIP2.md)",
+  "interval_convention": "decimal strings, outward rounding: printed intervals contain the exact rational endpoints",
+  "kappa_ball": {
+    "backend": "python-flint (Arb), instrument.kappa_ball, prec 500 bits",
+    "interval": [
+      "0.284079043840412296028291832393126169091088088",
+      "0.284079043840412296028291832393126169091088089"
+    ],
+    "inside_KAPPA_REF_pm_1e-39": true
+  },
+  "target_phase": {
+    "definition": "pi - 2 arctan(kappa): the smallest absolute representative modulo 2 pi of arg(-conj(A)/A) with A = (1 - i kappa)/2",
+    "flint": [
+      "2.5880182946927479869541106",
+      "2.5880182946927479869541107"
+    ],
+    "iv": [
+      "2.588018294692747986",
+      "2.588018294692747987"
+    ],
+    "bombieri_ghosh_half": "pi/2 - arctan(kappa), quoted by them as 1.2940091 for tau_+"
+  },
+  "cross_checks": {
+    "character_decomposition": {
+      "all_ok": true,
+      "rows": [
+        {
+          "n": 1,
+          "chi(n)": [
+            1.0,
+            0.0
+          ],
+          "residual_radius": 7.96545961500956e-59,
+          "contains_zero": true
+        },
+        {
+          "n": 2,
+          "chi(n)": [
+            0.0,
+            1.0
+          ],
+          "residual_radius": 1.0066906178055099e-58,
+          "contains_zero": true
+        },
+        {
+          "n": 3,
+          "chi(n)": [
+            0.0,
+            -1.0
+          ],
+          "residual_radius": 1.593091920034547e-58,
+          "contains_zero": true
+        },
+        {
+          "n": 4,
+          "chi(n)": [
+            -1.0,
+            0.0
+          ],
+          "residual_radius": 7.96545961500956e-59,
+          "contains_zero": true
+        },
+        {
+          "n": 5,
+          "chi(n)": [
+            0.0,
+            0.0
+          ],
+          "residual_radius": 0.0,
+          "contains_zero": true
+        },
+        {
+          "n": "-conj(A)/A vs exp(i(pi+2 atan kappa))",
+          "residual_radius": 2.714685531673387e-57,
+          "contains_zero": true
+        }
+      ],
+      "grade": "decided (acb balls, radius < 1e-40)"
+    },
+    "series_vs_L_functions": {
+      "all_ok": true,
+      "rows": [
+        {
+          "s": "1.6+3.5j",
+          "leg": "dh_f vs A L + conj(A) Lbar",
+          "abs_difference": 0.0,
+          "tolerance": 1e-33,
+          "ok": true
+        },
+        {
+          "s": "2.2-11.0j",
+          "leg": "dh_f vs A L + conj(A) Lbar",
+          "abs_difference": 4.304788882405838e-42,
+          "tolerance": 1e-33,
+          "ok": true
+        },
+        {
+          "s": "3.0+40.0j",
+          "leg": "dh_f vs A L + conj(A) Lbar",
+          "abs_difference": 1.150183594254971e-41,
+          "tolerance": 1e-33,
+          "ok": true
+        },
+        {
+          "s": "2.5+1.0j",
+          "leg": "dh_f vs truncated sum a_n n^-s",
+          "abs_difference": 7.448442518825792e-13,
+          "truncation_allowance": 5.8247008274257795e-08,
+          "ok": true
+        },
+        {
+          "s": "3.5-7.0j",
+          "leg": "dh_f vs truncated sum a_n n^-s",
+          "abs_difference": 1.2414070963041251e-17,
+          "truncation_allowance": 5.824700827425779e-13,
+          "ok": true
+        }
+      ],
+      "grade": "measured (mpmath dps 40, zeta.epstein as the second route)"
+    },
+    "phase_lemma": {
+      "all_ok": true,
+      "rows": [
+        {
+          "r": "0.5",
+          "observed_max_abs_arg": 0.9272952180016122,
+          "2_arctan_r": 0.9272952180016122,
+          "argmax_phi_over_pi": 0.5,
+          "modulus_at_u_eq_ir": 1.0,
+          "ok": true
+        },
+        {
+          "r": "0.25",
+          "observed_max_abs_arg": 0.4899573262537283,
+          "2_arctan_r": 0.4899573262537283,
+          "argmax_phi_over_pi": 0.5,
+          "modulus_at_u_eq_ir": 1.0,
+          "ok": true
+        },
+        {
+          "r": "0.1",
+          "observed_max_abs_arg": 0.19933730498232405,
+          "2_arctan_r": 0.19933730498232405,
+          "argmax_phi_over_pi": 0.5,
+          "modulus_at_u_eq_ir": 1.0,
+          "ok": true
+        },
+        {
+          "r": "0.01",
+          "observed_max_abs_arg": 0.019999333373330475,
+          "2_arctan_r": 0.019999333373330475,
+          "argmax_phi_over_pi": 0.5,
+          "modulus_at_u_eq_ir": 1.0,
+          "ok": true
+        }
+      ],
+      "grade": "measured (4001-point circle sample, mpmath dps 30)"
+    },
+    "bombieri_ghosh_finite_claim": {
+      "threshold_prime": 6323,
+      "cardinality": 420,
+      "published_threshold_prime": 6323,
+      "published_cardinality": 420,
+      "ok": true,
+      "grade": "decided (exact sieve, Arb ball signs, 192 bits)",
+      "source": "Bombieri-Ghosh 2011 section 9, via BOMBIERI-GHOSH.md"
+    },
+    "euler_product_tail_identity": {
+      "sigma": "28/25",
+      "P": 10000,
+      "P2": 100000,
+      "closed_form_tail": 0.1840608599873094,
+      "explicit_partial_tail": 0.06460532702153846,
+      "gap": 0.11945553296577094,
+      "integral_allowance": 2.09323869292465,
+      "ok": true,
+      "grade": "measured (Arb midpoints, decided signs on the two comparisons)"
+    },
+    "L_two_routes": {
+      "all_ok": true,
+      "rows": [
+        {
+          "sigma": "28/25",
+          "hurwitz": 0.4719406588692955,
+          "dirichlet_l": 0.4719406588692955,
+          "difference": 3.5844568000480176e-58,
+          "overlaps": true
+        },
+        {
+          "sigma": "13/10",
+          "hurwitz": 0.5297033335400444,
+          "dirichlet_l": 0.5297033335400444,
+          "difference": 1.5930919111324523e-58,
+          "overlaps": true
+        },
+        {
+          "sigma": "2",
+          "hurwitz": 0.706211403259741,
+          "dirichlet_l": 0.706211403259741,
+          "difference": -2.3896378666986784e-58,
+          "overlaps": true
+        }
+      ],
+      "grade": "decided (two Arb routes, ball overlap)"
+    },
+    "iv_special_functions": {
+      "all_ok": true,
+      "n_points": 9,
+      "rows": [
+        {
+          "sigma": "28/25",
+          "quantity": "zeta",
+          "iv_width": 1.051534798108231e-35,
+          "arb_ball_inside_iv": true
+        },
+        {
+          "sigma": "28/25",
+          "quantity": "L(.,chi5)",
+          "iv_width": 6.344225663334428e-36,
+          "arb_ball_inside_iv": true
+        },
+        {
+          "sigma": "28/25",
+          "quantity": "atan(sigma/4)",
+          "iv_width": 2.353284589048525e-40,
+          "arb_ball_inside_iv": true
+        },
+        {
+          "sigma": "13/10",
+          "quantity": "zeta",
+          "iv_width": 8.09465613785382e-36,
+          "arb_ball_inside_iv": true
+        },
+        {
+          "sigma": "13/10",
+          "quantity": "L(.,chi5)",
+          "iv_width": 3.653422667031246e-36,
+          "arb_ball_inside_iv": true
+        },
+        {
+          "sigma": "13/10",
+          "quantity": "atan(sigma/4)",
+          "iv_width": 2.582873329443503e-40,
+          "arb_ball_inside_iv": true
+        },
+        {
+          "sigma": "2",
+          "quantity": "zeta",
+          "iv_width": 2.2009754186704964e-36,
+          "arb_ball_inside_iv": true
+        },
+        {
+          "sigma": "2",
+          "quantity": "L(.,chi5)",
+          "iv_width": 3.2355941183864254e-37,
+          "arb_ball_inside_iv": true
+        },
+        {
+          "sigma": "2",
+          "quantity": "atan(sigma/4)",
+          "iv_width": 4.1325973271096045e-40,
+          "arb_ball_inside_iv": true
+        }
+      ],
+      "grade": "decided (containment of the Arb ball in the iv interval)"
+    },
+    "theta_split_across_P": {
+      "all_intersect": true,
+      "sigma": "28/25",
+      "rows": [
+        {
+          "P": 1000,
+          "n_class_primes": 89,
+          "theta_lower": "2.5908283506005651252839",
+          "theta_upper": "2.5908284210890292576770",
+          "width": 7.048846413239299e-08
+        },
+        {
+          "P": 10000,
+          "n_class_primes": 619,
+          "theta_lower": "2.5908283943597281951035",
+          "theta_upper": "2.5908283946674214620828",
+          "width": 3.076932669792425e-10
+        },
+        {
+          "P": 100000,
+          "n_class_primes": 4814,
+          "theta_lower": "2.5908283945533114625350",
+          "theta_upper": "2.5908283945546545923593",
+          "width": 1.3431298241252374e-12
+        }
+      ],
+      "common_width": 1.3431298241252374e-12,
+      "grade": "decided (Arb, exact rational endpoint comparison)"
+    }
+  },
+  "sigma0_prime": {
+    "flint": [
+      "1.1203624981833869487276",
+      "1.1203624981833869487332"
+    ],
+    "iv": [
+      "1.1203624981833854",
+      "1.1203624981841131"
+    ],
+    "backend_intervals_overlap": true,
+    "sign_decisions": {
+      "flint": 65,
+      "iv": 38
+    },
+    "sieve_limits": {
+      "flint": 100000,
+      "iv": 100000
+    },
+    "class_prime_counts": {
+      "flint": 4814,
+      "iv": 4814
+    }
+  },
+  "headline": {
+    "statement": "Theta(sigma) < pi - 2 arctan(kappa) decided on both backends at the exact rational sigma below, hence f has no zero with Re s >= sigma and F, by F(s) = F(1-s), none with Re s <= 1 - sigma: every zero of F lies in the open strip 1 - sigma < Re s < sigma",
+    "decided_form": {
+      "sigma": "1.12036249819000",
+      "sigma_exact_rational": [
+        112036249819,
+        100000000000
+      ],
+      "theta": {
+        "flint": [
+          "2.5880182946402392454052004",
+          "2.5880182946415650528147533"
+        ],
+        "iv": [
+          "2.5880182946402392",
+          "2.5880182946415651"
+        ]
+      },
+      "decided_below_target": {
+        "flint": true,
+        "iv": true
+      },
+      "margin_target_minus_theta": 5.118293413935738e-11,
+      "delta": "0.62036249819000",
+      "delta_sq_over_2_narrow": "0.1924248145802688766381",
+      "delta_sq_over_2_wide": "0.7696992583210755065522"
+    },
+    "wide_margin_form": {
+      "sigma": "1.12036250000000",
+      "sigma_exact_rational": [
+        89629,
+        80000
+      ],
+      "theta": {
+        "flint": [
+          "2.5880182806314093969748881",
+          "2.5880182806327352042985088"
+        ],
+        "iv": [
+          "2.5880182806314093",
+          "2.5880182806327353"
+        ]
+      },
+      "decided_below_target": {
+        "flint": true,
+        "iv": true
+      },
+      "margin_target_minus_theta": 1.4060012782655601e-08,
+      "delta": "0.62036250000000",
+      "delta_sq_over_2_narrow": "0.1924248157031250000000",
+      "delta_sq_over_2_wide": "0.7696992628125000000000",
+      "note": "a deliberately generous rounding: it is decided at a sieve limit as small as P = 1e4, so a reader can reproduce it in seconds"
+    },
+    "upper_bound_delta_sq_over_2_narrow": "0.1924248145802688766380500",
+    "upper_bound_delta_sq_over_2_wide": "0.7696992583210755065522000",
+    "narrow_exact_rational": [
+      3848496291605377532761,
+      20000000000000000000000
+    ],
+    "frames": "narrow s = 1/2 + iz (Stopple, this hunt); wide s = (1+iz)/2 (de Bruijn, Newman, Rodgers-Tao, Polymath 15, Dobner); Lambda_wide = 4 Lambda_narrow (FRAME.md)",
+    "previous_narrow": "0.4006343708899556944469549",
+    "improvement_factor": 2.082030697360155
+  },
+  "delta_sq_over_2_from_bisection": {
+    "flint": [
+      "0.1924248145761663876301",
+      "0.1924248145761663876335"
+    ],
+    "iv": [
+      "0.1924248145761654",
+      "0.1924248145766169"
+    ]
+  },
+  "true_root_two_sided": {
+    "what": "a decided two-sided enclosure of the root of Theta(sigma) = pi - 2 arctan(kappa) itself",
+    "interval": [
+      "1.1203624981832156488068",
+      "1.1203624981833869487332"
+    ],
+    "width": 1.7129992628366064e-13,
+    "P": 100000,
+    "note": "the width is the head/tail systematic, not the ball precision; only the upper endpoint carries the zero-free half-plane"
+  },
+  "deep_point": {
+    "backend": "python-flint (Arb) only, 320 bits, P = 10000000, 332442 class primes",
+    "why_one_backend": "one mpmath.iv evaluation at this sieve limit costs about a minute and nothing in the headline depends on it; the two-backend decision is the headline at P = 100000",
+    "sigma": "1.12036249818332510",
+    "theta": [
+      "2.588018294692747675058688946",
+      "2.588018294692747700195226356"
+    ],
+    "target": [
+      "2.588018294692747986954110653",
+      "2.588018294692747986954110654"
+    ],
+    "decided_below_target": true,
+    "delta": "0.62036249818332510",
+    "delta_sq_over_2_narrow": "0.1924248145761280189989039",
+    "delta_sq_over_2_wide": "0.7696992583045120759956154"
+  },
+  "correction_to_in_tree_re_solves": {
+    "what": "BOMBIERI-GHOSH.md check B re-solved both abscissae to 29 digits at mpmath dps 30. At this sieve limit and precision the present instrument decides that both of those re-solves sit on the wrong side of their own root, by amounts far below anything Bombieri and Ghosh published.",
+    "tau_plus": {
+      "in_tree_re_solve": "1.12036249818332508773010350311",
+      "theta_there": [
+        "2.588018294692747770023823565",
+        "2.588018294692747795160360975"
+      ],
+      "decided_theta_below_target": true,
+      "meaning": "the true root is strictly below the recorded re-solve, so the re-solve is high",
+      "size": -1.226989649689e-17
+    },
+    "tau_minus": {
+      "in_tree_re_solve": "2.38228610898712386578711039387",
+      "theta_there": [
+        "0.553574358897045254409947736",
+        "0.553574358897045254409947737"
+      ],
+      "decided_theta_above_target": true,
+      "meaning": "the true root is strictly above the recorded re-solve, so the re-solve is low"
+    },
+    "scope": "this corrects two in-tree re-solves, not the published paper: Bombieri and Ghosh print 1.120362 and 2.3822861089, and this instrument reproduces both exactly. What it touches is FRAME.md's 18-digit row, which is derived from the tau_+ re-solve rather than from the six cited decimals.",
+    "grade": "decided (Arb, 320 bits, P = 10000000)"
+  },
+  "sieve_limit_sweep": {
+    "question": "how much does the finite-part-plus-tail split buy, and what does it cost",
+    "rows": [
+      {
+        "P": 1000,
+        "n_class_primes": 89,
+        "decided_upper_endpoint": "1.1203625015845160712658",
+        "systematic_width_of_Theta": 6.992869980983046e-08,
+        "minus_in_tree_re_solve": 3.4011909835356567e-09,
+        "sign_decisions": 65,
+        "seconds": 0.062
+      },
+      {
+        "P": 10000,
+        "n_class_primes": 619,
+        "decided_upper_endpoint": "1.1203624981978052337886",
+        "systematic_width_of_Theta": 3.044864260422741e-10,
+        "minus_in_tree_re_solve": 1.4480146058480983e-11,
+        "sign_decisions": 65,
+        "seconds": 0.215
+      },
+      {
+        "P": 100000,
+        "n_class_primes": 4814,
+        "decided_upper_endpoint": "1.1203624981833869487332",
+        "systematic_width_of_Theta": 1.3258074098667819e-12,
+        "minus_in_tree_re_solve": 6.186100301348863e-14,
+        "sign_decisions": 65,
+        "seconds": 1.441
+      },
+      {
+        "P": 1000000,
+        "n_class_primes": 39287,
+        "decided_upper_endpoint": "1.1203624981833253279238",
+        "systematic_width_of_Theta": 5.772885548426693e-15,
+        "minus_in_tree_re_solve": 2.4019364691652416e-16,
+        "sign_decisions": 65,
+        "seconds": 10.957
+      }
+    ],
+    "reading": "the Euler-product tail closes the series exactly, so P controls only the k >= 3 correction eps3 and the arctan-versus-linear loss on the tail. Both fall like P^{1-3 sigma}, so the decided root is already within 1e-11 of the equation's true root at P = 1e4 and the remaining gain from P = 1e6 is not visible in any digit the headline quotes."
+  },
+  "control_tau_minus": {
+    "what": "the identical Theta, the identical tail bound and the identical bisection, with only the phase target changed to pi - 2 arctan|tau_-| = 2 arctan(kappa), against a second published constant this instrument was not built around",
+    "tau_minus": {
+      "value": "-1/kappa, decided from the same kappa ball",
+      "one_over_kappa": [
+        "3.52014702134020199243",
+        "3.52014702134020199244"
+      ],
+      "published_tau_minus": "-3.520147021340",
+      "inside_published_pm_half_ulp": true
+    },
+    "target": [
+      "0.5535743588970452515085327",
+      "0.5535743588970452515085328"
+    ],
+    "decided_interval": [
+      "2.38228610898712387152",
+      "2.38228610898712387205"
+    ],
+    "published": "2.3822861089 (Bombieri-Ghosh 2011 section 6, ten digits)",
+    "agrees_to_published_digits": true,
+    "sign_decisions": 60,
+    "grade": "decided (Arb, 192 bits) against a cited decimal",
+    "note": "the two targets pi - 2 arctan(kappa) and 2 arctan(kappa) sum to pi, which is the arctan(1/x) = pi/2 - arctan(x) identity behind tau_+ tau_- = -1"
+  },
+  "slack_of_coefficient_domination": {
+    "question": "why is sum_{n>=2}|a_n| n^{-sigma} < 1 so much weaker than the truth",
+    "domination_sum_at_sigma_star": [
+      "3.9384229985187637623766",
+      "3.9384229985187646505552"
+    ],
+    "note_domination": "the free-phase relaxation still needs to spend this much coefficient mass at the true abscissa, so it cannot conclude there; the excess over 1 is the slack it is asking for",
+    "excess_over_1": "2.9384229985187637623766",
+    "theta_at_old_sigma_0": {
+      "sigma_0": "1.3951361582351097210613589375",
+      "interval": [
+        "1.5264666943583505966000",
+        "1.5264666943583506708716"
+      ],
+      "target": [
+        "2.5880182946927479869541",
+        "2.5880182946927479869542"
+      ],
+      "deficit_factor": 1.6954305680286197
+    },
+    "note_phase": "at the domination abscissa the multiplicative phase budget available to a zero is only this, a factor below what a zero needs, which is the same slack seen from the other side",
+    "grade": "decided (Arb, 192 bits)"
+  },
+  "block_route": {
+    "sharpness_of_the_block_bound": {
+      "rows": [
+        {
+          "sigma": "1.2",
+          "t": "1",
+          "k": 100,
+          "abs_B_k": 5.856157728703097e-06,
+          "block_bound": 5.8925197367829095e-06,
+          "trivial_bound": 0.0014784835028799482,
+          "bound_over_truth": 1.0062091920614757,
+          "block_beats_trivial": true
+        },
+        {
+          "sigma": "1.2",
+          "t": "10",
+          "k": 100,
+          "abs_B_k": 3.7754048360935995e-05,
+          "block_bound": 3.799362684250141e-05,
+          "trivial_bound": 0.0014784835028799482,
+          "bound_over_truth": 1.0063457693139288,
+          "block_beats_trivial": true
+        },
+        {
+          "sigma": "1.2",
+          "t": "1",
+          "k": 10000,
+          "abs_B_k": 2.3568217331658946e-10,
+          "block_bound": 2.356968310733043e-10,
+          "trivial_bound": 5.89993634262717e-06,
+          "bound_over_truth": 1.0000621928952391,
+          "block_beats_trivial": true
+        },
+        {
+          "sigma": "1.2",
+          "t": "1000",
+          "k": 10,
+          "abs_B_k": 0.005673891403804202,
+          "block_bound": 0.5730408841162102,
+          "trivial_bound": 0.02293704901773289,
+          "bound_over_truth": 100.99609656469644,
+          "block_beats_trivial": false
+        },
+        {
+          "sigma": "1.2",
+          "t": "100000",
+          "k": 100,
+          "abs_B_k": 0.00034176672178306476,
+          "block_bound": 0.37722992104750713,
+          "trivial_bound": 0.0014784835028799482,
+          "bound_over_truth": 1103.7643427640464,
+          "block_beats_trivial": false
+        }
+      ],
+      "grade": "measured (mpmath dps 40)",
+      "reading": "the block bound tracks |B_k| within a small factor while |s| is below the block index and is worthless above it, which is the crossover n ~ |s| that forces the hybrid split"
+    },
+    "claim": "regrouping the series in periods of 5 and applying the mean value theorem to t -> t^{-s} across each block gives |B_k| <= |s| [3 (5k+1)^{-sigma-1} + kappa (5k+2)^{-sigma-1}], which is O(n^{-sigma-1}) per block instead of O(n^{-sigma}) per term",
+    "obstruction": "the mean value theorem carries a factor |s| = sqrt(sigma^2 + t^2), so the bound degrades with the height and gives no half-plane statement; the thresholds below are decided but each is conditional on |Im s| <= T, and de Bruijn's theorem consumes a strip containing every zero",
+    "limit": "as T grows the optimal split keeps more terms under the plain triangle inequality, so sigma_block(T) climbs back toward the coefficient-domination sigma_0 = 1.3951361582...",
+    "rows": [
+      {
+        "T": "1",
+        "decided": true,
+        "sigma_block": "1.02000000",
+        "note": "cleared already at the bottom of the search range"
+      },
+      {
+        "T": "10",
+        "decided": true,
+        "sigma_block": "1.19585459",
+        "best_K": 3,
+        "N_terms_kept_exact": 15,
+        "grade": "decided (Arb, 192 bits, exact rational sigma)"
+      },
+      {
+        "T": "100",
+        "decided": true,
+        "sigma_block": "1.33701478",
+        "best_K": 21,
+        "N_terms_kept_exact": 105,
+        "grade": "decided (Arb, 192 bits, exact rational sigma)"
+      },
+      {
+        "T": "1000",
+        "decided": true,
+        "sigma_block": "1.37495619",
+        "best_K": 233,
+        "N_terms_kept_exact": 1165,
+        "grade": "decided (Arb, 192 bits, exact rational sigma)"
+      },
+      {
+        "T": "10000",
+        "decided": true,
+        "sigma_block": "1.38762602",
+        "best_K": 2584,
+        "N_terms_kept_exact": 12920,
+        "grade": "decided (Arb, 192 bits, exact rational sigma)"
+      },
+      {
+        "T": "100000",
+        "decided": true,
+        "sigma_block": "1.39224106",
+        "best_K": 28657,
+        "N_terms_kept_exact": 143285,
+        "grade": "decided (Arb, 192 bits, exact rational sigma)"
+      }
+    ],
+    "verdict": "does not decide an improvement to the half-plane bound"
+  },
+  "honest_ceiling": {
+    "the_standard": "Bombieri-Ghosh Theorem 7 determines sigma(tau_+, 1), the least upper bound of the real parts of the zeros, as the root of exactly this equation. Their published value is 1.120362 (six decimals, section 6). Their necessary half is what is derived in-tree here; their converse, which needs Bohr and Kronecker, is not used and is what would make the abscissa sharp rather than merely an upper bound.",
+    "published_decimals": "1.120362",
+    "reproduced_exactly": true,
+    "headline_sigma": "1.12036249819000",
+    "headline_above_the_root_by": 6.784351193166669e-12,
+    "deep_sigma": "1.12036249818332510",
+    "deep_above_the_in_tree_re_solve_by": 1.226989649689e-17,
+    "gap_in_delta_sq_over_2_narrow_headline_vs_deep": 4.140857639146154e-12,
+    "reading": "the strip constant is no longer where the looseness is. The decided abscissa is within 7e-12 of the equation's own root at the headline sieve limit and within 4e-17 at the deep one, and that equation is the one whose root is the exact supremum of the real parts. What is left over is (i) whether the supremum is attained, which is Bombieri and Ghosh's converse and is not needed for an upper bound, and (ii) the de Bruijn engine.",
+    "where_the_looseness_now_is": "with Delta = 0.62036249819 the engine returns Delta^2/2 = 0.19242481458 narrow, while the deepest measured DH zeros reach |Im z| = 0.347, which would give 0.0602 narrow, and the decided floor is 0.0576. The bracket ratio falls from 6.955 to 3.341. Every remaining factor is in the strip-to-time engine and in the sparsity of the extreme zeros, not in the strip constant.",
+    "bracket_ratio_before": 6.955457780728395,
+    "bracket_ratio_after": 3.3407085864630015
+  },
+  "precisions": {
+    "flint_bits": 192,
+    "flint_kappa_bits": 500,
+    "iv_dps": 40,
+    "iv_euler_maclaurin_split": 100,
+    "iv_euler_maclaurin_terms": 8,
+    "atan_series_tol": "1e-45",
+    "flint_width_target": "1e-20",
+    "iv_width_target": "1e-12"
+  },
+  "timings": {
+    "kappa_and_target_s": 0.024,
+    "check_character_s": 0.0,
+    "check_series_s": 4.527,
+    "check_phase_s": 0.964,
+    "check_bg_finite_s": 0.001,
+    "check_euler_tail_s": 0.03,
+    "check_iv_special_s": 0.053,
+    "check_P_consistency_s": 0.032,
+    "flint_bisect_s": 1.381,
+    "iv_bisect_s": 31.735,
+    "deep_point_s": 5.487,
+    "P_sweep_s": 12.676,
+    "control_tau_minus_s": 1.27,
+    "slack_s": 0.022,
+    "block_route_s": 1.644,
+    "total_s": 63.029
+  }
+}

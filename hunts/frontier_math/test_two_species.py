@@ -87,3 +87,71 @@ def test_g4_is_withdrawn_with_its_cause_recorded():
     from two_species import NAMED_GAPS
     g4 = [g for g in NAMED_GAPS if g.startswith("G4")][0]
     assert "WITHDRAWN" in g4 and "2.0027" in g4
+
+
+def test_centre_gas_summand_is_exactly_minus_four_kappa_on_the_lattice():
+    """The transfer this closed form rests on: `two_species`'s centre-gas
+    summand and `counting_lemma`'s `kappa` are the same kernel at y = 1/2.
+
+    Verified pointwise rather than argued from the source, because the two
+    modules build it through separate `_ghat`/`_gh` implementations.
+
+    The claim is made ON THE LATTICE, and that restriction is not cosmetic:
+    `dam` rectifies, so off the lattice the identity fails outright (see the
+    companion test). It holds at every `2*pi*d` because the rectification
+    never binds there."""
+    import math
+    import counting_lemma as cl
+    from two_species import dam, kpair
+    twopi = 2 * math.pi
+    for d in range(1, 41):
+        s = d * twopi
+        summand = 4 * dam(1.0, s) - 4 * kpair(s)
+        assert abs(summand + 4 * cl.kappa(s)) < 1e-12, d
+
+
+def test_the_summand_identity_fails_off_the_lattice_where_dam_clips():
+    """The honest boundary of the identity above. At s = 0.3 the raw damage
+    is negative, `dam` clips it to zero, and the summand is no longer
+    `-4*kappa`. Recorded so nobody reads the lattice identity as global."""
+    import counting_lemma as cl
+    from gram_form import damage
+    from two_species import dam, kpair
+    assert damage(1.0, 0.3) < 0                 # the clip fires
+    summand = 4 * dam(1.0, 0.3) - 4 * kpair(0.3)
+    assert abs(summand + 4 * cl.kappa(0.3)) > 1.0
+
+
+def test_the_rectification_never_binds_on_the_critical_lattice():
+    """`dam` clips at zero, and clipping would break the band-limitedness
+    Poisson summation needs. On the `2*pi` lattice it never fires, which is
+    what makes the closed form applicable rather than merely suggestive."""
+    import math
+    from gram_form import damage
+    twopi = 2 * math.pi
+    assert all(damage(1.0, d * twopi) > 0 for d in range(1, 201))
+
+
+def test_centre_gas_row_converges_to_the_closed_form():
+    """`centre_gas_row` is a truncated sum over a `1/d`-decaying kernel. It
+    approaches the closed form from below at `O(1/dmax)` and never reaches
+    it, which is why the recorded 0.114045 understates."""
+    import math
+    from two_species import centre_gas_row, centre_gas_row_closed
+    twopi = 2 * math.pi
+    exact = centre_gas_row_closed()
+    assert abs(exact - 0.11433003938654052) < 1e-15
+    prev = None
+    for dmax in (200, 2000, 20000):
+        got = centre_gas_row(twopi, dmax=dmax)
+        assert got < exact, (dmax, got, exact)          # always from below
+        if prev is not None:
+            assert (exact - got) < (exact - prev) / 5   # O(1/dmax)
+        prev = got
+
+
+def test_the_closed_form_is_claimed_only_at_the_derived_depth():
+    import pytest
+    from two_species import centre_gas_row_closed
+    with pytest.raises(ValueError):
+        centre_gas_row_closed(y=0.75)

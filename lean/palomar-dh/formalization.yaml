@@ -1,0 +1,173 @@
+# formalization.yaml v0.4 for the Palomar Registry submission of the Zeta Lab
+# Davenport-Heilbronn analytic half.
+version: "v0.4"
+
+project:
+  name: "Zeta Lab: the analytic half of Davenport-Heilbronn"
+  description: >-
+    Davenport and Heilbronn (1936) exhibited a Dirichlet series with real
+    coefficients satisfying a Riemann-type functional equation which
+    nevertheless has zeros off the critical line. It is the standard
+    demonstration that a functional equation of Riemann type does not on its
+    own force the Riemann Hypothesis, it is the reference counterexample
+    against which structural explanations of the Riemann Hypothesis are
+    tested, and the location of its zeros remains an active subject. The
+    function is
+    DH(s) = (1 - i*kappa)/2 * L(s, chi) + (1 + i*kappa)/2 * L(s, chi^-1)
+    for a quartic Dirichlet character chi mod 5 and
+    kappa = (sqrt(10 - 2*sqrt 5) - 2)/(sqrt 5 - 1), the value that rotates the
+    two conjugate root numbers onto each other and so makes the Dirichlet
+    coefficients real.
+    This submission advertises one theorem, the analytic half of the
+    Davenport-Heilbronn theorem: there exists an entire function represented by
+    the Davenport-Heilbronn Dirichlet series on Re z > 1 whose completion
+    (pi/5)^(-(s+1)/2) * Gamma((s+1)/2) * f(s) is symmetric under s -> 1-s. The
+    statement is existential in f, so it carries its own non-vacuity and needs
+    none of the character theory used to construct the witness.
+    What the work consists of. The Davenport-Heilbronn function is not a
+    library object anywhere we could find, so the development builds it: the
+    quartic character mod 5, the linear combination, entirety on all of C, the
+    identification of the Dirichlet coefficients as the real period-5 sequence
+    1, kappa, -kappa, -1, 0, and the completed functional equation. The last of
+    these is where the content sits. It reduces to a root-number identity whose
+    convention-sensitive constants are derived inside the development, from
+    Mathlib's Real.cos_pi_div_five by radical algebra, rather than transcribed
+    from a table; the standard sources state kappa without deriving it in a
+    form a kernel will accept, and getting it wrong yields a function whose
+    coefficients are not real and which therefore is not the counterexample.
+    The functional equation is stated with explicit guards excluding the poles
+    of the two Gamma factors, because Mathlib's junk value Gamma = 0 at the
+    poles would otherwise make the unrestricted equation false for reasons
+    having nothing to do with the mathematics.
+    Audience. The Davenport-Heilbronn function is a named object of analytic
+    number theory with a continuing literature on its zeros, so a machine-checked
+    construction of it is of direct interest to number theorists working on
+    zeros of L-functions and on what a Riemann-type functional equation does
+    and does not imply. It is also the object a formalized treatment of the
+    Davenport-Heilbronn theorem has to have before it can say anything, and
+    this supplies it in a form that carries its own non-vacuity.
+    Prior art. A search of Mathlib at the revision pinned by this repository
+    found no Davenport-Heilbronn function and no formalization of this
+    functional equation. That is a bounded search of one library. No systematic
+    search of other proof assistants or of the mathematical literature for
+    prior formalizations has been run, and no novelty against the literature is
+    claimed: the mathematics is Davenport and Heilbronn's, published in 1936.
+    Scope. The Davenport-Heilbronn theorem itself is NOT proved here. Its full
+    statement additionally requires a zero s with Re s different from 1/2, and
+    that conjunct appears nowhere in the advertised theorem. What is offered is
+    the analytic half alone. No numerical enclosure for any zero of DH is
+    asserted, and nothing here is a statement about the Riemann zeta function
+    or the Riemann Hypothesis.
+  authors:
+    - "Thomas Lince"
+  license: "MIT"
+  responsible_maintainers:
+    - "Thomas Lince"
+
+classification:
+  arxiv: ["math.NT", "math.CV"]
+  msc2020: ["11M26", "11M41"]
+
+sources:
+  - title: >-
+      On the zeros of certain Dirichlet series
+    authors:
+      - "H. Davenport"
+      - "H. Heilbronn"
+    type: "paper"
+    location: "J. London Math. Soc. 11 (1936), 181-185 and 307-312"
+    relationship: "formalizes"
+    note: >-
+      The source constructs the function and establishes both its analytic
+      properties and the existence of zeros off the critical line. This
+      formalization covers the analytic half only: the existence of an entire
+      function with the stated Dirichlet series representation and functional
+      equation. The off-line zero, which is the substance of the source's
+      theorem, is not formalized here. The definition formalized matches the
+      standard one in the subsequent literature, including the value of kappa.
+    license: "unknown"
+    author_endorsement: "n/a"
+
+status:
+  scope: >-
+    Formalized: the single statement advertised in DHChallenge.lean,
+    unconditionally. That is the existence of an entire function satisfying the
+    Davenport-Heilbronn series representation on Re z > 1 together with the
+    completed functional equation.
+    Not formalized, and deliberately outside the advertised statement: the
+    existence of a zero of the Davenport-Heilbronn function off the critical
+    line, and therefore the Davenport-Heilbronn theorem itself; any numerical
+    enclosure, interval evaluation or certificate for any zero; and any
+    statement about the Riemann zeta function or the Riemann Hypothesis.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["Claude (Anthropic)"]
+      framework: "Zeta Lab, github.com/teal-sea/zeta-lab"
+      tool_setup: >-
+        Every Lean statement was specified by the laboratory and the proofs were
+        written and audited by Claude agents running in Claude Code against this
+        repository. Unlike some other modules of this laboratory, no external
+        theorem-proving service was used for the Davenport-Heilbronn
+        development. No step used native_decide and no step used floating point.
+      cost:
+        spend_usd: "not tracked"
+        hardware: "local machine plus hosted API services"
+  spend_usd: "not tracked"
+  notes: >-
+    The functional-equation half reduces to a root-number identity, and the
+    convention-sensitive steps are derived in the development rather than
+    remembered, from Mathlib's Real.cos_pi_div_five by radical algebra. The
+    development records explicitly which half of the Davenport-Heilbronn
+    theorem is kernel-checked and which remains a numerical obligation.
+
+fidelity:
+  divergences: >-
+    One deliberate modelling choice, documented at the point of use. The
+    functional equation is stated with explicit guards
+    Complex.Gamma ((z+1)/2) != 0 and Complex.Gamma ((1-z+1)/2) != 0. These
+    exclude exactly the points at which Mathlib's junk value Gamma = 0 would
+    make the unrestricted equation false; away from them both sides are the
+    honest completed function. Without the guards the statement would be false
+    for reasons having nothing to do with the mathematics.
+
+review:
+  status: "self-assessed"
+  notes: >-
+    No external mathematical review has been performed. Internal checks
+    recorded in the repository. The substantive development under lean/ZetaLean
+    and the DHSolution module are sorry-free and axiom-clean against pinned
+    Mathlib v4.33.0-rc2. This claim deliberately excludes the Challenge
+    modules: Challenge.lean and DHChallenge.lean together carry four
+    placeholder sorrys, one per advertised statement across this repository's
+    two submission surfaces, because the Palomar format requires a Challenge to
+    state its claim without proving it. Those placeholders are not steps in any
+    proof, and Comparator checks that the corresponding Solution declarations
+    are hole-free. Further internal checks: the definitions in DHChallenge.lean
+    are verbatim copies of the development's own definitions and the DHSolution
+    module reproduces that definition block before bridging it; and the
+    advertised statement was chosen so that it does not contain the
+    off-line-zero conjunct, so that the analytic half cannot be read as the
+    full theorem.
+
+alignment:
+  namespace: "ZetaLean.PalomarDH"
+  statements:
+    - source: >-
+        The analytic half of the Davenport-Heilbronn theorem, existentially
+        quantified in the function
+      lean: "ZetaLean.PalomarDH.dh_analytic_half"
+      module: "DHSolution"
+      status: "proved"
+      note: >-
+        In the development this is ZetaLean.DH.dh_analytic_half. The witness is
+        the Davenport-Heilbronn function itself, but the advertised statement is
+        existential, so no character theory enters the statement surface.
+
+acknowledgements: >-
+  Lean 4 and Mathlib, whose Dirichlet L-function library the development rests
+  on. Davenport and Heilbronn, whose construction is the object formalized.

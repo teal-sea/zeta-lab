@@ -70,6 +70,196 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+> **Renumbered twice.** These two opened as #35 and #36 from a branch
+> 101 commits behind `main`, where both numbers were taken. They were
+> renumbered to #49/#50 on 2026-08-18, and `main` took those two (plus
+> #51, #52, #55-#57 and #59) before this branch landed. They are #60
+> and #61. The directories `lambda_dh_bounds/` and
+> `prime_zeta_rightmost/` are unchanged and are the stable references.
+
+### Hunt #61: two-sided bounds for the de Bruijn-Newman constant of Davenport-Heilbronn (`lambda_dh_bounds/`)
+
+**Status: closed (2026-08-16), gate verdict publication candidate; hardened
+2026-08-18, verdict unchanged.** The bracket, in the wide frame of
+Rodgers-Tao and Polymath 15:
+0.2304 < Lambda_DH <= 0.7696992583210755065522 (narrow frame: 0.0576 = 36/625
+to 0.19242481458026887663805), ratio 3.341. Lower side decided by
+ball-arithmetic winding counts with a zero-shared-layer second witness; upper
+side a decided strip constant fed to de Bruijn 1950 Theorem 13. The quotable
+corollary, recognized after the gate closed and adversarially narrowed in
+`SEPARATION.md`: **Lambda_DH > Lambda_zeta unconditionally** (0.22 from
+Polymath 15 against the decided 144/625), the first strict order between two
+such constants with both nonnegative. The gate cycle caught and preserved
+three corrections: a factor-of-4 frame error (two normalizations live in the
+literature, `FRAME.md`), the sigma_0 originality claim withdrawn after
+Bombieri-Ghosh 2011 was retrieved and read (their exact abscissa 1.120362
+displaces it), and one prose lemma (M2) recorded as a lesioned blind spot
+rather than repaired. The 2026-08-18 hardening then took two of those back:
+M2 is proved with decided constants (`M2-LEMMA.md`), and the upper bound
+sharpened by the full factor 2.082 in-tree, from a phase obstruction in the
+Euler products that reaches Bombieri-Ghosh's abscissa and decides it on both
+backends (`STRIP2.md`); the superseded headline
+(<= 1.6025374835598228 wide, <= 0.4006343708899557 narrow, ratio 6.955) is
+kept beside the new one everywhere it appeared, and the lower side did not
+move in any digit. Doc: `docs/29`. Full adjudication: `GATE.md`. Predictions
+P1-P3 and P5 held; P4's census found nothing deeper below height 600. Nothing
+here is evidence about RH.
+
+### Hunt #60: the rightmost zeros of the prime zeta function (`prime_zeta_rightmost/`)
+
+**Status: settled. The threshold is correct, the conjectures are false, and
+the core is a rediscovery of published work: kill condition 2 fired.** The
+hunt attacked the two conjectures posted on OEIS A107311 (2024-12-21), that
+x* = 1.7286... (root of zeta(x) = 2) bounds the real parts of the zeros of
+the prime zeta function P(s) = sum_p p^(-s) and of every prime-subset
+series. It decided on both backends (python-flint arb at 350 bits and
+mpmath.iv at dps 40, exact Fraction endpoint logic) the balance root
+sigma_c = 1.779544653546994116445898786965... of P(sigma) = 2^(1-sigma),
+x* = 1.728647238998183618135103010297..., the separation sigma_c - x* >
+1/20, the margin P(x*) - 2^(1-x*) = 0.0169073772138... > 1/60, the subset
+constant sigma_3 = 1.8252259560738457... with sigma_3 - sigma_c > 0.0456813,
+and log2(69/(5 log 23)) = 2.1379035036560028... > 17/8. It wrote out both
+halves of the threshold theorem with proofs (triangle-inequality wall;
+Bohr-Kronecker-Rouche existence below it), ran the WP5 calibration control
+(the same solver object, pointed at the zeta partial sums, reproduced 31
+digits of the literature's x*), two lesions and a precision-response check,
+and settled predictions P1-P4, P4 including a screen of sigma = 7/4 to
+t = 1e8 whose global |P| minimum was about 0.010021 at t about 5.63e7, far
+above the alignment budget.
+
+**Then the prior art was found, and it owns the core.** Belovas, Cepaityte
+and Sabaliauskas, *On the zero-free region and the distribution of zeros of
+the prime zeta function*, An. St. Univ. Ovidius Constanta Ser. Mat. 33(2)
+(2025) 27-44, Theorem 1: the same wall, the same constant to every digit
+they print, the same triangle-inequality proof. Sepulcre and Vidal,
+Carpathian J. Math. 38 (2022) 489-501 (preprint arXiv:1805.02041, 2018),
+Theorem 4.3: the general characterization, strictly stronger than the
+hunt's existence half, with Moreno's Geometric Principle (Compositio Math.
+26, 1973) as the finite ancestor and the source of the aggregated-tail
+device the hunt reinvented as its Lemma 2. `MISSION.md` kill condition 2
+reads: "a literature source is found proving the sigma_c threshold for P,
+in which case the finding is reclassified as a rediscovery and the OEIS
+correction cites that source instead of this work." It fired. The
+reclassification is done, in `hunts/prime_zeta_rightmost/PRIOR-ART.md`
+(statement-by-statement ownership map, verbatim source texts, the worked
+specialization) and in the rewritten `docs/30-prime-zeta-rightmost-zeros.md`,
+which now leads with the prior art.
+
+**What survives as the hunt's own**, and nothing beyond it: (a) the
+line-by-line refutation of the two OEIS conjectures, since no source in the
+literature engages that entry and the published wall does not by itself
+refute Conjecture 1 (1.7795 is weaker than the conjectured 1.72864, and
+Belovas et al.'s numerics stop at 1.6826, below x*), graded new as a
+connection with zero new mathematics; (b) the unbounded tail-subset walls, {p >= p_k}
+walled at or above log2(3 p_k / (5 log p_k)) via Rosser-Schoenfeld, so no
+constant bounds the real parts across all prime subsets and Conjecture 2
+fails for every replacement constant, graded new, small and elementary, and
+the only mathematics here not located in print; (c) the constant sigma_3 and the
+fact that a subset out-walls the full series by more than 0.045, a new
+instance of prior-art theory; (d) the two-backend enclosures, rediscovery in
+sharper form, the source printing 15 digits and noting that any precision
+is available; and (e) one literature observation, that Belovas et
+al.'s Conjecture 1, left open in their paper, is a corollary of Sepulcre
+and Vidal Theorem 4.3, which neither paper cites. The steering lemma's
+positive lower density in t is carried as an unverified lead, since the
+Jessen-Tornehave literature was not searched.
+
+**The lesson, which is the most transferable thing the episode produced.**
+Two independent search failures, needing two different countermeasures, and
+both reproduce on demand. The exact-phrase query "zeros of the prime zeta
+function" is a literal substring of the Belovas et al. title and the engine
+still does not return it: no arXiv preprint, a Sciendo/DOAJ venue outside
+the sweep, and an image-scanned PDF that has to be downloaded and extracted
+rather than fetched. The general theorem was missed for an unrelated
+reason: it is filed under almost periodic functions, MSC 30B50/30D20, and
+never names a prime, so no prime-zeta query can reach it, and it was
+reachable only by searching for the device rather than the application.
+Four independent searches returned nothing while two published papers owned
+the result outright, which is the standing argument for
+`ontology/knownness.py` defaulting to "the literature was not consulted".
+
+**Disposition:** instruments retained; nothing promoted; the OEIS
+correction drafts in `OEIS-CORRECTION.md` remain unposted; they cite Belovas
+et al. for the threshold, which is what the kill condition required, and that
+rewrite is done. Nothing here bears on RH: the zeros discussed are zeros
+of P and of subset series in Re s > 1, not zeros of zeta.
+
+### Hunt #56: make_context.py blind region on meta/ package (`r_2946de/`)
+
+**Status: settled.** `scripts/make_context.py --check` does not detect public functions, classes, constants, docstrings, or new modules added under `meta/` (0/16 curated mutants detected, 0.0% detection rate; 0/32 public AST symbols detected, 0.0% detection rate), because `meta/` is structurally excluded from the hard-coded scan paths in `make_context.py` and produces zero diff in `CONTEXT.md` (exit 0). In contrast, in-scope positive controls in scanned directories (`zeta/`, `ontology/`, `harness/`, `docs/`) are 100% detected (4/4 caught). Measured on a 16-mutant curated battery and a 32-symbol exhaustive AST census in `hunts/r_2946de/results.json` and `RESULTS.md`. Nothing here bears on RH (`docs/08`).
+### Hunt #59: test file naming sensitivity and boundary of make_context.py --check (`r_c35cd1/`)
+
+**Status: settled.** `scripts/make_context.py --check` does not detect test files whose names do not match `test_*.py` (such as `tests/mutant_helper.py`, `tests/conftest.py`, or `tests/helper.py`), nor does it detect nested test files in subdirectories (`tests/fixtures/test_sample.py`, `tests/unit/test_unit.py`), non-Python test assets, or helper functions and length modifications within existing test files (0/22 non-matching specimens detected, 0.0% detection rate), because `test_counts()` uses a shallow `TESTS.glob("test_*.py")` and counts only AST function definitions starting with `test_` without tracking line counts for test files. In-scope test modifications (`test_` function additions, renames, and new `test_*.py` files) are 100% detected (3/3 caught). An exhaustive repository census shows 77 `test_*.py` files with 1852 test functions and one unindexed fixture asset (`tests/fixtures/rung3_ball_term_kernel.json`). Zero non-`test_*.py` Python helper files have ever been committed in repository git history across 79 historical paths. Measured on a 25-mutant curated battery in `hunts/r_c35cd1/results.json` and `RESULTS.md`. Nothing here bears on RH (`docs/08`).
+### Hunt #57: make_context.py compiler/ unscanned boundary and detection blindness (`r_dc6e6f/`)
+
+**Status: settled.** `scripts/make_context.py --check` does not detect public functions, classes, constants, docstrings, or module additions added under `compiler/` (0/17 curated compiler mutants detected, 0.0% detection rate; 0/37 public symbols detected across an exhaustive AST census, 0.0% detection rate), because `compiler/` is completely omitted from the scanned directory roots in `scripts/make_context.py` (`zeta/`, `ontology/`, `harness/`, `dossier/`, `docs/`, `scripts/`, `tests/`) and from `build_flat()`. Positive controls in scanned packages are 100% caught (5/5 detected). Evidence in `hunts/r_dc6e6f/RESULTS.md` and `results.json`. Nothing here bears on RH (`docs/08`).
+### Hunt #55: make_context.py in-place helper renames and __all__ boundary (`r_7ad39f/`)
+
+**Status: settled.** `scripts/make_context.py --check` does not detect in-place length-neutral private helper renames in modules that declare `__all__` (0/299 unexported private symbols detected, 0.0% detection rate), because `module_api` filters top-level definitions strictly by `ast.literal_eval(__all__)` and the file length remains unchanged. In non-`__all__` modules, detection is 100% (4/4 symbols caught). Any edit altering line count is 100% detected via the line-count tell. Zero length-neutral private-to-public helper renames have ever occurred in repository git history. Measured on a 25-mutant curated battery and a 305-symbol exhaustive census in `hunts/r_7ad39f/results.json` and `RESULTS.md`. Nothing here bears on RH (`docs/08`).
+### Hunt #52: scope caveat: compiler verdicts rest on a hand-written model, not LLVM semantics (Alive2 absent) (`r_e2ee73/`)
+
+**Status: settled.** Compiler refinement verdicts in `compiler/` rest on a hand-written pure-Python interpreter (`pymodel.refinement_i8`, rung 2) rather than formal LLVM semantics, because Alive2 (`alive-tv`, rung 3) is absent from this environment. The exposure of the hand-written model is bounded by an exhaustive two-backend cross-check against compiled Apple Clang binaries (`clang.exhaustive_i8`, rung 1) across all 10 fixtures (655,360 total evaluated points, zero mismatches). While the concrete Clang detector is blind to poison violations covering 50% of the domain (`nsw_flag_on_a_wrapping_shift`), the model detector captures poison and immediate UB at full declared power. An audit of unsupported IR constructs confirms that out-of-scope instructions safely raise `ModelUnsupported` rather than guessing. True LLVM-native refinement remains absent without Alive2. Evidence in `hunts/r_e2ee73/RESULTS.md` and `results.json`. Nothing here bears on RH (`docs/08`).
+### Hunt #50: doc renaming without number change, and doc content drift (`r_c62e44/`)
+
+**Status: settled.** `tests/test_docs_numbering.py::test_no_two_docs_share_a_number` enforces uniqueness of the leading 2-digit number (00..N) across `docs/*.md` filenames and detects collisions (smallest mutant: `05-a.md` and `05-b.md`), but does not detect a document renamed without its number changing when citations use bare references (such as `docs/08`), nor does it detect content drift or heading changes. Sibling test `test_every_full_filename_reference_to_a_doc_resolves` detects renamed documents only when un-updated full-name references exist in the tree. An exhaustive census across all 37 test files mentioning `docs/` confirms zero tests in the suite inspect document body content, validate H1 headings against filenames, or verify that citations match actual content. Measured on a 20-mutant battery in `hunts/r_c62e44/results.json` and `RESULTS.md`.
+### Hunt #51: file-type boundary of the hunt reserved-word guard (`r_365c6c/`)
+
+**Status: settled.** `tests/test_hunt_probe_discipline.py::test_no_hunt_claims_the_reserved_word` enforces an explicit suffix whitelist (`path.suffix.lower() in {".py", ".md", ".json"}`). Every file type outside this three-extension set passes unconditionally (40-specimen battery across 12 format categories in `probe.py`: 6/6 `.py/.md/.json` caught, 0/29 non-{py,md,json} caught). An exhaustive repository census shows 76 of 447 files (17.0%) under `hunts/` are currently unscanned, including 68 `.lean` proof files under `hunts/frontier_math/`. None of the 76 unscanned files contain the reserved word. Evidence in `hunts/r_365c6c/RESULTS.md` and `results.json`. Nothing here bears on RH (`docs/08`).
+### Hunt #63: truncated Weil form positivity failure on Davenport-Heilbronn (`r_ac9ca3/`)
+
+> **Renumbered 2026-08-20.** Opened as #45, which `r_233abe/` had taken
+> two days earlier. `hunts/r_ac9ca3/` is the stable reference.
+
+**Status: settled.** The first positivity failure of the Connes–van Suijlekom / Connes–Consani–Moscovici Galerkin truncation of the Weil quadratic form on Davenport–Heilbronn on the integer lattice $c \in [6, 60], N \le 128$ occurs at $(c, N) = (31, 60)$.
+
+Integer cutoffs $c \le 30$ are strictly positive definite across all tested $N \le 128$ (and up to $N = 256$ at $c = 29, 30$). At $c = 31$, the even sector develops its first negative eigenvalue at $N = 60$, with rigorous Arb ball enclosure $\lambda_{\min} = -1.87393568857 \times 10^{-31} < 0$ (radius $\sim 3 \times 10^{-192}$) and exact dyadic Rayleigh quotient upper bound $-1.87393568857 \times 10^{-31} < 0$, while $N = 59$ is strictly positive with $\lambda_{\min} = +8.36504566170 \times 10^{-31} > 0$. The odd sector at $(31, 60)$ remains strictly positive (inertia $60$ positive, $0$ negative). The Riemann zeta control at $(31, 60)$ is strictly positive by 100 orders of magnitude: even inertia $(61, 0)$, odd inertia $(60, 0)$, $\lambda_{\min}(\zeta, 31, 60) = +4.82160175 \times 10^{-100} > 0$. The failure tracks the first off-line pair at $\gamma_{\text{off}} = 85.6993, \delta = 0.3085$: across $c \in [32, 60]$ the crossing band edge mean is $83.64 \pm 2.44$, and at $(31, 60)$ the zero-side dictionary decomposition proves the off-line quadruple ($-6.734989 \times 10^{-29}$) is the sole negative contributor, whose subtraction flips the form value positive to $+6.716250 \times 10^{-29} > 0$. Evidence in `hunts/r_ac9ca3/RESULTS.md` and `results.json`. Nothing here bears on RH (`docs/08`).
+### Hunt #66: four arms salvaged off an abandoned branch (`r_f00e48/`)
+
+**Status: settled.** `claude/riemann-hypothesis-research-ofds8s` ran a
+wide-portfolio RH-adjacent campaign on 2026-08-17/18 and never landed. Four of
+its five arms existed nowhere on `main`; they are now in
+`hunts/rogue_frontier/`: `weil_trunc/` (23 files, 8 replication gates, a 27/27
+conclusive-positive enclosure grid, and the Davenport–Heilbronn positivity
+failure at `(c, N) = (31, 60)`), `sine_gram/` (exact finite-N engine,
+`m_5(1) = 101/18`, `m_6(1) = 640/63`), `window_opt/` (RF-C003, the campaign's
+one promoted claim), and `nyman_beurling/` (Baez-Duarte distances to
+`N = 2048`, against `main`'s previous `N = 50`), plus the survey documents.
+**1,717,013 bytes landed against ~58 MB on the branch**: 56 MB of regenerable
+pickle and a stale `.ext_lock` stayed behind, and so did `fkappa/`, whose
+`kappa = 2` table Hunt #65 had already adjudicated wrong. `LANDING.md` records
+the subset so the gaps do not read as loss. **The defect the checking found:**
+`REPRODUCE.md`'s headline command for RF-C003, the campaign's *only* promoted
+claim, did not run — it named `functional.exact_F_quartic(1467, 1159)`, a
+symbol that never existed under that name or that signature, so a reader
+following the published recipe got an `ImportError`. The function is
+`moments_polyeven_exact(OPT_Q)` returning `(m2, m3, F)`; `probe.py` now
+recomputes `F(v*) = 2245228120295149280/3276332462159207451` from the landed
+source and pins it against the landed document. Two further references were
+repaired. **The one external corroboration:** `main`'s own Hunt #45
+(`r_ac9ca3/`) reached `(31, 60)` independently, and the salvaged
+`dhneg_scan.json` agrees with it digit for digit on the enclosed DH eigenvalue
+(`-1.87393568857018838648…`, radius ~5.7e-208) and the zeta control
+(`+4.82160175202313776…e-100`). **What it does not establish:** re-running an
+arm's own code is not an independent check of it, and RF-C003 is entered in
+`harness/departments/review_ledger.py` with a white-box outcome saying exactly
+that, leaving `standing_reasons()` correctly reporting no blind attack — a new
+open item, honestly created, not one closed. Two further arms (`erdos_scan/`,
+`matchings/`, the latter claiming a kernel-checked Lean result) appeared on the
+branch *after* the sweep that specified this landing and are unreviewed rather
+than rejected. Evidence in `hunts/r_f00e48/RESULTS.md` and `results.json` (29/29
+checks). Nothing here bears on RH (`docs/08`).
+
+### Hunt #65: the conflicting kappa = 2 tables, adjudicated (`r_2ac05f/`)
+
+**Status: settled.** Two directories carried a table of the same quantity, the regular coefficients `C_{2,i}` of Bian's pair-correlation form factor for the zeros of `xi''`, and disagreed at every index from 2 to 11: `hunts/higher_xi/C2_EXACT.json` (`1, -8, 24, -32, 64/3, ...`) against `hunts/rogue_frontier/fkappa/` corrected mode (`1, -4, 4, -16, 52/3, ...`), with conflicting diagnoses. **`higher_xi` is right.** A fourth derivation written for this adjudication and importing neither hunt — the identity `R_kappa = xi'/xi + D log Q_kappa` expanded in a formal Dirichlet word algebra, exact rationals throughout — reproduces `higher_xi`'s eleven values exactly, and reproduces the externally published Farmer-Gonek `kappa = 1` row (arXiv:0803.0425) exactly as its control, including the four forced zeros. The general defect, derived here and recorded nowhere else: the `x^1` coefficient of `Qhat_kappa = Q_kappa / L^kappa` is `kappa*g`, so **`C_{kappa,2} = -4*kappa`** (`-4, -8, -12, -16, -20` for `kappa = 1..5`), and Bian's Lemma 12 asserting a universal `-4` is the dropped `M(v_l)M(w_k)` weight `C2_PROVENANCE.md` names on thesis page 71. `fkappa` reimplemented the thesis code faithfully and found three real implementation defects in it, but carried Lemma 12's `-4` as an axiom, so its correction sits downstream of a larger error. **The control that would have caught it, measured rather than asserted:** planting exactly that defect in this hunt's probe leaves the Farmer-Gonek `kappa = 1` control passing and moves `C_{2,2}` to the published `-4`, while a one-factorial corruption of the pairing turns the same control red. The only externally anchored control either hunt ran has zero power against the defect that decided the dispute; the control with power is to compute `C_{kappa,2}` for `kappa = 1, 2, 3` and assert the values differ, i.e. an invariance claim needs a control that moves the variable the invariance is asserted over. Evidence in `hunts/r_2ac05f/RESULTS.md`, `results.json` and `fault_check.json`; outcome appended to `harness/departments/review_ledger.py`. Nothing here bears on RH (`docs/08`).
+
+### Hunt #64: gap A of the lattice-extremality route is a forbidden constant (`r_b9552d/`, run 2)
+
+**Status: not settled** (the gap stands), **and one thing settled inside it.** Second run of `r_b9552d`; run 1 is Hunt #46 above and its artifacts are preserved under run-tagged names. `LATTICE-EXTREMALITY-ROUTE.md` bounds the centre-gas row `J(T)` only for densities `rho >= 1/(2*pi)` (its gap A). Any single density-independent Cohn–Elkies certificate `g` (with `g >= f`, `ghat <= 0`) proving `J <= L = 0.11433003938654052` at every density is pinned exactly: `ghat(0) = 0`, `g(0) = -L/2`, `sup|g| <= L/2`, and `ghat` vanishing at every integer. The necessary condition `sup f <= L/2` **passes** with margin 3.04992 (`sup f = 0.0187431348` at `s = 6.3974` against `L/2 = 0.0571650197`), so the route is not excluded; a 3.05× planted inflation of `f` fires the test. But the Fejér family that closed gap B on `main` (`7efd506`) reaches `ghat(0) = 0` only at `c = 2*c2(0) = 1.6984559986`, where the bound becomes exactly `L` at every density (spread 6.7e-16), and admissibility caps `c` at `cos²(√2/2)(1+cosh 1) = 1.4698290125`: short by a factor **1.15554665**, with a frequency-domain witness `ghat(0.87493) = +0.0839055 > 0`. A quoted Paley–Wiener factorisation plus critical sampling makes `c·(sin(x/2)/(x/2))²` the only band-limited candidate, so the miss is the family's, not the ansatz's. Byproduct: the first sparse-side bound in this route, `J(T) <= 2*kappa(0) - 2*cos²(√2/2)(1+cosh 1) = 0.5715840116` at **every** density, `4.99942 × L`. Evidence in `hunts/r_b9552d/RESULTS.md` and `results.json`. Measured, double precision, no enclosures. Nothing here bears on RH (`docs/08`).
+
+### Hunt #49: zeta23ext root load, Retention.Aconst / c2 collisions across arms (`r_6f088d/`)
+
+**Status: settled.** The root module load failure in `zeta23ext` was caused by 17 colliding declarations (including `Retention.Aconst` and `Retention.c2`) across `EForm`, `EForm2`, and `EForm3` all declared in the un-scoped `Retention` namespace. In Lean 4, importing modules with duplicate fully-qualified names halts elaboration with an environment collision. The collision is resolved by scoping arms into distinct sub-namespaces or importing only the active `EForm3` iteration, while mathematical duplication remains across the independent development arms.
 ### Hunt #47: the two-mode arithmetic, and the bridge nobody had named (`r_88dc5e/`)
 
 **Status: settled.** `O9Assemble.lean` said the last step between the
@@ -522,7 +712,10 @@ file. Two incidental traps for the next attempt: `NumberTheory/Chebyshev.lean`
 is about Chebyshev polynomials, not prime bounds, and `NumberTheory/AbelSummation.lean`
 supplies the machinery Mertens is normally derived through while the derivation
 itself is absent. Nothing here bears on ζ or RH.
-### Hunt #35: three cited properties of ζ distinguish nothing (`r_f7cd45/`)
+### Hunt #62: three cited properties of ζ distinguish nothing (`r_f7cd45/`)
+
+> **Renumbered 2026-08-20.** Opened as #35, which `r_3c1cbb/` had taken
+> the previous day. `hunts/r_f7cd45/` is the stable reference.
 
 **Status: settled for the five properties issue #21 left unpublished; the
 sixth was already settled in this tree and what this run adds is the price

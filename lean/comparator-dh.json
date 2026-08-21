@@ -1,0 +1,14 @@
+{
+  "challenge_module": "DHChallenge",
+  "solution_module": "DHSolution",
+  "theorem_names": [
+    "ZetaLean.PalomarDH.dh_analytic_half"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}

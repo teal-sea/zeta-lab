@@ -145,6 +145,23 @@ def sci(x: Fraction, sig: int) -> str:
     return f"{dec(round_up(mant, sig - 1), sig - 1)}e{e - 1}"
 
 
+def dec_up(x: Fraction, places: int) -> str:
+    """Render x outward as an UPPER bound: the printed value is >= x.
+
+    Never use round-to-nearest for a number that appears on the large side of
+    an inequality.  ``uSecondDerivBound = -410178/684401`` is the case that
+    forced this: its exact value is -0.599324080473289781867..., and
+    round-to-nearest at 18 places prints -0.599324080473289782, which is
+    *below* the exact value and therefore not a valid upper bound at all.
+    """
+    return dec(round_up(x, places), places)
+
+
+def dec_down(x: Fraction, places: int) -> str:
+    """Render x outward as a LOWER bound: the printed value is <= x."""
+    return dec(round_down(x, places), places)
+
+
 def agreeing_decimals(lo: Fraction, hi: Fraction, cap: int = 40) -> int:
     """Number of decimal places to which lo and hi agree after truncation."""
     for p in range(cap, -1, -1):
@@ -205,7 +222,24 @@ def zpp_display(k: dict[str, Fraction]) -> dict[str, object]:
     concl = k["uSecondDerivBound"] + shown_total
     assert concl < k["concavityBound"], "concavity conclusion fails at display precision"
 
+    # --- the printed concavity chain -------------------------------------
+    # Every decimal below is rounded OUTWARD in the direction it is used, and
+    # the printed conclusion is the exact sum of the two printed summands, so
+    # a reader can add the printed numbers and reproduce the printed result.
+    CONC_PLACES = 18
+    u_disp = round_up(k["uSecondDerivBound"], CONC_PLACES)   # upper bound  -> ceil
+    lhs_disp = u_disp + shown_total                          # exact sum of displays
+    bound_disp = round_down(k["concavityBound"], CONC_PLACES)  # must stay below -> floor
+    assert u_disp >= k["uSecondDerivBound"], "displayed u'' bound is not an upper bound"
+    assert lhs_disp >= concl, "displayed conclusion is not an upper bound for the exact one"
+    assert bound_disp <= k["concavityBound"], "displayed concavity bound is not a lower bound"
+    assert lhs_disp < bound_disp, "printed concavity chain is not strict"
+
     return {
+        "conc_places": CONC_PLACES,
+        "u_display": u_disp,
+        "lhs_display": lhs_disp,
+        "bound_display": bound_disp,
         "places": places,
         "exact": terms,
         "shown": shown,
@@ -398,16 +432,18 @@ def report(b) -> None:
           f"   (slack {float(z['bound'] - z['shown_total']):.4e})")
     print(f"    exact total                     : {_f(z['exact_total'], 24)}")
     print(f"\n[2] DOWNSTREAM CONCAVITY (uses the DISPLAYED total, not the exact one)\n")
-    print(f"    u''            <= {_f(z['uSecondDerivBound'], 18)}   = {z['uSecondDerivBound']}")
+    cp = z["conc_places"]
+    print(f"    u''            <= {dec_up(z['uSecondDerivBound'], cp)}   = {z['uSecondDerivBound']}")
     print(f"    + ||z''||_inf   < {dec(z['shown_total'], p)}")
-    print(f"    => w''          < {_f(z['concavity_lhs'], 18)}")
-    print(f"    concavity bound   {_f(z['concavity_bound'], 18)}   = {z['concavity_bound']}")
-    print(f"    strict           : {z['concavity_lhs'] < z['concavity_bound']}"
-          f"   (margin {float(z['concavity_bound'] - z['concavity_lhs']):.4e})")
+    print(f"    => w''          < {dec(z['lhs_display'], cp)}   (exact sum of the two lines above)")
+    print(f"    concavity bound   {dec_down(z['concavity_bound'], cp)}   = {z['concavity_bound']}")
+    print(f"    strict           : {z['lhs_display'] < z['bound_display']}"
+          f"   (margin {float(z['bound_display'] - z['lhs_display']):.4e})")
+    print(f"    every decimal above is rounded outward in the direction it is used")
     print(f"\n[3] ENCLOSURES\n")
-    print(f"    c* in [{_f(e['c_lower'], 20)}, {_f(e['c_upper'], 20)}]  -> {e['c_digits']} decimals certified")
-    print(f"    H* in [{_f(e['H_lower'], 20)}, {_f(e['H_upper'], 20)}]  -> {e['H_digits']} decimals certified")
-    print(f"    D* in [{_f(e['D_lower'], 20)}, {_f(e['D_upper'], 20)}]  -> {e['D_digits']} decimals certified")
+    print(f"    c* in [{dec_down(e['c_lower'], 20)}, {dec_up(e['c_upper'], 20)}]  -> {e['c_digits']} decimals certified")
+    print(f"    H* in [{dec_down(e['H_lower'], 20)}, {dec_up(e['H_upper'], 20)}]  -> {e['H_digits']} decimals certified")
+    print(f"    D* in [{dec_down(e['D_lower'], 20)}, {dec_up(e['D_upper'], 20)}]  -> {e['D_digits']} decimals certified")
     print(f"    H* display (truncated to certified length): {dec(round_down(e['H_lower'], e['H_digits']), e['H_digits'])}")
     print(f"    D* display (truncated to certified length): {dec(round_down(e['D_lower'], e['D_digits']), e['D_digits'])}")
     print(f"    D* enclosure: {e['D_lower']} <= D* <= {e['D_upper']}")

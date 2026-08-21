@@ -1,0 +1,949 @@
+{
+ "hunt": "lambda_dh_bounds",
+ "artifact": "M2-LEMMA.md",
+ "purpose": "independent decided verification of the uniform bound M2 >= sup |H_t''| that the winding count consumes",
+ "backend": "python-flint 0.9.0 (Arb)",
+ "kappa": {
+  "ball": {
+   "lower": 0.28407904384041227,
+   "upper": 0.28407904384041227,
+   "str": "[0.284079043840 +/- 4.13e-13]"
+  },
+  "decides_0_lt_kappa_lt_1": true,
+  "used_for": "|a_n| <= 1 in the majorant of step 3",
+  "prec_bits": 500
+ },
+ "omega_majorant_check": {
+  "n_probe": 24,
+  "prec_bits": 300,
+  "test": "refuted iff closed_form.upper() < sharp.lower(); overlap is agreement, not refutation",
+  "rows": [
+   {
+    "rho": 0.00033546262790251185,
+    "sharp_upper": 2372.087658844886,
+    "unimodal_upper": 2431.2530703915872,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 22508780.814528864,
+    "geometric_refuted": false,
+    "geometric_strictly_above": true
+   },
+   {
+    "rho": 0.0007718914190992304,
+    "sharp_upper": 1030.8579268610988,
+    "unimodal_upper": 1069.8905695534456,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 4251359.4778889865,
+    "geometric_refuted": false,
+    "geometric_strictly_above": true
+   },
+   {
+    "rho": 0.0017761035457343785,
+    "sharp_upper": 447.96188387774924,
+    "unimodal_upper": 473.72219109621506,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 802978.0166717697,
+    "geometric_refuted": false,
+    "geometric_strictly_above": true
+   },
+   {
+    "rho": 0.004086771438464067,
+    "sharp_upper": 194.63629802807674,
+    "unimodal_upper": 211.64695108612364,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 151662.88937051702,
+    "geometric_refuted": false,
+    "geometric_strictly_above": true
+   },
+   {
+    "rho": 0.009403562551495208,
+    "sharp_upper": 84.54142961649428,
+    "unimodal_upper": 95.78397506384795,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 28645.352064383354,
+    "geometric_refuted": false,
+    "geometric_strictly_above": true
+   },
+   {
+    "rho": 0.021637370719493093,
+    "sharp_upper": 36.694344806960984,
+    "unimodal_upper": 44.13436532362124,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 5410.340546697478,
+    "geometric_refuted": false,
+    "geometric_strictly_above": true
+   },
+   {
+    "rho": 0.049787068367863944,
+    "sharp_upper": 15.89996644890952,
+    "unimodal_upper": 20.83331459455411,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 1021.8137425459967,
+    "geometric_refuted": false,
+    "geometric_strictly_above": true
+   },
+   {
+    "rho": 0.11455884399268772,
+    "sharp_upper": 6.862483887907889,
+    "unimodal_upper": 10.143581270938018,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 192.92811372445928,
+    "geometric_refuted": false,
+    "geometric_strictly_above": true
+   },
+   {
+    "rho": 0.26359713811572677,
+    "sharp_upper": 2.934133621032864,
+    "unimodal_upper": 5.126598591901051,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 36.37193017911264,
+    "geometric_refuted": false,
+    "geometric_strictly_above": true
+   },
+   {
+    "rho": 0.6065306597126334,
+    "sharp_upper": 1.2251663991597748,
+    "unimodal_upper": 2.7014879588197376,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 6.802756642523401,
+    "geometric_refuted": false,
+    "geometric_strictly_above": true
+   },
+   {
+    "rho": 1.3956124250860895,
+    "sharp_upper": 0.47713974713020313,
+    "unimodal_upper": 1.4861973635013883,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 1.2202761213667914,
+    "geometric_refuted": false,
+    "geometric_strictly_above": true
+   },
+   {
+    "rho": 3.2112705431535606,
+    "sharp_upper": 0.1335859221284436,
+    "unimodal_upper": 0.8516711393206411,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 0.17686676565227297,
+    "geometric_refuted": false,
+    "geometric_strictly_above": true
+   },
+   {
+    "rho": 7.38905609893065,
+    "sharp_upper": 0.009631858469190843,
+    "unimodal_upper": 0.5057882962710868,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 0.009820101540010864,
+    "geometric_refuted": false,
+    "geometric_strictly_above": true
+   },
+   {
+    "rho": 17.002039940094015,
+    "sharp_upper": 2.2938433065592575e-05,
+    "unimodal_upper": 0.3092430158622747,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 2.29394854452248e-05,
+    "geometric_refuted": false,
+    "geometric_strictly_above": true
+   },
+   {
+    "rho": 39.12128399815322,
+    "sharp_upper": 2.1123653560036012e-11,
+    "unimodal_upper": 0.193351248271793,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 2.112365356092843e-11,
+    "geometric_refuted": false,
+    "geometric_strictly_above": true
+   },
+   {
+    "rho": 90.01713130052181,
+    "sharp_upper": 2.7324418136528163e-25,
+    "unimodal_upper": 0.12289549743221426,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 2.7324418136528163e-25,
+    "geometric_refuted": false,
+    "geometric_strictly_above": true
+   },
+   {
+    "rho": 207.1272488898346,
+    "sharp_upper": 3.020618484306251e-57,
+    "unimodal_upper": 0.07903180808486225,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 3.020618484306251e-57,
+    "geometric_refuted": false,
+    "geometric_strictly_above": true
+   },
+   {
+    "rho": 476.594806042467,
+    "sharp_upper": 8.893306381481208e-131,
+    "unimodal_upper": 0.05123791164965291,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 8.893306381481208e-131,
+    "geometric_refuted": false,
+    "geometric_strictly_above": false
+   },
+   {
+    "rho": 1096.6331584284585,
+    "sharp_upper": 5.700723279040368e-300,
+    "unimodal_upper": 0.033403025655807966,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 5.700723279040368e-300,
+    "geometric_refuted": false,
+    "geometric_strictly_above": false
+   },
+   {
+    "rho": 2523.326458697535,
+    "sharp_upper": 0.0,
+    "unimodal_upper": 0.02185761932394237,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 0.0,
+    "geometric_refuted": false,
+    "geometric_strictly_above": false
+   },
+   {
+    "rho": 5806.113346314997,
+    "sharp_upper": 0.0,
+    "unimodal_upper": 0.014338585858179235,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 0.0,
+    "geometric_refuted": false,
+    "geometric_strictly_above": false
+   },
+   {
+    "rho": 13359.726829661873,
+    "sharp_upper": 0.0,
+    "unimodal_upper": 0.009421789319565398,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 0.0,
+    "geometric_refuted": false,
+    "geometric_strictly_above": false
+   },
+   {
+    "rho": 30740.409343966003,
+    "sharp_upper": 0.0,
+    "unimodal_upper": 0.006197845459300312,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 0.0,
+    "geometric_refuted": false,
+    "geometric_strictly_above": false
+   },
+   {
+    "rho": 70732.9407766423,
+    "sharp_upper": 0.0,
+    "unimodal_upper": 0.004080056244628148,
+    "unimodal_refuted": false,
+    "unimodal_strictly_above": true,
+    "geometric_upper": 0.0,
+    "geometric_refuted": false,
+    "geometric_strictly_above": false
+   }
+  ],
+  "refutations": [],
+  "all_dominate": true,
+  "verdict": "PASS"
+ },
+ "t1": {
+  "t": "23/400",
+  "box": {
+   "re_lo": "122929/512",
+   "re_hi": "123185/512",
+   "im_lo": "3/512",
+   "im_hi": "61/1024",
+   "floats": [
+    240.095703125,
+    240.595703125,
+    0.005859375,
+    0.0595703125
+   ]
+  },
+  "R1_shifted_bound": {
+   "M2_upper_float": 1.1886319406143055e-78,
+   "M2_ball": {
+    "lower": 1.1886319406143055e-78,
+    "upper": 1.1886319406143055e-78,
+    "str": "[1.18863194061e-78 +/- 4.31e-90]"
+   },
+   "v": "pi/4 - 1/256",
+   "eps": "1/256",
+   "prec_bits": 300,
+   "S": "5/1",
+   "n_panels": 800,
+   "J_upper_float": 3786.2567639785207,
+   "J_ball": {
+    "lower": 3786.2567639785207,
+    "upper": 3786.2567639785207,
+    "str": "[3786.25676398 +/- 1.48e-9]"
+   },
+   "panel_sum_upper_float": 3786.2567639785207,
+   "tail_upper_float": 5.363521871577477e-40,
+   "connector_bound_at_R_eq_S": 7.451376098671995e-38,
+   "prefactor_exp_minus_xv_minus_tv2": 3.1393326303769094e-82,
+   "checks": {
+    "H1_v_positive": true,
+    "H1_v_below_pi_over_4": true,
+    "H1_cos2v_positive": true,
+    "cos2v": {
+     "lower": 0.0078124205273828315,
+     "upper": 0.0078124205273828315,
+     "str": "[0.00781242052738 +/- 2.84e-15]"
+    },
+    "v": {
+     "lower": 0.7814919133974483,
+     "upper": 0.7814919133974483,
+     "str": "[0.781491913397 +/- 4.49e-13]"
+    },
+    "omega_routes_used": {
+     "unimodal": 404,
+     "geometric": 396
+    },
+    "H2_qS_below_29_100": true,
+    "H3_c_positive": true,
+    "q_S": {
+     "lower": 1.1056552097578917e-47,
+     "upper": 1.1056552097578917e-47,
+     "str": "[1.10565520976e-47 +/- 2.11e-59]"
+    },
+    "c": {
+     "lower": 0.004035404977221797,
+     "upper": 0.004035404977221797,
+     "str": "[0.00403540497722 +/- 1.80e-15]"
+    },
+    "beta": {
+     "lower": 3.5595703125,
+     "upper": 3.5595703125,
+     "str": "3.55957031250"
+    },
+    "V_eq_exp_2S": 22026.465794806718
+   },
+   "scope": "sup |H_t''| over Re z >= 122929/512, |Im z| <= 61/1024",
+   "backend": "python-flint 0.9.0 (Arb)",
+   "seconds": 0.02,
+   "all_candidates": [
+    {
+     "eps": "1/128",
+     "M2_upper_float": 1.195390124607697e-78,
+     "decided": true
+    },
+    {
+     "eps": "1/256",
+     "M2_upper_float": 1.1886319406143055e-78,
+     "decided": true
+    },
+    {
+     "eps": "1/512",
+     "M2_upper_float": 1.8525015804323264e-78,
+     "decided": true
+    },
+    {
+     "eps": "1/1024",
+     "M2_upper_float": 3.597282862019621e-78,
+     "decided": true
+    }
+   ]
+  },
+  "R2_direct_bound": {
+   "M_direct_upper_float": 0.30218534361205546,
+   "panel_sum_upper_float": 0.30218534361205546,
+   "tail_upper_float": 0.0,
+   "hypotheses_decided": true,
+   "c": {
+    "lower": 0.6274452471080645,
+    "upper": 0.6274452471080645,
+    "str": "[0.627445247108 +/- 6.45e-14]"
+   },
+   "prec_bits": 300,
+   "S": "5/1",
+   "n_panels": 800,
+   "scope": "sup |H_t''| over the whole strip |Im z| <= 61/1024",
+   "backend": "python-flint 0.9.0 (Arb)",
+   "seconds": 0.03
+  },
+  "R3_decided_sup_lower": {
+   "decided_sup_lower_bound": 2.1358117413634282e-80,
+   "attained_at": [
+    "7746575/32256",
+    "61/1024"
+   ],
+   "attained_at_floats": [
+    240.15919518849208,
+    0.0595703125
+   ],
+   "n_points": 433,
+   "grid": {
+    "n_re": 41,
+    "n_im": 9,
+    "top_edge_extra": 64
+   },
+   "prec_bits": 420,
+   "grade": "decided (Arb enclosure of H_t'' at each point)",
+   "backend": "python-flint 0.9.0 (Arb)",
+   "seconds": 33.4
+  },
+  "R4_measured_sup": {
+   "measured_sup_absH2": 2.1357367685579024e-80,
+   "measured_sup_at": [
+    240.158203125,
+    0.0595703125
+   ],
+   "grid": {
+    "n_re": 9,
+    "n_im": 3
+   },
+   "dps": 112,
+   "grade": "measured (mpmath float, no enclosure)",
+   "seconds": 15.2
+  },
+  "R5_step1_finite_difference_attack": {
+   "step_h": "1/1024",
+   "expected_gap_order_h2": 9.5367431640625e-07,
+   "worst_relative_gap": 7.662642718498064e-07,
+   "verdict": "PASS",
+   "reading": "a formula error in step 1 would give a relative gap of order 1; the observed gap is of order h^2, which is the difference quotient's own truncation",
+   "rows": [
+    {
+     "z": [
+      "122961/512",
+      "61/1024"
+     ],
+     "finite_difference": "[2.13572066298e-80 +/- 4.63e-92] + [7.86410000255e-83 +/- 3.76e-95]j",
+     "H2_ball": "[2.13572229074e-80 +/- 1.43e-93] + [7.86393076317e-83 +/- 2.06e-95]j",
+     "relative_gap_upper": 7.662642718498064e-07
+    },
+    {
+     "z": [
+      "123057/512",
+      "61/1024"
+     ],
+     "finite_difference": "[1.83668237353e-80 +/- 1.14e-92] + [-1.76943797358e-81 +/- 6.65e-94]j",
+     "H2_ball": "[1.83668335937e-80 +/- 4.83e-92] + [-1.76944019348e-81 +/- 2.77e-93]j",
+     "relative_gap_upper": 5.476512262455938e-07
+    },
+    {
+     "z": [
+      "123153/512",
+      "61/1024"
+     ],
+     "finite_difference": "[1.10361230031e-80 +/- 4.18e-92] + [-2.65968425215e-81 +/- 1.22e-93]j",
+     "H2_ball": "[1.10361258571e-80 +/- 2.75e-93] + [-2.65968635016e-81 +/- 1.91e-93]j",
+     "relative_gap_upper": 3.1203058933410155e-07
+    }
+   ],
+   "prec_bits": 500,
+   "grade": "decided (both sides are Arb enclosures)",
+   "seconds": 1.3
+  },
+  "R6_decay_rate_probe": {
+   "rows": [
+    {
+     "d": 0,
+     "abs_H2_lower": 2.0905296633020336e-80,
+     "abs_H2_upper": 2.0905296633020336e-80,
+     "M2_at_this_x_lo": 1.1886319406143055e-78,
+     "cushion_M2_over_absH2": 56.85793229725511
+    },
+    {
+     "d": 4,
+     "abs_H2_lower": 1.1569966162857022e-81,
+     "abs_H2_upper": 1.1569966162857022e-81,
+     "M2_at_this_x_lo": 5.217433156351119e-80,
+     "cushion_M2_over_absH2": 45.09462761525273
+    },
+    {
+     "d": 8,
+     "abs_H2_lower": 1.4869477576081895e-83,
+     "abs_H2_upper": 1.4869477576081895e-83,
+     "M2_at_this_x_lo": 2.290162985770297e-81,
+     "cushion_M2_over_absH2": 154.01771676592787
+    },
+    {
+     "d": 12,
+     "abs_H2_lower": 3.0084307907712983e-84,
+     "abs_H2_upper": 3.0084307907712983e-84,
+     "M2_at_this_x_lo": 1.0052541823191032e-82,
+     "cushion_M2_over_absH2": 33.41456899732692
+    },
+    {
+     "d": 16,
+     "abs_H2_lower": 7.430426601744829e-86,
+     "abs_H2_upper": 7.430426601744829e-86,
+     "M2_at_this_x_lo": 4.412506783791873e-84,
+     "cushion_M2_over_absH2": 59.384299452681745
+    },
+    {
+     "d": 20,
+     "abs_H2_lower": 4.384953940501613e-87,
+     "abs_H2_upper": 4.384953940501613e-87,
+     "M2_at_this_x_lo": 1.9368450745553592e-85,
+     "cushion_M2_over_absH2": 44.17024901141369
+    },
+    {
+     "d": 24,
+     "abs_H2_lower": 2.0467384477948682e-88,
+     "abs_H2_upper": 2.0467384477948682e-88,
+     "M2_at_this_x_lo": 8.501672692286783e-87,
+     "cushion_M2_over_absH2": 41.53766057136604
+    },
+    {
+     "d": 28,
+     "abs_H2_lower": 1.8321065985396745e-90,
+     "abs_H2_upper": 1.8321065985396745e-90,
+     "M2_at_this_x_lo": 3.731761487602086e-88,
+     "cushion_M2_over_absH2": 203.68691923147804
+    },
+    {
+     "d": 32,
+     "abs_H2_lower": 4.055789681567162e-91,
+     "abs_H2_upper": 4.055789681567162e-91,
+     "M2_at_this_x_lo": 1.638035749480765e-89,
+     "cushion_M2_over_absH2": 40.38759102636274
+    },
+    {
+     "d": 36,
+     "abs_H2_lower": 6.4536650772022985e-93,
+     "abs_H2_upper": 6.4536650772022985e-93,
+     "M2_at_this_x_lo": 7.190065939345784e-91,
+     "cushion_M2_over_absH2": 111.41058380523707
+    },
+    {
+     "d": 40,
+     "abs_H2_lower": 7.275572855320234e-94,
+     "abs_H2_upper": 7.275572855320234e-94,
+     "M2_at_this_x_lo": 3.156039068654493e-92,
+     "cushion_M2_over_absH2": 43.378564566866395
+    }
+   ],
+   "cushion_min_over_probe": 33.41456899732692,
+   "cushion_max_over_probe": 203.68691923147804,
+   "span": 40,
+   "empirical_rate_over_span": 0.7747271552561615,
+   "v_used_by_M2": 0.7814919133974483,
+   "pi_over_4": 0.7853981633974483,
+   "reading": "the lemma's rate v = pi/4 - eps is within eps of the strip half-width pi/4, which is the fastest rate any shift of this contour can give; a measured rate near pi/4 means the cushion is a constant in Re z, not a gap that grows with the box's height",
+   "grade": "decided (Arb enclosures at each probe point)",
+   "prec_bits": 420,
+   "seconds": 1.8
+  },
+  "R7_h2_tail_consistency": {
+   "z": [
+    "123057/512",
+    "61/1024"
+   ],
+   "default_U": "51/16",
+   "rows": [
+    {
+     "U": "51/16",
+     "ball": "[1.83668335936517e-80 +/- 2.35e-95] + [-1.76944019348276e-81 +/- 4.00e-96]j",
+     "radius_re": 3.801945463318653e-125
+    },
+    {
+     "U": "59/16",
+     "ball": "[1.83668335936517e-80 +/- 2.35e-95] + [-1.76944019348276e-81 +/- 4.00e-96]j",
+     "radius_re": 3.793365477977278e-125
+    },
+    {
+     "U": "67/16",
+     "ball": "[1.83668335936517e-80 +/- 2.35e-95] + [-1.76944019348276e-81 +/- 4.00e-96]j",
+     "radius_re": 3.685758874496159e-125
+    }
+   ],
+   "all_pairs_overlap": true,
+   "verdict": "PASS",
+   "reading": "three different truncation points give three different true remainders; overlapping balls means each error ball covers its own remainder",
+   "prec_bits": 420,
+   "grade": "decided"
+  },
+  "comparison": {
+   "M2_lemma_upper": 1.1886319406143055e-78,
+   "M2_winding_py": 1.1886642645115153e-78,
+   "relative_difference": -2.719346259062692e-05,
+   "lemma_bound_is_at_most_winding_bound": true,
+   "direct_over_shifted": 2.542295333708438e+77,
+   "cushion_decided_M2_over_decided_sup": 55.65398117685753,
+   "cushion_lemma_M2_over_decided_sup": 55.65246775240237,
+   "cushion_measured_published_style": 55.65593485165909,
+   "decided_sup_over_measured_sup": 1.0000351039541153
+  }
+ },
+ "t2": {
+  "t": "36/625",
+  "box": {
+   "re_lo": "245909/1024",
+   "re_hi": "123159/512",
+   "im_lo": "3/1024",
+   "im_hi": "35/1024",
+   "floats": [
+    240.1455078125,
+    240.544921875,
+    0.0029296875,
+    0.0341796875
+   ]
+  },
+  "R1_shifted_bound": {
+   "M2_upper_float": 1.1370520305573246e-78,
+   "M2_ball": {
+    "lower": 1.1370520305573246e-78,
+    "upper": 1.1370520305573246e-78,
+    "str": "[1.13705203056e-78 +/- 2.68e-90]"
+   },
+   "v": "pi/4 - 1/256",
+   "eps": "1/256",
+   "prec_bits": 300,
+   "S": "5/1",
+   "n_panels": 800,
+   "J_upper_float": 3765.937605436411,
+   "J_ball": {
+    "lower": 3765.937605436411,
+    "upper": 3765.937605436411,
+    "str": "[3765.93760544 +/- 3.59e-9]"
+   },
+   "panel_sum_upper_float": 3765.937605436411,
+   "tail_upper_float": 4.729259004017576e-40,
+   "connector_bound_at_R_eq_S": 6.579413460126209e-38,
+   "prefactor_exp_minus_xv_minus_tv2": 3.0193066101676924e-82,
+   "checks": {
+    "H1_v_positive": true,
+    "H1_v_below_pi_over_4": true,
+    "H1_cos2v_positive": true,
+    "cos2v": {
+     "lower": 0.0078124205273828315,
+     "upper": 0.0078124205273828315,
+     "str": "[0.00781242052738 +/- 2.84e-15]"
+    },
+    "v": {
+     "lower": 0.7814919133974483,
+     "upper": 0.7814919133974483,
+     "str": "[0.781491913397 +/- 4.49e-13]"
+    },
+    "omega_routes_used": {
+     "unimodal": 404,
+     "geometric": 396
+    },
+    "H2_qS_below_29_100": true,
+    "H3_c_positive": true,
+    "q_S": {
+     "lower": 1.1056552097578917e-47,
+     "upper": 1.1056552097578917e-47,
+     "str": "[1.10565520976e-47 +/- 2.11e-59]"
+    },
+    "c": {
+     "lower": 0.004041055140355519,
+     "upper": 0.004041055140355519,
+     "str": "[0.00404105514036 +/- 4.49e-15]"
+    },
+    "beta": {
+     "lower": 3.5341796875,
+     "upper": 3.5341796875,
+     "str": "3.53417968750"
+    },
+    "V_eq_exp_2S": 22026.465794806718
+   },
+   "scope": "sup |H_t''| over Re z >= 245909/1024, |Im z| <= 35/1024",
+   "backend": "python-flint 0.9.0 (Arb)",
+   "seconds": 0.02,
+   "all_candidates": [
+    {
+     "eps": "1/128",
+     "M2_upper_float": 1.1451890702378046e-78,
+     "decided": true
+    },
+    {
+     "eps": "1/256",
+     "M2_upper_float": 1.1370520305573246e-78,
+     "decided": true
+    },
+    {
+     "eps": "1/512",
+     "M2_upper_float": 1.7693713955252812e-78,
+     "decided": true
+    },
+    {
+     "eps": "1/1024",
+     "M2_upper_float": 3.430059065829954e-78,
+     "decided": true
+    }
+   ]
+  },
+  "R2_direct_bound": {
+   "M_direct_upper_float": 0.30202444299917314,
+   "panel_sum_upper_float": 0.30202444299917314,
+   "tail_upper_float": 0.0,
+   "hypotheses_decided": true,
+   "c": {
+    "lower": 0.6274508972711982,
+    "upper": 0.6274508972711982,
+    "str": "[0.627450897271 +/- 1.99e-13]"
+   },
+   "prec_bits": 300,
+   "S": "5/1",
+   "n_panels": 800,
+   "scope": "sup |H_t''| over the whole strip |Im z| <= 35/1024",
+   "backend": "python-flint 0.9.0 (Arb)",
+   "seconds": 0.03
+  },
+  "R3_decided_sup_lower": {
+   "decided_sup_lower_bound": 2.113954455145762e-80,
+   "attained_at": [
+    "2582249/10752",
+    "35/1024"
+   ],
+   "attained_at_floats": [
+    240.1645275297619,
+    0.0341796875
+   ],
+   "n_points": 433,
+   "grid": {
+    "n_re": 41,
+    "n_im": 9,
+    "top_edge_extra": 64
+   },
+   "prec_bits": 420,
+   "grade": "decided (Arb enclosure of H_t'' at each point)",
+   "backend": "python-flint 0.9.0 (Arb)",
+   "seconds": 33.5
+  },
+  "R4_measured_sup": {
+   "measured_sup_absH2": 2.1103034250765648e-80,
+   "measured_sup_at": [
+    240.1455078125,
+    0.0341796875
+   ],
+   "grid": {
+    "n_re": 9,
+    "n_im": 3
+   },
+   "dps": 112,
+   "grade": "measured (mpmath float, no enclosure)",
+   "seconds": 13.9
+  },
+  "R5_step1_finite_difference_attack": {
+   "step_h": "1/1024",
+   "expected_gap_order_h2": 9.5367431640625e-07,
+   "worst_relative_gap": 7.182752835214785e-07,
+   "verdict": "PASS",
+   "reading": "a formula error in step 1 would give a relative gap of order 1; the observed gap is of order h^2, which is the difference quotient's own truncation",
+   "rows": [
+    {
+     "z": [
+      "1967681/8192",
+      "35/1024"
+     ],
+     "finite_difference": "[2.10453236650e-80 +/- 1.73e-92] + [-2.01308894496e-82 +/- 9.49e-95]j",
+     "H2_ball": "[2.10453387448e-80 +/- 2.28e-92] + [-2.01309954988e-82 +/- 4.16e-94]j",
+     "relative_gap_upper": 7.182752835214785e-07
+    },
+    {
+     "z": [
+      "492227/2048",
+      "35/1024"
+     ],
+     "finite_difference": "[1.82464091114e-80 +/- 1.87e-92] + [-1.00844285205e-81 +/- 3.56e-93]j",
+     "H2_ball": "[1.82464189704e-80 +/- 2.99e-92] + [-1.00844412231e-81 +/- 2.40e-93]j",
+     "relative_gap_upper": 5.439640069388726e-07
+    },
+    {
+     "z": [
+      "1970135/8192",
+      "35/1024"
+     ],
+     "finite_difference": "[1.26730566489e-80 +/- 3.14e-93] + [-1.46265830503e-81 +/- 1.73e-93]j",
+     "H2_ball": "[1.26730609104e-80 +/- 1.41e-92] + [-1.46265954610e-81 +/- 3.18e-93]j",
+     "relative_gap_upper": 3.479253488397198e-07
+    }
+   ],
+   "prec_bits": 500,
+   "grade": "decided (both sides are Arb enclosures)",
+   "seconds": 1.2
+  },
+  "R6_decay_rate_probe": {
+   "rows": [
+    {
+     "d": 0,
+     "abs_H2_lower": 2.1103034250765648e-80,
+     "abs_H2_upper": 2.1103034250765648e-80,
+     "M2_at_this_x_lo": 1.1370520305573246e-78,
+     "cushion_M2_over_absH2": 53.880973562655846
+    },
+    {
+     "d": 4,
+     "abs_H2_lower": 9.679957998186885e-82,
+     "abs_H2_upper": 9.679957998186885e-82,
+     "M2_at_this_x_lo": 4.991026037597591e-80,
+     "cushion_M2_over_absH2": 51.56041006099862
+    },
+    {
+     "d": 8,
+     "abs_H2_lower": 1.905835555955779e-83,
+     "abs_H2_upper": 1.905835555955779e-83,
+     "M2_at_this_x_lo": 2.1907828523702064e-81,
+     "cushion_M2_over_absH2": 114.951305506079
+    },
+    {
+     "d": 12,
+     "abs_H2_lower": 2.862897159652321e-84,
+     "abs_H2_upper": 2.862897159652321e-84,
+     "M2_at_this_x_lo": 9.616318308268274e-83,
+     "cushion_M2_over_absH2": 33.58946469958463
+    },
+    {
+     "d": 16,
+     "abs_H2_lower": 5.5607434027837915e-86,
+     "abs_H2_upper": 5.5607434027837915e-86,
+     "M2_at_this_x_lo": 4.221028921505776e-84,
+     "cushion_M2_over_absH2": 75.9076370866648
+    },
+    {
+     "d": 20,
+     "abs_H2_lower": 4.586269177661289e-87,
+     "abs_H2_upper": 4.586269177661289e-87,
+     "M2_at_this_x_lo": 1.8527969421383215e-85,
+     "cushion_M2_over_absH2": 40.39878320188638
+    },
+    {
+     "d": 24,
+     "abs_H2_lower": 1.8071251671845623e-88,
+     "abs_H2_upper": 1.8071251671845623e-88,
+     "M2_at_this_x_lo": 8.132748134719023e-87,
+     "cushion_M2_over_absH2": 45.00378990011832
+    },
+    {
+     "d": 28,
+     "abs_H2_lower": 2.366527770328616e-90,
+     "abs_H2_upper": 2.366527770328616e-90,
+     "M2_at_this_x_lo": 3.569824124733357e-88,
+     "cushion_M2_over_absH2": 150.84649204169918
+    },
+    {
+     "d": 32,
+     "abs_H2_lower": 3.908297229370279e-91,
+     "abs_H2_upper": 3.908297229370279e-91,
+     "M2_at_this_x_lo": 1.5669542533999251e-89,
+     "cushion_M2_over_absH2": 40.09301650919726
+    },
+    {
+     "d": 36,
+     "abs_H2_lower": 3.8739823874829176e-93,
+     "abs_H2_upper": 3.8739823874829176e-93,
+     "M2_at_this_x_lo": 6.878057703841404e-91,
+     "cushion_M2_over_absH2": 177.54488833157436
+    },
+    {
+     "d": 40,
+     "abs_H2_lower": 7.420066818459773e-94,
+     "abs_H2_upper": 7.420066818459773e-94,
+     "M2_at_this_x_lo": 3.0190848057449967e-92,
+     "cushion_M2_over_absH2": 40.68810806708727
+    }
+   ],
+   "cushion_min_over_probe": 33.58946469958463,
+   "cushion_max_over_probe": 177.54488833157436,
+   "span": 40,
+   "empirical_rate_over_span": 0.7744708745024431,
+   "v_used_by_M2": 0.7814919133974483,
+   "pi_over_4": 0.7853981633974483,
+   "reading": "the lemma's rate v = pi/4 - eps is within eps of the strip half-width pi/4, which is the fastest rate any shift of this contour can give; a measured rate near pi/4 means the cushion is a constant in Re z, not a gap that grows with the box's height",
+   "grade": "decided (Arb enclosures at each probe point)",
+   "prec_bits": 420,
+   "seconds": 1.8
+  },
+  "R7_h2_tail_consistency": {
+   "z": [
+    "492227/2048",
+    "35/1024"
+   ],
+   "default_U": "51/16",
+   "rows": [
+    {
+     "U": "51/16",
+     "ball": "[1.82464189704299e-80 +/- 2.66e-96] + [-1.00844412230760e-81 +/- 1.22e-96]j",
+     "radius_re": 3.7997532014774254e-125
+    },
+    {
+     "U": "59/16",
+     "ball": "[1.82464189704299e-80 +/- 2.66e-96] + [-1.00844412230760e-81 +/- 1.22e-96]j",
+     "radius_re": 3.7905977355156344e-125
+    },
+    {
+     "U": "67/16",
+     "ball": "[1.82464189704299e-80 +/- 2.66e-96] + [-1.00844412230760e-81 +/- 1.22e-96]j",
+     "radius_re": 3.682860941943045e-125
+    }
+   ],
+   "all_pairs_overlap": true,
+   "verdict": "PASS",
+   "reading": "three different truncation points give three different true remainders; overlapping balls means each error ball covers its own remainder",
+   "prec_bits": 420,
+   "grade": "decided"
+  },
+  "comparison": {
+   "M2_lemma_upper": 1.1370520305573246e-78,
+   "M2_winding_py": 1.137082903400534e-78,
+   "relative_difference": -2.7150916715900306e-05,
+   "lemma_bound_is_at_most_winding_bound": true,
+   "direct_over_shifted": 2.656206003617409e+77,
+   "cushion_decided_M2_over_decided_sup": 53.78937567139447,
+   "cushion_lemma_M2_over_decided_sup": 53.78791524053541,
+   "cushion_measured_published_style": 53.882436520202255,
+   "decided_sup_over_measured_sup": 1.0017300972105776
+  }
+ },
+ "enclosure_width_probe_t1": {
+  "box_re_width": 0.5,
+  "rows": [
+   {
+    "z_re_radius": 0.0,
+    "enclosure_lower": 1.823903415611058e-80,
+    "enclosure_upper": 1.823903415611058e-80,
+    "excludes_zero": true
+   },
+   {
+    "z_re_radius": 8.271806125530277e-25,
+    "enclosure_lower": 0.0,
+    "enclosure_upper": 1.0093832330455236e-25,
+    "excludes_zero": false
+   },
+   {
+    "z_re_radius": 9.094947017729282e-13,
+    "enclosure_lower": 0.0,
+    "enclosure_upper": 1.1098286100860147e-13,
+    "excludes_zero": false
+   },
+   {
+    "z_re_radius": 9.5367431640625e-07,
+    "enclosure_lower": 0.0,
+    "enclosure_upper": 1.154677490289302e-07,
+    "excludes_zero": false
+   },
+   {
+    "z_re_radius": 0.125,
+    "enclosure_lower": 0.0,
+    "enclosure_upper": 0.015088512140209787,
+    "excludes_zero": false
+   }
+  ],
+  "reading": "the enclosure stops excluding 0 far below the box width, so no ball evaluation over a box-sized region can bound sup |H_t''| from above; the uniform bound must come from the contour shift"
+ },
+ "verdict": "PASS",
+ "verdict_note": "PASS means: every hypothesis of the lemma decided on both boxes, the independently re-derived bound is at most the bound winding.py uses (so the lemma holds a fortiori for the value the count consumed), the two closed-form majorants for the theta-like sum survive falsification at every probe point, and the step-1 identity for H_t'' survives a finite-difference attack that shares none of the majorant machinery.",
+ "wall_seconds_total": 103.3
+}

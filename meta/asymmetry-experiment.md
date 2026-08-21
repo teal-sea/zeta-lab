@@ -158,3 +158,60 @@ zeta department's and compiler department's batteries as arenas; per
 not a department and cannot become one by growing. Results, when they exist, get a
 `docs/` number and a case-log-style disposition — including if the answer is that
 the asymmetry does not exist.
+
+---
+
+## Addendum, 2026-08-20: a runner exists; nothing has been run
+
+Added after the freeze above. **It changes no prediction and no design**; the
+predictions P1 to P5 stand exactly as written, and this section is separated
+because editing a preregistration's frozen content would destroy the only thing
+that makes it worth having.
+
+`meta/evals/asymmetry.py` implements E0, the "cheapest first step" named above,
+as an Inspect (`inspect_ai`) task. What it supplies is the part this repository
+did not have: a model in the loop at check time, per artifact cost accounting,
+and a log a stranger can audit.
+
+The dataset is real rather than illustrative. Each artifact is a live
+department with one corruption planted by the matching mutator in
+`harness/shams.py`, plus one clean control, and each artifact's ground truth is
+read from `harness.integrity.SHAM_MODES` rather than restated. Nine of the
+fifteen catalogued sham modes can currently be planted; three of those nine are
+modes the audit declares itself blind to, which is what makes E0 informative at
+all.
+
+Two things worth recording because they were found rather than anticipated.
+First, the artifact digests the design asks for as a blinding mechanism earned
+their keep before any run: six of nine corrupted artifacts initially hashed
+identical to the clean control, because the renderer showing the battery to a
+checker truncated above the depth the payloads live at. That eval would have
+measured nothing while reporting numbers, which is the precise hollowness this
+experiment studies. Second, Inspect passes score values through
+`value_to_float` before a metric sees them, and it maps neither `sound` nor
+`unsound`, so a metric written the obvious way reads zero for every sample.
+That second one is documented and parameterisable behaviour rather than a
+defect in Inspect, and it is recorded here as a footgun this repository guards,
+not as a fault to report. Both are pinned in `tests/test_meta_evals.py`.
+
+Measurement 5, conditional detection lift, is not covered: it compares two
+checkers and needs two arms, so it stays with E1.
+
+**Status: run 2026-08-20, four checkers, and the design cannot be discriminated
+as it stands.** The co-designed audit caught 8 of 9 planted corruptions; Claude
+6, Gemini 5, Grok 3, and GPT answered hollow to all ten including the clean
+control, which `specificity` caught. P1 points the other way and P2 is refuted by
+zero-or-negative conditional lift in every pair.
+
+The finding that matters is upstream of both. Of the six modes the catalog calls
+blind spots, only three can be planted at all, and two of those three plant
+instances the audit catches. E0's dataset therefore contained exactly one
+artifact that tested the question, which cannot discriminate anything. The
+binding constraint is that `harness/shams.py` cannot produce the modes
+`harness/integrity.py` declares itself blind to, and nothing had ever compared
+the two. Writing subtle mutators, or admitting in `SHAM_MODES` that no planter
+exists, is the prerequisite for further work here.
+
+That one true blind spot, `dropped-hardest-lesion`, is now closed:
+`tests/test_lesion_sets_are_pinned.py`. Disposition, the correction notice for
+the first write-up, limits and cost: `docs/28-asymmetry-e0-disposition.md`.

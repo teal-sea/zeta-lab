@@ -1,0 +1,94 @@
+{
+ "gate_A": {
+  "zeta_diag_vs_ccm315_quadrature": 1.8367099231598242e-40,
+  "zeta_offdiag_vs_quadrature": 1.7263997080481746e-42,
+  "dh_offdiag_vs_quadrature": 5.201619899573721e-42
+ },
+ "gate_B": {
+  "quad_value": "0.0499684145710969797302899",
+  "printed": "0.049968414571096979730",
+  "abs_dev_from_printed": 2.898987705950344e-22,
+  "lambda_min_even": 9.679261860506972e-15,
+  "printed_lambda_min": 9.7e-15,
+  "pole_identity_dev": 2.1382117680737565e-50,
+  "worked_vector_pole_term": 5.17456644312283e-52,
+  "worked_vector": [
+   "-0.0859452071833",
+   "1.47498600118",
+   "0.707106781187",
+   "0.0",
+   "-2.12132034356"
+  ]
+ },
+ "gate_C": {
+  "11": {
+   "lambda_min": -0.018674769701252744,
+   "printed": -0.019
+  },
+  "14": {
+   "lambda_min": -5.32778179570403e-07,
+   "printed": -5.3e-07
+  },
+  "18": {
+   "lambda_min": -3.9084277296808896e-10,
+   "printed": -3.9e-10
+  }
+ },
+ "gate_D": {
+  "32": {
+   "partial_sum": "0.0499675092066",
+   "printed_partial": "0.049967509",
+   "raw_residual": -9.053644850764182e-07,
+   "printed_residual": -9.1e-07
+  },
+  "64": {
+   "partial_sum": "0.0499683265878",
+   "printed_partial": "0.049968326",
+   "raw_residual": -8.798333904769529e-08,
+   "printed_residual": -8.8e-08
+  },
+  "128": {
+   "partial_sum": "0.049968406649",
+   "printed_partial": "0.049968406",
+   "raw_residual": -7.92210637804615e-09,
+   "printed_residual": -7.9e-09
+  },
+  "256": {
+   "partial_sum": "0.0499684139233",
+   "printed_partial": "0.049968413",
+   "raw_residual": -6.478455593468419e-10,
+   "printed_residual": -6.5e-10
+  },
+  "512": {
+   "partial_sum": "0.0499684145245",
+   "printed_partial": "0.049968414",
+   "raw_residual": -4.6599090681739466e-11,
+   "printed_residual": -4.7e-11
+  }
+ },
+ "gate_E": {
+  "zeta_c29_N6_offdiag_worst": 1.3999202155805848e-05,
+  "zeta_c29_N6_remainder_bound": 3.383087137089183e-05,
+  "dh_c13_N3_offdiag_worst": 5.339917917990281e-07,
+  "dh_c13_N3_remainder_bound": 2.5347597163621635e-05
+ },
+ "gate_F": {
+  "kappa_closed_form": "0.2840790438404122960282918323931261690911",
+  "kappa_ref": "0.2840790438404122960282918323931261690911",
+  "abs_dev_ref": 1.1911554265716113e-41,
+  "abs_dev_derived": 6.369198304149702e-48
+ },
+ "gate_G": {
+  "zeta_diag_n1_rspace_dev": 0.000839335897359765,
+  "zeta_diag_n1_tail_bound": 0.002134744737769273,
+  "dh_diag_n1_rspace_dev": 0.0010390795745986395,
+  "dh_diag_n1_tail_bound": 0.002134744737769273
+ },
+ "gate_H": {
+  "n0_dev": 6.656013887802287e-31,
+  "n0_tail_bound": 2.738629426110549e-41,
+  "n1_dev": 0.0,
+  "n1_tail_bound": 2.738629721917213e-41
+ },
+ "elapsed_s": 590.6
+}

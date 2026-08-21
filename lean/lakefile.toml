@@ -1,7 +1,7 @@
 name = "ZetaLean"
 version = "0.1.0"
 keywords = ["math"]
-defaultTargets = ["ZetaLean"]
+defaultTargets = ["ZetaLean", "Challenge", "Solution"]
 
 [leanOptions]
 pp.unicode.fun = true # pretty-prints `fun a ↦ b`
@@ -19,3 +19,28 @@ rev = "v4.33.0-rc2"
 
 [[lean_lib]]
 name = "ZetaLean"
+
+# The Palomar submission surface (https://palomar-registry.org/).
+#
+# `Challenge.lean` is the statement-only audit surface: it imports Mathlib
+# alone and carries ONE DELIBERATE `sorry`, which is what the Palomar format
+# requires of an advertised statement. That `sorry` is not an uncertified step
+# in the Lean arm and must not be "fixed": `Solution.lean` proves the same
+# statement from `ZetaLean.Pub1`, and Comparator checks the two match.
+[[lean_lib]]
+name = "Challenge"
+roots = ["Challenge"]
+
+[[lean_lib]]
+name = "Solution"
+roots = ["Solution"]
+
+# The second Palomar submission surface: the Davenport-Heilbronn zero
+# criterion and analytic half. Same Challenge/Solution discipline as above.
+[[lean_lib]]
+name = "DHChallenge"
+roots = ["DHChallenge"]
+
+[[lean_lib]]
+name = "DHSolution"
+roots = ["DHSolution"]

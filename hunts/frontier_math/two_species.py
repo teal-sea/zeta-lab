@@ -74,8 +74,8 @@ __all__ = [
     "kpair", "dam", "signed_field", "four_slack_two_species",
     "four_slack_general", "identity_residual", "identity_residual_general",
     "d_zero_is_minus_kpair", "no_damage_radius", "depth1_windows",
-    "far_constant", "centre_gas_row", "LANDSCAPE_RECORD", "NAMED_GAPS",
-    "report",
+    "far_constant", "centre_gas_row", "centre_gas_row_closed",
+    "LANDSCAPE_RECORD", "NAMED_GAPS", "report",
 ]
 
 
@@ -262,6 +262,51 @@ def centre_gas_row(lam: float, y: float = 0.5, dmax: int = 200) -> float:
                for d in range(1, dmax + 1))
 
 
+def centre_gas_row_closed(y: float = 0.5) -> float:
+    """The uniform-lattice centre-gas row at the critical `2*pi` spacing,
+    in closed form.
+
+    `centre_gas_row`'s summand is not a new object.  `Kpair(u) = Qre(0,u)^2
+    = -D(0,u) = kernel(0,u)` (this is `d_zero_is_minus_kpair`), and
+    `Dam(2y,s) = -kernel(2y,s)` wherever the rectification is inactive, so
+    at `y = 1/2` the summand is
+
+        4*Dam(1,s) - 4*Kpair(s) = -4*[kernel(0,s) + kernel(1,s)] = -4*kappa(s)
+
+    with `kappa` exactly `counting_lemma.kappa`.  The two modules had been
+    summing the same kernel without either saying so.
+
+    `counting_lemma` already carries the Poisson collapse for that kernel:
+    `c2` is supported on `[-1,1]` and vanishes at the endpoints, so summing
+    at spacing exactly `2*pi` kills every alias and
+
+        sum_{d in Z} kappa(2*pi*d) = 2*c2(0).
+
+    Splitting off `d = 0` gives this row in closed form:
+
+        row(2*pi) = -4*c2(0) + 2*kappa(0) = 0.11433003938654052...
+
+    Two facts make the transfer legitimate rather than formal.  The
+    rectification `max(0, .)` in `dam` never binds on this lattice (`D(1,
+    2*pi*d) > 0` for every `d` checked to 200), so no clipping breaks the
+    band-limitedness Poisson needs.  And `kappa(2*pi*d)` decays only like
+    `1/d`, which is why the truncated `centre_gas_row` approaches this value
+    from below as `O(1/dmax)` rather than reaching it.
+
+    Scope, stated because it is the whole point: this is the UNIFORM lattice
+    at the critical spacing, not the configuration extremum.  T1 in
+    `K2-TWO-SPECIES.md` asks for a bound over all centre configurations and
+    that remains an optimisation obligation.  What is no longer an
+    optimisation obligation is the uniform-lattice value itself.
+    """
+    if y != 0.5:
+        raise ValueError(
+            "the closed form is derived at y = 1/2, where the summand is "
+            "exactly -4*kappa; no other depth is claimed")
+    import counting_lemma as cl
+    return -4 * cl.C2_ZERO + 2 * cl.kappa(0.0)
+
+
 LANDSCAPE_RECORD = {
     "no_damage_radius": {0.5: 6.065319, 0.75: 5.735725, 1.0: 5.398373},
     "depth1_window0": {"left": 5.39837, "right": 7.28492,
@@ -271,6 +316,13 @@ LANDSCAPE_RECORD = {
     "far_constant": {0.5: 0.621997, 1.0: 0.663592, "proved_le_half": 0.637},
     "centre_gas": {"worst_uniform_lam": 6.285, "row": 0.114045,
                    "budget_floor_per_centre": 0.12986, "ratio": 0.878,
+                   "row_is_truncated": "0.114045 and 0.878 are the dmax=200 "
+                                       "readings. kappa(2*pi*d) decays like "
+                                       "1/d, so they understate by 2.85e-4 "
+                                       "and the understatement flatters the "
+                                       "margin. Exact at 2*pi: row "
+                                       "0.11433003938654052, ratio 0.88041 "
+                                       "(centre_gas_row_closed).",
                    "convention": "d >= 1 once; the x4 factor carries the "
                                  "ordered-pair sum. Checked against "
                                  "four_slack_two_species, which converges "
