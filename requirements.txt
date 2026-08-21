@@ -30,9 +30,12 @@ python-flint>=0.6
 # workflow here pins 3.11, so the fast tier died in the install step on every
 # commit and never ran a test.  Found 2026-08-21.
 #
-# Requiring it only where a wheel exists is the honest form: 3.12+ gets the
-# oracle, 3.11 skips it and says so, and neither silently pretends.
+# 2.2.0 is the last release with a cp311 wheel, so pinning it there keeps the
+# oracle LIVE on the version CI runs rather than merely skipping it politely.
+# 3.12+ takes the current release. Neither branch builds from source, so
+# neither can be killed again by a missing system PARI.
 cypari2>=2.2; python_version >= "3.12"
+cypari2==2.2.0; python_version < "3.12"
 
 # Inspect (UK AI Security Institute), the runner for meta/evals/.  meta/ had a
 # pre-registered experiment whose probabilistic cells need a model in the loop
