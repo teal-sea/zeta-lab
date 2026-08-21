@@ -1222,6 +1222,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `28-asymmetry-e0-disposition.md` — 28. E0: the independent checker reproduced the audit's blind spots exactly
 - `29-de-bruijn-newman-davenport-heilbronn.md` — The de Bruijn-Newman constant of the Davenport-Heilbronn function
 - `30-prime-zeta-rightmost-zeros.md` — 28: The rightmost zeros of the prime zeta function
+- `31-bian-lemma-12-erratum.md` — Erratum to Bian, Lemma 12: `C_{kappa,2}` is `-4 kappa`, not `-4`
 
 ## Runnable demos (`scripts/`)
 
