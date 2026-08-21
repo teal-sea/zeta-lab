@@ -3,7 +3,7 @@
 version: "v0.4"
 
 project:
-  name: "Zeta Lab: certified zero-existence and the analytic half of Davenport-Heilbronn"
+  name: "Zeta Lab: minimum-modulus zero existence and the analytic half of Davenport-Heilbronn"
   description: >-
     Davenport and Heilbronn (1936) exhibited a Dirichlet series with real
     coefficients satisfying a Riemann-type functional equation which
@@ -29,8 +29,13 @@ project:
     enclosed. The general boundary form is the one a certified numerical search
     can consume, because for an axis-aligned rectangle the frontier is four
     segments, which is the shape interval arithmetic discharges. Mathlib
-    carries the maximum-modulus principle in many forms but, as far as the
-    authors could determine, no statement concluding that a zero exists.
+    carries the maximum-modulus principle in many forms. A search of
+    Mathlib/Analysis at the revision pinned by this repository, for a theorem
+    concluding that a holomorphic function has a zero in a ball or in a set,
+    returned nothing, so a statement of this shape appears to be absent from
+    Mathlib. That is a bounded search of one directory of one library and is
+    not a claim of novelty against the mathematical literature, in which the
+    minimum-modulus principle is classical.
     The third theorem is the analytic half of the Davenport-Heilbronn theorem:
     there exists an entire function represented by the Davenport-Heilbronn
     Dirichlet series on Re z > 1 whose completion
@@ -132,7 +137,7 @@ automation:
     convention-sensitive steps are derived in the development rather than
     remembered, from Mathlib's Real.cos_pi_div_five by radical algebra. The
     development records explicitly which half of the Davenport-Heilbronn
-    theorem is certified and which remains a numerical obligation.
+    theorem is kernel-checked and which remains a numerical obligation.
 
 fidelity:
   divergences: >-
