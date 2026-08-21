@@ -5,7 +5,7 @@ Released under MIT license.
 import Mathlib
 
 /-!
-# Advertised statements: certified zero-existence, and the analytic half of Davenport-Heilbronn
+# Minimum-modulus zero existence, and the analytic half of Davenport-Heilbronn
 
 This module is the small, trusted surface a mathematical reader should audit.
 It restates, self-containedly and over Mathlib alone, three results of the
