@@ -84,7 +84,7 @@ anchor, which conflicted; the resolution kept **both** rows — the claims
 are independent (one is the k=2 restatement, the other applies run
 R-2926E4's recorded o9_leaf fix) and neither supersedes the other.
 
-| f1-discovery-engine (Opus 5) | gap A above bandwidth 1: the Fejer-Riesz SDP section 6a names as the right tool, over `u = s*q` with `q = |h|^2` band-limited | `hunts/frontier_math/sparse_sdp.py`, `test_sparse_sdp.py`, a section in `LATTICE-EXTREMALITY-ROUTE.md` | **ACTIVE** 2026-08-21. Took it knowingly: 6a landed at 23:33 while this session derived the same reduction independently, so the reduction is cross-checked and the open half is what is being worked. Adds `cvxpy` to the venv only, not to `requirements.txt` |
+| f1-discovery-engine (Opus 5) | gap A above bandwidth 1: the Fejer-Riesz SDP section 6a names as the right tool, over `u = s*q` with `q = |h|^2` band-limited | `hunts/frontier_math/sparse_sdp.py`, `test_sparse_sdp.py`, a section in `LATTICE-EXTREMALITY-ROUTE.md` | **DONE** 2026-08-21, question still open. The SDP is built and calibrated (it reproduces the bandwidth-1 ceiling as a verified witness, which 6a's LP could not), and every wider-bandwidth solution fails verification at scale 0. Section 6b. Took it knowingly: 6a landed at 23:33 while this session derived the same reduction independently, so the reduction is cross-checked and the open half is what is being worked. Adds `cvxpy` to the venv only, not to `requirements.txt` |
 
 Landed onto `main` in this order, each verified before the next:
 `hunt/r-3c1cbb-05c755d3` (Mertens I+II, fast-forward), then

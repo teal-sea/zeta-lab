@@ -1,0 +1,57 @@
+[
+  {
+    "bandwidth_q": 0.5,
+    "m": 0,
+    "status": "optimal",
+    "needed_u0": 0.7868912855413551,
+    "bandwidth_one_u0": 0.5582642994520499,
+    "verified_u0": 0.5582361819777502,
+    "scale": 1.0,
+    "residual": 0.0,
+    "psd_repair": -0.0
+  },
+  {
+    "bandwidth_q": 1.0,
+    "m": 4,
+    "status": "optimal_inaccurate",
+    "needed_u0": 0.7868912855413551,
+    "bandwidth_one_u0": 0.5582642994520499,
+    "verified_u0": 0.0,
+    "scale": 0.0,
+    "residual": 0.0,
+    "psd_repair": 3.2408252575087435e-07
+  },
+  {
+    "bandwidth_q": 1.0,
+    "m": 6,
+    "status": "optimal_inaccurate",
+    "needed_u0": 0.7868912855413551,
+    "bandwidth_one_u0": 0.5582642994520499,
+    "verified_u0": 0.0,
+    "scale": 0.0,
+    "residual": 0.0,
+    "psd_repair": 1.3955636114931634e-06
+  },
+  {
+    "bandwidth_q": 2.0,
+    "m": 6,
+    "status": "optimal_inaccurate",
+    "needed_u0": 0.7868912855413551,
+    "bandwidth_one_u0": 0.5582642994520499,
+    "verified_u0": 0.0,
+    "scale": 0.0,
+    "residual": 0.0,
+    "psd_repair": 8.880219205242101e-07
+  },
+  {
+    "bandwidth_q": 4.0,
+    "m": 8,
+    "status": "optimal_inaccurate",
+    "needed_u0": 0.7868912855413551,
+    "bandwidth_one_u0": 0.5582642994520499,
+    "verified_u0": 0.0,
+    "scale": 0.0,
+    "residual": 0.0,
+    "psd_repair": 1.1797861972390962e-07
+  }
+]
