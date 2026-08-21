@@ -133,6 +133,30 @@ atom problem:
   `1,1,2,1,1,2,3` pattern at step `2*pi` reaches 0.1200); mixed depth
   relieves (ratio 0.878 -> 0.578 at y = 0.3).  The gas extremum is an
   optimisation obligation, not a formula.
+
+  **Amended 2026-08-20: the uniform-lattice value is now a formula.**
+  The row's summand at `y = 1/2` is exactly `-4*kappa(s)`, with `kappa`
+  the same kernel `counting_lemma.py` sums — `Kpair(u) = kernel(0,u)`
+  by `d_zero_is_minus_kpair`, and `Dam(1,s) = -kernel(1,s)` wherever the
+  rectification is idle, which on this lattice is everywhere (0 clips in
+  `d = 1..200`). `counting_lemma` already carries the Poisson collapse
+  `sum_{d in Z} kappa(2*pi*d) = 2*c2(0)`, so splitting off `d = 0`:
+
+      row(2*pi) = -4*c2(0) + 2*kappa(0) = 0.11433003938654052...
+
+  Two consequences. The recorded `0.1140` is a `dmax = 200` truncation of
+  a `1/d`-decaying sum: it approaches the closed form **from below** and
+  understates by `2.85e-4`, which flatters the margin. Corrected, the
+  ratio against the per-centre budget is `0.88041`, not `0.878` — still
+  below 1, so nothing downstream breaks. And the two modules had been
+  summing the same kernel with neither one saying so.
+
+  What this does **not** do is discharge T1. T1 asks for a bound over all
+  centre configurations; this is the uniform lattice at one spacing.
+  Lattice extremality still has no proof (G4's withdrawal removed its only
+  recorded counterexample, it did not supply one). Measured grade: every
+  number here is double precision, and `2*c2(0)` is quoted from
+  `counting_lemma`, not re-derived.
 * **(T2/A) the atoms.**  Per-atom extraction is bounded by the SIGNED
   field, `4*[sum_p D(y, x-t_p)]^+`, and the mirror trick caps it by
   `2*sum_j c_j + tails ~ 0.062` per atom UNCONDITIONALLY in `k` — but on
