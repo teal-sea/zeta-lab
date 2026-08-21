@@ -1270,6 +1270,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/mathlib_gaps.py` — Which of Mathlib's 1000 famous theorems are still unformalized.
+- `scripts/palomar_precheck.py` — Pre-flight check of a Palomar Registry submission.
 - `scripts/pub1_certify_display.py` — Publication-safe display values for the Pub 1 xi' ceiling certificate.
 - `scripts/science_preflight.py` — Preflight for a session running this lab from an outside environment.
 - `scripts/install_hooks.sh` — Install the pre-push secret guard into this checkout.

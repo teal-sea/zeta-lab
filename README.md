@@ -15,6 +15,54 @@ separate repository; this one holds the record, not the presentation of it.
 
 ---
 
+## Externally verified: the source-admissible strong closure
+
+[![Palomar mechanical verification](https://img.shields.io/badge/Palomar-mechanical%20verification%20passed-1f6feb)](https://github.com/PalomarRegistry/PalomarSubmission/actions/runs/32448082170)
+[![kernels](https://img.shields.io/badge/replayed%20through-Lean%20kernel%20%2B%20NanoDa-1f6feb)](https://github.com/PalomarRegistry/PalomarSubmission/actions/runs/32448082170)
+
+One result in this tree has been checked by someone other than us. It was
+submitted to the [Palomar Registry](https://palomar-registry.org/), the Lean
+FRO / ICARM registry of Lean-verified mathematics, which fetched a pinned
+commit, rebuilt the development from scratch on its own hardware inside a
+sandbox, and replayed the proofs through Lean's kernel *and* the independent
+NanoDa kernel. Mechanical verification returned **zero errors and zero
+warnings**, and the editorial review reported **no problems identified**. The
+submission is registered; its public registry entry is pending publication.
+
+Both runs are public and name the commit that was checked:
+[verification](https://github.com/PalomarRegistry/PalomarSubmission/actions/runs/32448082170)
+and [registration](https://github.com/PalomarRegistry/PalomarSubmission/actions/runs/32451268512).
+
+With `A = I + T` the Fredholm operator whose kernel is the Farmer-Gonek-Lee
+form factor `F1` on `I = [-1/2, 1/2]`, `w = A^-1 1` and `c* = <1, w>`, over the
+compactly supported monotone admissible class of profiles `v(s) = phi(Ls)^2`:
+
+> sup <1,v>^2 / <Av,v> = c*, and inf <Av,v> / <1,v>^2 = 1/c*.
+
+The upper bound is energy Cauchy-Schwarz. It holds for every `v`, it is
+classical, and it is *not* the content of the result. The content is the
+reverse inequality: imposing evenness, radial monotonicity, an exact compact
+support, the amplitude ceiling and uniform L-1 bounds on the second derivatives
+does not lower the supremum, proved by exhibiting an explicit endpoint-tapered
+family inside the class whose quotient converges to `c*`. Three declarations
+are advertised, each depends on exactly `propext`, `Classical.choice` and
+`Quot.sound`, and the audited statement surface imports Mathlib alone.
+
+**Scope.** This is a statement about a Fredholm operator on an interval and a
+class of test profiles. It says nothing about the zeros of the zeta function,
+nothing about the Riemann Hypothesis, and it asserts no numerical value for
+`c*` itself.
+
+Check it yourself:
+
+```bash
+cd lean && PATH="$HOME/.elan/bin:$PATH" lake build Challenge Solution
+# Solution builds sorry-free; Challenge carries one deliberate sorry per
+# advertised statement, which is what the Palomar format requires.
+```
+
+`lean/PALOMAR.md` explains the submission surface and how to re-check the axioms.
+
 ## Current work: a machine-audited candidate past the two-thirds constant
 
 On 10 August 2026 a paper established, unconditionally, that more than
