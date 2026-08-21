@@ -17,10 +17,22 @@ python-flint>=0.6
 # PARI/GP, the second oracle.  Every numerical claim in this tree is checked
 # against mpmath; without a third-party implementation to disagree with, a
 # defect shared by our code and mpmath -- or one in mpmath alone -- is
-# invisible.  cypari2 ships PARI in the wheel, so no system library is needed.
-# Optional like python-flint: tests/test_pari_oracle.py skips without it, which
-# is why the skip count is worth reading rather than ignoring.
-cypari2>=2.2
+# invisible.  Optional like python-flint: tests/test_pari_oracle.py skips
+# without it, which is why the skip count is worth reading rather than
+# ignoring.
+#
+# The marker is load-bearing, and the claim it replaces was false.  This line
+# used to read "cypari2 ships PARI in the wheel, so no system library is
+# needed", unconditionally.  cypari2 2.2.4 publishes wheels for cp312, cp313
+# and cp314 and NONE for cp311, so on 3.11 pip falls back to the sdist, which
+# needs a system PARI/GP the runner does not have, and the build fails --
+# taking the whole `pip install -r requirements.txt` down with it.  Every CI
+# workflow here pins 3.11, so the fast tier died in the install step on every
+# commit and never ran a test.  Found 2026-08-21.
+#
+# Requiring it only where a wheel exists is the honest form: 3.12+ gets the
+# oracle, 3.11 skips it and says so, and neither silently pretends.
+cypari2>=2.2; python_version >= "3.12"
 
 # Inspect (UK AI Security Institute), the runner for meta/evals/.  meta/ had a
 # pre-registered experiment whose probabilistic cells need a model in the loop
