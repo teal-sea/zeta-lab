@@ -1,0 +1,370 @@
+{
+  "hunt": "lambda_dh_bounds",
+  "route": "route 4: quadrature-free ball evaluator (Gauss-sum kappa, Hurwitz-zeta H_0, acb_series Taylor in t with an explicit remainder)",
+  "provenance": "written by adversary 4 and re-run by the gate adjudication of 2026-08-16 as a4_indep.py and a4_box.py; landed here unchanged in mathematics under GATE.md closure item (e)",
+  "grade": "enclosure-carrying (Arb balls with an explicit remainder); the agreements are ball overlaps",
+  "independence": "shares exactly one declared layer with route 1, the python-flint ball arithmetic backend, and that layer is reconvergent.  Radius 0.  See INDEPENDENCE.md and independence_decl.py.",
+  "kappa": {
+    "all_overlap": true,
+    "equation": "kappa = (1 - w)/(i(1 + w)), w = i sqrt5 / tau(chi)",
+    "instrument_equation": "self-duality linear solve at s0 = 3/4 + 3i/2",
+    "rows": [
+      {
+        "prec_bits": 200,
+        "gauss": "[0.28407904384041229602829183239312617 +/- 9.10e-37]",
+        "instrument": "[0.28407904384041229602829183239312617 +/- 9.10e-37]",
+        "overlap": true
+      },
+      {
+        "prec_bits": 400,
+        "gauss": "[0.28407904384041229602829183239312617 +/- 9.10e-37]",
+        "instrument": "[0.28407904384041229602829183239312617 +/- 9.10e-37]",
+        "overlap": true
+      },
+      {
+        "prec_bits": 600,
+        "gauss": "[0.28407904384041229602829183239312617 +/- 9.10e-37]",
+        "instrument": "[0.28407904384041229602829183239312617 +/- 9.10e-37]",
+        "overlap": true
+      }
+    ]
+  },
+  "t_zero": {
+    "all_overlap": true,
+    "route": "F(1/2 + iz) by Hurwitz zeta, no quadrature",
+    "rows": [
+      {
+        "z": "10 + 0i",
+        "prec_bits": 420,
+        "hurwitz": {
+          "re_mid": 0.003956249831075141,
+          "re_rad": 2.027540888012242e-127,
+          "im_mid": 2.5775834134323224e-128,
+          "im_rad": 1.9834122437506366e-127
+        },
+        "instrument": {
+          "re_mid": 0.003956249831075141,
+          "re_rad": 5.591067520430078e-125,
+          "im_mid": 0.0,
+          "im_rad": 8.781765415051047e-161
+        },
+        "overlap": true
+      },
+      {
+        "z": "10 + 1/2i",
+        "prec_bits": 420,
+        "hurwitz": {
+          "re_mid": 0.00458865326312965,
+          "re_rad": 2.2470506013322377e-127,
+          "im_mid": -0.00046739822845041814,
+          "im_rad": 2.2629590238109737e-127
+        },
+        "instrument": {
+          "re_mid": 0.00458865326312965,
+          "re_rad": 5.938829491209719e-125,
+          "im_mid": -0.00046739822845041814,
+          "im_rad": 8.898482207683733e-126
+        },
+        "overlap": true
+      },
+      {
+        "z": "240.4165 + 0i",
+        "prec_bits": 420,
+        "hurwitz": {
+          "re_mid": 8.053290237731784e-82,
+          "re_rad": 1.1881900127162566e-203,
+          "im_mid": 7.661067635361095e-206,
+          "im_rad": 1.2003434641567759e-203
+        },
+        "instrument": {
+          "re_mid": 8.053290237731784e-82,
+          "re_rad": 1.4472634054816526e-124,
+          "im_mid": 0.0,
+          "im_rad": 8.781765415051047e-161
+        },
+        "overlap": true
+      },
+      {
+        "z": "240.4165 + 0.02i",
+        "prec_bits": 420,
+        "hurwitz": {
+          "re_mid": 8.03199159619921e-82,
+          "re_rad": 1.2544919249249013e-203,
+          "im_mid": -4.846809168586275e-84,
+          "im_rad": 1.2660637742343616e-203
+        },
+        "instrument": {
+          "re_mid": 8.03199159619921e-82,
+          "re_rad": 1.4588518865551711e-124,
+          "im_mid": -4.846809168586275e-84,
+          "im_rad": 1.5354234945056646e-126
+        },
+        "overlap": true
+      },
+      {
+        "z": "240.4165 + 0.02i",
+        "prec_bits": 600,
+        "hurwitz": {
+          "re_mid": 8.03199159619921e-82,
+          "re_rad": 9.490747552335414e-258,
+          "im_mid": -4.846809168586275e-84,
+          "im_rad": 9.570112448197326e-258
+        },
+        "instrument": {
+          "re_mid": 8.03199159619921e-82,
+          "re_rad": 9.634249466762543e-179,
+          "im_mid": -4.846809168586275e-84,
+          "im_rad": 9.729523070311194e-181
+        },
+        "overlap": true
+      },
+      {
+        "z": "420.0625 + 0i",
+        "prec_bits": 600,
+        "hurwitz": {
+          "re_mid": 6.960132599229318e-143,
+          "re_rad": 8.8774e-320,
+          "im_mid": 1.528e-320,
+          "im_rad": 8.7613e-320
+        },
+        "instrument": {
+          "re_mid": 6.960132599229318e-143,
+          "re_rad": 1.1838793459790637e-178,
+          "im_mid": 0.0,
+          "im_rad": 1.4141587787582123e-219
+        },
+        "overlap": true
+      }
+    ]
+  },
+  "t_positive": {
+    "all_overlap": true,
+    "route": "H_t = sum t^k/k! F^{(2k)}(1/2+iz), acb_series coefficients, explicit remainder; no quadrature",
+    "rows": [
+      {
+        "z": "10 + 0i",
+        "t": "23/400",
+        "K": 30,
+        "prec_bits": 500,
+        "taylor_remainder_bound": 3.534437480723299e-30,
+        "taylor": {
+          "re_mid": 0.004245296826006405,
+          "re_rad": 3.5344374875570266e-30,
+          "im_mid": 1.7900840002435075e-152,
+          "im_rad": 3.5344374875570266e-30
+        },
+        "instrument": {
+          "re_mid": 0.004245296826006405,
+          "re_rad": 4.848736910822031e-149,
+          "im_mid": 0.0,
+          "im_rad": 1.2720381998143482e-187
+        },
+        "overlap": true
+      },
+      {
+        "z": "240.4165 + 0.02i",
+        "t": "23/400",
+        "K": 40,
+        "prec_bits": 600,
+        "taylor_remainder_bound": 5.407009626442734e-46,
+        "taylor": {
+          "re_mid": 4.3658433958660405e-83,
+          "re_rad": 5.407009638225851e-46,
+          "im_mid": 2.425744106150811e-83,
+          "im_rad": 5.407009638225851e-46
+        },
+        "instrument": {
+          "re_mid": 4.3658433958660405e-83,
+          "re_rad": 9.834906260241013e-179,
+          "im_mid": 2.425744106150811e-83,
+          "im_rad": 1.001550499675652e-180
+        },
+        "overlap": true
+      },
+      {
+        "z": "240.4165 + 0.02i",
+        "t": "23/400",
+        "K": 60,
+        "prec_bits": 700,
+        "taylor_remainder_bound": 1.0004235545412212e-80,
+        "taylor": {
+          "re_mid": 4.3658433958660405e-83,
+          "re_rad": 1.0004235572054385e-80,
+          "im_mid": 2.425744106150811e-83,
+          "im_rad": 1.0004235572054385e-80
+        },
+        "instrument": {
+          "re_mid": 4.3658433958660405e-83,
+          "re_rad": 7.753542321021632e-209,
+          "im_mid": 2.425744106150811e-83,
+          "im_rad": 7.947327232853416e-211
+        },
+        "overlap": true
+      },
+      {
+        "z": "240.4165 + 3/100i",
+        "t": "36/625",
+        "K": 60,
+        "prec_bits": 700,
+        "taylor_remainder_bound": 1.1575210109009432e-80,
+        "taylor": {
+          "re_mid": 3.812787293422782e-83,
+          "re_rad": 1.1575210139601508e-80,
+          "im_mid": 3.6590056867530465e-83,
+          "im_rad": 1.1575210139601508e-80
+        },
+        "instrument": {
+          "re_mid": 3.812787293422782e-83,
+          "re_rad": 7.755301587113317e-209,
+          "im_mid": 3.6590056867530465e-83,
+          "im_rad": 1.1913387586578894e-210
+        },
+        "overlap": true
+      },
+      {
+        "z": "85.6993 + 0.3085i",
+        "t": "3/100",
+        "K": 50,
+        "prec_bits": 600,
+        "taylor_remainder_bound": 9.597593981329644e-77,
+        "taylor": {
+          "re_mid": 1.1542834709965744e-29,
+          "re_rad": 9.597593997934643e-77,
+          "im_mid": -1.1848653346785507e-29,
+          "im_rad": 9.597593997934643e-77
+        },
+        "instrument": {
+          "re_mid": 1.1542834709965744e-29,
+          "re_rad": 5.025280287334005e-179,
+          "im_mid": -1.1848653346785507e-29,
+          "im_rad": 7.572265200873424e-180
+        },
+        "overlap": true
+      }
+    ]
+  },
+  "box_boundary": {
+    "all_overlap": true,
+    "mismatches": 0,
+    "min_measured_agreement_digits": 40.31806475603368,
+    "agreement_digits_note": "the gate's summary reported agreement 'to about 22 digits'; that was the width of the printed comparison, not a measurement.  The measured relative agreement, an upper bound for |taylor - instrument| over a lower bound for |instrument|, is reported per row.",
+    "box": {
+      "re_lo": "122929/512",
+      "re_hi": "123185/512",
+      "im_lo": "3/512",
+      "im_hi": "61/1024"
+    },
+    "t": "23/400",
+    "K": 100,
+    "prec_bits": 900,
+    "note": "at K = 100 and 900 bits the route's own remainder ball is smaller than the instrument's radius, so the overlap is a real agreement and not a wide ball swallowing a narrow one",
+    "rows": [
+      {
+        "z": "240.095703125 + 0.005859375i",
+        "z_exact": [
+          "122929/512",
+          "3/512"
+        ],
+        "taylor": "[6.207819689750818412859e-82 +/- 4.28e-104] + [-2.962088004188706337397e-83 +/- 1.68e-105]j",
+        "instrument": "[6.207819689750818412859e-82 +/- 4.28e-104] + [-2.962088004188706337397e-83 +/- 1.68e-105]j",
+        "taylor_remainder_bound": 3.0012585847746115e-158,
+        "instrument_radius": 1.1628170864163578e-124,
+        "measured_agreement_digits": 42.723128425680706,
+        "overlap": true
+      },
+      {
+        "z": "240.595703125 + 0.005859375i",
+        "z_exact": [
+          "123185/512",
+          "3/512"
+        ],
+        "taylor": "[4.783296419910493103126e-82 +/- 3.17e-106] + [1.979243192251821290076e-83 +/- 1.51e-105]j",
+        "instrument": "[4.783296419910493103126e-82 +/- 3.17e-106] + [1.979243192251821290076e-83 +/- 1.51e-105]j",
+        "taylor_remainder_bound": 3.0012585847746115e-158,
+        "instrument_radius": 1.1669330445512237e-124,
+        "measured_agreement_digits": 42.60871842606043,
+        "overlap": true
+      },
+      {
+        "z": "240.095703125 + 0.059570312i",
+        "z_exact": [
+          "122929/512",
+          "61/1024"
+        ],
+        "taylor": "[5.846601690482934024059e-82 +/- 4.30e-104] + [-3.016626810405063338069e-82 +/- 1.06e-104]j",
+        "instrument": "[5.846601690482934024059e-82 +/- 4.30e-104] + [-3.016626810405063338069e-82 +/- 1.06e-104]j",
+        "taylor_remainder_bound": 3.720564778538265e-158,
+        "instrument_radius": 1.1638409314800908e-124,
+        "measured_agreement_digits": 42.74701014178236,
+        "overlap": true
+      },
+      {
+        "z": "240.595703125 + 0.059570312i",
+        "z_exact": [
+          "123185/512",
+          "61/1024"
+        ],
+        "taylor": "[4.640157423030823740367e-82 +/- 2.36e-104] + [2.028248950925625323408e-82 +/- 1.95e-104]j",
+        "instrument": "[4.640157423030823740367e-82 +/- 2.36e-104] + [2.028248950925625323408e-82 +/- 1.95e-104]j",
+        "taylor_remainder_bound": 3.720564778538265e-158,
+        "instrument_radius": 1.1678641632401128e-124,
+        "measured_agreement_digits": 42.632567698363104,
+        "overlap": true
+      },
+      {
+        "z": "240.345703125 + 0.005859375i",
+        "z_exact": [
+          "123057/512",
+          "3/512"
+        ],
+        "taylor": "[2.448529147012783330303e-84 +/- 2.60e-106] + [3.734952882960827618296e-86 +/- 3.40e-108]j",
+        "instrument": "[2.448529147012783330303e-84 +/- 2.60e-106] + [3.734952882960827618296e-86 +/- 3.40e-108]j",
+        "taylor_remainder_bound": 3.0012585847746115e-158,
+        "instrument_radius": 1.1657171480800271e-124,
+        "measured_agreement_digits": 40.31806475603368,
+        "overlap": true
+      },
+      {
+        "z": "240.345703125 + 0.059570312i",
+        "z_exact": [
+          "123057/512",
+          "61/1024"
+        ],
+        "taylor": "[-2.950375348214103074334e-83 +/- 3.62e-105] + [1.409383771705130625191e-84 +/- 1.51e-106]j",
+        "instrument": "[-2.950375348214103074334e-83 +/- 3.62e-105] + [1.409383771705130625191e-84 +/- 1.51e-106]j",
+        "taylor_remainder_bound": 3.720564778538265e-158,
+        "instrument_radius": 1.166643626399757e-124,
+        "measured_agreement_digits": 41.398922844494884,
+        "overlap": true
+      },
+      {
+        "z": "240.095703125 + 0.032714844i",
+        "z_exact": [
+          "122929/512",
+          "67/2048"
+        ],
+        "taylor": "[6.101580113098901825198e-82 +/- 2.50e-104] + [-1.654671514420750058806e-82 +/- 6.03e-105]j",
+        "instrument": "[6.101580113098901825198e-82 +/- 2.50e-104] + [-1.654671514420750058806e-82 +/- 6.03e-105]j",
+        "taylor_remainder_bound": 3.3416129311753057e-158,
+        "instrument_radius": 1.1632103097139704e-124,
+        "measured_agreement_digits": 42.730141395783306,
+        "overlap": true
+      },
+      {
+        "z": "240.595703125 + 0.032714844i",
+        "z_exact": [
+          "123185/512",
+          "67/2048"
+        ],
+        "taylor": "[4.741113103877949873543e-82 +/- 2.55e-104] + [1.107667719446707555117e-82 +/- 3.61e-104]j",
+        "instrument": "[4.741113103877949873543e-82 +/- 2.55e-104] + [1.107667719446707555117e-82 +/- 3.61e-104]j",
+        "taylor_remainder_bound": 3.3416129311753057e-158,
+        "instrument_radius": 1.1672579989490908e-124,
+        "measured_agreement_digits": 42.615524866783396,
+        "overlap": true
+      }
+    ]
+  },
+  "all_pass": true,
+  "seconds_total": 7.6
+}

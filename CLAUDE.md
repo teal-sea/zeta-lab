@@ -91,6 +91,24 @@ or worktrees. To prevent scope creep and collisions:
   own tree.
 - **Verify first**: confirm the suite is green (see Setup) before building
   on a tree.
+- **Look before you report** (added 2026-08-18, after a session stated this
+  repository's state from a clone it had held for hours and was wrong about a
+  sibling's work). The sessions on this account are not blind to each other:
+  `list_sessions` enumerates them with a `post_turn_summary` carrying each
+  one's `status_category` and `needs_action`, and `send_message` reaches a
+  named one. Before you describe repository or manuscript state to the
+  operator, and before you edit a file outside your own hunt directory:
+  `git fetch` and re-read, and call `list_sessions` to see who else is on this
+  repository. The failure that produced this rule was not missing machinery.
+  It was an available call nobody made, so the fix is a habit and not a
+  system: this repository has a 74-run verdict against building coordination
+  frameworks (`harness/VERDICT.md`), and that verdict stands.
+- **Shared repositories get branches too.** A hunt already works on its own
+  branch by convention. Repositories this tree publishes into deserve the same
+  discipline: edit them on a branch and open a pull request rather than
+  committing to `main`, so a concurrent session collides in git rather than in
+  the operator's inbox. Two sessions edited one such file hours apart on
+  2026-08-17; only a rejected push revealed it.
 
 ### Outside environments (read-only mounts, notebook agents)
 

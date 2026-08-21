@@ -1220,6 +1220,8 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `26-the-adopted-builds.md` — 26 — The adopted builds: the decision of 2026-08-11, made runnable
 - `27-state-of-the-transplant.md` — 27 — State of the transplant: what is kernel-checked, what is refuted, what is open
 - `28-asymmetry-e0-disposition.md` — 28. E0: the independent checker reproduced the audit's blind spots exactly
+- `29-de-bruijn-newman-davenport-heilbronn.md` — The de Bruijn-Newman constant of the Davenport-Heilbronn function
+- `30-prime-zeta-rightmost-zeros.md` — 28: The rightmost zeros of the prime zeta function
 
 ## Runnable demos (`scripts/`)
 
@@ -1275,7 +1277,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1864 test functions across 78 files (the collected count differs where tests are parametrised):
+1896 test functions across 81 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_check_secrets.py` — 5
@@ -1313,10 +1315,12 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_harness_stateval_department.py` — 12
 - `tests/test_harness_zeta_department.py` — 9
 - `tests/test_heatflow.py` — 38
+- `tests/test_hunt_numbering.py` — 3
 - `tests/test_hunt_probe_discipline.py` — 7
 - `tests/test_huntspec.py` — 16
 - `tests/test_inverse.py` — 8
 - `tests/test_lab_state.py` — 1
+- `tests/test_lambda_dh_separation.py` — 13
 - `tests/test_leeyang.py` — 7
 - `tests/test_lesion_sets_are_pinned.py` — 4
 - `tests/test_li.py` — 56
@@ -1326,6 +1330,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_o9_leaves_kernel.py` — 6
 - `tests/test_pari_oracle.py` — 18
 - `tests/test_plots.py` — 13
+- `tests/test_prime_zeta_rightmost.py` — 16
 - `tests/test_proof_adapter.py` — 10
 - `tests/test_pub1_admissible_closure.py` — 11
 - `tests/test_pub1_display_rounding.py` — 18

@@ -1,0 +1,814 @@
+{
+  "instrument": "hunts/lambda_dh_bounds/instrument.py",
+  "backend": "python-flint 0.9.0 (Arb)",
+  "vocabulary": "enclosure/decided per MISSION.md; float routes are measured",
+  "repairs": "2026-08-16, GATE.md closure item (e): check 5 repointed from instrument.phi_ball (called by no decision path) to instrument._truncated_integrand (the callable _H_core hands to the integrator); check 6 added, because containment has no purchase on the two hand-derived tail bounds",
+  "containment": {
+    "all_contained": true,
+    "n_points": 11,
+    "flow_init_seconds": 33.0,
+    "h_ball_seconds_prec420": [
+      0.104,
+      0.067,
+      0.072,
+      0.067,
+      0.066,
+      0.075,
+      0.079,
+      0.08
+    ],
+    "rows": [
+      {
+        "z": "10 + 0i",
+        "t": "0",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "ball": {
+          "re_mid": 0.003956249831075141,
+          "re_rad": 5.591067520430078e-125,
+          "im_mid": 0.0,
+          "im_rad": 8.781765415051047e-161
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=150",
+        "float_value": "(0.00395624983107514142469968638142 - 7.89172886709712964866331686538e-154j)",
+        "float_error_allowance": "1e-135",
+        "contains_float": true,
+        "seconds_ball": 0.104,
+        "seconds_float": 0.768,
+        "completed_dh_value": "(0.00395624983107514142469968638142 + 5.33715166951925309266862432352e-185j)",
+        "contains_completed_dh": true
+      },
+      {
+        "z": "10 + 0.5i",
+        "t": "0.03",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "ball": {
+          "re_mid": 0.0047262594567943645,
+          "re_rad": 6.046237782747374e-125,
+          "im_mid": -0.0005942001830400928,
+          "im_rad": 9.066019588301437e-126
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=150",
+        "float_value": "(0.00472625945679436467154800846334 - 0.000594200183040092777953229693166j)",
+        "float_error_allowance": "1e-135",
+        "contains_float": true,
+        "seconds_ball": 0.067,
+        "seconds_float": 1.472
+      },
+      {
+        "z": "85.6993 + 0i",
+        "t": "0",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "ball": {
+          "re_mid": -1.9029412766008678e-29,
+          "re_rad": 7.128640968079082e-125,
+          "im_mid": 0.0,
+          "im_rad": 8.781765415051047e-161
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=150",
+        "float_value": "(-1.90294127660086788889970526643e-29 - 7.3899933367591580025022245111e-154j)",
+        "float_error_allowance": "1e-135",
+        "contains_float": true,
+        "seconds_ball": 0.072,
+        "seconds_float": 0.782,
+        "completed_dh_value": "(-1.90294127660086788889970526643e-29 - 1.11297539230463086624298881709e-209j)",
+        "contains_completed_dh": true
+      },
+      {
+        "z": "85.6993 + 0.3085i",
+        "t": "0.03",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "ball": {
+          "re_mid": 1.1542834709965744e-29,
+          "re_rad": 7.464683083386994e-125,
+          "im_mid": -1.1848653346785507e-29,
+          "im_rad": 1.1341210813978948e-125
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=150",
+        "float_value": "(1.1542834709965744764442134206e-29 - 1.18486533467855073128899918232e-29j)",
+        "float_error_allowance": "1e-135",
+        "contains_float": true,
+        "seconds_ball": 0.067,
+        "seconds_float": 1.4
+      },
+      {
+        "z": "85.6993 + 0.3085i",
+        "t": "0.0575",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "ball": {
+          "re_mid": 2.1382796609288325e-29,
+          "re_rad": 7.531438166155901e-125,
+          "im_mid": -2.4220595221124628e-29,
+          "im_rad": 1.1491049203651355e-125
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=150",
+        "float_value": "(2.13827966092883239943741107219e-29 - 2.42205952211246296296056292291e-29j)",
+        "float_error_allowance": "1e-135",
+        "contains_float": true,
+        "seconds_ball": 0.066,
+        "seconds_float": 1.443
+      },
+      {
+        "z": "240.4165 + 0i",
+        "t": "0",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "ball": {
+          "re_mid": 8.053290237731784e-82,
+          "re_rad": 1.4472634054816526e-124,
+          "im_mid": 0.0,
+          "im_rad": 8.781765415051047e-161
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=150",
+        "float_value": "(8.05329023773178365970364223781e-82 - 2.7151167884852476176531739151e-154j)",
+        "float_error_allowance": "1e-135",
+        "contains_float": true,
+        "seconds_ball": 0.075,
+        "seconds_float": 0.791,
+        "completed_dh_value": "(8.05329023773178365970364223781e-82 + 1.21839962843781490695731041042e-261j)",
+        "contains_completed_dh": true
+      },
+      {
+        "z": "240.4165 + 0.02i",
+        "t": "0.0575",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "ball": {
+          "re_mid": 4.3658433958660405e-83,
+          "re_rad": 1.4894837452822593e-124,
+          "im_mid": 2.425744106150811e-83,
+          "im_rad": 1.58023237839055e-126
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=150",
+        "float_value": "(4.36584339586604028601046830523e-83 + 2.4257441061508108306917516288e-83j)",
+        "float_error_allowance": "1e-135",
+        "contains_float": true,
+        "seconds_ball": 0.079,
+        "seconds_float": 1.446
+      },
+      {
+        "z": "240.4165 + 0.25i",
+        "t": "0.03",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "ball": {
+          "re_mid": 1.6497003273741873e-83,
+          "re_rad": 1.4914912764046745e-124,
+          "im_mid": 1.5885272400264864e-82,
+          "im_rad": 1.9011755012629176e-125
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=150",
+        "float_value": "(1.64970032737418716142174306024e-83 + 1.58852724002648639661806082047e-82j)",
+        "float_error_allowance": "1e-135",
+        "contains_float": true,
+        "seconds_ball": 0.08,
+        "seconds_float": 1.44
+      },
+      {
+        "z": "420.0625 + 0i",
+        "t": "0",
+        "backend": "python-flint",
+        "prec_bits": 600,
+        "ball": {
+          "re_mid": 6.960132599229318e-143,
+          "re_rad": 1.1838793459790637e-178,
+          "im_mid": 0.0,
+          "im_rad": 1.4141587787582123e-219
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=205",
+        "float_value": "(6.96013259922931761284299843495e-143 + 2.39311850224569310344268036301e-209j)",
+        "float_error_allowance": "1e-190",
+        "contains_float": true,
+        "seconds_ball": 0.232,
+        "seconds_float": 2.092,
+        "completed_dh_value": "(6.96013259922931761284299843495e-143 + 2.57359188229897088781506869791e-377j)",
+        "contains_completed_dh": true
+      },
+      {
+        "z": "420.0625 + 0.02i",
+        "t": "0.03",
+        "backend": "python-flint",
+        "prec_bits": 600,
+        "ball": {
+          "re_mid": 1.192539555139463e-142,
+          "re_rad": 1.2049619734229099e-178,
+          "im_mid": 5.0165974449914504e-144,
+          "im_rad": 1.2456603705448198e-180
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=205",
+        "float_value": "(1.19253955513946306303798314794e-142 + 5.01659744499145016519653725582e-144j)",
+        "float_error_allowance": "1e-190",
+        "contains_float": true,
+        "seconds_ball": 0.179,
+        "seconds_float": 4.298
+      },
+      {
+        "z": "420.0625 + 0.02i",
+        "t": "0.0575",
+        "backend": "python-flint",
+        "prec_bits": 600,
+        "ball": {
+          "re_mid": 1.743413636019342e-142,
+          "re_rad": 1.2159619753054978e-178,
+          "im_mid": 3.8267889328786547e-144,
+          "im_rad": 1.2618021010255513e-180
+        },
+        "float_route": "flow_repair DHFlow quadrature (measured), dps=205",
+        "float_value": "(1.74341363601934197505051625731e-142 + 3.82678893287865449154320948408e-144j)",
+        "float_error_allowance": "1e-190",
+        "contains_float": true,
+        "seconds_ball": 0.177,
+        "seconds_float": 4.232
+      }
+    ]
+  },
+  "kappa": {
+    "backend": "python-flint",
+    "prec_bits": 500,
+    "kappa_mid": 0.28407904384041227,
+    "kappa_rad": 1.520111982412233e-148,
+    "kappa_ref_40_digits": "0.2840790438404122960282918323931261690911",
+    "ball_inside_ref_pm_1e-39": true,
+    "abs_mid_minus_ref_upper": 1.191155426241724e-41,
+    "note": "KAPPA_REF is a 40-digit decimal rounding, so the enclosure check runs ball-inside-decimal-interval; the ball radius ~1.5e-148 makes the direction immaterial."
+  },
+  "evenness": {
+    "all_overlap": true,
+    "rows": [
+      {
+        "u": "1/10",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "phi_pos": {
+          "re_mid": 2.275870173304493,
+          "re_rad": 2.4917101374244245e-125,
+          "im_mid": 0.0,
+          "im_rad": 5.994131539368567e-224
+        },
+        "phi_neg": {
+          "re_mid": 2.275870173304493,
+          "re_rad": 3.850410583877741e-125,
+          "im_mid": 0.0,
+          "im_rad": 8.78615594505757e-200
+        },
+        "overlap": true
+      },
+      {
+        "u": "1/4",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "phi_pos": {
+          "re_mid": 2.1175129305384215,
+          "re_rad": 2.6879971232867465e-125,
+          "im_mid": 0.0,
+          "im_rad": 1.3553580656620525e-236
+        },
+        "phi_neg": {
+          "re_mid": 2.1175129305384215,
+          "re_rad": 3.592794841428874e-125,
+          "im_mid": 0.0,
+          "im_rad": 4.408963675858979e-190
+        },
+        "overlap": true
+      },
+      {
+        "u": "1/2",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "phi_pos": {
+          "re_mid": 1.5399087040123525,
+          "re_rad": 1.8359509764607427e-125,
+          "im_mid": 0.0,
+          "im_rad": 2.7170784396976345e-266
+        },
+        "phi_neg": {
+          "re_mid": 1.5399087040123525,
+          "re_rad": 3.5623742057900284e-125,
+          "im_mid": 0.0,
+          "im_rad": 1.984315709235097e-184
+        },
+        "overlap": true
+      },
+      {
+        "u": "3/4",
+        "backend": "python-flint",
+        "prec_bits": 420,
+        "phi_pos": {
+          "re_mid": 0.7374830755081292,
+          "re_rad": 8.312935134070593e-126,
+          "im_mid": 0.0,
+          "im_rad": 1.665631452512e-311
+        },
+        "phi_neg": {
+          "re_mid": 0.7374830755081292,
+          "re_rad": 3.8928776002435976e-125,
+          "im_mid": 0.0,
+          "im_rad": 6.41979827770204e-170
+        },
+        "overlap": true
+      }
+    ]
+  },
+  "precision_response": {
+    "point": "z = 240.4165 + 0.02i, t = 23/400",
+    "strictly_shrinking": true,
+    "rows": [
+      {
+        "prec_bits": 320,
+        "backend": "python-flint",
+        "radius": 1.83781346708179e-94,
+        "seconds": 0.069
+      },
+      {
+        "prec_bits": 420,
+        "backend": "python-flint",
+        "radius": 1.4894837452822593e-124,
+        "seconds": 0.078
+      },
+      {
+        "prec_bits": 520,
+        "backend": "python-flint",
+        "radius": 1.1507722569677904e-154,
+        "seconds": 0.159
+      }
+    ]
+  },
+  "iv_cross_leg": {
+    "all_overlap": true,
+    "target": "instrument._truncated_integrand",
+    "target_note": "the exact callable instrument._H_core hands to acb.integral; the decision path runs this code and no other copy of the series",
+    "repaired": "2026-08-16, GATE.md closure item (e): this leg used to exercise instrument.phi_ball, which no decision path calls",
+    "kappa_interval_source": "KAPPA_REF +/- 1e-39 (an enclosure per check 2; iv has no Hurwitz zeta)",
+    "planted_fault_measured_2026_08_16": "seeding the theta recurrence with w = q^2 instead of q^3 (so every term carries the wrong power of q) is caught at 6 of these 7 points.  The point that misses is u = 5/2, where exp(-pi e^{2u}/5) is about e^{-93} and the truncated sum is its own first term to well below the interval width; a check at large u sees only n = 1, which is the blind spot to know about.",
+    "what_this_leg_does_not_cover": "the kappa solve (iv has no Hurwitz zeta), the two tail bounds (check 6), and the quadrature itself, which is single-backend: mpmath.iv has no rigorous integrator and the in-tree precedent zeta.rigor.enclose_weil_functional is flint-only and says so",
+    "rows": [
+      {
+        "u": "1/10",
+        "z": "0 + 0i",
+        "t": "0",
+        "deriv": false,
+        "N": 48,
+        "iv_backend": "mpmath.iv, dps=60 (directed rounding), direct term-by-term sum",
+        "arb_target": "instrument._truncated_integrand (the callable _H_core hands to acb.integral), theta recurrence",
+        "iv_re": [
+          2.275870173304493,
+          2.275870173304493
+        ],
+        "iv_im": [
+          0.0,
+          0.0
+        ],
+        "arb_ball": {
+          "re_mid": 2.275870173304493,
+          "re_rad": 4.122243228721309e-125,
+          "im_mid": 0.0,
+          "im_rad": 0.0
+        },
+        "overlap": true
+      },
+      {
+        "u": "1/4",
+        "z": "10 + 0i",
+        "t": "23/400",
+        "deriv": false,
+        "N": 48,
+        "iv_backend": "mpmath.iv, dps=60 (directed rounding), direct term-by-term sum",
+        "arb_target": "instrument._truncated_integrand (the callable _H_core hands to acb.integral), theta recurrence",
+        "iv_re": [
+          -1.7025394853908677,
+          -1.7025394853908677
+        ],
+        "iv_im": [
+          0.0,
+          0.0
+        ],
+        "arb_ball": {
+          "re_mid": -1.7025394853908677,
+          "re_rad": 4.1597417877399054e-125,
+          "im_mid": 0.0,
+          "im_rad": 0.0
+        },
+        "overlap": true
+      },
+      {
+        "u": "1/2",
+        "z": "240.4165 + 0.02i",
+        "t": "23/400",
+        "deriv": false,
+        "N": 48,
+        "iv_backend": "mpmath.iv, dps=60 (directed rounding), direct term-by-term sum",
+        "arb_target": "instrument._truncated_integrand (the callable _H_core hands to acb.integral), theta recurrence",
+        "iv_re": [
+          1.0569620705034408,
+          1.0569620705034408
+        ],
+        "iv_im": [
+          -0.011504219746707624,
+          -0.011504219746707624
+        ],
+        "arb_ball": {
+          "re_mid": 1.0569620705034408,
+          "re_rad": 8.38458894097318e-125,
+          "im_mid": -0.011504219746707624,
+          "im_rad": 8.204982591949174e-127
+        },
+        "overlap": true
+      },
+      {
+        "u": "1/2",
+        "z": "240.4165 + 0.02i",
+        "t": "23/400",
+        "deriv": true,
+        "N": 48,
+        "iv_backend": "mpmath.iv, dps=60 (directed rounding), direct term-by-term sum",
+        "arb_target": "instrument._truncated_integrand (the callable _H_core hands to acb.integral), theta recurrence",
+        "iv_re": [
+          -0.5752301609071356,
+          -0.5752301609071356
+        ],
+        "iv_im": [
+          -0.005284634199218249,
+          -0.005284634199218249
+        ],
+        "arb_ball": {
+          "re_mid": -0.5752301609071356,
+          "re_rad": 4.0923622451220273e-125,
+          "im_mid": -0.005284634199218249,
+          "im_rad": 4.20041667834738e-127
+        },
+        "overlap": true
+      },
+      {
+        "u": "3/2",
+        "z": "122929/512 + 3/512i",
+        "t": "23/400",
+        "deriv": false,
+        "N": 48,
+        "iv_backend": "mpmath.iv, dps=60 (directed rounding), direct term-by-term sum",
+        "arb_target": "instrument._truncated_integrand (the callable _H_core hands to acb.integral), theta recurrence",
+        "iv_re": [
+          -5.966394782887789e-05,
+          -5.966394782887789e-05
+        ],
+        "iv_im": [
+          -1.139777814815146e-06,
+          -1.139777814815146e-06
+        ],
+        "arb_ball": {
+          "re_mid": -5.966394782887789e-05,
+          "re_rad": 2.6980067404143985e-129,
+          "im_mid": -1.139777814815146e-06,
+          "im_rad": 5.201740423166206e-131
+        },
+        "overlap": true
+      },
+      {
+        "u": "3/2",
+        "z": "122929/512 + 3/512i",
+        "t": "23/400",
+        "deriv": true,
+        "N": 48,
+        "iv_backend": "mpmath.iv, dps=60 (directed rounding), direct term-by-term sum",
+        "arb_target": "instrument._truncated_integrand (the callable _H_core hands to acb.integral), theta recurrence",
+        "iv_re": [
+          -0.00019452708915854925,
+          -0.00019452708915854925
+        ],
+        "iv_im": [
+          7.865649963768706e-07,
+          7.865649963768706e-07
+        ],
+        "arb_ball": {
+          "re_mid": -0.00019452708915854925,
+          "re_rad": 8.880660570548819e-129,
+          "im_mid": 7.865649963768706e-07,
+          "im_rad": 3.586584386978723e-131
+        },
+        "overlap": true
+      },
+      {
+        "u": "5/2",
+        "z": "240.4165 + 3/100i",
+        "t": "36/625",
+        "deriv": false,
+        "N": 48,
+        "iv_backend": "mpmath.iv, dps=60 (directed rounding), direct term-by-term sum",
+        "arb_target": "instrument._truncated_integrand (the callable _H_core hands to acb.integral), theta recurrence",
+        "iv_re": [
+          -4.212822770393553e-39,
+          -4.212822770393553e-39
+        ],
+        "iv_im": [
+          4.879916678885626e-40,
+          4.879916678885626e-40
+        ],
+        "arb_ball": {
+          "re_mid": -4.212822770393553e-39,
+          "re_rad": 4.954262445626795e-162,
+          "im_mid": 4.879916678885626e-40,
+          "im_rad": 2.99555920237556e-163
+        },
+        "overlap": true
+      }
+    ]
+  },
+  "tail_domination": {
+    "all_dominate": true,
+    "grade": "measured (mpmath, floats); the true remainders are not enclosed",
+    "strength": "NECESSARY, NOT SUFFICIENT: passing does not make a bound right, failing proves one wrong",
+    "why_this_replaces_nothing": "the containment check (1) has no purchase on these bounds: at every point there they sit 36 to 41 orders of magnitude below the delivered ball radius, so a bound could be wrong by thirty orders and every containment row would still read True",
+    "min_domination_ratio": 8.016926817753845,
+    "max_domination_ratio": 2.0612326318092295e+96,
+    "blindness_factor": {
+      "value": 8.016926817753845,
+      "meaning": "the smallest domination ratio over all rows, so a bound deflated by MORE than this factor is caught at one of these points and a bound deflated by less is not.  Reported because docs/25's standing consequence is that a lesion threshold without a blindness radius is half a measurement."
+    },
+    "n_stress_points_large_im_z": 7,
+    "min_stress_domination_ratio": 15.616543746598456,
+    "series_truncation_tail": {
+      "bound": "instrument._series_tail_finite",
+      "true_quantity": "int_0^U e^{t u^2} 4 e^{3u/2} (omega - omega_N)(e^{2u}) cos(zu) du (-u sin(zu) for the H' branch)",
+      "rows": [
+        {
+          "label": "working N = 27, t = 0",
+          "U": "51/16",
+          "t": "0",
+          "z": "10 + 0i",
+          "N": 27,
+          "deriv": false,
+          "mpmath_dps": 300,
+          "true_remainder": 1.3219513717663592e-215,
+          "quad_relative_error_estimate": 7.564574774515527e-145,
+          "claimed_bound": 4.953662853856492e-210,
+          "domination_ratio_bound_over_true": 374723.5306573742,
+          "dominates": true
+        },
+        {
+          "label": "working N = 27, the t1 box point",
+          "U": "51/16",
+          "t": "23/400",
+          "z": "240.4165 + 1/50i",
+          "N": 27,
+          "deriv": false,
+          "mpmath_dps": 300,
+          "true_remainder": 1.2482452879485964e-215,
+          "quad_relative_error_estimate": 8.011245943843537e-155,
+          "claimed_bound": 9.469596118704764e-210,
+          "domination_ratio_bound_over_true": 758632.6349581004,
+          "dominates": true
+        },
+        {
+          "label": "working N = 27, the t1 box point, H'",
+          "U": "51/16",
+          "t": "23/400",
+          "z": "240.4165 + 1/50i",
+          "N": 27,
+          "deriv": true,
+          "mpmath_dps": 300,
+          "true_remainder": 5.80215723975555e-219,
+          "quad_relative_error_estimate": 1.7234968972370197e-152,
+          "claimed_bound": 3.0184337628371436e-209,
+          "domination_ratio_bound_over_true": 5202261224.765279,
+          "dominates": true
+        },
+        {
+          "label": "N = 8, |Im z| = 1",
+          "U": "51/16",
+          "t": "23/400",
+          "z": "240.4165 + 1i",
+          "N": 8,
+          "deriv": false,
+          "mpmath_dps": 90,
+          "true_remainder": 3.524916372771728e-29,
+          "quad_relative_error_estimate": 2.8369467364517235e-129,
+          "claimed_bound": 4.725028471295061e-17,
+          "domination_ratio_bound_over_true": 1340465410128.1997,
+          "dominates": true
+        },
+        {
+          "label": "|Im z| = 5, stress",
+          "U": "7/2",
+          "t": "23/400",
+          "z": "240.4165 + 5i",
+          "N": 12,
+          "deriv": false,
+          "mpmath_dps": 120,
+          "true_remainder": 8.253198885645804e-48,
+          "quad_relative_error_estimate": 1.2116514019057849e-134,
+          "claimed_bound": 2.140437671000668e-34,
+          "domination_ratio_bound_over_true": 25934643047599.125,
+          "dominates": true
+        },
+        {
+          "label": "|Im z| = 20, stress",
+          "U": "4",
+          "t": "1/10",
+          "z": "0 + 20i",
+          "N": 12,
+          "deriv": false,
+          "mpmath_dps": 140,
+          "true_remainder": 1.8867769816692998e-47,
+          "quad_relative_error_estimate": 5.300043458847288e-96,
+          "claimed_bound": 1.7643531149118364e-06,
+          "domination_ratio_bound_over_true": 9.351148185785315e+40,
+          "dominates": true
+        },
+        {
+          "label": "|Im z| = 50, stress, H'",
+          "U": "4",
+          "t": "1/10",
+          "z": "0 + 50i",
+          "N": 12,
+          "deriv": true,
+          "mpmath_dps": 160,
+          "true_remainder": 4.465358367983036e-50,
+          "quad_relative_error_estimate": 2.2394619145690012e-172,
+          "claimed_bound": 9.20414238080904e+46,
+          "domination_ratio_bound_over_true": 2.0612326318092295e+96,
+          "dominates": true
+        },
+        {
+          "label": "tiny N = 3, H'",
+          "U": "2",
+          "t": "0",
+          "z": "5 + 3i",
+          "N": 3,
+          "deriv": true,
+          "mpmath_dps": 60,
+          "true_remainder": 8.986292355534545e-10,
+          "quad_relative_error_estimate": 1.1128059943254713e-58,
+          "claimed_bound": 26.436101217894507,
+          "domination_ratio_bound_over_true": 29418251901.867897,
+          "dominates": true
+        }
+      ]
+    },
+    "u_tail": {
+      "bound": "instrument._u_tail",
+      "true_quantity": "int_U^inf e^{t u^2} Phi_DH(u) cos(zu) du (-u sin(zu) for the H' branch)",
+      "refusals": [
+        "|Im z| = 50 at U = 5/2, deliberately too small"
+      ],
+      "refusal_note": "a refusal is the bound declining to bound, not a domination failure: _u_tail returns None when its hypothesis c > 0 fails and _H_core then raises rather than integrating.  Each refusal row has a companion row at the U the instrument itself would pick, where the bound exists and dominates.",
+      "rows": [
+        {
+          "label": "working U = 51/16, t = 0",
+          "U": "51/16",
+          "U_source": "51/16",
+          "t": "0",
+          "z": "10 + 0i",
+          "deriv": false,
+          "mpmath_dps": 250,
+          "true_remainder": 1.0954029660011833e-161,
+          "quad_relative_error_estimate": 9.129060547010786e-125,
+          "claimed_bound": 8.781765414381989e-161,
+          "domination_ratio_bound_over_true": 8.016926817753845,
+          "status": "bound returned",
+          "dominates": true
+        },
+        {
+          "label": "working U = 51/16, the t1 box point",
+          "U": "51/16",
+          "U_source": "51/16",
+          "t": "23/400",
+          "z": "240.4165 + 1/50i",
+          "deriv": false,
+          "mpmath_dps": 250,
+          "true_remainder": 2.0953009050079285e-161,
+          "quad_relative_error_estimate": 4.772584203108603e-100,
+          "claimed_bound": 1.6817465809233823e-160,
+          "domination_ratio_bound_over_true": 8.026277165746839,
+          "status": "bound returned",
+          "dominates": true
+        },
+        {
+          "label": "working U = 51/16, the t1 box point, H'",
+          "U": "51/16",
+          "U_source": "51/16",
+          "t": "23/400",
+          "z": "240.4165 + 1/50i",
+          "deriv": true,
+          "mpmath_dps": 250,
+          "true_remainder": 7.572815956473864e-162,
+          "quad_relative_error_estimate": 1.3205127468403853e-97,
+          "claimed_bound": 5.360567226693281e-160,
+          "domination_ratio_bound_over_true": 70.7869735314329,
+          "status": "bound returned",
+          "dominates": true
+        },
+        {
+          "label": "working U, |Im z| = 5, stress",
+          "U": "51/16",
+          "U_source": "51/16",
+          "t": "23/400",
+          "z": "240.4165 + 5i",
+          "deriv": false,
+          "mpmath_dps": 250,
+          "true_remainder": 8.81974059998437e-155,
+          "quad_relative_error_estimate": 1.1338201942149776e-98,
+          "claimed_bound": 1.3773386491330642e-153,
+          "domination_ratio_bound_over_true": 15.616543746598456,
+          "status": "bound returned",
+          "dominates": true
+        },
+        {
+          "label": "|Im z| = 20, stress",
+          "U": "5/2",
+          "U_source": "5/2",
+          "t": "23/400",
+          "z": "0 + 20i",
+          "deriv": false,
+          "mpmath_dps": 90,
+          "true_remainder": 3.4120773262599886e-20,
+          "quad_relative_error_estimate": 2.930765936351477e-78,
+          "claimed_bound": 1.024580419237648e-18,
+          "domination_ratio_bound_over_true": 30.028053917544142,
+          "status": "bound returned",
+          "dominates": true
+        },
+        {
+          "label": "|Im z| = 20 at the instrument's own U, stress",
+          "U": "105/32",
+          "U_source": "auto",
+          "t": "1/10",
+          "z": "0 + 20i",
+          "deriv": false,
+          "mpmath_dps": 250,
+          "true_remainder": 5.1801661831745904e-166,
+          "quad_relative_error_estimate": 1.930439998716729e-119,
+          "claimed_bound": 8.497132866553386e-165,
+          "domination_ratio_bound_over_true": 16.403205160005196,
+          "status": "bound returned",
+          "dominates": true
+        },
+        {
+          "label": "|Im z| = 50 at the instrument's own U, stress, H'",
+          "U": "217/64",
+          "U_source": "auto",
+          "t": "1/10",
+          "z": "0 + 50i",
+          "deriv": true,
+          "mpmath_dps": 250,
+          "true_remainder": 1.3992556876839006e-167,
+          "quad_relative_error_estimate": 7.146656674701367e-115,
+          "claimed_bound": 2.755316989654511e-166,
+          "domination_ratio_bound_over_true": 19.691304555032488,
+          "status": "bound returned",
+          "dominates": true
+        },
+        {
+          "label": "|Im z| = 50 at U = 5/2, deliberately too small",
+          "U": "5/2",
+          "U_source": "5/2",
+          "t": "1/10",
+          "z": "0 + 50i",
+          "deriv": true,
+          "mpmath_dps": 90,
+          "true_remainder": 50681157157283.65,
+          "quad_relative_error_estimate": 1.9731199050893905e-159,
+          "claimed_bound": null,
+          "domination_ratio_bound_over_true": null,
+          "status": "refused (hypothesis c > 0 fails; _H_core raises and demands a larger U)",
+          "dominates": null
+        },
+        {
+          "label": "small U, large t",
+          "U": "3/2",
+          "U_source": "3/2",
+          "t": "1/2",
+          "z": "0 + 3i",
+          "deriv": false,
+          "mpmath_dps": 60,
+          "true_remainder": 0.00022957784409372256,
+          "quad_relative_error_estimate": 4.355821024226368e-90,
+          "claimed_bound": 0.00732885219698622,
+          "domination_ratio_bound_over_true": 31.923168483080183,
+          "status": "bound returned",
+          "dominates": true
+        },
+        {
+          "label": "U at its floor",
+          "U": "1",
+          "U_source": "1",
+          "t": "0",
+          "z": "0 + 0i",
+          "deriv": false,
+          "mpmath_dps": 60,
+          "true_remainder": 0.005051900539876743,
+          "quad_relative_error_estimate": 1.9794530634690565e-75,
+          "claimed_bound": 0.05494279495579104,
+          "domination_ratio_bound_over_true": 10.875668379079281,
+          "status": "bound returned",
+          "dominates": true
+        }
+      ]
+    },
+    "seconds": 101.3
+  },
+  "all_pass": true,
+  "seconds_total": 161.4
+}
