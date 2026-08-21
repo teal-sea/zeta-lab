@@ -185,7 +185,9 @@ atom problem:
   first written, is now closed by an explicit majorant
   `v = K_1(0)*(sin(x/2)/(x/2))^2`, so no side hypothesis is needed. One
   real gap remains: the sparse side `rho < 1/(2*pi)`, where the bound is
-  vacuous. Not a completed proof, and the majorant's two inequalities are
+  vacuous. That gap is now narrowed: it has exactly one possible route
+  (a density-independent bound, forced by linearity), and that route is
+  infeasible at bandwidth 1 by a rigidity argument, short by 29%. Not a completed proof, and the majorant's two inequalities are
   verified numerically rather than enclosed.
 
   What this does **not** do is discharge T1. T1 asks for a bound over all

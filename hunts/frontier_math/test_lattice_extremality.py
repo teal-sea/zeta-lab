@@ -320,3 +320,56 @@ def test_the_route_records_gap_B_as_closed_without_overclaiming():
     assert "Gap A" in doc and "where the work is" in doc
     assert "not enclosed" in MAJORANT_RECORD["grade"]
     assert "certif" not in raw.lower()
+
+
+# --------------------------------------------------------------------------
+# Gap A.  Section 6a: narrowed, not closed.
+# --------------------------------------------------------------------------
+
+def test_gap_A_has_exactly_one_possible_route():
+    """Section 6a. ghat(0) = 0 is forced: the bound is linear in rho, so a
+    density-independent bound needs a non-negative slope, and ghat <= 0
+    permits only zero."""
+    from lattice_extremality import density_independent_target
+    from two_species import centre_gas_row_closed
+    t = density_independent_target()
+    assert t["ghat0_required"] == 0.0
+    assert t["g0_required"] == pytest.approx(-centre_gas_row_closed() / 2, abs=1e-15)
+    assert t["uhat0_required"] == pytest.approx(t["u0_required"] * 2 * math.pi,
+                                                rel=1e-12)
+
+
+def test_gap_A_is_infeasible_at_bandwidth_one_and_not_narrowly():
+    """Section 6a. The rigidity collapses the admissible set to multiples of
+    the same Fejer kernel gap B used, and the cap falls 29% short."""
+    from lattice_extremality import (GAP_A_RECORD, bandwidth_one_ceiling,
+                                     density_independent_target)
+    need = density_independent_target()["uhat0_required"]
+    ceil = bandwidth_one_ceiling()
+    assert ceil < need
+    assert (need - ceil) / need > 0.25          # short by a lot, not a whisker
+    assert ceil == pytest.approx(GAP_A_RECORD["bandwidth_one_ceiling"], abs=1e-6)
+    assert need == pytest.approx(GAP_A_RECORD["uhat0_required"], abs=1e-6)
+
+
+def test_the_failed_LP_method_is_recorded_with_its_witness():
+    """A method that silently gives wrong answers is worth more written down
+    than forgotten. The sampled-positivity LP returns a value above a proved
+    ceiling, which is how we know it is unsound rather than merely loose."""
+    from lattice_extremality import GAP_A_RECORD, bandwidth_one_ceiling
+    m = GAP_A_RECORD["method_that_does_not_work"]
+    assert "4.908534" in m and "3.507678" in m      # the number and the ceiling
+    assert "BETWEEN its own sample points" in m     # where it cheats
+    assert 4.908534 > bandwidth_one_ceiling()       # and that it really is above
+    assert "Fejer-Riesz" in GAP_A_RECORD["right_tool"]
+
+
+def test_gap_A_is_not_described_as_closed_anywhere():
+    from pathlib import Path
+    from lattice_extremality import GAP_A_RECORD
+    raw = (Path(__file__).resolve().parent / "LATTICE-EXTREMALITY-ROUTE.md").read_text()
+    doc = " ".join(raw.split())
+    assert "Gap A, the sparse side. NARROWED, not closed" in doc
+    assert "This is where the work is" in doc
+    assert "open" in GAP_A_RECORD
+    assert "not a proof either way" in GAP_A_RECORD["open"]

@@ -470,3 +470,93 @@ MAJORANT_RECORD = {
              "with a settled tail, not enclosed. rigor.py is the natural next "
              "step and would make this an enclosure-carrying statement.",
 }
+
+
+# --------------------------------------------------------------------------
+# Gap A.  Not closed.  What is established is where it can and cannot be
+# attacked, which is narrower than it was.
+# --------------------------------------------------------------------------
+
+def density_independent_target() -> dict:
+    """What closing gap A would require, exactly.
+
+    The bound is `2*rho*ghat(0) - 2*g(0)`, LINEAR in `rho`.  To hold for every
+    density its slope must be non-negative, but `ghat <= 0` everywhere forces
+    `ghat(0) <= 0`.  So there is exactly one way through:
+
+        ghat(0) = 0    and    g(0) = -LAT/2,
+
+    and then the bound is density-independent and equals the lattice value at
+    every `rho` at once, closing gap A and the dense side together.
+
+    Writing `g = -kappa + c*fejer + u` with `c = K_1(0)`, this becomes a
+    problem about `u` alone:
+
+        u >= 0,   u(2*pi*n) = 0 for n != 0,   uhat <= M := khat - c*shat,
+        uhat(0) = M(0),   and   int uhat = uhat(0).
+
+    The last is not an extra condition, it is Fourier inversion combined with
+    the value `u(0)` has to take.
+    """
+    import counting_lemma as cl
+    lat = -4 * c2(0.0) + 2 * cl.kappa(0.0)
+    m0 = kappa_hat(0.0) - _c_star() * TWOPI
+    return {"ghat0_required": 0.0,
+            "g0_required": -lat / 2,
+            "uhat0_required": m0,
+            "u0_required": m0 / TWOPI}
+
+
+def _c_star() -> float:
+    import gram_form as gf
+    return gf.kernel(1.0, 0.0)
+
+
+def bandwidth_one_ceiling() -> float:
+    """`uhat(0)` can reach at most this if `u` is band-limited to `[-1,1]`.
+
+    And at that bandwidth the admissible set is a single ray, which is the
+    content of `GAP_A_RECORD["rigidity"]`: Boas-Kac writes a non-negative
+    band-limited `u` as `|h|^2` with `hhat` supported on `[-1/2,1/2]`; that is
+    exactly Nyquist for spacing `2*pi`, so Shannon pins `h` to its samples at
+    `2*pi*k`; and `u(2*pi*k) = 0` for `k != 0` kills every sample but one.
+    What survives is `u = |h(0)|^2 * fejer`, a multiple of the function gap B
+    already used.  `uhat <= M` caps the multiple, and this is the cap.
+    """
+    return (MAJORANT_RECORD["c_upper"] - _c_star()) * TWOPI
+
+
+GAP_A_RECORD = {
+    "reformulation": "ghat(0) = 0 makes the bound density-independent; it is "
+                     "the only route, because the bound is linear in rho and "
+                     "ghat <= 0 forbids a positive slope.",
+    "uhat0_required": 4.9441840,
+    "bandwidth_one_ceiling": 3.5076780,
+    "shortfall_at_bandwidth_one": 1.4365060,
+    "rigidity": "at bandwidth 1 the admissible u is exactly a multiple of "
+                "fejer (Boas-Kac, then Nyquist, then Shannon, then the "
+                "lattice zeros). So gap A is INFEASIBLE there, and not "
+                "narrowly: the ceiling is 29% short.",
+    "open": "whether bandwidth above 1 helps. uhat may go negative outside "
+            "[-1,1] where M vanishes, and Poisson already forces uhat(j) = 0 "
+            "at every non-zero integer, which makes the 2*pi-periodisation of "
+            "u exactly constant. That is a lot of rigidity for a function "
+            "that must also be non-negative and vanish on the whole punctured "
+            "lattice, but it is not a proof either way.",
+    "method_that_does_not_work": "a linear program over uhat with u >= 0 "
+                                 "imposed at sampled x. It is unsound here, "
+                                 "demonstrated on the case whose answer is "
+                                 "known: at bandwidth 1 it returns 4.908534, "
+                                 "exceeding the proved ceiling of 3.507678 by "
+                                 "40%. The witnesses are that u dips to "
+                                 "-7.6e-4 BETWEEN its own sample points, "
+                                 "reaches -4.2e-2 beyond them, and violates "
+                                 "the lattice zeros by up to 0.781 past the "
+                                 "last n constrained. Sampling a continuum "
+                                 "constraint at finitely many points relaxes "
+                                 "it, and the optimiser finds the gaps.",
+    "right_tool": "an SDP that enforces u >= 0 exactly through the "
+                  "Fejer-Riesz / Boas-Kac representation u = |h|^2, with the "
+                  "infinitely many lattice zeros handled structurally by "
+                  "factoring u = fejer * q rather than by listing them.",
+}
