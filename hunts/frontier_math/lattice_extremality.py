@@ -174,7 +174,7 @@ SEARCH_RECORD = {
     },
     "structured_families": {
         "alternating_gaps": "strict maximum at frac = 1, symmetric, and the "
-                            "falloff is steep — frac = 0.95 already costs "
+                            "falloff is steep: frac = 0.95 already costs "
                             "2.20e-02, four orders above the optimiser noise",
         "dimers": "monotone in the separation up to d = 2*pi; the tightest "
                   "dimer tried (d = 0.5) costs 1.73e+00",
@@ -203,8 +203,8 @@ NAMED_GAPS = (
     "objective is a truncated sum with Richardson extrapolation whose "
     "residual is reported by `calibration_error` rather than assumed.",
     "L5 the G4 pattern reads 0.0666 here against the withdrawal note's "
-    "~0.0602.  Different objects — infinite periodic vs a finite seven-centre "
-    "middle row — and neither is close to the lattice, so the withdrawal's "
+    "~0.0602.  Different objects, infinite periodic against a finite "
+    "seven-centre middle row, and neither is close to the lattice, so the "
     "conclusion stands under both readings.",
     "L6 nothing here is evidence about RH.",
 )
@@ -226,3 +226,149 @@ def report() -> dict:
 
 if __name__ == "__main__":
     report()
+
+
+# --------------------------------------------------------------------------
+# The frequency side.  See LATTICE-EXTREMALITY-ROUTE.md for the argument these
+# implement; this module carries the computations, that document carries the
+# reasoning and, more importantly, the list of what is still missing.
+# --------------------------------------------------------------------------
+
+_C2_CACHE: dict = {}
+
+
+def c2(w: float) -> float:
+    """`mean_damage.c2` as a cached float.  `c2(w) = int g(u) g(u+w) du` for
+    `g(u) = cos(sqrt2 u)` on `|u| <= 1/2`, supported on `|w| <= 1`."""
+    key = round(abs(float(w)), 12)
+    if key not in _C2_CACHE:
+        import mean_damage as md
+        _C2_CACHE[key] = float(md.c2(key))
+    return _C2_CACHE[key]
+
+
+def kappa_hat(xi: float) -> float:
+    """`khat(xi) = 2*pi*c2(|xi|)*(1+cosh|xi|)` on `[-1,1]`, zero outside.
+
+    Immediate from `mean_damage`'s representation `-D(y,s) = int c2(w)
+    cosh(yw) cos(sw) dw` summed at `y = 0` and `y = 1`, which is exactly
+    `counting_lemma.kappa`.  Three properties carry the whole argument:
+
+    * **supported on `[-1,1]`** -- this is what makes an infinite sum in
+      space a finite sum in frequency.
+    * **non-negative** -- and this is *proved*, not measured.  `c2` is the
+      autocorrelation of `g`, and `sqrt2/2 = 0.707... < pi/2`, so `g > 0` on
+      the whole of its support.  An autocorrelation of a strictly positive
+      function is strictly positive wherever the supports overlap, so
+      `c2 > 0` on `(-1,1)`.  `1 + cosh` is positive everywhere.
+    * **vanishing at `xi = +-1`** -- the supports of `g(u)` and `g(u+1)` meet
+      at a point, so `c2(+-1) = 0`.  This is the zero the `2*pi` lattice's
+      first reciprocal frequency lands on, and it is why the lattice pays no
+      penalty at all.
+    """
+    x = abs(float(xi))
+    if x > 1.0:
+        return 0.0
+    return 2 * math.pi * c2(x) * (1 + math.cosh(x))
+
+
+def structure_factor_cost(offsets, P: float) -> float:
+    """`J` for the UNRECTIFIED summand `-kappa`, computed in frequency.
+
+    The identity, for a `P`-periodic configuration with offsets `a_p`:
+
+        J_kappa = -(2/(mP)) sum_j khat(2*pi*j/P) |A_j|^2  +  2 kappa(0),
+        A_j     = sum_p exp(2*pi*i*j*a_p/P).
+
+    The sum over `j` is FINITE because `khat` is supported on `[-1,1]`, so
+    only `|j| <= P/(2*pi)` contribute.  `structure_factor_defect` measures
+    this against direct summation rather than trusting it.
+    """
+    import counting_lemma as cl
+    a = np.asarray(offsets, dtype=float)
+    m = a.size
+    jmax = int(math.floor(P / TWOPI)) + 1
+    tot = 0.0
+    for j in range(-jmax, jmax + 1):
+        kh = kappa_hat(TWOPI * j / P)
+        if kh == 0.0:
+            continue
+        tot += kh * abs(np.exp(2j * math.pi * j * a / P).sum()) ** 2
+    return -2 * tot / (m * P) + 2 * cl.kappa(0.0)
+
+
+def unrectified_cost(offsets, P: float, N: int = 3000) -> float:
+    """`J` for `-kappa`, by direct summation.  The thing the frequency
+    formula must reproduce."""
+    import counting_lemma as cl
+
+    def raw(NN):
+        a = np.asarray(offsets, dtype=float)
+        m = a.size
+        n = np.arange(-NN, NN + 1, dtype=float)
+        tot = 0.0
+        for p in range(m):
+            for q in range(m):
+                s = (a[p] - a[q]) + n * P
+                if p == q:
+                    s = s[s != 0.0]
+                tot += sum(cl.kappa(float(x)) for x in s)
+        return -2 * tot / m
+
+    return 2 * raw(2 * N) - raw(N)
+
+
+def structure_factor_defect(offsets, P: float, N: int = 3000) -> float:
+    """Direct summation minus the frequency formula.  The identity is the
+    load-bearing step of the whole route, so it is measured on every
+    configuration rather than asserted once."""
+    return unrectified_cost(offsets, P, N=N) - structure_factor_cost(offsets, P)
+
+
+def lp_bound(rho: float) -> float:
+    """`2*rho*(-khat(0)) + 2*kappa(0) = -8*pi*rho*c2(0) + 2*kappa(0)`.
+
+    Drop every `j != 0` term from the identity.  Each is a product of
+    `khat >= 0` and `|A_j|^2 >= 0`, so each is a subtraction and dropping
+    them can only raise the value.  The result is decreasing in `rho`, and
+    at `rho = 1/(2*pi)` it equals the lattice value exactly, because there
+    the lattice's only non-zero-frequency mass sits at `xi = +-1` where
+    `khat` vanishes.
+
+    This is an upper bound on `J_kappa`, NOT on `J`.  The difference is
+    `clip_bonus`, and closing that difference is gap B in the route
+    document.
+    """
+    import counting_lemma as cl
+    return -8 * math.pi * rho * c2(0.0) + 2 * cl.kappa(0.0)
+
+
+def clip_bonus(offsets, P: float, N: int = 2000) -> float:
+    """`J - J_kappa = (2/m) sum' K_1(diff)^+`, the rectification's gift.
+
+    `f = -kappa + K_1^+` exactly, so wherever `Dam`'s `max(0, .)` clips, `f`
+    sits ABOVE `-kappa` and the adversary gains relative to the unrectified
+    problem.  It is zero on the `2*pi` lattice, where `K_1 < 0` at every
+    difference, which is why the bound is attained there.  It is not small
+    in general: 8.3e-2 for a mildly uneven pair configuration.
+    """
+    import gram_form as gf
+    a = np.asarray(offsets, dtype=float)
+    m = a.size
+    n = np.arange(-N, N + 1, dtype=float)
+    tot = 0.0
+    for p in range(m):
+        for q in range(m):
+            s = (a[p] - a[q]) + n * P
+            if p == q:
+                s = s[s != 0.0]
+            tot += sum(max(gf.kernel(1.0, float(x)), 0.0) for x in s)
+    return 2 * tot / m
+
+
+def clip_is_idle_on_lattice(nmax: int = 5000) -> float:
+    """`max_n K_1(2*pi*n)` over `n = 1..nmax`.  Negative means the
+    rectification never fires at a lattice difference, which is hypothesis
+    H2 holding for the extremiser itself."""
+    import gram_form as gf
+    return max(gf.kernel(1.0, n * TWOPI) for n in range(1, nmax + 1))

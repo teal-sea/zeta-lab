@@ -173,6 +173,19 @@ atom problem:
   structure, and a counterexample would most plausibly live there. Read
   `lattice_extremality.NAMED_GAPS` (L1-L6) before quoting any of it.
 
+  **Route, 2026-08-20.** `LATTICE-EXTREMALITY-ROUTE.md` turns the search
+  into an argument. The per-centre cost has an exact structure-factor form
+  in which every non-zero-frequency term is a subtraction, `kappa_hat` is
+  supported on `[-1,1]`, is positive inside (provably: `c2` is the
+  autocorrelation of a strictly positive function) and vanishes at `+-1`.
+  The `2*pi` lattice is the unique configuration whose only non-zero
+  frequency mass sits on that zero, so it pays no penalty and attains the
+  bound, and Newton's identities give uniqueness. This closes the case
+  `rho >= 1/(2*pi)` with the rectification idle. Two real gaps remain: the
+  sparse side `rho < 1/(2*pi)`, where the bound is vacuous, and the
+  rectification, which reduces to a concrete one-dimensional majorant
+  problem. Not a completed proof.
+
   What this does **not** do is discharge T1. T1 asks for a bound over all
   centre configurations; this is the uniform lattice at one spacing.
   Lattice extremality still has no proof (G4's withdrawal removed its only
