@@ -2,8 +2,6 @@
   "challenge_module": "DHChallenge",
   "solution_module": "DHSolution",
   "theorem_names": [
-    "ZetaLean.PalomarDH.exists_zero_of_norm_lt_on_sphere",
-    "ZetaLean.PalomarDH.exists_zero_of_norm_lt_on_frontier",
     "ZetaLean.PalomarDH.dh_analytic_half"
   ],
   "definition_names": [],
