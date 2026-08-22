@@ -1510,7 +1510,10 @@ did produce is real and worth keeping: a *generalized* residue detector that
 accepts an arbitrary archimedean bracket, which is the reusable part.
 Pinned by `tests/test_hunt_probe_discipline.py`.
 
-### Hunt #49: one RH mechanism, stated first and dead by the end (`epp_herglotz/`)
+### Hunt #67: one RH mechanism, stated first and dead by the end (`epp_herglotz/`)
+
+*Renumbered from #49 on 2026-08-21: `r_6f088d/` had taken that number on `main`
+while this hunt was on a branch. The directory name is the stable reference.*
 
 **Status: settled, negative.** The hunt stated a mechanism before writing any
 code (`MISSION.md`, in a commit containing nothing else): RH is equivalent to
