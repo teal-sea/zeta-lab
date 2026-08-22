@@ -1,0 +1,125 @@
+{
+  "format": 1,
+  "orbit": 18,
+  "support_size": 113,
+  "unique_binomial_relations": 240,
+  "zero_trinomials": 792,
+  "lattice_candidates_examined": 1,
+  "certificate": {
+    "trinomial_coloring": [
+      1,
+      0,
+      0,
+      0,
+      2,
+      0,
+      0,
+      0
+    ],
+    "trinomial_terms": [
+      [
+        39,
+        108,
+        128,
+        180
+      ],
+      [
+        32,
+        108,
+        135,
+        180
+      ],
+      [
+        48,
+        108,
+        117,
+        204
+      ]
+    ],
+    "canceling_indices": [
+      0,
+      2
+    ],
+    "forced_zero_monomial_index": 1,
+    "combination_l1": 3,
+    "relations": [
+      {
+        "coefficient": -1,
+        "binomial_coloring": [
+          1,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2
+        ],
+        "left_monomial": [
+          48,
+          81,
+          117,
+          236
+        ],
+        "right_monomial": [
+          39,
+          81,
+          117,
+          245
+        ]
+      },
+      {
+        "coefficient": 1,
+        "binomial_coloring": [
+          2,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          2
+        ],
+        "left_monomial": [
+          51,
+          81,
+          117,
+          236
+        ],
+        "right_monomial": [
+          42,
+          81,
+          117,
+          245
+        ]
+      },
+      {
+        "coefficient": -1,
+        "binomial_coloring": [
+          2,
+          0,
+          0,
+          0,
+          2,
+          0,
+          0,
+          0
+        ],
+        "left_monomial": [
+          51,
+          108,
+          117,
+          204
+        ],
+        "right_monomial": [
+          42,
+          108,
+          128,
+          180
+        ]
+      }
+    ]
+  },
+  "verified": true,
+  "interpretation": "exact contradiction for this support only"
+}

@@ -1,0 +1,11 @@
+{
+  "format": 1,
+  "orbit": 18,
+  "support_size": 138,
+  "unique_binomial_relations": 0,
+  "zero_trinomials": 180,
+  "lattice_candidates_examined": 0,
+  "certificate": null,
+  "verified": false,
+  "interpretation": "no short certificate found; not evidence of realizability"
+}
