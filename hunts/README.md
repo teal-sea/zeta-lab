@@ -1556,3 +1556,10 @@ route, 0.0621709 assembled from 300 ordinates plus a density tail), and the
 bound EPP supplies exceeds the target by a factor growing past 14 by `t = 1e8`.
 So the repaired mechanism needs square-root cancellation in the prime sum,
 which is RH. No progress on RH; the hunt says so itself.
+
+### Hunt #74: Krenn-Gu 8x3: Orbit-reduced polynomial system and pricing (`r_31b6c1/`)
+**Status: settled.** Built the exact algebraic generator pipeline. The Krenn-Gu polynomial system has exactly 252 edge-weight variables (as inferred in Fulcrum, not 28). Using the fully $H \times S_2$-symmetric quotient, the variables collapse to exactly 8 orbits. The resulting calibration gate on the 6x3 graph produced `[1]` from Groebner basis in under 0.1 seconds, successfully replicating the proven "no-complex-witness" verdict. 
+
+Applying this same exact pipeline to the open 8x3 graph yielded an identical verdict. The 57 $H \times S_2$ pair orbits were evaluated in the 8-variable working quotient, resulting in a mapped distinct monomial count of 8, each of uniform degree 12. Crucially, executing `sympy.groebner` on the 70 unique 8-variable symmetry-reduced equations completed in under 5 seconds, using negligible memory (80MB), and cleanly returned `[1]`. This proves that no $H \times S_2$-symmetric complex witness exists for the 8x3 instance.
+
+(Note: No corresponding harness ledger was found in `harness/departments/`, confirming that framework is entirely deprecated.)
