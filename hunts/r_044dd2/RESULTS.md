@@ -77,37 +77,61 @@ uv pip install --python .venv/bin/python -r hunts/r_044dd2/requirements-solver.t
   hunts/r_044dd2/artifacts/orbit18-laurent-01.json
 ```
 
-To request the next support while excluding all three verified local
-patterns:
+To search again while excluding all four local patterns and their four
+stabilizer images:
 
 ```bash
 .venv/bin/python hunts/r_044dd2/support_frontier.py --orbit 18 \
   --seconds 60 --max-rounds 10 --cuts-per-round 0 --optimize-rounds 1 \
   --pattern-cut hunts/r_044dd2/artifacts/orbit18-laurent-01.json \
   --pattern-cut hunts/r_044dd2/artifacts/orbit18-laurent-02.json \
-  --pattern-cut hunts/r_044dd2/artifacts/orbit18-laurent-03.json
+  --pattern-cut hunts/r_044dd2/artifacts/orbit18-laurent-03.json \
+  --pattern-cut hunts/r_044dd2/artifacts/orbit18-laurent-05.json \
+  --pattern-cut hunts/r_044dd2/artifacts/orbit18-laurent-01-sym.json \
+  --pattern-cut hunts/r_044dd2/artifacts/orbit18-laurent-02-sym.json \
+  --pattern-cut hunts/r_044dd2/artifacts/orbit18-laurent-03-sym.json \
+  --pattern-cut hunts/r_044dd2/artifacts/orbit18-laurent-05-sym.json \
+  --output /tmp/orbit18-next.json
 ```
 
-The next frontier is to continue this exact no-good loop, symmetry-close each
-certificate under the orbit-18 stabilizer, and measure whether the branch
-closes or reaches supports requiring stronger ideal-membership certificates.
+Each committed support artifact names and hashes the cuts used to generate it.
+The next frontier is an exact algebraic method that can combine trinomial
+relations directly, such as ideal-membership or Gröbner-style certificates.
 
-## Result 3: orbit-18 Laurent sieve hits systematic algebraic walls
+## Result 3: a concrete blind support for the current signed-Laurent sieve
 
-Implementing symmetry expansion under the orbit-18 stabilizer (size 2) allowed for symmetric exclusions: for each identified Laurent certificate, its image under the non-trivial stabilizer element was computed and added to the solver cuts. 
+The orbit-18 stabilizer in `S8 x S3` has size 2. Applying its nonidentity
+element to the four exact Laurent certificates produces four additional
+replayable cuts.
 
-Feeding these symmetric exclusions back into the exact no-good loop revealed a systematic limitation of the Laurent sieve architecture. As more Laurent patterns are forbidden, the support minimizer naturally favors supports that are progressively sparser in zero-binomial relations, starving the signed lattice:
+The follow-up loop returned these supports:
 
 | support | active entries | cuts loaded | unique zero-binomials | zero trinomials | certificate |
 |---:|---:|---:|---:|---:|---:|
 | 1 | 76 | 0 | 81 | 771 | L1=1 |
 | 2 | 113 | 1 | 240 | 792 | L1=3 |
 | 3 | 133 | 2 | 42 | 294 | L1=1 |
-| 4 | 123 | 3 | 4 | 417 | **None** |
+| 4 | 123 | 3 | 4 | 417 | none |
 | 5 | 126 | 3 (different seed) | 60 | 621 | L1=1 |
-| 6 | 132 | 4 | 26 | 873 | **None** |
-| 7 | 138 | 8 (symmetric) | 0 | 180 | **None** (empty lattice) |
+| 6 | 132 | 4 | 26 | 873 | none |
+| 7 | 138 | 8 (symmetric) | 0 | 180 | none (empty lattice) |
 
-With 8 symmetrically expanded cuts loaded, Support 7 reached 138 entries but produced **zero** binomial relations (an empty signed lattice), causing the Laurent sieve to fail completely. 
+Support 7 passes the independent support audit, avoids all eight named and
+hashed cuts, and has zero zero-binomial equations. The current sieve starts
+from signed relations extracted from zero binomials, then uses those relations
+to cancel two terms of a zero trinomial. Its relation lattice is therefore
+empty on this support, so this implementation cannot exclude it.
 
-This establishes that orbit 18 does not close under Laurent certificates alone; the frontier has reached supports that structurally resist the sieve and require stronger algebra (such as exact ideal-membership or Gröbner-style certificates).
+This does not rule out Laurent-ideal arguments that combine trinomials
+directly, exact ideal membership, Gröbner-style certificates, or another exact
+contradiction. Orbit 18 remains open. No branch is closed and no complex
+witness has been found.
+
+## Audit correction
+
+The original follow-up commit `1b1b99d` landed directly on `main` without a
+pull request, CI run, or new regression tests. Its documentation also claimed
+more than the evidence established. This corrective follow-up adds independent
+tests for the new supports, stabilizer, symmetry images, certificate replay,
+and cut provenance; removes the machine-specific path; and narrows the result
+to the exact limitation measured above.

@@ -71,5 +71,24 @@
     ]
   },
   "verified": true,
-  "interpretation": "exact contradiction for this support only"
+  "interpretation": "exact contradiction for this support only",
+  "symmetry_expansion": {
+    "source": "orbit18-laurent-03.json",
+    "source_sha256": "1f72d0b9a7672e2f9e2f54ca5f49aadae0b011956df9f015f9161a4d64720655",
+    "vertex_permutation": [
+      6,
+      7,
+      3,
+      2,
+      4,
+      5,
+      0,
+      1
+    ],
+    "color_permutation": [
+      0,
+      2,
+      1
+    ]
+  }
 }

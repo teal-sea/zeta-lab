@@ -737,6 +737,12 @@
   "seed": 20260822,
   "optimize_rounds": 1,
   "pattern_cuts": 1,
+  "pattern_cut_inputs": [
+    {
+      "path": "hunts/r_044dd2/artifacts/orbit18-laurent-01.json",
+      "sha256": "269417de8027b1205165add626f9458be459e2c5a555803aa0c778d4011ab618"
+    }
+  ],
   "elapsed_seconds": 57.2212769985199,
   "interpretation": "necessary support conditions only; not a complex solution"
 }

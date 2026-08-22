@@ -871,6 +871,40 @@
   "seed": 20260822,
   "optimize_rounds": 1,
   "pattern_cuts": 8,
+  "pattern_cut_inputs": [
+    {
+      "path": "hunts/r_044dd2/artifacts/orbit18-laurent-01.json",
+      "sha256": "269417de8027b1205165add626f9458be459e2c5a555803aa0c778d4011ab618"
+    },
+    {
+      "path": "hunts/r_044dd2/artifacts/orbit18-laurent-02.json",
+      "sha256": "94a095310c418afa2707611e7694105c41cda1f7ddc420eb04d1d78c1516000e"
+    },
+    {
+      "path": "hunts/r_044dd2/artifacts/orbit18-laurent-03.json",
+      "sha256": "1f72d0b9a7672e2f9e2f54ca5f49aadae0b011956df9f015f9161a4d64720655"
+    },
+    {
+      "path": "hunts/r_044dd2/artifacts/orbit18-laurent-05.json",
+      "sha256": "1304442c829143cd5875799651565d569b2e43c3a113bf9706180bb88a3a5416"
+    },
+    {
+      "path": "hunts/r_044dd2/artifacts/orbit18-laurent-01-sym.json",
+      "sha256": "6ab2b0f4b66a0355faa9890bd7d131d5fd2cd84250bbb28865ae07da4d9cf9f7"
+    },
+    {
+      "path": "hunts/r_044dd2/artifacts/orbit18-laurent-02-sym.json",
+      "sha256": "ad56317d22a30d2daf416a23f84ddc6585cf95c5fba8dbada1fbe3b67d942114"
+    },
+    {
+      "path": "hunts/r_044dd2/artifacts/orbit18-laurent-03-sym.json",
+      "sha256": "554baf054fb46421fb5c5df4eecdd8162aa370ccddd80794cd9d5f37209ce363"
+    },
+    {
+      "path": "hunts/r_044dd2/artifacts/orbit18-laurent-05-sym.json",
+      "sha256": "e926c52073fb08fc56ddd9ff374f8fc93a0567c009dea4ad6bc74117f37c0ee9"
+    }
+  ],
   "elapsed_seconds": 24.84959125518799,
   "interpretation": "necessary support conditions only; not a complex solution"
 }
