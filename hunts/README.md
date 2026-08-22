@@ -70,6 +70,10 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #72: AIMO Interpretability 2026 baseline reproduction and structure-matched robustness signal (`r_662b12/`)
+
+**Status: settled.** Pinned `aimo-interp/getting-started` (commit `e46be92387`) and `aimo-interp/val-sample` (28 cases: 9 robust, 19 non-robust; 7 models, 8 problems, 7 perturbation types). The official all-False baseline achieves 67.86% accuracy (19/28), 100.0% coverage, and 0 invalid predictions under the official `are_robust(model_id: str, problems: list[str]) -> list[bool]` interface. A structure-matched frontier capability signal classifies models into frontier reasoning architectures (GPT-5.2, GLM-5.1 NVFP4) vs non-frontier, yielding 92.86% accuracy (26/28, +25.00 percentage point delta over baseline; balanced accuracy 88.89%, precision 100.0%, recall 77.78%, F1 0.875). Evaluated across 28-fold LOOCV (+25.00 pp delta), 8-fold Leave-One-Problem-Out CV (+25.00 pp delta), and 5-fold Stratified CV (+25.00 pp delta). Syntactic problem-length and LaTeX-density decoys confirm that problem length (>300 chars: 92.3% non-robust) aligns with complexity, but pure-text decoys collapse under scramble nulls without model capacity conditioning. Go/no-go recommendation: GO for technical report prize track ($12,500 pool) with cheap zero-inference capability-complexity probes; CONDITIONAL GO for leaderboard submission pending offline container parity verification. Evidence in `hunts/r_662b12/RESULTS.md` and `results.json`. Nothing here bears on RH (`docs/08`).
+
 > **Renumbered twice.** These two opened as #35 and #36 from a branch
 > 101 commits behind `main`, where both numbers were taken. They were
 > renumbered to #49/#50 on 2026-08-18, and `main` took those two (plus

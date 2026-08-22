@@ -1,0 +1,28 @@
+{
+  "run_id": "31e8a4f2-2c99-4bb6-953c-63f332cc07c4",
+  "status": "settled",
+  "conclusion": "The official all-False baseline is reproduced at 67.86% accuracy (19/28), 100.0% coverage, and 0 invalid predictions on aimo-interp/val-sample. A structure-matched frontier capability signal achieves 92.86% accuracy (+25.00 pp delta) across LOOCV, LOPO, and 5-fold CV, supporting a GO for the technical report prize track.",
+  "confidence": "High: the validation dataset (N=28) was completely inventoried, official ingestion/scoring was faithfully executed, and 3 cross-validation schemes yield identical +25.00 pp deltas without data leakage.",
+  "operator_decision_required": null,
+  "inherited": [],
+  "threads": [
+    {
+      "what": "Integration of lightweight residual-stream linear probes with the zero-inference structural prior",
+      "why_it_might_matter": "Could push robustness classification accuracy past 95% on larger unseen benchmark problems while respecting submission time limits",
+      "first_step": "Test probe artifact extraction using the official Docker competition image on the 7 evaluated models"
+    },
+    {
+      "what": "Contradiction-specific vulnerability profiling on expert_no_solution perturbations",
+      "why_it_might_matter": "10 of 19 failures were induced specifically by expert_no_solution modifications, suggesting semantic inconsistency detection is the primary failure mode",
+      "first_step": "Measure attention dispersion across premise constraint tokens on problems with impossible conditions"
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A structure-matched LLM capability-complexity robustness classifier",
+      "why_reusable": "Provides a fast zero-inference baseline for AI math benchmark robustness evaluation across varying model tiers and problem complexities",
+      "first_step": "Package are_robust_structure_matched into a standalone reusable module for multi-model benchmark evaluation"
+    }
+  ],
+  "notes_for_operator": "LIVE PRIZE LANE: AIMO Interpretability Challenge at NeurIPS 2026 (,500 pool through 2026-11-01). First run completed cleanly without account or Codabench action."
+}
