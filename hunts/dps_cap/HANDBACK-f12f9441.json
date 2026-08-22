@@ -1,0 +1,65 @@
+{
+  "run_id": "f12f9441-43e9-4b1f-92e1-e61d049be6cd",
+  "hunt": "hunts/dps_cap",
+  "status": "settled",
+  "conclusion": "At s = 0.8 + 85.7i, abs(epstein_completed(s, (2,1,3), dps=D)) is 3.1063191101762651e-33 at D = 20 and 1.6174526323779715e-58 at D = 60, a factor of 1.920501e+25 and not one correct digit at the capped precision. The routine's absolute error floor at this height sits near 1e-(D+13) and does not depend on the size of the answer, so nothing correct appears below D around 46: D = 40 is still entirely floor, D = 50 is the first precision with digits and has about five, and D = 60 buys about 15.8 correct digits rather than 60 because the cancellation costs roughly 44. D = 30 returns exactly 0.0 + 0.0i, the failure mode that does not look like one; the mechanism was not traced. The sharpest evidence was unplanned: at D = 20 the returned magnitude is not a function of the point at all. Writing the same complex number four ways (parsed at 15, 20 and 60 digits, and from Python floats) spreads the D = 20 answer over a factor of 64.1, from 4.846382e-35 to 3.106319e-33, while all four agree to twelve digits at D = 60. A follow-up locates the ceiling: at sigma = 0.8 the relative error of the whole capped value against D = 60 is 4.9e-16 at t = 25, 2.8e-10 at t = 35, 1.0e-6 at t = 40 and 9.2 at t = 50, so the capped path is accurate through t about 35 and fully lost by t = 50.",
+  "measurements": {
+    "point": "0.8 + 85.7i",
+    "form": [2, 1, 3],
+    "abs_at_dps_20": "3.1063191101762650844e-33",
+    "abs_at_dps_60": "1.61745263237797154674827820269619294154946503139348742516788e-58",
+    "ratio": 1.9205008220916917e25,
+    "dps60_correct_digits_vs_dps80": 15.81,
+    "exactly_zero_at_dps_30": true,
+    "parse_spread_at_dps_20": 64.0956,
+    "parse_spread_at_dps_60": 1.0,
+    "archimedean_envelope": "2.64000157088e-58",
+    "implied_abs_zeta_Q_at_dps_60": 0.6126710871006185,
+    "capped_accurate_through_t": 35,
+    "capped_fully_lost_at_t": 50
+  },
+  "independent_check": {
+    "requested": "fulcrum_support(request='Independently compute abs(epstein_completed(0.8+85.7i,(2,1,3))) at dps=60 and say whether it agrees with 1.6e-58 to within an order of magnitude. Answer only that.', context=['zeta/epstein.py'])",
+    "outcome": "NOT OBTAINED. Four attempts, each refused with 'no live parent f12f9441-43e9-4b1f-92e1-e61d049be6cd', including one after this hunt's first commit landed, while fulcrum_status listed this run as live: true. A sibling run (b4528bd7) had already queued a child carrying the identical request, SUPPORT-22d8a969 / run 22d8a969-fd55-4520-9587-986022fbb3ea; fulcrum_support_wait was called on it thirteen times over about forty minutes and it stayed state 'reserved' with live: false, model: null and tokens: null, i.e. reserved but never dispatched. No outside verdict on the dps=60 value exists as of this handback and none is fabricated here.",
+    "substitute": "The nearest independent evidence that does exist is the thread recorded by run d9ae5359 (GATE5-P6-B) against the same call, quoted verbatim from fulcrum_status: \"battery's rival interfaces cap precision at dps=min(dps,20), and at that cap epstein_completed(0.8+85.7i) returns 1.2e-34 against an analytic magnitude of 2.64e-58 - noise, wrong by 24 orders of magnitude. The instrument cannot count Epstein zeros above roughly t=25.\"",
+    "verdict": "ACCEPT the load-bearing claim, REJECT two of its numbers.",
+    "accept_because": "Its core claim is that the capped evaluation returns noise, wrong by about 24 orders of magnitude. This hunt reproduces its 1.2e-34 exactly rather than approximately: parse_sensitivity's parsed_dps_15 and python_floats rows both return 1.211595481989288e-34, so the two runs agree at the bit level and the apparent conflict with this hunt's headline 3.1e-33 is not a conflict at all, only a different parse precision for the same point. Against the true 1.6174526e-58 its value is off by 23.9 orders, so '24 orders' is right. Its qualitative reading, that the capped output is noise, is confirmed by a stronger test than either run used: the capped answer varies by 64x with the bit pattern of an unchanged point.",
+    "reject_because": [
+      "'an analytic magnitude of 2.64e-58' is not the magnitude of epstein_completed at that point. 2.64000157088e-58 is the archimedean envelope abs((sqrt(d)/pi)^s Gamma(s)), which omits the factor abs(zeta_Q(s)) = 0.6126710871. The magnitude is 1.6174526323779715e-58 and the envelope overstates it by 1.632x. The distinction does not touch that run's conclusion, but recorded as 'the analytic magnitude' the number is a bound presented as a value.",
+      "'The instrument cannot count Epstein zeros above roughly t=25' is measurably too pessimistic, and this is the operationally significant one because it is what decides which earlier verdicts are suspect. Measured at sigma = 0.8 by crossover.py, the relative error of the capped value against dps=60 is 4.902e-16 at t = 25, which is essentially exact, 6.973e-14 at t = 30, 2.763e-10 at t = 35, 1.038e-06 at t = 40, 5.905e-05 at t = 45 and 9.171 at t = 50. The usable ceiling is near t = 40, not t = 25, and total loss arrives at t = 50."
+    ],
+    "verdict_scope": "The crossover is measured at sigma = 0.8 only, on a sweep of eleven heights, and a contour box spans a range of sigma this run did not sweep. So the corrected ceiling is a measurement at one abscissa rather than a bound over a box, and the 'roughly' in a re-derivation decision should be read against that."
+  },
+  "confidence": "High on everything measured, and the measurements carry their own controls: dps=80 agrees with dps=60 to a relative 1.5e-16 (convergence), an archimedean envelope computed from mp.gamma alone and independent of the lattice sum under test puts the implied abs(zeta_Q) at 0.613 for the dps=60 answer against 1.18e25 for the dps=20 one (size), and the same point written four ways agrees at dps=60 and does not at dps=20 (the noise test). Lean less on three things. The 1e-(D+13) floor law is fitted to five sweep rows at one point and is a description, not a derivation. The exact 0.0 + 0.0i at dps=30 is reproduced but its mechanism was not traced; fixed-point cancellation in mp.fsum is a candidate that was not tested. And the whole run is one point plus one sigma = 0.8 height sweep, so nothing here bounds the behaviour over a contour.",
+  "operator_decision_required": "One decision, which is not a hunt's to make: whether to raise or remove the min(dps, 20) clamp in epstein_interface. This hunt deliberately did not touch zeta/epstein.py. The case for raising it is that lifting D from 20 to 60 at this point costs 0.93 s to 4.04 s, which is cheap. The case against acting on this evidence alone is that the clamped entry consumes the winding of the argument around a box rather than the magnitude measured here, and count_zeros_box already refuses a winding more than 1e-6 from an integer, so a corrupted phase may well raise rather than miscount. Nobody has measured which happens, and that measurement is one run: same form, same box crossing t = 50, counts at min(dps,20) against counts at dps=60.",
+  "threads": [
+    {
+      "what": "The recorded ceiling for the capped rival interface should be about t = 40, not t = 25. The GATE5-P6-B thread's first_step ('re-derive properties 1-5 with explicit dps above the cap') is aimed with the wrong number.",
+      "why_it_might_matter": "It changes the scope of the re-derivation from 'every verdict touching t above 25' to 'every verdict touching t above about 40', and the difference is most of the range those properties were probably evaluated over. Re-deriving on the pessimistic number wastes budget; recording it uncorrected leaves a wrong figure driving future allocation.",
+      "first_step": "Correct the figure on that thread to the measured crossover in hunts/dps_cap/crossover.json, then check which of properties 1-5 actually evaluated a rival above t = 40 before re-deriving anything."
+    },
+    {
+      "what": "epstein_completed returns exactly 0.0 + 0.0i at dps=30 for a point where the function is 1.617e-58 and nonzero, and the mechanism was not traced.",
+      "why_it_might_matter": "Every other failure in this sweep announces itself as an implausible magnitude. This one returns the one value a zero-counting or root-finding caller is most likely to act on, and it is silent. If the trigger is fixed-point cancellation in mp.fsum it will recur at other precisions and other points, and nothing in the tree currently looks for it.",
+      "first_step": "Instrument the two fsum calls in epstein_completed at dps=30 for this point and check whether the accumulator lands on exact zero; if it does, decide whether the routine should refuse to return an exact zero it cannot justify."
+    },
+    {
+      "what": "zeros_on_line in epstein_interface clamps harder than count_zeros_box does, at min(dps, 15), and this run measured neither it nor Z_epstein.",
+      "why_it_might_matter": "It is the sign-change counter, so it consumes a sign, which is the quantity most sensitive to a value sitting at the noise floor. The tighter clamp means its ceiling is lower than the t = 40 measured here, and it is entirely unmeasured.",
+      "first_step": "Run crossover.py's comparison against Z_epstein at dps=15 against dps=60 over the same heights."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "The parse-sensitivity test as a general instrument: evaluate the same mathematical point built from several different bit patterns and read the spread. Agreement means converged, spread means floor.",
+      "why_reusable": "It is a cheap, assumption-free noise detector for any high-cancellation numeric routine in this tree, and it needs no reference implementation, no higher-precision run and no analytic bound to compare against. It is strictly better evidence than 'the number looks small': in this run it turned a suspicion into a factor of 64, and it independently reconciled two runs' conflicting figures for the same call without either being wrong.",
+      "first_step": "Point it at one other cancellation-heavy routine with a dps parameter, before anyone considers making it a helper rather than eight lines copied."
+    },
+    {
+      "what": "A support request that cannot be opened should fail loudly to the run, not silently degrade the run's evidence.",
+      "why_reusable": "fulcrum_support refused four times with 'no live parent <this run's own id>' while fulcrum_status reported that same run as live: true, and the sibling's identically-worded child sat in state 'reserved' with no model and no tokens through thirteen polls. A brief that instructs a run to obtain an outside check and then cannot deliver one puts the run in the position where fabricating the check is the path of least resistance. That is the failure mode worth engineering against.",
+      "first_step": "Reconcile the liveness predicate fulcrum_support uses against the one fulcrum_status reports, and give fulcrum_support_wait a state that distinguishes 'reserved but never dispatched' from 'working'."
+    }
+  ],
+  "notes_for_operator": "Scope kept: no file outside hunts/dps_cap/ was written except the one-line-plus case-log entry in hunts/README.md that tests/test_hunt_probe_discipline.py requires for a hunt directory to exist at all. zeta/epstein.py is untouched. Nothing here is mathematics about zeta or evidence for or against RH; it is a measurement of an implementation at one point plus one height sweep. Two things the brief asked for that this run did not deliver as specified, stated plainly rather than worked around: the outside check was never obtainable, so the ACCEPT/REJECT above is rendered against a prior recorded finding by another run rather than against a support child's answer, and the run went past 'one number at two precisions' by four measurements. Each addition earned its place: the dps=80 row is the convergence control without which the dps=60 number is one sample, the envelope is the only check that does not come from the code under test, the parse sweep is what turned 'this looks like noise' into a measurement, and the height sweep is what corrected a figure already on the record and driving a re-derivation recommendation. A fresh .venv was created in this worktree because none existed; the ball-arithmetic backend reports python-flint with both backends available, though nothing in this run uses either."
+}
