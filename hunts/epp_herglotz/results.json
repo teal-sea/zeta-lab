@@ -1,0 +1,207 @@
+{
+  "A_target": {
+    "log_derivative_route_defect": "7.56185e-42",
+    "xi_vs_xi_direct_defect": "1.71622e-32",
+    "max_abs_re_on_critical_line": 2.2958874039497803e-41,
+    "grid_points": 49,
+    "min_re_right_of_line": 4.6230071118559985e-06,
+    "argmin_right_of_line": [
+      "0.5001",
+      "0.3"
+    ],
+    "max_re_left_of_line": -4.71258056930775e-06
+  },
+  "B_rival_hypotheses": {
+    "shift": "0.25",
+    "max_relative_fe_defect": 1.2361397862418798e-16,
+    "max_relative_imag_on_line": 0.0,
+    "min_dirichlet_coefficient": 1.0,
+    "coefficient_1": 1.0,
+    "coefficient_growth_n60_over_d60": 1.1685322144033492,
+    "max_lambda_recursion_vs_closed_form": 1.2813050760681437e-15,
+    "min_lambda_W": -7.330773175743043e-40,
+    "min_lambda_zeta": -8.758115402030107e-46,
+    "euler_product_defect_400_primes": 3.1172472785592617e-06
+  },
+  "C_kill": {
+    "claimed_off_line_zero": [
+      "0.75",
+      "14.134725141734694631"
+    ],
+    "abs_completed_at_claimed_zero": "8.10504e-22",
+    "abs_completed_at_line_same_height": "1.20001e-7",
+    "distance_from_critical_line": 0.25,
+    "box_zero_count_0.1_0.9_x_10_25": 4,
+    "line_sign_changes_10_25": 0,
+    "max_abs_re_log_derivative_on_line": 1.3363823550460978e-51,
+    "re_log_derivative_left_of_off_line_zero": [
+      [
+        "0.001",
+        -997.962354330595
+      ],
+      [
+        "0.01",
+        -97.92676068745023
+      ],
+      [
+        "0.05",
+        -17.750754783975502
+      ],
+      [
+        "0.12",
+        -5.684186162638478
+      ]
+    ],
+    "min_re_log_derivative_right_of_line": -997.962354330595
+  },
+  "D_shared_positivity": {
+    "toeplitz_min_eigenvalue_zeta": 0.005306931294307554,
+    "toeplitz_min_eigenvalue_shift": 0.016593419741848008,
+    "re_archimedean_zeta_vs_shift": [
+      [
+        "10",
+        0.23390335208152258,
+        0.4681134534810688
+      ],
+      [
+        "50",
+        1.0371356084124894,
+        2.0742837072830027
+      ],
+      [
+        "200",
+        1.7302240666275543,
+        3.4604489144677832
+      ],
+      [
+        "1000",
+        2.534939262952889,
+        5.069878557155718
+      ]
+    ]
+  },
+  "E_gate3": {
+    "battery_n_max_40": {
+      "claim": "<lambda>",
+      "riemann_zeta": true,
+      "davenport_heilbronn": false,
+      "distinguishes": false,
+      "shared_with": [
+        "epstein_1_1_6"
+      ],
+      "epstein_2_1_3": false,
+      "epstein_1_1_6": true
+    },
+    "battery_n_max_200": {
+      "claim": "<lambda>",
+      "riemann_zeta": true,
+      "davenport_heilbronn": false,
+      "distinguishes": true,
+      "shared_with": [],
+      "epstein_2_1_3": false,
+      "epstein_1_1_6": false
+    },
+    "detail_at_n_max": 200,
+    "detail": {
+      "riemann_zeta": {
+        "holds": true,
+        "status": "non-negative",
+        "min_lambda": -9.183549615799121e-41,
+        "first_negative_n": null
+      },
+      "davenport_heilbronn": {
+        "holds": false,
+        "status": "negative coefficient present",
+        "min_lambda": -6.778631388070019,
+        "first_negative_n": 3
+      },
+      "epstein_2_1_3": {
+        "holds": false,
+        "status": "undefined: a_1 = 0: the log-derivative recursion is undefined",
+        "min_lambda": null,
+        "first_negative_n": null
+      },
+      "epstein_1_1_6": {
+        "holds": false,
+        "status": "negative coefficient present",
+        "min_lambda": -19.879253198304003,
+        "first_negative_n": 48
+      },
+      "shifted_product_W_a": {
+        "holds": true,
+        "status": "non-negative",
+        "min_lambda": -1.9787458764387303e-34,
+        "first_negative_n": null
+      }
+    }
+  },
+  "F_cancellation_ledger": {
+    "margin_slope": [
+      {
+        "t": "7",
+        "ReF/eps at eps=1e-3": 0.06216409158870878,
+        "ReF/eps at eps=1e-5": 0.06216409202997094,
+        "ReF/eps at eps=1e-7": 0.06216409203001507
+      },
+      {
+        "t": "20",
+        "ReF/eps at eps=1e-3": 1.0768414178227903,
+        "ReF/eps at eps=1e-5": 1.0768423368024318,
+        "ReF/eps at eps=1e-7": 1.0768423368943298
+      },
+      {
+        "t": "50",
+        "ReF/eps at eps=1e-3": 20.048188420342683,
+        "ReF/eps at eps=1e-5": 20.048570641943734,
+        "ReF/eps at eps=1e-7": 20.04857068016664
+      }
+    ],
+    "cancellation_ledger": [
+      {
+        "t": "1e3",
+        "cut_N": 12,
+        "triangle_bound_from_EPP": 4.260495442124349,
+        "actual_partial_sum_modulus": 1.4294484224237356,
+        "archimedean_target": 2.5349391062863957,
+        "triangle_over_target": 1.6807091860939563
+      },
+      {
+        "t": "1e4",
+        "cut_N": 39,
+        "triangle_bound_from_EPP": 9.65315530987205,
+        "actual_partial_sum_modulus": 4.602321882682548,
+        "archimedean_target": 3.6862316527834187,
+        "triangle_over_target": 2.618705556006795
+      },
+      {
+        "t": "1e6",
+        "cut_N": 398,
+        "triangle_bound_from_EPP": 37.29591543257927,
+        "actual_partial_sum_modulus": 3.704354569043649,
+        "archimedean_target": 5.988816745777465,
+        "triangle_over_target": 6.227593365396514
+      },
+      {
+        "t": "1e8",
+        "cut_N": 3989,
+        "triangle_bound_from_EPP": 123.66943744635631,
+        "actual_partial_sum_modulus": 8.22408555038278,
+        "archimedean_target": 8.29140183877151,
+        "triangle_over_target": 14.91538341177295
+      }
+    ]
+  },
+  "G_margin_from_zeros": {
+    "t": "7",
+    "zero_side_partial_sums": {
+      "first_10_ordinates": 0.042763022400479134,
+      "first_50_ordinates": 0.053038579350868954,
+      "first_100_ordinates": 0.05593771529488919,
+      "first_300_ordinates": 0.05896458668975798
+    },
+    "last_ordinate_used": 541.8474371212013,
+    "density_tail_estimate": 0.0032062637014329777,
+    "zero_side_total_with_tail": 0.062170850391190954,
+    "F_route_value": 0.06216409203001507
+  }
+}

@@ -161,6 +161,11 @@ def section_battery() -> None:
     print("    on it alone must also 'prove' RH for f, which is false.  The Euler product")
     print("    (multiplicativity) is exactly where f fails to embed.")
     print()
+    print("    And multiplicativity is where the battery stops, not where a proof starts:")
+    print("    the rival set also carries zeta(s+a)zeta(s-a), which HAS a scalar Euler")
+    print("    product and still has zeros off its own critical line, so the row above")
+    print("    reads 'shared_with: shifted_product'.  docs/09 section 5.1 for the scope.")
+    print()
 
 
 def main() -> None:

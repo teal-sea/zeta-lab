@@ -207,6 +207,7 @@ from .epstein import (
     Z_dh,
     battery,
     chi5,
+    claim_euler_product_positivity,
     claim_functional_equation,
     claim_multiplicativity,
     completed_dh,
@@ -219,6 +220,8 @@ from .epstein import (
     dh_theta,
     find_offline_zero,
     kappa,
+    log_derivative_coefficients,
+    shifted_interface,
     zeros_on_line,
     zeta_interface,
 )
@@ -374,7 +377,10 @@ __all__ = [
     "dh_interface",
     "battery",
     "claim_functional_equation",
+    "claim_euler_product_positivity",
     "claim_multiplicativity",
+    "log_derivative_coefficients",
+    "shifted_interface",
     # plots (lazy)
     *_PLOT_EXPORTS,
 ]
