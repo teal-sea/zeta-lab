@@ -1232,6 +1232,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `30-prime-zeta-rightmost-zeros.md` — 28: The rightmost zeros of the prime zeta function
 - `31-bian-lemma-12-erratum.md` — Erratum to Bian, Lemma 12: `C_{kappa,2}` is `-4 kappa`, not `-4`
 - `32-the-palomar-arm.md` — 32 — The Palomar arm: what an outside mechanical check adds, and what it does not
+- `33-chroma-hue.md` — 33. Pitch classes against the colour wheel
 
 ## Runnable demos (`scripts/`)
 
@@ -1289,11 +1290,12 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1925 test functions across 85 files (the collected count differs where tests are parametrised):
+1937 test functions across 86 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_aimo_audit.py` — 2
 - `tests/test_check_secrets.py` — 5
+- `tests/test_chroma_hue.py` — 12
 - `tests/test_claim_attribution.py` — 6
 - `tests/test_compiler_candidate.py` — 32
 - `tests/test_contribution_check.py` — 3

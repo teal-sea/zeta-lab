@@ -1,0 +1,98 @@
+{
+ "check_equal_energy_xy": [
+  0.3331,
+  0.3336
+ ],
+ "check_ybar_peak_nm": 554.0,
+ "check_dominant_wavelengths_sRGB": {
+  "R": 611.0,
+  "G": 549.0,
+  "B": 463.0
+ },
+ "visible_octaves_380_750nm": 0.9809,
+ "window_nm": [
+  420.0,
+  660.0
+ ],
+ "window_octaves": 0.6521,
+ "window_semitones": 7.82,
+ "pitch_class_light": [
+  {
+   "k": 0,
+   "THz": 454.2,
+   "nm": 660.0,
+   "oklch_hue": 23.7
+  },
+  {
+   "k": 1,
+   "THz": 481.2,
+   "nm": 623.0,
+   "oklch_hue": 25.1
+  },
+  {
+   "k": 2,
+   "THz": 509.9,
+   "nm": 588.0,
+   "oklch_hue": 63.7
+  },
+  {
+   "k": 3,
+   "THz": 540.2,
+   "nm": 555.0,
+   "oklch_hue": 135.5
+  },
+  {
+   "k": 4,
+   "THz": 572.3,
+   "nm": 523.8,
+   "oklch_hue": 157.1
+  },
+  {
+   "k": 5,
+   "THz": 606.3,
+   "nm": 494.4,
+   "oklch_hue": 184.5
+  },
+  {
+   "k": 6,
+   "THz": 642.4,
+   "nm": 466.7,
+   "oklch_hue": 239.9
+  },
+  {
+   "k": 7,
+   "THz": 680.6,
+   "nm": 440.5,
+   "oklch_hue": 294.0
+  }
+ ],
+ "hue_steps_deg_per_semitone": [
+  1.4,
+  38.6,
+  71.8,
+  21.5,
+  27.4,
+  55.5,
+  54.1
+ ],
+ "hue_span_deg": 270.3,
+ "hue_step_max_over_min_abs": 49.67,
+ "spectral_locus_oklch_hue_every_20nm": [
+  299.0,
+  294.1,
+  258.0,
+  213.3,
+  176.7,
+  159.1,
+  148.4,
+  128.9,
+  84.4,
+  41.7,
+  26.2,
+  22.2,
+  23.7
+ ],
+ "hue_vs_wavelength_sign_changes_in_window": 3,
+ "spectral_hue_range_deg": 275.3,
+ "non_spectral_purple_arc_deg": 84.7
+}
