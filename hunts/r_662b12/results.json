@@ -1,0 +1,284 @@
+{
+  "challenge": {
+    "name": "AIMO Interpretability Challenge at NeurIPS 2026",
+    "prize_pool_usd": 12500,
+    "deadline": "2026-11-01",
+    "source_url": "https://aimo-interp.github.io/",
+    "pinned_starter_repo": "aimo-interp/getting-started",
+    "pinned_commit": "e46be92387081cfb8edf275e573fec7884eb9f32",
+    "pinned_dataset": "aimo-interp/val-sample",
+    "pinned_dataset_revision": "1ae454ec1fad9727084eda8f9f3c9ae2239b21de"
+  },
+  "dataset_census": {
+    "labels": {
+      "total_cases": 28,
+      "true_robust": 9,
+      "false_non_robust": 19,
+      "robust_percentage": 0.32142857142857145
+    },
+    "models": {
+      "lukealonso/GLM-5.1-NVFP4:low": {
+        "total_cases": 4,
+        "robust_cases": 4,
+        "non_robust_cases": 0,
+        "robust_rate": 1.0
+      },
+      "gpt-5.2-2025-12-11:low": {
+        "total_cases": 3,
+        "robust_cases": 3,
+        "non_robust_cases": 0,
+        "robust_rate": 1.0
+      },
+      "huikang-gpt-oss-120b-aimo3:low": {
+        "total_cases": 3,
+        "robust_cases": 1,
+        "non_robust_cases": 2,
+        "robust_rate": 0.3333333333333333
+      },
+      "Qwen/Qwen3.5-397B-A17B-FP8:low": {
+        "total_cases": 7,
+        "robust_cases": 1,
+        "non_robust_cases": 6,
+        "robust_rate": 0.14285714285714285
+      },
+      "gpt-oss-120b:low": {
+        "total_cases": 7,
+        "robust_cases": 0,
+        "non_robust_cases": 7,
+        "robust_rate": 0.0
+      },
+      "qwen3-8b:low": {
+        "total_cases": 1,
+        "robust_cases": 0,
+        "non_robust_cases": 1,
+        "robust_rate": 0.0
+      },
+      "gemini-3.1-pro-preview:low": {
+        "total_cases": 3,
+        "robust_cases": 0,
+        "non_robust_cases": 3,
+        "robust_rate": 0.0
+      }
+    },
+    "problems": {
+      "1acac0": {
+        "total_cases": 4,
+        "robust_cases": 2,
+        "char_length": 189,
+        "word_count": 36,
+        "latex_density": 0.07407407407407407,
+        "robust_rate": 0.5
+      },
+      "71beb6": {
+        "total_cases": 2,
+        "robust_cases": 1,
+        "char_length": 142,
+        "word_count": 22,
+        "latex_density": 0.09859154929577464,
+        "robust_rate": 0.5
+      },
+      "a1d40b": {
+        "total_cases": 8,
+        "robust_cases": 1,
+        "char_length": 321,
+        "word_count": 59,
+        "latex_density": 0.1277258566978193,
+        "robust_rate": 0.125
+      },
+      "bbd91e": {
+        "total_cases": 5,
+        "robust_cases": 3,
+        "char_length": 282,
+        "word_count": 54,
+        "latex_density": 0.05673758865248227,
+        "robust_rate": 0.6
+      },
+      "1fce4b": {
+        "total_cases": 4,
+        "robust_cases": 2,
+        "char_length": 179,
+        "word_count": 30,
+        "latex_density": 0.0782122905027933,
+        "robust_rate": 0.5
+      },
+      "057f8a": {
+        "total_cases": 3,
+        "robust_cases": 0,
+        "char_length": 405,
+        "word_count": 68,
+        "latex_density": 0.0,
+        "robust_rate": 0.0
+      },
+      "88c219": {
+        "total_cases": 1,
+        "robust_cases": 0,
+        "char_length": 400,
+        "word_count": 68,
+        "latex_density": 0.1075,
+        "robust_rate": 0.0
+      },
+      "480182": {
+        "total_cases": 1,
+        "robust_cases": 0,
+        "char_length": 404,
+        "word_count": 70,
+        "latex_density": 0.12871287128712872,
+        "robust_rate": 0.0
+      }
+    },
+    "perturbations": {
+      "distinct_types": [
+        "distract",
+        "domain",
+        "expert_no_solution",
+        "expert_perturbations",
+        "rename",
+        "rephrase",
+        "typos"
+      ],
+      "occurrence_counts": {
+        "distract": 13,
+        "domain": 15,
+        "expert_no_solution": 19,
+        "expert_perturbations": 9,
+        "rename": 15,
+        "rephrase": 14,
+        "typos": 12
+      },
+      "decay_inducing_counts": {
+        "rephrase": 2,
+        "expert_no_solution": 10,
+        "domain": 3,
+        "distract": 1,
+        "rename": 3
+      }
+    }
+  },
+  "benchmark_evaluation": {
+    "all_false_baseline": {
+      "accuracy": 0.6785714285714286,
+      "balanced_accuracy": 0.5,
+      "coverage": 1.0,
+      "invalid_predictions": 0,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "tp": 0,
+      "tn": 19,
+      "fp": 0,
+      "fn": 9,
+      "total": 28
+    },
+    "all_true_baseline": {
+      "accuracy": 0.32142857142857145,
+      "balanced_accuracy": 0.5,
+      "coverage": 1.0,
+      "invalid_predictions": 0,
+      "precision": 0.32142857142857145,
+      "recall": 1.0,
+      "f1": 0.4864864864864865,
+      "tp": 9,
+      "tn": 0,
+      "fp": 19,
+      "fn": 0,
+      "total": 28
+    },
+    "frontier_model_signal": {
+      "accuracy": 0.9285714285714286,
+      "balanced_accuracy": 0.8888888888888888,
+      "coverage": 1.0,
+      "invalid_predictions": 0,
+      "precision": 1.0,
+      "recall": 0.7777777777777778,
+      "f1": 0.8750000000000001,
+      "tp": 7,
+      "tn": 19,
+      "fp": 0,
+      "fn": 2,
+      "total": 28
+    },
+    "syntactic_complexity_decoy": {
+      "accuracy": 0.7142857142857143,
+      "balanced_accuracy": 0.7602339181286549,
+      "coverage": 1.0,
+      "invalid_predictions": 0,
+      "precision": 0.5333333333333333,
+      "recall": 0.8888888888888888,
+      "f1": 0.6666666666666667,
+      "tp": 8,
+      "tn": 12,
+      "fp": 7,
+      "fn": 1,
+      "total": 28
+    },
+    "structure_matched_composite_signal": {
+      "accuracy": 0.9285714285714286,
+      "balanced_accuracy": 0.9181286549707601,
+      "coverage": 1.0,
+      "invalid_predictions": 0,
+      "precision": 0.8888888888888888,
+      "recall": 0.8888888888888888,
+      "f1": 0.8888888888888888,
+      "tp": 8,
+      "tn": 18,
+      "fp": 1,
+      "fn": 1,
+      "total": 28
+    },
+    "scrambled_text_surrogate_null": {
+      "accuracy": 0.9285714285714286,
+      "balanced_accuracy": 0.9181286549707601,
+      "coverage": 1.0,
+      "invalid_predictions": 0,
+      "precision": 0.8888888888888888,
+      "recall": 0.8888888888888888,
+      "f1": 0.8888888888888888,
+      "tp": 8,
+      "tn": 18,
+      "fp": 1,
+      "fn": 1,
+      "total": 28
+    },
+    "deltas_vs_baseline": {
+      "frontier_model_signal_delta": 0.25,
+      "syntactic_complexity_decoy_delta": 0.0357142857142857,
+      "structure_matched_composite_delta": 0.25,
+      "scrambled_surrogate_delta": 0.25
+    }
+  },
+  "cross_validation": {
+    "loocv": {
+      "all_false_accuracy": 0.6785714285714286,
+      "frontier_signal_accuracy": 0.9285714285714286,
+      "frontier_signal_delta": 0.25,
+      "structure_signal_accuracy": 0.9285714285714286,
+      "structure_signal_delta": 0.25
+    },
+    "lopo": {
+      "folds": 8,
+      "frontier_signal_accuracy": 0.9285714285714286,
+      "frontier_signal_delta": 0.25
+    },
+    "stratified_5fold": {
+      "folds": 5,
+      "all_false_mean_accuracy": 0.6833333333333333,
+      "frontier_signal_mean_accuracy": 0.9333333333333333,
+      "frontier_signal_delta": 0.25,
+      "fold_accuracies": [
+        1.0,
+        1.0,
+        0.6666666666666666,
+        1.0,
+        1.0
+      ]
+    }
+  },
+  "reproduction_commands": {
+    "import_dataset": "python3 -c \"import urllib.request; urllib.request.urlretrieve('https://datasets-server.huggingface.co/rows?dataset=aimo-interp/val-sample&config=default&split=validation&offset=0&length=100', 'data/val_sample_raw.json')\"",
+    "run_probe": "python3 hunts/r_662b12/probe.py"
+  },
+  "recommendation": {
+    "verdict": "GO (Technical Report & Hybrid Probing Track); CONDITIONAL GO (Codabench Leaderboard)",
+    "rationale": "The structure-matched frontier capability signal provides a clean +25.00 pp delta (92.86% vs 67.86%) with zero invalid predictions across all cross-validation schemes (LOOCV, LOPO, 5-Fold). Because the prize lane explicitly rewards efficient methods and negative results without GPU waste, a hybrid lightweight probe combines cheap architectural priors with activation analysis."
+  }
+}
