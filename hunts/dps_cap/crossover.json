@@ -1,0 +1,80 @@
+{
+  "sigma": "0.8",
+  "form": [
+    2,
+    1,
+    3
+  ],
+  "capped_dps": 20,
+  "reference_dps": 60,
+  "rows": [
+    {
+      "t": "5",
+      "abs_reference": 0.0009530528654873795,
+      "abs_capped": 0.0009530528654873795,
+      "relative_error": 3.0861750083179906e-22
+    },
+    {
+      "t": "10",
+      "abs_reference": 9.228305527704719e-07,
+      "abs_capped": 9.228305527704719e-07,
+      "relative_error": 4.484760934211536e-22
+    },
+    {
+      "t": "20",
+      "abs_reference": 1.0427287289952526e-13,
+      "abs_capped": 1.0427287289952526e-13,
+      "relative_error": 2.606108985816904e-19
+    },
+    {
+      "t": "25",
+      "abs_reference": 3.269104200539307e-17,
+      "abs_capped": 3.269104200539309e-17,
+      "relative_error": 4.902214996746985e-16
+    },
+    {
+      "t": "30",
+      "abs_reference": 2.688721828066682e-20,
+      "abs_capped": 2.688721828066842e-20,
+      "relative_error": 6.972985648061355e-14
+    },
+    {
+      "t": "35",
+      "abs_reference": 1.1021188696243707e-23,
+      "abs_capped": 1.1021188695687873e-23,
+      "relative_error": 2.763093153524305e-10
+    },
+    {
+      "t": "40",
+      "abs_reference": 1.3422564570554968e-27,
+      "abs_capped": 1.3422554156944014e-27,
+      "relative_error": 1.0381262983143862e-06
+    },
+    {
+      "t": "45",
+      "abs_reference": 5.5395711656643274e-30,
+      "abs_capped": 5.5396720251371566e-30,
+      "relative_error": 5.905298062979784e-05
+    },
+    {
+      "t": "50",
+      "abs_reference": 6.467477051325551e-34,
+      "abs_capped": 6.203368867785154e-33,
+      "relative_error": 9.170828988933424
+    },
+    {
+      "t": "60",
+      "abs_reference": 1.5781518739401796e-40,
+      "abs_capped": 6.21263822035253e-33,
+      "relative_error": 39366542.999971986
+    },
+    {
+      "t": "85.7",
+      "abs_reference": 1.6174526323779715e-58,
+      "abs_capped": 4.846381927957152e-35,
+      "relative_error": 2.9963053204420727e+23
+    }
+  ],
+  "highest_t_still_accurate_to_1e6": "35",
+  "lowest_t_fully_lost": "50"
+}
