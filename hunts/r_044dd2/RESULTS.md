@@ -91,3 +91,23 @@ patterns:
 The next frontier is to continue this exact no-good loop, symmetry-close each
 certificate under the orbit-18 stabilizer, and measure whether the branch
 closes or reaches supports requiring stronger ideal-membership certificates.
+
+## Result 3: orbit-18 Laurent sieve hits systematic algebraic walls
+
+Implementing symmetry expansion under the orbit-18 stabilizer (size 2) allowed for symmetric exclusions: for each identified Laurent certificate, its image under the non-trivial stabilizer element was computed and added to the solver cuts. 
+
+Feeding these symmetric exclusions back into the exact no-good loop revealed a systematic limitation of the Laurent sieve architecture. As more Laurent patterns are forbidden, the support minimizer naturally favors supports that are progressively sparser in zero-binomial relations, starving the signed lattice:
+
+| support | active entries | cuts loaded | unique zero-binomials | zero trinomials | certificate |
+|---:|---:|---:|---:|---:|---:|
+| 1 | 76 | 0 | 81 | 771 | L1=1 |
+| 2 | 113 | 1 | 240 | 792 | L1=3 |
+| 3 | 133 | 2 | 42 | 294 | L1=1 |
+| 4 | 123 | 3 | 4 | 417 | **None** |
+| 5 | 126 | 3 (different seed) | 60 | 621 | L1=1 |
+| 6 | 132 | 4 | 26 | 873 | **None** |
+| 7 | 138 | 8 (symmetric) | 0 | 180 | **None** (empty lattice) |
+
+With 8 symmetrically expanded cuts loaded, Support 7 reached 138 entries but produced **zero** binomial relations (an empty signed lattice), causing the Laurent sieve to fail completely. 
+
+This establishes that orbit 18 does not close under Laurent certificates alone; the frontier has reached supports that structurally resist the sieve and require stronger algebra (such as exact ideal-membership or Gröbner-style certificates).

@@ -49,3 +49,32 @@ artifacts:
   - artifacts/orbit18-support-03.json
   - artifacts/orbit18-laurent-03.json
 ```
+
+## R-044DD2-LAURENT-SYMMETRY
+
+```runmanifest
+id: r_044dd2-laurent-symmetry
+hunt: r_044dd2
+started: 2026-08-22T11:55:00-05:00
+finished: 2026-08-22T12:06:00-05:00
+ran:
+  - generation of four further orbit-18 support survivors avoiding prior cuts
+  - computation of the orbit-18 stabilizer in S8 x S3 (size 2) and symmetric expansion of the exact Laurent certificates
+  - exact signed-lattice Laurent sieve on the generated supports
+outcome: the Laurent sieve hits an algebraic wall; as constraints accumulate, the minimizer finds supports with progressively fewer zero-binomials (from 240 down to 0), starving the signed lattice and producing no new certificates
+artifacts:
+  - artifacts/orbit18-support-04.json
+  - artifacts/orbit18-laurent-04.json
+  - artifacts/orbit18-support-05.json
+  - artifacts/orbit18-laurent-05.json
+  - artifacts/orbit18-support-06.json
+  - artifacts/orbit18-laurent-06.json
+  - artifacts/orbit18-support-07.json
+  - artifacts/orbit18-laurent-07.json
+  - artifacts/orbit18-laurent-01-sym.json
+  - artifacts/orbit18-laurent-02-sym.json
+  - artifacts/orbit18-laurent-03-sym.json
+  - artifacts/orbit18-laurent-05-sym.json
+  - stabilizer.py
+  - expand_symmetry.py
+```

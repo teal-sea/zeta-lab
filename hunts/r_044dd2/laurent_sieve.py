@@ -144,7 +144,10 @@ def sieve(census: Path, orbit: int, max_size: int, seconds: float) -> dict[str, 
 
     deltas = tuple(sorted(relation_by_delta))
     relations = tuple(relation_by_delta[delta] for delta in deltas)
-    active_coordinates, member = signed_membership_tester(deltas)
+    if not deltas:
+        active_coordinates, member = (), lambda d, p: False
+    else:
+        active_coordinates, member = signed_membership_tester(deltas)
     lattice_candidates = 0
     for coloring, signature, vectors in trinomials:
         for left, right in ((0, 1), (0, 2), (1, 2)):
