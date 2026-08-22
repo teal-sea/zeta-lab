@@ -104,7 +104,7 @@ The remaining search space consists of $105^2 = 11025$ matching pairs $(M_1, M_2
 - Under $H \times S_2$ (order 768, including color transposition $(M_1 \leftrightarrow M_2)$), the pairs partition into **57 orbits**.
 - Under full $S_8 \times S_3$ (order 241920), the full triples partition into **31 orbits**.
 
-This structure confirms that any subsequent algebraic solver or Groebner basis pipeline need only parameterize at most 57 pair configurations or 31 full orbit representatives, reducing the nominal $105^3$ system by a factor of 37,342.
+These 31 classes give an exhaustive outer branch cover after choosing one supported monochromatic matching in each colour. They do not quotient the 252 edge-weight variables or the 6,561 polynomial equations: a branch still carries the full equation system. Hunt R-044DD2 records this scope correction and uses the classes only as target-support skeletons.
 
 ---
 
@@ -118,13 +118,13 @@ This structure confirms that any subsequent algebraic solver or Groebner basis p
 
 ## 5. What Could Not Be Settled
 
-- The existence or non-existence of a non-trivial complex weight assignment on the 28 edges of $K_8$ for $d=3$ (the full Krenn-Gu conjecture on 8x3) requires solving 6561 polynomial equations in 252 variables across the 31 orbit representatives. Per task scope, polynomial construction and weight optimization were excluded from this census scout.
+- The existence or non-existence of a complex weight assignment on the 28 vertex pairs of $K_8$, carrying 252 endpoint-coloured entries for $d=3$, still requires ruling out or realizing the full 6,561-equation system in every one of the 31 outer branches. Per task scope, polynomial construction and weight optimization were excluded from this census scout.
 
 ---
 
 ## Loose threads
 
-1. **Algebraic polynomial quotient reduction via the 57 $H \times S_2$ pair orbits:**
-   - *What it is:* Express the 6561 polynomial equations in terms of the 57 orbit representatives under $S_2 \wr S_4 \times S_2$.
-   - *Why it matters:* This reduces the dimension of the algebraic variety search to the smallest symmetry-reduced quotient system, making Groebner basis or CAD elimination feasible for $n=8$.
-   - *First step:* Generate the polynomial ideal generators on the 28 edge variables restricted to each of the 31 orbit representatives.
+1. **Exact support and algebraic sieving over the 31 outer branches:**
+   - *What it is:* Require the twelve diagonal entries of one target-matching representative, then impose the full 6,561-equation support necessities and learn exact algebraic no-goods from returned supports.
+   - *Why it matters:* This preserves the valid symmetry cover without assuming that a hypothetical witness is itself symmetric.
+   - *First step:* Run the support frontier and signed-Laurent sieve in Hunt R-044DD2.
