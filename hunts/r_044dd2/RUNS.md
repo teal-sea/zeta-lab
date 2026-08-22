@@ -55,13 +55,14 @@ artifacts:
 ```runmanifest
 id: r_044dd2-laurent-symmetry
 hunt: r_044dd2
-started: 2026-08-22T11:55:00-05:00
-finished: 2026-08-22T12:06:00-05:00
+started: unknown
+finished: 2026-08-22T12:30:19-05:00
 ran:
   - generation of four further orbit-18 support survivors avoiding prior cuts
   - computation of the orbit-18 stabilizer in S8 x S3 (size 2) and symmetric expansion of the exact Laurent certificates
   - exact signed-lattice Laurent sieve on the generated supports
-outcome: the Laurent sieve hits an algebraic wall; as constraints accumulate, the minimizer finds supports with progressively fewer zero-binomials (from 240 down to 0), starving the signed lattice and producing no new certificates
+  - exact cut paths and sha256 values are recorded in every support artifact
+outcome: Support 7 passes the independent support audit, avoids all eight local and symmetry-expanded cuts, and has zero zero-binomial equations, so the current signed-binomial-to-trinomial sieve cannot exclude it; stronger exact algebra remains open
 artifacts:
   - artifacts/orbit18-support-04.json
   - artifacts/orbit18-laurent-04.json

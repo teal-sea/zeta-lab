@@ -506,6 +506,8 @@
   "workers": 8,
   "seed": 20260822,
   "optimize_rounds": 1,
+  "pattern_cuts": 0,
+  "pattern_cut_inputs": [],
   "elapsed_seconds": 25.31599521636963,
   "interpretation": "necessary support conditions only; not a complex solution"
 }

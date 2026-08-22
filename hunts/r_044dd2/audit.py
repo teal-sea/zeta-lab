@@ -10,6 +10,8 @@ from pathlib import Path
 
 N = 8
 D = 3
+HERE = Path(__file__).resolve().parent
+CENSUS = HERE.parent / "r_322dae" / "results.json"
 
 
 def matchings(vertices: tuple[int, ...]):
@@ -88,9 +90,24 @@ def column_ok(support, root: int, output: int) -> bool:
     )
 
 
+def branch_base(orbit: int) -> set[tuple[int, int, int, int]]:
+    payload = json.loads(CENSUS.read_text(encoding="utf-8"))
+    row = next(
+        item
+        for item in payload["census_8x3"]["orbits"]
+        if item["orbit_id"] == orbit
+    )
+    return {
+        key(u, v, color, color)
+        for color, matching in enumerate(row["canonical_triple_matchings"])
+        for u, v in matching
+    }
+
+
 def audit(path: Path) -> dict[str, object]:
     payload = json.loads(path.read_text(encoding="utf-8"))
     support = {tuple(item) for item in payload["support_keys"]}
+    orbit = int(payload["orbit"])
     pms = matchings(tuple(range(N)))
     equation_failures = []
     for coloring in itertools.product(range(D), repeat=N):
@@ -116,6 +133,7 @@ def audit(path: Path) -> dict[str, object]:
         for color in range(D)
         if not column_ok(support, root, color)
     ]
+    branch_base_failures = sorted(branch_base(orbit) - support)
     return {
         "support_size": len(support),
         "perfect_matchings": len(pms),
@@ -125,8 +143,13 @@ def audit(path: Path) -> dict[str, object]:
         "star_failures": star_failures,
         "pair_failures": pair_failures,
         "column_failures": column_failures,
+        "branch_base_failures": branch_base_failures,
         "verified_support_survivor": not (
-            equation_failures or star_failures or pair_failures or column_failures
+            equation_failures
+            or star_failures
+            or pair_failures
+            or column_failures
+            or branch_base_failures
         ),
     }
 

@@ -867,6 +867,24 @@
   "seed": 20260822,
   "optimize_rounds": 1,
   "pattern_cuts": 4,
+  "pattern_cut_inputs": [
+    {
+      "path": "hunts/r_044dd2/artifacts/orbit18-laurent-01.json",
+      "sha256": "269417de8027b1205165add626f9458be459e2c5a555803aa0c778d4011ab618"
+    },
+    {
+      "path": "hunts/r_044dd2/artifacts/orbit18-laurent-02.json",
+      "sha256": "94a095310c418afa2707611e7694105c41cda1f7ddc420eb04d1d78c1516000e"
+    },
+    {
+      "path": "hunts/r_044dd2/artifacts/orbit18-laurent-03.json",
+      "sha256": "1f72d0b9a7672e2f9e2f54ca5f49aadae0b011956df9f015f9161a4d64720655"
+    },
+    {
+      "path": "hunts/r_044dd2/artifacts/orbit18-laurent-05.json",
+      "sha256": "1304442c829143cd5875799651565d569b2e43c3a113bf9706180bb88a3a5416"
+    }
+  ],
   "elapsed_seconds": 75.62009596824646,
   "interpretation": "necessary support conditions only; not a complex solution"
 }

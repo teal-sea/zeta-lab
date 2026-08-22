@@ -8,6 +8,7 @@ every returned support.
 from __future__ import annotations
 
 import argparse
+import hashlib
 import itertools
 import json
 import time
@@ -28,6 +29,10 @@ CENSUS = HERE.parent / "r_322dae" / "results.json"
 EdgeKey = tuple[int, int, int, int]
 Matching = tuple[tuple[int, int], ...]
 Coloring = tuple[int, ...]
+
+
+def file_sha256(path: Path) -> str:
+    return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
 @lru_cache(maxsize=None)
@@ -318,6 +323,7 @@ def run_orbit(
     cuts_per_round: int,
     optimize_rounds: int,
     pattern_cuts: Sequence[dict[str, object]] = (),
+    pattern_cut_inputs: Sequence[dict[str, str]] = (),
 ) -> dict[str, object]:
     if cp_model is None:
         raise RuntimeError("OR-Tools is required to run the optimizer")
@@ -405,6 +411,7 @@ def run_orbit(
         "seed": seed,
         "optimize_rounds": optimize_rounds,
         "pattern_cuts": len(pattern_cuts),
+        "pattern_cut_inputs": list(pattern_cut_inputs),
         "elapsed_seconds": time.time() - started,
         "interpretation": "necessary support conditions only; not a complex solution",
     }
@@ -438,6 +445,20 @@ def main() -> None:
     )
     parser.add_argument("--output", type=Path)
     args = parser.parse_args()
+    pattern_cuts = [
+        json.loads(path.read_text(encoding="utf-8")) for path in args.pattern_cut
+    ]
+    repo_root = HERE.parents[1]
+    pattern_cut_inputs = []
+    for path in args.pattern_cut:
+        resolved = path.resolve()
+        try:
+            display_path = str(resolved.relative_to(repo_root))
+        except ValueError:
+            display_path = str(resolved)
+        pattern_cut_inputs.append(
+            {"path": display_path, "sha256": file_sha256(resolved)}
+        )
     result = run_orbit(
         args.orbit,
         seconds=args.seconds,
@@ -446,7 +467,8 @@ def main() -> None:
         max_rounds=args.max_rounds,
         cuts_per_round=args.cuts_per_round,
         optimize_rounds=args.optimize_rounds,
-        pattern_cuts=[json.loads(path.read_text(encoding="utf-8")) for path in args.pattern_cut],
+        pattern_cuts=pattern_cuts,
+        pattern_cut_inputs=pattern_cut_inputs,
     )
     output = args.output or HERE / f"orbit_{args.orbit:02d}.json"
     output.write_text(json.dumps(result, indent=2) + "\n", encoding="utf-8")

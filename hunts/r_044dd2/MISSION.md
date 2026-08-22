@@ -40,3 +40,12 @@ agents_may_not:
 The support necessities are taken from the proof architecture of
 `algal/krenn-gu-6x3-certificate`.  They are necessary conditions only.  The
 8x3 implementation and replay here are independent code paths.
+
+## Current frontier
+
+The support census returned survivors for all 31 outer branches. On orbit 18,
+four exact signed-Laurent patterns and their four stabilizer images have been
+excluded. Support 7 avoids all eight cuts but has no zero-binomial equations,
+so the current binomial-to-trinomial sieve has no relation lattice to use.
+Orbit 18 remains open. The next attack must use stronger exact algebra or find
+a different replayable contradiction.
