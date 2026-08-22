@@ -1,0 +1,29 @@
+{
+  "run_id": "6fb7250b-e698-4555-8146-49b9081000f3",
+  "status": "settled",
+  "conclusion": "The 6x3 census checksum of 15 matchings, 3375 triples, and 8 S6 x S3 orbits is verified. For the 8x3 frontier, 105 matchings and 1157625 monochromatic matching triples partition into exactly 31 S8 x S3 orbits with exact stabilizer counts and unique partition coverage proved.",
+  "confidence": "Exact. The 31 orbit counts and sizes are verified both constructively via exhaustive disjoint partition and theoretically via Burnside fixed-point evaluation over S8 x S3 conjugacy classes.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "Krenn-Gu 6x3 certificate orbit count of 8 orbits over 3375 triples",
+      "source": "algal/krenn-gu-6x3-certificate",
+      "effect": "Provided the baseline ground-truth calibration for the permutation action and stabilizer quotient logic."
+    }
+  ],
+  "threads": [
+    {
+      "what": "Symmetry-reduced polynomial equations over the 31 S8 x S3 orbit representatives or 57 H x S2 pair orbits",
+      "why_it_might_matter": "Reduces the 6561 polynomial equations in 252 variables to the minimal quotient system required to prove or disprove the 8x3 instance.",
+      "first_step": "Construct the 28 edge weight variables on K8 and parameterize the matching triple equations over the 31 canonical orbit representatives."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "Vectorised permutation table orbit partitioner for Sn x S3 matching actions",
+      "why_reusable": "Generalizes to arbitrary n x d matching and hypergraph isomorphism class census problems with minimal memory and sub-second execution.",
+      "first_step": "Package get_perfect_matchings and compute_orbit_census as parameterized utilities."
+    }
+  ],
+  "notes_for_operator": ""
+}
