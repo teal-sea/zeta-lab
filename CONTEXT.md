@@ -1276,6 +1276,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/65_rung3_full_validation.py` — Every site of plan v2 through ball arithmetic — the sampled claim made whole.
 - `scripts/66_rung3_ball_atom_cost.py` — Which ball obligations the kernel can actually discharge, and at what cost.
 - `scripts/70_lab_state.py` — 70_lab_state.py — the read-only research-state view, rendered from artifacts.
+- `scripts/71_contribution_check.py` — Check that an external research hunt carries the lab's review contract.
 - `scripts/check_secrets.py` — Refuse to publish a credential. Scans git objects for secret patterns.
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
@@ -1288,13 +1289,14 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1907 test functions across 82 files (the collected count differs where tests are parametrised):
+1910 test functions across 83 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_aimo_audit.py` — 2
 - `tests/test_check_secrets.py` — 5
 - `tests/test_claim_attribution.py` — 6
 - `tests/test_compiler_candidate.py` — 32
+- `tests/test_contribution_check.py` — 3
 - `tests/test_core.py` — 97
 - `tests/test_criteria.py` — 75
 - `tests/test_department_conformance.py` — 19
