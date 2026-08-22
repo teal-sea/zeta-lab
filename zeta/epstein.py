@@ -1088,8 +1088,18 @@ def epstein_interface(
         ),
         "Z": lambda t, _f=(a, b, c), _d=dps: Z_epstein(t, _f, dps=_d),
         "zeros_on_line": _line_count,
+        # dps is the caller's, not clamped.  These three interfaces used to
+        # pass `dps=min(_d, 20)`, silently overriding a caller who asked for
+        # more.  hunts/dps_cap measured what that costs at 0.8 + 85.7i:
+        # `epstein_completed` returns 3.1e-33 against a converged 1.6e-58, a
+        # factor of 1.9e25 and not one correct digit, because the routine's
+        # absolute error floor sits near 1e-(D+13) and nothing correct appears
+        # below D ~ 46.  `count_zeros_box`'s integrality check does not catch
+        # it: noise winds to an integer as readily as signal does, so the cap
+        # returned a plausible wrong zero count rather than raising.  A caller
+        # who wants the cheap answer can still ask for dps=20 explicitly.
         "count_zeros_box": lambda s0, s1, _f=(a, b, c), _d=dps: count_zeros_box(
-            s0, s1, dps=min(_d, 20), fn=lambda z: epstein_completed(z, _f, dps=min(_d, 20))
+            s0, s1, dps=_d, fn=lambda z: epstein_completed(z, _f, dps=_d)
         ),
     }
 
@@ -1122,8 +1132,18 @@ def zeta_interface(dps: int = DPS_DEFAULT) -> dict:
             hardy_Z_sign_changes(t0, t1, n_samples=max(int(20 * (t1 - t0)) + 2, 8),
                                  dps=15, cache=False)
         ),
+        # dps is the caller's, not clamped.  These three interfaces used to
+        # pass `dps=min(_d, 20)`, silently overriding a caller who asked for
+        # more.  hunts/dps_cap measured what that costs at 0.8 + 85.7i:
+        # `epstein_completed` returns 3.1e-33 against a converged 1.6e-58, a
+        # factor of 1.9e25 and not one correct digit, because the routine's
+        # absolute error floor sits near 1e-(D+13) and nothing correct appears
+        # below D ~ 46.  `count_zeros_box`'s integrality check does not catch
+        # it: noise winds to an integer as readily as signal does, so the cap
+        # returned a plausible wrong zero count rather than raising.  A caller
+        # who wants the cheap answer can still ask for dps=20 explicitly.
         "count_zeros_box": lambda s0, s1, _d=dps: count_zeros_box(
-            s0, s1, dps=min(_d, 20), fn=lambda z: xi(z, dps=min(_d, 20))
+            s0, s1, dps=_d, fn=lambda z: xi(z, dps=_d)
         ),
     }
 
@@ -1138,8 +1158,18 @@ def dh_interface(dps: int = DPS_DEFAULT) -> dict:
         "fe_defect": lambda s, _d=dps: dh_functional_equation_defect(s, dps=_d),
         "Z": lambda t, _d=dps: Z_dh(t, dps=_d),
         "zeros_on_line": lambda t0, t1, _d=dps: zeros_on_line(t0, t1, dps=15),
+        # dps is the caller's, not clamped.  These three interfaces used to
+        # pass `dps=min(_d, 20)`, silently overriding a caller who asked for
+        # more.  hunts/dps_cap measured what that costs at 0.8 + 85.7i:
+        # `epstein_completed` returns 3.1e-33 against a converged 1.6e-58, a
+        # factor of 1.9e25 and not one correct digit, because the routine's
+        # absolute error floor sits near 1e-(D+13) and nothing correct appears
+        # below D ~ 46.  `count_zeros_box`'s integrality check does not catch
+        # it: noise winds to an integer as readily as signal does, so the cap
+        # returned a plausible wrong zero count rather than raising.  A caller
+        # who wants the cheap answer can still ask for dps=20 explicitly.
         "count_zeros_box": lambda s0, s1, _d=dps: count_zeros_box(
-            s0, s1, dps=min(_d, 20)
+            s0, s1, dps=_d
         ),
     }
 

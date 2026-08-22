@@ -1,0 +1,41 @@
+{
+  "run_id": "b4528bd7-59ab-4d50-a9f6-ecaf7928f7c8",
+  "status": "settled",
+  "conclusion": "abs(epstein_completed(0.8+85.7i, (2,1,3))) is 4.84638192796e-35 at dps=20 and 1.61745263238e-58 at dps=60, a gap of 23 orders of magnitude; dps=80 reproduces the dps=60 value to all twelve digits printed, so the low-precision value carries no correct digits rather than fewer. The cap at zeta/epstein.py:1091-1093 therefore costs the entire value at this point, because epstein_completed reaches 1.6e-58 by cancelling O(1) incomplete-gamma terms and 20 digits do not survive 58 digits of cancellation.",
+  "confidence": "High on the two numbers and on which one is the function. Two independent grounds: the value stops moving between dps=60 and dps=80, and a route that touches neither lattice sum (the gamma factor alone gives 2.6400016e-58) implies |zeta_Q(0.8+85.7i)| = 0.613 for the dps=60 value against 1.8e+23 for the dps=20 value, and no Epstein zeta of a positive definite form takes 1.8e+23 at height 85.7. Low on anything beyond this one point: one point off the critical line is not a characterisation of the cap, and no battery verdict was tested.",
+  "independent_check": {
+    "requested": true,
+    "child_run_id": "22d8a969-fd55-4520-9587-986022fbb3ea",
+    "request": "Independently compute abs(epstein_completed(0.8+85.7i,(2,1,3))) at dps=60 and say whether it agrees with 1.6e-58 to within an order of magnitude.",
+    "state_at_close": "working",
+    "verdict": null,
+    "why_no_verdict": "fulcrum_support_wait returned state 'working' on roughly 40 polls across about 24 hours, from a run whose stated budget was 20 minutes. No support/22d8a969 branch appeared on origin and no worktree for it appeared locally, which is consistent with the run having been registered but never launched. There is no finding on the table, so there is nothing to ACCEPT or REJECT. Saying either would be inventing a second opinion, and the point of asking for one was to not do that.",
+    "what_would_settle_it": "launch the support run (the payload and brief were written: /Users/thomas/fulcrum/briefs/support-22d8a969.md), or re-request the check from a worker that is actually started"
+  },
+  "operator_decision_required": null,
+  "threads": [
+    {
+      "what": "whether count_zeros_box's winding number is also wrong at dps=20, or whether phase survives where magnitude does not",
+      "why_it_might_matter": "the cap sits inside the rival interface's zero-counting entry, so if the winding is wrong the battery's Epstein zero counts are wrong; if the winding is right, the cap is defensible where it stands and this hunt found a cost with no consequence",
+      "first_step": "count_zeros_box on a fixed box at dps=20 against the same box at dps=60, on a form whose off-line zero is already pinned in tests"
+    },
+    {
+      "what": "the height at which dps=20 starts returning noise for epstein_completed",
+      "why_it_might_matter": "the gamma factor decays like exp(-pi t / 2), so the crossover is predictable: about 20 digits buys roughly t < 29. A measured crossover would say which boxes the cap can be trusted in",
+      "first_step": "sweep t from 10 to 90 at dps=20 against dps=60 and record where the exponents part company"
+    },
+    {
+      "what": "the docstring evidence in zeta/epstein.py records defects only at dps 30 to 70 and never above t = 20",
+      "why_it_might_matter": "the pinned numbers are all from the region where 20 digits happens to be enough, so no existing test would notice this failure mode",
+      "first_step": "add one high-t case to tests/test_epstein.py that fails if epstein_completed is evaluated below the precision the point needs"
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "a cancellation-budget guard for mpmath routines that build a small answer out of O(1) terms",
+      "why_reusable": "the failure here is generic to the repo's style: a value the size of exp(-pi t / 2) assembled from terms of size 1 needs working precision above -log10 of the answer, and nothing in the tree checks that a caller's dps clears that bar. The same shape is available to weil.py, heatflow.py and li.py",
+      "first_step": "a helper that takes the expected magnitude and the working dps and raises rather than returning the round-off floor, tried first on epstein_completed with no change to its signature"
+    }
+  ],
+  "notes_for_operator": "Two frictions worth knowing, neither of them mathematical. First, this worktree has no .venv and the sandbox blocks reading /Users/thomas/Zeta/.venv, so the measurement ran on a scratch interpreter with mpmath 1.4.1, numpy and scipy installed to /tmp/pylibs and the repo root on sys.path; the imported module is this tree's zeta/epstein.py, confirmed in results.json. The numbers are unaffected but a fresh worktree cannot run the documented .venv/bin/python command. Second, fulcrum_support returned ok with a brief, a payload and a branch name, and its own 'next' field says 'launch it, then attach its channel'. Nothing appears to have launched. If support runs need an operator step to start, a parent told to poll until ready will poll forever, which is what happened here."
+}
