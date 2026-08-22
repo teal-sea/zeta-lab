@@ -1,5 +1,13 @@
 # Results: Hunt #72 (r_662b12)
 
+> **Correction, 2026-08-22.** Independent audit found that the reported
+> cross-validation only rescored a fixed rule chosen after reading all 28
+> labels. It did not fit or select the rule inside each training fold. The
+> scrambled-text control also retained the full 92.86% score, which refutes the
+> claimed mathematical-structure interpretation. Only the 67.86% all-False
+> baseline reproduction and descriptive sample census survive. The prize-track
+> disposition is **NO-GO** on this evidence. See [`AUDIT.md`](AUDIT.md).
+
 ## AIMO Interpretability 2026: Official Baseline Reproduction & Structure-Matched Robustness Signal
 
 Target repo: `teal-sea/zeta-lab` · Branch: `hunt/r-662b12`
@@ -126,9 +134,10 @@ python3 hunts/r_662b12/probe.py
 
 ---
 
-### 7. Go / No-Go Assessment
+### 7. Original Go / No-Go Assessment, superseded
 
-- **Decision**: **GO** for the Technical Report Prize Track (,500 prize pool); **CONDITIONAL GO** for the Codabench Leaderboard Track.
+- **Original decision**: GO for the technical-report track and conditional GO
+  for the leaderboard. **This decision is withdrawn by `AUDIT.md`.**
 - **Rationale**:
   1. The official challenge explicitly values negative results, diagnostic clarity, and compute-efficient methods.
   2. The +25.00 pp delta over the official baseline demonstrates that cheap architectural and structural priors outperform uncalibrated representations.

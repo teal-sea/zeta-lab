@@ -278,7 +278,9 @@
     "run_probe": "python3 hunts/r_662b12/probe.py"
   },
   "recommendation": {
-    "verdict": "GO (Technical Report & Hybrid Probing Track); CONDITIONAL GO (Codabench Leaderboard)",
-    "rationale": "The structure-matched frontier capability signal provides a clean +25.00 pp delta (92.86% vs 67.86%) with zero invalid predictions across all cross-validation schemes (LOOCV, LOPO, 5-Fold). Because the prize lane explicitly rewards efficient methods and negative results without GPU waste, a hybrid lightweight probe combines cheap architectural priors with activation analysis."
+    "verdict": "NO-GO after independent audit",
+    "rationale": "The 92.86% rule was selected after inspecting all 28 public labels. The reported folds only rescore that fixed rule and do not repeat selection inside training folds. The scrambled-text surrogate retains the same score, so the result does not demonstrate mathematical-structure sensitivity or out-of-sample generalization.",
+    "supersedes": "the worker's original GO recommendation",
+    "audit": "AUDIT.md"
   }
 }
