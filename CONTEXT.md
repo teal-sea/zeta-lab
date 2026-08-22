@@ -181,7 +181,7 @@ Constants: `GAMMA1`
 
 ### `zeta/epstein.py` — The counterexample battery: Davenport-Heilbronn, gate #3 made computational.
 
-*1605 lines*
+*1640 lines*
 
 Constants: `KAPPA_REF`, `OFFLINE_ZERO_RE`, `OFFLINE_ZERO_IM`, `SHIFTED_PRODUCT_SHIFT`
 
@@ -1288,7 +1288,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1905 test functions across 81 files (the collected count differs where tests are parametrised):
+1908 test functions across 82 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_check_secrets.py` — 5
@@ -1329,6 +1329,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_hunt_numbering.py` — 3
 - `tests/test_hunt_probe_discipline.py` — 7
 - `tests/test_huntspec.py` — 16
+- `tests/test_interface_dps_is_honoured.py` — 3
 - `tests/test_inverse.py` — 8
 - `tests/test_lab_state.py` — 1
 - `tests/test_lambda_dh_separation.py` — 13
