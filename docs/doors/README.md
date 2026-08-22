@@ -26,6 +26,7 @@ references these paths, so the name stays.)
 | [refute.md](refute.md) | test a claim about the zeros against the control battery | `.venv/bin/python scripts/23_gate_3_battery.py` |
 | [certify.md](certify.md) | work in a regime where nothing is measured — Lean proofs and interval enclosures | `cd lean && PATH="$HOME/.elan/bin:$PATH" lake build` |
 | [discover.md](discover.md) | run the conjecture funnel and see its measured hit rate | `.venv/bin/python scripts/13_discovery_run.py --dry-run` |
+| [contribute.md](contribute.md) | return an agent-assisted finding as a checkable research pull request | `.venv/bin/python scripts/71_contribution_check.py hunts/<short-name>` |
 | [adopt.md](adopt.md) | *(demoted)* the validation framework, and why it was frozen | `.venv/bin/python -m pytest -q -o addopts='' tests/test_harness_protocol.py tests/test_department_conformance.py` |
 
 If you are new and unsure: **[refute.md](refute.md)** — it is the one thing
