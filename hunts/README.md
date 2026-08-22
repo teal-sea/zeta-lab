@@ -1546,3 +1546,8 @@ route, 0.0621709 assembled from 300 ordinates plus a density tail), and the
 bound EPP supplies exceeds the target by a factor growing past 14 by `t = 1e8`.
 So the repaired mechanism needs square-root cancellation in the prime sum,
 which is RH. No progress on RH; the hunt says so itself.
+
+### Hunt #71: Krenn-Gu 8x3: port the verified 6x3 orbit census and measure the next exact frontier (`r_322dae/`)
+
+**Status: settled.** The 6x3 baseline checksum reproduces 15 matchings, 3375 triples, and 8 S6 x S3 orbits with exact sizes [15, 90, 120, 270, 360, 360, 1080, 1080]. For the 8x3 frontier (105 matchings, 1157625 triples), the direct product group S8 x S3 (order 241920) partitions the triple space into exactly 31 disjoint orbits, confirmed both by constructive partition and Burnside fixed-point evaluation. Quotienting by the wreath-product stabilizer of a fixed matching H = S2 wr S4 (order 384) partitions the 11025 pairs into 86 orbits (57 orbits under H x S2).
+
