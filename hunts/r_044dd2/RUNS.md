@@ -79,3 +79,20 @@ artifacts:
   - stabilizer.py
   - expand_symmetry.py
 ```
+
+## R-044DD2-POLYNOMIAL-07
+
+```runmanifest
+id: r_044dd2-polynomial-07
+hunt: r_044dd2
+started: 2026-08-22T15:50:08-05:00
+finished: 2026-08-22T17:21:57-05:00
+ran:
+  - exact fixed-degree span screens on Support 7 using zero equations with at most three and four terms
+  - cap-5 closure on Modal with one CPU core and 32768 MiB memory
+  - lexicographic sparse modular elimination over prime 2147483647
+outcome: cap 3 and cap 4 have no exact fixed-degree membership; cap-5 closure produced 13379522 relation multiples, but sparse fill-in forced a stop after 2900000 modular columns with no membership decision and no algebraic conclusion
+artifacts:
+  - artifacts/orbit18-polynomial-07-cap4.json
+  - artifacts/orbit18-polynomial-07-cap5-resource.json
+```

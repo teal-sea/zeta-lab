@@ -135,3 +135,35 @@ more than the evidence established. This corrective follow-up adds independent
 tests for the new supports, stabilizer, symmetry images, certificate replay,
 and cut provenance; removes the machine-specific path; and narrows the result
 to the exact limitation measured above.
+
+## Result 4: fixed-degree algebra reaches a measured cap-5 elimination wall
+
+`polynomial_sieve.py` retains multi-term zero equations, removes their common
+support-torus factors, and tests the product of the three monochromatic target
+brackets against the fixed-degree span of monomial multiples of those
+relations. A positive result is only a candidate until an explicit identity
+is emitted and independently replayed.
+
+For Support 7, the exact cap-3 and cap-4 screens both found no membership:
+
+| relation cap | retained relations | reachable monomials | relation multiples | exact rank | residual terms |
+|---:|---:|---:|---:|---:|---:|
+| 3 | 180 | 5,406 | 1,569 | 523 | 4,500 |
+| 4 | 755 | 96,319 | 184,997 | 59,284 | 4,216 |
+
+These are limitations of the retained fixed-degree spans, not evidence that
+Support 7 admits complex weights.
+
+At cap 5, the exact closure completed on a one-core, 32 GiB Modal container
+and produced 13,379,522 relation multiples. The lexicographic sparse modular
+elimination then developed severe fill-in. Its first 1.7 million columns took
+27.0 seconds, while the intervals ending at 2.7, 2.8, and 2.9 million columns
+took 72.1, 135.6, and 149.0 seconds per 100,000. The run was stopped at
+2.9 million columns with modular rank 2,787,358. The modular membership test
+did not finish and rational elimination did not start.
+
+This is a resource-limit result with no algebraic conclusion. The exact next
+frontier is a fill-reducing ordering or block decomposition together with a
+compiled characteristic-zero backend. Any replacement must first reproduce
+the cap-3 and cap-4 results. Orbit 18 remains open, no branch is closed, and no
+complex witness has been found.

@@ -46,6 +46,10 @@ The support necessities are taken from the proof architecture of
 The support census returned survivors for all 31 outer branches. On orbit 18,
 four exact signed-Laurent patterns and their four stabilizer images have been
 excluded. Support 7 avoids all eight cuts but has no zero-binomial equations,
-so the current binomial-to-trinomial sieve has no relation lattice to use.
-Orbit 18 remains open. The next attack must use stronger exact algebra or find
-a different replayable contradiction.
+so the binomial-to-trinomial sieve has no relation lattice to use. An exact
+fixed-degree span screen also found no membership using relations with at most
+three or four terms. The cap-5 closure has 13,379,522 relation multiples, but
+the first sparse elimination ordering developed severe fill-in and was
+stopped before a membership decision. Orbit 18 remains open. The next attack
+must reorder, decompose, or compile the exact elimination, or find a different
+replayable contradiction.

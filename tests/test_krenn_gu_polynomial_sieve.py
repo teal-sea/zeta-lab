@@ -11,6 +11,7 @@ HUNT = ROOT / "hunts" / "r_044dd2"
 SCRIPT = HUNT / "polynomial_sieve.py"
 SUPPORT = HUNT / "artifacts" / "orbit18-support-07.json"
 ARTIFACT = HUNT / "artifacts" / "orbit18-polynomial-07-cap4.json"
+RESOURCE_ARTIFACT = HUNT / "artifacts" / "orbit18-polynomial-07-cap5-resource.json"
 
 
 def load_script():
@@ -81,3 +82,17 @@ def test_committed_cap4_frontier_is_bound_to_support7() -> None:
     assert payload["exact_rank"] == 59284
     assert payload["exact_residual_terms"] == 4216
     assert payload["status"] == "NO_FIXED_DEGREE_MEMBERSHIP"
+
+
+def test_cap5_resource_frontier_is_bound_to_support7() -> None:
+    payload = json.loads(RESOURCE_ARTIFACT.read_text(encoding="utf-8"))
+    assert payload["support_input"]["sha256"] == hashlib.sha256(
+        SUPPORT.read_bytes()
+    ).hexdigest()
+    assert payload["max_relation_terms"] == 5
+    assert payload["closure"]["complete"] is True
+    assert payload["closure"]["relation_multiples"] == 13_379_522
+    assert payload["modular_elimination"]["processed_columns"] == 2_900_000
+    assert payload["modular_elimination"]["total_columns"] == 13_379_522
+    assert payload["status"] == "RESOURCE_LIMIT"
+    assert "No algebraic conclusion" in payload["interpretation"]

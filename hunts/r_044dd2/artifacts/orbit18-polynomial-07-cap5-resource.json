@@ -1,0 +1,57 @@
+{
+  "format": 1,
+  "orbit": 18,
+  "support_input": {
+    "path": "hunts/r_044dd2/artifacts/orbit18-support-07.json",
+    "sha256": "99ca09cdd698df58a10dff5379e24b8f583ef01d018c47651a5db825a72f4bad"
+  },
+  "support_size": 138,
+  "target_indices": [0, 1, 2],
+  "target_terms": 4500,
+  "target_degree": 12,
+  "max_relation_terms": 5,
+  "cloud_run": {
+    "provider": "modal",
+    "app_id": "ap-uXWlCGpFIgoDX0xe7OLcn7",
+    "container_id": "ta-01M0NKSRVWCVC5H02MW83KGANR",
+    "started_at": "2026-08-22T15:50:08-05:00",
+    "stopped_at": "2026-08-22T17:21:57-05:00",
+    "cpu_cores": 1.0,
+    "memory_mib": 32768
+  },
+  "closure": {
+    "complete": true,
+    "processed_monomials_last_checkpoint": 7900000,
+    "reachable_monomials_last_checkpoint": 7918187,
+    "queued_monomials_last_checkpoint": 18187,
+    "relation_multiples": 13379522,
+    "elapsed_seconds_last_checkpoint": 4786.3,
+    "note": "The exact final reachable count was not emitted. Entry into modular elimination proves the closure queue completed."
+  },
+  "modular_elimination": {
+    "prime": 2147483647,
+    "processed_columns": 2900000,
+    "total_columns": 13379522,
+    "rank_at_stop": 2787358,
+    "elapsed_seconds": 536.0,
+    "checkpoint_seconds_per_100000": [
+      0.9,
+      28.5,
+      47.3,
+      72.1,
+      135.6,
+      149.0
+    ],
+    "checkpoint_column_ends": [
+      200000,
+      2500000,
+      2600000,
+      2700000,
+      2800000,
+      2900000
+    ]
+  },
+  "status": "RESOURCE_LIMIT",
+  "interpretation": "Cap-5 closure completed, but lexicographic sparse modular elimination developed severe fill-in and was stopped before membership testing completed. No algebraic conclusion. The rational exact phase did not start.",
+  "next_step": "Reorder or decompose the sparse elimination and use a compiled exact backend; independently replay cap 3 and cap 4 before trusting cap 5."
+}
