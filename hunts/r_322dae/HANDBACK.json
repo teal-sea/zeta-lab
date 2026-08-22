@@ -13,9 +13,9 @@
   ],
   "threads": [
     {
-      "what": "Symmetry-reduced polynomial equations over the 31 S8 x S3 orbit representatives or 57 H x S2 pair orbits",
-      "why_it_might_matter": "Reduces the 6561 polynomial equations in 252 variables to the minimal quotient system required to prove or disprove the 8x3 instance.",
-      "first_step": "Construct the 28 edge weight variables on K8 and parameterize the matching triple equations over the 31 canonical orbit representatives."
+      "what": "Exact support and algebraic sieving over the 31 S8 x S3 target-matching branches",
+      "why_it_might_matter": "The 31 classes exhaust the choice of one supported monochromatic matching per colour without imposing symmetry on the remaining 252-variable equation system.",
+      "first_step": "Use each canonical triple as a twelve-entry support skeleton, impose all 6561 equation necessities, and learn independently checked algebraic no-goods from every returned support."
     }
   ],
   "core_candidates": [
