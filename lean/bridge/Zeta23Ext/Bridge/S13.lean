@@ -7,18 +7,19 @@ import Zeta23Ext.Bridge.S11
 import Zeta23Ext.Bridge.S12
 
 /-!
-# S13: the per-block bound  ([A] eq:269block)
+# S13: the per-block bound  ([A] eq:269block), for `n` points
 
-`D(G_B) + (6/p)·span(B) ≥ A₀ − o(1)` for a block `B` of `m` retained zeros, `A₀ = c(m − 6) ≤ 1`.
-Stated here *deterministically at one height*: the `o(1)` is an explicit tolerance `δ` on the
-Gram entries (S9's conclusion at that height), and the error is `2m²δ`.  `Bridge/Main.lean`
-combines this with S9 into the uniform-in-`T` form the paper displays.
+`D(G_B) + ((n−1)/p)·span(B) ≥ A₀ − o(1)` for a block `B` of `m` retained zeros,
+`A₀ = c(m − (n−1)) ≤ 1`.  Stated here *deterministically at one height*: the `o(1)` is an explicit
+tolerance `δ` on the Gram entries (S9's conclusion at that height), and the error is `2m²δ`.
+`Bridge/Main.lean` combines this with S9 into the uniform-in-`T` form the paper displays.
 
-Proved here (bridge/finite): from `|G_{ij} − k(xᵢ−xⱼ)| ≤ δ` and `|k| ≤ 1` (`Helpers_finite`,
+Proved here: from `|G_{ij} − k(xᵢ−xⱼ)| ≤ δ` and `|k| ≤ 1` (`Helpers_finite`,
 `abs_kfun_le_one`) get `|G_{ij}|² ≥ w(xᵢ−xⱼ) − 2δ` termwise, hence
 `offDiagSqOn G B ≥ energyOn x B − 2m²δ`; S12 on the principal submatrix gives
-`D(G_B) ≥ min{1, offDiagSqOn}`; S11 on `B` gives `energyOn + (6/p) span ≥ c(m−6)`; and the case
-`offDiagSqOn ≥ 1` is closed by `c(m−6) ≤ 1` (`hA0`, TRUST-MAP §1.2's cap `m ≤ 6 + ⌊1/c⌋`).
+`D(G_B) ≥ min{1, offDiagSqOn}`; S11 on `B` gives `energyOn + ((n−1)/p) span ≥ c(m−(n−1))`; and the
+case `offDiagSqOn ≥ 1` is closed by `c(m−(n−1)) ≤ 1` (`hA0`, TRUST-MAP §1.2's cap
+`m ≤ (n−1) + ⌊1/c⌋`).  Nothing in S12 is `n`-dependent; only the two numerals of S11 are.
 -/
 
 noncomputable section
@@ -91,16 +92,21 @@ lemma spanOf_subtype_le (x : ι → ℝ) (B : Finset ι) :
     rw [h0]
     exact spanOf_nonneg x B
 
-/-- **S13** ([A] eq:269block, fixed height).  If the Gram entries on a block `B` of `m` points are
-within `δ` of the kernel, `c(m − 6) − 2m²δ ≤ D(G_B) + (6/p)·span(B)`.
-PROVED (bridge/finite); see the module docstring. -/
-theorem block_bound {c : ℝ} {m p : ℕ} (hm : 7 ≤ m) (hp : 0 < p)
-    (hCert : ∀ g : Fin 6 → ℝ, (∀ i, 0 ≤ g i) → c ≤ F6 p g) (hA0 : c * ((m : ℝ) - 6) ≤ 1)
+/-- **S13** ([A] eq:269block, fixed height, `n`-point form).  If the Gram entries on a block `B`
+of `m` points are within `δ` of the kernel, `c(m − (n−1)) − 2m²δ ≤ D(G_B) + ((n−1)/p)·span(B)`.
+PROVED; see the module docstring. -/
+theorem block_bound {c : ℝ} {n m p : ℕ} (hn : 2 ≤ n) (hm : n ≤ m) (hp : 0 < p)
+    (hCert : ∀ g : Fin (n - 1) → ℝ, (∀ i, 0 ≤ g i) → c ≤ F n p g)
+    (hA0 : c * ((m : ℝ) - ((n : ℝ) - 1)) ≤ 1)
     (x : ι → ℝ) {G : Matrix ι ι ℂ} (hG : G.PosSemidef) (B : Finset ι) (hB : B.card = m)
     (hx : Set.InjOn x B) {δ : ℝ} (hδ : 0 ≤ δ)
     (hclose : ∀ i ∈ B, ∀ j ∈ B, i ≠ j → ‖G i j - (kfun (x i - x j) : ℂ)‖ ≤ δ) :
-    c * ((m : ℝ) - 6) - 2 * (m : ℝ) ^ 2 * δ ≤ blockDefect hG.1 B + (6 / (p : ℝ)) * spanOf x B := by
+    c * ((m : ℝ) - ((n : ℝ) - 1)) - 2 * (m : ℝ) ^ 2 * δ
+      ≤ blockDefect hG.1 B + (((n : ℝ) - 1) / (p : ℝ)) * spanOf x B := by
   classical
+  have hn1 : (0 : ℝ) ≤ (n : ℝ) - 1 := by
+    have : (1 : ℝ) ≤ (n : ℝ) := by exact_mod_cast (by omega : 1 ≤ n)
+    linarith
   -- S12 on the principal submatrix
   have hS12 : min 1 (offDiagSqOn G B) ≤ blockDefect hG.1 B := by
     have h := block_defect (hG.submatrix (Subtype.val : B → ι))
@@ -125,19 +131,20 @@ theorem block_bound {c : ℝ} {m p : ℕ} (hm : 7 ≤ m) (hp : 0 < p)
       ring
     linarith
   -- S11 on the block
-  have hS11 : c * ((m : ℝ) - 6) ≤ energyOn x B + (6 / (p : ℝ)) * spanOf x B := by
+  have hS11 : c * ((m : ℝ) - ((n : ℝ) - 1))
+      ≤ energyOn x B + (((n : ℝ) - 1) / (p : ℝ)) * spanOf x B := by
     have hcard : Fintype.card B = m := by simp [hB]
     have hinj : Function.Injective (fun i : B => x i) := by
       intro i j h
       exact Subtype.ext (hx i.2 j.2 h)
-    have h := block_energy hp hCert hm hcard (fun i : B => x i) hinj
+    have h := block_energy hn hp hCert hm hcard (fun i : B => x i) hinj
     rw [energyOn_subtype] at h
-    have hp' : (0 : ℝ) ≤ 6 / (p : ℝ) := by positivity
+    have hp' : (0 : ℝ) ≤ ((n : ℝ) - 1) / (p : ℝ) := div_nonneg hn1 (by positivity)
     have := mul_le_mul_of_nonneg_left (spanOf_subtype_le x B) hp'
     linarith
   -- assemble
   have hspan := spanOf_nonneg x B
-  have hp' : (0 : ℝ) ≤ 6 / (p : ℝ) := by positivity
+  have hp' : (0 : ℝ) ≤ ((n : ℝ) - 1) / (p : ℝ) := div_nonneg hn1 (by positivity)
   have hm2 : (0 : ℝ) ≤ 2 * (m : ℝ) ^ 2 * δ := by positivity
   rcases le_or_gt 1 (offDiagSqOn G B) with h1 | h1
   · rw [min_eq_left h1] at hS12
