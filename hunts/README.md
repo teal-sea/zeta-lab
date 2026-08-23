@@ -122,21 +122,25 @@ Nothing here bears on RH. Doc: `docs/33`.
 **Status: baseline retained, intervention rejected after independent audit.** The public sample has 28 cases, 19 non-robust and 9 robust, so the all-False baseline is 67.86% (19/28) with full coverage and no invalid outputs. The reported 92.86% intervention is an in-sample score for a model-name rule chosen after inspecting those same labels. Its LOOCV, leave-one-problem-out and five-fold loops never fit or select the rule inside training folds, so they provide no generalization evidence. The scrambled-text surrogate retains the same 92.86%, refuting the claimed mathematical-structure interpretation. Prize disposition: **NO-GO on this hunt's evidence.** The original run record is preserved; `hunts/r_662b12/AUDIT.md` carries the correction. Nothing here bears on RH (`docs/08`).
 ### Hunt AIMO-2 (#77): legal AIMO Interpretability submission + validation-design report (`aimo2/`)
 
-**Status: report-ready; leaderboard-method arm killed at a free gate; no GPU spent.**
-Successor to Hunt #72 (`r_662b12`), whose +25pp claim was withdrawn. Finding: the
-28-row public development sample (`val-sample`) is 32.1% robust, while the identical
-organizer label rule on the 558-row `sample-full` is 89-97% robust, so the development
-sample inverts the natural class balance by construction (19 single-worst-perturbation
-failures vs 9 all-perturbation aggregates that never fail). The apparent model-identity
-signal scores 26/28 under leave-problem-out but collapses to the constant (19/28) under
-leave-model-out and never beats the constant on the natural distribution. The official
-ingestion+scoring path was replayed at starter commit e46be92 (reproducing always-false
-0.6786, and exposing an importer/ingestion schema-mismatch defect in the pinned starter).
-A preregistered free gate killed the Small-track learned method for $0: the public 8B
-model is robust on 10/10 public problems, so no leakage-free method beats the constant
-out of fold. Deliverables: `REPORT.md` (the $5,000-pool technical report), a frozen
-`PREREGISTRATION.md`, and three legal constant submissions. Number #77 is provisional; if
-a parallel session took it, renumber. Nothing here bears on RH (docs/08).
+**Status: report-ready (reframed 2026-08-22); Main entry is a legal model-identity prior,
+Small entry is the always-non-robust constant; learned-method arm stays killed; no GPU spent.**
+Successor to Hunt #72 (`r_662b12`), whose +25pp claim was withdrawn and stays withdrawn.
+The organizers' clear-cut protocol (proposal §1.4) is reconstructed exactly from public data:
+`val-sample`'s 9 robust rows are the 9 `sample-full` pairs with base accuracy 1.0 and zero
+detrimental perturbations; its 19 non-robust rows are single-type rows with decay >= 0.5. So the
+hidden set is minority-robust by construction (22-43% on the public problems, 20% for the 8B on
+the organizers' MATH release), and the first version's "natural distribution" (89-97% robust) was
+the wrong reference; the always-robust constants it chose are superseded. Under the protocol the
+label is mostly a property of the model: a per-model prior fitted on the official labels scores
+26/28, 39/41, 43/56 leave-problem-out vs 19/28, 32/41, 32/56 for the constant, transfers between
+the two public sets, and is the binding split because the organizers state the validation set
+covers all test-set model types. Self-consistency adds nothing; on the 69-problem MATH release the
+8B's failures do not transfer across perturbation types, so the free gate fails again and the
+Small-track GPU route stays killed. Official path replayed at starter HEAD `e46be92` (always-false
+0.6786, prior 0.9286 in-sample; importer/ingestion schema mismatch confirmed at HEAD). Deliverables:
+`REPORT.md` (reframed for the $5,000 writeup pool), `PREREGISTRATION.md` with a dated amendment,
+`protocol_reconstruction.py`, and the verified bundles. Number #77 is provisional; if a parallel
+session took it, renumber. Nothing here bears on RH (docs/08).
 
 ### Hunt #71: Krenn-Gu 8x3: port the verified 6x3 orbit census and measure the next exact frontier (`r_322dae/`)
 

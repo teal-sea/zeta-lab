@@ -1,176 +1,188 @@
-# The AIMO robustness development sample is curated in a way that inflates model-identity and calibration signals
+# Base rates first: what the AIMO robustness label is made of, and the floor an interpretability method has to clear
 
-**AIMO Interpretability Challenge at NeurIPS 2026 (Codabench competition 16180) technical report.**
-All numbers below are reproducible from public data by `hunts/aimo2/reconstruct_curation.py`,
-`hunts/aimo2/free_gate.py`, and the official starter container at commit `e46be92`. No hidden
-labels and no leaderboard feedback were used.
+**AIMO Interpretability Challenge at NeurIPS 2026 (Codabench competition 16180), technical report.**
+Every number below is reproducible from the organizers' public datasets by
+`hunts/aimo2/protocol_reconstruction.py` and `hunts/aimo2/free_gate.py`, and every submission
+figure was obtained through the official ingestion and scoring programs (starter commit `e46be92`).
+No hidden labels and no leaderboard feedback were used.
 
-## Contribution
+## Summary of contributions
 
-The public development sample the challenge ships (`aimo-interp/val-sample`, 28 cases) is 32.1 percent
-robust. The organizers' larger public sample (`aimo-interp/aimo-interp-challenge-sample-full`, 558
-rows), scored by the identical label rule, is 89 to 97 percent robust. The development sample is not a
-random draw from the evaluation distribution: it is built by contrasting single worst perturbation
-failures against all perturbation aggregates that never fail, which both inverts the class balance and
-manufactures separability. We show that this makes a model-identity prior look strong (it scores
-26 of 28 on the sample under leave-one-problem-out cross validation) while it carries no transferable
-signal at all: under leave-one-model-out it drops to the constant baseline, and on the natural
-distribution it never beats the constant. We reproduce the finding end to end, exercise the official
-scoring path (which uncovers a schema defect in the pinned starter), and show that under a preregistered
-leakage-free protocol no learned method beats the better constant baseline out of fold on the public
-data, so the honest submission for both tracks is a calibrated constant prior. The lesson for the
-organizers is concrete: development-sample accuracy is not an estimator of hidden-set accuracy, and the
-public leaderboard number is largely a readout of the hidden-set class balance.
+1. **The evaluation protocol, reconstructed from public data.** The challenge proposal says the test
+   set keeps only clear-cut cases. We show exactly what that means on the public data: the 9 robust
+   rows of the development sample (`val-sample`, 28 rows) are precisely the 9 (model, problem) pairs of
+   the larger public sample (`sample-full`, 558 rows) whose original answer is correct on 10 of 10
+   samples and which lose nothing under any of 67 to 120 perturbations; its 19 non-robust rows are
+   single-perturbation-type rows with relative accuracy decay of at least one half, matched number for
+   number in `sample-full`. Three consequences follow and all three matter for how to read the
+   leaderboard: the class balance is a parameter of the filter, not of the models (22 to 43 percent
+   robust on the public problems depending on the robust-side filter; 32 percent in `val-sample`; 20
+   percent for the Small-track model on the organizers' MATH release); a pair that breaks under several
+   perturbation types is counted once per type, so two pairs supply 6 of the 19 non-robust rows; and
+   about half of the non-robust class rests on a single human-written variant (10 of 19 rows in
+   `val-sample`, 12 of 32 in the reconstruction, all `expert_no_solution`).
+2. **A zero-compute baseline that every public evaluation puts far above the constant.** Under that
+   protocol the label is mostly a property of the model. A per-model majority prior, fitted only on the
+   official `val-sample` labels, scores 26 of 28 leave-one-problem-out on `val-sample`, 39 of 41 on the
+   strict reconstruction and 43 of 56 on the loose one, against 19 of 28, 32 of 41 and 32 of 56 for the
+   always-non-robust constant. Fitted on one public set and scored on the other it gets 26 of 28 and
+   39 of 41, and the two fits agree on every model. The organizers' own probing and uncertainty
+   baselines (58 and 69 percent in their proposal) do not clear this floor. The prior is legal under the
+   published rules, uses nothing but the organizers' labels, and runs in constant time; we submit it as
+   the Main-track entry and state plainly that it is a base-rate method, not an interpretability method.
+3. **Negative results that save compute.** Black-box self-consistency adds nothing once the protocol is
+   applied, because robust rows have base accuracy 1.0 by construction and most non-robust rows do too
+   (38 of 41 versus 39 of 41 for the prior alone). On the organizers' 69-problem MATH release for the
+   8B model, failure under one generic perturbation type does not predict failure under another (40 of
+   41 failing problems fail under exactly one type; no single-type predictor beats the majority), so a
+   self-generated-perturbation estimator has nothing to transfer. Under a preregistered gate we
+   therefore spent no GPU on the Small track and submit the constant there.
+4. **A round-trip defect in the starter kit** and concrete recommendations for the final analysis.
 
-Our own first internal attempt fell into exactly the trap this report describes: a rule chosen after
-reading the 28 labels scored 26 of 28 in sample and was reported as a plus 25 point gain, before an
-audit found the score was carried by two hard-coded model-name substrings, that no fold ever refit the
-rule, and that scrambling the problem text left the score unchanged. That failure is the motivation, and
-the report stands on the public evidence independently of it.
+Our own first attempt fell into the trap that motivates this report: a rule chosen after reading the 28
+labels scored 26 of 28 in sample and was described as a structural signal, before an audit found the score
+was carried by two model-name substrings and that scrambling the problem text changed nothing. The
+number was right and the interpretation was wrong. This report keeps the number, drops the
+interpretation, and measures it properly.
 
 ## 1. Setup and the label rule
 
-Each case is a (model, problem) pair. The challenge asks a submission to return, through
-`are_robust(model_id, problems) -> list[bool]`, whether the model answers each problem robustly.
-The label is derived from perturbations: a case is **robust** iff its relative accuracy decay under the
-evaluated perturbations is below one half. We verified this rule against the shipped `model_is_robust`
-column of `val-sample`: `relative_accuracy_decay < 0.5` reproduces the shipped label on all 28 of 28
-rows. A detrimental-count rule `n_detrimental / n_permuted < 0.5` does not (it disagrees on 10 of 28),
-because a single high-impact perturbation can flip a case even when few perturbations are detrimental.
-We use the decay rule everywhere, so the label we apply to the 558-row sample (which ships no label
-column) is exactly the one the organizers apply to the 28-row sample.
+Each case is a (model, problem) pair; a submission implements `are_robust(model_id, problems) ->
+list[bool]` and sees only the model identifier and the original problem text. The perturbation type is
+not exposed. The shipped label is reproduced on all 28 of 28 `val-sample` rows by
+`relative_accuracy_decay < 0.5`; a count rule `n_detrimental / n_permuted < 0.5` disagrees on 10 of 28
+because a single high-impact variant can flip a case. We use the decay rule throughout, including on the
+three organizer releases that ship no label column. The Small Models track evaluates one cached model,
+`qwen3-8b:low`, which resolves to `deepseek-ai/DeepSeek-R1-0528-Qwen3-8B`.
 
-The two public datasets share seven `:low` models, ten problems, and seven perturbation families
-(`typos, rephrase, rename, distract, domain, expert_no_solution, expert_perturbations`). The Small
-Models track evaluates one cached model: the Codabench alias `qwen3-8b:low` resolves to
-`deepseek-ai/DeepSeek-R1-0528-Qwen3-8B`.
+## 2. The clear-cut protocol and what it produces
 
-## 2. Finding 1: the development sample inverts the natural class balance
+The proposal states that cases are dropped when the original answer is not robustly correct or when
+the perturbations do not cause a consistent deterioration. On the public data this resolves to:
 
-| dataset | scope | robust rate |
+| class | rule that reproduces `val-sample` exactly | rows in `val-sample` |
 | --- | --- | --- |
-| `val-sample` (development) | 28 cases | **9 / 28 = 32.1%** |
-| `sample-full` | 548 rows, same decay rule | 489 / 548 = **89.2%** |
-| `sample-full` | rows where the model solved the original (base >= 0.6) | 370 / 402 = **92.0%** |
-| `sample-full` | rows where the model fully solved the original (base = 1.0) | 238 / 246 = **96.7%** |
-| `sample-full` | (model, problem) pair level, pooled decay | 65 / 70 = **92.9%** |
+| robust | pair with base accuracy 1.0 on every row and zero detrimental perturbations over all evaluated types | 9 of 9 match the 9 such pairs in `sample-full` |
+| non-robust | single-type row with relative decay >= 0.5 (base >= 0.6) | 19 of 19 present in `sample-full` with identical numbers; 30 such rows exist on the same 8 problems |
 
-The development sample reports a minority-robust world (about one in three). Every representative public
-cut of the same models and problems reports a strongly majority-robust world (roughly nine in ten). The
-gap is not noise; it is construction.
+Applying the same rule to all 10 public problems and 7 models:
 
-**The construction.** The 28 development cases split cleanly into two kinds. Nineteen are
-single-perturbation-type rows, and all nineteen are non-robust: they are drawn from the decayed tail of
-`sample-full`, one hard perturbation type at a time. Nine are aggregated rows whose perturbation field
-lists all seven families at once, and all nine are robust with zero detrimental perturbations of 70 to
-120. So the development sample pits "the single worst perturbation of a hard case" against "the pooled
-average over all perturbations of an easy case." Those are not the same measurement, and contrasting
-them both inflates the apparent robust/spurious separability and inverts the base rate. A classifier
-tuned on this contrast is tuned on an artifact of the sampling, not on a property of the evaluation
-distribution.
+| public set | rows | robust | robust rate | always-non-robust |
+| --- | --- | --- | --- | --- |
+| `val-sample` (shipped labels) | 28 | 9 | 32.1% | 19 / 28 = 0.679 |
+| reconstruction, strict robust side (base 1.0) | 41 | 9 | 22.0% | 32 / 41 = 0.780 |
+| reconstruction, loose robust side (zero detrimental only) | 56 | 24 | 42.9% | 32 / 56 = 0.571 |
+| `augmented-sample-math-agg-filtered`, DeepSeek-R1-8B on MATH (shipped labels) | 54 | 11 | 20.4% | 43 / 54 = 0.796 |
+| `augmented-sample-math`, Llama-3.1-8B on MATH (shipped labels) | 156 | 0 | 0.0% | 156 / 156 |
 
-## 3. Finding 2: the apparent model-identity signal does not transfer
+The balance moves by twenty points with one filter choice the submission cannot see, which is why the
+accuracy leaderboard will be dominated by whichever constant matches the hidden balance, and why we
+recommend reporting lift over the identity prior and a balanced metric (Section 6). Two further
+structural facts: **(a)** the importer keys cases by (model, problem, perturbation type), so a pair that
+breaks under k types appears k times with the same text and label; in `val-sample` two pairs appear three
+times each and supply 6 of 19 non-robust rows. **(b)** `expert_no_solution` rows carry one variant
+sampled ten times (`n_detrimental` is 0 or 1 on all 49 such rows), so 10 of the 19 non-robust rows in
+`val-sample` and 12 of 32 in the reconstruction rest on one human-written variant each. Whether that
+variant is answer-preserving is the entire label for those rows.
 
-In the development sample the seven models have near-deterministic labels (for example
-`gpt-5.2:low` is 3 of 3 robust and `gpt-oss-120b:low` is 0 of 7). A predictor that simply learns each
-model's base rate therefore looks excellent, but only if the evaluation lets it memorize that base rate.
+## 3. The model-identity prior
 
-| evaluation | development sample (28) | natural pairs (70) |
-| --- | --- | --- |
-| better constant baseline | 19 / 28 = 0.679 | 65 / 70 = 0.929 |
-| model-identity prior, leave-one-problem-out | **26 / 28 = 0.929** | 65 / 70 = 0.929 |
-| model-identity prior, leave-one-model-out | 19 / 28 = 0.679 | 65 / 70 = 0.929 |
+Under the protocol the per-model label is close to deterministic: in `val-sample` two models are robust
+on 7 of 7 cases and three are robust on 0 of 17. The prior predicts robust for a model iff the majority
+of its public labelled cases are robust, and non-robust for any identifier it has not seen.
 
-Under leave-one-problem-out the identity prior gains seven points on the development sample, which is the
-entire apparent effect that our withdrawn internal result had rediscovered by hand. Under
-leave-one-model-out, where the held-out model's base rate cannot be memorized, the same prior falls back
-to the constant and the gain is zero. On the natural distribution the prior never beats the constant at
-all, because that distribution is nearly single-class. The identity "signal" is within-model
-memorization exposed by an evaluation split that holds out problems but not models. Since the hidden test
-contains at least eight models including unseen ones, this is the split that matters, and identity buys
-nothing on it.
+| evaluation | prior, leave-one-problem-out | prior, leave-one-model-out | always-non-robust |
+| --- | --- | --- | --- |
+| `val-sample` (28) | **26 / 28 = 0.929** | 19 / 28 = 0.679 | 19 / 28 = 0.679 |
+| reconstruction, strict (41) | **39 / 41 = 0.951** | 32 / 41 = 0.780 | 32 / 41 = 0.780 |
+| reconstruction, loose (56) | **43 / 56 = 0.768** | 32 / 56 = 0.571 | 32 / 56 = 0.571 |
+| fit on `val-sample`, score on strict (41) | **39 / 41** | | 32 / 41 |
+| fit on strict, score on `val-sample` (28) | **26 / 28** | | 19 / 28 |
 
-## 4. Finding 3: a leakage-free method has nothing to learn on the public 8B data
+Two readings are possible and the competition design decides between them. If the hidden set contains
+models absent from the public data, the leave-one-model-out column applies and the prior is worth nothing
+beyond its fallback. The organizers state that the provided validation set covers all types of models in
+the test set, and the per-model column is one of the four dissections they plan for the final report; in
+that case the leave-one-problem-out column applies and the prior is a 17 to 25 point floor above the
+constant, at zero cost. We submit it for the Main track with the constant as its fallback, so its
+downside relative to the constant is bounded by the unseen-model case.
 
-We preregistered (`hunts/aimo2/PREREGISTRATION.md`, committed before any predictor was fit) a
-self-perturbation stability estimator for the Small Models track, with fitting inside folds,
-leave-one-problem-out and leave-one-model-out evaluation, a scrambled-text decoy, a label-permutation
-null, and a free pre-GPU gate. The free gate asks whether the cheap syntactic perturbations a small model
-could generate for itself predict the label out of fold. It fails, for a decisive reason: the public 8B
-model is robust on 10 of 10 of its public problems. There is no minority class to fit and the better
-constant is already perfect on the public 8B data. Pooled across all seven models the cheap-perturbation
-predictor only ties the constant out of fold and loses under leave-one-model-out. We therefore spent no
-GPU, in accordance with the preregistered kill rule.
+We want to be exact about what this is. It is not an interpretability result; it reads no text and runs no
+model. It is the base rate the task carries once the protocol is fixed, and it is the number an
+interpretability method must beat to have shown anything about mechanisms rather than about which model
+it was handed. The organizers' proposal reports 58.4 and 69.2 percent for their probing and uncertainty
+baselines in cross-validation; on every public set above those numbers sit at or below the constant.
 
-This is the same finding from the method side: the representative public distribution does not contain
-the balanced, separable classification problem that the development sample advertises.
+## 4. Negative results
 
-## 5. The official scoring path, and a defect in the pinned starter
+**Self-consistency.** A natural black-box feature is whether the model answers the original problem
+consistently. Under the protocol it carries almost nothing: robust rows have base accuracy 1.0 by
+construction, 8 of 19 non-robust rows in `val-sample` also do, and on the MATH release 52 of 54 rows do.
+Adding the rule "base accuracy below 1 implies non-robust" to the prior scores 38 of 41 against 39 of 41
+for the prior alone.
 
-The earlier internal run reproduced the scoring shape locally but never ran the official container. We
-did. At the pinned starter commit `e46be92` the official dataset importer writes each case `problem` as
-an object `{original_problem, permutation_type}`, but the official ingestion program's validator requires
-`problem` to be a string and rejects the object, so the shipped tooling does not round-trip. This is a
-reportable defect in the starter kit. Normalizing `problem` to the `original_problem` string (which is
-also what the documented `list[str]` interface promises, and which confirms that the perturbation type is
-not exposed to submissions) makes the official ingestion and scoring run. Through that path:
+**Self-generated perturbations for the Small track.** We preregistered (`PREREGISTRATION.md`, frozen
+before any predictor was fitted) a self-perturbation-stability estimator with a free gate: if the
+organizers' own clean cheap-perturbation measurements do not predict the label out of fold, a noisier
+self-generated version cannot. On the AIMO public problems the gate fails because the 8B rows carry no
+minority class (10 of 10 pairs robust at the pair level). The organizers' MATH release provides the
+minority class the AIMO sample lacks (43 failing rows over 69 problems) and the gate fails there too, for
+a sharper reason: failures do not transfer across perturbation types. 28 problems fail under no type, 40
+under exactly one, 1 under three, and `domain` alone accounts for 32 of the 43 failing rows in the
+labelled release. Predicting "fails under some other type" from "fails under type t" never beats the
+majority for any t (accuracies 0.33 to 0.43 against majorities 0.56 to 0.92). A submission can only emit
+one verdict per problem, so the attainable Small-track signal is "does this problem break under
+anything," and the public data says the generic types do not forecast that for one another. No GPU was
+spent, in accordance with the preregistered kill rule, and the Small-track submission is the constant.
+
+## 5. The official scoring path and a starter-kit defect
+
+At starter commit `e46be92` (HEAD at the time of writing, titled "Simplify problem validation in
+ingestion.py"), `scripts/import_hf_dataset.py` writes each case's `problem` as an object
+`{original_problem, permutation_type}` while `components/ingestion_program/ingestion.py` line 45 rejects
+any `problem` that is not a string, so the documented local round-trip fails on its own output.
+Normalizing `problem` to the `original_problem` string, which is what the `list[str]` interface promises,
+makes the official ingestion and scoring run. Through that path on `val-sample`:
 
 | submission | accuracy | coverage | invalid |
 | --- | --- | --- | --- |
-| always-false (official reference) | 0.6786 (19/28) | 1.0 | 0 |
-| always-true | 0.3214 (9/28) | 1.0 | 0 |
+| always-non-robust (official reference) | 0.6786 (19/28) | 1.0 | 0 |
+| always-robust (starter example) | 0.3214 (9/28) | 1.0 | 0 |
+| model-identity prior (this report) | 0.9286 (26/28) | 1.0 | 0 |
 
-The all-false 0.6786 matches the organizers' documented baseline, now confirmed through the real
-ingestion and scoring programs rather than a local re-implementation.
+The 26 of 28 here is in-sample for the prior (it was fitted on these labels); the out-of-fold figures are
+in Section 3.
 
-## 6. What we submit, and why it is a constant
+## 6. Recommendations for the final analysis
 
-No leakage-free learned method earns its way in under the preregistered protocol, so the honest
-submission is a calibrated constant prior, chosen on public data without touching the hidden labels:
+1. **Report lift over the identity prior, per model,** alongside raw accuracy. A method that does not beat
+   the per-model base rate has not used the problem. The organizers already plan a per-model dissection;
+   this is the baseline that makes it interpretable.
+2. **Report a balanced metric** (balanced accuracy or per-class recall). With a filter-determined class
+   balance, raw accuracy ranks constants.
+3. **Deduplicate or weight (model, problem) pairs.** One verdict per pair is what submissions can give;
+   scoring a pair k times for k breaking perturbation types rewards nothing a submission can do.
+4. **Ship more than one variant per expert perturbation,** or report which rows rest on a single variant.
+5. **Fix the starter round-trip** so participants exercise the real ingestion path.
 
-- **Small track:** always-robust. On the representative public data the Small-track model is robust on
-  every public problem; the maximum-likelihood prior for it is robust.
-- **Main track:** always-robust, the maximum-likelihood prior on the 89 to 97 percent robust natural
-  public distribution. We also provide the official all-false reference as a conservative control.
+## 7. Limitations
 
-We deliberately do not choose between these on leaderboard feedback: doing so would infer the hidden
-class balance from the score, which is both against the competition's anti-overfitting intent and the
-exact failure this report warns against. The value we claim is the analysis, not a leaderboard rank.
-
-## 7. Consequences for validation design
-
-1. **Development-sample accuracy is not an estimator of hidden-set accuracy.** A method can score 0.93 on
-   `val-sample` and encode nothing that transfers. Report per-model and per-perturbation breakdowns, and
-   evaluate with models held out, not only problems held out.
-2. **The public leaderboard number is largely a readout of the hidden class balance.** With near-constant
-   optimal predictors, accuracy mostly reflects the fraction of robust cases in the hidden set. A balanced
-   metric (balanced accuracy, or per-class recall) would measure method quality rather than base rate.
-3. **Match the sampling of the two classes.** Contrasting single-worst-perturbation failures with
-   all-perturbation-pooled successes builds separability into the sample. Draw both classes by the same
-   aggregation.
-4. **Fix the starter round-trip** so participants exercise the real ingestion path, which is where the
-   earlier public confusion about "reproducing the baseline" came from.
-
-## 8. Limitations
-
-The public data is small (28 labelled cases, 558 rows, 7 models, 10 problems), so the natural robust rate
-is estimated, not pinned, and the hidden set may differ. Our reconstruction of the pair-level label on
-`sample-full` pools permuted accuracy by count and could differ from the organizers' internal
-aggregation; the row-level rule is the exact shipped rule and does not depend on that choice, and the
-qualitative gap (32 percent versus roughly 90 percent) is far larger than any pooling ambiguity. We did
-not run the models; every number is derived from the organizers' published measurements and the constant
-submissions. The claim is about the public sample and the public distribution, and is graded as measured
-on public data, nothing stronger.
+The public data is small: 28 labelled AIMO cases, 558 AIMO rows over 10 problems, and the MATH releases
+cover two small models. The reconstruction of the robust side on `sample-full` is ours, although it
+reproduces the shipped robust set exactly and the non-robust rows number for number. The hidden set may be
+filtered differently from `val-sample`, and may contain models we have not seen; both would move the
+numbers, and the second would reduce the prior to its constant fallback. We ran no model; every figure
+derives from the organizers' published measurements, the official scoring programs, and the constant and
+prior submissions. Claims are about the public data and are graded as such.
 
 ## Reproducibility
 
 ```
-# curation finding and identity cross-validation
-.venv/bin/python hunts/aimo2/reconstruct_curation.py      # writes artifacts/curation.json
-# free pre-GPU gate
-.venv/bin/python hunts/aimo2/free_gate.py                 # writes artifacts/free_gate.json
-# official ingestion + scoring at commit e46be92 (starter cloned separately)
-python3 scripts/run_local.py solutions/always-false       # 0.6786, coverage 1.0, invalid 0
+.venv/bin/python hunts/aimo2/protocol_reconstruction.py   # artifacts/protocol.json, artifacts/identity_prior.json
+.venv/bin/python hunts/aimo2/free_gate.py                  # artifacts/free_gate.json
+.venv/bin/python hunts/aimo2/reconstruct_curation.py       # artifacts/curation.json (row-level census)
+# official path: starter at e46be92, val-sample written as string problems, then
+python3 scripts/run_local.py <bundle_dir>                   # identity prior 0.9286, always-false 0.6786
 ```
 
-Datasets are committed under `hunts/aimo2/data/` with SHA-256 recorded in `hunts/aimo2/CHECKSUMS.sha256`.
+Datasets are committed under `hunts/aimo2/data/` with SHA-256 in `hunts/aimo2/CHECKSUMS.sha256`.
