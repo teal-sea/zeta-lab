@@ -154,13 +154,17 @@ exactly. Writing `ρ = rank(V Vᴴ)`, `d = card n`, `s = card r`, and `S` for th
 `gc 2` over the nonzero spectrum:
 
 ```
-rtrace Psi(VᴴV) = S + (s − ρ)·Psi 0 = S + s − ρ,        and     − s + rtrace Psi(VᴴV) = S − ρ.
+rtrace Psi(VᴴV) = S + (s − ρ)·Psi 0 = S + s − ρ,     hence     − s + rtrace Psi(VᴴV) = S − ρ.
 ```
 
-So Ainta's `− 3s + tr Psi(VᴴV)` and `[L23]`'s `− r` with `r ≥ rank P` are the same
-accounting, written two ways. Nothing in the passage depends on `rank P ≤ card r`; the
-rank hypothesis of `rank_trace_ineq` disappears, which is the actual structural gain and
-is what makes the sharp form hypothesis-free.
+Read the right-hand side: Ainta's `card r` bookkeeping is `[L23]`'s **unrelaxed** rank
+bookkeeping `− ρ`, plus the honest defect `S`. That is the precise sense in which the
+enhancement is an enhancement, and also the precise sense in which the two are the same
+accounting: the `Psi 0 = 1` shift and the switch from `rank P` to `Fintype.card r` cancel
+term for term, and what is left over is `S`. `[L23]`'s `rank_trace_ineq` then relaxes
+`− ρ` to `− r` using `rank P ≤ r`; nothing in the enhanced passage needs that step, so
+the rank hypothesis disappears. That is the structural gain, and it is what makes the
+sharp form hypothesis-free.
 
 The full chain, all four steps upstream except the last:
 
@@ -184,8 +188,8 @@ Step 2 is the only part that was not already a named declaration. It is 25 lines
 | "`rank_trace_ineq`'s proof with ONE scalar estimate sharpened", copy the skeleton | no skeleton was copied; the theorem is a corollary of an exported upstream theorem |
 | "prove the scalar lemma separately (`nlinarith` / case split on `t ≤ 2`)" | already upstream, `sq_sub_ge_gc`, in exactly that generality |
 | ingredients named: `VonNeumann.lean:171`, `HermitianPosPart.lean:148-180`, `specMap`, `rtrace_specMap`, `specMap_posSemidef` | all present, and *none of them was needed directly*: they are consumed inside `rank_trace_mult`, one level down |
-| unnamed, and load-bearing | `sum_eigenvalues_comm`, the `V Vᴴ` ↔ `VᴴV` spectral transfer (traces of powers + Lagrange interpolation), `RankTraceMult.lean:190` |
-| unnamed, and load-bearing | `rank_trace_mult` itself, `RankTraceMult.lean:280` |
+| unnamed, and load-bearing | `sum_eigenvalues_comm`, the `V Vᴴ` ↔ `VᴴV` spectral transfer (traces of powers + Lagrange interpolation), `RankTraceMult.lean:189` |
+| unnamed, and load-bearing | `rank_trace_mult` itself, `RankTraceMult.lean:281` |
 
 The handoff's own non-vacuity test was the right one and it passed (§5). Its model of
 *where the work was* was wrong in a specific and instructive way: it pointed at the
