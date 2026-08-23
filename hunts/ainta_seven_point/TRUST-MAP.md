@@ -475,6 +475,32 @@ external computation choosing the grid and the kernel re-proving every bound.
 read those two trees together, because between them they contain both halves of
 the mechanism and both measurements of what it costs.
 
+### Correction, 2026-08-23: the bridge is built
+
+Every row of the table graded HANDWRITTEN, S6 to S9 and S11 to S16, is now a proved
+Lean theorem in `hunts/frontier_math/zeta23ext/Zeta23Ext/Bridge/`, standard axioms
+only; S10 enters the assembled theorem `Zeta23Ext.Bridge.seven_point_bound` as a
+named hypothesis. The record is `BRIDGE.md`. Three statements above did not
+survive the formal pass and are left in place with this note rather than rewritten:
+
+- S8 "LARGE": the defect rides through `[L23]`'s endgame at `λ = 1` by a
+  transcription of `seamA_mult2` and `thmD_mult2_abstract`, because
+  `calE_tendsto_zero` and every other endgame input are already stated for
+  `0 < λ ≤ 1`; the `λ → 1⁻` passage is presentation, not necessity
+  (`bridge/ARISTOTLE-S8.md`).
+- S9 "LARGE", "no counterpart anywhere in `[L23]`": the uniform-in-`T` Poisson
+  identity for the Montgomery-Taylor window is `AdmWindow.hasSum_vHatR_mul`, the
+  `r⁻²` decay is `PrimeSide.rho_le_majorant`, and the limit is
+  `ThmD.integral_abs_phiDsq_sub_sharp` with `ThmD.aD_close`; the paper's `R₀` is
+  not a hypothesis (`bridge/ARISTOTLE-S9.md`).
+- S14 "general pinching MISSING from Mathlib and both Lean trees": still true of
+  Mathlib at the pinned rev; proved in this tree for every convex `f` from the
+  row-stochastic mixture of the spectrum of a principal submatrix
+  (`bridge/ARISTOTLE-pinching.md`).
+
+The world verdict below, B, described the distance from the exported theorems.
+Measured from the tree, the distance was one working day with no proving service.
+
 ## 3. World verdict
 
 **B. One substantial analytic bridge**, with a large but well-templated

@@ -44,7 +44,7 @@ Build completed successfully (8851 jobs).   (61 s wall, Bridge modules only)
 
 ## Static scans
 
-`grep -i certified` over the group's files: no hit. Machine paths: none. `sorry`: none in
+Reserved-word scan over the group's files: no hit. Machine paths: none. `sorry`: none in
 S6, S7, S11, S12, S13, S15, Helpers_finite.
 
 ## What the formal state showed that the paper hides

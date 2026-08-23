@@ -1,0 +1,15 @@
+{
+  "challenge_module": "BridgeChallenge",
+  "solution_module": "BridgeSolution",
+  "theorem_names": [
+    "Zeta23Ext.Palomar.seven_point_bound",
+    "Zeta23Ext.Palomar.seven_point_bound_paper"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}

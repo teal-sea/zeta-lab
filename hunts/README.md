@@ -152,6 +152,24 @@ three imports it) and not this branch (the failing build predates the new module
 new module builds standalone and is unaffected; no claim is made here that the package
 assembles. Recorded as issue #101, not fixed here.
 
+**Third half, 2026-08-23: the bridge, formalised to its hypotheses (`BRIDGE.md`).**
+Five agents in one day, no proving service (0 of 15 permitted Aristotle submissions),
+proved every step S6 to S9 and S11 to S16 on top of the vendored `[L23]`, so that
+`Zeta23Ext.Bridge.seven_point_bound` now states Ainta's bound for Mathlib's
+`riemannZeta` as a sorry-free theorem with standard axioms only, conditional on exactly
+two named hypotheses: the seven-point inequality `F6 >= c` (S10, the Arb run, not a Lean
+fact) and the cap `c(m-6) <= 1`; at `(19/5000, 269, 3000)` the conclusion's constant is
+the paper's `(1345000 H - 2680)/1340003` with the side conditions by `norm_num`. The two
+steps the trust map graded LARGE were not: S8 rides through `[L23]`'s endgame at
+`lambda = 1` by transcription, because every endgame input is already stated for
+`lambda <= 1`, and S9 reuses `[L23]`'s window Poisson identity and `PrimeSide` decay and
+needs no bounded-separation hypothesis at all; the pinching the map called missing is
+proved for every convex trace functional from a row-stochastic mixture. Builds standalone
+in 44 s; the package root is still #101. A Palomar surface for the conditional theorem is
+authored under `lean/palomar-bridge/` and prechecked (63 pass, 1 warn, 1 FAIL for the
+Challenge module not yet written), not submitted: blocked on #101 and on the owner's
+packaging call. Nothing here bears on RH.
+
 ### Hunt #76: the Riemann zeros in tuning units (`zeta_temperament/`)
 
 **Status: closed, verdict INTERESTING STRUCTURE, classical in substance.**

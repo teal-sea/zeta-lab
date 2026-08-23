@@ -205,3 +205,26 @@ artifacts:
   - hunts/ainta_seven_point/artifacts/verify-n8-41763-10000000-p3200.json
   - hunts/ainta_seven_point/artifacts/verify-n8-417742-100000000-p3200.json
 ```
+
+```runmanifest
+id: ainta_seven_point-2026-08-23-bridge-integrate
+hunt: ainta_seven_point
+started: 2026-08-23T07:00-05:00
+finished: 2026-08-23T18:30-05:00
+ran:
+  - five agents from branch bridge/skeleton, one each for the skeleton, the finite steps (S6, S7, S11, S12, S13, S15), the pinching step (S14), S8 and S9; each standalone-built its modules by name against the prebuilt store (toolchain leanprover/lean4:v4.33.0-rc2, Zeta23 at 3635e74826a4c1fcece7d1cd2b6fa75e43a00510); Aristotle cap 3 per agent
+  - integration on bridge/integrate: git merge of the four attack branches (disjoint files, no conflicts); cd hunts/frontier_math/zeta23ext && lake build Zeta23Ext.Bridge.Main from deleted Bridge oleans; grep of the Bridge tree for sorry, axiom, native_decide, admit, unsafe, extern; diff of every step theorem signature against origin/bridge/skeleton
+  - .venv/bin/python -m pytest tests/test_zeta23ext_imports.py tests/test_hunt_probe_discipline.py
+  - .venv/bin/python scripts/palomar_precheck.py . hunts/frontier_math/zeta23ext lean/comparator-bridge.json lean/palomar-bridge/formalization.yaml
+outcome: every step S6 to S9 and S11 to S16 is proved; the Bridge builds standalone in 44 s wall (8854 jobs) with zero sorry warnings and all 72 audited declarations, seven_point_bound and seven_point_bound_paper included, report [propext, Classical.choice, Quot.sound]; the theorem is conditional on exactly hCert (S10, the seven-point inequality) and hA0 (c(m-6) <= 1); no step statement was changed by any group; Aristotle 0 of 15 submissions; 12 of 12 tests pass after the root import and one reworded ledger line; Palomar precheck 63 pass, 1 warn, 1 FAIL (no Challenge module authored, by decision; the package root still does not assemble, issue 101); not submitted
+artifacts:
+  - hunts/ainta_seven_point/BRIDGE.md
+  - hunts/ainta_seven_point/bridge/ARISTOTLE-skeleton.md
+  - hunts/ainta_seven_point/bridge/ARISTOTLE-finite.md
+  - hunts/ainta_seven_point/bridge/ARISTOTLE-pinching.md
+  - hunts/ainta_seven_point/bridge/ARISTOTLE-S8.md
+  - hunts/ainta_seven_point/bridge/ARISTOTLE-S9.md
+  - hunts/frontier_math/zeta23ext/Zeta23Ext/Bridge/Main.lean
+  - lean/palomar-bridge/formalization.yaml
+  - lean/comparator-bridge.json
+```

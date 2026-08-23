@@ -21,9 +21,12 @@ for Mathlib's `riemannZeta` (`Ncount`, `N0simple` of `Zeta23/Statement.lean`), f
 certificate hypothesis `hCert : ∀ g ≥ 0, c ≤ F6 p g` (S10, the Arb certificate, taken as a
 hypothesis the way `[L23]` takes `EnclOK`) and the block cap `hA0 : c(m − 6) ≤ 1`.
 
-**This file is sorry-free.**  Every `sorry` in the tree is inside a named step lemma
-(S6, S8, S9, S11–S15) with its residual goal stated in words; S7 and S16 are proved.  The
-assembly below is the paper's deduction ([A] §§2, 5) written as filter arithmetic:
+**The whole Bridge tree is sorry-free** (integrated 2026-08-23 from the five attack branches
+`bridge/{skeleton,finite,pinching,S8,S9}`).  Every step lemma S6–S9, S11–S16 is proved, and
+`#print axioms seven_point_bound` reports `[propext, Classical.choice, Quot.sound]`.  The only
+hypotheses of the theorem are the two the paper itself takes as inputs, `hCert` (S10) and `hA0`
+([A] eq:mA); nothing else is assumed.  The assembly below is the paper's deduction ([A] §§2, 5)
+written as filter arithmetic:
 
   S7 ⟶ (S14) ⟶ S8 ⟶ `(H − η)N + D(M°) ≤ N₀ˢ`
   S9 + S13 ⟶ uniform per-block bound ⟶ S15 (with S14) ⟶ `D(M°) ≥ (A₀/m) N₀ˢ − (6(m−1)/pm) N − o(N)`
@@ -222,8 +225,19 @@ Hypotheses: the seven-point certificate `hCert` (S10, an Arb enclosure; enters a
 way `[L23]` takes `EnclOK`), the block cap `hA0 : c(m − 6) ≤ 1` (TRUST-MAP §1.2), and the side
 conditions `7 ≤ m`, `0 < p`, `0 < c`.
 
-The proof is sorry-free; it depends on the step lemmas S6, S8, S9, S11–S15, each of which is a
-named `sorry` with its residual goal stated in its docstring. -/
+**Hypotheses, by name, and why each is believed.**
+* `hCert : ∀ g ≥ 0, c ≤ F6 p g` (S10).  Ainta's Proposition 4.1 ([A] eq:F6bound): the seven-point
+  functional is bounded below by `c = 19/5000` at pressure `p = 3000`.  Believed because the Arb
+  interval-arithmetic verifier at `github.com/ainta/zeta-simple-zeros` accepts it (707 901 nodes,
+  depth 37, grid 1/4000, 128 bits) and this laboratory reproduced that run field for field
+  (`hunts/ainta_seven_point/RESULTS.md`).  Not a Lean fact; it enters as a hypothesis the way
+  `[L23]` takes `EnclOK` for its own numerical inputs.
+* `hA0 : c (m − 6) ≤ 1` (S13's cap, [A] eq:mA).  A rational side condition on the parameters,
+  `4997/5000 ≤ 1` at the published values; discharged by `norm_num` in `seven_point_bound_paper`.
+* `7 ≤ m`, `0 < p`, `0 < c`: side conditions, discharged by `norm_num` at the published values.
+
+Everything else is proved: the proof is sorry-free and depends on the step lemmas S6–S9, S11–S16,
+each of which is proved in its own file with standard axioms only. -/
 theorem seven_point_bound (c : ℝ) (m p : ℕ) (hm : 7 ≤ m) (hp : 0 < p) (hc : 0 < c)
     (hCert : ∀ g : Fin 6 → ℝ, (∀ i, 0 ≤ g i) → c ≤ F6 p g)
     (hA0 : c * ((m : ℝ) - 6) ≤ 1) :
@@ -249,10 +263,9 @@ theorem seven_point_bound_paper
 
 /-! ### Standing axiom audit
 
-Same idiom as `Zeta23Ext/StableRankTrace.lean`.  Expected: the assembly lemmas and the main theorem
-report `sorryAx` (inherited from the step lemmas S6, S8, S9, S11–S15, and from nothing else);
-`solve_linear`, `Phi_paper`, `Phi_paper'`, `eventually_L_pos` report only the three standard
-axioms. -/
+Same idiom as `Zeta23Ext/StableRankTrace.lean`.  Expected, and observed on 2026-08-23: every line
+below reports exactly `[propext, Classical.choice, Quot.sound]`; no `sorryAx`, no `native_decide`,
+no new axiom anywhere in the import closure. -/
 
 #print axioms solve_linear
 #print axioms Phi_paper

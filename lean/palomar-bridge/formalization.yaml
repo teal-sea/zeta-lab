@@ -1,0 +1,314 @@
+# formalization.yaml v0.4 for a Palomar Registry submission of the Zeta Lab
+# formalisation of Ainta's seven-point simple-zero bound, conditional on the
+# seven-point inequality. AUTHORED, NOT SUBMITTED: see review.notes for the two
+# blockers. Selected project: hunts/frontier_math/zeta23ext (not lean/), because
+# the theorem depends on anthropics/zeta-23-lean, which lean/ does not require.
+version: "v0.4"
+
+project:
+  name: "Zeta Lab: the seven-point simple-zero bound, formalised to its hypotheses"
+  description: >-
+    Let N(T,2T) count the nontrivial zeros of the Riemann zeta function with
+    ordinate in (T,2T], with multiplicity, and N_0^s(T,2T) the simple zeros on
+    the critical line in that range. The Lean development accompanying
+    arXiv:2608.13637 (anthropics/zeta-23-lean) proves, for Mathlib's
+    riemannZeta and unconditionally, that for every eps > 0 and all large T,
+    (H - eps) N(T,2T) <= N_0^s(T,2T) with
+    H = 3/2 - (1/sqrt 2) cot(1/sqrt 2) = 0.6725007036794116... (its Theorem D).
+    Ainta (github.com/ainta/zeta-simple-zeros, paper/riemann.tex, August 2026)
+    refines this to 0.6730085279277797... by a stability term in the rank-trace
+    inequality: the defect D(M) = tr Psi(M) of the Gram matrix of the simple-zero
+    vectors, with Psi(t) = (t-1)^2 on [0,2] and 2t-3 beyond, is carried through
+    the argument, bounded below block by block through a seven-point local
+    inequality F6(g) >= c on six nonnegative gaps, and solved for. The only
+    computer-assisted input is that inequality, which an interval-arithmetic
+    program accepts at c = 19/5000.
+    This submission advertises that refinement as a theorem of Lean, conditional
+    on exactly that inequality. The advertised statement is: for every real c > 0
+    and naturals m >= 7, p > 0 with c(m-6) <= 1, if c <= F6_p(g) for every
+    nonnegative six-gap vector g (the hypothesis hCert), then for every eps > 0
+    and all large T, (Phi(c,m,p) - eps) N(T,2T) <= N_0^s(T,2T), where
+    Phi(c,m,p) = (H - 6(m-1)/(pm)) / (1 - c(m-6)/m). The companion statement
+    instantiates (c,m,p) = (19/5000, 269, 3000), discharges the side conditions
+    by norm_num, and reads (1345000 H - 2680)/1340003 - eps in place of
+    Phi - eps, which is the paper's Theorem 1.1 constant exactly.
+    What the work consists of. Every step of the paper between the finite
+    inequality and the zero count is a Lean theorem with standard axioms: the
+    stability rank-trace inequality (as a corollary of the upstream rank-trace
+    theorem at its eigenbasis presentation), the regrouping of the normalised
+    matrix into the simple-zero factor and a complement of bounded positive
+    index, the counting inequality with defect, the tail passage carrying the
+    defect through the upstream endgame at the lambda = 1 window (which turned
+    out to be available there, so no limit over windows was needed), the
+    uniform-in-T limit of the Gram entries to the Montgomery-Taylor overlap
+    kernel k(x) = K(x)/K(0) (proved for every pair of retained zeros at every
+    separation, without the paper's bounded-separation hypothesis), the o(N)
+    count of zeros in the deleted end strips, the block energy, block defect
+    and block bound lemmas, block pinching for convex trace functionals (proved
+    from the fact that the spectrum of a principal submatrix of a Hermitian
+    matrix is a row-stochastic mixture of its spectrum, which is absent from
+    Mathlib at the pinned revision), the averaging over block starts, and the
+    final linear solve. The hypothesis hCert is the paper's Proposition 4.1 and
+    is not formalised; it is named in the statement and nowhere else.
+    Audience. Analytic number theorists working on simple zeros and zeros on the
+    critical line, for whom the question is which finite inequality a
+    published proportion actually rests on and what it would take to replace
+    it: the theorem exposes that dependence as a single named hypothesis and
+    makes the constant a closed-form function Phi of the certificate
+    parameters. It also isolates, as reusable Lean, block pinching for convex
+    trace functionals on Hermitian matrices and the uniform kernel limit for
+    the Montgomery-Taylor window. What the theorem asserts is bounded by the
+    scope field: it is conditional on hCert, and it is evidence for nothing
+    about the Riemann Hypothesis.
+  authors:
+    - "Thomas Lince"
+  license: "MIT"
+  responsible_maintainers:
+    - "Thomas Lince"
+
+classification:
+  arxiv: ["math.NT"]
+  msc2020: ["11M26", "15A42"]
+
+sources:
+  - title: >-
+      The seven-point simple-zero bound, assembled in Lean as a conditional
+      theorem about Mathlib's riemannZeta, with the seven-point inequality as a
+      named hypothesis
+    type: original-proof
+    relationship: other
+    note: >-
+      The Lean statement, the decomposition into sixteen steps
+      (hunts/ainta_seven_point/TRUST-MAP.md) and every proof under
+      hunts/frontier_math/zeta23ext/Zeta23Ext/Bridge/ are this laboratory's. The
+      mathematics of steps S2 to S16 is Ainta's, cited next; steps S0 to S5 are
+      theorems of anthropics/zeta-23-lean consumed by import. Originality here
+      is a claim about provenance of the formal proofs, not about the
+      mathematics. Several proofs depart from the paper's argument, and
+      fidelity.divergences lists them.
+  - title: >-
+      More than 67.3% of the zeros of the Riemann zeta function are simple and
+      lie on the critical line
+    authors:
+      - "Ainta"
+    type: "paper"
+    location: "https://github.com/ainta/zeta-simple-zeros"
+    relationship: other
+    note: >-
+      The informal source of every step between the finite inequality and the
+      zero count (S2 to S16 of the trust map): paper/riemann.tex at commit
+      040c5e899e658aed7b56a2a87f501798fe10761d, 499 lines, retrieved
+      2026-08-22. Its Proposition 4.1, the seven-point inequality, is the
+      hypothesis hCert of the advertised theorem and is not formalised; its
+      verifier's run was reproduced by this laboratory field for field
+      (hunts/ainta_seven_point/RESULTS.md). The author is known to us only by
+      the GitHub handle. Not listed as "formalizes" because the assembled
+      theorem is parametric in (c, m, p) and conditional, and because the
+      formal proofs of S8, S9, S14 and S15 follow routes the paper does not
+      take; the relationship is stated here in words instead.
+    license: "unknown"
+    author_endorsement: "not-contacted"
+  - title: >-
+      More than two thirds of the zeta zeros are simple and on the critical line
+    authors:
+      - "L. Alpoge"
+      - "R. Furman"
+    contributors:
+      - name: "Claude (Anthropic)"
+        role: >-
+          the official record for arXiv:2608.13637 states that the proof was
+          discovered autonomously by Claude (Anthropic) and verified and
+          communicated by the listed authors
+    type: "paper"
+    id: "arXiv:2608.13637"
+    location: "https://www-cdn.anthropic.com/95c246936988e43127bc6b2ceb7077c1dad2d68e.pdf"
+    relationship: background
+    note: >-
+      The base theorem that Ainta refines, and the source of the analytic
+      estimates (Propositions 4.2 and 4.4, sections 5 to 7) the tail passage
+      and the kernel limit reach into. Consumed here entirely through its Lean
+      development, cited under related_formalizations; nothing is transcribed
+      from the paper's text.
+    license: "unknown"
+    author_endorsement: "not-contacted"
+
+related_formalizations:
+  - id: "https://github.com/anthropics/zeta-23-lean"
+    relationship: extends
+    note: >-
+      The Lean development accompanying arXiv:2608.13637, pinned at commit
+      3635e74826a4c1fcece7d1cd2b6fa75e43a00510 as a Lake dependency of the
+      selected project. It supplies the counting functions Ncount and N0simple
+      for Mathlib's riemannZeta, the analytic inputs PaperInputs discharged for
+      riemannZeta, the constant HD 1 = H, the Montgomery-Taylor window and its
+      endgame, the von Neumann trace inequality, the positive-part splitting
+      and the spectral calculus specMap. The advertised theorem is its
+      thmD_0_simple_mult with HD 1 replaced by Phi c m p; dropping the defect
+      recovers that theorem. Nothing in the dependency was modified.
+
+status:
+  scope: >-
+    Formalized: the two advertised declarations, sorry-free, against pinned
+    Mathlib v4.33.0-rc2 and anthropics/zeta-23-lean at the pinned commit, with
+    #print axioms reporting exactly propext, Classical.choice and Quot.sound.
+    CONDITIONAL. seven_point_bound takes the named hypothesis hCert, which
+    says: for every g : Fin 6 -> R with every g i >= 0, c <= F6 p g, where F6
+    is Ainta's seven-point functional (the pressure term (1/p) sum g_i plus the
+    21 pairwise overlap weights w(y_j - y_i) = k(y_j - y_i)^2 with coefficient
+    2/(7-r) for a pair spanning r gaps). This is the paper's Proposition 4.1
+    and is not a Lean fact: an interval-arithmetic program accepts it at
+    c = 19/5000, p = 3000, and this laboratory reproduced that run, but no
+    kernel has checked it. It also takes hA0 : c(m-6) <= 1, a rational side
+    condition discharged by norm_num at the published parameters, and the side
+    conditions 7 <= m, 0 < p, 0 < c. seven_point_bound_paper takes hCert at
+    (19/5000, 3000) and nothing else. Every other input, including the
+    Riemann-von Mangoldt formula and the explicit formula, is discharged inside
+    the dependency for riemannZeta.
+    Non-vacuity of the hypothesis: F6 p 0 = 12 and F6 p g >= (1/p) sum g_i, so
+    the class of (c, p) satisfying hCert is nonempty; what the certificate
+    supplies is the specific value 19/5000, and the theorem's interest is
+    proportional to that value.
+    Not formalized, and deliberately outside the advertised statements: the
+    seven-point inequality itself (a 45 600-cell interval table and a 707 901
+    node branch-and-bound search, outside the scope of this submission); the
+    Gohms variant at 191/50000 and the other certificate targets this
+    laboratory's hunt explored; any numerical value of H beyond its closed
+    form. Nothing here formalizes any statement about the Riemann Hypothesis,
+    and the base constant H is the dependency's theorem, not this
+    submission's.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["Claude (Anthropic)"]
+      framework: "Zeta Lab, github.com/teal-sea/zeta-lab"
+      tool_setup: >-
+        The sixteen-step decomposition, every Lean statement and every proof
+        were produced by Claude agents running in Claude Code against this
+        repository: one agent wrote the end-to-end skeleton with the eleven
+        unproved steps as named lemmas carrying sorry and their residual goals
+        in words, four agents then closed them in parallel on disjoint files,
+        and one agent integrated, built and audited. The Harmonic Aristotle
+        service was available under a cap of three submissions per agent and
+        was not used: zero of fifteen, because every obligation closed locally
+        before a residual existed (lean/ARISTOTLE-RUNS.md, Batch 12). No step
+        uses native_decide and no step uses floating point.
+      cost:
+        wall_time: >-
+          The skeleton, the five attack branches and the integration ran on
+          2026-08-23, one working day, following a trust-map pass on
+          2026-08-22 and the S2 probe earlier on 2026-08-23.
+        spend_usd: "not tracked"
+        hardware: "local machine; no proving service"
+      prompting_notes: >-
+        Statement-first, as for the laboratory's earlier submissions: the
+        skeleton fixed each step's Lean statement in the dependency's own
+        vocabulary, each attacker was told to leave anything unproved as a
+        named lemma with its residual goal in words, and the integrator was
+        told to turn leftovers into explicit hypotheses of the main theorem.
+        None were left.
+  spend_usd: "not tracked"
+  notes: >-
+    Human direction, agent proof writing, kernel checking, and an explicit
+    obligation ledger per attack group under hunts/ainta_seven_point/bridge/.
+    The single non-Lean input is carried as a named hypothesis of the main
+    theorem so that the conditional result cannot be read as an unconditional
+    one. The derivations were directed and verified within an AI-assisted
+    computational mathematics framework operated by Thomas Lince at Zeta Lab.
+
+fidelity:
+  divergences: >-
+    The formal argument follows the paper's structure and departs from its
+    text in the following places, each recorded in
+    hunts/ainta_seven_point/BRIDGE.md section 6. The kernel limit (Lemma 3.1)
+    is proved for every pair of retained zeros at every separation; the
+    paper's bounded-separation parameter R_0 is kept in the signature but is
+    not used. The tail passage (Corollary 2.2) does not pass through the
+    dependency's limit over windows lambda -> 1; it re-states two of the
+    dependency's endgame lemmas at lambda = 1 with the defect carried as a
+    hypothesis, which their own inputs permit. Block pinching (eq:pinching) is
+    proved without convexity of the matrix functional or unitary invariance,
+    from the row-stochastic mixture of the spectrum of a principal submatrix
+    and scalar Jensen; the partition form needs no positivity of Psi, the
+    two-block form does. The block defect lemma (Lemma 4.3) is proved for
+    every Hermitian matrix, positivity unused. The block energy lemma (Lemma
+    4.2) is proved as a fibre count plus an exact telescoping identity, both
+    needing w even. The block bound (eq:269block) uses |k| <= 1, which the
+    paper does not state and which holds because cos(sqrt 2 t) >= 0 on
+    [-1/2, 1/2]; its error term is 2 m^2 delta rather than an unquantified
+    o(1). The averaging of section 5 is over all n-m+1 block starts with one
+    pinching partition per residue class rather than over m offsets with a
+    floor count. The span bound x_{S} - x_1 <= N + o(N) uses L <= l_1 (that is
+    2 log 2 - 1 >= 0 at lambda = 1) and log T = o(T), neither stated in the
+    paper. Every o(N) in the paper is an explicit eta N in the Lean, consumed
+    as an eventually-in-T statement.
+
+review:
+  status: "self-assessed"
+  notes: >-
+    No external mathematical review has been performed. AUTHORED, NOT
+    SUBMITTED, for two reasons that are about packaging and not about the
+    theorem. First, the selected project hunts/frontier_math/zeta23ext does
+    not assemble at its root on main (repository issue 101: three modules the
+    advertised theorem never imports fail against the pinned Mathlib), and a
+    registry replay builds the project; the theorem and its whole import
+    closure build by name (lake build Zeta23Ext.Bridge.Main, 44 s against the
+    prebuilt store, zero sorry warnings). Second, the Challenge and Solution
+    modules this comparator names do not exist yet. The Challenge module would
+    restate, over Mathlib alone in the namespace Zeta23Ext.Palomar, the
+    dependency's IsNontrivialZero, zeroMult, zerosIn, Ncount and N0simple, the
+    overlap kernel K, k and w, the seven-point functional F6, the constant H in
+    its closed form and Phi, and would state the two theorems with the
+    format's deliberate sorry; the Solution module would import
+    Zeta23Ext.Bridge.Main and discharge them through rfl bridges and HD_one.
+    It was not authored in this pass because this laboratory's rule for the
+    package (tests/test_zeta23ext_imports.py) requires every module to be
+    reachable from the package root and this pass required zero sorry
+    anywhere in the package; a Challenge module satisfies neither, and the
+    reconciliation (a separate Lake library for the surface, as lean/ does for
+    its two surfaces) is a packaging decision for the owner. Also to be
+    resolved before submission: the Bridge source files carry Apache-2.0
+    headers copied from the dependency's house style while the repository
+    licence is MIT. Internal checks performed and recorded: the two advertised
+    declarations and the 70 other audited declarations in the tree report
+    exactly propext, Classical.choice and Quot.sound; no step lemma's
+    statement was changed by any attack branch relative to the skeleton; the
+    per-group ledgers record zero proving-service submissions; and the
+    hypothesis hCert is named in the statement and in the scope above, so no
+    reading of this entry can take the result as unconditional.
+
+alignment:
+  namespace: "Zeta23Ext.Palomar"
+  statements:
+    - source: >-
+        Ainta, Theorem 1.1, in the parametric form: for c > 0, m >= 7, p > 0
+        with c(m-6) <= 1 and the seven-point inequality c <= F6_p at every
+        nonnegative gap vector, the proportion of simple critical-line zeros in
+        (T,2T] is at least Phi(c,m,p) - eps for all large T
+      lean: "Zeta23Ext.Palomar.seven_point_bound"
+      module: "BridgeSolution"
+      status: "proved"
+      note: >-
+        In the development this is Zeta23Ext.Bridge.seven_point_bound
+        (hunts/frontier_math/zeta23ext/Zeta23Ext/Bridge/Main.lean), proved.
+        The Palomar mirror in the namespace Zeta23Ext.Palomar is not yet
+        authored; see review.notes.
+    - source: >-
+        Ainta, Theorem 1.1, at the published parameters (19/5000, 269, 3000):
+        the proportion is at least (1345000 H - 2680)/1340003 - eps, conditional
+        on 19/5000 <= F6_3000 at every nonnegative gap vector
+      lean: "Zeta23Ext.Palomar.seven_point_bound_paper"
+      module: "BridgeSolution"
+      status: "proved"
+      note: >-
+        In the development this is Zeta23Ext.Bridge.seven_point_bound_paper,
+        proved from seven_point_bound and Phi_paper, the side conditions by
+        norm_num. Same caveat on the mirror.
+
+acknowledgements: >-
+  Lean 4 and Mathlib. The authors of anthropics/zeta-23-lean, whose development
+  this theorem extends and whose endgame, window calculus and linear algebra
+  it consumes. Ainta, whose argument this is.
