@@ -1,6 +1,7 @@
 /-
-Copyright (c) 2026 Zeta Lab. Released under Apache 2.0.
-SPDX-License-Identifier: Apache-2.0
+Copyright (c) 2026 Zeta Lab. All rights reserved.
+Released under MIT license as described in the file LICENSE.
+SPDX-License-Identifier: MIT
 -/
 import Zeta23Ext.Bridge.Defs
 
@@ -61,11 +62,26 @@ theorem Phi_paper' :
           - 2680) / 1340003 := by
   rw [Phi_paper, HD_one]
 
+/-- **This laboratory's own parameters.**  The seven-point pressure sweep of
+`hunts/ainta_seven_point` puts the peak at `p = 3400`, where the verifier accepts
+`c = 34697/10⁷` and refuses `34701/10⁷`; the cap `c(m − 6) ≤ 1` then gives `m = 294`.  At those
+values the constant is `(520 625 000 H − 915 625) / 518 855 453 = 0.673029553…`, against the
+paper's `0.673008527…` at `(19/5000, 269, 3000)`.  This is arithmetic in `Phi`, not a new
+theorem about ζ: what changes is which certificate is assumed, and that assumption is the
+hypothesis `hCert` of `seven_point_bound`. -/
+theorem Phi_lab : Phi (34697 / 10000000) 294 3400
+    = (520625000 * HD 1 - 915625) / 518855453 := by
+  unfold Phi
+  norm_num
+  field_simp
+  ring
+
 /-! ### Standing axiom audit (idiom of `Zeta23Ext/StableRankTrace.lean`) -/
 
 #print axioms one_sub_div_pos
 #print axioms solve_linear
 #print axioms Phi_paper
 #print axioms Phi_paper'
+#print axioms Phi_lab
 
 end Zeta23Ext.Bridge

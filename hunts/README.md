@@ -118,7 +118,8 @@ bears on RH (`docs/08`).
 **Second half, 2026-08-23: the Aristotle probe (`ARISTOTLE-PROBE.md`).** The map's
 S2, the stability rank-trace lemma, was stated in Lean and proved, zero `sorry`s,
 standard axioms only, in
-`hunts/frontier_math/zeta23ext/Zeta23Ext/StableRankTrace.lean`. **No Aristotle
+`StableRankTrace.lean` (then in `hunts/frontier_math/zeta23ext/Zeta23Ext/`, moved to
+`lean/bridge/Zeta23Ext/` on 2026-08-23). **No Aristotle
 project was opened, because nothing remained to send.** The finding is a correction
 to the map: S2 is *not* new relative to the Lean development the map chose as its
 vocabulary. Ainta's profile `Psi` is that development's own `gc 2` shifted by one
@@ -165,10 +166,20 @@ steps the trust map graded LARGE were not: S8 rides through `[L23]`'s endgame at
 `lambda <= 1`, and S9 reuses `[L23]`'s window Poisson identity and `PrimeSide` decay and
 needs no bounded-separation hypothesis at all; the pinching the map called missing is
 proved for every convex trace functional from a row-stochastic mixture. Builds standalone
-in 44 s; the package root is still #101. A Palomar surface for the conditional theorem is
-authored under `lean/palomar-bridge/` and prechecked (63 pass, 1 warn, 1 FAIL for the
-Challenge module not yet written), not submitted: blocked on #101 and on the owner's
-packaging call. Nothing here bears on RH.
+in 44 s; the package root was still #101.
+
+**Packaged for Palomar, 2026-08-23 (same `BRIDGE.md`, section 8).** `StableRankTrace.lean`
+and the sixteen `Bridge/` modules moved into a Lake package of their own at `lean/bridge/`,
+which assembles at its root (`lake build`, 8860 jobs) against the same pinned `Zeta23` and
+Mathlib; module names and namespaces unchanged; the Apache-2.0 headers copied from the
+dependency replaced by the repository's MIT header, with the one adapted file's attribution
+kept in a notice. `BridgeChallenge.lean` and `BridgeSolution.lean` advertise four theorems
+in the namespace `Zeta23Ext.Palomar`: the parametric bound, the paper's `(19/5000, 269,
+3000)`, and this laboratory's own `(34697/10^7, 294, 3400)` in multiplicative and ratio
+form, `0.6730295534796928…`. The eight-point statement is deliberately not advertised: its
+bridge from certificate to proportion is stated, not proved. Precheck 66 pass, 1 warn, 0
+FAIL. **Not submitted**; whether a conditional refinement clears that registry's notability
+floor is its call. Nothing here bears on RH.
 
 ### Hunt #76: the Riemann zeros in tuning units (`zeta_temperament/`)
 

@@ -1,6 +1,7 @@
 /-
-Copyright (c) 2026 Zeta Lab. Released under Apache 2.0.
-SPDX-License-Identifier: Apache-2.0
+Copyright (c) 2026 Zeta Lab. All rights reserved.
+Released under MIT license as described in the file LICENSE.
+SPDX-License-Identifier: MIT
 -/
 import Zeta23Ext.Bridge.S7
 import Zeta23Ext.Bridge.S8
@@ -261,6 +262,47 @@ theorem seven_point_bound_paper
   exact seven_point_bound (19 / 5000) 269 3000 (by norm_num) (by norm_num) (by norm_num) hCert
     (by norm_num)
 
+/-- `N(T,2T) → ∞`, so the ratio `N₀ˢ/N` below is eventually a ratio of positive numbers.  This
+is `[L23]`'s Riemann-von Mangoldt consequence `Assembly.tendsto_N_atTop`, at ζ. -/
+lemma eventually_Ncount_pos : ∀ᶠ T in atTop, 0 < (Ncount T (2 * T) : ℝ) := by
+  have h := Zeta23.Assembly.tendsto_N_atTop zetaZeroConfig paperInputs_zeta.RvM
+  simpa only [zetaZeroConfig_N] using h.eventually_gt_atTop 0
+
+/-- **At this laboratory's own certificate parameters.**  The seven-point pressure sweep of
+`hunts/ainta_seven_point` puts the peak at `p = 3400`, where the interval-arithmetic verifier
+accepts `c = 34697/10⁷` (grid 4000 and 8000; `34701/10⁷` is refused) and the cap `c(m − 6) ≤ 1`
+gives `m = 294`.  The constant is then `(520 625 000 H − 915 625)/518 855 453 = 0.673029553…`,
+against `[A]` Theorem 1.1's `0.673008527…`.
+
+The improvement is in the hypothesis, not in the mathematics of this file: `hCert` is assumed at
+different parameters, and `Phi` is evaluated there.  The certificate is still not a Lean fact. -/
+theorem seven_point_bound_lab
+    (hCert : ∀ g : Fin 6 → ℝ, (∀ i, 0 ≤ g i) → 34697 / 10000000 ≤ F6 3400 g) :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      ((520625000 * HD 1 - 915625) / 518855453 - ε) * (Ncount T (2 * T) : ℝ)
+        ≤ N0simple T (2 * T) := by
+  rw [← Phi_lab]
+  exact seven_point_bound (34697 / 10000000) 294 3400 (by norm_num) (by norm_num) (by norm_num)
+    hCert (by norm_num)
+
+/-- **The same bound as a proportion.**  `N₀ˢ(T,2T)/N(T,2T) ≥ 0.673029553… − ε` for all large `T`,
+which is the form the statement is usually quoted in ("more than 67.3% of the zeros are simple
+and on the critical line").  No positivity guard is needed: `N(T,2T) → ∞` by
+`eventually_Ncount_pos`. -/
+theorem seven_point_bound_lab_ratio
+    (hCert : ∀ g : Fin 6 → ℝ, (∀ i, 0 ≤ g i) → 34697 / 10000000 ≤ F6 3400 g) :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      (520625000 * HD 1 - 915625) / 518855453 - ε
+        ≤ (N0simple T (2 * T) : ℝ) / (Ncount T (2 * T) : ℝ) := by
+  intro ε hε
+  obtain ⟨T₁, hT₁⟩ := seven_point_bound_lab hCert ε hε
+  obtain ⟨T₂, hT₂⟩ := eventually_atTop.mp eventually_Ncount_pos
+  refine ⟨max T₁ T₂, fun T hT => ?_⟩
+  have h1 := hT₁ T (le_trans (le_max_left _ _) hT)
+  have h2 := hT₂ T (le_trans (le_max_right _ _) hT)
+  rw [le_div_iff₀ h2]
+  exact h1
+
 /-! ### Standing axiom audit
 
 Same idiom as `Zeta23Ext/StableRankTrace.lean`.  Expected, and observed on 2026-08-23: every line
@@ -277,5 +319,8 @@ no new axiom anywhere in the import closure. -/
 #print axioms pre_solve
 #print axioms seven_point_bound
 #print axioms seven_point_bound_paper
+#print axioms eventually_Ncount_pos
+#print axioms seven_point_bound_lab
+#print axioms seven_point_bound_lab_ratio
 
 end Zeta23Ext.Bridge

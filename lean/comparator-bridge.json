@@ -3,7 +3,9 @@
   "solution_module": "BridgeSolution",
   "theorem_names": [
     "Zeta23Ext.Palomar.seven_point_bound",
-    "Zeta23Ext.Palomar.seven_point_bound_paper"
+    "Zeta23Ext.Palomar.seven_point_bound_paper",
+    "Zeta23Ext.Palomar.seven_point_bound_lab",
+    "Zeta23Ext.Palomar.seven_point_bound_lab_ratio"
   ],
   "definition_names": [],
   "permitted_axioms": [

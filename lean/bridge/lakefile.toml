@@ -1,0 +1,34 @@
+name = "Zeta23Bridge"
+version = "0.1.0"
+keywords = ["math"]
+defaultTargets = ["Zeta23Ext", "BridgeChallenge", "BridgeSolution"]
+
+# The upstream formalization accompanying arXiv:2608.13637, pinned. Mathlib and
+# its standard dependency set are inherited from it, at the same revisions the
+# laboratory's `lean/` package uses, so the two share one prebuilt store.
+[[require]]
+name = "Zeta23"
+git = "https://github.com/anthropics/zeta-23-lean"
+rev = "3635e74826a4c1fcece7d1cd2b6fa75e43a00510"
+
+# The development: Ainta's seven-point simple-zero bound assembled end to end on
+# top of the pinned upstream. `Zeta23Ext.lean` imports every module in it, so
+# `lake build` at this package root builds the whole thing. Zero `sorry`.
+[[lean_lib]]
+name = "Zeta23Ext"
+
+# The Palomar submission surface (https://palomar-registry.org/), third entry.
+#
+# `BridgeChallenge.lean` is the statement-only audit surface: it imports Mathlib
+# alone and carries FOUR DELIBERATE `sorry`s, one per advertised statement,
+# which is what the Palomar format requires. They are not uncertified steps in
+# the Lean arm and must not be "fixed": `BridgeSolution.lean` proves the same
+# four statements from `Zeta23Ext.Bridge.Main`, and Comparator checks that the
+# two match.
+[[lean_lib]]
+name = "BridgeChallenge"
+roots = ["BridgeChallenge"]
+
+[[lean_lib]]
+name = "BridgeSolution"
+roots = ["BridgeSolution"]

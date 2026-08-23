@@ -400,7 +400,9 @@ authorised to send three bounded variants of Ainta's S2 (the scalar lemma alone,
 the full theorem, the theorem with the scalar lemma as a hypothesis) under the
 handoff's rule that *only what remains* goes to the service. After the local pass
 nothing remained: the full theorem builds with zero `sorry`s and standard axioms
-only, in `hunts/frontier_math/zeta23ext/Zeta23Ext/StableRankTrace.lean`, and the
+only, in `StableRankTrace.lean` (then under
+`hunts/frontier_math/zeta23ext/Zeta23Ext/`, moved to `lean/bridge/Zeta23Ext/` on
+2026-08-23 when the theorem was packaged for Palomar), and the
 scalar lemma turned out to be an existing upstream theorem
 (`Zeta23.ZeroSide.RankTraceMult.sq_sub_ge_gc`).
 
@@ -445,7 +447,9 @@ allocation call for the owner.
 
 Integration (branch `bridge/integrate`, same day): the five branches merge
 cleanly (disjoint files by construction), `lake build Zeta23Ext.Bridge.Main`
-from deleted Bridge oleans completes in 44 s wall (8854 jobs), zero `sorry`
+from deleted Bridge oleans completes in 44 s wall (8854 jobs; since 2026-08-23 the
+same tree is a package of its own and the command is `cd lean/bridge && lake build`,
+8860 jobs), zero `sorry`
 warnings, and every `#print axioms` line in the tree, `seven_point_bound` and
 `seven_point_bound_paper` included, reports `[propext, Classical.choice,
 Quot.sound]`. The record of what was proved and what remains a hypothesis is

@@ -1,11 +1,16 @@
 /-
-Copyright (c) 2026 Zeta Lab. Released under Apache 2.0.
-SPDX-License-Identifier: Apache-2.0
+Copyright (c) 2026 Zeta Lab. All rights reserved.
+Released under MIT license as described in the file LICENSE.
+SPDX-License-Identifier: MIT
 
-The two theorems below are `[L23]`'s `Zeta23.Assembly.seamA_mult2` (`Zeta23/Assembly/SeamMult.lean`)
-and `Zeta23.ThmD.thmD_mult2_abstract` (`Zeta23/ThmD/Mult.lean`), Copyright (c) 2026 Anthropic, PBC,
-Apache 2.0, transcribed with one extra real number carried through every inequality.  The proof
-bodies are theirs; the changes are marked `-- [S8]`.
+NOTICE.  The two theorems below are transcriptions of `[L23]`'s
+`Zeta23.Assembly.seamA_mult2` (`Zeta23/Assembly/SeamMult.lean`) and
+`Zeta23.ThmD.thmD_mult2_abstract` (`Zeta23/ThmD/Mult.lean`) from
+anthropics/zeta-23-lean, Copyright (c) 2026 Anthropic, PBC, licensed under the
+Apache License, Version 2.0.  They are transcribed with one extra real number
+carried through every inequality; the proof bodies are theirs and remain under
+their licence, and the changes, marked `-- [S8]`, are this laboratory's.  See
+`NOTICE` at the root of this package.
 -/
 import Zeta23Ext.Bridge.Defs
 

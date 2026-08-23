@@ -228,3 +228,28 @@ artifacts:
   - lean/palomar-bridge/formalization.yaml
   - lean/comparator-bridge.json
 ```
+
+```runmanifest
+id: ainta_seven_point-2026-08-23-palomar-package
+hunt: ainta_seven_point
+started: 2026-08-23T19:00-05:00
+finished: 2026-08-23T22:10-05:00
+ran:
+  - git worktree from origin/bridge/integrate on branch bridge/palomar-package
+  - git mv of Zeta23Ext/StableRankTrace.lean and Zeta23Ext/Bridge/ (16 files) out of hunts/frontier_math/zeta23ext into a new standalone Lake package lean/bridge (package Zeta23Bridge, library Zeta23Ext, same module names and namespaces, same toolchain leanprover/lean4:v4.33.0-rc2, same Zeta23 pin 3635e74826a4c1fcece7d1cd2b6fa75e43a00510, mathlib 51e6992efd06126df61a496bebf8f49482a4e129), with root module lean/bridge/Zeta23Ext.lean importing both; the two import lines removed from hunts/frontier_math/zeta23ext/Zeta23Ext.lean
+  - relicensed all 17 moved files from the dependency's Apache-2.0 header to the repository's MIT header; the attribution for the one adapted file, Bridge/Helpers_S8.lean, moved into a notice in its header and into lean/bridge/NOTICE
+  - added Bridge/S16.lean Phi_lab and Bridge/Main.lean eventually_Ncount_pos, seven_point_bound_lab, seven_point_bound_lab_ratio at this laboratory's own parameters (34697/10000000, 294, 3400)
+  - authored lean/bridge/BridgeChallenge.lean (Mathlib alone, namespace Zeta23Ext.Palomar, four theorems with the format's four sorry) and lean/bridge/BridgeSolution.lean (proves the four from Zeta23Ext.Bridge.Main; every bridge rfl except H_eq = HD_one)
+  - bash lean/bridge/assemble.sh, that is cd lean/bridge && lake build at the package root
+  - .venv/bin/python scripts/palomar_precheck.py . lean/bridge lean/comparator-bridge.json lean/palomar-bridge/formalization.yaml, and the same for the two existing surfaces as a regression
+  - .venv/bin/python -m pytest -m "not slow" tests/test_zeta23ext_imports.py tests/test_hunt_probe_discipline.py; .venv/bin/python scripts/71_contribution_check.py hunts/ainta_seven_point; .venv/bin/python scripts/make_context.py
+outcome: the package assembles at its root, Build completed successfully (8860 jobs), 62 s wall against the prebuilt store; exactly four sorry warnings in the whole build and all four are the deliberate ones in BridgeChallenge.lean; 76 axiom-audit lines in the package, all [propext, Classical.choice, Quot.sound], the four advertised Zeta23Ext.Palomar declarations included; static scan finds no axiom, opaque, unsafe, admit, native_decide, implemented_by or extern; Palomar precheck on the new surface 66 pass, 1 warn (rc toolchain, standing), 0 FAIL, and the two existing surfaces still 64 and 57 pass with 0 FAIL; 10 of 10 and 21 of 21 tests pass; contribution contract PASS; the three packaging blockers of BRIDGE.md section 8 are resolved and nothing was submitted
+artifacts:
+  - lean/bridge/Zeta23Ext.lean
+  - lean/bridge/lakefile.toml
+  - lean/bridge/BridgeChallenge.lean
+  - lean/bridge/BridgeSolution.lean
+  - lean/bridge/NOTICE
+  - lean/comparator-bridge.json
+  - lean/palomar-bridge/formalization.yaml
+```

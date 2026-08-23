@@ -1,8 +1,13 @@
 # formalization.yaml v0.4 for a Palomar Registry submission of the Zeta Lab
 # formalisation of Ainta's seven-point simple-zero bound, conditional on the
-# seven-point inequality. AUTHORED, NOT SUBMITTED: see review.notes for the two
-# blockers. Selected project: hunts/frontier_math/zeta23ext (not lean/), because
-# the theorem depends on anthropics/zeta-23-lean, which lean/ does not require.
+# seven-point inequality.
+#
+# Selected project: lean/bridge. Not lean/, because the theorem depends on
+# anthropics/zeta-23-lean, which lean/ does not require; and no longer
+# hunts/frontier_math/zeta23ext, which does not assemble at its root
+# (repository issue 101). lean/bridge is a Lake package of its own containing
+# the whole advertised development and nothing else, and `lake build` at its
+# root succeeds. Comparator path: lean/comparator-bridge.json.
 version: "v0.4"
 
 project:
@@ -24,14 +29,24 @@ project:
     computer-assisted input is that inequality, which an interval-arithmetic
     program accepts at c = 19/5000.
     This submission advertises that refinement as a theorem of Lean, conditional
-    on exactly that inequality. The advertised statement is: for every real c > 0
-    and naturals m >= 7, p > 0 with c(m-6) <= 1, if c <= F6_p(g) for every
-    nonnegative six-gap vector g (the hypothesis hCert), then for every eps > 0
-    and all large T, (Phi(c,m,p) - eps) N(T,2T) <= N_0^s(T,2T), where
-    Phi(c,m,p) = (H - 6(m-1)/(pm)) / (1 - c(m-6)/m). The companion statement
-    instantiates (c,m,p) = (19/5000, 269, 3000), discharges the side conditions
-    by norm_num, and reads (1345000 H - 2680)/1340003 - eps in place of
-    Phi - eps, which is the paper's Theorem 1.1 constant exactly.
+    on exactly that inequality. The principal advertised statement is: for every
+    real c > 0 and naturals m >= 7, p > 0 with c(m-6) <= 1, if c <= F6_p(g) for
+    every nonnegative six-gap vector g (the hypothesis hCert), then for every
+    eps > 0 and all large T, (Phi(c,m,p) - eps) N(T,2T) <= N_0^s(T,2T), where
+    Phi(c,m,p) = (H - 6(m-1)/(pm)) / (1 - c(m-6)/m). Three corollaries
+    instantiate it. The first takes (c,m,p) = (19/5000, 269, 3000), discharges
+    the side conditions by norm_num, and reads (1345000 H - 2680)/1340003 - eps
+    in place of Phi - eps, which is the paper's Theorem 1.1 constant exactly.
+    The other two take this laboratory's own verified parameters
+    (c,m,p) = (34697/10^7, 294, 3400), where the constant is
+    (520625000 H - 915625)/518855453 = 0.6730295534796928...: a finer pressure
+    sweep than the paper's puts the seven-point peak at p = 3400, the same
+    interval-arithmetic verifier accepts c = 34697/10^7 there and refuses
+    34701/10^7, and the cap c(m-6) <= 1 then gives m = 294. The last of the
+    three states the conclusion as a bound on the ratio N_0^s(T,2T)/N(T,2T),
+    with no positivity guard on the denominator, which is the form the result is
+    usually quoted in. All four are conditional on hCert at their own
+    parameters.
     What the work consists of. Every step of the paper between the finite
     inequality and the zero count is a Lean theorem with standard axioms: the
     stability rank-trace inequality (as a corollary of the upstream rank-trace
@@ -134,7 +149,7 @@ sources:
 
 related_formalizations:
   - id: "https://github.com/anthropics/zeta-23-lean"
-    relationship: extends
+    relationship: builds-on
     note: >-
       The Lean development accompanying arXiv:2608.13637, pinned at commit
       3635e74826a4c1fcece7d1cd2b6fa75e43a00510 as a Lake dependency of the
@@ -148,34 +163,49 @@ related_formalizations:
 
 status:
   scope: >-
-    Formalized: the two advertised declarations, sorry-free, against pinned
+    Formalized: the four advertised declarations, sorry-free, against pinned
     Mathlib v4.33.0-rc2 and anthropics/zeta-23-lean at the pinned commit, with
-    #print axioms reporting exactly propext, Classical.choice and Quot.sound.
-    CONDITIONAL. seven_point_bound takes the named hypothesis hCert, which
-    says: for every g : Fin 6 -> R with every g i >= 0, c <= F6 p g, where F6
-    is Ainta's seven-point functional (the pressure term (1/p) sum g_i plus the
-    21 pairwise overlap weights w(y_j - y_i) = k(y_j - y_i)^2 with coefficient
-    2/(7-r) for a pair spanning r gaps). This is the paper's Proposition 4.1
-    and is not a Lean fact: an interval-arithmetic program accepts it at
-    c = 19/5000, p = 3000, and this laboratory reproduced that run, but no
-    kernel has checked it. It also takes hA0 : c(m-6) <= 1, a rational side
-    condition discharged by norm_num at the published parameters, and the side
-    conditions 7 <= m, 0 < p, 0 < c. seven_point_bound_paper takes hCert at
-    (19/5000, 3000) and nothing else. Every other input, including the
-    Riemann-von Mangoldt formula and the explicit formula, is discharged inside
-    the dependency for riemannZeta.
+    #print axioms reporting exactly propext, Classical.choice and Quot.sound
+    for each of the four.
+    CONDITIONAL, AND THE CERTIFICATE IS A HYPOTHESIS, NOT A LEAN FACT.
+    seven_point_bound takes the named hypothesis hCert, which says: for every
+    g : Fin 6 -> R with every g i >= 0, c <= F6 p g, where F6 is Ainta's
+    seven-point functional (the pressure term (1/p) sum g_i plus the 21
+    pairwise overlap weights w(y_j - y_i) = k(y_j - y_i)^2 with coefficient
+    2/(7-r) for a pair spanning r gaps). This is the paper's Proposition 4.1.
+    What is known about it is that an interval-arithmetic program written in
+    Arb accepts it: at (c, p) = (19/5000, 3000) in the published run at
+    github.com/ainta/zeta-simple-zeros, which this laboratory reproduced field
+    for field, and at (34697/10^7, 3400) in this laboratory's own run, both
+    recorded under hunts/ainta_seven_point in the submitted repository. A
+    verifier's acceptance is not a kernel-checked proof and no claim is made
+    here that it is; re-enclosing the underlying sinc table inside Lean is a
+    separate project of a different size. The hypothesis is written into every
+    advertised statement, with its numbers, rather than assumed as an axiom,
+    exactly so that this distinction survives every way of quoting the result.
+    Each statement also takes hA0 : c(m-6) <= 1, a rational side condition, and
+    the side conditions 7 <= m, 0 < p, 0 < c; in the three instantiated
+    statements all four are discharged by norm_num, leaving hCert as the only
+    hypothesis. Every other input, including the Riemann-von Mangoldt formula
+    and the explicit formula, is discharged inside the dependency for
+    riemannZeta.
     Non-vacuity of the hypothesis: F6 p 0 = 12 and F6 p g >= (1/p) sum g_i, so
     the class of (c, p) satisfying hCert is nonempty; what the certificate
-    supplies is the specific value 19/5000, and the theorem's interest is
-    proportional to that value.
+    supplies is the specific value, and the theorem's interest is proportional
+    to that value. The difference between the paper's constant and this
+    laboratory's is a difference of assumed certificate, not of proved
+    mathematics: the same parametric theorem is instantiated twice.
     Not formalized, and deliberately outside the advertised statements: the
-    seven-point inequality itself (a 45 600-cell interval table and a 707 901
-    node branch-and-bound search, outside the scope of this submission); the
-    Gohms variant at 191/50000 and the other certificate targets this
-    laboratory's hunt explored; any numerical value of H beyond its closed
-    form. Nothing here formalizes any statement about the Riemann Hypothesis,
-    and the base constant H is the dependency's theorem, not this
-    submission's.
+    seven-point inequality itself, at either parameter set (a 45 600-cell
+    interval table and a branch-and-bound search of 707 901 nodes at p = 3000
+    and 1 112 733 at p = 3400); the eight-point generalisation, whose bridge
+    from certificate to proportion this laboratory has stated but not proved
+    and which is therefore not offered here at all; the Gohms variant at
+    191/50000 and the other certificate targets the hunt explored; any
+    numerical value of H beyond its closed form. NOTHING HERE BEARS ON THE
+    RIEMANN HYPOTHESIS: the conclusion is a lower bound on a proportion of
+    zeros and holds whether or not RH does. The base constant H is the
+    dependency's theorem, not this submission's.
   sorry_count: 0
   sorry_in_definitions: 0
   axioms: ["propext", "Classical.choice", "Quot.sound"]
@@ -194,8 +224,13 @@ automation:
         and one agent integrated, built and audited. The Harmonic Aristotle
         service was available under a cap of three submissions per agent and
         was not used: zero of fifteen, because every obligation closed locally
-        before a residual existed (lean/ARISTOTLE-RUNS.md, Batch 12). No step
-        uses native_decide and no step uses floating point.
+        before a residual existed (lean/ARISTOTLE-RUNS.md, Batch 12). A further
+        agent pass then packaged the result for this registry: it moved the
+        development into the Lake package lean/bridge so that it assembles at a
+        root, wrote the Challenge and Solution modules, added the two
+        instantiations at this laboratory's own certificate parameters, and
+        corrected the licence headers. No step uses native_decide and no step
+        uses floating point.
       cost:
         wall_time: >-
           The skeleton, the five attack branches and the integration ran on
@@ -214,10 +249,14 @@ automation:
   notes: >-
     Human direction, agent proof writing, kernel checking, and an explicit
     obligation ledger per attack group under hunts/ainta_seven_point/bridge/.
-    The single non-Lean input is carried as a named hypothesis of the main
-    theorem so that the conditional result cannot be read as an unconditional
-    one. The derivations were directed and verified within an AI-assisted
-    computational mathematics framework operated by Thomas Lince at Zeta Lab.
+    The single non-Lean input is carried as a named hypothesis of every
+    advertised theorem so that the conditional result cannot be read as an
+    unconditional one. The interval-arithmetic runs behind that hypothesis were
+    executed by this laboratory and are recorded, with node and depth counts
+    and their artifacts, in hunts/ainta_seven_point/RUNS.md and RESULTS.md;
+    they are evidence for the hypothesis, not a proof of it. The derivations
+    were directed and verified within an AI-assisted computational mathematics
+    framework operated by Thomas Lince at Zeta Lab.
 
 fidelity:
   divergences: >-
@@ -249,36 +288,59 @@ fidelity:
 review:
   status: "self-assessed"
   notes: >-
-    No external mathematical review has been performed. AUTHORED, NOT
-    SUBMITTED, for two reasons that are about packaging and not about the
-    theorem. First, the selected project hunts/frontier_math/zeta23ext does
-    not assemble at its root on main (repository issue 101: three modules the
-    advertised theorem never imports fail against the pinned Mathlib), and a
-    registry replay builds the project; the theorem and its whole import
-    closure build by name (lake build Zeta23Ext.Bridge.Main, 44 s against the
-    prebuilt store, zero sorry warnings). Second, the Challenge and Solution
-    modules this comparator names do not exist yet. The Challenge module would
-    restate, over Mathlib alone in the namespace Zeta23Ext.Palomar, the
-    dependency's IsNontrivialZero, zeroMult, zerosIn, Ncount and N0simple, the
-    overlap kernel K, k and w, the seven-point functional F6, the constant H in
-    its closed form and Phi, and would state the two theorems with the
-    format's deliberate sorry; the Solution module would import
-    Zeta23Ext.Bridge.Main and discharge them through rfl bridges and HD_one.
-    It was not authored in this pass because this laboratory's rule for the
-    package (tests/test_zeta23ext_imports.py) requires every module to be
-    reachable from the package root and this pass required zero sorry
-    anywhere in the package; a Challenge module satisfies neither, and the
-    reconciliation (a separate Lake library for the surface, as lean/ does for
-    its two surfaces) is a packaging decision for the owner. Also to be
-    resolved before submission: the Bridge source files carry Apache-2.0
-    headers copied from the dependency's house style while the repository
-    licence is MIT. Internal checks performed and recorded: the two advertised
-    declarations and the 70 other audited declarations in the tree report
-    exactly propext, Classical.choice and Quot.sound; no step lemma's
-    statement was changed by any attack branch relative to the skeleton; the
-    per-group ledgers record zero proving-service submissions; and the
-    hypothesis hCert is named in the statement and in the scope above, so no
-    reading of this entry can take the result as unconditional.
+    No external mathematical review has been performed, and no person outside
+    this laboratory has read the development. "self-assessed" means exactly
+    that: the checks below were run by the laboratory on its own work.
+    Packaging state. The three blockers recorded here in an earlier revision
+    are resolved. (1) The advertised development now lives in its own Lake
+    package, lean/bridge, which requires anthropics/zeta-23-lean at the pinned
+    commit and whose root module imports every module in it; `lake build` at
+    that root completes with 8860 jobs and zero errors, so a replay of the
+    selected project builds the theorem rather than stopping on three modules
+    of hunts/frontier_math/zeta23ext that the theorem never imports
+    (repository issue 101, which remains open for that other package and is
+    now unrelated to this submission). (2) The Challenge and Solution modules
+    named by lean/comparator-bridge.json exist: BridgeChallenge.lean states
+    the four advertised theorems over Mathlib alone, in the namespace
+    Zeta23Ext.Palomar, restating verbatim the five counting definitions of the
+    dependency's Zeta23/Statement.lean and the five kernel and functional
+    definitions of Zeta23Ext/Bridge/Defs.lean, and writing the constant H in
+    the closed form the dependency's HD_one proves equal to its HD 1;
+    BridgeSolution.lean proves the same four from Zeta23Ext.Bridge.Main
+    through those bridges, every one of which is rfl except H_eq, which is
+    HD_one. (3) The Apache-2.0 headers the Bridge files had copied from the
+    dependency's house style are replaced by MIT headers matching the
+    repository licence; the one file that adapts the dependency's code rather
+    than importing it, Zeta23Ext/Bridge/Helpers_S8.lean, keeps its attribution
+    to Anthropic, PBC and the Apache-2.0 licence of the transcribed proof
+    bodies in a notice, in its own header and in lean/bridge/NOTICE.
+    Deliberate sorry count. The Challenge module carries four sorry, one per
+    advertised statement, which is what the Palomar format requires of a
+    statement-only module. The development and the Solution module carry none:
+    a whole-package build reports exactly four `declaration uses sorry`
+    warnings and all four are in BridgeChallenge.lean. Any claim that this
+    tree is sorry-free has to say which object it means, and this field is
+    that statement.
+    Internal checks performed and recorded: the four advertised declarations
+    and the 72 other audited declarations in the package report exactly
+    propext, Classical.choice and Quot.sound under #print axioms, 76 audit
+    lines in one whole-package build (fourteen of them print Classical.choice
+    as choice, because Classical is open in the module that emits them); a
+    static
+    scan of every Lean file in the package finds no axiom, opaque, unsafe,
+    admit, native_decide, implemented_by or extern; no step lemma's statement
+    was changed by any attack branch relative to the skeleton; the per-group
+    ledgers under hunts/ainta_seven_point/bridge/ record zero proving-service
+    submissions, zero of fifteen permitted; and the hypothesis hCert is named
+    in every advertised statement and in status.scope, so no reading of this
+    entry can take the result as unconditional.
+    Known limitations of this self-assessment: the interval-arithmetic runs
+    behind hCert were checked by reproducing a third party's run and by
+    re-running a corrected variant, not by any formal method; the constants
+    inside the proofs are not sharp and were not tuned; and whether a
+    conditional refinement of a theorem already registered from the upstream
+    repository clears this registry's notability floor is the registry's call,
+    not a claim this file makes for it.
 
 alignment:
   namespace: "Zeta23Ext.Palomar"
@@ -293,9 +355,10 @@ alignment:
       status: "proved"
       note: >-
         In the development this is Zeta23Ext.Bridge.seven_point_bound
-        (hunts/frontier_math/zeta23ext/Zeta23Ext/Bridge/Main.lean), proved.
-        The Palomar mirror in the namespace Zeta23Ext.Palomar is not yet
-        authored; see review.notes.
+        (lean/bridge/Zeta23Ext/Bridge/Main.lean). The Palomar mirror in
+        BridgeSolution.lean is the same statement over the module's own copies
+        of the definitions, discharged from the development by rfl bridges and
+        HD_one.
     - source: >-
         Ainta, Theorem 1.1, at the published parameters (19/5000, 269, 3000):
         the proportion is at least (1345000 H - 2680)/1340003 - eps, conditional
@@ -306,7 +369,40 @@ alignment:
       note: >-
         In the development this is Zeta23Ext.Bridge.seven_point_bound_paper,
         proved from seven_point_bound and Phi_paper, the side conditions by
-        norm_num. Same caveat on the mirror.
+        norm_num. The constant is the paper's, exactly.
+    - source: >-
+        The same theorem at this laboratory's own certificate parameters
+        (34697/10^7, 294, 3400): the proportion is at least
+        (520625000 H - 915625)/518855453 - eps = 0.6730295534796928... - eps,
+        conditional on 34697/10^7 <= F6_3400 at every nonnegative gap vector.
+        The parameters are this laboratory's, from a finer pressure sweep than
+        the paper's; the argument from certificate to proportion is Ainta's and
+        is unchanged
+      lean: "Zeta23Ext.Palomar.seven_point_bound_lab"
+      module: "BridgeSolution"
+      status: "proved"
+      note: >-
+        In the development this is Zeta23Ext.Bridge.seven_point_bound_lab,
+        proved from seven_point_bound and Phi_lab, the side conditions by
+        norm_num. The improvement over the previous statement is entirely in
+        which certificate is assumed; nothing further about zeta is proved by
+        it.
+    - source: >-
+        The same conclusion stated as a proportion: for every eps > 0 and all
+        large T, N_0^s(T,2T)/N(T,2T) >= 0.6730295534796928... - eps, with no
+        positivity guard on the denominator
+      lean: "Zeta23Ext.Palomar.seven_point_bound_lab_ratio"
+      module: "BridgeSolution"
+      status: "proved"
+      note: >-
+        In the development this is
+        Zeta23Ext.Bridge.seven_point_bound_lab_ratio, proved from
+        seven_point_bound_lab and eventually_Ncount_pos, the latter being the
+        dependency's Riemann-von Mangoldt consequence N(T,2T) -> infinity at
+        zeta. Advertised alongside the multiplicative form because it is the
+        form in which a reader will compare the number to the literature, and
+        because carrying the positivity of the denominator inside the statement
+        removes the only way of reading the bound as vacuous.
 
 acknowledgements: >-
   Lean 4 and Mathlib. The authors of anthropics/zeta-23-lean, whose development

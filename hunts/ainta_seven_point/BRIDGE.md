@@ -16,7 +16,8 @@ permitted submissions.
 
 ## 1. The theorem, verbatim
 
-`hunts/frontier_math/zeta23ext/Zeta23Ext/Bridge/Main.lean`, namespace `Zeta23Ext.Bridge`:
+`lean/bridge/Zeta23Ext/Bridge/Main.lean`, namespace `Zeta23Ext.Bridge` (the files moved out
+of `hunts/frontier_math/zeta23ext` on 2026-08-23 for packaging; see section 8):
 
 ```lean
 theorem seven_point_bound (c : ℝ) (m p : ℕ) (hm : 7 ≤ m) (hp : 0 < p) (hc : 0 < c)
@@ -53,33 +54,66 @@ via `Phi_paper : Phi (19 / 5000) 269 3000 = (1345000 * HD 1 - 2680) / 1340003`. 
 constant is `[A]` Theorem 1.1's `0.6730085279277797613…`, against Theorem D's
 `0.6725007036794116457…`.
 
+At this laboratory's own parameters, added 2026-08-23 for the registry surface, via
+`Phi_lab : Phi (34697 / 10000000) 294 3400 = (520625000 * HD 1 - 915625) / 518855453`:
+
+```lean
+theorem seven_point_bound_lab
+    (hCert : ∀ g : Fin 6 → ℝ, (∀ i, 0 ≤ g i) → 34697 / 10000000 ≤ F6 3400 g) :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      ((520625000 * HD 1 - 915625) / 518855453 - ε) * (Ncount T (2 * T) : ℝ)
+        ≤ N0simple T (2 * T)
+
+theorem seven_point_bound_lab_ratio
+    (hCert : ∀ g : Fin 6 → ℝ, (∀ i, 0 ≤ g i) → 34697 / 10000000 ≤ F6 3400 g) :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      (520625000 * HD 1 - 915625) / 518855453 - ε
+        ≤ (N0simple T (2 * T) : ℝ) / (Ncount T (2 * T) : ℝ)
+```
+
+`0.6730295534796928…`, the `p = 3400` figure of `RESULTS.md`. The ratio form needs no
+positivity guard because `Ncount T (2T) → ∞` (`eventually_Ncount_pos`, from `[L23]`'s
+Riemann-von Mangoldt consequence). **What is better here is the assumed certificate, not
+the proved mathematics:** the same parametric theorem is instantiated at a different `(c,
+m, p)`, and `hCert` at `(34697/10^7, 3400)` is exactly as unproved in Lean as `hCert` at
+`(19/5000, 3000)`.
+
 The conclusion's shape is `[L23]`'s `thmD₀_simple_mult` with `HD 1` replaced by
 `Phi c m p`; the unconditional base theorem is the special case one recovers by
 dropping the defect.
 
 ## 2. Build record
 
-Standalone module build, the way `ARISTOTLE-PROBE.md` section 1b built
-`StableRankTrace` (the package root does not assemble on `main`, issue #101, for
-reasons in three modules none of which the Bridge imports):
+**Whole-package build at the root**, since 2026-08-23:
 
 ```
-cd hunts/frontier_math/zeta23ext && lake build Zeta23Ext.Bridge.Main
-Build completed successfully (8854 jobs).    44 s wall from deleted Bridge oleans
+cd lean/bridge && lake build
+Build completed successfully (8860 jobs).    62 s wall against the prebuilt store
 ```
+
+Equivalently `bash lean/bridge/assemble.sh`, which symlinks the prebuilt Mathlib and
+`Zeta23` stores in and then runs exactly that. The default targets are the development
+(`Zeta23Ext`), `BridgeChallenge` and `BridgeSolution`, so this one command builds the
+theorem, the advertised statements and their proofs.
+
+*(Before the move this was a standalone module build,
+`cd hunts/frontier_math/zeta23ext && lake build Zeta23Ext.Bridge.Main`, 8854 jobs in 44 s,
+because that package does not assemble at its root, issue #101. That is why the files
+moved; #101 is still open for what remains there and no longer touches this theorem.)*
 
 Toolchain `leanprover/lean4:v4.33.0-rc2`, mathlib `51e6992efd06126df61a496bebf8f49482a4e129`,
-`Zeta23` at the pinned rev above. All sixteen Bridge modules plus `StableRankTrace`
-recompiled; zero `sorry` warnings; the only warnings in the log are deprecation
-notices from `Zeta23` itself. Every `#print axioms` line in the tree (72 of them
-across `Defs`, `Helpers_*`, `S6` to `S16` and `Main`) reports
-`[propext, Classical.choice, Quot.sound]`. Static scan of `Zeta23Ext/Bridge/*.lean`
-and `StableRankTrace.lean`: no `axiom`, `opaque`, `unsafe`, `admit`,
-`native_decide`, `implemented_by` or `extern`.
+`Zeta23` at the pinned rev above. Exactly four `sorry` warnings in the whole build, and all
+four are the deliberate ones in `BridgeChallenge.lean` that the Palomar format requires of a
+statement-only module; every other warning in the log is a deprecation notice from `Zeta23`
+itself. Every `#print axioms` line in the package (76 of them across `Defs`, `Helpers_*`,
+`S6` to `S16`, `Main` and `BridgeSolution`, the four advertised `Zeta23Ext.Palomar`
+declarations included) reports `[propext, Classical.choice, Quot.sound]`. Static scan of
+every `.lean` file in the package: no `axiom`, `opaque`, `unsafe`, `admit`, `native_decide`,
+`implemented_by` or `extern`.
 
-`Zeta23Ext.lean` now imports `Zeta23Ext.Bridge.Main`, so the orphan guard in
-`tests/test_zeta23ext_imports.py` passes (12 of 12 in that file and
-`test_hunt_probe_discipline.py`).
+`hunts/frontier_math/zeta23ext/Zeta23Ext.lean` no longer imports either moved module, and
+the orphan guard in `tests/test_zeta23ext_imports.py` passes (10 of 10 in that file and
+`test_hunt_probe_discipline.py`, two slow tests deselected).
 
 ## 3. The step table
 
@@ -273,19 +307,57 @@ that an interval-arithmetic program accepts, and it says so in its statement: th
 certificate is a named hypothesis, not an axiom, and the published constant is
 recovered by `norm_num` from it. That is the same shape as `[L23]`'s own treatment
 of its numerical tables, and a registry that accepts "conditional on a stated
-hypothesis" can take it honestly with the hypothesis in `status.scope`. Two things
-stand in the way, and neither is the mathematics. Mechanically, Palomar replays the
-selected project, and `hunts/frontier_math/zeta23ext` does not assemble on `main`
-(issue #101, three modules the Bridge never imports); the surface in
-`lean/palomar-bridge/` is authored and prechecked but cannot be submitted until
-#101 is fixed or the Bridge is moved to a package that builds at the root.
+hypothesis" can take it honestly with the hypothesis in `status.scope`.
+
+### The three packaging blockers are resolved (2026-08-23)
+
+This section listed three obstacles. None of them was the mathematics, and all three
+are now closed. **Nothing has been submitted**, and the editorial question below is
+untouched.
+
+1. **The selected project assembles at its root.** Palomar replays the selected
+   project, and `hunts/frontier_math/zeta23ext` does not assemble on `main`
+   (issue #101, three modules the Bridge never imports). `StableRankTrace.lean` and
+   the sixteen `Bridge/` modules therefore moved, by `git mv`, into a Lake package of
+   their own at **`lean/bridge/`** (package `Zeta23Bridge`, library `Zeta23Ext`),
+   which requires `anthropics/zeta-23-lean` at the same pinned commit, uses the same
+   toolchain and the same Mathlib revision as `lean/` so the prebuilt store is
+   shared, and whose root module imports both. `lake build` there completes, 8860
+   jobs. Module names and namespaces are unchanged, so every declaration named in
+   this document still has the name it had. The extension package keeps everything
+   else and no longer imports the two; #101 stays open for what remains there and no
+   longer touches this theorem.
+2. **The Challenge and Solution modules are authored.** `lean/bridge/BridgeChallenge.lean`
+   states four theorems over Mathlib alone in the namespace `Zeta23Ext.Palomar` —
+   `seven_point_bound`, `seven_point_bound_paper`, and two at this laboratory's own
+   parameters `(34697/10^7, 294, 3400)`, `seven_point_bound_lab` and
+   `seven_point_bound_lab_ratio`, the second of which states the conclusion as a bound
+   on `N₀ˢ/N` — with the format's four deliberate `sorry`s, one per statement.
+   `lean/bridge/BridgeSolution.lean` proves the same four from
+   `Zeta23Ext.Bridge.Main`; every bridge is `rfl` except `H_eq`, which is `[L23]`'s
+   `HD_one`. The eight-point statement of `RESULTS.md` is **not** advertised: its
+   bridge from certificate to proportion is stated, not proved, and an unproved
+   bridge has no business on a registry surface.
+3. **The licence headers are correct.** All seventeen moved files carried Apache-2.0
+   headers copied from the dependency's house style while this repository is MIT;
+   they now carry the MIT header the rest of `lean/` uses. The one file that adapts
+   `[L23]`'s code rather than importing it, `Bridge/Helpers_S8.lean`, keeps its
+   attribution to Anthropic, PBC and the Apache-2.0 licence of the transcribed proof
+   bodies, as a notice in its own header and in `lean/bridge/NOTICE`.
+
+`scripts/palomar_precheck.py . lean/bridge lean/comparator-bridge.json
+lean/palomar-bridge/formalization.yaml` now reports **66 pass, 1 warn, 0 FAIL**; the
+warn is the standing one that the pinned toolchain is a release candidate, which the
+two registered surfaces carry too.
+
+### What is still the registry's call
+
 Editorially, the entry advertises a refinement of a theorem already registered from
 the upstream repository, conditional on a third party's unformalised numerics, and
 whether that clears the notability floor is the registry's call, not a claim this
-document can make for it. Recommendation: fix #101 (or split the Bridge and
-`StableRankTrace` into a package of their own that depends on `Zeta23`), then submit
-the conditional theorem as it stands, with S10 named. Do not wait for S10 in Lean;
-that is a separate, large project and the theorem's value does not depend on it.
+document can make for it. Recommendation unchanged: submit the conditional theorem as
+it stands, with S10 named. Do not wait for S10 in Lean; that is a separate, large
+project and the theorem's value does not depend on it.
 
 ## 9. Defects found during integration
 
@@ -302,9 +374,13 @@ that is a separate, large project and the theorem's value does not depend on it.
 
 ## 10. What this does not claim
 
-Nothing here bears on the Riemann Hypothesis (`docs/08`). The package root still
-does not assemble (#101). S10 is not a Lean fact and no claim is made that the
-Arb run is a proof in the sense this laboratory's Lean arm uses the word. The
+Nothing here bears on the Riemann Hypothesis (`docs/08`). `lean/bridge` assembles at
+its root; `hunts/frontier_math/zeta23ext` still does not (#101), and that is now a
+separate matter about modules this theorem never imported. Nothing has been submitted
+to any registry. S10 is not a Lean fact and no claim is made that the Arb run is a
+proof in the sense this laboratory's Lean arm uses the word; that applies equally to
+this laboratory's own `(34697/10^7, 3400)` run, which is the same kind of evidence as
+the published one and is assumed the same way. The
 constants inside the proofs (`1600 A₀ L²` for the strips, `12 w/L` for the limit,
 `2 m² δ` for the block error) are not sharp and were not tuned; every consumer
 takes them as `∀ᶠ T`. Aristotle's calibration question from Batch 11 remains

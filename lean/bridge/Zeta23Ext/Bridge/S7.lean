@@ -1,6 +1,7 @@
 /-
-Copyright (c) 2026 Zeta Lab. Released under Apache 2.0.
-SPDX-License-Identifier: Apache-2.0
+Copyright (c) 2026 Zeta Lab. All rights reserved.
+Released under MIT license as described in the file LICENSE.
+SPDX-License-Identifier: MIT
 -/
 import Zeta23Ext.Bridge.S6
 
