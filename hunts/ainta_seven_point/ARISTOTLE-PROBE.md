@@ -344,10 +344,17 @@ not new relative to the development you chose to state it in*. Writing S2 in `[L
 Lean vocabulary is what forced the discovery, because the vocabulary is not neutral: the
 moment `Psi` had to be a real function fed to `specMap`, the question "which real function
 does this development already push through `specMap`" had an answer, and the answer was
-`gc 2`, one shift away. A prose reading of the paper against the prose of `[L23]` §3 would
-not have surfaced that. §3 of the paper genuinely does contain only the unenhanced
-`lem:ranktrace`, and the enhanced form lives in a part of the Lean tree that has no
-counterpart in the paper's numbered statements. Three specific things changed. The scalar
+`gc 2`, one shift away. **And this is the sharpest thing the pilot produced, because a prose
+map had already had `gc` in front of it and had not seen it.** §11: the trust map found
+`RankTraceMult.lean`, quoted `gc`'s definition, and recorded it as *"a different"* defect.
+Reading the two side by side in prose, "a per-zero term `gc c x = x² − cx − ((x−c)⁺)²`"
+and "`Psi t = (t−1)²` for `t ≤ 2`, `2t − 3` beyond" do look like different objects. They
+are the same object plus one. What forced the identification was having to write a single
+`ℝ → ℝ` that `specMap` would accept, at which point the two profiles are two expressions
+of one type and subtracting them is the obvious move. That is a concrete instance of what
+formalization buys over careful prose: not rigour, which the prose map had, but **an
+enforced normal form in which two descriptions of the same object cannot stay
+different-looking**. Three specific things changed. The scalar
 estimate is not the gap and never was, so a probe budgeted for "one sharpened scalar
 estimate" was budgeted against the wrong object. The rank hypothesis is removable, which
 was invisible in the trust map's form and is visible the moment the `Psi 0 = 1`
