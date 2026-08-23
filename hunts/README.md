@@ -133,7 +133,7 @@ term as *"a different one"*, spectral versus per-zero, and that reading is the a
 gap: `rank_trace_mult` is quantified over presentations of `P`, and at the eigenbasis
 presentation its per-zero defect *is* the spectral one. `Psi` was also never matched to
 `gc 2`, so §4 named `RankTrace.lean:52-56` for a scalar estimate that `RankTraceMult`
-already proves. Two sections of the same map hold the two halves and never meet. Two
+already proves. Its step table records the contrast; its section 4 then states the obligation as if it did not apply. Two
 things the formal state exposed that the map's transcription hides: the
 rank hypothesis is removable, so a sharp form holds with **no** hypothesis on `V`
 at all, and the column bound `hV` is load-bearing for exactly one inequality,

@@ -387,8 +387,8 @@ presentation that maximises it.
 `2p − 1 + Psi(p)`", and points the proof at `RankTrace.lean:52-56`, the `sq_ge_linear`
 route. That exact estimate is `sq_sub_ge_gc` at `RankTraceMult.lean:81`, in the file the
 map had already opened, because `Psi = gc 2 + 1`. Two sections of the same map hold the
-two halves and never meet: §4 states the obligation as if `RankTraceMult` did not apply,
-and §5's paragraph records `RankTraceMult` as a contrast rather than as the tool.
+two halves and never meet: §2 (the step table, at line 382) records `RankTraceMult` as a
+contrast, and §4 then states the obligation as if it did not apply.
 
 **The transferable rule is therefore not "search harder".** The map's search was fine.
 It is this: **when a formalization already carries an object of the right shape, check
