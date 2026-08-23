@@ -1,4 +1,7 @@
 .venv/
+# and as a bare symlink: a worktree that links .venv -> ../../../.venv is not
+# matched by the trailing-slash form above, and `git add -A` will stage it.
+/.venv
 __pycache__/
 *.pyc
 *.egg-info/

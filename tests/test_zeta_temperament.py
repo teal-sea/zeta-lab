@@ -113,3 +113,76 @@ def test_peaks_calibration_reproduces_the_known_ranking():
     twelve = next(h for h in r["horizon"] if h["x"] == 12)
     assert twelve["N"] == 4
     assert abs(twelve["remainder"]) < 0.35
+
+
+# --- the correction: this hunt re-measured a quantity the repo already had ---
+
+
+def test_prime_spectrum_already_computes_this_hunts_measurement():
+    """`zeta.explicit.prime_spectrum` is the same quantity as E1, up to -2N.
+
+    This pins the correction notice at the head of `docs/34`. E1 measured the
+    mean of n^{i gamma} over zeros; the repository already exposed
+    D(u) = -2 sum_gamma cos(gamma u), whose docstring states that it peaks at
+    u = log p^k "and no peak anywhere else". If this test ever fails, either
+    the core function changed or the correction notice needs revisiting.
+    """
+    import numpy as np
+    from zeta.explicit import first_zeros, prime_spectrum
+
+    g = first_zeros(2000)
+    if len(g) < 2000:
+        pytest.skip("fewer than 2000 cached zeros")
+    us = [np.log(n) for n in (2, 3, 5, 6, 7, 10)]
+    lab = prime_spectrum(g, us, window=None, normalize=False)
+    for u, d in zip(us, lab):
+        mine = float(np.mean(np.cos(g * u)))
+        assert d == pytest.approx(-2 * len(g) * mine, rel=1e-9)
+    # and the composites are the small ones, in both routes
+    assert abs(lab[3]) < 10 and abs(lab[5]) < 10          # n = 6, 10
+    assert all(abs(lab[i]) > 300 for i in (0, 1, 2, 4))   # n = 2, 3, 5, 7
+
+
+# --- the Euler-product discriminator (section 6 of docs/34) -----------------
+
+
+def _euler():
+    path = _HUNT / "results_euler.json"
+    if not path.is_file():
+        pytest.skip("results_euler.json not generated")
+    return json.loads(path.read_text())
+
+
+def test_the_spectrum_recursion_reproduces_von_mangoldt_for_zeta():
+    r = _euler()
+    assert r["zeta"]["matches_von_mangoldt"]
+    assert r["zeta"]["composite_defect"] < 1e-25
+    assert r["zeta"]["c"]["2"] == pytest.approx(np.log(2), abs=1e-12)
+    assert r["zeta"]["c"]["9"] == pytest.approx(np.log(3), abs=1e-12)
+    assert r["zeta"]["c"]["6"] == pytest.approx(0.0, abs=1e-25)
+
+
+def test_davenport_heilbronns_loudest_spectral_line_is_composite():
+    """DH shares the functional equation and has no Euler product, so its
+    composite lines do not vanish; the loudest line of all is a composite."""
+    r = _euler()["davenport_heilbronn"]
+    assert r["composite_defect"] > 1.0
+    assert r["loudest_line"]["is_composite"]
+    assert r["loudest_line"]["n"] == 51
+    assert abs(r["loudest_line"]["c"]) > r["loudest_prime_line_abs"]
+
+
+def test_epstein_class_number_one_is_silent_and_the_class_group_sum_restores_it():
+    """Class number 1 gives an Euler product and a vanishing composite defect.
+    Class number > 1 gives loud individual forms whose defects cancel exactly
+    when summed over the class group, since that sum is w * zeta_K."""
+    r = _euler()["epstein"]
+    assert len(r) >= 14
+    for f in r:
+        if f["class_number"] == 1:
+            assert f["max_form_defect"] < 1e-25, f["discriminant"]
+        else:
+            assert f["max_form_defect"] > 1.0, f["discriminant"]
+        assert f["class_group_sum_defect"] < 1e-25, f["discriminant"]
+    d15 = next(f for f in r if f["discriminant"] == -15)
+    assert d15["max_form_defect"] > 30

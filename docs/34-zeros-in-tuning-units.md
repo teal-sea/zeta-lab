@@ -9,6 +9,27 @@ prescribes. On Odlyzko's first 100,000 zeros every prime power lands within
 is Landau (1912); the reading, and the composite control that makes it
 vivid, are this laboratory's. Nothing here is evidence about RH (`docs/08`).
 
+> **Correction notice, 2026-08-22.** The prior-art account in section 7 was
+> materially incomplete, in the direction that flattered this hunt: it reported
+> a web search and no search of this repository, and the in-tree search finds
+> the result. `zeta.explicit.prime_spectrum` already computes the quantity E1
+> measures. Its docstring states the identity outright, "a spike train with a
+> peak at every u = log p^k, and no peak anywhere else", and
+> `zeta.plots.plot_prime_spectrum` draws it. On the same 2000 cached zeros,
+> `prime_spectrum` returns +392.3556 at u = log 2 where E1's route returns
+> -0.09809, the same quantity up to the factor -2N, and -4.1060 at u = log 6
+> where E1 returns +0.00103. **E1 is a re-measurement of a quantity this
+> repository already exposes**, and its composite control restates that
+> docstring's "no peak anywhere else". The hunt was written without reading
+> `CONTEXT.md`, the generated index that lists `prime_spectrum` on sight.
+>
+> Nothing measured was wrong and nothing is withdrawn; what was wrong was the
+> claim about what had been searched. What remains this hunt's own: the tuning
+> coordinate, the smoothed density table E2 against the Landau prediction, the
+> height-band decay, the harmonic-horizon caveat F3, and section 6, which was
+> added by the same review that produced this notice.
+
+
 ## 1. Definitions
 
 * **Tuning units.** For a zero 1/2 + i gamma put theta = gamma ln 2 / 2 pi.
@@ -147,7 +168,76 @@ line by Odlyzko's verification, not by hypothesis.
   subsequence of the large values of |zeta|, and their growth against the
   conjectured exp(sqrt(½ log t log log t)) has not been measured.
 
-## 6. What was searched
+## 6. The Euler-product discriminator, and the Epstein family
+
+Added 2026-08-22 by the review that produced the correction notice above.
+Section 3's composite control is a restatement of a known identity, so on its
+own it distinguishes nothing. It becomes a discriminator when pointed at a
+function that shares zeta's functional equation and lacks its Euler product,
+which is what `docs/09` gate #3 asks of any structural claim.
+
+**F4.** For a Dirichlet series f = sum a(n) n^-s with a(1) = 1, write
+-f'/f = sum c(n) n^-s, so that c(n)/sqrt(n) is the weight of frequency log n
+in the zero distribution (Weil). Then f has an Euler product if and only if
+log f is supported on prime powers, if and only if c is. **A nonzero c at a
+composite is a failure of multiplicativity, read off the zeros.** For zeta,
+c is von Mangoldt, re-derived by the recursion in
+`probe_euler_discriminator.py` rather than assumed.
+
+**E6.** Measured composite defect, the explicit-formula-weighted L2 norm of
+the composite part of c over n < 61:
+
+| subject | composite defect | loudest line |
+| --- | --- | --- |
+| zeta | 2.82e-31 (machine zero) | prime powers only |
+| Davenport-Heilbronn | 2.0507 | **n = 51 = 3 x 17, composite**, c = +4.2491 |
+
+Davenport-Heilbronn's coefficients are periodic mod 5, not multiplicative
+(a_6 = a_1 = 1 while a_2 a_3 = -kappa^2; `zeta/epstein.py` states this), and
+its loudest single spectral line is a composite, exceeding its loudest prime
+line (2.3979) by a factor 1.77.
+
+**E7.** The Epstein zeta functions of binary quadratic forms give a family
+indexed by discriminant, with class number one supplying an Euler product
+(zeta_Q = w zeta L(chi_d)) and class number above one destroying it:
+
+| -3 | 1 | 0.0000 | 1.07e-31 |
+| -4 | 1 | 0.0000 | 3.17e-31 |
+| -7 | 1 | 0.0000 | 6.10e-31 |
+| -8 | 1 | 0.0000 | 4.44e-31 |
+| -11 | 1 | 0.0000 | 4.28e-31 |
+| -15 | 2 | 36.0644 | 5.66e-31 |
+| -20 | 2 | 18.6176 | 6.37e-31 |
+| -23 | 3 | 3.5569 | 1.50e-30 |
+| -24 | 2 | 12.4955 | 5.09e-31 |
+| -31 | 3 | 3.3991 | 1.02e-30 |
+| -39 | 4 | 7.6474 | 8.16e-31 |
+| -47 | 5 | 3.4709 | 1.88e-30 |
+| -71 | 7 | 3.2614 | 1.77e-30 |
+| -95 | 8 | 4.2511 | 1.58e-30 |
+
+Class number one: the defect is exactly zero, 5 discriminants.
+Class number above one: every individual form is loud, up to
+36.06 at d = -15, 9 discriminants.
+And in every case the class-group sum returns to machine zero, because
+sum over classes of zeta_Q is w zeta_K, which has an Euler product: **the
+composite lines of the individual forms cancel to thirty decimal places
+across the class group.** All three facts are consequences of standard
+theory; the measurement is a calibration of the discriminator, not a
+discovery about Epstein zeta functions.
+
+**Scope.** This separates zeta from a rival that violates RH, which is what
+the battery asks. It does not bear on RH: it detects the Euler product, and
+Davenport-Heilbronn was already known to lack one. The open question it
+frames, and does not answer, is whether the defect *bounds* how far zeros
+may leave the critical line. Testing that needs off-line zeros for the
+family, and `epstein_zeta` costs about 2.2 s per evaluation at dps 15, so it
+is a compute job this hunt did not run.
+
+## 7. What was searched
+
+**See the correction notice at the head of this document: the search below
+omitted this repository, and this repository had the result.**
 
 The Xenharmonic Wiki pages "The Riemann zeta function and tuning", "Zeta
 peak index" and "Table of zeta-stretched edos", OEIS A117536, and Belmans'
@@ -160,6 +250,7 @@ found nothing. That is weak evidence of absence and is reported as such.
 ```bash
 .venv/bin/python hunts/zeta_temperament/probe_landau_edo.py   # fetches data/odlyzko/zeros1 if absent
 .venv/bin/python hunts/zeta_temperament/probe_peaks_edo.py
+.venv/bin/python hunts/zeta_temperament/probe_euler_discriminator.py
 .venv/bin/python hunts/zeta_temperament/make_figures.py
 .venv/bin/python -m pytest -q tests/test_zeta_temperament.py
 ```
