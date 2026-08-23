@@ -47,8 +47,26 @@ discriminated. Limit-finding is a real specialization. Calling it comparative is
 pattern-matching.
 
 One thing the consolidation gets exactly right and should not be talked out of: the
-Ainta/Gohms hunt is genuinely good work, it ran its own kill condition, and it did not
-fire. §7 audits it and finds four things worth fixing, none of which is the mathematics.
+Ainta/Gohms work is genuinely good, it ran its own kill conditions, and none fired. §7
+audits it.
+
+**A note on this document's shelf life.** The board moved twice while I wrote. PR #97
+committed results I had found sitting in an untracked log, and PR #98 landed the trust map
+that §5 had nominated as the gating test, which resolved the question I was about to
+recommend asking and found a soundness defect that **retracts one of my recommendations**
+(§7.4). Everything in §7 and §9 is written against `main` at `36c6070` and should be
+re-checked before it is acted on.
+
+**And `main` is red right now, on two of its own guards.** FACT, both run here at
+`36c6070`. `tests/test_hunt_numbering.py::test_no_hunt_number_is_used_twice` fails: **Hunt
+#78 is claimed by both `ainta_seven_point/` and `r_a7c12f/`**. And
+`scripts/make_context.py --check` reports `CONTEXT.md` stale, because
+`harness/departments/review_ledger.py` grew from 272 to 356 lines without regeneration.
+Neither is mine; my branch was green on `f8f881b`. Both were produced by PRs that were
+green in isolation and collided on merge, which is the parallel-session hazard `AGENTS.md`
+warns about, and which `test_hunt_numbering.py`'s own docstring describes as the exact
+failure it was written for. The guard fired. Nothing gated the merge on it. This blocks
+every open PR including this one, so it is the first thing to fix.
 
 ---
 
@@ -91,8 +109,8 @@ the field is not enough.
 **Minimum mechanism: nothing new. Use the review ledger that already exists and already
 enforces this.**
 
-**What exists.** `harness/departments/review_ledger.py` (272 lines, last touched
-2026-08-21, FACT) records claims and whether a blind attack has run.
+**What exists.** `harness/departments/review_ledger.py` (356 lines, actively maintained,
+FACT) records claims and whether a blind attack has run.
 `scripts/70_lab_state.py` renders "reviews missing an attack" as an attention queue item
 (FACT: its docstring). And the mechanism is *live*: 6 of the 88 Fulcrum runs carry the
 mission `claim 'urms2-0.51' has no recorded blind attack: the review is not standing until
@@ -129,6 +147,16 @@ as the instance of Failure D, four days after Failure C was named.
 **RECOMMENDATION.** The field is one line: *what is the per-unit figure, where did you read
 it, and what did you not read?* Its value is that the third clause is answerable and
 embarrassing.
+
+**Update, and it is the strongest evidence in this review that the institution self-corrects
+faster than it fails.** Hunt #78's `TRUST-MAP.md` landed on `main` the same day and derives
+`Φ` from the source instead of fitting it. `m` is not a free parameter: it is capped, the
+cap is a function of `c`, and **Gohms's 267 is smaller than Ainta's 269 precisely because
+their `c` is larger** (FACT, `TRUST-MAP.md` §1.2). The monotonicity puzzle I raised is
+resolved, the fitted parameter is now a read one, and the family optimum is derived:
+`m = 267`, `Φ(c*, 267, 3000) = 0.673025476838`. The Lesion C criticism stands as a
+description of what Hunt #77 did. It was closed within a day by the companion hunt, without
+anyone outside asking.
 
 ### LESION D: Ainta, certificate reproduction versus theorem verification
 
@@ -269,16 +297,25 @@ rightmost column is the one that decides the question.
 | 11 | hunt #76 measured what `zeta.explicit.prime_spectrum` already computes | PR #91 (open) | evidentiary | no |
 | 12 | nothing in `tests/` checks that a guard fires on the thing it exists to catch | core candidates from runs `454cd7c2`, `cccb40e0`, `aa4aacde` | evidentiary | no |
 | 13 | the seven-point certificate family stops at ≈0.673025, ~5.6% of the room under 0.68185 | `hunts/ainta_seven_point/` | structural | **three groups climbing it, none mapping the ceiling** |
+| 14 | the verifier's compactification prune is unsound at any target above `19/5000`, so Gohms's published certificate does not establish its own claim | `TRUST-MAP.md` §5.1 | evidentiary | **yes: Gohms published it, the lab found the defect** |
 
-**FACT: the lab produces limit-results at volume and no class is empty.** Thirteen entries
+**FACT: the lab produces limit-results at volume and no class is empty.** Fourteen entries
 across all five. As a description of what the lab does well and keeps choosing to do,
 "limit-finding" is accurate.
 
-**FACT: "comparative" is not evidenced.** In twelve of thirteen rows there is no outside
-party attempting the same object, so there is no comparison to win. What the table
-demonstrates is a lab unusually willing to audit its own instruments and its own claims.
-That is a disposition, and a valuable one. It is not an advantage over anyone, because
-nobody else was in the room.
+**FACT: "comparative" is evidenced once, and row 14 is the instance.** In twelve of the
+fourteen rows there is no outside party attempting the same object, so there is no
+comparison to win, and what those rows demonstrate is a lab unusually willing to audit its
+own instruments. That is a disposition, not an advantage over anyone.
+
+Row 14 is different and it arrived during this review. Three groups are running the same
+verifier; one of them published a certificate at a target the verifier's compactification
+argument does not support; the lab found it by reading the source (§7.4). That is a real
+head-to-head on a live object, and the lab won it. **One instance is not a comparative
+advantage**, and the qualifier in §7.4 matters: the lab reproduced the same defect before
+catching it. But it is the first data point of the right shape, it did not exist when the
+addendum was written, and it is worth more than the twelve rows above it combined for the
+question the addendum is actually asking.
 
 **The one head-to-head does not carry the claim.** E0 (2026-08-20) is the only measurement
 in the tree that puts the lab's method against outside checkers on the same task. The
@@ -298,25 +335,35 @@ fails as evidence of comparative advantage:
    reading the dataset did.
 
 **Q1, answered (INFERRED, and this is the review's load-bearing judgment).** Limit-finding
-is a demonstrated specialization and a genuine institutional habit. It is **not** a
-demonstrated comparative advantage. The lab has run one comparison against outside parties,
-that comparison is confounded by its own account, and the lab failed its only
-discriminating item. The thirteen-row table is selected by the fact that the lab produced
-its entries, which is the definition of the bias the addendum §10 asks to be checked for.
+is a demonstrated specialization and a genuine institutional habit. It is **not yet** a
+demonstrated comparative advantage, but it is closer than it was three days ago. Of the two
+comparisons against outside parties the lab has: E0 is confounded by access on its own
+account and the lab failed its only discriminating item; row 14 is clean and the lab won it.
+That is n = 1 for the claim, with a qualifier (§7.4) that the lab first reproduced the
+defect it later caught. Twelve of fourteen rows are the lab auditing itself, which is the
+selection bias §10 asks to be checked for. **The honest statement is: one instance, not a
+pattern, and the pattern is testable now that the lab knows what the right instance looks
+like.**
 
-**Q12, answered.** Better positioned to explain where the race ends, but not for the reason
-the addendum gives. The addendum's reason is capability. The actual reason is **position**:
-three groups are optimizing the same certificate and none of them is asking where it stops,
-so the ceiling question is unoccupied. That is an opportunity, not an advantage, and
-opportunities close. Take it because it is empty, not because the lab is uniquely good at
-it, and do not build an identity on one open lane.
+**Q12, answered.** Better positioned to explain where the race ends, and the reason is
+mostly **position** rather than capability: three groups are optimizing the same certificate
+and none is asking where it stops, so the ceiling question is unoccupied. Opportunities
+close. Take it because it is empty.
 
-**The cheapest test that would convert this to evidence is already three-quarters done.**
-See §7.4: the lab currently holds a stronger certificate than the published frontier and a
-rigorous bracket on the floor. Publishing both, together, is one clean data point of the
-right shape: same object, other parties actively attempting, different question, lab first
-and lab also ahead on their own metric. One data point is not a comparative advantage. It
-is the first one that would count.
+But row 14 adds something the addendum did not anticipate and it is the more durable
+version of the thesis. The lab's edge on this object turned out not to be finding a better
+number or even the ceiling. It was **reading the verifier rather than running it**. Three
+AI-driven groups ran the same program and none checked whether its compactification argument
+survived a change to the constant they were all changing. That generalizes further than
+"limit-finding" does, it is cheap, and it is the one thing in this whole board that nobody
+else appears to be doing.
+
+**The cheapest test that would convert this into a pattern.** Do it once more, deliberately,
+on a different object: take the next externally published computer-assisted result the lab
+cares about, and before reproducing it, read its reduction arguments against its own
+parameters. If that finds a second defect, the addendum's thesis has real support and a
+mechanism to go with it. If it finds nothing, row 14 was luck, and knowing that is worth the
+afternoon.
 
 ---
 
@@ -333,13 +380,33 @@ theorem has a clean shape the addendum §6 states correctly: separate `F6 ≥ c`
 `Φ(c, m)`, so a better certificate tomorrow leaves the Lean bridge untouched. It also
 directly serves Q12's one available data point.
 
-**Cheapest discriminating test.** Not a formalization. **Read Ainta's paper and recover
-`m`.** `RESULTS.md` §4 says the bound formula's `m`-dependence is "the first obligation for
-the trust map" and that `m = 269` was fitted, not read. If the paper states the
-`m`-dependence, the parameterized theorem is writable this week and every ceiling number
-stops being conditional. If the paper does not state it, the bridge is deeper than a few
-lemmas and the candidate drops below Davenport-Heilbronn immediately. Cost: one reading
-session. This test is decisive and the lab has not run it.
+**Cheapest discriminating test: already run, and it passed.** I had drafted this as "read
+Ainta's paper and recover `m`". PR #98 landed `TRUST-MAP.md` before I finished, and it does
+exactly that and more. The results that matter for the ranking, all FACT from that document:
+
+- **World verdict B**, one substantial analytic bridge, with a large but well-templated
+  certificate-consumption job hanging off it. Not A (a few missing lemmas), not C
+  (infrastructure only), not D (poor marginal value).
+- **The bridge is two steps, S8 and S9**: carrying a new nonnegative spectral defect term
+  uniformly through the tail passage, and establishing the limiting overlap kernel with
+  uniformity in `T`. Both reach into the source preprint's proof rather than citing its
+  theorem.
+- **Six of sixteen steps are already kernel-checked** in a sorry-free development, including
+  von Neumann and the positive-part splitting, and four more are small finite statements.
+- **The smallest obligation is named, scoped and written out in Lean-ready form**: S2, the
+  stability rank-trace lemma, finite-dimensional, no analysis, no limits, no zeta, whose
+  three structural inputs are existing declarations and which has a built-in non-vacuity
+  check (specialising `Ψ` to 0 must recover the existing lemma exactly).
+- **What a probe should not be pointed at is also named**: S8 and S9.
+
+That is the best-specified research task on the entire board, and it is the only one where
+the next action is a single named theorem with a scoring criterion attached.
+
+**Revised gate, since the old one is spent.** Point a bounded Aristotle probe at S2 and
+nothing else. Success is *not* "Aristotle returned a proof": it is whether the residual goals
+say something about the mathematics, which is §LI's own test for formal-native work and has
+never been run in this tree. The trust map's own caveat should be carried into the scoring:
+"a probe that lands S2 has not moved the theorem, it has moved one lemma."
 
 **Risk to name.** §XXXII calls this a formal-native pilot. It is mostly a *formalization*
 pilot with a research question attached. Do not let it be scored as evidence about
@@ -464,15 +531,18 @@ shape as §XLI's "research state existing outside the canonical tree", it lasted
 hours inside the hunt nominated as the instance of Lesion D, and it closed without anyone
 outside noticing. No action needed.
 
-**FACT, now in the record.** The bracket is rigorous at both ends:
+**FACT, now in the record, and see §7.4 before citing the lower end.** The hunt states the
+bracket as
 
 ```
 0.003826  ≤  inf F6  ≤  0.0038262312115073
 ```
 
-Lower end: the accepted interval certificate at `1913/500000`. Upper end: Arb at 256 bits
-evaluating F6 at the minimiser, which is an upper bound on the infimum because it is the
-value at an admissible point. Width 2.3e-7.
+Upper end: Arb at 256 bits evaluating F6 at the minimiser, an upper bound on the infimum
+because it is the value at an admissible point. That end is sound. **The lower end is not**:
+it rests on an accepted run carrying the unsound compactification prune that
+`TRUST-MAP.md` §5.1 identifies (§7.4). The bracket that is actually established is
+`0.0038 ≤ inf F6 ≤ 0.0038262312115073`, width 2.6e-5.
 
 **FACT: the grid control was run and it is the strongest single piece of evidence in the
 hunt.** The two targets were rerun with the verifier's grid doubled to 8000 and its two
@@ -490,25 +560,57 @@ same hole §4 of that document names, and **the eight-point number currently say
 about whether widening the window helps.** It is the trust map's first obligation seen from
 the other side. Addendum Q10 is therefore still open, and §9.10 below is written accordingly.
 
-### 7.4 The lab is sitting on a stronger certificate than the published frontier
+### 7.4 RETRACTED: the lab is not sitting on a stronger certificate, and neither is Gohms
 
-**FACT.** Two probes with the published verifier at its published grid accepted
-`153/40000 = 0.003825` (862,825 nodes, depth 51, 421 s) and `1913/500000 = 0.003826`
-(907,537 nodes, depth 58, 439 s). Both exceed Gohms's `191/50000 = 0.00382`, at the same
-standard of evidence. `RESULTS.md` §3 records them and deliberately does not headline them.
+An earlier draft of this review recommended publishing the lab's accepted probes at
+`153/40000` and `1913/500000` as certificates stronger than the published frontier. **That
+recommendation is withdrawn.** Hunt #78's `TRUST-MAP.md` §5.1 landed the reason while this
+was being written, and it applies to the lab's probes at least as hard as to Gohms's run.
 
-**The restraint is right and the conclusion drawn from it is wrong.** Not headlining an
-epsilon is correct; §XXVII and §L are right that the decimal race is not the lab's game.
-But *withholding* it is a different act from not headlining it, and it costs the lab the
-one thing the addendum most wants. Handing Ainta and Gohms a stronger certificate **and**
-the bracket showing there is only 2.3e-7 left is the cheapest possible demonstration that
-the lab found the end of the race. Published together, the ceiling claim is unanswerable
-and visibly not sour grapes. Published apart, or not at all, "we chose not to race" is
-indistinguishable from "we could not win it".
+**The defect (FACT, `TRUST-MAP.md` §5.1, and I re-checked the arithmetic).** The verifier
+reduces an unbounded region to a compact box by one argument: if `Σgᵢ ≥ 11.4`, the linear
+pressure alone proves the target. `PRESSURE_CUTOFF_CELLS = 45600` at `GRID = 4000` is
+`Σgᵢ ≥ 11.4`, and `11.4 / 3000 = 0.0038 = 19/5000` **exactly**. The prune is sound at
+Ainta's target, at equality, with nothing to spare. `verify_seven.py:276` applies it
+unconditionally, without consulting the target.
 
-**RECOMMENDATION.** In the reproducibility report to Ainta, include: the hash discrepancy,
-the target-label defect, the accepted `1913/500000`, and the bracket. One message, four
-items, no new work.
+So any run that changes only the target constants prunes boxes on grounds that prove
+`0.0038` and nothing more. Gohms's run pruned 3,087 such boxes (FACT: `pressure_pruned` in
+the local artifact, matching the issue's counts). **The lab's own probes have the same
+defect and a larger shortfall**: `1913/500000 = 0.003826` would need `Σgᵢ ≥ 11.478`, i.e.
+45,912 cells, and the verifier pruned at 45,600.
+
+**Three consequences, in order of importance.**
+
+1. **My §7.3 bracket has an unsound lower end.** `0.003826 ≤ inf F6` rests on an accepted
+   run carrying this defect. The lower bound that is actually established is Ainta's
+   `0.0038`. The sound bracket is `0.0038 ≤ inf F6 ≤ 0.0038262312115073`, width 2.6e-5, not
+   2.3e-7. The upper end is unaffected: it is an Arb evaluation at a point and owes nothing
+   to the prune.
+2. **Nothing here says the claims are false.** The apparent floor is 0.0038262 and the
+   minimiser sits at `Σg = 9.085`, well inside the cutoff, so all of these targets are
+   likely true. What fails is the artifact, not the arithmetic.
+3. **The repair is one line and a re-run**, `PRESSURE_CUTOFF_CELLS = ceil(GRID · p ·
+   target)`. Whether the enlarged region still closes at grid 4000 is OPEN and needs the
+   run, not an argument.
+
+**Revised RECOMMENDATION.** The report to Ainta should carry four items and one of them is
+now different: the hash discrepancy with `TRUST-MAP.md` §5.2's two candidate causes, the
+target-label defect (§7.2), **the unsound compactification prune**, and the one-line repair.
+Do not send a stronger certificate, because the lab does not have one. Send the defect that
+means nobody has one above `19/5000`.
+
+**This is a better outcome for the addendum's thesis than the one I retracted, and §4 is
+updated accordingly.** A stronger constant would have been an epsilon. A soundness defect in
+the artifact three groups are climbing is a limit-result of the evidentiary class, on an
+object outside parties are actively working, found by the lab. That is the first row in §4's
+table where the comparative condition is genuinely met.
+
+**The honest qualifier, which the lab should state before anyone else does.** The lab
+reproduced this defect before it detected it. Hunt #77 ran two probes that inherited the
+unsound prune and recorded them as accepted; Hunt #78 caught it a day later by reading the
+verifier's source rather than running it. The catch is real and the sequence is not
+flattering, and saying both is what makes the first credible.
 
 ### 7.5 What must not reach `zeta-record`
 
@@ -687,17 +789,24 @@ and neither party is working it.
 
 **5. Could the barrier become more relevant now?** Yes. §LIV.18.
 
-**6. Should Ainta/Gohms be the first formal-native pilot?** Yes, conditional on Q7. §5.
+**6. Should Ainta/Gohms be the first formal-native pilot?** Yes, and the condition I would
+have attached has since been discharged by `TRUST-MAP.md`. §5.
 
-**7. Cleanest parameterized Lean theorem?** The addendum's own shape is right: hypotheses on
-admissible configurations, `∀ g, F6(g) ≥ c`, conclusion `simple_zero_proportion ≥ Φ(c, m)`,
-with `c` a parameter. **The obstruction is `m`.** `Φ` as reconstructed is monotone
-increasing in `m`, which cannot be the whole story or nobody would optimise `m` to 267
-(`RESULTS.md` §4 says exactly this). Until the `m`-dependence is read from the paper, the
-theorem cannot be stated, let alone proved. That is the first task and it is a reading task.
+**7. Cleanest parameterized Lean theorem?** Answered by the trust map, not by me. The
+addendum's shape was right, and the obstruction I was going to name is gone: **`m` is not a
+free parameter.** It is capped, the cap is a function of `c`, and Gohms's 267 is below
+Ainta's 269 because their `c` is larger (FACT, `TRUST-MAP.md` §1.2). So the theorem is
+`Φ(c, m, p)` with `m = m_max(c)`, and the deduction's arithmetic has been re-derived rather
+than fitted, reproducing both published constants. The formula is no longer the blocker; the
+bridge (S8, S9) is.
 
-**8. Which parts should Aristotle probe?** None yet. Probing before the statement is fixed
-would measure Aristotle against a wrong goal. Ask again after Q7.
+**8. Which parts should Aristotle probe?** **S2, the stability rank-trace lemma, and
+nothing else.** The trust map states it in Lean-ready form in the target development's own
+vocabulary, notes that its proof is an existing proof with one scalar estimate sharpened
+(`min_{n≥0}((p−n)² + 4n) = 2p − 1 + Ψ(p)`, a one-variable calculus fact), and supplies a
+non-vacuity check. It also says explicitly what not to probe: S8 and S9, which import the
+source preprint's machinery. Second target if S2 lands: S12, same file, two cases. This is
+the most probe-ready obligation anywhere in the tree and it did not exist yesterday.
 
 **9. What distinguishes a genuine ceiling from a verifier limitation?** Answered, and it is
 the best-evidenced thing in the hunt. A verifier limitation would show as a refusal whose
@@ -709,23 +818,26 @@ decimals. And the 256-bit Arb enclosure at the minimiser closes the bracket from
 (FACT, all three, §7.3). Two methods with nothing in common agreeing on the minimiser, and
 the answer surviving a resolution change, is the discriminator.
 
-**10. If the ceiling is found cheaply, what is the highest-value next question?** Not the
-eight-point floor as a number, which is currently uninterpretable (§7.3). The highest-value
-question is the one that makes it interpretable and is the same obligation blocking the Lean
-bridge: **how do the linear pressure term, the block size `m`, and `n` couple in the
-certificate-to-bound map?** Answering it converts the eight-point datum into evidence about
-whether the family is exhausted or only this member, unblocks §9.7, and removes the
-conditionality from every ceiling figure. It is one reading of Ainta's paper, and it is the
-same task as §5's discriminating test. That convergence is the strongest argument for
-Decision 2, Option A.
+**10. If the ceiling is found cheaply, what is the highest-value next question?** It was
+found cheaply, and the answer has changed twice in a day. Not the eight-point floor as a
+number (§7.3), and no longer the `m` coupling, which the trust map closed. **The
+highest-value next question is now whether the repaired verifier still closes at grid 4000.**
+`TRUST-MAP.md` §5.1 leaves it OPEN and says explicitly that it needs the run and not an
+argument. It decides three things at once: whether any target above `19/5000` is actually
+established by anyone, whether the lab's own probes survive, and therefore where the ceiling
+really sits. It is one line of code and one re-run, and it is the only open question on this
+object whose answer nobody can currently predict.
 
 **11. Does this change the ranking?** Yes. It moves Ainta above Davenport-Heilbronn, on
 deadline rather than merit. §5.
 
-**12. Win races for constants, or explain where the race ends?** Explain where it ends, for
-positional reasons. And note the irony the addendum should sit with: **the lab currently
-holds the best constant anyone has** (§7.4) and is choosing not to say so. That is a
-defensible choice. It is not a demonstration of a different competence.
+**12. Win races for constants, or explain where the race ends?** Explain where it ends, and
+the last day sharpened why. It is not that the lab is better at ceilings. It is that **the
+lab reads the instrument and the other three groups run it** (§4, Q1). An earlier draft of
+this answer said the lab holds the best constant and is choosing not to say so; that was
+wrong, and the reason it was wrong is the same finding. Nobody holds a sound certificate
+above `19/5000`, including the lab, because they all inherited an unaudited prune. Racing
+would have meant inheriting it further.
 
 ---
 
@@ -742,9 +854,12 @@ four of the six already exist in some form, and the list was written without mea
 **Option B (RECOMMENDED). Switch on what exists, in this order, and build only the one thing
 that is genuinely missing.**
 
+0. **Unblock `main`, which is red on two of its own guards** (§1): renumber the duplicate
+   Hunt #78, and regenerate `CONTEXT.md`. Every open PR including this one is blocked until
+   both are done, and neither takes a minute. *This is item 0 because nothing else can land.*
 1. `.venv/bin/pip install -e .` in the repository root; re-run `tests/test_doors.py`. Then
-   the `zeta.__file__` assertion. *This is first because the rigor preflight is currently
-   unrunnable and everything else is downstream of trusting the suite.*
+   the `zeta.__file__` assertion. *Next because the rigor preflight is currently unrunnable
+   and everything else is downstream of trusting the suite.*
 2. One test running the existing `structural_problems()` over the real `hunts/` tree with an
    explicit grandfather list. Converts a 2-of-57 contract into a guard.
 3. Add `prior_art_searched` to the HuntSpec, validated by the existing test. Lesion A.
@@ -762,14 +877,25 @@ under an hour together and item 1 is a live correctness problem.
 
 ### DECISION 2: Science allocation
 
-**Option A (RECOMMENDED). Ainta formal-native first, gated on one reading session.** Read the
-paper, recover the `m`-dependence. If it is there, write the parameterized bridge and run the
-formal-native pilot against it. If it is not, drop to Option B the same day. Meanwhile ship
-the §7.4 report to Ainta, which is independent of the gate.
+**Option A (RECOMMENDED). Ainta formal-native first. The gate I would have set has already
+been passed.** `TRUST-MAP.md` returned world verdict B, named the bridge (S8, S9), and wrote
+out the smallest obligation (S2) in Lean-ready form with a non-vacuity check. Three actions,
+in order, none large:
+
+1. **Repair the compactification prune and re-run** (§9.10). One line. It decides whether
+   anyone has a sound certificate above `19/5000`, and every other number here waits on it.
+2. **Send the report to Ainta** (§7.4, revised): hash discrepancy with the trust map's two
+   candidate causes, target-label defect, unsound prune, one-line repair. Independent of
+   everything else and the highest-value hour on the board.
+3. **One bounded Aristotle probe at S2 and nothing else**, scored on whether the residual
+   goals change the mathematics rather than on whether a proof came back. This is the first
+   real test of §XXIX's formal-native loop, and it is cheap because someone already did the
+   hard part of specifying it.
 
 **Option B. Davenport-Heilbronn as the sustained program**, with Ainta reduced to the report
 and the ceiling note. *For:* more depth, no dependency on an outside author's paper. *Against:*
-gives up the only lane with a clock on it.
+gives up the only lane with a clock on it, and gives it up the week its next step became the
+best-specified task in the tree.
 
 **Option C. Verification science first.** Not recommended. Run its one-pass discriminator
 (§5, 4th) before it is allowed to compete at all.
@@ -782,9 +908,10 @@ its discriminator runs.
 **Option A (RECOMMENDED). Transfer before new allocation.** Nothing new is funded until the
 three finished outputs leave: the Ainta report (four items, §7.4), the Pub 1 barrier note,
 the OEIS correction. *Rationale:* §XLV lists external transfer as the weakest recurring
-function, and the lab is currently holding an unpublished best-known constant. The cost is
-hours, and it is the only item in the whole board that converts existing work into outside
-contact.
+function, the cost is hours, and it is the only item on the board that converts existing work
+into outside contact. The Ainta report is now urgent rather than merely ready: it carries a
+soundness defect affecting a published certificate that at least two other groups are
+building on, and the longer it sits, the more work is done on top of it.
 
 **Option B. Fund AIMO's activation probe and the Krenn re-entry scouting in parallel with
 transfer.** *Against:* §XXXVIII's own caution applies to itself. The probe is cheap in dollars
@@ -799,15 +926,20 @@ nothing in the repositories contradicts them.
 
 ---
 
-## 11. Two things this review could be wrong about
+## 11. Three things this review could be wrong about
 
-**The Ainta hunt moved while I was reviewing it, and it may move again.** I first read
-numbers out of an untracked Modal log; by the time I finished they were committed to
-`artifacts/modal-results.json` and PR #97 was updated. My initial reading of the eight-point
-floor was wrong and the hunt's own analysis corrected it (§7.3). Anything in §7 should be
-checked against the PR as it stands at merge, not against this document. The general point
-for the counselor role: a review of a live hunt has a shelf life measured in hours, which is
-an argument for reviewing landed state and not work in flight.
+**What I got wrong once already, recorded because the pattern matters more than the item.**
+This review made three claims that the tree corrected within hours: that the Ainta hunt's
+rigorous bracket had not been computed (it had, in an untracked log), that the eight-point
+floor showed widening the window helps (it does not, the pressure scaling is confounded),
+and that the lab held a stronger certificate worth publishing (it does not, the prune is
+unsound). Each was corrected by the hunts themselves, not by me. **A counselor reviewing
+work in flight will be behind it**, and the right conclusion is not that the counselor should
+be faster; it is that this role should be pointed at landed state. That is a finding about
+the §XLVII.4 exercise, not an apology.
+
+**The Ainta material may move again.** Anything in §7 and §9 should be checked against
+PR #97 and `main` as they stand when acted on, not against this document.
 
 **"Zero funded" may be a vocabulary artifact.** I read `status` fields in `threads.json` and
 `core-candidates.json` and found only `unfunded` and `rejected`. If funding a thread is
