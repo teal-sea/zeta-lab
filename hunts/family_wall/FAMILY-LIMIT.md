@@ -242,10 +242,11 @@ evaluate `W`. At **every** `k` from 35 to 400 — not a sample, every integer �
 bound whose worst value is **0.6751676068** (at `k = 55`, i.e. `n = 56`); for `k >= 401` the
 trivial leg alone gives `H*400/399 = 0.6741861691`. MEASURED.
 
-(Restricting the tiling to `k >= 74`, where the envelope leg has run, the worst is
-`0.6749544944` at `k = 82`. The envelope leg is being extended over `37 <= n <= 74`, which
-would replace the 0.6751676 figure by that one; the number quoted below is the one that
-holds without it.)
+(Restricting the tiling to `k >= 74` the worst is `0.6749544944`, at `k = 82`. Running the
+section-2.3 envelope over `37 <= n <= 74` as well — it was run to `n = 51` here and every
+value came in under `0.67310` — would replace the 0.6751676 figure by that one. The number
+quoted below is the one that holds without that extension, so it stands on the tiled witness
+alone over `36 <= n <= 401`.)
 
 ### 2.4 The barrier, stated
 
