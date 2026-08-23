@@ -178,7 +178,7 @@ checkout, before any change of mine. The cause is not in the tree. The shared vi
 editable install points at a deleted directory:
 
 ```
-MAPPING = {'ontology': '/Users/thomas/.gemini/antigravity/worktrees/fulcrum/
+MAPPING = {'ontology': '<home>/.gemini/antigravity/worktrees/fulcrum/
             enable_fulcrum_mode/.worktrees/5b1bc3b4-.../ontology',
            'zeta':     '.../5b1bc3b4-.../zeta'}
 ```
@@ -202,7 +202,7 @@ checkable**. And it was caused by precisely the hazard `AGENTS.md` already warns
 parallel sessions against a shared checkout, in the one resource that is shared and is not
 version controlled.
 
-**RECOMMENDATION.** `.venv/bin/pip install -e .` from `/Users/thomas/Zeta`, then re-run
+**RECOMMENDATION.** `.venv/bin/pip install -e .` from the repository root, then re-run
 `tests/test_doors.py`. Then one assertion worth more than the fix: a test that
 `zeta.__file__` resolves under the repository root. Same family as
 `tests/test_check_secrets.py`, the guard written after a guard failed open.
@@ -742,7 +742,7 @@ four of the six already exist in some form, and the list was written without mea
 **Option B (RECOMMENDED). Switch on what exists, in this order, and build only the one thing
 that is genuinely missing.**
 
-1. `.venv/bin/pip install -e .` in `/Users/thomas/Zeta`; re-run `tests/test_doors.py`. Then
+1. `.venv/bin/pip install -e .` in the repository root; re-run `tests/test_doors.py`. Then
    the `zeta.__file__` assertion. *This is first because the rigor preflight is currently
    unrunnable and everything else is downstream of trusting the suite.*
 2. One test running the existing `structural_problems()` over the real `hunts/` tree with an
