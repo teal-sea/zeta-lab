@@ -98,6 +98,27 @@ object supports) caught 2 of 3 planted faults, with the third recorded as a
 known miss; it is in `harness/departments/guard_ledger.py`. Nothing bears on
 RH (`docs/08`).
 
+### Hunt #84: the Delsarte LP has no headroom in its degree (`r_6f0f63/`)
+
+**Status: probe, complete.** Fourth instance of the ceiling procedure
+(issue #110), on the LP half of the sphere-packing/kissing-number family. The
+two exactly tight certificates were rebuilt from their contact structure rather
+than from printed coefficients -- E8 gives Gegenbauer coefficients
+`[1, 8, 25, 52, 66.5, 60, 27.5]` summing to 240, Leech gives degree 10 summing
+to 196560, both with every coefficient non-negative without being asked. The
+soundness read found the load-bearing defect in the acceptance step: the
+standard node-discretised LP is a *relaxation*, so its optimum sits below the
+truth, and it did so at **every node count tested** -- 196505.76 at 600 nodes in
+dimension 24, where the answer is exactly 196560, and 239.9930 at 600 nodes in
+dimension 8. The error is one-sided and decays like m^-2. The repair
+`f -> f - sup f` converts the invalid output into a valid weaker value and
+brackets the truth. The ceiling itself is a negative result: sweeping degree 1
+to 30 in dimensions 3 to 24, the value stops moving by degree 14 at the latest,
+and the sweep rediscovers degrees 6 and 10 for E8 and Leech on its own. So the
+headroom in this parameterisation is not in the degree; it is in the node set,
+which nobody publishes. Float grade throughout. Five planted faults fire. The
+Cohn-Elkies SDP half was not attempted. Nothing bears on RH (`docs/08`).
+
 ### Hunt #81: what the `min(dps, 20)` cap costs, measured (`dps_cap/`)
 
 **Status: probe, complete.** At `0.8 + 85.7i`, `epstein_completed` at the
