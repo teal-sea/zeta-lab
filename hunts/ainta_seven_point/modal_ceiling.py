@@ -28,7 +28,7 @@ import modal
 
 ZSZ_SRC = os.environ.get(
     "ZSZ_SRC",
-    os.path.join(os.path.dirname(os.path.abspath(__file__)), ".upstream", "zeta-simple-zeros", "src", "zeta_simple_zeros"),
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "..", ".upstream", "zeta-simple-zeros", "src", "zeta_simple_zeros"),
 )  # populate with: source <(hunts/ainta_seven_point/fetch_upstream.sh)
 
 image = (

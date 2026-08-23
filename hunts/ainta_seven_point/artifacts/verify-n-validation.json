@@ -1,0 +1,504 @@
+{
+ "machine": "local (verify_n.py via <home>/Zeta/.venv python 3.14, python-flint 0.9.0); four n=7 runs ran concurrently so seconds_per_node is pessimistic",
+ "a_n7_19_5000_derived_cutoff": {
+  "outcome": "ACCEPTED",
+  "nodes": 707467,
+  "pruned": 354098,
+  "splits": 353369,
+  "maximum_depth": 37,
+  "pressure_pruned": 2691,
+  "interval_pruned": 257617,
+  "tangent_pruned": 93790,
+  "cutoff_cells": 46000,
+  "cutoff_derived": 46000,
+  "initial_boxes_total": 729,
+  "surviving_gap_components_cells": "[3809,4778];[7221,9363];[10572,44827]",
+  "refuting_cell": null,
+  "refuting_cell_gaps": null,
+  "refuting_lower_hex": null,
+  "kernel_table_sha256": "31e9851242dc463d187a8c43aa1da0b97653ff610c2b06f3464bba7cda647d1e",
+  "second_derivative_table_sha256": "beef182017985d87d342c428786e5290b1433e81ba9149bb4c4381e9d69b6ee6",
+  "second_derivative_start_cell": 3800,
+  "elapsed_seconds": 196.0906633749837,
+  "prepare_seconds": 0.685847124987049,
+  "seconds_per_node": 0.0002761825929689976
+ },
+ "a_n7_19_5000_cutoff_override_45600_control": {
+  "outcome": "ACCEPTED",
+  "nodes": 707901,
+  "pruned": 354315,
+  "splits": 353586,
+  "maximum_depth": 37,
+  "pressure_pruned": 3087,
+  "interval_pruned": 257493,
+  "tangent_pruned": 93735,
+  "cutoff_cells": 45600,
+  "cutoff_derived": 46000,
+  "initial_boxes_total": 729,
+  "surviving_gap_components_cells": "[3809,4778];[7221,9363];[10572,44827]",
+  "refuting_cell": null,
+  "refuting_cell_gaps": null,
+  "refuting_lower_hex": null,
+  "kernel_table_sha256": "a9992300d2bf71665aa2b6bd2727e798624cd297103bb200c7f0ca2baea55a2c",
+  "second_derivative_table_sha256": "db0327b0265e0f31d0c4d9815711d51552bf11b3f21648504aa7eb0a1b09ba52",
+  "second_derivative_start_cell": 3800,
+  "elapsed_seconds": 195.10758662500302,
+  "prepare_seconds": 0.7153434580250178,
+  "seconds_per_node": 0.0002745780536402677
+ },
+ "a_note": "published verify_seven.py report: nodes=707901 pruned=354315 splits=353586 depth=37 pressure_pruned=3087 interval_pruned=257493 tangent_pruned=93735, kernel sha a9992300..., w'' sha db0327b0...; the override run matches every field. The derived cutoff 46000 changes the pressure threshold and lengthens the kernel table by 400 cells (kernel_min no longer returns 0 on ranges reaching into them), hence 707467 nodes.",
+ "b_n7_38263_10000000": {
+  "outcome": "REFUSED",
+  "nodes": 488210,
+  "pruned": 244400,
+  "splits": 243809,
+  "maximum_depth": 66,
+  "pressure_pruned": 1753,
+  "interval_pruned": 174096,
+  "tangent_pruned": 68551,
+  "cutoff_cells": 46316,
+  "cutoff_derived": 46316,
+  "initial_boxes_total": 729,
+  "surviving_gap_components_cells": "[3807,4780];[7218,9373];[10560,44946]",
+  "refuting_cell": [
+   4184,
+   7960,
+   7944,
+   4166,
+   7909,
+   4180
+  ],
+  "refuting_cell_gaps": [
+   1.046,
+   1.99,
+   1.986,
+   1.0415,
+   1.97725,
+   1.045
+  ],
+  "refuting_lower_hex": "0x1.f4099a0352d62p-9",
+  "kernel_table_sha256": "c764c6f3aa9f8c8e1a7832655e2376660f0943bc845da6cd6281788b740cbaff",
+  "second_derivative_table_sha256": "666a188564d0487eead3c76205edd8f01147d5ab9b9387794cbde3e05e4c052f",
+  "second_derivative_start_cell": 3800,
+  "elapsed_seconds": 147.32711212499999,
+  "prepare_seconds": 0.7187812499760184,
+  "seconds_per_node": 0.0003002680811884153
+ },
+ "b_note": "published probe: REFUSED at box (4184,7960,7944,4166,7909,4180), lower=0x1.f4099a0352d62; identical cell and identical lower bound.",
+ "c_n7_1913_500000_unsharded": {
+  "outcome": "ACCEPTED",
+  "nodes": 907799,
+  "pruned": 454264,
+  "splits": 453535,
+  "maximum_depth": 58,
+  "pressure_pruned": 2165,
+  "interval_pruned": 285903,
+  "tangent_pruned": 166196,
+  "cutoff_cells": 46312,
+  "cutoff_derived": 46312,
+  "initial_boxes_total": 729,
+  "surviving_gap_components_cells": "[3807,4780];[7218,9373];[10560,44944]",
+  "refuting_cell": null,
+  "refuting_cell_gaps": null,
+  "refuting_lower_hex": null,
+  "kernel_table_sha256": "f913fdb4d48c840ce1120f084dc65ca8e11df023fffa02ee011ab59215522050",
+  "second_derivative_table_sha256": "5b0756fbdbf964687bf847413555e0c765ffaddee4d284c29e8d9f6e5604d215",
+  "second_derivative_start_cell": 3800,
+  "elapsed_seconds": 262.3115388750157,
+  "prepare_seconds": 0.7473641670076177,
+  "seconds_per_node": 0.0002881121831033229
+ },
+ "c_n7_1913_500000_8_shards_sequential": {
+  "all_accepted": true,
+  "nodes_sum": 907799,
+  "boxes_sum": 729,
+  "max_depth": 58,
+  "wall": 248.0923620829999,
+  "per_shard": [
+   {
+    "shard_index": 0,
+    "outcome": "ACCEPTED",
+    "initial_boxes_shard": 92,
+    "nodes": 121720,
+    "maximum_depth": 34,
+    "pressure_pruned": 334,
+    "interval_pruned": 43566,
+    "tangent_pruned": 17006,
+    "search_seconds": 22.5213547500025
+   },
+   {
+    "shard_index": 1,
+    "outcome": "ACCEPTED",
+    "initial_boxes_shard": 91,
+    "nodes": 80701,
+    "maximum_depth": 32,
+    "pressure_pruned": 201,
+    "interval_pruned": 31023,
+    "tangent_pruned": 9172,
+    "search_seconds": 11.668514042015886
+   },
+   {
+    "shard_index": 2,
+    "outcome": "ACCEPTED",
+    "initial_boxes_shard": 91,
+    "nodes": 100671,
+    "maximum_depth": 33,
+    "pressure_pruned": 337,
+    "interval_pruned": 36348,
+    "tangent_pruned": 13696,
+    "search_seconds": 18.868189541011816
+   },
+   {
+    "shard_index": 3,
+    "outcome": "ACCEPTED",
+    "initial_boxes_shard": 91,
+    "nodes": 82603,
+    "maximum_depth": 32,
+    "pressure_pruned": 201,
+    "interval_pruned": 31574,
+    "tangent_pruned": 9572,
+    "search_seconds": 20.154228583996883
+   },
+   {
+    "shard_index": 4,
+    "outcome": "ACCEPTED",
+    "initial_boxes_shard": 91,
+    "nodes": 75831,
+    "maximum_depth": 33,
+    "pressure_pruned": 405,
+    "interval_pruned": 28111,
+    "tangent_pruned": 9445,
+    "search_seconds": 12.776696250017267
+   },
+   {
+    "shard_index": 5,
+    "outcome": "ACCEPTED",
+    "initial_boxes_shard": 91,
+    "nodes": 171765,
+    "maximum_depth": 58,
+    "pressure_pruned": 175,
+    "interval_pruned": 39341,
+    "tangent_pruned": 46412,
+    "search_seconds": 58.872984832996735
+   },
+   {
+    "shard_index": 6,
+    "outcome": "ACCEPTED",
+    "initial_boxes_shard": 91,
+    "nodes": 101353,
+    "maximum_depth": 33,
+    "pressure_pruned": 337,
+    "interval_pruned": 36618,
+    "tangent_pruned": 13767,
+    "search_seconds": 28.88809887500247
+   },
+   {
+    "shard_index": 7,
+    "outcome": "ACCEPTED",
+    "initial_boxes_shard": 91,
+    "nodes": 173155,
+    "maximum_depth": 58,
+    "pressure_pruned": 175,
+    "interval_pruned": 39322,
+    "tangent_pruned": 47126,
+    "search_seconds": 73.76103929200326
+   }
+  ]
+ },
+ "d_n3": {
+  "float_lattice_min": 0.0013530704023735666,
+  "float_lattice_argmin_cells": [
+   4203,
+   8010
+  ],
+  "float_lattice_argmin_gaps": [
+   1.05075,
+   2.0025
+  ],
+  "scan_seconds": 14.306380875001196,
+  "runs": [
+   {
+    "outcome": "ACCEPTED",
+    "n_points": 3,
+    "gaps": 2,
+    "target": "1353/1000000",
+    "target_float": 0.001353,
+    "grid": 4000,
+    "pressure": 3000,
+    "precision_bits": 128,
+    "cutoff_cells": 16636,
+    "cutoff_derived": 16636,
+    "tangent_prune": true,
+    "second_derivative_start_cell": 3800,
+    "kernel_table_sha256": "65b0fbe7ae52f145fc216092c719aa0d68623fdf3f08fa00f4b932b396fd3751",
+    "second_derivative_table_sha256": "d5ebde519c4f0fb33bdeb0c6df89b4664e07398a8829925ce9f4845065a30381",
+    "surviving_gap_components_cells": "[4089,4378];[7875,8373];[11808,12347];[15970,16120]",
+    "surviving_gap_components_count": 4,
+    "initial_boxes_total": 16,
+    "initial_boxes_shard": 16,
+    "shard_index": 0,
+    "shard_count": 1,
+    "nodes": 342,
+    "pruned": 179,
+    "splits": 163,
+    "maximum_depth": 17,
+    "pressure_pruned": 10,
+    "interval_pruned": 43,
+    "tangent_pruned": 126,
+    "pending_boxes": 0,
+    "node_cap": 0,
+    "time_cap_seconds": 0.0,
+    "stop_reason": null,
+    "refuting_cell": null,
+    "refuting_cell_gaps": null,
+    "refuting_lower_hex": null,
+    "refuting_lower": null,
+    "prepare_seconds": 0.37788912499672733,
+    "search_seconds": 0.04443424998316914,
+    "seconds_per_node": 0.00012992470755312613,
+    "elapsed_seconds": 0.42813537499750964,
+    "wall": 0.4296655830112286
+   },
+   {
+    "outcome": "REFUSED",
+    "n_points": 3,
+    "gaps": 2,
+    "target": "13531/10000000",
+    "target_float": 0.0013531,
+    "grid": 4000,
+    "pressure": 3000,
+    "precision_bits": 128,
+    "cutoff_cells": 16638,
+    "cutoff_derived": 16638,
+    "tangent_prune": true,
+    "second_derivative_start_cell": 3800,
+    "kernel_table_sha256": "f7a5b9d3bf168b83112b4b3e27db30cd09ea01794bf5803c935f5954fbddf9a6",
+    "second_derivative_table_sha256": "e75604bf238b0c2782288876c19eae94f925e5d7553026e6dee3fe2129a2043d",
+    "surviving_gap_components_cells": "[4089,4378];[7875,8373];[11808,12347];[15970,16121]",
+    "surviving_gap_components_count": 4,
+    "initial_boxes_total": 16,
+    "initial_boxes_shard": 16,
+    "shard_index": 0,
+    "shard_count": 1,
+    "nodes": 115,
+    "pruned": 59,
+    "splits": 55,
+    "maximum_depth": 17,
+    "pressure_pruned": 9,
+    "interval_pruned": 21,
+    "tangent_pruned": 29,
+    "pending_boxes": 11,
+    "node_cap": 0,
+    "time_cap_seconds": 0.0,
+    "stop_reason": null,
+    "refuting_cell": [
+     8011,
+     4203
+    ],
+    "refuting_cell_gaps": [
+     2.00275,
+     1.05075
+    ],
+    "refuting_lower_hex": "0x1.614430353eed8p-10",
+    "refuting_lower": 0.0013476042198012263,
+    "prepare_seconds": 0.4218883749854285,
+    "search_seconds": 0.0068195839994587,
+    "seconds_per_node": 5.9300730430075655e-05,
+    "elapsed_seconds": 0.4366391249932349,
+    "wall": 0.4379878329928033
+   },
+   {
+    "outcome": "ACCEPTED",
+    "n_points": 3,
+    "gaps": 2,
+    "target": "1352/1000000",
+    "target_float": 0.001352,
+    "grid": 4000,
+    "pressure": 3000,
+    "precision_bits": 128,
+    "cutoff_cells": 16624,
+    "cutoff_derived": 16624,
+    "tangent_prune": true,
+    "second_derivative_start_cell": 3800,
+    "kernel_table_sha256": "bb7327ddf974c66deaaf8ba24be243b5581d636064a36c9ebc9ffe0a33650335",
+    "second_derivative_table_sha256": "034f6f7beedb6e870787966065c6c590c587853bbcf6e6511aeb45b08a9164fb",
+    "surviving_gap_components_cells": "[4089,4378];[7875,8373];[11809,12347];[15973,16118]",
+    "surviving_gap_components_count": 4,
+    "initial_boxes_total": 16,
+    "initial_boxes_shard": 16,
+    "shard_index": 0,
+    "shard_count": 1,
+    "nodes": 242,
+    "pruned": 129,
+    "splits": 113,
+    "maximum_depth": 12,
+    "pressure_pruned": 10,
+    "interval_pruned": 45,
+    "tangent_pruned": 74,
+    "pending_boxes": 0,
+    "node_cap": 0,
+    "time_cap_seconds": 0.0,
+    "stop_reason": null,
+    "refuting_cell": null,
+    "refuting_cell_gaps": null,
+    "refuting_lower_hex": null,
+    "refuting_lower": null,
+    "prepare_seconds": 0.2738070840132423,
+    "search_seconds": 0.018004042009124532,
+    "seconds_per_node": 7.439686780629972e-05,
+    "elapsed_seconds": 0.2971268749970477,
+    "wall": 0.29839695800910704
+   }
+  ],
+  "sharded_1353": [
+   {
+    "outcome": "ACCEPTED",
+    "shard_index": 0,
+    "shard_count": 3,
+    "initial_boxes_shard": 6,
+    "nodes": 10
+   },
+   {
+    "outcome": "ACCEPTED",
+    "shard_index": 1,
+    "shard_count": 3,
+    "initial_boxes_shard": 5,
+    "nodes": 289
+   },
+   {
+    "outcome": "ACCEPTED",
+    "shard_index": 2,
+    "shard_count": 3,
+    "initial_boxes_shard": 5,
+    "nodes": 43
+   }
+  ],
+  "node_cap_probe": {
+   "outcome": "UNDECIDED",
+   "stop_reason": "node_cap",
+   "nodes": 50,
+   "pending_boxes": 8
+  },
+  "time_cap_probe": {
+   "outcome": "UNDECIDED",
+   "stop_reason": "time_cap",
+   "nodes": 0,
+   "pending_boxes": 16
+  }
+ },
+ "n8_prepare_only": {
+  "n8-4388-1000000": {
+   "cutoff_cells": 53056,
+   "components": [
+    [
+     3745,
+     4900
+    ],
+    [
+     7049,
+     52481
+    ]
+   ],
+   "component_count": 2,
+   "initial_boxes": 128,
+   "second_start": 3745,
+   "prepare_seconds": 0.9,
+   "coefficients": {
+    "1": 0.28571428571428564,
+    "2": 0.33333333333333326,
+    "3": 0.39999999999999997,
+    "4": 0.49999999999999994,
+    "5": 0.6666666666666665,
+    "6": 1.0,
+    "7": 2.0
+   }
+  },
+  "n8-43886-10000000": {
+   "cutoff_cells": 53064,
+   "components": [
+    [
+     3745,
+     4900
+    ],
+    [
+     7049,
+     52485
+    ]
+   ],
+   "component_count": 2,
+   "initial_boxes": 128,
+   "second_start": 3745,
+   "prepare_seconds": 1.0,
+   "coefficients": {
+    "1": 0.28571428571428564,
+    "2": 0.33333333333333326,
+    "3": 0.39999999999999997,
+    "4": 0.49999999999999994,
+    "5": 0.6666666666666665,
+    "6": 1.0,
+    "7": 2.0
+   }
+  },
+  "n8-19-5000": {
+   "cutoff_cells": 46000,
+   "components": [
+    [
+     3778,
+     4834
+    ],
+    [
+     7144,
+     9597
+    ],
+    [
+     10323,
+     44873
+    ]
+   ],
+   "component_count": 3,
+   "initial_boxes": 2187,
+   "second_start": 3778,
+   "prepare_seconds": 0.9,
+   "coefficients": {
+    "1": 0.28571428571428564,
+    "2": 0.33333333333333326,
+    "3": 0.39999999999999997,
+    "4": 0.49999999999999994,
+    "5": 0.6666666666666665,
+    "6": 1.0,
+    "7": 2.0
+   }
+  },
+  "n7-19-5000": {
+   "cutoff_cells": 46000,
+   "components": [
+    [
+     3809,
+     4778
+    ],
+    [
+     7221,
+     9363
+    ],
+    [
+     10572,
+     44827
+    ]
+   ],
+   "component_count": 3,
+   "initial_boxes": 729,
+   "second_start": 3800,
+   "prepare_seconds": 0.8,
+   "coefficients": {
+    "1": 0.33333333333333326,
+    "2": 0.39999999999999997,
+    "3": 0.49999999999999994,
+    "4": 0.6666666666666665,
+    "5": 1.0,
+    "6": 2.0
+   }
+  }
+ },
+ "modal_n3_4_shards": "artifacts/verify-n3-1353-1000000-p3000.json (ACCEPTED, 342 nodes = local unsharded count)",
+ "modal_n7_control_8_shards": "artifacts/verify-n7-19-5000-p3000.json (ACCEPTED, 707467 nodes = local derived-cutoff count, 37 s wall, 178.8 container-seconds, 0.16 to 0.28 ms per node per cpu=2 container)"
+}

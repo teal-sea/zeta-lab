@@ -165,7 +165,7 @@ pressure (eight points ≈ 0.673054, nine ≈ 0.673071, float floors, optimistic
 1-2-2-1 minimiser structure at every `n`. The eight-point case is being verified with a
 generalised verifier; see `RUNS.md`.
 
-4.7 × 10⁻⁶ above the `191/50000` figure and 1.9 × 10⁻⁵ above Ainta's, with the next
+6.3 × 10⁻⁶ above the `191/50000` figure and 1.9 × 10⁻⁵ above Ainta's, with the next
 target up refused at two grid sizes. This is recorded as the *ceiling of the method*,
 which is this hunt's question, and not as a headline result: it is the same certificate,
 the same verifier and the same analytic bridge, moved to the best point of its own

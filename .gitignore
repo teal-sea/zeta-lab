@@ -82,3 +82,6 @@ _site/
 
 # Odlyzko zero tables: downloaded on demand by hunts/zeta_temperament/probe_landau_edo.py, checksum pinned there
 data/odlyzko/
+
+# pinned upstream clones fetched by hunts/*/fetch_upstream.sh
+.upstream/
