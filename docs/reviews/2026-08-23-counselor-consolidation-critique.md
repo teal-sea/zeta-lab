@@ -68,6 +68,20 @@ warns about, and which `test_hunt_numbering.py`'s own docstring describes as the
 failure it was written for. The guard fired. Nothing gated the merge on it. This blocks
 every open PR including this one, so it is the first thing to fix.
 
+**And the numbering guard has a coverage hole that caused this collision.** FACT: hunt #77
+exists and is AIMO-2, but its case-log heading reads `### Hunt AIMO-2 (#77):`, and the
+guard's pattern is `^###\s+Hunt\s+#(\d+)\s*[:—-]`. That heading does not match, so **#77 is
+invisible to the uniqueness check**. The trust map's author read the case log correctly,
+saw #77 taken, and took #78, which `r_a7c12f` had also taken. AIMO-2's own entry even says
+"Number #77 is provisional; if a parallel session claimed it, renumber."
+
+The repair is two lines and worth more than the renumber: normalise AIMO-2's heading so the
+guard can see it, and add an assertion that the count of parsed numbers equals the count of
+`### Hunt` headings, so a heading the regex cannot read fails loudly instead of silently
+dropping out of the check. This is the tree's own core-candidate finding restated
+(nothing in `tests/` checks that a guard fires on what it exists to catch), and here it has
+a live instance: the guard was watching 53 entries and there were 54.
+
 ---
 
 ## 2. The five lesions (§XLVII.4 A–E)
@@ -854,9 +868,12 @@ four of the six already exist in some form, and the list was written without mea
 **Option B (RECOMMENDED). Switch on what exists, in this order, and build only the one thing
 that is genuinely missing.**
 
-0. **Unblock `main`, which is red on two of its own guards** (§1): renumber the duplicate
-   Hunt #78, and regenerate `CONTEXT.md`. Every open PR including this one is blocked until
-   both are done, and neither takes a minute. *This is item 0 because nothing else can land.*
+0. **Unblock `main`, which is red on two of its own guards** (§1). Renumber one of the two
+   Hunt #78 entries to #79, since #77 is genuinely held by AIMO-2. Regenerate `CONTEXT.md`.
+   Then close the guard's coverage hole: normalise AIMO-2's non-standard heading and assert
+   that parsed numbers equal `### Hunt` headings, so an unreadable heading fails loudly.
+   Every open PR including this one is blocked until the first two are done, and neither
+   takes a minute. *This is item 0 because nothing else can land.*
 1. `.venv/bin/pip install -e .` in the repository root; re-run `tests/test_doors.py`. Then
    the `zeta.__file__` assertion. *Next because the rigor preflight is currently unrunnable
    and everything else is downstream of trusting the suite.*
