@@ -1,0 +1,76 @@
+{
+  "question": "Which tools named fulcrum_* are available in this session?",
+  "total_count": 17,
+  "tools": [
+    {
+      "name": "fulcrum_adopt",
+      "description": "Record an already-running external job against a roster row"
+    },
+    {
+      "name": "fulcrum_capabilities",
+      "description": "Query worker backend capabilities (messaging, polling, inbound calls)"
+    },
+    {
+      "name": "fulcrum_collect",
+      "description": "Finalize a run and ingest its completed artifacts into ledger"
+    },
+    {
+      "name": "fulcrum_cost",
+      "description": "Query what a run cost or the whole lab's costs"
+    },
+    {
+      "name": "fulcrum_inspect",
+      "description": "Retrieve one run in full by run_id"
+    },
+    {
+      "name": "fulcrum_intervene",
+      "description": "Deliver a correction to a live worker with ledger recording"
+    },
+    {
+      "name": "fulcrum_land",
+      "description": "Put a collected run's files on the pursuit main branch"
+    },
+    {
+      "name": "fulcrum_launch",
+      "description": "Launch a run from a roster row"
+    },
+    {
+      "name": "fulcrum_map",
+      "description": "Retrieve the dependency map as a ranked graph of the roster"
+    },
+    {
+      "name": "fulcrum_observe",
+      "description": "Append observations to an adopted external job or record its outcome"
+    },
+    {
+      "name": "fulcrum_outbox",
+      "description": "Query messages queued for live runs not yet sent"
+    },
+    {
+      "name": "fulcrum_roster",
+      "description": "Derive and refresh the work queue from the target lab repo"
+    },
+    {
+      "name": "fulcrum_status",
+      "description": "Query Fulcrum's full state: all runs, conclusions, live runs, threads"
+    },
+    {
+      "name": "fulcrum_supersede",
+      "description": "Record that later evidence overturned a run's conclusion"
+    },
+    {
+      "name": "fulcrum_support",
+      "description": "Ask for an independent support run on a bounded question"
+    },
+    {
+      "name": "fulcrum_support_wait",
+      "description": "Poll for completion of a support run"
+    },
+    {
+      "name": "fulcrum_verify",
+      "description": "Run control suite and state invariants; read or write the watermark"
+    }
+  ],
+  "method": "Listed via deferred tool schemas loaded with ToolSearch. No tools were invoked.",
+  "confidence": "High — these are the exact tool definitions from the session's available MCP tools."
+}

@@ -1,0 +1,11 @@
+{
+  "run_id": "a218f3aa-f46f-4518-9a05-687d2f2997a2",
+  "status": "settled",
+  "conclusion": "17 fulcrum_* tools are available to this session via the MCP protocol. Tool names, descriptions, and a complete inventory are in RESULTS.md and results.json.",
+  "confidence": "Very high. The tool schemas were loaded directly from the declared deferred tools in this session's environment. No inference or second-hand knowledge involved.",
+  "operator_decision_required": null,
+  "inherited": [],
+  "threads": [],
+  "core_candidates": [],
+  "notes_for_operator": ""
+}

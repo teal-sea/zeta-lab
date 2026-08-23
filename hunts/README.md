@@ -77,6 +77,10 @@ control roles — and the checks are the ones the tree already owns:
 > and #61. The directories `lambda_dh_bounds/` and
 > `prime_zeta_rightmost/` are unchanged and are the stable references.
 
+### Hunt #80: read-only inventory of available Fulcrum tools (`support_a218f3aa/`)
+
+**Status: settled.** Enumerated all `fulcrum_*` tools available to this session via MCP. Total count: **17 tools**. Complete list with one-line descriptions in `RESULTS.md` and `results.json`. All 17 are MCP-protocol interfaces accessed as `mcp__fulcrum__fulcrum_*` with schemas loaded via ToolSearch. No tools were invoked; this is an inventory run only. Nothing here bears on RH (`docs/08`).
+
 ### Hunt #79: where the seven-point simple-zero certificate ends, and what proves it (`ainta_seven_point/`)
 
 **Status: closed, bounded, in two halves: the certificates reproduced and the
