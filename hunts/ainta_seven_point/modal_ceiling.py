@@ -175,7 +175,7 @@ def n_point_floor(args: tuple) -> dict:
 # ----------------------------------------------------------------------------
 @app.function(cpu=4, memory=8192, timeout=4 * 3600)
 def grid_probe(args: tuple) -> dict:
-    grid, num, den = args
+    grid, num, den, cutoff = args
     sys.path.insert(0, "/root/zsz")
     import dataclasses
     import importlib
@@ -186,7 +186,10 @@ def grid_probe(args: tuple) -> dict:
     src = open(vs.__file__, encoding="utf-8").read()
     scale = grid // 4000
     src = src.replace("GRID = 4_000", f"GRID = {grid}")
-    src = src.replace("PRESSURE_CUTOFF_CELLS = 45_600", f"PRESSURE_CUTOFF_CELLS = {45_600 * scale}")
+    # The cutoff encodes the target: beyond gap-sum cutoff/grid the linear term alone
+    # must exceed the target, so cutoff/grid/3000 >= num/den is required for soundness.
+    assert cutoff / grid / 3000 >= num / den, "cutoff too low for this target: prune is unsound"
+    src = src.replace("PRESSURE_CUTOFF_CELLS = 45_600", f"PRESSURE_CUTOFF_CELLS = {cutoff}")
     src = src.replace("start_index=3_800", f"start_index={3_800 * scale}")
     src = src.replace("TARGET_NUMERATOR = 19\n", f"TARGET_NUMERATOR = {num}\n")
     src = src.replace("TARGET_DENOMINATOR = 5_000\n", f"TARGET_DENOMINATOR = {den}\n")
@@ -199,10 +202,10 @@ def grid_probe(args: tuple) -> dict:
         rep = mod.verify_seven()
         d = dataclasses.asdict(rep) if dataclasses.is_dataclass(rep) else dict(vars(rep))
         d.pop("details", None)
-        return {"grid": grid, "target": f"{num}/{den}", "outcome": "ACCEPTED", "report": d,
+        return {"grid": grid, "target": f"{num}/{den}", "cutoff": cutoff, "outcome": "ACCEPTED", "report": d,
                 "seconds": round(time.perf_counter() - t0)}
     except RuntimeError as e:
-        return {"grid": grid, "target": f"{num}/{den}", "outcome": "REFUSED-AT-GRID",
+        return {"grid": grid, "target": f"{num}/{den}", "cutoff": cutoff, "outcome": "REFUSED-AT-GRID",
                 "message": str(e)[:300], "seconds": round(time.perf_counter() - t0)}
 
 
@@ -214,7 +217,7 @@ def main(out: str = "artifacts/modal-results.json"):
     seeds = list(range(48))
     h_seven = n_point_floor.map([(7, 3000.0, s, 60) for s in seeds], return_exceptions=True)
     h_eight = n_point_floor.map([(8, 3000.0, s, 60) for s in seeds], return_exceptions=True)
-    h_grid = [grid_probe.spawn(a) for a in ((8000, 1913, 500000), (8000, 38263, 10_000_000))]
+    h_grid = [grid_probe.spawn(a) for a in ((8000, 1913, 500000, 91_200), (8000, 38263, 10_000_000, 91_200))]
 
     results = {"floor": [h.get() for h in h_floor]}
     seven = [r for r in h_seven if isinstance(r, dict)]
@@ -239,3 +242,33 @@ def main(out: str = "artifacts/modal-results.json"):
         json.dump(results, f, indent=1)
     print(json.dumps(results["grid_8000"], indent=1))
     print(f"wrote {out} after {results['wall_seconds']}s")
+
+
+@app.local_entrypoint()
+def rerun(out: str = "artifacts/modal-rerun-sound-cutoff.json"):
+    """Re-run every accepted target with a cutoff that actually covers it.
+
+    45600/4000/3000 = 0.0038 covers only the original 19/5000. For 0.003826 the
+    pressure prune needs cutoff/grid/3000 >= 0.003826, i.e. >= 45912 cells at grid
+    4000. Use 46400 (gap-sum 11.6, covers up to 0.0038667) at grid 4000 and 92800
+    at grid 8000. The refusal at 0.0038263 is unaffected by the cutoff.
+    """
+    t0 = time.perf_counter()
+    jobs = [
+        (4000, 191, 50000, 46_400),      # Gohms, sound cutoff
+        (4000, 153, 40000, 46_400),      # probe 1, sound cutoff
+        (4000, 1913, 500000, 46_400),    # probe 2, sound cutoff
+        (8000, 1913, 500000, 92_800),    # grid 8000, sound cutoff
+        (4000, 1913, 500000, 60_000),    # control: a much larger cutoff must agree
+    ]
+    hs = [grid_probe.spawn(a) for a in jobs]
+    results = [h.get() for h in hs]
+    os.makedirs(os.path.dirname(out) or ".", exist_ok=True)
+    with open(out, "w", encoding="utf-8") as f:
+        json.dump({"jobs": results, "wall_seconds": round(time.perf_counter() - t0)}, f, indent=1)
+    for r in results:
+        rep = r.get("report", {})
+        print(r["grid"], r["target"], "cutoff", r["cutoff"], r["outcome"],
+              "nodes", rep.get("nodes"), "pressure_pruned", (rep.get("details") or {}).get("pressure_pruned"),
+              r.get("message", "")[:80], f"{r['seconds']}s")
+    print(f"wrote {out} after {time.perf_counter() - t0:.0f}s")

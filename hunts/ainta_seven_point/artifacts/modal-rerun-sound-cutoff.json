@@ -1,0 +1,110 @@
+{
+ "jobs": [
+  {
+   "grid": 4000,
+   "target": "191/50000",
+   "cutoff": 46400,
+   "outcome": "ACCEPTED",
+   "report": {
+    "certificate": "seven-point",
+    "verified": true,
+    "target": "F6 >= 19/5000",
+    "grid": 4000,
+    "precision_bits": 128,
+    "kernel_table_sha256": "0aeff7c8ec2d9e39459d7b2d36ba344106dedbad6612fc3739846762f22e1188",
+    "nodes": 786085,
+    "pruned": 393407,
+    "splits": 392678,
+    "maximum_depth": 43,
+    "initial_boxes": 729,
+    "elapsed_seconds": 200.275140838
+   },
+   "seconds": 200
+  },
+  {
+   "grid": 4000,
+   "target": "153/40000",
+   "cutoff": 46400,
+   "outcome": "ACCEPTED",
+   "report": {
+    "certificate": "seven-point",
+    "verified": true,
+    "target": "F6 >= 19/5000",
+    "grid": 4000,
+    "precision_bits": 128,
+    "kernel_table_sha256": "0aeff7c8ec2d9e39459d7b2d36ba344106dedbad6612fc3739846762f22e1188",
+    "nodes": 862961,
+    "pruned": 431845,
+    "splits": 431116,
+    "maximum_depth": 51,
+    "initial_boxes": 729,
+    "elapsed_seconds": 211.91934715899998
+   },
+   "seconds": 212
+  },
+  {
+   "grid": 4000,
+   "target": "1913/500000",
+   "cutoff": 46400,
+   "outcome": "ACCEPTED",
+   "report": {
+    "certificate": "seven-point",
+    "verified": true,
+    "target": "F6 >= 19/5000",
+    "grid": 4000,
+    "precision_bits": 128,
+    "kernel_table_sha256": "0aeff7c8ec2d9e39459d7b2d36ba344106dedbad6612fc3739846762f22e1188",
+    "nodes": 907799,
+    "pruned": 454264,
+    "splits": 453535,
+    "maximum_depth": 58,
+    "initial_boxes": 729,
+    "elapsed_seconds": 231.02012463399998
+   },
+   "seconds": 231
+  },
+  {
+   "grid": 8000,
+   "target": "1913/500000",
+   "cutoff": 92800,
+   "outcome": "ACCEPTED",
+   "report": {
+    "certificate": "seven-point",
+    "verified": true,
+    "target": "F6 >= 19/5000",
+    "grid": 8000,
+    "precision_bits": 128,
+    "kernel_table_sha256": "9bf7ae937bbd9a8d0f3b0f40bdcf844d318a59f39db87abfe54fbb9dc792c45c",
+    "nodes": 899055,
+    "pruned": 449892,
+    "splits": 449163,
+    "maximum_depth": 57,
+    "initial_boxes": 729,
+    "elapsed_seconds": 261.792574647
+   },
+   "seconds": 262
+  },
+  {
+   "grid": 4000,
+   "target": "1913/500000",
+   "cutoff": 60000,
+   "outcome": "ACCEPTED",
+   "report": {
+    "certificate": "seven-point",
+    "verified": true,
+    "target": "F6 >= 19/5000",
+    "grid": 4000,
+    "precision_bits": 128,
+    "kernel_table_sha256": "41a5725f18281e7351e2a2bf29b310265c5c5fd600b72258e7d9303a62ebabfb",
+    "nodes": 907761,
+    "pruned": 454245,
+    "splits": 453516,
+    "maximum_depth": 58,
+    "initial_boxes": 729,
+    "elapsed_seconds": 244.777128578
+   },
+   "seconds": 245
+  }
+ ],
+ "wall_seconds": 266
+}
