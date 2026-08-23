@@ -77,6 +77,30 @@ control roles — and the checks are the ones the tree already owns:
 > and #61. The directories `lambda_dh_bounds/` and
 > `prime_zeta_rightmost/` are unchanged and are the stable references.
 
+### Hunt #75: pitch classes against the colour wheel (`chroma_hue/`)
+
+**Status: closed, verdict PRETTY BUT TRIVIAL.** A note-to-hue bijection makes
+hue distance a function of interval class if and only if it is affine, so the
+hue side sees exactly one choice, the character of Z_12, and Z_12 has two
+injective ones (chromatic, fifths). Over all 21,772,800 canonical bijections
+the circle of fifths is the unique argmax of Spearman(hue distance,
+dissonance) under three separate dissonance measures (0.609 Sethares, 0.702
+Tenney and ordinal; null mean 0.00, sd 0.14, null max 0.50 and 0.57), and
+chromatic order is the worst structured choice (-0.73, -0.49). That is a
+statement about hearing with no colour in it. The colour side is not a
+12-gon: the HSL wheel's adjacent CIEDE2000 steps vary 8.5-fold and its twelve
+hues land 6.5 to 61 degrees apart in OKLCH; twelve equal-tempered steps of
+light frequency across the visible octave give hue steps of 1 to 72 degrees
+per semitone and cover about 275 of 360 degrees. The one formulation where
+colour adds anything: the eye mixes linearly, so the colour of a chord under
+wheel k is its k-th Fourier coefficient, and maximal evenness (Clough-Douthett,
+Amiot) reads as saturation. Round two reformulated: a colour wheel is a
+complex place of Q(zeta_12), the fifths wheel is the Galois conjugate of the
+chromatic one (together they distinguish exactly the 1763 chord colours
+either does alone), and chromatic times fifths saturation is the field norm,
+an integer taking ten values on the 224 set classes, with 84 classes units.
+Nothing here bears on RH. Doc: `docs/33`.
+
 ### Hunt #72: AIMO Interpretability 2026 baseline reproduction and structure-matched robustness signal (`r_662b12/`)
 
 **Status: baseline retained, intervention rejected after independent audit.** The public sample has 28 cases, 19 non-robust and 9 robust, so the all-False baseline is 67.86% (19/28) with full coverage and no invalid outputs. The reported 92.86% intervention is an in-sample score for a model-name rule chosen after inspecting those same labels. Its LOOCV, leave-one-problem-out and five-fold loops never fit or select the rule inside training folds, so they provide no generalization evidence. The scrambled-text surrogate retains the same 92.86%, refuting the claimed mathematical-structure interpretation. Prize disposition: **NO-GO on this hunt's evidence.** The original run record is preserved; `hunts/r_662b12/AUDIT.md` carries the correction. Nothing here bears on RH (`docs/08`).
