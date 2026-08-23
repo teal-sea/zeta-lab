@@ -70,6 +70,34 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #85: the ceiling procedure on Erdos minimum overlap (`r_828c8b/`)
+
+**Status: probe, partly settled.** Fifth front of the ceiling procedure, in a
+family where the upper record is a step-function construction and the lower
+record is a convex program. On the upper side the whole procedure reproduces:
+the `m`-piece minimax falls `0.400000 / 0.385072 / 0.381833 / 0.381084` at
+`m = 4/8/16/32` and then stops, `1.6e-4` above Haugland's `0.380926`, and the
+stall is provably the solver's rather than the family's, since an `m`-piece
+step function upsamples to a feasible `2m`-piece one and Haugland's object
+sits strictly below. The accepted object was re-evaluated in exact rationals
+with no float in the value: `C <= 9990167/26214400 = 0.381094627`, weaker than
+the published bound and stated as a reproduction. Two soundness facts came out
+of the acceptance step: rounding the pieces at the obvious denominator `2m`
+costs `2.4e-4` to `6.8e-4`, more than the whole remaining gap, and ten times
+finer costs nothing; and on this side there is no dual to check, because the
+accepted object is primal and its value is a finite rational. The lower side
+was **not** reproduced. What was established instead is that the plain
+averaging skeleton cannot reach it: uniform weight gives `C >= 1/4` exactly,
+the naive Fourier handling of the quadratic term is vacuous for *every*
+admissible weight (`what(0) = 1` forces `sup what = 1`; 0 of 200 random
+profiles gave anything positive), and explicit witnesses cap four weight
+profiles at `0.2526 / 0.2500 / 0.1909 / 0.1701`, all far below `0.379005`, with
+the bound getting *worse* as the weight concentrates. A guard on the shift
+enumeration (the failure direction that would report a bound better than the
+object supports) caught 2 of 3 planted faults, with the third recorded as a
+known miss; it is in `harness/departments/guard_ledger.py`. Nothing bears on
+RH (`docs/08`).
+
 ### Hunt #81: what the `min(dps, 20)` cap costs, measured (`dps_cap/`)
 
 **Status: probe, complete.** At `0.8 + 85.7i`, `epstein_completed` at the

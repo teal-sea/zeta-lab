@@ -1,0 +1,38 @@
+{
+  "m": 24,
+  "trials": 40,
+  "rows": [
+    {
+      "mutant": "sound (negative control)",
+      "max_defect": 2.220446049250313e-16,
+      "n_trials_with_positive_defect": 0,
+      "fired": false
+    },
+    {
+      "mutant": "enumerate only shifts j >= 0",
+      "max_defect": 0.10441068803633868,
+      "n_trials_with_positive_defect": 22,
+      "fired": true
+    },
+    {
+      "mutant": "enumerate every other shift",
+      "max_defect": 0.066916057515922,
+      "n_trials_with_positive_defect": 12,
+      "fired": true
+    },
+    {
+      "mutant": "drop the outer half of the shift range",
+      "max_defect": 2.220446049250313e-16,
+      "n_trials_with_positive_defect": 0,
+      "fired": false
+    }
+  ],
+  "guard_power_demonstrated": true,
+  "caught": [
+    "enumerate only shifts j >= 0",
+    "enumerate every other shift"
+  ],
+  "known_misses": [
+    "drop the outer half of the shift range"
+  ]
+}

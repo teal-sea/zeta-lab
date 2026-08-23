@@ -1,0 +1,59 @@
+{
+  "run_id": "f0bbb14a-833d-456a-befa-2e4f74ba6947",
+  "status": "not-settled",
+  "conclusion": "The upper-bound half of the record reproduces cleanly and its acceptance step is the cleanest possible one, a primal rational object whose value is a finite exact computation: this run reaches C <= 9990167/26214400 = 0.381094627, weaker than Haugland's 0.380926 by 1.7e-4, and shows that the apparent ceiling at m=32 pieces is the solver stalling rather than the parameterisation running out. The convex-program half, which is the reason the issue was opened, was not reproduced inside the budget; what was established instead is that the plain shift-averaging skeleton cannot reach 0.379005, with explicit witnesses capping four weight profiles at 0.2526 or below and an argument that the naive Fourier handling of the quadratic term is vacuous for every admissible weight.",
+  "confidence": "Lean hard on front A (exhaustive integer enumeration), front C (exact rational arithmetic, no float in the value) and D1/D2 (D1 is a two-line exact argument, D2's vacuity follows from what(0)=1 and was measured over 200 weights with 0 exceptions). Lean on D3 with the reason stated: each number is the value of the functional at an explicit admissible step function, so it upper-bounds what that weight can yield regardless of whether the local search found the true minimum. Do not lean on front B's values as optima: they are float local minima and the m>=32 rows are demonstrably not optimal. Do not lean on anything here as a statement about White's actual program, which was not read.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "the ceiling procedure as a shape: reproduce the published value from its own parameterisation, read the acceptance step, then push the parameterisation to its own limit and report the gap",
+      "source": "hunts/ainta_seven_point/ (via issue #111)",
+      "effect": "supplied the four questions to ask, so the run spent its budget on answering them rather than on deciding what to ask; front C (exact re-evaluation of the accepted object) exists only because that procedure insists on reading the acceptance step separately from the value"
+    },
+    {
+      "what": "the guard-with-a-mutant discipline: a guard's existence is not its power, and an outcome costs a rerunnable artifact",
+      "source": "harness/guards.py and harness/departments/guard_ledger.py",
+      "effect": "turned an assumption that would otherwise have been a comment (the grid supremum claim) into a measurement, which is how the range-truncation known miss was found rather than assumed away"
+    },
+    {
+      "what": "published reference values for both bounds and the fact that the lower bound is a Fourier reduction to a convex program",
+      "source": "literature check 2026-08-23; Haugland 1996/2016, E. P. White arXiv:2201.05704",
+      "effect": "fixed the target numbers so the reproduction had something to be a gap against, and confirmed the averaging skeleton is the right shape to reconstruct even though the reconstruction did not reach the published value"
+    }
+  ],
+  "threads": [
+    {
+      "what": "a discretised dual value is not automatically a lower bound: restricting f to step functions is a restriction, so the discretised inner minimum bounds the true one from above, in the direction that inflates a lower bound",
+      "why_it_might_matter": "it is exactly the target-encoding defect shape this lab audits, and on the lower-bound side it would manufacture a bound that is not there; whether the published program closes that gap is unread",
+      "first_step": "read section 3 of arXiv:2201.05704 and identify the interpolation or rounding argument connecting the discretised program to the continuous infimum; if there is none, that is the finding"
+    },
+    {
+      "what": "the m-piece minimax optimum is strictly below where SLSQP stops, provably, since upsampling is feasible and Haugland's object sits lower",
+      "why_it_might_matter": "the ceiling procedure lives or dies on telling 'the parameterisation ran out' from 'the search ran out', and this is a clean recorded example where a naive reading would have confused them",
+      "first_step": "replace the epigraph SLSQP with an alternating scheme that solves the linear program in f for a fixed active shift set and then updates the set"
+    },
+    {
+      "what": "the averaging bound gets worse as the shift weight concentrates (uniform 0.2526, tent 0.2500, Gaussian 0.1909, edge-weighted 0.1701)",
+      "why_it_might_matter": "it contradicts the natural intuition that a sharper test weight tests harder, and it localises where the published program's extra strength must come from: the support constraint on f interacting with the quadratic term, not the choice of weight",
+      "first_step": "compute the bound over the one-parameter family interpolating uniform and tent and check whether the maximum sits exactly at uniform"
+    },
+    {
+      "what": "M(n)/n is exactly 1/2 at every even n computed (n = 2,4,6,8,10) and strictly below at n = 7 and n = 9",
+      "why_it_might_matter": "if M(2k) = k holds for all k it is a clean finite statement; if it fails at some n, that failure is the interesting case",
+      "first_step": "extend the exhaustive search to n = 11, 12 with a bitset-parallel inner loop and check M(2k) = k against the OEIS entry before spending anything larger"
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "an exact-acceptance pass: given a numerically optimised object and a target denominator, round to rationals, repair the linear feasibility constraints exactly in Q, and re-evaluate the objective with no floating point, reporting the rounding penalty",
+      "why_reusable": "every hunt in this family accepts a float-optimised object and then has to say what it actually proves; the rounding penalty at the obvious denominator turned out to exceed the whole remaining gap here, which is a mistake worth making impossible rather than remembering",
+      "first_step": "lift rationalise() and exact_value() out of hunts/r_828c8b/probe.py behind an interface that takes a callable objective and the linear constraints, and use it on the next ceiling front before deciding whether it deserves a module"
+    },
+    {
+      "what": "a monotonicity check on refinement sweeps: when a parameterisation refines by embedding (an m-piece object is a feasible 2m-piece object), a value that fails to strictly decrease is a solver report, not a limit, and the sweep should say so itself",
+      "why_reusable": "the ceiling procedure runs on refinement sweeps and its central inference is exactly this distinction; here three identical rows would have read as a converged ceiling",
+      "first_step": "add the embedding as an explicit argument to the sweep helper so it can assert value(2m) <= value(m) and flag equality as a stall rather than a limit"
+    }
+  ],
+  "notes_for_operator": "One contract mismatch, reported rather than worked around. This brief's CLOSE THE LOOP section assumes the task came from a function in harness/ returning a standing item, but the brief header says the source is issue #111, and the generators agree: harness.graveyard.unguarded returns nothing, harness.guards.undemonstrated returns only tests/test_doors.py, and the two review claims missing a blind attack are rf-c003-window and k2-far-constant-depth1. None of those is this hunt's subject, so no pre-existing generator item was closed by this run and none is claimed to be. What was recorded instead is real and is in the same commit: a GuardRecord for the guard this hunt built, with its mutants and one honest known miss, appended to harness/departments/guard_ledger.py without touching anyone else's entry. tests/test_guard_ledger.py passes with it. Second note, on ownership rather than science: the case-log entry in hunts/README.md was numbered #85 as assigned, and #85 was free when the run reached it."
+}
