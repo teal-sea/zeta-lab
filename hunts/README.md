@@ -77,32 +77,42 @@ control roles — and the checks are the ones the tree already owns:
 > and #61. The directories `lambda_dh_bounds/` and
 > `prime_zeta_rightmost/` are unchanged and are the stable references.
 
-### Hunt #78: where the seven-point simple-zero certificate ends, and what proves it (`ainta_seven_point/`)
+### Hunt #79: where the seven-point simple-zero certificate ends, and what proves it (`ainta_seven_point/`)
 
-**Status: open; this entry covers the trust-map half only (`TRUST-MAP.md`).**
-Two outside groups (Ainta, and Gohms in issue #1 on that repository) are
-hill-climbing one finite inequality `F6 >= c` that refines Anthropic's
-unconditional 0.6725007 simple-zero constant. Neither has a human reviewer or a
-Lean line. The map from the certificate to the published constant is recovered
+**Status: closed, bounded, in two halves: the certificates reproduced and the
+floor bracketed (`RESULTS.md`); the bridge mapped, verdict one substantial
+analytic bridge (`TRUST-MAP.md`).** Two outside groups (Ainta, and Gohms in
+issue #1 on that repository) are hill-climbing one finite inequality `F6 >= c`
+that refines Anthropic's unconditional 0.6725007 simple-zero constant. Neither
+has a human reviewer or a Lean line.
+
+*Certificates.* Ainta's `19/5000` and Gohms's `191/50000` reproduce field for
+field on the pinned commit; one secondary table hash differs with no effect on
+any count. The functional's infimum is bracketed rigorously,
+`0.003826 <= inf F6 <= 0.0038262312115073`: the published verifier accepts
+`1913/500000` at grids 4000 and 8000 and refuses `0.0038263` at the same
+six-gap configuration the float minimiser finds, gaps alternating near 1 and
+near 2 on the kernel's zeros. One defect found and repaired: the verifier's
+`PRESSURE_CUTOFF_CELLS` encodes the original target, so every run that raised
+the target, Gohms's and this hunt's own probes, pruned on a stale assumption;
+all were re-run with the cutoff raised and all still accept.
+
+*Bridge.* The map from the certificate to the published constant is recovered
 in closed form and reproduces both published constants to 40 digits:
 `Phi(c,m,p) = (H - 6(m-1)/(pm)) / (1 - c(m-6)/m)`. The block size `m` is not a
 free parameter: `A_0 = c(m-6) <= 1` caps it at `6 + floor(1/c)`, and both
 published values sit exactly at their cap, which is why raising the target
 *lowered* `m` from 269 to 267. The family's apparent ceiling at the published
-pressure `p = 3000` is 0.673025477, leaving 4.1e-6 above the Gohms claim and
-reaching 5.6% of the room under the configuration ceiling. The chain from
-`F6 >= c` to the asymptotic count is graded step by step: six of sixteen steps
-are already kernel-checked in `anthropics/zeta-23-lean` (including Theorem D
-itself, von Neumann, and the positive-part splitting), four are small finite
-statements, and the verdict is **one substantial analytic bridge**, namely
-carrying the new spectral defect term through the tail passage and establishing
-the limiting overlap kernel uniformly. Two defects recorded: the Gohms run's
-compactification prune proves only `19/5000` on the 3087 boxes it prunes, so it
-does not establish its own target as run; and this laboratory has been quoting
-the configuration ceiling as 0.68185, a decimal that appears once in a remark
-with no proof attached, where the Lean development proves 0.6818286874638. The
-number #78 supersedes the `#77` written in this hunt's `MISSION.md`, which
-collided with AIMO-2. Nothing here bears on RH (`docs/08`).
+pressure is 0.673025477, 4.1e-6 above the Gohms claim, about 5.6% of the room
+under the configuration ceiling. Six of sixteen steps are already
+kernel-checked in `anthropics/zeta-23-lean` (Theorem D itself, von Neumann,
+the positive-part splitting), four are small finite statements, and what is
+missing is carrying the new spectral defect through the tail passage and the
+uniform kernel limit. Smallest Lean-ready obligation: the stability
+rank-trace lemma. Also recorded: this laboratory has been quoting the
+configuration ceiling as 0.68185, a decimal in a remark with no proof
+attached, where the Lean development proves 0.6818286874638. Nothing here
+bears on RH (`docs/08`).
 
 ### Hunt #76: the Riemann zeros in tuning units (`zeta_temperament/`)
 

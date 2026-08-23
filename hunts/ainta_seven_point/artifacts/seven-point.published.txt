@@ -1,0 +1,18 @@
+certificate=seven-point
+verified=true
+target=F6 >= 19/5000
+grid=4000
+precision_bits=128
+kernel_table_sha256=a9992300d2bf71665aa2b6bd2727e798624cd297103bb200c7f0ca2baea55a2c
+initial_boxes=729
+nodes=707901
+pruned=354315
+splits=353586
+maximum_depth=37
+elapsed_seconds=136.720635
+interval_pruned=257493
+pressure_pruned=3087
+second_derivative_table_sha256=7913c5511a572c32dd573cd53123d8cf3ddf73d3ec63b1aa823faae2ae83570a
+surviving_gap_components_cells=[3809,4778];[7221,9363];[10572,44827]
+surviving_gap_components_count=3
+tangent_pruned=93735
