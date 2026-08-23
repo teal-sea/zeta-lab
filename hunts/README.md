@@ -70,6 +70,23 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #81: what the `min(dps, 20)` cap costs, measured (`dps_cap/`)
+
+**Status: probe, complete.** At `0.8 + 85.7i`, `epstein_completed` at the
+capped `dps = 20` returns `3.1e-33` where the converged value is `1.6e-58` --
+a factor of `1.9e25` and not one correct digit. The error floor sits near
+`1e-(D+13)`, so nothing correct can appear below `D ~ 46`; the sweep puts the
+crossover there exactly (D=40 entirely floor, D=50 the first row with correct
+digits). `D = 60` buys about 16 real digits, not 60, because the cancellation
+costs roughly 44 of them. `zeta/epstein.py` still caps three interfaces at
+`dps=min(_d, 20)` (lines 1092, 1126, 1142), so a caller asking for 60 gets 20
+and `count_zeros_box`'s integrality check passes on the noise.
+
+Landed 2026-08-21 as the union of five concurrent 2026-08-14 runs that all
+wrote this directory and none of which merged; see the provenance header in
+`dps_cap/README.md`. Nothing here is evidence about zeta or RH: it is a
+measurement of an implementation at a single point.
+
 > **Renumbered twice.** These two opened as #35 and #36 from a branch
 > 101 commits behind `main`, where both numbers were taken. They were
 > renumbered to #49/#50 on 2026-08-18, and `main` took those two (plus
