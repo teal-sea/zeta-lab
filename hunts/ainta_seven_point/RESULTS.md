@@ -149,9 +149,21 @@ being very nearly optimal. Verified there (`artifacts/modal-peak-p3200.json`):
 | 36370/10000000 | 4000 | refused | | | 280 | (0.673027749) |
 
 Both refusals land on the same terminal cell as at `p = 3000`, gaps ≈ (1.046, 1.989,
-1.987, 1.042, 1.977, 1.045). So the family's reach is
+1.987, 1.042, 1.977, 1.045).
 
-    liminf N_0^s(T,2T) / N(T,2T)  >=  0.673027683
+**The peak is at `p = 3400`, not 3200.** The trust map's pressure sweep did not sample 3400;
+a finer sweep (`artifacts/npoint-sweep.json`, with an Arb enclosure at every argmin) puts
+the seven-point peak there. Verified (`artifacts/modal-peak-p3400.json`): `34697/10000000`
+accepted at grid 4000 (1,112,733 nodes, depth 57) and grid 8000 (1,114,059 nodes),
+`34701/10000000` refused. With `m = 294`:
+
+    liminf N_0^s(T,2T) / N(T,2T)  >=  0.673029553
+
+1.9 × 10⁻⁶ above the `p = 3200` figure and 7.9 × 10⁻⁶ above Gohms. The sweep also shows the
+family's reach grows with the point count, about 2 × 10⁻⁵ per added point at its own optimal
+pressure (eight points ≈ 0.673054, nine ≈ 0.673071, float floors, optimistic), with the same
+1-2-2-1 minimiser structure at every `n`. The eight-point case is being verified with a
+generalised verifier; see `RUNS.md`.
 
 4.7 × 10⁻⁶ above the `191/50000` figure and 1.9 × 10⁻⁵ above Ainta's, with the next
 target up refused at two grid sizes. This is recorded as the *ceiling of the method*,

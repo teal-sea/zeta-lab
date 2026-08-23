@@ -308,3 +308,30 @@ def peak(out: str = "artifacts/modal-peak-p3200.json"):
     with open(out, "w", encoding="utf-8") as f:
         json.dump({"jobs": results, "wall_seconds": round(time.perf_counter() - t0)}, f, indent=1)
     print(f"wrote {out} after {time.perf_counter() - t0:.0f}s")
+
+
+@app.local_entrypoint()
+def peak3400(out: str = "artifacts/modal-peak-p3400.json"):
+    """The n-point sweep put the 7-point peak at p = 3400 rather than 3200 (the trust map
+    did not sample 3400). Float floor there: read from artifacts/npoint-sweep.json; targets
+    below chosen at 1e-6 and 2e-7 under it, one above. Cutoff 11.8 gap-sum covers all."""
+    import json as _json
+    sweep = _json.load(open("artifacts/npoint-sweep.json"))
+    row = next(r for r in sweep["table"] if r["n_points"] == 7 and r["p"] == 3400)
+    floor = row["best_F"]
+    print("7-point float floor at p=3400:", floor)
+    den = 10_000_000
+    lo1 = int(math.floor((floor - 1e-6) * den)); lo2 = int(math.floor((floor - 2e-7) * den)); hi = int(math.ceil((floor + 1e-7) * den))
+    cutoff = int(math.ceil(4000 * 3400 * (hi / den))) + 400
+    jobs = [(4000, lo1, den, cutoff, 3400), (4000, lo2, den, cutoff, 3400), (4000, hi, den, cutoff, 3400), (8000, lo2, den, 2 * cutoff, 3400)]
+    hs = [grid_probe.spawn(a) for a in jobs]
+    results = [h.get() for h in hs]
+    H = 1.5 - (1 / math.sqrt(2)) / math.tan(1 / math.sqrt(2))
+    for r in results:
+        num, d = map(int, r["target"].split("/")); c = num / d; m = 6 + int(math.floor(1 / c))
+        r["m_cap"] = m; r["phi_at_cap"] = (H - 6 * (m - 1) / (3400 * m)) / (1 - c * (m - 6) / m)
+        rep = r.get("report", {})
+        print(r["grid"], r["target"], r["outcome"], "nodes", rep.get("nodes"), "depth", rep.get("maximum_depth"), "m", m, f"Phi={r['phi_at_cap']:.12f}", f"{r['seconds']}s")
+    with open(out, "w", encoding="utf-8") as f:
+        _json.dump({"floor_float": floor, "jobs": results}, f, indent=1)
+    print(f"wrote {out}")

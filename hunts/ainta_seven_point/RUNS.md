@@ -150,3 +150,15 @@ outcome: at the family-maximising pressure the verifier accepts 36369/10000000 a
 artifacts:
   - hunts/ainta_seven_point/artifacts/modal-peak-p3200.json
 ```
+
+```runmanifest
+id: ainta_seven_point-2026-08-23-modal-peak-p3400
+hunt: ainta_seven_point
+started: 2026-08-23T14:40-05:00
+finished: 2026-08-23T14:46-05:00
+ran:
+  - source <(hunts/ainta_seven_point/fetch_upstream.sh); modal run hunts/ainta_seven_point/modal_ceiling.py::peak3400 (four grid_probe jobs at pressure 3400, cutoff derived from the target)
+outcome: the finer pressure sweep put the seven-point peak at p=3400, which the trust map had not sampled; at that pressure 34697/10000000 is accepted at grid 4000 (1112733 nodes, depth 57) and grid 8000 (1114059 nodes, depth 57), 34701/10000000 is refused, and with the m-cap at 294 the bound is 0.673029553, 1.9e-6 above the p=3200 figure
+artifacts:
+  - hunts/ainta_seven_point/artifacts/modal-peak-p3400.json
+```
