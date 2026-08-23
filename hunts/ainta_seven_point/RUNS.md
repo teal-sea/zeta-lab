@@ -267,3 +267,17 @@ artifacts:
   - lean/bridge/comparator.json
   - lean/bridge/formalization.yaml
 ```
+
+```runmanifest
+id: ainta_seven_point-2026-08-23-palomar-submission
+hunt: ainta_seven_point
+started: 2026-08-23T17:05-05:00
+finished: 2026-08-23T17:09-05:00
+ran:
+  - fresh clone of teal-sea/zeta-lab at 58bd44cadb5881540af744a152492d2c25420008; scripts/palomar_precheck.py . lean/bridge lean/bridge/comparator.json lean/bridge/formalization.yaml
+  - submit.palomar-registry.org, one submission, repository teal-sea/zeta-lab, project lean/bridge
+outcome: precheck on the clean clone reports 63 pass, 1 warn (release-candidate toolchain), 0 fail, derived origin source-based; the submission was accepted at 17:09:18Z with preparation and mechanical verification queued; no outcome and no identifier recorded, registration is the owner's
+artifacts:
+  - lean/bridge/comparator.json
+  - lean/bridge/formalization.yaml
+```

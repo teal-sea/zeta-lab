@@ -203,3 +203,20 @@ Run on 2026-08-23 and passed. **Not submitted.** Palomar permits one submission
 in progress per repository, and whether a conditional refinement of a theorem
 already registered from the upstream repository clears the notability floor is
 the registry's call, not this file's.
+
+## The bridge entry, submitted 2026-08-23
+
+Submitted 2026-08-23T17:09:18Z at commit `58bd44cadb5881540af744a152492d2c25420008`,
+project directory `lean/bridge`, comparator `lean/bridge/comparator.json`, advertising four
+declarations: `seven_point_bound`, `seven_point_bound_paper`, `seven_point_bound_lab` and
+`seven_point_bound_lab_ratio`. Derived origin `source-based`, relationship `adapts`: the
+mathematics between the finite inequality and the zero count is Ainta's draft, and the
+formalization, the closed form `Phi(c, m, p)` with its block-size cap, the sharp stability
+form and the pinching proof are this laboratory's.
+
+The certificate is a hypothesis, `hCert`, the way the upstream development takes `EnclOK`.
+Nothing here bears on the Riemann Hypothesis, and `status.scope` says so.
+
+Mechanical verification and the editorial review were queued at submission. **No outcome is
+recorded here yet, and no identifier is guessed.** Registration is public and is the owner's
+click alone; the private access link is not recorded in this repository.
