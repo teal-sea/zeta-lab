@@ -278,4 +278,47 @@ GUARDS: tuple[GuardRecord, ...] = (
             "exactly why it survived three days unnoticed"
         ),
     ),
+    GuardRecord(
+        name="hunts/r_828c8b/probe.py::grid_sufficiency_defect",
+        guards_against=(
+            "an overlap evaluator that enumerates the wrong set of shifts, "
+            "so that sup_t h_f(t) is reported too SMALL. In hunt R-828C8B "
+            "every reported number is an upper bound on the Erdos minimum "
+            "overlap constant, and a too-small upper bound is a claimed "
+            "improvement on the published record that is not there"
+        ),
+        smallest_mutant=(
+            "restrict the shift enumeration to j >= 0, i.e. assume h_f is "
+            "symmetric in the shift when it is not"
+        ),
+        fired=True,
+        demonstrated_by="hunts/r_828c8b/probe.py --mutant",
+        known_misses=(
+            "truncation of the shift range to its inner half: the guard did "
+            "not fire on that mutant in 40 random trials at m=24, because "
+            "the maximising shift is interior for every admissible step "
+            "function tried. The guard therefore establishes that the "
+            "enumeration is not mis-strided or half-blind; it does not "
+            "establish that the range is wide enough",
+            "an error in the overlap formula itself: the guard compares an "
+            "evaluator against an 8x-refined run of the same correlation "
+            "code, so a wrong h shared by both sides is invisible",
+            "whether the step function is feasible at all (0 <= f <= 1 and "
+            "the mass constraint), which is checked elsewhere, exactly, in "
+            "the rational acceptance step",
+        ),
+        scope=(
+            "agreement between one shift enumeration and an 8x-refined "
+            "reference enumeration; says nothing about whether the "
+            "underlying overlap functional is the right one"
+        ),
+        incident=(
+            "2026-08-23, hunt R-828C8B: preventive rather than post-mortem. "
+            "The whole upper-bound front rests on the claim that for a step "
+            "function the supremum over real shifts is attained on the grid, "
+            "and the failure direction of that claim is the flattering one, "
+            "so it was given a guard and the guard was given mutants before "
+            "any value was reported"
+        ),
+    ),
 )
