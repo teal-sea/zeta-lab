@@ -1,0 +1,9 @@
+{
+  "solver": "sympy.groebner",
+  "ordering": "grevlex",
+  "variables": 138,
+  "equations": 6561,
+  "wall_clock_seconds": 300.03089475631714,
+  "peak_memory_mb": 32.59375,
+  "stopped_at": "Timeout (5 minutes)"
+}

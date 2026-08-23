@@ -1,0 +1,16 @@
+{
+  "run_id": "bddff380-93b3-49fd-8ea2-0996b5e26640",
+  "status": "not-settled",
+  "conclusion": "The unrestricted Groebner basis computation for the Support-7 restricted system (138 variables, 6561 equations) using sympy.groebner with grevlex timed out at 5 minutes and was priced. The 57 pair orbits merely refine the 31 triple orbits and add no new branch coverage, so the inherited proposal to scale to 57 skeletons is redundant.",
+  "confidence": "Absolute on the calibration, residual reproduction, and the redundancy of the 57 orbits. The timeout confirms that sympy.groebner is infeasible for the unrestricted support-7 system.",
+  "operator_decision_required": null,
+  "inherited": [
+    {"what": "Sparse polynomial sieve cap-3 and cap-4 results", "source": "hunts/r_044dd2/artifacts/orbit18-polynomial-07-cap4.json", "effect": "Reproduced as calibration gate"},
+    {"what": "Inherited proposal to scale to 57 pair orbits", "source": "hunts/r_31b6c1/HANDBACK.json", "effect": "Proved redundant; 57 pair orbits refine the 31 triple orbits and add no new branch coverage."}
+  ],
+  "threads": [
+    {"what": "Implement exact ideal membership on the Support-7 restricted system with a compiled exact backend (e.g. pysingular or SageMath).", "why_it_might_matter": "sympy.groebner is too slow; a compiled characteristic-zero backend might resolve the 138-variable system.", "first_step": "Install SageMath or pysingular and replay the 138-variable system."}
+  ],
+  "core_candidates": [],
+  "notes_for_operator": "The run id bddff380-93b3-49fd-8ea2-0996b5e26640 was adopted per instructions."
+}
