@@ -204,11 +204,24 @@ p_0 = 10909258999421303588095230195816054408197 / 160000000000000000000000000000
 
 and `Zeta23/PairCeiling/Signed.lean:94` (`ceiling_law256_signed`) proves the
 ceiling as `p_0` plus a stability correction
-`2.5431316e-6 * (|r'(1)| + integral |r''|)`, under the displayed hypothesis
-`EnclOK` that an external interval computation supplies the 256 enclosures. The
-string "68185" does not occur in the Lean repository. The difference is 2.1e-5
-and changes no conclusion here, but a laboratory that quotes a ceiling to five
-decimals should quote the one that has a proof attached.
+`2.5431316e-6 * (|r'(1)| + integral |r''|)`. The string "68185" does not occur
+anywhere in the Lean repository. The difference is 2.1e-5 and changes no
+conclusion here, but a laboratory that quotes a ceiling to five decimals should
+quote the one that has a proof attached.
+
+Two caveats on that proof, both stated by the repository itself and worth
+carrying whenever the ceiling is cited. Every ceiling theorem carries the
+displayed hypothesis `EnclOK`, that the true form factor lies inside the 256
+recorded enclosures, and `LawN256.lean:8-15` says those were "verified outside
+Lean by interval arithmetic"; only what is downstream of them is kernel-checked,
+by `decide +kernel`. And the certificate they come from,
+`cert_N256_blk_b128m.json`, sha256
+`cc3de9917db4d14d844630a4e97dda8387fd6e257e52b6967f430b8914584eb8`, is recorded
+in that comment as "available from the authors" rather than committed. So the
+ceiling is a kernel-checked implication whose antecedent is discharged by a file
+that is not distributed. That is a perfectly ordinary arrangement and it is not
+the same thing as an unconditional theorem, which is the distinction this
+document exists to keep.
 
 ### 1.5 The third leg: the pressure denominator is not optimal either
 
