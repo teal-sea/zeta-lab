@@ -12,15 +12,19 @@ import Zeta23Ext.Bridge.S15
 import Zeta23Ext.Bridge.S16
 
 /-!
-# The seven-point simple-zero bound, assembled  ([A] Theorem 1.1)
+# The `n`-point simple-zero bound, assembled  ([A] Theorem 1.1 is `n = 7`)
 
-`seven_point_bound` mirrors `[L23]`'s `thmD₀_simple_mult` (`Zeta23/ThmD/Mult.lean`):
+`n_point_bound` mirrors `[L23]`'s `thmD₀_simple_mult` (`Zeta23/ThmD/Mult.lean`):
 
-  `∀ ε > 0, ∃ T₀, ∀ T ≥ T₀, (Phi c m p − ε) · N(T,2T) ≤ N₀ˢ(T,2T)`
+  `∀ ε > 0, ∃ T₀, ∀ T ≥ T₀, (Phi_n n c m p − ε) · N(T,2T) ≤ N₀ˢ(T,2T)`
 
 for Mathlib's `riemannZeta` (`Ncount`, `N0simple` of `Zeta23/Statement.lean`), from the
-certificate hypothesis `hCert : ∀ g ≥ 0, c ≤ F6 p g` (S10, the Arb certificate, taken as a
-hypothesis the way `[L23]` takes `EnclOK`) and the block cap `hA0 : c(m − 6) ≤ 1`.
+certificate hypothesis `hCert : ∀ g ≥ 0, c ≤ F n p g` (S10, the Arb certificate, taken as a
+hypothesis the way `[L23]` takes `EnclOK`) and the block cap `hA0 : c(m − (n−1)) ≤ 1`.
+
+`seven_point_bound` is the `n = 7` corollary, **statement unchanged**: `F6` is `F 7`
+definitionally and `Phi` is `Phi_n 7`.  `eight_point_bound` is the `n = 8` corollary at this
+laboratory's accepted eight-point certificate.
 
 **The whole Bridge tree is sorry-free** (integrated 2026-08-23 from the five attack branches
 `bridge/{skeleton,finite,pinching,S8,S9}`).  Every step lemma S6–S9, S11–S16 is proved, and
@@ -33,9 +37,14 @@ written as filter arithmetic:
   S9 + S13 ⟶ uniform per-block bound ⟶ S15 (with S14) ⟶ `D(M°) ≥ (A₀/m) N₀ˢ − (6(m−1)/pm) N − o(N)`
   S16 ⟶ the bound.
 
-Side conditions `7 ≤ m`, `0 < p`, `0 < c`: blocks need seven points, the pressure term needs a
-positive denominator, and a certificate constant `c ≤ 0` is vacuous (`F6 ≥ 0`); the published
-parameters `(19/5000, 269, 3000)` satisfy all three.
+Side conditions `2 ≤ n`, `n ≤ m`, `0 < p`, `0 < c`: blocks need `n` points, the pressure term
+needs a positive denominator, and a certificate constant `c ≤ 0` is vacuous (`F n p ≥ 0`); the
+published parameters `(n, c, m, p) = (7, 19/5000, 269, 3000)` satisfy all four.
+
+**Where `n` actually enters.**  Three places, and no others: the window count `m − (n−1)` and the
+per-gap charge `n − 1` in S11 (hence in S13, `block_bound_eventually`, `pre_solve`), the pair
+coefficient `2/(n − r)` over the `n(n−1)/2` pairs in `F`, and the tolerance scale of `pre_solve`.
+S6, S7, S8, S9, S12, S14, S15 and every helper are `n`-free as they stand.
 -/
 
 noncomputable section
@@ -91,39 +100,45 @@ theorem eventually_h7 (Z : ZeroConfig) :
 
 /-! ### S9 + S13: the per-block bound, uniform in `T`  ([A] eq:269block) -/
 
-/-- Every block of `m` retained zeros satisfies `D(G_B) + (6/p) span(B) ≥ A₀ − η`, eventually
+/-- Every block of `m` retained zeros satisfies `D(G_B) + ((n−1)/p) span(B) ≥ A₀ − η`, eventually
 in `T`.  [A] §4 after eq:mA: "If `span(B)/500 ≥ A₀` then eq:269block is immediate. Otherwise
-`span(B) < 500`, so Lemma 3.1 applies uniformly to every pair in `B`." -/
-theorem block_bound_eventually (Z : ZeroConfig) (H : PaperInputs Z) {c : ℝ} {m p : ℕ}
-    (hm : 7 ≤ m) (hp : 0 < p)
-    (hCert : ∀ g : Fin 6 → ℝ, (∀ i, 0 ≤ g i) → c ≤ F6 p g) (hA0 : c * ((m : ℝ) - 6) ≤ 1)
+`span(B) < 500`, so Lemma 3.1 applies uniformly to every pair in `B`."  The paper's `500` is
+`p/(n−1)` at `n = 7`, `p = 3000`. -/
+theorem block_bound_eventually (Z : ZeroConfig) (H : PaperInputs Z) {c : ℝ} {n m p : ℕ}
+    (hn : 2 ≤ n) (hm : n ≤ m) (hp : 0 < p)
+    (hCert : ∀ g : Fin (n - 1) → ℝ, (∀ i, 0 ≤ g i) → c ≤ F n p g)
+    (hA0 : c * ((m : ℝ) - ((n : ℝ) - 1)) ≤ 1)
     {η : ℝ} (hη : 0 < η) :
     ∀ᶠ T in atTop, ∀ B : Finset (retained Z (mtParams T) T), B.card = m →
-      c * ((m : ℝ) - 6) - η ≤ blockDefect (gram_isHermitian Z (mtParams T) T) B
-        + (6 / (p : ℝ)) * spanOf (xret Z (mtParams T) T) B := by
-  have hm' : (7 : ℝ) ≤ m := by exact_mod_cast hm
+      c * ((m : ℝ) - ((n : ℝ) - 1)) - η ≤ blockDefect (gram_isHermitian Z (mtParams T) T) B
+        + (((n : ℝ) - 1) / (p : ℝ)) * spanOf (xret Z (mtParams T) T) B := by
+  have hn' : (2 : ℝ) ≤ n := by exact_mod_cast hn
+  have hgap : (1 : ℝ) ≤ (n : ℝ) - 1 := by linarith
+  have hm' : (2 : ℝ) ≤ m := by exact_mod_cast (by omega : 2 ≤ m)
   have hmsq : 0 < 2 * (m : ℝ) ^ 2 := by positivity
   set δ : ℝ := η / (2 * (m : ℝ) ^ 2) with hδ
   have hδpos : 0 < δ := div_pos hη hmsq
   have hp' : (0 : ℝ) < p := by exact_mod_cast hp
-  filter_upwards [kernel_limit Z H ((p : ℝ) / 6) δ hδpos, eventually_L_pos] with T hclose hL
+  filter_upwards [kernel_limit Z H ((p : ℝ) / ((n : ℝ) - 1)) δ hδpos, eventually_L_pos]
+    with T hclose hL
   intro B hB
   set x := xret Z (mtParams T) T with hx
-  set q : ℝ := 6 / (p : ℝ) with hq
-  have hq0 : 0 < q := by positivity
-  by_cases hsp : c * ((m : ℝ) - 6) ≤ q * spanOf x B
+  set q : ℝ := ((n : ℝ) - 1) / (p : ℝ) with hq
+  have hq0 : 0 < q := by rw [hq]; exact div_pos (by linarith) hp'
+  by_cases hsp : c * ((m : ℝ) - ((n : ℝ) - 1)) ≤ q * spanOf x B
   · linarith [blockDefect_nonneg (gram_isHermitian Z (mtParams T) T) B]
   · rw [not_le] at hsp
-    have hR : spanOf x B ≤ (p : ℝ) / 6 := by
+    have hR : spanOf x B ≤ (p : ℝ) / ((n : ℝ) - 1) := by
       have h1 : spanOf x B < 1 / q := by
         rw [lt_div_iff₀ hq0]; linarith
-      have h1q : 1 / q = (p : ℝ) / 6 := one_div_div 6 (p : ℝ)
+      have h1q : 1 / q = (p : ℝ) / ((n : ℝ) - 1) := by
+        rw [hq]; exact one_div_div ((n : ℝ) - 1) (p : ℝ)
       linarith
     have hcl : ∀ i ∈ B, ∀ j ∈ B, i ≠ j →
         ‖gram Z (mtParams T) T i j - (kfun (x i - x j) : ℂ)‖ ≤ δ := by
       intro i hi j hj _
       exact hclose i j ((abs_sub_le_spanOf x hi hj).trans hR)
-    have h13 := block_bound hm hp hCert hA0 x (gram_posSemidef Z (mtParams T) T) B hB
+    have h13 := block_bound hn hm hp hCert hA0 x (gram_posSemidef Z (mtParams T) T) B hB
       (xret_injective Z (mtParams T) T hL).injOn hδpos.le hcl
     have hη' : 2 * (m : ℝ) ^ 2 * δ = η := by rw [hδ]; field_simp
     rw [hη'] at h13
@@ -131,37 +146,60 @@ theorem block_bound_eventually (Z : ZeroConfig) (H : PaperInputs Z) {c : ℝ} {m
 
 /-! ### S8 + S9 + S13 + S14 + S15: the pre-S16 inequality  ([A] §5, lines 437–443) -/
 
-/-- `(H − 6(m−1)/(pm) − ε) N ≤ (1 − A₀/m) N₀ˢ` eventually, for every `ε > 0`.  This is [A]'s
+/-- `(H − (n−1)(m−1)/(pm) − ε) N ≤ (1 − A₀/m) N₀ˢ` eventually, for every `ε > 0`.  This is [A]'s
 display after "Substitute eq:defect-numbers into eq:global-defect", with every `o(N)` made an
-explicit `η N`. -/
-theorem pre_solve (Z : ZeroConfig) (H : PaperInputs Z) {c : ℝ} {m p : ℕ}
-    (hm : 7 ≤ m) (hp : 0 < p) (hc : 0 < c)
-    (hCert : ∀ g : Fin 6 → ℝ, (∀ i, 0 ≤ g i) → c ≤ F6 p g) (hA0 : c * ((m : ℝ) - 6) ≤ 1) :
+explicit `η N`.
+
+The only place `n` enters the arithmetic is the coefficient `q = (n−1)/p` of the span and the
+tolerance scale.  At `n = 7` the paper can take `η = min(ε/10, A₀)` because the accumulated
+coefficient `m + 3 + q(m−1)` is then at most `7m − 3 ≤ 10m`; for general `n` that bound grows
+with `n`, so the tolerance is scaled by the coefficient itself, `η ≤ εm/(m + 3 + (n−1)(m−1))`.
+Nothing else in the chain S8–S16 sees `n`. -/
+theorem pre_solve (Z : ZeroConfig) (H : PaperInputs Z) {c : ℝ} {n m p : ℕ}
+    (hn : 2 ≤ n) (hm : n ≤ m) (hp : 0 < p) (hc : 0 < c)
+    (hCert : ∀ g : Fin (n - 1) → ℝ, (∀ i, 0 ≤ g i) → c ≤ F n p g)
+    (hA0 : c * ((m : ℝ) - ((n : ℝ) - 1)) ≤ 1) :
     ∀ ε > 0, ∀ᶠ T in atTop,
-      (HD 1 - 6 * ((m : ℝ) - 1) / ((p : ℝ) * m) - ε) * (Z.N T (2 * T) : ℝ)
-        ≤ (1 - c * ((m : ℝ) - 6) / m) * (Z.N0s T (2 * T) : ℝ) := by
+      (HD 1 - ((n : ℝ) - 1) * ((m : ℝ) - 1) / ((p : ℝ) * m) - ε) * (Z.N T (2 * T) : ℝ)
+        ≤ (1 - c * ((m : ℝ) - ((n : ℝ) - 1)) / m) * (Z.N0s T (2 * T) : ℝ) := by
   intro ε hε
-  have hm' : (7 : ℝ) ≤ m := by exact_mod_cast hm
+  have hn' : (2 : ℝ) ≤ n := by exact_mod_cast hn
+  have hmn : (n : ℝ) ≤ (m : ℝ) := by exact_mod_cast hm
+  have hm' : (2 : ℝ) ≤ m := le_trans hn' hmn
   have hmpos : (0 : ℝ) < m := by linarith
+  have hgap : (1 : ℝ) ≤ (n : ℝ) - 1 := by linarith
   have hp' : (0 : ℝ) < p := by exact_mod_cast hp
   have hp1 : (1 : ℝ) ≤ p := by exact_mod_cast hp
-  have hA₀pos : 0 < c * ((m : ℝ) - 6) := mul_pos hc (by linarith)
-  have hq0 : (0 : ℝ) ≤ 6 / (p : ℝ) := div_nonneg (by norm_num) hp'.le
-  have hq6 : (6 : ℝ) / (p : ℝ) ≤ 6 := by
+  have hA₀pos : 0 < c * ((m : ℝ) - ((n : ℝ) - 1)) := mul_pos hc (by linarith)
+  have hq0 : (0 : ℝ) ≤ ((n : ℝ) - 1) / (p : ℝ) := div_nonneg (by linarith) hp'.le
+  have hqn : ((n : ℝ) - 1) / (p : ℝ) ≤ (n : ℝ) - 1 := by
     rw [div_le_iff₀ hp']; nlinarith
-  have hηpos : 0 < min (ε / 10) (c * ((m : ℝ) - 6)) := lt_min (by positivity) hA₀pos
-  have hηε : min (ε / 10) (c * ((m : ℝ) - 6)) ≤ ε / 10 := min_le_left _ _
-  have hηA : min (ε / 10) (c * ((m : ℝ) - 6)) ≤ c * ((m : ℝ) - 6) := min_le_right _ _
-  have hA' : 0 ≤ c * ((m : ℝ) - 6) - min (ε / 10) (c * ((m : ℝ) - 6)) := by linarith
-  filter_upwards [block_bound_eventually Z H hm hp hCert hA0 hηpos,
+  -- the accumulated coefficient of the tolerance, and the tolerance scaled to it
+  set Cn : ℝ := (m : ℝ) + 3 + ((n : ℝ) - 1) * ((m : ℝ) - 1) with hCn
+  have hCnpos : 0 < Cn := by
+    have h := mul_nonneg (by linarith : (0 : ℝ) ≤ (n : ℝ) - 1) (by linarith : (0 : ℝ) ≤ (m : ℝ) - 1)
+    rw [hCn]; linarith
+  have hCne : Cn ≠ 0 := hCnpos.ne'
+  set ε₀ : ℝ := ε * (m : ℝ) / Cn with hε₀
+  have hε₀pos : 0 < ε₀ := by rw [hε₀]; positivity
+  have hηpos : 0 < min ε₀ (c * ((m : ℝ) - ((n : ℝ) - 1))) := lt_min hε₀pos hA₀pos
+  have hηε : min ε₀ (c * ((m : ℝ) - ((n : ℝ) - 1))) ≤ ε₀ := min_le_left _ _
+  have hηA : min ε₀ (c * ((m : ℝ) - ((n : ℝ) - 1))) ≤ c * ((m : ℝ) - ((n : ℝ) - 1)) :=
+    min_le_right _ _
+  have hA' : 0 ≤ c * ((m : ℝ) - ((n : ℝ) - 1)) - min ε₀ (c * ((m : ℝ) - ((n : ℝ) - 1))) := by
+    linarith
+  filter_upwards [block_bound_eventually Z H hn hm hp hCert hA0 hηpos,
     deleted_strips Z H _ hηpos, span_retained_le Z H _ hηpos,
     tail_passage Z H (eventually_h7 Z) _ hηpos,
-    (Assembly.tendsto_N_atTop Z H.RvM).eventually_ge_atTop ((m : ℝ) / min (ε / 10) (c * ((m : ℝ) - 6))),
+    (Assembly.tendsto_N_atTop Z H.RvM).eventually_ge_atTop
+      ((m : ℝ) / min ε₀ (c * ((m : ℝ) - ((n : ℝ) - 1)))),
     eventually_L_pos] with T hblk hstrip hspan h8 hNbig hL
   -- S15 (with S13's uniform block bound and S14's pinching as inputs)
   have h15 := offset_average (xret Z (mtParams T) T) (xret_injective Z (mtParams T) T hL)
     (show 1 ≤ m by omega) (blockDefect (gram_isHermitian Z (mtParams T) T))
-    (Dcirc Z (mtParams T) T) (c * ((m : ℝ) - 6) - min (ε / 10) (c * ((m : ℝ) - 6))) (6 / (p : ℝ))
+    (Dcirc Z (mtParams T) T)
+    (c * ((m : ℝ) - ((n : ℝ) - 1)) - min ε₀ (c * ((m : ℝ) - ((n : ℝ) - 1))))
+    (((n : ℝ) - 1) / (p : ℝ))
     hA' hq0 (blockDefect_nonneg _) (fun B hB _ => hblk B hB)
     (fun κ _ _ β => pinching_partition (gram_isHermitian Z (mtParams T) T) κ β)
   rw [Fintype.card_coe] at h15
@@ -170,12 +208,12 @@ theorem pre_solve (Z : ZeroConfig) (H : PaperInputs Z) {c : ℝ} {m p : ℕ}
     have h := (Z.trivial_chain T (2 * T)).1.trans
       ((Z.trivial_chain T (2 * T)).2.1.trans (Z.trivial_chain T (2 * T)).2.2.1)
     exact_mod_cast h
-  have hmN : (m : ℝ) ≤ min (ε / 10) (c * ((m : ℝ) - 6)) * (Z.N T (2 * T) : ℝ) := by
+  have hmN : (m : ℝ) ≤ min ε₀ (c * ((m : ℝ) - ((n : ℝ) - 1))) * (Z.N T (2 * T) : ℝ) := by
     have := (div_le_iff₀ hηpos).mp hNbig; linarith
   -- the real numbers at height T
-  set A₀ : ℝ := c * ((m : ℝ) - 6) with hA₀
-  set q : ℝ := 6 / (p : ℝ) with hq
-  set η : ℝ := min (ε / 10) A₀ with hη
+  set A₀ : ℝ := c * ((m : ℝ) - ((n : ℝ) - 1)) with hA₀
+  set q : ℝ := ((n : ℝ) - 1) / (p : ℝ) with hq
+  set η : ℝ := min ε₀ A₀ with hη
   set N : ℝ := (Z.N T (2 * T) : ℝ) with hNdef
   set n0 : ℝ := (Z.N0s T (2 * T) : ℝ) with hn0def
   set S : ℝ := ((retained Z (mtParams T) T).card : ℝ) with hSdef
@@ -194,19 +232,20 @@ theorem pre_solve (Z : ZeroConfig) (H : PaperInputs Z) {c : ℝ} {m p : ℕ}
   have step3 : A₀ * n0 - 3 * η * N ≤ (A₀ - η) * (n0 - 2 * η * N) := by linarith [e1, e2, e3]
   have hmD : (m : ℝ) * D ≤ m * (n0 - (HD 1 - η) * N) :=
     mul_le_mul_of_nonneg_left (by linarith) hmpos.le
-  have hq' : q * ((m : ℝ) - 1) ≤ 6 * ((m : ℝ) - 1) :=
-    mul_le_mul_of_nonneg_right hq6 (by linarith)
-  have hcoef1 : η * ((m : ℝ) + 3 + q * ((m : ℝ) - 1)) ≤ η * (7 * (m : ℝ) - 3) :=
-    mul_le_mul_of_nonneg_left (by linarith) hηpos.le
-  have hcoef2 : η * (7 * (m : ℝ) - 3) ≤ ε / 10 * (7 * (m : ℝ) - 3) :=
-    mul_le_mul_of_nonneg_right hηε (by linarith)
-  have hεm : 0 ≤ ε * m := mul_nonneg hε.le hmpos.le
-  have hcoef : η * ((m : ℝ) + 3 + q * ((m : ℝ) - 1)) ≤ m * ε := by linarith [hcoef1, hcoef2, hεm]
+  have hq' : q * ((m : ℝ) - 1) ≤ ((n : ℝ) - 1) * ((m : ℝ) - 1) :=
+    mul_le_mul_of_nonneg_right hqn (by linarith)
+  have hcoef1 : η * ((m : ℝ) + 3 + q * ((m : ℝ) - 1)) ≤ η * Cn :=
+    mul_le_mul_of_nonneg_left (by rw [hCn]; linarith) hηpos.le
+  have hcoef2 : η * Cn ≤ ε₀ * Cn := mul_le_mul_of_nonneg_right hηε hCnpos.le
+  have hεCn : ε₀ * Cn = ε * (m : ℝ) := by
+    rw [hε₀, div_mul_eq_mul_div, mul_div_assoc, div_self hCne, mul_one]
+  have hcoef : η * ((m : ℝ) + 3 + q * ((m : ℝ) - 1)) ≤ m * ε := by
+    linarith [hcoef1, hcoef2, hεCn]
   have hηN' : η * ((m : ℝ) + 3 + q * ((m : ℝ) - 1)) * N ≤ m * ε * N :=
     mul_le_mul_of_nonneg_right hcoef hN0
   have key : ((m : ℝ) * HD 1 - q * ((m : ℝ) - 1) - m * ε) * N ≤ ((m : ℝ) - A₀) * n0 := by
     linarith [h15, step1, step2, step3, hmD, hηN']
-  have hL1 : (HD 1 - 6 * ((m : ℝ) - 1) / ((p : ℝ) * m) - ε) * N
+  have hL1 : (HD 1 - ((n : ℝ) - 1) * ((m : ℝ) - 1) / ((p : ℝ) * m) - ε) * N
       = ((m : ℝ) * HD 1 - q * ((m : ℝ) - 1) - m * ε) * N / m := by
     rw [hq]; field_simp
   have hR1 : (1 - A₀ / m) * n0 = ((m : ℝ) - A₀) * n0 / m := by
@@ -239,17 +278,33 @@ conditions `7 ≤ m`, `0 < p`, `0 < c`.
 
 Everything else is proved: the proof is sorry-free and depends on the step lemmas S6–S9, S11–S16,
 each of which is proved in its own file with standard axioms only. -/
+theorem n_point_bound (n : ℕ) (c : ℝ) (m p : ℕ) (hn : 2 ≤ n) (hm : n ≤ m) (hp : 0 < p)
+    (hc : 0 < c)
+    (hCert : ∀ g : Fin (n - 1) → ℝ, (∀ i, 0 ≤ g i) → c ≤ F n p g)
+    (hA0 : c * ((m : ℝ) - ((n : ℝ) - 1)) ≤ 1) :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      (Phi_n n c m p - ε) * (Ncount T (2 * T) : ℝ) ≤ N0simple T (2 * T) := by
+  have h := solve_linear (N := fun T => (Ncount T (2 * T) : ℝ))
+    (N0 := fun T => (N0simple T (2 * T) : ℝ)) hn hm hA0 (by
+      have := pre_solve zetaZeroConfig paperInputs_zeta hn hm hp hc hCert hA0
+      simpa only [zetaZeroConfig_N, zetaZeroConfig_N0s] using this)
+  intro ε hε
+  exact eventually_atTop.mp (h ε hε)
+
+/-- **The seven-point bound, as the `n = 7` corollary.**  The statement is unchanged from the
+version proved before the bridge was made parametric: `F6` is `F 7` definitionally (`F6_eq`) and
+`Phi` is `Phi_n 7` (`Phi_eq_Phi_n`), so the corollary is the general theorem plus two numeral
+identifications and nothing else. -/
 theorem seven_point_bound (c : ℝ) (m p : ℕ) (hm : 7 ≤ m) (hp : 0 < p) (hc : 0 < c)
     (hCert : ∀ g : Fin 6 → ℝ, (∀ i, 0 ≤ g i) → c ≤ F6 p g)
     (hA0 : c * ((m : ℝ) - 6) ≤ 1) :
     ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
       (Phi c m p - ε) * (Ncount T (2 * T) : ℝ) ≤ N0simple T (2 * T) := by
-  have h := solve_linear (N := fun T => (Ncount T (2 * T) : ℝ))
-    (N0 := fun T => (N0simple T (2 * T) : ℝ)) hm hA0 (by
-      have := pre_solve zetaZeroConfig paperInputs_zeta hm hp hc hCert hA0
-      simpa only [zetaZeroConfig_N, zetaZeroConfig_N0s] using this)
-  intro ε hε
-  exact eventually_atTop.mp (h ε hε)
+  have h7 : ((7 : ℕ) : ℝ) - 1 = 6 := by norm_num
+  rw [Phi_eq_Phi_n]
+  refine n_point_bound 7 c m p (by norm_num) hm hp hc (fun g hg => ?_) ?_
+  · exact le_of_le_of_eq (hCert g hg) (F6_eq p g)
+  · rw [h7]; exact hA0
 
 /-- **Non-vacuity at the published parameters.**  With `c = 19/5000`, `m = 269`, `p = 3000` the
 conclusion's constant is the paper's `(1 345 000 H − 2 680)/1 340 003` ([A] Theorem 1.1), and the
@@ -303,12 +358,48 @@ theorem seven_point_bound_lab_ratio
   rw [le_div_iff₀ h2]
   exact h1
 
+/-- **The eight-point bound at this laboratory's accepted certificate.**  The eight-point run of
+`hunts/ainta_seven_point` accepts `F 8 3200 ≥ 41763/10⁷` on all 64 shards (floor bracketed
+`0.0041763 ≤ inf F₇ ≤ 0.0041773221`), and the cap `c(m − 7) ≤ 1` gives `m = 246`.  The constant
+is then `(2 460 000 000 H − 5 359 375)/2 450 018 643 = 0.673052982…`, against the seven-point
+laboratory value `0.673029553…`.
+
+This is the same theorem as `seven_point_bound`, instantiated at `n = 8`: nothing in the proof of
+`n_point_bound` knows which `n` it is being run at.  As with every other statement here, the
+certificate is a hypothesis and not a Lean fact. -/
+theorem eight_point_bound
+    (hCert : ∀ g : Fin 7 → ℝ, (∀ i, 0 ≤ g i) → 41763 / 10000000 ≤ F 8 3200 g) :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      ((2460000000 * HD 1 - 5359375) / 2450018643 - ε) * (Ncount T (2 * T) : ℝ)
+        ≤ N0simple T (2 * T) := by
+  rw [← Phi_lab8]
+  exact n_point_bound 8 (41763 / 10000000) 246 3200 (by norm_num) (by norm_num) (by norm_num)
+    (by norm_num) hCert (by norm_num)
+
+/-- **The eight-point bound as a proportion.**  `N₀ˢ(T,2T)/N(T,2T) ≥ 0.673052982… − ε` for all
+large `T`. -/
+theorem eight_point_bound_ratio
+    (hCert : ∀ g : Fin 7 → ℝ, (∀ i, 0 ≤ g i) → 41763 / 10000000 ≤ F 8 3200 g) :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      (2460000000 * HD 1 - 5359375) / 2450018643 - ε
+        ≤ (N0simple T (2 * T) : ℝ) / (Ncount T (2 * T) : ℝ) := by
+  intro ε hε
+  obtain ⟨T₁, hT₁⟩ := eight_point_bound hCert ε hε
+  obtain ⟨T₂, hT₂⟩ := eventually_atTop.mp eventually_Ncount_pos
+  refine ⟨max T₁ T₂, fun T hT => ?_⟩
+  have h1 := hT₁ T (le_trans (le_max_left _ _) hT)
+  have h2 := hT₂ T (le_trans (le_max_right _ _) hT)
+  rw [le_div_iff₀ h2]
+  exact h1
+
 /-! ### Standing axiom audit
 
 Same idiom as `Zeta23Ext/StableRankTrace.lean`.  Expected, and observed on 2026-08-23: every line
 below reports exactly `[propext, Classical.choice, Quot.sound]`; no `sorryAx`, no `native_decide`,
 no new axiom anywhere in the import closure. -/
 
+#print axioms F6_eq
+#print axioms Phi_eq_Phi_n
 #print axioms solve_linear
 #print axioms Phi_paper
 #print axioms Phi_paper'
@@ -317,10 +408,14 @@ no new axiom anywhere in the import closure. -/
 #print axioms eventually_h7
 #print axioms block_bound_eventually
 #print axioms pre_solve
+#print axioms n_point_bound
 #print axioms seven_point_bound
 #print axioms seven_point_bound_paper
 #print axioms eventually_Ncount_pos
 #print axioms seven_point_bound_lab
 #print axioms seven_point_bound_lab_ratio
+#print axioms Phi_lab8
+#print axioms eight_point_bound
+#print axioms eight_point_bound_ratio
 
 end Zeta23Ext.Bridge

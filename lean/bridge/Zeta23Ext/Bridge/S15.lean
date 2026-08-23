@@ -36,23 +36,6 @@ section Abstract
 
 variable {ι : Type*} [Fintype ι] [DecidableEq ι]
 
-/-- `Σ_{i<N} (f(i+d) − f(i)) = Σ_{i<d} (f(N+i) − f(i))`, the general shift identity. -/
-lemma sum_shift_sub (f : ℕ → ℝ) (d N : ℕ) :
-    ∑ i ∈ range N, (f (i + d) - f i) = ∑ i ∈ range d, (f (N + i) - f i) := by
-  induction N with
-  | zero => simp
-  | succ N ih =>
-    rw [sum_range_succ, ih]
-    have h1 : ∑ i ∈ range d, (f (N + 1 + i) - f i) = ∑ i ∈ range d, (f (N + (i + 1)) - f i) :=
-      sum_congr rfl fun i _ => by rw [Nat.add_right_comm, Nat.add_assoc]
-    have h2 : ∑ i ∈ range d, f (N + (i + 1)) = ∑ i ∈ range d, f (N + i) + f (N + d) - f (N + 0) := by
-      have := sum_range_succ' (fun i => f (N + i)) d
-      rw [sum_range_succ] at this
-      linarith
-    rw [h1, sum_sub_distrib, sum_sub_distrib, h2]
-    simp only [add_zero]
-    ring
-
 /-- Two block starts with the same residue whose blocks overlap coincide. -/
 lemma eq_of_mod_eq_of_overlap {m s s' k : ℕ} (_hm : 0 < m) (h : s % m = s' % m)
     (hs : s ≤ k ∧ k < s + m) (hs' : s' ≤ k ∧ k < s' + m) : s = s' := by

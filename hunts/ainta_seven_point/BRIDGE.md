@@ -82,19 +82,87 @@ The conclusion's shape is `[L23]`'s `thmD₀_simple_mult` with `HD 1` replaced b
 `Phi c m p`; the unconditional base theorem is the special case one recovers by
 dropping the defect.
 
+### The `n`-point theorem, and the eight-point instance (2026-08-23)
+
+Every step of the bridge was then made parametric in the point count, and the statement
+above became a three-line corollary of a general theorem. Nothing in the seven-point
+statement moved: `F6 p` is `F 7 p` by `rfl` and `Phi` is `Phi_n 7` by `norm_num`, so the
+registry surface that advertises it is unaffected down to the byte.
+
+```lean
+theorem n_point_bound (n : ℕ) (c : ℝ) (m p : ℕ) (hn : 2 ≤ n) (hm : n ≤ m) (hp : 0 < p)
+    (hc : 0 < c)
+    (hCert : ∀ g : Fin (n - 1) → ℝ, (∀ i, 0 ≤ g i) → c ≤ F n p g)
+    (hA0 : c * ((m : ℝ) - ((n : ℝ) - 1)) ≤ 1) :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      (Phi_n n c m p - ε) * (Ncount T (2 * T) : ℝ) ≤ N0simple T (2 * T)
+```
+
+with, in `Bridge/Defs.lean`,
+
+```lean
+def Phi_n (n : ℕ) (c : ℝ) (m p : ℕ) : ℝ :=
+  (HD 1 - ((n : ℝ) - 1) * ((m : ℝ) - 1) / ((p : ℝ) * m))
+    / (1 - c * ((m : ℝ) - ((n : ℝ) - 1)) / m)
+```
+
+**The two numerals were the whole content of the generalisation.** The paper's `6` in the
+numerator is the number of times a single gap is charged when the pressure term is summed
+over the windows of a block ([A]:348, *"each single gap occurs at most six times"*), which
+is `n−1`; its `m−6` is the number of windows of `n` consecutive points in a block of `m`,
+which is `m−(n−1)`. The block cap `A₀ = c(m−(n−1)) ≤ 1` caps `m` at `(n−1) + ⌊1/c⌋`.
+
+At eight points, at the certificate this hunt's own run accepts (`RESULTS.md` §3;
+`c = 41763/10⁷` at `p = 3200`, cap `c(m−7) ≤ 1` giving `m ≤ 7 + ⌊10⁷/41763⌋ = 246`), via
+`Phi_lab8 : Phi_n 8 (41763 / 10000000) 246 3200 = (2460000000 * HD 1 - 5359375) / 2450018643`:
+
+```lean
+theorem eight_point_bound
+    (hCert : ∀ g : Fin 7 → ℝ, (∀ i, 0 ≤ g i) → 41763 / 10000000 ≤ F 8 3200 g) :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      ((2460000000 * HD 1 - 5359375) / 2450018643 - ε) * (Ncount T (2 * T) : ℝ)
+        ≤ N0simple T (2 * T)
+
+theorem eight_point_bound_ratio
+    (hCert : ∀ g : Fin 7 → ℝ, (∀ i, 0 ≤ g i) → 41763 / 10000000 ≤ F 8 3200 g) :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      (2460000000 * HD 1 - 5359375) / 2450018643 - ε
+        ≤ (N0simple T (2 * T) : ℝ) / (Ncount T (2 * T) : ℝ)
+```
+
+`(2 460 000 000 H − 5 359 375)/2 450 018 643 = 0.67305298298962888…`, recomputed at 50
+digits and agreeing with the `0.673052983` of `RESULTS.md` §3. Against the seven-point
+laboratory figure `0.67302955347969271…` that is a gain of `2.34 × 10⁻⁵`. **The same
+caveat applies with the same force:** `hCert` at `(8, 41763/10⁷, 3200)` is exactly as
+unproved in Lean as `hCert` at `(7, 19/5000, 3000)`. What changed is that the *bridge*
+from an eight-point certificate to a proportion is no longer a reading of the paper: it is
+a theorem, and `RESULTS.md` §3's earlier *"stated, not proved"* is superseded.
+
+One genuine mathematical change was needed, in `Main.pre_solve`: the paper's tolerance
+`η = min(ε/10, A₀)` is sound at `n = 7` only because the accumulated coefficient
+`m + 3 + (n−1)(m−1)` is then at most `10m`. It is now scaled by that coefficient itself,
+`η = min(εm/(m + 3 + (n−1)(m−1)), A₀)`, which is sound at every `n`. Everything else in the
+assembly turned out to be independent of the point count given the two derived reals; S6,
+S7, S8, S9, S12, S14, S15 and the S8/S9/pinching helpers needed no edit at all, because
+none of them ever sees a point count.
+
 ## 2. Build record
 
 **Whole-package build at the root**, since 2026-08-23:
 
 ```
 cd lean/bridge && lake build
-Build completed successfully (8860 jobs).    62 s wall against the prebuilt store
+Build completed successfully (8864 jobs).    62 s wall against the prebuilt store
 ```
+
+*(8860 jobs before the `n`-point generalisation and the eight-point surface of 2026-08-23;
+the four new jobs are `EightChallenge` and `EightSolution` and their targets.)*
 
 Equivalently `bash lean/bridge/assemble.sh`, which symlinks the prebuilt Mathlib and
 `Zeta23` stores in and then runs exactly that. The default targets are the development
-(`Zeta23Ext`), `BridgeChallenge` and `BridgeSolution`, so this one command builds the
-theorem, the advertised statements and their proofs.
+(`Zeta23Ext`), `BridgeChallenge`, `BridgeSolution`, `EightChallenge` and
+`EightSolution`, so this one command builds the theorem, both sets of advertised
+statements and their proofs.
 
 *(Before the move this was a standalone module build,
 `cd hunts/frontier_math/zeta23ext && lake build Zeta23Ext.Bridge.Main`, 8854 jobs in 44 s,
@@ -102,12 +170,14 @@ because that package does not assemble at its root, issue #101. That is why the 
 moved; #101 is still open for what remains there and no longer touches this theorem.)*
 
 Toolchain `leanprover/lean4:v4.33.0-rc2`, mathlib `51e6992efd06126df61a496bebf8f49482a4e129`,
-`Zeta23` at the pinned rev above. Exactly four `sorry` warnings in the whole build, and all
-four are the deliberate ones in `BridgeChallenge.lean` that the Palomar format requires of a
-statement-only module; every other warning in the log is a deprecation notice from `Zeta23`
-itself. Every `#print axioms` line in the package (76 of them across `Defs`, `Helpers_*`,
-`S6` to `S16`, `Main` and `BridgeSolution`, the four advertised `Zeta23Ext.Palomar`
-declarations included) reports `[propext, Classical.choice, Quot.sound]`. Static scan of
+`Zeta23` at the pinned rev above. Exactly seven `sorry` warnings in the whole build, four in
+`BridgeChallenge.lean` and three in `EightChallenge.lean`, and all seven are the deliberate
+ones the Palomar format requires of a statement-only module; every other warning in the log
+is a deprecation notice from `Zeta23` itself. Every `#print axioms` line in the package (93
+of them across `Defs`, `Helpers_*`, `S6` to `S16`, `Main`, `BridgeSolution` and
+`EightSolution`, the four advertised `Zeta23Ext.Palomar` and three advertised
+`Zeta23Ext.PalomarEight` declarations included) reports
+`[propext, Classical.choice, Quot.sound]`. Static scan of
 every `.lean` file in the package: no `axiom`, `opaque`, `unsafe`, `admit`, `native_decide`,
 `implemented_by` or `extern`.
 
@@ -335,9 +405,12 @@ untouched.
    on `N₀ˢ/N` — with the format's four deliberate `sorry`s, one per statement.
    `lean/bridge/BridgeSolution.lean` proves the same four from
    `Zeta23Ext.Bridge.Main`; every bridge is `rfl` except `H_eq`, which is `[L23]`'s
-   `HD_one`. The eight-point statement of `RESULTS.md` is **not** advertised: its
+   `HD_one`. ~~The eight-point statement of `RESULTS.md` is **not** advertised: its
    bridge from certificate to proportion is stated, not proved, and an unproved
-   bridge has no business on a registry surface.
+   bridge has no business on a registry surface.~~ **Superseded 2026-08-23:** that
+   bridge is now proved (section 1, `n_point_bound` and `eight_point_bound`), so the
+   reason not to advertise it is gone. It is advertised, on its own surface — see
+   below — and not by editing this one, which is in flight.
 3. **The licence headers are correct.** All seventeen moved files carried Apache-2.0
    headers copied from the dependency's house style while this repository is MIT;
    they now carry the MIT header the rest of `lean/` uses. The one file that adapts
@@ -348,7 +421,36 @@ untouched.
 `scripts/palomar_precheck.py . lean/bridge lean/comparator-bridge.json
 lean/palomar-bridge/formalization.yaml` now reports **66 pass, 1 warn, 0 FAIL**; the
 warn is the standing one that the pinned toolchain is a release candidate, which the
-two registered surfaces carry too.
+two registered surfaces carry too. *(The comparator and metadata later moved to
+`lean/bridge/comparator.json` and `lean/bridge/formalization.yaml`; at that layout, and
+with the current script, both surfaces read 63 pass, 1 warn, 0 FAIL.)*
+
+### The eight-point surface, added 2026-08-23
+
+A **second** surface over the same Lake package, in the disjoint namespace
+`Zeta23Ext.PalomarEight`, advertising three declarations: `n_point_bound`,
+`eight_point_bound` and `eight_point_bound_ratio`.
+
+| file | what it is |
+|---|---|
+| `lean/bridge/EightChallenge.lean` | statement-only over Mathlib alone, three deliberate `sorry` |
+| `lean/bridge/EightSolution.lean` | proves the three from `Zeta23Ext.Bridge.Main`; every bridge `rfl` except `H_eq` (`HD_one`) and `Phi_n_eq`, which carries `H_eq` into the constant |
+| `lean/bridge/comparator-eight.json` | the three theorem names, the same three permitted axioms |
+| `lean/bridge/formalization-eight.yaml` | origin source-based, `adapts` Ainta, review self-assessed |
+
+`scripts/palomar_precheck.py . lean/bridge lean/bridge/comparator-eight.json
+lean/bridge/formalization-eight.yaml` reports **63 pass, 1 warn, 0 FAIL**, the warn being
+the standing release-candidate one; re-running the seven-point surface reports the same,
+unchanged.
+
+**The seven-point surface was not touched.** A submission of it is in flight, so
+`comparator.json`, `formalization.yaml`, `BridgeChallenge.lean` and `BridgeSolution.lean`
+are byte-identical to what was submitted. One consequence is worth stating plainly: that
+entry's `status.scope` says the eight-point generalisation *"this laboratory has stated but
+not proved and which is therefore not offered here at all"*, which is now stale, and it
+cannot be corrected without editing a document under review. The correction lives in the
+eight-point entry's `review.notes` instead, which says so in as many words. **Nothing has
+been submitted for the eight-point surface.**
 
 ### What is still the registry's call
 
@@ -377,7 +479,9 @@ project and the theorem's value does not depend on it.
 Nothing here bears on the Riemann Hypothesis (`docs/08`). `lean/bridge` assembles at
 its root; `hunts/frontier_math/zeta23ext` still does not (#101), and that is now a
 separate matter about modules this theorem never imported. Nothing has been submitted
-to any registry. S10 is not a Lean fact and no claim is made that the Arb run is a
+to any registry from the eight-point surface, and the general theorem does not make any
+certificate a Lean fact: `n_point_bound` is conditional at every `n`, and the eight-point
+inequality is evidence from an interval-arithmetic verifier and nothing more. S10 is not a Lean fact and no claim is made that the Arb run is a
 proof in the sense this laboratory's Lean arm uses the word; that applies equally to
 this laboratory's own `(34697/10^7, 3400)` run, which is the same kind of evidence as
 the published one and is assumed the same way. The

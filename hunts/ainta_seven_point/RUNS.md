@@ -281,3 +281,28 @@ artifacts:
   - lean/bridge/comparator.json
   - lean/bridge/formalization.yaml
 ```
+
+```runmanifest
+id: ainta_seven_point-2026-08-23-n-point-and-eight-point-surface
+hunt: ainta_seven_point
+started: 2026-08-23T23:10-05:00
+finished: 2026-08-24T01:05-05:00
+ran:
+  - git worktree from origin/bridge/n-point on branch bridge/eight-point; that branch had already made every step of the Lean bridge parametric in the point count (Defs ptsN/F/Phi_n, Helpers_finite windowGaps and a real telescope in place of the n=7 fin_cases, S11 pairCoef 2/(n-r) with the fibre bound n-r, S13 and S16 restated, Main.pre_solve with the tolerance rescaled to eta = min(eps*m/(m+3+(n-1)(m-1)), A_0)), proved n_point_bound for every n >= 2, derived seven_point_bound from it in three lines with its statement unchanged, and added eight_point_bound and eight_point_bound_ratio at (41763/10000000, 246, 3200)
+  - checked the m cap in exact rational arithmetic rather than trusting the numeral: c(246-7) = 9981357/10^7 <= 1 and c(247-7) = 1.002312 > 1, so 246 = 7 + floor(10^7/41763) is the cap the general formula gives and the numeral in the theorem is right
+  - recomputed the eight-point constant at 50 digits from H = 3/2 - (1/sqrt 2)cot(1/sqrt 2) and compared it with the kernel-checked closed form Phi_lab8 = (2460000000*HD 1 - 5359375)/2450018643
+  - authored the eight-point Palomar surface as NEW files, leaving the seven-point surface byte-identical because a submission of it is in flight: lean/bridge/EightChallenge.lean (Mathlib alone, namespace Zeta23Ext.PalomarEight, three theorems with the format's three sorry), lean/bridge/EightSolution.lean (proves the three from Zeta23Ext.Bridge.Main; every bridge rfl except H_eq = HD_one and Phi_n_eq), lean/bridge/comparator-eight.json, lean/bridge/formalization-eight.yaml; both libraries added to lean/bridge/lakefile.toml and to its defaultTargets
+  - bash lean/bridge/assemble.sh, that is cd lean/bridge && lake build at the package root
+  - .venv/bin/python scripts/palomar_precheck.py . lean/bridge lean/bridge/comparator-eight.json lean/bridge/formalization-eight.yaml, and the same for the seven-point surface as a regression
+  - .venv/bin/python scripts/71_contribution_check.py hunts/ainta_seven_point; .venv/bin/python scripts/make_context.py
+outcome: the package assembles at its root, Build completed successfully (8864 jobs), first try; exactly seven sorry warnings in the whole build, four in BridgeChallenge.lean and three in EightChallenge.lean, none anywhere else; 93 axiom-audit lines in the package, every one [propext, Classical.choice, Quot.sound], the three advertised Zeta23Ext.PalomarEight declarations included; the cap check confirms m = 246; the recomputed constant is 0.67305298298962888688, which rounds to the 0.673052983 recorded in RESULTS.md section 3, so the recorded figure is right and is now the value of a proved theorem rather than a stated one; Palomar precheck on the eight-point surface 63 pass, 1 warn (rc toolchain, standing), 0 FAIL, and the seven-point surface still 63 pass, 1 warn, 0 FAIL; RESULTS.md section 3 and 5, and BRIDGE.md sections 1, 2, 8 and 10, corrected where they said the eight-point bridge was stated and not proved, with the superseded wording kept visible rather than overwritten; one stale claim could NOT be corrected and is recorded instead: lean/bridge/formalization.yaml, the in-flight seven-point entry, says in status.scope that the eight-point generalisation is "stated but not proved and ... not offered here at all", which is no longer true but cannot be edited while that entry is under review, so the correction lives in the eight-point entry's review.notes; nothing submitted to any registry
+artifacts:
+  - lean/bridge/EightChallenge.lean
+  - lean/bridge/EightSolution.lean
+  - lean/bridge/comparator-eight.json
+  - lean/bridge/formalization-eight.yaml
+  - lean/bridge/lakefile.toml
+  - lean/bridge/Zeta23Ext/Bridge/Main.lean
+  - lean/bridge/Zeta23Ext/Bridge/Defs.lean
+  - hunts/ainta_seven_point/artifacts/verify-n8-41763-10000000-p3200.json
+```

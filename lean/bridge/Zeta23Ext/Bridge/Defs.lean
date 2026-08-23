@@ -7,7 +7,7 @@ import Zeta23.ThmD.Mult
 import Zeta23Ext.StableRankTrace
 
 /-!
-# Bridge definitions: the seven-point simple-zero bound (Ainta, `riemann.tex`)
+# Bridge definitions: the `n`-point simple-zero bound (Ainta, `riemann.tex`, `n = 7`)
 
 The objects of `hunts/ainta_seven_point/TRUST-MAP.md` steps S6–S16, written in the vocabulary of
 the vendored `anthropics/zeta-23-lean` (`[L23]`) wherever that vocabulary exists:
@@ -21,10 +21,11 @@ the vendored `anthropics/zeta-23-lean` (`[L23]`) wherever that vocabulary exists
   (`= 3/2 − (1/√2)cot(1/√2)`, `Zeta23/ThmD/Functional.lean`, `HD_one`),
 * Ainta's profile `Psi` from `Zeta23Ext/StableRankTrace.lean` (`= gc 2 + 1`, kernel-checked there).
 
-What is new here and has no upstream counterpart: the overlap kernel `k`, `w = k²`, the seven-point
-functional `F6` with pressure denominator `p`, the block objects (defect `D = tr Psi`, energy, span,
+What is new here and has no upstream counterpart: the overlap kernel `k`, `w = k²`, the `n`-point
+functional `F` (with `F6 = F 7`) with pressure denominator `p`, the block objects (defect `D = tr Psi`, energy, span,
 off-diagonal mass), the retained central simple zeros and their Gram matrix `M°`, the simple-zero
-factor `P₁ = V Vᴴ` with its complement `Q' = Â − P₁`, and the bound constant `Phi c m p`.
+factor `P₁ = V Vᴴ` with its complement `Q' = Â − P₁`, and the bound constant `Phi_n n c m p`
+(with `Phi = Phi_n 7`).
 
 Nothing in this file is a theorem about ζ; the only proofs are bookkeeping (Hermitian-ness,
 positivity, injectivity) that the step files and `Bridge/Main.lean` consume.
@@ -52,7 +53,26 @@ def kfun (x : ℝ) : ℝ := Kfun x / Kfun 0
 /-- `w(x) := k(x)²`  ([A] end of §3). -/
 def wfun (x : ℝ) : ℝ := kfun x ^ 2
 
-/-! ### 2. The seven-point functional  ([A] §4, eq:F6) -/
+/-! ### 2. The n-point functional  ([A] §4, eq:F6 at `n = 7`)
+
+The paper writes the seven-point case.  Everything below is stated for `n` points and `n − 1`
+gaps; `n = 7` is recovered definitionally (`pts_eq_ptsN`, `F6_eq`).  The two seven-point
+definitions `pts` and `F6` are kept verbatim because the Palomar surface
+(`BridgeSolution.lean`) re-states them and checks the match by `rfl`. -/
+
+/-- The `n` ordered points `y₀ = 0, yᵢ = g₀ + ⋯ + g_{i−1}` determined by `n − 1` gaps. -/
+def ptsN (n : ℕ) (g : Fin (n - 1) → ℝ) (i : Fin n) : ℝ :=
+  ∑ j : Fin (n - 1), if (j : ℕ) < (i : ℕ) then g j else 0
+
+/-- `F n p (g) := (1/p) Σ gᵢ + Σ_{s=1}^{n−1} (2/(n−s)) Σ_{i=1}^{n−s} w(gᵢ + ⋯ + g_{i+s−1})`, the
+`n`-point functional at pressure denominator `p`, written as a sum over the `n(n−1)/2` pairs
+`i < j` of the `n` points with coefficient `2/(n − (j−i))`.  [A] eq:F6 is `F 7 3000`. -/
+def F (n p : ℕ) (g : Fin (n - 1) → ℝ) : ℝ :=
+  (1 / (p : ℝ)) * ∑ i, g i
+    + ∑ i : Fin n, ∑ j : Fin n,
+        if (i : ℕ) < (j : ℕ) then
+          (2 / ((n : ℝ) - (((j : ℕ) - (i : ℕ) : ℕ) : ℝ))) * wfun (ptsN n g j - ptsN n g i)
+        else 0
 
 /-- The seven ordered points `y₀ = 0, yᵢ = g₀ + ⋯ + g_{i−1}` determined by six gaps. -/
 def pts (g : Fin 6 → ℝ) (i : Fin 7) : ℝ := ∑ j : Fin 6, if (j : ℕ) < (i : ℕ) then g j else 0
@@ -66,6 +86,13 @@ def F6 (p : ℕ) (g : Fin 6 → ℝ) : ℝ :=
         if (i : ℕ) < (j : ℕ) then
           (2 / ((7 : ℝ) - (((j : ℕ) - (i : ℕ) : ℕ) : ℝ))) * wfun (pts g j - pts g i)
         else 0
+
+/-- The seven-point points are the `n = 7` case, definitionally. -/
+theorem pts_eq_ptsN (g : Fin 6 → ℝ) (i : Fin 7) : pts g i = ptsN 7 g i := rfl
+
+/-- **`F6` is `F` at `n = 7`, definitionally.**  This is what makes every seven-point statement
+of `Bridge/Main.lean` a corollary of its `n`-point original with no change of statement. -/
+theorem F6_eq (p : ℕ) (g : Fin 6 → ℝ) : F6 p g = F 7 p g := rfl
 
 /-! ### 3. Block quantities on an abstract finite index set -/
 
@@ -127,9 +154,21 @@ end Blocks
 
 /-! ### 5. The bound constant  ([A] §5, TRUST-MAP §1.1) -/
 
+/-- `Phi_n(n, c, m, p) := (H − (n−1)(m−1)/(pm)) / (1 − c(m−(n−1))/m)`, the `n`-point bound
+constant, with `H = HD 1 = 3/2 − (1/√2)cot(1/√2)`.  The block size `m` is capped by
+`c(m − (n−1)) ≤ 1`, i.e. `m ≤ (n−1) + ⌊1/c⌋`. -/
+def Phi_n (n : ℕ) (c : ℝ) (m p : ℕ) : ℝ :=
+  (HD 1 - ((n : ℝ) - 1) * ((m : ℝ) - 1) / ((p : ℝ) * m))
+    / (1 - c * ((m : ℝ) - ((n : ℝ) - 1)) / m)
+
 /-- `Phi(c, m, p) := (H − 6(m−1)/(pm)) / (1 − c(m−6)/m)` with `H = HD 1 = 3/2 − (1/√2)cot(1/√2)`. -/
 def Phi (c : ℝ) (m p : ℕ) : ℝ :=
   (HD 1 - 6 * ((m : ℝ) - 1) / ((p : ℝ) * m)) / (1 - c * ((m : ℝ) - 6) / m)
+
+/-- **`Phi` is `Phi_n` at `n = 7`.** -/
+theorem Phi_eq_Phi_n (c : ℝ) (m p : ℕ) : Phi c m p = Phi_n 7 c m p := by
+  unfold Phi Phi_n
+  norm_num
 
 /-! ### 6. The simple-zero factor at the block level  ([A] §1: `P₁ = V Vᵀ`, `Q' = Â − P₁`) -/
 
@@ -249,6 +288,9 @@ end Concrete
 
 /-! ### Standing axiom audit (idiom of `Zeta23Ext/StableRankTrace.lean`) -/
 
+#print axioms pts_eq_ptsN
+#print axioms F6_eq
+#print axioms Phi_eq_Phi_n
 #print axioms abs_sub_le_spanOf
 #print axioms spanOf_nonneg
 #print axioms defect_nonneg
