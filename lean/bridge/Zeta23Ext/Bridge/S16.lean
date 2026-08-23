@@ -8,8 +8,9 @@ import Zeta23Ext.Bridge.Defs
 /-!
 # S16: solving the linear inequality for `N₀ˢ`  ([A] §5, lines 437–457)
 
-From `(1 − A₀/m) N₀ˢ ≥ (H − 6(m−1)/(pm)) N − o(N)` divide by `1 − A₀/m > 0` and let `T → ∞`.
-Proved outright: it is algebra.  Also the paper's closed form at the published parameters.
+From `(1 − A₀/m) N₀ˢ ≥ (H − (n−1)(m−1)/(pm)) N − o(N)` divide by `1 − A₀/m > 0` and let `T → ∞`.
+Proved outright: it is algebra.  Also the closed forms at the published and laboratory
+parameters, seven-point and eight-point.
 -/
 
 noncomputable section
@@ -19,30 +20,34 @@ open Zeta23.ThmD
 
 namespace Zeta23Ext.Bridge
 
-/-- `1 − c(m−6)/m > 0` when `c(m − 6) ≤ 1 < m`. -/
-lemma one_sub_div_pos {c : ℝ} {m : ℕ} (hm : 7 ≤ m) (hA0 : c * ((m : ℝ) - 6) ≤ 1) :
-    0 < 1 - c * ((m : ℝ) - 6) / m := by
-  have hm' : (7 : ℝ) ≤ m := by exact_mod_cast hm
+/-- `1 − c(m−(n−1))/m > 0` when `c(m − (n−1)) ≤ 1 < m`. -/
+lemma one_sub_div_pos {c : ℝ} {n m : ℕ} (hn : 2 ≤ n) (hm : n ≤ m)
+    (hA0 : c * ((m : ℝ) - ((n : ℝ) - 1)) ≤ 1) :
+    0 < 1 - c * ((m : ℝ) - ((n : ℝ) - 1)) / m := by
+  have hm' : (2 : ℝ) ≤ m := by exact_mod_cast (by omega : 2 ≤ m)
   have hmpos : (0 : ℝ) < m := by linarith
   rw [sub_pos, div_lt_one hmpos]
   linarith
 
-/-- **S16.**  The ε-form division: if eventually
-`(H − 6(m−1)/(pm) − ε) N ≤ (1 − c(m−6)/m) N₀ˢ` for every `ε > 0`, then eventually
-`(Phi c m p − ε) N ≤ N₀ˢ` for every `ε > 0`. -/
-theorem solve_linear {N N0 : ℝ → ℝ} {c : ℝ} {m p : ℕ} (hm : 7 ≤ m)
-    (hA0 : c * ((m : ℝ) - 6) ≤ 1)
+/-- **S16**, `n`-point form.  The ε-form division: if eventually
+`(H − (n−1)(m−1)/(pm) − ε) N ≤ (1 − c(m−(n−1))/m) N₀ˢ` for every `ε > 0`, then eventually
+`(Phi_n n c m p − ε) N ≤ N₀ˢ` for every `ε > 0`.  Pure algebra; the only `n` in it is the
+numeral that the paper writes as `6`. -/
+theorem solve_linear {N N0 : ℝ → ℝ} {c : ℝ} {n m p : ℕ} (hn : 2 ≤ n) (hm : n ≤ m)
+    (hA0 : c * ((m : ℝ) - ((n : ℝ) - 1)) ≤ 1)
     (h : ∀ ε > 0, ∀ᶠ T in atTop,
-      (HD 1 - 6 * ((m : ℝ) - 1) / ((p : ℝ) * m) - ε) * N T ≤ (1 - c * ((m : ℝ) - 6) / m) * N0 T) :
-    ∀ ε > 0, ∀ᶠ T in atTop, (Phi c m p - ε) * N T ≤ N0 T := by
+      (HD 1 - ((n : ℝ) - 1) * ((m : ℝ) - 1) / ((p : ℝ) * m) - ε) * N T
+        ≤ (1 - c * ((m : ℝ) - ((n : ℝ) - 1)) / m) * N0 T) :
+    ∀ ε > 0, ∀ᶠ T in atTop, (Phi_n n c m p - ε) * N T ≤ N0 T := by
   intro ε hε
-  have hD := one_sub_div_pos hm hA0
-  set Dn : ℝ := 1 - c * ((m : ℝ) - 6) / m with hDn
+  have hD := one_sub_div_pos hn hm hA0
+  set Dn : ℝ := 1 - c * ((m : ℝ) - ((n : ℝ) - 1)) / m with hDn
   filter_upwards [h (ε * Dn) (mul_pos hε hD)] with T hT
-  have hPhi : Phi c m p = (HD 1 - 6 * ((m : ℝ) - 1) / ((p : ℝ) * m)) / Dn := rfl
+  have hPhi : Phi_n n c m p
+      = (HD 1 - ((n : ℝ) - 1) * ((m : ℝ) - 1) / ((p : ℝ) * m)) / Dn := rfl
   rw [hPhi]
-  have : (HD 1 - 6 * ((m : ℝ) - 1) / ((p : ℝ) * m)) / Dn - ε
-      = (HD 1 - 6 * ((m : ℝ) - 1) / ((p : ℝ) * m) - ε * Dn) / Dn := by
+  have : (HD 1 - ((n : ℝ) - 1) * ((m : ℝ) - 1) / ((p : ℝ) * m)) / Dn - ε
+      = (HD 1 - ((n : ℝ) - 1) * ((m : ℝ) - 1) / ((p : ℝ) * m) - ε * Dn) / Dn := by
     field_simp
   rw [this, div_mul_eq_mul_div, div_le_iff₀ hD]
   linarith
@@ -76,6 +81,18 @@ theorem Phi_lab : Phi (34697 / 10000000) 294 3400
   field_simp
   ring
 
+/-- **The eight-point instance.**  `hunts/ainta_seven_point`'s eight-point run accepts
+`F 8 3200 ≥ 41763/10⁷` (all 64 shards; floor bracketed `0.0041763 ≤ inf F₇ ≤ 0.0041773221`), and
+the cap `c(m − 7) ≤ 1` gives `m ≤ 7 + ⌊10⁷/41763⌋ = 246`.  At those values
+`Phi₈ = (2 460 000 000 H − 5 359 375)/2 450 018 643 = 0.673052982…`, against the seven-point
+laboratory value `0.673029553…`.  Arithmetic in `Phi_n`, not a new theorem about ζ. -/
+theorem Phi_lab8 : Phi_n 8 (41763 / 10000000) 246 3200
+    = (2460000000 * HD 1 - 5359375) / 2450018643 := by
+  unfold Phi_n
+  norm_num
+  field_simp
+  ring
+
 /-! ### Standing axiom audit (idiom of `Zeta23Ext/StableRankTrace.lean`) -/
 
 #print axioms one_sub_div_pos
@@ -83,5 +100,6 @@ theorem Phi_lab : Phi (34697 / 10000000) 294 3400
 #print axioms Phi_paper
 #print axioms Phi_paper'
 #print axioms Phi_lab
+#print axioms Phi_lab8
 
 end Zeta23Ext.Bridge

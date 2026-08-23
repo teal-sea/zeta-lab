@@ -6,19 +6,20 @@ SPDX-License-Identifier: MIT
 import Zeta23Ext.Bridge.Helpers_finite
 
 /-!
-# S11: the block energy bound  ([A] Lemma 4.2, eq:block-energy)
+# S11: the block energy bound  ([A] Lemma 4.2, eq:block-energy), for `n` points
 
-`E_m + (6/p)(y_m − y_1) ≥ c(m − 6)` for `y_1 < ⋯ < y_m`, `m ≥ 7`, from the accepted seven-point
-inequality `F6 ≥ c` (S10) summed over the `m − 6` consecutive seven-point windows.  The `1/500` of the
-paper is `6/p` at `p = 3000` ([A] line 348: "each single gap occurs at most six times").
+`E_m + ((n−1)/p)(y_m − y_1) ≥ c(m − (n−1))` for `y_1 < ⋯ < y_m`, `m ≥ n`, from the accepted
+`n`-point inequality `F n p ≥ c` (S10) summed over the `m − (n−1)` consecutive `n`-point windows.
+The paper's `1/500` is `6/p` at `n = 7`, `p = 3000` ([A] line 348: "each single gap occurs at most
+six times" — the structural fact is that a single gap is charged at most `n − 1` times).
 
-Proved here (bridge/finite).  The proof is the paper's, made explicit: the points are sorted by
-`Finset.orderEmbOfFin`; the `m − 6` window gap vectors are nonnegative so `hCert` applies to each;
-the linear terms telescope to `Σ_{i<6} (y_{m−6+i} − y_i) ≤ 6 (y_{m−1} − y_0)`; the quadratic terms
-are regrouped by the pair `(i+a, i+b)` they mention (`Finset.sum_fiberwise_of_maps_to`), each fibre
-has at most `7 − r` elements (`r = b − a`, injecting on `a`) of common value `(2/(7−r)) w`, and the
-resulting `2 w(y_v − y_u)` per pair `u < v` is dominated by the two terms `(u,v), (v,u)` of the
-energy (`w` is even).
+Proved here.  The proof is the paper's, made explicit: the points are sorted by
+`Finset.orderEmbOfFin`; the `m − (n−1)` window gap vectors are nonnegative so `hCert` applies to
+each; the linear terms telescope to `Σ_{i<n−1} (y_{m−(n−1)+i} − y_i) ≤ (n−1)(y_{m−1} − y_0)`; the
+quadratic terms are regrouped by the pair `(i+a, i+b)` they mention
+(`Finset.sum_fiberwise_of_maps_to`), each fibre has at most `n − r` elements (`r = b − a`,
+injecting on `a`) of common value `(2/(n−r)) w`, and the resulting `2 w(y_v − y_u)` per pair
+`u < v` is dominated by the two terms `(u,v), (v,u)` of the energy (`w` is even).
 -/
 
 noncomputable section
@@ -31,8 +32,8 @@ namespace Zeta23Ext.Bridge
 
 variable {ι : Type*} [Fintype ι] [DecidableEq ι]
 
-/-- The pair-coefficient of `F6`, as a function of the gap count `r = b − a`. -/
-def pairCoef (r : ℕ) : ℝ := 2 / ((7 : ℝ) - (r : ℝ))
+/-- The pair-coefficient of `F n p`, as a function of the gap count `r = b − a`. -/
+def pairCoef (n r : ℕ) : ℝ := 2 / ((n : ℝ) - (r : ℝ))
 
 /-- The energy of the sorted ordinates, over `Fin m × Fin m`. -/
 lemma energyOn_eq_sorted {m : ℕ} (x : ι → ℝ) (hx : Function.Injective x)
@@ -66,11 +67,11 @@ lemma energyOn_eq_sorted {m : ℕ} (x : ι → ℝ) (hx : Function.Injective x)
   exact (Fintype.sum_prod_type' (f := fun k l => if k = l then (0 : ℝ) else wfun (y k - y l))).symm
 
 /-- The quadratic part of the summed window functionals is dominated by the energy. -/
-lemma window_pairs_le_energy {m : ℕ} (hm : 7 ≤ m) (x : ι → ℝ) (hx : Function.Injective x)
-    (hS : (univ.image x).card = m) :
-    ∑ i ∈ range (m - 6), ∑ a : Fin 7, ∑ b : Fin 7,
+lemma window_pairs_le_energy {n m : ℕ} (hn : 2 ≤ n) (hm : n ≤ m) (x : ι → ℝ)
+    (hx : Function.Injective x) (hS : (univ.image x).card = m) :
+    ∑ i ∈ range (m - (n - 1)), ∑ a : Fin n, ∑ b : Fin n,
         (if (a : ℕ) < (b : ℕ) then
-          pairCoef ((b : ℕ) - (a : ℕ))
+          pairCoef n ((b : ℕ) - (a : ℕ))
             * wfun (sortedExt ((univ.image x).orderEmbOfFin hS) (i + b)
                 - sortedExt ((univ.image x).orderEmbOfFin hS) (i + a))
         else 0)
@@ -80,28 +81,28 @@ lemma window_pairs_le_energy {m : ℕ} (hm : 7 ≤ m) (x : ι → ℝ) (hx : Fun
   set Y := sortedExt y with hYdef
   have hm0 : 0 < m := by omega
   -- the triple index set and the summand
-  set T : Finset (ℕ × (Fin 7 × Fin 7)) :=
-    (range (m - 6) ×ˢ (univ : Finset (Fin 7 × Fin 7))).filter fun t => (t.2.1 : ℕ) < t.2.2
+  set T : Finset (ℕ × (Fin n × Fin n)) :=
+    (range (m - (n - 1)) ×ˢ (univ : Finset (Fin n × Fin n))).filter fun t => (t.2.1 : ℕ) < t.2.2
     with hTdef
-  set f : ℕ × (Fin 7 × Fin 7) → ℝ := fun t =>
-    pairCoef ((t.2.2 : ℕ) - (t.2.1 : ℕ)) * wfun (Y (t.1 + t.2.2) - Y (t.1 + t.2.1)) with hfdef
-  have hLHS : ∑ i ∈ range (m - 6), ∑ a : Fin 7, ∑ b : Fin 7,
+  set f : ℕ × (Fin n × Fin n) → ℝ := fun t =>
+    pairCoef n ((t.2.2 : ℕ) - (t.2.1 : ℕ)) * wfun (Y (t.1 + t.2.2) - Y (t.1 + t.2.1)) with hfdef
+  have hLHS : ∑ i ∈ range (m - (n - 1)), ∑ a : Fin n, ∑ b : Fin n,
       (if (a : ℕ) < (b : ℕ) then
-        pairCoef ((b : ℕ) - (a : ℕ)) * wfun (Y (i + b) - Y (i + a)) else 0)
+        pairCoef n ((b : ℕ) - (a : ℕ)) * wfun (Y (i + b) - Y (i + a)) else 0)
       = ∑ t ∈ T, f t := by
     rw [hTdef, sum_filter, sum_product]
     refine sum_congr rfl fun i _ => ?_
-    exact (Fintype.sum_prod_type' (f := fun (a b : Fin 7) => if (a : ℕ) < (b : ℕ) then
-      pairCoef ((b : ℕ) - (a : ℕ)) * wfun (Y (i + b) - Y (i + a)) else 0)).symm
+    exact (Fintype.sum_prod_type' (f := fun (a b : Fin n) => if (a : ℕ) < (b : ℕ) then
+      pairCoef n ((b : ℕ) - (a : ℕ)) * wfun (Y (i + b) - Y (i + a)) else 0)).symm
   rw [hLHS]
   -- the pair map and its image
-  set φ : ℕ × (Fin 7 × Fin 7) → ℕ × ℕ := fun t => (t.1 + t.2.1, t.1 + t.2.2) with hφdef
+  set φ : ℕ × (Fin n × Fin n) → ℕ × ℕ := fun t => (t.1 + t.2.1, t.1 + t.2.2) with hφdef
   set I := T.image φ with hIdef
-  have hmem : ∀ t ∈ T, t.1 < m - 6 ∧ (t.2.1 : ℕ) < t.2.2 := by
+  have hmem : ∀ t ∈ T, t.1 < m - (n - 1) ∧ (t.2.1 : ℕ) < t.2.2 := by
     intro t ht
     simp only [hTdef, mem_filter, mem_product, mem_range, mem_univ, and_true] at ht
     exact ht
-  have hI : ∀ q ∈ I, q.1 < q.2 ∧ q.2 < m ∧ q.2 - q.1 < 7 := by
+  have hI : ∀ q ∈ I, q.1 < q.2 ∧ q.2 < m ∧ q.2 - q.1 < n := by
     intro q hq
     obtain ⟨t, ht, rfl⟩ := mem_image.mp hq
     obtain ⟨h1, h2⟩ := hmem t ht
@@ -115,7 +116,7 @@ lemma window_pairs_le_energy {m : ℕ} (hm : 7 ≤ m) (x : ι → ℝ) (hx : Fun
     intro q hq
     obtain ⟨hq1, hq2, hq3⟩ := hI q hq
     set r := q.2 - q.1 with hrdef
-    have hconst : ∀ t ∈ T.filter (fun t => φ t = q), f t = pairCoef r * wfun (Y q.2 - Y q.1) := by
+    have hconst : ∀ t ∈ T.filter (fun t => φ t = q), f t = pairCoef n r * wfun (Y q.2 - Y q.1) := by
       intro t ht
       rw [mem_filter] at ht
       obtain ⟨ht, hφt⟩ := ht
@@ -124,9 +125,9 @@ lemma window_pairs_le_energy {m : ℕ} (hm : 7 ≤ m) (x : ι → ℝ) (hx : Fun
       simp only [hfdef]
       rw [e1, e2, hrdef, ← e1, ← e2, Nat.add_sub_add_left]
     rw [sum_congr rfl hconst, sum_const, nsmul_eq_mul]
-    -- the fibre has at most `7 − r` elements
-    have hcard : (T.filter (fun t => φ t = q)).card ≤ 7 - r := by
-      rw [← card_range (7 - r)]
+    -- the fibre has at most `n − r` elements
+    have hcard : (T.filter (fun t => φ t = q)).card ≤ n - r := by
+      rw [← card_range (n - r)]
       refine card_le_card_of_injOn (fun t => (t.2.1 : ℕ)) ?_ ?_
       · intro t ht
         rw [mem_coe, mem_filter] at ht
@@ -147,17 +148,17 @@ lemma window_pairs_le_energy {m : ℕ} (hm : 7 ≤ m) (x : ι → ℝ) (hx : Fun
         have hi : t.1 = t'.1 := by omega
         have hb : t.2.2 = t'.2.2 := Fin.ext (by omega)
         exact Prod.ext hi (Prod.ext ha hb)
-    have hr7 : (r : ℝ) < 7 := by exact_mod_cast hq3
-    have hcoef : 0 ≤ pairCoef r := by
+    have hr7 : (r : ℝ) < (n : ℝ) := by exact_mod_cast hq3
+    have hcoef : 0 ≤ pairCoef n r := by
       unfold pairCoef; apply div_nonneg (by norm_num); linarith
-    have hcardR : ((T.filter (fun t => φ t = q)).card : ℝ) ≤ 7 - (r : ℝ) := by
+    have hcardR : ((T.filter (fun t => φ t = q)).card : ℝ) ≤ (n : ℝ) - (r : ℝ) := by
       have := (Nat.cast_le (α := ℝ)).mpr hcard
       rwa [Nat.cast_sub hq3.le] at this
-    calc ((T.filter (fun t => φ t = q)).card : ℝ) * (pairCoef r * wfun (Y q.2 - Y q.1))
-        ≤ (7 - (r : ℝ)) * (pairCoef r * wfun (Y q.2 - Y q.1)) :=
+    calc ((T.filter (fun t => φ t = q)).card : ℝ) * (pairCoef n r * wfun (Y q.2 - Y q.1))
+        ≤ ((n : ℝ) - (r : ℝ)) * (pairCoef n r * wfun (Y q.2 - Y q.1)) :=
           mul_le_mul_of_nonneg_right hcardR (mul_nonneg hcoef (wfun_nonneg _))
       _ = 2 * wfun (Y q.2 - Y q.1) := by
-          have h7 : (7 : ℝ) - (r : ℝ) ≠ 0 := by linarith
+          have h7 : (n : ℝ) - (r : ℝ) ≠ 0 := by linarith
           unfold pairCoef
           field_simp
   refine (sum_le_sum hfib).trans ?_
@@ -218,13 +219,15 @@ lemma window_pairs_le_energy {m : ℕ} (hm : 7 ≤ m) (x : ι → ℝ) (hx : Fun
   rw [hsplit, ← sum_image hinj₁, ← sum_image hinj₂, ← sum_union hdisj]
   exact sum_le_sum_of_subset_of_nonneg (subset_univ _) fun r _ _ => hGnn r
 
-/-- **S11** ([A] Lemma 4.2).  For `m ≥ 7` points with distinct ordinates `x`,
-`c(m − 6) ≤ Σ_{i≠j} w(xᵢ − xⱼ) + (6/p)·span`, given the certificate `F6 ≥ c` on `g ≥ 0`.
-PROVED (bridge/finite); see the module docstring for the argument. -/
-theorem block_energy {c : ℝ} {p : ℕ} (hp : 0 < p)
-    (hCert : ∀ g : Fin 6 → ℝ, (∀ i, 0 ≤ g i) → c ≤ F6 p g)
-    {m : ℕ} (hm : 7 ≤ m) (hcard : Fintype.card ι = m) (x : ι → ℝ) (hx : Function.Injective x) :
-    c * ((m : ℝ) - 6) ≤ energyOn x univ + (6 / (p : ℝ)) * spanOf x univ := by
+/-- **S11** ([A] Lemma 4.2, `n`-point form).  For `m ≥ n` points with distinct ordinates `x`,
+`c(m − (n−1)) ≤ Σ_{i≠j} w(xᵢ − xⱼ) + ((n−1)/p)·span`, given the certificate `F n p ≥ c` on
+`g ≥ 0`.  The numeral `6` of the paper is the per-gap charge `n − 1`, and the `m − 6` windows
+are the `m − (n−1)` windows.  PROVED; see the module docstring for the argument. -/
+theorem block_energy {c : ℝ} {n p : ℕ} (hn : 2 ≤ n) (hp : 0 < p)
+    (hCert : ∀ g : Fin (n - 1) → ℝ, (∀ i, 0 ≤ g i) → c ≤ F n p g)
+    {m : ℕ} (hm : n ≤ m) (hcard : Fintype.card ι = m) (x : ι → ℝ) (hx : Function.Injective x) :
+    c * ((m : ℝ) - ((n : ℝ) - 1))
+      ≤ energyOn x univ + (((n : ℝ) - 1) / (p : ℝ)) * spanOf x univ := by
   classical
   -- sort the points
   have hS : (univ.image x).card = m := by
@@ -234,8 +237,11 @@ theorem block_energy {c : ℝ} {p : ℕ} (hp : 0 < p)
   have hymono : StrictMono y := ((univ.image x).orderEmbOfFin hS).strictMono
   set Y := sortedExt y with hYdef
   have hm0 : 0 < m := by omega
+  have hn1 : (1 : ℝ) ≤ (n : ℝ) := by exact_mod_cast (by omega : 1 ≤ n)
+  have hcastn : ((n - 1 : ℕ) : ℝ) = (n : ℝ) - 1 := by
+    rw [Nat.cast_sub (by omega : 1 ≤ n)]; norm_num
   -- the certificate on every window
-  have hwin : ∀ i ∈ range (m - 6), c ≤ F6 p (windowGaps Y i) := by
+  have hwin : ∀ i ∈ range (m - (n - 1)), c ≤ F n p (windowGaps n Y i) := by
     intro i hi
     rw [mem_range] at hi
     apply hCert
@@ -243,22 +249,24 @@ theorem block_energy {c : ℝ} {p : ℕ} (hp : 0 < p)
     have hj := j.2
     have hlt : i + ((j : ℕ) + 1) < m := by omega
     exact sub_nonneg.mpr (sortedExt_mono hymono (by omega) hlt)
-  have hsum : c * ((m : ℝ) - 6) ≤ ∑ i ∈ range (m - 6), F6 p (windowGaps Y i) := by
+  have hsum : c * ((m : ℝ) - ((n : ℝ) - 1))
+      ≤ ∑ i ∈ range (m - (n - 1)), F n p (windowGaps n Y i) := by
     have h := sum_le_sum hwin
     rw [sum_const, card_range, nsmul_eq_mul] at h
-    have hcast : ((m - 6 : ℕ) : ℝ) = (m : ℝ) - 6 := by
-      rw [Nat.cast_sub (by omega)]; norm_num
+    have hcast : ((m - (n - 1) : ℕ) : ℝ) = (m : ℝ) - ((n : ℝ) - 1) := by
+      rw [Nat.cast_sub (by omega : n - 1 ≤ m), hcastn]
     rw [hcast] at h
     linarith
-  simp_rw [F6_windowGaps] at hsum
+  simp_rw [F_windowGaps] at hsum
   rw [sum_add_distrib, ← mul_sum] at hsum
-  -- the linear term
-  have hlin : ∑ i ∈ range (m - 6), (Y (i + 6) - Y i) ≤ 6 * spanOf x univ := by
-    rw [sum_shift_six_sub]
-    have hterm : ∀ i ∈ range 6, Y (m - 6 + i) - Y i ≤ Y (m - 1) - Y 0 := by
+  -- the linear term: each single gap is charged at most `n − 1` times
+  have hlin : ∑ i ∈ range (m - (n - 1)), (Y (i + (n - 1)) - Y i)
+      ≤ ((n : ℝ) - 1) * spanOf x univ := by
+    rw [sum_shift_sub]
+    have hterm : ∀ i ∈ range (n - 1), Y (m - (n - 1) + i) - Y i ≤ Y (m - 1) - Y 0 := by
       intro i hi
       rw [mem_range] at hi
-      have h1 := sortedExt_mono hymono (a := m - 6 + i) (b := m - 1) (by omega) (by omega)
+      have h1 := sortedExt_mono hymono (a := m - (n - 1) + i) (b := m - 1) (by omega) (by omega)
       have h2 := sortedExt_mono hymono (a := 0) (b := i) (by omega) (by omega)
       linarith
     have hspan : Y (m - 1) - Y 0 ≤ spanOf x univ := by
@@ -266,20 +274,21 @@ theorem block_energy {c : ℝ} {p : ℕ} (hp : 0 < p)
       obtain ⟨j₀, -, hj₀⟩ := mem_image.mp (hymem ⟨0, hm0⟩)
       rw [hYdef, sortedExt_of_lt y (by omega : m - 1 < m), sortedExt_of_lt y hm0, ← hi₀, ← hj₀]
       exact (le_abs_self _).trans (abs_sub_le_spanOf x (mem_univ i₀) (mem_univ j₀))
-    calc ∑ i ∈ range 6, (Y (m - 6 + i) - Y i)
-        ≤ ∑ i ∈ range 6, (Y (m - 1) - Y 0) := sum_le_sum hterm
-      _ = 6 * (Y (m - 1) - Y 0) := by simp; ring
-      _ ≤ 6 * spanOf x univ := by linarith
+    calc ∑ i ∈ range (n - 1), (Y (m - (n - 1) + i) - Y i)
+        ≤ ∑ i ∈ range (n - 1), (Y (m - 1) - Y 0) := sum_le_sum hterm
+      _ = ((n : ℝ) - 1) * (Y (m - 1) - Y 0) := by
+          rw [sum_const, card_range, nsmul_eq_mul, hcastn]
+      _ ≤ ((n : ℝ) - 1) * spanOf x univ := by nlinarith
   -- the quadratic term
-  have hquad := window_pairs_le_energy hm x hx hS
+  have hquad := window_pairs_le_energy hn hm x hx hS
   simp only [pairCoef] at hquad
   rw [← hydef, ← hYdef] at hquad
   have hp' : 0 ≤ 1 / (p : ℝ) := by positivity
-  calc c * ((m : ℝ) - 6)
+  calc c * ((m : ℝ) - ((n : ℝ) - 1))
       ≤ _ := hsum
-    _ ≤ (1 / (p : ℝ)) * (6 * spanOf x univ) + energyOn x univ := by
+    _ ≤ (1 / (p : ℝ)) * (((n : ℝ) - 1) * spanOf x univ) + energyOn x univ := by
         gcongr
-    _ = energyOn x univ + (6 / (p : ℝ)) * spanOf x univ := by ring
+    _ = energyOn x univ + (((n : ℝ) - 1) / (p : ℝ)) * spanOf x univ := by ring
 
 /-! ### Standing axiom audit (idiom of `Zeta23Ext/StableRankTrace.lean`) -/
 
