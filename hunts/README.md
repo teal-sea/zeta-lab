@@ -70,7 +70,7 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
-### Hunt #67: what the `min(dps, 20)` cap costs, measured (`dps_cap/`)
+### Hunt #81: what the `min(dps, 20)` cap costs, measured (`dps_cap/`)
 
 **Status: probe, complete.** At `0.8 + 85.7i`, `epstein_completed` at the
 capped `dps = 20` returns `3.1e-33` where the converged value is `1.6e-58` --
