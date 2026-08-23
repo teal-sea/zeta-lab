@@ -1,0 +1,5167 @@
+{
+  "hunt": "r_6f0f63",
+  "object": "Delsarte/Odlyzko-Sloane LP bound for kissing numbers",
+  "grade": "measured (float); no interval arithmetic anywhere in this file",
+  "planted_faults": [
+    {
+      "fault": "none (control): published certificate rebuilt, n=8",
+      "expect": "P2 and P3 hold and the value is exactly 240",
+      "sup": -1.1102230246251565e-16,
+      "p2_slack": 0.07499999999999984,
+      "value": 240.0000000000086,
+      "fired": false,
+      "pass": true
+    },
+    {
+      "fault": "none (control): published certificate rebuilt, n=24",
+      "expect": "P2 and P3 hold and the value is exactly 196560",
+      "sup": -4.0345873343616834e-17,
+      "p2_slack": 0.00024145776098890778,
+      "value": 196560.0000032882,
+      "fired": false,
+      "pass": true
+    },
+    {
+      "fault": "f_0 *= 1.01 on the exact n=8 certificate (breaks P3)",
+      "expect": "verifier reports sup ~ 0.01*f_0 > 0",
+      "sup": 9.374999999989253e-05,
+      "fired": true,
+      "pass": true
+    },
+    {
+      "fault": "f_4 negated on the exact n=8 certificate (breaks P2 only)",
+      "expect": "P3 scan stays clean; only the P2 check fires",
+      "sup": 0.08906249999999984,
+      "p2_slack": -0.6234375000000002,
+      "fired": true,
+      "pass": true
+    },
+    {
+      "fault": "node set starved to 14 points at degree 12, n=8",
+      "expect": "grid value below 240 and verifier reports sup > 0",
+      "grid_value": 235.8605493258816,
+      "sup": 0.052102227111954114,
+      "fired": true,
+      "pass": true
+    }
+  ],
+  "degree_sweep": {
+    "3": {
+      "ceiling": 13.158233245554612,
+      "argmin_degree": 27,
+      "saturation_degree": 27,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": 23.999809624669425,
+          "verified_value": 24.00124092351899,
+          "sup": 6.222702741665032e-05,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": 13.99996596271263,
+          "verified_value": 14.00015288387635,
+          "sup": 1.4378381961527298e-05,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": 13.285692650643773,
+          "verified_value": 13.285745853138549,
+          "sup": 4.330424494436436e-06,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": 13.285692650643773,
+          "verified_value": 13.285745853138547,
+          "sup": 4.330424494297658e-06,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": 13.285692650643773,
+          "verified_value": 13.285745853138549,
+          "sup": 4.3304244943809245e-06,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": 13.244176241434033,
+          "verified_value": 13.244220716808769,
+          "sup": 3.632356502192291e-06,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 13.17762179637019,
+          "verified_value": 13.177647938717332,
+          "sup": 2.146748474984861e-06,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 13.158324961961577,
+          "verified_value": 13.15834094736136,
+          "sup": 1.3147681786479515e-06,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 13.158324961961576,
+          "verified_value": 13.158340947361358,
+          "sup": 1.314768178620196e-06,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 13.158324961961576,
+          "verified_value": 13.15834094736136,
+          "sup": 1.3147681787312182e-06,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 13.158324961961576,
+          "verified_value": 13.15834094736136,
+          "sup": 1.314768178745096e-06,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 13.158324961961576,
+          "verified_value": 13.158340947361358,
+          "sup": 1.314768178620196e-06,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 13.158308947456037,
+          "verified_value": 13.158326330027837,
+          "sup": 1.4296845906314193e-06,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 13.158308932856608,
+          "verified_value": 13.158326316702123,
+          "sup": 1.4297893528580907e-06,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 13.158308947456037,
+          "verified_value": 13.158326330027839,
+          "sup": 1.4296845907424416e-06,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 13.158308947456037,
+          "verified_value": 13.158326330027835,
+          "sup": 1.4296845905481526e-06,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 13.158308947456037,
+          "verified_value": 13.158326330027839,
+          "sup": 1.4296845907563194e-06,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 13.158308952655155,
+          "verified_value": 13.158326341030044,
+          "sup": 1.4301618826290108e-06,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 13.158308952655155,
+          "verified_value": 13.158326341030042,
+          "sup": 1.4301618824763551e-06,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 13.158308952655155,
+          "verified_value": 13.15832634103004,
+          "sup": 1.4301618823653328e-06,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 13.158308952655155,
+          "verified_value": 13.158326341030042,
+          "sup": 1.4301618825041107e-06,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 13.158308952655155,
+          "verified_value": 13.158326341030042,
+          "sup": 1.4301618825041107e-06,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 13.158308952655151,
+          "verified_value": 13.158326341030039,
+          "sup": 1.430161882226555e-06,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 13.158308947456037,
+          "verified_value": 13.158326330027839,
+          "sup": 1.429684590714686e-06,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 13.158221935929244,
+          "verified_value": 13.158233245554612,
+          "sup": 9.302030272440032e-07,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 13.158221935929244,
+          "verified_value": 13.158233245554612,
+          "sup": 9.302030272717587e-07,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 13.158221935929244,
+          "verified_value": 13.158233245554612,
+          "sup": 9.302030272440032e-07,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 13.158221935929244,
+          "verified_value": 13.158233245554614,
+          "sup": 9.30203027382781e-07,
+          "admissible": false
+        }
+      ]
+    },
+    "4": {
+      "ceiling": 25.558812408845515,
+      "argmin_degree": 9,
+      "saturation_degree": 9,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": 786309.7663095224,
+          "verified_value": null,
+          "sup": 2.4008142466930167,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": 31.99951034134468,
+          "verified_value": 32.00069691437191,
+          "sup": 3.8275688785560646e-05,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": 25.999867297109276,
+          "verified_value": 26.000121557261338,
+          "sup": 1.0170356631311606e-05,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": 25.999867297109276,
+          "verified_value": 26.000121557261345,
+          "sup": 1.0170356631478139e-05,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": 25.999867297109276,
+          "verified_value": 26.00012155726134,
+          "sup": 1.0170356631422628e-05,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": 25.999867297109276,
+          "verified_value": 26.000121557261345,
+          "sup": 1.0170356631478139e-05,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.558812408845515,
+          "sup": 1.6809232487702275e-05,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.55881240884556,
+          "sup": 1.680923248947863e-05,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.558812408845537,
+          "sup": 1.6809232488590453e-05,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.558812408845537,
+          "sup": 1.6809232488590453e-05,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.55881240884556,
+          "sup": 1.680923248947863e-05,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.55881240884556,
+          "sup": 1.680923248947863e-05,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.55881240884554,
+          "sup": 1.6809232488590453e-05,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.55881240884554,
+          "sup": 1.6809232488590453e-05,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.55881240884554,
+          "sup": 1.6809232488590453e-05,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.55881240884552,
+          "sup": 1.6809232487702275e-05,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.55881240884554,
+          "sup": 1.6809232488590453e-05,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.55881240884554,
+          "sup": 1.6809232488590453e-05,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.55881240884554,
+          "sup": 1.6809232488590453e-05,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.55881240884554,
+          "sup": 1.6809232488590453e-05,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.55881240884552,
+          "sup": 1.6809232487702275e-05,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.55881240884554,
+          "sup": 1.6809232488590453e-05,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.55881240884554,
+          "sup": 1.6809232488590453e-05,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.55881240884552,
+          "sup": 1.6809232487702275e-05,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.55881240884556,
+          "sup": 1.680923248947863e-05,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.55881240884554,
+          "sup": 1.6809232488590453e-05,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.55881240884556,
+          "sup": 1.680923248947863e-05,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 25.558399594058113,
+          "verified_value": 25.55881240884556,
+          "sup": 1.680923248947863e-05,
+          "admissible": false
+        }
+      ]
+    },
+    "5": {
+      "ceiling": 46.33833950518238,
+      "argmin_degree": 10,
+      "saturation_degree": 10,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": 89.99427538756069,
+          "verified_value": 90.004776963214,
+          "sup": 0.00011798889915359823,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": 47.99961433182573,
+          "verified_value": 48.0007183397052,
+          "sup": 2.3489170346113752e-05,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": 47.99961433182573,
+          "verified_value": 48.00071833970516,
+          "sup": 2.3489170345225574e-05,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": 47.99961433182573,
+          "verified_value": 48.00071833970519,
+          "sup": 2.3489170345669663e-05,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": 47.99961433182573,
+          "verified_value": 48.000718339705166,
+          "sup": 2.3489170345225574e-05,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 46.345867127828804,
+          "verified_value": 46.34683818162678,
+          "sup": 2.141392513621554e-05,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.33833950518238,
+          "sup": 2.055455134275519e-05,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.33833950518247,
+          "sup": 2.0554551344531546e-05,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.338339505182425,
+          "sup": 2.0554551343643368e-05,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.338339505182425,
+          "sup": 2.0554551343643368e-05,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.33833950518238,
+          "sup": 2.055455134275519e-05,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.33833950518239,
+          "sup": 2.055455134275519e-05,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.33833950518243,
+          "sup": 2.0554551343643368e-05,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.33833950518243,
+          "sup": 2.0554551343643368e-05,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.33833950518239,
+          "sup": 2.055455134275519e-05,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.33833950518247,
+          "sup": 2.0554551344531546e-05,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.33833950518247,
+          "sup": 2.0554551344531546e-05,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.33833950518243,
+          "sup": 2.0554551343643368e-05,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.33833950518247,
+          "sup": 2.0554551344531546e-05,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.33833950518247,
+          "sup": 2.0554551344531546e-05,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.33833950518239,
+          "sup": 2.055455134275519e-05,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.33833950518243,
+          "sup": 2.0554551343643368e-05,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.33833950518243,
+          "sup": 2.0554551343643368e-05,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.33833950518247,
+          "sup": 2.0554551344531546e-05,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.33833950518247,
+          "sup": 2.0554551344531546e-05,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.33833950518243,
+          "sup": 2.0554551343643368e-05,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 46.33740759595523,
+          "verified_value": 46.33833950518247,
+          "sup": 2.0554551344531546e-05,
+          "admissible": false
+        }
+      ]
+    },
+    "6": {
+      "ceiling": 82.63260016799953,
+      "argmin_degree": 10,
+      "saturation_degree": 10,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": 1211804.511510479,
+          "verified_value": null,
+          "sup": 1.6875,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": 86.99928763027381,
+          "verified_value": 87.00384351749355,
+          "sup": 5.2973065312045264e-05,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": 83.99963164294626,
+          "verified_value": 84.00091530961834,
+          "sup": 1.5465692966121214e-05,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": 83.99963164294626,
+          "verified_value": 84.00091530961836,
+          "sup": 1.5465692966246114e-05,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": 83.99963164294626,
+          "verified_value": 84.00091530961839,
+          "sup": 1.5465692966482036e-05,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 82.91773788505239,
+          "verified_value": 82.91971571540243,
+          "sup": 2.4143520674688168e-05,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 82.63054166246732,
+          "verified_value": 82.63260016799953,
+          "sup": 2.52167091083777e-05,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 82.63054166246732,
+          "verified_value": 82.6326001679996,
+          "sup": 2.5216709109265878e-05,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 82.63054166246735,
+          "verified_value": 82.63260016799963,
+          "sup": 2.5216709109265878e-05,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 82.63054166246735,
+          "verified_value": 82.63260016799956,
+          "sup": 2.52167091083777e-05,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 82.63054166246735,
+          "verified_value": 82.63260016799963,
+          "sup": 2.5216709109265878e-05,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 82.63054166246735,
+          "verified_value": 82.6326001679997,
+          "sup": 2.5216709110154056e-05,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 82.63054166246735,
+          "verified_value": 82.63260016799956,
+          "sup": 2.52167091083777e-05,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 82.63054166246735,
+          "verified_value": 82.63260016799963,
+          "sup": 2.5216709109265878e-05,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 82.63054166246735,
+          "verified_value": 82.63260016799963,
+          "sup": 2.5216709109265878e-05,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 82.63054166246735,
+          "verified_value": 82.63260016799963,
+          "sup": 2.5216709109265878e-05,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 82.63054166246735,
+          "verified_value": 82.63260016799963,
+          "sup": 2.5216709109265878e-05,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 82.63054166246735,
+          "verified_value": 82.63260016799963,
+          "sup": 2.5216709109265878e-05,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 82.63054166246735,
+          "verified_value": 82.63260016799956,
+          "sup": 2.52167091083777e-05,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 82.63054166246735,
+          "verified_value": 82.6326001679997,
+          "sup": 2.5216709110154056e-05,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 82.63054166246735,
+          "verified_value": 82.63260016799956,
+          "sup": 2.52167091083777e-05,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 82.63054166246735,
+          "verified_value": 82.63260016799963,
+          "sup": 2.5216709109265878e-05,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 82.63054166246732,
+          "verified_value": 82.63260016799953,
+          "sup": 2.52167091083777e-05,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 82.63054166246732,
+          "verified_value": 82.6326001679996,
+          "sup": 2.5216709109265878e-05,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 82.63054166246735,
+          "verified_value": 82.63260016799956,
+          "sup": 2.52167091083777e-05,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 82.63054166246735,
+          "verified_value": 82.63260016799956,
+          "sup": 2.52167091083777e-05,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 82.63054166246735,
+          "verified_value": 82.63260016799956,
+          "sup": 2.52167091083777e-05,
+          "admissible": false
+        }
+      ]
+    },
+    "7": {
+      "ceiling": 140.16359727593274,
+      "argmin_degree": 10,
+      "saturation_degree": 10,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": 160.99647372928735,
+          "verified_value": 161.01407030024544,
+          "sup": 0.00010996889789183228,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": 142.15126331919703,
+          "verified_value": 142.15507051603524,
+          "sup": 2.6971732749569988e-05,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": 142.15126331919703,
+          "verified_value": 142.1550705160353,
+          "sup": 2.69717327500002e-05,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": 142.15126331919703,
+          "verified_value": 142.15507051603524,
+          "sup": 2.6971732749719174e-05,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 141.57559628072394,
+          "verified_value": 141.57948762515076,
+          "sup": 2.7680741284411003e-05,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 140.16120594756632,
+          "verified_value": 140.16359727593274,
+          "sup": 1.7183576834903236e-05,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 140.16120594756632,
+          "verified_value": 140.16359727593274,
+          "sup": 1.718357683492839e-05,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 140.16120594756632,
+          "verified_value": 140.16359727593274,
+          "sup": 1.718357683497696e-05,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 140.16120594756632,
+          "verified_value": 140.16359727593274,
+          "sup": 1.7183576834891093e-05,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 140.16120594756632,
+          "verified_value": 140.1635972759327,
+          "sup": 1.7183576834621343e-05,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 140.16120594756637,
+          "verified_value": 140.16359727593266,
+          "sup": 1.7183576833927454e-05,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 140.16120594756637,
+          "verified_value": 140.1635972759327,
+          "sup": 1.718357683417812e-05,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 140.16120594756637,
+          "verified_value": 140.1635972759327,
+          "sup": 1.718357683413215e-05,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 140.16120594756637,
+          "verified_value": 140.1635972759327,
+          "sup": 1.718357683413215e-05,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 140.16120594756637,
+          "verified_value": 140.1635972759327,
+          "sup": 1.718357683406016e-05,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 140.16120594756637,
+          "verified_value": 140.1635972759327,
+          "sup": 1.718357683413215e-05,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 140.16120594756637,
+          "verified_value": 140.16359727593266,
+          "sup": 1.7183576833906637e-05,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 140.16120594756637,
+          "verified_value": 140.16359727593266,
+          "sup": 1.7183576833875412e-05,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 140.16120594756637,
+          "verified_value": 140.16359727593266,
+          "sup": 1.718357683403414e-05,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 140.16120594756637,
+          "verified_value": 140.16359727593266,
+          "sup": 1.7183576833906637e-05,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 140.16120594756637,
+          "verified_value": 140.1635972759327,
+          "sup": 1.7183576834232765e-05,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 140.16120594756637,
+          "verified_value": 140.1635972759327,
+          "sup": 1.718357683410006e-05,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 140.16120594756637,
+          "verified_value": 140.16359727593266,
+          "sup": 1.7183576833858932e-05,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 140.16120594756637,
+          "verified_value": 140.16359727593266,
+          "sup": 1.7183576833930056e-05,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 140.16120594756637,
+          "verified_value": 140.16359727593266,
+          "sup": 1.718357683402026e-05,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 140.16120594756637,
+          "verified_value": 140.16359727593266,
+          "sup": 1.718357683397516e-05,
+          "admissible": false
+        }
+      ]
+    },
+    "8": {
+      "ceiling": 240.00403697420305,
+      "argmin_degree": 6,
+      "saturation_degree": 6,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": 323.98460445561363,
+          "verified_value": 324.06013572511694,
+          "sup": 0.00023379941116452585,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": 239.99302489197538,
+          "verified_value": 240.00403697420305,
+          "sup": 4.607487960073264e-05,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": 239.9930248919757,
+          "verified_value": 240.0040369742028,
+          "sup": 4.607487959831495e-05,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": 239.9930248919757,
+          "verified_value": 240.00403697420288,
+          "sup": 4.6074879598746385e-05,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 239.99302489197538,
+          "verified_value": 240.00403697420305,
+          "sup": 4.607487960078615e-05,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 239.99302489197538,
+          "verified_value": 240.00403697420313,
+          "sup": 4.607487960110759e-05,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 239.99302489197538,
+          "verified_value": 240.00403697420316,
+          "sup": 4.607487960112995e-05,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 239.99302489197538,
+          "verified_value": 240.00403697420316,
+          "sup": 4.607487960112361e-05,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 239.99302489197538,
+          "verified_value": 240.00403697420313,
+          "sup": 4.6074879601097755e-05,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 239.99302489197538,
+          "verified_value": 240.00403697420316,
+          "sup": 4.607487960113093e-05,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 239.99302489197558,
+          "verified_value": 240.0040369742027,
+          "sup": 4.607487959848784e-05,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 239.99302489197558,
+          "verified_value": 240.0040369742027,
+          "sup": 4.60748795984998e-05,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 239.99302489197558,
+          "verified_value": 240.0040369742027,
+          "sup": 4.607487959850501e-05,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 239.99302489197558,
+          "verified_value": 240.0040369742027,
+          "sup": 4.6074879598519665e-05,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 239.99302489197558,
+          "verified_value": 240.0040369742027,
+          "sup": 4.607487959849344e-05,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 239.99302489197558,
+          "verified_value": 240.00403697420273,
+          "sup": 4.607487959858332e-05,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 239.99302489197538,
+          "verified_value": 240.00403697420248,
+          "sup": 4.607487959836301e-05,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 239.99302489197538,
+          "verified_value": 240.00403697420276,
+          "sup": 4.607487959946456e-05,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 239.99302489197538,
+          "verified_value": 240.00403697420242,
+          "sup": 4.607487959810974e-05,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 239.99302489197538,
+          "verified_value": 240.00403697420262,
+          "sup": 4.6074879598999655e-05,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 239.99302489197538,
+          "verified_value": 240.00403697420242,
+          "sup": 4.6074879598020986e-05,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 239.99302489197538,
+          "verified_value": 240.00403697420242,
+          "sup": 4.607487959803044e-05,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 239.99302489197538,
+          "verified_value": 240.00403697420253,
+          "sup": 4.607487959863883e-05,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 239.99302489197567,
+          "verified_value": 240.00403697420262,
+          "sup": 4.6074879597733306e-05,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 239.99302489197567,
+          "verified_value": 240.00403697420273,
+          "sup": 4.607487959819301e-05,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 239.99302489197567,
+          "verified_value": 240.00403697420273,
+          "sup": 4.607487959819301e-05,
+          "admissible": false
+        }
+      ]
+    },
+    "9": {
+      "ceiling": 380.107162630937,
+      "argmin_degree": 11,
+      "saturation_degree": 11,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": 845.8356714221088,
+          "verified_value": 846.3779688034607,
+          "sup": 0.0006414851124159071,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": 415.13835821805446,
+          "verified_value": 415.1748994156737,
+          "sup": 8.822648999440297e-05,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": 384.2422701553779,
+          "verified_value": 384.2538775883606,
+          "sup": 3.0286537622714604e-05,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": 384.2422701553779,
+          "verified_value": 384.253877588366,
+          "sup": 3.028653763692546e-05,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 384.2422701553779,
+          "verified_value": 384.253877588366,
+          "sup": 3.028653763692546e-05,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 382.1198983366244,
+          "verified_value": 382.1301759443626,
+          "sup": 2.6966134897975398e-05,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 380.095759150943,
+          "verified_value": 380.107162630937,
+          "sup": 3.0079832612273094e-05,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 380.095759150943,
+          "verified_value": 380.1071626309424,
+          "sup": 3.007983262648395e-05,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 380.095759150943,
+          "verified_value": 380.1071626309424,
+          "sup": 3.007983262648395e-05,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 380.095759150943,
+          "verified_value": 380.1071626309478,
+          "sup": 3.0079832640694804e-05,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 380.095759150943,
+          "verified_value": 380.1071626309424,
+          "sup": 3.007983262648395e-05,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 380.095759150943,
+          "verified_value": 380.1071626309424,
+          "sup": 3.007983262648395e-05,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 380.095759150943,
+          "verified_value": 380.1071626309424,
+          "sup": 3.007983262648395e-05,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 380.095759150943,
+          "verified_value": 380.1071626309424,
+          "sup": 3.007983262648395e-05,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 380.095759150943,
+          "verified_value": 380.1071626309424,
+          "sup": 3.007983262648395e-05,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 380.09575915094314,
+          "verified_value": 380.10716263094264,
+          "sup": 3.007983262648395e-05,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 380.09575915094314,
+          "verified_value": 380.10716263094264,
+          "sup": 3.007983262648395e-05,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 380.09575915094314,
+          "verified_value": 380.10716263094264,
+          "sup": 3.007983262648395e-05,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 380.09575915094314,
+          "verified_value": 380.10716263094264,
+          "sup": 3.007983262648395e-05,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 380.09575915094314,
+          "verified_value": 380.10716263094264,
+          "sup": 3.007983262648395e-05,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 380.09575915094314,
+          "verified_value": 380.10716263094264,
+          "sup": 3.007983262648395e-05,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 380.09575915094314,
+          "verified_value": 380.10716263094804,
+          "sup": 3.0079832640694804e-05,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 380.09575915094314,
+          "verified_value": 380.10716263095344,
+          "sup": 3.0079832654905658e-05,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 380.09575915094314,
+          "verified_value": 380.10716263094264,
+          "sup": 3.007983262648395e-05,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 380.09575915094314,
+          "verified_value": 380.10716263094264,
+          "sup": 3.007983262648395e-05,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 380.09575915094314,
+          "verified_value": 380.10716263094264,
+          "sup": 3.007983262648395e-05,
+          "admissible": false
+        }
+      ]
+    },
+    "10": {
+      "ceiling": 595.8769684518245,
+      "argmin_degree": 11,
+      "saturation_degree": 11,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": 3131043.302706955,
+          "verified_value": null,
+          "sup": 2.4081176633771975,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": 769.9130180635681,
+          "verified_value": 770.0486630219906,
+          "sup": 0.00017638020185817282,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": 604.9859636438905,
+          "verified_value": 605.0221529393215,
+          "sup": 5.991385457448928e-05,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": 604.9859636438905,
+          "verified_value": 605.0221529393258,
+          "sup": 5.9913854581594705e-05,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 604.9859636438905,
+          "verified_value": 605.0221529393215,
+          "sup": 5.991385457448928e-05,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 604.9859636438905,
+          "verified_value": 605.0221529393258,
+          "sup": 5.9913854581594705e-05,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 595.8260363440738,
+          "verified_value": 595.8769684518245,
+          "sup": 8.561788479255483e-05,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 595.8260363440738,
+          "verified_value": 595.8769684518245,
+          "sup": 8.561788479255483e-05,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 595.8260363440738,
+          "verified_value": 595.8769684518245,
+          "sup": 8.561788479255483e-05,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 595.8260363440739,
+          "verified_value": 595.8769684518162,
+          "sup": 8.561788477834398e-05,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 595.8260363440739,
+          "verified_value": 595.8769684518205,
+          "sup": 8.56178847854494e-05,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 595.8260363440738,
+          "verified_value": 595.8769684518245,
+          "sup": 8.561788479255483e-05,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 595.8260363440739,
+          "verified_value": 595.8769684518286,
+          "sup": 8.561788479966026e-05,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 595.8260363440739,
+          "verified_value": 595.8769684518286,
+          "sup": 8.561788479966026e-05,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 595.8260363440739,
+          "verified_value": 595.8769684518244,
+          "sup": 8.561788479255483e-05,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 595.8260363440738,
+          "verified_value": 595.8769684518287,
+          "sup": 8.561788479966026e-05,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 595.8260363440738,
+          "verified_value": 595.8769684518245,
+          "sup": 8.561788479255483e-05,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 595.8260363440738,
+          "verified_value": 595.8769684518245,
+          "sup": 8.561788479255483e-05,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 595.8260363440738,
+          "verified_value": 595.8769684518245,
+          "sup": 8.561788479255483e-05,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 595.8260363440738,
+          "verified_value": 595.8769684518287,
+          "sup": 8.561788479966026e-05,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 595.8260363440738,
+          "verified_value": 595.8769684518203,
+          "sup": 8.56178847854494e-05,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 595.8260363440738,
+          "verified_value": 595.8769684518287,
+          "sup": 8.561788479966026e-05,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 595.8260363440738,
+          "verified_value": 595.8769684518287,
+          "sup": 8.561788479966026e-05,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 595.8260363440738,
+          "verified_value": 595.8769684518245,
+          "sup": 8.561788479255483e-05,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 595.8260363440738,
+          "verified_value": 595.8769684518287,
+          "sup": 8.561788479966026e-05,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 595.8260363440738,
+          "verified_value": 595.8769684518329,
+          "sup": 8.561788480676569e-05,
+          "admissible": false
+        }
+      ]
+    },
+    "11": {
+      "ceiling": 915.4821759855815,
+      "argmin_degree": 11,
+      "saturation_degree": 11,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": 1715.6660396004982,
+          "verified_value": 1716.3790135781505,
+          "sup": 0.0004156364115504019,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": 945.0229047680155,
+          "verified_value": 945.127012936273,
+          "sup": 0.00011026924008206151,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": 945.0229047680155,
+          "verified_value": 945.1270129362797,
+          "sup": 0.00011026924008916694,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 945.0229047680155,
+          "verified_value": 945.1270129362797,
+          "sup": 0.00011026924008916694,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 945.0229047680155,
+          "verified_value": 945.127012936273,
+          "sup": 0.00011026924008206151,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 915.3846379382169,
+          "verified_value": 915.4821759855815,
+          "sup": 0.00010665932035180958,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 915.3846379382147,
+          "verified_value": 915.482175985579,
+          "sup": 0.00010665932035180958,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 915.3846379382147,
+          "verified_value": 915.482175985579,
+          "sup": 0.00010665932035180958,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 915.3846379382147,
+          "verified_value": 915.482175985579,
+          "sup": 0.00010665932035180958,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 915.3846379382137,
+          "verified_value": 915.4821759855781,
+          "sup": 0.00010665932035180958,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 915.3846379382147,
+          "verified_value": 915.4821759855727,
+          "sup": 0.00010665932034470416,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 915.3846379382147,
+          "verified_value": 915.482175985579,
+          "sup": 0.00010665932035180958,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 915.3846379382147,
+          "verified_value": 915.4821759855855,
+          "sup": 0.00010665932035891501,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 915.3846379382147,
+          "verified_value": 915.482175985579,
+          "sup": 0.00010665932035180958,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 915.3846379382147,
+          "verified_value": 915.4821759855855,
+          "sup": 0.00010665932035891501,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 915.3846379382147,
+          "verified_value": 915.4821759855855,
+          "sup": 0.00010665932035891501,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 915.3846379382147,
+          "verified_value": 915.4821759855661,
+          "sup": 0.00010665932033759873,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 915.3846379382147,
+          "verified_value": 915.4821759855727,
+          "sup": 0.00010665932034470416,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 915.3846379382147,
+          "verified_value": 915.482175985579,
+          "sup": 0.00010665932035180958,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 915.3846379382147,
+          "verified_value": 915.4821759855855,
+          "sup": 0.00010665932035891501,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 915.3846379382147,
+          "verified_value": 915.482175985579,
+          "sup": 0.00010665932035180958,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 915.3846379382147,
+          "verified_value": 915.4821759855727,
+          "sup": 0.00010665932034470416,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 915.3846379382147,
+          "verified_value": 915.4821759855727,
+          "sup": 0.00010665932034470416,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 915.3846379382137,
+          "verified_value": 915.4821759855781,
+          "sup": 0.00010665932035180958,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 915.3846379382137,
+          "verified_value": 915.4821759855718,
+          "sup": 0.00010665932034470416,
+          "admissible": false
+        }
+      ]
+    },
+    "12": {
+      "ceiling": 1416.2200099092688,
+      "argmin_degree": 11,
+      "saturation_degree": 11,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": 8732.006978367397,
+          "verified_value": 8750.731525433417,
+          "sup": 0.002140013897751203,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": 1478.6575397599215,
+          "verified_value": 1478.9486111468755,
+          "sup": 0.00019694283330196072,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": 1478.6575397599215,
+          "verified_value": 1478.948611146865,
+          "sup": 0.0001969428332948553,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 1478.6575397599215,
+          "verified_value": 1478.9486111468755,
+          "sup": 0.00019694283330196072,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 1478.6575397599215,
+          "verified_value": 1478.9486111468702,
+          "sup": 0.000196942833298408,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 1416.0511698699515,
+          "verified_value": 1416.2200099092688,
+          "sup": 0.00011930303283946841,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 1416.0511698699522,
+          "verified_value": 1416.2200099092593,
+          "sup": 0.00011930303283236299,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 1416.051169869953,
+          "verified_value": 1416.2200099092604,
+          "sup": 0.00011930303283236299,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 1416.051169869953,
+          "verified_value": 1416.2200099092806,
+          "sup": 0.00011930303284657384,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 1416.051169869953,
+          "verified_value": 1416.2200099092706,
+          "sup": 0.00011930303283946841,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 1416.051169869951,
+          "verified_value": 1416.2200099092684,
+          "sup": 0.00011930303283946841,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 1416.051169869951,
+          "verified_value": 1416.2200099092684,
+          "sup": 0.00011930303283946841,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 1416.051169869951,
+          "verified_value": 1416.2200099092684,
+          "sup": 0.00011930303283946841,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 1416.051169869951,
+          "verified_value": 1416.2200099092684,
+          "sup": 0.00011930303283946841,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 1416.051169869951,
+          "verified_value": 1416.2200099092786,
+          "sup": 0.00011930303284657384,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 1416.0511698699515,
+          "verified_value": 1416.2200099092588,
+          "sup": 0.00011930303283236299,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 1416.0511698699515,
+          "verified_value": 1416.2200099092688,
+          "sup": 0.00011930303283946841,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 1416.0511698699515,
+          "verified_value": 1416.220009909279,
+          "sup": 0.00011930303284657384,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 1416.0511698699515,
+          "verified_value": 1416.2200099092688,
+          "sup": 0.00011930303283946841,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 1416.0511698699515,
+          "verified_value": 1416.2200099092588,
+          "sup": 0.00011930303283236299,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 1416.0511698699515,
+          "verified_value": 1416.2200099092688,
+          "sup": 0.00011930303283946841,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 1416.0511698699515,
+          "verified_value": 1416.2200099092588,
+          "sup": 0.00011930303283236299,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 1416.0511698699515,
+          "verified_value": 1416.2200099092588,
+          "sup": 0.00011930303283236299,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 1416.0511698699515,
+          "verified_value": 1416.2200099092588,
+          "sup": 0.00011930303283236299,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 1416.051169869951,
+          "verified_value": 1416.2200099092786,
+          "sup": 0.00011930303284657384,
+          "admissible": false
+        }
+      ]
+    },
+    "13": {
+      "ceiling": 2233.7665190666426,
+      "argmin_degree": 12,
+      "saturation_degree": 12,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": 2346.664737351114,
+          "verified_value": 2347.463431772143,
+          "sup": 0.00034038221530074964,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": 2328.093338151376,
+          "verified_value": 2328.256324298906,
+          "sup": 7.00336038743643e-05,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 2328.093338151376,
+          "verified_value": 2328.2563242988977,
+          "sup": 7.003360387081159e-05,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 2328.093338151376,
+          "verified_value": 2328.25632429891,
+          "sup": 7.003360387614066e-05,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 2234.304599755144,
+          "verified_value": 2234.5454775308635,
+          "sup": 0.00010784547623614305,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 2233.55002850511,
+          "verified_value": 2233.7665190666426,
+          "sup": 9.696068070004157e-05,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 2233.55002850511,
+          "verified_value": 2233.7665190666426,
+          "sup": 9.696068069996872e-05,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 2233.55002850511,
+          "verified_value": 2233.766519066642,
+          "sup": 9.696068069990973e-05,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 2233.55002850511,
+          "verified_value": 2233.76651906664,
+          "sup": 9.696068069887237e-05,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 2233.55002850511,
+          "verified_value": 2233.766519066641,
+          "sup": 9.696068069942054e-05,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 2233.55002850511,
+          "verified_value": 2233.7665190666426,
+          "sup": 9.696068070006933e-05,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 2233.55002850511,
+          "verified_value": 2233.766519066639,
+          "sup": 9.696068069847338e-05,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 2233.55002850511,
+          "verified_value": 2233.7665190666403,
+          "sup": 9.696068069892441e-05,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 2233.55002850511,
+          "verified_value": 2233.766519066642,
+          "sup": 9.696068069980912e-05,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 2233.55002850511,
+          "verified_value": 2233.76651906664,
+          "sup": 9.696068069886543e-05,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 2233.550028505103,
+          "verified_value": 2233.7665190666344,
+          "sup": 9.696068069942401e-05,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 2233.550028505103,
+          "verified_value": 2233.766519066634,
+          "sup": 9.696068069913258e-05,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 2233.550028505103,
+          "verified_value": 2233.7665190666344,
+          "sup": 9.696068069934768e-05,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 2233.5500285051057,
+          "verified_value": 2233.766519066629,
+          "sup": 9.696068069537517e-05,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 2233.5500285051057,
+          "verified_value": 2233.7665190666266,
+          "sup": 9.696068069451474e-05,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 2233.5500285051057,
+          "verified_value": 2233.76651906663,
+          "sup": 9.696068069584701e-05,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 2233.5500285051057,
+          "verified_value": 2233.7665190666294,
+          "sup": 9.69606806956666e-05,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 2233.5500285051057,
+          "verified_value": 2233.76651906663,
+          "sup": 9.696068069598926e-05,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 2233.5500285051057,
+          "verified_value": 2233.7665190666303,
+          "sup": 9.696068069624253e-05,
+          "admissible": false
+        }
+      ]
+    },
+    "14": {
+      "ceiling": 3492.364787843249,
+      "argmin_degree": 12,
+      "saturation_degree": 12,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": 3849.5572665365153,
+          "verified_value": 3851.8369262942924,
+          "sup": 0.000591990728615599,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": 3546.4596686120994,
+          "verified_value": 3546.8873259719503,
+          "sup": 0.00012060658462509366,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 3546.4596686120994,
+          "verified_value": 3546.887325971941,
+          "sup": 0.00012060658462242912,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 3546.4596686120994,
+          "verified_value": 3546.8873259719503,
+          "sup": 0.00012060658462509366,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 3530.4079966337645,
+          "verified_value": 3531.690208624629,
+          "sup": 0.00036316185082796437,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 3492.1027632155624,
+          "verified_value": 3492.364787843249,
+          "sup": 7.504934133464869e-05,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 3492.1027632155624,
+          "verified_value": 3492.364787843248,
+          "sup": 7.504934133445267e-05,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 3492.1027632155624,
+          "verified_value": 3492.3647878432485,
+          "sup": 7.504934133450904e-05,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 3492.1027632155665,
+          "verified_value": 3492.3647878432453,
+          "sup": 7.504934133244819e-05,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 3492.1027632155665,
+          "verified_value": 3492.3647878432444,
+          "sup": 7.504934133220013e-05,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 3492.1027632155665,
+          "verified_value": 3492.3647878432466,
+          "sup": 7.504934133281248e-05,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 3492.1027632155665,
+          "verified_value": 3492.3647878432444,
+          "sup": 7.504934133213594e-05,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 3492.1027632155665,
+          "verified_value": 3492.3647878432475,
+          "sup": 7.504934133311433e-05,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 3492.1027632155624,
+          "verified_value": 3492.364787843247,
+          "sup": 7.504934133411613e-05,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 3492.1027632155624,
+          "verified_value": 3492.364787843249,
+          "sup": 7.504934133460922e-05,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 3492.1027632155665,
+          "verified_value": 3492.364787843244,
+          "sup": 7.504934133206308e-05,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 3492.1027632155733,
+          "verified_value": 3492.3647878432453,
+          "sup": 7.504934133059594e-05,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 3492.1027632155665,
+          "verified_value": 3492.364787843246,
+          "sup": 7.504934133277128e-05,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 3492.1027632155665,
+          "verified_value": 3492.3647878432434,
+          "sup": 7.50493413317994e-05,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 3492.1027632155665,
+          "verified_value": 3492.3647878432516,
+          "sup": 7.50493413342085e-05,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 3492.1027632155665,
+          "verified_value": 3492.364787843247,
+          "sup": 7.504934133299116e-05,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 3492.1027632155665,
+          "verified_value": 3492.364787843248,
+          "sup": 7.5049341333123e-05,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 3492.1027632155665,
+          "verified_value": 3492.364787843245,
+          "sup": 7.504934133233023e-05,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 3492.1027632155665,
+          "verified_value": 3492.3647878432475,
+          "sup": 7.504934133311736e-05,
+          "admissible": false
+        }
+      ]
+    },
+    "15": {
+      "ceiling": 5431.5381588716045,
+      "argmin_degree": 12,
+      "saturation_degree": 12,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": 6761.359890403869,
+          "verified_value": 6768.5249083764065,
+          "sup": 0.0010587353677369293,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": 5460.452898232459,
+          "verified_value": 5461.580460476816,
+          "sup": 0.00020649127918126453,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 5460.452898232459,
+          "verified_value": 5461.580460476808,
+          "sup": 0.00020649127917971022,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 5460.452898232461,
+          "verified_value": 5461.580460476799,
+          "sup": 0.00020649127917793386,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 5451.172098936142,
+          "verified_value": 5452.5220049797745,
+          "sup": 0.00024762003022260615,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 5430.826138132355,
+          "verified_value": 5431.5381588716045,
+          "sup": 0.0001311142134387544,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 5430.826138132349,
+          "verified_value": 5431.538158871597,
+          "sup": 0.00013111421343852824,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 5430.826138132349,
+          "verified_value": 5431.538158871601,
+          "sup": 0.00013111421343911067,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 5430.826138132349,
+          "verified_value": 5431.538158871604,
+          "sup": 0.00013111421343983774,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 5430.826138132347,
+          "verified_value": 5431.538158871603,
+          "sup": 0.0001311142134399327,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 5430.826138132349,
+          "verified_value": 5431.538158871603,
+          "sup": 0.00013111421343943463,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 5430.826138132349,
+          "verified_value": 5431.538158871606,
+          "sup": 0.00013111421344016928,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 5430.826138132349,
+          "verified_value": 5431.538158871596,
+          "sup": 0.00013111421343833698,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 5430.826138132349,
+          "verified_value": 5431.538158871602,
+          "sup": 0.00013111421343920673,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 5430.826138132349,
+          "verified_value": 5431.538158871604,
+          "sup": 0.0001311142134397022,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 5430.826138132355,
+          "verified_value": 5431.538158871603,
+          "sup": 0.00013111421343826955,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 5430.826138132355,
+          "verified_value": 5431.538158871606,
+          "sup": 0.0001311142134389925,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 5430.826138132347,
+          "verified_value": 5431.538158871602,
+          "sup": 0.0001311142134398039,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 5430.826138132347,
+          "verified_value": 5431.5381588716045,
+          "sup": 0.00013111421344038222,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 5430.826138132347,
+          "verified_value": 5431.538158871605,
+          "sup": 0.00013111421344047004,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 5430.826138132347,
+          "verified_value": 5431.538158871603,
+          "sup": 0.00013111421344006954,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 5430.826138132355,
+          "verified_value": 5431.53815887161,
+          "sup": 0.0001311142134395437,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 5430.826138132347,
+          "verified_value": 5431.538158871611,
+          "sup": 0.00013111421344145688,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 5430.826138132347,
+          "verified_value": 5431.538158871613,
+          "sup": 0.00013111421344178583,
+          "admissible": false
+        }
+      ]
+    },
+    "16": {
+      "ceiling": 8315.206789468544,
+      "argmin_degree": 14,
+      "saturation_degree": 13,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": 13866.524442369686,
+          "verified_value": 13897.355418878027,
+          "sup": 0.0022186375908646028,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": 8625.344855717189,
+          "verified_value": 8628.386626737689,
+          "sup": 0.0003525715436318855,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 8363.519349273165,
+          "verified_value": 8366.446188030579,
+          "sup": 0.0003498724026940181,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 8363.519349273165,
+          "verified_value": 8366.446188030579,
+          "sup": 0.0003498724026940181,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 8363.519349273165,
+          "verified_value": 8366.446188030579,
+          "sup": 0.0003498724026940181,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 8326.60707948095,
+          "verified_value": 8327.35184578292,
+          "sup": 8.944689292056211e-05,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 8313.59761907171,
+          "verified_value": 8315.20678947989,
+          "sup": 0.0001935446698553278,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 8313.59761907171,
+          "verified_value": 8315.206789468544,
+          "sup": 0.00019354466849108576,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 8313.597619071734,
+          "verified_value": 8315.20678947235,
+          "sup": 0.0001935446689458331,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 8313.597619071734,
+          "verified_value": 8315.206789476131,
+          "sup": 0.00019354466940058046,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 8313.597619071734,
+          "verified_value": 8315.206789468568,
+          "sup": 0.00019354466849108576,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 8313.597619071794,
+          "verified_value": 8315.206789476191,
+          "sup": 0.00019354466940058046,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 8313.597619071794,
+          "verified_value": 8315.20678947241,
+          "sup": 0.0001935446689458331,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 8313.597619071794,
+          "verified_value": 8315.206789479973,
+          "sup": 0.0001935446698553278,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 8313.597619071794,
+          "verified_value": 8315.206789476191,
+          "sup": 0.00019354466940058046,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 8313.597619071794,
+          "verified_value": 8315.20678947241,
+          "sup": 0.0001935446689458331,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 8313.597619071794,
+          "verified_value": 8315.20678947241,
+          "sup": 0.0001935446689458331,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 8313.597619071794,
+          "verified_value": 8315.20678947241,
+          "sup": 0.0001935446689458331,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 8313.597619071794,
+          "verified_value": 8315.20678947241,
+          "sup": 0.0001935446689458331,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 8313.597619071794,
+          "verified_value": 8315.20678947241,
+          "sup": 0.0001935446689458331,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 8313.597619071794,
+          "verified_value": 8315.20678947241,
+          "sup": 0.0001935446689458331,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 8313.597619071794,
+          "verified_value": 8315.20678947241,
+          "sup": 0.0001935446689458331,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 8313.597619071794,
+          "verified_value": 8315.206789476191,
+          "sup": 0.00019354466940058046,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 8313.597619071794,
+          "verified_value": 8315.20678947241,
+          "sup": 0.0001935446689458331,
+          "admissible": false
+        }
+      ]
+    },
+    "17": {
+      "ceiling": 12225.023003805698,
+      "argmin_degree": 13,
+      "saturation_degree": 13,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": 48358.70568771893,
+          "verified_value": 48731.10438460903,
+          "sup": 0.007642066471905906,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": 14337.795478618173,
+          "verified_value": 14346.753098680792,
+          "sup": 0.0006244091893261583,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 12372.729478378504,
+          "verified_value": 12377.2704963341,
+          "sup": 0.0003669132762524896,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 12372.729478378504,
+          "verified_value": 12377.270496335508,
+          "sup": 0.00036691327636617643,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 12372.7294783785,
+          "verified_value": 12377.270496336208,
+          "sup": 0.00036691327642301985,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 12289.983737281924,
+          "verified_value": 12291.881990712865,
+          "sup": 0.0001544440368377309,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 12218.14635552236,
+          "verified_value": 12225.023003805698,
+          "sup": 0.0005625519750083185,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 12218.14635552236,
+          "verified_value": 12225.02300380848,
+          "sup": 0.0005625519752356922,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 12218.14635552236,
+          "verified_value": 12225.02300380848,
+          "sup": 0.0005625519752356922,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 12218.14635552236,
+          "verified_value": 12225.023003805698,
+          "sup": 0.0005625519750083185,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 12218.14635552236,
+          "verified_value": 12225.02300380848,
+          "sup": 0.0005625519752356922,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 12218.14635552236,
+          "verified_value": 12225.02300380848,
+          "sup": 0.0005625519752356922,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 12218.14635552236,
+          "verified_value": 12225.023003802917,
+          "sup": 0.0005625519747809449,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 12218.14635552236,
+          "verified_value": 12225.023003805698,
+          "sup": 0.0005625519750083185,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 12218.14635552236,
+          "verified_value": 12225.02300380848,
+          "sup": 0.0005625519752356922,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 12218.14635552236,
+          "verified_value": 12225.023003805698,
+          "sup": 0.0005625519750083185,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 12218.14635552236,
+          "verified_value": 12225.023003805698,
+          "sup": 0.0005625519750083185,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 12218.14635552236,
+          "verified_value": 12225.02300380848,
+          "sup": 0.0005625519752356922,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 12218.14635552236,
+          "verified_value": 12225.023003805698,
+          "sup": 0.0005625519750083185,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 12218.14635552236,
+          "verified_value": 12225.023003805698,
+          "sup": 0.0005625519750083185,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 12218.146355522289,
+          "verified_value": 12225.02300380841,
+          "sup": 0.0005625519752356922,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 12218.14635552236,
+          "verified_value": 12225.023003805698,
+          "sup": 0.0005625519750083185,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 12218.14635552236,
+          "verified_value": 12225.023003805698,
+          "sup": 0.0005625519750083185,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 12218.14635552236,
+          "verified_value": 12225.023003805698,
+          "sup": 0.0005625519750083185,
+          "admissible": false
+        }
+      ]
+    },
+    "18": {
+      "ceiling": 17885.796366761522,
+      "argmin_degree": 13,
+      "saturation_degree": 13,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": 26492.992364014965,
+          "verified_value": 26524.652076143262,
+          "sup": 0.001193640756461889,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 18197.939529759475,
+          "verified_value": 18206.477447071837,
+          "sup": 0.00046897519371214,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 18197.93952975946,
+          "verified_value": 18206.477447071822,
+          "sup": 0.00046897519371214,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 18197.93952975946,
+          "verified_value": 18206.477447071302,
+          "sup": 0.0004689751936837183,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 18197.93952975946,
+          "verified_value": 18206.477447071302,
+          "sup": 0.0004689751936837183,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 17876.369290036448,
+          "verified_value": 17885.796366761522,
+          "sup": 0.0005271000313200602,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 17876.36929003623,
+          "verified_value": 17885.79636676232,
+          "sup": 0.0005271000313769036,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 17876.36929003623,
+          "verified_value": 17885.796366760285,
+          "sup": 0.0005271000312632168,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 17876.36929003619,
+          "verified_value": 17885.79636676228,
+          "sup": 0.0005271000313769036,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 17876.36929003623,
+          "verified_value": 17885.796366761304,
+          "sup": 0.0005271000313200602,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 17876.36929003623,
+          "verified_value": 17885.796366760285,
+          "sup": 0.0005271000312632168,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 17876.36929003623,
+          "verified_value": 17885.796366760285,
+          "sup": 0.0005271000312632168,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 17876.36929003623,
+          "verified_value": 17885.79636676232,
+          "sup": 0.0005271000313769036,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 17876.36929003678,
+          "verified_value": 17885.796366761853,
+          "sup": 0.0005271000313200602,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 17876.36929003678,
+          "verified_value": 17885.796366762872,
+          "sup": 0.0005271000313769036,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 17876.369290036255,
+          "verified_value": 17885.79636676234,
+          "sup": 0.0005271000313769036,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 17876.369290036255,
+          "verified_value": 17885.796366760307,
+          "sup": 0.0005271000312632168,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 17876.36929003595,
+          "verified_value": 17885.796366762042,
+          "sup": 0.0005271000313769036,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 17876.36929003595,
+          "verified_value": 17885.796366761027,
+          "sup": 0.0005271000313200602,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 17876.36929003595,
+          "verified_value": 17885.796366761027,
+          "sup": 0.0005271000313200602,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 17876.36929003595,
+          "verified_value": 17885.796366762042,
+          "sup": 0.0005271000313769036,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 17876.36929003595,
+          "verified_value": 17885.796366762042,
+          "sup": 0.0005271000313769036,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 17876.369290035862,
+          "verified_value": 17885.796366758903,
+          "sup": 0.0005271000312063734,
+          "admissible": false
+        }
+      ]
+    },
+    "19": {
+      "ceiling": 25916.605856123835,
+      "argmin_degree": 13,
+      "saturation_degree": 13,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": 64593.07869005493,
+          "verified_value": 64784.06530464346,
+          "sup": 0.002948094748070673,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 26768.854580306048,
+          "verified_value": 26788.141593844404,
+          "sup": 0.0007200101388491476,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 26768.854580306048,
+          "verified_value": 26788.14159384364,
+          "sup": 0.0007200101388207258,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 26768.854580306048,
+          "verified_value": 26788.14159384364,
+          "sup": 0.0007200101388207258,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 26768.854580306048,
+          "verified_value": 26788.141593844022,
+          "sup": 0.0007200101388349367,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 25899.34184029778,
+          "verified_value": 25916.605856123835,
+          "sup": 0.0006661629259951951,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 25899.34184029756,
+          "verified_value": 25916.60585612361,
+          "sup": 0.0006661629259951951,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 25899.34184029756,
+          "verified_value": 25916.605856122136,
+          "sup": 0.0006661629259383517,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 25899.341840298275,
+          "verified_value": 25916.605856122856,
+          "sup": 0.0006661629259383517,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 25899.341840298275,
+          "verified_value": 25916.605856121383,
+          "sup": 0.0006661629258815083,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 25899.341840297566,
+          "verified_value": 25916.605856123617,
+          "sup": 0.0006661629259951951,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 25899.341840297566,
+          "verified_value": 25916.605856123617,
+          "sup": 0.0006661629259951951,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 25899.341840297937,
+          "verified_value": 25916.605856125465,
+          "sup": 0.0006661629260520385,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 25899.341840298068,
+          "verified_value": 25916.605856125596,
+          "sup": 0.0006661629260520385,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 25899.341840298068,
+          "verified_value": 25916.605856124123,
+          "sup": 0.0006661629259951951,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 25899.34184029808,
+          "verified_value": 25916.60585612561,
+          "sup": 0.0006661629260520385,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 25899.34184029808,
+          "verified_value": 25916.605856124137,
+          "sup": 0.0006661629259951951,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 25899.34184029808,
+          "verified_value": 25916.60585612266,
+          "sup": 0.0006661629259383517,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 25899.34184029808,
+          "verified_value": 25916.605856124137,
+          "sup": 0.0006661629259951951,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 25899.34184029808,
+          "verified_value": 25916.60585612266,
+          "sup": 0.0006661629259383517,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 25899.341840298002,
+          "verified_value": 25916.60585612258,
+          "sup": 0.0006661629259383517,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 25899.341840298002,
+          "verified_value": 25916.605856124057,
+          "sup": 0.0006661629259951951,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 25899.341840298002,
+          "verified_value": 25916.60585612258,
+          "sup": 0.0006661629259383517,
+          "admissible": false
+        }
+      ]
+    },
+    "20": {
+      "ceiling": 38001.899823787695,
+      "argmin_degree": 13,
+      "saturation_degree": 13,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": 99632818.89657907,
+          "verified_value": null,
+          "sup": 4.649001297279028,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 39650.55609748978,
+          "verified_value": 39694.48376963364,
+          "sup": 0.0011066721278183422,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 39650.55609748978,
+          "verified_value": 39694.48376963251,
+          "sup": 0.0011066721277899205,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 39650.55609748973,
+          "verified_value": 39694.48376963302,
+          "sup": 0.0011066721278041314,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 39650.55609748973,
+          "verified_value": 39694.48376963246,
+          "sup": 0.0011066721277899205,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 37970.882356373,
+          "verified_value": 38001.899823787695,
+          "sup": 0.0008162298145180102,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 37970.88235637321,
+          "verified_value": 38001.8998237879,
+          "sup": 0.0008162298145180102,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 37970.882356373,
+          "verified_value": 38001.89982378554,
+          "sup": 0.0008162298144611668,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 37970.882356373,
+          "verified_value": 38001.89982378554,
+          "sup": 0.0008162298144611668,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 37970.88235637321,
+          "verified_value": 38001.899823785745,
+          "sup": 0.0008162298144611668,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 37970.88235637321,
+          "verified_value": 38001.899823785745,
+          "sup": 0.0008162298144611668,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 37970.882356373,
+          "verified_value": 38001.899823787695,
+          "sup": 0.0008162298145180102,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 37970.882356373,
+          "verified_value": 38001.899823787695,
+          "sup": 0.0008162298145180102,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 37970.88235637321,
+          "verified_value": 38001.89982379006,
+          "sup": 0.0008162298145748537,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 37970.88235637321,
+          "verified_value": 38001.899823785745,
+          "sup": 0.0008162298144611668,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 37970.88235637321,
+          "verified_value": 38001.8998237879,
+          "sup": 0.0008162298145180102,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 37970.88235637321,
+          "verified_value": 38001.899823785745,
+          "sup": 0.0008162298144611668,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 37970.88235637321,
+          "verified_value": 38001.8998237879,
+          "sup": 0.0008162298145180102,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 37970.882356373215,
+          "verified_value": 38001.899823783584,
+          "sup": 0.0008162298144043234,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 37970.882356373215,
+          "verified_value": 38001.899823785745,
+          "sup": 0.0008162298144611668,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 37970.882356373215,
+          "verified_value": 38001.899823785745,
+          "sup": 0.0008162298144611668,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 37970.882356373215,
+          "verified_value": 38001.899823783584,
+          "sup": 0.0008162298144043234,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 37970.882356373215,
+          "verified_value": 38001.899823785745,
+          "sup": 0.0008162298144611668,
+          "admissible": false
+        }
+      ]
+    },
+    "21": {
+      "ceiling": 56877.83572121765,
+      "argmin_degree": 13,
+      "saturation_degree": 13,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 59681.915293545666,
+          "verified_value": 59785.40207542159,
+          "sup": 0.001730999696967217,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 59681.915293545615,
+          "verified_value": 59785.40207542281,
+          "sup": 0.0017309996969885333,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 59681.915293545666,
+          "verified_value": 59785.40207542286,
+          "sup": 0.0017309996969885333,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 59681.915293545666,
+          "verified_value": 59785.40207542074,
+          "sup": 0.0017309996969530062,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 56843.68583930067,
+          "verified_value": 56877.83572121765,
+          "sup": 0.0006004181049092949,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 56843.68583930067,
+          "verified_value": 56877.835721204705,
+          "sup": 0.0006004181046819212,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 56843.68583930067,
+          "verified_value": 56877.83572121764,
+          "sup": 0.0006004181049092949,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 56843.68583930067,
+          "verified_value": 56877.83572121117,
+          "sup": 0.0006004181047956081,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 56843.68583930067,
+          "verified_value": 56877.83572121117,
+          "sup": 0.0006004181047956081,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 56843.68583930067,
+          "verified_value": 56877.83572121764,
+          "sup": 0.0006004181049092949,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 56843.68583930085,
+          "verified_value": 56877.83572120488,
+          "sup": 0.0006004181046819212,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 56843.68583930074,
+          "verified_value": 56877.83572120477,
+          "sup": 0.0006004181046819212,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 56843.68583930085,
+          "verified_value": 56877.83572120488,
+          "sup": 0.0006004181046819212,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 56843.68583930085,
+          "verified_value": 56877.83572120488,
+          "sup": 0.0006004181046819212,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 56843.68583930085,
+          "verified_value": 56877.83572120488,
+          "sup": 0.0006004181046819212,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 56843.68583930085,
+          "verified_value": 56877.83572120488,
+          "sup": 0.0006004181046819212,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 56843.68583930085,
+          "verified_value": 56877.83572120488,
+          "sup": 0.0006004181046819212,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 56843.68583930085,
+          "verified_value": 56877.83572120488,
+          "sup": 0.0006004181046819212,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 56843.68583930108,
+          "verified_value": 56877.83572121157,
+          "sup": 0.0006004181047956081,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 56843.68583930067,
+          "verified_value": 56877.83572121117,
+          "sup": 0.0006004181047956081,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 56843.68583930067,
+          "verified_value": 56877.83572121117,
+          "sup": 0.0006004181047956081,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 56843.68583930067,
+          "verified_value": 56877.83572121117,
+          "sup": 0.0006004181047956081,
+          "admissible": false
+        }
+      ]
+    },
+    "22": {
+      "ceiling": 86561.90923876404,
+      "argmin_degree": 14,
+      "saturation_degree": 14,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 92573.16254446088,
+          "verified_value": 92826.97946554309,
+          "sup": 0.002734330653375139,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 88381.01682609343,
+          "verified_value": 88435.01845926336,
+          "sup": 0.0006106432129939776,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 88381.01682609343,
+          "verified_value": 88435.01845926273,
+          "sup": 0.0006106432129868722,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 88381.01682609352,
+          "verified_value": 88435.01845927161,
+          "sup": 0.0006106432130863482,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 87791.72707839863,
+          "verified_value": 88051.87290038934,
+          "sup": 0.002954494525965856,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 86532.5352092569,
+          "verified_value": 86561.90923876404,
+          "sup": 0.0003393452051909662,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 86532.5352092569,
+          "verified_value": 86561.90923876523,
+          "sup": 0.0003393452052051771,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 86532.5352092569,
+          "verified_value": 86561.90923876523,
+          "sup": 0.0003393452052051771,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 86532.53520925697,
+          "verified_value": 86561.90923876781,
+          "sup": 0.0003393452052335988,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 86532.53520925714,
+          "verified_value": 86561.90923876551,
+          "sup": 0.0003393452052051771,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 86532.53520925714,
+          "verified_value": 86561.90923876305,
+          "sup": 0.00033934520517675537,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 86532.5352092569,
+          "verified_value": 86561.90923876523,
+          "sup": 0.0003393452052051771,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 86532.5352092569,
+          "verified_value": 86561.90923876278,
+          "sup": 0.00033934520517675537,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 86532.5352092569,
+          "verified_value": 86561.90923876278,
+          "sup": 0.00033934520517675537,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 86532.5352092569,
+          "verified_value": 86561.90923876401,
+          "sup": 0.0003393452051909662,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 86532.53520925676,
+          "verified_value": 86561.90923876512,
+          "sup": 0.0003393452052051771,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 86532.53520925676,
+          "verified_value": 86561.90923876635,
+          "sup": 0.00033934520521938794,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 86532.53520925676,
+          "verified_value": 86561.90923876266,
+          "sup": 0.00033934520517675537,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 86532.53520925676,
+          "verified_value": 86561.9092387639,
+          "sup": 0.0003393452051909662,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 86532.5352092569,
+          "verified_value": 86561.90923876278,
+          "sup": 0.00033934520517675537,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 86532.53520925714,
+          "verified_value": 86561.90923876305,
+          "sup": 0.00033934520517675537,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 86532.53520925684,
+          "verified_value": 86561.90923876155,
+          "sup": 0.0003393452051625445,
+          "admissible": false
+        }
+      ]
+    },
+    "23": {
+      "ceiling": 128138.88276566155,
+      "argmin_degree": 14,
+      "saturation_degree": 14,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 151693.02196356567,
+          "verified_value": 152402.19432819213,
+          "sup": 0.004653325505437067,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 130317.88346513544,
+          "verified_value": 130438.74950837537,
+          "sup": 0.0009266185877589983,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 130317.88346513544,
+          "verified_value": 130438.74950837439,
+          "sup": 0.0009266185877514488,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 130317.8834651354,
+          "verified_value": 130438.7495083799,
+          "sup": 0.0009266185877940813,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 129967.14164964411,
+          "verified_value": 131207.1121708848,
+          "sup": 0.00945055455667898,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 128091.21380170941,
+          "verified_value": 128138.88276566155,
+          "sup": 0.0003720130450361736,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 128091.2138017095,
+          "verified_value": 128138.88276566051,
+          "sup": 0.0003720130450272905,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 128091.21380171034,
+          "verified_value": 128138.88276566185,
+          "sup": 0.00037201304503107927,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 128091.21380171034,
+          "verified_value": 128138.88276566187,
+          "sup": 0.00037201304503128846,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 128091.21380171008,
+          "verified_value": 128138.88276566144,
+          "sup": 0.00037201304502982636,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 128091.21380171058,
+          "verified_value": 128138.88276566075,
+          "sup": 0.0003720130450206976,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 128091.21380171034,
+          "verified_value": 128138.8827656613,
+          "sup": 0.0003720130450269277,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 128091.21380171034,
+          "verified_value": 128138.8827656616,
+          "sup": 0.00037201304502920305,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 128091.21380171034,
+          "verified_value": 128138.88276566152,
+          "sup": 0.0003720130450285069,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 128091.21380171034,
+          "verified_value": 128138.88276566136,
+          "sup": 0.000372013045027294,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 128091.21380171034,
+          "verified_value": 128138.88276566142,
+          "sup": 0.00037201304502777483,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 128091.21380171034,
+          "verified_value": 128138.88276566085,
+          "sup": 0.0003720130450233643,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 128091.21380171034,
+          "verified_value": 128138.88276566144,
+          "sup": 0.000372013045027996,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 128091.21380171034,
+          "verified_value": 128138.882765661,
+          "sup": 0.00037201304502440736,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 128091.21380171034,
+          "verified_value": 128138.8827656613,
+          "sup": 0.0003720130450269236,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 128091.21380171034,
+          "verified_value": 128138.88276566188,
+          "sup": 0.0003720130450314284,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 128091.21380171034,
+          "verified_value": 128138.88276566054,
+          "sup": 0.000372013045020888,
+          "admissible": false
+        }
+      ]
+    },
+    "24": {
+      "ceiling": 196804.5402398989,
+      "argmin_degree": 10,
+      "saturation_degree": 10,
+      "sweep_exhausted": false,
+      "curve": [
+        {
+          "degree": 1,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 2,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 3,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 4,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 5,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 6,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 7,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 8,
+          "grid_value": null,
+          "verified_value": null,
+          "sup": null,
+          "admissible": false
+        },
+        {
+          "degree": 9,
+          "grid_value": 277144.236473541,
+          "verified_value": 279555.5686254752,
+          "sup": 0.008625622409930145,
+          "admissible": false
+        },
+        {
+          "degree": 10,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.5402398989,
+          "sup": 0.0015181512593294144,
+          "admissible": false
+        },
+        {
+          "degree": 11,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.5402399004,
+          "sup": 0.001518151259337186,
+          "admissible": false
+        },
+        {
+          "degree": 12,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.54023989683,
+          "sup": 0.0015181512593189783,
+          "admissible": false
+        },
+        {
+          "degree": 13,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.54023990151,
+          "sup": 0.001518151259342737,
+          "admissible": false
+        },
+        {
+          "degree": 14,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.54023990364,
+          "sup": 0.0015181512593535063,
+          "admissible": false
+        },
+        {
+          "degree": 15,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.5402399008,
+          "sup": 0.0015181512593390734,
+          "admissible": false
+        },
+        {
+          "degree": 16,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.5402399003,
+          "sup": 0.0015181512593365198,
+          "admissible": false
+        },
+        {
+          "degree": 17,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.5402399026,
+          "sup": 0.0015181512593482882,
+          "admissible": false
+        },
+        {
+          "degree": 18,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.54023989706,
+          "sup": 0.0015181512593201996,
+          "admissible": false
+        },
+        {
+          "degree": 19,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.54023989802,
+          "sup": 0.0015181512593250845,
+          "admissible": false
+        },
+        {
+          "degree": 20,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.5402399019,
+          "sup": 0.0015181512593446245,
+          "admissible": false
+        },
+        {
+          "degree": 21,
+          "grid_value": 196505.76269744325,
+          "verified_value": 196804.5402399007,
+          "sup": 0.0015181512593382962,
+          "admissible": false
+        },
+        {
+          "degree": 22,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.54023990087,
+          "sup": 0.0015181512593395174,
+          "admissible": false
+        },
+        {
+          "degree": 23,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.54023990047,
+          "sup": 0.001518151259337408,
+          "admissible": false
+        },
+        {
+          "degree": 24,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.54023990096,
+          "sup": 0.0015181512593399615,
+          "admissible": false
+        },
+        {
+          "degree": 25,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.54023990102,
+          "sup": 0.0015181512593401836,
+          "admissible": false
+        },
+        {
+          "degree": 26,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.54023989668,
+          "sup": 0.0015181512593182012,
+          "admissible": false
+        },
+        {
+          "degree": 27,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.54023989983,
+          "sup": 0.0015181512593341884,
+          "admissible": false
+        },
+        {
+          "degree": 28,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.54023990183,
+          "sup": 0.0015181512593444024,
+          "admissible": false
+        },
+        {
+          "degree": 29,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.54023990044,
+          "sup": 0.001518151259337297,
+          "admissible": false
+        },
+        {
+          "degree": 30,
+          "grid_value": 196505.7626974432,
+          "verified_value": 196804.54023989697,
+          "sup": 0.0015181512593197555,
+          "admissible": false
+        }
+      ]
+    }
+  },
+  "node_sweep_n24_d10": [
+    {
+      "n": 24,
+      "degree": 10,
+      "nodes": 8,
+      "status": "optimal",
+      "grid_value": 15704.908292329155,
+      "sup_on_interval": 117.04830212093384,
+      "argmax": -0.8596979511208039,
+      "admissible": false,
+      "verified_value": null,
+      "false_bound": true
+    },
+    {
+      "n": 24,
+      "degree": 10,
+      "nodes": 12,
+      "status": "optimal",
+      "grid_value": 74352.27080591908,
+      "sup_on_interval": 40.83304792000255,
+      "argmax": -0.48922881279149544,
+      "admissible": false,
+      "verified_value": null,
+      "false_bound": true
+    },
+    {
+      "n": 24,
+      "degree": 10,
+      "nodes": 20,
+      "status": "optimal",
+      "grid_value": 170028.40404684612,
+      "sup_on_interval": 1.6064820552053876,
+      "argmax": -0.5130088802425734,
+      "admissible": false,
+      "verified_value": null,
+      "false_bound": true
+    },
+    {
+      "n": 24,
+      "degree": 10,
+      "nodes": 40,
+      "status": "optimal",
+      "grid_value": 184954.4481365574,
+      "sup_on_interval": 0.2675994130354358,
+      "argmax": -0.4929412268068474,
+      "admissible": false,
+      "verified_value": 252531.4477200071,
+      "false_bound": true
+    },
+    {
+      "n": 24,
+      "degree": 10,
+      "nodes": 100,
+      "status": "optimal",
+      "grid_value": 194640.1785549427,
+      "sup_on_interval": 0.06101606063627729,
+      "argmax": -0.5073090206611572,
+      "admissible": false,
+      "verified_value": 207288.0156723178,
+      "false_bound": true
+    },
+    {
+      "n": 24,
+      "degree": 10,
+      "nodes": 300,
+      "status": "optimal",
+      "grid_value": 196456.02161424965,
+      "sup_on_interval": 0.005682251004287764,
+      "argmax": -0.49753575335820466,
+      "admissible": false,
+      "verified_value": 197578.7077424943,
+      "false_bound": true
+    },
+    {
+      "n": 24,
+      "degree": 10,
+      "nodes": 600,
+      "status": "optimal",
+      "grid_value": 196505.7626974432,
+      "sup_on_interval": 0.0015181512593294144,
+      "argmax": -0.5007793359078714,
+      "admissible": false,
+      "verified_value": 196804.5402398989,
+      "false_bound": true
+    },
+    {
+      "n": 24,
+      "degree": 10,
+      "nodes": 1200,
+      "status": "optimal",
+      "grid_value": 196553.77755277907,
+      "sup_on_interval": 0.0003799358941245501,
+      "argmax": -0.5005614437283571,
+      "admissible": false,
+      "verified_value": 196628.48339149088,
+      "false_bound": true
+    },
+    {
+      "n": 24,
+      "degree": 10,
+      "nodes": 2400,
+      "status": "optimal",
+      "grid_value": 196558.00329765314,
+      "sup_on_interval": 9.428656898435861e-05,
+      "argmax": -0.5004568470247093,
+      "admissible": false,
+      "verified_value": 196576.53773065202,
+      "false_bound": true
+    },
+    {
+      "n": 24,
+      "degree": 10,
+      "nodes": 5000,
+      "status": "optimal",
+      "grid_value": 196559.25627994756,
+      "sup_on_interval": 2.1597132017880938e-05,
+      "argmax": -0.500107387343423,
+      "admissible": false,
+      "verified_value": 196563.5014662415,
+      "false_bound": true
+    },
+    {
+      "n": 24,
+      "degree": 10,
+      "nodes": 10000,
+      "status": "optimal",
+      "grid_value": 196559.90521685674,
+      "sup_on_interval": 5.399850675935625e-06,
+      "argmax": -0.5000831016553076,
+      "admissible": false,
+      "verified_value": 196560.96661132533,
+      "false_bound": true
+    },
+    {
+      "n": 24,
+      "degree": 10,
+      "nodes": 20000,
+      "status": "optimal",
+      "grid_value": 196559.9693675699,
+      "sup_on_interval": 1.3461740255849008e-06,
+      "argmax": -0.4999599446640961,
+      "admissible": false,
+      "verified_value": 196560.23397050516,
+      "false_bound": true
+    }
+  ],
+  "node_sweep_n8_d6": [
+    {
+      "n": 8,
+      "degree": 6,
+      "nodes": 4,
+      "status": "optimal",
+      "grid_value": 25.86956521739129,
+      "sup_on_interval": 2.885976526706589,
+      "argmax": -0.29613449052692586,
+      "admissible": false,
+      "verified_value": null,
+      "false_bound": true
+    },
+    {
+      "n": 8,
+      "degree": 6,
+      "nodes": 6,
+      "status": "optimal",
+      "grid_value": 201.66666666666657,
+      "sup_on_interval": 6.723053777108317,
+      "argmax": -0.7207868001967204,
+      "admissible": false,
+      "verified_value": null,
+      "false_bound": true
+    },
+    {
+      "n": 8,
+      "degree": 6,
+      "nodes": 8,
+      "status": "optimal",
+      "grid_value": 176.85909649897422,
+      "sup_on_interval": 1.7253711801947853,
+      "argmax": -0.6090996202370362,
+      "admissible": false,
+      "verified_value": null,
+      "false_bound": true
+    },
+    {
+      "n": 8,
+      "degree": 6,
+      "nodes": 12,
+      "status": "optimal",
+      "grid_value": 224.14548437127814,
+      "sup_on_interval": 0.09214272304783211,
+      "argmax": -0.47898844858517914,
+      "admissible": false,
+      "verified_value": 246.7935735454098,
+      "false_bound": true
+    },
+    {
+      "n": 8,
+      "degree": 6,
+      "nodes": 20,
+      "status": "optimal",
+      "grid_value": 232.40036871300472,
+      "sup_on_interval": 0.04180546996307516,
+      "argmax": -0.49804244324426944,
+      "admissible": false,
+      "verified_value": 242.496232194195,
+      "false_bound": true
+    },
+    {
+      "n": 8,
+      "degree": 6,
+      "nodes": 60,
+      "status": "optimal",
+      "grid_value": 239.66472578114798,
+      "sup_on_interval": 0.004263304536058055,
+      "argmax": -0.013930713251422644,
+      "admissible": false,
+      "verified_value": 240.6865826763041,
+      "false_bound": true
+    },
+    {
+      "n": 8,
+      "degree": 6,
+      "nodes": 200,
+      "status": "optimal",
+      "grid_value": 239.99202280625798,
+      "sup_on_interval": 0.00042996943294226764,
+      "argmax": 0.005315309093215537,
+      "admissible": false,
+      "verified_value": 240.09482627313008,
+      "false_bound": true
+    },
+    {
+      "n": 8,
+      "degree": 6,
+      "nodes": 600,
+      "status": "optimal",
+      "grid_value": 239.99302489197538,
+      "sup_on_interval": 4.607487960073264e-05,
+      "argmax": 0.0007610599975629295,
+      "admissible": false,
+      "verified_value": 240.00403697420305,
+      "false_bound": true
+    },
+    {
+      "n": 8,
+      "degree": 6,
+      "nodes": 2400,
+      "status": "optimal",
+      "grid_value": 239.99998324729512,
+      "sup_on_interval": 2.86684736924836e-06,
+      "argmax": -0.5004557059615449,
+      "admissible": false,
+      "verified_value": 240.00066842573264,
+      "false_bound": true
+    },
+    {
+      "n": 8,
+      "degree": 6,
+      "nodes": 10000,
+      "status": "optimal",
+      "grid_value": 239.99998677788372,
+      "sup_on_interval": 1.6461735932726818e-07,
+      "argmax": -0.5000830358703,
+      "admissible": false,
+      "verified_value": 240.00002612143692,
+      "false_bound": true
+    },
+    {
+      "n": 8,
+      "degree": 6,
+      "nodes": 40000,
+      "status": "optimal",
+      "grid_value": 239.99999525814692,
+      "sup_on_interval": 9.253457178282076e-08,
+      "argmax": -0.49995392622770624,
+      "admissible": false,
+      "verified_value": 240.0000173739112,
+      "false_bound": true
+    }
+  ],
+  "anchors": {
+    "8": {
+      "exact_kissing_number": 240.0,
+      "certificate_degree": 6,
+      "certificate_value": 240.0000000000086,
+      "certificate_sup": -1.1102230246251565e-16,
+      "certificate_p2_slack": 0.07499999999999984,
+      "gegenbauer_coeffs_normalised": [
+        1.0,
+        8.000000000000272,
+        25.000000000000952,
+        52.00000000000201,
+        66.50000000000243,
+        60.000000000002046,
+        27.50000000000094
+      ],
+      "lp_ceiling": 240.00403697420305
+    },
+    "24": {
+      "exact_kissing_number": 196560.0,
+      "certificate_degree": 10,
+      "certificate_value": 196560.0000032882,
+      "certificate_sup": -4.0345873343616834e-17,
+      "certificate_p2_slack": 0.00024145776098890778,
+      "gegenbauer_coeffs_normalised": [
+        1.0,
+        24.000000000391232,
+        193.4705882385736,
+        1098.5882353126735,
+        3904.92647065343,
+        11467.529411955324,
+        23273.478070564564,
+        40589.94427312726,
+        47605.49019687604,
+        45099.93808124845,
+        23301.63467531149
+      ],
+      "lp_ceiling": 196804.5402398989
+    }
+  },
+  "seconds": 6.7
+}
