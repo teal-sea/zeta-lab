@@ -118,6 +118,27 @@ and the sweep rediscovers degrees 6 and 10 for E8 and Leech on its own. So the
 headroom in this parameterisation is not in the degree; it is in the node set,
 which nobody publishes. Float grade throughout. Five planted faults fire. The
 Cohn-Elkies SDP half was not attempted. Nothing bears on RH (`docs/08`).
+### Hunt #82: the analytic limit of the n-point pressure family (`family_wall/`)
+
+**Status: probe, complete. BARRIER.** The n-point pressure family saturates. Reducing
+the bound to `Phi_n <= H + H c - (n-1)/p` and then bounding `c` by the functional's value
+at any gap vector of total length `(n-1)/H` makes the pressure term cancel identically and
+leaves `Phi_n <= H (1 + W(g))`, with `W` an energy per point at density `H` -- order `1e-3`,
+where reaching the configuration ceiling `0.6818286874638` would need `0.0138706`.
+Combined with `Phi_n <= H (n-1)/(n-2)` (which is already below the ceiling from `n = 75`),
+every `n` is covered and `sup_n Phi_n <= 0.6751676`: short of the ceiling by more than
+`0.0066`, which is 71% of the whole distance from `H` to it. The limit itself is `H =
+0.6725007036794116` exactly -- the family climbs a little, turns over and comes back down.
+The DERIVED-but-untested pressure lead survived: `Phi = H m/(m-1) - k/p` is exact when
+`1/c` is an integer and a rigorous upper bound otherwise (overshoot `1.5e-6` to `5.9e-6`,
+comparable to the spacing between adjacent peaks, so it cannot rank adjacent `n`), and the
+optimal pressure sits at a minimiser-family crossover `p_x = (S2-S1)/(W1-W2)` -- predicted
+3433.0, 3187.3, 4072.5 for `n = 7, 8, 9`, each landing inside the exact grid interval where
+the existing sweep's winning word changes. A Modal cross-check at `n = 7, 10, 14, 20` over
+`p = 1200 .. 20000` passed its control to `2e-13` and agreed with the predicted floors at
+`n = 7, 10, 14`; at `n = 20` the analytic witness ladder beat the multistart search at four
+pressures, so that job's raw `Phi_20` was built on a value that is not a floor.
+`FAMILY-LIMIT.md`, with its own "what would refute this".
 
 ### Hunt #81: what the `min(dps, 20)` cap costs, measured (`dps_cap/`)
 
