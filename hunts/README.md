@@ -1625,3 +1625,31 @@ which is RH. No progress on RH; the hunt says so itself.
 Applying this same exact pipeline to the open 8x3 graph yielded an identical verdict. The 57 $H \times S_2$ pair orbits were evaluated in the 8-variable working quotient, resulting in a mapped distinct monomial count of 8, each of uniform degree 12. Crucially, executing `sympy.groebner` on the 70 unique 8-variable symmetry-reduced equations completed in under 5 seconds, using negligible memory (80MB), and cleanly returned `[1]`. This proves that no $H \times S_2$-symmetric complex witness exists for the 8x3 instance.
 
 (Note: No corresponding harness ledger was found in `harness/departments/`, confirming that framework is entirely deprecated.)
+
+### Hunt #78: the far constant `637/1000` at depth 1 (`r_a7c12f/`)
+**Status: settled — the recorded correction is withdrawn.** `K2-TWO-SPECIES.md`
+section 2 starred `far constant sup Dam*(s^2-2)/y'^2 = 0.6636 > 0.637` as a
+depth-1 correction that `Wt_tail_le`'s `637/1000` does not survive. It does
+survive. Two separate errors were stacked. First, `Wt_tail_le`
+(`Counting.lean:93`) is `Wt w <= (637/1000)/w for 1368 <= w`, an inequality
+between two explicit rational functions of one variable with no depth in it;
+the depth-carrying lemma is `Qim_far_sq` (`FarField.lean:227`, hypothesis
+`hy : y <= 1/2`). Second, `1368 <= w = s^2-2` means `s >= 37.0135`, while
+`two_species.far_constant` scans `[8, 400]` — and both starred sups are
+attained at `s = 12.715` and `s = 12.625`, i.e. `w = 159.7` and `w = 157.4`,
+where the proved envelope `Wt(w)*w` is `0.7042` and `0.7054`. Neither row was
+ever in conflict with anything proved. On the range the constant *is* asserted
+on, an Arb pass at 96 bits (`hunts/r_a97060/ball_field.py`, adaptive cells,
+45,030 evaluations) gives `sup Dam(1,s)*(s^2-2) <= 0.6317735` against
+`0.637`, margin `+0.0052`, at an enclosure cost of `1.00005` over the float
+scan; the ladder `0.5844 / 0.5937 / 0.6094 / 0.6318` at depths
+`0.25 / 0.5 / 0.75 / 1` all hold. The constant first fails at depth `1.0494`
+(measured). What *does* break below depth 1 is the derivation route:
+`Qim^2 <= y^2 Wt(s^2-2)` reaches ratio `1.00438` at depth 1, and holds
+asymptotically iff `4 sinh(y/2)^2 cos(1/sqrt2)^2/y^2 <= 5/8`, i.e. iff
+`y <= 0.972659`. So a `k >= 3` pass at depth `2y <= 1` inherits a broken
+proof, not a broken constant, and re-fitting `base_poly_le` for `y <= 1` is
+the named obligation. Not closed: `s > 400` has no depth-1 enclosure (the
+tail composes through the very lemma that fails), and the table's other
+starred row (`no_damage`'s `28/5`) was not examined. Nothing bears on RH
+(`docs/08`).

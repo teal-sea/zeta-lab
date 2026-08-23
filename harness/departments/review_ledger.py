@@ -94,6 +94,35 @@ CLAIMS: tuple[ClaimUnderReview, ...] = (
             "class, so the improvement can be stated without any float"
         ),
     ),
+    ClaimUnderReview(
+        name="k2-far-constant-depth1",
+        claim=(
+            "the far-field constant 637/1000 does not survive at depth 1: "
+            "sup Dam*(s^2-2)/y^2 measures 0.6636 > 0.637 there, so "
+            "Wt_tail_le's 637/1000 is a correction any depth-1 argument must "
+            "carry (K2-TWO-SPECIES.md section 2, 2026-08-15)"
+        ),
+        author="frontier_math two-species session (2026-08-15)",
+        assumptions=(
+            "the scanned range [8, 400] is the range on which 637/1000 is "
+            "asserted (it is not: Wt_tail_le is stated for w = s^2-2 >= 1368, "
+            "i.e. s >= 37.0135)",
+            "the failing constant belongs to Wt_tail_le (it does not: that "
+            "lemma has no depth variable in its statement)",
+        ),
+        code_paths=("hunts/frontier_math/two_species.py",),
+        controls_run=(
+            "the depth-1/2 row of the same table reproduces the k=1 "
+            "landscape, so the scan itself was cross-checked against known "
+            "values (it has zero power against a range mismatch, since both "
+            "rows are scanned over the same wrong range)",
+        ),
+        author_reasoning=(
+            "the depth-1/2 scan gives 0.6220 < 0.637 and the depth-1 scan "
+            "gives 0.6636 > 0.637, so the constant looked like it was being "
+            "crossed as depth rose"
+        ),
+    ),
 )
 
 OUTCOMES: tuple[AttackOutcome, ...] = (
@@ -267,6 +296,61 @@ OUTCOMES: tuple[AttackOutcome, ...] = (
             "hunts/r_f00e48/RESULTS.md",
             "hunts/r_f00e48/HANDBACK.json",
             "hunts/rogue_frontier/LANDING.md",
+        ),
+    ),
+    AttackOutcome(
+        claim_name="k2-far-constant-depth1",
+        role="white-box",
+        attacker="Fulcrum hunt R-A7C12F (run e09a7f8a, Claude Opus 5, 2026-08-23)",
+        findings=(
+            "the claim is withdrawn: 637/1000 DOES survive at depth 1 on the "
+            "range it is asserted on. An Arb pass at 96 bits over "
+            "s in [37.0135, 400] with the depth as a thin ball gives "
+            "sup Dam(1,s)*(s^2-2) <= 0.6317736, against 637/1000, margin "
+            "+0.0052 (0.82%). The enclosure costs a factor 1.00005 over the "
+            "float scan, so the bound is not an artifact of interval width",
+            "the 0.6636 is a range mismatch, not a crossed constant. "
+            "two_species.far_constant scans s in [8, 400], but Wt_tail_le is "
+            "stated for w = s^2 - 2 >= 1368, i.e. s >= 37.0135. Both starred "
+            "sups are attained at s = 12.715 (depth 1/2) and s = 12.625 "
+            "(depth 1), i.e. w = 159.7 and w = 157.4, roughly 8.7x below the "
+            "threshold. At those two arguments the proved envelope Wt(w)*w is "
+            "0.7042 and 0.7054, so BOTH rows of the table, 0.6220 and 0.6636, "
+            "sit under the constant that actually applies there",
+            "Wt_tail_le is misattributed and cannot fail at any depth. Its "
+            "statement (Counting.lean:93) is Wt w <= (637/1000)/w for "
+            "1368 <= w, an inequality between two explicit rational functions "
+            "of one variable; no y occurs in it. The depth-carrying lemma is "
+            "Qim_far_sq / Qim_far_sq_abs (FarField.lean:227,232), whose "
+            "hypothesis is hy : y <= 1/2",
+            "and that hypothesis is load-bearing, which is the real finding "
+            "under the false one. Qim^2 <= y^2 Wt(s^2-2) fails at depth 1: "
+            "max ratio 1.00438 at s = 395.8, rising with s. Its asymptotic "
+            "content holds iff 4 sinh(y/2)^2 cos(1/sqrt2)^2/y^2 <= 5/8, which "
+            "breaks at y = 0.97266. So a k >= 3 pass that raises depth "
+            "inherits a broken DERIVATION ROUTE, not a broken constant",
+            "the constant's own headroom is measured rather than assumed: on "
+            "the asserted range it first exceeds 637/1000 at depth 1.0494 "
+            "(float scan), with asymptotic break depth 1.0855. Depth 1 sits "
+            "inside that, depth 2y for y <= 1/2 sits exactly on its edge",
+            "not attacked, and named so nobody reads this as more than it is: "
+            "s > 400 has no enclosure here. The k=2 far rows close that tail "
+            "by composing Wt_tail_le with Qim_far_sq, and Qim_far_sq is "
+            "precisely the step that fails at depth 1, so the depth-1 tail is "
+            "float-grade only (sup 0.62781 on [400, 4000], against the closed "
+            "form 0.62777). Re-deriving Wt's coefficients for y <= 1 is the "
+            "named obligation and was not attempted",
+            "the other starred entry of the same table, no_damage's 28/5 "
+            "shrinking to 5.3984 at depth 1, was NOT examined. It is a "
+            "different lemma with a different quantifier structure and this "
+            "outcome says nothing about it",
+        ),
+        artifacts=(
+            "hunts/r_a7c12f/probe.py",
+            "hunts/r_a7c12f/results.json",
+            "hunts/r_a7c12f/RESULTS.md",
+            "hunts/r_a7c12f/HANDBACK.json",
+            "hunts/r_a97060/ball_field.py",
         ),
     ),
 )
