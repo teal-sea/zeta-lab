@@ -447,6 +447,14 @@ Recorded so the decision is the owner's and costs one reading, not one investiga
   existing surfaces build against Mathlib alone.
 - **The dependency is the whole problem, restated.** An entry whose Solution module is a
   four-line corollary of an imported theorem advertises the import, not the entry.
+- **And there is a harder blocker than notability, which is mechanical.** Palomar replays
+  a claim from a fixed commit of a public repository. If the submission project is
+  `hunts/frontier_math/zeta23ext`, the replay builds that project, and per §1b that
+  project does not build today. So a third surface is blocked on #101 regardless of what
+  anyone concludes about notability, and #101 is three unrelated modules' worth of port
+  work. Note the shape of this: it is not a reason the *theorem* is in doubt, since the
+  module builds standalone and the three failures are elsewhere in the package. It is a
+  reason the *packaging* is not ready, and the two are worth keeping apart.
 
 ## 13. Scope, and what this does not claim
 
