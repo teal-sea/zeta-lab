@@ -253,3 +253,17 @@ artifacts:
   - lean/comparator-bridge.json
   - lean/palomar-bridge/formalization.yaml
 ```
+
+```runmanifest
+id: ainta_seven_point-2026-08-23-palomar-layout
+hunt: ainta_seven_point
+started: 2026-08-23T19:30-05:00
+finished: 2026-08-23T19:40-05:00
+ran:
+  - git mv lean/comparator-bridge.json lean/bridge/comparator.json; git mv lean/palomar-bridge/formalization.yaml lean/bridge/formalization.yaml
+  - .venv/bin/python scripts/palomar_precheck.py . lean/bridge lean/bridge/comparator.json lean/bridge/formalization.yaml
+outcome: the comparator configuration and the metadata now live in the package directory beside the lakefile, the layout the Pub 1 entry used and the submission form expects; the earlier paths in the two manifests above are historical; precheck unchanged at 66 pass, 1 warn, 0 fail
+artifacts:
+  - lean/bridge/comparator.json
+  - lean/bridge/formalization.yaml
+```

@@ -7,7 +7,7 @@
 # hunts/frontier_math/zeta23ext, which does not assemble at its root
 # (repository issue 101). lean/bridge is a Lake package of its own containing
 # the whole advertised development and nothing else, and `lake build` at its
-# root succeeds. Comparator path: lean/comparator-bridge.json.
+# root succeeds. Comparator path: lean/bridge/comparator.json.
 version: "v0.4"
 
 project:
@@ -300,7 +300,7 @@ review:
     of hunts/frontier_math/zeta23ext that the theorem never imports
     (repository issue 101, which remains open for that other package and is
     now unrelated to this submission). (2) The Challenge and Solution modules
-    named by lean/comparator-bridge.json exist: BridgeChallenge.lean states
+    named by lean/bridge/comparator.json exist: BridgeChallenge.lean states
     the four advertised theorems over Mathlib alone, in the namespace
     Zeta23Ext.Palomar, restating verbatim the five counting definitions of the
     dependency's Zeta23/Statement.lean and the five kernel and functional

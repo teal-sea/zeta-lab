@@ -25,8 +25,8 @@ why. The third, the bridge, is **authored and prechecked but not submitted**.
 | `palomar-dh/formalization.yaml` | DH | Provenance, scope, automation and review metadata. |
 | `bridge/BridgeChallenge.lean` | Bridge | The advertised statements. Imports Mathlib alone. |
 | `bridge/BridgeSolution.lean` | Bridge | The same statements, proved from `Zeta23Ext.Bridge.Main`. |
-| `comparator-bridge.json` | Bridge | Which declarations are compared, and under which axioms. |
-| `palomar-bridge/formalization.yaml` | Bridge | Provenance, scope, automation and review metadata. |
+| `bridge/comparator.json` | Bridge | Which declarations are compared, and under which axioms. |
+| `bridge/formalization.yaml` | Bridge | Provenance, scope, automation and review metadata. |
 | `PALOMAR.md` | all three | This file. |
 
 The three surfaces carry **eight** deliberate `sorry`s between them, three in
@@ -195,7 +195,7 @@ cd lean/bridge && PATH="$HOME/.elan/bin:$PATH" lake build
 # expect: Build completed successfully (8860 jobs), and exactly four `sorry`
 # warnings, all from BridgeChallenge.lean
 .venv/bin/python scripts/palomar_precheck.py . lean/bridge \
-  lean/comparator-bridge.json lean/palomar-bridge/formalization.yaml
+  lean/bridge/comparator.json lean/bridge/formalization.yaml
 # expect: 66 pass, 1 warn (the rc toolchain, standing), 0 FAIL
 ```
 
