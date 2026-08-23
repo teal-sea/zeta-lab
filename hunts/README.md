@@ -195,7 +195,14 @@ control 0.997, and the deficit shrinks with height as 1/log t. The lab's own
 2000 zeros agree. The peak side (Gene Ward Smith, OEIS A117536) is
 reproduced as calibration, with one caveat added: the Riemann-Siegel main
 sum for the x-EDO stops at harmonic 1.2 sqrt(x), so 12-EDO's zeta score never
-sees the major third directly. Nothing here bears on RH. Doc: `docs/34`.
+sees the major third directly. **Corrected 2026-08-22**: the composite control
+re-measures `zeta.explicit.prime_spectrum`, which this repository already
+exposed and whose docstring states the same identity; the hunt's prior-art
+search had omitted this tree. The same review added the Euler-product
+discriminator, where Davenport-Heilbronn's loudest spectral line is a
+composite and the Epstein forms of class number one are silent while class
+number above one is loud and cancels across the class group. Nothing here
+bears on RH. Doc: `docs/34`.
 
 ### Hunt #75: pitch classes against the colour wheel (`chroma_hue/`)
 
