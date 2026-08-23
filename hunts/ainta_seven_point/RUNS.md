@@ -3,7 +3,7 @@
 Environment for every run below: macOS (Darwin 25.5.0, Apple Silicon), Python 3.14.7,
 `python-flint` 0.9.0, `ainta/zeta-simple-zeros` at commit
 `040c5e899e658aed7b56a2a87f501798fe10761d` installed editable into a fresh venv.
-Timestamps are America/Bogota. Wall times are inflated: the machine was shared with
+Wall times are inflated: the machine was shared with
 other agents and the verifier ran at 18-42% of one core.
 
 ```runmanifest
