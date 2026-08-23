@@ -1,0 +1,13 @@
+{
+  "fallback": false,
+  "fit_on": "aimo-interp/val-sample official model_is_robust labels, per-model majority",
+  "prior": {
+    "Qwen/Qwen3.5-397B-A17B-FP8:low": false,
+    "gemini-3.1-pro-preview:low": false,
+    "gpt-5.2-2025-12-11:low": true,
+    "gpt-oss-120b:low": false,
+    "huikang-gpt-oss-120b-aimo3:low": false,
+    "lukealonso/GLM-5.1-NVFP4:low": true,
+    "qwen3-8b:low": false
+  }
+}
