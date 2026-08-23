@@ -77,6 +77,22 @@ control roles — and the checks are the ones the tree already owns:
 > and #61. The directories `lambda_dh_bounds/` and
 > `prime_zeta_rightmost/` are unchanged and are the stable references.
 
+### Hunt #76: the Riemann zeros in tuning units (`zeta_temperament/`)
+
+**Status: closed, verdict INTERESTING STRUCTURE, classical in substance.**
+In steps-per-octave units theta = gamma ln2 / 2pi, Landau's formula is the
+Fourier coefficient of the zeros mod 1 at frequency log2 n, so the zeros
+avoid the equal temperaments that tune prime-power harmonics and ignore
+composites. On Odlyzko's first 100,000 zeros every prime power n <= 32 lands
+within 0.0012 of -Lambda(n)/sqrt(n)/<log(gamma/2pi)> and every composite
+gives 0.0000; the smoothed density at integer x is 0.801 against 0.800
+predicted, at fifths-perfect x 0.762 against 0.767, at the composite-6
+control 0.997, and the deficit shrinks with height as 1/log t. The lab's own
+2000 zeros agree. The peak side (Gene Ward Smith, OEIS A117536) is
+reproduced as calibration, with one caveat added: the Riemann-Siegel main
+sum for the x-EDO stops at harmonic 1.2 sqrt(x), so 12-EDO's zeta score never
+sees the major third directly. Nothing here bears on RH. Doc: `docs/34`.
+
 ### Hunt #75: pitch classes against the colour wheel (`chroma_hue/`)
 
 **Status: closed, verdict PRETTY BUT TRIVIAL.** A note-to-hue bijection makes

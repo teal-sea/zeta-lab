@@ -79,3 +79,6 @@ _site/
 
 # API keys for inspect_ai (meta/evals). Never commit.
 .env
+
+# Odlyzko zero tables: downloaded on demand by hunts/zeta_temperament/probe_landau_edo.py, checksum pinned there
+data/odlyzko/

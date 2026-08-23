@@ -1233,6 +1233,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `31-bian-lemma-12-erratum.md` — Erratum to Bian, Lemma 12: `C_{kappa,2}` is `-4 kappa`, not `-4`
 - `32-the-palomar-arm.md` — 32 — The Palomar arm: what an outside mechanical check adds, and what it does not
 - `33-chroma-hue.md` — 33. Pitch classes against the colour wheel
+- `34-zeros-in-tuning-units.md` — 34. The Riemann zeros in tuning units
 
 ## Runnable demos (`scripts/`)
 
@@ -1290,7 +1291,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1943 test functions across 86 files (the collected count differs where tests are parametrised):
+1949 test functions across 87 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_aimo_audit.py` — 2
@@ -1378,6 +1379,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_weil.py` — 44
 - `tests/test_zeros.py` — 58
 - `tests/test_zeta23ext_imports.py` — 5
+- `tests/test_zeta_temperament.py` — 6
 
 ```bash
 .venv/bin/python -m pytest -q -m 'not slow'   # fast tier
