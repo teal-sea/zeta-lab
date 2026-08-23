@@ -175,7 +175,8 @@ def n_point_floor(args: tuple) -> dict:
 # ----------------------------------------------------------------------------
 @app.function(cpu=4, memory=8192, timeout=4 * 3600)
 def grid_probe(args: tuple) -> dict:
-    grid, num, den, cutoff = args
+    grid, num, den, cutoff = args[:4]
+    pressure = args[4] if len(args) > 4 else 3000
     sys.path.insert(0, "/root/zsz")
     import dataclasses
     import importlib
@@ -188,8 +189,9 @@ def grid_probe(args: tuple) -> dict:
     src = src.replace("GRID = 4_000", f"GRID = {grid}")
     # The cutoff encodes the target: beyond gap-sum cutoff/grid the linear term alone
     # must exceed the target, so cutoff/grid/3000 >= num/den is required for soundness.
-    assert cutoff / grid / 3000 >= num / den, "cutoff too low for this target: prune is unsound"
+    assert cutoff / grid / pressure >= num / den, "cutoff too low for this target: prune is unsound"
     src = src.replace("PRESSURE_CUTOFF_CELLS = 45_600", f"PRESSURE_CUTOFF_CELLS = {cutoff}")
+    src = src.replace("PRESSURE_DENOMINATOR = 3_000", f"PRESSURE_DENOMINATOR = {pressure}")
     src = src.replace("start_index=3_800", f"start_index={3_800 * scale}")
     src = src.replace("TARGET_NUMERATOR = 19\n", f"TARGET_NUMERATOR = {num}\n")
     src = src.replace("TARGET_DENOMINATOR = 5_000\n", f"TARGET_DENOMINATOR = {den}\n")
@@ -202,10 +204,10 @@ def grid_probe(args: tuple) -> dict:
         rep = mod.verify_seven()
         d = dataclasses.asdict(rep) if dataclasses.is_dataclass(rep) else dict(vars(rep))
         d.pop("details", None)
-        return {"grid": grid, "target": f"{num}/{den}", "cutoff": cutoff, "outcome": "ACCEPTED", "report": d,
+        return {"grid": grid, "target": f"{num}/{den}", "cutoff": cutoff, "pressure": pressure, "outcome": "ACCEPTED", "report": d,
                 "seconds": round(time.perf_counter() - t0)}
     except RuntimeError as e:
-        return {"grid": grid, "target": f"{num}/{den}", "cutoff": cutoff, "outcome": "REFUSED-AT-GRID",
+        return {"grid": grid, "target": f"{num}/{den}", "cutoff": cutoff, "pressure": pressure, "outcome": "REFUSED-AT-GRID",
                 "message": str(e)[:300], "seconds": round(time.perf_counter() - t0)}
 
 
@@ -271,4 +273,36 @@ def rerun(out: str = "artifacts/modal-rerun-sound-cutoff.json"):
         print(r["grid"], r["target"], "cutoff", r["cutoff"], r["outcome"],
               "nodes", rep.get("nodes"), "pressure_pruned", (rep.get("details") or {}).get("pressure_pruned"),
               r.get("message", "")[:80], f"{r['seconds']}s")
+    print(f"wrote {out} after {time.perf_counter() - t0:.0f}s")
+
+
+@app.local_entrypoint()
+def peak(out: str = "artifacts/modal-peak-p3200.json"):
+    """Verify at the pressure that maximises the family (TRUST-MAP: p ~ 3200, m capped
+    at 280, float floor c_p = 0.00363695389206). Cutoff 47200 cells = gap-sum 11.8,
+    11.8/3200 = 0.0036875 >= every target below."""
+    t0 = time.perf_counter()
+    jobs = [
+        (4000, 909, 250_000, 47_200, 3200),        # 0.003636     9.5e-7 below floor
+        (4000, 36369, 10_000_000, 47_200, 3200),   # 0.0036369    5.4e-8 below floor
+        (4000, 363695, 100_000_000, 47_200, 3200), # 0.00363695   3.9e-9 below floor
+        (4000, 36370, 10_000_000, 47_200, 3200),   # 0.003637     4.6e-8 ABOVE floor, must refuse
+        (8000, 36369, 10_000_000, 94_400, 3200),   # grid 8000 on the middle target
+    ]
+    hs = [grid_probe.spawn(a) for a in jobs]
+    results = [h.get() for h in hs]
+    H = 1.5 - (1 / math.sqrt(2)) / math.tan(1 / math.sqrt(2))
+    for r in results:
+        num, den = map(int, r["target"].split("/"))
+        c = num / den
+        m = 6 + int(math.floor(1 / c))
+        phi = (H - 6 * (m - 1) / (r["pressure"] * m)) / (1 - c * (m - 6) / m)
+        r["m_cap"] = m
+        r["phi_at_cap"] = phi
+        rep = r.get("report", {})
+        print(r["grid"], r["target"], "p", r["pressure"], r["outcome"], "nodes", rep.get("nodes"),
+              "depth", rep.get("maximum_depth"), "m", m, f"Phi={phi:.12f}", r.get("message", "")[:70], f"{r['seconds']}s")
+    os.makedirs(os.path.dirname(out) or ".", exist_ok=True)
+    with open(out, "w", encoding="utf-8") as f:
+        json.dump({"jobs": results, "wall_seconds": round(time.perf_counter() - t0)}, f, indent=1)
     print(f"wrote {out} after {time.perf_counter() - t0:.0f}s")

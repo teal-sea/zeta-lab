@@ -138,3 +138,15 @@ outcome: every previously accepted raised target is accepted again with a cutoff
 artifacts:
   - hunts/ainta_seven_point/artifacts/modal-rerun-sound-cutoff.json
 ```
+
+```runmanifest
+id: ainta_seven_point-2026-08-23-modal-peak-p3200
+hunt: ainta_seven_point
+started: 2026-08-23T14:05-05:00
+finished: 2026-08-23T14:10-05:00
+ran:
+  - ~/Zeta/.venv/bin/modal run hunts/ainta_seven_point/modal_ceiling.py::peak (five grid_probe jobs at PRESSURE_DENOMINATOR 3200 with cutoff 47200 at grid 4000 and 94400 at grid 8000)
+outcome: at the family-maximising pressure the verifier accepts 36369/10000000 at grid 4000 (1045977 nodes, depth 64) and at grid 8000 (1036265 nodes, depth 64), accepts the weaker 909/250000, and refuses both 363695/100000000 and 36370/10000000 at the same terminal cell as at p=3000; with the m-cap at 280 the resulting bound is 0.673027683, which is the ceiling of this certificate family; 302 s wall
+artifacts:
+  - hunts/ainta_seven_point/artifacts/modal-peak-p3200.json
+```

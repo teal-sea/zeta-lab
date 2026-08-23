@@ -136,6 +136,29 @@ the linear term and the block size `m` are one parameter, and the map from certi
 to bound changes with `n`. That is the same hole §4 names, seen from the other side, and
 it is the trust map's first obligation.
 
+**The family's ceiling, verified.** `TRUST-MAP.md` finds the pressure denominator is a
+tunable constant whose curve is unimodal with peak near `p = 3200`, the published `3000`
+being very nearly optimal. Verified there (`artifacts/modal-peak-p3200.json`):
+
+| target | grid | outcome | nodes | depth | m | Φ |
+|---|---|---|---|---|---|---|
+| 909/250000 | 4000 | accepted | 975,289 | 51 | 281 | 0.673027252 |
+| **36369/10000000** | **4000** | **accepted** | **1,045,977** | **64** | **280** | **0.673027683** |
+| 36369/10000000 | 8000 | accepted | 1,036,265 | 64 | 280 | 0.673027683 |
+| 363695/100000000 | 4000 | refused | | | 280 | (0.673027716) |
+| 36370/10000000 | 4000 | refused | | | 280 | (0.673027749) |
+
+Both refusals land on the same terminal cell as at `p = 3000`, gaps ≈ (1.046, 1.989,
+1.987, 1.042, 1.977, 1.045). So the family's reach is
+
+    liminf N_0^s(T,2T) / N(T,2T)  >=  0.673027683
+
+4.7 × 10⁻⁶ above the `191/50000` figure and 1.9 × 10⁻⁵ above Ainta's, with the next
+target up refused at two grid sizes. This is recorded as the *ceiling of the method*,
+which is this hunt's question, and not as a headline result: it is the same certificate,
+the same verifier and the same analytic bridge, moved to the best point of its own
+parameter. The bridge is mapped, not proved.
+
 ## 4. The bound formula, resolved by the trust map
 
 From the two published constants this hunt reconstructed

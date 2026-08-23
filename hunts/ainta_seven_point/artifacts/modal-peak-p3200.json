@@ -1,0 +1,99 @@
+{
+ "jobs": [
+  {
+   "grid": 4000,
+   "target": "909/250000",
+   "cutoff": 47200,
+   "pressure": 3200,
+   "outcome": "ACCEPTED",
+   "report": {
+    "certificate": "seven-point",
+    "verified": true,
+    "target": "F6 >= 19/5000",
+    "grid": 4000,
+    "precision_bits": 128,
+    "kernel_table_sha256": "690ae16d5e07730d4b297723755a92533f1388e3821b0005b8c8a5c789f9370c",
+    "nodes": 975289,
+    "pruned": 488009,
+    "splits": 487280,
+    "maximum_depth": 51,
+    "initial_boxes": 729,
+    "elapsed_seconds": 244.385136958
+   },
+   "seconds": 244,
+   "m_cap": 281,
+   "phi_at_cap": 0.6730272515399626
+  },
+  {
+   "grid": 4000,
+   "target": "36369/10000000",
+   "cutoff": 47200,
+   "pressure": 3200,
+   "outcome": "ACCEPTED",
+   "report": {
+    "certificate": "seven-point",
+    "verified": true,
+    "target": "F6 >= 19/5000",
+    "grid": 4000,
+    "precision_bits": 128,
+    "kernel_table_sha256": "690ae16d5e07730d4b297723755a92533f1388e3821b0005b8c8a5c789f9370c",
+    "nodes": 1045977,
+    "pruned": 523353,
+    "splits": 522624,
+    "maximum_depth": 64,
+    "initial_boxes": 729,
+    "elapsed_seconds": 201.847372422
+   },
+   "seconds": 202,
+   "m_cap": 280,
+   "phi_at_cap": 0.6730276830374124
+  },
+  {
+   "grid": 4000,
+   "target": "363695/100000000",
+   "cutoff": 47200,
+   "pressure": 3200,
+   "outcome": "REFUSED-AT-GRID",
+   "message": "7-point certificate failed at a terminal cell: box=((4184, 4184), (7956, 7956), (7948, 7948), (4166, 4166), (7908, 7908), (4180, 4180)), lower=0x1.db3802a803c66p-9",
+   "seconds": 136,
+   "m_cap": 280,
+   "phi_at_cap": 0.6730277160853135
+  },
+  {
+   "grid": 4000,
+   "target": "36370/10000000",
+   "cutoff": 47200,
+   "pressure": 3200,
+   "outcome": "REFUSED-AT-GRID",
+   "message": "7-point certificate failed at a terminal cell: box=((4185, 4185), (7956, 7956), (7948, 7948), (4166, 4166), (7908, 7908), (4181, 4181)), lower=0x1.db3b9eb734fe8p-9",
+   "seconds": 99,
+   "m_cap": 280,
+   "phi_at_cap": 0.6730277491332178
+  },
+  {
+   "grid": 8000,
+   "target": "36369/10000000",
+   "cutoff": 94400,
+   "pressure": 3200,
+   "outcome": "ACCEPTED",
+   "report": {
+    "certificate": "seven-point",
+    "verified": true,
+    "target": "F6 >= 19/5000",
+    "grid": 8000,
+    "precision_bits": 128,
+    "kernel_table_sha256": "a12f2115daf3a7f50b195e4b200d51476a73e08164741548e285698e9e04dbf1",
+    "nodes": 1036265,
+    "pruned": 518497,
+    "splits": 517768,
+    "maximum_depth": 64,
+    "initial_boxes": 729,
+    "elapsed_seconds": 298.236010357
+   },
+   "seconds": 298,
+   "m_cap": 280,
+   "phi_at_cap": 0.6730276830374124
+  }
+ ],
+ "wall_seconds": 302
+}
