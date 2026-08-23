@@ -1,0 +1,186 @@
+{
+  "hunt": "r_a7c12f",
+  "question": "does the far-field constant 637/1000 survive at depth 1, as K2-TWO-SPECIES.md section 2 says it does not",
+  "backend": "python-flint (Arb) at 96 bits, via hunts/r_a97060/ball_field.py",
+  "statement": {
+    "lemma": "Wt_tail_le",
+    "source": "hunts/frontier_math/zeta23ext/Zeta23Ext/EForm3/Counting.lean:93",
+    "text": "Wt w <= (637/1000)/w  for  1368 <= w",
+    "depth_variable_occurs": false,
+    "w_threshold": 1368.0,
+    "s_threshold": 37.013511046643494,
+    "Wt_times_w_at_threshold": 0.633968649288625,
+    "Wt_times_w_limit": 0.625,
+    "depth_carrying_lemma": "Qim_far_sq / Qim_far_sq_abs (FarField.lean:227,232)",
+    "depth_carrying_hypothesis": "hy : y <= 1/2"
+  },
+  "k2_measurement_relocated": [
+    {
+      "depth": 0.5,
+      "far_constant_on_8_400": 0.6219967961988194,
+      "argmax_s": 12.715000000000737,
+      "argmax_w": 159.67122500001875,
+      "inside_asserted_range": false,
+      "proved_envelope_Wt_w_times_w_at_argmax": 0.7041899337429294
+    },
+    {
+      "depth": 1.0,
+      "far_constant_on_8_400": 0.6635917402858859,
+      "argmax_s": 12.625000000000723,
+      "argmax_w": 157.39062500001825,
+      "inside_asserted_range": false,
+      "proved_envelope_Wt_w_times_w_at_argmax": 0.705376847181477
+    }
+  ],
+  "ball_pass_on_asserted_range": {
+    "s_range": [
+      37.013511046643494,
+      400.0
+    ],
+    "note": "s > 400 is NOT enclosed here; see tail_not_enclosed. The s-interval is the same [.., 400] the k=2 far rows use before their closed-form tail.",
+    "ladder": [
+      {
+        "depth": 0.25,
+        "ball_upper_bound": 0.5844394793549005,
+        "float_scan_sup": 0.5844079652274912,
+        "enclosure_cost_ratio": 1.0000539248766007,
+        "asymptote_closed_form": 0.580988395821241,
+        "holds_vs_637_1000": true,
+        "margin": 0.05256052064509953,
+        "cells": 18894,
+        "refinements": 5817
+      },
+      {
+        "depth": 0.5,
+        "ball_upper_bound": 0.5937077718574207,
+        "float_scan_sup": 0.5936766698405395,
+        "enclosure_cost_ratio": 1.0000523888144193,
+        "asymptote_closed_form": 0.5901137190746437,
+        "holds_vs_637_1000": true,
+        "margin": 0.04329222814257927,
+        "cells": 28620,
+        "refinements": 10680
+      },
+      {
+        "depth": 0.75,
+        "ball_upper_bound": 0.6093686833143851,
+        "float_scan_sup": 0.609337008253842,
+        "enclosure_cost_ratio": 1.0000519828274241,
+        "asymptote_closed_form": 0.6055773953332417,
+        "holds_vs_637_1000": true,
+        "margin": 0.027631316685614915,
+        "cells": 37378,
+        "refinements": 15059
+      },
+      {
+        "depth": 1.0,
+        "ball_upper_bound": 0.6317735368402403,
+        "float_scan_sup": 0.6317408358744037,
+        "enclosure_cost_ratio": 1.0000517632611028,
+        "asymptote_closed_form": 0.627770635563858,
+        "holds_vs_637_1000": true,
+        "margin": 0.00522646315975972,
+        "cells": 45030,
+        "refinements": 18885
+      }
+    ]
+  },
+  "depth_interval_pass": {
+    "note": "the `/y^2` normalisation is divided by the cell's smallest y, so a depth cell of relative width r inflates the bound by r^2; the margin at depth 1 is 0.84%, so cells wider than ~0.4% cannot close.",
+    "cells": [
+      {
+        "depth_interval": [
+          0.99,
+          1.0
+        ],
+        "ball_upper_bound": 0.6450388243923026,
+        "holds_vs_637_1000": false,
+        "y_normalisation_inflation": 1.020304050607081,
+        "cells": 48298
+      },
+      {
+        "depth_interval": [
+          0.995,
+          1.0
+        ],
+        "ball_upper_bound": 0.6383542418324956,
+        "holds_vs_637_1000": false,
+        "y_normalisation_inflation": 1.0100755031438597,
+        "cells": 46698
+      },
+      {
+        "depth_interval": [
+          0.999,
+          1.0
+        ],
+        "ball_upper_bound": 0.6330814686449134,
+        "holds_vs_637_1000": true,
+        "y_normalisation_inflation": 1.002003004005006,
+        "cells": 45360
+      }
+    ]
+  },
+  "break_depth": {
+    "value": 1.0493530273437504,
+    "grade": "measured (float scan over s in [S_THRESHOLD, 400])",
+    "asymptotic_break_depth": 1.0854915876764992,
+    "note": "depth at which sup Dam*(s^2-2)/y^2 over the ASSERTED range first exceeds 637/1000"
+  },
+  "qim_far_sq_extension": {
+    "lemma": "Qim y s ^ 2 <= y^2 * Wt (s^2 - 2)   (hy : y <= 1/2)",
+    "ratios": [
+      {
+        "depth": 0.5,
+        "max_ratio_Qim2_over_y2Wt": 0.9441367690345394,
+        "argmax_s": 395.8359999975514,
+        "holds": true
+      },
+      {
+        "depth": 0.75,
+        "max_ratio_Qim2_over_y2Wt": 0.9688757259895948,
+        "argmax_s": 395.8359999975514,
+        "holds": true
+      },
+      {
+        "depth": 0.95,
+        "max_ratio_Qim2_over_y2Wt": 0.9963791231332837,
+        "argmax_s": 395.8359999975514,
+        "holds": true
+      },
+      {
+        "depth": 0.97,
+        "max_ratio_Qim2_over_y2Wt": 0.9995243370473547,
+        "argmax_s": 395.8359999975514,
+        "holds": true
+      },
+      {
+        "depth": 1.0,
+        "max_ratio_Qim2_over_y2Wt": 1.00438058306484,
+        "argmax_s": 395.8359999975514,
+        "holds": false
+      },
+      {
+        "depth": 1.25,
+        "max_ratio_Qim2_over_y2Wt": 1.05155685323795,
+        "argmax_s": 395.83499999755145,
+        "holds": false
+      }
+    ],
+    "asymptotic_break_depth": 0.9726594960826545,
+    "grade": "measured"
+  },
+  "tail_not_enclosed": {
+    "note": "s > 400 is closed in the k=2 far rows by composing Wt_tail_le with Qim_far_sq. Qim_far_sq is exactly the step that fails at depth 1, so the depth-1 tail has no enclosure here and is reported at float grade only.",
+    "measured": {
+      "0.5": {
+        "float_sup_on_400_4000": 0.5901440280443264,
+        "asymptote_closed_form": 0.5901137190746437
+      },
+      "1.0": {
+        "float_sup_on_400_4000": 0.6278055176445119,
+        "asymptote_closed_form": 0.627770635563858
+      }
+    }
+  },
+  "elapsed_s": 96.57856798171997
+}
