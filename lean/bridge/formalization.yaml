@@ -87,29 +87,20 @@ classification:
 
 sources:
   - title: >-
-      The seven-point simple-zero bound, assembled in Lean as a conditional
-      theorem about Mathlib's riemannZeta, with the seven-point inequality as a
-      named hypothesis
-    type: original-proof
-    relationship: other
-    note: >-
-      The Lean statement, the decomposition into sixteen steps
-      (hunts/ainta_seven_point/TRUST-MAP.md) and every proof under
-      hunts/frontier_math/zeta23ext/Zeta23Ext/Bridge/ are this laboratory's. The
-      mathematics of steps S2 to S16 is Ainta's, cited next; steps S0 to S5 are
-      theorems of anthropics/zeta-23-lean consumed by import. Originality here
-      is a claim about provenance of the formal proofs, not about the
-      mathematics. Several proofs depart from the paper's argument, and
-      fidelity.divergences lists them.
-  - title: >-
       More than 67.3% of the zeros of the Riemann zeta function are simple and
       lie on the critical line
     authors:
       - "Ainta"
     type: "paper"
     location: "https://github.com/ainta/zeta-simple-zeros"
-    relationship: other
+    relationship: adapts
     note: >-
+      Formalised here with departures listed under fidelity.divergences. The
+      Lean statement, the sixteen-step decomposition
+      (hunts/ainta_seven_point/TRUST-MAP.md), the closed form Phi(c, m, p) with
+      its block-size cap, the sharp stability form and the pinching proof are
+      this laboratory's; steps S0 to S5 are theorems of anthropics/zeta-23-lean
+      consumed by import.
       The informal source of every step between the finite inequality and the
       zero count (S2 to S16 of the trust map): paper/riemann.tex at commit
       040c5e899e658aed7b56a2a87f501798fe10761d, 499 lines, retrieved
