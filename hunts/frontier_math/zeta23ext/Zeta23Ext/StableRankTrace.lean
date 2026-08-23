@@ -177,7 +177,7 @@ lemma rtrace_specMap_Psi (V : Matrix n r 𝕜) :
 
 /-- **Stability-enhanced rank–trace inequality, sharp form.**  No hypothesis on the
 columns of `V`.  Strengthens `RHLinalg.rank_trace_ineq` at `c = 2` by the spectral defect
-`tr Psi(VᴴV) − card r = ∑ᵢ g₂(λᵢ(V Vᴴ)) ≥ −card r`. -/
+`tr Psi(VᴴV) − card r`, which by `rtrace_specMap_Psi` is `∑ᵢ gc 2 (λᵢ(V Vᴴ))`. -/
 theorem stable_rank_trace_sharp (V : Matrix n r 𝕜)
     {Q : Matrix n n 𝕜} (hQ : Q.IsHermitian) {b : ℕ} (hb : posIndex hQ ≤ b) :
     2 * rtrace (V * Vᴴ) + 4 * rtrace Q - (Fintype.card r : ℝ) - 4 * b
