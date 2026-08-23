@@ -77,6 +77,33 @@ control roles — and the checks are the ones the tree already owns:
 > and #61. The directories `lambda_dh_bounds/` and
 > `prime_zeta_rightmost/` are unchanged and are the stable references.
 
+### Hunt #78: where the seven-point simple-zero certificate ends, and what proves it (`ainta_seven_point/`)
+
+**Status: open; this entry covers the trust-map half only (`TRUST-MAP.md`).**
+Two outside groups (Ainta, and Gohms in issue #1 on that repository) are
+hill-climbing one finite inequality `F6 >= c` that refines Anthropic's
+unconditional 0.6725007 simple-zero constant. Neither has a human reviewer or a
+Lean line. The map from the certificate to the published constant is recovered
+in closed form and reproduces both published constants to 40 digits:
+`Phi(c,m,p) = (H - 6(m-1)/(pm)) / (1 - c(m-6)/m)`. The block size `m` is not a
+free parameter: `A_0 = c(m-6) <= 1` caps it at `6 + floor(1/c)`, and both
+published values sit exactly at their cap, which is why raising the target
+*lowered* `m` from 269 to 267. The family's apparent ceiling at the published
+pressure `p = 3000` is 0.673025477, leaving 4.1e-6 above the Gohms claim and
+reaching 5.6% of the room under the configuration ceiling. The chain from
+`F6 >= c` to the asymptotic count is graded step by step: six of sixteen steps
+are already kernel-checked in `anthropics/zeta-23-lean` (including Theorem D
+itself, von Neumann, and the positive-part splitting), four are small finite
+statements, and the verdict is **one substantial analytic bridge**, namely
+carrying the new spectral defect term through the tail passage and establishing
+the limiting overlap kernel uniformly. Two defects recorded: the Gohms run's
+compactification prune proves only `19/5000` on the 3087 boxes it prunes, so it
+does not establish its own target as run; and this laboratory has been quoting
+the configuration ceiling as 0.68185, a decimal that appears once in a remark
+with no proof attached, where the Lean development proves 0.6818286874638. The
+number #78 supersedes the `#77` written in this hunt's `MISSION.md`, which
+collided with AIMO-2. Nothing here bears on RH (`docs/08`).
+
 ### Hunt #76: the Riemann zeros in tuning units (`zeta_temperament/`)
 
 **Status: closed, verdict INTERESTING STRUCTURE, classical in substance.**
