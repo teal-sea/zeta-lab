@@ -157,7 +157,7 @@ Nothing here bears on RH. Doc: `docs/33`.
 ### Hunt #72: AIMO Interpretability 2026 baseline reproduction and structure-matched robustness signal (`r_662b12/`)
 
 **Status: baseline retained, intervention rejected after independent audit.** The public sample has 28 cases, 19 non-robust and 9 robust, so the all-False baseline is 67.86% (19/28) with full coverage and no invalid outputs. The reported 92.86% intervention is an in-sample score for a model-name rule chosen after inspecting those same labels. Its LOOCV, leave-one-problem-out and five-fold loops never fit or select the rule inside training folds, so they provide no generalization evidence. The scrambled-text surrogate retains the same 92.86%, refuting the claimed mathematical-structure interpretation. Prize disposition: **NO-GO on this hunt's evidence.** The original run record is preserved; `hunts/r_662b12/AUDIT.md` carries the correction. Nothing here bears on RH (`docs/08`).
-### Hunt AIMO-2 (#77): legal AIMO Interpretability submission + validation-design report (`aimo2/`)
+### Hunt #77: AIMO-2, legal AIMO Interpretability submission + validation-design report (`aimo2/`)
 
 **Status: report-ready (reframed 2026-08-22); Main entry is a legal model-identity prior,
 Small entry is the always-non-robust constant; learned-method arm stays killed; no GPU spent.**
