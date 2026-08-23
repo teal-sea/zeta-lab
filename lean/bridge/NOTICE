@@ -1,0 +1,27 @@
+Zeta23Bridge — Ainta's seven-point simple-zero bound, assembled in Lean 4
+Copyright (c) 2026 Zeta Lab (Thomas Lince)
+
+This package is released under the MIT License, the licence of the repository
+that contains it; see LICENSE at the repository root.
+
+This package depends on, but does not include, anthropics/zeta-23-lean
+("Zeta23"), Copyright 2026 Anthropic, PBC, licensed under the Apache License,
+Version 2.0, fetched by the build tool from its public repository at the
+revision pinned in lake-manifest.json
+(3635e74826a4c1fcece7d1cd2b6fa75e43a00510). Every counting function, analytic
+input, window calculus and linear-algebra fact this development consumes comes
+from there by import; none of it is copied into this repository.
+
+One file adapts code from that dependency rather than merely importing it:
+
+  Zeta23Ext/Bridge/Helpers_S8.lean
+    transcribes Zeta23.Assembly.seamA_mult2 (Zeta23/Assembly/SeamMult.lean) and
+    Zeta23.ThmD.thmD_mult2_abstract (Zeta23/ThmD/Mult.lean), Copyright (c) 2026
+    Anthropic, PBC, Apache License, Version 2.0, carrying one extra nonnegative
+    real through every inequality. The proof bodies are theirs and remain under
+    their licence; the changes, marked `-- [S8]`, are this laboratory's. The
+    file carries the same notice in its header.
+
+This package also depends on, but does not include, Lean 4
+(https://github.com/leanprover/lean4) and mathlib4 with its standard dependency
+set, at the revisions pinned in lake-manifest.json.

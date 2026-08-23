@@ -400,7 +400,9 @@ authorised to send three bounded variants of Ainta's S2 (the scalar lemma alone,
 the full theorem, the theorem with the scalar lemma as a hypothesis) under the
 handoff's rule that *only what remains* goes to the service. After the local pass
 nothing remained: the full theorem builds with zero `sorry`s and standard axioms
-only, in `hunts/frontier_math/zeta23ext/Zeta23Ext/StableRankTrace.lean`, and the
+only, in `StableRankTrace.lean` (then under
+`hunts/frontier_math/zeta23ext/Zeta23Ext/`, moved to `lean/bridge/Zeta23Ext/` on
+2026-08-23 when the theorem was packaged for Palomar), and the
 scalar lemma turned out to be an existing upstream theorem
 (`Zeta23.ZeroSide.RankTraceMult.sq_sub_ge_gc`).
 
@@ -419,3 +421,45 @@ whether it finds the four-line corollary route or reinvents the fifty-line
 skeleton. Ground truth is now known exactly, which is the only reason the
 measurement would be worth anything. It is a measurement about the tool, so it is
 an allocation call and not this pursuit's to make.
+
+## Batch 12 (not opened): the Ainta bridge, S6-S9 and S11-S16 (2026-08-23)
+
+**No project was created and no API call was made by any of the five agents.**
+Five agents worked the bridge of `hunts/ainta_seven_point/TRUST-MAP.md` in
+parallel from the branch `bridge/skeleton`, each under a cap of 3 submissions,
+each keeping its own ledger under `hunts/ainta_seven_point/bridge/`. The five
+ledgers are merged here; the per-group files stay in place as the provenance
+record. Total used: **0 of 15.** Every obligation closed by direct proof under
+the pinned toolchain (`leanprover/lean4:v4.33.0-rc2`, mathlib
+`51e6992efd06126df61a496bebf8f49482a4e129`, `Zeta23` at
+`3635e74826a4c1fcece7d1cd2b6fa75e43a00510`) before a residual existed, and the
+standing rule (`ARISTOTLE-PROBE.md` section 7, Batch 11 above) is that a closed
+target is not sent: that buys a comparison about the tool, which is an
+allocation call for the owner.
+
+| group | branch | ledger | obligations | used | status |
+| --- | --- | --- | --- | --- | --- |
+| skeleton | `bridge/skeleton` | `hunts/ainta_seven_point/bridge/ARISTOTLE-skeleton.md` | the whole bridge typechecks end to end with 11 named `sorry` lemmas; S7 and S16 proved outright | 0 of 3 | done |
+| finite | `bridge/finite` | `hunts/ainta_seven_point/bridge/ARISTOTLE-finite.md` | S6 `regroup_posIndex`, S7 `count_defect`, S11 `block_energy`, S12 `block_defect`, S13 `block_bound`, S15 `offset_average` and `span_retained_le` | 0 of 3 | all PROVED |
+| pinching | `bridge/pinching` | `hunts/ainta_seven_point/bridge/ARISTOTLE-pinching.md` | S14 `pinching_partition`, `pinching_submatrix` | 0 of 3 | both PROVED |
+| S8 | `bridge/S8` | `hunts/ainta_seven_point/bridge/ARISTOTLE-S8.md` | S8 `tail_passage` | 0 of 3 | PROVED |
+| S9 | `bridge/S9` | `hunts/ainta_seven_point/bridge/ARISTOTLE-S9.md` | S9 `kernel_limit`, `deleted_strips` | 0 of 3 | both PROVED |
+
+Integration (branch `bridge/integrate`, same day): the five branches merge
+cleanly (disjoint files by construction), `lake build Zeta23Ext.Bridge.Main`
+from deleted Bridge oleans completes in 44 s wall (8854 jobs; since 2026-08-23 the
+same tree is a package of its own and the command is `cd lean/bridge && lake build`,
+8860 jobs), zero `sorry`
+warnings, and every `#print axioms` line in the tree, `seven_point_bound` and
+`seven_point_bound_paper` included, reports `[propext, Classical.choice,
+Quot.sound]`. The record of what was proved and what remains a hypothesis is
+`hunts/ainta_seven_point/BRIDGE.md`.
+
+What was not sent, and why it would still be a measurement rather than a
+result: the same calibration project Batch 11 describes, now with sixteen
+ground-truth proofs instead of one. The candidates with the most to teach are
+S9 `kernel_limit` (808 lines of helper, the proof that the trust map graded
+LARGE and that turned out to reuse `[L23]`'s `PrimeSide.rho` and the sharp
+window comparison) and S14 `pinching_partition` (the one library fact the map
+called MISSING, proved in 321 lines from the row-stochastic mixture of the
+spectrum of a principal submatrix). Not opened here; the owner's call.

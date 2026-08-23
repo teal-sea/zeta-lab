@@ -8,10 +8,10 @@ Lean's kernel *and* the independent NanoDa kernel, applies an editorial floor
 for research interest, and publishes the exact statement together with the
 review's findings.
 
-Two submission surfaces live here, and nine files exist for that registry and
-for nothing else. Both have passed review and requested registration; the
+**Three** submission surfaces live here. Two of them, Pub 1 and
+Davenport-Heilbronn, have passed review and requested registration; the
 Davenport-Heilbronn one took two attempts, and the bottom of this file says
-why.
+why. The third, the bridge, is **authored and prechecked but not submitted**.
 
 | File | Surface | Role |
 | --- | --- | --- |
@@ -23,23 +23,38 @@ why.
 | `DHSolution.lean` | DH | The same statement, proved from `ZetaLean.DHAnalytic`. |
 | `comparator-dh.json` | DH | Which declaration is compared, and under which axioms. |
 | `palomar-dh/formalization.yaml` | DH | Provenance, scope, automation and review metadata. |
-| `PALOMAR.md` | both | This file. |
+| `bridge/BridgeChallenge.lean` | Bridge | The advertised statements. Imports Mathlib alone. |
+| `bridge/BridgeSolution.lean` | Bridge | The same statements, proved from `Zeta23Ext.Bridge.Main`. |
+| `comparator-bridge.json` | Bridge | Which declarations are compared, and under which axioms. |
+| `palomar-bridge/formalization.yaml` | Bridge | Provenance, scope, automation and review metadata. |
+| `PALOMAR.md` | all three | This file. |
 
-The two surfaces carry **four** deliberate `sorry`s between them, three in
-`Challenge.lean` and one in `DHChallenge.lean`, one per advertised statement.
+The three surfaces carry **eight** deliberate `sorry`s between them, three in
+`Challenge.lean`, one in `DHChallenge.lean` and four in `BridgeChallenge.lean`,
+one per advertised statement.
 Any claim about this tree being sorry-free has to say *which* object it means:
-the development and both Solution modules are sorry-free, the Challenge modules
-are not, and a submission whose metadata blurs the two gets that pointed out.
-One did.
+the developments and all three Solution modules are sorry-free, the Challenge
+modules are not, and a submission whose metadata blurs the two gets that pointed
+out. One did.
 
-## `Challenge.lean` contains three deliberate `sorry`s. Do not "fix" them.
+**The bridge surface is a separate Lake project, and has to be.** Pub 1 and DH
+are built by the `lean/` package, whose only dependency is Mathlib. The bridge
+theorem depends on `anthropics/zeta-23-lean`, which `lean/` does not require, so
+its surface lives in a package of its own at `lean/bridge/` — the **selected
+project** for that submission, in the sense of CONTRIBUTING.md section 6.1. Its
+metadata and Comparator files stay beside the other two entries', because that is
+where a reader looks for them; the submission form takes both paths explicitly.
 
-They are what the Palomar format requires of an advertised statement: the
-Challenge module is the small, trusted surface a mathematical reader audits,
-and it states each claim without proving it. `Solution.lean` proves the same
-statements, and Comparator checks that the two match. The repository rule that
-the Lean arm counts nothing with a `sorry` is untouched: the proof development
-is sorry-free, and `Solution.lean` builds with no `sorry` warning.
+## The Challenge modules contain deliberate `sorry`s. Do not "fix" them.
+
+Three in `Challenge.lean`, one in `DHChallenge.lean`, four in
+`BridgeChallenge.lean`. They are what the Palomar format requires of an
+advertised statement: the Challenge module is the small, trusted surface a
+mathematical reader audits, and it states each claim without proving it. The
+matching Solution module proves the same statements, and Comparator checks that
+the two match. The repository rule that the Lean arm counts nothing with a
+`sorry` is untouched: every proof development is sorry-free, and every Solution
+module builds with no `sorry` warning.
 
 ## Why the definitions are duplicated
 
@@ -134,3 +149,57 @@ cd lean && PATH="$HOME/.elan/bin:$PATH" lake build DHChallenge DHSolution
 .venv/bin/python scripts/palomar_precheck.py . lean \
   lean/comparator-dh.json lean/palomar-dh/formalization.yaml
 ```
+
+## The bridge surface: authored 2026-08-23, prechecked, not submitted
+
+The third entry advertises Ainta's seven-point simple-zero bound as a theorem
+about Mathlib's `riemannZeta`, **conditional on the seven-point inequality**,
+which is a named hypothesis of every advertised statement and is not a Lean
+fact. The development is Hunt #79 (`hunts/ainta_seven_point/BRIDGE.md`).
+
+Four declarations are advertised, all in `Zeta23Ext.Palomar`:
+
+- `seven_point_bound`: the parametric theorem. For `c > 0`, `m ≥ 7`, `p > 0`
+  with `c(m−6) ≤ 1`, and `hCert : ∀ g ≥ 0, c ≤ F6 p g`, for every `ε > 0` and
+  all large `T`, `(Φ(c,m,p) − ε)·N(T,2T) ≤ N₀ˢ(T,2T)` with
+  `Φ(c,m,p) = (H − 6(m−1)/(pm))/(1 − c(m−6)/m)`.
+- `seven_point_bound_paper`: at Ainta's `(19/5000, 269, 3000)`, constant
+  `(1345000 H − 2680)/1340003 = 0.6730085279277797…`.
+- `seven_point_bound_lab`: at this laboratory's own `(34697/10⁷, 294, 3400)`,
+  constant `(520625000 H − 915625)/518855453 = 0.6730295534796928…`.
+- `seven_point_bound_lab_ratio`: the same conclusion as a bound on the ratio
+  `N₀ˢ(T,2T)/N(T,2T)`, with no positivity guard on the denominator.
+
+**What is not advertised, deliberately.** The eight-point statement of
+`hunts/ainta_seven_point/RESULTS.md`: its interval-arithmetic run is done, but
+the bridge from that certificate to a proportion is *stated, not proved*, and an
+unproved bridge has no business on a registry surface. Nothing about the
+Riemann Hypothesis, and no numerical value of `H` beyond its closed form.
+
+**`H` is written out in the Challenge.** The Challenge may import only Mathlib,
+so it cannot reach the dependency's `HD 1 = 2 − 1/c₁*`. It declares
+`H = 3/2 − (1/√2)cot(1/√2)` instead, which is what the dependency's `HD_one`
+proves that equals. `BridgeSolution.lean`'s `H_eq` is exactly `HD_one`, and is
+the one bridge in that file which is not `rfl`.
+
+**Licence.** The bridge development carried Apache-2.0 headers copied from the
+dependency's house style until 2026-08-23; they are MIT now, matching the
+repository. `lean/bridge/Zeta23Ext/Bridge/Helpers_S8.lean` is the one file that
+adapts the dependency's proof bodies rather than importing them, and it keeps
+its attribution to Anthropic, PBC and the Apache-2.0 licence of those bodies in
+a notice, in its own header and in `lean/bridge/NOTICE`.
+
+```bash
+cd lean/bridge && PATH="$HOME/.elan/bin:$PATH" lake build
+# or: bash lean/bridge/assemble.sh   (symlinks the prebuilt stores in first)
+# expect: Build completed successfully (8860 jobs), and exactly four `sorry`
+# warnings, all from BridgeChallenge.lean
+.venv/bin/python scripts/palomar_precheck.py . lean/bridge \
+  lean/comparator-bridge.json lean/palomar-bridge/formalization.yaml
+# expect: 66 pass, 1 warn (the rc toolchain, standing), 0 FAIL
+```
+
+Run on 2026-08-23 and passed. **Not submitted.** Palomar permits one submission
+in progress per repository, and whether a conditional refinement of a theorem
+already registered from the upstream repository clears the notability floor is
+the registry's call, not this file's.

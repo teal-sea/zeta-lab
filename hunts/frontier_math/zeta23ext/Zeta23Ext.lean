@@ -6,7 +6,11 @@ import Zeta23Ext.RetentionWired
 import Zeta23Ext.FloorCert
 import Zeta23Ext.BandCert.Main
 import Zeta23Ext.PairEnergy
-import Zeta23Ext.StableRankTrace
+-- `StableRankTrace` (S2) and `Bridge/` (S6-S16 and Ainta's seven-point
+-- simple-zero bound, Hunt #79) moved to `lean/bridge/` on 2026-08-23: the
+-- Palomar Registry replays the selected project, and this package does not
+-- assemble at its root (#101), so the submitted theorem was split into a
+-- package of its own that does. Nothing here imports them any more.
 import Zeta23Ext.EForm.Main
 import Zeta23Ext.EForm2.Main
 import Zeta23Ext.EForm3.Main
