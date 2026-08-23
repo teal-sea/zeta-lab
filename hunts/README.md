@@ -127,9 +127,14 @@ trades a rank count for `Fintype.card r`), the sharpened scalar estimate the map
 expected to need is already `sq_sub_ge_gc`, the spectral transfer is already
 `sum_eigenvalues_comm`, and the theorem falls out as a corollary of
 `Zeta23.ZeroSide.RankTraceMult.rank_trace_mult` at `c = 2` evaluated at the
-eigenbasis presentation of `V Vᴴ`. The map searched `Zeta23/LinAlg/` (the paper's
-§3) and not `Zeta23/ZeroSide/` (the material upstream flags as beyond Theorems
-A-E). Two things the formal state exposed that the map's transcription hides: the
+eigenbasis presentation of `V Vᴴ`. The map is not guilty of a missed search: `TRUST-MAP.md:382`
+already cites `RankTraceMult.lean:281`, `lemmaR_tight` and `gc`. It filed that defect
+term as *"a different one"*, spectral versus per-zero, and that reading is the actual
+gap: `rank_trace_mult` is quantified over presentations of `P`, and at the eigenbasis
+presentation its per-zero defect *is* the spectral one. `Psi` was also never matched to
+`gc 2`, so §4 named `RankTrace.lean:52-56` for a scalar estimate that `RankTraceMult`
+already proves. Two sections of the same map hold the two halves and never meet. Two
+things the formal state exposed that the map's transcription hides: the
 rank hypothesis is removable, so a sharp form holds with **no** hypothesis on `V`
 at all, and the column bound `hV` is load-bearing for exactly one inequality,
 `tr(V Vᴴ) <= card r`, worth a mean of 6.05 of discarded slack on random draws. The

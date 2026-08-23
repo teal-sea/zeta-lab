@@ -20,8 +20,10 @@ was no residual to send. Two findings came out, and neither is the proof.
 
 That is a correction to §4 of `TRUST-MAP.md`, which named S2 "the smallest step that is
 both **new to Ainta** and load-bearing", and pointed the proof at `RankTrace.lean:52-56`.
-The "load-bearing" half stands. The "new" half does not survive contact with the Lean
-tree, and §11 below says exactly how the map missed it.
+The "load-bearing" half stands. The "new" half does not. And the map is not guilty of a
+missed search: it had already found `RankTraceMult.lean` and filed its defect term as
+*"a different one"*. §11 is about why that reading was wrong, and it is a more useful
+finding than a missed grep would have been.
 
 **The second, found by doing what the handoff said to do first:** the vendored package
 `hunts/frontier_math/zeta23ext` **does not assemble on `main`**. Three modules fail, none
@@ -188,16 +190,17 @@ Step 2 is the only part that was not already a named declaration. It is 25 lines
 | "`rank_trace_ineq`'s proof with ONE scalar estimate sharpened", copy the skeleton | no skeleton was copied; the theorem is a corollary of an exported upstream theorem |
 | "prove the scalar lemma separately (`nlinarith` / case split on `t ≤ 2`)" | already upstream, `sq_sub_ge_gc`, in exactly that generality |
 | ingredients named: `VonNeumann.lean:171`, `HermitianPosPart.lean:148-180`, `specMap`, `rtrace_specMap`, `specMap_posSemidef` | all present, and *none of them was needed directly*: they are consumed inside `rank_trace_mult`, one level down |
-| unnamed, and load-bearing | `sum_eigenvalues_comm`, the `V Vᴴ` ↔ `VᴴV` spectral transfer (traces of powers + Lagrange interpolation), `RankTraceMult.lean:189` |
-| unnamed, and load-bearing | `rank_trace_mult` itself, `RankTraceMult.lean:281` |
+| unnamed anywhere, and load-bearing | `sum_eigenvalues_comm`, the `V Vᴴ` ↔ `VᴴV` spectral transfer (traces of powers + Lagrange interpolation), `RankTraceMult.lean:189` |
+| named by the trust map at `:382`, but as a *contrast* ("a defect term, just a different one") rather than as the tool | `rank_trace_mult`, `RankTraceMult.lean:281`. It is the tool: the theorem is quantified over presentations, and the eigenbasis one gives the spectral defect. §11 |
 
 The handoff's own non-vacuity test was the right one and it passed (§5). Its model of
-*where the work was* was wrong in a specific and instructive way: it pointed at the
-`Zeta23/LinAlg/` core, which the upstream README says was "written first as a
-self-contained development accompanying §3 of the paper, by the paper's authors, and is
-incorporated here unchanged". The defect-carrying machinery is not in `LinAlg/`. It is in
-`ZeroSide/`, which the README lists as "also proved here, **beyond the statements of
-Theorems A–E**".
+*where the work was* was wrong: it pointed the proof at `Zeta23/LinAlg/`, which the
+upstream README says was "written first as a self-contained development accompanying §3
+of the paper, by the paper's authors, and is incorporated here unchanged". The
+defect-carrying machinery is in `ZeroSide/`, which the README lists as "also proved here,
+**beyond the statements of Theorems A-E**". The trust map had in fact already read
+`ZeroSide/RankTraceMult.lean` and cited it; §11 is about why that did not change §4's
+plan, and it is not a search failure.
 
 ## 4. The scalar lemma's status
 
@@ -354,19 +357,52 @@ lemma the same proof supports. What did **not** change: S2 is still one step of 
 it is still load-bearing, and the two analytic bridges S8 and S9 are untouched by any of
 this.
 
-## 11. How the trust map missed it, stated so the next map does not
+## 11. What the trust map actually said, and where the gap really is
 
-`TRUST-MAP.md` §4 was written against `Zeta23/LinAlg/`, and it is accurate about
-`Zeta23/LinAlg/`. Its error is one of search scope, not of reading: it did not look in
-`Zeta23/ZeroSide/`. The reason it is worth recording is that the scope looked principled.
-`LinAlg/` is described upstream as "the linear-algebra core of §3", S2 is a linear-algebra
-statement about §3's lemma, and so `LinAlg/` is where a §3 lemma "should" be. The
-defect-carrying generalization is not there because it is not part of the paper's §3. It
-is in `ZeroSide/`, among the material the upstream README flags as *beyond* Theorems A–E.
-The transferable rule: **when mapping a target onto a formalization, search the
-development by the mathematical object, not by the paper's section numbering.** A `grep`
-for `conjTranspose_mul_self` across the whole of `Zeta23/`, thirty seconds, is what
-turned this up, after a careful reading of the file the map named had turned up nothing.
+An earlier draft of this document said the map "did not look in `Zeta23/ZeroSide/`".
+**That is false and the correction is worth more than the claim was.** `TRUST-MAP.md:382`
+says, in bold, *"`[L23]` already keeps a defect term, just a different one"*, and cites
+`RankTraceMult.lean:281` for `rank_trace_mult`, `TightMult.lean:93` for `lemmaR_tight`,
+and `RankTraceMult.lean:119` for `sum_gc_diag_le_sum_gc_eigenvalues`. It names `gc` by
+its definition. It even tells a formalizer to *"read `lemmaR_tight` first to know what
+they are not allowed to gain"*, which is exactly the right instruction and is what §8
+and §9 above act on.
+
+So the map searched the right file and read it. The gap is one step further in, and it
+is a more interesting kind of gap than a missed grep.
+
+**The map treated the two defects as different objects.** Its words: *"Ainta's `tr
+Psi(M)` is a spectral defect on the Gram matrix rather than a per-zero one, and the
+tightness result does not forbid it."* That reads `rank_trace_mult` as a theorem about
+one fixed presentation of `P`, the per-zero one. It is not. `rank_trace_mult` is
+universally quantified over presentations `(m, v)` with `P = Pmat m v`, and **at the
+eigenbasis presentation its per-zero defect is the spectral defect**. Upstream's own
+`sum_gc_eigenvalues_ge` says as much in one direction (diagonal ≤ spectrum, by
+Schur-Jensen), and the eigenbasis is where that inequality is an equality. Ainta's `tr
+Psi(M)` is therefore not a different defect. It is the same defect read at the
+presentation that maximises it.
+
+**And `Psi` was never matched to `gc 2`.** §4 of the map says the new content is
+"replacing the scalar estimate `min_{n≥0}((p−n)² + 4n) ≥ 2p − 1` by the exact value
+`2p − 1 + Psi(p)`", and points the proof at `RankTrace.lean:52-56`, the `sq_ge_linear`
+route. That exact estimate is `sq_sub_ge_gc` at `RankTraceMult.lean:81`, in the file the
+map had already opened, because `Psi = gc 2 + 1`. Two sections of the same map hold the
+two halves and never meet: §4 states the obligation as if `RankTraceMult` did not apply,
+and §5's paragraph records `RankTraceMult` as a contrast rather than as the tool.
+
+**The transferable rule is therefore not "search harder".** The map's search was fine.
+It is this: **when a formalization already carries an object of the right shape, check
+whether the target is an instance of it before recording it as a different object.** The
+cheap test is the one that settled it here, and it is mechanical: write both profiles as
+functions of one real variable and subtract. `Psi − gc 2 = 1` is visible in ten seconds
+on a plot and is `Psi_eq_gc_two_add_one` in four lines of Lean. "A spectral defect rather
+than a per-zero one" is a statement about *where the defect is evaluated*, and a theorem
+quantified over presentations does not care.
+
+What the map got right and should be credited with: it found the file, it found the
+tightness theorem, it flagged the tightness theorem as the thing to read first, and its
+non-vacuity test (`Psi := 0` must recover `rank_trace_ineq_two`) was the correct test and
+passed. The obligation it named is real and load-bearing. Only "new" is wrong.
 
 ## 12. Palomar: the precheck, and a recommendation against a third entry
 
