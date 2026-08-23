@@ -64,11 +64,22 @@ points (INFERRED, see §4), gives the remaining headroom above Gohms as about
 certificate family extracts about **0.00052 of the 0.00935 available, roughly 5.6%**.
 The rest is not reachable by tightening this target at any grid.
 
-Two certifiability probes at 0.003825 and 0.003826 with the published verifier at its
-published grid were running when this was written; their outcome is recorded in RUNS.md
-when available. If the verifier accepts a target within ~10⁻⁶ of the float floor, the
-verifier is not the limit; if it fails well below the floor, the limit at grid 4000 is
-partly numerical and a finer grid is the next probe.
+**The verifier reaches the floor.** Two probes with the published verifier at its
+published grid 4000, changing nothing but the two target constants:
+
+| target | distance from float floor | outcome | nodes | depth | wall |
+|---|---|---|---|---|---|
+| 153/40000 = 0.003825 | 1.2 × 10⁻⁶ below | accepted | 862,825 | 51 | 421 s |
+| 1913/500000 = 0.003826 | 2.3 × 10⁻⁷ below | accepted | 907,537 | 58 | 439 s |
+
+So the limit is the inequality's, not the grid's, down to at least 2 × 10⁻⁷. Both are, as
+a by-product, stronger certificates than Gohms's at the same standard of evidence. This
+hunt records them as probe outputs that locate the ceiling and does not headline them:
+Φ(1913/500000, 267) ≈ 0.673025 and the floor caps the family at the same figure to the
+sixth decimal. The interesting number is the gap between them, which is now below 10⁻⁶.
+
+A third probe at 0.0038263, which is 6.9 × 10⁻⁸ *above* the float floor, tests kill
+condition 2 from the other side: the verifier must refuse it. Its outcome is in RUNS.md.
 
 ## 4. The bound formula, and the hole in it
 

@@ -85,14 +85,28 @@ artifacts:
 ```
 
 ```runmanifest
-id: ainta_seven_point-2026-08-23-probes
+id: ainta_seven_point-2026-08-23-probes-below-floor
 hunt: ainta_seven_point
 started: 2026-08-23T00:50-05:00
-finished: running at the time of writing, see RESULTS.md for the outcome once recorded
+finished: 2026-08-23T01:05-05:00
 ran:
   - .venv/bin/python hunts/ainta_seven_point/probe.py 153 40000 (target 0.003825, 2400 s cap)
   - .venv/bin/python hunts/ainta_seven_point/probe.py 1913 500000 (target 0.003826, 2400 s cap)
-outcome: pending; a first attempt died on a shell word-splitting error before the verifier ran and produced nothing
+outcome: both accepted by the published verifier at grid 4000; 153/40000 with nodes 862825 and depth 51 in 421 s, 1913/500000 with nodes 907537 and depth 58 in 439 s; the second target sits 2.3e-7 below the apparent float floor, so the verifier reaches the floor and is not the limit; a first attempt died on a shell word-splitting error before the verifier ran and produced nothing
 artifacts:
   - hunts/ainta_seven_point/probe.py
+  - hunts/ainta_seven_point/artifacts/probe-153-40000.txt
+  - hunts/ainta_seven_point/artifacts/probe-1913-500000.txt
+```
+
+```runmanifest
+id: ainta_seven_point-2026-08-23-probe-above-floor
+hunt: ainta_seven_point
+started: 2026-08-23T01:10-05:00
+finished: see RESULTS.md section 3, appended when the run returned
+ran:
+  - .venv/bin/python hunts/ainta_seven_point/probe.py 38263 10000000 (target 0.0038263, which is 6.9e-8 above the apparent float floor, 2400 s cap)
+outcome: kill condition 2 test; the verifier must refuse a target above the true minimum, and a refusal at a terminal cell brackets the floor from above at this grid
+artifacts:
+  - hunts/ainta_seven_point/artifacts/probe-38263-10000000.txt
 ```
