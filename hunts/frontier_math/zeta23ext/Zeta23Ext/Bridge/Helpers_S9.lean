@@ -546,4 +546,263 @@ theorem gram_close_of {P : Params} (hP : P.Valid) (hlam : P.lam = 1) {T : ℝ} (
 
 end Assembly
 
+/-! ### 6. The strip count ([A] Lemma 3.1, "the number deleted is `o(N(T,2T))`") -/
+
+section Strips
+
+variable (Z : ZeroConfig)
+
+/-- Windows split: `(a, c] = (a, b] ∪ (b, c]`. -/
+lemma window_union {a b c : ℝ} (h1 : a ≤ b) (h2 : b ≤ c) :
+    Z.window a c = Z.window a b ∪ Z.window b c := by
+  ext ρ
+  simp only [ZeroConfig.window, Set.mem_inter_iff, Set.mem_ofPred_eq, Set.mem_union]
+  constructor
+  · rintro ⟨hρ, ha, hc⟩
+    rcases le_or_gt ρ.im b with hle | hgt
+    · exact Or.inl ⟨hρ, ha, hle⟩
+    · exact Or.inr ⟨hρ, hgt, hc⟩
+  · rintro (⟨hρ, ha, hb⟩ | ⟨hρ, hb, hc⟩)
+    · exact ⟨hρ, ha, le_trans hb h2⟩
+    · exact ⟨hρ, lt_of_le_of_lt h1 hb, hc⟩
+
+/-- Window additivity of the abstract count: `N(a,c] = N(a,b] + N(b,c]`. -/
+lemma N_add {a b c : ℝ} (h1 : a ≤ b) (h2 : b ≤ c) : Z.N a c = Z.N a b + Z.N b c := by
+  unfold ZeroConfig.N
+  rw [window_union Z h1 h2]
+  refine finsum_mem_union ?_ (Z.finite_window a b) (Z.finite_window b c)
+  rw [Set.disjoint_left]
+  rintro ρ ⟨_, _, hb⟩ ⟨_, hb', _⟩
+  exact absurd hb (not_le.2 hb')
+
+/-- Window monotonicity of the abstract count: `(a,b] ⊆ (c,d] ⇒ N(a,b] ≤ N(c,d]`. -/
+lemma N_mono {a b c d : ℝ} (hca : c ≤ a) (hbd : b ≤ d) : Z.N a b ≤ Z.N c d := by
+  unfold ZeroConfig.N
+  have hsub : Z.window a b ⊆ Z.window c d := by
+    rintro ρ ⟨hρ, h1, h2⟩
+    exact ⟨hρ, lt_of_le_of_lt hca h1, le_trans h2 hbd⟩
+  have hfab : (Z.window a b).Finite := Z.finite_window a b
+  have hfcd : (Z.window c d).Finite := Z.finite_window c d
+  rw [finsum_mem_eq_finite_toFinset_sum _ hfab, finsum_mem_eq_finite_toFinset_sum _ hfcd]
+  apply Finset.sum_le_sum_of_subset
+  intro ρ hρ
+  rw [Set.Finite.mem_toFinset] at hρ ⊢
+  exact hsub hρ
+
+/-- Distinct points are at most the count with multiplicity: `#window ≤ N`. -/
+lemma ncard_window_le_N (a b : ℝ) : (Z.window a b).ncard ≤ Z.N a b := by
+  unfold ZeroConfig.N
+  have hfin : (Z.window a b).Finite := Z.finite_window a b
+  rw [finsum_mem_eq_finite_toFinset_sum _ hfin, Set.ncard_eq_toFinset_card _ hfin,
+    Finset.card_eq_sum_ones]
+  apply Finset.sum_le_sum
+  intro ρ hρ
+  rw [Set.Finite.mem_toFinset] at hρ
+  exact Z.one_le_mult ρ hρ.1
+
+/-- The local count over `n` consecutive unit windows: `N(a, a+n] ≤ n A₀ log(|a| + n + 3)`. -/
+lemma N_le_of_local_count {A₀ : ℝ} (hA₀ : 1 ≤ A₀)
+    (hloc : ∀ t : ℝ, (Z.N t (t + 1) : ℝ) ≤ A₀ * Real.log (|t| + 3)) (a : ℝ) (n : ℕ) :
+    (Z.N a (a + n) : ℝ) ≤ n * A₀ * Real.log (|a| + n + 3) := by
+  induction n with
+  | zero =>
+    simp only [Nat.cast_zero, add_zero, zero_mul]
+    have : Z.N a a = 0 := by
+      unfold ZeroConfig.N
+      have : Z.window a a = ∅ := by
+        ext ρ
+        simp only [ZeroConfig.window, Set.mem_inter_iff, Set.mem_ofPred_eq, Set.mem_empty_iff_false,
+          iff_false]
+        rintro ⟨_, h1, h2⟩; linarith
+      rw [this, finsum_mem_empty]
+    rw [this]; simp
+  | succ n ih =>
+    have hsplit : Z.N a (a + (n + 1 : ℕ)) = Z.N a (a + n) + Z.N (a + n) (a + n + 1) := by
+      push_cast
+      rw [← add_assoc]
+      exact N_add Z (by linarith [(n.cast_nonneg : (0:ℝ) ≤ n)]) (by linarith)
+    rw [hsplit]
+    push_cast
+    have h1 := hloc (a + n)
+    have hlogmono : Real.log (|a| + n + 3) ≤ Real.log (|a| + (n + 1) + 3) :=
+      Real.log_le_log (by positivity) (by linarith)
+    have hlogmono' : Real.log (|a + n| + 3) ≤ Real.log (|a| + (n + 1) + 3) :=
+      Real.log_le_log (by positivity) (by linarith [abs_add_le a (n : ℝ), abs_of_nonneg (n.cast_nonneg : (0:ℝ) ≤ n)])
+    have hA : 0 ≤ A₀ := by linarith
+    have hn : (0 : ℝ) ≤ n := n.cast_nonneg
+    calc ((Z.N a (a + n) : ℕ) : ℝ) + ((Z.N (a + n) (a + n + 1) : ℕ) : ℝ)
+        ≤ n * A₀ * Real.log (|a| + n + 3) + A₀ * Real.log (|a + n| + 3) := add_le_add ih h1
+      _ ≤ n * A₀ * Real.log (|a| + (n + 1) + 3) + A₀ * Real.log (|a| + (n + 1) + 3) := by
+          gcongr
+      _ = (n + 1) * A₀ * Real.log (|a| + (n + 1) + 3) := by ring
+
+/-- The local count over a window of real length `ℓ ≥ 0`: `N(a, a+ℓ] ≤ (ℓ+1) A₀ log(|a| + ℓ + 4)`. -/
+lemma N_le_of_local_count_real {A₀ : ℝ} (hA₀ : 1 ≤ A₀)
+    (hloc : ∀ t : ℝ, (Z.N t (t + 1) : ℝ) ≤ A₀ * Real.log (|t| + 3)) (a : ℝ) {ℓ : ℝ} (hℓ : 0 ≤ ℓ) :
+    (Z.N a (a + ℓ) : ℝ) ≤ (ℓ + 1) * A₀ * Real.log (|a| + ℓ + 4) := by
+  set n : ℕ := ⌈ℓ⌉₊ with hn
+  have hn1 : ℓ ≤ n := Nat.le_ceil ℓ
+  have hn2 : (n : ℝ) < ℓ + 1 := Nat.ceil_lt_add_one hℓ
+  have hA : 0 ≤ A₀ := by linarith
+  have hmono : (Z.N a (a + ℓ) : ℝ) ≤ Z.N a (a + n) := by
+    exact_mod_cast N_mono Z le_rfl (by linarith)
+  have hlog : Real.log (|a| + n + 3) ≤ Real.log (|a| + ℓ + 4) :=
+    Real.log_le_log (by positivity) (by linarith)
+  have hlog0 : 0 ≤ Real.log (|a| + n + 3) := Real.log_nonneg (by linarith [abs_nonneg a, (n.cast_nonneg : (0:ℝ) ≤ n)])
+  calc (Z.N a (a + ℓ) : ℝ) ≤ Z.N a (a + n) := hmono
+    _ ≤ n * A₀ * Real.log (|a| + n + 3) := N_le_of_local_count Z hA₀ hloc a n
+    _ ≤ (ℓ + 1) * A₀ * Real.log (|a| + ℓ + 4) := by gcongr
+
+end Strips
+
+/-! ### 7. The simple on-line zeros of `(T, 2T]` not retained lie in the two strips -/
+
+section StripInclusion
+
+/-- `N₀ˢ(T,2T) ≤ #retained + N(T, T+2πL] + N(2T − 2πL − 2π/L, 2T]`: a simple on-line zero of
+`(T, 2T]` is retained unless its normalised ordinate `x` has `x < L²` (the lower strip, ordinate
+width `2πL`) or `x > d − L²` (the upper strip, ordinate width `< 2πL + 2π/L` since
+`d > LT/2π − 1`). -/
+lemma N0s_le_card_retained_add (Z : ZeroConfig) (P : Params) (T : ℝ) (hL : 0 < P.L T) :
+    (Z.N0s T (2 * T) : ℝ) ≤ (retained Z P T).card
+      + Z.N T (T + 2 * Real.pi * P.L T)
+      + Z.N (2 * T - (2 * Real.pi * P.L T + 2 * Real.pi / P.L T)) (2 * T) := by
+  classical
+  set ℓ : ℝ := 2 * Real.pi * P.L T with hℓ
+  set ℓ' : ℝ := 2 * Real.pi * P.L T + 2 * Real.pi / P.L T with hℓ'
+  set A : Set ℂ := Z.window T (2 * T) ∩ ZeroConfig.onLine ∩ Z.simple with hA
+  set R : Finset ℂ := (retained Z P T).map (Function.Embedding.subtype _) with hR
+  have hπ : (0 : ℝ) < 2 * Real.pi := by positivity
+  have hD0 : 0 ≤ D0 T := Real.sqrt_nonneg T
+  have hsub : A ⊆ (↑R : Set ℂ) ∪ Z.window T (T + ℓ) ∪ Z.window (2 * T - ℓ') (2 * T) := by
+    rintro ρ ⟨⟨⟨hρc, hT1, hT2⟩, hre⟩, hm⟩
+    have hre' : ρ.re = 1 / 2 := hre
+    have hm' : Z.mult ρ = 1 := hm
+    have hρZ : ρ ∈ ZI Z T := by
+      rw [mem_ZI, mem_ZIprime_iff]
+      exact ⟨hρc, by linarith, by linarith⟩
+    set z : ZI Z T := ⟨ρ, hρZ⟩ with hz
+    have hzS : z ∈ (bdata Z P T).S₁ := by
+      simp only [ZeroBlockData.S₁, Finset.mem_filter, Finset.mem_univ, true_and]
+      exact ⟨(mkData_σ_eq_iff Z T _ _ z).mpr hre', hm'⟩
+    by_cases hx : P.L T ^ 2 ≤ xnorm P T z ∧ xnorm P T z ≤ (P.d T : ℝ) - P.L T ^ 2
+    · left; left
+      rw [Finset.mem_coe, hR, Finset.mem_map]
+      exact ⟨z, Finset.mem_filter.mpr ⟨hzS, hx⟩, rfl⟩
+    · rw [not_and_or] at hx
+      rcases hx with hx | hx
+      · left; right
+        refine ⟨hρc, hT1, ?_⟩
+        push Not at hx
+        unfold xnorm at hx
+        have h1 := (div_lt_iff₀ hπ).mp hx
+        have : P.L T * (ρ.im - T) < P.L T * ℓ := by rw [hℓ]; nlinarith
+        have := lt_of_mul_lt_mul_left this hL.le
+        show ρ.im ≤ T + ℓ
+        linarith
+      · right
+        refine ⟨hρc, ?_, hT2⟩
+        push Not at hx
+        unfold xnorm at hx
+        have h1 := (lt_div_iff₀ hπ).mp hx
+        have hd : P.L T * T / (2 * Real.pi) < (P.d T : ℝ) + 1 := Nat.lt_floor_add_one _
+        have hd' := (div_lt_iff₀ hπ).mp hd
+        have hLℓ' : P.L T * ℓ' = 2 * Real.pi * P.L T ^ 2 + 2 * Real.pi := by
+          rw [hℓ']; field_simp
+        have : P.L T * (2 * T - ℓ') < P.L T * ρ.im := by nlinarith
+        exact lt_of_mul_lt_mul_left this hL.le
+  have hfin : ((↑R : Set ℂ) ∪ Z.window T (T + ℓ) ∪ Z.window (2 * T - ℓ') (2 * T)).Finite :=
+    ((R.finite_toSet).union (Z.finite_window _ _)).union (Z.finite_window _ _)
+  have hN0s : Z.N0s T (2 * T) = A.ncard := rfl
+  have hcard : ((↑R : Set ℂ).ncard : ℝ) = (retained Z P T).card := by
+    rw [Set.ncard_coe_finset, hR, Finset.card_map]
+  have hlo := ncard_window_le_N Z T (T + ℓ)
+  have hhi := ncard_window_le_N Z (2 * T - ℓ') (2 * T)
+  have hu : ((↑R : Set ℂ) ∪ Z.window T (T + ℓ) ∪ Z.window (2 * T - ℓ') (2 * T)).ncard
+      ≤ (↑R : Set ℂ).ncard + (Z.window T (T + ℓ)).ncard + (Z.window (2 * T - ℓ') (2 * T)).ncard :=
+    (Set.ncard_union_le _ _).trans (by gcongr; exact Set.ncard_union_le _ _)
+  have hle : A.ncard ≤ (↑R : Set ℂ).ncard + (Z.window T (T + ℓ)).ncard
+      + (Z.window (2 * T - ℓ') (2 * T)).ncard :=
+    (Set.ncard_le_ncard hsub hfin).trans hu
+  rw [hN0s]
+  calc (A.ncard : ℝ) ≤ ((↑R : Set ℂ).ncard : ℝ) + (Z.window T (T + ℓ)).ncard
+        + (Z.window (2 * T - ℓ') (2 * T)).ncard := by exact_mod_cast hle
+    _ ≤ (retained Z P T).card + Z.N T (T + ℓ) + Z.N (2 * T - ℓ') (2 * T) := by
+        rw [hcard]
+        have hlo' : ((Z.window T (T + ℓ)).ncard : ℝ) ≤ Z.N T (T + ℓ) := by exact_mod_cast hlo
+        have hhi' : ((Z.window (2 * T - ℓ') (2 * T)).ncard : ℝ) ≤ Z.N (2 * T - ℓ') (2 * T) := by
+          exact_mod_cast hhi
+        linarith
+
+end StripInclusion
+
+/-! ### 8. The two strips hold `O(L²)` zeros -/
+
+section StripCount
+
+/-- At heights with `1 ≤ T`, `1 ≤ L ≤ T` and `log T ≤ L + 2π`, the two strips of ordinate width
+`2πL` and `2πL + 2π/L` hold at most `1600 A₀ L²` zeros (local count `N(t+1) − N(t) ≤ A₀ log(t+3)`). -/
+lemma strips_le (Z : ZeroConfig) {A₀ : ℝ} (hA₀ : 1 ≤ A₀)
+    (hloc : ∀ t : ℝ, (Z.N t (t + 1) : ℝ) ≤ A₀ * Real.log (|t| + 3)) {T L : ℝ} (hT : 1 ≤ T)
+    (hL1 : 1 ≤ L) (hLT : L ≤ T) (hlogT : Real.log T ≤ L + 2 * Real.pi) :
+    (Z.N T (T + 2 * Real.pi * L) : ℝ) + Z.N (2 * T - (2 * Real.pi * L + 2 * Real.pi / L)) (2 * T)
+      ≤ 1600 * A₀ * L ^ 2 := by
+  have hπ := Real.pi_pos
+  have hπ4 := Real.pi_lt_four
+  have hπ3 := Real.pi_gt_three
+  have hA : 0 ≤ A₀ := by linarith
+  set ℓ : ℝ := 2 * Real.pi * L with hℓ
+  set ℓ' : ℝ := 2 * Real.pi * L + 2 * Real.pi / L with hℓ'
+  have hLpos : 0 < L := by linarith
+  have hℓ0 : 0 ≤ ℓ := by positivity
+  have h2πL : 2 * Real.pi / L ≤ 2 * Real.pi * L := by
+    rw [div_le_iff₀ hLpos]; nlinarith
+  have hℓ'0 : 0 ≤ ℓ' := by positivity
+  have hℓ'le : ℓ' ≤ 4 * Real.pi * L := by rw [hℓ']; linarith
+  have hℓle : ℓ ≤ ℓ' := by
+    have : 0 ≤ 2 * Real.pi / L := by positivity
+    rw [hℓ, hℓ']; linarith
+  have h1 := N_le_of_local_count_real Z hA₀ hloc T hℓ0
+  have h2 := N_le_of_local_count_real Z hA₀ hloc (2 * T - ℓ') hℓ'0
+  rw [sub_add_cancel] at h2
+  -- both log arguments are ≤ M := (6 + 8π) T
+  set M : ℝ := (6 + 8 * Real.pi) * T with hM
+  have hM1 : |T| + ℓ + 4 ≤ M := by
+    rw [abs_of_pos (by linarith), hM]; nlinarith
+  have hM2 : |2 * T - ℓ'| + ℓ' + 4 ≤ M := by
+    have : |2 * T - ℓ'| ≤ 2 * T + ℓ' := by
+      rw [abs_le]; constructor <;> linarith
+    rw [hM]; nlinarith
+  have hlogM : Real.log M ≤ (6 + 10 * Real.pi) * L := by
+    have hT0 : 0 < T := by linarith
+    rw [hM, Real.log_mul (by positivity) hT0.ne']
+    have := Real.log_le_sub_one_of_pos (by positivity : (0 : ℝ) < 6 + 8 * Real.pi)
+    nlinarith
+  have hlog1 : Real.log (|T| + ℓ + 4) ≤ (6 + 10 * Real.pi) * L :=
+    (Real.log_le_log (by positivity) hM1).trans hlogM
+  have hlog2 : Real.log (|2 * T - ℓ'| + ℓ' + 4) ≤ (6 + 10 * Real.pi) * L :=
+    (Real.log_le_log (by positivity) hM2).trans hlogM
+  have hcoef : ℓ' + 1 ≤ (4 * Real.pi + 1) * L := by nlinarith
+  have hcoef' : ℓ + 1 ≤ (4 * Real.pi + 1) * L := by linarith
+  have hb1 : (Z.N T (T + ℓ) : ℝ) ≤ (4 * Real.pi + 1) * L * A₀ * ((6 + 10 * Real.pi) * L) := by
+    refine h1.trans ?_
+    have h0 : 0 ≤ Real.log (|T| + ℓ + 4) := Real.log_nonneg (by linarith [abs_nonneg T])
+    gcongr
+  have hb2 : (Z.N (2 * T - ℓ') (2 * T) : ℝ)
+      ≤ (4 * Real.pi + 1) * L * A₀ * ((6 + 10 * Real.pi) * L) := by
+    refine h2.trans ?_
+    have h0 : 0 ≤ Real.log (|2 * T - ℓ'| + ℓ' + 4) :=
+      Real.log_nonneg (by linarith [abs_nonneg (2 * T - ℓ')])
+    gcongr
+  have hL2 : 0 ≤ A₀ * L ^ 2 := by positivity
+  have hconst : 2 * ((4 * Real.pi + 1) * (6 + 10 * Real.pi)) ≤ 1600 := by nlinarith
+  calc (Z.N T (T + ℓ) : ℝ) + Z.N (2 * T - ℓ') (2 * T)
+      ≤ 2 * ((4 * Real.pi + 1) * L * A₀ * ((6 + 10 * Real.pi) * L)) := by linarith
+    _ = 2 * ((4 * Real.pi + 1) * (6 + 10 * Real.pi)) * (A₀ * L ^ 2) := by ring
+    _ ≤ 1600 * (A₀ * L ^ 2) := by
+        gcongr
+    _ = 1600 * A₀ * L ^ 2 := by ring
+
+end StripCount
+
 end Zeta23Ext.Bridge

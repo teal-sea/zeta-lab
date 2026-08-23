@@ -8,12 +8,20 @@ import Zeta23Ext.Bridge.Helpers_S9
 /-!
 # S9: the uniform kernel limit  ([A] Lemma 3.1, eq:kernel-limit)
 
-`⟨v_ρ, v_ρ′⟩ = k(x_ρ − x_ρ′) + o(1)` uniformly in `T` over retained pairs at bounded normalised
-separation, and the two deleted strips contain `o(N)` zeros.  `[L23]` has the full-grid Poisson
-identity (`Zeta23/Poisson.lean`, `hasSum_phiHatR_mul`), the window profile
-`vStar lam s = cos(√2 λ s)` (`Zeta23/ThmD/Functional.lean`) and the cosine window's
-autocorrelation (`Zeta23/ThmD/Window.lean`, `Cfun`, `integral_cos_overlap`), but no `k`, no
-`L → ∞` limit of `Φ(hx)/(aL)`, and no uniformity statement (TRUST-MAP S9, LARGE).
+`⟨v_ρ, v_ρ′⟩ = k(x_ρ − x_ρ′) + o(1)` uniformly in `T` over retained pairs, and the two deleted
+strips contain `o(N)` zeros.  **Both are proved here, sorry-free**, from `[L23]` material that the
+trust map recorded as absent: the full-grid identity is `AdmWindow.hasSum_vHatR_mul` *for the
+Montgomery–Taylor window* (`ThmD.admWindow_params`, not only the flat taper's `hasSum_phiHatR_mul`);
+the tail outside `[0, d)` is `PrimeSide.rho` with the `r⁻²` majorant `PrimeSide.rho_le_majorant`
+of [C26] §5.3; and the `L → ∞` limit `Φ_D(hx)/(aL) → K(x)/K(0)` is the `L¹` comparison
+`ThmD.integral_abs_phiDsq_sub_sharp` (window vs sharp cutoff, `≤ 2w`) plus `ThmD.aD_close`.
+`k` itself (`Kfun`, `kfun` in `Bridge/Defs.lean`) is the only genuinely new object.
+
+The proofs are in `Zeta23Ext/Bridge/Helpers_S9.lean`.  What the formal statement exposed: the
+error is `10 (c_DT/w)²/L⁴ + 12w/L` at every height, for **every** pair of retained zeros at
+**every** separation; the paper's restriction `|x_ρ − x_ρ′| ≤ R₀` and the analytic inputs
+`H : PaperInputs Z` play no role in eq:kernel-limit (they are needed downstream and for the strip
+count respectively).
 -/
 
 noncomputable section
@@ -25,6 +33,7 @@ namespace Zeta23Ext.Bridge
 
 open Classical
 
+set_option linter.unusedVariables false in
 /-- **S9** ([A] eq:kernel-limit).  For every `R₀` and `δ > 0`, eventually in `T`, every pair of
 retained zeros at normalised separation `≤ R₀` has Gram entry within `δ` of `k(x_ρ − x_ρ′)`.
 
@@ -40,7 +49,6 @@ with `ρ ≤ W(γ−T) + W(2T−γ) + ψ(τ_d−γ)²` (`PrimeSide.rho_le_majora
 The hypotheses `H : PaperInputs Z` and `|x_ρ − x_ρ′| ≤ R₀` are **not used**: the bound is uniform over
 all retained pairs, at every separation, and involves the zeros only through the strip condition
 `L² ≤ x_ρ ≤ d − L²`. -/
-set_option linter.unusedVariables false in
 theorem kernel_limit (Z : ZeroConfig) (H : PaperInputs Z) (R₀ : ℝ) :
     ∀ δ > 0, ∀ᶠ T in atTop, ∀ z z' : retained Z (mtParams T) T,
       |xret Z (mtParams T) T z - xret Z (mtParams T) T z'| ≤ R₀ →
@@ -79,15 +87,100 @@ theorem kernel_limit (Z : ZeroConfig) (H : PaperInputs Z) (R₀ : ℝ) :
 /-- **S9, the strip count** ([A] Lemma 3.1: "The number deleted is `o(N(T,2T))`"; eq:Scentral
 `S° = N₀ˢ(T,2T) − o(N(T,2T))`).
 
-Residual goal (HANDWRITTEN, small): the two strips have ordinate length `2π L²/L = 2πL = O(L)`
-and contain `O(L²) = O(log² T)` zeros by the local count `H.RvM.local_count`
-(`N(t+1) − N(t) ≤ A₀ log(t+3)`), and `log² T = o(N)` (`tendsto_N_atTop`); the zeros of
-`𝒮₁ ∩ (T, 2T]` not in either strip are exactly `retained`. -/
+**Proved** (`Zeta23Ext/Bridge/Helpers_S9.lean`, sections 6–8): a simple on-line zero of `(T, 2T]` is
+retained unless its ordinate lies in `(T, T + 2πL]` or in `(2T − 2πL − 2π/L, 2T]`
+(`N0s_le_card_retained_add`); by the local count `H.RvM.local_count` and window additivity of
+`Z.N` these strips hold at most `1600 A₀ L²` zeros (`strips_le`); and `N(T,2T) ≥ TL/2π − |C| log T`
+by `H.RvM.main`, so `1600 A₀ L² ≤ ε N(T,2T)` as soon as `log T ≤ c T` (`Real.isLittleO_log_id_atTop`). -/
 theorem deleted_strips (Z : ZeroConfig) (H : PaperInputs Z) :
     ∀ ε > 0, ∀ᶠ T in atTop,
       (Z.N0s T (2 * T) : ℝ) - ε * (Z.N T (2 * T) : ℝ)
         ≤ ((retained Z (mtParams T) T).card : ℝ) := by
-  sorry
+  intro ε hε
+  have hP : (paramsOf stdProfile 1).Valid := paramsOf_valid taperProfile_stdProfile one_pos le_rfl
+  obtain ⟨A₀, hA₀, hloc⟩ := H.RvM.local_count
+  obtain ⟨C, T₀, hRvM⟩ := H.RvM.main
+  have hA0 : 0 < A₀ := by linarith
+  have hπ := Real.pi_pos
+  set c : ℝ := ε / (4 * Real.pi * (1600 * A₀)) with hc
+  have hcpos : 0 < c := by positivity
+  have hlittle : ∀ᶠ x in atTop, ‖Real.log x‖ ≤ c * ‖id x‖ :=
+    Real.isLittleO_log_id_atTop.def hcpos
+  filter_upwards [eventually_ge_atTop 1, eventually_ge_atTop T₀,
+    (tendsto_L hP).eventually_ge_atTop 1, hlittle,
+    eventually_ge_atTop (4 * Real.pi * |C| * (1 + 2 * Real.pi))] with T hT1 hTT₀ hL1 hlog hTC
+  have hT0 : 0 < T := by linarith
+  set L : ℝ := (paramsOf stdProfile 1).L T with hLdef
+  -- `L = log T − log 2π`
+  have hLeq : L = Real.log T - Real.log (2 * Real.pi) := by
+    rw [hLdef]
+    show 1 * Real.log (T / (2 * Real.pi)) = _
+    rw [one_mul, Real.log_div hT0.ne' (by positivity)]
+  have hlog2π0 : 0 < Real.log (2 * Real.pi) := Real.log_pos (by linarith [Real.pi_gt_three])
+  have hlog2π : Real.log (2 * Real.pi) ≤ 2 * Real.pi - 1 := Real.log_le_sub_one_of_pos (by positivity)
+  have hlogT : Real.log T ≤ L + 2 * Real.pi := by linarith
+  have hLlogT : L ≤ Real.log T := by linarith
+  have hlogT_le : Real.log T ≤ T - 1 := Real.log_le_sub_one_of_pos hT0
+  have hLT : L ≤ T := by linarith
+  have hlogT0 : 0 ≤ Real.log T := Real.log_nonneg hT1
+  have hlogc : Real.log T ≤ c * T := by
+    have h := hlog
+    simp only [id, Real.norm_eq_abs, abs_of_pos hT0, abs_of_nonneg hlogT0] at h
+    exact h
+  -- the inclusion and the strip count
+  have hLpos : 0 < (mtParams T).L T := by show 0 < L; linarith
+  have hincl := N0s_le_card_retained_add Z (mtParams T) T hLpos
+  have hstrips := strips_le Z hA₀ hloc hT1 hL1 hLT hlogT
+  have hincl' : (Z.N0s T (2 * T) : ℝ) ≤ (retained Z (mtParams T) T).card + 1600 * A₀ * L ^ 2 := by
+    have e1 : (mtParams T).L T = L := rfl
+    rw [e1] at hincl
+    linarith
+  -- the lower bound on `N(T,2T)` from Riemann–von Mangoldt
+  have hN : T * L / (2 * Real.pi) - |C| * Real.log T ≤ (Z.N T (2 * T) : ℝ) := by
+    have h := hRvM T hTT₀
+    have hℓ₁ : L ≤ ell1 T := by
+      show 1 * l T ≤ l T + 2 * Real.log 2 - 1
+      have := Real.log_two_gt_d9
+      linarith
+    have h1 := (abs_le.mp h).1
+    have h2 : C * Real.log T ≤ |C| * Real.log T :=
+      mul_le_mul_of_nonneg_right (le_abs_self C) hlogT0
+    have h3 : T * L / (2 * Real.pi) ≤ T / (2 * Real.pi) * ell1 T := by
+      rw [mul_div_right_comm]
+      exact mul_le_mul_of_nonneg_left hℓ₁ (by positivity)
+    linarith
+  -- the strips are `o(N)`: `1600 A₀ L² + ε |C| log T ≤ ε T L / 2π`
+  have hkey : 1600 * A₀ * L ^ 2 + ε * |C| * Real.log T ≤ ε * (T * L / (2 * Real.pi)) := by
+    have hA : 1600 * A₀ * L ^ 2 ≤ ε * T * L / (4 * Real.pi) := by
+      have h1 : 1600 * A₀ * L ^ 2 ≤ 1600 * A₀ * L * (c * T) := by
+        have : L * L ≤ L * (c * T) := by
+          have : L ≤ c * T := hLlogT.trans hlogc
+          exact mul_le_mul_of_nonneg_left this (by linarith)
+        nlinarith
+      have h2 : 1600 * A₀ * L * (c * T) = ε * T * L / (4 * Real.pi) := by
+        rw [hc]; field_simp
+      linarith
+    have hB : ε * |C| * Real.log T ≤ ε * T * L / (4 * Real.pi) := by
+      have h1 : |C| * Real.log T ≤ |C| * ((1 + 2 * Real.pi) * L) := by
+        apply mul_le_mul_of_nonneg_left _ (abs_nonneg C)
+        nlinarith
+      have h2 : |C| * (1 + 2 * Real.pi) * (4 * Real.pi) ≤ T := by linarith
+      have h3 : |C| * ((1 + 2 * Real.pi) * L) ≤ T * L / (4 * Real.pi) := by
+        rw [le_div_iff₀ (by positivity)]
+        have hL0 : 0 ≤ L := by linarith
+        nlinarith
+      calc ε * |C| * Real.log T = ε * (|C| * Real.log T) := by ring
+        _ ≤ ε * (|C| * ((1 + 2 * Real.pi) * L)) := mul_le_mul_of_nonneg_left h1 hε.le
+        _ ≤ ε * (T * L / (4 * Real.pi)) := mul_le_mul_of_nonneg_left h3 hε.le
+        _ = ε * T * L / (4 * Real.pi) := by ring
+    have : ε * T * L / (4 * Real.pi) + ε * T * L / (4 * Real.pi) = ε * (T * L / (2 * Real.pi)) := by
+      field_simp
+      ring
+    linarith
+  have hεN : 1600 * A₀ * L ^ 2 ≤ ε * (Z.N T (2 * T) : ℝ) := by
+    have := mul_le_mul_of_nonneg_left hN hε.le
+    nlinarith [hkey]
+  linarith
 
 /-! ### Standing axiom audit (idiom of `Zeta23Ext/StableRankTrace.lean`) -/
 
