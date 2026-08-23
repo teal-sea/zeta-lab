@@ -1,4 +1,4 @@
-# Hunt #77: where the seven-point simple-zero certificate ends
+# Hunt #79: where the seven-point simple-zero certificate ends
 
 Two outside groups are hill-climbing the same finite certificate for the proportion of
 simple zeros on the critical line: Ainta (`ainta/zeta-simple-zeros`, a GPT-5.6 Sol
@@ -10,17 +10,17 @@ they are pushing against, and states how much of the room under Anthropic's conf
 ceiling this certificate family can ever extract.
 
 The analytic bridge from `F6 >= c` to the asymptotic proportion is a separate trust
-boundary and is NOT audited here. A companion session maps it (`TRUST-MAP.md`, pending).
+boundary and is NOT audited here. A companion session mapped it (`TRUST-MAP.md`): one substantial analytic bridge.
 
 ```huntspec
 id: ainta_seven_point
-question: What is the largest value the seven-point certificate F6 >= c can reach, what configuration of six consecutive gaps attains the floor, and how much of the room between the 0.6725 window ceiling and the 0.68185 configuration ceiling does this certificate family leave unreachable?
-frontier: window ceiling 0.6725007 (Anthropic Theorem D, Pub 1 strong closure); lab gap-census transplant 0.6725106958 (prior art, superseded); Ainta 19/5000 giving 0.6730085279 (reproduced here); Gohms 191/50000 giving 0.6730213620 (reported, reproduction in this hunt); configuration ceiling 0.68185 (Anthropic Remark 1.1)
+question: What is the largest value the seven-point certificate F6 >= c can reach, what configuration of six consecutive gaps attains the floor, and how much of the room between the 0.6725 window ceiling and the 0.6818287 configuration ceiling does this certificate family leave unreachable?
+frontier: window ceiling 0.6725007 (Anthropic Theorem D, Pub 1 strong closure); lab gap-census transplant 0.6725106958 (prior art, superseded); Ainta 19/5000 giving 0.6730085279 (reproduced here); Gohms 191/50000 giving 0.6730213620 (reported, reproduction in this hunt); configuration ceiling 0.6818287 (the value the Lean development proves; the 0.68185 in Anthropic Remark 1.1 carries no proof)
 proposed_attack: reproduce both certificates on the pinned commit; minimise F6 numerically to find the apparent floor and its argmin; probe certifiability of rational targets between the last claim and the floor with the published verifier at its published grid; reconstruct the map c -> bound from the two published data points
 dead_routes:
   - pushing the seven-point target one decimal at a time, the remaining purse is of order 4e-6 in the bound
   - re-proposing the Cheer-Goldston gap-census floor transplant, prior art in hunts/rogue_frontier/FRONTIER_MAP.md
-  - reaching past 0.68185 with any certificate reading only bandwidth-one data, excluded by Anthropic Remark 1.1
+  - reaching past 0.6818287 with any certificate reading only bandwidth-one data, excluded by Anthropic Remark 1.1
 required_oracles:
   - the published Arb interval verifier at commit 040c5e899e658aed7b56a2a87f501798fe10761d, run locally, compared field by field against its committed certificates
   - the published verifier run at modified rational targets, which fails loudly at a terminal cell when a target is not certifiable at its grid

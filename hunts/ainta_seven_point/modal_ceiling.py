@@ -1,4 +1,4 @@
-"""Three parallel Modal jobs for Hunt #77.
+"""Modal jobs for Hunt #79.
 
   rigorous_floor   Arb enclosure of F6 at the apparent minimiser and on a small box
                    around it. The upper end of the enclosure is a rigorous UPPER bound

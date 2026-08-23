@@ -1,6 +1,6 @@
 # Results: where the seven-point certificate ends
 
-> Bounded outcome of Hunt #77. Labels: VERIFIED means run here and compared against a
+> Bounded outcome of Hunt #79 (numbered #77 while in flight; #77 is AIMO-2 and #78 is `r_a7c12f`). Labels: VERIFIED means run here and compared against a
 > published record; REPORTED means stated by a record and not re-established; INFERRED
 > means a float reconstruction with no interval enclosure. Nothing here audits the
 > analytic bridge from the finite certificate to the asymptotic proportion.
@@ -59,9 +59,10 @@ the table's lower enclosure never exceeds the float value on any of 12,000 cells
 The map from the certificate to the bound, reconstructed from the two published data
 points (INFERRED, see §4), gives the remaining headroom above Gohms as about
 **4 × 10⁻⁶ in the bound**, a ceiling near **0.673025** for this certificate at block size
-267. Against Anthropic's configuration ceiling of 0.68185 (Remark 1.1, already in
-`hunts/rogue_frontier/FRONTIER_MAP.md`) and the window ceiling of 0.6725007, this
-certificate family extracts about **0.00052 of the 0.00935 available, roughly 5.6%**.
+267. Against the configuration ceiling of **0.6818287** (the value `anthropics/zeta-23-lean`
+proves; the 0.68185 this laboratory had been quoting from Remark 1.1 is a decimal with no
+proof attached, see `TRUST-MAP.md`) and the window ceiling of 0.6725007, this certificate
+family extracts about **0.00052 of the 0.00933 available, roughly 5.6%**.
 The rest is not reachable by tightening this target at any grid.
 
 **The verifier reaches the floor.** Two probes with the published verifier at its
@@ -96,6 +97,30 @@ Lower end: the accepted interval certificate at `1913/500000`. Upper end: the Ar
 evaluation at the point. Width 2.3 × 10⁻⁷. The float minimiser's last digits
 (`…2114`) and Arb's (`…2115`) differ by rounding at the sixteenth decimal.
 
+**A defect in every raised-target run, found by the trust map and repaired here.** The
+verifier's `PRESSURE_CUTOFF_CELLS = 45600` encodes the original target: at
+`verify_seven.py:276` it prunes every box with gap-sum at least `45600/4000 = 11.4` on the
+grounds that the linear term alone, `11.4/3000 = 0.0038`, exceeds the target. That is true
+for `19/5000` and false for anything larger. Gohms's run changed only the target; so did
+the three probes above. Each of those acceptances was therefore unsound as run: the 3,087
+boxes pruned by that rule were never shown to exceed the raised target.
+
+Re-run on Modal with the cutoff raised to 46,400 cells (gap-sum 11.6, sound for targets up
+to 0.003867), `artifacts/modal-rerun-sound-cutoff.json`:
+
+| target | grid | cutoff | outcome | nodes | depth |
+|---|---|---|---|---|---|
+| 191/50000 (Gohms) | 4000 | 46,400 | accepted | 786,085 | 43 |
+| 153/40000 | 4000 | 46,400 | accepted | 862,961 | 51 |
+| 1913/500000 | 4000 | 46,400 | accepted | 907,799 | 58 |
+| 1913/500000 | 8000 | 92,800 | accepted | 899,055 | 57 |
+| 1913/500000 (control) | 4000 | 60,000 | accepted | 907,761 | 58 |
+
+Every result stands, and the node counts move by tens, which is what a prune that was
+never load-bearing looks like. The lower end of the bracket below is the 46,400-cutoff
+run, not the original. The refusal at 0.0038263 is unaffected, since a missing prune can
+only make acceptance harder. Reported upstream in the same thread as the reproduction.
+
 **The refusal is not the grid's.** The same two targets rerun with the verifier's grid
 doubled to 8000 and its two grid-scaled constants doubled with it: `1913/500000`
 accepted (898,669 nodes, depth 57, 233 s on Modal); `0.0038263` refused at cell
@@ -111,27 +136,29 @@ the linear term and the block size `m` are one parameter, and the map from certi
 to bound changes with `n`. That is the same hole §4 names, seen from the other side, and
 it is the trust map's first obligation.
 
-## 4. The bound formula, and the hole in it
+## 4. The bound formula, resolved by the trust map
 
-From the two published constants:
+From the two published constants this hunt reconstructed
+`Φ(c, m) = (H − (m−1)/(500 m)) / (1 − c (m−6)/m)`, exact at both points but monotone in
+`m`, which could not be the whole story. `TRUST-MAP.md` derives it rather than fits it:
 
-    Φ(c, m) = ( H − (m−1)/(500 m) ) / ( 1 − c (m−6)/m )
+    Φ(c, m, p) = ( H − 6(m−1)/(p m) ) / ( 1 − c (m−6)/m ),    p the pressure denominator,
 
-    Φ(19/5000, 269)   = 0.6730085279277798   (Ainta, to the last digit)
-    Φ(191/50000, 267) = 0.6730213619501665   (Gohms, to the last digit)
-
-Two exact matches on a two-parameter reconstruction is strong, and still INFERRED: Ainta's
-`m = 269` was solved for from the number rather than read from the paper. And the form is
-monotone increasing in `m`, which cannot be the whole story or nobody would optimise `m`
-to 267. The coupling between `m`, the 1/3000 pressure term, and the bound is the **first
-obligation for the trust map**. Every ceiling figure in §3 is conditional on it.
+reproducing both published constants to 40 digits, and recovers the missing constraint:
+`A₀ = c(m−6) ≤ 1` (riemann.tex:375), forced by the `min{1, …}` in the block-defect lemma.
+So `m` is capped at `6 + ⌊1/c⌋`, both Ainta (269) and Gohms (267) sit exactly at their
+cap, raising the target lowers `m`, and the bound is sawtoothed in `c`. With the pressure
+optimised (unimodal, peak near `p ≈ 3200`; `p = 3000` is very nearly optimal) the
+family's ceiling is **0.673027719**, 6.4 × 10⁻⁶ above Gohms. The eight-point result in §3
+is consistent with this: `p` is tied to `n` and `m`, not a free constant.
 
 ## 5. What this hunt does not claim
 
 - It does not call the seven-point theorem verified. The finite certificates are; the
   analytic bridge (the stability-enhanced rank–trace inequality, the kernel
   approximation, the convex pinching, the sliding-window averaging, the passage to the
-  asymptotic count) has not been read here. `TRUST-MAP.md` is the companion deliverable.
+  asymptotic count) is mapped in `TRUST-MAP.md`, verdict one substantial analytic bridge,
+  with six of sixteen steps already kernel-checked upstream. Mapped is not proved.
 - It does not claim the minimiser is unique or that the floor is attained only there;
   the bracket on inf F6 is rigorous, the structure reading (kernel zeros) is not.
 - It does not claim novelty for the ceiling. Remark 1.1 bounds the family from above; this

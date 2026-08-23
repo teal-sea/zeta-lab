@@ -126,3 +126,15 @@ artifacts:
   - hunts/ainta_seven_point/modal_ceiling.py
   - hunts/ainta_seven_point/artifacts/modal-results.json
 ```
+
+```runmanifest
+id: ainta_seven_point-2026-08-23-modal-sound-cutoff
+hunt: ainta_seven_point
+started: 2026-08-23T13:40-05:00
+finished: 2026-08-23T13:45-05:00
+ran:
+  - ~/Zeta/.venv/bin/modal run hunts/ainta_seven_point/modal_ceiling.py::rerun (five grid_probe jobs in parallel, PRESSURE_CUTOFF_CELLS raised to 46400 at grid 4000 and 92800 at grid 8000, plus a 60000 control)
+outcome: every previously accepted raised target is accepted again with a cutoff that is sound for it; 191/50000 786085 nodes depth 43, 153/40000 862961 nodes depth 51, 1913/500000 907799 nodes depth 58, 1913/500000 at grid 8000 899055 nodes depth 57, control at cutoff 60000 907761 nodes depth 58; node counts move by tens against the unsound runs, so the stale prune was never load-bearing, but it was unjustified and is now justified; 266 s wall
+artifacts:
+  - hunts/ainta_seven_point/artifacts/modal-rerun-sound-cutoff.json
+```
