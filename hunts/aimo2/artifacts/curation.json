@@ -1,0 +1,65 @@
+{
+  "identity_prior_cv": {
+    "sample_full_pairs": {
+      "LOMO": 65,
+      "LOPO": 65,
+      "all_True": 65,
+      "better_constant": 65,
+      "n": 70
+    },
+    "val_sample": {
+      "LOMO": 19,
+      "LOPO": 26,
+      "all_False": 19,
+      "n": 28
+    }
+  },
+  "label_rule": "robust iff relative_accuracy_decay < 0.5",
+  "rule_check": {
+    "count_ratio_rule_mismatches": 10,
+    "decay_rule_mismatches": 0,
+    "val_rows": 28
+  },
+  "sample_full_pairlevel": {
+    "pairs": 70,
+    "robust": 65,
+    "robust_frac": 0.9286
+  },
+  "sample_full_rowlevel": {
+    "paraphrase_rows_excluded": 10,
+    "per_model": {
+      "Qwen/Qwen3.5-397B-A17B-FP8:low": "53/64",
+      "gemini-3.1-pro-preview:low": "109/114",
+      "gpt-5.2-2025-12-11:low": "99/114",
+      "gpt-oss-120b:low": "49/64",
+      "huikang-gpt-oss-120b-aimo3:low": "62/64",
+      "lukealonso/GLM-5.1-NVFP4:low": "57/64",
+      "qwen3-8b:low": "60/64"
+    },
+    "per_type": {
+      "distract": "82/90",
+      "domain": "79/90",
+      "expert_no_solution": "38/49",
+      "expert_perturbations": "46/49",
+      "rename": "80/90",
+      "rephrase": "83/90",
+      "typos": "81/90"
+    },
+    "robust_all": "489/548",
+    "robust_base_ge_0.6": "370/402",
+    "robust_base_solved": "238/246",
+    "robust_frac_all": 0.8923,
+    "robust_frac_base_ge_0.6": 0.9204,
+    "robust_frac_base_solved": 0.9675,
+    "rows_low": 548
+  },
+  "val_sample": {
+    "aggregated_robust": 9,
+    "aggregated_rows": 9,
+    "robust": 9,
+    "robust_frac": 0.3214,
+    "rows": 28,
+    "single_type_nonrobust": 19,
+    "single_type_rows": 19
+  }
+}

@@ -120,6 +120,24 @@ Nothing here bears on RH. Doc: `docs/33`.
 ### Hunt #72: AIMO Interpretability 2026 baseline reproduction and structure-matched robustness signal (`r_662b12/`)
 
 **Status: baseline retained, intervention rejected after independent audit.** The public sample has 28 cases, 19 non-robust and 9 robust, so the all-False baseline is 67.86% (19/28) with full coverage and no invalid outputs. The reported 92.86% intervention is an in-sample score for a model-name rule chosen after inspecting those same labels. Its LOOCV, leave-one-problem-out and five-fold loops never fit or select the rule inside training folds, so they provide no generalization evidence. The scrambled-text surrogate retains the same 92.86%, refuting the claimed mathematical-structure interpretation. Prize disposition: **NO-GO on this hunt's evidence.** The original run record is preserved; `hunts/r_662b12/AUDIT.md` carries the correction. Nothing here bears on RH (`docs/08`).
+### Hunt AIMO-2 (#77): legal AIMO Interpretability submission + validation-design report (`aimo2/`)
+
+**Status: report-ready; leaderboard-method arm killed at a free gate; no GPU spent.**
+Successor to Hunt #72 (`r_662b12`), whose +25pp claim was withdrawn. Finding: the
+28-row public development sample (`val-sample`) is 32.1% robust, while the identical
+organizer label rule on the 558-row `sample-full` is 89-97% robust, so the development
+sample inverts the natural class balance by construction (19 single-worst-perturbation
+failures vs 9 all-perturbation aggregates that never fail). The apparent model-identity
+signal scores 26/28 under leave-problem-out but collapses to the constant (19/28) under
+leave-model-out and never beats the constant on the natural distribution. The official
+ingestion+scoring path was replayed at starter commit e46be92 (reproducing always-false
+0.6786, and exposing an importer/ingestion schema-mismatch defect in the pinned starter).
+A preregistered free gate killed the Small-track learned method for $0: the public 8B
+model is robust on 10/10 public problems, so no leakage-free method beats the constant
+out of fold. Deliverables: `REPORT.md` (the $5,000-pool technical report), a frozen
+`PREREGISTRATION.md`, and three legal constant submissions. Number #77 is provisional; if
+a parallel session took it, renumber. Nothing here bears on RH (docs/08).
+
 ### Hunt #71: Krenn-Gu 8x3: port the verified 6x3 orbit census and measure the next exact frontier (`r_322dae/`)
 
 **Status: settled.** The 6x3 baseline checksum reproduces 15 matchings, 3375 triples, and 8 S6 x S3 orbits with exact sizes [15, 90, 120, 270, 360, 360, 1080, 1080]. For the 8x3 frontier (105 matchings, 1157625 triples), the direct product group S8 x S3 (order 241920) partitions the triple space into exactly 31 disjoint orbits, confirmed both by constructive partition and Burnside fixed-point evaluation. Quotienting by the wreath-product stabilizer of a fixed matching H = S2 wr S4 (order 384) partitions the 11025 pairs into 86 orbits (57 orbits under H x S2).
