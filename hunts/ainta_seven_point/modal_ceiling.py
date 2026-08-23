@@ -12,7 +12,8 @@
                    grid-scaled constants) at the two targets that bracketed the floor
                    at grid 4000. Tests whether the refusal at 0.0038263 is the grid's.
 
-Run:  ~/Zeta/.venv/bin/modal run hunts/ainta_seven_point/modal_ceiling.py
+Run:  source <(hunts/ainta_seven_point/fetch_upstream.sh)
+      ~/Zeta/.venv/bin/modal run hunts/ainta_seven_point/modal_ceiling.py
 """
 from __future__ import annotations
 
@@ -26,8 +27,9 @@ import time
 import modal
 
 ZSZ_SRC = os.environ.get(
-    "ZSZ_SRC", os.path.expanduser("<local-upstream-src>")
-)
+    "ZSZ_SRC",
+    os.path.join(os.path.dirname(os.path.abspath(__file__)), ".upstream", "zeta-simple-zeros", "src", "zeta_simple_zeros"),
+)  # populate with: source <(hunts/ainta_seven_point/fetch_upstream.sh)
 
 image = (
     modal.Image.debian_slim(python_version="3.12")

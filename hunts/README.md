@@ -84,7 +84,8 @@ floor bracketed (`RESULTS.md`); the bridge mapped, verdict one substantial
 analytic bridge (`TRUST-MAP.md`).** Two outside groups (Ainta, and Gohms in
 issue #1 on that repository) are hill-climbing one finite inequality `F6 >= c`
 that refines Anthropic's unconditional 0.6725007 simple-zero constant. Neither
-has a human reviewer or a Lean line.
+has a human reviewer or a Lean line; both are computer-assisted results at the
+same standard of evidence as the one this hunt adds.
 
 *Certificates.* Ainta's `19/5000` and Gohms's `191/50000` reproduce field for
 field on the pinned commit; one secondary table hash differs with no effect on
