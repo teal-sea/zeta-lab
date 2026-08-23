@@ -27,7 +27,7 @@ set_option linter.unusedSectionVars false
 
 open Matrix Finset RHLinalg Filter
 open scoped ComplexOrder BigOperators
-open Zeta23 Zeta23.ZeroSide
+open Zeta23 Zeta23.ZeroSide Zeta23.ThmD
 
 namespace Zeta23Ext.Bridge
 
@@ -282,17 +282,86 @@ section Analytic
 
 open Classical
 
-/-- **S15, the Riemann–von Mangoldt input** ([A] §5: `x_{S°} − x_1 ≤ T/h = LT/2π = d + O(1)
-= N(T,2T) + o(N(T,2T))`).
+/-- Every retained ordinate lies in `[L², d − L²]`, so the span of the retained zeros is at most
+`d`. -/
+lemma spanOf_xret_le_d (Z : ZeroConfig) (P : Params) (T : ℝ) :
+    spanOf (xret Z P T) univ ≤ (P.d T : ℝ) := by
+  have hb : ∀ z : retained Z P T,
+      P.L T ^ 2 ≤ xret Z P T z ∧ xret Z P T z ≤ (P.d T : ℝ) - P.L T ^ 2 :=
+    fun z => (Finset.mem_filter.mp z.2).2
+  unfold spanOf
+  split_ifs with h
+  · have h1 : (univ : Finset (retained Z P T)).sup' h (xret Z P T) ≤ (P.d T : ℝ) - P.L T ^ 2 :=
+      sup'_le _ _ fun z _ => (hb z).2
+    have h2 : P.L T ^ 2 ≤ (univ : Finset (retained Z P T)).inf' h (xret Z P T) :=
+      le_inf' _ _ fun z _ => (hb z).1
+    have : 0 ≤ P.L T ^ 2 := sq_nonneg _
+    linarith
+  · exact Nat.cast_nonneg _
 
-Residual goal (HANDWRITTEN, small; RvM itself is `H.RvM.main`, S0): every retained zero has
-`T < γ ≤ 2T`, so `0 < x_ρ ≤ LT/2π`; at `λ = 1`, `L = l(T) = ℓ₁(T) − 2 log 2 + 1`, so
-`LT/2π = T ℓ₁/2π + (1 − 2 log 2) T/2π ≤ N(T,2T) + C log T` by `RvM.main`, and `C log T ≤ ε N`
-eventually (`tendsto_N_atTop`). -/
+/-- **S15, the Riemann–von Mangoldt input** ([A] §5: `x_{S°} − x_1 ≤ T/h = LT/2π = d + O(1)
+= N(T,2T) + o(N(T,2T))`).  PROVED (bridge/finite): `span ≤ d ≤ LT/2π ≤ (T/2π) ℓ₁(T)` (the
+`λ = 1` window has `L = l ≤ ℓ₁`), and `(T/2π) ℓ₁ ≤ N + C log T` by `H.RvM.main`, with
+`C log T ≤ ε N` eventually because `log T = o(T)` (`Real.isLittleO_log_id_atTop`) and `ℓ₁ → ∞`. -/
 theorem span_retained_le (Z : ZeroConfig) (H : PaperInputs Z) :
     ∀ ε > 0, ∀ᶠ T in atTop,
       spanOf (xret Z (mtParams T) T) univ ≤ (1 + ε) * (Z.N T (2 * T) : ℝ) := by
-  sorry
+  intro ε hε
+  obtain ⟨C, T₀, hRvM⟩ := H.RvM.main
+  have hV : (paramsOf stdProfile 1).Valid := paramsOf_valid taperProfile_stdProfile one_pos le_rfl
+  have hLpos : ∀ᶠ T in atTop, 0 < (mtParams T).L T := (tendsto_L hV).eventually_gt_atTop 0
+  set K : ℝ := max ((1 + ε) * C / ε) 0 with hK
+  have hK0 : 0 ≤ K := le_max_right _ _
+  have hc : (0 : ℝ) < 1 / (2 * Real.pi * (K + 1)) := by positivity
+  have hlogT : ∀ᶠ T in atTop, ‖Real.log T‖ ≤ (1 / (2 * Real.pi * (K + 1))) * ‖id T‖ :=
+    Real.isLittleO_log_id_atTop.def hc
+  have hell : ∀ᶠ T in atTop, 1 ≤ ell1 T := by
+    have h : Tendsto (fun T : ℝ => Real.log (T / (2 * Real.pi))) atTop atTop :=
+      Real.tendsto_log_atTop.comp (tendsto_id.atTop_div_const (by positivity))
+    have h' : Tendsto (fun T : ℝ => Real.log (T / (2 * Real.pi)) + (2 * Real.log 2 - 1))
+        atTop atTop := h.atTop_add tendsto_const_nhds
+    exact (h'.eventually_ge_atTop 1).mono fun T hT => by unfold ell1 l; linarith
+  filter_upwards [eventually_ge_atTop T₀, eventually_ge_atTop (2 * Real.pi), hLpos, hlogT, hell]
+    with T hT₀ h2π hL hlog hel
+  have hpi : 0 < 2 * Real.pi := by positivity
+  have hT0 : 0 < T := lt_of_lt_of_le hpi h2π
+  have hT1 : 1 ≤ T := by linarith [Real.pi_gt_three]
+  have hLg0 : 0 ≤ Real.log T := Real.log_nonneg hT1
+  have hl0 : 0 ≤ l T := Real.log_nonneg (by rw [le_div_iff₀ hpi]; linarith)
+  have hN := abs_le.mp (hRvM T hT₀)
+  -- `d ≤ LT/2π ≤ (T/2π) ℓ₁`
+  have hLle : (mtParams T).L T ≤ l T := by
+    show (paramsOf stdProfile 1).lam * l T ≤ l T
+    exact mul_le_of_le_one_left hl0 hV.lam_le_one
+  have hl_ell : l T ≤ ell1 T := by
+    unfold ell1; linarith [Real.log_two_gt_d9]
+  have hd : ((mtParams T).d T : ℝ) ≤ T / (2 * Real.pi) * ell1 T := by
+    have h0 : 0 ≤ (mtParams T).L T * T / (2 * Real.pi) := by positivity
+    calc ((mtParams T).d T : ℝ) ≤ (mtParams T).L T * T / (2 * Real.pi) := Nat.floor_le h0
+      _ = T / (2 * Real.pi) * (mtParams T).L T := by ring
+      _ ≤ T / (2 * Real.pi) * ell1 T := by gcongr; exact hLle.trans hl_ell
+  -- `K log T ≤ (T/2π) ℓ₁`
+  have hKA : K * Real.log T ≤ T / (2 * Real.pi) * ell1 T := by
+    simp only [Real.norm_eq_abs, id, abs_of_nonneg hLg0, abs_of_pos hT0] at hlog
+    have h1 : K * Real.log T ≤ K * (1 / (2 * Real.pi * (K + 1)) * T) :=
+      mul_le_mul_of_nonneg_left hlog hK0
+    have h2 : K * (1 / (2 * Real.pi * (K + 1)) * T) ≤ T / (2 * Real.pi) := by
+      rw [show K * (1 / (2 * Real.pi * (K + 1)) * T) = T / (2 * Real.pi) * (K / (K + 1)) by
+        field_simp]
+      have : K / (K + 1) ≤ 1 := by rw [div_le_one (by linarith)]; linarith
+      exact mul_le_of_le_one_right (by positivity) this
+    have h3 : T / (2 * Real.pi) ≤ T / (2 * Real.pi) * ell1 T :=
+      le_mul_of_one_le_right (by positivity) hel
+    linarith
+  have h1 : (1 + ε) * C / ε * Real.log T ≤ T / (2 * Real.pi) * ell1 T :=
+    (mul_le_mul_of_nonneg_right (le_max_left _ _) hLg0).trans hKA
+  have h2 : (1 + ε) * C * Real.log T ≤ ε * (T / (2 * Real.pi) * ell1 T) := by
+    have e : (1 + ε) * C * Real.log T = ε * ((1 + ε) * C / ε * Real.log T) := by
+      field_simp
+    rw [e]
+    exact mul_le_mul_of_nonneg_left h1 hε.le
+  calc spanOf (xret Z (mtParams T) T) univ ≤ ((mtParams T).d T : ℝ) := spanOf_xret_le_d Z _ T
+    _ ≤ (1 + ε) * (Z.N T (2 * T) : ℝ) := by nlinarith [hN.1, hN.2, hd, h2]
 
 end Analytic
 
@@ -301,6 +370,7 @@ end Analytic
 #print axioms sum_shift_sub
 #print axioms blockStart_eq_iff
 #print axioms offset_average
+#print axioms spanOf_xret_le_d
 #print axioms span_retained_le
 
 end Zeta23Ext.Bridge
