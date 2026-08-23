@@ -78,8 +78,22 @@ hunt records them as probe outputs that locate the ceiling and does not headline
 Φ(1913/500000, 267) ≈ 0.673025 and the floor caps the family at the same figure to the
 sixth decimal. The interesting number is the gap between them, which is now below 10⁻⁶.
 
-A third probe at 0.0038263, which is 6.9 × 10⁻⁸ *above* the float floor, tests kill
-condition 2 from the other side: the verifier must refuse it. Its outcome is in RUNS.md.
+**And it stops where the float search says it should.** A third probe at 0.0038263,
+6.9 × 10⁻⁸ *above* the float floor, was refused in 121 s at the terminal single-cell box
+`(4184, 7960, 7944, 4166, 7909, 4180)` on the 1/4000 grid: gaps
+(1.046, 1.990, 1.986, 1.042, 1.977, 1.045). That is the configuration the float minimiser
+found, reached independently by the verifier's exhaustive subdivision. Kill condition 2
+did not fire.
+
+So the floor of this functional is bracketed:
+
+    0.003826  ≤  inf F6  <  0.0038263
+
+The lower end is rigorous (an accepted interval certificate). The upper end is not a
+proof, since a refusal at a grid only says the verifier could not prove the target; it
+is the float evaluation at the cell both methods agree on that places the minimum below
+0.0038263. A rigorous upper end would need an Arb enclosure of F6 on a small box around
+the minimiser, which is the cheap next computation and was not done here.
 
 ## 4. The bound formula, and the hole in it
 

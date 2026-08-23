@@ -103,10 +103,10 @@ artifacts:
 id: ainta_seven_point-2026-08-23-probe-above-floor
 hunt: ainta_seven_point
 started: 2026-08-23T01:10-05:00
-finished: see RESULTS.md section 3, appended when the run returned
+finished: 2026-08-23T01:25-05:00
 ran:
   - .venv/bin/python hunts/ainta_seven_point/probe.py 38263 10000000 (target 0.0038263, which is 6.9e-8 above the apparent float floor, 2400 s cap)
-outcome: kill condition 2 test; the verifier must refuse a target above the true minimum, and a refusal at a terminal cell brackets the floor from above at this grid
+outcome: refused in 121 s at the terminal single-cell box (4184, 7960, 7944, 4166, 7909, 4180) on the 1/4000 grid, which is gaps (1.046, 1.990, 1.986, 1.042, 1.977, 1.045), the same configuration the float minimiser found independently; kill condition 2 did not fire, the verifier refuses what the float search says is false, and the two methods agree on the minimiser; a refusal at a grid is not a proof that the target is false, the float evaluation at that cell is what says so
 artifacts:
   - hunts/ainta_seven_point/artifacts/probe-38263-10000000.txt
 ```
