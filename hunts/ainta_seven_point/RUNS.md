@@ -110,3 +110,19 @@ outcome: refused in 121 s at the terminal single-cell box (4184, 7960, 7944, 416
 artifacts:
   - hunts/ainta_seven_point/artifacts/probe-38263-10000000.txt
 ```
+
+```runmanifest
+id: ainta_seven_point-2026-08-23-modal-ceiling
+hunt: ainta_seven_point
+started: 2026-08-23T13:05-05:00
+finished: 2026-08-23T13:09-05:00
+ran:
+  - ~/Zeta/.venv/bin/modal run hunts/ainta_seven_point/modal_ceiling.py (app zeta-hunt77-ceiling, python-flint 0.9.0 on debian-slim py3.12, three job families spawned in parallel)
+  - rigorous_floor at ball radii 1e-9, 1e-6, 1e-4 about the minimiser, Arb 256 bits
+  - n_point_floor for n=7 and n=8 at p=3000, 48 containers each, 60 restarts per container
+  - grid_probe at grid 8000 for targets 1913/500000 and 38263/10000000
+outcome: F6 at the minimiser encloses to 0.0038262312115073 at 256 bits, a rigorous upper bound on inf F6; the seven-point control on 2880 restarts returns the same floor and minimiser; the eight-point analogue at the same pressure has apparent floor 0.0043887 at a perfect 1-2 alternation; at grid 8000 the target 1913/500000 is accepted (898669 nodes, depth 57) and 0.0038263 is refused at the same configuration; whole run 236 s wall
+artifacts:
+  - hunts/ainta_seven_point/modal_ceiling.py
+  - hunts/ainta_seven_point/artifacts/modal-results.json
+```

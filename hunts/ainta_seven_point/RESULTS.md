@@ -85,15 +85,31 @@ sixth decimal. The interesting number is the gap between them, which is now belo
 found, reached independently by the verifier's exhaustive subdivision. Kill condition 2
 did not fire.
 
-So the floor of this functional is bracketed:
+**And the bracket is rigorous on both sides.** Run on Modal (`modal_ceiling.py`,
+`artifacts/modal-results.json`): Arb at 256 bits evaluates F6 at the minimiser as
+`0.0038262312115073`, an enclosure whose two ends agree to the printed digits. The value
+of F6 at any point is an upper bound on its infimum, so:
 
-    0.003826  ≤  inf F6  <  0.0038263
+    0.003826  ≤  inf F6  ≤  0.0038262312115073
 
-The lower end is rigorous (an accepted interval certificate). The upper end is not a
-proof, since a refusal at a grid only says the verifier could not prove the target; it
-is the float evaluation at the cell both methods agree on that places the minimum below
-0.0038263. A rigorous upper end would need an Arb enclosure of F6 on a small box around
-the minimiser, which is the cheap next computation and was not done here.
+Lower end: the accepted interval certificate at `1913/500000`. Upper end: the Arb
+evaluation at the point. Width 2.3 × 10⁻⁷. The float minimiser's last digits
+(`…2114`) and Arb's (`…2115`) differ by rounding at the sixteenth decimal.
+
+**The refusal is not the grid's.** The same two targets rerun with the verifier's grid
+doubled to 8000 and its two grid-scaled constants doubled with it: `1913/500000`
+accepted (898,669 nodes, depth 57, 233 s on Modal); `0.0038263` refused at cell
+`(8368, 15919, 15889, 8333, 15816, 8360)/8000`, the same configuration to four decimals
+at double resolution.
+
+**Eight points, at the same pressure.** The natural analogue `F7` over seven gaps with
+weights `2/(8−s)` and the same `1/3000` linear term has apparent floor **0.0043887**
+(2,880 restarts on Modal), *higher* than the seven-point floor, at the perfect
+alternation (1.044, 1.975, 1.040, 1.972, 1.040, 1.975, 1.044). This does not say eight
+points is worse. It says the pressure `1/3000` is not the right scaling for eight points:
+the linear term and the block size `m` are one parameter, and the map from certificate
+to bound changes with `n`. That is the same hole §4 names, seen from the other side, and
+it is the trust map's first obligation.
 
 ## 4. The bound formula, and the hole in it
 
@@ -116,8 +132,8 @@ obligation for the trust map**. Every ceiling figure in §3 is conditional on it
   analytic bridge (the stability-enhanced rank–trace inequality, the kernel
   approximation, the convex pinching, the sliding-window averaging, the passage to the
   asymptotic count) has not been read here. `TRUST-MAP.md` is the companion deliverable.
-- It does not claim the floor is rigorous. No interval enclosure of the minimum was
-  computed.
+- It does not claim the minimiser is unique or that the floor is attained only there;
+  the bracket on inf F6 is rigorous, the structure reading (kernel zeros) is not.
 - It does not claim novelty for the ceiling. Remark 1.1 bounds the family from above; this
   hunt only locates where one member of the family stops.
 - It did not contact anyone. A reproducibility report for Ainta is drafted for the owner.
