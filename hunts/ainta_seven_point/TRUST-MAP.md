@@ -187,7 +187,9 @@ Room left on the table, from where the published work stands:
 
 That last number is the one worth carrying. Everything this certificate family
 can ever extract, run to exhaustion at the published pressure, is about one
-eighteenth of the room the method's own optimality remark leaves open.
+eighteenth of the room the method's own optimality remark leaves open. Retuning
+the pressure moves it to 0.673027719 and 5.64 percent, and no further: see
+§1.5.
 
 A correction to the number this laboratory has been quoting. `FRONTIER_MAP.md`
 and `MISSION.md` both cite the configuration ceiling as 0.68185, from Remark 1.1.
@@ -223,7 +225,7 @@ that is not distributed. That is a perfectly ordinary arrangement and it is not
 the same thing as an unconditional theorem, which is the distinction this
 document exists to keep.
 
-### 1.5 The third leg: the pressure denominator is not optimal either
+### 1.5 The third leg: the pressure denominator, which turns out to be nearly optimal
 
 `p = 3000` is a tuning constant, not a derived one. It enters the bound twice
 and in opposite directions:
@@ -267,26 +269,49 @@ Phi*(p)  ~  ( H - 6/p ) / ( 1 - c(p) )
 which displays the trade-off in one line: raising `p` buys `6/p` in the
 numerator and pays `c(p)` in the denominator.
 
-**Where the optimum actually sits is OPEN, and this session did not settle it.**
-Locating it needs `c(p)` to a few parts in 1e5 at each `p`, and the float search
-run here failed its own gate: at `p = 3000` four different global-search
-strategies (uniform multistart Nelder-Mead, differential evolution, sample-then-
-polish, and exhaustive seeding from the first four positive zeros of `k`)
-returned floors between 0.003868 and 0.004140, all **above** the
-0.0038262312114228695 that the sibling hunt's 600-restart run reached. The
-minimiser's gap pattern is the reason: the inherited argmin
+Where the optimum sits is a numerical question, and it needed a gate to answer
+honestly. Three global-search strategies (uniform multistart Nelder-Mead,
+differential evolution, sample-then-polish) all failed at `p = 3000`, returning
+floors between 0.003868 and 0.004140 against the known 0.0038262312114228695.
+The reason is the shape of the minimiser: the true argmin
 `(1.046, 1.989, 1.986, 1.042, 1.977, 1.045)` sums to 9.085 and is not
-palindromic, while every basin my searches fell into was symmetric and summed
-near 10.08. A search that cannot recover a known floor cannot be trusted to
-compare floors across `p`, so no table is reported here. Closing this needs a
-minimiser that reproduces 0.0038262312114228695 at `p = 3000` as a gate, then
-one interval run per candidate `p`.
+palindromic, while every basin those searches fell into was symmetric and summed
+near 10.08. What does work is exhaustive seeding: polish all `4^6 = 4096`
+combinations of the first four positive zeros of `k`
+(1.057278, 2.030068, 3.020243, 4.015236), then refine the best thirty basins. At
+`p = 3000` that recovers 0.0038262312113044703 and the inherited argmin to
+1.2e-13, so it is used as the gate and the same method is applied at every `p`.
 
-Two consequences stand regardless. The remaining purse in the seven-point family
-is **not** the 4.1e-6 that a decimal race on `c` alone suggests: it is that plus
-whatever retuning `p` is worth, and the sign of the `p` derivative at 3000 is
-not known. And changing `p` moves the compactification cutoff too (see §5.1),
-since the outer-region argument needs `cutoff >= p * c`.
+INFERRED (float; every `c_p` is an upper bound on the true floor, so every
+`Phi*` is optimistic by an unknown amount, and the grid is coarse):
+
+| p | c_p | sum of gaps | m\* | Phi\* |
+|---|---|---|---|---|
+| 2000 | 0.00534036715012 | 9.0844 | 193 | 0.672998574783 |
+| 2400 | 0.00458331753466 | 9.0848 | 224 | 0.673013876508 |
+| 2800 | 0.00404254533650 | 9.0851 | 253 | 0.673022517266 |
+| **3000** | **0.00382623121130** | **9.0853** | **267** | **0.673025476838** |
+| **3200** | **0.00363695389206** | **9.0854** | **280** | **0.673027718658** |
+| 3600 | 0.00330800880647 | 10.0836 | 308 | 0.673022441702 |
+| 4200 | 0.00290786192489 | 10.0838 | 349 | 0.672999570882 |
+| 5000 | 0.00252371153573 | 10.0841 | 402 | 0.672976738672 |
+
+The curve is unimodal with its peak near `p = 3200`, and **the published 3000 is
+very nearly at it**. Whatever process picked 3000 picked well, whether or not it
+was searched. Retuning to the peak is worth 2.24e-6 on top of the `p = 3000`
+ceiling, so the family's reach becomes
+
+- 0.673027719 at `p ~ 3200`, against 0.673025477 at `p = 3000`
+- 6.36e-6 above the Gohms claim, and 1.92e-5 above Ainta's
+- 5.64 percent of the room under the configuration ceiling, against 5.61
+
+So the answer to the coupling question is a mild negative result, which is the
+useful kind here: **the third leg is nearly exhausted already**. The remaining
+purse in this family is about 6.4e-6 in the bound, not the 4.1e-6 a pure decimal
+race would suggest and not the order of magnitude a badly tuned pressure would
+have left. And it is not free: each candidate `p` changes the target, the
+one-body pruning and the compactification cutoff (see §5.1, which needs
+`cutoff >= p * c`), so it costs a fresh interval run per point.
 
 ## 2. The step table
 
@@ -377,13 +402,26 @@ analysis and carry a new nonnegative term through it uniformly. S8 needs the
 tail estimate (`[L23] Zeta23/Tail.lean:450`, `prop_tail`, LEAN-BACKED) and the
 trace asymptotics (`[L23] Zeta23/FinalMult.lean:76`, `moments_of_traces`,
 LEAN-BACKED) to compose with a defect term that `[L23]`'s seam files do not
-carry. S9 needs something `[L23]` does not contain at all: the limiting overlap
-kernel `k`. `[L23]` has the exact full-grid Poisson identity
-(`Zeta23/Poisson.lean:347`, `hasSum_phiHatR_mul`, LEAN-BACKED, which is the
-`‖v_ρ‖ <= 1` input) but nothing that evaluates the `T -> oo` limit of a single
-overlap, and the uniformity in `T` over pairs at bounded normalised separation
-is the whole content. Without S9 the seven-point functional is a statement about
-a kernel nobody has connected to the Gram entries.
+carry.
+
+S9 is the harder of the two, and its status wants stating precisely rather than
+as "missing". `[L23]` has more of the surrounding material than one expects: the
+exact full-grid Poisson identity (`Zeta23/Poisson.lean:347`, `hasSum_phiHatR_mul`,
+which is the `‖v_ρ‖ <= 1` input), the finite-`L` transform `PhiR` of the squared
+window (`Zeta23/Defs.lean:241`, `Taper/Basic.lean:90`), the Montgomery-Taylor
+profile itself as `vStar lam s = cos(sqrt 2 * lam * s)`
+(`Zeta23/ThmD/Functional.lean:32`), and a closed-form evaluation of the cosine
+window's autocorrelation (`Zeta23/ThmD/Window.lean:1211,1217`, `Cfun` and
+`integral_cos_overlap`). What it does not have is Ainta's `k(x) = K(x)/K(0)`,
+the `L -> oo` limit of `PhiR(hx)/(aL)`, nor any statement that a single Gram
+entry converges to it. And the limit alone would not be enough: the content of
+S9 is that the convergence is **uniform in `T`** over all retained pairs at
+bounded normalised separation, after deleting strips of normalised width `L^2`
+at both grid ends. That uniformity is what licenses replacing `2 sum |G_ij|^2`
+by `E_m + o(1)` inside a block of fixed size, which is the only place the
+seven-point functional touches the actual zeros. Without S9 the whole
+seven-point apparatus is a true statement about a kernel that nobody has
+connected to zeta.
 
 **S10 as Lean is a scale problem, not a novelty problem.** `[L23]` already
 ingests an externally computed grid of rational enclosures and re-checks it in
