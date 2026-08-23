@@ -115,6 +115,43 @@ configuration ceiling as 0.68185, a decimal in a remark with no proof
 attached, where the Lean development proves 0.6818286874638. Nothing here
 bears on RH (`docs/08`).
 
+**Second half, 2026-08-23: the Aristotle probe (`ARISTOTLE-PROBE.md`).** The map's
+S2, the stability rank-trace lemma, was stated in Lean and proved, zero `sorry`s,
+standard axioms only, in
+`hunts/frontier_math/zeta23ext/Zeta23Ext/StableRankTrace.lean`. **No Aristotle
+project was opened, because nothing remained to send.** The finding is a correction
+to the map: S2 is *not* new relative to the Lean development the map chose as its
+vocabulary. Ainta's profile `Psi` is that development's own `gc 2` shifted by one
+(`Psi = gc 2 + 1`, the shift being exactly `Psi 0 = 1`, which is the bookkeeping that
+trades a rank count for `Fintype.card r`), the sharpened scalar estimate the map
+expected to need is already `sq_sub_ge_gc`, the spectral transfer is already
+`sum_eigenvalues_comm`, and the theorem falls out as a corollary of
+`Zeta23.ZeroSide.RankTraceMult.rank_trace_mult` at `c = 2` evaluated at the
+eigenbasis presentation of `V Vᴴ`. The map is not guilty of a missed search: `TRUST-MAP.md:382`
+already cites `RankTraceMult.lean:281`, `lemmaR_tight` and `gc`. It filed that defect
+term as *"a different one"*, spectral versus per-zero, and that reading is the actual
+gap: `rank_trace_mult` is quantified over presentations of `P`, and at the eigenbasis
+presentation its per-zero defect *is* the spectral one. `Psi` was also never matched to
+`gc 2`, so §4 named `RankTrace.lean:52-56` for a scalar estimate that `RankTraceMult`
+already proves. Its step table records the contrast; its section 4 then states the obligation as if it did not apply. Two
+things the formal state exposed that the map's transcription hides: the
+rank hypothesis is removable, so a sharp form holds with **no** hypothesis on `V`
+at all, and the column bound `hV` is load-bearing for exactly one inequality,
+`tr(V Vᴴ) <= card r`, worth a mean of 6.05 of discarded slack on random draws. The
+sharp form is measured to be an *equality* on the family upstream proves extremal
+for Lemma R (400 instances, slack 1.07e-14; float grade). A third Palomar entry is
+**not** recommended: a bridging corollary of an existing public Lean theorem does
+not clear that registry's notability floor. S2 remains one step of sixteen; S8 and
+S9 are untouched and nothing here bears on RH. **A second finding fell out of running
+the handoff's first instruction:** `hunts/frontier_math/zeta23ext` does not assemble on
+`main` at `36c6070`. `assemble.sh` reports three failing targets,
+`Zeta23Ext.RetentionWired`, `Zeta23Ext.EForm2.Bridge` and `Zeta23Ext.TruncEst.Kernel`,
+with `Retention.margin_identity` picking up `sorryAx` as a consequence. It is not the
+dependency store (mathlib rev matches the pin), not the `Zeta23` dependency (none of the
+three imports it) and not this branch (the failing build predates the new module). The
+new module builds standalone and is unaffected; no claim is made here that the package
+assembles. Recorded as issue #101, not fixed here.
+
 ### Hunt #76: the Riemann zeros in tuning units (`zeta_temperament/`)
 
 **Status: closed, verdict INTERESTING STRUCTURE, classical in substance.**

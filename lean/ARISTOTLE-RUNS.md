@@ -388,3 +388,34 @@ This batch completed the development.  `pub1_strong_closure` and
 
 Prompts are pinned in the private operating repo at
 `fulcrum/records/aristotle-prompts/pub1/`.
+
+## Batch 11 (not opened): S2, the stability rank-trace lemma (2026-08-23)
+
+**No project was created and no API call was made.** The entry exists because the
+ledger's job is to let a later session find out what happened, and "nothing was
+sent" is a thing that happened.
+
+The formal-native probe of `hunts/ainta_seven_point/ARISTOTLE-PROBE.md` was
+authorised to send three bounded variants of Ainta's S2 (the scalar lemma alone,
+the full theorem, the theorem with the scalar lemma as a hypothesis) under the
+handoff's rule that *only what remains* goes to the service. After the local pass
+nothing remained: the full theorem builds with zero `sorry`s and standard axioms
+only, in `hunts/frontier_math/zeta23ext/Zeta23Ext/StableRankTrace.lean`, and the
+scalar lemma turned out to be an existing upstream theorem
+(`Zeta23.ZeroSide.RankTraceMult.sq_sub_ge_gc`).
+
+| tag | project | statement | status |
+| --- | --- | --- | --- |
+| S2-scalar | none | `(p - n)^2 + 4n >= 2p - 1 + Psi p` for `p, n >= 0` | not sent: already upstream as `sq_sub_ge_gc` |
+| S2-full | none | `stable_rank_trace` (trust map form) | not sent: proved locally before a residual existed |
+| S2-hyp | none | the same with the scalar lemma as a hypothesis | not sent: weaker variant of a closed target |
+
+**A calibration project the operator may want, and the reason it was not opened
+here.** The interesting unasked question is whether the service searches the
+ambient library rather than reproving from scratch. Hand it
+`stable_rank_trace_sharp` cold, with `Zeta23` importable and with no mention of
+`rank_trace_mult`, `gc` or `sum_eigenvalues_comm` in the prompt, and measure
+whether it finds the four-line corollary route or reinvents the fifty-line
+skeleton. Ground truth is now known exactly, which is the only reason the
+measurement would be worth anything. It is a measurement about the tool, so it is
+an allocation call and not this pursuit's to make.

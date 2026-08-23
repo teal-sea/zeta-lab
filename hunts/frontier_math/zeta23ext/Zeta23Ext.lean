@@ -6,6 +6,7 @@ import Zeta23Ext.RetentionWired
 import Zeta23Ext.FloorCert
 import Zeta23Ext.BandCert.Main
 import Zeta23Ext.PairEnergy
+import Zeta23Ext.StableRankTrace
 import Zeta23Ext.EForm.Main
 import Zeta23Ext.EForm2.Main
 import Zeta23Ext.EForm3.Main
