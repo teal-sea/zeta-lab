@@ -1,6 +1,8 @@
 # 33. Pitch classes against the colour wheel
 
-**Hunt #75 (`hunts/chroma_hue/`). Verdict: PRETTY BUT TRIVIAL.** The whole
+**Hunt #75 (`hunts/chroma_hue/`). Verdict: PRETTY BUT TRIVIAL for the
+note-to-hue question; the reformulation in section 9 is the one worth
+keeping.** The whole
 correspondence reduces to one statement: a note-to-hue bijection can carry
 exactly one piece of structure, the choice of a character of Z_12, and Z_12
 has two injective characters up to symmetry, chromatic and fifths. Everything
@@ -238,6 +240,99 @@ in substance if not in this exact form:
   "circle of fifths for colour", which would close the analogy from the
   colour side as E1 closes it from the music side.
 
+## 9. Round two: the cyclotomic ontology, and the paths first skipped
+
+The operator pushed back on the first verdict and asked for bolder
+reformulation. Four skipped paths were run (`probe_round2.py`,
+`probe_cyclotomic.py`); one of them changed the language.
+
+**R1. Metamerism.** If the eye is a linear projector, chords with equal
+Fourier coefficient are metamers. Over all 4096 subsets, the chromatic wheel
+distinguishes 1763 (cardinality, colour) pairs, the fifths wheel 1763, the
+six-hue wheel k = 2 347, k = 3 175, k = 4 125, k = 6 49, and the full DFT all
+4096. **The two injective wheels together also distinguish exactly 1763.**
+The fifths wheel carries no information the chromatic wheel lacks. The
+largest metamer class is the 24 grey hexachords (three tritone pairs, or two
+augmented triads).
+
+**R2. Why: the two wheels are Galois conjugates.** Write a chord as the
+cyclotomic integer a(S) = sum_{x in S} zeta^x in Z[zeta_12], zeta =
+e^{2 pi i/12}. Then f_k(S) is the image of a(S) under zeta -> zeta^k, and for
+k a unit mod 12 that is an element of Gal(Q(zeta_12)/Q) = (Z/12)^x. So
+**a colour wheel is a complex place of the cyclotomic field Q(zeta_12), and
+chromatic versus fifths is the Galois group modulo complex conjugation.**
+Q(zeta_12) has degree phi(12) = 4, hence two complex places, hence two
+wheels; the largest n with [Q(zeta_n):Q] = 4 is 12 (F5); the collapsed
+wheels k = 2, 4, 3, 6 are the places of the subfields Q(omega), Q(omega),
+Q(i), Q; the tritone is complementary because zeta^6 = -1 in every place
+(F4); transposition is multiplication by the unit zeta^c; inversion is
+complex conjugation. Checked: f_5(S) = sigma_5(f_1(S)) for all 4096 subsets.
+Every result of sections 2 and 3 is a sentence in this language.
+
+**R3. The prediction it makes: chromatic saturation times fifths saturation
+is a rational integer.** |f_1(S)|^2 |f_5(S)|^2 = N(a(S)), the field norm
+from Q(zeta_12) to Q of an algebraic integer, so it is a non-negative integer
+for every chord. In interval-vector terms, with iv_d the number of pairs at
+interval class d,
+
+    |f_1|^2 = a + b sqrt(3),  |f_5|^2 = a - b sqrt(3),
+    a = |S| + iv_2 - iv_4 - 2 iv_6,  b = iv_1 - iv_5,  N = a^2 - 3 b^2.
+
+Checked for all 4096 subsets. Consequences, enumerated over the 224 set
+classes under D_12: only **ten** norms occur, {0, 1, 4, 9, 13, 16, 25, 36,
+37, 64}; 18 classes are grey (N = 0, the sets with f_1 = 0); **84 classes are
+units** (N = 1), among them the major and minor triads, the diminished triad,
+the pentatonic and the diatonic scale, the semitone and the major third.
+Units are the classes with (a, b) in {(1, 0), (2, 1), (7, 4)} up to sign, so
+a unit chord either has iv_1 = iv_5 and a = 1, or one more semitone than
+fifth (or the reverse) and a = 2. The invariant is coarse: the interval
+vector takes 200 values on the 224 classes, the norm ten, and nine norm
+values are shared by different interval vectors. The pair (|f_1|^2, |f_5|^2)
+lies on the hyperbola xy = N (`figures/chroma_hue_norm.png`): a chord vivid
+under one wheel is dull under the other unless its norm is large, and the
+pentatonic (0.07 against 13.9) is the extreme case with N = 1.
+
+So "the major triad is a unit of Z[zeta_12]" is true and not special; 37
+percent of set classes are. The honest grade: a derivable fact, checked by
+enumeration, whose knownness was searched once (section 8) without finding
+the norm stated as a chord invariant; Amiot's book places the coefficients
+in cyclotomic fields and Z-related sets share the norm trivially (same
+interval vector), so the framing is probably folklore to the DFT school.
+
+**R4. Orbifold radius against chroma.** Tymoczko's voice-leading distance
+from a chord to the nearest perfectly even chord of its cardinality, against
+|f_1| (chroma under the chromatic wheel): Spearman 0.955 for trichords,
+0.913 for tetrachords, 0.917 for hexachords, and in no cardinality is |f_1|
+a function of the radius (two to six distinct values per radius). Tymoczko
+2008 ("Set-class similarity, voice leading, and the Fourier transform")
+already makes this connection; this is a rediscovery with numbers.
+
+**R5. The torus: two collapsed wheels at once.** Z_12 = Z_3 x Z_4 by the
+Chinese remainder theorem, so the k = 4 wheel (three values, the augmented
+cosets) and the k = 3 wheel (four hues, the diminished-seventh cosets) are
+jointly injective. That embeds Z_12 in a torus, which is the neo-Riemannian
+Tonnetz rather than a circle, and it is the one note-to-colour code in
+which the four opponent unique hues get a job (hue = dim-7 coset, lightness
+= augmented coset). The 24 major and minor triads get 24 distinct codes.
+Pretty; no theorem.
+
+**R6. Real perceptual geometry.** Replacing the cyclic metric by the measured
+CIEDE2000 matrix of a perceptual wheel (OKLCH fixed chroma, and HSL) and
+searching bijections again (hill climb with 40 restarts, 100,000-map null):
+fifths remains best on five of six (wheel, measure) pairs; on HSL with
+Sethares a non-affine map gains 0.018 (0.506 against 0.488), below the
+null's standard deviation of 0.134. And a small theorem fell out: for any
+affine wheel and *any* distance matrix on the hues, every transposition-
+invariant objective is invariant under hue rotation, because each hue pair
+is paired with a function of its hue difference. Rotating the wheel does
+nothing even when the wheel is irregular.
+
+**Verdict after round two.** Unchanged for the question as posed. The better
+question is R2: a colour wheel is a complex place of Q(zeta_12), which turns
+the note-to-colour story into the arithmetic of Z[zeta_12] and produces one
+integer invariant (R3) that is true, cheap, and coarse. Not a pursuit; a
+paragraph worth keeping.
+
 ## 8. What was searched
 
 The knownness check is partial. Consulted from memory and confirmed by one
@@ -258,7 +353,10 @@ Shirley 2013 for the CMF fit) are used as published and pinned by tests.
 .venv/bin/python hunts/chroma_hue/probe_perceptual.py
 .venv/bin/python hunts/chroma_hue/probe_spectrum.py
 .venv/bin/python hunts/chroma_hue/probe_fourier.py
+.venv/bin/python hunts/chroma_hue/probe_round2.py      # ~3 min
+.venv/bin/python hunts/chroma_hue/probe_cyclotomic.py
 .venv/bin/python hunts/chroma_hue/make_figures.py
+.venv/bin/python hunts/chroma_hue/make_figure_norm.py
 .venv/bin/python -m pytest -q tests/test_chroma_hue.py
 ```
 
@@ -266,4 +364,5 @@ Figures: `figures/chroma_hue_wheels.png` (Z_12 painted by its six
 characters), `chroma_hue_consonance.png` (the exhaustive score distribution
 with fifths and chromatic marked), `chroma_hue_perceptual.png` (the HSL hues
 in the OKLab plane, and the spectral octave), `chroma_hue_spectrum.png`
-(MDS eigenvalue by Fourier mode, three measures).
+(MDS eigenvalue by Fourier mode, three measures), `chroma_hue_norm.png`
+(the 224 set classes on ten hyperbolas xy = N).

@@ -208,3 +208,83 @@ def test_the_visible_band_is_one_octave_but_hue_is_not_a_circle_of_frequency():
     assert 260 < s["spectral_hue_range_deg"] < 290
     assert s["non_spectral_purple_arc_deg"] > 70
     assert s["hue_step_max_over_min_abs"] > 20
+
+
+# --- round two: the cyclotomic ontology and the paths first skipped ---------
+
+
+def _cyclotomic_data():
+    import itertools
+
+    zeta = np.exp(2j * np.pi / 12)
+    rows = []
+    for d in range(13):
+        for S in itertools.combinations(range(12), d):
+            z = pc.dft(S)
+            iv = [0] * 7
+            for a, b in itertools.combinations(S, 2):
+                iv[pc.ic(a - b)] += 1
+            rows.append((S, z, iv, sum(zeta ** (-5 * x) for x in S)))
+    return rows
+
+
+def test_fifths_wheel_is_the_galois_conjugate_of_the_chromatic_wheel():
+    """f_5(S) = sigma_5(f_1(S)) for every subset: the two injective wheels are
+    the two complex places of Q(zeta_12) and carry the same information."""
+    for S, z, iv, sigma5 in _cyclotomic_data():
+        assert abs(z[5] - sigma5) < 1e-9
+
+
+def test_chromatic_times_fifths_saturation_is_a_rational_integer():
+    """|f_1|^2 |f_5|^2 is the field norm, hence an integer, and equals
+    (|S| + iv2 - iv4 - 2 iv6)^2 - 3 (iv1 - iv5)^2 in interval-vector terms."""
+    seen = set()
+    for S, z, iv, _ in _cyclotomic_data():
+        norm = abs(z[1]) ** 2 * abs(z[5]) ** 2
+        assert abs(norm - round(norm)) < 1e-7
+        pred = (len(S) + iv[2] - iv[4] - 2 * iv[6]) ** 2 - 3 * (iv[1] - iv[5]) ** 2
+        assert abs(norm - pred) < 1e-7
+        seen.add(int(round(norm)))
+    assert seen == {0, 1, 4, 9, 13, 16, 25, 36, 37, 64}
+
+
+def test_units_are_common_major_triad_included():
+    """84 of the 224 set classes have norm 1; the major and minor triads,
+    the diminished triad and the pentatonic among them. A unit is not rare."""
+    r = _results("cyclotomic")
+    assert r["set_classes"] == 224
+    assert r["norm_distribution_over_set_classes"]["1"] == 84
+    assert r["named_chords"]["minor triad"]["norm"] == 1
+    assert r["named_chords"]["pentatonic"]["norm"] == 1
+    assert r["named_chords"]["augmented"]["norm"] == 0
+    assert r["distinct_norms"] == 10
+    assert r["distinct_interval_vectors"] == 200
+
+
+def test_metamerism_counts_and_galois_redundancy():
+    r = _results("round2")["metamerism"]
+    assert r["subsets"] == 4096
+    assert r["wheel_1"] == 1763 and r["wheel_5"] == 1763
+    assert r["wheels_1_and_5_together"] == 1763  # the fifths wheel adds nothing
+    assert r["full_dft_distinct"] == 4096
+    assert r["wheel_6"] == 49
+    assert r["largest_metamer_class_wheel_5"]["size"] == 24
+
+
+def test_chroma_tracks_orbifold_radius_but_is_not_a_function_of_it():
+    r = _results("round2")["orbifold"]
+    for d in ("card_3", "card_4", "card_6"):
+        assert r[d]["spearman_radius_vs_f1"] > 0.9
+        assert not r[d]["function_of_radius"]
+
+
+def test_perceptual_geometry_does_not_rescue_a_non_affine_wheel():
+    """With real CIEDE2000 geometry in place of the cyclic metric, every
+    rotation of an affine wheel scores the same (provably, for any distance
+    matrix), and a hill climb over non-affine maps gains at most 0.02."""
+    r = _results("round2")["perceptual_search"]
+    for wheel in r.values():
+        for m in wheel.values():
+            assert m["fifths_any_rotation_max"] == pytest.approx(m["fifths_rotation_min"], abs=1e-9)
+            assert m["hill_climb_best"] - m["best_affine"] < 0.02
+            assert m["null_max"] < m["best_affine"]

@@ -94,7 +94,12 @@ light frequency across the visible octave give hue steps of 1 to 72 degrees
 per semitone and cover about 275 of 360 degrees. The one formulation where
 colour adds anything: the eye mixes linearly, so the colour of a chord under
 wheel k is its k-th Fourier coefficient, and maximal evenness (Clough-Douthett,
-Amiot) reads as saturation. Nothing here bears on RH. Doc: `docs/33`.
+Amiot) reads as saturation. Round two reformulated: a colour wheel is a
+complex place of Q(zeta_12), the fifths wheel is the Galois conjugate of the
+chromatic one (together they distinguish exactly the 1763 chord colours
+either does alone), and chromatic times fifths saturation is the field norm,
+an integer taking ten values on the 224 set classes, with 84 classes units.
+Nothing here bears on RH. Doc: `docs/33`.
 
 ### Hunt #72: AIMO Interpretability 2026 baseline reproduction and structure-matched robustness signal (`r_662b12/`)
 
