@@ -162,8 +162,44 @@ accepted at grid 4000 (1,112,733 nodes, depth 57) and grid 8000 (1,114,059 nodes
 1.9 × 10⁻⁶ above the `p = 3200` figure and 7.9 × 10⁻⁶ above Gohms. The sweep also shows the
 family's reach grows with the point count, about 2 × 10⁻⁵ per added point at its own optimal
 pressure (eight points ≈ 0.673054, nine ≈ 0.673071, float floors, optimistic), with the same
-1-2-2-1 minimiser structure at every `n`. The eight-point case is being verified with a
-generalised verifier; see `RUNS.md`.
+1-2-2-1 minimiser structure at every `n`. 
+**Eight points, verified.** A generalisation of the published verifier to `n` points
+(`verify_n.py`, in the upstream clone; `modal_verify_n.py` here), with the pressure cutoff
+derived from the target rather than hardcoded, was validated first: forced to the
+original cutoff at `n = 7` it reproduces Ainta's run bit for bit (707,901 nodes, 93,735
+tangent prunes, both table hashes), and at `n = 3` it agrees with a brute-force scan. Then
+at eight points, pressure 3200, grid 4000, sharded 64 ways on Modal
+(`artifacts/verify-n8-41763-10000000-p3200.json`):
+
+| target | outcome | shards | nodes | wall |
+|---|---|---|---|---|
+| 41763/10⁷ = 0.0041763 | **accepted** | 64/64 | 6,504,134 | 2,699 s |
+| 417742/10⁸ = 0.00417742 | undecided (one shard at its node cap) | 63/64 | | |
+
+The minimiser is the palindrome (1.046, 1.989, 1.987, 1.042, 1.987, 1.989, 1.046), the
+seven-point structure extended by one more 2. Arb at the argmin gives the upper end, so
+
+    0.0041763  ≤  inf F₇  ≤  0.0041773221
+
+With `m` capped at 246 by `c(m−7) ≤ 1`, the stated `n`-point bound gives
+
+    liminf N_0^s(T,2T) / N(T,2T)  >=  0.673052983        (n = 8)
+
+2.3 × 10⁻⁵ above the best seven-point figure. **What is different about this one.** For seven
+points Ainta's paper supplies the argument from certificate to percentage. For eight
+points no paper exists: the bound uses this hunt's line-by-line generalisation of that
+argument (`Φₙ(c,m,p) = (H − (n−1)(m−1)/(pm)) / (1 − c(m−(n−1))/m)`, windows of `n`
+consecutive zeros, `m−(n−1)` windows per block, each gap charged at most `n−1` times, the
+cap from `A₀ = c(m−(n−1)) ≤ 1`). It reproduces the verified `n = 7` formula exactly and is
+the natural reading of every step in `TRUST-MAP.md`, and it is **stated, not proved**.
+The certificate is rigorous; the bridge for `n = 8` is ours to prove, and it is the same
+bookkeeping as the `n = 7` bridge with `6` replaced by `7`.
+
+**Where the family runs out.** Nine points at its own optimum (p = 4000) has float floor
+0.0039279261 (Arb upper 0.0039279261) and a stated bound of 0.673071; each added point
+buys about 2 × 10⁻⁵ at exponentially growing verification cost, against 0.0088 still
+under the configuration ceiling. The family is shallow, and the same 1-2 alternation on
+the kernel's zeros is the obstruction at every `n` tried.
 
 6.3 × 10⁻⁶ above the `191/50000` figure and 1.9 × 10⁻⁵ above Ainta's, with the next
 target up refused at two grid sizes. This is recorded as the *ceiling of the method*,

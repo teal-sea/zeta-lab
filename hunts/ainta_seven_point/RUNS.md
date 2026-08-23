@@ -162,3 +162,46 @@ outcome: the finer pressure sweep put the seven-point peak at p=3400, which the 
 artifacts:
   - hunts/ainta_seven_point/artifacts/modal-peak-p3400.json
 ```
+
+```runmanifest
+id: ainta_seven_point-2026-08-23-modal-npoint-sweep
+hunt: ainta_seven_point
+started: 2026-08-23T14:50-05:00
+finished: 2026-08-23T15:10-05:00
+ran:
+  - modal run hunts/ainta_seven_point/modal_npoint_sweep.py (float Nelder-Mead floors of F_{n-1} for n in 7,8,9 over twelve pressures, multistart plus exhaustive seeding from the kernel zeros, Arb enclosure at every argmin)
+outcome: the n=7 p=3000 control reproduces the floor to 1e-18; the seven-point peak is at p=3400 not 3200; eight points peaks at p=3200 with stated bound 0.6730537 and nine at p=4000 with 0.6730714, both optimistic float floors; the 1-2 alternation persists at every n
+artifacts:
+  - hunts/ainta_seven_point/modal_npoint_sweep.py
+  - hunts/ainta_seven_point/artifacts/npoint-sweep.json
+  - hunts/ainta_seven_point/artifacts/npoint-fine-scan.json
+```
+
+```runmanifest
+id: ainta_seven_point-2026-08-23-verify-n-validation
+hunt: ainta_seven_point
+started: 2026-08-23T15:00-05:00
+finished: 2026-08-23T15:35-05:00
+ran:
+  - verify_n.py (generalised verify_seven.py, cutoff derived from the target, shardable) at n=7 19/5000 with the original cutoff forced and with the derived cutoff, at n=7 38263/10^7, at n=7 1913/500000 in eight shards, and at n=3 against a brute-force scan
+outcome: with the original cutoff forced the generalised verifier reproduces the published n=7 run exactly, 707901 nodes, 354315 pruned, depth 37, 93735 tangent prunes, both table hashes; with the derived cutoff 46000 it accepts with 707467 nodes; the refusal lands on the published cell; all eight shards accept; n=3 agrees with brute force
+artifacts:
+  - hunts/ainta_seven_point/modal_verify_n.py
+  - hunts/ainta_seven_point/artifacts/verify-n-validation.json
+  - hunts/ainta_seven_point/artifacts/verify-n7-19-5000-p3000.json
+  - hunts/ainta_seven_point/artifacts/verify-n3-1353-1000000-p3000.json
+  - hunts/ainta_seven_point/artifacts/verify-n3-13531-10000000-p3000.json
+```
+
+```runmanifest
+id: ainta_seven_point-2026-08-23-modal-verify-n8
+hunt: ainta_seven_point
+started: 2026-08-23T15:40-05:00
+finished: 2026-08-23T16:30-05:00
+ran:
+  - modal run hunts/ainta_seven_point/modal_verify_n.py at n=8, pressure 3200, grid 4000, 64 shards, node cap 5e7 per shard, targets 41763/10^7 and 417742/10^8
+outcome: 41763/10^7 accepted by all 64 shards, 6504134 nodes, 2699 s wall with one shard re-run; 417742/10^8, just above the float floor, left one shard undecided at its node cap and is not claimed; with m capped at 246 the stated eight-point bound is 0.673052983
+artifacts:
+  - hunts/ainta_seven_point/artifacts/verify-n8-41763-10000000-p3200.json
+  - hunts/ainta_seven_point/artifacts/verify-n8-417742-100000000-p3200.json
+```

@@ -1,0 +1,177 @@
+{
+ "stage": "n=8 rigorous verification on Modal at the sweep's optimal pressure p=3200, grid 4000",
+ "verifier": "zeta_simple_zeros.verify_n at pinned 040c5e8 + verify_n.py (generalised verify_seven.py, derived cutoff, tangent prune on), 128-bit Arb tables, cpu=2 containers",
+ "float_floor_optimistic_p3200": 0.004177322102452557,
+ "float_argmin": [
+  1.046143,
+  1.989387,
+  1.986821,
+  1.041937,
+  1.986821,
+  1.989387,
+  1.046143
+ ],
+ "arb_F_at_float_argmin_256bit": "0.004177322102780808604965011 +/- 3.03e-28 (gaps rounded to 6 decimals; upper bound on inf F_7)",
+ "runs": {
+  "accepted": {
+   "target": "41763/10000000",
+   "target_float": 0.0041763,
+   "pressure": 3200,
+   "grid": 4000,
+   "shard_count": 64,
+   "presplit_depth": 7,
+   "node_cap_per_shard": 50000000,
+   "time_cap_per_shard": 6900,
+   "overall": "ACCEPTED",
+   "shards_accepted": 64,
+   "shards_refused": [],
+   "shards_undecided": [],
+   "refuting_cells": [],
+   "nodes_total": 6504134,
+   "max_depth": 78,
+   "pressure_pruned_total": 25768,
+   "interval_pruned_total": 2055031,
+   "tangent_pruned_total": 1179460,
+   "container_seconds_max": 2696.1,
+   "container_seconds_sum": 2930.2,
+   "wall_seconds": 2699,
+   "cutoff_cells": 53857,
+   "components": "[3755,4879];[7077,52883]",
+   "root_boxes": 128,
+   "initial_boxes_total": 16384,
+   "kernel_table_sha256": "0a26094f3ee7ebf7c28df009500421d48f3e3ab6f4778be17b886046d58293ac",
+   "second_derivative_table_sha256": "6e16c457722ba636cd1d2099b4ccbbe037e9d08f54c67f92934f534e06766c17",
+   "shard0": {
+    "nodes": 5585130,
+    "depth": 78,
+    "container_seconds": 2696.1,
+    "seconds_per_node": 0.0004824422888058112
+   },
+   "other_63_shards": {
+    "nodes": 919004,
+    "container_seconds_sum": 234.1
+   },
+   "json_file": "verify-n8-41763-10000000-p3200.json"
+  },
+  "bracket_refused": {
+   "target": "417742/100000000",
+   "target_float": 0.00417742,
+   "pressure": 3200,
+   "grid": 4000,
+   "shard_count": 64,
+   "presplit_depth": 7,
+   "node_cap_per_shard": 50000000,
+   "time_cap_per_shard": 6900,
+   "overall": "REFUSED",
+   "shards_accepted": 63,
+   "shards_refused": [
+    0
+   ],
+   "shards_undecided": [],
+   "refuting_cells": [
+    {
+     "shard_index": 0,
+     "cell": [
+      4185,
+      7956,
+      7950,
+      4167,
+      7950,
+      7956,
+      4185
+     ],
+     "gaps": [
+      1.04625,
+      1.989,
+      1.9875,
+      1.04175,
+      1.9875,
+      1.989,
+      1.04625
+     ],
+     "lower_hex": "0x1.1111e6a1bc584p-8"
+    }
+   ],
+   "nodes_total": 3706208,
+   "max_depth": 94,
+   "pressure_pruned_total": 23865,
+   "interval_pruned_total": 1256718,
+   "tangent_pruned_total": 580642,
+   "container_seconds_max": 967.2,
+   "container_seconds_sum": 1235.0,
+   "wall_seconds": 971,
+   "cutoff_cells": 53871,
+   "components": "[3755,4879];[7077,52890]",
+   "kernel_table_sha256": "066ea011d1c887822127d10ef635df04ceb643fd6a865f4d56cdd209e2c36665",
+   "shard0": {
+    "outcome": "REFUSED",
+    "nodes": 2785622,
+    "depth": 94,
+    "container_seconds": 967.2,
+    "refuting_cell": [
+     4185,
+     7956,
+     7950,
+     4167,
+     7950,
+     7956,
+     4185
+    ],
+    "refuting_cell_gaps": [
+     1.04625,
+     1.989,
+     1.9875,
+     1.04175,
+     1.9875,
+     1.989,
+     1.04625
+    ],
+    "refuting_lower_hex": "0x1.1111e6a1bc584p-8",
+    "refuting_lower": 0.004166716391169504
+   },
+   "arb_F_at_refuting_cell_centre": "0.0041776191128863493427 +/- 4.44e-23",
+   "arb_F_at_refuting_cell_lower_corner": "0.0041774693690426363704 +/- 4.56e-23",
+   "refusal_reading": "the single-cell rigorous lower bound 0.0041667 is below the target; the cell's own F values are above it, so the cell is not a witness. The refusal is nonetheless forced at any grid: Arb at the sweep argmin gives F = 0.0041773221027808 (upper bound on inf F) < 0.00417742",
+   "json_file": "verify-n8-417742-100000000-p3200.json"
+  }
+ },
+ "bracket": {
+  "lower_accepted": "41763/10^7 = 0.0041763",
+  "upper_arb_at_argmin": 0.0041773221027808,
+  "width": 1.0221027808e-06,
+  "refused_target": "417742/10^8 = 0.00417742 (9.8e-8 above the float floor, 9.8e-8 above the Arb upper bound)"
+ },
+ "phi8": {
+  "formula": "INFERRED generalisation of the verified n=7 formula: Phi_n(c,m,p) = (H - (n-1)(m-1)/(pm)) / (1 - c(m-(n-1))/m), m = (n-1)+floor(1/c); not derived from any paper for n=8",
+  "formula_check_n7": {
+   "19/5000,m=269,p=3000": 0.6730085279277798,
+   "191/50000,m=267,p=3000": 0.6730213619501665,
+   "36369/10^7,m=280,p=3200": 0.6730276830374124
+  },
+  "accepted_target": "41763/10^7",
+  "m_cap": 246,
+  "A0_c_times_m_minus_7": 0.9981357,
+  "phi8_accepted": 0.6730529829896289,
+  "phi8_accepted_20_digits": "[0.67305298298962888688 +/- 3.12e-22]",
+  "phi8_at_float_floor_optimistic": 0.6730536540670526,
+  "phi8_at_refused_target_not_attained": 0.6730537183432959,
+  "n7_ceiling": 0.673027683,
+  "phi8_minus_n7_ceiling": 2.529998962885749e-05,
+  "beats_seven_point": true
+ },
+ "modal": {
+  "app_ids": {
+   "accepted_run": "ap-FlBHvXB9uV5rNwDMKs1zN8 (02:40 to 03:25 -05)",
+   "bracket_run": "ap-rTtinYUki1fyHZliM3J6WR (03:26 to 03:42 -05)"
+  },
+  "container_seconds_total": 4165.2,
+  "core_hours_total_cpu2": 2.314,
+  "cost_usd_estimate": "not shown by the CLI; at Modal's list CPU rate (about $0.19 to $0.2 per core-hour, unverified here) the two runs are about $0.45 total",
+  "wall_seconds_accepted_run": 2699,
+  "wall_seconds_bracket_run": 971,
+  "wall_seconds_both_runs": 3670
+ },
+ "load_balance_note": "round-robin over a deterministic presplit puts child 0 (all lower halves) of every root box into shard 0, which is where the minimiser lives for every root; shard 0 took 5585130 of 6504134 nodes (86%) and 2696 of 2699 s wall. modal_verify_n_resplit.py (seeded-shuffle re-split of one parent shard into sub-shards, partition checked exhaustive locally at extra depth 8 and 10) was written for the UNDECIDED retry and was NOT needed or run.",
+ "retry_needed": false,
+ "cli_logs_note": "the two modal-run stdout logs (artifacts/*.log) were deleted during the runs by something outside this job (INFERRED: *.log is gitignored in hunts/ainta_seven_point/.gitignore and npoint-sweep.log from the earlier stage vanished at the same time, consistent with an external clean of ignored files); the per-shard JSONs are written progressively by the local entrypoint and are complete, nothing in the results depends on the logs"
+}

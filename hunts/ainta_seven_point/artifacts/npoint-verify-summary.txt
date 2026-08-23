@@ -1,0 +1,50 @@
+=== n=8 rigorous verification on Modal, 2026-08-23 (02:40 to 03:59 America/Bogota) ===
+Verifier: zeta_simple_zeros.verify_n (generalised verify_seven.py at pinned 040c5e8; derived pressure cutoff;
+tangent prune on; 128-bit Arb tables), grid 4000, pressure p = 3200 (the sweep's optimum for n=8),
+64 shards x cpu=2, presplit depth 7 (128 root boxes -> 16384 units), node cap 5e7 and time cap 6900 s per shard.
+Float floor at p=3200 (optimistic): 0.004177322102452557 at gaps (1.046143, 1.989387, 1.986821, 1.041937,
+1.986821, 1.989387, 1.046143), pattern 1-2-2-1-2-2-1. Arb (256 bits) at that point: 0.0041773221027808,
+an upper bound on inf F_7.
+
+Run 1, target 41763/10^7 = 0.0041763 (1.02e-6 below the float floor):
+  ACCEPTED, 64/64 shards accepted, 0 refused, 0 undecided. cutoff 53857 cells, components [3755,4879];[7077,52883].
+  nodes 6,504,134 (7.2x the n=7 near-floor count 907,799), max depth 78, pruned: pressure 25,768 /
+  interval 2,055,031 / tangent 1,179,460. Wall 2699 s; container-seconds 2930 (shard 0 alone: 5,585,130 nodes,
+  depth 78, 2696 s, 0.48 ms/node; the other 63 shards: 919,004 nodes, 234 container-seconds).
+  JSON: verify-n8-41763-10000000-p3200.json. Modal app ap-FlBHvXB9uV5rNwDMKs1zN8.
+
+Run 2 (bracket), target 417742/10^8 = 0.00417742 (9.8e-8 above the float floor):
+  REFUSED, 63 shards accepted, shard 0 refused, 0 undecided. nodes 3,706,208, max depth 94, wall 971 s,
+  container-seconds 1235. Refuting single cell [4185, 7956, 7950, 4167, 7950, 7956, 4185] on the 1/4000 grid,
+  gaps (1.04625, 1.989, 1.9875, 1.04175, 1.9875, 1.989, 1.04625), palindromic, the neighbour of the sweep's
+  argmin cell; rigorous lower bound there 0x1.1111e6a1bc584p-8 = 0.0041667. Arb at that cell's centre is
+  0.00417762 and at its lower corner 0.00417747, both above the target, so the cell is not a witness; the refusal
+  is still forced at any grid because the Arb value at the argmin (0.0041773221) is below 0.00417742.
+  JSON: verify-n8-417742-100000000-p3200.json.
+
+Bracket on the infimum of F_7 at p = 3200, grid 4000:
+  0.0041763  <=  inf F_7  <=  0.0041773221027808        (width 1.02e-6)
+
+No shard came back UNDECIDED, so the re-split retry was not needed. modal_verify_n_resplit.py (seeded-shuffle
+re-split of one parent shard into sub-shards; partition checked exhaustive locally at extra depth 8 and 10)
+was written for that case and was NOT run. Load-balance finding: round-robin over the deterministic presplit
+sends child 0 (all lower halves) of every root box to shard 0, which is where the minimiser sits, so shard 0
+carried 86% of the nodes and set the wall time in both runs.
+
+Bound (INFERRED formula, generalising the verified n=7 one; not derived from any paper for n=8):
+  Phi_8(c, m, p) = (H - 7(m-1)/(p m)) / (1 - c(m-7)/m),  m capped at 7 + floor(1/c),  H = 0.6725007036794116
+  Check at n=7: Phi_7(19/5000,269,3000) = 0.6730085279277798, Phi_7(191/50000,267,3000) = 0.6730213619501665,
+  Phi_7(36369/10^7,280,3200) = 0.6730276830374124 (all equal the verified values).
+  Accepted target 41763/10^7: m = 246, A_0 = c(m-7) = 0.99814 <= 1,
+    Phi_8 = 0.67305298298962888688    (INFERRED)
+  Optimistic value at the float floor was 0.6730536540670526; the accepted figure sits 6.7e-7 below it.
+  The refused target would have given 0.6730537183 (not attained).
+  Against the n=7 ceiling 0.673027683: +2.53e-5. Beats it, conditional on the Phi_8 formula, which is inferred.
+
+Modal cost: not shown by the CLI. Container-seconds 4165 total at cpu=2 = 2.31 core-hours; at Modal's list CPU rate
+(about $0.19 to $0.2 per core-hour, unverified here) about $0.45 for both runs.
+Consolidated JSON: npoint-verify-n8.json
+Addendum: Modal app IDs are ap-FlBHvXB9uV5rNwDMKs1zN8 (accepted run, 02:40 to 03:25) and ap-rTtinYUki1fyHZliM3J6WR
+(bracket run, 03:26 to 03:42). The modal-run stdout logs under artifacts/*.log were deleted during the runs by
+something outside this job (INFERRED: *.log is gitignored here and the earlier npoint-sweep.log vanished too,
+consistent with an external clean of ignored files). The per-shard JSONs are complete and are the record.
