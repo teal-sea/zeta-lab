@@ -1,0 +1,16 @@
+{
+  "challenge_module": "EightChallenge",
+  "solution_module": "EightSolution",
+  "theorem_names": [
+    "Zeta23Ext.PalomarEight.n_point_bound",
+    "Zeta23Ext.PalomarEight.eight_point_bound",
+    "Zeta23Ext.PalomarEight.eight_point_bound_ratio"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}

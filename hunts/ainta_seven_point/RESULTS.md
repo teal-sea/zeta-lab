@@ -181,19 +181,36 @@ seven-point structure extended by one more 2. Arb at the argmin gives the upper 
 
     0.0041763  ≤  inf F₇  ≤  0.0041773221
 
-With `m` capped at 246 by `c(m−7) ≤ 1`, the stated `n`-point bound gives
+With `m` capped at 246 by `c(m−7) ≤ 1`, the `n`-point bound gives
 
     liminf N_0^s(T,2T) / N(T,2T)  >=  0.673052983        (n = 8)
 
-2.3 × 10⁻⁵ above the best seven-point figure. **What is different about this one.** For seven
-points Ainta's paper supplies the argument from certificate to percentage. For eight
-points no paper exists: the bound uses this hunt's line-by-line generalisation of that
-argument (`Φₙ(c,m,p) = (H − (n−1)(m−1)/(pm)) / (1 − c(m−(n−1))/m)`, windows of `n`
-consecutive zeros, `m−(n−1)` windows per block, each gap charged at most `n−1` times, the
-cap from `A₀ = c(m−(n−1)) ≤ 1`). It reproduces the verified `n = 7` formula exactly and is
-the natural reading of every step in `TRUST-MAP.md`, and it is **stated, not proved**.
-The certificate is rigorous; the bridge for `n = 8` is ours to prove, and it is the same
-bookkeeping as the `n = 7` bridge with `6` replaced by `7`.
+2.3 × 10⁻⁵ above the best seven-point figure. **What was different about this one, and no
+longer is.** For seven points Ainta's paper supplies the argument from certificate to
+percentage. For eight points no paper exists: the bound uses this hunt's line-by-line
+generalisation of that argument (`Φₙ(c,m,p) = (H − (n−1)(m−1)/(pm)) / (1 − c(m−(n−1))/m)`,
+windows of `n` consecutive zeros, `m−(n−1)` windows per block, each gap charged at most
+`n−1` times, the cap from `A₀ = c(m−(n−1)) ≤ 1`). It reproduces the `n = 7` formula
+exactly and is the natural reading of every step in `TRUST-MAP.md`.
+
+**That generalisation is now proved, on 2026-08-23** (superseding this section's earlier
+reading, *"it is stated, not proved… the bridge for `n = 8` is ours to prove"*). Every step
+of the Lean bridge was made parametric in the point count and
+`Zeta23Ext.Bridge.n_point_bound` is a theorem for every `n ≥ 2`, with `seven_point_bound`
+derived from it in three lines and its statement unchanged; `eight_point_bound` and
+`eight_point_bound_ratio` are its `n = 8` instances at `(c, m, p) = (41763/10⁷, 246,
+3200)`. `#print axioms` reports `[propext, Classical.choice, Quot.sound]` for all three and
+the whole package is sorry-free outside the format-required Challenge modules. What the
+Lean proves is the bound *conditional on the certificate*, exactly as at seven points: the
+eight-point inequality is the named hypothesis `hCert : ∀ g : Fin 7 → ℝ, (∀ i, 0 ≤ g i) →
+41763/10000000 ≤ F 8 3200 g`, accepted by the verifier and not a Lean fact. Two numerals
+were the whole content of the generalisation: the paper's `6` is the per-gap charge `n−1`
+and its `m−6` is the window count `m−(n−1)`. The kernel-checked constant is
+`Φ₈ = (2 460 000 000 H − 5 359 375)/2 450 018 643`, recomputed at 50 digits as
+`0.67305298298962888…`, which agrees with the `0.673052983` displayed above.
+
+So the honest ledger for `n = 8` now reads: certificate accepted by an interval-arithmetic
+verifier (not kernel-checked), bridge from certificate to proportion **proved in Lean**.
 
 **Where the family runs out.** Nine points at its own optimum (p = 4000) has float floor
 0.0039279261 (Arb upper 0.0039279261) and a stated bound of 0.673071; each added point
@@ -205,7 +222,9 @@ the kernel's zeros is the obstruction at every `n` tried.
 target up refused at two grid sizes. This is recorded as the *ceiling of the method*,
 which is this hunt's question, and not as a headline result: it is the same certificate,
 the same verifier and the same analytic bridge, moved to the best point of its own
-parameter. The bridge is mapped, not proved.
+parameter. ~~The bridge is mapped, not proved.~~ **Corrected 2026-08-23:** the bridge is
+proved, in Lean, at every `n ≥ 2` (`BRIDGE.md` §1). The certificate is still a verifier's
+acceptance and not a Lean fact, which is the part of this caveat that survives.
 
 ## 4. The bound formula, resolved by the trust map
 
@@ -230,6 +249,11 @@ is consistent with this: `p` is tied to `n` and `m`, not a free constant.
   approximation, the convex pinching, the sliding-window averaging, the passage to the
   asymptotic count) is mapped in `TRUST-MAP.md`, verdict one substantial analytic bridge,
   with six of sixteen steps already kernel-checked upstream. Mapped is not proved.
+  **Superseded 2026-08-23 for the bridge, not for the certificate:** all sixteen steps are
+  now Lean theorems (`BRIDGE.md`), at every point count `n ≥ 2`, so the analytic bridge is
+  proved and no longer merely mapped. The certificates remain what they were — accepted by
+  an interval-arithmetic verifier, not kernel-checked — and the theorem is conditional on
+  them at every `n`, which is why this bullet's first sentence still stands.
 - It does not claim the minimiser is unique or that the floor is attained only there;
   the bracket on inf F6 is rigorous, the structure reading (kernel zeros) is not.
 - It does not claim novelty for the ceiling. Remark 1.1 bounds the family from above; this

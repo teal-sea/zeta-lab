@@ -1,7 +1,7 @@
 name = "Zeta23Bridge"
 version = "0.1.0"
 keywords = ["math"]
-defaultTargets = ["Zeta23Ext", "BridgeChallenge", "BridgeSolution"]
+defaultTargets = ["Zeta23Ext", "BridgeChallenge", "BridgeSolution", "EightChallenge", "EightSolution"]
 
 # The upstream formalization accompanying arXiv:2608.13637, pinned. Mathlib and
 # its standard dependency set are inherited from it, at the same revisions the
@@ -32,3 +32,21 @@ roots = ["BridgeChallenge"]
 [[lean_lib]]
 name = "BridgeSolution"
 roots = ["BridgeSolution"]
+
+# The Palomar submission surface, second entry over the same development: the
+# `n`-point layer and its eight-point instance
+# (`lean/bridge/comparator-eight.json`). Same shape as the pair above, in the
+# distinct namespace `Zeta23Ext.PalomarEight`, and independent of it: neither
+# file imports the seven-point surface and neither changes it.
+#
+# `EightChallenge.lean` carries THREE DELIBERATE `sorry`s, one per advertised
+# statement, which is what the Palomar format requires of a statement-only
+# module; `EightSolution.lean` proves the same three from
+# `Zeta23Ext.Bridge.Main`.
+[[lean_lib]]
+name = "EightChallenge"
+roots = ["EightChallenge"]
+
+[[lean_lib]]
+name = "EightSolution"
+roots = ["EightSolution"]
