@@ -1,0 +1,17 @@
+name = "ThreePoint"
+defaultTargets = ["ThreePoint"]
+
+# The advertised development, by path rather than by git, so that this package
+# proves things about the *same* `Kfun`, `kfun`, `wfun` and `F` that
+# `lean/bridge/Zeta23Ext/Bridge/Defs.lean` defines and that
+# `Zeta23Ext.Bridge.n_point_bound` takes as its hypothesis. Mathlib, Batteries
+# and `anthropics/zeta-23-lean` are inherited from it at its pinned revisions.
+#
+# This package is NOT part of the Palomar submission surface. Nothing in
+# `lean/bridge` imports it.
+[[require]]
+name = "Zeta23Bridge"
+path = "../../../lean/bridge"
+
+[[lean_lib]]
+name = "ThreePoint"
