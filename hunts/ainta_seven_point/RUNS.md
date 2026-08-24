@@ -325,3 +325,46 @@ artifacts:
   - hunts/ainta_seven_point/lean/CertRoute.lean
   - hunts/ainta_seven_point/lean/lakefile.toml
 ```
+
+```runmanifest
+id: ainta_seven_point-2026-08-23-three-point-lean
+hunt: ainta_seven_point
+started: 2026-08-23
+finished: 2026-08-24
+ran:
+  - inspected the bridge/three-point branch's uncommitted work, rebased it onto main (which now carries #117), renamed lean3/ to lean-three-point/ so the name does not read as "Lean 3", and confirmed its lake-manifest.json is dependency-for-dependency identical to hunts/ainta_seven_point/lean/lake-manifest.json
+  - wrote hunts/ainta_seven_point/ci/three-point.yml, a workflow modelled on full.yml's lean job with a rolling cache key, a module-by-module staged build under /usr/bin/time, lake exe cache get for the pinned Mathlib, and timeout-minutes 350; validated it as YAML, 20 steps
+  - wrote hunts/ainta_seven_point/three_point_preflight.py and ran it: 368 cell constants checked against a 401-point sweep of the true w from the sinc form, cover1's chain checked for contiguity over [0, 4.035], all 487 leaves of the four box trees replayed for cell coverage and for the truth of each linarith
+  - re-measured the cost-vs-c table by re-running the generator's exact-rational branch-and-bound at thirteen values of c into a scratch directory, and recomputed Phi_n and H independently of the generator
+  - diffed ThreePoint/Base.lean declaration by declaration against main's CertRoute.lean to separate what PR #117 already elaborated from what has never been elaborated
+  - .venv/bin/python scripts/71_contribution_check.py hunts/ainta_seven_point; .venv/bin/python scripts/make_context.py --check
+outcome: NOTHING WAS BUILT. No lake build was run on this machine, which is enforced, and none was run in CI, because the OAuth token this branch is pushed with carries gist, read:org and repo but not workflow, and git push, the contents API and the git-data API all refuse to place a file under .github/workflows/ without it; granting an OAuth scope is the operator's consent decision, so the workflow is parked at hunts/ainta_seven_point/ci/three-point.yml with the two commands that move it into place. The arithmetic, by contrast, is checked: the pre-flight validator exits 0 with zero problems on 368 cell lemmas and 487 leaves, and it found one real bug that would have failed the first build, cover1 emitting Or.inr Or.inr (Or.inl e), which is Or.inr applied to two explicit arguments rather than nesting, in three places, fixed at the generator's emit site. Two tactic chains were hardened on reasoning rather than measurement, F3_eq's trailing ring to try ring and Phi_three's norm_num/field_simp chain to push_cast plus div_eq_div_iff plus ring. c = 1345/10^6 was chosen over the suggested 1347/10^6 because 1347 buys 1.34e-6 of constant, 0.6% of the gain over H, for 16% more cell lemmas and 30% more leaves; m = 745 and Phi_3 = (149000000*HD 1 - 99200)/148800133 = 0.67273733450380946, which is H + 2.3663e-4. The brief's claim that c = 1353/10^6 is out of reach is corrected: it is out of reach of a uniform grid, not of adaptive bisection, which closes there in 3.9 s at 4127 cell lemmas and 59361 leaves, against the 29488 cell lemmas CERTIFICATE-ROUTE.md projected for the same c before the pressure cutoff and the near-zero cover were built. What is NOT known: whether any of it elaborates, what it costs to build, and what print axioms reports. Sixteen of Base.lean's declarations are byte-identical to code #117 built or differ only in doc comments; two are changed and 23 are new, and none of the generated tables has ever been elaborated
+artifacts:
+  - hunts/ainta_seven_point/THREE-POINT.md
+  - hunts/ainta_seven_point/lean-three-point/ThreePoint/Base.lean
+  - hunts/ainta_seven_point/lean-three-point/ThreePoint/Main.lean
+  - hunts/ainta_seven_point/three_point_gen.py
+  - hunts/ainta_seven_point/three_point_preflight.py
+  - hunts/ainta_seven_point/ci/three-point.yml
+```
+
+```runmanifest
+id: ainta_seven_point-2026-08-24-three-point-proved
+hunt: ainta_seven_point
+started: 2026-08-24
+finished: 2026-08-24
+ran:
+  - the operator granted the workflow OAuth scope and moved ci/three-point.yml into .github/workflows/, which is the only step in this hunt an agent did not do
+  - five GitHub Actions runs of .github/workflows/three-point.yml: 32683784986, 32686863542, 32687291025, 32688543779, 32689888754
+  - two AXLE checks against cloud Lean 4.33.0, Mathlib only, to settle questions that would otherwise have cost a CI round: the doc-comment / set_option ordering, and a controlled 500-leaf-step comparison of the two ways to apply a cell lemma
+  - regenerated the tree with three_point_gen.py after each fix and re-ran three_point_preflight.py, 368 cell lemmas and 487 leaves, 0 problems, every time
+  - .venv/bin/python scripts/71_contribution_check.py hunts/ainta_seven_point; .venv/bin/python scripts/make_context.py --check
+outcome: THE CERTIFICATE IS PROVED. Run 32689888754 is green end to end and all six advertised declarations report [propext, Classical.choice, Quot.sound] and nothing else. three_point_cert discharges n_point_bound's hCert at n=3, c=1345/10^6, p=3000, so three_point_bound is an UNCONDITIONAL theorem for Mathlib's riemannZeta at Phi_3 = (149000000*HD 1 - 99200)/148800133 = 0.67273733450380945875, against the H = 0.67250070367941164573 the pinned dependency proves, an improvement of 2.3663e-4. Zero sorry, zero axiom, zero native_decide. Cold build cost, measured module by module: Mathlib olean cache 1m25s, Zeta23 and bridge dependencies 11m24s, Base 26s, the seven cell tables 34m39s, Main 14m49s. Warm rounds cost 4.5 minutes of cached prelude plus Main. Four of the five runs failed and four of those failures were mine, not the mathematics: le_or_lt does not exist at this Mathlib pin (560 uses, replaced by le_total); HD, Ncount and N0simple were unresolved because the module opened only Real, and autoImplicit silently bound each as a variable so the advertised statements were briefly statements about nothing; set_option ... in was emitted after the doc comment rather than before, which AXLE settled afterwards in 0.9 s; and the axiom-audit step misread the bridge's own [propext, choice, Quot.sound] as a violation. The one genuine Lean obstacle was the heartbeat budget: pair_0_1 holds 453 of the 487 leaves because the binding basin is at (1.0508, 2.0025), and one declaration shares one budget, so the four generated box lemmas carry set_option maxHeartbeats 10000000 -- a compile-resource limit, absent from print axioms, and never set on the advertised theorems. MEASURED on the leaf shape: 1393 of 1443 leaf steps reached a constant that IS the cell lemma's own constant through le_trans (by norm_num), which postpones a norm_num against a metavariable to prove W <= W; applying the cell lemma directly is 1.11x faster per step on AXLE and took Main from 16m23s to 14m49s, though n=1 per shape cannot separate that 9.6% from the 1390 lines the file also lost. Also corrected: the brief's claim that c = 1353/10^6 is out of reach is true of a uniform grid and false of adaptive bisection, which closes there in 3.9 s at 4127 cell lemmas and 59361 leaves, so the wall at 1353 is proof size. NOT done and named in the note: pair_0_1 is not split, and autoImplicit is still on, which is the sharpest thing the loop found and should be the next commit
+artifacts:
+  - hunts/ainta_seven_point/THREE-POINT.md
+  - hunts/ainta_seven_point/lean-three-point/ThreePoint/Main.lean
+  - hunts/ainta_seven_point/lean-three-point/ThreePoint/Base.lean
+  - hunts/ainta_seven_point/three_point_gen.py
+  - hunts/ainta_seven_point/three_point_preflight.py
+  - .github/workflows/three-point.yml
+```

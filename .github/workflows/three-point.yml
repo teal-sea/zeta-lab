@@ -1,0 +1,192 @@
+# Tier 3b — the three-point certificate package, on demand.
+#
+# `hunts/ainta_seven_point/lean-three-point/` is a Lake package that requires
+# `lean/bridge` BY PATH, so it proves things about the same `Kfun`, `kfun`,
+# `wfun`, `F` and `Phi_n` that `Zeta23Ext.Bridge.n_point_bound` consumes. It is
+# not part of the Palomar submission surface and nothing in `lean/bridge`
+# imports it, so it does not belong in the nightly `full` job: a red build here
+# must not be readable as a red build of the advertised development.
+#
+# Why this file exists at all: the author's machine cannot run `lake build`
+# (a 13-inch laptop; Lean builds crash it), so this workflow IS the build loop.
+# Two consequences shape it.
+#
+#  1. The cache is restore-then-save with a rolling key, not a fixed key. A
+#     fixed key never updates once written, which is right for a pinned
+#     toolchain and wrong for an iteration loop: the second run would rebuild
+#     every dependency again. `restore-keys` takes the newest prior cache and
+#     the save step writes a fresh one under a run-unique key.
+#
+#  2. The build is staged module by module with `/usr/bin/time`, rather than one
+#     `lake build ThreePoint`. The generated cell tables are the expensive part
+#     and the point of the exercise is to MEASURE which shape is expensive, so
+#     the per-module wall clock has to survive into the log.
+#
+# Public repository, GitHub-hosted standard runners: billed zero.
+name: three-point
+
+on:
+  push:
+    branches: [ "bridge/three-point" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: three-point-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  three-point:
+    name: three-point certificate, zero sorrys
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    defaults:
+      run:
+        working-directory: hunts/ainta_seven_point/lean-three-point
+    steps:
+      - uses: actions/checkout@v4
+
+      # Restore BEFORE installing elan, which is the order `full.yml` uses: the
+      # cache carries the toolchain itself, and elan-init with
+      # `--default-toolchain none` is then a no-op over it.
+      - name: restore elan and lake
+        uses: actions/cache/restore@v4
+        id: lakecache
+        with:
+          path: |
+            ~/.elan
+            hunts/ainta_seven_point/lean-three-point/.lake
+            lean/bridge/.lake
+          key: three-point-${{ runner.os }}-${{ hashFiles('hunts/ainta_seven_point/lean-three-point/lake-manifest.json', 'hunts/ainta_seven_point/lean-three-point/lean-toolchain') }}-${{ github.run_id }}
+          restore-keys: |
+            three-point-${{ runner.os }}-${{ hashFiles('hunts/ainta_seven_point/lean-three-point/lake-manifest.json', 'hunts/ainta_seven_point/lean-three-point/lean-toolchain') }}-
+            three-point-${{ runner.os }}-
+
+      - name: install elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+            | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: toolchain
+        run: |
+          elan show || true
+          lake --version
+
+      - name: mathlib olean cache
+        # Mathlib is pinned at 51e6992efd06126df61a496bebf8f49482a4e129, a real
+        # master commit (2026-08-03, "chore: bump toolchain to v4.33.0-rc2"), so
+        # the upstream olean cache exists for it. Without this the runner
+        # compiles Mathlib from source and the loop is unusable. Not fatal if it
+        # fails: the build below just becomes very slow.
+        run: lake exe cache get || echo "::warning::mathlib cache get failed, falling back to source build"
+
+      - name: dependencies (Zeta23 upstream, then the bridge)
+        run: |
+          set -o pipefail
+          /usr/bin/time -v lake build Zeta23Ext.Bridge.Main 2>&1 | tail -200
+
+      - name: save cache after dependencies
+        # Written here rather than only at the end so that a failure in the
+        # generated tables still leaves the expensive dependency build cached.
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.elan
+            hunts/ainta_seven_point/lean-three-point/.lake
+            lean/bridge/.lake
+          key: three-point-${{ runner.os }}-${{ hashFiles('hunts/ainta_seven_point/lean-three-point/lake-manifest.json', 'hunts/ainta_seven_point/lean-three-point/lean-toolchain') }}-${{ github.run_id }}
+
+      - name: ThreePoint.Base
+        run: /usr/bin/time -p lake build ThreePoint.Base
+
+      - name: ThreePoint.Cells0
+        run: /usr/bin/time -p lake build ThreePoint.Cells0
+
+      - name: ThreePoint.Cells1
+        run: /usr/bin/time -p lake build ThreePoint.Cells1
+
+      - name: ThreePoint.Cells2
+        run: /usr/bin/time -p lake build ThreePoint.Cells2
+
+      - name: ThreePoint.Cells3
+        run: /usr/bin/time -p lake build ThreePoint.Cells3
+
+      - name: ThreePoint.Cells4
+        run: /usr/bin/time -p lake build ThreePoint.Cells4
+
+      - name: ThreePoint.Cells5
+        run: /usr/bin/time -p lake build ThreePoint.Cells5
+
+      - name: ThreePoint.Cells6
+        run: /usr/bin/time -p lake build ThreePoint.Cells6
+
+      - name: ThreePoint.Main (certificate, bound, axiom audit)
+        run: |
+          set -o pipefail
+          /usr/bin/time -p lake build ThreePoint.Main 2>&1 | tee ../../../main-build.log
+
+      - name: the whole library
+        run: /usr/bin/time -p lake build ThreePoint
+
+      - name: axiom audit
+        # `#print axioms` at the bottom of ThreePoint/Main.lean prints to the
+        # build log. Anything other than the three standard axioms, on any
+        # advertised declaration, fails the job.
+        working-directory: .
+        run: |
+          # `lake build` replays the diagnostics of every cached module, so
+          # main-build.log carries the whole dependency tree's `#print axioms`
+          # output, not just this package's. Audit OUR declarations, by name.
+          #
+          # Two things this must not do. It must not scan the whole tree: the
+          # bridge prints `[propext, choice, Quot.sound]` wherever `Classical` is
+          # open, which is the same three axioms under a shorter name, and a
+          # blanket pattern reads that as a violation. And it must not pass on a
+          # silent log: the six advertised names have to be found, or a build
+          # that printed nothing would audit clean.
+          echo "--- the advertised declarations ---"
+          grep -oE "'Zeta23Ext\.Bridge\.ThreePoint\.[A-Za-z0-9_']+' depends on axioms: \[[^]]*\]" \
+            main-build.log || true
+
+          if grep -E "'Zeta23Ext\.Bridge\.ThreePoint\.[A-Za-z0-9_']+' depends on axioms" main-build.log \
+               | grep -vE "depends on axioms: \[propext, (Classical\.)?choice, Quot\.sound\]"; then
+            echo "::error::a non-standard axiom reached an advertised declaration"
+            exit 1
+          fi
+
+          for d in F3_eq cover1 three_point_cert Phi_three three_point_bound three_point_bound_ratio; do
+            if ! grep -qE "'Zeta23Ext\.Bridge\.ThreePoint\.$d' depends on axioms: \[propext, (Classical\.)?choice, Quot\.sound\]" \
+                 main-build.log; then
+              echo "::error::no clean axiom line for $d -- the audit must not pass on a silent log"
+              exit 1
+            fi
+          done
+          echo "axiom audit clean: six advertised declarations, all [propext, Classical.choice, Quot.sound]"
+
+      - name: no sorry, no axiom, no native_decide
+        working-directory: hunts/ainta_seven_point/lean-three-point
+        run: |
+          # Comments discussing the rule are fine; a real token is not. The
+          # second grep drops matches that sit in a comment line, which is the
+          # `full` workflow's own idiom.
+          if grep -rnE '(^|[^[:alnum:]_])(sorry|admit|native_decide|axiom|opaque|unsafe|implemented_by|extern)([^[:alnum:]_]|$)' \
+               ThreePoint.lean ThreePoint/*.lean \
+               | grep -vE '^[^:]+:[0-9]+:[[:space:]]*(--|/-)'; then
+            echo "::error::a forbidden token is present in the three-point package"
+            exit 1
+          fi
+          echo "zero sorry, zero axiom, zero native_decide"
+
+      - name: save cache
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.elan
+            hunts/ainta_seven_point/lean-three-point/.lake
+            lean/bridge/.lake
+          key: three-point-${{ runner.os }}-${{ hashFiles('hunts/ainta_seven_point/lean-three-point/lake-manifest.json', 'hunts/ainta_seven_point/lean-three-point/lean-toolchain') }}-${{ github.run_id }}-final
