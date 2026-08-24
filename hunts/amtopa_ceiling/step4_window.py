@@ -58,8 +58,15 @@ def make_objective(w, u, M, pool, B_fixed=None, B0=None):
 
 
 def main() -> int:
+    # epochs, DE generations, DE popsize multiplier, wall-clock budget in seconds.
+    # The first CI attempt spent its whole 900 s budget on the two reference
+    # points and never reached a single differential-evolution epoch, so the
+    # reference points now live in step6_doors.py and this script is the search
+    # and nothing else.
     epochs = int(sys.argv[1]) if len(sys.argv) > 1 else 5
     maxiter = int(sys.argv[2]) if len(sys.argv) > 2 else 60
+    popsize = int(sys.argv[3]) if len(sys.argv) > 3 else 8
+    budget = float(sys.argv[4]) if len(sys.argv) > 4 else 780.0
     c0 = amtopa_coeffs()
     w = frequencies(NTERM)
     u, _, _, M = window_matrices(w)
@@ -75,22 +82,12 @@ def main() -> int:
             break
     if pool is None:
         pool = Pool(np.array(np.meshgrid(*[(1.0, 2.0, 3.0)] * 6)).reshape(6, -1).T)
-    pool.dedupe(cap=1800)
-    print(f"pool starts at {pool.G.shape[0]} cuts")
+    pool.dedupe(cap=1100)
+    print(f"pool starts at {pool.G.shape[0]} cuts; budget {budget:.0f} s")
 
-    # -- reference points -----------------------------------------------
-    e0 = np.zeros(NTERM)
-    e0[0] = 1.0
-    print("\n-- the two ends of the window trade --")
-    for name, cc in (("pure sqrt(2)", e0), ("AMTOPA 17-term", c0)):
-        H = H_of(cc, u, M)
-        refresh_pool(cc, w, B0, pool, rng, rounds=4)
-        r = eps_star(B0, cc, w, rounds=20, seed=5, cut_pool=pool.G.copy())
-        pool.add(r["cuts"][-400:])
-        pool.dedupe(cap=1800)
-        v, m = family_bound(H, r["lower"], B0)
-        print(f"  {name:<16} H={H:.16f}  eps*={r['lower']:.10f}  "
-              f"bound={v:.16f} (m={m})")
+    # The incumbent, from the converged local/CI measurement, as the bar the
+    # search has to clear. No eps* solve here -- see the note in main().
+    print(f"incumbent (AMTOPA window, polytope optimum): 0.6734204494726963")
 
     best = {"bound": -np.inf}
     lb = np.concatenate([np.full(NTERM - 1, -0.06), [-0.7]])
@@ -99,10 +96,13 @@ def main() -> int:
 
     t0 = time.time()
     for ep in range(epochs):
+        if time.time() - t0 > budget:
+            print(f"\nbudget spent after {ep} epochs")
+            break
         obj = make_objective(w, u, M, pool, B0=B0)
         res = differential_evolution(
             obj, list(zip(lb, ub)), seed=100 + ep + 977 * shard, maxiter=maxiter,
-            popsize=18, tol=1e-12, mutation=(0.35, 1.0), recombination=0.85,
+            popsize=popsize, tol=1e-12, mutation=(0.35, 1.0), recombination=0.85,
             init="sobol", polish=True, x0=x0 if ep == 0 else best.get("z", x0),
             workers=1, updating="immediate")
         z = res.x
@@ -112,11 +112,11 @@ def main() -> int:
         B = B0 * np.exp(z[NTERM - 1])
         surrogate = -res.fun
         # tighten: give this window its real basins, then solve eps* properly
-        refresh_pool(c, w, B, pool, rng, rounds=6)
-        r = eps_star(B, c, w, rounds=24, seed=31 + ep + 977 * shard,
-                     cut_pool=pool.G.copy())
-        pool.add(r["cuts"][-500:])
-        n = pool.dedupe(cap=1800)
+        refresh_pool(c, w, B, pool, rng, rounds=3, coarse=25000, keep=24)
+        r = eps_star(B, c, w, rounds=14, seed=31 + ep + 977 * shard,
+                     cut_pool=pool.G.copy(), coarse=40000, keep=40, patience=3)
+        pool.add(r["cuts"][-300:])
+        n = pool.dedupe(cap=1100)
         H = H_of(c, u, M)
         v, m = family_bound(H, r["lower"], B)
         print(f"\nepoch {ep}: surrogate {surrogate:.16f} -> true {v:.16f} (m={m})")

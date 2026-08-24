@@ -85,7 +85,7 @@ jobs:
       - run: pip install "mpmath>=1.3" numpy scipy
       - name: eps* bracket at their window and their total pressure
         working-directory: hunts/amtopa_ceiling
-        run: python3 -u step5_headroom.py 40 80000 80 2>&1 | tee headroom.log
+        run: python3 -u step5_headroom.py 60 80000 80 2>&1 | tee headroom.log
       - name: Candidate at the polytope optimum, in their schema
         working-directory: hunts/amtopa_ceiling
         run: |
@@ -101,6 +101,29 @@ jobs:
             hunts/amtopa_ceiling/headroom.json
             hunts/amtopa_ceiling/candidate.log
             hunts/amtopa_ceiling/artifacts/candidate_ceiling.json
+          if-no-files-found: warn
+
+  # ---------------------------------------------------------------- (2b)
+  # The active constraints and their shadow prices, at a properly converged
+  # optimum. This is the instrument behind RESULTS.md section 5.
+  doors:
+    name: doors-active-constraints
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install "mpmath>=1.3" numpy scipy
+      - working-directory: hunts/amtopa_ceiling
+        run: timeout 1000 python3 -u step6_doors.py 90 2>&1 | tee doors.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: doors
+          path: |
+            hunts/amtopa_ceiling/doors.log
+            hunts/amtopa_ceiling/doors.json
           if-no-files-found: warn
 
   # ---------------------------------------------------------------- (3)
@@ -124,13 +147,62 @@ jobs:
             hunts/amtopa_ceiling/bsweep.json
           if-no-files-found: warn
 
-  # ---------------------------------------------------------------- (4)
-  # Their table builder and their C++ verifier, at our candidate and at theirs.
-  # Exit code 3 is INCONCLUSIVE (node cap or terminal cell) and is a recorded
-  # outcome, not a job failure; anything else non-zero is a real failure.
+  # ---------------------------------------------------------------- (4a)
+  # The interval tables, in six shards. The first attempt built all 83993 coarse
+  # cells and 167987 midpoints in one job and did not finish inside 20 minutes on
+  # a shared runner. shard_tables.py imports THEIR build_interval_tables and
+  # calls THEIR coarse_chunk and midpoint_chunk over an index range, so the
+  # arithmetic is unchanged; only the driving loop is ours.
+  tables:
+    name: tables-${{ matrix.name }}-shard-${{ matrix.shard }}
+    needs: headroom
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        name: [ours-polytope-optimum, amtopa-baseline]
+        shard: [0, 1, 2, 3, 4, 5]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Clone AMTOPA at the pinned commit
+        run: |
+          git clone --no-checkout "$AMTOPA_REPO" upstream
+          git -C upstream checkout --detach "$AMTOPA_COMMIT"
+      - uses: actions/download-artifact@v4
+        if: matrix.name == 'ours-polytope-optimum'
+        with:
+          name: headroom-and-candidate
+          path: dl
+      - name: Choose the candidate
+        run: |
+          if [ "${{ matrix.name }}" = "ours-polytope-optimum" ]; then
+            find dl -name candidate_ceiling.json -exec cp {} cand.json \;
+          else
+            cp upstream/candidate.json cand.json
+          fi
+          echo "ZETA_CANDIDATE_PATH=$PWD/cand.json" >> "$GITHUB_ENV"
+      - run: pip install "mpmath>=1.3"
+      - name: Build this shard of the tables
+        run: |
+          time python3 hunts/amtopa_ceiling/shard_tables.py \
+            --upstream upstream --out parts \
+            --shard ${{ matrix.shard }} --shards 6 --workers "$(nproc)"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: tables-${{ matrix.name }}-shard-${{ matrix.shard }}
+          path: parts/*.bin.${{ matrix.shard }}
+          retention-days: 1
+
+  # ---------------------------------------------------------------- (4b)
+  # Their C++ verifier, at our candidate and at theirs. Exit code 3 is
+  # INCONCLUSIVE (node cap or terminal cell) and is a recorded outcome, not a job
+  # failure; anything else non-zero is a real failure.
   certificate:
     name: certificate-${{ matrix.name }}
-    needs: headroom
+    needs: [headroom, tables]
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
@@ -171,12 +243,19 @@ jobs:
         run: |
           python3 src/check_candidate.py || echo "check_candidate exit $?"
           python3 src/check_window.py
-      - name: Build the interval tables with their builder
-        working-directory: upstream
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: tables-${{ matrix.name }}-shard-*
+          path: parts-dl
+          merge-multiple: true
+      - name: Join the sharded interval tables
         run: |
-          time python3 src/build_interval_tables.py \
-            --output tables --grid 4000 --precision 50 --workers "$(nproc)" \
-            2>&1 | tail -45
+          mkdir -p parts
+          find parts-dl -type f -name '*.bin.*' -exec cp {} parts/ \;
+          ls parts | head -20
+          python3 hunts/amtopa_ceiling/shard_tables.py \
+            --upstream upstream --out parts --join --shards 6 \
+            --tables upstream/tables
       - name: Build and run their six-dimensional branch-and-bound
         working-directory: upstream
         shell: bash
@@ -228,7 +307,7 @@ jobs:
         env:
           ZETA_WINDOW_SEED: ${{ matrix.seed }}
         run: |
-          timeout 900 python3 -u step4_window.py 3 26 2>&1 \
+          timeout 1000 python3 -u step4_window.py 6 14 8 780 2>&1 \
             | tee window_shard_${{ matrix.seed }}.log || echo "shard timed out"
       - uses: actions/upload-artifact@v4
         if: always()

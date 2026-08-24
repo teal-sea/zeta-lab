@@ -107,6 +107,23 @@ def main() -> int:
     for i in act[:8]:
         print(f"    {np.round(G[i], 6)}  F={float(fv[i]):.12f}")
 
+    # ---- is B really at the argmax under the corrected rule? ----------------
+    # The saturation sweep of RUNS.md run 10 was computed under the OLD stopping
+    # rule, so every one of its floors is an early-stopped over-estimate. The
+    # shape carried the conclusion, but the conclusion deserves a check at the
+    # peak itself, with the corrected rule, on a fine bracket.
+    print(f"\n-- the peak of the pressure curve, corrected rule --")
+    peak = {}
+    for f in (0.94, 0.97, 1.00, 1.03, 1.06):
+        Bf = B0 * f
+        rf = eps_star(Bf, c, w, k0, rounds=rounds, seed=613,
+                      cut_pool=pool.copy(), coarse=70000, keep=70, patience=6)
+        vf, mf = family_bound(H, rf["upper"], Bf)
+        peak[f] = {"B": Bf, "eps_upper": rf["upper"], "bound": vf, "m": int(mf)}
+        print(f"  B/B0 {f:.2f}  eps*<={rf['upper']:.10f}  bound={vf:.16f} (m={mf})")
+    argmax = max(peak, key=lambda f: peak[f]["bound"])
+    print(f"  argmax on this bracket: B/B0 = {argmax:.2f}")
+
     # ---- the window trade, both ends, under the same stopping rule ----------
     e0 = np.zeros(17)
     e0[0] = 1.0
@@ -139,6 +156,8 @@ def main() -> int:
             "pure_sqrt2": {"H": H0, "eps_upper": r0["upper"], "bound": v0,
                            "m": int(m0)},
             "window_exchange_rate": float(dew / dHw),
+            "pressure_peak": {str(k): v for k, v in peak.items()},
+            "pressure_argmax_over_B0": float(argmax),
         }, fh, indent=2)
     np.save("/tmp/doors_pool.npy", G)
     return 0

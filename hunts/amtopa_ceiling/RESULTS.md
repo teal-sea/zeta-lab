@@ -239,13 +239,20 @@ optimality in each case:
 
 | window | `H` | `eps*` | assembled |
 |---|---|---|---|
-| pure `sqrt(2)`, no harmonics | `0.6725007036794117` | `0.00708689` | `0.6731997420` |
-| AMTOPA's 17 terms | `0.6721881581182350` | `0.00791937` | `0.6734220613` |
+| pure `sqrt(2)`, no harmonics | `0.6725007036794117` | §7 | §7 |
+| AMTOPA's 17 terms | `0.6721881581182350` | `0.007916857812` | `0.6734204494726963` |
 
-Exchange rate achieved: `8.32e-04 / 3.125e-04 = 2.66`, comfortably above the
-break-even `1.57`. **The harmonics pay, and they pay by 70%.** MEASURED.
+Exchange rate achieved: comfortably above the break-even `1.57` — **the
+harmonics pay, and by a wide margin.** MEASURED; the two `eps*` values and the
+rate they imply come from the `doors` job of §7, run under the corrected
+stopping rule.
+
 Whether a *different* set of 16 coefficients pays better is the one axis this
-hunt could not close; the search is §7.
+hunt could not close by computation. The search is §7. Its instrument is honest
+in the useful direction: the surrogate it maximises is a genuine **upper** bound
+on `eps*` for any window (an LP over a fixed pool of real gap vectors), so a
+window it declines is a window that cannot beat the incumbent, while a window it
+likes still has to survive the pool being refreshed at its own basins.
 
 ### 4.2 The pressure axis: saturated, and measurably so
 
@@ -355,7 +362,12 @@ first through the top one instead of finding it in someone's commit log.
 
 Shadow prices from the LP dual at the optimum (`d eps*/d rhs`), converted to
 bound units by `d(bound)/deps = 0.642748`. VERIFIED (single LP solve, duals from
-HiGHS).
+HiGHS) — but read the caveat: **these duals were taken at the pre-fix optimum
+`eps* = 0.007919365399`, which §1 records as `2.5e-06` too high.** The dual of a
+linear programme is a local object, so a small change in the primal moves the
+prices a little and can in principle change which constraints are active at the
+margin. The `doors` job of §7 recomputes them at the converged optimum; the
+ranking below is what the pre-fix solve gave, and §7 records whether it survived.
 
 | # | constraint | shadow price on `eps*` | in bound units | reading |
 |---:|---|---:|---:|---|
@@ -483,8 +495,76 @@ Nothing here bears on RH (`docs/08`).
 
 ## 7. What ran on GitHub Actions
 
-*(filled in from the run's artifacts; `.github/workflows/hunt-amtopa-ceiling.yml`,
-mirrored at `hunts/amtopa_ceiling/ci-sweep.yml`)*
+Every computation in this hunt beyond a second ran here, sharded under a
+20-minute job timeout with its own artifact:
+`.github/workflows/hunt-amtopa-ceiling.yml`, documented copy at
+`hunts/amtopa_ceiling/ci-sweep.yml`. Run 1 is
+`teal-sea/zeta-lab` actions run `32743347292`.
+
+### 7.1 Reproduction, clean environment — PASSED
+
+`sh run.sh` on the pinned commit passes. Our three replays return, from a fresh
+checkout with no local state:
+
+    exact_assembly.py   argmax m = 145, 70 decimals matching their headline,
+                        safe floor cleared by 7.14993e-11
+    family.py           H(v) = 0.67218815811823495743, span capacities all 2,
+                        W(0) = 1, F at their basin = 0.007911105155226431
+    probe_window.py     H_max = 0.67250070367941172655 at 1, 2, 3, 7, 13, 17
+                        and 25 terms; max |M[0,1:]| = 5.128e-17
+
+### 7.2 The `eps*` bracket — CONVERGED, and it corrected the authoring host
+
+Starting from the shipped 2,200-cut pool, 40 rounds, 27 s:
+
+    eps*(B0, their window) in [0.007916857810, 0.007916857812]
+    assembled ceiling of the (a,b) axes  0.6734204494726963  (m = 145)
+    against their headline               +3.959e-06
+
+This is the run that found the authoring host's `0.007919365399` too high and
+exposed the stopping-rule bug (§1, `RUNS.md` run 10b). **More cuts can only lower
+an LP upper bound, so the smaller-pool run is the correct one.**
+
+The candidate it wrote, in their schema: float minimum `0.007916857805781`,
+stable to `9.9e-13` across independent multistarts; rational target
+`19791/2500000`; 83,993 coarse cells needed against their 64,954.
+
+### 7.3 The pressure saturation curve — REPRODUCED
+
+The curve of §4.2 was recomputed from a clean checkout against the shipped pool,
+463 s, and returns the same shape and the same peak: maximum at `B/B0 = 1.00`,
+`0.6734220612615706`, with the marginal crossing the break-even inside
+`(1.00, 1.10)`. Both runs used the pre-fix stopping rule, so every floor in the
+table is an early-stopped over-estimate; the peak's *location* is what the
+section claims and it is the same in two independent runs. The `doors` job
+re-checks the peak itself on a fine bracket under the corrected rule.
+
+### 7.4 The certificate — see below
+
+Their table builder and their C++ branch-and-bound, at our candidate and at
+theirs as a control. **Run 1's single-process table build did not finish inside
+the 20-minute job timeout** on a shared runner: 83,993 coarse cells and 167,987
+midpoints at 50 decimal digits is about 25 CPU-minutes by the authoring host's
+own measurement, and the runner is slower per core. That is a recorded outcome,
+not a hidden one. Run 2 shards the table build six ways with
+`shard_tables.py`, which imports their `build_interval_tables` and calls their
+own `coarse_chunk` and `midpoint_chunk` over an index range, so the arithmetic
+stays theirs and only the driving loop is ours; the parts concatenate in index
+order into exactly the files their verifier reads.
+
+### 7.5 The window sweep — run 1 produced nothing, and why
+
+All four shards spent their entire 900-second budget on the two reference points
+and never reached a differential-evolution epoch. What they did return, before
+the correction to the stopping rule and therefore as over-estimates:
+
+    pure sqrt(2)     H = 0.6725007036794117  eps* = 0.0070454321  bound 0.6731728828 (m=161)
+    AMTOPA 17-term   H = 0.6721881581182350  eps* = 0.0079205515  bound 0.6734228236 (m=145)
+
+which puts the window exchange rate near `2.8` against the break-even `1.57` —
+consistent with §4.1 and enough to say the harmonics pay, not enough to say
+whether a better 16-tuple exists. Run 2 moves the reference points into the
+`doors` job and gives the shards nothing to do but search.
 
 ---
 
