@@ -138,18 +138,34 @@ jobs:
         # advertised declaration, fails the job.
         working-directory: .
         run: |
-          echo "--- what the build printed ---"
-          grep -E "depends on axioms|does not depend on any axioms" main-build.log || true
-          # Lake prefixes each diagnostic with `info: <file>:<line>:<col>:`, so the
-          # pattern must not be anchored at the start of the line, and a trailing
-          # `$` is one carriage return away from a false failure. Match the tail
-          # of the axiom list and nothing else.
-          if grep -E "depends on axioms" main-build.log \
-               | grep -vE "depends on axioms: \[propext, Classical\.choice, Quot\.sound\]"; then
+          # `lake build` replays the diagnostics of every cached module, so
+          # main-build.log carries the whole dependency tree's `#print axioms`
+          # output, not just this package's. Audit OUR declarations, by name.
+          #
+          # Two things this must not do. It must not scan the whole tree: the
+          # bridge prints `[propext, choice, Quot.sound]` wherever `Classical` is
+          # open, which is the same three axioms under a shorter name, and a
+          # blanket pattern reads that as a violation. And it must not pass on a
+          # silent log: the six advertised names have to be found, or a build
+          # that printed nothing would audit clean.
+          echo "--- the advertised declarations ---"
+          grep -oE "'Zeta23Ext\.Bridge\.ThreePoint\.[A-Za-z0-9_']+' depends on axioms: \[[^]]*\]" \
+            main-build.log || true
+
+          if grep -E "'Zeta23Ext\.Bridge\.ThreePoint\.[A-Za-z0-9_']+' depends on axioms" main-build.log \
+               | grep -vE "depends on axioms: \[propext, (Classical\.)?choice, Quot\.sound\]"; then
             echo "::error::a non-standard axiom reached an advertised declaration"
             exit 1
           fi
-          echo "axiom audit clean"
+
+          for d in F3_eq cover1 three_point_cert Phi_three three_point_bound three_point_bound_ratio; do
+            if ! grep -qE "'Zeta23Ext\.Bridge\.ThreePoint\.$d' depends on axioms: \[propext, (Classical\.)?choice, Quot\.sound\]" \
+                 main-build.log; then
+              echo "::error::no clean axiom line for $d -- the audit must not pass on a silent log"
+              exit 1
+            fi
+          done
+          echo "axiom audit clean: six advertised declarations, all [propext, Classical.choice, Quot.sound]"
 
       - name: no sorry, no axiom, no native_decide
         working-directory: hunts/ainta_seven_point/lean-three-point
