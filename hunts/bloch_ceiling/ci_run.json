@@ -1,7 +1,7 @@
 {
   "mode": "run",
   "target": "0.0153040536",
-  "sectors": "0-11",
+  "sectors": "12-23",
   "boxes_per_job": 38000,
   "budget": 1020,
   "nproc": 4,

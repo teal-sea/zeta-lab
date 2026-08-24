@@ -84,9 +84,12 @@ jobs:
     needs: plan
     if: needs.plan.outputs.count != '0'
     runs-on: ubuntu-latest
-    # Deliberately just above the 20-minute worker budget: the budget is what
-    # ends a shard, and this only catches a shard that hangs.
-    timeout-minutes: 25
+    # The 1020 s budget is what ends a shard; this only catches one that hangs.
+    # It has to leave room for the cell a process was already inside when the
+    # budget expired, because the check is between cells and the most expensive
+    # single cell in the run is 6,888 boxes, about 690 s on a standard runner.
+    # 1020 + 690 + setup is a little under 30 minutes, so 35 is the safe number.
+    timeout-minutes: 35
     strategy:
       fail-fast: false
       max-parallel: 20

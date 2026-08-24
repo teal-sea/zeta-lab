@@ -1,10 +1,12 @@
 # Results: where the variable-radius Bloch certificate ends
 
 > Bounded outcome of Hunt #80. Labels: VERIFIED means run here and compared against the
-> archive's published record; REPORTED means stated by the paper or the archive and not
-> re-established; INFERRED means a float search or a float LP value with no interval
-> enclosure. Nothing here audits the paper's hand proofs (Bonk's theorem, the moment
-> inequality, the three-atom reduction, the centre-placement lemma).
+> archive's published record; MEASURED means computed here with no published counterpart
+> to compare against, so it is a number this hunt owns rather than one it checked;
+> REPORTED means stated by the paper or the archive and not re-established; INFERRED
+> means a float search or a float LP value with no interval enclosure. Nothing here
+> audits the paper's hand proofs (Bonk's theorem, the moment inequality, the three-atom
+> reduction, the centre-placement lemma).
 
 ## 1. The published verification reproduces
 

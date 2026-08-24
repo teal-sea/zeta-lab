@@ -99,12 +99,31 @@ def sector_setup(vr, mc, sector: int, eta: float):
     return cuts, G, h, C
 
 
+def deal(cell_ids: list[int], proc: int, nproc: int) -> list[int]:
+    """Hand this process its cells, expensive ones first and spread one per process.
+
+    A plain stride over the shard's cells is what the calibration job ran, and
+    it cost half the job: three of four processes finished in ~230 s while the
+    fourth spent 713 s, 486 of them on the single 6,888-box corner cell, so the
+    job's wall clock was 718 s for 1419 core-seconds of work. The processes were
+    not contending (the busy one held a full core throughout); they were simply
+    handed unequal piles.
+
+    Cost climbs steeply with v, and v is `cell % 40`, so dealing round-robin
+    down a v-descending order puts the expensive cells one per process before
+    any process gets a second one. That is Longest-Processing-Time-first with a
+    free cost proxy, and it needs no measurement pass.
+    """
+    ordered = sorted(cell_ids, key=lambda c: (-(c % GRID), c))
+    return ordered[proc::nproc]
+
+
 def run_slice(proc: int, nproc: int, cell_ids, args, out_path: str) -> None:
-    """One process: its stride of the shard's cells, appended as it goes."""
+    """One process: its share of the shard's cells, appended as it goes."""
     vr, mc = load_author_modules(args.src)
     cells = all_cells()
     cuts, G, h, C = sector_setup(vr, mc, args.sector, args.eta)
-    mine = cell_ids[proc::nproc]
+    mine = deal(cell_ids, proc, nproc)
     t0 = time.perf_counter()
     with open(out_path, "a", encoding="utf-8", buffering=1) as f:
         for n, cid in enumerate(mine):
