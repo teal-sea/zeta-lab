@@ -10,9 +10,9 @@ review's findings.
 
 Pub 1 and Davenport-Heilbronn are registered. The earlier bridge submission
 attempt closed without registration. The sole intended bridge submission is
-the surface called V2 in this repository: the unconditional three-point
-theorem together with the explicitly conditional general and eight-point
-statements.
+the surface called V2 in this repository: the unconditional three- and
+four-point theorems together with the explicitly conditional general and
+eight-point statements.
 
 | File | Surface | Role |
 | --- | --- | --- |
@@ -27,16 +27,17 @@ statements.
 | `bridge/BridgeChallenge.lean` | Earlier bridge attempt | The earlier statement surface. Imports Mathlib alone. |
 | `bridge/BridgeSolution.lean` | Earlier bridge attempt | The same statements, proved from `Zeta23Ext.Bridge.Main`. |
 | `bridge/comparator.json` | Earlier bridge attempt | The earlier Comparator configuration. |
+| `bridge/formalization.yaml` | Earlier bridge attempt | The pinned V1 metadata; V2 does not modify it. |
 | `bridge/V2Challenge.lean` | Intended bridge submission | The advertised statements. Imports Mathlib alone. |
-| `bridge/V2Solution.lean` | Intended bridge submission | The same statements, proved from `Zeta23Ext.Bridge.Main` and `ThreePoint.Main`. |
+| `bridge/V2Solution.lean` | Intended bridge submission | The same statements, proved from the bridge plus the three- and four-point certificate libraries. |
 | `bridge/comparator-v2.json` | Intended bridge submission | Which declarations are compared, and under which axioms. |
-| `bridge/formalization.yaml` | Intended bridge submission | Canonical provenance, scope, automation and review metadata. |
+| `bridge/palomar-v2/formalization.yaml` | Intended bridge submission | Canonical provenance, scope, automation and review metadata. |
 | `bridge/formalization-v2.yaml` | Intended bridge submission | Compatibility copy; not the submission path. |
 | `PALOMAR.md` | all of them | This file. |
 
-The surfaces carry **thirteen** deliberate `sorry`s between them, three in
+The surfaces carry **fifteen** deliberate `sorry`s between them, three in
 `Challenge.lean`, one in `DHChallenge.lean`, four in `BridgeChallenge.lean` and
-five in `V2Challenge.lean`, one per advertised statement.
+seven in `V2Challenge.lean`, one per advertised statement.
 Any claim about this tree being sorry-free has to say *which* object it means:
 the developments and every Solution module are sorry-free, the Challenge
 modules are not, and a submission whose metadata blurs the two gets that pointed
@@ -53,7 +54,7 @@ where a reader looks for them; the submission form takes both paths explicitly.
 ## The Challenge modules contain deliberate `sorry`s. Do not "fix" them.
 
 Three in `Challenge.lean`, one in `DHChallenge.lean`, four in
-`BridgeChallenge.lean`, five in `V2Challenge.lean`. They are what the Palomar format requires of an
+`BridgeChallenge.lean`, seven in `V2Challenge.lean`. They are what the Palomar format requires of an
 advertised statement: the Challenge module is the small, trusted surface a
 mathematical reader audits, and it states each claim without proving it. The
 matching Solution module proves the same statements, and Comparator checks that
@@ -161,8 +162,10 @@ cd lean && PATH="$HOME/.elan/bin:$PATH" lake build DHChallenge DHSolution
 The V1 submission attempt at commit
 `58bd44cadb5881540af744a152492d2c25420008` passed mechanical verification
 and later closed without registration. It is not a public Palomar entry. The
-current recovery page exposes no terminal reason, so this record does not guess
-one.
+owner reports that Palomar's page currently says its API credits are exhausted,
+which is consistent with the four failed V1 review attempts. V2 must not be
+submitted until V1 is withdrawn and Palomar reports that those credits have
+been restored.
 
 The sole intended bridge submission is the surface called V2 in this
 repository. It advertises the selected declarations:
@@ -170,10 +173,13 @@ repository. It advertises the selected declarations:
 - the parametric `n`-point theorem, conditional on its named certificate;
 - the eight-point bound and ratio, conditional on the same named certificate;
 - the three-point bound and ratio, unconditional because their certificate is
+  proved inside Lean;
+- the four-point bound and ratio, unconditional because their certificate is
   proved inside Lean.
 
-The unconditional constant is `0.67273733450380946`. The proved declarations
-use exactly `propext`, `Classical.choice`, and `Quot.sound`. The
+The unconditional constants are `0.67273733450380945875` at three points and
+`0.67284701976668870316` at four points. The proved declarations use exactly
+`propext`, `Classical.choice`, and `Quot.sound`. The
 Challenge module contains one deliberate statement placeholder per advertised
 declaration; `V2Solution` proves the advertised declarations without
 `sorry`.
@@ -183,15 +189,18 @@ The submission coordinates are:
 - repository: `teal-sea/zeta-lab`;
 - project directory: `lean/bridge`;
 - Comparator configuration: `lean/bridge/comparator-v2.json`;
-- metadata: `lean/bridge/formalization.yaml`.
+- metadata: `lean/bridge/palomar-v2/formalization.yaml`.
 
-Palomar requires the metadata basename to be exactly `formalization.yaml`.
-The suffixed file is not a valid submission path. Because V1 never registered,
+Palomar requires the metadata basename to be exactly `formalization.yaml`;
+the V2 copy therefore lives in its own `palomar-v2/` directory. The suffixed
+compatibility file is not a valid submission path, and V1's
+`bridge/formalization.yaml` and `bridge/comparator.json` remain pinned and
+unchanged. Because V1 never registered,
 the existing Palomar ID must be left blank: this is the initial bridge
 registration, not a new version of a registered entry.
 
-The proof surface has a green whole-package build, axiom audit, placeholder
-audit, and Palomar preparation run on contents identical to the merged proof
-files. Before submission, Palomar's official preparation must pass again
-against the exact public commit. Submission and registration remain the
-owner's actions.
+The four-point certificate has a green whole-package build in its source
+package. The combined seven-statement V2 surface still requires its own hosted
+whole-package build and axiom audit before submission, followed by Palomar's
+official preparation against the exact public commit. Submission, withdrawal
+and registration remain the owner's actions.

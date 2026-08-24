@@ -6,7 +6,9 @@
     "Zeta23Ext.PalomarV2.eight_point_bound",
     "Zeta23Ext.PalomarV2.eight_point_bound_ratio",
     "Zeta23Ext.PalomarV2.three_point_bound",
-    "Zeta23Ext.PalomarV2.three_point_bound_ratio"
+    "Zeta23Ext.PalomarV2.three_point_bound_ratio",
+    "Zeta23Ext.PalomarV2.four_point_bound",
+    "Zeta23Ext.PalomarV2.four_point_bound_ratio"
   ],
   "definition_names": [],
   "permitted_axioms": [

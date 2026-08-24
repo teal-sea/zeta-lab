@@ -6,7 +6,7 @@ SPDX-License-Identifier: MIT
 import Mathlib
 
 /-!
-# Advertised statements: the `n`-point simple-zero bound and two instances of it
+# Advertised statements: the `n`-point simple-zero bound and three instances of it
 
 Let `N(T₁,T₂)` count the nontrivial zeros of `riemannZeta` with ordinate in
 `(T₁,T₂]`, with multiplicity, and `N₀ˢ(T₁,T₂)` the *simple* zeros among them on
@@ -20,7 +20,7 @@ unconditionally, that for every `ε > 0` and all large `T`,
 Ainta refines `H` by carrying a spectral defect through that argument and
 bounding it block by block through a local inequality on seven points.  What is
 advertised here is that refinement carried out for `n` points, for every `n ≥ 2`
-at once, together with two instances of it:
+at once, together with three instances of it:
 
 ```
 (Φₙ(c,m,p) − ε) · N(T,2T) ≤ N₀ˢ(T,2T),
@@ -40,18 +40,26 @@ statement is Ainta's.
 as a named hypothesis `hCert`.  It is not a theorem of Lean; what is known about
 it at `n = 8` is that an interval-arithmetic program accepts it.
 
-The two three-point statements carry **no hypothesis**.  Their certificate,
-`1345/10⁶ ≤ F 3 3000 g` at every pair of nonnegative gaps, is proved inside Lean
+The two three-point statements and the four-point statement carry **no
+hypothesis**.  Their certificates are proved inside Lean.  At three points,
+`1345/10⁶ ≤ F 3 3000 g` at every pair of nonnegative gaps is proved inside Lean
 from an explicit enclosure of the kernel, so the `n = 3` instance of
 `n_point_bound` is unconditional.  Its constant
 
 ```
-Φ₃ = (149000000 H − 99200)/148800133 = 0.67273733450380946…
+Φ₃ = (149000000 H − 99200)/148800133 = 0.67273733450380945875…
 ```
 
-exceeds `H = 0.67250070367941164…` by `2.3663·10⁻⁴`, so those two statements are
+exceeds `H = 0.67250070367941164573…` by `2.3663·10⁻⁴`, so those two statements are
 an unconditional improvement, for Mathlib's `riemannZeta`, of the Theorem D the
 pinned dependency proves.
+
+At four points, `2310/10⁶ ≤ F 4 2500 g` at every triple of nonnegative gaps is
+also proved inside Lean.  The resulting unconditional constant is
+
+```
+Φ₄ = (906250 H − 1085)/904171 = 0.67284701976668870316…
+```
 
 ## Scope: what is *not* claimed
 
@@ -62,8 +70,8 @@ bound on a proportion of zeros, valid whether or not RH holds.
 development this one extends, and appears here only inside `Φₙ`.
 
 **The mathematics of the seven-point case is Ainta's.**  The generalisation in
-`n`, its Lean proof, the eight-point certificate and the three-point enclosure
-are this laboratory's.
+`n`, its Lean proof, the eight-point certificate and the three- and four-point
+enclosures are this laboratory's.
 
 ## The definitions
 
@@ -76,10 +84,10 @@ exception is `H`, which the development takes from the dependency as `HD 1` and
 which is written here in the closed form the dependency's `HD_one` proves it
 equals.
 
-## The five `sorry`s below are deliberate
+## The seven `sorry`s below are deliberate
 
 The Palomar format requires the Challenge module to *state* its claims without
-proving them.  `V2Solution.lean` proves the same five statements from the
+proving them.  `V2Solution.lean` proves the same seven statements from the
 development, and Comparator checks that the two match.  The proof development is
 sorry-free; these placeholders are not uncertified steps in it.
 -/
@@ -245,9 +253,9 @@ here**, so this statement carries no hypothesis at all.
 The cap `c(m−2) ≤ 1` gives `m ≤ 2 + ⌊10⁶/1345⌋ = 745`, and at `m = 745` the
 constant is
 
-`(149000000 H − 99200)/148800133 = 0.67273733450380946…`,
+`(149000000 H − 99200)/148800133 = 0.67273733450380945875…`,
 
-which exceeds `H = 0.67250070367941164…` by `2.3663·10⁻⁴`.  For Mathlib's
+which exceeds `H = 0.67250070367941164573…` by `2.3663·10⁻⁴`.  For Mathlib's
 `riemannZeta` this is an unconditional improvement of the Theorem D of the
 development this one extends.
 
@@ -262,12 +270,41 @@ theorem three_point_bound :
 /-- **The three-point bound as a proportion, unconditional.**  For every `ε > 0`
 and all large `T`,
 
-`N₀ˢ(T,2T) / N(T,2T) ≥ 0.67273733450380946… − ε`,
+`N₀ˢ(T,2T) / N(T,2T) ≥ 0.67273733450380945875… − ε`,
 
 with no hypothesis and no positivity guard on the denominator. -/
 theorem three_point_bound_ratio :
     ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
       (149000000 * H - 99200) / 148800133 - ε
+        ≤ (N0simple T (2 * T) : ℝ) / (Ncount T (2 * T) : ℝ) := by
+  sorry
+
+/-! ### The four-point instance, unconditional -/
+
+/-- **At four points, with the certificate proved rather than assumed.**  The
+certificate `2310/10⁶ ≤ F 4 2500 g` at every triple of nonnegative gaps is a
+theorem of Lean in the development.  Thus this statement has no hypothesis.
+
+For every `ε > 0` and all large `T`,
+
+`((906250 H − 1085)/904171 − ε) · N(T,2T) ≤ N₀ˢ(T,2T)`,
+
+with constant `0.67284701976668870316…`. -/
+theorem four_point_bound :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      ((906250 * H - 1085) / 904171 - ε) * (Ncount T (2 * T) : ℝ)
+        ≤ N0simple T (2 * T) := by
+  sorry
+
+/-- **The four-point bound as a proportion, unconditional.**  For every
+`ε > 0` and all large `T`,
+
+`N₀ˢ(T,2T) / N(T,2T) ≥ 0.67284701976668870316… − ε`,
+
+with no hypothesis and no positivity guard on the denominator. -/
+theorem four_point_bound_ratio :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      (906250 * H - 1085) / 904171 - ε
         ≤ (N0simple T (2 * T) : ℝ) / (Ncount T (2 * T) : ℝ) := by
   sorry
 
