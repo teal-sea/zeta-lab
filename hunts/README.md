@@ -100,6 +100,32 @@ artifacts label the two problems in **opposite** senses, so "AlphaEvolve's
 issue #1, the thread where the report was made, is still open. No new bound is
 claimed and nothing was posted upstream. Nothing bears on RH (`docs/08`).
 
+### Hunt #87: a 2013 paper beats an AlphaEvolve world record (`r_2969b0/`)
+
+**Status: settled.** DeepMind's `alphaevolve_repository_of_problems` marks
+Problem 42 (the sum-difference problem) `world_record`; an unreviewed,
+AI-produced issue on that repository claims a 2013 human paper already does
+better. Both sides checked, from the primary sources, by exact integer
+enumeration. The challenger is right, including its citation. Problem 42 defines
+`C` as the least constant with `|A+A|/|A| <= (|A-A|/|A|)^C`; Penman and Wells,
+INTEGERS 13 (2013) A57, Theorem 21, state that same ratio character for
+character and give `sup g = ln(32/5)/ln(26/5) = 1.125944426` over their family
+`Q_j`. The AlphaEvolve set from the repository's own notebook re-counts to
+`|A| = 309, |A+A| = 1367, |A-A| = 1163`, `g = 1.1219357375`, the published
+value. **`Q_36` -- 197 integers, published thirteen years earlier -- beats it**,
+`g = 1.1219505699`, decided at 120 digits rather than in float, and every
+`Q_j` with `j >= 36` beats it too. Corollary 13's four counting formulas were
+reproduced by enumeration at 64 values of `j` with zero mismatches, and four
+numbers the paper prints (`g(A_15)`, `f(X)`, `f(Q_10)`, `f-hat(Q_19)`)
+recompute exactly, which is what pins that the right normalisation is being
+read: the same paper also carries `f(A) = ln|A+A|/ln|A-A|`, and `f` ranks these
+two sets the *other* way. Three different score functions appear in the
+AlphaEvolve notebook for this one problem, one of them the reciprocal of the
+target and one carrying a size bonus of up to 0.01 on a scale 0.06 wide; the
+published number uses the clean one. The issue's separate `C = 2` claim was left
+untouched, as briefed. Nothing was posted upstream. Nothing bears on RH
+(`docs/08`).
+
 ### Hunt #86: the ceiling procedure on the *lower* side of Erdos minimum overlap (`overlap_lower/`)
 
 **Status: probe, partly settled.** Sixth instance of the ceiling procedure and
