@@ -269,14 +269,27 @@ jobs:
           echo "target = $n/$d  shard ${{ matrix.shard }}/8"
           set +e
           SECONDS=0
-          stdbuf -oL build/verify_local_tables "$n" "$d" tables 0 \
+          # `timeout` rather than the job cap: a shard killed by the runner
+          # reports nothing at all, and three baseline shards were lost that way
+          # twice. Non-convergence is this hunt's finding, so it has to arrive as
+          # data. 50m leaves the job's 60m cap room to upload the log.
+          timeout --signal=INT 50m \
+            stdbuf -oL build/verify_local_tables "$n" "$d" tables 0 \
             ${{ matrix.shard }} 8 2>&1 | stdbuf -oL tee verify.log
           code=${PIPESTATUS[0]}
           set -e
           echo "verifier_exit_code=$code wall_seconds=$SECONDS" | tee -a verify.log
           { echo "### ${{ matrix.name }} shard ${{ matrix.shard }}/8";
             echo '```'; cat verify.log; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
-          if [ "$code" != "0" ] && [ "$code" != "3" ]; then exit "$code"; fi
+          # 0 accepted, 3 INCONCLUSIVE, 124/130 no verdict inside the wall
+          # clock. All three are outcomes of the experiment; anything else is a
+          # real failure of the harness.
+          case "$code" in
+            0|3) ;;
+            124|130) echo "no verdict within 50m on this shard: recorded, not a job failure" \
+                       | tee -a verify.log >> "$GITHUB_STEP_SUMMARY" ;;
+            *) exit "$code" ;;
+          esac
       - uses: actions/upload-artifact@v4
         if: always()
         with:
