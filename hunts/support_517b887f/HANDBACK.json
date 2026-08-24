@@ -1,0 +1,33 @@
+{
+  "run_id": "517b887f-edb8-44f2-876f-22e75811ed05",
+  "status": "settled",
+  "conclusion": "The Erdos-Turan factor 2 per prime cannot be improved to (2-delta) by joint or reordered prime processing: the architecture reduces entirely to c(A), the largest subset whose pairwise sums are powers of 2, which satisfies c(A) in {1,2} and is defined order-blind, so the selection lemma with phi(k)=(2-delta)^k is logically equivalent to the target bound g(k) <= 2(2-delta)^k rather than a refinement of the 1934 bookkeeping. Two defects in the standard sketch of the halving step were found and witnessed exactly: the per-prime halving |B'| >= |B|/2 is false, and the assembled c(A) >= n/2^s is false without primitivity.",
+  "confidence": "The two defect witnesses are exact integer arithmetic, re-verified by independent trial division, and can be checked by hand in a minute; lean on them fully. The order-blindness barrier is a proof and I would lean on it, with the stated scope: it bounds what the Erdos-Turan architecture can prove, not what is true, so it says nothing against an S-unit-equation proof. The exhaustive sweep (104,183 admissible sets) is bounded-box evidence only and is not a proof of the repaired lemma.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "Measured lower bounds g(k) >= 2,4,5,6,8,10,11 for k=1..7 with witnesses, and the g/f inversion that makes them comparable",
+      "source": "hunts/r_186989/RESULTS.md",
+      "effect": "Removed the need to re-derive the extremal sets from scratch; supplied the tightness observation g(1)=2=2^1, g(2)>=4=2^2 that pins where the classical bound has no room. Audited: the witnesses reproduced in boxes 20x smaller."
+    },
+    {
+      "what": "Erdos-Suranyi improvement of the 1934 bound from 3*2^(k-1) to 2^k, and the recursive-halving proof architecture",
+      "source": "arXiv:2602.07545 (Fueredi-Gyarmati, Erdos-Turan Theorem and Eulerian Integers), sections restating Theorem A and proving the Eulerian analogue",
+      "effect": "Gave the proof skeleton (sectoring / halve per prime / three-element base case) that the reconstruction in RESULTS.md section 1 follows, and identified the single site where the factor 2 enters."
+    }
+  ],
+  "threads": [
+    {
+      "what": "Lemma (L): for primitive admissible A and odd q in S, is the divisible-by-q part bounded relative to the rest?",
+      "why_it_might_matter": "It is the only sub-question inside the architecture that is not equivalent to the full conjecture, and it is a two-set smoothness question of exactly Gyory-Stewart-Tijdeman 1986 type. On its own it still leaves an exponential bound, so it is a lead, not a route.",
+      "first_step": "Re-run the existing sweep in hunts/support_517b887f/probe.py and record, for each primitive admissible set and each odd q, the ratio |A_0|/|A_*|. One counterexample kills (L) for free."
+    },
+    {
+      "what": "The explicit family {1,2,4,...,2^m}, whose pair sums are 2^i(1+2^(j-i)) and whose prime support is {2} together with the primes dividing 2^t+1 for t <= m",
+      "why_it_might_matter": "It is where the repaired selection lemma is exactly tight (at m=3), it needs no search at all, and it ties g(k) to the factorisations of 2^t+1. If it or a variant beats the clique search for large k it would give the first search-free lower bounds on g.",
+      "first_step": "Compute k(m) = |support| and n = m+1 for m up to 30 using known factorisations of 2^t+1, and compare (m+1) against the clique-search lower bounds for the same k."
+    }
+  ],
+  "core_candidates": [],
+  "notes_for_operator": "The parent asked a bounded question and got a negative answer plus two defect witnesses in the classical write-up; the defects are publishable-scale observations about the literature's sketch, not about the theorem, which stands. If the parent is choosing a next lane, the barrier here says do not fund any further work inside the Erdos-Turan architecture: the S-unit / Evertse-Gyory counting route is the only door that reads more information, which is also where hunt #91's door analysis pointed independently."
+}
