@@ -1,16 +1,16 @@
-# Tier 3b — the three-point certificate and the Palomar V2 surface, on demand.
+# Tier 3b — the three- and four-point certificates and the Palomar V2 surface, on demand.
 #
 # The three-point material is a `lean_lib` of `lean/bridge` (see that package's
 # lakefile for why it is not a package of its own), so this workflow builds
 # `lean/bridge` and nothing else. What it has to establish, beyond "it compiles":
 #
-#  1. `ThreePoint` still proves `three_point_cert` and the unconditional bound,
-#     with the three standard axioms and no forbidden token.
-#  2. `V2Solution` proves the five declarations `comparator-v2.json` advertises,
+#  1. `ThreePoint` and `FourPoint` still prove their certificates and
+#     unconditional bounds, with the three standard axioms and no forbidden token.
+#  2. `V2Solution` proves the seven declarations `comparator-v2.json` advertises,
 #     also with the three standard axioms — because those are what a registry
 #     replay would check, and a `sorryAx` there would mean the Challenge's
 #     deliberate holes had leaked into the proved surface.
-#  3. `V2Challenge` carries exactly five `sorry`, one per advertised statement,
+#  3. `V2Challenge` carries exactly seven `sorry`, one per advertised statement,
 #     and no more.
 #
 # Why this file exists at all: the author's machine cannot run `lake build`
@@ -45,7 +45,7 @@ concurrency:
 
 jobs:
   three-point:
-    name: three-point certificate and the V2 surface
+    name: three- and four-point certificates and the V2 surface
     runs-on: ubuntu-latest
     timeout-minutes: 350
     defaults:
@@ -133,7 +133,12 @@ jobs:
           set -o pipefail
           /usr/bin/time -p lake build ThreePoint.Main 2>&1 | tee ../../main-build.log
 
-      - name: V2Challenge (statement-only; five deliberate sorrys)
+      - name: FourPoint.Main (certificate, bound, axiom audit)
+        run: |
+          set -o pipefail
+          /usr/bin/time -p lake build FourPoint.Main 2>&1 | tee ../../four-point-build.log
+
+      - name: V2Challenge (statement-only; seven deliberate sorrys)
         run: |
           set -o pipefail
           /usr/bin/time -p lake build V2Challenge 2>&1 | tee ../../challenge-build.log
@@ -162,13 +167,13 @@ jobs:
           # blanket pattern reads that as a violation. And it must not pass on a
           # silent log: every advertised name has to be found, or a build that
           # printed nothing would audit clean.
-          cat main-build.log solution-build.log > audit.log
+          cat main-build.log four-point-build.log solution-build.log > audit.log
 
           echo "--- the audited declarations ---"
-          grep -oE "'Zeta23Ext\.(Bridge\.ThreePoint|PalomarV2)\.[A-Za-z0-9_']+' depends on axioms: \[[^]]*\]" \
+          grep -oE "'Zeta23Ext\.(Bridge\.(ThreePoint|FourPoint)|PalomarV2)\.[A-Za-z0-9_']+' depends on axioms: \[[^]]*\]" \
             audit.log || true
 
-          if grep -E "'Zeta23Ext\.(Bridge\.ThreePoint|PalomarV2)\.[A-Za-z0-9_']+' depends on axioms" audit.log \
+          if grep -E "'Zeta23Ext\.(Bridge\.(ThreePoint|FourPoint)|PalomarV2)\.[A-Za-z0-9_']+' depends on axioms" audit.log \
                | grep -vE "depends on axioms: \[propext, (Classical\.)?choice, Quot\.sound\]"; then
             echo "::error::a non-standard axiom reached an audited declaration"
             exit 1
@@ -180,25 +185,33 @@ jobs:
                    Zeta23Ext.Bridge.ThreePoint.Phi_three \
                    Zeta23Ext.Bridge.ThreePoint.three_point_bound \
                    Zeta23Ext.Bridge.ThreePoint.three_point_bound_ratio \
+                   Zeta23Ext.Bridge.FourPoint.F4_eq \
+                   Zeta23Ext.Bridge.FourPoint.cover1 \
+                   Zeta23Ext.Bridge.FourPoint.four_point_cert \
+                   Zeta23Ext.Bridge.FourPoint.Phi_four \
+                   Zeta23Ext.Bridge.FourPoint.four_point_bound \
+                   Zeta23Ext.Bridge.FourPoint.four_point_bound_ratio \
                    Zeta23Ext.PalomarV2.n_point_bound \
                    Zeta23Ext.PalomarV2.eight_point_bound \
                    Zeta23Ext.PalomarV2.eight_point_bound_ratio \
                    Zeta23Ext.PalomarV2.three_point_bound \
-                   Zeta23Ext.PalomarV2.three_point_bound_ratio; do
+                   Zeta23Ext.PalomarV2.three_point_bound_ratio \
+                   Zeta23Ext.PalomarV2.four_point_bound \
+                   Zeta23Ext.PalomarV2.four_point_bound_ratio; do
             if ! grep -qE "'$d' depends on axioms: \[propext, (Classical\.)?choice, Quot\.sound\]" audit.log; then
               echo "::error::no clean axiom line for $d -- the audit must not pass on a silent log"
               exit 1
             fi
           done
-          echo "axiom audit clean: eleven declarations, all [propext, Classical.choice, Quot.sound]"
+          echo "axiom audit clean: nineteen declarations, all [propext, Classical.choice, Quot.sound]"
 
-      - name: the Challenge carries exactly five sorrys, the Solution none
+      - name: the Challenge carries exactly seven sorrys, the Solution none
         working-directory: .
         run: |
           n=$(grep -c "declaration uses \`sorry\`" challenge-build.log || true)
           echo "V2Challenge sorry warnings: $n"
-          if [ "$n" -ne 5 ]; then
-            echo "::error::V2Challenge.lean must carry exactly five deliberate sorrys, saw $n"
+          if [ "$n" -ne 7 ]; then
+            echo "::error::V2Challenge.lean must carry exactly seven deliberate sorrys, saw $n"
             exit 1
           fi
           if grep -q "V2Solution.lean.*declaration uses \`sorry\`" solution-build.log; then
@@ -211,10 +224,10 @@ jobs:
           # Comments discussing the rule are fine; a real token is not. The
           # second grep drops matches that sit in a comment line, which is the
           # `full` workflow's own idiom. V2Challenge.lean is excluded on
-          # purpose: its five sorrys are what the Palomar format requires of a
+          # purpose: its seven sorrys are what the Palomar format requires of a
           # statement-only module, and the step above counts them instead.
           if grep -rnE '(^|[^[:alnum:]_])(sorry|admit|native_decide|axiom|opaque|unsafe|implemented_by|extern)([^[:alnum:]_]|$)' \
-               ThreePoint.lean ThreePoint/*.lean V2Solution.lean \
+               ThreePoint.lean ThreePoint/*.lean FourPoint.lean FourPoint/*.lean V2Solution.lean \
                | grep -vE '^[^:]+:[0-9]+:[[:space:]]*(--|/-)'; then
             echo "::error::a forbidden token is present in the proved surface"
             exit 1
@@ -233,7 +246,7 @@ jobs:
         run: |
           python -m pip install --quiet --disable-pip-version-check pyyaml
           python scripts/palomar_precheck.py . lean/bridge \
-            lean/bridge/comparator-v2.json lean/bridge/formalization-v2.yaml
+            lean/bridge/comparator-v2.json lean/bridge/palomar-v2/formalization.yaml
 
       - name: save cache
         if: always()
