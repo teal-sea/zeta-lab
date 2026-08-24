@@ -1,0 +1,54 @@
+{
+  "run_id": "eccd5f5e-2a3b-4460-9f5f-d721aa4c3b44",
+  "status": "settled",
+  "conclusion": "The Erdos #126 scout's mathematics survives adversarial audit: the inverse g(k) reformulation, the positivity equivalence, the Fekete/composition refutation and the whole finite table are correct, and the table reproduces exactly under an independently written search. Its omitted-prime loose thread is false (refuted by a row of its own table), its 'optima are tiny' mystery is explained by S-unit scaling, and its 'no progress beyond 1934' framing hides three relevant papers it cites none of.",
+  "confidence": "High on everything re-proved by hand (sections 1, 2, 3, 5, 7 of RESULTS.md are elementary proofs a referee can check in minutes) and on the reproduced table (a second implementation, written from the problem statement, agreeing on all seven rows). Medium on the literature section: it rests on the erdosproblems.com page fetched today plus web-search summaries of Gyory-Stewart-Tijdeman 1986 and Erdos-Stewart-Tijdeman 1988 whose abstracts I did not read at source, so treat the exact constants (1/8+eps, exp(c sqrt(s)/log s)) as needing one confirmation before quoting. The S-unit reduction in section 7 is proved; the counting step built on it is explicitly not.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "the full claim set of the Erdos #126 scout: reformulation, positivity lemma, composition argument, g_N table, doors and threads",
+      "source": "hunts/r_186989/RESULTS.md",
+      "effect": "was the entire audit target; its arm-2 table supplied the counterexample that refutes its own omitted-prime thread, so no new search was needed for that refutation"
+    },
+    {
+      "what": "authoritative problem statement, status, prize and the 1934 bounds log n << f(n) << n/log n",
+      "source": "T. F. Bloom, Erdos Problem #126, https://www.erdosproblems.com/126, accessed 2026-08-24",
+      "effect": "settled the 'no progress' question and supplied the trivial construction g(k) >= (p_k+1)/2 that the scout's table should have been benchmarked against"
+    }
+  ],
+  "threads": [
+    {
+      "what": "g(2): is it 4 or 5?",
+      "why_it_might_matter": "one integer separates the search lower bound from the 1934 upper bound; settling it makes f(5)=3 unconditional and is the first movement on the Erdos-Turan constant at k=2",
+      "first_step": "2 must be in S, so S={2,q}; enumerate solutions of 2^a q^b + 2^c q^d = 2^e q^f + 2^g q^h for small q with an S-unit-equation solver and check no 5-element witness arises"
+    },
+    {
+      "what": "g(3) <= 7 would refute the composition/supermultiplicativity idea outright",
+      "why_it_might_matter": "it retires a whole programme with a bounded Diophantine computation rather than by finding a gadget; the Erdos-Turan range is [5,11]",
+      "first_step": "extend the same S-unit enumeration to three primes, or find a combinatorial argument capping 8-element witnesses"
+    },
+    {
+      "what": "an exp(o(s)) upper bound on the number of nondegenerate solutions of the three-term S-unit equation would prove Erdos #126",
+      "why_it_might_matter": "it is a clean sufficient condition, and the known lower bound exp(c sqrt(s)/log s) is itself exp(o(s)), so nothing forbids it",
+      "first_step": "read off the s-dependence of the Evertse-Schlickewei-Schmidt bound and state the gap as a ratio"
+    },
+    {
+      "what": "a witness-normalisation lemma: can every gcd-1 optimal witness be placed inside [1, C^k]?",
+      "why_it_might_matter": "it would turn bounded search from a lower-bound instrument into an exact computation of g(k), which is the missing half of every finite arm on this problem",
+      "first_step": "re-run the exhaustive search at N = 2^(k+2) for k <= 6 and compare against the unbounded run"
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "a 'reproduce the peer arm independently' habit for audit runs: write the search from the problem statement, never from the audited probe",
+      "why_reusable": "it caught a real class of failure in this run. Our first implementation built the adjacency bitset one-directionally and returned max clique 1 on every row, which is obviously broken; the same bug shape returns 5 where the truth is 6 and is not obviously broken. An audit that imports the audited code cannot see either.",
+      "first_step": "make it a line in the red-team brief template: the audit arm reimplements, it does not import"
+    },
+    {
+      "what": "a literature-first gate on any hunt that asserts 'no progress since <year>'",
+      "why_reusable": "the scout asserted a 92-year wall and cited no paper. One page fetch plus one search found the authoritative status, the prize, the trivial construction that benchmarks the whole finite arm, and three relevant papers including one from February 2026. Cost was under five minutes.",
+      "first_step": "require any hunt claiming a literature state to name its source in RESULTS.md, per the AGENTS.md original-vs-novel rule"
+    }
+  ],
+  "notes_for_operator": "The scout was a good run and this audit does not overturn it. What it does overturn is one thread and one framing, and the cheapest lesson is the literature one: the trivial 1934 construction g(k) >= (p_k+1)/2 was the natural benchmark for the scout's entire finite table and cost one page fetch to find. Nothing here bears on RH (docs/08)."
+}
