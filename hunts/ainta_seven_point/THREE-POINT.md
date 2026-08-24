@@ -310,8 +310,9 @@ Specifically it confirms, against the true `w = (K/K(0))²` evaluated from the s
 * `cover1`'s chain is contiguous, hits the cutoff exactly, and every table cell both covers
   its segment and clears `c`;
 * at every one of the 487 leaves, the three cell lemmas invoked really do cover the `x`, `y`
-  and `x+y` ranges the branch conditions force — including the 31 leaves in `pair_0_1` and 5
-  in `pair_0_2` that split a straddling cell in two — and the linear combination the `linarith`
+  and `x+y` ranges the branch conditions force — including the 50 places where the cell
+  of a variable straddles a quarter boundary and the leaf splits on it and invokes two
+  neighbouring cells — and the linear combination the `linarith`
   is asked to close is true.
 
 **One real bug was found and fixed this session.** `cover1` was emitting
