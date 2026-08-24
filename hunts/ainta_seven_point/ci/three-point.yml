@@ -60,12 +60,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: install elan
-        run: |
-          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
-            | sh -s -- -y --default-toolchain none
-          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
-
+      # Restore BEFORE installing elan, which is the order `full.yml` uses: the
+      # cache carries the toolchain itself, and elan-init with
+      # `--default-toolchain none` is then a no-op over it.
       - name: restore elan and lake
         uses: actions/cache/restore@v4
         id: lakecache
@@ -78,6 +75,12 @@ jobs:
           restore-keys: |
             three-point-${{ runner.os }}-${{ hashFiles('hunts/ainta_seven_point/lean-three-point/lake-manifest.json', 'hunts/ainta_seven_point/lean-three-point/lean-toolchain') }}-
             three-point-${{ runner.os }}-
+
+      - name: install elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+            | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
 
       - name: toolchain
         run: |
