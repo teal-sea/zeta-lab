@@ -12,18 +12,20 @@ import Mathlib.Analysis.Real.Pi.Bounds
 # The three-point certificate: enclosure machinery
 
 `Zeta23Ext.Bridge.n_point_bound` is proved for every `n`, conditional on the finite inequality
-`hCert`.  This package discharges `hCert` at `n = 3`, so that the `n = 3` instance of that
-theorem becomes **unconditional**.
+`hCert`.  The `ThreePoint` library discharges `hCert` at `n = 3`, so that the `n = 3` instance
+of that theorem becomes **unconditional**.
 
 This module is the numerical layer.  Sections 1–3 are carried over **verbatim** from
 `hunts/ainta_seven_point/lean/CertRoute.lean` (pull request #117, branch `bridge/certificate`,
 not merged at the time of writing): the twelve-term Taylor enclosure of `sin` and `cos`, the
 monotone one-sided corollaries, and the closed form of the kernel.  They are reproduced here
-rather than imported because #117 is not on `main` and this package must build from `main`
-alone; when #117 lands, the two packages should be unified and this copy deleted.  What is new
-here starts at section 4.
+rather than imported because #117 is not on `main`; when #117 lands, the two should be unified
+and this copy deleted.  What is new here starts at section 4.
 
-Nothing in `lean/bridge` is modified, and nothing in `lean/bridge` imports this.
+The library is a `lean_lib` of this package rather than a package of its own, so that it sees
+the very definitions `n_point_bound` consumes without a `path` dependency.  It adds nothing to
+this package's dependency set and no other library here imports it: `Zeta23Ext`,
+`BridgeChallenge`/`BridgeSolution` are untouched by it, and only `V2Solution` imports it.
 -/
 
 noncomputable section

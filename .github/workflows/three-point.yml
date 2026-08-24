@@ -1,11 +1,17 @@
-# Tier 3b — the three-point certificate package, on demand.
+# Tier 3b — the three-point certificate and the Palomar V2 surface, on demand.
 #
-# `hunts/ainta_seven_point/lean-three-point/` is a Lake package that requires
-# `lean/bridge` BY PATH, so it proves things about the same `Kfun`, `kfun`,
-# `wfun`, `F` and `Phi_n` that `Zeta23Ext.Bridge.n_point_bound` consumes. It is
-# not part of the Palomar submission surface and nothing in `lean/bridge`
-# imports it, so it does not belong in the nightly `full` job: a red build here
-# must not be readable as a red build of the advertised development.
+# The three-point material is a `lean_lib` of `lean/bridge` (see that package's
+# lakefile for why it is not a package of its own), so this workflow builds
+# `lean/bridge` and nothing else. What it has to establish, beyond "it compiles":
+#
+#  1. `ThreePoint` still proves `three_point_cert` and the unconditional bound,
+#     with the three standard axioms and no forbidden token.
+#  2. `V2Solution` proves the five declarations `comparator-v2.json` advertises,
+#     also with the three standard axioms — because those are what a registry
+#     replay would check, and a `sorryAx` there would mean the Challenge's
+#     deliberate holes had leaked into the proved surface.
+#  3. `V2Challenge` carries exactly five `sorry`, one per advertised statement,
+#     and no more.
 #
 # Why this file exists at all: the author's machine cannot run `lake build`
 # (a 13-inch laptop; Lean builds crash it), so this workflow IS the build loop.
@@ -18,16 +24,16 @@
 #     the save step writes a fresh one under a run-unique key.
 #
 #  2. The build is staged module by module with `/usr/bin/time`, rather than one
-#     `lake build ThreePoint`. The generated cell tables are the expensive part
-#     and the point of the exercise is to MEASURE which shape is expensive, so
-#     the per-module wall clock has to survive into the log.
+#     `lake build`. The generated cell tables are the expensive part and the
+#     point of the exercise is to MEASURE which shape is expensive, so the
+#     per-module wall clock has to survive into the log.
 #
 # Public repository, GitHub-hosted standard runners: billed zero.
 name: three-point
 
 on:
   push:
-    branches: [ "bridge/three-point" ]
+    branches: [ "bridge/**", "palomar/**" ]
   workflow_dispatch:
 
 permissions:
@@ -39,12 +45,12 @@ concurrency:
 
 jobs:
   three-point:
-    name: three-point certificate, zero sorrys
+    name: three-point certificate and the V2 surface
     runs-on: ubuntu-latest
     timeout-minutes: 350
     defaults:
       run:
-        working-directory: hunts/ainta_seven_point/lean-three-point
+        working-directory: lean/bridge
     steps:
       - uses: actions/checkout@v4
 
@@ -57,11 +63,10 @@ jobs:
         with:
           path: |
             ~/.elan
-            hunts/ainta_seven_point/lean-three-point/.lake
             lean/bridge/.lake
-          key: three-point-${{ runner.os }}-${{ hashFiles('hunts/ainta_seven_point/lean-three-point/lake-manifest.json', 'hunts/ainta_seven_point/lean-three-point/lean-toolchain') }}-${{ github.run_id }}
+          key: three-point-${{ runner.os }}-${{ hashFiles('lean/bridge/lake-manifest.json', 'lean/bridge/lean-toolchain') }}-${{ github.run_id }}
           restore-keys: |
-            three-point-${{ runner.os }}-${{ hashFiles('hunts/ainta_seven_point/lean-three-point/lake-manifest.json', 'hunts/ainta_seven_point/lean-three-point/lean-toolchain') }}-
+            three-point-${{ runner.os }}-${{ hashFiles('lean/bridge/lake-manifest.json', 'lean/bridge/lean-toolchain') }}-
             three-point-${{ runner.os }}-
 
       - name: install elan
@@ -83,10 +88,10 @@ jobs:
         # fails: the build below just becomes very slow.
         run: lake exe cache get || echo "::warning::mathlib cache get failed, falling back to source build"
 
-      - name: dependencies (Zeta23 upstream, then the bridge)
+      - name: dependencies (Zeta23 upstream, then the bridge development)
         run: |
           set -o pipefail
-          /usr/bin/time -v lake build Zeta23Ext.Bridge.Main 2>&1 | tail -200
+          /usr/bin/time -v lake build Zeta23Ext 2>&1 | tail -200
 
       - name: save cache after dependencies
         # Written here rather than only at the end so that a failure in the
@@ -96,9 +101,8 @@ jobs:
         with:
           path: |
             ~/.elan
-            hunts/ainta_seven_point/lean-three-point/.lake
             lean/bridge/.lake
-          key: three-point-${{ runner.os }}-${{ hashFiles('hunts/ainta_seven_point/lean-three-point/lake-manifest.json', 'hunts/ainta_seven_point/lean-three-point/lean-toolchain') }}-${{ github.run_id }}
+          key: three-point-${{ runner.os }}-${{ hashFiles('lean/bridge/lake-manifest.json', 'lean/bridge/lean-toolchain') }}-${{ github.run_id }}
 
       - name: ThreePoint.Base
         run: /usr/bin/time -p lake build ThreePoint.Base
@@ -127,59 +131,109 @@ jobs:
       - name: ThreePoint.Main (certificate, bound, axiom audit)
         run: |
           set -o pipefail
-          /usr/bin/time -p lake build ThreePoint.Main 2>&1 | tee ../../../main-build.log
+          /usr/bin/time -p lake build ThreePoint.Main 2>&1 | tee ../../main-build.log
 
-      - name: the whole library
-        run: /usr/bin/time -p lake build ThreePoint
+      - name: V2Challenge (statement-only; five deliberate sorrys)
+        run: |
+          set -o pipefail
+          /usr/bin/time -p lake build V2Challenge 2>&1 | tee ../../challenge-build.log
+
+      - name: V2Solution (the advertised surface, axiom audit)
+        run: |
+          set -o pipefail
+          /usr/bin/time -p lake build V2Solution 2>&1 | tee ../../solution-build.log
+
+      - name: the whole package
+        run: /usr/bin/time -p lake build
 
       - name: axiom audit
-        # `#print axioms` at the bottom of ThreePoint/Main.lean prints to the
-        # build log. Anything other than the three standard axioms, on any
-        # advertised declaration, fails the job.
+        # `#print axioms` at the bottom of ThreePoint/Main.lean and of
+        # V2Solution.lean prints to the build log. Anything other than the three
+        # standard axioms, on any advertised declaration, fails the job.
         working-directory: .
         run: |
-          # `lake build` replays the diagnostics of every cached module, so
-          # main-build.log carries the whole dependency tree's `#print axioms`
-          # output, not just this package's. Audit OUR declarations, by name.
+          # `lake build` replays the diagnostics of every cached module, so these
+          # logs carry the whole dependency tree's `#print axioms` output, not
+          # just the declarations under audit. Audit OUR declarations, by name.
           #
           # Two things this must not do. It must not scan the whole tree: the
           # bridge prints `[propext, choice, Quot.sound]` wherever `Classical` is
           # open, which is the same three axioms under a shorter name, and a
           # blanket pattern reads that as a violation. And it must not pass on a
-          # silent log: the six advertised names have to be found, or a build
-          # that printed nothing would audit clean.
-          echo "--- the advertised declarations ---"
-          grep -oE "'Zeta23Ext\.Bridge\.ThreePoint\.[A-Za-z0-9_']+' depends on axioms: \[[^]]*\]" \
-            main-build.log || true
+          # silent log: every advertised name has to be found, or a build that
+          # printed nothing would audit clean.
+          cat main-build.log solution-build.log > audit.log
 
-          if grep -E "'Zeta23Ext\.Bridge\.ThreePoint\.[A-Za-z0-9_']+' depends on axioms" main-build.log \
+          echo "--- the audited declarations ---"
+          grep -oE "'Zeta23Ext\.(Bridge\.ThreePoint|PalomarV2)\.[A-Za-z0-9_']+' depends on axioms: \[[^]]*\]" \
+            audit.log || true
+
+          if grep -E "'Zeta23Ext\.(Bridge\.ThreePoint|PalomarV2)\.[A-Za-z0-9_']+' depends on axioms" audit.log \
                | grep -vE "depends on axioms: \[propext, (Classical\.)?choice, Quot\.sound\]"; then
-            echo "::error::a non-standard axiom reached an advertised declaration"
+            echo "::error::a non-standard axiom reached an audited declaration"
             exit 1
           fi
 
-          for d in F3_eq cover1 three_point_cert Phi_three three_point_bound three_point_bound_ratio; do
-            if ! grep -qE "'Zeta23Ext\.Bridge\.ThreePoint\.$d' depends on axioms: \[propext, (Classical\.)?choice, Quot\.sound\]" \
-                 main-build.log; then
+          for d in Zeta23Ext.Bridge.ThreePoint.F3_eq \
+                   Zeta23Ext.Bridge.ThreePoint.cover1 \
+                   Zeta23Ext.Bridge.ThreePoint.three_point_cert \
+                   Zeta23Ext.Bridge.ThreePoint.Phi_three \
+                   Zeta23Ext.Bridge.ThreePoint.three_point_bound \
+                   Zeta23Ext.Bridge.ThreePoint.three_point_bound_ratio \
+                   Zeta23Ext.PalomarV2.n_point_bound \
+                   Zeta23Ext.PalomarV2.eight_point_bound \
+                   Zeta23Ext.PalomarV2.eight_point_bound_ratio \
+                   Zeta23Ext.PalomarV2.three_point_bound \
+                   Zeta23Ext.PalomarV2.three_point_bound_ratio; do
+            if ! grep -qE "'$d' depends on axioms: \[propext, (Classical\.)?choice, Quot\.sound\]" audit.log; then
               echo "::error::no clean axiom line for $d -- the audit must not pass on a silent log"
               exit 1
             fi
           done
-          echo "axiom audit clean: six advertised declarations, all [propext, Classical.choice, Quot.sound]"
+          echo "axiom audit clean: eleven declarations, all [propext, Classical.choice, Quot.sound]"
 
-      - name: no sorry, no axiom, no native_decide
-        working-directory: hunts/ainta_seven_point/lean-three-point
+      - name: the Challenge carries exactly five sorrys, the Solution none
+        working-directory: .
+        run: |
+          n=$(grep -c "declaration uses \`sorry\`" challenge-build.log || true)
+          echo "V2Challenge sorry warnings: $n"
+          if [ "$n" -ne 5 ]; then
+            echo "::error::V2Challenge.lean must carry exactly five deliberate sorrys, saw $n"
+            exit 1
+          fi
+          if grep -q "V2Solution.lean.*declaration uses \`sorry\`" solution-build.log; then
+            echo "::error::V2Solution.lean carries a sorry"
+            exit 1
+          fi
+
+      - name: no sorry, no axiom, no native_decide in the proved surface
         run: |
           # Comments discussing the rule are fine; a real token is not. The
           # second grep drops matches that sit in a comment line, which is the
-          # `full` workflow's own idiom.
+          # `full` workflow's own idiom. V2Challenge.lean is excluded on
+          # purpose: its five sorrys are what the Palomar format requires of a
+          # statement-only module, and the step above counts them instead.
           if grep -rnE '(^|[^[:alnum:]_])(sorry|admit|native_decide|axiom|opaque|unsafe|implemented_by|extern)([^[:alnum:]_]|$)' \
-               ThreePoint.lean ThreePoint/*.lean \
+               ThreePoint.lean ThreePoint/*.lean V2Solution.lean \
                | grep -vE '^[^:]+:[0-9]+:[[:space:]]*(--|/-)'; then
-            echo "::error::a forbidden token is present in the three-point package"
+            echo "::error::a forbidden token is present in the proved surface"
             exit 1
           fi
           echo "zero sorry, zero axiom, zero native_decide"
+
+      # `setup-python` rather than the runner's own interpreter, matching
+      # `checks.yml` and `tests.yml`: a recent Ubuntu image's system Python is
+      # externally managed and refuses a bare `pip install`.
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Palomar precheck (mechanical gate only)
+        working-directory: .
+        run: |
+          python -m pip install --quiet --disable-pip-version-check pyyaml
+          python scripts/palomar_precheck.py . lean/bridge \
+            lean/bridge/comparator-v2.json lean/bridge/formalization-v2.yaml
 
       - name: save cache
         if: always()
@@ -187,6 +241,5 @@ jobs:
         with:
           path: |
             ~/.elan
-            hunts/ainta_seven_point/lean-three-point/.lake
             lean/bridge/.lake
-          key: three-point-${{ runner.os }}-${{ hashFiles('hunts/ainta_seven_point/lean-three-point/lake-manifest.json', 'hunts/ainta_seven_point/lean-three-point/lean-toolchain') }}-${{ github.run_id }}-final
+          key: three-point-${{ runner.os }}-${{ hashFiles('lean/bridge/lake-manifest.json', 'lean/bridge/lean-toolchain') }}-${{ github.run_id }}-final

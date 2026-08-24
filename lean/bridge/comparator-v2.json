@@ -1,0 +1,18 @@
+{
+  "challenge_module": "V2Challenge",
+  "solution_module": "V2Solution",
+  "theorem_names": [
+    "Zeta23Ext.PalomarV2.n_point_bound",
+    "Zeta23Ext.PalomarV2.eight_point_bound",
+    "Zeta23Ext.PalomarV2.eight_point_bound_ratio",
+    "Zeta23Ext.PalomarV2.three_point_bound",
+    "Zeta23Ext.PalomarV2.three_point_bound_ratio"
+  ],
+  "definition_names": [],
+  "permitted_axioms": [
+    "propext",
+    "Quot.sound",
+    "Classical.choice"
+  ],
+  "enable_nanoda": true
+}

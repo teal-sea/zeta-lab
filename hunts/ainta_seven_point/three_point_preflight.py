@@ -35,7 +35,7 @@ import sys
 from fractions import Fraction as F
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-D = os.path.join(HERE, "lean-three-point", "ThreePoint")
+D = os.path.join(HERE, "..", "..", "lean", "bridge", "ThreePoint")
 
 C = F(1345, 10 ** 6)      # the certificate constant
 P = 3000                  # the pressure denominator
