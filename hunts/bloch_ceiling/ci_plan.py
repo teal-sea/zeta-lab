@@ -44,19 +44,29 @@ REFERENCE_BOXES = {
 NCELL = 1600
 
 
-def plan(boxes_per_job: int, sectors) -> list[dict]:
+def plan(boxes_per_job: int, sectors, target: str = "",
+         prefix: str = "s") -> list[dict]:
     jobs = []
     for j in sectors:
         n = max(1, min(NCELL, math.ceil(REFERENCE_BOXES[j] / boxes_per_job)))
         for s in range(n):
-            jobs.append({"sector": j, "shard": s, "nshard": n,
-                         "name": f"s{j:02d}-{s:02d}of{n:02d}"})
+            jobs.append({"sector": j, "shard": s, "nshard": n, "target": target,
+                         "name": f"{prefix}{j:02d}-{s:02d}of{n:02d}"})
     return jobs
 
 
 def collect(paths: list[str], target: float) -> dict:
+    """Roll the per-cell records up into a per-sector verdict at one target.
+
+    The target filter is load-bearing, not hygiene. The oracle sectors are run
+    twice, at 0.0153 and at the raised target, and the de-duplication below
+    keys on (sector, cell); without the filter a cell's record at one target
+    would silently stand in for its record at the other, and the per-sector box
+    count, which is the whole cross-check, would be a mixture of two runs.
+    """
     per = {}
     refused = []
+    skipped_other_target = 0
     for path in paths:
         with open(path, encoding="utf-8") as f:
             for line in f:
@@ -67,7 +77,10 @@ def collect(paths: list[str], target: float) -> dict:
                     r = json.loads(line)
                 except ValueError:
                     continue      # a torn final line from a killed job
-                if "cell" not in r:
+                if "cell" not in r or "terminal" not in r:
+                    continue      # a skip list, not a shard's own output
+                if float(r.get("target", target)) != target:
+                    skipped_other_target += 1
                     continue
                 j = int(r["sector"])
                 d = per.setdefault(j, {"cells": {}, "boxes": 0})
@@ -80,7 +93,8 @@ def collect(paths: list[str], target: float) -> dict:
                     refused.append({"sector": j, "cell": cid,
                                     "gain": r.get("gain"),
                                     "open": r.get("open")})
-    out = {"target": target, "sectors": {}, "refused_cells": refused}
+    out = {"target": target, "sectors": {}, "refused_cells": refused,
+           "records_at_other_targets_skipped": skipped_other_target}
     complete = True
     for j in sorted(per):
         n = len(per[j]["cells"])
@@ -115,9 +129,21 @@ DEFAULTS = {
     "target": "0.0153040536",   # the published run used 0.0153
     "sectors": "0-23",
     "boxes_per_job": 55000,
-    "budget": 1020,             # seconds per worker process, inside a 25 min job
+    "budget": 1020,             # seconds per worker process, inside the job timeout
     "nproc": 4,                 # standard runners have 4 vCPU
-    "prior_run_id": "",
+    "prior_run_id": "",         # comma-separated: a sweep spans every prior run
+    # The exact-count oracle. These sectors are additionally run at
+    # `oracle_target`, the published 0.0153, where the archive's reference logs
+    # give a terminal-box count to match exactly. At the raised target the
+    # counts must come out slightly *above* the reference, which is a
+    # consistency check and not an equality, so the equality has to be bought
+    # somewhere and this is where.
+    "oracle_sectors": "",
+    "oracle_target": "0.0153",
+    # The oracle needs *complete* sectors, since a partial count matches
+    # nothing, so it gets its own shard size rather than the sweep's much
+    # coarser one.
+    "oracle_boxes_per_job": 38000,
 }
 
 #: The calibration shard: sector 17 is the most expensive of the 24, and
@@ -137,12 +163,18 @@ def config(path: str) -> dict:
     cfg["budget"] = int(cfg["budget"])
     cfg["nproc"] = int(cfg["nproc"])
     mode = str(cfg["mode"])
+    target = str(cfg["target"])
     if mode == "off":
         jobs = []
     elif mode == "calibrate":
-        jobs = list(CALIBRATION)
+        jobs = [dict(j, target=target) for j in CALIBRATION]
     else:
-        jobs = plan(cfg["boxes_per_job"], parse_sectors(str(cfg["sectors"])))
+        jobs = plan(cfg["boxes_per_job"], parse_sectors(str(cfg["sectors"])),
+                    target)
+        if str(cfg["oracle_sectors"]):
+            jobs += plan(int(cfg["oracle_boxes_per_job"]),
+                         parse_sectors(str(cfg["oracle_sectors"])),
+                         str(cfg["oracle_target"]), prefix="oracle-s")
     cfg["matrix"] = json.dumps(jobs)
     cfg["count"] = len(jobs)
     return cfg
@@ -205,10 +237,14 @@ def main() -> None:
               f"against reference {res['total_reference_boxes']}")
         print(f"total core seconds {res['total_core_seconds']} "
               f"({res['total_core_seconds'] / 3600:.1f} core-hours)")
-        print("ALL 24 SECTORS ACCEPTED AT TARGET "
-              f"{res['target']}" if res["all_24_sectors_accepted"]
-              else f"NOT COMPLETE (missing sectors {res['missing_sectors']}, "
-                   f"{len(res['refused_cells'])} refused cells)")
+        if res["all_24_sectors_accepted"]:
+            print(f"ALL 24 SECTORS ACCEPTED AT TARGET {res['target']}")
+        else:
+            missing_cells = sum(
+                r["cells_expected"] - r["cells_done"] for r in res["sectors"].values())
+            print(f"NOT COMPLETE: missing sectors {res['missing_sectors']}, "
+                  f"{missing_cells} missing cells, "
+                  f"{len(res['refused_cells'])} refused cells")
 
 
 if __name__ == "__main__":

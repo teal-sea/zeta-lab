@@ -1,4 +1,4 @@
-# Hunt #80 section 5 — the away branch of Wikstrom's Bloch dichotomy, at a
+# Hunt #80 section 5: the away branch of Wikstrom's Bloch dichotomy, at a
 # target above the published 0.0153, on the author's own verifier.
 #
 # Why this is a workflow and not a Modal app. The first attempt ran the same
@@ -79,6 +79,51 @@ jobs:
       - run: |
           echo "mode **${{ steps.plan.outputs.mode }}**, target ${{ steps.plan.outputs.target }}, ${{ steps.plan.outputs.count }} jobs, ${{ steps.plan.outputs.nproc }} processes each, ${{ steps.plan.outputs.budget }} s budget" >> "$GITHUB_STEP_SUMMARY"
 
+      # The skip list is built ONCE here, not in each shard. Downloading both
+      # prior runs' ~340 artifacts from 121 sweep jobs would be forty thousand
+      # API calls against a 1,000-per-hour token, which is a rate-limit failure
+      # dressed up as a flaky run. Compacted to the four fields the worker
+      # reads, so the shards parse a small file instead of seven megabytes.
+      - name: one skip list for every sweep shard
+        if: steps.plan.outputs.mode == 'sweep' && steps.plan.outputs.prior_run_id != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          mkdir -p prior
+          for r in $(echo "${{ steps.plan.outputs.prior_run_id }}" | tr ',' ' '); do
+            gh run download "$r" --repo "${{ github.repository }}" \
+              --dir "prior/$r" --pattern 'bloch-away-*' || true
+          done
+          python - <<'PY'
+          import glob, json
+          seen, kept = set(), 0
+          with open("prior.jsonl", "w", encoding="utf-8") as out:
+              for p in glob.glob("prior/**/*.jsonl", recursive=True):
+                  for line in open(p, encoding="utf-8"):
+                      try:
+                          r = json.loads(line)
+                      except ValueError:
+                          continue
+                      if "cell" not in r or not r.get("ok"):
+                          continue
+                      key = (r["sector"], r["cell"], r["target"])
+                      if key in seen:
+                          continue
+                      seen.add(key)
+                      out.write(json.dumps({"sector": r["sector"], "cell": r["cell"],
+                                            "target": r["target"], "ok": True}) + "\n")
+                      kept += 1
+          print(f"skip list: {kept} accepted cells")
+          PY
+          wc -c prior.jsonl
+
+      - uses: actions/upload-artifact@v4
+        if: steps.plan.outputs.mode == 'sweep' && steps.plan.outputs.prior_run_id != ''
+        with:
+          name: bloch-prior-skiplist
+          path: prior.jsonl
+          retention-days: 14
+
   away:
     name: ${{ matrix.job.name }}
     needs: plan
@@ -118,33 +163,27 @@ jobs:
             -r .upstream/bloch/zenodo-bloch-computations/requirements.txt
           python -c "import flint, numpy, scipy; print(flint.__version__, numpy.__version__, scipy.__version__)"
 
-      - name: cells already accepted by a prior run
+      # One artifact, built once by the plan job over every prior run. It lands
+      # in `skip/`, deliberately NOT in `out/`: `out/*` is what this job uploads
+      # and what the roll-up reads back, and a skip list sitting in there would
+      # be re-read as if it were shard output.
+      - name: cells already accepted by the runs so far
         if: needs.plan.outputs.mode == 'sweep' && needs.plan.outputs.prior_run_id != ''
         uses: actions/download-artifact@v4
         with:
-          path: prior
-          pattern: bloch-away-*
-          merge-multiple: true
-          run-id: ${{ needs.plan.outputs.prior_run_id }}
-          github-token: ${{ github.token }}
-
-      - name: merge the prior artifacts into one skip list
-        if: needs.plan.outputs.mode == 'sweep' && needs.plan.outputs.prior_run_id != ''
-        run: |
-          mkdir -p out
-          find prior -name '*.jsonl' -exec cat {} + > out/prior.jsonl || true
-          wc -l out/prior.jsonl || true
+          name: bloch-prior-skiplist
+          path: skip
 
       - name: the away shard
         run: |
           mkdir -p out
           SKIP=""
-          if [ -f out/prior.jsonl ]; then SKIP="--skip-done out/prior.jsonl"; fi
+          if [ -f skip/prior.jsonl ]; then SKIP="--skip-done skip/prior.jsonl"; fi
           python hunts/bloch_ceiling/ci_away_shard.py \
             --sector "${{ matrix.job.sector }}" \
             --shard  "${{ matrix.job.shard }}" \
             --nshard "${{ matrix.job.nshard }}" \
-            --target "${{ needs.plan.outputs.target }}" \
+            --target "${{ matrix.job.target }}" \
             --nproc  "${{ needs.plan.outputs.nproc }}" \
             --budget "${{ needs.plan.outputs.budget }}" \
             --out "out/${{ matrix.job.name }}.jsonl" $SKIP \

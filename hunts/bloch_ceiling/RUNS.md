@@ -12,6 +12,22 @@ gitignored directory outside `hunts/` (`.upstream/bloch/`, fetched by
 Modal runs this code about 2.3x slower per core than the local machine (fixed-radius
 ceiling witness 8.9 s vs 3.5 s; `verify --mesh 20` 112 s vs 52 s).
 
+**The section 5 runs are on GitHub Actions, not Modal**, on `ubuntu-latest` standard
+runners (4 vCPU, 4 worker processes per job) with the archive's own
+`requirements.txt` installed unchanged: `python-flint` 0.9.0, `numpy` 2.5.1,
+`scipy` 1.18.0 on CPython 3.12. The archive is fetched by `fetch_upstream.sh` in
+every job, sha256 and all 28 internal checksums verified there as well, and cached
+between jobs under a key that *is* the archive's sha256. A standard runner is 2.9x
+slower per core than the author's own machine and about 3.4x slower than the local
+one. Runner speed is not uniform: across the shards it ranged from 0.053 to 0.105
+seconds per terminal box.
+
+The **local** calibration in this section ran on CPython 3.14.0 with `numpy` 2.5.2,
+which is this repository's own environment and not the archive's pin. That is
+recorded rather than hidden: it is why the calibration is used only for ratios and
+rates, while every number that carries a result comes from CI, where the pin is
+installed. The two agree where they overlap, exactly (section 5).
+
 ```runmanifest
 id: bloch_ceiling-2026-08-23-fetch-and-fixed-radius
 hunt: bloch_ceiling

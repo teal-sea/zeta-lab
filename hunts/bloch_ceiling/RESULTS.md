@@ -244,9 +244,9 @@ relaxing it trades against.
 | constant | value | where | trade shape |
 |---|---|---|---|
 | `ETA` | 0.70 | `variable_radius_certificate.py:30`, and stored | **Genuine trade.** Down raises the admissible radius and `near`, lowers the `away` floor. The crossing is at `eta ~ 0.569` (16 nodes) to `~0.578` (dense). The one round number in the construction |
-| `LARGE_RAD` | 0.5815218918243517 | line 31, and stored | **Slack, free to spend.** Leaves +0.000937 of positivity margin unused; the accepted maximum at 16 nodes is 0.581664, worth +7.3e-6 of `near`. Costs nothing but a re-search |
+| `LARGE_RAD` | 0.5815218918243517 | line 31, and stored | **Slack, free to spend.** It leaves +0.000937 of positivity margin unused, where the accepted maximum at 16 nodes, 0.581664, leaves only +7.3e-6. Moving to it raises `near` from 0.0153040536989 to 0.015310272, **+6.22e-6**, and costs nothing but a re-search |
 | `POINT_BOXES` | 16 | line 32 | **Cheapest door in the hunt.** More nodes buy radius, and the near verification costs seconds, not hours. The whole of rank 1 is behind this one number |
-| `POINT_SUBDIV` | 32 | line 33 | Resolution of the positivity subdivision. Buys margin, not radius, at linear cost |
+| `POINT_SUBDIV` | 32 | line 33 | Resolution of the Arb positivity check itself (`verify_positivity` line 228). More subdivisions tighten the enclosure at linear cost, so it buys admissible radius indirectly. Not separated from `POINT_BOXES` by any measurement here |
 | `C` | 3.2888 | line 288 default, and stored | **Crosses certificates.** Every away cut, halfspace and box penalty uses it, valid because the *fine* fixed-radius certificate proves `\|a_3\| <= 3.28877762819`. Tightening it tightens every away constraint, and requires re-running that certificate. Nothing in the variable-radius programs asserts the relation (section 3, finding 2) |
 | `K`, the row grid | 260, 5676 rows | stored | The relaxation's resolution. This is rank 3 and it is the expensive one |
 | `nsector` | 24 | line 354 | **Genuine trade.** More sectors tighten `eta*cos(pi/nsector)`; 48 buys ~9.9e-6 of `away` floor for 2x the away cost |

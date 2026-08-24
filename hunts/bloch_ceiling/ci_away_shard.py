@@ -169,6 +169,11 @@ def main() -> None:
     skip_done = os.path.abspath(args.skip_done) if args.skip_done else ""
     os.makedirs(os.path.dirname(out) or ".", exist_ok=True)
 
+    # A cell counts as done only if it was accepted at *this* target. The
+    # oracle sectors are run at both 0.0153 and the raised target, so a skip
+    # list keyed on the sector alone would let a cell accepted at one target
+    # stand in for the other, and the exact box count the oracle exists to
+    # check would come out of a mixture of two runs.
     done_already = set()
     if skip_done and os.path.exists(skip_done):
         with open(skip_done, encoding="utf-8") as f:
@@ -177,11 +182,13 @@ def main() -> None:
                     r = json.loads(line)
                 except ValueError:
                     continue      # a torn final line from a killed job
-                if r.get("sector") == args.sector and r.get("ok"):
+                if (r.get("sector") == args.sector and r.get("ok")
+                        and float(r.get("target", args.target)) == args.target):
                     done_already.add(int(r["cell"]))
 
-    cell_ids = [c for c in shard_cells(args.shard, args.nshard)
-                if c not in done_already]
+    mine_all = shard_cells(args.shard, args.nshard)
+    cell_ids = [c for c in mine_all if c not in done_already]
+    skipped_here = len(mine_all) - len(cell_ids)
 
     # The near branch caps every target: the whole dichotomy is min(near, away),
     # so an away run at a target the near branch does not clear proves nothing.
@@ -189,7 +196,8 @@ def main() -> None:
     pos, near = near_branch(vr, args.eta)
     head = {"sector": args.sector, "shard": args.shard, "nshard": args.nshard,
             "target": args.target, "eta": args.eta, "cells_to_do": len(cell_ids),
-            "skipped_done": len(done_already), "nproc": args.nproc,
+            "cells_in_shard": len(mine_all), "skipped_done": skipped_here,
+            "nproc": args.nproc,
             "positivity_margin": pos, "near_gain": near,
             "near_clears_target": bool(pos > 0 and near > args.target)}
     print(json.dumps(head), flush=True)
