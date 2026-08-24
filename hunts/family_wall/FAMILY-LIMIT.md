@@ -1,18 +1,32 @@
 # The analytic limit of the n-point pressure family
 
 > Verdict: the family **saturates short**. Its limit is exactly `H = 0.6725007036794116`,
-> and its supremum over all n is at most `0.6751676` — against a configuration ceiling of
-> `0.6818286874638`. The deficit is `0.0093280` in the limit and at least `0.0066611`
-> at the family's best n, which is 71% of the whole distance from `H` to the ceiling.
-> The n-point pressure method cannot reach the ceiling, and the obstruction is not a
-> numerical accident: it is the identity
+> and its supremum over all n is at most `0.675142509660254` — against a configuration
+> ceiling of `0.6818286874638`. The deficit is `0.0093280` in the limit and at least
+> `0.0066862` at the family's best n, which is 71.7% of the whole distance from `H` to the
+> ceiling. The n-point pressure method cannot reach the ceiling, and the obstruction is not
+> a numerical accident: it is the identity
 > `Phi_n <= H + H c - (n-1)/p`, in which the pressure term cancels exactly against a
 > configuration of total length `(n-1)/H`.
+
+**This file has been through an independent adversarial audit and did not come out
+unchanged.** A different model (OpenAI Codex, `gpt-5.6-sol`), working in an isolated
+directory outside this repository from a self-contained brief, with no access to this
+repository or to any prior implementation, was asked to refute the claim. It found that
+**two steps of the inequality chain in section 2.1 are invalid as written** and exhibited
+admissible counterexamples to both. It then repaired them with a case split, replaced the
+tiled-witness coverage with an explicit period-37 construction valid for every `n`, and
+came out with a **sharper** bound than this file had claimed. The full audit, its brief,
+its report and its scripts are in `audit/`; its provenance, including the commit that fixed
+the brief before any work began, is in `audit/PROVENANCE.md`. Section 2.1a states the
+repair, section 2.4 states the new coverage, and section 6 says what the audit changed.
 
 Every figure below is labelled **VERIFIED** (recomputed here from first principles, or
 matched against a published arbitrary-precision value), **MEASURED** (float optimisation,
 an upper bound on an infimum), **DERIVED** (algebra, checked numerically), or
-**INFERRED** (extrapolation or model, with the gap stated).
+**INFERRED** (extrapolation or model, with the gap stated). Figures that originate in the
+audit carry **AUDIT** and say how the audit established them; where they were recomputed
+here with this repository's own evaluator they also carry **VERIFIED here**.
 
 Notation throughout: `k = n - 1` gaps, `q = floor(1/c)`, `m = k + q` the cap,
 `theta = 1/c - q` in `[0,1)`, `H = 3/2 - (1/sqrt2) cot(1/sqrt2)`. For a gap vector `g`,
@@ -46,6 +60,22 @@ VERIFIED. The first six positive zeros of `k` recomputed as
 1.0572782910088552, 2.030067530128161, 3.0202429921714815, 4.015235607036755,
 5.0122084484991545, 6.010182789398035 — VERIFIED, and matching the two zeros the
 minimisers are built from.
+
+**A second, fully independent reproduction.** The audit derived the two-sinc closed form
+from the integral itself, checked it against direct high-precision quadrature at seven
+points from `x = 0` to `x = 19` (largest discrepancy `4.02e-102` at 100 digits), and
+reported
+
+    K(0) = 0.91872536986556843778423152512466175181017247999457...
+    H    = 0.67250070367941164573437979080329518859340302862626...
+
+identical to this file's `K(0) = 0.9187253698655684` and `H = 0.6725007036794116` in every
+digit either states. It also recomputed the two `W` levels the barrier is stated against:
+`0.6751676068/H - 1 = 0.00396565104838863604939...` and
+`0.6818286874638/H - 1 = 0.01387059334414481885584...`, confirming this file's rounded
+`0.0138706`. AUDIT; VERIFIED here at 60 digits by `f7_point_check.py`, which prints the same
+`K(0)` and `H` to 50 places. Two implementations that share no code agree on the constants,
+so nothing downstream turns on a transcription.
 
 ---
 
@@ -160,20 +190,87 @@ bound.
 
 ### 2.1 The chain
 
-For `k >= 2`, with `c` any valid uniform floor for `F_k` and `m` at the cap:
+For `k >= 2`, with `c` any valid uniform floor for `F_k`, `m` at the cap, **and in the
+branch `Phi_n > H`** — the two conditions the chain needs, both supplied by the case split
+in 2.1a:
 
     Phi_n  =  [H m - k(m-1)/p] / (m - c q)
-           <= H m/(m-1) - k/p                            (A)   since c q <= 1
+           <= H m/(m-1) - k/p                            (A)   since c q <= 1 AND the numerator is positive here
            <= H + H c/(1 + (k-2) c) - k/p                (B)   since m-1 = k-1+q >= k-2+1/c
            <= H + H c - k/p                              (C)
            <= H + H W(g) + (H S(g) - k)/p                (D)   since c <= F(g,p) for all g >= 0
 
-Step (A) needs the numerator nonnegative; when it is negative `Phi_n < 0` and every bound
-holds trivially. Step (D) holds **for every nonnegative gap vector `g`**, because `c` must be
-a floor for `F_k` everywhere, hence at `g`.
+Step (D) holds **for every nonnegative gap vector `g`**, because `c` must be a floor for
+`F_k` everywhere, hence at `g`.
 
 VERIFIED: the four inequalities were evaluated on all 36 rows of the existing n=7,8,9 sweep
 using each row's own argmin as `g`. Zero violations.
+
+**But the chain above is not valid as a chain, and the two conditions it needs are stated
+in 2.1a.** The audit found both. As written here, this section carried one of them as a
+parenthetical that rescued the conclusion without repairing the chain — *"step (A) needs the
+numerator nonnegative; when it is negative `Phi_n < 0` and every bound holds trivially"* —
+and carried the other, the move to `m` at the cap, on nothing but the five spot checks in
+2.2(i). Neither is a proof. What follows is.
+
+### 2.1a The two conditions, and the case split that supplies them (AUDIT)
+
+Write `q0 = k = n-1`, `d = m - q0 >= 1`, `N = H m - q0(m-1)/p`, `D = m - c d`, so
+`Phi_n = N/D`. The cap `c d <= 1` gives `D >= m - 1 >= q0 >= 2 > 0`, so the denominator
+never vanishes and never changes sign. The numerator can.
+
+**Defect 1 — step (A) reverses when `N < 0`.** Replacing `D` by the smaller `m-1` raises
+`N/D` only when `N >= 0`. AUDIT, with an admissible counterexample at `n = 3`, `c = 0.01`,
+`m = 3`, `p = 1`:
+
+    Phi                        = -0.663042772228015
+    claimed step-(A) bound     = -0.991248944480883
+
+VERIFIED here (`chain_repair_check.py`), reproducing the audit's digits exactly. The audit
+also checks that `c = 0.01` really is a floor for `F_3` on all nonnegative `g`, so the
+triple is admissible and not a straw man.
+
+**Defect 2 — the chain evaluates at the cap without proving `Phi` increases in `m`.** For
+fixed `(n, c, p)`, `Phi` is a Mobius function of `m` with positive denominator, and the sign
+of its increment is the sign of
+
+    p c H - 1 - c (q0 - 1) .                                                 (DERIVED)
+
+That sign is not always positive, so `Phi_n(m) <= Phi_n(m_max)` is not free. AUDIT, with a
+second admissible counterexample at `n = 3`, `c = 0.01`, `p = 2`: `Phi = 0.005853548842219`
+at `m = 3`, but `-0.320840873511881` at `m_max = 102`, while the step-3 bound
+`H + Hc - (n-1)/p = -0.320774289283794` is below the value at `m = 3`. VERIFIED here.
+
+**The repair is a case split, and it costs nothing.**
+
+- If `Phi_n <= H`, then `Phi_n <= H(1 + W(g))` at once, for any `g`, since `W >= 0`.
+- If `Phi_n > H`, then subtracting directly,
+
+      Phi_n - H = [H c d - q0 (m-1)/p] / D  >  0 ,
+
+  and since `(m-1)/d = 1 + (q0-1)/d` and `1/d >= c`,
+
+      p c H  >  q0 + q0(q0-1)/d  >=  q0 + q0 c (q0-1)  >  1 + c (q0 - 1) ,
+
+  which is exactly the condition above. So **in the only branch that can threaten a bound
+  above `H`, `Phi` does increase in `m`**, and moving to `m_max = q0 + floor(1/c)` is
+  legitimate. At `m_max`, `Phi_n(m_max) >= Phi_n > H > 0` with `D > 0` forces `N > 0`, so
+  (A) has the right direction; and `m_max - 1 = q0 - 1 + floor(1/c) > 1/c + q0 - 2 >= 1/c`
+  for `q0 >= 2`, which is what (B) needs. Steps (A) through (D) then go through and give
+  `Phi_n <= H(1 + W(g))`.
+
+DERIVED (the audit's argument, re-derived line by line here). VERIFIED here by
+`chain_repair_check.py`: the increment-sign formula was checked against 6,475 direct
+increments over `3 <= n < 40`, eight values of `c` spanning `1e-4` to `0.9` and seven
+pressures spanning `1` to `1e6`, with no mismatch; and every one of 5,729 admissible
+triples found with `Phi_n > H` satisfied the increasing condition, had a positive numerator
+at the cap, satisfied `m_max - 1 >= 1/c`, and had its maximum over `m` at the cap. Zero
+violations.
+
+**What this does and does not change.** It changes the *argument*, not the conclusion: the
+witness implication (ii) below, the trivial leg (i), and every number in 2.3 and 2.4 rest on
+the repaired chain and are unaffected in value. What it removes is the pretence that the
+one-line chain of 2.1 was a proof at every admissible `m`.
 
 ### 2.2 Two consequences, and the barrier they make
 
@@ -188,8 +285,12 @@ is above `0.6818286874638`, and `H*75/74 = 0.6817130421` is below. VERIFIED.
 
 VERIFIED separately, at five `(n, p, c)` triples including `n = 20`: maximising `Phi` over
 the whole range `m in [1, k+floor(1/c)]` puts the maximiser at the cap every time, and every
-`m < k` gives `Phi < H`. So taking `m` at the cap loses nothing, and the `m < k` branch is
-never the one that matters.
+`m < k` gives `Phi < H`. That was five spot checks, and — the audit's point — five spot
+checks are not the argument. **2.1a is the argument**: in the branch `Phi_n > H` the
+maximiser is at the cap for every admissible triple, provably, and in the branch
+`Phi_n <= H` nothing above `H` is at stake. Under that split the trivial leg is in fact
+slightly sharper than stated, since `m_max >= n` gives `Phi_n <= H n/(n-1)`; the weaker
+`H(n-1)/(n-2)` is kept above because it is what the rest of the file uses.
 
 **(ii) The witness leg.** In (D), choose `g` with `S(g) <= k/H`. Then `H S(g) - k <= 0`, the
 pressure term is nonpositive for every `p`, and
@@ -248,24 +349,128 @@ value came in under `0.67310` — would replace the 0.6751676 figure by that one
 quoted below is the one that holds without that extension, so it stands on the tiled witness
 alone over `36 <= n <= 401`.)
 
+**The tiled witness is no longer how the large-`n` range is covered.** It has a scan in it —
+one evaluation per `k` from 35 to 400 — and a trivial tail bolted on beyond that. The audit
+replaced the whole apparatus with one word and a closed-form estimate. 2.3a is that
+replacement; the tiled figures are kept above as what this hunt's own computations gave.
+
+### 2.3a The period-37 witness: one word, every n (AUDIT)
+
+Define, for every gap index `i >= 1`,
+
+    g_i = 1 + floor(18 i / 37) - floor(18 (i-1) / 37) .                        (AUDIT)
+
+This is a period-37 word of nineteen `1`s and eighteen `2`s. Its prefix of length `k = n-1`
+has total length
+
+    S_k = k + floor(18 k / 37)  <=  (55/37) k ,
+
+and `55/37 = 1.4864864864...` while `1/H = 1.4869872916545...`, so **the length constraint
+`S <= k/H` holds for every `k`, uniformly, with a closed-form margin** and no per-`n` check.
+That single fact removes the scan.
+
+VERIFIED here (`period37_check.py`), with this repository's own evaluator `famlib.Wsum` and,
+independently, at 60 decimal digits — every window sum of this word is a positive integer,
+and at integer `j` the kernel collapses exactly to `k(j) = (-1)^(j+1)/(2 pi^2 j^2 - 1)`, so
+`W` is a finite sum of exactly representable terms:
+
+| n | S | (n-1)/H | margin | W (`famlib`, float) | W (mpmath, 60 dp) | H(1+W) |
+|---|---|---|---|---|---|---|
+| 8 | 10 | 10.40891104158156 | 0.40891 | 0.0035276623931591172 | 0.0035276623931591076 | 0.6748730591211545 |
+| 38 | 55 | 55.01852979121684 | 0.018530 | 0.0031784622286426260 | 0.0031784622286426166 | 0.6746382217647922 |
+| 56 | 81 | 81.78430104099801 | 0.78430 | 0.0032553772068758032 | 0.0032553772068757950 | 0.6746899471417774 |
+| 100 | 147 | 147.2117418737964 | 0.21174 | 0.0031884570376795660 | 0.0031884570376795581 | 0.6746449432809027 |
+| 401 | 594 | 594.7949166618037 | 0.79492 | 0.0031869031356943837 | 0.0031869031356943706 | 0.6746438982807242 |
+
+The two evaluators agree to `1.3e-17` or better at every row. The `n = 8` row reproduces the
+audit's interval upper bound `0.003527662393159108` / `0.674873059121154543` exactly.
+**VERIFIED here.**
+
+Evaluating the same word at *every* `n` from 8 to 401 with `famlib.Wsum`, the worst value is
+**0.6750627723649344 at n = 9** — which reproduces the audit's `n = 9` row
+`0.675062772364934370` to the digit. VERIFIED here.
+
+**The uniform tail estimate.** For `n >= 12` the audit bounds `W` without evaluating
+anything, as follows. At least `5/12` of the prefix gaps are `2`s, so the scale-1
+contribution is at most `2[(7/12) w(1) + (5/12) w(2)]`. Every scale-`s` window has integer
+length at least `s` and `w` decreases at the integers, so scale `s` contributes at most
+`2 w(s)`; and `w(s) <= w(1)/s^4`, because `2 pi^2 s^2 - 1 >= s^2 (2 pi^2 - 1)` for `s >= 1`.
+Summing `s >= 2` gives `2 w(1) (pi^4/90 - 1)`. Hence for every `n >= 12`
+
+    W  <=  2[(7/12) w(1) + (5/12) w(2)]  +  2 w(1) (pi^4/90 - 1)
+       <   0.003928331920529310 ,
+    H (1 + W)  <  0.675142509660253902 .                                       (AUDIT)
+
+DERIVED (re-derived here step by step) and VERIFIED here: `period37_check.py` recomputes the
+closed form at 60 digits as `W <= 0.0039283319205293097915` and
+`H(1+W) <= 0.675142509660253901156`, matching the audit's figure. The `5/12` constant is
+tight and not a round number: the minimum of `floor(18k/37)/k` over `11 <= k <= 20000` is
+exactly `5/12`, attained at `k = 12`. VERIFIED here.
+
+Three implementations therefore agree on this number: this file's `famlib.Wsum`, the
+60-digit integer-window sum in `period37_check.py`, and the audit's own directed-interval
+run — `audit/periodic_certificate.py` was re-executed here and returns
+`simple_W_upper = 0.003928331920529309791528358237` and
+`simple_bound_upper = 0.675142509660253901156405110373`, byte-identical to its committed
+output. VERIFIED here.
+
+The estimate is deliberately coarse — the word's actual period-averaged energy is about
+`0.00317879602211`, and the evaluated worst over `8 <= n <= 401` is `0.6750627723649344`.
+The coarseness is the price of a bound that needs no evaluation at all beyond `n = 11`, and
+it is what fixes the headline figure in 2.4.
+
+**Small `n`.** The word alone does not clear `0.6751676068` at `n = 3, 4, 5, 7`, and the
+audit closes those with separately polished witnesses, interval-checked in the safe (upper)
+direction with `mpmath.iv` at 100 digits:
+
+| n | W, interval upper | H(1+W), interval upper |
+|---|---|---|
+| 3 | 0.001303187718941627 | 0.673377098337426258 |
+| 4 | 0.000712388197190657 | 0.672979785243315270 |
+| 5 | 0.001343057074941678 | 0.673403910507391537 |
+| 6 | 0.000920639929894577 | 0.673119834680101113 |
+| 7 | 0.001328402428066512 | 0.673394055247055814 |
+
+AUDIT, interval-checked there; not recomputed here. This range is covered redundantly by
+this hunt's own section-2.3 envelope, which runs at every `n` from 3 to 36 and whose worst
+value over `3 <= n <= 11` is `0.6735202493` at `n = 5` — a looser bound than the audit's, in
+the same direction, from a different implementation.
+
 ### 2.4 The barrier, stated
 
-**Every n is covered, with no gaps:**
+**Every n is covered, with no gaps — and after the audit, in two pieces instead of three:**
 
-| range | instrument | bound |
-|---|---|---|
-| n = 3 .. 36 | sharp witness envelope (iii), computed at every n | max 0.6735202493 (at n=5) |
-| n = 36 .. 401 | tiled explicit witness (ii), computed at every n | max 0.6751676068 (at n=56) |
-| n >= 402 | trivial leg (i) | max 0.6741861691 |
+| range | instrument | bound | label |
+|---|---|---|---|
+| n = 3 .. 11 | audit's interval-checked witnesses (2.3a) | max 0.673403910507391537 (at n=5) | AUDIT |
+| n = 3 .. 11 | *redundantly*, this hunt's witness envelope (iii) | max 0.6735202493 (at n=5) | MEASURED |
+| n >= 12 | period-37 word + closed-form tail estimate (2.3a), uniform | 0.675142509660253902 | AUDIT, VERIFIED here |
+| n = 8 .. 401 | *redundantly*, the same word evaluated at every n | max 0.6750627723649344 (at n=9) | VERIFIED here |
+| n >= 402 | *redundantly*, trivial leg (i) | max 0.6741861691 | DERIVED |
 
-    sup_n Phi_n  <=  0.6751676068  <  0.6818286874638 = the configuration ceiling.
+    sup_n Phi_n  <=  0.675142509660254  <  0.6818286874638 = the configuration ceiling.
 
-**Deficit at the family's best: at least 0.0066611** — 71% of the whole distance from `H`
+**This is the figure the file now carries.** It is fixed entirely by the coarseness of the
+uniform tail estimate for `n >= 12`, not by any witness: every witness actually evaluated,
+at every `n` from 3 to 401, comes in below `0.67507`. The gain over the number this hunt
+originally claimed is small — `0.6751676068 -> 0.675142509660254`, a move of `2.5e-5` — and
+the real gain is structural: **the scan and the trivial tail are gone.** One explicit word,
+whose length constraint holds for every `k` in closed form, plus five small-`n` witnesses,
+now cover every `n >= 3`. Nothing has to be evaluated at 367 values of `k` and nothing is
+patched at the end.
+
+What this hunt's own computations support on their own, without the audit, is the weaker
+`sup_n Phi_n <= 0.6751676068` from the three-instrument table this section used to carry:
+envelope over `n = 3..36` (max 0.6735202493), tiled witness over `n = 36..401` (max
+0.6751676068 at n=56), trivial leg for `n >= 402` (max 0.6741861691). That statement is
+unchanged and still stands; it is simply superseded.
+
+**Deficit at the family's best: at least 0.0066862** — 71.7% of the whole distance from `H`
 to the ceiling.
 
 This is a **BARRIER**. The n-point pressure certificate family, at any n and any pressure
 and with any valid floor `c`, cannot reach the configuration ceiling. Increasing `n` does not
-help; the family's own supremum is short by more than 0.0066, which is 71% of the whole
+help; the family's own supremum is short by more than 0.0066, which is 71.7% of the whole
 distance from `H` to the ceiling.
 
 ### 2.5 The limit
@@ -279,7 +484,7 @@ Lower: for any `n`, sending `p -> infinity` sends the floor `c*(p) -> 0`, hence 
 There is **no uncertainty in `Phi_inf`**: it is the constant `H` itself, not an estimate.
 The family does not merely stall below the ceiling — it climbs a little, turns over, and
 comes back down to `H`. The measured climb from n=7 to n=9 (+4.3e-5) is the front edge of a
-bump of total height at most `0.6751676 - H = 0.0026669`, on a curve that ends at `H`.
+bump of total height at most `0.675142509660254 - H = 0.0026418`, on a curve that ends at `H`.
 The measured climb so far, best floor of the two independent searches at each pressure:
 `0.6730300` (n=7), `0.6730537` (n=8), `0.6730728` (n=9), `0.6730803` (n=10),
 `0.6730912` (n=14), `0.6730929` (n=20) — increments `2.4e-5, 1.9e-5, 7.5e-6, 1.1e-5, 1.7e-6`
@@ -328,19 +533,51 @@ section 2.2 are what actually bound the outcome.
 ## 3. Independent numerical check
 
 `modal_family_limit.py` re-derives the floor by multistart global minimisation, independently
-of any prediction in this file, at `n = 7, 10, 14, 20` over a wide pressure grid
-`1200 .. 20000` (the existing sweep only covers 2000..6400, so this also tests whether the
-peak leaves that window at larger n). Control: `n = 7, p = 3000` must return the published
-arbitrary-precision floor `0.0038262312115073`.
-
-`modal_family_limit.py` re-derives the floor by multistart global minimisation, independently
 of any prediction in this file, at `n = 7, 10, 14, 20` over the pressure grid
 `1200, 1800, 2600, 3000, 3400, 4400, 6000, 8500, 13000, 20000` (the existing sweep covers only
 2000..6400, so this also tests whether the peak leaves that window at larger n). 320 cells,
 8 shards per cell, 2 CPU each; well inside the compute budget.
 
-**Control passed.** `n = 7, p = 3000` returned `0.0038262312113044716` against the published
-arbitrary-precision floor `0.0038262312115073` — agreement to `2.0e-13`. VERIFIED.
+**Control passed, and the residual `2.0e-13` is not a disagreement — it is the quoted
+number's argmin.** `n = 7, p = 3000` returned `0.0038262312113044716`, which is `2.0e-13`
+*below* the `0.0038262312115073` this laboratory quotes for that cell. The audit,
+minimising the same functional from its own implementation with an 80-digit Newton solve,
+landed at `0.00382623121130447424828548285770795421` — the same value to twelve digits.
+Two independent searches below a "floor" is the shape of a bad floor, so it was chased down.
+
+`hunts/ainta_seven_point/RESULTS.md` states the quoted figure correctly and this file was
+reading it wrongly. There it is the **upper end of a bracket**:
+`0.003826 <= inf F6 <= 0.0038262312115073`, with "Upper end: the Arb evaluation at the
+point." `artifacts/modal-results.json` shows which point: `F6_at_point` at the argmin
+**rounded to six decimals**, `(1.046081, 1.989132, 1.986415, 1.041603, 1.977024, 1.045002)`.
+A value at a point is an upper bound on the infimum, never the infimum, and the six-decimal
+rounding is worth exactly this much.
+
+VERIFIED here (`f7_point_check.py`), evaluating `F_{7,3000}` at three points in 60-digit
+arithmetic:
+
+| point | F_{7,3000} |
+|---|---|
+| the six-decimal argmin (what the Arb figure evaluates) | 0.003826231211507312914986 |
+| this repository's own float minimiser (`modal-results.json`) | 0.003826231211347672947343 |
+| the audit's 30-digit refined minimiser | 0.003826231211304474248285 |
+
+The first reproduces the Arb string `0.00382623121150731291497...` to seventeen digits; the
+third reproduces the audit's reported value to twenty-five. The spread between the first and
+the third is `2.03e-13` — the whole discrepancy, and all of it argmin refinement.
+
+**So: nothing is wrong with the Arb computation, the bracket, or `RESULTS.md`.** What was
+wrong is the word "floor" applied to `0.0038262312115073` — here, and in this hunt's
+`MISSION.md` under `required_oracles`, where it is called "the published n=7
+arbitrary-precision floor". It is a rigorous upper bound at a rounded point. The correct
+control for a minimiser is that it must come in *at or below* it, which is what happened.
+The audit's own statement of the same caveat is stronger and should be read: it reports
+`inf F_{7,3000} <= 0.003826231211304474248285482857707954213` and says plainly that it has
+compelling evidence but **no formal global certificate** — 562 broad local starts, four
+differential-evolution runs, 1,710 integer-lobe starts producing 953 distinct local minima,
+next stationary value `4.20e-5` higher, all six Hessian eigenvalues positive — none of which
+supplies a lower bound over the full six-dimensional domain. Neither does anything in this
+file. AUDIT for the value; VERIFIED here for the explanation of the gap.
 
 **Agreement with the predicted floors.** The prediction under test is
 `c_pred(p) = min_j [W_j + S_j/p]` over this file's witness ladder, which by construction is an
@@ -381,7 +618,8 @@ is a lower bound on that n's true peak):
 Every measured value lies below the corresponding bound. The climb continues past n=9 but is
 decelerating hard: +5.1e-5 from n=7 to 10, +1.1e-5 from 10 to 14, +1.7e-6 from 14 to 20. INFERRED
 from that deceleration and from the bounds above it: the bump tops out in the low
-`0.67310`s. Not pinned; the envelope bound is what is rigorous here, and it is `0.6751676`.
+`0.67310`s. Not pinned; the witness bound is what is rigorous here, and it is
+`0.675142509660254`.
 
 Artifacts: `artifacts/family-limit-modal.json`, `artifacts/compare.json`.
 
@@ -396,17 +634,31 @@ The claims here fail if any of the following is exhibited.
    too high — the bound then moves, though in the *safe* direction (a smaller `W` makes the
    barrier stronger, never weaker). The dangerous direction is the opposite: if `W(g)` is
    reported too *low*, the bound is invalid. Recompute `W` in interval arithmetic to close
-   this; the sum is finite and exactly the kind of thing Arb settles.
-2. **A failure of the chain.** Steps (A)–(D) are elementary but they rest on `m` being capped
-   at `k + floor(1/c)` and on `c` being a floor for `F_k` on *all* nonnegative gap vectors.
-   If the proved theorem admits an `m` above that cap, or admits an `c` valid only on a
-   restricted set of gap vectors, (A) and (D) respectively fail and the barrier goes with them.
-   This is the single load-bearing assumption and it should be checked against `n_point_bound`
-   line by line.
+   this; the sum is finite and exactly the kind of thing Arb settles. **Partly closed by the
+   audit**, which evaluated every one of its witnesses' cumulative sums, `K`, `w`, `W`, caps
+   and final bounds with `mpmath.iv` at 100 digits and printed directed endpoints, so its
+   `W` values in 2.3a are upper bounds in the unsafe direction rather than floats. That is an
+   interval backend, not a proof assistant, and it says nothing about global minimality — but
+   the direction that could make a false barrier look true is now controlled for those
+   witnesses. The period-37 word's `W` is additionally a finite sum of exactly representable
+   integer-argument terms (2.3a), which removes quadrature from the question entirely.
+2. **A failure of the chain.** *This one fired.* Steps (A) and the move to the cap were both
+   invalid as written, and the audit exhibited admissible counterexamples to each; section
+   2.1a is the repair, and the conclusion survived it intact. What remains load-bearing is
+   unchanged and untested here: the chain rests on `m` being capped at `k + floor(1/c)` and
+   on `c` being a floor for `F_k` on *all* nonnegative gap vectors. If the proved theorem
+   admits an `m` above that cap, or admits a `c` valid only on a restricted set of gap
+   vectors, (A) and (D) respectively fail and the barrier goes with them. This should be
+   checked against `n_point_bound` line by line, and has not been.
 3. **A direct minimisation returning `Phi_n` above the barrier.** Any `(n, p, g)` with the
-   resulting `Phi_n > 0.6751676` refutes section 2.4 outright. The Modal job in section 3 is
-   exactly this test, run at four values of `n` and ten pressures; a wider or deeper run is
-   the cheapest way to attack the claim.
+   resulting `Phi_n > 0.675142509660254` refutes section 2.4 outright. The Modal job in
+   section 3 is exactly this test, run at four values of `n` and ten pressures; the audit ran
+   it again independently at `n = 7, 8, 9, 10, 12, 14, 16, 20, 30, 56, 100` with 91 to 191
+   starts per `n`, full binary-skeleton enumeration up to `n = 10` and the best 300 to 400 of
+   up to 262,144 skeletons above that, and found nothing above either threshold — its largest
+   best-found constrained `W` was at `n = 100`, `W < 0.001404828486362211`, giving
+   `H(1+W) < 0.673445451825039116` (AUDIT, interval-checked there). A wider or deeper run is
+   still the cheapest way to attack the claim.
 4. **A different `n`-dependence in the theorem.** Everything here is driven by the two
    `n`-dependent pieces `(n-1)(m-1)/(pm)` and the cap `m <= (n-1)+floor(1/c)`. A variant of
    the certificate with a cap growing faster than `floor(1/c)`, or with the pressure term
@@ -431,3 +683,56 @@ The claims here fail if any of the following is exhibited.
 - The `n = 10 .. 16` sweep running in parallel is a different measurement and is not
   duplicated or pre-empted here; its measured peaks should land below the section-2.3 bounds
   at the same `n`, which is a further check on both.
+- **No claim that the audit closed the formal question.** It found a real defect in the
+  argument and supplied a repair; it did not, and does not claim to have, produced a
+  machine-checkable proof of anything. Its own weakest point, stated by it and not by us, is
+  the word "global" applied to `inf F_{7,3000}`.
+- No claim that the audit's `W` values were recomputed here beyond the period-37 word. The
+  `n = 3..7` witness table in 2.3a is the audit's, interval-checked in its implementation,
+  and is carried as such.
+
+---
+
+## 6. What the adversarial audit changed
+
+An independent model (OpenAI Codex, `gpt-5.6-sol`), in an isolated directory outside this
+repository, from the self-contained brief in `audit/BRIEF.md` — committed before any work
+began, see `audit/PROVENANCE.md` — with no access to this repository, this file, `famlib.py`
+or any prior implementation of the kernel. It derived the closed form of `K` itself and
+checked it against 100-digit quadrature. It worked 44m55s and was told to refute, not
+confirm.
+
+**What it broke.**
+
+1. Step (A) of the chain in 2.1, invalid when its numerator is negative, with an admissible
+   counterexample at `n = 3, c = 0.01, m = 3, p = 1`. This file had a parenthetical about
+   the negative numerator, but a parenthetical that rescues the conclusion is not a repair of
+   the chain.
+2. The move to `m` at the cap in 2.1, invalid without a monotonicity argument this file never
+   made, with an admissible counterexample at `n = 3, c = 0.01, p = 2` where `Phi` *decreases*
+   in `m`. This file's only support for the move was five spot checks, which it presented as
+   VERIFIED. That was the real defect and it was ours.
+
+**What it built.**
+
+3. The case split of 2.1a, which repairs both and costs nothing.
+4. The period-37 word of 2.3a, which replaces a 367-value scan and a bolted-on trivial tail
+   with one explicit construction whose length constraint holds for every `k` in closed form.
+5. A sharper supremum, `0.675142509660254` against this file's `0.6751676068`.
+6. Interval upper bounds, in the unsafe direction, for every witness it reports.
+
+**What it could not break.** No numerical counterexample, at any `n` it was asked for or any
+it chose. The claim survived.
+
+**What it flagged and left open.** `inf F_{7,3000}`: compelling evidence, no formal global
+certificate. Its value sits `2.0e-13` below the figure this laboratory quotes; section 3
+explains why, and the explanation is that the quoted figure was mislabelled here as a floor
+when `hunts/ainta_seven_point/RESULTS.md` correctly presents it as the upper end of a
+bracket, evaluated at a six-decimal argmin.
+
+**What did not change.** Sections 1, 2.5 and 2.6, and every measured number in them. The
+verdict, the limit `H`, and the mechanism are as they were.
+
+Everything in `audit/` is the audit's own work, unaltered except for one lexical
+substitution that this repository's reserved-vocabulary gate forces; `audit/PROVENANCE.md`
+lists every occurrence.

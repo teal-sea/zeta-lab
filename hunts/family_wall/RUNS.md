@@ -23,8 +23,42 @@ artifacts:
   - hunts/family_wall/artifacts/periodic-energy-curve.json
 ```
 
+```runmanifest
+id: family_wall-2026-08-23-independent-audit
+hunt: family_wall
+started: 2026-08-23
+finished: 2026-08-23
+ran:
+  - an independent adversarial audit by a different model, in an isolated directory outside this repository, from the brief now at hunts/family_wall/audit/BRIEF.md
+  - .venv/bin/python hunts/family_wall/chain_repair_check.py
+  - .venv/bin/python hunts/family_wall/period37_check.py
+  - .venv/bin/python hunts/family_wall/f7_point_check.py
+  - .venv/bin/python hunts/family_wall/audit/periodic_certificate.py
+  - .venv/bin/python scripts/71_contribution_check.py hunts/family_wall
+  - .venv/bin/python scripts/make_context.py --check
+outcome: the audit broke two steps of the inequality chain as written, supplied a case split that repairs them, replaced the tiled-witness coverage with an explicit period-37 word valid for every n, and sharpened the supremum to 0.675142509660254; the three checks above reproduce its counterexamples, its witness values and its constants here
+artifacts:
+  - hunts/family_wall/audit/PROVENANCE.md
+  - hunts/family_wall/audit/results/REPORT.md
+  - hunts/family_wall/artifacts/period37-check.json
+  - hunts/family_wall/RESULTS.md
+```
+
 ## Notes
 
+- **The audit is the reason this hunt's argument changed.** It ran with no access to this
+  repository, from a brief committed before any work began
+  (`audit/PROVENANCE.md`). It was asked to refute, and it refuted the *argument* — steps (A)
+  and the move to the cap, both with admissible counterexamples — while failing to refute the
+  *claim*. The repair and the new coverage are in `FAMILY-LIMIT.md` sections 2.1a and 2.3a.
+  Everything under `audit/` is the audit's own work; the only edit is one lexical
+  substitution forced by this repository's reserved-vocabulary gate, listed exhaustively in
+  `audit/PROVENANCE.md`.
+- The `2.0e-13` in the n=7, p=3000 control is not a disagreement. `0.0038262312115073` is an
+  Arb evaluation at a six-decimal argmin, so an upper bound on the infimum, and both
+  independent minimisers correctly land below it. `FAMILY-LIMIT.md` section 3 has the
+  three-point comparison; `MISSION.md` carries the correction to its own `required_oracles`
+  wording.
 - The Modal job's `n = 20` cells missed basins that the analytic witness ladder reaches
   directly: at four pressures the ladder returned a lower functional value than the
   multistart search. The raw `Phi_20 = 0.6731391381` from that job is therefore built on a
