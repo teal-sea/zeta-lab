@@ -70,6 +70,36 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #88: the third autocorrelation constant belongs to the other functional (`r_8539dc/`)
+
+**Status: settled.** A reading and an exact recomputation, prompted by issue
+#123 and by issue #1 on `google-deepmind/alphaevolve_repository_of_problems`:
+AlphaEvolve's published `C_3 <= 1.4557` sat above a verification cell computing
+`abs(2n*max(conv)/sum^2)` while the inequality printed above it defined
+`max|f*f| >= C_3 (int f)^2`. The outer `abs` is a **no-op**, and not by
+accident: `int_{-1/2}^{1/2} f*f = (int f)^2 > 0` forces `max_t f*f(t) > 0`, so
+the code computes `A = max f*f/(int f)^2` while the statement defined
+`B = max|f*f|/(int f)^2`, and `A <= B` always. In exact rational arithmetic on
+the published ten-place heights (no float in the chain), the `n = 400`
+construction gives `A = 1.45564279537454049411...` and
+`B = 4.33404652438798427361...`: it reaches `1.4557` under `A` only, buying that
+score by driving the autoconvolution to `-4.334` at knot 215 against a positive
+peak of `+1.456`. The `n = 150` construction gives `1.46876206974102180951...`
+under **both** functionals, which is the check that keeps the discretisation
+honest. The mix-up **was** corrected, twice, and the brief's premise that no
+correction had appeared is wrong: arXiv:2511.02864 **v2** (2025-12-15) splits
+the problem into `max|f*f| >= C_3` (prior `1.4993`, Matolcsi-Vinuesa, improved
+to `1.4688`) and `|max f*f| >= C_3'` (prior `1.45810`, Vinuesa, improved to
+`1.4557`), moving the `1.45810` citation between sources in the process; the
+colab followed on 2025-12-19 (`39d0c63`), leaving `height_sequence_3`
+untouched. So the improvement survives once each number is read against its own
+functional, and nothing was withdrawn. What is still broken: the two corrected
+artifacts label the two problems in **opposite** senses, so "AlphaEvolve's
+`C_3`" is ambiguous between them; `problems/4.html` still carries only the
+`max|f*f|` statement with no sibling page nine months after promising one; and
+issue #1, the thread where the report was made, is still open. No new bound is
+claimed and nothing was posted upstream. Nothing bears on RH (`docs/08`).
+
 ### Hunt #86: the ceiling procedure on the *lower* side of Erdos minimum overlap (`overlap_lower/`)
 
 **Status: probe, partly settled.** Sixth instance of the ceiling procedure and
