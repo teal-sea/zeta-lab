@@ -30,7 +30,10 @@ lemma F3_eq (p : ℕ) (g : Fin 2 → ℝ) :
     F 3 p g = (1/(p:ℝ)) * (g 0 + g 1) + wfun (g 0) + wfun (g 1) + 2 * wfun (g 0 + g 1) := by
   simp only [F, ptsN, sum2, Fin.sum_univ_three, Fin.isValue]
   norm_num
-  ring
+  -- `norm_num` evaluates the three pair coefficients `2/(3 − (j−i))` and cancels the
+  -- telescoping `ptsN` differences; whether it also closes the goal depends on the
+  -- association it leaves, so `ring` is optional rather than required.
+  try ring
 
 /-- **The one-dimensional cover.**  Outside four short intervals around the first four
 zeros of the kernel, `w ≥ c` outright.  `[0,1/2]` is the window of `wfun_window`; the
@@ -46,7 +49,7 @@ lemma cover1 (x : ℝ) (h0 : 0 ≤ x) (hS : x ≤ (807/200:ℝ)) :
   rcases le_or_lt x (65/64:ℝ) with hz3 | hz3
   · exact Or.inl (le_trans (by norm_num) (wc_2 x (by linarith) (by linarith)))
   rcases le_or_lt x (71/64:ℝ) with hz4 | hz4
-  · exact Or.inr (Or.inl ⟨by linarith, by linarith⟩)
+  · exact Or.inr ((Or.inl ⟨by linarith, by linarith⟩))
   rcases le_or_lt x (9/8:ℝ) with hz5 | hz5
   · exact Or.inl (le_trans (by norm_num) (wc_71 x (by linarith) (by linarith)))
   rcases le_or_lt x (5/4:ℝ) with hz6 | hz6
@@ -60,7 +63,7 @@ lemma cover1 (x : ℝ) (h0 : 0 ≤ x) (hS : x ≤ (807/200:ℝ)) :
   rcases le_or_lt x (31/16:ℝ) with hz10 | hz10
   · exact Or.inl (le_trans (by norm_num) (wc_76 x (by linarith) (by linarith)))
   rcases le_or_lt x (17/8:ℝ) with hz11 | hz11
-  · exact Or.inr Or.inr (Or.inl ⟨by linarith, by linarith⟩)
+  · exact Or.inr (Or.inr ((Or.inl ⟨by linarith, by linarith⟩)))
   rcases le_or_lt x (137/64:ℝ) with hz12 | hz12
   · exact Or.inl (le_trans (by norm_num) (wc_166 x (by linarith) (by linarith)))
   rcases le_or_lt x (69/32:ℝ) with hz13 | hz13
@@ -76,7 +79,7 @@ lemma cover1 (x : ℝ) (h0 : 0 ≤ x) (hS : x ≤ (807/200:ℝ)) :
   rcases le_or_lt x (23/8:ℝ) with hz18 | hz18
   · exact Or.inl (le_trans (by norm_num) (wc_173 x (by linarith) (by linarith)))
   rcases le_or_lt x (203/64:ℝ) with hz19 | hz19
-  · exact Or.inr Or.inr Or.inr (Or.inl ⟨by linarith, by linarith⟩)
+  · exact Or.inr (Or.inr (Or.inr ((Or.inl ⟨by linarith, by linarith⟩))))
   rcases le_or_lt x (51/16:ℝ) with hz20 | hz20
   · exact Or.inl (le_trans (by norm_num) (wc_342 x (by linarith) (by linarith)))
   rcases le_or_lt x (13/4:ℝ) with hz21 | hz21
@@ -90,7 +93,7 @@ lemma cover1 (x : ℝ) (h0 : 0 ≤ x) (hS : x ≤ (807/200:ℝ)) :
   rcases le_or_lt x (245/64:ℝ) with hz25 | hz25
   · exact Or.inl (le_trans (by norm_num) (wc_347 x (by linarith) (by linarith)))
   have hz26 : x ≤ (807/200:ℝ) := hS
-  exact Or.inr Or.inr Or.inr Or.inr ⟨by linarith, by linarith⟩
+  exact Or.inr (Or.inr (Or.inr (Or.inr (⟨by linarith, by linarith⟩))))
 
 /-- The box `B1 × B1` of the two-dimensional table. -/
 lemma pair_0_0 (x y : ℝ) (hx1 : (65/64:ℝ) ≤ x) (hx2 : x ≤ (71/64:ℝ))
@@ -4133,8 +4136,10 @@ theorem three_point_cert :
 /-- `Phi_n 3 c m p` at the certificate's parameters, as an exact rational in `HD 1`. -/
 theorem Phi_three : Phi_n 3 (1345/1000000:ℝ) 745 3000 = (149000000 * HD 1 - 99200) / 148800133 := by
   unfold Phi_n
-  norm_num
-  field_simp
+  push_cast
+  -- `1 − c(m−(n−1))/m` and the right denominator are nonzero rationals, so the
+  -- identity is a single cross-multiplication with `HD 1` left as an atom.
+  rw [div_eq_div_iff (by norm_num) (by norm_num)]
   ring
 
 /-- **The three-point bound, unconditional.**  `Zeta23Ext.Bridge.n_point_bound` at

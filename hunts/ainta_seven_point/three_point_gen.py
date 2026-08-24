@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the Lean three-point certificate table for hunts/ainta_seven_point/lean3.
+"""Generate the Lean three-point certificate table for hunts/ainta_seven_point/lean-three-point.
 
 Everything is exact rational arithmetic (`fractions.Fraction`); floating point is used
 only to *steer* the branch and bound, never to justify a bound.  Every interval step
@@ -15,7 +15,7 @@ below mirrors, one for one, a lemma that the emitted Lean actually applies:
     w(x) = k(x)^2 >= (nlo/dhi)^2  when  nlo <= |N| and |D| <= dhi   ThreePoint.wfun_ge
 
 Usage:  python3 three_point_gen.py [c_numerator]     (c = numerator/10^6, default 1345)
-Writes ThreePoint/Cells*.lean, ThreePoint/Main.lean and ThreePoint.lean under lean3/.
+Writes ThreePoint/Cells*.lean, ThreePoint/Main.lean and ThreePoint.lean under lean-three-point/.
 """
 from fractions import Fraction as Fr
 import math, os, sys
@@ -334,7 +334,10 @@ def emit(cn, out):
     A("    F 3 p g = (1/(p:ℝ)) * (g 0 + g 1) + wfun (g 0) + wfun (g 1) + 2 * wfun (g 0 + g 1) := by")
     A("  simp only [F, ptsN, sum2, Fin.sum_univ_three, Fin.isValue]")
     A("  norm_num")
-    A("  ring")
+    A("  -- `norm_num` evaluates the three pair coefficients `2/(3 \u2212 (j\u2212i))` and cancels the")
+    A("  -- telescoping `ptsN` differences; whether it also closes the goal depends on the")
+    A("  -- association it leaves, so `ring` is optional rather than required.")
+    A("  try ring")
     A("")
 
     segs = [(l,u,'clear') for (l,u) in clear] + [(l,u,'bad',i) for i,(l,u) in enumerate(bad)]
@@ -367,7 +370,9 @@ def emit(cn, out):
             j = s[3]
             expr = "⟨by linarith, by linarith⟩"
             if j < len(bad)-1: expr = "(Or.inl " + expr + ")"
-            A("%sexact %s%s" % (ind, "Or.inr " * (j+1), expr))
+            # `Or.inr Or.inr e` is application of `Or.inr` to two arguments, not
+            # nesting: the parentheses are load-bearing.
+            A("%sexact %s%s%s" % (ind, "Or.inr (" * (j+1), expr, ")" * (j+1)))
     A("")
 
     def emit_wfact(varname, expr, l, u, W, ind):
@@ -455,8 +460,10 @@ def emit(cn, out):
     A("/-- `Phi_n 3 c m p` at the certificate's parameters, as an exact rational in `HD 1`. -/")
     A("theorem Phi_three : Phi_n 3 %s %d %d = (%d * HD 1 - %d) / %d := by" % (CSTR, m, P, a, b, d))
     A("  unfold Phi_n")
-    A("  norm_num")
-    A("  field_simp")
+    A("  push_cast")
+    A("  -- `1 \u2212 c(m\u2212(n\u22121))/m` and the right denominator are nonzero rationals, so the")
+    A("  -- identity is a single cross-multiplication with `HD 1` left as an atom.")
+    A("  rw [div_eq_div_iff (by norm_num) (by norm_num)]")
     A("  ring")
     A("")
     A("/-- **The three-point bound, unconditional.**  `Zeta23Ext.Bridge.n_point_bound` at")
@@ -502,7 +509,7 @@ def emit(cn, out):
 if __name__ == '__main__':
     cn = int(sys.argv[1]) if len(sys.argv) > 1 else 1345
     here = os.path.dirname(os.path.abspath(__file__))
-    info = emit(cn, os.path.join(here, "lean3"))
+    info = emit(cn, os.path.join(here, "lean-three-point"))
     H = 0.67250070367941164573
     a,b,d = info['phi']
     print("c = %d/10^6   m = %d   p = %d   cutoff S = %s" % (cn, info['m'], P, float(info['S'])))
