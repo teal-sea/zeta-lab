@@ -40,7 +40,15 @@ def test_free_energy_normalization_is_one_quarter():
     assert n["spread"] < 1e-12          # constant across h, not fitted
 
 
+@pytest.mark.slow
 def test_two_routes_to_third_derivative_agree():
+    # Marked slow 2026-08-23: measured at 631s in CI, over half the fast tier's
+    # entire wall time. Under `-n auto` a single test of that length sets the
+    # floor for the whole run, so the tier drifted to 19 minutes against the
+    # ~115s CLAUDE.md documents, and the next pull request to add any work
+    # tipped it past the 30-minute job cap. The cross-check itself is unchanged
+    # and still runs — in the slow tier, which is where a three-point
+    # high-precision stencil sweep belongs.
     for w in (1.0, 5.0, 20.0):
         a = log_xi_third_derivative(w)
         b = ghs_zero_sum(w)
