@@ -119,6 +119,21 @@ headroom in this parameterisation is not in the degree; it is in the node set,
 which nobody publishes. Float grade throughout. Five planted faults fire. The
 Cohn-Elkies SDP half was not attempted. Nothing bears on RH (`docs/08`).
 
+### Hunt #80: where the variable-radius Bloch certificate ends (`bloch_ceiling/`)
+
+**Status: settled on the ceiling, open on the higher target.** Third instance of
+the ceiling procedure, on a constant outside the zeta family: Wikström's
+computer-assisted lower bound for Bloch's constant (arXiv 2608.17660, Zenodo
+`10.5281/zenodo.21975862`). The published verification reproduces from the pinned
+archive, all 28 checksums verified. The verifier's soundness read is in section 3.
+Section 4 computes the variable-radius ceiling the author did not: the published
+constant extracts roughly 59% of the headroom the method's own parameterisation
+allows, with the near side interval-rigorous, the away side a floating-point
+programme, and the ceiling therefore **INFERRED** rather than measured. Section 5,
+a higher target against the author's own verifier, was **attempted and not
+obtained** — the shard was preempted and restarted from its first cell repeatedly,
+so it could not converge; nothing was refuted and no higher target is claimed.
+
 ### Hunt #81: what the `min(dps, 20)` cap costs, measured (`dps_cap/`)
 
 **Status: probe, complete.** At `0.8 + 85.7i`, `epstein_completed` at the
