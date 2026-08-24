@@ -16,6 +16,32 @@ Target pinned at `AMTOPA/zeta-exact-pressure`, commit
 
 ---
 
+## 0. The finding that outranks the rest
+
+**The leading public claim does not replay at its own repository tip.** Run
+through AMTOPA's own pipeline on the pinned commit — their table builder, their
+verifier, their candidate, their target — the finite inequality behind
+`0.6734164909714992949` returns `INCONCLUSIVE=true reason=terminal_cell` with a
+rigorous lower bound `1.19e-07` short of the target.
+
+The tables are not at fault: **all six reproduce byte for byte against the
+digests in their own `candidate.json`.** The cause is their own convexity gate.
+Their recorded run reports `convex=2030240`; here it fires **zero** times in 72
+million nodes. Between `b3b7784` — the commit their `candidate.json` names as the
+source of that run — and the tip, the gate's curvature entries changed from thin
+points to intervals with `+inf` upper bounds, and the interval LDL that follows
+cannot certify positive definiteness of a matrix that is unbounded above. A
+70-line reproduction is in `ldl_probe.cpp`.
+
+**Direction: fail-closed.** The tip refuses what the earlier revision accepted and
+never the reverse, so this is not evidence their number is wrong — it is evidence
+that the one runnable artifact carrying the top claim on a fifteen-claim public
+ladder does not run as shipped. Full account, both directions, in §3.0.
+
+The same defect blocks *our* candidate at the tip too, by `2.70e-08`. §7.6.
+
+---
+
 ## 1. The sentence that matters
 
 **Their number is not at their own family's ceiling, and the distance is
@@ -123,8 +149,80 @@ House style: acceptance direction, constants encoding the target, float traps.
 Their repository is named `zeta-exact-pressure`, so the last one gets particular
 attention.
 
-**No defect was found that affects their claim.** Four findings, in descending
-order of what they cost:
+**Nothing was found that makes their claim unsound.** One thing was found that
+makes it unreplayable at their own repository tip, and it is §3.0.
+
+### 3.0 Their published certificate does not replay at HEAD, and the reason is a dead convexity gate
+
+Run through their own pipeline on the pinned commit — their table builder, their
+verifier, their candidate, their target — **AMTOPA's own finite inequality
+returns `INCONCLUSIVE` at a terminal cell.** VERIFIED, `hunts/amtopa_ceiling`
+Actions run `32752160099`:
+
+    target=0.0079107  table_cells=64954  initial_boxes=64  accelerated=true
+    shard 2/8  INCONCLUSIVE=true reason=terminal_cell
+               lower=0.0079105811209911128
+               box=[4136,4136][4140,4140][7856,7856][4187,4187][7837,7837][4157,4157]
+               nodes=21063162  convex=0  tangent=0
+    shard 3/8  SHARD_VERIFIED=true nodes=47945570 convex=0 tangent=0
+    shard 7/8  SHARD_VERIFIED=true nodes=3201488  convex=0 tangent=0
+
+The rigorous lower bound at that single grid cell is short of their target by
+`1.19e-07`.
+
+**The tables are not the problem — they reproduce perfectly.** All six
+outward-rounded tables built here join to byte-identical streams: `w_lower`
+`b5acdeea…ba2c8e`, `w_second_lower` `fbac961c…c355d0`, `w_mid_lower`
+`4c4c010a…e878a47`, `w_mid_upper` `cb8163fa…3ccde8e`, `w_prime_mid_lower`
+`6190bc24…9ed30a`, `w_prime_mid_upper` `b221e296…bf65c915` — **every one matching
+the digests in their `candidate.json`.** That is a stronger table reproduction
+than Hunt #89 obtained for `trmdy`, where the `w''` stream was host-dependent.
+
+**`convex=0` is the tell.** Their own recorded run reports `convex=2030240` and
+`tangent=936616`; here the convexity gate fires **zero** times in 72 million
+nodes across three shards, so the tangent pruner never runs, the search explodes,
+and the plain interval bound at grid `1/4000` is left to clear the target on its
+own — which at one cell it cannot.
+
+**The cause is a change in their own source, and their `candidate.json` records
+it.** That file names `source_commit: b3b7784ed0089c3c2197d740aaae1a424d142e44`
+as the origin of the recorded `VERIFIED=true` run. Between `b3b7784` and the
+pinned tip `7253fdca`, `src/verify_local_tables.cpp` changed by **173 lines**,
+and the convexity gate was rewritten:
+
+    b3b7784   const double scalar = s >= 0 ? down(p.lower*s) : down(p.upper*s);
+              const Interval term = point(scalar);          // THIN entry
+
+    7253fdca  const Interval curvature =
+                  mul(p.exact, {sec, std::numeric_limits<long double>::infinity()});
+
+The lower bound is the same in both. What changed is the upper: it became `+inf`.
+The interval LDL that follows is unchanged, and it **cannot certify positive
+definiteness of a matrix whose entries are unbounded above** — the first Schur
+update drives a pivot's lower endpoint to `-inf` and the gate returns false.
+`ldl_probe.cpp` in this directory is a 70-line reproduction: on a matrix with
+`10` on the diagonal and `1` off it, positive definite by any test, the tip's
+shape returns `false` and `b3b7784`'s returns `true`. VERIFIED.
+
+Note that the old thin-entry version was **sound**, and not by luck: the Hessian
+is `sum_p (a_p W''_p) J_p` with `J_p` the all-ones block on `[i, j)`; every `J_p`
+is PSD, so lowering the scalar coefficients gives a PSD lower bound, and an LDL
+on the lowered matrix certifies the true one. The rewrite did not fix a hole; it
+closed the gate.
+
+**Direction: fail-closed, and this is the whole point.** The tip's verifier
+refuses what the earlier one accepted and never the reverse. So this is **not
+evidence that their number is wrong** — it is evidence that a reviewer who clones
+the repository and runs the documented pipeline gets `INCONCLUSIVE` on the
+headline. For a claim whose entire trust rests on one runnable artifact, at the
+top of a fifteen-claim public ladder, on a repository asking for independent
+reproduction, that is the finding worth reporting.
+
+**It bites our own candidate identically** (§7.6): at the tip, our target
+`19791/2500000` also hits a terminal cell, short by `2.70e-08`. Both candidates
+need `b3b7784`'s verifier to be settled, and this hunt did not run it.
+
+### The other findings, in descending order of what they cost:
 
 ### 3.1 The final projection is not exact, and their documents say it is
 
@@ -615,21 +713,27 @@ reference points into `doors` and gave the shards nothing to do but search.
 Three of the four returned, and **all three beat the incumbent by an order of
 magnitude more than the pair-weight axis did:**
 
-| shard | best bound | `H` | `B/B0` | `eps*` | `m` | vs AMTOPA |
-|---|---|---|---|---|---|---|
-| 0 | `0.6734531219043779` | `0.6721765258757710` | `0.8708` | `0.0072022744` | 157 | **`+3.663e-05`** |
-| 3 | `0.6734509899705670` | `0.6721609604662047` | `0.9415` | `0.0076519730` | 149 | `+3.450e-05` |
-| 2 | `0.6734492182109082` | `0.6721776934457142` | `0.8645` | `0.0071559747` | 158 | `+3.273e-05` |
+| run | shard | best bound | `H` | `B/B0` | `eps*` | `m` | vs AMTOPA |
+|---|---|---|---|---|---|---|---|
+| 3 | 0 | `0.6734536055358651` | `0.6721654027522228` | `0.9081` | `0.0074464746` | 153 | **`+3.711e-05`** |
+| 2 | 0 | `0.6734531219043779` | `0.6721765258757710` | `0.8708` | `0.0072022744` | 157 | `+3.663e-05` |
+| 2 | 3 | `0.6734509899705670` | `0.6721609604662047` | `0.9415` | `0.0076519730` | 149 | `+3.450e-05` |
+| 2 | 2 | `0.6734492182109082` | `0.6721776934457142` | `0.8645` | `0.0071559747` | 158 | `+3.273e-05` |
+| 3 | 3 | `0.6734471805237648` | `0.6721412064054275` | `0.9654` | `0.0078219798` | 146 | `+3.069e-05` |
+
+Five independent seeds across two runs, every one of them starting from AMTOPA's
+own window, every one of them walking away from it, every one reporting a gain
+between `+3.07e-05` and `+3.71e-05`.
 
 **Read this carefully, because it is the least settled number in this file.**
 Each shard's inner `eps*` solve is deliberately cheap — 14 rounds, a 40,000-point
 multistart, patience 3 — so every one of those floors is an early-stopped
 over-estimate of the same kind §1 describes, and the bounds inherit that. What
-the sweep establishes is *direction*, not magnitude: three independent seeds,
-starting from AMTOPA's own window, all walk away from it, all toward **lower
-`H` and lower `B`**, and all report gains near `+3.5e-05`. The window axis is
-open. Settling how far it is open needs each candidate window run through the
-converged pipeline and then through their verifier, which this hunt did not do.
+the sweep establishes is *direction*, not magnitude: five independent seeds all
+walk away from AMTOPA's window toward **lower `H` and lower `B`**, and all report
+gains near `+3.5e-05`. The window axis is open. Settling how far it is open needs
+each candidate window run through the converged pipeline and then through their
+verifier, which this hunt did not do.
 
 Note the shape of what the search wants: `H` *below* AMTOPA's, and `B` at
 `0.87` to `0.94` of theirs. The optimiser is spending more window constant to buy
@@ -671,8 +775,35 @@ on the order of an hour of runner time, and any reviewer should budget for that.
   exactly what changed, and AMTOPA's own candidate runs through the same patched
   binary as a control.
 
-Until a run of it returns, **the floor behind §1's constant is a float minimum
-and nothing more**, and this hunt does not claim otherwise.
+  **This worked, and what it returned is §3.0.** The shards run: 24 s to 343 s
+  each, node counts from 3.2M to 47.9M. But at the pinned tip the convexity gate
+  is dead, so both candidates hit terminal cells:
+
+  | candidate | target | shard | result | nodes | wall |
+  |---|---|---|---|---|---|
+  | AMTOPA | `0.0079107` | 2/8 | **INCONCLUSIVE**, `lower=0.0079105811209911128` | 21,063,162 | 147 s |
+  | AMTOPA | `0.0079107` | 3/8 | SHARD_VERIFIED | 47,945,570 | 343 s |
+  | AMTOPA | `0.0079107` | 7/8 | SHARD_VERIFIED | 3,201,488 | 24 s |
+  | ours | `19791/2500000` | 1/8 | **INCONCLUSIVE**, `lower=0.0079163729648852113` | 5,571,088 | 30 s |
+  | ours | `19791/2500000` | 7/8 | SHARD_VERIFIED | 3,517,672 | 99 s |
+
+  every one of them with `convex=0 tangent=0`. Ours falls short by `2.70e-08`,
+  theirs by `1.19e-07` — both at a single width-zero grid cell, both by less than
+  a part in fifty of the target, and both because the tangent bound that used to
+  close those cells no longer exists at this revision.
+
+**So the answer this hunt has, precisely.** Our candidate's floor is **not
+accepted at the repository tip**, and neither is AMTOPA's own, for the same
+reason and by the same mechanism. Settling either needs the verifier at
+`b3b7784ed0089c3c2197d740aaae1a424d142e44` — their own code, the revision their
+own `candidate.json` names — which is one more Actions cycle of the shape run 3
+already demonstrates: six table shards at about four minutes each, then eight
+search shards at 24 to 343 seconds each. That is the cost, and it is written here
+rather than run, because the hunt's budget went to finding out why the tip does
+not work.
+
+Until then, **the floor behind §1's constant is a float minimum and nothing
+more**, and this hunt does not claim otherwise.
 
 ---
 

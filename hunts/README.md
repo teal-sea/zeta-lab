@@ -70,15 +70,37 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
-### Hunt #90: the leader's family has `4e-06` left in it, and the doors are named (`amtopa_ceiling/`)
+### Hunt #90: the leader's certificate does not replay at its own HEAD (`amtopa_ceiling/`)
 
-**Status: settled on the measurable axes; window search reported.** Takes the
+**Status: settled on the measurable axes; window axis open; acceptance blocked at the tip.** Takes the
 `ainta_seven_point` playbook to `AMTOPA/zeta-exact-pressure`, the leading public
 claim per Hunt #89, pinned at commit
 `7253fdcab9366af45b8c8caf44e408c0af44a1a7`.
 
-**Their headline reproduces.** In exact rational arithmetic with a rational
-under-estimate of the only square root, their `0.673416490971499294950035533107
+**The finding that outranks the rest: their published certificate does not
+replay at their own repository tip.** Run through AMTOPA's own pipeline on the
+pinned commit — their table builder, their verifier, their candidate, their
+target — the finite inequality behind `0.6734164909714992949` returns
+`INCONCLUSIVE=true reason=terminal_cell` with a rigorous lower bound `1.19e-07`
+short of the target. **The tables are not at fault: all six join to streams whose
+SHA-256 digests match their own `candidate.json` byte for byte**, a stronger
+table reproduction than Hunt #89 got for `trmdy`. The cause is their convexity
+gate, which fires `2030240` times in their recorded run and **zero** times here
+in 72 million nodes. Their `candidate.json` names
+`source_commit: b3b7784…` as the origin of that run; between `b3b7784` and the
+tip, `src/verify_local_tables.cpp` changed by 173 lines and the gate's curvature
+entries went from thin `point(scalar)` to `mul(p.exact, {sec, +infinity})`. The
+interval LDL that follows **cannot certify positive definiteness of a matrix
+unbounded above** — `ldl_probe.cpp`, 70 lines, shows it returning `false` on a
+matrix with `10` on the diagonal and `1` off it. Without the tangent bound the
+plain interval bound at grid `1/4000` is left to clear the target alone, and at
+one width-zero cell it cannot. **Direction: fail-closed** — the tip refuses what
+the earlier revision accepted and never the reverse, so this is a reproducibility
+defect, not a soundness hole, and it blocks *our* candidate at the tip too, by
+`2.70e-08`.
+
+**Their headline reproduces on paper.** In exact rational arithmetic with a
+rational under-estimate of the only square root, their `0.673416490971499294950035533107
 4903174997772794755665475125243371226272` holds to **70 decimals**, and the exact
 scan over `m` in `[7, 20000]` returns their `m = 145`. An independent
 reimplementation written from their `proof.md` reproduces `H(v)` and their
@@ -112,7 +134,16 @@ verifier accepts the target. **The LP found the point; it does not justify it** 
 what justifies it is their branch-and-bound, and the hunt says so where the
 number appears.
 
-**But the ceiling findings are worth more than the constant.** On the two axes
+**The window axis is NOT saturated, and it is worth ten times the pair weights.**
+Five independent differential-evolution seeds across two Actions runs, each
+starting from AMTOPA's own window, every one walks away from it — always toward
+*lower* `H` and *lower* `B` — and reports gains between `+3.07e-05` and
+`+3.71e-05`, best `0.6734536055358651` at `H = 0.6721654`, `B/B0 = 0.908`,
+`m = 153`. Those inner solves are deliberately cheap and their floors are
+early-stopped over-estimates, so this is **direction, not magnitude** — but the
+direction is unambiguous and it is the live door.
+
+**The ceiling findings are worth more than the constant.** On the two axes
 where a ceiling can be computed rather than searched, **AMTOPA are at it.**
 (i) `H(v) = 2 - 1/c1` is a **Rayleigh quotient** in the window coefficients, so
 `H_max = 2 - 1/(u^T M^{-1} u)` in closed form — and for 1, 2, 3, 7, 13, 17 or 25
