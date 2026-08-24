@@ -14,10 +14,23 @@
 # think it is. The step below fails loudly if the backend is not Arb.
 name: tests
 
+# Paths, added 2026-08-24. Running three hunts at once queued this repository
+# behind itself: every push to a research branch fired a 30-minute suite even
+# when the diff touched only a hunt's own scripts and prose, which no test in
+# this suite reads. The library, the Lean trees, the scripts and the tests
+# themselves still gate everything; a change confined to one hunt's directory
+# does not. `paths-ignore` is deliberately narrow -- it lists what cannot
+# affect the suite, so anything new is covered by default rather than skipped.
 on:
   push:
     branches: [main]
   pull_request:
+    paths-ignore:
+      - 'hunts/**/*.md'
+      - 'hunts/**/artifacts/**'
+      - 'hunts/**/RUNS.md'
+      - 'docs/**'
+      - '**/*.txt'
   workflow_dispatch:
 
 permissions:
