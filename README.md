@@ -63,109 +63,43 @@ cd lean && PATH="$HOME/.elan/bin:$PATH" lake build Challenge Solution
 
 `lean/PALOMAR.md` explains the submission surface and how to re-check the axioms.
 
-## Current work: a machine-audited candidate past the two-thirds constant
+## Current work: the unconditional constant, the wall, and a corrected field position
 
-On 10 August 2026 a paper established, unconditionally, that more than
-0.6725007036… of the zeros of ζ in a dyadic window lie on the critical
-line — the Montgomery–Taylor constant, via a finite Frobenius/rank-trace
-argument. Two days later this laboratory assembled and audited a
-**candidate** strengthening of the same chain, transplanting a
-Cheer–Goldston gap-census floor into the paper's framework:
+On 10 August 2026, arXiv:2608.13637 (Anthropic) proved unconditionally that more
+than **0.6725007036…** of the zeros of ζ in a dyadic window are simple and on the
+critical line, with the Lean development public at `anthropics/zeta-23-lean`.
 
-> **H = 0.6725007037 + 2·θ·c_u = 0.6725106958**, with θ = 0.995 the
-> adversarial retention of the on-line Gram mass and c_u = 5.021179×10⁻⁶
-> the census floor of the Montgomery–Taylor kernel.
+**This laboratory's theorem (24 August 2026, `hunts/ainta_seven_point/lean-three-point/`):**
+the same statement holds with constant
 
-Every step carries a grade, and a composite claim takes the grade of its
-weakest step — so the reading above is a **candidate**, not a theorem:
+> **Φ₃ = (149000000·H − 99200)/148800133 = 0.6727373345…**
 
-| Step | Grade |
-|---|---|
-| The composition inequality `s ≥ 2N − ‖P+Q‖²_F + D` and its θ-corollary | **kernel-checked** (Lean 4 + Mathlib, sorry-free, standard axioms only) |
-| The grid-incidence law `Σₙ φ̂(x−n)φ̂(y−n) = 2π·FT(φ²)(x−y)` | **kernel-checked** (same; ships with a counterexample showing evenness is necessary) |
-| The window identification (the paper's Theorem D profile is the MT window) | measured against the paper's own variational functional, defect 7×10⁻⁹ |
-| The census floor `c_u ≥ 5.021172019×10⁻⁶` | **kernel-checked** — rational weak duality plus four bounds on the genuine MT kernel (`Real.sin`, `Real.sqrt 2`, `π`), no `native_decide`, no floats |
-| The retention certificate's arithmetic | **kernel-checked** — the recorded cover closes, with `cap` defined by the genuine band supremum, so it cannot be vacuous |
-| The retention θ = 0.995 itself | hardened — one-sided dual, independent adversary hunt, ball arithmetic; the reduction to the certificate is carried as an explicit hypothesis, not hidden |
-| Prime-side asymptotics, simple-zero density | *cited* from the source paper, not re-derived |
-| External review | none yet — invited, not required |
+**unconditionally**: the finite three-point certificate is proved *inside Lean* by
+1,515 interval cell lemmas rather than accepted by an external program, so the
+theorem takes no certificate hypothesis, and `#print axioms` reports exactly
+`[propext, Classical.choice, Quot.sound]`. This replaces the gap-census candidate
+that previously headed this section; that candidate remains in the tree with its
+grades, superseded.
 
-**Of the three gaps the audit named, two are now closed and one
-remains.** The retention is quantified over *all* off-line depths, not
-four samples — the shallow end, which no grid can reach, by a
-homogeneity argument rather than a finer grid. The transfer into the
-source paper's units is derived, with conversion factor exactly 1, and
-the improvement does not drown in that paper's error terms. **Still
-open:** the many-pair case.  Our own proposed route for it — bounding
-the joint cap by a sum of single-pair caps — was refuted this session:
-it fails above the multiplicity threshold, and from four pairs on (three
-at float grade) the per-pair sum already exceeds the budget while the
-joint verdict closes comfortably, so the joint field's shielding is
-load-bearing.  The
-obligation is now a single bandlimited nonnegative-kernel inequality in
-two exponential sums, which is a sharper target than what it replaced.
+**The wall (`hunts/family_wall/`):** the pressure-certificate family built on the
+Montgomery–Taylor window saturates at **sup Φₙ ≤ 0.675142509660254** — far below
+the 0.6818286874638 configuration ceiling. Adding points cannot close the gap.
+The argument was audited adversarially by an independent model working from a
+blank directory; the audit found two repairable defects in the write-up and could
+not break the result, and ships inside the hunt.
 
-**One caveat belongs up here rather than in a footnote.** The
-improvement is real as a liminf statement — the same logical type as the
-source's own — but it is **not numerically effective at any reachable
-height**: the crossover sits near T ≈ 10^(1.7×10⁶). That shape is
-inherited from the source's own o(1) coefficients, not introduced by us,
-and it is what an ε-improvement to a non-effective bound costs. Read
-"improvement" as a statement about the limit, not about heights anyone
-can compute.
+**The field, counted honestly (`hunts/field_audit/`):** fifteen public claims
+stand above Anthropic's theorem as of 24 August 2026. This laboratory's best
+conditional figure, an eight-point certificate at 0.6730529829…, ranks **tenth**;
+the leading claim is `AMTOPA/zeta-exact-pressure` at 0.6734164909…. Three
+constructions were past this laboratory's figure before its own hunt opened, and
+its prior-art search missed them for thirteen days — recorded, not edited away.
+Every figure in that ranking is a claim unless marked otherwise; trmdy's full
+2,168,370-box interval run was reproduced here node for node with no soundness
+defect found. All fifteen sit below the wall.
 
-Nothing here is evidence about the Riemann Hypothesis itself and the
-laboratory claims no progress toward it; the improvement is +1.0×10⁻⁵ on
-one constant in one theorem.
-
-**The audit trail is the point.** The work is published with its failures
-attached: eleven defects of our own were caught during it — including a
-route this session proposed for the last open gap and then refuted with
-its own controls — a recurring
-blanket-margin artifact, a kernel-pairing conflation that forced us to
-revise our own headline downward, a quadrature under-resolution that ran a
-convergence ladder backwards, a hypothesis gap the theorem prover refuted
-with a counterexample — every one caught by a control or an independent
-route, none by inspection.
-
-- **[`hunts/frontier_math/PREPRINT.md`](hunts/frontier_math/PREPRINT.md)** — the working paper: statement, what is proved, what is cited, how to reproduce.
-- **[`hunts/frontier_math/PROOF-LEDGER.md`](hunts/frontier_math/PROOF-LEDGER.md)** — every obligation with its grade, and every defect found.
-- **[`hunts/frontier_math/zeta23ext/`](hunts/frontier_math/zeta23ext/)** — a Lean package pinned against the source paper's own formalization, into which the chain lands as each piece is kernel-checked.
-
-We are seeking adversarial review. The fastest way to make this a theorem —
-or to add a tenth line to the defect ledger — is for someone who knows the
-source paper's §4–6 to read the ledger against it. Both outcomes are wins.
-
----
-
-Stated plainly, up front:
-
-- **Zeta Lab does not prove RH and does not claim progress toward proving
-  it.** A computation that appears to settle something open is checked before
-  it is believed — refined, re-run by an independent route, and graded on the
-  certainty ladder (`AGENTS.md`) — and it may then carry the strongest language
-  its rung has earned. That is a discharge procedure, not a presumption of
-  guilt (`docs/00-orientation.md`).
-- `zeta/` implements the classical machinery at arbitrary precision: theta
-  functions, the functional equation, Hardy's Z, the explicit formula, GUE
-  statistics, heat flow on Ξ, Weil positivity, the Davenport–Heilbronn
-  counterexample. Identities are exposed as measured *defect* functions
-  rather than assumed, and every number claimed in a docstring is pinned by
-  a test.
-- Claims are tested against **structure-matched negative controls** — a claim
-  that a rival sharing the same structure also satisfies has distinguished
-  nothing. For ζ this is `zeta.epstein.battery` (`docs/09` gate #3), which is
-  where the practice is actually used. `harness/` generalized it into a
-  framework; the framework was tested, did not earn its keep, and is demoted
-  (`harness/VERDICT.md`).
-- Two verification regimes are stronger than "numerically accurate":
-  `zeta/rigor.py` computes in interval/ball arithmetic, so every step
-  carries an enclosure; `lean/` holds Lean 4 + Mathlib proofs checked by
-  the kernel. Only these two may use the word *certified*, and they are
-  different claims — enclosure-carrying numerics vs kernel-checked symbolic
-  truth.
-- Failed and withdrawn claims are kept, together with the test that now
-  catches each mistake (`HANDOFF.md`, `hunts/README.md`).
+Every conditional figure above Anthropic's, this laboratory's included, shares an
+analytic bridge no person has reviewed. The unconditional Φ₃ does not.
 
 ## Negative controls, and one framework that did not earn its keep
 
