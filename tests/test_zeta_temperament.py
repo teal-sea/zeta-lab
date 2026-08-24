@@ -42,6 +42,8 @@ def test_von_mangoldt():
         [log(2), log(3), log(2), 0.0, log(2), log(3), 0.0])
 
 
+@pytest.mark.slow
+# Marked slow 2026-08-24: measured at 571s in CI, the second-slowest test in the fast tier. The measurement is unchanged; it runs in the slow tier.
 def test_landau_in_tuning_units_on_own_zeros():
     """Prime powers carry Landau's coefficient to within 6 percent on 2000
     zeros; composites sit within three random-points standard errors of zero."""
