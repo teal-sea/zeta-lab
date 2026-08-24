@@ -56,9 +56,18 @@ ceiling can be computed rather than searched, AMTOPA are *at* it:
   orthogonality that holds if and only if the fundamental is `sqrt(2)`.
   VERIFIED.
 
-So the room left in this construction is `3.96e-06`, and the room left under the
-information class it lives in is `0.0084`. **The binding object is not the
-information; it is the construction.** §5 names the doors.
+**And one axis is not at its ceiling at all.** The window's *sixteen coefficients*
+are not the window's *constant*: `H` cannot rise, but the coefficients also shape
+the kernel, and a search over them (§7.5) walks away from AMTOPA's window on
+three independent seeds, every one toward lower `H` and lower `B`, reporting
+gains near `+3.5e-05` — an order of magnitude more than the pair weights are
+worth. Those figures rest on a deliberately cheap inner solve and are direction,
+not magnitude; but the direction is unambiguous and it is the live door.
+
+So the room left in this construction is at least `3.96e-06` and plausibly ten
+times that, while the room left under the information class it lives in is
+`0.0084`. **The binding object is not the information; it is the construction.**
+§5 names the doors.
 
 One methodological note belongs in the first section rather than buried: the
 first value this hunt computed for that headroom was `+5.57e-06`, and it was
@@ -558,32 +567,112 @@ table is an early-stopped over-estimate; the peak's *location* is what the
 section claims and it is the same in two independent runs. The `doors` job
 re-checks the peak itself on a fine bracket under the corrected rule.
 
-### 7.4 The certificate — see below
+### 7.4 The doors, at the converged optimum — the §5 ranking survives
+
+Run 2's `doors` job re-solves everything of §5 under the corrected stopping rule,
+at `eps* = 0.007916857812` over 3,190 cuts. **The ranking is unchanged and the
+numbers move in the fourth significant figure:**
+
+| constraint | run-2 `d eps*/d rhs` | in bound units | §5.1 (pre-fix) |
+|---|---:|---:|---:|
+| span-1 capacity | `+6.29270e-04` | `+4.04483e-04` | `+6.35008e-04` |
+| span-5 capacity | `+8.5326e-05` | `+5.4846e-05` | `+8.3364e-05` |
+| span-3 capacity | `+7.2331e-05` | `+4.6493e-05` | `+7.1795e-05` |
+| span-4 capacity | `+4.8894e-05` | `+3.1428e-05` | `+4.7051e-05` |
+| span-2 capacity | `+9.693e-06` | `+6.230e-06` | `+1.0684e-05` |
+| **span-6 capacity** | **`0`** | **`0`** | `0` |
+| total pressure | `+1.508643906` | net `+0.005600` | `+1.509448` |
+
+Assembly prices: `d(bound)/dH = +1.007633`, `d(bound)/deps = +0.642782`,
+`d(bound)/dB = -0.964129`, break-even `d(eps)/dB = 1.499932`,
+`d(eps)/d(-H) = 1.567613`. Active set: 4 of 21 pair weights at zero, 2 at the
+cap, 0 of 6 pressures at zero, and **24 of 3,190 gap vectors active**, all of
+them the near-integer configuration of §5.1 and its permutations. VERIFIED (LP
+duals).
+
+**The pressure argmax, rechecked under the corrected rule** on a fine bracket:
+
+    B/B0  0.94  eps* <= 0.0075531404   bound 0.6734205573759323 (m=151)
+    B/B0  0.97  eps* <= 0.0077362610   bound 0.6734213137767857 (m=148)
+    B/B0  1.00  eps* <= 0.0079188588   bound 0.6734217356598431 (m=145)
+    B/B0  1.03  eps* <= 0.0080997560   bound 0.6734210670372676 (m=142)
+    B/B0  1.06  eps* <= 0.0082819025   bound 0.6734212017525835 (m=139)
+
+argmax at `B/B0 = 1.00` exactly. **AMTOPA's `B = 93/23000` is at the peak.**
+
+**The window trade, both ends under the same rule:**
+
+    pure sqrt(2)     H = 0.6725007036794117  eps* <= 0.0070401956  bound 0.6731694905 (m=161)
+    AMTOPA 17-term   H = 0.6721881581182350  eps* <= 0.0079168578  bound 0.6734204495 (m=145)
+    they spend 3.125456e-04 of H and buy 8.766622e-04 of floor
+    exchange rate 2.8049 against break-even 1.5676
+
+### 7.5 The window sweep — **the window axis is not saturated**, and it is worth ten times the rest
+
+Run 1's four shards produced nothing: they spent their entire 900-second budget
+on the two reference points and never entered the search. Run 2 moved the
+reference points into `doors` and gave the shards nothing to do but search.
+Three of the four returned, and **all three beat the incumbent by an order of
+magnitude more than the pair-weight axis did:**
+
+| shard | best bound | `H` | `B/B0` | `eps*` | `m` | vs AMTOPA |
+|---|---|---|---|---|---|---|
+| 0 | `0.6734531219043779` | `0.6721765258757710` | `0.8708` | `0.0072022744` | 157 | **`+3.663e-05`** |
+| 3 | `0.6734509899705670` | `0.6721609604662047` | `0.9415` | `0.0076519730` | 149 | `+3.450e-05` |
+| 2 | `0.6734492182109082` | `0.6721776934457142` | `0.8645` | `0.0071559747` | 158 | `+3.273e-05` |
+
+**Read this carefully, because it is the least settled number in this file.**
+Each shard's inner `eps*` solve is deliberately cheap — 14 rounds, a 40,000-point
+multistart, patience 3 — so every one of those floors is an early-stopped
+over-estimate of the same kind §1 describes, and the bounds inherit that. What
+the sweep establishes is *direction*, not magnitude: three independent seeds,
+starting from AMTOPA's own window, all walk away from it, all toward **lower
+`H` and lower `B`**, and all report gains near `+3.5e-05`. The window axis is
+open. Settling how far it is open needs each candidate window run through the
+converged pipeline and then through their verifier, which this hunt did not do.
+
+Note the shape of what the search wants: `H` *below* AMTOPA's, and `B` at
+`0.87` to `0.94` of theirs. The optimiser is spending more window constant to buy
+more floor — the same trade `trmdy` made against Anthropic, one level further
+in.
+
+### 7.6 The certificate — not obtained, and the cost is the finding
 
 Their table builder and their C++ branch-and-bound, at our candidate and at
-theirs as a control. **Run 1's single-process table build did not finish inside
-the 20-minute job timeout** on a shared runner: 83,993 coarse cells and 167,987
-midpoints at 50 decimal digits is about 25 CPU-minutes by the authoring host's
-own measurement, and the runner is slower per core. That is a recorded outcome,
-not a hidden one. Run 2 shards the table build six ways with
-`shard_tables.py`, which imports their `build_interval_tables` and calls their
-own `coarse_chunk` and `midpoint_chunk` over an index range, so the arithmetic
-stays theirs and only the driving loop is ours; the parts concatenate in index
-order into exactly the files their verifier reads.
+theirs as a control.
 
-### 7.5 The window sweep — run 1 produced nothing, and why
+- **Run 1**: the single-process table build — 83,993 coarse cells and 167,987
+  midpoints at 50 decimal digits — took about 17 of the 20 available minutes, and
+  the branch-and-bound was cancelled two minutes in. The estimate that put the
+  build at 6 minutes came from the authoring host's 0.0225 CPU-s per cell and did
+  not carry the runner's slower cores.
+- **Run 2**: the build was sharded six ways with `shard_tables.py`, which imports
+  their `build_interval_tables` and calls their own `coarse_chunk` and
+  `midpoint_chunk` over an index range, so the arithmetic stays theirs and only
+  the driving loop is ours. All twelve shards passed and the parts joined into
+  tables of exactly the right lengths, digests recorded. **The branch-and-bound
+  then ran out the clock anyway — for our candidate and for AMTOPA's own.**
 
-All four shards spent their entire 900-second budget on the two reference points
-and never reached a differential-evolution epoch. What they did return, before
-the correction to the stopping rule and therefore as over-estimates:
+That second sentence is worth stating plainly, because it is a fact about their
+result and not only about ours: **AMTOPA's own published finite inequality did not
+replay inside a 20-minute job on a free runner.** Their own
+`local-certificate-pilot.yml` budgets `timeout-minutes: 120` for exactly this
+step, so this is consistent with their record rather than in tension with it —
+but it means the load-bearing computation behind the leading public claim costs
+on the order of an hour of runner time, and any reviewer should budget for that.
 
-    pure sqrt(2)     H = 0.6725007036794117  eps* = 0.0070454321  bound 0.6731728828 (m=161)
-    AMTOPA 17-term   H = 0.6721881581182350  eps* = 0.0079205515  bound 0.6734228236 (m=145)
+- **Run 3** shards the search itself. The verifier's outer loop is
+  `for (const auto& root : initial)` over independent initial boxes, every one of
+  which must verify; partitioning it by `root_index % 8` is the same decomposition
+  `trmdy`'s Python driver uses and is sound in the same way. The patch is
+  `root-shard.patch`, 15 added lines, and it touches **only** the loop bounds and
+  the final print: no arithmetic, no acceptance test, no fail-closed path. It is
+  applied in CI with `git apply` against the pinned commit so a reader can see
+  exactly what changed, and AMTOPA's own candidate runs through the same patched
+  binary as a control.
 
-which puts the window exchange rate near `2.8` against the break-even `1.57` —
-consistent with §4.1 and enough to say the harmonics pay, not enough to say
-whether a better 16-tuple exists. Run 2 moves the reference points into the
-`doors` job and gives the shards nothing to do but search.
+Until a run of it returns, **the floor behind §1's constant is a float minimum
+and nothing more**, and this hunt does not claim otherwise.
 
 ---
 

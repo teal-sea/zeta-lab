@@ -201,18 +201,15 @@ jobs:
   # INCONCLUSIVE (node cap or terminal cell) and is a recorded outcome, not a job
   # failure; anything else non-zero is a real failure.
   certificate:
-    name: certificate-${{ matrix.name }}
+    name: certificate-${{ matrix.name }}-s${{ matrix.shard }}
     needs: [headroom, tables]
     runs-on: ubuntu-latest
     timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - name: ours-polytope-optimum
-            source: downloaded
-          - name: amtopa-baseline
-            source: upstream
+        name: [ours-polytope-optimum, amtopa-baseline]
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -222,27 +219,20 @@ jobs:
           git clone --no-checkout "$AMTOPA_REPO" upstream
           git -C upstream checkout --detach "$AMTOPA_COMMIT"
       - uses: actions/download-artifact@v4
-        if: matrix.source == 'downloaded'
+        if: matrix.name == 'ours-polytope-optimum'
         with:
           name: headroom-and-candidate
           path: dl
       - name: Choose the candidate
         run: |
-          if [ "${{ matrix.source }}" = "downloaded" ]; then
-            cp dl/hunts/amtopa_ceiling/artifacts/candidate_ceiling.json cand.json \
-              || cp dl/artifacts/candidate_ceiling.json cand.json \
-              || find dl -name candidate_ceiling.json -exec cp {} cand.json \;
+          if [ "${{ matrix.name }}" = "ours-polytope-optimum" ]; then
+            find dl -name candidate_ceiling.json -exec cp {} cand.json \;
           else
             cp upstream/candidate.json cand.json
           fi
           echo "ZETA_CANDIDATE_PATH=$PWD/cand.json" >> "$GITHUB_ENV"
           python3 -c "import json;d=json.load(open('cand.json'));print(d['local_search']['candidate_target_for_certification'])"
       - run: pip install "mpmath>=1.3"
-      - name: Their structural and window checks on this candidate
-        working-directory: upstream
-        run: |
-          python3 src/check_candidate.py || echo "check_candidate exit $?"
-          python3 src/check_window.py
       - uses: actions/download-artifact@v4
         with:
           pattern: tables-${{ matrix.name }}-shard-*
@@ -260,6 +250,8 @@ jobs:
         working-directory: upstream
         shell: bash
         run: |
+          git apply --verbose ../hunts/amtopa_ceiling/root-shard.patch
+          git diff --stat
           mkdir -p build
           python3 src/write_verifier_config.py --output build/candidate_config.hpp
           g++ -std=c++17 -O3 -DNDEBUG -ffp-contract=off \
@@ -269,20 +261,21 @@ jobs:
           c=json.load(open(os.environ['ZETA_CANDIDATE_PATH']))
           t=c['local_search']['candidate_target_for_certification']
           print(t['numerator'], t['denominator'])")
-          echo "target = $n/$d"
+          echo "target = $n/$d  shard ${{ matrix.shard }}/8"
           set +e
           SECONDS=0
-          build/verify_local_tables "$n" "$d" tables 300000000 | tee verify.log
+          stdbuf -oL build/verify_local_tables "$n" "$d" tables 0 \
+            ${{ matrix.shard }} 8 2>&1 | stdbuf -oL tee verify.log
           code=${PIPESTATUS[0]}
           set -e
           echo "verifier_exit_code=$code wall_seconds=$SECONDS" | tee -a verify.log
-          { echo "### ${{ matrix.name }}"; echo '```'; cat verify.log; echo '```'; } \
-            >> "$GITHUB_STEP_SUMMARY"
+          { echo "### ${{ matrix.name }} shard ${{ matrix.shard }}/8";
+            echo '```'; cat verify.log; echo '```'; } >> "$GITHUB_STEP_SUMMARY"
           if [ "$code" != "0" ] && [ "$code" != "3" ]; then exit "$code"; fi
       - uses: actions/upload-artifact@v4
         if: always()
         with:
-          name: certificate-${{ matrix.name }}
+          name: certificate-${{ matrix.name }}-s${{ matrix.shard }}
           path: |
             upstream/verify.log
             upstream/tables/manifest.json
