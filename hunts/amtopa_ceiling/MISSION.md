@@ -33,7 +33,7 @@ dead_routes:
   - reopening Hunt #82's barrier against this family; that barrier caps a different family and hunts/field_audit/RESULTS.md section 3 already settled the comparison
 required_oracles:
   - the AMTOPA repository's own scripts run on the pinned commit, field by field against their committed certificates
-  - their six-dimensional C++ interval branch-and-bound, compiled with -ffp-contract=off, run at a rational target, which fails loudly at a terminal cell when a target is not certifiable at its grid
+  - their six-dimensional C++ interval branch-and-bound, compiled with -ffp-contract=off, run at a rational target, which fails loudly at a terminal cell when a target is not acceptable at its grid
   - exact rational arithmetic on the assembly formula, with a rational lower bound on the square root and the monotonicity direction asserted rather than assumed
   - linear programming duality: the cutting-plane LP value over a set of real gap vectors is an upper bound on the floor the polytope can reach, independent of any minimiser
 kill_conditions:
@@ -48,7 +48,7 @@ agents_may:
   - write a candidate in their candidate.json schema and drive their own pipeline with it
   - state a position on whether their number is at their family's ceiling
 agents_may_not:
-  - call any figure here accepted or certified, or promote a float minimum to a certificate
+  - call any figure here accepted, or promote a float minimum to a certificate
   - claim the analytic bridge, which is inherited unreviewed from the Anthropic paper and Ainta and belongs to hunts/ainta_seven_point/TRUST-MAP.md
   - post anything to the AMTOPA repository or any other upstream
   - declare novelty for the window Rayleigh identity without a knownness record

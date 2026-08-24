@@ -80,7 +80,7 @@ def harvest(a, b, c, w, k0, rng, coarse=60000, keep=48, hi=None):
 
 def eps_star(B, c, w, k0=None, rounds=60, seed=0, tol=1e-10, verbose=False,
              coarse=60000, keep=48, proximal=1e-4, a_init=None, b_init=None,
-             cut_pool=None):
+             cut_pool=None, patience=4):
     """Cutting-plane solve of max_{(a,b) in P(B)} min_{g>=0} F.
 
     Returns dict with 'upper' (LP value, a rigorous upper bound on eps* given the
@@ -118,6 +118,7 @@ def eps_star(B, c, w, k0=None, rounds=60, seed=0, tol=1e-10, verbose=False,
         ])
 
     best = {"upper": np.inf, "lower": -np.inf, "a": a, "b": b}
+    stall = 0
     for it in range(rounds):
         Wm = W_matrix(G, c, w, k0)
         # b.g + Wm a >= t   ->   -Wm a - G b + t <= 0
@@ -156,9 +157,23 @@ def eps_star(B, c, w, k0=None, rounds=60, seed=0, tol=1e-10, verbose=False,
             best["inconsistent"] = float(best["lower"] - best["upper"])
         if verbose and (it % 5 == 0 or it == rounds - 1):
             print(f"    it {it:3d}  LP={upper:.10f}  min={lower:.10f}  "
-                  f"gap={upper-lower:.2e}  cuts={G.shape[0]}")
-        if upper - lower < tol:
-            break
+                  f"harvest={hv:.10f}  gap={upper-hv:.2e}  cuts={G.shape[0]}")
+        # STOPPING RULE.  It must NOT compare upper against `lower`: at the LP
+        # optimum the pool minimum IS the LP value by construction, so
+        # `upper - lower` is identically zero whenever the multistart happens to
+        # find nothing below the cut set, and the loop would halt at whatever
+        # value the incoming pool already had.  That is exactly what happened on
+        # the authoring host with a 21729-cut pool -- it stopped at round 0 on
+        # 0.007919365399, and a CI run starting from a 2200-cut subset found
+        # fresh cuts and drove the same quantity down to 0.007916857812.  The
+        # test is therefore against the INDEPENDENT multistart, and it must hold
+        # for `patience` consecutive rounds before the loop believes it.
+        if upper - hv < tol:
+            stall += 1
+            if stall >= patience:
+                break
+        else:
+            stall = 0
         add = np.array(mins) if mins else gmin[None, :]
         G = np.vstack([G, add])
     best["cuts"] = G

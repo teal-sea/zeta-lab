@@ -85,7 +85,7 @@ jobs:
       - run: pip install "mpmath>=1.3" numpy scipy
       - name: eps* bracket at their window and their total pressure
         working-directory: hunts/amtopa_ceiling
-        run: python3 -u step5_headroom.py 40 80000 80 2>&1 | tee headroom.log
+        run: python3 -u step5_headroom.py 60 80000 80 2>&1 | tee headroom.log
       - name: Candidate at the polytope optimum, in their schema
         working-directory: hunts/amtopa_ceiling
         run: |
@@ -101,6 +101,29 @@ jobs:
             hunts/amtopa_ceiling/headroom.json
             hunts/amtopa_ceiling/candidate.log
             hunts/amtopa_ceiling/artifacts/candidate_ceiling.json
+          if-no-files-found: warn
+
+  # ---------------------------------------------------------------- (2b)
+  # The active constraints and their shadow prices, at a properly converged
+  # optimum. This is the instrument behind RESULTS.md section 5.
+  doors:
+    name: doors-active-constraints
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install "mpmath>=1.3" numpy scipy
+      - working-directory: hunts/amtopa_ceiling
+        run: timeout 1000 python3 -u step6_doors.py 90 2>&1 | tee doors.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: doors
+          path: |
+            hunts/amtopa_ceiling/doors.log
+            hunts/amtopa_ceiling/doors.json
           if-no-files-found: warn
 
   # ---------------------------------------------------------------- (3)

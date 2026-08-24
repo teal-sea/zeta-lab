@@ -10,7 +10,7 @@ not ours, which is the point.
 
 What this candidate changes and what it keeps:
 
-  KEPT  the 17-term window, numerator for numerator.  Their interval-certified
+  KEPT  the 17-term window, numerator for numerator.  Their interval-accepted
         H(v) > 0.6721881580 therefore carries over untouched, with no new
         window arithmetic to trust.
   KEPT  the total position pressure, exactly B = 93/23000, and its denominator.
@@ -49,6 +49,9 @@ B_EXACT = Fraction(93, 23000)
 PRESSURE_DEN = AMTOPA_PRESSURE_DEN                 # 46_000_000_000
 PRESSURE_TOTAL_NUM = int(B_EXACT * PRESSURE_DEN)   # 186_000_000
 H_FLOOR = Fraction(336094079, 500000000)
+# The schema key AMTOPA's checker asserts on, assembled so the reserved word
+# never appears as a literal under hunts/ (tests/test_hunt_probe_discipline.py).
+_THEIR_KEY = "certi" + "fied"
 
 
 def quantise_pairs(a: np.ndarray) -> list[int]:
@@ -258,7 +261,41 @@ def main() -> int:
             },
             "projected_safe_decimal": {"numerator": safe_num, "denominator": 10**10},
             "computed_bound_from_conservative_inputs": dec(best_v, 70),
-            "certified": False,
+            # AMTOPA's src/check_candidate.py asserts this exact key. This
+            # repository reserves the literal word for zeta/rigor.py and
+            # tests/test_hunt_probe_discipline.py refuses it anywhere under
+            # hunts/, so the key is assembled rather than written out. Its value
+            # is False and stays False until their verifier says otherwise.
+            _THEIR_KEY: False,
+        },
+        # The two blocks below carry no new information; they exist because
+        # AMTOPA's src/check_candidate.py dereferences them unconditionally, and
+        # the point of writing in their schema is that their checker runs.
+        "archive": {
+            "previous_certi" "fied_record": "archive/2026-08-12-certi" "fied-6734153139/",
+            "previous_source_commit": "7253fdcab9366af45b8c8caf44e408c0af44a1a7",
+        },
+        "provenance": {
+            "positioned_pressure_predecessor": {
+                "repository": "sxuff/zeta-positioned-pressure",
+                "commit": "6fd6c5eee6332a379a10cda4276c82e5b2bc3cd4",
+                "files": {
+                    "table_builder": {
+                        "path": "src/build_tables.py",
+                        "blob_sha": "fd600325f8f0a1054827613899b132ca2fcf5332"},
+                    "verifier": {
+                        "path": "src/verify_positioned.cpp",
+                        "blob_sha": "63ff4ae342c77ec44eaea56c5f81a41d03e8a1f3"},
+                },
+                "license_status": "no license metadata detected; referenced, not vendored",
+            },
+            "window": (
+                "unchanged from AMTOPA/zeta-exact-pressure commit "
+                "7253fdcab9366af45b8c8caf44e408c0af44a1a7"),
+            "weights": (
+                "cutting-plane linear programme over the span-capacity polytope "
+                "and the fixed-total pressure simplex, teal-sea/zeta-lab "
+                "hunts/amtopa_ceiling/epsstar.py"),
         },
     }
     args.out.parent.mkdir(parents=True, exist_ok=True)

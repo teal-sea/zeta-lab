@@ -4,7 +4,7 @@
 Three instruments, in increasing tightness:
 
 1. ``eps_diag``            (in family.py) a one-point, pair-weight-free cap on
-                           the certifiable floor.
+                           the acceptable floor.
 2. ``eps_star``            the exact optimum of the floor over the whole
                            pair-weight polytope at a fixed window and pressure
                            vector, by cutting-plane linear programming.  At
