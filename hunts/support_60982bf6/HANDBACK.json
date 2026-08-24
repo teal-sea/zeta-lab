@@ -1,0 +1,59 @@
+{
+  "run_id": "60982bf6-252e-450a-bfd2-05b6b37cc232",
+  "status": "settled",
+  "conclusion": "Ranging over all choices of S (exhaustive over every k-subset of the first nine primes, k <= 5) does not beat the first k primes, so r_186989's flagged 'door with genuine trade shape' is slack; the sweep instead produced a proved normalization theorem (admissible sets are exactly the S-smooth dilates of primitive ones, which explains why widening the box never moved a row) and a refutation of that hunt's proposed residue lemma |A| <= p-1 for p not in S, which is false for every odd p because r+r is nonzero mod odd p. The one conjectural lemma offered is uniformly bounded height, and two natural explicit forms for its constant were killed by this run's own data.",
+  "confidence": "Lean hard on the two proved items (normalization, and the repaired residue lemma with its p=3,5,7 counterexamples): they are short proofs plus witnesses re-verified by trial division, independent of any search box. Lean moderately on 'first k primes are not beaten' - it is exhaustive over the subsets and boxes stated and nothing more, and it is a claim about a maximum, which this machinery can never refute. Do not lean on the height conjecture at all: it is verified for no S, only consistent with 15 of them.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "g_N(k) table, the f/g inverse-staircase restatement, the parity observation, and the loose-thread list",
+      "source": "hunts/r_186989/RESULTS.md",
+      "effect": "Gave the arm its targets. The restatement removed the need to re-derive the problem; the loose-thread list supplied the named lemma that turned out to be false, which is this run's main unconditional result. The g_N table was reproduced independently for k <= 6 and agrees."
+    },
+    {
+      "what": "the arm-2 table at k=3 (S = {2,5,7} gives 4, witness {1,3,7,13})",
+      "source": "hunts/r_186989/RESULTS.md section 3",
+      "effect": "Is itself the smallest counterexample to that same hunt's proposed |A| <= p-1 lemma (p=3 not in S, |A|=4>2). No new computation was needed for the first refutation."
+    }
+  ],
+  "threads": [
+    {
+      "what": "Every maximizer at k >= 2 contains {2,3}; at k=5 every maximizer contains {2,3,5}.",
+      "why_it_might_matter": "It is an S-level regularity that could be iterated into an induction on k, which is the shape an upper-bound proof needs and which neither hunt has. Only p=2 has a proof.",
+      "first_step": "Run the sweep at k=6,7 over all subsets of the first ten primes and look for the first S maximizing without {2,3} in it."
+    },
+    {
+      "what": "Prime-size monotonicity is false: g({2,3,11}) = 4 (exhaustive to N=20000) while g({2,3,13}) >= 5. 29 such violations in the sweep.",
+      "why_it_might_matter": "Any S-level lemma must be stated in terms of a prime's additive position relative to the S-smooth semigroup, not its size. It also blocks the obvious route to proving first-k-primes optimality.",
+      "first_step": "For k=3, correlate g({2,3,p}) against the distance from p (and 2p) to the nearest {2,3}-smooth number, over the first 30 primes."
+    },
+    {
+      "what": "Height is not monotone in k: h({2,3,7,13}) = 159 at k=4 but h({2,3,5,7,11,13}) = 47 at k=6.",
+      "why_it_might_matter": "It rules out the naive induction on k for the bounded-height conjecture, and says a proof will have to be about S rather than about |S|.",
+      "first_step": "Compute h for a few hundred random S of size 4-6 drawn from the first 25 primes and look at the distribution rather than the max."
+    },
+    {
+      "what": "The second gap for finitising g(k): bounding which primes may appear in a maximizing S.",
+      "why_it_might_matter": "Bounded height alone finitises g(S) for fixed S, not g(k). Nothing here bounds the primes, and the monotonicity failure says it is not trivial.",
+      "first_step": "Ask whether g({2,3,p}) = 5 can hold for arbitrarily large p, or whether g({2,3,p}) drops to 4 for all p above some bound."
+    },
+    {
+      "what": "r_186989's OEIS thread for 2,4,5,6,8,10,11 is still open.",
+      "why_it_might_matter": "Would say immediately whether these lower bounds are sharp or badly weak.",
+      "first_step": "Query the OEIS backend behind ontology/knownness.py."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A smooth-sum clique solver that builds edges from the smooth sums (s smooth, s = a+b) instead of scanning O(N^2) pairs.",
+      "why_reusable": "It is what made an exhaustive sweep over 381 choices of S affordable inside one support run; the r_186989 version needed minutes per row where this needs sub-second. Any additive-smoothness search (Erdos-Turan style problems, S-unit equations, Sidon-with-constraints) has the same shape: few admissible sums, many candidate elements.",
+      "first_step": "Lift max_admissible from hunts/support_60982bf6/probe.py into a small reusable module with a documented box-conditionality contract, and pin it against the g_N values both hunts now agree on."
+    },
+    {
+      "what": "A 'which way does the inequality point' preamble as a standing section in any bounded-search RESULTS.md.",
+      "why_reusable": "Both this run and r_186989 produce only lower bounds, and the single most common way such a hunt misreports is by phrasing a lower bound as a maximum. Making the direction an explicit section (section 0 here) caught two claims in drafting before they were written down wrong.",
+      "first_step": "Add it to hunts/HUNTSPEC.md as a required section for any hunt whose evidence is a bounded search."
+    }
+  ],
+  "notes_for_operator": "The brief asked for one conjectural lemma OR a counterexample; this returns both, and the counterexample is the sturdier half. Worth telling 0897a5a7 explicitly that its 'only clean iterable statement' is dead, since it named that as a first step. Two things I could not do inside the budget: the k=6,7 sweep over all S, and any attack on the height conjecture. Nothing here bears on RH."
+}
