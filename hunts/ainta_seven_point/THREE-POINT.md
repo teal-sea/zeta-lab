@@ -332,6 +332,31 @@ Two tactic chains were also hardened before spending a build on them: `F3_eq`'s 
 what `norm_num` chooses to leave behind. **These are guesses about elaboration, not
 measurements. They are exactly the class of thing only a build settles.**
 
+**Which declarations already have build evidence, and which do not. VERIFIED** by a
+declaration-level diff of `ThreePoint/Base.lean` against `main`'s
+`hunts/ainta_seven_point/lean/CertRoute.lean`, which PR #117 reports building with zero
+errors:
+
+* **byte-identical to CertRoute, so already elaborated once** (10 declarations):
+  `taylorCos`, `taylorSin`, `cos_sin_taylor12`, `cos_lower`, `cos_upper`, `sin_lower`,
+  `err_scale`, `one_le_pi`, `gam`, `integral_cos_mul_eq_sinc`. A further six —
+  `sin_upper`, `Kfun_eq_sinc`, `cos_mul_intervalIntegrable`, `kfun_aux`, `kfun_closed`,
+  `sin_sqrt2_half_pos` — differ from CertRoute **only in their doc comments**; their proof
+  bodies are identical.
+* **changed, so unelaborated** (2): `sqrt2_half_bounds`, widened from 8 digits to 19
+  (`7071067811865475244/10¹⁹ ≤ √2/2 ≤ 7071067811865475245/10¹⁹`, checked correct this
+  session), proof body unchanged; and `gam_bounds`, tightened from `10⁻⁶` to `1.11·10⁻⁸`
+  through the two new enclosures `cos_sqrt2_half_bounds` / `sin_sqrt2_half_bounds`.
+* **new, so unelaborated** (23): `pi_lo`, `pi_hi`, `wfun_nonneg`, `wfun_ge`, `abs_ge_of_le`,
+  `abs_ge_of_ge`, the nine `cs_*` anchor lemmas, `cos_flip`, `sin_flip`, `trig_shift`,
+  `taylorSinc`, `sinc_taylor`, `sqrt2_bounds`, `wfun_window`, `cos_sqrt2_half_bounds`,
+  `sin_sqrt2_half_bounds`.
+
+The `constructor <;> · …` idiom the nine anchor lemmas use was checked to be live Lean 4
+syntax (21 occurrences in Mathlib, GitHub code search, VERIFIED), and `rw [<a def's name>]`,
+`le_div_iff₀` and `div_le_iff₀` were confirmed present and working at this pin by the fact
+that CertRoute's `gam_bounds` uses all three and builds.
+
 **Static checks, VERIFIED:**
 
 | | |
