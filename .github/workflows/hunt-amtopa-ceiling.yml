@@ -204,7 +204,12 @@ jobs:
     name: certificate-${{ matrix.name }}-s${{ matrix.shard }}
     needs: [headroom, tables]
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    # 60, not 20: baseline shards 0, 1 and 4 were killed mid-search at the
+    # 20-minute cap, which reads as a failed job when it is an unfinished one.
+    # Both interesting outcomes here are verdicts - acceptance, or INCONCLUSIVE
+    # at a terminal cell, which is this hunt's finding - and a verdict is worth
+    # waiting for.
+    timeout-minutes: 60
     strategy:
       fail-fast: false
       matrix:
