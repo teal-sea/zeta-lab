@@ -1,0 +1,65 @@
+{
+  "environment": {
+    "numpy": "2.5.2",
+    "platform": "Darwin",
+    "python": "3.14.0"
+  },
+  "front": "simplified",
+  "rows": [
+    {
+      "N": 5000,
+      "R": 5,
+      "seconds": 0.25,
+      "status": "ok",
+      "value": 0.373107328574431
+    },
+    {
+      "N": 5000,
+      "R": 10,
+      "seconds": 0.6,
+      "status": "ok",
+      "value": 0.3739629055991343
+    },
+    {
+      "N": 5000,
+      "R": 20,
+      "seconds": 1.0,
+      "status": "ok",
+      "value": 0.3739966049729149
+    },
+    {
+      "N": 5000,
+      "R": 40,
+      "seconds": 2.48,
+      "status": "ok",
+      "value": 0.37399946100837017
+    },
+    {
+      "N": 5000,
+      "R": 80,
+      "seconds": 4.1,
+      "status": "ok",
+      "value": 0.3739994582101691
+    },
+    {
+      "N": 5000,
+      "R": 160,
+      "seconds": 6.94,
+      "status": "ok",
+      "value": 0.3739994581328286
+    },
+    {
+      "N": 5000,
+      "R": 320,
+      "seconds": 14.49,
+      "status": "ok",
+      "value": 0.3739994570510693
+    }
+  ],
+  "seconds_total": 29.87,
+  "white_reference": {
+    "N": 80000,
+    "R": 20,
+    "value": 0.375169005340707
+  }
+}

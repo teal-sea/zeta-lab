@@ -1,0 +1,65 @@
+{
+  "environment": {
+    "numpy": "2.5.2",
+    "platform": "Darwin",
+    "python": "3.14.0"
+  },
+  "front": "guard",
+  "rows": [
+    {
+      "fault": "none",
+      "monotone_in_N": true,
+      "monotone_in_R": true,
+      "values": {
+        "N2000_R10": 0.3721054788435543,
+        "N2000_R20": 0.3721190526658041,
+        "N4000_R10": 0.37365236037297694,
+        "N4000_R20": 0.37368235826754026
+      }
+    },
+    {
+      "caught_by_monotonicity": false,
+      "delta_vs_sound": 0.0028437422526021994,
+      "fault": "no_envelope",
+      "monotone_in_N": true,
+      "monotone_in_R": true,
+      "unsafe_direction": true,
+      "values": {
+        "N2000_R10": 0.3749492210961565,
+        "N2000_R20": 0.37502557113937796,
+        "N4000_R10": 0.37507951497084213,
+        "N4000_R20": 0.37515616584352546
+      }
+    },
+    {
+      "caught_by_monotonicity": false,
+      "delta_vs_sound": -0.013201025474123163,
+      "fault": "every_other_mode",
+      "monotone_in_N": true,
+      "monotone_in_R": true,
+      "unsafe_direction": false,
+      "values": {
+        "N2000_R10": 0.35890445336943116,
+        "N2000_R20": 0.3589219181296041,
+        "N4000_R10": 0.3599009482234443,
+        "N4000_R20": 0.3599245833987566
+      }
+    },
+    {
+      "caught_by_monotonicity": true,
+      "delta_vs_sound": null,
+      "fault": "odd_modes",
+      "monotone_in_N": false,
+      "monotone_in_R": false,
+      "unsafe_direction": false,
+      "values": {
+        "N2000_R10": null,
+        "N2000_R20": null,
+        "N4000_R10": null,
+        "N4000_R20": null
+      }
+    }
+  ],
+  "seconds_total": 3.71,
+  "sound_value": 0.3721054788435543
+}

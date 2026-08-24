@@ -1,0 +1,82 @@
+# Hunt `overlap_lower` -- the ceiling sweep, off the operator's machine.
+#
+# The sweep this hunt needs is a few hundred interior-point solves of linear
+# programs with up to 2N+2T structural variables. That is minutes of CPU per
+# point at the large end, and the machine this hunt was authored on is a
+# 13-inch laptop that had already crashed under the lab's own compute that
+# day. So the sweep lives here, on the free runners this public repository
+# gets, and the laptop only ever ran the smoke tests.
+#
+# GitHub cancels a job at its timeout, so each front is its own job with its
+# own budget and its own artifact. A front that dies takes only its own row
+# out of the table, and RESULTS.md says which one died.
+name: hunt-overlap-lower
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "hunt/overlap-lower"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hunt-overlap-lower-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  sweep:
+    name: ${{ matrix.name }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: simplified-N
+            args: --front simplified --ns 1000,2000,5000,10000,20000,40000,80000 --rs 20
+            out: simplified_N.json
+          - name: simplified-R
+            args: --front simplified --ns 20000 --rs 5,10,20,40,80,160
+            out: simplified_R.json
+          - name: full-N
+            args: --front full --sweep 500:300:10,1000:300:10,2000:300:10,4000:300:10,8000:300:10,16000:300:10,25000:300:10
+            out: full_N.json
+          - name: full-T
+            args: --front full --sweep 4000:100:10,4000:300:10,4000:1000:10,4000:3000:10,4000:7000:10
+            out: full_T.json
+          - name: full-R
+            args: --front full --sweep 4000:300:5,4000:300:10,4000:300:15,4000:300:20,4000:300:30,4000:300:40
+            out: full_R.json
+          - name: full-R-large-N
+            args: --front full --sweep 16000:300:10,16000:300:20,16000:300:40
+            out: full_R_largeN.json
+          - name: box-grid
+            args: --front box --N 4000 --T 300 --R 10 --nh 3 --np 4
+            out: box_grid.json
+          - name: sine-factor
+            args: --front sine --N 4000 --T 300 --R 10
+            out: sine_factor.json
+          - name: certificate
+            args: --front certificate --N 20000 --R 20 --denom 10000000
+            out: certificate.json
+          - name: guard
+            args: --front guard --N 2000 --R 10
+            out: guard.json
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: pip
+      - name: install
+        run: python -m pip install --quiet --disable-pip-version-check numpy scipy
+      - name: run
+        run: |
+          python -u hunts/overlap_lower/probe.py ${{ matrix.args }} \
+            --out "${{ matrix.out }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: overlap-lower-${{ matrix.name }}
+          path: ${{ matrix.out }}
