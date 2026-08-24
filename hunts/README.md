@@ -70,6 +70,110 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #90: the leader's certificate does not replay at its own HEAD (`amtopa_ceiling/`)
+
+**Status: settled on the measurable axes; window axis open; acceptance blocked at the tip.** Takes the
+`ainta_seven_point` playbook to `AMTOPA/zeta-exact-pressure`, the leading public
+claim per Hunt #89, pinned at commit
+`7253fdcab9366af45b8c8caf44e408c0af44a1a7`.
+
+**The finding that outranks the rest: their published certificate does not
+replay at their own repository tip.** Run through AMTOPA's own pipeline on the
+pinned commit — their table builder, their verifier, their candidate, their
+target — the finite inequality behind `0.6734164909714992949` returns
+`INCONCLUSIVE=true reason=terminal_cell` with a rigorous lower bound `1.19e-07`
+short of the target. **The tables are not at fault: all six join to streams whose
+SHA-256 digests match their own `candidate.json` byte for byte**, a stronger
+table reproduction than Hunt #89 got for `trmdy`. The cause is their convexity
+gate, which fires `2030240` times in their recorded run and **zero** times here
+in 72 million nodes. Their `candidate.json` names
+`source_commit: b3b7784…` as the origin of that run; between `b3b7784` and the
+tip, `src/verify_local_tables.cpp` changed by 173 lines and the gate's curvature
+entries went from thin `point(scalar)` to `mul(p.exact, {sec, +infinity})`. The
+interval LDL that follows **cannot certify positive definiteness of a matrix
+unbounded above** — `ldl_probe.cpp`, 70 lines, shows it returning `false` on a
+matrix with `10` on the diagonal and `1` off it. Without the tangent bound the
+plain interval bound at grid `1/4000` is left to clear the target alone, and at
+one width-zero cell it cannot. **Direction: fail-closed** — the tip refuses what
+the earlier revision accepted and never the reverse, so this is a reproducibility
+defect, not a soundness hole, and it blocks *our* candidate at the tip too, by
+`2.70e-08`.
+
+**Their headline reproduces on paper.** In exact rational arithmetic with a
+rational under-estimate of the only square root, their `0.673416490971499294950035533107
+4903174997772794755665475125243371226272` holds to **70 decimals**, and the exact
+scan over `m` in `[7, 20000]` returns their `m = 145`. An independent
+reimplementation written from their `proof.md` reproduces `H(v)` and their
+observed float minimum `0.007911105155226424` to the binary64 limit, at their own
+published basin. Soundness read: **no defect that affects their claim.**
+Acceptance is one-sided throughout, the verifier fails closed at a terminal cell,
+out-of-table queries return `0` for a nonnegative `W` and `-inf` for the
+convexity gate, and the constants are thresholds compared against computed
+enclosures, not answers wired to the target. Three things worth recording anyway:
+their `README.md` and `proof.md` both say *"exact arithmetic selects m=145"* while
+`src/check_final_bound.py` is **`mpmath` float at 100 dps with `mp.sqrt`** — right
+answer, wrong label, and their own banded experiment does it properly; the C++
+**never checks pair-weight nonnegativity** although `box_lower` needs it, and the
+script that writes its constants does not check it either, so the verifier alone
+cannot validate a candidate; and `long double` is 64-bit on ARM and 80-bit on
+x86, the same host-dependence class as the `w''` digest Hunt #89 found in
+`trmdy`.
+
+**Outcome (a), by `+3.96e-06`.** `eps(a,b) = min_g F` is *linear* in the pair
+weights and in the pressures, hence concave, over a polytope — so that axis is a
+concave maximisation with an exact answer, not a search. Cutting-plane LP: at
+their own window and their own total pressure the polytope admits
+`eps* = 0.007916857812` against their `0.007911105155`, and quantised into their
+schema at the rational target `19791/2500000` the exact assembly gives
+
+    0.6734201550790580964457598685450152133015  against their 0.6734164909714992949500
+
+CONDITIONAL, inheriting the same unreviewed Anthropic/Ainta bridge as everything
+on this ladder, and the floor behind it is a float minimum until their own
+verifier accepts the target. **The LP found the point; it does not justify it** —
+what justifies it is their branch-and-bound, and the hunt says so where the
+number appears.
+
+**The window axis is NOT saturated, and it is worth ten times the pair weights.**
+Five independent differential-evolution seeds across two Actions runs, each
+starting from AMTOPA's own window, every one walks away from it — always toward
+*lower* `H` and *lower* `B` — and reports gains between `+3.07e-05` and
+`+3.71e-05`, best `0.6734536055358651` at `H = 0.6721654`, `B/B0 = 0.908`,
+`m = 153`. Those inner solves are deliberately cheap and their floors are
+early-stopped over-estimates, so this is **direction, not magnitude** — but the
+direction is unambiguous and it is the live door.
+
+**The ceiling findings are worth more than the constant.** On the two axes
+where a ceiling can be computed rather than searched, **AMTOPA are at it.**
+(i) `H(v) = 2 - 1/c1` is a **Rayleigh quotient** in the window coefficients, so
+`H_max = 2 - 1/(u^T M^{-1} u)` in closed form — and for 1, 2, 3, 7, 13, 17 or 25
+terms the answer is always `0.67250070367941172655`, the *pure `sqrt(2)`* value,
+i.e. **Anthropic's `HD(1)` exactly**. The `2 j pi` harmonics have `u_j = 0` and
+`M[0,j] = 0`, and the second identity reduces to `2 j^2 pi^2 (w_0^2 - 2)/w_0`,
+which vanishes **iff `w_0 = sqrt(2)`**. Every harmonic is pure `H` sacrifice;
+theirs spend `3.13e-04` of it and get `8.32e-04` of floor back, an exchange rate
+of `2.66` against a break-even of `1.57`. (ii) their total pressure `B = 93/23000`
+sits at the **argmax** of the saturation curve, with net marginal
+`d(bound)/dB = +0.006076` against competing terms of size one, and the LP dual
+`d(eps*)/dB = 1.509` against a break-even `1.4998`.
+
+**The doors, ranked by LP shadow price.** The **span-1 capacity `= 2`** binds
+hardest by an order of magnitude (`+4.08e-04` of bound per unit of capacity);
+span 6 is **slack**. The floor of the whole family is pinned by one near-integer
+configuration, seven points at about `{0, 2, 3, 5, 6, 8, 9}`, with 18 of 2,200
+cut vectors simultaneously active. The frozen constants with a *trade* in them:
+the Gram profile (their own banded lemma already computes `+7.07e-06` and they
+decline to promote it), the point count (`trmdy` runs nine, AMTOPA never left
+seven), the span capacity itself, and — the one nobody on this ladder has ever
+moved — **the fundamental `w_0 = sqrt(2)`**, which is precisely the frequency
+that makes the harmonics unable to help. Every door stays inside bandwidth-one
+data, so all of them are capped by `0.6818286874638`; the room left inside that
+information class is `0.0084`, three orders of magnitude more than the family's
+own ceiling. **The construction binds, not the information.**
+
+Full record, including the run that broke the operator's local-compute cap and
+what it cost: `amtopa_ceiling/RESULTS.md`, `amtopa_ceiling/RUNS.md`.
+
 ### Hunt #89: this laboratory is tenth, and the barrier is aimed at an empty room (`field_audit/`)
 
 **Status: settled. FIELD AUDIT.** Prompted by discovering, on 2026-08-24, a wave
