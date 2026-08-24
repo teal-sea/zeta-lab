@@ -29,13 +29,17 @@ Every figure is labelled **VERIFIED** (read off a file or a build this session),
 
 ## 1. What is proved
 
-**VERIFIED.** `hunts/ainta_seven_point/lean-three-point/` is a Lake package whose
-`lakefile.toml` requires `lean/bridge` **by path**, so every theorem in it is about the same
-`Kfun`, `kfun`, `wfun`, `F`, `Phi_n` that `Zeta23Ext/Bridge/Defs.lean` defines and that
-`Zeta23Ext.Bridge.n_point_bound` consumes. Nothing is transcribed and there is no restatement
-to audit. Its `lake-manifest.json` is dependency-for-dependency identical to
-`hunts/ainta_seven_point/lean/lake-manifest.json` (checked, all eleven packages, same revs).
-`lean/bridge` is untouched and nothing in `lean/bridge` imports this.
+**VERIFIED.** The `ThreePoint` library is a `lean_lib` of the `lean/bridge` package, so every
+theorem in it is about the same `Kfun`, `kfun`, `wfun`, `F`, `Phi_n` that
+`Zeta23Ext/Bridge/Defs.lean` defines and that `Zeta23Ext.Bridge.n_point_bound` consumes.
+Nothing is transcribed and there is no restatement to audit.
+
+*(Until 2026-08-24 it was a package of its own at `hunts/ainta_seven_point/lean-three-point/`,
+requiring `lean/bridge` **by path**. It moved into `lean/bridge` so that the Palomar surface
+built on it has a selected project whose dependency set is already known to replay — a `path`
+dependency pointing out of the project directory is behaviour this repository cannot test.
+`lean/bridge`'s dependency set is unchanged by the move, and its existing libraries neither
+import `ThreePoint` nor were edited for it. → `lean/PALOMAR.md`.)*
 
 The three advertised statements, all three now proved:
 
@@ -638,16 +642,15 @@ log fails.
 ```
 python3 hunts/ainta_seven_point/three_point_gen.py 1345      # regenerate the tree, 0.14 s
 python3 hunts/ainta_seven_point/three_point_preflight.py     # arithmetic check, 3 s
-cd hunts/ainta_seven_point/lean-three-point
+cd lean/bridge
 lake exe cache get                                          # Mathlib oleans, ~1.5 min
 lake build ThreePoint                                       # ~65 min cold, 4 cores
 ```
 
-Or push to `bridge/three-point` and read `.github/workflows/three-point.yml`, which is what
+Or push to any `bridge/**` branch and read `.github/workflows/three-point.yml`, which is what
 every figure in §5 was measured from.
 
 The package pins `leanprover/lean4:v4.33.0-rc2` and inherits Mathlib
 (`51e6992efd06126df61a496bebf8f49482a4e129`, a real master commit dated 2026-08-03, so the
 upstream olean cache exists for it — VERIFIED via the GitHub API), Batteries and
-`anthropics/zeta-23-lean` at rev `3635e74826a4c1fcece7d1cd2b6fa75e43a00510` from
-`lean/bridge`, by path.
+`anthropics/zeta-23-lean` at rev `3635e74826a4c1fcece7d1cd2b6fa75e43a00510`.

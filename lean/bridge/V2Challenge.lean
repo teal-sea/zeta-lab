@@ -6,29 +6,21 @@ SPDX-License-Identifier: MIT
 import Mathlib
 
 /-!
-# Advertised statement: the `n`-point simple-zero bound, and its eight-point instance
-
-This module is the small, trusted surface a mathematical reader should audit.
-It restates, self-containedly and over Mathlib alone, the principal theorems of
-the `n`-point layer of the Zeta Lab bridge development.  All three declarations
-advertised below are compared by Comparator against the proof development.
-
-## What the theorems say
+# Advertised statements: the `n`-point simple-zero bound and two instances of it
 
 Let `N(T₁,T₂)` count the nontrivial zeros of `riemannZeta` with ordinate in
-`(T₁,T₂]`, with multiplicity, and `N₀ˢ(T₁,T₂)` the *simple* zeros among them
-that lie on the critical line.  The Lean development accompanying
-arXiv:2608.13637 proves, unconditionally, that for every `ε > 0` and all large
-`T`,
+`(T₁,T₂]`, with multiplicity, and `N₀ˢ(T₁,T₂)` the *simple* zeros among them on
+the critical line.  The Lean development accompanying arXiv:2608.13637 proves,
+unconditionally, that for every `ε > 0` and all large `T`,
 
 ```
 (H − ε) · N(T,2T) ≤ N₀ˢ(T,2T),      H = 3/2 − (1/√2) cot(1/√2) = 0.6725007036…
 ```
 
 Ainta refines `H` by carrying a spectral defect through that argument and
-bounding it, block by block, through a local inequality on **seven** points.
-What is advertised here is that refinement carried out for **`n` points**, for
-every `n ≥ 2` at once:
+bounding it block by block through a local inequality on seven points.  What is
+advertised here is that refinement carried out for `n` points, for every `n ≥ 2`
+at once, together with two instances of it:
 
 ```
 (Φₙ(c,m,p) − ε) · N(T,2T) ≤ N₀ˢ(T,2T),
@@ -40,8 +32,26 @@ resolves: the `6` in the numerator is the number of times a single gap is
 charged when the pressure term is summed over the windows of a block, which is
 `n−1`; and the `m−6` in the denominator is the number of windows of `n`
 consecutive points in a block of `m`, which is `m−(n−1)`.  At `n = 7` the
-statement is Ainta's, with `Φ₇ = Φ` and the `n`-point functional `F 7 p` equal
-to his `F6 p` definitionally.
+statement is Ainta's.
+
+## Which statements are conditional, and which are not
+
+`n_point_bound` and the two eight-point statements carry the finite inequality
+as a named hypothesis `hCert`.  It is not a theorem of Lean; what is known about
+it at `n = 8` is that an interval-arithmetic program accepts it.
+
+The two three-point statements carry **no hypothesis**.  Their certificate,
+`1345/10⁶ ≤ F 3 3000 g` at every pair of nonnegative gaps, is proved inside Lean
+from an explicit enclosure of the kernel, so the `n = 3` instance of
+`n_point_bound` is unconditional.  Its constant
+
+```
+Φ₃ = (149000000 H − 99200)/148800133 = 0.67273733450380946…
+```
+
+exceeds `H = 0.67250070367941164…` by `2.3663·10⁻⁴`, so those two statements are
+an unconditional improvement, for Mathlib's `riemannZeta`, of the Theorem D the
+pinned dependency proves.
 
 ## Scope: what is *not* claimed
 
@@ -49,57 +59,36 @@ to his `F6 p` definitionally.
 bound on a proportion of zeros, valid whether or not RH holds.
 
 **The base constant `H` is not this work.**  It is the theorem of the
-development this one extends, and it appears here only inside `Φₙ`.
+development this one extends, and appears here only inside `Φₙ`.
 
-**The `n`-point inequality is assumed, not proved.**  Every statement below
-carries it as a named hypothesis `hCert`, and the two instantiated statements
-write its numbers out, so no reading of these statements can take them as
-unconditional.
+**The mathematics of the seven-point case is Ainta's.**  The generalisation in
+`n`, its Lean proof, the eight-point certificate and the three-point enclosure
+are this laboratory's.
 
-**The mathematics of the seven-point case is Ainta's, not this laboratory's.**
-The generalisation in `n`, its Lean proof and the eight-point certificate are
-this laboratory's.
+## The definitions
 
-## The three advertised declarations
-
-`n_point_bound` is the parametric theorem: `n` points, a certificate constant
-`c`, a block length `m` and a pressure denominator `p`, with the side
-conditions `2 ≤ n`, `n ≤ m`, `0 < p`, `0 < c` and the block cap
-`c(m−(n−1)) ≤ 1`.
-
-`eight_point_bound` and `eight_point_bound_ratio` instantiate it at `n = 8` and
-at the eight-point certificate this laboratory's own interval-arithmetic run
-accepts, `c = 41763/10⁷` at `p = 3200`.  The cap `c(m−7) ≤ 1` gives
-`m ≤ 7 + ⌊10⁷/41763⌋ = 246`, and at `m = 246` the constant is
-`(2460000000 H − 5359375)/2450018643 = 0.67305298298962888…`, against
-`0.67302955347969271…` at this laboratory's best seven-point parameters and
-`0.67300852792777976…` at Ainta's published ones.  The second of the two states
-the same conclusion as a bound on the ratio `N₀ˢ/N`, which is the form the
-result is usually quoted in.
-
-Every definition below is a verbatim copy of the corresponding definition in
-the proof development — the five counting definitions from the dependency
+Every definition below is a verbatim copy of the corresponding definition in the
+proof development — the five counting definitions from the dependency
 `anthropics/zeta-23-lean`, the kernel and `n`-point definitions from
-`Zeta23Ext/Bridge/Defs.lean` — re-declared here in the namespace
-`Zeta23Ext.PalomarEight` so that this file depends on Mathlib alone.  The one
-exception is `H`, which the development takes from the dependency as `HD 1`
-and which is written here in the closed form the dependency proves equal to it
-(`HD_one`), so that the constant can be read off this file without trusting
-any other project.
+`Zeta23Ext/Bridge/Defs.lean` — re-declared in the namespace
+`Zeta23Ext.PalomarV2` so that this file depends on Mathlib alone.  The one
+exception is `H`, which the development takes from the dependency as `HD 1` and
+which is written here in the closed form the dependency's `HD_one` proves it
+equals.
 
-## The three `sorry`s below are deliberate
+## The five `sorry`s below are deliberate
 
 The Palomar format requires the Challenge module to *state* its claims without
-proving them.  `EightSolution.lean` proves the same three statements from the
-development, and Comparator checks that the two match.  The proof development
-is sorry-free; these placeholders are not uncertified steps in it.
+proving them.  `V2Solution.lean` proves the same five statements from the
+development, and Comparator checks that the two match.  The proof development is
+sorry-free; these placeholders are not uncertified steps in it.
 -/
 
 open scoped BigOperators
 
 noncomputable section
 
-namespace Zeta23Ext.PalomarEight
+namespace Zeta23Ext.PalomarV2
 
 /-! ### Counting the zeros of ζ
 
@@ -147,8 +136,8 @@ def ptsN (n : ℕ) (g : Fin (n - 1) → ℝ) (i : Fin n) : ℝ :=
 /-- `F n p (g) := (1/p) Σ gᵢ + Σ_{s=1}^{n−1} (2/(n−s)) Σ_{i=1}^{n−s} w(gᵢ + ⋯ + g_{i+s−1})`,
 the `n`-point functional at pressure denominator `p`, written as a sum over the
 `n(n−1)/2` pairs `i < j` of the `n` points with coefficient `2/(n − (j−i))`.
-This is the functional whose lower bound is the computer-assisted input of the
-whole argument; `F 7 p` is Ainta's `F6 p`, definitionally. -/
+This is the functional whose lower bound is the finite input of the whole
+argument; `F 7 p` is Ainta's `F6 p`, definitionally. -/
 def F (n p : ℕ) (g : Fin (n - 1) → ℝ) : ℝ :=
   (1 / (p : ℝ)) * ∑ i, g i
     + ∑ i : Fin n, ∑ j : Fin n,
@@ -171,7 +160,7 @@ def Phi_n (n : ℕ) (c : ℝ) (m p : ℕ) : ℝ :=
   (H - ((n : ℝ) - 1) * ((m : ℝ) - 1) / ((p : ℝ) * m))
     / (1 - c * ((m : ℝ) - ((n : ℝ) - 1)) / m)
 
-/-! ### The advertised theorems -/
+/-! ### The parametric theorem, conditional on its certificate -/
 
 /-- **The `n`-point simple-zero bound, conditional on its certificate.**  For
 every `n ≥ 2`, `c > 0`, `m ≥ n`, `p > 0` with `c(m−(n−1)) ≤ 1`: if the `n`-point
@@ -181,20 +170,19 @@ gaps, then for every `ε > 0` and all large `T`,
 `(Φₙ(n,c,m,p) − ε) · N(T,2T) ≤ N₀ˢ(T,2T)`.
 
 **`hCert` is a hypothesis, and is not a Lean fact.**  At `n = 7` it is the
-seven-point inequality of Ainta's Proposition 4.1.  What is known about it is
-that an interval-arithmetic program written in Arb accepts it — at
+seven-point inequality of Ainta's Proposition 4.1.  What is known about it in
+general is that an interval-arithmetic program written in Arb accepts it: at
 `(c, p) = (19/5000, 3000)` in the published run at
 `github.com/ainta/zeta-simple-zeros`, at `(34697/10⁷, 3400)` in this
-laboratory's own seven-point run, and at `(41763/10⁷, 3200)` for `n = 8` in
-this laboratory's eight-point run, all recorded under
-`hunts/ainta_seven_point` in the submitted repository.  A verifier's acceptance
-is not a kernel-checked proof, and no claim is made here that it is.  The
-hypothesis is stated in the theorem rather than assumed as an axiom exactly so
-that this distinction survives every way of quoting the result.
+laboratory's own seven-point run, and at `(41763/10⁷, 3200)` for `n = 8`.  A
+verifier's acceptance is not a kernel-checked proof and no claim is made here
+that it is.  The hypothesis is stated in the theorem rather than assumed as an
+axiom exactly so that this distinction survives every way of quoting the result.
+At `n = 3` it is not assumed at all: see `three_point_bound`.
 
 `hA0 : c(m−(n−1)) ≤ 1` is a rational side condition on the parameters, not a
 numerical input; `2 ≤ n`, `n ≤ m`, `0 < p`, `0 < c` likewise.  All five are
-discharged by `norm_num` in the instantiated statements below.
+discharged by `norm_num` in the instances below.
 
 Nothing here bears on the Riemann Hypothesis. -/
 theorem n_point_bound (n : ℕ) (c : ℝ) (m p : ℕ) (hn : 2 ≤ n) (hm : n ≤ m) (hp : 0 < p)
@@ -205,13 +193,14 @@ theorem n_point_bound (n : ℕ) (c : ℝ) (m p : ℕ) (hn : 2 ≤ n) (hm : n ≤
       (Phi_n n c m p - ε) * (Ncount T (2 * T) : ℝ) ≤ N0simple T (2 * T) := by
   sorry
 
+/-! ### The eight-point instance, still conditional -/
+
 /-- **At eight points, and at this laboratory's accepted eight-point
 certificate.**  A generalisation of Ainta's published verifier to `n` points,
 validated first by reproducing his seven-point run bit for bit, accepts
 `41763/10⁷ ≤ F 8 3200 g` at every vector of seven nonnegative gaps: 64 of 64
 shards, 6 504 134 nodes, with the minimiser the palindrome
-`(1.046, 1.989, 1.987, 1.042, 1.987, 1.989, 1.046)` and Arb at the argmin giving
-`0.0041763 ≤ inf F 8 3200 ≤ 0.0041773221`.  The cap `c(m−7) ≤ 1` gives
+`(1.046, 1.989, 1.987, 1.042, 1.987, 1.989, 1.046)`.  The cap `c(m−7) ≤ 1` gives
 `m ≤ 7 + ⌊10⁷/41763⌋ = 246`, and at `m = 246` the constant is
 
 `(2460000000 H − 5359375)/2450018643 = 0.67305298298962888…`,
@@ -233,8 +222,8 @@ every `ε > 0` and all large `T`,
 
 `N₀ˢ(T,2T) / N(T,2T) ≥ 0.67305298298962888… − ε`,
 
-which is the form the result is usually quoted in.  There is no positivity
-guard on the denominator: `N(T,2T) → ∞`, so the inequality is asserted at every
+which is the form the result is usually quoted in.  There is no positivity guard
+on the denominator: `N(T,2T) → ∞`, so the inequality is asserted at every
 sufficiently large `T` outright. -/
 theorem eight_point_bound_ratio
     (hCert : ∀ g : Fin 7 → ℝ, (∀ i, 0 ≤ g i) → 41763 / 10000000 ≤ F 8 3200 g) :
@@ -243,4 +232,44 @@ theorem eight_point_bound_ratio
         ≤ (N0simple T (2 * T) : ℝ) / (Ncount T (2 * T) : ℝ) := by
   sorry
 
-end Zeta23Ext.PalomarEight
+/-! ### The three-point instance, unconditional -/
+
+/-- **At three points, with the certificate proved rather than assumed.**  The
+`n = 3` instance of `n_point_bound` at `c = 1345/10⁶`, `p = 3000`, `m = 745`.
+Its hypothesis `hCert` reads `1345/10⁶ ≤ F 3 3000 g` at every pair of
+nonnegative gaps, and that inequality is a theorem of Lean in the development:
+`w` is enclosed from a twelve-term Taylor bound on `cos` and `sin` and the
+closed form of `K`, and the quarter-plane of the two gaps is covered by 368
+interval cell lemmas applied 1515 times over 487 leaves.  **Nothing is assumed
+here**, so this statement carries no hypothesis at all.
+
+The cap `c(m−2) ≤ 1` gives `m ≤ 2 + ⌊10⁶/1345⌋ = 745`, and at `m = 745` the
+constant is
+
+`(149000000 H − 99200)/148800133 = 0.67273733450380946…`,
+
+which exceeds `H = 0.67250070367941164…` by `2.3663·10⁻⁴`.  For Mathlib's
+`riemannZeta` this is an unconditional improvement of the Theorem D of the
+development this one extends.
+
+Nothing here bears on the Riemann Hypothesis: the conclusion is a lower bound on
+a proportion of zeros and holds whether or not RH does. -/
+theorem three_point_bound :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      ((149000000 * H - 99200) / 148800133 - ε) * (Ncount T (2 * T) : ℝ)
+        ≤ N0simple T (2 * T) := by
+  sorry
+
+/-- **The three-point bound as a proportion, unconditional.**  For every `ε > 0`
+and all large `T`,
+
+`N₀ˢ(T,2T) / N(T,2T) ≥ 0.67273733450380946… − ε`,
+
+with no hypothesis and no positivity guard on the denominator. -/
+theorem three_point_bound_ratio :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      (149000000 * H - 99200) / 148800133 - ε
+        ≤ (N0simple T (2 * T) : ℝ) / (Ncount T (2 * T) : ℝ) := by
+  sorry
+
+end Zeta23Ext.PalomarV2

@@ -5,17 +5,18 @@ SPDX-License-Identifier: MIT
 -/
 import Mathlib
 import Zeta23Ext.Bridge.Main
+import ThreePoint.Main
 
 /-!
 # Proved solution
 
-This module imports the bridge development and proves the three statements
-advertised in `EightChallenge.lean`.
+This module imports the bridge development and the three-point certificate, and
+proves the five statements advertised in `V2Challenge.lean`.
 
-Following the Palomar layout this module does **not** import `EightChallenge`:
+Following the Palomar layout this module does **not** import `V2Challenge`:
 the two modules independently declare the same names, and Comparator checks
 that each compared declaration has the same statement in both.  The definitions
-below are therefore verbatim copies of the ones in `EightChallenge.lean`,
+below are therefore verbatim copies of the ones in `V2Challenge.lean`,
 which are themselves verbatim copies of the definitions the development uses —
 five from the pinned dependency `anthropics/zeta-23-lean`
 (`Zeta23/Statement.lean`) and five from `Zeta23Ext/Bridge/Defs.lean`.
@@ -27,10 +28,9 @@ written in the Challenge is a *theorem* about it (`Zeta23.ThmD.HD_one`), not a
 definitional unfolding.  `H_eq` is that theorem, and `Phi_n_eq` carries it into
 the constant.
 
-The namespace is `Zeta23Ext.PalomarEight`, distinct from the
-`Zeta23Ext.Palomar` of the seven-point surface (`BridgeChallenge.lean`,
-`BridgeSolution.lean`), which this module neither imports nor changes.  The two
-surfaces are independent entries over the same development.
+The namespace is `Zeta23Ext.PalomarV2`, distinct from the `Zeta23Ext.Palomar`
+of the surface this entry's first version advertises (`BridgeChallenge.lean`,
+`BridgeSolution.lean`), which this module neither imports nor changes.
 
 If a definition the advertised statements mention is edited in
 `Zeta23Ext/Bridge/Defs.lean`, or upstream in `Zeta23/Statement.lean`, the `rfl`
@@ -42,7 +42,7 @@ open scoped BigOperators
 
 noncomputable section
 
-namespace Zeta23Ext.PalomarEight
+namespace Zeta23Ext.PalomarV2
 
 /-! ### Counting the zeros of ζ -/
 
@@ -176,15 +176,36 @@ theorem eight_point_bound_ratio
   simp only [H_eq, Ncount_eq, N0simple_eq]
   exact _root_.Zeta23Ext.Bridge.eight_point_bound_ratio hCert
 
+/-- **At three points, with the certificate proved rather than assumed.**  No
+hypothesis: `Zeta23Ext.Bridge.ThreePoint.three_point_cert` is the `n = 3`
+instance of `hCert` at `c = 1345/10⁶`, `p = 3000`, proved in this package from
+368 interval cell lemmas applied 1515 times over 487 leaves. -/
+theorem three_point_bound :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      ((149000000 * H - 99200) / 148800133 - ε) * (Ncount T (2 * T) : ℝ)
+        ≤ N0simple T (2 * T) := by
+  simp only [H_eq, Ncount_eq, N0simple_eq]
+  exact _root_.Zeta23Ext.Bridge.ThreePoint.three_point_bound
+
+/-- **The three-point bound as a proportion, unconditional.** -/
+theorem three_point_bound_ratio :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      (149000000 * H - 99200) / 148800133 - ε
+        ≤ (N0simple T (2 * T) : ℝ) / (Ncount T (2 * T) : ℝ) := by
+  simp only [H_eq, Ncount_eq, N0simple_eq]
+  exact _root_.Zeta23Ext.Bridge.ThreePoint.three_point_bound_ratio
+
 /-! ### Standing axiom audit
 
 Every line below must report exactly `[propext, Classical.choice, Quot.sound]`;
-`permitted_axioms` in `lean/bridge/comparator-eight.json` names those three and
+`permitted_axioms` in `lean/bridge/comparator-v2.json` names those three and
 no others, and a `sorryAx` here would mean the Challenge's deliberate holes had
 leaked into the proved surface. -/
 
 #print axioms n_point_bound
 #print axioms eight_point_bound
 #print axioms eight_point_bound_ratio
+#print axioms three_point_bound
+#print axioms three_point_bound_ratio
 
-end Zeta23Ext.PalomarEight
+end Zeta23Ext.PalomarV2

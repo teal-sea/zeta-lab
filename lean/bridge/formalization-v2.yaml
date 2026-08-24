@@ -1,0 +1,246 @@
+# formalization.yaml v0.4 — VERSION 2 of the Zeta Lab bridge entry.
+#
+# V1 (live, commit 58bd44cadb5881540af744a152492d2c25420008) advertises the
+# seven-point bound, conditional on its certificate. V2 replaces it with the
+# parametric n-point theorem and two instances: one UNCONDITIONAL at n = 3,
+# whose certificate is proved inside Lean, and one conditional at n = 8, at the
+# leading constant. Same selected project, lean/bridge; comparator
+# lean/bridge/comparator-v2.json. Deliberately short: lean/PALOMAR.md says why.
+version: "v0.4"
+
+project:
+  name: "Zeta Lab: the n-point simple-zero bound, with an unconditional three-point instance"
+  description: >-
+    Let N(T,2T) count the nontrivial zeros of the Riemann zeta function with
+    ordinate in (T,2T], with multiplicity, and N_0^s(T,2T) the simple zeros
+    among them on the critical line. The Lean development accompanying
+    arXiv:2608.13637 (anthropics/zeta-23-lean) proves, for Mathlib's
+    riemannZeta and unconditionally, that for every eps > 0 and all large T,
+    (H - eps) N(T,2T) <= N_0^s(T,2T), with
+    H = 3/2 - (1/sqrt 2) cot(1/sqrt 2) = 0.67250070367941164... (its Theorem D).
+    Ainta (github.com/ainta/zeta-simple-zeros) refines H by carrying the
+    spectral defect of the Gram matrix of the simple-zero vectors through that
+    argument and bounding it block by block through a local inequality on seven
+    points.
+    Advertised here: that refinement carried out for n points at once, and two
+    instances. Parametrically, for n >= 2, c > 0, m >= n, p > 0 with
+    c(m-(n-1)) <= 1, if c <= F(n,p,g) for every nonnegative vector g of n-1 gaps
+    (the hypothesis hCert), then for every eps > 0 and all large T,
+    (Phi_n(n,c,m,p) - eps) N(T,2T) <= N_0^s(T,2T), where
+    Phi_n(n,c,m,p) = (H - (n-1)(m-1)/(pm)) / (1 - c(m-(n-1))/m). At n = 7 this
+    is Ainta's theorem.
+    THE THREE-POINT INSTANCE IS UNCONDITIONAL. At (n,c,p) = (3, 1345/10^6,
+    3000) the hypothesis is proved, not assumed: the overlap weight w = k^2 is
+    enclosed from a twelve-term Taylor bound on cos and sin and the closed form
+    of the kernel, and 368 interval cell lemmas over rationals, applied 1515
+    times over 487 leaves, cover the quarter-plane of the two gaps. No verifier
+    is trusted and no floating point appears. The cap gives m = 745 and the constant
+    (149000000 H - 99200)/148800133 = 0.67273733450380946..., exceeding H by
+    2.3663e-4: for Mathlib's riemannZeta, an unconditional improvement of the
+    dependency's Theorem D.
+    The eight-point instance stays conditional. A generalisation of Ainta's
+    verifier to n points, validated by reproducing his seven-point run field for
+    field, accepts c = 41763/10^7 at p = 3200, giving m = 246 and
+    0.67305298298962888...; an interval-arithmetic acceptance is not a proof, so
+    that hypothesis is written into the statement.
+    The pair is the point of the entry: one theorem gives the largest constant
+    reachable under an assumed certificate and a smaller assumption-free one
+    where the certificate is small enough to prove, and the gap between them
+    measures what is still owed to a verifier.
+  authors: ["Thomas Lince"]
+  license: "MIT"
+  responsible_maintainers: ["Thomas Lince"]
+
+classification:
+  arxiv: ["math.NT"]
+  msc2020: ["11M26", "15A42"]
+
+sources:
+  - title: >-
+      More than 67.3% of the zeros of the Riemann zeta function are simple and
+      lie on the critical line
+    authors: ["Ainta"]
+    type: "paper"
+    location: "https://github.com/ainta/zeta-simple-zeros"
+    relationship: adapts
+    note: >-
+      paper/riemann.tex at commit 040c5e899e658aed7b56a2a87f501798fe10761d,
+      retrieved 2026-08-22: the informal source of the argument from the finite
+      inequality to the zero count. The generalisation to n points, the closed
+      form Phi_n with its cap, the pinching proof, every Lean statement and
+      proof, the eight-point certificate and the three-point enclosure are this
+      laboratory's. Not "formalizes": the theorem is parametric, the three-point
+      instance is unconditional where the paper's result is not, and several
+      steps take routes the paper does not.
+    license: "unknown"
+    author_endorsement: "not-contacted"
+  - title: >-
+      More than two thirds of the zeta zeros are simple and on the critical line
+    authors: ["L. Alpoge", "R. Furman"]
+    contributors:
+      - name: "Claude (Anthropic)"
+        role: >-
+          the official record for arXiv:2608.13637 states that the proof was
+          discovered autonomously by Claude (Anthropic) and verified and
+          communicated by the listed authors
+    type: "paper"
+    id: "arXiv:2608.13637"
+    location: "https://www-cdn.anthropic.com/95c246936988e43127bc6b2ceb7077c1dad2d68e.pdf"
+    relationship: background
+    note: >-
+      The base theorem this work refines, consumed entirely through its Lean
+      development. Nothing is transcribed from its text.
+    license: "unknown"
+    author_endorsement: "not-contacted"
+
+related_formalizations:
+  - id: "https://github.com/anthropics/zeta-23-lean"
+    relationship: builds-on
+    note: >-
+      Pinned at commit 3635e74826a4c1fcece7d1cd2b6fa75e43a00510 as a Lake
+      dependency of the selected project. It supplies Ncount and N0simple for
+      Mathlib's riemannZeta, the analytic inputs discharged for riemannZeta, the
+      constant HD 1 = H, the Montgomery-Taylor window and its endgame, and the
+      linear algebra. The advertised theorem is its thmD_0_simple_mult with
+      HD 1 replaced by Phi_n n c m p. Nothing in it was modified, and
+      three_point_bound is strictly stronger than its Theorem D under the same
+      axioms and no hypothesis.
+
+status:
+  scope: >-
+    Formalized: the five advertised declarations, sorry-free, against pinned
+    Mathlib v4.33.0-rc2 and anthropics/zeta-23-lean at the pinned commit, each
+    reporting exactly propext, Classical.choice and Quot.sound.
+    WHICH ARE CONDITIONAL. Three of the five carry the named hypothesis hCert:
+    for every g : Fin (n-1) -> R with every g i >= 0, c <= F n p g, F being the
+    n-point functional (the pressure term (1/p) sum g_i plus the n(n-1)/2
+    pairwise overlap weights with coefficient 2/(n-(j-i))). n_point_bound takes
+    it parametrically; the two eight-point statements take it at
+    (8, 41763/10^7, 3200), where what is known is that an interval-arithmetic
+    program written in Arb accepts it over 64 of 64 shards and 6 504 134 nodes,
+    the run recorded under hunts/ainta_seven_point in the submitted repository.
+    That is not a kernel-checked proof and no claim is made here that it is; the
+    hypothesis is written into the statement, with its numbers, so the
+    distinction survives every way of quoting the result.
+    WHICH ARE NOT. three_point_bound and three_point_bound_ratio carry NO
+    hypothesis: at (3, 1345/10^6, 3000) the finite inequality is a theorem of
+    Lean in this package, 368 interval cell lemmas over rationals applied 1515
+    times over 487 leaves, resting on a twelve-term Taylor enclosure from
+    Complex.exp_bound and the closed form of the kernel. No verifier is trusted, no floating point is used, and
+    native_decide appears nowhere in the package.
+    The side conditions 2 <= n, n <= m, 0 < p, 0 < c and c(m-(n-1)) <= 1 are
+    rational and closed by norm_num. Every analytic input, Riemann-von Mangoldt
+    and the explicit formula included, is discharged inside the dependency for
+    riemannZeta.
+    Not formalized: the n-point inequality at n = 7 or n = 8; any numerical
+    value of H beyond its closed form. NOTHING HERE BEARS ON THE RIEMANN
+    HYPOTHESIS: the conclusion is a lower bound on a proportion of zeros and
+    holds whether or not RH does. The base constant H is the dependency's
+    theorem, not this entry's.
+  sorry_count: 0
+  sorry_in_definitions: 0
+  axioms: ["propext", "Classical.choice", "Quot.sound"]
+
+automation:
+  methods:
+    - method: "agent"
+      models: ["Claude (Anthropic)"]
+      framework: "Zeta Lab, github.com/teal-sea/zeta-lab"
+      tool_setup: >-
+        Every Lean statement and proof was produced by Claude agents in Claude
+        Code against this repository, under human direction and an explicit
+        per-step obligation ledger, statement-first: each step's statement was
+        fixed in the dependency's vocabulary before any proof was attempted, and
+        leftovers became explicit hypotheses of the main theorem. The
+        three-point cover is emitted by a generator in this repository and
+        checked by Lean, not by the generator. The Harmonic Aristotle proving
+        service was available under a cap and was not used.
+      cost:
+        wall_time: "2026-08-23"
+        spend_usd: "not tracked"
+        hardware: "local machine and hosted CI; no proving service"
+  spend_usd: "not tracked"
+  notes: >-
+    Human direction, agent proof writing, kernel checking, within an AI-assisted
+    computational mathematics framework operated by Thomas Lince at Zeta Lab.
+
+fidelity:
+  divergences: >-
+    The formal argument follows the paper's structure; each place it departs
+    from the text is recorded in hunts/ainta_seven_point/BRIDGE.md section 6.
+    The kernel limit is proved at every separation; the tail passage carries the
+    defect as a hypothesis at lambda = 1 rather than taking a limit over
+    windows; block pinching is proved without convexity or unitary invariance;
+    every o(N) in the paper is an explicit eta N in the Lean. The n-point layer
+    and the proof of the finite inequality at n = 3 have no counterpart in the
+    paper.
+
+review:
+  status: "self-assessed"
+  notes: >-
+    No external mathematical review has been performed and no person outside
+    this laboratory has read the development.
+    Deliberate sorry count: V2Challenge.lean carries five sorry, one per
+    advertised statement, which is what the Palomar format requires of a
+    statement-only module. The development and V2Solution.lean carry none. A
+    claim that this tree is sorry-free has to say which object it means, and
+    this field is that statement.
+    Checks: the five advertised declarations report exactly the three standard
+    axioms in a whole-package build; a static scan of every Lean file in the
+    selected project finds no axiom, opaque, unsafe, admit, native_decide,
+    implemented_by or extern; the Challenge's copies of the definitions are tied
+    to the development's by rfl bridges in the Solution, the one exception being
+    H, whose bridge is the dependency's theorem HD_one.
+    Limitations: the run behind the eight-point hCert was checked by reproducing
+    a third party's run and re-running a generalisation of it, not by any formal
+    method; and whether this entry clears the notability floor is the registry's
+    call, not a claim this file makes.
+
+alignment:
+  namespace: "Zeta23Ext.PalomarV2"
+  statements:
+    - source: "Ainta, Theorem 1.1, generalised to n points. CONDITIONAL on hCert"
+      lean: "Zeta23Ext.PalomarV2.n_point_bound"
+      module: "V2Solution"
+      status: "proved"
+      note: "Zeta23Ext.Bridge.n_point_bound, in Zeta23Ext/Bridge/Main.lean."
+    - source: >-
+        At n = 8 and (41763/10^7, 246, 3200): at least 0.67305298298962888...
+        - eps. CONDITIONAL on hCert there
+      lean: "Zeta23Ext.PalomarV2.eight_point_bound"
+      module: "V2Solution"
+      status: "proved"
+      note: "From n_point_bound, side conditions by norm_num."
+    - source: >-
+        The same as a proportion, no positivity guard on the denominator.
+        CONDITIONAL on hCert
+      lean: "Zeta23Ext.PalomarV2.eight_point_bound_ratio"
+      module: "V2Solution"
+      status: "proved"
+      note: "From eight_point_bound and the dependency's N(T,2T) -> infinity."
+    - source: >-
+        At n = 3 and (1345/10^6, 745, 3000), certificate proved rather than
+        assumed: at least 0.67273733450380946... - eps. UNCONDITIONAL
+      lean: "Zeta23Ext.PalomarV2.three_point_bound"
+      module: "V2Solution"
+      status: "proved"
+      note: >-
+        Zeta23Ext.Bridge.ThreePoint.three_point_bound: n_point_bound with hCert
+        supplied by three_point_cert, itself proved from an enclosure of the
+        kernel and 368 interval cell lemmas. Strictly stronger than the
+        dependency's Theorem D, same three axioms, no hypothesis.
+    - source: >-
+        The same as a proportion, no hypothesis and no positivity guard on the
+        denominator. UNCONDITIONAL
+      lean: "Zeta23Ext.PalomarV2.three_point_bound_ratio"
+      module: "V2Solution"
+      status: "proved"
+      note: >-
+        From three_point_bound and eventually_Ncount_pos. Advertised because it
+        is the form in which a reader compares the number to the literature, and
+        because the positivity of the denominator inside the statement removes
+        the only way of reading the bound as vacuous.
+
+acknowledgements: >-
+  Lean 4 and Mathlib. The authors of anthropics/zeta-23-lean, whose development
+  this theorem extends. Ainta, whose argument this is.

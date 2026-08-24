@@ -1,7 +1,7 @@
 name = "Zeta23Bridge"
 version = "0.1.0"
 keywords = ["math"]
-defaultTargets = ["Zeta23Ext", "BridgeChallenge", "BridgeSolution", "EightChallenge", "EightSolution"]
+defaultTargets = ["Zeta23Ext", "BridgeChallenge", "BridgeSolution", "ThreePoint", "V2Challenge", "V2Solution"]
 
 # The upstream formalization accompanying arXiv:2608.13637, pinned. Mathlib and
 # its standard dependency set are inherited from it, at the same revisions the
@@ -33,20 +33,53 @@ roots = ["BridgeChallenge"]
 name = "BridgeSolution"
 roots = ["BridgeSolution"]
 
-# The Palomar submission surface, second entry over the same development: the
-# `n`-point layer and its eight-point instance
-# (`lean/bridge/comparator-eight.json`). Same shape as the pair above, in the
-# distinct namespace `Zeta23Ext.PalomarEight`, and independent of it: neither
-# file imports the seven-point surface and neither changes it.
+# The three-point certificate. `Zeta23Ext.Bridge.n_point_bound` is proved for
+# every `n` conditional on the finite inequality `hCert`; this library discharges
+# `hCert` at `n = 3`, `c = 1345/10^6`, `p = 3000` inside Lean, through 368
+# interval cell lemmas applied 1515 times over 487 leaves, so the `n = 3`
+# instance of that theorem carries no hypothesis at all.
 #
-# `EightChallenge.lean` carries THREE DELIBERATE `sorry`s, one per advertised
-# statement, which is what the Palomar format requires of a statement-only
-# module; `EightSolution.lean` proves the same three from
-# `Zeta23Ext.Bridge.Main`.
+# It lives in THIS package rather than in one of its own, deliberately. It has to
+# see the same `Kfun`, `kfun`, `wfun`, `F` and `Phi_n` that `n_point_bound`
+# consumes, and a package of its own could only reach them through a `path`
+# dependency pointing out of its own directory. Whether the registry's replay
+# resolves such a dependency is not something this repository can determine, and
+# a submission is not the place to find out; here the project directory is
+# `lean/bridge`, whose dependency set is exactly what the entry above already
+# replays.
+#
+# `autoImplicit` is off for this library alone, and that is not a style
+# preference. With it on, an unresolved identifier in a theorem STATEMENT is
+# silently bound as an implicit variable rather than reported: an early build of
+# this material stated its theorems about free variables named `HD`, `Ncount` and
+# `N0simple` instead of the definitions of this package, and it errored only
+# because a variable cannot be applied to an argument. Had those names been
+# nullary the file would have compiled and the theorems would have said nothing
+# while looking exactly like success. For material whose whole claim is that a
+# named constant is unconditional, that failure mode has to be impossible rather
+# than unlikely.
 [[lean_lib]]
-name = "EightChallenge"
-roots = ["EightChallenge"]
+name = "ThreePoint"
+roots = ["ThreePoint"]
+leanOptions = { autoImplicit = false, relaxedAutoImplicit = false }
+
+# V2 of the Palomar submission surface over this package
+# (`lean/bridge/comparator-v2.json`): the `n`-point layer, its still-conditional
+# eight-point instance, and the UNCONDITIONAL three-point instance. Same shape as
+# the pair above, in the distinct namespace `Zeta23Ext.PalomarV2`, and
+# independent of it: neither file imports the V1 surface and neither changes it.
+#
+# One comparator names one Challenge module and one Solution module, so both
+# instances are advertised from one module pair rather than two.
+#
+# `V2Challenge.lean` carries FIVE DELIBERATE `sorry`s, one per advertised
+# statement, which is what the Palomar format requires of a statement-only
+# module; `V2Solution.lean` proves the same five from `Zeta23Ext.Bridge.Main`
+# and `ThreePoint.Main`.
+[[lean_lib]]
+name = "V2Challenge"
+roots = ["V2Challenge"]
 
 [[lean_lib]]
-name = "EightSolution"
-roots = ["EightSolution"]
+name = "V2Solution"
+roots = ["V2Solution"]

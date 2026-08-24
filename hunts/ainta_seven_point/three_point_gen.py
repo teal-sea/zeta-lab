@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate the Lean three-point certificate table for hunts/ainta_seven_point/lean-three-point.
+"""Generate the Lean three-point certificate table for the `ThreePoint` library of lean/bridge.
 
 Everything is exact rational arithmetic (`fractions.Fraction`); floating point is used
 only to *steer* the branch and bound, never to justify a bound.  Every interval step
@@ -15,7 +15,7 @@ below mirrors, one for one, a lemma that the emitted Lean actually applies:
     w(x) = k(x)^2 >= (nlo/dhi)^2  when  nlo <= |N| and |D| <= dhi   ThreePoint.wfun_ge
 
 Usage:  python3 three_point_gen.py [c_numerator]     (c = numerator/10^6, default 1345)
-Writes ThreePoint/Cells*.lean, ThreePoint/Main.lean and ThreePoint.lean under lean-three-point/.
+Writes ThreePoint/Cells*.lean, ThreePoint/Main.lean and ThreePoint.lean under lean/bridge/.
 """
 from fractions import Fraction as Fr
 import math, os, sys
@@ -536,7 +536,7 @@ def emit(cn, out):
 if __name__ == '__main__':
     cn = int(sys.argv[1]) if len(sys.argv) > 1 else 1345
     here = os.path.dirname(os.path.abspath(__file__))
-    info = emit(cn, os.path.join(here, "lean-three-point"))
+    info = emit(cn, os.path.join(here, "..", "..", "lean", "bridge"))
     H = 0.67250070367941164573
     a,b,d = info['phi']
     print("c = %d/10^6   m = %d   p = %d   cutoff S = %s" % (cn, info['m'], P, float(info['S'])))

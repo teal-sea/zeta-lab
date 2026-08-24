@@ -8,10 +8,12 @@ Lean's kernel *and* the independent NanoDa kernel, applies an editorial floor
 for research interest, and publishes the exact statement together with the
 review's findings.
 
-**Three** submission surfaces live here. Two of them, Pub 1 and
+**Four** submission surfaces live here. Two of them, Pub 1 and
 Davenport-Heilbronn, have passed review and requested registration; the
-Davenport-Heilbronn one took two attempts, and the bottom of this file says
-why. The third, the bridge, is **authored and prechecked but not submitted**.
+Davenport-Heilbronn one took two attempts, and the middle of this file says
+why. The third, the bridge, is submitted and awaiting an outcome. The fourth,
+**V2 of the bridge entry**, carries the unconditional three-point theorem and is
+authored and prechecked but not submitted; the bottom of this file is its record.
 
 | File | Surface | Role |
 | --- | --- | --- |
@@ -25,15 +27,19 @@ why. The third, the bridge, is **authored and prechecked but not submitted**.
 | `palomar-dh/formalization.yaml` | DH | Provenance, scope, automation and review metadata. |
 | `bridge/BridgeChallenge.lean` | Bridge | The advertised statements. Imports Mathlib alone. |
 | `bridge/BridgeSolution.lean` | Bridge | The same statements, proved from `Zeta23Ext.Bridge.Main`. |
-| `bridge/comparator.json` | Bridge | Which declarations are compared, and under which axioms. |
-| `bridge/formalization.yaml` | Bridge | Provenance, scope, automation and review metadata. |
-| `PALOMAR.md` | all three | This file. |
+| `bridge/comparator.json` | Bridge V1 | Which declarations are compared, and under which axioms. |
+| `bridge/formalization.yaml` | Bridge V1 | Provenance, scope, automation and review metadata. |
+| `bridge/V2Challenge.lean` | Bridge V2 | The advertised statements. Imports Mathlib alone. |
+| `bridge/V2Solution.lean` | Bridge V2 | The same statements, proved from `Zeta23Ext.Bridge.Main` and `ThreePoint.Main`. |
+| `bridge/comparator-v2.json` | Bridge V2 | Which declarations are compared, and under which axioms. |
+| `bridge/formalization-v2.yaml` | Bridge V2 | Provenance, scope, automation and review metadata. |
+| `PALOMAR.md` | all of them | This file. |
 
-The three surfaces carry **eight** deliberate `sorry`s between them, three in
-`Challenge.lean`, one in `DHChallenge.lean` and four in `BridgeChallenge.lean`,
-one per advertised statement.
+The surfaces carry **thirteen** deliberate `sorry`s between them, three in
+`Challenge.lean`, one in `DHChallenge.lean`, four in `BridgeChallenge.lean` and
+five in `V2Challenge.lean`, one per advertised statement.
 Any claim about this tree being sorry-free has to say *which* object it means:
-the developments and all three Solution modules are sorry-free, the Challenge
+the developments and every Solution module are sorry-free, the Challenge
 modules are not, and a submission whose metadata blurs the two gets that pointed
 out. One did.
 
@@ -48,7 +54,7 @@ where a reader looks for them; the submission form takes both paths explicitly.
 ## The Challenge modules contain deliberate `sorry`s. Do not "fix" them.
 
 Three in `Challenge.lean`, one in `DHChallenge.lean`, four in
-`BridgeChallenge.lean`. They are what the Palomar format requires of an
+`BridgeChallenge.lean`, five in `V2Challenge.lean`. They are what the Palomar format requires of an
 advertised statement: the Challenge module is the small, trusted surface a
 mathematical reader audits, and it states each claim without proving it. The
 matching Solution module proves the same statements, and Comparator checks that
@@ -220,3 +226,100 @@ Nothing here bears on the Riemann Hypothesis, and `status.scope` says so.
 Mechanical verification and the editorial review were queued at submission. **No outcome is
 recorded here yet, and no identifier is guessed.** Registration is public and is the owner's
 click alone; the private access link is not recorded in this repository.
+
+## V2 of the bridge entry: the three-point theorem is unconditional
+
+**Authored 2026-08-24. Prechecked, not submitted, no identifier guessed.** Registration and
+submission are the owner's, and Palomar permits one submission in progress per repository.
+
+V2 replaces V1's four seven-point statements with the parametric `n`-point theorem and two
+instances of it, five declarations in the namespace `Zeta23Ext.PalomarV2`:
+
+| Declaration | Hypothesis | Constant |
+| --- | --- | --- |
+| `n_point_bound` | `hCert` | `Φₙ(c,m,p) = (H − (n−1)(m−1)/(pm)) / (1 − c(m−(n−1))/m)` |
+| `eight_point_bound` | `hCert` at `(41763/10⁷, 3200)` | `(2460000000·H − 5359375)/2450018643 = 0.67305298298962888…` |
+| `eight_point_bound_ratio` | the same | the same, as `N₀ˢ/N` |
+| `three_point_bound` | **none** | `(149000000·H − 99200)/148800133 = 0.67273733450380946…` |
+| `three_point_bound_ratio` | **none** | the same, as `N₀ˢ/N` |
+
+**The two three-point statements are the point of V2.** Their certificate,
+`1345/10⁶ ≤ F 3 3000 g` at every pair of nonnegative gaps, is not assumed: it is
+`Zeta23Ext.Bridge.ThreePoint.three_point_cert`, proved in Lean from a twelve-term Taylor
+enclosure of `cos` and `sin`, the closed form of `K`, and 368 interval cell lemmas applied
+1515 times over 487 leaves. `Φ₃` exceeds the unconditional `H = 0.67250070367941164…` of the
+pinned dependency by `2.3663·10⁻⁴`, so for Mathlib's `riemannZeta` this is an **unconditional
+improvement of that development's Theorem D**, under the same three axioms and no hypothesis.
+
+The eight-point pair stays conditional and is advertised beside it deliberately: the gap
+between `0.67305298…` and `0.67273733…` is exactly what is still owed to an
+interval-arithmetic verifier.
+
+### Layout: `ThreePoint` is a `lean_lib` of `lean/bridge`, not a package of its own
+
+The three-point development was a Lake package at `hunts/ainta_seven_point/lean-three-point/`
+requiring `lean/bridge` **by path** (`../../../lean/bridge`). As the selected project that
+would have been a gamble: **whether Palomar's replay resolves a `path` dependency pointing
+outside the selected project directory is not something this repository can determine**, and
+the published policy does not say. `lake build` in a fresh clone resolves it, which is
+evidence about Lake and none about the registry's harness.
+
+So the modules moved into `lean/bridge` as a second `lean_lib`, and the project directory is
+`lean/bridge` — the same directory the V1 entry already replays, whose only dependency is
+`anthropics/zeta-23-lean` at a pinned 40-character SHA. The move changes `lake-manifest.json`
+not at all. What it costs: `lake build` at that root now also builds the 20 000 lines of
+generated cell tables, so a replay of *any* entry from this project pays for them. That is
+the trade taken, and it is the cheap side.
+
+Two things were preserved through the move. `autoImplicit` and `relaxedAutoImplicit` are off
+for the `ThreePoint` library alone, through `leanOptions` on its `lean_lib` — the old package
+set them package-wide, and the reason is in that lakefile: with them on, an unresolved name in
+a theorem *statement* is silently bound as an implicit variable, which for material whose
+whole claim is that a named constant is unconditional is a failure mode that has to be
+impossible rather than unlikely. And `BridgeChallenge.lean`, `BridgeSolution.lean`,
+`comparator.json` and `formalization.yaml` are **byte-identical**: V1 is live at commit
+`58bd44ca` and nothing about it moved.
+
+### What was renamed, and why the file names are not `Three*`
+
+The staged eight-point surface (`EightChallenge.lean`, `EightSolution.lean`,
+`comparator-eight.json`, `formalization-eight.yaml`) became `V2Challenge.lean`,
+`V2Solution.lean`, `comparator-v2.json`, `formalization-v2.yaml`, and its namespace
+`Zeta23Ext.PalomarEight` became `Zeta23Ext.PalomarV2`. That is forced by the format:
+`comparator.json` names **one** `challenge_module` and **one** `solution_module`, so a single
+comparator advertising both the eight-point and the three-point statements requires them in
+one Challenge module and one Solution module. Keeping "Eight" in the names of a module that
+also advertises the three-point bound would have been the misleading option.
+
+### Origin: `source-based`, not `original`
+
+`scripts/palomar_precheck.py` reimplements the derivation from `sources`: `original` requires
+a source of type `original-proof` whose relationship is `other`, **and** every source's
+relationship in `{background, other}`; `source-based` is any source related as `formalizes`,
+`adapts` or `independently-proves`. The Ainta paper is related as `adapts` — the argument from
+the finite inequality to the zero count is his, and the generalisation in `n`, the Lean, the
+certificates and the enclosure are this laboratory's. Under those rules that derives
+**`source-based`**, and the precheck confirms it. The dependency is cited under
+`related_formalizations` as `builds-on`, exactly as V1 does. Asserting `original` here would
+require declaring the Ainta paper mere `background`, which would be false.
+
+### Kept small on purpose
+
+V1's `formalization.yaml` is 23.9 KB and the staged eight-point one was 29.1 KB; V2's is
+**13.0 KB**, and `V2Challenge.lean` is 276 lines / 12.7 KB, inside the mechanical warning
+threshold of 300 lines / 32 KiB. The live entry's editorial review has crashed four times and
+input size is the best hypothesis available for it, so the write-up, the module documentation
+and the metadata were all cut rather than extended. **This reasoning appears here and nowhere
+in the submitted files.**
+
+```bash
+cd lean/bridge && PATH="$HOME/.elan/bin:$PATH" lake build
+# expect: exactly five `sorry` warnings, all from V2Challenge.lean
+.venv/bin/python scripts/palomar_precheck.py . lean/bridge \
+  lean/bridge/comparator-v2.json lean/bridge/formalization-v2.yaml
+# expect: 63 pass, 1 warn (the rc toolchain, standing), 0 FAIL
+```
+
+The local `lake build` is not runnable on the author's machine; `.github/workflows/three-point.yml`
+is the build loop and runs the same three checks — the eleven-declaration axiom audit, the
+sorry accounting, and the precheck.
