@@ -56,6 +56,8 @@ def test_two_routes_to_third_derivative_agree():
         assert a < 0 and b < 0          # sign convention pinned by agreement
 
 
+@pytest.mark.slow
+# Marked slow 2026-08-24: measured at 767s in CI. Same high-precision xi machinery as the sibling already moved; under -n auto it set the floor of the whole fast tier.
 def test_mp_diff_on_xi_is_the_documented_trap():
     """Regression: the obvious derivative silently vanishes."""
     from zeta.core import xi
