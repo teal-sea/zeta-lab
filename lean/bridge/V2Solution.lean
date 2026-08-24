@@ -29,7 +29,7 @@ definitional unfolding.  `H_eq` is that theorem, and `Phi_n_eq` carries it into
 the constant.
 
 The namespace is `Zeta23Ext.PalomarV2`, distinct from the `Zeta23Ext.Palomar`
-of the surface this entry's first version advertises (`BridgeChallenge.lean`,
+of the earlier unregistered surface (`BridgeChallenge.lean`,
 `BridgeSolution.lean`), which this module neither imports nor changes.
 
 If a definition the advertised statements mention is edited in

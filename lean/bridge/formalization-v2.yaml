@@ -1,11 +1,10 @@
-# formalization.yaml v0.4 — VERSION 2 of the Zeta Lab bridge entry.
+# formalization.yaml v0.4 for the intended Zeta Lab bridge registration.
 #
-# V1 (live, commit 58bd44cadb5881540af744a152492d2c25420008) advertises the
-# seven-point bound, conditional on its certificate. V2 replaces it with the
-# parametric n-point theorem and two instances: one UNCONDITIONAL at n = 3,
-# whose certificate is proved inside Lean, and one conditional at n = 8, at the
-# leading constant. Same selected project, lean/bridge; comparator
-# lean/bridge/comparator-v2.json. Deliberately short: lean/PALOMAR.md says why.
+# An earlier V1 attempt at commit 58bd44cadb5881540af744a152492d2c25420008
+# closed without registration. This surface carries the parametric n-point
+# theorem and two instances: one UNCONDITIONAL at n = 3, whose certificate is
+# proved inside Lean, and one conditional at n = 8. Same selected project,
+# lean/bridge; comparator lean/bridge/comparator-v2.json.
 version: "v0.4"
 
 project:
@@ -33,20 +32,20 @@ project:
     3000) the hypothesis is proved, not assumed: the overlap weight w = k^2 is
     enclosed from a twelve-term Taylor bound on cos and sin and the closed form
     of the kernel, and 368 interval cell lemmas over rationals, applied 1515
-    times over 487 leaves, cover the quarter-plane of the two gaps. No verifier
-    is trusted and no floating point appears. The cap gives m = 745 and the constant
+    times over 487 leaves, cover the quarter-plane of the two gaps. No external
+    interval-arithmetic certificate is assumed for the three-point theorem, and
+    no floating point appears. The cap gives m = 745 and the constant
     (149000000 H - 99200)/148800133 = 0.67273733450380946..., exceeding H by
     2.3663e-4: for Mathlib's riemannZeta, an unconditional improvement of the
     dependency's Theorem D.
     The eight-point instance stays conditional. A generalisation of Ainta's
-    verifier to n points, validated by reproducing his seven-point run field for
-    field, accepts c = 41763/10^7 at p = 3200, giving m = 246 and
+    verifier to n points, validated by reproducing his seven-point run node for
+    node without finding a defect, accepts c = 41763/10^7 at p = 3200, giving m = 246 and
     0.67305298298962888...; an interval-arithmetic acceptance is not a proof, so
     that hypothesis is written into the statement.
-    The pair is the point of the entry: one theorem gives the largest constant
-    reachable under an assumed certificate and a smaller assumption-free one
-    where the certificate is small enough to prove, and the gap between them
-    measures what is still owed to a verifier.
+    The pair is the point of the entry: one theorem is conditional on a named
+    certificate, while the smaller three-point theorem proves its certificate
+    inside Lean. The gap between them records what remains conditional.
   authors: ["Thomas Lince"]
   license: "MIT"
   responsible_maintainers: ["Thomas Lince"]
@@ -108,9 +107,10 @@ related_formalizations:
 
 status:
   scope: >-
-    Formalized: the five advertised declarations, sorry-free, against pinned
-    Mathlib v4.33.0-rc2 and anthropics/zeta-23-lean at the pinned commit, each
-    reporting exactly propext, Classical.choice and Quot.sound.
+    Formalized: V2Solution proves the five advertised declarations without
+    sorry against pinned Mathlib v4.33.0-rc2 and anthropics/zeta-23-lean at the
+    pinned commit. V2Challenge contains five deliberate statement placeholders.
+    Each proved declaration reports exactly propext, Classical.choice and Quot.sound.
     WHICH ARE CONDITIONAL. Three of the five carry the named hypothesis hCert:
     for every g : Fin (n-1) -> R with every g i >= 0, c <= F n p g, F being the
     n-point functional (the pressure term (1/p) sum g_i plus the n(n-1)/2
@@ -126,8 +126,9 @@ status:
     hypothesis: at (3, 1345/10^6, 3000) the finite inequality is a theorem of
     Lean in this package, 368 interval cell lemmas over rationals applied 1515
     times over 487 leaves, resting on a twelve-term Taylor enclosure from
-    Complex.exp_bound and the closed form of the kernel. No verifier is trusted, no floating point is used, and
-    native_decide appears nowhere in the package.
+    Complex.exp_bound and the closed form of the kernel. No external
+    interval-arithmetic certificate is assumed for the three-point theorem, no
+    floating point is used, and native_decide appears nowhere in the package.
     The side conditions 2 <= n, n <= m, 0 < p, 0 < c and c(m-(n-1)) <= 1 are
     rational and closed by norm_num. Every analytic input, Riemann-von Mangoldt
     and the explicit formula included, is discharged inside the dependency for

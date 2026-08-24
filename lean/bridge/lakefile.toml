@@ -17,7 +17,7 @@ rev = "3635e74826a4c1fcece7d1cd2b6fa75e43a00510"
 [[lean_lib]]
 name = "Zeta23Ext"
 
-# The Palomar submission surface (https://palomar-registry.org/), third entry.
+# The earlier, unregistered Palomar bridge surface.
 #
 # `BridgeChallenge.lean` is the statement-only audit surface: it imports Mathlib
 # alone and carries FOUR DELIBERATE `sorry`s, one per advertised statement,

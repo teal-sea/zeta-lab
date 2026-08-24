@@ -197,15 +197,14 @@ theorem n_point_bound (n : ℕ) (c : ℝ) (m p : ℕ) (hn : 2 ≤ n) (hm : n ≤
 
 /-- **At eight points, and at this laboratory's accepted eight-point
 certificate.**  A generalisation of Ainta's published verifier to `n` points,
-validated first by reproducing his seven-point run bit for bit, accepts
+validated first by reproducing his seven-point run node for node without
+finding a defect, accepts
 `41763/10⁷ ≤ F 8 3200 g` at every vector of seven nonnegative gaps: 64 of 64
 shards, 6 504 134 nodes, with the minimiser the palindrome
 `(1.046, 1.989, 1.987, 1.042, 1.987, 1.989, 1.046)`.  The cap `c(m−7) ≤ 1` gives
 `m ≤ 7 + ⌊10⁷/41763⌋ = 246`, and at `m = 246` the constant is
 
-`(2460000000 H − 5359375)/2450018643 = 0.67305298298962888…`,
-
-against `0.67302955347969271…` at this laboratory's best seven-point parameters.
+`(2460000000 H − 5359375)/2450018643 = 0.67305298298962888…`.
 
 `hCert` is again an assumption and not a theorem of Lean: what changes between
 this statement and the seven-point one is which certificate is assumed and at
