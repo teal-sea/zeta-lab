@@ -190,20 +190,26 @@ def main() -> None:
     if nproc == 1:
         run_slice(0, 1, cell_ids, args, out)
     else:
+        # Each process writes its own `.jsonl`, and the merge below is a
+        # convenience rather than the thing that saves the work: if the job is
+        # killed before the merge runs, the per-process files are still picked
+        # up by the artifact upload and by `ci_plan.py collect`, which globs
+        # `*.jsonl` and dedupes on (sector, cell).  Naming them `.pN` without
+        # the suffix would have quietly lost a killed job's whole shard.
+        parts = [f"{os.path.splitext(out)[0]}.p{p}.jsonl" for p in range(nproc)]
         kids = []
         for p in range(nproc):
             pid = os.fork()
             if pid == 0:
                 try:
-                    run_slice(p, nproc, cell_ids, args, f"{out}.p{p}")
+                    run_slice(p, nproc, cell_ids, args, parts[p])
                 finally:
                     os._exit(0)
             kids.append(pid)
         for pid in kids:
             os.waitpid(pid, 0)
-        with open(out, "a", encoding="utf-8") as f:   # merge the per-process files
-            for p in range(nproc):
-                part = f"{out}.p{p}"
+        with open(out, "a", encoding="utf-8") as f:
+            for part in parts:
                 if os.path.exists(part):
                     with open(part, encoding="utf-8") as g:
                         f.write(g.read())

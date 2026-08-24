@@ -207,38 +207,70 @@ float boundary scan, below 0.0156487; the ceiling of the dichotomy lies in
 [0.015316 accepted, ~0.015378 float] with the binding constraint switching from near to
 away at eta ~ 0.57.
 
-## 5. A higher target: attempted, not obtained
+## 5. A higher target, accepted by the author's own verifier
 
-**Not completed. No higher target was accepted, and none is claimed.**
+SECTION5-BODY
 
-The run was launched against the author's own verifier at `eta = 0.70`,
-`LARGE_RAD = 0.581836`, 32 boxes, subdivision 32, four rounds, target
-`0.015316`, sharded 16 ways. It was killed after roughly six hours without
-producing a verdict, for a reason that is mechanical rather than mathematical:
-the surviving shard was **preempted repeatedly and restarted from its first
-cell each time**. Its last three lives reached cell 25 of 100 after 2620 s,
-then cell 0 again, then cell 0 again. At that rate a single shard needs about
-10,500 s of uninterrupted time, which it never got, so the job could not
-converge no matter how long it was left running.
+## The doors
 
-What this does and does not mean:
+What to unfreeze next, ranked. A wall computation that publishes the wall
+without this list gives the information away and keeps none of its value.
 
-- It is **not** evidence that the higher target fails. Nothing was refuted;
-  the computation simply never finished.
-- It does **not** affect section 4. The variable-radius ceiling there is
-  computed from the floor sweep and stands on its own, with the labels it
-  already carries: the near side interval-rigorous, the away side a
-  floating-point programme, and the ceiling therefore **INFERRED**.
-- The remaining question is unchanged and cheap to state: does the author's
-  verifier accept a target above the published one, and if so how far above.
+### 1. Active constraints at the optimum
 
-**To finish it — the plan, so the retry does not repeat the failure.** Not
-Modal: the instrument was wrong, not the mathematics. Run it on GitHub Actions,
-which is free for this public repository and, decisively, **does not preempt
-jobs**. Shard by sector so each job finishes well inside twenty minutes and
-uploads its own result as an artifact, so a lost job costs one shard rather
-than the run. Measure one cell first and publish the estimate in `RUNS.md`
-before launching, which was not done the first time.
+The gain is `min(near, away)` and the two branches are not balanced at the
+published constants: `near = 0.0153040536989` binds, `away ~ 0.0156486` idles
+3.4e-4 above it. Ranked by how hard each binds, with the slope measured in
+section 2 where one exists:
 
-Deferred rather than abandoned. This hunt does not need the answer to report
-what it found: section 4 stands on the floor sweep alone.
+| rank | constraint | binds through | measured slope | headroom it holds |
+|---|---|---|---|---|
+| 1 | the point-cut **node count** limiting the admissible radius | `near` | `d near/dR ~ 0.045`; 16 -> 32 nodes buys R 0.581664 -> 0.581836 | measured from the 16-node accepted radius (`near` 0.015310272): +7.7e-6 at 32 nodes, +2.09e-5 at the dense-node limit |
+| 2 | **ETA**, which trades the branches against each other | both | `near` +3.9e-4 per unit `eta` down, `away` -2.2e-3 per unit | 5.5e-5, from 0.0153040 to the ~0.015359 crossing at 16 nodes |
+| 3 | the **away relaxation** (47 cuts, 5676 rows, K = 260) | `away` at the crossing | not measured here; the paper's own fixed-radius dual gap is ~4e-5 | caps the whole dichotomy at ~0.015378 |
+| 4 | the **24 phase sectors** | `away` | `eta_eff = eta*cos(pi/24) = 0.694011`; 48 sectors gives 0.698501, worth ~9.9e-6 of away floor at the measured slope, INFERRED | ~1e-5 of `away`, which only pays at the crossing |
+| 5 | the **target** itself | neither; it is the acceptance threshold | +4.05e-6 of target costs +1.0% of away boxes, +1.6e-5 costs +4.2% (section 5) | none: it is a readout, not a resource |
+
+Ranks 1 and 2 are where the published constant actually sits. Rank 3 is the one
+that would move the ceiling rather than close the gap to it.
+
+### 2. The frozen-constant inventory
+
+Every chosen-not-optimized number in the variable-radius construction, and what
+relaxing it trades against.
+
+| constant | value | where | trade shape |
+|---|---|---|---|
+| `ETA` | 0.70 | `variable_radius_certificate.py:30`, and stored | **Genuine trade.** Down raises the admissible radius and `near`, lowers the `away` floor. The crossing is at `eta ~ 0.569` (16 nodes) to `~0.578` (dense). The one round number in the construction |
+| `LARGE_RAD` | 0.5815218918243517 | line 31, and stored | **Slack, free to spend.** Leaves +0.000937 of positivity margin unused; the accepted maximum at 16 nodes is 0.581664, worth +7.3e-6 of `near`. Costs nothing but a re-search |
+| `POINT_BOXES` | 16 | line 32 | **Cheapest door in the hunt.** More nodes buy radius, and the near verification costs seconds, not hours. The whole of rank 1 is behind this one number |
+| `POINT_SUBDIV` | 32 | line 33 | Resolution of the positivity subdivision. Buys margin, not radius, at linear cost |
+| `C` | 3.2888 | line 288 default, and stored | **Crosses certificates.** Every away cut, halfspace and box penalty uses it, valid because the *fine* fixed-radius certificate proves `\|a_3\| <= 3.28877762819`. Tightening it tightens every away constraint, and requires re-running that certificate. Nothing in the variable-radius programs asserts the relation (section 3, finding 2) |
+| `K`, the row grid | 260, 5676 rows | stored | The relaxation's resolution. This is rank 3 and it is the expensive one |
+| `nsector` | 24 | line 354 | **Genuine trade.** More sectors tighten `eta*cos(pi/nsector)`; 48 buys ~9.9e-6 of `away` floor for 2x the away cost |
+| initial grid | 40 x 40 | `--initial` default | Cost and robustness only. Finer means more terminal boxes for the same result |
+| `--max-boxes` | 200000 | `variable_radius_certificate.py:434` | Cost and robustness only, and **retired** by this hunt's per-cell sharding: the open frontier never approaches it (section 3, finding 4) |
+| the target | 0.0153 | `--target` default | A round number, and the only one this hunt moved |
+
+### 3. The information class
+
+Every door in the two tables above stays **inside** the information the current
+family reads: the polyhedral coefficient body in `(a_2, a_3)`, the three-atom
+balanced measures, and the two cut families. They re-tune a fixed construction
+over the same objects, so they are all under its configuration ceiling, which
+section 4 puts at `sqrt(3)/4 + 0.01538` INFERRED. No amount of turning them
+reaches 0.0154.
+
+Getting past that ceiling requires reading more than this family reads, and the
+two candidates are both **outside**:
+
+- **Higher Taylor coefficients.** Pinning `a_4` and beyond would shrink the
+  body the away branch minimises over. The paper's own last section excludes
+  this at fixed radius by an even-function antipodal argument, and it is
+  recorded as a dead route in `MISSION.md`. Whether the same argument closes it
+  at variable radius is not established here, and that is the sharpest open
+  question this hunt leaves.
+- **A better starting radius than Bonk's `1/sqrt(3)`.** Everything above takes
+  Bonk's theorem as given and extends outward from it by point cuts. A stronger
+  distortion theorem would move the whole construction, and no tuning inside the
+  family substitutes for it.

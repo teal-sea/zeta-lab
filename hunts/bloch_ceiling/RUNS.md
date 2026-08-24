@@ -40,6 +40,77 @@ artifacts:
   - hunts/bloch_ceiling/artifacts/local/bloch-ceiling-witness.txt
 ```
 
+## The estimate for the section 5 run, published before it was launched
+
+The first attempt at section 5 had no cost estimate, and that is how it burned
+six hours. This is the estimate, written here before any of the run was
+launched, in the four numbers CLAUDE.md's compute discipline asks for: cells per
+sector, sectors, seconds per cell, therefore job count and wall time.
+
+**What one unit costs.** The unit is one of the 1600 initial cells of one away
+sector, run through the author's `branch_verify` with `domain` set to that cell.
+Measured locally (`calibrate_cell.py`, and note the environment is CPython
+3.14.0 with `numpy` 2.5.2, *not* the archive's pinned 3.12/2.5.1, which is what
+CI installs):
+
+| sector | what | at target 0.0153 | at target 0.0153040536 | at target 0.015316 |
+|---|---|---|---|---|
+| 1 | three lowest-bound cells | 2777 boxes, 80.5 s | 2783 boxes (x1.0022), 82.5 s | |
+| 17 | lowest-bound cell (1599) | 6820 boxes, 190.5 s | 6888 boxes (x1.0100), 216.5 s | 7106 boxes (x1.0419), 228.3 s |
+
+Two things fall out. The **cost of raising the target is small**: +4.05e-6 of
+target costs 1.0% more boxes in the worst place measured, and even +1.6e-5 costs
+4.2%. And **the per-shard fixed cost is negligible**: 0.9 to 1.0 s to build the
+1057 halfspaces and the sector row, against hundreds of seconds of subdivision.
+
+**What the whole run costs.** The archive's own reference logs give the exact
+box count at the published target, so the projection multiplies a measured rate
+by a known quantity rather than extrapolating a guess:
+
+| quantity | value | source |
+|---|---|---|
+| cells per sector | 1600 | the author's 40x40 initial grid |
+| sectors | 24 | `variable_radius_certificate.py:354` |
+| terminal boxes at target 0.0153 | 11,443,518 | sum of `reference-run/logs/*.log` |
+| the author's own cost | 380,294 s over the 23 sectors with a fresh log, 105.6 core-hours, 0.0340 s/box | the same logs |
+| box growth at target 0.0153040536 | x1.010, worst case measured | the table above |
+| projected boxes | 11.56e6 | |
+| seconds per box on a standard runner | **0.10008** | the calibration job below: 40 cells, 14,182 boxes, 1419.3 core-seconds |
+| projected core-hours | **321** | 11.56e6 x 0.10008 |
+| jobs | 314, at 38,000 reference boxes each | `ci_plan.py plan` |
+| processes per job | 4 | standard runners are 4 vCPU |
+| wall budget per process | 1020 s, inside a 25-minute job timeout | `ci_run.json` |
+| per-job capacity | 4 x 1020 / 0.10008 = 40,767 boxes, so 38,000 leaves 7% of headroom | |
+| concurrency | 20 | GitHub's limit for this account |
+| projected wall clock | ~4.8 hours | 314 jobs / 20 concurrent, ~18.5 min per wave |
+
+A 40x40 matrix of 314 jobs does not fit GitHub's 256-job limit, so the run is
+**two workflow runs**: sectors 0-11 (140 jobs) and sectors 12-23 (174 jobs).
+They serialise on the workflow's concurrency group, which is what the wall-clock
+figure above already assumes, since 20 concurrent jobs is the account limit
+either way.
+
+The instrument is `ci_away_shard.py`: each process appends a cell's verdict to
+its own JSON-lines file the moment that cell finishes, and stops on its own wall
+budget rather than being killed by the job timeout. A shard that was
+underestimated therefore ends cleanly with partial results, and `mode: sweep`
+re-runs only the cells still missing.
+
+```runmanifest
+id: bloch_ceiling-2026-08-24-calibrate-one-cell
+hunt: bloch_ceiling
+started: 2026-08-24T08:50-05:00
+finished: 2026-08-24T09:35-05:00
+ran:
+  - hunts/bloch_ceiling/calibrate_cell.py --sector 1 --ncells 3 --targets 0.0153,0.0153040536 (local)
+  - hunts/bloch_ceiling/calibrate_cell.py --sector 17 --ncells 3 --targets 0.0153,0.0153040536,0.015316 (local, stopped after the first cell had all three targets)
+  - hunts/bloch_ceiling/ci_away_shard.py on one GitHub Actions runner, sector 17, shard 0 of 41 (the diagonal of the 40x40 grid), target 0.0153040536
+outcome: a standard runner does 0.10008 s per terminal box with 4 worker processes (40 cells, 14,182 boxes, 1419.3 core-seconds, 718 s wall), which is 2.9x slower than the author's own machine and puts the whole 24-sector away branch at 321 core-hours; raising the target from 0.0153 to 0.0153040536 costs 1.0% more boxes at the worst cell measured and 4.2% at 0.015316; and cell 1599 of sector 17 returns exactly 6888 terminal boxes on the runner and on the local machine, which is the machine-independence the per-cell sharding relies on
+artifacts:
+  - hunts/bloch_ceiling/calibrate_cell.py
+  - hunts/bloch_ceiling/artifacts/calibration-2026-08-24.json
+```
+
 ```runmanifest
 id: bloch_ceiling-2026-08-23-modal-quick
 hunt: bloch_ceiling
