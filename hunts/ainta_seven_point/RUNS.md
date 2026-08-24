@@ -306,3 +306,22 @@ artifacts:
   - lean/bridge/Zeta23Ext/Bridge/Defs.lean
   - hunts/ainta_seven_point/artifacts/verify-n8-41763-10000000-p3200.json
 ```
+
+```runmanifest
+id: ainta_seven_point-2026-08-23-certificate-route
+hunt: ainta_seven_point
+started: 2026-08-23
+finished: 2026-08-23
+ran:
+  - read lean/bridge/Zeta23Ext/Bridge/Defs.lean, lean/bridge/formalization.yaml, and the pinned upstream verify_seven.py and kernel.py, to fix what a proof of hCert would have to establish and what the verifier actually computes
+  - wrote hunts/ainta_seven_point/lean/, a Lake package requiring lean/bridge by path so that every theorem in it is about the same Kfun, kfun, wfun, F, F6 the advertised theorem uses; cd hunts/ainta_seven_point/lean && lake build CertRoute
+  - measured the marginal cost of one kernel-table cell lemma by deletion: build the module with one copy of wfun_cell_4160_lower, then with six copies under different names, touch before each run, two runs of each
+  - measured Lean kernel reduction throughput with decide on a balanced binary traversal (2^d leaves, depth d, five Nat operations per node) at d = 10, 14, 16, 18, and on a linear fuel loop at 1000, 5000, 10000 and 20000 iterations, in a throwaway module outside the repository
+  - recomputed Phi_n(3, 1353/10^6, 741, 3000) and H at 50 digits with mpmath, and read the node count of the n=3 run out of artifacts/verify-n3-1353-1000000-p3000.json
+  - .venv/bin/python scripts/71_contribution_check.py hunts/ainta_seven_point; .venv/bin/python scripts/make_context.py --check
+outcome: the package builds with 8842 jobs and zero errors, zero sorry, zero axiom, zero native_decide, and all eleven audited declarations report [propext, Classical.choice, Quot.sound]; the proved slice is Kfun_eq_sinc (the integral that defines the kernel equals the sinc form the Arb verifier evaluates, which was a docstring claim and not a theorem anywhere in the tree), cos_sin_taylor12 (a twelve-term Taylor enclosure of sin and cos on [-1,1] from Complex.exp_bound, error 2.26e-9, which Mathlib at the pin does not supply since its best is Real.cos_bound at 5/96 theta^4), kfun_closed, gam_bounds, and wfun_cell_4160_lower, a lower bound of 23/100000 for w on cell 4160 of the verifier's 1/4000 grid against Arb's own 2.3164e-4 for the same cell; measured 1.6 s marginal per cell lemma, so 90 592 cell lemmas at the advertised parameters project to 40.3 CPU-hours before correction and about 160 after; measured kernel reduction at 84 microseconds per five-operation node up to 131 071 nodes and then a cliff, 524 287 nodes not finishing in 11 minutes of CPU at 2.1 GB resident, against a real search of 707 901 nodes at p=3000 and 1 112 733 at p=3400, so the search and not the table is what blocks the seven-point instance; the n=3 instance of the same parametric theorem needs 342 nodes and 29 488 cell lemmas and yields 0.67274270083558308787, which is 2.42e-4 above the unconditional H, and is named as the reachable target; no attempt was made at a checker, at a w'' cell bound, at a general cell, or at the range-minimum soundness theorem, and nothing in lean/bridge was touched
+artifacts:
+  - hunts/ainta_seven_point/CERTIFICATE-ROUTE.md
+  - hunts/ainta_seven_point/lean/CertRoute.lean
+  - hunts/ainta_seven_point/lean/lakefile.toml
+```
