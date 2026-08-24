@@ -230,7 +230,8 @@ def emit_router(rt, ind, out):
         out.extend(sub[1:])
 
 
-def rhs(p, cstr):
+def rhs(p):
+    """The right-hand side of every box, chunk and certificate statement, written once."""
     return ("(1/(%d:ℝ)) * (x + y + z) + 2/3 * wfun x + 2/3 * wfun y + 2/3 * wfun z"
             " + wfun (x + y) + wfun (y + z) + 2 * wfun (x + y + z)" % p)
 
@@ -367,7 +368,7 @@ def emit(cn, p, out):
             L.append("lemma ch_%d (x y z : ℝ) (hx1 : %s ≤ x) (hx2 : x ≤ %s)" % (i, R(x[0]), R(x[1])))
             L.append("    (hy1 : %s ≤ y) (hy2 : y ≤ %s)" % (R(y[0]), R(y[1])))
             L.append("    (hz1 : %s ≤ z) (hz2 : z ≤ %s) :" % (R(z[0]), R(z[1])))
-            L.append("    %s ≤ %s := by" % (CSTR, rhs(p, CSTR)))
+            L.append("    %s ≤ %s := by" % (CSTR, rhs(p)))
             L.extend(NONNEG)
             body = []
             emit_node(node, "  ", body, cellW, idx)
@@ -392,7 +393,7 @@ def emit(cn, p, out):
         L.append("lemma %s (x y z : ℝ) (hx1 : %s ≤ x) (hx2 : x ≤ %s)" % (nm, R(bx[0][0]), R(bx[0][1])))
         L.append("    (hy1 : %s ≤ y) (hy2 : y ≤ %s)" % (R(bx[1][0]), R(bx[1][1])))
         L.append("    (hz1 : %s ≤ z) (hz2 : z ≤ %s) :" % (R(bx[2][0]), R(bx[2][1])))
-        L.append("    %s ≤ %s := by" % (CSTR, rhs(p, CSTR)))
+        L.append("    %s ≤ %s := by" % (CSTR, rhs(p)))
         body = []
         emit_router(rt, "  ", body)
         L.extend(body)
@@ -449,7 +450,7 @@ def emit(cn, p, out):
     A("-- statements are worth keeping free of it.")
     A("set_option maxHeartbeats %d in" % HEARTBEATS)
     A("private lemma cert_core (x y z : ℝ) (hx0 : 0 ≤ x) (hy0 : 0 ≤ y) (hz0 : 0 ≤ z) :")
-    A("    %s ≤ %s := by" % (CSTR, rhs(p, CSTR)))
+    A("    %s ≤ %s := by" % (CSTR, rhs(p)))
     for ln in NONNEG:
         A(ln)
     A("  rcases le_total %s (x + y + z) with hS | hS" % R(S))
