@@ -43,11 +43,10 @@ project:
     inside Lean. The cap gives m = 435 and the resulting constant is
     (906250 H - 1085)/904171 = 0.67284701976668870316.... The bound and ratio
     carry no certificate hypothesis and use exactly the same three permitted axioms.
-    The eight-point instance stays conditional. A generalisation of Ainta's
-    verifier to n points, validated by reproducing his seven-point run node for
-    node without finding a defect, accepts c = 41763/10^7 at p = 3200, giving m = 246 and
-    0.67305298298962888...; an interval-arithmetic acceptance is not a proof, so
-    that hypothesis is written into the statement.
+    The eight-point instance stays conditional. Our n-point generalisation of
+    Ainta's interval verifier accepts c = 41763/10^7 at p = 3200, giving m = 246
+    and 0.67305298298962888...; interval-arithmetic acceptance is not a Lean
+    proof, so hCert remains explicit.
     The contrast is explicit in the statements: the parametric and eight-point
     theorems retain a named certificate hypothesis, while the three- and
     four-point theorems prove their certificates inside Lean.
