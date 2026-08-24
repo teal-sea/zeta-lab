@@ -70,6 +70,14 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #90: the leader is at its own family's ceiling, and the doors are named (`amtopa_ceiling/`)
+
+**Status: open — Actions jobs pending.** Takes the `ainta_seven_point` playbook
+to `AMTOPA/zeta-exact-pressure`, the leading public claim per Hunt #89, pinned at
+commit `7253fdcab9366af45b8c8caf44e408c0af44a1a7`. Reproduces their headline,
+reads their verifier, then holds their construction fixed and pushes its free
+parameters to the ceiling. Full outcome in `amtopa_ceiling/RESULTS.md`.
+
 ### Hunt #89: this laboratory is tenth, and the barrier is aimed at an empty room (`field_audit/`)
 
 **Status: settled. FIELD AUDIT.** Prompted by discovering, on 2026-08-24, a wave

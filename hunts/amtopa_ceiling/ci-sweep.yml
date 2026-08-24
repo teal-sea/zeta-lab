@@ -1,0 +1,240 @@
+# Hunt `amtopa_ceiling` -- every computation this hunt makes, off the operator's
+# machine.
+#
+# The authoring host is under a hard local-compute cap: a laptop with a guard
+# that kills anything heavy, no Lean, and one process of this hunt's own already
+# took it down at 1.8 GB. So after that incident the rule became absolute --
+# nothing beyond seconds runs there, and every number in RESULTS.md that costs
+# more than a second comes from a job in this file.
+#
+# Three things are genuinely expensive:
+#
+#   * AMTOPA's interval kernel tables. Their run needed 64954 coarse cells and
+#     129909 midpoints at 50 decimal digits; measured on the authoring host at
+#     0.0225 CPU-seconds per cell, that is ~25 CPU-minutes before the
+#     branch-and-bound starts.
+#   * their six-dimensional C++ branch-and-bound, 3768186 nodes on their own run.
+#   * the 17-dimensional window search: one surrogate evaluation is 39 ms and a
+#     differential-evolution pass worth trusting is tens of thousands of them.
+#
+# Every job carries its own timeout under 20 minutes and its own artifact, so a
+# job that dies removes one row from RESULTS.md and nothing else.
+name: hunt-amtopa-ceiling
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "hunt/amtopa-ceiling"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: hunt-amtopa-ceiling-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  AMTOPA_COMMIT: 7253fdcab9366af45b8c8caf44e408c0af44a1a7
+  AMTOPA_REPO: https://github.com/AMTOPA/zeta-exact-pressure.git
+
+jobs:
+  # ---------------------------------------------------------------- (1)
+  reproduce:
+    name: reproduce-amtopa-pinned
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Clone AMTOPA at the pinned commit
+        run: |
+          git clone --no-checkout "$AMTOPA_REPO" upstream
+          git -C upstream checkout --detach "$AMTOPA_COMMIT"
+          git -C upstream rev-parse HEAD | tee "$GITHUB_STEP_SUMMARY"
+      - run: pip install "mpmath>=1.3" numpy scipy
+      - name: Their own arithmetic checks, unmodified
+        working-directory: upstream
+        run: sh run.sh 2>&1 | tail -60
+      - name: Our exact-rational replay of their assembly
+        working-directory: hunts/amtopa_ceiling
+        run: python3 -u exact_assembly.py 2>&1 | tee ../../exact_assembly.log
+      - name: Our independent replay of their window, kernel and functional
+        working-directory: hunts/amtopa_ceiling
+        run: python3 -u family.py 2>&1 | tee ../../family.log
+      - name: The window Rayleigh structure
+        working-directory: hunts/amtopa_ceiling
+        run: python3 -u probe_window.py 2>&1 | tee ../../probe_window.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reproduce
+          path: "*.log"
+          if-no-files-found: warn
+
+  # ---------------------------------------------------------------- (2)
+  headroom:
+    name: headroom-and-candidate
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install "mpmath>=1.3" numpy scipy
+      - name: eps* bracket at their window and their total pressure
+        working-directory: hunts/amtopa_ceiling
+        run: python3 -u step5_headroom.py 40 80000 80 2>&1 | tee headroom.log
+      - name: Candidate at the polytope optimum, in their schema
+        working-directory: hunts/amtopa_ceiling
+        run: |
+          mkdir -p artifacts
+          python3 -u make_candidate.py --from-npy /tmp/amtopa/hr \
+            --out artifacts/candidate_ceiling.json 2>&1 | tee candidate.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: headroom-and-candidate
+          path: |
+            hunts/amtopa_ceiling/headroom.log
+            hunts/amtopa_ceiling/headroom.json
+            hunts/amtopa_ceiling/candidate.log
+            hunts/amtopa_ceiling/artifacts/candidate_ceiling.json
+          if-no-files-found: warn
+
+  # ---------------------------------------------------------------- (3)
+  pressure-sweep:
+    name: pressure-saturation-curve
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install "mpmath>=1.3" numpy scipy
+      - working-directory: hunts/amtopa_ceiling
+        run: python3 -u step3_bsweep.py 2>&1 | tee bsweep.log
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: pressure-sweep
+          path: |
+            hunts/amtopa_ceiling/bsweep.log
+            hunts/amtopa_ceiling/bsweep.json
+          if-no-files-found: warn
+
+  # ---------------------------------------------------------------- (4)
+  # Their table builder and their C++ verifier, at our candidate and at theirs.
+  # Exit code 3 is INCONCLUSIVE (node cap or terminal cell) and is a recorded
+  # outcome, not a job failure; anything else non-zero is a real failure.
+  certificate:
+    name: certificate-${{ matrix.name }}
+    needs: headroom
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - name: ours-polytope-optimum
+            source: downloaded
+          - name: amtopa-baseline
+            source: upstream
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - name: Clone AMTOPA at the pinned commit
+        run: |
+          git clone --no-checkout "$AMTOPA_REPO" upstream
+          git -C upstream checkout --detach "$AMTOPA_COMMIT"
+      - uses: actions/download-artifact@v4
+        if: matrix.source == 'downloaded'
+        with:
+          name: headroom-and-candidate
+          path: dl
+      - name: Choose the candidate
+        run: |
+          if [ "${{ matrix.source }}" = "downloaded" ]; then
+            cp dl/hunts/amtopa_ceiling/artifacts/candidate_ceiling.json cand.json \
+              || cp dl/artifacts/candidate_ceiling.json cand.json \
+              || find dl -name candidate_ceiling.json -exec cp {} cand.json \;
+          else
+            cp upstream/candidate.json cand.json
+          fi
+          echo "ZETA_CANDIDATE_PATH=$PWD/cand.json" >> "$GITHUB_ENV"
+          python3 -c "import json;d=json.load(open('cand.json'));print(d['local_search']['candidate_target_for_certification'])"
+      - run: pip install "mpmath>=1.3"
+      - name: Their structural and window checks on this candidate
+        working-directory: upstream
+        run: |
+          python3 src/check_candidate.py || echo "check_candidate exit $?"
+          python3 src/check_window.py
+      - name: Build the interval tables with their builder
+        working-directory: upstream
+        run: |
+          time python3 src/build_interval_tables.py \
+            --output tables --grid 4000 --precision 50 --workers "$(nproc)" \
+            2>&1 | tail -45
+      - name: Build and run their six-dimensional branch-and-bound
+        working-directory: upstream
+        shell: bash
+        run: |
+          mkdir -p build
+          python3 src/write_verifier_config.py --output build/candidate_config.hpp
+          g++ -std=c++17 -O3 -DNDEBUG -ffp-contract=off \
+            -Ibuild src/verify_local_tables.cpp -o build/verify_local_tables
+          read n d < <(python3 -c "
+          import json,os
+          c=json.load(open(os.environ['ZETA_CANDIDATE_PATH']))
+          t=c['local_search']['candidate_target_for_certification']
+          print(t['numerator'], t['denominator'])")
+          echo "target = $n/$d"
+          set +e
+          SECONDS=0
+          build/verify_local_tables "$n" "$d" tables 300000000 | tee verify.log
+          code=${PIPESTATUS[0]}
+          set -e
+          echo "verifier_exit_code=$code wall_seconds=$SECONDS" | tee -a verify.log
+          { echo "### ${{ matrix.name }}"; echo '```'; cat verify.log; echo '```'; } \
+            >> "$GITHUB_STEP_SUMMARY"
+          if [ "$code" != "0" ] && [ "$code" != "3" ]; then exit "$code"; fi
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: certificate-${{ matrix.name }}
+          path: |
+            upstream/verify.log
+            upstream/tables/manifest.json
+            cand.json
+          if-no-files-found: warn
+
+  # ---------------------------------------------------------------- (5)
+  window-sweep:
+    name: window-sweep-shard-${{ matrix.seed }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    strategy:
+      fail-fast: false
+      matrix:
+        seed: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.12'}
+      - run: pip install "mpmath>=1.3" numpy scipy
+      - working-directory: hunts/amtopa_ceiling
+        env:
+          ZETA_WINDOW_SEED: ${{ matrix.seed }}
+        run: |
+          timeout 900 python3 -u step4_window.py 3 26 2>&1 \
+            | tee window_shard_${{ matrix.seed }}.log || echo "shard timed out"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: window-sweep-shard-${{ matrix.seed }}
+          path: |
+            hunts/amtopa_ceiling/window_shard_${{ matrix.seed }}.log
+            hunts/amtopa_ceiling/window_search_${{ matrix.seed }}.json
+          if-no-files-found: warn
