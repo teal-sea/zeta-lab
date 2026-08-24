@@ -422,7 +422,7 @@ section 2 where one exists:
 | 2 | **ETA**, which trades the branches against each other | both | `near` +3.9e-4 per unit `eta` down, `away` -2.2e-3 per unit | 5.5e-5, from 0.0153040 to the ~0.015359 crossing at 16 nodes |
 | 3 | the **away relaxation** (47 cuts, 5676 rows, K = 260) | `away` at the crossing | not measured here; the paper's own fixed-radius dual gap is ~4e-5 | caps the whole dichotomy at ~0.015378 |
 | 4 | the **24 phase sectors** | `away` | `eta_eff = eta*cos(pi/24) = 0.694011`; 48 sectors gives 0.698501, worth ~9.9e-6 of away floor at the measured slope, INFERRED | ~1e-5 of `away`, which only pays at the crossing |
-| 5 | the **target** itself | neither; it is the acceptance threshold | +4.05e-6 of target costs +1.0% of away boxes, +1.6e-5 costs +4.2% (section 5) | none: it is a readout, not a resource |
+| 5 | the **target** itself | neither; it is the acceptance threshold | +4.05e-6 of target costs **+0.87% of away boxes over the whole run** (section 5, 11,543,180 against 11,443,518); at the worst single cell measured, +1.6e-5 costs +4.2% | none: it is a readout, not a resource |
 
 Ranks 1 and 2 are where the published constant actually sits. Rank 3 is the one
 that would move the ceiling rather than close the gap to it.
