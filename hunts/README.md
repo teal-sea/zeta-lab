@@ -70,6 +70,37 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #93: Erdős #126 is a $\forall S$ statement, so every search we own can only refute it (`support_8ea74995/`)
+
+**Status: settled, for the bounded question it was given.** The formulation arm
+of a multi-arm attempt on Erdős #126, run as support for a live sibling. It
+proves the equivalences hunt #91 asserted — $f(n) \le k \iff n \le g(k)$ as a
+Galois connection, and the equivalence of $f(n)/\log n \to \infty$,
+$\log g(k) = o(k)$, $g(k)^{1/k} \to 1$, $f(2^m)/m \to \infty$ and *"the average
+multiplicative gain per added prime tends to 1"* — and finds #91's asserted
+mathematics sound, with one "iff" that should have been an implication.
+Three things are new. **The refutation direction generalises**: not only
+supermultiplicativity but *any* law $g(k+C) \ge \lambda g(k)$ with $C$ and
+$\lambda>1$ constant refutes the conjecture, so every composition, gluing or
+doubling gadget with bounded prime cost is a refutation instrument; the
+supermultiplicative case needs no Fekete, just induction from $g(1)=2$.
+**One of #91's loose threads is false**: "$p \notin S \Rightarrow |A| \le p-1$"
+fails for every odd $p$ (take $A \equiv 1 \bmod p$), and had it held it would
+have given $g(k) \le p_{k+1}-1$ and settled the problem in three lines — it
+agreed with all seven measured data points anyway, which is the lesson. What
+the pigeonhole really proves is a bound on the number of **residue classes**
+$A$ occupies, $\le (p-1)/2 + 1$; $p=2$ is the unique prime for which that
+bounds $|A|$, and that is why parity is special. **And the quantifier settles
+the strategy**: #126 is $\forall S\,\forall A$, every enumeration yields
+$\exists S\,\exists A$, so no clique search in a box can ever contribute to a
+proof — #91's three failures have one cause and it is not budget. Also proved:
+$2 \in S$ and $\gcd A = 1$ are valid normalisations for upper bounds, while
+$\max A \le N$ and "$S$ = the first $k$ primes" are not; each 4-subset of $A$
+gives a non-degenerate 3-term $S$-unit solution, making #126 conditional on a
+subexponential unit-equation count and on a multiplicity nobody has bounded.
+#91's thread 4 closed in the negative: no 4-subset of the first eight primes
+beats $g_N(4)=6$. Nothing here bears on RH (`docs/08`).
+
 ### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
 
 **Status: not settled — scout killed on a pre-registered kill condition.** A
