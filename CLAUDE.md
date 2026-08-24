@@ -609,6 +609,31 @@ Expensive results cache to `data/` (`.json` zero tables are committed;
 parameters in filenames. If you change numerical internals, delete the
 affected cache files and re-run, or stale numbers will "pass".
 
+## Door analysis: what every ceiling hunt owes
+
+**Added 2026-08-24, after the field walked through doors this lab had derived and
+left shut.** The barrier for the n-point pressure family named its binding objects
+(the window constant and the block cap); the next four public leaps in the race were
+exactly those objects unfrozen by other people. A wall computation hands over the
+list of what to unfreeze next, and publishing the wall without the list gives that
+information away while keeping none of its value.
+
+So every hunt that measures a ceiling MUST end its RESULTS.md with a section named
+**"The doors"**, containing:
+
+1. **Active constraints at the optimum** — what binds when the bound stops moving,
+   ranked by shadow price where computable, by the saturation curve's slope where not.
+2. **The frozen-constant inventory** — every chosen-not-optimized number in the
+   construction (window shape, weights, assembly profile, schedule, grid), each with
+   what relaxing it would trade against. Flag the ones with genuine trade shape:
+   giving up something slack to buy the binding thing.
+3. **The information class** — whether each door stays inside the data the current
+   family reads (and so under its configuration ceiling) or requires reading more.
+
+The follow-up hunt goes through the top-ranked door. Maxing the given parameters and
+unlocking new ones are one flywheel; a lab that only does the first referees races
+that other people keep winning.
+
 ## Compute discipline
 
 **Written 2026-08-23, after a day that wasted roughly a third of a month's compute
