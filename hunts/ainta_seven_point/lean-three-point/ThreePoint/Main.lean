@@ -96,8 +96,8 @@ lemma cover1 (x : ℝ) (h0 : 0 ≤ x) (hS : x ≤ (807/200:ℝ)) :
   have hz26 : x ≤ (807/200:ℝ) := hS
   exact Or.inr (Or.inr (Or.inr (Or.inr (⟨by linarith, by linarith⟩))))
 
-/-- The box `B1 × B1` of the two-dimensional table. -/
 set_option maxHeartbeats 10000000 in
+/-- The box `B1 × B1` of the two-dimensional table. -/
 lemma pair_0_0 (x y : ℝ) (hx1 : (65/64:ℝ) ≤ x) (hx2 : x ≤ (71/64:ℝ))
     (hy1 : (65/64:ℝ) ≤ y) (hy2 : y ≤ (71/64:ℝ)) :
     (1345/1000000:ℝ) ≤ (1/(3000:ℝ)) * (x + y) + wfun x + wfun y + 2 * wfun (x + y) := by
@@ -106,109 +106,71 @@ lemma pair_0_0 (x y : ℝ) (hx1 : (65/64:ℝ) ≤ x) (hx2 : x ≤ (71/64:ℝ))
     · rcases le_total x (133/128:ℝ) with hc | hc
       · rcases le_total y (133/128:ℝ) with hc | hc
         · rcases le_total x (263/256:ℝ) with hc | hc
-          · have hw0 : (7358852099/10000000000000:ℝ) ≤ wfun x := by
-              exact le_trans (by norm_num) (wc_3 x (by linarith) (by linarith))
-            have hw1 : (2658307323/10000000000000:ℝ) ≤ wfun y := by
-              exact le_trans (by norm_num) (wc_4 y (by linarith) (by linarith))
-            have hw2 : (1152597/5000000000000:ℝ) ≤ wfun (x+y) := by
-              exact le_trans (by norm_num) (wc_156 (x+y) (by linarith) (by linarith))
+          · have hw0 : (7358852099/10000000000000:ℝ) ≤ wfun x := wc_3 x (by linarith) (by linarith)
+            have hw1 : (2658307323/10000000000000:ℝ) ≤ wfun y := wc_4 y (by linarith) (by linarith)
+            have hw2 : (1152597/5000000000000:ℝ) ≤ wfun (x+y) := wc_156 (x+y) (by linarith) (by linarith)
             linarith
           · rcases le_total y (263/256:ℝ) with hc | hc
-            · have hw0 : (2658307323/10000000000000:ℝ) ≤ wfun x := by
-                exact le_trans (by norm_num) (wc_8 x (by linarith) (by linarith))
-              have hw1 : (7358852099/10000000000000:ℝ) ≤ wfun y := by
-                exact le_trans (by norm_num) (wc_3 y (by linarith) (by linarith))
-              have hw2 : (6933743/250000000000:ℝ) ≤ wfun (x+y) := by
-                exact le_trans (by norm_num) (wc_159 (x+y) (by linarith) (by linarith))
+            · have hw0 : (2658307323/10000000000000:ℝ) ≤ wfun x := wc_8 x (by linarith) (by linarith)
+              have hw1 : (7358852099/10000000000000:ℝ) ≤ wfun y := wc_3 y (by linarith) (by linarith)
+              have hw2 : (6933743/250000000000:ℝ) ≤ wfun (x+y) := wc_159 (x+y) (by linarith) (by linarith)
               linarith
-            · have hw0 : (2658307323/10000000000000:ℝ) ≤ wfun x := by
-                exact le_trans (by norm_num) (wc_8 x (by linarith) (by linarith))
-              have hw1 : (2658307323/10000000000000:ℝ) ≤ wfun y := by
-                exact le_trans (by norm_num) (wc_8 y (by linarith) (by linarith))
-              have hw2 : (996798203/10000000000000:ℝ) ≤ wfun (x+y) := by
-                exact le_trans (by norm_num) (wc_160 (x+y) (by linarith) (by linarith))
+            · have hw0 : (2658307323/10000000000000:ℝ) ≤ wfun x := wc_8 x (by linarith) (by linarith)
+              have hw1 : (2658307323/10000000000000:ℝ) ≤ wfun y := wc_8 y (by linarith) (by linarith)
+              have hw2 : (996798203/10000000000000:ℝ) ≤ wfun (x+y) := wc_160 (x+y) (by linarith) (by linarith)
               linarith
         · rcases le_total x (263/256:ℝ) with hc | hc
-          · have hw0 : (7358852099/10000000000000:ℝ) ≤ wfun x := by
-              exact le_trans (by norm_num) (wc_3 x (by linarith) (by linarith))
-            have hw1 : (0:ℝ) ≤ wfun y := by
-              exact le_trans (by norm_num) (wc_13 y (by linarith) (by linarith))
-            have hw2 : (24359219/250000000000:ℝ) ≤ wfun (x+y) := by
-              exact le_trans (by norm_num) (wc_161 (x+y) (by linarith) (by linarith))
+          · have hw0 : (7358852099/10000000000000:ℝ) ≤ wfun x := wc_3 x (by linarith) (by linarith)
+            have hw1 : (0:ℝ) ≤ wfun y := wc_13 y (by linarith) (by linarith)
+            have hw2 : (24359219/250000000000:ℝ) ≤ wfun (x+y) := wc_161 (x+y) (by linarith) (by linarith)
             linarith
-          · have hw0 : (2658307323/10000000000000:ℝ) ≤ wfun x := by
-              exact le_trans (by norm_num) (wc_8 x (by linarith) (by linarith))
-            have hw1 : (0:ℝ) ≤ wfun y := by
-              exact le_trans (by norm_num) (wc_13 y (by linarith) (by linarith))
-            have hw2 : (523331013/2500000000000:ℝ) ≤ wfun (x+y) := by
-              exact le_trans (by norm_num) (wc_163 (x+y) (by linarith) (by linarith))
+          · have hw0 : (2658307323/10000000000000:ℝ) ≤ wfun x := wc_8 x (by linarith) (by linarith)
+            have hw1 : (0:ℝ) ≤ wfun y := wc_13 y (by linarith) (by linarith)
+            have hw2 : (523331013/2500000000000:ℝ) ≤ wfun (x+y) := wc_163 (x+y) (by linarith) (by linarith)
             linarith
       · rcases le_total y (133/128:ℝ) with hc | hc
         · rcases le_total x (269/256:ℝ) with hc | hc
           · rcases le_total y (263/256:ℝ) with hc | hc
-            · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                exact le_trans (by norm_num) (wc_12 x (by linarith) (by linarith))
-              have hw1 : (7358852099/10000000000000:ℝ) ≤ wfun y := by
-                exact le_trans (by norm_num) (wc_3 y (by linarith) (by linarith))
-              have hw2 : (996798203/10000000000000:ℝ) ≤ wfun (x+y) := by
-                exact le_trans (by norm_num) (wc_160 (x+y) (by linarith) (by linarith))
+            · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_12 x (by linarith) (by linarith)
+              have hw1 : (7358852099/10000000000000:ℝ) ≤ wfun y := wc_3 y (by linarith) (by linarith)
+              have hw2 : (996798203/10000000000000:ℝ) ≤ wfun (x+y) := wc_160 (x+y) (by linarith) (by linarith)
               linarith
-            · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                exact le_trans (by norm_num) (wc_12 x (by linarith) (by linarith))
-              have hw1 : (2658307323/10000000000000:ℝ) ≤ wfun y := by
-                exact le_trans (by norm_num) (wc_8 y (by linarith) (by linarith))
-              have hw2 : (2141232349/10000000000000:ℝ) ≤ wfun (x+y) := by
-                exact le_trans (by norm_num) (wc_162 (x+y) (by linarith) (by linarith))
+            · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_12 x (by linarith) (by linarith)
+              have hw1 : (2658307323/10000000000000:ℝ) ≤ wfun y := wc_8 y (by linarith) (by linarith)
+              have hw2 : (2141232349/10000000000000:ℝ) ≤ wfun (x+y) := wc_162 (x+y) (by linarith) (by linarith)
               linarith
-          · have hw0 : (0:ℝ) ≤ wfun x := by
-              exact le_trans (by norm_num) (wc_44 x (by linarith) (by linarith))
-            have hw1 : (2658307323/10000000000000:ℝ) ≤ wfun y := by
-              exact le_trans (by norm_num) (wc_4 y (by linarith) (by linarith))
-            have hw2 : (523331013/2500000000000:ℝ) ≤ wfun (x+y) := by
-              exact le_trans (by norm_num) (wc_163 (x+y) (by linarith) (by linarith))
+          · have hw0 : (0:ℝ) ≤ wfun x := wc_44 x (by linarith) (by linarith)
+            have hw1 : (2658307323/10000000000000:ℝ) ≤ wfun y := wc_4 y (by linarith) (by linarith)
+            have hw2 : (523331013/2500000000000:ℝ) ≤ wfun (x+y) := wc_163 (x+y) (by linarith) (by linarith)
             linarith
-        · have hw0 : (0:ℝ) ≤ wfun x := by
-            exact le_trans (by norm_num) (wc_13 x (by linarith) (by linarith))
-          have hw1 : (0:ℝ) ≤ wfun y := by
-            exact le_trans (by norm_num) (wc_13 y (by linarith) (by linarith))
-          have hw2 : (141103133/400000000000:ℝ) ≤ wfun (x+y) := by
-            exact le_trans (by norm_num) (wc_164 (x+y) (by linarith) (by linarith))
+        · have hw0 : (0:ℝ) ≤ wfun x := wc_13 x (by linarith) (by linarith)
+          have hw1 : (0:ℝ) ≤ wfun y := wc_13 y (by linarith) (by linarith)
+          have hw2 : (141103133/400000000000:ℝ) ≤ wfun (x+y) := wc_164 (x+y) (by linarith) (by linarith)
           linarith
-    · have hw0 : (0:ℝ) ≤ wfun x := by
-        exact le_trans (by norm_num) (wc_5 x (by linarith) (by linarith))
-      have hw1 : (173234703/10000000000000:ℝ) ≤ wfun y := by
-        exact le_trans (by norm_num) (wc_67 y (by linarith) (by linarith))
-      have hw2 : (3229627133/10000000000000:ℝ) ≤ wfun (x+y) := by
-        exact le_trans (by norm_num) (wc_165 (x+y) (by linarith) (by linarith))
+    · have hw0 : (0:ℝ) ≤ wfun x := wc_5 x (by linarith) (by linarith)
+      have hw1 : (173234703/10000000000000:ℝ) ≤ wfun y := wc_67 y (by linarith) (by linarith)
+      have hw2 : (3229627133/10000000000000:ℝ) ≤ wfun (x+y) := wc_165 (x+y) (by linarith) (by linarith)
       linarith
   · rcases le_total y (17/16:ℝ) with hc | hc
-    · have hw0 : (173234703/10000000000000:ℝ) ≤ wfun x := by
-        exact le_trans (by norm_num) (wc_67 x (by linarith) (by linarith))
-      have hw1 : (0:ℝ) ≤ wfun y := by
-        exact le_trans (by norm_num) (wc_5 y (by linarith) (by linarith))
-      have hw2 : (3229627133/10000000000000:ℝ) ≤ wfun (x+y) := by
-        exact le_trans (by norm_num) (wc_165 (x+y) (by linarith) (by linarith))
+    · have hw0 : (173234703/10000000000000:ℝ) ≤ wfun x := wc_67 x (by linarith) (by linarith)
+      have hw1 : (0:ℝ) ≤ wfun y := wc_5 y (by linarith) (by linarith)
+      have hw2 : (3229627133/10000000000000:ℝ) ≤ wfun (x+y) := wc_165 (x+y) (by linarith) (by linarith)
       linarith
-    · have hw0 : (173234703/10000000000000:ℝ) ≤ wfun x := by
-        exact le_trans (by norm_num) (wc_67 x (by linarith) (by linarith))
-      have hw1 : (173234703/10000000000000:ℝ) ≤ wfun y := by
-        exact le_trans (by norm_num) (wc_67 y (by linarith) (by linarith))
-      have hw2 : (18443873/15625000000:ℝ) ≤ wfun (x+y) := by
-        exact le_trans (by norm_num) (wc_167 (x+y) (by linarith) (by linarith))
+    · have hw0 : (173234703/10000000000000:ℝ) ≤ wfun x := wc_67 x (by linarith) (by linarith)
+      have hw1 : (173234703/10000000000000:ℝ) ≤ wfun y := wc_67 y (by linarith) (by linarith)
+      have hw2 : (18443873/15625000000:ℝ) ≤ wfun (x+y) := wc_167 (x+y) (by linarith) (by linarith)
       linarith
 
-/-- The box `B1 × B2` of the two-dimensional table. -/
 set_option maxHeartbeats 10000000 in
+/-- The box `B1 × B2` of the two-dimensional table. -/
 lemma pair_0_1 (x y : ℝ) (hx1 : (65/64:ℝ) ≤ x) (hx2 : x ≤ (71/64:ℝ))
     (hy1 : (31/16:ℝ) ≤ y) (hy2 : y ≤ (17/8:ℝ)) :
     (1345/1000000:ℝ) ≤ (1/(3000:ℝ)) * (x + y) + wfun x + wfun y + 2 * wfun (x + y) := by
   rcases le_total y (65/32:ℝ) with hc | hc
   · rcases le_total x (17/16:ℝ) with hc | hc
     · rcases le_total y (127/64:ℝ) with hc | hc
-      · have hw0 : (0:ℝ) ≤ wfun x := by
-          exact le_trans (by norm_num) (wc_5 x (by linarith) (by linarith))
-        have hw1 : (461990507/1250000000000:ℝ) ≤ wfun y := by
-          exact le_trans (by norm_num) (wc_77 y (by linarith) (by linarith))
+      · have hw0 : (0:ℝ) ≤ wfun x := wc_5 x (by linarith) (by linarith)
+        have hw1 : (461990507/1250000000000:ℝ) ≤ wfun y := wc_77 y (by linarith) (by linarith)
         have hw2 : (0:ℝ) ≤ wfun (x+y) := by
           rcases le_total (x+y) (3:ℝ) with hq0 | hq0
           · exact le_trans (by norm_num) (wc_177 (x+y) (by linarith) (by linarith))
@@ -216,921 +178,602 @@ lemma pair_0_1 (x y : ℝ) (hx1 : (65/64:ℝ) ≤ x) (hx2 : x ≤ (71/64:ℝ))
         linarith
       · rcases le_total x (133/128:ℝ) with hc | hc
         · rcases le_total y (257/128:ℝ) with hc | hc
-          · have hw0 : (2658307323/10000000000000:ℝ) ≤ wfun x := by
-              exact le_trans (by norm_num) (wc_4 x (by linarith) (by linarith))
+          · have hw0 : (2658307323/10000000000000:ℝ) ≤ wfun x := wc_4 x (by linarith) (by linarith)
             have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
               rcases le_total y (2:ℝ) with hq0 | hq0
               · exact le_trans (by norm_num) (wc_81 y (by linarith) (by linarith))
               exact le_trans (by norm_num) (wc_103 y (by linarith) (by linarith))
-            have hw2 : (0:ℝ) ≤ wfun (x+y) := by
-              exact le_trans (by norm_num) (wc_180 (x+y) (by linarith) (by linarith))
+            have hw2 : (0:ℝ) ≤ wfun (x+y) := wc_180 (x+y) (by linarith) (by linarith)
             linarith
           · rcases le_total x (263/256:ℝ) with hc | hc
-            · have hw0 : (7358852099/10000000000000:ℝ) ≤ wfun x := by
-                exact le_trans (by norm_num) (wc_3 x (by linarith) (by linarith))
-              have hw1 : (0:ℝ) ≤ wfun y := by
-                exact le_trans (by norm_num) (wc_143 y (by linarith) (by linarith))
-              have hw2 : (1876869/2500000000000:ℝ) ≤ wfun (x+y) := by
-                exact le_trans (by norm_num) (wc_183 (x+y) (by linarith) (by linarith))
+            · have hw0 : (7358852099/10000000000000:ℝ) ≤ wfun x := wc_3 x (by linarith) (by linarith)
+              have hw1 : (0:ℝ) ≤ wfun y := wc_143 y (by linarith) (by linarith)
+              have hw2 : (1876869/2500000000000:ℝ) ≤ wfun (x+y) := wc_183 (x+y) (by linarith) (by linarith)
               linarith
             · rcases le_total y (517/256:ℝ) with hc | hc
               · rcases le_total x (529/512:ℝ) with hc | hc
-                · have hw0 : (1175437333/2500000000000:ℝ) ≤ wfun x := by
-                    exact le_trans (by norm_num) (wc_7 x (by linarith) (by linarith))
-                  have hw1 : (99255251/5000000000000:ℝ) ≤ wfun y := by
-                    exact le_trans (by norm_num) (wc_142 y (by linarith) (by linarith))
-                  have hw2 : (33206859/2000000000000:ℝ) ≤ wfun (x+y) := by
-                    exact le_trans (by norm_num) (wc_187 (x+y) (by linarith) (by linarith))
+                · have hw0 : (1175437333/2500000000000:ℝ) ≤ wfun x := wc_7 x (by linarith) (by linarith)
+                  have hw1 : (99255251/5000000000000:ℝ) ≤ wfun y := wc_142 y (by linarith) (by linarith)
+                  have hw2 : (33206859/2000000000000:ℝ) ≤ wfun (x+y) := wc_187 (x+y) (by linarith) (by linarith)
                   linarith
-                · have hw0 : (2658307323/10000000000000:ℝ) ≤ wfun x := by
-                    exact le_trans (by norm_num) (wc_9 x (by linarith) (by linarith))
-                  have hw1 : (99255251/5000000000000:ℝ) ≤ wfun y := by
-                    exact le_trans (by norm_num) (wc_142 y (by linarith) (by linarith))
-                  have hw2 : (320657401/10000000000000:ℝ) ≤ wfun (x+y) := by
-                    exact le_trans (by norm_num) (wc_196 (x+y) (by linarith) (by linarith))
+                · have hw0 : (2658307323/10000000000000:ℝ) ≤ wfun x := wc_9 x (by linarith) (by linarith)
+                  have hw1 : (99255251/5000000000000:ℝ) ≤ wfun y := wc_142 y (by linarith) (by linarith)
+                  have hw2 : (320657401/10000000000000:ℝ) ≤ wfun (x+y) := wc_196 (x+y) (by linarith) (by linarith)
                   linarith
-              · have hw0 : (2658307323/10000000000000:ℝ) ≤ wfun x := by
-                  exact le_trans (by norm_num) (wc_8 x (by linarith) (by linarith))
-                have hw1 : (0:ℝ) ≤ wfun y := by
-                  exact le_trans (by norm_num) (wc_153 y (by linarith) (by linarith))
-                have hw2 : (260260897/5000000000000:ℝ) ≤ wfun (x+y) := by
-                  exact le_trans (by norm_num) (wc_216 (x+y) (by linarith) (by linarith))
+              · have hw0 : (2658307323/10000000000000:ℝ) ≤ wfun x := wc_8 x (by linarith) (by linarith)
+                have hw1 : (0:ℝ) ≤ wfun y := wc_153 y (by linarith) (by linarith)
+                have hw2 : (260260897/5000000000000:ℝ) ≤ wfun (x+y) := wc_216 (x+y) (by linarith) (by linarith)
                 linarith
         · rcases le_total y (257/128:ℝ) with hc | hc
           · rcases le_total x (269/256:ℝ) with hc | hc
             · rcases le_total y (511/256:ℝ) with hc | hc
               · rcases le_total x (535/512:ℝ) with hc | hc
                 · rcases le_total y (1019/512:ℝ) with hc | hc
-                  · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := by
-                      exact le_trans (by norm_num) (wc_11 x (by linarith) (by linarith))
-                    have hw1 : (725907/2500000000:ℝ) ≤ wfun y := by
-                      exact le_trans (by norm_num) (wc_79 y (by linarith) (by linarith))
-                    have hw2 : (3871687/5000000000000:ℝ) ≤ wfun (x+y) := by
-                      exact le_trans (by norm_num) (wc_182 (x+y) (by linarith) (by linarith))
+                  · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := wc_11 x (by linarith) (by linarith)
+                    have hw1 : (725907/2500000000:ℝ) ≤ wfun y := wc_79 y (by linarith) (by linarith)
+                    have hw2 : (3871687/5000000000000:ℝ) ≤ wfun (x+y) := wc_182 (x+y) (by linarith) (by linarith)
                     linarith
-                  · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := by
-                      exact le_trans (by norm_num) (wc_11 x (by linarith) (by linarith))
-                    have hw1 : (2104769793/10000000000000:ℝ) ≤ wfun y := by
-                      exact le_trans (by norm_num) (wc_83 y (by linarith) (by linarith))
-                    have hw2 : (61941721/10000000000000:ℝ) ≤ wfun (x+y) := by
-                      exact le_trans (by norm_num) (wc_184 (x+y) (by linarith) (by linarith))
+                  · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := wc_11 x (by linarith) (by linarith)
+                    have hw1 : (2104769793/10000000000000:ℝ) ≤ wfun y := wc_83 y (by linarith) (by linarith)
+                    have hw2 : (61941721/10000000000000:ℝ) ≤ wfun (x+y) := wc_184 (x+y) (by linarith) (by linarith)
                     linarith
                 · rcases le_total y (1019/512:ℝ) with hc | hc
-                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                      exact le_trans (by norm_num) (wc_20 x (by linarith) (by linarith))
-                    have hw1 : (725907/2500000000:ℝ) ≤ wfun y := by
-                      exact le_trans (by norm_num) (wc_79 y (by linarith) (by linarith))
-                    have hw2 : (61941721/10000000000000:ℝ) ≤ wfun (x+y) := by
-                      exact le_trans (by norm_num) (wc_184 (x+y) (by linarith) (by linarith))
+                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_20 x (by linarith) (by linarith)
+                    have hw1 : (725907/2500000000:ℝ) ≤ wfun y := wc_79 y (by linarith) (by linarith)
+                    have hw2 : (61941721/10000000000000:ℝ) ≤ wfun (x+y) := wc_184 (x+y) (by linarith) (by linarith)
                     linarith
                   · rcases le_total x (1073/1024:ℝ) with hc | hc
                     · rcases le_total y (2041/1024:ℝ) with hc | hc
-                      · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                          exact le_trans (by norm_num) (wc_19 x (by linarith) (by linarith))
-                        have hw1 : (2490428543/10000000000000:ℝ) ≤ wfun y := by
-                          exact le_trans (by norm_num) (wc_82 y (by linarith) (by linarith))
-                        have hw2 : (2634729/156250000000:ℝ) ≤ wfun (x+y) := by
-                          exact le_trans (by norm_num) (wc_185 (x+y) (by linarith) (by linarith))
+                      · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_19 x (by linarith) (by linarith)
+                        have hw1 : (2490428543/10000000000000:ℝ) ≤ wfun y := wc_82 y (by linarith) (by linarith)
+                        have hw2 : (2634729/156250000000:ℝ) ≤ wfun (x+y) := wc_185 (x+y) (by linarith) (by linarith)
                         linarith
                       · rcases le_total x (2143/2048:ℝ) with hc | hc
-                        · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_18 x (by linarith) (by linarith))
-                          have hw1 : (2106365377/10000000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_85 y (by linarith) (by linarith))
-                          have hw2 : (120648787/5000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_188 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := wc_18 x (by linarith) (by linarith)
+                          have hw1 : (2106365377/10000000000000:ℝ) ≤ wfun y := wc_85 y (by linarith) (by linarith)
+                          have hw2 : (120648787/5000000000000:ℝ) ≤ wfun (x+y) := wc_188 (x+y) (by linarith) (by linarith)
                           linarith
-                        · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_23 x (by linarith) (by linarith))
-                          have hw1 : (2106365377/10000000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_85 y (by linarith) (by linarith))
-                          have hw2 : (282214709/10000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_191 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_23 x (by linarith) (by linarith)
+                          have hw1 : (2106365377/10000000000000:ℝ) ≤ wfun y := wc_85 y (by linarith) (by linarith)
+                          have hw2 : (282214709/10000000000000:ℝ) ≤ wfun (x+y) := wc_191 (x+y) (by linarith) (by linarith)
                           linarith
                     · rcases le_total y (2041/1024:ℝ) with hc | hc
                       · rcases le_total x (2149/2048:ℝ) with hc | hc
-                        · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_27 x (by linarith) (by linarith))
-                          have hw1 : (2490428543/10000000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_82 y (by linarith) (by linarith))
-                          have hw2 : (120648787/5000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_188 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_27 x (by linarith) (by linarith)
+                          have hw1 : (2490428543/10000000000000:ℝ) ≤ wfun y := wc_82 y (by linarith) (by linarith)
+                          have hw2 : (120648787/5000000000000:ℝ) ≤ wfun (x+y) := wc_188 (x+y) (by linarith) (by linarith)
                           linarith
-                        · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_35 x (by linarith) (by linarith))
-                          have hw1 : (2490428543/10000000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_82 y (by linarith) (by linarith))
-                          have hw2 : (282214709/10000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_191 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_35 x (by linarith) (by linarith)
+                          have hw1 : (2490428543/10000000000000:ℝ) ≤ wfun y := wc_82 y (by linarith) (by linarith)
+                          have hw2 : (282214709/10000000000000:ℝ) ≤ wfun (x+y) := wc_191 (x+y) (by linarith) (by linarith)
                           linarith
                       · rcases le_total x (2149/2048:ℝ) with hc | hc
                         · rcases le_total y (4085/2048:ℝ) with hc | hc
-                          · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_27 x (by linarith) (by linarith))
-                            have hw1 : (2295210877/10000000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_84 y (by linarith) (by linarith))
-                            have hw2 : (81727217/2500000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_192 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_27 x (by linarith) (by linarith)
+                            have hw1 : (2295210877/10000000000000:ℝ) ≤ wfun y := wc_84 y (by linarith) (by linarith)
+                            have hw2 : (81727217/2500000000000:ℝ) ≤ wfun (x+y) := wc_192 (x+y) (by linarith) (by linarith)
                             linarith
-                          · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_27 x (by linarith) (by linarith))
-                            have hw1 : (131690291/625000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_86 y (by linarith) (by linarith))
-                            have hw2 : (187097029/5000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_197 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_27 x (by linarith) (by linarith)
+                            have hw1 : (131690291/625000000000:ℝ) ≤ wfun y := wc_86 y (by linarith) (by linarith)
+                            have hw2 : (187097029/5000000000000:ℝ) ≤ wfun (x+y) := wc_197 (x+y) (by linarith) (by linarith)
                             linarith
                         · rcases le_total y (4085/2048:ℝ) with hc | hc
-                          · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_35 x (by linarith) (by linarith))
-                            have hw1 : (2295210877/10000000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_84 y (by linarith) (by linarith))
-                            have hw2 : (187097029/5000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_197 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_35 x (by linarith) (by linarith)
+                            have hw1 : (2295210877/10000000000000:ℝ) ≤ wfun y := wc_84 y (by linarith) (by linarith)
+                            have hw2 : (187097029/5000000000000:ℝ) ≤ wfun (x+y) := wc_197 (x+y) (by linarith) (by linarith)
                             linarith
                           · rcases le_total x (4301/4096:ℝ) with hc | hc
-                            · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_34 x (by linarith) (by linarith))
-                              have hw1 : (131690291/625000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_86 y (by linarith) (by linarith))
-                              have hw2 : (425014553/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_199 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_34 x (by linarith) (by linarith)
+                              have hw1 : (131690291/625000000000:ℝ) ≤ wfun y := wc_86 y (by linarith) (by linarith)
+                              have hw2 : (425014553/10000000000000:ℝ) ≤ wfun (x+y) := wc_199 (x+y) (by linarith) (by linarith)
                               linarith
-                            · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_38 x (by linarith) (by linarith))
-                              have hw1 : (131690291/625000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_86 y (by linarith) (by linarith))
-                              have hw2 : (451412283/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_203 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_38 x (by linarith) (by linarith)
+                              have hw1 : (131690291/625000000000:ℝ) ≤ wfun y := wc_86 y (by linarith) (by linarith)
+                              have hw2 : (451412283/10000000000000:ℝ) ≤ wfun (x+y) := wc_203 (x+y) (by linarith) (by linarith)
                               linarith
               · rcases le_total x (535/512:ℝ) with hc | hc
                 · rcases le_total y (1025/512:ℝ) with hc | hc
                   · rcases le_total x (1067/1024:ℝ) with hc | hc
-                    · have hw0 : (930124941/5000000000000:ℝ) ≤ wfun x := by
-                        exact le_trans (by norm_num) (wc_10 x (by linarith) (by linarith))
+                    · have hw0 : (930124941/5000000000000:ℝ) ≤ wfun x := wc_10 x (by linarith) (by linarith)
                       have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
                         rcases le_total y (2:ℝ) with hq0 | hq0
                         · exact le_trans (by norm_num) (wc_90 y (by linarith) (by linarith))
                         exact le_trans (by norm_num) (wc_102 y (by linarith) (by linarith))
-                      have hw2 : (167970859/10000000000000:ℝ) ≤ wfun (x+y) := by
-                        exact le_trans (by norm_num) (wc_186 (x+y) (by linarith) (by linarith))
+                      have hw2 : (167970859/10000000000000:ℝ) ≤ wfun (x+y) := wc_186 (x+y) (by linarith) (by linarith)
                       linarith
                     · rcases le_total y (2047/1024:ℝ) with hc | hc
-                      · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := by
-                          exact le_trans (by norm_num) (wc_15 x (by linarith) (by linarith))
-                        have hw1 : (877571531/5000000000000:ℝ) ≤ wfun y := by
-                          exact le_trans (by norm_num) (wc_89 y (by linarith) (by linarith))
-                        have hw2 : (120415439/5000000000000:ℝ) ≤ wfun (x+y) := by
-                          exact le_trans (by norm_num) (wc_189 (x+y) (by linarith) (by linarith))
+                      · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := wc_15 x (by linarith) (by linarith)
+                        have hw1 : (877571531/5000000000000:ℝ) ≤ wfun y := wc_89 y (by linarith) (by linarith)
+                        have hw2 : (120415439/5000000000000:ℝ) ≤ wfun (x+y) := wc_189 (x+y) (by linarith) (by linarith)
                         linarith
                       · rcases le_total x (2137/2048:ℝ) with hc | hc
-                        · have hw0 : (1516005697/10000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_14 x (by linarith) (by linarith))
+                        · have hw0 : (1516005697/10000000000000:ℝ) ≤ wfun x := wc_14 x (by linarith) (by linarith)
                           have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
                             rcases le_total y (2:ℝ) with hq0 | hq0
                             · exact le_trans (by norm_num) (wc_97 y (by linarith) (by linarith))
                             exact le_trans (by norm_num) (wc_102 y (by linarith) (by linarith))
-                          have hw2 : (163138449/5000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_193 (x+y) (by linarith) (by linarith))
+                          have hw2 : (163138449/5000000000000:ℝ) ≤ wfun (x+y) := wc_193 (x+y) (by linarith) (by linarith)
                           linarith
-                        · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_16 x (by linarith) (by linarith))
+                        · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := wc_16 x (by linarith) (by linarith)
                           have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
                             rcases le_total y (2:ℝ) with hq0 | hq0
                             · exact le_trans (by norm_num) (wc_97 y (by linarith) (by linarith))
                             exact le_trans (by norm_num) (wc_102 y (by linarith) (by linarith))
-                          have hw2 : (373471029/10000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_198 (x+y) (by linarith) (by linarith))
+                          have hw2 : (373471029/10000000000000:ℝ) ≤ wfun (x+y) := wc_198 (x+y) (by linarith) (by linarith)
                           linarith
                   · rcases le_total x (1067/1024:ℝ) with hc | hc
-                    · have hw0 : (930124941/5000000000000:ℝ) ≤ wfun x := by
-                        exact le_trans (by norm_num) (wc_10 x (by linarith) (by linarith))
-                      have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                        exact le_trans (by norm_num) (wc_117 y (by linarith) (by linarith))
-                      have hw2 : (162195069/5000000000000:ℝ) ≤ wfun (x+y) := by
-                        exact le_trans (by norm_num) (wc_194 (x+y) (by linarith) (by linarith))
+                    · have hw0 : (930124941/5000000000000:ℝ) ≤ wfun x := wc_10 x (by linarith) (by linarith)
+                      have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_117 y (by linarith) (by linarith)
+                      have hw2 : (162195069/5000000000000:ℝ) ≤ wfun (x+y) := wc_194 (x+y) (by linarith) (by linarith)
                       linarith
                     · rcases le_total y (2053/1024:ℝ) with hc | hc
                       · rcases le_total x (2137/2048:ℝ) with hc | hc
-                        · have hw0 : (1516005697/10000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_14 x (by linarith) (by linarith))
-                          have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_116 y (by linarith) (by linarith))
-                          have hw2 : (211891879/5000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_201 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (1516005697/10000000000000:ℝ) ≤ wfun x := wc_14 x (by linarith) (by linarith)
+                          have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_116 y (by linarith) (by linarith)
+                          have hw2 : (211891879/5000000000000:ℝ) ≤ wfun (x+y) := wc_201 (x+y) (by linarith) (by linarith)
                           linarith
-                        · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_16 x (by linarith) (by linarith))
-                          have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_116 y (by linarith) (by linarith))
-                          have hw2 : (14912547/312500000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_207 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := wc_16 x (by linarith) (by linarith)
+                          have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_116 y (by linarith) (by linarith)
+                          have hw2 : (14912547/312500000000:ℝ) ≤ wfun (x+y) := wc_207 (x+y) (by linarith) (by linarith)
                           linarith
                       · rcases le_total x (2137/2048:ℝ) with hc | hc
-                        · have hw0 : (1516005697/10000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_14 x (by linarith) (by linarith))
-                          have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_132 y (by linarith) (by linarith))
-                          have hw2 : (533710461/10000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_213 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (1516005697/10000000000000:ℝ) ≤ wfun x := wc_14 x (by linarith) (by linarith)
+                          have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_132 y (by linarith) (by linarith)
+                          have hw2 : (533710461/10000000000000:ℝ) ≤ wfun (x+y) := wc_213 (x+y) (by linarith) (by linarith)
                           linarith
-                        · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_16 x (by linarith) (by linarith))
-                          have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_132 y (by linarith) (by linarith))
-                          have hw2 : (593296593/10000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_224 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := wc_16 x (by linarith) (by linarith)
+                          have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_132 y (by linarith) (by linarith)
+                          have hw2 : (593296593/10000000000000:ℝ) ≤ wfun (x+y) := wc_224 (x+y) (by linarith) (by linarith)
                           linarith
                 · rcases le_total y (1025/512:ℝ) with hc | hc
                   · rcases le_total x (1073/1024:ℝ) with hc | hc
                     · rcases le_total y (2047/1024:ℝ) with hc | hc
                       · rcases le_total x (2143/2048:ℝ) with hc | hc
-                        · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_18 x (by linarith) (by linarith))
-                          have hw1 : (877571531/5000000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_89 y (by linarith) (by linarith))
-                          have hw2 : (163138449/5000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_193 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := wc_18 x (by linarith) (by linarith)
+                          have hw1 : (877571531/5000000000000:ℝ) ≤ wfun y := wc_89 y (by linarith) (by linarith)
+                          have hw2 : (163138449/5000000000000:ℝ) ≤ wfun (x+y) := wc_193 (x+y) (by linarith) (by linarith)
                           linarith
                         · rcases le_total y (4091/2048:ℝ) with hc | hc
-                          · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_23 x (by linarith) (by linarith))
-                            have hw1 : (15416863/80000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_88 y (by linarith) (by linarith))
-                            have hw2 : (187097029/5000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_197 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_23 x (by linarith) (by linarith)
+                            have hw1 : (15416863/80000000000:ℝ) ≤ wfun y := wc_88 y (by linarith) (by linarith)
+                            have hw2 : (187097029/5000000000000:ℝ) ≤ wfun (x+y) := wc_197 (x+y) (by linarith) (by linarith)
                             linarith
                           · rcases le_total x (4289/4096:ℝ) with hc | hc
-                            · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_22 x (by linarith) (by linarith))
-                              have hw1 : (70215147/400000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_93 y (by linarith) (by linarith))
-                              have hw2 : (425014553/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_199 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := wc_22 x (by linarith) (by linarith)
+                              have hw1 : (70215147/400000000000:ℝ) ≤ wfun y := wc_93 y (by linarith) (by linarith)
+                              have hw2 : (425014553/10000000000000:ℝ) ≤ wfun (x+y) := wc_199 (x+y) (by linarith) (by linarith)
                               linarith
-                            · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_24 x (by linarith) (by linarith))
-                              have hw1 : (70215147/400000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_93 y (by linarith) (by linarith))
-                              have hw2 : (451412283/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_203 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_24 x (by linarith) (by linarith)
+                              have hw1 : (70215147/400000000000:ℝ) ≤ wfun y := wc_93 y (by linarith) (by linarith)
+                              have hw2 : (451412283/10000000000000:ℝ) ≤ wfun (x+y) := wc_203 (x+y) (by linarith) (by linarith)
                               linarith
                       · rcases le_total x (2143/2048:ℝ) with hc | hc
                         · rcases le_total y (4097/2048:ℝ) with hc | hc
-                          · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_18 x (by linarith) (by linarith))
+                          · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := wc_18 x (by linarith) (by linarith)
                             have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
                               rcases le_total y (2:ℝ) with hq0 | hq0
                               · exact le_trans (by norm_num) (wc_97 y (by linarith) (by linarith))
                               exact le_trans (by norm_num) (wc_101 y (by linarith) (by linarith))
-                            have hw2 : (424603791/10000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_200 (x+y) (by linarith) (by linarith))
+                            have hw2 : (424603791/10000000000000:ℝ) ≤ wfun (x+y) := wc_200 (x+y) (by linarith) (by linarith)
                             linarith
-                          · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_18 x (by linarith) (by linarith))
-                            have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_108 y (by linarith) (by linarith))
-                            have hw2 : (478124453/10000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_206 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := wc_18 x (by linarith) (by linarith)
+                            have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_108 y (by linarith) (by linarith)
+                            have hw2 : (478124453/10000000000000:ℝ) ≤ wfun (x+y) := wc_206 (x+y) (by linarith) (by linarith)
                             linarith
                         · rcases le_total y (4097/2048:ℝ) with hc | hc
                           · rcases le_total x (4289/4096:ℝ) with hc | hc
-                            · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_22 x (by linarith) (by linarith))
+                            · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := wc_22 x (by linarith) (by linarith)
                               have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
                                 rcases le_total y (2:ℝ) with hq0 | hq0
                                 · exact le_trans (by norm_num) (wc_97 y (by linarith) (by linarith))
                                 exact le_trans (by norm_num) (wc_101 y (by linarith) (by linarith))
-                              have hw2 : (239293383/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_205 (x+y) (by linarith) (by linarith))
+                              have hw2 : (239293383/5000000000000:ℝ) ≤ wfun (x+y) := wc_205 (x+y) (by linarith) (by linarith)
                               linarith
-                            · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_24 x (by linarith) (by linarith))
+                            · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_24 x (by linarith) (by linarith)
                               have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
                                 rcases le_total y (2:ℝ) with hq0 | hq0
                                 · exact le_trans (by norm_num) (wc_97 y (by linarith) (by linarith))
                                 exact le_trans (by norm_num) (wc_101 y (by linarith) (by linarith))
-                              have hw2 : (506536259/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_209 (x+y) (by linarith) (by linarith))
+                              have hw2 : (506536259/10000000000000:ℝ) ≤ wfun (x+y) := wc_209 (x+y) (by linarith) (by linarith)
                               linarith
                           · rcases le_total x (4289/4096:ℝ) with hc | hc
-                            · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_22 x (by linarith) (by linarith))
-                              have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_108 y (by linarith) (by linarith))
-                              have hw2 : (53525901/1000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_211 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := wc_22 x (by linarith) (by linarith)
+                              have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_108 y (by linarith) (by linarith)
+                              have hw2 : (53525901/1000000000000:ℝ) ≤ wfun (x+y) := wc_211 (x+y) (by linarith) (by linarith)
                               linarith
                             · rcases le_total y (8197/4096:ℝ) with hc | hc
-                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_24 x (by linarith) (by linarith))
-                                have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_107 y (by linarith) (by linarith))
-                                have hw2 : (565299059/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_218 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_24 x (by linarith) (by linarith)
+                                have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := wc_107 y (by linarith) (by linarith)
+                                have hw2 : (565299059/10000000000000:ℝ) ≤ wfun (x+y) := wc_218 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_24 x (by linarith) (by linarith))
-                                have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_111 y (by linarith) (by linarith))
-                                have hw2 : (595592113/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_221 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_24 x (by linarith) (by linarith)
+                                have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_111 y (by linarith) (by linarith)
+                                have hw2 : (595592113/10000000000000:ℝ) ≤ wfun (x+y) := wc_221 (x+y) (by linarith) (by linarith)
                                 linarith
                     · rcases le_total y (2047/1024:ℝ) with hc | hc
                       · rcases le_total x (2149/2048:ℝ) with hc | hc
                         · rcases le_total y (4091/2048:ℝ) with hc | hc
                           · rcases le_total x (4295/4096:ℝ) with hc | hc
-                            · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_26 x (by linarith) (by linarith))
-                              have hw1 : (15416863/80000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_88 y (by linarith) (by linarith))
-                              have hw2 : (425014553/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_199 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := wc_26 x (by linarith) (by linarith)
+                              have hw1 : (15416863/80000000000:ℝ) ≤ wfun y := wc_88 y (by linarith) (by linarith)
+                              have hw2 : (425014553/10000000000000:ℝ) ≤ wfun (x+y) := wc_199 (x+y) (by linarith) (by linarith)
                               linarith
-                            · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_31 x (by linarith) (by linarith))
-                              have hw1 : (15416863/80000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_88 y (by linarith) (by linarith))
-                              have hw2 : (451412283/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_203 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_31 x (by linarith) (by linarith)
+                              have hw1 : (15416863/80000000000:ℝ) ≤ wfun y := wc_88 y (by linarith) (by linarith)
+                              have hw2 : (451412283/10000000000000:ℝ) ≤ wfun (x+y) := wc_203 (x+y) (by linarith) (by linarith)
                               linarith
                           · rcases le_total x (4295/4096:ℝ) with hc | hc
-                            · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_26 x (by linarith) (by linarith))
-                              have hw1 : (70215147/400000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_93 y (by linarith) (by linarith))
-                              have hw2 : (239293383/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_205 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := wc_26 x (by linarith) (by linarith)
+                              have hw1 : (70215147/400000000000:ℝ) ≤ wfun y := wc_93 y (by linarith) (by linarith)
+                              have hw2 : (239293383/5000000000000:ℝ) ≤ wfun (x+y) := wc_205 (x+y) (by linarith) (by linarith)
                               linarith
                             · rcases le_total y (8185/4096:ℝ) with hc | hc
-                              · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_31 x (by linarith) (by linarith))
-                                have hw1 : (1840360753/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_92 y (by linarith) (by linarith))
-                                have hw2 : (126756511/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_208 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_31 x (by linarith) (by linarith)
+                                have hw1 : (1840360753/10000000000000:ℝ) ≤ wfun y := wc_92 y (by linarith) (by linarith)
+                                have hw2 : (126756511/2500000000000:ℝ) ≤ wfun (x+y) := wc_208 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_31 x (by linarith) (by linarith))
-                                have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_94 y (by linarith) (by linarith))
-                                have hw2 : (535776441/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_210 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_31 x (by linarith) (by linarith)
+                                have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := wc_94 y (by linarith) (by linarith)
+                                have hw2 : (535776441/10000000000000:ℝ) ≤ wfun (x+y) := wc_210 (x+y) (by linarith) (by linarith)
                                 linarith
                         · rcases le_total y (4091/2048:ℝ) with hc | hc
                           · rcases le_total x (4301/4096:ℝ) with hc | hc
                             · rcases le_total y (8179/4096:ℝ) with hc | hc
-                              · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_34 x (by linarith) (by linarith))
-                                have hw1 : (1008150283/5000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_87 y (by linarith) (by linarith))
-                                have hw2 : (239524819/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_204 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_34 x (by linarith) (by linarith)
+                                have hw1 : (1008150283/5000000000000:ℝ) ≤ wfun y := wc_87 y (by linarith) (by linarith)
+                                have hw2 : (239524819/5000000000000:ℝ) ≤ wfun (x+y) := wc_204 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_34 x (by linarith) (by linarith))
-                                have hw1 : (1927303521/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_91 y (by linarith) (by linarith))
-                                have hw2 : (126756511/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_208 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_34 x (by linarith) (by linarith)
+                                have hw1 : (1927303521/10000000000000:ℝ) ≤ wfun y := wc_91 y (by linarith) (by linarith)
+                                have hw2 : (126756511/2500000000000:ℝ) ≤ wfun (x+y) := wc_208 (x+y) (by linarith) (by linarith)
                                 linarith
                             · rcases le_total y (8179/4096:ℝ) with hc | hc
-                              · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_38 x (by linarith) (by linarith))
-                                have hw1 : (1008150283/5000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_87 y (by linarith) (by linarith))
-                                have hw2 : (126756511/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_208 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_38 x (by linarith) (by linarith)
+                                have hw1 : (1008150283/5000000000000:ℝ) ≤ wfun y := wc_87 y (by linarith) (by linarith)
+                                have hw2 : (126756511/2500000000000:ℝ) ≤ wfun (x+y) := wc_208 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_38 x (by linarith) (by linarith))
-                                have hw1 : (1927303521/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_91 y (by linarith) (by linarith))
-                                have hw2 : (535776441/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_210 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_38 x (by linarith) (by linarith)
+                                have hw1 : (1927303521/10000000000000:ℝ) ≤ wfun y := wc_91 y (by linarith) (by linarith)
+                                have hw2 : (535776441/10000000000000:ℝ) ≤ wfun (x+y) := wc_210 (x+y) (by linarith) (by linarith)
                                 linarith
                           · rcases le_total x (4301/4096:ℝ) with hc | hc
                             · rcases le_total y (8185/4096:ℝ) with hc | hc
-                              · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_34 x (by linarith) (by linarith))
-                                have hw1 : (1840360753/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_92 y (by linarith) (by linarith))
-                                have hw2 : (535776441/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_210 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_34 x (by linarith) (by linarith)
+                                have hw1 : (1840360753/10000000000000:ℝ) ≤ wfun y := wc_92 y (by linarith) (by linarith)
+                                have hw2 : (535776441/10000000000000:ℝ) ≤ wfun (x+y) := wc_210 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_34 x (by linarith) (by linarith))
-                                have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_94 y (by linarith) (by linarith))
-                                have hw2 : (565299059/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_218 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_34 x (by linarith) (by linarith)
+                                have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := wc_94 y (by linarith) (by linarith)
+                                have hw2 : (565299059/10000000000000:ℝ) ≤ wfun (x+y) := wc_218 (x+y) (by linarith) (by linarith)
                                 linarith
                             · rcases le_total y (8185/4096:ℝ) with hc | hc
-                              · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_38 x (by linarith) (by linarith))
-                                have hw1 : (1840360753/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_92 y (by linarith) (by linarith))
-                                have hw2 : (565299059/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_218 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_38 x (by linarith) (by linarith)
+                                have hw1 : (1840360753/10000000000000:ℝ) ≤ wfun y := wc_92 y (by linarith) (by linarith)
+                                have hw2 : (565299059/10000000000000:ℝ) ≤ wfun (x+y) := wc_218 (x+y) (by linarith) (by linarith)
                                 linarith
                               · rcases le_total x (8605/8192:ℝ) with hc | hc
-                                · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
-                                  have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_94 y (by linarith) (by linarith))
-                                  have hw2 : (297939917/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_220 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
+                                  have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := wc_94 y (by linarith) (by linarith)
+                                  have hw2 : (297939917/5000000000000:ℝ) ≤ wfun (x+y) := wc_220 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
-                                  have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_94 y (by linarith) (by linarith))
-                                  have hw2 : (152830533/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_225 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
+                                  have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := wc_94 y (by linarith) (by linarith)
+                                  have hw2 : (152830533/2500000000000:ℝ) ≤ wfun (x+y) := wc_225 (x+y) (by linarith) (by linarith)
                                   linarith
                       · rcases le_total x (2149/2048:ℝ) with hc | hc
                         · rcases le_total y (4097/2048:ℝ) with hc | hc
                           · rcases le_total x (4295/4096:ℝ) with hc | hc
                             · rcases le_total y (8191/4096:ℝ) with hc | hc
-                              · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_26 x (by linarith) (by linarith))
-                                have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_96 y (by linarith) (by linarith))
-                                have hw2 : (535776441/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_210 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := wc_26 x (by linarith) (by linarith)
+                                have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := wc_96 y (by linarith) (by linarith)
+                                have hw2 : (535776441/10000000000000:ℝ) ≤ wfun (x+y) := wc_210 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_26 x (by linarith) (by linarith))
+                              · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := wc_26 x (by linarith) (by linarith)
                                 have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
                                   rcases le_total y (2:ℝ) with hq0 | hq0
                                   · exact le_trans (by norm_num) (wc_99 y (by linarith) (by linarith))
                                   exact le_trans (by norm_num) (wc_101 y (by linarith) (by linarith))
-                                have hw2 : (565299059/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_218 (x+y) (by linarith) (by linarith))
+                                have hw2 : (565299059/10000000000000:ℝ) ≤ wfun (x+y) := wc_218 (x+y) (by linarith) (by linarith)
                                 linarith
                             · rcases le_total y (8191/4096:ℝ) with hc | hc
-                              · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_31 x (by linarith) (by linarith))
-                                have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_96 y (by linarith) (by linarith))
-                                have hw2 : (565299059/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_218 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_31 x (by linarith) (by linarith)
+                                have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := wc_96 y (by linarith) (by linarith)
+                                have hw2 : (565299059/10000000000000:ℝ) ≤ wfun (x+y) := wc_218 (x+y) (by linarith) (by linarith)
                                 linarith
                               · rcases le_total x (8593/8192:ℝ) with hc | hc
-                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_30 x (by linarith) (by linarith))
+                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := wc_30 x (by linarith) (by linarith)
                                   have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
                                     rcases le_total y (2:ℝ) with hq0 | hq0
                                     · exact le_trans (by norm_num) (wc_99 y (by linarith) (by linarith))
                                     exact le_trans (by norm_num) (wc_101 y (by linarith) (by linarith))
-                                  have hw2 : (297939917/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_220 (x+y) (by linarith) (by linarith))
+                                  have hw2 : (297939917/5000000000000:ℝ) ≤ wfun (x+y) := wc_220 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_32 x (by linarith) (by linarith))
+                                · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_32 x (by linarith) (by linarith)
                                   have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
                                     rcases le_total y (2:ℝ) with hq0 | hq0
                                     · exact le_trans (by norm_num) (wc_99 y (by linarith) (by linarith))
                                     exact le_trans (by norm_num) (wc_101 y (by linarith) (by linarith))
-                                  have hw2 : (152830533/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_225 (x+y) (by linarith) (by linarith))
+                                  have hw2 : (152830533/2500000000000:ℝ) ≤ wfun (x+y) := wc_225 (x+y) (by linarith) (by linarith)
                                   linarith
                           · rcases le_total x (4295/4096:ℝ) with hc | hc
                             · rcases le_total y (8197/4096:ℝ) with hc | hc
-                              · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_26 x (by linarith) (by linarith))
-                                have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_107 y (by linarith) (by linarith))
-                                have hw2 : (595592113/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_221 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := wc_26 x (by linarith) (by linarith)
+                                have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := wc_107 y (by linarith) (by linarith)
+                                have hw2 : (595592113/10000000000000:ℝ) ≤ wfun (x+y) := wc_221 (x+y) (by linarith) (by linarith)
                                 linarith
                               · rcases le_total x (8587/8192:ℝ) with hc | hc
-                                · have hw0 : (322398213/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_25 x (by linarith) (by linarith))
-                                  have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_111 y (by linarith) (by linarith))
-                                  have hw2 : (125391291/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_226 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (322398213/5000000000000:ℝ) ≤ wfun x := wc_25 x (by linarith) (by linarith)
+                                  have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_111 y (by linarith) (by linarith)
+                                  have hw2 : (125391291/2000000000000:ℝ) ≤ wfun (x+y) := wc_226 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_29 x (by linarith) (by linarith))
-                                  have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_111 y (by linarith) (by linarith))
-                                  have hw2 : (25711303/400000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_229 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := wc_29 x (by linarith) (by linarith)
+                                  have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_111 y (by linarith) (by linarith)
+                                  have hw2 : (25711303/400000000000:ℝ) ≤ wfun (x+y) := wc_229 (x+y) (by linarith) (by linarith)
                                   linarith
                             · rcases le_total y (8197/4096:ℝ) with hc | hc
                               · rcases le_total x (8593/8192:ℝ) with hc | hc
-                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_30 x (by linarith) (by linarith))
-                                  have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_107 y (by linarith) (by linarith))
-                                  have hw2 : (125391291/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_226 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := wc_30 x (by linarith) (by linarith)
+                                  have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := wc_107 y (by linarith) (by linarith)
+                                  have hw2 : (125391291/2000000000000:ℝ) ≤ wfun (x+y) := wc_226 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_32 x (by linarith) (by linarith))
-                                  have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_107 y (by linarith) (by linarith))
-                                  have hw2 : (25711303/400000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_229 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_32 x (by linarith) (by linarith)
+                                  have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := wc_107 y (by linarith) (by linarith)
+                                  have hw2 : (25711303/400000000000:ℝ) ≤ wfun (x+y) := wc_229 (x+y) (by linarith) (by linarith)
                                   linarith
                               · rcases le_total x (8593/8192:ℝ) with hc | hc
-                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_30 x (by linarith) (by linarith))
-                                  have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_111 y (by linarith) (by linarith))
-                                  have hw2 : (658800263/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_231 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := wc_30 x (by linarith) (by linarith)
+                                  have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_111 y (by linarith) (by linarith)
+                                  have hw2 : (658800263/10000000000000:ℝ) ≤ wfun (x+y) := wc_231 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_32 x (by linarith) (by linarith))
-                                  have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_111 y (by linarith) (by linarith))
-                                  have hw2 : (168752323/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_238 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_32 x (by linarith) (by linarith)
+                                  have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_111 y (by linarith) (by linarith)
+                                  have hw2 : (168752323/2500000000000:ℝ) ≤ wfun (x+y) := wc_238 (x+y) (by linarith) (by linarith)
                                   linarith
                         · rcases le_total y (4097/2048:ℝ) with hc | hc
                           · rcases le_total x (4301/4096:ℝ) with hc | hc
                             · rcases le_total y (8191/4096:ℝ) with hc | hc
                               · rcases le_total x (8599/8192:ℝ) with hc | hc
-                                · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_33 x (by linarith) (by linarith))
-                                  have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_96 y (by linarith) (by linarith))
-                                  have hw2 : (297939917/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_220 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := wc_33 x (by linarith) (by linarith)
+                                  have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := wc_96 y (by linarith) (by linarith)
+                                  have hw2 : (297939917/5000000000000:ℝ) ≤ wfun (x+y) := wc_220 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_36 x (by linarith) (by linarith))
-                                  have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_96 y (by linarith) (by linarith))
-                                  have hw2 : (152830533/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_225 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_36 x (by linarith) (by linarith)
+                                  have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := wc_96 y (by linarith) (by linarith)
+                                  have hw2 : (152830533/2500000000000:ℝ) ≤ wfun (x+y) := wc_225 (x+y) (by linarith) (by linarith)
                                   linarith
                               · rcases le_total x (8599/8192:ℝ) with hc | hc
-                                · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_33 x (by linarith) (by linarith))
+                                · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := wc_33 x (by linarith) (by linarith)
                                   have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
                                     rcases le_total y (2:ℝ) with hq0 | hq0
                                     · exact le_trans (by norm_num) (wc_99 y (by linarith) (by linarith))
                                     exact le_trans (by norm_num) (wc_101 y (by linarith) (by linarith))
-                                  have hw2 : (125391291/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_226 (x+y) (by linarith) (by linarith))
+                                  have hw2 : (125391291/2000000000000:ℝ) ≤ wfun (x+y) := wc_226 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_36 x (by linarith) (by linarith))
+                                · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_36 x (by linarith) (by linarith)
                                   have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
                                     rcases le_total y (2:ℝ) with hq0 | hq0
                                     · exact le_trans (by norm_num) (wc_99 y (by linarith) (by linarith))
                                     exact le_trans (by norm_num) (wc_101 y (by linarith) (by linarith))
-                                  have hw2 : (25711303/400000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_229 (x+y) (by linarith) (by linarith))
+                                  have hw2 : (25711303/400000000000:ℝ) ≤ wfun (x+y) := wc_229 (x+y) (by linarith) (by linarith)
                                   linarith
                             · rcases le_total y (8191/4096:ℝ) with hc | hc
                               · rcases le_total x (8605/8192:ℝ) with hc | hc
-                                · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
-                                  have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_96 y (by linarith) (by linarith))
-                                  have hw2 : (125391291/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_226 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
+                                  have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := wc_96 y (by linarith) (by linarith)
+                                  have hw2 : (125391291/2000000000000:ℝ) ≤ wfun (x+y) := wc_226 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
-                                  have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_96 y (by linarith) (by linarith))
-                                  have hw2 : (25711303/400000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_229 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
+                                  have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := wc_96 y (by linarith) (by linarith)
+                                  have hw2 : (25711303/400000000000:ℝ) ≤ wfun (x+y) := wc_229 (x+y) (by linarith) (by linarith)
                                   linarith
                               · rcases le_total x (8605/8192:ℝ) with hc | hc
                                 · rcases le_total y (16385/8192:ℝ) with hc | hc
-                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
+                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
                                     have hw1 : (203996733/1250000000000:ℝ) ≤ wfun y := by
                                       rcases le_total y (2:ℝ) with hq0 | hq0
                                       · exact le_trans (by norm_num) (wc_99 y (by linarith) (by linarith))
                                       exact le_trans (by norm_num) (wc_100 y (by linarith) (by linarith))
-                                    have hw2 : (659118403/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_230 (x+y) (by linarith) (by linarith))
+                                    have hw2 : (659118403/10000000000000:ℝ) ≤ wfun (x+y) := wc_230 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
-                                    have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_105 y (by linarith) (by linarith))
-                                    have hw2 : (675335219/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_237 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
+                                    have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := wc_105 y (by linarith) (by linarith)
+                                    have hw2 : (675335219/10000000000000:ℝ) ≤ wfun (x+y) := wc_237 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16385/8192:ℝ) with hc | hc
-                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
+                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
                                     have hw1 : (203996733/1250000000000:ℝ) ≤ wfun y := by
                                       rcases le_total y (2:ℝ) with hq0 | hq0
                                       · exact le_trans (by norm_num) (wc_99 y (by linarith) (by linarith))
                                       exact le_trans (by norm_num) (wc_100 y (by linarith) (by linarith))
-                                    have hw2 : (675335219/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_237 (x+y) (by linarith) (by linarith))
+                                    have hw2 : (675335219/10000000000000:ℝ) ≤ wfun (x+y) := wc_237 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
-                                    have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_105 y (by linarith) (by linarith))
-                                    have hw2 : (172935809/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_239 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
+                                    have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := wc_105 y (by linarith) (by linarith)
+                                    have hw2 : (172935809/2500000000000:ℝ) ≤ wfun (x+y) := wc_239 (x+y) (by linarith) (by linarith)
                                     linarith
                           · rcases le_total x (4301/4096:ℝ) with hc | hc
                             · rcases le_total y (8197/4096:ℝ) with hc | hc
                               · rcases le_total x (8599/8192:ℝ) with hc | hc
                                 · rcases le_total y (16391/8192:ℝ) with hc | hc
-                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_33 x (by linarith) (by linarith))
-                                    have hw1 : (1552153897/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_106 y (by linarith) (by linarith))
-                                    have hw2 : (659118403/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_230 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := wc_33 x (by linarith) (by linarith)
+                                    have hw1 : (1552153897/10000000000000:ℝ) ≤ wfun y := wc_106 y (by linarith) (by linarith)
+                                    have hw2 : (659118403/10000000000000:ℝ) ≤ wfun (x+y) := wc_230 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_33 x (by linarith) (by linarith))
-                                    have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_109 y (by linarith) (by linarith))
-                                    have hw2 : (675335219/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_237 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := wc_33 x (by linarith) (by linarith)
+                                    have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := wc_109 y (by linarith) (by linarith)
+                                    have hw2 : (675335219/10000000000000:ℝ) ≤ wfun (x+y) := wc_237 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16391/8192:ℝ) with hc | hc
-                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_36 x (by linarith) (by linarith))
-                                    have hw1 : (1552153897/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_106 y (by linarith) (by linarith))
-                                    have hw2 : (675335219/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_237 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_36 x (by linarith) (by linarith)
+                                    have hw1 : (1552153897/10000000000000:ℝ) ≤ wfun y := wc_106 y (by linarith) (by linarith)
+                                    have hw2 : (675335219/10000000000000:ℝ) ≤ wfun (x+y) := wc_237 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_36 x (by linarith) (by linarith))
-                                    have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_109 y (by linarith) (by linarith))
-                                    have hw2 : (172935809/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_239 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_36 x (by linarith) (by linarith)
+                                    have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := wc_109 y (by linarith) (by linarith)
+                                    have hw2 : (172935809/2500000000000:ℝ) ≤ wfun (x+y) := wc_239 (x+y) (by linarith) (by linarith)
                                     linarith
                               · rcases le_total x (8599/8192:ℝ) with hc | hc
                                 · rcases le_total y (16397/8192:ℝ) with hc | hc
-                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_33 x (by linarith) (by linarith))
-                                    have hw1 : (1474377683/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_110 y (by linarith) (by linarith))
-                                    have hw2 : (172935809/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_239 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := wc_33 x (by linarith) (by linarith)
+                                    have hw1 : (1474377683/10000000000000:ℝ) ≤ wfun y := wc_110 y (by linarith) (by linarith)
+                                    have hw2 : (172935809/2500000000000:ℝ) ≤ wfun (x+y) := wc_239 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_33 x (by linarith) (by linarith))
-                                    have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_112 y (by linarith) (by linarith))
-                                    have hw2 : (708342221/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_243 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := wc_33 x (by linarith) (by linarith)
+                                    have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_112 y (by linarith) (by linarith)
+                                    have hw2 : (708342221/10000000000000:ℝ) ≤ wfun (x+y) := wc_243 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16397/8192:ℝ) with hc | hc
-                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_36 x (by linarith) (by linarith))
-                                    have hw1 : (1474377683/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_110 y (by linarith) (by linarith))
-                                    have hw2 : (708342221/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_243 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_36 x (by linarith) (by linarith)
+                                    have hw1 : (1474377683/10000000000000:ℝ) ≤ wfun y := wc_110 y (by linarith) (by linarith)
+                                    have hw2 : (708342221/10000000000000:ℝ) ≤ wfun (x+y) := wc_243 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_36 x (by linarith) (by linarith))
-                                    have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_112 y (by linarith) (by linarith))
-                                    have hw2 : (145026389/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_245 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_36 x (by linarith) (by linarith)
+                                    have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_112 y (by linarith) (by linarith)
+                                    have hw2 : (145026389/2000000000000:ℝ) ≤ wfun (x+y) := wc_245 (x+y) (by linarith) (by linarith)
                                     linarith
                             · rcases le_total y (8197/4096:ℝ) with hc | hc
                               · rcases le_total x (8605/8192:ℝ) with hc | hc
                                 · rcases le_total y (16391/8192:ℝ) with hc | hc
-                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
-                                    have hw1 : (1552153897/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_106 y (by linarith) (by linarith))
-                                    have hw2 : (172935809/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_239 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
+                                    have hw1 : (1552153897/10000000000000:ℝ) ≤ wfun y := wc_106 y (by linarith) (by linarith)
+                                    have hw2 : (172935809/2500000000000:ℝ) ≤ wfun (x+y) := wc_239 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
-                                    have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_109 y (by linarith) (by linarith))
-                                    have hw2 : (708342221/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_243 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
+                                    have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := wc_109 y (by linarith) (by linarith)
+                                    have hw2 : (708342221/10000000000000:ℝ) ≤ wfun (x+y) := wc_243 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16391/8192:ℝ) with hc | hc
-                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
-                                    have hw1 : (1552153897/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_106 y (by linarith) (by linarith))
-                                    have hw2 : (708342221/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_243 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
+                                    have hw1 : (1552153897/10000000000000:ℝ) ≤ wfun y := wc_106 y (by linarith) (by linarith)
+                                    have hw2 : (708342221/10000000000000:ℝ) ≤ wfun (x+y) := wc_243 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
-                                    have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_109 y (by linarith) (by linarith))
-                                    have hw2 : (145026389/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_245 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
+                                    have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := wc_109 y (by linarith) (by linarith)
+                                    have hw2 : (145026389/2000000000000:ℝ) ≤ wfun (x+y) := wc_245 (x+y) (by linarith) (by linarith)
                                     linarith
                               · rcases le_total x (8605/8192:ℝ) with hc | hc
                                 · rcases le_total y (16397/8192:ℝ) with hc | hc
-                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
-                                    have hw1 : (1474377683/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_110 y (by linarith) (by linarith))
-                                    have hw2 : (145026389/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_245 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
+                                    have hw1 : (1474377683/10000000000000:ℝ) ≤ wfun y := wc_110 y (by linarith) (by linarith)
+                                    have hw2 : (145026389/2000000000000:ℝ) ≤ wfun (x+y) := wc_245 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
-                                    have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_112 y (by linarith) (by linarith))
-                                    have hw2 : (742112173/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_251 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
+                                    have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_112 y (by linarith) (by linarith)
+                                    have hw2 : (742112173/10000000000000:ℝ) ≤ wfun (x+y) := wc_251 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16397/8192:ℝ) with hc | hc
-                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
-                                    have hw1 : (1474377683/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_110 y (by linarith) (by linarith))
-                                    have hw2 : (742112173/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_251 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
+                                    have hw1 : (1474377683/10000000000000:ℝ) ≤ wfun y := wc_110 y (by linarith) (by linarith)
+                                    have hw2 : (742112173/10000000000000:ℝ) ≤ wfun (x+y) := wc_251 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
-                                    have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_112 y (by linarith) (by linarith))
-                                    have hw2 : (47455167/625000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_253 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
+                                    have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_112 y (by linarith) (by linarith)
+                                    have hw2 : (47455167/625000000000:ℝ) ≤ wfun (x+y) := wc_253 (x+y) (by linarith) (by linarith)
                                     linarith
                   · rcases le_total x (1073/1024:ℝ) with hc | hc
                     · rcases le_total y (2053/1024:ℝ) with hc | hc
                       · rcases le_total x (2143/2048:ℝ) with hc | hc
                         · rcases le_total y (4103/2048:ℝ) with hc | hc
-                          · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_18 x (by linarith) (by linarith))
-                            have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_115 y (by linarith) (by linarith))
-                            have hw2 : (534742203/10000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_212 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := wc_18 x (by linarith) (by linarith)
+                            have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_115 y (by linarith) (by linarith)
+                            have hw2 : (534742203/10000000000000:ℝ) ≤ wfun (x+y) := wc_212 (x+y) (by linarith) (by linarith)
                             linarith
                           · rcases le_total x (4283/4096:ℝ) with hc | hc
-                            · have hw0 : (533605311/5000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_17 x (by linarith) (by linarith))
-                              have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_124 y (by linarith) (by linarith))
-                              have hw2 : (595017193/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_222 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (533605311/5000000000000:ℝ) ≤ wfun x := wc_17 x (by linarith) (by linarith)
+                              have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_124 y (by linarith) (by linarith)
+                              have hw2 : (595017193/10000000000000:ℝ) ≤ wfun (x+y) := wc_222 (x+y) (by linarith) (by linarith)
                               linarith
-                            · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_21 x (by linarith) (by linarith))
-                              have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_124 y (by linarith) (by linarith))
-                              have hw2 : (125209809/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_228 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := wc_21 x (by linarith) (by linarith)
+                              have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_124 y (by linarith) (by linarith)
+                              have hw2 : (125209809/2000000000000:ℝ) ≤ wfun (x+y) := wc_228 (x+y) (by linarith) (by linarith)
                               linarith
                         · rcases le_total y (4103/2048:ℝ) with hc | hc
                           · rcases le_total x (4289/4096:ℝ) with hc | hc
-                            · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_22 x (by linarith) (by linarith))
-                              have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_115 y (by linarith) (by linarith))
-                              have hw2 : (595017193/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_222 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := wc_22 x (by linarith) (by linarith)
+                              have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_115 y (by linarith) (by linarith)
+                              have hw2 : (595017193/10000000000000:ℝ) ≤ wfun (x+y) := wc_222 (x+y) (by linarith) (by linarith)
                               linarith
                             · rcases le_total y (8203/4096:ℝ) with hc | hc
-                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_24 x (by linarith) (by linarith))
-                                have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_114 y (by linarith) (by linarith))
-                                have hw2 : (313326901/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_227 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_24 x (by linarith) (by linarith)
+                                have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := wc_114 y (by linarith) (by linarith)
+                                have hw2 : (313326901/5000000000000:ℝ) ≤ wfun (x+y) := wc_227 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_24 x (by linarith) (by linarith))
-                                have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_120 y (by linarith) (by linarith))
-                                have hw2 : (164620579/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_232 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_24 x (by linarith) (by linarith)
+                                have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_120 y (by linarith) (by linarith)
+                                have hw2 : (164620579/2500000000000:ℝ) ≤ wfun (x+y) := wc_232 (x+y) (by linarith) (by linarith)
                                 linarith
                           · rcases le_total x (4289/4096:ℝ) with hc | hc
                             · rcases le_total y (8209/4096:ℝ) with hc | hc
-                              · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_22 x (by linarith) (by linarith))
-                                have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_123 y (by linarith) (by linarith))
-                                have hw2 : (164620579/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_232 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := wc_22 x (by linarith) (by linarith)
+                                have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := wc_123 y (by linarith) (by linarith)
+                                have hw2 : (164620579/2500000000000:ℝ) ≤ wfun (x+y) := wc_232 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_22 x (by linarith) (by linarith))
-                                have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_127 y (by linarith) (by linarith))
-                                have hw2 : (27643033/400000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_241 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := wc_22 x (by linarith) (by linarith)
+                                have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_127 y (by linarith) (by linarith)
+                                have hw2 : (27643033/400000000000:ℝ) ≤ wfun (x+y) := wc_241 (x+y) (by linarith) (by linarith)
                                 linarith
                             · rcases le_total y (8209/4096:ℝ) with hc | hc
-                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_24 x (by linarith) (by linarith))
-                                have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_123 y (by linarith) (by linarith))
-                                have hw2 : (27643033/400000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_241 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_24 x (by linarith) (by linarith)
+                                have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := wc_123 y (by linarith) (by linarith)
+                                have hw2 : (27643033/400000000000:ℝ) ≤ wfun (x+y) := wc_241 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_24 x (by linarith) (by linarith))
-                                have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_127 y (by linarith) (by linarith))
-                                have hw2 : (72443249/1000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_247 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_24 x (by linarith) (by linarith)
+                                have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_127 y (by linarith) (by linarith)
+                                have hw2 : (72443249/1000000000000:ℝ) ≤ wfun (x+y) := wc_247 (x+y) (by linarith) (by linarith)
                                 linarith
                       · rcases le_total x (2143/2048:ℝ) with hc | hc
                         · rcases le_total y (4109/2048:ℝ) with hc | hc
                           · rcases le_total x (4283/4096:ℝ) with hc | hc
-                            · have hw0 : (533605311/5000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_17 x (by linarith) (by linarith))
-                              have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_131 y (by linarith) (by linarith))
-                              have hw2 : (164461749/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_233 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (533605311/5000000000000:ℝ) ≤ wfun x := wc_17 x (by linarith) (by linarith)
+                              have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_131 y (by linarith) (by linarith)
+                              have hw2 : (164461749/2500000000000:ℝ) ≤ wfun (x+y) := wc_233 (x+y) (by linarith) (by linarith)
                               linarith
-                            · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_21 x (by linarith) (by linarith))
-                              have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_131 y (by linarith) (by linarith))
-                              have hw2 : (34520461/500000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_242 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := wc_21 x (by linarith) (by linarith)
+                              have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_131 y (by linarith) (by linarith)
+                              have hw2 : (34520461/500000000000:ℝ) ≤ wfun (x+y) := wc_242 (x+y) (by linarith) (by linarith)
                               linarith
                           · rcases le_total x (4283/4096:ℝ) with hc | hc
-                            · have hw0 : (533605311/5000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_17 x (by linarith) (by linarith))
-                              have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_136 y (by linarith) (by linarith))
-                              have hw2 : (723733879/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_248 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (533605311/5000000000000:ℝ) ≤ wfun x := wc_17 x (by linarith) (by linarith)
+                              have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_136 y (by linarith) (by linarith)
+                              have hw2 : (723733879/10000000000000:ℝ) ≤ wfun (x+y) := wc_248 (x+y) (by linarith) (by linarith)
                               linarith
-                            · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_21 x (by linarith) (by linarith))
-                              have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_136 y (by linarith) (by linarith))
-                              have hw2 : (378909559/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_256 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := wc_21 x (by linarith) (by linarith)
+                              have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_136 y (by linarith) (by linarith)
+                              have hw2 : (378909559/5000000000000:ℝ) ≤ wfun (x+y) := wc_256 (x+y) (by linarith) (by linarith)
                               linarith
                         · rcases le_total y (4109/2048:ℝ) with hc | hc
                           · rcases le_total x (4289/4096:ℝ) with hc | hc
                             · rcases le_total y (8215/4096:ℝ) with hc | hc
-                              · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_22 x (by linarith) (by linarith))
-                                have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_130 y (by linarith) (by linarith))
-                                have hw2 : (72443249/1000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_247 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := wc_22 x (by linarith) (by linarith)
+                                have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := wc_130 y (by linarith) (by linarith)
+                                have hw2 : (72443249/1000000000000:ℝ) ≤ wfun (x+y) := wc_247 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_22 x (by linarith) (by linarith))
-                                have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_134 y (by linarith) (by linarith))
-                                have hw2 : (758550453/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_255 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := wc_22 x (by linarith) (by linarith)
+                                have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_134 y (by linarith) (by linarith)
+                                have hw2 : (758550453/10000000000000:ℝ) ≤ wfun (x+y) := wc_255 (x+y) (by linarith) (by linarith)
                                 linarith
                             · rcases le_total y (8215/4096:ℝ) with hc | hc
-                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_24 x (by linarith) (by linarith))
-                                have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_130 y (by linarith) (by linarith))
-                                have hw2 : (758550453/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_255 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_24 x (by linarith) (by linarith)
+                                have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := wc_130 y (by linarith) (by linarith)
+                                have hw2 : (758550453/10000000000000:ℝ) ≤ wfun (x+y) := wc_255 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_24 x (by linarith) (by linarith))
-                                have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_134 y (by linarith) (by linarith))
-                                have hw2 : (158685569/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_261 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_24 x (by linarith) (by linarith)
+                                have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_134 y (by linarith) (by linarith)
+                                have hw2 : (158685569/2000000000000:ℝ) ≤ wfun (x+y) := wc_261 (x+y) (by linarith) (by linarith)
                                 linarith
                           · rcases le_total x (4289/4096:ℝ) with hc | hc
-                            · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_22 x (by linarith) (by linarith))
-                              have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_136 y (by linarith) (by linarith))
-                              have hw2 : (792663069/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_262 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := wc_22 x (by linarith) (by linarith)
+                              have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_136 y (by linarith) (by linarith)
+                              have hw2 : (792663069/10000000000000:ℝ) ≤ wfun (x+y) := wc_262 (x+y) (by linarith) (by linarith)
                               linarith
                             · rcases le_total y (8221/4096:ℝ) with hc | hc
-                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_24 x (by linarith) (by linarith))
-                                have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_135 y (by linarith) (by linarith))
-                                have hw2 : (414531393/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_271 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_24 x (by linarith) (by linarith)
+                                have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := wc_135 y (by linarith) (by linarith)
+                                have hw2 : (414531393/5000000000000:ℝ) ≤ wfun (x+y) := wc_271 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_24 x (by linarith) (by linarith))
-                                have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_137 y (by linarith) (by linarith))
-                                have hw2 : (13522709/156250000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_277 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_24 x (by linarith) (by linarith)
+                                have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_137 y (by linarith) (by linarith)
+                                have hw2 : (13522709/156250000000:ℝ) ≤ wfun (x+y) := wc_277 (x+y) (by linarith) (by linarith)
                                 linarith
                     · rcases le_total y (2053/1024:ℝ) with hc | hc
                       · rcases le_total x (2149/2048:ℝ) with hc | hc
@@ -1138,806 +781,503 @@ lemma pair_0_1 (x y : ℝ) (hx1 : (65/64:ℝ) ≤ x) (hx2 : x ≤ (71/64:ℝ))
                           · rcases le_total x (4295/4096:ℝ) with hc | hc
                             · rcases le_total y (8203/4096:ℝ) with hc | hc
                               · rcases le_total x (8587/8192:ℝ) with hc | hc
-                                · have hw0 : (322398213/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_25 x (by linarith) (by linarith))
-                                  have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_114 y (by linarith) (by linarith))
-                                  have hw2 : (658800263/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_231 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (322398213/5000000000000:ℝ) ≤ wfun x := wc_25 x (by linarith) (by linarith)
+                                  have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := wc_114 y (by linarith) (by linarith)
+                                  have hw2 : (658800263/10000000000000:ℝ) ≤ wfun (x+y) := wc_231 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_29 x (by linarith) (by linarith))
-                                  have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_114 y (by linarith) (by linarith))
-                                  have hw2 : (168752323/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_238 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := wc_29 x (by linarith) (by linarith)
+                                  have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := wc_114 y (by linarith) (by linarith)
+                                  have hw2 : (168752323/2500000000000:ℝ) ≤ wfun (x+y) := wc_238 (x+y) (by linarith) (by linarith)
                                   linarith
                               · rcases le_total x (8587/8192:ℝ) with hc | hc
-                                · have hw0 : (322398213/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_25 x (by linarith) (by linarith))
-                                  have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_120 y (by linarith) (by linarith))
-                                  have hw2 : (69140943/1000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_240 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (322398213/5000000000000:ℝ) ≤ wfun x := wc_25 x (by linarith) (by linarith)
+                                  have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_120 y (by linarith) (by linarith)
+                                  have hw2 : (69140943/1000000000000:ℝ) ≤ wfun (x+y) := wc_240 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_29 x (by linarith) (by linarith))
-                                  have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_120 y (by linarith) (by linarith))
-                                  have hw2 : (708000447/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_244 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := wc_29 x (by linarith) (by linarith)
+                                  have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_120 y (by linarith) (by linarith)
+                                  have hw2 : (708000447/10000000000000:ℝ) ≤ wfun (x+y) := wc_244 (x+y) (by linarith) (by linarith)
                                   linarith
                             · rcases le_total y (8203/4096:ℝ) with hc | hc
                               · rcases le_total x (8593/8192:ℝ) with hc | hc
-                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_30 x (by linarith) (by linarith))
-                                  have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_114 y (by linarith) (by linarith))
-                                  have hw2 : (69140943/1000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_240 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := wc_30 x (by linarith) (by linarith)
+                                  have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := wc_114 y (by linarith) (by linarith)
+                                  have hw2 : (69140943/1000000000000:ℝ) ≤ wfun (x+y) := wc_240 (x+y) (by linarith) (by linarith)
                                   linarith
                                 · rcases le_total y (16403/8192:ℝ) with hc | hc
-                                  · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_32 x (by linarith) (by linarith))
-                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_113 y (by linarith) (by linarith))
-                                    have hw2 : (708342221/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_243 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_32 x (by linarith) (by linarith)
+                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := wc_113 y (by linarith) (by linarith)
+                                    have hw2 : (708342221/10000000000000:ℝ) ≤ wfun (x+y) := wc_243 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_32 x (by linarith) (by linarith))
-                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_118 y (by linarith) (by linarith))
-                                    have hw2 : (145026389/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_245 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_32 x (by linarith) (by linarith)
+                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := wc_118 y (by linarith) (by linarith)
+                                    have hw2 : (145026389/2000000000000:ℝ) ≤ wfun (x+y) := wc_245 (x+y) (by linarith) (by linarith)
                                     linarith
                               · rcases le_total x (8593/8192:ℝ) with hc | hc
-                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_30 x (by linarith) (by linarith))
-                                  have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_120 y (by linarith) (by linarith))
-                                  have hw2 : (724782111/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_246 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := wc_30 x (by linarith) (by linarith)
+                                  have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_120 y (by linarith) (by linarith)
+                                  have hw2 : (724782111/10000000000000:ℝ) ≤ wfun (x+y) := wc_246 (x+y) (by linarith) (by linarith)
                                   linarith
                                 · rcases le_total y (16409/8192:ℝ) with hc | hc
-                                  · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_32 x (by linarith) (by linarith))
-                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_119 y (by linarith) (by linarith))
-                                    have hw2 : (742112173/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_251 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_32 x (by linarith) (by linarith)
+                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := wc_119 y (by linarith) (by linarith)
+                                    have hw2 : (742112173/10000000000000:ℝ) ≤ wfun (x+y) := wc_251 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_32 x (by linarith) (by linarith))
-                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_121 y (by linarith) (by linarith))
-                                    have hw2 : (47455167/625000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_253 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_32 x (by linarith) (by linarith)
+                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_121 y (by linarith) (by linarith)
+                                    have hw2 : (47455167/625000000000:ℝ) ≤ wfun (x+y) := wc_253 (x+y) (by linarith) (by linarith)
                                     linarith
                           · rcases le_total x (4295/4096:ℝ) with hc | hc
                             · rcases le_total y (8209/4096:ℝ) with hc | hc
                               · rcases le_total x (8587/8192:ℝ) with hc | hc
-                                · have hw0 : (322398213/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_25 x (by linarith) (by linarith))
-                                  have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_123 y (by linarith) (by linarith))
-                                  have hw2 : (724782111/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_246 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (322398213/5000000000000:ℝ) ≤ wfun x := wc_25 x (by linarith) (by linarith)
+                                  have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := wc_123 y (by linarith) (by linarith)
+                                  have hw2 : (724782111/10000000000000:ℝ) ≤ wfun (x+y) := wc_246 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_29 x (by linarith) (by linarith))
-                                  have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_123 y (by linarith) (by linarith))
-                                  have hw2 : (741754191/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_252 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := wc_29 x (by linarith) (by linarith)
+                                  have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := wc_123 y (by linarith) (by linarith)
+                                  have hw2 : (741754191/10000000000000:ℝ) ≤ wfun (x+y) := wc_252 (x+y) (by linarith) (by linarith)
                                   linarith
                               · rcases le_total x (8587/8192:ℝ) with hc | hc
-                                · have hw0 : (322398213/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_25 x (by linarith) (by linarith))
-                                  have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_127 y (by linarith) (by linarith))
-                                  have hw2 : (189729113/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_254 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (322398213/5000000000000:ℝ) ≤ wfun x := wc_25 x (by linarith) (by linarith)
+                                  have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_127 y (by linarith) (by linarith)
+                                  have hw2 : (189729113/2500000000000:ℝ) ≤ wfun (x+y) := wc_254 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_29 x (by linarith) (by linarith))
-                                  have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_127 y (by linarith) (by linarith))
-                                  have hw2 : (776268661/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_258 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := wc_29 x (by linarith) (by linarith)
+                                  have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_127 y (by linarith) (by linarith)
+                                  have hw2 : (776268661/10000000000000:ℝ) ≤ wfun (x+y) := wc_258 (x+y) (by linarith) (by linarith)
                                   linarith
                             · rcases le_total y (8209/4096:ℝ) with hc | hc
                               · rcases le_total x (8593/8192:ℝ) with hc | hc
-                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_30 x (by linarith) (by linarith))
-                                  have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_123 y (by linarith) (by linarith))
-                                  have hw2 : (189729113/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_254 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := wc_30 x (by linarith) (by linarith)
+                                  have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := wc_123 y (by linarith) (by linarith)
+                                  have hw2 : (189729113/2500000000000:ℝ) ≤ wfun (x+y) := wc_254 (x+y) (by linarith) (by linarith)
                                   linarith
                                 · rcases le_total y (16415/8192:ℝ) with hc | hc
-                                  · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_32 x (by linarith) (by linarith))
-                                    have hw1 : (1253281709/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_122 y (by linarith) (by linarith))
-                                    have hw2 : (97080401/1250000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_257 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_32 x (by linarith) (by linarith)
+                                    have hw1 : (1253281709/10000000000000:ℝ) ≤ wfun y := wc_122 y (by linarith) (by linarith)
+                                    have hw2 : (97080401/1250000000000:ℝ) ≤ wfun (x+y) := wc_257 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_32 x (by linarith) (by linarith))
-                                    have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_125 y (by linarith) (by linarith))
-                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_259 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_32 x (by linarith) (by linarith)
+                                    have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := wc_125 y (by linarith) (by linarith)
+                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := wc_259 (x+y) (by linarith) (by linarith)
                                     linarith
                               · rcases le_total x (8593/8192:ℝ) with hc | hc
-                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_30 x (by linarith) (by linarith))
-                                  have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_127 y (by linarith) (by linarith))
-                                  have hw2 : (39690529/500000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_260 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := wc_30 x (by linarith) (by linarith)
+                                  have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_127 y (by linarith) (by linarith)
+                                  have hw2 : (39690529/500000000000:ℝ) ≤ wfun (x+y) := wc_260 (x+y) (by linarith) (by linarith)
                                   linarith
                                 · rcases le_total y (16421/8192:ℝ) with hc | hc
-                                  · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_32 x (by linarith) (by linarith))
-                                    have hw1 : (1183650479/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_126 y (by linarith) (by linarith))
-                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_267 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_32 x (by linarith) (by linarith)
+                                    have hw1 : (1183650479/10000000000000:ℝ) ≤ wfun y := wc_126 y (by linarith) (by linarith)
+                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := wc_267 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_32 x (by linarith) (by linarith))
-                                    have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_128 y (by linarith) (by linarith))
-                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_269 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_32 x (by linarith) (by linarith)
+                                    have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_128 y (by linarith) (by linarith)
+                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := wc_269 (x+y) (by linarith) (by linarith)
                                     linarith
                         · rcases le_total y (4103/2048:ℝ) with hc | hc
                           · rcases le_total x (4301/4096:ℝ) with hc | hc
                             · rcases le_total y (8203/4096:ℝ) with hc | hc
                               · rcases le_total x (8599/8192:ℝ) with hc | hc
                                 · rcases le_total y (16403/8192:ℝ) with hc | hc
-                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_33 x (by linarith) (by linarith))
-                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_113 y (by linarith) (by linarith))
-                                    have hw2 : (145026389/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_245 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := wc_33 x (by linarith) (by linarith)
+                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := wc_113 y (by linarith) (by linarith)
+                                    have hw2 : (145026389/2000000000000:ℝ) ≤ wfun (x+y) := wc_245 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_33 x (by linarith) (by linarith))
-                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_118 y (by linarith) (by linarith))
-                                    have hw2 : (742112173/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_251 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := wc_33 x (by linarith) (by linarith)
+                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := wc_118 y (by linarith) (by linarith)
+                                    have hw2 : (742112173/10000000000000:ℝ) ≤ wfun (x+y) := wc_251 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16403/8192:ℝ) with hc | hc
-                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_36 x (by linarith) (by linarith))
-                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_113 y (by linarith) (by linarith))
-                                    have hw2 : (742112173/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_251 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_36 x (by linarith) (by linarith)
+                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := wc_113 y (by linarith) (by linarith)
+                                    have hw2 : (742112173/10000000000000:ℝ) ≤ wfun (x+y) := wc_251 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_36 x (by linarith) (by linarith))
-                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_118 y (by linarith) (by linarith))
-                                    have hw2 : (47455167/625000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_253 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_36 x (by linarith) (by linarith)
+                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := wc_118 y (by linarith) (by linarith)
+                                    have hw2 : (47455167/625000000000:ℝ) ≤ wfun (x+y) := wc_253 (x+y) (by linarith) (by linarith)
                                     linarith
                               · rcases le_total x (8599/8192:ℝ) with hc | hc
                                 · rcases le_total y (16409/8192:ℝ) with hc | hc
-                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_33 x (by linarith) (by linarith))
-                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_119 y (by linarith) (by linarith))
-                                    have hw2 : (47455167/625000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_253 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := wc_33 x (by linarith) (by linarith)
+                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := wc_119 y (by linarith) (by linarith)
+                                    have hw2 : (47455167/625000000000:ℝ) ≤ wfun (x+y) := wc_253 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_33 x (by linarith) (by linarith))
-                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_121 y (by linarith) (by linarith))
-                                    have hw2 : (97080401/1250000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_257 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := wc_33 x (by linarith) (by linarith)
+                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_121 y (by linarith) (by linarith)
+                                    have hw2 : (97080401/1250000000000:ℝ) ≤ wfun (x+y) := wc_257 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16409/8192:ℝ) with hc | hc
-                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_36 x (by linarith) (by linarith))
-                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_119 y (by linarith) (by linarith))
-                                    have hw2 : (97080401/1250000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_257 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_36 x (by linarith) (by linarith)
+                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := wc_119 y (by linarith) (by linarith)
+                                    have hw2 : (97080401/1250000000000:ℝ) ≤ wfun (x+y) := wc_257 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_36 x (by linarith) (by linarith))
-                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_121 y (by linarith) (by linarith))
-                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_259 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_36 x (by linarith) (by linarith)
+                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_121 y (by linarith) (by linarith)
+                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := wc_259 (x+y) (by linarith) (by linarith)
                                     linarith
                             · rcases le_total y (8203/4096:ℝ) with hc | hc
                               · rcases le_total x (8605/8192:ℝ) with hc | hc
                                 · rcases le_total y (16403/8192:ℝ) with hc | hc
-                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
-                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_113 y (by linarith) (by linarith))
-                                    have hw2 : (47455167/625000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_253 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
+                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := wc_113 y (by linarith) (by linarith)
+                                    have hw2 : (47455167/625000000000:ℝ) ≤ wfun (x+y) := wc_253 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
-                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_118 y (by linarith) (by linarith))
-                                    have hw2 : (97080401/1250000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_257 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
+                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := wc_118 y (by linarith) (by linarith)
+                                    have hw2 : (97080401/1250000000000:ℝ) ≤ wfun (x+y) := wc_257 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16403/8192:ℝ) with hc | hc
-                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
-                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_113 y (by linarith) (by linarith))
-                                    have hw2 : (97080401/1250000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_257 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
+                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := wc_113 y (by linarith) (by linarith)
+                                    have hw2 : (97080401/1250000000000:ℝ) ≤ wfun (x+y) := wc_257 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
-                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_118 y (by linarith) (by linarith))
-                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_259 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
+                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := wc_118 y (by linarith) (by linarith)
+                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := wc_259 (x+y) (by linarith) (by linarith)
                                     linarith
                               · rcases le_total x (8605/8192:ℝ) with hc | hc
                                 · rcases le_total y (16409/8192:ℝ) with hc | hc
-                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
-                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_119 y (by linarith) (by linarith))
-                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_259 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
+                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := wc_119 y (by linarith) (by linarith)
+                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := wc_259 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
-                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_121 y (by linarith) (by linarith))
-                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_267 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
+                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_121 y (by linarith) (by linarith)
+                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := wc_267 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16409/8192:ℝ) with hc | hc
-                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
-                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_119 y (by linarith) (by linarith))
-                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_267 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
+                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := wc_119 y (by linarith) (by linarith)
+                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := wc_267 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
-                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_121 y (by linarith) (by linarith))
-                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_269 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
+                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_121 y (by linarith) (by linarith)
+                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := wc_269 (x+y) (by linarith) (by linarith)
                                     linarith
                           · rcases le_total x (4301/4096:ℝ) with hc | hc
                             · rcases le_total y (8209/4096:ℝ) with hc | hc
                               · rcases le_total x (8599/8192:ℝ) with hc | hc
                                 · rcases le_total y (16415/8192:ℝ) with hc | hc
-                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_33 x (by linarith) (by linarith))
-                                    have hw1 : (1253281709/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_122 y (by linarith) (by linarith))
-                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_259 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := wc_33 x (by linarith) (by linarith)
+                                    have hw1 : (1253281709/10000000000000:ℝ) ≤ wfun y := wc_122 y (by linarith) (by linarith)
+                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := wc_259 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_33 x (by linarith) (by linarith))
-                                    have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_125 y (by linarith) (by linarith))
-                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_267 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := wc_33 x (by linarith) (by linarith)
+                                    have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := wc_125 y (by linarith) (by linarith)
+                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := wc_267 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16415/8192:ℝ) with hc | hc
-                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_36 x (by linarith) (by linarith))
-                                    have hw1 : (1253281709/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_122 y (by linarith) (by linarith))
-                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_267 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_36 x (by linarith) (by linarith)
+                                    have hw1 : (1253281709/10000000000000:ℝ) ≤ wfun y := wc_122 y (by linarith) (by linarith)
+                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := wc_267 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_36 x (by linarith) (by linarith))
-                                    have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_125 y (by linarith) (by linarith))
-                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_269 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_36 x (by linarith) (by linarith)
+                                    have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := wc_125 y (by linarith) (by linarith)
+                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := wc_269 (x+y) (by linarith) (by linarith)
                                     linarith
                               · rcases le_total x (8599/8192:ℝ) with hc | hc
                                 · rcases le_total y (16421/8192:ℝ) with hc | hc
-                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_33 x (by linarith) (by linarith))
-                                    have hw1 : (1183650479/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_126 y (by linarith) (by linarith))
-                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_269 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := wc_33 x (by linarith) (by linarith)
+                                    have hw1 : (1183650479/10000000000000:ℝ) ≤ wfun y := wc_126 y (by linarith) (by linarith)
+                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := wc_269 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_33 x (by linarith) (by linarith))
-                                    have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_128 y (by linarith) (by linarith))
-                                    have hw2 : (211995251/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_273 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := wc_33 x (by linarith) (by linarith)
+                                    have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_128 y (by linarith) (by linarith)
+                                    have hw2 : (211995251/2500000000000:ℝ) ≤ wfun (x+y) := wc_273 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16421/8192:ℝ) with hc | hc
-                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_36 x (by linarith) (by linarith))
-                                    have hw1 : (1183650479/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_126 y (by linarith) (by linarith))
-                                    have hw2 : (211995251/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_273 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_36 x (by linarith) (by linarith)
+                                    have hw1 : (1183650479/10000000000000:ℝ) ≤ wfun y := wc_126 y (by linarith) (by linarith)
+                                    have hw2 : (211995251/2500000000000:ℝ) ≤ wfun (x+y) := wc_273 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_36 x (by linarith) (by linarith))
-                                    have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_128 y (by linarith) (by linarith))
-                                    have hw2 : (43314409/500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_275 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_36 x (by linarith) (by linarith)
+                                    have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_128 y (by linarith) (by linarith)
+                                    have hw2 : (43314409/500000000000:ℝ) ≤ wfun (x+y) := wc_275 (x+y) (by linarith) (by linarith)
                                     linarith
                             · rcases le_total y (8209/4096:ℝ) with hc | hc
                               · rcases le_total x (8605/8192:ℝ) with hc | hc
                                 · rcases le_total y (16415/8192:ℝ) with hc | hc
-                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
-                                    have hw1 : (1253281709/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_122 y (by linarith) (by linarith))
-                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_269 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
+                                    have hw1 : (1253281709/10000000000000:ℝ) ≤ wfun y := wc_122 y (by linarith) (by linarith)
+                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := wc_269 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
-                                    have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_125 y (by linarith) (by linarith))
-                                    have hw2 : (211995251/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_273 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
+                                    have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := wc_125 y (by linarith) (by linarith)
+                                    have hw2 : (211995251/2500000000000:ℝ) ≤ wfun (x+y) := wc_273 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16415/8192:ℝ) with hc | hc
-                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
-                                    have hw1 : (1253281709/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_122 y (by linarith) (by linarith))
-                                    have hw2 : (211995251/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_273 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
+                                    have hw1 : (1253281709/10000000000000:ℝ) ≤ wfun y := wc_122 y (by linarith) (by linarith)
+                                    have hw2 : (211995251/2500000000000:ℝ) ≤ wfun (x+y) := wc_273 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
-                                    have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_125 y (by linarith) (by linarith))
-                                    have hw2 : (43314409/500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_275 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
+                                    have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := wc_125 y (by linarith) (by linarith)
+                                    have hw2 : (43314409/500000000000:ℝ) ≤ wfun (x+y) := wc_275 (x+y) (by linarith) (by linarith)
                                     linarith
                               · rcases le_total x (8605/8192:ℝ) with hc | hc
                                 · rcases le_total y (16421/8192:ℝ) with hc | hc
-                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
-                                    have hw1 : (1183650479/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_126 y (by linarith) (by linarith))
-                                    have hw2 : (43314409/500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_275 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
+                                    have hw1 : (1183650479/10000000000000:ℝ) ≤ wfun y := wc_126 y (by linarith) (by linarith)
+                                    have hw2 : (43314409/500000000000:ℝ) ≤ wfun (x+y) := wc_275 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
-                                    have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_128 y (by linarith) (by linarith))
-                                    have hw2 : (884783967/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_281 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
+                                    have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_128 y (by linarith) (by linarith)
+                                    have hw2 : (884783967/10000000000000:ℝ) ≤ wfun (x+y) := wc_281 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16421/8192:ℝ) with hc | hc
-                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
-                                    have hw1 : (1183650479/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_126 y (by linarith) (by linarith))
-                                    have hw2 : (884783967/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_281 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
+                                    have hw1 : (1183650479/10000000000000:ℝ) ≤ wfun y := wc_126 y (by linarith) (by linarith)
+                                    have hw2 : (884783967/10000000000000:ℝ) ≤ wfun (x+y) := wc_281 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
-                                    have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_128 y (by linarith) (by linarith))
-                                    have hw2 : (903468127/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_283 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
+                                    have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_128 y (by linarith) (by linarith)
+                                    have hw2 : (903468127/10000000000000:ℝ) ≤ wfun (x+y) := wc_283 (x+y) (by linarith) (by linarith)
                                     linarith
                       · rcases le_total x (2149/2048:ℝ) with hc | hc
                         · rcases le_total y (4109/2048:ℝ) with hc | hc
                           · rcases le_total x (4295/4096:ℝ) with hc | hc
                             · rcases le_total y (8215/4096:ℝ) with hc | hc
                               · rcases le_total x (8587/8192:ℝ) with hc | hc
-                                · have hw0 : (322398213/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_25 x (by linarith) (by linarith))
-                                  have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_130 y (by linarith) (by linarith))
-                                  have hw2 : (39690529/500000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_260 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (322398213/5000000000000:ℝ) ≤ wfun x := wc_25 x (by linarith) (by linarith)
+                                  have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := wc_130 y (by linarith) (by linarith)
+                                  have hw2 : (39690529/500000000000:ℝ) ≤ wfun (x+y) := wc_260 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_29 x (by linarith) (by linarith))
-                                  have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_130 y (by linarith) (by linarith))
-                                  have hw2 : (811541977/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_268 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := wc_29 x (by linarith) (by linarith)
+                                  have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := wc_130 y (by linarith) (by linarith)
+                                  have hw2 : (811541977/10000000000000:ℝ) ≤ wfun (x+y) := wc_268 (x+y) (by linarith) (by linarith)
                                   linarith
                               · rcases le_total x (8587/8192:ℝ) with hc | hc
-                                · have hw0 : (322398213/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_25 x (by linarith) (by linarith))
-                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_134 y (by linarith) (by linarith))
-                                  have hw2 : (829462613/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_270 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (322398213/5000000000000:ℝ) ≤ wfun x := wc_25 x (by linarith) (by linarith)
+                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_134 y (by linarith) (by linarith)
+                                  have hw2 : (829462613/10000000000000:ℝ) ≤ wfun (x+y) := wc_270 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_29 x (by linarith) (by linarith))
-                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_134 y (by linarith) (by linarith))
-                                  have hw2 : (847572251/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_274 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := wc_29 x (by linarith) (by linarith)
+                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_134 y (by linarith) (by linarith)
+                                  have hw2 : (847572251/10000000000000:ℝ) ≤ wfun (x+y) := wc_274 (x+y) (by linarith) (by linarith)
                                   linarith
                             · rcases le_total y (8215/4096:ℝ) with hc | hc
                               · rcases le_total x (8593/8192:ℝ) with hc | hc
-                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_30 x (by linarith) (by linarith))
-                                  have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_130 y (by linarith) (by linarith))
-                                  have hw2 : (829462613/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_270 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := wc_30 x (by linarith) (by linarith)
+                                  have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := wc_130 y (by linarith) (by linarith)
+                                  have hw2 : (829462613/10000000000000:ℝ) ≤ wfun (x+y) := wc_270 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_32 x (by linarith) (by linarith))
-                                  have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_130 y (by linarith) (by linarith))
-                                  have hw2 : (847572251/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_274 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_32 x (by linarith) (by linarith)
+                                  have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := wc_130 y (by linarith) (by linarith)
+                                  have hw2 : (847572251/10000000000000:ℝ) ≤ wfun (x+y) := wc_274 (x+y) (by linarith) (by linarith)
                                   linarith
                               · rcases le_total x (8593/8192:ℝ) with hc | hc
-                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_30 x (by linarith) (by linarith))
-                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_134 y (by linarith) (by linarith))
-                                  have hw2 : (216467663/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_276 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := wc_30 x (by linarith) (by linarith)
+                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_134 y (by linarith) (by linarith)
+                                  have hw2 : (216467663/2500000000000:ℝ) ≤ wfun (x+y) := wc_276 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_32 x (by linarith) (by linarith))
-                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_134 y (by linarith) (by linarith))
-                                  have hw2 : (884357577/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_282 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_32 x (by linarith) (by linarith)
+                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_134 y (by linarith) (by linarith)
+                                  have hw2 : (884357577/10000000000000:ℝ) ≤ wfun (x+y) := wc_282 (x+y) (by linarith) (by linarith)
                                   linarith
                           · rcases le_total x (4295/4096:ℝ) with hc | hc
                             · rcases le_total y (8221/4096:ℝ) with hc | hc
-                              · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_26 x (by linarith) (by linarith))
-                                have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_135 y (by linarith) (by linarith))
-                                have hw2 : (13522709/156250000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_277 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := wc_26 x (by linarith) (by linarith)
+                                have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := wc_135 y (by linarith) (by linarith)
+                                have hw2 : (13522709/156250000000:ℝ) ≤ wfun (x+y) := wc_277 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_26 x (by linarith) (by linarith))
-                                have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_137 y (by linarith) (by linarith))
-                                have hw2 : (451298853/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_285 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := wc_26 x (by linarith) (by linarith)
+                                have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_137 y (by linarith) (by linarith)
+                                have hw2 : (451298853/5000000000000:ℝ) ≤ wfun (x+y) := wc_285 (x+y) (by linarith) (by linarith)
                                 linarith
                             · rcases le_total y (8221/4096:ℝ) with hc | hc
                               · rcases le_total x (8593/8192:ℝ) with hc | hc
-                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_30 x (by linarith) (by linarith))
-                                  have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_135 y (by linarith) (by linarith))
-                                  have hw2 : (180606557/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_284 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (543892897/10000000000000:ℝ) ≤ wfun x := wc_30 x (by linarith) (by linarith)
+                                  have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := wc_135 y (by linarith) (by linarith)
+                                  have hw2 : (180606557/2000000000000:ℝ) ≤ wfun (x+y) := wc_284 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_32 x (by linarith) (by linarith))
-                                  have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_135 y (by linarith) (by linarith))
-                                  have hw2 : (230474009/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_288 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_32 x (by linarith) (by linarith)
+                                  have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := wc_135 y (by linarith) (by linarith)
+                                  have hw2 : (230474009/2500000000000:ℝ) ≤ wfun (x+y) := wc_288 (x+y) (by linarith) (by linarith)
                                   linarith
-                              · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_31 x (by linarith) (by linarith))
-                                have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_137 y (by linarith) (by linarith))
-                                have hw2 : (18809877/200000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_291 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_31 x (by linarith) (by linarith)
+                                have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_137 y (by linarith) (by linarith)
+                                have hw2 : (18809877/200000000000:ℝ) ≤ wfun (x+y) := wc_291 (x+y) (by linarith) (by linarith)
                                 linarith
                         · rcases le_total y (4109/2048:ℝ) with hc | hc
                           · rcases le_total x (4301/4096:ℝ) with hc | hc
                             · rcases le_total y (8215/4096:ℝ) with hc | hc
                               · rcases le_total x (8599/8192:ℝ) with hc | hc
                                 · rcases le_total y (16427/8192:ℝ) with hc | hc
-                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_33 x (by linarith) (by linarith))
-                                    have hw1 : (1116047803/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_129 y (by linarith) (by linarith))
-                                    have hw2 : (43314409/500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_275 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := wc_33 x (by linarith) (by linarith)
+                                    have hw1 : (1116047803/10000000000000:ℝ) ≤ wfun y := wc_129 y (by linarith) (by linarith)
+                                    have hw2 : (43314409/500000000000:ℝ) ≤ wfun (x+y) := wc_275 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_33 x (by linarith) (by linarith))
-                                    have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_133 y (by linarith) (by linarith))
-                                    have hw2 : (884783967/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_281 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := wc_33 x (by linarith) (by linarith)
+                                    have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := wc_133 y (by linarith) (by linarith)
+                                    have hw2 : (884783967/10000000000000:ℝ) ≤ wfun (x+y) := wc_281 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16427/8192:ℝ) with hc | hc
-                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_36 x (by linarith) (by linarith))
-                                    have hw1 : (1116047803/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_129 y (by linarith) (by linarith))
-                                    have hw2 : (884783967/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_281 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_36 x (by linarith) (by linarith)
+                                    have hw1 : (1116047803/10000000000000:ℝ) ≤ wfun y := wc_129 y (by linarith) (by linarith)
+                                    have hw2 : (884783967/10000000000000:ℝ) ≤ wfun (x+y) := wc_281 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_36 x (by linarith) (by linarith))
-                                    have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_133 y (by linarith) (by linarith))
-                                    have hw2 : (903468127/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_283 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_36 x (by linarith) (by linarith)
+                                    have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := wc_133 y (by linarith) (by linarith)
+                                    have hw2 : (903468127/10000000000000:ℝ) ≤ wfun (x+y) := wc_283 (x+y) (by linarith) (by linarith)
                                     linarith
                               · rcases le_total x (8599/8192:ℝ) with hc | hc
-                                · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_33 x (by linarith) (by linarith))
-                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_134 y (by linarith) (by linarith))
-                                  have hw2 : (180606557/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_284 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := wc_33 x (by linarith) (by linarith)
+                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_134 y (by linarith) (by linarith)
+                                  have hw2 : (180606557/2000000000000:ℝ) ≤ wfun (x+y) := wc_284 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_36 x (by linarith) (by linarith))
-                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_134 y (by linarith) (by linarith))
-                                  have hw2 : (230474009/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_288 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_36 x (by linarith) (by linarith)
+                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_134 y (by linarith) (by linarith)
+                                  have hw2 : (230474009/2500000000000:ℝ) ≤ wfun (x+y) := wc_288 (x+y) (by linarith) (by linarith)
                                   linarith
                             · rcases le_total y (8215/4096:ℝ) with hc | hc
                               · rcases le_total x (8605/8192:ℝ) with hc | hc
                                 · rcases le_total y (16427/8192:ℝ) with hc | hc
-                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
-                                    have hw1 : (1116047803/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_129 y (by linarith) (by linarith))
-                                    have hw2 : (903468127/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_283 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
+                                    have hw1 : (1116047803/10000000000000:ℝ) ≤ wfun y := wc_129 y (by linarith) (by linarith)
+                                    have hw2 : (903468127/10000000000000:ℝ) ≤ wfun (x+y) := wc_283 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
-                                    have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_133 y (by linarith) (by linarith))
-                                    have hw2 : (461170209/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_287 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
+                                    have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := wc_133 y (by linarith) (by linarith)
+                                    have hw2 : (461170209/5000000000000:ℝ) ≤ wfun (x+y) := wc_287 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16427/8192:ℝ) with hc | hc
-                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
-                                    have hw1 : (1116047803/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_129 y (by linarith) (by linarith))
-                                    have hw2 : (461170209/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_287 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
+                                    have hw1 : (1116047803/10000000000000:ℝ) ≤ wfun y := wc_129 y (by linarith) (by linarith)
+                                    have hw2 : (461170209/5000000000000:ℝ) ≤ wfun (x+y) := wc_287 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
-                                    have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_133 y (by linarith) (by linarith))
-                                    have hw2 : (941400597/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_289 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
+                                    have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := wc_133 y (by linarith) (by linarith)
+                                    have hw2 : (941400597/10000000000000:ℝ) ≤ wfun (x+y) := wc_289 (x+y) (by linarith) (by linarith)
                                     linarith
                               · rcases le_total x (8605/8192:ℝ) with hc | hc
-                                · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
-                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_134 y (by linarith) (by linarith))
-                                  have hw2 : (940947087/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_290 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
+                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_134 y (by linarith) (by linarith)
+                                  have hw2 : (940947087/10000000000000:ℝ) ≤ wfun (x+y) := wc_290 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
-                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_134 y (by linarith) (by linarith))
-                                  have hw2 : (192037139/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_298 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
+                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_134 y (by linarith) (by linarith)
+                                  have hw2 : (192037139/2000000000000:ℝ) ≤ wfun (x+y) := wc_298 (x+y) (by linarith) (by linarith)
                                   linarith
                           · rcases le_total x (4301/4096:ℝ) with hc | hc
                             · rcases le_total y (8221/4096:ℝ) with hc | hc
                               · rcases le_total x (8599/8192:ℝ) with hc | hc
-                                · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_33 x (by linarith) (by linarith))
-                                  have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_135 y (by linarith) (by linarith))
-                                  have hw2 : (940947087/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_290 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (225854567/5000000000000:ℝ) ≤ wfun x := wc_33 x (by linarith) (by linarith)
+                                  have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := wc_135 y (by linarith) (by linarith)
+                                  have hw2 : (940947087/10000000000000:ℝ) ≤ wfun (x+y) := wc_290 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_36 x (by linarith) (by linarith))
-                                  have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_135 y (by linarith) (by linarith))
-                                  have hw2 : (192037139/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_298 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_36 x (by linarith) (by linarith)
+                                  have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := wc_135 y (by linarith) (by linarith)
+                                  have hw2 : (192037139/2000000000000:ℝ) ≤ wfun (x+y) := wc_298 (x+y) (by linarith) (by linarith)
                                   linarith
-                              · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_34 x (by linarith) (by linarith))
-                                have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_137 y (by linarith) (by linarith))
-                                have hw2 : (979139871/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_301 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_34 x (by linarith) (by linarith)
+                                have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_137 y (by linarith) (by linarith)
+                                have hw2 : (979139871/10000000000000:ℝ) ≤ wfun (x+y) := wc_301 (x+y) (by linarith) (by linarith)
                                 linarith
                             · rcases le_total y (8221/4096:ℝ) with hc | hc
                               · rcases le_total x (8605/8192:ℝ) with hc | hc
-                                · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_37 x (by linarith) (by linarith))
-                                  have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_135 y (by linarith) (by linarith))
-                                  have hw2 : (489805809/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_300 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (4602559/125000000000:ℝ) ≤ wfun x := wc_37 x (by linarith) (by linarith)
+                                  have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := wc_135 y (by linarith) (by linarith)
+                                  have hw2 : (489805809/5000000000000:ℝ) ≤ wfun (x+y) := wc_300 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_39 x (by linarith) (by linarith))
-                                  have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_135 y (by linarith) (by linarith))
-                                  have hw2 : (999224607/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_303 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_39 x (by linarith) (by linarith)
+                                  have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := wc_135 y (by linarith) (by linarith)
+                                  have hw2 : (999224607/10000000000000:ℝ) ≤ wfun (x+y) := wc_303 (x+y) (by linarith) (by linarith)
                                   linarith
-                              · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_38 x (by linarith) (by linarith))
-                                have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_137 y (by linarith) (by linarith))
-                                have hw2 : (203706763/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_305 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_38 x (by linarith) (by linarith)
+                                have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_137 y (by linarith) (by linarith)
+                                have hw2 : (203706763/2000000000000:ℝ) ≤ wfun (x+y) := wc_305 (x+y) (by linarith) (by linarith)
                                 linarith
             · rcases le_total y (511/256:ℝ) with hc | hc
               · rcases le_total x (541/512:ℝ) with hc | hc
                 · rcases le_total y (1019/512:ℝ) with hc | hc
                   · rcases le_total x (1079/1024:ℝ) with hc | hc
-                    · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                        exact le_trans (by norm_num) (wc_43 x (by linarith) (by linarith))
-                      have hw1 : (725907/2500000000:ℝ) ≤ wfun y := by
-                        exact le_trans (by norm_num) (wc_79 y (by linarith) (by linarith))
-                      have hw2 : (167970859/10000000000000:ℝ) ≤ wfun (x+y) := by
-                        exact le_trans (by norm_num) (wc_186 (x+y) (by linarith) (by linarith))
+                    · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_43 x (by linarith) (by linarith)
+                      have hw1 : (725907/2500000000:ℝ) ≤ wfun y := wc_79 y (by linarith) (by linarith)
+                      have hw2 : (167970859/10000000000000:ℝ) ≤ wfun (x+y) := wc_186 (x+y) (by linarith) (by linarith)
                       linarith
-                    · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := by
-                        exact le_trans (by norm_num) (wc_58 x (by linarith) (by linarith))
-                      have hw1 : (725907/2500000000:ℝ) ≤ wfun y := by
-                        exact le_trans (by norm_num) (wc_79 y (by linarith) (by linarith))
-                      have hw2 : (23990087/1000000000000:ℝ) ≤ wfun (x+y) := by
-                        exact le_trans (by norm_num) (wc_190 (x+y) (by linarith) (by linarith))
+                    · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := wc_58 x (by linarith) (by linarith)
+                      have hw1 : (725907/2500000000:ℝ) ≤ wfun y := wc_79 y (by linarith) (by linarith)
+                      have hw2 : (23990087/1000000000000:ℝ) ≤ wfun (x+y) := wc_190 (x+y) (by linarith) (by linarith)
                       linarith
                   · rcases le_total x (1079/1024:ℝ) with hc | hc
                     · rcases le_total y (2041/1024:ℝ) with hc | hc
                       · rcases le_total x (2155/2048:ℝ) with hc | hc
-                        · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_42 x (by linarith) (by linarith))
-                          have hw1 : (2490428543/10000000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_82 y (by linarith) (by linarith))
-                          have hw2 : (163138449/5000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_193 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_42 x (by linarith) (by linarith)
+                          have hw1 : (2490428543/10000000000000:ℝ) ≤ wfun y := wc_82 y (by linarith) (by linarith)
+                          have hw2 : (163138449/5000000000000:ℝ) ≤ wfun (x+y) := wc_193 (x+y) (by linarith) (by linarith)
                           linarith
-                        · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_51 x (by linarith) (by linarith))
-                          have hw1 : (2490428543/10000000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_82 y (by linarith) (by linarith))
-                          have hw2 : (373471029/10000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_198 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_51 x (by linarith) (by linarith)
+                          have hw1 : (2490428543/10000000000000:ℝ) ≤ wfun y := wc_82 y (by linarith) (by linarith)
+                          have hw2 : (373471029/10000000000000:ℝ) ≤ wfun (x+y) := wc_198 (x+y) (by linarith) (by linarith)
                           linarith
                       · rcases le_total x (2155/2048:ℝ) with hc | hc
                         · rcases le_total y (4085/2048:ℝ) with hc | hc
-                          · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_42 x (by linarith) (by linarith))
-                            have hw1 : (2295210877/10000000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_84 y (by linarith) (by linarith))
-                            have hw2 : (424603791/10000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_200 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_42 x (by linarith) (by linarith)
+                            have hw1 : (2295210877/10000000000000:ℝ) ≤ wfun y := wc_84 y (by linarith) (by linarith)
+                            have hw2 : (424603791/10000000000000:ℝ) ≤ wfun (x+y) := wc_200 (x+y) (by linarith) (by linarith)
                             linarith
                           · rcases le_total x (4307/4096:ℝ) with hc | hc
-                            · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_41 x (by linarith) (by linarith))
-                              have hw1 : (131690291/625000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_86 y (by linarith) (by linarith))
-                              have hw2 : (239293383/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_205 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_41 x (by linarith) (by linarith)
+                              have hw1 : (131690291/625000000000:ℝ) ≤ wfun y := wc_86 y (by linarith) (by linarith)
+                              have hw2 : (239293383/5000000000000:ℝ) ≤ wfun (x+y) := wc_205 (x+y) (by linarith) (by linarith)
                               linarith
-                            · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_47 x (by linarith) (by linarith))
-                              have hw1 : (131690291/625000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_86 y (by linarith) (by linarith))
-                              have hw2 : (506536259/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_209 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_47 x (by linarith) (by linarith)
+                              have hw1 : (131690291/625000000000:ℝ) ≤ wfun y := wc_86 y (by linarith) (by linarith)
+                              have hw2 : (506536259/10000000000000:ℝ) ≤ wfun (x+y) := wc_209 (x+y) (by linarith) (by linarith)
                               linarith
                         · rcases le_total y (4085/2048:ℝ) with hc | hc
-                          · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_51 x (by linarith) (by linarith))
-                            have hw1 : (2295210877/10000000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_84 y (by linarith) (by linarith))
-                            have hw2 : (478124453/10000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_206 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_51 x (by linarith) (by linarith)
+                            have hw1 : (2295210877/10000000000000:ℝ) ≤ wfun y := wc_84 y (by linarith) (by linarith)
+                            have hw2 : (478124453/10000000000000:ℝ) ≤ wfun (x+y) := wc_206 (x+y) (by linarith) (by linarith)
                             linarith
                           · rcases le_total x (4313/4096:ℝ) with hc | hc
-                            · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_50 x (by linarith) (by linarith))
-                              have hw1 : (131690291/625000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_86 y (by linarith) (by linarith))
-                              have hw2 : (53525901/1000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_211 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := wc_50 x (by linarith) (by linarith)
+                              have hw1 : (131690291/625000000000:ℝ) ≤ wfun y := wc_86 y (by linarith) (by linarith)
+                              have hw2 : (53525901/1000000000000:ℝ) ≤ wfun (x+y) := wc_211 (x+y) (by linarith) (by linarith)
                               linarith
-                            · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_54 x (by linarith) (by linarith))
-                              have hw1 : (131690291/625000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_86 y (by linarith) (by linarith))
-                              have hw2 : (17648539/312500000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_219 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_54 x (by linarith) (by linarith)
+                              have hw1 : (131690291/625000000000:ℝ) ≤ wfun y := wc_86 y (by linarith) (by linarith)
+                              have hw2 : (17648539/312500000000:ℝ) ≤ wfun (x+y) := wc_219 (x+y) (by linarith) (by linarith)
                               linarith
                     · rcases le_total y (2041/1024:ℝ) with hc | hc
-                      · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := by
-                          exact le_trans (by norm_num) (wc_58 x (by linarith) (by linarith))
-                        have hw1 : (2490428543/10000000000000:ℝ) ≤ wfun y := by
-                          exact le_trans (by norm_num) (wc_82 y (by linarith) (by linarith))
-                        have hw2 : (84593141/2000000000000:ℝ) ≤ wfun (x+y) := by
-                          exact le_trans (by norm_num) (wc_202 (x+y) (by linarith) (by linarith))
+                      · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := wc_58 x (by linarith) (by linarith)
+                        have hw1 : (2490428543/10000000000000:ℝ) ≤ wfun y := wc_82 y (by linarith) (by linarith)
+                        have hw2 : (84593141/2000000000000:ℝ) ≤ wfun (x+y) := wc_202 (x+y) (by linarith) (by linarith)
                         linarith
                       · rcases le_total x (2161/2048:ℝ) with hc | hc
                         · rcases le_total y (4085/2048:ℝ) with hc | hc
-                          · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_57 x (by linarith) (by linarith))
-                            have hw1 : (2295210877/10000000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_84 y (by linarith) (by linarith))
-                            have hw2 : (534742203/10000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_212 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := wc_57 x (by linarith) (by linarith)
+                            have hw1 : (2295210877/10000000000000:ℝ) ≤ wfun y := wc_84 y (by linarith) (by linarith)
+                            have hw2 : (534742203/10000000000000:ℝ) ≤ wfun (x+y) := wc_212 (x+y) (by linarith) (by linarith)
                             linarith
-                          · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_57 x (by linarith) (by linarith))
-                            have hw1 : (131690291/625000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_86 y (by linarith) (by linarith))
-                            have hw2 : (594442967/10000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_223 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := wc_57 x (by linarith) (by linarith)
+                            have hw1 : (131690291/625000000000:ℝ) ≤ wfun y := wc_86 y (by linarith) (by linarith)
+                            have hw2 : (594442967/10000000000000:ℝ) ≤ wfun (x+y) := wc_223 (x+y) (by linarith) (by linarith)
                             linarith
-                        · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_60 x (by linarith) (by linarith))
-                          have hw1 : (2106365377/10000000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_85 y (by linarith) (by linarith))
-                          have hw2 : (593296593/10000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_224 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := wc_60 x (by linarith) (by linarith)
+                          have hw1 : (2106365377/10000000000000:ℝ) ≤ wfun y := wc_85 y (by linarith) (by linarith)
+                          have hw2 : (593296593/10000000000000:ℝ) ≤ wfun (x+y) := wc_224 (x+y) (by linarith) (by linarith)
                           linarith
                 · rcases le_total y (1019/512:ℝ) with hc | hc
-                  · have hw0 : (0:ℝ) ≤ wfun x := by
-                      exact le_trans (by norm_num) (wc_62 x (by linarith) (by linarith))
-                    have hw1 : (725907/2500000000:ℝ) ≤ wfun y := by
-                      exact le_trans (by norm_num) (wc_79 y (by linarith) (by linarith))
-                    have hw2 : (8078497/250000000000:ℝ) ≤ wfun (x+y) := by
-                      exact le_trans (by norm_num) (wc_195 (x+y) (by linarith) (by linarith))
+                  · have hw0 : (0:ℝ) ≤ wfun x := wc_62 x (by linarith) (by linarith)
+                    have hw1 : (725907/2500000000:ℝ) ≤ wfun y := wc_79 y (by linarith) (by linarith)
+                    have hw2 : (8078497/250000000000:ℝ) ≤ wfun (x+y) := wc_195 (x+y) (by linarith) (by linarith)
                     linarith
                   · rcases le_total x (1085/1024:ℝ) with hc | hc
                     · rcases le_total y (2041/1024:ℝ) with hc | hc
-                      · have hw0 : (0:ℝ) ≤ wfun x := by
-                          exact le_trans (by norm_num) (wc_61 x (by linarith) (by linarith))
-                        have hw1 : (2490428543/10000000000000:ℝ) ≤ wfun y := by
-                          exact le_trans (by norm_num) (wc_82 y (by linarith) (by linarith))
-                        have hw2 : (53268121/1000000000000:ℝ) ≤ wfun (x+y) := by
-                          exact le_trans (by norm_num) (wc_214 (x+y) (by linarith) (by linarith))
+                      · have hw0 : (0:ℝ) ≤ wfun x := wc_61 x (by linarith) (by linarith)
+                        have hw1 : (2490428543/10000000000000:ℝ) ≤ wfun y := wc_82 y (by linarith) (by linarith)
+                        have hw2 : (53268121/1000000000000:ℝ) ≤ wfun (x+y) := wc_214 (x+y) (by linarith) (by linarith)
                         linarith
-                      · have hw0 : (0:ℝ) ≤ wfun x := by
-                          exact le_trans (by norm_num) (wc_61 x (by linarith) (by linarith))
-                        have hw1 : (2106365377/10000000000000:ℝ) ≤ wfun y := by
-                          exact le_trans (by norm_num) (wc_85 y (by linarith) (by linarith))
-                        have hw2 : (654681879/10000000000000:ℝ) ≤ wfun (x+y) := by
-                          exact le_trans (by norm_num) (wc_235 (x+y) (by linarith) (by linarith))
+                      · have hw0 : (0:ℝ) ≤ wfun x := wc_61 x (by linarith) (by linarith)
+                        have hw1 : (2106365377/10000000000000:ℝ) ≤ wfun y := wc_85 y (by linarith) (by linarith)
+                        have hw2 : (654681879/10000000000000:ℝ) ≤ wfun (x+y) := wc_235 (x+y) (by linarith) (by linarith)
                         linarith
-                    · have hw0 : (1243063/312500000000:ℝ) ≤ wfun x := by
-                        exact le_trans (by norm_num) (wc_63 x (by linarith) (by linarith))
-                      have hw1 : (2104769793/10000000000000:ℝ) ≤ wfun y := by
-                        exact le_trans (by norm_num) (wc_83 y (by linarith) (by linarith))
-                      have hw2 : (652163497/10000000000000:ℝ) ≤ wfun (x+y) := by
-                        exact le_trans (by norm_num) (wc_236 (x+y) (by linarith) (by linarith))
+                    · have hw0 : (1243063/312500000000:ℝ) ≤ wfun x := wc_63 x (by linarith) (by linarith)
+                      have hw1 : (2104769793/10000000000000:ℝ) ≤ wfun y := wc_83 y (by linarith) (by linarith)
+                      have hw2 : (652163497/10000000000000:ℝ) ≤ wfun (x+y) := wc_236 (x+y) (by linarith) (by linarith)
                       linarith
               · rcases le_total x (541/512:ℝ) with hc | hc
                 · rcases le_total y (1025/512:ℝ) with hc | hc
@@ -1947,152 +1287,95 @@ lemma pair_0_1 (x y : ℝ) (hx1 : (65/64:ℝ) ≤ x) (hx2 : x ≤ (71/64:ℝ))
                         · rcases le_total y (4091/2048:ℝ) with hc | hc
                           · rcases le_total x (4307/4096:ℝ) with hc | hc
                             · rcases le_total y (8179/4096:ℝ) with hc | hc
-                              · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_41 x (by linarith) (by linarith))
-                                have hw1 : (1008150283/5000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_87 y (by linarith) (by linarith))
-                                have hw2 : (535776441/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_210 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_41 x (by linarith) (by linarith)
+                                have hw1 : (1008150283/5000000000000:ℝ) ≤ wfun y := wc_87 y (by linarith) (by linarith)
+                                have hw2 : (535776441/10000000000000:ℝ) ≤ wfun (x+y) := wc_210 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_41 x (by linarith) (by linarith))
-                                have hw1 : (1927303521/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_91 y (by linarith) (by linarith))
-                                have hw2 : (565299059/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_218 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_41 x (by linarith) (by linarith)
+                                have hw1 : (1927303521/10000000000000:ℝ) ≤ wfun y := wc_91 y (by linarith) (by linarith)
+                                have hw2 : (565299059/10000000000000:ℝ) ≤ wfun (x+y) := wc_218 (x+y) (by linarith) (by linarith)
                                 linarith
                             · rcases le_total y (8179/4096:ℝ) with hc | hc
-                              · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_47 x (by linarith) (by linarith))
-                                have hw1 : (1008150283/5000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_87 y (by linarith) (by linarith))
-                                have hw2 : (565299059/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_218 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_47 x (by linarith) (by linarith)
+                                have hw1 : (1008150283/5000000000000:ℝ) ≤ wfun y := wc_87 y (by linarith) (by linarith)
+                                have hw2 : (565299059/10000000000000:ℝ) ≤ wfun (x+y) := wc_218 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_47 x (by linarith) (by linarith))
-                                have hw1 : (1927303521/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_91 y (by linarith) (by linarith))
-                                have hw2 : (595592113/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_221 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_47 x (by linarith) (by linarith)
+                                have hw1 : (1927303521/10000000000000:ℝ) ≤ wfun y := wc_91 y (by linarith) (by linarith)
+                                have hw2 : (595592113/10000000000000:ℝ) ≤ wfun (x+y) := wc_221 (x+y) (by linarith) (by linarith)
                                 linarith
                           · rcases le_total x (4307/4096:ℝ) with hc | hc
                             · rcases le_total y (8185/4096:ℝ) with hc | hc
-                              · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_41 x (by linarith) (by linarith))
-                                have hw1 : (1840360753/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_92 y (by linarith) (by linarith))
-                                have hw2 : (595592113/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_221 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_41 x (by linarith) (by linarith)
+                                have hw1 : (1840360753/10000000000000:ℝ) ≤ wfun y := wc_92 y (by linarith) (by linarith)
+                                have hw2 : (595592113/10000000000000:ℝ) ≤ wfun (x+y) := wc_221 (x+y) (by linarith) (by linarith)
                                 linarith
                               · rcases le_total x (8611/8192:ℝ) with hc | hc
-                                · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                  have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_94 y (by linarith) (by linarith))
-                                  have hw2 : (125391291/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_226 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                  have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := wc_94 y (by linarith) (by linarith)
+                                  have hw2 : (125391291/2000000000000:ℝ) ≤ wfun (x+y) := wc_226 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                  have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_94 y (by linarith) (by linarith))
-                                  have hw2 : (25711303/400000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_229 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                  have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := wc_94 y (by linarith) (by linarith)
+                                  have hw2 : (25711303/400000000000:ℝ) ≤ wfun (x+y) := wc_229 (x+y) (by linarith) (by linarith)
                                   linarith
                             · rcases le_total y (8185/4096:ℝ) with hc | hc
-                              · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_47 x (by linarith) (by linarith))
-                                have hw1 : (1840360753/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_92 y (by linarith) (by linarith))
-                                have hw2 : (313326901/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_227 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_47 x (by linarith) (by linarith)
+                                have hw1 : (1840360753/10000000000000:ℝ) ≤ wfun y := wc_92 y (by linarith) (by linarith)
+                                have hw2 : (313326901/5000000000000:ℝ) ≤ wfun (x+y) := wc_227 (x+y) (by linarith) (by linarith)
                                 linarith
                               · rcases le_total x (8617/8192:ℝ) with hc | hc
-                                · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_46 x (by linarith) (by linarith))
-                                  have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_94 y (by linarith) (by linarith))
-                                  have hw2 : (658800263/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_231 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := wc_46 x (by linarith) (by linarith)
+                                  have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := wc_94 y (by linarith) (by linarith)
+                                  have hw2 : (658800263/10000000000000:ℝ) ≤ wfun (x+y) := wc_231 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_48 x (by linarith) (by linarith))
-                                  have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_94 y (by linarith) (by linarith))
-                                  have hw2 : (168752323/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_238 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_48 x (by linarith) (by linarith)
+                                  have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := wc_94 y (by linarith) (by linarith)
+                                  have hw2 : (168752323/2500000000000:ℝ) ≤ wfun (x+y) := wc_238 (x+y) (by linarith) (by linarith)
                                   linarith
                         · rcases le_total y (4091/2048:ℝ) with hc | hc
                           · rcases le_total x (4313/4096:ℝ) with hc | hc
                             · rcases le_total y (8179/4096:ℝ) with hc | hc
-                              · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_50 x (by linarith) (by linarith))
-                                have hw1 : (1008150283/5000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_87 y (by linarith) (by linarith))
-                                have hw2 : (595592113/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_221 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := wc_50 x (by linarith) (by linarith)
+                                have hw1 : (1008150283/5000000000000:ℝ) ≤ wfun y := wc_87 y (by linarith) (by linarith)
+                                have hw2 : (595592113/10000000000000:ℝ) ≤ wfun (x+y) := wc_221 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_50 x (by linarith) (by linarith))
-                                have hw1 : (1927303521/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_91 y (by linarith) (by linarith))
-                                have hw2 : (313326901/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_227 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := wc_50 x (by linarith) (by linarith)
+                                have hw1 : (1927303521/10000000000000:ℝ) ≤ wfun y := wc_91 y (by linarith) (by linarith)
+                                have hw2 : (313326901/5000000000000:ℝ) ≤ wfun (x+y) := wc_227 (x+y) (by linarith) (by linarith)
                                 linarith
                             · rcases le_total y (8179/4096:ℝ) with hc | hc
-                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_54 x (by linarith) (by linarith))
-                                have hw1 : (1008150283/5000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_87 y (by linarith) (by linarith))
-                                have hw2 : (313326901/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_227 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_54 x (by linarith) (by linarith)
+                                have hw1 : (1008150283/5000000000000:ℝ) ≤ wfun y := wc_87 y (by linarith) (by linarith)
+                                have hw2 : (313326901/5000000000000:ℝ) ≤ wfun (x+y) := wc_227 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_54 x (by linarith) (by linarith))
-                                have hw1 : (1927303521/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_91 y (by linarith) (by linarith))
-                                have hw2 : (164620579/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_232 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_54 x (by linarith) (by linarith)
+                                have hw1 : (1927303521/10000000000000:ℝ) ≤ wfun y := wc_91 y (by linarith) (by linarith)
+                                have hw2 : (164620579/2500000000000:ℝ) ≤ wfun (x+y) := wc_232 (x+y) (by linarith) (by linarith)
                                 linarith
                           · rcases le_total x (4313/4096:ℝ) with hc | hc
                             · rcases le_total y (8185/4096:ℝ) with hc | hc
-                              · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_50 x (by linarith) (by linarith))
-                                have hw1 : (1840360753/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_92 y (by linarith) (by linarith))
-                                have hw2 : (164620579/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_232 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := wc_50 x (by linarith) (by linarith)
+                                have hw1 : (1840360753/10000000000000:ℝ) ≤ wfun y := wc_92 y (by linarith) (by linarith)
+                                have hw2 : (164620579/2500000000000:ℝ) ≤ wfun (x+y) := wc_232 (x+y) (by linarith) (by linarith)
                                 linarith
                               · rcases le_total x (8623/8192:ℝ) with hc | hc
-                                · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_49 x (by linarith) (by linarith))
-                                  have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_94 y (by linarith) (by linarith))
-                                  have hw2 : (69140943/1000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_240 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := wc_49 x (by linarith) (by linarith)
+                                  have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := wc_94 y (by linarith) (by linarith)
+                                  have hw2 : (69140943/1000000000000:ℝ) ≤ wfun (x+y) := wc_240 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_52 x (by linarith) (by linarith))
-                                  have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_94 y (by linarith) (by linarith))
-                                  have hw2 : (708000447/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_244 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := wc_52 x (by linarith) (by linarith)
+                                  have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := wc_94 y (by linarith) (by linarith)
+                                  have hw2 : (708000447/10000000000000:ℝ) ≤ wfun (x+y) := wc_244 (x+y) (by linarith) (by linarith)
                                   linarith
                             · rcases le_total y (8185/4096:ℝ) with hc | hc
-                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_54 x (by linarith) (by linarith))
-                                have hw1 : (1840360753/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_92 y (by linarith) (by linarith))
-                                have hw2 : (27643033/400000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_241 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_54 x (by linarith) (by linarith)
+                                have hw1 : (1840360753/10000000000000:ℝ) ≤ wfun y := wc_92 y (by linarith) (by linarith)
+                                have hw2 : (27643033/400000000000:ℝ) ≤ wfun (x+y) := wc_241 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_54 x (by linarith) (by linarith))
-                                have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_94 y (by linarith) (by linarith))
-                                have hw2 : (72443249/1000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_247 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_54 x (by linarith) (by linarith)
+                                have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := wc_94 y (by linarith) (by linarith)
+                                have hw2 : (72443249/1000000000000:ℝ) ≤ wfun (x+y) := wc_247 (x+y) (by linarith) (by linarith)
                                 linarith
                       · rcases le_total x (2155/2048:ℝ) with hc | hc
                         · rcases le_total y (4097/2048:ℝ) with hc | hc
@@ -2100,505 +1383,332 @@ lemma pair_0_1 (x y : ℝ) (hx1 : (65/64:ℝ) ≤ x) (hx2 : x ≤ (71/64:ℝ))
                             · rcases le_total y (8191/4096:ℝ) with hc | hc
                               · rcases le_total x (8611/8192:ℝ) with hc | hc
                                 · rcases le_total y (16379/8192:ℝ) with hc | hc
-                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                    have hw1 : (856909301/5000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_95 y (by linarith) (by linarith))
-                                    have hw2 : (659118403/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_230 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                    have hw1 : (856909301/5000000000000:ℝ) ≤ wfun y := wc_95 y (by linarith) (by linarith)
+                                    have hw2 : (659118403/10000000000000:ℝ) ≤ wfun (x+y) := wc_230 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                    have hw1 : (1672641197/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_98 y (by linarith) (by linarith))
-                                    have hw2 : (675335219/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_237 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                    have hw1 : (1672641197/10000000000000:ℝ) ≤ wfun y := wc_98 y (by linarith) (by linarith)
+                                    have hw2 : (675335219/10000000000000:ℝ) ≤ wfun (x+y) := wc_237 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16379/8192:ℝ) with hc | hc
-                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                    have hw1 : (856909301/5000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_95 y (by linarith) (by linarith))
-                                    have hw2 : (675335219/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_237 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                    have hw1 : (856909301/5000000000000:ℝ) ≤ wfun y := wc_95 y (by linarith) (by linarith)
+                                    have hw2 : (675335219/10000000000000:ℝ) ≤ wfun (x+y) := wc_237 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                    have hw1 : (1672641197/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_98 y (by linarith) (by linarith))
-                                    have hw2 : (172935809/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_239 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                    have hw1 : (1672641197/10000000000000:ℝ) ≤ wfun y := wc_98 y (by linarith) (by linarith)
+                                    have hw2 : (172935809/2500000000000:ℝ) ≤ wfun (x+y) := wc_239 (x+y) (by linarith) (by linarith)
                                     linarith
                               · rcases le_total x (8611/8192:ℝ) with hc | hc
                                 · rcases le_total y (16385/8192:ℝ) with hc | hc
-                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
+                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
                                     have hw1 : (203996733/1250000000000:ℝ) ≤ wfun y := by
                                       rcases le_total y (2:ℝ) with hq0 | hq0
                                       · exact le_trans (by norm_num) (wc_99 y (by linarith) (by linarith))
                                       exact le_trans (by norm_num) (wc_100 y (by linarith) (by linarith))
-                                    have hw2 : (172935809/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_239 (x+y) (by linarith) (by linarith))
+                                    have hw2 : (172935809/2500000000000:ℝ) ≤ wfun (x+y) := wc_239 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                    have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_105 y (by linarith) (by linarith))
-                                    have hw2 : (708342221/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_243 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                    have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := wc_105 y (by linarith) (by linarith)
+                                    have hw2 : (708342221/10000000000000:ℝ) ≤ wfun (x+y) := wc_243 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16385/8192:ℝ) with hc | hc
-                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
+                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
                                     have hw1 : (203996733/1250000000000:ℝ) ≤ wfun y := by
                                       rcases le_total y (2:ℝ) with hq0 | hq0
                                       · exact le_trans (by norm_num) (wc_99 y (by linarith) (by linarith))
                                       exact le_trans (by norm_num) (wc_100 y (by linarith) (by linarith))
-                                    have hw2 : (708342221/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_243 (x+y) (by linarith) (by linarith))
+                                    have hw2 : (708342221/10000000000000:ℝ) ≤ wfun (x+y) := wc_243 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                    have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_105 y (by linarith) (by linarith))
-                                    have hw2 : (145026389/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_245 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                    have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := wc_105 y (by linarith) (by linarith)
+                                    have hw2 : (145026389/2000000000000:ℝ) ≤ wfun (x+y) := wc_245 (x+y) (by linarith) (by linarith)
                                     linarith
                             · rcases le_total y (8191/4096:ℝ) with hc | hc
                               · rcases le_total x (8617/8192:ℝ) with hc | hc
-                                · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_46 x (by linarith) (by linarith))
-                                  have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_96 y (by linarith) (by linarith))
-                                  have hw2 : (69140943/1000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_240 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := wc_46 x (by linarith) (by linarith)
+                                  have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := wc_96 y (by linarith) (by linarith)
+                                  have hw2 : (69140943/1000000000000:ℝ) ≤ wfun (x+y) := wc_240 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_48 x (by linarith) (by linarith))
-                                  have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_96 y (by linarith) (by linarith))
-                                  have hw2 : (708000447/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_244 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_48 x (by linarith) (by linarith)
+                                  have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := wc_96 y (by linarith) (by linarith)
+                                  have hw2 : (708000447/10000000000000:ℝ) ≤ wfun (x+y) := wc_244 (x+y) (by linarith) (by linarith)
                                   linarith
                               · rcases le_total x (8617/8192:ℝ) with hc | hc
                                 · rcases le_total y (16385/8192:ℝ) with hc | hc
-                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_46 x (by linarith) (by linarith))
+                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := wc_46 x (by linarith) (by linarith)
                                     have hw1 : (203996733/1250000000000:ℝ) ≤ wfun y := by
                                       rcases le_total y (2:ℝ) with hq0 | hq0
                                       · exact le_trans (by norm_num) (wc_99 y (by linarith) (by linarith))
                                       exact le_trans (by norm_num) (wc_100 y (by linarith) (by linarith))
-                                    have hw2 : (145026389/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_245 (x+y) (by linarith) (by linarith))
+                                    have hw2 : (145026389/2000000000000:ℝ) ≤ wfun (x+y) := wc_245 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_46 x (by linarith) (by linarith))
-                                    have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_105 y (by linarith) (by linarith))
-                                    have hw2 : (742112173/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_251 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := wc_46 x (by linarith) (by linarith)
+                                    have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := wc_105 y (by linarith) (by linarith)
+                                    have hw2 : (742112173/10000000000000:ℝ) ≤ wfun (x+y) := wc_251 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16385/8192:ℝ) with hc | hc
-                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_48 x (by linarith) (by linarith))
+                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_48 x (by linarith) (by linarith)
                                     have hw1 : (203996733/1250000000000:ℝ) ≤ wfun y := by
                                       rcases le_total y (2:ℝ) with hq0 | hq0
                                       · exact le_trans (by norm_num) (wc_99 y (by linarith) (by linarith))
                                       exact le_trans (by norm_num) (wc_100 y (by linarith) (by linarith))
-                                    have hw2 : (742112173/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_251 (x+y) (by linarith) (by linarith))
+                                    have hw2 : (742112173/10000000000000:ℝ) ≤ wfun (x+y) := wc_251 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_48 x (by linarith) (by linarith))
-                                    have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_105 y (by linarith) (by linarith))
-                                    have hw2 : (47455167/625000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_253 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_48 x (by linarith) (by linarith)
+                                    have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := wc_105 y (by linarith) (by linarith)
+                                    have hw2 : (47455167/625000000000:ℝ) ≤ wfun (x+y) := wc_253 (x+y) (by linarith) (by linarith)
                                     linarith
                           · rcases le_total x (4307/4096:ℝ) with hc | hc
                             · rcases le_total y (8197/4096:ℝ) with hc | hc
                               · rcases le_total x (8611/8192:ℝ) with hc | hc
                                 · rcases le_total y (16391/8192:ℝ) with hc | hc
-                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                    have hw1 : (1552153897/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_106 y (by linarith) (by linarith))
-                                    have hw2 : (145026389/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_245 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                    have hw1 : (1552153897/10000000000000:ℝ) ≤ wfun y := wc_106 y (by linarith) (by linarith)
+                                    have hw2 : (145026389/2000000000000:ℝ) ≤ wfun (x+y) := wc_245 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                    have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_109 y (by linarith) (by linarith))
-                                    have hw2 : (742112173/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_251 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                    have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := wc_109 y (by linarith) (by linarith)
+                                    have hw2 : (742112173/10000000000000:ℝ) ≤ wfun (x+y) := wc_251 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16391/8192:ℝ) with hc | hc
-                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                    have hw1 : (1552153897/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_106 y (by linarith) (by linarith))
-                                    have hw2 : (742112173/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_251 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                    have hw1 : (1552153897/10000000000000:ℝ) ≤ wfun y := wc_106 y (by linarith) (by linarith)
+                                    have hw2 : (742112173/10000000000000:ℝ) ≤ wfun (x+y) := wc_251 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                    have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_109 y (by linarith) (by linarith))
-                                    have hw2 : (47455167/625000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_253 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                    have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := wc_109 y (by linarith) (by linarith)
+                                    have hw2 : (47455167/625000000000:ℝ) ≤ wfun (x+y) := wc_253 (x+y) (by linarith) (by linarith)
                                     linarith
                               · rcases le_total x (8611/8192:ℝ) with hc | hc
                                 · rcases le_total y (16397/8192:ℝ) with hc | hc
-                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                    have hw1 : (1474377683/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_110 y (by linarith) (by linarith))
-                                    have hw2 : (47455167/625000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_253 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                    have hw1 : (1474377683/10000000000000:ℝ) ≤ wfun y := wc_110 y (by linarith) (by linarith)
+                                    have hw2 : (47455167/625000000000:ℝ) ≤ wfun (x+y) := wc_253 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                    have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_112 y (by linarith) (by linarith))
-                                    have hw2 : (97080401/1250000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_257 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                    have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_112 y (by linarith) (by linarith)
+                                    have hw2 : (97080401/1250000000000:ℝ) ≤ wfun (x+y) := wc_257 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16397/8192:ℝ) with hc | hc
-                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                    have hw1 : (1474377683/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_110 y (by linarith) (by linarith))
-                                    have hw2 : (97080401/1250000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_257 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                    have hw1 : (1474377683/10000000000000:ℝ) ≤ wfun y := wc_110 y (by linarith) (by linarith)
+                                    have hw2 : (97080401/1250000000000:ℝ) ≤ wfun (x+y) := wc_257 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                    have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_112 y (by linarith) (by linarith))
-                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_259 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                    have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_112 y (by linarith) (by linarith)
+                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := wc_259 (x+y) (by linarith) (by linarith)
                                     linarith
                             · rcases le_total y (8197/4096:ℝ) with hc | hc
                               · rcases le_total x (8617/8192:ℝ) with hc | hc
                                 · rcases le_total y (16391/8192:ℝ) with hc | hc
-                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_46 x (by linarith) (by linarith))
-                                    have hw1 : (1552153897/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_106 y (by linarith) (by linarith))
-                                    have hw2 : (47455167/625000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_253 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := wc_46 x (by linarith) (by linarith)
+                                    have hw1 : (1552153897/10000000000000:ℝ) ≤ wfun y := wc_106 y (by linarith) (by linarith)
+                                    have hw2 : (47455167/625000000000:ℝ) ≤ wfun (x+y) := wc_253 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_46 x (by linarith) (by linarith))
-                                    have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_109 y (by linarith) (by linarith))
-                                    have hw2 : (97080401/1250000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_257 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := wc_46 x (by linarith) (by linarith)
+                                    have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := wc_109 y (by linarith) (by linarith)
+                                    have hw2 : (97080401/1250000000000:ℝ) ≤ wfun (x+y) := wc_257 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16391/8192:ℝ) with hc | hc
-                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_48 x (by linarith) (by linarith))
-                                    have hw1 : (1552153897/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_106 y (by linarith) (by linarith))
-                                    have hw2 : (97080401/1250000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_257 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_48 x (by linarith) (by linarith)
+                                    have hw1 : (1552153897/10000000000000:ℝ) ≤ wfun y := wc_106 y (by linarith) (by linarith)
+                                    have hw2 : (97080401/1250000000000:ℝ) ≤ wfun (x+y) := wc_257 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_48 x (by linarith) (by linarith))
-                                    have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_109 y (by linarith) (by linarith))
-                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_259 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_48 x (by linarith) (by linarith)
+                                    have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := wc_109 y (by linarith) (by linarith)
+                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := wc_259 (x+y) (by linarith) (by linarith)
                                     linarith
                               · rcases le_total x (8617/8192:ℝ) with hc | hc
                                 · rcases le_total y (16397/8192:ℝ) with hc | hc
-                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_46 x (by linarith) (by linarith))
-                                    have hw1 : (1474377683/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_110 y (by linarith) (by linarith))
-                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_259 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := wc_46 x (by linarith) (by linarith)
+                                    have hw1 : (1474377683/10000000000000:ℝ) ≤ wfun y := wc_110 y (by linarith) (by linarith)
+                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := wc_259 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_46 x (by linarith) (by linarith))
-                                    have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_112 y (by linarith) (by linarith))
-                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_267 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := wc_46 x (by linarith) (by linarith)
+                                    have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_112 y (by linarith) (by linarith)
+                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := wc_267 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16397/8192:ℝ) with hc | hc
-                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_48 x (by linarith) (by linarith))
-                                    have hw1 : (1474377683/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_110 y (by linarith) (by linarith))
-                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_267 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_48 x (by linarith) (by linarith)
+                                    have hw1 : (1474377683/10000000000000:ℝ) ≤ wfun y := wc_110 y (by linarith) (by linarith)
+                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := wc_267 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_48 x (by linarith) (by linarith))
-                                    have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_112 y (by linarith) (by linarith))
-                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_269 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_48 x (by linarith) (by linarith)
+                                    have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_112 y (by linarith) (by linarith)
+                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := wc_269 (x+y) (by linarith) (by linarith)
                                     linarith
                         · rcases le_total y (4097/2048:ℝ) with hc | hc
                           · rcases le_total x (4313/4096:ℝ) with hc | hc
                             · rcases le_total y (8191/4096:ℝ) with hc | hc
                               · rcases le_total x (8623/8192:ℝ) with hc | hc
-                                · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_49 x (by linarith) (by linarith))
-                                  have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_96 y (by linarith) (by linarith))
-                                  have hw2 : (724782111/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_246 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := wc_49 x (by linarith) (by linarith)
+                                  have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := wc_96 y (by linarith) (by linarith)
+                                  have hw2 : (724782111/10000000000000:ℝ) ≤ wfun (x+y) := wc_246 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_52 x (by linarith) (by linarith))
-                                  have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_96 y (by linarith) (by linarith))
-                                  have hw2 : (741754191/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_252 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := wc_52 x (by linarith) (by linarith)
+                                  have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := wc_96 y (by linarith) (by linarith)
+                                  have hw2 : (741754191/10000000000000:ℝ) ≤ wfun (x+y) := wc_252 (x+y) (by linarith) (by linarith)
                                   linarith
                               · rcases le_total x (8623/8192:ℝ) with hc | hc
-                                · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_49 x (by linarith) (by linarith))
+                                · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := wc_49 x (by linarith) (by linarith)
                                   have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
                                     rcases le_total y (2:ℝ) with hq0 | hq0
                                     · exact le_trans (by norm_num) (wc_99 y (by linarith) (by linarith))
                                     exact le_trans (by norm_num) (wc_101 y (by linarith) (by linarith))
-                                  have hw2 : (189729113/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_254 (x+y) (by linarith) (by linarith))
+                                  have hw2 : (189729113/2500000000000:ℝ) ≤ wfun (x+y) := wc_254 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_52 x (by linarith) (by linarith))
+                                · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := wc_52 x (by linarith) (by linarith)
                                   have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
                                     rcases le_total y (2:ℝ) with hq0 | hq0
                                     · exact le_trans (by norm_num) (wc_99 y (by linarith) (by linarith))
                                     exact le_trans (by norm_num) (wc_101 y (by linarith) (by linarith))
-                                  have hw2 : (776268661/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_258 (x+y) (by linarith) (by linarith))
+                                  have hw2 : (776268661/10000000000000:ℝ) ≤ wfun (x+y) := wc_258 (x+y) (by linarith) (by linarith)
                                   linarith
                             · rcases le_total y (8191/4096:ℝ) with hc | hc
-                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_54 x (by linarith) (by linarith))
-                                have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_96 y (by linarith) (by linarith))
-                                have hw2 : (758550453/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_255 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_54 x (by linarith) (by linarith)
+                                have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := wc_96 y (by linarith) (by linarith)
+                                have hw2 : (758550453/10000000000000:ℝ) ≤ wfun (x+y) := wc_255 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_54 x (by linarith) (by linarith))
+                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_54 x (by linarith) (by linarith)
                                 have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
                                   rcases le_total y (2:ℝ) with hq0 | hq0
                                   · exact le_trans (by norm_num) (wc_99 y (by linarith) (by linarith))
                                   exact le_trans (by norm_num) (wc_101 y (by linarith) (by linarith))
-                                have hw2 : (158685569/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_261 (x+y) (by linarith) (by linarith))
+                                have hw2 : (158685569/2000000000000:ℝ) ≤ wfun (x+y) := wc_261 (x+y) (by linarith) (by linarith)
                                 linarith
                           · rcases le_total x (4313/4096:ℝ) with hc | hc
                             · rcases le_total y (8197/4096:ℝ) with hc | hc
                               · rcases le_total x (8623/8192:ℝ) with hc | hc
                                 · rcases le_total y (16391/8192:ℝ) with hc | hc
-                                  · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_49 x (by linarith) (by linarith))
-                                    have hw1 : (1552153897/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_106 y (by linarith) (by linarith))
-                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_259 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := wc_49 x (by linarith) (by linarith)
+                                    have hw1 : (1552153897/10000000000000:ℝ) ≤ wfun y := wc_106 y (by linarith) (by linarith)
+                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := wc_259 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_49 x (by linarith) (by linarith))
-                                    have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_109 y (by linarith) (by linarith))
-                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_267 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := wc_49 x (by linarith) (by linarith)
+                                    have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := wc_109 y (by linarith) (by linarith)
+                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := wc_267 (x+y) (by linarith) (by linarith)
                                     linarith
-                                · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_52 x (by linarith) (by linarith))
-                                  have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_107 y (by linarith) (by linarith))
-                                  have hw2 : (811541977/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_268 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := wc_52 x (by linarith) (by linarith)
+                                  have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := wc_107 y (by linarith) (by linarith)
+                                  have hw2 : (811541977/10000000000000:ℝ) ≤ wfun (x+y) := wc_268 (x+y) (by linarith) (by linarith)
                                   linarith
                               · rcases le_total x (8623/8192:ℝ) with hc | hc
                                 · rcases le_total y (16397/8192:ℝ) with hc | hc
-                                  · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_49 x (by linarith) (by linarith))
-                                    have hw1 : (1474377683/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_110 y (by linarith) (by linarith))
-                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_269 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := wc_49 x (by linarith) (by linarith)
+                                    have hw1 : (1474377683/10000000000000:ℝ) ≤ wfun y := wc_110 y (by linarith) (by linarith)
+                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := wc_269 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_49 x (by linarith) (by linarith))
-                                    have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_112 y (by linarith) (by linarith))
-                                    have hw2 : (211995251/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_273 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := wc_49 x (by linarith) (by linarith)
+                                    have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_112 y (by linarith) (by linarith)
+                                    have hw2 : (211995251/2500000000000:ℝ) ≤ wfun (x+y) := wc_273 (x+y) (by linarith) (by linarith)
                                     linarith
-                                · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_52 x (by linarith) (by linarith))
-                                  have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_111 y (by linarith) (by linarith))
-                                  have hw2 : (847572251/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_274 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := wc_52 x (by linarith) (by linarith)
+                                  have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_111 y (by linarith) (by linarith)
+                                  have hw2 : (847572251/10000000000000:ℝ) ≤ wfun (x+y) := wc_274 (x+y) (by linarith) (by linarith)
                                   linarith
                             · rcases le_total y (8197/4096:ℝ) with hc | hc
                               · rcases le_total x (8629/8192:ℝ) with hc | hc
-                                · have hw0 : (60086101/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_53 x (by linarith) (by linarith))
-                                  have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_107 y (by linarith) (by linarith))
-                                  have hw2 : (829462613/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_270 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (60086101/5000000000000:ℝ) ≤ wfun x := wc_53 x (by linarith) (by linarith)
+                                  have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := wc_107 y (by linarith) (by linarith)
+                                  have hw2 : (829462613/10000000000000:ℝ) ≤ wfun (x+y) := wc_270 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_55 x (by linarith) (by linarith))
-                                  have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_107 y (by linarith) (by linarith))
-                                  have hw2 : (847572251/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_274 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_55 x (by linarith) (by linarith)
+                                  have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := wc_107 y (by linarith) (by linarith)
+                                  have hw2 : (847572251/10000000000000:ℝ) ≤ wfun (x+y) := wc_274 (x+y) (by linarith) (by linarith)
                                   linarith
                               · rcases le_total x (8629/8192:ℝ) with hc | hc
-                                · have hw0 : (60086101/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_53 x (by linarith) (by linarith))
-                                  have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_111 y (by linarith) (by linarith))
-                                  have hw2 : (216467663/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_276 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (60086101/5000000000000:ℝ) ≤ wfun x := wc_53 x (by linarith) (by linarith)
+                                  have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_111 y (by linarith) (by linarith)
+                                  have hw2 : (216467663/2500000000000:ℝ) ≤ wfun (x+y) := wc_276 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_55 x (by linarith) (by linarith))
-                                  have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_111 y (by linarith) (by linarith))
-                                  have hw2 : (884357577/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_282 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_55 x (by linarith) (by linarith)
+                                  have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_111 y (by linarith) (by linarith)
+                                  have hw2 : (884357577/10000000000000:ℝ) ≤ wfun (x+y) := wc_282 (x+y) (by linarith) (by linarith)
                                   linarith
                     · rcases le_total y (2047/1024:ℝ) with hc | hc
                       · rcases le_total x (2161/2048:ℝ) with hc | hc
                         · rcases le_total y (4091/2048:ℝ) with hc | hc
                           · rcases le_total x (4319/4096:ℝ) with hc | hc
-                            · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_56 x (by linarith) (by linarith))
-                              have hw1 : (15416863/80000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_88 y (by linarith) (by linarith))
-                              have hw2 : (164461749/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_233 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := wc_56 x (by linarith) (by linarith)
+                              have hw1 : (15416863/80000000000:ℝ) ≤ wfun y := wc_88 y (by linarith) (by linarith)
+                              have hw2 : (164461749/2500000000000:ℝ) ≤ wfun (x+y) := wc_233 (x+y) (by linarith) (by linarith)
                               linarith
-                            · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_59 x (by linarith) (by linarith))
-                              have hw1 : (15416863/80000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_88 y (by linarith) (by linarith))
-                              have hw2 : (34520461/500000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_242 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := wc_59 x (by linarith) (by linarith)
+                              have hw1 : (15416863/80000000000:ℝ) ≤ wfun y := wc_88 y (by linarith) (by linarith)
+                              have hw2 : (34520461/500000000000:ℝ) ≤ wfun (x+y) := wc_242 (x+y) (by linarith) (by linarith)
                               linarith
                           · rcases le_total x (4319/4096:ℝ) with hc | hc
                             · rcases le_total y (8185/4096:ℝ) with hc | hc
-                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_56 x (by linarith) (by linarith))
-                                have hw1 : (1840360753/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_92 y (by linarith) (by linarith))
-                                have hw2 : (72443249/1000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_247 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := wc_56 x (by linarith) (by linarith)
+                                have hw1 : (1840360753/10000000000000:ℝ) ≤ wfun y := wc_92 y (by linarith) (by linarith)
+                                have hw2 : (72443249/1000000000000:ℝ) ≤ wfun (x+y) := wc_247 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_56 x (by linarith) (by linarith))
-                                have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_94 y (by linarith) (by linarith))
-                                have hw2 : (758550453/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_255 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := wc_56 x (by linarith) (by linarith)
+                                have hw1 : (1755469467/10000000000000:ℝ) ≤ wfun y := wc_94 y (by linarith) (by linarith)
+                                have hw2 : (758550453/10000000000000:ℝ) ≤ wfun (x+y) := wc_255 (x+y) (by linarith) (by linarith)
                                 linarith
-                            · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_59 x (by linarith) (by linarith))
-                              have hw1 : (70215147/400000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_93 y (by linarith) (by linarith))
-                              have hw2 : (378909559/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_256 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := wc_59 x (by linarith) (by linarith)
+                              have hw1 : (70215147/400000000000:ℝ) ≤ wfun y := wc_93 y (by linarith) (by linarith)
+                              have hw2 : (378909559/5000000000000:ℝ) ≤ wfun (x+y) := wc_256 (x+y) (by linarith) (by linarith)
                               linarith
                         · rcases le_total y (4091/2048:ℝ) with hc | hc
-                          · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_60 x (by linarith) (by linarith))
-                            have hw1 : (15416863/80000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_88 y (by linarith) (by linarith))
-                            have hw2 : (723036111/10000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_249 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := wc_60 x (by linarith) (by linarith)
+                            have hw1 : (15416863/80000000000:ℝ) ≤ wfun y := wc_88 y (by linarith) (by linarith)
+                            have hw2 : (723036111/10000000000000:ℝ) ≤ wfun (x+y) := wc_249 (x+y) (by linarith) (by linarith)
                             linarith
-                          · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_60 x (by linarith) (by linarith))
-                            have hw1 : (70215147/400000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_93 y (by linarith) (by linarith))
-                            have hw2 : (158379843/2000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_263 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := wc_60 x (by linarith) (by linarith)
+                            have hw1 : (70215147/400000000000:ℝ) ≤ wfun y := wc_93 y (by linarith) (by linarith)
+                            have hw2 : (158379843/2000000000000:ℝ) ≤ wfun (x+y) := wc_263 (x+y) (by linarith) (by linarith)
                             linarith
                       · rcases le_total x (2161/2048:ℝ) with hc | hc
                         · rcases le_total y (4097/2048:ℝ) with hc | hc
                           · rcases le_total x (4319/4096:ℝ) with hc | hc
                             · rcases le_total y (8191/4096:ℝ) with hc | hc
-                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_56 x (by linarith) (by linarith))
-                                have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_96 y (by linarith) (by linarith))
-                                have hw2 : (158685569/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_261 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := wc_56 x (by linarith) (by linarith)
+                                have hw1 : (104539177/625000000000:ℝ) ≤ wfun y := wc_96 y (by linarith) (by linarith)
+                                have hw2 : (158685569/2000000000000:ℝ) ≤ wfun (x+y) := wc_261 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_56 x (by linarith) (by linarith))
+                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := wc_56 x (by linarith) (by linarith)
                                 have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
                                   rcases le_total y (2:ℝ) with hq0 | hq0
                                   · exact le_trans (by norm_num) (wc_99 y (by linarith) (by linarith))
                                   exact le_trans (by norm_num) (wc_101 y (by linarith) (by linarith))
-                                have hw2 : (414531393/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_271 (x+y) (by linarith) (by linarith))
+                                have hw2 : (414531393/5000000000000:ℝ) ≤ wfun (x+y) := wc_271 (x+y) (by linarith) (by linarith)
                                 linarith
-                            · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_59 x (by linarith) (by linarith))
+                            · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := wc_59 x (by linarith) (by linarith)
                               have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
                                 rcases le_total y (2:ℝ) with hq0 | hq0
                                 · exact le_trans (by norm_num) (wc_97 y (by linarith) (by linarith))
                                 exact le_trans (by norm_num) (wc_101 y (by linarith) (by linarith))
-                              have hw2 : (165652771/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_272 (x+y) (by linarith) (by linarith))
+                              have hw2 : (165652771/2000000000000:ℝ) ≤ wfun (x+y) := wc_272 (x+y) (by linarith) (by linarith)
                               linarith
                           · rcases le_total x (4319/4096:ℝ) with hc | hc
                             · rcases le_total y (8197/4096:ℝ) with hc | hc
-                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_56 x (by linarith) (by linarith))
-                                have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_107 y (by linarith) (by linarith))
-                                have hw2 : (13522709/156250000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_277 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := wc_56 x (by linarith) (by linarith)
+                                have hw1 : (302602101/2000000000000:ℝ) ≤ wfun y := wc_107 y (by linarith) (by linarith)
+                                have hw2 : (13522709/156250000000:ℝ) ≤ wfun (x+y) := wc_277 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_56 x (by linarith) (by linarith))
-                                have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_111 y (by linarith) (by linarith))
-                                have hw2 : (451298853/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_285 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := wc_56 x (by linarith) (by linarith)
+                                have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_111 y (by linarith) (by linarith)
+                                have hw2 : (451298853/5000000000000:ℝ) ≤ wfun (x+y) := wc_285 (x+y) (by linarith) (by linarith)
                                 linarith
-                            · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_59 x (by linarith) (by linarith))
-                              have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_108 y (by linarith) (by linarith))
-                              have hw2 : (450864167/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_286 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := wc_59 x (by linarith) (by linarith)
+                              have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_108 y (by linarith) (by linarith)
+                              have hw2 : (450864167/5000000000000:ℝ) ≤ wfun (x+y) := wc_286 (x+y) (by linarith) (by linarith)
                               linarith
                         · rcases le_total y (4097/2048:ℝ) with hc | hc
-                          · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_60 x (by linarith) (by linarith))
+                          · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := wc_60 x (by linarith) (by linarith)
                             have hw1 : (1591808227/10000000000000:ℝ) ≤ wfun y := by
                               rcases le_total y (2:ℝ) with hq0 | hq0
                               · exact le_trans (by norm_num) (wc_97 y (by linarith) (by linarith))
                               exact le_trans (by norm_num) (wc_101 y (by linarith) (by linarith))
-                            have hw2 : (215946697/2500000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_279 (x+y) (by linarith) (by linarith))
+                            have hw2 : (215946697/2500000000000:ℝ) ≤ wfun (x+y) := wc_279 (x+y) (by linarith) (by linarith)
                             linarith
-                          · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_60 x (by linarith) (by linarith))
-                            have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_108 y (by linarith) (by linarith))
-                            have hw2 : (469341817/5000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_293 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := wc_60 x (by linarith) (by linarith)
+                            have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := wc_108 y (by linarith) (by linarith)
+                            have hw2 : (469341817/5000000000000:ℝ) ≤ wfun (x+y) := wc_293 (x+y) (by linarith) (by linarith)
                             linarith
                   · rcases le_total x (1079/1024:ℝ) with hc | hc
                     · rcases le_total y (2053/1024:ℝ) with hc | hc
@@ -2608,366 +1718,228 @@ lemma pair_0_1 (x y : ℝ) (hx1 : (65/64:ℝ) ≤ x) (hx2 : x ≤ (71/64:ℝ))
                             · rcases le_total y (8203/4096:ℝ) with hc | hc
                               · rcases le_total x (8611/8192:ℝ) with hc | hc
                                 · rcases le_total y (16403/8192:ℝ) with hc | hc
-                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_113 y (by linarith) (by linarith))
-                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_259 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := wc_113 y (by linarith) (by linarith)
+                                    have hw2 : (158838709/2000000000000:ℝ) ≤ wfun (x+y) := wc_259 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_118 y (by linarith) (by linarith))
-                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_267 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := wc_118 y (by linarith) (by linarith)
+                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := wc_267 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16403/8192:ℝ) with hc | hc
-                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_113 y (by linarith) (by linarith))
-                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_267 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := wc_113 y (by linarith) (by linarith)
+                                    have hw2 : (811933449/10000000000000:ℝ) ≤ wfun (x+y) := wc_267 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_118 y (by linarith) (by linarith))
-                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_269 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := wc_118 y (by linarith) (by linarith)
+                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := wc_269 (x+y) (by linarith) (by linarith)
                                     linarith
                               · rcases le_total x (8611/8192:ℝ) with hc | hc
                                 · rcases le_total y (16409/8192:ℝ) with hc | hc
-                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_119 y (by linarith) (by linarith))
-                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_269 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := wc_119 y (by linarith) (by linarith)
+                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := wc_269 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_121 y (by linarith) (by linarith))
-                                    have hw2 : (211995251/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_273 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_121 y (by linarith) (by linarith)
+                                    have hw2 : (211995251/2500000000000:ℝ) ≤ wfun (x+y) := wc_273 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16409/8192:ℝ) with hc | hc
-                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_119 y (by linarith) (by linarith))
-                                    have hw2 : (211995251/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_273 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := wc_119 y (by linarith) (by linarith)
+                                    have hw2 : (211995251/2500000000000:ℝ) ≤ wfun (x+y) := wc_273 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_121 y (by linarith) (by linarith))
-                                    have hw2 : (43314409/500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_275 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_121 y (by linarith) (by linarith)
+                                    have hw2 : (43314409/500000000000:ℝ) ≤ wfun (x+y) := wc_275 (x+y) (by linarith) (by linarith)
                                     linarith
                             · rcases le_total y (8203/4096:ℝ) with hc | hc
                               · rcases le_total x (8617/8192:ℝ) with hc | hc
                                 · rcases le_total y (16403/8192:ℝ) with hc | hc
-                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_46 x (by linarith) (by linarith))
-                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_113 y (by linarith) (by linarith))
-                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_269 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := wc_46 x (by linarith) (by linarith)
+                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := wc_113 y (by linarith) (by linarith)
+                                    have hw2 : (829862681/10000000000000:ℝ) ≤ wfun (x+y) := wc_269 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_46 x (by linarith) (by linarith))
-                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_118 y (by linarith) (by linarith))
-                                    have hw2 : (211995251/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_273 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := wc_46 x (by linarith) (by linarith)
+                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := wc_118 y (by linarith) (by linarith)
+                                    have hw2 : (211995251/2500000000000:ℝ) ≤ wfun (x+y) := wc_273 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16403/8192:ℝ) with hc | hc
-                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_48 x (by linarith) (by linarith))
-                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_113 y (by linarith) (by linarith))
-                                    have hw2 : (211995251/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_273 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_48 x (by linarith) (by linarith)
+                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := wc_113 y (by linarith) (by linarith)
+                                    have hw2 : (211995251/2500000000000:ℝ) ≤ wfun (x+y) := wc_273 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_48 x (by linarith) (by linarith))
-                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_118 y (by linarith) (by linarith))
-                                    have hw2 : (43314409/500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_275 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_48 x (by linarith) (by linarith)
+                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := wc_118 y (by linarith) (by linarith)
+                                    have hw2 : (43314409/500000000000:ℝ) ≤ wfun (x+y) := wc_275 (x+y) (by linarith) (by linarith)
                                     linarith
                               · rcases le_total x (8617/8192:ℝ) with hc | hc
                                 · rcases le_total y (16409/8192:ℝ) with hc | hc
-                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_46 x (by linarith) (by linarith))
-                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_119 y (by linarith) (by linarith))
-                                    have hw2 : (43314409/500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_275 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := wc_46 x (by linarith) (by linarith)
+                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := wc_119 y (by linarith) (by linarith)
+                                    have hw2 : (43314409/500000000000:ℝ) ≤ wfun (x+y) := wc_275 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_46 x (by linarith) (by linarith))
-                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_121 y (by linarith) (by linarith))
-                                    have hw2 : (884783967/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_281 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := wc_46 x (by linarith) (by linarith)
+                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_121 y (by linarith) (by linarith)
+                                    have hw2 : (884783967/10000000000000:ℝ) ≤ wfun (x+y) := wc_281 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16409/8192:ℝ) with hc | hc
-                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_48 x (by linarith) (by linarith))
-                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_119 y (by linarith) (by linarith))
-                                    have hw2 : (884783967/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_281 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_48 x (by linarith) (by linarith)
+                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := wc_119 y (by linarith) (by linarith)
+                                    have hw2 : (884783967/10000000000000:ℝ) ≤ wfun (x+y) := wc_281 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_48 x (by linarith) (by linarith))
-                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_121 y (by linarith) (by linarith))
-                                    have hw2 : (903468127/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_283 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_48 x (by linarith) (by linarith)
+                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_121 y (by linarith) (by linarith)
+                                    have hw2 : (903468127/10000000000000:ℝ) ≤ wfun (x+y) := wc_283 (x+y) (by linarith) (by linarith)
                                     linarith
                           · rcases le_total x (4307/4096:ℝ) with hc | hc
                             · rcases le_total y (8209/4096:ℝ) with hc | hc
                               · rcases le_total x (8611/8192:ℝ) with hc | hc
                                 · rcases le_total y (16415/8192:ℝ) with hc | hc
-                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                    have hw1 : (1253281709/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_122 y (by linarith) (by linarith))
-                                    have hw2 : (43314409/500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_275 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                    have hw1 : (1253281709/10000000000000:ℝ) ≤ wfun y := wc_122 y (by linarith) (by linarith)
+                                    have hw2 : (43314409/500000000000:ℝ) ≤ wfun (x+y) := wc_275 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                    have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_125 y (by linarith) (by linarith))
-                                    have hw2 : (884783967/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_281 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                    have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := wc_125 y (by linarith) (by linarith)
+                                    have hw2 : (884783967/10000000000000:ℝ) ≤ wfun (x+y) := wc_281 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16415/8192:ℝ) with hc | hc
-                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                    have hw1 : (1253281709/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_122 y (by linarith) (by linarith))
-                                    have hw2 : (884783967/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_281 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                    have hw1 : (1253281709/10000000000000:ℝ) ≤ wfun y := wc_122 y (by linarith) (by linarith)
+                                    have hw2 : (884783967/10000000000000:ℝ) ≤ wfun (x+y) := wc_281 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                    have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_125 y (by linarith) (by linarith))
-                                    have hw2 : (903468127/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_283 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                    have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := wc_125 y (by linarith) (by linarith)
+                                    have hw2 : (903468127/10000000000000:ℝ) ≤ wfun (x+y) := wc_283 (x+y) (by linarith) (by linarith)
                                     linarith
                               · rcases le_total x (8611/8192:ℝ) with hc | hc
                                 · rcases le_total y (16421/8192:ℝ) with hc | hc
-                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                    have hw1 : (1183650479/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_126 y (by linarith) (by linarith))
-                                    have hw2 : (903468127/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_283 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                    have hw1 : (1183650479/10000000000000:ℝ) ≤ wfun y := wc_126 y (by linarith) (by linarith)
+                                    have hw2 : (903468127/10000000000000:ℝ) ≤ wfun (x+y) := wc_283 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                    have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_128 y (by linarith) (by linarith))
-                                    have hw2 : (461170209/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_287 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                    have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_128 y (by linarith) (by linarith)
+                                    have hw2 : (461170209/5000000000000:ℝ) ≤ wfun (x+y) := wc_287 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16421/8192:ℝ) with hc | hc
-                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                    have hw1 : (1183650479/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_126 y (by linarith) (by linarith))
-                                    have hw2 : (461170209/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_287 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                    have hw1 : (1183650479/10000000000000:ℝ) ≤ wfun y := wc_126 y (by linarith) (by linarith)
+                                    have hw2 : (461170209/5000000000000:ℝ) ≤ wfun (x+y) := wc_287 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                    have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_128 y (by linarith) (by linarith))
-                                    have hw2 : (941400597/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_289 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                    have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_128 y (by linarith) (by linarith)
+                                    have hw2 : (941400597/10000000000000:ℝ) ≤ wfun (x+y) := wc_289 (x+y) (by linarith) (by linarith)
                                     linarith
                             · rcases le_total y (8209/4096:ℝ) with hc | hc
                               · rcases le_total x (8617/8192:ℝ) with hc | hc
                                 · rcases le_total y (16415/8192:ℝ) with hc | hc
-                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_46 x (by linarith) (by linarith))
-                                    have hw1 : (1253281709/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_122 y (by linarith) (by linarith))
-                                    have hw2 : (903468127/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_283 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := wc_46 x (by linarith) (by linarith)
+                                    have hw1 : (1253281709/10000000000000:ℝ) ≤ wfun y := wc_122 y (by linarith) (by linarith)
+                                    have hw2 : (903468127/10000000000000:ℝ) ≤ wfun (x+y) := wc_283 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_46 x (by linarith) (by linarith))
-                                    have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_125 y (by linarith) (by linarith))
-                                    have hw2 : (461170209/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_287 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := wc_46 x (by linarith) (by linarith)
+                                    have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := wc_125 y (by linarith) (by linarith)
+                                    have hw2 : (461170209/5000000000000:ℝ) ≤ wfun (x+y) := wc_287 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16415/8192:ℝ) with hc | hc
-                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_48 x (by linarith) (by linarith))
-                                    have hw1 : (1253281709/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_122 y (by linarith) (by linarith))
-                                    have hw2 : (461170209/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_287 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_48 x (by linarith) (by linarith)
+                                    have hw1 : (1253281709/10000000000000:ℝ) ≤ wfun y := wc_122 y (by linarith) (by linarith)
+                                    have hw2 : (461170209/5000000000000:ℝ) ≤ wfun (x+y) := wc_287 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_48 x (by linarith) (by linarith))
-                                    have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_125 y (by linarith) (by linarith))
-                                    have hw2 : (941400597/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_289 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_48 x (by linarith) (by linarith)
+                                    have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := wc_125 y (by linarith) (by linarith)
+                                    have hw2 : (941400597/10000000000000:ℝ) ≤ wfun (x+y) := wc_289 (x+y) (by linarith) (by linarith)
                                     linarith
                               · rcases le_total x (8617/8192:ℝ) with hc | hc
                                 · rcases le_total y (16421/8192:ℝ) with hc | hc
-                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_46 x (by linarith) (by linarith))
-                                    have hw1 : (1183650479/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_126 y (by linarith) (by linarith))
-                                    have hw2 : (941400597/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_289 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := wc_46 x (by linarith) (by linarith)
+                                    have hw1 : (1183650479/10000000000000:ℝ) ≤ wfun y := wc_126 y (by linarith) (by linarith)
+                                    have hw2 : (941400597/10000000000000:ℝ) ≤ wfun (x+y) := wc_289 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_46 x (by linarith) (by linarith))
-                                    have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_128 y (by linarith) (by linarith))
-                                    have hw2 : (480324211/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_297 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := wc_46 x (by linarith) (by linarith)
+                                    have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_128 y (by linarith) (by linarith)
+                                    have hw2 : (480324211/5000000000000:ℝ) ≤ wfun (x+y) := wc_297 (x+y) (by linarith) (by linarith)
                                     linarith
-                                · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_48 x (by linarith) (by linarith))
-                                  have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_127 y (by linarith) (by linarith))
-                                  have hw2 : (192037139/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_298 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_48 x (by linarith) (by linarith)
+                                  have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_127 y (by linarith) (by linarith)
+                                  have hw2 : (192037139/2000000000000:ℝ) ≤ wfun (x+y) := wc_298 (x+y) (by linarith) (by linarith)
                                   linarith
                         · rcases le_total y (4103/2048:ℝ) with hc | hc
                           · rcases le_total x (4313/4096:ℝ) with hc | hc
                             · rcases le_total y (8203/4096:ℝ) with hc | hc
                               · rcases le_total x (8623/8192:ℝ) with hc | hc
                                 · rcases le_total y (16403/8192:ℝ) with hc | hc
-                                  · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_49 x (by linarith) (by linarith))
-                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_113 y (by linarith) (by linarith))
-                                    have hw2 : (43314409/500000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_275 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := wc_49 x (by linarith) (by linarith)
+                                    have hw1 : (279728451/2000000000000:ℝ) ≤ wfun y := wc_113 y (by linarith) (by linarith)
+                                    have hw2 : (43314409/500000000000:ℝ) ≤ wfun (x+y) := wc_275 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_49 x (by linarith) (by linarith))
-                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_118 y (by linarith) (by linarith))
-                                    have hw2 : (884783967/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_281 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := wc_49 x (by linarith) (by linarith)
+                                    have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := wc_118 y (by linarith) (by linarith)
+                                    have hw2 : (884783967/10000000000000:ℝ) ≤ wfun (x+y) := wc_281 (x+y) (by linarith) (by linarith)
                                     linarith
-                                · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_52 x (by linarith) (by linarith))
-                                  have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_114 y (by linarith) (by linarith))
-                                  have hw2 : (884357577/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_282 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := wc_52 x (by linarith) (by linarith)
+                                  have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := wc_114 y (by linarith) (by linarith)
+                                  have hw2 : (884357577/10000000000000:ℝ) ≤ wfun (x+y) := wc_282 (x+y) (by linarith) (by linarith)
                                   linarith
                               · rcases le_total x (8623/8192:ℝ) with hc | hc
                                 · rcases le_total y (16409/8192:ℝ) with hc | hc
-                                  · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_49 x (by linarith) (by linarith))
-                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_119 y (by linarith) (by linarith))
-                                    have hw2 : (903468127/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_283 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := wc_49 x (by linarith) (by linarith)
+                                    have hw1 : (132494461/1000000000000:ℝ) ≤ wfun y := wc_119 y (by linarith) (by linarith)
+                                    have hw2 : (903468127/10000000000000:ℝ) ≤ wfun (x+y) := wc_283 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_49 x (by linarith) (by linarith))
-                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_121 y (by linarith) (by linarith))
-                                    have hw2 : (461170209/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_287 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := wc_49 x (by linarith) (by linarith)
+                                    have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_121 y (by linarith) (by linarith)
+                                    have hw2 : (461170209/5000000000000:ℝ) ≤ wfun (x+y) := wc_287 (x+y) (by linarith) (by linarith)
                                     linarith
-                                · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_52 x (by linarith) (by linarith))
-                                  have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_120 y (by linarith) (by linarith))
-                                  have hw2 : (230474009/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_288 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := wc_52 x (by linarith) (by linarith)
+                                  have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_120 y (by linarith) (by linarith)
+                                  have hw2 : (230474009/2500000000000:ℝ) ≤ wfun (x+y) := wc_288 (x+y) (by linarith) (by linarith)
                                   linarith
                             · rcases le_total y (8203/4096:ℝ) with hc | hc
                               · rcases le_total x (8629/8192:ℝ) with hc | hc
-                                · have hw0 : (60086101/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_53 x (by linarith) (by linarith))
-                                  have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_114 y (by linarith) (by linarith))
-                                  have hw2 : (180606557/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_284 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (60086101/5000000000000:ℝ) ≤ wfun x := wc_53 x (by linarith) (by linarith)
+                                  have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := wc_114 y (by linarith) (by linarith)
+                                  have hw2 : (180606557/2000000000000:ℝ) ≤ wfun (x+y) := wc_284 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_55 x (by linarith) (by linarith))
-                                  have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_114 y (by linarith) (by linarith))
-                                  have hw2 : (230474009/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_288 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_55 x (by linarith) (by linarith)
+                                  have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := wc_114 y (by linarith) (by linarith)
+                                  have hw2 : (230474009/2500000000000:ℝ) ≤ wfun (x+y) := wc_288 (x+y) (by linarith) (by linarith)
                                   linarith
-                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_54 x (by linarith) (by linarith))
-                                have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_120 y (by linarith) (by linarith))
-                                have hw2 : (18809877/200000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_291 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_54 x (by linarith) (by linarith)
+                                have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_120 y (by linarith) (by linarith)
+                                have hw2 : (18809877/200000000000:ℝ) ≤ wfun (x+y) := wc_291 (x+y) (by linarith) (by linarith)
                                 linarith
                           · rcases le_total x (4313/4096:ℝ) with hc | hc
                             · rcases le_total y (8209/4096:ℝ) with hc | hc
                               · rcases le_total x (8623/8192:ℝ) with hc | hc
-                                · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_49 x (by linarith) (by linarith))
-                                  have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_123 y (by linarith) (by linarith))
-                                  have hw2 : (940947087/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_290 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := wc_49 x (by linarith) (by linarith)
+                                  have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := wc_123 y (by linarith) (by linarith)
+                                  have hw2 : (940947087/10000000000000:ℝ) ≤ wfun (x+y) := wc_290 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_52 x (by linarith) (by linarith))
-                                  have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_123 y (by linarith) (by linarith))
-                                  have hw2 : (192037139/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_298 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := wc_52 x (by linarith) (by linarith)
+                                  have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := wc_123 y (by linarith) (by linarith)
+                                  have hw2 : (192037139/2000000000000:ℝ) ≤ wfun (x+y) := wc_298 (x+y) (by linarith) (by linarith)
                                   linarith
                               · rcases le_total x (8623/8192:ℝ) with hc | hc
-                                · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_49 x (by linarith) (by linarith))
-                                  have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_127 y (by linarith) (by linarith))
-                                  have hw2 : (489805809/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_300 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (169363387/10000000000000:ℝ) ≤ wfun x := wc_49 x (by linarith) (by linarith)
+                                  have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_127 y (by linarith) (by linarith)
+                                  have hw2 : (489805809/5000000000000:ℝ) ≤ wfun (x+y) := wc_300 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_52 x (by linarith) (by linarith))
-                                  have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_127 y (by linarith) (by linarith))
-                                  have hw2 : (999224607/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_303 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := wc_52 x (by linarith) (by linarith)
+                                  have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_127 y (by linarith) (by linarith)
+                                  have hw2 : (999224607/10000000000000:ℝ) ≤ wfun (x+y) := wc_303 (x+y) (by linarith) (by linarith)
                                   linarith
                             · rcases le_total y (8209/4096:ℝ) with hc | hc
-                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_54 x (by linarith) (by linarith))
-                                have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_123 y (by linarith) (by linarith))
-                                have hw2 : (979139871/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_301 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_54 x (by linarith) (by linarith)
+                                have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := wc_123 y (by linarith) (by linarith)
+                                have hw2 : (979139871/10000000000000:ℝ) ≤ wfun (x+y) := wc_301 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_54 x (by linarith) (by linarith))
-                                have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_127 y (by linarith) (by linarith))
-                                have hw2 : (203706763/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_305 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_54 x (by linarith) (by linarith)
+                                have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_127 y (by linarith) (by linarith)
+                                have hw2 : (203706763/2000000000000:ℝ) ≤ wfun (x+y) := wc_305 (x+y) (by linarith) (by linarith)
                                 linarith
                       · rcases le_total x (2155/2048:ℝ) with hc | hc
                         · rcases le_total y (4109/2048:ℝ) with hc | hc
@@ -2975,648 +1947,407 @@ lemma pair_0_1 (x y : ℝ) (hx1 : (65/64:ℝ) ≤ x) (hx2 : x ≤ (71/64:ℝ))
                             · rcases le_total y (8215/4096:ℝ) with hc | hc
                               · rcases le_total x (8611/8192:ℝ) with hc | hc
                                 · rcases le_total y (16427/8192:ℝ) with hc | hc
-                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                    have hw1 : (1116047803/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_129 y (by linarith) (by linarith))
-                                    have hw2 : (941400597/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_289 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                    have hw1 : (1116047803/10000000000000:ℝ) ≤ wfun y := wc_129 y (by linarith) (by linarith)
+                                    have hw2 : (941400597/10000000000000:ℝ) ≤ wfun (x+y) := wc_289 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                    have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_133 y (by linarith) (by linarith))
-                                    have hw2 : (480324211/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_297 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                    have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := wc_133 y (by linarith) (by linarith)
+                                    have hw2 : (480324211/5000000000000:ℝ) ≤ wfun (x+y) := wc_297 (x+y) (by linarith) (by linarith)
                                     linarith
                                 · rcases le_total y (16427/8192:ℝ) with hc | hc
-                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                    have hw1 : (1116047803/10000000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_129 y (by linarith) (by linarith))
-                                    have hw2 : (480324211/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_297 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                    have hw1 : (1116047803/10000000000000:ℝ) ≤ wfun y := wc_129 y (by linarith) (by linarith)
+                                    have hw2 : (480324211/5000000000000:ℝ) ≤ wfun (x+y) := wc_297 (x+y) (by linarith) (by linarith)
                                     linarith
-                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                      exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                    have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := by
-                                      exact le_trans (by norm_num) (wc_133 y (by linarith) (by linarith))
-                                    have hw2 : (15313807/156250000000:ℝ) ≤ wfun (x+y) := by
-                                      exact le_trans (by norm_num) (wc_299 (x+y) (by linarith) (by linarith))
+                                  · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                    have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := wc_133 y (by linarith) (by linarith)
+                                    have hw2 : (15313807/156250000000:ℝ) ≤ wfun (x+y) := wc_299 (x+y) (by linarith) (by linarith)
                                     linarith
                               · rcases le_total x (8611/8192:ℝ) with hc | hc
-                                · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_134 y (by linarith) (by linarith))
-                                  have hw2 : (489805809/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_300 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_134 y (by linarith) (by linarith)
+                                  have hw2 : (489805809/5000000000000:ℝ) ≤ wfun (x+y) := wc_300 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_134 y (by linarith) (by linarith))
-                                  have hw2 : (999224607/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_303 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_134 y (by linarith) (by linarith)
+                                  have hw2 : (999224607/10000000000000:ℝ) ≤ wfun (x+y) := wc_303 (x+y) (by linarith) (by linarith)
                                   linarith
                             · rcases le_total y (8215/4096:ℝ) with hc | hc
                               · rcases le_total x (8617/8192:ℝ) with hc | hc
-                                · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_46 x (by linarith) (by linarith))
-                                  have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_130 y (by linarith) (by linarith))
-                                  have hw2 : (489805809/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_300 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := wc_46 x (by linarith) (by linarith)
+                                  have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := wc_130 y (by linarith) (by linarith)
+                                  have hw2 : (489805809/5000000000000:ℝ) ≤ wfun (x+y) := wc_300 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_48 x (by linarith) (by linarith))
-                                  have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_130 y (by linarith) (by linarith))
-                                  have hw2 : (999224607/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_303 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_48 x (by linarith) (by linarith)
+                                  have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := wc_130 y (by linarith) (by linarith)
+                                  have hw2 : (999224607/10000000000000:ℝ) ≤ wfun (x+y) := wc_303 (x+y) (by linarith) (by linarith)
                                   linarith
                               · rcases le_total x (8617/8192:ℝ) with hc | hc
-                                · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_46 x (by linarith) (by linarith))
-                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_134 y (by linarith) (by linarith))
-                                  have hw2 : (1019024423/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_304 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (11353613/500000000000:ℝ) ≤ wfun x := wc_46 x (by linarith) (by linarith)
+                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_134 y (by linarith) (by linarith)
+                                  have hw2 : (1019024423/10000000000000:ℝ) ≤ wfun (x+y) := wc_304 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_48 x (by linarith) (by linarith))
-                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_134 y (by linarith) (by linarith))
-                                  have hw2 : (1014659/9765625000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_308 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_48 x (by linarith) (by linarith)
+                                  have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_134 y (by linarith) (by linarith)
+                                  have hw2 : (1014659/9765625000:ℝ) ≤ wfun (x+y) := wc_308 (x+y) (by linarith) (by linarith)
                                   linarith
                           · rcases le_total x (4307/4096:ℝ) with hc | hc
                             · rcases le_total y (8221/4096:ℝ) with hc | hc
                               · rcases le_total x (8611/8192:ℝ) with hc | hc
-                                · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_40 x (by linarith) (by linarith))
-                                  have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_135 y (by linarith) (by linarith))
-                                  have hw2 : (1019024423/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_304 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (146669617/5000000000000:ℝ) ≤ wfun x := wc_40 x (by linarith) (by linarith)
+                                  have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := wc_135 y (by linarith) (by linarith)
+                                  have hw2 : (1019024423/10000000000000:ℝ) ≤ wfun (x+y) := wc_304 (x+y) (by linarith) (by linarith)
                                   linarith
-                                · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                    exact le_trans (by norm_num) (wc_45 x (by linarith) (by linarith))
-                                  have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := by
-                                    exact le_trans (by norm_num) (wc_135 y (by linarith) (by linarith))
-                                  have hw2 : (1014659/9765625000:ℝ) ≤ wfun (x+y) := by
-                                    exact le_trans (by norm_num) (wc_308 (x+y) (by linarith) (by linarith))
+                                · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_45 x (by linarith) (by linarith)
+                                  have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := wc_135 y (by linarith) (by linarith)
+                                  have hw2 : (1014659/9765625000:ℝ) ≤ wfun (x+y) := wc_308 (x+y) (by linarith) (by linarith)
                                   linarith
-                              · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_41 x (by linarith) (by linarith))
-                                have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_137 y (by linarith) (by linarith))
-                                have hw2 : (1058673721/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_309 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_41 x (by linarith) (by linarith)
+                                have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_137 y (by linarith) (by linarith)
+                                have hw2 : (1058673721/10000000000000:ℝ) ≤ wfun (x+y) := wc_309 (x+y) (by linarith) (by linarith)
                                 linarith
                             · rcases le_total y (8221/4096:ℝ) with hc | hc
-                              · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_47 x (by linarith) (by linarith))
-                                have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_135 y (by linarith) (by linarith))
-                                have hw2 : (1058673721/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_309 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_47 x (by linarith) (by linarith)
+                                have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := wc_135 y (by linarith) (by linarith)
+                                have hw2 : (1058673721/10000000000000:ℝ) ≤ wfun (x+y) := wc_309 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_47 x (by linarith) (by linarith))
-                                have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_137 y (by linarith) (by linarith))
-                                have hw2 : (1099557607/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_311 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_47 x (by linarith) (by linarith)
+                                have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_137 y (by linarith) (by linarith)
+                                have hw2 : (1099557607/10000000000000:ℝ) ≤ wfun (x+y) := wc_311 (x+y) (by linarith) (by linarith)
                                 linarith
                         · rcases le_total y (4109/2048:ℝ) with hc | hc
                           · rcases le_total x (4313/4096:ℝ) with hc | hc
                             · rcases le_total y (8215/4096:ℝ) with hc | hc
-                              · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_50 x (by linarith) (by linarith))
-                                have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_130 y (by linarith) (by linarith))
-                                have hw2 : (203706763/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_305 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := wc_50 x (by linarith) (by linarith)
+                                have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := wc_130 y (by linarith) (by linarith)
+                                have hw2 : (203706763/2000000000000:ℝ) ≤ wfun (x+y) := wc_305 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_50 x (by linarith) (by linarith))
-                                have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_134 y (by linarith) (by linarith))
-                                have hw2 : (1058673721/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_309 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := wc_50 x (by linarith) (by linarith)
+                                have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_134 y (by linarith) (by linarith)
+                                have hw2 : (1058673721/10000000000000:ℝ) ≤ wfun (x+y) := wc_309 (x+y) (by linarith) (by linarith)
                                 linarith
                             · rcases le_total y (8215/4096:ℝ) with hc | hc
-                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_54 x (by linarith) (by linarith))
-                                have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_130 y (by linarith) (by linarith))
-                                have hw2 : (1058673721/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_309 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_54 x (by linarith) (by linarith)
+                                have hw1 : (67687887/625000000000:ℝ) ≤ wfun y := wc_130 y (by linarith) (by linarith)
+                                have hw2 : (1058673721/10000000000000:ℝ) ≤ wfun (x+y) := wc_309 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_54 x (by linarith) (by linarith))
-                                have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_134 y (by linarith) (by linarith))
-                                have hw2 : (1099557607/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_311 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_54 x (by linarith) (by linarith)
+                                have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_134 y (by linarith) (by linarith)
+                                have hw2 : (1099557607/10000000000000:ℝ) ≤ wfun (x+y) := wc_311 (x+y) (by linarith) (by linarith)
                                 linarith
                           · rcases le_total x (4313/4096:ℝ) with hc | hc
                             · rcases le_total y (8221/4096:ℝ) with hc | hc
-                              · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_50 x (by linarith) (by linarith))
-                                have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_135 y (by linarith) (by linarith))
-                                have hw2 : (1099557607/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_311 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := wc_50 x (by linarith) (by linarith)
+                                have hw1 : (119486913/1250000000000:ℝ) ≤ wfun y := wc_135 y (by linarith) (by linarith)
+                                have hw2 : (1099557607/10000000000000:ℝ) ≤ wfun (x+y) := wc_311 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_50 x (by linarith) (by linarith))
-                                have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_137 y (by linarith) (by linarith))
-                                have hw2 : (1141183481/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_319 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := wc_50 x (by linarith) (by linarith)
+                                have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_137 y (by linarith) (by linarith)
+                                have hw2 : (1141183481/10000000000000:ℝ) ≤ wfun (x+y) := wc_319 (x+y) (by linarith) (by linarith)
                                 linarith
-                            · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_54 x (by linarith) (by linarith))
-                              have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_136 y (by linarith) (by linarith))
-                              have hw2 : (11400859/100000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_320 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_54 x (by linarith) (by linarith)
+                              have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_136 y (by linarith) (by linarith)
+                              have hw2 : (11400859/100000000000:ℝ) ≤ wfun (x+y) := wc_320 (x+y) (by linarith) (by linarith)
                               linarith
                     · rcases le_total y (2053/1024:ℝ) with hc | hc
                       · rcases le_total x (2161/2048:ℝ) with hc | hc
                         · rcases le_total y (4103/2048:ℝ) with hc | hc
                           · rcases le_total x (4319/4096:ℝ) with hc | hc
                             · rcases le_total y (8203/4096:ℝ) with hc | hc
-                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_56 x (by linarith) (by linarith))
-                                have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_114 y (by linarith) (by linarith))
-                                have hw2 : (18809877/200000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_291 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := wc_56 x (by linarith) (by linarith)
+                                have hw1 : (1361538899/10000000000000:ℝ) ≤ wfun y := wc_114 y (by linarith) (by linarith)
+                                have hw2 : (18809877/200000000000:ℝ) ≤ wfun (x+y) := wc_291 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_56 x (by linarith) (by linarith))
-                                have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_120 y (by linarith) (by linarith))
-                                have hw2 : (979139871/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_301 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := wc_56 x (by linarith) (by linarith)
+                                have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_120 y (by linarith) (by linarith)
+                                have hw2 : (979139871/10000000000000:ℝ) ≤ wfun (x+y) := wc_301 (x+y) (by linarith) (by linarith)
                                 linarith
-                            · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_59 x (by linarith) (by linarith))
-                              have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_115 y (by linarith) (by linarith))
-                              have hw2 : (978197231/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_302 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := wc_59 x (by linarith) (by linarith)
+                              have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_115 y (by linarith) (by linarith)
+                              have hw2 : (978197231/10000000000000:ℝ) ≤ wfun (x+y) := wc_302 (x+y) (by linarith) (by linarith)
                               linarith
                           · rcases le_total x (4319/4096:ℝ) with hc | hc
                             · rcases le_total y (8209/4096:ℝ) with hc | hc
-                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_56 x (by linarith) (by linarith))
-                                have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_123 y (by linarith) (by linarith))
-                                have hw2 : (203706763/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_305 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := wc_56 x (by linarith) (by linarith)
+                                have hw1 : (1218212331/10000000000000:ℝ) ≤ wfun y := wc_123 y (by linarith) (by linarith)
+                                have hw2 : (203706763/2000000000000:ℝ) ≤ wfun (x+y) := wc_305 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_56 x (by linarith) (by linarith))
-                                have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_127 y (by linarith) (by linarith))
-                                have hw2 : (1058673721/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_309 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := wc_56 x (by linarith) (by linarith)
+                                have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_127 y (by linarith) (by linarith)
+                                have hw2 : (1058673721/10000000000000:ℝ) ≤ wfun (x+y) := wc_309 (x+y) (by linarith) (by linarith)
                                 linarith
-                            · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_59 x (by linarith) (by linarith))
-                              have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_124 y (by linarith) (by linarith))
-                              have hw2 : (264413751/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_310 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := wc_59 x (by linarith) (by linarith)
+                              have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_124 y (by linarith) (by linarith)
+                              have hw2 : (264413751/2500000000000:ℝ) ≤ wfun (x+y) := wc_310 (x+y) (by linarith) (by linarith)
                               linarith
                         · rcases le_total y (4103/2048:ℝ) with hc | hc
-                          · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_60 x (by linarith) (by linarith))
-                            have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_115 y (by linarith) (by linarith))
-                            have hw2 : (1016574339/10000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_307 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := wc_60 x (by linarith) (by linarith)
+                            have hw1 : (10069211/78125000000:ℝ) ≤ wfun y := wc_115 y (by linarith) (by linarith)
+                            have hw2 : (1016574339/10000000000000:ℝ) ≤ wfun (x+y) := wc_307 (x+y) (by linarith) (by linarith)
                             linarith
-                          · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_60 x (by linarith) (by linarith))
-                            have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_124 y (by linarith) (by linarith))
-                            have hw2 : (1097443277/10000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_313 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := wc_60 x (by linarith) (by linarith)
+                            have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_124 y (by linarith) (by linarith)
+                            have hw2 : (1097443277/10000000000000:ℝ) ≤ wfun (x+y) := wc_313 (x+y) (by linarith) (by linarith)
                             linarith
                       · rcases le_total x (2161/2048:ℝ) with hc | hc
                         · rcases le_total y (4109/2048:ℝ) with hc | hc
                           · rcases le_total x (4319/4096:ℝ) with hc | hc
-                            · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_56 x (by linarith) (by linarith))
-                              have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_131 y (by linarith) (by linarith))
-                              have hw2 : (219699961/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_312 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (62267711/10000000000000:ℝ) ≤ wfun x := wc_56 x (by linarith) (by linarith)
+                              have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_131 y (by linarith) (by linarith)
+                              have hw2 : (219699961/2000000000000:ℝ) ≤ wfun (x+y) := wc_312 (x+y) (by linarith) (by linarith)
                               linarith
-                            · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_59 x (by linarith) (by linarith))
-                              have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_131 y (by linarith) (by linarith))
-                              have hw2 : (11400859/100000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_320 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := wc_59 x (by linarith) (by linarith)
+                              have hw1 : (509220219/5000000000000:ℝ) ≤ wfun y := wc_131 y (by linarith) (by linarith)
+                              have hw2 : (11400859/100000000000:ℝ) ≤ wfun (x+y) := wc_320 (x+y) (by linarith) (by linarith)
                               linarith
-                          · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_57 x (by linarith) (by linarith))
-                            have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_136 y (by linarith) (by linarith))
-                            have hw2 : (590637301/5000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_322 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := wc_57 x (by linarith) (by linarith)
+                            have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_136 y (by linarith) (by linarith)
+                            have hw2 : (590637301/5000000000000:ℝ) ≤ wfun (x+y) := wc_322 (x+y) (by linarith) (by linarith)
                             linarith
-                        · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_60 x (by linarith) (by linarith))
-                          have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_132 y (by linarith) (by linarith))
-                          have hw2 : (1179005333/10000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_323 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := wc_60 x (by linarith) (by linarith)
+                          have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_132 y (by linarith) (by linarith)
+                          have hw2 : (1179005333/10000000000000:ℝ) ≤ wfun (x+y) := wc_323 (x+y) (by linarith) (by linarith)
                           linarith
                 · rcases le_total y (1025/512:ℝ) with hc | hc
                   · rcases le_total x (1085/1024:ℝ) with hc | hc
                     · rcases le_total y (2047/1024:ℝ) with hc | hc
-                      · have hw0 : (0:ℝ) ≤ wfun x := by
-                          exact le_trans (by norm_num) (wc_61 x (by linarith) (by linarith))
-                        have hw1 : (877571531/5000000000000:ℝ) ≤ wfun y := by
-                          exact le_trans (by norm_num) (wc_89 y (by linarith) (by linarith))
-                        have hw2 : (394426497/5000000000000:ℝ) ≤ wfun (x+y) := by
-                          exact le_trans (by norm_num) (wc_265 (x+y) (by linarith) (by linarith))
+                      · have hw0 : (0:ℝ) ≤ wfun x := wc_61 x (by linarith) (by linarith)
+                        have hw1 : (877571531/5000000000000:ℝ) ≤ wfun y := wc_89 y (by linarith) (by linarith)
+                        have hw2 : (394426497/5000000000000:ℝ) ≤ wfun (x+y) := wc_265 (x+y) (by linarith) (by linarith)
                         linarith
-                      · have hw0 : (0:ℝ) ≤ wfun x := by
-                          exact le_trans (by norm_num) (wc_61 x (by linarith) (by linarith))
+                      · have hw0 : (0:ℝ) ≤ wfun x := wc_61 x (by linarith) (by linarith)
                         have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
                           rcases le_total y (2:ℝ) with hq0 | hq0
                           · exact le_trans (by norm_num) (wc_97 y (by linarith) (by linarith))
                           exact le_trans (by norm_num) (wc_102 y (by linarith) (by linarith))
-                        have hw2 : (935076261/10000000000000:ℝ) ≤ wfun (x+y) := by
-                          exact le_trans (by norm_num) (wc_295 (x+y) (by linarith) (by linarith))
+                        have hw2 : (935076261/10000000000000:ℝ) ≤ wfun (x+y) := wc_295 (x+y) (by linarith) (by linarith)
                         linarith
-                    · have hw0 : (1243063/312500000000:ℝ) ≤ wfun x := by
-                        exact le_trans (by norm_num) (wc_63 x (by linarith) (by linarith))
+                    · have hw0 : (1243063/312500000000:ℝ) ≤ wfun x := wc_63 x (by linarith) (by linarith)
                       have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
                         rcases le_total y (2:ℝ) with hq0 | hq0
                         · exact le_trans (by norm_num) (wc_90 y (by linarith) (by linarith))
                         exact le_trans (by norm_num) (wc_102 y (by linarith) (by linarith))
-                      have hw2 : (46574311/500000000000:ℝ) ≤ wfun (x+y) := by
-                        exact le_trans (by norm_num) (wc_296 (x+y) (by linarith) (by linarith))
+                      have hw2 : (46574311/500000000000:ℝ) ≤ wfun (x+y) := wc_296 (x+y) (by linarith) (by linarith)
                       linarith
                   · rcases le_total x (1085/1024:ℝ) with hc | hc
                     · rcases le_total y (2053/1024:ℝ) with hc | hc
-                      · have hw0 : (0:ℝ) ≤ wfun x := by
-                          exact le_trans (by norm_num) (wc_61 x (by linarith) (by linarith))
-                        have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := by
-                          exact le_trans (by norm_num) (wc_116 y (by linarith) (by linarith))
-                        have hw2 : (54661493/500000000000:ℝ) ≤ wfun (x+y) := by
-                          exact le_trans (by norm_num) (wc_315 (x+y) (by linarith) (by linarith))
+                      · have hw0 : (0:ℝ) ≤ wfun x := wc_61 x (by linarith) (by linarith)
+                        have hw1 : (143699471/1250000000000:ℝ) ≤ wfun y := wc_116 y (by linarith) (by linarith)
+                        have hw2 : (54661493/500000000000:ℝ) ≤ wfun (x+y) := wc_315 (x+y) (by linarith) (by linarith)
                         linarith
-                      · have hw0 : (0:ℝ) ≤ wfun x := by
-                          exact le_trans (by norm_num) (wc_61 x (by linarith) (by linarith))
-                        have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                          exact le_trans (by norm_num) (wc_132 y (by linarith) (by linarith))
-                        have hw2 : (1263188507/10000000000000:ℝ) ≤ wfun (x+y) := by
-                          exact le_trans (by norm_num) (wc_327 (x+y) (by linarith) (by linarith))
+                      · have hw0 : (0:ℝ) ≤ wfun x := wc_61 x (by linarith) (by linarith)
+                        have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_132 y (by linarith) (by linarith)
+                        have hw2 : (1263188507/10000000000000:ℝ) ≤ wfun (x+y) := wc_327 (x+y) (by linarith) (by linarith)
                         linarith
-                    · have hw0 : (1243063/312500000000:ℝ) ≤ wfun x := by
-                        exact le_trans (by norm_num) (wc_63 x (by linarith) (by linarith))
-                      have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                        exact le_trans (by norm_num) (wc_117 y (by linarith) (by linarith))
-                      have hw2 : (251669617/2000000000000:ℝ) ≤ wfun (x+y) := by
-                        exact le_trans (by norm_num) (wc_328 (x+y) (by linarith) (by linarith))
+                    · have hw0 : (1243063/312500000000:ℝ) ≤ wfun x := wc_63 x (by linarith) (by linarith)
+                      have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_117 y (by linarith) (by linarith)
+                      have hw2 : (251669617/2000000000000:ℝ) ≤ wfun (x+y) := wc_328 (x+y) (by linarith) (by linarith)
                       linarith
           · rcases le_total x (269/256:ℝ) with hc | hc
             · rcases le_total y (517/256:ℝ) with hc | hc
               · rcases le_total x (535/512:ℝ) with hc | hc
                 · rcases le_total y (1031/512:ℝ) with hc | hc
                   · rcases le_total x (1067/1024:ℝ) with hc | hc
-                    · have hw0 : (930124941/5000000000000:ℝ) ≤ wfun x := by
-                        exact le_trans (by norm_num) (wc_10 x (by linarith) (by linarith))
-                      have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := by
-                        exact le_trans (by norm_num) (wc_141 y (by linarith) (by linarith))
-                      have hw2 : (530630147/10000000000000:ℝ) ≤ wfun (x+y) := by
-                        exact le_trans (by norm_num) (wc_215 (x+y) (by linarith) (by linarith))
+                    · have hw0 : (930124941/5000000000000:ℝ) ≤ wfun x := wc_10 x (by linarith) (by linarith)
+                      have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := wc_141 y (by linarith) (by linarith)
+                      have hw2 : (530630147/10000000000000:ℝ) ≤ wfun (x+y) := wc_215 (x+y) (by linarith) (by linarith)
                       linarith
                     · rcases le_total y (2059/1024:ℝ) with hc | hc
                       · rcases le_total x (2137/2048:ℝ) with hc | hc
-                        · have hw0 : (1516005697/10000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_14 x (by linarith) (by linarith))
-                          have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_140 y (by linarith) (by linarith))
-                          have hw2 : (327972817/5000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_234 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (1516005697/10000000000000:ℝ) ≤ wfun x := wc_14 x (by linarith) (by linarith)
+                          have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := wc_140 y (by linarith) (by linarith)
+                          have hw2 : (327972817/5000000000000:ℝ) ≤ wfun (x+y) := wc_234 (x+y) (by linarith) (by linarith)
                           linarith
-                        · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_16 x (by linarith) (by linarith))
-                          have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_140 y (by linarith) (by linarith))
-                          have hw2 : (360821549/5000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_250 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := wc_16 x (by linarith) (by linarith)
+                          have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := wc_140 y (by linarith) (by linarith)
+                          have hw2 : (360821549/5000000000000:ℝ) ≤ wfun (x+y) := wc_250 (x+y) (by linarith) (by linarith)
                           linarith
                       · rcases le_total x (2137/2048:ℝ) with hc | hc
-                        · have hw0 : (1516005697/10000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_14 x (by linarith) (by linarith))
-                          have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_147 y (by linarith) (by linarith))
-                          have hw2 : (197593567/2500000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_264 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (1516005697/10000000000000:ℝ) ≤ wfun x := wc_14 x (by linarith) (by linarith)
+                          have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := wc_147 y (by linarith) (by linarith)
+                          have hw2 : (197593567/2500000000000:ℝ) ≤ wfun (x+y) := wc_264 (x+y) (by linarith) (by linarith)
                           linarith
-                        · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_16 x (by linarith) (by linarith))
-                          have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_147 y (by linarith) (by linarith))
-                          have hw2 : (862124213/10000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_280 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := wc_16 x (by linarith) (by linarith)
+                          have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := wc_147 y (by linarith) (by linarith)
+                          have hw2 : (862124213/10000000000000:ℝ) ≤ wfun (x+y) := wc_280 (x+y) (by linarith) (by linarith)
                           linarith
                   · rcases le_total x (1067/1024:ℝ) with hc | hc
-                    · have hw0 : (930124941/5000000000000:ℝ) ≤ wfun x := by
-                        exact le_trans (by norm_num) (wc_10 x (by linarith) (by linarith))
-                      have hw1 : (99255251/5000000000000:ℝ) ≤ wfun y := by
-                        exact le_trans (by norm_num) (wc_150 y (by linarith) (by linarith))
-                      have hw2 : (785821423/10000000000000:ℝ) ≤ wfun (x+y) := by
-                        exact le_trans (by norm_num) (wc_266 (x+y) (by linarith) (by linarith))
+                    · have hw0 : (930124941/5000000000000:ℝ) ≤ wfun x := wc_10 x (by linarith) (by linarith)
+                      have hw1 : (99255251/5000000000000:ℝ) ≤ wfun y := wc_150 y (by linarith) (by linarith)
+                      have hw2 : (785821423/10000000000000:ℝ) ≤ wfun (x+y) := wc_266 (x+y) (by linarith) (by linarith)
                       linarith
-                    · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := by
-                        exact le_trans (by norm_num) (wc_15 x (by linarith) (by linarith))
-                      have hw1 : (99255251/5000000000000:ℝ) ≤ wfun y := by
-                        exact le_trans (by norm_num) (wc_150 y (by linarith) (by linarith))
-                      have hw2 : (46574311/500000000000:ℝ) ≤ wfun (x+y) := by
-                        exact le_trans (by norm_num) (wc_296 (x+y) (by linarith) (by linarith))
+                    · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := wc_15 x (by linarith) (by linarith)
+                      have hw1 : (99255251/5000000000000:ℝ) ≤ wfun y := wc_150 y (by linarith) (by linarith)
+                      have hw2 : (46574311/500000000000:ℝ) ≤ wfun (x+y) := wc_296 (x+y) (by linarith) (by linarith)
                       linarith
                 · rcases le_total y (1031/512:ℝ) with hc | hc
                   · rcases le_total x (1073/1024:ℝ) with hc | hc
                     · rcases le_total y (2059/1024:ℝ) with hc | hc
                       · rcases le_total x (2143/2048:ℝ) with hc | hc
                         · rcases le_total y (4115/2048:ℝ) with hc | hc
-                          · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_18 x (by linarith) (by linarith))
-                            have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_139 y (by linarith) (by linarith))
-                            have hw2 : (158379843/2000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_263 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := wc_18 x (by linarith) (by linarith)
+                            have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := wc_139 y (by linarith) (by linarith)
+                            have hw2 : (158379843/2000000000000:ℝ) ≤ wfun (x+y) := wc_263 (x+y) (by linarith) (by linarith)
                             linarith
-                          · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_18 x (by linarith) (by linarith))
-                            have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_145 y (by linarith) (by linarith))
-                            have hw2 : (215946697/2500000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_279 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := wc_18 x (by linarith) (by linarith)
+                            have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := wc_145 y (by linarith) (by linarith)
+                            have hw2 : (215946697/2500000000000:ℝ) ≤ wfun (x+y) := wc_279 (x+y) (by linarith) (by linarith)
                             linarith
                         · rcases le_total y (4115/2048:ℝ) with hc | hc
                           · rcases le_total x (4289/4096:ℝ) with hc | hc
-                            · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_22 x (by linarith) (by linarith))
-                              have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_139 y (by linarith) (by linarith))
-                              have hw2 : (864619579/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_278 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := wc_22 x (by linarith) (by linarith)
+                              have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := wc_139 y (by linarith) (by linarith)
+                              have hw2 : (864619579/10000000000000:ℝ) ≤ wfun (x+y) := wc_278 (x+y) (by linarith) (by linarith)
                               linarith
-                            · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_24 x (by linarith) (by linarith))
-                              have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_139 y (by linarith) (by linarith))
-                              have hw2 : (450864167/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_286 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_24 x (by linarith) (by linarith)
+                              have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := wc_139 y (by linarith) (by linarith)
+                              have hw2 : (450864167/5000000000000:ℝ) ≤ wfun (x+y) := wc_286 (x+y) (by linarith) (by linarith)
                               linarith
                           · rcases le_total x (4289/4096:ℝ) with hc | hc
-                            · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_22 x (by linarith) (by linarith))
-                              have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_145 y (by linarith) (by linarith))
-                              have hw2 : (234897049/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_292 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (812589723/10000000000000:ℝ) ≤ wfun x := wc_22 x (by linarith) (by linarith)
+                              have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := wc_145 y (by linarith) (by linarith)
+                              have hw2 : (234897049/2500000000000:ℝ) ≤ wfun (x+y) := wc_292 (x+y) (by linarith) (by linarith)
                               linarith
-                            · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_24 x (by linarith) (by linarith))
-                              have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_145 y (by linarith) (by linarith))
-                              have hw2 : (978197231/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_302 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_24 x (by linarith) (by linarith)
+                              have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := wc_145 y (by linarith) (by linarith)
+                              have hw2 : (978197231/10000000000000:ℝ) ≤ wfun (x+y) := wc_302 (x+y) (by linarith) (by linarith)
                               linarith
                       · rcases le_total x (2143/2048:ℝ) with hc | hc
-                        · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_18 x (by linarith) (by linarith))
-                          have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_147 y (by linarith) (by linarith))
-                          have hw2 : (37475111/400000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_294 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := wc_18 x (by linarith) (by linarith)
+                          have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := wc_147 y (by linarith) (by linarith)
+                          have hw2 : (37475111/400000000000:ℝ) ≤ wfun (x+y) := wc_294 (x+y) (by linarith) (by linarith)
                           linarith
                         · rcases le_total y (4121/2048:ℝ) with hc | hc
-                          · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_23 x (by linarith) (by linarith))
-                            have hw1 : (574380421/10000000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_146 y (by linarith) (by linarith))
-                            have hw2 : (1016574339/10000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_307 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_23 x (by linarith) (by linarith)
+                            have hw1 : (574380421/10000000000000:ℝ) ≤ wfun y := wc_146 y (by linarith) (by linarith)
+                            have hw2 : (1016574339/10000000000000:ℝ) ≤ wfun (x+y) := wc_307 (x+y) (by linarith) (by linarith)
                             linarith
-                          · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_23 x (by linarith) (by linarith))
-                            have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_148 y (by linarith) (by linarith))
-                            have hw2 : (1097443277/10000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_313 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_23 x (by linarith) (by linarith)
+                            have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := wc_148 y (by linarith) (by linarith)
+                            have hw2 : (1097443277/10000000000000:ℝ) ≤ wfun (x+y) := wc_313 (x+y) (by linarith) (by linarith)
                             linarith
                     · rcases le_total y (2059/1024:ℝ) with hc | hc
                       · rcases le_total x (2149/2048:ℝ) with hc | hc
                         · rcases le_total y (4115/2048:ℝ) with hc | hc
                           · rcases le_total x (4295/4096:ℝ) with hc | hc
                             · rcases le_total y (8227/4096:ℝ) with hc | hc
-                              · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_26 x (by linarith) (by linarith))
-                                have hw1 : (836853921/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_138 y (by linarith) (by linarith))
-                                have hw2 : (18809877/200000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_291 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := wc_26 x (by linarith) (by linarith)
+                                have hw1 : (836853921/10000000000000:ℝ) ≤ wfun y := wc_138 y (by linarith) (by linarith)
+                                have hw2 : (18809877/200000000000:ℝ) ≤ wfun (x+y) := wc_291 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_26 x (by linarith) (by linarith))
-                                have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_144 y (by linarith) (by linarith))
-                                have hw2 : (979139871/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_301 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := wc_26 x (by linarith) (by linarith)
+                                have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := wc_144 y (by linarith) (by linarith)
+                                have hw2 : (979139871/10000000000000:ℝ) ≤ wfun (x+y) := wc_301 (x+y) (by linarith) (by linarith)
                                 linarith
                             · rcases le_total y (8227/4096:ℝ) with hc | hc
-                              · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_31 x (by linarith) (by linarith))
-                                have hw1 : (836853921/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_138 y (by linarith) (by linarith))
-                                have hw2 : (979139871/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_301 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_31 x (by linarith) (by linarith)
+                                have hw1 : (836853921/10000000000000:ℝ) ≤ wfun y := wc_138 y (by linarith) (by linarith)
+                                have hw2 : (979139871/10000000000000:ℝ) ≤ wfun (x+y) := wc_301 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_31 x (by linarith) (by linarith))
-                                have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_144 y (by linarith) (by linarith))
-                                have hw2 : (203706763/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_305 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_31 x (by linarith) (by linarith)
+                                have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := wc_144 y (by linarith) (by linarith)
+                                have hw2 : (203706763/2000000000000:ℝ) ≤ wfun (x+y) := wc_305 (x+y) (by linarith) (by linarith)
                                 linarith
                           · rcases le_total x (4295/4096:ℝ) with hc | hc
-                            · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_26 x (by linarith) (by linarith))
-                              have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_145 y (by linarith) (by linarith))
-                              have hw2 : (1017553487/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_306 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (296626083/5000000000000:ℝ) ≤ wfun x := wc_26 x (by linarith) (by linarith)
+                              have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := wc_145 y (by linarith) (by linarith)
+                              have hw2 : (1017553487/10000000000000:ℝ) ≤ wfun (x+y) := wc_306 (x+y) (by linarith) (by linarith)
                               linarith
-                            · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_31 x (by linarith) (by linarith))
-                              have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_145 y (by linarith) (by linarith))
-                              have hw2 : (264413751/2500000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_310 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_31 x (by linarith) (by linarith)
+                              have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := wc_145 y (by linarith) (by linarith)
+                              have hw2 : (264413751/2500000000000:ℝ) ≤ wfun (x+y) := wc_310 (x+y) (by linarith) (by linarith)
                               linarith
                         · rcases le_total y (4115/2048:ℝ) with hc | hc
                           · rcases le_total x (4301/4096:ℝ) with hc | hc
                             · rcases le_total y (8227/4096:ℝ) with hc | hc
-                              · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_34 x (by linarith) (by linarith))
-                                have hw1 : (836853921/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_138 y (by linarith) (by linarith))
-                                have hw2 : (203706763/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_305 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_34 x (by linarith) (by linarith)
+                                have hw1 : (836853921/10000000000000:ℝ) ≤ wfun y := wc_138 y (by linarith) (by linarith)
+                                have hw2 : (203706763/2000000000000:ℝ) ≤ wfun (x+y) := wc_305 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_34 x (by linarith) (by linarith))
-                                have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_144 y (by linarith) (by linarith))
-                                have hw2 : (1058673721/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_309 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_34 x (by linarith) (by linarith)
+                                have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := wc_144 y (by linarith) (by linarith)
+                                have hw2 : (1058673721/10000000000000:ℝ) ≤ wfun (x+y) := wc_309 (x+y) (by linarith) (by linarith)
                                 linarith
                             · rcases le_total y (8227/4096:ℝ) with hc | hc
-                              · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_38 x (by linarith) (by linarith))
-                                have hw1 : (836853921/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_138 y (by linarith) (by linarith))
-                                have hw2 : (1058673721/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_309 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_38 x (by linarith) (by linarith)
+                                have hw1 : (836853921/10000000000000:ℝ) ≤ wfun y := wc_138 y (by linarith) (by linarith)
+                                have hw2 : (1058673721/10000000000000:ℝ) ≤ wfun (x+y) := wc_309 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_38 x (by linarith) (by linarith))
-                                have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_144 y (by linarith) (by linarith))
-                                have hw2 : (1099557607/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_311 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_38 x (by linarith) (by linarith)
+                                have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := wc_144 y (by linarith) (by linarith)
+                                have hw2 : (1099557607/10000000000000:ℝ) ≤ wfun (x+y) := wc_311 (x+y) (by linarith) (by linarith)
                                 linarith
                           · rcases le_total x (4301/4096:ℝ) with hc | hc
-                            · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_34 x (by linarith) (by linarith))
-                              have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_145 y (by linarith) (by linarith))
-                              have hw2 : (219699961/2000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_312 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (81774907/2000000000000:ℝ) ≤ wfun x := wc_34 x (by linarith) (by linarith)
+                              have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := wc_145 y (by linarith) (by linarith)
+                              have hw2 : (219699961/2000000000000:ℝ) ≤ wfun (x+y) := wc_312 (x+y) (by linarith) (by linarith)
                               linarith
-                            · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_38 x (by linarith) (by linarith))
-                              have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_145 y (by linarith) (by linarith))
-                              have hw2 : (11400859/100000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_320 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_38 x (by linarith) (by linarith)
+                              have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := wc_145 y (by linarith) (by linarith)
+                              have hw2 : (11400859/100000000000:ℝ) ≤ wfun (x+y) := wc_320 (x+y) (by linarith) (by linarith)
                               linarith
                       · rcases le_total x (2149/2048:ℝ) with hc | hc
                         · rcases le_total y (4121/2048:ℝ) with hc | hc
-                          · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_27 x (by linarith) (by linarith))
-                            have hw1 : (574380421/10000000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_146 y (by linarith) (by linarith))
-                            have hw2 : (1097443277/10000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_313 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_27 x (by linarith) (by linarith)
+                            have hw1 : (574380421/10000000000000:ℝ) ≤ wfun y := wc_146 y (by linarith) (by linarith)
+                            have hw2 : (1097443277/10000000000000:ℝ) ≤ wfun (x+y) := wc_313 (x+y) (by linarith) (by linarith)
                             linarith
-                          · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_27 x (by linarith) (by linarith))
-                            have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_148 y (by linarith) (by linarith))
-                            have hw2 : (590637301/5000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_322 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_27 x (by linarith) (by linarith)
+                            have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := wc_148 y (by linarith) (by linarith)
+                            have hw2 : (590637301/5000000000000:ℝ) ≤ wfun (x+y) := wc_322 (x+y) (by linarith) (by linarith)
                             linarith
                         · rcases le_total y (4121/2048:ℝ) with hc | hc
-                          · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_35 x (by linarith) (by linarith))
-                            have hw1 : (574380421/10000000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_146 y (by linarith) (by linarith))
-                            have hw2 : (590637301/5000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_322 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_35 x (by linarith) (by linarith)
+                            have hw1 : (574380421/10000000000000:ℝ) ≤ wfun y := wc_146 y (by linarith) (by linarith)
+                            have hw2 : (590637301/5000000000000:ℝ) ≤ wfun (x+y) := wc_322 (x+y) (by linarith) (by linarith)
                             linarith
-                          · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_35 x (by linarith) (by linarith))
-                            have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_148 y (by linarith) (by linarith))
-                            have hw2 : (1268052251/10000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_325 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_35 x (by linarith) (by linarith)
+                            have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := wc_148 y (by linarith) (by linarith)
+                            have hw2 : (1268052251/10000000000000:ℝ) ≤ wfun (x+y) := wc_325 (x+y) (by linarith) (by linarith)
                             linarith
                   · rcases le_total x (1073/1024:ℝ) with hc | hc
                     · rcases le_total y (2065/1024:ℝ) with hc | hc
                       · rcases le_total x (2143/2048:ℝ) with hc | hc
-                        · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_18 x (by linarith) (by linarith))
-                          have hw1 : (325164291/10000000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_149 y (by linarith) (by linarith))
-                          have hw2 : (1095334033/10000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_314 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (467734771/5000000000000:ℝ) ≤ wfun x := wc_18 x (by linarith) (by linarith)
+                          have hw1 : (325164291/10000000000000:ℝ) ≤ wfun y := wc_149 y (by linarith) (by linarith)
+                          have hw2 : (1095334033/10000000000000:ℝ) ≤ wfun (x+y) := wc_314 (x+y) (by linarith) (by linarith)
                           linarith
-                        · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_23 x (by linarith) (by linarith))
-                          have hw1 : (325164291/10000000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_149 y (by linarith) (by linarith))
-                          have hw2 : (1179005333/10000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_323 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_23 x (by linarith) (by linarith)
+                          have hw1 : (325164291/10000000000000:ℝ) ≤ wfun y := wc_149 y (by linarith) (by linarith)
+                          have hw2 : (1179005333/10000000000000:ℝ) ≤ wfun (x+y) := wc_323 (x+y) (by linarith) (by linarith)
                           linarith
-                      · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := by
-                          exact le_trans (by norm_num) (wc_19 x (by linarith) (by linarith))
-                        have hw1 : (99255251/5000000000000:ℝ) ≤ wfun y := by
-                          exact le_trans (by norm_num) (wc_151 y (by linarith) (by linarith))
-                        have hw2 : (1263188507/10000000000000:ℝ) ≤ wfun (x+y) := by
-                          exact le_trans (by norm_num) (wc_327 (x+y) (by linarith) (by linarith))
+                      · have hw0 : (349265369/5000000000000:ℝ) ≤ wfun x := wc_19 x (by linarith) (by linarith)
+                        have hw1 : (99255251/5000000000000:ℝ) ≤ wfun y := wc_151 y (by linarith) (by linarith)
+                        have hw2 : (1263188507/10000000000000:ℝ) ≤ wfun (x+y) := wc_327 (x+y) (by linarith) (by linarith)
                         linarith
                     · rcases le_total y (2065/1024:ℝ) with hc | hc
                       · rcases le_total x (2149/2048:ℝ) with hc | hc
-                        · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_27 x (by linarith) (by linarith))
-                          have hw1 : (325164291/10000000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_149 y (by linarith) (by linarith))
-                          have hw2 : (253123491/2000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_326 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (496713571/10000000000000:ℝ) ≤ wfun x := wc_27 x (by linarith) (by linarith)
+                          have hw1 : (325164291/10000000000000:ℝ) ≤ wfun y := wc_149 y (by linarith) (by linarith)
+                          have hw2 : (253123491/2000000000000:ℝ) ≤ wfun (x+y) := wc_326 (x+y) (by linarith) (by linarith)
                           linarith
-                        · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_35 x (by linarith) (by linarith))
-                          have hw1 : (325164291/10000000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_149 y (by linarith) (by linarith))
-                          have hw2 : (135515417/1000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_330 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_35 x (by linarith) (by linarith)
+                          have hw1 : (325164291/10000000000000:ℝ) ≤ wfun y := wc_149 y (by linarith) (by linarith)
+                          have hw2 : (135515417/1000000000000:ℝ) ≤ wfun (x+y) := wc_330 (x+y) (by linarith) (by linarith)
                           linarith
-                      · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                          exact le_trans (by norm_num) (wc_28 x (by linarith) (by linarith))
-                        have hw1 : (99255251/5000000000000:ℝ) ≤ wfun y := by
-                          exact le_trans (by norm_num) (wc_151 y (by linarith) (by linarith))
-                        have hw2 : (722411753/5000000000000:ℝ) ≤ wfun (x+y) := by
-                          exact le_trans (by norm_num) (wc_331 (x+y) (by linarith) (by linarith))
+                      · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_28 x (by linarith) (by linarith)
+                        have hw1 : (99255251/5000000000000:ℝ) ≤ wfun y := wc_151 y (by linarith) (by linarith)
+                        have hw2 : (722411753/5000000000000:ℝ) ≤ wfun (x+y) := wc_331 (x+y) (by linarith) (by linarith)
                         linarith
               · rcases le_total x (535/512:ℝ) with hc | hc
-                · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := by
-                    exact le_trans (by norm_num) (wc_11 x (by linarith) (by linarith))
-                  have hw1 : (0:ℝ) ≤ wfun y := by
-                    exact le_trans (by norm_num) (wc_153 y (by linarith) (by linarith))
-                  have hw2 : (1076577259/10000000000000:ℝ) ≤ wfun (x+y) := by
-                    exact le_trans (by norm_num) (wc_317 (x+y) (by linarith) (by linarith))
+                · have hw0 : (120785339/1000000000000:ℝ) ≤ wfun x := wc_11 x (by linarith) (by linarith)
+                  have hw1 : (0:ℝ) ≤ wfun y := wc_153 y (by linarith) (by linarith)
+                  have hw2 : (1076577259/10000000000000:ℝ) ≤ wfun (x+y) := wc_317 (x+y) (by linarith) (by linarith)
                   linarith
                 · rcases le_total y (1037/512:ℝ) with hc | hc
-                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                      exact le_trans (by norm_num) (wc_20 x (by linarith) (by linarith))
-                    have hw1 : (38888271/10000000000000:ℝ) ≤ wfun y := by
-                      exact le_trans (by norm_num) (wc_152 y (by linarith) (by linarith))
-                    have hw2 : (1433787771/10000000000000:ℝ) ≤ wfun (x+y) := by
-                      exact le_trans (by norm_num) (wc_332 (x+y) (by linarith) (by linarith))
+                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_20 x (by linarith) (by linarith)
+                    have hw1 : (38888271/10000000000000:ℝ) ≤ wfun y := wc_152 y (by linarith) (by linarith)
+                    have hw2 : (1433787771/10000000000000:ℝ) ≤ wfun (x+y) := wc_332 (x+y) (by linarith) (by linarith)
                     linarith
-                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := by
-                      exact le_trans (by norm_num) (wc_20 x (by linarith) (by linarith))
-                    have hw1 : (0:ℝ) ≤ wfun y := by
-                      exact le_trans (by norm_num) (wc_154 y (by linarith) (by linarith))
-                    have hw2 : (1828544067/10000000000000:ℝ) ≤ wfun (x+y) := by
-                      exact le_trans (by norm_num) (wc_336 (x+y) (by linarith) (by linarith))
+                  · have hw0 : (329694637/10000000000000:ℝ) ≤ wfun x := wc_20 x (by linarith) (by linarith)
+                    have hw1 : (0:ℝ) ≤ wfun y := wc_154 y (by linarith) (by linarith)
+                    have hw2 : (1828544067/10000000000000:ℝ) ≤ wfun (x+y) := wc_336 (x+y) (by linarith) (by linarith)
                     linarith
             · rcases le_total y (517/256:ℝ) with hc | hc
               · rcases le_total x (541/512:ℝ) with hc | hc
@@ -3627,278 +2358,181 @@ lemma pair_0_1 (x y : ℝ) (hx1 : (65/64:ℝ) ≤ x) (hx2 : x ≤ (71/64:ℝ))
                         · rcases le_total y (4115/2048:ℝ) with hc | hc
                           · rcases le_total x (4307/4096:ℝ) with hc | hc
                             · rcases le_total y (8227/4096:ℝ) with hc | hc
-                              · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_41 x (by linarith) (by linarith))
-                                have hw1 : (836853921/10000000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_138 y (by linarith) (by linarith))
-                                have hw2 : (1099557607/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_311 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_41 x (by linarith) (by linarith)
+                                have hw1 : (836853921/10000000000000:ℝ) ≤ wfun y := wc_138 y (by linarith) (by linarith)
+                                have hw2 : (1099557607/10000000000000:ℝ) ≤ wfun (x+y) := wc_311 (x+y) (by linarith) (by linarith)
                                 linarith
-                              · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                  exact le_trans (by norm_num) (wc_41 x (by linarith) (by linarith))
-                                have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := by
-                                  exact le_trans (by norm_num) (wc_144 y (by linarith) (by linarith))
-                                have hw2 : (1141183481/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                  exact le_trans (by norm_num) (wc_319 (x+y) (by linarith) (by linarith))
+                              · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_41 x (by linarith) (by linarith)
+                                have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := wc_144 y (by linarith) (by linarith)
+                                have hw2 : (1141183481/10000000000000:ℝ) ≤ wfun (x+y) := wc_319 (x+y) (by linarith) (by linarith)
                                 linarith
-                            · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_47 x (by linarith) (by linarith))
-                              have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_139 y (by linarith) (by linarith))
-                              have hw2 : (11400859/100000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_320 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_47 x (by linarith) (by linarith)
+                              have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := wc_139 y (by linarith) (by linarith)
+                              have hw2 : (11400859/100000000000:ℝ) ≤ wfun (x+y) := wc_320 (x+y) (by linarith) (by linarith)
                               linarith
                           · rcases le_total x (4307/4096:ℝ) with hc | hc
-                            · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_41 x (by linarith) (by linarith))
-                              have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_145 y (by linarith) (by linarith))
-                              have hw2 : (591205643/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_321 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (259133459/10000000000000:ℝ) ≤ wfun x := wc_41 x (by linarith) (by linarith)
+                              have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := wc_145 y (by linarith) (by linarith)
+                              have hw2 : (591205643/5000000000000:ℝ) ≤ wfun (x+y) := wc_321 (x+y) (by linarith) (by linarith)
                               linarith
-                            · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_47 x (by linarith) (by linarith))
-                              have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_145 y (by linarith) (by linarith))
-                              have hw2 : (1225473943/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_324 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_47 x (by linarith) (by linarith)
+                              have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := wc_145 y (by linarith) (by linarith)
+                              have hw2 : (1225473943/10000000000000:ℝ) ≤ wfun (x+y) := wc_324 (x+y) (by linarith) (by linarith)
                               linarith
                         · rcases le_total y (4115/2048:ℝ) with hc | hc
                           · rcases le_total x (4313/4096:ℝ) with hc | hc
-                            · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_50 x (by linarith) (by linarith))
-                              have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_139 y (by linarith) (by linarith))
-                              have hw2 : (591205643/5000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_321 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (143705609/10000000000000:ℝ) ≤ wfun x := wc_50 x (by linarith) (by linarith)
+                              have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := wc_139 y (by linarith) (by linarith)
+                              have hw2 : (591205643/5000000000000:ℝ) ≤ wfun (x+y) := wc_321 (x+y) (by linarith) (by linarith)
                               linarith
-                            · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                                exact le_trans (by norm_num) (wc_54 x (by linarith) (by linarith))
-                              have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := by
-                                exact le_trans (by norm_num) (wc_139 y (by linarith) (by linarith))
-                              have hw2 : (1225473943/10000000000000:ℝ) ≤ wfun (x+y) := by
-                                exact le_trans (by norm_num) (wc_324 (x+y) (by linarith) (by linarith))
+                            · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_54 x (by linarith) (by linarith)
+                              have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := wc_139 y (by linarith) (by linarith)
+                              have hw2 : (1225473943/10000000000000:ℝ) ≤ wfun (x+y) := wc_324 (x+y) (by linarith) (by linarith)
                               linarith
-                          · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_51 x (by linarith) (by linarith))
-                            have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_145 y (by linarith) (by linarith))
-                            have hw2 : (1268052251/10000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_325 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_51 x (by linarith) (by linarith)
+                            have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := wc_145 y (by linarith) (by linarith)
+                            have hw2 : (1268052251/10000000000000:ℝ) ≤ wfun (x+y) := wc_325 (x+y) (by linarith) (by linarith)
                             linarith
                       · rcases le_total x (2155/2048:ℝ) with hc | hc
                         · rcases le_total y (4121/2048:ℝ) with hc | hc
-                          · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_42 x (by linarith) (by linarith))
-                            have hw1 : (574380421/10000000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_146 y (by linarith) (by linarith))
-                            have hw2 : (1268052251/10000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_325 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_42 x (by linarith) (by linarith)
+                            have hw1 : (574380421/10000000000000:ℝ) ≤ wfun y := wc_146 y (by linarith) (by linarith)
+                            have hw2 : (1268052251/10000000000000:ℝ) ≤ wfun (x+y) := wc_325 (x+y) (by linarith) (by linarith)
                             linarith
-                          · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_42 x (by linarith) (by linarith))
-                            have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_148 y (by linarith) (by linarith))
-                            have hw2 : (339439989/2500000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_329 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (98575293/5000000000000:ℝ) ≤ wfun x := wc_42 x (by linarith) (by linarith)
+                            have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := wc_148 y (by linarith) (by linarith)
+                            have hw2 : (339439989/2500000000000:ℝ) ≤ wfun (x+y) := wc_329 (x+y) (by linarith) (by linarith)
                             linarith
-                        · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_51 x (by linarith) (by linarith))
-                          have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_147 y (by linarith) (by linarith))
-                          have hw2 : (135515417/1000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_330 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_51 x (by linarith) (by linarith)
+                          have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := wc_147 y (by linarith) (by linarith)
+                          have hw2 : (135515417/1000000000000:ℝ) ≤ wfun (x+y) := wc_330 (x+y) (by linarith) (by linarith)
                           linarith
                     · rcases le_total y (2059/1024:ℝ) with hc | hc
                       · rcases le_total x (2161/2048:ℝ) with hc | hc
                         · rcases le_total y (4115/2048:ℝ) with hc | hc
-                          · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_57 x (by linarith) (by linarith))
-                            have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_139 y (by linarith) (by linarith))
-                            have hw2 : (1268052251/10000000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_325 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := wc_57 x (by linarith) (by linarith)
+                            have hw1 : (48771943/625000000000:ℝ) ≤ wfun y := wc_139 y (by linarith) (by linarith)
+                            have hw2 : (1268052251/10000000000000:ℝ) ≤ wfun (x+y) := wc_325 (x+y) (by linarith) (by linarith)
                             linarith
-                          · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := by
-                              exact le_trans (by norm_num) (wc_57 x (by linarith) (by linarith))
-                            have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := by
-                              exact le_trans (by norm_num) (wc_145 y (by linarith) (by linarith))
-                            have hw2 : (339439989/2500000000000:ℝ) ≤ wfun (x+y) := by
-                              exact le_trans (by norm_num) (wc_329 (x+y) (by linarith) (by linarith))
+                          · have hw0 : (6838799/2000000000000:ℝ) ≤ wfun x := wc_57 x (by linarith) (by linarith)
+                            have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := wc_145 y (by linarith) (by linarith)
+                            have hw2 : (339439989/2500000000000:ℝ) ≤ wfun (x+y) := wc_329 (x+y) (by linarith) (by linarith)
                             linarith
-                        · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := by
-                            exact le_trans (by norm_num) (wc_60 x (by linarith) (by linarith))
-                          have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := by
-                            exact le_trans (by norm_num) (wc_140 y (by linarith) (by linarith))
-                          have hw2 : (135515417/1000000000000:ℝ) ≤ wfun (x+y) := by
-                            exact le_trans (by norm_num) (wc_330 (x+y) (by linarith) (by linarith))
+                        · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := wc_60 x (by linarith) (by linarith)
+                          have hw1 : (67336443/1000000000000:ℝ) ≤ wfun y := wc_140 y (by linarith) (by linarith)
+                          have hw2 : (135515417/1000000000000:ℝ) ≤ wfun (x+y) := wc_330 (x+y) (by linarith) (by linarith)
                           linarith
-                      · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := by
-                          exact le_trans (by norm_num) (wc_58 x (by linarith) (by linarith))
-                        have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := by
-                          exact le_trans (by norm_num) (wc_147 y (by linarith) (by linarith))
-                        have hw2 : (722411753/5000000000000:ℝ) ≤ wfun (x+y) := by
-                          exact le_trans (by norm_num) (wc_331 (x+y) (by linarith) (by linarith))
+                      · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := wc_58 x (by linarith) (by linarith)
+                        have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := wc_147 y (by linarith) (by linarith)
+                        have hw2 : (722411753/5000000000000:ℝ) ≤ wfun (x+y) := wc_331 (x+y) (by linarith) (by linarith)
                         linarith
                   · rcases le_total x (1079/1024:ℝ) with hc | hc
                     · rcases le_total y (2065/1024:ℝ) with hc | hc
-                      · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                          exact le_trans (by norm_num) (wc_43 x (by linarith) (by linarith))
-                        have hw1 : (325164291/10000000000000:ℝ) ≤ wfun y := by
-                          exact le_trans (by norm_num) (wc_149 y (by linarith) (by linarith))
-                        have hw2 : (722411753/5000000000000:ℝ) ≤ wfun (x+y) := by
-                          exact le_trans (by norm_num) (wc_331 (x+y) (by linarith) (by linarith))
+                      · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_43 x (by linarith) (by linarith)
+                        have hw1 : (325164291/10000000000000:ℝ) ≤ wfun y := wc_149 y (by linarith) (by linarith)
+                        have hw2 : (722411753/5000000000000:ℝ) ≤ wfun (x+y) := wc_331 (x+y) (by linarith) (by linarith)
                         linarith
-                      · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := by
-                          exact le_trans (by norm_num) (wc_43 x (by linarith) (by linarith))
-                        have hw1 : (99255251/5000000000000:ℝ) ≤ wfun y := by
-                          exact le_trans (by norm_num) (wc_151 y (by linarith) (by linarith))
-                        have hw2 : (1638002799/10000000000000:ℝ) ≤ wfun (x+y) := by
-                          exact le_trans (by norm_num) (wc_334 (x+y) (by linarith) (by linarith))
+                      · have hw0 : (98758117/10000000000000:ℝ) ≤ wfun x := wc_43 x (by linarith) (by linarith)
+                        have hw1 : (99255251/5000000000000:ℝ) ≤ wfun y := wc_151 y (by linarith) (by linarith)
+                        have hw2 : (1638002799/10000000000000:ℝ) ≤ wfun (x+y) := wc_334 (x+y) (by linarith) (by linarith)
                         linarith
-                    · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := by
-                        exact le_trans (by norm_num) (wc_58 x (by linarith) (by linarith))
-                      have hw1 : (99255251/5000000000000:ℝ) ≤ wfun y := by
-                        exact le_trans (by norm_num) (wc_150 y (by linarith) (by linarith))
-                      have hw2 : (1631738191/10000000000000:ℝ) ≤ wfun (x+y) := by
-                        exact le_trans (by norm_num) (wc_335 (x+y) (by linarith) (by linarith))
+                    · have hw0 : (1567539/5000000000000:ℝ) ≤ wfun x := wc_58 x (by linarith) (by linarith)
+                      have hw1 : (99255251/5000000000000:ℝ) ≤ wfun y := wc_150 y (by linarith) (by linarith)
+                      have hw2 : (1631738191/10000000000000:ℝ) ≤ wfun (x+y) := wc_335 (x+y) (by linarith) (by linarith)
                       linarith
                 · rcases le_total y (1031/512:ℝ) with hc | hc
-                  · have hw0 : (0:ℝ) ≤ wfun x := by
-                      exact le_trans (by norm_num) (wc_62 x (by linarith) (by linarith))
-                    have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := by
-                      exact le_trans (by norm_num) (wc_141 y (by linarith) (by linarith))
-                    have hw2 : (1433787771/10000000000000:ℝ) ≤ wfun (x+y) := by
-                      exact le_trans (by norm_num) (wc_332 (x+y) (by linarith) (by linarith))
+                  · have hw0 : (0:ℝ) ≤ wfun x := wc_62 x (by linarith) (by linarith)
+                    have hw1 : (60421417/1250000000000:ℝ) ≤ wfun y := wc_141 y (by linarith) (by linarith)
+                    have hw2 : (1433787771/10000000000000:ℝ) ≤ wfun (x+y) := wc_332 (x+y) (by linarith) (by linarith)
                     linarith
-                  · have hw0 : (0:ℝ) ≤ wfun x := by
-                      exact le_trans (by norm_num) (wc_62 x (by linarith) (by linarith))
-                    have hw1 : (99255251/5000000000000:ℝ) ≤ wfun y := by
-                      exact le_trans (by norm_num) (wc_150 y (by linarith) (by linarith))
-                    have hw2 : (1828544067/10000000000000:ℝ) ≤ wfun (x+y) := by
-                      exact le_trans (by norm_num) (wc_336 (x+y) (by linarith) (by linarith))
+                  · have hw0 : (0:ℝ) ≤ wfun x := wc_62 x (by linarith) (by linarith)
+                    have hw1 : (99255251/5000000000000:ℝ) ≤ wfun y := wc_150 y (by linarith) (by linarith)
+                    have hw2 : (1828544067/10000000000000:ℝ) ≤ wfun (x+y) := wc_336 (x+y) (by linarith) (by linarith)
                     linarith
-              · have hw0 : (0:ℝ) ≤ wfun x := by
-                  exact le_trans (by norm_num) (wc_44 x (by linarith) (by linarith))
-                have hw1 : (0:ℝ) ≤ wfun y := by
-                  exact le_trans (by norm_num) (wc_153 y (by linarith) (by linarith))
-                have hw2 : (450212461/2500000000000:ℝ) ≤ wfun (x+y) := by
-                  exact le_trans (by norm_num) (wc_337 (x+y) (by linarith) (by linarith))
+              · have hw0 : (0:ℝ) ≤ wfun x := wc_44 x (by linarith) (by linarith)
+                have hw1 : (0:ℝ) ≤ wfun y := wc_153 y (by linarith) (by linarith)
+                have hw2 : (450212461/2500000000000:ℝ) ≤ wfun (x+y) := wc_337 (x+y) (by linarith) (by linarith)
                 linarith
     · rcases le_total y (127/64:ℝ) with hc | hc
-      · have hw0 : (173234703/10000000000000:ℝ) ≤ wfun x := by
-          exact le_trans (by norm_num) (wc_67 x (by linarith) (by linarith))
-        have hw1 : (461990507/1250000000000:ℝ) ≤ wfun y := by
-          exact le_trans (by norm_num) (wc_77 y (by linarith) (by linarith))
-        have hw2 : (0:ℝ) ≤ wfun (x+y) := by
-          exact le_trans (by norm_num) (wc_181 (x+y) (by linarith) (by linarith))
+      · have hw0 : (173234703/10000000000000:ℝ) ≤ wfun x := wc_67 x (by linarith) (by linarith)
+        have hw1 : (461990507/1250000000000:ℝ) ≤ wfun y := wc_77 y (by linarith) (by linarith)
+        have hw2 : (0:ℝ) ≤ wfun (x+y) := wc_181 (x+y) (by linarith) (by linarith)
         linarith
       · rcases le_total x (139/128:ℝ) with hc | hc
         · rcases le_total y (257/128:ℝ) with hc | hc
           · rcases le_total x (275/256:ℝ) with hc | hc
             · rcases le_total y (511/256:ℝ) with hc | hc
-              · have hw0 : (24192/1220703125:ℝ) ≤ wfun x := by
-                  exact le_trans (by norm_num) (wc_65 x (by linarith) (by linarith))
-                have hw1 : (131289511/625000000000:ℝ) ≤ wfun y := by
-                  exact le_trans (by norm_num) (wc_80 y (by linarith) (by linarith))
-                have hw2 : (260260897/5000000000000:ℝ) ≤ wfun (x+y) := by
-                  exact le_trans (by norm_num) (wc_216 (x+y) (by linarith) (by linarith))
+              · have hw0 : (24192/1220703125:ℝ) ≤ wfun x := wc_65 x (by linarith) (by linarith)
+                have hw1 : (131289511/625000000000:ℝ) ≤ wfun y := wc_80 y (by linarith) (by linarith)
+                have hw2 : (260260897/5000000000000:ℝ) ≤ wfun (x+y) := wc_216 (x+y) (by linarith) (by linarith)
                 linarith
               · rcases le_total x (547/512:ℝ) with hc | hc
                 · rcases le_total y (1025/512:ℝ) with hc | hc
-                  · have hw0 : (202769189/10000000000000:ℝ) ≤ wfun x := by
-                      exact le_trans (by norm_num) (wc_64 x (by linarith) (by linarith))
+                  · have hw0 : (202769189/10000000000000:ℝ) ≤ wfun x := wc_64 x (by linarith) (by linarith)
                     have hw1 : (1436255057/10000000000000:ℝ) ≤ wfun y := by
                       rcases le_total y (2:ℝ) with hq0 | hq0
                       · exact le_trans (by norm_num) (wc_90 y (by linarith) (by linarith))
                       exact le_trans (by norm_num) (wc_102 y (by linarith) (by linarith))
-                    have hw2 : (1084863577/10000000000000:ℝ) ≤ wfun (x+y) := by
-                      exact le_trans (by norm_num) (wc_316 (x+y) (by linarith) (by linarith))
+                    have hw2 : (1084863577/10000000000000:ℝ) ≤ wfun (x+y) := wc_316 (x+y) (by linarith) (by linarith)
                     linarith
-                  · have hw0 : (202769189/10000000000000:ℝ) ≤ wfun x := by
-                      exact le_trans (by norm_num) (wc_64 x (by linarith) (by linarith))
-                    have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
-                      exact le_trans (by norm_num) (wc_117 y (by linarith) (by linarith))
-                    have hw2 : (1433787771/10000000000000:ℝ) ≤ wfun (x+y) := by
-                      exact le_trans (by norm_num) (wc_332 (x+y) (by linarith) (by linarith))
+                  · have hw0 : (202769189/10000000000000:ℝ) ≤ wfun x := wc_64 x (by linarith) (by linarith)
+                    have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := wc_117 y (by linarith) (by linarith)
+                    have hw2 : (1433787771/10000000000000:ℝ) ≤ wfun (x+y) := wc_332 (x+y) (by linarith) (by linarith)
                     linarith
-                · have hw0 : (901248747/10000000000000:ℝ) ≤ wfun x := by
-                    exact le_trans (by norm_num) (wc_68 x (by linarith) (by linarith))
+                · have hw0 : (901248747/10000000000000:ℝ) ≤ wfun x := wc_68 x (by linarith) (by linarith)
                   have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
                     rcases le_total y (2:ℝ) with hq0 | hq0
                     · exact le_trans (by norm_num) (wc_90 y (by linarith) (by linarith))
                     exact le_trans (by norm_num) (wc_103 y (by linarith) (by linarith))
-                  have hw2 : (1422857311/10000000000000:ℝ) ≤ wfun (x+y) := by
-                    exact le_trans (by norm_num) (wc_333 (x+y) (by linarith) (by linarith))
+                  have hw2 : (1422857311/10000000000000:ℝ) ≤ wfun (x+y) := wc_333 (x+y) (by linarith) (by linarith)
                   linarith
-            · have hw0 : (2032077427/10000000000000:ℝ) ≤ wfun x := by
-                exact le_trans (by norm_num) (wc_69 x (by linarith) (by linarith))
+            · have hw0 : (2032077427/10000000000000:ℝ) ≤ wfun x := wc_69 x (by linarith) (by linarith)
               have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
                 rcases le_total y (2:ℝ) with hq0 | hq0
                 · exact le_trans (by norm_num) (wc_81 y (by linarith) (by linarith))
                 exact le_trans (by norm_num) (wc_103 y (by linarith) (by linarith))
-              have hw2 : (210437797/2000000000000:ℝ) ≤ wfun (x+y) := by
-                exact le_trans (by norm_num) (wc_318 (x+y) (by linarith) (by linarith))
+              have hw2 : (210437797/2000000000000:ℝ) ≤ wfun (x+y) := wc_318 (x+y) (by linarith) (by linarith)
               linarith
-          · have hw0 : (189390231/10000000000000:ℝ) ≤ wfun x := by
-              exact le_trans (by norm_num) (wc_66 x (by linarith) (by linarith))
-            have hw1 : (0:ℝ) ≤ wfun y := by
-              exact le_trans (by norm_num) (wc_143 y (by linarith) (by linarith))
-            have hw2 : (349403637/2000000000000:ℝ) ≤ wfun (x+y) := by
-              exact le_trans (by norm_num) (wc_338 (x+y) (by linarith) (by linarith))
+          · have hw0 : (189390231/10000000000000:ℝ) ≤ wfun x := wc_66 x (by linarith) (by linarith)
+            have hw1 : (0:ℝ) ≤ wfun y := wc_143 y (by linarith) (by linarith)
+            have hw2 : (349403637/2000000000000:ℝ) ≤ wfun (x+y) := wc_338 (x+y) (by linarith) (by linarith)
             linarith
-        · have hw0 : (5416703501/10000000000000:ℝ) ≤ wfun x := by
-            exact le_trans (by norm_num) (wc_70 x (by linarith) (by linarith))
+        · have hw0 : (5416703501/10000000000000:ℝ) ≤ wfun x := wc_70 x (by linarith) (by linarith)
           have hw1 : (0:ℝ) ≤ wfun y := by
             rcases le_total y (2:ℝ) with hq0 | hq0
             · exact le_trans (by norm_num) (wc_81 y (by linarith) (by linarith))
             exact le_trans (by norm_num) (wc_104 y (by linarith) (by linarith))
-          have hw2 : (1695185027/10000000000000:ℝ) ≤ wfun (x+y) := by
-            exact le_trans (by norm_num) (wc_339 (x+y) (by linarith) (by linarith))
+          have hw2 : (1695185027/10000000000000:ℝ) ≤ wfun (x+y) := wc_339 (x+y) (by linarith) (by linarith)
           linarith
   · rcases le_total x (17/16:ℝ) with hc | hc
     · rcases le_total y (133/64:ℝ) with hc | hc
       · rcases le_total x (133/128:ℝ) with hc | hc
-        · have hw0 : (2658307323/10000000000000:ℝ) ≤ wfun x := by
-            exact le_trans (by norm_num) (wc_4 x (by linarith) (by linarith))
-          have hw1 : (2253027/10000000000000:ℝ) ≤ wfun y := by
-            exact le_trans (by norm_num) (wc_157 y (by linarith) (by linarith))
-          have hw2 : (122438351/2500000000000:ℝ) ≤ wfun (x+y) := by
-            exact le_trans (by norm_num) (wc_217 (x+y) (by linarith) (by linarith))
+        · have hw0 : (2658307323/10000000000000:ℝ) ≤ wfun x := wc_4 x (by linarith) (by linarith)
+          have hw1 : (2253027/10000000000000:ℝ) ≤ wfun y := wc_157 y (by linarith) (by linarith)
+          have hw2 : (122438351/2500000000000:ℝ) ≤ wfun (x+y) := wc_217 (x+y) (by linarith) (by linarith)
           linarith
-        · have hw0 : (0:ℝ) ≤ wfun x := by
-            exact le_trans (by norm_num) (wc_13 x (by linarith) (by linarith))
-          have hw1 : (2253027/10000000000000:ℝ) ≤ wfun y := by
-            exact le_trans (by norm_num) (wc_157 y (by linarith) (by linarith))
-          have hw2 : (1695185027/10000000000000:ℝ) ≤ wfun (x+y) := by
-            exact le_trans (by norm_num) (wc_339 (x+y) (by linarith) (by linarith))
+        · have hw0 : (0:ℝ) ≤ wfun x := wc_13 x (by linarith) (by linarith)
+          have hw1 : (2253027/10000000000000:ℝ) ≤ wfun y := wc_157 y (by linarith) (by linarith)
+          have hw2 : (1695185027/10000000000000:ℝ) ≤ wfun (x+y) := wc_339 (x+y) (by linarith) (by linarith)
           linarith
-      · have hw0 : (0:ℝ) ≤ wfun x := by
-          exact le_trans (by norm_num) (wc_5 x (by linarith) (by linarith))
-        have hw1 : (141103133/400000000000:ℝ) ≤ wfun y := by
-          exact le_trans (by norm_num) (wc_164 y (by linarith) (by linarith))
-        have hw2 : (865235497/2500000000000:ℝ) ≤ wfun (x+y) := by
-          exact le_trans (by norm_num) (wc_340 (x+y) (by linarith) (by linarith))
+      · have hw0 : (0:ℝ) ≤ wfun x := wc_5 x (by linarith) (by linarith)
+        have hw1 : (141103133/400000000000:ℝ) ≤ wfun y := wc_164 y (by linarith) (by linarith)
+        have hw2 : (865235497/2500000000000:ℝ) ≤ wfun (x+y) := wc_340 (x+y) (by linarith) (by linarith)
         linarith
-    · have hw0 : (173234703/10000000000000:ℝ) ≤ wfun x := by
-        exact le_trans (by norm_num) (wc_67 x (by linarith) (by linarith))
-      have hw1 : (2058579/10000000000000:ℝ) ≤ wfun y := by
-        exact le_trans (by norm_num) (wc_158 y (by linarith) (by linarith))
-      have hw2 : (1631842993/5000000000000:ℝ) ≤ wfun (x+y) := by
-        exact le_trans (by norm_num) (wc_341 (x+y) (by linarith) (by linarith))
+    · have hw0 : (173234703/10000000000000:ℝ) ≤ wfun x := wc_67 x (by linarith) (by linarith)
+      have hw1 : (2058579/10000000000000:ℝ) ≤ wfun y := wc_158 y (by linarith) (by linarith)
+      have hw2 : (1631842993/5000000000000:ℝ) ≤ wfun (x+y) := wc_341 (x+y) (by linarith) (by linarith)
       linarith
 
-/-- The box `B1 × B3` of the two-dimensional table. -/
 set_option maxHeartbeats 10000000 in
+/-- The box `B1 × B3` of the two-dimensional table. -/
 lemma pair_0_2 (x y : ℝ) (hx1 : (65/64:ℝ) ≤ x) (hx2 : x ≤ (71/64:ℝ))
     (hy1 : (23/8:ℝ) ≤ y) (hy2 : y ≤ (203/64:ℝ)) :
     (1345/1000000:ℝ) ≤ (1/(3000:ℝ)) * (x + y) + wfun x + wfun y + 2 * wfun (x + y) := by
   rcases le_total y (387/128:ℝ) with hc | hc
   · rcases le_total y (755/256:ℝ) with hc | hc
-    · have hw0 : (0:ℝ) ≤ wfun x := by
-        exact le_trans (by norm_num) (wc_6 x (by linarith) (by linarith))
-      have hw1 : (233399711/625000000000:ℝ) ≤ wfun y := by
-        exact le_trans (by norm_num) (wc_174 y (by linarith) (by linarith))
+    · have hw0 : (0:ℝ) ≤ wfun x := wc_6 x (by linarith) (by linarith)
+      have hw1 : (233399711/625000000000:ℝ) ≤ wfun y := wc_174 y (by linarith) (by linarith)
       have hw2 : (0:ℝ) ≤ wfun (x+y) := by
         rcases le_total (x+y) (4:ℝ) with hq0 | hq0
         · exact le_trans (by norm_num) (wc_349 (x+y) (by linarith) (by linarith))
@@ -3906,58 +2540,49 @@ lemma pair_0_2 (x y : ℝ) (hx1 : (65/64:ℝ) ≤ x) (hx2 : x ≤ (71/64:ℝ))
       linarith
     · rcases le_total x (17/16:ℝ) with hc | hc
       · rcases le_total y (1529/512:ℝ) with hc | hc
-        · have hw0 : (0:ℝ) ≤ wfun x := by
-            exact le_trans (by norm_num) (wc_5 x (by linarith) (by linarith))
-          have hw1 : (44199559/500000000000:ℝ) ≤ wfun y := by
-            exact le_trans (by norm_num) (wc_175 y (by linarith) (by linarith))
+        · have hw0 : (0:ℝ) ≤ wfun x := wc_5 x (by linarith) (by linarith)
+          have hw1 : (44199559/500000000000:ℝ) ≤ wfun y := wc_175 y (by linarith) (by linarith)
           have hw2 : (0:ℝ) ≤ wfun (x+y) := by
             rcases le_total (x+y) (4:ℝ) with hq0 | hq0
             · exact le_trans (by norm_num) (wc_351 (x+y) (by linarith) (by linarith))
             exact le_trans (by norm_num) (wc_356 (x+y) (by linarith) (by linarith))
           linarith
         · rcases le_total x (133/128:ℝ) with hc | hc
-          · have hw0 : (2658307323/10000000000000:ℝ) ≤ wfun x := by
-              exact le_trans (by norm_num) (wc_4 x (by linarith) (by linarith))
+          · have hw0 : (2658307323/10000000000000:ℝ) ≤ wfun x := wc_4 x (by linarith) (by linarith)
             have hw1 : (0:ℝ) ≤ wfun y := by
               rcases le_total y (3:ℝ) with hq0 | hq0
               · exact le_trans (by norm_num) (wc_178 y (by linarith) (by linarith))
               exact le_trans (by norm_num) (wc_179 y (by linarith) (by linarith))
-            have hw2 : (0:ℝ) ≤ wfun (x+y) := by
-              exact le_trans (by norm_num) (wc_360 (x+y) (by linarith) (by linarith))
+            have hw2 : (0:ℝ) ≤ wfun (x+y) := wc_360 (x+y) (by linarith) (by linarith)
             linarith
-          · have hw0 : (0:ℝ) ≤ wfun x := by
-              exact le_trans (by norm_num) (wc_13 x (by linarith) (by linarith))
+          · have hw0 : (0:ℝ) ≤ wfun x := wc_13 x (by linarith) (by linarith)
             have hw1 : (0:ℝ) ≤ wfun y := by
               rcases le_total y (3:ℝ) with hq0 | hq0
               · exact le_trans (by norm_num) (wc_178 y (by linarith) (by linarith))
               exact le_trans (by norm_num) (wc_179 y (by linarith) (by linarith))
-            have hw2 : (41696891/10000000000000:ℝ) ≤ wfun (x+y) := by
-              exact le_trans (by norm_num) (wc_366 (x+y) (by linarith) (by linarith))
+            have hw2 : (41696891/10000000000000:ℝ) ≤ wfun (x+y) := wc_366 (x+y) (by linarith) (by linarith)
             linarith
-      · have hw0 : (173234703/10000000000000:ℝ) ≤ wfun x := by
-          exact le_trans (by norm_num) (wc_67 x (by linarith) (by linarith))
+      · have hw0 : (173234703/10000000000000:ℝ) ≤ wfun x := wc_67 x (by linarith) (by linarith)
         have hw1 : (0:ℝ) ≤ wfun y := by
           rcases le_total y (3:ℝ) with hq0 | hq0
           · exact le_trans (by norm_num) (wc_176 y (by linarith) (by linarith))
           exact le_trans (by norm_num) (wc_179 y (by linarith) (by linarith))
-        have hw2 : (0:ℝ) ≤ wfun (x+y) := by
-          exact le_trans (by norm_num) (wc_361 (x+y) (by linarith) (by linarith))
+        have hw2 : (0:ℝ) ≤ wfun (x+y) := wc_361 (x+y) (by linarith) (by linarith)
         linarith
   · have hp0 := wfun_nonneg x
     have hp1 := wfun_nonneg y
     have hp2 := wfun_nonneg (x+y)
     linarith
 
-/-- The box `B2 × B2` of the two-dimensional table. -/
 set_option maxHeartbeats 10000000 in
+/-- The box `B2 × B2` of the two-dimensional table. -/
 lemma pair_1_1 (x y : ℝ) (hx1 : (31/16:ℝ) ≤ x) (hx2 : x ≤ (17/8:ℝ))
     (hy1 : (31/16:ℝ) ≤ y) (hy2 : y ≤ (17/8:ℝ)) :
     (1345/1000000:ℝ) ≤ (1/(3000:ℝ)) * (x + y) + wfun x + wfun y + 2 * wfun (x + y) := by
   rcases le_total x (65/32:ℝ) with hc | hc
   · rcases le_total y (65/32:ℝ) with hc | hc
     · rcases le_total x (127/64:ℝ) with hc | hc
-      · have hw0 : (461990507/1250000000000:ℝ) ≤ wfun x := by
-          exact le_trans (by norm_num) (wc_77 x (by linarith) (by linarith))
+      · have hw0 : (461990507/1250000000000:ℝ) ≤ wfun x := wc_77 x (by linarith) (by linarith)
         have hw1 : (0:ℝ) ≤ wfun y := by
           rcases le_total y (2:ℝ) with hq0 | hq0
           · exact le_trans (by norm_num) (wc_78 y (by linarith) (by linarith))
@@ -3972,8 +2597,7 @@ lemma pair_1_1 (x y : ℝ) (hx1 : (31/16:ℝ) ≤ x) (hx2 : x ≤ (17/8:ℝ))
             rcases le_total x (2:ℝ) with hq0 | hq0
             · exact le_trans (by norm_num) (wc_81 x (by linarith) (by linarith))
             exact le_trans (by norm_num) (wc_104 x (by linarith) (by linarith))
-          have hw1 : (461990507/1250000000000:ℝ) ≤ wfun y := by
-            exact le_trans (by norm_num) (wc_77 y (by linarith) (by linarith))
+          have hw1 : (461990507/1250000000000:ℝ) ≤ wfun y := wc_77 y (by linarith) (by linarith)
           have hw2 : (0:ℝ) ≤ wfun (x+y) := by
             rcases le_total (x+y) (4:ℝ) with hq0 | hq0
             · exact le_trans (by norm_num) (wc_350 (x+y) (by linarith) (by linarith))
@@ -3994,8 +2618,7 @@ lemma pair_1_1 (x y : ℝ) (hx1 : (31/16:ℝ) ≤ x) (hx2 : x ≤ (17/8:ℝ))
               exact le_trans (by norm_num) (wc_355 (x+y) (by linarith) (by linarith))
             linarith
           · rcases le_total y (257/128:ℝ) with hc | hc
-            · have hw0 : (0:ℝ) ≤ wfun x := by
-                exact le_trans (by norm_num) (wc_143 x (by linarith) (by linarith))
+            · have hw0 : (0:ℝ) ≤ wfun x := wc_143 x (by linarith) (by linarith)
               have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
                 rcases le_total y (2:ℝ) with hq0 | hq0
                 · exact le_trans (by norm_num) (wc_81 y (by linarith) (by linarith))
@@ -4006,25 +2629,17 @@ lemma pair_1_1 (x y : ℝ) (hx1 : (31/16:ℝ) ≤ x) (hx2 : x ≤ (17/8:ℝ))
                 exact le_trans (by norm_num) (wc_355 (x+y) (by linarith) (by linarith))
               linarith
             · rcases le_total x (517/256:ℝ) with hc | hc
-              · have hw0 : (99255251/5000000000000:ℝ) ≤ wfun x := by
-                  exact le_trans (by norm_num) (wc_142 x (by linarith) (by linarith))
-                have hw1 : (0:ℝ) ≤ wfun y := by
-                  exact le_trans (by norm_num) (wc_143 y (by linarith) (by linarith))
-                have hw2 : (31593/5000000000000:ℝ) ≤ wfun (x+y) := by
-                  exact le_trans (by norm_num) (wc_362 (x+y) (by linarith) (by linarith))
+              · have hw0 : (99255251/5000000000000:ℝ) ≤ wfun x := wc_142 x (by linarith) (by linarith)
+                have hw1 : (0:ℝ) ≤ wfun y := wc_143 y (by linarith) (by linarith)
+                have hw2 : (31593/5000000000000:ℝ) ≤ wfun (x+y) := wc_362 (x+y) (by linarith) (by linarith)
                 linarith
-              · have hw0 : (0:ℝ) ≤ wfun x := by
-                  exact le_trans (by norm_num) (wc_153 x (by linarith) (by linarith))
-                have hw1 : (0:ℝ) ≤ wfun y := by
-                  exact le_trans (by norm_num) (wc_143 y (by linarith) (by linarith))
-                have hw2 : (3035621/500000000000:ℝ) ≤ wfun (x+y) := by
-                  exact le_trans (by norm_num) (wc_367 (x+y) (by linarith) (by linarith))
+              · have hw0 : (0:ℝ) ≤ wfun x := wc_153 x (by linarith) (by linarith)
+                have hw1 : (0:ℝ) ≤ wfun y := wc_143 y (by linarith) (by linarith)
+                have hw2 : (3035621/500000000000:ℝ) ≤ wfun (x+y) := wc_367 (x+y) (by linarith) (by linarith)
                 linarith
     · rcases le_total x (127/64:ℝ) with hc | hc
-      · have hw0 : (461990507/1250000000000:ℝ) ≤ wfun x := by
-          exact le_trans (by norm_num) (wc_77 x (by linarith) (by linarith))
-        have hw1 : (2058579/10000000000000:ℝ) ≤ wfun y := by
-          exact le_trans (by norm_num) (wc_158 y (by linarith) (by linarith))
+      · have hw0 : (461990507/1250000000000:ℝ) ≤ wfun x := wc_77 x (by linarith) (by linarith)
+        have hw1 : (2058579/10000000000000:ℝ) ≤ wfun y := wc_158 y (by linarith) (by linarith)
         have hw2 : (0:ℝ) ≤ wfun (x+y) := by
           rcases le_total (x+y) (4:ℝ) with hq0 | hq0
           · exact le_trans (by norm_num) (wc_352 (x+y) (by linarith) (by linarith))
@@ -4036,10 +2651,8 @@ lemma pair_1_1 (x y : ℝ) (hx1 : (31/16:ℝ) ≤ x) (hx2 : x ≤ (17/8:ℝ))
               rcases le_total x (2:ℝ) with hq0 | hq0
               · exact le_trans (by norm_num) (wc_81 x (by linarith) (by linarith))
               exact le_trans (by norm_num) (wc_103 x (by linarith) (by linarith))
-            have hw1 : (2253027/10000000000000:ℝ) ≤ wfun y := by
-              exact le_trans (by norm_num) (wc_157 y (by linarith) (by linarith))
-            have hw2 : (61033/10000000000000:ℝ) ≤ wfun (x+y) := by
-              exact le_trans (by norm_num) (wc_364 (x+y) (by linarith) (by linarith))
+            have hw1 : (2253027/10000000000000:ℝ) ≤ wfun y := wc_157 y (by linarith) (by linarith)
+            have hw2 : (61033/10000000000000:ℝ) ≤ wfun (x+y) := wc_364 (x+y) (by linarith) (by linarith)
             linarith
           · have hp0 := wfun_nonneg x
             have hp1 := wfun_nonneg y
@@ -4052,10 +2665,8 @@ lemma pair_1_1 (x y : ℝ) (hx1 : (31/16:ℝ) ≤ x) (hx2 : x ≤ (17/8:ℝ))
   · rcases le_total y (65/32:ℝ) with hc | hc
     · rcases le_total x (133/64:ℝ) with hc | hc
       · rcases le_total y (127/64:ℝ) with hc | hc
-        · have hw0 : (2253027/10000000000000:ℝ) ≤ wfun x := by
-            exact le_trans (by norm_num) (wc_157 x (by linarith) (by linarith))
-          have hw1 : (461990507/1250000000000:ℝ) ≤ wfun y := by
-            exact le_trans (by norm_num) (wc_77 y (by linarith) (by linarith))
+        · have hw0 : (2253027/10000000000000:ℝ) ≤ wfun x := wc_157 x (by linarith) (by linarith)
+          have hw1 : (461990507/1250000000000:ℝ) ≤ wfun y := wc_77 y (by linarith) (by linarith)
           have hw2 : (0:ℝ) ≤ wfun (x+y) := by
             rcases le_total (x+y) (4:ℝ) with hq0 | hq0
             · exact le_trans (by norm_num) (wc_352 (x+y) (by linarith) (by linarith))
@@ -4063,14 +2674,12 @@ lemma pair_1_1 (x y : ℝ) (hx1 : (31/16:ℝ) ≤ x) (hx2 : x ≤ (17/8:ℝ))
           linarith
         · rcases le_total x (263/128:ℝ) with hc | hc
           · rcases le_total y (257/128:ℝ) with hc | hc
-            · have hw0 : (2358883/10000000000000:ℝ) ≤ wfun x := by
-                exact le_trans (by norm_num) (wc_155 x (by linarith) (by linarith))
+            · have hw0 : (2358883/10000000000000:ℝ) ≤ wfun x := wc_155 x (by linarith) (by linarith)
               have hw1 : (179073511/2000000000000:ℝ) ≤ wfun y := by
                 rcases le_total y (2:ℝ) with hq0 | hq0
                 · exact le_trans (by norm_num) (wc_81 y (by linarith) (by linarith))
                 exact le_trans (by norm_num) (wc_103 y (by linarith) (by linarith))
-              have hw2 : (31229/5000000000000:ℝ) ≤ wfun (x+y) := by
-                exact le_trans (by norm_num) (wc_363 (x+y) (by linarith) (by linarith))
+              have hw2 : (31229/5000000000000:ℝ) ≤ wfun (x+y) := wc_363 (x+y) (by linarith) (by linarith)
               linarith
             · have hp0 := wfun_nonneg x
               have hp1 := wfun_nonneg y
@@ -4080,14 +2689,12 @@ lemma pair_1_1 (x y : ℝ) (hx1 : (31/16:ℝ) ≤ x) (hx2 : x ≤ (17/8:ℝ))
             have hp1 := wfun_nonneg y
             have hp2 := wfun_nonneg (x+y)
             linarith
-      · have hw0 : (141103133/400000000000:ℝ) ≤ wfun x := by
-          exact le_trans (by norm_num) (wc_164 x (by linarith) (by linarith))
+      · have hw0 : (141103133/400000000000:ℝ) ≤ wfun x := wc_164 x (by linarith) (by linarith)
         have hw1 : (0:ℝ) ≤ wfun y := by
           rcases le_total y (2:ℝ) with hq0 | hq0
           · exact le_trans (by norm_num) (wc_78 y (by linarith) (by linarith))
           exact le_trans (by norm_num) (wc_104 y (by linarith) (by linarith))
-        have hw2 : (11399/2000000000000:ℝ) ≤ wfun (x+y) := by
-          exact le_trans (by norm_num) (wc_365 (x+y) (by linarith) (by linarith))
+        have hw2 : (11399/2000000000000:ℝ) ≤ wfun (x+y) := wc_365 (x+y) (by linarith) (by linarith)
         linarith
     · have hp0 := wfun_nonneg x
       have hp1 := wfun_nonneg y

@@ -299,6 +299,7 @@ def emit(cn, out):
     g = math.gcd(math.gcd(a,b),d); a//=g; b//=g; d//=g
 
     idx = {iv:i for i,iv in enumerate(ivals)}
+    cellW = {iv: (Fr(0) if build_cell(*iv) is None else build_cell(*iv).W) for iv in ivals}
     nmod = (len(ivals) + PERMOD - 1)//PERMOD
     for k in range(nmod):
         body = [HDR]
@@ -384,6 +385,18 @@ def emit(cn, out):
 
     def emit_wfact(varname, expr, l, u, W, ind):
         pcs = quarter_pieces(l,u); out = []
+        # When one cell covers the range on its own AND the constant asked for is that
+        # cell's own constant -- 1393 of the 1443 leaf steps, every one where no
+        # straddle forces a minimum -- the fact IS the cell lemma.  Writing
+        # `le_trans (by norm_num) (wc_k ...)` there makes the elaborator postpone a
+        # `by norm_num` against a metavariable until the second argument fixes it,
+        # once per leaf step, for a `norm_num` that only ever proves `W <= W`.
+        # Hand it the term directly instead.
+        if len(pcs) == 1 and cellW[pcs[0]] == W:
+            k = idx[pcs[0]]
+            out.append("%shave %s : %s ≤ wfun %s := wc_%d %s (by linarith) (by linarith)"
+                       % (ind, varname, R(W), expr, k, expr))
+            return out
         out.append("%shave %s : %s ≤ wfun %s := by" % (ind, varname, R(W), expr))
         for t,(aa,bb) in enumerate(pcs):
             k = idx[(aa,bb)]
@@ -421,7 +434,6 @@ def emit(cn, out):
     for (i,j,box,node) in trees:
         x0,x1,y0,y1 = box
         nm = "pair_%d_%d" % (i,j); pairnames[(i,j)] = nm
-        A("/-- The box `B%d × B%d` of the two-dimensional table. -/" % (i+1,j+1))
         # A box lemma is one declaration holding its whole bisection tree, so the tree
         # shares a single heartbeat budget.  B1 x B2 carries 453 of the 487 leaves --
         # the binding basin is there -- and overruns the default 200 000 about 4% of
@@ -429,6 +441,7 @@ def emit(cn, out):
         # absent from `#print axioms`, and set on the generated tables only, never on
         # the advertised theorems.
         A("set_option maxHeartbeats 10000000 in")
+        A("/-- The box `B%d × B%d` of the two-dimensional table. -/" % (i+1,j+1))
         A("lemma %s (x y : ℝ) (hx1 : %s ≤ x) (hx2 : x ≤ %s)" % (nm, R(x0), R(x1)))
         A("    (hy1 : %s ≤ y) (hy2 : y ≤ %s) :" % (R(y0), R(y1)))
         A("    %s ≤ (1/(%d:ℝ)) * (x + y) + wfun x + wfun y + 2 * wfun (x + y) := by" % (CSTR, P))

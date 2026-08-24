@@ -171,9 +171,14 @@ def tokenize(src: str):
         if m:
             toks.append((ind, RCASES, (m.group(1), num(m.group(2)))))
             continue
-        m = re.match(r"have hw\d+ : \(([^)]*)\) ≤ wfun \(?([xy+]+)\)? :=", txt)
+        m = re.match(r"have hw\d+ : \(([^)]*)\) ≤ wfun \(?([xy+]+)\)? :=(.*)$", txt)
         if m:
             toks.append((ind, HAVE, (num(m.group(1)), m.group(2))))
+            # the direct form `:= wc_k e (by linarith) (by linarith)` carries its cell
+            # on the same line; the `:= by` form carries it on the lines that follow
+            d = re.match(r"\s*(wc_\d+)\b", m.group(3))
+            if d:
+                toks.append((ind + 1, CELL, d.group(1)))
             continue
         m = re.search(r"\((wc_\d+) \(?([xy+]+)\)?", txt)
         if m:
