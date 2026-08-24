@@ -321,7 +321,14 @@ def emit(cn, out):
     A("-/")
     A("")
     A("noncomputable section")
-    A("open Real")
+    # `HD` lives in `Zeta23.ThmD`, `Ncount` and `N0simple` in `Zeta23.ZeroSide`, and
+    # `eventually_atTop` in `Filter`.  These are exactly the opens
+    # `lean/bridge/Zeta23Ext/Bridge/Main.lean` uses; without them `autoImplicit`
+    # silently turns each of them into an auto-bound variable and the advertised
+    # statement becomes a statement about nothing.  `open Real` was vestigial:
+    # this module contains no unqualified `Real` name.
+    A("open Filter")
+    A("open Zeta23 Zeta23.ZeroSide Zeta23.ThmD")
     A("namespace Zeta23Ext.Bridge.ThreePoint")
     A("")
     A("private lemma sum2 (f : Fin (3-1) → ℝ) : ∑ i, f i = f 0 + f 1 := by")
@@ -353,14 +360,14 @@ def emit(cn, out):
     A("rest is the table. -/")
     A("lemma cover1 (x : ℝ) (h0 : 0 ≤ x) (hS : x ≤ %s) :" % R(S))
     A("    %s ≤ wfun x ∨ %s := by" % (CSTR, badstr))
-    A("  rcases le_or_lt x (1/2 : ℝ) with hw | hw")
+    A("  rcases le_total x (1/2 : ℝ) with hw | hw")
     A("  · exact Or.inl (le_trans (by norm_num) (wfun_window x h0 hw))")
     for si, s in enumerate(segs):
         l, u = s[0], s[1]
         last = (si == len(segs)-1)
         hn = "hz%d" % (si+1)
         if not last:
-            A("  rcases le_or_lt x %s with %s | %s" % (R(u), hn, hn)); ind = "  · "
+            A("  rcases le_total x %s with %s | %s" % (R(u), hn, hn)); ind = "  · "
         else:
             A("  have %s : x ≤ %s := hS" % (hn, R(u))); ind = "  "
         if s[2] == 'clear':
@@ -381,7 +388,7 @@ def emit(cn, out):
         for t,(aa,bb) in enumerate(pcs):
             k = idx[(aa,bb)]
             if t < len(pcs)-1:
-                out.append("%s  rcases le_or_lt %s %s with hq%d | hq%d" % (ind, expr, R(bb), t, t))
+                out.append("%s  rcases le_total %s %s with hq%d | hq%d" % (ind, expr, R(bb), t, t))
                 out.append("%s  · exact le_trans (by norm_num) (wc_%d %s (by linarith) (by linarith))"
                            % (ind, k, expr))
             else:
@@ -403,7 +410,7 @@ def emit(cn, out):
             out.extend(emit_wfact("hw2", "(x+y)", x0+y0, x1+y1, node[4], ind))
             out.append("%slinarith" % ind); return
         v = 'x' if kind == 'splitx' else 'y'
-        out.append("%srcases le_or_lt %s %s with hc | hc" % (ind, v, R(node[2])))
+        out.append("%srcases le_total %s %s with hc | hc" % (ind, v, R(node[2])))
         for child in (node[3], node[4]):
             out.append("%s· " % ind)
             sub = []; emit_node(child, ind + "  ", sub)
@@ -433,7 +440,7 @@ def emit(cn, out):
     A("  have hn0 := wfun_nonneg x")
     A("  have hn1 := wfun_nonneg y")
     A("  have hn2 := wfun_nonneg (x+y)")
-    A("  rcases le_or_lt %s (x + y) with hS | hS" % R(S))
+    A("  rcases le_total %s (x + y) with hS | hS" % R(S))
     A("  · linarith")
     A("  have hxS : x ≤ %s := by linarith" % R(S))
     A("  have hyS : y ≤ %s := by linarith" % R(S))

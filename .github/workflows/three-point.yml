@@ -1,17 +1,5 @@
 # Tier 3b — the three-point certificate package, on demand.
 #
-# ⚠ THIS FILE IS NOT LIVE.  It belongs at `.github/workflows/three-point.yml` and
-# it is parked here because the OAuth token this branch was pushed with does not
-# carry the `workflow` scope, so neither `git push` nor the contents API nor the
-# git-data API will place a file under `.github/workflows/`.  One command fixes
-# it, and it is the operator's to run because granting an OAuth scope is his
-# decision, not an agent's:
-#
-#     gh auth refresh -h github.com -s workflow
-#     git mv hunts/ainta_seven_point/ci/three-point.yml .github/workflows/
-#
-# Until then nothing here has run and `THREE-POINT.md` says so.
-#
 # `hunts/ainta_seven_point/lean-three-point/` is a Lake package that requires
 # `lean/bridge` BY PATH, so it proves things about the same `Kfun`, `kfun`,
 # `wfun`, `F` and `Phi_n` that `Zeta23Ext.Bridge.n_point_bound` consumes. It is
@@ -152,8 +140,12 @@ jobs:
         run: |
           echo "--- what the build printed ---"
           grep -E "depends on axioms|does not depend on any axioms" main-build.log || true
+          # Lake prefixes each diagnostic with `info: <file>:<line>:<col>:`, so the
+          # pattern must not be anchored at the start of the line, and a trailing
+          # `$` is one carriage return away from a false failure. Match the tail
+          # of the axiom list and nothing else.
           if grep -E "depends on axioms" main-build.log \
-               | grep -vE "^\S+ depends on axioms: \[propext, Classical\.choice, Quot\.sound\]$"; then
+               | grep -vE "depends on axioms: \[propext, Classical\.choice, Quot\.sound\]"; then
             echo "::error::a non-standard axiom reached an advertised declaration"
             exit 1
           fi

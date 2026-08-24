@@ -108,7 +108,7 @@ segments: list[tuple[F, F, str | None]] = []
 lo = F(0)
 exported: list[tuple[F, F]] = []
 for i, ln in enumerate(lines):
-    m = re.search(r"rcases le_or_lt x \(([^)]*)\) with \w+ \| \w+", ln)
+    m = re.search(r"rcases le_total x \(([^)]*)\) with \w+ \| \w+", ln)
     if not m:
         continue
     hi = num(m.group(1))
@@ -167,7 +167,7 @@ def tokenize(src: str):
             while txt.startswith(" "):
                 ind += 1
                 txt = txt[1:]
-        m = re.match(r"rcases le_or_lt ([xy]) \(([^)]*)\) with \w+ \| \w+", txt)
+        m = re.match(r"rcases le_total ([xy]) \(([^)]*)\) with \w+ \| \w+", txt)
         if m:
             toks.append((ind, RCASES, (m.group(1), num(m.group(2)))))
             continue
