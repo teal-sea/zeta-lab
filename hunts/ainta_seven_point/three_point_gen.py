@@ -422,6 +422,13 @@ def emit(cn, out):
         x0,x1,y0,y1 = box
         nm = "pair_%d_%d" % (i,j); pairnames[(i,j)] = nm
         A("/-- The box `B%d × B%d` of the two-dimensional table. -/" % (i+1,j+1))
+        # A box lemma is one declaration holding its whole bisection tree, so the tree
+        # shares a single heartbeat budget.  B1 x B2 carries 453 of the 487 leaves --
+        # the binding basin is there -- and overruns the default 200 000 about 4% of
+        # the way in.  This is a compile-resource limit and nothing else: not an axiom,
+        # absent from `#print axioms`, and set on the generated tables only, never on
+        # the advertised theorems.
+        A("set_option maxHeartbeats 10000000 in")
         A("lemma %s (x y : ℝ) (hx1 : %s ≤ x) (hx2 : x ≤ %s)" % (nm, R(x0), R(x1)))
         A("    (hy1 : %s ≤ y) (hy2 : y ≤ %s) :" % (R(y0), R(y1)))
         A("    %s ≤ (1/(%d:ℝ)) * (x + y) + wfun x + wfun y + 2 * wfun (x + y) := by" % (CSTR, P))

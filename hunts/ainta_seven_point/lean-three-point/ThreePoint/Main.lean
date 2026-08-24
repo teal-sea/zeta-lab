@@ -97,6 +97,7 @@ lemma cover1 (x : ℝ) (h0 : 0 ≤ x) (hS : x ≤ (807/200:ℝ)) :
   exact Or.inr (Or.inr (Or.inr (Or.inr (⟨by linarith, by linarith⟩))))
 
 /-- The box `B1 × B1` of the two-dimensional table. -/
+set_option maxHeartbeats 10000000 in
 lemma pair_0_0 (x y : ℝ) (hx1 : (65/64:ℝ) ≤ x) (hx2 : x ≤ (71/64:ℝ))
     (hy1 : (65/64:ℝ) ≤ y) (hy2 : y ≤ (71/64:ℝ)) :
     (1345/1000000:ℝ) ≤ (1/(3000:ℝ)) * (x + y) + wfun x + wfun y + 2 * wfun (x + y) := by
@@ -197,6 +198,7 @@ lemma pair_0_0 (x y : ℝ) (hx1 : (65/64:ℝ) ≤ x) (hx2 : x ≤ (71/64:ℝ))
       linarith
 
 /-- The box `B1 × B2` of the two-dimensional table. -/
+set_option maxHeartbeats 10000000 in
 lemma pair_0_1 (x y : ℝ) (hx1 : (65/64:ℝ) ≤ x) (hx2 : x ≤ (71/64:ℝ))
     (hy1 : (31/16:ℝ) ≤ y) (hy2 : y ≤ (17/8:ℝ)) :
     (1345/1000000:ℝ) ≤ (1/(3000:ℝ)) * (x + y) + wfun x + wfun y + 2 * wfun (x + y) := by
@@ -3887,6 +3889,7 @@ lemma pair_0_1 (x y : ℝ) (hx1 : (65/64:ℝ) ≤ x) (hx2 : x ≤ (71/64:ℝ))
       linarith
 
 /-- The box `B1 × B3` of the two-dimensional table. -/
+set_option maxHeartbeats 10000000 in
 lemma pair_0_2 (x y : ℝ) (hx1 : (65/64:ℝ) ≤ x) (hx2 : x ≤ (71/64:ℝ))
     (hy1 : (23/8:ℝ) ≤ y) (hy2 : y ≤ (203/64:ℝ)) :
     (1345/1000000:ℝ) ≤ (1/(3000:ℝ)) * (x + y) + wfun x + wfun y + 2 * wfun (x + y) := by
@@ -3946,6 +3949,7 @@ lemma pair_0_2 (x y : ℝ) (hx1 : (65/64:ℝ) ≤ x) (hx2 : x ≤ (71/64:ℝ))
     linarith
 
 /-- The box `B2 × B2` of the two-dimensional table. -/
+set_option maxHeartbeats 10000000 in
 lemma pair_1_1 (x y : ℝ) (hx1 : (31/16:ℝ) ≤ x) (hx2 : x ≤ (17/8:ℝ))
     (hy1 : (31/16:ℝ) ≤ y) (hy2 : y ≤ (17/8:ℝ)) :
     (1345/1000000:ℝ) ≤ (1/(3000:ℝ)) * (x + y) + wfun x + wfun y + 2 * wfun (x + y) := by
