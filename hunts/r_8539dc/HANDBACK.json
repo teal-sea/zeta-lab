@@ -1,0 +1,54 @@
+{
+  "run_id": "9698c990-e812-4890-94d8-f30a65b820af",
+  "status": "settled",
+  "conclusion": "The published verifier computes A = max(f*f)/(int f)^2 while the November 2025 statement defined B = max|f*f|/(int f)^2, and in exact rational arithmetic the n=400 witness gives A = 1.45564279537... but B = 4.33404652438..., so 1.4557 was indeed stated against the wrong functional. It was corrected in arXiv:2511.02864 v2 on 2025-12-15 and in the colab on 2025-12-19, the improvement survives against each functional (1.4557 < 1.4581 under A, 1.4688 < 1.4993 under B, both verified exactly), and what remains wrong is that the two corrected artifacts label the two problems in opposite senses and the public problem page was never updated.",
+  "confidence": "Lean hard on the two numbers: every arithmetic step is exact rational arithmetic over the published ten-place decimals, the piecewise-linear knot argument is elementary, and the discretisation is self-checked by reproducing the published 1.4688 on the sequence where both functionals coincide. Lean hard on the correction chronology too: it is read off the v1/v2/v3 LaTeX sources and the commit that says so in its own message. Lean less on one link, flagged as a thread: the assignment of the prior 1.45810 to the A-functional rests on the corrected paper's own changed citation, not on reading page 75 of Vinuesa's thesis, which this run did not open.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "issue teal-sea/zeta-lab#123, which had already located issue #1 upstream, the offending code line, and Tao's 2025-11-12 reply",
+      "source": "https://github.com/teal-sea/zeta-lab/issues/123",
+      "effect": "removed the whole discovery half of the task; the run started from a named defect and a named artifact rather than from a paper"
+    },
+    {
+      "what": "the house habit of recomputing a published constant exactly rather than re-running the published float cell",
+      "source": "CLAUDE.md certainty ladder, and hunts/r_2ac05f / hunts/r_a7c12f as precedents",
+      "effect": "chose Fraction over numpy from the first line, which is why the 4.334 figure is a fact rather than a floating-point suspicion"
+    }
+  ],
+  "threads": [
+    {
+      "what": "the n=400 A-witness is extremely lopsided under B: max|b|/max b is about 2.98, with the extreme knot negative",
+      "why_it_might_matter": "if A-optimal step functions must be lopsided under B, the two constants separate for a structural reason and the gap 1.4557 vs 1.4688 is not a coincidence of two searches",
+      "first_step": "locally optimise A at small n (n <= 24, cheap) and record max|b|/max b at each optimum; a ratio that grows with n is the signal"
+    },
+    {
+      "what": "the prior bound 1.45810 is sourced to page 75 of Vinuesa's 2009 thesis and this run did not read it",
+      "why_it_might_matter": "it is the one link in the corrected chain repaired by moving a citation rather than by rerunning a computation, so a second misattribution there would be invisible",
+      "first_step": "fetch https://www.icmat.es/Thesis/CVinuesa.pdf, read p. 75, and confirm the construction there is scored under max f*f and not max|f*f|"
+    },
+    {
+      "what": "problems/4.html in alphaevolve_repository_of_problems still states only the max|f*f| problem, with no bounds and no sibling page, nine months after its own comment promised both",
+      "why_it_might_matter": "the paper's per-problem URL points at that page, so the public entry point for this problem is the one artifact that was never fixed",
+      "first_step": "check whether problems/*.html numbering has a free slot or whether inserting the sibling renumbers the set, which tells you if the omission is inertia or a structural cost"
+    },
+    {
+      "what": "the primed and unprimed labels are swapped between arXiv v2/v3 and the colab",
+      "why_it_might_matter": "anyone citing AlphaEvolve's C_3 without naming the artifact has even odds of naming the other problem, which is the same class of defect the correction was meant to end",
+      "first_step": "quote both statements side by side in whatever the operator decides to say, so the ambiguity is visible rather than asserted"
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "a small instrument for the recurring shape 'recompute a published constant from a published witness under an explicitly stated functional, exactly'",
+      "why_reusable": "this is the fourth-odd hunt in this family (r_2ac05f, r_a7c12f, overlap_lower, this one) and each hand-rolled its own exact evaluator; the reusable core is decimal-string -> Fraction ingestion, exact discrete convolution, and a functional stated as data so two readings of one inequality can be scored on the same witness",
+      "first_step": "extract the 60 lines of hunts/r_8539dc/probe.py that are not about this problem, and see whether r_2ac05f's evaluator fits the same signature before writing anything new"
+    },
+    {
+      "what": "a habit, not a tool: when a brief cites an open issue as evidence a defect stands, diff the cited artifact's own revisions before recomputing anything",
+      "why_reusable": "this brief's premise ('no corrected table has appeared') was false, and five minutes of git log plus an arXiv v1/v3 diff established that before the mathematics started; the same check applies to every external-claim hunt",
+      "first_step": "add one line to the external-claim brief template asking what the artifact's revision history says, and see whether it changes any brief's opening premise"
+    }
+  ],
+  "notes_for_operator": "CLOSE THE LOOP could not be executed as written, and this is a report rather than a skipped step. This task came from GitHub issue #123, not from a function in harness/: there is no ClaimUnderReview, guard or grave anywhere under harness/departments/ mentioning this constant, this paper or this functional (grepped), and scripts/70_lab_state.py's standing-review worklist names only rf-c003-window and k2-far-constant-depth1, both unrelated and both untouched by this run. I did not invent a ledger entry for an external paper's claim, because the review ledger names claims this laboratory made and an entry there would have misfiled the authorship; that is a judgment call and it is the operator's to reverse. The outcome is instead recorded on issue #123 itself, which is where the question came from. Second item, an ownership flag rather than a request: this hunt's real deliverable is a reading of somebody else's published record, and whether any of it is said to DeepMind, to the issue's reporter, or to nobody is an allocation decision, so it stays here and out of the science. Third, a process note: the run went over its 30-minute budget, roughly 55 minutes, and the overrun was all environment (no .venv in the tree; numpy, scipy, sympy and matplotlib had to be installed before the state generator would run at all, and the generator was needed only to prove the negative in the first paragraph)."
+}
