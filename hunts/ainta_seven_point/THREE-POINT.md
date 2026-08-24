@@ -202,7 +202,7 @@ and their transposes — **four** box lemmas, not five. `B₂×B₃` does *not* 
 dead cases are closed in `three_point_cert` by `exfalso; linarith`. (An earlier draft of this
 note listed `B₂×B₃` as surviving. It does not; the Lean was right and the prose was wrong.)
 
-### 3.3 The cell bound — one general lemma, applied 1537 times
+### 3.3 The cell bound — one general lemma, applied 1515 times
 
 **This is the shape the brief asked for and the shape that was built.** There is exactly one
 kernel lemma,
@@ -227,8 +227,8 @@ theorem wc_k (x : ℝ) (h₁ : (l:ℝ) ≤ x) (h₂ : x ≤ (u:ℝ)) : (W:ℝ) �
 with `l`, `u`, `W` rational literals, and each proved mechanically: reduce the angle to a
 quarter window, enclose `cos` and `sin` by the twelve-term Taylor bound, enclose
 `2γ(πx)·sin(πx)` by interval multiplication, subtract, apply `wfun_ge`. **VERIFIED**:
-1537 applications of the 368 lemmas across the development (1515 in the box trees, 22 in
-`cover1`).
+1515 applications of the 368 lemmas across the development — 22 in `cover1`, 1493 in the four
+box trees.
 
 **The angle reduction.** Every cell sits inside `[a, a+1/4]` or `[a−1/4, a]` for a half-integer
 anchor `a ∈ {1/2, 1, …, 9/2}`, so `θ = π|x−a| ≤ π/4 = 0.7854 < 1` and CertRoute's
@@ -412,7 +412,7 @@ The honest status of every statement in §1 is *written, unelaborated*.
 * The `n = 3` certificate at `c = 1345/10⁶`, `p = 3000` is **arithmetically true** and the
   proof script that would establish it is written against the bridge's own `F` — 368 cell
   lemmas, 22 covering steps, 4 box lemmas, 487 leaves, all cross-checked (§4).
-* The architecture is the one the brief asked for: **one general cell lemma applied 1537
+* The architecture is the one the brief asked for: **one general cell lemma applied 1515
   times**, not thousands of hand-generated kernel facts, and no `decide`-checked table (§7).
 * The pressure cutoff is proved cleanly in one step and does exactly what it was expected to:
   it removes everything outside a triangle of side 4.035 and leaves four short intervals.
