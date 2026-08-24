@@ -608,8 +608,10 @@ rather than a footnote to it.
   role and improves it by `1.0968e-04`.
 * **It is not an improvement on the state of the art in the literature.** The conditional
   seven- and eight-point values (`0.673029553…`, `0.673052982…`) are both larger than `Φ₄`; what
-  `Φ₄` has that they do not is a proof. `Φ₄` closes **21 %** of the gap between the proved `Φ₃`
-  and the conditional seven-point value, where `Φ₃` closed 45 % of the gap between `H` and it.
+  `Φ₄` has that they do not is a proof. Measured against the conditional seven-point value
+  `0.673029553…`: `Φ₃` stood **44.7 %** of the way from `H` to it, `Φ₄` stands **65.5 %** of the
+  way, and `Φ₄` therefore closes **37.5 %** of what was still open after `Φ₃`. Against the
+  eight-point `0.673052982…` the figure is 62.7 %.
 * The `n = 3` result is untouched. `lean-three-point` still builds and still proves `Φ₃`; the two
   packages share no code beyond the generator's cell machinery, which is imported rather than
   copied.
