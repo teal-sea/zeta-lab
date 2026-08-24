@@ -1,0 +1,72 @@
+{
+  "H": 0.6725007036794116,
+  "K0": 0.9187253698655684,
+  "results": [
+    {
+      "n": 3,
+      "objective": 0.0013031877189416201,
+      "gaps": [
+        1.0385956603612543,
+        1.0385956600789563
+      ],
+      "total": 2.0771913204402104,
+      "cap": 2.9739745833090185,
+      "success": true,
+      "status": "Optimization terminated successfully",
+      "gradient_inf": 1.2720432866764053e-09,
+      "min_hessian_eigenvalue": 1.7320084205853759,
+      "starts": 427
+    },
+    {
+      "n": 4,
+      "objective": 0.0007123881971906529,
+      "gaps": [
+        1.0469766474981161,
+        1.9814315542567322,
+        1.0469766474532634
+      ],
+      "total": 4.0753848492081115,
+      "cap": 4.460961874963528,
+      "success": true,
+      "status": "Optimization terminated successfully",
+      "gradient_inf": 1.6422554431801129e-09,
+      "min_hessian_eigenvalue": 0.5352429693280052,
+      "starts": 428
+    },
+    {
+      "n": 5,
+      "objective": 0.001343057074941678,
+      "gaps": [
+        1.0352323684937224,
+        1.033550445291153,
+        1.9726054449633934,
+        1.0446271597080157
+      ],
+      "total": 5.0860154184562845,
+      "cap": 5.947949166618037,
+      "success": true,
+      "status": "Optimization terminated successfully",
+      "gradient_inf": 3.322963653372424e-09,
+      "min_hessian_eigenvalue": 0.4571720522653112,
+      "starts": 429
+    },
+    {
+      "n": 6,
+      "objective": 0.0009206399298945751,
+      "gaps": [
+        1.0451075708793096,
+        1.9766395153863423,
+        1.0412722461514812,
+        1.976639519197339,
+        1.0451075732418835
+      ],
+      "total": 7.084766424856355,
+      "cap": 7.434936458272547,
+      "success": true,
+      "status": "Optimization terminated successfully",
+      "gradient_inf": 4.007957644155263e-09,
+      "min_hessian_eigenvalue": 0.3309474957585759,
+      "starts": 430
+    }
+  ]
+}
