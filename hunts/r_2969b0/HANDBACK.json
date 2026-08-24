@@ -1,0 +1,48 @@
+{
+  "run_id": "b4f916f7-1655-4f5d-ac55-979e5ecc472a",
+  "status": "settled",
+  "conclusion": "Penman and Wells, INTEGERS 13 (2013) A57, Theorem 21, state DeepMind Problem 42's quantity character for character and reach sup g = ln(32/5)/ln(26/5) = 1.125944426, above the AlphaEvolve value, which re-counts exactly to 1.1219357375 on 309 integers. Their Q_36, a 197-element set published thirteen years earlier, already beats it at g = 1.1219505699, so the world_record marking on Problem 42 does not hold for the lower bound on C.",
+  "confidence": "Lean on it fully for the comparison itself. Every count is exact integer enumeration, the decisive inequality is decided at 120 decimal digits rather than in float, Corollary 13's four counting formulas were reproduced by enumeration at 64 values of j with zero mismatches, and four independent numbers printed in the same paper (g(A_15) = 1.0717, f(X) = ln(51)/ln(47), f(Q_10) = 1.030597781, f-hat(Q_19) = 1.028377107) all recompute exactly, which is what rules out reading the wrong normalisation. The one real hazard, that the paper's abstract quantity f = ln|A+A|/ln|A-A| is a different function that ranks these two sets the other way, was found and is handled explicitly. Two things are NOT verified here and are taken from the issue rather than read: that Staps (2015) records this as best known, and that nothing published between 2013 and now beats it. So the safe statement is 'the 2013 result beats the AlphaEvolve value', not 'the 2013 result is the current record'.",
+  "operator_decision_required": "Whether anything is said upstream to DeepMind, and if so whether it is a comment on issue #5 (which is AI-produced and unreviewed, and would then carry a second AI-produced confirmation) or an independent report. The brief put posting out of scope, so nothing was posted. Note also that a reply would be confirming a competitor lab's error using a published human paper, which is a positioning question and not a mathematical one.",
+  "inherited": [],
+  "threads": [
+    {
+      "what": "The baseline 1.0598 that AlphaEvolve is reported to have improved on matches nothing printed in the Penman-Wells paper. That paper lists its four families' suprema on the same page as Theorem 21: 1.0867 (T_j, T'_j), 1.0261 (R_j), 1.0592 (M_j). 1.0598 is six units in the fourth decimal off the M_j value.",
+      "why_it_might_matter": "If the baseline came from this paper, the paper was in hand and the 1.12594 on the same page was passed over. If it came from elsewhere, the provenance of the reported baseline is itself unknown, which bears on how the world_record classification was made.",
+      "first_step": "Read section 6.25 of arXiv:2511.02864 and find what 1.0598 is cited to."
+    },
+    {
+      "what": "The prompt AlphaEvolve was given for Problem 42 (notebook cell 2) asks it to maximise log(|A-A|/|A|)/log(|A+A|/|A|), the RECIPROCAL of the target. The final verification cell uses the correct ratio. Problem 43 in the same notebook is genuinely the reciprocal quantity, and it is classified worse_than_record.",
+      "why_it_might_matter": "A crossed scorer between two adjacent problems is a cheap and checkable explanation for one of those two outcomes.",
+      "first_step": "Re-score the published Problem 43 set under both ratios and see which one its reported value matches."
+    },
+    {
+      "what": "The search scorer for Problem 42 (notebook cell 5) adds a size bonus of (1 - 1/|A|)/100, up to 0.01, on a quantity whose entire contested range is about 0.06 wide. The published 1.1219 is the clean ratio, so the bonus did not leak into the reported number, but it steered the search.",
+      "why_it_might_matter": "It is a candidate explanation for why the machine landed on 309 elements when a 197-element member of a 2013 family scores higher on the clean ratio.",
+      "first_step": "Run a short local search on the clean ratio from the same seed and see whether it prefers smaller sets."
+    },
+    {
+      "what": "The issue's separate C = 2 claim, built on Kravitz arXiv:2606.27087 Prop 2.1, is untouched. The brief put it out of scope until the prior-art half was settled. It is now settled.",
+      "why_it_might_matter": "It is the large claim: it would close Problem 42 against Ruzsa's upper bound, and it is the half the issue's author explicitly asked to have torn apart.",
+      "first_step": "Fetch materials.zip from the issue and run the script the author says establishes g > 1.163; that single number, if it holds, already beats everything measured in this hunt and is cheap to check."
+    },
+    {
+      "what": "f(A) = ln|A+A|/ln|A-A| and g(A) = ln(|A+A|/|A|)/ln(|A-A|/|A|) rank these two sets in OPPOSITE directions: Q_1000 beats best_list on g and loses on f. Both travel under the words 'sum-difference' in this literature.",
+      "why_it_might_matter": "Any upstream reply that is sloppy about which is meant will be wrong or will read as wrong. Problem 42's page is unambiguous in its formula but not in its title.",
+      "first_step": "None needed; it is a drafting caution for whoever writes the reply."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "An exact log-ratio comparator: decide g(A1) > g(A2) for integer counts without a float, via high-precision decimal cross-multiplication of the two logarithms (probe.py:g_beats, 12 lines, stdlib only).",
+      "why_reusable": "Every 'does our construction beat theirs' verdict in this lab reduces to comparing two ratios of logarithms of integers, and reporting a float ratio invites exactly the rounding argument a reader will make when the margin is 1.5e-05, as it is here.",
+      "first_step": "If it earns a home, it is four lines in zeta/rigor.py's idiom or a small helper in hunts/; do not build it a module until a second hunt asks for it."
+    },
+    {
+      "what": "A 'read the scorer, not the score' checklist for external-benchmark comparisons: enumerate every score function shipped in the source artifact and evaluate the published construction under each. This hunt found three for one problem, differing by a reciprocal and by a 0.01 additive bonus.",
+      "why_reusable": "Any future hunt aimed at an AI-benchmark record faces the same failure mode, and the discrepancy is invisible if you take the reported number at face value.",
+      "first_step": "Fulcrum's call whether this is a brief clause or a hunt template; it is one paragraph either way."
+    }
+  ],
+  "notes_for_operator": "CLOSE THE LOOP could not be executed as written, and this is a statement about the brief rather than about the work. The brief says a function in harness/ returned this task and that the outcome must be appended to the ledger it came from. It did not: the header names issue #122 as the source, and the harness generators were run to check. standing_reasons over review_ledger returns exactly two open items, blind attacks on rf-c003-window and on k2-far-constant-depth1; undemonstrated over guard_ledger returns exactly one, tests/test_doors.py. None of them is this task, and no claim in review_ledger.CLAIMS corresponds to DeepMind's Problem 42 classification. Nothing was appended, because inventing a ClaimUnderReview for a third party's claim would put a foreign claim into this lab's standing-review ledger, which its own docstring reserves for this repository's claims, and inventing an AttackOutcome against a claim_name that does not exist would be fabrication. The generator's output is unchanged by this hunt, correctly. If issue-sourced hunts should close a loop somewhere, that somewhere needs to be named; it is not one of these three ledgers. Second, smaller item: the environment note in the brief prescribes pip install of requirements and the zeta package. This probe needs neither -- it is finite integer set arithmetic on the standard library, runs in 4 s, and no venv was created in the worktree. Third, and this is a Fulcrum-owned topic so it gets one line rather than a section: whether this lab wants to be in the business of auditing another lab's public record claims is an allocation question, not a scientific one."
+}
