@@ -2143,3 +2143,38 @@ the named obligation. Not closed: `s > 400` has no depth-1 enclosure (the
 tail composes through the very lemma that fails), and the table's other
 starred row (`no_damage`'s `28/5`) was not examined. Nothing bears on RH
 (`docs/08`).
+
+### Hunt #101: Erdős #126, the descent arm — loss 2 per prime is a wall, and the omission claim is false (`support_7ddfee4b/`)
+**Status: settled, in both directions.** Support run for the `r_186989` scout,
+answering one bounded question: is there a descent recurrence for $g(k)$ whose
+per-prime loss tends to 1, and does omitting a small prime from $S$ cap $|A|$?
+
+The omission claim is **false for every prime**. Omitting $p$ forces the
+residues of $A$ mod $p$ to avoid the pairing $r \leftrightarrow -r$, which caps
+the number of *occupied classes* at $(p+1)/2$ and caps the size of a
+*self-paired* class at 1. It caps $|A|$ only when every class is self-paired,
+which happens only at $p = 2$. For odd $p$, any $A \subseteq 1 + p\mathbb{Z}$ has
+all pairwise sums $\equiv 2 \pmod p$, so $|A|$ is unbounded with $p \notin S$;
+witnesses at $p = 3,5,7,11$ are verified in `results.json`. The proposed
+$|A| \le p-1$ also fails at $p=2$ by one ($\{1,2\}$, $S = \{3\}$).
+
+The descent does exist. Deleting one odd prime $p \in S$ splits $A$ into the
+part divisible by $p$ and two sets admissible for $S \setminus \{p\}$ (the two
+halves of $(\mathbb{Z}/p)^\times$ under negation), giving
+$g^*(k) \le 2\,g^*(k-1) \le 2^k$ for **primitive** $A$ (no element divisible by
+a prime of $S$), tight at $k = 1, 2$ — $\{1,5,7,11\}$ with $S=\{2,3\}$ is
+primitive and has $2^2$ elements. But the loss cannot be pushed below 2 along
+this route, and that is a theorem rather than a failure to find one: parity,
+residue classes, prime deletion and the power-of-2 lemma all factor through a
+relaxation (cover $K_n$ by the negation-pairings of $k-1$ odd primes plus a
+triangle-free graph), whose optimum is **exactly $2^k$**, attained by
+$\{0,1\}^{k-1}\times\{0,1\}$ with a perfect matching. So an $\exp(o(k))$ bound
+must read something the relaxation discards — CRT rigidity, size, or $S$-unit
+counting — which is the door `r_186989` ranked first, now closed-by-proof
+underneath rather than judged.
+
+Not settled, and flagged as a real hole: the bound is for primitive sets only.
+The divisible part escapes the descent because $(S, pA)$ is admissible whenever
+$(S,A)$ is, so $\gcd A = 1$ (which is free) is strictly weaker than
+primitivity. Nothing here improves the classical $g(k) < 3\cdot 2^{k-1}$, and
+nothing here bears on RH (`docs/08`).
