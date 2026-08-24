@@ -58,7 +58,10 @@ jobs:
   plan:
     name: plan the shards
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    # Five would do for the plan itself. The sweep's skip list is what needs the
+    # rest: it pulls every artifact of every prior run, and the away branch is
+    # 340 of them across two runs, one download apiece.
+    timeout-minutes: 20
     outputs:
       matrix: ${{ steps.plan.outputs.matrix }}
       count: ${{ steps.plan.outputs.count }}
