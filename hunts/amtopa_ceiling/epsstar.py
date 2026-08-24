@@ -168,6 +168,14 @@ def eps_star(B, c, w, k0=None, rounds=60, seed=0, tol=1e-10, verbose=False,
         # fresh cuts and drove the same quantity down to 0.007916857812.  The
         # test is therefore against the INDEPENDENT multistart, and it must hold
         # for `patience` consecutive rounds before the loop believes it.
+        #
+        # This does not make termination sound, and the docstring should not
+        # pretend otherwise: cutting planes stop when the separation oracle stops
+        # separating, and a float multistart is a fallible oracle.  A weak
+        # multistart still halts the loop early at whatever the incoming pool
+        # carried.  `upper` remains a genuine upper bound on eps* whenever the
+        # loop stops -- every cut is a real gap vector -- but a later run with a
+        # better oracle can only push it DOWN.
         if upper - hv < tol:
             stall += 1
             if stall >= patience:

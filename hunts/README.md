@@ -70,7 +70,7 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
-### Hunt #90: the leader's family has `5.6e-06` left in it, and the doors are named (`amtopa_ceiling/`)
+### Hunt #90: the leader's family has `4e-06` left in it, and the doors are named (`amtopa_ceiling/`)
 
 **Status: settled on the measurable axes; window search reported.** Takes the
 `ainta_seven_point` playbook to `AMTOPA/zeta-exact-pressure`, the leading public
@@ -97,17 +97,20 @@ cannot validate a candidate; and `long double` is 64-bit on ARM and 80-bit on
 x86, the same host-dependence class as the `w''` digest Hunt #89 found in
 `trmdy`.
 
-**Outcome (a), by `+5.57e-06`.** `eps(a,b) = min_g F` is *linear* in the pair
+**Outcome (a), by `+3.96e-06`.** `eps(a,b) = min_g F` is *linear* in the pair
 weights and in the pressures, hence concave, over a polytope — so that axis is a
-concave maximisation with an exact answer, not a search. Cutting-plane LP,
-converged to `1.6e-17`: at their own window and their own total pressure the
-polytope admits `eps* = 0.007919365399` against their `0.007911105155`, giving
+concave maximisation with an exact answer, not a search. Cutting-plane LP: at
+their own window and their own total pressure the polytope admits
+`eps* = 0.007916857812` against their `0.007911105155`, and quantised into their
+schema at the rational target `19791/2500000` the exact assembly gives
 
-    0.6734220608860592298172   exact assembly, against their 0.6734164909714992949500
+    0.6734201550790580964457598685450152133015  against their 0.6734164909714992949500
 
 CONDITIONAL, inheriting the same unreviewed Anthropic/Ainta bridge as everything
 on this ladder, and the floor behind it is a float minimum until their own
-verifier accepts a rational target beneath it.
+verifier accepts the target. **The LP found the point; it does not justify it** —
+what justifies it is their branch-and-bound, and the hunt says so where the
+number appears.
 
 **But the ceiling findings are worth more than the constant.** On the two axes
 where a ceiling can be computed rather than searched, **AMTOPA are at it.**

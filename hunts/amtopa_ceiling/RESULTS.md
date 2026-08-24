@@ -37,8 +37,9 @@ our candidate:
                                                    floor MEASURED, not accepted
 
 That is **outcome (a) with a small margin**: the family exceeds their number, by
-about one part in 2,000 of the gap between the window ceiling and their own
-figure, and one part in 2,300 of the room left under the information class. It
+about one part in 230 of the `9.158e-04` their whole construction gained over
+Anthropic's Theorem D constant, and one part in 2,100 of the room left under the
+information class. It
 is CONDITIONAL — see §6 — and the floor behind it is a float minimum until their
 own six-dimensional interval verifier accepts the target (§7).
 
@@ -325,11 +326,24 @@ across independent multistarts, and the rational target below it is
     0.6734201550790580964457598685450152133015     m = 145
                                                    +3.664108e-06 on their headline
 
-MEASURED. The LP upper bound is rigorous; the achieved floor is a float minimum
-of the same status as AMTOPA's own, and becomes a certificate only if their
-verifier accepts it (§7). Quantisation costs `4.6e-07` of floor, of which
-`4.58e-07` is the deliberate margin below the float minimum — the grid itself
-costs under `1e-08`.
+**What justifies the candidate, and what does not.** The linear programme is how
+the point was *found*; it is not what makes the claim. The LP value over a cut
+set is a rigorous upper bound on `eps*`, and it can only fall as cuts accumulate
+— so if a future run finds cuts we did not, our headroom shrinks and can vanish.
+The claim itself is narrower and does not depend on the LP at all: **at the
+`(a, b)` this hunt produces, `min_g F` is at least `19791/2500000`**, and that is
+a statement their own six-dimensional interval branch-and-bound either accepts or
+refuses at a terminal cell. Until it answers, the floor is a float minimum with
+exactly the status AMTOPA give their own. §7 records the answer.
+
+Its termination is also a heuristic and is worth saying so: cutting planes stop
+when the separation oracle stops separating, and this one's oracle is a float
+multistart. A weak multistart halts the loop early at whatever the incoming pool
+carried — that is precisely the failure of `RUNS.md` run 10b, and raising the
+patience does not remove it, it only makes it less likely.
+
+Quantisation costs `4.6e-07` of floor, of which `4.58e-07` is the deliberate
+margin below the float minimum — the grid itself costs under `1e-08`.
 
 The optimum is **not palindromic**, unlike every published candidate on this
 ladder, and it needs a longer table: its smallest pressure is `3.77e-04` against
