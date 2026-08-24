@@ -1,0 +1,24 @@
+{
+  "(2, 3)": {
+    "cutoff": 1000000000,
+    "n_all_triples": 69089,
+    "n_primitive_4sets": 8,
+    "max_primitive_4set": [
+      1,
+      7,
+      17,
+      47
+    ]
+  },
+  "(2, 3, 5)": {
+    "cutoff": 100000,
+    "n_all_triples": 284595,
+    "n_primitive_4sets": 1368,
+    "max_primitive_4set": [
+      2588,
+      5188,
+      13037,
+      46012
+    ]
+  }
+}

@@ -70,6 +70,53 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #107: the Erdős #126 size dichotomy misses by one power of the radical (`support_95bb5cb7/`)
+
+**Status: the arm is settled negative; the conjecture is untouched.** A support
+run for a session working Hunt #91, asked whether a size dichotomy closes Erdős
+#126: either $A$ is spread out enough for a descent, or it lies in a controlled
+interval where smooth-number counts apply. It does not, and the failure point is
+now exact rather than rhetorical. The counting horn is
+$|A| \le 1 + \Psi(2N,S)$ with $N = \max A$, and writing
+$\log 2N = c\log\mathrm{rad}(S)$, the run pins $\log\Psi/k$ from **both** sides,
+Rankin above and the simplex lattice-point volume below: it tends to zero iff
+$c \to 0$, and at $c \ge 1/2$ the lower bound is $0.32k$, so above
+$\max A = \mathrm{rad}(S)^{1/2}$ the horn is not unproven, it is false. So the
+horn delivers $\log g(k) = o(k)$ **iff** it is handed
+$\max A = \mathrm{rad}(S)^{o(1)}$, and no choice of $S$, scale, split or
+smooth-count estimate moves that: it is a property of $\Psi$, not of the
+argument. The other horn cannot supply it, for two independent reasons. First,
+measured: after the only available normalisation ($\gcd(A) = 1$; translation
+shifts every sum by $2t$ and is unavailable, so height is a genuine invariant),
+the height of a primitive admissible set of sub-extremal size is **unbounded**,
+tracking the search cutoff linearly over eleven orders of magnitude, from
+$\{217,1241,7975\}$ up to
+$\{3772777922353,\,41980806987569,\,559177175498959\}$ at $S=\{2,3\}$. A descent
+that reaches a smaller set finds no interval control waiting there. Second,
+structural: an admissible clique yields only the *four*-term relation
+$(a+b)+(c+d)=(a+c)+(b+d)$, and every height theorem for $S$-smooth numbers
+(Baker–Győry, $abc$) is three-term; four terms have only solution *counts*
+(Evertse–Schlickewei–Schmidt, $\exp(O(k))$, and Erdős–Stewart–Tijdeman show
+counts cannot fall below $\exp(c(k/\log k)^{1/2})$). A count is not a height.
+Granting even the best imaginable three-term outcome, $abc$ gives
+$\max A \ll \mathrm{rad}(S)^{1+\varepsilon}$, which is $c \to 1$, exactly where
+the lower bound reads $1.01k$. **The gap is one power of $\mathrm{rad}(S)$, not
+an exponential**, which is why the arm looks tempting and why it still cannot
+close. The audit half re-verified all seven of Hunt #91's witnesses from scratch
+by full trial division (all valid), confirmed its $f(n-1)\le f_0(n)\le f(n)$
+lemma and its Fekete argument, and **corrected one claim**: "every optimal
+witness has all elements $< 50$" is false. Enumerating through the *sums* rather
+than the elements, which is the exhaustive universe for a constraint on sums,
+gives exactly six primitive extremal 5-sets for $S=\{2,3,5\}$ with all sums
+$\le 10^5$, and $\{5,11,25,245,475\}$ is one of them, max element $475 =
+\mathrm{rad}^{1.81}$, not $\mathrm{rad}^{1.13}$. Hunt #91 reported one witness
+per $k$ and generalised from it. Same enumeration adds a small positive: no
+6-element set for $S=\{2,3,5\}$ has all pairwise sums $\le 10^5$. Not settled:
+whether extremal-size sets have bounded height (the data hints yes and it would
+be circular for this arm anyway), the ladder at $k=4$ (the enumeration exceeded
+ten minutes), and any upper bound on $g(k)$ at all. Nothing bears on RH
+(`docs/08`).
+
 ### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
 
 **Status: not settled — scout killed on a pre-registered kill condition.** A
