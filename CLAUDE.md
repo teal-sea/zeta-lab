@@ -609,6 +609,46 @@ Expensive results cache to `data/` (`.json` zero tables are committed;
 parameters in filenames. If you change numerical internals, delete the
 affected cache files and re-run, or stale numbers will "pass".
 
+## Compute discipline
+
+**Written 2026-08-23, after a day that wasted roughly a third of a month's compute
+budget and crashed the operator's laptop several times. Every rule below is the
+direct consequence of a specific failure that day. Follow them before launching
+anything that costs money or memory.**
+
+**1. Nothing heavy runs on the operator's machines.** Not a `lake build`, not a long
+search, not a big optimisation. His machines are a 16 GB M4 laptop and an 8 GB M1
+desktop, he switches between them, and he frequently drives sessions from a phone
+where he cannot see a machine in trouble or intervene. A Lean + Mathlib build
+crashed the laptop repeatedly, twice while an agent's own numerics competed with it
+for memory. **A guard now kills any `lake build` on sight**, so this is enforced
+rather than trusted; do not try to work around it. Heavy work goes to CI.
+
+**2. GitHub Actions is the default compute, not the fallback.** This repository is
+public, so standard runners are free, up to 20 jobs in parallel, and jobs are **not
+preempted**. `full.yml` already contains a Lean job with `elan` and `.lake` cached.
+Reach for a paid provider only when Actions genuinely cannot do it, and say why.
+
+**3. Estimate before you spend.** Measure one unit — one cell, one shard, one
+container — and multiply. Write the number down in `RUNS.md` before launching. A run
+started without an estimate is how a budget disappears into a job nobody was
+watching.
+
+**4. Anything over about twenty minutes must checkpoint per unit.** Write each unit's
+result as it completes. On preemptible compute a long serial shard that restarts from
+its first cell will never converge: one Bloch shard reached cell 25 of 100 after
+2620 s, was preempted, and began again at cell 0, three times over. It produced
+nothing in six hours and the money is gone.
+
+**5. Every detached job has an owner.** Either a watcher that reports when it ends,
+or a Fulcrum adoption (`fulcrum adopt`, then `fulcrum observe` with a terminal
+outcome). An unowned job from 08:22 was still running eleven hours later, long after
+the answer it was computing had been written up from other data. Nothing noticed
+because nothing was watching.
+
+**6. One `lake build` at a time, and never beside heavy numerics.** Even in CI, and
+absolutely never on a laptop.
+
 ## How to run things
 
 ```bash

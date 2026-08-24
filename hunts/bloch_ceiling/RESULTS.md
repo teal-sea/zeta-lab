@@ -232,9 +232,13 @@ What this does and does not mean:
 - The remaining question is unchanged and cheap to state: does the author's
   verifier accept a target above the published one, and if so how far above.
 
-**To finish it**, the run needs either uninterrupted containers or
-checkpointing per cell so a preemption resumes rather than restarts. The
-second is the right fix and is a change to `modal_higher.py`, not to the
-mathematics. Deferred rather than abandoned: the compute budget that would
-pay for the retry is exhausted, and this hunt does not need the answer to
-report what it found.
+**To finish it — the plan, so the retry does not repeat the failure.** Not
+Modal: the instrument was wrong, not the mathematics. Run it on GitHub Actions,
+which is free for this public repository and, decisively, **does not preempt
+jobs**. Shard by sector so each job finishes well inside twenty minutes and
+uploads its own result as an artifact, so a lost job costs one shard rather
+than the run. Measure one cell first and publish the estimate in `RUNS.md`
+before launching, which was not done the first time.
+
+Deferred rather than abandoned. This hunt does not need the answer to report
+what it found: section 4 stands on the floor sweep alone.
