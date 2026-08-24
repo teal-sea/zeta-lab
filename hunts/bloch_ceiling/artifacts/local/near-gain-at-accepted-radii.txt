@@ -1,0 +1,15 @@
+eta=0.400 nboxes=16 R=0.584285: N_arb=0.015422244 slope_margin=0.04378
+eta=0.500 nboxes=16 R=0.583340: N_arb=0.015384932 slope_margin=0.04021
+eta=0.550 nboxes=16 R=0.582867: N_arb=0.015366186 slope_margin=0.03844
+eta=0.600 nboxes=16 R=0.582437: N_arb=0.015347624 slope_margin=0.03668
+eta=0.650 nboxes=16 R=0.582051: N_arb=0.015329841 slope_margin=0.03493
+eta=0.700 nboxes=16 R=0.581664: N_arb=0.015310272 slope_margin=0.03320
+eta=0.750 nboxes=16 R=0.581277: N_arb=0.015290567 slope_margin=0.03146
+eta=0.800 nboxes=16 R=0.580891: N_arb=0.015269847 slope_margin=0.02975
+eta=0.500 nboxes=32 R=0.583598: N_arb=0.015396040 slope_margin=0.04025
+eta=0.600 nboxes=32 R=0.582695: N_arb=0.015358444 slope_margin=0.03672
+eta=0.700 nboxes=32 R=0.581836: N_arb=0.015317984 slope_margin=0.03322
+eta=0.800 nboxes=32 R=0.581063: N_arb=0.015279926 slope_margin=0.02977
+eta=0.700 nboxes= 0 R=0.582095: N_arb=0.015331135 slope_margin=0.03326
+eta=0.575 nboxes= 0 R=0.583100: N_arb=0.015376731 slope_margin=0.03763
+eta=0.580 nboxes= 0 R=0.583050: N_arb=0.015372149 slope_margin=0.03745
