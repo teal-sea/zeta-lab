@@ -70,6 +70,30 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #86: the ceiling procedure on the *lower* side of Erdos minimum overlap (`overlap_lower/`)
+
+**Status: probe, partly settled.** Sixth instance of the ceiling procedure and
+the first aimed at a lower bound, picking up hunt #85's first loose thread. The
+thread is closed: White's program (arXiv:2201.05704, Acta Arith. 208 (2023)
+235-255) discretises `M` and never `f`, so it is a relaxation and the unsafe
+direction hunt #85 worried about does not arise. Three of the opening brief's
+premises were found wrong at the source and corrected -- the lower bound **has**
+moved since 2022 (Kim and Pilanci, arXiv:2606.31182, 30 June 2026,
+`0.379005 -> 0.37912`, which the public catalogue has not absorbed); the
+catalogue entry for this constant carries **no** asterisk; and the `0.000059`
+of upper-bound movement is the 2016 human record minus the 2026 AI one, not
+twelve months of AI. **The measured finding: White's choice of `R` was already
+at his method's ceiling.** In his simplified program the value saturates at
+`R = 40` and the total gain from his `R = 20` out to `R = 320` is `2.9e-6`; in
+his full program the gain from his `R = 10` to `R = 20` is `2.0e-5`, against the
+`1.15e-4` the next real improvement obtained by adding constraints instead. One
+exact rational dual point was accepted with no float in the value,
+`0.37399241331` at `N, R = 5000, 20`. The full program was **not** reproduced to
+`0.379005`: the Parseval cone survives none of four cutting-plane formulations
+without a conic solver, so the sweep measured a strictly weaker program, and the
+sweep also never reached CI because the credential lacks the `workflow` scope.
+No bound on `C` is claimed. Nothing bears on RH (`docs/08`).
+
 ### Hunt #85: the ceiling procedure on Erdos minimum overlap (`r_828c8b/`)
 
 **Status: probe, partly settled.** Fifth front of the ceiling procedure, in a
