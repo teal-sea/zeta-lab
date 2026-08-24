@@ -101,6 +101,13 @@ defect found. All fifteen sit below the wall.
 Every conditional figure above Anthropic's, this laboratory's included, shares an
 analytic bridge no person has reviewed. The unconditional Φ₃ does not.
 
+**A separate artifact, with its own ledger:** the gap-census transplant in
+`hunts/frontier_math/` carries a candidate reading of record of **0.6725106958**,
+graded step by step in its `PROOF-LEDGER.md` and quoted here because a repository
+test holds this file, the docs and the hunt's start page to the ledger's current
+row. It is a candidate on a different chain, not one of the certificate figures
+above, and it moves only when its ledger does.
+
 ## Negative controls, and one framework that did not earn its keep
 
 The practice is load-bearing and stays: a claim is worth something only if a
