@@ -240,13 +240,18 @@ optimality in each case:
 
 | window | `H` | `eps*` | assembled |
 |---|---|---|---|
-| pure `sqrt(2)`, no harmonics | `0.6725007036794117` | §7 | §7 |
+| pure `sqrt(2)`, no harmonics | `0.6725007036794117` | `0.0070454321` † | `0.6731728827729097` † |
 | AMTOPA's 17 terms | `0.6721881581182350` | `0.007916857812` | `0.6734204494726963` |
 
-Exchange rate achieved: comfortably above the break-even `1.57` — **the
-harmonics pay, and by a wide margin.** MEASURED; the two `eps*` values and the
-rate they imply come from the `doors` job of §7, run under the corrected
-stopping rule.
+† from the window-sweep shards of §7.5, computed under the **pre-fix** stopping
+rule and therefore an over-estimate; the `doors` job recomputes both ends under
+the corrected rule and §7 records the result.
+
+Exchange rate achieved: `8.75e-04 / 3.125e-04 = 2.80` on those figures,
+comfortably above the break-even `1.57` — **the harmonics pay, and by a wide
+margin.** MEASURED. Note that the two floors are over-estimated in the same
+direction and by a similar mechanism, which is why the *ratio* survives the
+correction better than either number does.
 
 Whether a *different* set of 16 coefficients pays better is the one axis this
 hunt could not close by computation. The search is §7. Its instrument is honest

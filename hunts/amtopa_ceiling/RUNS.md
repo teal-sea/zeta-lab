@@ -293,3 +293,19 @@ duals) / **MEASURED** (active set).
 | `pressure-sweep` | 14 pressure values at about 20 s each against a 2,200-cut pool | about 5 min |
 | `certificate` | interval tables at 0.0225 CPU-s per cell measured over a 400-cell smoke build, 64,954 cells = 1,462 CPU-s, about 6 min on four vCPU; their own branch-and-bound record is 3,768,186 nodes | under 20 min, node cap 3e8, exit code 3 tolerated |
 | `window-sweep` | one surrogate evaluation measured at 0.0388 s; 26 generations at popsize 18 in 17 dimensions is about 8,000 evaluations | about 5 min per epoch, three epochs per shard, hard 900 s timeout inside the job |
+
+## What run 1 actually cost, against those estimates
+
+Actions run `32743347292`, 2026-08-24T15:11:33Z.
+
+| job | estimated | actual | outcome |
+|---|---|---|---|
+| `reproduce` | under 1 min | passed | every replay matches §2 of `RESULTS.md` |
+| `headroom` | about 2 min | 27 s for 40 rounds | converged, and **corrected the authoring host** — see run 10b |
+| `pressure-sweep` | about 5 min | 463 s | same shape and same peak as run 10 |
+| `certificate` x2 | under 20 min | **did not finish** | the single-process table build, 83,993 coarse cells and 167,987 midpoints at 50 dps, exceeded the 20-minute job timeout on a shared runner. The estimate assumed the authoring host's 0.0225 CPU-s per cell; the runner is slower per core and the estimate did not carry that. Sharded six ways in run 2 |
+| `window-sweep` x4 | 3 epochs per shard | **0 epochs** | all four shards spent the entire 900 s budget on the two reference points and never entered the search. The estimate covered the search and not the setup. Reference points moved into the `doors` job in run 2 |
+
+Two of the five estimates were wrong in the same way: they priced the thing the
+job was for and not the thing the job had to do first. That is the same class of
+error as run 8's missing estimate, one level up.
