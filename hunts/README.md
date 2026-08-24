@@ -70,6 +70,72 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #89: this laboratory is tenth, and the barrier is aimed at an empty room (`field_audit/`)
+
+**Status: settled. FIELD AUDIT.** Prompted by discovering, on 2026-08-24, a wave
+of public repositories created 2026-08-11 and 2026-08-12 carrying constants for
+`liminf N0s(T,2T)/N(T,2T)` above ours. **Our best figure,
+`0.6730529829896288` (eight-point, bridge proved in Lean), ranks tenth of
+fifteen public claims.** The leader is `AMTOPA/zeta-exact-pressure` at
+`0.6734164909714992949`, ahead of us by `0.00036350798187` — eight times our
+margin over `ainta/zeta-simple-zeros`, which we had taken for the frontier.
+Three constructions were already past our eventual figure before our
+seven-point hunt opened; the earliest, `trmdy/zeta-simple-zeros-673137`, first
+commit 2026-08-11 14:43 +0200, beat it on day one. **Hunt #82's barrier is not
+contradicted, and could not have been:** it is a ceiling at
+`0.675142509660254` and the leader sits `0.00172601868875` *below* it. What the
+audit does cost #82 is reach, not truth — `trmdy` is outside the family it
+names on two axes, read against `lean/bridge/Zeta23Ext/Bridge/Defs.lean`: the
+window is a seven-term cosine polynomial, not the single term `omega = sqrt 2`
+(their `H(v) = 0.67245704141454428878`, *lower* than `HD 1` by `4.366e-5` —
+window constant traded for a larger floor `c`), and the block profile is the
+envelope `2 sqrt((m-1)A/m) - 1 + A/m`, which lifts the cap `c(m-(n-1)) <= 1`
+that our `Phi_n` requires; they run `m = 272` and `m = 177` where our cap allows
+`230` and `172`. On the third axis their family *contains* ours: their
+`uniform_weights` is our `F` exactly, one vertex of a span-capacity-2 polytope
+they optimise over. Replayed here from a scratch clone against their own pinned
+Arb binding: their window bounds, `H(v)`, all three assembly constants
+(`0.6732001170127618568182`, `0.6732425893558967029403`,
+`0.6733127422722459981438`, each matching their published digits), every span
+capacity exactly `2`, and their 23-test suite. Their **2,168,370-box seven-point
+interval run also reproduces here** — 482.6 s against their 441.7 s, with an
+identical node count, split count, depth 50 and all three prune counters — but
+**one of its two table digests is host-dependent**: the `w` table matches byte
+for byte and the `w''` table does not, and the `w''` table is the one the tangent
+pruner rides on, i.e. the single component whose corruption could yield a false
+acceptance rather than a false failure. Not one branch of the search changed
+regardless, which makes this a *stronger* reproduction than byte-identity would
+be and simultaneously not the reproduction their documents claim;
+`tawanerguo-cn` self-discloses the same class of mismatch, so it is a property
+of the method. Their 116,272,426-node nine-point run — the one carrying the
+headline — was **not** replayed and is out of reach here, so the headline is
+assembly-verified and floor-reported.
+**Soundness read of their verifier: no defect found**, and the Ainta pattern
+specifically absent — acceptance is one-sided against an upward-rounded target,
+the search raises rather than returning a negative, the `w`-table is clamped
+non-negative before squaring (which is what makes the sign-blind multiply in
+`box_lower` safe, while the signed `w''` path does use a sign test), the
+convexity gate is a rigorous Arb LDL behind a float pre-filter, and `H_CERT` is
+a threshold to clear, with the *assembly* then using the rational below the
+computed value. What does deserve scrutiny is not code: the refined pressure
+tax `(m-q)B_p/m` replacing `eta B_p (m-1)/m` rests on a cyclic-shift counting
+lemma that is machine-checked nowhere and is worth essentially the whole
+refinement. Applying that refined assembly to *our own* floors, changing nothing
+already proved, buys `+3.02e-5` and `+5.38e-5` — ninth place, not first; the
+deficit is in the floor `c`, not the assembly, and taking it would trade our one
+real advantage, a bridge with zero `sorry`s, for `5.4e-5`. Also recorded, as its
+own section: **why our prior-art search missed eleven repositories.** We
+searched for the standing result rather than the competition (the wave has no
+stars, no descriptions, no preprints — `npip99/zeta-zeros` sits at `0.673195`
+with an empty description and zero stars); we read `riemannzeta.fun`, still
+showing `0.672500703679`, as the field rather than as the formally-accepted
+subset; we looked once and never again while the field moved for a week; and we
+never ran a forward-citation pass, though `trmdy`'s own README names three of
+the repositories we missed. That pass took under seven minutes when finally run.
+No arXiv preprint exists for any `0.673x` follow-up and none has passed a
+kernel-checked gate anywhere. Nothing was posted, opened, forked or starred
+upstream. Nothing bears on RH (`docs/08`).
+
 ### Hunt #88: the third autocorrelation constant belongs to the other functional (`r_8539dc/`)
 
 **Status: settled.** A reading and an exact recomputation, prompted by issue
