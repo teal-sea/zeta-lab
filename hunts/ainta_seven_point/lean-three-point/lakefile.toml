@@ -13,5 +13,19 @@ defaultTargets = ["ThreePoint"]
 name = "Zeta23Bridge"
 path = "../../../lean/bridge"
 
+# `autoImplicit` off, deliberately, and this is not a style preference.
+# With it on, an unresolved identifier in a theorem *statement* is silently
+# bound as an implicit variable rather than reported: the first build of this
+# package briefly stated its advertised theorems about free variables named
+# `HD`, `Ncount` and `N0simple` instead of the bridge's definitions, and it
+# errored only because a variable cannot be applied to an argument. Had those
+# names been nullary the file would have compiled, and the theorems would have
+# said nothing while looking exactly like success. For a package whose whole
+# claim is that a named constant is unconditional, that failure mode has to be
+# impossible rather than unlikely.
+[leanOptions]
+autoImplicit = false
+relaxedAutoImplicit = false
+
 [[lean_lib]]
 name = "ThreePoint"
