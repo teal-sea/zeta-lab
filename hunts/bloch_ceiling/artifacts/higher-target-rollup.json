@@ -38,18 +38,13 @@
    "all_cells_accepted": true
   },
   "4": {
-   "cells_done": 1597,
+   "cells_done": 1600,
    "cells_expected": 1600,
-   "terminal_boxes": 538713,
+   "terminal_boxes": 544544,
    "reference_boxes": 539188,
-   "ratio_to_reference": 0.999119,
-   "core_seconds": 44716.8,
-   "all_cells_accepted": false,
-   "missing_cells": [
-    112,
-    115,
-    871
-   ]
+   "ratio_to_reference": 1.009933,
+   "core_seconds": 45102.4,
+   "all_cells_accepted": true
   },
   "5": {
    "cells_done": 1600,
@@ -224,10 +219,10 @@
   }
  },
  "refused_cells": [],
- "records_at_other_targets_skipped": 2917,
+ "records_at_other_targets_skipped": 3200,
  "missing_sectors": [],
- "all_24_sectors_accepted": false,
- "total_terminal_boxes": 11537349,
+ "all_24_sectors_accepted": true,
+ "total_terminal_boxes": 11543180,
  "total_reference_boxes": 11443518,
- "total_core_seconds": 1106141.8
+ "total_core_seconds": 1106527.4
 }

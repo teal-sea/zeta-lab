@@ -142,3 +142,41 @@ artifacts:
   - hunts/bloch_ceiling/compare_expected.py
   - hunts/bloch_ceiling/artifacts/modal-reproduce.json
 ```
+
+```runmanifest
+id: bloch_ceiling-2026-08-24-away-branch-at-a-raised-target
+hunt: bloch_ceiling
+started: 2026-08-24T09:42-05:00
+finished: 2026-08-24T18:33-05:00
+ran:
+  - .github/workflows/bloch-higher.yml on GitHub Actions, four runs: sectors 0-11 (32740352675, 140 shards), sectors 12-23 (32743533542, 174 shards), a sweep of the cells those two left plus the exact-count oracle (32774563515, 121 shards), and a final sweep of three cells and the oracle's cheap tail (32789363183, 30 shards)
+  - each shard is hunts/bloch_ceiling/ci_away_shard.py, the author's branch_verify on one stride-slice of a sector's 1600 initial cells, 4 worker processes, one JSON-lines record written and fsynced per cell as it finishes
+  - hunts/bloch_ceiling/ci_plan.py collect over all 489 shard artifacts, at each target separately
+outcome: the author's own verifier ACCEPTS target 0.0153040536, above the published 0.0153, in all 24 away sectors and all 38,400 initial cells, with zero cells refused anywhere; 11,543,180 terminal boxes, 0.87% above the archive's 11,443,518 at its own weaker target, every sector between +0.58% and +1.25%; the near branch clears the same target on the unmodified shipped npz at the head of every shard (positivity margin +0.000936855231, near gain 0.0153040536989472), and that gain is the rigorous cap, so nothing above it is reachable without regenerating the certificate data; the exact-count oracle matches to the integer, sectors 0 and 1 rerun at the published 0.0153 giving 270,744 and 292,931 against reference-run/logs
+artifacts:
+  - hunts/bloch_ceiling/ci_away_shard.py
+  - hunts/bloch_ceiling/ci_plan.py
+  - hunts/bloch_ceiling/ci_run.json
+  - .github/workflows/bloch-higher.yml
+  - hunts/bloch_ceiling/artifacts/higher-target-rollup.json
+  - hunts/bloch_ceiling/artifacts/oracle-0.0153-rollup.json
+  - hunts/bloch_ceiling/artifacts/higher-target-cells.tar.gz
+```
+
+## What the run actually cost, against the estimate
+
+The estimate above said 321 core-hours and 314 jobs. The run spent **307.4
+core-hours** at the raised target plus 16.7 for the oracle, over **476 jobs** in
+five workflow runs, **114.8 runner-hours** of GitHub-hosted machine time, billed
+zero, in **9.1 hours** of wall clock at 20 concurrent jobs. The projection was
+4.2% high on compute, at a realised 0.0959 seconds per terminal box against the
+0.10008 measured in calibration. The extra jobs are the two sweeps, whose size
+the estimate did not try to predict because it is not knowable before the first
+pass.
+
+Nine jobs were cancelled by their own `timeout-minutes`, all in the first away
+run and all before that timeout was raised from 25 to 35 minutes. Every one of
+them still uploaded the cells it had reached. That is the per-unit checkpointing
+doing the job it exists for: the nine cost nine *partial* shards rather than nine
+shards, and a sweep did the remainder. The attempt this replaces lost a whole
+shard every time it was preempted, which is why six hours of it bought nothing.

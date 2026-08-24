@@ -40,7 +40,13 @@ a Modal container (`compare_expected.py`, 22 of 22 match):
 Wall times: the four programs take 0.3 s, 0.3 s, 3.5 s and 52 s locally; 0.7 s, 0.4 s,
 8.9 s and 112 s on one Modal core.
 
-**The 24 away sectors.** SECTORS-PLACEHOLDER
+**The 24 away sectors.** Not reproduced by the commands above, which are the
+sub-minute ones. The archive records them in `reference-run/logs/`, 23 as fresh
+runs and sector 0 as a checkpoint resume, at a combined 105.6 core-hours. Two of
+those counts are reproduced exactly at the published target in section 5
+(sectors 0 and 1: 270,744 and 292,931, to the integer), and all 24 sectors are
+run there at a *higher* target. The other 22 counts at `0.0153` itself remain
+REPORTED.
 
 ## 2. The functional and its parameters
 
@@ -211,7 +217,192 @@ away at eta ~ 0.57.
 
 ## 5. A higher target, accepted by the author's own verifier
 
-SECTION5-BODY
+**The author's own verifier accepts `sqrt(3)/4 + 0.0153040536`.** Every one of
+the 24 away sectors, all 1600 initial cells of each, at a target `4.0536e-6`
+above the paper's published `0.0153`, with **no cell refused anywhere**. The
+near branch clears the same target on the shipped certificate data, in Arb, at
+the head of every shard. Nothing about the certificate data was changed: only
+the acceptance threshold moved.
+
+    target accepted by his verifier, run here   0.0153040536
+    target published in the paper               0.0153
+    the near branch's rigorous cap              0.0153040536989472
+
+**This is a statement about the finite certificate, not about Bloch's
+constant.** What the paper turns an accepted target into is `B >= sqrt(3)/4 +
+target`, and that step is Bonk's theorem, the moment inequality, the three-atom
+reduction and the centre-placement lemma, none of which this hunt audits. What
+is established here is exactly what the header claims: his verifier, unmodified,
+on his data, accepts a larger number than he published.
+
+**And that is the end of the road for the shipped data.** The near branch's own
+Arb gain is `0.0153040536989472`, a rigorous lower bound (`verify_near_moment`
+returns `float_lower` of its ball), and the dichotomy's gain is
+`min(near, away)`. So `0.0153040536989472` is not merely the target that was
+reached, it is the supremum of the targets this certificate can support without
+regenerating a single stored number. The published `0.0153` was leaving
+`4.05e-6` of its own certificate unclaimed, and there is nothing else there.
+
+### Why this target
+
+The dichotomy's gain is `min(near, away)` and the near branch caps it. On the
+shipped `variable_radius_certificate.npz`, the author's own routines give a
+uniform positivity margin `+0.000936855231` and a near gain
+`0.0153040536989472`, re-established at the head of every shard in this run and
+identical every time. The away branch, whose float floor sits at `0.0156486`
+(section 2), is the part that has to be paid for: 24 phase sectors, each an
+adaptive Arb subdivision of the author's `(u, v)` rectangle from a 40x40 initial
+grid, every box shown to clear `sqrt(3)/4 + target`.
+
+### How it was sharded, and why that is the same computation
+
+`branch_verify`'s recursion on a box depends on nothing but that box: it pops
+the box, compares its Arb lower bound to the goal, and either closes it or
+splits it in two. The set of terminal boxes is therefore a function of the
+initial boxes and the goal, not of the order they are processed in. Running each
+of a sector's 1600 initial cells as its own `branch_verify` call with
+`domain = cell` produces exactly the box set his
+`branch_verify(initial_grid=(40,40))` produces for the whole sector.
+
+That is an assumption until it is checked, so it was checked two ways.
+
+**Machine independence.** Cell 1599 of sector 17, the most expensive single cell
+in the run, returns **exactly 6888 terminal boxes** at this target on an Apple
+Silicon laptop under CPython 3.14.0 with `numpy` 2.5.2, and on a GitHub standard
+runner under CPython 3.12 with the archive's pinned `numpy` 2.5.1. Same count,
+across a different machine, interpreter and `numpy`. VERIFIED.
+
+**Against the archive's own reference logs.** Sectors 0 and 1 were additionally
+run at the *published* target `0.0153`, where the archive's `reference-run/logs`
+record a terminal-box count to match. Both match exactly:
+
+| sector | this run, at target 0.0153 | `reference-run/logs/N.log` |
+|---|---|---|
+| 0 | 270,744 | 270,744 |
+| 1 | 292,931 | 292,931 |
+
+Not "agrees to three figures": the same integer, assembled from 3200 independent
+`branch_verify` calls on a machine the author never used. Sector 0 is the
+interesting one of the two, because its archived log is not a fresh run at all
+but a checkpoint resume recording 0 boxes of work (section 3, finding 5). This
+is the second time this hunt lands on its 270,744, now cell by cell. VERIFIED.
+
+A third figure is a consistency check rather than an equality, and is worth
+naming as such: at the raised target each sector's terminal count comes out
+slightly *above* the archive's count at `0.0153`, because a stronger goal closes
+fewer boxes early and sends them to be split instead. The excess is **+0.87%
+overall**, and every sector lands between **+0.58%** and **+1.25%**, against the
++0.2% to +1.0% the calibration measured on single cells. MEASURED.
+
+Splitting per cell has a second consequence that is not bookkeeping. The open
+frontier of a single cell never approaches `--max-boxes`, so this run never
+meets the cap that stops the archive's own documented command in eight sectors
+(section 3, finding 4). The reference run needed undocumented larger caps to get
+past it. This one needs none, and the whole away branch is reproduced without
+one.
+
+### The result
+
+Every sector, every cell, at target `0.0153040536`. The reference column is the
+archive's own terminal-box count at its own weaker target `0.0153`, so the ratio
+is the price of the raise and not a discrepancy.
+
+| sector | cells | terminal boxes | archive at 0.0153 | ratio | verdict |
+|---|---|---|---|---|---|
+| 0 | 1600/1600 | 272,587 | 270,744 | 1.006807 | ACCEPTED |
+| 1 | 1600/1600 | 295,147 | 292,931 | 1.007565 | ACCEPTED |
+| 2 | 1600/1600 | 354,961 | 352,172 | 1.007919 | ACCEPTED |
+| 3 | 1600/1600 | 444,514 | 440,355 | 1.009445 | ACCEPTED |
+| 4 | 1600/1600 | 544,544 | 539,188 | 1.009933 | ACCEPTED |
+| 5 | 1600/1600 | 617,100 | 609,488 | 1.012489 | ACCEPTED |
+| 6 | 1600/1600 | 601,578 | 594,330 | 1.012195 | ACCEPTED |
+| 7 | 1600/1600 | 517,360 | 512,148 | 1.010177 | ACCEPTED |
+| 8 | 1600/1600 | 428,050 | 424,756 | 1.007755 | ACCEPTED |
+| 9 | 1600/1600 | 352,776 | 350,497 | 1.006502 | ACCEPTED |
+| 10 | 1600/1600 | 318,362 | 316,278 | 1.006589 | ACCEPTED |
+| 11 | 1600/1600 | 317,113 | 315,121 | 1.006321 | ACCEPTED |
+| 12 | 1600/1600 | 345,592 | 343,434 | 1.006284 | ACCEPTED |
+| 13 | 1600/1600 | 403,355 | 400,711 | 1.006598 | ACCEPTED |
+| 14 | 1600/1600 | 491,040 | 487,564 | 1.007129 | ACCEPTED |
+| 15 | 1600/1600 | 604,609 | 599,578 | 1.008391 | ACCEPTED |
+| 16 | 1600/1600 | 721,021 | 714,647 | 1.008919 | ACCEPTED |
+| 17 | 1600/1600 | 806,587 | 797,875 | 1.010919 | ACCEPTED |
+| 18 | 1600/1600 | 791,430 | 782,603 | 1.011279 | ACCEPTED |
+| 19 | 1600/1600 | 688,898 | 682,817 | 1.008906 | ACCEPTED |
+| 20 | 1600/1600 | 553,539 | 549,771 | 1.006854 | ACCEPTED |
+| 21 | 1600/1600 | 433,373 | 430,735 | 1.006124 | ACCEPTED |
+| 22 | 1600/1600 | 348,606 | 346,583 | 1.005837 | ACCEPTED |
+| 23 | 1600/1600 | 291,038 | 289,192 | 1.006383 | ACCEPTED |
+| **all 24** | **38,400/38,400** | **11,543,180** | **11,443,518** | **1.008709** | **ACCEPTED** |
+
+**Zero cells refused, anywhere.** `branch_verify` refuses in exactly one way,
+by hitting its open-frontier cap, and returns `RIGOROUS INCOMPLETE`; no cell in
+this run did, because a single cell's frontier never comes near the cap. Each
+accepted cell means every box covering it was shown in Arb to have
+`Phi > sqrt(3)/4 + 0.0153040536`.
+
+Read together with section 2a, this closes the gap that section described. The
+certificate was pinned by its near branch at `0.0153040536989472` while
+publishing the round `0.0153` below it; the away branch, idling `3.4e-4` above,
+was never what stopped it. That is now shown rather than inferred: the away
+branch clears the near branch's own value with `3.4e-4` still to spare.
+
+### What it cost
+
+**MEASURED**, and it is worth writing down because the whole point of the retry
+was that the first attempt was launched without an estimate.
+
+| | |
+|---|---|
+| workflow runs | 5 (one calibration, two halves of the away branch, two sweeps) |
+| jobs | 476, of which 466 were away shards |
+| GitHub-hosted machine time | 6,886 runner-minutes, **114.8 runner-hours** |
+| billed | **zero.** Public repository, standard runners |
+| compute delivered | **324.1 core-hours**: 307.4 at the raised target, 16.7 for the oracle |
+| terminal boxes | 11,543,180 at the raised target, 563,675 at `0.0153` |
+| realised rate | 0.0959 s per box, against the 0.10008 the calibration projected |
+| projection error | 321 core-hours projected, 307.4 spent, **4.2% over** |
+| wall clock | 9.1 hours, 14:25 to 23:33 UTC, at 20 concurrent jobs |
+| jobs lost to their own timeout | 9, all in the first away run, all of which still uploaded the cells they had reached |
+
+Two of those lines are the retry working. **The projection was published in
+`RUNS.md` before anything was launched and came in 4.2% high**, which is what
+lets a run this size be started deliberately rather than hopefully. And **the
+nine lost jobs cost nine partial shards, not nine shards**: their finished cells
+were already in the artifact, and a sweep did the remainder. The first attempt
+lost a whole shard every time it was preempted, which is why six hours bought
+nothing.
+
+The comparison worth having: the author's own reference run at the *weaker*
+target took **105.6 core-hours** across the 23 sectors whose logs record a fresh
+run. A standard runner is 2.9x slower per core than his machine, which accounts
+for essentially all of the difference between his 105.6 and this run's 307.4.
+The raise itself is only 0.87% of it.
+
+### What was not done
+
+- **The target was not pushed past what the shipped data supports.** Reaching
+  `0.015316`, let alone the `~0.015359` crossing of section 4, means moving
+  `ETA`, `LARGE_RAD` and the node count and having the author's search
+  regenerate the certificate data. The calibration says the away side of that is
+  affordable: `0.015316` costs 4.2% more boxes than `0.0153` at the worst cell
+  measured, against 1.0% for the target actually run. So what stops it is not
+  compute. It is that every shard would have to load the same regenerated
+  `.npz`, which needs a prepare-and-publish step this instrument does not have.
+  It is the top-ranked door below.
+- **The away branch was not run at the crossing `eta`,** which is what would
+  turn section 4's INFERRED ceiling into a bracket with a rigorous away side.
+- **Only two sectors were re-run at the published target `0.0153`.** They are
+  the exact-count oracle, not a reproduction. A full 24-sector run at `0.0153`
+  would cost a second time what this one cost and would establish nothing the
+  raised-target run does not already imply, since a target that is accepted
+  implies every weaker one.
+- **The three soundness findings of section 3 were not patched.** They are
+  reported, and none of them turns an acceptance into a refusal.
+- **The paper's hand proofs were not audited**, as stated at the top of this
+  document. Nothing here is a statement about Bloch's constant; it is a
+  statement about what Wikström's verifier accepts.
+- **Nothing was posted to the author, to Zenodo or to arXiv.**
 
 ## The doors
 
