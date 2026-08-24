@@ -1,7 +1,7 @@
 name = "Zeta23Bridge"
 version = "0.1.0"
 keywords = ["math"]
-defaultTargets = ["Zeta23Ext", "BridgeChallenge", "BridgeSolution", "ThreePoint", "V2Challenge", "V2Solution"]
+defaultTargets = ["Zeta23Ext", "BridgeChallenge", "BridgeSolution", "ThreePoint", "FourPoint", "V2Challenge", "V2Solution"]
 
 # The upstream formalization accompanying arXiv:2608.13637, pinned. Mathlib and
 # its standard dependency set are inherited from it, at the same revisions the
@@ -17,7 +17,7 @@ rev = "3635e74826a4c1fcece7d1cd2b6fa75e43a00510"
 [[lean_lib]]
 name = "Zeta23Ext"
 
-# The Palomar submission surface (https://palomar-registry.org/), third entry.
+# The earlier, unregistered Palomar bridge surface.
 #
 # `BridgeChallenge.lean` is the statement-only audit surface: it imports Mathlib
 # alone and carries FOUR DELIBERATE `sorry`s, one per advertised statement,
@@ -63,19 +63,27 @@ name = "ThreePoint"
 roots = ["ThreePoint"]
 leanOptions = { autoImplicit = false, relaxedAutoImplicit = false }
 
+# The proved four-point certificate, transplanted unchanged from the green
+# `bridge/four-point` package so Palomar can replay it inside the selected
+# `lean/bridge` project rather than through a path dependency outside it.
+[[lean_lib]]
+name = "FourPoint"
+roots = ["FourPoint"]
+leanOptions = { autoImplicit = false, relaxedAutoImplicit = false }
+
 # V2 of the Palomar submission surface over this package
 # (`lean/bridge/comparator-v2.json`): the `n`-point layer, its still-conditional
-# eight-point instance, and the UNCONDITIONAL three-point instance. Same shape as
-# the pair above, in the distinct namespace `Zeta23Ext.PalomarV2`, and
+# eight-point instance, and the UNCONDITIONAL three- and four-point instances.
+# Same shape as the pair above, in the distinct namespace `Zeta23Ext.PalomarV2`, and
 # independent of it: neither file imports the V1 surface and neither changes it.
 #
 # One comparator names one Challenge module and one Solution module, so both
 # instances are advertised from one module pair rather than two.
 #
-# `V2Challenge.lean` carries FIVE DELIBERATE `sorry`s, one per advertised
+# `V2Challenge.lean` carries SEVEN DELIBERATE `sorry`s, one per advertised
 # statement, which is what the Palomar format requires of a statement-only
-# module; `V2Solution.lean` proves the same five from `Zeta23Ext.Bridge.Main`
-# and `ThreePoint.Main`.
+# module; `V2Solution.lean` proves the same seven from `Zeta23Ext.Bridge.Main`,
+# `ThreePoint.Main`, and `FourPoint.Main`.
 [[lean_lib]]
 name = "V2Challenge"
 roots = ["V2Challenge"]

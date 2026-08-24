@@ -6,12 +6,13 @@ SPDX-License-Identifier: MIT
 import Mathlib
 import Zeta23Ext.Bridge.Main
 import ThreePoint.Main
+import FourPoint.Main
 
 /-!
 # Proved solution
 
-This module imports the bridge development and the three-point certificate, and
-proves the five statements advertised in `V2Challenge.lean`.
+This module imports the bridge development and the three- and four-point
+certificates, and proves the seven statements advertised in `V2Challenge.lean`.
 
 Following the Palomar layout this module does **not** import `V2Challenge`:
 the two modules independently declare the same names, and Comparator checks
@@ -29,7 +30,7 @@ definitional unfolding.  `H_eq` is that theorem, and `Phi_n_eq` carries it into
 the constant.
 
 The namespace is `Zeta23Ext.PalomarV2`, distinct from the `Zeta23Ext.Palomar`
-of the surface this entry's first version advertises (`BridgeChallenge.lean`,
+of the earlier unregistered surface (`BridgeChallenge.lean`,
 `BridgeSolution.lean`), which this module neither imports nor changes.
 
 If a definition the advertised statements mention is edited in
@@ -195,6 +196,26 @@ theorem three_point_bound_ratio :
   simp only [H_eq, Ncount_eq, N0simple_eq]
   exact _root_.Zeta23Ext.Bridge.ThreePoint.three_point_bound_ratio
 
+/-! ### The four-point instance, unconditional -/
+
+/-- **At four points, with the certificate proved rather than assumed.**  No
+hypothesis: `Zeta23Ext.Bridge.FourPoint.four_point_cert` is the `n = 4`
+instance of `hCert`, proved inside Lean. -/
+theorem four_point_bound :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      ((906250 * H - 1085) / 904171 - ε) * (Ncount T (2 * T) : ℝ)
+        ≤ N0simple T (2 * T) := by
+  simp only [H_eq, Ncount_eq, N0simple_eq]
+  exact _root_.Zeta23Ext.Bridge.FourPoint.four_point_bound
+
+/-- **The four-point bound as a proportion, unconditional.** -/
+theorem four_point_bound_ratio :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      (906250 * H - 1085) / 904171 - ε
+        ≤ (N0simple T (2 * T) : ℝ) / (Ncount T (2 * T) : ℝ) := by
+  simp only [H_eq, Ncount_eq, N0simple_eq]
+  exact _root_.Zeta23Ext.Bridge.FourPoint.four_point_bound_ratio
+
 /-! ### Standing axiom audit
 
 Every line below must report exactly `[propext, Classical.choice, Quot.sound]`;
@@ -207,5 +228,7 @@ leaked into the proved surface. -/
 #print axioms eight_point_bound_ratio
 #print axioms three_point_bound
 #print axioms three_point_bound_ratio
+#print axioms four_point_bound
+#print axioms four_point_bound_ratio
 
 end Zeta23Ext.PalomarV2
