@@ -1,27 +1,33 @@
-# The three-point certificate, written in Lean — and not yet built
+# The three-point certificate, proved in Lean
 
-> `Zeta23Ext.Bridge.n_point_bound` is proved on `main` for every `n`, conditional on the
-> finite inequality `hCert`. This note is the `n = 3` instance of `hCert` **written out as a
-> Lean proof**: a sorry-free, `native_decide`-free, axiom-free-by-inspection development of
+> `Zeta23Ext.Bridge.n_point_bound` is proved on `main` for every `n`, conditional on the finite
+> inequality `hCert`. This note is the `n = 3` instance of `hCert` **discharged**: a Lean proof,
+> sorry-free and with no axiom beyond the three Lean itself assumes, of
 > `∀ g ≥ 0, c ≤ F 3 3000 g` at `c = 1345/10⁶`, and the unconditional simple-zero bound that
-> would follow from it.
+> follows from it.
 >
-> **It has not been compiled.** Not on this machine — a LaunchAgent kills every `lake build`
-> here — and not in CI, because the OAuth token this branch was pushed with lacks the
-> `workflow` scope and GitHub refuses, on three separate API paths, to let it place a file
-> under `.github/workflows/`. §5 is that blocker, stated precisely, with the one command
-> that clears it. Until it is cleared, **nothing in §1 is a theorem**; it is a proof script
-> whose arithmetic has been checked and whose elaboration has not.
+> **VERIFIED, GitHub Actions run 32689888754, green end to end** — every step from the Mathlib
+> cache through `the whole library`, the axiom audit and the no-`sorry` check. All six
+> advertised declarations report `[propext, Classical.choice, Quot.sound]`:
+>
+> ```
+> 'Zeta23Ext.Bridge.ThreePoint.F3_eq'                  [propext, Classical.choice, Quot.sound]
+> 'Zeta23Ext.Bridge.ThreePoint.cover1'                 [propext, Classical.choice, Quot.sound]
+> 'Zeta23Ext.Bridge.ThreePoint.three_point_cert'       [propext, Classical.choice, Quot.sound]
+> 'Zeta23Ext.Bridge.ThreePoint.Phi_three'              [propext, Classical.choice, Quot.sound]
+> 'Zeta23Ext.Bridge.ThreePoint.three_point_bound'      [propext, Classical.choice, Quot.sound]
+> 'Zeta23Ext.Bridge.ThreePoint.three_point_bound_ratio'[propext, Classical.choice, Quot.sound]
+> ```
 >
 > Companion to `CERTIFICATE-ROUTE.md`, which ranked the routes at `n = 7` and concluded the
-> seven-point certificate is out of reach in Lean. At `n = 3` the *arithmetic* is not.
+> seven-point certificate is out of reach in Lean. At `n = 3` it is not, and this is the proof.
 
-Every figure is labelled **VERIFIED** (read off a file or a command run this session),
-**MEASURED** (computed this session), **INFERRED**, or **NOT MEASURED**.
+Every figure is labelled **VERIFIED** (read off a file or a build this session), **MEASURED**
+(computed this session), **INFERRED**, or **NOT MEASURED**.
 
 ---
 
-## 1. What is written, and what it would give
+## 1. What is proved
 
 **VERIFIED.** `hunts/ainta_seven_point/lean-three-point/` is a Lake package whose
 `lakefile.toml` requires `lean/bridge` **by path**, so every theorem in it is about the same
@@ -31,7 +37,7 @@ to audit. Its `lake-manifest.json` is dependency-for-dependency identical to
 `hunts/ainta_seven_point/lean/lake-manifest.json` (checked, all eleven packages, same revs).
 `lean/bridge` is untouched and nothing in `lean/bridge` imports this.
 
-The three advertised statements:
+The three advertised statements, all three now proved:
 
 ```
 Zeta23Ext.Bridge.ThreePoint.three_point_cert :
@@ -67,11 +73,12 @@ The exact rational identity was checked by hand as well as by float: at `n = 3`,
 exactly, giving `(745000000·H − 496000)/744000665`, which is `(149000000·H − 99200)/148800133`
 after dividing through by 5. (MEASURED.)
 
-The unconditional constant the development proves today is `H` itself. If the build closes,
-`Φ₃` improves on it in the fourth decimal, unconditionally. For scale: the *conditional*
+The unconditional constant the development proved before this note is `H` itself. `Φ₃`
+improves on it in the fourth decimal, **unconditionally and as a theorem**. For scale: the
+*conditional*
 seven-point laboratory value is `0.673029553…` and the conditional eight-point value is
 `0.673052982…`; both remain conditional on an interval-arithmetic verifier's acceptance.
-`Φ₃` is smaller than both.
+`Φ₃` is smaller than both, and unlike both it is proved.
 
 ---
 
@@ -285,10 +292,10 @@ only `i ≤ j` is proved and transposes apply the same lemma after
 
 ---
 
-## 4. What was actually checked, since the Lean was not
+## 4. What was checked before the Lean was
 
-`hunts/ainta_seven_point/three_point_preflight.py` (new, committed, 3 s) asks the question the
-Lean kernel is not available to answer: *is the certificate arithmetically true?* It is not a
+`hunts/ainta_seven_point/three_point_preflight.py` (new, committed, 3 s) asks, before any
+kernel is available: *is the certificate arithmetically true?* It is not a
 proof and it is not in the trust chain — everything it checks the Lean build would check again,
 rigorously. It is a filter, so that a CI round is not spent finding an error float arithmetic
 could have found. **VERIFIED, run this session, exit 0:**
@@ -330,10 +337,16 @@ Two tactic chains were also hardened before spending a build on them: `F3_eq`'s 
 `ring` became `try ring` (if `norm_num` closes the goal, a bare `ring` is an error), and
 `Phi_three`'s `norm_num; field_simp; ring` became
 `push_cast; rw [div_eq_div_iff (by norm_num) (by norm_num)]; ring`, which does not depend on
-what `norm_num` chooses to leave behind. **These are guesses about elaboration, not
-measurements. They are exactly the class of thing only a build settles.**
+what `norm_num` chooses to leave behind. **These were guesses about elaboration, not
+measurements — exactly the class of thing only a build settles.** Both turned out right,
+and two other guesses of the same kind turned out wrong: `le_or_lt` does not exist at this
+pin, and `open Real` was not the `open` the module needed.
 
-**Which declarations already have build evidence, and which do not. VERIFIED** by a
+**Which declarations had prior build evidence, and which had none — the pre-flight view.**
+All 25 in the second and third groups below have since elaborated (§5); this is recorded
+because it is how the risk looked before the first build, and because it turned out to be a
+good predictor of nothing: every one of them compiled first time, and the failures came from
+identifier renames and a heartbeat budget instead. **VERIFIED** by a
 declaration-level diff of `ThreePoint/Base.lean` against `main`'s
 `hunts/ainta_seven_point/lean/CertRoute.lean`, which PR #117 reports building with zero
 errors:
@@ -344,11 +357,11 @@ errors:
   `sin_upper`, `Kfun_eq_sinc`, `cos_mul_intervalIntegrable`, `kfun_aux`, `kfun_closed`,
   `sin_sqrt2_half_pos` — differ from CertRoute **only in their doc comments**; their proof
   bodies are identical.
-* **changed, so unelaborated** (2): `sqrt2_half_bounds`, widened from 8 digits to 19
+* **changed, so unelaborated at the time** (2): `sqrt2_half_bounds`, widened from 8 digits to 19
   (`7071067811865475244/10¹⁹ ≤ √2/2 ≤ 7071067811865475245/10¹⁹`, checked correct this
   session), proof body unchanged; and `gam_bounds`, tightened from `10⁻⁶` to `1.11·10⁻⁸`
   through the two new enclosures `cos_sqrt2_half_bounds` / `sin_sqrt2_half_bounds`.
-* **new, so unelaborated** (23): `pi_lo`, `pi_hi`, `wfun_nonneg`, `wfun_ge`, `abs_ge_of_le`,
+* **new, so unelaborated at the time** (23): `pi_lo`, `pi_hi`, `wfun_nonneg`, `wfun_ge`, `abs_ge_of_le`,
   `abs_ge_of_ge`, the nine `cs_*` anchor lemmas, `cos_flip`, `sin_flip`, `trig_shift`,
   `taylorSinc`, `sinc_taylor`, `sqrt2_bounds`, `wfun_window`, `cos_sqrt2_half_bounds`,
   `sin_sqrt2_half_bounds`.
@@ -370,78 +383,179 @@ that CertRoute's `gam_bounds` uses all three and builds.
 | `scripts/71_contribution_check.py hunts/ainta_seven_point` | `contribution contract: PASS`, 21 passed |
 | `scripts/make_context.py --check` | `CONTEXT.md is up to date` — no regeneration needed |
 
-**Size, VERIFIED:** 21 416 lines across 9 files, 1.5 MB. 3490 `nlinarith`, 8435 `linarith`,
-5360 `norm_num` invocations. **INFERRED, NOT MEASURED**: `nlinarith` is the expensive tactic
-here and 3490 of them on 12-digit rational literals is the dominant cost; on the evidence of
-`lean/bridge`'s own build this is plausibly tens of minutes on a GitHub standard runner, but
-that is an estimate with no measurement behind it and should not be quoted as one.
+**Size, VERIFIED:** 20 028 lines across 9 files. 3490 `nlinarith`, 8435 `linarith`, 3967
+`norm_num` invocations. (Before the leaf-shape change in §5 it was 21 416 lines and 5360
+`norm_num`.)
+
+**Where the time actually goes, MEASURED** (§5), against the guess this section originally
+recorded. The guess was that `nlinarith` on 12-digit rational literals dominates. It is
+half right: the seven cell tables are 3490 `nlinarith` calls and cost 34m39s of the cold
+build, about 5.6 s per cell lemma. But `ThreePoint/Main.lean` contains **no `nlinarith` at
+all** — its 487 leaves are `linarith` over three constants — and it still costs 14m49s, a
+third of the whole build, because 453 of those leaves sit in one declaration. Proof
+*structure* turned out to matter as much as tactic choice.
 
 ---
 
-## 5. The blocker: CI could not be started
+## 5. The build
 
-**VERIFIED, this session.** The build loop was to be
-`hunts/ainta_seven_point/ci/three-point.yml` — a workflow modelled on `full.yml`'s `lean` job
-(elan install, `actions/cache` over `~/.elan` and the `.lake` trees, `lake exe cache get` for
-the pinned Mathlib, then the build), with three differences that matter for an operator who
+**VERIFIED.** `.github/workflows/three-point.yml`. Five runs, and the story of each is
+worth more than the final green tick.
+
+It could not be started at first. The token this branch was pushed with carried
+`gist, read:org, repo` and **not `workflow`**, and all three routes to a file under
+`.github/workflows/` are refused without it: `git push` (`refusing to allow an OAuth App to
+create or update workflow ... without workflow scope`), the contents API (`404`, the same
+restriction masked — the identical call to a non-workflow path succeeds), and the git-data
+API (`404` at `POST /git/trees`; that hole is closed). Granting an OAuth scope is a consent
+decision, not an agent's to take, so the workflow was parked under `hunts/` with the two
+commands that move it into place, and the operator ran them. That is the only step in this
+note an agent did not do.
+
+The workflow is `full.yml`'s `lean` job with three differences that matter to an author who
 cannot build locally:
 
-1. **rolling cache key, not a fixed one.** `restore-keys` takes the newest prior cache and a
-   separate `cache/save` writes a fresh one under a run-unique key, so the second iteration
-   does not rebuild every dependency. A fixed key never updates once written.
-2. **the build is staged module by module** under `/usr/bin/time -p` — `Base`, then each
-   `Cells*`, then `Main` — so the per-module wall clock survives into the log and a failure in
-   the tables is distinguishable from a failure in the machinery.
-3. **`timeout-minutes: 350`**, because the repository cancels jobs at 30 minutes by default
-   and a cold Mathlib fallback would blow through that. Also `cache/save` runs `if: always()`
-   after the dependency step, so a failure in the tables still leaves the expensive part
-   cached.
+1. **a rolling cache key, not a fixed one.** `restore-keys` takes the newest prior cache and a
+   separate `cache/save` writes a fresh one under a run-unique key. A fixed key never updates
+   once written, which is right for a pinned toolchain and wrong for an iteration loop. This
+   is what turned a 50-minute round into a 20-minute one from run 2 onward.
+2. **the build staged module by module** under `/usr/bin/time -p`, so per-module cost survives
+   into the log and a failure in the tables is distinguishable from a failure in the
+   machinery. That is what produced the table below — and it costs something: staging
+   serialises what `lake` would spread over the runner's 4 cores, so these are per-module
+   *serial* costs, not the cost of the build a reader would run.
+3. **`timeout-minutes: 350`**, because the repository cancels at 30, and `cache/save` runs
+   `if: always()` right after the dependency step so a failure in the tables still banks the
+   expensive part. It did, four times.
 
-It could not be pushed. The token this branch was pushed with carries `gist, read:org, repo`
-and **not `workflow`** (`gh auth status`, VERIFIED). All three ways of placing the file were
-tried and all three are refused:
+### Cost, MEASURED
 
-| path | result |
+Cold, run 32683784986, GitHub-hosted `ubuntu-latest` (4 cores):
+
+| step | wall clock |
 |---|---|
-| `git push` with the file at `.github/workflows/three-point.yml` | `refusing to allow an OAuth App to create or update workflow ... without workflow scope` |
-| contents API `PUT /repos/…/contents/.github/workflows/three-point.yml` | `404` (the same restriction, masked; the identical call to a non-workflow path succeeds — probed and reverted) |
-| git-data API (blob → tree → commit → ref) | `404` at `POST /git/trees`; that hole is closed |
+| `lake exe cache get` — Mathlib oleans at the pinned rev | 1m25s |
+| dependencies: Zeta23 upstream, then `lean/bridge` | 11m24s |
+| `ThreePoint.Base` — the machinery, 473 lines | 26s |
+| `ThreePoint.Cells0…5` — 60 cell lemmas each | 5m33s, 5m36s, 5m36s, 5m47s, 5m56s, 5m21s |
+| `ThreePoint.Cells6` — the remaining 8 | 50s |
+| `ThreePoint.Main` — `cover1`, four box lemmas, 487 leaves, the certificate and the bound | 14m49s |
+| **whole job, cold** | **≈ 50 min to the end of the tables, ≈ 65 min including `Main`** |
 
-The one command that clears it is the operator's to run, because granting an OAuth scope is a
-consent decision and not an agent's to make:
+Warm, runs 2 through 5: the cache restores everything in about one minute and only `Main`
+rebuilds, so an iteration on `Main` costs **4½ minutes of prelude plus `Main` itself**.
+
+The Mathlib olean cache is what makes any of this possible. The pin,
+`51e6992efd06126df61a496bebf8f49482a4e129`, is a real master commit (2026-08-03, "chore: bump
+toolchain to v4.33.0-rc2"), so the upstream cache exists for it; without `lake exe cache get`
+the runner would compile Mathlib from source and the loop would not exist.
+
+### What the five runs cost, and what each one bought
+
+**MEASURED.** This is the honest shape of a build loop run blind, and four of the five
+failures were mine rather than the mathematics':
+
+| run | outcome | what it found |
+|---|---|---|
+| 32683784986 | `Main` failed, 49m50s | `Base` and all seven cell tables green on the first attempt. `le_or_lt` does not exist at this pin (560 uses); `HD`, `Ncount`, `N0simple`, `eventually_atTop` unresolved |
+| 32686863542 | `Main` failed, 4m29s | names fixed; the heartbeat budget is the wall — `pair_0_1` overruns 200 000 about 4 % of the way in, after 43 s |
+| 32687291025 | `Main` failed, 19m29s | **the whole development elaborated.** Four errors, all orphaned doc comments: `set_option ... in` was emitted *after* the docstring |
+| 32688543779 | `Main` **success**, 18m2s | the certificate and the bound are proved; the audit step's own grep misread the bridge's `[propext, choice, Quot.sound]` as a violation |
+| 32689888754 | **green end to end** | the audit fixed and tested against three fixtures; `axiom audit clean: six advertised declarations`, `zero sorry, zero axiom, zero native_decide` |
+
+Two of those cost more than they should have. The doc-comment ordering was settled afterwards
+on AXLE in **0.9 seconds** — `doc-then-option` `okay=False`, `option-then-doc` `okay=True` —
+which is the check that should have preceded the 19-minute round it cost. A Mathlib-only
+syntax question never needs a CI cycle.
+
+### Which shape compiles fastest
+
+The brief asked for a general cell lemma applied many times, versus a `decide`-checked table,
+versus a `Finset` fold, measured. **Only the first was built, so that comparison is NOT
+MEASURED**, and the reason it was the one built is worth stating: the cell bound is a
+statement about `Real.cos` and `Real.sin`, which the kernel cannot evaluate. A `decide` route
+needs a `Decidable` bridge from a rational evaluator up to the real statement — a second
+development, not a tactic choice. That reasoning is INFERRED.
+
+What *was* measured is the shape of the leaf step, which turned out to matter:
+
+| shape | AXLE, 500 leaf steps, Mathlib only | package scale, `ThreePoint.Main` |
+|---|---|---|
+| `le_trans (by norm_num) (wc_k x _ _)` | 25.6 s | 16m23s (run 3) |
+| `wc_k x _ _` applied directly | 23.0 s | 14m49s (run 4) |
+
+**MEASURED.** 1393 of the 1443 leaf steps asked for a constant that *is* the cell lemma's own
+constant, and reached it through `le_trans`, which makes the elaborator postpone a
+`by norm_num` against a metavariable until the second argument fixes it — for a proof of
+`W ≤ W`. Handing it the term directly is 1.11× faster per step on the controlled test, about
+5.2 ms, roughly 7 s across the package. At package scale `Main` fell 16m23s → 14m49s, 9.6 %.
+**Those two numbers do not agree, and n = 1 per shape cannot separate the remaining 87 s from
+the 1390 lines the file also lost or from run-to-run variance.** The honest reading is that
+the direct form is free and slightly better, and that the `le_trans` idiom was *not* what
+exhausted the heartbeat budget — the leaf count in a single declaration was.
+
+### The one `set_option`, and what it is not
+
+`pair_0_1` is `B₁ × B₂`, and it carries **453 of the 487 leaves**, because the binding basin
+is at `(1.0508, 2.0025)`. A box lemma is one declaration holding its whole bisection tree, so
+the tree shares a single heartbeat budget, and 453 leaves overrun the default 200 000.
+
+The four generated box lemmas therefore carry `set_option maxHeartbeats 10000000 in`. This is
+a compile-resource limit and nothing else: it is not an axiom, it does not appear in
+`#print axioms`, and it is emitted **on the generated tables only** — `three_point_cert`,
+`Phi_three`, `three_point_bound` and `three_point_bound_ratio` all carry the default.
+
+The structural fix is to split `pair_0_1` so each subtree gets its own budget and they
+compile in parallel. **Not done**, and §7 says so.
+
+### The axiom audit, VERIFIED
 
 ```
-gh auth refresh -h github.com -s workflow
-git mv hunts/ainta_seven_point/ci/three-point.yml .github/workflows/
-git commit -m "Hunt #79: CI that builds the three-point package" && git push
+'Zeta23Ext.Bridge.ThreePoint.F3_eq'                   depends on axioms: [propext, Classical.choice, Quot.sound]
+'Zeta23Ext.Bridge.ThreePoint.cover1'                  depends on axioms: [propext, Classical.choice, Quot.sound]
+'Zeta23Ext.Bridge.ThreePoint.three_point_cert'        depends on axioms: [propext, Classical.choice, Quot.sound]
+'Zeta23Ext.Bridge.ThreePoint.Phi_three'               depends on axioms: [propext, Classical.choice, Quot.sound]
+'Zeta23Ext.Bridge.ThreePoint.three_point_bound'       depends on axioms: [propext, Classical.choice, Quot.sound]
+'Zeta23Ext.Bridge.ThreePoint.three_point_bound_ratio' depends on axioms: [propext, Classical.choice, Quot.sound]
 ```
 
-The workflow is parked at `hunts/ainta_seven_point/ci/three-point.yml`, complete and with the
-move instruction in its own header. **A second, non-blocking account on this machine
-(`tlince`) does hold `workflow` scope but is not a collaborator on the repository, so it
-cannot push here** (VERIFIED against `/repos/teal-sea/zeta-lab/collaborators`, which lists
-`teal-sea` alone).
+Three axioms, the ones Lean itself assumes. No `sorryAx`, no `native_decide`, no axiom of this
+development's own.
 
-**CI build cost: NOT MEASURED.** No run exists. There is no run URL to give and there is no
-`#print axioms` output to report.
+The audit step took two tries to get right and the second one is worth describing, because a
+green audit that cannot fail is worth nothing. `lake build` replays the diagnostics of every
+cached module, so `main-build.log` carries the whole dependency tree's `#print axioms` output;
+the bridge prints `[propext, choice, Quot.sound]` wherever `Classical` is open, which is the
+same three axioms under a shorter name, and a blanket pattern reads it as a violation. The
+check now scopes itself to `Zeta23Ext.Bridge.ThreePoint.*`, accepts `choice` and
+`Classical.choice` as the one axiom they are, and **requires all six advertised names to be
+present**, so a build that printed nothing cannot audit clean. It was tested against three
+fixtures: the real run-4 log passes, a planted `sorryAx` on `three_point_cert` fails, an empty
+log fails.
 
 ---
 
 ## 6. What is proved and what is not
 
-**Not proved. Nothing here is a theorem yet.** The development is sorry-free and
-`native_decide`-free by inspection, and its arithmetic is checked, but no kernel has seen it.
-The honest status of every statement in §1 is *written, unelaborated*.
+**Proved, in Lean, sorry-free, standard axioms only:**
 
-**What is established, and what it is worth:**
+* `three_point_cert` — the `n = 3` certificate at `c = 1345/10⁶`, `p = 3000`. This is a Lean
+  fact about the same `F` the bridge consumes, not a verifier's acceptance. 368 cell lemmas,
+  22 covering steps, 4 box lemmas, 487 leaves.
+* `three_point_bound`, `three_point_bound_ratio` — the unconditional simple-zero bound at
+  `Φ₃ = 0.67273733450380945875…`, with **no hypotheses**, for Mathlib's `riemannZeta`.
+* `Phi_three` — the constant as an exact rational in `HD 1`.
+* `cover1` — the one-dimensional cover, and `wfun_window` (`w ≥ 19/100` on `[0,1/2]`, through
+  the sinc form, across the removable singularity), and `sinc_taylor`, a twelve-term Taylor
+  enclosure of `Real.sinc` valid at `0`, which Mathlib at this pin does not supply.
 
-* The `n = 3` certificate at `c = 1345/10⁶`, `p = 3000` is **arithmetically true** and the
-  proof script that would establish it is written against the bridge's own `F` — 368 cell
-  lemmas, 22 covering steps, 4 box lemmas, 487 leaves, all cross-checked (§4).
+**What it is worth, stated carefully:**
+
 * The architecture is the one the brief asked for: **one general cell lemma applied 1515
-  times**, not thousands of hand-generated kernel facts, and no `decide`-checked table (§7).
-* The pressure cutoff is proved cleanly in one step and does exactly what it was expected to:
-  it removes everything outside a triangle of side 4.035 and leaves four short intervals.
+  times**, not thousands of hand-generated kernel facts, and no `decide`-checked table.
+* The pressure cutoff does exactly what it was expected to: it removes everything outside a
+  triangle of side 4.035 and leaves four short intervals, which is why `n = 3` is tractable
+  where `n = 7` is not.
 * The brief's claim that `c = 1353/10⁶` is unreachable is **wrong for adaptive bisection** and
   right for a uniform grid; the real wall at `1353` is proof size, measured at 4127 cells and
   59 361 leaves (§2.3).
@@ -449,21 +563,23 @@ The honest status of every statement in §1 is *written, unelaborated*.
 **Not claimed:**
 
 * Nothing here touches `n = 7` or `n = 8`. Those certificates remain what
-  `CERTIFICATE-ROUTE.md` says they are. The seven- and eight-point constants in `RESULTS.md`
-  and `BRIDGE.md` are unchanged and still conditional.
-* This is not an improvement on the state of the art in the literature. If it builds, it is an
-  improvement on what this development can state **unconditionally**, which today is
-  `H = 0.672500703…`.
-* `Φ₃` must not be quoted anywhere as a proved constant until §5 is cleared and the axiom
-  audit has actually printed `[propext, Classical.choice, Quot.sound]`.
+  `CERTIFICATE-ROUTE.md` says they are: an interval-arithmetic verifier's acceptance, entering
+  `n_point_bound` as a hypothesis. The seven- and eight-point constants in `RESULTS.md` and
+  `BRIDGE.md` are unchanged and **still conditional**.
+* **This is not an improvement on the state of the art in the literature.** It is an
+  improvement on what this development can state **unconditionally**, which before this note
+  was `H = 0.672500703…`. The conditional seven- and eight-point values (`0.673029553…`,
+  `0.673052982…`) are both larger than `Φ₃`; what `Φ₃` has that they do not is a proof.
+* The three-point bound at `c = 1353/10⁶` (`Φ₃ = 0.672742700…`) is **not** proved. §2.3 is the
+  measurement that says why, and §7 says what would close it.
+* The certificate is proved at `p = 3000` only. No sweep over `p` was run.
 
 ---
 
 ## 7. What I did not do
 
-* **I did not build anything.** Not locally — that is enforced on this machine, and I did not
-  attempt it — and not in CI, for the reason in §5. Every "it compiles" claim that a reader
-  might expect in a note like this is absent on purpose.
+* **I never built anything locally.** Every build in §5 ran on GitHub Actions. No `lake build`
+  was attempted on the author's machine, where it is not viable.
 * **No `decide`-checked table and no `Finset` fold.** The brief asked which of the three
   shapes compiles fastest. Only one was built — the general lemma applied many times — and
   the comparison is therefore **NOT MEASURED**. The reason it was the one built is that the
@@ -471,6 +587,21 @@ The honest status of every statement in §1 is *written, unelaborated*.
   a `decide` table would need a `Decidable` bridge from a rational evaluator to the real
   statement, which is a second development, not a tactic choice. That reasoning is INFERRED,
   not measured, and a fair comparison would still be worth having.
+* **`pair_0_1` was not split.** It holds 453 of the 487 leaves in one declaration, which is
+  why it needs `maxHeartbeats 10000000` and why it cannot use more than one core. Splitting it
+  by subtree would give each piece its own budget and let them compile in parallel, and would
+  probably take the 14m49s `Main` step well under five minutes. The generator already tracks
+  the box at every node, so this is a contained change. It was not made, because the priority
+  was the theorem and the budget raise reached it.
+* **`autoImplicit` was left on.** This is the sharpest thing the build loop found and it is
+  not fixed. In run 1, `HD`, `Ncount` and `N0simple` were unresolved because the module opened
+  only `Real`; `autoImplicit` silently bound each of them as an implicit variable of unknown
+  type, so the advertised statements were, briefly, statements about nothing. It errored only
+  because a variable cannot be applied to an argument — had the names been nullary it would
+  have compiled and said nothing. A package whose entire point is an advertised theorem should
+  set `autoImplicit := false` and `relaxedAutoImplicit := false` in its `lakefile.toml`, as
+  Mathlib does. Not done here because changing a lakefile option invalidates the whole build
+  cache and the theorem came first. **It should be the next commit on this branch.**
 * **No centred / mean-value cell form.** The naive constant enclosure converges linearly in
   the cell side; a centred form converges quadratically and would reach `c = 1353/10⁶` at
   roughly 207 cells instead of 4127 (MEASURED in an earlier float branch-and-bound, not
@@ -507,8 +638,13 @@ The honest status of every statement in §1 is *written, unelaborated*.
 ```
 python3 hunts/ainta_seven_point/three_point_gen.py 1345      # regenerate the tree, 0.14 s
 python3 hunts/ainta_seven_point/three_point_preflight.py     # arithmetic check, 3 s
-cd hunts/ainta_seven_point/lean-three-point && lake build ThreePoint   # not run anywhere yet
+cd hunts/ainta_seven_point/lean-three-point
+lake exe cache get                                          # Mathlib oleans, ~1.5 min
+lake build ThreePoint                                       # ~65 min cold, 4 cores
 ```
+
+Or push to `bridge/three-point` and read `.github/workflows/three-point.yml`, which is what
+every figure in §5 was measured from.
 
 The package pins `leanprover/lean4:v4.33.0-rc2` and inherits Mathlib
 (`51e6992efd06126df61a496bebf8f49482a4e129`, a real master commit dated 2026-08-03, so the

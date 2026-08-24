@@ -347,3 +347,24 @@ artifacts:
   - hunts/ainta_seven_point/three_point_preflight.py
   - hunts/ainta_seven_point/ci/three-point.yml
 ```
+
+```runmanifest
+id: ainta_seven_point-2026-08-24-three-point-proved
+hunt: ainta_seven_point
+started: 2026-08-24
+finished: 2026-08-24
+ran:
+  - the operator granted the workflow OAuth scope and moved ci/three-point.yml into .github/workflows/, which is the only step in this hunt an agent did not do
+  - five GitHub Actions runs of .github/workflows/three-point.yml: 32683784986, 32686863542, 32687291025, 32688543779, 32689888754
+  - two AXLE checks against cloud Lean 4.33.0, Mathlib only, to settle questions that would otherwise have cost a CI round: the doc-comment / set_option ordering, and a controlled 500-leaf-step comparison of the two ways to apply a cell lemma
+  - regenerated the tree with three_point_gen.py after each fix and re-ran three_point_preflight.py, 368 cell lemmas and 487 leaves, 0 problems, every time
+  - .venv/bin/python scripts/71_contribution_check.py hunts/ainta_seven_point; .venv/bin/python scripts/make_context.py --check
+outcome: THE CERTIFICATE IS PROVED. Run 32689888754 is green end to end and all six advertised declarations report [propext, Classical.choice, Quot.sound] and nothing else. three_point_cert discharges n_point_bound's hCert at n=3, c=1345/10^6, p=3000, so three_point_bound is an UNCONDITIONAL theorem for Mathlib's riemannZeta at Phi_3 = (149000000*HD 1 - 99200)/148800133 = 0.67273733450380945875, against the H = 0.67250070367941164573 the pinned dependency proves, an improvement of 2.3663e-4. Zero sorry, zero axiom, zero native_decide. Cold build cost, measured module by module: Mathlib olean cache 1m25s, Zeta23 and bridge dependencies 11m24s, Base 26s, the seven cell tables 34m39s, Main 14m49s. Warm rounds cost 4.5 minutes of cached prelude plus Main. Four of the five runs failed and four of those failures were mine, not the mathematics: le_or_lt does not exist at this Mathlib pin (560 uses, replaced by le_total); HD, Ncount and N0simple were unresolved because the module opened only Real, and autoImplicit silently bound each as a variable so the advertised statements were briefly statements about nothing; set_option ... in was emitted after the doc comment rather than before, which AXLE settled afterwards in 0.9 s; and the axiom-audit step misread the bridge's own [propext, choice, Quot.sound] as a violation. The one genuine Lean obstacle was the heartbeat budget: pair_0_1 holds 453 of the 487 leaves because the binding basin is at (1.0508, 2.0025), and one declaration shares one budget, so the four generated box lemmas carry set_option maxHeartbeats 10000000 -- a compile-resource limit, absent from print axioms, and never set on the advertised theorems. MEASURED on the leaf shape: 1393 of 1443 leaf steps reached a constant that IS the cell lemma's own constant through le_trans (by norm_num), which postpones a norm_num against a metavariable to prove W <= W; applying the cell lemma directly is 1.11x faster per step on AXLE and took Main from 16m23s to 14m49s, though n=1 per shape cannot separate that 9.6% from the 1390 lines the file also lost. Also corrected: the brief's claim that c = 1353/10^6 is out of reach is true of a uniform grid and false of adaptive bisection, which closes there in 3.9 s at 4127 cell lemmas and 59361 leaves, so the wall at 1353 is proof size. NOT done and named in the note: pair_0_1 is not split, and autoImplicit is still on, which is the sharpest thing the loop found and should be the next commit
+artifacts:
+  - hunts/ainta_seven_point/THREE-POINT.md
+  - hunts/ainta_seven_point/lean-three-point/ThreePoint/Main.lean
+  - hunts/ainta_seven_point/lean-three-point/ThreePoint/Base.lean
+  - hunts/ainta_seven_point/three_point_gen.py
+  - hunts/ainta_seven_point/three_point_preflight.py
+  - .github/workflows/three-point.yml
+```
