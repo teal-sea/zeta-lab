@@ -1,5 +1,14 @@
 """Shard plan for the away branch on GitHub Actions, and the artifact roll-up.
 
+`config` is what the workflow actually calls. `workflow_dispatch` only reaches
+a workflow file that is already on the default branch, and this one is not, so
+the run is driven the way `.github/workflows/three-point.yml` drives its Lean
+build: a `push` trigger on the hunt branch. The parameters that would have
+been dispatch inputs live in `ci_run.json` instead, committed beside the
+workflow, so every launch is a reviewable diff rather than a form somebody
+filled in. `mode: off` emits an empty matrix, which is the default, so an
+ordinary documentation commit on this branch does not fire 219 jobs.
+
 `plan` emits the job matrix.  Sectors differ by 2.9x in cost (270,744 boxes in
 sector 0 against 797,875 in sector 17), so a flat number of shards per sector
 would leave some jobs three times longer than others.  Shards are allocated in
@@ -100,9 +109,58 @@ def collect(paths: list[str], target: float) -> dict:
     return out
 
 
+#: What a launch may ask for, and what it gets when `ci_run.json` is silent.
+DEFAULTS = {
+    "mode": "off",              # off | calibrate | run | sweep
+    "target": "0.0153040536",   # the published run used 0.0153
+    "sectors": "0-23",
+    "boxes_per_job": 55000,
+    "budget": 1020,             # seconds per worker process, inside a 25 min job
+    "nproc": 4,                 # standard runners have 4 vCPU
+    "prior_run_id": "",
+}
+
+#: The calibration shard: sector 17 is the most expensive of the 24, and
+#: `nshard = 41` against a 40x40 grid walks the diagonal, so the sample holds
+#: one cell from every u index and every v index rather than one cheap stripe.
+CALIBRATION = [{"sector": 17, "shard": 0, "nshard": 41, "name": "calib-s17"}]
+
+
+def config(path: str) -> dict:
+    cfg = dict(DEFAULTS)
+    if path and os.path.exists(path):
+        with open(path, encoding="utf-8") as f:
+            for k, v in json.load(f).items():
+                if k in cfg:
+                    cfg[k] = v
+    cfg["boxes_per_job"] = int(cfg["boxes_per_job"])
+    cfg["budget"] = int(cfg["budget"])
+    cfg["nproc"] = int(cfg["nproc"])
+    mode = str(cfg["mode"])
+    if mode == "off":
+        jobs = []
+    elif mode == "calibrate":
+        jobs = list(CALIBRATION)
+    else:
+        jobs = plan(cfg["boxes_per_job"], parse_sectors(str(cfg["sectors"])))
+    cfg["matrix"] = json.dumps(jobs)
+    cfg["count"] = len(jobs)
+    return cfg
+
+
+def parse_sectors(spec: str) -> list[int]:
+    if "-" in spec:
+        lo, hi = spec.split("-")
+        return list(range(int(lo), int(hi) + 1))
+    return [int(x) for x in spec.split(",") if x != ""]
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     sub = ap.add_subparsers(dest="cmd", required=True)
+
+    g = sub.add_parser("config")
+    g.add_argument("--file", default="hunts/bloch_ceiling/ci_run.json")
 
     p = sub.add_parser("plan")
     p.add_argument("--boxes-per-job", type=int, default=55000)
@@ -115,13 +173,13 @@ def main() -> None:
     c.add_argument("--out", default="")
 
     args = ap.parse_args()
+    if args.cmd == "config":
+        cfg = config(args.file)
+        for k, v in cfg.items():
+            print(f"{k}={v}")
+        return
     if args.cmd == "plan":
-        if "-" in args.sectors:
-            lo, hi = args.sectors.split("-")
-            sectors = list(range(int(lo), int(hi) + 1))
-        else:
-            sectors = [int(x) for x in args.sectors.split(",") if x != ""]
-        jobs = plan(args.boxes_per_job, sectors)
+        jobs = plan(args.boxes_per_job, parse_sectors(args.sectors))
         text = json.dumps(jobs)
         if args.out:
             with open(args.out, "w", encoding="utf-8") as f:
