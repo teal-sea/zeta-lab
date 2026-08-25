@@ -1,0 +1,49 @@
+{
+  "run_id": "8ea74995-af9e-4053-bedf-c73dbe0ae46b",
+  "status": "settled",
+  "conclusion": "The equivalences r_186989 used are correct and are now proved in full, and its arm-3 finding is right but understated: any amplification law g(k+C) >= lambda*g(k) with C and lambda>1 constant refutes Erdos #126, not just supermultiplicativity, and the supermultiplicative case needs induction rather than Fekete. The load-bearing new statement is a quantifier: #126 is a forall-S forall-A claim while every enumeration produces exists-S exists-A, so the whole computational arm of this problem is a refutation instrument and can never contribute to a proof.",
+  "confidence": "High on everything labelled proved in RESULTS.md: the Galois connection, the five-way asymptotic equivalence, the parity and gcd normalisations, the falsity of the p-not-in-S thread, the amplification direction theorem, and the non-degeneracy of the 3-term S-unit solution attached to each 4-subset. These are short elementary arguments and each is stated with its proof; a reader can check them in minutes. Medium on the S-unit route's usefulness, which depends on a multiplicity bound M that this run did not attempt. The Evertse and Erdos-Stewart-Tijdeman solution counts are cited from one web search and are literature, not verified here. The Erdos-Turan bound 3*2^(k-1) is used as published and not reproved; Proposition 1.3 depends on it for the max being attained.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "The f/g inverse restatement, the g(1)=2 proof, the f_0 vs f lemma, the seven measured witnesses, and the composition-refutes finding",
+      "source": "hunts/r_186989/RESULTS.md",
+      "effect": "Removed the need to re-derive any of it. All of it was audited: the mathematics is sound, one 'precisely because' should be an implication, the Fekete step is unnecessary, and loose thread 3 is false. The seven witnesses were re-verified from scratch and no defect was found."
+    },
+    {
+      "what": "Evertse's bound 3*7^(2s+1) for x+y=1 in S-units and the Erdos-Stewart-Tijdeman lower bound exp((4+o(1))(s/log s)^(1/2))",
+      "source": "one web search, 2026-08-24, secondary sources",
+      "effect": "Turned the vague 'S-unit machinery is the real door' into a specific statement: the general-purpose counts are exponential in |S| with a far worse base than Erdos-Turan, while the known lower bounds are subexponential, so the gap in unit-equation counting is the same shape as the gap in #126."
+    }
+  ],
+  "threads": [
+    {
+      "what": "The multiplicity M of the map (4-subset of A) -> (solution of x+y+z=1 in S-units)",
+      "why_it_might_matter": "A bound on M converts #126 into 'count non-degenerate 3-term S-unit solutions', reducing an unstated open problem to a stated one. It is the only door listed that could produce a proof rather than a refutation.",
+      "first_step": "For the measured witnesses at k=3,4, compute all C(|A|,4) triples (x,y,z) and count collisions. If M is 1 or small on real witnesses, chase the general bound."
+    },
+    {
+      "what": "Large sieve against the residue lemma (A occupies at most (p-1)/2+1 classes mod every odd p outside S)",
+      "why_it_might_matter": "It is the only unextracted consequence of the corrected pigeonhole, and would give |A| << (max A)^(1/2+eps).",
+      "first_step": "Decide first whether the primitive optimum for g_S can be bounded by a function of k. Without that, S-unit scaling (Prop 3.3b) makes max A unbounded and the sieve vacuous."
+    },
+    {
+      "what": "Whether g_S is maximised at the first k primes",
+      "why_it_might_matter": "Every published g table in this tree assumes it silently. If false at some k, all the tables are mislabelled.",
+      "first_step": "Beyond the k<=4 sweep done here, ask whether any monotonicity in p is provable at all; the smooth-density heuristic is suggestive and the arithmetic is not monotone."
+    },
+    {
+      "what": "The distinctness convention as a formalisation hazard",
+      "why_it_might_matter": "Admitting a=b (the sums 2a) changes the problem: {1,3,7,17,47} has all off-diagonal sums {2,3,5}-smooth while 47 is not smooth at all.",
+      "first_step": "Any Lean or Formal Conjectures statement of #126 should be checked to range over unordered pairs of distinct elements."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A direction-safety check for conjecture briefs: before funding an arm, state the target as a quantifier prefix and ask whether the arm's instrument produces statements of that shape.",
+      "why_reusable": "r_186989 spent a scout on three arms that were all structurally incapable of the result they were briefed for, and the cause was visible from the quantifier alone before any compute ran. The check is a paragraph, not a system.",
+      "first_step": "Add one line to the brief template asking the arm to write down the quantifier prefix of its target and of its instrument's output, and to say whether they match."
+    }
+  ],
+  "notes_for_operator": "Answered to the sibling run, not to a larger question. The one thing worth carrying beyond this problem: a claim strong enough to settle a 92-year-old problem, which agrees with all seven available data points, is a warning rather than evidence -- r_186989's thread 3 was exactly that shape and is false. Nothing here bears on RH."
+}
