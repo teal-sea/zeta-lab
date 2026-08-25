@@ -70,6 +70,68 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
+
+**Status: not settled — scout killed on a pre-registered kill condition.** A
+30-minute bounded scout on Erdős #126 (for $n$ positive integers $A$, $f(n)$ is
+the least number of distinct primes dividing an off-diagonal sum $a+b$; is
+$f(n)/\log n \to \infty$?). The run inverted the problem before running any arm:
+$f$ and $g(k) = \max\{n : f(n) \le k\}$ are inverse staircases, so the
+conjecture is exactly $g(k)^{1/k} \to 1$, and all three briefed arms become
+measurements of one integer sequence. Exact branch-and-bound clique search on
+the $S$-smooth pair-sum graph, exhaustive inside $[1,N]$ with every witness
+re-verified, gives $g(k) \ge 2, 4, 5, 6, 8, 10, 11$ for $k = 1..7$ ($N$ from
+$2\cdot10^5$ down to $6000$); widening the box 60× moved not one row, because
+every optimal witness lives below 50. Those are lower bounds only — **no upper
+bound on $g(k)$ is established**, and seven falling $k$-th roots
+($2.00 \to 1.41$) cannot separate a limit of 1 from a limit of 1.3. That is the
+"suggestive finite data" the brief named as a kill condition, and the hunt calls
+it that. Two things survive. The Formal Conjectures positivity mismatch is
+resolved: $f(n-1) \le f_0(n) \le f(n)$, so the `Finset ℕ` statement is faithful
+for the limit and wrong for pinned finite values ($f(2)=1$, $f_0(2)=0$,
+witness $\{0,1\}$). And the briefed composition arm points the wrong way:
+$g(1) = 2$ plus supermultiplicativity gives $g(k) \ge 2^k$ by Fekete, i.e.
+$f(n) \le \log_2 n + O(1)$, so a rigorous composition law **refutes** the
+conjecture rather than proving it — what #126 needs is an anti-composition
+theorem. The only $S$-dependence visible was parity: $2 \in S$ is worth more
+than every other structural choice combined ($g_N(3) = 5$ with it, $2$ without).
+Nothing here bears on RH (`docs/08`).
+
+
+### Hunt #101: Erdős #126, the descent arm — loss 2 per prime is a wall, and the omission claim is false (`support_7ddfee4b/`)
+**Status: settled, in both directions.** Support run for the `r_186989` scout,
+answering one bounded question: is there a descent recurrence for $g(k)$ whose
+per-prime loss tends to 1, and does omitting a small prime from $S$ cap $|A|$?
+
+The omission claim is **false for every prime**. Omitting $p$ forces the
+residues of $A$ mod $p$ to avoid the pairing $r \leftrightarrow -r$, which caps
+the number of *occupied classes* at $(p+1)/2$ and caps the size of a
+*self-paired* class at 1. It caps $|A|$ only when every class is self-paired,
+which happens only at $p = 2$. For odd $p$, any $A \subseteq 1 + p\mathbb{Z}$ has
+all pairwise sums $\equiv 2 \pmod p$, so $|A|$ is unbounded with $p \notin S$;
+witnesses at $p = 3,5,7,11$ are verified in `results.json`. The proposed
+$|A| \le p-1$ also fails at $p=2$ by one ($\{1,2\}$, $S = \{3\}$).
+
+The descent does exist. Deleting one odd prime $p \in S$ splits $A$ into the
+part divisible by $p$ and two sets admissible for $S \setminus \{p\}$ (the two
+halves of $(\mathbb{Z}/p)^\times$ under negation), giving
+$g^*(k) \le 2\,g^*(k-1) \le 2^k$ for **primitive** $A$ (no element divisible by
+a prime of $S$), tight at $k = 1, 2$ — $\{1,5,7,11\}$ with $S=\{2,3\}$ is
+primitive and has $2^2$ elements. But the loss cannot be pushed below 2 along
+this route, and that is a theorem rather than a failure to find one: parity,
+residue classes, prime deletion and the power-of-2 lemma all factor through a
+relaxation (cover $K_n$ by the negation-pairings of $k-1$ odd primes plus a
+triangle-free graph), whose optimum is **exactly $2^k$**, attained by
+$\{0,1\}^{k-1}\times\{0,1\}$ with a perfect matching. So an $\exp(o(k))$ bound
+must read something the relaxation discards — CRT rigidity, size, or $S$-unit
+counting — which is the door `r_186989` ranked first, now closed-by-proof
+underneath rather than judged.
+
+Not settled, and flagged as a real hole: the bound is for primitive sets only.
+The divisible part escapes the descent because $(S, pA)$ is admissible whenever
+$(S,A)$ is, so $\gcd A = 1$ (which is free) is strictly weaker than
+primitivity. Nothing here improves the classical $g(k) < 3\cdot 2^{k-1}$, and
+nothing here bears on RH (`docs/08`).
 ### Hunt #103: Erdős #126, the residue lemma is false and the box was never the question (`support_60982bf6/`)
 
 **Status: settled, as a support answer.** Exact-search arm for hunt #91's
