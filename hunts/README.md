@@ -70,6 +70,62 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #96: Erdős #126, the S-unit route is sound and its theorems are 24.5^k too weak (`support_d5d5ccae/`)
+
+**Status: not settled, and the arm returns the "too weak" verdict its brief
+allowed.** A support run for `0897a5a7`, answering the S-unit arm of Erdős #126.
+The injectivity the brief asked for exists and is two lines: if every
+off-diagonal sum of $A$ is $S$-smooth and $a > b$ lie in $A$, then
+$x \mapsto (a+x, b+x)$ injects $A \setminus \{a,b\}$ into the solutions of the
+two-variable $S$-unit equation $U - W = a-b$ in positive $S$-smooth $U, W$,
+whence $|A| \le 2 + \min_{a>b} N_S(a-b)$. The implication direction was checked:
+a solution-count bound gives a $g(k)$ bound gives #126, and not the reverse, so
+unlike arm 3 of Hunt #91 this route points the right way. Fixing three or more
+base elements is **strictly worse**, because the resulting coefficients are
+differences of elements of $A$ and carry primes outside $S$, which forces the
+rank-based bounds ($2^{16k+16}$) instead of Evertse's $S$-based one. Charging
+Evertse (1984), $3\cdot 7^{d+2s}$ with $d=1$, $s=k+1$, gives
+$g(k) \le 2 + 3\cdot 7^{2k+3} \approx 1029\cdot 49^k$: **weaker than the 1934
+Erdős–Turán bound $3\cdot 2^{k-1}$, and than Erdős–Surányi's $2^k$, by a factor
+about $24.5^k$.** Measurement then locates the slack. Enumerating all $S$-smooth
+integers to $10^{14}$ and counting $U-W=d$ exactly inside that box reproduces
+Lehmer's published Størmer table for $d=1$ ($1,4,10,23,40,68,108,167$ for
+$k=1..8$), and at $k=7$ the quantity Evertse bounds by $7.0\times10^{14}$ has a
+measured value of $96$, against the elementary $128$. **The route is not what is
+lossy; the theorem is, by thirteen orders of magnitude.** What would suffice is
+stated: dropping the base $49$ below $2$ already beats 1934, and $\exp(o(k))$
+settles #126, which nothing known forbids since the best lower bound
+(Erdős–Stewart–Tijdeman) is $\exp((4+o(1))(s/\log s)^{1/2})$. No improved bound
+on $g(k)$ is proved here, and the one missing combinatorial lemma is named: every
+admissible $A$ beyond some size must contain a pair whose difference has few
+solutions. Nothing here bears on RH (`docs/08`).
+
+### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
+
+**Status: not settled — scout killed on a pre-registered kill condition.** A
+30-minute bounded scout on Erdős #126 (for $n$ positive integers $A$, $f(n)$ is
+the least number of distinct primes dividing an off-diagonal sum $a+b$; is
+$f(n)/\log n \to \infty$?). The run inverted the problem before running any arm:
+$f$ and $g(k) = \max\{n : f(n) \le k\}$ are inverse staircases, so the
+conjecture is exactly $g(k)^{1/k} \to 1$, and all three briefed arms become
+measurements of one integer sequence. Exact branch-and-bound clique search on
+the $S$-smooth pair-sum graph, exhaustive inside $[1,N]$ with every witness
+re-verified, gives $g(k) \ge 2, 4, 5, 6, 8, 10, 11$ for $k = 1..7$ ($N$ from
+$2\cdot10^5$ down to $6000$); widening the box 60× moved not one row, because
+every optimal witness lives below 50. Those are lower bounds only — **no upper
+bound on $g(k)$ is established**, and seven falling $k$-th roots
+($2.00 \to 1.41$) cannot separate a limit of 1 from a limit of 1.3. That is the
+"suggestive finite data" the brief named as a kill condition, and the hunt calls
+it that. Two things survive. The Formal Conjectures positivity mismatch is
+resolved: $f(n-1) \le f_0(n) \le f(n)$, so the `Finset ℕ` statement is faithful
+for the limit and wrong for pinned finite values ($f(2)=1$, $f_0(2)=0$,
+witness $\{0,1\}$). And the briefed composition arm points the wrong way:
+$g(1) = 2$ plus supermultiplicativity gives $g(k) \ge 2^k$ by Fekete, i.e.
+$f(n) \le \log_2 n + O(1)$, so a rigorous composition law **refutes** the
+conjecture rather than proving it — what #126 needs is an anti-composition
+theorem. The only $S$-dependence visible was parity: $2 \in S$ is worth more
+than every other structural choice combined ($g_N(3) = 5$ with it, $2$ without).
+Nothing here bears on RH (`docs/08`).
 ### Hunt #95: Erdős #126, the signature model has no ceiling to raise (`support_baf4cde6/`)
 
 **Status: lane closed, by proof rather than by a failed attempt.** Support arm
