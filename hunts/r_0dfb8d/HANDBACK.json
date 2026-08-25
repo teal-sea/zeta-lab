@@ -1,0 +1,64 @@
+{
+  "run_id": "3ec766ef-f2ee-4816-919e-95dde1c738f9",
+  "status": "settled",
+  "conclusion": "Five of six preregistered SWE-bench Verified entries recount to the integer from their own archived per-instance logs (265, 359, 384, 388, 396), agree on all twelve per-repository sub-counts each, and show zero self-consistency failures across 2,484 reports re-derived from the test results recorded in the same file. The sixth answers none of its 500 documented log keys, and an archive-wide three-key probe finds 15 of 134 entries with no per-instance report at the documented location, so the reproducible thing here is the arithmetic and the fragile thing is the evidence's retrievability.",
+  "confidence": "High for the recount and self-consistency verdicts on the five recountable units: the arithmetic is exact integer counting over files fetched with recorded ETags and byte counts, it is cross-checked against a second published artifact at 12-way grain, and four planted faults were each shown to turn the verdict they should turn and leave the other alone. Medium for the availability findings: anonymous ListBucket returns 403, so 'absent' always means 'absent at the documented key' and never 'absent from the bucket', and for 13 of the 15 unreachable entries the format-migration reading is inference, not measurement. The no_logs and no_generation discrepancies rest on our reading of what those two fields mean; the underlying counts do not.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "Hunt #80's VERIFIED / REPORTED / INFERRED labelling and the discipline of scoping every statement to the artifact as archived rather than to its author",
+      "source": "hunts/r_... Hunt #80 section 5 (commit a879cee), hunts/README.md case log",
+      "effect": "Removed the need to invent a labelling scheme, and settled in advance how to phrase the no_logs and unreachable-entry findings without characterising anyone"
+    },
+    {
+      "what": "The per-hunt reproduction pattern already on main (pin the upstream by URL and commit, compare field by field against the published record, keep it one file with no framework) and the roadmap non-goal that forbids abstracting it",
+      "source": "CLAUDE.md 'Design discipline', harness/VERDICT.md, ROADMAP.md",
+      "effect": "probe.py is six stages in one file with no shared abstraction; nothing reusable was built, which is what the non-goal requires and what the transfer measure then scored"
+    },
+    {
+      "what": "The lab habit that a check which cannot fail is not a check, as practised by tests/test_pari_oracle.py's six planted faults",
+      "source": "CLAUDE.md 'How to run things', harness/shams.py's mutator idea",
+      "effect": "Turned a suspiciously clean 5-of-5 green result into an evidenced one: the control stage was written because of this habit and it is the reason the green is reportable"
+    }
+  ],
+  "threads": [
+    {
+      "what": "Two entries dated 2025-08-05 publish resolved counts of 258 and 348 and answer neither logs/<id>/report.json nor all_preds.jsonl at the documented keys, unlike their contemporaries",
+      "why_it_might_matter": "Recent enough that the format-migration reading which covers the 2024 cohort does not apply, so it bears on whether the archive's retention is currently reliable for entries a reader would actually cite",
+      "first_step": "Sweep all 500 report keys for the 30B entry as was done for the 480B one, and probe trajs/ and results/results.json keys for both, to separate 'not uploaded' from 'uploaded elsewhere'"
+    },
+    {
+      "what": "The archive's newest entry, 20251215_livesweagent_claude-opus-4-5, archives 495 per-instance reports and no all_preds.jsonl",
+      "why_it_might_matter": "Without predictions the no_generation / no_logs split cannot be reconciled from outside for the entry most likely to be cited",
+      "first_step": "Probe alternate prediction key shapes (preds.json, all_preds.json) and check whether recent entries as a class stopped archiving predictions"
+    },
+    {
+      "what": "The validation/ folder of SWE-bench/experiments, which holds the validation logs for the dev and test splits, was never read",
+      "why_it_might_matter": "It is the provenance of the split's required-test lists, which this hunt used as an oracle without checking",
+      "first_step": "Recount the split's FAIL_TO_PASS lists against those validation logs"
+    },
+    {
+      "what": "tests/test_hunt_probe_discipline.py's reserved-word scan walks every .json under hunts/, including a gitignored 513 MB fetch cache this hunt leaves on disk",
+      "why_it_might_matter": "A hunt that caches a large upstream corpus silently taxes a gate every other session runs; the scan's _BUILD_DIRS exclusion was written for .lake and does not know about data caches",
+      "first_step": "Decide whether a conventional cache directory name belongs in _BUILD_DIRS, or whether hunt caches belong outside hunts/ entirely; either is a one-line change and neither was in this hunt's scope"
+    },
+    {
+      "what": "tags.checked carries the truthy string 'false (See README.md for info on how to get your results verified)' in six entries of SWE-bench/experiments",
+      "why_it_might_matter": "Any downstream consumer writing `if tags[\"checked\"]` reads six unchecked entries as checked; whether a live consumer does was not established",
+      "first_step": "Read the leaderboard site's own consumption of metadata.yaml, which this hunt did not fetch"
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A 'recount an archive against itself' procedure: pin the published record by commit, enumerate the accepted objects from an independent split rather than from the archive's own listing, refetch the per-object evidence with ETags recorded, recount, and re-derive each verdict from the evidence in the same object, keeping the two verdicts unmerged and proving both can fail by lesion",
+      "why_reusable": "This is now the second field (after the zkVM instance in #140) where the same four-step shape applied without modification, at 0.57 hand interventions per unit; the shape is field-independent because it only assumes a public checker, publicly archived accepted objects and a published number",
+      "first_step": "Fulcrum decides whether a third instance in a different field is worth funding before anything is abstracted; the two existing instances are copies on purpose and should stay copies until a third asks for the abstraction"
+    },
+    {
+      "what": "The observation that an archive can be readable without being enumerable (anonymous GetObject succeeds, anonymous ListObjectsV2 returns 403) and that this asymmetry, not access, is what bounds outside reproduction",
+      "why_reusable": "It changes the shape of every absence claim a reproduction can make, and it is a property worth checking first in any future instance of the procedure rather than discovering three stages in",
+      "first_step": "Add the listing-versus-fetching probe to the first stage of any future instance, before enumerating anything"
+    }
+  ],
+  "notes_for_operator": "CLOSE THE LOOP could not be executed as written and nothing was appended to any ledger. This task came from issue #141, not from a harness/departments function, and no open ledger item corresponds to it: harness.review.standing_reasons asks for blind attacks on rf-c003-window and k2-far-constant-depth1, harness.guards.undemonstrated asks for a mutant against tests/test_doors.py, and harness.graveyard.unguarded is empty. Appending an attack outcome against a claim this hunt did not attack would put a false record in the ledger, so the three open items are named in RESULTS.md instead and the omission is deliberate and checkable. Two of them (the doors-guard mutant especially) look cheap and unclaimed if you want to route them. Separately: RESULTS.md flags three items as reportable to the SWE-bench/experiments maintainers as plain fact with a reproducer (six non-boolean checked flags, the no_logs accounting cases, and the README's AWS-account claim). Per the mission no agent sent any of it anywhere; filing is your call. Nothing in this run touched fulcrum."
+}

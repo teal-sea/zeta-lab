@@ -1,0 +1,1369 @@
+{
+ "probe_instance_ids": [
+  "astropy__astropy-12907",
+  "django__django-17087",
+  "sympy__sympy-24661"
+ ],
+ "n_entries": 134,
+ "n_with_at_least_one_probe_report_200": 119,
+ "n_with_no_probe_report": 15,
+ "entries_with_no_probe_report": [
+  "20231010_rag_claude2",
+  "20231010_rag_gpt35",
+  "20231010_rag_swellama13b",
+  "20231010_rag_swellama7b",
+  "20240402_rag_claude3opus",
+  "20240402_rag_gpt4",
+  "20240402_sweagent_claude3opus",
+  "20240402_sweagent_gpt4",
+  "20240509_amazon-q-developer-agent-20240430-dev",
+  "20240615_appmap-navie_gpt4o",
+  "20240617_factory_code_droid",
+  "20240628_autocoderover-v20240620",
+  "20240721_amazon-q-developer-agent-20240719-dev",
+  "20250805_openhands-Qwen3-Coder-30B-A3B-Instruct",
+  "20250805_openhands-Qwen3-Coder-480B-A35B-Instruct"
+ ],
+ "rows": [
+  {
+   "entry": "20231010_rag_claude2",
+   "probe_statuses": [
+    404,
+    404,
+    404
+   ],
+   "any_report_200": false,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20231010_rag_gpt35",
+   "probe_statuses": [
+    404,
+    404,
+    404
+   ],
+   "any_report_200": false,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20231010_rag_swellama13b",
+   "probe_statuses": [
+    404,
+    404,
+    404
+   ],
+   "any_report_200": false,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20231010_rag_swellama7b",
+   "probe_statuses": [
+    404,
+    404,
+    404
+   ],
+   "any_report_200": false,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20240402_rag_claude3opus",
+   "probe_statuses": [
+    404,
+    404,
+    404
+   ],
+   "any_report_200": false,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20240402_rag_gpt4",
+   "probe_statuses": [
+    404,
+    404,
+    404
+   ],
+   "any_report_200": false,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20240402_sweagent_claude3opus",
+   "probe_statuses": [
+    404,
+    404,
+    404
+   ],
+   "any_report_200": false,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20240402_sweagent_gpt4",
+   "probe_statuses": [
+    404,
+    404,
+    404
+   ],
+   "any_report_200": false,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20240509_amazon-q-developer-agent-20240430-dev",
+   "probe_statuses": [
+    404,
+    404,
+    404
+   ],
+   "any_report_200": false,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20240612_MASAI_gpt4o",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20240615_appmap-navie_gpt4o",
+   "probe_statuses": [
+    404,
+    404,
+    404
+   ],
+   "any_report_200": false,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20240617_factory_code_droid",
+   "probe_statuses": [
+    404,
+    404,
+    404
+   ],
+   "any_report_200": false,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20240620_sweagent_claude3.5sonnet",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20240628_autocoderover-v20240620",
+   "probe_statuses": [
+    404,
+    404,
+    404
+   ],
+   "any_report_200": false,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20240721_amazon-q-developer-agent-20240719-dev",
+   "probe_statuses": [
+    404,
+    404,
+    404
+   ],
+   "any_report_200": false,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20240728_sweagent_gpt4o",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20240820_epam-ai-run-gpt-4o",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20240820_honeycomb",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20240824_gru",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20240918_lingma-agent_lingma-swe-gpt-72b",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20240918_lingma-agent_lingma-swe-gpt-7b",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20240920_solver",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20240924_solver",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241001_nfactorial",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241002_lingma-agent_lingma-swe-gpt-72b",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241002_lingma-agent_lingma-swe-gpt-7b",
+   "probe_statuses": [
+    200,
+    404,
+    404
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241007_nfactorial",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241016_composio_swekit",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241016_epam-ai-run-gpt-4o",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241022_tools_claude-3-5-haiku",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241022_tools_claude-3-5-sonnet-updated",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241023_emergent",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241025_composio_swekit",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241028_agentless-1.5_gpt4o",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241028_solver",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241029_OpenHands-CodeAct-2.1-sonnet-20241022",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241029_epam-ai-run-claude-3-5-sonnet",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241030_nfactorial",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241105_nfactorial",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241106_navie-2-gpt4o-sonnet",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241108_autocoderover-v2.0-claude-3-5-sonnet-20241022",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241108_devlo",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241113_nebius-search-open-weight-models-11-24",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241120_artemis_agent",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241125_enginelabs",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241125_marscode-agent-dev",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241128_SWE-Fixer_Qwen2.5-7b-retriever_Qwen2.5-72b-editor_20241128",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241202_agentless-1.5_claude-3.5-sonnet-20241022",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241202_amazon-q-developer-agent-20241202-dev",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241208_gru",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241212_epam-ai-run-claude-3-5-sonnet",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241212_google_jules_gemini_2.0_flash_experimental",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241213_devlo",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241221_codestory_midwit_claude-3-5-sonnet_swe-search",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20241223_emergent",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250110_blackboxai_agent_v1.1",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250110_learn_by_interact_claude3.5",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250112_ugaiforge",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250117_wandb_programmer_o1_crosscheck5",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250118_codeshellagent_gemini_2.0_flash_experimental",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250120_Bracket",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250122_autocoderover-v2.1-claude-3-5-sonnet-20241022",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250203_openhands_4x_scaled",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250206_agentscope",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250214_agentless_lite_o3_mini",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250224_tools_claude-3-7-sonnet",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250225_sweagent_claude-3-7-sonnet",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250226_swerl_llama3_70b",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250228_epam-ai-run-claude-3-5-sonnet",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250306_SWE-Fixer_Qwen2.5-7b-retriever_Qwen2.5-72b-editor",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250316_augment_agent_v0",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250405_amazon-q-developer-agent-20250405-dev",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250405_swe-rizzo_claude37",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250410_cortexa",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250415_openhands",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250430_zencoder_ai",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250503_patchpilot-v1.1-o4-mini",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250511_sweagent_lm_32b",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250514_aime_coder",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250515_Refact_Agent",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250516_cortexa_o3",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250519_devlo",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250519_trae",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250520_openhands_devstral_small",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250522_sweagent_claude-4-sonnet-20250514",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250522_tools_claude-4-opus",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250522_tools_claude-4-sonnet",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250524_openhands_claude_4_sonnet",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250527_amazon.nova-premier-v1.0",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250528_patchpilot_Co-PatcheR",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250603_Refact_Agent_claude-4-sonnet",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250610_augment_agent_v1",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250611_moatless_claude-4-sonnet-20250514",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250612_trae",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250616_Skywork-SWE-32B",
+   "probe_statuses": [
+    404,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250616_Skywork-SWE-32B+TTS_Bo8",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250623_warp",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250627_agentless_MCTS-Refine-7B",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250629_deepswerl_r2eagent",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250629_deepswerl_r2eagent_tts",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250710_bloop",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250715_qodo_command",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250716_openhands_kimi_k2",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250720_Lingxi-v1.5_claude-4-sonnet-20250514",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250725_sweagent_devstral_small_2507",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250728_zai_glm4-5",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250731_harness_ai",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250804_codesweep_sweagent_kimi_k2_instruct",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250804_epam-ai-run-claude-4-sonnet",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250805_openhands-Qwen3-Coder-30B-A3B-Instruct",
+   "probe_statuses": [
+    404,
+    404,
+    404
+   ],
+   "any_report_200": false,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250805_openhands-Qwen3-Coder-480B-A35B-Instruct",
+   "probe_statuses": [
+    404,
+    404,
+    404
+   ],
+   "any_report_200": false,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250806_SWE-Exp_DeepSeek-V3",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250807_openhands_gpt5",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250819_ACoder",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250901_entroPO_R2E_QwenCoder30BA3B",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250901_entroPO_R2E_QwenCoder30BA3B_tts",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250901_warp",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250902_atlassian-rovo-dev",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250915_JoyCode",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250924_artemis_agent_v2",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250928_trae_doubao_seed_code",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20250929_Prometheus_v1.2_gpt5",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20250930_zai_glm4-6",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20251014_Lingxi_kimi_k2",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20251015_Prometheus_v1.2.1_gpt5",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20251021_SalesforceAIResearch_SAGE_bash_only",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20251103_SalesforceAIResearch_SAGE_OpenHands",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20251103_sonar-foundation-agent_claude-sonnet-4-5",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20251110_frogboss-32b",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20251110_frogmini-14b",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20251120_livesweagent_gemini-3-pro-preview",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  },
+  {
+   "entry": "20251127_openhands_claude-opus-4-5",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20251205_sonar-foundation-agent_claude-opus-4-5",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": true
+  },
+  {
+   "entry": "20251215_livesweagent_claude-opus-4-5",
+   "probe_statuses": [
+    200,
+    200,
+    200
+   ],
+   "any_report_200": true,
+   "all_preds_200": false
+  }
+ ]
+}
