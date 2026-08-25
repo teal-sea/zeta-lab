@@ -26,13 +26,26 @@ echo
 echo "Staging a Palomar submission for $CMP"
 echo "────────────────────────────────────────────────────────────────────────"
 
-# 1. The tree must be clean and pushed: Palomar fetches a public commit, so
-#    anything uncommitted or unpushed is simply not what gets verified.
-if [ -n "$(git status --porcelain)" ]; then
-  note "working tree" "$(red 'DIRTY — Palomar fetches the pushed commit')"; fail=1
+# 1. No TRACKED file may be modified: Palomar fetches a public commit, so an
+#    uncommitted edit to a tracked file is not what gets verified.
+#
+#    Untracked files are deliberately NOT a refusal. They are absent from every
+#    commit and cannot reach Palomar, and this checkout carries a few generated
+#    ones as a matter of course. The first version of this script refused on
+#    `git status --porcelain`, which counts them, and would have blocked a valid
+#    submission over scratch output. Found by running it from a clean main
+#    rather than from a worktree, which is the only place it shows up.
+dirty=$(git status --porcelain --untracked-files=no)
+if [ -n "$dirty" ]; then
+  note "tracked files" "$(red 'MODIFIED — commit or stash before submitting')"
+  printf '%s\n' "$dirty" | sed 's/^/      /'
+  fail=1
 else
-  note "working tree" "$(grn clean)"
+  note "tracked files" "$(grn 'clean')"
 fi
+
+untracked=$(git ls-files --others --exclude-standard | wc -l | tr -d ' ')
+[ "$untracked" != "0" ] && note "untracked files" "$untracked, ignored — not in any commit"
 
 COMMIT=$(git rev-parse HEAD)
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
