@@ -285,6 +285,36 @@ by dilation invariance ($cA$ is admissible whenever $P(c) \subseteq S$), with
 $\{113,399\}$ and $\{16,80,112,176\}$ as counter-witnesses. Measured prime
 cost of doubling by dilated union: 6 extra primes at $k=2$, 7 at $k=4$, no
 dilation at all at $k=3$. Nothing here bears on RH (`docs/08`).
+### Hunt #103: Erdős #126, the residue lemma is false and the box was never the question (`support_60982bf6/`)
+
+**Status: settled, as a support answer.** Exact-search arm for hunt #91's
+parent: redo `r_186989`'s computation ranging over choices of $S$ instead of
+freezing the first $k$ primes, and use the computation only to discover and
+falsify structural lemmas. Exhaustive over **all** $\binom{9}{k}$ subsets of the
+first nine primes for $k \le 5$ (381 searches, a solver rewritten to build edges
+from the $S$-smooth sums rather than by scanning $O(N^2)$ pairs), the first $k$
+primes are never beaten — so the frozen constant #91 called "the door with
+genuine trade shape" is slack. What the sweep produced instead is two lemmas.
+**Proved (normalization):** $\gcd(A)$ is always $S$-smooth, $A/\gcd(A)$ is
+admissible, and $mA$ is admissible for $S$-smooth $m$, so the admissible sets
+are *exactly* the $S$-smooth dilates of primitive ones. That removes #91's
+puzzle that widening the box "changed not one row": a wider box only contains
+bigger copies of the same small set, and the right question is the height of the
+smallest primitive optimum, not the width of the box. **Refuted:** #91's
+"only clean iterable statement", $|A| \le p-1$ when $p \notin S$, is false for
+every odd $p$ — for $r \not\equiv 0$, $r+r \not\equiv 0 \pmod p$, so arbitrarily
+many elements may share one class and the pigeonhole bounds the number of
+occupied classes, never $|A|$; $p=2$ is the unique prime with $2r \equiv 0$ for
+all $r$, which is why parity works there and nowhere else. Counterexamples at
+$p = 3, 5, 7$ (the smallest, $S=\{2,5,7\}$, $A=\{1,3,7,13\}$, sits inside #91's
+own table). Also refuted, box-conditionally: $g$ is **not** monotone in the size
+of the primes ($g_{20000}(\{2,3,11\}) = 4 < 5 \le g(\{2,3,13\})$, 29 violations),
+so any $S$-level lemma must be about a prime's additive position relative to the
+smooth semigroup, not its size. The conjecture offered is *uniformly bounded
+height*, and both natural explicit constants for it were killed by the run's own
+data ($h(\{2,3,5\}) = 47 > 2^{k+2}$, $h(\{2,3,7,13\}) = 159 > 2^{k+3}$); it is
+consistent with all 15 measured $S$ and verified for none. No upper bound on
+$g(k)$, as before. Nothing here bears on RH (`docs/08`).
 
 ### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
 
