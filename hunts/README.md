@@ -142,6 +142,39 @@ does $2r \equiv 0$. It also never states a lower bound: $\{1,\dots,m\}$ with
 $S$ = primes $\le 2m-1$ gives $g(k) \ge (1+o(1))k\log k/2$, so $g(12) \ge 20$
 and the unexplored range is $[k\log k,\, 2^k]$. Nothing here bears on RH
 (`docs/08`).
+### Hunt #102: Erdős #126 counterexample arm — the tensor lane is an $S$-unit equation (`support_6cdfd2e3/`)
+**Status: not settled — no counterexample, one lane closed conditionally.**
+Support run for Hunt #91, asked for an algebraic / CRT / recursive / tensor /
+composition construction with $|A|$ exponential in $|S|$, and explicitly allowed
+to refute #126. None was found. What came out instead is a reduction: for the
+tensor $C = A\cdot B$, the grid-line pairs are free ($ab+ab' = a(b+b')$) and
+every **mixed** pair satisfies $u+v = (a+a')(b+b')$ with $u = ab+a'b'$,
+$v = ab'+a'b$, a denominator that is smooth for free. Dividing by it,
+$x = u/M$, $y = v/M$ solve $x+y=1$ in $(S\cup T)$-units, and $x$ is a
+non-constant Möbius function of $b/b'$, so $|A|, |B| \le N(S\cup T)+1$ where
+$N$ counts solutions of the $S$-unit equation. Unconditionally that is weaker
+than Erdős–Turán 1934; conditionally it is the finding — **if $S$-unit counts
+are subexponential, no tensor construction can refute #126**, and an exponential
+one would beat Erdős–Stewart–Tijdeman's $\exp(c(s/\log s)^{1/2})$. The
+argument does not extend to general $A$, and that is exactly why it closes the
+tensor lane and no more: for arbitrary $a,b,c,d \in A$ the common value
+$a+b+c+d$ need not be smooth, so there is nothing to divide by. Two corrections
+to Hunt #91 travel further than the non-result. The refutation bar is far lower
+than a composition law: $g(k+k_0) \ge c\,g(k)$ for *any* fixed $k_0$ and
+$c>1$ already gives $\liminf \log g(k)/k > 0$, so the object to hunt is a
+bounded-prime-cost doubling, not a supermultiplicative law. And the converse
+fails — a staircase $G(k) = 2^{k_j}$ on $[k_j, k_{j+1})$ refutes #126 while
+failing every uniform doubling law off a density-zero set — so **an
+anti-composition theorem is not sufficient for #126**, which the parent's
+closing sentence implies it is. Also: $g(k) \ge \lfloor (p_{k+1}-1)/2 \rfloor
+= (\tfrac12+o(1))k\log k$ from $A = \{1,\dots,m\}$, the family's first
+asymptotic lower bound; an independent clique search reproduced rows 1–7 of the
+parent's table from a box 15–500× smaller and added $g(8) \ge 14$,
+$g(9) \ge 15$; and the parent's "every optimal witness lives below 50" is false
+by dilation invariance ($cA$ is admissible whenever $P(c) \subseteq S$), with
+$\{113,399\}$ and $\{16,80,112,176\}$ as counter-witnesses. Measured prime
+cost of doubling by dilated union: 6 extra primes at $k=2$, 7 at $k=4$, no
+dilation at all at $k=3$. Nothing here bears on RH (`docs/08`).
 
 ### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
 

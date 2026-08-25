@@ -1,0 +1,64 @@
+{
+  "run_id": "6cdfd2e3-df46-4ba7-ad1f-eed5e37aed2a",
+  "status": "not-settled",
+  "conclusion": "No counterexample construction with |A| exponential in |S| exists in any lane I could develop, and the tensor lane is now closed conditionally: every mixed pair of a tensor A.B is a solution of the S-unit equation x+y=1, so an exponential tensor would force exponentially many S-unit solutions, beating the best known construction there. The two findings that travel further are corrections to the parent: the refutation bar is a bounded-prime-cost doubling rather than a full composition law, and an anti-composition theorem is not sufficient for #126.",
+  "confidence": "The five theorems in RESULTS.md are short and self-contained; Lemma 1, Lemma 2, Prop 3, Prop 4 and the tensor identity are checkable in a minute each and I would let someone lean on them fully. Theorem 5 and Corollary 5.1 I would lean on for the tensor lane only, and the conditional half rests on the standard expectation that S-unit solution counts are subexponential, which is open - do not report the lane as closed unconditionally. The measured table is a bounded-box lower bound and nothing more; rows 1-7 agreeing with the parent from an independent solver is real corroboration, rows 8 and 9 are new lower bounds only. Lemma 2 is elementary enough that it is probably in the literature; I did not search.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "The f/g staircase inversion, so that #126 reads as g(k)^{1/k} -> 1",
+      "source": "hunts/r_186989/RESULTS.md §1",
+      "effect": "Every statement in this run is about g rather than f. Without it Props 3 and 4 would have had to be phrased on f and would have been much harder to see."
+    },
+    {
+      "what": "The Fekete/composition observation that a composition law refutes rather than proves #126",
+      "source": "hunts/r_186989/RESULTS.md §4",
+      "effect": "Set the arm's target. Props 3 and 4 are the sharpening and the correction of exactly this argument; I did not have to rediscover the direction."
+    },
+    {
+      "what": "The g_N(k) table and its seven witnesses for k=1..7",
+      "source": "hunts/r_186989/RESULTS.md §3",
+      "effect": "Audited rather than trusted: all seven re-verified by independent trial division, and all seven sizes independently reproduced by a different solver in a smaller box. That reproduction is what let me spend the remaining budget on theorems instead of search."
+    },
+    {
+      "what": "The S-unit machinery named as the top-ranked door",
+      "source": "hunts/r_186989/RESULTS.md, doors §3",
+      "effect": "Pointed me at Evertse/Erdos-Stewart-Tijdeman rather than at more enumeration; Theorem 5 is what came back through that door from the construction side."
+    }
+  ],
+  "threads": [
+    {
+      "what": "Push Erdos-Stewart-Tijdeman backwards through Theorem 5",
+      "why_it_might_matter": "Their S with exp(c (s/log s)^{1/2}) solutions to x+y=1 is superpolynomial. If those solutions can be arranged with a common denominator of the product shape (a+a')(b+b'), it would give g(k) >= exp(c (k/log k)^{1/2}) - still consistent with #126, but far above the k log k lower bound anyone has, and it would be a genuine construction result.",
+      "first_step": "Read the ESТ construction and check whether its solution family shares a denominator that factors as an A-sum times a B-sum."
+    },
+    {
+      "what": "The CRT lane, never developed",
+      "why_it_might_matter": "It is the only one of the five named schemes with no theorem against it in this file. Its defect looks like the dilated union's (|A|^2 cross conditions against O(1) parameters) but I have no proof.",
+      "first_step": "Ask whether A = {a : a = r_i mod m_i} can force every pair sum divisible by a large smooth modulus, which is the only route past the cross-condition count."
+    },
+    {
+      "what": "The parity cap generalised, which the parent also flagged",
+      "why_it_might_matter": "S omitting 2 caps |A| <= 2. It is the only iterable statement either file found, and the residue-class argument may generalise to |A| <= p-1 when a small p is missing from S.",
+      "first_step": "Pigeonhole on residues mod p against the pairing r <-> -r; check against the measured table."
+    },
+    {
+      "what": "The prime cost of doubling as the quantity to measure",
+      "why_it_might_matter": "Proposition 3 makes it the exact object #126 is about. The three measured points (6, none, 7) are the wrong shape for a refutation, which is the only construction-side signal in this run.",
+      "first_step": "Widen the dilated-union scan past c <= 200 and run it on the k=5..9 optima, reporting extra primes rather than union size."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A reusable exact max-clique solver on an integer-pair predicate graph (bitset branch-and-bound with greedy-colouring bound, stdlib only)",
+      "why_reusable": "Two hunts in a row have now written one for the same shape of question: pick a predicate on a+b (or a*b, or a-b), build the graph on [1,N], find the exact maximum. Mine found rows 8 and 9 that the parent's could not reach, in a smaller box and about two minutes. It is ~50 lines and has no dependencies.",
+      "first_step": "Lift probe.py's max_clique into a small utility taking a predicate and N, with the exhaustive-inside-the-box caveat written into its docstring so callers cannot forget it."
+    },
+    {
+      "what": "A witness re-verification step as a standing habit for support runs auditing a parent's table",
+      "why_reusable": "Cheap (trial division, no table lookup) and it is what separates auditing from trusting. It also caught nothing here, which is the useful outcome to be able to report.",
+      "first_step": "None needed as infrastructure; it is a paragraph in a brief, not a tool."
+    }
+  ],
+  "notes_for_operator": "The parent run is still alive and this answers it directly. The single most actionable line for it: an anti-composition theorem is NOT sufficient for #126 (Prop 4), so if the proof arm is being briefed toward one on the strength of r_186989's closing sentence, that brief is aimed at something that would leave the conjecture open. The sufficient-and-necessary reformulation is limsup log g(k)/k > 0. Nothing here bears on RH. The reserved rigour word is not used anywhere in these artifacts."
+}
