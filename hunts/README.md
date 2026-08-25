@@ -392,18 +392,30 @@ pressures, so that job's raw `Phi_20` was built on a value that is not a floor.
 
 ### Hunt #80: where the variable-radius Bloch certificate ends (`bloch_ceiling/`)
 
-**Status: settled on the ceiling, open on the higher target.** Third instance of
-the ceiling procedure, on a constant outside the zeta family: Wikström's
-computer-assisted lower bound for Bloch's constant (arXiv 2608.17660, Zenodo
-`10.5281/zenodo.21975862`). The published verification reproduces from the pinned
-archive, all 28 checksums verified. The verifier's soundness read is in section 3.
-Section 4 computes the variable-radius ceiling the author did not: the published
-constant extracts roughly 59% of the headroom the method's own parameterisation
-allows, with the near side interval-rigorous, the away side a floating-point
-programme, and the ceiling therefore **INFERRED** rather than measured. Section 5,
-a higher target against the author's own verifier, was **attempted and not
-obtained** — the shard was preempted and restarted from its first cell repeatedly,
-so it could not converge; nothing was refuted and no higher target is claimed.
+**Status: settled.** Third instance of the ceiling procedure, on a constant
+outside the zeta family: Wikström's computer-assisted lower bound for Bloch's
+constant (arXiv 2608.17660, Zenodo `10.5281/zenodo.21975862`). The published
+verification reproduces from the pinned archive, all 28 checksums verified. The
+verifier's soundness read is in section 3. Section 4 computes the variable-radius
+ceiling the author did not: the published constant extracts roughly 59% of the
+headroom the method's own parameterisation allows, with the near side
+interval-rigorous, the away side a floating-point programme, and the ceiling
+therefore **INFERRED** rather than measured.
+
+Section 5 is now obtained. **The author's own verifier accepts
+`sqrt(3)/4 + 0.0153040536`, above his published `0.0153`**, in all 24 away
+sectors and all 38,400 initial cells, with zero cells refused, on his unmodified
+certificate data. That target is also the end of the road for that data: the
+near branch's own Arb gain, `0.0153040536989472`, is a rigorous cap on the
+dichotomy, so the published constant was leaving `4.05e-6` of its own certificate
+unclaimed and there is nothing further there. The run's own cross-check is exact:
+sectors 0 and 1 rerun at the *published* target reproduce `reference-run/logs`
+to the integer, 270,744 and 292,931. Cost 324 core-hours over 476 GitHub Actions
+jobs, billed zero, against a projection published before launch that came in 4.2%
+high. The hunt ends with a **doors** section ranking what to unfreeze next; the
+top door is regenerating the certificate data at moved `ETA`, `LARGE_RAD` and
+node count, which section 4 puts at `~0.015359` and which is affordable, since
+the away side of a `0.015316` target costs only 4.2% more boxes.
 
 ### Hunt #81: what the `min(dps, 20)` cap costs, measured (`dps_cap/`)
 
