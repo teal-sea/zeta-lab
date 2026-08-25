@@ -70,6 +70,14 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #110: the T1 certificate LP, reconditioned (`r_c7f779/`)
+
+**Status: in progress** (run `872d7dce`). Re-solving the Cohn–Elkies-style
+certificate LP for T1 that `r_b9552d` run `37fb06a9` left at `0.05410` with a
+failing solver. The verdict lives between the achievability floor `0.05716502`
+and the budget `0.06750841`. This entry is rewritten with the result when the
+run closes.
+
 ### Hunt #108: the SWE-bench leaderboard recounts from its own logs, where the logs are there (`r_0dfb8d/`)
 
 **Status: settled for the units run; the archive-wide availability question is
