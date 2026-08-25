@@ -1,0 +1,75 @@
+{
+  "run_id": "eccd5f5e-2a3b-4460-9f5f-d721aa4c3b44",
+  "arm": "red-team",
+  "audited": "hunts/r_186989/RESULTS.md",
+  "problem": "Erdos Problem #126",
+  "bears_on_RH": false,
+  "verdicts": [
+    {
+      "claim": "inverse reformulation g(k)=max{n: f(n)<=k} and f(n)/log n -> infinity <=> g(k)^{1/k} -> 1",
+      "verdict": "verified",
+      "note": "both directions re-proved; the equivalence is conditional on f(n) -> infinity, i.e. on Erdos-Turan, which the scout does not flag. 'g finite precisely because f >> log n' overstates: f -> infinity suffices."
+    },
+    {
+      "claim": "f(n-1) <= f_0(n) <= f(n); positivity mismatch harmless for the limit",
+      "verdict": "verified",
+      "note": "proof correct step by step; small table reproduced independently over [0,30]/[1,30]: f=0,1,2,2,3 and f_0=0,0,2,2,3",
+      "sharpening": "f(1)=0, f(2)=1, f(3)=2, f(4)=2 are exact and proved. f(5)=3 is NOT proved: f(5)>=3 is equivalent to g(2)<=4, which is open."
+    },
+    {
+      "claim": "a supermultiplicative composition law g(k1+k2) >= g(k1)g(k2) refutes the conjecture",
+      "verdict": "verified-and-strengthened",
+      "note": "Fekete is unnecessary; g(k) >= g(1)^k = 2^k follows by direct induction.",
+      "strengthening": "Erdos-Turan gives g(k) <= 3*2^(k-1) - 1, so such a law would pin g(k) into [2^k, 1.5*2^k], determining the growth constant to within 3/2. The 1934 bound is exactly sharp at k=1 (g(1)=2).",
+      "finite_refutation_target": "g(3) <= 7 would refute supermultiplicativity outright; Erdos-Turan gives g(3) <= 11 and search gives g(3) >= 5."
+    },
+    {
+      "claim": "g_N(k) = 2,4,5,6,8,10,11 for k=1..7 with S = first k primes",
+      "verdict": "reproduced",
+      "independent_values": {"1": 2, "2": 4, "3": 5, "4": 6, "5": 8, "6": 10, "7": 11},
+      "independent_N": {"1": 2000, "2": 2000, "3": 1200, "4": 800, "5": 600, "6": 400, "7": 300},
+      "corrections": [
+        "'every optimal witness lives below 50' is an artifact of search order: the witness set is closed under multiplication by S-units and under division by gcd, so optima come in infinite scaling orbits with a unique gcd-1 representative. Our largest-first search returned 162*{1,5,7,11} at k=2.",
+        "the table is never compared against the known 1934 construction A={1..m}, which gives g(k) >= (p_k+1)/2 ~ (1/2) k log k (e.g. g(7) >= 9). Any g_N table should be reported as max(g_N(k), ceil((p_k+1)/2))."
+      ]
+    },
+    {
+      "claim": "loose thread: |A| <= p-1 when p not in S, by pigeonhole on r <-> -r",
+      "verdict": "refuted",
+      "why": "the constraint only forbids classes r and -r both occupied, and class 0 twice. A class r with 2r != 0 mod p may be occupied arbitrarily often. p=2 is the unique prime where the argument works, because Z/2 is the only Z/p in which every class is self-annihilating.",
+      "counterexample_inside_scout_data": {"S": [2, 5, 7], "A": [1, 3, 7, 13], "omitted_prime": 3, "bound_claimed": 2, "actual": 4},
+      "unbounded_family": "A = {1,4,7,...,3m-2} has all off-diagonal sums == 2 mod 3, so 3 divides no sum, for every m"
+    },
+    {
+      "claim": "the problem has no progress beyond 1934",
+      "verdict": "misleading",
+      "true_part": "erdosproblems.com/126 (accessed 2026-08-24) records the problem as open, $250, with Erdos-Turan 1934 giving log n << f(n) << n/log n and the upper bound trivial from A={1..n}; the order of magnitude is unimproved and Furedi-Gyarmati (Feb 2026) still quote 3*2^(k-1)",
+      "missing_literature": [
+        "Gyory, Stewart, Tijdeman 1986: two-set generalisation, omega(prod_{a in A, b in B}(a+b)) >= c log|A| with c effectively computable",
+        "Erdos, Stewart, Tijdeman 1988: near-optimality, sets with |A|=k, |B|=2 and omega < (1/8+eps)(log|A|)^2/log log|A|",
+        "Furedi, Gyarmati, arXiv:2602.07545 (Feb 2026), submitted to Acta Arithmetica: Erdos-Turan over Eulerian integers and binary forms"
+      ],
+      "strategic_note": "the 1988 result says the two-set analogue can be as small as (log n)^2 / log log n, which is the shape f would have if the conjecture is true. Neither hunt document cites any paper."
+    }
+  ],
+  "new_route": {
+    "name": "explicit reduction to the three-term S-unit equation",
+    "proposition": "if A={a,b,c,d} are distinct positive integers with all six off-diagonal sums S-smooth, then X+Y-Z=1 has a nondegenerate solution in positive S-units (take u=a+b, v=c+d, w=a+c, x=b+d; u+v=w+x; divide by u)",
+    "status": "proved",
+    "what_it_would_need": "a solution count of the form exp(o(s)) for s=|S|; current bounds (Evertse; Evertse-Schlickewei-Schmidt) are exponential in s and reproduce 1934",
+    "not_obstructed": "the known lower bound exp(c sqrt(s)/log s) (Erdos-Stewart-Tijdeman 1988) is itself exp(o(s)), so it does not forbid the needed upper bound",
+    "load_bearing_gap": "the step from binom(n,4) unit-equation instances to binom(n,4) DISTINCT solutions is not proved here"
+  },
+  "unsettled": [
+    "g(2): 4 or 5. Erdos-Turan gives <=5, search gives >=4.",
+    "g(3) <= 7, which would retire the composition programme.",
+    "the distinctness step in the S-unit reduction",
+    "the large-sieve constant for the residue condition"
+  ],
+  "doors_amended": {
+    "closed": "optimising S over all k-subsets buys zero at k=2,3,4 (exhaustive over all subsets of the first eight primes)",
+    "downgraded": "'why are optima tiny' is answered by S-unit scaling plus gcd normalisation",
+    "new_top": "the finite targets g(2)<=4 and g(3)<=7, not the asymptotic S-unit bound"
+  },
+  "reproduce": "python3 hunts/support_eccd5f5e/audit.py"
+}
