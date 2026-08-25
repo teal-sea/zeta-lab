@@ -161,11 +161,34 @@ cd lean && PATH="$HOME/.elan/bin:$PATH" lake build DHChallenge DHSolution
 
 The V1 submission attempt at commit
 `58bd44cadb5881540af744a152492d2c25420008` passed mechanical verification
-and later closed without registration. It is not a public Palomar entry. The
-owner reports that Palomar's page currently says its API credits are exhausted,
-which is consistent with the four failed V1 review attempts. V2 must not be
-submitted until V1 is withdrawn and Palomar reports that those credits have
-been restored.
+and later closed without registration. It is not a public Palomar entry.
+
+*The paragraph that stood here said V2 "must not be submitted until V1 is
+withdrawn and Palomar reports that those credits have been restored", and that
+the V2 surface "still requires its own hosted whole-package build and axiom
+audit before submission". Both were written on 2026-08-24 and both were
+overtaken the next day. Corrected rather than deleted, because a guide that
+tells the owner to wait for work already done costs him a day.*
+
+**What has since happened, and it is most of what those two conditions asked
+for.** On 2026-08-24 the V2 surface was submitted at
+`8bd9bb0477bfd0cfe0a509f1e456394cb7e4641d` and **Palomar's mechanical
+verification succeeded on both kernels**. Only the editorial review refused it,
+for the metadata-selection reason recorded below. So the V1 credit exhaustion
+did not in fact block a V2 submission, and the hosted build exists twice over:
+Palomar's own, and this repository's `three- and four-point certificates and the
+V2 surface` job, green in 2h34m on the run that landed the warning below.
+
+**What that leaves before a resubmission**, and only the first is a judgement:
+
+1. **Confirm no submission is in progress.** Palomar permits one per repository.
+   Visible only through the owner's access link; no in-tree check can see it.
+2. Confirm the `lean/bridge` tree is the one already verified. It is identical
+   across `8bd9bb04`, `7570cff` and every commit since — tree
+   `858418471411ab49f26e463968eeb67ab6b92b00`. `git rev-parse HEAD:lean/bridge`
+   settles it in a second.
+3. Run the correspondence guard, which derives the paths rather than letting the
+   form default them: `python3 scripts/palomar_precheck.py . lean/bridge/comparator-v2.json`.
 
 The sole intended bridge submission is the surface called V2 in this
 repository. It advertises the selected declarations:
