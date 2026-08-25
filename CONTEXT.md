@@ -1283,6 +1283,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/make_context.py` — Regenerate the machine-readable knowledge index for this repository.
 - `scripts/make_figures.py` — Generate every figure of the zeta laboratory into ``figures/``.
 - `scripts/mathlib_gaps.py` — Which of Mathlib's 1000 famous theorems are still unformalized.
+- `scripts/palomar_correspondence.py` — Does the metadata describe the declarations actually selected?
 - `scripts/palomar_precheck.py` — Pre-flight check of a Palomar Registry submission.
 - `scripts/pub1_certify_display.py` — Publication-safe display values for the Pub 1 xi' ceiling certificate.
 - `scripts/science_preflight.py` — Preflight for a session running this lab from an outside environment.
@@ -1291,7 +1292,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-1956 test functions across 88 files (the collected count differs where tests are parametrised):
+1966 test functions across 89 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py` — 4
 - `tests/test_aimo_audit.py` — 2
@@ -1348,6 +1349,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_meta_ledger.py` — 24
 - `tests/test_moments.py` — 26
 - `tests/test_o9_leaves_kernel.py` — 6
+- `tests/test_palomar_correspondence.py` — 10
 - `tests/test_pari_oracle.py` — 18
 - `tests/test_plots.py` — 13
 - `tests/test_prime_zeta_rightmost.py` — 16

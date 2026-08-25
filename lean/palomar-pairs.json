@@ -1,0 +1,48 @@
+{
+  "_why": [
+    "Two of the three Palomar submission failures were metadata that misdescribed the",
+    "declarations actually selected. Both were filing errors, not mathematics: the",
+    "submission form defaults the metadata path, and the plausible wrong answer sits in",
+    "the same directory as the right one. This file is the machine-readable pairing so",
+    "the correct path is derived rather than picked. scripts/palomar_precheck.py reads it",
+    "and refuses a comparator/metadata combination that is not listed here.",
+    "Adding a surface means adding a row here, deliberately.",
+    "Rows also carry the selected project dir, so no argument of a submission is chosen by hand."
+  ],
+  "pairs": [
+    {
+      "label": "pub1",
+      "comparator": "lean/comparator.json",
+      "metadata": "lean/formalization.yaml",
+      "project": "lean",
+      "note": "registered PALOMAR-2026-08-21-000004, origin original"
+    },
+    {
+      "label": "dh",
+      "comparator": "lean/comparator-dh.json",
+      "metadata": "lean/palomar-dh/formalization.yaml",
+      "project": "lean",
+      "note": "registered PALOMAR-2026-08-21-000012, origin source-based"
+    },
+    {
+      "label": "bridge-v1",
+      "comparator": "lean/bridge/comparator.json",
+      "metadata": "lean/bridge/formalization.yaml",
+      "project": "lean/bridge",
+      "note": "the conditional seven-point surface; submitted at 58bd44ca, closed without registration on Palomar's own infrastructure failure. Pinned, do not edit."
+    },
+    {
+      "label": "bridge-v2",
+      "comparator": "lean/bridge/comparator-v2.json",
+      "metadata": "lean/bridge/palomar-v2/formalization.yaml",
+      "project": "lean/bridge",
+      "note": "the n-point surface with unconditional three- and four-point instances"
+    }
+  ],
+  "refused_metadata": [
+    {
+      "path": "lean/bridge/formalization-v2.yaml",
+      "reason": "compatibility copy of the V2 record. It reads correct and is not the submission path; selecting it is the mistake that cost the 2026-08-25 cycle. Submit lean/bridge/palomar-v2/formalization.yaml."
+    }
+  ]
+}
