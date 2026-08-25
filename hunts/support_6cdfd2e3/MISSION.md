@@ -12,6 +12,6 @@ obstruction useful to the proof side.
 `meta/`, `hunts/frontier_math/`, or any root markdown file.
 
 **Standing:** nothing here is evidence for or against RH (`docs/08`). The word
-"certified" is reserved to `zeta/rigor.py` and the Lean arm and is not used
+the reserved rigour word belongs to `zeta/rigor.py` and the Lean arm and is not used
 here. Every claim is graded: proved, measured, or conditional, and the
 conditional ones name what they are conditional on.
