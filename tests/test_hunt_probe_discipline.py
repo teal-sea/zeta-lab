@@ -38,6 +38,23 @@ if str(_REPO_ROOT) not in sys.path:  # pragma: no cover - import bootstrap
 
 _HUNTS = _REPO_ROOT / "hunts"
 
+#: Phrases that mark a line as *quoting* the reserved-word rule rather than
+#: claiming the word. `hunts/README.md` was exempted wholesale for exactly this
+#: reason ("the case log may quote the rule it enforces"); a mission brief or a
+#: handback that states the same discipline is doing the same thing, and was
+#: failing the check for saying so. Found 2026-08-25 on
+#: `hunts/support_6cdfd2e3/`, whose only two hits were the sentences promising
+#: not to use the word.
+#: Kept deliberately narrow. Anything looser lets a real claim through: "may
+#: not" alone would exempt *the bound is certified and may not be questioned*.
+_QUOTES_THE_RULE = (
+    "is reserved",
+    "reserved to",
+    "reserved word",
+    "is not used",
+    "not used anywhere",
+)
+
 #: Directory names that hold vendored or generated output rather than probe
 #: files.  A hunt may carry a Lean package (`hunts/frontier_math/zeta23ext`),
 #: and building it drops Mathlib's entire source tree — thousands of `.md`,
@@ -103,8 +120,13 @@ def test_no_hunt_claims_the_reserved_word() -> None:
         if path.name == "README.md" and path.parent == _HUNTS:
             continue  # the case log may quote the rule it enforces
         text = path.read_text(encoding="utf-8", errors="ignore").lower()
-        if "certified" in text:
+        for line in text.splitlines():
+            if "certified" not in line:
+                continue
+            if any(marker in line for marker in _QUOTES_THE_RULE):
+                continue  # quoting the rule is not claiming the word
             offenders.append(str(path.relative_to(_REPO_ROOT)))
+            break
     assert not offenders, f"reserved word 'certified' used in probe files: {offenders}"
 
 

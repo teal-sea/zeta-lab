@@ -60,5 +60,5 @@
       "first_step": "None needed as infrastructure; it is a paragraph in a brief, not a tool."
     }
   ],
-  "notes_for_operator": "The parent run is still alive and this answers it directly. The single most actionable line for it: an anti-composition theorem is NOT sufficient for #126 (Prop 4), so if the proof arm is being briefed toward one on the strength of r_186989's closing sentence, that brief is aimed at something that would leave the conjecture open. The sufficient-and-necessary reformulation is limsup log g(k)/k > 0. Nothing here bears on RH. The reserved rigour word is not used anywhere in these artifacts."
+  "notes_for_operator": "The parent run is still alive and this answers it directly. The single most actionable line for it: an anti-composition theorem is NOT sufficient for #126 (Prop 4), so if the proof arm is being briefed toward one on the strength of r_186989's closing sentence, that brief is aimed at something that would leave the conjecture open. The sufficient-and-necessary reformulation is limsup log g(k)/k > 0. Nothing here bears on RH. The word 'certified' is not used anywhere in these artifacts."
 }
