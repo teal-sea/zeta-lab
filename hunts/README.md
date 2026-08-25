@@ -191,6 +191,35 @@ three small boxes found zero primitive violations of the repaired lemma and
 exact tightness at $\{1,2,4,8\}$. The one sub-question left that is not
 circular is a two-set bound on how much of $A$ one odd prime may divide, which
 is Győry–Stewart–Tijdeman territory. Nothing here bears on RH (`docs/08`).
+### Hunt #96: Erdős #126, the S-unit route is sound and its theorems are 24.5^k too weak (`support_d5d5ccae/`)
+
+**Status: not settled, and the arm returns the "too weak" verdict its brief
+allowed.** A support run for `0897a5a7`, answering the S-unit arm of Erdős #126.
+The injectivity the brief asked for exists and is two lines: if every
+off-diagonal sum of $A$ is $S$-smooth and $a > b$ lie in $A$, then
+$x \mapsto (a+x, b+x)$ injects $A \setminus \{a,b\}$ into the solutions of the
+two-variable $S$-unit equation $U - W = a-b$ in positive $S$-smooth $U, W$,
+whence $|A| \le 2 + \min_{a>b} N_S(a-b)$. The implication direction was checked:
+a solution-count bound gives a $g(k)$ bound gives #126, and not the reverse, so
+unlike arm 3 of Hunt #91 this route points the right way. Fixing three or more
+base elements is **strictly worse**, because the resulting coefficients are
+differences of elements of $A$ and carry primes outside $S$, which forces the
+rank-based bounds ($2^{16k+16}$) instead of Evertse's $S$-based one. Charging
+Evertse (1984), $3\cdot 7^{d+2s}$ with $d=1$, $s=k+1$, gives
+$g(k) \le 2 + 3\cdot 7^{2k+3} \approx 1029\cdot 49^k$: **weaker than the 1934
+Erdős–Turán bound $3\cdot 2^{k-1}$, and than Erdős–Surányi's $2^k$, by a factor
+about $24.5^k$.** Measurement then locates the slack. Enumerating all $S$-smooth
+integers to $10^{14}$ and counting $U-W=d$ exactly inside that box reproduces
+Lehmer's published Størmer table for $d=1$ ($1,4,10,23,40,68,108,167$ for
+$k=1..8$), and at $k=7$ the quantity Evertse bounds by $7.0\times10^{14}$ has a
+measured value of $96$, against the elementary $128$. **The route is not what is
+lossy; the theorem is, by thirteen orders of magnitude.** What would suffice is
+stated: dropping the base $49$ below $2$ already beats 1934, and $\exp(o(k))$
+settles #126, which nothing known forbids since the best lower bound
+(Erdős–Stewart–Tijdeman) is $\exp((4+o(1))(s/\log s)^{1/2})$. No improved bound
+on $g(k)$ is proved here, and the one missing combinatorial lemma is named: every
+admissible $A$ beyond some size must contain a pair whose difference has few
+solutions. Nothing here bears on RH (`docs/08`).
 
 ### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
 
