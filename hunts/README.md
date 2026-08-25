@@ -203,32 +203,6 @@ and the route needs an $\exp(o(s))$ solution count, which the known
 $\exp(c\sqrt{s}/\log s)$ lower bound does *not* forbid. Nothing bears on RH
 (`docs/08`).
 
-### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
-
-**Status: not settled — scout killed on a pre-registered kill condition.** A
-30-minute bounded scout on Erdős #126 (for $n$ positive integers $A$, $f(n)$ is
-the least number of distinct primes dividing an off-diagonal sum $a+b$; is
-$f(n)/\log n \to \infty$?). The run inverted the problem before running any arm:
-$f$ and $g(k) = \max\{n : f(n) \le k\}$ are inverse staircases, so the
-conjecture is exactly $g(k)^{1/k} \to 1$, and all three briefed arms become
-measurements of one integer sequence. Exact branch-and-bound clique search on
-the $S$-smooth pair-sum graph, exhaustive inside $[1,N]$ with every witness
-re-verified, gives $g(k) \ge 2, 4, 5, 6, 8, 10, 11$ for $k = 1..7$ ($N$ from
-$2\cdot10^5$ down to $6000$); widening the box 60× moved not one row, because
-every optimal witness lives below 50. Those are lower bounds only — **no upper
-bound on $g(k)$ is established**, and seven falling $k$-th roots
-($2.00 \to 1.41$) cannot separate a limit of 1 from a limit of 1.3. That is the
-"suggestive finite data" the brief named as a kill condition, and the hunt calls
-it that. Two things survive. The Formal Conjectures positivity mismatch is
-resolved: $f(n-1) \le f_0(n) \le f(n)$, so the `Finset ℕ` statement is faithful
-for the limit and wrong for pinned finite values ($f(2)=1$, $f_0(2)=0$,
-witness $\{0,1\}$). And the briefed composition arm points the wrong way:
-$g(1) = 2$ plus supermultiplicativity gives $g(k) \ge 2^k$ by Fekete, i.e.
-$f(n) \le \log_2 n + O(1)$, so a rigorous composition law **refutes** the
-conjecture rather than proving it — what #126 needs is an anti-composition
-theorem. The only $S$-dependence visible was parity: $2 \in S$ is worth more
-than every other structural choice combined ($g_N(3) = 5$ with it, $2$ without).
-Nothing here bears on RH (`docs/08`).
 ### Hunt #96: Erdős #126, the S-unit route is sound and its theorems are 24.5^k too weak (`support_d5d5ccae/`)
 
 **Status: not settled, and the arm returns the "too weak" verdict its brief
@@ -259,32 +233,6 @@ on $g(k)$ is proved here, and the one missing combinatorial lemma is named: ever
 admissible $A$ beyond some size must contain a pair whose difference has few
 solutions. Nothing here bears on RH (`docs/08`).
 
-### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
-
-**Status: not settled — scout killed on a pre-registered kill condition.** A
-30-minute bounded scout on Erdős #126 (for $n$ positive integers $A$, $f(n)$ is
-the least number of distinct primes dividing an off-diagonal sum $a+b$; is
-$f(n)/\log n \to \infty$?). The run inverted the problem before running any arm:
-$f$ and $g(k) = \max\{n : f(n) \le k\}$ are inverse staircases, so the
-conjecture is exactly $g(k)^{1/k} \to 1$, and all three briefed arms become
-measurements of one integer sequence. Exact branch-and-bound clique search on
-the $S$-smooth pair-sum graph, exhaustive inside $[1,N]$ with every witness
-re-verified, gives $g(k) \ge 2, 4, 5, 6, 8, 10, 11$ for $k = 1..7$ ($N$ from
-$2\cdot10^5$ down to $6000$); widening the box 60× moved not one row, because
-every optimal witness lives below 50. Those are lower bounds only — **no upper
-bound on $g(k)$ is established**, and seven falling $k$-th roots
-($2.00 \to 1.41$) cannot separate a limit of 1 from a limit of 1.3. That is the
-"suggestive finite data" the brief named as a kill condition, and the hunt calls
-it that. Two things survive. The Formal Conjectures positivity mismatch is
-resolved: $f(n-1) \le f_0(n) \le f(n)$, so the `Finset ℕ` statement is faithful
-for the limit and wrong for pinned finite values ($f(2)=1$, $f_0(2)=0$,
-witness $\{0,1\}$). And the briefed composition arm points the wrong way:
-$g(1) = 2$ plus supermultiplicativity gives $g(k) \ge 2^k$ by Fekete, i.e.
-$f(n) \le \log_2 n + O(1)$, so a rigorous composition law **refutes** the
-conjecture rather than proving it — what #126 needs is an anti-composition
-theorem. The only $S$-dependence visible was parity: $2 \in S$ is worth more
-than every other structural choice combined ($g_N(3) = 5$ with it, $2$ without).
-Nothing here bears on RH (`docs/08`).
 ### Hunt #95: Erdős #126, the signature model has no ceiling to raise (`support_baf4cde6/`)
 
 **Status: lane closed, by proof rather than by a failed attempt.** Support arm
@@ -317,32 +265,6 @@ exponential, and the missing lemma there is a fiber count, not a unit-equation
 bound. #91's other claims were re-derived independently and hold, including two
 reproduced $g_N(k)$ rows. Nothing here bears on RH (`docs/08`).
 
-### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
-
-**Status: not settled — scout killed on a pre-registered kill condition.** A
-30-minute bounded scout on Erdős #126 (for $n$ positive integers $A$, $f(n)$ is
-the least number of distinct primes dividing an off-diagonal sum $a+b$; is
-$f(n)/\log n \to \infty$?). The run inverted the problem before running any arm:
-$f$ and $g(k) = \max\{n : f(n) \le k\}$ are inverse staircases, so the
-conjecture is exactly $g(k)^{1/k} \to 1$, and all three briefed arms become
-measurements of one integer sequence. Exact branch-and-bound clique search on
-the $S$-smooth pair-sum graph, exhaustive inside $[1,N]$ with every witness
-re-verified, gives $g(k) \ge 2, 4, 5, 6, 8, 10, 11$ for $k = 1..7$ ($N$ from
-$2\cdot10^5$ down to $6000$); widening the box 60× moved not one row, because
-every optimal witness lives below 50. Those are lower bounds only — **no upper
-bound on $g(k)$ is established**, and seven falling $k$-th roots
-($2.00 \to 1.41$) cannot separate a limit of 1 from a limit of 1.3. That is the
-"suggestive finite data" the brief named as a kill condition, and the hunt calls
-it that. Two things survive. The Formal Conjectures positivity mismatch is
-resolved: $f(n-1) \le f_0(n) \le f(n)$, so the `Finset ℕ` statement is faithful
-for the limit and wrong for pinned finite values ($f(2)=1$, $f_0(2)=0$,
-witness $\{0,1\}$). And the briefed composition arm points the wrong way:
-$g(1) = 2$ plus supermultiplicativity gives $g(k) \ge 2^k$ by Fekete, i.e.
-$f(n) \le \log_2 n + O(1)$, so a rigorous composition law **refutes** the
-conjecture rather than proving it — what #126 needs is an anti-composition
-theorem. The only $S$-dependence visible was parity: $2 \in S$ is worth more
-than every other structural choice combined ($g_N(3) = 5$ with it, $2$ without).
-Nothing here bears on RH (`docs/08`).
 ### Hunt #93: Erdős #126 is a $\forall S$ statement, so every search we own can only refute it (`support_8ea74995/`)
 
 **Status: settled, for the bounded question it was given.** The formulation arm
@@ -373,60 +295,6 @@ gives a non-degenerate 3-term $S$-unit solution, making #126 conditional on a
 subexponential unit-equation count and on a multiplicity nobody has bounded.
 #91's thread 4 closed in the negative: no 4-subset of the first eight primes
 beats $g_N(4)=6$. Nothing here bears on RH (`docs/08`).
-
-### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
-
-**Status: not settled — scout killed on a pre-registered kill condition.** A
-30-minute bounded scout on Erdős #126 (for $n$ positive integers $A$, $f(n)$ is
-the least number of distinct primes dividing an off-diagonal sum $a+b$; is
-$f(n)/\log n \to \infty$?). The run inverted the problem before running any arm:
-$f$ and $g(k) = \max\{n : f(n) \le k\}$ are inverse staircases, so the
-conjecture is exactly $g(k)^{1/k} \to 1$, and all three briefed arms become
-measurements of one integer sequence. Exact branch-and-bound clique search on
-the $S$-smooth pair-sum graph, exhaustive inside $[1,N]$ with every witness
-re-verified, gives $g(k) \ge 2, 4, 5, 6, 8, 10, 11$ for $k = 1..7$ ($N$ from
-$2\cdot10^5$ down to $6000$); widening the box 60× moved not one row, because
-every optimal witness lives below 50. Those are lower bounds only — **no upper
-bound on $g(k)$ is established**, and seven falling $k$-th roots
-($2.00 \to 1.41$) cannot separate a limit of 1 from a limit of 1.3. That is the
-"suggestive finite data" the brief named as a kill condition, and the hunt calls
-it that. Two things survive. The Formal Conjectures positivity mismatch is
-resolved: $f(n-1) \le f_0(n) \le f(n)$, so the `Finset ℕ` statement is faithful
-for the limit and wrong for pinned finite values ($f(2)=1$, $f_0(2)=0$,
-witness $\{0,1\}$). And the briefed composition arm points the wrong way:
-$g(1) = 2$ plus supermultiplicativity gives $g(k) \ge 2^k$ by Fekete, i.e.
-$f(n) \le \log_2 n + O(1)$, so a rigorous composition law **refutes** the
-conjecture rather than proving it — what #126 needs is an anti-composition
-theorem. The only $S$-dependence visible was parity: $2 \in S$ is worth more
-than every other structural choice combined ($g_N(3) = 5$ with it, $2$ without).
-Nothing here bears on RH (`docs/08`).
-### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
-
-**Status: not settled — scout killed on a pre-registered kill condition.** A
-30-minute bounded scout on Erdős #126 (for $n$ positive integers $A$, $f(n)$ is
-the least number of distinct primes dividing an off-diagonal sum $a+b$; is
-$f(n)/\log n \to \infty$?). The run inverted the problem before running any arm:
-$f$ and $g(k) = \max\{n : f(n) \le k\}$ are inverse staircases, so the
-conjecture is exactly $g(k)^{1/k} \to 1$, and all three briefed arms become
-measurements of one integer sequence. Exact branch-and-bound clique search on
-the $S$-smooth pair-sum graph, exhaustive inside $[1,N]$ with every witness
-re-verified, gives $g(k) \ge 2, 4, 5, 6, 8, 10, 11$ for $k = 1..7$ ($N$ from
-$2\cdot10^5$ down to $6000$); widening the box 60× moved not one row, because
-every optimal witness lives below 50. Those are lower bounds only — **no upper
-bound on $g(k)$ is established**, and seven falling $k$-th roots
-($2.00 \to 1.41$) cannot separate a limit of 1 from a limit of 1.3. That is the
-"suggestive finite data" the brief named as a kill condition, and the hunt calls
-it that. Two things survive. The Formal Conjectures positivity mismatch is
-resolved: $f(n-1) \le f_0(n) \le f(n)$, so the `Finset ℕ` statement is faithful
-for the limit and wrong for pinned finite values ($f(2)=1$, $f_0(2)=0$,
-witness $\{0,1\}$). And the briefed composition arm points the wrong way:
-$g(1) = 2$ plus supermultiplicativity gives $g(k) \ge 2^k$ by Fekete, i.e.
-$f(n) \le \log_2 n + O(1)$, so a rigorous composition law **refutes** the
-conjecture rather than proving it — what #126 needs is an anti-composition
-theorem. The only $S$-dependence visible was parity: $2 \in S$ is worth more
-than every other structural choice combined ($g_N(3) = 5$ with it, $2$ without).
-Nothing here bears on RH (`docs/08`).
-
 
 ### Hunt #101: Erdős #126, the descent arm — loss 2 per prime is a wall, and the omission claim is false (`support_7ddfee4b/`)
 **Status: settled, in both directions.** Support run for the `r_186989` scout,
@@ -493,32 +361,6 @@ data ($h(\{2,3,5\}) = 47 > 2^{k+2}$, $h(\{2,3,7,13\}) = 159 > 2^{k+3}$); it is
 consistent with all 15 measured $S$ and verified for none. No upper bound on
 $g(k)$, as before. Nothing here bears on RH (`docs/08`).
 
-### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
-
-**Status: not settled — scout killed on a pre-registered kill condition.** A
-30-minute bounded scout on Erdős #126 (for $n$ positive integers $A$, $f(n)$ is
-the least number of distinct primes dividing an off-diagonal sum $a+b$; is
-$f(n)/\log n \to \infty$?). The run inverted the problem before running any arm:
-$f$ and $g(k) = \max\{n : f(n) \le k\}$ are inverse staircases, so the
-conjecture is exactly $g(k)^{1/k} \to 1$, and all three briefed arms become
-measurements of one integer sequence. Exact branch-and-bound clique search on
-the $S$-smooth pair-sum graph, exhaustive inside $[1,N]$ with every witness
-re-verified, gives $g(k) \ge 2, 4, 5, 6, 8, 10, 11$ for $k = 1..7$ ($N$ from
-$2\cdot10^5$ down to $6000$); widening the box 60× moved not one row, because
-every optimal witness lives below 50. Those are lower bounds only — **no upper
-bound on $g(k)$ is established**, and seven falling $k$-th roots
-($2.00 \to 1.41$) cannot separate a limit of 1 from a limit of 1.3. That is the
-"suggestive finite data" the brief named as a kill condition, and the hunt calls
-it that. Two things survive. The Formal Conjectures positivity mismatch is
-resolved: $f(n-1) \le f_0(n) \le f(n)$, so the `Finset ℕ` statement is faithful
-for the limit and wrong for pinned finite values ($f(2)=1$, $f_0(2)=0$,
-witness $\{0,1\}$). And the briefed composition arm points the wrong way:
-$g(1) = 2$ plus supermultiplicativity gives $g(k) \ge 2^k$ by Fekete, i.e.
-$f(n) \le \log_2 n + O(1)$, so a rigorous composition law **refutes** the
-conjecture rather than proving it — what #126 needs is an anti-composition
-theorem. The only $S$-dependence visible was parity: $2 \in S$ is worth more
-than every other structural choice combined ($g_N(3) = 5$ with it, $2$ without).
-Nothing here bears on RH (`docs/08`).
 ### Hunt #92: the Erdős–Turán factor 2 is not lost anywhere, it is the whole statement (`support_517b887f/`)
 
 **Status: settled, negatively.** Support arm for Hunt #91, asked whether the
@@ -549,32 +391,6 @@ exact tightness at $\{1,2,4,8\}$. The one sub-question left that is not
 circular is a two-set bound on how much of $A$ one odd prime may divide, which
 is Győry–Stewart–Tijdeman territory. Nothing here bears on RH (`docs/08`).
 
-### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
-
-**Status: not settled — scout killed on a pre-registered kill condition.** A
-30-minute bounded scout on Erdős #126 (for $n$ positive integers $A$, $f(n)$ is
-the least number of distinct primes dividing an off-diagonal sum $a+b$; is
-$f(n)/\log n \to \infty$?). The run inverted the problem before running any arm:
-$f$ and $g(k) = \max\{n : f(n) \le k\}$ are inverse staircases, so the
-conjecture is exactly $g(k)^{1/k} \to 1$, and all three briefed arms become
-measurements of one integer sequence. Exact branch-and-bound clique search on
-the $S$-smooth pair-sum graph, exhaustive inside $[1,N]$ with every witness
-re-verified, gives $g(k) \ge 2, 4, 5, 6, 8, 10, 11$ for $k = 1..7$ ($N$ from
-$2\cdot10^5$ down to $6000$); widening the box 60× moved not one row, because
-every optimal witness lives below 50. Those are lower bounds only — **no upper
-bound on $g(k)$ is established**, and seven falling $k$-th roots
-($2.00 \to 1.41$) cannot separate a limit of 1 from a limit of 1.3. That is the
-"suggestive finite data" the brief named as a kill condition, and the hunt calls
-it that. Two things survive. The Formal Conjectures positivity mismatch is
-resolved: $f(n-1) \le f_0(n) \le f(n)$, so the `Finset ℕ` statement is faithful
-for the limit and wrong for pinned finite values ($f(2)=1$, $f_0(2)=0$,
-witness $\{0,1\}$). And the briefed composition arm points the wrong way:
-$g(1) = 2$ plus supermultiplicativity gives $g(k) \ge 2^k$ by Fekete, i.e.
-$f(n) \le \log_2 n + O(1)$, so a rigorous composition law **refutes** the
-conjecture rather than proving it — what #126 needs is an anti-composition
-theorem. The only $S$-dependence visible was parity: $2 \in S$ is worth more
-than every other structural choice combined ($g_N(3) = 5$ with it, $2$ without).
-Nothing here bears on RH (`docs/08`).
 ### Hunt #107: the Erdős #126 size dichotomy misses by one power of the radical (`support_95bb5cb7/`)
 
 **Status: the arm is settled negative; the conjecture is untouched.** A support
@@ -622,32 +438,6 @@ be circular for this arm anyway), the ladder at $k=4$ (the enumeration exceeded
 ten minutes), and any upper bound on $g(k)$ at all. Nothing bears on RH
 (`docs/08`).
 
-### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
-
-**Status: not settled — scout killed on a pre-registered kill condition.** A
-30-minute bounded scout on Erdős #126 (for $n$ positive integers $A$, $f(n)$ is
-the least number of distinct primes dividing an off-diagonal sum $a+b$; is
-$f(n)/\log n \to \infty$?). The run inverted the problem before running any arm:
-$f$ and $g(k) = \max\{n : f(n) \le k\}$ are inverse staircases, so the
-conjecture is exactly $g(k)^{1/k} \to 1$, and all three briefed arms become
-measurements of one integer sequence. Exact branch-and-bound clique search on
-the $S$-smooth pair-sum graph, exhaustive inside $[1,N]$ with every witness
-re-verified, gives $g(k) \ge 2, 4, 5, 6, 8, 10, 11$ for $k = 1..7$ ($N$ from
-$2\cdot10^5$ down to $6000$); widening the box 60× moved not one row, because
-every optimal witness lives below 50. Those are lower bounds only — **no upper
-bound on $g(k)$ is established**, and seven falling $k$-th roots
-($2.00 \to 1.41$) cannot separate a limit of 1 from a limit of 1.3. That is the
-"suggestive finite data" the brief named as a kill condition, and the hunt calls
-it that. Two things survive. The Formal Conjectures positivity mismatch is
-resolved: $f(n-1) \le f_0(n) \le f(n)$, so the `Finset ℕ` statement is faithful
-for the limit and wrong for pinned finite values ($f(2)=1$, $f_0(2)=0$,
-witness $\{0,1\}$). And the briefed composition arm points the wrong way:
-$g(1) = 2$ plus supermultiplicativity gives $g(k) \ge 2^k$ by Fekete, i.e.
-$f(n) \le \log_2 n + O(1)$, so a rigorous composition law **refutes** the
-conjecture rather than proving it — what #126 needs is an anti-composition
-theorem. The only $S$-dependence visible was parity: $2 \in S$ is worth more
-than every other structural choice combined ($g_N(3) = 5$ with it, $2$ without).
-Nothing here bears on RH (`docs/08`).
 ### Hunt #90: the leader's certificate does not replay at its own HEAD (`amtopa_ceiling/`)
 
 **Status: settled on the measurable axes; window axis open; acceptance blocked at the tip.** Takes the
