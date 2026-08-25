@@ -8,7 +8,7 @@ record describing a different object than the comparator selected.
 
   2026-08-21, DH v1 at e474535 -- the record asserted "the tree is sorry-free"
   where six deliberate sorry sit in the Challenge modules.
-  2026-08-25, V2 at 8bd8bb04  -- the submission form defaulted the metadata to
+  2026-08-25, V2 at 8bd9bb04  -- the submission form defaulted the metadata to
   lean/bridge/formalization.yaml, the pinned V1 record for the conditional
   seven-point result, while the comparator selected the seven V2 declarations.
   Palomar's finding: the record "materially misdescribe[s] the selected seven
