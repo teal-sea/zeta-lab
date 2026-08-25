@@ -1,4 +1,4 @@
-# MISSION — Hunt R-4166B0 (#109): reproduce and freshness-check the EF zkVM soundness accounting
+# MISSION: Hunt R-4166B0 (#109): reproduce and freshness-check the EF zkVM soundness accounting
 
 Source: `teal-sea/zeta-lab` issue #140. Started 2026-08-24.
 
@@ -17,10 +17,10 @@ the two are kept apart.
 Ten units: the eight in `reports/summary.md` plus RISC0 and Miden. Each unit
 gets **two independent verdicts, never merged into one**:
 
-1. **REPRODUCTION** — the version they claimed. Does the checked-in TOML follow
+1. **REPRODUCTION**, the version they claimed. Does the checked-in TOML follow
    from the vendor's own tree at the version the TOML names?
    `match` / `mismatch` / `no-generator` / `build-required`.
-2. **FRESHNESS** — the vendor's current release. Does the same TOML still
+2. **FRESHNESS**, the vendor's current release. Does the same TOML still
    describe it? `unchanged` / `drifted` / `unable-to-regenerate`.
    **Drift is not a security finding and is not reported as one.**
 

@@ -17,6 +17,29 @@
     "ZisK",
     "zkDTVM"
   ],
+  "field_agreement_total": {
+    "per_unit": {
+      "RISC0": {
+        "checked": 7,
+        "agreeing": 7
+      },
+      "Miden": {
+        "checked": 5,
+        "agreeing": 5
+      },
+      "OpenVM": {
+        "checked": 9,
+        "agreeing": 9
+      },
+      "SP1_at_latest_release": {
+        "checked": 30,
+        "agreeing": 30
+      }
+    },
+    "checked": 51,
+    "agreeing": 51,
+    "note": "SP1's 30 fields were derived at two vendor refs and agree at both; they are counted once here."
+  },
   "stage0_self_reproduction": {
     "soundcalc_pin": "d9078d64c9c3ae15b0931f6d249b2dc073194f15",
     "reports_checked_in": [
@@ -241,6 +264,57 @@
     },
     "OpenVM": {
       "verdict": "match",
+      "fields_checked": 9,
+      "fields_agreeing": 9,
+      "per_field": {
+        "app.num_queries": {
+          "toml": 193,
+          "source": 193
+        },
+        "app.grinding_batching_phase": {
+          "toml": 20,
+          "source": 20
+        },
+        "app.grinding_query_phase": {
+          "toml": 20,
+          "source": 20
+        },
+        "leaf.num_queries": {
+          "toml": 193,
+          "source": 193
+        },
+        "leaf.grinding_batching_phase": {
+          "toml": 20,
+          "source": 20
+        },
+        "leaf.grinding_query_phase": {
+          "toml": 20,
+          "source": 20
+        },
+        "internal.num_queries": {
+          "toml": 118,
+          "source": 118
+        },
+        "internal.grinding_batching_phase": {
+          "toml": 16,
+          "source": 16
+        },
+        "internal.grinding_query_phase": {
+          "toml": 20,
+          "source": 20
+        }
+      },
+      "agree": {
+        "app.num_queries": true,
+        "app.grinding_batching_phase": true,
+        "app.grinding_query_phase": true,
+        "leaf.num_queries": true,
+        "leaf.grinding_batching_phase": true,
+        "leaf.grinding_query_phase": true,
+        "internal.num_queries": true,
+        "internal.grinding_batching_phase": true,
+        "internal.grinding_query_phase": true
+      },
       "values_reproduce_from": {
         "repo": "openvm-org/stark-backend",
         "ref": "0c33328916d95047325b60a8044ecf9468db84bb",
@@ -1246,13 +1320,29 @@
     ],
     "differences": {
       "Final": {
+        "num_columns_fixed": {
+          "venus": 55,
+          "zisk": 46
+        },
+        "batch_size": {
+          "venus": 158,
+          "zisk": 139
+        },
+        "gap_to_radius": {
+          "venus": 0.0036666666666666666,
+          "zisk": 0.003333333333333333
+        },
+        "num_columns": {
+          "venus": 135,
+          "zisk": 114
+        },
         "proof_size": {
           "venus": "335.21 KB",
           "zisk": "327.71 KB"
         },
-        "num_columns_witness": {
-          "venus": 80,
-          "zisk": 68
+        "num_constraints": {
+          "venus": 161,
+          "zisk": 154
         },
         "lookups": {
           "venus": [
@@ -1278,25 +1368,9 @@
             }
           ]
         },
-        "batch_size": {
-          "venus": 158,
-          "zisk": 139
-        },
-        "gap_to_radius": {
-          "venus": 0.0036666666666666666,
-          "zisk": 0.003333333333333333
-        },
-        "num_columns_fixed": {
-          "venus": 55,
-          "zisk": 46
-        },
-        "num_columns": {
-          "venus": 135,
-          "zisk": 114
-        },
-        "num_constraints": {
-          "venus": 161,
-          "zisk": 154
+        "num_columns_witness": {
+          "venus": 80,
+          "zisk": 68
         }
       }
     },

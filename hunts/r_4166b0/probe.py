@@ -421,20 +421,24 @@ def derive_openvm(tree: Path):
     # Do the TOML's values reproduce from ONE function at the newer commit?
     single = {lb: params_at("a", "standard_fri_params_with_100_bits_security", lb)
               for lb in (1, 2)}
-    reproduces = {
-        "app": by_name["app"]["num_queries"] == single[1]["num_queries"]
-               and by_name["app"]["grinding_batching_phase"] == single[1]["commit_proof_of_work_bits"]
-               and by_name["app"]["grinding_query_phase"] == single[1]["query_proof_of_work_bits"],
-        "leaf": by_name["leaf"]["num_queries"] == single[1]["num_queries"]
-                and by_name["leaf"]["grinding_batching_phase"] == single[1]["commit_proof_of_work_bits"]
-                and by_name["leaf"]["grinding_query_phase"] == single[1]["query_proof_of_work_bits"],
-        "internal": by_name["internal"]["num_queries"] == single[2]["num_queries"]
-                    and by_name["internal"]["grinding_batching_phase"] == single[2]["commit_proof_of_work_bits"]
-                    and by_name["internal"]["grinding_query_phase"] == single[2]["query_proof_of_work_bits"],
-    }
+    lb_of = {"app": 1, "leaf": 1, "internal": 2}
+    pairs = [("num_queries", "num_queries"),
+             ("grinding_batching_phase", "commit_proof_of_work_bits"),
+             ("grinding_query_phase", "query_proof_of_work_bits")]
+    per_field, agree = {}, {}
+    for cname, lb in lb_of.items():
+        for tf, sf in pairs:
+            key = f"{cname}.{tf}"
+            per_field[key] = {"toml": by_name[cname][tf], "source": single[lb][sf]}
+            agree[key] = by_name[cname][tf] == single[lb][sf]
+    reproduces = {c: all(agree[f"{c}.{tf}"] for tf, _ in pairs) for c in lb_of}
     stale = [c["circuit"] for c in out if not c["cited_arm_matches_toml"]]
     return {
-        "verdict": "match" if all(reproduces.values()) else "mismatch",
+        "verdict": "match" if all(agree.values()) else "mismatch",
+        "fields_checked": len(agree),
+        "fields_agreeing": sum(agree.values()),
+        "per_field": per_field,
+        "agree": agree,
         "values_reproduce_from": {
             "repo": "openvm-org/stark-backend", "ref": refs["a"],
             "function": "standard_fri_params_with_100_bits_security",
@@ -911,6 +915,7 @@ def run_all():
         "read_date": READ_DATE,
         "artifact": {"repo": "ethereum/soundcalc", "pin": SOUNDCALC_PIN},
         "units": UNITS,
+        "field_agreement_total": None,  # filled below, once the derivations exist
         "stage0_self_reproduction": stage0(),
         "pins": pins(),
         "derivations": {
@@ -930,6 +935,18 @@ def run_all():
         },
         "venus_identity_claim": venus_vs_zisk(tree),
         "controls": control(),
+    }
+    # The headline count, over DISTINCT fields. SP1 is derived at two vendor
+    # refs against the same 30 fields, so it is counted once, not twice.
+    distinct = ["RISC0", "Miden", "OpenVM", "SP1_at_latest_release"]
+    res["field_agreement_total"] = {
+        "per_unit": {u: {"checked": res["derivations"][u]["fields_checked"],
+                         "agreeing": res["derivations"][u]["fields_agreeing"]}
+                     for u in distinct},
+        "checked": sum(res["derivations"][u]["fields_checked"] for u in distinct),
+        "agreeing": sum(res["derivations"][u]["fields_agreeing"] for u in distinct),
+        "note": "SP1's 30 fields were derived at two vendor refs and agree at "
+                "both; they are counted once here.",
     }
     return res
 
