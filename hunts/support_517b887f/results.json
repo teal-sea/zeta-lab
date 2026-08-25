@@ -1,0 +1,739 @@
+{
+  "C1_family": [
+    {
+      "B": [
+        1,
+        3
+      ],
+      "S": [
+        2
+      ],
+      "max_3_clean": 2,
+      "n": 2
+    },
+    {
+      "B": [
+        1,
+        3,
+        15
+      ],
+      "S": [
+        2,
+        3
+      ],
+      "max_3_clean": 2,
+      "n": 3
+    },
+    {
+      "B": [
+        1,
+        3,
+        15,
+        21
+      ],
+      "S": [
+        2,
+        3,
+        11
+      ],
+      "max_3_clean": 2,
+      "n": 4
+    },
+    {
+      "B": [
+        1,
+        3,
+        15,
+        21,
+        33
+      ],
+      "S": [
+        2,
+        3,
+        11,
+        17
+      ],
+      "max_3_clean": 2,
+      "n": 5
+    }
+  ],
+  "C1_naive_halving_counterexample": {
+    "A": [
+      1,
+      3,
+      15,
+      21,
+      33
+    ],
+    "S": [
+      2,
+      3,
+      11,
+      17
+    ],
+    "all_offdiag_sums": {
+      "1+15": {
+        "support": [
+          2
+        ],
+        "value": 16
+      },
+      "1+21": {
+        "support": [
+          2,
+          11
+        ],
+        "value": 22
+      },
+      "1+3": {
+        "support": [
+          2
+        ],
+        "value": 4
+      },
+      "1+33": {
+        "support": [
+          2,
+          17
+        ],
+        "value": 34
+      },
+      "15+21": {
+        "support": [
+          2,
+          3
+        ],
+        "value": 36
+      },
+      "15+33": {
+        "support": [
+          2,
+          3
+        ],
+        "value": 48
+      },
+      "21+33": {
+        "support": [
+          2,
+          3
+        ],
+        "value": 54
+      },
+      "3+15": {
+        "support": [
+          2,
+          3
+        ],
+        "value": 18
+      },
+      "3+21": {
+        "support": [
+          2,
+          3
+        ],
+        "value": 24
+      },
+      "3+33": {
+        "support": [
+          2,
+          3
+        ],
+        "value": 36
+      }
+    },
+    "halving_lemma_would_need": 2.5,
+    "k": 4,
+    "lemma_false": true,
+    "max_q_clean_subset": [
+      1,
+      3
+    ],
+    "q": 3,
+    "ratio_clean_over_n": 0.4
+  },
+  "C2_measured_halving_loss": [
+    {
+      "N": 300,
+      "S": [
+        2
+      ],
+      "n": 2,
+      "per_prime": {
+        "2": {
+          "clean": [
+            1
+          ],
+          "loss_factor": 2.0
+        }
+      },
+      "support_of_witness": [
+        2
+      ],
+      "witness": [
+        1,
+        3
+      ],
+      "worst_loss_over_odd_primes": null
+    },
+    {
+      "N": 400,
+      "S": [
+        2,
+        3
+      ],
+      "n": 4,
+      "per_prime": {
+        "2": {
+          "clean": [
+            1
+          ],
+          "loss_factor": 4.0
+        },
+        "3": {
+          "clean": [
+            1,
+            7
+          ],
+          "loss_factor": 2.0
+        }
+      },
+      "support_of_witness": [
+        2,
+        3
+      ],
+      "witness": [
+        1,
+        5,
+        7,
+        11
+      ],
+      "worst_loss_over_odd_primes": 2.0
+    },
+    {
+      "N": 400,
+      "S": [
+        2,
+        3,
+        5
+      ],
+      "n": 5,
+      "per_prime": {
+        "2": {
+          "clean": [
+            1
+          ],
+          "loss_factor": 5.0
+        },
+        "3": {
+          "clean": [
+            1,
+            3,
+            7
+          ],
+          "loss_factor": 1.6666666666666667
+        },
+        "5": {
+          "clean": [
+            1,
+            7,
+            17,
+            47
+          ],
+          "loss_factor": 1.25
+        }
+      },
+      "support_of_witness": [
+        2,
+        3,
+        5
+      ],
+      "witness": [
+        1,
+        3,
+        7,
+        17,
+        47
+      ],
+      "worst_loss_over_odd_primes": 1.6666666666666667
+    },
+    {
+      "N": 300,
+      "S": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "n": 6,
+      "per_prime": {
+        "2": {
+          "clean": [
+            1,
+            2
+          ],
+          "loss_factor": 3.0
+        },
+        "3": {
+          "clean": [
+            1,
+            3,
+            7,
+            13
+          ],
+          "loss_factor": 1.5
+        },
+        "5": {
+          "clean": [
+            1,
+            2,
+            5,
+            7
+          ],
+          "loss_factor": 1.5
+        },
+        "7": {
+          "clean": [
+            1,
+            2,
+            3,
+            7
+          ],
+          "loss_factor": 1.5
+        }
+      },
+      "support_of_witness": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "witness": [
+        1,
+        2,
+        3,
+        5,
+        7,
+        13
+      ],
+      "worst_loss_over_odd_primes": 1.5
+    },
+    {
+      "N": 200,
+      "S": [
+        2,
+        3,
+        5,
+        7,
+        11
+      ],
+      "n": 8,
+      "per_prime": {
+        "11": {
+          "clean": [
+            1,
+            2,
+            5,
+            13,
+            19,
+            23
+          ],
+          "loss_factor": 1.3333333333333333
+        },
+        "2": {
+          "clean": [
+            1,
+            2
+          ],
+          "loss_factor": 4.0
+        },
+        "3": {
+          "clean": [
+            1,
+            9,
+            13,
+            19,
+            31
+          ],
+          "loss_factor": 1.6
+        },
+        "5": {
+          "clean": [
+            1,
+            5,
+            13,
+            23,
+            31
+          ],
+          "loss_factor": 1.6
+        },
+        "7": {
+          "clean": [
+            1,
+            2,
+            9,
+            23,
+            31
+          ],
+          "loss_factor": 1.6
+        }
+      },
+      "support_of_witness": [
+        2,
+        3,
+        5,
+        7,
+        11
+      ],
+      "witness": [
+        1,
+        2,
+        5,
+        9,
+        13,
+        19,
+        23,
+        31
+      ],
+      "worst_loss_over_odd_primes": 1.6
+    }
+  ],
+  "C3_crt_barrier": [
+    {
+      "max_jointly_clean_subset": 1,
+      "n_points": 4,
+      "points": [
+        1,
+        4,
+        11,
+        14
+      ],
+      "predicted": 1,
+      "primes": [
+        3,
+        5
+      ],
+      "s": 2
+    },
+    {
+      "max_jointly_clean_subset": 1,
+      "n_points": 8,
+      "points": [
+        1,
+        76,
+        64,
+        34,
+        71,
+        41,
+        29,
+        104
+      ],
+      "predicted": 1,
+      "primes": [
+        3,
+        5,
+        7
+      ],
+      "s": 3
+    },
+    {
+      "max_jointly_clean_subset": 1,
+      "n_points": 16,
+      "points": [
+        1,
+        736,
+        496,
+        76,
+        694,
+        274,
+        34,
+        769,
+        386,
+        1121,
+        881,
+        461,
+        1079,
+        659,
+        419,
+        1154
+      ],
+      "predicted": 1,
+      "primes": [
+        3,
+        5,
+        7,
+        11
+      ],
+      "s": 4
+    }
+  ],
+  "C3_joint_clean_on_real_witnesses": [
+    {
+      "S": [
+        2,
+        3
+      ],
+      "max_jointly_odd_clean": 2,
+      "n": 4,
+      "ratio": 0.5,
+      "witness": [
+        1,
+        5,
+        7,
+        11
+      ],
+      "worst_case_prediction": 2.0
+    },
+    {
+      "S": [
+        2,
+        3,
+        5
+      ],
+      "max_jointly_odd_clean": 2,
+      "n": 5,
+      "ratio": 0.4,
+      "witness": [
+        1,
+        3,
+        7,
+        17,
+        47
+      ],
+      "worst_case_prediction": 1.25
+    },
+    {
+      "S": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "max_jointly_odd_clean": 2,
+      "n": 6,
+      "ratio": 0.3333333333333333,
+      "witness": [
+        1,
+        2,
+        3,
+        5,
+        7,
+        13
+      ],
+      "worst_case_prediction": 0.75
+    },
+    {
+      "S": [
+        2,
+        3,
+        5,
+        7,
+        11
+      ],
+      "max_jointly_odd_clean": 2,
+      "n": 8,
+      "ratio": 0.25,
+      "witness": [
+        1,
+        2,
+        5,
+        9,
+        13,
+        19,
+        23,
+        31
+      ],
+      "worst_case_prediction": 0.5
+    }
+  ],
+  "C45_sweep": [
+    {
+      "N": 300,
+      "S": [
+        2,
+        3,
+        5
+      ],
+      "example_nonprimitive_violation": {
+        "A": [
+          3,
+          9,
+          21,
+          51,
+          141
+        ],
+        "bound": 1.25,
+        "c": 1,
+        "gcd": 3,
+        "n": 5
+      },
+      "example_primitive_violation": null,
+      "largest_n_over_c": 5.0,
+      "largest_n_over_c_witness": {
+        "A": [
+          3,
+          9,
+          21,
+          51,
+          141
+        ],
+        "c": 1,
+        "gcd": 3,
+        "n": 5
+      },
+      "n_admissible_sets": 9169,
+      "s_odd_primes": 2,
+      "tightest_primitive_slack": 1.0,
+      "tightest_primitive_witness": {
+        "A": [
+          1,
+          2,
+          4,
+          8
+        ],
+        "c": 1,
+        "n": 4
+      },
+      "violations_of_c_ge_n_over_2s_nonprimitive": 11,
+      "violations_of_c_ge_n_over_2s_primitive": 0
+    },
+    {
+      "N": 200,
+      "S": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "example_nonprimitive_violation": null,
+      "example_primitive_violation": null,
+      "largest_n_over_c": 6.0,
+      "largest_n_over_c_witness": {
+        "A": [
+          1,
+          19,
+          29,
+          41,
+          71,
+          79
+        ],
+        "c": 1,
+        "gcd": 1,
+        "n": 6
+      },
+      "n_admissible_sets": 27166,
+      "s_odd_primes": 3,
+      "tightest_primitive_slack": 1.3333333333333333,
+      "tightest_primitive_witness": {
+        "A": [
+          1,
+          19,
+          29,
+          41,
+          71,
+          79
+        ],
+        "c": 1,
+        "n": 6
+      },
+      "violations_of_c_ge_n_over_2s_nonprimitive": 0,
+      "violations_of_c_ge_n_over_2s_primitive": 0
+    },
+    {
+      "N": 150,
+      "S": [
+        2,
+        3,
+        5,
+        7,
+        11
+      ],
+      "example_nonprimitive_violation": null,
+      "example_primitive_violation": null,
+      "largest_n_over_c": 8.0,
+      "largest_n_over_c_witness": {
+        "A": [
+          3,
+          6,
+          15,
+          27,
+          39,
+          57,
+          69,
+          93
+        ],
+        "c": 1,
+        "gcd": 3,
+        "n": 8
+      },
+      "n_admissible_sets": 67848,
+      "s_odd_primes": 4,
+      "tightest_primitive_slack": 2.2857142857142856,
+      "tightest_primitive_witness": {
+        "A": [
+          1,
+          2,
+          13,
+          23,
+          43,
+          47,
+          97
+        ],
+        "c": 1,
+        "n": 7
+      },
+      "violations_of_c_ge_n_over_2s_nonprimitive": 0,
+      "violations_of_c_ge_n_over_2s_primitive": 0
+    }
+  ],
+  "bound_vs_measured": [
+    {
+      "erdos_suranyi": 2,
+      "erdos_turan_1934": 2,
+      "g_lower_bound_measured": 2,
+      "k": 1,
+      "suranyi_tight": true
+    },
+    {
+      "erdos_suranyi": 4,
+      "erdos_turan_1934": 5,
+      "g_lower_bound_measured": 4,
+      "k": 2,
+      "suranyi_tight": true
+    },
+    {
+      "erdos_suranyi": 8,
+      "erdos_turan_1934": 11,
+      "g_lower_bound_measured": 5,
+      "k": 3,
+      "suranyi_tight": false
+    },
+    {
+      "erdos_suranyi": 16,
+      "erdos_turan_1934": 23,
+      "g_lower_bound_measured": 6,
+      "k": 4,
+      "suranyi_tight": false
+    },
+    {
+      "erdos_suranyi": 32,
+      "erdos_turan_1934": 47,
+      "g_lower_bound_measured": 8,
+      "k": 5,
+      "suranyi_tight": false
+    },
+    {
+      "erdos_suranyi": 64,
+      "erdos_turan_1934": 95,
+      "g_lower_bound_measured": 10,
+      "k": 6,
+      "suranyi_tight": false
+    },
+    {
+      "erdos_suranyi": 128,
+      "erdos_turan_1934": 191,
+      "g_lower_bound_measured": 11,
+      "k": 7,
+      "suranyi_tight": false
+    }
+  ]
+}

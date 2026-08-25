@@ -70,6 +70,62 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #92: the Erdős–Turán factor 2 is not lost anywhere, it is the whole statement (`support_517b887f/`)
+
+**Status: settled, negatively.** Support arm for Hunt #91, asked whether the
+1934 proof's factor 2 per prime can be beaten by processing primes jointly or
+in a different order. Answer: no, and the reason is structural rather than
+arithmetic. Reconstructed, the proof has exactly two steps: a base case
+$c(A) \le 2$ (three positive integers cannot have all three pairwise sums
+powers of 2, by $2a = 2^x+2^y-2^z < 0$), and one binary $\pm$ residue choice per
+odd prime, assembling to $g(k) \le 2\cdot 2^{k-1} = 2^k$ (Erdős–Surányi; the
+1934 $3\cdot2^{k-1}$ is the same architecture with a weaker base). Since
+$c(A) \in \{1,2\}$ always, "every admissible $A$ has $c(A) \ge |A|/\varphi(k)$"
+is equivalent to $g(k) \le 2\varphi(k)$, and $c(A)$ is defined by a maximum
+over subsets, so it is blind to prime order and to grouping. **Improving 2 to
+$2-\delta$ inside this architecture is the target restated, not a sharpening of
+it.** At the residue level joint processing is provably worthless: the CRT
+configuration $x_\varepsilon \equiv \varepsilon_i \bmod q_i$ has $2^s$ points
+whose largest jointly clean subset is 1 (brute-forced, $s \le 4$). Two defects
+in the usual sketch fell out and are witnessed exactly: the per-prime halving
+$|B'| \ge |B|/2$ is **false** ($A = \{1,3,15,21,33\}$, sums
+$\{2,3,11,17\}$-smooth, best 3-clean subset $\{1,3\}$ of size $2 < 2.5$; the
+class-0 term is not removable, and $q\cdot C \cup \{x\}$ makes the failure
+unbounded), and the assembled $c(A) \ge n/2^s$ is **false without primitivity**
+($A = 3\cdot\{1,3,7,17,47\}$ has $c = 1 < 5/4$; dividing by $\gcd$ repairs it).
+Reordering rescues individual instances ($q=11$ before $q=3$ turns $0.4n$ into
+$0.8n$) and nothing at the theorem level. A sweep of 104,183 admissible sets in
+three small boxes found zero primitive violations of the repaired lemma and
+exact tightness at $\{1,2,4,8\}$. The one sub-question left that is not
+circular is a two-set bound on how much of $A$ one odd prime may divide, which
+is Győry–Stewart–Tijdeman territory. Nothing here bears on RH (`docs/08`).
+
+### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
+
+**Status: not settled — scout killed on a pre-registered kill condition.** A
+30-minute bounded scout on Erdős #126 (for $n$ positive integers $A$, $f(n)$ is
+the least number of distinct primes dividing an off-diagonal sum $a+b$; is
+$f(n)/\log n \to \infty$?). The run inverted the problem before running any arm:
+$f$ and $g(k) = \max\{n : f(n) \le k\}$ are inverse staircases, so the
+conjecture is exactly $g(k)^{1/k} \to 1$, and all three briefed arms become
+measurements of one integer sequence. Exact branch-and-bound clique search on
+the $S$-smooth pair-sum graph, exhaustive inside $[1,N]$ with every witness
+re-verified, gives $g(k) \ge 2, 4, 5, 6, 8, 10, 11$ for $k = 1..7$ ($N$ from
+$2\cdot10^5$ down to $6000$); widening the box 60× moved not one row, because
+every optimal witness lives below 50. Those are lower bounds only — **no upper
+bound on $g(k)$ is established**, and seven falling $k$-th roots
+($2.00 \to 1.41$) cannot separate a limit of 1 from a limit of 1.3. That is the
+"suggestive finite data" the brief named as a kill condition, and the hunt calls
+it that. Two things survive. The Formal Conjectures positivity mismatch is
+resolved: $f(n-1) \le f_0(n) \le f(n)$, so the `Finset ℕ` statement is faithful
+for the limit and wrong for pinned finite values ($f(2)=1$, $f_0(2)=0$,
+witness $\{0,1\}$). And the briefed composition arm points the wrong way:
+$g(1) = 2$ plus supermultiplicativity gives $g(k) \ge 2^k$ by Fekete, i.e.
+$f(n) \le \log_2 n + O(1)$, so a rigorous composition law **refutes** the
+conjecture rather than proving it — what #126 needs is an anti-composition
+theorem. The only $S$-dependence visible was parity: $2 \in S$ is worth more
+than every other structural choice combined ($g_N(3) = 5$ with it, $2$ without).
+Nothing here bears on RH (`docs/08`).
 ### Hunt #107: the Erdős #126 size dichotomy misses by one power of the radical (`support_95bb5cb7/`)
 
 **Status: the arm is settled negative; the conjecture is untouched.** A support
