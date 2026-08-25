@@ -70,6 +70,63 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #103: Erdős #126, the residue lemma is false and the box was never the question (`support_60982bf6/`)
+
+**Status: settled, as a support answer.** Exact-search arm for hunt #91's
+parent: redo `r_186989`'s computation ranging over choices of $S$ instead of
+freezing the first $k$ primes, and use the computation only to discover and
+falsify structural lemmas. Exhaustive over **all** $\binom{9}{k}$ subsets of the
+first nine primes for $k \le 5$ (381 searches, a solver rewritten to build edges
+from the $S$-smooth sums rather than by scanning $O(N^2)$ pairs), the first $k$
+primes are never beaten — so the frozen constant #91 called "the door with
+genuine trade shape" is slack. What the sweep produced instead is two lemmas.
+**Proved (normalization):** $\gcd(A)$ is always $S$-smooth, $A/\gcd(A)$ is
+admissible, and $mA$ is admissible for $S$-smooth $m$, so the admissible sets
+are *exactly* the $S$-smooth dilates of primitive ones. That removes #91's
+puzzle that widening the box "changed not one row": a wider box only contains
+bigger copies of the same small set, and the right question is the height of the
+smallest primitive optimum, not the width of the box. **Refuted:** #91's
+"only clean iterable statement", $|A| \le p-1$ when $p \notin S$, is false for
+every odd $p$ — for $r \not\equiv 0$, $r+r \not\equiv 0 \pmod p$, so arbitrarily
+many elements may share one class and the pigeonhole bounds the number of
+occupied classes, never $|A|$; $p=2$ is the unique prime with $2r \equiv 0$ for
+all $r$, which is why parity works there and nowhere else. Counterexamples at
+$p = 3, 5, 7$ (the smallest, $S=\{2,5,7\}$, $A=\{1,3,7,13\}$, sits inside #91's
+own table). Also refuted, box-conditionally: $g$ is **not** monotone in the size
+of the primes ($g_{20000}(\{2,3,11\}) = 4 < 5 \le g(\{2,3,13\})$, 29 violations),
+so any $S$-level lemma must be about a prime's additive position relative to the
+smooth semigroup, not its size. The conjecture offered is *uniformly bounded
+height*, and both natural explicit constants for it were killed by the run's own
+data ($h(\{2,3,5\}) = 47 > 2^{k+2}$, $h(\{2,3,7,13\}) = 159 > 2^{k+3}$); it is
+consistent with all 15 measured $S$ and verified for none. No upper bound on
+$g(k)$, as before. Nothing here bears on RH (`docs/08`).
+
+### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
+
+**Status: not settled — scout killed on a pre-registered kill condition.** A
+30-minute bounded scout on Erdős #126 (for $n$ positive integers $A$, $f(n)$ is
+the least number of distinct primes dividing an off-diagonal sum $a+b$; is
+$f(n)/\log n \to \infty$?). The run inverted the problem before running any arm:
+$f$ and $g(k) = \max\{n : f(n) \le k\}$ are inverse staircases, so the
+conjecture is exactly $g(k)^{1/k} \to 1$, and all three briefed arms become
+measurements of one integer sequence. Exact branch-and-bound clique search on
+the $S$-smooth pair-sum graph, exhaustive inside $[1,N]$ with every witness
+re-verified, gives $g(k) \ge 2, 4, 5, 6, 8, 10, 11$ for $k = 1..7$ ($N$ from
+$2\cdot10^5$ down to $6000$); widening the box 60× moved not one row, because
+every optimal witness lives below 50. Those are lower bounds only — **no upper
+bound on $g(k)$ is established**, and seven falling $k$-th roots
+($2.00 \to 1.41$) cannot separate a limit of 1 from a limit of 1.3. That is the
+"suggestive finite data" the brief named as a kill condition, and the hunt calls
+it that. Two things survive. The Formal Conjectures positivity mismatch is
+resolved: $f(n-1) \le f_0(n) \le f(n)$, so the `Finset ℕ` statement is faithful
+for the limit and wrong for pinned finite values ($f(2)=1$, $f_0(2)=0$,
+witness $\{0,1\}$). And the briefed composition arm points the wrong way:
+$g(1) = 2$ plus supermultiplicativity gives $g(k) \ge 2^k$ by Fekete, i.e.
+$f(n) \le \log_2 n + O(1)$, so a rigorous composition law **refutes** the
+conjecture rather than proving it — what #126 needs is an anti-composition
+theorem. The only $S$-dependence visible was parity: $2 \in S$ is worth more
+than every other structural choice combined ($g_N(3) = 5$ with it, $2$ without).
+Nothing here bears on RH (`docs/08`).
 ### Hunt #92: the Erdős–Turán factor 2 is not lost anywhere, it is the whole statement (`support_517b887f/`)
 
 **Status: settled, negatively.** Support arm for Hunt #91, asked whether the
