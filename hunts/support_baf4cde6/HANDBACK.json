@@ -1,0 +1,49 @@
+{
+  "run_id": "baf4cde6-e76e-41a2-b3e0-c57b6bbc94c9",
+  "status": "settled",
+  "conclusion": "The entropy/signature lane is closed by proof, not by difficulty: for every prime bound P, arbitrarily large sets satisfy every constraint S-summability imposes at primes below P (Theorem B), so no entropy, VC, container, DRC or forbidden-pattern argument over prime-valuation signatures can bound |A| at all, let alone beat 2^k. The salvage is Lemma A (for p not in S, A meets at most (p+1)/2 residue classes mod p, and |A| <= 2 when p = 2), which refutes the parent's loose thread '|A| <= p-1' and which, pushed to CRT injectivity, saves exactly one bit per absent prime and so lands quantitatively far short of Erdos-Turan.",
+  "confidence": "Lean on Theorem B, Lemma A and the refutation as fully as on any two-line proof: they are short, self-contained, and each is checked computationally in probe.py (P=60 with |A|=200 and zero violations; the counterexample A={1,3,7,13}, S={2,5,7} re-verified by trial division). The scope claim around Theorem B is a judgment call and should be read as stated: it kills arguments whose input is p-adic data at a FIXED finite prime set, which is what the brief's tool list consumes; it does not kill an argument that uses the archimedean ordering or the cofinite condition. The numbers quoted for the ESS unit-equation route are recalled from the literature and were not re-derived here.",
+  "operator_decision_required": null,
+  "inherited": [
+    {
+      "what": "Hunt #91's g_N(k) table, witnesses, and the inversion g(k)^{1/k} -> 1",
+      "source": "hunts/r_186989/RESULTS.md",
+      "effect": "Gave the exact objects to audit and to test Lemma A against; two rows (k=3,4) were reproduced by an independently written search, and all seven witnesses re-verified, so no time went into rebuilding the measurement."
+    },
+    {
+      "what": "Hunt #91's loose thread proposing |A| <= p-1 for p not in S",
+      "source": "hunts/r_186989/RESULTS.md, Loose threads",
+      "effect": "Refuted with an explicit witness, and replaced by the correct class-count form (Lemma A). Removes a false first step from the parent's follow-up list."
+    },
+    {
+      "what": "The repository's lexical ban on the reserved word inside hunts/",
+      "source": "tests/test_hunt_probe_discipline.py",
+      "effect": "Caught a sentence in MISSION.md that disclaimed the word while containing it. The test reads bytes, as AGENTS.md warns."
+    }
+  ],
+  "threads": [
+    {
+      "what": "Fiber multiplicity of the map (4-subset of A) -> (solution of the three-variable S-unit equation)",
+      "why_it_might_matter": "It is the single missing lemma in the only upper-bound route either arm found; with a bound m one gets |A| <= (24 m E_3(k))^{1/4}, and E_3 is not known to be exponential.",
+      "first_step": "For the parent's witnesses at k=5,6,7, compute all C(|A|,4) triples (x,y,z) and count collisions; report whether the map is close to injective on real witnesses."
+    },
+    {
+      "what": "Longer additive relations (5- and 6-point) trading ESS constants against fiber size",
+      "why_it_might_matter": "The optimum in n has not been computed even heuristically, and the 4-point choice is a frozen constant with real trade shape.",
+      "first_step": "Compare C(|A|,n) <= m_n exp((6n)^{3n}(k+1)) across n = 4,5,6 under the optimistic assumption m_n = 1."
+    },
+    {
+      "what": "Lemma A as a Lean statement",
+      "why_it_might_matter": "Two-line proof, exact statement, in a problem whose Formal Conjectures entry the parent already examined.",
+      "first_step": "State the p = 2 case (p not in S implies A.card <= 2) and the class-count form for odd p."
+    }
+  ],
+  "core_candidates": [
+    {
+      "what": "A 'vacuity check' step for combinatorial-method briefs: before funding an entropy/VC/container arm, ask for a construction satisfying every constraint the method can read.",
+      "why_reusable": "It cost ten minutes here and returned a proof that the whole arm was vacuous. The same check applies to any brief that names a method rather than a theorem, which is a recurring brief shape in this lab.",
+      "first_step": "Add one line to the hunt brief template: 'name the data your method reads, then exhibit a large object consistent with that data or explain why none exists.'"
+    }
+  ],
+  "notes_for_operator": "The parent's door ranking survives with one correction of emphasis: the S-unit door is not a door onto Erdos #126 as it stands (today's counting constants are worse than 1934 by ~5e10 in the exponent), it is a door onto unit-equation counting, and the lab has no purchase on that. What the lab could own is the fiber-count question in thread 1, which is a finite combinatorial measurement on objects hunt #91 already produced."
+}
