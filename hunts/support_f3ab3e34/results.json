@@ -1,0 +1,618 @@
+{
+  "probe": "erdos-126 independent architect audit",
+  "checks": {
+    "audit_table": [
+      {
+        "k": 1,
+        "S": [
+          2
+        ],
+        "N": 400,
+        "g_N": 2,
+        "witness": [
+          1,
+          3
+        ],
+        "prior_r_186989": 2,
+        "agrees": true
+      },
+      {
+        "k": 2,
+        "S": [
+          2,
+          3
+        ],
+        "N": 400,
+        "g_N": 4,
+        "witness": [
+          1,
+          5,
+          7,
+          11
+        ],
+        "prior_r_186989": 4,
+        "agrees": true
+      },
+      {
+        "k": 3,
+        "S": [
+          2,
+          3,
+          5
+        ],
+        "N": 400,
+        "g_N": 5,
+        "witness": [
+          1,
+          3,
+          7,
+          17,
+          47
+        ],
+        "prior_r_186989": 5,
+        "agrees": true
+      },
+      {
+        "k": 4,
+        "S": [
+          2,
+          3,
+          5,
+          7
+        ],
+        "N": 300,
+        "g_N": 6,
+        "witness": [
+          1,
+          2,
+          3,
+          5,
+          7,
+          13
+        ],
+        "prior_r_186989": 6,
+        "agrees": true
+      },
+      {
+        "k": 5,
+        "S": [
+          2,
+          3,
+          5,
+          7,
+          11
+        ],
+        "N": 250,
+        "g_N": 8,
+        "witness": [
+          1,
+          2,
+          5,
+          9,
+          13,
+          19,
+          23,
+          31
+        ],
+        "prior_r_186989": 8,
+        "agrees": true
+      },
+      {
+        "k": 6,
+        "S": [
+          2,
+          3,
+          5,
+          7,
+          11,
+          13
+        ],
+        "N": 200,
+        "g_N": 10,
+        "witness": [
+          1,
+          2,
+          3,
+          5,
+          7,
+          9,
+          13,
+          19,
+          23,
+          47
+        ],
+        "prior_r_186989": 10,
+        "agrees": true
+      }
+    ],
+    "thread3_refutation": {
+      "claim": "|A| <= p-1 for a prime p not in S",
+      "p": 3,
+      "S": [
+        2,
+        5,
+        7
+      ],
+      "A": [
+        1,
+        3,
+        7,
+        13
+      ],
+      "A_is_valid": true,
+      "sums": {
+        "1+3": 4,
+        "1+7": 8,
+        "1+13": 14,
+        "3+7": 10,
+        "3+13": 16,
+        "7+13": 20
+      },
+      "no_sum_divisible_by_3": true,
+      "claim_bound": 2,
+      "observed": 4,
+      "claim_refuted": true
+    },
+    "S_without_3": [
+      {
+        "S": [
+          2,
+          5,
+          7
+        ],
+        "N": 300,
+        "g_N": 4,
+        "witness": [
+          1,
+          3,
+          7,
+          13
+        ]
+      },
+      {
+        "S": [
+          2,
+          5,
+          7,
+          11
+        ],
+        "N": 250,
+        "g_N": 5,
+        "witness": [
+          1,
+          9,
+          13,
+          19,
+          31
+        ]
+      },
+      {
+        "S": [
+          2,
+          5,
+          7,
+          11,
+          13
+        ],
+        "N": 200,
+        "g_N": 5,
+        "witness": [
+          1,
+          3,
+          7,
+          13,
+          19
+        ]
+      },
+      {
+        "S": [
+          2,
+          5,
+          7,
+          11,
+          13,
+          17
+        ],
+        "N": 150,
+        "g_N": 6,
+        "witness": [
+          1,
+          3,
+          7,
+          10,
+          25,
+          118
+        ]
+      }
+    ],
+    "S_without_2": [
+      {
+        "S": [
+          3,
+          5,
+          7
+        ],
+        "N": 400,
+        "g_N": 2,
+        "witness": [
+          1,
+          2
+        ]
+      },
+      {
+        "S": [
+          3,
+          5,
+          7,
+          11,
+          13
+        ],
+        "N": 300,
+        "g_N": 2,
+        "witness": [
+          1,
+          2
+        ]
+      }
+    ],
+    "interval_construction": {
+      "rows": [
+        {
+          "m": 2,
+          "k": 2,
+          "g_lower_bound": 2
+        },
+        {
+          "m": 3,
+          "k": 3,
+          "g_lower_bound": 3
+        },
+        {
+          "m": 4,
+          "k": 4,
+          "g_lower_bound": 4
+        },
+        {
+          "m": 5,
+          "k": 4,
+          "g_lower_bound": 5
+        },
+        {
+          "m": 6,
+          "k": 5,
+          "g_lower_bound": 6
+        },
+        {
+          "m": 7,
+          "k": 6,
+          "g_lower_bound": 7
+        },
+        {
+          "m": 8,
+          "k": 6,
+          "g_lower_bound": 8
+        },
+        {
+          "m": 9,
+          "k": 7,
+          "g_lower_bound": 9
+        },
+        {
+          "m": 10,
+          "k": 8,
+          "g_lower_bound": 10
+        },
+        {
+          "m": 11,
+          "k": 8,
+          "g_lower_bound": 11
+        },
+        {
+          "m": 12,
+          "k": 9,
+          "g_lower_bound": 12
+        },
+        {
+          "m": 13,
+          "k": 9,
+          "g_lower_bound": 13
+        },
+        {
+          "m": 14,
+          "k": 9,
+          "g_lower_bound": 14
+        },
+        {
+          "m": 15,
+          "k": 10,
+          "g_lower_bound": 15
+        },
+        {
+          "m": 16,
+          "k": 11,
+          "g_lower_bound": 16
+        },
+        {
+          "m": 17,
+          "k": 11,
+          "g_lower_bound": 17
+        },
+        {
+          "m": 18,
+          "k": 11,
+          "g_lower_bound": 18
+        },
+        {
+          "m": 19,
+          "k": 12,
+          "g_lower_bound": 19
+        },
+        {
+          "m": 20,
+          "k": 12,
+          "g_lower_bound": 20
+        },
+        {
+          "m": 21,
+          "k": 13,
+          "g_lower_bound": 21
+        },
+        {
+          "m": 22,
+          "k": 14,
+          "g_lower_bound": 22
+        },
+        {
+          "m": 23,
+          "k": 14,
+          "g_lower_bound": 23
+        },
+        {
+          "m": 24,
+          "k": 15,
+          "g_lower_bound": 24
+        },
+        {
+          "m": 25,
+          "k": 15,
+          "g_lower_bound": 25
+        },
+        {
+          "m": 26,
+          "k": 15,
+          "g_lower_bound": 26
+        },
+        {
+          "m": 27,
+          "k": 16,
+          "g_lower_bound": 27
+        },
+        {
+          "m": 28,
+          "k": 16,
+          "g_lower_bound": 28
+        },
+        {
+          "m": 29,
+          "k": 16,
+          "g_lower_bound": 29
+        },
+        {
+          "m": 30,
+          "k": 17,
+          "g_lower_bound": 30
+        },
+        {
+          "m": 31,
+          "k": 18,
+          "g_lower_bound": 31
+        },
+        {
+          "m": 32,
+          "k": 18,
+          "g_lower_bound": 32
+        },
+        {
+          "m": 33,
+          "k": 18,
+          "g_lower_bound": 33
+        },
+        {
+          "m": 34,
+          "k": 19,
+          "g_lower_bound": 34
+        },
+        {
+          "m": 35,
+          "k": 19,
+          "g_lower_bound": 35
+        },
+        {
+          "m": 36,
+          "k": 20,
+          "g_lower_bound": 36
+        },
+        {
+          "m": 37,
+          "k": 21,
+          "g_lower_bound": 37
+        },
+        {
+          "m": 38,
+          "k": 21,
+          "g_lower_bound": 38
+        },
+        {
+          "m": 39,
+          "k": 21,
+          "g_lower_bound": 39
+        },
+        {
+          "m": 40,
+          "k": 22,
+          "g_lower_bound": 40
+        }
+      ],
+      "best_lower_bound_by_k": {
+        "2": 2,
+        "3": 3,
+        "4": 5,
+        "5": 6,
+        "6": 8,
+        "7": 9,
+        "8": 11,
+        "9": 14,
+        "10": 15,
+        "11": 18,
+        "12": 20,
+        "13": 21,
+        "14": 23,
+        "15": 26,
+        "16": 29,
+        "17": 30,
+        "18": 33,
+        "19": 35,
+        "20": 36,
+        "21": 39,
+        "22": 40
+      },
+      "note": "A={1..m}, S=primes<=2m-1, so g(k) >= m with k=pi(2m-1) ~ 2m/log m"
+    },
+    "unit_equation_reduction": {
+      "A": [
+        1,
+        2,
+        3,
+        5,
+        7,
+        13
+      ],
+      "S": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "a1": 1,
+      "a2": 2,
+      "D": -1,
+      "group_generators": [
+        2,
+        3,
+        5,
+        7
+      ],
+      "rank_bound": 4,
+      "solutions": [
+        {
+          "c": 3,
+          "X": "-4",
+          "Y": "5",
+          "sums_to_one": true,
+          "X_in_group": true,
+          "Y_in_group": true
+        },
+        {
+          "c": 5,
+          "X": "-6",
+          "Y": "7",
+          "sums_to_one": true,
+          "X_in_group": true,
+          "Y_in_group": true
+        },
+        {
+          "c": 7,
+          "X": "-8",
+          "Y": "9",
+          "sums_to_one": true,
+          "X_in_group": true,
+          "Y_in_group": true
+        },
+        {
+          "c": 13,
+          "X": "-14",
+          "Y": "15",
+          "sums_to_one": true,
+          "X_in_group": true,
+          "Y_in_group": true
+        }
+      ],
+      "all_valid": true,
+      "distinct_X": true
+    },
+    "gcd_normalisation": [
+      {
+        "k": 1,
+        "gcd": 1,
+        "gcd_is_smooth": true
+      },
+      {
+        "k": 2,
+        "gcd": 1,
+        "gcd_is_smooth": true
+      },
+      {
+        "k": 3,
+        "gcd": 1,
+        "gcd_is_smooth": true
+      },
+      {
+        "k": 4,
+        "gcd": 1,
+        "gcd_is_smooth": true
+      },
+      {
+        "k": 5,
+        "gcd": 1,
+        "gcd_is_smooth": true
+      },
+      {
+        "k": 6,
+        "gcd": 1,
+        "gcd_is_smooth": true
+      }
+    ]
+  },
+  "findings": [
+    {
+      "id": "F1",
+      "kind": "reduction",
+      "claim": "g(k) <= 2 + N(k+1), where N(r) is the maximum number of solutions of x+y=1 with x,y in a rank-r subgroup of Q^*. Unconditionally g(k) <= 2 + 2^{8k+16} via Beukers-Schlickewei.",
+      "status": "proved (elementary, given the cited counting theorem); not new",
+      "consequence": "N(r) = exp(o(r)) implies Erdos #126.",
+      "direction_check": "one-way: a LOWER bound on N (Erdos-Stewart-Tijdeman) does not refute #126."
+    },
+    {
+      "id": "F2",
+      "kind": "audit-refutation",
+      "claim": "r_186989 loose thread 3 ('|A| <= p-1 when p not in S') is false.",
+      "witness": {
+        "A": [
+          1,
+          3,
+          7,
+          13
+        ],
+        "S": [
+          2,
+          5,
+          7
+        ],
+        "p": 3
+      },
+      "status": "refuted by explicit witness, verified above"
+    },
+    {
+      "id": "F3",
+      "kind": "audit-gap",
+      "claim": "r_186989 reports no lower-bound construction; A={1..m} with S = primes <= 2m-1 gives g(k) >= (1+o(1)) k log k / 2, which already exceeds its largest measured value for k >= 8.",
+      "status": "proved (elementary), verified above"
+    },
+    {
+      "id": "F4",
+      "kind": "literature",
+      "claim": "the best known upper bound is g(k) <= 2^k (Erdos-Suranyi), not the 3*2^{k-1} the brief and r_186989 both quote.",
+      "status": "secondary source (arXiv:2602.07545 and search summaries); not verified against the book in this run"
+    }
+  ]
+}

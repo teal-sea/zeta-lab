@@ -100,6 +100,36 @@ gives a non-degenerate 3-term $S$-unit solution, making #126 conditional on a
 subexponential unit-equation count and on a multiplicity nobody has bounded.
 #91's thread 4 closed in the negative: no 4-subset of the first eight primes
 beats $g_N(4)=6$. Nothing here bears on RH (`docs/08`).
+### Hunt #104: Erdős #126 is one unit-equation count away (`support_f3ab3e34/`)
+
+**Status: not settled, and the program is named.** Independent-architect arm on
+Erdős #126 ($g(k)$ = max size of a set of positive integers all of whose
+off-diagonal sums have prime factors in a fixed $k$-element set $S$; is
+$g(k) = \exp(o(k))$?), asked to ignore the earlier brief's three lanes and design
+the program from the statement. It reduces to a counting question in four
+elementary lines. Fix $a_1 \ne a_2$ in $A$, put $D = a_1 - a_2$; then
+$c \mapsto ((a_1+c)/D,\, -(a_2+c)/D)$ injects $A \setminus \{a_1,a_2\}$ into the
+solutions of $X + Y = 1$ inside the rank-$(k{+}1)$ group
+$\langle -1, S, D\rangle$, so $g(k) \le 2 + N(k+1)$ and **$N(r) = \exp(o(r))$
+implies the conjecture**. The known $N(r) \le 2^{8r+8}$ (Beukers–Schlickewei) is
+the same exponential wall the 1934 bound sits at, while the record construction
+(Erdős–Stewart–Tijdeman 1988) produces only $\exp\{(4+o(1))(s/\log s)^{1/2}\}$
+solutions: the believed truth about $N$ already implies #126 with room to spare,
+which is soft evidence for it. The reduction is not new (it is how the
+$c\log|A|$ bounds are proved) and its constant is worse than 1934's; its value is
+that it says which door is load-bearing. Four chains are ranked by the strength
+of their first unproved step, and the recommendation is *not* the reduction
+itself (its first step is strictly stronger than #126) but the $m$-base-point
+version, where each extra element adds a free simultaneous unit equation no
+counting argument currently exploits. Audit of `r_186989`: its table replicates
+at $N = 200$–$400$ (its boxes were slack by $10^2$–$10^3$, not $60\times$), its
+composition-refutation direction is sound, and **its loose thread 3 is false**,
+refuted by its own witness $A=\{1,3,7,13\}$, $S=\{2,5,7\}$, which has $|A| = 4 >
+p-1$ for $p = 3$; the residue pigeonhole closes only at $p=2$, because only there
+does $2r \equiv 0$. It also never states a lower bound: $\{1,\dots,m\}$ with
+$S$ = primes $\le 2m-1$ gives $g(k) \ge (1+o(1))k\log k/2$, so $g(12) \ge 20$
+and the unexplored range is $[k\log k,\, 2^k]$. Nothing here bears on RH
+(`docs/08`).
 
 ### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
 
