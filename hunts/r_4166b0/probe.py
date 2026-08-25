@@ -789,8 +789,9 @@ def venus_vs_zisk(tree: Path):
         return {"verdict": "not-comparable", "claim": claim}
     diffs = {}
     for a, b in zip(vc, zc):
+        # sorted, so the artifact is byte-stable across runs
         d = {k: {"venus": a.get(k), "zisk": b.get(k)}
-             for k in set(a) | set(b) if a.get(k) != b.get(k)}
+             for k in sorted(set(a) | set(b)) if a.get(k) != b.get(k)}
         if d:
             diffs[a["name"]] = d
     # A `group` relabel is bookkeeping; a numeric field is not.

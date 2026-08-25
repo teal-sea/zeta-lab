@@ -291,10 +291,12 @@ same order. Comparing field by field:
 
 * three circuits (`SpecifiedRanges`, `VirtualTable0`, `VirtualTable1`) differ
   only in a `group` label, bookkeeping;
-* one circuit, **`Final`**, differs numerically in seven fields:
-  `num_columns` 135 vs 114, `num_columns_witness` 80 vs 68, `num_columns_fixed`
-  55 vs 46, `num_constraints` 161 vs 154, `batch_size` 158 vs 139,
-  `gap_to_radius`, and one lookup's `num_lookups_M` 33 vs 24.
+* one circuit, **`Final`**, differs in **eight** keys, Venus first:
+  `num_columns` 135/114, `num_columns_witness` 80/68, `num_columns_fixed`
+  55/46, `num_constraints` 161/154, `batch_size` 158/139, `gap_to_radius`
+  0.0036667/0.0033333, one lookup's `num_lookups_M` 33/24, and `proof_size`
+  335.21/327.71 KB. Seven of the eight are inputs; `proof_size` is a value
+  carried in the TOML rather than an independent parameter.
 
 **This moves no published security level, and it is published here for that
 reason.** Every per-regime *total* is identical between the two reports, the
