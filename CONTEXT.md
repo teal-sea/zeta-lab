@@ -1289,6 +1289,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `scripts/science_preflight.py` — Preflight for a session running this lab from an outside environment.
 - `scripts/install_hooks.sh` — Install the pre-push secret guard into this checkout.
 - `scripts/ledger_sync.sh` — Sync the private discovery ledger between machines.
+- `scripts/palomar_stage.sh` — Stage a Palomar submission: verify everything checkable, then print the exact
 
 ## Tests (`tests/`)
 
