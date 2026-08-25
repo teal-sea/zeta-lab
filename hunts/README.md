@@ -70,6 +70,64 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #93: Erdős #126 is a $\forall S$ statement, so every search we own can only refute it (`support_8ea74995/`)
+
+**Status: settled, for the bounded question it was given.** The formulation arm
+of a multi-arm attempt on Erdős #126, run as support for a live sibling. It
+proves the equivalences hunt #91 asserted — $f(n) \le k \iff n \le g(k)$ as a
+Galois connection, and the equivalence of $f(n)/\log n \to \infty$,
+$\log g(k) = o(k)$, $g(k)^{1/k} \to 1$, $f(2^m)/m \to \infty$ and *"the average
+multiplicative gain per added prime tends to 1"* — and finds #91's asserted
+mathematics sound, with one "iff" that should have been an implication.
+Three things are new. **The refutation direction generalises**: not only
+supermultiplicativity but *any* law $g(k+C) \ge \lambda g(k)$ with $C$ and
+$\lambda>1$ constant refutes the conjecture, so every composition, gluing or
+doubling gadget with bounded prime cost is a refutation instrument; the
+supermultiplicative case needs no Fekete, just induction from $g(1)=2$.
+**One of #91's loose threads is false**: "$p \notin S \Rightarrow |A| \le p-1$"
+fails for every odd $p$ (take $A \equiv 1 \bmod p$), and had it held it would
+have given $g(k) \le p_{k+1}-1$ and settled the problem in three lines — it
+agreed with all seven measured data points anyway, which is the lesson. What
+the pigeonhole really proves is a bound on the number of **residue classes**
+$A$ occupies, $\le (p-1)/2 + 1$; $p=2$ is the unique prime for which that
+bounds $|A|$, and that is why parity is special. **And the quantifier settles
+the strategy**: #126 is $\forall S\,\forall A$, every enumeration yields
+$\exists S\,\exists A$, so no clique search in a box can ever contribute to a
+proof — #91's three failures have one cause and it is not budget. Also proved:
+$2 \in S$ and $\gcd A = 1$ are valid normalisations for upper bounds, while
+$\max A \le N$ and "$S$ = the first $k$ primes" are not; each 4-subset of $A$
+gives a non-degenerate 3-term $S$-unit solution, making #126 conditional on a
+subexponential unit-equation count and on a multiplicity nobody has bounded.
+#91's thread 4 closed in the negative: no 4-subset of the first eight primes
+beats $g_N(4)=6$. Nothing here bears on RH (`docs/08`).
+
+### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
+
+**Status: not settled — scout killed on a pre-registered kill condition.** A
+30-minute bounded scout on Erdős #126 (for $n$ positive integers $A$, $f(n)$ is
+the least number of distinct primes dividing an off-diagonal sum $a+b$; is
+$f(n)/\log n \to \infty$?). The run inverted the problem before running any arm:
+$f$ and $g(k) = \max\{n : f(n) \le k\}$ are inverse staircases, so the
+conjecture is exactly $g(k)^{1/k} \to 1$, and all three briefed arms become
+measurements of one integer sequence. Exact branch-and-bound clique search on
+the $S$-smooth pair-sum graph, exhaustive inside $[1,N]$ with every witness
+re-verified, gives $g(k) \ge 2, 4, 5, 6, 8, 10, 11$ for $k = 1..7$ ($N$ from
+$2\cdot10^5$ down to $6000$); widening the box 60× moved not one row, because
+every optimal witness lives below 50. Those are lower bounds only — **no upper
+bound on $g(k)$ is established**, and seven falling $k$-th roots
+($2.00 \to 1.41$) cannot separate a limit of 1 from a limit of 1.3. That is the
+"suggestive finite data" the brief named as a kill condition, and the hunt calls
+it that. Two things survive. The Formal Conjectures positivity mismatch is
+resolved: $f(n-1) \le f_0(n) \le f(n)$, so the `Finset ℕ` statement is faithful
+for the limit and wrong for pinned finite values ($f(2)=1$, $f_0(2)=0$,
+witness $\{0,1\}$). And the briefed composition arm points the wrong way:
+$g(1) = 2$ plus supermultiplicativity gives $g(k) \ge 2^k$ by Fekete, i.e.
+$f(n) \le \log_2 n + O(1)$, so a rigorous composition law **refutes** the
+conjecture rather than proving it — what #126 needs is an anti-composition
+theorem. The only $S$-dependence visible was parity: $2 \in S$ is worth more
+than every other structural choice combined ($g_N(3) = 5$ with it, $2$ without).
+Nothing here bears on RH (`docs/08`).
+
 ### Hunt #90: the leader's certificate does not replay at its own HEAD (`amtopa_ceiling/`)
 
 **Status: settled on the measurable axes; window axis open; acceptance blocked at the tip.** Takes the
