@@ -67,7 +67,7 @@ argument order was checked against `lean/bridge/Zeta23Ext/Bridge/Main.lean:281` 
 
 ```
 Φ₃ = (149 000 000 · H − 99 200) / 148 800 133 ,   H = HD 1 = 3/2 − (1/√2)cot(1/√2)
-   = 0.67273733450380945875…
+   = 0.67273733450380945032…
 H  = 0.67250070367941164573…
 Φ₃ − H = 2.3663 · 10⁻⁴
 ```
@@ -547,7 +547,7 @@ log fails.
   fact about the same `F` the bridge consumes, not a verifier's acceptance. 368 cell lemmas,
   22 covering steps, 4 box lemmas, 487 leaves.
 * `three_point_bound`, `three_point_bound_ratio` — the unconditional simple-zero bound at
-  `Φ₃ = 0.67273733450380945875…`, with **no hypotheses**, for Mathlib's `riemannZeta`.
+  `Φ₃ = 0.67273733450380945032…`, with **no hypotheses**, for Mathlib's `riemannZeta`.
 * `Phi_three` — the constant as an exact rational in `HD 1`.
 * `cover1` — the one-dimensional cover, and `wfun_window` (`w ≥ 19/100` on `[0,1/2]`, through
   the sinc form, across the removable singularity), and `sinc_taylor`, a twelve-term Taylor

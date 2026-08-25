@@ -35,13 +35,13 @@ project:
     times over 487 leaves, cover the quarter-plane of the two gaps. No external
     interval-arithmetic certificate is assumed for the three-point theorem, and
     no floating point appears. The cap gives m = 745 and the constant
-    (149000000 H - 99200)/148800133 = 0.67273733450380945875..., exceeding H by
+    (149000000 H - 99200)/148800133 = 0.67273733450380945032..., exceeding H by
     2.3663e-4: for Mathlib's riemannZeta, an unconditional improvement of the
     dependency's Theorem D.
     THE FOUR-POINT INSTANCE IS ALSO UNCONDITIONAL. At (n,c,p) = (4, 2310/10^6,
     2500), the finite inequality at every triple of nonnegative gaps is proved
     inside Lean. The cap gives m = 435 and the resulting constant is
-    (906250 H - 1085)/904171 = 0.67284701976668870316.... The bound and ratio
+    (906250 H - 1085)/904171 = 0.67284701976668882760.... The bound and ratio
     carry no certificate hypothesis and use exactly the same three permitted axioms.
     The eight-point instance stays conditional. A generalisation of Ainta's
     verifier to n points, validated by reproducing his seven-point run node for
@@ -136,7 +136,7 @@ status:
     interval-arithmetic certificate is assumed for the three-point theorem, no
     floating point is used. At (4, 2310/10^6, 2500), the finite inequality over
     every triple of nonnegative gaps is likewise a theorem of Lean in this
-    package and yields (906250 H - 1085)/904171 = 0.67284701976668870316....
+    package and yields (906250 H - 1085)/904171 = 0.67284701976668882760....
     native_decide appears nowhere in the package.
     The side conditions 2 <= n, n <= m, 0 < p, 0 < c and c(m-(n-1)) <= 1 are
     rational and closed by norm_num. Every analytic input, Riemann-von Mangoldt
@@ -233,7 +233,7 @@ alignment:
       note: "From eight_point_bound and the dependency's N(T,2T) -> infinity."
     - source: >-
         At n = 3 and (1345/10^6, 745, 3000), certificate proved rather than
-        assumed: at least 0.67273733450380945875... - eps. UNCONDITIONAL
+        assumed: at least 0.67273733450380945032... - eps. UNCONDITIONAL
       lean: "Zeta23Ext.PalomarV2.three_point_bound"
       module: "V2Solution"
       status: "proved"
@@ -255,7 +255,7 @@ alignment:
         the only way of reading the bound as vacuous.
     - source: >-
         At n = 4 and (2310/10^6, 435, 2500), certificate proved rather than
-        assumed: at least 0.67284701976668870316... - eps. UNCONDITIONAL
+        assumed: at least 0.67284701976668882760... - eps. UNCONDITIONAL
       lean: "Zeta23Ext.PalomarV2.four_point_bound"
       module: "V2Solution"
       status: "proved"

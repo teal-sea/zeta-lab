@@ -1,12 +1,12 @@
 # The four-point certificate, proved in Lean
 
 > `THREE-POINT.md` discharged `n_point_bound`'s certificate hypothesis at `n = 3` and got the
-> laboratory's first unconditional improvement on `H`: `Φ₃ = 0.67273733450380945875…`, `+2.3663·10⁻⁴`.
+> laboratory's first unconditional improvement on `H`: `Φ₃ = 0.67273733450380945032…`, `+2.3663·10⁻⁴`.
 > This note pushes the same ladder one rung: `n = 4`, three gaps, a tetrahedron instead of a
 > triangle, and
 >
 > ```
-> Φ₄ = (906250·HD 1 − 1085)/904171 = 0.67284701976668870316…
+> Φ₄ = (906250·HD 1 − 1085)/904171 = 0.67284701976668882760…
 > Φ₄ − H = 3.4632·10⁻⁴,   which is 1.464× the three-point gain
 > ```
 >
@@ -65,8 +65,8 @@ hypothesis supplied by `four_point_cert` and its five side conditions (`2 ≤ 4`
 
 ```
 H  = HD 1 = 3/2 − (1/√2)cot(1/√2) = 0.67250070367941164573…
-Φ₃ = (149000000·H −  99200)/148800133 = 0.67273733450380945875…   (THREE-POINT.md, proved)
-Φ₄ = (   906250·H −   1085)/   904171 = 0.67284701976668870316…   (this note)
+Φ₃ = (149000000·H −  99200)/148800133 = 0.67273733450380945032…   (THREE-POINT.md, proved)
+Φ₄ = (   906250·H −   1085)/   904171 = 0.67284701976668882760…   (this note)
 
 Φ₃ − H = 2.3663·10⁻⁴
 Φ₄ − H = 3.4632·10⁻⁴          =  1.464 × the three-point gain
@@ -598,7 +598,7 @@ rather than a footnote to it.
   same `F` the bridge consumes, not a verifier's acceptance. 983 cell lemmas applied 18 595 times,
   31 covering steps, 76 chunk lemmas over 3315 leaves, 13 box routers, 64 dispatch cases.
 * `four_point_bound`, `four_point_bound_ratio` — the unconditional simple-zero bound at
-  `Φ₄ = 0.67284701976668870316…`, with **no hypotheses**, for Mathlib's `riemannZeta`.
+  `Φ₄ = 0.67284701976668882760…`, with **no hypotheses**, for Mathlib's `riemannZeta`.
 * `Phi_four` — the constant as an exact rational in `HD 1`.
 * `cover1` — the one-dimensional cover at level `3c/2` over `[0, 5.775]`.
 
