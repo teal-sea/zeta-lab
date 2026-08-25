@@ -1,0 +1,53 @@
+{
+ "control_unit": "20250902_atlassian-rovo-dev",
+ "instance_flipped": "astropy__astropy-13033",
+ "instance_lesioned": "astropy__astropy-12907",
+ "all_faults_detected": true,
+ "faults": {
+  "baseline": {
+   "expectation": "unchanged",
+   "A_verdict": "match",
+   "A_recount": 384,
+   "A_delta_vs_published": 0,
+   "B_verdict": "consistent",
+   "B_n_inconsistent": 0,
+   "n_missing": 0
+  },
+  "resolved-flipped-false-to-true": {
+   "expectation": "A mismatch (+1) and B inconsistent",
+   "A_verdict": "mismatch",
+   "A_recount": 385,
+   "A_delta_vs_published": 1,
+   "B_verdict": "inconsistent",
+   "B_n_inconsistent": 1,
+   "n_missing": 0
+  },
+  "p2p-failure-planted-under-resolved-true": {
+   "expectation": "B inconsistent, A unchanged",
+   "A_verdict": "match",
+   "A_recount": 384,
+   "A_delta_vs_published": 0,
+   "B_verdict": "inconsistent",
+   "B_n_inconsistent": 1,
+   "n_missing": 0
+  },
+  "required-f2p-successes-dropped": {
+   "expectation": "B inconsistent, A unchanged",
+   "A_verdict": "match",
+   "A_recount": 384,
+   "A_delta_vs_published": 0,
+   "B_verdict": "inconsistent",
+   "B_n_inconsistent": 1,
+   "n_missing": 0
+  },
+  "one-report-file-removed": {
+   "expectation": "A recount -1 -> mismatch",
+   "A_verdict": "mismatch",
+   "A_recount": 383,
+   "A_delta_vs_published": -1,
+   "B_verdict": "consistent",
+   "B_n_inconsistent": 0,
+   "n_missing": 1
+  }
+ }
+}

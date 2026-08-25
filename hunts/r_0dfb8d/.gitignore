@@ -1,0 +1,7 @@
+# Fetched upstream artifacts: 550 MB, regenerable by `probe.py all` from the
+# pins in probe.py. The evidence that matters (per-file status, ETag and byte
+# count) is committed in data/fetch_manifest.json.
+data/cache/
+# 4.7 MB of split ids and required-test lists, regenerable from the pinned
+# dataset sha; the sha256 of the sorted ids is committed in results.json.
+data/split.json

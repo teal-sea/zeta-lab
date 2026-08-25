@@ -70,6 +70,48 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #108: the SWE-bench leaderboard recounts from its own logs, where the logs are there (`r_0dfb8d/`)
+
+**Status: settled for the units run; the archive-wide availability question is
+open.** The second transfer test of the reproduction procedure outside
+mathematics (paired with issue #140, soundcalc / zkVM): a public checker,
+publicly archived accepted objects, a published number. `SWE-bench/experiments`
+pinned at `1faa91cade05`, split ids at dataset sha `c104f840cc67`, logs by
+anonymous HTTPS GET from `s3://swe-bench-submissions`.
+
+**Five of six preregistered entries recount to the integer** (265, 359, 384,
+388, 396 against their own published `results.json`), and each also agrees on
+all twelve per-repository sub-counts, which is the cross-check that rules out
+two errors cancelling in one aggregate. **Across 2,484 per-instance reports
+re-derived from the test results recorded in the same file, zero disagreed with
+the verdict that file claims.** The two verdicts were kept apart throughout and
+were shown to be able to fail: four planted faults (a flipped `resolved`, a
+planted `PASS_TO_PASS` failure, dropped required successes, a removed report)
+turned exactly the verdict each should and left the other alone.
+
+**The finding is the other class.** One preregistered entry answers **0 of 500**
+documented report keys, all 404, while its predictions and trajectories are
+retrievable; a three-key probe across all 134 entries finds **15 answering none**
+(thirteen dated 2024-07 or earlier, two dated 2025-08-05, one of which was swept
+over all 500 keys to confirm). And the archive's access model is the binding
+constraint on anyone repeating this: **anonymous `GetObject` succeeds, anonymous
+`ListObjectsV2` returns 403**, so an outside reader can fetch any key they can
+name and cannot discover which keys exist. Every absence here is therefore
+"absent at the documented key", never "absent from the bucket". The repository
+README's claim that an AWS account is required is wrong for GET and silent about
+listing. Three smaller measured facts: `tags.checked` is a non-boolean truthy
+string (`"false (See README.md …)"`) in six entries, so any consumer writing
+`if tags["checked"]` reads six unchecked entries as checked; `no_logs: 0` is
+published for an entry that has one instance with a non-empty archived
+prediction and no archived report (it changes no count, being an accounting
+field rather than a counted one); and **no entry among the 134 states the
+evaluation-harness version that produced its number**, which bounds every
+"match" above. One reported unavailability was our own bug, an unencoded `+` in
+an entry name, found and fixed before publication and recorded because a
+reproduction procedure that blames the target for its own fetcher is the failure
+this class of hunt exists to catch. Nothing here characterises a team, an agent
+or a model, nothing was sent anywhere, and nothing bears on RH (`docs/08`).
+
 ### Hunt #104: Erdős #126 is one unit-equation count away (`support_f3ab3e34/`)
 
 **Status: not settled, and the program is named.** Independent-architect arm on
