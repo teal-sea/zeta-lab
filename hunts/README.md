@@ -129,6 +129,38 @@ p-1$ for $p = 3$; the residue pigeonhole closes only at $p=2$, because only ther
 does $2r \equiv 0$. It also never states a lower bound: $\{1,\dots,m\}$ with
 $S$ = primes $\le 2m-1$ gives $g(k) \ge (1+o(1))k\log k/2$, so $g(12) \ge 20$
 and the unexplored range is $[k\log k,\, 2^k]$. Nothing here bears on RH
+### Hunt #105: the Erdős #126 scout survives, its literature claim does not (`support_eccd5f5e/`)
+
+**Status: settled (audit).** Red-team arm against Hunt #91, every claim treated
+as hostile input. The mathematics holds. The inverse reformulation
+$g(k)=\max\{n : f(n)\le k\}$ and the chain to $g(k)^{1/k}\to 1$ re-prove in both
+directions, though the equivalence is conditional on $f(n)\to\infty$ and so on
+Erdős-Turán, which #91 does not flag. The positivity lemma
+$f(n-1)\le f_0(n)\le f(n)$ is correct step by step, and is sharpened here:
+$f(1..4) = 0,1,2,2$ are *exact and proved*, while $f(5)=3$ is not, because
+$f(5)\ge 3$ is exactly the open statement $g(2)\le 4$. The composition finding is
+correct and understated: Fekete is unnecessary ($g(k)\ge g(1)^k$ by induction),
+and since Erdős-Turán gives $g(k)\le 3\cdot 2^{k-1}-1$, a composition law would
+squeeze $g(k)$ into $[2^k, 1.5\cdot 2^k]$ and pin the growth constant to within
+$3/2$ rather than merely refuting the conjecture; **a proof that $g(3)\le 7$
+retires the programme without finding any gadget.** A search written from the
+problem statement rather than from `probe.py` reproduces all seven rows
+$2,4,5,6,8,10,11$ exactly. Two interpretations are corrected: "every optimal
+witness lives below 50" is an artifact of search order, since witnesses are
+closed under multiplication by $S$-units and division by $\gcd$ (ours returned
+$162\cdot\{1,5,7,11\}$), and the table was never benchmarked against the trivial
+1934 construction $A=\{1,\dots,m\}$, which already gives
+$g(k)\ge (p_k+1)/2 \sim \tfrac12 k\log k$. **One thread is false**: $|A|\le p-1$
+for omitted $p$ fails for every odd $p$ (a class $r$ with $2r\not\equiv 0$ may be
+occupied arbitrarily often; $p=2$ is the unique prime where the pigeonhole
+works), refuted by $S=\{2,5,7\}$, $A=\{1,3,7,13\}$ from #91's own table. And "no
+progress beyond 1934" is misleading: the order of magnitude is indeed unimproved
+(confirmed against erdosproblems.com/126 and Füredi-Gyarmati arXiv:2602.07545,
+Feb 2026), but Győry-Stewart-Tijdeman 1986 and Erdős-Stewart-Tijdeman 1988 are
+directly relevant and neither hunt cited a single paper. New: the four-element
+reduction $u+v=w+x$ to a nondegenerate three-term $S$-unit equation is proved,
+and the route needs an $\exp(o(s))$ solution count, which the known
+$\exp(c\sqrt{s}/\log s)$ lower bound does *not* forbid. Nothing bears on RH
 (`docs/08`).
 
 ### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
