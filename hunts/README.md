@@ -220,6 +220,37 @@ settles #126, which nothing known forbids since the best lower bound
 on $g(k)$ is proved here, and the one missing combinatorial lemma is named: every
 admissible $A$ beyond some size must contain a pair whose difference has few
 solutions. Nothing here bears on RH (`docs/08`).
+### Hunt #95: Erdős #126, the signature model has no ceiling to raise (`support_baf4cde6/`)
+
+**Status: lane closed, by proof rather than by a failed attempt.** Support arm
+for hunt #91 (`r_186989/`), asked whether prime-valuation signatures plus
+entropy, VC, containers, dependent random choice or forbidden patterns can show
+that an $S$-summable set ($a+b$ free of primes outside $S$, $|S|=k$) has
+subexponential size. Answer: no, and the reason is not difficulty. **Theorem B:
+for every prime bound $P$ and every $S$ containing 2, arbitrarily large sets
+satisfy every constraint $S$-summability imposes at primes $\le P$** (take
+$A = \{1+iM\}$ with $M$ the product of the odd primes $\le P$ outside $S$, so
+every off-diagonal sum is $\equiv 2 \bmod M$; checked at $P=60$ with $|A|=200$
+against Erdős–Turán's 12). So any argument reading a fixed finite prime set is
+consistent with $|A| = \infty$ and can prove nothing; the hypothesis binds only
+at primes above $\max A$, which is the cofinite smoothness condition itself and
+not a signature. That also explains #91's puzzle that every optimal witness
+lives below 50 inside a box of $2 \cdot 10^5$. The one non-vacuous use of the
+local data is **Lemma A**: for $p \notin S$, $A$ meets at most $(p+1)/2$
+residue classes mod $p$, never both $r$ and $-r$, at most one element in class
+0, and for $p=2$ this gives $|A| \le 2$ uniformly in $k$ (the proved form of
+#91's parity observation). Lemma A also **refutes** #91's loose thread
+"$|A| \le p-1$ when $p \notin S$": $A = \{1,3,7,13\}$, $S = \{2,5,7\}$ has
+$3 \notin S$ and $|A| = 4$, and a sweep at $N=400$ reaches 5. Pushed to CRT
+injectivity, Lemma A gives a real theorem that is strictly worse than 1934: it
+saves exactly **one bit per prime outside $S$** against a modulus that must
+already exceed $N$, landing at $2^{53}$ where Erdős–Turán gives $2^{5.6}$ at
+$\log_2 N = 64$. #91's own top door survives this arm: each 4-subset gives a
+non-degenerate three-variable $S$-unit equation, whose ESS count is worse than
+1934 by $\approx 5\cdot10^{10}$ in the exponent but is not known to be
+exponential, and the missing lemma there is a fiber count, not a unit-equation
+bound. #91's other claims were re-derived independently and hold, including two
+reproduced $g_N(k)$ rows. Nothing here bears on RH (`docs/08`).
 
 ### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
 
