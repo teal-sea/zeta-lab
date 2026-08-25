@@ -18,21 +18,43 @@ own verifier. The authoritative implementation is
 PalomarSubmission/scripts/submission_contract.py. Where they disagree, that
 one is right and this one is a bug.
 
-Usage:
-    python3 scripts/palomar_precheck.py <repo_root> <project_dir> <comparator_path> <metadata_path>
+It also runs the correspondence checks in scripts/palomar_correspondence.py,
+which is the half that would have caught both refusals that were ours: a
+well-formed record describing a different object than the comparator selected.
 
-Zeta Lab's two submissions:
-    python3 scripts/palomar_precheck.py . lean lean/comparator.json    lean/formalization.yaml
-    python3 scripts/palomar_precheck.py . lean lean/comparator-dh.json lean/palomar-dh/formalization.yaml
+Usage, and prefer the first form. Naming only the comparator derives the
+project directory and the metadata path from lean/palomar-pairs.json, so no
+argument of a submission is chosen by hand -- which is precisely how the
+2026-08-25 submission went out against the wrong record:
+
+    python3 scripts/palomar_precheck.py <repo_root> <comparator_path>
+    python3 scripts/palomar_precheck.py <repo_root> <project_dir> <comparator_path> [metadata_path]
+
+Zeta Lab's submissions (project and metadata both derived, pass neither):
+    python3 scripts/palomar_precheck.py . lean/comparator.json
+    python3 scripts/palomar_precheck.py . lean/comparator-dh.json
+    python3 scripts/palomar_precheck.py . lean/bridge/comparator-v2.json
 """
 import json,os,re,subprocess,sys
 try: import yaml
 except ImportError: sys.exit("pip install pyyaml")
+sys.path.insert(0,os.path.dirname(os.path.abspath(__file__)))
+import palomar_correspondence as corr
 
 REPO=sys.argv[1] if len(sys.argv)>1 else "."
-PROJ=sys.argv[2] if len(sys.argv)>2 else "lean"      # selected project (sec 6.1)
-CMP =sys.argv[3] if len(sys.argv)>3 else "lean/comparator.json"
-META=sys.argv[4] if len(sys.argv)>4 else "lean/formalization.yaml"
+# Two forms. `<repo> <comparator>` derives the project dir and the metadata
+# path from lean/palomar-pairs.json and is the one to use: nothing about a
+# submission is then chosen by hand, which is the failure that cost the
+# 2026-08-25 cycle. The long form stays for a surface not yet in the registry.
+_short=len(sys.argv)>2 and sys.argv[2].endswith(".json")
+try:
+    if _short:
+        CMP=sys.argv[2]; PROJ=corr.resolve_project(CMP,REPO); META=corr.resolve(CMP,REPO)
+    else:
+        PROJ=sys.argv[2] if len(sys.argv)>2 else "lean"   # selected project (sec 6.1)
+        CMP =sys.argv[3] if len(sys.argv)>3 else "lean/comparator.json"
+        META=sys.argv[4] if len(sys.argv)>4 else corr.resolve(CMP,REPO)
+except KeyError as e: sys.exit(f"FAIL  {e}")
 P=lambda *a: os.path.join(REPO,*a)
 ok=[];warn=[];fail=[]
 def chk(c,m,w=False):(ok if c else (warn if w else fail)).append(m)
@@ -170,8 +192,14 @@ if isinstance(srcs,list):
 rf=_get(y,"related_formalizations") or []
 for i,r in enumerate(rf): chk(bool(r.get("id")),f"related_formalizations[{i}] has id")
 
+# --- 4 correspondence: does the record describe what the comparator selects? ---
+cok,cwarn,cfail=corr.check(REPO,CMP,META)
+ok+=cok; warn+=cwarn; fail+=cfail
+
 print("\n".join("  PASS  "+m for m in ok))
 if warn: print("\n".join("  WARN  "+m for m in warn))
 if fail: print("\n".join("  FAIL  "+m for m in fail))
 print(f"\n{len(ok)} pass, {len(warn)} warn, {len(fail)} FAIL")
+if not fail:
+    print(f"\nSubmit these two paths, copied not chosen:\n\n    comparator  {CMP}\n    metadata    {META}\n")
 sys.exit(1 if fail else 0)
