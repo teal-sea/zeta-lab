@@ -201,6 +201,17 @@ theorem four_point_bound_ratio :
   rw [le_div_iff₀ h2]
   exact h1
 
+/-- **The four-point bound in cumulative windows.**  The dyadic form of
+`four_point_bound` transferred to `(0, T]` by `Zeta23.cumulative_of_dyadic`, the generic
+wrapper `Zeta23.ThmD.thmD₀_simple_mult_cumulative` itself uses; `N0simple` is
+interval-additive by `Zeta23.N0simple_add'`.  Unconditional, like the dyadic form. -/
+theorem four_point_bound_cumulative :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      ((906250 * HD 1 - 1085) / 904171 - ε) * (Ncount 0 T : ℝ)
+        ≤ N0simple 0 T :=
+  cumulative_of_dyadic zetaSeam paperInputs_zeta.RvM (fun _ _ _ => N0simple_add' zetaSeam)
+    four_point_bound
+
 /-! ### Standing axiom audit (idiom of `Zeta23Ext/Bridge/Defs.lean`) -/
 
 #print axioms F4_eq
@@ -209,5 +220,6 @@ theorem four_point_bound_ratio :
 #print axioms Phi_four
 #print axioms four_point_bound
 #print axioms four_point_bound_ratio
+#print axioms four_point_bound_cumulative
 
 end Zeta23Ext.Bridge.FourPoint

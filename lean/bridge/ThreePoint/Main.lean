@@ -2780,6 +2780,17 @@ theorem three_point_bound_ratio :
   rw [le_div_iff₀ h2]
   exact h1
 
+/-- **The three-point bound in cumulative windows.**  The dyadic form of
+`three_point_bound` transferred to `(0, T]` by `Zeta23.cumulative_of_dyadic`, the generic
+wrapper `Zeta23.ThmD.thmD₀_simple_mult_cumulative` itself uses; `N0simple` is
+interval-additive by `Zeta23.N0simple_add'`.  Unconditional, like the dyadic form. -/
+theorem three_point_bound_cumulative :
+    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
+      ((149000000 * HD 1 - 99200) / 148800133 - ε) * (Ncount 0 T : ℝ)
+        ≤ N0simple 0 T :=
+  cumulative_of_dyadic zetaSeam paperInputs_zeta.RvM (fun _ _ _ => N0simple_add' zetaSeam)
+    three_point_bound
+
 /-! ### Standing axiom audit (idiom of `Zeta23Ext/Bridge/Defs.lean`) -/
 
 #print axioms F3_eq
@@ -2788,5 +2799,6 @@ theorem three_point_bound_ratio :
 #print axioms Phi_three
 #print axioms three_point_bound
 #print axioms three_point_bound_ratio
+#print axioms three_point_bound_cumulative
 
 end Zeta23Ext.Bridge.ThreePoint
