@@ -15,99 +15,83 @@ separate repository; this one holds the record, not the presentation of it.
 
 ---
 
-## Externally verified: the source-admissible strong closure
+## Registered
 
-[![Palomar mechanical verification](https://img.shields.io/badge/Palomar-mechanical%20verification%20passed-1f6feb)](https://github.com/PalomarRegistry/PalomarSubmission/actions/runs/32448082170)
-[![kernels](https://img.shields.io/badge/replayed%20through-Lean%20kernel%20%2B%20NanoDa-1f6feb)](https://github.com/PalomarRegistry/PalomarSubmission/actions/runs/32448082170)
+Three results here have been rebuilt and kernel-checked by someone other than their
+author. Each was submitted to the [Palomar Registry](https://palomar-registry.org/),
+the Lean FRO / ICARM registry of Lean-verified mathematics, which fetched a pinned
+commit, rebuilt the development from scratch on its own hardware inside a sandbox,
+and replayed the proofs through Lean's kernel *and* the independent NanoDa kernel.
 
-One result in this tree has been checked by someone other than us. It was
-submitted to the [Palomar Registry](https://palomar-registry.org/), the Lean
-FRO / ICARM registry of Lean-verified mathematics, which fetched a pinned
-commit, rebuilt the development from scratch on its own hardware inside a
-sandbox, and replayed the proofs through Lean's kernel *and* the independent
-NanoDa kernel. Mechanical verification returned **zero errors and zero
-warnings**, and the editorial review reported **no problems identified**. The
-submission is registered; its public registry entry is pending publication.
+**[PALOMAR-2026-08-25-000005](https://palomar-registry.org/entry?id=PALOMAR-2026-08-25-000005&version=1)** — the n-point
+simple-zero bound (`lean/bridge/`). The parametric theorem and four instances. The
+three- and four-point instances are **unconditional**: their finite certificates are
+proved *inside Lean*, by interval cell lemmas over rationals rather than accepted from
+an external program, so the theorems carry no certificate hypothesis.
 
-Both runs are public and name the commit that was checked:
-[verification](https://github.com/PalomarRegistry/PalomarSubmission/actions/runs/32448082170)
-and [registration](https://github.com/PalomarRegistry/PalomarSubmission/actions/runs/32451268512).
+> Φ₄ = (906250·H − 1085)/904171 = 0.6728470197…
+> Φ₃ = (149000000·H − 99200)/148800133 = 0.6727373345…
 
-With `A = I + T` the Fredholm operator whose kernel is the Farmer-Gonek-Lee
-form factor `F1` on `I = [-1/2, 1/2]`, `w = A^-1 1` and `c* = <1, w>`, over the
-compactly supported monotone admissible class of profiles `v(s) = phi(Ls)^2`:
+built on `anthropics/zeta-23-lean` (arXiv:2608.13637), whose Theorem D gives
+H = 0.6725007036… unconditionally; the step from 41.6% to H is theirs and is much the
+larger piece of work. `#print axioms` reports exactly `[propext, Classical.choice,
+Quot.sound]`. The eight-point instance keeps its certificate as a named hypothesis and
+is registered as conditional.
+
+**[PALOMAR-2026-08-21-000004](https://palomar-registry.org/entry?id=PALOMAR-2026-08-21-000004&version=1)** — the
+source-admissible strong closure (`lean/`). With `A = I + T` the Fredholm operator
+whose kernel is the Farmer–Gonek–Lee form factor `F1` on `I = [-1/2, 1/2]`,
+`w = A^-1 1` and `c* = <1, w>`, over the compactly supported monotone admissible class
+`v(s) = phi(Ls)^2`:
 
 > sup <1,v>^2 / <Av,v> = c*, and inf <Av,v> / <1,v>^2 = 1/c*.
 
-The upper bound is energy Cauchy-Schwarz. It holds for every `v`, it is
-classical, and it is *not* the content of the result. The content is the
-reverse inequality: imposing evenness, radial monotonicity, an exact compact
-support, the amplitude ceiling and uniform L-1 bounds on the second derivatives
-does not lower the supremum, proved by exhibiting an explicit endpoint-tapered
-family inside the class whose quotient converges to `c*`. Three declarations
-are advertised, each depends on exactly `propext`, `Classical.choice` and
-`Quot.sound`, and the audited statement surface imports Mathlib alone.
+The upper bound is energy Cauchy–Schwarz and is classical. The content is the reverse
+inequality: the class constraints do not lower the supremum, proved by exhibiting an
+explicit endpoint-tapered family whose quotient converges to `c*`. **Scope:** a
+statement about a Fredholm operator on an interval and a class of test profiles. It
+says nothing about the zeros of ζ, nothing about RH, and asserts no numerical value
+for `c*`.
 
-**Scope.** This is a statement about a Fredholm operator on an interval and a
-class of test profiles. It says nothing about the zeros of the zeta function,
-nothing about the Riemann Hypothesis, and it asserts no numerical value for
-`c*` itself.
+**[PALOMAR-2026-08-21-000012](https://palomar-registry.org/entry?id=PALOMAR-2026-08-21-000012&version=1)** — the analytic half
+of Davenport–Heilbronn (`lean/palomar-dh/`). The registry classifies it *source-based*:
+it formalizes an existing theorem rather than establishing a new one.
 
-Check it yourself:
+None of this is peer review. No person read any of them.
+
+Check any of them yourself:
 
 ```bash
-cd lean && PATH="$HOME/.elan/bin:$PATH" lake build Challenge Solution
-# Solution builds sorry-free; Challenge carries one deliberate sorry per
-# advertised statement, which is what the Palomar format requires.
+cd lean/bridge && PATH="$HOME/.elan/bin:$PATH" lake build V2Challenge V2Solution
+# Solution builds sorry-free; Challenge carries one deliberate sorry per advertised
+# statement, which is what the Palomar format requires.
+bash scripts/palomar_stage.sh              # from the repo root, checks all four paths
 ```
 
-`lean/PALOMAR.md` explains the submission surface and how to re-check the axioms.
+## Conditional results, and where the method stops
 
-## Current work: the unconditional constant, the wall, and a corrected field position
+Certificate-based figures above H exist, here and elsewhere, and every one of them
+assumes a finite certificate that has not been proved. They are claims, not theorems.
+This tree's best is an eight-point certificate at 0.6730529829…; the highest published
+anywhere is 0.6734164909… (`AMTOPA/zeta-exact-pressure`), whose artifact returns
+`INCONCLUSIVE` 1.19e-07 short of its own target when run at its own pinned tip, with
+all six of its interval tables reproducing byte for byte — `hunts/amtopa_ceiling/`.
+`trmdy`'s full 2,168,370-box interval run was reproduced here node for node with no
+soundness defect found.
 
-On 10 August 2026, arXiv:2608.13637 (Anthropic) proved unconditionally that more
-than **0.6725007036…** of the zeros of ζ in a dyadic window are simple and on the
-critical line, with the Lean development public at `anthropics/zeta-23-lean`.
+Every conditional figure above H, including this tree's, rests on an analytic bridge
+that no person has reviewed. Φ₃ and Φ₄ do not.
 
-**This laboratory's theorem (24 August 2026, `hunts/ainta_seven_point/lean-three-point/`):**
-the same statement holds with constant
+The pressure-certificate family built on the Montgomery–Taylor window saturates at
+sup Φₙ ≤ 0.675142509660254, against a configuration ceiling of 0.6818286874638
+(`hunts/family_wall/`). Adding points cannot close that gap. The argument was audited
+adversarially by an independent model working from a blank directory, which found two
+repairable defects in the write-up and could not break the result.
 
-> **Φ₃ = (149000000·H − 99200)/148800133 = 0.6727373345…**
-
-**unconditionally**: the finite three-point certificate is proved *inside Lean* by
-1,515 interval cell lemmas rather than accepted by an external program, so the
-theorem takes no certificate hypothesis, and `#print axioms` reports exactly
-`[propext, Classical.choice, Quot.sound]`. This replaces the gap-census candidate
-that previously headed this section; that candidate remains in the tree with its
-grades, superseded.
-
-**The wall (`hunts/family_wall/`):** the pressure-certificate family built on the
-Montgomery–Taylor window saturates at **sup Φₙ ≤ 0.675142509660254** — far below
-the 0.6818286874638 configuration ceiling. Adding points cannot close the gap.
-The argument was audited adversarially by an independent model working from a
-blank directory; the audit found two repairable defects in the write-up and could
-not break the result, and ships inside the hunt.
-
-**The field, counted honestly (`hunts/field_audit/`):** fifteen public claims
-stand above Anthropic's theorem as of 24 August 2026. This laboratory's best
-conditional figure, an eight-point certificate at 0.6730529829…, ranks **tenth**;
-the leading claim is `AMTOPA/zeta-exact-pressure` at 0.6734164909…. Three
-constructions were past this laboratory's figure before its own hunt opened, and
-its prior-art search missed them for thirteen days — recorded, not edited away.
-Every figure in that ranking is a claim unless marked otherwise; trmdy's full
-2,168,370-box interval run was reproduced here node for node with no soundness
-defect found. All fifteen sit below the wall.
-
-Every conditional figure above Anthropic's, this laboratory's included, shares an
-analytic bridge no person has reviewed. The unconditional Φ₃ does not.
-
-**A separate artifact, with its own ledger:** the gap-census transplant in
-`hunts/frontier_math/` carries a candidate reading of record of **0.6725106958**,
-graded step by step in its `PROOF-LEDGER.md` and quoted here because a repository
-test holds this file, the docs and the hunt's start page to the ledger's current
-row. It is a candidate on a different chain, not one of the certificate figures
-above, and it moves only when its ledger does.
-
+A separate artifact with its own ledger: the gap-census transplant in
+`hunts/frontier_math/` carries a candidate reading of record of 0.6725106958, graded
+step by step in its `PROOF-LEDGER.md`. It is a candidate on a different chain, not one
+of the certificate figures above, and it moves only when its ledger does.
 ## Negative controls, and one framework that did not earn its keep
 
 The practice is load-bearing and stays: a claim is worth something only if a
