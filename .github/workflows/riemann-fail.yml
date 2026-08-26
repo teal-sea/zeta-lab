@@ -1,0 +1,98 @@
+# The riemannzeta.fun submission, compiled exactly as the site compiles it.
+#
+# Why this exists. The site takes one Lean file, verifies it in its own sandbox,
+# and allows three admitted uploads per account per UTC day. The first
+# submission failed at `lean-elaboration-failed`, and the site's log is behind
+# the submitter's private access link, which no agent can read. So this job
+# reproduces the site's build locally: same toolchain, same Mathlib pin, same
+# pinned anthropics/zeta-23-lean, one concatenated file, one library. Then the
+# iteration loop costs a CI run instead of a submission.
+#
+# The one thing it cannot reproduce is the site's `cMT`, which lives in their
+# ChallengeDeps and appears nowhere in the pinned upstream. This job mirrors it
+# as `Zeta23.ThmD.cStar 1` and says so, in
+# `hunts/riemann_fail/ChallengeDeps/CandidateSpec.lean`. A green run here with a
+# red run there localises the difference to that one definition and to
+# `candidate_strict_improvement`, the only theorem that touches it.
+
+name: riemann-fail
+
+on:
+  push:
+    branches: [ "bridge/**", "riemann/**" ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: riemann-fail-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  submission:
+    name: the assembled one-file submission
+    runs-on: ubuntu-latest
+    timeout-minutes: 350
+    defaults:
+      run:
+        working-directory: lean/bridge
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: restore elan and lake
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            ~/.elan
+            lean/bridge/.lake
+          key: three-point-${{ runner.os }}-${{ hashFiles('lean/bridge/lake-manifest.json', 'lean/bridge/lean-toolchain') }}-${{ github.run_id }}
+          restore-keys: |
+            three-point-${{ runner.os }}-${{ hashFiles('lean/bridge/lake-manifest.json', 'lean/bridge/lean-toolchain') }}-
+            three-point-${{ runner.os }}-
+
+      - name: install elan
+        run: |
+          curl -sSfL https://raw.githubusercontent.com/leanprover/elan/master/elan-init.sh \
+            | sh -s -- -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+
+      - name: mathlib olean cache
+        run: lake exe cache get || echo "::warning::mathlib cache get failed"
+
+      - name: dependencies (Zeta23 upstream, then the bridge development)
+        run: |
+          set -o pipefail
+          lake build Zeta23Ext 2>&1 | tail -50
+
+      - name: assemble the submission file
+        run: |
+          cp -r ../../hunts/riemann_fail/ChallengeDeps ./ChallengeDeps
+          mkdir -p Candidate
+          python3 ../../hunts/riemann_fail/assemble.py > Candidate/Solution.lean
+          ls -l Candidate/Solution.lean
+          printf '\n[[lean_lib]]\nname = "ChallengeDeps"\n\n[[lean_lib]]\nname = "Candidate"\n' >> lakefile.toml
+
+      - name: compile it, and print every error
+        run: |
+          set -o pipefail
+          lake build Candidate 2>&1 | tee ../../submission-build.log
+
+      - name: the three advertised theorems, and their axioms
+        run: |
+          cat > /tmp/axioms.lean <<'EOF'
+          import Candidate.Solution
+          #print axioms candidate_strict_improvement
+          #print axioms candidate_critical_line_bound
+          #print axioms candidate_critical_line_bound_cumulative
+          EOF
+          cp /tmp/axioms.lean Candidate/Axioms.lean
+          lake env lean Candidate/Axioms.lean
+
+      - name: upload the build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: submission-build-log
+          path: submission-build.log
+          if-no-files-found: warn
