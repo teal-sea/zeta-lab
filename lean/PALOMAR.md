@@ -200,8 +200,8 @@ repository. It advertises the selected declarations:
 - the four-point bound and ratio, unconditional because their certificate is
   proved inside Lean.
 
-The unconditional constants are `0.67273733450380945875` at three points and
-`0.67284701976668870316` at four points. The proved declarations use exactly
+The unconditional constants are `0.67273733450380945032` at three points and
+`0.67284701976668882760` at four points. The proved declarations use exactly
 `propext`, `Classical.choice`, and `Quot.sound`. The
 Challenge module contains one deliberate statement placeholder per advertised
 declaration; `V2Solution` proves the advertised declarations without

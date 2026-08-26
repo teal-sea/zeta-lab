@@ -47,7 +47,7 @@ from an explicit enclosure of the kernel, so the `n = 3` instance of
 `n_point_bound` is unconditional.  Its constant
 
 ```
-Φ₃ = (149000000 H − 99200)/148800133 = 0.67273733450380945875…
+Φ₃ = (149000000 H − 99200)/148800133 = 0.67273733450380945032…
 ```
 
 exceeds `H = 0.67250070367941164573…` by `2.3663·10⁻⁴`, so those two statements are
@@ -58,7 +58,7 @@ At four points, `2310/10⁶ ≤ F 4 2500 g` at every triple of nonnegative gaps 
 also proved inside Lean.  The resulting unconditional constant is
 
 ```
-Φ₄ = (906250 H − 1085)/904171 = 0.67284701976668870316…
+Φ₄ = (906250 H − 1085)/904171 = 0.67284701976668882760…
 ```
 
 ## Scope: what is *not* claimed
@@ -253,7 +253,7 @@ here**, so this statement carries no hypothesis at all.
 The cap `c(m−2) ≤ 1` gives `m ≤ 2 + ⌊10⁶/1345⌋ = 745`, and at `m = 745` the
 constant is
 
-`(149000000 H − 99200)/148800133 = 0.67273733450380945875…`,
+`(149000000 H − 99200)/148800133 = 0.67273733450380945032…`,
 
 which exceeds `H = 0.67250070367941164573…` by `2.3663·10⁻⁴`.  For Mathlib's
 `riemannZeta` this is an unconditional improvement of the Theorem D of the
@@ -270,7 +270,7 @@ theorem three_point_bound :
 /-- **The three-point bound as a proportion, unconditional.**  For every `ε > 0`
 and all large `T`,
 
-`N₀ˢ(T,2T) / N(T,2T) ≥ 0.67273733450380945875… − ε`,
+`N₀ˢ(T,2T) / N(T,2T) ≥ 0.67273733450380945032… − ε`,
 
 with no hypothesis and no positivity guard on the denominator. -/
 theorem three_point_bound_ratio :
@@ -289,7 +289,7 @@ For every `ε > 0` and all large `T`,
 
 `((906250 H − 1085)/904171 − ε) · N(T,2T) ≤ N₀ˢ(T,2T)`,
 
-with constant `0.67284701976668870316…`. -/
+with constant `0.67284701976668882760…`. -/
 theorem four_point_bound :
     ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,
       ((906250 * H - 1085) / 904171 - ε) * (Ncount T (2 * T) : ℝ)
@@ -299,7 +299,7 @@ theorem four_point_bound :
 /-- **The four-point bound as a proportion, unconditional.**  For every
 `ε > 0` and all large `T`,
 
-`N₀ˢ(T,2T) / N(T,2T) ≥ 0.67284701976668870316… − ε`,
+`N₀ˢ(T,2T) / N(T,2T) ≥ 0.67284701976668882760… − ε`,
 
 with no hypothesis and no positivity guard on the denominator. -/
 theorem four_point_bound_ratio :
