@@ -71,7 +71,10 @@ jobs:
           mkdir -p Candidate
           python3 ../../hunts/riemann_fail/assemble.py > Candidate/Solution.lean
           ls -l Candidate/Solution.lean
-          printf '\n[[lean_lib]]\nname = "ChallengeDeps"\n\n[[lean_lib]]\nname = "Candidate"\n' >> lakefile.toml
+          # Lake defaults a lean_lib's root to its own name, so each library is
+          # given the module that actually exists instead.
+          printf '\n[[lean_lib]]\nname = "ChallengeDeps"\nroots = ["ChallengeDeps.CandidateSpec"]\n\n[[lean_lib]]\nname = "Candidate"\nroots = ["Candidate.Solution"]\n' >> lakefile.toml
+          tail -12 lakefile.toml
 
       - name: compile it, and print every error
         run: |
