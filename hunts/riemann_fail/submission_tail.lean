@@ -39,10 +39,19 @@ private lemma cand_le_Phi :
   have h := gam_bounds.2
   nlinarith [h]
 
+/-- Zeta23's `cStar 1` is the challenge layer's `cMT`. This is the proof from the
+    pinned dependency's own `comparator/Solution.lean`, repeated here because a
+    submission is one file and cannot import that module. -/
+private lemma cStar_one_eq_cMT' : Zeta23.ThmD.cStar 1 = cMT := by
+  rw [Zeta23.ThmD.cStar_eq_tan_form zero_le_one le_rfl]
+  unfold cMT Zeta23.ThmD.theta
+  rfl
+
 theorem candidate_strict_improvement :
     currentRecordKappa < candidateKappa := by
-  show Zeta23.ThmD.HD 1 < (672737 : ℝ) / 1000000
-  exact record_lt
+  have h : Zeta23.ThmD.HD 1 < (672737 : ℝ) / 1000000 := record_lt
+  simpa only [currentRecordKappa, candidateKappa, Zeta23.ThmD.HD,
+    cStar_one_eq_cMT'] using h
 
 theorem candidate_critical_line_bound :
     ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,

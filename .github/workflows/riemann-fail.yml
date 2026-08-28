@@ -67,13 +67,18 @@ jobs:
 
       - name: assemble the submission file
         run: |
-          cp -r ../../hunts/riemann_fail/ChallengeDeps ./ChallengeDeps
+          # The site writes CandidateSpec into the pinned Zeta23 checkout's own
+          # comparator/ChallengeDeps directory, which is where that package's
+          # ChallengeDeps lean_lib (srcDir = comparator) resolves the module.
+          # A second library of the same name here collides with it.
+          install -D ../../hunts/riemann_fail/ChallengeDeps/CandidateSpec.lean \
+            .lake/packages/Zeta23/comparator/ChallengeDeps/CandidateSpec.lean
           mkdir -p Candidate
           python3 ../../hunts/riemann_fail/assemble.py > Candidate/Solution.lean
           ls -l Candidate/Solution.lean
           # Lake defaults a lean_lib's root to its own name, so each library is
           # given the module that actually exists instead.
-          printf '\n[[lean_lib]]\nname = "ChallengeDeps"\nroots = ["ChallengeDeps.CandidateSpec"]\n\n[[lean_lib]]\nname = "Candidate"\nroots = ["Candidate.Solution"]\n' >> lakefile.toml
+          printf '\n[[lean_lib]]\nname = "Candidate"\nroots = ["Candidate.Solution"]\n' >> lakefile.toml
           tail -12 lakefile.toml
 
       - name: compile it, and print every error
