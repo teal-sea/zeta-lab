@@ -1,0 +1,46 @@
+# Rebuild the public site when this tree moves.
+#
+# zeta.teal-sea.com is generated from this repository by a separate one,
+# teal-sea/zeta-record, which clones this tree at build time and derives every
+# figure on the page from it. Nothing in that arrangement notices a commit
+# here: the host watches the presentation repository, so the site only rebuilt
+# when the presentation changed. Between 25 and 28 August 2026 that left a site
+# showing a tree two days old, with no mechanism that would ever correct it.
+#
+# So the tree asks for its own rebuild. One POST to a Vercel deploy hook for
+# the site project, named lab-push and kept as the repository secret
+# VERCEL_DEPLOY_HOOK — a second hook rather than a shared one, so revoking this
+# trigger cannot take the nightly down with it.
+#
+# The hook URL is a credential. It is never echoed: curl writes the body to
+# /dev/null and only the status code is printed.
+name: site
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# A merge train of five pull requests wants one build, not five. Later runs
+# supersede earlier ones; the site is a whole-tree snapshot, so a superseded
+# build has nothing in it the next one will not also carry.
+concurrency:
+  group: site-rebuild
+  cancel-in-progress: true
+
+jobs:
+  rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ask the host for a fresh build
+        env:
+          HOOK: ${{ secrets.VERCEL_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "VERCEL_DEPLOY_HOOK is not set; nothing rebuilt" >&2
+            exit 1
+          fi
+          curl -fsS -X POST "$HOOK" -o /dev/null -w "triggered %{http_code}\n"
