@@ -103,7 +103,7 @@ zetas; `docs/09` gate #3 is the rule, and it needs no framework.
 
 `harness/` generalized that into a subject-independent framework with pluggable
 departments. In August 2026 it was tested against the practice it was meant to
-improve: four preregistered experiments, three subjects, 74 agent runs. The
+improve: four preregistered experiments, two subjects, 74 agent runs. The
 harness arm never outperformed the control, the control was 37/37, and at
 identical correctness the harness cost 1.1–1.7× the tokens and 2.4–5.0× the tool
 calls. Live hunts had meanwhile reimplemented the same four control roles by hand

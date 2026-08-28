@@ -168,7 +168,7 @@ gate measures verdict correctness, and on verdict correctness it bought nothing.
 
 > Does the harness improve the correctness of research-claim evaluation?
 
-**Not demonstrated, in any venue tested.** Four experiments, three subjects,
+**Not demonstrated, in any venue tested.** Four experiments, two subjects,
 n = 12 + 13 + 12 + 6 scored runs. Control accuracy: 12/12, 13/13, 6/6 on
 surviving items, 6/6. The unaided control has never once been wrong.
 

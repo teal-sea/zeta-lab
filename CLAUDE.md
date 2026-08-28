@@ -457,7 +457,7 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
     `promotion.py`, `preregistration.py`, `provenance.py`, `shams.py`, and
     the six subject packs under `departments/` that exist to populate it.
     ~8,000 lines with **zero live consumers**. It was tested and did not earn
-    core status: four preregistered experiments, three subjects, 74 agent
+    core status: four preregistered experiments, two subjects, 74 agent
     runs, the harness arm never once beat the control, the control was 37/37,
     and where correctness was identical the harness cost 1.1–1.7× the tokens
     and 2.4–5.0× the tool calls. Meanwhile live hunts reimplemented the same

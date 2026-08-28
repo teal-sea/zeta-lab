@@ -6,7 +6,7 @@
 
 ## Answer
 
-**No — not demonstrated.** Four pre-registered experiments, three subjects, 74 agent runs. The harness arm never once out-performed the control. The control was never wrong: 37 for 37.
+**No — not demonstrated.** Four pre-registered experiments, two subjects, 74 agent runs. The harness arm never once out-performed the control. The control was never wrong: 37 for 37.
 
 Separately, and more cheaply decisive: **nothing in the repository uses the harness.**
 
@@ -182,5 +182,72 @@ this is a success of the method and a failure of the artifact — do not collaps
 the two, in either direction.
 
 What it does **not** license: any conclusion about verification in general, or
-about work not tested here. Four experiments in three subjects measured one
+about work not tested here. Four experiments in two subjects measured one
 framework's effect on verdict correctness. That is all they measured.
+
+
+---
+
+# Correction: §3's zero call sites has gone stale (added 2026-08-27)
+
+**Believed, and exactly true on the day it was written.** §3 reports zero call
+sites for `run_battery`, `validate_battery`, `audit_department` and `ClaimReport`
+outside `harness/` and `tests/`, and offers that zero as adoption evidence
+cheaper and more decisive than the four experiments.
+
+**Invalidated by** two commits that landed on 2026-08-20, a week after this file
+was written, neither of which came back to it:
+
+- `meta/evals/asymmetry.py` calls `audit_department` at line 313, imported at
+  line 307. The module arrived at `fd898d8` and the call at `1b45799`, the
+  commit that corrected `docs/28` by replacing a ground truth read out of
+  `SHAM_MODES` with one measured by running the audit. The measurement it needed
+  was this framework's.
+- `hunts/r_e2ee73/probe.py` (`f85e6d4`) imports `run_battery` at line 28.
+
+**What is now true**, re-derived by grep on 2026-08-27 against `main` at
+`6d169dc` rather than quoted from the block above:
+
+    call sites of run_battery / validate_battery / audit_department / ClaimReport
+    outside harness/ and tests/ :   1
+
+    audit_department   1 call   meta/evals/asymmetry.py:313
+    run_battery        0 calls  imported at hunts/r_e2ee73/probe.py:28, never used there
+    validate_battery   0
+    ClaimReport        0
+
+**The four names also undercount, and that is the larger part.** The same probe
+that imports `run_battery` without using it does call three other demoted
+`harness/protocol.py` functions the four-name grep was never pointed at:
+`run_power` at lines 122 and 125, `run_ablation` at 129, `run_nulls` at 137. It
+imports the demoted `compiler_department` subject pack at line 26 as well.
+Counted by what the demoted framework actually exports rather than by those four
+names, live research outside `harness/` and `tests/` now makes **five calls**
+into it across two files, not zero.
+
+Not counted, and worth naming so nobody counts it twice: `hunts/r_365c6c/probe.py`
+defines its own local `run_battery()` at line 284 and imports nothing from
+`harness`. That is an instance of the hand-rebuilding §3 describes, not a call
+site.
+
+**This correction runs against the verdict, which is why it is recorded rather
+than folded into §3.** The zero was the strongest adoption evidence in this file
+and it was offered as standing on its own. It is no longer zero, so §3 is weaker
+than it reads, and the Answer's "nothing in the repository uses the harness" is
+now wrong about the demoted half too. The 2026-08-13 correction below §9 had
+already narrowed that sentence to exclude the live ledgers and their reader in
+`scripts/70_lab_state.py`; what is new here is that the framework half, the half
+that failed the gate, has acquired consumers as well.
+
+**What it does not change.** The demotion stands. Five calls from two files,
+neither in the causal path of any mathematical result and one of them serving a
+different experiment's measurement, is not the live consumer §9 asked for, and
+§9's instruction to stop developing `harness/` is untouched. The four-experiment
+record and the cost finding are unaffected. What moved is the size of the number
+and what may be said with it, not the decision it supported.
+
+**Not caught by anything.** Unlike the subject count, which
+`tests/test_harness_verdict_subject_count.py` now derives from the gate protocols
+and pins, this figure has no guard: it went stale in seven days and stayed stale
+for another seven with nothing to notice. A grep against a moving tree is a
+measurement with a date on it, and §3 should be read as carrying one.
