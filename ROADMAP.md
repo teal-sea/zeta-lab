@@ -79,7 +79,7 @@ that for as long as the name had a space in it.
 
 Phase 6 above built `harness/` on the bet that the referee, factored out of the
 laboratory, would make the lab extensible by department. **That bet was tested
-and lost.** Four preregistered experiments, three subjects, 74 agent runs, every
+and lost.** Four preregistered experiments, two subjects, 74 agent runs, every
 protocol frozen and pushed before its arms ran: the harness arm never once
 outperformed the control, the control answered 37 of 37, and where correctness
 was identical the harness cost 1.1–1.7× the tokens and 2.4–5.0× the tool calls.

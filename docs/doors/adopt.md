@@ -2,7 +2,7 @@
 
 > **Demoted 2026-08-13. Read `harness/VERDICT.md` before acting on this page.**
 > The framework this guide walks you through was tested against the practice it
-> was meant to improve — four preregistered experiments, three subjects, 74 agent
+> was meant to improve — four preregistered experiments, two subjects, 74 agent
 > runs — and did not earn its keep: the harness arm never beat the control, and
 > cost 2.4–5.0× the tool calls for the same answers. It is frozen, not deleted,
 > and this page is kept because the reasoning below is still worth reading and
