@@ -6,10 +6,10 @@ A computational laboratory for the Riemann zeta function and RH. Read
 `ROADMAP.md` carries the project's decisions, deliberate non-goals, known gaps
 and the next planned build — read it before proposing or planning work.
 
-`ALIGNMENT.md` is the owner's orientation for every worker here: what the
-laboratory is oriented toward, why the model is never its own authority, and
-what the owner decides. It is short and it is not optional. Honest resistance
-is part of it.
+`ALIGNMENT.md` covers what an agent here is expected to do when it disagrees,
+why producing a result is not the same as establishing it, and which decisions
+are not an agent's to make. It is short and it is not optional. Disagreeing is
+part of it.
 
 This file is the single source of operating context for **any** coding agent
 working in this repository (Claude Code, Codex, Cursor, Aider, …). `CLAUDE.md`

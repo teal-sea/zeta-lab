@@ -128,10 +128,9 @@ Report them; do not merge them.
 
 ## Record: session handoff under a token constraint (2026-08-12)
 
-Written because the operator is funding this out of pocket and **frontier-model
-tokens are exhausted until further notice**. The next session is likely a
-cheaper model. This record is the state, the queue sorted by what a cheaper
-model can actually do, and the one thing it should not attempt.
+Written under a hard token budget, with the next session likely to be a cheaper
+model. This record is the state, the queue sorted by what a cheaper model can
+actually do, and the one thing it should not attempt.
 
 ### State
 
