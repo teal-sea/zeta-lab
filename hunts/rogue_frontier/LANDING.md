@@ -43,10 +43,45 @@ own voice. Landing them would import the contested table's verdict as prose
 while withholding the code that could be checked against it, which is the
 worse half of both options. They are readable on the source branch.
 
-**`erdos_scan/` and `matchings/`** are two further arms the branch grew
-*after* the 2026-08-18 salvage sweep that specified this landing, so nothing
-has assessed them. They are not rejected; they are unreviewed, and landing
-unreviewed work under cover of a salvage would misrepresent them.
+**`erdos_scan/` and `matchings/` — landed 2026-08-28, after being recovered
+from a force-push.** This entry previously said they were unreviewed. When
+someone went to review them they were not on the branch at all: the source
+commit this page cites, `7043621a` (2026-08-18 22:38 UTC), is not an ancestor
+of the branch tip, which is `a19ac11` and dated **2026-08-17 16:27** — thirty
+hours EARLIER. The branch was force-pushed backwards at some point after this
+landing was written, and took both arms with it.
+
+They were recovered by fetching the orphaned commit from the remote by SHA
+while it was still unreachable-but-present, and pinned as
+`origin/rescue/rogue-frontier-7043621a` so it cannot be collected. Anyone
+reading this can check the recovery against that ref.
+
+What was verified before landing, and what was not:
+
+* `matchings/Matchings.lean` — 430 lines, **0** `sorry`, **0** `sorryAx`,
+  **0** `axiom` declarations, 21 theorems. `RESULTS_LEDGER.md`'s claim of "no
+  `native_decide` in any proof" was checked and holds: the single occurrence
+  of that string in the file is inside a comment explaining that `decide` is
+  used instead.
+* The STATEMENT was checked against reality rather than taken on trust.
+  `matchings/oracle.py` enumerates the count three independent ways and
+  agrees; an independent brute-force enumeration of fixed-point-free
+  involutions written for this landing agrees with both, and with `(n-1)!!`,
+  for n = 0..10.
+* **NOT verified: the proof was not recompiled.** No Lean toolchain is
+  available in the environment that landed this, so the kernel-checked grade
+  rests on the coordinator's recorded recompilation (EXIT=0, axioms
+  `[propext, Classical.choice, Quot.sound]`), not on a fresh one. A run with
+  `lake` should confirm it before the grade is cited anywhere outside this
+  hunt.
+* `erdos_scan/FINDINGS.md` is a feasibility survey and says so in its own
+  second line — "Status: exploratory. Nothing here is a result." It lands as
+  a survey, not as mathematics.
+
+`matchings/` is not incidental: Hunt #48 (`hunts/r_8c3b94`) priced Erdos-Kac
+in Lean and named this exact count at step A2c as something "Mathlib does not
+have". That is a blocker in this tree, closed by a file that sat destroyed on
+a rewound branch for ten days.
 
 ## What was corrected in flight
 
