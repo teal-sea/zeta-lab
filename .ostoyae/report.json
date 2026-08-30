@@ -1,0 +1,6 @@
+{
+  "wall": "",
+  "work": [],
+  "edges": [],
+  "notes": "In progress. Vendored FormalConjecturesUtil (22 files, from the local cache, blob-SHA-verified against upstream tree at 7e662f7) and FormalConjecturesForMathlib (166 files, fetched from raw.githubusercontent.com at 7e662f7, blob-SHA-verified). The cache is a sparse checkout that lacks FormalConjecturesForMathlib entirely. Upstream Mathlib is v4.33.1 (0df444a); local is v4.33.0-rc2 (51e6992): build compatibility not yet verified."
+}

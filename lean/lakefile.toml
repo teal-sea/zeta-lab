@@ -44,3 +44,27 @@ roots = ["DHChallenge"]
 [[lean_lib]]
 name = "DHSolution"
 roots = ["DHSolution"]
+
+# Vendored from google-deepmind/formal-conjectures at 7e662f771cec2c6d893ee048d163c3cb3aa2a377
+# (Apache-2.0, see FORMAL-CONJECTURES-VENDOR.md). Kept as two libraries like upstream.
+# The Mathlib standard linter set is off for the copies: they are upstream's code
+# and upstream's lint policy, not this project's.
+[[lean_lib]]
+name = "FormalConjecturesForMathlib"
+[lean_lib.leanOptions]
+weak.linter.mathlibStandardSet = false
+
+[[lean_lib]]
+name = "FormalConjecturesUtil"
+globs = ["FormalConjecturesUtil.*"]
+[lean_lib.leanOptions]
+weak.linter.mathlibStandardSet = false
+
+# Erdős-problem statements: `Erdos.lean` plus every `Erdos/*.lean`, each starting
+# with `import FormalConjecturesUtil` exactly as upstream problem files do.
+# Statements are advertised with `sorry`, so that warning is off as upstream does.
+[[lean_lib]]
+name = "Erdos"
+globs = ["Erdos.*"]
+[lean_lib.leanOptions]
+warn.sorry = false

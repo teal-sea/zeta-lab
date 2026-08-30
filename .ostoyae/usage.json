@@ -1,0 +1,1 @@
+{"model": "claude-fable-5", "input_tokens": 4770, "output_tokens": 13700, "cache_read_input_tokens": 967421, "cache_creation_input_tokens": 60778, "cost_usd": 2.9156809999999997, "duration_ms": 195765, "api_ms": 191156, "turns": 18, "web_search_requests": 0, "web_fetch_requests": 0}
