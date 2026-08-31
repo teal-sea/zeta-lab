@@ -274,3 +274,25 @@ Ainta was first recorded in this tree at commit `bb8fa70` (`FRONTIER_MAP.md` lin
 reproduction done to the contract, plus Gohms, the floor, and the formula. The lab's own
 gap-census transplant (0.6725106958) is prior art recorded in the same map and is not
 re-proposed.
+
+## 7. Correction, 2026-08-31: the verifier's source, and its soundness check
+
+**The record was incomplete.** Section 3 above says the n-point verifier is "`verify_n.py`, in
+the upstream clone". That clone is gitignored, so the program behind the eight-point certificate
+was in no commit of this repository; it survived in one session's temporary directory and was
+found by a referee of the Pub 2 note failing to find it. It is now tracked at
+`hunts/ainta_seven_point/verify_n.py` (sha256 `21af096c…8927`) and `fetch_upstream.sh` installs it
+into the clone. The true-target control at n = 3 accepts in 342 nodes, the count the 2026-08-23
+artifact records, which is the evidence that the tracked file is the program that produced the
+record.
+
+**Node-for-node reproduction is agreement, not soundness.** The published verifier reproduces
+its own certificate perfectly and is unsound at raised targets (section 3, the prune). So
+`verify_n_faults.py` checks the thing that can fail: a known-false target must be refused, and
+four planted unsoundnesses (the published prune defect's shape; kernel bounds raised by 2e-4;
+coefficients scaled by 1.01; the minimiser's boxes dropped) must each flip that refusal. They do,
+4 of 4 at n = 3 and 4 of 4 at n = 7. The first n = 3 attempt reported itself blind to
+dropped-box because only one of the minimiser's two mirror images had been removed; F is
+symmetric under reversal, and the harness's docstring now says so. MEASURED, both runs, artifacts
+listed in RUNS.md. This changes no grade: an interval verifier with a passing fault-injection
+harness is still not a proof assistant, and `hCert` at n = 8 stays a hypothesis.

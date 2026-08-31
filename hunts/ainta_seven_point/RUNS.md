@@ -390,3 +390,20 @@ artifacts:
   - hunts/ainta_seven_point/four_point_preflight.py
   - .github/workflows/four-point.yml
 ```
+
+```runmanifest
+id: ainta_seven_point-2026-08-31-verify-n-rescue-and-fault-injection
+hunt: ainta_seven_point
+started: 2026-08-31T20:30-05:00
+finished: 2026-08-31T21:20-05:00
+ran:
+  - verify_n.py rescued into the repository: it had lived only in the gitignored upstream clone (and a copy in another session's temp directory, sha256 21af096c18d5fd1103b3d473224444b310ddc537273b7aff39a636b7508f8927); fetch_upstream.sh now installs it into the clone on every fetch
+  - verify_n_faults.py at n=3 (grid 4000, p 3000): true target 1353/10^6, false target 13531/10^7, four planted faults (prune-ignores-target, inflated-kernel-table, inflated-coefficient, dropped-box)
+  - verify_n_faults.py at n=7 (grid 4000, p 3000, --skip-true): false target 38263/10^7, the same four faults
+outcome: n=3 control-true ACCEPTED in 342 nodes (the count the 2026-08-23 artifact records, so the rescued file is the program that produced it); control-false REFUSED in 115 nodes at (2.00275, 1.05075); faults flip to ACCEPTED in 36, 9, 190, 56 nodes, 4 of 4 detected. First n=3 attempt was 3 of 4: dropped-box removed one of the two mirror-image boxes and the verifier refused at the mirror in the control's 115 nodes; fixed to drop both (F is reversal-symmetric). n=7 control-false REFUSED in 488210 nodes at depth 66 (45.8 s); faults flip in 288557, 875, 804083, 751449 nodes, 4 of 4 detected. Nothing about the eight-point instance's grade changes: hCert stays a hypothesis.
+artifacts:
+  - hunts/ainta_seven_point/verify_n.py
+  - hunts/ainta_seven_point/verify_n_faults.py
+  - hunts/ainta_seven_point/artifacts/verify-n-faults-n3-grid4000.json
+  - hunts/ainta_seven_point/artifacts/verify-n-faults-n7-grid4000.json
+```

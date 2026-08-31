@@ -10,4 +10,9 @@ if [ ! -d "${DEST}/.git" ]; then
   git clone --quiet https://github.com/ainta/zeta-simple-zeros.git "${DEST}"
 fi
 git -C "${DEST}" checkout --quiet "${PIN}"
+# The n-point generalisation of the upstream verifier is this laboratory's and is
+# tracked here, not upstream. It imports the upstream package relatively, so it is
+# installed beside kernel.py and rounding.py on every fetch. Until 2026-08-31 it lived
+# only in the gitignored clone, which is why one referee could not find it.
+cp "${HERE}/verify_n.py" "${DEST}/src/zeta_simple_zeros/verify_n.py"
 echo "export ZSZ_SRC=${DEST}/src/zeta_simple_zeros"
