@@ -1,0 +1,104 @@
+{
+  "script": "hunts/ainta_seven_point/verify_n_faults.py",
+  "verifier": "hunts/ainta_seven_point/verify_n.py, installed into the pinned upstream clone (040c5e8) beside kernel.py and rounding.py",
+  "n": 3,
+  "grid": 4000,
+  "pressure": 3000,
+  "true_target": "1353/1000000",
+  "false_target": "13531/10000000",
+  "recorded_infimum": "0.0013530645459787036",
+  "derived_cutoff_cells": 16638,
+  "planted_bad_cutoff_cells": 12013,
+  "runs": [
+    {
+      "label": "control-true",
+      "target": "1353/1000000",
+      "outcome": "ACCEPTED",
+      "nodes": 342,
+      "pressure_pruned": 10,
+      "interval_pruned": 43,
+      "tangent_pruned": 126,
+      "maximum_depth": 17,
+      "cutoff_cells": 16636,
+      "refuting_cell_gaps": null,
+      "wall_seconds": 0.1
+    },
+    {
+      "label": "control-false",
+      "target": "13531/10000000",
+      "outcome": "REFUSED",
+      "nodes": 115,
+      "pressure_pruned": 9,
+      "interval_pruned": 21,
+      "tangent_pruned": 29,
+      "maximum_depth": 17,
+      "cutoff_cells": 16638,
+      "refuting_cell_gaps": [
+        2.00275,
+        1.05075
+      ],
+      "wall_seconds": 0.1
+    },
+    {
+      "label": "prune-ignores-target",
+      "target": "13531/10000000",
+      "outcome": "ACCEPTED",
+      "nodes": 36,
+      "pressure_pruned": 21,
+      "interval_pruned": 4,
+      "tangent_pruned": 1,
+      "maximum_depth": 4,
+      "cutoff_cells": 12013,
+      "refuting_cell_gaps": null,
+      "wall_seconds": 0.1
+    },
+    {
+      "label": "inflated-kernel-table",
+      "target": "13531/10000000",
+      "outcome": "ACCEPTED",
+      "nodes": 9,
+      "pressure_pruned": 3,
+      "interval_pruned": 6,
+      "tangent_pruned": 0,
+      "maximum_depth": 0,
+      "cutoff_cells": 16638,
+      "refuting_cell_gaps": null,
+      "wall_seconds": 0.1
+    },
+    {
+      "label": "inflated-coefficient",
+      "target": "13531/10000000",
+      "outcome": "ACCEPTED",
+      "nodes": 190,
+      "pressure_pruned": 10,
+      "interval_pruned": 45,
+      "tangent_pruned": 48,
+      "maximum_depth": 10,
+      "cutoff_cells": 16638,
+      "refuting_cell_gaps": null,
+      "wall_seconds": 0.1
+    },
+    {
+      "label": "dropped-box",
+      "target": "13531/10000000",
+      "outcome": "ACCEPTED",
+      "nodes": 56,
+      "pressure_pruned": 10,
+      "interval_pruned": 21,
+      "tangent_pruned": 4,
+      "maximum_depth": 4,
+      "cutoff_cells": 16638,
+      "refuting_cell_gaps": null,
+      "wall_seconds": 0.1
+    }
+  ],
+  "faults_detected": [
+    "prune-ignores-target",
+    "inflated-kernel-table",
+    "inflated-coefficient",
+    "dropped-box"
+  ],
+  "faults_blind": [],
+  "problems": [],
+  "finished_utc": "2026-08-31T14:34:30Z"
+}
