@@ -70,6 +70,14 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #111: the T1 certificate LP, reconditioned (`r_c7f779/`)
+
+**Status: in progress** (run `872d7dce`). Re-solving the Cohn–Elkies-style
+certificate LP for T1 that `r_b9552d` run `37fb06a9` left at `0.05410` with a
+failing solver. The verdict lives between the achievability floor `0.05716502`
+and the budget `0.06750841`. This entry is rewritten with the result when the
+run closes.
+
 ### Hunt #110: the free out-of-band fact is worth 0.0068 and no certificate can spend it (`outband_intake/`)
 
 **Status: probe, complete. GAP, not a barrier.** BGSTB 2023 (arXiv:2306.04799,
