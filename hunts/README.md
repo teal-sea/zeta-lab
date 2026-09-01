@@ -86,7 +86,7 @@ control roles — and the checks are the ones the tree already owns:
 
 ### Hunt #73: Krenn-Gu 8x3 support frontier (`r_044dd2/`)
 
-**Status: support census settled; algebraic sieve open.** This hunt corrects the scope of Hunt #71: the 31 target-matching orbits do not quotient the full 252-variable polynomial system. All 31 branches have independently replayed support survivors, with 76 to 132 active entries and median 118, so the inherited support conditions close zero branches by themselves. On the sparsest branch, three successive survivors are excluded by exact signed-Laurent certificates with independently replayed relation sizes 1, 3, and 1. No branch is closed and no complex witness has been found.
+**Status: support census settled; algebraic sieve open.** This hunt corrects the scope of Hunt #71: the 31 target-matching orbits do not quotient the full 252-variable polynomial system. All 31 branches have independently replayed support survivors, with 76 to 132 active entries and median 118, so the inherited support conditions close zero branches by themselves. On the sparsest branch (orbit 18), symmetry expansion of exact signed-Laurent certificates yielded 8 pattern cuts. With these cuts loaded, the minimizer hits a systematic algebraic wall, producing a 138-entry support with an empty signed lattice (0 zero-binomials). Orbit 18 does not close under Laurent certificates and requires stronger ideal-membership evidence. No branch is closed and no complex witness has been found.
 ### Hunt #61: two-sided bounds for the de Bruijn-Newman constant of Davenport-Heilbronn (`lambda_dh_bounds/`)
 
 **Status: closed (2026-08-16), gate verdict publication candidate; hardened
