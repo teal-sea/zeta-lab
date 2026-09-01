@@ -70,6 +70,45 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #112: the depth-1 damage windows do not drift, and the lattice is exactly solvable (`support_5418c63e/`)
+
+**Status: settled** (support run `5418c63e`, for run `872d7dce` / `r_c7f779`).
+The bounded question was whether the windows of `D(1, s) > 0` track `2 pi`
+asymptotically or drift, since `r_b9552d` run `37fb06a9` §2 derives the
+atom-reserve ceiling `rho* <= 0.153216295` from the *measured* fact that
+`P = 0` on the critical lattice out to `d = 4000`.
+
+**They do not drift.** Putting `ghat`'s two terms over the common denominator
+`z^2+2` gives the exact one-term form
+`ghat(z) = [alpha z sinh(z/2) + beta cosh(z/2)]/(z^2+2)`, and expanding it
+gives `D(1,s) = (alpha^2/2)(cosh1 cos s - 1)/s^2 + alpha C sin s/s^3 +
+(E cos s + F)/s^4 + O(s^-5)`. The first correction is **odd**, so it
+*translates* the window rather than widening it: `centre(d) - 2 pi d = K/s +
+O(s^-3)` with `K = 0.893732172363`, half-width `w0 + W2/s^2` with
+`w0 = arccos(sech 1) = 0.8657694832` and `W2 = 1.7796383030`, both confirmed
+to nine and ten digits against `dps = 60` edge locations. The offset converges
+to **zero**, not to a nonzero constant, and its linear-in-`d` fit slope is
+`-2.5e-08`.
+
+**The horizon turned out to be removable.** On `s in 2 pi Z` the kernel is
+rational: `D(1, 2 pi d) = P(u)/((u-1)^2+8)^2` with `u = (2 pi d)^2` and
+`P(u) = 0.6277706 u^3 + 3.6735975 u^2 + 33.2246011 u - 73.8367418`, whose
+coefficients are all positive but the constant, so `P` increases on `u >= 0`
+and has one nonnegative root at `u* = 1.7707490`. Since `(2 pi d)^2 >= 39.478`
+for `d >= 1`, **`D(1, 2 pi d) > 0` for every `d >= 1`, derived, with no
+`d_max`**, which is exactly `P = 0` on the critical lattice. The parent's
+ceiling loses its horizon caveat on this ingredient.
+
+A `0.002` scan of `[1e-6, 1e5]` finds `31,830` sign changes (`1.999938` per
+period, so no anomalous window), all `15,915` lattice points inside a window,
+and minimum distance to the nearest edge `0.817252917` at `d = 2`, rising
+monotonically for `d >= 2` toward `w0`. `d = 0` is the one exception
+(`D(1,0) = -0.9116`), and it never arises because `P` sums over `p != q`.
+
+One error was made and caught: expanding `1/S` at `2 pi d` instead of at
+`2 pi d + x` drops a term of the same order as the `s^-4` one and inflates
+`W2` by 43%. The numerics rejected it before it was written down.
+
 ### Hunt #111: the T1 certificate LP, reconditioned (`r_c7f779/`)
 
 **Status: in progress** (run `872d7dce`). Re-solving the Cohn–Elkies-style
