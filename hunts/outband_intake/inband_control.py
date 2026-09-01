@@ -1,32 +1,68 @@
-"""The control lane A never got to run: the in-band LP at the SAME (X, J, eps)
-rungs as the out-of-band pass, so the two truncation excesses are comparable.
+"""The in-band control, which is also the calibration.
 
-A constant ratio of excesses over 0.6725007 across the ladder is the signature
-of one limit with a rescaled truncation error (out-of-band buys nothing).
-A ratio declining toward 1 is the signature of two different limits.
+Lane A measures the out-of-band arm. This runs the same LP with the
+out-of-band constraint switched off, at the same rungs, so the difference is
+taken on one grid rather than against published values computed on another.
+
+It is the calibration as well as the control: the in-band LP measures the
+Montgomery-Taylor dual, whose limit is the standing record, so applying the
+same extrapolation here recovers a known answer and the residual is the
+method error. Any claim about the out-of-band limit is only as good as that
+number.
+
+`--extend` continues past the matched rungs. The in-band arm is roughly 240
+times cheaper than the out-of-band one, so it can be pushed much further,
+which sharpens the calibration.
+
+Run from the repo root:
+    .venv/bin/python hunts/outband_intake/inband_control.py
+    .venv/bin/python hunts/outband_intake/inband_control.py --extend
 """
-import json, sys, time, pathlib
-sys.path.insert(0, "/Users/thomas/zeta-lab/hunts/frontier_math")
-from configuration_lp import solve
 
-MT_LIMIT = 0.6725007036794116
-RUNGS = [(40.0, 200), (80.0, 320), (120.0, 480), (160.0, 640)]
-OUT = {40.0: 0.6918386643557259, 80.0: 0.6862544470607155,
-       120.0: 0.6847195241510968, 160.0: 0.6838667734772812}
-dst = pathlib.Path("/Users/thomas/.claude/jobs/c4f0ce42/tmp/inband_control.json")
+from __future__ import annotations
 
-rows = []
-print(f"{'X':>6} {'J':>5} {'in-band':>12} {'e_in':>10} {'e_out':>10} {'ratio':>7} {'s':>7}",
-      flush=True)
-for X, J in RUNGS:
-    t0 = time.time()
-    r = solve(J=J, X=X, eps=0.4 / X, A_out=None)
-    dt = time.time() - t0
-    v = r["value"]
-    e_in = v - MT_LIMIT
-    e_out = OUT[X] - MT_LIMIT
-    rows.append({"X": X, "J": J, "in_band": v, "D": r["D"], "e_in": e_in,
-                 "e_out": e_out, "ratio": e_out / e_in, "wall_seconds": round(dt, 1)})
-    dst.write_text(json.dumps(rows, indent=1))
-    print(f"{X:6.0f} {J:5d} {v:12.7f} {e_in:10.6f} {e_out:10.6f} "
-          f"{e_out/e_in:7.3f} {dt:7.1f}", flush=True)
+import argparse
+import json
+import sys
+import time
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parent / "frontier_math"))
+
+from configuration_lp import solve  # noqa: E402
+
+RECORD = 0.6725007036794116
+
+MATCHED_RUNGS = [(40.0, 200), (80.0, 320), (120.0, 480), (160.0, 640)]
+EXTENDED_RUNGS = [(240.0, 960), (320.0, 1280), (480.0, 1920), (640.0, 2560)]
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--extend", action="store_true",
+                        help="continue past the rungs lane A reached")
+    args = parser.parse_args()
+
+    rungs = EXTENDED_RUNGS if args.extend else MATCHED_RUNGS
+    name = "lane-a-control-inband-long" if args.extend else "lane-a-control-inband"
+    artifacts = HERE / "artifacts"
+    artifacts.mkdir(exist_ok=True)
+    out = artifacts / f"{name}.json"
+
+    rows = []
+    for X, J in rungs:
+        started = time.time()
+        result = solve(J=J, X=X, eps=0.4 / X, A_out=None)
+        elapsed = round(time.time() - started, 1)
+        rows.append({"X": X, "J": J, "A_out": None, "value": result["value"],
+                     "D": result["D"], "wall_seconds": elapsed})
+        out.write_text(json.dumps(rows, indent=1) + "\n")
+        print(f"in-band X={X:6.1f} J={J:5d}  {result['value']:.7f}  "
+              f"excess {result['value'] - RECORD:+.6f}  {elapsed}s", flush=True)
+
+    print(f"\nartifact: {out}")
+
+
+if __name__ == "__main__":
+    main()
