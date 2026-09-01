@@ -1234,6 +1234,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `32-the-palomar-arm.md` — 32 — The Palomar arm: what an outside mechanical check adds, and what it does not
 - `33-chroma-hue.md` — 33. Pitch classes against the colour wheel
 - `34-zeros-in-tuning-units.md` — 34. The Riemann zeros in tuning units
+- `35-the-unspent-fact.md` — 35. The unspent fact: what out-of-band positivity is worth, and why nobody can claim it
 
 ## Runnable demos (`scripts/`)
 
