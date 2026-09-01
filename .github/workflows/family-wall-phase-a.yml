@@ -1,0 +1,55 @@
+name: family wall phase A
+
+# Free compute for a public repository: GitHub-hosted runners, one job per n,
+# matrix-parallel. Replaces the Modal sweep that cost real money for the same
+# numbers. Manual trigger only -- this is research compute, not CI.
+
+on:
+  workflow_dispatch:
+    inputs:
+      n_values:
+        description: 'JSON list of n, e.g. [9,10,11,12,14,16]'
+        required: false
+        default: '[9,10,11,12,14,16]'
+      pressures:
+        description: 'comma-separated pressure grid (blank = default ten)'
+        required: false
+        default: ''
+
+permissions:
+  contents: read
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.m.outputs.matrix }}
+    steps:
+      - id: m
+        run: echo "matrix=${{ inputs.n_values }}" >> "$GITHUB_OUTPUT"
+
+  sweep:
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    strategy:
+      fail-fast: false
+      matrix:
+        n: ${{ fromJSON(needs.setup.outputs.matrix) }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: install
+        run: pip install --quiet numpy scipy
+      - name: selftest the fast core against the reference evaluator
+        working-directory: hunts/family_wall
+        run: python fastf.py
+      - name: sweep n=${{ matrix.n }}
+        working-directory: hunts/family_wall
+        run: python sweep.py --n ${{ matrix.n }} --pressures "${{ inputs.pressures }}"
+      - uses: actions/upload-artifact@v4
+        with:
+          name: phase-a-n${{ matrix.n }}
+          path: hunts/family_wall/artifacts/phase-a-n${{ matrix.n }}.json
