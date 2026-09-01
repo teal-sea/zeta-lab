@@ -5,15 +5,18 @@ A constant ratio of excesses over 0.6725007 across the ladder is the signature
 of one limit with a rescaled truncation error (out-of-band buys nothing).
 A ratio declining toward 1 is the signature of two different limits.
 """
-import json, sys, time, pathlib
-sys.path.insert(0, "/Users/thomas/zeta-lab/hunts/frontier_math")
+import json, sys, time
+from pathlib import Path
+
+HERE = Path(__file__).resolve().parent
+sys.path.insert(0, str(HERE.parent / "frontier_math"))
 from configuration_lp import solve
 
 MT_LIMIT = 0.6725007036794116
 RUNGS = [(40.0, 200), (80.0, 320), (120.0, 480), (160.0, 640)]
 OUT = {40.0: 0.6918386643557259, 80.0: 0.6862544470607155,
        120.0: 0.6847195241510968, 160.0: 0.6838667734772812}
-dst = pathlib.Path("/Users/thomas/.claude/jobs/c4f0ce42/tmp/inband_control.json")
+dst = HERE / "artifacts" / "lane-a-control-inband.json"
 
 rows = []
 print(f"{'X':>6} {'J':>5} {'in-band':>12} {'e_in':>10} {'e_out':>10} {'ratio':>7} {'s':>7}",

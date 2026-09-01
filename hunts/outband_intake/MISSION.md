@@ -25,16 +25,17 @@ over somebody's theorem. It is a missing argument, and the thing it would buy is
 about `6.7e-3` on the unconditional record, roughly seven times the entire public
 race's progress to date.
 
+**The data class this hunt may read** is bandwidth-one data plus the BGSTB
+out-of-band nonnegativity, and nothing else. Every input must be traceable to an
+unconditional source. F1 beyond the band via Farmer-Gonek-Lee Theorem 1.1, and
+every CGdL constant that uses it, ride on RH and are inadmissible as
+unconditional input here.
+
 ```huntspec
 id: outband_intake
 question: Is there a diagonal-isolation argument valid for a kernel with ghat <= 0 outside [-1,1], and what unconditional proportion does the resulting certificate deliver for the simple on-line zeros of zeta?
 frontier: unconditional record 0.6725007036794116 (AF2026 Theorem D); public race leader 0.6734164909714992949; bandwidth-one configuration ceiling 0.6818286874638; CGdL RH-conditional 0.6792; LP class value with BGSTB positivity added 0.6863 at (X=80, J=320) and descending in X
-data_class: bandwidth-one data plus BGSTB out-of-band nonnegativity only. Every input must be traceable to an unconditional source. F1 beyond the band via Farmer-Gonek-Lee Theorem 1.1, and every CGdL constant that uses it, ride on RH and are inadmissible as unconditional input here.
-proposed_attack: measured before analytic, analytic before Lean —
-  (1) converge the LP in X with the out-of-band constraint on, and extrapolate the class value the information actually supports, so the prize is a measured number rather than an inherited one
-  (2) sweep the out-of-band reach A_out to price the information: how much of the gain comes from the first slice past alpha = 1, and where it saturates
-  (3) attack the obstruction directly: find an inertia or isolation count that does not require the kernel to be a Gram matrix. Candidate directions are a signed decomposition splitting ghat into an autocorrelation part and a residual whose inertia is counted separately, and replacing the isolation drop with a moment inequality that reads only the positivity
-  (4) if (3) yields an argument, realize it as a finite inequality of the shape the existing certificate pipeline already proves, and only then formalize, in CI
+proposed_attack: measured before analytic, analytic before Lean: (1) converge the LP in X with the out-of-band constraint on and extrapolate the class value the information actually supports, so the prize is a measured number rather than an inherited one; (2) sweep the out-of-band reach A_out to price the information, asking how much of the gain comes from the first slice past alpha = 1 and where it saturates; (3) attack the obstruction directly by finding an inertia or isolation count that does not require the kernel to be a Gram matrix, candidate directions being a signed decomposition splitting ghat into an autocorrelation part and a residual whose inertia is counted separately, and replacing the isolation drop with a moment inequality that reads only the positivity; (4) if (3) yields an argument, realize it as a finite inequality of the shape the existing certificate pipeline already proves, and only then formalize, in CI
 dead_routes:
   - Farmer-Gonek-Lee Theorem 1.1 as unconditional input; it is proved under RH
   - re-deriving BGSTB Theorem 1; done twice already in this tree
