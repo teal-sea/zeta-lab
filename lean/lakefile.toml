@@ -1,7 +1,7 @@
 name = "ZetaLean"
 version = "0.1.0"
 keywords = ["math"]
-defaultTargets = ["ZetaLean", "Challenge", "Solution"]
+defaultTargets = ["ZetaLean", "Challenge", "Solution", "Erdos359"]
 
 [leanOptions]
 pp.unicode.fun = true # pretty-prints `fun a ↦ b`
@@ -44,3 +44,14 @@ roots = ["DHChallenge"]
 [[lean_lib]]
 name = "DHSolution"
 roots = ["DHSolution"]
+
+# Statement-only, and outside `ZetaLean` for that reason: `Erdos359.lean`
+# states Porubsky's 1977 lemma as quoted in the erdosproblems.com discussion
+# thread for problem 359, and carries ONE DELIBERATE `sorry` because the
+# lemma is not proved here and no proof is attempted. It is a default target
+# so `lake build` still checks that the statement elaborates; it is not in
+# `ZetaLean/` because the certified arm admits no `sorry` at all. Nothing
+# imports it.
+[[lean_lib]]
+name = "Erdos359"
+roots = ["Erdos359"]
