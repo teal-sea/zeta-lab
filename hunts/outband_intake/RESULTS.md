@@ -1,9 +1,10 @@
-# outband_intake — the information is worth about 0.0068, and no known certificate can spend it
+# outband_intake — the information is worth between 0.005 and 0.009, and no known certificate can spend it
 
 **Verdict: the kill condition did NOT fire, and the hunt found a gap rather than a wall.**
 The unconditional out-of-band positivity of Baluyot, Goldston, Suriajaya and
-Turnage-Butterbaugh (arXiv:2306.04799, Theorem 1) is worth about `+0.0068` at the
-measure level, landing the configuration class near `0.6793`. Separately, and this is
+Turnage-Butterbaugh (arXiv:2306.04799, Theorem 1) is worth between about `+0.005`
+and `+0.009` at the measure level, landing the configuration class somewhere in
+`[0.679, 0.682]`; the third digit is not determined by the data. Separately, and this is
 the point of the hunt, the certificate machinery that would turn that into a theorem
 provably cannot reach it. What separates them is one structural obstruction, stated
 below with a counterexample.
@@ -14,7 +15,7 @@ evidence for or against RH (`docs/08`).
 
 ## 1. The measurement
 
-Four matched rungs, once with out-of-band nonnegativity enforced on `(1, 3]` and once
+Five matched rungs, once with out-of-band nonnegativity enforced on `(1, 3]` and once
 with bandwidth-one data alone. The discretisation restricts the adversary, so both
 ladders descend toward their limits from above.
 
@@ -24,17 +25,40 @@ ladders descend toward their limits from above.
 | 80 | 320 | 0.6862544 | 0.6775676 | 0.0086868 |
 | 120 | 480 | 0.6847195 | 0.6768963 | 0.0078232 |
 | 160 | 640 | 0.6838668 | 0.6764627 | 0.0074041 |
+| 240 | 960 | 0.6828907 | 0.6759394 | 0.0069513 |
 
-The in-band ladder was extended alone, being roughly 240 times cheaper: `0.6759394`
-at `X = 240` and `0.6756339` at `X = 320`.
+The `X = 240` out-of-band rung took 10598 s on a laptop, against a pre-run estimate
+of 866 s; see `RUNS.md`. The in-band ladder was extended alone, being roughly 300
+times cheaper: `0.6756339` at `X = 320`.
 
 **The difference is the signal, and the method is calibrated before it is believed.**
-Extrapolating `d(X) = v_out - v_in` by `a + b·X^(-p)` gives `a = +0.0068`. The same
-fit applied to the in-band excess, whose true limit is known to be zero because the
-in-band LP measures the Montgomery-Taylor dual, returns `+0.0022`. That is the method
-error. The gain exceeds it by about threefold, so zero is excluded, though not
-overwhelmingly. The implied class value is `0.6793`, which sits essentially on top of
-Chirre, Goncalves and de Laat's `0.6792`.
+Extrapolating `d(X) = v_out - v_in` by `a + b·X^(-p)` gives `a = +0.0065`. The same
+fit applied to the in-band excess over the record, whose true limit is known to be
+zero because the in-band LP measures the Montgomery-Taylor dual, returns `+0.0018`.
+That is the method error. The gain exceeds it by about three and a half times, so
+zero is excluded, though not overwhelmingly.
+
+**What the data does not determine is the third digit, and an earlier draft of this
+file claimed it.** The draft read the difference-route value `0.6793` as sitting on
+Chirre, Goncalves and de Laat's RH-conditional `0.6792`. Fitting the out-of-band
+ladder directly, rather than through the difference, gives `0.6815`, one digit from
+the bandwidth-one configuration ceiling `0.6818`. Two fits of the same five numbers
+land on two different famous constants, so neither landing is evidence of anything.
+`refit.py` reads the artifacts and prints all of it:
+
+| route | limit | method error from the control |
+|---|---|---|
+| difference ladder, free exponent | `0.6790` | `+0.0018` on the same rungs |
+| out-of-band direct, free exponent | `0.6815` | the control overshoots by `+0.0018`, so `0.6798` corrected |
+| difference ladder, exponent pinned to `0.5 … 2.0` | `0.6752 … 0.6796` | `+0.0010 … +0.0038` |
+
+The honest statement is a range: **the class value lies in about `[0.679, 0.682]`
+and the gain over the record in about `[0.005, 0.009]`**. A three-parameter power law
+through five points does not fix the limit better than that, and the in-band ladder,
+whose limit is known, says the same: its own free fit misses zero by `0.0016` on six
+rungs. The coincidence with CGdL is withdrawn; the fact that the LP reaches the
+neighbourhood of the RH-conditional value from unconditional inputs survives, and
+that is a weaker and more defensible sentence.
 
 **A ratio test was tried first and is withdrawn.** Comparing excesses over the record
 gives `2.808, 2.714, 2.780, 2.869`, and an earlier draft of this file read that
@@ -101,17 +125,20 @@ That is precisely the profile the inertia framework cannot represent.
 
 ## 3. So the result is a gap, not a wall
 
-The information supports about `0.679`. Every known certificate construction is
-confined to `0.6725007`. The difference is not a missing computation and not a
+The information supports somewhere between `0.679` and `0.682`. Every known
+certificate construction is confined to `0.6725007`. The difference is not a missing
+computation and not a
 frozen constant. It is that the only proof technology available insists on kernels
 that are squares, and the value lives at a kernel that is not one.
 
 **That gap is the research problem this hunt hands forward**, and it is the one
 shape the operator asked for: not a ceiling, not a bridge over somebody's theorem,
-but a construction nobody has. It is also why the CGdL value is conditional. They
-reach `0.6792` with an isolation input that costs RH; the LP reaches the same place
-with unconditional inputs, which says the RH is doing work in their *proof* that it
-may not be doing in the *truth*.
+but a construction nobody has. It also says something about why the CGdL value is
+conditional. They reach `0.6792` with an isolation input that costs RH; the LP
+reaches the same neighbourhood, within the §1 range, with unconditional inputs,
+which suggests RH is doing work in their *proof* that it may not be doing in the
+*truth*. That is a suggestion and not a measurement, since §1 cannot tell `0.6792`
+from `0.6815`.
 
 ## 4. One open question that bounds this entire file
 
@@ -124,7 +151,7 @@ claimed that bound smuggles in the diagonal-isolation drop and cited
 `-2` off-line block interaction in the rank-trace inequality, and does not support
 the claim. **The in-band pair-correlation data is the one not audited**, and until
 someone traces it to an unconditional source rather than to Montgomery's
-RH-conditional theorem, `0.6793` is a class value and not an unconditional one. That
+RH-conditional theorem, the §1 range is a class value and not an unconditional one. That
 audit is the cheapest next step and it decides whether §3's gap is worth funding.
 
 ## 5. Gate #3 fires, and what it does and does not mean
@@ -187,22 +214,23 @@ should be settled by that audit rather than by whoever writes the last file.
 
 ## 6. Cost
 
-Under two hours of laptop compute, no CI, no formalization. A negative would have
-been reached before anything expensive was funded; so was a positive.
+About five hours of laptop compute, three of them the single `X = 240` out-of-band
+rung, no CI, no formalization. A negative would have been reached before anything
+expensive was funded; so was a positive.
 
 ## The doors
 
 **Active constraints at the optimum.** One binds: the certificate kernel must be an
 autocorrelation. Everything in §2 is that constraint seen from a different angle, and
-§1 measures what it costs, about `6.8e-3`.
+§1 measures what it costs, between `5e-3` and `9e-3`.
 
 **Frozen-constant inventory.**
 
 | Frozen | Chosen as | What relaxing it would trade |
 |---|---|---|
-| kernel class: autocorrelations `Khat = v*v` | forced by the inertia lemma | **The door.** Any construction certifying a bound from a signed kernel converts §1's measured `0.679` into a theorem. Trades proof technology for `6.8e-3`, seven times the public race's total progress. |
+| kernel class: autocorrelations `Khat = v*v` | forced by the inertia lemma | **The door.** Any construction certifying a bound from a signed kernel converts §1's measured `0.679` to `0.682` into a theorem. Trades proof technology for `5e-3` to `9e-3`, five to ten times the public race's total progress. |
 | out-of-band reach `A_out` | 3.0 | **Now measured, see §1b.** Saturates: 91% of the gain is inside `(1, 1.5]`, and relaxing further buys `7.5e-4`. What this door closes is a demand rather than a lever: a certificate need only be signed on a narrow strip past the band, which is the smallest form the §2 construction can take. |
-| truncation `X` | 160 out-of-band, 320 in-band | Sharpens the extrapolation and shrinks the `2.2e-3` method error, which is currently a third of the signal. The out-of-band arm costs about `X^2.8`; `X = 240` exceeded an hour on a laptop and was killed. Belongs in CI. |
+| truncation `X` | 240 out-of-band, 320 in-band | The only lever on the §1 range. The out-of-band arm cost `X^4` over the last rung and worse over the two before it, not the `X^2.8` the first two suggested, and `X = 240` took three hours on a laptop; `X = 480` prices at about two days. Belongs in CI, and the honest target is the exponent `p`, which the five rungs leave between `0.6` and `1.4` across routes. |
 | in-band data provenance | inherited from `frontier_math` | Not a constant but an unaudited assumption, see §4. Decides whether the number is unconditional. |
 
 | off-line depth, taken as unbounded | never varied | **The §5 lead, and the only door that goes *through* the obstruction rather than around it.** Every planted off-line configuration left the isolation drop holding with slack `+2.01` to `+2.67`, and the Cauchy weight's pole at `2i` is reached exactly when a planted zero leaves the strip. If the drop survives under a depth bound on off-line zeros, existing machinery consumes the information with no new kernel class. Weakly evidenced, cheap to sharpen. |

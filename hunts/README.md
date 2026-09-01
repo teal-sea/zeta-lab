@@ -117,17 +117,20 @@ failing solver. The verdict lives between the achievability floor `0.05716502`
 and the budget `0.06750841`. This entry is rewritten with the result when the
 run closes.
 
-### Hunt #110: the free out-of-band fact is worth 0.0068 and no certificate can spend it (`outband_intake/`)
+### Hunt #110: the free out-of-band fact is worth 0.005 to 0.009 and no certificate can spend it (`outband_intake/`)
 
 **Status: probe, complete. GAP, not a barrier.** BGSTB 2023 (arXiv:2306.04799,
 Theorem 1) gives form-factor nonnegativity unconditionally, outside the band every
-other certificate is confined to. Two matched LP ladders price it: with out-of-band
-positivity on, the configuration class extrapolates to `0.6793`; the in-band control,
-whose limit is the record `0.6725007036794116` and which therefore calibrates the
-method at `2.2e-3`, confirms the difference `+0.0068` is real at about three times
-the method error. That value lands on Chirre-Goncalves-de Laat's RH-conditional
-`0.6792`, reached here from unconditional inputs. **But no known certificate can
-realise it.** The inertia lemma needs a positive semidefinite evaluation form, which
+other certificate is confined to. Two matched LP ladders of five rungs price it: with
+out-of-band positivity on, the configuration class extrapolates to somewhere in
+`[0.679, 0.682]`; the in-band control, whose limit is the record
+`0.6725007036794116` and which therefore calibrates the method at about `1.8e-3`,
+puts the difference at `+0.0065` by the same fit, three and a half times the method
+error, so zero is excluded. The third digit is not: the difference route gives
+`0.6790` and the direct fit `0.6815`, one digit from CGdL's RH-conditional `0.6792`
+and one digit from the bandwidth-one ceiling `0.6818` respectively, and an earlier
+draft that read the first coincidence as a landing is withdrawn (`refit.py`). **But
+no known certificate can realise any of it.** The inertia lemma needs a positive semidefinite evaluation form, which
 forces the spectral density `v = phi^2 >= 0` and hence `Khat = v*v >= 0` everywhere:
 the framework has no free `ghat`, only a free `v`, so a kernel negative out of band
 is not reachable. The requirement does not weaken -- with indefinite `S` the rank half
@@ -140,7 +143,7 @@ piece is a construction rather than a datum** -- unlike `frontier_math` §2's si
 wall, where the missing input is Hardy-Littlewood grade and genuinely absent. Two
 things bound the result and are recorded in `RESULTS.md`: gate #3 fires (the drop is prime-blind, holding for Davenport-Heilbronn and both Epstein forms, which bounds what the zero side can ever add), a ratio test was stated
 confidently, then withdrawn as uninformative, and the in-band data's provenance is
-unaudited, so `0.6793` is a class value until someone traces it to an unconditional
+unaudited, so the range is a class value until someone traces it to an unconditional
 source. Nothing here bears on RH (`docs/08`).
 
 ### Hunt #109: the soundcalc numbers reproduce, the pins that name their sources do not (`r_4166b0/`)
