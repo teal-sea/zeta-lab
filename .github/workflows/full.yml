@@ -39,7 +39,7 @@ jobs:
   lean:
     name: lean arm, zero sorrys
     runs-on: ubuntu-latest
-    timeout-minutes: 90
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
 
@@ -49,7 +49,9 @@ jobs:
           path: |
             ~/.elan
             lean/.lake
-          key: lean-${{ runner.os }}-${{ hashFiles('lean/lean-toolchain', 'lean/lakefile.lean', 'lean/lake-manifest.json') }}
+          key: lean-${{ runner.os }}-${{ hashFiles('lean/lean-toolchain', 'lean/lakefile.toml', 'lean/lake-manifest.json') }}
+          restore-keys: |
+            lean-${{ runner.os }}-
 
       - name: install elan
         run: |
@@ -57,19 +59,104 @@ jobs:
             | sh -s -- -y --default-toolchain none
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
 
+      - name: toolchain
+        working-directory: lean
+        run: |
+          elan show || true
+          lake --version
+
+      - name: mathlib olean cache
+        # THE fix for the seven-night stall (issue #167). Without this, `lake
+        # build` compiles Mathlib from source, which does not fit in any
+        # reasonable timeout, so the job was killed at 90 minutes every night
+        # and its post-job cache save never ran -- a loop that could not
+        # self-heal. three-point.yml and four-point.yml already did this; the
+        # nightly arm was the one that did not. Not fatal if it fails: the
+        # build below just becomes very slow again.
+        working-directory: lean
+        run: lake exe cache get || echo "::warning::mathlib cache get failed, falling back to source build"
+
       - name: build
         working-directory: lean
         run: lake build
+
+      - name: save cache after the build
+        # Written as an explicit step rather than relying on the post-job save,
+        # because a job killed by timeout-minutes never runs its post steps.
+        # That is precisely what kept the cache empty run after run.
+        if: always()
+        uses: actions/cache/save@v4
+        with:
+          path: |
+            ~/.elan
+            lean/.lake
+          key: lean-${{ runner.os }}-${{ hashFiles('lean/lean-toolchain', 'lean/lakefile.toml', 'lean/lake-manifest.json') }}
 
       - name: no sorrys in the certified arm
         working-directory: lean
         run: |
           # A `sorry` in a proof is an uncertified step. Comments discussing the
           # rule are fine; a real one is not. Match only proof positions.
-          if grep -rnE '(^|[^[:alnum:]_])sorry([^[:alnum:]_]|$)' ZetaLean/*.lean \
+          #
+          # This scanned `ZetaLean/*.lean`, which does not recurse, so 54 files
+          # under ZetaLean/Pub1/, ZetaLean/EForm3/ and friends were never
+          # checked -- including the whole publication arm. A `sorry` there
+          # passed the gate silently. It now scans the tree.
+          scanned=$(find ZetaLean -name '*.lean' | wc -l)
+          echo "scanning ${scanned} .lean files under ZetaLean/"
+          # A guard that matches nothing must fail loudly rather than pass:
+          # this repository has already been bitten by a check that failed open.
+          if [ "${scanned}" -lt 20 ]; then
+            echo "::error::only ${scanned} .lean files found under ZetaLean/. This guard is not reading the tree it thinks it is; refusing to report a pass."
+            exit 1
+          fi
+          if grep -rnE '(^|[^[:alnum:]_])sorry([^[:alnum:]_]|$)' --include='*.lean' ZetaLean \
                | grep -vE '^\s*[^:]+:[0-9]+:\s*(--|/-)' \
                | grep -vE '`sorry`'; then
             echo "::error::a sorry reached the certified arm"
             exit 1
           fi
-          echo "zero sorrys"
+          echo "zero sorrys across ${scanned} files"
+
+  # The observability half of issue #167.
+  #
+  # A job killed by `timeout-minutes` is reported by GitHub with conclusion
+  # `cancelled`, not `failure` and not `timed_out`. A cancelled run is not a red
+  # badge and does not read as broken, which is how the lean arm stayed dead for
+  # eight consecutive runs (2026-08-25 .. 2026-09-01) without anything saying so.
+  #
+  # This job depends on `lean` and runs with `if: always()`, so it still runs
+  # when `lean` was cancelled. It turns every non-success into a real failure.
+  # Silence is no longer distinguishable from success by accident: it is
+  # reported.
+  lean-verdict:
+    name: the lean arm produced a verdict
+    needs: lean
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: a missing verdict is a failure, not a quiet pass
+        run: |
+          result='${{ needs.lean.result }}'
+          echo "lean job result: ${result}"
+          case "${result}" in
+            success)
+              echo "the lean arm built and reported zero sorrys"
+              ;;
+            failure)
+              echo "::error::the lean arm FAILED: the build broke or a sorry reached it"
+              exit 1
+              ;;
+            cancelled)
+              echo "::error::the lean arm produced NO VERDICT. It was cancelled, which is what a 'timeout-minutes' kill looks like. Nothing was verified. See issue #167: this state is silent by default, which is why this check exists."
+              exit 1
+              ;;
+            skipped)
+              echo "::error::the lean arm was SKIPPED, so nothing in lean/ was verified on this run"
+              exit 1
+              ;;
+            *)
+              echo "::error::the lean arm reported an unrecognised result '${result}'. Unknown is not empty: treating it as unverified."
+              exit 1
+              ;;
+          esac
