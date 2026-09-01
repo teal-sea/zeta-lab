@@ -1,9 +1,17 @@
-"""The control lane A never got to run: the in-band LP at the SAME (X, J, eps)
-rungs as the out-of-band pass, so the two truncation excesses are comparable.
+"""The in-band control at the same (X, J, eps) rungs as the out-of-band pass,
+so the two are compared on one grid rather than against published values
+computed on another.
 
-A constant ratio of excesses over 0.6725007 across the ladder is the signature
-of one limit with a rescaled truncation error (out-of-band buys nothing).
-A ratio declining toward 1 is the signature of two different limits.
+It is the calibration as well as the control. The in-band LP measures the
+Montgomery-Taylor dual, whose limit is the standing record, so applying the
+same extrapolation here recovers a known answer and the residual is the
+method error. Every out-of-band claim is only as good as that number.
+
+The ratio of excesses, which this file once advertised as the diagnostic, is
+NOT one and the columns below are kept only as raw data. Over the measured
+range both ladders decay at similar rates, so the ratio is flat whether the
+limits agree or not. RESULTS.md section 1 uses the difference with a
+calibrated error instead, and records why the ratio reading was withdrawn.
 """
 import json, sys, time
 from pathlib import Path
