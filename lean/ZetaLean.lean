@@ -49,3 +49,5 @@ import ZetaLean.Mertensstheorems
 import ZetaLean.MertensSecond
 import ZetaLean.HardyRamanujantheorem
 import ZetaLean.Pub1
+import ZetaLean.WScratch.RetentionAlgebra
+import ZetaLean.WScratch.RetentionWired
