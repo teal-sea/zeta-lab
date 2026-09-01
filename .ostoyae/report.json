@@ -1,0 +1,25 @@
+{
+  "ahead": "Done and verified; nothing stopped me. Three things the next attempts will hit.\n\n(1) I did NOT add \"Erdos\" to `defaultTargets` in lean/lakefile.toml, deliberately. With 46+ independent vendor tasks each dropping one file under lean/Erdos/, putting the library in the default target set means one broken file breaks a bare `lake build` for every other task and for CI. Every vendor task already names its own module in its verification command (`lake build Erdos.«359»`), so nothing needs it. If someone later wants a single command that compiles every Erdős file at once, `lake build Erdos` already does exactly that without touching defaultTargets.\n\n(2) Lake resolves the `Erdos.+` glob by walking the `Erdos/` directory on disk. If that directory does not exist, `lake build Erdos` fails hard with `error: no such file or directory ... file: <repo>/lean/Erdos` rather than building nothing. Git does not track empty directories, so I shipped `lean/Erdos/.gitkeep` (with the reason written inside it) to keep the directory present in a fresh clone. Do not delete that file until real problem files live in the directory. Note this failure mode only bites the whole-library target: `lake build Erdos.«359»` with no such file gives the ordinary unknown-module error either way.\n\n(3) The French-quote point in the work item is confirmed by build, not just by reading the grammar: a file at lean/Erdos/359.lean is the module `Erdos.«359»`, the shell needs it quoted (`lake build 'Erdos.«359»'`), and an importing file must write `import Erdos.«359»` guillemets and all. A second file importing the first this way compiled clean.",
+  "work": [
+    {
+      "id": "w-erdos-lakefile-default-target",
+      "what": "Decide whether the `Erdos` lean_lib in lean/lakefile.toml should join `defaultTargets` (currently [\"ZetaLean\", \"Challenge\", \"Solution\"]). It was deliberately left out when the target was added: with dozens of independent vendor tasks each dropping one file under lean/Erdos/, a single broken file would break bare `lake build` and CI for everyone, and every vendor task already names its own module in its verification command. `lake build Erdos` compiles the whole library on demand without this change. This is a one-time judgment call, not a blocker for any Erdős file. If it is added, CI wall-clock and the blast radius of one bad file are the two things to weigh."
+    },
+    {
+      "id": "w-erdos-ci-build-erdos-lib",
+      "what": "Add `lake build Erdos` to the Lean CI job in this repo, so that files under lean/Erdos/ are compiled by CI rather than only by the vendor task that wrote them. Today the `Erdos` lean_lib target exists (lean/lakefile.toml, glob `Erdos.+`) but is not in `defaultTargets`, so a bare `lake build` in CI does not touch it and a broken Erdős file can land unnoticed. Run it as its own step whose failure is visible, not folded into the existing default-target build, so that a failure names the Erdős library specifically. Depends on the directory placeholder lean/Erdos/.gitkeep staying in place, since `lake build Erdos` errors with 'no such file or directory' if lean/Erdos/ is missing entirely."
+    }
+  ],
+  "edges": [
+    {
+      "from": "w-erdos-lakefile-target",
+      "to": "w-erdos-ci-build-erdos-lib",
+      "why": "There is no Erdos library target to build in CI until the lean_lib stanza exists."
+    },
+    {
+      "from": "w-erdos-lakefile-target",
+      "to": "w-erdos-lakefile-default-target",
+      "why": "The defaultTargets question is only askable once the Erdos lean_lib exists to be added to it."
+    }
+  ]
+}

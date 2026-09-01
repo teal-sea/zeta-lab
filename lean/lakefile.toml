@@ -44,3 +44,18 @@ roots = ["DHChallenge"]
 [[lean_lib]]
 name = "DHSolution"
 roots = ["DHSolution"]
+
+# The Erdős problem files: one file per problem number, at `Erdos/<n>.lean`.
+#
+# The explicit glob is load-bearing. `globs` otherwise defaults to
+# `roots.map Glob.one` = build exactly the module `Erdos` and nothing under
+# it, and there is no `Erdos.lean` root file, so every file in this directory
+# would be built by nothing at all -- silently, with no error. `Erdos.+`
+# (`Glob.submodules`) selects the submodules without demanding the root;
+# `Erdos.*` would be wrong, since it also requires `Erdos` itself.
+#
+# Note that a numeric module component is not a legal Lean identifier, so
+# importers must use French quotes: `import Erdos.«359»`.
+[[lean_lib]]
+name = "Erdos"
+globs = ["Erdos.+"]
