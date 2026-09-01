@@ -1,25 +1,25 @@
 {
-  "ahead": "Done and verified; nothing stopped me. Three things the next attempts will hit.\n\n(1) I did NOT add \"Erdos\" to `defaultTargets` in lean/lakefile.toml, deliberately. With 46+ independent vendor tasks each dropping one file under lean/Erdos/, putting the library in the default target set means one broken file breaks a bare `lake build` for every other task and for CI. Every vendor task already names its own module in its verification command (`lake build Erdos.«359»`), so nothing needs it. If someone later wants a single command that compiles every Erdős file at once, `lake build Erdos` already does exactly that without touching defaultTargets.\n\n(2) Lake resolves the `Erdos.+` glob by walking the `Erdos/` directory on disk. If that directory does not exist, `lake build Erdos` fails hard with `error: no such file or directory ... file: <repo>/lean/Erdos` rather than building nothing. Git does not track empty directories, so I shipped `lean/Erdos/.gitkeep` (with the reason written inside it) to keep the directory present in a fresh clone. Do not delete that file until real problem files live in the directory. Note this failure mode only bites the whole-library target: `lake build Erdos.«359»` with no such file gives the ordinary unknown-module error either way.\n\n(3) The French-quote point in the work item is confirmed by build, not just by reading the grammar: a file at lean/Erdos/359.lean is the module `Erdos.«359»`, the shell needs it quoted (`lake build 'Erdos.«359»'`), and an importing file must write `import Erdos.«359»` guillemets and all. A second file importing the first this way compiled clean.",
+  "ahead": "The file builds clean with the one expected `warning: declaration uses \\`sorry\\`` at Erdos/359.lean:30:8, and that warning is the deliverable: the vendored statement is the open problem, so any attempt that later 'fixes' the sorry must actually prove it, not weaken the statement. Two things the next attempt will hit. (1) The vendored source as given carries no `import`/`open`, and `atTop` in the theorem's type does not resolve bare; I added `import Mathlib` and `open Filter` as scaffolding above the copied text, and the two declarations themselves are byte-identical to the source (diff-verified). If a later vendor step brings in more of formal-conjectures/359.lean, it must keep an `open Filter` or fully qualify `Filter.atTop`. (2) `lake build Erdos` is off-limits in a cell: the shared read-only `lean/.lake/packages` means any lake invocation risks writing there. Typechecking one file works and takes ~43 s wall: `cd lean && LEAN_PATH=$(ls -d .lake/packages/*/.lake/build/lib/lean | tr '\\n' ':') lean Erdos/359.lean`. Note `.lake/packages/Cli` has no built `lib/lean` dir, so that glob silently omits it; harmless for a Mathlib-only import, but a file needing Cli will not find it. Nothing is written under packages because `lean` is run without `-o`.",
   "work": [
     {
-      "id": "w-erdos-lakefile-default-target",
-      "what": "Decide whether the `Erdos` lean_lib in lean/lakefile.toml should join `defaultTargets` (currently [\"ZetaLean\", \"Challenge\", \"Solution\"]). It was deliberately left out when the target was added: with dozens of independent vendor tasks each dropping one file under lean/Erdos/, a single broken file would break bare `lake build` and CI for everyone, and every vendor task already names its own module in its verification command. `lake build Erdos` compiles the whole library on demand without this change. This is a one-time judgment call, not a blocker for any Erdős file. If it is added, CI wall-clock and the blast radius of one bad file are the two things to weigh."
+      "id": "w-erdos-359-ci-sorry-budget",
+      "what": "lean/Erdos/359.lean intentionally contains exactly one `sorry` (in `theorem erdos_359.parts.i`), which makes `lean Erdos/359.lean` emit `warning: declaration uses 'sorry'`. Any CI job that greps for `sorry` or treats Lean warnings as errors will fail on this file. Give the Erdos/ directory the same allowance the Palomar Challenge surface has: an expected-sorry budget of one per problem file, keyed to the declaration name, so a NEW unexpected sorry still fails the build while the advertised open statement does not."
     },
     {
-      "id": "w-erdos-ci-build-erdos-lib",
-      "what": "Add `lake build Erdos` to the Lean CI job in this repo, so that files under lean/Erdos/ are compiled by CI rather than only by the vendor task that wrote them. Today the `Erdos` lean_lib target exists (lean/lakefile.toml, glob `Erdos.+`) but is not in `defaultTargets`, so a bare `lake build` in CI does not touch it and a broken Erdős file can land unnoticed. Run it as its own step whose failure is visible, not folded into the existing default-target build, so that a failure names the Erdős library specifically. Depends on the directory placeholder lean/Erdos/.gitkeep staying in place, since `lake build Erdos` errors with 'no such file or directory' if lean/Erdos/ is missing entirely."
+      "id": "w-erdos-359-parts-ii-plus",
+      "what": "Vendor the remaining parts of Erdős problem 359 from formal-conjectures/359.lean (the file also carries parts beyond `erdos_359.parts.i`, plus whatever `variable`/`open`/docstring context they need) into lean/Erdos/359.lean, alongside the already-vendored `IsGoodFor` and `erdos_359.parts.i`. Copy each declaration EXACTLY as it appears upstream, keeping its literal `sorry`: do not restate, generalise, weaken or specialise. The file currently opens with `import Mathlib` and `open Filter`; `atTop` needs that open. Verify with `cd lean && LEAN_PATH=$(ls -d .lake/packages/*/.lake/build/lib/lean | tr '\\n' ':') lean Erdos/359.lean` and do NOT run `lake build`, which may write into the shared read-only lean/.lake/packages."
     }
   ],
   "edges": [
     {
-      "from": "w-erdos-lakefile-target",
-      "to": "w-erdos-ci-build-erdos-lib",
-      "why": "There is no Erdos library target to build in CI until the lean_lib stanza exists."
+      "from": "w-erdos-359-vendor",
+      "to": "w-erdos-359-parts-ii-plus",
+      "why": "The remaining parts are added to the same file this attempt created, and they reuse the `IsGoodFor` definition vendored here."
     },
     {
-      "from": "w-erdos-lakefile-target",
-      "to": "w-erdos-lakefile-default-target",
-      "why": "The defaultTargets question is only askable once the Erdos lean_lib exists to be added to it."
+      "from": "w-erdos-359-vendor",
+      "to": "w-erdos-359-ci-sorry-budget",
+      "why": "The sorry the budget has to allow only exists once this file is in the tree."
     }
   ]
 }
