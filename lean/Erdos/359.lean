@@ -392,3 +392,145 @@ are discharged. -/
 theorem parts_ii_of_isGoodFor_of_andrews (A : ℕ → ℕ) (hA : IsGoodFor A 1) (c : ℝ) (hc : 0 < c) :
     atTop.Tendsto (fun k ↦ A k / (k : ℝ) ^ (1 + c)) (nhds 0) :=
   parts_ii_of_andrews_asymptotic A (erdos_359.variants.isGoodFor_1_asymptotic A hA) c hc
+
+
+/-!
+## Unconditional facts
+
+Everything from here down is ours and none of it assumes Andrews' asymptotic. These are
+the first `for all k` statements in the file: the two open parts ask about the growth of
+`A k`, and until here the file had no bound on `A k` in either direction.
+-/
+
+theorem finset_Iic_nat_eq_range (k : ℕ) : Finset.Iic k = Finset.range (k + 1) := by
+  ext x; simp
+
+theorem two_mul_sum_range_succ_id (k : ℕ) :
+    2 * ∑ b ∈ Finset.range (k + 1), (b + 1) = (k + 1) * (k + 2) := by
+  induction k with
+  | zero => simp
+  | succ k ih => rw [Finset.sum_range_succ, mul_add, ih]; ring
+
+/-- **A term is never a sum of two or more consecutive terms.** Not just of *earlier*
+terms, which is the definition, but of any block `A a + ⋯ + A b` with `a < b` anywhere in
+the sequence: such a block is at least `A a + A b ≥ 1 + A b`, so it exceeds `A b`, so any
+term equal to it comes after `A b`, and then the block lies inside `Finset.Iic` of the
+previous index, where the definition forbids it. Needs `1 ≤ n`: with `A 0 = 0` the block
+`A 0 + A 1` equals `A 1`. -/
+theorem IsGoodFor.ne_sum_Icc {A : ℕ → ℕ} {n : ℕ} (hA : IsGoodFor A n) (hn : 1 ≤ n)
+    {m a b : ℕ} (hab : a < b) : A m ≠ ∑ i ∈ Finset.Icc a b, A i := by
+  obtain ⟨hA0, hmono, hleast⟩ := hA
+  intro heq
+  have hpair : A a + A b ≤ ∑ i ∈ Finset.Icc a b, A i := by
+    have hsub : ({a, b} : Finset ℕ) ⊆ Finset.Icc a b := by
+      intro x hx
+      simp only [Finset.mem_insert, Finset.mem_singleton] at hx
+      rcases hx with rfl | rfl <;> simp [hab.le]
+    calc A a + A b = ∑ i ∈ ({a, b} : Finset ℕ), A i := (Finset.sum_pair hab.ne).symm
+      _ ≤ _ := Finset.sum_le_sum_of_subset hsub
+  have ha : n ≤ A a := by rw [← hA0]; exact hmono.monotone (Nat.zero_le a)
+  have hbm : b < m := hmono.lt_iff_lt.mp (by omega)
+  obtain ⟨m, rfl⟩ : ∃ m', m = m' + 1 := ⟨m - 1, by omega⟩
+  exact (hleast m).1.2 a b
+    (fun x hx => by simp only [Finset.mem_Icc, Finset.mem_Iic] at hx ⊢; omega) heq
+
+/-- **The trivial quadratic bound**, `2 (A k + 1) ≤ 2 n + (k + 1) (k + 2)`. Every integer in
+`[n, A k]` is a block sum `A a + ⋯ + A b` with `a ≤ b ≤ k` (`exists_sum_Icc`, and `b ≤ k`
+because the block is at least `A b`), and there are only `(k + 1) (k + 2) / 2` such blocks. -/
+theorem IsGoodFor.two_mul_succ_le {A : ℕ → ℕ} {n : ℕ} (hA : IsGoodFor A n) (k : ℕ) :
+    2 * (A k + 1) ≤ 2 * n + (k + 1) * (k + 2) := by
+  have hmono := hA.2.1
+  have hsurj : Set.SurjOn (fun p : Σ _ : ℕ, ℕ => ∑ i ∈ Finset.Icc p.2 p.1, A i)
+      (((Finset.Iic k).sigma fun b => Finset.Iic b : Finset (Σ _ : ℕ, ℕ)) : Set (Σ _ : ℕ, ℕ))
+      (Finset.Icc n (A k) : Set ℕ) := by
+    intro N hN
+    simp only [Finset.coe_Icc, Set.mem_Icc] at hN
+    obtain ⟨a, b, hab, rfl⟩ := hA.exists_sum_Icc hN.1
+    have hbk : b ≤ k := by
+      by_contra h
+      push Not at h
+      have h1 : A b ≤ ∑ i ∈ Finset.Icc a b, A i :=
+        Finset.single_le_sum (fun i _ => Nat.zero_le _) (Finset.mem_Icc.mpr ⟨hab, le_rfl⟩)
+      have h2 := hmono h
+      omega
+    exact ⟨⟨b, a⟩, by simp [hab, hbk], rfl⟩
+  have hcard := Finset.card_le_card_of_surjOn _ hsurj
+  rw [Nat.card_Icc, Finset.card_sigma] at hcard
+  simp only [Nat.card_Iic] at hcard
+  rw [finset_Iic_nat_eq_range] at hcard
+  have h2 := two_mul_sum_range_succ_id k
+  generalize (k + 1) * (k + 2) = q at h2 ⊢
+  omega
+
+/-- For the sequence of the problem, `A k ≤ (k + 1) (k + 2) / 2`. This is part (ii) at
+`c = 1`, and the only `for all k` upper bound known to us. -/
+theorem erdos_359.variants.le_choose_two (A : ℕ → ℕ) (hA : IsGoodFor A 1) (k : ℕ) :
+    A k ≤ (k + 1) * (k + 2) / 2 := by
+  have h := hA.two_mul_succ_le k
+  generalize (k + 1) * (k + 2) = q at h ⊢
+  omega
+
+/-- The pair sums `A k + A (k + 1)` are strictly increasing in `k`. -/
+theorem IsGoodFor.pairSum_strictMono {A : ℕ → ℕ} {n : ℕ} (hA : IsGoodFor A n) :
+    StrictMono fun k => A k + A (k + 1) :=
+  fun _ _ h => Nat.add_lt_add (hA.2.1 h) (hA.2.1 (Nat.succ_lt_succ h))
+
+/-- **Density: `A(N) + A(N/2) ≤ N + 1`**, where `A(x)` counts the terms `≤ x`. The terms up
+to `N` and the pair sums `A k + A (k + 1)` with `A (k + 1) ≤ N / 2` all lie in `[1, N]`; the
+two families are disjoint (`ne_sum_Icc`) and each is injectively indexed; and the pair sums
+number one fewer than the terms up to `N / 2`, every term but `A 0` being the top of a pair.
+Counting runs over indices `≤ N`, which loses nothing since `k ≤ A k`.
+
+This is the first constraint in the direction of part (i): if `A` had a density `δ` it would
+force `δ + δ / 2 ≤ 1`. It does not give part (i), which needs the density to be `0`. -/
+theorem erdos_359.variants.count_add_count_half_le (A : ℕ → ℕ) (hA : IsGoodFor A 1) (N : ℕ) :
+    ((Finset.range (N + 1)).filter fun k => A k ≤ N).card
+      + ((Finset.range (N + 1)).filter fun k => A k ≤ N / 2).card ≤ N + 1 := by
+  have hmono := hA.2.1
+  set F := (Finset.range (N + 1)).filter fun k => A k ≤ N with hF
+  set G := (Finset.range (N + 1)).filter fun k => A k ≤ N / 2 with hG
+  set W := (Finset.range N).filter fun k => A (k + 1) ≤ N / 2 with hW
+  -- every index in `G` but `0` is `k + 1` for some `k ∈ W`
+  have hGW : G.card ≤ W.card + 1 := by
+    have hsub : G ⊆ insert 0 (W.image (· + 1)) := by
+      intro k hk
+      simp only [hG, Finset.mem_filter, Finset.mem_range] at hk
+      rcases Nat.eq_zero_or_pos k with rfl | hpos
+      · exact Finset.mem_insert_self _ _
+      · refine Finset.mem_insert_of_mem (Finset.mem_image.mpr ⟨k - 1, ?_, by omega⟩)
+        simp only [hW, Finset.mem_filter, Finset.mem_range]
+        refine ⟨by omega, ?_⟩
+        rw [Nat.sub_add_cancel hpos]; exact hk.2
+    calc G.card ≤ (insert 0 (W.image (· + 1))).card := Finset.card_le_card hsub
+      _ ≤ (W.image (· + 1)).card + 1 := Finset.card_insert_le _ _
+      _ ≤ W.card + 1 := Nat.add_le_add_right Finset.card_image_le 1
+  -- the two families of integers in `[1, N]`
+  set U := F.image A with hU
+  set V := W.image (fun k => A k + A (k + 1)) with hV
+  have hUcard : U.card = F.card := Finset.card_image_of_injective _ hmono.injective
+  have hVcard : V.card = W.card :=
+    Finset.card_image_of_injective _ hA.pairSum_strictMono.injective
+  have hdisj : Disjoint U V := by
+    rw [Finset.disjoint_left]
+    intro x hxU hxV
+    obtain ⟨m, -, rfl⟩ := Finset.mem_image.mp hxU
+    obtain ⟨k, -, hk⟩ := Finset.mem_image.mp hxV
+    refine hA.ne_sum_Icc (m := m) le_rfl (Nat.lt_succ_self k) ?_
+    rw [Finset.sum_Icc_succ_top (Nat.le_succ k), Finset.Icc_self, Finset.sum_singleton]
+    exact hk.symm
+  have hsub : U ∪ V ⊆ Finset.Icc 1 N := by
+    intro x hx
+    rw [Finset.mem_Icc]
+    rcases Finset.mem_union.mp hx with h | h
+    · obtain ⟨m, hm, rfl⟩ := Finset.mem_image.mp h
+      simp only [hF, Finset.mem_filter] at hm
+      have : 1 ≤ A m := by rw [← hA.1]; exact hmono.monotone (Nat.zero_le m)
+      omega
+    · obtain ⟨k, hk, rfl⟩ := Finset.mem_image.mp h
+      simp only [hW, Finset.mem_filter] at hk
+      have h1 : A k < A (k + 1) := hmono (Nat.lt_succ_self k)
+      have h2 : 1 ≤ A k := by rw [← hA.1]; exact hmono.monotone (Nat.zero_le k)
+      omega
+  have hle := Finset.card_le_card hsub
+  rw [Finset.card_union_of_disjoint hdisj, Nat.card_Icc, hUcard, hVcard] at hle
+  omega
