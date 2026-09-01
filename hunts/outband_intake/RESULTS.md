@@ -102,7 +102,65 @@ someone traces it to an unconditional source rather than to Montgomery's
 RH-conditional theorem, `0.6793` is a class value and not an unconditional one. That
 audit is the cheapest next step and it decides whether §3's gap is worth funding.
 
-## 5. Cost
+## 5. Gate #3 fires, and what it does and does not mean
+
+This hunt's own `MISSION.md` names it a kill condition: any candidate argument that
+also passes the Davenport-Heilbronn control distinguishes nothing. The battery was run
+after the rest of this file was written, and **it fires**.
+
+```
+riemann_zeta:        True
+davenport_heilbronn: True     (10 zeros in the box)
+epstein_2_1_3:       True
+epstein_1_1_6:       True
+shifted_product:     VOID     (see below)
+```
+
+The diagonal-isolation drop holds for the Davenport-Heilbronn function, which
+satisfies a Riemann-type functional equation and has zeros off the critical line, and
+for both discriminant `-23` Epstein forms. It is prime-blind.
+
+**It does not kill the measured result, and the reason is a distinction worth keeping
+straight.** Gate #3 exists to catch a structural property claimed to *explain* RH. The
+isolation drop claims nothing of the kind: it is a counting input, and counting the
+simple zeros of a function is meaningful whether or not that function's zeros lie on a
+line. Davenport-Heilbronn has simple zeros to count. So the drop passing on a rival is
+the expected behaviour of a counting tool, not the signature of a vacuous one.
+
+**What it does establish is strategic and it is not comfortable.** Both of CGdL's
+zero-side inputs are prime-blind. Every piece of arithmetic content in this whole
+construction therefore sits on the prime side, in the in-band theorem. A hunt working
+the zero side can re-optimise a certificate; **it cannot add arithmetic.** That is
+independent evidence for the reading in §2, and it bounds what §3's gap can ever be
+worth.
+
+The `shifted_product` row is **void, not a finding**. The harness returned `False`
+where it should have returned "undefined": that function had zero sign changes in the
+test box, so the claim was never evaluated on it. Recorded because the void row would
+otherwise read as the drop failing on a uniformly displaced zero set, which is not
+something this run established.
+
+**One lead, flagged as weak.** The drop also survived every planted off-line
+configuration tried: zeta plus a pair at `1/2 ± 0.05, 0.2, 0.5 + 20i` gave slack
+`+2.01, +2.08, +2.67`, and the Cauchy weight's pole at `2i` is reached exactly when a
+planted zero leaves the strip, which is the mechanism this tree already cites for why
+BGSTB holds. That hints the drop may survive unconditionally under a depth bound on
+off-line zeros, which would be a route *through* the obstruction rather than around
+it. It is weak evidence: four to thirteen zeros, one box, one planted pair at a time,
+and the bulk-displacement case went untested for the harness reason above.
+
+## 5b. A disagreement left standing
+
+The adversary held, twice, that the LP earns its `0.0068` through `rho = 1 + tau >= 0`
+and that this constraint *is* the diagonal-isolation drop, which would make the class
+value RH-conditional rather than unconditional. **This file does not accept that**, for
+the reason in §4: `rho >= 0` is the nonnegativity of a pair density, true of any point
+process, and the document cited in support concerns the `-2` off-line block
+interaction in the rank-trace inequality, a different object. The disagreement is
+recorded rather than resolved because it is decidable by the §4 provenance audit and
+should be settled by that audit rather than by whoever writes the last file.
+
+## 6. Cost
 
 Under two hours of laptop compute, no CI, no formalization. A negative would have
 been reached before anything expensive was funded; so was a positive.
@@ -122,9 +180,19 @@ autocorrelation. Everything in §2 is that constraint seen from a different angl
 | truncation `X` | 160 out-of-band, 320 in-band | Sharpens the extrapolation and shrinks the `2.2e-3` method error, which is currently a third of the signal. The out-of-band arm costs about `X^2.8`; `X = 240` exceeded an hour on a laptop and was killed. Belongs in CI. |
 | in-band data provenance | inherited from `frontier_math` | Not a constant but an unaudited assumption, see §4. Decides whether the number is unconditional. |
 
+| off-line depth, taken as unbounded | never varied | **The §5 lead, and the only door that goes *through* the obstruction rather than around it.** Every planted off-line configuration left the isolation drop holding with slack `+2.01` to `+2.67`, and the Cauchy weight's pole at `2i` is reached exactly when a planted zero leaves the strip. If the drop survives under a depth bound on off-line zeros, existing machinery consumes the information with no new kernel class. Weakly evidenced, cheap to sharpen. |
+
 **Information class.** The reach and truncation doors stay inside the data the family
-already reads and buy only confidence. The kernel-class door and the provenance audit
-are the two that matter, and neither requires reading more information: the
-information is already in hand and unspent. That is what makes this different from
-the sieve wall of `frontier_math` §2, where the missing input is Hardy-Littlewood
-grade and genuinely absent.
+already reads and buy only confidence. Three doors matter and none requires reading
+more information: the kernel-class door, the provenance audit, and the depth-bound
+lead. The information is already in hand and unspent. That is what makes this
+different from the sieve wall of `frontier_math` §2, where the missing input is
+Hardy-Littlewood grade and genuinely absent.
+
+**Ranked, and the follow-up goes through the third.** The kernel-class door is the
+largest prize and the hardest, since §2 shows the requirement is an identity. The
+provenance audit is cheapest and gates whether any of this is unconditional. The
+depth-bound lead is the one that could deliver the prize using machinery that already
+exists, which is why the next hunt should take it: fix the harness guard that voided
+the `shifted_product` row, then re-run on a fully displaced zero set, which is the
+one configuration the inertia machinery was built to survive.

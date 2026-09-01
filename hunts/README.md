@@ -91,7 +91,7 @@ locates the gain entirely in the indirect channel, which is exactly the one the
 framework cannot enter. **So the information is in hand and unspent, and the missing
 piece is a construction rather than a datum** -- unlike `frontier_math` §2's sieve
 wall, where the missing input is Hardy-Littlewood grade and genuinely absent. Two
-things bound the result and are recorded in `RESULTS.md`: a ratio test was stated
+things bound the result and are recorded in `RESULTS.md`: gate #3 fires (the drop is prime-blind, holding for Davenport-Heilbronn and both Epstein forms, which bounds what the zero side can ever add), a ratio test was stated
 confidently, then withdrawn as uninformative, and the in-band data's provenance is
 unaudited, so `0.6793` is a class value until someone traces it to an unconditional
 source. Nothing here bears on RH (`docs/08`).
