@@ -48,6 +48,31 @@ Solver robustness: the out-of-band solve at `X = 80` agrees to seven digits acro
 `highs`, `highs-ds` and `highs-ipm`. The in-band ladder independently reproduces the
 published values in `frontier_math/RESULTS-frontier-math.md` §1.
 
+## 1b. The information is local: 91% of it sits in `(1, 1.5]`
+
+Lane B holds the grid at `X = 80, J = 320` and sweeps how far past the band the
+positivity constraint is enforced.
+
+| reach `A_out` | value | gain over in-band | share of the gain at 3.0 |
+|---|---|---|---|
+| none (in-band) | 0.6775676 | | |
+| 1.25 | 0.6827996 | +0.0052320 | 60.2% |
+| 1.5 | 0.6855095 | +0.0079419 | 91.4% |
+| 2.0 | 0.6858061 | +0.0082385 | 94.8% |
+| 3.0 | 0.6862544 | +0.0086868 | 100% |
+
+**It saturates almost at once.** Three fifths of the value arrives by `alpha = 1.25`
+and nine tenths by `alpha = 1.5`; doubling the reach from 1.5 to 3.0 buys another
+`7.5e-4`. The `5.0` and `8.0` rungs were not reached before the run was stopped, and
+on this curve they cannot matter.
+
+This is the most useful thing lane B could have said, and it changes the shape of the
+construction problem in §2. A certificate does not need to read far past the
+boundary. It needs to read a *narrow strip* just outside it, roughly
+`alpha in (1, 1.5]`. Whatever object eventually consumes this information has to be
+signed only on that strip, which is a much smaller demand than a kernel signed on a
+half-line, and it is the form any attempt on the §2 obstruction should take.
+
 ## 2. Why no certificate can spend it
 
 The inertia argument that would consume out-of-band information needs the evaluation
@@ -176,7 +201,7 @@ autocorrelation. Everything in §2 is that constraint seen from a different angl
 | Frozen | Chosen as | What relaxing it would trade |
 |---|---|---|
 | kernel class: autocorrelations `Khat = v*v` | forced by the inertia lemma | **The door.** Any construction certifying a bound from a signed kernel converts §1's measured `0.679` into a theorem. Trades proof technology for `6.8e-3`, seven times the public race's total progress. |
-| out-of-band reach `A_out` | 3.0 | Untested; lane B never ran. The first-order law predicts the direct channel is worthless, so this prices the indirect channel only. Cheap. |
+| out-of-band reach `A_out` | 3.0 | **Now measured, see §1b.** Saturates: 91% of the gain is inside `(1, 1.5]`. Relaxing further buys `7.5e-4`. The door this closes is a demand, not a lever: a certificate need only be signed on a narrow strip past the band, which is the smallest form the §2 construction can take. |
 | truncation `X` | 160 out-of-band, 320 in-band | Sharpens the extrapolation and shrinks the `2.2e-3` method error, which is currently a third of the signal. The out-of-band arm costs about `X^2.8`; `X = 240` exceeded an hour on a laptop and was killed. Belongs in CI. |
 | in-band data provenance | inherited from `frontier_math` | Not a constant but an unaudited assumption, see §4. Decides whether the number is unconditional. |
 

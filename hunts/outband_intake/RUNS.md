@@ -21,4 +21,4 @@ An earlier claim in conversation that this sweep would take two days was
 wrong, and was made before anything was timed. Recorded because the repo's
 compute rule exists to stop exactly that.
 
-outcome: the out-of-band information is worth about +0.0068 at the measure level (class value 0.6793, method error 2.2e-3), and no autocorrelation-kernel certificate can reach it; lane A stopped at X=160 when the X=240 rung exceeded an hour, lane B never ran
+outcome: lane B measured on the second attempt (91% of the gain sits inside alpha in (1, 1.5]); the out-of-band information is worth about +0.0068 at the measure level (class value 0.6793, method error 2.2e-3), and no autocorrelation-kernel certificate can reach it; lane A stopped at X=160 when the X=240 rung exceeded an hour, lane B never ran
