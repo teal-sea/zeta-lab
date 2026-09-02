@@ -1,0 +1,86 @@
+{
+  "question": "abs(epstein_completed(0.8+85.7i, (2,1,3), dps=60)) versus the claimed 1.6e-58",
+  "s": "0.8+85.7i, built at 200 digits",
+  "form": [
+    2,
+    1,
+    3
+  ],
+  "ladder": [
+    {
+      "dps": 40,
+      "magnitude": "4.216375003267013250951888e-53"
+    },
+    {
+      "dps": 50,
+      "magnitude": "1.617483602520170735821834e-58"
+    },
+    {
+      "dps": 60,
+      "magnitude": "1.617452632377971461454064e-58"
+    },
+    {
+      "dps": 80,
+      "magnitude": "1.617452632377971296327251e-58"
+    },
+    {
+      "dps": 120,
+      "magnitude": "1.617452632377971296327251e-58"
+    }
+  ],
+  "answer": {
+    "dps60_magnitude": "1.617452632377971461454064e-58",
+    "dps60_value_real": "-1.566243383527633990474456e-58",
+    "dps60_value_imag": "-4.037755336103688597427175e-59",
+    "dps120_magnitude": "1.617452632377971296327251e-58",
+    "dps60_relative_error": "1.021e-16",
+    "correct_digits_at_dps60": 15.99,
+    "ratio_to_claimed": 1.010907895
+  },
+  "argument_precision_trap": {
+    "note": "same call, s built at mpmath's default 15 digits",
+    "magnitude": "1.617452632377967865948261e-58",
+    "relative_error": "2.121e-15"
+  },
+  "checks": [
+    {
+      "check": "A normalisation at s=4",
+      "form": "(1,1,6)",
+      "relative_difference": "1.872e-17"
+    },
+    {
+      "check": "A normalisation at s=4",
+      "form": "(2,1,3)",
+      "relative_difference": "3.675e-17"
+    },
+    {
+      "check": "A normalisation at s=4",
+      "form": "(2,-1,3)",
+      "relative_difference": "3.675e-17"
+    },
+    {
+      "check": "B Dedekind identity at s=0.8+85.7i",
+      "dps": 60,
+      "lhs": "(-8.9026623477565044044e-58 - 1.3520688528719502253e-59j)",
+      "rhs": "(-8.902662347756504238e-58 - 1.3520688528719470974e-59j)",
+      "relative_difference": "3.98e-17"
+    },
+    {
+      "check": "B Dedekind identity at s=0.8+85.7i",
+      "dps": 120,
+      "lhs": "(-8.902662347756504238e-58 - 1.3520688528719470974e-59j)",
+      "rhs": "(-8.902662347756504238e-58 - 1.3520688528719470974e-59j)",
+      "relative_difference": "6.334e-76"
+    },
+    {
+      "check": "C functional equation across the inverse class",
+      "dps": 60,
+      "relative_difference": "4.395e-16"
+    },
+    {
+      "check": "C functional equation across the inverse class",
+      "dps": 120,
+      "relative_difference": "1.473e-75"
+    }
+  ]
+}

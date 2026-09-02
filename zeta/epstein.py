@@ -1327,9 +1327,14 @@ def shifted_interface(
         ),
         "Z": lambda t, _a=shift, _d=dps: Z_shifted(t, _a, dps=_d),
         "zeros_on_line": _line_count,
+        # dps is the caller's, not clamped -- see the note in
+        # `epstein_interface`. This interface was added on 2026-08-21 with the
+        # clamp copied in from its siblings, which is exactly why
+        # tests/test_interface_dps_is_honoured.py discovers interfaces rather
+        # than listing them.
         "count_zeros_box": lambda s0, s1, _a=shift, _d=dps: count_zeros_box(
-            s0, s1, dps=min(_d, 20),
-            fn=lambda z: shifted_completed(z, _a, dps=min(_d, 20)),
+            s0, s1, dps=_d,
+            fn=lambda z: shifted_completed(z, _a, dps=_d),
         ),
     }
 
