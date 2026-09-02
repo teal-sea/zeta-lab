@@ -70,7 +70,7 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
-### Hunt #67: what the `min(dps, 20)` cap costs, measured (`dps_cap/`)
+### Hunt #113: what the `min(dps, 20)` cap costs, measured (`dps_cap/`)
 
 **Status: probe, complete.** At `0.8 + 85.7i`, `epstein_completed` at the
 capped `dps = 20` returns `3.1e-33` where the converged value is `1.6e-58` --
@@ -94,6 +94,1056 @@ measurement of an implementation at a single point.
 > and #61. The directories `lambda_dh_bounds/` and
 > `prime_zeta_rightmost/` are unchanged and are the stable references.
 
+### Hunt #112: the depth-1 damage windows do not drift, and the lattice is exactly solvable (`support_5418c63e/`)
+
+**Status: settled** (support run `5418c63e`, for run `872d7dce` / `r_c7f779`).
+The bounded question was whether the windows of `D(1, s) > 0` track `2 pi`
+asymptotically or drift, since `r_b9552d` run `37fb06a9` §2 derives the
+atom-reserve ceiling `rho* <= 0.153216295` from the *measured* fact that
+`P = 0` on the critical lattice out to `d = 4000`.
+
+**They do not drift.** Putting `ghat`'s two terms over the common denominator
+`z^2+2` gives the exact one-term form
+`ghat(z) = [alpha z sinh(z/2) + beta cosh(z/2)]/(z^2+2)`, and expanding it
+gives `D(1,s) = (alpha^2/2)(cosh1 cos s - 1)/s^2 + alpha C sin s/s^3 +
+(E cos s + F)/s^4 + O(s^-5)`. The first correction is **odd**, so it
+*translates* the window rather than widening it: `centre(d) - 2 pi d = K/s +
+O(s^-3)` with `K = 0.893732172363`, half-width `w0 + W2/s^2` with
+`w0 = arccos(sech 1) = 0.8657694832` and `W2 = 1.7796383030`, both confirmed
+to nine and ten digits against `dps = 60` edge locations. The offset converges
+to **zero**, not to a nonzero constant, and its linear-in-`d` fit slope is
+`-2.5e-08`.
+
+**The horizon turned out to be removable.** On `s in 2 pi Z` the kernel is
+rational: `D(1, 2 pi d) = P(u)/((u-1)^2+8)^2` with `u = (2 pi d)^2` and
+`P(u) = 0.6277706 u^3 + 3.6735975 u^2 + 33.2246011 u - 73.8367418`, whose
+coefficients are all positive but the constant, so `P` increases on `u >= 0`
+and has one nonnegative root at `u* = 1.7707490`. Since `(2 pi d)^2 >= 39.478`
+for `d >= 1`, **`D(1, 2 pi d) > 0` for every `d >= 1`, derived, with no
+`d_max`**, which is exactly `P = 0` on the critical lattice. The parent's
+ceiling loses its horizon caveat on this ingredient.
+
+A `0.002` scan of `[1e-6, 1e5]` finds `31,830` sign changes (`1.999938` per
+period, so no anomalous window), all `15,915` lattice points inside a window,
+and minimum distance to the nearest edge `0.817252917` at `d = 2`, rising
+monotonically for `d >= 2` toward `w0`. `d = 0` is the one exception
+(`D(1,0) = -0.9116`), and it never arises because `P` sums over `p != q`.
+
+One error was made and caught: expanding `1/S` at `2 pi d` instead of at
+`2 pi d + x` drops a term of the same order as the `s^-4` one and inflates
+`W2` by 43%. The numerics rejected it before it was written down.
+
+### Hunt #111: the T1 certificate LP, reconditioned (`r_c7f779/`)
+
+**Status: in progress** (run `872d7dce`). Re-solving the Cohn–Elkies-style
+certificate LP for T1 that `r_b9552d` run `37fb06a9` left at `0.05410` with a
+failing solver. The verdict lives between the achievability floor `0.05716502`
+and the budget `0.06750841`. This entry is rewritten with the result when the
+run closes.
+
+### Hunt #110: the free out-of-band fact is worth 0.005 to 0.009 and no certificate can spend it (`outband_intake/`)
+
+**Status: probe, complete. GAP, not a barrier.** BGSTB 2023 (arXiv:2306.04799,
+Theorem 1) gives form-factor nonnegativity unconditionally, outside the band every
+other certificate is confined to. Two matched LP ladders of five rungs price it: with
+out-of-band positivity on, the configuration class extrapolates to somewhere in
+`[0.679, 0.682]`; the in-band control, whose limit is the record
+`0.6725007036794116` and which therefore calibrates the method at about `1.8e-3`,
+puts the difference at `+0.0065` by the same fit, three and a half times the method
+error, so zero is excluded. The third digit is not: the difference route gives
+`0.6790` and the direct fit `0.6815`, one digit from CGdL's RH-conditional `0.6792`
+and one digit from the bandwidth-one ceiling `0.6818` respectively, and an earlier
+draft that read the first coincidence as a landing is withdrawn (`refit.py`). **But
+no known certificate can realise any of it.** The inertia lemma needs a positive semidefinite evaluation form, which
+forces the spectral density `v = phi^2 >= 0` and hence `Khat = v*v >= 0` everywhere:
+the framework has no free `ghat`, only a free `v`, so a kernel negative out of band
+is not reachable. The requirement does not weaken -- with indefinite `S` the rank half
+of the lemma survives and the inertia half fails, witness `Q = t[[0,1],[1,0]]`,
+`S = diag(1,-1)`, `c = 2`, slack `+2.0` at `t = 1` and `-0.5` at `t = 1.5`, against
+4000 random PSD pairs never violated. The first-order law `dJ/deps = (J - Lbar)/g(0)`
+locates the gain entirely in the indirect channel, which is exactly the one the
+framework cannot enter. **So the information is in hand and unspent, and the missing
+piece is a construction rather than a datum** -- unlike `frontier_math` §2's sieve
+wall, where the missing input is Hardy-Littlewood grade and genuinely absent. Two
+things bound the result and are recorded in `RESULTS.md`: gate #3 fires (the drop is prime-blind, holding for Davenport-Heilbronn and both Epstein forms, which bounds what the zero side can ever add), a ratio test was stated
+confidently, then withdrawn as uninformative, and the in-band data's provenance is
+unaudited, so the range is a class value until someone traces it to an unconditional
+source. Nothing here bears on RH (`docs/08`).
+
+### Hunt #109: the soundcalc numbers reproduce, the pins that name their sources do not (`r_4166b0/`)
+
+**Status: settled for the units where a source existed; four units have no
+reproduction path and that is a property of the artifacts, not of the budget.**
+The first transfer test of the reproduction procedure outside mathematics
+(issue #140, the Ethereum Foundation's zkEVM Security Sprint). `ethereum/soundcalc`
+pinned at `d9078d64c9c3`, ten units, two verdicts each, never merged: does the
+checked-in TOML follow from the vendor's tree at the version it names, and does
+that TOML still describe the vendor's current release.
+
+**Every parameter that could be re-derived, re-derived exactly: 51 of 51
+numeric fields** (RISC0 7/7 from its cited notebook, Miden 5/5 from its cited
+Rust constant, OpenVM 9/9 across three circuits, SP1 30/30 at two separate
+vendor refs). Not one number was wrong. Stage 0 holds too: soundcalc at its pin,
+run unmodified on its own TOMLs, leaves `reports/` byte-identical.
+
+**The failures are all in the pins.** Of eight provenance pins, **two do not
+resolve**: Airbender's cited commit is not in `matter-labs/zksync-airbender`
+(`upload-pack: not our ref`), and the `pil2-proofman` branch that the one
+executable regeneration script clones has been deleted. A third, SP1's, names a
+tag that does not contain the generator the TOML credits, because the generator
+landed eleven days after that release; the `version` field is a crate version
+string covering a window of commits, not a tree. Two of OpenVM's three source
+citations point at a superseded commit and a differently-named function whose
+arms carry *lower* query counts, so the citation is stale and the number is not.
+
+**The strongest single result**: Airbender's parameters are byte-identical to
+what the vendor's own generator emits at its current tip, six months after the
+date stamped in soundcalc's copy, recovered at **one hand intervention** despite
+the cited commit being unfindable. **The cheapest**: `gen_soundcalc_toml.rs`
+computes most of its output from named constants, so reimplementing its
+arithmetic in Python re-derived thirty SP1 fields with **zero build minutes**
+against a brief that had budgeted ten runner-hours for Rust builds.
+
+Two other findings, both VERIFIED. `reports/risc0.md` and `reports/miden.md`
+cannot be regenerated by the code at HEAD (both units are dropped for a missing
+`num_constraints`), so two published reports are held-over artifacts, and a
+config the loader cannot read yields a *missing row* in `summary.md` rather than
+a failure. And `venus.toml`'s header claim of parameters identical to ZisK's
+does not hold: one circuit of forty-four differs in seven numeric fields. That
+moves no published bit (every per-regime total is identical, and the differing
+ALI component is not the binding term), which is why it is published rather than
+held.
+
+Six planted faults, six reds, including one positive control. Two earlier
+lesions failed and are kept: the first showed that stage 0 detects a perturbed
+*input* and never a perturbed *output*, because it regenerates the reports
+before diffing. Transfer measure: **1.5 hand interventions per unit** over the
+six units with any reproduction path, against a threshold of two. Nothing here
+bears on RH (`docs/08`), and every statement is scoped to the artifact at the
+pinned commit rather than to any vendor or deployed system.
+### Hunt #108: the SWE-bench leaderboard recounts from its own logs, where the logs are there (`r_0dfb8d/`)
+
+**Status: settled for the units run; the archive-wide availability question is
+open.** The second transfer test of the reproduction procedure outside
+mathematics (paired with issue #140, soundcalc / zkVM): a public checker,
+publicly archived accepted objects, a published number. `SWE-bench/experiments`
+pinned at `1faa91cade05`, split ids at dataset sha `c104f840cc67`, logs by
+anonymous HTTPS GET from `s3://swe-bench-submissions`.
+
+**Five of six preregistered entries recount to the integer** (265, 359, 384,
+388, 396 against their own published `results.json`), and each also agrees on
+all twelve per-repository sub-counts, which is the cross-check that rules out
+two errors cancelling in one aggregate. **Across 2,484 per-instance reports
+re-derived from the test results recorded in the same file, zero disagreed with
+the verdict that file claims.** The two verdicts were kept apart throughout and
+were shown to be able to fail: four planted faults (a flipped `resolved`, a
+planted `PASS_TO_PASS` failure, dropped required successes, a removed report)
+turned exactly the verdict each should and left the other alone.
+
+**The finding is the other class.** One preregistered entry answers **0 of 500**
+documented report keys, all 404, while its predictions and trajectories are
+retrievable; a three-key probe across all 134 entries finds **15 answering none**
+(thirteen dated 2024-07 or earlier, two dated 2025-08-05, one of which was swept
+over all 500 keys to confirm). And the archive's access model is the binding
+constraint on anyone repeating this: **anonymous `GetObject` succeeds, anonymous
+`ListObjectsV2` returns 403**, so an outside reader can fetch any key they can
+name and cannot discover which keys exist. Every absence here is therefore
+"absent at the documented key", never "absent from the bucket". The repository
+README's claim that an AWS account is required is wrong for GET and silent about
+listing. Three smaller measured facts: `tags.checked` is a non-boolean truthy
+string (`"false (See README.md …)"`) in six entries, so any consumer writing
+`if tags["checked"]` reads six unchecked entries as checked; `no_logs: 0` is
+published for an entry that has one instance with a non-empty archived
+prediction and no archived report (it changes no count, being an accounting
+field rather than a counted one); and **no entry among the 134 states the
+evaluation-harness version that produced its number**, which bounds every
+"match" above. One reported unavailability was our own bug, an unencoded `+` in
+an entry name, found and fixed before publication and recorded because a
+reproduction procedure that blames the target for its own fetcher is the failure
+this class of hunt exists to catch. Nothing here characterises a team, an agent
+or a model, nothing was sent anywhere, and nothing bears on RH (`docs/08`).
+
+### Hunt #104: Erdős #126 is one unit-equation count away (`support_f3ab3e34/`)
+
+**Status: not settled, and the program is named.** Independent-architect arm on
+Erdős #126 ($g(k)$ = max size of a set of positive integers all of whose
+off-diagonal sums have prime factors in a fixed $k$-element set $S$; is
+$g(k) = \exp(o(k))$?), asked to ignore the earlier brief's three lanes and design
+the program from the statement. It reduces to a counting question in four
+elementary lines. Fix $a_1 \ne a_2$ in $A$, put $D = a_1 - a_2$; then
+$c \mapsto ((a_1+c)/D,\, -(a_2+c)/D)$ injects $A \setminus \{a_1,a_2\}$ into the
+solutions of $X + Y = 1$ inside the rank-$(k{+}1)$ group
+$\langle -1, S, D\rangle$, so $g(k) \le 2 + N(k+1)$ and **$N(r) = \exp(o(r))$
+implies the conjecture**. The known $N(r) \le 2^{8r+8}$ (Beukers–Schlickewei) is
+the same exponential wall the 1934 bound sits at, while the record construction
+(Erdős–Stewart–Tijdeman 1988) produces only $\exp\{(4+o(1))(s/\log s)^{1/2}\}$
+solutions: the believed truth about $N$ already implies #126 with room to spare,
+which is soft evidence for it. The reduction is not new (it is how the
+$c\log|A|$ bounds are proved) and its constant is worse than 1934's; its value is
+that it says which door is load-bearing. Four chains are ranked by the strength
+of their first unproved step, and the recommendation is *not* the reduction
+itself (its first step is strictly stronger than #126) but the $m$-base-point
+version, where each extra element adds a free simultaneous unit equation no
+counting argument currently exploits. Audit of `r_186989`: its table replicates
+at $N = 200$–$400$ (its boxes were slack by $10^2$–$10^3$, not $60\times$), its
+composition-refutation direction is sound, and **its loose thread 3 is false**,
+refuted by its own witness $A=\{1,3,7,13\}$, $S=\{2,5,7\}$, which has $|A| = 4 >
+p-1$ for $p = 3$; the residue pigeonhole closes only at $p=2$, because only there
+does $2r \equiv 0$. It also never states a lower bound: $\{1,\dots,m\}$ with
+$S$ = primes $\le 2m-1$ gives $g(k) \ge (1+o(1))k\log k/2$, so $g(12) \ge 20$
+and the unexplored range is $[k\log k,\, 2^k]$. Nothing here bears on RH
+(`docs/08`).
+
+### Hunt #91: Erdős #126, and the composition law that would refute it (`r_186989/`)
+
+**Status: not settled — scout killed on a pre-registered kill condition.** A
+30-minute bounded scout on Erdős #126 (for $n$ positive integers $A$, $f(n)$ is
+the least number of distinct primes dividing an off-diagonal sum $a+b$; is
+$f(n)/\log n \to \infty$?). The run inverted the problem before running any arm:
+$f$ and $g(k) = \max\{n : f(n) \le k\}$ are inverse staircases, so the
+conjecture is exactly $g(k)^{1/k} \to 1$, and all three briefed arms become
+measurements of one integer sequence. Exact branch-and-bound clique search on
+the $S$-smooth pair-sum graph, exhaustive inside $[1,N]$ with every witness
+re-verified, gives $g(k) \ge 2, 4, 5, 6, 8, 10, 11$ for $k = 1..7$ ($N$ from
+$2\cdot10^5$ down to $6000$); widening the box 60× moved not one row, because
+every optimal witness lives below 50. Those are lower bounds only — **no upper
+bound on $g(k)$ is established**, and seven falling $k$-th roots
+($2.00 \to 1.41$) cannot separate a limit of 1 from a limit of 1.3. That is the
+"suggestive finite data" the brief named as a kill condition, and the hunt calls
+it that. Two things survive. The Formal Conjectures positivity mismatch is
+resolved: $f(n-1) \le f_0(n) \le f(n)$, so the `Finset ℕ` statement is faithful
+for the limit and wrong for pinned finite values ($f(2)=1$, $f_0(2)=0$,
+witness $\{0,1\}$). And the briefed composition arm points the wrong way:
+$g(1) = 2$ plus supermultiplicativity gives $g(k) \ge 2^k$ by Fekete, i.e.
+$f(n) \le \log_2 n + O(1)$, so a rigorous composition law **refutes** the
+conjecture rather than proving it — what #126 needs is an anti-composition
+theorem. The only $S$-dependence visible was parity: $2 \in S$ is worth more
+than every other structural choice combined ($g_N(3) = 5$ with it, $2$ without).
+Nothing here bears on RH (`docs/08`).
+
+### Hunt #105: the Erdős #126 scout survives, its literature claim does not (`support_eccd5f5e/`)
+
+**Status: settled (audit).** Red-team arm against Hunt #91, every claim treated
+as hostile input. The mathematics holds. The inverse reformulation
+$g(k)=\max\{n : f(n)\le k\}$ and the chain to $g(k)^{1/k}\to 1$ re-prove in both
+directions, though the equivalence is conditional on $f(n)\to\infty$ and so on
+Erdős-Turán, which #91 does not flag. The positivity lemma
+$f(n-1)\le f_0(n)\le f(n)$ is correct step by step, and is sharpened here:
+$f(1..4) = 0,1,2,2$ are *exact and proved*, while $f(5)=3$ is not, because
+$f(5)\ge 3$ is exactly the open statement $g(2)\le 4$. The composition finding is
+correct and understated: Fekete is unnecessary ($g(k)\ge g(1)^k$ by induction),
+and since Erdős-Turán gives $g(k)\le 3\cdot 2^{k-1}-1$, a composition law would
+squeeze $g(k)$ into $[2^k, 1.5\cdot 2^k]$ and pin the growth constant to within
+$3/2$ rather than merely refuting the conjecture; **a proof that $g(3)\le 7$
+retires the programme without finding any gadget.** A search written from the
+problem statement rather than from `probe.py` reproduces all seven rows
+$2,4,5,6,8,10,11$ exactly. Two interpretations are corrected: "every optimal
+witness lives below 50" is an artifact of search order, since witnesses are
+closed under multiplication by $S$-units and division by $\gcd$ (ours returned
+$162\cdot\{1,5,7,11\}$), and the table was never benchmarked against the trivial
+1934 construction $A=\{1,\dots,m\}$, which already gives
+$g(k)\ge (p_k+1)/2 \sim \tfrac12 k\log k$. **One thread is false**: $|A|\le p-1$
+for omitted $p$ fails for every odd $p$ (a class $r$ with $2r\not\equiv 0$ may be
+occupied arbitrarily often; $p=2$ is the unique prime where the pigeonhole
+works), refuted by $S=\{2,5,7\}$, $A=\{1,3,7,13\}$ from #91's own table. And "no
+progress beyond 1934" is misleading: the order of magnitude is indeed unimproved
+(confirmed against erdosproblems.com/126 and Füredi-Gyarmati arXiv:2602.07545,
+Feb 2026), but Győry-Stewart-Tijdeman 1986 and Erdős-Stewart-Tijdeman 1988 are
+directly relevant and neither hunt cited a single paper. New: the four-element
+reduction $u+v=w+x$ to a nondegenerate three-term $S$-unit equation is proved,
+and the route needs an $\exp(o(s))$ solution count, which the known
+$\exp(c\sqrt{s}/\log s)$ lower bound does *not* forbid. Nothing bears on RH
+(`docs/08`).
+
+### Hunt #96: Erdős #126, the S-unit route is sound and its theorems are 24.5^k too weak (`support_d5d5ccae/`)
+
+**Status: not settled, and the arm returns the "too weak" verdict its brief
+allowed.** A support run for `0897a5a7`, answering the S-unit arm of Erdős #126.
+The injectivity the brief asked for exists and is two lines: if every
+off-diagonal sum of $A$ is $S$-smooth and $a > b$ lie in $A$, then
+$x \mapsto (a+x, b+x)$ injects $A \setminus \{a,b\}$ into the solutions of the
+two-variable $S$-unit equation $U - W = a-b$ in positive $S$-smooth $U, W$,
+whence $|A| \le 2 + \min_{a>b} N_S(a-b)$. The implication direction was checked:
+a solution-count bound gives a $g(k)$ bound gives #126, and not the reverse, so
+unlike arm 3 of Hunt #91 this route points the right way. Fixing three or more
+base elements is **strictly worse**, because the resulting coefficients are
+differences of elements of $A$ and carry primes outside $S$, which forces the
+rank-based bounds ($2^{16k+16}$) instead of Evertse's $S$-based one. Charging
+Evertse (1984), $3\cdot 7^{d+2s}$ with $d=1$, $s=k+1$, gives
+$g(k) \le 2 + 3\cdot 7^{2k+3} \approx 1029\cdot 49^k$: **weaker than the 1934
+Erdős–Turán bound $3\cdot 2^{k-1}$, and than Erdős–Surányi's $2^k$, by a factor
+about $24.5^k$.** Measurement then locates the slack. Enumerating all $S$-smooth
+integers to $10^{14}$ and counting $U-W=d$ exactly inside that box reproduces
+Lehmer's published Størmer table for $d=1$ ($1,4,10,23,40,68,108,167$ for
+$k=1..8$), and at $k=7$ the quantity Evertse bounds by $7.0\times10^{14}$ has a
+measured value of $96$, against the elementary $128$. **The route is not what is
+lossy; the theorem is, by thirteen orders of magnitude.** What would suffice is
+stated: dropping the base $49$ below $2$ already beats 1934, and $\exp(o(k))$
+settles #126, which nothing known forbids since the best lower bound
+(Erdős–Stewart–Tijdeman) is $\exp((4+o(1))(s/\log s)^{1/2})$. No improved bound
+on $g(k)$ is proved here, and the one missing combinatorial lemma is named: every
+admissible $A$ beyond some size must contain a pair whose difference has few
+solutions. Nothing here bears on RH (`docs/08`).
+
+### Hunt #95: Erdős #126, the signature model has no ceiling to raise (`support_baf4cde6/`)
+
+**Status: lane closed, by proof rather than by a failed attempt.** Support arm
+for hunt #91 (`r_186989/`), asked whether prime-valuation signatures plus
+entropy, VC, containers, dependent random choice or forbidden patterns can show
+that an $S$-summable set ($a+b$ free of primes outside $S$, $|S|=k$) has
+subexponential size. Answer: no, and the reason is not difficulty. **Theorem B:
+for every prime bound $P$ and every $S$ containing 2, arbitrarily large sets
+satisfy every constraint $S$-summability imposes at primes $\le P$** (take
+$A = \{1+iM\}$ with $M$ the product of the odd primes $\le P$ outside $S$, so
+every off-diagonal sum is $\equiv 2 \bmod M$; checked at $P=60$ with $|A|=200$
+against Erdős–Turán's 12). So any argument reading a fixed finite prime set is
+consistent with $|A| = \infty$ and can prove nothing; the hypothesis binds only
+at primes above $\max A$, which is the cofinite smoothness condition itself and
+not a signature. That also explains #91's puzzle that every optimal witness
+lives below 50 inside a box of $2 \cdot 10^5$. The one non-vacuous use of the
+local data is **Lemma A**: for $p \notin S$, $A$ meets at most $(p+1)/2$
+residue classes mod $p$, never both $r$ and $-r$, at most one element in class
+0, and for $p=2$ this gives $|A| \le 2$ uniformly in $k$ (the proved form of
+#91's parity observation). Lemma A also **refutes** #91's loose thread
+"$|A| \le p-1$ when $p \notin S$": $A = \{1,3,7,13\}$, $S = \{2,5,7\}$ has
+$3 \notin S$ and $|A| = 4$, and a sweep at $N=400$ reaches 5. Pushed to CRT
+injectivity, Lemma A gives a real theorem that is strictly worse than 1934: it
+saves exactly **one bit per prime outside $S$** against a modulus that must
+already exceed $N$, landing at $2^{53}$ where Erdős–Turán gives $2^{5.6}$ at
+$\log_2 N = 64$. #91's own top door survives this arm: each 4-subset gives a
+non-degenerate three-variable $S$-unit equation, whose ESS count is worse than
+1934 by $\approx 5\cdot10^{10}$ in the exponent but is not known to be
+exponential, and the missing lemma there is a fiber count, not a unit-equation
+bound. #91's other claims were re-derived independently and hold, including two
+reproduced $g_N(k)$ rows. Nothing here bears on RH (`docs/08`).
+
+### Hunt #93: Erdős #126 is a $\forall S$ statement, so every search we own can only refute it (`support_8ea74995/`)
+
+**Status: settled, for the bounded question it was given.** The formulation arm
+of a multi-arm attempt on Erdős #126, run as support for a live sibling. It
+proves the equivalences hunt #91 asserted — $f(n) \le k \iff n \le g(k)$ as a
+Galois connection, and the equivalence of $f(n)/\log n \to \infty$,
+$\log g(k) = o(k)$, $g(k)^{1/k} \to 1$, $f(2^m)/m \to \infty$ and *"the average
+multiplicative gain per added prime tends to 1"* — and finds #91's asserted
+mathematics sound, with one "iff" that should have been an implication.
+Three things are new. **The refutation direction generalises**: not only
+supermultiplicativity but *any* law $g(k+C) \ge \lambda g(k)$ with $C$ and
+$\lambda>1$ constant refutes the conjecture, so every composition, gluing or
+doubling gadget with bounded prime cost is a refutation instrument; the
+supermultiplicative case needs no Fekete, just induction from $g(1)=2$.
+**One of #91's loose threads is false**: "$p \notin S \Rightarrow |A| \le p-1$"
+fails for every odd $p$ (take $A \equiv 1 \bmod p$), and had it held it would
+have given $g(k) \le p_{k+1}-1$ and settled the problem in three lines — it
+agreed with all seven measured data points anyway, which is the lesson. What
+the pigeonhole really proves is a bound on the number of **residue classes**
+$A$ occupies, $\le (p-1)/2 + 1$; $p=2$ is the unique prime for which that
+bounds $|A|$, and that is why parity is special. **And the quantifier settles
+the strategy**: #126 is $\forall S\,\forall A$, every enumeration yields
+$\exists S\,\exists A$, so no clique search in a box can ever contribute to a
+proof — #91's three failures have one cause and it is not budget. Also proved:
+$2 \in S$ and $\gcd A = 1$ are valid normalisations for upper bounds, while
+$\max A \le N$ and "$S$ = the first $k$ primes" are not; each 4-subset of $A$
+gives a non-degenerate 3-term $S$-unit solution, making #126 conditional on a
+subexponential unit-equation count and on a multiplicity nobody has bounded.
+#91's thread 4 closed in the negative: no 4-subset of the first eight primes
+beats $g_N(4)=6$. Nothing here bears on RH (`docs/08`).
+
+### Hunt #101: Erdős #126, the descent arm — loss 2 per prime is a wall, and the omission claim is false (`support_7ddfee4b/`)
+**Status: settled, in both directions.** Support run for the `r_186989` scout,
+answering one bounded question: is there a descent recurrence for $g(k)$ whose
+per-prime loss tends to 1, and does omitting a small prime from $S$ cap $|A|$?
+
+The omission claim is **false for every prime**. Omitting $p$ forces the
+residues of $A$ mod $p$ to avoid the pairing $r \leftrightarrow -r$, which caps
+the number of *occupied classes* at $(p+1)/2$ and caps the size of a
+*self-paired* class at 1. It caps $|A|$ only when every class is self-paired,
+which happens only at $p = 2$. For odd $p$, any $A \subseteq 1 + p\mathbb{Z}$ has
+all pairwise sums $\equiv 2 \pmod p$, so $|A|$ is unbounded with $p \notin S$;
+witnesses at $p = 3,5,7,11$ are verified in `results.json`. The proposed
+$|A| \le p-1$ also fails at $p=2$ by one ($\{1,2\}$, $S = \{3\}$).
+
+The descent does exist. Deleting one odd prime $p \in S$ splits $A$ into the
+part divisible by $p$ and two sets admissible for $S \setminus \{p\}$ (the two
+halves of $(\mathbb{Z}/p)^\times$ under negation), giving
+$g^*(k) \le 2\,g^*(k-1) \le 2^k$ for **primitive** $A$ (no element divisible by
+a prime of $S$), tight at $k = 1, 2$ — $\{1,5,7,11\}$ with $S=\{2,3\}$ is
+primitive and has $2^2$ elements. But the loss cannot be pushed below 2 along
+this route, and that is a theorem rather than a failure to find one: parity,
+residue classes, prime deletion and the power-of-2 lemma all factor through a
+relaxation (cover $K_n$ by the negation-pairings of $k-1$ odd primes plus a
+triangle-free graph), whose optimum is **exactly $2^k$**, attained by
+$\{0,1\}^{k-1}\times\{0,1\}$ with a perfect matching. So an $\exp(o(k))$ bound
+must read something the relaxation discards — CRT rigidity, size, or $S$-unit
+counting — which is the door `r_186989` ranked first, now closed-by-proof
+underneath rather than judged.
+
+Not settled, and flagged as a real hole: the bound is for primitive sets only.
+The divisible part escapes the descent because $(S, pA)$ is admissible whenever
+$(S,A)$ is, so $\gcd A = 1$ (which is free) is strictly weaker than
+primitivity. Nothing here improves the classical $g(k) < 3\cdot 2^{k-1}$, and
+nothing here bears on RH (`docs/08`).
+### Hunt #103: Erdős #126, the residue lemma is false and the box was never the question (`support_60982bf6/`)
+
+**Status: settled, as a support answer.** Exact-search arm for hunt #91's
+parent: redo `r_186989`'s computation ranging over choices of $S$ instead of
+freezing the first $k$ primes, and use the computation only to discover and
+falsify structural lemmas. Exhaustive over **all** $\binom{9}{k}$ subsets of the
+first nine primes for $k \le 5$ (381 searches, a solver rewritten to build edges
+from the $S$-smooth sums rather than by scanning $O(N^2)$ pairs), the first $k$
+primes are never beaten — so the frozen constant #91 called "the door with
+genuine trade shape" is slack. What the sweep produced instead is two lemmas.
+**Proved (normalization):** $\gcd(A)$ is always $S$-smooth, $A/\gcd(A)$ is
+admissible, and $mA$ is admissible for $S$-smooth $m$, so the admissible sets
+are *exactly* the $S$-smooth dilates of primitive ones. That removes #91's
+puzzle that widening the box "changed not one row": a wider box only contains
+bigger copies of the same small set, and the right question is the height of the
+smallest primitive optimum, not the width of the box. **Refuted:** #91's
+"only clean iterable statement", $|A| \le p-1$ when $p \notin S$, is false for
+every odd $p$ — for $r \not\equiv 0$, $r+r \not\equiv 0 \pmod p$, so arbitrarily
+many elements may share one class and the pigeonhole bounds the number of
+occupied classes, never $|A|$; $p=2$ is the unique prime with $2r \equiv 0$ for
+all $r$, which is why parity works there and nowhere else. Counterexamples at
+$p = 3, 5, 7$ (the smallest, $S=\{2,5,7\}$, $A=\{1,3,7,13\}$, sits inside #91's
+own table). Also refuted, box-conditionally: $g$ is **not** monotone in the size
+of the primes ($g_{20000}(\{2,3,11\}) = 4 < 5 \le g(\{2,3,13\})$, 29 violations),
+so any $S$-level lemma must be about a prime's additive position relative to the
+smooth semigroup, not its size. The conjecture offered is *uniformly bounded
+height*, and both natural explicit constants for it were killed by the run's own
+data ($h(\{2,3,5\}) = 47 > 2^{k+2}$, $h(\{2,3,7,13\}) = 159 > 2^{k+3}$); it is
+consistent with all 15 measured $S$ and verified for none. No upper bound on
+$g(k)$, as before. Nothing here bears on RH (`docs/08`).
+
+### Hunt #92: the Erdős–Turán factor 2 is not lost anywhere, it is the whole statement (`support_517b887f/`)
+
+**Status: settled, negatively.** Support arm for Hunt #91, asked whether the
+1934 proof's factor 2 per prime can be beaten by processing primes jointly or
+in a different order. Answer: no, and the reason is structural rather than
+arithmetic. Reconstructed, the proof has exactly two steps: a base case
+$c(A) \le 2$ (three positive integers cannot have all three pairwise sums
+powers of 2, by $2a = 2^x+2^y-2^z < 0$), and one binary $\pm$ residue choice per
+odd prime, assembling to $g(k) \le 2\cdot 2^{k-1} = 2^k$ (Erdős–Surányi; the
+1934 $3\cdot2^{k-1}$ is the same architecture with a weaker base). Since
+$c(A) \in \{1,2\}$ always, "every admissible $A$ has $c(A) \ge |A|/\varphi(k)$"
+is equivalent to $g(k) \le 2\varphi(k)$, and $c(A)$ is defined by a maximum
+over subsets, so it is blind to prime order and to grouping. **Improving 2 to
+$2-\delta$ inside this architecture is the target restated, not a sharpening of
+it.** At the residue level joint processing is provably worthless: the CRT
+configuration $x_\varepsilon \equiv \varepsilon_i \bmod q_i$ has $2^s$ points
+whose largest jointly clean subset is 1 (brute-forced, $s \le 4$). Two defects
+in the usual sketch fell out and are witnessed exactly: the per-prime halving
+$|B'| \ge |B|/2$ is **false** ($A = \{1,3,15,21,33\}$, sums
+$\{2,3,11,17\}$-smooth, best 3-clean subset $\{1,3\}$ of size $2 < 2.5$; the
+class-0 term is not removable, and $q\cdot C \cup \{x\}$ makes the failure
+unbounded), and the assembled $c(A) \ge n/2^s$ is **false without primitivity**
+($A = 3\cdot\{1,3,7,17,47\}$ has $c = 1 < 5/4$; dividing by $\gcd$ repairs it).
+Reordering rescues individual instances ($q=11$ before $q=3$ turns $0.4n$ into
+$0.8n$) and nothing at the theorem level. A sweep of 104,183 admissible sets in
+three small boxes found zero primitive violations of the repaired lemma and
+exact tightness at $\{1,2,4,8\}$. The one sub-question left that is not
+circular is a two-set bound on how much of $A$ one odd prime may divide, which
+is Győry–Stewart–Tijdeman territory. Nothing here bears on RH (`docs/08`).
+
+### Hunt #107: the Erdős #126 size dichotomy misses by one power of the radical (`support_95bb5cb7/`)
+
+**Status: the arm is settled negative; the conjecture is untouched.** A support
+run for a session working Hunt #91, asked whether a size dichotomy closes Erdős
+#126: either $A$ is spread out enough for a descent, or it lies in a controlled
+interval where smooth-number counts apply. It does not, and the failure point is
+now exact rather than rhetorical. The counting horn is
+$|A| \le 1 + \Psi(2N,S)$ with $N = \max A$, and writing
+$\log 2N = c\log\mathrm{rad}(S)$, the run pins $\log\Psi/k$ from **both** sides,
+Rankin above and the simplex lattice-point volume below: it tends to zero iff
+$c \to 0$, and at $c \ge 1/2$ the lower bound is $0.32k$, so above
+$\max A = \mathrm{rad}(S)^{1/2}$ the horn is not unproven, it is false. So the
+horn delivers $\log g(k) = o(k)$ **iff** it is handed
+$\max A = \mathrm{rad}(S)^{o(1)}$, and no choice of $S$, scale, split or
+smooth-count estimate moves that: it is a property of $\Psi$, not of the
+argument. The other horn cannot supply it, for two independent reasons. First,
+measured: after the only available normalisation ($\gcd(A) = 1$; translation
+shifts every sum by $2t$ and is unavailable, so height is a genuine invariant),
+the height of a primitive admissible set of sub-extremal size is **unbounded**,
+tracking the search cutoff linearly over eleven orders of magnitude, from
+$\{217,1241,7975\}$ up to
+$\{3772777922353,\,41980806987569,\,559177175498959\}$ at $S=\{2,3\}$. A descent
+that reaches a smaller set finds no interval control waiting there. Second,
+structural: an admissible clique yields only the *four*-term relation
+$(a+b)+(c+d)=(a+c)+(b+d)$, and every height theorem for $S$-smooth numbers
+(Baker–Győry, $abc$) is three-term; four terms have only solution *counts*
+(Evertse–Schlickewei–Schmidt, $\exp(O(k))$, and Erdős–Stewart–Tijdeman show
+counts cannot fall below $\exp(c(k/\log k)^{1/2})$). A count is not a height.
+Granting even the best imaginable three-term outcome, $abc$ gives
+$\max A \ll \mathrm{rad}(S)^{1+\varepsilon}$, which is $c \to 1$, exactly where
+the lower bound reads $1.01k$. **The gap is one power of $\mathrm{rad}(S)$, not
+an exponential**, which is why the arm looks tempting and why it still cannot
+close. The audit half re-verified all seven of Hunt #91's witnesses from scratch
+by full trial division (all valid), confirmed its $f(n-1)\le f_0(n)\le f(n)$
+lemma and its Fekete argument, and **corrected one claim**: "every optimal
+witness has all elements $< 50$" is false. Enumerating through the *sums* rather
+than the elements, which is the exhaustive universe for a constraint on sums,
+gives exactly six primitive extremal 5-sets for $S=\{2,3,5\}$ with all sums
+$\le 10^5$, and $\{5,11,25,245,475\}$ is one of them, max element $475 =
+\mathrm{rad}^{1.81}$, not $\mathrm{rad}^{1.13}$. Hunt #91 reported one witness
+per $k$ and generalised from it. Same enumeration adds a small positive: no
+6-element set for $S=\{2,3,5\}$ has all pairwise sums $\le 10^5$. Not settled:
+whether extremal-size sets have bounded height (the data hints yes and it would
+be circular for this arm anyway), the ladder at $k=4$ (the enumeration exceeded
+ten minutes), and any upper bound on $g(k)$ at all. Nothing bears on RH
+(`docs/08`).
+
+### Hunt #90: the leader's certificate does not replay at its own HEAD (`amtopa_ceiling/`)
+
+**Status: settled on the measurable axes; window axis open; acceptance blocked at the tip.** Takes the
+`ainta_seven_point` playbook to `AMTOPA/zeta-exact-pressure`, the leading public
+claim per Hunt #89, pinned at commit
+`7253fdcab9366af45b8c8caf44e408c0af44a1a7`.
+
+**The finding that outranks the rest: their published certificate does not
+replay at their own repository tip.** Run through AMTOPA's own pipeline on the
+pinned commit — their table builder, their verifier, their candidate, their
+target — the finite inequality behind `0.6734164909714992949` returns
+`INCONCLUSIVE=true reason=terminal_cell` with a rigorous lower bound `1.19e-07`
+short of the target. **The tables are not at fault: all six join to streams whose
+SHA-256 digests match their own `candidate.json` byte for byte**, a stronger
+table reproduction than Hunt #89 got for `trmdy`. The cause is their convexity
+gate, which fires `2030240` times in their recorded run and **zero** times here
+in 72 million nodes. Their `candidate.json` names
+`source_commit: b3b7784…` as the origin of that run; between `b3b7784` and the
+tip, `src/verify_local_tables.cpp` changed by 173 lines and the gate's curvature
+entries went from thin `point(scalar)` to `mul(p.exact, {sec, +infinity})`. The
+interval LDL that follows **cannot certify positive definiteness of a matrix
+unbounded above** — `ldl_probe.cpp`, 70 lines, shows it returning `false` on a
+matrix with `10` on the diagonal and `1` off it. Without the tangent bound the
+plain interval bound at grid `1/4000` is left to clear the target alone, and at
+one width-zero cell it cannot. **Direction: fail-closed** — the tip refuses what
+the earlier revision accepted and never the reverse, so this is a reproducibility
+defect, not a soundness hole, and it blocks *our* candidate at the tip too, by
+`2.70e-08`.
+
+**Their headline reproduces on paper.** In exact rational arithmetic with a
+rational under-estimate of the only square root, their `0.673416490971499294950035533107
+4903174997772794755665475125243371226272` holds to **70 decimals**, and the exact
+scan over `m` in `[7, 20000]` returns their `m = 145`. An independent
+reimplementation written from their `proof.md` reproduces `H(v)` and their
+observed float minimum `0.007911105155226424` to the binary64 limit, at their own
+published basin. Soundness read: **no defect that affects their claim.**
+Acceptance is one-sided throughout, the verifier fails closed at a terminal cell,
+out-of-table queries return `0` for a nonnegative `W` and `-inf` for the
+convexity gate, and the constants are thresholds compared against computed
+enclosures, not answers wired to the target. Three things worth recording anyway:
+their `README.md` and `proof.md` both say *"exact arithmetic selects m=145"* while
+`src/check_final_bound.py` is **`mpmath` float at 100 dps with `mp.sqrt`** — right
+answer, wrong label, and their own banded experiment does it properly; the C++
+**never checks pair-weight nonnegativity** although `box_lower` needs it, and the
+script that writes its constants does not check it either, so the verifier alone
+cannot validate a candidate; and `long double` is 64-bit on ARM and 80-bit on
+x86, the same host-dependence class as the `w''` digest Hunt #89 found in
+`trmdy`.
+
+**Outcome (a), by `+3.96e-06`.** `eps(a,b) = min_g F` is *linear* in the pair
+weights and in the pressures, hence concave, over a polytope — so that axis is a
+concave maximisation with an exact answer, not a search. Cutting-plane LP: at
+their own window and their own total pressure the polytope admits
+`eps* = 0.007916857812` against their `0.007911105155`, and quantised into their
+schema at the rational target `19791/2500000` the exact assembly gives
+
+    0.6734201550790580964457598685450152133015  against their 0.6734164909714992949500
+
+CONDITIONAL, inheriting the same unreviewed Anthropic/Ainta bridge as everything
+on this ladder, and the floor behind it is a float minimum until their own
+verifier accepts the target. **The LP found the point; it does not justify it** —
+what justifies it is their branch-and-bound, and the hunt says so where the
+number appears.
+
+**The window axis is NOT saturated, and it is worth ten times the pair weights.**
+Five independent differential-evolution seeds across two Actions runs, each
+starting from AMTOPA's own window, every one walks away from it — always toward
+*lower* `H` and *lower* `B` — and reports gains between `+3.07e-05` and
+`+3.71e-05`, best `0.6734536055358651` at `H = 0.6721654`, `B/B0 = 0.908`,
+`m = 153`. Those inner solves are deliberately cheap and their floors are
+early-stopped over-estimates, so this is **direction, not magnitude** — but the
+direction is unambiguous and it is the live door.
+
+**The ceiling findings are worth more than the constant.** On the two axes
+where a ceiling can be computed rather than searched, **AMTOPA are at it.**
+(i) `H(v) = 2 - 1/c1` is a **Rayleigh quotient** in the window coefficients, so
+`H_max = 2 - 1/(u^T M^{-1} u)` in closed form — and for 1, 2, 3, 7, 13, 17 or 25
+terms the answer is always `0.67250070367941172655`, the *pure `sqrt(2)`* value,
+i.e. **Anthropic's `HD(1)` exactly**. The `2 j pi` harmonics have `u_j = 0` and
+`M[0,j] = 0`, and the second identity reduces to `2 j^2 pi^2 (w_0^2 - 2)/w_0`,
+which vanishes **iff `w_0 = sqrt(2)`**. Every harmonic is pure `H` sacrifice;
+theirs spend `3.13e-04` of it and get `8.32e-04` of floor back, an exchange rate
+of `2.66` against a break-even of `1.57`. (ii) their total pressure `B = 93/23000`
+sits at the **argmax** of the saturation curve, with net marginal
+`d(bound)/dB = +0.006076` against competing terms of size one, and the LP dual
+`d(eps*)/dB = 1.509` against a break-even `1.4998`.
+
+**The doors, ranked by LP shadow price.** The **span-1 capacity `= 2`** binds
+hardest by an order of magnitude (`+4.08e-04` of bound per unit of capacity);
+span 6 is **slack**. The floor of the whole family is pinned by one near-integer
+configuration, seven points at about `{0, 2, 3, 5, 6, 8, 9}`, with 18 of 2,200
+cut vectors simultaneously active. The frozen constants with a *trade* in them:
+the Gram profile (their own banded lemma already computes `+7.07e-06` and they
+decline to promote it), the point count (`trmdy` runs nine, AMTOPA never left
+seven), the span capacity itself, and — the one nobody on this ladder has ever
+moved — **the fundamental `w_0 = sqrt(2)`**, which is precisely the frequency
+that makes the harmonics unable to help. Every door stays inside bandwidth-one
+data, so all of them are capped by `0.6818286874638`; the room left inside that
+information class is `0.0084`, three orders of magnitude more than the family's
+own ceiling. **The construction binds, not the information.**
+
+Full record, including the run that broke the operator's local-compute cap and
+what it cost: `amtopa_ceiling/RESULTS.md`, `amtopa_ceiling/RUNS.md`.
+
+### Hunt #89: this laboratory is tenth, and the barrier is aimed at an empty room (`field_audit/`)
+
+**Status: settled. FIELD AUDIT.** Prompted by discovering, on 2026-08-24, a wave
+of public repositories created 2026-08-11 and 2026-08-12 carrying constants for
+`liminf N0s(T,2T)/N(T,2T)` above ours. **Our best figure,
+`0.6730529829896288` (eight-point, bridge proved in Lean), ranks tenth of
+fifteen public claims.** The leader is `AMTOPA/zeta-exact-pressure` at
+`0.6734164909714992949`, ahead of us by `0.00036350798187` — eight times our
+margin over `ainta/zeta-simple-zeros`, which we had taken for the frontier.
+Three constructions were already past our eventual figure before our
+seven-point hunt opened; the earliest, `trmdy/zeta-simple-zeros-673137`, first
+commit 2026-08-11 14:43 +0200, beat it on day one. **Hunt #82's barrier is not
+contradicted, and could not have been:** it is a ceiling at
+`0.675142509660254` and the leader sits `0.00172601868875` *below* it. What the
+audit does cost #82 is reach, not truth — `trmdy` is outside the family it
+names on two axes, read against `lean/bridge/Zeta23Ext/Bridge/Defs.lean`: the
+window is a seven-term cosine polynomial, not the single term `omega = sqrt 2`
+(their `H(v) = 0.67245704141454428878`, *lower* than `HD 1` by `4.366e-5` —
+window constant traded for a larger floor `c`), and the block profile is the
+envelope `2 sqrt((m-1)A/m) - 1 + A/m`, which lifts the cap `c(m-(n-1)) <= 1`
+that our `Phi_n` requires; they run `m = 272` and `m = 177` where our cap allows
+`230` and `172`. On the third axis their family *contains* ours: their
+`uniform_weights` is our `F` exactly, one vertex of a span-capacity-2 polytope
+they optimise over. Replayed here from a scratch clone against their own pinned
+Arb binding: their window bounds, `H(v)`, all three assembly constants
+(`0.6732001170127618568182`, `0.6732425893558967029403`,
+`0.6733127422722459981438`, each matching their published digits), every span
+capacity exactly `2`, and their 23-test suite. Their **2,168,370-box seven-point
+interval run also reproduces here** — 482.6 s against their 441.7 s, with an
+identical node count, split count, depth 50 and all three prune counters — but
+**one of its two table digests is host-dependent**: the `w` table matches byte
+for byte and the `w''` table does not, and the `w''` table is the one the tangent
+pruner rides on, i.e. the single component whose corruption could yield a false
+acceptance rather than a false failure. Not one branch of the search changed
+regardless, which makes this a *stronger* reproduction than byte-identity would
+be and simultaneously not the reproduction their documents claim;
+`tawanerguo-cn` self-discloses the same class of mismatch, so it is a property
+of the method. Their 116,272,426-node nine-point run — the one carrying the
+headline — was **not** replayed and is out of reach here, so the headline is
+assembly-verified and floor-reported.
+**Soundness read of their verifier: no defect found**, and the Ainta pattern
+specifically absent — acceptance is one-sided against an upward-rounded target,
+the search raises rather than returning a negative, the `w`-table is clamped
+non-negative before squaring (which is what makes the sign-blind multiply in
+`box_lower` safe, while the signed `w''` path does use a sign test), the
+convexity gate is a rigorous Arb LDL behind a float pre-filter, and `H_CERT` is
+a threshold to clear, with the *assembly* then using the rational below the
+computed value. What does deserve scrutiny is not code: the refined pressure
+tax `(m-q)B_p/m` replacing `eta B_p (m-1)/m` rests on a cyclic-shift counting
+lemma that is machine-checked nowhere and is worth essentially the whole
+refinement. Applying that refined assembly to *our own* floors, changing nothing
+already proved, buys `+3.02e-5` and `+5.38e-5` — ninth place, not first; the
+deficit is in the floor `c`, not the assembly, and taking it would trade our one
+real advantage, a bridge with zero `sorry`s, for `5.4e-5`. Also recorded, as its
+own section: **why our prior-art search missed eleven repositories.** We
+searched for the standing result rather than the competition (the wave has no
+stars, no descriptions, no preprints — `npip99/zeta-zeros` sits at `0.673195`
+with an empty description and zero stars); we read `riemannzeta.fun`, still
+showing `0.672500703679`, as the field rather than as the formally-accepted
+subset; we looked once and never again while the field moved for a week; and we
+never ran a forward-citation pass, though `trmdy`'s own README names three of
+the repositories we missed. That pass took under seven minutes when finally run.
+No arXiv preprint exists for any `0.673x` follow-up and none has passed a
+kernel-checked gate anywhere. Nothing was posted, opened, forked or starred
+upstream. Nothing bears on RH (`docs/08`).
+
+### Hunt #88: the third autocorrelation constant belongs to the other functional (`r_8539dc/`)
+
+**Status: settled.** A reading and an exact recomputation, prompted by issue
+#123 and by issue #1 on `google-deepmind/alphaevolve_repository_of_problems`:
+AlphaEvolve's published `C_3 <= 1.4557` sat above a verification cell computing
+`abs(2n*max(conv)/sum^2)` while the inequality printed above it defined
+`max|f*f| >= C_3 (int f)^2`. The outer `abs` is a **no-op**, and not by
+accident: `int_{-1/2}^{1/2} f*f = (int f)^2 > 0` forces `max_t f*f(t) > 0`, so
+the code computes `A = max f*f/(int f)^2` while the statement defined
+`B = max|f*f|/(int f)^2`, and `A <= B` always. In exact rational arithmetic on
+the published ten-place heights (no float in the chain), the `n = 400`
+construction gives `A = 1.45564279537454049411...` and
+`B = 4.33404652438798427361...`: it reaches `1.4557` under `A` only, buying that
+score by driving the autoconvolution to `-4.334` at knot 215 against a positive
+peak of `+1.456`. The `n = 150` construction gives `1.46876206974102180951...`
+under **both** functionals, which is the check that keeps the discretisation
+honest. The mix-up **was** corrected, twice, and the brief's premise that no
+correction had appeared is wrong: arXiv:2511.02864 **v2** (2025-12-15) splits
+the problem into `max|f*f| >= C_3` (prior `1.4993`, Matolcsi-Vinuesa, improved
+to `1.4688`) and `|max f*f| >= C_3'` (prior `1.45810`, Vinuesa, improved to
+`1.4557`), moving the `1.45810` citation between sources in the process; the
+colab followed on 2025-12-19 (`39d0c63`), leaving `height_sequence_3`
+untouched. So the improvement survives once each number is read against its own
+functional, and nothing was withdrawn. What is still broken: the two corrected
+artifacts label the two problems in **opposite** senses, so "AlphaEvolve's
+`C_3`" is ambiguous between them; `problems/4.html` still carries only the
+`max|f*f|` statement with no sibling page nine months after promising one; and
+issue #1, the thread where the report was made, is still open. No new bound is
+claimed and nothing was posted upstream. Nothing bears on RH (`docs/08`).
+
+### Hunt #87: a 2013 paper beats an AlphaEvolve world record (`r_2969b0/`)
+
+**Status: settled.** DeepMind's `alphaevolve_repository_of_problems` marks
+Problem 42 (the sum-difference problem) `world_record`; an unreviewed,
+AI-produced issue on that repository claims a 2013 human paper already does
+better. Both sides checked, from the primary sources, by exact integer
+enumeration. The challenger is right, including its citation. Problem 42 defines
+`C` as the least constant with `|A+A|/|A| <= (|A-A|/|A|)^C`; Penman and Wells,
+INTEGERS 13 (2013) A57, Theorem 21, state that same ratio character for
+character and give `sup g = ln(32/5)/ln(26/5) = 1.125944426` over their family
+`Q_j`. The AlphaEvolve set from the repository's own notebook re-counts to
+`|A| = 309, |A+A| = 1367, |A-A| = 1163`, `g = 1.1219357375`, the published
+value. **`Q_36` -- 197 integers, published thirteen years earlier -- beats it**,
+`g = 1.1219505699`, decided at 120 digits rather than in float, and every
+`Q_j` with `j >= 36` beats it too. Corollary 13's four counting formulas were
+reproduced by enumeration at 64 values of `j` with zero mismatches, and four
+numbers the paper prints (`g(A_15)`, `f(X)`, `f(Q_10)`, `f-hat(Q_19)`)
+recompute exactly, which is what pins that the right normalisation is being
+read: the same paper also carries `f(A) = ln|A+A|/ln|A-A|`, and `f` ranks these
+two sets the *other* way. Three different score functions appear in the
+AlphaEvolve notebook for this one problem, one of them the reciprocal of the
+target and one carrying a size bonus of up to 0.01 on a scale 0.06 wide; the
+published number uses the clean one. The issue's separate `C = 2` claim was left
+untouched, as briefed. Nothing was posted upstream. Nothing bears on RH
+(`docs/08`).
+
+### Hunt #86: the ceiling procedure on the *lower* side of Erdos minimum overlap (`overlap_lower/`)
+
+**Status: probe, partly settled.** Sixth instance of the ceiling procedure and
+the first aimed at a lower bound, picking up hunt #85's first loose thread. The
+thread is closed: White's program (arXiv:2201.05704, Acta Arith. 208 (2023)
+235-255) discretises `M` and never `f`, so it is a relaxation and the unsafe
+direction hunt #85 worried about does not arise. Three of the opening brief's
+premises were found wrong at the source and corrected -- the lower bound **has**
+moved since 2022 (Kim and Pilanci, arXiv:2606.31182, 30 June 2026,
+`0.379005 -> 0.37912`, which the public catalogue has not absorbed); the
+catalogue entry for this constant carries **no** asterisk; and the `0.000059`
+of upper-bound movement is the 2016 human record minus the 2026 AI one, not
+twelve months of AI. **The measured finding: White's choice of `R` was already
+at his method's ceiling.** In his simplified program the value saturates at
+`R = 40` and the total gain from his `R = 20` out to `R = 320` is `2.9e-6`; in
+his full program the gain from his `R = 10` to `R = 20` is `2.0e-5`, against the
+`1.15e-4` the next real improvement obtained by adding constraints instead. One
+exact rational dual point was accepted with no float in the value,
+`0.37399241331` at `N, R = 5000, 20`. The full program was **not** reproduced to
+`0.379005`: the Parseval cone survives none of four cutting-plane formulations
+without a conic solver, so the sweep measured a strictly weaker program, and the
+sweep also never reached CI because the credential lacks the `workflow` scope.
+No bound on `C` is claimed. Nothing bears on RH (`docs/08`).
+
+### Hunt #85: the ceiling procedure on Erdos minimum overlap (`r_828c8b/`)
+
+**Status: probe, partly settled.** Fifth front of the ceiling procedure, in a
+family where the upper record is a step-function construction and the lower
+record is a convex program. On the upper side the whole procedure reproduces:
+the `m`-piece minimax falls `0.400000 / 0.385072 / 0.381833 / 0.381084` at
+`m = 4/8/16/32` and then stops, `1.6e-4` above Haugland's `0.380926`, and the
+stall is provably the solver's rather than the family's, since an `m`-piece
+step function upsamples to a feasible `2m`-piece one and Haugland's object
+sits strictly below. The accepted object was re-evaluated in exact rationals
+with no float in the value: `C <= 9990167/26214400 = 0.381094627`, weaker than
+the published bound and stated as a reproduction. Two soundness facts came out
+of the acceptance step: rounding the pieces at the obvious denominator `2m`
+costs `2.4e-4` to `6.8e-4`, more than the whole remaining gap, and ten times
+finer costs nothing; and on this side there is no dual to check, because the
+accepted object is primal and its value is a finite rational. The lower side
+was **not** reproduced. What was established instead is that the plain
+averaging skeleton cannot reach it: uniform weight gives `C >= 1/4` exactly,
+the naive Fourier handling of the quadratic term is vacuous for *every*
+admissible weight (`what(0) = 1` forces `sup what = 1`; 0 of 200 random
+profiles gave anything positive), and explicit witnesses cap four weight
+profiles at `0.2526 / 0.2500 / 0.1909 / 0.1701`, all far below `0.379005`, with
+the bound getting *worse* as the weight concentrates. A guard on the shift
+enumeration (the failure direction that would report a bound better than the
+object supports) caught 2 of 3 planted faults, with the third recorded as a
+known miss; it is in `harness/departments/guard_ledger.py`. Nothing bears on
+RH (`docs/08`).
+
+### Hunt #84: the Delsarte LP has no headroom in its degree (`r_6f0f63/`)
+
+**Status: probe, complete.** Fourth instance of the ceiling procedure
+(issue #110), on the LP half of the sphere-packing/kissing-number family. The
+two exactly tight certificates were rebuilt from their contact structure rather
+than from printed coefficients -- E8 gives Gegenbauer coefficients
+`[1, 8, 25, 52, 66.5, 60, 27.5]` summing to 240, Leech gives degree 10 summing
+to 196560, both with every coefficient non-negative without being asked. The
+soundness read found the load-bearing defect in the acceptance step: the
+standard node-discretised LP is a *relaxation*, so its optimum sits below the
+truth, and it did so at **every node count tested** -- 196505.76 at 600 nodes in
+dimension 24, where the answer is exactly 196560, and 239.9930 at 600 nodes in
+dimension 8. The error is one-sided and decays like m^-2. The repair
+`f -> f - sup f` converts the invalid output into a valid weaker value and
+brackets the truth. The ceiling itself is a negative result: sweeping degree 1
+to 30 in dimensions 3 to 24, the value stops moving by degree 14 at the latest,
+and the sweep rediscovers degrees 6 and 10 for E8 and Leech on its own. So the
+headroom in this parameterisation is not in the degree; it is in the node set,
+which nobody publishes. Float grade throughout. Five planted faults fire. The
+Cohn-Elkies SDP half was not attempted. Nothing bears on RH (`docs/08`).
+### Hunt #82: the analytic limit of the n-point pressure family (`family_wall/`)
+
+**Status: probe, complete. BARRIER.** The n-point pressure family saturates. Reducing
+the bound to `Phi_n <= H + H c - (n-1)/p` and then bounding `c` by the functional's value
+at any gap vector of total length `(n-1)/H` makes the pressure term cancel identically and
+leaves `Phi_n <= H (1 + W(g))`, with `W` an energy per point at density `H` -- order `1e-3`,
+where reaching the configuration ceiling `0.6818286874638` would need `0.0138706`.
+Combined with `Phi_n <= H (n-1)/(n-2)` (which is already below the ceiling from `n = 75`),
+every `n` is covered and `sup_n Phi_n <= 0.6751676`: short of the ceiling by more than
+`0.0066`, which is 71% of the whole distance from `H` to it. The limit itself is `H =
+0.6725007036794116` exactly -- the family climbs a little, turns over and comes back down.
+The DERIVED-but-untested pressure lead survived: `Phi = H m/(m-1) - k/p` is exact when
+`1/c` is an integer and a rigorous upper bound otherwise (overshoot `1.5e-6` to `5.9e-6`,
+comparable to the spacing between adjacent peaks, so it cannot rank adjacent `n`), and the
+optimal pressure sits at a minimiser-family crossover `p_x = (S2-S1)/(W1-W2)` -- predicted
+3433.0, 3187.3, 4072.5 for `n = 7, 8, 9`, each landing inside the exact grid interval where
+the existing sweep's winning word changes. A Modal cross-check at `n = 7, 10, 14, 20` over
+`p = 1200 .. 20000` passed its control to `2e-13` and agreed with the predicted floors at
+`n = 7, 10, 14`; at `n = 20` the analytic witness ladder beat the multistart search at four
+pressures, so that job's raw `Phi_20` was built on a value that is not a floor.
+`FAMILY-LIMIT.md`, with its own "what would refute this".
+
+### Hunt #80: where the variable-radius Bloch certificate ends (`bloch_ceiling/`)
+
+**Status: settled.** Third instance of the ceiling procedure, on a constant
+outside the zeta family: Wikström's computer-assisted lower bound for Bloch's
+constant (arXiv 2608.17660, Zenodo `10.5281/zenodo.21975862`). The published
+verification reproduces from the pinned archive, all 28 checksums verified. The
+verifier's soundness read is in section 3. Section 4 computes the variable-radius
+ceiling the author did not: the published constant extracts roughly 59% of the
+headroom the method's own parameterisation allows, with the near side
+interval-rigorous, the away side a floating-point programme, and the ceiling
+therefore **INFERRED** rather than measured.
+
+Section 5 is now obtained. **The author's own verifier accepts
+`sqrt(3)/4 + 0.0153040536`, above his published `0.0153`**, in all 24 away
+sectors and all 38,400 initial cells, with zero cells refused, on his unmodified
+certificate data. That target is also the end of the road for that data: the
+near branch's own Arb gain, `0.0153040536989472`, is a rigorous cap on the
+dichotomy, so the published constant was leaving `4.05e-6` of its own certificate
+unclaimed and there is nothing further there. The run's own cross-check is exact:
+sectors 0 and 1 rerun at the *published* target reproduce `reference-run/logs`
+to the integer, 270,744 and 292,931. Cost 324 core-hours over 476 GitHub Actions
+jobs, billed zero, against a projection published before launch that came in 4.2%
+high. The hunt ends with a **doors** section ranking what to unfreeze next; the
+top door is regenerating the certificate data at moved `ETA`, `LARGE_RAD` and
+node count, which section 4 puts at `~0.015359` and which is affordable, since
+the away side of a `0.015316` target costs only 4.2% more boxes.
+
+### Hunt #81: what the `min(dps, 20)` cap costs, measured (`dps_cap/`)
+
+**Status: probe, complete.** At `0.8 + 85.7i`, `epstein_completed` at the
+capped `dps = 20` returns `3.1e-33` where the converged value is `1.6e-58` --
+a factor of `1.9e25` and not one correct digit. The error floor sits near
+`1e-(D+13)`, so nothing correct can appear below `D ~ 46`; the sweep puts the
+crossover there exactly (D=40 entirely floor, D=50 the first row with correct
+digits). `D = 60` buys about 16 real digits, not 60, because the cancellation
+costs roughly 44 of them. `zeta/epstein.py` still caps three interfaces at
+`dps=min(_d, 20)` (lines 1092, 1126, 1142), so a caller asking for 60 gets 20
+and `count_zeros_box`'s integrality check passes on the noise.
+
+Landed 2026-08-21 as the union of five concurrent 2026-08-14 runs that all
+wrote this directory and none of which merged; see the provenance header in
+`dps_cap/README.md`. Nothing here is evidence about zeta or RH: it is a
+measurement of an implementation at a single point.
+
+> **Renumbered twice.** These two opened as #35 and #36 from a branch
+> 101 commits behind `main`, where both numbers were taken. They were
+> renumbered to #49/#50 on 2026-08-18, and `main` took those two (plus
+> #51, #52, #55-#57 and #59) before this branch landed. They are #60
+> and #61. The directories `lambda_dh_bounds/` and
+> `prime_zeta_rightmost/` are unchanged and are the stable references.
+
+### Hunt #79: where the seven-point simple-zero certificate ends, and what proves it (`ainta_seven_point/`)
+
+**Status: closed, bounded, in two halves: the certificates reproduced and the
+floor bracketed (`RESULTS.md`); the bridge mapped, verdict one substantial
+analytic bridge (`TRUST-MAP.md`).** Two outside groups (Ainta, and Gohms in
+issue #1 on that repository) are hill-climbing one finite inequality `F6 >= c`
+that refines Anthropic's unconditional 0.6725007 simple-zero constant. Neither
+has a human reviewer or a Lean line; both are computer-assisted results at the
+same standard of evidence as the one this hunt adds.
+
+*Certificates.* Ainta's `19/5000` and Gohms's `191/50000` reproduce field for
+field on the pinned commit; one secondary table hash differs with no effect on
+any count. The functional's infimum is bracketed rigorously,
+`0.003826 <= inf F6 <= 0.0038262312115073`: the published verifier accepts
+`1913/500000` at grids 4000 and 8000 and refuses `0.0038263` at the same
+six-gap configuration the float minimiser finds, gaps alternating near 1 and
+near 2 on the kernel's zeros. One defect found and repaired: the verifier's
+`PRESSURE_CUTOFF_CELLS` encodes the original target, so every run that raised
+the target, Gohms's and this hunt's own probes, pruned on a stale assumption;
+all were re-run with the cutoff raised and all still accept.
+
+*Bridge.* The map from the certificate to the published constant is recovered
+in closed form and reproduces both published constants to 40 digits:
+`Phi(c,m,p) = (H - 6(m-1)/(pm)) / (1 - c(m-6)/m)`. The block size `m` is not a
+free parameter: `A_0 = c(m-6) <= 1` caps it at `6 + floor(1/c)`, and both
+published values sit exactly at their cap, which is why raising the target
+*lowered* `m` from 269 to 267. The family's apparent ceiling at the published
+pressure is 0.673025477, 4.1e-6 above the Gohms claim, about 5.6% of the room
+under the configuration ceiling. Six of sixteen steps are already
+kernel-checked in `anthropics/zeta-23-lean` (Theorem D itself, von Neumann,
+the positive-part splitting), four are small finite statements, and what is
+missing is carrying the new spectral defect through the tail passage and the
+uniform kernel limit. Smallest Lean-ready obligation: the stability
+rank-trace lemma. Also recorded: this laboratory has been quoting the
+configuration ceiling as 0.68185, a decimal in a remark with no proof
+attached, where the Lean development proves 0.6818286874638. Nothing here
+bears on RH (`docs/08`).
+
+**Second half, 2026-08-23: the Aristotle probe (`ARISTOTLE-PROBE.md`).** The map's
+S2, the stability rank-trace lemma, was stated in Lean and proved, zero `sorry`s,
+standard axioms only, in
+`StableRankTrace.lean` (then in `hunts/frontier_math/zeta23ext/Zeta23Ext/`, moved to
+`lean/bridge/Zeta23Ext/` on 2026-08-23). **No Aristotle
+project was opened, because nothing remained to send.** The finding is a correction
+to the map: S2 is *not* new relative to the Lean development the map chose as its
+vocabulary. Ainta's profile `Psi` is that development's own `gc 2` shifted by one
+(`Psi = gc 2 + 1`, the shift being exactly `Psi 0 = 1`, which is the bookkeeping that
+trades a rank count for `Fintype.card r`), the sharpened scalar estimate the map
+expected to need is already `sq_sub_ge_gc`, the spectral transfer is already
+`sum_eigenvalues_comm`, and the theorem falls out as a corollary of
+`Zeta23.ZeroSide.RankTraceMult.rank_trace_mult` at `c = 2` evaluated at the
+eigenbasis presentation of `V Vᴴ`. The map is not guilty of a missed search: `TRUST-MAP.md:382`
+already cites `RankTraceMult.lean:281`, `lemmaR_tight` and `gc`. It filed that defect
+term as *"a different one"*, spectral versus per-zero, and that reading is the actual
+gap: `rank_trace_mult` is quantified over presentations of `P`, and at the eigenbasis
+presentation its per-zero defect *is* the spectral one. `Psi` was also never matched to
+`gc 2`, so §4 named `RankTrace.lean:52-56` for a scalar estimate that `RankTraceMult`
+already proves. Its step table records the contrast; its section 4 then states the obligation as if it did not apply. Two
+things the formal state exposed that the map's transcription hides: the
+rank hypothesis is removable, so a sharp form holds with **no** hypothesis on `V`
+at all, and the column bound `hV` is load-bearing for exactly one inequality,
+`tr(V Vᴴ) <= card r`, worth a mean of 6.05 of discarded slack on random draws. The
+sharp form is measured to be an *equality* on the family upstream proves extremal
+for Lemma R (400 instances, slack 1.07e-14; float grade). A third Palomar entry is
+**not** recommended: a bridging corollary of an existing public Lean theorem does
+not clear that registry's notability floor. S2 remains one step of sixteen; S8 and
+S9 are untouched and nothing here bears on RH. **A second finding fell out of running
+the handoff's first instruction:** `hunts/frontier_math/zeta23ext` does not assemble on
+`main` at `36c6070`. `assemble.sh` reports three failing targets,
+`Zeta23Ext.RetentionWired`, `Zeta23Ext.EForm2.Bridge` and `Zeta23Ext.TruncEst.Kernel`,
+with `Retention.margin_identity` picking up `sorryAx` as a consequence. It is not the
+dependency store (mathlib rev matches the pin), not the `Zeta23` dependency (none of the
+three imports it) and not this branch (the failing build predates the new module). The
+new module builds standalone and is unaffected; no claim is made here that the package
+assembles. Recorded as issue #101, not fixed here.
+
+**Third half, 2026-08-23: the bridge, formalised to its hypotheses (`BRIDGE.md`).**
+Five agents in one day, no proving service (0 of 15 permitted Aristotle submissions),
+proved every step S6 to S9 and S11 to S16 on top of the vendored `[L23]`, so that
+`Zeta23Ext.Bridge.seven_point_bound` now states Ainta's bound for Mathlib's
+`riemannZeta` as a sorry-free theorem with standard axioms only, conditional on exactly
+two named hypotheses: the seven-point inequality `F6 >= c` (S10, the Arb run, not a Lean
+fact) and the cap `c(m-6) <= 1`; at `(19/5000, 269, 3000)` the conclusion's constant is
+the paper's `(1345000 H - 2680)/1340003` with the side conditions by `norm_num`. The two
+steps the trust map graded LARGE were not: S8 rides through `[L23]`'s endgame at
+`lambda = 1` by transcription, because every endgame input is already stated for
+`lambda <= 1`, and S9 reuses `[L23]`'s window Poisson identity and `PrimeSide` decay and
+needs no bounded-separation hypothesis at all; the pinching the map called missing is
+proved for every convex trace functional from a row-stochastic mixture. Builds standalone
+in 44 s; the package root was still #101.
+
+**Packaged for Palomar, 2026-08-23 (same `BRIDGE.md`, section 8).** `StableRankTrace.lean`
+and the sixteen `Bridge/` modules moved into a Lake package of their own at `lean/bridge/`,
+which assembles at its root (`lake build`, 8860 jobs) against the same pinned `Zeta23` and
+Mathlib; module names and namespaces unchanged; the Apache-2.0 headers copied from the
+dependency replaced by the repository's MIT header, with the one adapted file's attribution
+kept in a notice. `BridgeChallenge.lean` and `BridgeSolution.lean` advertise four theorems
+in the namespace `Zeta23Ext.Palomar`: the parametric bound, the paper's `(19/5000, 269,
+3000)`, and this laboratory's own `(34697/10^7, 294, 3400)` in multiplicative and ratio
+form, `0.6730295534796928…`. The eight-point statement is deliberately not advertised: its
+bridge from certificate to proportion is stated, not proved. Precheck 66 pass, 1 warn, 0
+FAIL. **Not submitted**; whether a conditional refinement clears that registry's notability
+floor is its call. Nothing here bears on RH.
+
+### Hunt #76: the Riemann zeros in tuning units (`zeta_temperament/`)
+
+**Status: closed, verdict INTERESTING STRUCTURE, classical in substance.**
+In steps-per-octave units theta = gamma ln2 / 2pi, Landau's formula is the
+Fourier coefficient of the zeros mod 1 at frequency log2 n, so the zeros
+avoid the equal temperaments that tune prime-power harmonics and ignore
+composites. On Odlyzko's first 100,000 zeros every prime power n <= 32 lands
+within 0.0012 of -Lambda(n)/sqrt(n)/<log(gamma/2pi)> and every composite
+gives 0.0000; the smoothed density at integer x is 0.801 against 0.800
+predicted, at fifths-perfect x 0.762 against 0.767, at the composite-6
+control 0.997, and the deficit shrinks with height as 1/log t. The lab's own
+2000 zeros agree. The peak side (Gene Ward Smith, OEIS A117536) is
+reproduced as calibration, with one caveat added: the Riemann-Siegel main
+sum for the x-EDO stops at harmonic 1.2 sqrt(x), so 12-EDO's zeta score never
+sees the major third directly. **Corrected 2026-08-22**: the composite control
+re-measures `zeta.explicit.prime_spectrum`, which this repository already
+exposed and whose docstring states the same identity; the hunt's prior-art
+search had omitted this tree. The same review added the Euler-product
+discriminator, where Davenport-Heilbronn's loudest spectral line is a
+composite and the Epstein forms of class number one are silent while class
+number above one is loud and cancels across the class group. Nothing here
+bears on RH. Doc: `docs/34`.
+
+### Hunt #75: pitch classes against the colour wheel (`chroma_hue/`)
+
+**Status: closed, verdict PRETTY BUT TRIVIAL.** A note-to-hue bijection makes
+hue distance a function of interval class if and only if it is affine, so the
+hue side sees exactly one choice, the character of Z_12, and Z_12 has two
+injective ones (chromatic, fifths). Over all 21,772,800 canonical bijections
+the circle of fifths is the unique argmax of Spearman(hue distance,
+dissonance) under three separate dissonance measures (0.609 Sethares, 0.702
+Tenney and ordinal; null mean 0.00, sd 0.14, null max 0.50 and 0.57), and
+chromatic order is the worst structured choice (-0.73, -0.49). That is a
+statement about hearing with no colour in it. The colour side is not a
+12-gon: the HSL wheel's adjacent CIEDE2000 steps vary 8.5-fold and its twelve
+hues land 6.5 to 61 degrees apart in OKLCH; twelve equal-tempered steps of
+light frequency across the visible octave give hue steps of 1 to 72 degrees
+per semitone and cover about 275 of 360 degrees. The one formulation where
+colour adds anything: the eye mixes linearly, so the colour of a chord under
+wheel k is its k-th Fourier coefficient, and maximal evenness (Clough-Douthett,
+Amiot) reads as saturation. Round two reformulated: a colour wheel is a
+complex place of Q(zeta_12), the fifths wheel is the Galois conjugate of the
+chromatic one (together they distinguish exactly the 1763 chord colours
+either does alone), and chromatic times fifths saturation is the field norm,
+an integer taking ten values on the 224 set classes, with 84 classes units.
+Nothing here bears on RH. Doc: `docs/33`.
+
+### Hunt #72: AIMO Interpretability 2026 baseline reproduction and structure-matched robustness signal (`r_662b12/`)
+
+**Status: baseline retained, intervention rejected after independent audit.** The public sample has 28 cases, 19 non-robust and 9 robust, so the all-False baseline is 67.86% (19/28) with full coverage and no invalid outputs. The reported 92.86% intervention is an in-sample score for a model-name rule chosen after inspecting those same labels. Its LOOCV, leave-one-problem-out and five-fold loops never fit or select the rule inside training folds, so they provide no generalization evidence. The scrambled-text surrogate retains the same 92.86%, refuting the claimed mathematical-structure interpretation. Prize disposition: **NO-GO on this hunt's evidence.** The original run record is preserved; `hunts/r_662b12/AUDIT.md` carries the correction. Nothing here bears on RH (`docs/08`).
+### Hunt #77: AIMO-2, legal AIMO Interpretability submission + validation-design report (`aimo2/`)
+
+**Status: report-ready (reframed 2026-08-22); Main entry is a legal model-identity prior,
+Small entry is the always-non-robust constant; learned-method arm stays killed; no GPU spent.**
+Successor to Hunt #72 (`r_662b12`), whose +25pp claim was withdrawn and stays withdrawn.
+The organizers' clear-cut protocol (proposal §1.4) is reconstructed exactly from public data:
+`val-sample`'s 9 robust rows are the 9 `sample-full` pairs with base accuracy 1.0 and zero
+detrimental perturbations; its 19 non-robust rows are single-type rows with decay >= 0.5. So the
+hidden set is minority-robust by construction (22-43% on the public problems, 20% for the 8B on
+the organizers' MATH release), and the first version's "natural distribution" (89-97% robust) was
+the wrong reference; the always-robust constants it chose are superseded. Under the protocol the
+label is mostly a property of the model: a per-model prior fitted on the official labels scores
+26/28, 39/41, 43/56 leave-problem-out vs 19/28, 32/41, 32/56 for the constant, transfers between
+the two public sets, and is the binding split because the organizers state the validation set
+covers all test-set model types. Self-consistency adds nothing; on the 69-problem MATH release the
+8B's failures do not transfer across perturbation types, so the free gate fails again and the
+Small-track GPU route stays killed. Official path replayed at starter HEAD `e46be92` (always-false
+0.6786, prior 0.9286 in-sample; importer/ingestion schema mismatch confirmed at HEAD). Deliverables:
+`REPORT.md` (reframed for the $5,000 writeup pool), `PREREGISTRATION.md` with a dated amendment,
+`protocol_reconstruction.py`, and the verified bundles. Number #77 is provisional; if a parallel
+session took it, renumber. Nothing here bears on RH (docs/08).
+
+### Hunt #71: Krenn-Gu 8x3: port the verified 6x3 orbit census and measure the next exact frontier (`r_322dae/`)
+
+**Status: settled.** The 6x3 baseline checksum reproduces 15 matchings, 3375 triples, and 8 S6 x S3 orbits with exact sizes [15, 90, 120, 270, 360, 360, 1080, 1080]. For the 8x3 frontier (105 matchings, 1157625 triples), the direct product group S8 x S3 (order 241920) partitions the triple space into exactly 31 disjoint orbits, confirmed both by constructive partition and Burnside fixed-point evaluation. Quotienting by the wreath-product stabilizer of a fixed matching H = S2 wr S4 (order 384) partitions the 11025 pairs into 86 orbits (57 orbits under H x S2).
+
+### Hunt #73: Krenn-Gu 8x3 support frontier (`r_044dd2/`)
+
+**Status: support census settled; algebraic sieve open.** This hunt corrects the scope of Hunt #71: the 31 target-matching orbits do not quotient the full 252-variable polynomial system. All 31 branches have independently replayed support survivors, with 76 to 132 active entries and median 118, so the inherited support conditions close zero branches by themselves. On the sparsest branch, four survivors are excluded by exact signed-Laurent certificates. The size-2 stabilizer mirrors those into four more replayable cuts. Support 7 passes the independent support audit and avoids all eight cuts. Exact fixed-degree cap-3 and cap-4 spans do not exclude it. Cap-5 closure produced 13,379,522 relation multiples, but the first sparse elimination ordering hit measured fill-in before a membership decision. No branch is closed and no complex witness has been found.
 ### Hunt #61: two-sided bounds for the de Bruijn-Newman constant of Davenport-Heilbronn (`lambda_dh_bounds/`)
 
 **Status: closed (2026-08-16), gate verdict publication candidate; hardened
@@ -1563,3 +2613,38 @@ route, 0.0621709 assembled from 300 ordinates plus a density tail), and the
 bound EPP supplies exceeds the target by a factor growing past 14 by `t = 1e8`.
 So the repaired mechanism needs square-root cancellation in the prime sum,
 which is RH. No progress on RH; the hunt says so itself.
+
+### Hunt #74: Krenn-Gu 8x3: Orbit-reduced polynomial system and pricing (`r_31b6c1/`)
+**Status: settled.** Built the exact algebraic generator pipeline. The Krenn-Gu polynomial system has exactly 252 edge-weight variables (as inferred in Fulcrum, not 28). Using the fully $H \times S_2$-symmetric quotient, the variables collapse to exactly 8 orbits. The resulting calibration gate on the 6x3 graph produced `[1]` from Groebner basis in under 0.1 seconds, successfully replicating the proven "no-complex-witness" verdict. 
+
+Applying this same exact pipeline to the open 8x3 graph yielded an identical verdict. The 57 $H \times S_2$ pair orbits were evaluated in the 8-variable working quotient, resulting in a mapped distinct monomial count of 8, each of uniform degree 12. Crucially, executing `sympy.groebner` on the 70 unique 8-variable symmetry-reduced equations completed in under 5 seconds, using negligible memory (80MB), and cleanly returned `[1]`. This proves that no $H \times S_2$-symmetric complex witness exists for the 8x3 instance.
+
+(Note: No corresponding harness ledger was found in `harness/departments/`, confirming that framework is entirely deprecated.)
+
+### Hunt #78: the far constant `637/1000` at depth 1 (`r_a7c12f/`)
+**Status: settled — the recorded correction is withdrawn.** `K2-TWO-SPECIES.md`
+section 2 starred `far constant sup Dam*(s^2-2)/y'^2 = 0.6636 > 0.637` as a
+depth-1 correction that `Wt_tail_le`'s `637/1000` does not survive. It does
+survive. Two separate errors were stacked. First, `Wt_tail_le`
+(`Counting.lean:93`) is `Wt w <= (637/1000)/w for 1368 <= w`, an inequality
+between two explicit rational functions of one variable with no depth in it;
+the depth-carrying lemma is `Qim_far_sq` (`FarField.lean:227`, hypothesis
+`hy : y <= 1/2`). Second, `1368 <= w = s^2-2` means `s >= 37.0135`, while
+`two_species.far_constant` scans `[8, 400]` — and both starred sups are
+attained at `s = 12.715` and `s = 12.625`, i.e. `w = 159.7` and `w = 157.4`,
+where the proved envelope `Wt(w)*w` is `0.7042` and `0.7054`. Neither row was
+ever in conflict with anything proved. On the range the constant *is* asserted
+on, an Arb pass at 96 bits (`hunts/r_a97060/ball_field.py`, adaptive cells,
+45,030 evaluations) gives `sup Dam(1,s)*(s^2-2) <= 0.6317735` against
+`0.637`, margin `+0.0052`, at an enclosure cost of `1.00005` over the float
+scan; the ladder `0.5844 / 0.5937 / 0.6094 / 0.6318` at depths
+`0.25 / 0.5 / 0.75 / 1` all hold. The constant first fails at depth `1.0494`
+(measured). What *does* break below depth 1 is the derivation route:
+`Qim^2 <= y^2 Wt(s^2-2)` reaches ratio `1.00438` at depth 1, and holds
+asymptotically iff `4 sinh(y/2)^2 cos(1/sqrt2)^2/y^2 <= 5/8`, i.e. iff
+`y <= 0.972659`. So a `k >= 3` pass at depth `2y <= 1` inherits a broken
+proof, not a broken constant, and re-fitting `base_poly_le` for `y <= 1` is
+the named obligation. Not closed: `s > 400` has no depth-1 enclosure (the
+tail composes through the very lemma that fails), and the table's other
+starred row (`no_damage`'s `28/5`) was not examined. Nothing bears on RH
+(`docs/08`).
