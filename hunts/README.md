@@ -70,6 +70,80 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #114: one Epstein value, checked against a route that does not cancel (`support_e6241336/`)
+
+**Status: settled** (support run `e6241336`, serving run `872d7dce` /
+`r_c7f779`). One bounded question: independently compute
+`abs(epstein_completed(0.8+85.7i, (2,1,3)))` at `dps = 60` and say whether it
+agrees with the claimed `1.6e-58` to within an order of magnitude.
+
+**It does.** The value is `1.617452632377971461454064e-58`, which is `1.0109x`
+the claimed figure, 1.1% away; `log10` of the ratio is `0.0047` against the
+`1.0` an order of magnitude would allow. This is the number the `dps_cap`
+measurement (#113) is stated against, so it matters that it was confirmed by a
+second route rather than by re-running the first.
+
+Grade: **measured**, one evaluation at one precision on one form. Nothing here
+bears on RH (`docs/08`).
+
+### Hunt #115: prior art on the certificate route and the LP-versus-truth gap (`support_78c499b4/`)
+
+**Status: settled as far as a literature question can be settled in one search
+pass** (support run `78c499b4`, 2026-08-24, serving run `872d7dce`). ARM E of
+the `r_c7f779` fan-out: has a Cohn-Elkies / Delsarte linear-programming
+certificate been applied to a one-dimensional pair sum whose `f` is the
+positive part of a band-limited function minus a band-limited nonnegative
+square, and is the LP bound known to be tight against the periodic case.
+
+The page lives here rather than in `r_c7f779/` because a support run may not
+write into another hunt's directory. **Nothing in it is a mathematical claim
+and nothing is measured**: it is a prior-art record, and it is a search that was
+actually run rather than an unrun `knownness` default.
+
+### Hunt #116: rescued probe output from arm 17a0f787 (`support_17a0f787/`)
+
+**Status: artifact only, no write-up.** A support arm of the `r_c7f779`
+fan-out whose `probe.py` and `results_quick.json` were left uncommitted in a
+fulcrum worktree and are committed here so they exist somewhere other than one
+directory. The run is recorded stopped in fulcrum.
+
+`results_quick.json` carries a planted-control ladder with firing scales. **No
+one has written up what it shows, and this entry does not claim it shows
+anything.** It is preserved evidence, not a result. Read the JSON before
+citing it.
+
+### Hunt #117: rescued LP and oracle code from arm 4019e8e5 (`support_4019e8e5/`)
+
+**Status: artifact only, no write-up and no results.** A support arm of the
+`r_c7f779` fan-out. `oracles.py` and `t1lp.py` were left uncommitted in a
+fulcrum worktree; the run is recorded stopped and produced no committed output
+of its own. The code is kept because it was one `git clean` from gone, not
+because anything here has been checked. **It has never been run in this tree.**
+
+### Hunt #113: what the `min(dps, 20)` cap costs, measured (`dps_cap/`)
+
+**Status: probe, complete.** At `0.8 + 85.7i`, `epstein_completed` at the
+capped `dps = 20` returns `3.1e-33` where the converged value is `1.6e-58` --
+a factor of `1.9e25` and not one correct digit. The error floor sits near
+`1e-(D+13)`, so nothing correct can appear below `D ~ 46`; the sweep puts the
+crossover there exactly (D=40 entirely floor, D=50 the first row with correct
+digits). `D = 60` buys about 16 real digits, not 60, because the cancellation
+costs roughly 44 of them. `zeta/epstein.py` still caps three interfaces at
+`dps=min(_d, 20)` (lines 1092, 1126, 1142), so a caller asking for 60 gets 20
+and `count_zeros_box`'s integrality check passes on the noise.
+
+Landed 2026-08-21 as the union of five concurrent 2026-08-14 runs that all
+wrote this directory and none of which merged; see the provenance header in
+`dps_cap/README.md`. Nothing here is evidence about zeta or RH: it is a
+measurement of an implementation at a single point.
+
+> **Renumbered twice.** These two opened as #35 and #36 from a branch
+> 101 commits behind `main`, where both numbers were taken. They were
+> renumbered to #49/#50 on 2026-08-18, and `main` took those two (plus
+> #51, #52, #55-#57 and #59) before this branch landed. They are #60
+> and #61. The directories `lambda_dh_bounds/` and
+> `prime_zeta_rightmost/` are unchanged and are the stable references.
+
 ### Hunt #112: the depth-1 damage windows do not drift, and the lattice is exactly solvable (`support_5418c63e/`)
 
 **Status: settled** (support run `5418c63e`, for run `872d7dce` / `r_c7f779`).
