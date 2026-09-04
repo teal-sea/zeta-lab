@@ -49,3 +49,14 @@ import ZetaLean.Mertensstheorems
 import ZetaLean.MertensSecond
 import ZetaLean.HardyRamanujantheorem
 import ZetaLean.Pub1
+import ZetaLean.PrivateStock.CardIsMonicOfDegree
+import ZetaLean.PrivateStock.CardMulLeNatDegreeOfLeRootMultiplicity
+import ZetaLean.PrivateStock.NumMonicIrreducibleOfDegree
+import ZetaLean.PrivateStock.LeRootMultiplicityIffForallHasseDeriv
+import ZetaLean.PrivateStock.MapPowAtTopPowers
+import ZetaLean.PrivateStock.NormLeOfForallNormSumPowLe
+import ZetaLean.PrivateStock.FiniteIsMonicOfDegree
+import ZetaLean.PrivateStock.FinsumMoebiusIsMonicOfDegree
+import ZetaLean.PrivateStock.SumDegreeMulNumMonicIrreducibleOfDegree
+import ZetaLean.PrivateStock.IsBigOMulNumMonicIrreducibleOfDegreeSubPow
+import ZetaLean.PrivateStock.MulCharSumIsMonicOfDegree
