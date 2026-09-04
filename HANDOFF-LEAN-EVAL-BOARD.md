@@ -88,9 +88,9 @@ set -a; . ~/.config/ostoyae/env; set +a
 
 # 3. Launch graph viewer (if desired)
 cd ~/ostoyae/Ostoyae
-node viewer/serve.mjs /home/thomaslincez/lean-eval-board/graphs/lean-eval-unsolved.json --port 4300
+node viewer/serve.mjs ~/lean-eval-board/graphs/lean-eval-unsolved.json --port 4300
 
 # 4. Next board launch (remember: --usd N is CUMULATIVE over the board!)
 # Check current spend first:
-python3 -c "import json; g=json.load(open('/home/thomaslincez/lean-eval-board/graphs/lean-eval-unsolved.json')); print('Total spend so far: $', sum(a.get('usage',{}).get('cost_usd',0) for a in g.get('attempts',[])))"
+python3 -c "from pathlib import Path; import json; g=json.load(open(Path.home() / 'lean-eval-board/graphs/lean-eval-unsolved.json')); print('Total spend so far: $', sum(a.get('usage',{}).get('cost_usd',0) for a in g.get('attempts',[])))"
 ```

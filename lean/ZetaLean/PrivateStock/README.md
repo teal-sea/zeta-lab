@@ -39,11 +39,14 @@ they were built. `Complex.norm_le_of_forall_norm_sum_pow_le` is the endgame move
 of every proof of RH for curves: it is how you get from a bound on the power
 sums to a bound on the individual Frobenius eigenvalues.
 
-## Why they are not upstream
+## Why this is private stock
 
-Operator's decision, 2026-09-04. They would be accepted; that is not the
-question. If anyone changes their mind, every file compiles against Mathlib
-`6f1ef4e` unmodified and would need only a header and a namespace review.
+No upstream submission is planned. The laboratory needed these declarations,
+proved them, and will maintain them here for its own work and for anyone using
+this repository. A previous upstream contribution remains unmerged, so more
+submission work is not a useful allocation now. If a better library emerges,
+or this laboratory eventually builds one, this stock can move there. Until
+then, `PrivateStock` is its home.
 
 ## Provenance and how to re-check
 
