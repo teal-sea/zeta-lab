@@ -86,6 +86,34 @@
       },
       "receipt": "receipts/IsospectralCycles-axle-receipt.json",
       "axiom_audit": "printed final declarations use only propext, Classical.choice, Quot.sound, or a subset"
+    },
+    {
+      "file": "CountingOverlap.lean",
+      "source_sha256": "84a8ec93aaa8e7a78fd0d80febcfd1bc6f4f06bf861fc0bd883f7b8ccf0dfb46",
+      "environment": "lean-4.33.0",
+      "request_id": "8bb8e6d8-f0a0-46c5-92e4-e5b8468a3390",
+      "okay": true,
+      "failed_declarations": [],
+      "timings": {
+        "parse_ms": 57038,
+        "total_ms": 57080
+      },
+      "receipt": "receipts/CountingOverlap-axle-receipt.json",
+      "axiom_audit": "printed final declarations use only propext, Classical.choice, Quot.sound, or a subset"
+    },
+    {
+      "file": "OverlapBand.lean",
+      "source_sha256": "9f785b9e68c04700002786565fc53d146f328362d39c2a58604eb1e25c85a849",
+      "environment": "lean-4.33.0",
+      "request_id": "627d803a-8ca1-47e4-93fd-5a0b92ff87fb",
+      "okay": true,
+      "failed_declarations": [],
+      "timings": {
+        "parse_ms": 1082,
+        "total_ms": 1090
+      },
+      "receipt": "receipts/OverlapBand-axle-receipt.json",
+      "axiom_audit": "nine #guard_msgs checks pin standard axioms propext, Classical.choice, Quot.sound"
     }
   ]
 }

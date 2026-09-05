@@ -75,7 +75,9 @@ control roles — and the checks are the ones the tree already owns:
 Finite concave spectral counting inequalities, an exact obstruction to using
 only second and third moments, and tests of fourth and mixed cycle moments.
 The hunt also records exact repeated-index corrections and finite examples
-where all spectral moments agree but distinct fourth cycles differ. Its
+where all spectral moments agree but simple-point counts differ. Overlap
+statistics recover the count in an explicit spectral class and give further
+finite bounds for positive location Gram matrices. Its
 ordinary proofs, scoped Lean checks, and numerical evidence are summarized
 in `cycle_moments/README.md`. No stronger zeta proportion is asserted.
 

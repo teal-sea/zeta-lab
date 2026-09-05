@@ -1,15 +1,17 @@
 # Cycle moments and simple-real counting
 
-Two finite counting improvements are proved here. Their application to a
-stronger zeta-zero proportion remains open. The useful distinction is now
-exact: second and third moments alone cannot force the improvement, whereas
-a matched finite fourth-moment bound suffices.
+Finite counting improvements are proved here. Their application to a
+stronger zeta-zero proportion remains open. For the quartic route, second and
+third moments alone cannot force the improvement, whereas a matched finite
+fourth-moment bound suffices.
 
-The operator's intuition about repeated-term corrections led to a further
-finite construction: one fixed positive Fourier kernel gives two point sets
-with identical spectra and all power traces, but different distinct fourth
-cycles. This isolates information discarded by a spectral summary. It does
-not identify a defect in exact Möbius inversion or an improved zeta count.
+The operator's intuition about repeated-term corrections led to a finite
+counting separation: one fixed positive Fourier kernel gives two multisets
+with identical spectra and all power traces, but different simple-point
+counts. The missing information is retained by an overlap statistic. In the
+spectral class used by the construction, a formula recovers the exact count
+from that statistic. This does not identify a defect in exact Möbius inversion
+or an improved zeta-zero proportion.
 
 The starting point is the adapted-subspace argument in
 [Lamzouri, Proposition 2.1](https://arxiv.org/html/2609.02882v1).
@@ -75,6 +77,8 @@ The Lean files are standalone Mathlib inputs for Lean 4.33.0.
 | [ThirdMomentObstruction.lean](ThirdMomentObstruction.lean) | The obstruction's scalar norm difference, four power sums, discrepancy, slack, and inequalities. |
 | [DistinctCycles.lean](DistinctCycles.lean) | Exact third-order repeated-index inversion, including the +2N add-back, for a symmetric kernel over any commutative ring. |
 | [IsospectralCycles.lean](IsospectralCycles.lean) | Complete unit-Gram counterexample: all power traces agree, but directly enumerated distinct fourth cycles differ. |
+| [CountingOverlap.lean](CountingOverlap.lean) | Two explicit five-point multisets use the same integer kernel and have equal power traces of every order, but simple counts two and one, with different overlap statistics. |
+| [OverlapBand.lean](OverlapBand.lean) | Arbitrary-size overlap/count identity under the explicit matrix polynomial relation; scalar and finite-sum counting bounds under stated row-energy inequalities. |
 
 The construction of the adapted basis from signed vectors, the kernel-cycle
 identification, the mixed matrix inequality, and the asymptotic arguments are
@@ -96,6 +100,36 @@ distinct fourth cycles are -9/320000 and -225/14623232. The ordinary proof,
 exact rational enumeration, and independent Fourier quadrature agree.
 The example establishes loss of a statistic, not loss of a known percentage
 in a zeta bound. Both point sets consist of four simple real points.
+
+[COUNTING-OVERLAP.md](COUNTING-OVERLAP.md) strengthens this to an actual
+counting distinction. The fixed density
+
+    p(u) = 1 + cos(2 pi u) + cos(4 pi u)/4,   |u| <= 1/2,
+
+is at least 1/4 on its support. The multisets (0,0,0,3,6) and (0,0,1,1,4)
+both give spectrum (3,1,1,0,0), yet have two and one simple points. Repeating
+independent blocks preserves all normalized power traces while the simple
+proportion ranges from 1/5 to 2/5. These are constructed finite configurations.
+
+Write S for the sum of squared row energies. For every configuration in the
+amplified spectral class, with N=5k and nonzero spectrum consisting of k copies
+of 3 and 2k copies of 1, the exact count is
+
+    s = (S - 23k)/3.
+
+[OVERLAP-BOUND.md](OVERLAP-BOUND.md) proves the broader finite bound for a
+positive location Gram matrix whose eigenvalues lie between 1 and 3. Its
+connection to the conjugation-invariant Fourier problem uses the inertia
+argument in the counting note. This positive-spectrum branch does not supply
+an unconditional estimate for the zeta-zero count.
+
+The joint version, with R distinct locations, is
+
+    s >= S/3 - 3M_2/2 + 7N/6 + R.
+
+The passage from the spectral interval to the row-energy hypotheses is an
+ordinary matrix argument. The exact identity and the finite-sum inequality
+under their stated hypotheses are checked in Lean.
 
 ## Experiments and their limits
 
@@ -120,6 +154,11 @@ in a zeta bound. Both point sets consist of four simple real points.
 - [same_kernel_results.json](same_kernel_results.json): exact rational Gram
   identities and independent 45-digit Fourier integration for the fixed-kernel
   construction.
+- [counting_overlap_results.json](counting_overlap_results.json): exact
+  expanded matrices, simple counts, fourth-cycle corrections, and repeated
+  blocks for the counting separation.
+- [overlap_bound_results.json](overlap_bound_results.json): finite checks of
+  the spectral-band counting inequality and its equality cases.
 
 The cloud runs completed under Modal app IDs
 `ap-kczpMD2GBPTaRhTYnB80L2` and `ap-yxAuPSoMKkEjFs6ZeLYQS2`.
@@ -136,6 +175,8 @@ From the repository root:
 .venv/bin/python hunts/cycle_moments/mixed_moments.py --grid-points 4801 --self-check
 .venv/bin/python hunts/cycle_moments/distinct_cycles.py
 .venv/bin/python hunts/cycle_moments/same_kernel.py
+.venv/bin/python hunts/cycle_moments/counting_overlap.py
+.venv/bin/python hunts/cycle_moments/overlap_bound.py
 .venv/bin/python -m modal run hunts/cycle_moments/modal_probe.py
 .venv/bin/python -m modal run hunts/cycle_moments/modal_mixed_probe.py
 ```
