@@ -107,4 +107,3 @@ theorem existsUnique_hermiteInterpolation {K : Type*} [Field K]
     exact (hq.2 ⟨x, hx⟩ ⟨k, hk⟩).trans (congrFun (congrFun hp ⟨x, hx⟩) ⟨k, hk⟩).symm
 
 end Polynomial
-

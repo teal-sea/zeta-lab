@@ -36,4 +36,3 @@ example : ∃! p : ℚ[X], p.degree < 0 := by
 #print axioms Polynomial.hermiteEvaluation_injective
 #print axioms Polynomial.hermiteEvaluation_surjective
 #print axioms Polynomial.existsUnique_hermiteInterpolation
-
