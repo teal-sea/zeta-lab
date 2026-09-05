@@ -13,8 +13,9 @@ The finite inequality is useful only if it exposes a concrete path to a gain.
 Research writes belong in this directory, with one case-log entry in
 `hunts/README.md`. Read the existing bridge and public papers;
 do not alter established proofs or ongoing reversal-minimax work. External
-prover jobs must retain their job identifiers and inputs here. No publication
-or change to the laboratory's advertised zeta bound is authorized by this hunt.
+prover jobs must retain their job identifiers and inputs here. On 2026-09-05,
+the operator authorized pushing this research record and merging it into main.
+No change to the laboratory's advertised zeta bound is authorized by this hunt.
 
 Proof obligations: retain multiplicities and nonreal conjugate pairs; use the
 same operator and height weights for all moments; check Fourier support before
