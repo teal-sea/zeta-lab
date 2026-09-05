@@ -70,6 +70,15 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Cycle-moment counting probe (`cycle_moments/`, 2026-09-05)
+
+Finite concave spectral counting inequalities, an exact obstruction to using
+only second and third moments, and tests of fourth and mixed cycle moments.
+The hunt also records exact repeated-index corrections and finite examples
+where all spectral moments agree but distinct fourth cycles differ. Its
+ordinary proofs, scoped Lean checks, and numerical evidence are summarized
+in `cycle_moments/README.md`. No stronger zeta proportion is asserted.
+
 ### Hunt #114: one Epstein value, checked against a route that does not cancel (`support_e6241336/`)
 
 **Status: settled** (support run `e6241336`, serving run `872d7dce` /
