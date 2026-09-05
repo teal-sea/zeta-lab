@@ -346,3 +346,86 @@ a capability gain — do it fifth, or not at all, if Aristotle is free and not r
 - **Tao's `estimates`** — right spirit, wrong target: implied-constant asymptotics, not
   near-sharp explicit constants. Take leanblueprint from that ecosystem instead.
 - **"oforge"** — not a real math tool under any spelling I could find.
+
+---
+
+# Addendum, 2026-09-04: three of these were measured against a live board
+
+Written after wiring Aristotle, AXLE and Leanstral into Ostoyae's lean-eval board and watching
+real agents use them. The August entries above are unchanged; this records what running them
+showed, which is mostly about latency and not about proof strength.
+
+## The operational finding, which outranks the quality question
+
+**A prover an agent cannot wait for is a prover an agent does not use.** An agent's shell tool is
+cut off after a couple of minutes. Aristotle takes seven minutes on a good statement and
+twenty-five on a hard one. On the third batch, **five of six cells submitted a statement to
+Aristotle, then proved the lemma by hand while waiting, and exited before any answer arrived.**
+Three of them polled; two never checked back at all. Zero of the five answers were used.
+
+The clearest case: `Turing.TM2ComputableInTime.natAdd`. The cell hand-wrote 545 lines of Lean,
+$11.97, and landed it. Aristotle's answer came back twenty-six minutes after submission with a
+complete explicit machine — binary arithmetic layer, the machine, a `2n + 3` time bound,
+sorry-free, `#print axioms` reporting only `propext`, `Classical.choice`, `Quot.sound`. Nobody was
+left to read it. The lemma was proved twice and paid for twice.
+
+Two lessons, both cheap to act on: an out-of-band job must have its id recorded somewhere that
+outlives the cell, and a synchronous tool is worth more per dollar than a stronger asynchronous
+one for anything a cell does inside its own session.
+
+## 5b. AXLE (Axiom's Lean Engine) — the August entry undersold it
+
+The entry above says "not shortlisted; Aristotle already covers this seat". Wrong for our use, for
+a reason that is nothing to do with proving:
+
+- `POST https://axle.axiommath.ai/api/v1/check`, anonymous, no key, `{environment, content}`.
+- **Thirteen toolchains, `lean-4.21.0` through `lean-4.33.0`**, which includes both `lean-4.28.0`
+  (what Aristotle proves at) and `lean-4.33.0` (what the lean-eval board builds at).
+- A true statement with `import Mathlib`: `okay: true` in **12–19 ms**. A false one:
+  `okay: false`, `failed_declarations`, and the goal state.
+
+So it answers two questions that were costing real money. *Does this proposed statement even
+elaborate* — currently discovered by an Opus verify attempt that builds a workspace to find a
+typo, and on this board **6 of the 62 items ever given a prove attempt turned out to be false or
+ill-typed**. And *does an Aristotle proof survive the port from 4.28.0* — previously a worktree
+and a build; now two calls. Tried on the real case: the `Subgroup.normalizer_bot` proof Aristotle
+returned on 2026-09-03 elaborates at 4.33.0 in 18 ms once the statement is rewritten for the
+`Set G` signature change.
+
+Caller: `bin/ask-axle` in teal-sea/Ostoyae.
+
+## 10. Leanstral (Mistral, Sept 2026) — new, and the one that fits inside a cell
+
+`mistral.ai/news/leanstral`. Leanstral-120B-A6B, 6B active, Apache 2.0 weights, targeting Lean
+4.29.0-rc6, evaluated by its authors on their own FLTEval rather than miniF2F or PutnamBench.
+
+Two things the announcement gets wrong for a caller:
+
+- **The model id is `labs-leanstral-1-5-1`** (and `labs-leanstral-1-5`). The post names
+  `labs-leanstral-2603`, which returns "model not found" on the API.
+- **Labs models are off by default**: every call is `403 labs_not_enabled` until an org admin
+  turns them on at `admin.mistral.ai/plateforme/privacy`.
+
+**Measured, 2026-09-04.** ~0.9–1.2 s per call. On its own it is not reliable: asked for
+`Subgroup.normalizer_bot` it returned a plausible tactic block that failed to elaborate, twice.
+Paired with AXLE in a propose–check–repair loop it is a different tool — the compiler error and
+goal state go straight back into the conversation:
+
+| | wall clock | rounds | outcome |
+|---|---|---|---|
+| Leanstral alone | ~1 s | 1 | does not elaborate |
+| Leanstral + AXLE, by hand | ~4 s | 3 | accepted by the kernel at 4.33.0 |
+| `bin/ask-leanstral` (the loop in one call) | **1.178 s** | 1 | accepted by the kernel at 4.33.0 |
+
+Aristotle, on the same statement on 2026-09-03: **seven minutes**, and a better proof —
+`Subgroup.normalizer_eq_top_iff.mpr inferInstance`, the library one-liner, against Leanstral's
+six-line tactic block. So this is not "Leanstral is stronger". It is that Leanstral is fast enough
+to sit inside the loop the agent is already in, and Aristotle is not.
+
+**The shape that follows**: Leanstral + AXLE as the cheap synchronous first pass on every leaf;
+Aristotle for what survives it, submitted early with its job id written into the record so a later
+attempt collects the answer. One sample, one lemma — the third batch is the first run with any of
+this wired, and the numbers above should be re-measured over a spread of real items before anyone
+leans on them.
+
+Callers: `bin/ask-leanstral`, `bin/ask-axle`, `bin/ask-aristotle`, all in teal-sea/Ostoyae.
