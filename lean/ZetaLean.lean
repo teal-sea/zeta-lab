@@ -60,3 +60,5 @@ import ZetaLean.PrivateStock.FinsumMoebiusIsMonicOfDegree
 import ZetaLean.PrivateStock.SumDegreeMulNumMonicIrreducibleOfDegree
 import ZetaLean.PrivateStock.IsBigOMulNumMonicIrreducibleOfDegreeSubPow
 import ZetaLean.PrivateStock.MulCharSumIsMonicOfDegree
+import ZetaLean.PrivateStock.HermiteInterpolation
+import ZetaLean.PrivateStock.HermiteInterpolationExamples

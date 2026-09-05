@@ -5,8 +5,8 @@ rather than sent upstream. Every one of them is a real gap in Mathlib 6f1ef4e:
 each was found by an agent that grepped for it first and reported the absence,
 and none is exotic. They are the ordinary lemmas that nobody happened to write.
 
-Produced on 2026-09-04 while attacking `annals_chowla_and_twin_prime_over_fq_t`
-on the lean-eval board, in the course of measuring what the Sawin-Shusterman
+The initial eleven modules were produced on 2026-09-04 while attacking
+`annals_chowla_and_twin_prime_over_fq_t` on the lean-eval board, in the course of measuring what the Sawin-Shusterman
 theorem actually needs. They outlived that question: the theorem is out of reach
 (see the note at the end), these are not.
 
@@ -32,6 +32,7 @@ Nothing here is a new theorem and the file does not claim one.
 | `Complex.norm_le_of_forall_norm_sum_pow_le` | if every power sum obeys `‖∑ ω i ^ k‖ <= C * B ^ k` then each `‖ω i‖ <= B` |
 | `MulChar.sum_isMonicOfDegree_eq_zero` | character orthogonality over `F[X] / (Q)` |
 | `Submonoid.map_pow_atTop_powers` | `atTop` on `Submonoid.powers q` transfers to `atTop` on the exponent |
+| `Polynomial.existsUnique_hermiteInterpolation` | values and Hasse derivatives of differing orders at finitely many points determine a unique polynomial below the total degree bound, over any field |
 
 The last two thirds of that list are the standard ingredients of **Stepanov's
 elementary method** for the Weil bound on character sums, which is the reason
@@ -48,7 +49,52 @@ submission work is not a useful allocation now. If a better library emerges,
 or this laboratory eventually builds one, this stock can move there. Until
 then, `PrivateStock` is its home.
 
-## Provenance and how to re-check
+Here, "private stock" means maintained by this laboratory rather than submitted
+upstream. It does not mean confidential: this repository and these files are
+public. The stock is available to reuse without depending on an upstream
+submission being accepted.
+
+## Hermite interpolation, added 2026-09-05
+
+[`HermiteInterpolation.lean`](HermiteInterpolation.lean) supplies the ordinary
+interpolation operation of fitting a polynomial to specified values and
+derivatives, allowing different numbers of conditions at different points.
+It uses **Hasse derivatives**, so the result remains valid in positive
+characteristic, where dividing ordinary derivatives by a factorial can fail.
+
+The statement accepts any finite set `s` of field elements, an order `m x` at
+each point, and arbitrary data for orders below `m x`. There is a unique
+polynomial of degree strictly below `sum x in s, m x` with those data.
+Zero orders and the empty set are allowed. The supporting declarations expose
+the root-power divisibility criterion, total root-multiplicity bound,
+uniqueness from vanishing Hasse derivatives, and injectivity/surjectivity of
+the evaluation map. This is classical mathematics formalized for reuse, not
+a new mathematical theorem or a result about RH.
+
+[`HermiteInterpolationExamples.lean`](HermiteInterpolationExamples.lean)
+checks the characteristic-two distinction between Hasse and ordinary second
+derivatives, interpolation with six conditions over `ZMod 2`, and empty data.
+It also prints the axioms of all seven proved declarations. Both modules are
+imported by `ZetaLean.lean`, so the existing library build includes the examples.
+
+The implementation and examples were checked on this project's actual pin:
+Lean `4.33.0-rc2`, Mathlib `51e6992efd06126df61a496bebf8f49482a4e129`.
+All seven declarations report only `[propext, Classical.choice, Quot.sound]`.
+No project-wide toolchain change was needed. To reproduce in a provisioned
+checkout:
+
+```sh
+cd lean
+lake build ZetaLean.PrivateStock.HermiteInterpolation \
+  ZetaLean.PrivateStock.HermiteInterpolationExamples
+```
+
+The implementation retains its Apache-2.0 license, supplied in
+[`Apache-2.0.txt`](Apache-2.0.txt); the remainder of this repository keeps its
+existing license. No upstream pull request or external contribution process
+is part of this addition.
+
+## Provenance of the initial eleven modules
 
 Proved by agent cells a-0090 through a-0106 on the `lean-eval-unsolved` board,
 each gated by `check-task.sh`: `lake build Submission`, no literal `sorry` in the
