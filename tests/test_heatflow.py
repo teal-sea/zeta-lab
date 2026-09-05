@@ -503,6 +503,44 @@ def test_polynomial_rejects_repeated_roots():
         polynomial_heat_flow([1.0, 1.0], [0.0])
 
 
+@pytest.mark.parametrize("offset", [-10000.0, 10000.0, 1000000.0])
+def test_polynomial_translation_preserves_collisions_and_gaps(offset):
+    """A change of origin must not invent a collision, even at time zero."""
+    roots = np.arange(-2.0, 3.0)
+    times = [-0.6, 0.0, 0.1]
+    base = polynomial_heat_flow(roots, times, ode_steps_per_unit_t=200)
+    moved = polynomial_heat_flow(roots + offset, times, ode_steps_per_unit_t=200)
+    assert base["all_real"].tolist() == [False, True, True]
+    np.testing.assert_array_equal(moved["all_real"], base["all_real"])
+    assert moved["collision_t"] == base["collision_t"] == -0.6
+    for field in ["min_gap", "spread", "max_abs_imag"]:
+        np.testing.assert_allclose(moved[field], base[field], rtol=0, atol=1e-12)
+    np.testing.assert_array_equal(moved["roots_exact"][1], roots + offset)
+    assert moved["max_ode_error"] < 1e-10
+
+
+def test_polynomial_shifted_quintic_against_exact_algebra():
+    """An independent rational polynomial gives five explicit real roots."""
+    import sympy as sp
+
+    x = sp.Symbol("x")
+    p = x * (x**2 - 1) * (x**2 - 4)
+    t = sp.Rational(1, 10)
+    evolved = sp.expand(p - t * sp.diff(p, x, 2) + t**2 / 2 * sp.diff(p, x, 4))
+    assert evolved == x**5 - 7*x**3 + sp.Rational(38, 5)*x
+    assert sp.Poly(evolved, x).count_roots(-sp.oo, sp.oo) == 5
+    exact = sorted(float(r.evalf(50)) for r in sp.solve(evolved, x))
+    offset = 10000.0
+    result = polynomial_heat_flow(
+        np.arange(-2.0, 3.0) + offset, [0.1], ode_steps_per_unit_t=200
+    )
+    assert result["all_real"].tolist() == [True]
+    assert result["collision_t"] is None
+    np.testing.assert_allclose(
+        result["roots_exact"][0], np.array(exact) + offset, rtol=0, atol=1e-10
+    )
+
+
 # --------------------------------------------------------------------------- #
 #  Lambda facts
 # --------------------------------------------------------------------------- #
