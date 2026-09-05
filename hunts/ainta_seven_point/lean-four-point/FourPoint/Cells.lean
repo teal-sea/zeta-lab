@@ -15,3 +15,12 @@ import FourPoint.Cells13
 import FourPoint.Cells14
 import FourPoint.Cells15
 import FourPoint.Cells16
+import FourPoint.Cells17
+import FourPoint.Cells18
+import FourPoint.Cells19
+import FourPoint.Cells20
+import FourPoint.Cells21
+import FourPoint.Cells22
+import FourPoint.Cells23
+import FourPoint.Cells24
+import FourPoint.Cells25

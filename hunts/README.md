@@ -70,6 +70,15 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Four-point pressure follow-up (`four_point_pressure/`)
+
+**Status: candidate, not kernel-checked.** On 2026-09-05, exact rational
+branch-and-bound closes a stronger four-point floor at `c = 2330/10^6`,
+`p = 2500`. The corresponding bound is approximately `0.6728603588`, above
+the registered `0.6728470197`. The complete generated Lean proof is queued
+for a kernel build. No new zeta theorem is claimed before that build passes.
+
+
 ### Hunt #114: one Epstein value, checked against a route that does not cancel (`support_e6241336/`)
 
 **Status: settled** (support run `e6241336`, serving run `872d7dce` /

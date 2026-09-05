@@ -44,7 +44,7 @@ from fractions import Fraction as F
 HERE = os.path.dirname(os.path.abspath(__file__))
 D = os.path.join(HERE, "lean-four-point", "FourPoint")
 
-C = F(2310, 10 ** 6)      # the certificate constant
+C = F(2330, 10 ** 6)      # the certificate constant for this branch
 P = 2500                  # the pressure denominator
 LEVEL = F(3, 2) * C       # the cover level: (2/3) * LEVEL = C
 S = C * P                 # the pressure cutoff

@@ -103,14 +103,21 @@ jobs:
         run: /usr/bin/time -p lake build FourPoint.Base
 
       - name: FourPoint.Cells (the one-dimensional table, 17 modules)
-        run: /usr/bin/time -p lake build FourPoint.Cells
+        run: |
+          set -euo pipefail
+          # The old build measured serial scheduling despite independent modules.
+          # Two explicit compiler processes bound RAM while using separate cores.
+          awk '/^import FourPoint.Cells[0-9]+$/ {print $2}' FourPoint/Cells.lean \
+            | xargs -n 1 -P 2 sh -c 'LEAN_NUM_THREADS=1 lake build "$1"' sh
+          lake build FourPoint.Cells
 
       - name: FourPoint.Cover (the one-dimensional cover)
         run: /usr/bin/time -p lake build FourPoint.Cover
 
       - name: FourPoint.Chunks (the three-dimensional table, 16 modules)
         run: |
-          /usr/bin/time -p lake build $(for i in $(seq 0 15); do printf 'FourPoint.Chunks%d ' "$i"; done)
+          set -euo pipefail
+          seq 0 15 | xargs -n 1 -P 2 sh -c 'LEAN_NUM_THREADS=1 lake build "FourPoint.Chunks$1"' sh
 
       - name: FourPoint.Boxes (the box routers)
         run: /usr/bin/time -p lake build FourPoint.Boxes

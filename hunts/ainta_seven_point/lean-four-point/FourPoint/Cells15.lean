@@ -5,2884 +5,2884 @@ open Real
 namespace Zeta23Ext.Bridge.FourPoint
 
 
-theorem wc_900 (x : ℝ) (h₁ : (41475/8192:ℝ) ≤ x) (h₂ : x ≤ (20793/4096:ℝ)) : (5435249/80000000000:ℝ) ≤ wfun x := by
+theorem wc_900 (x : ℝ) (h₁ : (8329/2048:ℝ) ≤ x) (h₂ : x ≤ (8349/2048:ℝ)) : (55096489/500000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (246875033/1250000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (1200339967/5000000000:ℝ) := by nlinarith
-  have hc1 : (194264361627/200000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (2101553679/10000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2408349837/10000000000:ℝ) := by nlinarith
+  have hc1 : (971139156187/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (194264361627/200000000000:ℝ) ≤ taylorCos (1200339967/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (971139156187/1000000000000:ℝ) ≤ taylorCos (2408349837/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (490280092513/500000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (195599703441/200000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (246875033/1250000000:ℝ) + taylorErr ≤ (490280092513/500000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (2101553679/10000000000:ℝ) + taylorErr ≤ (195599703441/200000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (98109284843/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (208611849677/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (98109284843/500000000000:ℝ) ≤ taylorSin (246875033/1250000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (208611849677/1000000000000:ℝ) ≤ taylorSin (2101553679/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (237768672711/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (59628399277/250000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (1200339967/5000000000:ℝ) + taylorErr ≤ (237768672711/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2408349837/10000000000:ℝ) + taylorErr ≤ (59628399277/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-490280092513/500000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-194264361627/200000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-237768672711/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-98109284843/500000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15905463294389/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (7974015630627/500000000000:ℝ) := by nlinarith
-  have hp1 : (26323519188723/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (5278793893509/200000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-6275659087873/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5165163284313/1000000000000:ℝ) := by nlinarith
-  have hN : (4184603099287/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (971139156187/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (195599703441/200000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (208611849677/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (59628399277/250000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12776525982299/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (6403602799029/500000000000:ℝ) := by nlinarith
+  have hp1 : (845805295037/40000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (4239181476161/200000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (2205562588303/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (1263878028341/250000000000:ℝ) := by nlinarith
+  have hN : (3433126659401/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (50767940221987/100000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (4184603099287/1000000000000:ℝ) (50767940221987/100000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (5435249/80000000000:ℝ) ≤ ((4184603099287/1000000000000:ℝ)/(50767940221987/100000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (327049030461857/1000000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (3433126659401/1000000000000:ℝ) (327049030461857/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (55096489/500000000000:ℝ) ≤ ((3433126659401/1000000000000:ℝ)/(327049030461857/1000000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_901 (x : ℝ) (h₁ : (5185/1024:ℝ) ≤ x) (h₂ : x ≤ (325/64:ℝ)) : (694962061/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_901 (x : ℝ) (h₁ : (8329/2048:ℝ) ≤ x) (h₂ : x ≤ (4177/1024:ℝ)) : (549643007/5000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (124635939/625000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (2454369261/10000000000:ℝ) := by nlinarith
-  have hc1 : (970031250923/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (970031250923/1000000000000:ℝ) ≤ taylorCos (2454369261/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (196036427647/200000000000:ℝ) := by
-    have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (124635939/625000000:ℝ) + taylorErr ≤ (196036427647/200000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hs1 : (198098408431/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (198098408431/1000000000000:ℝ) ≤ taylorSin (124635939/625000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (242980182203/1000000000000:ℝ) := by
-    have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (2454369261/10000000000:ℝ) + taylorErr ≤ (242980182203/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hcxl : (-196036427647/200000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-970031250923/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-242980182203/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-198098408431/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (7953690385187/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (15953400194011/1000000000000:ℝ) := by nlinarith
-  have hp1 : (13163346304379/500000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26402855043761/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-6415370529213/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5215275905047/1000000000000:ℝ) := by nlinarith
-  have hN : (1058773441703/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
-  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (508021955500541/1000000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (1058773441703/250000000000:ℝ) (508021955500541/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (694962061/10000000000000:ℝ) ≤ ((1058773441703/250000000000:ℝ)/(508021955500541/1000000000000:ℝ))^2 := by norm_num
-  linarith
-
-theorem wc_902 (x : ℝ) (h₁ : (5185/1024:ℝ) ≤ x) (h₂ : x ≤ (5205/1024:ℝ)) : (692290309/10000000000000:ℝ) ≤ wfun x := by
-  have hpl := pi_lo
-  have hph := pi_hi
-  have hg := gam_bounds
-  have ht1 : (124635939/625000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (130388367/500000000:ℝ) := by nlinarith
-  have hc1 : (60386875073/62500000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (60386875073/62500000000:ℝ) ≤ taylorCos (130388367/500000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (196036427647/200000000000:ℝ) := by
-    have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (124635939/625000000:ℝ) + taylorErr ≤ (196036427647/200000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hs1 : (198098408431/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (198098408431/1000000000000:ℝ) ≤ taylorSin (124635939/625000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (128915552241/500000000000:ℝ) := by
-    have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (130388367/500000000:ℝ) + taylorErr ≤ (128915552241/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hcxl : (-196036427647/200000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-60386875073/62500000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-128915552241/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-198098408431/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (7953690385187/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (1596874000189/100000000000:ℝ) := by nlinarith
-  have hp1 : (13163346304379/500000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (1321412120219/50000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-5323455413/781250000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5215275905047/1000000000000:ℝ) := by nlinarith
-  have hN : (1058773441703/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
-  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (127250328623981/250000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (1058773441703/250000000000:ℝ) (127250328623981/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (692290309/10000000000000:ℝ) ≤ ((1058773441703/250000000000:ℝ)/(127250328623981/250000000000:ℝ))^2 := by norm_num
-  linarith
-
-theorem wc_903 (x : ℝ) (h₁ : (5185/1024:ℝ) ≤ x) (h₂ : x ≤ (2605/512:ℝ)) : (68963139/1000000000000:ℝ) ≤ wfun x := by
-  have hpl := pi_lo
-  have hph := pi_hi
-  have hg := gam_bounds
-  have ht1 : (124635939/625000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (2761165419/10000000000:ℝ) := by nlinarith
-  have hc1 : (192424280397/200000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (192424280397/200000000000:ℝ) ≤ taylorCos (2761165419/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (196036427647/200000000000:ℝ) := by
-    have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (124635939/625000000:ℝ) + taylorErr ≤ (196036427647/200000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hs1 : (198098408431/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (198098408431/1000000000000:ℝ) ≤ taylorSin (124635939/625000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (27262135779/100000000000:ℝ) := by
-    have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (2761165419/10000000000:ℝ) + taylorErr ≤ (27262135779/100000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hcxl : (-196036427647/200000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-192424280397/200000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-27262135779/100000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-198098408431/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (7953690385187/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (15984079809769/1000000000000:ℝ) := by nlinarith
-  have hp1 : (13163346304379/500000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26453629764999/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-450739029063/62500000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5215275905047/1000000000000:ℝ) := by nlinarith
-  have hN : (1058773441703/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
-  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (50998161473013/100000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (1058773441703/250000000000:ℝ) (50998161473013/100000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (68963139/1000000000000:ℝ) ≤ ((1058773441703/250000000000:ℝ)/(50998161473013/100000000000:ℝ))^2 := by norm_num
-  linarith
-
-theorem wc_904 (x : ℝ) (h₁ : (5185/1024:ℝ) ≤ x) (h₂ : x ≤ (10441/2048:ℝ)) : (342044549/5000000000000:ℝ) ≤ wfun x := by
-  have hpl := pi_lo
-  have hph := pi_hi
-  have hg := gam_bounds
-  have ht1 : (124635939/625000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (385412673/1250000000:ℝ) := by nlinarith
-  have hc1 : (59552602833/62500000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (59552602833/62500000000:ℝ) ≤ taylorCos (385412673/1250000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (196036427647/200000000000:ℝ) := by
-    have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (124635939/625000000:ℝ) + taylorErr ≤ (196036427647/200000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hs1 : (198098408431/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (198098408431/1000000000000:ℝ) ≤ taylorSin (124635939/625000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (303467948867/1000000000000:ℝ) := by
-    have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (385412673/1250000000:ℝ) + taylorErr ≤ (303467948867/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hcxl : (-196036427647/200000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-59552602833/62500000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-303467948867/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-198098408431/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (7953690385187/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (8008146703157/500000000000:ℝ) := by nlinarith
-  have hp1 : (13163346304379/500000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (13253471611149/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-1608801538081/200000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5215275905047/1000000000000:ℝ) := by nlinarith
-  have hN : (1058773441703/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
-  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (20481732358171/40000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (1058773441703/250000000000:ℝ) (20481732358171/40000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (342044549/5000000000000:ℝ) ≤ ((1058773441703/250000000000:ℝ)/(20481732358171/40000000000:ℝ))^2 := by norm_num
-  linarith
-
-theorem wc_905 (x : ℝ) (h₁ : (5185/1024:ℝ) ≤ x) (h₂ : x ≤ (10461/2048:ℝ)) : (339431207/5000000000000:ℝ) ≤ wfun x := by
-  have hpl := pi_lo
-  have hph := pi_hi
-  have hg := gam_bounds
-  have ht1 : (124635939/625000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (1695048771/5000000000:ℝ) := by nlinarith
-  have hc1 : (471542217589/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (471542217589/500000000000:ℝ) ≤ taylorCos (1695048771/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (196036427647/200000000000:ℝ) := by
-    have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (124635939/625000000:ℝ) + taylorErr ≤ (196036427647/200000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hs1 : (198098408431/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (198098408431/1000000000000:ℝ) ≤ taylorSin (124635939/625000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (332553372201/1000000000000:ℝ) := by
-    have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (1695048771/5000000000:ℝ) + taylorErr ≤ (332553372201/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hcxl : (-196036427647/200000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-471542217589/500000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-332553372201/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-198098408431/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (7953690385187/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (2005871627759/125000000000:ℝ) := by nlinarith
-  have hp1 : (13163346304379/500000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26557717943537/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-8831858660087/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5215275905047/1000000000000:ℝ) := by nlinarith
-  have hN : (1058773441703/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
-  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (257005343171107/500000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (1058773441703/250000000000:ℝ) (257005343171107/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (339431207/5000000000000:ℝ) ≤ ((1058773441703/250000000000:ℝ)/(257005343171107/500000000000:ℝ))^2 := by norm_num
-  linarith
-
-theorem wc_906 (x : ℝ) (h₁ : (10371/2048:ℝ) ≤ x) (h₂ : x ≤ (41595/8192:ℝ)) : (354311107/5000000000000:ℝ) ≤ wfun x := by
-  have hpl := pi_lo
-  have hph := pi_hi
-  have hg := gam_bounds
-  have ht1 : (125594677/625000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (2435194501/10000000000:ℝ) := by nlinarith
-  have hc1 : (485247688019/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (485247688019/500000000000:ℝ) ≤ taylorCos (2435194501/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (244969276491/250000000000:ℝ) := by
-    have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (125594677/625000000:ℝ) + taylorErr ≤ (244969276491/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hs1 : (99800877673/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (99800877673/500000000000:ℝ) ≤ taylorSin (125594677/625000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (241119725011/1000000000000:ℝ) := by
-    have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (2435194501/10000000000:ℝ) + taylorErr ≤ (241119725011/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hcxl : (-244969276491/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-485247688019/500000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-241119725011/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-99800877673/500000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15908914751161/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (7975741359013/500000000000:ℝ) := by nlinarith
-  have hp1 : (1645576959049/62500000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26399681623683/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-6365483973481/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5255360793329/1000000000000:ℝ) := by nlinarith
-  have hN : (855096737473/200000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
-  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (101579920361393/200000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (855096737473/200000000000:ℝ) (101579920361393/200000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (354311107/5000000000000:ℝ) ≤ ((855096737473/200000000000:ℝ)/(101579920361393/200000000000:ℝ))^2 := by norm_num
-  linarith
-
-theorem wc_907 (x : ℝ) (h₁ : (10371/2048:ℝ) ≤ x) (h₂ : x ≤ (20813/4096:ℝ)) : (706509509/10000000000000:ℝ) ≤ wfun x := by
-  have hpl := pi_lo
-  have hph := pi_hi
-  have hg := gam_bounds
-  have ht1 : (125594677/625000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (638519503/2500000000:ℝ) := by nlinarith
-  have hc1 : (967560346987/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (967560346987/1000000000000:ℝ) ≤ taylorCos (638519503/2500000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (244969276491/250000000000:ℝ) := by
-    have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (125594677/625000000:ℝ) + taylorErr ≤ (244969276491/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hs1 : (99800877673/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (99800877673/500000000000:ℝ) ≤ taylorSin (125594677/625000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (63160001041/250000000000:ℝ) := by
-    have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (638519503/2500000000:ℝ) + taylorErr ≤ (63160001041/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hcxl : (-244969276491/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-967560346987/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-63160001041/250000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-99800877673/500000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15908914751161/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (3990842767283/250000000000:ℝ) := by nlinarith
-  have hp1 : (1645576959049/62500000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26419356828163/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-3337293209539/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5255360793329/1000000000000:ℝ) := by nlinarith
-  have hN : (855096737473/200000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
-  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (254329215890801/500000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (855096737473/200000000000:ℝ) (254329215890801/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (706509509/10000000000000:ℝ) ≤ ((855096737473/200000000000:ℝ)/(254329215890801/500000000000:ℝ))^2 := by norm_num
-  linarith
-
-theorem wc_908 (x : ℝ) (h₁ : (2593/512:ℝ) ≤ x) (h₂ : x ≤ (20815/4096:ℝ)) : (359821577/5000000000000:ℝ) ≤ wfun x := by
-  have hpl := pi_lo
-  have hph := pi_hi
-  have hg := gam_bounds
-  have ht1 : (25310683/125000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (128470891/500000000:ℝ) := by nlinarith
-  have hc1 : (193434332769/200000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (193434332769/200000000000:ℝ) ≤ taylorCos (128470891/500000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (244892441987/250000000000:ℝ) := by
-    have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (25310683/125000000:ℝ) + taylorErr ≤ (244892441987/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hs1 : (201104632579/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (201104632579/1000000000000:ℝ) ≤ taylorSin (25310683/125000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (127061962669/500000000000:ℝ) := by
-    have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (128470891/500000000:ℝ) + taylorErr ≤ (127061962669/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hcxl : (-244892441987/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-193434332769/200000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-127061962669/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-201104632579/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15910448731949/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (49890328281/3125000000:ℝ) := by nlinarith
-  have hp1 : (26331770080813/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (1056875822569/40000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-1678608953913/250000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-661930118407/125000000000:ℝ) := by nlinarith
-  have hN : (1078967794827/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
-  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (508756386505923/1000000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (1078967794827/250000000000:ℝ) (508756386505923/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (359821577/5000000000000:ℝ) ≤ ((1078967794827/250000000000:ℝ)/(508756386505923/1000000000000:ℝ))^2 := by norm_num
-  linarith
-
-theorem wc_909 (x : ℝ) (h₁ : (2593/512:ℝ) ≤ x) (h₂ : x ≤ (10443/2048:ℝ)) : (709888559/10000000000000:ℝ) ≤ wfun x := by
-  have hpl := pi_lo
-  have hph := pi_hi
-  have hg := gam_bounds
-  have ht1 : (25310683/125000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (3113981/10000000:ℝ) := by nlinarith
-  have hc1 : (1859191669/1953125000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (1859191669/1953125000:ℝ) ≤ taylorCos (3113981/10000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (244892441987/250000000000:ℝ) := by
-    have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (25310683/125000000:ℝ) + taylorErr ≤ (244892441987/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hs1 : (201104632579/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (201104632579/1000000000000:ℝ) ≤ taylorSin (25310683/125000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (306389797689/1000000000000:ℝ) := by
-    have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (3113981/10000000:ℝ) + taylorErr ≤ (306389797689/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hcxl : (-244892441987/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-1859191669/1953125000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-306389797689/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-201104632579/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15910448731949/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (1601936136789/100000000000:ℝ) := by nlinarith
-  have hp1 : (26331770080813/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (13256010347211/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-8123012656891/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-661930118407/125000000000:ℝ) := by nlinarith
-  have hN : (1078967794827/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
-  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (256119938635047/500000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (1078967794827/250000000000:ℝ) (256119938635047/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (709888559/10000000000000:ℝ) ≤ ((1078967794827/250000000000:ℝ)/(256119938635047/500000000000:ℝ))^2 := by norm_num
-  linarith
-
-theorem wc_910 (x : ℝ) (h₁ : (2593/512:ℝ) ≤ x) (h₂ : x ≤ (5257/1024:ℝ)) : (345435191/5000000000000:ℝ) ≤ wfun x := by
-  have hpl := pi_lo
-  have hph := pi_hi
-  have hg := gam_bounds
-  have ht1 : (25310683/125000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (4203107359/10000000000:ℝ) := by nlinarith
-  have hc1 : (456481094079/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (456481094079/500000000000:ℝ) ≤ taylorCos (4203107359/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (244892441987/250000000000:ℝ) := by
-    have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (25310683/125000000:ℝ) + taylorErr ≤ (244892441987/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hs1 : (201104632579/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (201104632579/1000000000000:ℝ) ≤ taylorSin (25310683/125000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (81608833029/200000000000:ℝ) := by
-    have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (4203107359/10000000000:ℝ) + taylorErr ≤ (81608833029/200000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hcxl : (-244892441987/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-456481094079/500000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-81608833029/200000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-201104632579/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15910448731949/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (1612827400383/100000000000:ℝ) := by nlinarith
-  have hp1 : (26331770080813/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26692270954817/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-10891625417583/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-661930118407/125000000000:ℝ) := by nlinarith
-  have hN : (1078967794827/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
-  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (259621222342619/500000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (1078967794827/250000000000:ℝ) (259621222342619/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (345435191/5000000000000:ℝ) ≤ ((1078967794827/250000000000:ℝ)/(259621222342619/500000000000:ℝ))^2 := by norm_num
-  linarith
-
-theorem wc_911 (x : ℝ) (h₁ : (2593/512:ℝ) ≤ x) (h₂ : x ≤ (5277/1024:ℝ)) : (340218131/5000000000000:ℝ) ≤ wfun x := by
-  have hpl := pi_lo
-  have hph := pi_hi
-  have hg := gam_bounds
-  have ht1 : (25310683/125000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (2408349837/5000000000:ℝ) := by nlinarith
-  have hc1 : (177244505577/200000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (177244505577/200000000000:ℝ) ≤ taylorCos (2408349837/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (244892441987/250000000000:ℝ) := by
-    have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (25310683/125000000:ℝ) + taylorErr ≤ (244892441987/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hs1 : (201104632579/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (201104632579/1000000000000:ℝ) ≤ taylorSin (25310683/125000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (463259785817/1000000000000:ℝ) := by
-    have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (2408349837/5000000000:ℝ) + taylorErr ≤ (463259785817/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hcxl : (-244892441987/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-177244505577/200000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-463259785817/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-201104632579/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15910448731949/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (8094816617673/500000000000:ℝ) := by nlinarith
-  have hp1 : (26331770080813/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (13396910198647/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-1241249949847/100000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-661930118407/125000000000:ℝ) := by nlinarith
-  have hN : (1078967794827/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
-  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (13080211214751/25000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (1078967794827/250000000000:ℝ) (13080211214751/25000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (340218131/5000000000000:ℝ) ≤ ((1078967794827/250000000000:ℝ)/(13080211214751/25000000000:ℝ))^2 := by norm_num
-  linarith
-
-theorem wc_912 (x : ℝ) (h₁ : (2593/512:ℝ) ≤ x) (h₂ : x ≤ (333/64:ℝ)) : (327353763/5000000000000:ℝ) ≤ wfun x := by
-  have hpl := pi_lo
-  have hph := pi_hi
-  have hg := gam_bounds
-  have ht1 : (25310683/125000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (3190680039/5000000000:ℝ) := by nlinarith
-  have hc1 : (160641505837/200000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (160641505837/200000000000:ℝ) ≤ taylorCos (3190680039/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (244892441987/250000000000:ℝ) := by
-    have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (25310683/125000000:ℝ) + taylorErr ≤ (244892441987/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hs1 : (201104632579/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (201104632579/1000000000000:ℝ) ≤ taylorSin (25310683/125000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (297849653393/500000000000:ℝ) := by
-    have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (3190680039/5000000000:ℝ) + taylorErr ≤ (297849653393/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hcxl : (-244892441987/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-160641505837/200000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-297849653393/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-201104632579/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15910448731949/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (1634609927571/100000000000:ℝ) := by nlinarith
-  have hp1 : (26331770080813/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (3381596434451/125000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-805765860733/50000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-661930118407/125000000000:ℝ) := by nlinarith
-  have hN : (1078967794827/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
-  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (266694961531367/500000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (1078967794827/250000000000:ℝ) (266694961531367/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (327353763/5000000000000:ℝ) ≤ ((1078967794827/250000000000:ℝ)/(266694961531367/500000000000:ℝ))^2 := by norm_num
-  linarith
-
-theorem wc_913 (x : ℝ) (h₁ : (2593/512:ℝ) ≤ x) (h₂ : x ≤ (671/128:ℝ)) : (635374807/10000000000000:ℝ) ≤ wfun x := by
-  have hpl := pi_lo
-  have hph := pi_hi
-  have hg := gam_bounds
-  have ht1 : (25310683/125000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (1902136177/2500000000:ℝ) := by nlinarith
-  have hc1 : (144849416121/200000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (144849416121/200000000000:ℝ) ≤ taylorCos (1902136177/2500000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (244892441987/250000000000:ℝ) := by
-    have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (25310683/125000000:ℝ) + taylorErr ≤ (244892441987/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
-    linarith
-  have hs1 : (201104632579/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (201104632579/1000000000000:ℝ) ≤ taylorSin (25310683/125000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (689540547001/1000000000000:ℝ) := by
-    have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (1902136177/2500000000:ℝ) + taylorErr ≤ (689540547001/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
-    linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
-    rw [h]; ring
-  have hcxl : (-244892441987/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-144849416121/200000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-689540547001/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-201104632579/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15910448731949/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (16468817738741/1000000000000:ℝ) := by nlinarith
-  have hp1 : (26331770080813/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (340698379507/12500000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-18794027757409/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-661930118407/125000000000:ℝ) := by nlinarith
-  have hN : (1078967794827/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
-  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (541443915423741/1000000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (1078967794827/250000000000:ℝ) (541443915423741/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (635374807/10000000000000:ℝ) ≤ ((1078967794827/250000000000:ℝ)/(541443915423741/1000000000000:ℝ))^2 := by norm_num
-  linarith
-
-theorem wc_914 (x : ℝ) (h₁ : (41497/8192:ℝ) ≤ x) (h₂ : x ≤ (5201/1024:ℝ)) : (751854739/10000000000000:ℝ) ≤ wfun x := by
-  have hpl := pi_lo
-  have hph := pi_hi
-  have hg := gam_bounds
-  have ht1 : (2059369207/10000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (2485048877/10000000000:ℝ) := by nlinarith
-  have hc1 : (969281233079/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (2101553679/10000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2485048877/10000000000:ℝ) := by nlinarith
+  have hc1 : (969281233079/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
     have h2 : (969281233079/1000000000000:ℝ) ≤ taylorCos (2485048877/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (244717457701/250000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (195599703441/200000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (2059369207/10000000000:ℝ) + taylorErr ≤ (244717457701/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (2101553679/10000000000:ℝ) + taylorErr ≤ (195599703441/200000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (25560546333/125000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (208611849677/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (25560546333/125000000000:ℝ) ≤ taylorSin (2059369207/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (208611849677/1000000000000:ℝ) ≤ taylorSin (2101553679/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (245955052659/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (245955052659/1000000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
     have h2 : taylorSin (2485048877/10000000000:ℝ) + taylorErr ≤ (245955052659/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-244717457701/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-969281233079/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-245955052659/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-25560546333/125000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (7956950094361/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (15956468155587/1000000000000:ℝ) := by nlinarith
-  have hp1 : (6584370559219/250000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (5281586503177/200000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-81189555407/12500000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5385603480081/1000000000000:ℝ) := by nlinarith
-  have hN : (4406733649277/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (969281233079/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (195599703441/200000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (208611849677/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (245955052659/1000000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12776525982299/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12814875501997/1000000000000:ℝ) := by nlinarith
+  have hp1 : (845805295037/40000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21208601061113/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (2205562588303/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (521636259081/100000000000:ℝ) := by nlinarith
+  have hN : (3433126659401/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (127054438000131/250000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (4406733649277/1000000000000:ℝ) (127054438000131/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (751854739/10000000000000:ℝ) ≤ ((4406733649277/1000000000000:ℝ)/(127054438000131/250000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (163721034131683/500000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (3433126659401/1000000000000:ℝ) (163721034131683/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (549643007/5000000000000:ℝ) ≤ ((3433126659401/1000000000000:ℝ)/(163721034131683/500000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_915 (x : ℝ) (h₁ : (20753/4096:ℝ) ≤ x) (h₂ : x ≤ (41617/8192:ℝ)) : (782495959/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_902 (x : ℝ) (h₁ : (33321/8192:ℝ) ≤ x) (h₂ : x ≤ (4167/1024:ℝ)) : (1136390777/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (83755351/400000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (503912689/2000000000:ℝ) := by nlinarith
-  have hc1 : (968426558231/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (2120728439/10000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2178252719/10000000000:ℝ) := by nlinarith
+  have hc1 : (976369729063/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (968426558231/1000000000000:ℝ) ≤ taylorCos (503912689/2000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (976369729063/1000000000000:ℝ) ≤ taylorCos (2178252719/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (244539558203/250000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (977596711321/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (83755351/400000000:ℝ) + taylorErr ≤ (244539558203/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (2120728439/10000000000:ℝ) + taylorErr ≤ (977596711321/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (103930836459/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (42097350741/200000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (103930836459/500000000000:ℝ) ≤ taylorSin (83755351/400000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (42097350741/200000000000:ℝ) ≤ taylorSin (2120728439/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (31162376669/125000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (108053399679/500000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (503912689/2000000000:ℝ) + taylorErr ≤ (31162376669/125000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2178252719/10000000000:ℝ) + taylorErr ≤ (108053399679/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-244539558203/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-968426558231/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-31162376669/125000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-103930836459/500000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (3183470329099/200000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (398997990309/25000000000:ℝ) := by nlinarith
-  have hp1 : (26343194392939/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (1056545786881/40000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-6584895555767/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-136893511413/25000000000:ℝ) := by nlinarith
-  have hN : (1124395555927/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (976369729063/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (977596711321/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (42097350741/200000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (108053399679/500000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (3194610864571/250000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12784195886239/1000000000000:ℝ) := by nlinarith
+  have hp1 : (528707644899/25000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (169262610719/8000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (556429779169/125000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (4572350131683/1000000000000:ℝ) := by nlinarith
+  have hN : (3473841522031/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (508438068065987/1000000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (1124395555927/250000000000:ℝ) (508438068065987/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (782495959/10000000000000:ℝ) ≤ ((1124395555927/250000000000:ℝ)/(508438068065987/1000000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (325871328915461/1000000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (3473841522031/1000000000000:ℝ) (325871328915461/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1136390777/10000000000000:ℝ) ≤ ((3473841522031/1000000000000:ℝ)/(325871328915461/1000000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_916 (x : ℝ) (h₁ : (20753/4096:ℝ) ≤ x) (h₂ : x ≤ (2603/512:ℝ)) : (780164241/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_903 (x : ℝ) (h₁ : (33321/8192:ℝ) ≤ x) (h₂ : x ≤ (33341/8192:ℝ)) : (567853581/5000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (83755351/400000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (659611739/2500000000:ℝ) := by nlinarith
-  have hc1 : (482697219707/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (2120728439/10000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2197427479/10000000000:ℝ) := by nlinarith
+  have hc1 : (195190710961/200000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (482697219707/500000000000:ℝ) ≤ taylorCos (659611739/2500000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (195190710961/200000000000:ℝ) ≤ taylorCos (2197427479/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (244539558203/250000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (977596711321/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (83755351/400000000:ℝ) + taylorErr ≤ (244539558203/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (2120728439/10000000000:ℝ) + taylorErr ≤ (977596711321/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (103930836459/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (42097350741/200000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (103930836459/500000000000:ℝ) ≤ taylorSin (83755351/400000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (42097350741/200000000000:ℝ) ≤ taylorSin (2120728439/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (130397060129/500000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (27247320807/125000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (659611739/2500000000:ℝ) + taylorErr ≤ (130397060129/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2197427479/10000000000:ℝ) + taylorErr ≤ (27247320807/125000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-244539558203/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-482697219707/500000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-130397060129/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-103930836459/500000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (3183470329099/200000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (7985903981733/500000000000:ℝ) := by nlinarith
-  have hp1 : (26343194392939/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (3304164984563/125000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-1723413600673/250000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-136893511413/25000000000:ℝ) := by nlinarith
-  have hN : (1124395555927/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (195190710961/200000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (977596711321/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (42097350741/200000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (27247320807/125000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (3194610864571/250000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (799132085139/62500000000:ℝ) := by nlinarith
+  have hp1 : (528707644899/25000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21160999759953/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (556429779169/125000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (4612644392451/1000000000000:ℝ) := by nlinarith
+  have hN : (3473841522031/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (63649662405459/125000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (1124395555927/250000000000:ℝ) (63649662405459/125000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (780164241/10000000000000:ℝ) ≤ ((1124395555927/250000000000:ℝ)/(63649662405459/125000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (325969389823287/1000000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (3473841522031/1000000000000:ℝ) (325969389823287/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (567853581/5000000000000:ℝ) ≤ ((3473841522031/1000000000000:ℝ)/(325969389823287/1000000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_917 (x : ℝ) (h₁ : (20753/4096:ℝ) ≤ x) (h₂ : x ≤ (5211/1024:ℝ)) : (155433679/2000000000000:ℝ) ≤ wfun x := by
+theorem wc_904 (x : ℝ) (h₁ : (33321/8192:ℝ) ≤ x) (h₂ : x ≤ (16673/4096:ℝ)) : (1135024061/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (83755351/400000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (1395922517/5000000000:ℝ) := by nlinarith
-  have hc1 : (240320120887/250000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (2120728439/10000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2216602239/10000000000:ℝ) := by nlinarith
+  have hc1 : (195106758449/200000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (240320120887/250000000000:ℝ) ≤ taylorCos (1395922517/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (195106758449/200000000000:ℝ) ≤ taylorCos (2216602239/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (244539558203/250000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (977596711321/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (83755351/400000000:ℝ) + taylorErr ≤ (244539558203/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (2120728439/10000000000:ℝ) + taylorErr ≤ (977596711321/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (103930836459/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (42097350741/200000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (103930836459/500000000000:ℝ) ≤ taylorSin (83755351/400000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (42097350741/200000000000:ℝ) ≤ taylorSin (2120728439/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (137785910789/500000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (21984953211/100000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (1395922517/5000000000:ℝ) + taylorErr ≤ (137785910789/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2216602239/10000000000:ℝ) + taylorErr ≤ (21984953211/100000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-244539558203/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-240320120887/250000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-137785910789/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-103930836459/500000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (3183470329099/200000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (3197429554269/200000000000:ℝ) := by nlinarith
-  have hp1 : (26343194392939/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26458707237123/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-7291274149933/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-136893511413/25000000000:ℝ) := by nlinarith
-  have hN : (1124395555927/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (195106758449/200000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (977596711321/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (42097350741/200000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (21984953211/100000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (3194610864571/250000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12788030838209/1000000000000:ℝ) := by nlinarith
+  have hp1 : (528707644899/25000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (2116417318003/100000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (556429779169/125000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (37223468569/8000000000:ℝ) := by nlinarith
+  have hN : (3473841522031/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (510177787725643/1000000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (1124395555927/250000000000:ℝ) (510177787725643/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (155433679/2000000000000:ℝ) ≤ ((1124395555927/250000000000:ℝ)/(510177787725643/1000000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (326067465437969/1000000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (3473841522031/1000000000000:ℝ) (326067465437969/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1135024061/10000000000000:ℝ) ≤ ((3473841522031/1000000000000:ℝ)/(326067465437969/1000000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_918 (x : ℝ) (h₁ : (41515/8192:ℝ) ≤ x) (h₂ : x ≤ (20813/4096:ℝ)) : (50857271/625000000000:ℝ) ≤ wfun x := by
+theorem wc_905 (x : ℝ) (h₁ : (16663/4096:ℝ) ≤ x) (h₂ : x ≤ (66677/16384:ℝ)) : (1162834311/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (2128398343/10000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (638519503/2500000000:ℝ) := by nlinarith
-  have hc1 : (967560346987/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (2139903199/10000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2187840099/10000000000:ℝ) := by nlinarith
+  have hc1 : (122020261321/125000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (967560346987/1000000000000:ℝ) ≤ taylorCos (638519503/2500000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (122020261321/125000000000:ℝ) ≤ taylorCos (2187840099/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (244358745617/250000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (488595655547/500000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (2128398343/10000000000:ℝ) + taylorErr ≤ (244358745617/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (2139903199/10000000000:ℝ) + taylorErr ≤ (488595655547/500000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (21123649901/100000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (106180441917/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (21123649901/100000000000:ℝ) ≤ taylorSin (2128398343/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (106180441917/500000000000:ℝ) ≤ taylorSin (2139903199/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (63160001041/250000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (108521391329/500000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (638519503/2500000000:ℝ) + taylorErr ≤ (63160001041/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2187840099/10000000000:ℝ) + taylorErr ≤ (108521391329/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-244358745617/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-967560346987/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-63160001041/250000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-21123649901/100000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (3980200775567/250000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (3990842767283/250000000000:ℝ) := by nlinarith
-  have hp1 : (13174453274501/500000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26419356828163/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-3337293209539/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-695731346519/125000000000:ℝ) := by nlinarith
-  have hN : (1147103947421/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (122020261321/125000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (488595655547/500000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (106180441917/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (108521391329/500000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12780360934269/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (1598144328029/125000000000:ℝ) := by nlinarith
+  have hp1 : (4230295843199/200000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (4231882609983/200000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (898349364141/200000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (1148124471941/250000000000:ℝ) := by nlinarith
+  have hN : (3514555509611/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (254329215890801/500000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (1147103947421/250000000000:ℝ) (254329215890801/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (50857271/625000000000:ℝ) ≤ ((1147103947421/250000000000:ℝ)/(254329215890801/500000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (162960178765521/500000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (3514555509611/1000000000000:ℝ) (162960178765521/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1162834311/10000000000000:ℝ) ≤ ((3514555509611/1000000000000:ℝ)/(162960178765521/500000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_919 (x : ℝ) (h₁ : (2595/512:ℝ) ≤ x) (h₂ : x ≤ (2605/512:ℝ)) : (827400419/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_906 (x : ℝ) (h₁ : (16663/4096:ℝ) ≤ x) (h₂ : x ≤ (33341/8192:ℝ)) : (116248451/1000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (2147573103/10000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (2761165419/10000000000:ℝ) := by nlinarith
-  have hc1 : (192424280397/200000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (2139903199/10000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2197427479/10000000000:ℝ) := by nlinarith
+  have hc1 : (195190710961/200000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (192424280397/200000000000:ℝ) ≤ taylorCos (2761165419/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (195190710961/200000000000:ℝ) ≤ taylorCos (2197427479/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (977028144921/1000000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (488595655547/500000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (2147573103/10000000000:ℝ) + taylorErr ≤ (977028144921/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (2139903199/10000000000:ℝ) + taylorErr ≤ (488595655547/500000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (4262206353/20000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (106180441917/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (4262206353/20000000000:ℝ) ≤ taylorSin (2147573103/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (106180441917/500000000000:ℝ) ≤ taylorSin (2139903199/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (27262135779/100000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (27247320807/125000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (2761165419/10000000000:ℝ) + taylorErr ≤ (27262135779/100000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2197427479/10000000000:ℝ) + taylorErr ≤ (27247320807/125000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-977028144921/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-192424280397/200000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-27262135779/100000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-4262206353/20000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (3980680144563/250000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (15984079809769/1000000000000:ℝ) := by nlinarith
-  have hp1 : (5270415993807/200000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26453629764999/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-450739029063/62500000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5615900132939/1000000000000:ℝ) := by nlinarith
-  have hN : (2319435994009/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (195190710961/200000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (488595655547/500000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (106180441917/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (27247320807/125000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12780360934269/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (799132085139/62500000000:ℝ) := by nlinarith
+  have hp1 : (4230295843199/200000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21160999759953/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (898349364141/200000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (4612644392451/1000000000000:ℝ) := by nlinarith
+  have hN : (3514555509611/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (50998161473013/100000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (2319435994009/500000000000:ℝ) (50998161473013/100000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (827400419/10000000000000:ℝ) ≤ ((2319435994009/500000000000:ℝ)/(50998161473013/100000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (325969389823287/1000000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (3514555509611/1000000000000:ℝ) (325969389823287/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (116248451/1000000000000:ℝ) ≤ ((3514555509611/1000000000000:ℝ)/(325969389823287/1000000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_920 (x : ℝ) (h₁ : (2595/512:ℝ) ≤ x) (h₂ : x ≤ (5215/1024:ℝ)) : (824225629/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_907 (x : ℝ) (h₁ : (16663/4096:ℝ) ≤ x) (h₂ : x ≤ (16673/4096:ℝ)) : (145223163/1250000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (2147573103/10000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (2914563497/10000000000:ℝ) := by nlinarith
-  have hc1 : (191565282153/200000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (2139903199/10000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2216602239/10000000000:ℝ) := by nlinarith
+  have hc1 : (195106758449/200000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (191565282153/200000000000:ℝ) ≤ taylorCos (2914563497/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (195106758449/200000000000:ℝ) ≤ taylorCos (2216602239/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (977028144921/1000000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (488595655547/500000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (2147573103/10000000000:ℝ) + taylorErr ≤ (977028144921/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (2139903199/10000000000:ℝ) + taylorErr ≤ (488595655547/500000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (4262206353/20000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (106180441917/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (4262206353/20000000000:ℝ) ≤ taylorSin (2147573103/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (106180441917/500000000000:ℝ) ≤ taylorSin (2139903199/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (287347461809/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (21984953211/100000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (2914563497/10000000000:ℝ) + taylorErr ≤ (287347461809/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2216602239/10000000000:ℝ) + taylorErr ≤ (21984953211/100000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-977028144921/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-191565282153/200000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-287347461809/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-4262206353/20000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (3980680144563/250000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (999963726103/62500000000:ℝ) := by nlinarith
-  have hp1 : (5270415993807/200000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (13239508562809/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-1902169590561/250000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5615900132939/1000000000000:ℝ) := by nlinarith
-  have hN : (2319435994009/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (195106758449/200000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (488595655547/500000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (106180441917/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (21984953211/100000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12780360934269/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12788030838209/1000000000000:ℝ) := by nlinarith
+  have hp1 : (4230295843199/200000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (2116417318003/100000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (898349364141/200000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (37223468569/8000000000:ℝ) := by nlinarith
+  have hN : (3514555509611/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (12774071405079/25000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (2319435994009/500000000000:ℝ) (12774071405079/25000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (824225629/10000000000000:ℝ) ≤ ((2319435994009/500000000000:ℝ)/(12774071405079/25000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (326067465437969/1000000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (3514555509611/1000000000000:ℝ) (326067465437969/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (145223163/1250000000000:ℝ) ≤ ((3514555509611/1000000000000:ℝ)/(326067465437969/1000000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_921 (x : ℝ) (h₁ : (2595/512:ℝ) ≤ x) (h₂ : x ≤ (1305/256:ℝ)) : (821066057/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_908 (x : ℝ) (h₁ : (16663/4096:ℝ) ≤ x) (h₂ : x ≤ (33351/8192:ℝ)) : (36283957/312500000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (2147573103/10000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (383495197/1250000000:ℝ) := by nlinarith
-  have hc1 : (190661207617/200000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (2139903199/10000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2235776999/10000000000:ℝ) := by nlinarith
+  have hc1 : (975110442927/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (190661207617/200000000000:ℝ) ≤ taylorCos (383495197/1250000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (975110442927/1000000000000:ℝ) ≤ taylorCos (2235776999/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (977028144921/1000000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (488595655547/500000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (2147573103/10000000000:ℝ) + taylorErr ≤ (977028144921/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (2139903199/10000000000:ℝ) + taylorErr ≤ (488595655547/500000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (4262206353/20000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (106180441917/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (4262206353/20000000000:ℝ) ≤ taylorSin (2147573103/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (106180441917/500000000000:ℝ) ≤ taylorSin (2139903199/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (302005951603/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (1385748059/6250000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (383495197/1250000000:ℝ) + taylorErr ≤ (302005951603/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2235776999/10000000000:ℝ) + taylorErr ≤ (1385748059/6250000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-977028144921/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-190661207617/200000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-302005951603/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-4262206353/20000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (3980680144563/250000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (16014759425527/1000000000000:ℝ) := by nlinarith
-  have hp1 : (5270415993807/200000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (13252202243119/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-4002243949269/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5615900132939/1000000000000:ℝ) := by nlinarith
-  have hN : (2319435994009/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (975110442927/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (488595655547/500000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (106180441917/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (1385748059/6250000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12780360934269/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (6394974157097/500000000000:ℝ) := by nlinarith
+  have hp1 : (4230295843199/200000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (5291836650027/250000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (898349364141/200000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (938643502889/200000000000:ℝ) := by nlinarith
+  have hN : (3514555509611/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (127986259728753/250000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (2319435994009/500000000000:ℝ) (127986259728753/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (821066057/10000000000000:ℝ) ≤ ((2319435994009/500000000000:ℝ)/(127986259728753/250000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (81541388939877/250000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (3514555509611/1000000000000:ℝ) (81541388939877/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (36283957/312500000000:ℝ) ≤ ((3514555509611/1000000000000:ℝ)/(81541388939877/250000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_922 (x : ℝ) (h₁ : (2595/512:ℝ) ≤ x) (h₂ : x ≤ (2615/512:ℝ)) : (814792219/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_909 (x : ℝ) (h₁ : (16663/4096:ℝ) ≤ x) (h₂ : x ≤ (8339/2048:ℝ)) : (290097117/2500000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (2147573103/10000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (1687378867/5000000000:ℝ) := by nlinarith
-  have hc1 : (471796727939/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (2139903199/10000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2254951759/10000000000:ℝ) := by nlinarith
+  have hc1 : (121835438551/125000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (471796727939/500000000000:ℝ) ≤ taylorCos (1687378867/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (121835438551/125000000000:ℝ) ≤ taylorCos (2254951759/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (977028144921/1000000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (488595655547/500000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (2147573103/10000000000:ℝ) + taylorErr ≤ (977028144921/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (2139903199/10000000000:ℝ) + taylorErr ≤ (488595655547/500000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (4262206353/20000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (106180441917/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (4262206353/20000000000:ℝ) ≤ taylorSin (2147573103/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (106180441917/500000000000:ℝ) ≤ taylorSin (2139903199/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (82776577021/250000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (223589031571/1000000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (1687378867/5000000000:ℝ) + taylorErr ≤ (82776577021/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2254951759/10000000000:ℝ) + taylorErr ≤ (223589031571/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-977028144921/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-471796727939/500000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-82776577021/250000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-4262206353/20000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (3980680144563/250000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (4011359760321/250000000000:ℝ) := by nlinarith
-  have hp1 : (5270415993807/200000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (13277589603737/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-1099073418487/125000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5615900132939/1000000000000:ℝ) := by nlinarith
-  have hN : (2319435994009/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (121835438551/125000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (488595655547/500000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (106180441917/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (223589031571/1000000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12780360934269/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12791865790179/1000000000000:ℝ) := by nlinarith
+  have hp1 : (4230295843199/200000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (4234104004037/200000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (898349364141/200000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (295843504323/62500000000:ℝ) := by nlinarith
+  have hN : (3514555509611/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (256956114027561/500000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (2319435994009/500000000000:ℝ) (256956114027561/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (814792219/10000000000000:ℝ) ≤ ((2319435994009/500000000000:ℝ)/(256956114027561/500000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (5097869699811/15625000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (3514555509611/1000000000000:ℝ) (5097869699811/15625000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (290097117/2500000000000:ℝ) ≤ ((3514555509611/1000000000000:ℝ)/(5097869699811/15625000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_923 (x : ℝ) (h₁ : (2595/512:ℝ) ≤ x) (h₂ : x ≤ (655/128:ℝ)) : (404289107/5000000000000:ℝ) ≤ wfun x := by
+theorem wc_910 (x : ℝ) (h₁ : (16663/4096:ℝ) ≤ x) (h₂ : x ≤ (16683/4096:ℝ)) : (1158993733/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (2147573103/10000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (3681553891/10000000000:ℝ) := by nlinarith
-  have hc1 : (93299279657/100000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (2139903199/10000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (1146650639/5000000000:ℝ) := by nlinarith
+  have hc1 : (973818890081/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (93299279657/100000000000:ℝ) ≤ taylorCos (3681553891/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (973818890081/1000000000000:ℝ) ≤ taylorCos (1146650639/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (977028144921/1000000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (488595655547/500000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (2147573103/10000000000:ℝ) + taylorErr ≤ (977028144921/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (2139903199/10000000000:ℝ) + taylorErr ≤ (488595655547/500000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (4262206353/20000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (106180441917/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (4262206353/20000000000:ℝ) ≤ taylorSin (2147573103/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (106180441917/500000000000:ℝ) ≤ taylorSin (2139903199/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (89973759701/250000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (113662621323/500000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (3681553891/10000000000:ℝ) + taylorErr ≤ (89973759701/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (1146650639/5000000000:ℝ) + taylorErr ≤ (113662621323/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-977028144921/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-93299279657/100000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-89973759701/250000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-4262206353/20000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (3980680144563/250000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (8038059328521/500000000000:ℝ) := by nlinarith
-  have hp1 : (5270415993807/200000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26605953928713/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-1196918852699/125000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5615900132939/1000000000000:ℝ) := by nlinarith
-  have hN : (2319435994009/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (973818890081/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (488595655547/500000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (106180441917/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (113662621323/500000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12780360934269/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12795700742149/1000000000000:ℝ) := by nlinarith
+  have hp1 : (4230295843199/200000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21176866860341/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (898349364141/200000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (481403639751/100000000000:ℝ) := by nlinarith
+  have hN : (3514555509611/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (128970795537647/250000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (2319435994009/500000000000:ℝ) (128970795537647/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (404289107/5000000000000:ℝ) ≤ ((2319435994009/500000000000:ℝ)/(128970795537647/250000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (65291982993053/200000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (3514555509611/1000000000000:ℝ) (65291982993053/200000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1158993733/10000000000000:ℝ) ≤ ((3514555509611/1000000000000:ℝ)/(65291982993053/200000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_924 (x : ℝ) (h₁ : (2595/512:ℝ) ≤ x) (h₂ : x ≤ (21/4:ℝ)) : (18241731/250000000000:ℝ) ≤ wfun x := by
+theorem wc_911 (x : ℝ) (h₁ : (16663/4096:ℝ) ≤ x) (h₂ : x ≤ (1043/256:ℝ)) : (1157601093/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (2147573103/10000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (3926990817/5000000000:ℝ) := by nlinarith
-  have hc1 : (88388347351/125000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (2139903199/10000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (1165825399/5000000000:ℝ) := by nlinarith
+  have hc1 : (486469974967/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (88388347351/125000000000:ℝ) ≤ taylorCos (3926990817/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (486469974967/500000000000:ℝ) ≤ taylorCos (1165825399/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (977028144921/1000000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (488595655547/500000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (2147573103/10000000000:ℝ) + taylorErr ≤ (977028144921/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (2139903199/10000000000:ℝ) + taylorErr ≤ (488595655547/500000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (4262206353/20000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (106180441917/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (4262206353/20000000000:ℝ) ≤ taylorSin (2147573103/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (106180441917/500000000000:ℝ) ≤ taylorSin (2139903199/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (176776695861/250000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (231058110583/1000000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (3926990817/5000000000:ℝ) + taylorErr ≤ (176776695861/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (1165825399/5000000000:ℝ) + taylorErr ≤ (231058110583/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-977028144921/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-88388347351/125000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-176776695861/250000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-4262206353/20000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (3980680144563/250000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (16493361431347/1000000000000:ℝ) := by nlinarith
-  have hp1 : (5270415993807/200000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (545929802751/20000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-9650766670237/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5615900132939/1000000000000:ℝ) := by nlinarith
-  have hN : (2319435994009/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (486469974967/500000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (488595655547/500000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (106180441917/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (231058110583/1000000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12780360934269/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (6399767847059/500000000000:ℝ) := by nlinarith
+  have hp1 : (4230295843199/200000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (10591606850247/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (898349364141/200000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (4894553333713/1000000000000:ℝ) := by nlinarith
+  have hN : (3514555509611/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (54306194261009/100000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (2319435994009/500000000000:ℝ) (54306194261009/100000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (18241731/250000000000:ℝ) ≤ ((2319435994009/500000000000:ℝ)/(54306194261009/100000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (163328113985001/500000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (3514555509611/1000000000000:ℝ) (163328113985001/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1157601093/10000000000000:ℝ) ≤ ((3514555509611/1000000000000:ℝ)/(163328113985001/500000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_925 (x : ℝ) (h₁ : (10381/2048:ℝ) ≤ x) (h₂ : x ≤ (20833/4096:ℝ)) : (168599037/2000000000000:ℝ) ≤ wfun x := by
+theorem wc_912 (x : ℝ) (h₁ : (66657/16384:ℝ) ≤ x) (h₂ : x ≤ (33341/8192:ℝ)) : (1175989937/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (216291291/1000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (2707476091/10000000000:ℝ) := by nlinarith
-  have hc1 : (481785606969/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (2149490579/10000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2197427479/10000000000:ℝ) := by nlinarith
+  have hc1 : (195190710961/200000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (481785606969/500000000000:ℝ) ≤ taylorCos (2707476091/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (195190710961/200000000000:ℝ) ≤ taylorCos (2197427479/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (976700088411/1000000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (976987263567/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (216291291/1000000000:ℝ) + taylorErr ≤ (976700088411/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (2149490579/10000000000:ℝ) + taylorErr ≤ (976987263567/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (107304404321/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (213297656533/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (107304404321/500000000000:ℝ) ≤ taylorSin (216291291/1000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (213297656533/1000000000000:ℝ) ≤ taylorSin (2149490579/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (66862972059/250000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (27247320807/125000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (2707476091/10000000000:ℝ) + taylorErr ≤ (66862972059/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2197427479/10000000000:ℝ) + taylorErr ≤ (27247320807/125000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-976700088411/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-481785606969/500000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-66862972059/250000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-107304404321/500000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (49763295497/3125000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (15978710877011/1000000000000:ℝ) := by nlinarith
-  have hp1 : (26354618705063/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (13222372094391/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-884087095901/125000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5655933322507/1000000000000:ℝ) := by nlinarith
-  have hN : (292452077131/62500000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (195190710961/200000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (976987263567/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (213297656533/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (27247320807/125000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12781319672261/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (799132085139/62500000000:ℝ) := by nlinarith
+  have hp1 : (21153065926011/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21160999759953/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (2255949695253/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (4612644392451/1000000000000:ℝ) := by nlinarith
+  have hN : (3534912126939/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (25481920129111/50000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (292452077131/62500000000:ℝ) (25481920129111/50000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (168599037/2000000000000:ℝ) ≤ ((292452077131/62500000000:ℝ)/(25481920129111/50000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (325969389823287/1000000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (3534912126939/1000000000000:ℝ) (325969389823287/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1175989937/10000000000000:ℝ) ≤ ((3534912126939/1000000000000:ℝ)/(325969389823287/1000000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_926 (x : ℝ) (h₁ : (10381/2048:ℝ) ≤ x) (h₂ : x ≤ (20873/4096:ℝ)) : (418269633/5000000000000:ℝ) ≤ wfun x := by
+theorem wc_913 (x : ℝ) (h₁ : (33331/8192:ℝ) ≤ x) (h₂ : x ≤ (66687/16384:ℝ)) : (594607679/5000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (216291291/1000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (3014272249/10000000000:ℝ) := by nlinarith
-  have hc1 : (954913740213/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1079538979/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2207014859/10000000000:ℝ) := by nlinarith
+  have hc1 : (487872060983/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (954913740213/1000000000000:ℝ) ≤ taylorCos (3014272249/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (487872060983/500000000000:ℝ) ≤ taylorCos (2207014859/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (976700088411/1000000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (244195579509/250000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (216291291/1000000000:ℝ) + taylorErr ≤ (976700088411/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1079538979/5000000000:ℝ) + taylorErr ≤ (244195579509/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (107304404321/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (8569369323/40000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (107304404321/500000000000:ℝ) ≤ taylorSin (216291291/1000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (8569369323/40000000000:ℝ) ≤ taylorSin (1079538979/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (296883387503/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (109457074947/500000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (3014272249/10000000000:ℝ) + taylorErr ≤ (296883387503/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2207014859/10000000000:ℝ) + taylorErr ≤ (109457074947/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-976700088411/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-954913740213/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-296883387503/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-107304404321/500000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (49763295497/3125000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (16009390492769/1000000000000:ℝ) := by nlinarith
-  have hp1 : (26354618705063/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (1324775945501/50000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-7866079407657/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5655933322507/1000000000000:ℝ) := by nlinarith
-  have hN : (292452077131/62500000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (487872060983/500000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (244195579509/250000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (8569369323/40000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (109457074947/500000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (6391139205127/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12787072100217/1000000000000:ℝ) := by nlinarith
+  have hp1 : (2115465263603/100000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (2645323308749/125000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4532050783447/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (4632789626637/1000000000000:ℝ) := by nlinarith
+  have hN : (3555268465411/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (20464046715997/40000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (292452077131/62500000000:ℝ) (20464046715997/40000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (418269633/5000000000000:ℝ) ≤ ((292452077131/62500000000:ℝ)/(20464046715997/40000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (40752303224037/125000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (3555268465411/1000000000000:ℝ) (40752303224037/125000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (594607679/5000000000000:ℝ) ≤ ((3555268465411/1000000000000:ℝ)/(40752303224037/125000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_927 (x : ℝ) (h₁ : (10381/2048:ℝ) ≤ x) (h₂ : x ≤ (2613/512:ℝ)) : (831578409/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_914 (x : ℝ) (h₁ : (33331/8192:ℝ) ≤ x) (h₂ : x ≤ (16673/4096:ℝ)) : (47554307/400000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (216291291/1000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (3252039271/10000000000:ℝ) := by nlinarith
-  have hc1 : (473792794367/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1079538979/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2216602239/10000000000:ℝ) := by nlinarith
+  have hc1 : (195106758449/200000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (473792794367/500000000000:ℝ) ≤ taylorCos (3252039271/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (195106758449/200000000000:ℝ) ≤ taylorCos (2216602239/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (976700088411/1000000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (244195579509/250000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (216291291/1000000000:ℝ) + taylorErr ≤ (976700088411/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1079538979/5000000000:ℝ) + taylorErr ≤ (244195579509/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (107304404321/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (8569369323/40000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (107304404321/500000000000:ℝ) ≤ taylorSin (216291291/1000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (8569369323/40000000000:ℝ) ≤ taylorSin (1079538979/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (319502033143/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (21984953211/100000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (3252039271/10000000000:ℝ) + taylorErr ≤ (319502033143/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2216602239/10000000000:ℝ) + taylorErr ≤ (21984953211/100000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-976700088411/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-473792794367/500000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-319502033143/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-107304404321/500000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (49763295497/3125000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (16033167194981/1000000000000:ℝ) := by nlinarith
-  have hp1 : (26354618705063/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26534869318979/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-4238972348299/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5655933322507/1000000000000:ℝ) := by nlinarith
-  have hN : (292452077131/62500000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (195106758449/200000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (244195579509/250000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (8569369323/40000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (21984953211/100000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (6391139205127/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12788030838209/1000000000000:ℝ) := by nlinarith
+  have hp1 : (2115465263603/100000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (2116417318003/100000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4532050783447/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (37223468569/8000000000:ℝ) := by nlinarith
+  have hN : (3555268465411/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (51312490060443/100000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (292452077131/62500000000:ℝ) (51312490060443/100000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (831578409/10000000000000:ℝ) ≤ ((292452077131/62500000000:ℝ)/(51312490060443/100000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (326067465437969/1000000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (3555268465411/1000000000000:ℝ) (326067465437969/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (47554307/400000000000:ℝ) ≤ ((3555268465411/1000000000000:ℝ)/(326067465437969/1000000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_928 (x : ℝ) (h₁ : (10381/2048:ℝ) ≤ x) (h₂ : x ≤ (1309/256:ℝ)) : (165046307/2000000000000:ℝ) ≤ wfun x := by
+theorem wc_915 (x : ℝ) (h₁ : (33331/8192:ℝ) ≤ x) (h₂ : x ≤ (33351/8192:ℝ)) : (594071357/5000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (216291291/1000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (889708857/2500000000:ℝ) := by nlinarith
-  have hc1 : (937339009647/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1079538979/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2235776999/10000000000:ℝ) := by nlinarith
+  have hc1 : (975110442927/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (937339009647/1000000000000:ℝ) ≤ taylorCos (889708857/2500000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (975110442927/1000000000000:ℝ) ≤ taylorCos (2235776999/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (976700088411/1000000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (244195579509/250000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (216291291/1000000000:ℝ) + taylorErr ≤ (976700088411/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1079538979/5000000000:ℝ) + taylorErr ≤ (244195579509/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (107304404321/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (8569369323/40000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (107304404321/500000000000:ℝ) ≤ taylorSin (216291291/1000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (8569369323/40000000000:ℝ) ≤ taylorSin (1079538979/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (348418682521/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (1385748059/6250000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (889708857/2500000000:ℝ) + taylorErr ≤ (348418682521/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2235776999/10000000000:ℝ) + taylorErr ≤ (1385748059/6250000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-976700088411/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-937339009647/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-348418682521/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-107304404321/500000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (49763295497/3125000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (16063846810739/1000000000000:ℝ) := by nlinarith
-  have hp1 : (26354618705063/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (13292822020109/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-4631467535233/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5655933322507/1000000000000:ℝ) := by nlinarith
-  have hN : (292452077131/62500000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (975110442927/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (244195579509/250000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (8569369323/40000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (1385748059/6250000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (6391139205127/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (6394974157097/500000000000:ℝ) := by nlinarith
+  have hp1 : (2115465263603/100000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (5291836650027/250000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4532050783447/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (938643502889/200000000000:ℝ) := by nlinarith
+  have hN : (3555268465411/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (25754717435889/50000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (292452077131/62500000000:ℝ) (25754717435889/50000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (165046307/2000000000000:ℝ) ≤ ((292452077131/62500000000:ℝ)/(25754717435889/50000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (81541388939877/250000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (3555268465411/1000000000000:ℝ) (81541388939877/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (594071357/5000000000000:ℝ) ≤ ((3555268465411/1000000000000:ℝ)/(81541388939877/250000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_929 (x : ℝ) (h₁ : (5191/1024:ℝ) ≤ x) (h₂ : x ≤ (20835/4096:ℝ)) : (214317369/2500000000000:ℝ) ≤ wfun x := by
+theorem wc_916 (x : ℝ) (h₁ : (33331/8192:ℝ) ≤ x) (h₂ : x ≤ (8339/2048:ℝ)) : (118742829/1000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (1089126359/5000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (2722815899/10000000000:ℝ) := by nlinarith
-  have hc1 : (963159814353/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1079538979/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2254951759/10000000000:ℝ) := by nlinarith
+  have hc1 : (121835438551/125000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (963159814353/1000000000000:ℝ) ≤ taylorCos (2722815899/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (121835438551/125000000000:ℝ) ≤ taylorCos (2254951759/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (976369733609/1000000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (244195579509/250000000000:ℝ) := by
+    have h := cos_upper (by norm_num) ht1 (by linarith)
+    have h2 : taylorCos (1079538979/5000000000:ℝ) + taylorErr ≤ (244195579509/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hs1 : (8569369323/40000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := sin_lower (by norm_num) ht1 (by linarith)
+    have h2 : (8569369323/40000000000:ℝ) ≤ taylorSin (1079538979/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (223589031571/1000000000000:ℝ) := by
+    have h := sin_upper (by linarith) ht2 (by norm_num)
+    have h2 : taylorSin (2254951759/10000000000:ℝ) + taylorErr ≤ (223589031571/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hcxl : (121835438551/125000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (244195579509/250000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (8569369323/40000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (223589031571/1000000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (6391139205127/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12791865790179/1000000000000:ℝ) := by nlinarith
+  have hp1 : (2115465263603/100000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (4234104004037/200000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4532050783447/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (295843504323/62500000000:ℝ) := by nlinarith
+  have hN : (3555268465411/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
+  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (5097869699811/15625000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (3555268465411/1000000000000:ℝ) (5097869699811/15625000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (118742829/1000000000000:ℝ) ≤ ((3555268465411/1000000000000:ℝ)/(5097869699811/15625000000:ℝ))^2 := by norm_num
+  linarith
+
+theorem wc_917 (x : ℝ) (h₁ : (66667/16384:ℝ) ≤ x) (h₂ : x ≤ (16673/4096:ℝ)) : (37578453/312500000000:ℝ) ≤ wfun x := by
+  have hpl := pi_lo
+  have hph := pi_hi
+  have hg := gam_bounds
+  have ht1 : (1084332669/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2216602239/10000000000:ℝ) := by nlinarith
+  have hc1 : (195106758449/200000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := cos_lower (by linarith) ht2 (by norm_num)
+    have h2 : (195106758449/200000000000:ℝ) ≤ taylorCos (2216602239/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (976576474647/1000000000000:ℝ) := by
+    have h := cos_upper (by norm_num) ht1 (by linarith)
+    have h2 : taylorCos (1084332669/5000000000:ℝ) + taylorErr ≤ (976576474647/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hs1 : (53792653199/250000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := sin_lower (by norm_num) ht1 (by linarith)
+    have h2 : (53792653199/250000000000:ℝ) ≤ taylorSin (1084332669/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (21984953211/100000000000:ℝ) := by
+    have h := sin_upper (by linarith) ht2 (by norm_num)
+    have h2 : taylorSin (2216602239/10000000000:ℝ) + taylorErr ≤ (21984953211/100000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hcxl : (195106758449/200000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (976576474647/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (53792653199/250000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (21984953211/100000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (6391618574123/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12788030838209/1000000000000:ℝ) := by nlinarith
+  have hp1 : (10578119673023/500000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (2116417318003/100000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4552200984547/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (37223468569/8000000000:ℝ) := by nlinarith
+  have hN : (35756245099/10000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
+  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (326067465437969/1000000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (35756245099/10000000000:ℝ) (326067465437969/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (37578453/312500000000:ℝ) ≤ ((35756245099/10000000000:ℝ)/(326067465437969/1000000000000:ℝ))^2 := by norm_num
+  linarith
+
+theorem wc_918 (x : ℝ) (h₁ : (4167/1024:ℝ) ≤ x) (h₂ : x ≤ (16673/4096:ℝ)) : (24324821/200000000000:ℝ) ≤ wfun x := by
+  have hpl := pi_lo
+  have hph := pi_hi
+  have hg := gam_bounds
+  have ht1 : (1089126359/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2216602239/10000000000:ℝ) := by nlinarith
+  have hc1 : (195106758449/200000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := cos_lower (by linarith) ht2 (by norm_num)
+    have h2 : (195106758449/200000000000:ℝ) ≤ taylorCos (2216602239/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (976369733609/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
     have h2 : taylorCos (1089126359/5000000000:ℝ) + taylorErr ≤ (976369733609/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
     have h2 : (13506674671/62500000000:ℝ) ≤ taylorSin (1089126359/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (268929672731/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (21984953211/100000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (2722815899/10000000000:ℝ) + taylorErr ≤ (268929672731/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2216602239/10000000000:ℝ) + taylorErr ≤ (21984953211/100000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-976369733609/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-963159814353/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-268929672731/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-13506674671/62500000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (3981447134957/250000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (15980244857799/1000000000000:ℝ) := by nlinarith
-  have hp1 : (26357157441091/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (6611820731211/250000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-7112459141603/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-2847980406473/500000000000:ℝ) := by nlinarith
-  have hN : (4719591079337/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (195106758449/200000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (976369733609/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (21984953211/100000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (6392097943119/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12788030838209/1000000000000:ℝ) := by nlinarith
+  have hp1 : (21157826056063/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (2116417318003/100000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4572349972557/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (37223468569/8000000000:ℝ) := by nlinarith
+  have hN : (898995059737/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (509736451430423/1000000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (4719591079337/1000000000000:ℝ) (509736451430423/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (214317369/2500000000000:ℝ) ≤ ((4719591079337/1000000000000:ℝ)/(509736451430423/1000000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (326067465437969/1000000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (898995059737/250000000000:ℝ) (326067465437969/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (24324821/200000000000:ℝ) ≤ ((898995059737/250000000000:ℝ)/(326067465437969/1000000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_930 (x : ℝ) (h₁ : (10383/2048:ℝ) ≤ x) (h₂ : x ≤ (5227/1024:ℝ)) : (429927023/5000000000000:ℝ) ≤ wfun x := by
+theorem wc_919 (x : ℝ) (h₁ : (4167/1024:ℝ) ≤ x) (h₂ : x ≤ (66697/16384:ℝ)) : (1215875267/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (1096796263/5000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (3282718887/10000000000:ℝ) := by nlinarith
-  have hc1 : (946600910791/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1089126359/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2226189619/10000000000:ℝ) := by nlinarith
+  have hc1 : (487661282917/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (946600910791/1000000000000:ℝ) ≤ taylorCos (3282718887/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (487661282917/500000000000:ℝ) ≤ taylorCos (2226189619/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (244009270329/250000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (976369733609/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (1096796263/5000000000:ℝ) + taylorErr ≤ (244009270329/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1089126359/5000000000:ℝ) + taylorErr ≤ (976369733609/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (21760427231/100000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (21760427231/100000000000:ℝ) ≤ taylorSin (1096796263/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (13506674671/62500000000:ℝ) ≤ taylorSin (1089126359/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (322407681151/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (110392356123/500000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (3282718887/10000000000:ℝ) + taylorErr ≤ (322407681151/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2226189619/10000000000:ℝ) + taylorErr ≤ (110392356123/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-244009270329/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-946600910791/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-322407681151/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-21760427231/100000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (1990915315077/125000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (16036235156557/1000000000000:ℝ) := by nlinarith
-  have hp1 : (26359696177119/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (414686668611/15625000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-8556682702791/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-2867991252467/500000000000:ℝ) := by nlinarith
-  have hN : (2379972711809/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (487661282917/500000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (976369733609/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (110392356123/500000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (6392097943119/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (6394494788101/500000000000:ℝ) := by nlinarith
+  have hp1 : (21157826056063/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (2116575989007/100000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4572349972557/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (2336538103399/500000000000:ℝ) := by nlinarith
+  have hN : (898995059737/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (51332167599279/100000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (2379972711809/500000000000:ℝ) (51332167599279/100000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (429927023/5000000000000:ℝ) ≤ ((2379972711809/500000000000:ℝ)/(51332167599279/100000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (326116508760407/1000000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (898995059737/250000000000:ℝ) (326116508760407/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1215875267/10000000000000:ℝ) ≤ ((898995059737/250000000000:ℝ)/(326116508760407/1000000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_931 (x : ℝ) (h₁ : (10383/2048:ℝ) ≤ x) (h₂ : x ≤ (5237/1024:ℝ)) : (853292617/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_920 (x : ℝ) (h₁ : (4167/1024:ℝ) ≤ x) (h₂ : x ≤ (33351/8192:ℝ)) : (1215509621/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (1096796263/5000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (897378761/2500000000:ℝ) := by nlinarith
-  have hc1 : (7314575507/7812500000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1089126359/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2235776999/10000000000:ℝ) := by nlinarith
+  have hc1 : (975110442927/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (7314575507/7812500000:ℝ) ≤ taylorCos (897378761/2500000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (975110442927/1000000000000:ℝ) ≤ taylorCos (2235776999/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (244009270329/250000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (976369733609/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (1096796263/5000000000:ℝ) + taylorErr ≤ (244009270329/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1089126359/5000000000:ℝ) + taylorErr ≤ (976369733609/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (21760427231/100000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (21760427231/100000000000:ℝ) ≤ taylorSin (1096796263/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (13506674671/62500000000:ℝ) ≤ taylorSin (1089126359/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (17564637919/50000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (1385748059/6250000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (897378761/2500000000:ℝ) + taylorErr ≤ (17564637919/50000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2235776999/10000000000:ℝ) + taylorErr ≤ (1385748059/6250000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-244009270329/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-7314575507/7812500000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-17564637919/50000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-21760427231/100000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (1990915315077/125000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (3213382954463/200000000000:ℝ) := by nlinarith
-  have hp1 : (26359696177119/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (13295360756171/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-4670563953693/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-2867991252467/500000000000:ℝ) := by nlinarith
-  have hN : (2379972711809/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (975110442927/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (976369733609/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (1385748059/6250000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (6392097943119/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (6394974157097/500000000000:ℝ) := by nlinarith
+  have hp1 : (21157826056063/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (5291836650027/250000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4572349972557/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (938643502889/200000000000:ℝ) := by nlinarith
+  have hN : (898995059737/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (128822875150417/250000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (2379972711809/500000000000:ℝ) (128822875150417/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (853292617/10000000000000:ℝ) ≤ ((2379972711809/500000000000:ℝ)/(128822875150417/250000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (81541388939877/250000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (898995059737/250000000000:ℝ) (81541388939877/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1215509621/10000000000000:ℝ) ≤ ((898995059737/250000000000:ℝ)/(81541388939877/250000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_932 (x : ℝ) (h₁ : (41537/8192:ℝ) ≤ x) (h₂ : x ≤ (2603/512:ℝ)) : (55778547/625000000000:ℝ) ≤ wfun x := by
+theorem wc_921 (x : ℝ) (h₁ : (4167/1024:ℝ) ≤ x) (h₂ : x ≤ (8339/2048:ℝ)) : (1214778741/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (1106383643/5000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (659611739/2500000000:ℝ) := by nlinarith
-  have hc1 : (482697219707/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1089126359/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2254951759/10000000000:ℝ) := by nlinarith
+  have hc1 : (121835438551/125000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := cos_lower (by linarith) ht2 (by norm_num)
+    have h2 : (121835438551/125000000000:ℝ) ≤ taylorCos (2254951759/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (976369733609/1000000000000:ℝ) := by
+    have h := cos_upper (by norm_num) ht1 (by linarith)
+    have h2 : taylorCos (1089126359/5000000000:ℝ) + taylorErr ≤ (976369733609/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hs1 : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := sin_lower (by norm_num) ht1 (by linarith)
+    have h2 : (13506674671/62500000000:ℝ) ≤ taylorSin (1089126359/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (223589031571/1000000000000:ℝ) := by
+    have h := sin_upper (by linarith) ht2 (by norm_num)
+    have h2 : taylorSin (2254951759/10000000000:ℝ) + taylorErr ≤ (223589031571/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hcxl : (121835438551/125000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (976369733609/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (223589031571/1000000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (6392097943119/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12791865790179/1000000000000:ℝ) := by nlinarith
+  have hp1 : (21157826056063/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (4234104004037/200000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4572349972557/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (295843504323/62500000000:ℝ) := by nlinarith
+  have hN : (898995059737/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
+  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (5097869699811/15625000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (898995059737/250000000000:ℝ) (5097869699811/15625000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1214778741/10000000000000:ℝ) ≤ ((898995059737/250000000000:ℝ)/(5097869699811/15625000000:ℝ))^2 := by norm_num
+  linarith
+
+theorem wc_922 (x : ℝ) (h₁ : (4167/1024:ℝ) ≤ x) (h₂ : x ≤ (33361/8192:ℝ)) : (303512103/2500000000000:ℝ) ≤ wfun x := by
+  have hpl := pi_lo
+  have hph := pi_hi
+  have hg := gam_bounds
+  have ht1 : (1089126359/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2274126519/10000000000:ℝ) := by nlinarith
+  have hc1 : (487126495129/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := cos_lower (by linarith) ht2 (by norm_num)
+    have h2 : (487126495129/500000000000:ℝ) ≤ taylorCos (2274126519/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (976369733609/1000000000000:ℝ) := by
+    have h := cos_upper (by norm_num) ht1 (by linarith)
+    have h2 : taylorCos (1089126359/5000000000:ℝ) + taylorErr ≤ (976369733609/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hs1 : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := sin_lower (by norm_num) ht1 (by linarith)
+    have h2 : (13506674671/62500000000:ℝ) ≤ taylorSin (1089126359/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (56364387907/250000000000:ℝ) := by
+    have h := sin_upper (by linarith) ht2 (by norm_num)
+    have h2 : taylorSin (2274126519/10000000000:ℝ) + taylorErr ≤ (56364387907/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hcxl : (487126495129/500000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (976369733609/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (56364387907/250000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (6392097943119/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (3198445816541/250000000000:ℝ) := by nlinarith
+  have hp1 : (21157826056063/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21173693440263/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4572349972557/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (1193442270491/250000000000:ℝ) := by nlinarith
+  have hN : (898995059737/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
+  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (81590445130789/250000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (898995059737/250000000000:ℝ) (81590445130789/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (303512103/2500000000000:ℝ) ≤ ((898995059737/250000000000:ℝ)/(81590445130789/250000000000:ℝ))^2 := by norm_num
+  linarith
+
+theorem wc_923 (x : ℝ) (h₁ : (4167/1024:ℝ) ≤ x) (h₂ : x ≤ (16683/4096:ℝ)) : (1213318631/10000000000000:ℝ) ≤ wfun x := by
+  have hpl := pi_lo
+  have hph := pi_hi
+  have hg := gam_bounds
+  have ht1 : (1089126359/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (1146650639/5000000000:ℝ) := by nlinarith
+  have hc1 : (973818890081/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := cos_lower (by linarith) ht2 (by norm_num)
+    have h2 : (973818890081/1000000000000:ℝ) ≤ taylorCos (1146650639/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (976369733609/1000000000000:ℝ) := by
+    have h := cos_upper (by norm_num) ht1 (by linarith)
+    have h2 : taylorCos (1089126359/5000000000:ℝ) + taylorErr ≤ (976369733609/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hs1 : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := sin_lower (by norm_num) ht1 (by linarith)
+    have h2 : (13506674671/62500000000:ℝ) ≤ taylorSin (1089126359/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (113662621323/500000000000:ℝ) := by
+    have h := sin_upper (by linarith) ht2 (by norm_num)
+    have h2 : taylorSin (1146650639/5000000000:ℝ) + taylorErr ≤ (113662621323/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hcxl : (973818890081/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (976369733609/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (113662621323/500000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (6392097943119/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12795700742149/1000000000000:ℝ) := by nlinarith
+  have hp1 : (21157826056063/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21176866860341/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4572349972557/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (481403639751/100000000000:ℝ) := by nlinarith
+  have hN : (898995059737/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
+  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (65291982993053/200000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (898995059737/250000000000:ℝ) (65291982993053/200000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1213318631/10000000000000:ℝ) ≤ ((898995059737/250000000000:ℝ)/(65291982993053/200000000000:ℝ))^2 := by norm_num
+  linarith
+
+theorem wc_924 (x : ℝ) (h₁ : (4167/1024:ℝ) ≤ x) (h₂ : x ≤ (1043/256:ℝ)) : (242372143/2000000000000:ℝ) ≤ wfun x := by
+  have hpl := pi_lo
+  have hph := pi_hi
+  have hg := gam_bounds
+  have ht1 : (1089126359/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (1165825399/5000000000:ℝ) := by nlinarith
+  have hc1 : (486469974967/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := cos_lower (by linarith) ht2 (by norm_num)
+    have h2 : (486469974967/500000000000:ℝ) ≤ taylorCos (1165825399/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (976369733609/1000000000000:ℝ) := by
+    have h := cos_upper (by norm_num) ht1 (by linarith)
+    have h2 : taylorCos (1089126359/5000000000:ℝ) + taylorErr ≤ (976369733609/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hs1 : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := sin_lower (by norm_num) ht1 (by linarith)
+    have h2 : (13506674671/62500000000:ℝ) ≤ taylorSin (1089126359/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (231058110583/1000000000000:ℝ) := by
+    have h := sin_upper (by linarith) ht2 (by norm_num)
+    have h2 : taylorSin (1165825399/5000000000:ℝ) + taylorErr ≤ (231058110583/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hcxl : (486469974967/500000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (976369733609/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (231058110583/1000000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (6392097943119/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (6399767847059/500000000000:ℝ) := by nlinarith
+  have hp1 : (21157826056063/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (10591606850247/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4572349972557/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (4894553333713/1000000000000:ℝ) := by nlinarith
+  have hN : (898995059737/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
+  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (163328113985001/500000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (898995059737/250000000000:ℝ) (163328113985001/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (242372143/2000000000000:ℝ) ≤ ((898995059737/250000000000:ℝ)/(163328113985001/500000000000:ℝ))^2 := by norm_num
+  linarith
+
+theorem wc_925 (x : ℝ) (h₁ : (4167/1024:ℝ) ≤ x) (h₂ : x ≤ (16693/4096:ℝ)) : (121040499/1000000000000:ℝ) ≤ wfun x := by
+  have hpl := pi_lo
+  have hph := pi_hi
+  have hg := gam_bounds
+  have ht1 : (1089126359/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (1185000159/5000000000:ℝ) := by nlinarith
+  have hc1 : (243011675229/250000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := cos_lower (by linarith) ht2 (by norm_num)
+    have h2 : (243011675229/250000000000:ℝ) ≤ taylorCos (1185000159/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (976369733609/1000000000000:ℝ) := by
+    have h := cos_upper (by norm_num) ht1 (by linarith)
+    have h2 : taylorCos (1089126359/5000000000:ℝ) + taylorErr ≤ (976369733609/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hs1 : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := sin_lower (by norm_num) ht1 (by linarith)
+    have h2 : (13506674671/62500000000:ℝ) ≤ taylorSin (1089126359/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (117393790193/500000000000:ℝ) := by
+    have h := sin_upper (by linarith) ht2 (by norm_num)
+    have h2 : taylorSin (1185000159/5000000000:ℝ) + taylorErr ≤ (117393790193/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hcxl : (243011675229/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (976369733609/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (117393790193/500000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (6392097943119/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (1600421330761/125000000000:ℝ) := by nlinarith
+  have hp1 : (21157826056063/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21189560540649/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4572349972557/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (2487522824391/500000000000:ℝ) := by nlinarith
+  have hN : (898995059737/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
+  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (40856574975277/125000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (898995059737/250000000000:ℝ) (40856574975277/125000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (121040499/1000000000000:ℝ) ≤ ((898995059737/250000000000:ℝ)/(40856574975277/125000000000:ℝ))^2 := by norm_num
+  linarith
+
+theorem wc_926 (x : ℝ) (h₁ : (4167/1024:ℝ) ≤ x) (h₂ : x ≤ (8349/2048:ℝ)) : (1208951451/10000000000000:ℝ) ≤ wfun x := by
+  have hpl := pi_lo
+  have hph := pi_hi
+  have hg := gam_bounds
+  have ht1 : (1089126359/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2408349837/10000000000:ℝ) := by nlinarith
+  have hc1 : (971139156187/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := cos_lower (by linarith) ht2 (by norm_num)
+    have h2 : (971139156187/1000000000000:ℝ) ≤ taylorCos (2408349837/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (976369733609/1000000000000:ℝ) := by
+    have h := cos_upper (by norm_num) ht1 (by linarith)
+    have h2 : taylorCos (1089126359/5000000000:ℝ) + taylorErr ≤ (976369733609/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hs1 : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := sin_lower (by norm_num) ht1 (by linarith)
+    have h2 : (13506674671/62500000000:ℝ) ≤ taylorSin (1089126359/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (59628399277/250000000000:ℝ) := by
+    have h := sin_upper (by linarith) ht2 (by norm_num)
+    have h2 : taylorSin (2408349837/10000000000:ℝ) + taylorErr ≤ (59628399277/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hcxl : (971139156187/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (976369733609/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (59628399277/250000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (6392097943119/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (6403602799029/500000000000:ℝ) := by nlinarith
+  have hp1 : (21157826056063/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (4239181476161/200000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4572349972557/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (1263878028341/250000000000:ℝ) := by nlinarith
+  have hN : (898995059737/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
+  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (327049030461857/1000000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (898995059737/250000000000:ℝ) (327049030461857/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1208951451/10000000000000:ℝ) ≤ ((898995059737/250000000000:ℝ)/(327049030461857/1000000000000:ℝ))^2 := by norm_num
+  linarith
+
+theorem wc_927 (x : ℝ) (h₁ : (4167/1024:ℝ) ≤ x) (h₂ : x ≤ (4177/1024:ℝ)) : (1206050917/10000000000000:ℝ) ≤ wfun x := by
+  have hpl := pi_lo
+  have hph := pi_hi
+  have hg := gam_bounds
+  have ht1 : (1089126359/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2485048877/10000000000:ℝ) := by nlinarith
+  have hc1 : (969281233079/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := cos_lower (by linarith) ht2 (by norm_num)
+    have h2 : (969281233079/1000000000000:ℝ) ≤ taylorCos (2485048877/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (976369733609/1000000000000:ℝ) := by
+    have h := cos_upper (by norm_num) ht1 (by linarith)
+    have h2 : taylorCos (1089126359/5000000000:ℝ) + taylorErr ≤ (976369733609/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hs1 : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := sin_lower (by norm_num) ht1 (by linarith)
+    have h2 : (13506674671/62500000000:ℝ) ≤ taylorSin (1089126359/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (245955052659/1000000000000:ℝ) := by
+    have h := sin_upper (by linarith) ht2 (by norm_num)
+    have h2 : taylorSin (2485048877/10000000000:ℝ) + taylorErr ≤ (245955052659/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hcxl : (969281233079/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (976369733609/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (245955052659/1000000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (6392097943119/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12814875501997/1000000000000:ℝ) := by nlinarith
+  have hp1 : (21157826056063/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21208601061113/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4572349972557/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (521636259081/100000000000:ℝ) := by nlinarith
+  have hN : (898995059737/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
+  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (163721034131683/500000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (898995059737/250000000000:ℝ) (163721034131683/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1206050917/10000000000000:ℝ) ≤ ((898995059737/250000000000:ℝ)/(163721034131683/500000000000:ℝ))^2 := by norm_num
+  linarith
+
+theorem wc_928 (x : ℝ) (h₁ : (4167/1024:ℝ) ≤ x) (h₂ : x ≤ (8359/2048:ℝ)) : (1203159081/10000000000000:ℝ) ≤ wfun x := by
+  have hpl := pi_lo
+  have hph := pi_hi
+  have hg := gam_bounds
+  have ht1 : (1089126359/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (640436979/2500000000:ℝ) := by nlinarith
+  have hc1 : (483683144977/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := cos_lower (by linarith) ht2 (by norm_num)
+    have h2 : (483683144977/500000000000:ℝ) ≤ taylorCos (640436979/2500000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (976369733609/1000000000000:ℝ) := by
+    have h := cos_upper (by norm_num) ht1 (by linarith)
+    have h2 : taylorCos (1089126359/5000000000:ℝ) + taylorErr ≤ (976369733609/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hs1 : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := sin_lower (by norm_num) ht1 (by linarith)
+    have h2 : (13506674671/62500000000:ℝ) ≤ taylorSin (1089126359/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (3167275491/12500000000:ℝ) := by
+    have h := sin_upper (by linarith) ht2 (by norm_num)
+    have h2 : taylorSin (640436979/2500000000:ℝ) + taylorErr ≤ (3167275491/12500000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hcxl : (483683144977/500000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (976369733609/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (3167275491/12500000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (6392097943119/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12822545405937/1000000000000:ℝ) := by nlinarith
+  have hp1 : (21157826056063/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (1326330921339/62500000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4572349972557/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (336068433609/62500000000:ℝ) := by nlinarith
+  have hN : (898995059737/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
+  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (327835341374633/1000000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (898995059737/250000000000:ℝ) (327835341374633/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1203159081/10000000000000:ℝ) ≤ ((898995059737/250000000000:ℝ)/(327835341374633/1000000000000:ℝ))^2 := by norm_num
+  linarith
+
+theorem wc_929 (x : ℝ) (h₁ : (4167/1024:ℝ) ≤ x) (h₂ : x ≤ (2091/512:ℝ)) : (600137957/5000000000000:ℝ) ≤ wfun x := by
+  have hpl := pi_lo
+  have hph := pi_hi
+  have hg := gam_bounds
+  have ht1 : (1089126359/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (659611739/2500000000:ℝ) := by nlinarith
+  have hc1 : (482697219707/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
     have h2 : (482697219707/500000000000:ℝ) ≤ taylorCos (659611739/2500000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (975618036293/1000000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (976369733609/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (1106383643/5000000000:ℝ) + taylorErr ≤ (975618036293/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1089126359/5000000000:ℝ) + taylorErr ≤ (976369733609/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (219475398803/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (219475398803/1000000000000:ℝ) ≤ taylorSin (1106383643/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (13506674671/62500000000:ℝ) ≤ taylorSin (1089126359/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (130397060129/500000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (130397060129/500000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
     have h2 : taylorSin (659611739/2500000000:ℝ) + taylorErr ≤ (130397060129/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-975618036293/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-482697219707/500000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-130397060129/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-219475398803/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15929239996601/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (7985903981733/500000000000:ℝ) := by nlinarith
-  have hp1 : (13181434798577/500000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (3304164984563/125000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-1723413600673/250000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-2893000659213/500000000000:ℝ) := by nlinarith
-  have hN : (4810383282133/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (482697219707/500000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (976369733609/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (130397060129/500000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (6392097943119/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (3207553827469/250000000000:ℝ) := by nlinarith
+  have hp1 : (21157826056063/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21233988421733/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4572349972557/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (1107539866003/200000000000:ℝ) := by nlinarith
+  have hN : (898995059737/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (63649662405459/125000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (4810383282133/1000000000000:ℝ) (63649662405459/125000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (55778547/625000000000:ℝ) ≤ ((4810383282133/1000000000000:ℝ)/(63649662405459/125000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (164114424897777/500000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (898995059737/250000000000:ℝ) (164114424897777/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (600137957/5000000000000:ℝ) ≤ ((898995059737/250000000000:ℝ)/(164114424897777/500000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_933 (x : ℝ) (h₁ : (20773/4096:ℝ) ≤ x) (h₂ : x ≤ (5211/1024:ℝ)) : (461449393/5000000000000:ℝ) ≤ wfun x := by
+theorem wc_930 (x : ℝ) (h₁ : (4167/1024:ℝ) ≤ x) (h₂ : x ≤ (4187/1024:ℝ)) : (37329233/312500000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (1123640927/5000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (1395922517/5000000000:ℝ) := by nlinarith
-  have hc1 : (240320120887/250000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1089126359/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (1395922517/5000000000:ℝ) := by nlinarith
+  have hc1 : (240320120887/250000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
     have h2 : (240320120887/250000000000:ℝ) ≤ taylorCos (1395922517/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (487427358443/500000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (976369733609/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (1123640927/5000000000:ℝ) + taylorErr ≤ (487427358443/500000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1089126359/5000000000:ℝ) + taylorErr ≤ (976369733609/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (222841388361/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (222841388361/1000000000000:ℝ) ≤ taylorSin (1123640927/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (13506674671/62500000000:ℝ) ≤ taylorSin (1089126359/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (137785910789/500000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (137785910789/500000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
     have h2 : taylorSin (1395922517/5000000000:ℝ) + taylorErr ≤ (137785910789/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-487427358443/500000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-240320120887/250000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-137785910789/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-222841388361/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (7966345726687/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (3197429554269/200000000000:ℝ) := by nlinarith
-  have hp1 : (26368581753217/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26458707237123/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-7291274149933/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5876011366997/1000000000000:ℝ) := by nlinarith
-  have hN : (4901156650111/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (240320120887/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (976369733609/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (137785910789/500000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (6392097943119/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (2569111023551/200000000000:ℝ) := by nlinarith
+  have hp1 : (21157826056063/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (1328710986397/62500000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4572349972557/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (2929242454977/500000000000:ℝ) := by nlinarith
+  have hN : (898995059737/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (510177787725643/1000000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (4901156650111/1000000000000:ℝ) (510177787725643/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (461449393/5000000000000:ℝ) ≤ ((4901156650111/1000000000000:ℝ)/(510177787725643/1000000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (82254143141641/250000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (898995059737/250000000000:ℝ) (82254143141641/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (37329233/312500000000:ℝ) ≤ ((898995059737/250000000000:ℝ)/(82254143141641/250000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_934 (x : ℝ) (h₁ : (20773/4096:ℝ) ≤ x) (h₂ : x ≤ (163/32:ℝ)) : (459679121/5000000000000:ℝ) ≤ wfun x := by
+theorem wc_931 (x : ℝ) (h₁ : (4167/1024:ℝ) ≤ x) (h₂ : x ≤ (131/32:ℝ)) : (74301831/625000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (1123640927/5000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (2945243113/10000000000:ℝ) := by nlinarith
-  have hc1 : (956940333463/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1089126359/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2945243113/10000000000:ℝ) := by nlinarith
+  have hc1 : (956940333463/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
     have h2 : (956940333463/1000000000000:ℝ) ≤ taylorCos (2945243113/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (487427358443/500000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (976369733609/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (1123640927/5000000000:ℝ) + taylorErr ≤ (487427358443/500000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1089126359/5000000000:ℝ) + taylorErr ≤ (976369733609/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (222841388361/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (222841388361/1000000000000:ℝ) ≤ taylorSin (1123640927/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (13506674671/62500000000:ℝ) ≤ taylorSin (1089126359/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (290284679541/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (290284679541/1000000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
     have h2 : taylorSin (2945243113/10000000000:ℝ) + taylorErr ≤ (290284679541/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-487427358443/500000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-956940333463/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-290284679541/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-222841388361/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (7966345726687/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (2000310947403/125000000000:ℝ) := by nlinarith
-  have hp1 : (26368581753217/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26484094597743/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-192198172831/25000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5876011366997/1000000000000:ℝ) := by nlinarith
-  have hN : (4901156650111/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (956940333463/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (976369733609/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (13506674671/62500000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (290284679541/1000000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (6392097943119/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (6430447462817/500000000000:ℝ) := by nlinarith
+  have hp1 : (21157826056063/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21284763142971/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4572349972557/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (48270630063/7812500000:ℝ) := by nlinarith
+  have hN : (898995059737/250000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (511159217446437/1000000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (4901156650111/1000000000000:ℝ) (511159217446437/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (459679121/5000000000000:ℝ) ≤ ((4901156650111/1000000000000:ℝ)/(511159217446437/1000000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (329805236576397/1000000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (898995059737/250000000000:ℝ) (329805236576397/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (74301831/625000000000:ℝ) ≤ ((898995059737/250000000000:ℝ)/(329805236576397/1000000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_935 (x : ℝ) (h₁ : (20775/4096:ℝ) ≤ x) (h₂ : x ≤ (10433/2048:ℝ)) : (23354863/250000000000:ℝ) ≤ wfun x := by
+theorem wc_932 (x : ℝ) (h₁ : (66677/16384:ℝ) ≤ x) (h₂ : x ≤ (66697/16384:ℝ)) : (245935877/2000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (1131310831/5000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (2960582921/10000000000:ℝ) := by nlinarith
-  have hc1 : (956493916629/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1093920049/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2226189619/10000000000:ℝ) := by nlinarith
+  have hc1 : (487661282917/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (956493916629/1000000000000:ℝ) ≤ taylorCos (2960582921/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (487661282917/500000000000:ℝ) ≤ taylorCos (2226189619/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (487255867821/500000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (488081047557/500000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (1131310831/5000000000:ℝ) + taylorErr ≤ (487255867821/500000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1093920049/5000000000:ℝ) + taylorErr ≤ (488081047557/500000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (112168267003/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (54260694509/250000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (112168267003/500000000000:ℝ) ≤ taylorSin (1131310831/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (54260694509/250000000000:ℝ) ≤ taylorSin (1093920049/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (145876132767/500000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (110392356123/500000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (2960582921/10000000000:ℝ) + taylorErr ≤ (145876132767/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2226189619/10000000000:ℝ) + taylorErr ≤ (110392356123/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-487255867821/500000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-956493916629/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-145876132767/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-112168267003/500000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (7967112717081/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (16004021560011/1000000000000:ℝ) := by nlinarith
-  have hp1 : (5274224097849/200000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26486633333803/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-3863767640753/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-5916005768411/1000000000000:ℝ) := by nlinarith
-  have hN : (4941494032769/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (487661282917/500000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (488081047557/500000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (54260694509/250000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (110392356123/500000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12785154624231/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (6394494788101/500000000000:ℝ) := by nlinarith
+  have hp1 : (21159412766081/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (2116575989007/100000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (114812443209/25000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (2336538103399/500000000000:ℝ) := by nlinarith
+  have hN : (1808167816623/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (255628706093297/500000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (4941494032769/1000000000000:ℝ) (255628706093297/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (23354863/250000000000:ℝ) ≤ ((4941494032769/1000000000000:ℝ)/(255628706093297/500000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (326116508760407/1000000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (1808167816623/500000000000:ℝ) (326116508760407/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (245935877/2000000000000:ℝ) ≤ ((1808167816623/500000000000:ℝ)/(326116508760407/1000000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_936 (x : ℝ) (h₁ : (5195/1024:ℝ) ≤ x) (h₂ : x ≤ (1305/256:ℝ)) : (194018909/2000000000000:ℝ) ≤ wfun x := by
+theorem wc_933 (x : ℝ) (h₁ : (66677/16384:ℝ) ≤ x) (h₂ : x ≤ (33351/8192:ℝ)) : (307327397/2500000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (2300971181/10000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (383495197/1250000000:ℝ) := by nlinarith
-  have hc1 : (190661207617/200000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1093920049/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2235776999/10000000000:ℝ) := by nlinarith
+  have hc1 : (975110442927/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (190661207617/200000000000:ℝ) ≤ taylorCos (383495197/1250000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (975110442927/1000000000000:ℝ) ≤ taylorCos (2235776999/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (243411062983/250000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (488081047557/500000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (2300971181/10000000000:ℝ) + taylorErr ≤ (243411062983/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1093920049/5000000000:ℝ) + taylorErr ≤ (488081047557/500000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (57018020207/250000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (54260694509/250000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (57018020207/250000000000:ℝ) ≤ taylorSin (2300971181/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (54260694509/250000000000:ℝ) ≤ taylorSin (1093920049/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (302005951603/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (1385748059/6250000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (383495197/1250000000:ℝ) + taylorErr ≤ (302005951603/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2235776999/10000000000:ℝ) + taylorErr ≤ (1385748059/6250000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-243411062983/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-190661207617/200000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-302005951603/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-57018020207/250000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15938060386131/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (16014759425527/1000000000000:ℝ) := by nlinarith
-  have hp1 : (13188733664657/500000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (13252202243119/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-4002243949269/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-6015963860769/1000000000000:ℝ) := by nlinarith
-  have hN : (5042319608837/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (975110442927/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (488081047557/500000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (54260694509/250000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (1385748059/6250000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12785154624231/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (6394974157097/500000000000:ℝ) := by nlinarith
+  have hp1 : (21159412766081/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (5291836650027/250000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (114812443209/25000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (938643502889/200000000000:ℝ) := by nlinarith
+  have hN : (1808167816623/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (127986259728753/250000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (5042319608837/1000000000000:ℝ) (127986259728753/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (194018909/2000000000000:ℝ) ≤ ((5042319608837/1000000000000:ℝ)/(127986259728753/250000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (81541388939877/250000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (1808167816623/500000000000:ℝ) (81541388939877/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (307327397/2500000000000:ℝ) ≤ ((1808167816623/500000000000:ℝ)/(81541388939877/250000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_937 (x : ℝ) (h₁ : (5195/1024:ℝ) ≤ x) (h₂ : x ≤ (2633/512:ℝ)) : (936576257/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_934 (x : ℝ) (h₁ : (33341/8192:ℝ) ≤ x) (h₂ : x ≤ (33351/8192:ℝ)) : (1243187209/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (2300971181/10000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (4479223901/10000000000:ℝ) := by nlinarith
-  have hc1 : (28167151399/31250000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1098713739/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2235776999/10000000000:ℝ) := by nlinarith
+  have hc1 : (975110442927/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (28167151399/31250000000:ℝ) ≤ taylorCos (4479223901/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (975110442927/1000000000000:ℝ) ≤ taylorCos (2235776999/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (243411062983/250000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (975953559351/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (2300971181/10000000000:ℝ) + taylorErr ≤ (243411062983/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1098713739/5000000000:ℝ) + taylorErr ≤ (975953559351/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (57018020207/250000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (43595712367/200000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (57018020207/250000000000:ℝ) ≤ taylorSin (2300971181/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (43595712367/200000000000:ℝ) ≤ taylorSin (1098713739/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (433093821149/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (1385748059/6250000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (4479223901/10000000000:ℝ) + taylorErr ≤ (433093821149/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2235776999/10000000000:ℝ) + taylorErr ≤ (1385748059/6250000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-243411062983/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-28167151399/31250000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-433093821149/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-57018020207/250000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15938060386131/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (4038971414503/250000000000:ℝ) := by nlinarith
-  have hp1 : (13188733664657/500000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (6684492050983/250000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-5790024409601/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-6015963860769/1000000000000:ℝ) := by nlinarith
-  have hN : (5042319608837/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (975110442927/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (975953559351/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (43595712367/200000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (1385748059/6250000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12786113362223/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (6394974157097/500000000000:ℝ) := by nlinarith
+  have hp1 : (10580499738049/500000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (5291836650027/250000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4612644232791/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (938643502889/200000000000:ℝ) := by nlinarith
+  have hN : (22729316709/6250000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (130256320697379/250000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (5042319608837/1000000000000:ℝ) (130256320697379/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (936576257/10000000000000:ℝ) ≤ ((5042319608837/1000000000000:ℝ)/(130256320697379/250000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (81541388939877/250000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (22729316709/6250000000:ℝ) (81541388939877/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1243187209/10000000000000:ℝ) ≤ ((22729316709/6250000000:ℝ)/(81541388939877/250000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_938 (x : ℝ) (h₁ : (5195/1024:ℝ) ≤ x) (h₂ : x ≤ (2653/512:ℝ)) : (908599599/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_935 (x : ℝ) (h₁ : (33341/8192:ℝ) ≤ x) (h₂ : x ≤ (66707/16384:ℝ)) : (621406689/5000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (2300971181/10000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (5706408531/10000000000:ℝ) := by nlinarith
-  have hc1 : (841554975169/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1098713739/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2245364379/10000000000:ℝ) := by nlinarith
+  have hc1 : (24372435593/25000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (841554975169/1000000000000:ℝ) ≤ taylorCos (5706408531/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (24372435593/25000000000:ℝ) ≤ taylorCos (2245364379/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (243411062983/250000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (975953559351/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (2300971181/10000000000:ℝ) + taylorErr ≤ (243411062983/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1098713739/5000000000:ℝ) + taylorErr ≤ (975953559351/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (57018020207/250000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (43595712367/200000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (57018020207/250000000000:ℝ) ≤ taylorSin (2300971181/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (43595712367/200000000000:ℝ) ≤ taylorSin (1098713739/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (540171474997/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (44530892567/200000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (5706408531/10000000000:ℝ) + taylorErr ≤ (540171474997/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2245364379/10000000000:ℝ) + taylorErr ≤ (44530892567/200000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-243411062983/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-841554975169/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-540171474997/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-57018020207/250000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15938060386131/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (16278604121043/1000000000000:ℝ) := by nlinarith
-  have hp1 : (13188733664657/500000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (6735266772221/250000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-3638198986849/250000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-6015963860769/1000000000000:ℝ) := by nlinarith
-  have hN : (5042319608837/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (24372435593/25000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (975953559351/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (43595712367/200000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (44530892567/200000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12786113362223/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (6395453526093/500000000000:ℝ) := by nlinarith
+  have hp1 : (10580499738049/500000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (10584466655073/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4612644232791/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (4713357474961/1000000000000:ℝ) := by nlinarith
+  have hN : (22729316709/6250000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (528985904259277/1000000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (5042319608837/1000000000000:ℝ) (528985904259277/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (908599599/10000000000000:ℝ) ≤ ((5042319608837/1000000000000:ℝ)/(528985904259277/1000000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (81553651608831/250000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (22729316709/6250000000:ℝ) (81553651608831/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (621406689/5000000000000:ℝ) ≤ ((22729316709/6250000000:ℝ)/(81553651608831/250000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_939 (x : ℝ) (h₁ : (1299/256:ℝ) ≤ x) (h₂ : x ≤ (20855/4096:ℝ)) : (251547891/2500000000000:ℝ) ≤ wfun x := by
+theorem wc_936 (x : ℝ) (h₁ : (33341/8192:ℝ) ≤ x) (h₂ : x ≤ (8339/2048:ℝ)) : (155304961/1250000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (2331650797/10000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (1438106989/5000000000:ℝ) := by nlinarith
-  have hc1 : (958921328451/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1098713739/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2254951759/10000000000:ℝ) := by nlinarith
+  have hc1 : (121835438551/125000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (958921328451/1000000000000:ℝ) ≤ taylorCos (1438106989/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (121835438551/125000000000:ℝ) ≤ taylorCos (2254951759/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (972939954481/1000000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (975953559351/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (2331650797/10000000000:ℝ) + taylorErr ≤ (972939954481/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1098713739/5000000000:ℝ) + taylorErr ≤ (975953559351/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (231058105961/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (43595712367/200000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (231058105961/1000000000000:ℝ) ≤ taylorSin (2331650797/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (43595712367/200000000000:ℝ) ≤ taylorSin (1098713739/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (283672139603/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (223589031571/1000000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (1438106989/5000000000:ℝ) + taylorErr ≤ (283672139603/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2254951759/10000000000:ℝ) + taylorErr ≤ (223589031571/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-972939954481/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-958921328451/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-283672139603/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-231058105961/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15941128347707/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (7997792332839/500000000000:ℝ) := by nlinarith
-  have hp1 : (2638254480137/100000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26472670285463/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-7509559020883/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-1219180166447/200000000000:ℝ) := by nlinarith
-  have hN : (2561480438877/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (121835438551/125000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (975953559351/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (43595712367/200000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (223589031571/1000000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12786113362223/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12791865790179/1000000000000:ℝ) := by nlinarith
+  have hp1 : (10580499738049/500000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (4234104004037/200000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4612644232791/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (295843504323/62500000000:ℝ) := by nlinarith
+  have hN : (22729316709/6250000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (510717457593747/1000000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (2561480438877/500000000000:ℝ) (510717457593747/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (251547891/2500000000000:ℝ) ≤ ((2561480438877/500000000000:ℝ)/(510717457593747/1000000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (5097869699811/15625000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (22729316709/6250000000:ℝ) (5097869699811/15625000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (155304961/1250000000000:ℝ) ≤ ((22729316709/6250000000:ℝ)/(5097869699811/15625000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_940 (x : ℝ) (h₁ : (1299/256:ℝ) ≤ x) (h₂ : x ≤ (20895/4096:ℝ)) : (499246979/5000000000000:ℝ) ≤ wfun x := by
+theorem wc_937 (x : ℝ) (h₁ : (33341/8192:ℝ) ≤ x) (h₂ : x ≤ (33361/8192:ℝ)) : (155211591/1250000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (2331650797/10000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (636602027/2000000000:ℝ) := by nlinarith
-  have hc1 : (949768489893/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1098713739/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2274126519/10000000000:ℝ) := by nlinarith
+  have hc1 : (487126495129/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (949768489893/1000000000000:ℝ) ≤ taylorCos (636602027/2000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (487126495129/500000000000:ℝ) ≤ taylorCos (2274126519/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (972939954481/1000000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (975953559351/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (2331650797/10000000000:ℝ) + taylorErr ≤ (972939954481/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1098713739/5000000000:ℝ) + taylorErr ≤ (975953559351/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (231058105961/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (43595712367/200000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (231058105961/1000000000000:ℝ) ≤ taylorSin (2331650797/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (43595712367/200000000000:ℝ) ≤ taylorSin (1098713739/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (312953371487/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (56364387907/250000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (636602027/2000000000:ℝ) + taylorErr ≤ (312953371487/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2274126519/10000000000:ℝ) + taylorErr ≤ (56364387907/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-972939954481/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-949768489893/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-312953371487/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-231058105961/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15941128347707/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (4006566070359/250000000000:ℝ) := by nlinarith
-  have hp1 : (2638254480137/100000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (13261722503351/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-4150300769149/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-1219180166447/200000000000:ℝ) := by nlinarith
-  have hN : (2561480438877/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (487126495129/500000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (975953559351/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (43595712367/200000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (56364387907/250000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12786113362223/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (3198445816541/250000000000:ℝ) := by nlinarith
+  have hp1 : (10580499738049/500000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21173693440263/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4612644232791/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (1193442270491/250000000000:ℝ) := by nlinarith
+  have hN : (22729316709/6250000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (512682293636863/1000000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (2561480438877/500000000000:ℝ) (512682293636863/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (499246979/5000000000000:ℝ) ≤ ((2561480438877/500000000000:ℝ)/(512682293636863/1000000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (81590445130789/250000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (22729316709/6250000000:ℝ) (81590445130789/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (155211591/1250000000000:ℝ) ≤ ((22729316709/6250000000:ℝ)/(81590445130789/250000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_941 (x : ℝ) (h₁ : (5197/1024:ℝ) ≤ x) (h₂ : x ≤ (1317/256:ℝ)) : (199185017/2000000000000:ℝ) ≤ wfun x := by
+theorem wc_938 (x : ℝ) (h₁ : (33341/8192:ℝ) ≤ x) (h₂ : x ≤ (16683/4096:ℝ)) : (124094633/1000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (2362330413/10000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (4540583133/10000000000:ℝ) := by nlinarith
-  have hc1 : (449337231697/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1098713739/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (1146650639/5000000000:ℝ) := by nlinarith
+  have hc1 : (973818890081/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (449337231697/500000000000:ℝ) ≤ taylorCos (4540583133/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (973818890081/1000000000000:ℝ) ≤ taylorCos (1146650639/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (972226499349/1000000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (975953559351/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (2362330413/10000000000:ℝ) + taylorErr ≤ (972226499349/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1098713739/5000000000:ℝ) + taylorErr ≤ (975953559351/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (3656905567/15625000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (43595712367/200000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (3656905567/15625000000:ℝ) ≤ taylorSin (2362330413/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (43595712367/200000000000:ℝ) ≤ taylorSin (1098713739/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (219308120439/500000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (113662621323/500000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (4540583133/10000000000:ℝ) + taylorErr ≤ (219308120439/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (1146650639/5000000000:ℝ) + taylorErr ≤ (113662621323/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-972226499349/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-449337231697/500000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-219308120439/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-3656905567/15625000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15944196309283/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (4040505395291/250000000000:ℝ) := by nlinarith
-  have hp1 : (13193811136713/500000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (1337406157409/50000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-11732161225797/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-6175810738661/1000000000000:ℝ) := by nlinarith
-  have hN : (325224014957/62500000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (973818890081/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (975953559351/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (43595712367/200000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (113662621323/500000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12786113362223/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12795700742149/1000000000000:ℝ) := by nlinarith
+  have hp1 : (10580499738049/500000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21176866860341/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4612644232791/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (481403639751/100000000000:ℝ) := by nlinarith
+  have hN : (22729316709/6250000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (260710941590011/500000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (325224014957/62500000000:ℝ) (260710941590011/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (199185017/2000000000000:ℝ) ≤ ((325224014957/62500000000:ℝ)/(260710941590011/500000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (65291982993053/200000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (22729316709/6250000000:ℝ) (65291982993053/200000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (124094633/1000000000000:ℝ) ≤ ((22729316709/6250000000:ℝ)/(65291982993053/200000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_942 (x : ℝ) (h₁ : (5197/1024:ℝ) ≤ x) (h₂ : x ≤ (661/128:ℝ)) : (245228749/2500000000000:ℝ) ≤ wfun x := by
+theorem wc_939 (x : ℝ) (h₁ : (66687/16384:ℝ) ≤ x) (h₂ : x ≤ (66707/16384:ℝ)) : (1256764439/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (2362330413/10000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (644271931/1250000000:ℝ) := by nlinarith
-  have hc1 : (870086988811/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1103507429/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2245364379/10000000000:ℝ) := by nlinarith
+  have hc1 : (24372435593/25000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (870086988811/1000000000000:ℝ) ≤ taylorCos (644271931/1250000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (24372435593/25000000000:ℝ) ≤ taylorCos (2245364379/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (972226499349/1000000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (975744126513/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (2362330413/10000000000:ℝ) + taylorErr ≤ (972226499349/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1103507429/5000000000:ℝ) + taylorErr ≤ (975744126513/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (3656905567/15625000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (27364268159/125000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (3656905567/15625000000:ℝ) ≤ taylorSin (2362330413/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (27364268159/125000000000:ℝ) ≤ taylorSin (1103507429/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (492898194553/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (44530892567/200000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (644271931/1250000000:ℝ) + taylorErr ≤ (492898194553/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2245364379/10000000000:ℝ) + taylorErr ≤ (44530892567/200000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-972226499349/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-870086988811/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-492898194553/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-3656905567/15625000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15944196309283/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (16223380812679/1000000000000:ℝ) := by nlinarith
-  have hp1 : (13193811136713/500000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (5369934518131/200000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-6617077572137/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-6175810738661/1000000000000:ℝ) := by nlinarith
-  have hN : (325224014957/62500000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (24372435593/25000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (975744126513/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (27364268159/125000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (44530892567/200000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (1598384012527/125000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (6395453526093/500000000000:ℝ) := by nlinarith
+  have hp1 : (5290646546529/250000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (10584466655073/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (2316394733339/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (4713357474961/1000000000000:ℝ) := by nlinarith
+  have hN : (731409068033/200000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (525396169986403/1000000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (325224014957/62500000000:ℝ) (525396169986403/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (245228749/2500000000000:ℝ) ≤ ((325224014957/62500000000:ℝ)/(525396169986403/1000000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (81553651608831/250000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (731409068033/200000000000:ℝ) (81553651608831/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1256764439/10000000000000:ℝ) ≤ ((731409068033/200000000000:ℝ)/(81553651608831/250000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_943 (x : ℝ) (h₁ : (20793/4096:ℝ) ≤ x) (h₂ : x ≤ (2613/512:ℝ)) : (534301079/5000000000000:ℝ) ≤ wfun x := by
+theorem wc_940 (x : ℝ) (h₁ : (66687/16384:ℝ) ≤ x) (h₂ : x ≤ (8339/2048:ℝ)) : (628193277/5000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (2400679933/10000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (3252039271/10000000000:ℝ) := by nlinarith
-  have hc1 : (473792794367/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1103507429/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2254951759/10000000000:ℝ) := by nlinarith
+  have hc1 : (121835438551/125000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (473792794367/500000000000:ℝ) ≤ taylorCos (3252039271/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (121835438551/125000000000:ℝ) ≤ taylorCos (2254951759/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (971321812683/1000000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (975744126513/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (2400679933/10000000000:ℝ) + taylorErr ≤ (971321812683/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1103507429/5000000000:ℝ) + taylorErr ≤ (975744126513/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (23776866809/100000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (27364268159/125000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (23776866809/100000000000:ℝ) ≤ taylorSin (2400679933/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (27364268159/125000000000:ℝ) ≤ taylorSin (1103507429/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (319502033143/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (223589031571/1000000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (3252039271/10000000000:ℝ) + taylorErr ≤ (319502033143/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2254951759/10000000000:ℝ) + taylorErr ≤ (223589031571/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-971321812683/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-473792794367/500000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-319502033143/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-23776866809/100000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15948031261253/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (16033167194981/1000000000000:ℝ) := by nlinarith
-  have hp1 : (3299246139187/125000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26534869318979/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-4238972348299/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-1568914720431/250000000000:ℝ) := by nlinarith
-  have hN : (5304337069041/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (121835438551/125000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (975744126513/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (27364268159/125000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (223589031571/1000000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (1598384012527/125000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12791865790179/1000000000000:ℝ) := by nlinarith
+  have hp1 : (5290646546529/250000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (4234104004037/200000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (2316394733339/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (295843504323/62500000000:ℝ) := by nlinarith
+  have hN : (731409068033/200000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (51312490060443/100000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (5304337069041/1000000000000:ℝ) (51312490060443/100000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (534301079/5000000000000:ℝ) ≤ ((5304337069041/1000000000000:ℝ)/(51312490060443/100000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (5097869699811/15625000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (731409068033/200000000000:ℝ) (5097869699811/15625000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (628193277/5000000000000:ℝ) ≤ ((731409068033/200000000000:ℝ)/(5097869699811/15625000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_944 (x : ℝ) (h₁ : (20795/4096:ℝ) ≤ x) (h₂ : x ≤ (10443/2048:ℝ)) : (13608131/125000000000:ℝ) ≤ wfun x := by
+theorem wc_941 (x : ℝ) (h₁ : (16673/4096:ℝ) ≤ x) (h₂ : x ≤ (8339/2048:ℝ)) : (1270410991/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (120800987/500000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (3113981/10000000:ℝ) := by nlinarith
-  have hc1 : (1859191669/1953125000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1108301119/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2254951759/10000000000:ℝ) := by nlinarith
+  have hc1 : (121835438551/125000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (1859191669/1953125000:ℝ) ≤ taylorCos (3113981/10000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (121835438551/125000000000:ℝ) ≤ taylorCos (2254951759/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (242738984367/250000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (975533796791/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (120800987/500000000:ℝ) + taylorErr ≤ (242738984367/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1108301119/5000000000:ℝ) + taylorErr ≤ (975533796791/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (23925837667/100000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (3435148867/15625000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (23925837667/100000000000:ℝ) ≤ taylorSin (120800987/500000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (3435148867/15625000000:ℝ) ≤ taylorSin (1108301119/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (306389797689/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (223589031571/1000000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (3113981/10000000:ℝ) + taylorErr ≤ (306389797689/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2254951759/10000000000:ℝ) + taylorErr ≤ (223589031571/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-242738984367/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-1859191669/1953125000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-306389797689/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-23925837667/100000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (398739131051/25000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (1601936136789/100000000000:ℝ) := by nlinarith
-  have hp1 : (13198253924761/500000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (13256010347211/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-8123012656891/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-6315585617833/1000000000000:ℝ) := by nlinarith
-  have hN : (1068925936073/200000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (121835438551/125000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (975533796791/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (3435148867/15625000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (223589031571/1000000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (199812981847/15625000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12791865790179/1000000000000:ℝ) := by nlinarith
+  have hp1 : (21164172896133/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (4234104004037/200000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4652933410889/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (295843504323/62500000000:ℝ) := by nlinarith
+  have hN : (1838699807049/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (256119938635047/500000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (1068925936073/200000000000:ℝ) (256119938635047/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (13608131/125000000000:ℝ) ≤ ((1068925936073/200000000000:ℝ)/(256119938635047/500000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (5097869699811/15625000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (1838699807049/500000000000:ℝ) (5097869699811/15625000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1270410991/10000000000000:ℝ) ≤ ((1838699807049/500000000000:ℝ)/(5097869699811/15625000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_945 (x : ℝ) (h₁ : (325/64:ℝ) ≤ x) (h₂ : x ≤ (2615/512:ℝ)) : (140340159/1250000000000:ℝ) ≤ wfun x := by
+theorem wc_942 (x : ℝ) (h₁ : (16673/4096:ℝ) ≤ x) (h₂ : x ≤ (66717/16384:ℝ)) : (158753629/1250000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (122718463/500000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (1687378867/5000000000:ℝ) := by nlinarith
-  have hc1 : (471796727939/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1108301119/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2264539139/10000000000:ℝ) := by nlinarith
+  have hc1 : (243617174297/250000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (471796727939/500000000000:ℝ) ≤ taylorCos (1687378867/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (243617174297/250000000000:ℝ) ≤ taylorCos (2264539139/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (60626953467/62500000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (975533796791/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (122718463/500000000:ℝ) + taylorErr ≤ (60626953467/62500000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1108301119/5000000000:ℝ) + taylorErr ≤ (975533796791/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (242980177581/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (3435148867/15625000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (242980177581/1000000000000:ℝ) ≤ taylorSin (122718463/500000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (3435148867/15625000000:ℝ) ≤ taylorSin (1108301119/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (82776577021/250000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (56130848697/250000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (1687378867/5000000000:ℝ) + taylorErr ≤ (82776577021/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2264539139/10000000000:ℝ) + taylorErr ≤ (56130848697/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-60626953467/62500000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-471796727939/500000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-82776577021/250000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-242980177581/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (1595340019401/100000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (4011359760321/250000000000:ℝ) := by nlinarith
-  have hp1 : (26402854689593/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (13277589603737/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-1099073418487/125000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-3207685160561/500000000000:ℝ) := by nlinarith
-  have hN : (108906781313/20000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (243617174297/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (975533796791/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (3435148867/15625000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (56130848697/250000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (199812981847/15625000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12792824528171/1000000000000:ℝ) := by nlinarith
+  have hp1 : (21164172896133/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21172106730223/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4652933410889/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (1188408319471/250000000000:ℝ) := by nlinarith
+  have hN : (1838699807049/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (256956114027561/500000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (108906781313/20000000000:ℝ) (256956114027561/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (140340159/1250000000000:ℝ) ≤ ((108906781313/20000000000:ℝ)/(256956114027561/500000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (81578179704287/250000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (1838699807049/500000000000:ℝ) (81578179704287/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (158753629/1250000000000:ℝ) ≤ ((1838699807049/500000000000:ℝ)/(81578179704287/250000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_946 (x : ℝ) (h₁ : (325/64:ℝ) ≤ x) (h₂ : x ≤ (655/128:ℝ)) : (1114158849/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_943 (x : ℝ) (h₁ : (16673/4096:ℝ) ≤ x) (h₂ : x ≤ (33361/8192:ℝ)) : (253929443/2000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (122718463/500000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (3681553891/10000000000:ℝ) := by nlinarith
-  have hc1 : (93299279657/100000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1108301119/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2274126519/10000000000:ℝ) := by nlinarith
+  have hc1 : (487126495129/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (93299279657/100000000000:ℝ) ≤ taylorCos (3681553891/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (487126495129/500000000000:ℝ) ≤ taylorCos (2274126519/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (60626953467/62500000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (975533796791/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (122718463/500000000:ℝ) + taylorErr ≤ (60626953467/62500000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1108301119/5000000000:ℝ) + taylorErr ≤ (975533796791/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (242980177581/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (3435148867/15625000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (242980177581/1000000000000:ℝ) ≤ taylorSin (122718463/500000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (3435148867/15625000000:ℝ) ≤ taylorSin (1108301119/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (89973759701/250000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (56364387907/250000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (3681553891/10000000000:ℝ) + taylorErr ≤ (89973759701/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2274126519/10000000000:ℝ) + taylorErr ≤ (56364387907/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-60626953467/62500000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-93299279657/100000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-89973759701/250000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-242980177581/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (1595340019401/100000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (8038059328521/500000000000:ℝ) := by nlinarith
-  have hp1 : (26402854689593/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26605953928713/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-1196918852699/125000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-3207685160561/500000000000:ℝ) := by nlinarith
-  have hN : (108906781313/20000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (487126495129/500000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (975533796791/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (3435148867/15625000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (56364387907/250000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (199812981847/15625000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (3198445816541/250000000000:ℝ) := by nlinarith
+  have hp1 : (21164172896133/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21173693440263/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4652933410889/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (1193442270491/250000000000:ℝ) := by nlinarith
+  have hN : (1838699807049/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (128970795537647/250000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (108906781313/20000000000:ℝ) (128970795537647/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (1114158849/10000000000000:ℝ) ≤ ((108906781313/20000000000:ℝ)/(128970795537647/250000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (81590445130789/250000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (1838699807049/500000000000:ℝ) (81590445130789/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (253929443/2000000000000:ℝ) ≤ ((1838699807049/500000000000:ℝ)/(81590445130789/250000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_947 (x : ℝ) (h₁ : (325/64:ℝ) ≤ x) (h₂ : x ≤ (1315/256:ℝ)) : (1097277581/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_944 (x : ℝ) (h₁ : (16673/4096:ℝ) ≤ x) (h₂ : x ≤ (16683/4096:ℝ)) : (634442007/5000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (122718463/500000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (4295146207/10000000000:ℝ) := by nlinarith
-  have hc1 : (90916798079/100000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1108301119/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (1146650639/5000000000:ℝ) := by nlinarith
+  have hc1 : (973818890081/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (90916798079/100000000000:ℝ) ≤ taylorCos (4295146207/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (973818890081/1000000000000:ℝ) ≤ taylorCos (1146650639/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (60626953467/62500000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (975533796791/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (122718463/500000000:ℝ) + taylorErr ≤ (60626953467/62500000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1108301119/5000000000:ℝ) + taylorErr ≤ (975533796791/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (242980177581/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (3435148867/15625000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (242980177581/1000000000000:ℝ) ≤ taylorSin (122718463/500000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (3435148867/15625000000:ℝ) ≤ taylorSin (1108301119/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (416429562443/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (113662621323/500000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (4295146207/10000000000:ℝ) + taylorErr ≤ (416429562443/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (1146650639/5000000000:ℝ) + taylorErr ≤ (113662621323/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-60626953467/62500000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-90916798079/100000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-416429562443/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-242980177581/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (1595340019401/100000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (16137477888557/1000000000000:ℝ) := by nlinarith
-  have hp1 : (26402854689593/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (6676875842797/250000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-11121793942809/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-3207685160561/500000000000:ℝ) := by nlinarith
-  have hN : (108906781313/20000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (973818890081/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (975533796791/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (3435148867/15625000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (113662621323/500000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (199812981847/15625000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12795700742149/1000000000000:ℝ) := by nlinarith
+  have hp1 : (21164172896133/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21176866860341/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4652933410889/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (481403639751/100000000000:ℝ) := by nlinarith
+  have hN : (1838699807049/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (519836385207333/1000000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (108906781313/20000000000:ℝ) (519836385207333/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (1097277581/10000000000000:ℝ) ≤ ((108906781313/20000000000:ℝ)/(519836385207333/1000000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (65291982993053/200000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (1838699807049/500000000000:ℝ) (65291982993053/200000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (634442007/5000000000000:ℝ) ≤ ((1838699807049/500000000000:ℝ)/(65291982993053/200000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_948 (x : ℝ) (h₁ : (325/64:ℝ) ≤ x) (h₂ : x ≤ (165/32:ℝ)) : (270178737/2500000000000:ℝ) ≤ wfun x := by
+theorem wc_945 (x : ℝ) (h₁ : (16673/4096:ℝ) ≤ x) (h₂ : x ≤ (33371/8192:ℝ)) : (634060693/5000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (122718463/500000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (2454369261/5000000000:ℝ) := by nlinarith
-  have hc1 : (17638425241/20000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1108301119/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (1156238019/5000000000:ℝ) := by nlinarith
+  have hc1 : (973381209429/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (17638425241/20000000000:ℝ) ≤ taylorCos (2454369261/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (973381209429/1000000000000:ℝ) ≤ taylorCos (1156238019/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (60626953467/62500000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (975533796791/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (122718463/500000000:ℝ) + taylorErr ≤ (60626953467/62500000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1108301119/5000000000:ℝ) + taylorErr ≤ (975533796791/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (242980177581/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (3435148867/15625000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (242980177581/1000000000000:ℝ) ≤ taylorSin (122718463/500000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (3435148867/15625000000:ℝ) ≤ taylorSin (1108301119/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (117849184789/250000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (229192097951/1000000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (2454369261/5000000000:ℝ) + taylorErr ≤ (117849184789/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (1156238019/5000000000:ℝ) + taylorErr ≤ (229192097951/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-60626953467/62500000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-17638425241/20000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-117849184789/250000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-242980177581/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (1595340019401/100000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (16198837120073/1000000000000:ℝ) := by nlinarith
-  have hp1 : (26402854689593/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (5361810562733/200000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-12637700076223/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-3207685160561/500000000000:ℝ) := by nlinarith
-  have hN : (108906781313/20000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (973381209429/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (975533796791/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (3435148867/15625000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (229192097951/1000000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (199812981847/15625000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12797618218133/1000000000000:ℝ) := by nlinarith
+  have hp1 : (21164172896133/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21180040280417/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4652933410889/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (1213574466639/250000000000:ℝ) := by nlinarith
+  have hN : (1838699807049/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (52380464808531/100000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (108906781313/20000000000:ℝ) (52380464808531/100000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (270178737/2500000000000:ℝ) ≤ ((108906781313/20000000000:ℝ)/(52380464808531/100000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (16327903205709/50000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (1838699807049/500000000000:ℝ) (16327903205709/50000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (634060693/5000000000000:ℝ) ≤ ((1838699807049/500000000000:ℝ)/(16327903205709/50000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_949 (x : ℝ) (h₁ : (325/64:ℝ) ≤ x) (h₂ : x ≤ (665/128:ℝ)) : (1048517003/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_946 (x : ℝ) (h₁ : (16673/4096:ℝ) ≤ x) (h₂ : x ≤ (1043/256:ℝ)) : (1267359331/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (122718463/500000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (383495197/625000000:ℝ) := by nlinarith
-  have hc1 : (817584810857/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1108301119/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (1165825399/5000000000:ℝ) := by nlinarith
+  have hc1 : (486469974967/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (817584810857/1000000000000:ℝ) ≤ taylorCos (383495197/625000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (486469974967/500000000000:ℝ) ≤ taylorCos (1165825399/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (60626953467/62500000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (975533796791/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (122718463/500000000:ℝ) + taylorErr ≤ (60626953467/62500000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1108301119/5000000000:ℝ) + taylorErr ≤ (975533796791/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (242980177581/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (3435148867/15625000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (242980177581/1000000000000:ℝ) ≤ taylorSin (122718463/500000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (3435148867/15625000000:ℝ) ≤ taylorSin (1108301119/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (575808193717/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (231058110583/1000000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (383495197/625000000:ℝ) + taylorErr ≤ (575808193717/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (1165825399/5000000000:ℝ) + taylorErr ≤ (231058110583/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-60626953467/62500000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-817584810857/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-575808193717/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-242980177581/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (1595340019401/100000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (127512152993/7812500000:ℝ) := by nlinarith
-  have hp1 : (26402854689593/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (27012151698617/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-15553818277991/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-3207685160561/500000000000:ℝ) := by nlinarith
-  have hN : (108906781313/20000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (486469974967/500000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (975533796791/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (3435148867/15625000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (231058110583/1000000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (199812981847/15625000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (6399767847059/500000000000:ℝ) := by nlinarith
+  have hp1 : (21164172896133/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (10591606850247/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4652933410889/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (4894553333713/1000000000000:ℝ) := by nlinarith
+  have hN : (1838699807049/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (531786353304707/1000000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (108906781313/20000000000:ℝ) (531786353304707/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (1048517003/10000000000000:ℝ) ≤ ((108906781313/20000000000:ℝ)/(531786353304707/1000000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (163328113985001/500000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (1838699807049/500000000000:ℝ) (163328113985001/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1267359331/10000000000000:ℝ) ≤ ((1838699807049/500000000000:ℝ)/(163328113985001/500000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_950 (x : ℝ) (h₁ : (325/64:ℝ) ≤ x) (h₂ : x ≤ (335/64:ℝ)) : (1017509707/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_947 (x : ℝ) (h₁ : (16673/4096:ℝ) ≤ x) (h₂ : x ≤ (16693/4096:ℝ)) : (1265836939/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (122718463/500000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (3681553891/5000000000:ℝ) := by nlinarith
-  have hc1 : (74095112303/100000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1108301119/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (1185000159/5000000000:ℝ) := by nlinarith
+  have hc1 : (243011675229/250000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (74095112303/100000000000:ℝ) ≤ taylorCos (3681553891/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (243011675229/250000000000:ℝ) ≤ taylorCos (1185000159/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (60626953467/62500000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (975533796791/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (122718463/500000000:ℝ) + taylorErr ≤ (60626953467/62500000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1108301119/5000000000:ℝ) + taylorErr ≤ (975533796791/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (242980177581/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (3435148867/15625000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (242980177581/1000000000000:ℝ) ≤ taylorSin (122718463/500000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (3435148867/15625000000:ℝ) ≤ taylorSin (1108301119/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (671558957117/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (117393790193/500000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (3681553891/5000000000:ℝ) + taylorErr ≤ (671558957117/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (1185000159/5000000000:ℝ) + taylorErr ≤ (117393790193/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-60626953467/62500000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-74095112303/100000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-671558957117/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-242980177581/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (1595340019401/100000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (3288854809227/200000000000:ℝ) := by nlinarith
-  have hp1 : (26402854689593/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (2721525058357/100000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-18276645299581/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-3207685160561/500000000000:ℝ) := by nlinarith
-  have hN : (108906781313/20000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (243011675229/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (975533796791/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (3435148867/15625000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (117393790193/500000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (199812981847/15625000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (1600421330761/125000000000:ℝ) := by nlinarith
+  have hp1 : (21164172896133/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21189560540649/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4652933410889/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (2487522824391/500000000000:ℝ) := by nlinarith
+  have hN : (1838699807049/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (539828297808779/1000000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (108906781313/20000000000:ℝ) (539828297808779/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (1017509707/10000000000000:ℝ) ≤ ((108906781313/20000000000:ℝ)/(539828297808779/1000000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (40856574975277/125000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (1838699807049/500000000000:ℝ) (40856574975277/125000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1265836939/10000000000000:ℝ) ≤ ((1838699807049/500000000000:ℝ)/(40856574975277/125000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_951 (x : ℝ) (h₁ : (325/64:ℝ) ≤ x) (h₂ : x ≤ (21/4:ℝ)) : (502714163/5000000000000:ℝ) ≤ wfun x := by
+theorem wc_948 (x : ℝ) (h₁ : (16673/4096:ℝ) ≤ x) (h₂ : x ≤ (8349/2048:ℝ)) : (1264316833/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (122718463/500000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (3926990817/5000000000:ℝ) := by nlinarith
-  have hc1 : (88388347351/125000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1108301119/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2408349837/10000000000:ℝ) := by nlinarith
+  have hc1 : (971139156187/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (88388347351/125000000000:ℝ) ≤ taylorCos (3926990817/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (971139156187/1000000000000:ℝ) ≤ taylorCos (2408349837/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (60626953467/62500000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (975533796791/1000000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (122718463/500000000:ℝ) + taylorErr ≤ (60626953467/62500000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1108301119/5000000000:ℝ) + taylorErr ≤ (975533796791/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (242980177581/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (3435148867/15625000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (242980177581/1000000000000:ℝ) ≤ taylorSin (122718463/500000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (3435148867/15625000000:ℝ) ≤ taylorSin (1108301119/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (176776695861/250000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (59628399277/250000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (3926990817/5000000000:ℝ) + taylorErr ≤ (176776695861/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2408349837/10000000000:ℝ) + taylorErr ≤ (59628399277/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-60626953467/62500000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-88388347351/125000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-176776695861/250000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-242980177581/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (1595340019401/100000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (16493361431347/1000000000000:ℝ) := by nlinarith
-  have hp1 : (26402854689593/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (545929802751/20000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-9650766670237/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-3207685160561/500000000000:ℝ) := by nlinarith
-  have hN : (108906781313/20000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (971139156187/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (975533796791/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (3435148867/15625000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (59628399277/250000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (199812981847/15625000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (6403602799029/500000000000:ℝ) := by nlinarith
+  have hp1 : (21164172896133/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (4239181476161/200000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4652933410889/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (1263878028341/250000000000:ℝ) := by nlinarith
+  have hN : (1838699807049/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (54306194261009/100000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (108906781313/20000000000:ℝ) (54306194261009/100000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (502714163/5000000000000:ℝ) ≤ ((108906781313/20000000000:ℝ)/(54306194261009/100000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (327049030461857/1000000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (1838699807049/500000000000:ℝ) (327049030461857/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1264316833/10000000000000:ℝ) ≤ ((1838699807049/500000000000:ℝ)/(327049030461857/1000000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_952 (x : ℝ) (h₁ : (10401/2048:ℝ) ≤ x) (h₂ : x ≤ (1309/256:ℝ)) : (1134166649/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_949 (x : ℝ) (h₁ : (66697/16384:ℝ) ≤ x) (h₂ : x ≤ (66717/16384:ℝ)) : (1284126783/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (617427267/2500000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (889708857/2500000000:ℝ) := by nlinarith
-  have hc1 : (937339009647/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1113094809/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2264539139/10000000000:ℝ) := by nlinarith
+  have hc1 : (243617174297/250000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (937339009647/1000000000000:ℝ) ≤ taylorCos (889708857/2500000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (243617174297/250000000000:ℝ) ≤ taylorCos (2264539139/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (969657387399/1000000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (48766128519/50000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (617427267/2500000000:ℝ) + taylorErr ≤ (969657387399/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1113094809/5000000000:ℝ) + taylorErr ≤ (48766128519/50000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (122233950219/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (27598088453/125000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (122233950219/500000000000:ℝ) ≤ taylorSin (617427267/2500000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (27598088453/125000000000:ℝ) ≤ taylorSin (1113094809/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (348418682521/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (56130848697/250000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (889708857/2500000000:ℝ) + taylorErr ≤ (348418682521/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2264539139/10000000000:ℝ) + taylorErr ≤ (56130848697/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-969657387399/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-937339009647/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-348418682521/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-122233950219/500000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (7977467087399/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (16063846810739/1000000000000:ℝ) := by nlinarith
-  have hp1 : (26405393425621/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (13292822020109/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-4631467535233/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-6455271091/1000000000:ℝ) := by nlinarith
-  have hN : (5485613703601/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (243617174297/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (48766128519/50000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (27598088453/125000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (56130848697/250000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12788989576201/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12792824528171/1000000000000:ℝ) := by nlinarith
+  have hp1 : (2645719950769/125000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21172106730223/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (1168269011571/250000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (1188408319471/250000000000:ℝ) := by nlinarith
+  have hN : (57777398061/15625000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (25754717435889/50000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (5485613703601/1000000000000:ℝ) (25754717435889/50000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (1134166649/10000000000000:ℝ) ≤ ((5485613703601/1000000000000:ℝ)/(25754717435889/50000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (81578179704287/250000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (57777398061/15625000000:ℝ) (81578179704287/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1284126783/10000000000000:ℝ) ≤ ((57777398061/15625000000:ℝ)/(81578179704287/250000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_953 (x : ℝ) (h₁ : (10401/2048:ℝ) ≤ x) (h₂ : x ≤ (2623/512:ℝ)) : (1125526841/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_950 (x : ℝ) (h₁ : (66697/16384:ℝ) ≤ x) (h₂ : x ≤ (33361/8192:ℝ)) : (1283740729/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (617427267/2500000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (1932815793/5000000000:ℝ) := by nlinarith
-  have hc1 : (57888139991/62500000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1113094809/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2274126519/10000000000:ℝ) := by nlinarith
+  have hc1 : (487126495129/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (57888139991/62500000000:ℝ) ≤ taylorCos (1932815793/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (487126495129/500000000000:ℝ) ≤ taylorCos (2274126519/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (969657387399/1000000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (48766128519/50000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (617427267/2500000000:ℝ) + taylorErr ≤ (969657387399/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1113094809/5000000000:ℝ) + taylorErr ≤ (48766128519/50000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (122233950219/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (27598088453/125000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (122233950219/500000000000:ℝ) ≤ taylorSin (617427267/2500000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (27598088453/125000000000:ℝ) ≤ taylorSin (1113094809/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (377007412527/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (56364387907/250000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (1932815793/5000000000:ℝ) + taylorErr ≤ (377007412527/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2274126519/10000000000:ℝ) + taylorErr ≤ (56364387907/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-969657387399/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-57888139991/62500000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-377007412527/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-122233950219/500000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (7977467087399/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (16094526426497/1000000000000:ℝ) := by nlinarith
-  have hp1 : (26405393425621/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (1664776172591/62500000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-10042127316243/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-6455271091/1000000000:ℝ) := by nlinarith
-  have hN : (5485613703601/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (487126495129/500000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (48766128519/50000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (27598088453/125000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (56364387907/250000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12788989576201/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (3198445816541/250000000000:ℝ) := by nlinarith
+  have hp1 : (2645719950769/125000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21173693440263/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (1168269011571/250000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (1193442270491/250000000000:ℝ) := by nlinarith
+  have hN : (57777398061/15625000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (517067561786421/1000000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (5485613703601/1000000000000:ℝ) (517067561786421/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (1125526841/10000000000000:ℝ) ≤ ((5485613703601/1000000000000:ℝ)/(517067561786421/1000000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (81590445130789/250000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (57777398061/15625000000:ℝ) (81590445130789/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1283740729/10000000000000:ℝ) ≤ ((57777398061/15625000000:ℝ)/(81590445130789/250000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_954 (x : ℝ) (h₁ : (10403/2048:ℝ) ≤ x) (h₂ : x ≤ (5247/1024:ℝ)) : (578965893/5000000000000:ℝ) ≤ wfun x := by
+theorem wc_951 (x : ℝ) (h₁ : (33351/8192:ℝ) ≤ x) (h₂ : x ≤ (33361/8192:ℝ)) : (1297911731/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (625097171/2500000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (1948155601/5000000000:ℝ) := by nlinarith
-  have hc1 : (925049238491/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1117888499/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2274126519/10000000000:ℝ) := by nlinarith
+  have hc1 : (487126495129/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (925049238491/1000000000000:ℝ) ≤ taylorCos (1948155601/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (487126495129/500000000000:ℝ) ≤ taylorCos (2274126519/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (193780561409/200000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (487555223737/500000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (625097171/2500000000:ℝ) + taylorErr ≤ (193780561409/200000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1117888499/5000000000:ℝ) + taylorErr ≤ (487555223737/500000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (247441616881/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (110859842409/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (247441616881/1000000000000:ℝ) ≤ taylorSin (625097171/2500000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (110859842409/500000000000:ℝ) ≤ taylorSin (1117888499/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (379847211257/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (56364387907/250000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (1948155601/5000000000:ℝ) + taylorErr ≤ (379847211257/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (2274126519/10000000000:ℝ) + taylorErr ≤ (56364387907/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-193780561409/200000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-925049238491/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-379847211257/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-247441616881/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (7979001068187/500000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (2012199298509/125000000000:ℝ) := by nlinarith
-  have hp1 : (26410470897677/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26641496233579/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-10119698048039/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-6535049621509/1000000000000:ℝ) := by nlinarith
-  have hN : (10871380497/1953125000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (487126495129/500000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (487555223737/500000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (110859842409/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (56364387907/250000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12789948314193/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (3198445816541/250000000000:ℝ) := by nlinarith
+  have hp1 : (2645918289521/125000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21173693440263/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (2346608676827/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (1193442270491/250000000000:ℝ) := by nlinarith
+  have hN : (185905345309/50000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (20690603606631/40000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (10871380497/1953125000:ℝ) (20690603606631/40000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (578965893/5000000000000:ℝ) ≤ ((10871380497/1953125000:ℝ)/(20690603606631/40000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (81590445130789/250000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (185905345309/50000000000:ℝ) (81590445130789/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1297911731/10000000000000:ℝ) ≤ ((185905345309/50000000000:ℝ)/(81590445130789/250000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_955 (x : ℝ) (h₁ : (20815/4096:ℝ) ≤ x) (h₂ : x ≤ (10463/2048:ℝ)) : (1249238179/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_952 (x : ℝ) (h₁ : (33351/8192:ℝ) ≤ x) (h₂ : x ≤ (66727/16384:ℝ)) : (648760781/5000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (2569417819/10000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (3420777157/10000000000:ℝ) := by nlinarith
-  have hc1 : (235514934377/250000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1117888499/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (1141856949/5000000000:ℝ) := by nlinarith
+  have hc1 : (974036387837/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (235514934377/250000000000:ℝ) ≤ taylorCos (3420777157/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (974036387837/1000000000000:ℝ) ≤ taylorCos (1141856949/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (193434333679/200000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (487555223737/500000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (2569417819/10000000000:ℝ) + taylorErr ≤ (193434333679/200000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1117888499/5000000000:ℝ) + taylorErr ≤ (487555223737/500000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (254123920717/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (110859842409/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (254123920717/1000000000000:ℝ) ≤ taylorSin (2569417819/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (110859842409/500000000000:ℝ) ≤ taylorSin (1117888499/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (83861287337/250000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (14149468821/62500000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (3420777157/10000000000:ℝ) + taylorErr ≤ (83861287337/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (1141856949/5000000000:ℝ) + taylorErr ≤ (14149468821/62500000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-193434333679/200000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-235514934377/250000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-83861287337/250000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-254123920717/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15964905049919/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (501563780739/31250000000:ℝ) := by nlinarith
-  have hp1 : (26421895209801/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26562795415661/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-8910360875307/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-209826112609/31250000000:ℝ) := by nlinarith
-  have hN : (5747263935093/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (974036387837/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (487555223737/500000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (110859842409/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (14149468821/62500000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12789948314193/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (3198685501039/250000000000:ℝ) := by nlinarith
+  have hp1 : (2645918289521/125000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21175280150301/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (2346608676827/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (2396951730101/500000000000:ℝ) := by nlinarith
+  have hN : (185905345309/50000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (514207631153561/1000000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (5747263935093/1000000000000:ℝ) (514207631153561/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (1249238179/10000000000000:ℝ) ≤ ((5747263935093/1000000000000:ℝ)/(514207631153561/1000000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (81602711476457/250000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (185905345309/50000000000:ℝ) (81602711476457/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (648760781/5000000000000:ℝ) ≤ ((185905345309/50000000000:ℝ)/(81602711476457/250000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_956 (x : ℝ) (h₁ : (1301/256:ℝ) ≤ x) (h₂ : x ≤ (2673/512:ℝ)) : (1153447231/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_953 (x : ℝ) (h₁ : (33351/8192:ℝ) ≤ x) (h₂ : x ≤ (16683/4096:ℝ)) : (1297131539/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (2577087723/10000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (3466796581/5000000000:ℝ) := by nlinarith
-  have hc1 : (769103335309/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1117888499/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (1146650639/5000000000:ℝ) := by nlinarith
+  have hc1 : (973818890081/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (769103335309/1000000000000:ℝ) ≤ taylorCos (3466796581/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (973818890081/1000000000000:ℝ) ≤ taylorCos (1146650639/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (241744118331/250000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (487555223737/500000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (2577087723/10000000000:ℝ) + taylorErr ≤ (241744118331/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1117888499/5000000000:ℝ) + taylorErr ≤ (487555223737/500000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (796455179/3125000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (110859842409/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (796455179/3125000000:ℝ) ≤ taylorSin (2577087723/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (110859842409/500000000000:ℝ) ≤ taylorSin (1117888499/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (639124447183/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (113662621323/500000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (3466796581/5000000000:ℝ) + taylorErr ≤ (639124447183/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (1146650639/5000000000:ℝ) + taylorErr ≤ (113662621323/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-241744118331/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-769103335309/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-639124447183/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-796455179/3125000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15965672040313/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (8200661292037/500000000000:ℝ) := by nlinarith
-  have hp1 : (5284632915563/200000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (6786041493459/250000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-1084281254517/62500000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-3367178603771/500000000000:ℝ) := by nlinarith
-  have hN : (2883690367109/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (973818890081/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (487555223737/500000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (110859842409/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (113662621323/500000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12789948314193/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12795700742149/1000000000000:ℝ) := by nlinarith
+  have hp1 : (2645918289521/125000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21176866860341/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (2346608676827/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (481403639751/100000000000:ℝ) := by nlinarith
+  have hN : (185905345309/50000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (33562922813357/62500000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (2883690367109/500000000000:ℝ) (33562922813357/62500000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (1153447231/10000000000000:ℝ) ≤ ((2883690367109/500000000000:ℝ)/(33562922813357/62500000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (65291982993053/200000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (185905345309/50000000000:ℝ) (65291982993053/200000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1297131539/10000000000000:ℝ) ≤ ((185905345309/50000000000:ℝ)/(65291982993053/200000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_957 (x : ℝ) (h₁ : (1301/256:ℝ) ≤ x) (h₂ : x ≤ (21/4:ℝ)) : (563934301/5000000000000:ℝ) ≤ wfun x := by
+theorem wc_954 (x : ℝ) (h₁ : (33351/8192:ℝ) ≤ x) (h₂ : x ≤ (33371/8192:ℝ)) : (648175967/5000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (2577087723/10000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (3926990817/5000000000:ℝ) := by nlinarith
-  have hc1 : (88388347351/125000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1117888499/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (1156238019/5000000000:ℝ) := by nlinarith
+  have hc1 : (973381209429/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (88388347351/125000000000:ℝ) ≤ taylorCos (3926990817/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (973381209429/1000000000000:ℝ) ≤ taylorCos (1156238019/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (241744118331/250000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (487555223737/500000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (2577087723/10000000000:ℝ) + taylorErr ≤ (241744118331/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1117888499/5000000000:ℝ) + taylorErr ≤ (487555223737/500000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (796455179/3125000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (110859842409/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (796455179/3125000000:ℝ) ≤ taylorSin (2577087723/10000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (110859842409/500000000000:ℝ) ≤ taylorSin (1117888499/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (176776695861/250000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (229192097951/1000000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (3926990817/5000000000:ℝ) + taylorErr ≤ (176776695861/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (1156238019/5000000000:ℝ) + taylorErr ≤ (229192097951/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-241744118331/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-88388347351/125000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-176776695861/250000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-796455179/3125000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (15965672040313/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (16493361431347/1000000000000:ℝ) := by nlinarith
-  have hp1 : (5284632915563/200000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (545929802751/20000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-9650766670237/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-3367178603771/500000000000:ℝ) := by nlinarith
-  have hN : (2883690367109/500000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (973381209429/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (487555223737/500000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (110859842409/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (229192097951/1000000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12789948314193/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12797618218133/1000000000000:ℝ) := by nlinarith
+  have hp1 : (2645918289521/125000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21180040280417/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (2346608676827/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (1213574466639/250000000000:ℝ) := by nlinarith
+  have hN : (185905345309/50000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (54306194261009/100000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (2883690367109/500000000000:ℝ) (54306194261009/100000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (563934301/5000000000000:ℝ) ≤ ((2883690367109/500000000000:ℝ)/(54306194261009/100000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (16327903205709/50000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (185905345309/50000000000:ℝ) (16327903205709/50000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (648175967/5000000000000:ℝ) ≤ ((185905345309/50000000000:ℝ)/(16327903205709/50000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_958 (x : ℝ) (h₁ : (2603/512:ℝ) ≤ x) (h₂ : x ≤ (10483/2048:ℝ)) : (1319026531/10000000000000:ℝ) ≤ wfun x := by
+theorem wc_955 (x : ℝ) (h₁ : (33351/8192:ℝ) ≤ x) (h₂ : x ≤ (1043/256:ℝ)) : (647786457/5000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (527689391/2000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (745514663/2000000000:ℝ) := by nlinarith
-  have hc1 : (931326706803/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (1117888499/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (1165825399/5000000000:ℝ) := by nlinarith
+  have hc1 : (486469974967/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (931326706803/1000000000000:ℝ) ≤ taylorCos (745514663/2000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (486469974967/500000000000:ℝ) ≤ taylorCos (1165825399/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (241348610991/250000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (487555223737/500000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (527689391/2000000000:ℝ) + taylorErr ≤ (241348610991/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (1117888499/5000000000:ℝ) + taylorErr ≤ (487555223737/500000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (260794115637/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (110859842409/500000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (260794115637/1000000000000:ℝ) ≤ taylorSin (527689391/2000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (110859842409/500000000000:ℝ) ≤ taylorSin (1117888499/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (36418479187/100000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (231058110583/1000000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (745514663/2000000000:ℝ) + taylorErr ≤ (36418479187/100000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (1165825399/5000000000:ℝ) + taylorErr ≤ (231058110583/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-241348610991/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-931326706803/1000000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-36418479187/100000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-260794115637/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (3194361592693/200000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (8040360299703/500000000000:ℝ) := by nlinarith
-  have hp1 : (26433319521927/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (26613570136899/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-387690300049/40000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-6893654188071/1000000000000:ℝ) := by nlinarith
-  have hN : (5928259744107/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (486469974967/500000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (487555223737/500000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (110859842409/500000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (231058110583/1000000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (12789948314193/1000000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (6399767847059/500000000000:ℝ) := by nlinarith
+  have hp1 : (2645918289521/125000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (10591606850247/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (2346608676827/500000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (4894553333713/1000000000000:ℝ) := by nlinarith
+  have hN : (185905345309/50000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (516179149992321/1000000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (5928259744107/1000000000000:ℝ) (516179149992321/1000000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (1319026531/10000000000000:ℝ) ≤ ((5928259744107/1000000000000:ℝ)/(516179149992321/1000000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (163328113985001/500000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (185905345309/50000000000:ℝ) (163328113985001/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (647786457/5000000000000:ℝ) ≤ ((185905345309/50000000000:ℝ)/(163328113985001/500000000000:ℝ))^2 := by norm_num
   linarith
 
-theorem wc_959 (x : ℝ) (h₁ : (2603/512:ℝ) ≤ x) (h₂ : x ≤ (5277/1024:ℝ)) : (641911203/5000000000000:ℝ) ≤ wfun x := by
+theorem wc_956 (x : ℝ) (h₁ : (4169/1024:ℝ) ≤ x) (h₂ : x ≤ (265/64:ℝ)) : (1219525351/10000000000000:ℝ) ≤ wfun x := by
   have hpl := pi_lo
   have hph := pi_hi
   have hg := gam_bounds
-  have ht1 : (527689391/2000000000:ℝ) ≤ Real.pi * (x - (5:ℝ)) := by nlinarith
-  have ht2 : Real.pi * (x - (5:ℝ)) ≤ (2408349837/5000000000:ℝ) := by nlinarith
-  have hc1 : (177244505577/200000000000:ℝ) ≤ Real.cos (Real.pi * (x - (5:ℝ))) := by
+  have ht1 : (44792239/200000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (441786467/1000000000:ℝ) := by nlinarith
+  have hc1 : (903989290823/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
     have h := cos_lower (by linarith) ht2 (by norm_num)
-    have h2 : (177244505577/200000000000:ℝ) ≤ taylorCos (2408349837/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    have h2 : (903989290823/1000000000000:ℝ) ≤ taylorCos (441786467/1000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hc2 : Real.cos (Real.pi * (x - (5:ℝ))) ≤ (241348610991/250000000000:ℝ) := by
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (121878168417/125000000000:ℝ) := by
     have h := cos_upper (by norm_num) ht1 (by linarith)
-    have h2 : taylorCos (527689391/2000000000:ℝ) + taylorErr ≤ (241348610991/250000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    have h2 : taylorCos (44792239/200000000:ℝ) + taylorErr ≤ (121878168417/125000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
     linarith
-  have hs1 : (260794115637/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (5:ℝ))) := by
+  have hs1 : (222093618681/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
     have h := sin_lower (by norm_num) ht1 (by linarith)
-    have h2 : (260794115637/1000000000000:ℝ) ≤ taylorSin (527689391/2000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    have h2 : (222093618681/1000000000000:ℝ) ≤ taylorSin (44792239/200000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hs2 : Real.sin (Real.pi * (x - (5:ℝ))) ≤ (463259785817/1000000000000:ℝ) := by
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (427555095773/1000000000000:ℝ) := by
     have h := sin_upper (by linarith) ht2 (by norm_num)
-    have h2 : taylorSin (2408349837/5000000000:ℝ) + taylorErr ≤ (463259785817/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    have h2 : taylorSin (441786467/1000000000:ℝ) + taylorErr ≤ (427555095773/1000000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
     linarith
-  have hcx : Real.cos (Real.pi*x) = (-1:ℝ) * Real.cos (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).1
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hsx : Real.sin (Real.pi*x) = (-1:ℝ) * Real.sin (Real.pi * (x - (5:ℝ))) := by
-    have h := (trig_shift (5:ℝ) (x - (5:ℝ))).2
-    rw [show (5:ℝ) + (x - (5:ℝ)) = x by ring, cs_5.1, cs_5.2] at h
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
     rw [h]; ring
-  have hcxl : (-241348610991/250000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
-  have hcxu : Real.cos (Real.pi*x) ≤ (-177244505577/200000000000:ℝ) := by rw [hcx]; linarith
-  have hsxl : (-463259785817/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
-  have hsxu : Real.sin (Real.pi*x) ≤ (-260794115637/1000000000000:ℝ) := by rw [hsx]; linarith
-  have hb1 : (3194361592693/200000000000:ℝ) ≤ Real.pi*x := by nlinarith
-  have hb2 : Real.pi*x ≤ (8094816617673/500000000000:ℝ) := by nlinarith
-  have hp1 : (26433319521927/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
-  have hp2 : 2*gam*(Real.pi*x) ≤ (13396910198647/500000000000:ℝ) := by nlinarith [hg.1, hg.2]
-  have hT1 : (-1241249949847/100000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
-  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (-6893654188071/1000000000000:ℝ) := by nlinarith
-  have hN : (5928259744107/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
-    abs_ge_of_le (by linarith)
+  have hcxl : (903989290823/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (121878168417/125000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (222093618681/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (427555095773/1000000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (1279033180939/100000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (13008157081271/1000000000000:ℝ) := by nlinarith
+  have hp1 : (846719240007/40000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21528481804913/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (4701273500499/1000000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (9204612099947/1000000000000:ℝ) := by nlinarith
+  have hN : (3726248153163/1000000000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
   have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
-  have hD : 2*(Real.pi*x)^2 - 1 ≤ (13080211214751/25000000000:ℝ) := by nlinarith
-  have hfin := wfun_ge x (5928259744107/1000000000000:ℝ) (13080211214751/25000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
-  have hsq : (641911203/5000000000000:ℝ) ≤ ((5928259744107/1000000000000:ℝ)/(13080211214751/25000000000:ℝ))^2 := by norm_num
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (168712150651021/500000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (3726248153163/1000000000000:ℝ) (168712150651021/500000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1219525351/10000000000000:ℝ) ≤ ((3726248153163/1000000000000:ℝ)/(168712150651021/500000000000:ℝ))^2 := by norm_num
+  linarith
+
+theorem wc_957 (x : ℝ) (h₁ : (66707/16384:ℝ) ≤ x) (h₂ : x ≤ (33361/8192:ℝ)) : (328040051/2500000000000:ℝ) ≤ wfun x := by
+  have hpl := pi_lo
+  have hph := pi_hi
+  have hg := gam_bounds
+  have ht1 : (1122682189/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (2274126519/10000000000:ℝ) := by nlinarith
+  have hc1 : (487126495129/500000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := cos_lower (by linarith) ht2 (by norm_num)
+    have h2 : (487126495129/500000000000:ℝ) ≤ taylorCos (2274126519/10000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (974897428267/1000000000000:ℝ) := by
+    have h := cos_upper (by norm_num) ht1 (by linarith)
+    have h2 : taylorCos (1122682189/5000000000:ℝ) + taylorErr ≤ (974897428267/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hs1 : (222654458213/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := sin_lower (by norm_num) ht1 (by linarith)
+    have h2 : (222654458213/1000000000000:ℝ) ≤ taylorSin (1122682189/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (56364387907/250000000000:ℝ) := by
+    have h := sin_upper (by linarith) ht2 (by norm_num)
+    have h2 : taylorSin (2274126519/10000000000:ℝ) + taylorErr ≤ (56364387907/250000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hcxl : (487126495129/500000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (974897428267/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (222654458213/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (56364387907/250000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (2558181410437/200000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (3198445816541/250000000000:ℝ) := by nlinarith
+  have hp1 : (4233786605237/200000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21173693440263/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (1178339328473/250000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (1193442270491/250000000000:ℝ) := by nlinarith
+  have hN : (5981535817/1600000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
+  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (81590445130789/250000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (5981535817/1600000000:ℝ) (81590445130789/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (328040051/2500000000000:ℝ) ≤ ((5981535817/1600000000:ℝ)/(81590445130789/250000000000:ℝ))^2 := by norm_num
+  linarith
+
+theorem wc_958 (x : ℝ) (h₁ : (66707/16384:ℝ) ≤ x) (h₂ : x ≤ (66727/16384:ℝ)) : (1311765751/10000000000000:ℝ) ≤ wfun x := by
+  have hpl := pi_lo
+  have hph := pi_hi
+  have hg := gam_bounds
+  have ht1 : (1122682189/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (1141856949/5000000000:ℝ) := by nlinarith
+  have hc1 : (974036387837/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := cos_lower (by linarith) ht2 (by norm_num)
+    have h2 : (974036387837/1000000000000:ℝ) ≤ taylorCos (1141856949/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (974897428267/1000000000000:ℝ) := by
+    have h := cos_upper (by norm_num) ht1 (by linarith)
+    have h2 : taylorCos (1122682189/5000000000:ℝ) + taylorErr ≤ (974897428267/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hs1 : (222654458213/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := sin_lower (by norm_num) ht1 (by linarith)
+    have h2 : (222654458213/1000000000000:ℝ) ≤ taylorSin (1122682189/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (14149468821/62500000000:ℝ) := by
+    have h := sin_upper (by linarith) ht2 (by norm_num)
+    have h2 : taylorSin (1141856949/5000000000:ℝ) + taylorErr ≤ (14149468821/62500000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hcxl : (974036387837/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (974897428267/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (222654458213/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (14149468821/62500000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (2558181410437/200000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (3198685501039/250000000000:ℝ) := by nlinarith
+  have hp1 : (4233786605237/200000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21175280150301/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (1178339328473/250000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (2396951730101/500000000000:ℝ) := by nlinarith
+  have hN : (5981535817/1600000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
+  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (81602711476457/250000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (5981535817/1600000000:ℝ) (81602711476457/250000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1311765751/10000000000000:ℝ) ≤ ((5981535817/1600000000:ℝ)/(81602711476457/250000000000:ℝ))^2 := by norm_num
+  linarith
+
+theorem wc_959 (x : ℝ) (h₁ : (66707/16384:ℝ) ≤ x) (h₂ : x ≤ (16683/4096:ℝ)) : (1311371447/10000000000000:ℝ) ≤ wfun x := by
+  have hpl := pi_lo
+  have hph := pi_hi
+  have hg := gam_bounds
+  have ht1 : (1122682189/5000000000:ℝ) ≤ Real.pi * (x - (4:ℝ)) := by nlinarith
+  have ht2 : Real.pi * (x - (4:ℝ)) ≤ (1146650639/5000000000:ℝ) := by nlinarith
+  have hc1 : (973818890081/1000000000000:ℝ) ≤ Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := cos_lower (by linarith) ht2 (by norm_num)
+    have h2 : (973818890081/1000000000000:ℝ) ≤ taylorCos (1146650639/5000000000:ℝ) - taylorErr := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hc2 : Real.cos (Real.pi * (x - (4:ℝ))) ≤ (974897428267/1000000000000:ℝ) := by
+    have h := cos_upper (by norm_num) ht1 (by linarith)
+    have h2 : taylorCos (1122682189/5000000000:ℝ) + taylorErr ≤ (974897428267/1000000000000:ℝ) := by unfold taylorCos taylorErr; norm_num
+    linarith
+  have hs1 : (222654458213/1000000000000:ℝ) ≤ Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := sin_lower (by norm_num) ht1 (by linarith)
+    have h2 : (222654458213/1000000000000:ℝ) ≤ taylorSin (1122682189/5000000000:ℝ) - taylorErr := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hs2 : Real.sin (Real.pi * (x - (4:ℝ))) ≤ (113662621323/500000000000:ℝ) := by
+    have h := sin_upper (by linarith) ht2 (by norm_num)
+    have h2 : taylorSin (1146650639/5000000000:ℝ) + taylorErr ≤ (113662621323/500000000000:ℝ) := by unfold taylorSin taylorErr; norm_num
+    linarith
+  have hcx : Real.cos (Real.pi*x) = (1:ℝ) * Real.cos (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).1
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hsx : Real.sin (Real.pi*x) = (1:ℝ) * Real.sin (Real.pi * (x - (4:ℝ))) := by
+    have h := (trig_shift (4:ℝ) (x - (4:ℝ))).2
+    rw [show (4:ℝ) + (x - (4:ℝ)) = x by ring, cs_4.1, cs_4.2] at h
+    rw [h]; ring
+  have hcxl : (973818890081/1000000000000:ℝ) ≤ Real.cos (Real.pi*x) := by rw [hcx]; linarith
+  have hcxu : Real.cos (Real.pi*x) ≤ (974897428267/1000000000000:ℝ) := by rw [hcx]; linarith
+  have hsxl : (222654458213/1000000000000:ℝ) ≤ Real.sin (Real.pi*x) := by rw [hsx]; linarith
+  have hsxu : Real.sin (Real.pi*x) ≤ (113662621323/500000000000:ℝ) := by rw [hsx]; linarith
+  have hb1 : (2558181410437/200000000000:ℝ) ≤ Real.pi*x := by nlinarith
+  have hb2 : Real.pi*x ≤ (12795700742149/1000000000000:ℝ) := by nlinarith
+  have hp1 : (4233786605237/200000000000:ℝ) ≤ 2*gam*(Real.pi*x) := by nlinarith [hg.1, hg.2]
+  have hp2 : 2*gam*(Real.pi*x) ≤ (21176866860341/1000000000000:ℝ) := by nlinarith [hg.1, hg.2]
+  have hT1 : (1178339328473/250000000000:ℝ) ≤ 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) := by nlinarith
+  have hT2 : 2*gam*(Real.pi*x)*Real.sin (Real.pi*x) ≤ (481403639751/100000000000:ℝ) := by nlinarith
+  have hN : (5981535817/1600000000:ℝ) ≤ |Real.cos (Real.pi*x) - 2*gam*(Real.pi*x)*Real.sin (Real.pi*x)| :=
+    abs_ge_of_ge (by linarith)
+  have hD0 : (1:ℝ) < 2*(Real.pi*x)^2 := by nlinarith
+  have hD : 2*(Real.pi*x)^2 - 1 ≤ (65291982993053/200000000000:ℝ) := by nlinarith
+  have hfin := wfun_ge x (5981535817/1600000000:ℝ) (65291982993053/200000000000:ℝ) (by norm_num) (by norm_num) hD0 hD hN
+  have hsq : (1311371447/10000000000000:ℝ) ≤ ((5981535817/1600000000:ℝ)/(65291982993053/200000000000:ℝ))^2 := by norm_num
   linarith
 
 end Zeta23Ext.Bridge.FourPoint
