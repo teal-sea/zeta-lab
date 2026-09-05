@@ -70,6 +70,13 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Reversal minimax probe (`reversal_minimax/`, 2026-09-04)
+
+Whole-laboratory structural scout. It tests the pressure optimization's
+reversal symmetry and constructs a finite mixed adversary to check the
+reported optimum independently of the search. Status and exact scope are
+recorded in that hunt's `RESULTS.md`; no new zeta proportion is asserted.
+
 ### Hunt #114: one Epstein value, checked against a route that does not cancel (`support_e6241336/`)
 
 **Status: settled** (support run `e6241336`, serving run `872d7dce` /
