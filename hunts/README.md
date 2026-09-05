@@ -70,6 +70,15 @@ control roles — and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Four-point pressure tuning (`four_point_pressure/`)
+
+**Status: closed exploratory record; complete Lean check canceled.** Exact
+parameter substitution and an emitted-source preflight accompanied a candidate
+near `0.6728603588`. The dependency build was canceled before any candidate
+proof module ran. No new proved bound, and no 68% or 69% result, is claimed.
+`RUNS.md` preserves the arithmetic, candidate commit and terminal CI evidence.
+Generated Lean replacements and build-workflow changes remain off `main`.
+
 ### Cycle-moment counting probe (`cycle_moments/`, 2026-09-05)
 
 Finite concave spectral counting inequalities, an exact obstruction to using
