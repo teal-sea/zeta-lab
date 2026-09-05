@@ -1361,20 +1361,30 @@ def polynomial_heat_flow(
       ``all_real``     (n_t,) bool
       ``convention``, ``ode``, ``verification`` — what was checked
 
-    Everything here is double precision (numpy); the degrees involved make that
-    ample, and ``max_ode_error`` reports the agreement actually achieved.
+    Everything here is double precision (numpy). Both routes evolve in a
+    coordinate centered at a middle input root, then translate back. This avoids
+    coefficient cancellation from a large common offset; high degree or tightly
+    clustered roots can still be ill-conditioned. ``roots_exact`` names the
+    finite coefficient evolution, not exact-arithmetic root finding.
+    ``max_ode_error`` measures agreement in the centered coordinate, before the
+    final translation can round away small differences.
     """
     r0 = np.asarray(sorted(float(r) for r in roots), dtype=float)
     if len(set(r0.tolist())) != len(r0):
         raise ValueError("roots must be distinct")
     ts = np.array(sorted(float(t) for t in t_values), dtype=float)
-    c0 = np.poly(r0)
     n = len(r0)
+    origin = r0[n // 2] if n else 0.0
+    centered = r0 - origin
+    c0 = np.poly(centered)
     sign = -1  # de Bruijn-Newman convention: p_t = exp(-t D^2) p, matching H_t
     const = +2.0  # its verified partner
 
     roots_exact = np.empty((len(ts), n), dtype=complex)
     for i, t in enumerate(ts):
+        if t == 0:
+            roots_exact[i] = centered
+            continue
         ct = _heat_evolve_coeffs(c0, float(t), sign)
         rr = np.roots(ct) if len(ct) > 1 else np.array([], dtype=complex)
         if len(rr) < n:
@@ -1384,7 +1394,7 @@ def polynomial_heat_flow(
     roots_ode = np.empty((len(ts), n), dtype=complex)
     for i, t in enumerate(ts):
         steps = max(200, int(ode_steps_per_unit_t * abs(float(t))) + 1)
-        roots_ode[i] = _sort_complex(_rk4(r0, 0.0, float(t), const, steps))
+        roots_ode[i] = _sort_complex(_rk4(centered, 0.0, float(t), const, steps))
 
     max_abs_imag = np.max(np.abs(roots_exact.imag), axis=1)
     all_real = max_abs_imag < 1e-8
@@ -1406,8 +1416,8 @@ def polynomial_heat_flow(
 
     return {
         "t_values": ts,
-        "roots_exact": roots_exact,
-        "roots_ode": roots_ode,
+        "roots_exact": roots_exact + origin,
+        "roots_ode": roots_ode + origin,
         "max_ode_error": max_ode_error,
         "max_abs_imag": max_abs_imag,
         "min_gap": min_gap,
