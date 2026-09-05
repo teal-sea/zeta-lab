@@ -45,3 +45,19 @@ agents_may_not:
 The last kill condition applies to novelty, not to the usefulness of a concrete
 countercertificate. A previously unrecorded refutation can survive even when
 the argument that finds it is classical.
+
+## Operator-directed continuation, 2026-09-04
+
+The operator asked whether overlapping combinatorial estimates subtract the
+same zeros repeatedly, then explicitly directed this run to continue. The
+follow-up in this directory audits the existing bridge's counting and
+pressure losses, derives any tighter finite inequalities, and tests them
+against exact gap-incidence counts and the actual overlap kernel. The
+three- and four-point Lean developments are read-only inputs. A proposed
+improved zeta proportion stays a candidate until its complete replacement
+assembly has been checked. The historical reversal witness is unchanged.
+
+No heavy computation is needed for the counting audit. Small finite checks
+and exact rational arithmetic run locally; no larger search is authorized
+by this amendment. Publication and changes to the registered proofs remain
+outside scope.
