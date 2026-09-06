@@ -313,3 +313,23 @@ Actions run `32743347292`, 2026-08-24T15:11:33Z.
 Two of the five estimates were wrong in the same way: they priced the thing the
 job was for and not the thing the job had to do first. That is the same class of
 error as run 8's missing estimate, one level up.
+
+## 12. 2026-09-06: the verifier at `b3b7784`, Actions run `34024309937`
+
+Workflow `hunt-amtopa-ceiling` gained a `verifier_commit` input (default `b3b7784`) and a
+`certificate_only` switch; branch `hunt/amtopa-verifier-b3b7784`. Tables at the pinned tip
+as before; the verifier and `write_verifier_config.py` from a second clone at `b3b7784`;
+baseline candidate is the tip's `candidate.json` (the headline's certificate; `b3b7784`'s
+own file has target `7897/10^6`). `candidate_data.py` honours `ZETA_CANDIDATE_PATH` at both
+revisions; `root-shard.patch` applies at `b3b7784` with `git apply` (offsets 34, 7).
+
+| job | outcome | wall |
+|---|---|---|
+| headroom | candidate at `19791/2500000`, float minimum `0.00791685780578066` | about 15 min |
+| tables x 12 | all passed | a few minutes each |
+| certificate, baseline x 8 | `SHARD_VERIFIED` x 8, convex 34,780 to 459,982 | 1 to 19 s each |
+| certificate, ours x 8 | `SHARD_VERIFIED` on 0, 3, 6, 7; `INCONCLUSIVE` terminal cell on 1, 2, 4, 5 | 1 to 13 s each |
+
+Refusing cells and rigorous lower bounds: `RESULTS.md` section 7.7. Free minutes on a public
+repository; the whole run under an hour of wall clock, against the hour-per-shard the tip
+needed to reach nothing.

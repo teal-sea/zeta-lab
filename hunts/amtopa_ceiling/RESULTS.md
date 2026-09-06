@@ -807,6 +807,51 @@ more**, and this hunt does not claim otherwise.
 
 ---
 
+### 7.7 The certificate, obtained: at `b3b7784` their headline replays and ours is refused
+
+**2026-09-06, Actions run `34024309937`, workflow `hunt-amtopa-ceiling` with the new
+`verifier_commit` input.** Exactly the cycle §7.6 priced: tables at the pinned tip (six
+shards each for both candidates, all passed), the C++ verifier and its config writer built
+from `b3b7784ed0089c3c2197d740aaae1a424d142e44` in a second clone, `root-shard.patch` applied
+there (offsets 34 and 7 lines), the tip's `candidate.json` as the baseline since it is the
+headline's certificate and `b3b7784`'s own file carries an older target, eight search shards
+per candidate.
+
+**Their headline: `SHARD_VERIFIED` on 8 of 8, with the gate alive.** `convex` per shard
+34,780 to 459,982, `tangent` 14,972 to 214,264, and every shard done in 1 to 19 seconds
+against the tip's minutes and non-termination. So §3.0 was exactly right: the one thing wrong
+at the tip is the gate, and their published finite inequality is accepted by their own
+verifier at the revision their own `candidate.json` names. **VERIFIED.** Their number stands
+at that revision.
+
+**Ours, target `19791/2500000`: `INCONCLUSIVE` at a terminal cell on 4 of 8 shards.**
+
+| shard | verdict | rigorous lower bound at the cell | the cell, in gap units (box / 4000) |
+|---|---|---|---|
+| 0 | SHARD_VERIFIED | | |
+| 1 | INCONCLUSIVE | `0.0078933207` | `1.03975, 1.95625, 1.03825, 1.03325, 1.9595, 1.03775` |
+| 2 | INCONCLUSIVE | `0.0078989953` | `1.03975, 1.97525, 1.04775, 1.968, 1.044, 1.971` |
+| 3 | SHARD_VERIFIED | | |
+| 4 | INCONCLUSIVE | `0.0078943512` | `1.95025, 1.0475, 1.96625, 1.03325, 1.02475, 1.02775` |
+| 5 | INCONCLUSIVE | `0.0078942963` | `1.033, 1.0395, 1.965, 1.041, 1.96425, 1.03775` |
+| 6 | SHARD_VERIFIED | | |
+| 7 | SHARD_VERIFIED | | |
+
+Those four bounds sit `2.2e-5` below our target and below the leader's own floor
+`0.0079107` too, at width-zero cells, with the gate active (`convex` 14,135 to 134,789 on the
+refusing shards). That is not the tip's `2.70e-08` near-miss; it is the functional at our
+`(a, b)` genuinely reaching about `0.00789` at gap vectors of a different shape (two large
+gaps out of six) from the basin the minimiser reported (three large, `1.966, 1.047, 1.976,
+1.036, 1.035, 1.975`, value `0.00791686`). **Kill condition 2 fires: the minimiser missed a
+basin, and §1's `+3.96e-06` is withdrawn.** The LP's cut pool never contained these gap
+vectors, so `eps* <= LP value` was never wrong; the claimed floor was.
+
+What this leaves is the honest cutting-plane loop with their verifier as the separation
+oracle: add the four cells to the pool, re-solve, re-verify. The LP value after that is a new
+upper bound on what these two axes have left at their window and their `B`; if it falls below
+their `0.0079111`, AMTOPA are at the ceiling of those axes and §1's headline reverses.
+Recorded in `RUNS.md` when it lands.
+
 ## 8. Knownness
 
 No prior-art search was run on the window Rayleigh identity of §4.1 and **no

@@ -44,12 +44,14 @@ what blocks it. A hunt that produces one adds its line; a session that certifies
 moves the line. Opened because hunt #90's two candidates sat in `hunts/README.md` alone from
 2026-08-24, the same way hunt #110's finding did.
 
-- **`0.6734201550790580964…`, `+3.96e-6` over the record**, hunt #90 `amtopa_ceiling`,
-  2026-08-24. Exact assembly at the LP optimum of the leader's pair-weight axis, in their own
-  schema. Conditional on the ladder's unreviewed bridge; the floor is a float minimum until a
-  verifier accepts it; the leader's verifier fails closed at its repository tip, which blocks
-  this candidate as well as their own. What would move it: a verifier that accepts, theirs at
-  the earlier revision or one of ours, then Lean.
+- **KILLED 2026-09-06: `0.6734201550790580964…`, `+3.96e-6` over the record**, hunt #90
+  `amtopa_ceiling`, 2026-08-24. Run through the leader's own verifier at `b3b7784`, the
+  revision their `candidate.json` names (Actions run `34024309937`): their headline is
+  accepted on 8 of 8 shards with the gate alive, ours is refused at terminal cells on 4 of 8
+  with rigorous lower bounds about `0.00789`, below even their floor. The minimiser missed a
+  basin; hunt #90's kill condition 2. One cutting-plane round with the refused cells added to
+  the pool is running; its LP value is the new upper bound on what those axes have left.
+  `hunts/amtopa_ceiling/RESULTS.md` section 7.7.
 - **`0.6734536…`, `+3.7e-5`, direction only**, same hunt: five differential-evolution seeds
   on the window axis, floors early-stopped, "direction, not magnitude". What would move it: an
   exact solve on that axis.
