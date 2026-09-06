@@ -1,5 +1,11 @@
 # outband_certificate: spend the out-of-band fact, or prove it cannot be spent
 
+**Status, 2026-09-06: closed on kill condition 2, at prose grade.** `RESULTS.md` section 8:
+the out-of-band positivity is worth zero to any certificate whose positivity input is Weil's
+Hermitian form, and what hunt #110 priced was the RH-conditional class. The two inputs that
+would reopen it are named there. The board stays as the place a Lean formalisation of the
+edge lemma would land; nothing on it is launched.
+
 Hunt #110 (`../outband_intake/`) measured that the unconditional out-of-band positivity of
 Baluyot, Goldston, Suriajaya and Turnage-Butterbaugh (arXiv:2306.04799, Theorem 1) is worth
 between +0.005 and +0.009 on the unconditional simple-zero proportion, landing the

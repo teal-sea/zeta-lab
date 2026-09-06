@@ -1,8 +1,15 @@
-# outband_certificate: the supporting certificate is pointwise nonnegative with a signed transform, and a strip of width 0.05 is worth about the record gap but is inside the ladder's error
+# outband_certificate: a ceiling. The out-of-band positivity is worth zero to any certificate whose positivity input is the Hermitian form's, and what hunt #110 priced was the RH-conditional class
 
-**Verdict so far: the hunt is open. Two things measured, one thing read, no candidate
-argument yet, nothing kernel-checked.** Grade: **measured**, and only that. Nothing here is
-evidence for or against RH (`docs/08`).
+**Verdict, 2026-09-06: kill condition 2 fires, at prose grade.** Section 8 has the argument;
+sections 1 to 7 are the measurements and the lemma it rests on. The question the hunt asked,
+whether an inertia or isolation argument can let a finite certificate spend BGSTB's
+positivity, is answered no for every argument whose positivity comes from Weil's Hermitian
+form, which is every unconditional argument in the field. What hunt #110 measured as
+"+0.005 to +0.009" is the worth of the information to the pointwise-positivity class, which
+is the class RH grants. The two inputs that would reopen the question are named at the end of
+section 8. Grade: **proved** for the edge lemma and the dichotomy, **read** for the structure
+of the paper's compression, **measured** for everything numerical. Nothing kernel-checked.
+Nothing here is evidence for or against RH (`docs/08`).
 
 First session, 2026-09-05 to 06. Everything below reproduces hunt #110's numbers before it
 adds to them: the in-band control at X = 40, 80, 240 and 320 and the out-of-band values at
@@ -230,14 +237,75 @@ extrapolation put at `+0.0065` with the local decay exponent falling with `X`.
 - **A signed spectral profile that is real and even**, in any inertia-type argument. Dead by
   the edge lemma above, before any price is paid.
 
+## 8. The ceiling, and why the LP priced the wrong class
+
+**What the compression is.** From the paper's abstract and the Lean statement of
+`stable_rank_trace`: Weil's Hermitian form is compressed to a finite basis of test functions,
+and the explicit formula writes the compressed matrix as a sum over zeros. An on-line zero
+contributes a rank-one positive semidefinite piece `v v^H` (with multiplicity `m`, the same
+vector `m` times); an off-line pair contributes a rank-two indefinite piece with one positive
+eigenvalue, which is Sylvester's law and the source of `posIndex Q <= b`. So `G = V V^H + Q`
+exactly as the theorem takes it. The pair weight in the Frobenius norm is `|<v_rho, v_rho'>|^2`,
+and `<v_rho, v_rho'>` is a Gram pairing in a *definite* inner product (the standard one on the
+compression space). A Gram pairing of shifted windows is a positive-definite kernel by
+construction: in the paper it is `FT(phi^2)`, whose transform `phi^2` is nonnegative, and that
+is #110's "the framework has a free `v >= 0`, never a free `ghat`".
+
+**Why a positive-definite kernel cannot use the strip, in two lines.** Its transform is
+nonnegative everywhere, so the out-of-band term `int_{|alpha|>1} Khat F` is nonnegative and,
+since `F` has no unconditional upper bound outside the band, it is unbounded above. The only
+way to keep the bound is `Khat = 0` outside `[-1, 1]`. Bandwidth one is forced, and BGSTB's
+positivity has nothing to act on.
+
+**Why no other kernel can enter the argument.** A kernel with a signed transform is, by the
+dichotomy of section 5, one whose spectral factor is odd or complex; equivalently it is a Gram
+pairing in an *indefinite* inner product, `V S V^H` with `S` indefinite. Hunt #110 tested
+exactly that weakening of the inertia inequality and refuted it with a two-by-two witness
+(rank half survives, inertia half fails). The two results are the same fact from two sides.
+
+**So the ceiling.** Every unconditional certificate in this field takes its positivity from the
+Hermitian form: that is what replaces RH. Within that input the on-line block is a definite
+Gram matrix, its kernel is positive-definite, its transform is nonnegative, and the strip is
+worth **zero**. The unconditional room that remains is inside bandwidth one, between the
+current `0.6734` and the bandwidth-one configuration ceiling `0.6818`, and it is reached by
+using `(tr G, tr G^2)` better, which is the n-point family this lab already runs.
+
+**What hunt #110 priced.** Its LP is a depth-zero model of the zeros with pointwise positivity
+of the ordinate pair measure (`tau >= -1`) and Montgomery's in-band data. That is the model RH
+grants: no depth, and pointwise positivity over real ordinates, which is the very thing the
+paper's abstract says RH was "classically needed" for. The LP's optimal kernels are pointwise
+nonnegative with signed transforms (section 1), which is the pointwise-positivity certificate
+class, which is conditional. So "+0.005 to +0.009" is what the out-of-band fact is worth to
+a certificate that may assume RH, and Chirre, Goncalves and de Laat's conditional `0.6792`
+sits inside the measured range because it is a member of that class. #110's withdrawn
+coincidence was real. In band, the conditional and unconditional values coincide at Theorem
+D, which is the paper's achievement and why the LP's control converges to the right number.
+
+**The two inputs that would reopen this.** Either would be a result far larger than the
+record: an unconditional evaluation of the *ordinate* pair correlation in band (which would
+make pointwise positivity usable without RH), or an unconditional upper bound on the form
+factor beyond the band (which would let a positive-definite kernel carry out-of-band support).
+Neither is a certificate trick, and the hunt's spec forbids presenting either as available.
+
+**What is proved and what is read.** The edge lemma and the odd counterexample are proved and
+verified. That a positive-definite kernel cannot use the strip is two lines. That the paper's
+on-line block is a definite Gram matrix is read from the abstract, the theorem's statement,
+and `paper_pin.py`'s pinned sentences, not from the full text, which is not on ar5iv; a reader
+of the paper can confirm or refute it in a page. That "every unconditional argument takes its
+positivity from the Hermitian form" is the state of the field as this lab knows it, and is
+the one sentence in this section that is not mathematics.
+
 ## Not done, and why
 
+- **The ceiling is not in Lean.** The edge lemma is a clean statement about `L^2` functions
+  and autocorrelations (Laplace transform, Titchmarsh) and is the natural next Lean target for
+  the board's root item's false side; the framework claim is not a Lean statement at all. So
+  the board's check cannot fire on this verdict, and the hunt closes at prose grade.
 - **No candidate survived.** One was proposed, priced, and killed by a lemma. Nothing went
   through the falsifier, which also does not exist yet (`w-tool-falsify` on the board).
-- **The odd-factor class was not explored as a certificate.** Whether a kernel with an odd
-  factor can beat Theorem D in the Montgomery bound (under RH, the LP says the class reaches
-  about `0.68`), and whether any inertia-type argument can be built around a non-Gram block,
-  are the two questions the dichotomy leaves. The second is the hunt.
+- **The odd-factor class was not explored as a conditional certificate.** Under RH it is the
+  class that reaches about `0.68` (the LP), and CGdL already occupy it at `0.6792`. Nothing
+  unconditional lives there, by section 8.
 - **No Lean.** Nothing here is a statement about `riemannZeta`.
 - **The in-band edge negativity** of section 1 was not chased; it does not affect the sign of
   `g` and the value it could change is the shape of the continuous dual near α = 1.

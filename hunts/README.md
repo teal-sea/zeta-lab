@@ -232,9 +232,15 @@ run closes.
 
 ### Hunt #111: spend the out-of-band fact, or prove it cannot be spent (`outband_certificate/`)
 
-**Status: open, first measurement 2026-09-06.** The step hunt #110 handed forward: an
-inertia or isolation argument valid for a kernel signed only on alpha in (1, 1.5], or a
-ceiling proof that none exists. The target is the record (0.6734165), not the whole 0.68.
+**Status: closed 2026-09-06, kill condition 2, prose grade. A CEILING.** The out-of-band
+positivity is worth zero to any certificate whose positivity input is Weil's Hermitian form
+(every unconditional one): the on-line block is a definite Gram matrix, its kernel is
+positive-definite, its transform is nonnegative, and `F` has no unconditional upper bound
+outside the band, so bandwidth one is forced. What #110 priced was the RH-conditional
+pointwise class, which is why its range holds CGdL's conditional 0.6792. `RESULTS.md`
+section 8; the two inputs that would reopen it are named there. The step hunt #110 handed
+forward was: an inertia or isolation argument valid for a kernel signed only on alpha in
+(1, 1.5], or a ceiling proof that none exists. The target was the record (0.6734165).
 First session, measured grade (`RESULTS.md`): the LP's dual, which is the certificate the
 information supports, is pointwise nonnegative in x-space with a signed transform, strip
 multiplier active on [1.031, 1.5] at X = 80; the LP's `q` and `p_2` columns are identical, so
