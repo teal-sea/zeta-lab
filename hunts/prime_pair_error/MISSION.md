@@ -26,6 +26,14 @@ what can be proved about it (a bound in terms of the zeros of zeta and L(s, chi_
 and an unconditional lower bound on E(N)); it writes `results_wronskian.json` and the
 same test file pins it. Nothing here bears on RH (`docs/08`).
 
+The upper-bound assignment (2026-09-06) is recorded separately in
+UPPER_BOUND.md. Its scope is the entire sharp-cutoff CHHL error E(N), through
+the centered Fourier mean square and a major/minor-arc proof attempt.
+It may add that proof record and small identity tests. It does not reopen the
+completed numerical passes or the A/B review, or change their records.
+The objective is an unconditional upper bound, with every unproved estimate
+identified and every component's contribution to total E retained.
+
 ```huntspec
 id: prime_pair_error
 question: Which separations k carry the Chou-Haag-Huryn-Ledoan error E(N), and is there one compact relationship, with the Hardy-Littlewood prediction held fixed, that accounts for a measurable part of psi_2(N, k) - S(k)(N - k)?
