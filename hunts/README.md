@@ -743,10 +743,14 @@ off, reached cells whose values sit below the LP's claimed floor, and a proper d
 the functional at the candidate's own weights bottoming at `0.0078960`, `1.5e-5` under the
 leader's floor. The LP's cut oracle had missed that basin, so the claimed `+5.9e-6` of
 headroom on the pair-weight and pressure axes is withdrawn with it; the re-solve with a
-stronger oracle bounds that headroom at `8.9e-8` in `eps`, under `7e-8` on the headline:
-those two axes are at the ceiling too, four of five. Window axis still open, its lead soft
-for the same reason.** Earlier status: settled on the measurable axes; window axis open;
-acceptance blocked at the tip. Takes the
+stronger oracle bounds that headroom at `8.9e-8` in `eps`, under `7e-8` on the headline.
+**The window axis went the same way (section 7.8): two candidates built at a window that is
+not theirs, both accepted on 6 of 8 shards and refused at cells with a gap near `2.91` that no
+float search here was seeding, and re-measured with that region seeded all five of the sweep's
+windows land BELOW the record. Control: the same oracle reproduces AMTOPA's own floor exactly
+at their own point. All five axes are at the ceiling; both of this hunt's candidates are
+withdrawn.** Earlier status: settled on the measurable axes; window axis open; acceptance
+blocked at the tip. Takes the
 `ainta_seven_point` playbook to `AMTOPA/zeta-exact-pressure`, the leading public
 claim per Hunt #89, pinned at commit
 `7253fdcab9366af45b8c8caf44e408c0af44a1a7`.

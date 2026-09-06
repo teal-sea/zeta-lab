@@ -25,6 +25,15 @@ moves.
 
 Usage:
     python3 make_candidate.py --out /tmp/amtopa/candidate_ceiling.json
+
+
+WARNING, 2026-09-06. This generator takes the post-quantisation floor from epsstar.harvest,
+the oracle whose blind spot is documented in RESULTS.md section 7.8: at the withdrawn
+candidate's own weights its samples near the deciding basin rank about 440th of 90,729 and it
+descends from the best 48, so it never reaches them. It is still what the workflow's headroom
+job invokes when no candidate_file is given, and the candidate it produced was refused three
+times. Use make_window_candidate.py's floor routine, or wide_floor.py, before trusting a
+number this file writes into float_minimum_observed.
 """
 from __future__ import annotations
 

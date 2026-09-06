@@ -1,6 +1,6 @@
 {
   "description": "Pair-weight and position-pressure optimum of the AMTOPA exact-pressure polytope at their own 17-term window and their own total pressure B=93/23000. Weights come from the cutting-plane linear programme in hunts/amtopa_ceiling/epsstar.py; the window is unchanged from AMTOPA/zeta-exact-pressure.",
-  "status": "CONDITIONAL research-draft candidate; local floor is a float minimum until the six-dimensional interval verifier accepts the rational target; the analytic bridge is inherited and unreviewed",
+  "status": "WITHDRAWN 2026-09-06, see local_search.float_minimum_observed_WITHDRAWN_2026_09_06. CONDITIONAL research-draft candidate; local floor is a float minimum until the six-dimensional interval verifier accepts the rational target; the analytic bridge is inherited and unreviewed",
   "date": "2026-09-06",
   "lineage": [
     "Anthropic zeta simple-zero work",
@@ -75,7 +75,8 @@
       "denominator": 2500000
     },
     "verified": false,
-    "note": "verified=false until the interval verifier accepts this target"
+    "note": "verified=false until the interval verifier accepts this target",
+    "float_minimum_observed_WITHDRAWN_2026_09_06": "The float_minimum_observed field below, 0.00791685780580119, is a float minimiser's over-report. The floor at these exact weights is 0.0078946642, measured with an oracle seeded at the basin AMTOPA's verifier pointed to, and the assembled bound at this candidate is 1.03e-05 BELOW the public record. This candidate is withdrawn; it is kept because it is the record of what was run. RESULTS.md sections 7.7 and 7.8."
   },
   "pair_weights": {
     "denominator": 1000000000,

@@ -54,7 +54,11 @@ permissions:
   contents: read
 
 concurrency:
-  group: hunt-amtopa-ceiling-${{ github.ref }}
+  # The candidate is part of the key. Keyed on the ref alone, dispatching a second
+  # candidate from the same branch cancelled the first one ten minutes in
+  # (2026-09-06, runs 34030130604 and 34030138950), and two targets at one window
+  # is exactly how a margin gets bracketed in one hour instead of two.
+  group: hunt-amtopa-ceiling-${{ github.ref }}-${{ inputs.candidate_file }}
   cancel-in-progress: true
 
 env:
