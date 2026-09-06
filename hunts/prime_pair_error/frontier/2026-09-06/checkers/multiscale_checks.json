@@ -1,0 +1,37 @@
+{
+  "date":"2026-09-06","python":"3.13.5","numpy":"2.3.5","sympy":"1.14.0",
+  "status":"Finite checks only; analytic input theorems and asymptotic deductions require written-proof review.",
+  "energy":{"exact_completed_square_certificates":2,"A_star_uniform_bound":"13 - 4*sqrt(3)","A_star_decimal":6.071796769724491,"tau_star":0.6587835778603475,"frequency_decay_power":0.3412164221396526,"optimized_local_fourth_moment_power":2.3412164221396528,"nonzero_rational_model_power":2.317567155720695,"first_energy_maximum_sigma":0.5941725804420224,"grid_points":5000,"grid_max":{"value":6.071796761722418,"sigma":0.5942},"status":"Exact symbolic identities plus stated numerical diagnostics."},
+  "reproduction":{"integer_weight_identities":512,"kernel_norm_and_plateau_cases":128,"m_range":[1,4],"N_range":[1,32],"arithmetic":"Exact Python integers; signed weights permitted for the identity."},
+  "transfer":{"convolution_cases":3,"localized_cases":9,"max_relative_convolution_error":4.874558506549671e-16,"rows":[
+    {"N":256,"tau":0.4,"delta":0.005713156916228341,"finite_LHS":1.5217475859739025,"finite_LT_RHS":43309234625.56281,"ratio":3.513679239844399e-11},
+    {"N":256,"tau":0.5,"delta":0.009947183943243459,"finite_LHS":300.40309345188933,"finite_LT_RHS":28998908355.98464,"ratio":1.0359117307596641e-08},
+    {"N":256,"tau":0.6587835778603475,"delta":0.023993251536725158,"finite_LHS":7695.204530515895,"finite_LT_RHS":25036315095.50639,"ratio":3.073617064316729e-07},
+    {"N":729,"tau":0.4,"delta":0.003049183876591466,"finite_LHS":1906.140817318363,"finite_LT_RHS":1096733119632.0846,"ratio":1.7380170099703072e-09},
+    {"N":729,"tau":0.5,"delta":0.005894627521922049,"finite_LHS":1736.356453852712,"finite_LT_RHS":573778961186.1162,"ratio":3.0261765789796736e-09},
+    {"N":729,"tau":0.6587835778603475,"delta":0.016788445565367634,"finite_LHS":54063.29384278519,"finite_LT_RHS":450657961792.9524,"ratio":1.199652473190382e-07},
+    {"N":1600,"tau":0.4,"delta":0.0019026028459984401,"finite_LHS":748.6192973701176,"finite_LT_RHS":12055218714855.61,"ratio":6.209918833306577e-11},
+    {"N":1600,"tau":0.5,"delta":0.0039788735772973835,"finite_LHS":59902.9098793559,"finite_LT_RHS":5985128306544.583,"ratio":1.0008625849149069e-08},
+    {"N":1600,"tau":0.6587835778603475,"delta":0.012838721408141376,"finite_LHS":349030.8590594137,"finite_LT_RHS":5127911916017.613,"ratio":6.806490922146621e-08}],"scope":"Finite damped series; grid inequalities are diagnostics, not asymptotic certification."},
+  "arc_budget":{"accounting_cases":9,"nonzero_center_checks":74,"rows":[
+    {"N":400,"Q":6,"band":[0.005,0.07],"M_band":5477.396873015721,"I_band":100921.8745083643,"combined_elementary_RHS":302065.95262246695},
+    {"N":400,"Q":6,"band":[0.02,0.18],"M_band":105462.20261482778,"I_band":504203.54723087826,"combined_elementary_RHS":19868709.956360683},
+    {"N":400,"Q":6,"band":[0.03,0.24],"M_band":117641.35799448115,"I_band":593511.9956892307,"combined_elementary_RHS":21591037.953184254},
+    {"N":900,"Q":10,"band":[0.005,0.07],"M_band":38903.64696829666,"I_band":1086099.1572500803,"combined_elementary_RHS":2383930.6399511956},
+    {"N":900,"Q":10,"band":[0.02,0.18],"M_band":455810.8712350767,"I_band":3260993.5060831876,"combined_elementary_RHS":249759945.97935772},
+    {"N":900,"Q":10,"band":[0.03,0.24],"M_band":484356.37561195553,"I_band":4932665.193035454,"combined_elementary_RHS":268541858.1466235},
+    {"N":1600,"Q":13,"band":[0.005,0.07],"M_band":48255.095442292615,"I_band":5553999.513984228,"combined_elementary_RHS":11298544.897294471},
+    {"N":1600,"Q":13,"band":[0.02,0.18],"M_band":1031398.5331570273,"I_band":14364119.459184488,"combined_elementary_RHS":1448395760.9507577},
+    {"N":1600,"Q":13,"band":[0.03,0.24],"M_band":1363202.7745010438,"I_band":24440517.310314484,"combined_elementary_RHS":1552522560.4825597}],"scope":"Finite Fourier-grid diagnostics; exact inequalities are proved in the note."},
+  "core":{"localized_von_mangoldt_cases":9,"rows":[
+    {"N":144,"m":2,"tau":0.45,"R":1.489646611593103,"central_M":1490.9008818689424,"LHS":668.1483566381467,"RHS":1593.1780212026097},
+    {"N":144,"m":3,"tau":0.3,"R":0.7068526317011422,"central_M":1404.4934936169748,"LHS":668.1483566381467,"RHS":2532.521741194876},
+    {"N":144,"m":4,"tau":0.2,"R":0.43002393610034595,"central_M":1346.0287657877257,"LHS":668.1483566381467,"RHS":18903.790852832866},
+    {"N":400,"m":2,"tau":0.45,"R":2.3591042214211893,"central_M":3779.11509493592,"LHS":1730.6181824593805,"RHS":4047.0869162024587},
+    {"N":400,"m":3,"tau":0.3,"R":0.9603689914493069,"central_M":3647.551394983725,"LHS":1730.6181824593805,"RHS":5573.942721143457},
+    {"N":400,"m":4,"tau":0.2,"R":0.5275117405104496,"central_M":3541.3025438695017,"LHS":1730.6181824593805,"RHS":30965.418625319577},
+    {"N":900,"m":2,"tau":0.45,"R":3.398046056249749,"central_M":17140.02621812388,"LHS":4976.140772855608,"RHS":12607.354289952267},
+    {"N":900,"m":3,"tau":0.3,"R":1.2248781413357266,"central_M":13142.713305075175,"LHS":4976.140772855608,"RHS":14111.289502629608},
+    {"N":900,"m":4,"tau":0.2,"R":0.6203954921498187,"central_M":12183.029544838435,"LHS":4976.140772855608,"RHS":49979.16591426746}],"scope":"Numerical quadrature diagnostics, not interval-certified inequalities."},
+  "all_checks_passed":true
+}

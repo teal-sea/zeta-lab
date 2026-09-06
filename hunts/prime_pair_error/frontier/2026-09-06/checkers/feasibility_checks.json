@@ -1,0 +1,37 @@
+{
+  "seeded_reproducible_checks": true,
+  "localization": {
+    "status": "pass",
+    "exact_integer_weight_cases": 512,
+    "N_range": [1,64],
+    "maximum_squared_kernel_norm_divided_by_N": 7.0,
+    "proved_bound_used": "||kappa_N||_2^2 <= 10N-3"
+  },
+  "soft_energy": {
+    "status": "pass",
+    "synthetic_ordinate_sets": 80,
+    "max_soft_energy_over_unit_energy": 1.2256559426054885,
+    "proved_constant": 4.289868133696453
+  },
+  "gamma_transfer": {
+    "status": "pass",
+    "parameters": "six synthetic complex numbers, not zeta zeros",
+    "X": 10000.0,
+    "frequency_scale_T": 80.0,
+    "max_term_relative_difference": 7.693374701574464e-14,
+    "fourth_moment_alpha": 464538.0665732751,
+    "fourth_moment_log_radius": 464538.066573273,
+    "change_of_variables_relative_error": 4.510880687006716e-15,
+    "four_index_expansion_relative_error": 3.7720969740443707e-16
+  },
+  "prime_localization": {
+    "status": "pass",
+    "rows": [
+      {"N":144,"Q":4,"M1_quadrature":1605.5019452172637,"endpoint_difference":668.1483566381467,"localization_upper_bound_for_endpoint":1521.406627540885,"explicit_tail_allowance":2.4904694606544098,"reproducing_identity_abs_error":2.773958840407431e-11},
+      {"N":400,"Q":6,"M1_quadrature":9255.752656778608,"endpoint_difference":1730.6181824593805,"localization_upper_bound_for_endpoint":6086.208684875656,"explicit_tail_allowance":3.8371597923603953,"reproducing_identity_abs_error":1.0891199053730816e-10},
+      {"N":900,"Q":10,"M1_quadrature":71181.71674416822,"endpoint_difference":4976.140772855375,"localization_upper_bound_for_endpoint":25309.08202285768,"explicit_tail_allowance":2.5234747800424135,"reproducing_identity_abs_error":1.77351466845721e-09}
+    ],
+    "qualification": "quadrature is numerical, not an interval enclosure"
+  },
+  "scope": "finite identity checks only; no asymptotic theorem is certified by these tests"
+}
