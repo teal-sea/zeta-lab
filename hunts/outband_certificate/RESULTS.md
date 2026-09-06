@@ -287,13 +287,72 @@ make pointwise positivity usable without RH), or an unconditional upper bound on
 factor beyond the band (which would let a positive-definite kernel carry out-of-band support).
 Neither is a certificate trick, and the hunt's spec forbids presenting either as available.
 
-**What is proved and what is read.** The edge lemma and the odd counterexample are proved and
-verified. That a positive-definite kernel cannot use the strip is two lines. That the paper's
-on-line block is a definite Gram matrix is read from the abstract, the theorem's statement,
-and `paper_pin.py`'s pinned sentences, not from the full text, which is not on ar5iv; a reader
-of the paper can confirm or refute it in a page. That "every unconditional argument takes its
-positivity from the Hermitian form" is the state of the field as this lab knows it, and is
-the one sentence in this section that is not mathematics.
+**What is proved and what is read, and then checked against the paper.** The edge lemma and
+the odd counterexample are proved and verified. That a positive-definite kernel cannot use
+the strip is two lines. The structure of the compression was first read from the abstract,
+the theorem's statement and `paper_pin.py`; it was then checked against the paper's full text
+(the public PDF `hunts/wide_search/HANDOFF.md` points at, 2260 lines through `pdftotext`),
+which says it in its own words:
+
+- Remark 1.2: the family `V` is a Gabor system at the critical density and `G~` "is its Gram
+  matrix against the explicit-formula kernel", "a finite compression of an operator whose full
+  positivity is RH", and Theorems A to D "extract what the first two trace moments of any such
+  compression can certify unconditionally".
+- (Z), section 1.4: each on-line point contributes "a real rank-one nonnegative form" to `P`,
+  each off-line pair "a form of signature (1, 1)" to `Q`.
+- Section 1.2 and section 7.4: what RH was needed for is "the reading of the zero side, where
+  without RH the zeros are complex and the diagonal terms cannot be isolated by sign", "a
+  positivity that fails for zeros far from the line". BGSTB and Aryan showed the form factor
+  "holds for the sum over all complex zeros".
+- Section 1.2: Chirre, Goncalves and de Laat "obtained 0.6792 via semidefinite programming by
+  exploiting the positivity of F outside [-1, 1]; the optimality statement in Theorem D is
+  scoped to the values of F on [-1, 1] only, so such majorants operate in a different regime."
+- Section 1.5 and section 7.5(a): "the restriction lambda <= 1 is essential", because beyond
+  bandwidth one "the off-diagonal terms are no longer dominated by the diagonal, and their
+  evaluation would require information on prime pairs (the Hardy-Littlewood conjectures)".
+  That is a stronger reason than the one given above: past the band the pair sum cannot even
+  be evaluated on the prime side, not merely bounded on the zero side. Both land in the same
+  place. Proposition 7.4 (Cap) and 7.5(d), (e): higher moments add nothing unconditionally.
+- Section 7.5(b): the extremal configuration replaces doubles "by off-line pairs of depth -> 0
+  (spectrally the same)", which is the LP's `q`/`p_2` degeneracy of section 2, in the paper's
+  words.
+
+So the only sentence in this section that is not mathematics is that every unconditional
+argument in the field takes its positivity from the Hermitian form. The paper says as much of
+its own method, and names the CGdL route as the conditional other regime.
+
+## 9. The neighbouring threads, placed by this verdict
+
+Everything unconditional lives inside bandwidth one, between the record `0.6734165` and the
+configuration ceiling `0.68185` of Remark 1.1, and is reached by using `(tr G~, tr G~^2)`
+better. Read against that, the threads of 2026-08-24 to 09-05:
+
+- **Hunt #90 `amtopa_ceiling` (2026-08-24)** is the live in-band thread. In the leader's own
+  schema, an exact assembly at the LP optimum of their pair-weight axis gives
+  `0.6734201550790580964…`, `+3.96e-6` over their `0.6734164909…`; it is conditional on the
+  same unreviewed bridge as the whole ladder and its floor is a float minimum until a verifier
+  accepts it, and the leader's own verifier fails closed at its repository tip (a
+  reproducibility defect on their side, which blocks this candidate too). Five
+  differential-evolution seeds on the window axis report `+3.07e-5` to `+3.71e-5`, best
+  `0.6734536…`, and the hunt calls that "direction, not magnitude". Neither number appears in
+  `README.md`, `HANDOFF.md` or `ROADMAP.md`; both are now on the Leads line of `HANDOFF.md`.
+- **`four_point_pressure` (2026-09-05)**: the same pressure idea inside this lab's own
+  Lean-checkable four-point bridge gives a candidate `0.6728604`, `+1.3e-5` over the
+  registered `0.6728470`, complete Lean check canceled. It is `0.00056` below the record, and
+  the lab's n-point family's measured ceiling is `0.6730296` (seven and eight points), also
+  below the record. So the record is not reachable in this family; it needs the leader's.
+- **`cycle_moments` (2026-09-05)**: bounded outcome, "does not improve the asymptotic
+  proportion"; consistent with the paper's 7.5(d), (e), that higher moments add nothing
+  unconditionally.
+- **`wide_search` THREAD 1**: the joint-window question (every admissible window's `(tr,
+  Frobenius)` constraint at once) is the one open lane inside the band; its author bets it
+  collapses to the single-window value. Still open. This verdict does not touch it.
+- **Hunt #115** (prior art on the LP-versus-truth gap) found the route "live, not known-dead"
+  in the literature; for the unconditional case this verdict answers it: the LP's value is the
+  conditional class's, and there is no unconditional certificate at it.
+- **`prime_pair_error`** studies the Hardy-Littlewood pair error numerically. That is the
+  input 7.5(a) names as what would extend the band, so it sits on the real wall, as numerics
+  on a conjecture, not as a theorem.
 
 ## Not done, and why
 

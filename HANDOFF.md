@@ -34,7 +34,28 @@ Closed:
   proved: the structure of the paper's compression. The two inputs that would reopen it, an
   unconditional in-band evaluation of the ordinate pair correlation or an unconditional
   out-of-band upper bound on the form factor, are each larger results than the record.
-  `hunts/outband_certificate/RESULTS.md` section 8.
+  `hunts/outband_certificate/RESULTS.md` section 8. Checked against the paper's full text on
+  2026-09-06: Remark 1.2, sections 1.2, 1.5, 7.4 and 7.5 say the same in their own words.
+
+## Leads: numbers measured above the record that nobody has certified (standing section, opened 2026-09-06)
+
+One line per candidate above the public record `0.6734164909714992949`, with its grade and
+what blocks it. A hunt that produces one adds its line; a session that certifies or kills one
+moves the line. Opened because hunt #90's two candidates sat in `hunts/README.md` alone from
+2026-08-24, the same way hunt #110's finding did.
+
+- **`0.6734201550790580964…`, `+3.96e-6` over the record**, hunt #90 `amtopa_ceiling`,
+  2026-08-24. Exact assembly at the LP optimum of the leader's pair-weight axis, in their own
+  schema. Conditional on the ladder's unreviewed bridge; the floor is a float minimum until a
+  verifier accepts it; the leader's verifier fails closed at its repository tip, which blocks
+  this candidate as well as their own. What would move it: a verifier that accepts, theirs at
+  the earlier revision or one of ours, then Lean.
+- **`0.6734536…`, `+3.7e-5`, direction only**, same hunt: five differential-evolution seeds
+  on the window axis, floors early-stopped, "direction, not magnitude". What would move it: an
+  exact solve on that axis.
+- **`0.6728604`, `+1.3e-5` over this lab's own four-point `0.6728470`, not over the record**,
+  `four_point_pressure`, 2026-09-05, complete Lean check canceled. The lab's n-point family
+  tops out at `0.6730296`, below the record, so this family cannot take it.
 
 ---
 
