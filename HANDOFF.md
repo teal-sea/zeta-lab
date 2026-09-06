@@ -22,7 +22,8 @@ that clears one deletes the line and says so in the log. This section exists bec
 
 Closed:
 
-- **2026-09-06, hunt #111 `outband_certificate`, closed as a ceiling.** The wall hunt #110
+- **2026-09-06, hunt #118 `outband_certificate` (renumbered from #111, which `r_c7f779/`
+  already held), closed as a ceiling.** The wall hunt #110
   named on 2026-09-01 (an inertia argument for a non-Gram kernel, "worth +0.005 to +0.009")
   is not a missing argument. Every unconditional certificate takes its positivity from Weil's
   Hermitian form; that makes the on-line block a definite Gram matrix, its kernel

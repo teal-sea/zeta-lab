@@ -230,7 +230,12 @@ failing solver. The verdict lives between the achievability floor `0.05716502`
 and the budget `0.06750841`. This entry is rewritten with the result when the
 run closes.
 
-### Hunt #111: spend the out-of-band fact, or prove it cannot be spent (`outband_certificate/`)
+### Hunt #118: spend the out-of-band fact, or prove it cannot be spent (`outband_certificate/`)
+
+**Renumbered 2026-09-06 from #111 to #118:** #111 had been taken by `r_c7f779/` on
+2026-09-01 and this entry, opened 2026-09-05, reused it. The directory name is the stable
+reference; citations of "hunt #111" dated 2026-09-05 or 2026-09-06 that mean the out-of-band
+certificate mean this entry.
 
 **Status: closed 2026-09-06, kill condition 2, prose grade. A CEILING.** The out-of-band
 positivity is worth zero to any certificate whose positivity input is Weil's Hermitian form
