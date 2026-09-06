@@ -1,4 +1,4 @@
-"""``harness.departments.zeta_department`` — department #1, and the reference wiring.
+"""``harness.departments.zeta_department``, department #1, and the reference wiring.
 
 This module is the subject-coupled side of the seam: it imports the laboratory
 freely and owes the protocol nothing but four lists. Read it as the worked
@@ -11,22 +11,22 @@ claim made in this department's name.
 
 The four roles, and where each came from
 ----------------------------------------
-* **Rivals** — :func:`zeta.epstein.dh_interface` and two Epstein zeta
+* **Rivals** :func:`zeta.epstein.dh_interface` and two Epstein zeta
   functions of discriminant -23. Each satisfies a Riemann-type functional
   equation, has real Dirichlet coefficients and a real Hardy-style Z, and
   violates the property at issue. They are assembled from legitimate Euler
   products but possess no scalar Euler product of their own, because a linear
   combination destroys primitive multiplicative structure while preserving the
   functional equation. This is gate #3 of ``docs/09``.
-* **Decoys** — the ablation move of :func:`zeta.spectral_gate.ablation_defect`
+* **Decoys**, the ablation move of :func:`zeta.spectral_gate.ablation_defect`
   and :func:`zeta.spectral_gate.permutation_defect`, one substituting numbers
   of the same density for the primes, the other keeping the same primes and
   changing only their order. Paired, they are sharp: a construction must react
   to *which* places are present and ignore *what order* they arrive in.
-* **Surrogates** — the three null models of ``zeta/surrogate.py``, built for
+* **Surrogates**: the three null models of ``zeta/surrogate.py``, built for
   ``NULLCONTROLS.md``: a first-order log-correlated field, the full random
   Euler product, and CUE. None carries any arithmetic input.
-* **Lesions** — synthetic zero quadruples at ``1/2 +/- delta +/- iT``, the
+* **Lesions**: synthetic zero quadruples at ``1/2 +/- delta +/- iT``, the
   planted violations of ``zeta/detectors.py``. A detector that does not notice
   one at a given ``delta`` is blind at that magnitude, and its silence on real
   data measures that blindness rather than the world.
@@ -108,7 +108,7 @@ class InterfaceSubject:
     The interface is rebuilt on every ``payload()`` call rather than cached:
     the dicts close over precision and over mpmath state, and a claim that
     mutated one would otherwise silently contaminate every later run of the
-    battery — which would flatter exactly the claims the battery exists to
+    battery, which would flatter exactly the claims the battery exists to
     catch.
     """
 
@@ -141,7 +141,7 @@ RIVALS: tuple[InterfaceSubject, ...] = (
     InterfaceSubject(
         name="davenport_heilbronn",
         _kind="dh",
-        _description="functional equation, real coefficients, real Z — and zeros off the line; no Euler product of its own",
+        _description="functional equation, real coefficients, real Z, and zeros off the line; no Euler product of its own",
     ),
     *(
         InterfaceSubject(
@@ -206,12 +206,12 @@ DECOYS: tuple[PrimeDecoy, ...] = (
     PrimeDecoy(
         name="non_prime_replacement",
         mode="replace",
-        _description="same count and same range, drawn without regard to primality — a spectrum that does not move was never reading the primes",
+        _description="same count and same range, drawn without regard to primality, a spectrum that does not move was never reading the primes",
     ),
     PrimeDecoy(
         name="prime_permutation",
         mode="permute",
-        _description="the same primes in a different order — a spectrum that moves is reading a list index, not a set of places",
+        _description="the same primes in a different order, a spectrum that moves is reading a list index, not a set of places",
     ),
 )
 
@@ -269,7 +269,7 @@ SURROGATES: tuple[IntensitySurrogate, ...] = (
     IntensitySurrogate(
         name="cue",
         kind="cue",
-        _description="characteristic polynomials of CUE matrices — no primes in it anywhere (A3)",
+        _description="characteristic polynomials of CUE matrices, no primes in it anywhere (A3)",
     ),
 )
 
@@ -327,7 +327,7 @@ _LI_ORDERS: tuple[int, ...] = (2, 4, 8)
 #: curve: the projection deviation scales like delta² and measures 1.48e-6 at
 #: delta = 0.1, 1.48e-8 at 0.01, 1.48e-10 at 0.001 (T = 40, n = 8). 1e-7
 #: therefore fires at the largest planted lesion and is *measurably blind* to
-#: the two smaller ones — which is the department's docstring made a number:
+#: the two smaller ones, which is the department's docstring made a number:
 #: the smallest lesion is deliberately below what the criteria can see.
 LI_PROJECTION_THRESHOLD: float = 1e-7
 
@@ -355,7 +355,7 @@ def li_projection_deviation(zeros) -> float:
     Comparing against the *projection* rather than against a fixed clean
     background is load-bearing: the raw λ_n deviation is dominated by the
     presence of four extra zeros and barely changes with delta, so a detector
-    built on it would fire for a quad planted ON the line — detection for a
+    built on it would fire for a quad planted ON the line, detection for a
     reason that has nothing to do with the property. The projection
     differential isolates exactly the off-line displacement.
     """
@@ -374,7 +374,7 @@ def li_projection_detector(zeros) -> bool:
 def off_line_scan(zeros) -> bool:
     """Fires when any zero in the multiset sits off the critical line.
 
-    Full power by construction — the payload *is* the zero multiset, so this
+    Full power by construction, the payload *is* the zero multiset, so this
     reads the property directly. Kept alongside the criterion detector for
     the same reason the compiler department keeps its concrete backend next
     to its model: the power *difference* between the two is the measurement
@@ -390,7 +390,7 @@ DETECTORS: tuple[NamedDetector, ...] = (
         fires=off_line_scan,
         probe=_CLEAN_ZEROS,
         note=(
-            "reads Re(rho) directly from the multiset — full power by construction, "
+            "reads Re(rho) directly from the multiset, full power by construction, "
             "the baseline the criterion detector is measured against"
         ),
     ),
@@ -401,7 +401,7 @@ DETECTORS: tuple[NamedDetector, ...] = (
         note=(
             "Bombieri–Lagarias λ_n against the multiset's on-line projection, "
             f"threshold {LI_PROJECTION_THRESHOLD:g}: fires at delta 0.1, measured "
-            "blind at 0.01 and 0.001 — the criteria's blindness as a number"
+            "blind at 0.01 and 0.001, the criteria's blindness as a number"
         ),
     ),
 )
@@ -436,7 +436,7 @@ REFERENCE_CLAIMS: tuple[ReferenceClaim, ...] = (
         claim=epstein.claim_functional_equation,
         distinguishes=False,
         note=(
-            "true of the target and of every rival — a symmetry shared with functions "
+            "true of the target and of every rival, a symmetry shared with functions "
             "that violate the property cannot be the load-bearing step of any argument "
             "that the property follows from the symmetry"
         ),
@@ -466,7 +466,7 @@ DEPARTMENT = Department(
     detectors=DETECTORS,
     scope=(
         "a surviving claim distinguishes the target from rivals sharing the "
-        "functional-equation structure — nothing more; per docs/08, nothing "
+        "functional-equation structure, nothing more; per docs/08, nothing "
         "here is evidence for or against RH"
     ),
     provenance=Provenance(
@@ -541,7 +541,7 @@ def rigor_backend_independence() -> IndependenceReport:
 
     Radius 3 of 5, one reconvergent layer, and exactly one layer implemented
     twice: the report is the machine-readable form of docs/25's standing
-    consequence — a cross-check bounds only what is actually duplicated.
+    consequence, a cross-check bounds only what is actually duplicated.
     """
 
     return compare(*RIGOR_BACKEND_PATHS)

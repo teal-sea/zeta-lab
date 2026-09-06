@@ -25,7 +25,7 @@ the validated statement is
                  + (1/2π) ∫ h(r) [Re ψ(1/4 + ir/2) - log π] dr
                  - 2 Σ_{n≥2} Λ(n) n^{-1/2} g(log n),
 
-where ρ = 1/2 + iγ_ρ runs over ALL nontrivial zeros — on RH the ordinates
+where ρ = 1/2 + iγ_ρ runs over ALL nontrivial zeros, on RH the ordinates
 γ_ρ are real and enter with both signs (+γ and -γ), ψ is the digamma
 function, and Λ is the von Mangoldt function.  Measured agreement of the two
 sides (see ``tests/test_weil.py``, which re-runs these):
@@ -34,7 +34,7 @@ sides (see ``tests/test_weil.py``, which re-runs these):
   |zero side - arithmetic side| ≈ 8.3e-32 and 2.8e-31 (limited by the
   precision of the cached zeros).
 * Gaussian a = 0.2 at dps = 45: both sides agree to a relative 2e-28 on a
-  value of 8.86e-18 built from pieces of size ~2 — the identity survives
+  value of 8.86e-18 built from pieces of size ~2, the identity survives
   ~18 orders of magnitude of cancellation.
 * Fejér ``h(r) = (sin(br)/(br))²``, b = 2, zeros up to 10⁴: difference
   3.331e-5 against a zero-sum truncation-tail *estimate* of 3.331e-5 (the
@@ -46,7 +46,7 @@ sides (see ``tests/test_weil.py``, which re-runs these):
 Positivity
 ----------
 
-**Weil positivity criterion** (Weil 1952; refined 1972 — see
+**Weil positivity criterion** (Weil 1952; refined 1972, see
 ``docs/07-equivalences-and-criteria.md`` §7): RH holds if and only if
 ``W(h) = Σ_ρ h(γ_ρ) >= 0`` for every admissible ``h`` of *positive type*,
 i.e. every ``h`` that is ``|f̂|²`` on the real axis (equivalently: ``g`` is a
@@ -58,7 +58,7 @@ formulations.  ``weil_functional`` evaluates ``W(h)`` from the *arithmetic*
 side (no zeros used), and ``positivity_probe`` / ``near_tightness_report``
 measure the margin.  Honest scope (``docs/08``): observed positivity reflects
 the computationally verified zeros and is **not** evidence for RH; the
-reconnaissance value is in *where* the functional is tightest — the zero-free
+reconnaissance value is in *where* the functional is tightest, the zero-free
 gap below γ₁ = 14.1347… is what controls it.
 
 Error accounting (nothing is hand-waved)
@@ -142,7 +142,7 @@ def gaussian_pair(a) -> tuple[Callable, Callable]:
     def g(u):
         # 1/(2√(πa)) is recomputed per call: it must match the working
         # precision of the caller, not the precision at construction time
-        # (a itself is a fixed mpf — exact by definition of the pair).
+        # (a itself is a fixed mpf, exact by definition of the pair).
         return mp.e ** (-u * u / (4 * a)) / (2 * mp.sqrt(mp.pi * a))
 
     def envelope(t):  # = |h| on t >= 0, nonincreasing
@@ -166,7 +166,7 @@ def gaussian_pair(a) -> tuple[Callable, Callable]:
 def fejer_pair(b) -> tuple[Callable, Callable]:
     """Fejér pair ``h(r) = (sin(br)/(br))²`` with triangle partner ``g``.
 
-    g(u) = (1 - |u|/2b)/(2b) for |u| < 2b, else 0 — *compact support*, so the
+    g(u) = (1 - |u|/2b)/(2b) for |u| < 2b, else 0, *compact support*, so the
     prime sum in the explicit formula is FINITE: only n < e^{2b} contribute.
     ``h`` is of positive type: the triangle is the self-correlation of the box
     f = 1_{[-b,b]}/(2b), i.e. h = |f̂|² on the real axis.  ``h`` extends to an
@@ -217,7 +217,7 @@ def legendre_pair(n: int) -> tuple[Callable, Callable]:
     ``g(u)`` is a unit-height triangle supported exactly on
     ``[log n², log (n+1)²]`` (and its mirror on the negative axis), so the
     prime term of the explicit formula sees only ``Λ(k)`` for
-    ``n² < k < (n+1)²`` — the interval of Legendre's conjecture.  With
+    ``n² < k < (n+1)²``: the interval of Legendre's conjecture.  With
     centre ``C = log(n(n+1))`` and half-width ``W = log(1 + 1/n)``,
 
         g(u) = (1 - ||u| - C|/W)⁺ ,
@@ -230,7 +230,7 @@ def legendre_pair(n: int) -> tuple[Callable, Callable]:
 
     Unlike :func:`fejer_pair` this pair is **not** of positive type (the
     cosine factor changes sign), so it is an explicit-formula instrument, not
-    a Weil-criterion one.  ``h`` decays only like 1/r² — g is merely C⁰ — so
+    a Weil-criterion one.  ``h`` decays only like 1/r², g is merely C⁰, so
     zero-side truncation tails dominate every budget; the tail machinery is
     given the exact envelope.
     """
@@ -451,7 +451,7 @@ def _pole_term(h):
     # Evenness must be checked on the real axis: for any h that is
     # real-valued on the reals, h(i/2) + h(-i/2) = h(i/2) + conj(h(i/2)) is
     # real by Schwarz reflection, so the imaginary-part check below can
-    # never catch a non-even h — without this spot check a non-even h would
+    # never catch a non-even h, without this spot check a non-even h would
     # produce a silently wrong formula (the zero side symmetrises h, the
     # arithmetic side does not).
     for r0 in (mp.mpf(1) / 3, mp.mpf("1.7")):
@@ -464,7 +464,7 @@ def _pole_term(h):
     v = mp.mpc(h(mp.mpc(0, "0.5")) + h(mp.mpc(0, "-0.5")))
     if abs(v.imag) > tol * (1 + abs(v.real)):
         raise ValueError(
-            "h(i/2) + h(-i/2) is not real — h must take real values on the "
+            "h(i/2) + h(-i/2) is not real, h must take real values on the "
             "real axis and be analytic in |Im r| <= 1/2"
         )
     return v.real
@@ -589,7 +589,7 @@ def _prime_term(g, n_max: int):
     """(-2 Σ_{2<=n<=n_max} Λ(n) n^{-1/2} g(log n),  tail bound >= 0).
 
     Tail bound via ψ(x) < 1.04x (Rosser–Schoenfeld; see module docstring):
-    2·1.04·(N φ(N) + ∫_N^∞ φ dt), φ(t) = t^{-1/2}|g(log t)| — valid when φ is
+    2·1.04·(N φ(N) + ∫_N^∞ φ dt), φ(t) = t^{-1/2}|g(log t)|, valid when φ is
     nonincreasing beyond N, which holds for every pair built here (and is an
     assumption, documented, for user-supplied g).  Zero when g has compact
     support inside [0, log n_max]."""
@@ -690,7 +690,7 @@ def explicit_formula_sides(
 
     Zero side: Σ_{|γ| <= gamma_max} h(γ) over ordinates of both signs, from
     cached verified zeros (mpf precision for the first 1000, float64 RS-scan
-    beyond — see :func:`zeta.statistics.zero_ordinates` for the completeness
+    beyond, see :func:`zeta.statistics.zero_ordinates` for the completeness
     certificates).  Arithmetic side: pole + archimedean + prime terms in the
     convention of the module docstring, no zeros used anywhere.
 
@@ -744,11 +744,11 @@ def weil_functional(h, g, n_max: int | None = None, dps: int = 25) -> mpf:
          + (1/2π)∫ h(r)[Re ψ(1/4+ir/2) - log π] dr
          - 2 Σ_{n>=2} Λ(n) n^{-1/2} g(log n)
 
-    — no zeros enter the computation; by the explicit formula (self-validated
+    - no zeros enter the computation; by the explicit formula (self-validated
     in this module) W(h) = Σ_ρ h(γ_ρ) over all nontrivial zeros.
 
     **Weil positivity criterion** (Weil 1952; refined 1972): RH holds if and
-    only if W(h) >= 0 for every admissible h of positive type — h = |f̂|² on
+    only if W(h) >= 0 for every admissible h of positive type, h = |f̂|² on
     the real axis (g a self-correlation f ⋆ f~) with f ranging over a suitable
     dense class of test functions.  *Hedge*: the precise admissible class
     (compactly supported smooth f vs. analytic-in-a-strip formulations)
@@ -757,7 +757,7 @@ def weil_functional(h, g, n_max: int | None = None, dps: int = 25) -> mpf:
     ``docs/07-equivalences-and-criteria.md`` §7.  A computed W(h) > 0 reflects
     the verified zeros and is not evidence for RH (``docs/08``); a computed
     W(h) < 0 beyond the numerical noise floor would, per the house rule,
-    almost certainly be a bug — but a *true* such value would disprove RH.
+    almost certainly be a bug, but a *true* such value would disprove RH.
 
     This is the *accurate* W(h).  For an enclosure-carrying one (Gaussian and
     Fejér pairs, Arb backend) see :func:`zeta.rigor.enclose_weil_functional`.
@@ -797,13 +797,13 @@ def positivity_probe(
     ``positive`` = W > noise_floor, and ``dps_used``.  When W hides below the
     noise floor at the requested dps (the interesting near-tight members),
     the precision escalates automatically (+15 digits at a time, up to 50)
-    until the sign is *resolved above that floor* — W for e.g. the Gaussian
+    until the sign is *resolved above that floor*: W for e.g. the Gaussian
     a = 0.2 member is ~9e-18 out of pieces of size ~2, and still comes back
     positive.  Note the word: ``noise_floor`` is a conservative *estimate*, so
     ``positive`` is an ordinary floating-point verdict, not a ball-arithmetic
     certificate.  :func:`zeta.rigor.enclose_weil_functional` is the certified
     version of the same quantity (and confirms that a = 0.2 sign).  The
-    minimum-margin entry is flagged ``is_tightest`` — for these families that
+    minimum-margin entry is flagged ``is_tightest``, for these families that
     is always the member whose h is most concentrated inside the zero-free
     gap (-γ₁, γ₁).
     """
@@ -877,12 +877,12 @@ def near_tightness_report(
       zero-free gap (-γ₁, γ₁).  The report returns the fitted slope, the
       prediction -γ₁², and the share of the zero side carried by γ₁ alone.
     * Along the Fejér family W·b² tends to (a b-oscillating neighbourhood
-      of) Σ_γ γ⁻² ≈ 0.02310 — of which the single lowest zero contributes
+      of) Σ_γ γ⁻² ≈ 0.02310, of which the single lowest zero contributes
       1/γ₁² ≈ 22% (measured: 0.2179), and whose per-b share oscillates as
-      sin²(bγ₁) — b = 2 nearly annihilates γ₁ since 2γ₁ ≈ 9π.  Tightness
+      sin²(bγ₁), b = 2 nearly annihilates γ₁ since 2γ₁ ≈ 9π.  Tightness
       is again a story about γ₁.
     * The arithmetic side keeps agreeing with 2Σ_{γ>0}h(γ) even where W is
-      ~10⁻¹⁷ built from pieces of size ~2 (``max_cancellation_digits``) —
+      ~10⁻¹⁷ built from pieces of size ~2 (``max_cancellation_digits``),
       the explicit formula holds through the entire collapse, which is
       exactly what makes W a *functional-analytic* probe of the lowest zero
       rather than a numerical accident.

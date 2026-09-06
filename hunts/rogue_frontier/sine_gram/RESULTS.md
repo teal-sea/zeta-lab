@@ -1,4 +1,4 @@
-# sine_gram — exact spectral moments of the band Gram matrix of the sine process
+# sine_gram: exact spectral moments of the band Gram matrix of the sine process
 
 Status: ACTIVE. Opened 2026-08-17. Nothing here is a result until it survives
 the campaign's destruction stages; grades follow the repository ladder.
@@ -43,12 +43,12 @@ conditional ladder built on the hypotheses HL*(k0, lambda).
 
 ## Files
 
-- `exact_finite_N.py` — the exact engine (integer arithmetic; the instrument
+- `exact_finite_N.py`: the exact engine (integer arithmetic; the instrument
   of record for this study).
-- `mc_moments.py` — CUE Monte Carlo control.
-- `position_space.py` — independent graph-integral machinery (B-splines /
+- `mc_moments.py`: CUE Monte Carlo control.
+- `position_space.py`: independent graph-integral machinery (B-splines /
   cycle space); check on individual terms.
-- `exact_moments.py` — the superseded Wick engine, kept with its defect
+- `exact_moments.py`: the superseded Wick engine, kept with its defect
   documented above.
 
 ## 2026-08-17 (later): the programme's step 1 and 2 executed

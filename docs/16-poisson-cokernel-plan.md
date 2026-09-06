@@ -1,4 +1,4 @@
-# Poisson-Summation Cokernel: Implementation Blueprint
+# 16. Poisson-Summation Cokernel: Implementation Blueprint
 
 The goal of the current sprint is to pass the **Counting Gate**. To do this, we must build a computational model of the Poisson-summation map on the Adelic Schwartz space, and demonstrate that the dimension of its cokernel (at a given cutoff $\Lambda$) scales logarithmically and depends on the arithmetic properties of the primes.
 
@@ -9,7 +9,7 @@ In Connes' Trace Formula, the Adelic Schwartz-Bruhat space $\mathcal{S}(\mathbb{
 This is achieved via the **Multiplicative Poisson Summation Map**:
 $$ E(f)(x) = \sum_{q \in \mathbb{Q}^*} f(qx) $$
 
-The Riemann zeros correspond to the *cokernel* of this map—the states that are "absorbed" or missing when we restrict the scaling operator to the invariant subspace.
+The Riemann zeros correspond to the *cokernel* of this map, the states that are "absorbed" or missing when we restrict the scaling operator to the invariant subspace.
 
 **Crucial Condition ($f(0) = \hat{f}(0) = 0$):**
 The zeros appear as an absorption spectrum ONLY on the subspace of functions where both the function and its Fourier transform vanish at the origin. Off this subspace, the scaling action has the full continuous spectrum. Our computational model must strictly project onto this subspace, otherwise no gaps will exist to count.
@@ -55,7 +55,7 @@ As pre-registered by Fable in `zeta/spectral_gate.py`:
 
 ---
 
-## Review Status — conditionally approved to build (2026-08-05, Fable)
+## Review Status: conditionally approved to build (2026-08-05, Fable)
 
 An earlier revision of this section replaced the reviewer's record with an
 "Approved" stamp written by the reviewed party. That is restored here: review
@@ -63,19 +63,19 @@ status is set by the reviewer, and a pre-registered prediction may never be
 deleted by an edit to the plan it constrains (the original text is at
 `git show 96f25d0:docs/16-poisson-cokernel-plan.md`).
 
-**B1 — resolved.** The map is now Connes' `E` over the multiplicative group
+**B1, resolved.** The map is now Connes' `E` over the multiplicative group
 `Q*`. Correct.
 
-**B2 — resolved.** The condition `f(0) = f-hat(0) = 0` is mandated, and the
+**B2, resolved.** The condition `f(0) = f-hat(0) = 0` is mandated, and the
 odd-Hermite restriction does enforce both at once (odd `f` gives `f(0) = 0`,
 and `f-hat(0)` is the integral of an odd function).
 
-**B3 — still open.** The rewrite asserts that Poisson summation's linear
+**B3, still open.** The rewrite asserts that Poisson summation's linear
 dependencies survive truncation; the objection was that the truncation must be
 *shown* to preserve them. Truncating the rational mesh at height `Lambda`
 makes the exact relations approximate, so the corresponding singular values
 are small-but-nonzero and the "rank" question becomes exactly the `SVD_TOL`
-question — the free parameter the sensitivity table exists to police. No
+question, the free parameter the sensitivity table exists to police. No
 lemma, estimate, or numerical demonstration was added. An assertion of the
 desired outcome is not a mechanism.
 
@@ -89,11 +89,11 @@ right.
 **Circularity caveat (restored).** The `2 log Lambda` target comes from the
 explicit formula and the matrix is assembled from prime data; reproducing it
 is consistent with a rewrite of what `zeta/weil.py` and `scripts/03` already
-contain. Passing the counting gate would not settle naturalness — that
+contain. Passing the counting gate would not settle naturalness, that
 question is not numerical.
 
 **Disposition.** Build `scripts/32_poisson_cokernel_matrix.py` and run the
-gate. B3 does not need to be settled on paper first — the run adjudicates it,
+gate. B3 does not need to be settled on paper first, the run adjudicates it,
 and the prediction above is the stake in the ground. Full approval follows the
 numbers, not the prose.
 
@@ -105,18 +105,18 @@ The prediction held. `scripts/32_poisson_cokernel_matrix.py` (built by the
 Gemini session, reproduced independently) fails all three counting-gate
 checks: growth ratio 8.923 (needs 2.0 ± 0.3), held-out prediction off by
 9.1% (limit 5%), **ablation 0.0%** (needs ≥ 10%). The count is
-`Rows − Cols` exactly — a function of the chosen basis sizes, as B3 said.
+`Rows − Cols` exactly, a function of the chosen basis sizes, as B3 said.
 
 A follow-up diagnostic goes further than B3: the *entire singular-value
 spectrum* of the truncated map is arithmetic-free, not just the thresholded
-rank. Primes vs decoys differ by 1–4% in log-spectrum distance — within
-one-prime-swap noise — and the mollified count `#{sigma < eps}` agrees to
+rank. Primes vs decoys differ by 1–4% in log-spectrum distance, within
+one-prime-swap noise, and the mollified count `#{sigma < eps}` agrees to
 ±1 at every tolerance from 1e-2 to 1e-12. So the fallback of gating a
 smoothed rank on this matrix is also closed.
 
 Root cause, stated carefully: the failure indicts this simplification, not
 only truncation. As built, the primes enter solely as mesh points `n/p` in a
-sum of smooth Gaussians — perturbations a smooth basis cannot remember. The
+sum of smooth Gaussians, perturbations a smooth basis cannot remember. The
 plan's p-adic tensor factor (indicators on `p^{-k} Z_p`), the one component
 that would carry arithmetic *structurally*, was never implemented. "The trace
 formula cannot be computed on a finite matrix" is not established; "this
@@ -124,24 +124,24 @@ matrix carries no arithmetic" is.
 
 Next decision point: implement the p-adic factor before declaring the matrix
 route dead. If ablation still reads ~0% with genuine local factors, the route
-is closed and the regularized alternative already in the repo —
+is closed and the regularized alternative already in the repo,
 `zeta/weil.py`'s Weil functional with smooth test functions and accounted
-truncation tails — is the correct finite shadow of the trace formula.
+truncation tails, is the correct finite shadow of the trace formula.
 
 ## Closed (2026-08-05, p-adic run)
 
 The p-adic tensor factors were implemented (`5ab8c93`: exact denominators
-via `Fraction`, indicator factors on denominator divisibility — a fair
+via `Fraction`, indicator factors on denominator divisibility, a fair
 version of what the outcome entry asked for) and the gate rerun and
 independently reproduced: growth ratio 5.846, prediction error 13.1%,
 ablation 4.8%. All three checks fail with arithmetic now structurally
 present. **The matrix route is closed, by experiment.**
 
 Scope of the conclusion, stated precisely: what is established is that
-these two constructions carry no recoverable arithmetic at any tolerance —
+these two constructions carry no recoverable arithmetic at any tolerance,
 not a general theorem that no finite truncation can. The sprint's question
 reverts to `zeta/weil.py`, where the finite shadow of the trace formula
 already exists with tails accounted; per docs/08, none of this bears on RH
-either way. Any successor sprint should begin the way this one did — a plan
-doc with pre-registered predictions filed before the first run — because
+either way. Any successor sprint should begin the way this one did, a plan
+doc with pre-registered predictions filed before the first run, because
 that discipline is what produced a clean negative result twice in one day.

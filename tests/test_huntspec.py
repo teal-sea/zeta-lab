@@ -1,6 +1,6 @@
 """HuntSpec: the contract block a new hunt's MISSION.md carries.
 
-Parser and validator live here on purpose — the primitive is on probation
+Parser and validator live here on purpose, the primitive is on probation
 (`hunts/HUNTSPEC.md`, probation terms) and earns a real module the first time
 a kill condition fires mechanically. Three layers:
 
@@ -9,7 +9,7 @@ a kill condition fires mechanically. Three layers:
 2. the validator enforces the required keys, the non-empty rules, and the
    crude-but-running lexical rule that an oracle naming a model is refused;
 3. the repository scan validates every ``MISSION.md`` that contains a block,
-   and the template on the spec page itself — so the page cannot drift from
+   and the template on the spec page itself, so the page cannot drift from
    the validator without a test failing.
 """
 

@@ -1,4 +1,4 @@
-"""Controls for paper_joint.py — the joint cap at the paper's field.
+"""Controls for paper_joint.py, the joint cap at the paper's field.
 
 Fast versions of the mandatory controls: completeness (>100, off-band
 allowance exactly 0), band widths below the kernel zero (no merging),
@@ -50,7 +50,7 @@ def test_joint_bands_stay_below_the_kernel_zero():
     """No band merging: every joint band stays narrower than the paper
     kernel's first zero (1.0573 mean gaps = 6.643 grid units).  A wider
     band would put omega's zero inside a single band and void the
-    same-band charge floor — if this fails the run must stop."""
+    same-band charge floor, if this fails the run must stop."""
     z1 = first_kernel_zero()
     assert abs(z1 / MEAN_GAP - 1.0573) < 5e-4
     for pairs in (ISOLATED, DIPOLE, SOFT):
@@ -79,7 +79,7 @@ def test_cap_dominates_joint_greedy_at_theta_full():
 def test_dense_lattice_caps_exactly_zero():
     """nu = 3 shielding: the joint positive part vanishes (one pair's
     positive hump covers its neighbours' bands), so the cap is exactly
-    0 — and the budget stays positive, so the verdict closes."""
+    0, and the budget stays positive, so the verdict closes."""
     rec = PJ.cap(DENSE, 0.9)
     assert rec["cap"] == 0.0
     assert PJ.bands(DENSE) == ()

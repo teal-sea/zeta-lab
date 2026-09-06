@@ -19,7 +19,7 @@ something has been contributed to Mathlib; see *Status* on each row.
 | --- | --- | --- | --- |
 | `Q5656674` Hardy–Ramanujan theorem | `ZetaLean.HardyRamanujan.hardy_ramanujan` | `lean/ZetaLean/HardyRamanujantheorem.lean` (588 lines) | proved here; **not ported, not submitted** |
 | `Q1196729` Mertens's theorems | `ZetaLean.Mertens.mertens_second_theorem` | `lean/ZetaLean/MertensSecond.lean` (354), `Mertensstheorems.lean` (530) | proved here; **not ported, not submitted** |
-| `Q205966` Critical line theorem | — (infrastructure only) | `lean/ZetaLean/HardyZ.lean` | Hardy's `Z` **submitted** as [mathlib4#42963](https://github.com/leanprover-community/mathlib4/pull/42963); the theorem itself is not proved |
+| `Q205966` Critical line theorem |, (infrastructure only) | `lean/ZetaLean/HardyZ.lean` | Hardy's `Z` **submitted** as [mathlib4#42963](https://github.com/leanprover-community/mathlib4/pull/42963); the theorem itself is not proved |
 | `Q1632301` Sturm's theorem | groundwork only | `lean/ZetaLean/Sturm*.lean` | four support lemmas; the theorem is **not** proved |
 
 `Q5656674` also depends on `ZetaLean.HardyRamanujan.turan_variance`, Turán's
@@ -32,7 +32,7 @@ Per file, on 2026-08-19, on this repository's pinned toolchain:
 - zero occurrences of `sorry` in the source;
 - the module's `.olean` is built, so it compiles;
 - `#print axioms` on the headline declaration reports exactly
-  `[propext, Classical.choice, Quot.sound]` — the three axioms Mathlib itself
+  `[propext, Classical.choice, Quot.sound]`: the three axioms Mathlib itself
   is built on. No `native_decide`, no added axioms.
 
 This is the same two-legged gate as `lean/proof_adapter.py`: a static refusal
@@ -42,7 +42,7 @@ scan plus a kernel check, both run locally.
 
 **Proved here is not ported.** Mathlib has its own idiom, naming, file layout
 and generality expectations. A proof that compiles in `ZetaLean` may need
-substantial rework — and may duplicate something Mathlib already has under a
+substantial rework, and may duplicate something Mathlib already has under a
 different name. Two live examples:
 
 - `lean/ZetaLean/ChebyshevBounds.lean` overlaps
@@ -50,7 +50,7 @@ different name. Two live examples:
 - Of four Sturm support lemmas here, `Polynomial.continuousOn_eval_real` is
   already Mathlib's `Polynomial.continuousOn`, and
   `simple_roots_of_coprime_deriv` is already
-  `Polynomial.Separable.eval₂_derivative_ne_zero` — `Separable` is *defined* as
+  `Polynomial.Separable.eval₂_derivative_ne_zero`: `Separable` is *defined* as
   coprimality with the derivative. Only `sign_change_of_odd_multiplicity`
   appears genuinely absent.
 

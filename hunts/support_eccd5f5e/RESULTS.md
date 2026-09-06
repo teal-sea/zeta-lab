@@ -1,4 +1,4 @@
-# RESULTS — red-team audit of the Erdős #126 scout (`r_186989`)
+# RESULTS: red-team audit of the Erdős #126 scout (`r_186989`)
 
 **Hunt, not a result. Nothing here is evidence for or against RH (`docs/08`).**
 

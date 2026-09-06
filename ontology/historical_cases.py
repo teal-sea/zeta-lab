@@ -1,4 +1,4 @@
-"""ontology.historical_cases — the falsification test for the ontology itself.
+"""ontology.historical_cases, the falsification test for the ontology itself.
 
 A classification system that cannot correctly bin things whose outcomes are
 **already settled** is not ready to classify anything new. Before a funnel is
@@ -35,14 +35,14 @@ Each case is replayed twice.
 ``uncatalogued``
     The identical pipeline with the catalogue replaced by one that contains
     nothing (:class:`NullKnownnessDetector`). This is what the laboratory would
-    have done *before* the fact was established — the position the original
+    have done *before* the fact was established, the position the original
     author was in. It is the more searching of the two, because it measures how
     much of the correct answer was carried by the catalogue rather than by
     anything the system computed.
 
     The gate is emptied rather than deleted, and the difference is the whole
-    experiment. Deleting it would make ``survives`` structurally unreachable —
-    the schema will not promote an observation whose knownness check never ran —
+    experiment. Deleting it would make ``survives`` structurally unreachable,
+    the schema will not promote an observation whose knownness check never ran,
     so every case would come back ``inconclusive`` and the run would prove
     nothing. With a gate that runs and finds nothing, promotion is available,
     and a case that still fails to reach it was stopped by something that
@@ -137,7 +137,7 @@ class HistoricalOutcome(StrEnum):
     #: Believed true on strong evidence, and still not proved. Not the same
     #: thing as the state above, and the distinction is the point.
     TRUE_BUT_UNPROVEN = "true_but_unproven"
-    #: Later disproved — however much finite evidence supported it.
+    #: Later disproved, however much finite evidence supported it.
     FALSE = "false"
     #: Known to be equivalent to a question nobody has settled. Neither
     #: supported nor refuted by any finite computation, ever.
@@ -150,14 +150,14 @@ class HistoricalOutcome(StrEnum):
 #: Dispositions a pipeline may **never** assign, given what history settled.
 #: This is the harness's own standard, and a case may not widen it: see
 #: :func:`case_reasons`. Every entry is a statement about accounting, not about
-#: mathematics — "refuted" means *this system produced a counterexample*, and a
+#: mathematics, "refuted" means *this system produced a counterexample*, and a
 #: system that produces a counterexample to a theorem has found a bug in itself.
 IMPOSSIBLE_DISPOSITIONS: Final[Mapping[HistoricalOutcome, frozenset[str]]] = {
     # A theorem cannot be refuted by a computation; if it is, the computation
     # is wrong. It also must not be promoted as an unsettled lead.
     HistoricalOutcome.TRUE_AND_PROVEN: frozenset({"refuted", "survives"}),
     # True, so nothing may refute it; unproved, so nothing may treat it as
-    # settled either — but it is legitimately a lead if no catalogue holds it.
+    # settled either, but it is legitimately a lead if no catalogue holds it.
     HistoricalOutcome.TRUE_BUT_UNPROVEN: frozenset({"refuted"}),
     # The case that matters most. Finite evidence supported this for a century,
     # and a funnel that would have endorsed it endorses anything.
@@ -359,7 +359,7 @@ class CaseGenerator:
     """A lead source that emits exactly one recorded observation.
 
     It satisfies :class:`~ontology.registry.Generator` structurally, so the
-    pipeline treats a replay exactly as it treats a real run — the same
+    pipeline treats a replay exactly as it treats a real run, the same
     validation, the same dispositions, the same conservation invariant. Nothing
     about a case gets a shortcut through the machinery it is testing.
     """
@@ -656,9 +656,9 @@ def gate_dependence(result: CaseResult) -> bool:
     """Was the correct answer carried entirely by the already-known gate?
 
     ``True`` when the full pipeline settled the case and, with the catalogue
-    removed, nothing else did. That is not a defect — a catalogue is *supposed*
+    removed, nothing else did. That is not a defect, a catalogue is *supposed*
     to be the cheapest way to be right, and this package's whole premise is that
-    it will dominate — but it is a fact about the instrument that must be
+    it will dominate, but it is a fact about the instrument that must be
     measured rather than assumed. A laboratory whose every correct answer is
     gate-dependent has screens that are decorative.
     """
@@ -719,7 +719,7 @@ def render_text(results: Sequence[CaseResult]) -> str:
     the report.
     """
     if not results:
-        return "no historical cases were replayed — nothing was validated"
+        return "no historical cases were replayed, nothing was validated"
     width = max(len(r.case_key) for r in results)
     lines = [
         f"historical validation  v{HISTORY_VERSION}   {len(results)} case(s)",

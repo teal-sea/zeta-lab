@@ -1,4 +1,4 @@
-# family_wall — run manifests
+# family_wall: run manifests
 
 ```runmanifest
 id: family_wall-2026-08-23-analytic-limit
@@ -48,8 +48,8 @@ artifacts:
 
 - **The audit is the reason this hunt's argument changed.** It ran with no access to this
   repository, from a brief committed before any work began
-  (`audit/PROVENANCE.md`). It was asked to refute, and it refuted the *argument* — steps (A)
-  and the move to the cap, both with admissible counterexamples — while failing to refute the
+  (`audit/PROVENANCE.md`). It was asked to refute, and it refuted the *argument*, steps (A)
+  and the move to the cap, both with admissible counterexamples, while failing to refute the
   *claim*. The repair and the new coverage are in `FAMILY-LIMIT.md` sections 2.1a and 2.3a.
   Everything under `audit/` is the audit's own work; the only edit is one lexical
   substitution forced by this repository's reserved-vocabulary gate, listed exhaustively in

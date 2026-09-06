@@ -28,7 +28,7 @@ smaller closed-form tail at larger resolved half-range G).  So
 
 and a configuration whose FAST margin is positive has a positive margin
 at the finer instrument too.  The search therefore minimises the fast
-margin, and only a fast-negative candidate is a candidate at all — it is
+margin, and only a fast-negative candidate is a candidate at all, it is
 then re-evaluated at the promotion instrument, where a real violation
 would have to survive.  :func:`resolution_ladder` measures the gap on a
 sample.
@@ -43,9 +43,9 @@ at s = 2.0 it turns at m = 24 as well.  328 of the campaign's 20421
 scores were negative for that reason.  Every candidate is resolved by
 the promotion ladder: the same s = 2.002 lattice at step 0.001, G = 400
 has per-pair margin +0.0541 (m = 2) falling to +0.0219 (m = 96), and the
-worst STRUCTURED seed of the campaign — a commensurate superposition of
+worst STRUCTURED seed of the campaign, a commensurate superposition of
 the s = 2.002 lattice with its half-offset double, k = 18,
-search-instrument relative margin -0.0741 — promotes to +0.2556.  So:
+search-instrument relative margin -0.0741, promotes to +0.2556.  So:
 search-instrument negatives are common, and none survived.  They are
 reported as what they are (resolution artifacts of a 9.5-mean-gap
 resolved window), not suppressed and not counted.
@@ -54,14 +54,14 @@ resolved window), not suppressed and not counted.
 field, the bands, the completeness criterion, the per-cell square
 completion, `K_of`, the closed-form tail, and the budget
 (`PaperJoint`, `paper_chain`).  New: (i) :func:`phipap_trio`, one pass of
-complex sin/cos shared across Phi2, Phi2' and Phi2'' — the same closed
+complex sin/cos shared across Phi2, Phi2' and Phi2'', the same closed
 forms as `paper_chain`, pinned to them at 1e-12 absolute (worst
 measured defect ~2e-14, in Phi2'' just past the series threshold) by
 `test_adversary_evolution.py`; (ii) :class:`Evaluator`, which computes
 the whole cap from ONE field pass instead of `PaperJoint.cap`'s three,
 with a depth-uniform conservative band period so depths can stay
 continuous (`P_CONSERVATIVE <= band_period_lower(y)` makes the tail
-larger, never smaller — pinned by a test); (iii) the search itself.  With
+larger, never smaller, pinned by a test); (iii) the search itself.  With
 `tail_mode="exact"` the evaluator reproduces `PaperJoint.cap` to
 1e-12 (also pinned), which is what licenses the speed.
 
@@ -75,13 +75,13 @@ m-scaling law is at :data:`M_SCALING_RECORD`: the per-pair margin at the
 resonance decreases with m at every instrument, and the fitted
 a + b/m extrapolation at the promotion instrument is what says whether
 that decrease has a positive floor.  Read that number before reading the
-negative as reassurance — the decrease is real, it is just not headed
+negative as reassurance, the decrease is real, it is just not headed
 for zero on this evidence.
 
 **WHAT THE CAMPAIGN ACTUALLY FOUND HARDEST** is worth stating, because
 it is not what the seeds were built around.  The worst configuration is
-not a lattice: it is a COMMENSURATE SUPERPOSITION — the s = 2.002
-lattice together with its half-offset double — polished into unequal
+not a lattice: it is a COMMENSURATE SUPERPOSITION, the s = 2.002
+lattice together with its half-offset double, polished into unequal
 gaps at the deep edge.  That family is periodic with a two-point basis,
 which is exactly the case `cluster_universal.py`'s single-lattice
 periodic analysis does not cover.  It still promotes positive, but it is
@@ -239,7 +239,7 @@ class Evaluator:
         return tot
 
     def field_summary(self, pairs):
-        """``(gs, f, Q, qpp, slope)`` — the same five arrays
+        """``(gs, f, Q, qpp, slope)``, the same five arrays
         `PaperJoint.field` returns, computed once, chunked over the grid
         and vectorised over pairs."""
         ts = np.array([t for t, _ in pairs], float)
@@ -370,8 +370,8 @@ def resolution_ladder(pairs, theta: float = THETA_FULL,
 #: dt = 40, and every resonance the rho map found sits at 1 to 3 mean
 #: gaps (6.3 to 18.8 grid units).  Beyond that the pairs decouple toward
 #: the isolated-pair verdict, which is the easy case.  Sparser spacings
-#: are not left unsearched — the structured seeds run lattices out to
-#: s = 8 mean gaps and :func:`m_ladder` runs them to m = 64 — but the
+#: are not left unsearched, the structured seeds run lattices out to
+#: s = 8 mean gaps and :func:`m_ladder` runs them to m = 64, but the
 #: free optimisers spend their budget where the coupling is.
 GAP_LO, GAP_HI = 0.02, 20.0
 #: depth bounds; the deep edge stops just short of 1/2 (the field's
@@ -465,7 +465,7 @@ class Book:
     n_instrument_failure: int = 0
     n_scored: int = 0
     #: how many scores had been taken when the first negative margin
-    #: appeared — the detector-power number the planted control reports
+    #: appeared, the detector-power number the planted control reports
     first_negative_at: int | None = None
     by_method: dict = dc_field(default_factory=dict)
 
@@ -662,7 +662,7 @@ def coordinate_polish(ev: Evaluator, book: Book, pairs, theta=THETA_FULL,
                       sweeps: int = 4, seed: int = 14,
                       steps=(2.0, 0.5, 0.12, 0.03)) -> dict:
     """Hand-rolled coordinate descent with a shrinking step, on the raw
-    (t, y) coordinates rather than the gap parameterisation — it can move
+    (t, y) coordinates rather than the gap parameterisation, it can move
     one pair through another, which the gap vector cannot."""
     rng = np.random.default_rng(seed)
     cur = [(float(t), float(y)) for t, y in pairs]
@@ -700,7 +700,7 @@ def cmaes_lite(ev: Evaluator, book: Book, k: int, x0, sigma0: float = 2.0,
     """A small separable evolution strategy: isotropic-per-coordinate
     Gaussian sampling with weighted recombination and a per-coordinate
     step adapted from the spread of the selected offspring.  Not CMA
-    proper (no full covariance) — enough to follow a narrow valley that
+    proper (no full covariance), enough to follow a narrow valley that
     axis-aligned coordinate descent walks past."""
     bounds = np.array(free_bounds(k), float)
     lo, hi = bounds[:, 0], bounds[:, 1]
@@ -760,7 +760,7 @@ def fit_m_law(rows) -> dict:
 
     ``a`` is the extrapolated m -> infinity per-pair margin at this
     instrument.  Also fits the two-term model and reports the m at which
-    each fit would cross zero, if it ever does for m > max(m) — that
+    each fit would cross zero, if it ever does for m > max(m), that
     crossing, if positive and finite, is a PREDICTED counterexample and
     the audit prints it as such.
     """
@@ -819,7 +819,7 @@ def m_scaling_study(spacings=(1.0, 2.0, 2.002, 2.05, 3.0),
 #: the finite lattice family, the k = 3 and k = 4 relative margins at the
 #: three lowest are nearly degenerate (k = 3: 0.1624 at s = 2, 0.1759 at
 #: s = 3, 0.1790 at s = 1, everything else above 0.30), so "rediscovered
-#: the binding family" means LANDED ON A RESONANCE, deep — not
+#: the binding family" means LANDED ON A RESONANCE, deep, not
 #: necessarily on s = 2 rather than its neighbours.
 RESONANCES = (1.0, 2.0, 3.0)
 
@@ -829,7 +829,7 @@ def rediscovery_control(n_starts: int = 6, k: int = 4, seed: int = 21,
                         lam: int = 12, polish: bool = True,
                         ev: Evaluator | None = None) -> dict:
     """CONTROL (a): from RANDOM starts, does the optimiser walk back to
-    the known binding regime — deep pairs a few mean gaps apart, scoring
+    the known binding regime, deep pairs a few mean gaps apart, scoring
     at or below the best resonant lattice?
 
     Load-bearing: if the optimiser cannot rediscover the configuration
@@ -843,9 +843,9 @@ def rediscovery_control(n_starts: int = 6, k: int = 4, seed: int = 21,
     Measured, the search does better than that: it drives every start to
     the deep edge and then finds unequal-gap configurations in the
     1.5-3.0 mean gap band that score BELOW the best resonant lattice at
-    the same k.  So the control asks for what a working search must do —
+    the same k.  So the control asks for what a working search must do,
     reach the deep edge, stay in the coupled band, and beat the lattice
-    reference — and records where the spacings actually land.
+    reference, and records where the spacings actually land.
     """
     ev = ev or Evaluator()
     rng = np.random.default_rng(seed)
@@ -901,7 +901,7 @@ def rediscovery_control(n_starts: int = 6, k: int = 4, seed: int = 21,
 @dataclass
 class InflatedEvaluator(Evaluator):
     """CONTROL (b) instrument: the damage field of every pair scaled by
-    ``inflate``, budget untouched — a planted violation the search must
+    ``inflate``, budget untouched, a planted violation the search must
     find.  Mirrors `joint_universal.InflatedJoint` (which inflates ONE
     pair) with a uniform factor, so the planted fault is reachable from
     every configuration rather than only from configurations that happen
@@ -1029,7 +1029,7 @@ def primal_check(pairs, theta: float = THETA_FULL) -> dict:
     be an instrument statement.  Reported for every candidate.
 
     ``joint_greedy`` builds the on-line multiset X site by site, so this
-    is the search over X that the cap merely bounds — the same machinery
+    is the search over X that the cap merely bounds, the same machinery
     `paper_joint.py` uses, not a second one.
     """
     pj = PaperJoint(step=FAST_STEP, G=FAST_G)
@@ -1202,7 +1202,7 @@ def campaign(quick: bool = False, theta: float = THETA_FULL,
 #: was the worst seed, and the coordinate polish then moved one pair by
 #: -0.1 grid units and re-tuned the rest, taking the search-instrument
 #: relative margin from -0.0741 to -0.1631.  So the hardest thing the
-#: campaign found is a commensurate two-lattice, not a single lattice —
+#: campaign found is a commensurate two-lattice, not a single lattice,
 #: which is the one family `cluster_universal.py`'s periodic analysis
 #: does not cover, since it is periodic with a two-point basis.
 WORST_FOUND = {
@@ -1219,7 +1219,7 @@ WORST_FOUND = {
         (113.21043286476177, 0.4999), (126.0393698497353, 0.4999),
         (132.27883834222206, 0.4999), (138.51830683470882, 0.4999),
     ],
-    #: at the SEARCH instrument (step 0.005, G = 60) — negative, and an
+    #: at the SEARCH instrument (step 0.005, G = 60), negative, and an
     #: artifact of that instrument's 0.02733/pair tail handicap
     "search": {
         "step": FAST_STEP, "G": FAST_G,
@@ -1228,7 +1228,7 @@ WORST_FOUND = {
         "rel_margin": -0.163118818332743,
         "completeness": 669.5215266673817,
     },
-    #: at the PROMOTION instrument (step 0.001, G = 400) — the number
+    #: at the PROMOTION instrument (step 0.001, G = 400), the number
     #: that counts.  ``headroom_per_pair`` is the per-pair margin minus
     #: the residual closed-form tail, so a positive value says the
     #: configuration stays positive at every larger G as well.
@@ -1251,7 +1251,7 @@ WORST_FOUND = {
 #: The campaign, as data.  Produced by ``campaign(quick=False)`` at the
 #: recorded seeds; 20421 scored configurations in 2219 s, plus the
 #: promotion pass.  Read ``n_negative_search_instrument`` and
-#: ``n_negative_promoted`` together — the first is large and means
+#: ``n_negative_promoted`` together, the first is large and means
 #: nothing on its own, the second is the result.
 CAMPAIGN_RECORD = {
     "n_evals": 20421,
@@ -1287,10 +1287,10 @@ CAMPAIGN_RECORD = {
     #: promotes to a positive margin with positive headroom.
     #: Every DISTINCT family that went under NEAR_MISS_REL at the search
     #: instrument, with its promotion.  ``build`` reconstructs the
-    #: configuration exactly — ``("lattice", s_gaps, m)`` is
+    #: configuration exactly, ``("lattice", s_gaps, m)`` is
     #: ``lattice(s, 0.4999, m)`` and
     #: ``("commensurate", s1, m1, mult, m2, off)`` is
-    #: ``commensurate(s1, m1, s1*mult, m2, 0.4999, off*s1*MEAN_GAP)`` —
+    #: ``commensurate(s1, m1, s1*mult, m2, 0.4999, off*s1*MEAN_GAP)``,
     #: so a reader can re-score any row without a stored coordinate list.
     #: The campaign's own near-miss list is 330 entries but only 10
     #: distinct, all polish variants of WORST_FOUND; this table is the
@@ -1404,7 +1404,7 @@ CAMPAIGN_RECORD = {
 #:
 #: **The honest caveat on the extrapolation**: the two-term a + b/m fit
 #: is NOT conservative here.  Fitted on m <= 64 at s = 2.002 it gives a
-#: limit of +0.02339, and the measured m = 96 value is +0.021884 —
+#: limit of +0.02339, and the measured m = 96 value is +0.021884,
 #: BELOW its own extrapolated limit.  The three-term fit (residual
 #: 2.4e-4 against the two-term's 3.7e-3) gives +0.01878 and is not
 #: violated by m = 96.  Both stay above the residual tail 0.00378, which
@@ -1440,7 +1440,7 @@ M_SCALING_RECORD = {
     "shape": {"1.0": "decreasing", "2.0": "decreasing",
               "2.002": "decreasing", "2.05": "non-monotone",
               "3.0": "decreasing"},
-    #: fitted two-term limits at the SEARCH instrument — negative at the
+    #: fitted two-term limits at the SEARCH instrument, negative at the
     #: two-mean-gap resonances, which is what the promotion instrument
     #: then resolves
     "search_limit_two_term": {"1.0": 0.001803662800560941,
@@ -1494,7 +1494,7 @@ def build_config(spec):
     """Rebuild a recorded near miss from its ``build`` tuple.
 
     ``("lattice", s_gaps, m)`` and
-    ``("commensurate", s1, m1, mult, m2, off)`` — the two families the
+    ``("commensurate", s1, m1, mult, m2, off)``: the two families the
     campaign's distinct near misses come from.  Everything in
     ``CAMPAIGN_RECORD["near_misses"]`` re-scores through here, so the
     table carries no stored coordinate lists and cannot drift from the
@@ -1596,7 +1596,7 @@ def audit(quick: bool = False):
         for nm, f in (("a+b/m", f1), ("a+b/m+c log m/m", f2)):
             if f["zero_crossing_m"] is not None:
                 print(f"     !! PREDICTED CROSSING under {nm} at m = "
-                      f"{f['zero_crossing_m']:.3g} — a predicted "
+                      f"{f['zero_crossing_m']:.3g}, a predicted "
                       "counterexample AT THIS INSTRUMENT; the promotion "
                       "ladder below is what decides it.")
 

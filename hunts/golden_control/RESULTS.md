@@ -1,9 +1,9 @@
-# Results — the quasicrystal that is a theorem
+# Results: the quasicrystal that is a theorem
 
 **Status: probe, complete. The quasicrystal lane now has its ground-truth
 universe: the tapered-transform instrument, pointed at a golden cut-and-
 project set whose atomic diffraction is proved, reproduces the derived law
-to 2.5e-8 — and the exact-arithmetic stage caught the author mis-remembering
+to 2.5e-8, and the exact-arithmetic stage caught the author mis-remembering
 a classical theorem, which is the house rule doing its job.**
 
 Everything is the accurate regime (numpy float64; exact integers for the
@@ -29,7 +29,7 @@ spirit as `zeta/finitefield.py` for the RH lane.
   code from the embedding lattice, not quoted.
 - **P3 (silence off the module): holds, 300× past the bar.** 200 random
   frequencies away from every visible module point: median response
-  1.0e-5 of scale, versus the weakest tested peak at 9.7e-2 — a
+  1.0e-5 of scale, versus the weakest tested peak at 9.7e-2, a
   **9717×** separation (registered: ≥ 30×; ζ's prime-power gate measured
   26.8× with 1000 zeros, so the theorem-universe instrument has headroom of
   two orders over the arithmetic one, as it should: nothing here is
@@ -37,15 +37,15 @@ spirit as `zeta/finitefield.py` for the RH lane.
 - **P4 (lesions): hold.** Gaussian jitter suppresses each peak by the
   Debye–Waller factor: fitted log-slope vs −σ²/2 within 1.0% (σ = 0.05) and
   0.8% (σ = 0.10). A Poisson set of matched density and extent shows max
-  response 7.1e-3 at the peak set — 14× below the weakest true peak.
+  response 7.1e-3 at the peak set: 14× below the weakest true peak.
 - **P5 (the golden thread): one exact identity holds, one registered claim
-  was wrong and the computation caught it.** χ_DH² = χ₅ pointwise mod 5 —
+  was wrong and the computation caught it.** χ_DH² = χ₅ pointwise mod 5,
   the rival's quartic character squares to the ℚ(√5) character, exactly.
   But the registered Pisano statement π(p) | p − χ₅(p) is **false**, first
   counterexample p = 3 (π = 8 ∤ 4): the author remembered the split case
   and half of the inert case. The statement that holds, checked for every
   prime p < 500, p ≠ 5: π(p) | p − 1 when χ₅(p) = 1 and π(p) | 2(p + 1)
-  when χ₅(p) = −1. The miss stays on the books — it is precisely the
+  when χ₅(p) = −1. The miss stays on the books, it is precisely the
   failure mode the derive-never-remember rule exists for, and the exact
   stage caught it on first contact.
 - **P6 (precision response): holds, monotone.** Doubling extent and taper

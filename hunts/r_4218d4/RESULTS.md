@@ -1,4 +1,4 @@
-# Hunt R-4218D4 — results
+# Hunt R-4218D4: results
 
 **Settled.** The variance constant moved from `5855` to `275`, a factor of
 21.3, with every statement's shape preserved, no hypothesis added, no sorry,

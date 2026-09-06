@@ -1,8 +1,8 @@
 """`hunts/` is the probe area, and this file is what keeps it one.
 
 The spine's admission rule is **no department without a battery**
-(`harness/README.md`). Hunts are deliberately exempt from that rule — they are
-where an idea gets chased before anything has tried to kill it — so the
+(`harness/README.md`). Hunts are deliberately exempt from that rule, they are
+where an idea gets chased before anything has tried to kill it, so the
 exemption is paid for here instead:
 
 1. **The classification is on disk.** A hunt directory without `hunts/README.md`
@@ -14,7 +14,7 @@ exemption is paid for here instead:
    that matters, and it is the reason Hunt #2's headline was withdrawn.
 
 On (3): `zeta/detector.py` computes ``residue(c) = [arithmetic side] − [sum
-over ON-LINE zeros]``, and its own docstring names the caveat — *a missing
+over ON-LINE zeros]``, and its own docstring names the caveat, *a missing
 on-line zero produces a residue indistinguishable from an off-line zero*.
 That sentence is easy to read past. The test below makes it a number: ζ, whose
 Euler product is exact (factorization defect ~1e-32), is given a zero list with
@@ -40,8 +40,8 @@ _HUNTS = _REPO_ROOT / "hunts"
 
 #: Directory names that hold vendored or generated output rather than probe
 #: files.  A hunt may carry a Lean package (`hunts/frontier_math/zeta23ext`),
-#: and building it drops Mathlib's entire source tree — thousands of `.md`,
-#: `.json` and `.py` files nobody here wrote — inside `hunts/`.  The lexical
+#: and building it drops Mathlib's entire source tree, thousands of `.md`,
+#: `.json` and `.py` files nobody here wrote, inside `hunts/`.  The lexical
 #: scan below then reads *those* bytes and reports the reserved word against
 #: the hunt.  That is exactly what happened the first time the Lean arm was
 #: built, so the exclusion is load-bearing rather than tidy: without it the
@@ -169,7 +169,7 @@ def test_a_missing_on_line_zero_forges_the_off_line_signal() -> None:
 
     ζ has factorization defect ~1e-32 and every zero on the line. Remove one
     zero from the *supplied list* and the residue jumps by more than two orders
-    of magnitude — reproducing, at zero factorization defect, exactly the
+    of magnitude, reproducing, at zero factorization defect, exactly the
     signal Hunt #2 read as "zeros off the critical line".
 
     The consequence is the rule in ``hunts/README.md``: a residue is evidence
@@ -199,7 +199,7 @@ def test_the_hunt_does_not_call_the_completeness_gate() -> None:
 
     If a future hunt starts calling ``online_list_is_complete``, this test
     fails and the corresponding paragraph in ``hunts/README.md`` should be
-    updated — the finding would then be on a different footing.
+    updated, the finding would then be on a different footing.
     """
     sources = "\n".join(
         p.read_text(encoding="utf-8", errors="ignore")
@@ -207,6 +207,6 @@ def test_the_hunt_does_not_call_the_completeness_gate() -> None:
         if not _is_build_artifact(p)
     )
     assert "online_list_is_complete" not in sources, (
-        "a hunt now calls the completeness gate — revisit hunts/README.md's "
+        "a hunt now calls the completeness gate, revisit hunts/README.md's "
         "Hunt #2 disposition, which is written on the assumption that it does not"
     )

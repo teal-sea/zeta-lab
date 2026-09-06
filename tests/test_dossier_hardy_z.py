@@ -1,4 +1,4 @@
-"""The Hardy Z dossier, measured — every claim it makes, re-derived here.
+"""The Hardy Z dossier, measured, every claim it makes, re-derived here.
 
 A dossier that asserted support without a test would be the exact decoration
 ``dossier/status.py`` refuses to allow. So each obligation naming an artifact
@@ -9,7 +9,7 @@ The interesting test is
 :func:`test_Z_changes_sign_but_the_rejected_alternative_does_not`: it runs the
 *rejected* definition alongside the accepted one and shows that the rejected
 one passes every obligation except the discriminating one. That is the
-experiment's thesis in executable form — formally defensible, semantically
+experiment's thesis in executable form, formally defensible, semantically
 wrong, and caught by exactly one check.
 """
 
@@ -81,7 +81,7 @@ def test_no_axis_claims_support_without_an_artifact_that_exists(hardy_z) -> None
     """An artifact backing an *assertion* must exist in this tree.
 
     Only assertions carry the burden. A ``not-attempted`` axis may point at
-    something aspirational or, as here, at a file that is not tracked yet —
+    something aspirational or, as here, at a file that is not tracked yet,
     the formal axis names a Lean draft that exists on one machine and is not
     committed. Requiring that to exist would make a fresh clone fail a test
     about a claim the dossier is not making.
@@ -147,7 +147,7 @@ def test_Z_is_even() -> None:
 def test_Z_changes_sign_but_the_rejected_alternative_does_not() -> None:
     """The thesis, executable.
 
-    ``|zeta(1/2+it)|`` — the rejected alternative — is real, is even, and
+    ``|zeta(1/2+it)|``, the rejected alternative, is real, is even, and
     vanishes at exactly the same points. It fails one obligation, and that one
     failure is the whole reason it is the wrong object.
     """
@@ -159,7 +159,7 @@ def test_Z_changes_sign_but_the_rejected_alternative_does_not() -> None:
         assert accepted[0] < 0 < accepted[1]
 
         # The rejected one is real (passes), even (passes), has the same zeros
-        # (passes) — and never negative, so it can never bracket a zero.
+        # (passes), and never negative, so it can never bracket a zero.
         assert all(value >= 0 for value in rejected)
         assert not any(a * b < 0 for a, b in zip(rejected, rejected[1:]))
 
@@ -197,7 +197,7 @@ def test_proved_cites_a_watched_dated_kernel_run_the_tree_corroborates(hardy_z) 
     ``stated-unchecked`` → ``proved``. The upgrade rule it enforces: a PROVED
     formal record must (a) carry a date, (b) name a lemma that exists in the
     cited file, (c) cite a file with no ``sorry`` that the root build actually
-    wires in, and (d) — when git is available — cite an observation no older
+    wires in, and (d), when git is available, cite an observation no older
     than the file's last change, so editing HardyZ.lean re-opens the question.
     Machine-checked *consistency*, human-recorded *observations*: the status
     field never flips itself.
@@ -254,8 +254,8 @@ def test_proved_cites_a_watched_dated_kernel_run_the_tree_corroborates(hardy_z) 
             ).stdout.strip()
             if last:
                 assert max(dates) >= last, (
-                    "HardyZ.lean changed after the recorded kernel observation "
-                    "— re-observe (re-run lake build) and update the record"
+                    "HardyZ.lean changed after the recorded kernel observation: "
+                    "re-observe (re-run lake build) and update the record"
                 )
 
 
@@ -292,10 +292,10 @@ def test_the_r_vs_c_open_question_is_resolved_and_the_tree_agrees(hardy_z) -> No
 
 
 def test_stated_unchecked_may_not_cite_a_file_the_root_build_compiles(hardy_z) -> None:
-    """The staleness tripwire — the mechanism whose absence caused an incident.
+    """The staleness tripwire, the mechanism whose absence caused an incident.
 
     History: this dossier spent 2026-08-07 10:49 → ~18:10 as stated-unchecked,
-    *correctly* — HardyZ.lean sat outside the root import, exactly where a
+    *correctly*: HardyZ.lean sat outside the root import, exactly where a
     complete-looking proof can hide a non-compiling one. Commit 150ac05 then
     wired the root import and its green build compiled the file for the first
     time, and the record stayed stale for ~3 hours because no mechanism coupled
@@ -303,12 +303,12 @@ def test_stated_unchecked_may_not_cite_a_file_the_root_build_compiles(hardy_z) -
 
     The coupling, in this repository's own terms: the root build is the
     certificate (docs/doors/certify.md), so a file wired into ZetaLean.lean has
-    been kernel-checked by whoever last built — and a formal record that stays
+    been kernel-checked by whoever last built, and a formal record that stays
     "stated-unchecked because not compiled" while its artifact is wired is
     contradicted by the tree it cites. The moment such a wiring lands, this
     fails and demands a recorded observation (or a demotion with reasons).
 
-    This reads text files only, so no missing toolchain can switch it off —
+    This reads text files only, so no missing toolchain can switch it off,
     per the ROADMAP rule that a control the environment can disable is not a
     control.
     """
@@ -322,7 +322,7 @@ def test_stated_unchecked_may_not_cite_a_file_the_root_build_compiles(hardy_z) -
         ):
             assert not wired, (
                 "a formal record still reads stated-unchecked, but the root "
-                "build wires lean/ZetaLean/HardyZ.lean — the tree contradicts "
+                "build wires lean/ZetaLean/HardyZ.lean, the tree contradicts "
                 "the record; watch a build and update the dossier"
             )
 
@@ -331,7 +331,7 @@ def test_the_lean_file_really_has_those_lemmas_and_no_sorry(hardy_z) -> None:
     """The dossier names Lean lemmas; check they exist and the file is clean.
 
     This is what stops the formal axis from drifting into fiction. It does not
-    upgrade the status — only a kernel can do that.
+    upgrade the status, only a kernel can do that.
     """
     source = (_REPO_ROOT / "lean/ZetaLean/HardyZ.lean").read_text(encoding="utf-8")
     for lemma in (
@@ -349,8 +349,8 @@ def test_the_discriminating_obligation_is_the_one_lean_does_not_cover(hardy_z) -
     """The finding, pinned.
 
     Four obligations have a Lean statement behind them. The single
-    *discriminating* one — that Z changes sign, the only property separating Z
-    from |zeta(1/2+it)| — has none. A formalisation can be complete about
+    *discriminating* one, that Z changes sign, the only property separating Z
+    from |zeta(1/2+it)|, has none. A formalisation can be complete about
     everything except the thing that made the object worth defining, and that
     is precisely what an intent-carrying record is for noticing.
 
@@ -372,7 +372,7 @@ def test_the_discriminating_obligation_is_the_one_lean_does_not_cover(hardy_z) -
     assert "changes_sign" in uncovered
     assert "changes_sign" in discriminating
     source = (_REPO_ROOT / "lean/ZetaLean/HardyZ.lean").read_text(encoding="utf-8").lower()
-    assert "sign" not in source, "Lean gained a sign lemma — update the dossier"
+    assert "sign" not in source, "Lean gained a sign lemma, update the dossier"
 
 
 def test_the_numeric_axis_is_not_read_as_proof(hardy_z) -> None:

@@ -123,7 +123,7 @@ def test_every_rival_actually_answers(department) -> None:
 
 
 # ---------------------------------------------------------------------------
-# 3. Calibrated in both directions — the labels are re-derived, not trusted
+# 3. Calibrated in both directions, the labels are re-derived, not trusted
 # ---------------------------------------------------------------------------
 
 
@@ -139,7 +139,7 @@ def test_every_reference_claim_earns_its_declared_verdict(department) -> None:
 
 
 def test_a_reference_claim_expected_to_be_killed_is_killed_by_a_rival(department) -> None:
-    """Not merely 'does not distinguish' — it must fail *for the stated reason*.
+    """Not merely 'does not distinguish', it must fail *for the stated reason*.
 
     A claim can fail to distinguish by not firing for the target at all, which
     says nothing about the rivals. The department's killed reference claims are
@@ -162,8 +162,8 @@ def test_a_reference_claim_expected_to_be_killed_is_killed_by_a_rival(department
 
 
 def test_every_decoy_changes_what_it_is_given(department) -> None:
-    """An instrument may declare ``probe`` — a representative payload of the
-    shape it consumes — and is probed with it; without one it gets the
+    """An instrument may declare ``probe``, a representative payload of the
+    shape it consumes, and is probed with it; without one it gets the
     historical integer-list probe. The ``probe`` convention is
     ``compiler/FINDINGS.md`` §7: this file, not the protocol, was guessing
     departments' payload shapes, and the guess encoded department #1's.
@@ -174,7 +174,7 @@ def test_every_decoy_changes_what_it_is_given(department) -> None:
             probe = list(range(2, 60))
         substituted = decoy.substitute(probe)
         # payloads_same, not list comparison: the list form compared mapping
-        # payloads by keys alone and raised on array payloads — department
+        # payloads by keys alone and raised on array payloads, department
         # #6's shapes exposed both, the probe-convention lesson one layer down.
         assert not payloads_same(substituted, probe), (
             f"decoy {decoy.name!r} returned its input unchanged and ablates nothing"
@@ -189,7 +189,7 @@ def test_every_lesion_changes_what_it_is_given(department) -> None:
     """Strengthened from ``len(apply(())) > 0`` per ``compiler/FINDINGS.md`` §7.
 
     The rule is now the same one the decoy test uses: ``apply(probe)`` must
-    differ from ``probe``. The old rule was satisfied by an identity lesion —
+    differ from ``probe``. The old rule was satisfied by an identity lesion,
     one that returns its input untouched plants nothing and would report every
     detector shown it as blind to a violation that was never there.
     """
@@ -223,7 +223,7 @@ def test_every_instrument_describes_itself(department) -> None:
 
 
 # ---------------------------------------------------------------------------
-# 5. The integrity audit agrees — two expressions of the requirements
+# 5. The integrity audit agrees, two expressions of the requirements
 # ---------------------------------------------------------------------------
 #
 # ``harness.integrity.audit_department`` re-derives everything this file pins,
@@ -234,13 +234,13 @@ def test_every_instrument_describes_itself(department) -> None:
 
 
 #: Departments whose declared detector is, by construction, the exact
-#: negation of one of their reference claims — a *decision procedure* for the
+#: negation of one of their reference claims, a *decision procedure* for the
 #: property, not a heuristic whose power had to be estimated. The
 #: ``detector-claim-agreement`` check added on 2026-08-09 cannot tell that
 #: case from the sham it was built for, and ``docs/23`` §8 records why: the
-#: ``detector-is-the-claim`` mode has two conjuncts — the detector is the
+#: ``detector-is-the-claim`` mode has two conjuncts, the detector is the
 #: claim negated, *and* the lesion family was chosen to be exactly what it
-#: looks for — and only the first is mechanically visible from this layer.
+#: looks for, and only the first is mechanically visible from this layer.
 #:
 #: These are recorded as failing rather than exempted. The check is not
 #: weakened and the departments are not excused: each has an answer to give
@@ -272,7 +272,7 @@ def test_the_integrity_audit_grades_the_department_calibrated(department, reques
 def test_at_least_one_declared_detector_has_real_power(department) -> None:
     """Closes FINDINGS §8 for every registered department: some declared
     detector must notice at least one planted violation while staying quiet
-    on the clean probe. Per-detector blindness remains legal and measured —
+    on the clean probe. Per-detector blindness remains legal and measured,
     the zeta criterion detector and the compiler concrete backend are blind
     to specific lesions on purpose, and that is the measurement."""
     informative = []
@@ -282,7 +282,7 @@ def test_at_least_one_declared_detector_has_real_power(department) -> None:
             informative.append(detector.name)
     assert informative, (
         f"{department.name}: no declared detector notices any planted violation "
-        "while staying quiet when clean — its silence is not a result"
+        "while staying quiet when clean, its silence is not a result"
     )
 
 
@@ -296,7 +296,7 @@ def test_the_department_states_the_scope_of_a_pass(department) -> None:
 
 @pytest.mark.slow
 def test_every_surrogate_draws_a_sample(department) -> None:
-    """A sample need not be sized — a program pair is a legitimate draw — but
+    """A sample need not be sized, a program pair is a legitimate draw, but
     when it is sized it must be non-empty, and it must never be ``None``.
     (``compiler/FINDINGS.md`` §7: ``len(sample)`` was a zeta shape.)
     """

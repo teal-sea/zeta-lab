@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""The universe where RH is a THEOREM — curves over finite fields, checked by counting.
+"""The universe where RH is a THEOREM, curves over finite fields, checked by counting.
 
 The mathematics
 ---------------
@@ -38,14 +38,14 @@ points are exactly the F_p-points, and the Lefschetz fixed-point formula reads
 
 That is not left as formalism here.  The script builds F_{p²} = F_p[t]/(t²−n)
 explicitly and counts the solutions of y² = x³+ax+b over it by brute
-enumeration — no zeta function, no eigenvalues, no Weil theory — and compares
+enumeration, no zeta function, no eigenvalues, no Weil theory, and compares
 with p² + 1 − (α² + ᾱ²).  A number obtained by counting in a field with p²
 elements, predicted exactly by the second power sum of two complex numbers.
 
 The three ingredients (docs/11 §1) are: a **space** (the curve, with a ground
 field beneath it, so that E × E is a genuine surface), an **operator**
 (Frobenius, with the counts as traces), and a **positivity input**
-(Castelnuovo–Severi applied to the graph of Frobenius on E × E — symmetry alone
+(Castelnuovo–Severi applied to the graph of Frobenius on E × E, symmetry alone
 never suffices; that is what zeta.epstein demonstrates on the analytic side).
 Over Spec Z the first is missing and the third has nowhere to live: Z ⊗_Z Z = Z,
 so the "square" of Spec Z is one-dimensional.  **Nothing here is evidence for RH
@@ -134,7 +134,7 @@ def section_one_curve(p: int, seed: int, dps: int) -> dict:
 def section_survey(primes: tuple[int, ...], n_curves: int, seed: int,
                    dps: int) -> dict:
     """Sweep curves over many primes; the Hasse bound holds every time."""
-    print("2)  THE SURVEY  —  the Hasse bound |a_p| ≤ 2√p, checked on every curve")
+    print("2)  THE SURVEY, the Hasse bound |a_p| ≤ 2√p, checked on every curve")
     print("    The comparison is the exact integer test a_p² ≤ 4p; the ratio is reported")
     print("    for information only, so 'satisfied' can never be a floating-point artefact.")
     print()
@@ -162,7 +162,7 @@ def section_survey(primes: tuple[int, ...], n_curves: int, seed: int,
     print(f"    worst |Re(s) − ½|                       : "
           f"{summary['max_deviation_from_half']:.3e}   (pure log/sqrt round-off)")
     print()
-    print("    Zero violations — and NOT because the sample was lucky.  Hasse's theorem")
+    print("    Zero violations, and NOT because the sample was lucky.  Hasse's theorem")
     print("    forbids anything else; a violation here would mean a bug in this module.")
     print()
     return {"rows": rows, "summary": summary, "seconds": secs}
@@ -170,7 +170,7 @@ def section_survey(primes: tuple[int, ...], n_curves: int, seed: int,
 
 def section_eigenvalues(primes: tuple[int, ...], rows: list, dps: int) -> list:
     """The Frobenius eigenvalues, their modulus, and the s-coordinates."""
-    print("3)  THE FROBENIUS EIGENVALUES  —  α = a_p/2 + i√(4p − a_p²)/2,  and |α| = √p")
+    print("3)  THE FROBENIUS EIGENVALUES, α = a_p/2 + i√(4p − a_p²)/2,  and |α| = √p")
     print("    One curve per prime (the one closest to the Hasse bound in the survey).")
     print()
     print(f"    {'p':>7} {'a_p':>7} {'α = Re + i·Im':>34} {'|α|':>16} {'√p':>16} "
@@ -212,15 +212,15 @@ def section_eigenvalues(primes: tuple[int, ...], rows: list, dps: int) -> list:
     print(f"    worst |Re(s) − ½| over these primes: {worst:.3e}")
     print("    Re(s) = ½ EXACTLY.  The ½ is log(√p)/log(p); the square root in the")
     print("    point-count bound is the critical line.  (The Im(s) are defined only mod")
-    print("    2π/log p — p^{−s} is periodic, so these zeros live on a CIRCLE, not a line.")
+    print("    2π/log p, p^{−s} is periodic, so these zeros live on a CIRCLE, not a line.")
     print("    That periodicity is exactly the structure Spec Z is missing, docs/11.)")
     print()
     return picks
 
 
 def section_lefschetz(picks: list, n_max: int, fp2_max_p: int, dps: int) -> dict:
-    """N_n as traces of powers of one 2x2 operator — checked by brute force in F_{p²}."""
-    print("4)  LEFSCHETZ  —  counting solutions IS linear algebra")
+    """N_n as traces of powers of one 2x2 operator, checked by brute force in F_{p²}."""
+    print("4)  LEFSCHETZ, counting solutions IS linear algebra")
     print("    N_n = pⁿ + 1 − (αⁿ + ᾱⁿ) = Tr(Frob^n|H⁰) − Tr(Frob^n|H¹) + Tr(Frob^n|H²).")
     print("    The power sums come from the exact integer recursion t_n = a_p t_{n−1} −")
     print("    p t_{n−2} (t₀ = 2, t₁ = a_p), so every N_n below is an exact integer.")
@@ -240,7 +240,7 @@ def section_lefschetz(picks: list, n_max: int, fp2_max_p: int, dps: int) -> dict
 
     print("    THE CHECK THAT MAKES IT REAL.  F_{p²} is built explicitly as")
     print("    F_p[t]/(t² − n) with n a quadratic non-residue, and the solutions of")
-    print("    y² = x³ + ax + b are counted there by literal enumeration — no zeta")
+    print("    y² = x³ + ax + b are counted there by literal enumeration, no zeta")
     print("    function, no eigenvalues, no Weil theory:")
     print()
     print(f"    {'p':>7} {'non-residue':>12} {'N₂ by enumeration':>20} "
@@ -269,10 +269,10 @@ def section_lefschetz(picks: list, n_max: int, fp2_max_p: int, dps: int) -> dict
 
 def section_oracle(primes: tuple[int, ...]) -> dict:
     """Gauss's theorem for y² = x³ − x: a_p with no point counting at all."""
-    print("5)  AN INDEPENDENT ORACLE  —  Gauss, with no point counting at all")
+    print("5)  AN INDEPENDENT ORACLE: Gauss, with no point counting at all")
     print("    For y² = x³ − x: if p ≡ 3 (mod 4) the curve is supersingular and a_p = 0;")
     print("    if p ≡ 1 (mod 4) write p = A² + B² with A odd, B even, sign of A fixed by")
-    print("    A + B ≡ 1 (mod 4) — then a_p = 2A.  A sum of two squares, nothing else.")
+    print("    A + B ≡ 1 (mod 4), then a_p = 2A.  A sum of two squares, nothing else.")
     print()
     print(f"    {'p':>7} {'p mod 4':>8} {'Gauss a_p':>11} {'counted a_p':>12} {'agree':>7}")
     print("    " + "-" * 50)
@@ -290,9 +290,9 @@ def section_oracle(primes: tuple[int, ...]) -> dict:
 
 def section_sato_tate(p: int) -> dict:
     """The vertical Sato–Tate law: 'GUE statistics' in the proven universe."""
-    print("6)  THE STATISTICS OF THE PROVEN UNIVERSE  —  vertical Sato–Tate")
+    print("6)  THE STATISTICS OF THE PROVEN UNIVERSE, vertical Sato–Tate")
     print("    Over ALL p² − p nonsingular curves mod p, the normalised traces")
-    print("    a_p/(2√p) all lie in [−1, 1] — that IS RH — and their distribution tends")
+    print("    a_p/(2√p) all lie in [−1, 1], that IS RH, and their distribution tends")
     print("    to the semicircle (2/π)√(1−x²) as p → ∞.  THEOREM (Birch 1968, via the")
     print("    Eichler–Selberg trace formula); this is the fixed-p, all-curves statement,")
     print("    not the horizontal Sato–Tate conjecture (one curve, varying p).")
@@ -303,12 +303,12 @@ def section_sato_tate(p: int) -> dict:
     print(f"      max |a_p|                        : {h['max_abs_a_p']}  "
           f"(bound 2√p = {2 * math.sqrt(p):.3f})")
     print(f"      Σ a_p                            : {h['sum_a_p']}  "
-          "(exactly 0 — quadratic twisting negates a_p)")
+          "(exactly 0, quadratic twisting negates a_p)")
     print(f"      Σ a_p²                           : {h['second_moment_exact']}")
     print(f"      closed form (p−1)²(p+1)          : {h['second_moment_closed_form']}  "
           f"→ identical: {h['second_moment_exact'] == h['second_moment_closed_form']}")
     print(f"      distinct traces / Hasse interval : {h['distinct_traces']} / "
-          f"{h['hasse_interval_size']}  (equal: every admissible integer occurs — Deuring)")
+          f"{h['hasse_interval_size']}  (equal: every admissible integer occurs, Deuring)")
     print(f"      moments ⟨x^{{2k}}⟩, k = 1,2,3      : "
           + ", ".join(f"{m:.7f}" for m in h["moments"]))
     print(f"      semicircle limits C_k/4^k        : "
@@ -402,12 +402,12 @@ def main() -> None:
     s = surv["summary"]
     print("=" * 78)
     print("HEADLINE")
-    print(f"  • In this universe RH is a THEOREM — and here it is, holding, for every one")
+    print(f"  • In this universe RH is a THEOREM, and here it is, holding, for every one")
     print(f"    of the {s['n_curves']} curves checked across {len(s['primes'])} primes "
           f"({min(s['primes'])} … {max(s['primes'])}): {s['violations']} Hasse violations.")
     print(f"  • Every Frobenius eigenvalue sits on the circle |α| = √p: worst measured")
     print(f"    | |α|/√p − 1 | = {s['max_alpha_abs_relative_defect']:.1e}, and in "
-          f"s-coordinates |Re(s) − ½| ≤ {s['max_deviation_from_half']:.1e} —")
+          f"s-coordinates |Re(s) − ½| ≤ {s['max_deviation_from_half']:.1e}:")
     print("    both are round-off, not error; the identity αᾱ = p is exact.")
     print(f"  • The Lefschetz prediction for N₂ matched a brute-force count over F_{{p²}} "
           f"in all {lef['n_checked']} cases ({lef['all_equal']}):")
@@ -417,7 +417,7 @@ def main() -> None:
     if st is not None:
         print(f"  • All {st['n_curves']} curves mod {st['p']} obey the bound, with "
               f"Σa_p² = (p−1)²(p+1) exactly and the")
-        print("    normalised traces filling the semicircle — GUE statistics, in the proven case.")
+        print("    normalised traces filling the semicircle: GUE statistics, in the proven case.")
     print("  • And none of it transfers: Z ⊗_Z Z = Z, so Spec Z has no base, E × E has no")
     print("    analogue, and the positivity input has nowhere to live (docs/11).")
     print(f"[{time.time() - t0:.1f} s]")

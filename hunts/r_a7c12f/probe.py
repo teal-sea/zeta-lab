@@ -179,7 +179,7 @@ def break_depth(target: float = FAR_CONST, lo: float = 0.8, hi: float = 2.0,
 
 def qim_far_sq_ratio(y: float, lo: float = 28 / 5, hi: float = SCAN_HI,
                      step: float = 1e-3) -> tuple[float, float]:
-    """`max_s Qim(y,s)^2 / (y^2 Wt(s^2-2))` — the lemma holds iff this is <= 1."""
+    """`max_s Qim(y,s)^2 / (y^2 Wt(s^2-2))`, the lemma holds iff this is <= 1."""
     worst, arg, s = 0.0, lo, lo
     while s <= hi:
         r = qre_qim(y, s)[1] ** 2 / (y * y * Wt(s * s - 2))

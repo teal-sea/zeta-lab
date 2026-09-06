@@ -1,4 +1,4 @@
-"""Level 4: the counting dual — a configuration-free bound on the adversary.
+"""Level 4: the counting dual, a configuration-free bound on the adversary.
 
 Level 3 established theta > 0 at the single-pair reduction with the worst
 case *measured* over two adversary families, and named its first gap: a
@@ -49,7 +49,7 @@ returns the largest theta on the grid for which
 
     sum_j B_j(theta, y-cell)  <=  8 sigma^2(y_low) + 8 sigma^4(y_low)
 
-on every depth cell — the level-3 per-pair inequality, now with the
+on every depth cell, the level-3 per-pair inequality, now with the
 adversary side configuration-free.  The projection rule of the hierarchy's
 level-4 row is enforced as tests: the bound dominates every level-3
 measured adversary, the level-2 escaping cluster, and reduces to LAW I on
@@ -59,8 +59,8 @@ The second level-3 gap (multi-pair slack partition) is treated in
 :func:`pair_layer_audit`: the pair-pair kernel has the same shape as the
 on/off one (positive at coincidence, negative bands, decaying tail), the
 halved-slack partition covers the measured worst dipoles, and the remaining
-step — the pair-pair analogue of THIS module's cell bound at combined
-depths — is named, not blurred.
+step, the pair-pair analogue of THIS module's cell bound at combined
+depths, is named, not blurred.
 
 Run ``.venv/bin/python hunts/frontier_math/counting_bound.py`` from the
 repo root (~1 minute).
@@ -270,7 +270,7 @@ class CountingBound:
         return self.lambda_bar_from_sups(theta, self.fine_sups(y1, y2), y2, delta)
 
     def best_lambda_bar(self, theta: float, y1: float, y2: float) -> float:
-        """Min over the delta ladder — each delta is one-sided, so min is."""
+        """Min over the delta ladder, each delta is one-sided, so min is."""
         sups = self.fine_sups(y1, y2)
         return min(
             self.lambda_bar_from_sups(theta, sups, y2, d) for d in self.delta_choices

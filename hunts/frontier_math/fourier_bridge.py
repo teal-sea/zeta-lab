@@ -1,4 +1,4 @@
-"""Level 6c: LAW M, and the Fourier bridge — the joint energy in one variable.
+"""Level 6c: LAW M, and the Fourier bridge, the joint energy in one variable.
 
 Two deliverables, both exact, both the groundwork for the joint cap dual.
 
@@ -11,7 +11,7 @@ so integrating over the offset line kills every frequency but v = 0:
 
     int_R W(g, y) dg  =  (2/(aL)^2) * 2 pi K(0)  =  4 pi b / (a^2 L),
 
-EXACTLY, at EVERY depth — the mean of the signed damage field is a positive
+EXACTLY, at EVERY depth, the mean of the signed damage field is a positive
 constant, and only its fluctuation is dangerous.  LAW J is this law read at
 the critical lattice: the periodized sum (1/h) int W = (L/2pi)(4pi b/a^2 L)
 = 2b/a^2, which is the constant level 2 measured to 6e-8.  The chi collapse
@@ -45,14 +45,14 @@ the joint inequality of the assembly is equivalent to
     int K(v) [ |F_on + F_p|^2 - theta |F_on|^2 - d(v) ] dv  >=  -err,
 
 where d(v) collects the diagonal/slack subtractions (s_1 for the on-line
-part, sum_r 4 cosh^2(y_r v) for the pairs — the slack IS the pair diagonal
-in this language).  The adversary's whole game — on-line placement AND
-pair density — is the choice of two exponential sums against one fixed
+part, sum_r 4 cosh^2(y_r v) for the pairs, the slack IS the pair diagonal
+in this language).  The adversary's whole game, on-line placement AND
+pair density, is the choice of two exponential sums against one fixed
 nonnegative kernel.  The mutual exclusion of level 6b is visible here
 pointwise: the cross term 2 Re(F_on conj(F_p)) that damages is controlled
 by the same |F_p|^2 that pays, at the same v.  The remaining theorem
 object is the pointwise-in-v certificate (the d(v) budget spread over
-[-L, L] cells), which is one-dimensional and finite — the same shape as
+[-L, L] cells), which is one-dimensional and finite, the same shape as
 every hardened object in this chain.  :func:`pinch_spectrum` measures the
 integrand of the pinch configuration to show where in v the battle is.
 

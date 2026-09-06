@@ -1,16 +1,16 @@
-"""Tests for ``scripts/13_discovery_run.py`` — the funnel's operator console.
+"""Tests for ``scripts/13_discovery_run.py``, the funnel's operator console.
 
 Three things can actually be wrong with a console, and all three are tested
 here:
 
-* **the plumbing** — it runs, it exits zero, it writes to the ledger it was
+* **the plumbing**: it runs, it exits zero, it writes to the ledger it was
   pointed at and to nothing else, and ``--dry-run`` writes nothing at all;
-* **the arithmetic** — the waterfall it prints must agree with the funnel
+* **the arithmetic**: the waterfall it prints must agree with the funnel
   record it prints it from.  The one number that is easy to get wrong is the
   survivor count: the funnel records a *departure* at the terminal stage for
   every candidate, promoted or not, so a naive ``entered - left`` reports every
   run as barren.  That is pinned below;
-* **the honest-scope statements** — the closing block must say that survivors
+* **the honest-scope statements**: the closing block must say that survivors
   are leads rather than results and that "not recognised offline" is not
   novelty.  Those are load-bearing claims about what the output means, so, per
   the house rule, they are tests and not comments.
@@ -222,7 +222,7 @@ def test_second_run_over_the_same_ledger_is_all_duplicates(live, tmp_path):
     table = out.split("2)  THE FUNNEL WATERFALL")[1].split("3)  SURVIVORS")[0]
     duplicate = [line for line in table.splitlines() if line.strip().startswith("duplicate")]
     assert duplicate and "100.0%" in duplicate[0], duplicate
-    assert "SURVIVING — leads, not results" in table
+    assert "SURVIVING, leads, not results" in table
 
 
 def test_report_reads_the_ledger_and_generates_nothing(live, tmp_path):
@@ -345,7 +345,7 @@ def test_survivors_are_not_counted_as_removed_by_the_terminal_stage(console):
     """The funnel logs a departure for a survivor too; the waterfall must not.
 
     With ``entered - left`` taken literally at the terminal stage, a run with
-    one survivor and one unpromotable candidate reports zero survivors — the
+    one survivor and one unpromotable candidate reports zero survivors, the
     console would then contradict its own disposition table.
     """
     tallies = [
@@ -413,7 +413,7 @@ def test_parse_context_refuses_a_bare_word(console):
 
 
 def test_parse_context_handles_an_empty_and_a_textual_value(console):
-    """``""`` is a substring of every string — the JSON branch must not eat it."""
+    """``""`` is a substring of every string, the JSON branch must not eat it."""
     assert console.parse_context(["a=", "b=cauchy"]) == {"a": "", "b": "cauchy"}
 
 
@@ -472,11 +472,11 @@ def test_the_headline_numbers_quoted_in_the_readme_are_what_the_funnel_produces(
     Slow because it consults all seven generators; the Legendre-Weil screen
     escalations are served from the committed data/ sides cache, so a warm
     run stays in seconds.  If a generator's behaviour changes, this fails and
-    the README sentence has to be rewritten — which is the intended coupling.
+    the README sentence has to be rewritten, which is the intended coupling.
 
     No survivor by design: the Legendre Λ-mass constant that exercises the
     survivor path is opt-in (``legendre_mass_constant``), and its one
-    recorded run — operator literature check included — is in ROADMAP.md.
+    recorded run, operator literature check included, is in ROADMAP.md.
     """
     out = run_script("--dry-run", "--ledger", str(tmp_path / "ledger.jsonl"))
     counts = _dispositions(out)
@@ -552,8 +552,8 @@ def test_a_lead_source_that_raised_is_not_filed_as_one_that_found_nothing(
     """"Found nothing" and "broke" are different problems.
 
     The cumulative view once had only an ``empty`` column, so a generator that
-    raised was indistinguishable from one that ran cleanly and produced nothing
-    — and a generator that raised *part-way through* was invisible entirely,
+    raised was indistinguishable from one that ran cleanly and produced nothing,
+    and a generator that raised *part-way through* was invisible entirely,
     because it keeps the candidates it had already yielded and so is not empty
     at all. Both are defects in the lead source, and the report has to be able
     to say which.

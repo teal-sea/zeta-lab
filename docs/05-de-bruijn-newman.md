@@ -1,4 +1,4 @@
-# 05 — The de Bruijn–Newman Constant: Running Heat Flow *on* Zeta
+# 05. The de Bruijn–Newman Constant: Running Heat Flow *on* Zeta
 
 *The payoff of `docs/02-theta-heat-and-modularity.md`. There we watched heat flow **produce** `Xi`.
 Here we run heat flow **on** `Xi` and ask how the zeros move.*
@@ -7,13 +7,13 @@ Here we run heat flow **on** `Xi` and ask how the zeros move.*
 `Xi(z/2)/8 = integral_0^inf Phi(u) cos(zu) du`, where `Phi` is built directly out of the theta
 function of `docs/02` and its first two derivatives. Now insert a Gaussian factor `e^{t u^2}` into
 that integral. The result `H_t(z)` is an entire function for every real `t`, it equals `Xi` (up to
-normalisation) at `t = 0`, and it satisfies `dH/dt = -d^2H/dz^2` — the **backward** heat equation.
+normalisation) at `t = 0`, and it satisfies `dH/dt = -d^2H/dz^2`, the **backward** heat equation.
 This flow has a beautiful effect on roots: increasing `t` makes real roots **repel** and spread out,
 and once they are all real they stay real forever. So there is a threshold time
 `Lambda = inf{t : H_t has only real zeros}`, the **de Bruijn–Newman constant**. **THEOREM** (de
 Bruijn 1950): `Lambda <= 1/2`. **THEOREM** (Rodgers–Tao 2018): `Lambda >= 0`. And RH is *exactly* the
 statement `Lambda <= 0`. Putting these together: **RH is equivalent to `Lambda = 0`**. The zeros of
-zeta are sitting, right now, at the precise instant of criticality — there is no slack. That is what
+zeta are sitting, right now, at the precise instant of criticality, there is no slack. That is what
 Newman meant when he said RH, if true, is "only barely so".
 
 ---
@@ -62,7 +62,7 @@ occasion. It is *the heat kernel of `docs/02`*, differentiated twice and reparam
 ```
 
 Nothing here is trusted to memory: `zeta.heatflow.H0_vs_Xi` *measures* both constants of the ansatz
-`H_0(z) = c * Xi(a z)` from the functions themselves — `c = H_0(0)/Xi(0)` directly, and the rescaling
+`H_0(z) = c * Xi(a z)` from the functions themselves, `c = H_0(0)/Xi(0)` directly, and the rescaling
 `a` by two independent routes (curvature at the origin, using `H_0''(0) = -integral u^2 Phi(u) du`;
 and matching the first zero of `H_0` against the first zeta ordinate). Both routes return `a = 0.5`
 to within `3e-41`, `c` returns `0.125` to `1.1e-42`, and the exact rational relation then verifies
@@ -70,9 +70,9 @@ pointwise to a maximum residual of `7.9e-42` over real `z` in `[0, 100]` plus co
 (dps = 40). Re-run for this document: both sides give `0.06214009727353926373909672` at `z = 0`, and
 `|H_0(z) - Xi(z/2)/8| <= 4.4e-42` at `z = 1, 5, 14.134725, 28.2`. (The `z/2` is a normalisation
 convention inherited from the Polymath15 literature; it means the zeros of `H_t` sit at `2*gamma`,
-where `gamma` are the ordinates of the zeta zeros — at `t = 0` the module's `zeros_of_H_t` reproduces
+where `gamma` are the ordinates of the zeta zeros, at `t = 0` the module's `zeros_of_H_t` reproduces
 `2*gamma_n` for the first ten zeros to a measured `1.3e-19` at dps = 30. Keep track of that factor of
-2 — it matters when you compare gaps.)
+2, it matters when you compare gaps.)
 
 Where does the formula come from? Take the Mellin representation of `docs/03`,
 `xi(s) = 1/2 + (s(s-1)/2) * integral_1^inf (x^{s/2-1} + x^{-(1+s)/2}) psi(x) dx`, integrate by parts
@@ -81,17 +81,17 @@ twice to kill the polynomial prefactor `s(s-1)`, then substitute `x = e^{4u}`. T
 integrations by parts leave behind.
 
 **One gorgeous consequence.** `Phi` is an **even** function: `Phi(-u) = Phi(u)`. That is not visible
-in the series at all — under `u -> -u` the exponent `e^{4u}` becomes `e^{-4u}`, which looks like a
+in the series at all, under `u -> -u` the exponent `e^{4u}` becomes `e^{-4u}`, which looks like a
 completely different function. It is true because `x -> 1/x` is exactly Jacobi's modular identity
 `theta(1/x) = sqrt(x) theta(x)`: with `F(x) = d/dx[ x^{3/2} psi'(x) ]` one has
 `Phi(u) = 2 e^{3u} F(e^{4u})`, and evenness of `Phi` is precisely `F(1/x) = x^{3/2} F(x)`, which
 `zeta.heatflow` verifies independently to `1.6e-51` at `x = 1.5` (dps = 50). On the series itself,
-`Phi_is_even_defect` measures the *relative* defect below `1e-34` for `|u| <= 0.5` at dps = 40 —
+`Phi_is_even_defect` measures the *relative* defect below `1e-34` for `|u| <= 0.5` at dps = 40,
 and is scrupulous about where that test loses meaning: past `|u| ~ 0.85` the raw series is a
 catastrophic cancellation (summands of size 1 conspiring to produce a value below `1e-70`) and
 returns pure noise, which is why the module computes `Phi` by folding through the exact identity
 `Phi(u) = Phi(|u|)` first. **The evenness of `Phi` IS the functional equation.** Which is why we may
-equally write `H_t(z) = (1/2) integral over all of R of e^{t u^2} Phi(u) e^{izu} du` — a genuine
+equally write `H_t(z) = (1/2) integral over all of R of e^{t u^2} Phi(u) e^{izu} du`, a genuine
 Fourier transform of an even, real, rapidly decaying function, hence an even entire function of `z`,
 real on the reals.
 
@@ -124,7 +124,7 @@ so
 ```
 
 **Verify the sign; do not trust your memory here.** `zeta/heatflow.py` owns this check as
-`heat_equation_residual`, which forms `|dH/dt + d2H/dz2|` by central differences — the combination
+`heat_equation_residual`, which forms `|dH/dt + d2H/dz2|` by central differences, the combination
 that vanishes under the backward convention and is order-1 under the forward one. Re-measured for
 this document (dps = 30, step `h = 1e-6`):
 
@@ -145,7 +145,7 @@ two integrands directly, and that check reproduces here too: at `(z, t) = (10, 0
 exact negatives to every displayed digit. The wrong sign is not a near-miss; it is off by a factor of
 exactly `-1`.
 
-A terminological trap worth defusing. "Backward heat equation" sounds bad — it is famously ill-posed,
+A terminological trap worth defusing. "Backward heat equation" sounds bad, it is famously ill-posed,
 it amplifies high frequencies (that is literally what `e^{tu^2}` does), and in general you cannot run
 it. Here you can, because `Phi` decays fast enough to absorb any amount of amplification. Note the
 direction bookkeeping:
@@ -157,7 +157,7 @@ direction bookkeeping:
 
 That second bullet is the one people get backwards. Gaussian smoothing *destroys* real roots: convolve
 a function whose sign changes at spacing `d` with a Gaussian much wider than `d` and the sign changes
-are averaged away — they have to go somewhere, and where they go is off the real axis.
+are averaged away, they have to go somewhere, and where they go is off the real axis.
 
 ---
 
@@ -188,7 +188,7 @@ Newman's work, not an obvious fact), the set of good times is a half-line, and w
   and Terence Tao, *The de Bruijn–Newman constant is non-negative*, arXiv:1801.05914, January 2018;
   published in Forum of Mathematics, Pi 8 (2020), e6.)
 
-**Corollary: RH is equivalent to `Lambda = 0`.** That is a genuine reformulation — not a weakening,
+**Corollary: RH is equivalent to `Lambda = 0`.** That is a genuine reformulation, not a weakening,
 not a heuristic, an if-and-only-if.
 
 On the upper bound: de Bruijn's `1/2` stood essentially alone for half a century (Ki–Kim–Lee made it
@@ -200,11 +200,11 @@ current record `Lambda <= 0.2` (D. J. Platt, T. S. Trudgian, *The Riemann hypoth
 3·10^12*, Bull. Lond. Math. Soc. 53 (2021)). The full bound history, with citations checked against
 the primary sources, is catalogued in code as `zeta.heatflow.lambda_facts()`.
 
-From below, before Rodgers–Tao, the record bounds came from "Lehmer pairs" of unusually close zeros —
+From below, before Rodgers–Tao, the record bounds came from "Lehmer pairs" of unusually close zeros,
 a chain of improvements through the 1990s (the Csordas–Smith–Varga Lehmer-pair criterion, Constr.
 Approx. 10 (1994); `Lambda > -5.895e-9`, Csordas–Odlyzko–Smith–Varga 1993; `Lambda > -2.7e-9`,
 Odlyzko 2000) ending with Saouter–Gourdon–Demichel's `Lambda > -1.14541e-11` (Math. Comp. 80 (2011)).
-Rodgers–Tao made all of it moot — though the *mechanism* those bounds exploited is exactly the
+Rodgers–Tao made all of it moot, though the *mechanism* those bounds exploited is exactly the
 collision heuristic of the next section.
 
 ---
@@ -225,7 +225,7 @@ Let `p(z, t)` be a monic polynomial with roots `r_1(t), ..., r_N(t)`, evolving b
 **Verify the sign; this is the second place memory betrays people.** `zeta/heatflow.py` owns this as
 `polynomial_heat_flow`, and it does the verification the brutal way: it evolves the *coefficients*
 exactly (for a polynomial, `exp(-t D^2) p = sum_k (-t)^k/k! p^{(2k)}` is a finite sum), takes the
-roots of the evolved polynomial, and compares them against RK4 integration of the root ODE — for
+roots of the evolved polynomial, and compares them against RK4 integration of the root ODE, for
 **all four** sign combinations, with roots `[-3, -1, 0.5, 2, 4.5]` over `t in [0, 0.35]`:
 
 ```
@@ -235,12 +235,12 @@ roots of the evolved polynomial, and compares them against RK4 integration of th
     exp(+t D^2)  with const = +2   ->   max |ODE - exact| = 1.6e+00    WRONG
 ```
 
-The pairing is rigid: `exp(-t D^2)` — the de Bruijn–Newman convention — goes with `+2` and
+The pairing is rigid: `exp(-t D^2)`, the de Bruijn–Newman convention, goes with `+2` and
 **repulsion**; the classical forward heat equation goes with `-2` and attraction. Beware: the root
 ODE is often quoted with the `-2`, and quoting it with `-2` while also claiming "roots repel as `t`
 increases" is self-contradictory; the table above is the antidote. The `+` sign means repulsion
 because if `r_k` sits to the right of `r_j`, the term `1/(r_k - r_j)` is positive and pushes `r_k`
-further right. Closer neighbours push harder — the force goes like `1/distance`.
+further right. Closer neighbours push harder, the force goes like `1/distance`.
 
 Integrating for a while makes the picture visceral. Re-running `polynomial_heat_flow` on those same
 five roots for this document (RK4 agreeing with the exact coefficient evolution to `8.9e-15`):
@@ -257,7 +257,7 @@ roots crash into each other and shoot off the axis as conjugate pairs (by the `t
 have already left; `--` marks times where a real gap no longer exists). The same monotone gap growth
 is visible on the genuine `H_t`: `zero_gap_statistics` on the window `[20, 105]` (exactly the first
 ten zeros) measures a minimum gap of `3.28939` at `t = -0.3`, `3.53736` at `t = 0`, and `3.94962` at
-`t = +0.6` — re-verified here at all three values of `t`.
+`t = +0.6`: re-verified here at all three values of `t`.
 
 **The two-particle law.** Isolate two roots at `+-delta/2`. Then `d(delta)/dt = 4/delta`, so
 
@@ -265,19 +265,19 @@ ten zeros) measures a minimum gap of `3.28939` at `t = -0.3`, `3.53736` at `t = 
     delta(t)^2  =  delta_0^2  +  8t
 ```
 
-For an isolated pair this is not merely a heuristic — it is exact, because
+For an isolated pair this is not merely a heuristic, it is exact, because
 `exp(-t D^2)(z^2 - delta_0^2/4) = z^2 - delta_0^2/4 - 2t`, and `polynomial_heat_flow` on roots
 `+-0.25` at `t = 0.1` confirms it: `delta` agrees with `sqrt(0.25 + 0.8) = 1.0246950766` to machine
 precision (difference below `1e-15`). Two facts fall out of that one line:
 
-1. Going **forward** (`t` up), `delta` grows like `sqrt(8t)` — the pair can never collide. Real roots
+1. Going **forward** (`t` up), `delta` grows like `sqrt(8t)`, the pair can never collide. Real roots
    are permanent.
 2. Going **backward**, `delta` hits zero at `t = -delta_0^2/8`, and past that `delta^2 < 0`, i.e.
    `delta` is imaginary: **the pair has left the real axis as a complex-conjugate pair.** A collision
    is exactly the event "two real zeros become two non-real zeros".
 
 So `Lambda` is the moment of the *first collision* as you run the film backwards. And **Rodgers–Tao's
-theorem `Lambda >= 0` says that moment is now.** Not "some time in the past" — now. Run the zeta zeros
+theorem `Lambda >= 0` says that moment is now.** Not "some time in the past", now. Run the zeta zeros
 backwards by any positive amount of heat and, by their theorem, somewhere, at some height, a pair has
 already collided. RH, which says `Lambda <= 0`, would say the collisions have not started yet. Both
 together: the zeros of zeta sit at the exact critical instant, with zero margin. That is the precise
@@ -286,10 +286,10 @@ content of "barely true".
 **Where is the tightness?** Not down at `gamma = 14.13`. It is out at large height, where the mean
 spacing `2 pi / log(gamma / 2 pi)` shrinks and unusually close pairs occur. Rodgers–Tao's proof is
 statistical: it shows that `Lambda < 0` would force the zeros at large height to be *implausibly*
-evenly spaced — more rigid than they can be, given what is known about their pair correlation. The
+evenly spaced, more rigid than they can be, given what is known about their pair correlation. The
 obstruction is a statement about the *distribution* of gaps, not about any individual zero. The
 module's `track_zeros` says the same thing in code, as an honest caveat in its docstring: over
-`|t| <= 1` the first ten zeros stay real and comfortably separated — what the laboratory exhibits is
+`|t| <= 1` the first ten zeros stay real and comfortably separated, what the laboratory exhibits is
 the repulsion *mechanism*, not the location of `Lambda`.
 
 Lehmer's famous close pair makes the numbers concrete. Recomputed here (`mpmath.zetazero`, 20 digits):
@@ -304,8 +304,8 @@ Lehmer's famous close pair makes the numbers concrete. Recomputed here (`mpmath.
 
 **HEURISTIC.** In the `H_t` variable the zeros sit at `2*gamma`, so `delta_0 = 0.0753970`, and the
 two-particle law predicts collision at `t = -delta_0^2/8 = -7.1 x 10^{-4}`. If those two zeros were
-alone in the world, that would show `Lambda > -7.1 x 10^{-4}`. They are not alone — every other zero
-pushes on them — so this is a heuristic, not a proof. The rigorous Lehmer-pair criteria of Csordas–
+alone in the world, that would show `Lambda > -7.1 x 10^{-4}`. They are not alone, every other zero
+pushes on them, so this is a heuristic, not a proof. The rigorous Lehmer-pair criteria of Csordas–
 Smith–Varga are the honest version, and applied to far closer pairs found at far greater heights they
 gave the pre-2018 record lower bounds. But the mechanism is exactly this one.
 
@@ -339,14 +339,14 @@ worth being blunt about why.
 
 - **What is proved:** `0 <= Lambda <= 0.2`, and RH `<=>` `Lambda = 0`.
 - **What is needed:** to prove RH you must push the upper bound all the way down to `0`. Every existing
-  upper-bound technique — de Bruijn's, Polymath15's — works by *effective numerics plus explicit error
+  upper-bound technique, de Bruijn's, Polymath15's, works by *effective numerics plus explicit error
   control*: verify enough zeros, bound the tail, conclude no collision can have happened by time `t`.
   That style of argument gets you to `0.2` and, with enough compute, perhaps to `0.1`. It cannot reach
   `0`, because at `t = 0` the margin it needs vanishes identically. You would be trying to prove a
   strict inequality with a method whose error term is exactly the quantity going to zero.
 - **Why `Lambda = 0` is hard from this side:** Rodgers–Tao proved `Lambda >= 0` precisely by showing
   that `Lambda < 0` forces impossibly rigid zero statistics. The mirror-image argument for
-  `Lambda <= 0` would have to *rule out* a collision at `t = 0-` uniformly over all heights — an
+  `Lambda <= 0` would have to *rule out* a collision at `t = 0-` uniformly over all heights, an
   infinite amount of local information, which is RH itself. The reformulation moves the difficulty; it
   does not dissolve it.
 - **What it has bought us:** a *quantitative* RH. Before, RH was true or false. Now there is a real
@@ -354,7 +354,7 @@ worth being blunt about why.
   the upper bound is measurable progress. That is a real change in the epistemic situation, even though
   the remaining gap is a chasm.
 
-(De Branges's approach — Hilbert spaces of entire functions and positivity conditions — is sometimes
+(De Branges's approach, Hilbert spaces of entire functions and positivity conditions, is sometimes
 mentioned in the same breath. It is a different programme, and its published proof attempts have not
 been accepted. I mention it only so you know the two are not the same thing.)
 
@@ -362,23 +362,23 @@ been accepted. I mention it only so you know the two are not the same thing.)
 
 ## Where to go next
 
-- **`docs/06-hilbert-polya-and-gue.md`** — random matrix statistics. Read §5 above first, then watch
+- **`docs/06-hilbert-polya-and-gue.md`**: random matrix statistics. Read §5 above first, then watch
   the same `1/(r_i - r_j)` reappear as the GUE Vandermonde. Montgomery's pair correlation and
   Odlyzko's numerics live there.
-- **`docs/02-theta-heat-and-modularity.md`** — go back and reread §4 now that you know the evenness of
+- **`docs/02-theta-heat-and-modularity.md`**: go back and reread §4 now that you know the evenness of
   `Phi` *is* `theta(1/x) = sqrt(x) theta(x)`. The identity that gave us the functional equation is the
   identity that makes `H_t` an even entire function.
-- **`docs/04-explicit-formula.md`** — the other way to make zeros move: perturb the primes instead of
+- **`docs/04-explicit-formula.md`**, the other way to make zeros move: perturb the primes instead of
   the transform.
 - **The code.** `zeta/heatflow.py`: `Phi(u)`, `H_t(z, t)`, `H0_vs_Xi()` (measures the `(1/8, 1/2)`
   normalisation from the data rather than assuming it), `heat_equation_residual`,
   `zeros_of_H_t`, `zero_gap_statistics`, `track_zeros` (follows the first ten zeros as `t` varies,
   with caching), `polynomial_heat_flow`, and `lambda_facts()` (the bound history with citations). Its
-  docstrings double as a lab notebook — the accuracy claims in them are measured numbers, pinned by
+  docstrings double as a lab notebook, the accuracy claims in them are measured numbers, pinned by
   `tests/test_heatflow.py`. Zeros for the Lehmer-pair experiment come from `zeta/zeros.py`
   (`first_n_zeros`, or `zeros_by_sign_change` for a targeted window).
 - **Play with it.** Take the first 50 zeros as roots of a polynomial in the `H` variable (`2*gamma`),
   flow backwards with `polynomial_heat_flow`, and time the first collision. It will happen far too
-  early — the truncation destroys the delicate balance — and *that failure* is the best illustration
+  early, the truncation destroys the delicate balance, and *that failure* is the best illustration
   available of how global the `Lambda = 0` statement is. No finite piece of the zero set knows the
   answer.

@@ -1,4 +1,4 @@
-"""Controls for truncation_bridge.py — the two-sided finite-to-infinite estimate.
+"""Controls for truncation_bridge.py, the two-sided finite-to-infinite estimate.
 
 What a reader must be able to check without rerunning the audit:
 
@@ -8,7 +8,7 @@ What a reader must be able to check without rerunning the audit:
     fitted ``log m / m`` coefficient is pinned against the DERIVED one
     from the corner of c2 at the origin.  The derived coefficient also
     predicts the SIGN, which flips between resonant and non-resonant
-    spacings — the mechanism behind the crossing that rules out a
+    spacings, the mechanism behind the crossing that rules out a
     one-sided lemma;
 (b) **E bounds the measured discrepancy** on the full grid
     (m in {2..64}, s in [0.3, 20] mean gaps including the resonances,
@@ -18,7 +18,7 @@ What a reader must be able to check without rerunning the audit:
     both against its recorded value and against its own measurement;
 (d) **m0 and the small-m region**: the m0 values are pinned, and the
     finite clusters below m0 are put through the finite instrument
-    directly — including the point where that comes back NEGATIVE;
+    directly, including the point where that comes back NEGATIVE;
 (e) **the planted control**: inflating the discrepancy past the measured
     headroom must break the estimate, or the check has no power.
 
@@ -101,7 +101,7 @@ def test_the_finite_budget_converges_to_the_limit() -> None:
 
 
 #: naive power-law exponents of |b_m - b_inf| over m in [8, 256].  They
-#: sit BELOW 1 because the decay is (a + b log m)/m, not C/m — the log
+#: sit BELOW 1 because the decay is (a + b log m)/m, not C/m, the log
 #: comes from the corner of c2 at the origin, which contributes a
 #: non-oscillating 1/d^2 piece to T(ds).  Pinned so the reading cannot
 #: drift into being reported as "1/m".
@@ -237,7 +237,7 @@ def test_inflating_the_discrepancy_breaks_the_estimate() -> None:
         factor = 1.05 / g[f"worst_{key}"]["ratio"]
         gi = bridge_grid(inflate=factor)
         assert not gi[hold], (
-            f"E_{key} still bounds a discrepancy inflated by {factor:.3f} — "
+            f"E_{key} still bounds a discrepancy inflated by {factor:.3f}, "
             "the grid check has no power")
     # and it must NOT reject just below the headroom
     gj = bridge_grid(inflate=0.95 / g["worst_hybrid"]["ratio"])
@@ -276,7 +276,7 @@ def test_m0_is_not_uniformly_small() -> None:
 
 @pytest.mark.slow
 def test_the_small_m_region_goes_through_the_finite_instrument() -> None:
-    """m < m0 by direct finite verdict — and the two points where that
+    """m < m0 by direct finite verdict, and the two points where that
     verdict is what it is.
 
     At s = 1.0 and s = 2.0 mean gaps, y = 0.49, every rung of the ladder
@@ -296,7 +296,7 @@ def test_the_small_m_region_goes_through_the_finite_instrument() -> None:
         assert lad["min_margin_pp"] > 0.0
     hard = small_m_ladder(2.002, 0.4999, ms=(2, 8, 24, 32))
     assert not hard["all_close"], (
-        "the coarse instrument now closes the argmax family — the recorded "
+        "the coarse instrument now closes the argmax family, the recorded "
         "negative rung has moved and the record needs rewriting")
     assert hard["rows"][-1]["margin_pp"] < 0.0
     # and the budget side of those same rungs is the exact one

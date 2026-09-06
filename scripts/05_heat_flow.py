@@ -101,7 +101,7 @@ def section_polynomial() -> None:
     ts = [-0.6, -0.45, -0.3, -0.15, 0.0, 0.15, 0.3, 0.45, 0.6]
     print("3)  The same story on a toy: p(x) = Π(x − r), r = "
           f"{roots},  p_t = exp(−t d²/dx²) p")
-    print("    (roots then obey dr_i/dt = +2 Σ_{j≠i} 1/(r_i − r_j) — "
+    print("    (roots then obey dr_i/dt = +2 Σ_{j≠i} 1/(r_i − r_j), "
           "Coulomb repulsion)")
     print()
     res = polynomial_heat_flow(roots, ts)
@@ -110,8 +110,8 @@ def section_polynomial() -> None:
     for t, mg, sp, mi, ar in zip(res["t_values"], res["min_gap"],
                                  res["spread"], res["max_abs_imag"],
                                  res["all_real"]):
-        state = "all roots real" if ar else "COMPLEX PAIR — left the axis!"
-        mg_s = f"{mg:9.4f}" if np.isfinite(mg) else "      —  "
+        state = "all roots real" if ar else "COMPLEX PAIR, left the axis!"
+        mg_s = f"{mg:9.4f}" if np.isfinite(mg) else ", "
         print(f"    {t:>+7.2f} {mg_s} {sp:>8.4f} {mi:>14.4f}   {state}")
     print()
     print(f"    Backward collision detected at sampled t = {res['collision_t']} "
@@ -133,7 +133,7 @@ def section_lambda() -> None:
         if h["who"] in ("B. Rodgers, T. Tao", "D. J. Platt, T. S. Trudgian",
                         "H. Ki, Y.-O. Kim, J. Lee",
                         "D. H. J. Polymath (Polymath15, led by T. Tao)"):
-            print(f"      • {h['bound']:<44} — {h['who']}")
+            print(f"      • {h['bound']:<44}, {h['who']}")
     print("    Newman's conjecture Λ ≥ 0 is now a theorem: RH, if true, is "
           "\"only barely so\".")
     print()

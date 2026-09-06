@@ -6,8 +6,8 @@ This file is those conditions as assertions, and nothing else: the section
 comments below carry the same S-numbers, so a reader can hold the doc beside
 the file and see which criteria are actually pinned and which are prose.
 
-The load-bearing one is **S2**. ``NaiveGate`` — fifteen lines that read
-declarations and recompute nothing — handles the clean case, the
+The load-bearing one is **S2**. ``NaiveGate``, fifteen lines that read
+declarations and recompute nothing, handles the clean case, the
 blind-detector case and the honestly-declared-contaminated case exactly as
 well as the real gate. Three cases are three constraints, and a lookup table
 satisfies three constraints, so the only test in this file that measures
@@ -80,7 +80,7 @@ from harness.provenance import _DECLARABLE  # noqa: E402
 # ---------------------------------------------------------------------------
 # The specimen: the same neutral toy department the integrity tests use, so
 # the two files can be read against one another. Three lesions, so that
-# dropping the hardest one leaves every mechanical check green — the drop has
+# dropping the hardest one leaves every mechanical check green, the drop has
 # to be genuinely invisible to the audit for case H to mean anything.
 # ---------------------------------------------------------------------------
 
@@ -201,11 +201,11 @@ def _specimen(**overrides) -> Department:
 
 
 def _criteria(department: Department) -> dict:
-    """The criteria a preregistration freezes — *including the rosters*.
+    """The criteria a preregistration freezes, *including the rosters*.
 
     This is the whole mechanism behind case H. Once the lesion roster is
     inside the criteria, silently removing a lesion changes the criteria
-    digest, so the criteria applied are no longer the criteria frozen —
+    digest, so the criteria applied are no longer the criteria frozen,
     mechanically, without anybody having to notice which lesion went missing.
     """
     return {
@@ -308,7 +308,7 @@ def _build_cases() -> tuple[Case, ...]:
         )
     )
 
-    # Scope quoted with different whitespace and case — normalised, not refused.
+    # Scope quoted with different whitespace and case, normalised, not refused.
     cases.append(
         Case(
             "clean-scope-requoted",
@@ -319,7 +319,7 @@ def _build_cases() -> tuple[Case, ...]:
         )
     )
 
-    # Declared dependence — carried loudly by the audit, fatal to nothing.
+    # Declared dependence, carried loudly by the audit, fatal to nothing.
     dependent = _specimen(
         provenance=Provenance(
             authored_by="this test file",
@@ -478,7 +478,7 @@ def _invariant(decision: Decision) -> None:
 
 
 # ---------------------------------------------------------------------------
-# S1 — the three cases, with the claim's own numbers held fixed
+# S1, the three cases, with the claim's own numbers held fixed
 # ---------------------------------------------------------------------------
 
 
@@ -516,7 +516,7 @@ def test_s1_the_claims_own_battery_verdict_is_unmoved_across_the_three_cases() -
 
 
 # ---------------------------------------------------------------------------
-# Case H — the headline: a silently dropped hardest lesion
+# Case H, the headline: a silently dropped hardest lesion
 # ---------------------------------------------------------------------------
 
 
@@ -526,7 +526,7 @@ def test_case_h_a_dropped_hardest_lesion_blocks_while_the_audit_stays_blind() ->
     ``harness.shams.without_hardest_lesion`` removes the smallest-magnitude
     lesion. Every mechanical check still passes: the grade is CALIBRATED, the
     claim distinguishes, and ``ClaimReport.dangerous`` is False, so the banner
-    layer has nothing to say. The audit is *correctly* blind here —
+    layer has nothing to say. The audit is *correctly* blind here,
     ``test_the_audit_is_blind_to_a_silently_dropped_hardest_lesion`` in
     ``tests/test_harness_integrity.py`` pins that blindness and must keep
     passing. Nothing in this file repairs the audit; the freeze supplies a
@@ -559,7 +559,7 @@ def test_case_h_the_roster_difference_is_what_the_digest_records() -> None:
 
 
 # ---------------------------------------------------------------------------
-# S2 — the load-bearing divergence. Without this the gate is NaiveGate.
+# S2, the load-bearing divergence. Without this the gate is NaiveGate.
 # ---------------------------------------------------------------------------
 
 
@@ -606,8 +606,8 @@ def test_s2_no_self_declaration_can_buy_an_allow() -> None:
 
     Every tri-state provenance field is swept through True and False over the
     derived-contaminated case. None of them may turn the BLOCK into an ALLOW.
-    (The opposite direction — a self-declaration *costing* a producer an ALLOW
-    — does exist, and is pinned separately below as the safe direction.)
+    (The opposite direction, a self-declaration *costing* a producer an ALLOW,
+    does exist, and is pinned separately below as the safe direction.)
     """
     for name in _DECLARABLE:
         for value in (True, False, None):
@@ -673,7 +673,7 @@ def test_s2_the_divergence_object_names_the_same_case() -> None:
         "declared contamination makes audit_department grade the battery "
         "CONTAMINATED, and decide() blocks on the grade, so both gates block "
         "together. The mirror is only expressible when the record shown to "
-        "naive_decide differs from the record the audit graded — see the test "
+        "naive_decide differs from the record the audit graded, see the test "
         "below. Design gap, reported rather than papered over."
     ),
 )
@@ -692,8 +692,8 @@ def test_s2_prime_a_producer_declaring_dirty_over_clean_artifacts_is_allowed() -
     """The mirror, in the one shape the API can express.
 
     ``naive_decide`` takes the provenance record separately from the report,
-    so a producer that hedges — submitting a record declaring unfrozen
-    criteria while the battery it actually ran was graded on a clean record —
+    so a producer that hedges, submitting a record declaring unfrozen
+    criteria while the battery it actually ran was graded on a clean record,
     is BLOCKed by the naive gate and ALLOWed by the real one, whose reading of
     the artifacts finds nothing wrong. This guards against a gate that is
     merely stricter than the sham rather than different from it. The stronger
@@ -708,7 +708,7 @@ def test_s2_prime_a_producer_declaring_dirty_over_clean_artifacts_is_allowed() -
 
 
 # ---------------------------------------------------------------------------
-# S3 — every reason reproduces its own BLOCK in isolation
+# S3, every reason reproduces its own BLOCK in isolation
 # ---------------------------------------------------------------------------
 
 
@@ -783,7 +783,7 @@ def test_s3_decision_level_codes_refuse_to_be_rechecked_in_isolation(code) -> No
 
 
 # ---------------------------------------------------------------------------
-# S4 — (BLOCK == having reasons), for every input including garbage
+# S4, (BLOCK == having reasons), for every input including garbage
 # ---------------------------------------------------------------------------
 
 
@@ -860,7 +860,7 @@ def test_s4_an_ill_formed_party_identifier_blocks(field_name, junk) -> None:
     defect was the exact shape this module argues against. ``_check_independence``
     used to coerce with ``str()`` before comparing, and ``None``, ``0``, ``[]``
     and a bare ``object()`` all stringify to something non-empty and mutually
-    unequal — so a caller who named no parties at all read as two independent
+    unequal, so a caller who named no parties at all read as two independent
     ones and the check returned ``PASS``. Default-open, in the one file whose
     thesis is that default-open must be structurally impossible.
 
@@ -907,7 +907,7 @@ def test_s4_a_report_whose_own_fields_are_garbage_blocks() -> None:
 
 
 # ---------------------------------------------------------------------------
-# S5 — default-open sweep. The mutation most likely to be a real bug.
+# S5, default-open sweep. The mutation most likely to be a real bug.
 # ---------------------------------------------------------------------------
 
 
@@ -983,8 +983,8 @@ def test_s5_a_whitespace_only_digest_blocks_but_not_as_silence(blank_field) -> N
     ``_check_claim_identity`` and ``_check_independence`` strip before testing
     for emptiness; ``_check_evidence_freshness`` does not, so a
     whitespace-only digest is read as a *different* digest rather than as an
-    absent one. The crossing is refused either way — only the reason code
-    differs — which is why this is pinned rather than left failing.
+    absent one. The crossing is refused either way, only the reason code
+    differs, which is why this is pinned rather than left failing.
     """
     kwargs = {**_BY_NAME["clean"].kwargs, blank_field: "   "}
     decision = decide(_BY_NAME["clean"].report, **kwargs, now=FIXED_NOW)
@@ -994,13 +994,13 @@ def test_s5_a_whitespace_only_digest_blocks_but_not_as_silence(blank_field) -> N
 
 
 # ---------------------------------------------------------------------------
-# S6 — anti-paranoia. A referee that only says no is the K3 death condition.
+# S6, anti-paranoia. A referee that only says no is the K3 death condition.
 # ---------------------------------------------------------------------------
 
 
 def test_s6_an_alarming_looking_case_is_nevertheless_allowed() -> None:
     """Six undeclared provenance fields, a detector with a measured floor, and
-    no support of any other kind — and none of it is a defect.
+    no support of any other kind, and none of it is a defect.
 
     This is the case ``ReferenceClaim`` exists to catch one layer down: a
     battery shown only one answer cannot be told apart from one that always
@@ -1020,8 +1020,8 @@ def test_s6_an_alarming_looking_case_is_nevertheless_allowed() -> None:
 def test_s6_the_blocked_fraction_over_the_case_table_stays_under_the_k3_ceiling() -> None:
     """K3: more than 60% of the case set blocking is a pre-registered kill.
 
-    Measured over the whole table — the attacks and the ordinary well-formed
-    submissions together — because a fraction taken over attacks alone would
+    Measured over the whole table, the attacks and the ordinary well-formed
+    submissions together, because a fraction taken over attacks alone would
     be a number about the attacks.
     """
     verdicts = [case.decide().verdict for case in _CASES]
@@ -1035,7 +1035,7 @@ def test_s6_the_blocked_fraction_over_the_case_table_stays_under_the_k3_ceiling(
 
 
 # ---------------------------------------------------------------------------
-# S7 — a claim-side failure, with the verifier side spotless
+# S7, a claim-side failure, with the verifier side spotless
 # ---------------------------------------------------------------------------
 
 
@@ -1049,7 +1049,7 @@ def test_s7_a_claim_shared_with_a_rival_blocks_on_the_claim_side_only() -> None:
 
 
 def test_s7_the_claim_side_code_is_disjoint_from_the_verifier_side_codes() -> None:
-    """Two axes, never conflated — the requirement docs/20 built and this
+    """Two axes, never conflated, the requirement docs/20 built and this
     gate must not undo. A single code covering both would make "the claim is
     weak" and "the referee is weak" indistinguishable to any reader counting
     codes."""
@@ -1062,7 +1062,7 @@ def test_s7_the_claim_side_code_is_disjoint_from_the_verifier_side_codes() -> No
 
 
 # ---------------------------------------------------------------------------
-# S8 — identity binding and staleness
+# S8, identity binding and staleness
 # ---------------------------------------------------------------------------
 
 
@@ -1088,7 +1088,7 @@ def test_s8_a_claim_graded_by_its_own_producer_blocks() -> None:
 
 
 # ---------------------------------------------------------------------------
-# S9 — every decision carries the audit's declared blind spots
+# S9, every decision carries the audit's declared blind spots
 # ---------------------------------------------------------------------------
 
 
@@ -1124,7 +1124,7 @@ def _promote(boundary: Boundary, case: Case, claim=None):
 
 
 def test_a_producer_may_not_reach_the_promoted_side(tmp_path: Path) -> None:
-    """A speed bump, and the module says so — but an accidental reach must
+    """A speed bump, and the module says so, but an accidental reach must
     still be impossible, so that a deliberate one shows up in a diff."""
     view = ProducerView(Boundary(tmp_path))
     assert view.submit(CLAIM_RECORD).exists()
@@ -1336,8 +1336,8 @@ def _hollow_specimen():
         scope="nothing: this specimen exists to be promoted and to be wrong",
         detectors=(
             # Independent of the claim on purpose, since 2026-08-09. The
-            # original detector here was ``lambda f: not zero_mean(f)`` — the
-            # reference claim negated — and ``detector-claim-agreement`` now
+            # original detector here was ``lambda f: not zero_mean(f)``, the
+            # reference claim negated, and ``detector-claim-agreement`` now
             # catches exactly that, which graded this specimen
             # DETECTOR_INADEQUATE and made the negative result below
             # unreachable for the wrong reason. The hollowness this file is
@@ -1383,7 +1383,7 @@ def test_the_gate_promotes_a_worthless_claim_from_a_hollow_battery() -> None:
     rather than mentioned. ``decide`` requires the grade to be ``CALIBRATED``;
     it does not and cannot re-derive whether that grade was *earned*. So a
     battery whose rivals are strawmen promotes a claim with an arbitrary
-    conjunct smuggled into it — here, literally an astrological one — with an
+    conjunct smuggled into it, here, literally an astrological one, with an
     empty reason list and nothing anywhere reading ``dangerous``.
 
     Forward-deployed verification therefore does **not** make a hollow referee
@@ -1391,7 +1391,7 @@ def test_the_gate_promotes_a_worthless_claim_from_a_hollow_battery() -> None:
     different properties and only the second is claimed.
 
     If this test ever fails, somebody has taught the gate to audit the
-    substance of a battery rather than its process — update `docs/21` §8 and
+    substance of a battery rather than its process, update `docs/21` §8 and
     this docstring before deleting the pin.
     """
     dept, zero_mean = _hollow_specimen()
@@ -1433,14 +1433,14 @@ def test_the_two_modes_the_held_out_exercise_found_are_in_the_catalog() -> None:
     """`docs/20` §8 set the scoring rule: a mode the catalog lacks is a hole.
 
     The held-out contractor's battery was hollow in two ways `SHAM_MODES` did
-    not name — rivals too distant to make a shared claim embarrassing, and a
+    not name, rivals too distant to make a shared claim embarrassing, and a
     detector that is the claim negated. Both went into the catalog with
     ``caught_by=None``.
 
     One of the two has since been closed and the other has not, and this test
     is where the difference is recorded. ``detector-claim-agreement``
     (``docs/23`` §4.1) catches the detector-is-the-claim mode, and its first
-    catch was this very specimen — a battery authored by an independent party
+    catch was this very specimen, a battery authored by an independent party
     before that check existed, which is the only reason the catch counts for
     anything. ``distant-rivals`` is still open: the check built for it
     measures the distance and reports it, and the threshold frozen before the

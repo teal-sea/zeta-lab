@@ -1,4 +1,4 @@
-# Hunt r_b9552d — `k >= 3` via the two-species centre-gas split
+# Hunt r_b9552d: `k >= 3` via the two-species centre-gas split
 
 **Run** `37fb06a9-44a6-42d5-abc3-4c1342b1287b`, 2026-08-18. Reads
 `hunts/frontier_math/K2-TWO-SPECIES.md` (section 5, the T1/T2 split),
@@ -68,7 +68,7 @@ is reported as such in `RESULTS-37fb06a9.md` rather than dressed as a bound.
 
 ---
 
-# Run 2 — `113786a8-1f1c-4220-b772-15160a0274fa`, 2026-08-20
+# Run 2: `113786a8-1f1c-4220-b772-15160a0274fa`, 2026-08-20
 
 Run 1's artifacts are preserved under their run-tagged names
 (`RESULTS-37fb06a9.md`, `probe_37fb06a9.py`, `results_37fb06a9.json`,
@@ -77,7 +77,7 @@ Run 1's artifacts are preserved under their run-tagged names
 Between the two runs, `main` withdrew the G4 counterexample (`a735965`) and
 closed gap B of `hunts/frontier_math/LATTICE-EXTREMALITY-ROUTE.md`
 (`7efd506`) with an explicit Fejér majorant. Run 1's threads 1 and 2 are
-therefore answered elsewhere, and the same question — T1's gas half — now
+therefore answered elsewhere, and the same question, T1's gas half, now
 sits entirely on that route's **gap A**, the sparse side `rho < 1/(2*pi)`.
 
 ```huntspec

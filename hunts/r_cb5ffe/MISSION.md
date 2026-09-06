@@ -1,11 +1,11 @@
-# Hunt R-CB5FFE — what `tests/test_doors.py` actually catches
+# Hunt R-CB5FFE: what `tests/test_doors.py` actually catches
 
 `harness/departments/guard_ledger.py` carries this record:
 
 ```
 name            tests/test_doors.py
-guards_against  a docs/doors/ entry page whose quoted command no longer runs
-                — a front door that opens onto a wall
+guards_against  a docs/doors/ entry page whose quoted command no longer runs,
+                a front door that opens onto a wall
 smallest_mutant a door page quoting a command that exits non-zero
                 (e.g. a renamed script)
 fired           None
@@ -21,7 +21,7 @@ demonstrated?*
 This hunt builds the named mutant, plus the nine nearest neighbours that the
 guard's own docstring implies it should or should not see, and records which
 tier of the guard notices each one. The output is a power measurement and a
-miss list — the two fields the ledger record is missing.
+miss list, the two fields the ledger record is missing.
 
 ## Scope
 
@@ -37,10 +37,10 @@ measurement is reported so that call can be made.
 ```huntspec
 id: r_cb5ffe
 question: Which door-breaking mutants does tests/test_doors.py detect, and which pass it?
-frontier: fired=None, scope "undetermined until demonstrated" — no mutant has ever been built against this guard
+frontier: fired=None, scope "undetermined until demonstrated", no mutant has ever been built against this guard
 proposed_attack: build ten mutants spanning the guard's three stated checks and its unstated gaps, run both tiers against each in an isolated worktree, and report the catch/escape table
 dead_routes:
-  - trusting the guard because it exists — harness/guards.py records three guards that failed exactly that way
+  - trusting the guard because it exists, harness/guards.py records three guards that failed exactly that way
 required_oracles:
   - the pytest process exit status of tests/test_doors.py on the mutated worktree
   - the exit status of the door scripts themselves, run directly
@@ -78,6 +78,6 @@ quoted*: M5 in the README table the guard reads, M4 in a door page it does not.
 
 ## Files
 
-- `probe.py` — the mutation harness, runnable end to end
-- `results.json` — every run's exit status, duration and failing node
-- `RESULTS.md` — the table, the reading, and what was not settled
+- `probe.py`: the mutation harness, runnable end to end
+- `results.json`: every run's exit status, duration and failing node
+- `RESULTS.md`: the table, the reading, and what was not settled

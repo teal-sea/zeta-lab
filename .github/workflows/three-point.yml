@@ -1,4 +1,4 @@
-# Tier 3b — the three- and four-point certificates and the Palomar V2 surface, on demand.
+# Tier 3b, the three- and four-point certificates and the Palomar V2 surface, on demand.
 #
 # The three-point material is a `lean_lib` of `lean/bridge` (see that package's
 # lakefile for why it is not a package of its own), so this workflow builds
@@ -7,7 +7,7 @@
 #  1. `ThreePoint` and `FourPoint` still prove their certificates and
 #     unconditional bounds, with the three standard axioms and no forbidden token.
 #  2. `V2Solution` proves the seven declarations `comparator-v2.json` advertises,
-#     also with the three standard axioms — because those are what a registry
+#     also with the three standard axioms, because those are what a registry
 #     replay would check, and a `sorryAx` there would mean the Challenge's
 #     deliberate holes had leaked into the proved surface.
 #  3. `V2Challenge` carries exactly seven `sorry`, one per advertised statement,

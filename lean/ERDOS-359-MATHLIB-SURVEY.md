@@ -213,7 +213,7 @@ is exactly about an unbounded quotient, the usable carriers are `EReal` and
 `StrictMono.add_le_nat` with `m := k`, `n := 0` and `A 0 = 1` gives
 `k + 1 ≤ A k` immediately: the trivial half of part (i)'s lower bound.
 
-For the recursion itself — `A (j+1)` is *the least* element of a set — the
+For the recursion itself, `A (j+1)` is *the least* element of a set, the
 relevant machinery is the `IsLeast`/`Nat.find`/`Nat.sInf` layer:
 
 | name | shape | file:line |
@@ -260,7 +260,7 @@ Sum side (all `to_additive` images of the `prod_*` declarations in
 | `Finset.sum_Ico_by_parts`, `Finset.sum_Ioc_by_parts` | Abel summation | `Mathlib/Algebra/BigOperators/Intervals.lean` |
 | `Finset.sum_Ico_reflect`, `Finset.sum_Ico_Ico_comm` | | same file |
 | `Finset.sum_le_sum_of_subset`, `Finset.sum_le_sum`, `Finset.card_image_le`, `Finset.card_le_card` | counting the representable values | `Mathlib/Algebra/Order/BigOperators/...`, `Mathlib/Data/Finset/Card.lean` |
-| `Finset.exists_mem_notMem_of_card_lt_card` | `#s < #t → ∃ e ∈ t, e ∉ s` — the pigeonhole that produces a non-representable `m` | `Mathlib/Data/Finset/Card.lean:614` |
+| `Finset.exists_mem_notMem_of_card_lt_card` | `#s < #t → ∃ e ∈ t, e ∉ s`, the pigeonhole that produces a non-representable `m` | `Mathlib/Data/Finset/Card.lean:614` |
 
 `Finset.sum_Ico_eq_sub` is the natural partial-sum reformulation
 (`∑_{i∈Icc a b} A i = S(b+1) - S(a)`) but it needs an `AddCommGroup`, so on
@@ -285,7 +285,7 @@ currently a hand-rolled `have` at every call site.
 2. **`log (log x) = o(log x)`.** No named lemma. Derivable as
    `(Real.isLittleO_log_rpow_atTop one_pos).comp_tendsto Real.tendsto_log_atTop`
    plus `Real.rpow_one`. Needed to show `k log k / log log k` grows faster than
-   `k` (part i) and slower than `k^{1+c}` (part ii) — i.e. it is exactly the
+   `k` (part i) and slower than `k^{1+c}` (part ii), i.e. it is exactly the
    step that makes the conjectured asymptotic imply both proved parts.
 
 3. **Eventual positivity of `log (log x)` on `atTop`.** No
@@ -312,9 +312,9 @@ currently a hand-rolled `have` at every call site.
    terms".** There is nothing: a grep for `Sidon`, `sumFree`, `IsSumFree`,
    `mianChowla`, `greedy` over all of `Mathlib/` returns only unrelated hits in
    `Linarith` and `Besicovitch`. The counting bound that drives the whole
-   problem — "the set of sums of consecutive terms of `A 0, …, A j` has at most
+   problem, "the set of sums of consecutive terms of `A 0, …, A j` has at most
    `(j+1)(j+2)/2` elements, so some `m ≤ A j + (j+1)(j+2)/2 + 1` is
-   non-representable, so `A (j+1) - A j = O(j²)`" — has to be built from
+   non-representable, so `A (j+1) - A j = O(j²)`", has to be built from
    `Finset.card_image_le` and `Finset.exists_mem_notMem_of_card_lt_card` by
    hand. This is the real cost of the problem, and it is not an analysis gap.
 

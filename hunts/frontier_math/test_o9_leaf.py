@@ -1,4 +1,4 @@
-"""Controls for `o9_leaf` — the O9 table in the kernel's own arithmetic."""
+"""Controls for `o9_leaf`, the O9 table in the kernel's own arithmetic."""
 
 from __future__ import annotations
 

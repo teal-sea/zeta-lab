@@ -1,4 +1,4 @@
-# Hunt r_f7cd45 — which structural properties of ζ actually discriminate
+# Hunt r_f7cd45: which structural properties of ζ actually discriminate
 
 **Status: settled for the five properties issue #21 queued; the sixth was
 already settled by earlier hunts in this tree, and what this run adds to it is
@@ -64,7 +64,7 @@ the same verdict; that width was not tuned and should have been.
 - **Positive control throughout: ζ satisfies all five.** A probe in which ζ
   failed a property it demonstrably has would be reporting a defect in itself.
 
-## The sixth property (stage 2) — already settled, and here is the price tag
+## The sixth property (stage 2): already settled, and here is the price tag
 
 Issue #21 lists a sixth property, *"in a box strictly off the critical line
 the completed function has no zeros"*, as unfinished at a 50-minute timeout.
@@ -74,8 +74,8 @@ written:
 - **Hunt #13** (`gate5_p6_a/`): VACUOUS on an adversarially chosen box.
 - **Hunt #14** (`gate5_p6_b/`): VACUOUS on two of three boxes, with the
   Davenport–Heilbronn zero recovered as a positive control on the third.
-- **Hunt #15** (`gate5_p6_c/`): the question as written **has no truth value**
-  — the box is a free parameter of the sentence, and holding the σ-band fixed
+- **Hunt #15** (`gate5_p6_c/`): the question as written **has no truth value**,
+  the box is a free parameter of the sentence, and holding the σ-band fixed
   while moving the height window flips the verdict.
 
 This run reproduces that independently on two preregistered boxes
@@ -165,9 +165,9 @@ a positive control on box B2. Not hardened: no enclosure carries these steps.
   a plausible wrong integer rather than an error. Hunts #14 and #15 reported
   the cancellation; this adds that the cap makes it unreachable from the
   caller. First step: change `min(dps, 20)` at `zeta/epstein.py:1091` and
-  `:1141` to a floor derived from the box height — hunt #14's measured
+  `:1141` to a floor derived from the box height, hunt #14's measured
   ≈ 0.6822·t digit loss plus guard digits, which at t = 85.5 predicts ~58 and
-  brackets the 60 measured here — and pin it with a test that the count at
+  brackets the 60 measured here, and pin it with a test that the count at
   t ≈ 85.5 is stable between `dps = 60` and `dps = 100`.
 - **Property 3 cost 853.8 s of a 900 s stage for a verdict visible in
   seconds.** Why it might matter: `zeros_on_line` is quantified over a window
@@ -178,7 +178,7 @@ a positive control on box B2. Not hardened: no enclosure carries these steps.
 - **Property 6 is still carried by the battery as a property.** Why it might
   matter: three hunts have now concluded it is a (function, box) pair rather
   than a property, and hunt #13 already proposed retiring it. It keeps
-  attracting budget — this run included. First step: the disposition is a
+  attracting budget, this run included. First step: the disposition is a
   `zeta/` decision, not a hunt's; someone with that scope should either retire
   it or replace it with the box-free version hunt #13 drafted.
 - **Issue #21's "not yet settled" section is stale.** Why it might matter: it

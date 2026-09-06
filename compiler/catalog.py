@@ -1,4 +1,4 @@
-"""``compiler.catalog`` — the tiny, human-inspectable rewrites under study.
+"""``compiler.catalog``, the tiny, human-inspectable rewrites under study.
 
 Every program here is eight lines of LLVM IR with the same signature,
 ``i8 @f(i8 %x, i8 %y)``, so that the whole input space is 65536 points and can
@@ -9,10 +9,10 @@ benchmark corpus.
 The three known-invalid rewrites are not strawmen. Each is a transformation a
 competent person has written on purpose:
 
-* ``sdiv2_to_ashr`` — dividing by two with a shift. Wrong for negative odd
+* ``sdiv2_to_ashr``: dividing by two with a shift. Wrong for negative odd
   values, because ``sdiv`` truncates toward zero and ``ashr`` floors.
-* ``udiv4_to_ashr`` — the same mistake with the signedness confused as well.
-* ``slt_to_sign_of_difference`` — testing ``x < y`` by the sign bit of
+* ``udiv4_to_ashr``: the same mistake with the signedness confused as well.
+* ``slt_to_sign_of_difference``: testing ``x < y`` by the sign bit of
   ``x - y``. Wrong exactly when the subtraction overflows, which is why real
   code writes the comparison out.
 
@@ -82,7 +82,7 @@ class Transformation:
     """A proposed rewrite: one source program, one candidate replacement.
 
     This is the department's fundamental object and the thing every instrument
-    consumes. It carries no verdict of its own — deciding whether it deserves
+    consumes. It carries no verdict of its own, deciding whether it deserves
     belief is exactly what the battery is for.
     """
 
@@ -106,14 +106,14 @@ class Transformation:
 
 
 # ---------------------------------------------------------------------------
-# Claims — predicates over a Transformation
+# Claims, predicates over a Transformation
 # ---------------------------------------------------------------------------
 
 
 def claim_no_more_instructions(transformation: Transformation) -> bool:
     """The candidate is no longer than the source.
 
-    A real, cheap, entirely true property of the target — and of every rival,
+    A real, cheap, entirely true property of the target, and of every rival,
     which is the point. It is the compiler domain's version of a symmetry
     everything in the room happens to have.
     """
@@ -184,7 +184,7 @@ RIVALS: tuple[Transformation, ...] = (
 
 
 # ---------------------------------------------------------------------------
-# Lesions — planted corruptions of a rewrite that is known to agree
+# Lesions, planted corruptions of a rewrite that is known to agree
 # ---------------------------------------------------------------------------
 
 #: The host every lesion is planted in: a rewrite of the signed comparison into
@@ -213,7 +213,7 @@ class LesionSpec:
     domain and the concrete disagreement is exactly zero, because poison is not
     a value a compiled binary can hand back. Keeping the units on the violation
     rather than on the detector is what lets this department report a blind spot
-    as a number instead of a footnote — see ``visible_concretely``.
+    as a number instead of a footnote, see ``visible_concretely``.
 
     Both quantities are pinned by ``tests/test_compiler_lesions.py`` rather than
     trusted from this declaration.
@@ -294,7 +294,7 @@ LESIONS: tuple[LesionSpec, ...] = (
 
 
 # ---------------------------------------------------------------------------
-# Surrogates — candidates from a generator with no idea what it is doing
+# Surrogates, candidates from a generator with no idea what it is doing
 # ---------------------------------------------------------------------------
 
 #: Opcode families a mutation may swap within. Staying inside a family keeps

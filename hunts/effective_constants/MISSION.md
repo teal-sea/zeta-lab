@@ -1,4 +1,4 @@
-# MISSION — `effective_constants`
+# MISSION: `effective_constants`
 
 **Opened 2026-08-13.** Nothing in this directory is a result.
 
@@ -15,14 +15,14 @@ The usual reading of "inherited" is that nothing can be done about it. That
 reading looks wrong, and this hunt exists to test it.
 
 **The ineffectivity is localised, not diffuse.** `PROOF-LEDGER.md` (blocker 3,
-residual (i)) already states it: *"T₀ is a reference not an effective bound —
+residual (i)) already states it: *"T₀ is a reference not an effective bound,
 four existential EvBound constants would make it effective and nothing else in
 the budget would."* Everything else in the error budget is explicit; the
 dominant term was derived from parts (`35.519106`, matching measurement to
 four digits at `l = 1e4/1e5/1e6`).
 
 **And the fog enters as an assumption, not as a derivation.** In the upstream
-package the relevant facts are fields of a `Facts` structure — inputs the
+package the relevant facts are fields of a `Facts` structure, inputs the
 formalisation takes from the paper's prose, each tagged with the paper's own
 reference (`[prop:trace]`, `[lem:ends]`, `[prop:mumu]`, `[prop:PP]`,
 `[prop:cross]`). Their common shape is
@@ -53,9 +53,9 @@ ineffective).
 The verdict matters either way, and the negative verdict is the more
 interesting one:
 
-- **Extractable** — then an effective form of the chain is arithmetic, not new
+- **Extractable**: then an effective form of the chain is arithmetic, not new
   mathematics, and the crossover becomes a number someone can write down.
-- **Essential** — then the obstruction has a name and a location, which is
+- **Essential**: then the obstruction has a name and a location, which is
   worth recording precisely because "it is inherited" currently functions as an
   explanation and is not one.
 
@@ -77,8 +77,8 @@ question: Is the transplant chain's ineffectivity extractable bookkeeping or an 
 frontier: crossover T0 ~ 10^(1.6773e6); shape T0 ~ exp(38.5/eps); dominant error constant already derived from parts at 35.519106
 proposed_attack: locate the load-bearing EvBound assumptions, read the source proofs of exactly those propositions, and classify each constant as extractable or essential
 dead_routes:
-  - sharpening the transplant's own damage constants — blocker 3 records that the crossover shape comes from the source's o(1) coefficients, so no local sharpening moves it
-  - treating calE as the dominant error term — measured wrong, the dominant term is a window-moment drift
+  - sharpening the transplant's own damage constants, blocker 3 records that the crossover shape comes from the source's o(1) coefficients, so no local sharpening moves it
+  - treating calE as the dominant error term, measured wrong, the dominant term is a window-moment drift
 required_oracles:
   - the source paper's own text, pinned by SHA-256
   - independent recomputation of any extracted constant from the stated estimate

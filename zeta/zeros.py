@@ -76,7 +76,7 @@ THETA_ARGMIN = 6.28983598883690278
 
 
 # ---------------------------------------------------------------------------
-# θ and Z  —  prefer zeta.core, fall back to a local implementation
+# θ and Z, prefer zeta.core, fall back to a local implementation
 # ---------------------------------------------------------------------------
 
 
@@ -124,7 +124,7 @@ def _ambient(fn: Callable) -> Callable:
 def _honours_precision(cand: Callable, ref: Callable, points: Sequence) -> bool:
     """True iff ``cand`` reproduces ``ref`` to (nearly) full working precision.
 
-    Checked at **two** precisions — 25 and 45 digits.  One precision is not
+    Checked at **two** precisions: 25 and 45 digits.  One precision is not
     enough: a backend that always returns 30 digits passes a 25-digit test and
     still destroys every ``dps > 30`` request downstream.  The 45-digit leg is
     what actually detects that.
@@ -149,7 +149,7 @@ def _resolve_core() -> tuple[Callable, Callable]:
     The imported functions are adapted to the ambient precision by
     :func:`_ambient` and then *validated* by :func:`_honours_precision` at both
     25 and 45 digits (θ at t = 7, 100; Z at t = 3, 20).  Anything that
-    disagrees — or that quietly caps its own precision — is rejected and the
+    disagrees, or that quietly caps its own precision, is rejected and the
     local implementations are used instead, so this module is never wrong and
     never silently less accurate than it claims.
 
@@ -285,7 +285,7 @@ def gram_point(n: int, dps: int = 30) -> mpf:
 
 
 def gram_points(n0: int, n1: int, dps: int = 30) -> list[mpf]:
-    """Gram points g_{n0}, …, g_{n1} — the range is **inclusive** at both ends."""
+    """Gram points g_{n0}, …, g_{n1}, the range is **inclusive** at both ends."""
     return [gram_point(n, dps=dps) for n in range(int(n0), int(n1) + 1)]
 
 
@@ -368,7 +368,7 @@ def zeros_by_sign_change(t0, t1, n_samples: int | None = None, dps: int = 25) ->
                 # recorded once, by the next iteration's f0 == 0 branch (or by
                 # the trailing endpoint check).  Treating (f0 > 0, f1 == 0) as
                 # a sign change here as well would polish the bracket to that
-                # very point and report the zero TWICE — and a scan that can
+                # very point and report the zero TWICE, and a scan that can
                 # invent zeros would break the "m ≤ N(T)" inequality that
                 # verify_rh_up_to's proof rests on.
                 continue
@@ -430,8 +430,8 @@ def S_of_T(T, dps: int = 25) -> mpf:
     arg never leaves (−π/2, π/2).  On the horizontal leg the variation is
     accumulated by adaptive bisection (:func:`_arg_variation`).
 
-    S(T) is O(log T) and is almost always tiny — S(100) = −0.00240990227…,
-    S(1000) = 0.383758055… — but it is exactly what makes N(T) an integer.
+    S(T) is O(log T) and is almost always tiny: S(100) = −0.00240990227…,
+    S(1000) = 0.383758055…, but it is exactly what makes N(T) an integer.
     Independent oracle: ``mpmath.backlunds(T)`` returns the same quantity.
 
     T must not itself be a zero ordinate: ζ(1/2 + iT) = 0 makes arg undefined,
@@ -460,7 +460,7 @@ def N_of_T(T, dps: int = 25) -> int:
     integral onto the quarter path 2 → 2 + iT → 1/2 + iT, whose Γ- and π-part is
     the explicit θ(T) and whose ζ-part is π·S(T).
 
-    It counts *every* zero in the critical strip, on or off the line — which is
+    It counts *every* zero in the critical strip, on or off the line, which is
     exactly what makes it usable as the yardstick in :func:`verify_rh_up_to`.
 
     The right-hand side is an integer up to rounding error; the value is rounded
@@ -469,9 +469,9 @@ def N_of_T(T, dps: int = 25) -> int:
 
     Caveat, honestly stated: that residual check detects a *lost branch* in the
     argument variation, **not** proximity to a zero.  If T sits within ~1e-6 of
-    an ordinate γ the right-hand side is still within 1e-6 of an integer — of
+    an ordinate γ the right-hand side is still within 1e-6 of an integer, of
     ``N(γ⁻)`` or ``N(γ⁺)`` depending on which side of γ the floating-point T
-    landed — and the value is returned without complaint.  N(T) genuinely has a
+    landed, and the value is returned without complaint.  N(T) genuinely has a
     jump discontinuity at every ordinate; no guard can repair that.
     """
     with mp.workdps(dps):
@@ -604,7 +604,7 @@ def first_n_zeros(n: int, cache: bool = True, dps: int = 30) -> list[mpf]:
 
     Engine: ``mpmath.zetazero`` (Riemann–Siegel plus a Gram-point search
     internally), which is the sane choice up to a few thousand zeros.  The
-    from-scratch sign-change path is :func:`zeros_from_scratch`; the two agree —
+    from-scratch sign-change path is :func:`zeros_from_scratch`; the two agree,
     see the cross-check of the first 50 in ``tests/test_zeros.py``.
 
     Results are cached to ``data/zeros_<n>.json`` as decimal strings; a cached
@@ -638,7 +638,7 @@ def zeros_from_scratch(n: int, dps: int = 25, verify: bool = True) -> list[mpf]:
        exactly one zero of Z per Gram interval [g_{m−1}, g_m).
     2. Walk the Gram intervals upward from g_{−1} = 9.6669….  In each one, sample
        Z on a grid and bracket every sign change, doubling the grid until the
-       number of sign changes stops changing — this is what catches the
+       number of sign changes stops changing, this is what catches the
        intervals where Gram's law fails and two zeros (or none) appear.
     3. Below g_{−1} the same scan is run on [0, g_{−1}]; it finds nothing, since
        γ_1 = 14.13… and Z < 0 throughout [0, 9.67…].
@@ -697,20 +697,20 @@ def verify_rh_up_to(T, verbose: bool = False, dps: int = 25, max_samples: int = 
     If m = N(T) the inequality is saturated and every unit of the count is
     accounted for by the t_j.  Therefore:
 
-    * there is **no zero off the critical line** below height T — such a zero ρ
+    * there is **no zero off the critical line** below height T, such a zero ρ
       would (together with its mirror 1 − ρ̄) contribute to N(T) without
       contributing to m;
-    * there is **no zero of even order** on the line below T — Z does not change
+    * there is **no zero of even order** on the line below T: Z does not change
       sign at one, so it too would add to N(T) but not to m;
     * each t_j has multiplicity exactly 1, i.e. **all the zeros are simple**.
 
     That is the Backlund/Turing method, and for the finite interval (0, T) it is
-    a proof — *modulo the correctness of the floating-point sign evaluations*.
+    a proof, *modulo the correctness of the floating-point sign evaluations*.
     Every sign of Z here is an ordinary mpmath evaluation at ``dps`` digits, not
     interval arithmetic, so the certificate rests on those evaluations being
     accurate to better than |Z| at each grid point (overwhelmingly safe at
     these heights, but not rigorously bounded here; the published verifications
-    of Platt–Trudgian use interval arithmetic precisely to close this gap —
+    of Platt–Trudgian use interval arithmetic precisely to close this gap,
     see docs/08-why-it-is-hard.md).  :func:`zeta.rigor.verify_rh_certified` is
     the rigorous counterpart: it runs the same argument in ball arithmetic, so
     every sign is *proven* (its enclosure of Z excludes 0) and N(T) is *proven*
@@ -750,7 +750,7 @@ def verify_rh_up_to(T, verbose: bool = False, dps: int = 25, max_samples: int = 
         n_samples = 2 * (n_samples - 1) + 1
 
     # Largest Gram index with g_n ≤ T.  θ(g_n) = nπ and θ is increasing, so
-    # g_n ≤ T ⇔ n ≤ θ(T)/π — but *only* on the branch t > THETA_ARGMIN.  Below
+    # g_n ≤ T ⇔ n ≤ θ(T)/π, but *only* on the branch t > THETA_ARGMIN.  Below
     # the minimum θ is decreasing and θ(T)/π is not an inverse at all:
     # θ(3)/π = −0.953 would "admit" g_{−1} = 9.6669 > 3.
     with mp.workdps(dps):

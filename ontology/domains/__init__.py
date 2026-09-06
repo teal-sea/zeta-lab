@@ -1,4 +1,4 @@
-"""ontology.domains — the only place in this package that knows its subject.
+"""ontology.domains, the only place in this package that knows its subject.
 
 ``ontology.schema``, ``funnel``, ``metrics`` and ``registry`` are
 domain-agnostic; ``ontology.knownness`` knows general mathematics but not this

@@ -1,4 +1,4 @@
-# MISSION — `r_a97060`: the interval pass over the k=2 tau-table
+# MISSION, `r_a97060`: the interval pass over the k=2 tau-table
 
 ## The question
 
@@ -16,9 +16,9 @@ lower bound**, and at what cost.
 
 ## Scope
 
-**May write**: `hunts/r_a97060/`, and — by the operator addendum of
+**May write**: `hunts/r_a97060/`, and, by the operator addendum of
 2026-08-17, which overrides the generic "do not touch `hunts/frontier_math/`"
-line for this run only — `hunts/frontier_math/k2_closure.py`,
+line for this run only, `hunts/frontier_math/k2_closure.py`,
 `two_species.py`, their tests, and `K2-TWO-SPECIES.md`, plus the case-log
 entry in `hunts/README.md`.
 

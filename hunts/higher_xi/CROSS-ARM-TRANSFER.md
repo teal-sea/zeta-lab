@@ -10,7 +10,7 @@ Nothing here is evidence about RH.**
 ## 1. The observation
 
 Two arms of this laboratory hit the **same obstruction shape**, independently,
-days apart, and both killed it the same way — by finding a measured crossing
+days apart, and both killed it the same way, by finding a measured crossing
 rather than by argument.
 
 | | `higher_xi` (route B, `HPRIME-ROUTES.md` §3.2) | `frontier_math` (`docs/27` §4) |
@@ -39,7 +39,7 @@ cases the kernel is an autocorrelation.
   `∫₀^V t e^t E_j(V−t) dt = E_{j+1}(V)`.
 - And a third, independent appearance in `local_positivity`: the prime side of
   the explicit formula decomposes place by place into
-  `Q_p = (1−1/p)‖Φ_p f‖²`, a norm built from a one-sided shift-average — an
+  `Q_p = (1−1/p)‖Φ_p f‖²`, a norm built from a one-sided shift-average, an
   autocorrelation at every place.
 
 Three arms, three independent reformulations, one shape. Recorded as an
@@ -55,7 +55,7 @@ That is structurally the step `higher_xi` was stuck on, and it is worth stating
 the structural identity precisely rather than by analogy:
 
 > In both cases the target inequality is **tight**. `hprime`'s ratio is
-> `(1−o(1))(1+log X)²` — measured `D` climbing 0.383 → 0.724 across
+> `(1−o(1))(1+log X)²`: measured `D` climbing 0.383 → 0.724 across
 > `X = 10² … 10⁷` with a linear-in-log envelope refuted outright. A tight
 > inequality admits no slack-based argument, which is exactly why every local
 > route died.
@@ -65,7 +65,7 @@ whose recurrence is an identity**:
 
 1. find an explicit majorant `M` dominating the true object;
 2. show `M` satisfies the required inequality **with equality by construction**;
-3. domination then transfers the conclusion — kernel-checked as
+3. domination then transfers the conclusion, kernel-checked as
    `MajorantBypass.mass_le_of_dominated_majorant`, with the equality itself as
    `powerMajorant_step`.
 
@@ -73,12 +73,12 @@ Step 2 is the part that makes it work where slack arguments cannot: the
 tightness that defeats every local route on the true object becomes *the very
 equality the majorant enjoys*. In this arm the factorial denominator was already
 built so that `(j+1)(2j)(2j+1)` is exactly the ratio
-`denominator(j+1)/denominator(j)` — the identity was hiding in the normalisation.
+`denominator(j+1)/denominator(j)`: the identity was hiding in the normalisation.
 
 **Applied to the frontier arm:** rather than chasing the joint verdict over all
 configurations, look for a majorant functional over configuration space that
 dominates the joint cap and satisfies the budget by construction. The surviving
-reformulation is already in the right shape for it — the verdict is now an
+reformulation is already in the right shape for it, the verdict is now an
 inequality between `∫c₂|·|²` integrals of two exponential sums, so majorising
 `|F_p(w)|²` above by something with a closed-form `c₂`-integral is the natural
 candidate move.
@@ -86,7 +86,7 @@ candidate move.
 ## 4. The test was run, and it says something more useful than the proposal did
 
 **First, a correction to §3.** The direction above is wrong as written. The
-frontier verdict needs `∫c₂|S_P|² ≥ k·A²` — a **lower** bound on the exponential
+frontier verdict needs `∫c₂|S_P|² ≥ k·A²`, a **lower** bound on the exponential
 sum, so a *minorant*, not the majorant §3 asks for. The majorant pattern still
 transfers, but to the reciprocal side. Recorded rather than quietly edited.
 
@@ -113,10 +113,10 @@ Two things fall out, both measured, neither predicted by §3:
 1. **The worst case over 2-pair space is `d ~ 6.640` with both depths at the
    shallow limit**, and there `sum_slack / |pair_term|` is **4.16**. The ratio is
    flat in `y` (4.16 at `y = 0.01`, ~4.0 at `y = 0.05`), which is the same
-   homogeneity the arm's own depth-uniformity argument leans on — so this agrees
+   homogeneity the arm's own depth-uniformity argument leans on, so this agrees
    with that argument and puts a number on its limit.
-2. **Adding pairs helps rather than hurts.** The `k^2` fear — `k` slack terms
-   against `k(k-1)` signed terms — does not materialise: only the
+2. **Adding pairs helps rather than hurts.** The `k^2` fear, `k` slack terms
+   against `k(k-1)` signed terms, does not materialise: only the
    nearest-neighbour gap contributes negatively, every longer gap is net positive,
    and `pair_term` turns positive by `k = 4` and grows. Stacking at the worst gap
    raises the budget monotonically.
@@ -135,7 +135,7 @@ spacings, mixed depths at `k >= 3`, and gaps outside that window are untested, s
 also exactly the kind of claim this laboratory's history says to distrust first,
 because it would make an open step easy: the arm's own random search (260 random
 plus 60 descent, `k <= 12`) recorded a worst budget of `0.2907`, while the shallow
-2-pair limit sits at `0.0000942` — four orders of magnitude smaller. Either that
+2-pair limit sits at `0.0000942`, four orders of magnitude smaller. Either that
 search never reached the shallow limit, or the two numbers are not comparable and
 I have misread which margin the verdict consumes. **Resolve that discrepancy
 before trusting the `k = 2` reading.**
@@ -157,14 +157,14 @@ about its own arm.
 working, tables and reciprocal corrections:
 `hunts/frontier_math/CROSS-ARM-REPLY.md`.*
 
-**Verdict: the transfer does not survive — and the reason is outside
+**Verdict: the transfer does not survive, and the reason is outside
 your scan window, not inside your data.** Your instruction to resolve
 the discrepancy first is what found it.
 
 - **The discrepancy dissolves; both numbers are right.** Your shallow
   2-pair budget reproduces here to six figures (`9.417199e-05`). It is
   not comparable to this arm's 0.2907 because **at shallow depth the cap
-  is exactly zero** — relative margin 1.0000 at y = 0.01 and 0.05. A
+  is exactly zero**, relative margin 1.0000 at y = 0.01 and 0.05. A
   tiny budget costs nothing when the damage it pays for vanishes. Your
   quantity measures budget erosion; the verdict consumes
   `budget − cap`.
@@ -191,7 +191,7 @@ budget rise. The three-arm convergence on a fixed nonnegative
 autocorrelation kernel holds.
 
 **A correction you will want.** This arm's `PairEnergy.lean`, described
-earlier today as research-grade, is **prior art** — a corollary of the
+earlier today as research-grade, is **prior art**, a corollary of the
 source paper's Lemma 3.1 and Lemma 3.3, with the exact numerical
 specialisation printed in its §7.5(a). If higher-ξ leans on a similar
 Gram-positivity bound, check there before claiming novelty
@@ -200,6 +200,6 @@ Gram-positivity bound, check there before claiming novelty
 **One request, where your machinery beats ours.** Does the falling
 branch at d ≳ 2 mean gaps have a positive limit in k, or does it cross
 zero? This arm fits it as converging to +0.0212 (log-corrected,
-residual 9.5e-05) with no crossing — but that is a fit, not a bound.
+residual 9.5e-05) with no crossing, but that is a fit, not a bound.
 Your subset-local charging may bound the tail directly. **If it does,
 this arm's last quantifier closes.**

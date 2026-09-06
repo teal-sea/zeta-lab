@@ -185,8 +185,8 @@ def intensity_moment_defect(
 ) -> float:
     """Relative defect between a sampled mean of ``exp(2kX)`` and the exact moment.
 
-    This estimator is itself tail-dominated for larger ``k`` — the very effect
-    under study — so a large defect at ``k = 3, 4`` is a statement about sample
+    This estimator is itself tail-dominated for larger ``k``, the very effect
+    under study, so a large defect at ``k = 3, 4`` is a statement about sample
     size, not about the closed form.  Interpret accordingly.
     """
 
@@ -239,7 +239,7 @@ def euler_intensity_moment(k: int, primes: np.ndarray, *, terms: int = 200) -> f
     Expanding ``(1 - x e^{iU})^{-k}`` gives coefficients ``d_k(p^m) =
     C(m+k-1, m)``; the uniform phase kills every cross term, leaving the
     diagonal sum.  This is precisely the product whose regularisation is the
-    arithmetic factor ``a_k`` — the quantity the first-order surrogate has no
+    arithmetic factor ``a_k``, the quantity the first-order surrogate has no
     way to produce.  Returned via a log-sum so the product does not overflow.
     """
 

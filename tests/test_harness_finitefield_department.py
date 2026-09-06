@@ -3,7 +3,7 @@
 ``tests/test_department_conformance.py`` audits every department against the
 protocol. This file pins what is true of *this* department: the payload that
 carries no tell, the counterfeits' exact self-duality, the quantisation floor
-on lesion magnitude, and — for the first time with a real department — all
+on lesion magnitude, and, for the first time with a real department, all
 four instrument runners driven with honest measures. Department #1 only ever
 drives ``run_battery`` and ``run_power``; the compiler probe (git 2041d86)
 recorded that gap, and this department closes it.
@@ -78,7 +78,7 @@ def test_the_targets_counts_are_the_librarys(department) -> None:
 
 def test_the_functional_equation_is_shared_with_every_counterfeit(department) -> None:
     """True of the target by the Weil conjectures, true of the counterfeits by
-    construction — exactly department #1's situation, made exact."""
+    construction, exactly department #1's situation, made exact."""
     reference = next(r for r in department.reference_claims if r.name == "functional_equation")
     verdict = run_battery(department.battery, reference.claim)
     assert verdict.target is True
@@ -129,7 +129,7 @@ def test_a_counterfeit_inside_the_bound_is_refused(department) -> None:
 
 
 def _normalized_deviation(counts, p: int = 1009) -> float:
-    """max_r |N_r − (p^r + 1)| / (2·p^{r/2}) — equals max_r |cos(r·θ)| ≤ 1 for
+    """max_r |N_r − (p^r + 1)| / (2·p^{r/2}), equals max_r |cos(r·θ)| ≤ 1 for
     genuine counts, which is RH for the curve in normalised form."""
     return max(
         abs(int(n) - (p**r + 1)) / (2.0 * p ** (r / 2.0))
@@ -138,9 +138,9 @@ def _normalized_deviation(counts, p: int = 1009) -> float:
 
 
 def test_run_ablation_both_decoys_move_an_honest_measure(department) -> None:
-    """This department's decoy pair has uniform polarity — the payload is a
-    sequence indexed by r, so jitter *and* permutation both destroy substance
-    — which makes ``survives`` the correct aggregate here. Contrast the zeta
+    """This department's decoy pair has uniform polarity, the payload is a
+    sequence indexed by r, so jitter *and* permutation both destroy substance,
+    which makes ``survives`` the correct aggregate here. Contrast the zeta
     department, whose set-payload pair has opposite polarities; that is
     pinned in ``tests/test_harness_zeta_department.py``."""
     counts = department.battery.target.payload()["counts"]
@@ -170,7 +170,7 @@ def test_run_ablation_jitter_breaks_the_self_duality(department) -> None:
 
 def test_run_nulls_the_hasse_bound_is_reproduced_from_no_curve(department) -> None:
     """The observation 'normalised traces respect the bound' holds for every
-    genuine curve — and for both surrogates, which contain no curve at all,
+    genuine curve, and for both surrogates, which contain no curve at all,
     because points on a circle cannot do otherwise. Satisfying the bound is a
     property of the model class, not evidence about arithmetic; what *is*
     arithmetic is which angle a curve gets, which this statistic ignores."""
@@ -203,7 +203,7 @@ def _implied_off_circle_magnitude(profile) -> float:
 
 
 def test_run_power_and_where_a_coarse_detector_goes_blind(department) -> None:
-    """Detector power is measured, not assumed — including the blindness. A
+    """Detector power is measured, not assumed, including the blindness. A
     detector reading the exact bound sees every planted lesion down to the
     quantisation floor; one that only trusts violations past 1.5·sqrt(p)
     misses the floor lesion, and ``blind_to`` says so by name."""

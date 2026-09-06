@@ -25,13 +25,13 @@ arithmetic, for p = 5, 7, 11, 13, 17, 19, 23, 29 before any Lean was written.
 
 ## What is proved
 
-* `frobTrace_sum_b` — for fixed `a` and `x`, the inner sum over `b` of
+* `frobTrace_sum_b`: for fixed `a` and `x`, the inner sum over `b` of
   `χ(x³ + a x + b)` vanishes.  This is the whole content: `b ↦ x³ + a x + b`
   is a bijection of `ZMod p`, and a nontrivial multiplicative character sums to
   zero over the field (`quadraticChar_sum_zero`).
-* `sum_frobTrace_eq_zero` — the first moment of the trace over the family is
+* `sum_frobTrace_eq_zero`: the first moment of the trace over the family is
   `0`.
-* `sum_frobTrace_sq` — the **second** moment is `p³ - p²`, i.e. `p²(p - 1)`.
+* `sum_frobTrace_sq`: the **second** moment is `p³ - p²`, i.e. `p²(p - 1)`.
   The supporting shifted-character sum is `sum_quadraticChar_mul_shift`.
 
 ## What is NOT proved
@@ -50,12 +50,12 @@ arithmetic, for p = 5, 7, 11, 13, 17, 19, 23, 29 before any Lean was written.
   claimed here.
 * `frobTrace` is *defined* by the character sum.  That it equals the trace of
   Frobenius acting on the ℓ-adic Tate module of the corresponding elliptic
-  curve — the identification that makes the name honest — is standard but is
+  curve, the identification that makes the name honest, is standard but is
   not formalized here; no Hasse bound is claimed either.
 
 House rule carried over: nothing counts until it compiles with zero `sorry`s.
 Checked: `#print axioms` on both theorems reports only `propext`,
-`Classical.choice`, `Quot.sound` — no `sorryAx`.
+`Classical.choice`, `Quot.sound`: no `sorryAx`.
 -/
 
 open Finset

@@ -1,4 +1,4 @@
-"""ontology.metrics — conversion analytics over the ledger.
+"""ontology.metrics, conversion analytics over the ledger.
 
 Domain-agnostic, like the rest of this layer. It reads records and divides.
 
@@ -7,7 +7,7 @@ Why this module is the point
 A discovery funnel without conversion rates is a machine for producing
 anecdotes: the operator remembers the two observations that looked exciting and
 forgets the four hundred that were already in a textbook. The tables here are
-built so the unflattering numbers are the *default* ones — ``already-known`` and
+built so the unflattering numbers are the *default* ones, ``already-known`` and
 ``trivial`` sit next to ``survives`` in the same column, ``cost per survivor``
 is computed from recorded wall time, and a lead source that has produced
 nothing appears in the table with its cost, rather than not appearing at all.
@@ -18,15 +18,15 @@ Everything countable is derived from the **run stream** (``ledger.runs.jsonl``),
 because that is the only place a *zero-yield* invocation exists: a generator
 that ran for an hour and emitted nothing leaves no candidate record, and a
 conversion rate computed without it has the wrong denominator. The candidate
-stream supplies the standing *inventory* — what the ledger currently holds, by
-verdict — which is a different question and is reported separately.
+stream supplies the standing *inventory*, what the ledger currently holds, by
+verdict, which is a different question and is reported separately.
 
 Two arithmetic rules, applied everywhere
 ----------------------------------------
 1. **An empty denominator gives ``None``, never ``0.0``.** A rate over nothing
    is undefined; reporting it as zero would state that nothing converted, which
    is a claim about a population that does not exist. :func:`rate` is the only
-   place division happens, and ``render_text`` prints ``—`` for ``None``.
+   place division happens, and ``render_text`` prints ``, `` for ``None``.
 2. **Deduplication is a lower bound.** Two records of the same observation at
    different resolutions do not collide (``discovery/README.md`` §4, failure
    mode 1), so ``duplicate`` counts are a floor and ``unique`` counts are a
@@ -99,7 +99,7 @@ def _coerce(source: "Ledger | LedgerView | str | Path | None") -> LedgerView:
 def _finished_runs(view: LedgerView) -> tuple[FunnelRun, ...]:
     """Run records in their final state, parsed. Unfinished runs included.
 
-    A run that never got past ``started`` was killed outright — no record of
+    A run that never got past ``started`` was killed outright, no record of
     what it did survives, and it contributes only itself to the denominator. A
     run whose plug-in raised writes a ``crashed`` record carrying the outcomes
     it had already decided, so the work it *did* do is counted. Both are kept:
@@ -450,7 +450,7 @@ def funnel_report(ledger: "Ledger | LedgerView | str | Path | None" = None) -> F
 class GeneratorStat:
     """One lead source, and what its output actually turned into.
 
-    **Every rate has ``produced`` as its denominator** — everything the
+    **Every rate has ``produced`` as its denominator**, everything the
     generator emitted, duplicates, malformed payloads and crash-interrupted
     candidates included. That is the honest denominator for the question the
     table answers ("is this worth the compute?"): a generator that re-emits last
@@ -599,7 +599,7 @@ def generator_scorecard(
 
     Ranking, stated plainly so nobody has to guess: **survivors per second**,
     descending; ties broken by ``unsettled_rate``, then by name. When no source
-    has produced a survivor — which is the expected state — the first key is
+    has produced a survivor, which is the expected state, the first key is
     zero everywhere and the table is ranked by the share nothing settled, which
     is a residue of the checks that ran and not a measurement of usefulness.
     """
@@ -715,7 +715,7 @@ def _render_scorecard(stats: Sequence[GeneratorStat]) -> str:
     if not any(s.survives for s in stats):
         lines.append(
             "  no source has produced a survivor: the ranking is on the share that\n"
-            "  no check settled, which is a residue of the checks that ran — not a\n"
+            "  no check settled, which is a residue of the checks that ran, not a\n"
             "  claim that anything is new."
         )
     return "\n".join(lines)
@@ -727,7 +727,7 @@ def _render_scorecard(stats: Sequence[GeneratorStat]) -> str:
 
 #: The order the breakdown prints in, most settled first. Plain strings on
 #: purpose: importing the vocabulary from ``ontology.knownness`` would pull
-#: mathematics into this module, and the seam keeps it out — a test pins this
+#: mathematics into this module, and the seam keeps it out, a test pins this
 #: tuple against ``knownness.FACT_STATUSES`` instead. ``unstated`` is this
 #: module's own bucket for a match whose verdict carries no status.
 LITERATURE_STATUS_ORDER: Final[tuple[str, ...]] = (
@@ -753,7 +753,7 @@ class KnownnessBreakdown:
 
     The steering question this answers: **a high known-share is not one
     signal but two.** A generator whose knowns are dated theorems is
-    rediscovering real structure *late* — it is pointed at fertile ground,
+    rediscovering real structure *late*, it is pointed at fertile ground,
     and being late is a property of the calendar, not of the instrument. A
     generator whose knowns are unstated or definitional matches is mostly
     looking at its own reflection. ``settled_known_rate`` separates the two.
@@ -798,7 +798,7 @@ def knownness_breakdown(
 
     Reads the latest record of every candidate in the ledger. A known verdict
     whose evidence carries no ``literature_status`` (an older record, or a
-    matcher that omitted it) counts as ``unstated`` — under-claiming, never
+    matcher that omitted it) counts as ``unstated``, under-claiming, never
     inventing. Ordered by ``settled_known_rate`` descending, ties by name.
     """
     view = _coerce(ledger)
@@ -825,7 +825,7 @@ def knownness_breakdown(
 
 def _render_breakdown(rows: Sequence[KnownnessBreakdown]) -> str:
     lines = [
-        "KNOWNNESS BREAKDOWN  (what kind of 'known' — the lateness signal)",
+        "KNOWNNESS BREAKDOWN  (what kind of 'known', the lateness signal)",
         "=" * 96,
     ]
     if not rows:
@@ -850,7 +850,7 @@ def _render_breakdown(rows: Sequence[KnownnessBreakdown]) -> str:
     lines.append(
         "  'settled' is the share of knowns matching settled mathematics\n"
         "  (theorems, established results, disproofs). High settled-share means\n"
-        "  the source rediscovers real structure late — fertile ground; a low\n"
+        "  the source rediscovers real structure late, fertile ground; a low\n"
         "  one means its matches are conjectural, definitional or unstated.\n"
         "  This is a statement about the catalogue's matches, and about\n"
         "  nothing beyond them."

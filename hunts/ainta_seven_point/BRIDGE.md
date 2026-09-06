@@ -398,19 +398,19 @@ untouched.
    else and no longer imports the two; #101 stays open for what remains there and no
    longer touches this theorem.
 2. **The Challenge and Solution modules are authored.** `lean/bridge/BridgeChallenge.lean`
-   states four theorems over Mathlib alone in the namespace `Zeta23Ext.Palomar` —
+   states four theorems over Mathlib alone in the namespace `Zeta23Ext.Palomar`,
    `seven_point_bound`, `seven_point_bound_paper`, and two at this laboratory's own
    parameters `(34697/10^7, 294, 3400)`, `seven_point_bound_lab` and
    `seven_point_bound_lab_ratio`, the second of which states the conclusion as a bound
-   on `N₀ˢ/N` — with the format's four deliberate `sorry`s, one per statement.
+   on `N₀ˢ/N`, with the format's four deliberate `sorry`s, one per statement.
    `lean/bridge/BridgeSolution.lean` proves the same four from
    `Zeta23Ext.Bridge.Main`; every bridge is `rfl` except `H_eq`, which is `[L23]`'s
    `HD_one`. ~~The eight-point statement of `RESULTS.md` is **not** advertised: its
    bridge from certificate to proportion is stated, not proved, and an unproved
    bridge has no business on a registry surface.~~ **Superseded 2026-08-23:** that
    bridge is now proved (section 1, `n_point_bound` and `eight_point_bound`), so the
-   reason not to advertise it is gone. It is advertised, on its own surface — see
-   below — and not by editing this one, which is in flight.
+   reason not to advertise it is gone. It is advertised, on its own surface, see
+   below, and not by editing this one, which is in flight.
 3. **The licence headers are correct.** All seventeen moved files carried Apache-2.0
    headers copied from the dependency's house style while this repository is MIT;
    they now carry the MIT header the rest of `lean/` uses. The one file that adapts

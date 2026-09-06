@@ -1,4 +1,4 @@
-# MISSION — support arm 517b887f (Erdős #126, original-proof lane)
+# MISSION: support arm 517b887f (Erdős #126, original-proof lane)
 
 **Bounded question, set by the parent run 0897a5a7 / Hunt #91 (`r_186989/`):**
 reconstruct the Erdős–Turán 1934 proof in modern notation, isolate every place

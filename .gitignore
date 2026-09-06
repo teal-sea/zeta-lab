@@ -11,7 +11,7 @@ data/*.npz
 
 # certificates are claims, not data: never ship one, always recompute it.
 # (zeta/rigor.py keys the cache by every run parameter, but not by the version
-# of the code or of Arb that produced it — so a committed certificate could
+# of the code or of Arb that produced it, so a committed certificate could
 # replay a `certified: True` that this checkout never actually established.)
 data/rigor_verify_*.json
 .DS_Store
@@ -37,7 +37,7 @@ conjectures/*
 !conjectures/.gitkeep
 
 # audio renders and their write-ups (ontology/08_riemann_beats_audio.py):
-# regenerate them, don't ship them — a .wav is an output, not a source.
+# regenerate them, don't ship them, a .wav is an output, not a source.
 *.wav
 Music/
 
@@ -46,14 +46,14 @@ req*.json
 
 # the nightly research agent stays local, setup included: nightly.sh and
 # mission.md hard-code this machine's absolute paths and its launchd plist, and
-# everything the runs produce is local state — worktrees are whole checkouts
+# everything the runs produce is local state, worktrees are whole checkouts
 # with their own .venv, and the journal is an unreviewed notebook in the spirit
 # of conjectures/ above.
 automation/
 
 # cloned outside repositories (115 MB of other people's artifacts, each a
 # shallow clone with its own .git, plus the separate .venv-tools interpreter).
-# Machine state: re-clone to update. The README is tracked on purpose — a
+# Machine state: re-clone to update. The README is tracked on purpose, a
 # HANDOFF record points at it for the two steps that still need a human, and a
 # repository record must not point at an untracked file. Same shape as the
 # conjectures/ rule above.
@@ -72,12 +72,12 @@ lean/ZetaLean/TestZ.lean
 
 # interactive_lab pages still under construction. That directory's contract is
 # single-file, dependency-light pages ("open the file" is the whole
-# instruction), pinned by tests/test_doors.py — which lists only the top level,
+# instruction), pinned by tests/test_doors.py, which lists only the top level,
 # so a page graduates by moving up one directory once it holds no external
 # script and needs no fetch.
 interactive_lab/wip/
 
-# the generated site — derived from artifacts, built in CI, never committed
+# the generated site, derived from artifacts, built in CI, never committed
 _site/
 
 # API keys for inspect_ai (meta/evals). Never commit.

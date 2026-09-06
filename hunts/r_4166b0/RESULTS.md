@@ -285,7 +285,7 @@ FRESHNESS is **drifted** on any reading: `zisk.toml` declares 0.16.1
 
 ### Venus: the header's equivalence claim does not hold (VERIFIED)
 
-`venus.toml`'s header states: *"Cross-validated against ZisK upstream — identical
+`venus.toml`'s header states: *"Cross-validated against ZisK upstream, identical
 soundness parameters."* Both files carry 44 circuits under the same names in the
 same order. Comparing field by field:
 

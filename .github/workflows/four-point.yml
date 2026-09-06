@@ -1,4 +1,4 @@
-# Tier 3b — the four-point certificate package, on demand.
+# Tier 3b, the four-point certificate package, on demand.
 #
 # `hunts/ainta_seven_point/lean-four-point/` is a Lake package that requires
 # `lean/bridge` BY PATH, so it proves things about the same `Kfun`, `kfun`,

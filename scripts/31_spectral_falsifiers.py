@@ -6,7 +6,7 @@ advance, so each of the four falsifiers is observed rejecting something:
 
 * a **forged** operator, built by writing the ordinates straight into the
   matrix.  It reproduces the zeros perfectly and is stable under refinement,
-  and it is worthless — it never consults a prime.  Only the ablation gate
+  and it is worthless, it never consults a prime.  Only the ablation gate
   catches it, which is exactly why that gate exists.
 * an **arithmetic noise** operator, built from prime data but with no reason to
   carry the zeros.  It is caught by the target gate, and also by the

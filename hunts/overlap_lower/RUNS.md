@@ -1,9 +1,9 @@
-# RUNS — hunt `overlap_lower`
+# RUNS: hunt `overlap_lower`
 
 One block per autonomous run. A run that produced nothing records that it
 produced nothing.
 
-## Run 1 — literature, reimplementation, local smoke tests
+## Run 1: literature, reimplementation, local smoke tests
 
 ```runmanifest
 id: overlap_lower-2026-08-23-local
@@ -22,7 +22,7 @@ artifacts:
   - hunts/overlap_lower/ci-sweep.yml
 ```
 
-## Run 2 — the parameter sweep, in short local bursts
+## Run 2: the parameter sweep, in short local bursts
 
 The sweep was written for CI (`hunts/overlap_lower/ci-sweep.yml`) and did not
 run there: the credential available refuses to create a workflow file without

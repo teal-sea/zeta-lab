@@ -1,4 +1,4 @@
-# Tier 1 — the gate. Runs on every push and pull request.
+# Tier 1, the gate. Runs on every push and pull request.
 #
 # Stdlib + pytest only: no numpy, scipy, mpmath, sympy or editable install, so
 # there is nothing to build and nothing to cache. 342 tests in ~6 seconds
@@ -12,7 +12,7 @@
 # zeta_department -> numpy -- and CI caught it here. It now runs in tier 2.
 #
 # What it deliberately does NOT do: the numerical suite, the doors (which
-# execute real scripts), or Lean. Those are tiers 2 and 3 — see full.yml and
+# execute real scripts), or Lean. Those are tiers 2 and 3, see full.yml and
 # lean.yml. Cost here is measured in operator attention on a red build, not
 # money: this repository is public, so GitHub-hosted standard runners bill zero.
 # The scarce thing is a fast, trustworthy signal, and a gate that takes ten

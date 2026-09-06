@@ -1,4 +1,4 @@
-# Tier 3 — everything, on a schedule rather than on every commit.
+# Tier 3, everything, on a schedule rather than on every commit.
 #
 # The full suite is 2189 tests and 10-20 minutes; the Lean arm is 8739 build
 # jobs. Running either on every push would buy almost nothing over tier 2 and

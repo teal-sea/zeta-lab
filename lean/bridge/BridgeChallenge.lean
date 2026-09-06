@@ -66,9 +66,9 @@ the two states the same conclusion as a bound on the ratio `N₀ˢ/N`, which is
 the form the result is usually quoted in.
 
 Every definition below is a verbatim copy of the corresponding definition in
-the proof development — the five counting definitions from the dependency
+the proof development, the five counting definitions from the dependency
 `anthropics/zeta-23-lean`, the kernel and functional definitions from
-`Zeta23Ext/Bridge/Defs.lean` — re-declared here in the namespace
+`Zeta23Ext/Bridge/Defs.lean`: re-declared here in the namespace
 `Zeta23Ext.Palomar` so that this file depends on Mathlib alone.  The one
 exception is `H`, which the development takes from the dependency as `HD 1`
 and which is written here in the closed form the dependency proves equal to it
@@ -167,7 +167,7 @@ every `ε > 0` and all large `T`,
 
 **`hCert` is a hypothesis, and is not a Lean fact.**  It is the seven-point
 inequality of Ainta's Proposition 4.1.  What is known about it is that an
-interval-arithmetic program written in Arb accepts it — at `(c, p) = (19/5000,
+interval-arithmetic program written in Arb accepts it, at `(c, p) = (19/5000,
 3000)` in the published run at `github.com/ainta/zeta-simple-zeros`, and at
 `(34697/10⁷, 3400)` in this laboratory's own run, both reproduced and recorded
 under `hunts/ainta_seven_point` in the submitted repository.  A verifier's

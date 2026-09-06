@@ -1,7 +1,7 @@
-# 14 — How New Mathematics Gets Invented
+# 14. How New Mathematics Gets Invented
 
 *A companion to `docs/12-how-hard-problems-die.md`. That document is a kill board: eight problems,
-the mechanism that killed each, and RH scored against them. This one asks the prior question — where
+the mechanism that killed each, and RH scored against them. This one asks the prior question, where
 the mechanisms' raw material comes from. When a problem needs objects that do not exist yet, how have
 mathematicians historically produced them? Eleven recurring moves, each with cases, each scored
 against the one gap this laboratory keeps running into: `docs/11`'s missing Frobenius over `Spec Z`.*
@@ -9,12 +9,12 @@ against the one gap this laboratory keeps running into: `docs/11`'s missing Frob
 ## The short version
 
 Nothing here is a method you can execute. These are *post-hoc* patterns in how new mathematics
-appeared, and the sample is heavily survivorship-biased — the failed attempts to invent objects are
+appeared, and the sample is heavily survivorship-biased, the failed attempts to invent objects are
 not written down. Read it as a catalogue of shapes, not a recipe.
 
 The one useful output is the scoring in Section 12. Mechanisms 1, 3, 4, 7 and 11 have all been aimed
 squarely at the Frobenius-over-`Z` gap by very strong people; each produced real mathematics and none
-closed it. Mechanism 9 — compute until a pattern demands explanation — is the only one a
+closed it. Mechanism 9, compute until a pattern demands explanation, is the only one a
 computational laboratory can actually execute, and it is also, historically, among the most
 productive. That is the honest reason this repository exists in the shape it does.
 
@@ -29,7 +29,7 @@ document as orientation, not as reference.
 
 Unique factorisation fails in the cyclotomic rings `Z[zeta_p]`. Kummer's response was not to abandon
 the law but to posit "ideal numbers" that restore it; Dedekind later showed these could be realised
-as *subsets* of the original ring — ideals. A ghost object acquired a body, and algebraic number
+as *subsets* of the original ring, ideals. A ghost object acquired a body, and algebraic number
 theory followed.
 
 The detail worth stealing: **Kummer had a computable membership test before anyone knew what the
@@ -52,7 +52,7 @@ consistent alternative rather than a contradiction.
 as a parallel universe to number fields, which is what made the Weil conjectures a *template* rather
 than a curiosity.
 
-Note the axis carefully. This is not a change of *notation* — base ten versus base two versus base
+Note the axis carefully. This is not a change of *notation*, base ten versus base two versus base
 sixty is invisible to every object in this repository, since the Euler product runs over primes and
 the primes do not move when you change how you spell them. The productive change is of coefficient
 ring and characteristic.
@@ -70,7 +70,7 @@ the machine you need is a legitimate move, not a wish.
 
 ## 5. Name the pattern that keeps recurring
 
-Abstract groups out of permutation groups; vector spaces; and category theory itself — Eilenberg and
+Abstract groups out of permutation groups; vector spaces; and category theory itself: Eilenberg and
 Mac Lane needed "natural transformation" to be precise in algebraic topology, and had to invent
 functors and categories in order to define it. The same argument appearing in unrelated places is
 the signal.
@@ -85,13 +85,13 @@ as precedents for exactly this.
 ## 7. Build a dictionary and transport proofs across it
 
 Weil's Rosetta Stone: number fields / function fields over `F_q` / Riemann surfaces. Langlands is the
-industrial-scale version. Fermat's Last Theorem is the cleanest case — Frey's curve, Serre's
+industrial-scale version. Fermat's Last Theorem is the cleanest case: Frey's curve, Serre's
 conjecture, Ribet's theorem turned FLT into a corollary of modularity, which Wiles proved. Nobody
 attacked FLT head-on. `docs/12` §2 scores this mechanism as BRIDGE BETWEEN WORLDS.
 
 ## 8. Reformulate until it becomes another field's routine problem
 
-Poincaré became a question about Ricci flow and singularity control — topology handed to PDE
+Poincaré became a question about Ricci flow and singularity control, topology handed to PDE
 (`docs/12` §5). RH → Weil positivity is the same move already made (`docs/07` §7,
 `docs/10`); the difficulty is that the analytic side is not easier.
 
@@ -137,18 +137,18 @@ the narrower question: which invention mechanism is each known attempt using, an
 
 | Mechanism | Aimed at the gap by | Status |
 | --- | --- | --- |
-| 1 — posit the missing object | the `F1` programs generally | **PROGRAM.** No object; and unlike Kummer's ideal numbers, no computable membership test to falsify a candidate |
-| 2 — negate an axiom | every `F1` formalism (`0 != 1`) | **PROGRAM.** Formalisms genuinely differ; each proves real theorems internally |
-| 3 — change the base ring | Weil's function-field analogy | **THEOREM** on the `F_q` side, and the source of the template. Does not transport |
-| 4 — object-valued invariants | Deninger's conjectural cohomology | **PROGRAM.** The required `H^1` is infinite-dimensional, so the standard machinery does not apply |
-| 7 — dictionary transport | Connes–Consani, Langlands-adjacent work | **PROGRAM.** Restates RH on a space that genuinely exists (`docs/10` §5); restatement is not reduction |
-| 11 — bridge characteristics | perfectoid spaces | **THEOREM**, and a large one. Not aimed at RH and has not touched it |
-| 9 — compute for anomalies | this repository, among many | The only one executable here. Has produced GUE agreement, which is consistent with the operator existing and proves nothing |
+| 1, posit the missing object | the `F1` programs generally | **PROGRAM.** No object; and unlike Kummer's ideal numbers, no computable membership test to falsify a candidate |
+| 2, negate an axiom | every `F1` formalism (`0 != 1`) | **PROGRAM.** Formalisms genuinely differ; each proves real theorems internally |
+| 3, change the base ring | Weil's function-field analogy | **THEOREM** on the `F_q` side, and the source of the template. Does not transport |
+| 4, object-valued invariants | Deninger's conjectural cohomology | **PROGRAM.** The required `H^1` is infinite-dimensional, so the standard machinery does not apply |
+| 7, dictionary transport | Connes–Consani, Langlands-adjacent work | **PROGRAM.** Restates RH on a space that genuinely exists (`docs/10` §5); restatement is not reduction |
+| 11, bridge characteristics | perfectoid spaces | **THEOREM**, and a large one. Not aimed at RH and has not touched it |
+| 9, compute for anomalies | this repository, among many | The only one executable here. Has produced GUE agreement, which is consistent with the operator existing and proves nothing |
 
 Borger's `lambda`-rings deserve a separate line because they are the closest thing to a direct answer
 to "invent a Frobenius over `Z`": they *define* `F1`-structure as a commuting family of Frobenius
 lifts, one per prime, and `Z` carries such a structure canonically (`docs/11` §3). That is mechanism
-1 executed cleanly — the operator is declared to be the structure. What it has not produced is the
+1 executed cleanly, the operator is declared to be the structure. What it has not produced is the
 cohomology or the positivity, which by `docs/11` §1 is where the content of the finite-field proof
 actually lives.
 
@@ -162,14 +162,14 @@ actually lives.
 
 ## Where to go next
 
-- **`docs/12-how-hard-problems-die.md`** — the sibling: mechanisms that finished specific problems,
+- **`docs/12-how-hard-problems-die.md`**, the sibling: mechanisms that finished specific problems,
   and RH scored against them. Sections 1 and 2 there are mechanisms 4 and 7 here, seen from the
   problem's end rather than the object's.
-- **`docs/11-f1-and-the-missing-geometry.md`** — the gap this document scores against, in full:
+- **`docs/11-f1-and-the-missing-geometry.md`**, the gap this document scores against, in full:
   space, operator, positivity, and the programs stuck on the first two.
-- **`docs/09-new-ontologies.md`** §5 — the four falsification gates in their original form. Any
+- **`docs/09-new-ontologies.md`** §5, the four falsification gates in their original form. Any
   invention that "explains" RH must survive them, gate 3 in particular.
-- **`docs/08-why-it-is-hard.md`** — why no computation in this repository is evidence about RH, and
+- **`docs/08-why-it-is-hard.md`**: why no computation in this repository is evidence about RH, and
   the Davenport–Heilbronn function that powers the counterexample gate.
 - **In code:** `scripts/11_finite_field_rh.py` for mechanism 3 where it is a theorem;
   `scripts/17_f1_fingerprints.py` for the `q -> 1` fingerprints of mechanism 1;

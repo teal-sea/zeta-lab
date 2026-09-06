@@ -1,4 +1,4 @@
-"""``harness.guards`` — detection power as a record, not a feeling.
+"""``harness.guards``, detection power as a record, not a feeling.
 
 The 2026-08-11 director run (``docs/25-the-director-run.md``) found that three
 of the six defects in recorded claims were *guards that could not do their
@@ -6,8 +6,8 @@ job*: a completeness check whose "independent" reference was the same
 technique on a coarser grid, a truncation guard that encoded "cannot decide"
 as the favourable verdict, and a scan column structurally incapable of reading
 False. Each had been trusted because it existed. Existence is the one property
-a guard has by default; *power* — that it fires on the fault it was built for
-— is a measurement, and this module is where that measurement is recorded.
+a guard has by default; *power*, that it fires on the fault it was built for,
+is a measurement, and this module is where that measurement is recorded.
 
 The question the guard offensive asks of every guard, verbatim from the
 adopted decision (``ROADMAP.md``, "The outside memos, triaged"):
@@ -17,7 +17,7 @@ adopted decision (``ROADMAP.md``, "The outside memos, triaged"):
 
 A :class:`GuardRecord` answers it in the declared-data style of
 :mod:`harness.provenance`: ``fired`` is a tri-state where ``None`` means
-*nobody has demonstrated anything* — the docs/25 state, kept visible instead
+*nobody has demonstrated anything*, the docs/25 state, kept visible instead
 of defaulting to trust. ``True`` requires a named demonstration artifact;
 ``False`` is a guard demonstrated *not* to fire, which is a finding to keep
 loudly, not a record to delete. ``known_misses`` carries the nearby lesions
@@ -26,8 +26,8 @@ its misses the same way a cross-check is bounded by its shared layers
 (:mod:`harness.independence`).
 
 This file is machinery only, domain-agnostic under the same three seam checks
-as :mod:`harness.protocol`. The repository's actual guard records — which
-name real tests and real incidents — live in
+as :mod:`harness.protocol`. The repository's actual guard records, which
+name real tests and real incidents, live in
 ``harness/departments/guard_ledger.py``, and their demonstrations run live in
 ``tests/test_guard_ledger.py``: a ledger whose mutants nothing executes would
 be exactly the self-validating log ``meta/ledger.py`` warns about.
@@ -57,7 +57,7 @@ class GuardRecord:
     ``name`` says where the guard lives (a test node, a script invocation).
     ``guards_against`` is the exact incorrect computation it exists to catch.
     ``smallest_mutant`` describes the smallest change that exhibits that
-    lesion — the thing a demonstration must actually construct. ``fired`` is
+    lesion, the thing a demonstration must actually construct. ``fired`` is
     the tri-state measurement; a ``True`` or ``False`` costs a named artifact
     in ``demonstrated_by`` (a demonstration nobody can rerun is a claim, not
     a demonstration), and a ``None`` forbids one (silence stays visible).
@@ -108,7 +108,7 @@ class GuardRecord:
 
 
 def undemonstrated(records: tuple[GuardRecord, ...]) -> tuple[str, ...]:
-    """The guards whose power nobody has shown — the offensive's worklist."""
+    """The guards whose power nobody has shown, the offensive's worklist."""
 
     return tuple(r.name for r in records if r.fired is None)
 
@@ -127,7 +127,7 @@ def dead_guards(records: tuple[GuardRecord, ...]) -> tuple[str, ...]:
 def offensive_worklist(records: tuple[GuardRecord, ...]) -> tuple[str, ...]:
     """Every open item the ledger implies, one disputable sentence each.
 
-    Undemonstrated guards, dead guards, and every known miss — the same
+    Undemonstrated guards, dead guards, and every known miss, the same
     reason-tuple convention as the rest of the package. An empty tuple means
     the ledger currently implies no work, which is a statement about the
     ledger's coverage before it is one about the repository's guards.

@@ -1,4 +1,4 @@
-# Runs — `amtopa_ceiling`
+# Runs: `amtopa_ceiling`
 
 Every run of this hunt, including the ones that produced nothing and the one that
 had to be killed. Cost estimates were written before the runs they describe, per
@@ -96,7 +96,7 @@ Cost estimated before: four scripts, seconds each. Actual: under 5 s.
                           interval_window_lower_bound = 0.7616418486406763
 
 Their headline reproduces from their own inputs, exactly as published.
-**MEASURED** — their code, our host.
+**MEASURED**, their code, our host.
 
 ### 2. Exact-rational replay of the assembly
 
@@ -127,7 +127,7 @@ Cost estimated before: numpy, milliseconds. Actual: under 2 s. Written from
 |---|---|---|
 | `H(v)` | `0.67218815811823495743` | `0.67218815811823458517` |
 | span capacities | `[2, 2, 2, 2, 2, 2]` exactly | same |
-| `K(0)` | `0.91872536986556841` | — |
+| `K(0)` | `0.91872536986556841` |, |
 | `F` at their published basin | `0.007911105155226431` | `0.007911105155226424` |
 
 Fifteen significant decimals on both, the binary64 limit. **VERIFIED**.
@@ -184,7 +184,7 @@ break-even between `B/B0 = 1.00` and `1.25`.
 
 ### 8. Candidate generation, killed
 
-Cost estimated before: **none written** — that is the failure. Actual: killed at
+Cost estimated before: **none written**, that is the failure. Actual: killed at
 1.8 GB resident and 70% CPU, and it took the operator's session down with it.
 
 Two faults, one technical and one procedural.
@@ -213,7 +213,7 @@ gives `0.6734167515492229` at `m = 145`, the polytope optimum gives
 `0.6734220612615708` at `m = 145`. Against their published headline
 `0.6734164909714992`: `+5.570e-06`. For scale, the one-point pair-weight-free cap
 is `0.0088144556`, loose by `8.95e-04`, which is why the LP and not the single
-test vector is the instrument this hunt reports. **MEASURED** — LP upper bound
+test vector is the instrument this hunt reports. **MEASURED**: LP upper bound
 rigorous, achieved floor a float minimum.
 
 ### 10. Pressure sweep, redone
@@ -259,7 +259,7 @@ The cause is a stopping rule that could not fail: `lower` had been defined as
 `min(multistart, pool minimum)`, and at the LP optimum the pool minimum **is**
 the LP value by construction, so `upper - lower` was identically zero whenever
 the multistart found nothing new. The loop halted at whatever value the incoming
-pool already carried — and the richer the pool, the more confidently it halted
+pool already carried, and the richer the pool, the more confidently it halted
 too early. Fixed in `epsstar.eps_star`: the test is now against the independent
 multistart alone, and it must hold for `patience` consecutive rounds. The reason
 is written into the source at the test.
@@ -305,7 +305,7 @@ Actions run `32743347292`, 2026-08-24T15:11:33Z.
 | job | estimated | actual | outcome |
 |---|---|---|---|
 | `reproduce` | under 1 min | passed | every replay matches §2 of `RESULTS.md` |
-| `headroom` | about 2 min | 27 s for 40 rounds | converged, and **corrected the authoring host** — see run 10b |
+| `headroom` | about 2 min | 27 s for 40 rounds | converged, and **corrected the authoring host**, see run 10b |
 | `pressure-sweep` | about 5 min | 463 s | same shape and same peak as run 10 |
 | `certificate` x2 | under 20 min | **did not finish** | the single-process table build, 83,993 coarse cells and 167,987 midpoints at 50 dps, exceeded the 20-minute job timeout on a shared runner. The estimate assumed the authoring host's 0.0225 CPU-s per cell; the runner is slower per core and the estimate did not carry that. Sharded six ways in run 2 |
 | `window-sweep` x4 | 3 epochs per shard | **0 epochs** | all four shards spent the entire 900 s budget on the two reference points and never entered the search. The estimate covered the search and not the setup. Reference points moved into the `doors` job in run 2 |

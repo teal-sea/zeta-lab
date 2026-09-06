@@ -1,4 +1,4 @@
-# MISSION — `dps_cap`: what the precision cap in the rival interfaces costs
+# MISSION, `dps_cap`: what the precision cap in the rival interfaces costs
 
 A bounded measurement run. One quantity, two precisions.
 
@@ -34,10 +34,10 @@ result.
 ```huntspec
 id: dps_cap
 question: What does the min(dps, 20) cap in epstein.py's rival interfaces cost on a completed-Epstein evaluation high on the strip?
-frontier: uncharacterised — the caps are undocumented at their call sites and no test pins the accuracy the capped path delivers
+frontier: uncharacterised, the caps are undocumented at their call sites and no test pins the accuracy the capped path delivers
 proposed_attack: evaluate the same quantity at the capped precision and at the requested precision, and separate signal from roundoff with a convergence ladder
 dead_routes:
-  - reading the returned dict for a precision warning — the interfaces record no provenance for the discarded dps
+  - reading the returned dict for a precision warning, the interfaces record no provenance for the discarded dps
 required_oracles:
   - internal convergence of the same routine at dps 80 and 100, agreeing to all digits printed
   - an independent recomputation by a separate process, reported as agreement or disagreement in order of magnitude

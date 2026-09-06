@@ -1,4 +1,4 @@
-"""The assembled ball enclosure really contains DH — checked by the Hurwitz route.
+"""The assembled ball enclosure really contains DH, checked by the Hurwitz route.
 
 `scripts/62_rung3_rho_w.py --arith ball` reports margins of 2.1-3.8 where the
 shipped rectangle arithmetic reports 0.57-0.96.  A 14x improvement is exactly the
@@ -66,7 +66,7 @@ def test_assembled_enclosure_brackets_the_true_modulus(site, arith):
 
 @pytest.mark.parametrize("site", SITES, ids=SITE_IDS)
 def test_ball_encloses_and_is_strictly_tighter_than_the_rectangle(site):
-    """The ball must be *inside* the rectangle's bound, not merely smaller —
+    """The ball must be *inside* the rectangle's bound, not merely smaller,
     a smaller number that failed to enclose would be a defect, not a win."""
     rect = _assembled(site, "rect")
     ball = _assembled(site, "ball")

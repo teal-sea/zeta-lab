@@ -25,14 +25,14 @@ def test_stacking_floor_is_positive_at_the_working_width() -> None:
 
 
 def test_stacking_floor_boundary_is_mapped() -> None:
-    """The floor dies by delta_p = 0.3 (deep pairs) — the honest edge."""
+    """The floor dies by delta_p = 0.3 (deep pairs), the honest edge."""
     rec = PD.stacking_floor(delta_p=0.3)
     assert not rec["positive"]
     assert rec["at_depths"][0] > 0.4  # it dies at the strip edge, not shallow
 
 
 def test_separable_budget_breaks_where_expected() -> None:
-    """The separable global assembly fails at mid-density deep lattices —
+    """The separable global assembly fails at mid-density deep lattices,
     the honest record that motivates the joint accounting."""
     rows = PD.global_verdict()
     worst_margin, worst_name, _ = rows[0]

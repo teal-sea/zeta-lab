@@ -20,7 +20,7 @@ PSLQ coincidence     never true                     refuted by the screens
 ===================  =============================  =========================
 
 Each case is replayed twice: once with the whole pipeline, and once with the
-catalogue emptied — the position the original author was in. The second replay
+catalogue emptied, the position the original author was in. The second replay
 is the searching one, and it needs a positive control, because "nothing was
 promoted" is not a measurement if promotion was unreachable. That control is
 :func:`~ontology.domains.zeta_history.build_honest_twin`, which does reach
@@ -36,7 +36,7 @@ What this suite found, and did not paper over
 Two defects are pinned below as tests rather than hidden:
 
 * every historically correct answer was carried by the already-known catalogue
-  alone — with the catalogue emptied, not one of the four claims was decided by
+  alone, with the catalogue emptied, not one of the four claims was decided by
   anything that looked at the mathematics
   (:func:`test_every_correct_historical_answer_was_carried_by_the_catalogue`);
 * a correct measurement and a wrong coincidence that share nine significant
@@ -459,14 +459,14 @@ def test_the_montgomery_form_is_the_one_in_the_1973_paper() -> None:
         assert float(predicted) == pytest.approx(expected, abs=1e-4)
 
 
-# -- 3.3 Mertens, 1897 — the case that matters ------------------------------
+# -- 3.3 Mertens, 1897, the case that matters ------------------------------
 
 
 def test_the_funnel_would_not_have_endorsed_the_mertens_conjecture(replays) -> None:
     """The whole suite exists for this assertion.
 
     Every computation feasible for a century supported ``|M(x)| < sqrt(x)``, and
-    it is false. A ``survives`` disposition here — in either mode — would mean
+    it is false. A ``survives`` disposition here, in either mode, would mean
     the pipeline endorses a false conjecture on exactly the evidence that
     convinced its contemporaries, and nothing else it produces could be trusted.
     """
@@ -527,7 +527,7 @@ def test_mertens_is_not_promoted_even_with_the_battery_removed(tmp_path) -> None
     integer arithmetic, and nothing can verify an exact result more expensively
     than it was produced, so the funnel records ``precision_insufficient`` with a
     ceiling of ``exact`` (``ontology/README.md`` section 8.2). The conjecture is
-    still not endorsed — but by a rule of bookkeeping, not by mathematics, and
+    still not endorsed, but by a rule of bookkeeping, not by mathematics, and
     that is worth knowing about one's own instrument.
     """
     case = _case("mertens")
@@ -552,14 +552,14 @@ def test_the_mertens_case_would_actually_fail_if_the_funnel_endorsed_it(tmp_path
     """The teeth, exercised end to end rather than argued for.
 
     The three tests above show only that the pipeline *does not* promote this
-    conjecture — and two of the three reasons it does not are bookkeeping
+    conjecture, and two of the three reasons it does not are bookkeeping
     (``Precision('exact')``, and a battery with no analogue of the predicate),
     not mathematics. So "Mertens was not endorsed" is, on its own, compatible
     with a validation suite that could never fail. This test removes that doubt
     from the other end: it builds a pipeline that **does** endorse the Mertens
-    observation — every screen a rubber stamp reporting a colossal verification
+    observation, every screen a rubber stamp reporting a colossal verification
     effort, and the candidate's precision made finite so that the effort
-    comparison can be satisfied — and asserts that the adjudicator then reports
+    comparison can be satisfied, and asserts that the adjudicator then reports
     a CRITICAL misclassification.
 
     Together with :func:`test_a_case_may_not_expect_a_disposition_history_rules_out`
@@ -779,7 +779,7 @@ def test_the_honest_twin_of_the_negative_control_survives(tmp_path) -> None:
 
 
 # ---------------------------------------------------------------------------
-# 4. what the measurement showed — including the unflattering part
+# 4. what the measurement showed, including the unflattering part
 # ---------------------------------------------------------------------------
 
 
@@ -791,8 +791,8 @@ def test_every_correct_historical_answer_was_carried_by_the_catalogue(
     All four historical claims are settled by the already-known gate. With the
     catalogue emptied, not one of them is decided by anything that examined the
     mathematics: each is recorded ``inconclusive`` for a different missing
-    dependency. That is the correct behaviour — the pipeline refuses to promote
-    what it could not verify — but it means the screens contributed nothing to
+    dependency. That is the correct behaviour, the pipeline refuses to promote
+    what it could not verify, but it means the screens contributed nothing to
     four of the five right answers, and a laboratory that had not measured this
     would be crediting its screens for the catalogue's work.
     """
@@ -878,7 +878,7 @@ def test_dedup_merges_a_measurement_with_a_coincidence_sharing_nine_digits(
     twelve significant digits. Identity is the canonical claim rounded to
     ``DEFAULT_DEDUP_DIGITS = 9``, so the two are **the same candidate**: same
     id, ``same_claim`` true. In one pass the second one emitted is recorded
-    ``duplicate`` and never screened — so whichever is logged first silently
+    ``duplicate`` and never screened, so whichever is logged first silently
     determines the fate of the other, and a refuted coincidence can shadow a
     correct measurement of the same quantity.
 

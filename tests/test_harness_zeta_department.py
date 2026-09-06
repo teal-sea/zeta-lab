@@ -2,7 +2,7 @@
 
 ``tests/test_department_conformance.py`` audits every department against the
 protocol. This file pins the facts that are true of *this* department and would
-otherwise live only in prose — including the one instrument that looked like it
+otherwise live only in prose, including the one instrument that looked like it
 qualified and does not.
 """
 
@@ -59,7 +59,7 @@ def test_multiplicativity_is_the_one_that_distinguishes(zeta_department) -> None
 
 
 # ---------------------------------------------------------------------------
-# The instrument that does not qualify — pinned so the doc cannot drift
+# The instrument that does not qualify, pinned so the doc cannot drift
 # ---------------------------------------------------------------------------
 
 _N_MAX = 60
@@ -75,7 +75,7 @@ def _coefficient_array(iface, n_max: int = _N_MAX) -> np.ndarray:
 def test_the_euler_product_statistic_separates_zeta_from_two_of_three_rivals(
     zeta_department,
 ) -> None:
-    """D(f) = 0 exactly when f has an Euler product — where it is defined."""
+    """D(f) = 0 exactly when f has an Euler product, where it is defined."""
     battery = zeta_department.battery
     by_name = {s.name: s for s in (battery.target, *battery.rivals)}
 
@@ -131,14 +131,14 @@ def test_a_claim_built_on_it_is_refused_rather_than_credited(zeta_department) ->
 
 def test_run_ablation_and_this_batterys_decoy_polarity(zeta_department) -> None:
     """Department #1's decoy pair has *opposite* polarities, so the
-    ``survives`` aggregate is wrong for it — pinned so nobody reads the False
+    ``survives`` aggregate is wrong for it, pinned so nobody reads the False
     below as a defect, and so nobody "fixes" it with a dishonest measure.
 
     The department's own docstring states the design: a construction must
     react to *which* places are present (``non_prime_replacement`` must move
     it) and ignore *what order* they arrive in (``prime_permutation`` must
     not). ``AblationVerdict.survives`` demands every decoy move, so for this
-    battery it is False for exactly the measures that are honest — a
+    battery it is False for exactly the measures that are honest, a
     position-reading measure would score True and be reading a Python list
     index, not the primes. The finitefield department's sequence-indexed
     payload gives its pair uniform polarity, and its test asserts the

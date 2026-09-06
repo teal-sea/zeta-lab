@@ -9,8 +9,8 @@ was the table's size.  Measured with Arb balls at 128 bits it is
 **196 cells**.
 
 **That is not the Lean cost.**  `o9_leaf.py` re-measures the same table in
-the arithmetic the kernel actually runs — fixed point at `2^-64`, mirrored
-from `Iv.lean` — and gets **344 cells**.  Arb at 128 bits is tighter than
+the arithmetic the kernel actually runs, fixed point at `2^-64`, mirrored
+from `Iv.lean`, and gets **344 cells**.  Arb at 128 bits is tighter than
 fixed point at `2^-64`, so cells Arb decides need splitting again there;
 the `196` below understates the real obligation by 43%.  It is kept as
 what it is: an Arb-grade sizing, useful for the roadmap comparison in
@@ -20,7 +20,7 @@ compiled.
 ## Two sizing attempts failed first, and the failures are the method
 
 1. Requiring `D <= 0` on cells that straddle a window edge is
-   **unprovable by enclosure** — `D` is exactly `0` there, so no ball
+   **unprovable by enclosure**, `D` is exactly `0` there, so no ball
    ever has a nonpositive upper bound.  6.36e6 cells, 99.995% undecided.
 2. Capping a bracket by ONE wide ball suffers the dependency problem: at
    half-width `0.6` the enclosure is `2.73e-02` against a true peak of
@@ -43,12 +43,12 @@ At `y = 1/2`, `s in [5.6, 60]`, computed with Arb balls at 128 bits:
   `1e-3`, leaving a smallest inter-bracket gap of `4.683`.
 * **143 in-bracket cells** carrying the nine caps, `4.483880e-03` down
   to `4.715629e-05`; caps sum to `6.595448e-03` one-sided,
-  `1.319090e-02` both sides, against `Shq/2 = 3.375420e-02` — a ratio of
+  `1.319090e-02` both sides, against `Shq/2 = 3.375420e-02`: a ratio of
   `0.3908`.
 * **53 off-bracket cells** over 10 segments, all discharging `D <= 0`,
   **0 undecided**.
 
-`196` total, against the `62 .. 248` of `BandCert`'s existing tables — so
+`196` total, against the `62 .. 248` of `BandCert`'s existing tables, so
 this is an ordinary instance of a pattern the package already carries,
 not a new scale of problem.
 
@@ -160,7 +160,7 @@ def cap_by_subdivision(lo: float, hi: float, y: float = 0.5,
                        tol_rel: float = 0.02, max_depth: int = 22):
     """Tight upper bound for `D` on `[lo, hi]`, by adaptive subdivision.
 
-    The cells ARE the proof of the cap — this is what the Lean leaf does.
+    The cells ARE the proof of the cap, this is what the Lean leaf does.
     Returns `(cap, cells)`.
     """
     arb, acb = _flint()

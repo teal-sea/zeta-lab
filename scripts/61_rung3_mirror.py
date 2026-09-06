@@ -3,7 +3,7 @@
 Mirrors Rigor.lean / IntervalExp.lean / IntervalCExp.lean / DHCertSupport.lean
 definitions exactly, so the generator can emit literal box values whose
 equality with the Lean expressions the kernel then verifies.  A mismatch here
-cannot weaken the certificate — the emitted equality lemma simply fails.
+cannot weaken the certificate, the emitted equality lemma simply fails.
 """
 from __future__ import annotations
 
@@ -177,7 +177,7 @@ def _spf(m):
 def cpow_plan(ms):
     """How each ``m`` in ``ms`` is built: ``('tower',)`` or ``('mul', a, b)``.
 
-    Returned in dependency order, and closed under the factors it needs — the
+    Returned in dependency order, and closed under the factors it needs, the
     intermediates a composite pulls in are never divisible by 5 (if 5 does not
     divide m it divides no factor of m), so the plan never asks for a box the
     coefficient makes zero.

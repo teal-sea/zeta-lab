@@ -1,4 +1,4 @@
-# MISSION — Erdős #126, the size-dichotomy arm (support run 95bb5cb7)
+# MISSION: Erdős #126, the size-dichotomy arm (support run 95bb5cb7)
 
 **This is a hunt. Nothing in `hunts/` is a result, and nothing here is
 evidence for or against RH (`docs/08`).**

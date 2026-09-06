@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""SessionStart hook — open a run for an agent session. Opt-in; see README.md.
+"""SessionStart hook, open a run for an agent session. Opt-in; see README.md.
 
 Reads the harness's hook payload on stdin (JSON, best effort) and opens a run
 whose ``agent_session_id`` is whatever the harness actually supplied. Writes
@@ -57,7 +57,7 @@ def main() -> int:
         # lands in the gitignored private store (`telemetry/.gitignore` line
         # `prompts/*`); only the digest travels in the committed run record, so
         # provenance is public and wording is not. A session that declares no
-        # prompt still records `store: absent` with a null digest — unknown
+        # prompt still records `store: absent` with a null digest, unknown
         # stays unknown, and an absent prompt is not a failed one.
         text = payload.get("prompt")
         if isinstance(text, str) and text.strip():

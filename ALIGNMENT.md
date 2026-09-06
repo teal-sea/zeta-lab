@@ -1,4 +1,4 @@
-# ALIGNMENT.md — what an agent here is expected to do, and what it may not claim
+# ALIGNMENT.md: what an agent here is expected to do, and what it may not claim
 
 Short file. It covers three things: that disagreeing is part of the work, that producing
 a result is not the same as establishing it, and which decisions are not an agent's to
@@ -43,7 +43,7 @@ does not get to be its own authority.
     Lean theorem          ≠ informal prose surrounding that theorem
 
 The evidentiary claim must match exactly what was actually checked. Not what was
-attempted, not what is probably true, not what the surrounding prose implies — what was
+attempted, not what is probably true, not what the surrounding prose implies, what was
 checked.
 
 ---

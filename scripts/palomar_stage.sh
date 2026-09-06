@@ -37,7 +37,7 @@ echo "────────────────────────�
 #    rather than from a worktree, which is the only place it shows up.
 dirty=$(git status --porcelain --untracked-files=no)
 if [ -n "$dirty" ]; then
-  note "tracked files" "$(red 'MODIFIED — commit or stash before submitting')"
+  note "tracked files" "$(red 'MODIFIED, commit or stash before submitting')"
   printf '%s\n' "$dirty" | sed 's/^/      /'
   fail=1
 else
@@ -45,7 +45,7 @@ else
 fi
 
 untracked=$(git ls-files --others --exclude-standard | wc -l | tr -d ' ')
-[ "$untracked" != "0" ] && note "untracked files" "$untracked, ignored — not in any commit"
+[ "$untracked" != "0" ] && note "untracked files" "$untracked, ignored, not in any commit"
 
 COMMIT=$(git rev-parse HEAD)
 BRANCH=$(git rev-parse --abbrev-ref HEAD)
@@ -53,7 +53,7 @@ git fetch -q origin 2>/dev/null || true
 if git merge-base --is-ancestor "$COMMIT" origin/main 2>/dev/null; then
   note "commit on origin/main" "$(grn yes)"
 else
-  note "commit on origin/main" "$(red 'NO — push before submitting')"; fail=1
+  note "commit on origin/main" "$(red 'NO, push before submitting')"; fail=1
 fi
 
 # 2. The verified tree. lean/bridge has been identical since 8bd9bb04, whose
@@ -105,7 +105,7 @@ echo "  project directory    $PROJ"
 echo "  comparator           $CMP"
 echo "  metadata             $META"
 echo
-echo "  Existing Palomar ID  leave BLANK — V1 never registered, so this is the"
+echo "  Existing Palomar ID  leave BLANK: V1 never registered, so this is the"
 echo "                       initial registration, not a new version."
 echo
 echo "The metadata field is the one that gets this refused. The form's default"

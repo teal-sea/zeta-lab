@@ -52,13 +52,13 @@ rotating complex value, and `D(y,s) = -Re ghat(y+is)^2` is one. `python-flint`
 at 96 bits is the producer; `mpmath.iv` is only a cross-check.
 
 **Cost of the enclosure, measured.** On six binding cells the enclosure near
-deficit exceeds the *unpadded* scan by a factor of **1.0000 to 1.0004** — that
+deficit exceeds the *unpadded* scan by a factor of **1.0000 to 1.0004**, that
 is the entire inflation the interval pass costs on the dominant term. The
 1.05 pad it replaces was between 100 and 400 times larger than the enclosure
 error it was standing in for.
 
 **Cells needing splitting.** None in tau: every cell closed at the original
-0.02 width. The depth dimension is a different story — see §2.
+0.02 width. The depth dimension is a different story, see §2.
 
 ## 2. The one thing that genuinely resisted, and what fixed it
 
@@ -106,7 +106,7 @@ The tau-cell width, not the method, sets that floor.
 | control | result |
 |---|---|
 | **(H1) enclosure vs scan, near field** | ratio 1.0000–1.0004 on six binding cells, both modes. The enclosure is not quietly larger. |
-| **(H2) the measured b&b's inner prune** | `k2_closure.zone_trade` prunes branches whose value drops, which is a heuristic, not an admissible bound, and it prunes the ADVERSARY's search — the unsound direction. Re-run exhaustively on six binding cells: **delta 0.0 everywhere.** The prune costs nothing there. It is still a heuristic on the other 6594 cells. |
+| **(H2) the measured b&b's inner prune** | `k2_closure.zone_trade` prunes branches whose value drops, which is a heuristic, not an admissible bound, and it prunes the ADVERSARY's search, the unsound direction. Re-run exhaustively on six binding cells: **delta 0.0 everywhere.** The prune costs nothing there. It is still a heuristic on the other 6594 cells. |
 | **(H3) depth sup vs y-grid** | the enclosure's lower witness never exceeds the measured scan's value, so the 18-point grid did not miss the sup at any binding cell. Its blindness is qualitative (`y < 0.05`), not numerical. |
 | **(H4) planted cap fault** | inflating the enclosure table's own caps kills the resonance cell at **1.10x** (margins +0.01459, +0.01207, +0.00956, +0.00200, −0.01058 at 1.00/1.01/1.02/1.05/1.10). The measured pass fired at 1.02x. The detector still has power; the margin is simply larger. |
 | **(H5) cross-backend** | `mpmath.iv` rectangles on the same four boxes **contain** the Arb balls in every case, and are 1.8x to 3.5x wider. Direction agrees with rung 3's 13.7x; the ratio is smaller because this is one squaring, not a tower of them. |
@@ -120,7 +120,7 @@ code should not have to rediscover them.
 1. **The pair-charge clamp is sound only by accident of geometry.**
    `qmat[a][b] = Kpair(min(dmax, 6.0))/200` is a valid lower bound on the true
    charge `Kpair(d)`, `d <= dmax`, only if `Kpair` is monotone on `[0, dmax]`.
-   `Kpair` has roots — `G` has one near 6.65 — so for `dmax` past the first
+   `Kpair` has roots, `G` has one near 6.65, so for `dmax` past the first
    root the clamp would credit the accounting with repulsion that is not
    there, and over-crediting understates the deficit, which is the unsound
    direction. It never bites here because zone pairs live inside one connected
@@ -133,7 +133,7 @@ code should not have to rediscover them.
 Neither is a defect in the published numbers. Both are load-bearing
 assumptions that were unstated.
 
-## 5. Honest scope — what this does and does not upgrade
+## 5. Honest scope: what this does and does not upgrade
 
 **Upgraded.** The tau-table step of the `k = 2` equal-depth argument. Every
 supremum in it is now an outward bound over a whole cell, every credit an
@@ -164,7 +164,7 @@ argued rather than enclosed. Saying the claim is now hardened, full stop,
 would round a rung upward for an audience.
 
 **Budget.** The brief allowed 75 minutes; this run took roughly 100. The
-overrun bought §2 — the first full table reported a failing cell, and stopping
+overrun bought §2, the first full table reported a failing cell, and stopping
 at the buzzer would have shipped "the unsigned mode does not survive
 enclosure", which is false and would have sent the next attempt to widen a cap
 that did not need widening. Recorded as an overrun, not as free.
@@ -187,14 +187,14 @@ you change `H` or the field.
    would silently understate a deficit. *Why it might matter:* it is the only
    remaining place in the table where a heuristic sits on the unsound side.
    *First step:* re-run the full table with `exhaustive=True` in
-   `probe.zone_trade` and diff the worst margins — one flag, one run, and the
+   `probe.zone_trade` and diff the worst margins, one flag, one run, and the
    b&b's own admissible bound already makes it affordable.
 2. **The v-convexity transfer is now the weakest step, and it is the cheapest
    remaining one.** The table is enclosure-carrying at `v = 1/4`; the transfer
    to `y < 1/2` is prose. *Why it might matter:* until it is discharged the
    composite claim cannot be described as hardened, so this pass's gain is
    partly stranded. *First step:* enclose `b = Kpair(near zone)` as an O3-style
-   rational floor per zone — the running-minimum envelope in `probe.py` already
+   rational floor per zone, the running-minimum envelope in `probe.py` already
    produces exactly that number, it just is not being fed to the convexity
    argument.
 3. **The `C1` slack is set by the tau-cell width, not the method.** Worst
@@ -206,7 +206,7 @@ you change `H` or the field.
    `ghat(-z) = ghat(z)` with real Taylor coefficients killed the depth-linear
    term outright. *Why it might matter:* the same fact should collapse other
    small-depth corners, and the unequal-depth convex-majorant route of
-   `K2-TWO-SPECIES.md` §4 is exactly a small-depth argument — its majorant is
+   `K2-TWO-SPECIES.md` §4 is exactly a small-depth argument, its majorant is
    reported "too fat by ~0.015" at the `(1/4, 0)` vertex, which is a `v -> 0`
    vertex. *First step:* recompute that majorant with the linear term known to
    vanish in each depth variable separately and see whether 0.015 survives.

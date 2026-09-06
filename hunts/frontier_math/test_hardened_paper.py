@@ -98,7 +98,7 @@ def test_hardened_vs_float_cap(hb):
         ch = hb.cap_up(0.99, y)["cap"]
         assert ch <= cf * 1.05, (
             f"hardened cap LOOSER than float at y={y}: {ch:.6e} vs "
-            f"{cf:.6e} (ratio {ch / cf:.4f}) — more than 5%; a large "
+            f"{cf:.6e} (ratio {ch / cf:.4f}), more than 5%; a large "
             f"loosening suggests a defect, not a rounding cost"
         )
 

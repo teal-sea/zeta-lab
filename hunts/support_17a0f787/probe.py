@@ -11,9 +11,9 @@ certification word is not used.
 
 ## What is measured
 
-* **(C-fine)** the same periodic-occupancy family as search (C) — every
+* **(C-fine)** the same periodic-occupancy family as search (C), every
   occupancy subset of `Z_p` containing 0, for `p <= P_MAX`, at base spacing
-  `lam` — but on a `lam` grid roughly 40x finer than the recorded run's, and
+  `lam`: but on a `lam` grid roughly 40x finer than the recorded run's, and
   extended down to `lam = 3.0`.  The refinement is not cosmetic: at shallow
   depth the row is a **very** sharp function of `lam` (§ RESULTS), and the
   recorded 0.01/0.05 grid steps step straight over the peak.

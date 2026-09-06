@@ -5,7 +5,7 @@ of it is evaluated at whatever ``mp.dps`` happens to be.  Outside a
 ``workdps`` block that is mpmath's default 15, so the magnitude is rounded to
 ~16 digits and every digit printed after that is the binary tail rather than
 the number.  This is ordinary mpmath semantics, not a defect in
-``zeta/epstein.py`` — it is recorded because it is the same shape as the cap
+``zeta/epstein.py``: it is recorded because it is the same shape as the cap
 under measurement, precision discarded silently at an interface, and because
 it is what made two earlier control runs disagree at digit 17.
 """

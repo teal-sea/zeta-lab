@@ -1,4 +1,4 @@
-"""Detecting off-line zeros without solving for them — the position-sensitive gate.
+"""Detecting off-line zeros without solving for them, the position-sensitive gate.
 
 Every probe in `docs/18` §1–2 failed for the same reason: it consumed only
 *ordinates*.  ζ(s−δ) has the same ordinates as ζ while its zeros sit on a
@@ -12,7 +12,7 @@ The Weil explicit formula is exactly that.  In the convention of
 
 with g(u) = (1/2π)∫h(r)e^{−iru}dr and **γ_ρ = (ρ − ½)/i**.  For a zero on
 the line γ_ρ is real; for an off-line zero ρ = β+iγ it is
-γ − i(β − ½) — *complex*.  The right-hand side is built from the Dirichlet
+γ − i(β − ½), *complex*.  The right-hand side is built from the Dirichlet
 coefficients and the gamma factor alone and therefore accounts for **all**
 zeros.  So
 
@@ -23,23 +23,23 @@ neither input to it ever knows an off-line zero exists.
 
 Measured, with a bump h centred at c (`detector_battery`):
 
-* **ζ is silent.**  |residue| ≤ 6.5e-15 across probes at c = 20 … 120 —
+* **ζ is silent.**  |residue| ≤ 6.5e-15 across probes at c = 20 … 120,
   float noise.  Its on-line zeros account for the entire explicit formula.
 * **Davenport–Heilbronn spikes.**  Quiet (≤ 1e-9) at c = 40, 60, 75, 100,
   and at c = γ₀ = 85.699348 it reads **+4.096324360134**, against a
   predicted contribution from the known off-line quadruple
-  {β+iγ₀, 1−β+iγ₀, and conjugates} of **+4.096324360134** — agreeing to
+  {β+iγ₀, 1−β+iγ₀, and conjugates} of **+4.096324360134**, agreeing to
   **8.9e-15**.
-* **The peak height measures how far off the line the zero is — but only if
+* **The peak height measures how far off the line the zero is, but only if
   you already know where the peak is.**  The quadruple contributes
   ≈ 4·exp(a·(β−½)²), so inverting gives |β − ½| = 0.308517 against the true
-  0.308517 — to **1.3e-14** (`recover_distance_from_line`).  That 1.3e-14 is
+  0.308517, to **1.3e-14** (`recover_distance_from_line`).  That 1.3e-14 is
   obtained by evaluating the residue *at* `OFFLINE_ZERO_IM`, i.e. at thirteen
   correct decimals of the answer, and the inversion `sqrt(log(r/4)/a)` is
   infinitely steep at r = 4: the whole signal lives in the fourth decimal of
   the residue.  Measured 2026-08-11: displacing the centre by 7e-4 costs seven
-  orders (7.2e-7 error), and running the module's *own* pipeline end to end —
-  `residue_scan` on the grid the tests use, then argmax, then invert — recovers
+  orders (7.2e-7 error), and running the module's *own* pipeline end to end,
+  `residue_scan` on the grid the tests use, then argmax, then invert, recovers
   0.0221 against the true 0.3085, a **92.8 % error**.  So: **detection is
   unconditional, quantification is conditional on an independently located
   ordinate.**  `recover_distance_from_line` says the same in its own docstring;
@@ -56,13 +56,13 @@ vanishing of the ζ residue, which is a three-way agreement between an
 integral, a prime sum and a zero list that share no code.
 
 **What this is not.**  It is not a proof of RH for ζ over any range, and it
-is not *certified* (`zeta/rigor.py` owns that word — this is float/mpmath
+is not *certified* (`zeta/rigor.py` owns that word, this is float/mpmath
 without enclosures).  It is a finite-range consistency statement of the same
 family as `verify_rh_up_to`, reached by a different route.
 
 **The load-bearing caveat.**  The residue measures "zeros unaccounted for by
-the supplied on-line list".  A *missing* on-line zero — sign-change hunting
-can skip a close pair — produces residue indistinguishable from an off-line
+the supplied on-line list".  A *missing* on-line zero, sign-change hunting
+can skip a close pair, produces residue indistinguishable from an off-line
 zero.  The statistic therefore has to be paired with an independent count of
 the on-line zeros; `online_list_is_complete` does that against
 `zeta.epstein.zeros_on_line`, and a scan whose completeness has not been
@@ -107,7 +107,7 @@ def bump_pair(c, a=DEFAULT_WIDTH) -> tuple[Callable, Callable]:
 
         g(u) = cos(cu)·e^{−u²/4a} / √(πa),
 
-    which is `zeta.weil.gaussian_pair(a)`'s g at c = 0, doubled — the
+    which is `zeta.weil.gaussian_pair(a)`'s g at c = 0, doubled, the
     doubling being the second bump.  h accepts complex r, which is the whole
     point: off-line zeros are evaluated off the real axis.
     """
@@ -126,7 +126,7 @@ def bump_pair(c, a=DEFAULT_WIDTH) -> tuple[Callable, Callable]:
 
 
 def archimedean_bracket(r, source: str = "zeta"):
-    """2·Re(Λ_∞′/Λ_∞)(½+ir) — derived from each function's gamma factor."""
+    """2·Re(Λ_∞′/Λ_∞)(½+ir), derived from each function's gamma factor."""
     if source == "zeta":
         return mp.re(mp.digamma(mp.mpf(1) / 4 + mp.mpc(0, 1) * r / 2)) - mp.log(mp.pi)
     if source == "dh":
@@ -159,7 +159,7 @@ def arithmetic_side(
     ζ carries a pole at s = 1 contributing h(i/2) + h(−i/2); DH is entire and
     contributes none.  Sign trap, met the hard way: the prime term already
     carries its own −2, so it is *added* to the archimedean term, not
-    subtracted — getting this backwards leaves ζ residues of order 1 that
+    subtracted, getting this backwards leaves ζ residues of order 1 that
     look like a real signal.
     """
     h, g = bump_pair(c, a)
@@ -216,7 +216,7 @@ def offline_residue(
 def residue_scan(
     c_values: Sequence[float], source: str = "zeta", a=DEFAULT_WIDTH
 ) -> dict[str, Any]:
-    """Residue across a range of centres — the peak localizes an off-line zero."""
+    """Residue across a range of centres, the peak localizes an off-line zero."""
     rows = [offline_residue(c, source, a) for c in c_values]
     res = np.array([r["residue"] for r in rows])
     i = int(np.argmax(np.abs(res)))
@@ -252,7 +252,7 @@ def online_list_is_complete(
 
     **What the cheap route does and does not establish (measured 2026-08-11).**
     ``method="sign_changes"`` counts sign changes of Z_dh with
-    ``zeta.epstein.zeros_on_line`` — the *same technique on the same function*
+    ``zeta.epstein.zeros_on_line``: the *same technique on the same function*
     that produced the cached list, on a grid that is in fact **1.4×–1.8×
     coarser** (mean_spacing/20 ≈ 0.069–0.091 against the cache's 0.05).  A pair
     closer than either step is missed by both, identically.  So it is a
@@ -270,7 +270,7 @@ def online_list_is_complete(
     so with the off-line zeros known (``expected_offline``, default: the one
     quadruple at γ ≈ 85.699 that ``zeta.epstein`` locates) it decides
     completeness outright.  Measured on the cached list: deficit 0 at T = 40
-    and T = 60, deficit exactly 2 at T = 90 — the quadruple.  It costs ~25–115 s
+    and T = 60, deficit exactly 2 at T = 90, the quadruple.  It costs ~25–115 s
     per window against ~1 s, which is why it is not the default.
 
     ``complete`` is the verdict of whichever route ran; ``independent`` is True
@@ -316,7 +316,7 @@ def detector_battery(a=DEFAULT_WIDTH) -> dict[str, Any]:
     """ζ silent, Davenport–Heilbronn spiking at its off-line zero.
 
     The one probe in this family that separates them *by zero position*
-    rather than by arithmetic — see the module docstring for exactly what
+    rather than by arithmetic, see the module docstring for exactly what
     that does and does not establish.
     """
     from .epstein import OFFLINE_ZERO_IM, OFFLINE_ZERO_RE

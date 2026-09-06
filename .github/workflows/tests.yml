@@ -1,4 +1,4 @@
-# Tier 2 — the numerical suite. Pull requests and pushes to main only.
+# Tier 2, the numerical suite. Pull requests and pushes to main only.
 #
 # Needs the real dependency set and the editable install, so it costs a minute
 # of setup before a test runs. That is why it is not the gate: tier 1 catches

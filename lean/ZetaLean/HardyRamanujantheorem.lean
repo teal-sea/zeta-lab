@@ -405,8 +405,8 @@ this file defines. -/
 /-- **The bridge**: `omega` is Mathlib's `ArithmeticFunction.cardDistinctFactors`
 (scoped notation `ω`).
 
-The two are spelled differently — this file counts `n.primeFactors.card`,
-Mathlib counts `n.primeFactorsList.dedup.length` — and `Nat.primeFactors` is
+The two are spelled differently, this file counts `n.primeFactors.card`,
+Mathlib counts `n.primeFactorsList.dedup.length`, and `Nat.primeFactors` is
 `primeFactorsList.toFinset`, so the two unfold to the same term and the proof
 is `rfl`.  That is worth pinning rather than assuming: the equality is a fact
 about two library definitions, either of which could be restated. -/
@@ -444,7 +444,7 @@ only on a set of density `0`, and the transfer is elementary: split `(0, N]` at
 `√N`.  Below the split there are at most `√N` integers, which is `o(N)`.  Above
 it `n * n > N` forces `log n > (log N)/2`, so `log log n` sits within `log 2`
 of `log log N`, and a deviation of `ε · log log n` eventually forces a deviation
-of `(ε/2) · log log N` — which `hardy_ramanujan` already controls at `ε/2`. -/
+of `(ε/2) · log log N`, which `hardy_ramanujan` already controls at `ε/2`. -/
 
 /-- The pointwise exceptional set: the deviation of `ω n` is measured against
 `log log n`, not against `log log N`. -/
@@ -557,7 +557,7 @@ private theorem card_low_range_le (N : ℕ) :
 /-- **The Hardy–Ramanujan theorem, pointwise form**: for every `ε > 0` the
 density of the `n ≤ N` with `|ω n − log log n| > ε · log log n` tends to `0`.
 Deduced from `hardy_ramanujan` by the `√N` split, with no new arithmetic
-input — the variance bound and Mertens' band are used exactly as they stand. -/
+input, the variance bound and Mertens' band are used exactly as they stand. -/
 theorem hardy_ramanujan_pointwise : HardyRamanujanPointwise := by
   intro ε hε
   have hmain := hardy_ramanujan (ε / 2) (by positivity)

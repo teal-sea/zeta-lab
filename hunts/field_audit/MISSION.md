@@ -7,8 +7,8 @@
 > `0.675142509660254`, in which case one of the two results is wrong.
 
 Occasioned by discovering, on 2026-08-24, a wave of public repositories created
-2026-08-11 and 2026-08-12 — a week before this laboratory's own seven- and
-eight-point work — carrying constants above ours. Our prior-art search had
+2026-08-11 and 2026-08-12, a week before this laboratory's own seven- and
+eight-point work, carrying constants above ours. Our prior-art search had
 found `ainta/zeta-simple-zeros` and `anthropics/zeta-23-lean` and stopped.
 
 The audit is adversarial in both directions. If the public claims are sound we

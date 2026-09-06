@@ -1,4 +1,4 @@
-"""Hunt R-6F0F63 — the ceiling of the Delsarte LP for kissing numbers.
+"""Hunt R-6F0F63, the ceiling of the Delsarte LP for kissing numbers.
 
 The fourth instance of the lab's ceiling procedure (issue #110): reproduce a
 published certificate, read its verifier for soundness, measure where the
@@ -86,7 +86,7 @@ def cheb_nodes(m: int, lo: float = T_LO, hi: float = T_HI) -> np.ndarray:
 
 
 # ---------------------------------------------------------------------------
-# 2. The verifier — the half the published number depends on and does not show
+# 2. The verifier, the half the published number depends on and does not show
 # ---------------------------------------------------------------------------
 def sup_on_interval(n: int, f: np.ndarray) -> tuple[float, float]:
     """Return (M, t_star): the sup of f over [-1, 1/2] and where it is attained.

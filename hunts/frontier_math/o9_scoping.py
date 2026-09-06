@@ -2,7 +2,7 @@
 
 `RETENTION-PROBLEM.md` §4 lists eleven obligations for the k=1 retention
 inequality.  Six are already in `zeta23ext` with zero `sorry`s; O3, O4, O10 and
-O11 are small; **O9 is named there as "the only real work"** — a two-variable
+O11 are small; **O9 is named there as "the only real work"**, a two-variable
 statement on `[28/5, 60] x [0, 1/2]`, the analogue of the `BandCert` leaf
 tables already in the package.
 
@@ -74,7 +74,7 @@ def Qim(y: arb, s: arb) -> arb:
 def _sinhc(x: arb, *, terms: int = 14) -> arb:
     """`sinh(x)/x`, through its series, so `x = 0` is not special.
 
-    On `|x| <= 1/4` — the only range this module needs, since `y <= 1/2` — the
+    On `|x| <= 1/4`, the only range this module needs, since `y <= 1/2`, the
     tail after 14 terms is below `2^-160`, so the truncation is absorbed by the
     working precision.  `Leaves.lean` already carries the same device for
     `sin(u/2)/u` (its `sfnL`), which is why this branch costs no new machinery.
@@ -372,7 +372,7 @@ def complement_leaf_count(
 
 def main() -> None:
     print("=" * 74)
-    print("O9 scoping — the nine-window damage table as an interval object")
+    print("O9 scoping, the nine-window damage table as an interval object")
     print("=" * 74)
 
     print("\n[0] The closed forms against the values pinned in RETENTION-PROBLEM.md")
@@ -445,7 +445,7 @@ def main() -> None:
     ]:
         surplus = total_deficit(infl_try)["surplus"]
         if surplus <= 0:
-            print(f"    {float(infl_try):.2f}x       {float(surplus):+.3e}   — §7 does not close")
+            print(f"    {float(infl_try):.2f}x       {float(surplus):+.3e}, §7 does not close")
             continue
         t0 = time.time()
         total = 0

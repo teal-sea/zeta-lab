@@ -2,7 +2,7 @@
 
 `docs/09` §5 asks four questions of any proposed ontology for RH. Gate 3
 (the counterexample gate) and Gate 4 (the Euler product must be structural)
-are both stated qualitatively — "where exactly does Davenport–Heilbronn fail
+are both stated qualitatively, "where exactly does Davenport–Heilbronn fail
 to embed?", "the primes must be the points". This module turns that pair
 into something a candidate can be *measured* against.
 
@@ -23,7 +23,7 @@ of independent local terms, so −f′/f is supported on prime powers.  The
 other: if b is supported on prime powers then log f = Σ_{p,m} c_{p^m}p^{−ms}
 splits as Σ_p (local series), and exponentiating gives the product.  So D is
 a genuine decision procedure for Gate 4, computable from coefficients alone
-with no zeros, no ξ-phases and no counting functions — which is exactly the
+with no zeros, no ξ-phases and no counting functions, which is exactly the
 provenance restriction of §5.1's Requirement A.
 
 Measured (`factorization_report`):
@@ -42,14 +42,14 @@ is zero at this precision.
 own until you know what a *generic* non-factoring sequence scores.  Against
 a null of random real coefficient sequences with DH's shape (period 5,
 a₁ = 1, a₅ = 0), the null median is 1.33 with a 5–95% band of 0.53–4.31, and
-**Davenport–Heilbronn lands at the 27th percentile — squarely typical**.
+**Davenport–Heilbronn lands at the 27th percentile, squarely typical**.
 DH is not an exotic near-miss to factorization; it is an unremarkable member
 of the class of things that do not factor.  A candidate ontology that
 "almost" produces an Euler product would have to score orders of magnitude
 below this null, not merely nonzero.
 
 **What this does not do.**  It tests factorization, not RH.  An Euler
-product is not known to imply RH — that implication is substantially GRH.
+product is not known to imply RH, that implication is substantially GRH.
 Nothing here is evidence for RH (`docs/08`).
 
 A related blindness worth stating, because it bounds every ordinate-based
@@ -107,7 +107,7 @@ def log_derivative_coefficients(
     """bₙ with −f′/f = Σ bₙn^{−s}, by Dirichlet convolution.
 
     Same recursion as ``zeta.quasicrystal.dh_log_derivative_coefficients``,
-    at float rather than mpmath precision — this one is for bulk statistics
+    at float rather than mpmath precision, this one is for bulk statistics
     (house rule: numpy for bulk, mpmath where precision is critical).  The
     two are checked against each other on DH in the tests.
     """
@@ -250,7 +250,7 @@ def kappa_landscape(
 
     Measured:
 
-    * D is **exactly even** in t.  That is structural rather than lucky —
+    * D is **exactly even** in t.  That is structural rather than lucky,
       t ↦ −t conjugates the underlying character, and conjugation cannot
       change whether something factors.
     * The family minimum is at **t = 0** with D = 0.825 (the real-part
@@ -260,8 +260,8 @@ def kappa_landscape(
       κ is *not* a critical point; it sits on a plain upslope.
 
     So the functional equation pins κ exactly and says nothing whatever about
-    the Euler product.  This is `docs/09` Gate 2 — "symmetry alone is
-    provably insufficient" — as a measurement rather than an assertion: one
+    the Euler product.  This is `docs/09` Gate 2, "symmetry alone is
+    provably insufficient", as a measurement rather than an assertion: one
     can slide t along the family, destroying the functional equation at every
     point but κ, without ever gaining or losing factorization.
 

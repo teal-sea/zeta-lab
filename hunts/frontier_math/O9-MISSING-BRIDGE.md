@@ -15,7 +15,7 @@ noncomputable def Qim (a b : ℝ) : ℝ := ∫ u : ℝ, g u * Real.sinh (a * u) 
 ```
 
 `Dam`, the damage O9 bounds, is `Qim² − Qre²`. Every soundness lemma proved this
-session — the `y = 0` split, both modes, `dam_le_of_branch` — is stated about
+session, the `y = 0` split, both modes, `dam_le_of_branch`, is stated about
 these.
 
 **The interval half** lives in `BandCert/`. `Phi2` is a *closed form*:
@@ -40,7 +40,7 @@ The identity the chain needs is
     Re (Phi2 (s + i y)) = Qre y s        and        Im (Phi2 (s + i y)) = − Qim y s
 
 It is recorded in `arm_identification.py` as `ghat z = Phi2 (-I z)`, and it is
-repeated in several Lean docstrings — including ones this session wrote. It is
+repeated in several Lean docstrings, including ones this session wrote. It is
 proved in no Lean file.
 
 ## Why this was not visible until now
@@ -54,7 +54,7 @@ It became visible only on trying to instantiate the final statement, which
 needed `Qre y s` on one side and `qreIv`'s enclosure on the other and had no
 lemma to put between them.
 
-This is the defect class `PROOF-LEDGER.md` logs repeatedly — *a quantity
+This is the defect class `PROOF-LEDGER.md` logs repeatedly, *a quantity
 carried across contexts without being re-derived in the context it is used*.
 Here the carrier was a Python script and a docstring, and the contexts were two
 Lean directories.
@@ -67,7 +67,7 @@ The structural route is visible: `Qre_closed` already gives `Qre a b` in the
 two-pole form (a sum of two fractions with denominators `a² + (b ± √2)²`), and
 `Phi2_closed` gives the single-fraction form over `z² − 2`. Those are the same
 function written two ways, so the identity is algebra over the reals once
-`sfunC` is expanded at a complex argument into real and imaginary parts — not a
+`sfunC` is expanded at a complex argument into real and imaginary parts, not a
 new integral computation, and not new mathematics.
 
 But it is a real proof obligation of its own, and it is load-bearing: **without

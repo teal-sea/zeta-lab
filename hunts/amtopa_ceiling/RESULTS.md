@@ -1,4 +1,4 @@
-# Results — the ceiling of `AMTOPA/zeta-exact-pressure`
+# Results: the ceiling of `AMTOPA/zeta-exact-pressure`
 
 > Bounded outcome of the `amtopa_ceiling` hunt. Labels, as in
 > `hunts/field_audit/RESULTS.md`: **VERIFIED** means recomputed here from the
@@ -9,7 +9,7 @@
 >
 > Nothing here is a proof and nothing here is machine-checked. Every constant in
 > this file inherits the same unreviewed analytic bridge that every claim on this
-> ladder inherits — §6.
+> ladder inherits, §6.
 
 Target pinned at `AMTOPA/zeta-exact-pressure`, commit
 `7253fdcab9366af45b8c8caf44e408c0af44a1a7`, 2026-08-13 17:26:37 +0800.
@@ -19,22 +19,22 @@ Target pinned at `AMTOPA/zeta-exact-pressure`, commit
 ## 0. The finding that outranks the rest
 
 **The leading public claim does not replay at its own repository tip.** Run
-through AMTOPA's own pipeline on the pinned commit — their table builder, their
-verifier, their candidate, their target — the finite inequality behind
+through AMTOPA's own pipeline on the pinned commit, their table builder, their
+verifier, their candidate, their target, the finite inequality behind
 `0.6734164909714992949` returns `INCONCLUSIVE=true reason=terminal_cell` with a
 rigorous lower bound `1.19e-07` short of the target.
 
 The tables are not at fault: **all six reproduce byte for byte against the
 digests in their own `candidate.json`.** The cause is their own convexity gate.
 Their recorded run reports `convex=2030240`; here it fires **zero** times in 72
-million nodes. Between `b3b7784` — the commit their `candidate.json` names as the
-source of that run — and the tip, the gate's curvature entries changed from thin
+million nodes. Between `b3b7784`, the commit their `candidate.json` names as the
+source of that run, and the tip, the gate's curvature entries changed from thin
 points to intervals with `+inf` upper bounds, and the interval LDL that follows
 cannot certify positive definiteness of a matrix that is unbounded above. A
 70-line reproduction is in `ldl_probe.cpp`.
 
 **Direction: fail-closed.** The tip refuses what the earlier revision accepted and
-never the reverse, so this is not evidence their number is wrong — it is evidence
+never the reverse, so this is not evidence their number is wrong, it is evidence
 that the one runnable artifact carrying the top claim on a fifteen-claim public
 ladder does not run as shipped. Full account, both directions, in §3.0.
 
@@ -54,8 +54,8 @@ their `0.007911105155` to `0.007916857812` and the assembled proportion from
     0.6734204494726963              at the polytope optimum
 
 Quantised to their own denominators and dropped to a rational target their
-verifier can be asked about — `19791/2500000`, which sits `4.58e-07` below the
-float minimum, the same margin they leave themselves — the exact assembly gives
+verifier can be asked about, `19791/2500000`, which sits `4.58e-07` below the
+float minimum, the same margin they leave themselves, the exact assembly gives
 our candidate:
 
     0.6734201550790580964457598685450152133015     +3.664e-06 on their headline
@@ -66,7 +66,7 @@ That is **outcome (a) with a small margin**: the family exceeds their number, by
 about one part in 230 of the `9.158e-04` their whole construction gained over
 Anthropic's Theorem D constant, and one part in 2,100 of the room left under the
 information class. It
-is CONDITIONAL — see §6 — and the floor behind it is a float minimum until their
+is CONDITIONAL, see §6, and the floor behind it is a float minimum until their
 own six-dimensional interval verifier accepts the target (§7).
 
 **But the more valuable finding is the other one.** On the two axes where a
@@ -86,7 +86,7 @@ ceiling can be computed rather than searched, AMTOPA are *at* it:
 are not the window's *constant*: `H` cannot rise, but the coefficients also shape
 the kernel, and a search over them (§7.5) walks away from AMTOPA's window on
 three independent seeds, every one toward lower `H` and lower `B`, reporting
-gains near `+3.5e-05` — an order of magnitude more than the pair weights are
+gains near `+3.5e-05`, an order of magnitude more than the pair weights are
 worth. Those figures rest on a deliberately cheap inner solve and are direction,
 not magnitude; but the direction is unambiguous and it is the live door.
 
@@ -115,7 +115,7 @@ their `proof.md` in code that imports nothing of theirs.
 |---|---|---|---|
 | final projection, exact rational, 70 decimals | `0.6734164909714992949500355331074903174997772794755665475125243371226272` | identical, `fractions.Fraction` with `math.isqrt` | **VERIFIED** |
 | argmax block length | `m = 145` | `m = 145`, exact scan over `[7, 20000]` | **VERIFIED** |
-| safe floor `0.6734164909` cleared by | — | `7.14993e-11` | **VERIFIED** |
+| safe floor `0.6734164909` cleared by |, | `7.14993e-11` | **VERIFIED** |
 | `H(v)` | `0.67218815811823458517` | `0.67218815811823495743` (binary64 limit, 15 decimals agree) | **VERIFIED** |
 | interval enclosure of `H`, their `mpmath.iv` run | `[0.6721881581182345851694…82923948, …93500981]` | reproduces; `H_floor_interval_verified=True` | **MEASURED** (their code) |
 | window positivity `min v` on `[-1/2,1/2]` | `> 0.7616418486406763` | `0.7616418486406763` | **MEASURED** (their code) |
@@ -154,8 +154,8 @@ makes it unreplayable at their own repository tip, and it is §3.0.
 
 ### 3.0 Their published certificate does not replay at HEAD, and the reason is a dead convexity gate
 
-Run through their own pipeline on the pinned commit — their table builder, their
-verifier, their candidate, their target — **AMTOPA's own finite inequality
+Run through their own pipeline on the pinned commit, their table builder, their
+verifier, their candidate, their target, **AMTOPA's own finite inequality
 returns `INCONCLUSIVE` at a terminal cell.** VERIFIED, `hunts/amtopa_ceiling`
 Actions run `32752160099`:
 
@@ -170,11 +170,11 @@ Actions run `32752160099`:
 The rigorous lower bound at that single grid cell is short of their target by
 `1.19e-07`.
 
-**The tables are not the problem — they reproduce perfectly.** All six
+**The tables are not the problem, they reproduce perfectly.** All six
 outward-rounded tables built here join to byte-identical streams: `w_lower`
 `b5acdeea…ba2c8e`, `w_second_lower` `fbac961c…c355d0`, `w_mid_lower`
 `4c4c010a…e878a47`, `w_mid_upper` `cb8163fa…3ccde8e`, `w_prime_mid_lower`
-`6190bc24…9ed30a`, `w_prime_mid_upper` `b221e296…bf65c915` — **every one matching
+`6190bc24…9ed30a`, `w_prime_mid_upper` `b221e296…bf65c915`: **every one matching
 the digests in their `candidate.json`.** That is a stronger table reproduction
 than Hunt #89 obtained for `trmdy`, where the `w''` stream was host-dependent.
 
@@ -182,7 +182,7 @@ than Hunt #89 obtained for `trmdy`, where the `w''` stream was host-dependent.
 `tangent=936616`; here the convexity gate fires **zero** times in 72 million
 nodes across three shards, so the tangent pruner never runs, the search explodes,
 and the plain interval bound at grid `1/4000` is left to clear the target on its
-own — which at one cell it cannot.
+own, which at one cell it cannot.
 
 **The cause is a change in their own source, and their `candidate.json` records
 it.** That file names `source_commit: b3b7784ed0089c3c2197d740aaae1a424d142e44`
@@ -198,7 +198,7 @@ and the convexity gate was rewritten:
 
 The lower bound is the same in both. What changed is the upper: it became `+inf`.
 The interval LDL that follows is unchanged, and it **cannot certify positive
-definiteness of a matrix whose entries are unbounded above** — the first Schur
+definiteness of a matrix whose entries are unbounded above**, the first Schur
 update drives a pivot's lower endpoint to `-inf` and the gate returns false.
 `ldl_probe.cpp` in this directory is a 70-line reproduction: on a matrix with
 `10` on the diagonal and `1` off it, positive definite by any test, the tip's
@@ -212,7 +212,7 @@ closed the gate.
 
 **Direction: fail-closed, and this is the whole point.** The tip's verifier
 refuses what the earlier one accepted and never the reverse. So this is **not
-evidence that their number is wrong** — it is evidence that a reviewer who clones
+evidence that their number is wrong**, it is evidence that a reviewer who clones
 the repository and runs the documented pipeline gets `INCONCLUSIVE` on the
 headline. For a claim whose entire trust rests on one runnable artifact, at the
 top of a fifteen-claim public ladder, on a repository asking for independent
@@ -228,7 +228,7 @@ need `b3b7784`'s verifier to be settled, and this hunt did not run it.
 
 `README.md`: *"exact arithmetic selects m=145"*. `proof.md` §4: the same. What
 `src/check_final_bound.py` actually runs is `mpmath.mpf` at `mp.mp.dps = 100`
-with `mp.sqrt` — arbitrary-precision **floating point**, not exact and not
+with `mp.sqrt`, arbitrary-precision **floating point**, not exact and not
 interval, on a formula whose only irrationality is one square root. Their
 `experiments/banded-gram/` does it properly, with a rational `R_floor` and an
 exact inequality; the root result does not.
@@ -238,7 +238,7 @@ under-estimate of `sqrt((m-1)A/m)` and with the monotonicity direction asserted
 rather than assumed (`d(bound)/dR = m(H - B/eps)/(m-R)^2 > 0` needs
 `H > B/eps`, and `H - B/eps = 0.16104777081940091048` here): **their number is
 right to 70 decimals and their safe floor is cleared by `7.1e-11`.** So this is a
-labelling error and not a defect — but it is the one place their documents claim
+labelling error and not a defect, but it is the one place their documents claim
 more rigor than their code delivers, and a reviewer should know which of the two
 to read. VERIFIED. `exact_assembly.py`.
 
@@ -259,7 +259,7 @@ Checked deliberately, each in the safe direction:
   the first lossy.
 - The interval-LDL convexity gate is fed `[w''_lower, +inf]`. The infinities
   propagate to NaN, `!(pivot.lo > 0)` is false on NaN, and the gate returns
-  `false` — it declines to prune. Fails closed.
+  `false`: it declines to prune. Fails closed.
 - The tangent bound is `value.lo - sum_c |grad_c|_up * radius_c`, the standard
   convexity bound, used only after the gate passes. The midpoint index
   `llround(distance * 2 * GRID)` is exact because box centres land on the
@@ -330,7 +330,7 @@ for 1, 2, 3, 7, 13, 17 and 25 terms, the answer is the same every time:
 
 Two exact facts do it. First, `u_j = sinc(w_j/2) = sin(j pi)/(j pi) = 0`: the
 harmonics contribute nothing to `I1 = int v`. Second, `M[0,j] = 0` for every
-harmonic — and that is not numerical luck. Writing `S = (-1)^j sin(w_0/2)` and
+harmonic, and that is not numerical luck. Writing `S = (-1)^j sin(w_0/2)` and
 `D = w_0^2/4 - j^2 pi^2`, the quantity `M[0,j] * 4 j^2 pi^2 D / S` reduces to
 
     2 j^2 pi^2 (w_0^2 - 2) / w_0,
@@ -355,7 +355,7 @@ rule and therefore an over-estimate; the `doors` job recomputes both ends under
 the corrected rule and §7 records the result.
 
 Exchange rate achieved: `8.75e-04 / 3.125e-04 = 2.80` on those figures,
-comfortably above the break-even `1.57` — **the harmonics pay, and by a wide
+comfortably above the break-even `1.57`, **the harmonics pay, and by a wide
 margin.** MEASURED. Note that the two floors are over-estimated in the same
 direction and by a similar mechanism, which is why the *ratio* survives the
 correction better than either number does.
@@ -386,8 +386,8 @@ optimality at each total (run 10 of `RUNS.md`):
 | 3.00 | 0.0172400594 | 0.6721105569 | 7 |
 | 6.00 | 0.0296078150 | 0.6715628207 | 7 |
 
-The marginal `d(eps*)/dB` falls monotonically — `1.87, 1.68, 1.64, 1.51`, then
-`1.44, 1.34, 1.32, 1.26, 1.17, 1.02` — and crosses the break-even `1.4998`
+The marginal `d(eps*)/dB` falls monotonically, `1.87, 1.68, 1.64, 1.51`, then
+`1.44, 1.34, 1.32, 1.26, 1.17, 1.02`: and crosses the break-even `1.4998`
 **inside the interval `(1.00, 1.10)`**. The LP dual at `B = B0` gives the exact
 slope `d(eps*)/dB = 1.509447638`, so the net marginal value of pressure at their
 operating point is
@@ -398,7 +398,7 @@ operating point is
 against terms of size one. **AMTOPA's `B = 93/23000` is at the argmax of this
 curve to better than one part in a hundred.** MEASURED, LP dual VERIFIED.
 
-Past `B/B0 = 3` the assembly inverts — `H < B/eps` makes the projection
+Past `B/B0 = 3` the assembly inverts, `H < B/eps` makes the projection
 decreasing in `R`, the block length collapses to `m = 7`, and the bound falls
 below `H`. That is a real feature of their formula, not a guard in ours.
 
@@ -411,7 +411,7 @@ below `H`. That is a real feature of their formula, not a guard in ours.
 
 is a concave maximisation, and cutting planes solve it to optimality rather than
 estimating it. Every cut is a real gap vector, so the LP value over any cut set
-is a **genuine upper bound** on `eps*`, independent of any minimiser — which is
+is a **genuine upper bound** on `eps*`, independent of any minimiser, which is
 the property that caught two bugs in this hunt (runs 5 and 6 of `RUNS.md`).
 
 At their window and their `B`, with the stopping rule corrected and 40 rounds run
@@ -429,9 +429,9 @@ Assembled at the true `H`, so the comparison is like for like:
     at the polytope optimum         0.6734204494726963
     against their published headline           +3.959e-06
 
-And quantised into their schema — 21 pair weights over `10^9` with span sums
+And quantised into their schema: 21 pair weights over `10^9` with span sums
 exactly `2 x 10^9`, six pressures over `4.6 x 10^10` summing exactly to
-`186000000` — the float minimum is `0.007916857805781`, stable to `9.9e-13`
+`186000000`: the float minimum is `0.007916857805781`, stable to `9.9e-13`
 across independent multistarts, and the rational target below it is
 `19791/2500000`. Exact assembly against their own conservative `H` floor:
 
@@ -440,8 +440,8 @@ across independent multistarts, and the rational target below it is
 
 **What justifies the candidate, and what does not.** The linear programme is how
 the point was *found*; it is not what makes the claim. The LP value over a cut
-set is a rigorous upper bound on `eps*`, and it can only fall as cuts accumulate
-— so if a future run finds cuts we did not, our headroom shrinks and can vanish.
+set is a rigorous upper bound on `eps*`, and it can only fall as cuts accumulate,
+so if a future run finds cuts we did not, our headroom shrinks and can vanish.
 The claim itself is narrower and does not depend on the LP at all: **at the
 `(a, b)` this hunt produces, `min_g F` is at least `19791/2500000`**, and that is
 a statement their own six-dimensional interval branch-and-bound either accepts or
@@ -451,20 +451,20 @@ exactly the status AMTOPA give their own. §7 records the answer.
 Its termination is also a heuristic and is worth saying so: cutting planes stop
 when the separation oracle stops separating, and this one's oracle is a float
 multistart. A weak multistart halts the loop early at whatever the incoming pool
-carried — that is precisely the failure of `RUNS.md` run 10b, and raising the
+carried, that is precisely the failure of `RUNS.md` run 10b, and raising the
 patience does not remove it, it only makes it less likely.
 
 Quantisation costs `4.6e-07` of floor, of which `4.58e-07` is the deliberate
-margin below the float minimum — the grid itself costs under `1e-08`.
+margin below the float minimum, the grid itself costs under `1e-08`.
 
 The optimum is **not palindromic**, unlike every published candidate on this
 ladder, and it needs a longer table: its smallest pressure is `3.77e-04` against
 their `4.87e-04`, so their builder needs 83,993 coarse cells where theirs used
 64,954.
 
-For scale, the one-point pair-weight-free cap — take the equal-gap test vector,
+For scale, the one-point pair-weight-free cap, take the equal-gap test vector,
 where every span-`s` pair sits at the same distance and the span capacity makes
-the value independent of `a` — gives `eps <= 0.0088144556`, loose by `8.95e-04`.
+the value independent of `a`, gives `eps <= 0.0088144556`, loose by `8.95e-04`.
 That is why this hunt reports the LP and not the single test vector.
 
 ### 4.4 The block length: already optimal, and uniquely so
@@ -488,7 +488,7 @@ first through the top one instead of finding it in someone's commit log.
 
 Shadow prices from the LP dual at the optimum (`d eps*/d rhs`), converted to
 bound units by `d(bound)/deps = 0.642748`. VERIFIED (single LP solve, duals from
-HiGHS) — but read the caveat: **these duals were taken at the pre-fix optimum
+HiGHS), but read the caveat: **these duals were taken at the pre-fix optimum
 `eps* = 0.007919365399`, which §1 records as `2.5e-06` too high.** The dual of a
 linear programme is a local object, so a small change in the primal moves the
 prices a little and can in principle change which constraints are active at the
@@ -503,9 +503,9 @@ ranking below is what the pre-fix solve gave, and §7 records whether it survive
 | 4 | span-3 capacity = 2 | `+7.1795e-05` | `+4.61e-05` | |
 | 5 | span-4 capacity = 2 | `+4.7051e-05` | `+3.02e-05` | |
 | 6 | span-2 capacity = 2 | `+1.0684e-05` | `+6.87e-06` | |
-| 7 | span-6 capacity = 2 | `0` | `0` | **slack** — the single long-span pair is not worth its capacity |
-| 8 | `a >= 0` | active at 3 of 21 coordinates | — | not a real limit; the optimum is not a degenerate vertex |
-| 9 | `b >= 0` | active at 0 of 6 | — | the pressure shape is interior |
+| 7 | span-6 capacity = 2 | `0` | `0` | **slack**, the single long-span pair is not worth its capacity |
+| 8 | `a >= 0` | active at 3 of 21 coordinates |, | not a real limit; the optimum is not a degenerate vertex |
+| 9 | `b >= 0` | active at 0 of 6 |, | the pressure shape is interior |
 
 **The adversary.** Eighteen of the 2,200 gap vectors in the cut pool are active
 at the optimum, all of them near
@@ -516,23 +516,23 @@ i.e. seven points at approximately `{0, 2, 3, 5, 6, 8, 9}` with perturbations
 under `0.05`. **The floor of this whole family is pinned by one near-integer
 configuration and its reversals.** The multiplicity is the reversal symmetry of
 the local window, which is also why AMTOPA's own hand-tuned weights are
-palindromic — and why the LP optimum, which is *not* palindromic, does slightly
+palindromic, and why the LP optimum, which is *not* palindromic, does slightly
 better. MEASURED.
 
 ### 5.2 Frozen-constant inventory
 
 Everything in this construction that was chosen rather than optimised. A real
-door has the shape of a *trade* — the signature `trmdy` showed when they accepted
+door has the shape of a *trade*, the signature `trmdy` showed when they accepted
 a lower window constant `H` to buy a larger floor. Marked accordingly.
 
 | frozen constant | their value | what relaxing it trades against | trade? | est. worth |
 |---|---|---|---|---|
-| **the fundamental `w_0 = sqrt(2)`** | `sqrt(2)` | `sqrt(2)` is *exactly* the frequency at which the `2 pi` harmonic lattice decouples from the fundamental in `M` (§4.1). Off it, harmonics couple and can *raise* `H` above the single-term value — but the single-term value itself moves. Nobody on this ladder has ever moved it: Anthropic, Ainta, `trmdy`, `sxuff` and AMTOPA all use `sqrt(2)` | **YES**, and **untested by anyone** | unknown; `d(bound)/dH = 1.008`, so any real `H` gain converts nearly one-for-one |
+| **the fundamental `w_0 = sqrt(2)`** | `sqrt(2)` | `sqrt(2)` is *exactly* the frequency at which the `2 pi` harmonic lattice decouples from the fundamental in `M` (§4.1). Off it, harmonics couple and can *raise* `H` above the single-term value, but the single-term value itself moves. Nobody on this ladder has ever moved it: Anthropic, Ainta, `trmdy`, `sxuff` and AMTOPA all use `sqrt(2)` | **YES**, and **untested by anyone** | unknown; `d(bound)/dH = 1.008`, so any real `H` gain converts nearly one-for-one |
 | **point count `n = 7`** | 7 points, 6 gaps | more points is more pairs and more floor, at the cost of a pressure tax growing as `(m-q)` and a longer verifier run. `trmdy` runs **nine** points and AMTOPA never left seven | **YES**, and **already demonstrated by a competitor** | `trmdy` gained `+4.25e-05` going 7 -> 9 on their own window; REPORTED from `hunts/field_audit/RESULTS.md` |
-| **span capacity = 2** | 2, all six spans | comes from `E = 2 sum_{i<j} |G_ij|^2`, the total off-diagonal Gram energy. Raising it needs different Gram bookkeeping — which is exactly what their own banded profile does | **YES**, top-ranked by shadow price | `+4.08e-04` per unit on span 1 |
-| **the Gram profile `h_m`** | `E/m + 2 sqrt((m-1)E/m) - 1` | the *unrestricted* profile, sharp only if you keep total energy alone. Their own `proof.md` §5 replaces it with a band-aware `g_q` and computes `0.6734235635636362491` — **`+7.07e-06` over their own headline** — and declines to promote it because the matrix lemma is unreviewed | **YES**, and **already computed by them, unpromoted** | `+7.07e-06` REPORTED (their §6) |
-| **window degree 17** | 16 harmonics | more harmonics is more freedom to sculpt `W`, at quadratic `H` cost. Their last two coefficients are `+1e-4` and `-1e-4`, the smallest magnitudes they use anywhere — the degree is close to self-exhausted | weak trade | small; visibly diminishing |
-| **the harmonic lattice `{2 j pi}`** | `2 pi`-spaced | these are the frequencies whose kernel vanishes at every nonzero integer except their own index, which is what lets the coefficients sculpt `W` at integer distances — exactly where §5.1's adversary sits. A different lattice moves where you can sculpt | **YES**, coupled to `w_0` | unknown |
+| **span capacity = 2** | 2, all six spans | comes from `E = 2 sum_{i<j} |G_ij|^2`, the total off-diagonal Gram energy. Raising it needs different Gram bookkeeping, which is exactly what their own banded profile does | **YES**, top-ranked by shadow price | `+4.08e-04` per unit on span 1 |
+| **the Gram profile `h_m`** | `E/m + 2 sqrt((m-1)E/m) - 1` | the *unrestricted* profile, sharp only if you keep total energy alone. Their own `proof.md` §5 replaces it with a band-aware `g_q` and computes `0.6734235635636362491`, **`+7.07e-06` over their own headline**, and declines to promote it because the matrix lemma is unreviewed | **YES**, and **already computed by them, unpromoted** | `+7.07e-06` REPORTED (their §6) |
+| **window degree 17** | 16 harmonics | more harmonics is more freedom to sculpt `W`, at quadratic `H` cost. Their last two coefficients are `+1e-4` and `-1e-4`, the smallest magnitudes they use anywhere, the degree is close to self-exhausted | weak trade | small; visibly diminishing |
+| **the harmonic lattice `{2 j pi}`** | `2 pi`-spaced | these are the frequencies whose kernel vanishes at every nonzero integer except their own index, which is what lets the coefficients sculpt `W` at integer distances, exactly where §5.1's adversary sits. A different lattice moves where you can sculpt | **YES**, coupled to `w_0` | unknown |
 | **the pressure shape** | palindromic `(22420713, 32878293, 37700994, 37700994, 32878293, 22420713)` | the deduction needs only `sum b_r`; the symmetry is aesthetic, not required. The LP optimum is not palindromic | yes, small | part of the `+5.57e-06` this hunt took |
 | **the 21 pair weights** | hand trust-region plus differential evolution | a concave maximisation with an exact solution | yes, small | the rest of the `+5.57e-06` |
 | verifier grid `4000`, precision `50` dps | discretisation | a finer grid lets the accepted target sit closer to the true floor. Theirs sits `4.05e-07` below their float minimum | small | `~2.6e-07` |
@@ -553,7 +553,7 @@ genuinely unknown.
 `[-1/2, 1/2]`; that is bandwidth one whatever the frequencies, the point count,
 the weights, the pressures, the block schedule or the Gram profile. So every one
 of them is capped by the configuration ceiling `0.6818286874638` that
-`anthropics/zeta-23-lean` proves — Anthropic Remark 1.1's `0.68185` carries no
+`anthropics/zeta-23-lean` proves: Anthropic Remark 1.1's `0.68185` carries no
 proof and is not used here.
 
 The arithmetic that follows is worth stating plainly:
@@ -593,14 +593,14 @@ constant on this ladder is conditional on.
   laboratory's `lean/bridge/Zeta23Ext/Bridge/Defs.lean` proves the `n`-point
   bridge for a *different* family: the single `sqrt(2)` window, uniform pair
   weights `2/(n - (j-i))`, and a `Phi_n` whose denominator carries the cap
-  `c(m - (n-1)) <= 1`. AMTOPA are outside it on two axes — the 17-term window and
-  the uncapped `h_m` envelope — exactly as Hunt #89 found for `trmdy`. Bringing
+  `c(m - (n-1)) <= 1`. AMTOPA are outside it on two axes, the 17-term window and
+  the uncapped `h_m` envelope, exactly as Hunt #89 found for `trmdy`. Bringing
   their statement inside our `n_point_bound` needs: (i) `Phi_n` re-derived under
   the `h_m` envelope rather than the linear denominator, which removes the cap;
   (ii) the pair-weight generalisation from uniform weights to the
   span-capacity polytope, which our `F` already sits inside as one vertex; and
   (iii) the position-pressure term, which has no counterpart in `Defs.lean` at
-  all. Item (iii) is the new one. INFERRED — this is a scoping estimate, not a
+  all. Item (iii) is the new one. INFERRED, this is a scoping estimate, not a
   plan that has been checked against the Lean.
 - **The floor is a float minimum until their verifier says otherwise.** This is
   the one step their C++ exists to perform, and §7 records what it said.
@@ -610,9 +610,9 @@ constant on this ladder is conditional on.
   not depend on any float minimum.
 - **Symmetry.** The optimum found here is not palindromic, while every published
   candidate on this ladder is. Nothing in their checker, their verifier or the
-  summation argument requires it — each gap appears in at most six translates
+  summation argument requires it, each gap appears in at most six translates
   with weights summing to `B`, and each span-`s` pair picks up a coefficient at
-  most `sum_i a_{i,i+s} = 2` — so asymmetry looks admissible. Recorded as an
+  most `sum_i a_{i,i+s} = 2`, so asymmetry looks admissible. Recorded as an
   inherited assumption rather than a verified one. INFERRED.
 
 Nothing here bears on RH (`docs/08`).
@@ -627,7 +627,7 @@ Every computation in this hunt beyond a second ran here, sharded under a
 `hunts/amtopa_ceiling/ci-sweep.yml`. Run 1 is
 `teal-sea/zeta-lab` actions run `32743347292`.
 
-### 7.1 Reproduction, clean environment — PASSED
+### 7.1 Reproduction, clean environment: PASSED
 
 `sh run.sh` on the pinned commit passes. Our three replays return, from a fresh
 checkout with no local state:
@@ -639,7 +639,7 @@ checkout with no local state:
     probe_window.py     H_max = 0.67250070367941172655 at 1, 2, 3, 7, 13, 17
                         and 25 terms; max |M[0,1:]| = 5.128e-17
 
-### 7.2 The `eps*` bracket — CONVERGED, and it corrected the authoring host
+### 7.2 The `eps*` bracket: CONVERGED, and it corrected the authoring host
 
 Starting from the shipped 2,200-cut pool, 40 rounds, 27 s:
 
@@ -655,7 +655,7 @@ The candidate it wrote, in their schema: float minimum `0.007916857805781`,
 stable to `9.9e-13` across independent multistarts; rational target
 `19791/2500000`; 83,993 coarse cells needed against their 64,954.
 
-### 7.3 The pressure saturation curve — REPRODUCED
+### 7.3 The pressure saturation curve: REPRODUCED
 
 The curve of §4.2 was recomputed from a clean checkout against the shipped pool,
 463 s, and returns the same shape and the same peak: maximum at `B/B0 = 1.00`,
@@ -665,7 +665,7 @@ table is an early-stopped over-estimate; the peak's *location* is what the
 section claims and it is the same in two independent runs. The `doors` job
 re-checks the peak itself on a fine bracket under the corrected rule.
 
-### 7.4 The doors, at the converged optimum — the §5 ranking survives
+### 7.4 The doors, at the converged optimum: the §5 ranking survives
 
 Run 2's `doors` job re-solves everything of §5 under the corrected stopping rule,
 at `eps* = 0.007916857812` over 3,190 cuts. **The ranking is unchanged and the
@@ -705,7 +705,7 @@ argmax at `B/B0 = 1.00` exactly. **AMTOPA's `B = 93/23000` is at the peak.**
     they spend 3.125456e-04 of H and buy 8.766622e-04 of floor
     exchange rate 2.8049 against break-even 1.5676
 
-### 7.5 The window sweep — **the window axis is not saturated**, and it is worth ten times the rest
+### 7.5 The window sweep: **the window axis is not saturated**, and it is worth ten times the rest
 
 Run 1's four shards produced nothing: they spent their entire 900-second budget
 on the two reference points and never entered the search. Run 2 moved the
@@ -726,8 +726,8 @@ own window, every one of them walking away from it, every one reporting a gain
 between `+3.07e-05` and `+3.71e-05`.
 
 **Read this carefully, because it is the least settled number in this file.**
-Each shard's inner `eps*` solve is deliberately cheap — 14 rounds, a 40,000-point
-multistart, patience 3 — so every one of those floors is an early-stopped
+Each shard's inner `eps*` solve is deliberately cheap: 14 rounds, a 40,000-point
+multistart, patience 3, so every one of those floors is an early-stopped
 over-estimate of the same kind §1 describes, and the bounds inherit that. What
 the sweep establishes is *direction*, not magnitude: five independent seeds all
 walk away from AMTOPA's window toward **lower `H` and lower `B`**, and all report
@@ -737,16 +737,16 @@ verifier, which this hunt did not do.
 
 Note the shape of what the search wants: `H` *below* AMTOPA's, and `B` at
 `0.87` to `0.94` of theirs. The optimiser is spending more window constant to buy
-more floor — the same trade `trmdy` made against Anthropic, one level further
+more floor, the same trade `trmdy` made against Anthropic, one level further
 in.
 
-### 7.6 The certificate — not obtained, and the cost is the finding
+### 7.6 The certificate: not obtained, and the cost is the finding
 
 Their table builder and their C++ branch-and-bound, at our candidate and at
 theirs as a control.
 
-- **Run 1**: the single-process table build — 83,993 coarse cells and 167,987
-  midpoints at 50 decimal digits — took about 17 of the 20 available minutes, and
+- **Run 1**: the single-process table build, 83,993 coarse cells and 167,987
+  midpoints at 50 decimal digits, took about 17 of the 20 available minutes, and
   the branch-and-bound was cancelled two minutes in. The estimate that put the
   build at 6 minutes came from the authoring host's 0.0225 CPU-s per cell and did
   not carry the runner's slower cores.
@@ -755,13 +755,13 @@ theirs as a control.
   `midpoint_chunk` over an index range, so the arithmetic stays theirs and only
   the driving loop is ours. All twelve shards passed and the parts joined into
   tables of exactly the right lengths, digests recorded. **The branch-and-bound
-  then ran out the clock anyway — for our candidate and for AMTOPA's own.**
+  then ran out the clock anyway, for our candidate and for AMTOPA's own.**
 
 That second sentence is worth stating plainly, because it is a fact about their
 result and not only about ours: **AMTOPA's own published finite inequality did not
 replay inside a 20-minute job on a free runner.** Their own
 `local-certificate-pilot.yml` budgets `timeout-minutes: 120` for exactly this
-step, so this is consistent with their record rather than in tension with it —
+step, so this is consistent with their record rather than in tension with it,
 but it means the load-bearing computation behind the leading public claim costs
 on the order of an hour of runner time, and any reviewer should budget for that.
 
@@ -788,15 +788,15 @@ on the order of an hour of runner time, and any reviewer should budget for that.
   | ours | `19791/2500000` | 7/8 | SHARD_VERIFIED | 3,517,672 | 99 s |
 
   every one of them with `convex=0 tangent=0`. Ours falls short by `2.70e-08`,
-  theirs by `1.19e-07` — both at a single width-zero grid cell, both by less than
+  theirs by `1.19e-07`, both at a single width-zero grid cell, both by less than
   a part in fifty of the target, and both because the tangent bound that used to
   close those cells no longer exists at this revision.
 
 **So the answer this hunt has, precisely.** Our candidate's floor is **not
 accepted at the repository tip**, and neither is AMTOPA's own, for the same
 reason and by the same mechanism. Settling either needs the verifier at
-`b3b7784ed0089c3c2197d740aaae1a424d142e44` — their own code, the revision their
-own `candidate.json` names — which is one more Actions cycle of the shape run 3
+`b3b7784ed0089c3c2197d740aaae1a424d142e44`: their own code, the revision their
+own `candidate.json` names, which is one more Actions cycle of the shape run 3
 already demonstrates: six table shards at about four minutes each, then eight
 search shards at 24 to 343 seconds each. That is the cost, and it is written here
 rather than run, because the hunt's budget went to finding out why the tip does

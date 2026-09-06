@@ -1,4 +1,4 @@
-"""Controls for negative_margin_probe.py — the crossing that was not there.
+"""Controls for negative_margin_probe.py, the crossing that was not there.
 
 `truncation_bridge.py` gap (G1)/(G3) reports a per-pair margin going
 negative at the rho argmax (s = 2.002 mean gaps, y = 0.4999) from
@@ -9,8 +9,8 @@ is what a reader checks instead of rerunning the ~40 minutes of grid.
 Five controls, one per claim the module makes:
 
 (a) **the reproduction is exact**.  At `truncation_bridge`'s own
-    settings — ``PaperJoint(step=0.005, G=60.0)``, theta = 0.995, the
-    default delta ladder, no slicing — the ladder comes back to the last
+    settings, ``PaperJoint(step=0.005, G=60.0)``, theta = 0.995, the
+    default delta ladder, no slicing, the ladder comes back to the last
     recorded digit, crossing included.  A probe that could not reproduce
     the finding would have no standing to explain it away;
 (b) **the refinement trend is pinned, with its direction**.  The margin
@@ -18,14 +18,14 @@ Five controls, one per claim the module makes:
     window grows, at fixed m; the crossing point m* moves OUT under step
     refinement (24 / 48 / 64 / beyond 64 at step 0.005 / 0.002 / 0.001 /
     0.0005) and disappears from the ladder entirely once the window is
-    widened.  Both directions are measured here, not asserted — as is
+    widened.  Both directions are measured here, not asserted, as is
     the negative half: at G = 60 the m -> infinity margin stays below
     zero at every step measured, and that is pinned too;
 (c) **the hardened reading, including where it does not bracket**.
     Every ball band height dominates the float instrument's raw grid
     maximum on the same band (a one-sided relation, and it holds), and
     the one-sided margin lower bound at the crossing configuration is
-    positive — so the ball instrument decides the case the coarse float
+    positive, so the ball instrument decides the case the coarse float
     instrument reported as failing.  The budget comparison comes out the
     other way and is recorded as such: the float lands 6 ulp OUTSIDE the
     ball, which is the float's own accumulation error and is pinned at
@@ -162,7 +162,7 @@ def test_margin_increases_as_the_window_widens():
 
 
 def test_the_narrow_window_is_where_the_sign_lives():
-    """At G = 30 the ladder is negative from m = 16 — the same instrument
+    """At G = 30 the ladder is negative from m = 16, the same instrument
     with the window halved fails at a cluster size that closes at G = 60.
     A verdict that flips under a window change is a window measurement."""
     lad = ladder((16,), 0.002, 30.0)
@@ -217,7 +217,7 @@ def test_the_ball_budget_does_not_quite_bracket_the_float_budget():
     The arb ball for the m = 8 budget has width ~4e-16 around the exact
     value; ``PaperJoint.budget`` sums the same 28 pair terms in double
     precision and lands 6 ulp BELOW the ball's lower endpoint.  So the
-    bracket FAILS — and what it exposes is the float instrument's own
+    bracket FAILS, and what it exposes is the float instrument's own
     accumulation error, not a defect in the ball.  Pinned at the ulp
     scale so that a real disagreement (anything above ~1e-12 relative)
     would break this test instead of hiding inside a loose tolerance.
@@ -240,8 +240,8 @@ def test_every_ball_band_height_dominates_the_float_grid_maximum():
 
 @pytest.mark.slow
 def test_the_ball_instrument_decides_the_crossing_configuration_positive():
-    """The headline, hardened: m = 24 at G = 60 — the very configuration
-    the coarse float instrument reported at -0.00264 — has a strictly
+    """The headline, hardened: m = 24 at G = 60, the very configuration
+    the coarse float instrument reported at -0.00264, has a strictly
     positive one-sided margin lower bound under ball arithmetic.
 
     ``margin_lo_pp`` is one-sided: positive means this instrument closes
@@ -263,7 +263,7 @@ def test_the_ball_instrument_leaves_m64_at_the_narrow_window_undecided():
     At m = 64, G = 60, cover 0.02/0.002 the one-sided margin lower bound
     is -0.000211: the ball instrument does NOT decide that cluster at
     the reported window.  That is "undecided at this cover", not a
-    counterexample — refining the cover to 0.001 turns it positive
+    counterexample, refining the cover to 0.001 turns it positive
     (+0.000345), and the float readings around it straddle zero too
     (-0.000569 at step 0.001, +0.000191 at step 0.0005).  The same m at
     G = 200 is decided positive by a wide margin.
@@ -374,12 +374,12 @@ def test_the_rival_explanations_are_ruled_out_by_numbers():
 
     (i) *more, narrower bands at the cluster ends*: bands per pair FALL
         with m (1 + 17/m at G = 60), and the interior bands are NARROWER
-        than the periodic instrument's single band — narrower means a
+        than the periodic instrument's single band, narrower means a
         higher repulsion floor and a cheaper completion, so this channel
         pushes the wrong way to be the cause.
     (ii) *the completion multiplicity m* rises*: it does, but only from
         3.886 to 4.657 over m = 2 -> 16 (integer m* = 4 -> 5), and it
-        rises because F rises — ``m* = (F + cK)/(2cK)`` — so it is
+        rises because F rises, ``m* = (F + cK)/(2cK)``, so it is
         downstream of the interior channel rather than beside it.
     """
     small = partition_and_multiplicity(2, 0.002, BRIDGE_G)
@@ -408,7 +408,7 @@ def test_the_interior_channel_rises_and_decelerates():
 
 
 def test_the_exterior_channel_is_a_one_over_m_term():
-    """Its TOTAL barely moves with m, so per pair it decays like 1/m —
+    """Its TOTAL barely moves with m, so per pair it decays like 1/m,
     which is why it cannot be what makes the cap rise."""
     tot = [EXTERIOR_TOTAL[m] for m in sorted(EXTERIOR_TOTAL)]
     assert max(tot) / min(tot) < 1.25
@@ -439,7 +439,7 @@ def test_the_attribution_has_power():
     margin drives it negative again, so the attribution is doing work
     rather than describing.
 
-    At m = 24 the same penalty leaves +0.00126 — the configuration is
+    At m = 24 the same penalty leaves +0.00126, the configuration is
     close enough to the boundary at G = 60 that one channel does not
     account for the whole deficit there, which is why the m -> infinity
     reading is used for the general statement rather than a single m.

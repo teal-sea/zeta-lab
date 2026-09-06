@@ -52,7 +52,7 @@ on `T(d s)`, i.e. an O(1)-per-end-pair effect divided by m.
 **2. The estimate.**  `cluster_universal.t_decay_constant` already
 derived |T(dt, y1, y2)| <= C_T / dt^2 uniformly over depths in (0, 1/2]
 by two integrations by parts (the corner of c2 at 0 and the edge at 1
-supply the boundary terms), with **C_T = 27.4970** — closed-form except
+supply the boundary terms), with **C_T = 27.4970**, closed-form except
 for one quadrature, re-checked here (:func:`c_t_reuse_check`).  Feeding
 it into (*) with the two elementary bounds
 
@@ -67,7 +67,7 @@ gives the fully symbolic
 It is DEPTH-FREE (C_T is uniform in y), decays like log m / m, and is
 valid for every s > 0 and every y in (0, 1/2].
 
-The `log m` is not slack in the bookkeeping — it is real, and it is the
+The `log m` is not slack in the bookkeeping, it is real, and it is the
 audit's one correction.  The double integration by parts gives
 
     T(dt) ~ -(8 / (A^2 dt^2)) [ h'(0+) - h'(1-) cos(dt) ],
@@ -100,7 +100,7 @@ window transform), one may keep the first D terms exactly:
                                                      or 2 C_T/(s^2 (m-1/2)).
 
 Every constant is closed form except the one quadrature inside C_T.
-D = 8 by default: it is a choice of statement, not a fit — the estimate
+D = 8 by default: it is a choice of statement, not a fit, the estimate
 holds for every D.
 
 **4. What the bridge buys, and where it does not.**  With
@@ -142,7 +142,7 @@ m < m0.  Three named gaps, all stated rather than papered over:
        What (G1) and (G3) cost together is visible at that argmax: the
        finite ladder (coarse instrument) has per-pair margins
        +0.02890 / +0.01752 / +0.00760 / +0.00037 / -0.00264 / -0.00685
-       at m = 2 / 4 / 8 / 16 / 24 / 64 — it goes NEGATIVE from m = 24.
+       at m = 2 / 4 / 8 / 16 / 24 / 64, it goes NEGATIVE from m = 24.
        The budget side is not the cause: b_m falls 0.150154 -> 0.130079
        toward b_inf = 0.129891 exactly as the estimate says.  The cause
        is the cap side, whose finite per-pair value RISES past the
@@ -173,7 +173,7 @@ from cluster_universal import (  # noqa: E402
 )
 
 #: the supremum of cap/budget over the periodic family, from
-#: `cluster_universal.RHO_SUP_RECORD` — the room the bridge must fit in.
+#: `cluster_universal.RHO_SUP_RECORD`, the room the bridge must fit in.
 RHO_SUP = RHO_SUP_RECORD["rho"]
 
 #: default split point of the sharpened estimate: the first D interaction
@@ -202,7 +202,7 @@ def pair_term(dt, y: float):
 
 
 def b_finite(m: int, s: float, y: float) -> float:
-    """``b_m(s, y)`` — the exact per-pair budget of ``{(j s, y)}_{j<m}``.
+    """``b_m(s, y)``, the exact per-pair budget of ``{(j s, y)}_{j<m}``.
 
     ``slack(y) + (2/m) sum_{d=1}^{m-1} (m-d) T(d s, y, y)``: the O(m^2)
     double sum of :meth:`paper_joint.PaperJoint.budget` collapsed by
@@ -217,7 +217,7 @@ def b_finite(m: int, s: float, y: float) -> float:
 
 
 def b_finite_via_instrument(m: int, s: float, y: float) -> float:
-    """The same number through `PaperJoint.budget` — the O(m^2) route,
+    """The same number through `PaperJoint.budget`, the O(m^2) route,
     kept as the cross-check that the collapse above is the same object."""
     pj = PaperJoint(step=0.005, G=60.0)
     return pj.budget([(j * s, y) for j in range(m)]) / m
@@ -230,7 +230,7 @@ def b_limit(s: float, y: float) -> float:
 
 
 def b_limit_direct(s: float, y: float, J: int = 20000) -> float:
-    """``slack(y) + 2 sum_{d<=J} T(d s)`` — the sum the Poisson step
+    """``slack(y) + 2 sum_{d<=J} T(d s)``, the sum the Poisson step
     replaces, kept so the two can be checked against each other."""
     d = np.arange(1, J + 1)
     return _PC.slack(y) + 2 * float(pair_term(d * s, y).sum())
@@ -331,7 +331,7 @@ def c_t_reuse_check(pinned: float = 27.4970, tol: float = 5e-4) -> dict:
 
 
 def is_resonant(s: float, tol: float = 1e-9) -> bool:
-    """``s in 2 pi Z`` — commensurate spacing, where cos(d s) = 1 for all
+    """``s in 2 pi Z``, commensurate spacing, where cos(d s) = 1 for all
     d and the edge term stops averaging away."""
     k = round(s / MEAN_GAP)
     return k >= 1 and abs(s - k * MEAN_GAP) < tol * max(1.0, s)
@@ -474,7 +474,7 @@ def m0_pointwise(s_gaps: float, y: float, theta: float = THETA_FULL,
     Much smaller wherever the lattice is fully shielded (cap = 0), which
     is most of the range; the uniform version pays the resonance
     everywhere.  The cap here is the measured band-cell instrument of
-    `cluster_universal.periodic_cap` — measured grade, not derived.
+    `cluster_universal.periodic_cap`: measured grade, not derived.
     """
     s = s_gaps * MEAN_GAP
     bi = b_limit(s, y)
@@ -491,7 +491,7 @@ def small_m_ladder(s_gaps: float, y: float,
     """Direct finite verdicts at a ladder of m, for the m < m0 region.
 
     The existing instrument (`PaperJoint.verdict`) on the actual finite
-    cluster — budget and cap both finite, no bridge involved.  A ladder,
+    cluster, budget and cap both finite, no bridge involved.  A ladder,
     NOT every m below m0: gap (G2) in the module docstring.
     """
     pj = pj or PaperJoint(step=0.005, G=60.0)
@@ -515,7 +515,7 @@ def cap_side_probe(s_gaps: float, y: float, ms=(4, 8, 16, 32),
 
     The bridge derived above is a BUDGET statement.  Transferring a
     verdict also needs the cap side, for which no derived finite-size
-    estimate exists here.  This records the measurement — including
+    estimate exists here.  This records the measurement, including
     where it goes the wrong way.
 
     ``step`` defaults to the finite instrument's own grid step so the two
@@ -589,7 +589,7 @@ def audit(quick: bool = False) -> None:
     gi = bridge_grid(inflate=factor)
     print(f"  inflate x{factor:.3f}: crude holds {gi['crude_holds']}, "
           f"hybrid holds {gi['hybrid_holds']} (worst hybrid ratio "
-          f"{gi['worst_hybrid']['ratio']:.4f}) — the check has power: "
+          f"{gi['worst_hybrid']['ratio']:.4f}), the check has power: "
           f"{not gi['hybrid_holds']}")
 
     print("= m0 against the UNIFORM room (1 - sup rho) b_inf, sup rho = "

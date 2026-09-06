@@ -1,4 +1,4 @@
-# Hunt R-6F0F63 — the ceiling of the Delsarte LP for kissing numbers
+# Hunt R-6F0F63: the ceiling of the Delsarte LP for kissing numbers
 
 Fourth instance of the lab's ceiling procedure (issue
 [#110](https://github.com/teal-sea/zeta-lab/issues/110)): reproduce a published

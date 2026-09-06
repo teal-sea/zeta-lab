@@ -13,17 +13,17 @@ This file constructs the Davenport-Heilbronn function as a concrete linear
 combination of Mathlib Dirichlet L-functions and kernel-checks everything the
 `davenport_heilbronn_statement` asserts about it *except* the off-line zero:
 
-* `DH` — the function itself, `a·L(s,χ) + b·L(s,χ⁻¹)` where `χ` is the
+* `DH`: the function itself, `a·L(s,χ) + b·L(s,χ⁻¹)` where `χ` is the
   quartic character mod 5 with `χ(2) = i`, `a = (1 - iκ)/2`, `b = (1 + iκ)/2`
   and `κ = dh_kappa`;
-* `DH_differentiable` — it is entire;
-* `DH_series_rep` — for `Re(z) > 1` it is the sum of the Dirichlet series
+* `DH_differentiable`: it is entire;
+* `DH_series_rep`: for `Re(z) > 1` it is the sum of the Dirichlet series
   with the real coefficients `dh_coeff` (the lab's `zeta/epstein.py`
   coefficients: `1, κ, -κ, -1, 0` repeating);
-* `DH_functional_eq` — the completed function
+* `DH_functional_eq`: the completed function
   `(π/5)^(-(s+1)/2)·Γ((s+1)/2)·DH(s)` is symmetric under `s ↦ 1-s`, away
   from the Gamma-factor poles;
-* `dh_analytic_half` — the three bundled as an existence statement, matching
+* `dh_analytic_half`: the three bundled as an existence statement, matching
   conjuncts 0-2 of `davenport_heilbronn_statement`.
 
 The mathematical content of the functional equation is the root-number
@@ -239,7 +239,7 @@ theorem DH_series_rep : dh_series_rep DH := by
 The radical algebra behind the root number.  Abbreviate
 `R = √(10 - 2√5)`, `P = √(10 + 2√5)`, `F = √5`; then `sin(π/5) = R/4`,
 `sin(2π/5) = P/4`, and everything reduces to `R·(F + 1) = 2·P` and
-`P·(F - 1) = 2·R` — both checked by squaring. -/
+`P·(F - 1) = 2·R`: both checked by squaring. -/
 
 private lemma sqrt5_sq : Real.sqrt 5 * Real.sqrt 5 = 5 :=
   Real.mul_self_sqrt (by norm_num)

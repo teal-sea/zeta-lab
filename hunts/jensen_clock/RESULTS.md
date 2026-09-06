@@ -1,8 +1,8 @@
-# Results — the Jensen clock
+# Results: the Jensen clock
 
 **Status: probe, complete. Instrument kept; no claim promoted; the headline is
-a measured dictionary — finite Jensen degree acts on the counterexample's
-off-line pair as de Bruijn–Newman heat with t_eff = |x₀|/(8d) — plus the
+a measured dictionary, finite Jensen degree acts on the counterexample's
+off-line pair as de Bruijn–Newman heat with t_eff = |x₀|/(8d), plus the
 corollary that textbook-degree Jensen scans are structurally blind to an
 actual RH violation, and a null control showing the clock reads zero
 configuration, not arithmetic.**
@@ -19,7 +19,7 @@ For the Davenport–Heilbronn weight Φ_DH, E(x) = Σ γ(n)xⁿ/n! with
 negative real when ρ is on the critical line, off the axis otherwise. The
 degree-d Jensen polynomial obeys the exact identity
 J^{d,0}(x/d) = Σ γ(j)/j!·Π_{i<j}(1−i/d)·x^j, and the binomial damping
-Π(1−i/d) ≈ e^{−j²/2d} is a Gaussian coefficient multiplier — de Bruijn's
+Π(1−i/d) ≈ e^{−j²/2d} is a Gaussian coefficient multiplier, de Bruijn's
 smoothing, applied by the degree itself. Read at the cosh-series saddle
 j ≈ zu/2 it matches the flow multiplier e^{tu²} at the pair's image x₀ with
 
@@ -31,23 +31,23 @@ j ≈ zu/2 it matches the flow multiplier e^{tu²} at the pair's image x₀ with
   `zeta.li.xi_taylor_coefficients` (itself twice-derived) to 1.3e-51 relative
   over n ≤ 40; two unrelated quadratures agree on the DH γ-table to 2.6e-41;
   the undamped Newton root reproduces hunt #4's polished pair 1 to 40 digits.
-  Cancellation at the pair is 86.7 digits — measured, and the reason a
+  Cancellation at the pair is 86.7 digits, measured, and the reason a
   dps-15 scan could never see any of this.
 - **The dictionary, pointwise (P1: holds, with its edge measured).** Under
   t_eff = |x₀|/(8d) the Jensen root trajectory tracks the PDE pair trajectory
   at 7.8e-8 relative (d = 10⁹) through 4e-4 (d = 4·10⁴, i.e. 52% of the way
   to landing), degrading to 1.2% at t_eff = 0.0399 and 13% at the last
-  pre-landing rung — both curves are near-vertical there, so a fixed
+  pre-landing rung, both curves are near-vertical there, so a fixed
   dictionary defect inflates in Im x. The drift constant
   C = lim d·(Im x₀ − Im x(d)) = 595021 against the flow-side composition
-  590652 — 0.74%, inside P1's 2%.
+  590652: 0.74%, inside P1's 2%.
 - **The clock adjudicates (P2: holds).** The landing degree for pair 1 is
   d\* = 20785.13, i.e. t\*_J = 0.0441690, against the PDE landing
-  t\* = 0.0441263 — **0.097%** — while the isolated-pair value 0.0475914 is
+  t\* = 0.0441263, **0.097%**, while the isolated-pair value 0.0475914 is
   7.2% away. The Jensen clock reads the interacting flow, neighbors included,
   not the naive pair formula.
 - **Scaling across pairs (P3: holds, 10× sharper than asked).** Pair 2
-  (γ ≈ 114.16) lands at d\* = 146365 — 7.04× pair 1's degree — and its clock
+  (γ ≈ 114.16) lands at d\* = 146365, 7.04× pair 1's degree, and its clock
   reads 0.0111308 vs the PDE 0.0111296: **0.011%**.
 - **Specificity (P4: holds).** ζ through the identical pipeline, no plant:
   Newton from the DH seed collapses onto the real axis (relative Im 1.2e-200)
@@ -56,17 +56,17 @@ j ≈ zu/2 it matches the flow multiplier e^{tu²} at the pair's image x₀ with
   the mission's quantitative guess was wrong and is recorded as such).** A
   pair planted into ζ's γ-table at exactly x₀ (an exact three-term
   recurrence) is detected, with d\* = 21046 → clock 0.0436212. `MISSION.md`
-  predicted this would read close to the isolated value 0.0476 — **that
+  predicted this would read close to the isolated value 0.0476, **that
   prediction failed** (8.3% away), because the mission's neighborhood
   estimate forgot that ζ's ordinates appear doubled in this x-plane, so the
   plant is *not* isolated: it has a line neighbor at z-distance 0.96,
-  comparable to DH's own spacing. The correct configuration-only prediction —
+  comparable to DH's own spacing. The correct configuration-only prediction,
   hunt #4's arithmetic-free N-body dynamics ż = 2Σ1/(z−z′), integrated for
   the plant's actual zero configuration in collision-safe (x_c, Q)
-  variables — gives 0.0435805, and the Jensen clock read **0.094%** away
+  variables, gives 0.0435805, and the Jensen clock read **0.094%** away
   from it. Same x-plane position as DH, different neighbor field: the two
   clocks separate by 1.1%, and pure zero geometry predicts each. The clock
-  reads configuration, not arithmetic — hunt #4's null result, now on the
+  reads configuration, not arithmetic, hunt #4's null result, now on the
   coefficient side.
 - **Two clocks add (P6: holds).** Flowing the γ-table to time t before
   damping: t_land(d) + |x₀|/(8d) = 0.0441507 at d = 6·10⁴ (0.055% from t\*)
@@ -80,20 +80,20 @@ j ≈ zu/2 it matches the flow multiplier e^{tu²} at the pair's image x₀ with
 ## The corollary worth keeping
 
 A blind hyperbolicity scan over d ≤ 32, all shifts n ≤ 250, sees nothing on
-the counterexample — measured here before the targeted instrument was built.
+the counterexample, measured here before the targeted instrument was built.
 The dictionary says why that is structural, not a matter of effort: degree d
 carries effective flow time |x₀|/(8d), and any d below ~2·10⁴ has already
 flowed the height-85.7 violation past its landing before the polynomial is
 inspected. Finite Jensen hyperbolicity at textbook degrees is not a weak
 detector of off-line zeros; at those degrees it is *the wrong side of the
 landing*. Conversely the targeted detector (winding box in the x-plane at
-the pair image) does separate the rival from ζ at d > d\* — a
+the pair image) does separate the rival from ζ at d > d\*, a
 position-sensitive instrument in the sense of `docs/18`, and, by the N-body
 null above, exactly as arithmetic-blind as a position detector should be:
 it says where zeros sit, not what arithmetic put them there. So nothing here
 distinguishes ζ structurally, and nothing here is evidence about RH.
 
-## Phase 2 — the shift axis, and the map that collapsed
+## Phase 2: the shift axis, and the map that collapsed
 
 Registered in `MISSION.md` after phase 1 closed; measured afterwards. The
 shifted Jensen polynomial is the damped n-th derivative, so the shift axis
@@ -102,28 +102,28 @@ numbers in `results.json` (`shift_ladder`, `shift`, `map2`).
 
 - **Q1 (per-step clock): the direction and configuration claims held; the
   registered numeric bracket failed and is recorded as such.** One
-  differentiation carries the pair past its landing — overshoot factor
+  differentiation carries the pair past its landing, overshoot factor
   **3.69**: c₀ = 0.16278 of flow time against the violation's entire budget
   t\* = 0.04413. Measured by letting the heat flow run backward (t < 0)
   until the pair re-lifts in E′ (t_land = −0.11867) and E″ (−0.30126); the
   warm-started Newton predicate also tracked the landing's position drift
   (Re −7344 → −7462 → −7601), which the contour-count predicate could not.
   The measured saddle (u₀ = 2.1004, j\* = 90) gives the heuristic
-  1/(2u₀²) = 0.11334 — right order, 44% low; the registered wide bracket
+  1/(2u₀²) = 0.11334, right order, 44% low; the registered wide bracket
   [0.005, 0.05] for c₀ **missed entirely**. The per-step clock is also not
-  constant: c₁ = 0.18260, 12% larger — the saddle drifts as the function is
+  constant: c₁ = 0.18260, 12% larger, the saddle drifts as the function is
   differentiated.
-- **Q3 (the map): all six boundary cells agree with the additive budget rule
-  — and the map degenerates.** Detection flips between d = 19000 and 22000
+- **Q3 (the map): all six boundary cells agree with the additive budget rule,
+  and the map degenerates.** Detection flips between d = 19000 and 22000
   on the n = 0 row, straddling phase 1's d\* = 20785; every tested n = 1
   cell (d = 3·10⁴, 10⁶, 10⁸) is blind, exactly as g(1) = 0.163 > t\*
   predicts, with the window holding a lone real Rolle interlacer where the
   pair used to be. Since g(1) exceeds every landing time hunt #4 measured
   (max 0.0577, height-240 pair), the budget rule says **all nine known DH
   off-line pairs are invisible to every shifted Jensen polynomial J^{d,n}
-  with n ≥ 1, at every degree** — measured directly here for pair 1,
-  predicted by the clock for the rest. The GORZ direction — fixed degree,
-  growing shift, the direction in which hyperbolicity is a theorem for ζ —
+  with n ≥ 1, at every degree**, measured directly here for pair 1,
+  predicted by the clock for the rest. The GORZ direction, fixed degree,
+  growing shift, the direction in which hyperbolicity is a theorem for ζ,
   is, for *detecting* this class of violation, the maximally blind
   direction: the first step of it already erases 3.7× more evidence than
   the whole violation contains.
@@ -135,22 +135,22 @@ numbers in `results.json` (`shift_ladder`, `shift`, `map2`).
   run; nothing here should be read as having passed it.
 - **Q4 (specificity): held.** ζ through the shifted cells: winding ~1e-95.
 
-## Phase 3 — the falsifier and the trichotomy
+## Phase 3: the falsifier and the trichotomy
 
 Registered in `MISSION.md` after phase 2 closed; measured afterwards. Raw
 numbers in `results.json` (`additivity2`, `li`).
 
 - **Q5 (strong additivity: the falsifier passed).** Re-measuring
   t_land(n = 1) at d = 10⁶: the additive budget predicts −0.11957629 from
-  the d = 10⁸ measurement and the degree-budget difference alone — no free
-  parameters — and the measurement gives −0.11959090. Defect 1.46e-5,
+  the d = 10⁸ measurement and the degree-budget difference alone, no free
+  parameters, and the measurement gives −0.11959090. Defect 1.46e-5,
   inside the registered ±1e-4 bar; as a fraction of the budget shift itself
   it is 1.6%, consistent with the dictionary's percent-level 1/d
   corrections. Phase 2's Q2 gap is closed: the three knobs (degree, shift,
   flow) spend one budget.
 - **Q6 (the trichotomy: measured).** The planted symmetric quadruple at
   ρ = 0.8 + 2.5i drives the Bombieri–Lagarias Li sum negative first at
-  **n = 95** — inside the registered [80, 160] — with exactly the predicted
+  **n = 95**, inside the registered [80, 160], with exactly the predicted
   shape: one oscillation trough (n = 95–98, period ≈ 16.1, amplification
   r = 1.04661 per step), positive again at n = 99, an *initial-segment*
   blindness only. One auxiliary statistic failed as coded and is recorded
@@ -159,7 +159,7 @@ numbers in `results.json` (`additivity2`, `li`).
   n = 1; the registered onset interval came from the amplitude-vs-
   background estimate and held, but the coded indicator is useless and
   should not be reused. The same formula pointed at DH pair 1
-  (r − 1 = 4.2e-5) puts its Li onset at **n ≈ 3.3·10⁵** — with the stated
+  (r − 1 = 4.2e-5) puts its Li onset at **n ≈ 3.3·10⁵**, with the stated
   hedge that the background is the ζ-shaped asymptotic, so this is an
   order-of-magnitude claim, not a sharp one.
 - **Q7 (specificity): held.** Unplanted, min λ_n(ζ) over n ≤ 200 is
@@ -170,7 +170,7 @@ detectors, one violation, three blindness geometries:
 
 | axis | mechanism | blind set (pair 1) |
 |---|---|---|
-| Jensen degree d | erasing clock, t_eff = \|x₀\|/(8d) | all d < 20785 — cofinal below |
+| Jensen degree d | erasing clock, t_eff = \|x₀\|/(8d) | all d < 20785, cofinal below |
 | Jensen shift n | erasing clock, c₀ = 0.163/step | all n ≥ 1, every degree |
 | Li index n | accumulating discriminator, rⁿ | initial segment n ≲ 3.3·10⁵ |
 
@@ -196,8 +196,8 @@ A short networked pass (2026-08-11) sharpened two hooks:
   successor line (Csordas–Ruttan–Varga and onward, through te Riele and
   Norfolk–Ruttan) explicitly *abandoned* Jensen polynomials for direct
   tracking of zeros of F_λ because the degrees required were impractically
-  large. The dictionary measured here — the degree must outrun the pair's
-  remaining flow distance, d > |x₀|/(8(t\* − t)) — is a quantitative law of
+  large. The dictionary measured here, the degree must outrun the pair's
+  remaining flow distance, d > |x₀|/(8(t\* − t)), is a quantitative law of
   exactly that documented inefficiency. Whether the constant |x₀|/8 appears
   anywhere in that literature is not known to this tree; no novelty is
   claimed, and a proper literature pass is the stated next step for anyone
@@ -211,9 +211,9 @@ A short networked pass (2026-08-11) sharpened two hooks:
 
 ## Disposition
 
-Instrument kept; no ledger entry. The surviving observation — the landing
+Instrument kept; no ledger entry. The surviving observation, the landing
 degree is the flow landing time on another dial, and both are configuration
-geometry — is the null control *explaining* the quantity, which is a
+geometry, is the null control *explaining* the quantity, which is a
 closure of the same kind hunt #4 recorded, not a lead. Nothing here is
 evidence for or against RH: the nine known pairs bound Λ_DH-type quantities
 from below and the dictionary adds no new zero knowledge; it re-expresses

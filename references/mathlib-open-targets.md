@@ -1,8 +1,8 @@
 # Mathlib open targets
 
-**Generated** by `scripts/mathlib_gaps.py` from [`docs/1000.yaml`](https://raw.githubusercontent.com/leanprover-community/mathlib4/master/docs/1000.yaml) — snapshot 2026-08-06. Do not hand-edit; regenerate.
+**Generated** by `scripts/mathlib_gaps.py` from [`docs/1000.yaml`](https://raw.githubusercontent.com/leanprover-community/mathlib4/master/docs/1000.yaml), snapshot 2026-08-06. Do not hand-edit; regenerate.
 
-Mathlib keeps `docs/1000.yaml`: the Wikipedia list of famous theorems, each entry tagged with the Lean declaration that proves it. An entry with **no `decl:` field** is the library stating, in its own tree, that the theorem is wanted and unbuilt. That is the contribution surface — not a guess about what would be welcome, but a written record of it.
+Mathlib keeps `docs/1000.yaml`: the Wikipedia list of famous theorems, each entry tagged with the Lean declaration that proves it. An entry with **no `decl:` field** is the library stating, in its own tree, that the theorem is wanted and unbuilt. That is the contribution surface, not a guess about what would be welcome, but a written record of it.
 
 | | count |
 | --- | ---: |

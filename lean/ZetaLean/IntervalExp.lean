@@ -11,16 +11,16 @@ reduced the Davenport-Heilbronn theorem to two interval inequalities about
 real elementary functions that evaluation is made of, on the `Interval`
 layer of `ZetaLean/Rigor.lean`:
 
-* `Interval.exp1` — certified `exp` on intervals inside `[-1, 1]`: Taylor
+* `Interval.exp1`, certified `exp` on intervals inside `[-1, 1]`: Taylor
   partial sums at the rational endpoints, inflated by the Lagrange remainder
   of Mathlib's `Real.exp_bound`, tightened by monotonicity (endpoints
   suffice; no interval Taylor needed).
-* `Interval.expI` — `exp` on intervals inside `[-2^k, 2^k]`, by `k`
+* `Interval.expI`: `exp` on intervals inside `[-2^k, 2^k]`, by `k`
   halvings and certified squarings (`exp t = exp(t/2)²`).
-* `Interval.log1` — certified `log` on intervals inside `(0, 2)`, from the
+* `Interval.log1`: certified `log` on intervals inside `(0, 2)`, from the
   alternating series bound `Real.abs_log_sub_add_sum_range_le`, again
   tightened by monotonicity.
-* `Interval.log2I` — an enclosure of `log 2 = -log(1/2)`, the anchor for
+* `Interval.log2I`: an enclosure of `log 2 = -log(1/2)`, the anchor for
   extending `log1` to all positive rationals by binary reduction
   (`log q = k·log 2 + log(q/2^k)`, future work).
 

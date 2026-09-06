@@ -5,7 +5,7 @@ the hunts/ lexical rules; no factual content altered. -->
 
 **Date:** 2026-08-12. **Purpose:** avoid a false novelty claim.
 
-**Verdict up front: (b) FOLLOWS EASILY from known results.** Not merely "adjacent" —
+**Verdict up front: (b) FOLLOWS EASILY from known results.** Not merely "adjacent",
 the statement is a two-line composition of two lemmas that are (i) textbook classical, and
 (ii) *already stated, proved, and Lean-formalised* in the Aug-2026 zeta paper and its
 repository, where the exact numerical specialisation "‖·‖²_F ≥ 2N in the all-off-line
@@ -32,7 +32,7 @@ So the claim is exactly
 
 > `tr(M²) ≥ (tr M)² / n` for `M = QS`, given `tr M = 2n`.
 
-## 2. The two ingredients — both classical
+## 2. The two ingredients: both classical
 
 Write `Q = B*B` and `C = B S B*` (Hermitian). Then `tr C = tr(QS) = 2n` and
 `tr(C²) = tr((QS)²)`.
@@ -120,8 +120,8 @@ block `[[0, m_ρ],[m_ρ, 0]]` of signature (1,1); `Q` is the pull-back of the di
 
 Our `(Fin n) × Bool` indexing with a fixed-point-free involution **is** that ρ ↔ 1−ρ̄ pairing;
 condition (i) `Q(a,σa) = 1` is the normalisation `m_ρ = 1`; condition (ii) is the reality/
-functional-equation symmetry. And the stated application — energy of
-`Σ_i 2 cosh(y_i w) e^{i t_i w}` against the window autocorrelation `c₂` — is literally the
+functional-equation symmetry. And the stated application, energy of
+`Σ_i 2 cosh(y_i w) e^{i t_i w}` against the window autocorrelation `c₂`, is literally the
 paper's off-line Gram-matrix computation, since `2 cosh(y w) e^{itw}` is the sum of the two
 exponentials attached to `ρ = ½ + y + it` and `1 − ρ̄ = ½ − y + it`. This is not an analogy;
 it is the same object with the number theory stripped off.
@@ -145,7 +145,7 @@ It is strictly weaker than Lemma 3.2, and it is the special case of §7.5(a).
   literature states our matrix inequality, but nothing in it would find it surprising.
 - **The paper's own novelty claim** (§7.4): *"We are not aware of a previous use of the
   positive index or of the rank in combination with a second-moment evaluation."* Our
-  statement sits **inside** that claim, not beside it — it is a consequence of the machinery
+  statement sits **inside** that claim, not beside it, it is a consequence of the machinery
   whose novelty they are asserting, published Aug 2026.
 - **de Branges / Hermite–Biehler / Beurling–Selberg**: searched for "Gram matrix of
   exponentials against a nonnegative weight with conjugation involution" as a named object
@@ -203,11 +203,11 @@ Given the verdict, the honest framing is *not* a new named theorem but "the invo
 specialisation of the inertia + Cauchy–Schwarz bound (Lemma 3.1 + Lemma 3.3 of [Zeta23])".
 If a local descriptive label is still wanted for a Lean file:
 
-1. **"Involution-normalised inertia bound"** — accurate; no collision found.
-2. **"Hyperbolic-pair Frobenius lower bound"** — matches the paper's own "hyperbolic blocks"
+1. **"Involution-normalised inertia bound"**: accurate; no collision found.
+2. **"Hyperbolic-pair Frobenius lower bound"**: matches the paper's own "hyperbolic blocks"
    vocabulary; mild collision risk with Krein-space "hyperbolic pair" (a standard term for a
    two-dimensional neutral-vector pair), which is arguably a feature since it is the same idea.
-3. **"Pair-normalised positive-index bound"** — accurate, unlovely.
+3. **"Pair-normalised positive-index bound"**: accurate, unlovely.
 
 Names to **avoid** because they are taken by the very source that pre-empts this:
 "rank–trace inequality" (Lemma 3.2 / `rank_trace_ineq`), "thresholded Cauchy–Schwarz count"

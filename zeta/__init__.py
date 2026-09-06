@@ -1,9 +1,9 @@
-"""zeta-lab — a computational laboratory for the Riemann zeta function.
+"""zeta-lab, a computational laboratory for the Riemann zeta function.
 
 This package is an *instrument*, not a proof attempt: arbitrary-precision
 machinery (mpmath) for ζ, θ, ξ, Ξ and Hardy's Z, zero hunting with
 Turing-style counting certificates, the explicit formula rebuilding the
-primes from the zeros, GUE spacing statistics, and heat flow on Ξ itself —
+primes from the zeros, GUE spacing statistics, and heat flow on Ξ itself,
 the de Bruijn–Newman constant Λ, where RH ⟺ Λ = 0 and Λ ≥ 0 is a theorem
 (Rodgers–Tao 2018).
 
@@ -27,10 +27,10 @@ Modules
 :mod:`zeta.heatflow`    Φ, H_t, zero tracking, de Bruijn–Newman Λ facts.
 :mod:`zeta.weil`        the Riemann–Weil explicit formula, Weil positivity.
 :mod:`zeta.epstein`     the Davenport–Heilbronn counterexample battery.
-:mod:`zeta.plots`       the twenty figures (imported lazily — matplotlib is
+:mod:`zeta.plots`       the twenty figures (imported lazily, matplotlib is
                         only loaded when a ``plot_*`` name is first touched).
 
-Four further modules are **not** imported by ``import zeta`` — they pull in
+Four further modules are **not** imported by ``import zeta``, they pull in
 heavier dependencies (Arb, sympy, bulk numpy) that purely numerical work does
 not need.  Import them explicitly:
 
@@ -38,7 +38,7 @@ not need.  Import them explicitly:
                         certified N(T), ``verify_rh_certified``.  The only
                         module in the package entitled to the word *certified*.
 :mod:`zeta.li`          Li's criterion (λ_n) and Jensen polynomials.
-:mod:`zeta.finitefield` curves over F_p — the RH that is a theorem.
+:mod:`zeta.finitefield` curves over F_p, the RH that is a theorem.
 :mod:`zeta.criteria`    Mertens, Baez-Duarte, Robin/Lagarias, Speiser.
 
 Five further probes, each a longshot attack run to its wall and recorded
@@ -47,7 +47,7 @@ with its verdict (``docs/18``).  Also not imported by ``import zeta``:
 :mod:`zeta.inverse`     Wu–Sprung inverse spectral theory: build the
                         Hilbert–Pólya potential, then watch it work just as
                         well for the RH-violating counterexample.
-:mod:`zeta.quasicrystal` the zero measure as an atomic Fourier object — the
+:mod:`zeta.quasicrystal` the zero measure as an atomic Fourier object, the
                         one probe here that *does* separate ζ from
                         Davenport–Heilbronn, because it reads the Euler
                         product.
@@ -59,18 +59,18 @@ with its verdict (``docs/18``).  Also not imported by ``import zeta``:
 :mod:`zeta.synthesis`   the prime signal as additive synthesis; RH ⟺ finite
                         mean power, whose value is 2 + γ − log 4π.
 
-Naming trap — there are three different "theta"s in this subject:
+Naming trap, there are three different "theta"s in this subject:
 
-* :func:`zeta.core.theta`          — Jacobi θ(x) = Σ e^{−πn²x} (the heat kernel);
-* :func:`zeta.core.rs_theta`       — the Riemann–Siegel phase ϑ(t) in
+* :func:`zeta.core.theta`, Jacobi θ(x) = Σ e^{−πn²x} (the heat kernel);
+* :func:`zeta.core.rs_theta`, the Riemann–Siegel phase ϑ(t) in
                                      Z(t) = e^{iϑ(t)} ζ(½+it);
-* :func:`zeta.explicit.theta_cheb` — Chebyshev's prime sum θ(x) = Σ_{p≤x} log p.
+* :func:`zeta.explicit.theta_cheb`, Chebyshev's prime sum θ(x) = Σ_{p≤x} log p.
 
 All three are re-exported here under those distinct names; nothing in this
 package ever means more than one of them by ``theta``.
 
 A fourth collision, in the import system rather than the mathematics:
-``zeta.li`` is :func:`zeta.explicit.li`, the *logarithmic integral* — until
+``zeta.li`` is :func:`zeta.explicit.li`, the *logarithmic integral*, until
 something executes ``import zeta.li``, after which Python rebinds the package
 attribute to the *module* :mod:`zeta.li` (Li's criterion) and ``zeta.li(x)``
 raises ``TypeError``.  Use ``zeta.explicit.li`` for the function and

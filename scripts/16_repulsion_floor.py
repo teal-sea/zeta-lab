@@ -45,7 +45,7 @@ print("                             slow in T -- see the CUE-control measurement
 print(f"   min      = {spacings.min():.6f}")
 print(f"   max      = {spacings.max():.6f}")
 
-print("\n3) THE SMALL-GAP TAIL — WHERE REPULSION ACTUALLY SHOWS UP")
+print("\n3) THE SMALL-GAP TAIL: WHERE REPULSION ACTUALLY SHOWS UP")
 print("   Fraction of spacings below s, against both models:\n")
 print(f"   {'s':>6}  {'observed':>12}  {'GUE':>12}  {'Poisson':>12}  {'Poisson/obs':>12}")
 thresholds = [0.02, 0.05, 0.1, 0.2, 0.3, 0.5]

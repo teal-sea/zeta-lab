@@ -67,7 +67,7 @@ def test_the_centre_gas_row_convention_matches_the_form_itself():
     """G4's withdrawal, pinned. `centre_gas_row` sums d >= 1 ONCE; the x4
     factor carries the ordered-pair sum. The net centre-centre cost computed
     directly from the two-species form must converge to that row, not to
-    twice it — comparing a two-sided chain sum against this one is what made
+    twice it, comparing a two-sided chain sum against this one is what made
     G4 wrong."""
     import math
     from two_species import dam, kpair

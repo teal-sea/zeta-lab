@@ -1,4 +1,4 @@
-# support_78c499b4 — ARM E, prior art for the T1 certificate LP
+# support_78c499b4: ARM E, prior art for the T1 certificate LP
 
 **Support run `78c499b4-bc7d-4e1a-9efa-47571547b826`, 2026-08-24.**
 Serving run `872d7dce` (hunt `r_c7f779`), which asked one bounded literature
@@ -16,7 +16,7 @@ Two parts, both about published work rather than about a computation.
    published technology, or a published obstruction, for LP certificates
    against a **non-band-limited** target of that positive-part shape?
 2. Is there a published theorem that settles, in dimension 1, whether the LP
-   value equals the lattice value for such an `f` — the
+   value equals the lattice value for such an `f`, the
    "LP is sharp iff a dual optimiser is supported on the lattice's distance
    set" line?
 

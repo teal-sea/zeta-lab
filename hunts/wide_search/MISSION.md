@@ -1,4 +1,4 @@
-# MISSION — `wide_search`
+# MISSION: `wide_search`
 
 ## Persona
 
@@ -27,9 +27,9 @@ of them is this hunt.
 
 Not RH. RH is allowed but deliberately not privileged, and every direct route
 to it carries a standing no-go result (`docs/08`). The target is *adjacent*: a
-precise statement about zeta or its neighbours — an identity, an inequality, a
+precise statement about zeta or its neighbours, an identity, an inequality, a
 counterexample, an asymptotic, a bound, a negative result, or a machine-checked
-formalization — that is
+formalization, that is
 
 1. **precisely stateable**, so it is either true or false;
 2. **externally checkable**, so that somebody outside this tree can settle it
@@ -42,7 +42,7 @@ formalization — that is
 ## Method
 
 Breadth first, then adversarial narrowing. The generator of a claim never
-judges it — the rule the director run was built on.
+judges it, the rule the director run was built on.
 
 1. **Generate.** Independent programmes across disjoint territories, each
    emitting candidate propositions in a fixed schema, each candidate carrying
@@ -61,7 +61,7 @@ judges it — the rule the director run was built on.
 ## The standing checklist, answered in advance
 
 1. **Rival.** Any structural claim about zeta goes through
-   `zeta.epstein.battery` — zeta against Davenport–Heilbronn and both
+   `zeta.epstein.battery`: zeta against Davenport–Heilbronn and both
    discriminant −23 Epstein forms. A claim a rival also satisfies distinguishes
    nothing. The trap is recorded: if the test set *is* the rival set, the
    measurement is of this laboratory's own admission criterion.
@@ -86,6 +86,6 @@ Each of those is a defect in this hunt, not a weak result.
 
 This directory says *measured*, *observed*, *consistent with*. It does not say
 *verified*, *confirmed*, *definitively* or *proves*, and it never uses the
-reserved word that `zeta/rigor.py` owns for enclosure-carrying quantities —
+reserved word that `zeta/rigor.py` owns for enclosure-carrying quantities,
 a ban `tests/test_hunt_probe_discipline.py` enforces on the bytes of every
 file here.

@@ -4,7 +4,7 @@ This file is the audit's own power calibration: every catchable sham mode
 from ``harness.integrity.SHAM_MODES`` is planted into a known-good specimen
 department by ``harness.shams`` and the audit must (a) fail the named check
 and (b) leave the CALIBRATED grade. The two modes the catalog declares
-mechanically uncatchable are pinned *as* uncatchable — the same convention
+mechanically uncatchable are pinned *as* uncatchable, the same convention
 as ``test_the_detector_is_blind_to_the_poison_lesion`` in the compiler
 department: a blind spot that is measured and pinned cannot be quietly
 forgotten, and the day somebody builds a check that catches it, the pin
@@ -55,7 +55,7 @@ from harness.provenance import Provenance  # noqa: E402
 # The specimen: a genuinely calibrated department in a neutral toy domain.
 # Payloads are mappings so every check, including payload symmetry, can run.
 # Three lesions, so that dropping the hardest one leaves the magnitude
-# spread intact — the drop must be *genuinely* invisible for the blind-spot
+# spread intact, the drop must be *genuinely* invisible for the blind-spot
 # pin to mean anything.
 # ---------------------------------------------------------------------------
 
@@ -140,7 +140,7 @@ def _specimen(**overrides) -> Department:
 
 
 # ---------------------------------------------------------------------------
-# 1. The specimen is calibrated — the audit can say yes
+# 1. The specimen is calibrated, the audit can say yes
 # ---------------------------------------------------------------------------
 
 
@@ -261,7 +261,7 @@ def test_the_audit_is_blind_to_a_silently_dropped_hardest_lesion() -> None:
     battery can know what was meant to be there. The countermeasure is
     preregistration (pin the lesion set in tests), which is exactly what
     the conformance suite does for the real departments. If this test ever
-    fails, somebody has built a check that catches the drop — update
+    fails, somebody has built a check that catches the drop, update
     SHAM_MODES before deleting the pin.
     """
     corrupted = shams.without_hardest_lesion(_specimen())
@@ -279,7 +279,7 @@ def test_the_audit_is_blind_to_gross_rival_distance_at_the_frozen_threshold() ->
     magnitude lower: the six registered departments score 0.00 to 0.05 and
     this planted gross-distance corruption scores 0.24, so the statistic
     separates cleanly and the cut sits above the entire range. Moving it is a
-    separate change with its own frozen criteria — a threshold set after
+    separate change with its own frozen criteria, a threshold set after
     reading its own calibration has no falsification weight, which is why
     ``docs/23`` refused to retune it and why this pin exists instead.
 
@@ -344,7 +344,7 @@ def test_the_audit_is_blind_to_structure_matched_value_disjoint_rivals() -> None
 def test_the_audit_is_blind_to_a_value_encoded_label_leak() -> None:
     """The co-designed sham: identity encoded in the *values* of a shared
     key, with claims written to read it. Key sets are symmetric, calibration
-    re-derives, the detector is real — every mechanical check passes, and
+    re-derives, the detector is real, every mechanical check passes, and
     the "distinguishing" claim is reading a tell, not measuring. Pinned as
     the audit's measured limit; the countermeasure is independent authorship
     of battery content, declared in provenance, which no mechanical check
@@ -443,7 +443,7 @@ def test_a_distinguishing_claim_under_a_calibrated_battery_is_not_dangerous() ->
 
 def test_a_green_claim_from_a_hollow_battery_is_marked_dangerous() -> None:
     """A claim passing a weak battery must never look like one passing a
-    strong battery — the requirement, as a test."""
+    strong battery, the requirement, as a test."""
     hollow = shams.with_inert_lesions(_specimen())
     report = report_claim(hollow, lambda p: p["value"] == 1.0, name="target-only")
     assert report.claim_status == "distinguishes"
@@ -487,8 +487,8 @@ def test_an_undecided_hollow_check_caps_the_grade() -> None:
     the battery through to ``CALIBRATED``. An independent party found it on
     its first attempt: ``payload-symmetry`` returned ``UNKNOWN`` for any
     payload that was not a mapping, so callable payloads sidestepped it for
-    free. The numeric arm has obeyed the opposite rule from the start —
-    ``proven_sign`` returns 0 for "not decided" — and this is that rule,
+    free. The numeric arm has obeyed the opposite rule from the start,
+    ``proven_sign`` returns 0 for "not decided", and this is that rule,
     here.
     """
     from harness.integrity import CheckResult, IntegrityReport, UNMEASURED
@@ -521,7 +521,7 @@ def test_an_undecided_hollow_check_caps_the_grade() -> None:
 def test_payload_symmetry_decides_off_mappings_instead_of_shrugging() -> None:
     """A department whose payloads are bare callables is measured, not skipped.
 
-    ``croniter`` — a real department, authored outside this tree — hands out
+    ``croniter``, a real department, authored outside this tree, hands out
     plain functions as payloads, so the callable-payload sidestep was never
     only a sham author's trick. Three of the six registered departments were
     undecided here before this change.
@@ -577,7 +577,7 @@ def test_an_instrument_faithful_to_its_own_payload_is_not_called_inert() -> None
     wrote a generic fallback passed. The ``probe`` attribute those checks read
     is declared nowhere in ``harness/protocol.py`` and nowhere in
     ``harness/README.md``. An instrument now has to move *one* candidate
-    probe — its own department's payload counts.
+    probe, its own department's payload counts.
     """
 
     @dataclass(frozen=True)

@@ -11,7 +11,7 @@ the denominator, which needs no transcendental leaves at all.
 With `z = s + i y`, the denominator is `z² − 2`, so
 
 * `Re den = s² − y² − 2`
-* `Im den = 2 s y`, hence `Im den / y = 2 s` — and *that* is what the table
+* `Im den = 2 s y`, hence `Im den / y = 2 s`: and *that* is what the table
   carries, which is why the removable branch never divides by anything.
 
 The numerator side needs the trig and hyperbolic leaves and is the remaining

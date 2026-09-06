@@ -4,7 +4,7 @@
 that has actually been proved.**  Everywhere else in this laboratory RH is a
 conjecture probed by instruments; here it is a theorem (Hasse in the 1930s for
 elliptic curves, Weil 1948 for all curves, Deligne 1974 in every dimension),
-and — the point of the module — it is a theorem you can *check by counting*.
+and, the point of the module, it is a theorem you can *check by counting*.
 See ``docs/09-new-ontologies.md`` section 1 and ``docs/11-f1-and-the-missing-
 geometry.md`` section 1 for the narrative; this file is that narrative made
 executable.
@@ -50,7 +50,7 @@ pair with product ``p`` has modulus ``sqrt(p)``.  :func:`hasse_check` reports
 the bound, :func:`curve_survey` sweeps a seeded sample of curves over many
 primes, and :func:`traces_mod_p` sweeps *every* curve mod p.  The test suite
 runs both: 1 279 678 curves (all of them, for p = 101, 503, 1009) and an
-862-curve seeded survey up to p = 10007.  Zero violations — and not because
+862-curve seeded survey up to p = 10007.  Zero violations, and not because
 the sample was lucky: this is not evidence, it is a theorem being exercised.
 A violation here would mean a bug in this module.
 
@@ -63,7 +63,7 @@ The ``sqrt`` in the point-count bound *is* the ``1/2`` in ``Re s = 1/2``.
 :func:`critical_line_check` performs that conversion in mpmath and returns the
 measured deviation of ``Re(s)`` from ``1/2``.  Over an 862-curve sweep across
 18 primes from 5 to 10007 the worst deviation is 1.1e-41 at ``dps = 30`` and
-9.9e-32 at ``dps = 20`` — pure round-off, thirty orders of magnitude inside
+9.9e-32 at ``dps = 20``, pure round-off, thirty orders of magnitude inside
 the 1e-12 the test suite demands.
 
 Lefschetz: the counts are traces of powers of an operator
@@ -86,20 +86,20 @@ non-residue) and counts the solutions of ``y^2 = x^3 + a x + b`` over that
 field by literal enumeration, using no zeta function, no eigenvalues and no
 Weil theory.  The result equals ``p^2 + 1 - (alpha^2 + alphabar^2)`` on the
 nose, for every curve tested.  That equality is the module's most valuable
-test: it demonstrates that the operator interpretation is REAL, not formal —
+test: it demonstrates that the operator interpretation is REAL, not formal,
 a number obtained by brute-force counting in a field with p^2 elements is
 predicted, exactly, by the second power sum of two complex eigenvalues.
 
 What exists here, and what is missing over Z
 --------------------------------------------
-The checklist of ``docs/11`` section 1 — space, operator, positivity:
+The checklist of ``docs/11`` section 1, space, operator, positivity:
 
 * **a space**: the curve E over F_p, an honest geometric object with a ground
   field F_p underneath it, so that E x E over F_p is a genuine *surface*;
 * **an operator**: Frobenius, acting as a matrix on finite-dimensional
   cohomology, with the point counts as its traces (verified here);
 * **a positivity input**: the Castelnuovo-Severi inequality applied to the
-  graph of Frobenius on the surface E x E — this, not the functional equation,
+  graph of Frobenius on the surface E x E, this, not the functional equation,
   is what pins ``|alpha| = sqrt(p)``.  Symmetry alone never suffices; that is
   exactly what :mod:`zeta.epstein` demonstrates on the analytic side.
 
@@ -118,7 +118,7 @@ power sums, ``N_n``).  mpmath, with explicit ``dps``, appears only where genuine
 transcendence enters: eigenvalues, ``Z(T)``, and the ``log/log`` conversion to
 s-coordinates.  numpy appears only in the bulk sweep behind
 :func:`traces_mod_p` / :func:`sato_tate_histogram`.  That sweep does use
-float64 — a length-p FFT is what makes "all p^2 curves at once" affordable —
+float64, a length-p FFT is what makes "all p^2 curves at once" affordable,
 but every quantity it produces is an integer bounded by p, recovered with
 ``np.rint``.  Rounding alone is *not* a proof of correctness (an error of 0.9
 would round to the wrong integer while leaving a residual of only 0.1), so the
@@ -251,7 +251,7 @@ def _check_curve(a: int, b: int, p: int) -> tuple[int, int, int]:
     """Validate ``(a, b, p)`` and return them reduced mod p.
 
     Raises :class:`ValueError` if p is not a prime > 3, or if the curve is
-    singular (``4a^3 + 27b^2 == 0`` in F_p) — a singular cubic is not an
+    singular (``4a^3 + 27b^2 == 0`` in F_p), a singular cubic is not an
     elliptic curve, its point count does not satisfy the Hasse bound, and its
     zeta function is not the one implemented here.
     """
@@ -273,8 +273,8 @@ def legendre_symbol(a: int, p: int) -> int:
     """The Legendre symbol ``(a|p)`` in {-1, 0, +1}, by Euler's criterion.
 
     Returns 0 if ``p | a``, +1 if a is a nonzero quadratic residue mod p, and
-    -1 otherwise.  Computed as ``a^{(p-1)/2} mod p`` — the definition, not a
-    table lookup — so it is an independent implementation from the cached
+    -1 otherwise.  Computed as ``a^{(p-1)/2} mod p``, the definition, not a
+    table lookup, so it is an independent implementation from the cached
     residue table used by :func:`count_points`.
 
     ``p`` must be an odd prime (``p > 3`` is enforced, as everywhere in this
@@ -345,7 +345,7 @@ def discriminant(a: int, b: int, p: int) -> int:
     Zero exactly when the curve is singular.  (The factor -16 is a unit mod any
     ``p > 3``, so ``Delta == 0`` and ``4a^3 + 27b^2 == 0`` are the same
     condition; both forms appear in the literature and this module tests that
-    they agree.)  Accepts singular ``(a, b)`` — it is the function that detects
+    they agree.)  Accepts singular ``(a, b)``, it is the function that detects
     them.
     """
     p = _check_p(p)
@@ -385,7 +385,7 @@ def count_points_bruteforce(a: int, b: int, p: int) -> int:
     """``N_1`` by literal enumeration of all ``p^2`` pairs ``(x, y)`` in F_p^2.
 
     The independent oracle for :func:`count_points`: no Legendre symbols, no
-    Euler criterion, just "is ``y^2 - f(x)`` zero mod p".  O(p^2) — intended
+    Euler criterion, just "is ``y^2 - f(x)`` zero mod p".  O(p^2), intended
     for p up to a few hundred.
     """
     a, b, p = _check_curve(a, b, p)
@@ -437,7 +437,7 @@ def frobenius_eigenvalues(
 
         alpha = a_p/2 + i sqrt(4p - a_p^2)/2,    alphabar = conj(alpha),
 
-    with ``alpha * alphabar = p`` and hence ``|alpha| = sqrt(p)`` — RH for E.
+    with ``alpha * alphabar = p`` and hence ``|alpha| = sqrt(p)``: RH for E.
     Returned as mpmath ``mpc`` at the requested ``dps`` (guard digits used
     internally).  ``alpha`` is the root in the upper half-plane.
     """
@@ -468,7 +468,7 @@ def zeta_function_values(a: int, b: int, p: int, T, dps: int = DPS_DEFAULT):
     ``fractions.Fraction`` argument is converted to an exact rational and
     compared with 1 and 1/p, and any other argument is caught only if the
     denominator evaluates to exactly zero.  So ``Fraction(1, p)`` raises while
-    the float ``1/p`` — which is a *different* rational number — returns the
+    the float ``1/p``, which is a *different* rational number, returns the
     (large, finite, correct) value of Z there.  That is deliberate: silently
     treating "close to the pole" as "at the pole" would hide real numerics.
 
@@ -501,7 +501,7 @@ def zeta_function_values(a: int, b: int, p: int, T, dps: int = DPS_DEFAULT):
 def zeta_functional_equation_defect(
     a: int, b: int, p: int, T, dps: int = DPS_DEFAULT
 ):
-    """``|Z(1/(pT)) - Z(T)|`` — the curve's functional equation, as a defect.
+    """``|Z(1/(pT)) - Z(T)|``, the curve's functional equation, as a defect.
 
     For a genus-1 curve the functional equation is ``Z(1/(pT)) = Z(T)``, which
     under ``T = p^{-s}`` reads ``s <-> 1 - s``: the exact analogue of
@@ -511,7 +511,7 @@ def zeta_functional_equation_defect(
     precision: both sides are evaluated at ``dps`` and subtracted at ``dps``,
     which is a few ulp of ``|Z(T)|``.  Measured worst case over six curves and
     five values of T (real, negative and complex): 2.487e-14 at dps = 15,
-    9.466e-30 at dps = 30, 3.421e-49 at dps = 50 — pinned two-sided in the
+    9.466e-30 at dps = 30, 3.421e-49 at dps = 50, pinned two-sided in the
     tests, to within a factor of three, so a silent loss of precision *or* a
     silently vacuous zero would both fail.
 
@@ -534,12 +534,12 @@ def zeta_log_series_defect(
 
     This is the *definition* of the zeta function of a variety (left) checked
     against Weil's rational formula (right).  ``N_n`` comes from
-    :func:`point_counts_over_extensions`, i.e. from the Frobenius power sums —
+    :func:`point_counts_over_extensions`, i.e. from the Frobenius power sums,
     so the identity being measured is "counting solutions in every extension
     == a rational function of one integer a_p".
 
     Default ``T = 1/(10p)``, well inside the radius of convergence ``1/p``.
-    Because ``N_n ~ p^n``, the terms are ``N_n T^n / n ~ 10^{-n}/n`` — the
+    Because ``N_n ~ p^n``, the terms are ``N_n T^n / n ~ 10^{-n}/n``, the
     truncation tail is ``~10^{-(n_max+1)}/(n_max+1)``, *independent of p*, so
     ``n_max`` must be raised in step with ``dps``.  Everything is evaluated at
     the requested ``dps``, so the number returned describes that precision
@@ -567,7 +567,7 @@ def hasse_check(a: int, b: int, p: int) -> dict[str, Any]:
 
     ``a_p``        the trace of Frobenius (exact int),
     ``bound``      ``2 sqrt(p)`` (float),
-    ``satisfied``  ``|a_p| <= bound`` — always ``True``; it is a theorem,
+    ``satisfied``  ``|a_p| <= bound``: always ``True``; it is a theorem,
     ``ratio``      ``|a_p| / (2 sqrt(p))`` in [0, 1), how close this curve
                    comes to the bound (0 = supersingular),
 
@@ -615,19 +615,19 @@ def critical_line_check(
     plus ``p``, ``a``, ``b``, ``a_p``, ``dps``.
 
     ``max_deviation_from_half`` is measured on the *unrounded* internal values,
-    at the internal working precision ``dps + 10`` — rounding to ``dps`` first
+    at the internal working precision ``dps + 10``, rounding to ``dps`` first
     would return a vacuous 0.0 every time, since the true value is 1/2 and the
     error is far below the last returned digit.  So the number is genuine
     ``log``/``sqrt`` round-off, and a bug in the s-coordinate conversion would
     inflate it.  Measured worst case over an 862-curve sweep (18 primes from 5
     to 10007): 8.5e-22 at dps = 10, 9.9e-32 at dps = 20, 1.1e-41 at dps = 30,
-    7.8e-62 at dps = 50 — i.e. about ``10^{-(dps+11)}``, far inside the 1e-12
+    7.8e-62 at dps = 50, i.e. about ``10^{-(dps+11)}``, far inside the 1e-12
     the tests demand.  The ``re_s`` values as returned, rounded to ``dps``
     digits, are exactly ``mpf('0.5')``.
 
     The two ``im_s`` values are ``+/- arg(alpha)/log(p)``; they are defined only
     modulo
-    ``2 pi / log p``, because ``p^{-s}`` is periodic — the finite-field zeros
+    ``2 pi / log p``, because ``p^{-s}`` is periodic, the finite-field zeros
     live on a *circle*, not a line, which is precisely the structure the
     integers are missing (``docs/11``).
     """
@@ -697,7 +697,7 @@ def point_counts_over_extensions(a: int, b: int, p: int, n_max: int) -> list[int
             = Tr(Frob^n|H^0) - Tr(Frob^n|H^1) + Tr(Frob^n|H^2)
 
     with ``Tr(Frob^n|H^0) = 1``, ``Tr(Frob^n|H^2) = p^n``.  *Counting solutions
-    became linear algebra* — this list is a signed sum of traces of powers of
+    became linear algebra*, this list is a signed sum of traces of powers of
     one 2x2 operator, and it is the whole content of the curve's zeta function.
 
     ``N_1`` is verified against brute force by :func:`count_points_bruteforce`
@@ -720,14 +720,14 @@ def count_points_fp2(a: int, b: int, p: int, method: str = "table") -> int:
 
     ``method``:
 
-    ``"pairs"``  the literal double loop over all ``p^4`` pairs ``(x, y)`` —
+    ``"pairs"``  the literal double loop over all ``p^4`` pairs ``(x, y)``,
                  unambiguous, O(p^4), usable to about p = 13;
     ``"table"``  (default) tabulate ``y -> y^2`` once over the ``p^2`` elements
                  of the field, then look up ``f(x)`` for each of the ``p^2``
                  values of x.  Same enumeration, O(p^2), usable to p ~ 200.
 
     The tests assert both agree with each other *and* with
-    ``point_counts_over_extensions(a, b, p, 2)[1]`` — the Lefschetz prediction
+    ``point_counts_over_extensions(a, b, p, 2)[1]``: the Lefschetz prediction
     from the two complex Frobenius eigenvalues.  That agreement is this
     module's central demonstration that the operator picture is real.
 
@@ -861,7 +861,7 @@ def survey_summary(rows: Sequence[dict[str, Any]]) -> dict[str, Any]:
     """Reduce :func:`curve_survey` rows to the headline numbers.
 
     Returns ``n_curves``, ``primes``, ``violations`` (count of rows with
-    ``satisfied = False`` — always 0), ``max_ratio`` (the closest any curve came
+    ``satisfied = False``: always 0), ``max_ratio`` (the closest any curve came
     to the Hasse bound), ``max_deviation_from_half`` (worst ``|Re s - 1/2|``
     over the whole sweep) and ``max_alpha_abs_relative_defect``
     (worst ``| |alpha|/sqrt(p) - 1 |``).
@@ -912,7 +912,7 @@ def _verify_trace_rows(rows: np.ndarray, counts: np.ndarray, p: int) -> int:
     """Raise unless every row of ``rows`` satisfies both exact identities.
 
     Returns the number of rows verified; raises :class:`RuntimeError`, naming
-    the offending row, on any mismatch.  All comparisons are integer equality —
+    the offending row, on any mismatch.  All comparisons are integer equality,
     there is no tolerance to tune and nothing that can be passed vacuously.
     """
     want_sum, want_sq = _row_invariants(counts, p)
@@ -942,16 +942,16 @@ def traces_mod_p(p: int) -> np.ndarray:
     with the character table, evaluated by FFT.  Total cost O(p^2 log p).
 
     Every value being recovered is an integer of size at most p, restored from
-    the float64 FFT with ``np.rint``.  Rounding by itself proves nothing — an
+    the float64 FFT with ``np.rint``.  Rounding by itself proves nothing, an
     error of 0.9 rounds to the *wrong* integer while leaving a residual of only
-    0.1 — so the recovered rows are checked against two exact integer
+    0.1, so the recovered rows are checked against two exact integer
     identities (:func:`_row_invariants`), ``sum_b a_p = 0`` and
     ``sum_b a_p^2 = p sum_v c_v^2 - p^2``, computed from the integer
     multiplicity vector and not from the FFT.  A mis-rounded entry breaks the
     second identity, and the function raises rather than return wrong integers.
     A loose residual guard (0.25) is kept as an early diagnostic.  The residual
-    observed here was 1.8e-14 at p = 101 rising to 3.8e-13 at p = 4001 — twelve
-    orders of magnitude below the 0.5 that would matter — but that is a
+    observed here was 1.8e-14 at p = 101 rising to 3.8e-13 at p = 4001, twelve
+    orders of magnitude below the 0.5 that would matter, but that is a
     platform-dependent float64 measurement and is deliberately *not* pinned by
     a test; the exact identities above are what guarantee the output.
 
@@ -1048,7 +1048,7 @@ def sato_tate_histogram(
     ``p^2 - p`` curves converges to the **semicircle** density
     ``(2/pi) sqrt(1 - x^2)``.
 
-    This is *vertical* Sato-Tate — fixed p, all curves — a THEOREM (Birch,
+    This is *vertical* Sato-Tate, fixed p, all curves, a THEOREM (Birch,
     *How the number of points of an elliptic curve over a fixed prime field
     varies*, J. London Math. Soc. 43 (1968), 57-60, via the Eichler-Selberg
     trace formula).  It is not the horizontal Sato-Tate conjecture (one curve,
@@ -1068,7 +1068,7 @@ def sato_tate_histogram(
                                  (2.45e-5, 1.84e-5, 1.39e-5) at p = 101 and
                                  (6.23e-8, 4.67e-8, 3.51e-8) at p = 2003,
     ``second_moment_exact``      ``sum a_p^2`` as an exact int, and
-    ``second_moment_closed_form``  ``(p-1)^2 (p+1)`` — an identity that holds
+    ``second_moment_closed_form``  ``(p-1)^2 (p+1)``: an identity that holds
                                  *exactly*, verified for every prime tested
                                  (so ``mean(x^2) = (p^2-1)/(4p^2)``, which is
                                  why the measured second moment is 1/4 to
@@ -1078,7 +1078,7 @@ def sato_tate_histogram(
                                  bijection of curves that negates ``a_p``, so
                                  the whole multiset is symmetric,
     ``max_abs_a_p``, ``hasse_violations`` (0),
-    ``distinct_traces``, ``hasse_interval_size`` — equal, because *every*
+    ``distinct_traces``, ``hasse_interval_size``: equal, because *every*
                                  integer t with ``|t| <= 2 sqrt p`` occurs as
                                  some curve's trace (Deuring 1941).
 
@@ -1177,8 +1177,8 @@ def gauss_trace(p: int) -> int:
 
     * if ``p = 3 mod 4`` the curve is supersingular and ``a_p = 0``;
     * if ``p = 1 mod 4`` write ``p = A^2 + B^2`` with ``A`` odd and ``B`` even
-      (unique up to signs), fix the sign of A by ``A + B = 1 mod 4`` — well
-      posed, since B even means ``B mod 4`` does not depend on B's sign — and
+      (unique up to signs), fix the sign of A by ``A + B = 1 mod 4``, well
+      posed, since B even means ``B mod 4`` does not depend on B's sign, and
       then ``a_p = 2A``.
 
     This is a completely independent route to ``a_p``: no curve, no Legendre

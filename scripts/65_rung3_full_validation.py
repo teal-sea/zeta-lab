@@ -1,4 +1,4 @@
-"""Every site of plan v2 through ball arithmetic — the sampled claim made whole.
+"""Every site of plan v2 through ball arithmetic, the sampled claim made whole.
 
 Commit 69b3f54 claims "every site kind passes at plan v2's existing geometry",
 resting on 15 of 110 big boxes, 8 of 104 grid sites, and the centre once.  This
@@ -12,7 +12,7 @@ Verdicts use each site kind's own condition from the plan:
 
 The grid verdict changed (hunt `hunts/r_908de5`).  It used to read
 `normLower >= pred_beta`, and `pred_beta` was drawn at the achievable bound, so
-that inequality was true at the line by construction in any arithmetic — 12 of
+that inequality was true at the line by construction in any arithmetic: 12 of
 104 sites cleared it by under 1 %.  With `beta := normLower` (the remedy of
 `docs/25` §4.3 defect 2, now the generator's default) the site inequality is
 true by construction and measures nothing, so what is reported is the

@@ -17,15 +17,15 @@ Representation: a ball is an exact Gaussian-rational centre `(cre, cim)` plus an
 exact non-negative rational radius `r`, denoting `{z : |z - c| <= r}`.
 Soundness rules, all outward:
 
-* add/neg  — centres exact, radii add.  Exact, no rounding.
-* mul      — centre `c1*c2` exact; radius `|c1|r2 + |c2|r1 + r1r2`, with every
+* add/neg, centres exact, radii add.  Exact, no rounding.
+* mul, centre `c1*c2` exact; radius `|c1|r2 + |c2|r1 + r1r2`, with every
              modulus replaced by a rational UPPER bound.
-* inv      — for `r < |c|`, `1/B` is contained in the ball about `1/c` (exact,
+* inv, for `r < |c|`, `1/B` is contained in the ball about `1/c` (exact,
              a Gaussian rational) of radius `r / (|c|(|c| - r))`, upper-bounded.
-* coarsen  — round the centre to `p` bits and ADD the displacement to the
+* coarsen, round the centre to `p` bits and ADD the displacement to the
              radius; round the radius up.  Keeps bit-length flat, as
              `Interval.coarsen` does for boxes.
-* normBound / normLower — `|c| + r` and `max(0, |c| - r)`, the second with a
+* normBound / normLower, `|c| + r` and `max(0, |c| - r)`, the second with a
              LOWER bound on `|c|`.  Both are tighter than the box forms, which
              carry the L1 norm `max|re| + max|im|` and, after `inflate r`, count
              the radius twice (`docs/25` §4.3 defect 1).
@@ -166,7 +166,7 @@ def smulQ(q, x: C) -> C:
 
 
 def normBound(x: C) -> F:
-    """`|c| + r` — no L1 slop, and the radius is counted once, not twice."""
+    """`|c| + r`, no L1 slop, and the radius is counted once, not twice."""
     return _absc_upper(x) + x.rad
 
 
@@ -211,7 +211,7 @@ logQ = _box.logQ
 
 def from_interval(iv) -> C:
     """A real interval as a ball on the real axis: centre the midpoint, radius
-    the half-width.  Exact — no enclosure is lost."""
+    the half-width.  Exact, no enclosure is lost."""
     mid = (iv.lo + iv.hi) / 2
     return C(mid, 0, (iv.hi - iv.lo) / 2)
 
@@ -219,14 +219,14 @@ def from_interval(iv) -> C:
 def from_box(relo, rehi, imlo, imhi) -> C:
     """The minimal ball around a rectangle.
 
-    For a degenerate rectangle — which every big box and grid site is, being a
-    segment of the frontier — this is exact in radius: the enclosing ball of a
+    For a degenerate rectangle, which every big box and grid site is, being a
+    segment of the frontier, this is exact in radius: the enclosing ball of a
     segment has radius half its length.
     """
     relo, rehi, imlo, imhi = F(relo), F(rehi), F(imlo), F(imhi)
     hre, him = (rehi - relo) / 2, (imhi - imlo) / 2
     centre = ((relo + rehi) / 2, (imlo + imhi) / 2)
-    # Degenerate in one direction — which every frontier site is — needs no
+    # Degenerate in one direction, which every frontier site is, needs no
     # square root, so the conversion is exact rather than rounded outward.
     if not hre:
         return C(*centre, him)

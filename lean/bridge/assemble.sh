@@ -24,7 +24,7 @@ PKG="$REPO_ROOT/lean/bridge"
 
 # The prebuilt dependency stores. Build artifacts are gitignored, so in a git
 # WORKTREE the local `.lake` directories do not exist and the stores live in
-# the primary checkout — find it through the common git dir rather than
+# the primary checkout, find it through the common git dir rather than
 # guessing a path, so this works from any worktree.
 find_store() {
   # $1 = repository-relative path of a package's `.lake/packages`
@@ -78,6 +78,6 @@ echo
 if [ $status -eq 0 ]; then
   echo "ASSEMBLES: every module in this package builds under $(cat lean-toolchain)"
 else
-  echo "DOES NOT ASSEMBLE (lake exit $status) — do not land Lean on top of this"
+  echo "DOES NOT ASSEMBLE (lake exit $status), do not land Lean on top of this"
 fi
 exit $status
