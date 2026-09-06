@@ -67,3 +67,14 @@ same L, M and N? Same seed constraints, same sizes, N in {10^4, 10^6, 10^8, 10^1
 proposals rechecked exactly. `COST_COMPARISON.md` is the write-up, `full_cost_results.json`
 the record, `tests/test_factorial_full_cost.py` pins it. A finite comparison of two LP
 objectives, not an asymptotic theorem and not an RH result. The pilot directory is untouched.
+
+## Direct minimization of B_N (comparison, 2026-09-06)
+
+`factorial_direct_bn/` is the third objective on the same 348 (L, M, N) cases: minimize
+the certificate value B_N itself, which is linear in the seed once L, M and N are fixed,
+and compare on B_N against both the pilot's leading-constant seed and the full-cost seed of
+`factorial_full_cost/`. Proposals are reconstructed as rationals and rechecked exactly; the
+pilot's seed is the fallback and a worse certificate is never accepted. `DIRECT_BN.md` is the
+write-up, `direct_bn_results.json` the record, `tests/test_factorial_direct_bn.py` pins it.
+`factorial_full_cost/` is unchanged. A finite comparison; not an asymptotic theorem and not an
+RH result.
