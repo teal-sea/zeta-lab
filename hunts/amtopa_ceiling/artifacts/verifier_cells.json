@@ -13,8 +13,17 @@
         {"shard": 4, "gaps": [1.95025, 1.0475, 1.96625, 1.03325, 1.02475, 1.02775], "lower": 0.0078943511635343987},
         {"shard": 5, "gaps": [1.033, 1.0395, 1.965, 1.041, 1.96425, 1.03775], "lower": 0.0078942963292513418}
       ],
-      "lp_after_adding": "0.007916857812, unchanged to ten digits from the round-1 value; the optimum is a flat face and the cells moved the point along it",
-      "next": "candidate_round2.amtopa, same target, new (a, b). The extension is deliberate: the file is in AMTOPA's candidate.json schema, whose acceptance key is the word zeta/rigor.py reserves, and tests/test_hunt_probe_discipline.py scans .json under hunts/ for it; the file is theirs in form, ours only in the point it names."
+      "lp_after_adding": "0.007916857812, unchanged to ten digits from the round-1 value; the point moved by 5e-9 in one pair weight and not at all in the pressures",
+      "next": "candidate_round2.amtopa, same target, the same point to 5e-9. The extension is deliberate: the file is in AMTOPA's candidate.json schema, whose acceptance key is the word zeta/rigor.py reserves, and tests/test_hunt_probe_discipline.py scans .json under hunts/ for it; the file is theirs in form, ours only in the point it names."
+    },
+    {
+      "round": 2,
+      "candidate": "candidate_round2.amtopa, target 19791/2500000",
+      "actions_run": 34024961426,
+      "verifier_commit": "b3b7784ed0089c3c2197d740aaae1a424d142e44",
+      "verdict": "identical to round 1: the same four shards, the same four cells, the same lower bounds to twelve digits",
+      "diagnosis": "The LP's own functional at the four cells (midpoint convention, (2k+1)/8000) is 0.0079175 to 0.0079185, ABOVE the target, and reproduces the reported float minimum 0.0079168578 at its location. The bound the verifier prints at a terminal cell is its plain corner bound (left edges of the gaps, W minimised over a span-wide table range), about 2.5e-5 loose. The bound that decides pruning is the tangent bound, value at the midpoint minus sum_c |dF/dg_c| / 8000; at these cells sum|grad| is 0.009 to 0.017, the slack 1e-6 to 2e-6, and the tangent bound 0.0079163 to 0.0079164, a hair under the target 19791/2500000 = 0.0079164. So the cells were never below the target in value; the target left a margin of 4.6e-7 and the grid costs 1e-6 to 2e-6 there. The leader's point certifies with a 4.6e-7 margin because its basin is flatter. Not a missed basin; a margin.",
+      "next": "candidate_round3.amtopa, the same point, target backed off to 19786/2500000 = 0.0079144, still 3.7e-6 above the leader's floor 0.0079107"
     }
   ]
 }

@@ -837,20 +837,35 @@ at that revision.
 | 6 | SHARD_VERIFIED | | |
 | 7 | SHARD_VERIFIED | | |
 
-Those four bounds sit `2.2e-5` below our target and below the leader's own floor
-`0.0079107` too, at width-zero cells, with the gate active (`convex` 14,135 to 134,789 on the
-refusing shards). That is not the tip's `2.70e-08` near-miss; it is the functional at our
-`(a, b)` genuinely reaching about `0.00789` at gap vectors of a different shape (two large
-gaps out of six) from the basin the minimiser reported (three large, `1.966, 1.047, 1.976,
-1.036, 1.035, 1.975`, value `0.00791686`). **Kill condition 2 fires: the minimiser missed a
-basin, and §1's `+3.96e-06` is withdrawn.** The LP's cut pool never contained these gap
-vectors, so `eps* <= LP value` was never wrong; the claimed floor was.
+**First reading, wrong, kept because it was written down.** Those four bounds sit `2.2e-5`
+below our target and below the leader's own floor too, so the first reading was that the
+functional at our `(a, b)` genuinely reaches `0.00789` at gap vectors of a different shape
+(two large gaps out of six) from the reported basin (three large), the minimiser missed a
+basin, and kill condition 2 fires. A cutting-plane round on that reading (the four cells
+added to the pool, LP re-solved, Actions run `34024961426`) returned a point `5e-9` from the
+first and the identical refusal to twelve digits, which is what forced the second look.
 
-What this leaves is the honest cutting-plane loop with their verifier as the separation
-oracle: add the four cells to the pool, re-solve, re-verify. The LP value after that is a new
-upper bound on what these two axes have left at their window and their `B`; if it falls below
-their `0.0079111`, AMTOPA are at the ceiling of those axes and §1's headline reverses.
-Recorded in `RUNS.md` when it lands.
+**What the verifier actually said.** The LP's own functional, evaluated at the four cells at
+their midpoints `(2k + 1)/8000`, is `0.0079175` to `0.0079185`: **above** the target, by
+`1e-6` to `2e-6`, and it reproduces the reported float minimum `0.0079168578` at its location
+exactly. The number the verifier prints at a terminal cell is its plain corner bound (each gap
+at its left edge, `W` minimised over a span-wide range of table cells), about `2.5e-5` loose
+and never the deciding quantity. What decides is the tangent bound, midpoint value minus
+`sum_c |dF/dg_c| / 8000`; at these cells `sum|grad|` is `0.009` to `0.017`, the slack `1e-6`
+to `2e-6`, and the tangent bound `0.0079163` to `0.0079164`, a hair under the target
+`19791/2500000 = 0.0079164`. The target left a margin of `4.6e-7` over the float minimum; at
+grid `1/4000` these cells cost `1e-6` to `2e-6`. **Not a missed basin; a margin.** The leader's
+point certifies with the same `4.6e-7` margin because its basin is flatter there. Their
+verifier is fail-closed at a terminal cell and prints the loose bound, which is what sent the
+first reading the wrong way. `artifacts/verifier_cells.json` carries both rounds and the
+arithmetic.
+
+**Round 3.** The same point, target backed off to `19786/2500000 = 0.0079144`, still `3.7e-6`
+above the leader's floor `0.0079107`, which by §1's exact assembly is about `+2.6e-6` on their
+headline if it certifies. Recorded below when it lands. If it is refused again at cells whose
+tangent bound clears the new target, the fallback is a positive-definiteness failure of the
+interval Hessian at those cells, which no target change fixes and which would be the next
+thing to read.
 
 ## 8. Knownness
 

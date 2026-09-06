@@ -1,0 +1,253 @@
+{
+  "description": "Pair-weight and position-pressure optimum of the AMTOPA exact-pressure polytope at their own 17-term window and their own total pressure B=93/23000. Weights come from the cutting-plane linear programme in hunts/amtopa_ceiling/epsstar.py; the window is unchanged from AMTOPA/zeta-exact-pressure.",
+  "status": "CONDITIONAL research-draft candidate; local floor is a float minimum until the six-dimensional interval verifier accepts the rational target; the analytic bridge is inherited and unreviewed",
+  "date": "2026-09-06",
+  "lineage": [
+    "Anthropic zeta simple-zero work",
+    "trmdy/zeta-simple-zeros-673137",
+    "sxuff/zeta-positioned-pressure",
+    "AMTOPA/zeta-exact-pressure commit 7253fdcab9366af45b8c8caf44e408c0af44a1a7",
+    "teal-sea/zeta-lab hunts/amtopa_ceiling polytope optimum"
+  ],
+  "points": 7,
+  "gaps_per_local_window": 6,
+  "window": {
+    "term_count": 17,
+    "denominator": 1000000000,
+    "numerators": [
+      1000000000,
+      12378982,
+      -12602495,
+      4164033,
+      5741405,
+      -1724025,
+      6219280,
+      -8047828,
+      6321519,
+      -5241981,
+      -892658,
+      560544,
+      -431207,
+      357969,
+      -310433,
+      100000,
+      -100000
+    ],
+    "frequencies": [
+      "sqrt(2)",
+      "2*pi",
+      "4*pi",
+      "6*pi",
+      "8*pi",
+      "10*pi",
+      "12*pi",
+      "14*pi",
+      "16*pi",
+      "18*pi",
+      "20*pi",
+      "22*pi",
+      "24*pi",
+      "26*pi",
+      "28*pi",
+      "30*pi",
+      "32*pi"
+    ],
+    "projection_h_floor": {
+      "numerator": 336094079,
+      "denominator": 500000000
+    },
+    "h_floor_interval_verified": true,
+    "note": "window identical to AMTOPA's; their interval H certificate carries over"
+  },
+  "local_search": {
+    "method": "cutting-plane linear programme over the pair-weight polytope and the position-pressure simplex at fixed total pressure; multistart L-BFGS-B cut generation",
+    "float_minimum_observed": "0.00791685780580119",
+    "float_minimum_location": [
+      "1.965777051457",
+      "1.047099186981",
+      "1.976084021201",
+      "1.035958835081",
+      "1.035133332138",
+      "1.975106894932"
+    ],
+    "candidate_target_for_certification": {
+      "numerator": 19786,
+      "denominator": 2500000
+    },
+    "verified": false,
+    "note": "verified=false until the interval verifier accepts this target | round 3, 2026-09-06: same (a, b) as round 2, target backed off from 19791/2500000 to 19786/2500000 (0.0079144) because at grid 1/4000 the tangent bound at the cells refused in rounds 1 and 2 is 0.0079163 to 0.0079164, a hair under the old target; the tangent slack there is 1e-6 to 2e-6, larger than the 4.6e-7 margin the old target left."
+  },
+  "pair_weights": {
+    "denominator": 1000000000,
+    "span_capacity_numerator": 2000000000,
+    "entries": [
+      [
+        0,
+        1,
+        247044944
+      ],
+      [
+        0,
+        2,
+        0
+      ],
+      [
+        0,
+        3,
+        0
+      ],
+      [
+        0,
+        4,
+        753184689
+      ],
+      [
+        0,
+        5,
+        2000000000
+      ],
+      [
+        0,
+        6,
+        2000000000
+      ],
+      [
+        1,
+        2,
+        397252478
+      ],
+      [
+        1,
+        3,
+        553566718
+      ],
+      [
+        1,
+        4,
+        1239903965
+      ],
+      [
+        1,
+        5,
+        0
+      ],
+      [
+        1,
+        6,
+        0
+      ],
+      [
+        2,
+        3,
+        460061462
+      ],
+      [
+        2,
+        4,
+        311141047
+      ],
+      [
+        2,
+        5,
+        350289955
+      ],
+      [
+        2,
+        6,
+        1246815311
+      ],
+      [
+        3,
+        4,
+        404593372
+      ],
+      [
+        3,
+        5,
+        681898129
+      ],
+      [
+        3,
+        6,
+        409806080
+      ],
+      [
+        4,
+        5,
+        301906707
+      ],
+      [
+        4,
+        6,
+        453394106
+      ],
+      [
+        5,
+        6,
+        189141037
+      ]
+    ]
+  },
+  "position_pressure": {
+    "denominator": 46000000000,
+    "numerators": [
+      24825554,
+      31140118,
+      38912190,
+      42714421,
+      31058675,
+      17349042
+    ],
+    "total": {
+      "numerator": 93,
+      "denominator": 23000
+    }
+  },
+  "final_projection": {
+    "pressure_shift_factor": "m-6",
+    "block_length": 145,
+    "projection_inputs": {
+      "h_floor": {
+        "numerator": 336094079,
+        "denominator": 500000000
+      },
+      "epsilon_target": {
+        "numerator": 19791,
+        "denominator": 2500000
+      },
+      "pressure_total": {
+        "numerator": 93,
+        "denominator": 23000
+      }
+    },
+    "projected_safe_decimal": {
+      "numerator": 6734201550,
+      "denominator": 10000000000
+    },
+    "computed_bound_from_conservative_inputs": "0.6734201550790580964457598685450152133015925150281714376259484726828602",
+    "certified": false
+  },
+  "archive": {
+    "previous_certified_record": "archive/2026-08-12-certified-6734153139/",
+    "previous_source_commit": "7253fdcab9366af45b8c8caf44e408c0af44a1a7"
+  },
+  "provenance": {
+    "positioned_pressure_predecessor": {
+      "repository": "sxuff/zeta-positioned-pressure",
+      "commit": "6fd6c5eee6332a379a10cda4276c82e5b2bc3cd4",
+      "files": {
+        "table_builder": {
+          "path": "src/build_tables.py",
+          "blob_sha": "fd600325f8f0a1054827613899b132ca2fcf5332"
+        },
+        "verifier": {
+          "path": "src/verify_positioned.cpp",
+          "blob_sha": "63ff4ae342c77ec44eaea56c5f81a41d03e8a1f3"
+        }
+      },
+      "license_status": "no license metadata detected; referenced, not vendored"
+    },
+    "window": "unchanged from AMTOPA/zeta-exact-pressure commit 7253fdcab9366af45b8c8caf44e408c0af44a1a7",
+    "weights": "cutting-plane linear programme over the span-capacity polytope and the fixed-total pressure simplex, teal-sea/zeta-lab hunts/amtopa_ceiling/epsstar.py"
+  }
+}

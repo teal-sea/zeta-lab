@@ -711,12 +711,15 @@ ten minutes), and any upper bound on $g(k)$ at all. Nothing bears on RH
 
 ### Hunt #90: the leader's certificate does not replay at its own HEAD (`amtopa_ceiling/`)
 
-**Status: the `+3.96e-06` candidate is KILLED (2026-09-06, `RESULTS.md` section 7.7): at
-`b3b7784`, the verifier revision their own `candidate.json` names, the leader's headline is
-accepted on 8 of 8 shards with the gate alive and ours is refused at terminal cells on 4 of 8,
-rigorous lower bounds about `0.00789`; the minimiser missed a basin. Their number stands at
-that revision; the tip's only defect is the gate. Window axis still open.** Earlier status:
-settled on the measurable axes; window axis open; acceptance blocked at the tip. Takes the
+**Status (2026-09-06, `RESULTS.md` section 7.7): at `b3b7784`, the verifier revision their
+own `candidate.json` names, the leader's headline is accepted on 8 of 8 shards with the gate
+alive; their number stands and the tip's only defect is the gate. The `+3.96e-06` candidate
+is refused on 4 of 8 at terminal cells where the functional is above the target but the
+tangent bound at grid `1/4000` loses `1e-6` to `2e-6` against a `4.6e-7` margin: a margin,
+not a missed basin (a first reading said basin and is kept). Round 3 at target
+`19786/2500000`, `+2.6e-6` on the headline if it certifies, is running. Window axis still
+open.** Earlier status: settled on the measurable axes; window axis open; acceptance blocked
+at the tip. Takes the
 `ainta_seven_point` playbook to `AMTOPA/zeta-exact-pressure`, the leading public
 claim per Hunt #89, pinned at commit
 `7253fdcab9366af45b8c8caf44e408c0af44a1a7`.
