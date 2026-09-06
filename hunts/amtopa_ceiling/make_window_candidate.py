@@ -63,6 +63,9 @@ PAIR_DEN = 1_000_000_000
 SPAN_CAPACITY_NUM = 2_000_000_000
 PRESSURE_DEN = 1_000_000_000_000
 TARGET_DEN = 2_500_000
+POOL_DESCENTS = 200
+# gap values every local minimum and every refused verifier cell in this hunt has clustered at
+GAP_CLUSTERS = np.array([1.035, 1.045, 1.955, 1.975, 2.905, 2.925, 3.86, 3.90])
 AMTOPA_BOUND = 0.6734164909714992949
 _THEIR_KEY = "certi" + "fied"
 
@@ -138,11 +141,22 @@ def strong_floor(c, a, b, w, k0, seeds=400_000, descents=300, oracle_seeds=(17, 
     per_seed = []
     for sd in oracle_seeds:
         rng = np.random.default_rng(sd)
+        # The cluster mixture is the part that matters, not the width of the box. A uniform
+        # sample cannot put a point at the bottom of a narrow deep basin often enough for the
+        # descent shortlist to contain one: at the basin that refused this hunt's candidates,
+        # uniform samples near it rank about 440th of 90,729 and about 490th of 500,729, while
+        # the shortlists are 48 and 300 (RESULTS.md section 7.8). Drawing each gap from the
+        # observed clusters puts points AT the basin, where the value is low enough to be
+        # shortlisted.
+        pick = rng.integers(0, len(GAP_CLUSTERS), size=(seeds, Q))
         S = np.vstack([
-            rng.uniform(0.9, 2.3, size=(seeds, Q)),
+            GAP_CLUSTERS[pick] + rng.uniform(-0.06, 0.06, size=(seeds, Q)),
+            rng.uniform(0.9, 4.2, size=(seeds, Q)),
+            rng.uniform(0.9, 2.3, size=(seeds // 2, Q)),
             rng.uniform(0.0, min(hi, 6.0), size=(seeds // 4, Q)),
             np.array(np.meshgrid(*[(1.0, 2.0, 3.0)] * Q)).reshape(Q, -1).T,
         ])
+        S = np.clip(S, 0.0, hi)
         vals = S @ b + W_matrix(S, c, w, k0) @ a
         this = (np.inf, None)
         for idx in np.argsort(vals)[:descents]:
@@ -159,17 +173,23 @@ def strong_floor(c, a, b, w, k0, seeds=400_000, descents=300, oracle_seeds=(17, 
     print(f'  seed spread {spread:.3e}')
     if pool is not None and len(pool):
         pv = pool @ b + W_matrix(pool, c, w, k0) @ a
-        k = int(np.argmin(pv))
-        print(f'  cut pool of {len(pool)}: min {float(pv[k]):.12f}')
-        if float(pv[k]) < best[0]:
-            # descend from the pool's own worst point: the cut is a sample, not a minimum
-            r = minimize(lambda g: _fun_jac(g, a, b, c, w, k0), pool[k], jac=True,
+        # Descend from the pool's lowest points ALWAYS, not only when the pool minimum already
+        # beats the multistart. A cut is a sample, not a minimum, so a pool point whose value
+        # sits above the multistart's floor can still be the mouth of a deeper basin, and that
+        # is precisely the case the whole of RESULTS.md section 7.8 is about: at the basin that
+        # broke every candidate here, nearby samples rank about 440th by value. Guarding this
+        # descent on the pool minimum being lower would skip exactly the informative case.
+        order = np.argsort(pv)[:POOL_DESCENTS]
+        print(f'  cut pool of {len(pool)}: min {float(pv[order[0]]):.12f}; '
+              f'descending from its {len(order)} lowest')
+        for idx in order:
+            r = minimize(lambda g: _fun_jac(g, a, b, c, w, k0), pool[idx], jac=True,
                          method='L-BFGS-B', bounds=bounds,
                          options={'maxiter': 5000, 'ftol': 1e-18, 'gtol': 1e-14})
-            cand = (min(float(r.fun), float(pv[k])), r.x.copy() if r.fun <= pv[k] else pool[k])
-            print(f'  pool point descends to {cand[0]:.12f}')
-            if cand[0] < best[0]:
-                best = cand
+            v = min(float(r.fun), float(pv[idx]))
+            if v < best[0]:
+                best = (v, r.x.copy() if r.fun <= pv[idx] else pool[idx])
+        print(f'  after the pool descents: {best[0]:.12f}')
     return best, spread
 
 

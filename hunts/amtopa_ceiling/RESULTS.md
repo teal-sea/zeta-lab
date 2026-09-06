@@ -453,6 +453,15 @@ below `H`. That is a real feature of their formula, not a guard in ours.
 
 ### 4.3 The pair weights and the pressure shape: exactly solvable, and `+5.57e-06`
 
+> **WITHDRAWN 2026-09-06.** This whole section is the withdrawn candidate stated in detail.
+> Its floor is `harvest`'s output; the true floor at those weights is `0.0078946642` (§7.8),
+> and the assembled bound is `1.03e-05` **below** the record, not `+5.57e-06` above it. "Exactly
+> solvable" is also wrong for a reason worth keeping: the maximisation over `(a, b)` is concave
+> and the LP does solve *that* exactly, but only against the cuts its float oracle supplies,
+> and supplying the cuts is the part that failed. `eps*` on these axes is bracketed in §7.7,
+> corrected there, and the LP re-solved with an oracle that sees the basin finds nothing better
+> than AMTOPA's own point (§7.8).
+
 `eps(a, b) = min_{g >= 0} F` is a minimum of functions **linear** in `a` and in
 `b`, hence concave; the admissible set is a polytope; so
 
@@ -696,6 +705,15 @@ checkout with no local state:
                         and 25 terms; max |M[0,1:]| = 5.128e-17
 
 ### 7.2 The `eps*` bracket: CONVERGED, and it corrected the authoring host
+
+> **WITHDRAWN 2026-09-06.** "CONVERGED" here means the cutting plane stopped separating, which
+> is what its float oracle could see and not what was true. The bracket
+> `[0.007916857810, 0.007916857812]` is two endpoints of the same over-report: the floor at
+> those weights is `0.0078946642` (§7.8), `2.2e-05` below the bracket, and the candidate the
+> section reports is withdrawn. The corrected bracket for `eps*` on these axes is in §7.7 and
+> the answer is in §7.8. What survives is the section's other half, which is real: a CI run
+> from a smaller cut pool corrected the authoring host, and that is the same lesson one level
+> down.
 
 Starting from the shipped 2,200-cut pool, 40 rounds, 27 s:
 
@@ -946,7 +964,10 @@ so the method reproduces their floor and the gap is real.
 had the right conclusion for the wrong reason (the round-1 cells were a margin, as the second
 reading said), and the second reading had the wrong conclusion: the oracle that generated the
 LP's cuts (`harvest`: 90,000 seeds on `[0, 6]^6` and `[0.6, 3.2]^6`, 48 descents, `maxiter`
-300) never found the basin at `(1.04, 1.96, 1.04, 1.04, 1.96, 1.04)`, which is exactly the
+300) never found the basin at `(1.04, 1.96, 1.04, 1.04, 1.96, 1.04)` (**mechanism corrected in
+§7.8**: its box did cover the region and its samples ranked around 440th of 90,729 against a
+shortlist of 48, so the fault is the shortlist and the shape of the basin, not the box), which
+is exactly the
 failure the stopping-rule comment in `epsstar.py` warned of: *a float multistart is a fallible
 oracle, and a later run with a better oracle can only push `upper` down*. Every number in §1
 that rests on `0.0079168578` rests on that oracle. No target change rescues a point whose
@@ -990,6 +1011,19 @@ patience rule never fired. It is a bound that stands. Against the leader's floor
 `eps*` on the pair-weight and position-pressure axes at their window lies in
 
     [0.0079111052, 0.0079111939]        MEASURED (float LP and float descents)
+
+**Corrected 2026-09-06, §7.8.** The lower endpoint is a float descent at the leader's own
+`(a, b)`. It is therefore an over-estimate of `min_g F` there, and not a valid lower bound on
+`eps*` on its own: the same asymmetry this section exists to explain, repeated on the endpoint
+nobody checked. The rigorous lower endpoint is the target their branch-and-bound accepts,
+`0.0079107`, so the honest bracket is
+
+    eps* in [0.0079107, 0.0079111939]   lower end VERIFIED by their verifier,
+                                        upper end MEASURED; width 4.9e-07
+
+with `0.0079111052` sitting inside it as the float value, which the wide-box oracle of §7.8
+later reproduced to `2e-13` and found no lower basin at their weights. The `8.9e-8` below is
+the width of the float bracket, not of the rigorous one.
 
 Headroom at most `8.9e-8` in `eps`, which by §1's assembly ratio (`+3.96e-6` on the headline
 per `+5.75e-6` in `eps`) is under `7e-8` on the headline. §1's `+5.75e-6` of headroom was the
@@ -1105,13 +1139,32 @@ last one, and all three over-reported the same quantity in the same direction:
 | §7.7's strong oracle, 500,000 seeds on `[0.9,2.3]^6`, 300 descents, `gtol 1e-14`, 3 seeds, an 18,705-cut pool | `0.0078959857` | `+1.32e-06` |
 | the wide oracle, cluster mixture plus `[0.9,4.2]^6` | `0.0078946642` | (the value the verifier's cells confirm) |
 
-The failure was never the descent, the tolerance or the number of starts. It was the seeding
-box, every time, and it was inherited every time because each new oracle was built by looking
-at where the previous one's minima were. **AMTOPA's interval branch-and-bound is the only
-instrument in this hunt that searches the whole box, and it caught all three.** That is the
-methodological result, and it is worth more than the arithmetic: on this family, a float
-minimum is evidence of nothing until their verifier has seen it, and the right use of a
-refusal is to read the cell it names rather than to move the target.
+**And the seeding box is not the mechanism, though the obvious reading says it is.** Measured
+at the withdrawn pair-weight point, against the basin the verifier found at
+`(1.04312, 1.05197, 2.91610, 1.04894, 1.97534, 1.04523)`:
+
+| oracle | samples within `0.25` of that basin | best rank by value | shortlist descended |
+|---|---|---|---|
+| `harvest`, 90,729 samples | 3 (seeds 0, 1, 2 agree) | 438, 438, 441 | best **48** |
+| the strong oracle, 500,729 samples | 1 | 484, 485, 504 | best **300** |
+
+Every coordinate of that basin lies inside `[0.6, 3.2]`, so **`harvest`'s box covered it**. It
+was sampled, three times, and the samples ranked around 440th. The shortlist stops at 48. The
+strong oracle drew ten times as many points and its samples ranked *worse*, around 490th,
+against a shortlist of 300. Three independent seeds give the same ranks, so this is a property
+of the landscape and not luck: **the basin is narrow and deep, so a random point near it has an
+unremarkable value while the minimum inside it is very low.** A coarse-sample-then-descend
+oracle finds wide shallow basins and misses narrow deep ones, and more samples do not fix it,
+because the rank does not improve with the sample count. `wide_floor.py` works because its
+cluster mixture puts points at the basin's centre, where the value is actually low, not
+because its box is wider.
+
+So the lesson is not "widen the box". It is that this class of oracle has a blind spot that no
+amount of sampling closes, and **AMTOPA's interval branch-and-bound is the only instrument in
+this hunt that does not have it, because it does not sample at all.** It caught all three
+oracles. That is the methodological result, and it is worth more than the arithmetic: on this
+family a float minimum is evidence of nothing until their verifier has seen it, and the right
+use of a refusal is to read the cell it names rather than to move the target.
 
 Which also explains the ceiling. AMTOPA's configuration is the one at which the low basin at
 a three-unit gap does not open; every direction the LP moves in buys floor among the near-`1`
