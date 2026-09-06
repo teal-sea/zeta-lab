@@ -55,11 +55,15 @@ ladder does not run as shipped. Full account, both directions, in §3.0.
 > and the functional at the candidate's own weights bottoms at `0.0078960`,
 > `1.5e-5` under the leader's floor. Found by running the candidate through the
 > leader's own verifier three times and reading the cells it refused. The
-> sentence is kept as written because it was written; the correction, the
-> arithmetic and the re-solve with a stronger oracle are in §7.7. Everything in
-> this section from here to §1's second finding is what the withdrawn floor
-> implied; the second finding (the two axes at their ceiling) does not rest on
-> it.
+> sentence is kept as written because it was written. **Scope, corrected 2026-09-06:** an
+> earlier version of this notice exempted "the second finding (the two axes at their
+> ceiling)". Only half of that exemption holds. The window-constant claim is a closed form and
+> is untouched (§4.1, VERIFIED). The total-pressure argmax is not: its curve is built from the
+> same oracle's floors (§4.2, qualified there). The correction, the
+> arithmetic and the re-solve with a stronger oracle are in §7.7; the wide-box re-measurement
+> that puts this candidate's assembled bound `1.03e-05` **below** the record, and closes the
+> window axis with it, is in §7.8. Everything in this section from here to §1's second finding
+> is what the withdrawn floor implied.
 
 **Their number is not at their own family's ceiling, and the distance is
 `+3.96e-06`.** Holding their window, their total pressure and their assembly
@@ -124,7 +128,11 @@ wrong, because the cutting plane's stopping rule compared the LP against a
 quantity that equals it by construction. A CI job starting from a *smaller* cut
 pool found fresh cuts and drove the bound down. The rule is fixed, the reason is
 written at the test in `epsstar.py`, and the failure is recorded in `RUNS.md`
-run 10b. Every number in this file is post-fix.
+run 10b. **"Every number in this file is post-fix" was the sentence that followed, and it is
+false**: §4.2's `B/B0 = 1.00` row still carries the pre-fix `0.0079193654`. Corrected in place
+there on 2026-09-06. The wider version of the same mistake is §7.8: three oracles in a row
+were declared fixed and each was still biased, so a warranty of that shape does not belong in
+this file at all.
 
 ---
 
@@ -145,7 +153,7 @@ their `proof.md` in code that imports nothing of theirs.
 | span capacities, all six | exactly `2` | exactly `2` | **VERIFIED** |
 | total pressure | `93/23000` | `93/23000` | **VERIFIED** |
 | observed float minimum of `F` | `0.007911105155226424` | `0.007911105155226431` at their published basin | **VERIFIED** |
-| their basin | `(1.978079145369, 1.044055102239, 1.973013931233, 1.045981098706, 1.974452906922, 1.042299648208)` | independent multistart returns the same basin to 8 decimals | **VERIFIED** |
+| their basin | `(1.978079145369, 1.044055102239, 1.973013931233, 1.045981098706, 1.974452906922, 1.042299648208)` | independent multistart returns the same basin to 8 decimals; **re-checked 2026-09-06** with the wide-box oracle of §7.8, which finds no lower basin anywhere at their weights and returns their floor to `2e-13` | **VERIFIED** |
 | the 3,768,186-node branch-and-bound behind `eps = 0.0079107` | `VERIFIED=true` | not replayed on the authoring host; §7 | **REPORTED** |
 
 **Their headline reproduces.** No discrepancy was found in any published number.
@@ -396,8 +404,22 @@ likes still has to survive the pool being refreshed at its own basins.
 
 ### 4.2 The pressure axis: saturated, and measurably so
 
-The saturation curve, with the pair weights and the pressure *shape* solved to
-optimality at each total (run 10 of `RUNS.md`):
+> **QUALIFIED 2026-09-06.** Every `eps*` in the table below is `eps_star`'s achieved floor,
+> which is `harvest`'s output, and §7.7 and §7.8 show that oracle over-reports by `2e-05` to
+> `8e-05` at points away from AMTOPA's own. The `B/B0 = 1.00` row is also the pre-fix value
+> `0.0079193654`, from before the stopping rule of run 10b, which contradicts §1's "every
+> number in this file is post-fix"; the post-fix value at that row is `0.0079111052`. So the
+> curve's *heights* are unreliable and its `1.00` row is stale. What the section claims is the
+> *location* of the argmax, and that is a comparison between rows computed the same way,
+> which the errors do not obviously reorder; but "obviously" is not a measurement, and this
+> curve has not been recomputed with the oracle of `wide_floor.py`. That recomputation, one LP
+> re-solve per row, is the open item. Until then read §4.2 as MEASURED with a known-biased
+> instrument, not as the computable half of §1's second finding.
+
+The saturation curve, with the pair weights and the pressure *shape* solved at each total by
+the cutting plane (run 10 of `RUNS.md`). "Solved to optimality" is how this line read until
+2026-09-06 and it was wrong: the cutting plane terminates when its float oracle stops
+separating, which is not the same thing, and §7.8 is what that difference cost.
 
 | `B/B0` | `eps*` | assembled bound | `m` |
 |---|---|---|---|
@@ -631,10 +653,17 @@ constant on this ladder is conditional on.
   plan that has been checked against the Lean.
 - **The floor is a float minimum until their verifier says otherwise.** This is
   the one step their C++ exists to perform, and §7 records what it said.
-- **The LP upper bounds are the rigorous half.** Every cut is a real gap vector,
-  so `eps* <= LP value` holds whatever the minimiser does. The claims that
-  AMTOPA's `B` is at the argmax and that the window constant cannot be raised do
-  not depend on any float minimum.
+- **The LP upper bounds are the rigorous half, and only that half.** Every cut is a real gap
+  vector, so `eps* <= LP value` holds whatever the minimiser does, and adding cuts can only
+  lower it. That is what carries §7.7's "headroom at most `8.9e-8`", and it survives §7.8
+  untouched. The sentence that followed here until 2026-09-06 did not: it said the `B` argmax
+  and the window-constant claim "do not depend on any float minimum". The window-constant
+  claim does not, and is VERIFIED by a closed form (§4.1). **The `B` argmax does.** The
+  saturation curve of §4.2 is built from `eps_star`'s achieved floors, which are `harvest`'s
+  output, and the shadow price `d(eps*)/dB = 1.509447638` behind the break-even is a dual of
+  an LP whose cut set that same oracle generated. The argmax is a comparison between rows
+  computed the same way, so it is more robust than any row of it; robust is not rigorous, and
+  §4.2 now says so.
 - **Symmetry.** The optimum found here is not palindromic, while every published
   candidate on this ladder is. Nothing in their checker, their verifier or the
   summation argument requires it, each gap appears in at most six translates
