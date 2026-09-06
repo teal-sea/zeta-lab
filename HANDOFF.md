@@ -18,23 +18,23 @@ that clears one deletes the line and says so in the log. This section exists bec
 #110's finding, seven times the public race's total progress, sat only in
 `hunts/README.md` for four days and every session that read this file walked past it.
 
-- **An inertia or isolation argument for a kernel that is not a Gram matrix, signed only
-  on alpha in (1, 1.5].** Worth +0.005 to +0.009; the public race has moved 9.2e-4 since
-  Theorem D, and one eighth of this takes the record from AMTOPA's 0.6734165. Found by
-  hunt #110 `outband_intake`, 2026-09-01, measured grade. Continued as hunt #111
-  `outband_certificate`, opened 2026-09-05, worked as a node board from its `board.json`.
-  Nobody touched it in between. **Sharpened 2026-09-06** (`hunts/outband_certificate/RESULTS.md`):
-  the certificate the information supports is pointwise nonnegative in x-space with a signed
-  transform; the square structure is needed only for off-line zeros, so the missing piece is a
-  bound on the off-line-zero term of a signed kernel's pair sum, zero-density estimates being the
-  unconditional input; a strip of width 0.05 past the band is worth about the record gap but is
-  inside the ladder's method error, so the argument must be built for the whole strip (1, 1.5].
-  **Second pass, same day:** the obstruction is now a dichotomy with both halves proved
-  (`RESULTS.md` section 5): a real even spectral factor can never make the transform
-  nonpositive on the strip (edge lemma, Laplace and Titchmarsh), and a factor that can is odd
-  or complex and is never a Gram kernel. One candidate (difference of squares in the inertia
-  inequality) was priced and killed by that lemma. What is left to build is an inertia-type
-  argument around a non-Gram on-line block, or a proof that none exists.
+(no open walls)
+
+Closed:
+
+- **2026-09-06, hunt #111 `outband_certificate`, closed as a ceiling.** The wall hunt #110
+  named on 2026-09-01 (an inertia argument for a non-Gram kernel, "worth +0.005 to +0.009")
+  is not a missing argument. Every unconditional certificate takes its positivity from Weil's
+  Hermitian form; that makes the on-line block a definite Gram matrix, its kernel
+  positive-definite, its transform nonnegative, and the out-of-band positivity worth exactly
+  zero to it. What #110's LP priced is the RH-conditional pointwise class, which is why its
+  range contains Chirre, Goncalves and de Laat's conditional `0.6792`. Proved: the edge lemma
+  (a real even factor's autocorrelation is positive just inside its support edge) and its
+  failure for odd factors, which together are the obstruction as a dichotomy. Read, not
+  proved: the structure of the paper's compression. The two inputs that would reopen it, an
+  unconditional in-band evaluation of the ordinate pair correlation or an unconditional
+  out-of-band upper bound on the form factor, are each larger results than the record.
+  `hunts/outband_certificate/RESULTS.md` section 8.
 
 ---
 
