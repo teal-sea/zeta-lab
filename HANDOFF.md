@@ -45,6 +45,13 @@ what blocks it. A hunt that produces one adds its line; a session that certifies
 moves the line. Opened because hunt #90's two candidates sat in `hunts/README.md` alone from
 2026-08-24, the same way hunt #110's finding did.
 
+**Nothing on this list is above the record any more.** Both of hunt #90's entries were
+withdrawn on 2026-09-06, both because a float minimiser over-reported the floor and AMTOPA's
+own interval verifier caught it. The standing lesson, which cost three oracles and eight CI
+runs to learn: on this family a float minimum is evidence of nothing until their
+branch-and-bound has seen it, and every oracle written here inherited its seeding box from
+where the previous one's minima were. Read the cell a refusal names; do not move the target.
+
 - **WITHDRAWN 2026-09-06: `0.6734201550790580964…`, `+3.96e-6` over the record**, hunt #90
   `amtopa_ceiling`, 2026-08-24. Three rounds through the leader's own verifier at `b3b7784`,
   the revision their `candidate.json` names (Actions runs `34024309937`, `34024961426`,
@@ -59,13 +66,17 @@ moves the line. Opened because hunt #90's two candidates sat in `hunts/README.md
   at most `8.9e-8` in `eps`, under `7e-8` on the headline. AMTOPA are at the ceiling of four
   of their five axes; the window axis is the one left. `hunts/amtopa_ceiling/RESULTS.md`
   section 7.7, cells in `artifacts/verifier_cells.json`.
-- **`0.6734536…`, `+3.7e-5`, direction only**, same hunt: five differential-evolution seeds
-  on the window axis, floors early-stopped, "direction, not magnitude". Softer still since
-  2026-09-06: those floors came from the same cut oracle that missed a basin by `2.1e-5` in
-  the withdrawn entry above, so the magnitudes are over-estimates twice over and even the
-  direction (lower `H`, lower `B`) is unmeasured until each window is re-solved with the
-  stronger oracle in `hunts/amtopa_ceiling/RESULTS.md` section 7.7. What would move it: that
-  re-solve, then the leader's verifier.
+- **WITHDRAWN 2026-09-06: `0.6734536…`, `+3.7e-5`, direction only**, same hunt: five
+  differential-evolution seeds on the window axis. All five windows re-priced. Two candidates
+  built at the best of them, in AMTOPA's schema at a window that is not theirs, and put
+  through their verifier (Actions runs `34030214675`, `34030138950`): 6 of 8 shards accepted,
+  refused on 2 and 4 at cells with **one gap near `2.91`**, a region no float search in this
+  hunt was seeding. Descending from those cells drops the functional `6.4e-5` below the
+  claimed floor. Re-measured with that region seeded, all five windows land **below** the
+  record, by `1.8e-5` to `3.7e-5`. Control: the same oracle at AMTOPA's own window and weights
+  returns their floor `0.0079111052` unchanged to `2e-13`, at their published basin, with no
+  such basin present. Five axes, all at the ceiling.
+  `hunts/amtopa_ceiling/RESULTS.md` section 7.8.
 - **`0.6728604`, `+1.3e-5` over this lab's own four-point `0.6728470`, not over the record**,
   `four_point_pressure`, 2026-09-05, complete Lean check canceled. The lab's n-point family
   tops out at `0.6730296`, below the record, so this family cannot take it.

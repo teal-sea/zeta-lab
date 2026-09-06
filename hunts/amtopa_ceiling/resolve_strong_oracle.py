@@ -16,6 +16,15 @@ monotone and an upper bound on eps* at every round, because every cut is a real 
 
 Float throughout. This estimates eps*; it proves nothing.
 
+SUPERSEDED, 2026-09-06, later the same day. This oracle's seeding box is [0.9, 2.3]^6, chosen
+because every minimum anyone had seen had all six gaps there. AMTOPA's branch-and-bound then
+refused the window candidates at cells with one gap near 2.91, and descending from those cells
+drops the functional 6.4e-5 below what this oracle reports. The box was the bias, exactly as it
+was for harvest, and it was inherited the same way: by looking at where the previous oracle's
+minima were. Use wide_floor.py's seeding. What survives from this file is its LP arm: the LP
+VALUE is an upper bound on eps* whatever the oracle does, so RESULTS.md section 7.7's
+"headroom at most 8.9e-8" still stands; the achieved floors it reports do not.
+
     python resolve_strong_oracle.py [rounds]        # from this directory
 """
 import json, sys, time

@@ -38,7 +38,13 @@ never the reverse, so this is not evidence their number is wrong, it is evidence
 that the one runnable artifact carrying the top claim on a fifteen-claim public
 ladder does not run as shipped. Full account, both directions, in §3.0.
 
-The same defect blocks *our* candidate at the tip too, by `2.70e-08`. §7.6.
+> **CORRECTED 2026-09-06.** The sentence that stood here said *"the same defect blocks our
+> candidate at the tip too, by `2.70e-08`"*. The `2.70e-08` was really printed, but it is the
+> verifier's plain corner bound, about `2e-05` loose, and the causal claim is false: at
+> `b3b7784`, with their gate demonstrably alive, our candidate is refused on 4 of 8 shards
+> anyway (§7.7). It was not blocked by their defect. Its target sat above the true floor,
+> because the float oracle behind it over-reported. Their number replays; ours never held.
+> §7.7 and §7.8.
 
 ---
 
@@ -93,18 +99,24 @@ ceiling can be computed rather than searched, AMTOPA are *at* it:
   orthogonality that holds if and only if the fundamental is `sqrt(2)`.
   VERIFIED.
 
-**And one axis is not at its ceiling at all.** The window's *sixteen coefficients*
-are not the window's *constant*: `H` cannot rise, but the coefficients also shape
-the kernel, and a search over them (§7.5) walks away from AMTOPA's window on
-three independent seeds, every one toward lower `H` and lower `B`, reporting
-gains near `+3.5e-05`, an order of magnitude more than the pair weights are
-worth. Those figures rest on a deliberately cheap inner solve and are direction,
-not magnitude; but the direction is unambiguous and it is the live door.
+> **WITHDRAWN 2026-09-06, §7.8.** The paragraph that stood here said the window's sixteen
+> coefficients were "the live door", worth gains near `+3.5e-05`. All five windows the sweep
+> produced were re-priced with an oracle that seeds the region AMTOPA's verifier pointed at,
+> and every one of them lands **below** their number, by `1.8e-05` to `3.7e-05`. Every one of
+> those windows opens a low basin at a gap near `2.91` that no float search in this hunt was
+> sampling; AMTOPA's own window does not. The door is shut.
 
-So the room left in this construction is at least `3.96e-06` and plausibly ten
-times that, while the room left under the information class it lives in is
-`0.0084`. **The binding object is not the information; it is the construction.**
-§5 names the doors.
+**And one axis looked open: the window's sixteen coefficients.** `H` cannot rise, but the
+coefficients also shape the kernel, and a search over them (§7.5) walked away from AMTOPA's
+window on five independent seeds, every one toward lower `H` and lower `B`, reporting gains
+near `+3.5e-05`. Those figures rested on a deliberately cheap inner solve. Re-priced properly
+they are negative (§7.8), and the note in §7.5 that they were "direction, not magnitude" was
+the right caveat attached to the wrong sign.
+
+So the room left in this construction is **none that this hunt can find**, on any of the five
+axes, while the room left under the information class it lives in is `0.0084`. **The binding
+object is not the information; it is the construction, and the construction is at its own
+ceiling.** §5 named the doors and §7.8 closes the last one.
 
 One methodological note belongs in the first section rather than buried: the
 first value this hunt computed for that headroom was `+5.57e-06`, and it was
@@ -229,9 +241,13 @@ headline. For a claim whose entire trust rests on one runnable artifact, at the
 top of a fifteen-claim public ladder, on a repository asking for independent
 reproduction, that is the finding worth reporting.
 
-**It bites our own candidate identically** (§7.6): at the tip, our target
-`19791/2500000` also hits a terminal cell, short by `2.70e-08`. Both candidates
-need `b3b7784`'s verifier to be settled, and this hunt did not run it.
+**It does not bite our own candidate identically, though this file said so until
+2026-09-06.** At the tip our target `19791/2500000` also hits a terminal cell, short by
+`2.70e-08` on the plain corner bound. The verifier at `b3b7784` has since been run (§7.7):
+their candidate is accepted on 8 of 8 shards with the gate firing 34,780 to 459,982 times a
+shard, and ours is refused on 4 of 8 at that revision too. So their refusal at the tip was
+the gate and it disappears when the gate works; ours does not. The two cases are not the same
+defect, and ours is not a defect of theirs at all: the target was above the true floor.
 
 ### The other findings, in descending order of what they cost:
 
@@ -718,6 +734,12 @@ argmax at `B/B0 = 1.00` exactly. **AMTOPA's `B = 93/23000` is at the peak.**
 
 ### 7.5 The window sweep: **the window axis is not saturated**, and it is worth ten times the rest
 
+> **REVERSED 2026-09-06, §7.8.** Every floor in this section came from an inner solve at 14
+> rounds and a 40,000-point multistart, and all five are over-estimates by `4.9e-05` to
+> `8.1e-05`. Re-priced, all five windows land below AMTOPA's number. The section is kept as
+> written; its own caveat, "direction, not magnitude", was correct about the confidence and
+> wrong about the sign.
+
 Run 1's four shards produced nothing: they spent their entire 900-second budget
 on the two reference points and never entered the search. Run 2 moved the
 reference points into `doors` and gave the shards nothing to do but search.
@@ -884,7 +906,10 @@ point at all (gradient `1e-2` in sum): it is an active cut of the LP, which is w
 equals the LP value, not a minimum of `F`. The floor of `F` at this `(a, b)` is
 `0.00789598574667553` at gaps `(1.038654, 1.963484, 1.038887, 1.035361, 1.961736, 1.039690)`,
 confirmed at 40 digits with mpmath independently of the numpy code. That is `2.09e-5` under
-the claimed floor and `1.51e-5` under the leader's floor `0.0079107`. The same descent at the
+the claimed floor and `1.51e-5` under the leader's floor `0.0079107`. (**Lower still, 2026-09-06,
+§7.8:** the oracle used here seeds `[0.9, 2.3]^6` and misses a basin at a three-unit gap. With
+that region seeded the floor at this same point is `0.0078946642`, and the assembled bound at
+it is `-1.03e-05` **below the record**. The withdrawal below is right and understated.) The same descent at the
 leader's own `(a, b)` gives `0.0079111052`, `3e-7` above the target their verifier accepts,
 so the method reproduces their floor and the gap is real.
 
@@ -942,9 +967,134 @@ per `+5.75e-6` in `eps`) is under `7e-8` on the headline. §1's `+5.75e-6` of he
 oracle's, not the polytope's. The hunt's own second finding, the two computable axes at their
 ceiling, now extends to the two searchable ones: **four of AMTOPA's five axes are at the
 ceiling, and the window axis (§7.5) is the only one left, with a lead whose floors came from
-the same weak oracle.** Whether `eps*` sits at `0.0079111052` exactly (their point optimal)
+the same weak oracle.** (**Closed too, §7.8**: re-priced, all five of that lead's windows are
+below their number. Five axes, all at the ceiling.) Whether `eps*` sits at `0.0079111052` exactly (their point optimal)
 or up to `8.9e-8` above it is what a converged re-solve with a numerically steadier LP would
 settle; it is worth nothing on the headline either way.
+
+---
+
+### 7.8 The window axis, re-priced and closed: five windows, all of them below the record
+
+§7.5 read five windows off a differential-evolution sweep and reported gains of `+3.07e-05`
+to `+3.71e-05`, with the caveat that its inner solve was cheap and the figures were
+"direction, not magnitude". §7.7 then showed the oracle behind every floor in this hunt
+over-reports. Re-pricing the five windows took three passes, and the answer changed sign
+between the second and the third.
+
+**Pass one, at each window's own saved weights.** Every `window_search_N.json` records the
+`(a, b)` its inner solve settled on, so the claim can be tested by descending at that exact
+point. Every floor was over-reported, by `2.6e-05` to `3.0e-05`; all five windows still
+cleared the record. That pass was itself optimistic: a second seed of the same oracle
+disagreed with the first by `1.8e-05` at a fixed point.
+
+**Pass two, the LP re-solved at each window** from a fresh pool with the oracle of
+`resolve_strong_oracle.py`, 40 rounds, 18,400 to 18,800 cuts, about 40 s a round. Upper and
+achieved met to `5e-08` at every window, so `eps*` looked pinned:
+
+| window | source | sweep claimed | pass-two floor | LP upper | assembled | vs record |
+|---|---|---|---|---|---|---|
+| 1 | run `32752160099` shard 0 | `0.0074464746` | `0.0074164707` | `0.0074165292` | `0.6734342829` | `+1.779e-05` |
+| 4 | run `32746772911` shard 3 | `0.0076519730` | `0.0076266744` | `0.0076267231` | `0.6734347155` | `+1.822e-05` |
+| 5 | run `32752160099` shard 3 | `0.0078219798` | `0.0077999542` | `0.0078000298` | `0.6734330263` | `+1.654e-05` |
+| 3 | run `32766484386` shard 2 | `0.0071780293` | `0.0071452504` | `0.0071453076` | `0.6734318428` | `+1.535e-05` |
+| 2 | run `32746772911` shard 0 | `0.0072022744` | `0.0071609470` | `0.0071609918` | `0.6734264824` | `+9.991e-06` |
+
+On those numbers the window axis survived at half its reported size, and two candidates were
+built at window 1 and put through AMTOPA's verifier, differing only in how far the target sat
+below the floor. Their own checks at `b3b7784` pass on both here: `check_candidate.py`
+(consistency, span capacity, pressure total), `check_final_bound.py` (`m = 154` and the
+bound), and `check_window.py`, which verifies the interval enclosure of `H` above the
+`projection_h_floor` computed at *our* window and returns interval positivity lower bound
+`0.7619130192389083`. That last one matters on its own: **a window that is not theirs is
+admissible to their pipeline**, because `build_interval_tables.py` is "driven entirely by
+candidate.json, supports a variable window term count", `check_window.py` recomputes the
+window constant rather than trusting it, and `write_verifier_config.py` reads the rest from
+the candidate. The interval table for our window is 86,787 coarse cells against their 83,993.
+`make_window_candidate.py` is the generator.
+
+| candidate | target | margin below the pass-two floor | assembled | vs record | Actions run | verdict |
+|---|---|---|---|---|---|---|
+| A | `9263/1250000` | `6.07e-06` | `0.67343037148559612098` | `+1.388e-05` | `34030214675` | 6 of 8 shards accepted, refused on 2 and 4 |
+| B | `18533/2500000` | `3.27e-06` | `0.67343217406253723406` | `+1.568e-05` | `34030138950` | 6 of 8 shards accepted, refused on 2 and 4 |
+
+Baseline in both runs: 8 of 8, gate alive, 2 to 19 s a shard.
+
+**Pass three, and it reverses the section.** The cells the verifier refused are not in the
+region any oracle in this hunt has ever sampled. Both runs stopped at gap vectors with **one
+gap near 2.91** and the rest near `1.04` and `1.97`, for instance
+`(1.02612, 1.04787, 2.91613, 1.04262, 1.03838, 1.96788)`. Every float search here, theirs and
+ours, seeded gaps in a box around the known minima: `harvest` uses `[0, 6]^6` and
+`[0.6, 3.2]^6` but concentrates its 48 descents where its 90,000 samples are lowest, and the
+"strong" oracle of §7.7 seeds 400,000 points on `[0.9, 2.3]^6`. A 2.91 gap is outside the
+second box and vanishingly sampled in the first. Descending from the refused cells:
+
+| candidate | shard | `F` at the cell midpoint | vs target | tangent bound | descends to | vs target |
+|---|---|---|---|---|---|---|
+| A | 4 | `0.0074118836` | `+1.48e-06` | `0.0074103765` | `0.0073822070` | `-2.82e-05` |
+| A | 2 | `0.0074128857` | `+2.49e-06` | `0.0074102513` | `0.0073523448` | `-5.81e-05` |
+
+The interval Hessian is positive definite at both cells (smallest eigenvalue `0.171` and
+`0.153`), so the gate is not the obstruction; the functional simply goes far below the target
+a short walk from where the verifier stopped. **The floor was wrong again, by `6.4e-05`.**
+
+Re-measured with a seeding that includes the 2.91 cluster and `[0.9, 4.2]^6`, every window
+collapses, and all five land **below** AMTOPA's number:
+
+| window | pass-two floor | wide floor | over-reported by | floor needed to hold the record | assembled | vs record |
+|---|---|---|---|---|---|---|
+| 1 | `0.0074164707` | `0.0073523448` | `+6.41e-05` | `0.0073888408` | `0.6733929776` | **`-2.35e-05`** |
+| 2 | `0.0071609470` | `0.0071119605` | `+4.90e-05` | `0.0071454531` | `0.6733948914` | `-2.16e-05` |
+| 3 | `0.0071452504` | `0.0070644452` | `+8.08e-05` | `0.0071214411` | `0.6733797232` | `-3.68e-05` |
+| 4 | `0.0076266744` | `0.0075579822` | `+6.87e-05` | `0.0075983518` | `0.6733905077` | `-2.60e-05` |
+| 5 | `0.0077999542` | `0.0077457626` | `+5.42e-05` | `0.0077742352` | `0.6733981817` | `-1.83e-05` |
+
+Every wide argmin has exactly one gap in `[2.911, 2.927]`. **The window axis is closed on the
+evidence this hunt has: §7.5's `+3.71e-05` is withdrawn, and every window the sweep produced
+is worse than AMTOPA's, not better.**
+
+**The control, which is why the above is a measurement and not a scare.** The same wide oracle
+run at AMTOPA's own window and their own weights returns `0.0079111052`, identical to the
+narrow-box value to `2e-13`, at their published basin
+`(1.97808, 1.04406, 1.97301, 1.04598, 1.97445, 1.04230)`. **No 2.91 basin exists at their
+point.** Their floor clears the value needed to hold their own headline by `+4.05e-07`, which
+is the margin they left themselves, and their verifier accepts 8 of 8. The wide oracle does
+not find lower numbers everywhere; it finds them exactly where the verifier said to look, and
+agrees with everyone at the one point their own verifier has independently accepted.
+
+Run at *our* withdrawn pair-weight point (§7.7, same window as theirs, our weights) it returns
+`0.0078946642`, again at a 2.91 basin, `2.22e-05` under `harvest`'s claim and `1.60e-05` under
+what the record needs. So §7.7's withdrawal was right and understated: that candidate is not
+merely below AMTOPA's floor, its assembled bound is `-1.03e-05` **below the record**.
+
+**What this says about the whole hunt.** Three oracles were used here, each built to fix the
+last one, and all three over-reported the same quantity in the same direction:
+
+| oracle | at our pair-weight point | error |
+|---|---|---|
+| `harvest`, 90,000 seeds, 48 descents, `maxiter` 300 | `0.0079168578` | `+2.22e-05` |
+| §7.7's strong oracle, 500,000 seeds on `[0.9,2.3]^6`, 300 descents, `gtol 1e-14`, 3 seeds, an 18,705-cut pool | `0.0078959857` | `+1.32e-06` |
+| the wide oracle, cluster mixture plus `[0.9,4.2]^6` | `0.0078946642` | (the value the verifier's cells confirm) |
+
+The failure was never the descent, the tolerance or the number of starts. It was the seeding
+box, every time, and it was inherited every time because each new oracle was built by looking
+at where the previous one's minima were. **AMTOPA's interval branch-and-bound is the only
+instrument in this hunt that searches the whole box, and it caught all three.** That is the
+methodological result, and it is worth more than the arithmetic: on this family, a float
+minimum is evidence of nothing until their verifier has seen it, and the right use of a
+refusal is to read the cell it names rather than to move the target.
+
+Which also explains the ceiling. AMTOPA's configuration is the one at which the low basin at
+a three-unit gap does not open; every direction the LP moves in buys floor among the near-`1`
+and near-`2` gaps and pays for it at `2.91`, where no oracle here was looking. That is why
+four axes measured as saturated (§4, §7.7) and the fifth now does too.
+
+**Grade.** MEASURED. Float LP and float descents on our side, their code for the interval half,
+their verifier for every acceptance and refusal, and the analytic bridge inherited and
+unreviewed (§6). The one VERIFIED statement in this section is negative: our windows do not
+beat their number.
+
+---
 
 ## 8. Knownness
 
