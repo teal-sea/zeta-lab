@@ -172,3 +172,11 @@ This preservation pass checks bytes, manifests, parser integrity and source inde
 Historical source notes saying 'not pushed' or recording an older PR state are preserved verbatim as historical artifacts. This checkpoint records current storage separately; it does not alter the past ZIPs to make their prose current. A future repository binary import must compare against these same hashes and verify the actual stored bytes before marking the import complete.
 
 **Resumption point:** read this checkpoint, the pinned comparison reports, and the latest route assessment before selecting a new experiment. The current work is paused for preservation, with both favorable results and failed methods retained.
+
+## 8. Repository import addendum (2026-09-06, added after the Library pass)
+
+Sections 1 to 7 are the narrative as sealed inside the cumulative ZIP and are left as written; the copy of this file inside the archive ends at section 7. Section 2's statement that the three newest original ZIPs "have not been committed to GitHub by this pass" was true of that pass and is kept.
+
+The later import described in `README.md` under "Repository import" has now landed the cumulative ZIP unchanged at `checkpoint/archive/zeta_research_checkpoint_2026-09-06.zip` (1,524,467 bytes, SHA-256 `161575e3f8c88c263064099983cf586b89ad8abba2037c20766ce4eeaca257f9`), which carries all twelve original archives including the three newest, and has placed byte-identical working copies of those three packages at `../certificate_structural_step/`, `../certificate_refinement_rule/` and `../certificate_route_test/`. The download's hash was checked before the copy, the included verifier passed on a fresh extraction (56 files, 12 archives, 108 members), and `tests/test_research_checkpoint_archive.py` re-verifies the committed bytes on every run. The failed base64 upload recorded in section 5 remains part of the record.
+
+Nothing mathematical changes with this addendum: the grades, limits and open questions above stand exactly as stated.
