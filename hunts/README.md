@@ -90,6 +90,25 @@ finite bounds for positive location Gram matrices. Its
 ordinary proofs, scoped Lean checks, and numerical evidence are summarized
 in `cycle_moments/README.md`. No stronger zeta proportion is asserted.
 
+### The prime-pair error, reproduced and taken apart by separation (`prime_pair_error/`, 2026-09-06)
+
+**Status: settled as a reproduction plus one measured relationship, not new.** The
+Chou, Haag, Huryn, Ledoan error E(N) = sum_k (psi_2(N,k) - S(k)(N-k))^2 reproduces at
+all eleven rows of their Table 1 after truncation, the FFT pair count checked against
+pure-Python and direct pair sums, and the ratio E(N)/(N^2 log^2 N) keeps rising past the
+paper's range, 0.218 at 10^6 and 0.244 at 10^7. Odd separations carry nothing, the power
+of 2 in k is invisible, and k divisible by 3 is one sixth of the separations and half of
+the error, though less than proportionally to S(k): the squared error scales like
+S(k)^0.7 to S(k)^0.8, so no Poisson-type variance law holds. The signed part is one
+formula: on even k the error is S(k) [R(N) + R(N-k) - R(k)] with R = psi - x, the
+coefficients on a three-profile fit landing within a few percent of (R(N), 0, 1) at the
+two held-out N, 3 x 10^6 and 10^7, and the prime-only count carries the same profile
+with theta in place of psi, the difference being exactly the prime-power pairs
+S(k) [(psi-theta)(N) + (psi-theta)(N-k) - (psi-theta)(k)]. It explains 1 to 3 percent of
+E(N) and 12 to 22 percent of the prime-only analogue. Its k-averaged small-k limit is
+Korevaar and te Riele's Approximation 2.1 (Math. Comp. 2010), so the hunt claims a
+refinement of a published heuristic and nothing more. Nothing bears on RH (`docs/08`).
+
 ### Hunt #114: one Epstein value, checked against a route that does not cancel (`support_e6241336/`)
 
 **Status: settled** (support run `e6241336`, serving run `872d7dce` /
