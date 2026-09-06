@@ -249,7 +249,12 @@ failing solver. The verdict lives between the achievability floor `0.05716502`
 and the budget `0.06750841`. This entry is rewritten with the result when the
 run closes.
 
-### Hunt #111: spend the out-of-band fact, or prove it cannot be spent (`outband_certificate/`)
+### Hunt #118: spend the out-of-band fact, or prove it cannot be spent (`outband_certificate/`)
+
+**Renumbered 2026-09-06 from #111 to #118:** #111 had been taken by `r_c7f779/` on
+2026-09-01 and this entry, opened 2026-09-05, reused it. The directory name is the stable
+reference; citations of "hunt #111" dated 2026-09-05 or 2026-09-06 that mean the out-of-band
+certificate mean this entry.
 
 **Status: closed 2026-09-06, kill condition 2, prose grade. A CEILING.** The out-of-band
 positivity is worth zero to any certificate whose positivity input is Weil's Hermitian form
@@ -730,7 +735,18 @@ ten minutes), and any upper bound on $g(k)$ at all. Nothing bears on RH
 
 ### Hunt #90: the leader's certificate does not replay at its own HEAD (`amtopa_ceiling/`)
 
-**Status: settled on the measurable axes; window axis open; acceptance blocked at the tip.** Takes the
+**Status (2026-09-06, `RESULTS.md` section 7.7): the `+3.96e-06` candidate is WITHDRAWN.
+At `b3b7784`, the verifier revision their own `candidate.json` names, the leader's headline is
+accepted on 8 of 8 shards with the gate alive; their number stands and the tip's only defect
+is the gate. Ours was refused on 4 of 8 in three rounds; the third, with the target backed
+off, reached cells whose values sit below the LP's claimed floor, and a proper descent finds
+the functional at the candidate's own weights bottoming at `0.0078960`, `1.5e-5` under the
+leader's floor. The LP's cut oracle had missed that basin, so the claimed `+5.9e-6` of
+headroom on the pair-weight and pressure axes is withdrawn with it; the re-solve with a
+stronger oracle bounds that headroom at `8.9e-8` in `eps`, under `7e-8` on the headline:
+those two axes are at the ceiling too, four of five. Window axis still open, its lead soft
+for the same reason.** Earlier status: settled on the measurable axes; window axis open;
+acceptance blocked at the tip. Takes the
 `ainta_seven_point` playbook to `AMTOPA/zeta-exact-pressure`, the leading public
 claim per Hunt #89, pinned at commit
 `7253fdcab9366af45b8c8caf44e408c0af44a1a7`.

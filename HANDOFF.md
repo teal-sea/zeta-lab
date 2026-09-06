@@ -22,7 +22,8 @@ that clears one deletes the line and says so in the log. This section exists bec
 
 Closed:
 
-- **2026-09-06, hunt #111 `outband_certificate`, closed as a ceiling.** The wall hunt #110
+- **2026-09-06, hunt #118 `outband_certificate` (renumbered from #111, which `r_c7f779/`
+  already held), closed as a ceiling.** The wall hunt #110
   named on 2026-09-01 (an inertia argument for a non-Gram kernel, "worth +0.005 to +0.009")
   is not a missing argument. Every unconditional certificate takes its positivity from Weil's
   Hermitian form; that makes the on-line block a definite Gram matrix, its kernel
@@ -44,15 +45,27 @@ what blocks it. A hunt that produces one adds its line; a session that certifies
 moves the line. Opened because hunt #90's two candidates sat in `hunts/README.md` alone from
 2026-08-24, the same way hunt #110's finding did.
 
-- **`0.6734201550790580964…`, `+3.96e-6` over the record**, hunt #90 `amtopa_ceiling`,
-  2026-08-24. Exact assembly at the LP optimum of the leader's pair-weight axis, in their own
-  schema. Conditional on the ladder's unreviewed bridge; the floor is a float minimum until a
-  verifier accepts it; the leader's verifier fails closed at its repository tip, which blocks
-  this candidate as well as their own. What would move it: a verifier that accepts, theirs at
-  the earlier revision or one of ours, then Lean.
+- **WITHDRAWN 2026-09-06: `0.6734201550790580964…`, `+3.96e-6` over the record**, hunt #90
+  `amtopa_ceiling`, 2026-08-24. Three rounds through the leader's own verifier at `b3b7784`,
+  the revision their `candidate.json` names (Actions runs `34024309937`, `34024961426`,
+  `34025675594`): their headline is accepted on 8 of 8 shards with the gate alive; ours is
+  refused on 4 of 8 every time. Round 1's cells were a margin (the functional above the target,
+  the tangent bound at grid `1/4000` a hair under it); round 3, with the target backed off,
+  passed those and stopped at cells whose values are **below the LP's claimed floor**. The
+  floor of the functional at the candidate's own weights is `0.0078960` (40-digit check), which
+  is `2.1e-5` under what the LP claimed and `1.5e-5` under the leader's floor. The LP's cut
+  oracle never found that basin. Kill condition 2, with the number. The LP re-solved with a
+  stronger oracle puts `eps*` on those two axes in `[0.0079111052, 0.0079111939]`: headroom
+  at most `8.9e-8` in `eps`, under `7e-8` on the headline. AMTOPA are at the ceiling of four
+  of their five axes; the window axis is the one left. `hunts/amtopa_ceiling/RESULTS.md`
+  section 7.7, cells in `artifacts/verifier_cells.json`.
 - **`0.6734536…`, `+3.7e-5`, direction only**, same hunt: five differential-evolution seeds
-  on the window axis, floors early-stopped, "direction, not magnitude". What would move it: an
-  exact solve on that axis.
+  on the window axis, floors early-stopped, "direction, not magnitude". Softer still since
+  2026-09-06: those floors came from the same cut oracle that missed a basin by `2.1e-5` in
+  the withdrawn entry above, so the magnitudes are over-estimates twice over and even the
+  direction (lower `H`, lower `B`) is unmeasured until each window is re-solved with the
+  stronger oracle in `hunts/amtopa_ceiling/RESULTS.md` section 7.7. What would move it: that
+  re-solve, then the leader's verifier.
 - **`0.6728604`, `+1.3e-5` over this lab's own four-point `0.6728470`, not over the record**,
   `four_point_pressure`, 2026-09-05, complete Lean check canceled. The lab's n-point family
   tops out at `0.6730296`, below the record, so this family cannot take it.

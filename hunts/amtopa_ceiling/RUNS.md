@@ -313,3 +313,55 @@ Actions run `32743347292`, 2026-08-24T15:11:33Z.
 Two of the five estimates were wrong in the same way: they priced the thing the
 job was for and not the thing the job had to do first. That is the same class of
 error as run 8's missing estimate, one level up.
+
+## 12. 2026-09-06: the verifier at `b3b7784`, Actions run `34024309937`
+
+Workflow `hunt-amtopa-ceiling` gained a `verifier_commit` input (default `b3b7784`) and a
+`certificate_only` switch; branch `hunt/amtopa-verifier-b3b7784`. Tables at the pinned tip
+as before; the verifier and `write_verifier_config.py` from a second clone at `b3b7784`;
+baseline candidate is the tip's `candidate.json` (the headline's certificate; `b3b7784`'s
+own file has target `7897/10^6`). `candidate_data.py` honours `ZETA_CANDIDATE_PATH` at both
+revisions; `root-shard.patch` applies at `b3b7784` with `git apply` (offsets 34, 7).
+
+| job | outcome | wall |
+|---|---|---|
+| headroom | candidate at `19791/2500000`, float minimum `0.00791685780578066` | about 15 min |
+| tables x 12 | all passed | a few minutes each |
+| certificate, baseline x 8 | `SHARD_VERIFIED` x 8, convex 34,780 to 459,982 | 1 to 19 s each |
+| certificate, ours x 8 | `SHARD_VERIFIED` on 0, 3, 6, 7; `INCONCLUSIVE` terminal cell on 1, 2, 4, 5 | 1 to 13 s each |
+
+Refusing cells and rigorous lower bounds: `RESULTS.md` section 7.7. Free minutes on a public
+repository; the whole run under an hour of wall clock, against the hour-per-shard the tip
+needed to reach nothing.
+
+## 13. 2026-09-06: rounds 2 and 3, the descent, and the candidate withdrawn
+
+The workflow gained a `candidate_file` input: the `headroom` job copies a committed candidate
+into place instead of running the LP, so a round is one dispatch and about ten minutes.
+
+| round | candidate | target | Actions run | ours | note |
+|---|---|---|---|---|---|
+| 2 | `candidate_round2.amtopa`, round-1 cells added to the pool, LP re-solved | `19791/2500000` | `34024961426` | refused 1, 2, 4, 5 at the round-1 cells, bounds identical to twelve digits | the point moved by `5e-9`; the cells were above the target in value, the tangent bound a hair under it |
+| 3 | `candidate_round3.amtopa`, same point | `19786/2500000` | `34025675594` | refused 1, 2, 4, 5 at four new cells, 1 to 5 s each | midpoint values `0.0079153` to `0.0079162`, under the LP's claimed floor `0.0079169` |
+
+Baseline: `SHARD_VERIFIED` on 8 of 8 in both rounds, 1 to 19 s per shard, gate alive.
+
+The descent that settled it, on the authoring host, seconds: `epsstar._fun_jac` under
+L-BFGS-B at `gtol 1e-14` from each refused cell and from the reported minimum, then a
+400,000-seed multistart on `[0.9, 2.3]^6` with 300 descents (19 s). Floor of `F` at the
+candidate's own `(a, b)`: `0.0078959857`, confirmed at 40 digits with mpmath. Leader's
+`(a, b)` under the same descent: `0.0079111052`, `3e-7` above their accepted target. The
+original `harvest` (90,000 seeds, 48 descents, `maxiter` 300) run at the same `(a, b)` returns
+`0.0079168578` and never sees the lower basin. Records: `RESULTS.md` section 7.7,
+`artifacts/verifier_cells.json`.
+
+Then the LP re-solved with the stronger oracle as its cut generator (400,000 seeds on
+`[0.9, 2.3]^6`, 300 descents plus 200 warm starts from the pool, `gtol 1e-14`), from the
+committed 2,200-cut pool plus the five true minima, 80 rounds asked, about 13 s a round on
+the authoring host (`resolve_strong_oracle.py`). It ran 45 rounds, LP value down from
+`0.0079186025` to `0.0079111939` with 14,060 cuts, then HiGHS failed on the next solve
+(status 15, `model_status` Unknown, primal feasible) and the process died with nothing
+saved but the log. The round-45 bound is monotone and stands: headroom on the two axes at
+most `8.9e-8` in `eps` over the leader's floor. Table and reading in `RESULTS.md` section
+7.7. Not re-run: the answer is already smaller than anything the headline can see, and a
+steadier LP (dropping slack cuts, or `highs-ipm`) is the fix if anyone wants the last digit.

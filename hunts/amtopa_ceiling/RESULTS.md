@@ -44,6 +44,17 @@ The same defect blocks *our* candidate at the tip too, by `2.70e-08`. §7.6.
 
 ## 1. The sentence that matters
 
+> **WITHDRAWN 2026-09-06.** The `+3.96e-06` below rests on a float floor of
+> `0.007916857812` that was never the floor: the LP's cut oracle missed a basin,
+> and the functional at the candidate's own weights bottoms at `0.0078960`,
+> `1.5e-5` under the leader's floor. Found by running the candidate through the
+> leader's own verifier three times and reading the cells it refused. The
+> sentence is kept as written because it was written; the correction, the
+> arithmetic and the re-solve with a stronger oracle are in §7.7. Everything in
+> this section from here to §1's second finding is what the withdrawn floor
+> implied; the second finding (the two axes at their ceiling) does not rest on
+> it.
+
 **Their number is not at their own family's ceiling, and the distance is
 `+3.96e-06`.** Holding their window, their total pressure and their assembly
 completely fixed, and moving only the twenty-one pair weights and six position
@@ -806,6 +817,134 @@ Until then, **the floor behind §1's constant is a float minimum and nothing
 more**, and this hunt does not claim otherwise.
 
 ---
+
+### 7.7 The certificate, obtained: at `b3b7784` their headline replays and ours is refused
+
+**2026-09-06, Actions run `34024309937`, workflow `hunt-amtopa-ceiling` with the new
+`verifier_commit` input.** Exactly the cycle §7.6 priced: tables at the pinned tip (six
+shards each for both candidates, all passed), the C++ verifier and its config writer built
+from `b3b7784ed0089c3c2197d740aaae1a424d142e44` in a second clone, `root-shard.patch` applied
+there (offsets 34 and 7 lines), the tip's `candidate.json` as the baseline since it is the
+headline's certificate and `b3b7784`'s own file carries an older target, eight search shards
+per candidate.
+
+**Their headline: `SHARD_VERIFIED` on 8 of 8, with the gate alive.** `convex` per shard
+34,780 to 459,982, `tangent` 14,972 to 214,264, and every shard done in 1 to 19 seconds
+against the tip's minutes and non-termination. So §3.0 was exactly right: the one thing wrong
+at the tip is the gate, and their published finite inequality is accepted by their own
+verifier at the revision their own `candidate.json` names. **VERIFIED.** Their number stands
+at that revision.
+
+**Ours, target `19791/2500000`: `INCONCLUSIVE` at a terminal cell on 4 of 8 shards.**
+
+| shard | verdict | rigorous lower bound at the cell | the cell, in gap units (box / 4000) |
+|---|---|---|---|
+| 0 | SHARD_VERIFIED | | |
+| 1 | INCONCLUSIVE | `0.0078933207` | `1.03975, 1.95625, 1.03825, 1.03325, 1.9595, 1.03775` |
+| 2 | INCONCLUSIVE | `0.0078989953` | `1.03975, 1.97525, 1.04775, 1.968, 1.044, 1.971` |
+| 3 | SHARD_VERIFIED | | |
+| 4 | INCONCLUSIVE | `0.0078943512` | `1.95025, 1.0475, 1.96625, 1.03325, 1.02475, 1.02775` |
+| 5 | INCONCLUSIVE | `0.0078942963` | `1.033, 1.0395, 1.965, 1.041, 1.96425, 1.03775` |
+| 6 | SHARD_VERIFIED | | |
+| 7 | SHARD_VERIFIED | | |
+
+**First reading, wrong, kept because it was written down.** Those four bounds sit `2.2e-5`
+below our target and below the leader's own floor too, so the first reading was that the
+functional at our `(a, b)` genuinely reaches `0.00789` at gap vectors of a different shape
+(two large gaps out of six) from the reported basin (three large), the minimiser missed a
+basin, and kill condition 2 fires. A cutting-plane round on that reading (the four cells
+added to the pool, LP re-solved, Actions run `34024961426`) returned a point `5e-9` from the
+first and the identical refusal to twelve digits, which is what forced the second look.
+
+**What the verifier actually said.** The LP's own functional, evaluated at the four cells at
+their midpoints `(2k + 1)/8000`, is `0.0079175` to `0.0079185`: **above** the target, by
+`1e-6` to `2e-6`, and it reproduces the reported float minimum `0.0079168578` at its location
+exactly. The number the verifier prints at a terminal cell is its plain corner bound (each gap
+at its left edge, `W` minimised over a span-wide range of table cells), about `2.5e-5` loose
+and never the deciding quantity. What decides is the tangent bound, midpoint value minus
+`sum_c |dF/dg_c| / 8000`; at these cells `sum|grad|` is `0.009` to `0.017`, the slack `1e-6`
+to `2e-6`, and the tangent bound `0.0079163` to `0.0079164`, a hair under the target
+`19791/2500000 = 0.0079164`. The target left a margin of `4.6e-7` over the float minimum; at
+grid `1/4000` these cells cost `1e-6` to `2e-6`. **Not a missed basin; a margin.** The leader's
+point certifies with the same `4.6e-7` margin because its basin is flatter there. Their
+verifier is fail-closed at a terminal cell and prints the loose bound, which is what sent the
+first reading the wrong way. `artifacts/verifier_cells.json` carries both rounds and the
+arithmetic.
+
+**Round 3, and the second reading was wrong about the candidate.** The same point, target
+backed off to `19786/2500000 = 0.0079144` (Actions run `34025675594`). The four round-1 cells
+were passed, exactly as the margin arithmetic said they would be. The search then went deeper
+and the same four shards stopped at four new cells a few grid steps away, and the midpoint
+values there are `0.0079153` to `0.0079162`: **below the LP's reported float minimum
+`0.0079168578`**. So the reported floor was not the floor. Descending the LP's own functional
+from each refused cell, and from the reported location itself, reaches five distinct local
+minima at `0.0078960`, `0.0078988`, `0.0078993`, `0.0079015`, `0.0079020`; a 400,000-seed
+multistart on `[0.9, 2.3]^6` finds nothing lower. The reported location is not a stationary
+point at all (gradient `1e-2` in sum): it is an active cut of the LP, which is why its value
+equals the LP value, not a minimum of `F`. The floor of `F` at this `(a, b)` is
+`0.00789598574667553` at gaps `(1.038654, 1.963484, 1.038887, 1.035361, 1.961736, 1.039690)`,
+confirmed at 40 digits with mpmath independently of the numpy code. That is `2.09e-5` under
+the claimed floor and `1.51e-5` under the leader's floor `0.0079107`. The same descent at the
+leader's own `(a, b)` gives `0.0079111052`, `3e-7` above the target their verifier accepts,
+so the method reproduces their floor and the gap is real.
+
+**The candidate is withdrawn. Kill condition 2 fires, with the number.** The first reading
+had the right conclusion for the wrong reason (the round-1 cells were a margin, as the second
+reading said), and the second reading had the wrong conclusion: the oracle that generated the
+LP's cuts (`harvest`: 90,000 seeds on `[0, 6]^6` and `[0.6, 3.2]^6`, 48 descents, `maxiter`
+300) never found the basin at `(1.04, 1.96, 1.04, 1.04, 1.96, 1.04)`, which is exactly the
+failure the stopping-rule comment in `epsstar.py` warned of: *a float multistart is a fallible
+oracle, and a later run with a better oracle can only push `upper` down*. Every number in §1
+that rests on `0.0079168578` rests on that oracle. No target change rescues a point whose
+functional dips `1.5e-5` under the leader's floor. The leader's verifier was fail-closed and
+right all three times; the plain bounds it printed, about `0.00789`, happened to land near
+the truth for the wrong reason. `artifacts/verifier_cells.json` carries all three rounds with
+the arithmetic.
+
+**What is left of hunt #90's question.** Whether AMTOPA are at the ceiling of the pair-weight
+and pressure axes at their window is now open again, with the LP's previous answer
+(`+5.9e-6` of headroom on `eps`) withdrawn along with the point. The honest re-solve is the
+same cutting-plane LP with an oracle that finds these basins: 400,000 seeds on `[0.9, 2.3]^6`,
+300 descents plus 200 warm starts from the pool, `gtol 1e-14`. Recorded below when it lands.
+The LP value is an upper bound on `eps*` whatever the oracle does, because every cut is a real
+gap vector; only the claimed floor was ever soft.
+
+**The re-solve: AMTOPA are at the ceiling of these two axes, to within `8.9e-8`.** Same LP
+(`epsstar.eps_star`), same polytope, same window and `B`, started from the committed
+2,200-cut pool plus the five minima above, with `harvest` replaced by the oracle in
+`resolve_strong_oracle.py` (the seeding and descent settings named above). On the authoring
+host, about 13 s a round:
+
+| round | LP value (upper bound on `eps*`) | oracle floor at that `(a, b)` | cuts |
+|---|---|---|---|
+| 0 | `0.0079186025` | `0.0078899279` | 2,205 |
+| 5 | `0.0079139952` | `0.0079073808` | 3,514 |
+| 10 | `0.0079125137` | `0.0079065114` | 4,815 |
+| 15 | `0.0079117826` | `0.0079098676` | 6,135 |
+| 20 | `0.0079113976` | `0.0079103453` | 7,443 |
+| 25 | `0.0079113315` | `0.0079110292` | 8,780 |
+| 30 | `0.0079112599` | `0.0079108102` | 10,108 |
+| 35 | `0.0079112090` | `0.0079110420` | 11,412 |
+| 40 | `0.0079112036` | `0.0079110811` | 12,731 |
+| 45 | `0.0079111939` | `0.0079106294` | 14,060 |
+
+The LP value never rises, and at every round it is an upper bound on `eps*`. After round 45
+(578 s) the next HiGHS solve failed on the 14,000-row model (status 15, `model_status`
+Unknown, primal feasible) and the run ended there, so this is **not a converged solve**; the
+patience rule never fired. It is a bound that stands. Against the leader's floor
+`0.0079111052` (§1's `0.007911105155`, reproduced by the same descent at their `(a, b)`),
+`eps*` on the pair-weight and position-pressure axes at their window lies in
+
+    [0.0079111052, 0.0079111939]        MEASURED (float LP and float descents)
+
+Headroom at most `8.9e-8` in `eps`, which by §1's assembly ratio (`+3.96e-6` on the headline
+per `+5.75e-6` in `eps`) is under `7e-8` on the headline. §1's `+5.75e-6` of headroom was the
+oracle's, not the polytope's. The hunt's own second finding, the two computable axes at their
+ceiling, now extends to the two searchable ones: **four of AMTOPA's five axes are at the
+ceiling, and the window axis (§7.5) is the only one left, with a lead whose floors came from
+the same weak oracle.** Whether `eps*` sits at `0.0079111052` exactly (their point optimal)
+or up to `8.9e-8` above it is what a converged re-solve with a numerically steadier LP would
+settle; it is worth nothing on the headline either way.
 
 ## 8. Knownness
 
