@@ -427,7 +427,7 @@ separating, which is not the same thing, and §7.8 is what that difference cost.
 | 0.50 | 0.0046208925 | 0.6732489148 | 235 |
 | 0.75 | 0.0063144596 | 0.6733647225 | 177 |
 | 0.90 | 0.0073080619 | 0.6734189561 | 155 |
-| **1.00** | **0.0079193654** | **0.6734220613** | **145** |
+| **1.00** | **`0.0079193654`, STALE: this is the pre-fix value. Post-fix and wide-box, `eps*(B0)` is bracketed `[0.0079111052, 0.0079111939]` (§7.8), and the assembled bound is `0.6734167516` at the lower end, `+2.6e-07` on the record, not `+5.6e-06`** | ~~`0.6734220613`~~ | **145** |
 | 1.10 | 0.0084996468 | 0.6734052812 | 136 |
 | 1.25 | 0.0093153802 | 0.6733453486 | 126 |
 | 1.50 | 0.0106520485 | 0.6732318829 | 112 |
@@ -1117,6 +1117,27 @@ Which also explains the ceiling. AMTOPA's configuration is the one at which the 
 a three-unit gap does not open; every direction the LP moves in buys floor among the near-`1`
 and near-`2` gaps and pays for it at `2.91`, where no oracle here was looking. That is why
 four axes measured as saturated (§4, §7.7) and the fifth now does too.
+
+**The capstone: the LP re-solved at their own window with the wide oracle cannot beat them.**
+Same polytope, same window, same `B = 93/23000`, 40 rounds, 13,387 cuts, the oracle of
+`wide_floor.py` as the separation routine (`lp_wide.py` in the session record):
+
+| quantity | value | against AMTOPA's floor `0.0079111052` |
+|---|---|---|
+| LP value, an upper bound on `eps*` over the whole polytope | `0.007912132524` | `+1.03e-06` |
+| floor achieved at the `(a, b)` the LP settles on | `0.007909735797` | `-1.37e-06` |
+
+**The LP's own best point is worse than theirs.** Taking the smaller of the two independent LP
+upper bounds (`0.0079111939` from §7.7's run, `0.0079121325` from this one, both valid because
+every cut is a real gap vector) against their wide-box-confirmed floor:
+
+    eps* on the pair-weight and pressure axes, at their window, in
+    [0.0079111052, 0.0079111939]        headroom at most 8.9e-08
+
+which is the §7.7 bracket, now with its lower end measured by the instrument that broke every
+candidate this hunt produced. Assembled, even the top of that bracket is worth `+8.4e-07` on
+the headline. **AMTOPA's configuration is the optimum of its own polytope, to within a
+millionth of their published constant.**
 
 **Grade.** MEASURED. Float LP and float descents on our side, their code for the interval half,
 their verifier for every acceptance and refusal, and the analytic bridge inherited and

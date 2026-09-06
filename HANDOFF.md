@@ -47,7 +47,12 @@ moves the line. Opened because hunt #90's two candidates sat in `hunts/README.md
 
 **Nothing on this list is above the record any more.** Both of hunt #90's entries were
 withdrawn on 2026-09-06, both because a float minimiser over-reported the floor and AMTOPA's
-own interval verifier caught it. The standing lesson, which cost three oracles and eight CI
+own interval verifier caught it. The hunt's own question is answered and the answer is no:
+re-solved at their window with an oracle that seeds the region their verifier pointed at, the
+linear programme's best configuration is `1.37e-06` **worse** than theirs, and `eps*` over
+their whole polytope is bracketed `[0.0079111052, 0.0079111939]`, at most `8.9e-08` of
+headroom, `+8.4e-07` on the headline at the very top of it. **AMTOPA's construction is at its
+own ceiling on all five axes.** The standing lesson, which cost three oracles and eight CI
 runs to learn: on this family a float minimum is evidence of nothing until their
 branch-and-bound has seen it, and every oracle written here inherited its seeding box from
 where the previous one's minima were. Read the cell a refusal names; do not move the target.

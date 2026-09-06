@@ -402,3 +402,11 @@ weights returns `0.0079111052`, their published value, unchanged to `2e-13`, at 
 basin, with no `2.91` basin present; at our withdrawn pair-weight point it returns
 `0.0078946642`, `2.2e-5` under `harvest` and `1.6e-5` under what the record needs. Full account
 in `RESULTS.md` section 7.8.
+
+Capstone, `lp_wide.py`, 14 min on the authoring host: the cutting-plane LP re-solved at
+AMTOPA's own window and total pressure with the wide oracle as its separation routine. 40
+rounds, 13,387 cuts, LP value `0.007912132524`, achieved floor `0.007909735797`, against their
+own `0.0079111052`. The LP's best point is worse than theirs by `1.37e-06`. With the smaller
+of the two LP upper bounds, `eps*` is bracketed `[0.0079111052, 0.0079111939]`: at most
+`8.9e-08` of headroom, `+8.4e-07` on the headline at the top of it. The hunt's question is
+answered.
