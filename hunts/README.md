@@ -213,13 +213,19 @@ run closes.
 
 ### Hunt #111: spend the out-of-band fact, or prove it cannot be spent (`outband_certificate/`)
 
-**Status: open, 2026-09-05. Not started.** The step hunt #110 handed forward: an inertia or
-isolation argument valid for a kernel signed only on alpha in (1, 1.5], or a ceiling proof
-that none exists. The target is the record (0.6734165, one eighth of the measured gain), not
-the whole 0.68. Worked as a node board from `board.json` in the directory: the mapper's
-decomposition, the judge's verdicts and every landed or walled attempt are the record. The
-first task is the numerical falsifier the HuntSpec names as an oracle, which #110 ran but
-did not commit. Either answer closes the hunt.
+**Status: open, first measurement 2026-09-06.** The step hunt #110 handed forward: an
+inertia or isolation argument valid for a kernel signed only on alpha in (1, 1.5], or a
+ceiling proof that none exists. The target is the record (0.6734165), not the whole 0.68.
+First session, measured grade (`RESULTS.md`): the LP's dual, which is the certificate the
+information supports, is pointwise nonnegative in x-space with a signed transform, strip
+multiplier active on [1.031, 1.5] at X = 80; the LP's `q` and `p_2` columns are identical, so
+off-line pairs are priced as double zeros and the square structure is needed only for off-line
+zeros, which relocates the missing argument to a bound on the off-line-zero term of a signed
+kernel's pair sum, with zero-density estimates as the unconditional input; and a strip of width
+0.05 is worth about the record gap (+0.00098 to +0.00129 across pinned exponents, six rungs)
+but that is inside the ladder's method error and not distinguishable from zero, while #110's
+wide strip stays established at 3.5x. Worked as a node board from `board.json`; the first task
+is the numerical falsifier, which #110 ran but did not commit. Either answer closes the hunt.
 
 ### Hunt #110: the free out-of-band fact is worth 0.005 to 0.009 and no certificate can spend it (`outband_intake/`)
 

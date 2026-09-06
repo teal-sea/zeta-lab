@@ -1,0 +1,178 @@
+[
+ {
+  "X": 40.0,
+  "J": 200,
+  "width": null,
+  "feasible": true,
+  "value": 0.6793882366581984,
+  "seconds": 0.2
+ },
+ {
+  "X": 40.0,
+  "J": 200,
+  "width": 0.05,
+  "feasible": true,
+  "value": 0.6807534074696802,
+  "seconds": 0.2
+ },
+ {
+  "X": 40.0,
+  "J": 200,
+  "width": 0.1,
+  "feasible": true,
+  "value": 0.6825235318792855,
+  "seconds": 0.2
+ },
+ {
+  "X": 40.0,
+  "J": 200,
+  "width": 0.2,
+  "feasible": true,
+  "value": 0.6851057403383292,
+  "seconds": 0.3
+ },
+ {
+  "X": 80.0,
+  "J": 320,
+  "width": null,
+  "feasible": true,
+  "value": 0.6775675648579604,
+  "seconds": 0.9
+ },
+ {
+  "X": 80.0,
+  "J": 320,
+  "width": 0.05,
+  "feasible": true,
+  "value": 0.67921322762032,
+  "seconds": 1.5
+ },
+ {
+  "X": 80.0,
+  "J": 320,
+  "width": 0.1,
+  "feasible": true,
+  "value": 0.6801949476970849,
+  "seconds": 1.6
+ },
+ {
+  "X": 80.0,
+  "J": 320,
+  "width": 0.2,
+  "feasible": true,
+  "value": 0.6819554195386881,
+  "seconds": 2.4
+ },
+ {
+  "X": 120.0,
+  "J": 480,
+  "width": null,
+  "feasible": true,
+  "value": 0.6768963187687412,
+  "seconds": 3.6
+ },
+ {
+  "X": 120.0,
+  "J": 480,
+  "width": 0.05,
+  "feasible": true,
+  "value": 0.6783630075052485,
+  "seconds": 6.3
+ },
+ {
+  "X": 120.0,
+  "J": 480,
+  "width": 0.1,
+  "feasible": true,
+  "value": 0.6792063527146817,
+  "seconds": 8.3
+ },
+ {
+  "X": 120.0,
+  "J": 480,
+  "width": 0.2,
+  "feasible": true,
+  "value": 0.6806886250709743,
+  "seconds": 7.9
+ },
+ {
+  "X": 160.0,
+  "J": 640,
+  "width": null,
+  "feasible": true,
+  "value": 0.6764626752206044,
+  "seconds": 8.9
+ },
+ {
+  "X": 160.0,
+  "J": 640,
+  "width": 0.05,
+  "feasible": true,
+  "value": 0.6778346076488018,
+  "seconds": 16.5
+ },
+ {
+  "X": 160.0,
+  "J": 640,
+  "width": 0.1,
+  "feasible": true,
+  "value": 0.6784958285801022,
+  "seconds": 16.9
+ },
+ {
+  "X": 160.0,
+  "J": 640,
+  "width": 0.2,
+  "feasible": true,
+  "value": 0.6800145938009978,
+  "seconds": 22.0
+ },
+ {
+  "X": 240.0,
+  "J": 960,
+  "width": null,
+  "feasible": true,
+  "value": 0.6759393959368838,
+  "seconds": 61.0
+ },
+ {
+  "X": 240.0,
+  "J": 960,
+  "width": 0.05,
+  "feasible": true,
+  "value": 0.6770657128243278,
+  "seconds": 118.0
+ },
+ {
+  "X": 240.0,
+  "J": 960,
+  "width": 0.1,
+  "feasible": true,
+  "value": 0.6776778372130398,
+  "seconds": 92.6
+ },
+ {
+  "X": 320.0,
+  "J": 1280,
+  "width": null,
+  "feasible": true,
+  "value": 0.6756339304297923,
+  "seconds": 133.4
+ },
+ {
+  "X": 320.0,
+  "J": 1280,
+  "width": 0.05,
+  "feasible": true,
+  "value": 0.6766260536391664,
+  "seconds": 255.3
+ },
+ {
+  "X": 320.0,
+  "J": 1280,
+  "width": 0.1,
+  "feasible": true,
+  "value": 0.6771630992728104,
+  "seconds": 417.8
+ }
+]
