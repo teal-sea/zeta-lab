@@ -33,5 +33,5 @@
     ],
     "qualification": "quadrature is numerical, not an interval enclosure"
   },
-  "scope": "finite identity checks only; no asymptotic theorem is certified by these tests"
+  "scope": "finite identity checks only; no asymptotic theorem is established by these tests"
 }
