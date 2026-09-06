@@ -57,3 +57,13 @@ for psi(N) with an LP-chosen seed: 87 exact-rational certificates, all reproduce
 independent review is `factorial_certificate_pilot/REVIEW.md`; the review's own checker and
 its output live in `factorial_certificate_pilot/review/`. It is a pilot, not a prime-counting
 record and not an RH result, and it does not touch the A/B referee record above.
+
+## Full-cost versus leading-constant seeds (experiment, 2026-09-06)
+
+`factorial_full_cost/` asks one bounded question of the pilot above: does minimizing the
+entire proved bound U_N of PILOT.md section 3 (leading constant plus the coefficient-mass
+error term) give a better certificate than minimizing the leading constant alone, at the
+same L, M and N? Same seed constraints, same sizes, N in {10^4, 10^6, 10^8, 10^12}, LP
+proposals rechecked exactly. `COST_COMPARISON.md` is the write-up, `full_cost_results.json`
+the record, `tests/test_factorial_full_cost.py` pins it. A finite comparison of two LP
+objectives, not an asymptotic theorem and not an RH result. The pilot directory is untouched.
