@@ -9,6 +9,24 @@ state for the mathematics.
 
 ---
 
+## Walls: named missing arguments, priced (standing section, opened 2026-09-05)
+
+One line per hunt that ended measured but unspendable: the thing that is missing, what it
+is worth against the unconditional record 0.6725007, which hunt found it, its grade, and
+who is on it. A hunt that ends that way adds its line here before it closes. A session
+that clears one deletes the line and says so in the log. This section exists because hunt
+#110's finding, seven times the public race's total progress, sat only in
+`hunts/README.md` for four days and every session that read this file walked past it.
+
+- **An inertia or isolation argument for a kernel that is not a Gram matrix, signed only
+  on alpha in (1, 1.5].** Worth +0.005 to +0.009; the public race has moved 9.2e-4 since
+  Theorem D, and one eighth of this takes the record from AMTOPA's 0.6734165. Found by
+  hunt #110 `outband_intake`, 2026-09-01, measured grade. Continued as hunt #111
+  `outband_certificate`, opened 2026-09-05, worked as a node board from its `board.json`.
+  Nobody touched it in between.
+
+---
+
 ## Record: the start page carried a retracted number, in public, for eleven
 ## hours (2026-08-14)
 
