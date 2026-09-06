@@ -498,6 +498,14 @@ constant +2.4 in the residual mean is recorded and not explained.
 
 # Third pass, 2026-09-06: Section 12's sum is a Wronskian, and what is proved about it
 
+**Independent review, 2026-09-06.** [REFEREE.md](REFEREE.md) audits the complete
+proofs from commit `37c2a53a`, supplies the uniform Perron calculation and the
+actual double-zero kernel, and records the corrections incorporated below.
+A retains its exponent and four logarithms; B's case split is valid. The
+unproved RH equivalence, error-term optimality and noncoincidence assertions
+are withdrawn. These are reviewed written proofs, not formal verification.
+The numerical JSON files are unchanged.
+
 All numbers in this part are in `results_wronskian.json`, written by `wronskian.py`
 (cost in `RUNS.md`); section 5 of `tests/test_prime_pair_residue.py` pins the identities
 on arbitrary weights as well as on Lambda, and the recorded numbers. Notation as above,
@@ -518,7 +526,7 @@ E(N) = Omega(N^{1 + 2 Theta_chi - eps}), the lower bound by the zeros of L(s, ch
 Section 12 named. Not proved: (T) without the two hypotheses, and anything sharper than
 log^4 N.
 
-The sections separate four questions: what is an identity (14, 16), what is elementary
+The sections separate four questions: what is an identity (14, 16), the auxiliary asymptotic
 (15), what is a theorem and under which hypothesis (17, 18), what is known elsewhere (19).
 
 ## 14. The reduction, verified
@@ -577,14 +585,15 @@ T of size 10^8 to 2 x 10^9, rounding. The T(N) used is the one `residue.py` reco
 ## 15. The auxiliary term is of order N exactly
 
 The brief proposed P(N)/2 + X_chi(N) - H_chi(N) = O(N log^2 N) without proof. It holds,
-it is elementary, and it is not sharp: the term is 0.3131 N + o(N).
+and it is not sharp: the term is -c_H N + o(N), with -c_H positive and approximately
+0.31305. The asymptotic below uses the fixed-character PNT and a contour shift.
 
 - **P(N)/2** is O(N exp(-c sqrt(log N))) by the prime number theorem for the character;
   |P(N)| <= psi(N) < 2N by Chebyshev in any case.
-- **X_chi(N)** is exact by (E2): log_3 N terms, each at most 2 max_{x <= N} |P(x)|, so
+- **X_chi(N)** is exact by (E2): floor(log_3 N) terms, each at most 3 max_{x <= N} |P(x)|, so
   O(N log N) by Chebyshev and O(N log N exp(-c sqrt(log N))) = o(N) by the same theorem.
 - **H_chi(N)** = sum_k chi(k) S(k) (N - k) = integral_0^N M(x) dx, M(x) = sum_{k <= x} chi(k) S(k).
-  With S(k) = 2 C_2 sum_{d | k, d odd squarefree} g(d), g(p) = 1/(p - 2), and
+  With S(k) = 2 C_2 1[2 | k] sum_{d | k, d odd squarefree} g(d), g(p) = 1/(p - 2), and
   chi(2dj) = -chi(d) chi(j), sum_{j <= y} chi(j) in {0, 1}:
 
       M(x) = -2 C_2 sum_{d odd squarefree, 3 not | d, d <= x/2} g(d) chi(d) 1[floor(x/2d) = 1 mod 3],
@@ -593,23 +602,29 @@ it is elementary, and it is not sharp: the term is 0.3131 N + o(N).
   nothing beyond Chebyshev. Sharper: the Dirichlet series of chi(k) S(k) is
   D(s) = -2^{1-s} C_2 L(s, chi) F(s), F(s) = sum_d g(d) chi(d) d^{-s} = L(1 + s, chi) K(s)
   with K(s) an Euler product absolutely convergent for Re s > -1/2; D is analytic there,
-  L(s, chi) is O(|t|^{3/4}) on Re s = -1/4 by the functional equation and convexity, and
+  on Re s = -1/4 the two factors satisfy L(s, chi) << (1+|t|)^{3/4} and
+  L(1+s, chi) <<_nu (1+|t|)^{1/8+nu} for any fixed 0 < nu < 1/8, by the functional
+  equation and convexity. Thus D(s)/(s(s+1)) is integrable on this line, and
   the Riesz-mean form H_chi(N) = (1/2 pi i) integral D(s) N^{s+1} / (s (s+1)) ds, shifted to
   Re s = -1/4, leaves the residue at s = 0 alone:
 
-      H_chi(N) = c_H N + O(N^{3/4}),    c_H = D(0) = -(2 C_2 / 3) prod_{p > 3} (1 + chi(p)/(p - 2)) = -0.31306,
+      H_chi(N) = c_H N + O(N^{3/4}),    c_H = D(0) = -(2 C_2 / 3) prod_{p > 3} (1 + chi(p)/(p - 2)) < 0,
 
-  using L(0, chi) = 1/3 and F(0) = prod_{p > 3} (1 + chi(p)/(p-2)) = 0.71133, the product
-  taken in the order of the primes (it is L(1, chi) K(0), and both converge). Measured
+  using L(0, chi) = 1/3 and F(0) = prod_{p > 3} (1 + chi(p)/(p-2)), the product
+  taken in the order of the primes (it is L(1, chi) K(0), and both converge).
+  The JSON's G_infinity = 0.71133109 and c_H = -0.31306242 are products truncated at
+  2000000, not exact limiting constants. The independent calculation and convergent
+  product in REFEREE.md Section 5 place the limit near -0.31305. Measured
   H_chi(N)/N is -0.3131, -0.3131, -0.3130, -0.3130, -0.3130 at the five cutoffs.
   `H_chi_by_divisor_expansion` evaluates the divisor form with no code in common with the
   singular-series sieve; the two agree to 10^-10 relative.
 
 So P(N)/2 + X_chi(N) - H_chi(N) = -c_H N + O(N log N exp(-c sqrt(log N))): established,
-unconditionally, as O(N), and it is Theta(N). Consequence for (T): its error cannot be
-o(N) unless W(N) is c_H N + o(N), which the five cutoffs (W/N = -0.56, -0.11, -0.32,
--0.50, -0.86) do not show; the O(N^{1+eps}) in (T) is the right shape and O(N) would be
-best possible.
+unconditionally, as O(N), and it is Theta(N). At N = 200000 the independent check gives
+H_chi(N)/N = -0.3131254443 and the auxiliary term divided by N = +0.3431617351;
+the difference is P(N)/(2N) + X_chi(N)/N = 0.0300362908. Finite agreement does not
+establish the asymptotic. An o(N) error in (T) would require W(N) = c_H N + o(N),
+which has not been excluded. No optimality of O(N) is claimed.
 
 ## 16. What W is: the Wronskian of the two remainders
 
@@ -626,8 +641,8 @@ psi_0(x) the sum of Lambda over the powers of 3 up to x, so |Q(N)| <= 2 psi(N) l
 W - (RP/2 - J + Q) = 0 to rounding at N = 3000 and at the five cutoffs.
 
 So W is, up to O(N log N), (1/2) integral (P dR - R dP): the Wronskian of R = psi - x and
-P = psi(., chi). The symmetric combination integral P dR + integral R dP = R(N) P(N) -
-sum Lambda^2 chi is a one-point quantity; the antisymmetric one is the pair content of
+P = psi(., chi). The symmetric left-endpoint combination sum [P(n-1) dR(n) + R(n-1) dP(n)]
+equals R(N) P(N) - sum Lambda^2 chi + P(N), a one-point quantity; the antisymmetric one is the pair content of
 T(N), and it does not reduce to one-point counts. In (E4) it is J(N), the zeta remainder
 sampled at the prime powers and weighted by the character:
 
@@ -676,15 +691,21 @@ Montgomery and Vaughan, Multiplicative Number Theory I, chapters 5, 10 and 12), 
 unconditional:
 
 - (F1) For x >= 2 and T >= 2, psi(x) = x - sum_{|gamma| <= T} x^rho / rho
-  + O(x T^{-1} log^2(xT) + log x); and for 2 <= T <= x,
-  psi(x, chi) = -sum_{|gamma'| <= T} x^{rho'} / rho' + O(x T^{-1} log^2 x + x^{1/4} log x)
-  (Davenport ch. 17 and ch. 19; L(s, chi_3) has no real zero in (0, 1), and an exceptional
-  zero would in any case join the sum with the same bounds).
+  + O(x T^{-1} log^2(xT) + log x), and
+  psi(x, chi) = -sum_{|gamma'| <= T} x^{rho'} / rho'
+  + O(x T^{-1} log^2(xT) + log x). These are the right-continuous forms of
+  Montgomery and Vaughan, Theorems 12.5 and 12.10: their midpoint formulas differ
+  by Lambda(x)/2 and Lambda(x)chi(x)/2 at prime powers. The bounded constant and
+  trivial-zero terms are absorbed for x >= 2. Both formulas allow arbitrary T;
+  the proofs choose a nearby good height and bound the intervening zeros.
 - (F2) The number of zeros of zeta, or of L(s, chi), with ordinate in [t, t + 1] is
   O(log(|t| + 2)); hence sum_{0 < |gamma| <= T} 1/|gamma| << log^2 T for either function.
-- (F3) For -1 <= sigma <= 2, L'/L(s, chi) = sum_{|t - gamma'| <= 1} 1/(s - rho')
-  + O(log(|t| + 2)); for sigma <= -1/4 at distance >= 1/40 from the trivial zeros,
-  L'/L(s, chi) << log(|s| + 2) by the functional equation. The same for zeta'/zeta.
+- (F3) For -1 <= sigma <= 2 and |t| >= 2,
+  L'/L(s, chi) = sum_{|t - gamma'| <= 1} 1/(s - rho') + O(log(|t| + 2)).
+  At bounded heights one must include the trivial-zero poles or stay a fixed
+  distance from them. For sigma <= -1/4 at distance >= 1/40 from the trivial zeros,
+  L'/L(s, chi) << log(|s| + 2) by the functional equation. The corresponding
+  zeta statements also retain its pole at 1 when working at bounded heights.
 - (F4) Perron's formula with remainder (Montgomery and Vaughan, Corollary 5.3).
 - (F5) The classical zero-free region: no zero of zeta with Re rho > 1 - c/log(|gamma| + 2),
   hence, by rho -> 1 - conj(rho), none with Re rho < c/log(|gamma| + 2).
@@ -708,9 +729,13 @@ the error being sum_m Lambda(m) [(m/N) log^2 N + log m] << N log^2 N.
 absolutely convergent for Re w > 1 + beta. Apply (F4) with c = 1 + beta + 1/log N and a
 height T_rho in [2N, 2N + 1] chosen so that the two lines Im(w - rho) = +-T_rho - gamma
 are at distance >= 1/(C log N) from every ordinate gamma' of L(s, chi); by (F2) the
-excluded set has measure below 1/2 for C large, so such T_rho exists. Since
-|a_m| <= Lambda(m) N^beta for m <= N and sum_m Lambda(m) m^{-1 - 1/log N} << log N, the
-remainder in (F4) is << N^beta log^2 N. Move the contour to Re w = -delta, delta in
+excluded set has measure below 1/2 for C large, so such T_rho exists. The near-endpoint
+part of (F4) runs over N/2 < m < 2N, not just m <= N. There |a_m| <= (2N)^beta log(2N),
+so its sum is << N^beta log N sum_{1 <= h <= N} min(1, N/(T_rho h))
+<< N^beta log^2 N. The other part is bounded by
+(1+N^c)/T_rho times sum_m Lambda(m) m^{-1 - 1/log N} << N^beta log N.
+Restoring the full Perron endpoint costs at most Lambda(N) N^beta/2.
+Thus the remainder is << N^beta log^2 N uniformly in rho. Move the contour to Re w = -delta, delta in
 {1/8, 3/16} chosen so that |beta - 1 + delta| >= 1/40, which keeps the vertical line
 1/40 away from the trivial zero of L(w - rho, chi) at w = rho - 1. The poles crossed are
 w = rho + rho' for every zero rho' of L(s, chi) with |gamma + gamma'| < T_rho, with
@@ -742,6 +767,11 @@ sum_{rho'} 1/|rho + rho'|. For j = 0, |rho + rho'| >= beta + beta' >= beta >> 1/
     sum_{|gamma| <= N} (1/|rho|) |sum_{rho'} N^{rho + rho'} / (rho + rho')|
         << N^{Theta + Theta_chi} log^2 N sum_{|gamma| <= N} 1/|gamma| << N^{Theta + Theta_chi} log^4 N.
 
+For the precise J - RP/2 kernel with compatible truncations, REFEREE.md Section 3
+derives K(rho,rho') = (rho'-rho)/(2 rho rho' (rho+rho')) on these same slanted
+cutoff sets and bounds its absolute sum by O(log^4 N). No infinite double sum
+or interchange of its limits is used.
+
 The remainders of Step 2 add sum_rho N^beta log^2 N / |rho| << N^Theta log^4 N. With
 Step 1, J(N) << N^{Theta + Theta_chi} log^4 N + N log^2 N, and Theta + Theta_chi >= 1
 absorbs the second term. With Step 0 and (E4), W(N) << N^{Theta + Theta_chi} log^4 N;
@@ -758,9 +788,9 @@ that Section 16 said was missing is N^{Theta_chi} with Theta_chi = 1/2. Nothing 
 imported: under the two hypotheses every term has modulus N and their weighted number
 is log^4 N.
 
-**What the bound is not.** It is a bound and not an asymptotic. The double sum has no
-non-oscillating term: one would need a zero of zeta and a zero of L(s, chi) with opposite
-ordinates, which is not known to occur and is expected never to. The exponent 4 is what
+**What the bound is not.** It is a bound and not an asymptotic. An opposite-ordinate
+pair would give a non-oscillating term. Its absence has not been proved and is not
+assumed in the bound. The exponent 4 is what
 counting gives. On the sum side the analogous exponent went from Fujii's (x log x)^{4/3}
 to x log^5 x (Bhowmik and Schlage-Puchta, Gallagher's lemma with Cramer's and
 Saffari-Vaughan's mean squares under RH) and to x log^3 x (Languasco and Zaccagnini,
@@ -788,17 +818,24 @@ transform of I(x) = sum_{m <= x} Lambda(m) chi(m) (x/2 - m) is, for Re s > 1,
     integral_1^infinity I(x) x^{-s-2} dx = -(L'/L)(s, chi) (1 - s) / (2 s (s + 1)),
 
 which has a pole at every zero rho' of L(s, chi), the factor (1 - rho')/(2 rho' (rho' + 1))
-being non-zero. If I(x) were O(x^{1 + Theta_chi - eps'}) the left side would converge
+being non-zero. For every eps' > 0 the definition of supremum supplies a zero with
+Re rho' > Theta_chi - eps'; no attained supremum is required.
+If I(x) were O(x^{1 + Theta_chi - eps'}) the left side would converge
 absolutely and be analytic in Re s > Theta_chi - eps', where the right side has a pole;
 so I(x) = Omega(x^{1 + Theta_chi - eps'}) for every eps' > 0. Only absolute convergence
 implies analyticity is used, so no sign condition on the coefficients is needed; this is
 the direction of Landau's oscillation theorem that does not require one (Ingham, ch. V;
-Montgomery-Vaughan, section 15.1). Put eps' = min(eps, 1 - Theta)/2. Along integers
-N with |I(N)| >= N^{1 + Theta_chi - eps'} (I(x) - I(floor x) = O(P(x)) is negligible),
+Montgomery-Vaughan, section 15.1). Put eps' = min(eps, 1 - Theta)/2. The preceding
+contradiction in fact proves I is not O of that power. For N <= x < N+1,
+I(x)-I(N) = (x-N)P(N)/2 = O(N), negligible since 1+Theta_chi-eps' > 1.
+Thus |I(N)|/N^{1+Theta_chi-eps'} is unbounded on the integers. Along an unbounded
+sequence with |I(N)| >= N^{1 + Theta_chi - eps'},
 (E3), Section 15 and Theorem A give
 |T(N)| >= N^{1 + Theta_chi - eps'} - O(N^{Theta + Theta_chi} log^4 N + N log N)
 >= (1/2) N^{1 + Theta_chi - eps'}, because Theta + Theta_chi < 1 + Theta_chi - eps'.
 Hence E(N) >= (1/2) N^{1 + 2 Theta_chi - 2 eps'} >= (1/2) N^{1 + 2 Theta_chi - eps}. QED.
+
+The conclusion is along that sequence, not an eventual lower bound for all N.
 
 **What it says and does not say.** Theorem B is unconditional, and it is informative only
 if RH fails for L(s, chi): with Theta_chi = 1/2 it gives Omega(N^{2 - eps}), below the
@@ -830,10 +867,13 @@ would have to be derived afresh.
   and Yang, Theorem 2). Granville (Funct. Approx. 37 (2007) 159-173; corrigendum 38 (2008)
   235-237) showed that sum_{n <= x} (G(n) - J(n)) << x^{3/2 + o(1)} is equivalent to RH. All
   of these are the sum side a + b = n averaged over n; none is the difference side, and none
-  carries a character on the difference. The sum-side quadratic term
-  sum_{rho, rho'} N^{rho + rho'} Gamma(rho) Gamma(rho') / Gamma(rho + rho' + 1)
-  (Languasco and Zaccagnini, Forum Math. 27 (2015) 1945-1960, unconditional with a Cesaro
-  weight of order k > 1/2) carries Gamma factors; the difference-side term of Step 3
+  carries a character on the difference. With normalized weight (1-n/N)^k/Gamma(k+1),
+  the sum-side quadratic term is
+  sum_{rho, rho'} N^{rho + rho'} Gamma(rho) Gamma(rho') / Gamma(rho + rho' + k + 1)
+  (Languasco and Zaccagnini, Forum Math. 27 (2015) 1945-1960, Theorem 1, unconditional
+  with a Cesaro weight of order k > 1) carries Gamma factors. Their double series
+  converges absolutely for k > 1/2, but the proved formula requires k > 1.
+  The difference-side term of Step 3
   carries 1/(rho (rho + rho')) and no Gamma factor, which is why the near-coincidences
   gamma' = -gamma are the terms to control and why (F5) is needed unconditionally.
 - **Primes in progressions.** Bhowmik, Halupczok, Matsumoto and Suzuki (Mathematika 65
@@ -841,21 +881,26 @@ would have to be derived afresh.
   l = a, m = b (q)} Lambda(l) Lambda(m): Theorem 1(1), S = x^2 / (2 phi(q)^2) + O(x^{1 + B_q})
   unconditionally with B_q the supremum of Re over the zeros of every L(s, chi) mod q;
   Theorem 2, the explicit formula with those zeros and error O(x^{2 B_q^*} (log qx)^5);
-  Theorem 1(2) and Theorem 3, the converses under their Distinct Zero Conjecture. Their
+  Theorem 1(2), a converse under DZC and nonvanishing character coefficients, with
+  an additional B_q=1 possibility unless a=b; Theorem 3(2), a converse requiring
+  an attained rightmost zero belonging to a unique character with squarefree
+  conductor coprime to the target residue. Their
   double sums pair zeros of two different L-functions and carry Gamma factors. Theorem A
-  is the difference-side counterpart for the pair (zeta, L(s, chi_3)), its exponent
-  Theta + Theta_chi playing the part of 1 + B_q; Theorem B runs their Theorem 3 direction
-  the other way (there an error term bounds the zeros, here the zeros bound the error from
-  below). Suzuki (Int. J. Number Theory 13 (2017), arXiv:1504.01967) is the earlier mean
+  is a difference-side bound for the pair (zeta, L(s, chi_3)); after subtracting I,
+  its quadratic-zero remainder is closer to their Theorem 2 than to the error after
+  subtracting only the smooth leading term in Theorem 1(1). Theorem B runs the
+  error-versus-zeros reasoning in the reverse direction: there an error term bounds
+  the zeros, here the zeros bound the error from below. Suzuki (Int. J. Number Theory
+  13 (2017), arXiv:1504.01967) is the earlier mean
   value in progressions. Read: statements, introductions, and the Section 2 lemmas of
   BHMS; the whole of Goldston and Yang; Sections 1 and 2 of Languasco and Zaccagnini.
 - **Is (T) a consequence of known estimates?** Under RH for zeta and for L(s, chi_3), yes,
   by Theorem A, and the proof uses nothing beyond (F1) to (F5): no cancellation is
   assumed beyond |N^{rho + rho'}| = N. Unconditionally, no: what is known about Theta and
   Theta_chi (zero-density estimates and the zero-free region) does not give
-  Theta + Theta_chi < 2, and Theorem A is then empty. On this route (T) is exactly as
-  hard as RH for the two functions. Whether (T) implies anything back about the zeros
-  was not investigated; Granville's converse on the sum side rests on the main term N^2/2
+  Theta + Theta_chi < 2, so the case Theta + Theta_chi = 2 remains possible.
+  The proof establishes the implication from the two RH assumptions to (T).
+  No converse is proved. Granville's converse on the sum side rests on the main term N^2/2
   being smooth, and the difference-side main term I(N) is itself a zero sum.
 - **What is additional.** Nothing, conditionally. The one estimate the whole of (T)
   rests on is J(N) = sum_{m <= N} Lambda(m) chi(m) (psi(m) - m) = O(N^{1+eps}) of
@@ -863,14 +908,17 @@ would have to be derived afresh.
   1/(rho (rho + rho')).
 
 **Provenance and status, kept apart.** (E0) to (E5) are identities, checked as such.
-Section 15 is elementary and unconditional. Theorem A is proved under no hypothesis and
+Section 15 is unconditional and uses PNT and the contour estimate detailed in the
+referee report. Theorem A is proved under no hypothesis and
 its interesting case is conditional on two Riemann hypotheses; Theorem B is
 unconditional. All are original to this hunt in the sense of CLAUDE.md, produced here
 from the record; none is claimed novel: the search covered the papers named above, read
 in the parts stated, and a web search of 2026-09-06 for a character-weighted
 difference-side pair sum, which returned nothing relevant. The proofs are written out
-above with the standard lemmas cited and are not kernel-checked, so on the certainty
+above with the standard lemmas cited, corrected and independently audited in
+REFEREE.md. They are not kernel-checked, so on the certainty
 ladder they stand as written proofs on cited lemmas, below anything `rigor.py` or the
-Lean arm can say; a reader walking (F1) to (F5) against Davenport and Montgomery-Vaughan
-is the next step. Relevance to the original objective: none for the upper bound.
+Lean arm can say. The referee checked the relevant Montgomery-Vaughan proofs;
+this does not establish novelty or constitute external mathematical endorsement.
+Relevance to the original objective: no upper bound has been proved.
 Section 12's route was to a lower bound, and Theorem B is that lower bound.
