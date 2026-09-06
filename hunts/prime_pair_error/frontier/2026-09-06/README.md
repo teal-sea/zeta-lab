@@ -47,3 +47,13 @@ The archive is evidence and is not edited to catch up.
 ## Next phase
 
 Before promoting any conversation-era analytic lemma, independently review it. The immediate mathematical frontier is the central prime-counting obstruction: obtain an unconditional upper-bound mechanism that rules out a coherent `R(N)=psi(N)-N` excursion larger than the RH scale, without merely restating RH or using an aggregate identity that annihilates zeta-zero modes.
+
+## Factorial-certificate pilot (preserved and reviewed 2026-09-06)
+
+`factorial_certificate_pilot/` preserves a separate downloaded attachment,
+`factorial_certificate_pilot.zip`, hash-pinned in its own `archive/SHA256SUMS` and by
+`tests/test_factorial_pilot_archive.py`. It is a Chebyshev-type factorial upper certificate
+for psi(N) with an LP-chosen seed: 87 exact-rational certificates, all reproduced. The
+independent review is `factorial_certificate_pilot/REVIEW.md`; the review's own checker and
+its output live in `factorial_certificate_pilot/review/`. It is a pilot, not a prime-counting
+record and not an RH result, and it does not touch the A/B referee record above.

@@ -1,0 +1,18 @@
+{
+  "PILOT.md": {
+    "bytes": 8005,
+    "sha256": "836988fcb8c6d98797c074d63f7fbac2cfefa81b5889d4eb8d29ccc0983972a6"
+  },
+  "pilot.py": {
+    "bytes": 6891,
+    "sha256": "484fef73d981bd4522eff1608b1106b212b2be2de2ec45021d13bbf577e580dd"
+  },
+  "requirements.txt": {
+    "bytes": 12,
+    "sha256": "1978c5330a34a48fac00c1107de3949b8c8da3bd11517f59ca9b4510363c6c8a"
+  },
+  "results.json": {
+    "bytes": 60352,
+    "sha256": "a70f8c01f4c8b9e0976e194897f26cfa96ae7bbfe88367ae316a47d56146c272"
+  }
+}
