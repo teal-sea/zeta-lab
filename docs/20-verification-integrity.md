@@ -1,4 +1,4 @@
-# 20 — Verification integrity: the referee, refereed
+# 20. Verification integrity: the referee, refereed
 
 *The architectural record of the 2026-08-09 build: what was latent, how it
 was attacked before it was built, what survived, and where it stops.*
@@ -15,8 +15,8 @@ referee". It is one principle, applied recursively:
 
 Departments are the packaging that lets unrelated subjects supply
 instruments. The battery is the unit of refereeing. And the principle
-applied to the battery *itself* — plant known corruptions in batteries,
-measure whether the audit notices — is the layer the repository had
+applied to the battery *itself*, plant known corruptions in batteries,
+measure whether the audit notices, is the layer the repository had
 discovered twice by hand and never built:
 
 1. **The sham battery** (commit `431cc74`). A finite-survey battery whose
@@ -27,13 +27,13 @@ discovered twice by hand and never built:
 2. **The dossier resumption benchmark** (ROADMAP, 2026-08-09). Blinded
    agents ran against planted failures from this repository's own incident
    history: they caught *recorded contradictions* nearly everywhere, and
-   reliably missed *hollow verification* — in every representation tested.
+   reliably missed *hollow verification*, in every representation tested.
 
-Add the two written-down-but-unconsumed measurements — `compiler/FINDINGS.md`
+Add the two written-down-but-unconsumed measurements, `compiler/FINDINGS.md`
 §8 ("a department can declare four lesions, be blind to all four, and still
 be structurally admissible; nothing in the admission rule consults
 `has_power`") and `REDTEAM.md` W2 (a "pre-registered" attack whose criteria
-had seen their own answers, pass probability near 1) — and the shape of the
+had seen their own answers, pass probability near 1), and the shape of the
 missing layer was fully specified by the repository's own history. Nothing
 in this build required a new idea; it required taking four recorded
 incidents seriously as architecture.
@@ -59,12 +59,12 @@ undetectable."** Half true, and the half that is true changed the design:
 integrity is a **named checklist with explicit unknowns and five crisp
 grades**, never a scalar, and the audit prints its own blind-spot catalog
 on every report. "Self-auditing" was weakened to "self-auditing where
-decidable, loud about where not" — which is the version this repository's
+decidable, loud about where not", which is the version this repository's
 ethos permits anyway.
 
 **"Adopt a truth-flavored claim vocabulary (SUPPORTED / REFUTED)."**
 Rejected as a regression. The harness adjudicates the weaker, decidable
-question — *is this demonstration about its subject at all?* — and per
+question, *is this demonstration about its subject at all?*, and per
 `docs/08` nothing here is evidence for or against RH. Claim outcomes stay
 the harness's own (distinguishes / shared / does-not-fire / inconclusive);
 what is new is that no outcome can be stated without the integrity of the
@@ -74,9 +74,9 @@ battery that produced it.
 
 `harness/integrity.py` produces two things and always pairs them:
 
-* **claim outcome** — did the claim fire for the target, and was it shared
+* **claim outcome**: did the claim fire for the target, and was it shared
   with any rival;
-* **battery integrity grade** — `CALIBRATED`, `DETECTOR_INADEQUATE`,
+* **battery integrity grade**: `CALIBRATED`, `DETECTOR_INADEQUATE`,
   `UNMEASURED`, `CONTAMINATED`, or `HOLLOW`, derived from sixteen named
   checks, each `pass` / `fail` / `unknown` with one line of evidence.
 
@@ -88,10 +88,10 @@ like a claim passing a strong one" is a pinned test
 
 The contract grew three fields, on the evidence of the incidents above:
 **detectors** (a department with lesions but no declared detector is power
-theater — admission now refuses it), **scope** (the compiler department's
+theater, admission now refuses it), **scope** (the compiler department's
 evidence-string pattern generalised: a verdict that travels without its
 scope gets read as more than it is), and **provenance** (independence and
-contamination as declared, human-attested data — `harness/provenance.py`).
+contamination as declared, human-attested data, `harness/provenance.py`).
 `DetectorVerdict` measures specificity alongside sensitivity, closing the
 hole a constant-`True` detector walked through: it noticed every lesion and
 earned a perfect `PowerVerdict` while carrying no information.
@@ -101,7 +101,7 @@ earned a perfect `PowerVerdict` while carrying no information.
 `integrity.SHAM_MODES` records ten known ways a structurally valid battery
 can be hollow. For each, either the check that catches it, or `None` plus
 the countermeasure. The audit's power is measured the way it measures
-everyone else's — `harness/shams.py` plants each corruption into a
+everyone else's, `harness/shams.py` plants each corruption into a
 calibrated specimen and `tests/test_harness_integrity.py` asserts the named
 check fails:
 
@@ -115,21 +115,21 @@ check fails:
 | key-asymmetry label leak (the `431cc74` shape) | `payload-symmetry` |
 | vacuous calibration | `calibration-rederived` |
 | contaminated preregistration (the W2 shape) | `provenance-contamination` if declared; derived from digests where a `harness.preregistration` record exists (`docs/21` §10.1) |
-| **silently dropped hardest lesion** | **nothing** here — caught only against a preregistered criteria digest (`docs/21` §10.1) |
-| **value-encoded label leak / co-designed calibration** | **nothing** — pinned blind |
-| **distant rivals** (added 2026-08-09) | **nothing** — pinned blind. `rival-separator-abundance` measures the distance and prints it; its frozen threshold sits above the whole measured range, so it acts on nothing (`docs/23` §8.4) |
-| **detector is the claim, negated** (added 2026-08-09) | `detector-claim-agreement` — **closed 2026-08-10** (`docs/23` §8.5) |
+| **silently dropped hardest lesion** | **nothing** here, caught only against a preregistered criteria digest (`docs/21` §10.1) |
+| **value-encoded label leak / co-designed calibration** | **nothing**, pinned blind |
+| **distant rivals** (added 2026-08-09) | **nothing**, pinned blind. `rival-separator-abundance` measures the distance and prints it; its frozen threshold sits above the whole measured range, so it acts on nothing (`docs/23` §8.4) |
+| **detector is the claim, negated** (added 2026-08-09) | `detector-claim-agreement`, **closed 2026-08-10** (`docs/23` §8.5) |
 | **agreeable absent-field oracle** (added 2026-08-10) | `undeclared-field-symmetry` |
-| **structure-matched, value-disjoint rivals** (added 2026-08-10) | **nothing** — pinned blind, and the obvious fix is measured to invert (`docs/23` §8.3) |
-| **detector and claim consume disjoint shapes** (added 2026-08-10) | **nothing** — the residue `detector-claim-agreement` leaves |
+| **structure-matched, value-disjoint rivals** (added 2026-08-10) | **nothing**, pinned blind, and the obvious fix is measured to invert (`docs/23` §8.3) |
+| **detector and claim consume disjoint shapes** (added 2026-08-10) | **nothing**, the residue `detector-claim-agreement` leaves |
 
 The last two rows were added after §8's second experiment was actually run. An
 independent party, given only `protocol.py` and this package's README and
 forbidden the integrity source and this catalog, built a battery graded
 `CALIBRATED` **on the first attempt with zero adaptation iterations**, passing
 all 19 conformance tests. Its rivals were distant enough that `anything AND a
-target-only property` distinguished — an explicitly astrological claim rendered
-as `distinguishes` under a `CALIBRATED` banner — and its detector was its claim
+target-only property` distinguished, an explicitly astrological claim rendered
+as `distinguishes` under a `CALIBRATED` banner, and its detector was its claim
 negated, identical on 29/29 payloads while passing both power and specificity.
 A third observation is not a sham mode but a weakness in this module: a check
 returning `UNKNOWN` (here `payload-symmetry`, unreachable because the payloads
@@ -137,12 +137,12 @@ are callables rather than mappings) does not prevent the top grade. The scoring
 rule in §8 was "every mode they find that the catalog lacks is a real hole";
 these are holes, and the audit's real constraining power is over *mechanical*
 emptiness, not over the two choices that decide whether a battery can reject
-anything — how near the rivals are, and whether the detector is independent of
+anything, how near the rivals are, and whether the detector is independent of
 the claim. Both are the author's to pick.
 
-The last two rows are the important ones. A fully co-designed sham —
+The last two rows are the important ones. A fully co-designed sham,
 identity encoded in the *values* of a shared payload key, with claims
-written to read it — is constructed in full in the test suite, and its
+written to read it, is constructed in full in the test suite, and its
 CALIBRATED grade is **asserted**, poison-lesion style: the day somebody
 builds a check that catches it, the pin fails and the catalog gets
 corrected. The countermeasure for both blind rows is independent authorship
@@ -152,21 +152,21 @@ fact. That boundary is printed on every report.
 ## 5. The referee as department #5
 
 `harness/departments/referee_department.py`. Batteries are the subjects.
-The rejected reference claim is `validates_structurally` — true of the
+The rejected reference claim is `validates_structurally`, true of the
 calibrated specimen *and of every sham rival*, measured, which makes
 "structural completeness is not verification" a re-derived verdict rather
 than a slogan. The distinguishing claim is the full audit at CALIBRATED.
 The detector is the audit itself as a predicate, with measured specificity
 (quiet on the specimen) and measured power (fires on all four planted
 corruptions). The null is an unguided bundle generator *conditioned on
-structural validity* — the null class worth beating, since every sham
-validates — and its measured luck floor is 10–11 of 16 checks against the
+structural validity*, the null class worth beating, since every sham
+validates, and its measured luck floor is 10–11 of 16 checks against the
 specimen's 16.
 
 The held-out element is the reconstructed `431cc74` sham: authored by a
 different process, at a different time, with no knowledge of today's audit.
 Its anatomy is pinned: calibration re-derives, its co-designed detector has
-mechanical power — everything a sham author could co-design passes — and
+mechanical power, everything a sham author could co-design passes, and
 the one thing its author could not hide, the payload asymmetry the label
 leak *is*, catches it.
 
@@ -174,19 +174,19 @@ leak *is*, catches it.
 
 There is no meta-meta-referee, by design. The trust chain is:
 
-1. **Deterministic re-execution** — every verdict re-derives from a fresh
+1. **Deterministic re-execution**: every verdict re-derives from a fresh
    run; nothing is a stored label.
-2. **The pinned conformance suite** — parametrized over all departments,
+2. **The pinned conformance suite**: parametrized over all departments,
    re-run on every change. The suite and the audit are *two independent
    expressions of the same requirements*: the repository's two-backend
    habit, applied to its own referee. A corrupted referee is caught by its
    own machinery (pinned); a corrupted *audit* would be caught by the
    suite; a corruption of both at once is a lied-about tree, which no
    in-tree machinery can survive.
-3. **One held-out mutant** — the `431cc74` sham. The scarcity is the
+3. **One held-out mutant**: the `431cc74` sham. The scarcity is the
    honest number: the repository owns exactly one externally-authored
    calibration case for its audit, and says so.
-4. **Human-attested provenance** — declarations the audit reads and cannot
+4. **Human-attested provenance**: declarations the audit reads and cannot
    verify. A lying provenance record defeats the audit; another referee
    layer would not change that, only move it.
 
@@ -199,7 +199,7 @@ whether a department's instruments measure what its prose believes. That
 list is a feature; the failure mode this document exists to prevent is its
 silent deletion.
 
-## 7. What the foreign departments broke — the record
+## 7. What the foreign departments broke: the record
 
 The mission rule was: a new department must attack an assumption existing
 departments do not, and record what broke.
@@ -207,7 +207,7 @@ departments do not, and record what broke.
 **Department #6 (stateval)** attacked the single-run assumption. Broke two
 things, both fixed as strengthenings in the FINDINGS §7 tradition:
 
-1. `run_nulls` compares one draw per surrogate with a distance tolerance —
+1. `run_nulls` compares one draw per surrogate with a distance tolerance,
    exact for deterministic surrogates, and precisely the REDTEAM W3/W4
    failure for a distributional null. The protocol gained `run_null_band`:
    many draws, an exceedance count, a verdict that states its own draw
@@ -225,7 +225,7 @@ The department also supplied the build's best preserved false start: two
 drafts of its "seed-hacked" rival *acquired genuine skill*, because
 selection on signal-bearing data is training and because in its task about
 a third of unconstrained small random predictors genuinely beat the mean.
-The calibration re-derivation caught both drafts before they shipped — the
+The calibration re-derivation caught both drafts before they shipped, the
 architecture catching its own author. A rival lacks the property by
 construction or it is not a rival.
 
@@ -234,7 +234,7 @@ hurt most
 
 Check: run `.venv/bin/python -m harness.demo`; read the pinned blindness
 tests in `tests/test_harness_integrity.py`; try to write a battery that
-passes the audit and measures nothing — the two known routes are declared,
+passes the audit and measures nothing, the two known routes are declared,
 a third would be a finding, and `python -m harness.new_department` is the
 honest way in.
 
@@ -244,7 +244,7 @@ that nobody has to rediscover them:
 1. **Outside adoption** (known gap #1's open half, now sharper): an
    external team builds a department from the docs alone. Prediction if it
    fails: their battery passes the audit while measuring nothing domain-
-   relevant — i.e. the audit's checks are necessary but far from
+   relevant, i.e. the audit's checks are necessary but far from
    sufficient, and only the co-designed-sham blind spot at larger scale.
 2. **A second held-out sham.** Have an independent party author a hollow
    battery *trying* to pass the audit, without seeing `SHAM_MODES`. Every
@@ -260,12 +260,12 @@ that nobody has to rediscover them:
    something the hollow ones could not: the audit was penalising instruments
    faithful to their own payloads and rewarding authors who reverse-engineered
    its private probe shapes (`docs/23` §8.6). The exercise also contains its own
-   method failure, recorded in `docs/23` §8.0 — the parties ran against the live
-   tree while the new checks were landing in it — so the third experiment below
+   method failure, recorded in `docs/23` §8.0, the parties ran against the live
+   tree while the new checks were landing in it, so the third experiment below
    is still the one most likely to hurt, and a repeat of this one needs a pinned
    harness.
 3. **Stateval transfer.** The stateval instruments on a real dataset with
-   unknown ground truth — where "sham by construction" is unavailable and
+   unknown ground truth, where "sham by construction" is unavailable and
    the oracle is genuinely weak. If the null-band machinery cannot say
    anything useful there, the department's scope line was doing more work
    than its instruments.

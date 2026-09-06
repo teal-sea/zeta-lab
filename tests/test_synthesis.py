@@ -1,4 +1,4 @@
-"""Tests for zeta.synthesis — the mean power of the prime signal.
+"""Tests for zeta.synthesis, the mean power of the prime signal.
 
 Every literal was measured in this environment before being asserted.
 Measured at N = 10⁶ with 1000 cached zeros:

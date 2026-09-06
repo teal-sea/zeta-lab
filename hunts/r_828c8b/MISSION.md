@@ -1,4 +1,4 @@
-# MISSION — hunt R-828C8B
+# MISSION: hunt R-828C8B
 
 **Fifth instance of the ceiling procedure: convex-program certificates for
 Erdos's minimum overlap problem.** Opened from

@@ -16,7 +16,7 @@ dropped credits are nonnegative):
 
       cap = 1.05 * sup_{x in zone, tau in cell} 4*max(0, D(.5,x) + D(.5,x-tau))
 
-  — the POSITIVE PART OF THE SIGNED TOTAL FIELD.  This is the step that
+  - the POSITIVE PART OF THE SIGNED TOTAL FIELD.  This is the step that
   beats the difference-resonance: at `tau ~ 2*pi` an atom in `I_0` of one
   centre sits in the near zone of the other, where the signed field is
   `~ -0.85`, and the zone contributes nothing.  Zone pair charges are
@@ -36,7 +36,7 @@ dropped credits are nonnegative):
   0 of 6601 cells nonpositive on [0, 132].
   worst cell: tau ~ 12.85, margin +0.0529  (signed-field caps)
   worst cell with UNSIGNED caps (independent, more conservative pass):
-  tau ~ 6.33, margin +0.0033 — same verdict, no negative cells.
+  tau ~ 6.33, margin +0.0033, same verdict, no negative cells.
 
 * tau > 114.2: no window of one centre can overlap a window of the other
   (they end at 57.07), so NEAR = 2x the k=1 rows = 0.1628, C1 <= 2.1e-4,
@@ -44,7 +44,7 @@ dropped credits are nonnegative):
 * every deficit piece is convex in v = y^2 and vanishes at v = 0 (the
   signed caps are [a*v - b]^+ with b = Kpair >= 0); the budget floor is
   linear with a v-free nonnegative Kpair term.  Closure at v = 1/4 gives
-  every y in (0, 1/2] — the same section-6 argument as the k=1 proof.
+  every y in (0, 1/2], the same section-6 argument as the k=1 proof.
 
 ## Grade and controls
 

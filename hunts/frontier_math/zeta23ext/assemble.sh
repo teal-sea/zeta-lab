@@ -26,7 +26,7 @@ PKG="$REPO_ROOT/hunts/frontier_math/zeta23ext"
 # The prebuilt dependency store. `lean/` is the laboratory's own Lean package
 # and is what makes this cheap. Build artifacts are gitignored, so in a git
 # WORKTREE the local `lean/.lake` does not exist and the store lives in the
-# primary checkout — find it through the common git dir rather than guessing a
+# primary checkout, find it through the common git dir rather than guessing a
 # path, so this works from any worktree.
 STORE="$REPO_ROOT/lean/.lake/packages"
 if [ ! -d "$STORE/mathlib" ]; then
@@ -69,6 +69,6 @@ echo
 if [ $status -eq 0 ]; then
   echo "ASSEMBLES: every module in Zeta23Ext builds under $(cat lean-toolchain)"
 else
-  echo "DOES NOT ASSEMBLE (lake exit $status) — do not land Lean on top of this"
+  echo "DOES NOT ASSEMBLE (lake exit $status), do not land Lean on top of this"
 fi
 exit $status

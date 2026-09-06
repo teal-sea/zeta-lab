@@ -5,7 +5,7 @@ fraction theta_full with the Cheer-Goldston ordered-gap floor.  theta_full
 was established (levels 1-7) at the hunt's window (L = 8, septic ramp);
 the floor was computed with the Montgomery-Taylor kernel g.  The
 "transplant lemma" is whatever connects the two.  This module measures
-the three windows in play and finds that the lemma DECOMPOSES — there is
+the three windows in play and finds that the lemma DECOMPOSES, there is
 no kernel-comparison inequality to prove, but there is a chain re-run to
 do, and the degeneracies that force it are exact and now measured.
 
@@ -13,7 +13,7 @@ THE THREE WINDOWS.
 
 1. **The hunt window** (L = 8 septic ramp; levels 1-7, theta_full = 0.02).
    Its kernel omega(r) = Phi2(r)/Phi2(0) has zeros in ratios
-   1 : 2.0001 : 3.0003 : ... — arithmetic to 1e-4 (:func:`hunt_zeros`).
+   1 : 2.0001 : 3.0003 : ..., arithmetic to 1e-4 (:func:`hunt_zeros`).
    The CG mechanism needs lambda_2 != 2 lambda_1 (the floor's own lesion
    moves lambda_2 to 2 lambda_1 and must die); the smoothed-box sinc
    structure sits essentially ON the lesion.  The bucket LP with omega^2
@@ -23,25 +23,25 @@ THE THREE WINDOWS.
 2. **The Hann grid window** (phi = cos^2(pi u) on [-1/2, 1/2]; the shape
    of the pinned zero-side regression instrument `blockpos.py`).  Its
    grid form is EXACTLY alias-free: B(z, w) = 2 pi Phi2_h(z - w) to
-   machine precision (:func:`hann_law_d`) — the satellites are chosen so
+   machine precision (:func:`hann_law_d`), the satellites are chosen so
    the +-2pi aliases cancel; LAW D transplants verbatim.  But its kernel
-   zeros are 6pi, 8pi, 10pi, 12pi: 2 lambda_1 = lambda_4 EXACTLY — again
+   zeros are 6pi, 8pi, 10pi, 12pi: 2 lambda_1 = lambda_4 EXACTLY, again
    CG-degenerate, exactly.  (Its damage field is also essentially
    harmless: min W = -1.7e-5 out to g = 40; retention is nearly free and
    nearly worthless there.)
 
 3. **The MT window** (phi = cos(sqrt2 t) on the width-1 box): the
    Montgomery-Taylor kernel g is EXACTLY its normalised squared Fourier
-   transform (:func:`mt_kernel_identity`) — Taylor's sqrt2 modulation is
+   transform (:func:`mt_kernel_identity`), Taylor's sqrt2 modulation is
    what breaks the arithmetic degeneracy (lambda_2/lambda_1 = 1.9201),
    and it is the ONLY window of the three whose floor is alive.  The
    grid form at this window has a measured ~0.5% alias defect
    (:func:`mt_law_d`): the box autocorrelation reaches the +-2pi alias,
    so the LAW hierarchy transplants with an explicit alias term to be
-   carried one-sidedly — a complication, not a wall.  The retention
+   carried one-sidedly, a complication, not a wall.  The retention
    entry card (:func:`mt_entry_card`) is 3x FRIENDLIER than the hunt
    window: min W / sigma^2 = -0.43 (vs -(1+m0) = -1.21), with the
-   negative band at g ~ 7 grid units = 1.11 mean gaps — exactly the
+   negative band at g ~ 7 grid units = 1.11 mean gaps, exactly the
    lambda_1 geometry the CG buckets live on.
 
 THE DECOMPOSITION (what "the transplant lemma" actually is):
@@ -181,7 +181,7 @@ def hunt_floor():
 
 
 # ---------------------------------------------------------------------------
-# finding 2: the Hann grid window — LAW D exact, CG-degenerate exactly
+# finding 2: the Hann grid window, LAW D exact, CG-degenerate exactly
 # ---------------------------------------------------------------------------
 
 
@@ -211,7 +211,7 @@ def hann_zeros(kmax: int = 4):
 
 
 # ---------------------------------------------------------------------------
-# finding 3: the MT window — the live kernel, alias defect, entry card
+# finding 3: the MT window, the live kernel, alias defect, entry card
 # ---------------------------------------------------------------------------
 
 
@@ -288,7 +288,7 @@ def audit():
               f"(= {row['at_g'] / (2 * math.pi):.3f} mean gaps)  "
               f"minW/sigma2 = {row['ratio']:+.3f}")
     print("  (hunt window's LAW I constant: -(1+m0) = -1.2137; the MT")
-    print("   window's measured envelope is -0.43 — 3x friendlier)")
+    print("   window's measured envelope is -0.43: 3x friendlier)")
 
 
 if __name__ == "__main__":

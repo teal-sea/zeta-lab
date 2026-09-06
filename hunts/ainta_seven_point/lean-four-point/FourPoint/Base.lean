@@ -400,7 +400,7 @@ lemma sin_flip (a x : ℝ) : Real.sin (Real.pi*(x-a)) = -Real.sin (Real.pi*(a-x)
 `x = √2/(2π) = 0.2250…`, which lies inside `[0,1/2]`.  That window is therefore handled from
 the sinc form instead, where the singularity is not visible at all: the left sinc is enclosed
 by its own Taylor polynomial and the right sinc is merely shown to be nonnegative.  The bound
-obtained, `w ≥ 19/100`, is enormously more than the table needs — it only has to beat `c`. -/
+obtained, `w ≥ 19/100`, is enormously more than the table needs, it only has to beat `c`. -/
 
 /-- The degree-10 Taylor polynomial of `sinc`. -/
 def taylorSinc (z : ℝ) : ℝ :=

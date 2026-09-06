@@ -1,8 +1,8 @@
-# O9 scoping — what the nine-window table costs as an interval object
+# O9 scoping: what the nine-window table costs as an interval object
 
 **Date:** 2026-08-13. **Code:** `o9_scoping.py`, `test_o9_scoping.py` (17 pins).
 **Reads:** `RETENTION-PROBLEM.md` §4 (the obligations) and §7 (the arithmetic).
-**Writes nothing into the Lean package** — this is a cost estimate for a build
+**Writes nothing into the Lean package**, this is a cost estimate for a build
 that has not started, produced before starting it rather than after.
 
 Run:
@@ -14,8 +14,8 @@ Run:
 
 ## 0. Why this file exists
 
-`RETENTION-PROBLEM.md` §4 names O9 — the damage cap table on
-`[28/5, 60] x [0, 1/2]` — as **"the only real work"** left in the `k = 1`
+`RETENTION-PROBLEM.md` §4 names O9, the damage cap table on
+`[28/5, 60] x [0, 1/2]`: as **"the only real work"** left in the `k = 1`
 retention chain, the other four open obligations being small. `PROOF-LEDGER.md`
 prices the same item as "the real remaining cost: a two-variable
 interval-arithmetic statement, the analogue of the `BandCert` leaf tables
@@ -56,7 +56,7 @@ Both are presentational, and both have room to be fixed.
 
 ## 2. The two knobs, and how much each one has
 
-**Knob A — inflate the caps.** O9 feeds §7 only as an upper bound, so replacing
+**Knob A, inflate the caps.** O9 feeds §7 only as an upper bound, so replacing
 `c_k` by `lambda * c_k` weakens the statement in the safe direction. The cost is
 paid in the final arithmetic, where the caps enter through the integer trade
 `P(c,q)`. Reproducing §7 exactly from the table:
@@ -74,12 +74,12 @@ Bisecting on `lambda`, the **largest inflation §7 still absorbs is `1.3945x`**.
 That is the whole of the 1.6345x margin the chain already reports, spent on the
 windows alone.
 
-**Knob B — widen the windows.** The recorded `I_k` are the damage support, and
+**Knob B, widen the windows.** The recorded `I_k` are the damage support, and
 they sit in a `[28/5, 60]` interval at a 15.3 % duty cycle: width `~0.96` at
 spacing `>6.16`. Growing each window on both sides costs nothing on the cap
-side, because the added strips carry no damage — grid suprema over the widened
+side, because the added strips carry no damage, grid suprema over the widened
 boxes stay under `c_k` at every `k`
-(`test_widening_a_window_does_not_raise_its_cap`) — and it buys a strict margin
+(`test_widening_a_window_does_not_raise_its_cap`), and it buys a strict margin
 on the complement.
 
 **But knob B has a ceiling, and it is O3, not taste.** §5 step 3 groups the
@@ -122,7 +122,7 @@ The complement, over the ten gaps between the widened windows:
 
 **Recommended operating point: inflation `1.20x`, widening `1/200`.**
 That is **110 + 279 = 389 leaves, maximum depth 16**, and it leaves the §7
-arithmetic a surplus of `2.599e-02` against a budget of `1.2986e-01` — a 1.16x
+arithmetic a surplus of `2.599e-02` against a budget of `1.2986e-01`, a 1.16x
 margin still in hand against the `1.3945x` wall. The whole sweep runs in under a
 second.
 
@@ -134,7 +134,7 @@ that. **Size was never the obstacle.**
 
 1. **`Qre_closed` / `Qim_closed` are already kernel-checked**
    (`EForm3/ClosedForm.lean`), so the enclosure never has to carry a quadrature.
-   O9 is interval arithmetic on an explicit elementary expression — the same
+   O9 is interval arithmetic on an explicit elementary expression, the same
    position `BandCert` was in.
 2. **One new leaf is needed: the removable branch `Qim(y,s)/y`.** Writing the
    check as `Qim^2 - Qre^2 <= c y^2` directly forces every box touching `y = 0`
@@ -149,7 +149,7 @@ that. **Size was never the obstacle.**
 4. **The recorded table changes shape**: nine rows of
    `(s_lo, s_hi, cap)` become nine *widened* rows with caps inflated `1.20x`,
    plus a leaf list per window and per gap. Both numbers are small enough that
-   `decide` — which is what `Check.lean` uses, not `native_decide` — stays
+   `decide`, which is what `Check.lean` uses, not `native_decide`, stays
    plausible; that should be the first thing measured once the checker exists,
    since kernel reduction, not leaf count, is the real risk at this size.
 
@@ -157,9 +157,9 @@ that. **Size was never the obstacle.**
 
 This is a probe. It measures a cost and reports a shape; it lands nothing in
 `zeta23ext` and moves no obligation from open to closed. O9 remains open, the
-`k = 1` chain remains at hardened grade, and `k >= 2` — the 1.99x budget
+`k = 1` chain remains at hardened grade, and `k >= 2`: the 1.99x budget
 shortfall of `PROOF-LEDGER.md`, which is on the budget side and is not touched by
-anything here — remains the actual open mathematics. Nothing in this file is
+anything here, remains the actual open mathematics. Nothing in this file is
 evidence about RH.
 
 The grid suprema in §1 are grid maxima, so they are lower bounds on the true

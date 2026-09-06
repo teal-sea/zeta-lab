@@ -1,4 +1,4 @@
-# 32 — The Palomar arm: what an outside mechanical check adds, and what it does not
+# 32. The Palomar arm: what an outside mechanical check adds, and what it does not
 
 **21 August 2026.** On 18 August 2026 the Lean FRO and ICARM opened
 [Palomar](https://palomar-registry.org/), a registry of Lean-verified

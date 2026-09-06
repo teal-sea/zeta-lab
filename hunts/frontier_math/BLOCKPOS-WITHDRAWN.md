@@ -1,4 +1,4 @@
-# blockpos-0.672529 — WITHDRAWN / FALSIFIED
+# blockpos-0.672529: WITHDRAWN / FALSIFIED
 
 **Status:** WITHDRAWN / FALSIFIED UNDER CURRENT FORMULATION
 **Date withdrawn:** 2026-08-15
@@ -23,7 +23,7 @@ u u^T + ū ū^T = 2(xx^T − yy^T)
 
 This is a hyperbolic block. A matrix of this form has a negative eigenvalue (unless y = 0, which holds only for on-line roots). The off-line block therefore interacts negatively with the on-line part.
 
-**Exact witness:** u_x = 1, u_z = i, u_conj(z) = −i gives tr(P₁Q′) = −2. With five unit on-line labels the final inequality reads 9 ≥ 13 — a contradiction.
+**Exact witness:** u_x = 1, u_z = i, u_conj(z) = −i gives tr(P₁Q′) = −2. With five unit on-line labels the final inequality reads 9 ≥ 13, a contradiction.
 
 **Artifacts:**
 - Report: `hunts/frontier_math/CLEAN-KILL-REPORT.md`
@@ -89,4 +89,4 @@ This result postdates the Pub 1 scientific snapshot (`24fce230968e8d78f6d50ccba3
 
 ## Next Frontier Item
 
-`R-FB9C81 / urms2-0.51` — no recorded blind attack yet; review is not yet standing.
+`R-FB9C81 / urms2-0.51`: no recorded blind attack yet; review is not yet standing.

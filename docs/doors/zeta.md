@@ -1,6 +1,6 @@
 # Department: `zeta`
 
-The Riemann zeta function and RH — department #1, and the worked example every
+The Riemann zeta function and RH, department #1, and the worked example every
 later department should copy.
 
 **Declared in** `harness/departments/zeta_department.py`.
@@ -13,8 +13,8 @@ identity exposed as a measured *defect* rather than assumed: θ and modularity,
 the functional equation, Hardy's Z and sign changes, the explicit formula, GUE
 statistics, heat flow on Ξ and the de Bruijn–Newman constant, Weil positivity,
 Li's criterion and Jensen hyperbolicity, the four equivalence faces, and the
-Davenport–Heilbronn counterexample. Curves over 𝔽_p — the RH that is a
-theorem — are [department #2](finitefield.md).
+Davenport–Heilbronn counterexample. Curves over 𝔽_p, the RH that is a
+theorem, are [department #2](finitefield.md).
 
 Modules: `zeta.core`, `zeta.zeros`, `zeta.explicit`, `zeta.statistics`,
 `zeta.heatflow`, `zeta.weil`, `zeta.epstein`, `zeta.rigor`, `zeta.li`,
@@ -77,7 +77,7 @@ Measured across the four subjects at n_max = 60:
 |---|---|---|
 | ζ | 1 | 1.03e−32 |
 | Davenport–Heilbronn | 1 | 0.993 |
-| Epstein (2,1,3) | **0** | *undefined — raises* |
+| Epstein (2,1,3) | **0** | *undefined, raises* |
 | Epstein (1,1,6) | 2 | 1.76 |
 
 The form 2x² + xy + 3y² does not represent 1, so that Epstein series has

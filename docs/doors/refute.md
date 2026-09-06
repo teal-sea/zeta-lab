@@ -1,7 +1,7 @@
 # Guide: test a claim against the controls
 
-**For you if** you have a structural claim about the zeros — a spectral
-operator, a positivity argument, a pattern in the statistics — and you want to
+**For you if** you have a structural claim about the zeros, a spectral
+operator, a positivity argument, a pattern in the statistics, and you want to
 know whether it is about ζ at all before you spend a month on it.
 
 **First command:**
@@ -29,10 +29,10 @@ instruments dispatched all five.
 
 | Instrument | The question it asks | If your claim fails |
 |---|---|---|
-| **Rivals** | does it also hold for a function that satisfies the same functional equation and violates RH? | it explains nothing — see `zeta.epstein.battery`, gate #3 of `docs/09` |
-| **Decoys** | does the result survive when the primes are swapped for non-primes, or merely reordered? | it was never reading the arithmetic — `zeta.spectral_gate` |
-| **Surrogates** | does a null model with no arithmetic in it reproduce the pattern? | the pattern is a property of the model class — `zeta.surrogate`, `NULLCONTROLS.md` |
-| **Lesions** | does your detector notice a violation planted on purpose? | your detector is blind, and its silence measures that, not the world — `zeta.detectors` |
+| **Rivals** | does it also hold for a function that satisfies the same functional equation and violates RH? | it explains nothing, see `zeta.epstein.battery`, gate #3 of `docs/09` |
+| **Decoys** | does the result survive when the primes are swapped for non-primes, or merely reordered? | it was never reading the arithmetic, `zeta.spectral_gate` |
+| **Surrogates** | does a null model with no arithmetic in it reproduce the pattern? | the pattern is a property of the model class, `zeta.surrogate`, `NULLCONTROLS.md` |
+| **Lesions** | does your detector notice a violation planted on purpose? | your detector is blind, and its silence measures that, not the world, `zeta.detectors` |
 
 The rival test is the sharpest, because it needs no threshold and no
 statistics. It is a modus tollens: if the Davenport–Heilbronn function has the
@@ -76,7 +76,7 @@ the claim fires for ζ and for none of the rivals.
 
 A claim that distinguishes ζ from every rival is **a candidate for where a real
 proof must live**. It is not evidence for RH, and nothing computed in this
-repository ever will be — see `docs/08-why-it-is-hard.md` for Littlewood's
+repository ever will be, see `docs/08-why-it-is-hard.md` for Littlewood's
 theorem and why a pattern holding for every computed case can still be false.
 
 Related: [discover.md](discover.md), for generating leads rather than refuting

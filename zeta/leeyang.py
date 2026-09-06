@@ -1,4 +1,4 @@
-"""Newman's Lee–Yang program, made computational — and its battery verdict.
+"""Newman's Lee–Yang program, made computational, and its battery verdict.
 
 Statistical mechanics has a theorem that puts zeros on a line.  Lee–Yang
 (1952): for a ferromagnet, the zeros of the partition function in the complex
@@ -6,8 +6,8 @@ fugacity plane all lie on the unit circle.  Newman spent the 1970s asking
 whether ζ could be brought into that framework, and the de Bruijn–Newman
 constant is what came out (`zeta/heatflow.py`, `docs/05`).
 
-The dictionary this module makes explicit.  Read Φ — the heat kernel density
-of `zeta/heatflow.py` — as the **single-site spin measure** of a lattice
+The dictionary this module makes explicit.  Read Φ, the heat kernel density
+of `zeta/heatflow.py`, as the **single-site spin measure** of a lattice
 model.  Its moment generating function is the partition function, and the
 free energy is
 
@@ -19,10 +19,10 @@ recalled, ``free_energy_normalization`` reports
     ∫ Φ(u) e^{hu} du = ¼ · ξ(½ + h/2)
 
 (the ratio against the ``(1/8)Ξ(z/2)`` form of `heatflow.py` comes out at
-exactly 2.0, stable across h — Φ is even and de Bruijn's H₀ integrates over
+exactly 2.0, stable across h: Φ is even and de Bruijn's H₀ integrates over
 the half-line).  So **the free energy of the Φ spin model is log ξ on the
-real axis**, and "Φ lies in the Lee–Yang class" — its Fourier transform has
-only real zeros — is precisely RH.  That is a restatement, not progress; its
+real axis**, and "Φ lies in the Lee–Yang class", its Fourier transform has
+only real zeros, is precisely RH.  That is a restatement, not progress; its
 value is that the *classical sufficient conditions* for membership become
 things one can measure.
 
@@ -37,7 +37,7 @@ What is measured here:
   u = 0 to −9.1×10³ at u = 1.3.  Φ is a positive, even, log-concave density.
 
 **The verdict, and it is negative** (`docs/09` gate #3).  GHS holds for ζ
-across the whole tested range — and it holds just as cleanly for the
+across the whole tested range, and it holds just as cleanly for the
 Davenport–Heilbronn function, which violates RH.  Its completed form is real
 and symmetric about ½, so the same free energy is defined, and its G‴ is
 negative at every probe point (−1.02×10⁻² at w = 0.5 through −3.05×10⁻⁴ at
@@ -49,7 +49,7 @@ Two traps met on the way, both left documented in
 :func:`log_xi_third_derivative`: ``mp.diff`` silently returns ~0 on ``xi``
 (internal rounding makes it bit-constant across the step), and the textbook
 5-point stencil for a third derivative is easy to write with its sign
-flipped — caught here only because the independent zero-sum route disagreed.
+flipped, caught here only because the independent zero-sum route disagreed.
 
 Everything here is *accurate*, not *certified* (see `zeta/rigor.py`).
 """
@@ -80,7 +80,7 @@ def free_energy_normalization(
     """Measure the constant c in ∫Φ(u)e^{hu}du = c·ξ(½+h/2).
 
     Derived, never remembered (house rule): the integral is evaluated by
-    quadrature and divided by ξ.  The ratio must be the *same* at every h —
+    quadrature and divided by ξ.  The ratio must be the *same* at every h,
     that constancy is what makes it a normalization rather than a fit.
     """
     from .core import xi
@@ -123,7 +123,7 @@ def log_xi_third_derivative(
     """G‴(w) for G(w) = log ξ(½+w), or the Davenport–Heilbronn analogue.
 
     Trap, documented rather than worked around: the obvious
-    ``mp.diff(lambda x: mp.log(xi(0.5+x)), w, 3)`` returns ~1e-47 — i.e.
+    ``mp.diff(lambda x: mp.log(xi(0.5+x)), w, 3)`` returns ~1e-47, i.e.
     zero.  ``xi`` rounds to a fixed working precision internally, so across
     ``mp.diff``'s automatic step the function is bit-for-bit constant and the
     derivative silently vanishes.  Same failure as ``dh_f`` in
@@ -147,7 +147,7 @@ def log_xi_third_derivative(
 def ghs_defect(w: float, source: str = "zeta", **kw) -> float:
     """The GHS defect: G‴(w).  GHS is the assertion that this is ≤ 0.
 
-    Returned as a signed measurement, not a boolean — a positive value at
+    Returned as a signed measurement, not a boolean, a positive value at
     some w would be the interesting event, and rounding it to True/False
     would throw away the margin.
     """
@@ -155,13 +155,13 @@ def ghs_defect(w: float, source: str = "zeta", **kw) -> float:
 
 
 def ghs_zero_sum(w: float, n_zeros: int = 2000) -> float:
-    """G‴(w) = −4w Σ_γ (3γ²−w²)/(γ²+w²)³ — the Hadamard route, assuming RH.
+    """G‴(w) = −4w Σ_γ (3γ²−w²)/(γ²+w²)³, the Hadamard route, assuming RH.
 
     Under RH the pairing ρ = ½±iγ gives ξ(½+w) = ξ(½)·∏_γ (1 + w²/γ²), and
     this is the third derivative of its log.  Independent of
     :func:`log_xi_third_derivative` in every step, which is what makes the
     agreement a check.  Truncating the product omits terms of sign −12w/γ⁴,
-    so a truncated value is an *over*estimate (less negative) — the bias runs
+    so a truncated value is an *over*estimate (less negative), the bias runs
     against a false GHS pass.
     """
     from .explicit import first_zeros
@@ -195,7 +195,7 @@ def phi_log_concavity(
     """(log Φ)″ at the given points; negative everywhere means log-concave.
 
     Log-concavity is necessary for the comfortable end of Lee–Yang theory but
-    nowhere near sufficient for real zeros of the transform — a Gaussian is
+    nowhere near sufficient for real zeros of the transform, a Gaussian is
     log-concave and its transform has no zeros at all.  Reported because a
     *failure* here would have been the surprise.
     """

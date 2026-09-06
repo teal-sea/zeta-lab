@@ -1,4 +1,4 @@
-# r_c7f779 — the Cohn–Elkies-style certificate route for T1
+# r_c7f779: the Cohn–Elkies-style certificate route for T1
 
 **Run `872d7dce-5f49-4e7c-8fcf-f470fd066e6f`, opened 2026-08-24.**
 Parent: `hunts/r_b9552d` run `37fb06a9` (`RESULTS-37fb06a9.md` §5, loose

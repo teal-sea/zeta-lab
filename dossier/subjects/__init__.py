@@ -1,4 +1,4 @@
-"""``dossier.subjects`` — the subject-coupled side of the dossier seam.
+"""``dossier.subjects``, the subject-coupled side of the dossier seam.
 
 Modules here may import the laboratory freely. Importing this package does not
 import any of them: the schema must stay testable without the laboratory's

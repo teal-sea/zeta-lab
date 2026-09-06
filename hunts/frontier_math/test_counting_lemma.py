@@ -229,7 +229,7 @@ def test_one_pair_at_every_window_peak_still_beats_the_floor():
     The nine windows to `s = 60` give `1.2888e-02`; that is a LOWER bound
     for the full sum `1.372e-02` (`window_table` caps nine windows at
     `6.5954e-03` one-sided, and the tail past `s = 60` carries the rest).
-    Either number beats the floor, which is the point — but they are two
+    Either number beats the floor, which is the point, but they are two
     different truncations and must not be quoted for each other.
     """
     peaks = [6.517, 12.755, 18.977, 25.20, 31.47, 37.72, 43.96, 50.21, 56.46]

@@ -123,7 +123,7 @@ def test_the_exempted_files_are_the_reason_the_exemption_exists() -> None:
     """
     assert any(
         _leaks((_REPO_ROOT / rel).read_text(encoding="utf-8")) for rel in _PINNED_BLIND_MODULES
-    ), "no pinned module carries a machine-local path — delete the exemption"
+    ), "no pinned module carries a machine-local path, delete the exemption"
 
 
 def _home(user: str, style: str = "mac") -> str:

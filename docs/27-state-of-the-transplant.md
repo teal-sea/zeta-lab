@@ -1,4 +1,4 @@
-# 27 — State of the transplant: what is kernel-checked, what is refuted, what is open
+# 27. State of the transplant: what is kernel-checked, what is refuted, what is open
 
 **12 August 2026.** A reading of the laboratory's current frontier work, written
 because the state changed four times in one day and the front page carries only
@@ -48,11 +48,11 @@ and checked by the kernel.
 | 0b | The retention certificate's arithmetic: the recorded band-dual cover closes at its four depths, with `cap` defined by the genuine band supremum and infimum of ω², so the recorded numbers enter only as one-sided bounds and the statement cannot be vacuous, together with "no band was missed" as a property of the cover. | `zeta23ext/Zeta23Ext/BandCert/` |
 | 1 | The composition inequality `s ≥ 2N − ‖P+Q‖²_F + D`, with the corollary that `‖P+Q‖²_F ≤ C·N` and `D ≥ θ·R₀` give `s ≥ (2−C)N + θR₀`. This is what removes the question "does θ really enter multiplicatively?": it is exact arithmetic, not analogy. | `t3_composition_skeleton.lean` |
 | 2 | The grid-incidence law `Σ_{n∈ℤ} φ̂(x−n)φ̂(y−n) = 2π·FT(φ²)(x−y)` for even, bounded, measurable φ supported in [−½, ½]. Continuity is **not** assumed, which matters: the paper's window jumps at the box edge. | `law_d_incidence.lean` |
-| 3 | The Pub 1 source-admissible strong closure: the supremum of `⟨1,v⟩²/⟨Av,v⟩` over the source-admissible class is `c* = ⟨1, A⁻¹1⟩`, with the reciprocal orientation as the matching infimum, and `orientation_not_symmetric` recording that the two quotients are genuinely different quantities so the load-bearing orientation cannot be silently swapped. **Unconditional** since 2026-08-16 (this row read *Conditional* until then; see below). The four analytic facts about `w` that were carried as explicit named hypotheses have all been discharged — `strongClosureData_final` holds with no analytic or membership hypothesis, so `pub1_strong_closure` assumes only `IsProfile w`, which *is* the setting rather than a hypothesis about it, and `pub1_strong_closure_exists` carries no hypothesis at all, so nothing is vacuous. The tree is sorry-free and axiom-clean (`propext`, `Classical.choice`, `Quot.sound`) against pinned Mathlib `v4.33.0-rc2`. | `lean/ZetaLean/Pub1.lean`, status in `ZetaLean/Pub1/OBLIGATIONS.md` |
+| 3 | The Pub 1 source-admissible strong closure: the supremum of `⟨1,v⟩²/⟨Av,v⟩` over the source-admissible class is `c* = ⟨1, A⁻¹1⟩`, with the reciprocal orientation as the matching infimum, and `orientation_not_symmetric` recording that the two quotients are genuinely different quantities so the load-bearing orientation cannot be silently swapped. **Unconditional** since 2026-08-16 (this row read *Conditional* until then; see below). The four analytic facts about `w` that were carried as explicit named hypotheses have all been discharged, `strongClosureData_final` holds with no analytic or membership hypothesis, so `pub1_strong_closure` assumes only `IsProfile w`, which *is* the setting rather than a hypothesis about it, and `pub1_strong_closure_exists` carries no hypothesis at all, so nothing is vacuous. The tree is sorry-free and axiom-clean (`propext`, `Classical.choice`, `Quot.sound`) against pinned Mathlib `v4.33.0-rc2`. | `lean/ZetaLean/Pub1.lean`, status in `ZetaLean/Pub1/OBLIGATIONS.md` |
 
 Two things about item 2 are worth recording as method rather than result. The
-prover returned a *better* proof than was requested — polarised Parseval on
-ℝ/2πℤ instead of Poisson summation, so bounded-measurable suffices — and it
+prover returned a *better* proof than was requested, polarised Parseval on
+ℝ/2πℤ instead of Poisson summation, so bounded-measurable suffices, and it
 **refuted a hypothesis gap in our own submission**, exhibiting a counterexample
 showing evenness is necessary. That counterexample ships in the file as
 `grid_incidence_needs_even`. A prover that only ever agrees is not a check.
@@ -64,13 +64,13 @@ statement. That seam is named again in §4.
 **Item 3 was stale in this table, and the correction is recorded rather than
 swept.** Its four obligations were discharged over 2026-08-14/16 and
 `OBLIGATIONS.md` was updated to `status: CLOSED`, but this row went on saying
-**Conditional** until 2026-08-17 — three days in which the document that exists
+**Conditional** until 2026-08-17, three days in which the document that exists
 to say what grade each piece holds understated one of them. The direction is
 worth noting precisely because it is the harmless one: a stale row that
 *under*claims costs a reader nothing they can be hurt by, and the same defect
 pointing the other way would have been a false claim of unconditionality. The
-shape is the third instance of the class `HANDOFF.md` already names twice — a
-figure or a status quoted from a superseded row — and it is the reason the
+shape is the third instance of the class `HANDOFF.md` already names twice, a
+figure or a status quoted from a superseded row, and it is the reason the
 guard below exists rather than a resolution to read more carefully.
 
 **Now caught by `tests/test_pub1_status.py`.** `OBLIGATIONS.md`'s status line is
@@ -85,8 +85,8 @@ The bound θ = 0.995 had been established at four sampled depths
 y ∈ {0.02, 0.1, 0.3, 0.49}, while an off-line pair sits at an arbitrary
 y ∈ (0, ½); until it was quantified over all y, the hypothesis the composition
 consumes did not follow. Eighteen cells now tile (0, ½] exactly, and the shallow
-end — which no ladder of cells can reach, since the interval has no smallest
-point — is closed by homogeneity instead: the damage scales as y², the square
+end, which no ladder of cells can reach, since the interval has no smallest
+point, is closed by homogeneity instead: the damage scales as y², the square
 completion is convex through the origin, and slack/y² is bounded below by its
 own limit at 0. One finite inequality where a grid cannot go. Grade: **hardened**
 at double precision; arb or rational hardening over the eighteen cells is a named
@@ -113,8 +113,8 @@ can compute" would be wrong, and it is cheaper to say so than to be asked.
 ## 4. What is open, and the route that was refuted
 
 **Multi-pair universality.** The joint verdict is established over a tested set
-of configurations — 320 randomised ones opened nothing, and the search
-rediscovered the binding family blind — not over all configurations.
+of configurations: 320 randomised ones opened nothing, and the search
+rediscovered the binding family blind, not over all configurations.
 
 The obvious route was proposed here and is now **refuted**, which is the day's
 second deliverable. The idea was per-pair domination: damage is additive across
@@ -128,8 +128,8 @@ the joint cap under a sum of single-pair caps. It fails twice.
    `[2Σ_{i<j}F_iF_j − (k−1)(cK)²]/(4cK)`. What moves is the occupancy, not the
    band set.
 2. Decisively, the route could not have worked at all. From four pairs on a
-   unit lattice — three at float grade only; the k = 3 line sits inside the
-   float-vs-hardened gap and fits under budget at the hardened cap (+0.006) —
+   unit lattice, three at float grade only; the k = 3 line sits inside the
+   float-vs-hardened gap and fits under budget at the hardened cap (+0.006),
    the **sum of single-pair caps already exceeds the budget** while the joint
    verdict closes with 40 % margin. (The k = 3 boundary was first stated one
    grade too strongly; session defect #12, corrected in the ledger row it
@@ -162,7 +162,7 @@ conclusions, with every link checked numerically at X = 250 and X = 5000: the
 literal gate cannot close; it should be retargeted to a majorant `A_j ≤ M_j`
 with the recurrence carried on M, which is what everything downstream actually
 consumes; and the majorant satisfies that recurrence with **equality**, because
-the factorial denominator makes `(j+1)(2j)(2j+1)` exactly the step ratio — the
+the factorial denominator makes `(j+1)(2j)(2j+1)` exactly the step ratio, the
 tightness that defeats the literal gate is the equality the majorant enjoys.
 
 Item 3 is kernel-checked (`ZetaLean/MajorantBypass.lean`). Route A reaches

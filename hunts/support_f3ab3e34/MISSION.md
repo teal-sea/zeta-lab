@@ -1,4 +1,4 @@
-# MISSION — support_f3ab3e34 (Erdős #126, independent-architect arm)
+# MISSION: support_f3ab3e34 (Erdős #126, independent-architect arm)
 
 Support run for `0897a5a7`. Bounded question: ignore the three lanes of the
 earlier brief, design a proof program for Erdős #126 (log g(k) = o(k)) from the

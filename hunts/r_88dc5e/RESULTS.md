@@ -1,4 +1,4 @@
-# Results — hunt r_88dc5e (run 40c2efbc)
+# Results: hunt r_88dc5e (run 40c2efbc)
 
 **Both halves landed, zero sorrys, standard axioms only.** The two dead-weight
 seam lemmas are retired at no reproof cost, and the two-mode arithmetic is
@@ -16,20 +16,20 @@ The brief said not to take run bbe76b9a's use-site survey on faith. It was
 re-run, over `*.lean`, `*.py`, `*.md` and `*.sh` in the whole repository,
 excluding the primed names `r_comp_mem'` and `rIv_mem_box`:
 
-* `O9Seam.r_comp_mem` — **one** use site in code: `Retention.rIv_mem`
+* `O9Seam.r_comp_mem`, **one** use site in code: `Retention.rIv_mem`
   (`O9Assemble.lean:55`). Everything else is prose or `#print axioms`.
-* `Retention.rIv_mem` — **no** use site in code at all. Prose and
+* `Retention.rIv_mem`: **no** use site in code at all. Prose and
   `#print axioms` only.
 
 Both are now removed:
 
-* `O9Real.lean` — `O9Seam.r_comp_mem` deleted; its docstring content moved onto
+* `O9Real.lean`: `O9Seam.r_comp_mem` deleted; its docstring content moved onto
   `r_comp_mem'`, which is the live statement, and now records what the retired
   version got wrong and why the correction weakens nothing.
-* `O9Assemble.lean` — `Retention.rIv_mem` deleted, replaced by a note saying
+* `O9Assemble.lean`: `Retention.rIv_mem` deleted, replaced by a note saying
   what it was and that it had no use site.
-* `O9Audit.lean` — the two `#print axioms` lines removed.
-* `O9NumShape.lean` — the prose that said the two were "left in place" now says
+* `O9Audit.lean`: the two `#print axioms` lines removed.
+* `O9NumShape.lean`: the prose that said the two were "left in place" now says
   they were retired, with the date.
 
 `Zeta23Ext.EForm3.O9Audit` and `Zeta23Ext.EForm3.Main` both build green after
@@ -70,23 +70,23 @@ Two derived statements follow, and they are what the mode lemmas consume:
 
 `EForm3/O9Modes.lean`. Three lemmas and one instantiation.
 
-**`dam_le_mode1_of_iv`** — given `rIv … = some r` and the recorded test
+**`dam_le_mode1_of_iv`**, given `rIv … = some r` and the recorded test
 `(Iv.sub (Iv.sqr r) ⟨cap,cap⟩).hi ≤ 0`, plus the box memberships, concludes
 `Dam y s ≤ (cap/2⁶⁴) · y²`. The content is one division by `2⁶⁴ > 0`:
 `Iv.mem` is `lo ≤ 2⁶⁴·x ≤ hi`, so the recorded `hi ≤ 0` says exactly
 `R² − c ≤ 0`, which is `dam_le_of_mode1`'s hypothesis.
 
-**`dam_le_mode2_of_iv`** — same, for
+**`dam_le_mode2_of_iv`**, same, for
 `(y_hi² · sup(R² − c)).hi ≤ (inf Qre²).lo`. `dam_le_of_mode2` is stated with
 `Rsq` and `yhi` abstract; here they are `e.hi/2⁶⁴ + c` and `yHi/2⁶⁴`, and
 `y ≤ yhi` is the box membership itself. Nothing else is needed.
 
-**`dam_le_of_box`** — `o9Box b = true` and `0 ≤ b.cap` imply the bound at every
+**`dam_le_of_box`**, `o9Box b = true` and `0 ≤ b.cap` imply the bound at every
 point of the box. The `y = 0` case is discharged inside by `dam_zero_le`, so
 the lemma carries no `y ≠ 0` hypothesis, which is the whole point of the
 removable branch.
 
-**`o9Box_of_mem` / `dam_le_of_mem_walk`** — a decided walk decides each of its
+**`o9Box_of_mem` / `dam_le_of_mem_walk`**, a decided walk decides each of its
 boxes, so a box in a chunk `O9Check2` accepted carries the real bound.
 
 ### Instantiability, checked at a real box
@@ -97,8 +97,8 @@ The brief's rule, and the reason it exists. `dam_le_box0` is
 
 for the first recorded row `⟨103301766812773489049, 107547284961337742355, 0,
 4611686018427387904, 0, 2⟩` (a `mode = 2` box with cap `0`), at the interior
-point `(s, y) = (23/4, 1/8)`. Its verdict comes from `o9_box_chunk0` — the
-kernel's own `decide +kernel` over the first forty rows — via
+point `(s, y) = (23/4, 1/8)`. Its verdict comes from `o9_box_chunk0`, the
+kernel's own `decide +kernel` over the first forty rows, via
 `box0_in_chunk0`, not from a fresh decision of that one box. Every remaining
 hypothesis is discharged by `norm_num` through `s_in_box0`, `y_in_box0`,
 `y_small_box0`. So the statement is not vacuous: it is about a point of a box
@@ -197,7 +197,7 @@ anyone who touches a `decide`-backed checker in this package.
    whatever a session is working on. Worth fixing so the package's own build is
    a signal again.
 3. **`0 ≤ b.cap` is a free hypothesis on `dam_le_of_box`** (§5). If every row
-   of the table has `cap ≥ 0` — they appear to — a one-line `decide` over
+   of the table has `cap ≥ 0`, they appear to, a one-line `decide` over
    `o9boxes` would discharge it once and for all and remove the hypothesis from
    every downstream statement.
 4. **`O9PhiCmp.lean` is `#eval`s only.** It answered "should O9 use `phiC`'s

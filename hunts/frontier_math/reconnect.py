@@ -1,10 +1,10 @@
-"""Level 7, phase 3: the reconnect — the first reading of the decimal.
+"""Level 7, phase 3: the reconnect, the first reading of the decimal.
 
 THE MECHANISM, RESTATED.  The 2026 clean kill (CLEAN-KILL-REPORT.md) proved
 that the withdrawn 0.672529 chain broke at exactly one place: the off-line
 zero-side blocks are hyperbolic (transpose, not conjugate transpose), so
 ``tr(P1 Q') >= 0`` is false and the discarded on-line cross mass could not
-be retained AT ALL — "controlling the negative interaction would require an
+be retained AT ALL, "controlling the negative interaction would require an
 additional unconditional input about off-line blocks."  Levels 1-7 built
 that input: theta_full > 0 means a definite fraction of the on-line
 internal mass R(P) = tr P1^2 - s_1 survives the worst admissible off-line
@@ -34,12 +34,12 @@ WHAT IS HARDENED HERE (the withdrawn-run lessons, applied):
 WHAT IS *NOT* CLAIMED.  The reading below is a CANDIDATE, not a theorem.
 Its named unproven steps, in severity order:
 
-1. **The transplant lemma** — that the paper's final constant is linear in
+1. **The transplant lemma**: that the paper's final constant is linear in
    the retained on-line cross mass with coefficient 1 (the withdrawn
    arithmetic's plumbing, audited at every gate except the one theta_full
    now supplies), including the kernel normalization matching between the
    grid form omega^2 and the MT kernel g of the ordered-gap floor.
-2. **theta_full's own labels** — the v-certificate (level 7 phase 1) is
+2. **theta_full's own labels**: the v-certificate (level 7 phase 1) is
    quadrature-measured, not yet arb-hardened; the pair-side of the joint
    cap is exact per configuration but placement-freeness rests on the
    swept families plus the stacking floor.
@@ -165,7 +165,7 @@ def first_reading(theta_full: float = THETA_FULL, verbose: bool = True):
         print(f"  first reading: {candidate:.10f} vs target {H_PINNED}"
               f"  ({'+' if reading['strict'] else '-'}"
               f"{abs(reading['improvement']):.2e})")
-        print("  STATUS: CANDIDATE — named unproven steps: the transplant")
+        print("  STATUS: CANDIDATE, named unproven steps: the transplant")
         print("  lemma (kernel matching + linear plumbing), the v-certificate")
         print("  arb pass, pair-side placement freeness, taper/truncation")
         print("  restated one-sided. No proportion is claimed to have moved.")
@@ -182,7 +182,7 @@ def mt_reading(theta_full: float = THETA_FULL_MT, verbose: bool = True):
     window (`band_dual.py`, `mt_joint.py`), so both factors of the product
     live on one kernel.  The previous composition took the retention from
     the hunt window, whose own ordered-gap floor is 0 (its kernel zeros are
-    arithmetic to 1e-4, i.e. it sits on the floor's lesion) — so that
+    arithmetic to 1e-4, i.e. it sits on the floor's lesion), so that
     pairing was never coherent, which is the finding that forced T1.
 
     WHAT IS MEASURED, AND AT WHICH GRADE:

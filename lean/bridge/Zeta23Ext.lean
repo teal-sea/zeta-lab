@@ -16,9 +16,9 @@ Palomar Registry replays the *selected project*, not a module named by hand.
 
 The two imports are the whole development:
 
-* `Zeta23Ext.StableRankTrace` — S2, the stability rank-trace inequality, in
+* `Zeta23Ext.StableRankTrace`: S2, the stability rank-trace inequality, in
   both the trust map's form and the sharp form with no hypothesis on `V`.
-* `Zeta23Ext.Bridge.Main` — S6 to S16 and the assembled theorem
+* `Zeta23Ext.Bridge.Main`: S6 to S16 and the assembled theorem
   `Zeta23Ext.Bridge.n_point_bound`, parametric in the number of points `n`,
   with `seven_point_bound` (`n = 7`, the statement the Palomar surface
   advertises) and `eight_point_bound` (`n = 8`) as corollaries.  It imports

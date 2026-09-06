@@ -1,4 +1,4 @@
-# rogue_frontier — a wide-portfolio search for one defensible new advance
+# rogue_frontier: a wide-portfolio search for one defensible new advance
 
 Opened 2026-08-17 on branch `claude/riemann-hypothesis-research-ofds8s`.
 

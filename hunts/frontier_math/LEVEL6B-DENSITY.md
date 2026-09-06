@@ -1,4 +1,4 @@
-# Level 6b: the density question — the two adversaries exclude each other
+# Level 6b: the density question, the two adversaries exclude each other
 
 ## Disposition
 
@@ -10,7 +10,7 @@ up.** Dense pair clusters are nearly immune to on-line attack (the
 compensation factor collapses tenfold from nu_p = 1 to 2), and they pay
 their own stacking; sparse pair layers are on-line-vulnerable but produce
 little pair-pair negativity. The joint budget, measured across the whole
-interpolation, holds everywhere — worst margin **+0.0704** exactly at the
+interpolation, holds everywhere, worst margin **+0.0704** exactly at the
 pinch (nu_p = 1.5, deep) where the separable accounting had broken by
 −0.60.
 
@@ -28,7 +28,7 @@ battery: **24 of 68 configurations break it**, worst at nu_p = 1.5,
 y = 0.49 with margin −0.599. Deep mid-density lattices maximise pair-pair
 negativity (T/slack = −0.92) while the budget offers only 0.32. If the
 per-pair caps were simultaneously attainable, theta_full would be dead at
-those densities — the level-5 lesson repeating one level up.
+those densities, the level-5 lesson repeating one level up.
 
 ## The compensation factor: why they are not simultaneously attainable
 
@@ -60,8 +60,8 @@ for the adversary's own pair layer.
 | 3.00 | +0.828 | +0.324 | +0.226 |
 
 (entries are margins, 1 − used). The trade-off curve pinches at
-nu_p ~ 1.25–1.5 deep — T-negativity near its maximum while the on-line
-attack is already collapsed — and clears by 7%. On both flanks the margin
+nu_p ~ 1.25–1.5 deep: T-negativity near its maximum while the on-line
+attack is already collapsed, and clears by 7%. On both flanks the margin
 grows: sparse layers have positive T (stacking-dominant), dense layers pay
 their stacking and blind the on-line attack further.
 
@@ -74,7 +74,7 @@ T(dt, y, y') >= +2.78   for |dt| <= 0.2,     dies by delta_p = 0.3
                                               (at the strip edge, mapped)
 ```
 
-Every same-window pair the adversary adds pays this floor — the third
+Every same-window pair the adversary adds pays this floor, the third
 instance of the self-defeat pattern (depth paid quartic slack at level 3,
 on-line density paid quadratic packing at level 4, pair density pays
 stacking here).
@@ -83,15 +83,15 @@ stacking here).
 
 - The **T-side is exact** for the tested lattices, and the family sweep
   covers the battery shapes; but it is a family, not all configurations.
-- The **joint on-line profit is a greedy measured adversary** — a lower
+- The **joint on-line profit is a greedy measured adversary**, a lower
   bound on the true joint supremum. The +0.07 pinch margin is against the
   greedy; a cleverer joint attack could be stronger. The named theorem
   object is therefore the **joint cap**: an on-line counting dual against
   a cluster of pairs (the level-4 machinery with the damage field summed
   over pair centres), which would upper-bound the joint profit and convert
   this measured verdict into a configuration-free one. Nothing about the
-  mechanism suggests the greedy is far from the sup — the collapse of chi
-  is geometric (band overlap), not adversary-weakness — but that is an
+  mechanism suggests the greedy is far from the sup, the collapse of chi
+  is geometric (band overlap), not adversary-weakness, but that is an
   argument, not a bound.
 - Mixed-depth lattices are covered only through the battery shapes; the
   depth-split machinery of level 5 applies but has not been rerun jointly.

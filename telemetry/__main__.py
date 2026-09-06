@@ -1,4 +1,4 @@
-"""``python -m telemetry`` — see :mod:`telemetry.cli`."""
+"""``python -m telemetry``, see :mod:`telemetry.cli`."""
 
 from telemetry.cli import main
 

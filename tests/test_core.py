@@ -1,4 +1,4 @@
-"""Tests for zeta.core — every ground-truth fact, checked against mpmath as an
+"""Tests for zeta.core, every ground-truth fact, checked against mpmath as an
 independent oracle and against closed forms where they exist.
 
 Numbers quoted as literals in this file were verified independently in this

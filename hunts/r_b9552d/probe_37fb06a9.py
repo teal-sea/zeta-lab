@@ -515,7 +515,7 @@ def recorded_pattern_recheck(s_max: float = 6000.0) -> dict:
     """The `1,1,2,1,1,2,3` pattern of `two_species.NAMED_GAPS` G4, three ways.
 
     G4 records that this irregular occupancy at step `2*pi` "reaches 0.1200
-    against 0.1140", i.e. that it BEATS the uniform lattice — the one
+    against 0.1140", i.e. that it BEATS the uniform lattice, the one
     recorded reason to believe the gas extremum is not the lattice.  The
     pattern's reading is not stated, so all three natural ones are evaluated
     here, in the `x2` normalisation `two_species.centre_gas_row` prints.

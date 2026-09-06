@@ -1,4 +1,4 @@
-"""Tests for zeta.epstein — the Davenport-Heilbronn counterexample battery.
+"""Tests for zeta.epstein, the Davenport-Heilbronn counterexample battery.
 
 Every literal quoted here was computed and cross-checked in this environment
 before being asserted (kappa derivation at dps = 50 from four independent
@@ -10,12 +10,12 @@ The headline assertions, in the order the module's story runs:
 
 1. kappa is *derived* from the functional-equation condition and satisfies it
    (defect < 1e-25 as required, measured far smaller), is real, is base-point
-   independent, and — observation, never input — matches the closed form
+   independent, and, observation, never input, matches the closed form
    (sqrt(10 - 2 sqrt 5) - 2)/(sqrt 5 - 1).
 2. f has real, periodic, NON-multiplicative Dirichlet coefficients, is
    entire (no pole at s = 1: mean-value certificate), and obeys F(s) = F(1-s).
-3. f has a verified zero OFF the critical line at the pinned location —
-   |f(rho)| tiny, |Re rho - 1/2| = 0.3085... > 0.05, winding certificate 1 —
+3. f has a verified zero OFF the critical line at the pinned location,
+   |f(rho)| tiny, |Re rho - 1/2| = 0.3085... > 0.05, winding certificate 1,
    while the box-count vs line-count discrepancy that led to it is
    reproduced.  The functional equation alone cannot imply RH.
 """
@@ -61,7 +61,7 @@ from zeta.epstein import (
 
 def _pinned_zero(dps: int):
     """The pinned off-line zero parsed at ``dps`` digits (parse *inside* a
-    workdps context — parsing at ambient precision would silently truncate)."""
+    workdps context, parsing at ambient precision would silently truncate)."""
     with mp.workdps(dps):
         return mp.mpc(mp.mpf(OFFLINE_ZERO_RE), mp.mpf(OFFLINE_ZERO_IM))
 
@@ -122,7 +122,7 @@ def test_kappa_satisfies_defining_condition_via_manual_completion():
 
 def test_kappa_independent_of_derivation_point():
     """Deriving kappa by the same linear solve at an unrelated base point
-    gives the same real constant — the numerical content of the Gauss-sum
+    gives the same real constant, the numerical content of the Gauss-sum
     identity that makes the Davenport-Heilbronn combination work."""
     with mp.workdps(50):
         def Lam(s, conj):
@@ -168,7 +168,7 @@ def test_functional_equation_defect_below_1e25():
 def test_completed_symmetric_across_trivial_zeros():
     """F(-1) = F(2) and F(-3) = F(4): the removable-singularity branch of
     completed_dh (circle average at the Gamma poles) agrees with the generic
-    branch across the functional equation — a non-circular check, exactly as
+    branch across the functional equation, a non-circular check, exactly as
     for zeta.core.xi at the trivial zeros."""
     with mp.workdps(40):
         assert abs(completed_dh(-1, dps=30) - completed_dh(2, dps=30)) < mp.mpf("1e-28")
@@ -220,7 +220,7 @@ def test_dh_coefficients_real_periodic_and_correct():
             assert abs(a - want[(n - 1) % 5]) < mp.mpf("1e-28")
         # first ~20 coefficients real: the n-th coefficient of the combination
         # c*L(s,chi) + conj(c)*L(s,chibar) is c*chi(n) + conj(c)*conj(chi(n)),
-        # assembled here in complex arithmetic — its Im must vanish
+        # assembled here in complex arithmetic, its Im must vanish
         c = (1 - mp.mpc(0, 1) * k) / 2
         for n in range(1, 21):
             v = c * chi5(n) + mp.conj(c) * mp.conj(chi5(n))
@@ -360,7 +360,7 @@ def test_offline_zero_winding_certificate():
 
 def test_box_count_exceeds_line_count_in_offline_window():
     """The smoking gun, scripts/02 in reverse: the strip box around
-    t in [85.2, 86.2] holds 2 zeros while Z_f has 0 sign changes there —
+    t in [85.2, 86.2] holds 2 zeros while Z_f has 0 sign changes there,
     for zeta that equality never breaks (verify_rh_up_to); for f it does.
     The right half-box isolates 1 of the pair (its mirror holds the other)."""
     with mp.workdps(25):
@@ -400,7 +400,7 @@ def test_no_offline_zero_below_the_pinned_one():
 
 
 def test_line_zeros_do_exist_too():
-    """f is not zero-free on the line — infinitely many line zeros (a positive
+    """f is not zero-free on the line, infinitely many line zeros (a positive
     proportion, Bombieri-Ghosh); one sits in [86, 88]."""
     assert zeros_on_line(86, 88, dps=15) == 1
 
@@ -417,7 +417,7 @@ def test_zeta_interface_box_equals_line_where_dh_disagrees():
 @pytest.mark.slow
 def test_full_offline_window_84_92():
     """The original discovery window: box [ -1, 2] x [84, 92] holds 5 zeros,
-    the line only 3 — an excess of exactly one mirror pair."""
+    the line only 3, an excess of exactly one mirror pair."""
     with mp.workdps(25):
         n_box = count_zeros_box(mp.mpc(-1, 84), mp.mpc(2, 92), dps=20)
         n_line = zeros_on_line(84, 92, dps=15)
@@ -478,7 +478,7 @@ def test_battery_reports_claim_name():
 
 def test_battery_accepts_custom_claims():
     """A user-supplied claim runs against both interfaces: 'the completed
-    function is real on the critical line' — true for both (and therefore,
+    function is real on the critical line', true for both (and therefore,
     per gate #3, useless on its own as an RH mechanism)."""
     def claim_real_on_line(iface):
         with mp.workdps(30):
@@ -577,7 +577,7 @@ def test_battery_runs_epstein_as_a_second_counterexample():
     """Gate #3 names Davenport-Heilbronn *and* generic Epstein zeta functions.
 
     Both discriminant -23 forms run by default: the non-principal (2,1,3) and
-    the principal (1,1,6) — each a linear combination of the three Hecke
+    the principal (1,1,6), each a linear combination of the three Hecke
     L-functions of the class group, instantiating the linear-combination
     sharpening of the gate (docs/09 SS5.1)."""
     res = battery(claim_functional_equation, dps=20)
@@ -620,7 +620,7 @@ def test_battery_requires_every_counterexample_to_fail():
 # (5x+1)^{-s} - (5x+4)^{-s} + k[(5x+2)^{-s} - (5x+3)^{-s}], and
 # F(x) = [(5x+1)^{1-s} - (5x+4)^{1-s} + k((5x+2)^{1-s} - (5x+3)^{1-s})]
 # / (5(1-s)) the closed-form block antiderivative (finite precisely because
-# the coefficients sum to zero).  The reference value is dh_f — the Hurwitz
+# the coefficients sum to zero).  The reference value is dh_f, the Hurwitz
 # route, which never touches the Dirichlet series.  Each extra order is one
 # power of K: it is what turns rung 3's certification from months into hours
 # (K for a 1e-3 tail at the oracle zero: 195301 -> 1741 -> 243).
@@ -628,7 +628,7 @@ def test_battery_requires_every_counterexample_to_fail():
 
 
 def _dh_pair(w, x, k):
-    """(5x+1)^w - (5x+4)^w + k[(5x+2)^w - (5x+3)^w] — dhPair in the Lean arm."""
+    """(5x+1)^w - (5x+4)^w + k[(5x+2)^w - (5x+3)^w], dhPair in the Lean arm."""
     return (
         mp.power(5 * x + 1, w)
         - mp.power(5 * x + 4, w)

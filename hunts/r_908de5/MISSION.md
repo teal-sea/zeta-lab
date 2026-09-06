@@ -1,4 +1,4 @@
-# Hunt R-908DE5 — `beta := normLower`, and where the slack actually lands
+# Hunt R-908DE5, `beta := normLower`, and where the slack actually lands
 
 ## The question
 
@@ -8,7 +8,7 @@ evaluations *at the achievable bound*, so the site obligation
 
     normLower(B.inflate r)  >=  pred_beta                            (GRID)
 
-sits at the line by construction — in ball arithmetic 12 of 104 sites clear it
+sits at the line by construction, in ball arithmetic 12 of 104 sites clear it
 by under 1 %, the thinnest (`g_right_15`) by 0.03 %. The named remedy is to
 stop predicting the bound and read it off: **set `beta := normLower`**, which
 the generator already computes exactly. (GRID) then holds by construction and

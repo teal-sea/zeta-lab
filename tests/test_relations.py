@@ -1,9 +1,9 @@
-"""Tests for zeta.relations — PSLQ probes of ℚ-linear independence.
+"""Tests for zeta.relations: PSLQ probes of ℚ-linear independence.
 
 Every literal here was computed in this environment before being asserted.
 The instrument's history is part of its documentation: the first n=20 run
 (guard = 20 digits) terminated on a pigeonhole accident with coefficients
-~7·10⁵ and residual 4.4·10⁻¹⁰⁴, which recomputation at dps 300 refuted —
+~7·10⁵ and residual 4.4·10⁻¹⁰⁴, which recomputation at dps 300 refuted,
 exactly the failure mode the residual gate and the 40-digit guard now
 foreclose.  These tests pin (a) the planted-relation sanity check, (b) a
 fast clean exclusion, (c) the junk-candidate refutation path, and (d) the

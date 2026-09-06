@@ -1,4 +1,4 @@
-# Hunt R-03A798 — what the hunt lexical guard actually reads
+# Hunt R-03A798: what the hunt lexical guard actually reads
 
 ## The question
 
@@ -6,12 +6,12 @@
 is the guard that keeps `hunts/` from claiming the word `zeta/rigor.py` owns.
 The attention item that opened this hunt asserted a gap:
 
-> the guard does not detect synonyms — *verified*, *confirmed*, *definitively*,
+> the guard does not detect synonyms, *verified*, *confirmed*, *definitively*,
 > *proves* are separately banned **but by other checks**; a hunt overclaiming
 > in fresh vocabulary passes this guard
 
 Two claims are bundled there, and they have different truth values. The first
-is about the guard's reach. The second — "by other checks" — is about whether
+is about the guard's reach. The second, "by other checks", is about whether
 enforcement exists *somewhere*. This hunt measures both, plus the question
 neither of them asks: whether the guard is even airtight on the one word it
 does own.

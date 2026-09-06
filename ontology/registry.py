@@ -1,4 +1,4 @@
-"""ontology.registry — the plug-in seam.
+"""ontology.registry, the plug-in seam.
 
 This module is **domain-agnostic on purpose**, in the same strict sense as
 :mod:`ontology.schema`: it imports nothing from the laboratory package, names
@@ -8,17 +8,17 @@ what any particular lead source knows.
 
 Three plug-in roles, and no more
 --------------------------------
-* :class:`Generator` — emits :class:`~ontology.schema.Candidate` objects from
+* :class:`Generator`, emits :class:`~ontology.schema.Candidate` objects from
   whatever the domain can compute. It is the only role allowed to invent a
   claim. It is *not* allowed to decide one: a generator that hands back an
   already-decided candidate is refused by the funnel, because a lead source
   that grades its own leads has no measurable hit rate.
-* :class:`Screen` — looks at one candidate and either passes it on or kills it
+* :class:`Screen`, looks at one candidate and either passes it on or kills it
   with an earned terminal verdict. Every screen declares its ``cost``
   (``"cheap"`` or ``"expensive"``) so the funnel can order them, and the
   ``checks`` it performs, so the funnel can refuse to call anything a survivor
   of a check that never ran.
-* :class:`KnownnessDetector` — the already-known gate. It runs before any
+* :class:`KnownnessDetector`, the already-known gate. It runs before any
   screen, because "this is in the literature" is the single most likely true
   answer and the cheapest one to obtain.
 
@@ -108,14 +108,14 @@ class ScreenResult:
     The shape enforces the asymmetry that makes the funnel honest: *passing*
     costs nothing to say and asserts nothing, while *stopping* a candidate
     requires a terminal verdict that already earns its own status under
-    :func:`~ontology.schema.verdict_reasons`. There is no third option — a
+    :func:`~ontology.schema.verdict_reasons`. There is no third option, a
     screen may not "flag" a candidate, because a flag is an opinion with no
     decision procedure behind it.
 
     ``effort`` is what a verification screen spent, on the same scale as
     :meth:`~ontology.schema.Precision.effort_digits`. It is optional, but a
     candidate can only be promoted to ``survives`` if some screen reports an
-    effort strictly above the effort the candidate was generated at — the
+    effort strictly above the effort the candidate was generated at, the
     schema requires verification to have cost more than generation, and this
     field is the only way the funnel can know that it did.
     """
@@ -181,7 +181,7 @@ class Generator(Protocol):
     """A lead source: it turns computed objects into candidate observations.
 
     ``version`` is not decoration. Conversion rates are per generator, and two
-    behaviours logged under one name are two populations averaged together —
+    behaviours logged under one name are two populations averaged together,
     bump the version whenever what the generator emits changes.
     """
 

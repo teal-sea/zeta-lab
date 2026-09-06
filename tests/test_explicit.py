@@ -1,5 +1,5 @@
 """
-Tests for zeta.explicit — the explicit formula (primes ⟷ zeros).
+Tests for zeta.explicit, the explicit formula (primes ⟷ zeros).
 
 Ground truth used here:
   ψ(10)   = log(2³·3²·5·7) = log 2520 = 7.8320141805…
@@ -13,8 +13,8 @@ Ground truth used here:
 Tolerances policy: every numerical tolerance below is set to roughly twice the
 error actually measured on this machine, so a real regression fails the test.
 Where a formula genuinely does not converge fast (the Möbius series for R, the
-peak heights of the prime spectrum) the test asserts the *true* behaviour —
-oscillation bounds, monotone improvement in T — instead of a fake tight bound.
+peak heights of the prime spectrum) the test asserts the *true* behaviour,
+oscillation bounds, monotone improvement in T, instead of a fake tight bound.
 """
 
 from __future__ import annotations
@@ -83,7 +83,7 @@ def test_mangoldt():
 
 
 def test_mangoldt_against_sympy_oracle():
-    """Λ(n) exhaustively vs sympy.factorint for every n ≤ 500 — a real oracle."""
+    """Λ(n) exhaustively vs sympy.factorint for every n ≤ 500, a real oracle."""
     import sympy
 
     for n in range(1, 501):
@@ -190,7 +190,7 @@ def test_R_gram_series():
 
 
 def test_R_against_mpmath_riemannr_oracle():
-    """Our Gram series vs mpmath.riemannr — an entirely independent implementation."""
+    """Our Gram series vs mpmath.riemannr, an entirely independent implementation."""
     with mp.workdps(30):
         for x in (0.5, 1.0, 2.0, 10.0, 100.0, 1000.0, 1e6, 1e12):
             assert R(x) == pytest.approx(float(mp.riemannr(x)), rel=1e-14)
@@ -220,7 +220,7 @@ def test_R_matches_its_mobius_definition_loosely():
 
     target = R(100.0)
     partials = [_R_mobius(100.0, N) for N in (100, 200, 400)]
-    # measured deviations: -0.0753, +0.0969, -0.0300 — they do NOT shrink
+    # measured deviations: -0.0753, +0.0969, -0.0300, they do NOT shrink
     for v in partials:
         assert abs(v - target) < 0.15, (v, target)
     assert max(abs(v - target) for v in partials) > 0.02  # really is not converged
@@ -262,7 +262,7 @@ def test_first_zeros_cache_is_extended_not_restarted(tmp_path, monkeypatch):
     """
     The cache-extension branch (``range(len(out)+1, n+1)``) is never touched
     when data/explicit_zeros.npz is already big enough, so exercise it against a
-    deliberately short cache — this is where an off-by-one would hide.
+    deliberately short cache, this is where an off-by-one would hide.
     """
     import zeta.explicit as _E
 
@@ -291,7 +291,7 @@ def test_as_gammas_accepts_every_form():
 def test_as_gammas_does_not_double_count_a_conjugate_pair():
     """
     Handing over the *full* conjugate-symmetric zero set {½±iγ} must give the
-    same answer as handing over the ordinates γ — every consumer already adds
+    same answer as handing over the ordinates γ, every consumer already adds
     the ρ̄ term itself, so a naive |Im ρ| fold would silently double the
     oscillatory part.
     """
@@ -318,7 +318,7 @@ def test_psi_from_zeros_zero_zeros_is_the_main_term():
 def test_psi_real_form_equals_the_complex_sum(zeros500):
     """
     The module evaluates 2√x·cos(γ log x − arg ρ)/|ρ| instead of x^ρ/ρ + x^ρ̄/ρ̄.
-    Check that reduction against honest complex arithmetic in mpmath — this is
+    Check that reduction against honest complex arithmetic in mpmath, this is
     what would catch a wrong sign or the wrong branch of arg ρ.
     """
     g = zeros500[:50]
@@ -361,7 +361,7 @@ def test_trivial_zero_term_is_the_trivial_zeros(zeros500):
 )
 def test_explicit_formula_reproduces_psi(x, err500, zeros500):
     """
-    500 zeros pin ψ(x) to ~0.01–0.10 at these x — the errors are deterministic,
+    500 zeros pin ψ(x) to ~0.01–0.10 at these x, the errors are deterministic,
     so assert them individually (abs=0.01) as well as by a global bound.
     """
     est = psi_from_zeros(x, zeros500)
@@ -394,7 +394,7 @@ def test_explicit_formula_hits_psi0_at_a_prime_power(zeros500):
     est = psi_from_zeros(x, zeros500)
     assert abs(est - psi0) < abs(est - psi_true(x))
     assert est == pytest.approx(psi0, abs=0.05)  # measured error −0.0102
-    assert abs(est - psi_true(x)) > 2.0  # ψ itself is 2.29 away — the half-jump is real
+    assert abs(est - psi_true(x)) > 2.0  # ψ itself is 2.29 away, the half-jump is real
 
 
 def test_psi_curve_matches_scalar_and_rejects_x_le_1(zeros500):
@@ -428,7 +428,7 @@ def test_convergence_table(zeros500):
         assert r["error"] == pytest.approx(r["psi_est"] - r["psi0_true"])
     # 63.7 is not a prime power, so ψ₀ = ψ there
     assert rows[0]["psi0_true"] == pytest.approx(psi_true(63.7))
-    # measured |error|: 0.2182, 0.6910, 1.0277, 0.0576, 0.3342, 0.0576 — NOT monotone
+    # measured |error|: 0.2182, 0.6910, 1.0277, 0.0576, 0.3342, 0.0576, NOT monotone
     assert [round(r["abs_error"], 4) for r in rows] == pytest.approx(
         [0.2182, 0.6910, 1.0277, 0.0576, 0.3342, 0.0576], abs=1e-3
     )
@@ -508,7 +508,7 @@ def test_J_tail_integral_term(zeros500):
 def test_mobius_inversion_of_J_is_exact():
     """
     π(x) = Σ_{n≤⌊log₂x⌋} μ(n)/n·J(x^{1/n}) is an identity, not an approximation.
-    Feeding it the *exact* J must return π(x) to machine precision — this is what
+    Feeding it the *exact* J must return π(x) to machine precision, this is what
     validates the cut-off N = ⌊log₂ x⌋ used inside pi_from_zeros.
     """
     from zeta.explicit import _mobius
@@ -542,7 +542,7 @@ def test_pi_from_zeros_terms_override(zeros500):
     )
     assert abs(pi_from_zeros(100.0, zeros500, terms=1) - 25) > 3.0  # J(100) ≈ 28.5, not π
     assert abs(pi_from_zeros(100.0, zeros500, terms=3) - 25) < 0.1
-    for t in (6, 20, 10_000):  # clamped — identical results beyond N = 6
+    for t in (6, 20, 10_000):  # clamped, identical results beyond N = 6
         assert pi_from_zeros(100.0, zeros500, terms=t) == pytest.approx(full, rel=1e-14)
 
 
@@ -580,7 +580,7 @@ def test_prime_spectrum_peaks_land_on_log_p(zeros500):
     assert len(peaks) >= 12
     for d in peaks:
         assert d["is_prime_power"], d
-        # the peak sits on log(n) for a prime power n — measured max 4.4e-5
+        # the peak sits on log(n) for a prime power n, measured max 4.4e-5
         assert abs(d["u"] - math.log(d["nearest_n"])) < 1e-4, d
         assert d["x"] == pytest.approx(math.exp(d["u"]), rel=1e-14)
     found = {d["nearest_n"] for d in peaks}
@@ -623,7 +623,7 @@ def test_prime_spectrum_heights_are_lambda_over_sqrt_n(zeros500):
 
 
 def test_prime_spectrum_deficit_shrinks_like_one_over_T(zeros500):
-    """Doubling γ_max must roughly halve the height deficit — proof it converges."""
+    """Doubling γ_max must roughly halve the height deficit, proof it converges."""
     ns = [2, 3, 4, 5, 7, 8, 9]
     u = np.array([math.log(n) for n in ns])
     h200 = prime_spectrum(zeros500[:200], u)
@@ -674,7 +674,7 @@ def test_prime_spectrum_normalisation_constant(zeros500):
     """
     normalize=True divides by W(0) = (1/π)∫₀^T w.  For the rectangular window
     that is exactly T/π, and the un-normalised peak of a Dirichlet kernel is
-    (Λ(n)/√n)·T/π — an independent, closed-form check of the constant.
+    (Λ(n)/√n)·T/π, an independent, closed-form check of the constant.
     """
     from zeta.explicit import _window_weights
 

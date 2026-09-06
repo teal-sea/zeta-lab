@@ -1,4 +1,4 @@
-"""Tests for ``harness.independence`` — the cross-check's bound, measurable.
+"""Tests for ``harness.independence``, the cross-check's bound, measurable.
 
 Three layers of pinning:
 
@@ -8,10 +8,10 @@ Three layers of pinning:
    no aggregate boolean).
 2. **The worked subject**: the rigor two-backend declaration in
    ``harness.departments.zeta_department`` reproduces docs/25's standing
-   consequence — radius 3 of 5, one reconvergent summation layer, exactly one
+   consequence, radius 3 of 5, one reconvergent summation layer, exactly one
    layer implemented twice.
 3. **The declaration's anchor**: the declared parsing layer names
-   ``zeta.rigor._exact``, and that attribute must still exist — a declaration
+   ``zeta.rigor._exact``, and that attribute must still exist, a declaration
    that names a function the code no longer has is stale, and this test is
    what notices.
 """

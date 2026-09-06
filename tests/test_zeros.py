@@ -1,4 +1,4 @@
-"""Tests for :mod:`zeta.zeros` — zero location and zero counting.
+"""Tests for :mod:`zeta.zeros`, zero location and zero counting.
 
 Ground truth used here:
   * the first ten ordinates γ_n to 20 significant digits,
@@ -131,7 +131,7 @@ def test_zeros_by_sign_change_finds_all_29_below_100():
 
 
 def test_first_ten_zeros_by_sign_change_match_ground_truth():
-    """Measured max deviation is 9.425e-19 — which is exactly the truncation of
+    """Measured max deviation is 9.425e-19, which is exactly the truncation of
     the 20-digit strings above, not an error in the roots (see
     :func:`test_sign_change_zeros_beat_the_ground_truth_strings`)."""
     zs = zeros_by_sign_change(0, 100)
@@ -196,7 +196,7 @@ def test_first_n_zeros_cache_round_trips_bit_exactly(tmp_path, monkeypatch):
 
 
 def test_bigger_cache_serves_a_smaller_request(tmp_path, monkeypatch):
-    """zeros_20.json answers a request for 8 zeros — no new file, exact prefix."""
+    """zeros_20.json answers a request for 8 zeros, no new file, exact prefix."""
     monkeypatch.setattr(zeta.zeros, "DATA_DIR", str(tmp_path))
 
     twenty = first_n_zeros(20, cache=True)
@@ -253,7 +253,7 @@ def test_N_of_T_steps_by_one_across_a_zero():
 
 @pytest.mark.parametrize("T", [20, 50, 100, 300, 1000])
 def test_S_of_T_matches_backlunds(T):
-    """mpmath.backlunds(T) returns S(T) — an independent oracle."""
+    """mpmath.backlunds(T) returns S(T), an independent oracle."""
     assert abs(S_of_T(T) - mp.backlunds(T)) < mp.mpf("1e-20")
 
 
@@ -345,7 +345,7 @@ def test_verify_rh_up_to_300_crosses_first_gram_failures():
 # Regression tests for a real defect: :mod:`zeta.core` exposes
 # ``rs_theta(t, dps=30)`` / ``Z(t, dps=30)`` whose precision is pinned by a
 # *default argument*.  Bound bare, they capped every result in this module at
-# 30 digits regardless of the requested ``dps`` — silently for rs_theta/Z, and
+# 30 digits regardless of the requested ``dps``, silently for rs_theta/Z, and
 # with a hard ``ValueError`` out of gram_point for dps >= 50.
 # ---------------------------------------------------------------------------
 
@@ -428,7 +428,7 @@ def test_the_bound_theta_and_Z_agree_with_the_local_fallbacks():
 
 @pytest.mark.parametrize("t", [8, 10, 50, 300.5, 1000])
 def test_theta_prime_closed_form(t):
-    """θ′(t) = ½[Re ψ(¼ + it/2) − log π] — the derivative gram_point's Newton uses."""
+    """θ′(t) = ½[Re ψ(¼ + it/2) − log π], the derivative gram_point's Newton uses."""
     analytic = (mp.re(mp.digamma(mp.mpc(mp.mpf(1) / 4, mp.mpf(t) / 2))) - mp.log(mp.pi)) / 2
     numeric = mp.diff(mp.siegeltheta, mp.mpf(t))
     assert abs(analytic - numeric) < mp.mpf("1e-22")
@@ -455,7 +455,7 @@ def _N_dense(T, m=200):
     """N(T) by *dense uniform* unwrapping along 2 → 2+iT → ½+iT.
 
     Deliberately different from :func:`zeta.zeros.S_of_T`, which uses adaptive
-    bisection with a π/3 acceptance test — this one just takes many small steps
+    bisection with a π/3 acceptance test, this one just takes many small steps
     and unwraps each, so the two share no logic beyond the contour itself.
     """
     T = mp.mpf(T)
@@ -481,7 +481,7 @@ def test_N_of_T_matches_a_dense_unwrapping(T):
 
 
 def test_N_of_T_straddles_every_one_of_the_first_ten_zeros():
-    """N must be exactly k just below γ_k and k+1 just above — no off-by-one."""
+    """N must be exactly k just below γ_k and k+1 just above, no off-by-one."""
     eps = mp.mpf("1e-6")
     for k, g in enumerate(first_n_zeros(10), start=1):
         assert N_of_T(g - eps) == k - 1
@@ -532,7 +532,7 @@ def test_exact_grid_zero_is_reported_once(monkeypatch, fake, expected):
 
     Before the fix, the sign pattern (f0 > 0, f1 == 0) was treated as a sign
     change AND the next iteration's f0 == 0 branch fired, so the same zero was
-    reported twice — a scan that can invent zeros voids the m ≤ N(T) argument
+    reported twice, a scan that can invent zeros voids the m ≤ N(T) argument
     that verify_rh_up_to's proof rests on.
     """
     monkeypatch.setattr(zeta.zeros, "_Z", fake)

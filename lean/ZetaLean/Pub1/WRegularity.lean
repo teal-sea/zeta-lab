@@ -19,8 +19,8 @@ so `w` is twice differentiable on the *open* interval with
 ```
 
 Only the open interval is claimed.  Across `|s| = 1/2` the second derivative
-genuinely jumps — inside, the delta mass contributes `2w(s) ≥ 2/5`; outside it
-does not — so `C²` there is false and is not asserted.
+genuinely jumps, inside, the delta mass contributes `2w(s) ≥ 2/5`; outside it
+does not, so `C²` there is false and is not asserted.
 
 The two sup bounds come out of the same formula:
 

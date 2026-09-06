@@ -1,7 +1,7 @@
 """Controls for `window_table` (Road A, task 1).
 
 The point of these is that the table's stated size cannot drift from what
-the module computes — that slip has already happened once (197 vs 196,
+the module computes, that slip has already happened once (197 vs 196,
 caused by rounding brackets outward rather than to nearest).
 """
 

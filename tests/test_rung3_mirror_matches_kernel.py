@@ -5,7 +5,7 @@ emits, per term, a literal equality that the kernel closes by evaluation: the
 mirror computes the box, the certificate asserts the Lean expression *equals*
 that literal, and the kernel checks it.  A mirror one ulp away from the kernel
 does not produce a slightly worse certificate, it produces one that does not
-compile at all — and the failure would surface only after the compute run had
+compile at all, and the failure would surface only after the compute run had
 been launched.
 
 The fixture is byte-pinned output from `#eval` on
@@ -19,7 +19,7 @@ tolerance:
    the L1 bound `|dre| + |dim|`.
 
 If this test fails, do not adjust the fixture to match the mirror.  Decide which
-side is authoritative — the kernel is, since it is what checks the certificate —
+side is authoritative, the kernel is, since it is what checks the certificate,
 and fix the other.
 """
 from __future__ import annotations
@@ -76,7 +76,7 @@ def test_the_pinned_config_is_the_one_the_plan_uses():
 
 def test_the_rad_positive_path_is_also_bit_identical():
     """The point-ball section never exercises `mulA`'s radius arithmetic with a
-    rad > 0 input — the path every big-box site actually takes.  Pinned from the
+    rad > 0 input, the path every big-box site actually takes.  Pinned from the
     same `#eval` source, including one composite chain step."""
     bx = FIX["boxed"]
     S = ball.C(F(bx["point"]["cre"]), F(bx["point"]["cim"]), F(bx["point"]["rad"]))

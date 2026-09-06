@@ -1,4 +1,4 @@
-# MISSION — support run 7ddfee4b (descent arm, Erdős #126)
+# MISSION: support run 7ddfee4b (descent arm, Erdős #126)
 
 Support run for `0897a5a7` / `hunts/r_186989`. One bounded question:
 

@@ -1,4 +1,4 @@
-# RESULTS — Erdős #126, entropy/combinatorics arm (support run baf4cde6)
+# RESULTS: Erdős #126, entropy/combinatorics arm (support run baf4cde6)
 
 **Hunt, not a result. Nothing here is evidence for or against RH (`docs/08`).**
 

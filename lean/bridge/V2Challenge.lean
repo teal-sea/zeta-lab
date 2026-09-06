@@ -76,9 +76,9 @@ enclosures are this laboratory's.
 ## The definitions
 
 Every definition below is a verbatim copy of the corresponding definition in the
-proof development — the five counting definitions from the dependency
+proof development, the five counting definitions from the dependency
 `anthropics/zeta-23-lean`, the kernel and `n`-point definitions from
-`Zeta23Ext/Bridge/Defs.lean` — re-declared in the namespace
+`Zeta23Ext/Bridge/Defs.lean`: re-declared in the namespace
 `Zeta23Ext.PalomarV2` so that this file depends on Mathlib alone.  The one
 exception is `H`, which the development takes from the dependency as `HD 1` and
 which is written here in the closed form the dependency's `HD_one` proves it

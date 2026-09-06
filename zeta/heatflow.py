@@ -82,7 +82,7 @@ of which ~27 digits are actually delivered.
 
 **Known limitation, now fixed but worth stating**: before the panel-count rule took
 ``dps`` into account (see ``_panels_for``), the quadrature had a discretisation
-floor near 1e-57 that *no* value of ``dps`` could beat — H₀(30) stalled at 5.2e-58
+floor near 1e-57 that *no* value of ``dps`` could beat: H₀(30) stalled at 5.2e-58
 at dps = 60 and degraded to 1.1e-55 at dps = 100.  ``test_H_t_converges_with_dps``
 pins the fix.
 """
@@ -154,7 +154,7 @@ def Xi_reference(T: Any, backend: str = "auto") -> Any:
     Note ``zeta.core.Xi`` is real-argument-only on this build, so complex T is
     routed to ``zeta.core.xi(1/2 + iT)`` when that exists, else to the local ξ.
     Use :func:`xi_backend_report` to see which path a given argument takes and
-    how far the two implementations differ — do not assume the sibling is used.
+    how far the two implementations differ, do not assume the sibling is used.
 
     Raises ``ValueError`` on an unrecognised ``backend``: silently treating an
     unknown string as ``"auto"`` would make a typo look like a passing cross-check.
@@ -214,7 +214,7 @@ def _ordinate_of(v: Any) -> Any:
     """Extract the ordinate γ from either a bare γ or a full zero ρ = 1/2 + iγ.
 
     ``zeta.zeros.first_n_zeros`` may return either convention, so normalise.
-    Careful: ``mpf(14.13).imag`` is 0, not 14.13 — testing ``hasattr(v, 'imag')``
+    Careful: ``mpf(14.13).imag`` is 0, not 14.13, testing ``hasattr(v, 'imag')``
     is *not* enough, we must test whether the imaginary part is actually non-zero.
     """
     v = mp.mpmathify(v)
@@ -225,7 +225,7 @@ def _ordinate_of(v: Any) -> Any:
 def _reference_ordinates(n: int) -> list[Any]:
     """First n zeta zero ordinates γ_n, from ``zeta.zeros`` if available.
 
-    Falls back to ``mpmath.zetazero`` — which is an independent oracle either way.
+    Falls back to ``mpmath.zetazero``, which is an independent oracle either way.
     """
     try:  # pragma: no cover - depends on which sibling modules exist
         from zeta.zeros import first_n_zeros  # type: ignore
@@ -242,7 +242,7 @@ def _reference_ordinates(n: int) -> list[Any]:
 #  Φ
 # --------------------------------------------------------------------------- #
 
-#: Φ's series converges on the open strip |Im u| < π/8 — the connected component
+#: Φ's series converges on the open strip |Im u| < π/8, the connected component
 #: of {Re e^{4u} > 0} containing the real axis.  (Re e^{4u} is also positive on the
 #: disconnected bands |Im u − kπ/2| < π/8, k ≠ 0, where the series converges to
 #: *something*, but those bands cannot be reached from ℝ without crossing a line of
@@ -251,12 +251,12 @@ PHI_STRIP: float = math.pi / 8
 
 #: Refuse to sum the series when it would take more than this many terms.  Via
 #: the folded public :func:`Phi` the count diverges like (π/8 − |Im u|)^{−1/2} at
-#: the strip boundary, so the cap bites only within ~2e-10 of |Im u| = π/8 — where
+#: the strip boundary, so the cap bites only within ~2e-10 of |Im u| = π/8, where
 #: any answer is precision-limited garbage anyway.  Without it, near-boundary
 #: arguments hang for hours: float(π/8) itself sits 1.5e-17 *below* the true
 #: boundary, slips past the strip check, and needs ~7.5e8 terms.  (The *unfolded*
 #: series used by :func:`Phi_is_even_defect` also hits the cap for Re u ≲ −5.2,
-#: where the defect has been pure noise since |u| ≈ 0.8 — see its docstring.)
+#: where the defect has been pure noise since |u| ≈ 0.8, see its docstring.)
 _MAX_TERMS: int = 200_000
 
 
@@ -264,7 +264,7 @@ def _decay_rate(u: Any) -> Any:
     """ρ(u) := Re(e^{4u}), the rate governing |exp(−π n² e^{4u})| = exp(−π n² ρ).
 
     For real u this is just e^{4u}.  For u = x + iy it is e^{4x}·cos(4y), which is
-    **negative** for π/8 < |y| < 3π/8 — there the summands of (1) grow with n and
+    **negative** for π/8 < |y| < 3π/8, there the summands of (1) grow with n and
     the series diverges.  Using e^{4·Re u} in its place (as a naive reading of (1)
     suggests) both under-counts terms inside the strip and fails to notice that
     the series is divergent outside it.
@@ -277,7 +277,7 @@ def _check_strip(u: Any) -> None:
 
     On the strip Re e^{4u} = e^{4 Re u}·cos(4 Im u) > 0; on its boundary and out to
     |Im u| = 3π/8 the summands stop decaying.  (Re e^{4u} > 0 holds again on bands
-    around Im u = ±π/2, ±π, …, but those are disconnected from the real axis — see
+    around Im u = ±π/2, ±π, …, but those are disconnected from the real axis, see
     ``PHI_STRIP``.)
     """
     if abs(mp.im(u)) >= mp.pi / 8:
@@ -297,7 +297,7 @@ def _terms_needed(u: Any, dps: int) -> int:
     This blows up like e^{−2u} as Re u → −∞, which is why :func:`Phi` folds through
     the exact identity Φ(−u) = Φ(u) rather than summing in the left half-plane.
 
-    Raises rather than hangs when the count exceeds ``_MAX_TERMS`` — reachable only
+    Raises rather than hangs when the count exceeds ``_MAX_TERMS``, reachable only
     within ~2e-10 of the strip boundary.  Not academic: ``mpc(0, str(math.pi/8))``
     lies 1.5e-17 *inside* the open strip (float(π/8) rounds down), so it passes
     ``_check_strip`` yet would need ~7.5e8 terms.
@@ -352,7 +352,7 @@ def Phi(u: Any, terms: int | None = None, dps: int = DEFAULT_DPS) -> Any:
 
     Domain
     ------
-    The series converges on the open strip ``|Im u| < π/8`` — the connected
+    The series converges on the open strip ``|Im u| < π/8``, the connected
     component of {Re e^{4u} > 0} containing the real axis.  For |Im u| ≥ π/8 the
     summands stop decaying, so a ``ValueError`` is raised rather than a
     meaningless partial sum returned.  A ``ValueError`` is also raised within
@@ -360,7 +360,7 @@ def Phi(u: Any, terms: int | None = None, dps: int = DEFAULT_DPS) -> Any:
     need over 2·10⁵ terms; ``float(π/8)`` itself lands in that zone (1.5e-17
     *below* the true boundary) and used to hang for hours instead of raising.
 
-    Evenness folding — this matters numerically
+    Evenness folding, this matters numerically
     -------------------------------------------
     For Re u < 0 the summands are O(1) while Φ(u) is O(exp(−π e^{4|u|})), so the
     raw series is a catastrophic cancellation: at dps = 40 it has lost every
@@ -390,8 +390,8 @@ def Phi(u: Any, terms: int | None = None, dps: int = DEFAULT_DPS) -> Any:
     Checked against ``mpmath.nsum`` given enough guard digits to survive the
     unfolded series' cancellation (π e^{4|u|}/ln 10 digits).  Relative accuracy is
     ≈ (1 + π e^{4|Re u|})·10^{−(dps+2)}: about 10^{−dps} for moderate |Re u|
-    (measured 5.1e-41 at u = −0.3, dps = 40) but degrading with |u| — 2.1e-39 at
-    u = −1.0 and 1.2e-38 at u = −1.4 (dps = 40) — because the exponent argument
+    (measured 5.1e-41 at u = −0.3, dps = 40) but degrading with |u|: 2.1e-39 at
+    u = −1.0 and 1.2e-38 at u = −1.4 (dps = 40), because the exponent argument
     π n² e^{4|u|} (≈ 850 at u = 1.4) is itself computed to only dps digits.
     Verified value Φ(0) = 0.4466969004671234440869846670547091132204 (dps = 40).
     """
@@ -406,7 +406,7 @@ def Phi(u: Any, terms: int | None = None, dps: int = DEFAULT_DPS) -> Any:
 def Phi_is_even_defect(
     u: Any, dps: int = DEFAULT_DPS, relative: bool = False
 ) -> Any:
-    """|Φ_series(u) − Φ_series(−u)| for the **unfolded** series (1) — 0 exactly.
+    """|Φ_series(u) − Φ_series(−u)| for the **unfolded** series (1): 0 exactly.
 
     Evenness of Φ is the theta functional equation θ(1/x) = √x·θ(x) in disguise.
     Concretely, with ψ(x) = Σ_{n≥1} e^{−πn²x}, F(x) = d/dx[x^{3/2}ψ'(x)] and
@@ -430,7 +430,7 @@ def Phi_is_even_defect(
         2.0       2.3e-41           2.6e+4017       left side is pure noise
 
     The *absolute* defect sits at the rounding floor for every u, but past
-    |u| ≈ 0.6 that is evidence of nothing — both sides are then astronomically
+    |u| ≈ 0.6 that is evidence of nothing, both sides are then astronomically
     smaller than the noise, so an absolute-tolerance assertion there cannot fail.
     Pass ``relative=True`` for the quantity that can: it is below 10^{−34} for
     |u| ≤ 0.5 at dps = 40 and useless beyond |u| ≈ 0.8.  The cure is not more
@@ -494,7 +494,7 @@ def _integration_limit(t: float, dps: int) -> Any:
     """Smallest U with e^{tU²}·2π²e^{9U}·exp(−π e^{4U}) < 10^{−(dps+12)}.
 
     Beyond U the integrand of (2) is below the rounding floor, so truncating
-    ∫₀^∞ at U is harmless.  U ≈ 0.885 at dps = 30 and ≈ 1.011 at dps = 60 — the
+    ∫₀^∞ at U is harmless.  U ≈ 0.885 at dps = 30 and ≈ 1.011 at dps = 60, the
     integrand really is that sharply concentrated, which is why this works.
     """
     with mp.workdps(dps + 5):
@@ -509,7 +509,7 @@ def _integration_limit(t: float, dps: int) -> Any:
 def _panels_for(z_abs: float, u_max: float, dps: int, n_gauss: int = 20) -> int:
     """Panel count for the composite k-point Gauss rule; bucketed to powers of 2·24.
 
-    Three requirements, all of which must be met — the count is the max:
+    Three requirements, all of which must be met, the count is the max:
 
     1. **Oscillation.**  Each panel should span ≲ 1 wavelength of cos(z·u):
        ``z·u_max/π + 8`` panels.
@@ -591,7 +591,7 @@ def _H_cached(z: Any, t: Any, dps: int, z_scale: float | None = None) -> Any:
 def _H_adaptive(z: Any, t: Any, dps: int) -> Any:
     """H_t(z) via ``mpmath.quadgl`` on an oscillation-aware subdivision.
 
-    Slower, and completely independent of the cached rule — used to validate it.
+    Slower, and completely independent of the cached rule, used to validate it.
     """
     with mp.workdps(dps):
         z = mp.mpc(z)
@@ -628,7 +628,7 @@ def H_t(
         Heat-flow time.  Any real t is admissible: e^{tu²} is crushed by the
         exp(−π e^{4u}) inside Φ, so (2) converges for every t.
     dps : int
-        Working precision.  See :func:`recommended_dps` — you need
+        Working precision.  See :func:`recommended_dps`, you need
         dps ≳ digits + 2 + 0.171·|z|.
     quad : {"cached", "adaptive"}
         ``"cached"`` (default) uses the memoised composite Gauss–Legendre rule
@@ -644,7 +644,7 @@ def H_t(
     --------
     Measured against the independent oracle Ξ(z/2)/8 (evaluated at dps + 60), the
     absolute error over z ∈ [0, 400] is **3.8e-32 at dps = 30, 8.7e-42 at dps = 40,
-    2.9e-62 at dps = 60** (worst point z = 0 in every case) — about 10^{−(dps+1)}.  The guaranteed figure used by
+    2.9e-62 at dps = 60** (worst point z = 0 in every case), about 10^{−(dps+1)}.  The guaranteed figure used by
     :func:`recommended_dps` is the conservative 10^{−(dps−2)}.  For complex z the
     same absolute error holds relative to |H_t|, which grows like e^{|Im z|·u_max}
     (measured relative error 1.2e-40 at z = 30+30i, dps = 40).  Significant digits
@@ -677,7 +677,7 @@ def H0_vs_Xi(z_values: Sequence[Any] | None = None, dps: int = 40) -> dict[str, 
 
     **Nothing is assumed.**  Both constants are measured from the functions:
 
-    * ``c = H₀(0)/Ξ(0)``  — no derivatives involved.
+    * ``c = H₀(0)/Ξ(0)``: no derivatives involved.
     * ``a`` by **two independent routes**, which must agree:
 
       1. *Curvature at the origin.*  H₀ and Ξ are even, so near 0 they look like
@@ -704,7 +704,7 @@ def H0_vs_Xi(z_values: Sequence[Any] | None = None, dps: int = 40) -> dict[str, 
     dict with keys ``relation`` (str), ``c``, ``a`` (mpf, the exact rationals),
     ``c_rational``, ``a_rational`` (tuple[int,int] or None),
     ``c_measured``, ``a_measured`` (mpf, raw fitted values),
-    ``max_residual`` (mpf, max |H₀(z) − c·Ξ_local(a z)| — measures THIS module's
+    ``max_residual`` (mpf, max |H₀(z) − c·Ξ_local(a z)|, measures THIS module's
     quadrature), ``max_residual_vs_sibling`` (same but against ``zeta.core``, so it
     also carries that module's error), ``max_relative_residual``, ``residuals``,
     ``a_from_curvature``, ``a_from_first_zero``, ``z_values``, ``dps``.
@@ -831,7 +831,7 @@ def heat_equation_residual(
         the O(h²) truncation error against the O(ε/h²) rounding error.
 
     Measured: 1.6e-18 at (z,t) = (3, 0); 1.0e-18 at (10, 0.2); 3.4e-19 at
-    (28, −0.1) — all at dps = 30, h = 1e-6.
+    (28, −0.1), all at dps = 30, h = 1e-6.
     """
     with mp.workdps(dps):
         z = mp.mpc(z)
@@ -884,7 +884,7 @@ def zeros_of_H_t(
         Grid points for the sign-change scan.  Default ``4*(z_max−z_min) + 50``,
         comfortably finer than the ~3.3 minimum spacing of the low-lying zeros.
     dps : int, optional
-        Default ``recommended_dps(z_max, 15)`` — large z needs more digits because
+        Default ``recommended_dps(z_max, 15)``, large z needs more digits because
         |H_t| is itself exponentially small there (equation (6)).
 
     Returns
@@ -944,7 +944,7 @@ def zero_gap_statistics(
 
     Measured on [20, 105] (the first 10 zeros: 2γ₁ = 28.27 … 2γ₁₀ = 99.55;
     note 2γ₁₁ = 105.94, so 105 is the right cut for exactly ten): min gap 3.28939 at t = −0.3,
-    3.53736 at t = 0, 3.94962 at t = +0.6 — strictly increasing in t.
+    3.53736 at t = 0, 3.94962 at t = +0.6, strictly increasing in t.
     """
     zs = zeros_of_H_t(t, z_min, z_max, dps=dps)
     gaps = [zs[i + 1] - zs[i] for i in range(len(zs) - 1)]
@@ -995,7 +995,7 @@ def track_zeros(
     """Follow the first ``n_zeros`` positive real zeros of H_t as t varies.
 
     Method: one full sign-change scan at the t nearest 0, then **numerical
-    continuation** outward in both directions — each zero is re-solved with
+    continuation** outward in both directions, each zero is re-solved with
     ``findroot`` seeded from its position at the previous t.  Zero motion is
     smooth in t (the zeros are simple), so this is both faster than rescanning
     and, crucially, it preserves zero *identity* across the sweep.
@@ -1329,7 +1329,7 @@ def polynomial_heat_flow(
     This function uses the de Bruijn–Newman convention exp(−tD²), so that
     "t increasing = repulsion" matches ``H_t`` exactly.  Note that the ODE is often
     quoted with a −2; that version belongs to the *classical forward* heat equation
-    ∂_t p = +∂_x² p, under which real roots attract and collide — the opposite
+    ∂_t p = +∂_x² p, under which real roots attract and collide, the opposite
     dynamical picture.  The two statements "dr_i/dt = −2Σ 1/(r_i−r_j)" and
     "roots repel for t > 0" are mutually inconsistent.
 
@@ -1351,15 +1351,15 @@ def polynomial_heat_flow(
     -------
     dict with
       ``t_values``     (n_t,) float64, sorted
-      ``roots_exact``  (n_t, n) complex128 — roots of the exactly heat-evolved poly
-      ``roots_ode``    (n_t, n) complex128 — roots from RK4 on (7)
-      ``max_ode_error`` float — worst |exact − ODE| over the all-real times
-      ``max_abs_imag`` (n_t,) float64 — largest |Im root| (>0 ⇔ left the real axis)
-      ``min_gap``      (n_t,) float64 — min gap of the real parts (NaN once complex)
+      ``roots_exact``  (n_t, n) complex128, roots of the exactly heat-evolved poly
+      ``roots_ode``    (n_t, n) complex128, roots from RK4 on (7)
+      ``max_ode_error`` float, worst |exact − ODE| over the all-real times
+      ``max_abs_imag`` (n_t,) float64, largest |Im root| (>0 ⇔ left the real axis)
+      ``min_gap``      (n_t,) float64, min gap of the real parts (NaN once complex)
       ``spread``       (n_t,) float64
-      ``collision_t``  float or None — sampled t nearest 0 with non-real roots
+      ``collision_t``  float or None, sampled t nearest 0 with non-real roots
       ``all_real``     (n_t,) bool
-      ``convention``, ``ode``, ``verification`` — what was checked
+      ``convention``, ``ode``, ``verification``: what was checked
 
     Everything here is double precision (numpy). Both routes evolve in a
     coordinate centered at a middle input root, then translate back. This avoids

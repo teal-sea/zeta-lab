@@ -83,8 +83,8 @@ the obvious first obstruction is absent.
 
 ## 2. The family that closed gap B cannot close gap A, and by an exact amount
 
-Take `g = -kappa + c·s` with `s(x) = (sin(x/2)/(x/2))²`, `shat = 2*pi*(1-|xi|)^+`
-— the gap-B majorant. Then `ghat(0) = -khat(0) + 2*pi*c = -4*pi*c2(0) + 2*pi*c`,
+Take `g = -kappa + c·s` with `s(x) = (sin(x/2)/(x/2))²`, `shat = 2*pi*(1-|xi|)^+`,
+the gap-B majorant. Then `ghat(0) = -khat(0) + 2*pi*c = -4*pi*c2(0) + 2*pi*c`,
 so **`ghat(0) = 0` if and only if**
 
     c  =  2*c2(0)  =  1.6984559986366083...
@@ -100,14 +100,14 @@ Admissibility forbids that value:
 |---|---|---|---|
 | floor, `sup K_1^+/s` (needs `g >= f`) | `K_1(0)` | 0.9115647130952511 | 0.9115647130952531 |
 | **cap**, `inf khat/shat` (needs `ghat <= 0`) | `cos²(√2/2)(1+cosh 1)` | 1.4698290136442997 | **1.4698290125473032** |
-| **required for `ghat(0) = 0`** | `2*c2(0)` | — | **1.6984559986366083** |
+| **required for `ghat(0) = 0`** | `2*c2(0)` |, | **1.6984559986366083** |
 
     shortfall factor  =  2*c2(0) / (cos²(√2/2)(1+cosh 1))  =  1.15554665...
     shortfall absolute =  0.22862699...
 
 The witness is explicit: at `c = 2*c2(0)`, `ghat(xi) = -khat(xi) + c·shat(xi)`
-is **positive** on a whole interval below `xi = 1` — measured maximum
-`+0.08390546` at `xi = 0.87493` — so the certificate condition fails there. The
+is **positive** on a whole interval below `xi = 1`, measured maximum
+`+0.08390546` at `xi = 0.87493`: so the certificate condition fails there. The
 route document already records the inequality `c < 2*c2(0)` as the reason
 `LP_v` "stays decreasing". The reading it does not draw is the one that
 matters here: *decreasing is the failure mode*. `c = 2*c2(0)` is the exact
@@ -122,7 +122,7 @@ band that makes the frequency sum finite). Then (P) forces:
 
 * `v >= K_1^+ >= 0`, so `v >= 0`;
 * `v(2*pi n) = K_1(2*pi n)^+ = 0` for `n != 0` (`K_1 < 0` at every non-zero
-  lattice point — the route document's section 5 asymptotic
+  lattice point, the route document's section 5 asymptotic
   `lim K_1(2*pi n)(2*pi n)² = -0.6277706` and `clip_is_idle_on_lattice`);
 * `v` is of exponential type 1 and integrable.
 
@@ -135,8 +135,8 @@ band-limited candidate**, and section 2 shows the constant it needs is
 forbidden.
 
 Grade this argument honestly: the factorisation and sampling steps are
-standard but are quoted here, not proved, and `probe.py` checks none of them
-— it checks only the two constants that make them bite. What it establishes,
+standard but are quoted here, not proved, and `probe.py` checks none of them,
+it checks only the two constants that make them bite. What it establishes,
 subject to that, is that gap A is closed to the entire band-limited
 rectification family, not just to the ansatz that closed gap B. **Any
 certificate that closes gap A must put Fourier mass outside `[-1,1]`**, where
@@ -231,7 +231,7 @@ is empty, and `guards.undemonstrated` names one item, `tests/test_doors.py`,
 which is not this row. This task came from the operator roster
 (`operator:2026-08-17:k-ge-3-gas-split`), not from a ledger generator, and the
 review ledger's own docstring says a frontier-math thread is entered "when its
-subject lands, not while it moves" — lattice extremality moved four times in
+subject lands, not while it moves", lattice extremality moved four times in
 the last two days. So **no ledger entry was made, deliberately**, and the
 generator output above is the record of the check. `scripts/70_lab_state.py`
 runs clean.
@@ -263,7 +263,7 @@ runs clean.
 3. **Uniqueness under a uniform certificate.** *What:* the route's uniqueness
    argument (section 4 of the route document) needs `ghat < 0` strictly on
    `(0,1)`. A gap-A certificate has `ghat(j) = 0` at every integer and
-   `ghat(0) = 0`, so the Newton step must be re-derived — the strictness it
+   `ghat(0) = 0`, so the Newton step must be re-derived, the strictness it
    uses is gone at `xi -> 0`. *Why it might matter:* extremality without
    uniqueness is still enough for T1, so this is a completeness question, not
    a blocker; but a proof written without noticing would be wrong.
@@ -275,7 +275,7 @@ runs clean.
    is `y = 1/2`. `LATTICE-EXTREMALITY-ROUTE.md` is stated at `y = 1/2` too,
    so the whole certificate analysis inherits it. *Why it might matter:* T1
    is an obligation for all `y` in `(0, 1/2]`. *First step:* recompute
-   `c2`, `khat` and `c_needed = 2*c2(0)` at `2y = 0.5` and `2y = 0.2` — the
+   `c2`, `khat` and `c_needed = 2*c2(0)` at `2y = 0.5` and `2y = 0.2`: the
    `kappa` in play is `y`-dependent, so both the required constant and the
    cap move, and whether they move together decides if this section is one
    calculation or a family of them.

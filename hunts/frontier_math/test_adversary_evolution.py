@@ -1,4 +1,4 @@
-"""Controls for adversary_evolution.py — the adversarial global search.
+"""Controls for adversary_evolution.py, the adversarial global search.
 
 The module's claim is a NEGATIVE: a global search over finite pair
 configurations at theta = 0.995 reached no configuration whose margin
@@ -6,16 +6,16 @@ stayed nonpositive at the promotion instrument.  A negative is worth
 exactly as much as the instrument and the search behind it, so these are
 the checks a reader needs:
 
-(a) **the search works** — from RANDOM starts the optimiser walks back
+(a) **the search works**, from RANDOM starts the optimiser walks back
     to the regime `cluster_universal.py` already knows binds: the deep
     edge, spacings in the coupled band, and a score at or below the best
     resonant lattice at that k.  Load-bearing: if it cannot rediscover a
     known hard configuration, its failure to find a new one measures
     nothing;
-(b) **the search has detector power** — with the damage field inflated
+(b) **the search has detector power**, with the damage field inflated
     by a planted factor the same search finds a negative margin, and
     finds it in the first handful of scores;
-(c) **the instrument is honest** — the one-pass evaluator with the exact
+(c) **the instrument is honest**, the one-pass evaluator with the exact
     tail reproduces `PaperJoint.cap` to 1e-12, the conservative tail is
     one-sided (never smaller), and refining the instrument raises the
     margin, so a positive search margin is a positive fine margin;
@@ -26,7 +26,7 @@ the checks a reader needs:
     reproduces its margin.
 
 Plus the m-scaling record: the per-pair margin ladder at the resonance,
-the fitted law, and the crossing verdict — with a synthetic control that
+the fitted law, and the crossing verdict, with a synthetic control that
 the crossing detector is not vacuous.  The ladder to m = 64, the
 rediscovery control and the campaign are marked slow.
 """
@@ -112,7 +112,7 @@ def test_exact_tail_evaluator_reproduces_paper_joint(pairs):
     """(c) One field pass, three field passes: the same cap.
 
     This is what licenses using the fast evaluator for tens of thousands
-    of scores — it is `PaperJoint.cap` with the arithmetic reordered, not
+    of scores, it is `PaperJoint.cap` with the arithmetic reordered, not
     a second instrument.
     """
     want = PJ.cap(pairs, THETA_FULL)["cap"]
@@ -130,7 +130,7 @@ def test_budget_matches_paper_joint():
 
 def test_conservative_band_period_is_one_sided():
     """(c) P_CONSERVATIVE is below every band period the module's own
-    instrument reports on (0, 1/2] — so the conservative tail is larger,
+    instrument reports on (0, 1/2], so the conservative tail is larger,
     the cap larger, and the margin smaller.  One-sided against the
     defender, which is the only direction an adversarial search may
     round."""
@@ -156,7 +156,7 @@ def test_conservative_cap_never_below_module_cap(pairs):
 def test_refining_the_instrument_raises_the_margin(pairs):
     """(c) The direction that makes the whole search meaningful: a finer
     step and a longer resolved half-range can only shrink the cap, so the
-    margin is nondecreasing down the ladder.  Tolerance 1e-9 absolute —
+    margin is nondecreasing down the ladder.  Tolerance 1e-9 absolute,
     the ladder is a monotonicity claim, not an equality."""
     rows = resolution_ladder(pairs, THETA_FULL,
                              rungs=((0.01, 40.0), (FAST_STEP, FAST_G),
@@ -202,7 +202,7 @@ def test_structured_seeds_are_well_formed():
 
 
 # ---------------------------------------------------------------------------
-# (a) rediscovery — load-bearing
+# (a) rediscovery, load-bearing
 # ---------------------------------------------------------------------------
 
 
@@ -211,7 +211,7 @@ def test_optimiser_rediscovers_the_binding_family():
     """(a) THE control that makes the negative result readable.
 
     Random starts, no hint of the answer: the optimiser must end up in
-    the regime the rho map already flags — the deep end of the depth
+    the regime the rho map already flags, the deep end of the depth
     range, spacings in the coupled band around the resonances
     (`RESONANCES`), scoring at or below the best resonant lattice at the
     same k.  A failure here invalidates the negative result rather than
@@ -221,7 +221,7 @@ def test_optimiser_rediscovers_the_binding_family():
     three lowest resonances are nearly degenerate on this instrument
     (relative margins 0.162 / 0.176 / 0.179 at s = 2 / 3 / 1, with
     everything off-resonance above 0.30), and the search does better than
-    any of them — it lands on unequal-gap configurations in the same
+    any of them, it lands on unequal-gap configurations in the same
     coupled band.  So the control asks for the three things a working
     search must deliver: the deep edge, the coupled band, and a score at
     or below the lattice reference.
@@ -257,7 +257,7 @@ def test_the_optimiser_makes_progress_from_a_random_start():
 
 
 # ---------------------------------------------------------------------------
-# (b) detector power — the planted counterexample
+# (b) detector power, the planted counterexample
 # ---------------------------------------------------------------------------
 
 
@@ -512,7 +512,7 @@ def test_m_law_fit_would_flag_a_crossing():
 
 @pytest.mark.slow
 def test_m_ladder_out_to_64_crosses_at_the_search_instrument():
-    """The bridge, pushed past `cluster_universal`'s m = 32 — and the
+    """The bridge, pushed past `cluster_universal`'s m = 32, and the
     honest half of the answer.
 
     At the SEARCH instrument the decreasing sequence does cross zero, and
@@ -579,7 +579,7 @@ def test_primal_stays_within_budget_at_the_worst_find():
 @pytest.mark.slow
 def test_primal_sweep_stays_within_budget():
     """The sup over the on-line set X, measured by the same greedy the
-    joint layer uses, against the exact budget — on the families the cap
+    joint layer uses, against the exact budget, on the families the cap
     finds hardest.  Room here is what says a cap crossing (if one ever
     appeared) would be an instrument failure rather than an E-form
     failure."""

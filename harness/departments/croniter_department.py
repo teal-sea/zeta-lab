@@ -1,8 +1,8 @@
-"""Department #4: cron schedule semantics — the first foreign-domain subject.
+"""Department #4: cron schedule semantics, the first foreign-domain subject.
 
 The subject is a frozen implementation of union day-of-month/day-of-week
 semantics for cron expressions carrying the ``#`` (nth weekday) and ``W``
-(nearest weekday) special forms — a feature added to the ``croniter`` library
+(nearest weekday) special forms, a feature added to the ``croniter`` library
 (vendored at ``croniter_fixtures/``, commit pinned there). Nothing in this
 department knows anything the laboratory computes; it is here to measure
 ``ROADMAP.md`` known gap #1 from the other side: can the *unchanged*
@@ -19,7 +19,7 @@ Two things distinguish this department historically:
 
 Instrument honesty rules observed here (the sham-battery lessons):
 
-* payloads expose **behavior only** — a claim gets a callable, never a
+* payloads expose **behavior only**, a claim gets a callable, never a
   labelled record it could read instead of measuring;
 * the oracle is independent: plain ``calendar`` arithmetic, no call into the
   subject;
@@ -182,7 +182,7 @@ PROBES: tuple[tuple[str, dt.datetime, int, tuple[dt.datetime, ...]], ...] = (
 )
 
 #: Default-mode probe: with day_or_union OFF this expression must raise
-#: (unsatisfiable day-of-month with '#’ present) — pinned upstream behavior.
+#: (unsatisfiable day-of-month with '#’ present), pinned upstream behavior.
 DEFAULT_RAISE_EXPR = "0 0 31 2 fri#2"
 
 #: Bounded croniter_range probe (fixed window, hang-proof) and its oracle.
@@ -193,13 +193,13 @@ RANGE_EXPECTED = tuple(
 
 
 # ---------------------------------------------------------------------------
-# Subjects — target and rivals expose one thing: behavior
+# Subjects, target and rivals expose one thing: behavior
 # ---------------------------------------------------------------------------
 
 
 class _Implementation:
     """A candidate implementation. ``payload()`` returns a schedule callable
-    and nothing else — no fields a claim could read instead of measuring."""
+    and nothing else, no fields a claim could read instead of measuring."""
 
     def __init__(self, name: str, source: str, blurb: str) -> None:
         self.name = name
@@ -252,7 +252,7 @@ RIVALS = (
 def accepts_union_flag(schedule) -> bool:
     """Fires when the implementation accepts the day_or_union API at all.
 
-    True of the target and of every rival — the calibration claim the battery
+    True of the target and of every rival, the calibration claim the battery
     must kill: presence of the API says nothing about its semantics."""
     try:
         schedule("0 0 10 * fri#2", _START, 1, union=True)
@@ -272,7 +272,7 @@ def matches_independent_oracle(schedule) -> bool:
 
 
 # ---------------------------------------------------------------------------
-# Decoys — substitute the probe set, keep its shape
+# Decoys, substitute the probe set, keep its shape
 # ---------------------------------------------------------------------------
 
 _PROBE_EXPRS = tuple(p[0] for p in PROBES)
@@ -294,7 +294,7 @@ class _SpecialFormsStripped:
     probe = list(_PROBE_EXPRS)
 
     def describe(self) -> str:
-        return "strips '#n' and 'W' from every probe expression — the substance under test"
+        return "strips '#n' and 'W' from every probe expression, the substance under test"
 
     def substitute(self, exprs):
         out = []
@@ -324,7 +324,7 @@ def probe_distinguishing_power(exprs) -> float:
 
 
 # ---------------------------------------------------------------------------
-# Surrogates — date sequences with no cron semantics at all
+# Surrogates, date sequences with no cron semantics at all
 # ---------------------------------------------------------------------------
 
 
@@ -332,7 +332,7 @@ class _FixedStrideNull:
     name = "fixed-stride-null"
 
     def describe(self) -> str:
-        return "every third day from the probe start — a scheduler with no cron logic"
+        return "every third day from the probe start, a scheduler with no cron logic"
 
     def sample(self):
         return tuple(_START + dt.timedelta(days=3 * k) for k in range(1, 7))
@@ -342,7 +342,7 @@ class _MonthStartNull:
     name = "month-start-null"
 
     def describe(self) -> str:
-        return "the first of each month — calendar structure, no expression semantics"
+        return "the first of each month, calendar structure, no expression semantics"
 
     def sample(self):
         return tuple(dt.datetime(2024, m, 1) for m in range(1, 7))
@@ -355,7 +355,7 @@ def oracle_agreement(dates) -> float:
 
 
 # ---------------------------------------------------------------------------
-# Lesions — the calibration mutants as source patches, magnitudes measured
+# Lesions, the calibration mutants as source patches, magnitudes measured
 # ---------------------------------------------------------------------------
 
 
@@ -382,7 +382,7 @@ def _behavior_fingerprint(source: str) -> tuple:
         it = mod.croniter(RANGE_EXPR, _START, ret_type=dt.datetime, day_or_union=True)
         got = tuple(it.get_next() for _ in range(len(RANGE_EXPECTED)))
         points.append(("range-oracle-ok", got == RANGE_EXPECTED))
-        # croniter_range iterates until it passes ``stop`` — under a lesion
+        # croniter_range iterates until it passes ``stop``, under a lesion
         # that jumps backward it would never get there, so pull from the
         # generator a bounded number of times instead of exhausting it.
         gen = mod.croniter_range(_START, RANGE_STOP, RANGE_EXPR, day_or_union=True)
@@ -402,7 +402,7 @@ _FROZEN_FINGERPRINT = _behavior_fingerprint(_FROZEN)
 
 
 def _measured_magnitude(patched_source: str) -> float:
-    """Share of fingerprint points the patch changes — measured, not asserted."""
+    """Share of fingerprint points the patch changes, measured, not asserted."""
     lesioned = _behavior_fingerprint(patched_source)
     total = max(len(_FROZEN_FINGERPRINT), len(lesioned))
     same = sum(1 for a, b in zip(_FROZEN_FINGERPRINT, lesioned) if a == b)
@@ -457,7 +457,7 @@ DETECTORS = (
         probe=_FROZEN,
         note=(
             "bounded behavioral fingerprint against the frozen implementation "
-            "(fixed pulls, never iterate-until-done — the hang lesson); fires on "
+            "(fixed pulls, never iterate-until-done, the hang lesson); fires on "
             "all three source-patch lesions, quiet on the frozen source"
         ),
     ),
@@ -474,7 +474,7 @@ REFERENCE_CLAIMS = (
         claim=accepts_union_flag,
         distinguishes=False,
         note="true of the target and both rivals: an API's presence proves nothing "
-        "about its semantics — the battery must kill this",
+        "about its semantics, the battery must kill this",
     ),
     ReferenceClaim(
         name="matches_independent_oracle",
@@ -500,7 +500,7 @@ BATTERY = Battery(
 
 DEPARTMENT = Department(
     name="croniter",
-    summary="cron schedule union semantics under '#' and 'W' — the first "
+    summary="cron schedule union semantics under '#' and 'W', the first "
     "foreign-domain subject, refereed by the unchanged protocol",
     battery=BATTERY,
     door="docs/doors/croniter.md",

@@ -16,7 +16,7 @@ Following the Palomar layout this module does **not** import `BridgeChallenge`:
 the two modules independently declare the same names, and Comparator checks
 that each compared declaration has the same statement in both.  The definitions
 below are therefore verbatim copies of the ones in `BridgeChallenge.lean`,
-which are themselves verbatim copies of the definitions the development uses —
+which are themselves verbatim copies of the definitions the development uses,
 five from the pinned dependency `anthropics/zeta-23-lean`
 (`Zeta23/Statement.lean`) and five from `Zeta23Ext/Bridge/Defs.lean`.
 

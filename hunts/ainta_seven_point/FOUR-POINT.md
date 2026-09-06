@@ -12,7 +12,7 @@
 >
 > proved unconditionally, sorry-free, with no axiom beyond the three Lean itself assumes.
 >
-> **VERIFIED, GitHub Actions run 32738666418, green end to end on the first build** — every step
+> **VERIFIED, GitHub Actions run 32738666418, green end to end on the first build**, every step
 > from the Mathlib cache through the whole library, the axiom audit and the no-`sorry` check.
 > All six advertised declarations report `[propext, Classical.choice, Quot.sound]`:
 >
@@ -111,7 +111,7 @@ costs to come down from the envelope by a usable margin.
 | 8000 | 0.0005927312 | (2.019, 2.019) | 4.74 | 1691 | 0.6726485886 | 1.4788e-04 |
 
 The peak is a **kink at `p ≈ 1007`**, where the binding basin switches from the symmetric
-`(1.038, 1.038)` to the asymmetric `(1.051, 2.002)` — exactly where `H·Σg*` crosses `q`.
+`(1.038, 1.038)` to the asymmetric `(1.051, 2.002)`: exactly where `H·Σg*` crosses `q`.
 Its value is `Φ₃ − H = 2.705·10⁻⁴`, against `2.420·10⁻⁴` at `p = 3000`.
 
 But the peak is at zero margin, and margin is what the branch and bound spends. Running
@@ -146,7 +146,7 @@ fourth-decimal result.**
 | 4000 | 0.0016291359 | (1.052, 2.964, 1.052) | 6.52 | 616 | 3.4194e-04 |
 | 8000 | 0.0008987030 | (2.015, 2.011, 2.015) | 7.18 | 1116 | 2.2782e-04 |
 
-The unconstrained peak is `3.74·10⁻⁴` near `p = 3000` — **larger than the whole route-(b) peak**
+The unconstrained peak is `3.74·10⁻⁴` near `p = 3000`, **larger than the whole route-(b) peak**
 before any size is spent. Under a size budget the best `p` moves down to `2400–2600`, because
 `c·p` is the pressure cutoff and the cost of the table is driven by it. The size/constant
 frontier at `p = 2500` (exact-rational branch and bound, MEASURED, generator-accurate counts):
@@ -185,7 +185,7 @@ route (a):  1.097e-04 / 1.06 h =  1.035e-04 of constant per CI-hour
 appears rather than the inherited `3000`).
 
 **The absolute times in that table are wrong by about 3×, and the ranking is not.** §5 measures
-that `lake` did not spread the modules over four cores, so dividing by four was a mistake — but
+that `lake` did not spread the modules over four cores, so dividing by four was a mistake, but
 it was the same mistake on both rows. Redoing the arithmetic at the measured rates (6.51 s per
 cell lemma for the `n = 4` table, 1.34 s per leaf, and the three-point's own 5.65 s per cell for
 the `n = 3` row, whose cells stop at `x ≈ 3.4` and are cheaper):
@@ -234,7 +234,7 @@ the tail and a small table covers the rest. `four_point_gen.py` **imports** the 
 from `three_point_gen.py` rather than copying it, so the two tables are literally the same table
 generator; what differs is forced by the functional.
 
-### 3.1 The cover level — the correction that matters
+### 3.1 The cover level: the correction that matters
 
 **This is the only mathematically new point in the note, and getting it wrong would have
 produced a tree that looks right and proves nothing.**
@@ -247,14 +247,14 @@ whole certificate on its own: the cover can be run at level `c`. At `n = 4` that
 level = c·(n−1)/2 = 3c/2 = 3465/10⁶      (so that (2/3)·level = c exactly)
 ```
 
-and its near-zero intervals are correspondingly wider — `1.22×` wider in half-width, since `w`
+and its near-zero intervals are correspondingly wider, `1.22×` wider in half-width, since `w`
 is quadratic at a simple zero of `k`. A first sizing pass of this hunt used level `c` and
 reported leaf counts about 30 % too optimistic; the numbers in §2 are the corrected ones.
 `four_point_preflight.py` §2 checks the level explicitly against the cover's advertised statement,
 so the mistake cannot recur silently.
 
 **MEASURED.** At `c = 2310/10⁶`, `p = 2500`, cutoff `S = c·p = 231/40 = 5.775`, the cover at
-level `3465/10⁶` is **31 contiguous segments over `[0, 5.775]`** — 26 table cells, the
+level `3465/10⁶` is **31 contiguous segments over `[0, 5.775]`**: 26 table cells, the
 `[0, 1/2]` sinc window, and **four** exported near-zero intervals:
 
 ```
@@ -265,13 +265,13 @@ B₄ = [237/64, 231/40] = [3.703125, 5.775]      the tail
 ```
 
 `B₄` is not a zero basin, and it is 2.07 wide against the others' 0.16 to 0.48. Beyond
-`x ≈ 4.47` the *local maxima* of `w` themselves fall below `3c/2` — `w`'s envelope decays like
-`γ²/(π²x²) = 0.06938/x²`, and `√(0.06938/0.003465) = 4.475` (MEASURED) — so the cover cannot clear
+`x ≈ 4.47` the *local maxima* of `w` themselves fall below `3c/2`: `w`'s envelope decays like
+`γ²/(π²x²) = 0.06938/x²`, and `√(0.06938/0.003465) = 4.475` (MEASURED), so the cover cannot clear
 anything past there, and the basin around the zero `4.01523561…` merges with that whole stretch
 into one interval running to the cutoff.
 
 It costs almost nothing, and the pressure cutoff is why. Only **three** of the 64 dispatch cases
-contain `B₄` at all — `(1,1,4)`, `(1,4,1)`, `(4,1,1)` in one-based numbering — because
+contain `B₄` at all, `(1,1,4)`, `(1,4,1)`, `(4,1,1)` in one-based numbering, because
 `B₄`'s left end plus the two smallest others is `0.984375 + 0.984375 + 3.703125 = 5.671875`,
 leaving `0.103125` of room below the cutoff `5.775`. They collapse to two box lemmas carrying
 **4 leaves each out of 3315** (MEASURED). Every other appearance of `B₄` is dead.
@@ -280,11 +280,11 @@ leaving `0.103125` of room below the cutoff `5.775`. They collapse to two box le
 
 **MEASURED.** The surviving boxes are the triples `(Bᵢ, Bⱼ, Bₖ)` whose left corners sum below the
 cutoff. Of the `4³ = 64` cases, **44 are dead by pressure** and 20 survive; the functional is
-symmetric under `(g₀,g₁,g₂) ↦ (g₂,g₁,g₀)` (and only under that — it is *not* fully symmetric, the
+symmetric under `(g₀,g₁,g₂) ↦ (g₂,g₁,g₀)` (and only under that, it is *not* fully symmetric, the
 way `F 3` is), so the 20 collapse to **13 box lemmas**, and the 7 transposed cases apply the same
 lemma to `(z, y, x)` after three `rw [show … from by ring]` steps.
 
-The leaf distribution is as lopsided as at `n = 3` and for the same reason — the binding basin is
+The leaf distribution is as lopsided as at `n = 3` and for the same reason, the binding basin is
 at `(1.052, 2.964, 1.052)` at `p = 3000`, and near `(1.05, 1.98, 1.05)` here:
 
 ```
@@ -295,7 +295,7 @@ box_1_0_1   147             box_1_1_1     6      box_1_0_2   4
 box_0_0_3     4
 ```
 
-### 3.3 Chunking — the structural fix `THREE-POINT.md` §7 left undone
+### 3.3 Chunking: the structural fix `THREE-POINT.md` §7 left undone
 
 **THREE-POINT.md** recorded that `pair_0_1` held 453 of 487 leaves in one declaration, needed
 `maxHeartbeats 10000000`, could not use more than one core, and that splitting it "would probably
@@ -310,11 +310,11 @@ Each chunk gets its own heartbeat budget and `lake` compiles the 16 modules in p
 **MEASURED twice, and it is the figure that set the size budget.** Before the build: a real
 110-leaf chunk (`ch_17`, 398 lines, 82 distinct cell lemmas referenced), with the cell lemmas
 replaced by axioms of exactly the same statements so that only the leaf structure is timed,
-elaborates on AXLE in **76.7 s — 0.70 s per leaf**. After the build: the whole `FourPoint.Chunks`
-step is **1h13m48s for 3315 leaves — 1.34 s per leaf on the CI runner** (§5), against the 1.83 s
+elaborates on AXLE in **76.7 s, 0.70 s per leaf**. After the build: the whole `FourPoint.Chunks`
+step is **1h13m48s for 3315 leaves: 1.34 s per leaf on the CI runner** (§5), against the 1.83 s
 per leaf the three-point `Main` averaged over 487 leaves of which 453 sat in one declaration. So
 a chunked leaf costs **27 % less** than a leaf inside a huge declaration *while carrying twice the
-work* — six `have`s and a `linarith` over thirteen hypotheses, against three and six — and the
+work*, six `have`s and a `linarith` over thirteen hypotheses, against three and six, and the
 `FourPoint.Main` step that holds the certificate itself costs 20 seconds against the three-point
 `Main`'s 14m49s.
 
@@ -373,11 +373,11 @@ It checks, against the true `w = (K/K(0))²` evaluated from the sinc form:
 * the cover's chain is contiguous, hits the cutoff exactly, every table segment lies inside the
   cell it invokes, and every table cell clears **`3c/2`**, not `c`;
 * at every one of the 3315 leaves, the cell lemmas invoked really do cover the `x`, `y`, `z`,
-  `x+y`, `y+z` and `x+y+z` ranges the branch conditions force — including the leaves that split a
-  straddling cell — and the linear combination the `linarith` is asked to close is true;
+  `x+y`, `y+z` and `x+y+z` ranges the branch conditions force, including the leaves that split a
+  straddling cell, and the linear combination the `linarith` is asked to close is true;
 * every one of the 76 router regions lands in a chunk lemma whose hypotheses cover it;
 * every one of the 64 dispatch cases names a box lemma whose bounds are the right three near-zero
-  intervals in the right order, or declares the case dead — in which case the pressure cutoff
+  intervals in the right order, or declares the case dead, in which case the pressure cutoff
   really does kill it.
 
 **A green check that cannot fail is worth nothing** (THREE-POINT.md §5), so it was fault-injected
@@ -407,7 +407,7 @@ replaced by the bridge's own definitions over opaque stand-ins:
 | a real 110-leaf chunk with axiom cell lemmas | `okay=True`, **76.7 s** | §3.3 |
 
 A control run of the same file, before `box_demo` was reduced to a statement, returned
-`okay=False` — so the `True`s are not vacuous.
+`okay=False`: so the `True`s are not vacuous.
 
 **Static checks, VERIFIED:**
 
@@ -433,17 +433,17 @@ on the first attempt**, 14:26:05Z → 17:44:35Z.
 
 | step | wall clock |
 |---|---|
-| restore elan and lake | 0s — **cache miss**, see below |
+| restore elan and lake | 0s, **cache miss**, see below |
 | install elan, toolchain | 12s |
-| `lake exe cache get` — Mathlib oleans at the pinned rev | 1m36s |
+| `lake exe cache get`, Mathlib oleans at the pinned rev | 1m36s |
 | dependencies: Zeta23 upstream, then `lean/bridge` | 11m00s |
 | save cache after dependencies | 1m10s |
-| `FourPoint.Base` — the machinery, 3 anchors added | 26s |
-| `FourPoint.Cells` — **983 cell lemmas, 17 modules** | **1h46m43s** |
-| `FourPoint.Cover` — 31 segments | 27s |
-| `FourPoint.Chunks` — **3315 leaves, 76 lemmas, 16 modules** | **1h13m48s** |
-| `FourPoint.Boxes` — 13 routers | 1m36s |
-| `FourPoint.Main` — `F4_eq`, the 64-case certificate, `Phi_four`, both bounds | 20s |
+| `FourPoint.Base`, the machinery, 3 anchors added | 26s |
+| `FourPoint.Cells`, **983 cell lemmas, 17 modules** | **1h46m43s** |
+| `FourPoint.Cover`, 31 segments | 27s |
+| `FourPoint.Chunks`, **3315 leaves, 76 lemmas, 16 modules** | **1h13m48s** |
+| `FourPoint.Boxes`, 13 routers | 1m36s |
+| `FourPoint.Main`, `F4_eq`, the 64-case certificate, `Phi_four`, both bounds | 20s |
 | the whole library | 8s |
 | axiom audit, forbidden-token scan | 0s |
 | save cache | 1m01s |
@@ -462,10 +462,10 @@ leaves      :  4428 s / 3315 =  1.34 s per leaf
 nothing.** `three-point.yml` staged every module in a separate step, which *serialises* what
 `lake` would otherwise spread over the runner; this workflow deliberately built all 17 cell
 modules in one `lake build` so that it could parallelise. The measured per-lemma rate is
-**6.51 s against the three-point's 5.65 s** — i.e. the same rate, on cells that are *more*
+**6.51 s against the three-point's 5.65 s**, i.e. the same rate, on cells that are *more*
 expensive (this table runs out to `x = 6.24` against the three-point's `4.3`, so the `2(πx)²`
-literals are twice the size and `nlinarith` is slower on them). Whatever the reason — the
-independent `Cells{k}` modules import only `FourPoint.Base` and nothing forces an order — the
+literals are twice the size and `nlinarith` is slower on them). Whatever the reason, the
+independent `Cells{k}` modules import only `FourPoint.Base` and nothing forces an order, the
 elapsed time is what a serial build would cost. **Every projection in §2.3 divided by four cores
 and was therefore about 3× optimistic in absolute terms.** The *ranking* it produced was
 unaffected, because both routes were divided by the same wrong number.
@@ -481,8 +481,8 @@ under five minutes". Measured here, on leaves carrying **twice** the work (six `
 | three-point `Main`, one 453-leaf declaration among 487 | 487 | 1.83 |
 | four-point `Chunks`, 76 declarations of ≤ 110 leaves | 3315 | **1.34** |
 
-and `FourPoint.Main` — which holds `F4_eq`, the whole 64-case certificate, `Phi_four` and both
-bounds — costs **20 seconds**, against the three-point `Main`'s 14m49s. The cost was never in the
+and `FourPoint.Main`, which holds `F4_eq`, the whole 64-case certificate, `Phi_four` and both
+bounds, costs **20 seconds**, against the three-point `Main`'s 14m49s. The cost was never in the
 certificate; it was in the leaf count inside single declarations.
 
 **3. A GitHub Actions cache cannot be read across branches.** The workflow lists
@@ -490,8 +490,8 @@ certificate; it was in the leaf count inside single declarations.
 two packages pin the same toolchain and the same `lake-manifest.json`, so a three-point cache
 carries a `lean/bridge/.lake` this job could use. It restored **nothing in 0s**: Actions caches
 are scoped to the branch that wrote them plus the default branch, and the three-point caches were
-written on `bridge/three-point`. The entry is harmless and was left in place — it will start
-working the day either branch lands on `main` — but the 11-minute dependency build is unavoidable
+written on `bridge/three-point`. The entry is harmless and was left in place, it will start
+working the day either branch lands on `main`, but the 11-minute dependency build is unavoidable
 for the first run on any new branch. **INFERRED** from the 0s restore and the documented scoping
 rule; not tested directly.
 
@@ -515,8 +515,8 @@ advertised names to be present** so that a build which printed nothing cannot au
 
 `20000000` on the 76 chunk lemmas, the 13 routers and the private `cert_core`. It is a
 compile-resource limit and nothing else: not an axiom, absent from `#print axioms`. The four
-**advertised** statements — `four_point_cert`, `Phi_four`, `four_point_bound`,
-`four_point_bound_ratio` — and `F4_eq` and `cover1` all carry the **default** budget, which is why
+**advertised** statements, `four_point_cert`, `Phi_four`, `four_point_bound`,
+`four_point_bound_ratio`: and `F4_eq` and `cover1` all carry the **default** budget, which is why
 `four_point_cert` is a three-line wrapper (`intro`, `rw [F4_eq]`, `exact cert_core …`) over a
 private lemma that carries the case analysis. `THREE-POINT.md` put the raise on its certificate;
 this does not.
@@ -543,14 +543,14 @@ command; the dependency build is cached after run 1, so a further run costs `6.5
 
 | `c`·10⁶ | cells | leaves | projected job | `Φ₄ − H` | gain over `c = 2310` | gain per CI-hour |
 |---|---|---|---|---|---|---|
-| **2310** | **983** | **3315** | **3h18m (actual)** | **3.4632e-04** | — | — |
+| **2310** | **983** | **3315** | **3h18m (actual)** | **3.4632e-04** |, |, |
 | 2315 | 1075 | 4082 | 3h30m | 3.4965e-04 | +3.33e-06 | 9.5e-07 |
 | 2320 | 1148 | 5288 | 4h05m | 3.5300e-04 | +6.68e-06 | 1.6e-06 |
 | 2325 | 1330 | 7313 | 5h10m | 3.5633e-04 | +1.00e-05 | 1.9e-06 |
-| 2330 | 1516 | 11863 | **7h11m** | 3.5966e-04 | +1.33e-05 | — |
+| 2330 | 1516 | 11863 | **7h11m** | 3.5966e-04 | +1.33e-05 |, |
 
 **The hard wall is the workflow's own `timeout-minutes: 350`.** `c = 2325/10⁶` fits, at 310
-projected minutes against a 350-minute cap — forty minutes of margin on a two-rate linear model,
+projected minutes against a 350-minute cap, forty minutes of margin on a two-rate linear model,
 which is not much. `c = 2330/10⁶` needs 431 minutes and **does not fit**. Beyond that the branch
 and bound itself starts to run away: at `c = 2358/10⁶` (the largest admissible value at
 `p = 2500`, `inf F 4 2500 = 0.00234239`) the leaf count is in the hundreds of thousands, the same
@@ -558,7 +558,7 @@ shape `THREE-POINT.md` §2.3 measured at `c = 1353/10⁶`.
 
 **The soft wall bites first, and it is the same criterion that chose the route.** Route (a) was
 taken over route (b) because it returned more proved constant per CI-hour. Measured, it returned
-`+1.097e-04 / 3.31 h = 3.32e-05` per CI-hour. The next rung up returns `1.6e-06` per CI-hour —
+`+1.097e-04 / 3.31 h = 3.32e-05` per CI-hour. The next rung up returns `1.6e-06` per CI-hour,
 **twenty times worse than the run that was just made, and three times worse than route (b)**, the
 route that was rejected as not worth the CI. Spending four more hours to move `Φ₄` by 1.9 % would
 be a worse use of the build loop than the thing already judged not worth doing.
@@ -580,11 +580,11 @@ to `6.15`, which adds a fifth and sixth near-zero interval and roughly doubles t
 Unchanged from `THREE-POINT.md` §7, and now with a number attached. The naive constant enclosure
 converges linearly in the cell side; a centred/mean-value form converges quadratically. At `n = 3`
 that was measured to be the difference between 4127 and roughly 207 cells. If it bought the same
-factor here, `c = 2358/10⁶` — the *analytic* ceiling at `p = 2500`, `Φ₄ − H = 3.6864e-04` — would
+factor here, `c = 2358/10⁶`, the *analytic* ceiling at `p = 2500`, `Φ₄ − H = 3.6864e-04`, would
 come inside the timeout, and `n = 5` would stop being dominated. It needs a two-sided **affine**
 enclosure of `N(πx)` per cell, hence Taylor with explicit remainder for `N`, or a small interval
 layer with `cos`/`sin` at rational centres. Mathlib at the pinned revision has neither an
-interval-arithmetic tactic nor a numerical `sin`/`cos` evaluator — the gap
+interval-arithmetic tactic nor a numerical `sin`/`cos` evaluator, the gap
 `CERTIFICATE-ROUTE.md` §4 identified, still open, and now the binding constraint on this ladder
 rather than a footnote to it.
 
@@ -594,13 +594,13 @@ rather than a footnote to it.
 
 **Proved, in Lean, sorry-free, standard axioms only:**
 
-* `four_point_cert` — the `n = 4` certificate at `c = 2310/10⁶`, `p = 2500`. A Lean fact about the
+* `four_point_cert`: the `n = 4` certificate at `c = 2310/10⁶`, `p = 2500`. A Lean fact about the
   same `F` the bridge consumes, not a verifier's acceptance. 983 cell lemmas applied 18 595 times,
   31 covering steps, 76 chunk lemmas over 3315 leaves, 13 box routers, 64 dispatch cases.
-* `four_point_bound`, `four_point_bound_ratio` — the unconditional simple-zero bound at
+* `four_point_bound`, `four_point_bound_ratio`: the unconditional simple-zero bound at
   `Φ₄ = 0.67284701976668882760…`, with **no hypotheses**, for Mathlib's `riemannZeta`.
-* `Phi_four` — the constant as an exact rational in `HD 1`.
-* `cover1` — the one-dimensional cover at level `3c/2` over `[0, 5.775]`.
+* `Phi_four`: the constant as an exact rational in `HD 1`.
+* `cover1`: the one-dimensional cover at level `3c/2` over `[0, 5.775]`.
 
 **What it is worth, stated carefully:**
 
@@ -623,7 +623,7 @@ rather than a footnote to it.
   constants in `RESULTS.md` and `BRIDGE.md` are unchanged and **still conditional**.
 * The certificate is proved at `p = 2500` only, and at `c = 2310/10⁶` only. §6 measures what the
   neighbouring values cost; none of them is proved.
-* `n = 5` is **not** shown to be impossible — §2.4 shows it is dominated *at this operating point
+* `n = 5` is **not** shown to be impossible, §2.4 shows it is dominated *at this operating point
   and with this enclosure*, which is a different statement.
 
 ---
@@ -637,8 +637,8 @@ rather than a footnote to it.
   it needs a two-sided *affine* enclosure of `N(πx)` per cell that Mathlib at this pin does not
   supply. It is still the single change that would move this result most, and it would move
   `n = 5` further than `n = 4`.
-* **No `n = 6, 7`.** §2.4 measures the `n = 5` wall; `n ≥ 6` is worse for the same reason — the
-  cover level is `c(n−1)/2`, so it rises with `n` and the near-zero intervals widen with it — and
+* **No `n = 6, 7`.** §2.4 measures the `n = 5` wall; `n ≥ 6` is worse for the same reason, the
+  cover level is `c(n−1)/2`, so it rises with `n` and the near-zero intervals widen with it, and
   was not measured.
 * **No second run at a larger `c`.** §6 is a projection from two measured rates, not a build. It
   says `c = 2325/10⁶` fits inside the workflow's timeout with forty minutes of margin and
@@ -650,7 +650,7 @@ rather than a footnote to it.
 * **No `decide`-checked table and no `Finset` fold.** Unchanged from THREE-POINT.md §7 and for the
   same reason: the cell bound is a statement about `Real.cos` and `Real.sin`, which the kernel
   cannot evaluate, so a `decide` route needs a `Decidable` bridge from a rational evaluator up to
-  the real statement — a second development, not a tactic choice. INFERRED, not measured.
+  the real statement, a second development, not a tactic choice. INFERRED, not measured.
 * **The four-core assumption was never checked before it was used.** §5 measures that the build
   ran at serial rates and the workflow's un-staging bought nothing; nothing here diagnoses *why*,
   and `lake --version`, `-j`, and the runner's effective core count were not examined. A
@@ -680,7 +680,7 @@ Or push to `bridge/four-point` and read `.github/workflows/four-point.yml`, whic
 figure in §5 was measured from (run 32738666418).
 
 `four_point_gen.py` takes `c` and `p` on the command line, so the rows of §6 are one command each:
-`python3 four_point_gen.py 2320 2500`, and so on. The generator is deterministic — regenerating at
+`python3 four_point_gen.py 2320 2500`, and so on. The generator is deterministic, regenerating at
 `2310 2500` reproduces the committed tree byte for byte.
 
 The package pins `leanprover/lean4:v4.33.0-rc2` and inherits Mathlib

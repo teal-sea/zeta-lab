@@ -44,7 +44,7 @@ def act1_continuation(dps: int) -> None:
     from zeta.core import zeta, zeta_euler_maclaurin
 
     _act(1, "ζ beyond its series (scripts/01…)")
-    print("  ζ(s) = Σ n^(−s) only converges for Re s > 1 — but Euler–Maclaurin")
+    print("  ζ(s) = Σ n^(−s) only converges for Re s > 1, but Euler–Maclaurin")
     print("  (comparing the Riemann SUM with the INTEGRAL) continues it everywhere:")
     print()
     z2 = zeta(2, dps=dps)
@@ -80,7 +80,7 @@ def act3_zeros(T: float) -> None:
     _act(3, f"the zeros, found and counted up to T = {T:g} (scripts/02)")
     res = verify_rh_up_to(T, dps=20)
     zs = res["zeros"]
-    print("  Hardy's Z(t) = e^(iθ)ζ(1/2+it) is REAL — its sign changes are zeros")
+    print("  Hardy's Z(t) = e^(iθ)ζ(1/2+it) is REAL, its sign changes are zeros")
     print("  of ζ on the critical line.  The argument principle counts every zero")
     print("  in the whole strip: N(T) = 1 + θ(T)/π + S(T).")
     print()
@@ -115,7 +115,7 @@ def act4_primes(x: float, n_zeros: int) -> None:
     ok = all(p["is_prime_power"] for p in peaks)
     print()
     print(f"    dual view: top 8 spectral peaks of −2Σcos(γu) sit at n = {det}")
-    print(f"    all prime powers? {'YES' if ok else 'no'} — the zeros know the primes.")
+    print(f"    all prime powers? {'YES' if ok else 'no'}, the zeros know the primes.")
 
 
 def act5_gue(n: int) -> None:
@@ -133,7 +133,7 @@ def act5_gue(n: int) -> None:
     f = rep["frac_spacing_below_0.1"]
     print(f"    spacings below 0.1           : {100 * f['observed']:.3f} %  "
           f"(GUE {100 * f['gue_exact']:.3f} %, Poisson {100 * f['poisson']:.2f} %)")
-    print("    The zeros repel like eigenvalues of a random Hermitian matrix —")
+    print("    The zeros repel like eigenvalues of a random Hermitian matrix:")
     print("    the Montgomery–Odlyzko law, the footprint of a hidden operator.")
 
 

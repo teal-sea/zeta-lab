@@ -1,4 +1,4 @@
-# RESULTS — Erdős #126, bounded reconnaissance (r_186989)
+# RESULTS: Erdős #126, bounded reconnaissance (r_186989)
 
 **Hunt, not a result. Nothing here is evidence for or against RH (`docs/08`).**
 
@@ -24,7 +24,7 @@ $g(k)$ is finite for every $k$ precisely because the classical
 $f(n) \gg \log n$ holds; the conjecture is the statement that its exponential
 growth rate is exactly $1$. Everything below is a measurement of $g$.
 
-## 2. Arm 0 — the Formal Conjectures positivity mismatch. **Settled.**
+## 2. Arm 0: the Formal Conjectures positivity mismatch. **Settled.**
 
 Let $f$ be the minimum over $n$-sets of positive integers and $f_0$ the minimum
 over $n$-sets of non-negative integers (the `Finset ℕ` version). Then for
@@ -59,7 +59,7 @@ need not be repaired for that purpose.
 (The table entries are exhaustive over $[0,40]$ and are therefore upper bounds
 on the true $f$, $f_0$; the inequality above is proved, not measured.)
 
-## 3. Arms 1 and 2 — $g_N(k)$, exact inside a bounded universe
+## 3. Arms 1 and 2: $g_N(k)$, exact inside a bounded universe
 
 Branch-and-bound clique search on $a \sim b \iff a+b$ is $S$-smooth,
 $S$ = the first $k$ primes. Each row completed its search **exhaustively
@@ -83,8 +83,8 @@ on $g(k)$ is established anywhere in this hunt.
 Two things are worth reporting about the run itself.
 
 **The optima are tiny and the universe does not matter.** A first pass used
-$N = 4000, 1200, 700, 400, 260, 200$. Widening to the table's $N$ — a factor of
-30 to 60 — changed **not one row**. Every optimal witness lives well below 50.
+$N = 4000, 1200, 700, 400, 260, 200$. Widening to the table's $N$, a factor of
+30 to 60, changed **not one row**. Every optimal witness lives well below 50.
 Whatever is capping these sets is not the size of the search box.
 
 **Arm 2: the choice of $S$ buys something, and it is a constant.** At $k=3$,
@@ -105,7 +105,7 @@ $2 \in S$ or not, then a wobble of one. **No $\exp(o(k))$ clique bound came out
 of it.** Arm 2 is a constant-level observation, which is itself a
 pre-registered kill condition.
 
-## 4. Arm 3 — the composition gadget points the wrong way
+## 4. Arm 3: the composition gadget points the wrong way
 
 This is the finding that changes how the problem should be briefed.
 
@@ -120,12 +120,12 @@ superadditive, and Fekete's lemma gives
 
 $$\lim_k g(k)^{1/k} = \sup_k g(k)^{1/k} \;\ge\; g(1) = 2,$$
 
-hence $g(k) \ge 2^k$ and $f(n) \le \log_2 n + O(1)$ — **the conjecture is
+hence $g(k) \ge 2^k$ and $f(n) \le \log_2 n + O(1)$, **the conjecture is
 false.**
 
 So arm 3, as briefed, is a refutation search wearing the clothes of a proof
 route. Erdős #126 is not asking for a composition law; it is asking, in this
-formulation, for an **anti-composition theorem** — a proof that prime supports
+formulation, for an **anti-composition theorem**, a proof that prime supports
 cannot be combined multiplicatively. That is a structurally harder object than
 the brief's promotion criterion assumed, and it is why "find the gadget" is not
 a fundable direction unless the goal is to refute.
@@ -136,8 +136,8 @@ $g(3) \ge 8$: an 8-element set with all pairwise sums supported on 3 primes.
 Exhaustive search to $N = 60\,000$ found a maximum of 5. Every one of the 11
 tested $(k_1,k_2)$ pairs fails the same way, by a wide margin
 ($g(3)\cdot g(3) = 25$ vs. $g_N(6) = 10$). **This does not disprove
-supermultiplicativity** — the products are lower bounds on both sides and a
-gadget could produce elements past $N$ — but it does say that any gadget must
+supermultiplicativity**, the products are lower bounds on both sides and a
+gadget could produce elements past $N$, but it does say that any gadget must
 leave the small-integer regime where all the measured optima live, which is a
 real constraint on its shape.
 
@@ -161,8 +161,8 @@ The brief's CLOSE THE LOOP section assumes this task was returned by a function
 reading a ledger under `harness/departments/`. It was not: the brief records
 `Source: operator`, `Reference: prize:erdos-126:bounded-scout`. We enumerated
 the ledger anyway. `harness.review.standing_reasons` reports exactly two claims
-whose review is not standing — `rf-c003-window` and `k2-far-constant-depth1`,
-both wanting a blind attack — and neither has anything to do with Erdős #126.
+whose review is not standing, `rf-c003-window` and `k2-far-constant-depth1`,
+both wanting a blind attack, and neither has anything to do with Erdős #126.
 Writing an `AttackOutcome` against either would be recording an attack that did
 not happen.
 
@@ -198,7 +198,7 @@ the data this family already reads: sets of integers and the smoothness of
 their pairwise sums. They are under the configuration ceiling and cannot
 produce an upper bound on $g(k)$ no matter how far they are pushed, because a
 bounded search never sees the whole set. **Any door that could actually move
-Erdős #126 requires reading more** — the $S$-unit equation machinery
+Erdős #126 requires reading more**, the $S$-unit equation machinery
 (Evertse–Győry style bounds on the number of solutions of $x+y=1$ in $S$-units)
 rather than enumeration. That is a different information class, and it is where
 the 92-year wall actually sits.

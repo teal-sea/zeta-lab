@@ -1,4 +1,4 @@
-# LANDING — what of this campaign is on `main`, and what is not
+# LANDING: what of this campaign is on `main`, and what is not
 
 This hunt was worked on `claude/riemann-hypothesis-research-ofds8s` between
 2026-08-17 and 2026-08-18 and never landed. Hunt R-F00E48 (2026-08-21) landed
@@ -21,7 +21,7 @@ Source commit: `7043621a2606353819aa937f83d6e0d0b35a2936`
 
 ## Not landed, and why
 
-**`fkappa/` — held back on purpose.** Its corrected kappa = 2 table
+**`fkappa/`, held back on purpose.** Its corrected kappa = 2 table
 contradicts `main`'s landed `hunts/higher_xi/` table from i = 2 onward, with a
 conflicting diagnosis of the cause. Merging both would put two mutually
 inconsistent tables in one tree and let whichever a reader met first pass for
@@ -36,18 +36,18 @@ Bian's Lemma 12 and is the other half of the same dispute.
 caches, and `fkappa/.ext_lock` is a stale coordination file from a run that
 ended three days before this landing. None of them is evidence.
 
-**The campaign ledgers** — `RESULTS_LEDGER.md`, `NOVELTY_LEDGER.md`,
-`FAILURE_LEDGER.md`, `REPORT.md`, `RUNS.md`, `CATCHUP-2026-08-18.md` — stayed
+**The campaign ledgers**, `RESULTS_LEDGER.md`, `NOVELTY_LEDGER.md`,
+`FAILURE_LEDGER.md`, `REPORT.md`, `RUNS.md`, `CATCHUP-2026-08-18.md`: stayed
 behind because three of them summarise the unlanded `fkappa/` claim in their
 own voice. Landing them would import the contested table's verdict as prose
 while withholding the code that could be checked against it, which is the
 worse half of both options. They are readable on the source branch.
 
-**`erdos_scan/` and `matchings/` — landed 2026-08-28, after being recovered
+**`erdos_scan/` and `matchings/`, landed 2026-08-28, after being recovered
 from a force-push.** This entry previously said they were unreviewed. When
 someone went to review them they were not on the branch at all: the source
 commit this page cites, `7043621a` (2026-08-18 22:38 UTC), is not an ancestor
-of the branch tip, which is `a19ac11` and dated **2026-08-17 16:27** — thirty
+of the branch tip, which is `a19ac11` and dated **2026-08-17 16:27**, thirty
 hours EARLIER. The branch was force-pushed backwards at some point after this
 landing was written, and took both arms with it.
 
@@ -58,7 +58,7 @@ reading this can check the recovery against that ref.
 
 What was verified before landing, and what was not:
 
-* `matchings/Matchings.lean` — 430 lines, **0** `sorry`, **0** `sorryAx`,
+* `matchings/Matchings.lean`: 430 lines, **0** `sorry`, **0** `sorryAx`,
   **0** `axiom` declarations, 21 theorems. `RESULTS_LEDGER.md`'s claim of "no
   `native_decide` in any proof" was checked and holds: the single occurrence
   of that string in the file is inside a comment explaining that `decide` is
@@ -75,7 +75,7 @@ What was verified before landing, and what was not:
   `lake` should confirm it before the grade is cited anywhere outside this
   hunt.
 * `erdos_scan/FINDINGS.md` is a feasibility survey and says so in its own
-  second line — "Status: exploratory. Nothing here is a result." It lands as
+  second line, "Status: exploratory. Nothing here is a result." It lands as
   a survey, not as mathematics.
 
 `matchings/` is not incidental: Hunt #48 (`hunts/r_8c3b94`) priced Erdos-Kac
@@ -87,10 +87,10 @@ a rewound branch for ten days.
 
 `REPRODUCE.md` carried three references that did not resolve:
 
-1. `functional.exact_F_quartic(1467, 1159)` — no such symbol. The function is
+1. `functional.exact_F_quartic(1467, 1159)`: no such symbol. The function is
    `moments_polyeven_exact(OPT_Q)`, and it returns `(m2, m3, F)`, so the
    headline rational is element `[2]`. The signature was wrong as well as the
    name; `hunts/r_f00e48/probe.py` recomputes the rational and pins it.
-2. `weil_trunc/run_dh_control.py` — the driver is `run_dh.py`.
+2. `weil_trunc/run_dh_control.py`: the driver is `run_dh.py`.
 3. `RESULTS_LEDGER.md`, cited for the blinded verifier's outputs, is not in
    this tree (see above); the citation now says so.

@@ -1,4 +1,4 @@
-"""``harness.provenance`` — independence and contamination as declared data.
+"""``harness.provenance``, independence and contamination as declared data.
 
 Every fact this module handles already existed in the repository as prose:
 department #4's battery content was first authored blind by a party
@@ -16,13 +16,13 @@ declaration is true. What it can do is three things:
 
 * distinguish **declared** facts from **undeclared** ones, so that silence
   reads as "unknown" rather than as "fine";
-* name every declared **contamination** — evaluation content authored after
+* name every declared **contamination**, evaluation content authored after
   its results were visible, thresholds unfrozen at execution time, tests
-  edited after observing failures — because a battery with any of these has
+  edited after observing failures, because a battery with any of these has
   a pass probability that cannot be taken at face value;
-* name every declared **dependence** — the battery authored by the same
+* name every declared **dependence**, the battery authored by the same
   process as the subject, an oracle that calls the thing it is checking, two
-  "independent" instruments sharing the critical dependency — because two
+  "independent" instruments sharing the critical dependency, because two
   pieces of code are not two lines of evidence.
 
 Dependence is not contamination. Most of this repository's batteries are
@@ -65,7 +65,7 @@ class Provenance:
     """Who authored a battery's content, when, and under what conditions.
 
     ``authored_by`` names the process or person that wrote the battery
-    content — the rivals, decoys, surrogates, lesions and reference claims —
+    content, the rivals, decoys, surrogates, lesions and reference claims,
     which is usually not the same question as who wrote the subject.
     Everything else is a tri-state declaration; leave a field ``None`` when
     nobody is in a position to declare it, and the audit will carry the
@@ -78,8 +78,8 @@ class Provenance:
     #: that authored the subject under test? (Department #4's admission is
     #: the repository's one ``True`` so far.)
     independent_of_subject_author: bool | None = None
-    #: Were the subject's results already visible when the battery content —
-    #: thresholds, windows, reference claims — was authored? Declared ``True``
+    #: Were the subject's results already visible when the battery content,
+    #: thresholds, windows, reference claims, was authored? Declared ``True``
     #: means the pass probability given the seen data cannot be taken at face
     #: value (the W2 failure mode).
     results_visible_when_authored: bool | None = None
@@ -146,8 +146,8 @@ def contamination_reasons(provenance: Provenance) -> tuple[str, ...]:
 def dependence_reasons(provenance: Provenance) -> tuple[str, ...]:
     """Every declared dependence between the evidence and what it checks.
 
-    Dependence does not void a battery — most of this repository's batteries
-    are self-authored — but it bounds what "independent lines of evidence"
+    Dependence does not void a battery, most of this repository's batteries
+    are self-authored, but it bounds what "independent lines of evidence"
     may be claimed, and the audit carries it on every report.
     """
     reasons: list[str] = []

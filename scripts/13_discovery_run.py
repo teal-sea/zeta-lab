@@ -15,7 +15,7 @@ The premise the whole design serves is unflattering and load-bearing: **most
 numerical "discoveries" are already known or trivial, and a system that does not
 measure its own hit rate is measuring its operator's enthusiasm.**  So the
 interesting output of this script is not the survivor list.  It is the
-*conversion table* — how many candidates each generator produced, what share the
+*conversion table*, how many candidates each generator produced, what share the
 catalogue recognised instantly, what share the screens refuted, and how many
 seconds of compute each surviving lead cost.  A generator whose already-known
 rate is 100 % is not broken; it is being honest about what a small laboratory
@@ -26,7 +26,7 @@ What a survivor is, and is not
 A survivor is an observation that this laboratory's own screens could not kill
 with the effort they were given.  It is a **lead**.  It is not a result, not a
 theorem, not evidence for the Riemann Hypothesis, and not evidence that anything
-is new — every survivor record carries a machine-written ``proof_gap`` saying so.
+is new, every survivor record carries a machine-written ``proof_gap`` saying so.
 There is no network here, so nothing was looked up in OEIS, arXiv or
 Zentralblatt: "not recognised offline" is the absence of a match, not the
 presence of novelty, and the metrics deliberately report an *unsettled* residue
@@ -34,12 +34,12 @@ rather than a novelty rate (``discovery/knownness.py``, the integrity rule).
 
 The ledger
 ----------
-Candidates and run records are appended to ``conjectures/`` — a **private,
+Candidates and run records are appended to ``conjectures/``, a **private,
 gitignored** notebook of unreviewed leads.  ``--dry-run`` performs the whole
 pass and writes nothing; ``--report`` writes nothing either and simply renders
 the dashboard over whatever the ledger already holds.  Deduplication is against
 the *whole* ledger, so re-running a generator over ground it has already covered
-shows up as a duplicate rate rather than as fresh production — which is the
+shows up as a duplicate rate rather than as fresh production, which is the
 measurement the ledger exists to make.
 
 Honest scope (docs/08, ``discovery/README.md``).  Nothing this pipeline produces
@@ -171,7 +171,7 @@ def _is_default_ledger(path: Path) -> bool:
 class CapturingGenerator:
     """A generator wrapper that keeps every candidate it passed on.
 
-    The funnel never hands candidate *objects* back — only outcomes — because
+    The funnel never hands candidate *objects* back, only outcomes, because
     the ledger is where they belong.  A dry run writes no ledger, so without
     this the console could not print a survivor's provenance in the one mode
     where nothing was recorded.  The proxy is written against the
@@ -207,7 +207,7 @@ def select_generators(domain: Domain, spec: str) -> tuple[Any, ...]:
 
     Names may be given in full (``zeta_constants``) or with the domain prefix
     dropped (``constants``).  An unknown name is an error that lists the
-    alternatives — silently running fewer generators than asked for would put a
+    alternatives, silently running fewer generators than asked for would put a
     wrong denominator into every conversion rate below.
     """
     available = tuple(domain.generators)
@@ -295,7 +295,7 @@ def section_header(
     context: Mapping[str, Any],
 ) -> None:
     print(RULE)
-    print("THE CONJECTURE FACTORY — a discovery funnel that measures its own hit rate")
+    print("THE CONJECTURE FACTORY, a discovery funnel that measures its own hit rate")
     print(RULE)
     print(f"  domain      : {domain.name} v{domain.version}")
     for line in _wrap(domain.description, 62, ""):
@@ -311,7 +311,7 @@ def section_header(
             "them wrong"
         )
     else:
-        print("                (not the default ledger — check it is not committed)")
+        print("                (not the default ledger, check it is not committed)")
     print(f"  mode        : {mode}")
     if not mode.startswith("REPORT"):
         names = ", ".join(g.name for g in generators)
@@ -381,7 +381,7 @@ def section_generated(run: FunnelRun, proxies: Sequence[CapturingGenerator]) -> 
             for line in _wrap(entry, 64, ""):
                 print(f"        {line}")
     print()
-    print("    'refused' counts payloads a generator built and did not emit — a tie in")
+    print("    'refused' counts payloads a generator built and did not emit, a tie in")
     print("    an extremal search, a shape the schema would reject.  They never entered")
     print("    the funnel, so they are in no rate below; a generator that dropped them")
     print("    silently would be flattering its own denominator.  This count is for THIS")
@@ -453,8 +453,8 @@ def section_waterfall(
     out of the far end.
     """
     by_stage = {s.stage: s for s in stages}
-    # Survivors leave at the terminal stage too — the funnel records a departure
-    # for every candidate, promoted or not — so the terminal row must not count
+    # Survivors leave at the terminal stage too, the funnel records a departure
+    # for every candidate, promoted or not, so the terminal row must not count
     # them as removed, or the waterfall would report every run as barren.
     survived = int(dispositions.get("survives", 0))
     print("2)  THE FUNNEL WATERFALL")
@@ -475,7 +475,7 @@ def section_waterfall(
         )
     print(_under(header))
     print(
-        f"    {'SURVIVING — leads, not results':<40}{'':>8}{'':>9}{survived:>11}"
+        f"    {'SURVIVING, leads, not results':<40}{'':>8}{'':>9}{survived:>11}"
     )
     print()
     counts = {k: int(dispositions.get(k, 0)) for k in DISPOSITIONS}
@@ -488,7 +488,7 @@ def section_waterfall(
         "known": "the catalogue recognised it",
         "trivial": "one line from something already recorded",
         "refuted": "checked, and false",
-        "survives": "nothing killed it — a LEAD",
+        "survives": "nothing killed it, a LEAD",
         "inconclusive": "no verdict, plus the ceiling that was hit",
     }
     header = f"    {'disposition':<20}{'count':>8}{'share':>9}   {'what it means':<42}"
@@ -503,7 +503,7 @@ def section_waterfall(
     print(f"    {'TOTAL':<20}{total:>8}{'100.0%' if total else '—':>9}")
     print()
     print("    Count in equals count out: every candidate that entered left with exactly")
-    print("    one disposition.  Duplicate counts are a LOWER bound — two records of one")
+    print("    one disposition.  Duplicate counts are a LOWER bound, two records of one")
     print("    observation at different resolutions do not collide (README §4).")
     print()
     return survived
@@ -529,7 +529,7 @@ def _irreproducibility(prov: Mapping[str, Any]) -> str:
 
 
 def section_survivors(survivors: Sequence[Candidate], *, dry_run: bool, shown: int) -> None:
-    print(f"3)  SURVIVORS  ({len(survivors)})   — LEADS, NOT RESULTS")
+    print(f"3)  SURVIVORS  ({len(survivors)}): LEADS, NOT RESULTS")
     print()
     if not survivors:
         print("    Nothing survived.  That is the expected outcome and it is not a")
@@ -601,7 +601,7 @@ def section_survivors(survivors: Sequence[Candidate], *, dry_run: bool, shown: i
                 "                        the run record above; the evidence that earns"
             )
             print(
-                "                        it — checks run, verified effort, proof gap —"
+                "                        it, checks run, verified effort, proof gap —"
             )
             print(
                 "                        is only produced when the ledger is written."
@@ -662,14 +662,14 @@ def section_scorecard(stats: Sequence[Any], *, scope: str) -> None:
     )
     print()
     print("    Ranked by survivors per second, then by the share no check settled.")
-    print("    'sec/surv' is wall-clock seconds per surviving lead — an em dash means")
+    print("    'sec/surv' is wall-clock seconds per surviving lead, an em dash means")
     print("    the source has produced none, which is not a defect, only a price that")
     print("    has not bought anything yet.")
     print()
 
 
 # ---------------------------------------------------------------------------
-# the closing statement — the point of the whole console
+# the closing statement, the point of the whole console
 # ---------------------------------------------------------------------------
 
 
@@ -695,7 +695,7 @@ def closing(survivors: int) -> None:
     print("     the absence of a lookup, not the presence of a find.  That is why these")
     print("     tables report an 'unsettled' residue and never a novelty rate.")
     print("  *  The already-known column is the number this console exists to show.  If")
-    print("     it is not the largest one, the catalogue is too small — that is the")
+    print("     it is not the largest one, the catalogue is too small, that is the")
     print("     first hypothesis, ahead of the leads being good.")
     print(RULE)
 
@@ -722,7 +722,7 @@ def do_report(store: Ledger, *, shown: int, dashboard: bool) -> int:
     section_scorecard(stats, scope="whole ledger")
     if dashboard:
         print(RULE)
-        print("APPENDIX — ontology.metrics.render_text()")
+        print("APPENDIX, ontology.metrics.render_text()")
         print(RULE)
         print(render_text(view))
         print()
@@ -768,10 +768,10 @@ def do_run(
         # The exception is re-raised, deliberately: a screen that throws is a
         # defect, not a verdict, and a console that swallowed it would turn a
         # broken pipeline into a quiet zero. What is added here is the one thing
-        # the traceback does not say — that the accounting survived.
+        # the traceback does not say, that the accounting survived.
         print()
         print(RULE)
-        print("THE RUN DID NOT COMPLETE — a plug-in raised.  The exception follows.")
+        print("THE RUN DID NOT COMPLETE, a plug-in raised.  The exception follows.")
         print(RULE)
         if not dry_run:
             print("  The run record was already written with state='crashed' and the")
@@ -810,7 +810,7 @@ def do_run(
         print()
     if dashboard:
         print(RULE)
-        print("APPENDIX — ontology.metrics.render_text() over the whole ledger")
+        print("APPENDIX, ontology.metrics.render_text() over the whole ledger")
         print(RULE)
         print(render_text(store.view()))
         print()

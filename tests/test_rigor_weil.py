@@ -1,4 +1,4 @@
-"""Tests for the certified Weil functional — ``rigor.enclose_weil_functional``.
+"""Tests for the certified Weil functional, ``rigor.enclose_weil_functional``.
 
 Same philosophy as ``test_rigor.py``: the outputs are proofs, so the tests
 are containment statements, not tolerance checks.  Specifically:
@@ -6,7 +6,7 @@ are containment statements, not tolerance checks.  Specifically:
 * every enclosure must **contain** the value computed independently by
   ``zeta.weil.weil_functional`` (mpmath, no balls, different quadrature);
 * ``sign`` must be 1 only when [lo, hi] genuinely excludes 0, and must come
-  back 0 — not a guess — when the enclosure straddles it;
+  back 0, not a guess, when the enclosure straddles it;
 * enclosures of the same W(h) at different precisions must **overlap**
   (both contain the same true value);
 * the archimedean tail lemma |Re ψ(1/4+ir/2) − log π| ≤ log(r+2) + 8 is
@@ -14,8 +14,8 @@ are containment statements, not tolerance checks.  Specifically:
   proof; this pins against a transcription error in the constant).
 
 The headline test is ``test_near_tight_gaussian_positivity_proven``: the
-Gaussian a = 0.2 member has W ≈ 8.86e-18 emerging from pieces of size ~2 —
-about 18 digits of cancellation, exactly where floating point can lie — and
+Gaussian a = 0.2 member has W ≈ 8.86e-18 emerging from pieces of size ~2,
+about 18 digits of cancellation, exactly where floating point can lie, and
 its positivity comes back *certified*.
 
 Everything here is flint-only (Arb's certified quadrature has no mpmath.iv
@@ -69,7 +69,7 @@ def test_gaussian_enclosure_contains_float_value():
         v = weil_functional(*gaussian_pair("0.01"), dps=30)
     # the enclosure is exact about *its* h; the float route carries its own
     # ~10^-30 noise, so containment is asserted with that slack only (and the
-    # interval arithmetic must run at high dps — at the ambient 15 the
+    # interval arithmetic must run at high dps, at the ambient 15 the
     # rounding of lo - slack would swamp the slack itself)
     with mp.workdps(40):
         slack = mp.mpf(10) ** -25
@@ -161,7 +161,7 @@ def test_certified_collapse_along_the_gaussian_family():
     # the zero-free gap.  Here that is a chain of CERTIFIED strict
     # inequalities W(0.02) > W(0.08) > W(0.2) > 0 spanning sixteen orders
     # of magnitude, and the two-point log-slope lands on -gamma1^2
-    # (~-199.79, measured -199.84) — the lowest zero speaking through
+    # (~-199.79, measured -199.84), the lowest zero speaking through
     # certified arithmetic.
     import math
 
@@ -229,7 +229,7 @@ def test_plain_float_pair_refused():
 
 
 def test_mismatched_pair_refused():
-    # h and g must come from the SAME constructor call — two calls with the
+    # h and g must come from the SAME constructor call, two calls with the
     # same parameter carry distinct cert_hints objects, and are refused
     h1, _ = certified_gaussian_pair("0.01")
     _, g2 = certified_gaussian_pair("0.01")
@@ -302,9 +302,9 @@ def test_an_unprovable_step_forces_sign_to_zero_not_merely_uncertified():
     """**Regression, 2026-08-11.** ``sign`` is documented as *proven*.
 
     The Fejér path proves its prime cutoff is complete by the ball comparison
-    ``log(n_max+1) > 2b``.  When that comparison cannot be closed — here with
+    ``log(n_max+1) > 2b``.  When that comparison cannot be closed, here with
     ``b`` a 60-digit rational just below ``log(7)/2``, so the two sides
-    straddle at 192 bits — the code records the failure in
+    straddle at 192 bits, the code records the failure in
     ``uncertified_steps`` and then continues with ``prime_tail = 0``: an
     enclosure asserting the prime sum is exactly complete, which is precisely
     what it just failed to prove.  ``sign`` was read off that enclosure and

@@ -6,7 +6,7 @@
     .venv/bin/python scripts/50_dossier.py --validate     # exit non-zero if any is invalid
 
 An experiment; see ``docs/19-research-dossiers.md``. The report prints all four
-support axes and offers no aggregate, deliberately — a dossier is never
+support axes and offers no aggregate, deliberately, a dossier is never
 "verified", it has four independent kinds of support that fail differently.
 """
 

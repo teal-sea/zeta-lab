@@ -1,4 +1,4 @@
-"""``harness.independence`` — verification independence as declared structure.
+"""``harness.independence``, verification independence as declared structure.
 
 "Checked by two implementations" is the repository's favourite sentence, and
 the 2026-08-11 director run (``docs/25-the-director-run.md``) measured its
@@ -13,15 +13,15 @@ This module makes the bound declarable. A :class:`VerificationPath` is an
 ordered declaration of the layers a verdict passes through, from input to
 answer. :func:`compare` takes two of them and reports, without judgment:
 
-* the **independence radius** — how deep the two paths run through the *same*
+* the **independence radius**, how deep the two paths run through the *same*
   leading layers before they first diverge (0 means they diverge at the
   input; the full length means they are one path);
-* the **shared** layers — single implementations that both paths run, whose
+* the **shared** layers, single implementations that both paths run, whose
   faults agreement can never see, wherever they sit;
-* the **reconvergent** layers — shared layers that appear *after* the paths
+* the **reconvergent** layers, shared layers that appear *after* the paths
   have diverged, the shape from the director run, where independent middles
   funnel back through one final summation;
-* the **distinct** layers of each path — the only segments about which an
+* the **distinct** layers of each path, the only segments about which an
   agreement between the two paths is evidence at all.
 
 Like :mod:`harness.provenance`, this is declaration, not attestation: nothing
@@ -34,8 +34,8 @@ reasons, each one a sentence a reader can dispute.
 
 Domain-agnostic in the strict sense: imports nothing from any laboratory
 package, names no quantity any laboratory computes, and sits under the same
-three seam checks as :mod:`harness.protocol`. Subject declarations — which
-layers a real instrument actually shares — live in ``harness/departments/``.
+three seam checks as :mod:`harness.protocol`. Subject declarations, which
+layers a real instrument actually shares, live in ``harness/departments/``.
 """
 
 from __future__ import annotations
@@ -63,7 +63,7 @@ class VerificationPath:
     ``layers[-1]`` produces the answer. A layer name identifies *one
     implementation*: two paths that list the same name are declaring that
     they run the same code or the same policy at that stage, not merely the
-    same kind of stage. Name layers accordingly — ``"ball backend:
+    same kind of stage. Name layers accordingly, ``"ball backend:
     python-flint"`` and ``"ball backend: mpmath.iv"`` are different layers;
     ``"input parsing (_exact)"`` listed by both paths is one layer used
     twice, which is precisely the thing this module exists to surface.
@@ -111,7 +111,7 @@ class IndependenceReport:
     leading segment), ``shared`` (every layer both paths run, in path-a
     order), ``reconvergent`` (the subset of ``shared`` sitting past the
     divergence point in either path), and ``distinct_a`` / ``distinct_b``
-    (the segments genuinely implemented twice — the only thing agreement
+    (the segments genuinely implemented twice, the only thing agreement
     between the paths is evidence about). Interpretation belongs to
     :func:`agreement_bounds`, which renders the structure as disputable
     sentences, and to the caller, who knows which layers matter.
@@ -157,7 +157,7 @@ def compare(a: VerificationPath, b: VerificationPath) -> IndependenceReport:
     the number of initial positions at which both paths name the same
     layer. Divergence at the input gives radius 0; two identical
     declarations give radius ``len(layers)`` and a report whose distinct
-    segments are empty — one path, written down twice.
+    segments are empty, one path, written down twice.
     """
 
     radius = 0
@@ -196,7 +196,7 @@ def agreement_bounds(report: IndependenceReport) -> tuple[str, ...]:
     """Every reason an agreement between the two paths is bounded evidence.
 
     One sentence per shared layer, plus the structural degenerate cases.
-    An empty tuple means the declaration contains no shared layer — which
+    An empty tuple means the declaration contains no shared layer, which
     bounds nothing, and still verifies nothing about the declaration's own
     completeness; that caveat is the caller's to carry, the same way a
     :class:`~harness.provenance.Provenance` declaration is not attestation.

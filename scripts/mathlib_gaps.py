@@ -98,13 +98,13 @@ def render(entries: list[dict[str, str]], *, everything: bool) -> str:
     w("# Mathlib open targets")
     w("")
     w("**Generated** by `scripts/mathlib_gaps.py` from "
-      f"[`docs/1000.yaml`]({SOURCE}) — snapshot {stamp}. Do not hand-edit; "
+      f"[`docs/1000.yaml`]({SOURCE}), snapshot {stamp}. Do not hand-edit; "
       "regenerate.")
     w("")
     w("Mathlib keeps `docs/1000.yaml`: the Wikipedia list of famous theorems, "
       "each entry tagged with the Lean declaration that proves it. An entry "
       "with **no `decl:` field** is the library stating, in its own tree, that "
-      "the theorem is wanted and unbuilt. That is the contribution surface — "
+      "the theorem is wanted and unbuilt. That is the contribution surface, "
       "not a guess about what would be welcome, but a written record of it.")
     w("")
     w("| | count |")
@@ -145,7 +145,7 @@ def main(argv: list[str] | None = None) -> int:
 
     entries = parse(fetch())
     if not entries:
-        print("no entries parsed — 1000.yaml layout may have changed",
+        print("no entries parsed: 1000.yaml layout may have changed",
               file=sys.stderr)
         return 1
     text = render(entries, everything=args.everything)

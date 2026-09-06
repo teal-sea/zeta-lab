@@ -214,7 +214,7 @@ lemma continuous_hardyZ : Continuous hardyZ := by
 ### The real-valued Z
 
 `hardyZ_is_real` proves every value of `hardyZ` equals some real number, but
-`hardyZ` itself is still typed `ℝ → ℂ` — the docstring at the top of this file
+`hardyZ` itself is still typed `ℝ → ℂ`: the docstring at the top of this file
 flagged that as provisional ("the goal is to eventually type this as
 `ℝ → ℝ`"). This section meets that goal, purely additively: `hardyZReal` and
 everything below are *derived* from the five lemmas above via the coercion

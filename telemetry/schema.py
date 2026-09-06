@@ -1,9 +1,9 @@
-"""``telemetry.schema`` — what a run record is, and what it refuses to invent.
+"""``telemetry.schema``, what a run record is, and what it refuses to invent.
 
 This module is stdlib-only and domain-agnostic in the same strict sense as
 :mod:`harness.protocol`: it imports nothing from any laboratory package and
 names no quantity any laboratory computes. It describes *how research
-happened*, never *what the research found* — the two must not be traded
+happened*, never *what the research found*, the two must not be traded
 against each other (``meta/README.md``).
 
 The storage model, and why it is not one big ledger
@@ -32,7 +32,7 @@ The honesty rules, which are the point of the module
    code path fills one in by inference. :meth:`Run.unknown_fields` reports what
    was never captured, so a reader sees the holes without hunting for them.
 2. **Model identity is declared, never sniffed.** The environment this ran in
-   exposes a session id, a client version and a reasoning-effort setting — and
+   exposes a session id, a client version and a reasoning-effort setting, and
    **no model identifier at all**. So ``model`` arrives as an explicit input or
    not at all, and ``model_source`` records which. A telemetry system that
    guessed the model would be worse than one that admitted it did not know.
@@ -97,7 +97,7 @@ STATUSES: Final[tuple[str, ...]] = (
     "aborted",
 )
 
-#: Terminal statuses — a run in one of these will not gain more events.
+#: Terminal statuses, a run in one of these will not gain more events.
 TERMINAL_STATUSES: Final[tuple[str, ...]] = ("completed", "failed", "aborted")
 
 #: What the run produced, in the vocabulary the repository already uses for
@@ -201,7 +201,7 @@ def event_reasons(event: Event) -> tuple[str, ...]:
         if p.get("capture") == "reconstructed" and not p.get("reconstructed_from"):
             reasons.append(
                 "capture='reconstructed' requires reconstructed_from naming what it "
-                "was derived from — a reconstruction that cannot cite its source is "
+                "was derived from, a reconstruction that cannot cite its source is "
                 "indistinguishable from an invention"
             )
         if p.get("model") is not None and not p.get("model_source"):
@@ -217,7 +217,7 @@ def event_reasons(event: Event) -> tuple[str, ...]:
         if p.get("status") not in TERMINAL_STATUSES:
             reasons.append(
                 f"run_finished.status must be one of {list(TERMINAL_STATUSES)}, "
-                f"got {p.get('status')!r} — 'running' and 'interrupted' are states a "
+                f"got {p.get('status')!r}, 'running' and 'interrupted' are states a "
                 f"finish event cannot assert"
             )
         if p.get("outcome") is not None and p["outcome"] not in OUTCOMES:
@@ -251,7 +251,7 @@ def validate_event(event: Event) -> None:
 
 
 # ---------------------------------------------------------------------------
-# Runs — the fold of a run's events
+# Runs, the fold of a run's events
 # ---------------------------------------------------------------------------
 
 #: Fields a reader is entitled to ask about. Anything here that folds to
@@ -334,7 +334,7 @@ class Run:
         """Names of interrogable fields nothing ever supplied.
 
         The list is the point. A reader who wants to know what a run cost gets
-        either a number or this field's name — never a plausible blank.
+        either a number or this field's name, never a plausible blank.
         """
         return tuple(n for n in _INTERROGABLE if getattr(self, n, None) is None)
 
@@ -410,7 +410,7 @@ def _duration(started: str, finished: str) -> float | None:
 def fold(events: list[Event]) -> Run:
     """Fold a run's events into its current state.
 
-    A run with no ``run_finished`` folds to ``interrupted`` — not to
+    A run with no ``run_finished`` folds to ``interrupted``, not to
     ``completed``, and not to an error. Being able to say "this run started and
     we do not know how it ended" is the whole reason the events are separate.
     """

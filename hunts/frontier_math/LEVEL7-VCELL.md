@@ -3,8 +3,8 @@
 ## Disposition (three results, stated in the order they matter)
 
 1. **The joint cap exists and closes the entire swept density axis.**  The
-   named theorem object of level 6b — an on-line-configuration-free upper
-   bound on the joint profit against a pair cluster — is delivered twice
+   named theorem object of level 6b, an on-line-configuration-free upper
+   bound on the joint profit against a pair cluster, is delivered twice
    over in `v_certificate.py`: the v-cell route (the spectral laws below)
    and the **direct route**, the level-4 chain counting dual on the damage
    field summed over pair centres with the positive part taken of the
@@ -12,14 +12,14 @@
    pinch (nu_p = 1.5, y = 0.49, 15 pairs) the direct cap is 14.78 against
    a budget of 41.11: **margin +26.33** (v-route: +3.75; greedy adversary:
    5.00).  Every lattice density nu_p in [0.75, 3], every mixed-depth
-   battery shape, and every short-span cluster tested now closes — there
+   battery shape, and every short-span cluster tested now closes, there
    is no uncovered configuration in the sweep.  The verdict quality is
    *measured* (double-precision grids with one-sided structure); the arb
    pass is the named hardening.
 
 2. **The level-6a full-ladder claim is corrected, not extended.**  The
-   full-ladder hardened penta scan (`full_ladder_scan.py`) — the compute
-   level 6a deferred — FAILS between the probe depths: the measured
+   full-ladder hardened penta scan (`full_ladder_scan.py`), the compute
+   level 6a deferred, FAILS between the probe depths: the measured
    optimal-split eta has a shallow spike (eta(0.02) = 0.4066 against a
    plateau of ~0.30) that the seven-point probe grid could not see, and
    honest cell widths dilate the caps.  theta_full = 0.02 via the
@@ -28,7 +28,7 @@
    accounting, which does not use eta at all.  First failed cell and the
    full scan record are below.
 
-3. **The reconnect's first reading is 0.6725009045 — a candidate, not a
+3. **The reconnect's first reading is 0.6725009045, a candidate, not a
    claim.**  With the retention theta_full = 0.02 fed through the
    one-sided ordered-gap floor (c_u = 5.02e-6 at nu_on = 0.6725007037),
    the candidate arithmetic gives +2.01e-7 over the pinned Theorem D
@@ -45,7 +45,7 @@ of length S and |v| <= pi/S:
 because each phasor's argument about the window midpoint is within vS/2 of
 zero.  Integrated against K over the floor region this forces on-line
 spectral mass kappa_00 n^2, so the internal mass obeys
-R >= kappa_00 n^2 - n: **density is self-defeating pointwise in v** — the
+R >= kappa_00 n^2 - n: **density is self-defeating pointwise in v**, the
 fourth appearance of the self-defeat pattern (depth at level 3, on-line
 packing at level 4, pair stacking at level 6b, and now spectral
 concentration).  Machine check: worst margin +1.07e-4 over 200 random
@@ -77,7 +77,7 @@ beyond v1):
           + (1-rho)(1-theta)/(4 kappa_00)   the LAW N leak cap
           + DP_mid + err_far            measured mid field; psi_S tail
 
-minimised over the (G_near, v1, rho) ladder — every choice one-sided, so
+minimised over the (G_near, v1, rho) ladder, every choice one-sided, so
 the min is.  At the pinch (v1 = 1.4, rho = 0.02, S = 13.33):
 
     dp_I 0.58 + M_II 25.62 + leak 7.27 + dp_mid 3.22 + far 0.68 = 37.36
@@ -89,7 +89,7 @@ the final cap is the min of the two)
 The pinch's spectral anatomy (from `fourier_bridge.pinch_spectrum`): the
 pair deficit lives at |v| in [3, 7] (peak -176 per bin), the mean at
 v ~ 0 (+59), and the certificate's accounting matches: the dense cluster's
-attackable mass M_II is 25.8 of a total pair mass of ~101 — the other ~75
+attackable mass M_II is 25.8 of a total pair mass of ~101, the other ~75
 hides in the coherent band where the safe cell and LAW M defend it.
 
 ## Controls
@@ -108,9 +108,9 @@ hides in the coherent band where the safe cell and LAW M defend it.
 
 ## The naive pointwise form is dead, and that record is kept
 
-The directive's literal object — a fixed budget d(v) with
+The directive's literal object, a fixed budget d(v) with
 |F_on + F_p|^2 - theta |F_on|^2 >= -d(v) pointwise for every admissible
-configuration — is defeated by the **sub-critical on-line lattice**
+configuration, is defeated by the **sub-critical on-line lattice**
 (spacing tau < 2 pi / L = h, the critical spacing of LAW J): its nonzero
 spectral spikes leave the kernel band entirely, so on essentially all of
 (0, L] the diagonal-subtracted integrand sits near -(1-theta) N while any
@@ -155,7 +155,7 @@ Gate-1 discipline applied to the direct dual at the binding
 configurations.  The interval trap is recorded in the module docstring: a
 naive interval-argument Phi2 evaluation amplifies input radii by ~1.8e5
 (the ramp^2 integer coefficients cancel analytically; interval radii
-add), so the hardened field uses the mean-value form — tight point balls
+add), so the hardened field uses the mean-value form, tight point balls
 for W and W' (Phi2' via index-shifted moment enclosures, radius ~2e-16,
 checked against finite differences) plus the global curvature blanket
 |W''| <= 2 L^2 E(y)^2, whose r^2 remainder is ~1e-3 per pair per
@@ -173,15 +173,15 @@ T_signed are all directed as at gate 1 (budget downward, cap upward).
 | shallow sandwich nu=1.5 | 225.95 | 12.61 | +213.33 |
 
 The hardened caps are *tighter* than the float ones (fine 0.005 vs
-0.0125: the resolution gain outweighs the directed inflation) — the
+0.0125: the resolution gain outweighs the directed inflation), the
 opposite of the level-5 resolution scare, and a sign the float grid was
 the loose part, not the mathematics.  The rest of the sweep remains
 float-measured; hardening it end to end is mechanical repetition of this
 pass.
 
 Reading: the v-route closes nu_p >= 1.45, the separable accounting closes
-nu_p <= 1.05, and the band between them — the seam that was, for one
-session, a genuine two-sided hole — **is closed by the direct route with
+nu_p <= 1.05, and the band between them, the seam that was, for one
+session, a genuine two-sided hole, **is closed by the direct route with
 wide margins** (y = 0.49):
 
 | nu_p | v-margin | separable | direct margin | status |
@@ -202,8 +202,8 @@ axis; the v-route and the separable caps stand as independent
 cross-checks.
 
 **Why the direct route was almost missed, and what the seam taught.**
-The direct object — "the level-4 machinery with the damage field summed
-over pair centres", named verbatim at level 6b — is tight *only* if the
+The direct object, "the level-4 machinery with the damage field summed
+over pair centres", named verbatim at level 6b, is tight *only* if the
 positive part is taken of the JOINT field: clipping per pair discards the
 coincident-pair shielding (a deep pair's own +2E(y)^2 hump protecting its
 neighbour's negative band) and inflates the field by an order of
@@ -211,7 +211,7 @@ magnitude (at nu = 1.3, g = 4.65: joint field 0, per-pair-clipped field
 > 4).  That near-miss is the separable accounting's ghost, and it is now
 a permanent control.  The seam diagnosis (the v-route's Cauchy-Schwarz
 granting anti-alignment against the band-edge spike shoulder in
-v in [5, 7]) stands as the record of why the v-route is loose there —
+v in [5, 7]) stands as the record of why the v-route is loose there,
 the mutual exclusion that protects the lattice is g-local shielding,
 visible to the direct field and invisible to band-wise moduli.
 
@@ -231,7 +231,7 @@ instrument.
 
 220 depth cells (ratio 1.05 shallow, 1.012 from y = 0.09), hardened
 `EnclosedPenta` caps at theta = 0.02, eta measured-optimal on a ten-point
-grid, bracketed one-sided per cell.  **Verdict: OPEN — 45 cells fail, in
+grid, bracketed one-sided per cell.  **Verdict: OPEN, 45 cells fail, in
 two bands:**
 
     shallow  y in [0.0095, 0.0501]   margins -0.017 .. -0.056
@@ -248,7 +248,7 @@ theta_full via the per-depth linear assembly is accordingly **reduced to
 the passing bands**; the shallow failing band is covered at the joint
 level (shallow sandwich rows above), and the deep failing band coincides
 with the seam depths, where coverage is the certificate's (nu >= 1.5,
-span >= 10) plus the separable regime (nu <= 1.0) — the same named hole.
+span >= 10) plus the separable regime (nu <= 1.0), the same named hole.
 
 The eta spike mechanism: a shallow pair (y ~ 0.02) riding a deep lattice
 takes its split share of strong T-negativity against a slack of only
@@ -285,7 +285,7 @@ until all close):
    on-line cross mass with coefficient 1, including the normalization
    match between the grid kernel omega^2 and the MT kernel g.  This is the
    withdrawn chain's plumbing, audited at every gate except the one
-   theta_full now supplies — but it has never been proved, only not
+   theta_full now supplies, but it has never been proved, only not
    refuted.
 2. *theta_full's own labels*: the v-certificate is quadrature-measured
    (arb pass named); pair-side placement freeness rests on the swept

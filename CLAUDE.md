@@ -1,10 +1,10 @@
-# AGENTS.md — operating context for the repo root
+# AGENTS.md: operating context for the repo root
 
 A computational laboratory for the Riemann zeta function and RH. Read
 `README.md` for the front door and `docs/00-orientation.md` for scope.
 
 `ROADMAP.md` carries the project's decisions, deliberate non-goals, known gaps
-and the next planned build — read it before proposing or planning work.
+and the next planned build. Read it before proposing or planning work.
 
 `ALIGNMENT.md` covers what an agent here is expected to do when it disagrees,
 why producing a result is not the same as establishing it, and which decisions
@@ -52,7 +52,7 @@ all; a key that never lands on disk cannot be committed.
 ```
 
 If `python-flint` is missing, `rigor.py` silently falls back to mpmath's `iv`
-context. That is by design and the fallback is correct — but it is roughly
+context. That is by design and the fallback is correct, but it is roughly
 **1600× slower** on the certified paths (one `test_rigor.py` case goes from
 0.76 s to over twenty minutes, which reads as a hung fast tier, not a slow
 one), and the five `skipif(not HAVE_FLINT)` tests silently disappear. Three of
@@ -65,7 +65,7 @@ cross-check**, so a fresh clone should install `python-flint` (it is pinned in
 ## The knowledge index
 
 `CONTEXT.md` is a generated index of the public API, the document list, the
-script list and test counts — the *facts*. This file carries the *judgment*.
+script list and test counts, the *facts*. This file carries the *judgment*.
 Regenerate the facts rather than editing them:
 
 ```bash
@@ -84,7 +84,7 @@ or worktrees. To prevent scope creep and collisions:
 
 - **Repo-wide rules**: this file. **Per-area scope**: an active branch,
   worktree, or exploratory directory (e.g. under `hunts/`) carries a
-  `MISSION.md` stating what that work is and is not allowed to touch — read
+  `MISSION.md` stating what that work is and is not allowed to touch. Read
   it before acting there.
 - **Namespacing**: keep exploratory math out of `zeta/` (core) and
   `ontology/` (domain-agnostic); new exploratory work goes in its own
@@ -120,8 +120,8 @@ or worktrees. To prevent scope creep and collisions:
 Some sessions run this laboratory from an environment that is not this
 checkout: a notebook-style agent (Claude Science and anything like it) that
 mounts the repository **read-only** and brings its **own Python**. That suits
-the exploratory half of this tree — cells, background execution and
-interruption fit expensive mpmath work — but it breaks two assumptions the rest
+the exploratory half of this tree (cells, background execution and
+interruption fit expensive mpmath work), but it breaks two assumptions the rest
 of this file is entitled to make, and both break *silently*.
 
 **Run the preflight as the first cell, before any mathematics:**
@@ -132,7 +132,7 @@ python scripts/science_preflight.py          # or --allow-fallback
 
 It reports the interpreter and dependency set, plus three things no outside
 session can infer from a snapshot: whether `rigor.BACKEND` is really Arb (a
-missing `python-flint` degrades to mpmath's `iv` — correct, ~1600× slower, and
+missing `python-flint` degrades to mpmath's `iv`: correct, ~1600× slower, and
 it removes the cross-check that is the only reason `rigor.py` may use the
 reserved word), whether a Lean build is possible at all, and **the next free
 `docs/` number**. It exits non-zero when the environment cannot support the
@@ -176,7 +176,7 @@ The boundary, applied with judgment rather than by a rule engine:
 > it belongs here. If it teaches the lab how to **allocate, route, prompt, or
 > operate itself**, it belongs in fulcrum unless reproducibility needs it.
 
-Preregistrations and protocols stay here even when unflattering — the harness
+Preregistrations and protocols stay here even when unflattering, the harness
 gate record (`harness/VERDICT.md`, `harness/gate-evidence/`) is public precisely
 because a negative result about our own tooling is credibility, not capability.
 
@@ -185,7 +185,7 @@ deciding what to write. Three separate questions get confused into one: *where
 does this artifact belong* (ownership), *can someone clone this repository*
 (visibility), and *what process should outsiders be able to inspect*
 (transparency). A private operating repository does not make the research
-process private — this tree stays unusually open about criticism, corrections
+process private, this tree stays unusually open about criticism, corrections
 and claims that did not survive. Name fulcrum plainly wherever doing so
 accurately explains how the lab works; do not euphemise it, and do not credit
 it with capabilities it has not demonstrated.
@@ -194,8 +194,8 @@ The shape, so a session launched into this tree knows which side it is on:
 `teal-sea` is the parent, `fulcrum` is the operating plane that directs
 pursuits, and this repository is a pursuit. The research is yours to do and
 commit here. Two things are **not**: if you find an infrastructure idea, do not
-reach across and edit fulcrum — report it as a Core candidate. If you find an
-interesting loose end outside your mission, do not pursue it — report it as a
+reach across and edit fulcrum: report it as a Core candidate. If you find an
+interesting loose end outside your mission, do not pursue it: report it as a
 thread. Zeta is a worker target, not the operator's console, and it must not
 grow into fulcrum's operating database.
 
@@ -210,7 +210,7 @@ than in a strategy document because you should meet them while working.
 **Core ↔ Pursuits.** *Core* is work that improves the lab's reusable ability to
 work: infrastructure, tooling, telemetry, agent coordination, reusable method.
 *Pursuits* are what the lab is chasing outward: research questions, hunts,
-investigations. They are **not** a hierarchy and not an ancestry — they create
+investigations. They are **not** a hierarchy and not an ancestry, they create
 each other in both directions. A hunt that needs a tool produces Core; Core work
 that trips over a phenomenon produces a Pursuit; a piece of Core can itself
 become the subject of a Pursuit (`harness/` did exactly that, and lost). The
@@ -220,7 +220,7 @@ Do not rename directories to make the tree look like the metaphor.
 **Forage, don't roadmap.** Explore several directions cheaply; when one produces
 credible signal, feed it more; when it stops, stop feeding it. Preserve the
 threads you are not pulling, so choosing one direction does not require
-forgetting the others — observations become issues, leads go to the roster
+forgetting the others, observations become issues, leads go to the roster
 in `fulcrum`. This is a working
 strategy, not a proven optimal policy.
 
@@ -228,7 +228,7 @@ strategy, not a proven optimal policy.
 This is *not* "minimize tokens". Money is the input and valuable output is the
 objective; models, tokens, extra agents, verification, formalization,
 infrastructure and operator time are all allocation choices. **A more expensive
-approach is the right one whenever the extra output justifies the cost** — and a
+approach is the right one whenever the extra output justifies the cost**, and a
 cheap approach that yields low-value or unreliable output is not efficient, it
 is just cheap. We do not yet have a complete metric for "valuable output". Do
 not invent one and treat it as settled; it is an open research question, not
@@ -245,7 +245,7 @@ the meta-system. `harness/VERDICT.md` is what the alternative cost.
   Read that verdict as a bet properly made and properly ended, not as a blunder.
   It was a reasonable thing to try, it was built well, it was tested against the
   practice it meant to improve, and it lost. **Being able to kill something you
-  funded, on evidence, is the habit worth keeping** — a lab that cannot do that
+  funded, on evidence, is the habit worth keeping**, a lab that cannot do that
   has preferences rather than a method. Retiring it is a success of the process
   and a failure of the thing, and the two are not the same judgement.
 
@@ -269,16 +269,16 @@ is about to work on, which is allocation, and allocation is operating material.
 The line: an issue says *"this is true and unresolved."* The roster says
 *"this one is next."*
 
-If you notice something and are not chasing it now, **open an issue** — do not
+If you notice something and are not chasing it now, **open an issue**. Do not
 start a backlog file here. Record the observation; leave the priority to the
 roster.
 
-`scripts/70_lab_state.py` still derives *live* work from git — every branch
+`scripts/70_lab_state.py` still derives *live* work from git, every branch
 ahead of `origin/main`, right by construction, needing nobody to maintain it.
 
 ## Hard rules
 
-- **Python**: ALWAYS `.venv/bin/python (from the repo root)` — never bare
+- **Python**: ALWAYS `.venv/bin/python (from the repo root)`, never bare
   `python3`. All dependencies live only in that venv (mpmath, numpy, scipy,
   matplotlib, sympy, pytest).
 - **matplotlib**: headless. Set the backend *before* importing pyplot:
@@ -304,7 +304,7 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   the laboratory its own output:
   - **Original** is a claim about *provenance*: this laboratory produced this
     result, rather than re-deriving a target it was handed. It is answerable
-    from the record — the git history, the ledgers, the working paper — and it
+    from the record, the git history, the ledgers, the working paper, and it
     is **claimable**. Say "original result", name it, and give its rung.
   - **Novel** is a claim about *the world*: no one has established this before.
     It is a much larger assertion than originality and it needs evidence of a
@@ -322,7 +322,7 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   kernel-checked statement this lab produced is an original kernel-checked
   result, full stop, and the front of the house should say so. The certainty
   ladder below still governs *how strongly* it may be phrased; the ladder grades
-  confidence, it does not decide authorship. Refutations count as output too —
+  confidence, it does not decide authorship. Refutations count as output too,
   a route closed with a witness is a result, not an absence of one.
 - **The certainty ladder** (amended 2026-08-12; replaces the blunt "an
   apparent settlement is a bug" heuristic, which treated a kernel-checked
@@ -357,8 +357,8 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   pair of commas; an em dash almost always marks a clause that wanted to be its
   own sentence. This is a style rule, not a moral one, and it applies to text
   *you* author: docstrings, comments, documents, commit messages, generated
-  pages. It does **not** license repunctuating quoted material — a ledger
-  entry, a document blurb, an adversary's recorded findings — because editing
+  pages. It does **not** license repunctuating quoted material, a ledger
+  entry, a document blurb, an adversary's recorded findings, because editing
   someone's recorded words to satisfy a style rule is editing evidence.
   The site generator enforces exactly that split for the public pages, in the
   repository it now lives in: the em dash count on a rendered page may not
@@ -373,7 +373,7 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
 - **The Lean arm counts nothing with a `sorry`.** `lean/` is the second
   certainty regime: theorems kernel-checked by Lean 4 + Mathlib, built with
   `cd lean && PATH="$HOME/.elan/bin:$PATH" lake build`. Nothing there counts
-  until it compiles with zero `sorry`s — a `sorry` is an uncertified step,
+  until it compiles with zero `sorry`s, a `sorry` is an uncertified step,
   tracked in the file, never hidden. Lean proofs and `rigor.py` enclosures are
   the only two things in the repo that may use the word "certified", and they
   are different regimes (kernel-checked symbolic truth vs enclosure-carrying
@@ -385,19 +385,19 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   detail. The safe failure mode is mandatory: `proven_sign` returns `0` for
   "not decided", uncertifiable steps are named in `uncertified_steps`, and
   `certified` is False whenever that list is non-empty. Everything else in the
-  repo is *accurate*, which is a different and weaker claim — say which one you
+  repo is *accurate*, which is a different and weaker claim. Say which one you
   mean. Non-rigorous cross-checks (mpmath `nzeros`, `backlunds`) must stay
   flagged as such in the returned dict.
 - **The counterexample battery is a standing test.** Any claimed structural
   property that "explains" RH must be run through `zeta.epstein.battery`
   (ζ and the Davenport–Heilbronn function behind one interface): f satisfies
   the functional equation, has real coefficients and a real Hardy-style Z,
-  and violates RH — a claim f also passes distinguishes nothing (docs/09,
+  and violates RH, a claim f also passes distinguishes nothing (docs/09,
   gate #3; docs/08 §4.1).
 
 ## Layout
 
-- Package: `zeta/` (flat layout, pip-installed editable — `pip install -e .`).
+- Package: `zeta/` (flat layout, pip-installed editable, `pip install -e .`).
   - `core.py` ζ/η/Euler–Maclaurin, Jacobi θ, ξ, Ξ, Hardy Z, Mellin, defects.
   - `zeros.py` sign-change hunting, Gram points, N(T), `verify_rh_up_to`.
   - `explicit.py` explicit formula (ψ, π from zeros), prime spectrum.
@@ -414,20 +414,20 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   - `rigor.py` ball arithmetic: `enclose_Z`, `proven_sign`, `certified_zero_count`,
     `verify_rh_certified`. Two backends (Arb via python-flint, mpmath's `iv`);
     every public function takes `backend=` so the two can check each other.
-    Nothing is ever silently upgraded to a certificate — see below. The
+    Nothing is ever silently upgraded to a certificate, see below. The
     two-backend cross-check only *runs* when both are installed; confirm with
     `rigor.available_backends()` (see Setup) before reading a green suite as
     evidence that it did.
   - `li.py` Li's criterion (λ_n, two independent routes) and Jensen
     polynomials / hyperbolicity (numeric *and* exact Sturm in ℚ[X]).
-  - `finitefield.py` curves over F_p — the RH that is a theorem: point counts,
+  - `finitefield.py` curves over F_p, the RH that is a theorem: point counts,
     Frobenius eigenvalues, Lefschetz vs brute force in F_{p²}, Sato–Tate.
   - `criteria.py` four equivalence faces: Mertens/Möbius, Baez-Duarte,
     Robin/Lagarias, Speiser.
   - `plots.py` the twenty figures. `zeta/__init__.py` re-exports the curated
-    API; plots are loaded lazily (PEP 562 `__getattr__`) — keep it that way,
+    API; plots are loaded lazily (PEP 562 `__getattr__`). Keep it that way:
     `import zeta` must not pull in matplotlib.
-- Package: `ontology/` — the conjecture factory (phase 4). `schema.py`,
+- Package: `ontology/`, the conjecture factory (phase 4). `schema.py`,
   `registry.py`, `ledger.py`, `funnel.py`, `metrics.py` and
   `historical_cases.py` are **domain-agnostic** and must stay that way: they
   name no quantity the laboratory computes, and seam tests enforce it (an AST
@@ -436,23 +436,23 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   Everything that knows the subject lives in `ontology/domains/`. Read
   `ontology/README.md` before touching any of it. `ontology` is not part of
   the editable install, so a script that imports it must put the repo root on
-  `sys.path` (derived from `__file__` — see `scripts/13_discovery_run.py`).
+  `sys.path` (derived from `__file__`: see `scripts/13_discovery_run.py`).
   The numbered scripts alongside the core (`01_f1_geometry.py` …
   `16_adelic_acoustic_absorber.py`) are the **rogue-lab prototypes**: historical
   exploratory operator hunts, kept because `docs/17` dissects four of them as
   case studies and `tests/test_rogue_lab_controls.py` pins their control
   results. They are outside the domain-agnostic seam, and no new work should
-  be added there — new exploration goes under `hunts/`.
-- Package: `harness/` — **two things, and only one of them is live.** Read
+  be added there, new exploration goes under `hunts/`.
+- Package: `harness/`, **two things, and only one of them is live.** Read
   `harness/VERDICT.md` before doing anything here.
-  - **Live, ordinary lab bookkeeping — keep, use, extend as needed.** The
+  - **Live, ordinary lab bookkeeping: keep, use, extend as needed.** The
     ledgers and their readers: `graveyard.py` (dead ends recorded so they are
     not re-entered), `guards.py` (guards recorded so they can be attacked),
     `review.py`, `independence.py`, and the three ledgers under
     `departments/` (`graveyard_ledger`, `guard_ledger`, `review_ledger`).
     Their live consumer is `scripts/70_lab_state.py`, the research-state view.
     ~1,050 lines, with a real reader.
-  - **Demoted, 2026-08-13 — do not extend.** The generalized
+  - **Demoted 2026-08-13: do not extend.** The generalized
     battery/department/integrity framework: `protocol.py`, `integrity.py`,
     `promotion.py`, `preregistration.py`, `provenance.py`, `shams.py`, and
     the six subject packs under `departments/` that exist to populate it.
@@ -465,21 +465,21 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
     `harness/gate-evidence/`; the negative result stands and is not to be
     quietly relitigated.
   - **What survived the demotion, because it is independently true**: the
-    four control roles are still good research practice — a claim that a
+    four control roles are still good research practice, a claim that a
     structure-matched rival also satisfies has distinguished nothing, and
     `zeta.epstein.battery` enforces exactly that for ζ without any of this
     framework. `compiler/semantics.py` records a measured fact worth keeping:
     exhaustive concrete testing over all 65,536 i8 inputs cannot see
-    poison-class defects, with a planted fault pinning it. Scope discipline —
-    stating what a verdict does *not* cover — earned its keep and costs
+    poison-class defects, with a planted fault pinning it. Scope discipline,
+    stating what a verdict does *not* cover, earned its keep and costs
     nothing.
   - The lesson generalizes and is the reason for the rule two sections down:
     **an abstraction with no live consumer is a liability, however elegant.**
 
-- Package: `dossier/` — an experiment, not a department. It represents
+- Package: `dossier/`, an experiment, not a department. It represents
   mathematical research state (intent, definition, rejected alternatives,
   semantic obligations, evidence) so an agent can *resume* work. Two ideas
-  under test: intent is data, and "verified" is four independent things —
+  under test: intent is data, and "verified" is four independent things,
   `status.py` keeps `numeric` / `certified` / `literature` / `formal` apart,
   offers no aggregate, and `Support.__bool__` raises so `if support:` cannot
   silently collapse them. Same three seam tests as `ontology/schema.py`;
@@ -488,12 +488,12 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   department: a dossier has no negative controls of its own, and a
   department whose battery belongs to another department is not a department
   (`docs/19-research-dossiers.md` §6).
-- `hunts/` — exploratory studies, not departments and not results. The one
+- `hunts/`: exploratory studies, not departments and not results. The one
   place a claim may be recorded before any control has been run against it.
   A hunt cannot become a department by growing, for the same reason
   `dossier/` cannot. Read `hunts/README.md` before adding one.
-- Package: `meta/` — **the second laboratory**: evidence about the research
-  system rather than about ζ. `ledger.py` is the intervention ledger — what a
+- Package: `meta/`, **the second laboratory**: evidence about the research
+  system rather than about ζ. `ledger.py` is the intervention ledger, what a
   human had to do that the machinery could not, with the missing capability
   named, because the quantity under test is *legitimate research output per unit
   of scarce human judgment* and that needs a denominator. It is domain-agnostic
@@ -532,26 +532,26 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   detector body was `return value`, and it is kept as a failed
   calibration rather than deleted. `operator-functions.md` decomposes what is
   left of the operator's role once the automatable friction is subtracted, into
-  severity calibration, scope discipline, skepticism routing and authority — and
+  severity calibration, scope discipline, skepticism routing and authority, and
   reframes the target: you do not automate judgment, you measure *calibration*,
   which the `Judgment` record does. Its load-bearing guard is that the system may
   not resolve a disagreement it is party to. Nothing here is a mathematical result
   and nothing here trades against one; a session with no mathematics and a tidy
   ledger produced nothing. Read `meta/README.md` first.
-- Project: `lean/` — the certified arm: a Lean 4 + Mathlib package
+- Project: `lean/`, the certified arm: a Lean 4 + Mathlib package
   (`ZetaLean`) formalizing, rung by rung, facts the laboratory measures.
   `ZetaLean/GroundTruth.lean` is rung 1 (ζ(2), ζ(0), ζ(4), the zero-free
   half-plane); rung 3 (Davenport–Heilbronn) is mathematics-complete and
-  waiting on compute — its interval layers are `Rigor`/`IntervalExp`/
+  waiting on compute, its interval layers are `Rigor`/`IntervalExp`/
   `IntervalCExp`, the analysis is `DHAnalytic`/`DHTailBound`/`DHZeroCriterion`,
   and `DHDemo` is the worked instance. Do not add a `sorry` to any of them
   to "make progress"; the remaining gap is a computation, not a lemma.
   The ladder and the next rung live in `HANDOFF.md`. Toolchain is
   elan-managed and pinned by `lean/lean-toolchain`; `.lake/` build artifacts
   are gitignored.
-- Package: `compiler/` — the subject matter of harness department #3 (LLVM IR
+- Package: `compiler/`, the subject matter of harness department #3 (LLVM IR
   rewrite verification): `catalog.py`, `semantics.py`, fixtures, and
-  `FINDINGS.md` — the incident record that "FINDINGS §N" citations in
+  `FINDINGS.md`: the incident record that "FINDINGS §N" citations in
   `harness/` and `ROADMAP.md` refer to. Like `ontology` and `harness`, not
   part of the editable install.
 - `scripts/` numbered standalone demos (01–41, not contiguous),
@@ -560,37 +560,37 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
   `--report`).
 - `docs/` 00–26: a reading course; keep cross-references consistent with
   actual filenames (doc 05 is `05-de-bruijn-newman.md`; a bare `docs/08`
-  always means `08-why-it-is-hard.md` — the detector-strength findings that
+  always means `08-why-it-is-hard.md`, the detector-strength findings that
   once shared the number are `22-detector-strength-findings.md`).
   `docs/doors/` holds the entry-point guides: one short page per audience
   (learn, refute, certify, discover, adopt) plus one page per department.
   Adding a purpose to the repo costs a guide page plus a test that the page's
   command still works; a purpose that will not pay that stays a document, not
-  a directory. Keep `README.md` an index, not a manual — do not let it grow
+  a directory. Keep `README.md` an index, not a manual. Do not let it grow
   back into a single 400-line front page for four different audiences.
-- `interactive_lab/` — standalone browser visualizations; illustrations, not
+- `interactive_lab/`: standalone browser visualizations; illustrations, not
   results (its README states the contract: single-file pages, values
   hard-coded from what the suite pins).
 - `tests/` pytest; `data/` caches; `figures/` PNGs; `references/papers.md`;
-  `conjectures/` the discovery ledger — **gitignored**, a private notebook of
+  `conjectures/` the discovery ledger, **gitignored**, a private notebook of
   unreviewed leads (only `.gitkeep` is tracked). Nothing in it is evidence for
   anything; publish `ontology.metrics.render_text`, never the log. An empty
-  `conjectures/` in a fresh clone is the rule working, not a bug — to share one
+  `conjectures/` in a fresh clone is the rule working, not a bug, to share one
   ledger across your own machines run `scripts/ledger_sync.sh init` once, then
   `sync`; it clones a *separate private* repo in place, and this public tree
   still never carries a record.
 
 ## The naming trap: three different "theta"s
 
-1. `zeta.core.theta` — Jacobi θ(x) = Σ_{n∈ℤ} e^{−πn²x} (the heat kernel;
+1. `zeta.core.theta`: Jacobi θ(x) = Σ_{n∈ℤ} e^{−πn²x} (the heat kernel;
    modular identity θ(1/x) = √x·θ(x)).
-2. `zeta.core.rs_theta` — Riemann–Siegel phase ϑ(t) in Z(t) = e^{iϑ(t)}ζ(½+it)
+2. `zeta.core.rs_theta`: Riemann–Siegel phase ϑ(t) in Z(t) = e^{iϑ(t)}ζ(½+it)
    (`zeta.statistics.riemann_siegel_theta` is the fast vectorized variant).
-3. `zeta.explicit.theta_cheb` — Chebyshev's prime sum θ(x) = Σ_{p≤x} log p.
+3. `zeta.explicit.theta_cheb`: Chebyshev's prime sum θ(x) = Σ_{p≤x} log p.
 
 Related trap: `xi(s)` is the completed zeta (entire, ξ(s) = ξ(1−s));
 `Xi(t) = xi(1/2 + it)` is real for real t. Do not use Ξ for the function of s.
-In `heatflow.py`, H₀(z) = (1/8)·Ξ(z/2) — mind the factor 8 and the z/2.
+In `heatflow.py`, H₀(z) = (1/8)·Ξ(z/2), mind the factor 8 and the z/2.
 
 And a fourth collision, this one in the import system: `zeta.explicit.li` is
 the *logarithmic integral* and is re-exported as `zeta.li`, but `zeta/li.py`
@@ -621,13 +621,13 @@ information away while keeping none of its value.
 So every hunt that measures a ceiling MUST end its RESULTS.md with a section named
 **"The doors"**, containing:
 
-1. **Active constraints at the optimum** — what binds when the bound stops moving,
+1. **Active constraints at the optimum**: what binds when the bound stops moving,
    ranked by shadow price where computable, by the saturation curve's slope where not.
-2. **The frozen-constant inventory** — every chosen-not-optimized number in the
+2. **The frozen-constant inventory**: every chosen-not-optimized number in the
    construction (window shape, weights, assembly profile, schedule, grid), each with
    what relaxing it would trade against. Flag the ones with genuine trade shape:
    giving up something slack to buy the binding thing.
-3. **The information class** — whether each door stays inside the data the current
+3. **The information class**: whether each door stays inside the data the current
    family reads (and so under its configuration ceiling) or requires reading more.
 
 The follow-up hunt goes through the top-ranked door. Maxing the given parameters and
@@ -654,8 +654,8 @@ public, so standard runners are free, up to 20 jobs in parallel, and jobs are **
 preempted**. `full.yml` already contains a Lean job with `elan` and `.lake` cached.
 Reach for a paid provider only when Actions genuinely cannot do it, and say why.
 
-**3. Estimate before you spend.** Measure one unit — one cell, one shard, one
-container — and multiply. Write the number down in `RUNS.md` before launching. A run
+**3. Estimate before you spend.** Measure one unit, one cell, one shard, one
+container, and multiply. Write the number down in `RUNS.md` before launching. A run
 started without an estimate is how a budget disappears into a job nobody was
 watching.
 
@@ -685,15 +685,15 @@ cd <repo root>
 cd lean && PATH="$HOME/.elan/bin:$PATH" lake build  # the certified arm (0 sorrys)
 ```
 
-Tests run in parallel by default (`-n auto`, set in `pyproject.toml`) — the
+Tests run in parallel by default (`-n auto`, set in `pyproject.toml`), the
 fast tier goes from ~320 s to ~115 s. Add `-n0` when you need `--pdb` or clean
-per-test output — **not** `-p no:xdist`, which unloads the plugin that owns the
+per-test output, **not** `-p no:xdist`, which unloads the plugin that owns the
 `-n auto` already in `addopts` and dies with "unrecognized arguments: -n". Before optimising anything, run `--durations=20`:
 the cost concentrates in `test_li.py`, `test_heatflow.py` and `test_weil.py`
 (high-precision zero sums and quadrature).
 
 Tests use mpmath's `zetazero` / `siegelz` / `grampoint` / `nzeros` as an
-independent oracle against the hand-rolled machinery — preserve that pattern
+independent oracle against the hand-rolled machinery, preserve that pattern
 when adding features: implement the mathematics, then cross-check.
 
 **And mpmath is not the only oracle.** `tests/test_pari_oracle.py` runs the

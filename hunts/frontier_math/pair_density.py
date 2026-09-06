@@ -1,4 +1,4 @@
-"""Level 6b: the pair-density question — where theta_full = 0.02 lives.
+"""Level 6b: the pair-density question, where theta_full = 0.02 lives.
 
 Level 6a delivered theta_full = 0.02 at unit pair density with a per-pair
 assembly.  This module asks the next question the directive's road demands:
@@ -12,14 +12,14 @@ becomes
 
     sum_pairs T_signed  >=  - sum_r (1 - capfrac(y_r, theta)) slack_r,
 
-where T_signed keeps BOTH signs of the pair-pair interaction — the
+where T_signed keeps BOTH signs of the pair-pair interaction, the
 adversary's own stacking payments now count against it, which the eta
 accounting of levels 5-6a (negative parts only) deliberately ignored.
 
 MEASURED VERDICT (:func:`global_verdict`).  Across lattice families
 (nu_p = 0.5 .. 3, all probe depths, phases) and the collective battery:
 where does the global budget hold and where does it break?  Expected and
-found: it holds through nu_p ~ 1.5 and breaks at dense deep clusters —
+found: it holds through nu_p ~ 1.5 and breaks at dense deep clusters,
 NOT because the energy fails, but because summed per-pair caps overshoot
 when negative bands overlap.
 
@@ -39,7 +39,7 @@ near coincidence and
 
 stays positive uniformly in the depths for delta_p ~ 0.2 (one-sided grid
 check with Lipschitz margin).  Every same-window pair the adversary adds
-pays this floor — the third instance of the self-defeat pattern (depth,
+pays this floor, the third instance of the self-defeat pattern (depth,
 on-line density, and now pair density).
 
 Nothing here computes a proportion; the Phase-7 gate stays closed.

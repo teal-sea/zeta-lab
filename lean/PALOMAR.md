@@ -46,7 +46,7 @@ out. One did.
 **The bridge surface is a separate Lake project, and has to be.** Pub 1 and DH
 are built by the `lean/` package, whose only dependency is Mathlib. The bridge
 theorem depends on `anthropics/zeta-23-lean`, which `lean/` does not require, so
-its surface lives in a package of its own at `lean/bridge/` — the **selected
+its surface lives in a package of its own at `lean/bridge/`, the **selected
 project** for that submission, in the sense of CONTRIBUTING.md section 6.1. Its
 metadata and Comparator files stay beside the other two entries', because that is
 where a reader looks for them; the submission form takes both paths explicitly.
@@ -184,7 +184,7 @@ V2 surface` job, green in 2h34m on the run that landed the warning below.
 1. **Confirm no submission is in progress.** Palomar permits one per repository.
    Visible only through the owner's access link; no in-tree check can see it.
 2. Confirm the `lean/bridge` tree is the one already verified. It is identical
-   across `8bd9bb04`, `7570cff` and every commit since — tree
+   across `8bd9bb04`, `7570cff` and every commit since, tree
    `858418471411ab49f26e463968eeb67ab6b92b00`. `git rev-parse HEAD:lean/bridge`
    settles it in a second.
 3. Run the correspondence guard, which derives the paths rather than letting the
@@ -220,19 +220,19 @@ RESOLVES TO V1 AND THE REVIEW WILL REFUSE.** Learned on 2026-08-25, from a refus
 Commit `8bd9bb0477bfd0cfe0a509f1e456394cb7e4641d` was submitted on 2026-08-24 with the V2
 Comparator (`lean/bridge/comparator-v2.json`) and **mechanical verification succeeded**. The
 automated editorial review then refused it, because the form had resolved metadata to the
-default `lean/bridge/formalization.yaml` — the pinned **V1** record for the seven-point
+default `lean/bridge/formalization.yaml`, the pinned **V1** record for the seven-point
 *conditional* result. Their finding, verbatim in substance: the registry abstract, structured
 scope, alignment, provenance of the n-point and finite-certificate contributions, and known
 gaps *"materially misdescribe the selected seven declarations."*
 
 Nothing was wrong with the mathematics, the Lean, or the commit. **It was a filing error, and
-it cost a full submission cycle** — four hours forty-five minutes of queue and verification.
+it cost a full submission cycle**, four hours forty-five minutes of queue and verification.
 
 - **Select `lean/bridge/palomar-v2/formalization.yaml` by hand, every time.**
 - **Never select `lean/bridge/formalization-v2.yaml`.** It is the compatibility copy and is not
   a valid submission path, but it is the plausible-looking wrong answer sitting right next to
   the right one.
-- Palomar's own second remedy — *"replace the default metadata with an equivalent V2 record"* —
+- Palomar's own second remedy, *"replace the default metadata with an equivalent V2 record"*,
   means overwriting `bridge/formalization.yaml`. **Do not.** That file is V1's pinned record and
   this document's contract is that V2 does not modify it. Selecting the path is strictly better.
 - A refusal is **private**. Nothing about it becomes public, and it is not a mark against the

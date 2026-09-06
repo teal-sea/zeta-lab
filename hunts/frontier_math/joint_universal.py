@@ -1,7 +1,7 @@
 """Is the joint verdict a statement about ALL configurations, or only the sweep?
 
 `paper_joint.py` reports theta_full = 0.995 at the paper's field by
-running a *sweep of configuration families* — isolated pair, far pair,
+running a *sweep of configuration families*, isolated pair, far pair,
 worst dipole, sparse/soft/dense lattices, alternating/sandwich/staggered.
 A real configuration is an arbitrary finite set of off-line pairs at
 arbitrary ordinates and depths, so a family sweep leaves the quantifier
@@ -38,7 +38,7 @@ transplanted to the paper field and reduced to the pair block alone; the
 diagonal ``T(0, y, y) = 4 + slack(y)`` is what produces the ``- 4k``.
 Two immediate consequences: the pair term is a nonnegative-kernel
 quadratic form (``sum_{i,j} T_ij >= 0`` for *every* configuration), and
-the budget's floor is a positive multiple of the summed slack — measured
+the budget's floor is a positive multiple of the summed slack, measured
 minimum ``0.2918 * sum_i slack(y_i)`` at y = 0.49 (500 restarts x 200
 local steps; the binding shape is a lattice at 1.005 mean gaps), 0.4818
 at y = 0.30, 0.4034 with depths free in [0.05, 0.4999], and negative in
@@ -64,7 +64,7 @@ does not close the quantifier, but it changes what is left: one
 nonnegative bandlimited kernel and two exponential sums, instead of a
 family of configuration sweeps.
 
-**2. RUNG 1 — cap subadditivity: it FAILS, and the mechanism is exact.**
+**2. RUNG 1, cap subadditivity: it FAILS, and the mechanism is exact.**
 The damage field is additive across pairs *before* clipping, and the
 chain clips the joint field, so per-pair clipping is one-sided upward at
 the level of the FIELD.  It is not one-sided at the level of the CAP.
@@ -78,7 +78,7 @@ satisfies the exact identity
         = [ 2 sum_{i<j} F_i F_j - (k-1) (cK)^2 ] / (4 c K),
 
 which is *positive* as soon as the pairwise products beat the per-cell
-credit — the adversary collects k times the damage from one stack of
+credit, the adversary collects k times the damage from one stack of
 zeros but pays the internal charge once.  Measured at theta = 0.995,
 y = 0.49, k coincident pairs: joint cap / sum of single-pair caps =
 1.4475 (k=2), 1.9318 (k=3), 2.4100 (k=4), 3.3796 (k=6).  The failure is
@@ -88,9 +88,9 @@ k-fold single-occupancy threshold ``1 - k F_max / (2 K)`` (1.0914 /
 1.2268 / 1.3734 at theta = 0.98, and 1.0000 flat at theta <= 0.95).
 The two halves separate cleanly under measurement
 (:func:`band_structure_comparison`, :func:`occupancy_profile`): the
-joint band SET only ever shrinks — for a coincident stack it is
+joint band SET only ever shrinks, for a coincident stack it is
 identical to one pair's, and the pointwise positive-part inequality
-``max(0, sum f_p) <= sum max(0, f_p)`` never fails — while the
+``max(0, sum f_p) <= sum max(0, f_p)`` never fails, while the
 occupancy grows, ``m* = 7`` on the joint cells of a coincident triple
 against ``m* = 3`` on each pair's own.
 
@@ -108,14 +108,14 @@ true.  The joint field's shielding is load-bearing, not decorative:
 establish universality at theta* = 0.995**, whatever the direction of
 the subadditivity inequality.  (:func:`per_pair_route_witness`.)
 
-**4. RUNG 2 — the repairs, and why they do not close it either.**
+**4. RUNG 2, the repairs, and why they do not close it either.**
 
 - *Even split* (proven, per cell): ``B(sum_p F_p, K) <= sum_p B(F_p,
   K/k)`` because the charge can be shared before the maximisation.  It
   converts the joint cap into k single-pair caps at the DEGRADED charge
   ``(1-theta)/k``, i.e. at ``theta_k = 1 - (1-theta)/k``.  At
   theta = 0.995 and k = 2 that is theta = 0.9975, and the single-pair
-  dual at this field already fails at 0.999 — so the bound is valid and
+  dual at this field already fails at 0.999, so the bound is valid and
   useless.  Measured in :func:`even_split_bound`.
 - *Union refinement* (the suggested repair): band maxima do **not**
   increase under refinement (a max over a subinterval is a max over a
@@ -126,7 +126,7 @@ the subadditivity inequality.  (:func:`per_pair_route_witness`.)
   the direction that inflates the cap, so a common-refinement comparison
   cannot repair a domination failure.  (:func:`refinement_ladder`.)
 
-**5. RUNG 3 — randomised adversarial search.**  320 configurations (260
+**5. RUNG 3, randomised adversarial search.**  320 configurations (260
 random + 60 descent steps; k in 2..12; jittered lattices, near-coincident
 clusters, uniform windows, tight windows; equal and mixed depths) at
 theta = 0.995 against a conservative instance of the cap.  Results, all
@@ -134,7 +134,7 @@ in :data:`WORST_RANDOM_RECORD`:
 
 - **0 configurations opened the verdict**;
 - worst relative margin **+0.2423** on the search instance, **+0.2749**
-  re-checked at the module's resolution — a two-pair configuration at
+  re-checked at the module's resolution, a two-pair configuration at
   2.05 mean gaps, i.e. the sparse-lattice family that already binds
   paper_joint.py's sweep, rediscovered without being told;
 - **37 of 320 configurations broke rung-1 domination**, worst ratio
@@ -148,7 +148,7 @@ all.
 
 WHAT REMAINS OPEN, stated plainly: the multi-pair verdict is still a
 statement about a (much larger) tested set, not about all configurations.
-What this module changes is the shape of the remaining obligation — it is
+What this module changes is the shape of the remaining obligation, it is
 now a statement about one nonnegative kernel ``c2`` and two exponential
 sums, with the per-pair reduction ruled out by an explicit witness rather
 than left untried.
@@ -219,7 +219,7 @@ def autocorr(w):
 
 
 def autocorr_mass(n: int = 2_000_001) -> float:
-    """``int_{-1}^{1} c2 = (int phi^2)^2 = A^2`` — the normalisation that
+    """``int_{-1}^{1} c2 = (int phi^2)^2 = A^2``, the normalisation that
     turns the ``k`` in the budget identity into ``4k``."""
     ws = np.linspace(-1.0, 1.0, n)
     return float(np.trapezoid(autocorr(ws), ws))
@@ -293,7 +293,7 @@ def pair_energy_matrix(pairs) -> np.ndarray:
 
 
 def budget_terms(pairs) -> dict:
-    """The budget's exact decomposition — **the slack-additivity relation**.
+    """The budget's exact decomposition, **the slack-additivity relation**.
 
     Returns ``sum_slack`` (the additive part), ``pair_term``
     (``sum_{i != j} T_ij``, the signed non-additive part), ``budget``
@@ -353,7 +353,7 @@ def damage_and_charge(online, pairs) -> dict:
 
 
 def energy(fun, n: int = 400001) -> float:
-    """``E[G] = (1/A^2) int_{-1}^{1} c2(w) |G(w)|^2 dw`` — the one
+    """``E[G] = (1/A^2) int_{-1}^{1} c2(w) |G(w)|^2 dw``, the one
     nonnegative-kernel form every object of the chain is a shadow of."""
     ws = np.linspace(-1.0, 1.0, n)
     return float(np.trapezoid(autocorr(ws) * np.abs(fun(ws)) ** 2, ws)) / A**2
@@ -382,7 +382,7 @@ def verdict_fourier_gap(online, pairs, theta: float,
     (`fourier_bridge.py`), carried through the pair diagonal so that the
     subtraction is the pair of explicit constants ``(1-theta) n + 4k``.
     It does not close the quantifier; it changes what the remaining
-    obligation is *about* — one nonnegative bandlimited kernel and two
+    obligation is *about*, one nonnegative bandlimited kernel and two
     exponential sums, rather than a family of configuration sweeps.
     """
     xs = np.array(list(online), float)
@@ -467,7 +467,7 @@ def completion_excess(Fs, K: float, c: float) -> dict:
 
 
 def even_split_theta(theta: float, k: int) -> float:
-    """``theta_k = 1 - (1-theta)/k`` — the charge each pair keeps when the
+    """``theta_k = 1 - (1-theta)/k``, the charge each pair keeps when the
     per-cell charge is split evenly before the maximisation.
 
     **The even-split lemma** (exact, per cell): since
@@ -498,7 +498,7 @@ def even_split_defect(F1: float, F2: float, K: float, c: float) -> float:
 class JointUniversal:
     """Rung-1/2 instrumentation around an unmodified ``PaperJoint``.
 
-    ``pj`` is the joint cap exactly as ``paper_joint.py`` builds it — this
+    ``pj`` is the joint cap exactly as ``paper_joint.py`` builds it, this
     module never re-implements the cap, it only compares it against
     per-pair objects computed with the same instrument (so any difference
     is structural and not a resolution artifact).
@@ -510,7 +510,7 @@ class JointUniversal:
 
     @lru_cache(maxsize=512)
     def cap_single(self, y: float, theta: float) -> float:
-        """The joint cap on the one-pair configuration — the per-pair
+        """The joint cap on the one-pair configuration, the per-pair
         object a subadditive argument would sum."""
         return self.pj.cap([(0.0, float(y))], float(theta))["cap"]
 
@@ -550,7 +550,7 @@ class JointUniversal:
 
     def even_split_bound(self, pairs, theta: float) -> dict:
         """``sum_p cap_single(y_p; theta_k)`` with ``theta_k`` from
-        :func:`even_split_theta` — the universal-but-lossy bound.
+        :func:`even_split_theta`, the universal-but-lossy bound.
 
         The per-cell lemma is exact; the module-level comparison below
         additionally assumes the cells can be taken common to the joint
@@ -606,7 +606,7 @@ class JointUniversal:
 
         ``{f_P > 0}`` sits inside the union of ``{f_p > 0}`` because
         ``max(0, sum) <= sum max(0, .)`` pointwise, so the joint band set
-        can only be *smaller* than that union — the shielding.  Two
+        can only be *smaller* than that union, the shielding.  Two
         different reductions are reported separately, because conflating
         them is easy: ``overlap_fraction`` is how much the per-pair band
         systems share ground (it is 1 - 1/k for coincident pairs and has
@@ -684,7 +684,7 @@ class JointUniversal:
     def occupancy_profile(self, pairs, theta: float,
                           delta: float = 1.0) -> dict:
         """The optimal per-cell multiplicity ``m*`` on the joint cells and
-        on the per-pair cells — the other half of the rung-2 question.
+        on the per-pair cells, the other half of the rung-2 question.
 
         ``m* = 1`` everywhere is the single-occupancy branch, where the
         completion is additive in ``F``; ``m* > 1`` on the joint cells
@@ -728,7 +728,7 @@ class JointUniversal:
 @dataclass(frozen=True)
 class InflatedJoint(PaperJoint):
     """``PaperJoint`` with one pair's damage contribution scaled by
-    ``inflate`` — a planted fault, for detector power.
+    ``inflate``: a planted fault, for detector power.
 
     The budget is untouched (it is built from ``slack`` and ``T``), so a
     configuration that closes honestly must be pushed OPEN by a large
@@ -780,7 +780,7 @@ def planted_violation(pairs=None, theta: float = THETA_FULL,
 # ---------------------------------------------------------------------------
 
 #: the search instance.  A coarser step at the SAME resolved half-range is
-#: conservative — wider band edges and larger local slope margins push the
+#: conservative, wider band edges and larger local slope margins push the
 #: cap up (measured 0.5-5% above the step = 0.001 cap across the probe
 #: configurations), so a configuration that closes here closes at the
 #: module default.  Completeness still clears the >100 gate.
@@ -801,7 +801,7 @@ def random_config(rng, kmax: int = 12, kmin: int = 1):
     """One random configuration: shape, positions, depths.
 
     Five shapes, chosen so that the two regimes the sweep misses are both
-    reachable — near-coincident clusters (where the cap is superadditive)
+    reachable, near-coincident clusters (where the cap is superadditive)
     and near-mean-gap lattices at the deep end (where the pair term eats
     the most budget, measured floor ~0.29 of the summed slack).  Depths
     are drawn deep half the time on purpose: a uniform draw over
@@ -958,13 +958,13 @@ def budget_floor_search(n_restart: int = 200, kmax: int = 26, seed: int = 11,
 #: the module's own resolution.  **This is a search result: it bounds the
 #: adversary from below and the quantifier not at all.**
 #:
-#: It is a two-pair configuration at 12.896 grid units = 2.05 mean gaps —
+#: It is a two-pair configuration at 12.896 grid units = 2.05 mean gaps,
 #: the sparse-lattice family that binds paper_joint.py's own sweep, found
 #: independently by a search that was not told about it.
 WORST_RANDOM = [(-0.391266, 0.49), (12.504789, 0.49)]
 
 #: The configuration with the worst rung-1 domination ratio the campaign
-#: found: nine pairs inside 0.554 grid units at mixed depths — a
+#: found: nine pairs inside 0.554 grid units at mixed depths, a
 #: near-coincident cluster, i.e. exactly the shape the family sweep has
 #: no member of.
 WORST_RANDOM_RATIO_PAIRS = [
@@ -1020,7 +1020,7 @@ def per_pair_route_witness(theta: float = THETA_FULL, y: float = 0.49,
 
 def coincident_ratios(theta: float = THETA_FULL, y: float = 0.49,
                       ks=(2, 3, 4, 6)) -> dict:
-    """Rung 1 against coincident stacks — the family the sweep omits."""
+    """Rung 1 against coincident stacks, the family the sweep omits."""
     ju = JointUniversal()
     return {k: ju.domination([(0.0, y)] * k, theta)["ratio"] for k in ks}
 

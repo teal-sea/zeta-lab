@@ -1,4 +1,4 @@
-# RESULTS — Erdős #126, ORIGINAL-PROOF arm (support run 517b887f)
+# RESULTS: Erdős #126, ORIGINAL-PROOF arm (support run 517b887f)
 
 **Hunt, not a result. Nothing here is evidence for or against RH (`docs/08`).**
 

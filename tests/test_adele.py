@@ -1,4 +1,4 @@
-"""Tests for zeta.adele — primitives for Non-Commutative Geometry."""
+"""Tests for zeta.adele, primitives for Non-Commutative Geometry."""
 
 import pytest
 import math

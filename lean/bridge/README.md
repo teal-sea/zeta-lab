@@ -19,7 +19,7 @@ submission, so the comparison is set out in full.
 
 | Source | `c` | `m` | `p` | Constant | The finite inequality | The passage to a proportion of zeros |
 | --- | --- | --- | --- | --- | --- | --- |
-| Anthropic, Theorem D (`arXiv:2608.13637`) | — | — | — | `0.67250070367941164573…` | not used | Lean |
+| Anthropic, Theorem D (`arXiv:2608.13637`) |, |, |, | `0.67250070367941164573…` | not used | Lean |
 | Ainta, Theorem 1.1 | `19/5000` | 269 | 3000 | `0.6730085279277797613…` | interval search | informal |
 | Gohms, [issue #1](https://github.com/ainta/zeta-simple-zeros/issues/1) | `191/50000` | 267 | 3000 | `0.6730213619501665…` | interval search | informal |
 | here, `three_point_bound` | `1345/10^6` | 745 | 3000 | `0.67273733450380945032…` | **proved in Lean** | **Lean** |
@@ -33,7 +33,7 @@ issue describes its own result as provisional, not peer-reviewed and not
 formally verified. Neither step is a theorem about `riemannZeta`. This package
 machine-checks the second step for every `n`, and at `n = 3` and `n = 4` proves
 the first step too, which is why those two instances need no certificate and no
-hypothesis — and why their constants are smaller. The largest constant in the
+hypothesis, and why their constants are smaller. The largest constant in the
 table is `eight_point_bound`, and it is the one deliberately left conditional,
 with `hCert` and its numbers written into the statement.
 

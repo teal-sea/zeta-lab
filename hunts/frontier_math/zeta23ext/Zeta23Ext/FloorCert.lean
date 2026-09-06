@@ -21,11 +21,11 @@ set_option grind.warning false
 
 This file is a complete, self-contained formalisation of the statement in `PROBLEM.md`:
 
-* `MTKernel.theoremA` — the linear-programming lower bound obtained from the explicit
+* `MTKernel.theoremA`: the linear-programming lower bound obtained from the explicit
   rational dual certificate `(y, u₁, u₂)` (pure rational arithmetic);
-* `MTKernel.B1`, `MTKernel.B2`, `MTKernel.B3`, `MTKernel.B4` — the four lower bounds on the
+* `MTKernel.B1`, `MTKernel.B2`, `MTKernel.B3`, `MTKernel.B4`: the four lower bounds on the
   Montgomery-Taylor kernel `g` at the explicit rational points/intervals of the problem;
-* `MTKernel.corollary` — the combination of the two.
+* `MTKernel.corollary`: the combination of the two.
 
 All constants are the exact rationals of §1 of `PROBLEM.md`, coerced to `ℝ`.
 

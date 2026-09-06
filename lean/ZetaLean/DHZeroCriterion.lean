@@ -13,22 +13,22 @@ import ZetaLean.OracleDH
 
 The analytic half of the Davenport-Heilbronn theorem is kernel-checked in
 `ZetaLean/DHAnalytic.lean`.  What separates it from the full
-`davenport_heilbronn_statement` is the *existence of the off-line zero* —
+`davenport_heilbronn_statement` is the *existence of the off-line zero*,
 and existence of an exact zero of an entire function cannot be certified by
 evaluating the function at a point, however precisely.  This file supplies
 the topological bridge that turns finite computation into existence:
 
-* `exists_zero_of_norm_lt_on_sphere` — the **minimum-modulus criterion**:
+* `exists_zero_of_norm_lt_on_sphere`, the **minimum-modulus criterion**:
   if `f` is entire and `‖f‖` is smaller at the centre of a disk than
   everywhere on its boundary sphere, `f` has a zero inside.  (Proof: apply
   Mathlib's maximum-modulus principle to `1/f`; no argument principle, no
   winding numbers.)
 
-* `davenport_heilbronn_of_ball_bounds` — the criterion specialised to `DH`,
+* `davenport_heilbronn_of_ball_bounds`: the criterion specialised to `DH`,
   with a disk kept strictly to the right of the critical line, concluding
   `davenport_heilbronn_statement` itself.
 
-* `davenport_heilbronn_of_certified_disk` — the concrete instantiation at
+* `davenport_heilbronn_of_certified_disk`: the concrete instantiation at
   the oracle point `0.808517 + 85.699348i` (`ZetaLean/OracleDH.lean`) with
   radius `1/10` and threshold `1/100`.  **Rung 3 is now exactly these two
   hypotheses**:
@@ -36,12 +36,12 @@ the topological bridge that turns finite computation into existence:
   1. `‖DH dhZeroCenter‖ < 1/100`, and
   2. `1/100 ≤ ‖DH z‖ for every z on the radius-1/10 sphere`,
 
-  both statements about certified evaluation of `DH` — no more topology, no
+  both statements about certified evaluation of `DH`, no more topology, no
   more analysis, only the (open) computational mountain of interval-arithmetic
   L-function evaluation inside the kernel.  The lab's `mpmath` cross-check
   (30 digits, 720 boundary samples) puts `‖DH‖ ≈ 6.5e-7` at the centre and
   `min ≈ 0.121` on the sphere, so both hypotheses hold with more than a
-  tenfold margin — but per the honest-scope rule those numbers are an
+  tenfold margin, but per the honest-scope rule those numbers are an
   oracle's, not the kernel's, and nothing here claims otherwise.
 -/
 
@@ -123,7 +123,7 @@ theorem davenport_heilbronn_of_certified_disk
 The sphere of `davenport_heilbronn_of_certified_disk` is the natural
 statement, but a circle is an awkward object for rectangle arithmetic to
 cover.  The same minimum-modulus argument works verbatim for **any** bounded
-open set, and for an axis-aligned open square the frontier is four segments —
+open set, and for an axis-aligned open square the frontier is four segments,
 exactly the sets that boxed-`s` interval evaluation covers without slack.
 Assembly should discharge `davenport_heilbronn_of_certified_square`, not the
 disk version. -/
@@ -159,7 +159,7 @@ def dhSquare (cre cim w : ℚ) : Set ℂ :=
   Set.Ioo (((cre - w : ℚ) : ℝ)) (((cre + w : ℚ) : ℝ)) ×ℂ
     Set.Ioo (((cim - w : ℚ) : ℝ)) (((cim + w : ℚ) : ℝ))
 
-/-- The square's frontier is its four boundary segments — the sets that
+/-- The square's frontier is its four boundary segments, the sets that
 boxed-`s` interval evaluation covers without slack. -/
 lemma frontier_dhSquare {cre cim w : ℚ} (hw : 0 < w) :
     frontier (dhSquare cre cim w) =

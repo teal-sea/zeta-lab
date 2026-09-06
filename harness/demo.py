@@ -1,8 +1,8 @@
-"""``python -m harness.demo`` — the whole architecture, in one run.
+"""``python -m harness.demo``, the whole architecture, in one run.
 
-Six departments — number theory at arbitrary precision, curves over finite
+Six departments, number theory at arbitrary precision, curves over finite
 fields, compiler rewrites, cron schedules, statistical model evaluation,
-and the verification machinery itself — pass through the same referee, and
+and the verification machinery itself, pass through the same referee, and
 then the referee is turned on its own kind: a hollow battery is shown
 producing a green verdict, and the audit is shown catching it, alongside a
 statement of what the audit admits it cannot catch.
@@ -94,7 +94,7 @@ def _the_turn(collect: list[dict]) -> None:
     collect.append(report.to_dict())
     print(f"\n  {report.headline()}")
     symmetry = report.integrity.check("payload-symmetry")
-    print(f"  caught by: {symmetry.name} — {symmetry.evidence.split(';')[0]}")
+    print(f"  caught by: {symmetry.name}, {symmetry.evidence.split(';')[0]}")
     print(
         "  and note what PASSES on this sham: calibration re-derives, its\n"
         "  co-designed detector has mechanical power. Structural completeness\n"
@@ -131,7 +131,7 @@ def main(argv: list[str] | None = None) -> int:
                         help="skip the departments with expensive payloads (zeta, compiler)")
     args = parser.parse_args(argv)
 
-    _section("ZETA LAB — six departments, one referee, and the referee refereed")
+    _section("ZETA LAB, six departments, one referee, and the referee refereed")
     print(
         "\nEvery claim below is paired with the integrity of the battery that\n"
         "judged it. A green claim from a hollow battery renders as dangerous,\n"
@@ -156,7 +156,7 @@ def main(argv: list[str] | None = None) -> int:
 
     _section("READING THIS HONESTLY")
     print(
-        "\nA claim that 'distinguishes' has survived this battery — nothing\n"
+        "\nA claim that 'distinguishes' has survived this battery, nothing\n"
         "more. Scope lines say exactly what that licenses. CALIBRATED means\n"
         "the battery survives the named sham classes; two classes defeat it\n"
         "by construction and are declared above, with their countermeasure.\n"

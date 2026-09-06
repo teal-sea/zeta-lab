@@ -47,7 +47,7 @@ interval subdivision for `F >= 891/200000`. **It reproduces**, 482.6 s wall
 against 441.7 s on their host at ten workers, with `verified=True` and an
 identical `nodes=2168370`, `splits=1084023`, `maximum_depth=50` and all three
 prune counters. The `w` table digest matches theirs byte for byte; **the `w''`
-table digest does not** — and that is the table the tangent pruner rides on, the
+table digest does not**, and that is the table the tangent pruner rides on, the
 one component whose corruption could produce a false acceptance rather than a
 false failure. Not one branch of the search changed regardless. Both directions
 of that finding are written out in `RESULTS.md` §7.
@@ -66,7 +66,7 @@ using the same script to price the refined assembly against our own floors.
 Both of our optima sit exactly at the cap `m = (n-1) + floor(1/c)`.
 
 **The read.** No defect found in the competitor verifier. The specific pattern
-this laboratory found in Ainta's — a constant wired to the target — is absent:
+this laboratory found in Ainta's, a constant wired to the target, is absent:
 their rationals are thresholds compared against computed enclosures, and the
 assembly then uses the rational, which is the conservative side. Details, and
 the two non-code reservations, in `RESULTS.md` §6.

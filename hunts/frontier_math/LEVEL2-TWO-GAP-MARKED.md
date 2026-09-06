@@ -5,7 +5,7 @@
 > Can one actual off-line pair simultaneously realise the worst signed
 > incidence allowed by level 1 across two consecutive on-line gaps?
 
-**No — and for a sharper reason than incompatible offsets: the level-1
+**No, and for a sharper reason than incompatible offsets: the level-1
 envelope is not attained in even one cell.**
 
 On the full grid the signed cell value of an on-line zero at offset `g` from
@@ -29,7 +29,7 @@ in the support. Matching Taylor coefficients at `u = 0`: first order forces
 g (g^2 + y^2) = 0.
 ```
 
-With `y > 0` that gives `g = 0` — and at `g = 0` we have `S = 0`, so
+With `y > 0` that gives `g = 0`, and at `g = 0` we have `S = 0`, so
 `W(0,y) = 2C^2/(aL)^2 >= 0`, which misses the negative floor outright
 (measured `W(0, 0.3) = +2.8046` against a floor of `-0.8623`). So **no cell
 ever sits at the level-1 floor**, and the two-cell question is moot before it
@@ -46,13 +46,13 @@ All four hold exactly, from the decomposition above:
 2. **`rho <-> 1 - conj(rho)` symmetry.** `W` is even in `y` (C is even, S is
    odd, and only their squares appear).
 3. **Shared kernel column.** Both adjacent gaps read the *same* function
-   `W(., y)` at arguments differing by exactly the gap — this is what
+   `W(., y)` at arguments differing by exactly the gap, this is what
    "projective consistency" amounts to, and it is an identity, not a
    constraint to be imposed.
 4. **Cell parity.** `W` is even in `g`, so a cell depends only on `|offset|`.
    This single fact is what makes the coexistence question collapse (below).
 
-## LAW I — the one-cell tightening (proved, uniform)
+## LAW I: the one-cell tightening (proved, uniform)
 
 Sharpening the same Cauchy–Schwarz against `sin^2` rather than `1`:
 
@@ -80,12 +80,12 @@ and every depth. Measured against the proved cap `(1+m0)/2 = 0.6069`:
 | 0.30 | −0.36951190 | −0.52328645 | 0.428525 | 0.767463 |
 | 0.49 | −1.55156340 | −1.97083720 | 0.477756 | 0.687281 |
 
-`r(y)` rises monotonically from `0.2979` toward `0.4786` at the strip edge —
+`r(y)` rises monotonically from `0.2979` toward `0.4786` at the strip edge,
 always inside the proved cap, and always far from level 1's implicit `1`.
 The pointwise form `-sigma^2 (1 - omega(2g))` is retained separately because
 it is sharper than the constant cap wherever `omega(2g) > -m0`.
 
-## LAW J — the periodic word (exact, and it answers a Phase-4 lesion)
+## LAW J: the periodic word (exact, and it answers a Phase-4 lesion)
 
 If the on-line zeros sit at the critical grid `tau_k = t + k h`, `h = 2pi/L`,
 Poisson summation applies to `F(r) = Phi2(r+iy)^2`, whose density
@@ -96,16 +96,16 @@ at both endpoints**, so only the `m = 0` dual term survives:
 sum_{k in Z} W(t + k h, y)  =  2 b / a^2,
 ```
 
-with `a = (1/L) int phi^2` and `b = (1/L) int phi^4` — the paper's own (2.14)
+with `a = (1/L) int phi^2` and `b = (1/L) int phi^4`, the paper's own (2.14)
 constants. The value is **positive and independent of both the depth and the
 ordinate**: measured `2.2959062623` against every tested `(y, offset)` to
-better than `6e-8`. A periodic near-obstruction word at critical spacing —
-the lesion the hierarchy names — yields an off-line pair *exactly no
+better than `6e-8`. A periodic near-obstruction word at critical spacing,
+the lesion the hierarchy names, yields an off-line pair *exactly no
 negativity*, at any depth. Breaking the spacing by 65/64 moves the total to
 `2.2605846`, a defect of `3.5e-2`, so the identity is genuinely a property of
 critical spacing.
 
-## Phases 2–3: coexistence by itself is empty — OUTCOME B
+## Phases 2–3: coexistence by itself is empty, OUTCOME B
 
 The directive's `Delta` is identically zero on a nonempty set, by two exact
 constructions:
@@ -129,12 +129,12 @@ at spacing `delta` near `g*` drive the penalty per cell to zero: measured
 So **marked two-gap projective consistency, on its own, yields no positive
 penalty**. `Delta` is positive for generic gaps (e.g. `+0.507` at `s = 0.4`,
 `+0.360` at `s = 3.0`, depth 0.3) but has exact zeros, so no uniform bound
-follows. Per the directive this is a clean result, not a failure — and it is
+follows. Per the directive this is a clean result, not a failure, and it is
 the reason no LP was built: a projective-consistency program whose value is
 known to be zero on an explicit family would be an expensive way to
 rediscover these two constructions.
 
-## OUTCOME C — the escaping family, pinned exactly
+## OUTCOME C: the escaping family, pinned exactly
 
 The family that survives every level-1 law *and* all two-gap consistency is
 
@@ -144,7 +144,7 @@ on-line zeros clustered at offsets  +-g*(y) + O(delta),   delta -> 0,
 
 i.e. a **near-multiple zero sitting at the kernel's optimal offset**. It is
 excluded by neither gap geometry nor the signed envelopes; it is controlled
-only by *density and multiplicity* — the paper charges a multiple on-line
+only by *density and multiplicity*, the paper charges a multiple on-line
 point to the index side at the flat cost 4, and `gap_consistency.py`'s LAW H
 caps the cluster's size by `nu <= A_0 log T`. Imposing a separation `delta`
 does restore a positive penalty (`separation_penalty`: `>0.1` per cell at
@@ -154,7 +154,7 @@ consistency alone does not.**
 
 This family is the natural level-3 kill control.
 
-## Phase 5 — epsilon robustness
+## Phase 5: epsilon robustness
 
 LAW I gives it directly, uniformly, and without any coexistence input: no
 cell is ever within `(1 - m0) sigma^2(y)` of the level-1 floor. Hence a
@@ -168,7 +168,7 @@ n [ (1 - m0) sigma^2(y) - epsilon ]     -- linear in n, uniform in placement.
 Measured bands: `0.031255` at `y = 0.1` (floor `-0.079502`), `0.339001` at
 `y = 0.3` (floor `-0.862287`), `1.276768` at `y = 0.49` (floor `-3.247605`).
 
-## Phase 6 gate — NOT passed, deliberately
+## Phase 6 gate: NOT passed, deliberately
 
 No new proportion is computed and no decimal search is opened. LAW I tightens
 the *envelope*, not a proportion; converting an envelope into a proportion
@@ -186,8 +186,8 @@ collapsed. Both gate conditions fail, so the gate holds.
 | LAW I pointwise, dense grid | `test_law_i_holds_pointwise_over_a_dense_grid` | 60 offsets x 4 depths, no violation |
 | LAW J at every depth and offset | `test_periodic_word_gives_...` | defect `< 1e-6` against `2b/a^2` |
 | lesion: independent cells (the named cheat) | `lesion_independent_cells` | the cheat buys `0.3827` at depth 0.3 |
-| lesion: independent depths | `lesion_independent_depths` | **negative result, recorded**: mixing never beats using the deeper depth twice, so shared *depth* is not the binding half of pairing — shared *ordinate* is |
-| lesion: conjugate-transpose geometry | `lesion_hermitian_geometry` | worst true `-0.3610`, worst Hermitian `+4.9e-11` — all sign structure destroyed, as `CLEAN-KILL-REPORT.md` requires |
+| lesion: independent depths | `lesion_independent_depths` | **negative result, recorded**: mixing never beats using the deeper depth twice, so shared *depth* is not the binding half of pairing, shared *ordinate* is |
+| lesion: conjugate-transpose geometry | `lesion_hermitian_geometry` | worst true `-0.3610`, worst Hermitian `+4.9e-11`, all sign structure destroyed, as `CLEAN-KILL-REPORT.md` requires |
 | lesion: broken Gabor spacing | `lesion_broken_spacing` | identity defect `3.5e-2` |
 | lesion: periodic near-obstruction word | `periodic_total` | total `+2.2959`, no negativity available |
 | escaping family (cluster) | `cluster_collapse` | penalty per cell `-> 0` monotonically |
@@ -213,4 +213,4 @@ level 3 should not re-derive it. The two live objects this session leaves:
    is exactly the shape a telescoping argument consumes.
 2. **The `+-g*` cluster as kill control.** Any level-3 mechanism must
    either exclude it or explain why the density/multiplicity charge already
-   does — and must be run against it before anything else.
+   does, and must be run against it before anything else.

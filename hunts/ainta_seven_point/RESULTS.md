@@ -251,8 +251,8 @@ is consistent with this: `p` is tied to `n` and `m`, not a free constant.
   with six of sixteen steps already kernel-checked upstream. Mapped is not proved.
   **Superseded 2026-08-23 for the bridge, not for the certificate:** all sixteen steps are
   now Lean theorems (`BRIDGE.md`), at every point count `n ≥ 2`, so the analytic bridge is
-  proved and no longer merely mapped. The certificates remain what they were — accepted by
-  an interval-arithmetic verifier, not kernel-checked — and the theorem is conditional on
+  proved and no longer merely mapped. The certificates remain what they were, accepted by
+  an interval-arithmetic verifier, not kernel-checked, and the theorem is conditional on
   them at every `n`, which is why this bullet's first sentence still stands.
 - It does not claim the minimiser is unique or that the floor is attained only there;
   the bracket on inf F6 is rigorous, the structure reading (kernel zeros) is not.

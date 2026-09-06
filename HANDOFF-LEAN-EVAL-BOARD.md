@@ -20,7 +20,7 @@ Every piece of code, graph state, Lean proof, refutation, and documentation has 
 ## 2. Ostoyae Engine Upgrade (PR #38 Merged to Main)
 
 - **Repository:** `teal-sea/Ostoyae`
-- **PR:** [#38](https://github.com/teal-sea/Ostoyae/pull/38) — *Merged into `main`* (Commit: `23c716c`)
+- **PR:** [#38](https://github.com/teal-sea/Ostoyae/pull/38), *Merged into `main`* (Commit: `23c716c`)
 - **Key fixes delivered:**
   1. **Lean execution in cells:** Cell execution previously denied `lake` and `lean` commands in headless mode. `executors/claude.sh` now grants Lean cells permission to invoke `lake`, `lean`, and `OSTOYAE_LEAN_MCP` without requiring interactive prompts.
   2. **Read-only Mathlib cache:** Added `--add-dir` for deduplicated read access to shared Mathlib while strictly denying file-modification tools on linked paths.

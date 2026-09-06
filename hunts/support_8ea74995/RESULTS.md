@@ -1,4 +1,4 @@
-# RESULTS — Erdős #126, formulation and equivalence audit (support 8ea74995)
+# RESULTS: Erdős #126, formulation and equivalence audit (support 8ea74995)
 
 **Hunt, not a result. Nothing here is evidence for or against RH (`docs/08`).**
 
@@ -6,7 +6,7 @@
 are proved here in full. Its arm-3 finding is correct and *understated*: the
 refutation direction does not need supermultiplicativity or Fekete, and it
 generalises to every amplification law with bounded prime cost. One of its
-loose threads is **false**, and false in a way that mattered — if true it would
+loose threads is **false**, and false in a way that mattered, if true it would
 have settled #126 in three lines, which is the tell. The load-bearing new
 statement is a quantifier observation: **#126 is a $\forall S$ statement, every
 enumeration produces $\exists S$ statements, so the entire computational arm of
@@ -71,7 +71,7 @@ asserted it without proof; it is correct.
 
 **Theorem 2.1.** The following are equivalent.
 
-1. $f(n)/\log n \to \infty$ — Erdős #126 as stated.
+1. $f(n)/\log n \to \infty$: Erdős #126 as stated.
 2. $\log g(k) = o(k)$.
 3. $g(k)^{1/k} \to 1$.
 4. $f(2^m)/m \to \infty$.
@@ -101,7 +101,7 @@ $f(n)/\log n \ge f(2^m)/\big((m+1)\log 2\big) \to \infty$. $\square$
 
 **Form (6) is the one worth carrying.** Read through 1.4, Erdős–Turán says
 *"one new prime buys at most a factor of two"*, and #126 says *"on average, one
-new prime buys a factor tending to one"* — equivalently, in $f$-language, that
+new prime buys a factor tending to one"*, equivalently, in $f$-language, that
 the marginal number of primes needed to double $|A|$ tends to infinity in
 Cesàro mean. That framing makes the direction results in §5 obvious rather than
 surprising.
@@ -139,9 +139,9 @@ uncertainty actually lives):
 |---|---|---|
 | $\gcd A = 1$ | yes | **yes** (3.3a) |
 | $2 \in S$ | yes | **yes** (3.2) |
-| $1 \in A$ (translate) | yes | **no** — translation does not preserve smooth sums |
-| $\max A \le N$ | yes | **no** — 3.3b gives arbitrarily large equivalent optima |
-| $S = $ the first $k$ primes | yes | **no — open** |
+| $1 \in A$ (translate) | yes | **no**, translation does not preserve smooth sums |
+| $\max A \le N$ | yes | **no**, 3.3b gives arbitrarily large equivalent optima |
+| $S = $ the first $k$ primes | yes | **no, open** |
 
 **The first-$k$-primes question is open [measured, not proved].** No argument
 here shows $g(k) = g_{\{p_1,\dots,p_k\}}$. We swept it: see §6. Every table row
@@ -173,12 +173,12 @@ let $p \notin S$ be an odd prime. Then
 It bounds the number of *classes*, not the number of *elements*: two elements
 in the same nonzero class $r$ have sum $\equiv 2r \not\equiv 0$, which is
 allowed. $p = 2$ is the unique exception, because $2r \equiv 0$ holds for every
-$r$ mod $2$ — that, and not anything about small primes generally, is why
+$r$ mod $2$, that, and not anything about small primes generally, is why
 parity is special.
 
 **Why this matters more than a typo.** Had the thread been true, applying it
 with $S$ the first $k$ primes and $p = p_{k+1}$ would give
-$g(k) \le p_{k+1} - 1 = O(k \log k)$ — a three-line solution of a 92-year-old
+$g(k) \le p_{k+1} - 1 = O(k \log k)$, a three-line solution of a 92-year-old
 problem. The measured table in `r_186989` §3 is *consistent* with the bound at
 every $k \le 7$ (it gives $2,4,6,10,12,16,18$ against measured
 $2,4,5,6,8,10,11$). A claim strong enough to settle the problem, agreeing with
@@ -189,7 +189,7 @@ simultaneously for *every* prime outside $S$, so $A$ is a sieved set omitting
 $\ge (p-1)/2$ classes mod $p$ for all $p \notin S$. A large-sieve application
 should then give $|A| \ll_\varepsilon (\max A)^{1/2+\varepsilon}$. That is a
 bound in terms of $\max A$, not in terms of $k$, and by 3.3b $\max A$ is
-unbounded on the orbit — so it is not a route to $g(k)$ unless someone first
+unbounded on the orbit, so it is not a route to $g(k)$ unless someone first
 proves the *primitive* optimum is bounded by a function of $k$. We did not
 carry out the sieve computation; it is stated as a lead, not a result.
 
@@ -206,7 +206,7 @@ $\log g(k) \gg k$ and **#126 is false**.
 $g$ to fill in between. $\square$
 
 **Corollary 5.2 [proved].** Supermultiplicativity $g(k_1+k_2) \ge g(k_1)g(k_2)$
-refutes #126. *Proof.* Take $k_2 = 1$, $\lambda = g(1) = 2$, $C = 1$ in 5.1 —
+refutes #126. *Proof.* Take $k_2 = 1$, $\lambda = g(1) = 2$, $C = 1$ in 5.1,
 or directly by induction, $g(k) \ge g(1)^k = 2^k$. **Fekete's lemma is not
 needed**; `r_186989` §4 invokes it, correctly but unnecessarily, and the direct
 induction gives the same $2^k$ with no subadditivity theory.
@@ -221,7 +221,7 @@ $2a = 2^x + 2^y - 2^z \le 2^x + 2^y - 2^{y+1} = 2^x - 2^y < 0$. And $g_{\{p\}}
 is what a proof arm needs to know: *any* lemma that buys a constant factor in
 $|A|$ at a bounded cost in primes refutes the conjecture. Composition gadgets,
 tensor/product constructions, "glue two witnesses with $c$ extra primes",
-doubling tricks — all of them, however weak, land on the refutation side the
+doubling tricks, all of them, however weak, land on the refutation side the
 moment their prime cost is $O(1)$ per constant factor. Conversely a
 construction whose prime cost per doubling grows, e.g. $g(k + C(k)) \ge 2g(k)$
 with $C(k) \to \infty$, is fully consistent with #126 and settles nothing.
@@ -229,8 +229,8 @@ with $C(k) \to \infty$, is fully consistent with #126 and settles nothing.
 **Theorem 5.4 (quantifier shape) [proved].** #126 is equivalent to:
 $$\forall \varepsilon>0 \;\exists k_0 \;\forall k \ge k_0 \;\forall S,\,|S|=k
 \;\forall A,\, P(A) \subseteq S: \quad |A| \le e^{\varepsilon k}.$$
-The quantifier over $S$ and over $A$ is universal. Every bounded computation —
-clique search in a box, sweep over a finite family of $S$, table of witnesses —
+The quantifier over $S$ and over $A$ is universal. Every bounded computation,
+clique search in a box, sweep over a finite family of $S$, table of witnesses,
 establishes a statement of the form $\exists S \,\exists A$. **Therefore no
 enumeration can contribute to a proof of #126; it can only refute it.**
 
@@ -306,7 +306,7 @@ offered as evidence about the limit.
    $f(2) = 1$ vs $f_0(2) = 0$ split that its §2 lemma predicts. Its §2 proof
    ($f(n-1) \le f_0(n) \le f(n)$) was checked line by line and is correct.
 3. **The residue counterexamples** of §4, for $p = 3,5,7$.
-4. **The $S$-sweep** — the frozen constant `r_186989`'s doors table named as
+4. **The $S$-sweep**: the frozen constant `r_186989`'s doors table named as
    the one with genuine trade shape, and the subject of its loose thread 4.
    Exact maximum clique in $[1,N]$ for **every** $k$-subset of the first eight
    primes:
@@ -386,11 +386,11 @@ that could produce a proof.
   1 or small on real witnesses, the general bound is worth chasing.
 - **The large sieve against the residue lemma.** *Why:* it is the only
   consequence of §4 that has not been extracted. *First step:* decide whether
-  the primitive optimum for $g_S$ can be bounded by a function of $k$ — without
+  the primitive optimum for $g_S$ can be bounded by a function of $k$, without
   that, 3.3b makes the sieve vacuous.
 - **Is $g_S$ maximised at the first $k$ primes?** *Why:* every published table
   in this tree silently assumes it, and §7 confirms it only for $k \le 4$ over
   the first eight primes in a small box. *First step:* ask whether any
-  monotonicity in $p$ can be proved at all — the smooth-number density argument
+  monotonicity in $p$ can be proved at all, the smooth-number density argument
   is suggestive and the arithmetic is not monotone, so a proof is not obviously
   available and a counterexample at larger $k$ is not obviously unavailable.

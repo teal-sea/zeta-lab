@@ -13,17 +13,17 @@ The function used is the Davenport-Heilbronn function:
 where `χ_1` and `χ_2` are Dirichlet characters modulo 5, and `κ` is a specific real constant.
 
 **Status (Rung 3).** Phase A formalizes the *statement*
-(`davenport_heilbronn_statement`, a named `Prop`) — deliberately a `def`, not
+(`davenport_heilbronn_statement`, a named `Prop`), deliberately a `def`, not
 a sorried `theorem`: the lab's rule is that the Lean arm counts nothing with
-a `sorry`, and a statement asserts nothing, so it needs none.  Phase B — the
-open mountain — is the proof.  Its *analytic half* (a concrete entire
+a `sorry`, and a statement asserts nothing, so it needs none.  Phase B, the
+open mountain, is the proof.  Its *analytic half* (a concrete entire
 function with the DH series and the functional equation) is
 kernel-checked in `ZetaLean/DHAnalytic.lean`, and the topological step is
 closed by the minimum-modulus criterion of `ZetaLean/DHZeroCriterion.lean`,
 which derives the full statement from two interval inequalities about `DH`
-on a disk around the oracle zero.  The *numeric half* — discharging those
+on a disk around the oracle zero.  The *numeric half*, discharging those
 two inequalities by certified interval evaluation (the Oracle Boundary
-Pattern; see `ZetaLean/DirichletEval.lean`) — remains open.
+Pattern; see `ZetaLean/DirichletEval.lean`), remains open.
 
 **Two defects found and fixed in the original Phase A statement.**  The first
 draft of `davenport_heilbronn_statement` quantified the functional equation
@@ -34,7 +34,7 @@ were wrong, in opposite directions:
    `Complex.Gamma` takes the junk value `0` at its poles
    (`Complex.Gamma_zero`), so at `z = -1` the left side of
    `dh_completed f z = dh_completed f (1 - z)` is `0` while the right side is
-   a nonzero multiple of `f 2` — and condition 1 pins `f 2` to a positive
+   a nonzero multiple of `f 2`, and condition 1 pins `f 2` to a positive
    sum.  The old statement was therefore *false for every admissible `f`*,
    hence unprovable.  The functional equation is now guarded by
    `Complex.Gamma _ ≠ 0` hypotheses, its maximal honest domain.
@@ -87,7 +87,7 @@ def dh_functional_eq (f : ℂ → ℂ) : Prop :=
 
     Rung 3 Phase B is the (currently open) proof:
     `theorem davenport_heilbronn : davenport_heilbronn_statement`.
-    Its analytic half — everything except the off-line zero — is
+    Its analytic half, everything except the off-line zero, is
     kernel-checked as `dh_analytic_half` in `ZetaLean/DHAnalytic.lean`. -/
 def davenport_heilbronn_statement : Prop :=
   ∃ (f : ℂ → ℂ) (s : ℂ),

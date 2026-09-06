@@ -21,15 +21,15 @@ New module `hunts/frontier_math/zeta23ext/Zeta23Ext/Bridge/Helpers_pinching.lean
 prebuilt store), consumed by the rewritten
 `hunts/frontier_math/zeta23ext/Zeta23Ext/Bridge/S14.lean`:
 
-- `Psi_convexOn` — Ainta's profile is convex on all of `ℝ`, by affine minorants
+- `Psi_convexOn`: Ainta's profile is convex on all of `ℝ`, by affine minorants
   (the device of upstream's `affine_le_gc`).
-- `eigenvalues_submatrix_eq_mix` — the mechanism: for Hermitian `M` and injective
+- `eigenvalues_submatrix_eq_mix`, the mechanism: for Hermitian `M` and injective
   `g : κ → ι`, the eigenvalues of `M.submatrix g g` are a row-stochastic mixture
   `μ_j = Σ_i S_{ji} λ_i(M)` with column sums `compressWeight hM g i ∈ [0, 1]`.
-- `sum_eigenvalues_pinching_le` — partition pinching for **every convex `f : ℝ → ℝ`**,
+- `sum_eigenvalues_pinching_le`, partition pinching for **every convex `f : ℝ → ℝ`**,
   no sign condition (block weights sum to exactly 1 per eigen-direction).
-- `sum_eigenvalues_submatrix_le_of_nonneg` — one-block pinching for convex `f ≥ 0`.
-- `rtrace_specMap_pinching_le`, `rtrace_specMap_submatrix_le` — the same two in
+- `sum_eigenvalues_submatrix_le_of_nonneg`: one-block pinching for convex `f ≥ 0`.
+- `rtrace_specMap_pinching_le`, `rtrace_specMap_submatrix_le`: the same two in
   `[L23]`'s `specMap` trace vocabulary; S14's two lemmas are these at `f = Psi`.
 
 Verification: `lake build Zeta23Ext.Bridge.S14` and `lake build Zeta23Ext.Bridge.Main`

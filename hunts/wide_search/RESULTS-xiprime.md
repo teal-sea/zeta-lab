@@ -1,7 +1,7 @@
 # The sharp window constant for zeros of xi'
 
 **Status: measured, and independently reproduced three ways. Not a new analytic
-theorem — an optimisation, run to its exact answer, of a functional somebody
+theorem, an optimisation, run to its exact answer, of a functional somebody
 else derived. Nothing here is evidence for or against RH.**
 
 The full-space variational step, including coercivity, inverse existence,
@@ -98,7 +98,7 @@ for a neighbouring one. What that paper says:
 
 - §3 is titled *"zeros of ξ′(s) on the critical line (1/2-line)"*.
 - `N_{xi',c}(T)` is defined in §1 as "the number of zeros of `xi'(1/2 + it)`
-  with `0 < t < T`" — on the line, with **no** simplicity condition and **no**
+  with `0 < t < T`", on the line, with **no** simplicity condition and **no**
   distinctness condition.
 - §3 ends at `N_{xi',c}(T) >= 0.86957 N(T)`, from `theta = 4/7 - eps`,
   `R = 1.104`, `delta = 0.869` and a named `(P, Q)` pair.
@@ -106,7 +106,7 @@ for a neighbouring one. What that paper says:
   argument, verbatim: "one may find that this way is useless when consider
   simple zeros of `xi^(n)(s)`, `n >= 1` on the critical line."
 
-So the classification in the table — `xi'`, on the line, no simplicity — is the
+So the classification in the table, `xi'`, on the line, no simplicity, is the
 paper's own, and the comparison in §"The answer" is between two constants
 counting the same zeros of the same function.
 
@@ -117,7 +117,7 @@ input to it (§4: `N_d(T) >= (1/2 + 0.434785 - 0.27442) N(T) > 0.66036 N(T)`).
 A reader meeting 0.86957 by way of the title will take it for a distinctness
 proportion, and the two sit on opposite sides of that derivation. Second, if it
 *were* the distinctness constant the comparator would be `Hd* = 0.9343207`, not
-`H* = 0.8686415`, and the negative result of §"The answer" would invert — so
+`H* = 0.8686415`, and the negative result of §"The answer" would invert, so
 this is not a bookkeeping detail, and it is why the row is now sourced.
 
 Wu's §3 also reports the prior unconditional `xi'` on-line constants as

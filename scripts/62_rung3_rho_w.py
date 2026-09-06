@@ -50,7 +50,7 @@ Measured on the same 15 boxes, paired:
 The gain is larger than the ~2x `docs/25` §4.3 estimated for a polar or
 mean-value enclosure, and it lands *below* the planner's own assumed 2.60 by 7x:
 with rotation wrapping gone, plan v2's width budget is conservative rather than
-optimistic.  Enclosure is not being dropped to get there — the assembled ball is
+optimistic.  Enclosure is not being dropped to get there, the assembled ball is
 checked against `zeta.epstein.dh_f`, the Hurwitz route, in
 `tests/test_rung3_ball_assembly.py`, alongside the rectangle case as a control.
 
@@ -226,7 +226,7 @@ def main() -> None:
     if calibrate_sigma():
         weighted = abs(sigma_model(17, sig, True) - 7.9) < 0.15
     else:
-        print("    NO MATCH — Sigma convention not recovered; rho_W reported as "
+        print("    NO MATCH: Sigma convention not recovered; rho_W reported as "
               "ratio-to-plan only.")
     print()
 

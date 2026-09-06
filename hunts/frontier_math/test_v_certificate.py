@@ -120,7 +120,7 @@ def test_per_pair_clipping_is_the_recorded_near_miss():
 def test_extended_greedy_stays_inside_the_seam_budget():
     """The seam kill control: even the extended adversary (wider range,
     denser packing) extracts far less than the budget where both bounds
-    fail — the hole is bound looseness, not adversary strength."""
+    fail, the hole is bound looseness, not adversary strength."""
     vc = VCertificate()
     pairs = [(k / 1.3, 0.49) for k in range(13)]
     pe = vc.pe

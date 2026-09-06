@@ -39,7 +39,7 @@ which is a real formalisation advantage.
 
 ---
 
-## 1. Route A — one-shot Stieltjes domination
+## 1. Route A: one-shot Stieltjes domination
 
 `C₀ = log 16 = 4 log 2`, `L = log X`, `E_j(V) = (1/(2j-1)!)∫₀^V s^(2j-1)e^s ds`,
 `W_j(V)` the ordered-tuple mass (repetition allowed) with budget `V`,
@@ -48,23 +48,23 @@ which is a real formalisation advantage.
 
 | # | statement | formalisation cost |
 |---|---|---|
-| L1 | `θ(y) ≤ (log 4)y` | **done** — Mathlib `Chebyshev.theta_le_log4_mul_x`, re-expressed as `ChebyshevBounds.theta_le_mul_log_four` |
-| L2 | `N(y) ≤ (log y)θ(y) ≤ (log 4)y log y` | routine — termwise `log p ≤ log y`, `Finset.sum_le_sum`. **Done** as `theta_sq_le` |
-| L3 | `N(e^u) ≤ C₀∫₀^u te^t dt = C₀(e^u(u-1)+1)` for all `u ≥ 0` | routine but tedious — split at `u = 2`; `u ≤ 2(u-1)` for `u ≥ 2`, then four pointwise checks at `p = 2,3,5,7` (worst needed fact: `4 ≤ 7 log 2`) |
-| L4 | Abel comparison: `g ≥ 0` nonincreasing on `[0,V]` ⟹ `Σ_{log p ≤ V}(log p)²g(log p) ≤ C₀∫₀^V te^t g(t)dt` | **medium, the fiddliest link** — discrete Abel (`Mathlib.NumberTheory.AbelSummation`) plus `intervalIntegral` monotonicity against a piecewise-constant comparison |
-| L5 | `W_{j+1}(V) = Σ_{log p ≤ V}(log p)²W_j(V - log p)` | routine finite combinatorics — partition ordered tuples by last coordinate |
-| L6 | `∫₀^V te^t E_j(V-t)dt = E_{j+1}(V)` | routine-to-medium — Fubini on the triangle, then the Beta step `∫₀^σ t(σ-t)^(2j-1)dt = σ^(2j+1)/((2j)(2j+1))` |
-| L7 | `W_j(V) ≤ C₀^j E_j(V)`, all `j ≥ 1`, `V ≥ 0` | routine given L3–L6 — `Nat.le_induction` carrying a `∀V` statement |
-| L8 | `E_j(V) ≤ e^V V^(2j-1)/(2j-1)!`; at `V = L`, `≤ X L^(2j-1)/(2j-1)!` | routine — monotone integrand |
-| L9 | `V_j(X) ≤ W_j(L)/j!` | medium combinatorics — `j`-subsets vs ordered tuples, `j!` orderings, plus `Real.log_prod` |
-| L10 | `A_j(X) ≤ L² V_j(X)` | routine — `L_S ≤ L` on every admissible support. **Done** as `logSum_le_log_of_mem_distinctPrimeSupports` |
+| L1 | `θ(y) ≤ (log 4)y` | **done**, Mathlib `Chebyshev.theta_le_log4_mul_x`, re-expressed as `ChebyshevBounds.theta_le_mul_log_four` |
+| L2 | `N(y) ≤ (log y)θ(y) ≤ (log 4)y log y` | routine, termwise `log p ≤ log y`, `Finset.sum_le_sum`. **Done** as `theta_sq_le` |
+| L3 | `N(e^u) ≤ C₀∫₀^u te^t dt = C₀(e^u(u-1)+1)` for all `u ≥ 0` | routine but tedious, split at `u = 2`; `u ≤ 2(u-1)` for `u ≥ 2`, then four pointwise checks at `p = 2,3,5,7` (worst needed fact: `4 ≤ 7 log 2`) |
+| L4 | Abel comparison: `g ≥ 0` nonincreasing on `[0,V]` ⟹ `Σ_{log p ≤ V}(log p)²g(log p) ≤ C₀∫₀^V te^t g(t)dt` | **medium, the fiddliest link**, discrete Abel (`Mathlib.NumberTheory.AbelSummation`) plus `intervalIntegral` monotonicity against a piecewise-constant comparison |
+| L5 | `W_{j+1}(V) = Σ_{log p ≤ V}(log p)²W_j(V - log p)` | routine finite combinatorics, partition ordered tuples by last coordinate |
+| L6 | `∫₀^V te^t E_j(V-t)dt = E_{j+1}(V)` | routine-to-medium, Fubini on the triangle, then the Beta step `∫₀^σ t(σ-t)^(2j-1)dt = σ^(2j+1)/((2j)(2j+1))` |
+| L7 | `W_j(V) ≤ C₀^j E_j(V)`, all `j ≥ 1`, `V ≥ 0` | routine given L3–L6, `Nat.le_induction` carrying a `∀V` statement |
+| L8 | `E_j(V) ≤ e^V V^(2j-1)/(2j-1)!`; at `V = L`, `≤ X L^(2j-1)/(2j-1)!` | routine, monotone integrand |
+| L9 | `V_j(X) ≤ W_j(L)/j!` | medium combinatorics, `j`-subsets vs ordered tuples, `j!` orderings, plus `Real.log_prod` |
+| L10 | `A_j(X) ≤ L² V_j(X)` | routine, `L_S ≤ L` on every admissible support. **Done** as `logSum_le_log_of_mem_distinctPrimeSupports` |
 | **M** | `A_j(X) ≤ M_j(X)`, all `j ≥ 1`, `X ≥ 2` | the chain L10 → L9 → L7 → L8 |
-| **R** | `(j+1)(2j)(2j+1)M_{j+1} = C₀L²·M_j`, an equality | **done** — `MajorantBypass.powerMajorant_step` |
+| **R** | `(j+1)(2j)(2j+1)M_{j+1} = C₀L²·M_j`, an equality | **done**, `MajorantBypass.powerMajorant_step` |
 
 The transfer at the end is immediate:
 `WeightedSimplex.mass_le_base_mul_pow_div_simplexFactorialDenominator` is
 abstract over any mass sequence, so instantiating it at `M` and composing with
-Theorem M gives the display for the true mass —
+Theorem M gives the display for the true mass,
 `A_r(X) ≤ (log 16)^r X (log X)^(2r+1)/(r!(2r-1)!)`, which is exactly what
 `RAMS2-CLUSTER.md` line ~427 consumes.
 
@@ -86,7 +86,7 @@ at `X = 250` and `X = 5000`, global Chebyshev facts at every prime to `10^6`):
 
 ---
 
-## 2. Route B — marked deletion, one-dimensional Abel, induction on `j`
+## 2. Route B: marked deletion, one-dimensional Abel, induction on `j`
 
 Deliberately different: **route B never forms a `j`-fold integral.** Every
 analytic input is one-dimensional, used once per induction step. That is its
@@ -104,11 +104,11 @@ The claim is proved by induction on `j` with the statement quantified over
 
 | # | step | note |
 |---|---|---|
-| E1 | `(j+1)A_{j+1}(X) = Σ_{(T,q)} P_T u_q²(l_T+u_q)²` | **done** — `distinctPrimeDeletionMass_eq`, kernel-checked |
+| E1 | `(j+1)A_{j+1}(X) = Σ_{(T,q)} P_T u_q²(l_T+u_q)²` | **done**, `distinctPrimeDeletionMass_eq`, kernel-checked |
 | E2 | drop `q ∉ T`; all summands `≥ 0`; every surviving `T` has `m_T ≤ X/2` | routine |
 | E3 | the only prime input: `Σ_{q≤Y}(l+u_q)²u_q² ≤ log4·Y(l+log Y)²log Y` via `h(u) = (l+u)²u` increasing and `Σu_q = θ(Y)`. With `Y = X/m_T`, `l = l_T`: `l_T + log Y = L` **exactly** | routine |
 | E4 | extend the `T`-range to `m_T ≤ X`; added terms have `L - l_T ≥ 0` | routine |
-| E5 | exact partial summation: `(L-l)X/m = l²φ(l)`, `φ(l) = ∫_l^L(-φ')`, so the `T`-sum `= ∫_{s_j}^L(-φ'(s))A_j(e^s)ds` | **the priciest lemma** — finite-sum/integral interchange plus the cumulative-set identification `{l_T ≤ s} = {m_T ≤ e^s}`; needs a real-cutoff wrapper |
+| E5 | exact partial summation: `(L-l)X/m = l²φ(l)`, `φ(l) = ∫_l^L(-φ')`, so the `T`-sum `= ∫_{s_j}^L(-φ'(s))A_j(e^s)ds` | **the priciest lemma**, finite-sum/integral interchange plus the cumulative-set identification `{l_T ≤ s} = {m_T ≤ e^s}`; needs a real-cutoff wrapper |
 | E6 | inductive display pointwise against the nonnegative kernel | routine |
 | E7 | `e^(L-s)e^s = X` exactly, giving `K_j X J_j(L)` | routine |
 | E8 | `J_j ≤ 60(1+L)^(2j+1)/((2j)(2j+1))` via `(1+s)/s ≤ 1+1/(j log2)` and two Beta-type integrals; the three scalar bounds total **59.83 ≤ 60** | laborious but routine; **12× measured headroom** |
@@ -126,7 +126,7 @@ by two independent evaluations. E6 pointwise at **every** jump cutoff: minimum
 
 ---
 
-## 3. Why the literal gate does not close — two independent arguments
+## 3. Why the literal gate does not close: two independent arguments
 
 ### 3.1 Route A's argument: the inequality is irreducibly aggregate
 
@@ -134,8 +134,8 @@ The deletion identity writes
 `(j+1)A_{j+1}(X) = Σ_T P_T·F(T)` with
 `F(T) = Σ_{q ∉ T, q ≤ X/m_T}(L_T + log q)²(log q)²`, while
 `A_j(X) = Σ_T P_T L_T²` over the **same** supports. The ratio `F(T)/L_T²` is
-unbounded on supports with small product — at `T = {2}`,
-`F ~ (X/2)(log X)³` against `L_T² = (log 2)²` — so the inequality is not
+unbounded on supports with small product, at `T = {2}`,
+`F ~ (X/2)(log X)³` against `L_T² = (log 2)²`: so the inequality is not
 termwise. It asserts that the `∏(log p)²`-measure as a function of `s = L_T`
 carries enough mass near `s = L`. Upper-Chebyshev information alone is
 consistent with that measure concentrated at small `s`, where the inequality
@@ -146,15 +146,15 @@ gives lower constant `log 2` against upper `log 4`, so a two-sided route loses
 `(log4/log2)^j = 2^j` across the `j`-fold structure. Since `j` ranges to
 about `log X/log log X`, `2^j` exceeds every fixed power of `(1+log X)`.
 Closing the literal gate uniformly in `j` therefore needs
-`θ(x) = x(1+O(1/log x))`-quality input — PNT with an error term — which the
+`θ(x) = x(1+O(1/log x))`-quality input, PNT with an error term, which the
 pinned Mathlib does not have.
 
 ### 3.2 Route B's argument: subset-local charging is impossible, with a
 ### measured crossing point
 
 Sharper, and independent. In **any** scheme that charges each
-`(j+1)`-support's weight onto its own `j`-subsets — any deletion rule
-whatsoever — the pairs with both primes `≤ √X` must be absorbed by singletons
+`(j+1)`-support's weight onto its own `j`-subsets, any deletion rule
+whatsoever, the pairs with both primes `≤ √X` must be absorbed by singletons
 `{r}`, `r ≤ √X`. That requires
 
 `12·A₂^small(X)/A₁(√X) ≤ B(X)`.
@@ -174,9 +174,9 @@ derivation of the literal gate with `B = O((1+log X)²)` exists at all.**
 
 ### 3.3 What is and is not established here
 
-The literal statement is *numerically* true with margin at every cutoff tested
-— max `LHS/RHS` = 0.194 at `X = 250` and 0.232 at `X = 5000` under route A's
-`B`, i.e. 5.1× and 4.3× margin — and the measured asymptotic
+The literal statement is *numerically* true with margin at every cutoff tested,
+max `LHS/RHS` = 0.194 at `X = 250` and 0.232 at `X = 5000` under route A's
+`B`, i.e. 5.1× and 4.3× margin, and the measured asymptotic
 `B*/(1+log X)² → ~1.1 < 2.77` makes it a plausible conjecture for all `X ≥ 2`.
 It is a conjecture, not a theorem, and on the pinned toolkit it is PNT-hard.
 
@@ -194,7 +194,7 @@ that scope deliberately.
   are where a weaker model should not start (see the token-constraint record in
   `HANDOFF.md`).
 - Keep route B for its obstruction argument and as the fallback if L4/L6 prove
-  worse in Lean than estimated — its analysis is one-dimensional throughout,
+  worse in Lean than estimated, its analysis is one-dimensional throughout,
   at the cost of a 30× worse constant.
 - Do **not** re-derive either chain. Do not re-attempt the literal gate by a
   Chebyshev or deletion route; both are closed above, with mechanisms.

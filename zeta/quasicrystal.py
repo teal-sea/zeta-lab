@@ -1,4 +1,4 @@
-"""The zero measure as a crystalline (atomic) Fourier object — and the one
+"""The zero measure as a crystalline (atomic) Fourier object, and the one
 gate in this family that the Davenport–Heilbronn counterexample fails.
 
 Guinand's summation formula says the zeros and the prime powers are a Fourier
@@ -17,11 +17,11 @@ What this module measures, with a Gaussian-tapered window of width A:
   h(r) = e^{−r²/2A²}cos(ru), ĥ(x) = ½[ŵ(x−u) + ŵ(x+u)], ŵ(x) =
   (A/√(2π))e^{−A²x²/2}.  The derivation is checked, not trusted: measured/
   predicted runs 0.94–0.98 across taper widths spanning 2.5× (the shortfall is
-  the finite zero list — the taper is only down to 0.04 at γ₁₀₀₀).
+  the finite zero list, the taper is only down to 0.04 at γ₁₀₀₀).
 * **The Euler-product signature.**  ζ's Euler product forces Λ to vanish off
   the prime powers, so the transform must be *silent* at log 6, log 10,
   log 12, …  Measured with 1000 zeros: prime-power atoms have median |Z| =
-  60.1, composite locations 2.2, ambient background 0.90 — a 26.8× separation.
+  60.1, composite locations 2.2, ambient background 0.90, a 26.8× separation.
   The zero measure sees the factorization.
 * **The battery verdict, and it is the interesting one** (`docs/09` gate #3).
   Every other structural probe in this repository passes Davenport–Heilbronn
@@ -29,17 +29,17 @@ What this module measures, with a Gaussian-tapered window of width A:
   L-functions, not an Euler product, so its log-derivative −f′/f has
   coefficients spread over all integers: b₆ = +1.936, b₁₄ = −2.852,
   b₂₁ = +3.290 sit where ζ is exactly silent.  DH's zero measure is still
-  crystalline — it just crystallises on a *different, non-multiplicative*
+  crystalline, it just crystallises on a *different, non-multiplicative*
   atom set.
 
   The honest reading: this gate detects the **Euler product**, not RH.  DH
   was already known to lack one.  What the measurement adds is that the
   atomic structure of the zero measure is a strictly sharper invariant than
-  the functional equation — it separates ζ from the standard counterexample,
+  the functional equation, it separates ζ from the standard counterexample,
   where positivity-flavoured probes do not.  That is a computational instance
   of the strengthened gate in `docs/09` §5.1: *factorization*, not
   positivity, is what carries the arithmetic.  It is not evidence for RH;
-  possessing an Euler product is not known to imply RH — that implication is
+  possessing an Euler product is not known to imply RH, that implication is
   substantially the content of the Grand Riemann Hypothesis itself.
 
 Everything here is *accurate*, not *certified* (float transform over an
@@ -73,7 +73,7 @@ def zero_measure_transform(ordinates: Sequence[float], A: float):
     The Gaussian taper is what makes the transform a function rather than a
     distribution; A controls the trade-off between atom sharpness (∼1/A) and
     truncation error from the finite zero list.  Callers should keep A well
-    below the largest ordinate — see ``atom_table``'s measured ratios for how
+    below the largest ordinate, see ``atom_table``'s measured ratios for how
     much the residual taper costs.
     """
     g = np.asarray(ordinates, dtype=float)
@@ -130,7 +130,7 @@ def atom_table(
 
 
 def _background(Z, rng_seed: int = 2, n_samples: int = 800) -> np.ndarray:
-    """|Z| sampled away from every log n, n ≤ 80 — the non-atomic floor."""
+    """|Z| sampled away from every log n, n ≤ 80, the non-atomic floor."""
     rng = np.random.default_rng(rng_seed)
     u = rng.uniform(0.6, 3.6, n_samples)
     keep = np.array(
@@ -176,7 +176,7 @@ def dh_log_derivative_coefficients(n_max: int = 32, dps: int = 30) -> list[float
     Derived by Dirichlet convolution from f's own coefficients: matching
     n^{−s} in Σ a_n log(n) n^{−s} = (Σ b_m m^{−s})(Σ a_k k^{−s}) gives
     a_n log n = Σ_{m|n} b_m a_{n/m}, solved upward from a₁ = 1.  Correctness
-    is not assumed — :func:`dh_dirichlet_defect` evaluates both sides.
+    is not assumed :func:`dh_dirichlet_defect` evaluates both sides.
 
     Returns a list indexed 0..n_max (index 0 unused, set to 0.0).
     """
@@ -210,7 +210,7 @@ def dh_dirichlet_defect(
     be comfortably > 1 for both to converge absolutely.
 
     Trap, found the hard way and left documented rather than worked around:
-    the obvious reference — ``mp.diff(lambda z: mp.log(dh_f(z)), s)`` —
+    the obvious reference, ``mp.diff(lambda z: mp.log(dh_f(z)), s)``,
     returns **exactly 0.0**.  ``dh_f`` rounds its result to a fixed working
     precision internally, so across ``mp.diff``'s tiny step the function is
     bit-for-bit constant and the derivative silently vanishes.  Using it as
@@ -245,7 +245,7 @@ def crystallinity_battery(
     Returns the ζ Euler signature, the DH log-derivative coefficients at the
     composite locations where ζ is silent, and the verdict fields.  Unlike
     every other probe in this repository's battery, this one *does* separate
-    them — see the module docstring for exactly how much that is worth.
+    them, see the module docstring for exactly how much that is worth.
     """
     from .explicit import first_zeros, mangoldt
 

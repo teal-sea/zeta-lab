@@ -1,4 +1,4 @@
-# R-2969B0 — the 2013 construction beats the AlphaEvolve value, under the repository's own definition
+# R-2969B0: the 2013 construction beats the AlphaEvolve value, under the repository's own definition
 
 **Verdict: option 1 of the three the brief names.** Penman and Wells (2013)
 reach a strictly higher value of exactly the quantity DeepMind's Problem 42
@@ -72,7 +72,7 @@ carries **three** different score functions for this problem, and two of them
 are not the quantity the problem page defines.
 
 - Cell 2 (the prompt AlphaEvolve was given) returns
-  `log(|A-A|/|A|) / log(|A+A|/|A|)` — the **reciprocal**, 0.8913 on `best_list`.
+  `log(|A-A|/|A|) / log(|A+A|/|A|)`: the **reciprocal**, 0.8913 on `best_list`.
   Maximising it would minimise `g`.
 - Cell 5 ("Verification function used") returns the right ratio **plus a size
   bonus** `(1 - 1/|A|)/100`, i.e. 1.1319 on `best_list`, inflated by 0.00998.
@@ -137,7 +137,7 @@ finding is about the *lower* bound only.
 
 **Settled.** The `world_record` marking on Problem 42 in `status.json` does not
 hold as a record for the lower bound on `C`: a 2013 paper, published, human, and
-cited as best known by Staps (INTEGERS 15 (2015) A42, per the issue — a claim
+cited as best known by Staps (INTEGERS 15 (2015) A42, per the issue, a claim
 this hunt did **not** independently verify), gives a strictly better value under
 DeepMind's own definition, and gives it as a theorem about an explicit infinite
 family rather than as one searched set. The challenger issue's prior-art half is
@@ -147,7 +147,7 @@ correct, and its attribution to Theorem 21 is exact.
 large one. It is untouched, per the brief. Nothing in this hunt supports or
 weakens it; anything read off this page about it would be INFERRED at best.
 
-**Not checked.** That Staps (2015) records the value as best known — taken from
+**Not checked.** That Staps (2015) records the value as best known, taken from
 the issue, not read. That no construction published between 2013 and now beats
 `ln(32/5)/ln(26/5)`; this hunt establishes a floor for the 2013 result, not the
 current state of the art. And whether the AlphaEvolve authors were aware of the

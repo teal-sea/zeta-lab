@@ -1,4 +1,4 @@
-"""ontology.funnel — the pipeline, and the accounting that justifies it.
+"""ontology.funnel, the pipeline, and the accounting that justifies it.
 
 Domain-agnostic, in the same strict sense as :mod:`ontology.schema` and
 :mod:`ontology.registry`: it runs plug-ins fetched from the registry, counts
@@ -33,7 +33,7 @@ neither is a statement about the world.
 
 The one exception is stated rather than hidden, because it is real: a plug-in
 that **raises** ends the run, and the candidates queued behind the failure never
-reach a disposition. They are not dropped silently — the crash record carries
+reach a disposition. They are not dropped silently, the crash record carries
 ``entered`` and ``undecided``, and :func:`ontology.metrics.funnel_report`
 keeps ``undecided`` in the emitted denominator and reports its own non-terminal
 rate, so a crash cannot flatter the remaining conversions. Re-running decides
@@ -54,13 +54,13 @@ Resumability
 A candidate is checkpointed to the ledger with an ``open`` verdict the moment it
 is admitted, and its terminal record is appended when it is decided. If the
 process dies in between, the next run finds an ``open`` record for that id and
-*resumes* it — screens it and decides it — instead of treating it as a
+*resumes* it, screens it and decides it, instead of treating it as a
 duplicate. A candidate already decided is a duplicate and is not written again.
 So re-running an interrupted funnel neither duplicates ledger entries nor
 strands observations in ``open`` forever.
 
-When a plug-in raises, the exception is re-raised — a broken screen is a defect,
-not a verdict — but not before the run record is written with
+When a plug-in raises, the exception is re-raised, a broken screen is a defect,
+not a verdict, but not before the run record is written with
 ``state="crashed"`` and **every outcome decided up to that point**. Losing that
 work from the log would take the work out of every conversion rate too, which is
 the one thing this module exists to prevent: a run that died after screening
@@ -136,7 +136,7 @@ STAGES: Final[tuple[str, ...]] = (
     "terminal",
 )
 
-#: Dispositions that are schema verdict statuses — a statement about the world.
+#: Dispositions that are schema verdict statuses, a statement about the world.
 VERDICT_DISPOSITIONS: Final[tuple[str, ...]] = (
     "known",
     "trivial",
@@ -179,8 +179,8 @@ def default_proof_gap(screens: Sequence[str], effort: float) -> str:
 
     It says the only true thing available: a finite computation happened and
     no proof is attached. The schema requires this field to be non-empty
-    precisely so that a survivor cannot be recorded without someone — here, the
-    machine — stating what is missing.
+    precisely so that a survivor cannot be recorded without someone, here, the
+    machine, stating what is missing.
     """
     names = ", ".join(screens) if screens else "no screen"
     return (
@@ -250,7 +250,7 @@ class Outcome:
 
 @dataclass(frozen=True, slots=True)
 class GeneratorReport:
-    """One generator invocation — **including the ones that yielded nothing**."""
+    """One generator invocation, **including the ones that yielded nothing**."""
 
     generator: str
     version: str
@@ -300,7 +300,7 @@ class StageTally:
 
     @property
     def pass_rate(self) -> float | None:
-        """``None`` when nothing entered — a rate with an empty denominator is
+        """``None`` when nothing entered, a rate with an empty denominator is
         not zero, it is undefined, and reporting it as zero is a lie."""
         return None if self.entered == 0 else self.passed / self.entered
 
@@ -473,7 +473,7 @@ class FunnelRun:
         """A one-screen summary of this run."""
         lines = [
             f"run {self.run_id}  domain={self.domain} v{self.domain_version}"
-            f"{'  [DRY RUN — nothing written]' if self.dry_run else ''}",
+            f"{'  [DRY RUN, nothing written]' if self.dry_run else ''}",
             f"  started {self.started_at}   {self.seconds:.3f} s"
             f"   stages: {'>'.join(self.stages)}",
         ]
@@ -610,7 +610,7 @@ def run_funnel(
         A :class:`~ontology.ledger.Ledger`, a path, or ``None`` for the default
         (private, gitignored) location.
     dry_run:
-        Generate and screen exactly as normal, write nothing at all — neither
+        Generate and screen exactly as normal, write nothing at all, neither
         candidates nor the run record. The returned :class:`FunnelRun` is
         complete, so a dry run is how you find out what a run *would* cost.
     context:
@@ -636,8 +636,8 @@ def run_funnel(
     wall time attributed to generation is generation's alone. A generator that
     would produce more than fits in memory must be bounded with ``limit``.
 
-    If a plug-in raises, the exception propagates — a screen that throws is a
-    defect, not a verdict — but the run record is written first, with
+    If a plug-in raises, the exception propagates, a screen that throws is a
+    defect, not a verdict, but the run record is written first, with
     ``state="crashed"`` and every outcome decided up to that point, so the work
     that was done stays in the denominators.
     """
@@ -717,7 +717,7 @@ def run_funnel(
         attempted: int | None = None,
         undecided: int = 0,
     ) -> FunnelRun:
-        """The run record as it stands — usable mid-crash as well as at the end.
+        """The run record as it stands, usable mid-crash as well as at the end.
 
         ``entered`` is what the stage flow is reconstructed from: the whole
         batch for a completed run, and only what actually left for a crashed
@@ -1092,8 +1092,8 @@ def run_funnel(
     try:
         return _pipeline()
     except BaseException as exc:  # re-raised below; a plug-in defect is loud
-        # The exception must propagate — a screen that throws is a defect, not a
-        # verdict — but the work already done is a *measurement*, and dropping
+        # The exception must propagate, a screen that throws is a defect, not a
+        # verdict, but the work already done is a *measurement*, and dropping
         # it would drop it out of every conversion rate too. The record is
         # written with the outcomes decided so far and ``state="crashed"``,
         # which the metrics layer counts as an incomplete run.

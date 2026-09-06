@@ -1,10 +1,10 @@
-"""proof_adapter — external provers plug in as generators; the kernel decides.
+"""proof_adapter, external provers plug in as generators; the kernel decides.
 
 The contract (ROADMAP.md, "The AI-implementation half", adopted build 4):
 
     generated Lean -> this repo's `lake build` -> zero `sorry` -> artifact
 
-An external proof service's own "verified" claim is *input, not evidence* —
+An external proof service's own "verified" claim is *input, not evidence*,
 the Grasshopper case study (arXiv 2605.20120) found artifacts that compile
 while a `sorry` closes the main theorem, which is this repository's oldest
 Lean rule rediscovered outside it. So acceptance here has exactly two legs,
@@ -12,7 +12,7 @@ and both are local:
 
 1. a **static refusal scan** of the source: any `sorry`, `admit`, `axiom`
    declaration or `native_decide` is a named reason to refuse. The scan is
-   deliberately conservative — a match inside a comment or string still
+   deliberately conservative, a match inside a comment or string still
    refuses, because the safe failure mode for a proof gate is over-refusal,
    never under;
 2. a **kernel check**: `lake build` of the dropped-in module against the
@@ -21,12 +21,12 @@ and both are local:
 ``accepted`` is True only when both legs pass. Anything else returns
 ``accepted: False`` with every reason named, in the same
 safe-failure style as ``zeta.rigor`` (``build_ok: None`` means the build was
-not run or could not run — "not decided", never "fine").
+not run or could not run, "not decided", never "fine").
 
 Submission to a generator (Harmonic's Aristotle is the first backend) is the
 optional half: :func:`submit_to_aristotle` needs ``aristotlelib`` (installed
 in ``.venv-tools``, not the pinned lab venv) and ``ARISTOTLE_API_KEY``. The
-adapter works without either — you can hand-check any .lean artifact:
+adapter works without either, you can hand-check any .lean artifact:
 
     .venv/bin/python lean/proof_adapter.py check path/to/artifact.lean
 
@@ -74,7 +74,7 @@ def scan_source(source: str) -> tuple[str, ...]:
 def _default_runner(module_name: str, timeout: float) -> tuple[bool | None, str]:
     """Run ``lake build`` for one module. Returns (build_ok, detail).
 
-    ``None`` means the build could not run at all (no toolchain, timeout) —
+    ``None`` means the build could not run at all (no toolchain, timeout),
     "not decided", which the caller must not upgrade to a pass.
     """
 
@@ -163,9 +163,9 @@ def submit_to_aristotle(statement: str) -> str:
 
     Creates a Project (``aristotlelib.project.Project.create``, verified
     against aristotlelib 2.1.0's real async surface) and returns its
-    ``project_id`` immediately — Aristotle runs for hours, so the submit
+    ``project_id`` immediately: Aristotle runs for hours, so the submit
     and the collect are separate steps. Collect later with
-    :func:`collect_from_aristotle`. The eventual Lean is INPUT — feed it to
+    :func:`collect_from_aristotle`. The eventual Lean is INPUT, feed it to
     :func:`check_lean_artifact`; nothing about the service's own
     verification status is read, recorded, or trusted. Local lemmas, never
     "the theorem", are the right grain (the Grasshopper case study's
@@ -187,7 +187,7 @@ def collect_from_aristotle(project_id: str, destination: str | os.PathLike | Non
 
     Returns ``{"status": ..., "files": path-or-None}``. The files are raw
     generated input for :func:`check_lean_artifact`; a status other than
-    finished returns ``files: None`` and the caller waits — polling every
+    finished returns ``files: None`` and the caller waits, polling every
     few hours is the right cadence, not every few seconds.
     """
 
@@ -219,7 +219,7 @@ def _aristotle_project_class():
     except ImportError as exc:  # pragma: no cover - environment-dependent
         raise RuntimeError(
             "aristotlelib is not importable from this interpreter; it is "
-            "installed in .venv-tools — run this command with "
+            "installed in .venv-tools, run this command with "
             ".venv-tools/bin/python, or install it where you stand"
         ) from exc
     return Project

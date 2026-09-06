@@ -17,7 +17,7 @@ and whether it is usable.
 
 `F_k` for general `k` **exists**: Ji Bian, *The Pair Correlation of Zeros of
 xi^(kappa)(s)*, PhD thesis, University of Rochester, 2008, supervised by
-Gonek — the companion to Farmer-Gonek-Lee. His Theorem 1 gives `F_kappa(alpha)`
+Gonek, the companion to Farmer-Gonek-Lee. His Theorem 1 gives `F_kappa(alpha)`
 under RH for `0 < |alpha| < 1`.
 
 It was never published, is not on arXiv, is not in the arXiv full-text index,
@@ -48,8 +48,8 @@ His Figure 10.1 tabulates exact rationals `C_{kappa,i}` in
 | 3 | 1, -4, 4, -16, 332/5, -448/3, 81296/315, 75512/315, 17104/2835, -219808/2025, 1350848/10395 |
 | 4 | 1, -4, 4, -16, 332/5, -224, 189584/315, -382024/315, 1414256/945, 28355392/14175, -4107904/17325 |
 
-The `kappa = 1` row is reproduced **exactly** — all eleven coefficients, exact
-rational equality — by the closed form used in `RESULTS-xiprime.md`. That is an
+The `kappa = 1` row is reproduced **exactly**, all eleven coefficients, exact
+rational equality, by the closed form used in `RESULTS-xiprime.md`. That is an
 independent check on the whole `xi'` computation from a source written sixteen
 years earlier, and it fixes the normalisation, so the rest of the table can be
 read with confidence.
@@ -61,7 +61,7 @@ optimiser at `lambda = 1`:
 
 | kappa | `F_kappa(1)` from 11 terms | `H*` from the truncation | plausible? |
 |---|---|---|---|
-| 1 | 2.78 | 0.8686569 | yes — `1.5e-5` above the exact 0.8686415 |
+| 1 | 2.78 | 0.8686569 | yes, `1.5e-5` above the exact 0.8686415 |
 | 2 | 31.9 | 0.5962859 | no |
 | 3 | 427.3 | **1.1978387** | impossible: it is a proportion |
 | 4 | 2476.3 | **-2.6389193** | impossible |

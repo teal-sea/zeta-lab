@@ -9,8 +9,8 @@ the real part directly, as
     Re((a + b i)/(c + d i)) = (a c + b d) / (c² + d²)
 
 and the imaginary part as `(b c − a d) / (c² + d²)`. That is why it is narrower
-than `CIv.div`'s real part — measured on three boxes, by about 1% on the widest
-— and it is why the soundness seam cannot be borrowed from `phiC_mem`.
+than `CIv.div`'s real part, measured on three boxes, by about 1% on the widest,
+and it is why the soundness seam cannot be borrowed from `phiC_mem`.
 
 This file isolates the mathematical content of that choice: two identities
 about real and imaginary parts of a complex quotient, stated over plain reals
@@ -60,8 +60,8 @@ theorem im_div_eq (a b c d : ℝ) (h : 0 < c ^ 2 + d ^ 2) :
 /-- **The removable branch, divided out.**
 
 `rIv` carries `Im(num/den)/y` and negates it, because `Phi2 (s + i y)` has
-imaginary part `−Qim`. Writing the division by `y` inside each factor — as
-`imNumOverY` and `imDenOverY` do — is what keeps `y = 0` an ordinary point:
+imaginary part `−Qim`. Writing the division by `y` inside each factor, as
+`imNumOverY` and `imDenOverY` do, is what keeps `y = 0` an ordinary point:
 the quotient below never divides by `y` at all.
 -/
 theorem im_div_over_y (a bOverY c dOverY y : ℝ) (hy : y ≠ 0)

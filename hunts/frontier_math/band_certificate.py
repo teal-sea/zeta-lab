@@ -19,15 +19,15 @@ instrument and its own auditor.
 
 THE CERTIFICATE, PER DEPTH y (exact rational):
 
-* ``G`` — the resolved region (0, G], here G = 98, chosen mid-gap so no
+* ``G``: the resolved region (0, G], here G = 98, chosen mid-gap so no
   band straddles it.  Beyond G the closed-form tail majorant takes over.
-* ``neg_segments`` — lists of strictly increasing rational boundaries;
+* ``neg_segments``: lists of strictly increasing rational boundaries;
   consecutive pairs are cells on which the checker must find that the
   damage-field enclosure has a nonpositive upper endpoint: f <= 0
   THROUGHOUT the cell, where f = -2 W = 4 (Im^2 - Re^2) Phi2(g+iy) / A^2.
   These cells and the band intervals must exactly tile (0, G], so "no band
   hides between cells" is a property of the cover, not an inference.
-* ``bands`` — records (lo, hi, n_cells, F_up, K_lo, B_up):
+* ``bands``, records (lo, hi, n_cells, F_up, K_lo, B_up):
   - F_up   is an UPPER bound for max f over the band: the checker splits
     [lo, hi] into n_cells equal cells and demands cell-enclosure upper
     endpoints <= F_up (an interval-argument enclosure covers the
@@ -44,7 +44,7 @@ THE CERTIFICATE, PER DEPTH y (exact rational):
   C_im = 2 edge sinh(y/2) + TV sinh(y/2) + y cosh(y/2) A,
   edge = cos(sqrt2/2), TV = 2(1 - edge)  (paper_chain.c_im_sharp).
 * ``P_lo``   <= every recorded inter-band gap  (DOWN).
-* ``tail2_up`` >= 8 C_up^2 (1/G^2 + 1/(P_lo G))  (UP) — the two-sided
+* ``tail2_up`` >= 8 C_up^2 (1/G^2 + 1/(P_lo G))  (UP), the two-sided
   closed-form majorant of the band sum beyond G at single occupancy.
 * ``cap_up`` >= 2 * sum_i B_up_i + tail2_up  (UP), and
   ``margin_lo`` <= slack_lo - cap_up, with margin_lo >= 0 the verdict.
@@ -57,7 +57,7 @@ manufacture it.  (The word this repo reserves for zeta/rigor.py is not
 used here: the certificate is *checked*, in the sense of the finite list
 of inequalities above, and nothing more.)
 
-THE CHECKER'S ANALYTIC LEAVES (Part 1, pure rational — imports nothing
+THE CHECKER'S ANALYTIC LEAVES (Part 1, pure rational, imports nothing
 numerical beyond ``fractions`` and ``math.isqrt``):
 
 1. sin/cos on a point: Taylor to N = 26 pair-terms with the Lagrange
@@ -66,7 +66,7 @@ numerical beyond ``fractions`` and ``math.isqrt``):
    Taylor term computed by the loop IS an enclosure of that remainder
    magnitude, so the bound is read off the loop state (+ ulp guards).
 2. sin/cos on an interval: enclosure at the midpoint widened by the
-   half-width — the Lipschitz fact |sin'| <= 1, |cos'| <= 1.
+   half-width, the Lipschitz fact |sin'| <= 1, |cos'| <= 1.
 3. Argument reduction: sin(x) = sin(x - 2 pi k) with integer k chosen by
    nearest-integer division against a 2 pi enclosure; the reduced
    argument's containment in (-4, 4) is ASSERTED, never assumed.  The
@@ -84,19 +84,19 @@ numerical beyond ``fractions`` and ``math.isqrt``):
    the same branch hardened_paper uses, in rational form.
 
 All interval arithmetic is integer fixed-point at scale 2^128 with
-directed rounding (lo floors, hi ceils) — every interval is a pair of
+directed rounding (lo floors, hi ceils), every interval is a pair of
 integers, i.e. a pair of rationals with denominator 2^128, and the whole
 check is a finite sequence of integer comparisons: exactly the shape a
 Lean ``decide``/``norm_num`` layer consumes.
 
 STRUCTURAL LEAVES CARRIED FROM THE PARENT INSTRUMENTS (named, not
-hidden — the checker cannot and does not establish these):
+hidden, the checker cannot and does not establish these):
 
 * the tail lemma |Im Phi2(g+iy)| <= C_im(y)/|g| (one integration by
   parts; paper_chain.c_im_sharp's derivation),
 * bands beyond G spaced >= P_lo and with repulsion >= K_min (measured in
   the resolved region, extrapolated beyond it, as in
-  hardened_paper.period_lo — the certificate makes the extrapolation
+  hardened_paper.period_lo, the certificate makes the extrapolation
   explicit instead of implicit),
 * the band-dual inequality itself (cap bounds the single-pair adversary;
   the transplant-lemma layer above this certificate).
@@ -121,7 +121,7 @@ _HERE = Path(__file__).resolve().parent
 CERT_PATH = _HERE / "data_band_certificate.json"
 
 # ===========================================================================
-# PART 1 — THE CHECKER.  Pure rational: integers, Fraction, math.isqrt.
+# PART 1, THE CHECKER.  Pure rational: integers, Fraction, math.isqrt.
 # Nothing below this line up to PART 2 may touch a float, numpy, mpmath or
 # flint; ``--check-only`` runs only this part and reports what was imported.
 # ===========================================================================
@@ -669,7 +669,7 @@ def theta_scan_on_certificate(cert: dict, thetas=None) -> dict:
 
 
 # ===========================================================================
-# PART 2 — THE GENERATOR.  Uses the float instruments (paper_chain) only to
+# PART 2: THE GENERATOR.  Uses the float instruments (paper_chain) only to
 # decide WHERE to put cells; every recorded number is produced by the
 # checker's own rational arithmetic with explicit one-sided rounding.
 # ===========================================================================
@@ -695,7 +695,7 @@ def _neg_cover(seg_lo: Fraction, seg_hi: Fraction, y: Fraction,
 
     Dyadic widths 2^k/den; on failure the width halves, on success it
     doubles (capped).  Raises GenerationStall if even the finest width
-    cannot pass — reported honestly, never papered over."""
+    cannot pass, reported honestly, never papered over."""
     bounds = [seg_lo]
     p, k = seg_lo, 7
     while p < seg_hi:
@@ -853,7 +853,7 @@ def generate_certificate(depths=(Fraction(1, 50), Fraction(1, 10),
 
 
 # ===========================================================================
-# PART 3 — AUDIT AND CONTROLS.
+# PART 3: AUDIT AND CONTROLS.
 # ===========================================================================
 
 

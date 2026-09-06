@@ -49,7 +49,7 @@ def test_A_is_phi2_at_zero():
 
 
 def test_phi_r_is_the_paper_field_on_the_real_axis():
-    """`phi_r(v) = Re ghat(i v) = Phi2(v)` — BandCert's `phiR`."""
+    """`phi_r(v) = Re ghat(i v) = Phi2(v)`: BandCert's `phiR`."""
     for v in (0.0, 1.0, 3.7, 6.516999776, 12.755, 30.0, 59.9):
         assert ghat(complex(0, v)).real == pytest.approx(phi2(v).real, abs=1e-14)
 
@@ -68,7 +68,7 @@ def test_damage_route_agrees_at_the_named_constants():
 
 
 def test_sfun_branch_identity():
-    """`sinh(i w/2)/(i w) = s(w)` — the one line the derivation turns on."""
+    """`sinh(i w/2)/(i w) = s(w)`, the one line the derivation turns on."""
     for w in (0.3, 1.0, 7.5, -4.2):
         lhs = cmath.sinh(1j * w / 2) / (1j * w)
         assert abs(lhs - sfun(w)) < 1e-14

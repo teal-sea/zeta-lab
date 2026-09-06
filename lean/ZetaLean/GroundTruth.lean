@@ -15,18 +15,18 @@ House rule carried over: nothing counts until it compiles with zero
 
 open Real
 
-/-- ζ(2) = π²/6 — the Basel problem, certified.  The lab measures
+/-- ζ(2) = π²/6, the Basel problem, certified.  The lab measures
 `zeta.core` against `1.6449340668482264…`; the kernel proves the
 closed form. -/
 theorem zeta_two : riemannZeta 2 = (π : ℂ) ^ 2 / 6 := riemannZeta_two
 
-/-- ζ(0) = −1/2 — the analytic continuation's value at zero. -/
+/-- ζ(0) = −1/2, the analytic continuation's value at zero. -/
 theorem zeta_zero : riemannZeta 0 = -1 / 2 := riemannZeta_zero
 
 /-- ζ(4) = π⁴/90, for good measure. -/
 theorem zeta_four : riemannZeta 4 = (π : ℂ) ^ 4 / 90 := riemannZeta_four
 
-/-- ζ has no zeros on the half-plane Re s ≥ 1 — the zero-free region
+/-- ζ has no zeros on the half-plane Re s ≥ 1, the zero-free region
 that makes the Prime Number Theorem true, and the outer wall the
 critical strip lives inside. -/
 theorem zeta_ne_zero_of_one_le_re (s : ℂ) (hs : 1 ≤ s.re) :

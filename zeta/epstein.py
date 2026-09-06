@@ -6,7 +6,7 @@ counterexample gate, gate #3, of ``docs/09-new-ontologies.md``): it constructs
 a function with zeta-like symmetry but *no Euler product*, and then actually
 locates, verifies, and pins an off-critical-line zero of it.
 
-The object is the **Davenport-Heilbronn function** (1936) — the classical
+The object is the **Davenport-Heilbronn function** (1936), the classical
 computable representative of the Davenport-Heilbronn / Epstein family that
 gate #3 names, hence this module's filename.  Let chi be the Dirichlet
 character mod 5 with chi(2) = i (an odd character; 2 generates (Z/5Z)*, so
@@ -23,7 +23,7 @@ with kappa the unique real constant making the completed function
 
     F(s) = (pi/5)^{-(s+1)/2} Gamma((s+1)/2) f(s)
 
-satisfy F(s) = F(1 - s) exactly — the odd-character completion, the same
+satisfy F(s) = F(1 - s) exactly, the odd-character completion, the same
 shape of functional equation as Riemann's xi.  **kappa is derived here
 numerically, not remembered**: F_kappa(s) - F_kappa(1-s) is linear in kappa,
 so one linear solve at any non-symmetric point determines it
@@ -33,12 +33,12 @@ Measured at dps = 50: kappa agrees across four unrelated base points to all
 40 displayed digits, its imaginary residue is ~1e-50, and the defect
 |F(s) - F(1-s)| at six random s in [-2,3] x [-20i,20i] is at most 1.1e-50.
 (The derived value also matches the closed form
-(sqrt(10 - 2 sqrt 5) - 2)/(sqrt 5 - 1) to 1e-50 — quoted as an observation,
+(sqrt(10 - 2 sqrt 5) - 2)/(sqrt 5 - 1) to 1e-50, quoted as an observation,
 never used.)
 
 What f then has, and what it lacks:
 
-* **entire** — the Hurwitz poles at s = 1 cancel (sum of coefficients is 0;
+* **entire**: the Hurwitz poles at s = 1 cancel (sum of coefficients is 0;
   verified here by a mean-value/no-pole check, :func:`dh_mean_value_defect`);
 * a **Riemann-type functional equation** F(s) = F(1-s), defect measured
   below 1e-30 (:func:`dh_functional_equation_defect`);
@@ -46,12 +46,12 @@ What f then has, and what it lacks:
   a_n = 1, kappa, -kappa, -1, 0 for n = 1..5 mod 5 (:func:`dh_coefficient`);
 * a real Hardy-style function Z_f on the critical line (:func:`Z_dh`), so
   line zeros are sign changes, exactly as for zeta;
-* **no Euler product** — its coefficients are not multiplicative
+* **no Euler product**: its coefficients are not multiplicative
   (a_6 = a_1 = 1 while a_2*a_3 = -kappa^2; :func:`claim_multiplicativity`);
 * and, the payoff, **zeros off the critical line**.  The argument-principle
   count in a box (:func:`count_zeros_box`) exceeds the sign-change count on
-  the line (:func:`zeros_on_line`) — the technique of
-  ``scripts/02_find_zeros.py`` run in reverse — first in the window
+  the line (:func:`zeros_on_line`), the technique of
+  ``scripts/02_find_zeros.py`` run in reverse, first in the window
   84 < t < 92, where the box holds 5 zeros but the line only 3.  Bisecting
   the box and polishing (:func:`find_offline_zero`) lands on
 
@@ -63,9 +63,9 @@ What f then has, and what it lacks:
   suite.  (This matches the literature: Spira, *Math. Comp.* 1994, lists the
   Davenport-Heilbronn zero 0.808517 + 85.699348i.)
 
-So every ingredient the functional-equation-only proof attempts use —
+So every ingredient the functional-equation-only proof attempts use,
 symmetry s <-> 1-s, real coefficients, a real Z, completed entirety, even
-"most zeros on the line" — survives in f, and RH for f is *false*.  The one
+"most zeros on the line", survives in f, and RH for f is *false*.  The one
 structural difference is the Euler product.  :func:`battery` packages that
 observation as a falsification harness: it evaluates a claimed structural
 property against both zeta and f through a common interface, and reports
@@ -74,7 +74,7 @@ satisfies is dead on arrival (docs/09, gate #3).
 
 **The Epstein half of the family, added second.**  Gate #3 asks that a
 structure be ungrantable to Davenport-Heilbronn *and to generic Epstein zeta
-functions*, but for a long time only the first was computable here — the module
+functions*, but for a long time only the first was computable here, the module
 carried the Epstein name without an Epstein zeta in it.  It now has one:
 ``zeta_Q(s) = sum_{(m,k) != 0} Q(m,k)^{-s}`` for a positive-definite binary
 form, continued to the whole plane by splitting the Mellin transform of the
@@ -87,7 +87,7 @@ For a discriminant of class number greater than one the individual ``zeta_Q``
 reproduces the whole counterexample profile by a route sharing no code with
 ``f``: a functional equation, real Dirichlet coefficients (the representation
 counts, :func:`epstein_representation_count`), a real Hardy-style ``Z``
-(:func:`Z_epstein`), and no Euler product — for ``D = -23`` the principal form
+(:func:`Z_epstein`), and no Euler product, for ``D = -23`` the principal form
 already has ``r(2) = r(3) = 0`` while ``r(6) = 4``.  Davenport and Heilbronn
 proved such ``zeta_Q`` have zeros off the critical line; that is quoted, not
 recomputed here.
@@ -99,7 +99,7 @@ so :func:`epstein_functional_equation_defect` is zero by construction and
 checks nothing.  The validation that can fail is
 :func:`epstein_class_group_defect`, which tests
 ``sum_Q zeta_Q(s) = w zeta(s) L(s, chi_D)`` against mpmath's ``zeta`` and a
-Hurwitz-zeta character sum — disjoint code — and comes in below 1e-18 at
+Hurwitz-zeta character sum, disjoint code, and comes in below 1e-18 at
 ``D = -4, -15, -23``.
 
 **The third rival, added because the first two could not see an Euler
@@ -181,7 +181,7 @@ _GUARD: int = 10
 #: kappa to 40 digits, as *derived* by :func:`kappa` (linear solve of the
 #: functional-equation-defect condition at s0 = 0.75 + 1.5i, dps = 50, then
 #: cross-checked at three unrelated points; imaginary residue ~1e-50).  This
-#: string is a pinned reference for the tests — the running code always
+#: string is a pinned reference for the tests, the running code always
 #: re-derives kappa rather than trusting it.
 KAPPA_REF: str = "0.2840790438404122960282918323931261690911"
 
@@ -191,7 +191,7 @@ KAPPA_REF: str = "0.2840790438404122960282918323931261690911"
 #:
 #: 1. Scanning windows of height 8 over 60 < t < 100 with sigma in [-1, 2],
 #:    ``count_zeros_box`` vs ``zeros_on_line`` gave 4=4, 6=6, 5=5, **5 vs 3**
-#:    (t in [84, 92]), 6=6 — two zeros in the strip that are not on the line.
+#:    (t in [84, 92]), 6=6, two zeros in the strip that are not on the line.
 #: 2. Bisecting: box [84, 86] holds 2 zeros, the line 0; the right half-box
 #:    sigma in [0.55, 2] holds exactly 1 (its mirror 1 - conj(rho) holds the
 #:    other, as the functional equation + real coefficients force).
@@ -259,7 +259,7 @@ def L_chi(s, conjugate: bool = False, dps: int = DPS_DEFAULT):
 
     ``conjugate=True`` gives L(s, chibar).  Valid on the whole plane except
     s = 1, where the individual Hurwitz terms have poles (they cancel in the
-    combination — sum of chi(a) is 0 — but each summand is infinite; use
+    combination, sum of chi(a) is 0, but each summand is infinite; use
     :func:`dh_f`, which handles s = 1, if you need the combination there).
     """
     with mp.workdps(dps + _GUARD):
@@ -297,7 +297,7 @@ def _kappa_cached(dps: int) -> tuple:
         B(s) = Lam(s) - Lambar(s) - Lam(1-s) + Lambar(1-s),
 
     hence kappa = A(s0)/(i*B(s0)) at any point s0 with B(s0) != 0.  That the
-    quotient is (a) independent of s0 and (b) real is Gauss-sum theory — and
+    quotient is (a) independent of s0 and (b) real is Gauss-sum theory, and
     is *checked*, not assumed: the residues are re-measured by the tests, and
     this function verifies the defect at an unrelated point before returning.
     """
@@ -362,7 +362,7 @@ def _dh_raw(s):
 
 
 def dh_f(s, dps: int = DPS_DEFAULT):
-    """The Davenport-Heilbronn function f(s) — entire, functional equation
+    """The Davenport-Heilbronn function f(s), entire, functional equation
     F(s) = F(1-s) for F(s) = (pi/5)^{-(s+1)/2} Gamma((s+1)/2) f(s), real
     Dirichlet coefficients (period 5: 1, kappa, -kappa, -1, 0), **no Euler
     product**, and zeros off the critical line (:data:`OFFLINE_ZERO_RE`).
@@ -405,7 +405,7 @@ def dh_f(s, dps: int = DPS_DEFAULT):
 def dh_coefficient(n: int, dps: int = DPS_DEFAULT):
     """The n-th Dirichlet coefficient a_n of f(s) = sum a_n n^{-s}.
 
-    a_n = 2 Re( c * chi(n) ) with c = (1 - i*kappa)/2 — manifestly **real**,
+    a_n = 2 Re( c * chi(n) ) with c = (1 - i*kappa)/2, manifestly **real**,
     periodic mod 5:  a_1..a_5 = 1, kappa, -kappa, -1, 0.
 
     Not multiplicative: a_6 = a_1 = 1 but a_2 * a_3 = -kappa^2 = -0.0807...
@@ -425,7 +425,7 @@ def completed_dh(s, dps: int = DPS_DEFAULT):
     """F(s) = (pi/5)^{-(s+1)/2} Gamma((s+1)/2) f(s): the completed function,
     entire, with F(s) = F(1-s) and F real on the critical line.
 
-    Gamma((s+1)/2) has poles at s = -1, -3, -5, ... — exactly where f has its
+    Gamma((s+1)/2) has poles at s = -1, -3, -5, ..., exactly where f has its
     "trivial" zeros (forced by the functional equation, like zeta's at the
     even negative integers but shifted to the odd ones because chi is odd).
     F is finite there; the removable points are evaluated as Cauchy circle
@@ -495,7 +495,7 @@ def dh_mean_value_defect(s0, radius=0.25, dps: int = DPS_DEFAULT):
     theorem gives average = f(s0) exactly; a simple pole p inside the disc
     would instead leave a residue term res_f(p)/(p - s0).  Called with a disc
     that *contains s = 1* (e.g. s0 = 1.001, radius = 0.25) this verifies
-    numerically that the four Hurwitz poles really cancel — i.e. that f is
+    numerically that the four Hurwitz poles really cancel, i.e. that f is
     analytic in the strip and :func:`count_zeros_box` needs no pole-dodging,
     unlike the contour arguments for zeta itself.
 
@@ -540,9 +540,9 @@ def dh_theta(t, dps: int = DPS_DEFAULT):
 def Z_dh(t, dps: int = DPS_DEFAULT, tol_digits: int = 8):
     """The Hardy-Z analogue for f:  Z_f(t) = e^{i theta_f(t)} f(1/2 + it).
 
-    Real for real t, because F(1/2 + it) is real — F(s) = F(1-s) plus the
+    Real for real t, because F(1/2 + it) is real: F(s) = F(1-s) plus the
     Schwarz reflection that f's *real* Dirichlet coefficients provide gives
-    F(s) = conj(F(s)) on the line — and Z_f is F divided by the positive
+    F(s) = conj(F(s)) on the line, and Z_f is F divided by the positive
     number |completing factor|.  So critical-line zeros of f are sign changes
     of Z_f, exactly as for zeta ... and yet the analogy stops there: for f the
     sign-change count genuinely undercounts the strip (:func:`find_offline_zero`).
@@ -582,7 +582,7 @@ def zeros_on_line(t0, t1, n_samples: int | None = None, dps: int = 15) -> int:
     Grid default: 1/20 of the mean line-zero spacing 2 pi/log(5 t1/2 pi) at
     the top of the range.  A sign-change scan can miss zeros but never invent
     them, so when :func:`count_zeros_box` reports *more* zeros in the strip
-    than this returns on the line — persistently, under grid refinement — the
+    than this returns on the line, persistently, under grid refinement, the
     excess lives off the line.  For zeta that discrepancy never shows up
     (``zeta.zeros.verify_rh_up_to`` saturates the count); for f it does.
     """
@@ -636,8 +636,8 @@ def _edge_variation(g, x0, x1, step):
     and the winding is silently lost (observed: a height-8 box at t ~ 60 came
     back with winding number -1).  Along a vertical edge at sigma = -1 the
     phase of f turns at ~log(5t/2 pi) rad per unit height, so segments are
-    forced shorter than ``step`` ~ 1/(2 log(5 t_max/2 pi)) — under 1/8 of a
-    turn per segment — *before* the adaptive refinement runs.
+    forced shorter than ``step`` ~ 1/(2 log(5 t_max/2 pi)), under 1/8 of a
+    turn per segment, *before* the adaptive refinement runs.
     """
     n = max(1, int(mp.ceil(abs(x1 - x0) / step)))
     total = mp.mpf(0)
@@ -650,13 +650,13 @@ def _edge_variation(g, x0, x1, step):
 
 
 def count_zeros_box(s0, s1, dps: int = 20, fn=None, step=None) -> int:
-    """Argument-principle count of zeros (with multiplicity) of f — or of any
-    analytic ``fn`` — in the closed rectangle with opposite corners s0, s1:
+    """Argument-principle count of zeros (with multiplicity) of f, or of any
+    analytic ``fn``, in the closed rectangle with opposite corners s0, s1:
 
         N = (1/2 pi) * (variation of arg along the boundary).
 
     No pole-dodging is needed for f: it is **entire** (the Hurwitz poles at
-    s = 1 cancel — verified numerically by :func:`dh_mean_value_defect`, and
+    s = 1 cancel, verified numerically by :func:`dh_mean_value_defect`, and
     guarded here by requiring every boundary sample to be finite).  Contrast
     ``zeta.zeros.N_of_T``, which must thread the pole of zeta at s = 1;
     counting with fn = ``zeta.core.xi`` (entire as well) needs no dodging and
@@ -665,7 +665,7 @@ def count_zeros_box(s0, s1, dps: int = 20, fn=None, step=None) -> int:
     The winding is accumulated with the forced-subdivision + adaptive scheme
     of :func:`_edge_variation` and must come out an integer: a residual above
     1e-6 raises ``ArithmeticError`` (a zero sitting on the boundary, or an
-    undersampled edge).  A zero *on* the contour makes the count ill-posed —
+    undersampled edge).  A zero *on* the contour makes the count ill-posed,
     nudge the box.
 
     Parameters: ``fn`` defaults to f at the working precision; ``step`` is the
@@ -705,7 +705,7 @@ def count_zeros_box(s0, s1, dps: int = 20, fn=None, step=None) -> int:
         if abs(winding - n) > mp.mpf("1e-6"):
             raise ArithmeticError(
                 f"count_zeros_box: winding {mp.nstr(winding, 10)} is not an "
-                "integer; a zero is on (or hugging) the contour — nudge the box"
+                "integer; a zero is on (or hugging) the contour, nudge the box"
             )
         return n
 
@@ -753,7 +753,7 @@ def find_offline_zero(
        :func:`zeros_on_line`.  (All complex zeros of f live in that strip:
        sum_{n>=2} |a_n| n^{-2} = 0.2666... < 1 pins f away from 0 for
        Re s >= 2, and the functional equation reflects that into
-       Re s <= -1 — both facts are numerically verified in the tests.)
+       Re s <= -1, both facts are numerically verified in the tests.)
        The first window with box > line holds off-line zeros; they arrive in
        mirror pairs rho, 1 - conj(rho), so the excess is even.
     2. **Bisect.**  Halve the window in t until it is <= 1 wide while keeping
@@ -774,7 +774,7 @@ def find_offline_zero(
         (window [84, 92]: box = 5, line = 3; |f(rho)| ~ 1e-49 at dps = 30),
 
     the value pinned in :data:`OFFLINE_ZERO_RE` / :data:`OFFLINE_ZERO_IM`.
-    Raises ``ArithmeticError`` if no discrepancy window is found — widen the
+    Raises ``ArithmeticError`` if no discrepancy window is found, widen the
     range.  Returns the zero as an ``mpc`` at ``dps`` digits.
     """
     count_dps = min(max(20, dps // 2 + 10), dps + _GUARD)
@@ -1012,7 +1012,7 @@ def epstein_functional_equation_defect(
     """``Lambda_Q(s) - Lambda_Q(1-s)``, which is **structurally zero here**.
 
     The opposite form ``(c, -b, a)`` represents the same integers as
-    ``(a, b, c)`` — substitute ``(m, k) -> (k, m)`` — so ``zeta_Q`` equals the
+    ``(a, b, c)``, substitute ``(m, k) -> (k, m)``, so ``zeta_Q`` equals the
     zeta function of its own inverse class and the functional equation closes
     on ``Q`` itself.  But that same fact makes the incomplete-gamma
     representation in :func:`epstein_completed` manifestly symmetric under
@@ -1382,12 +1382,12 @@ def log_derivative_coefficients(coefficient, n_max: int, dps: int = DPS_DEFAULT)
 def zeta_interface(dps: int = DPS_DEFAULT) -> dict:
     """The zeta-like interface for **zeta itself** (via :mod:`zeta.core`):
 
-    ``name``; ``coefficient(n)`` — Dirichlet coefficients (all 1 for zeta:
+    ``name``; ``coefficient(n)``, Dirichlet coefficients (all 1 for zeta:
     the Lambda-structure of log zeta lives downstream of a_n = 1 *because*
-    of the Euler product); ``completed(s)`` — the entire completion (xi);
-    ``fe_defect(s)`` — completed(s) - completed(1-s); ``Z(t)`` — the real
-    Hardy function; ``zeros_on_line(t0, t1)`` — sign-change count;
-    ``count_zeros_box(s0, s1)`` — argument-principle count (of xi, entire, so
+    of the Euler product); ``completed(s)``, the entire completion (xi);
+    ``fe_defect(s)``, completed(s) - completed(1-s); ``Z(t)``, the real
+    Hardy function; ``zeros_on_line(t0, t1)``, sign-change count;
+    ``count_zeros_box(s0, s1)``: argument-principle count (of xi, entire, so
     the generic contour routine applies unchanged).
     """
     from .core import hardy_Z_sign_changes
@@ -1450,7 +1450,7 @@ def dh_interface(dps: int = DPS_DEFAULT) -> dict:
 
 
 def claim_functional_equation(iface: dict) -> bool:
-    """Claim: "the completed function satisfies F(s) = F(1-s)" — measured as
+    """Claim: "the completed function satisfies F(s) = F(1-s)", measured as
     |fe_defect| < 1e-20 at three asymmetric sample points.
 
     **Passes for both** zeta and Davenport-Heilbronn: the claim does not
@@ -1464,14 +1464,14 @@ def claim_functional_equation(iface: dict) -> bool:
 
 def claim_multiplicativity(iface: dict) -> bool:
     """Claim: "the Dirichlet coefficients are multiplicative:
-    a_{mn} = a_m * a_n for coprime m, n" — the fingerprint of an Euler
+    a_{mn} = a_m * a_n for coprime m, n", the fingerprint of an Euler
     product, tested on the coprime pairs (2,3), (2,7), (3,7), (2,9), (3,4).
 
-    **Passes for zeta** (a_n = 1 identically — and the Lambda-structure of
+    **Passes for zeta** (a_n = 1 identically, and the Lambda-structure of
     the explicit formula rests on exactly this multiplicativity) and **fails
     for Davenport-Heilbronn**: a_6 = a_1 = 1 but a_2 a_3 = -kappa^2 =
     -0.0807...; a_14 = a_4 = -1 but a_2 a_7 = +kappa^2.  (Some pairs survive
-    by accident of the period-5 pattern — (3,4) gives a_12 = kappa = a_3 a_4 —
+    by accident of the period-5 pattern, (3,4) gives a_12 = kappa = a_3 a_4,
     which is why the claim quantifies over several.)  This is the crisp,
     computable answer to gate #3's question "where exactly does
     Davenport-Heilbronn fail to embed?": at the Euler product.

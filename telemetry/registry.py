@@ -1,8 +1,8 @@
-"""``telemetry.registry`` — where run records live, and how they are appended.
+"""``telemetry.registry``, where run records live, and how they are appended.
 
 One run is one file: ``<root>/runs/<run_id>.jsonl``. Appending is the only
 write. Nothing here rewrites, deletes or compacts a record, and there is no
-code path that removes a run — a run you wish had not happened is still a run
+code path that removes a run, a run you wish had not happened is still a run
 that happened.
 
 Every function takes an explicit ``root``, so tests never touch the live
@@ -46,7 +46,7 @@ __all__ = [
     "sha256_file",
 ]
 
-#: Environment variables that may be recorded. **Allowlist, not denylist** —
+#: Environment variables that may be recorded. **Allowlist, not denylist**,
 #: an unknown variable is never captured, so a provider that starts exporting
 #: something sensitive cannot leak it into a public repository by default.
 ENV_ALLOWLIST: tuple[str, ...] = (
@@ -87,7 +87,7 @@ def utc_now() -> str:
 
 
 def new_run_id() -> str:
-    """A fresh run id. UUID4 — no coordination, no collisions between sessions."""
+    """A fresh run id. UUID4, no coordination, no collisions between sessions."""
     return str(uuid.uuid4())
 
 
@@ -220,10 +220,10 @@ def probe_context(repo: Path | str | None = None) -> dict[str, Any]:
     Returns only what was found. **No field is inferred**, and the two most
     valuable fields are usually absent:
 
-    * ``model`` — this environment exports no model identifier at all (checked:
+    * ``model``, this environment exports no model identifier at all (checked:
       ``ANTHROPIC_MODEL``, ``CLAUDE_MODEL`` are unset). It is therefore not in
       the returned mapping, and a caller who wants it must declare it.
-    * token counts and cost — not exported to the session by any provider seen
+    * token counts and cost, not exported to the session by any provider seen
       here, so they are absent rather than zero.
 
     ``env`` carries only :data:`ENV_ALLOWLIST` names that are set.
@@ -258,7 +258,7 @@ def probe_context(repo: Path | str | None = None) -> dict[str, Any]:
         if top:
             # The worktree's *name*, never its absolute path. Run records are
             # committed to a public repository, and an absolute path leaks a
-            # home directory — `tests/test_repo_hygiene.py` scans tracked
+            # home directory, `tests/test_repo_hygiene.py` scans tracked
             # `.jsonl` for exactly that shape and exists because the leak has
             # happened here before. The name is what distinguishes parallel
             # worktrees, which is the only thing this field is for.

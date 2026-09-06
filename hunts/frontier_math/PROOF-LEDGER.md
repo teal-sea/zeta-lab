@@ -97,7 +97,7 @@ answered NO, and the outcome is mixed by lane.
 | LAW J: periodic word identity | DELIVERED | Poisson; the density vanishes at the dual points | `sum_k W = 2b/a^2 = 2.2959062623` exactly, independent of depth and ordinate; defect `< 6e-8` |
 | Phase 2/3: two-gap coexistence penalty | **COLLAPSES (OUTCOME B)** | evenness of `W` in `g`; distinctness only | mirror pair at `s = 2g*` gives penalty `< 4e-13`; clusters give penalty/cell `-> 0` (`7e-5` at `n=10`, `delta=1e-3`) |
 | Projective-consistency LP | NOT BUILT, deliberately | the value is zero on an explicit family | building it would rediscover the two constructions above at cost |
-| Escaping family | **PINNED (OUTCOME C)** | the `+-g*(y)` cluster | a near-multiple zero at the kernel's optimal offset; controlled only by density/multiplicity, never by gap geometry — this is the level-3 kill control |
+| Escaping family | **PINNED (OUTCOME C)** | the `+-g*(y)` cluster | a near-multiple zero at the kernel's optimal offset; controlled only by density/multiplicity, never by gap geometry, this is the level-3 kill control |
 | Phase 4 lesions | HELD | see report's ledger | independent cells buy `0.3827`; conjugate-transpose geometry destroys every sign; broken spacing defect `3.5e-2`; independent *depths* recorded as a negative lesion |
 | Phase 5 epsilon robustness | DELIVERED | LAW I, no coexistence input needed | no cell within `(1-m0) sigma^2(y)` of the level-1 floor; margin linear in `n` |
 | Phase 6 decimal gate | **NOT PASSED** | both conditions fail | LAW I tightens the envelope, not a proportion; the coexistence route that could give an additive floor is the one that collapsed |
@@ -167,13 +167,13 @@ Full account: `LEVEL5-ENCLOSURE-AND-PAIRS.md`; instruments
 | Obligation | Status | Exact dependency | Evidence |
 |---|---|---|---|
 | Gate 1: ball-arithmetic hardening | DELIVERED | acb/arb closed forms, exact rational `aL`, geometric series tails, directed endpoints, DP total inflated `1+1e-9` | full ladder at original resolution: hardened theta* = 0.1, worst margin +1.1e-5 at the shallow binding cells (~10% relative); probe cells +0.27 to +2.03 |
-| The resolution scare | RECORDED | Lipschitz inflation scales with the sup-grid step | a 2x-coarser hardened grid FAILS by up to −3.0; original resolution passes — the economy was the failure, not the balls; kept as a negative control |
+| The resolution scare | RECORDED | Lipschitz inflation scales with the sup-grid step | a 2x-coarser hardened grid FAILS by up to −3.0; original resolution passes, the economy was the failure, not the balls; kept as a negative control |
 | LAW L: pair-pair cross via the single-pair kernel | DELIVERED (exact) | `u_r.u_s` and `u_r.conj(u_s)` are LAW D instances | `T(dt,y,y') = W(dt,y−y') + W(dt,y+y')`; defect 8.9e-16; difference layer nonnegative (min +6e-10) |
 | Phase 2 energy algebra | DELIVERED | LAW K self terms + LAW L cross | decomposition matches brute force < 1e-9; sign-indefinite terms exactly identified |
 | Phase 3 partition | MEASURED | proportional depth split from the sinh addition bound | eta(0.5) = 0.594, eta(1) = 0.487 < 1; shallow pairs charged asymptotically nothing |
 | Phase 4 collective modes | HELD | six named configurations, both densities | all survive; worst cross/slack −0.876 > −1 |
 | Dense pair lattice | **PROMOTED TO LEVEL-6 KILL CONTROL** | eta = 7.7 at nu_p = 2 while collective energy survives | pairwise charging is the weak link, exactly as per-cell reasoning was at level 4 |
-| Phase 6: theta_full | **OUTCOME B — NOT CLAIMED** | combined budget cap/slack + eta > 1 at every depth | overdraw 0.151–0.387 quantified per depth; reversing estimates named: level-4 cap looseness (1.4–2.7x) or pair-split looseness (~2x); either suffices |
+| Phase 6: theta_full | **OUTCOME B, NOT CLAIMED** | combined budget cap/slack + eta > 1 at every depth | overdraw 0.151–0.387 quantified per depth; reversing estimates named: level-4 cap looseness (1.4–2.7x) or pair-split looseness (~2x); either suffices |
 | Phase 7 decimal gate | **NOT ENTERED** | theta_full unproved | no proportion computed |
 
 Disposition: **GATE 1 CLOSED, GATE 2 QUANTIFIED (OUTCOME B)**. The next
@@ -200,11 +200,11 @@ Full account: `LEVEL6A-THETA-FULL.md`; instrument `penta_bound.py`
 | Full-ladder hardened penta scan | NAMED (compute) | same machinery, longer run | probe grid spans the strip; shallow cells close at 0.571 with charge 0 |
 | Phase 7 decimal gate | **NOT ENTERED** | 6b outstanding | no proportion computed |
 
-Disposition: **THETA_FULL POSITIVE AT UNIT PAIR DENSITY — the milestone
+Disposition: **THETA_FULL POSITIVE AT UNIT PAIR DENSITY, the milestone
 equation holds within its stated labels.** Not optimised further, per the
 operating rule; the value is that it is positive. Next, in order: the
 level-6b T-kernel dual (configuration-free eta), the full-ladder hardened
-scan, then Phase 7's reconnect — the gap floor against the error budget.
+scan, then Phase 7's reconnect, the gap floor against the error budget.
 No decimal search was run and no proportion is claimed.
 
 ## Level 6b: the density question answered by mutual exclusion (2026-08-11)
@@ -214,10 +214,10 @@ Full account: `LEVEL6B-DENSITY.md`; instrument `pair_density.py`; controls
 
 | Obligation | Status | Exact dependency | Evidence |
 |---|---|---|---|
-| Separable global budget | **BREAKS, recorded** | summed per-pair hardened caps are valid but simultaneous-worst-case | 24/68 configurations fail; worst −0.599 at nu_p = 1.5 deep — the level-5 lesson one level up |
-| Compensation factor | MEASURED | greedy joint on-line adversary vs whole lattices | chi = 0.14–0.17 at nu 1, **0.016–0.018 at nu 2** — dense pair clusters are nearly immune to on-line attack |
+| Separable global budget | **BREAKS, recorded** | summed per-pair hardened caps are valid but simultaneous-worst-case | 24/68 configurations fail; worst −0.599 at nu_p = 1.5 deep, the level-5 lesson one level up |
+| Compensation factor | MEASURED | greedy joint on-line adversary vs whole lattices | chi = 0.14–0.17 at nu 1, **0.016–0.018 at nu 2**, dense pair clusters are nearly immune to on-line attack |
 | Joint budget across the density sweep | **HOLDS** | joint on-line profit + T-deficit vs total slack | worst margin **+0.0704** at the pinch (nu 1.25–1.5, deep); both flanks grow; theta_full = 0.02 corroborated at the joint level |
-| Stacking floor | DELIVERED (one-sided) | grid + Lipschitz margin on T at |dt| <= delta_p | +2.78 at delta_p = 0.2 across all depth pairs; dies by 0.3 at the strip edge — the third self-defeat (depth, on-line density, pair density) |
+| Stacking floor | DELIVERED (one-sided) | grid + Lipschitz margin on T at |dt| <= delta_p | +2.78 at delta_p = 0.2 across all depth pairs; dies by 0.3 at the strip edge, the third self-defeat (depth, on-line density, pair density) |
 | The mutual-exclusion structure | IDENTIFIED | band-overlap geometry: one pair's g* is a neighbour's positive region | the two adversaries cannot both show up; the trade-off curve is measured with its pinch |
 | Joint cap dual | **NAMED THEOREM GAP** | level-4 machinery with the damage field summed over pair centres | would upper-bound the joint profit and make this verdict configuration-free; the greedy is a lower bound on the sup |
 | Phase 7 decimal gate | **NOT ENTERED** | joint cap + full-ladder hardened scan outstanding | no proportion computed |
@@ -239,7 +239,7 @@ Full account: docstring of `fourier_bridge.py` (instrument); controls
 | LAW M: mean positivity, depth-blind | DELIVERED (exact) | Parseval on the bilinear square: only v = 0 survives | `int W(., y) dg = 4 pi b/(a^2 L) = 1.8032005631` at every depth, defects at the quadrature floor; reproduces LAW J's constant to ten digits as its periodization |
 | The Fourier bridge | DELIVERED (exact) | conjugate closure makes `sum e^{i z_j v}` square to a real modulus | `E_total = (1/(aL)^2) int_{-L}^{L} K(v) |F(v)|^2 dv`, `K = phi^2 * phi^2 >= 0`; worst relative defect 4e-12 over mixed configurations; the entire law hierarchy (D, K, L, R(P), W, T, census) is the term dictionary of this one identity |
 | The joint problem restated | DELIVERED | `F = F_on + F_p`; pair slack = the `4 cosh^2(y v)` diagonal | the assembly is equivalent to a pointwise-in-v budget over one nonnegative kernel: on-line placement and pair density are two exponential sums against the same K |
-| The pinch, spectrally | MEASURED | K-weighted pair fluctuation by frequency bin | the deficit lives at `|v| in [3, 7]` (peak -176), the LAW M mean at `v ~ 0` (+59), the cosh^2 diagonal at the band edge — the certificate's job is now a concrete 1-D spreading problem |
+| The pinch, spectrally | MEASURED | K-weighted pair fluctuation by frequency bin | the deficit lives at `|v| in [3, 7]` (peak -176), the LAW M mean at `v ~ 0` (+59), the cosh^2 diagonal at the band edge, the certificate's job is now a concrete 1-D spreading problem |
 | The pointwise-in-v certificate | **THE NAMED OBJECT** | finitely many one-sided v-cells, same shape as every hardened object in the chain | delivering it makes the level-6b joint verdict configuration-free and reopens the road to Phase 7 |
 
 Disposition: **THE JOINT CAP DUAL IS NOW A ONE-DIMENSIONAL PROBLEM.** The
@@ -255,13 +255,13 @@ Full account: `LEVEL7-VCELL.md`; instruments `v_certificate.py`,
 
 | Obligation | Status | Exact dependency | Evidence |
 |---|---|---|---|
-| LAW N: windowed spectral floor | DELIVERED (exact) | phasor arguments within vS/2 of the window midpoint | `\|F_on(v)\| >= n cos(vS/2)` on `\|v\| <= pi/S`; forces `R >= kappa_00 n^2 - n` — the fourth self-defeat (spectral concentration) |
+| LAW N: windowed spectral floor | DELIVERED (exact) | phasor arguments within vS/2 of the window midpoint | `\|F_on(v)\| >= n cos(vS/2)` on `\|v\| <= pi/S`; forces `R >= kappa_00 n^2 - n`, the fourth self-defeat (spectral concentration) |
 | The safe cell | DELIVERED (exact) | common-window phase coherence | cross integrand >= 0 on `\|v\| <= pi/(2S)`: the chi collapse of 6b, pointwise |
 | Naive pointwise-in-v budget | **DEAD, recorded** | sub-critical lattice (spacing < 2 pi/L) empties the band | diagonal-subtracted integrand ~ -(1-theta) N mid-band, linear in N; the aliasing family again; the certificate survives it only through LAW N |
-| The joint cap (on-line configuration-free) | DELIVERED, two routes; **ARB-HARDENED at the binding configurations** | direct: chain DP on the joint field at full charge (mean-value ball cells — the naive interval route amplifies radii ~1.8e5 and is recorded); v-route: three-zone split + taper + LAW M mean + LAW N leak cap + cell C-S | every swept configuration closes via the direct route (float: +6.5..+769); hardened (`hardened_direct.py`, budget directed down, cap directed up): former hole +17.33..+159.05, pinch +25.45, sparse +115.48, shallow sandwich +213.33 — worst hardened margin **+17.33** at nu 1.3; greedy 5.00, extended greedy 5.56; theta = 1 cap infinite |
+| The joint cap (on-line configuration-free) | DELIVERED, two routes; **ARB-HARDENED at the binding configurations** | direct: chain DP on the joint field at full charge (mean-value ball cells, the naive interval route amplifies radii ~1.8e5 and is recorded); v-route: three-zone split + taper + LAW M mean + LAW N leak cap + cell C-S | every swept configuration closes via the direct route (float: +6.5..+769); hardened (`hardened_direct.py`, budget directed down, cap directed up): former hole +17.33..+159.05, pinch +25.45, sparse +115.48, shallow sandwich +213.33, worst hardened margin **+17.33** at nu 1.3; greedy 5.00, extended greedy 5.56; theta = 1 cap infinite |
 | Mixed-depth joint sweeps (phase 2a) | DELIVERED | same instrument, battery shapes + shallow sandwich | all nu >= 1.5 shapes close (shallow sandwich +166.6); nu = 1.0 shapes covered separably (+0.53..+1.68) |
-| **The seam** nu_p in [1.1, 1.4] deep | **CLOSED (direct route)** | the level-4 chain DP on the JOINT damage field `(-(sum_r 2W))_+` at full charge — 6b's original named object, tight only with the positive part of the joint sum | direct margins +15.7..+153.7 across the former hole; short spans close (span 4 at nu 1.3: +10.4); per-pair clipping (the separable ghost, field inflated ~10x) recorded as a permanent control; the v-route's [5, 7]-band looseness diagnosis kept as the record of why the spectral route needed the g-local shielding |
-| Full-ladder hardened penta scan (phase 2b) | **RUN — 6a CORRECTED** | honest cell widths (1.05/1.012 ratios, 220 cells) + ten-point eta grid | 45 cells FAIL in two bands: shallow y in [0.010, 0.050] (worst −0.056; the eta(0.02) = 0.4066 spike the probe grid missed) and deep y in [0.419, 0.472] (worst −0.012; the 9e-4 probe margin does not survive honest widths); theta_full via the per-depth assembly is reduced to the passing bands; the shallow band closes at the joint level (shallow sandwich +166.6 / +22.9), the deep band coincides with the seam |
+| **The seam** nu_p in [1.1, 1.4] deep | **CLOSED (direct route)** | the level-4 chain DP on the JOINT damage field `(-(sum_r 2W))_+` at full charge, 6b's original named object, tight only with the positive part of the joint sum | direct margins +15.7..+153.7 across the former hole; short spans close (span 4 at nu 1.3: +10.4); per-pair clipping (the separable ghost, field inflated ~10x) recorded as a permanent control; the v-route's [5, 7]-band looseness diagnosis kept as the record of why the spectral route needed the g-local shielding |
+| Full-ladder hardened penta scan (phase 2b) | **RUN, 6a CORRECTED** | honest cell widths (1.05/1.012 ratios, 220 cells) + ten-point eta grid | 45 cells FAIL in two bands: shallow y in [0.010, 0.050] (worst −0.056; the eta(0.02) = 0.4066 spike the probe grid missed) and deep y in [0.419, 0.472] (worst −0.012; the 9e-4 probe margin does not survive honest widths); theta_full via the per-depth assembly is reduced to the passing bands; the shallow band closes at the joint level (shallow sandwich +166.6 / +22.9), the deep band coincides with the seam |
 | The reconnect (phase 3) | **CANDIDATE ARITHMETIC RECORDED, GATE CLOSED** | one-sided ordered-gap floor x theta_full through the withdrawn chain's plumbing | c_u = 5.02e-6 one-sided (ladder-stable, CG calibration <= printed, lesion dies); candidate = 0.6725007037 + 2(0.02)(5.02e-6) = **0.6725009045** (+2.01e-7); named unproven steps: the transplant lemma, the arb pass, the seam, taper/truncation |
 | Phase 7 decimal gate | **NOT ENTERED** | the seam + the assembly correction + measured-grade caps | no proportion is claimed to have moved |
 
@@ -270,7 +270,7 @@ ENTIRE SWEPT AXIS (measured grade), WITH TWO INDEPENDENT ROUTES AND THE
 SEPARABLE CAPS AS CROSS-CHECKS.** The seam that stood open for one session
 closed the moment the 6b-named direct object was built correctly (joint
 positive part); the near-miss that had hidden it is a permanent control.
-Level 6a's full-ladder extrapolation is corrected, not extended — the
+Level 6a's full-ladder extrapolation is corrected, not extended, the
 probe grid missed both failing bands (the shallow eta spike and the deep
 cells whose 9e-4 probe margins vanish at honest widths); that lesson
 (resolution fragility, third occurrence) is now a permanent scan.  The
@@ -288,14 +288,14 @@ controls `test_transplant_lemma.py`.
 
 | Obligation | Status | Exact dependency | Evidence |
 |---|---|---|---|
-| Direct floor at the hunt kernel | **DEAD, measured** | omega(L=8) zeros arithmetic to 1e-4 — the floor's own lesion condition | bucket LP floor = 0.00e+00 exactly; ratios 1 : 2.0001 : 3.0003 |
+| Direct floor at the hunt kernel | **DEAD, measured** | omega(L=8) zeros arithmetic to 1e-4, the floor's own lesion condition | bucket LP floor = 0.00e+00 exactly; ratios 1 : 2.0001 : 3.0003 |
 | Direct floor at the Hann grid kernel | **DEAD EXACTLY** | 2 lambda_1 = lambda_4 (zeros 6pi, 8pi, 10pi, 12pi) | 2 lambda_1 - lambda_4 = -5e-13; LAW D there is alias-free (defect 3.7e-8) |
 | The MT kernel identified | DELIVERED (exact) | g_MT = normalised (FT of cos(sqrt2 t) width-1 box)^2 | identity defect 2.5e-16; the sqrt2 modulation is the unique non-degeneracy of the three |
-| The lemma decomposed | DELIVERED | no kernel comparison needed — the chain moves to the floor's own kernel | T1 chain re-run at the MT window (alias defect 0.53% to carry one-sidedly), T2 census (measured consistent: damage band at 1.10-1.12 mean gaps ~ lambda_1), T3 plumbing (calibrated), T4 taper/truncation, T5 the upstream Lean window pin (external) |
+| The lemma decomposed | DELIVERED | no kernel comparison needed, the chain moves to the floor's own kernel | T1 chain re-run at the MT window (alias defect 0.53% to carry one-sidedly), T2 census (measured consistent: damage band at 1.10-1.12 mean gaps ~ lambda_1), T3 plumbing (calibrated), T4 taper/truncation, T5 the upstream Lean window pin (external) |
 | MT-window entry card | MEASURED | Phi2_mt closed form | minW/sigma^2 = -0.40..-0.43 vs the hunt's -(1+m0) = -1.21: 3x friendlier; sigma^2(0.49) = 0.0175 |
 | Candidate status | UNCHANGED | all of the above | the reading 0.6725009045 stays a candidate; the "incomparable kernels" failure mode is eliminated, the "floor dies at the paper's kernel" risk is now a measured fact with the MT modulation as the unique escape |
 
-Disposition: **THE TRANSPLANT LEMMA IS NOT AN INEQUALITY — IT IS A
+Disposition: **THE TRANSPLANT LEMMA IS NOT AN INEQUALITY, IT IS A
 RE-RUN.** The critical path to the decimal is now: T1 (the retention
 chain at the MT window, compute with existing machinery), then T5 (pin
 the upstream zero-side window in the external Lean file). No proportion
@@ -309,15 +309,15 @@ Full account: `TRANSPLANT-LEMMA.md` (T1 section); instrument
 
 | Obligation | Status | Exact dependency | Evidence |
 |---|---|---|---|
-| LAW D at MT | **EXACT — alias claim corrected** | width-1 support cannot reach the +-2pi combs (Poisson) | truncation control: defect scales 1/K (3.8e-3 -> 6.0e-5 over K 80 -> 5120) |
+| LAW D at MT | **EXACT, alias claim corrected** | width-1 support cannot reach the +-2pi combs (Poisson) | truncation control: defect scales 1/K (3.8e-3 -> 6.0e-5 over K 80 -> 5120) |
 | LAW K at MT | HOLDS | same algebra, LAW D exact | grid pair-block spectrum matches {2(1+s2), -2s2} at y = 0.45 |
 | LAW-I-style envelope | DELIVERED (one-sided) | fine grid + Lipschitz + Im-majorant tail | W >= -0.54 sigma^2 (y = 0.49), -0.70 (y = 0.3); hunt window: -1.21 |
-| Single-pair trade at MT | **MEASURED HEALTHY** | explicit band-riding adversary | D = 0.030 vs slack 0.142 at y = 0.49, 4.7x inside at FULL charge (c = 1, theta = 0); only the +-1.10-mean-gap band pair is ever profitable. (A first write-up said "even at theta = 1" — false: at theta = 1 the charge vanishes and stacking is unbounded. Caught by the adversary hunt; kept in the record.) |
-| Level-4 chain DP at MT | **DOES NOT TRANSPLANT, pinned** | damage bands at kernel zeros persist ~1/g^2; interval charge floors straddle the same zeros | min omega^2 over [d, 3d] = 0.182/0.023/0.000; true point repulsion at band separations 0.017/0.011/0.001 — the DP grants the far bands free |
+| Single-pair trade at MT | **MEASURED HEALTHY** | explicit band-riding adversary | D = 0.030 vs slack 0.142 at y = 0.49, 4.7x inside at FULL charge (c = 1, theta = 0); only the +-1.10-mean-gap band pair is ever profitable. (A first write-up said "even at theta = 1", false: at theta = 1 the charge vanishes and stacking is unbounded. Caught by the adversary hunt; kept in the record.) |
+| Level-4 chain DP at MT | **DOES NOT TRANSPLANT, pinned** | damage bands at kernel zeros persist ~1/g^2; interval charge floors straddle the same zeros | min omega^2 over [d, 3d] = 0.182/0.023/0.000; true point repulsion at band separations 0.017/0.011/0.001, the DP grants the far bands free |
 | The named T1 theorem object | NAMED | band-lattice counting dual with point-separation charges | charge the k-th band pair its actual omega^2 at the near-arithmetic separation, not an interval minimum |
 | Candidate reading | RE-FOUNDED, value unchanged | hunt-kernel floor = 0 (finding 1) removes the old support | now rests on MT retention (measured) + one-sided g-floor + calibrated plumbing + census + T5; no proportion claimed |
 
-Disposition: **THE LAWS TRANSPLANT; THE COUNTING DUAL DOES NOT — AND THE
+Disposition: **THE LAWS TRANSPLANT; THE COUNTING DUAL DOES NOT, AND THE
 REASON IS THE SAME ARITHMETIC THAT MAKES THE FLOOR LIVE.** The sqrt2
 modulation that gives the CG mechanism its non-arithmetic zeros also
 parks the damage bands on the repulsion nulls, so interval-charge
@@ -410,7 +410,7 @@ T5 (external) remain. No proportion is claimed to have moved.
 | LAW D / LAW K / band structure at MT | **strong** | exact identities, truncation-scaling controls, independent grid routes |
 | Joint layer free at MT | **good** | configuration-free on the on-line side; pair side is families + stacking floor |
 | omega^2 != g, floors differ by 0.801 | **strong** | direct computation, ladder-stable, lesions die |
-| The paper's window is MT | **one number** | the pinned constant IS the MT constant to 2e-11 (rounding) — real evidence, and the only evidence |
+| The paper's window is MT | **one number** | the pinned constant IS the MT constant to 2e-11 (rounding), real evidence, and the only evidence |
 | **theta enters `H + 2 theta c_u` multiplicatively** | **NOT ESTABLISHED** | the formula's coefficient and linearity are calibrated against CG (conditional, Montgomery framework); the multiplicative entry of a Frobenius-framework retention is derived nowhere. **If false, the reading is vacuous** |
 | T5 (upstream Lean window pin) | **open, external** | outside this session |
 
@@ -430,11 +430,11 @@ section 7.1 + Theorem D proof (pp. 20-21) and the (Z)(P)(L) skeleton
 | Obligation | Status | Exact dependency | Evidence |
 |---|---|---|---|
 | T5: upstream window pin | **ANSWERED FROM SOURCE** | "Writing phi^2(u) = v(u/L)"; Theorem D takes phi = cos(sqrt2 u/l)^(1/2) box, ramp-mollified, rho = 1 | functional (7.3) implemented once reproduces MT constant at v* (defect 6.8e-9, ladder-shrinking), Montgomery's 2/3 at v = 1 |
-| T3 kernel half | **ANSWERED FROM SOURCE** | K = |vhat|^2 in (7.3); LAW D weight = FT(phi^2)^2; for the paper's window FT(phi^2) = v*-transform | omega^2 = g to 2.5e-16 under the paper's window; gap >= 7% under the T1 window — the ambiguity belonged to the wrong window |
+| T3 kernel half | **ANSWERED FROM SOURCE** | K = |vhat|^2 in (7.3); LAW D weight = FT(phi^2)^2; for the paper's window FT(phi^2) = v*-transform | omega^2 = g to 2.5e-16 under the paper's window; gap >= 7% under the T1 window, the ambiguity belonged to the wrong window |
 | T1 window class membership | **STRICTLY WEAKER** | v-profile cos^2 vs cos | H(cos^2) = 0.6673241, 5.2e-3 below the optimum; every T1 field was built at this member |
 | Burden (a): chain re-run at Phi2 = FT(cos box) | NAMED, OPEN | one kernel swap in mt_chain/band_dual/mt_joint | theta* = 0.995 is currently a measurement about a neighbouring window |
 | Burden (b): ramp mollification | NAMED, OPEN | paper's window is ramped; theta* was at the pure box | paper states O(log l / l) window-constant corrections |
-| Burden (c): multiplicative theta | UNCHANGED, LOAD-BEARING | "(2 tr P - r) + (4 tr Q - 4b) plays the role that sum (2m-1) plays" — (L) consumes the Frobenius mass whole | derived nowhere; if false the reading is vacuous |
+| Burden (c): multiplicative theta | UNCHANGED, LOAD-BEARING | "(2 tr P - r) + (4 tr Q - 4b) plays the role that sum (2m-1) plays", (L) consumes the Frobenius mass whole | derived nowhere; if false the reading is vacuous |
 | Reading of record | UNCHANGED | conservative pairing until burden (a) lands | **0.6725087070**, a candidate; correctly-paired figure 0.6725106958 waits on (a) |
 | Stale comment digits in cg_transplant.py | CORRECTED (again, this copy) | comments printed 1.3274992766 / 0.6725007233 | now 1.3274992963 / 0.6725007036; value itself was always right and is pinned by test |
 
@@ -540,7 +540,7 @@ c6519a2a; sorry-free, standard axioms only).
 |---|---|---|---|
 | Grid incidence = 2 pi FT(phi^2) | **KERNEL-CHECKED** (service-side) | phi measurable, bounded, supp in [-1/2,1/2], EVEN | tsum_phihat_mul_phihat_even; summability included (hasSum form) |
 | Our three windows admissible | **KERNEL-CHECKED** (service-side) | edge jumps allowed; continuity NOT assumed | tsum_phihat_windowA / windowB / of_continuous (ramps covered, boundedness derived) |
-| Our submission's phi^2 form without evenness | **FALSE — CAUGHT BY THE PROVER** | indicator of (0, 1/2]: grid sum 0 vs pi | grid_incidence_needs_even, in the same file |
+| Our submission's phi^2 form without evenness | **FALSE, CAUGHT BY THE PROVER** | indicator of (0, 1/2]: grid sum 0 vs pi | grid_incidence_needs_even, in the same file |
 | Hypothesis-free form | KERNEL-CHECKED | autocorrelation RHS 2 pi int phi(u) phi(-u) e^{i(x-y)u} | hasSum_phihat_mul_phihat |
 | Method | Parseval on R/2piZ, not Poisson | support width 1 < 2 pi; polarised Parseval built from fourierBasis | bounded measurable suffices; no BV/decay needed |
 | Remaining of seam (i) | BOOKKEEPING | aL^2 units of (4.4) vs 2 pi Phi2(0); finite-truncation accounting (measured ~1/K) | named, open |
@@ -691,7 +691,7 @@ project 7fb5612e; 8 modules, 2280 lines, sorry-free import chain).
 | Certificate arithmetic closes at the four depths | **KERNEL-CHECKED, UNCONDITIONAL** | kernel `decide`; `cap` built from the TRUE band sup/inf, recorded numbers only as one-sided bounds | `cap_le_slack`, `cap_le_slack_at_depths`; margins +1.26e-4 / +3.12e-3 / +2.66e-2 / +2.95e-2 |
 | No band missed | **KERNEL-CHECKED** | property of the recorded cover, not an assumption | `f_nonpos_off_bands` over (0, 98] |
 | Analytic leaves L1-L6 | **KERNEL-CHECKED** | Taylor enclosures via `Complex.exp_bound`, rational 2pi enclosure, sqrt2 integer bounds, s(u) series branch | proved from Mathlib, quantified over the data |
-| **The dual layer H3** | **NOT FORMALISED — NAMED HYPOTHESIS** | "the cap bounds D - (1-theta) R for every configuration" is the modelling step; it is ours, on paper | `band_dual_verdict` takes it as a hypothesis rather than burying it |
+| **The dual layer H3** | **NOT FORMALISED, NAMED HYPOTHESIS** | "the cap bounds D - (1-theta) R for every configuration" is the modelling step; it is ours, on paper | `band_dual_verdict` takes it as a hypothesis rather than burying it |
 | Independent regeneration | **BONUS CROSS-CHECK** | the JSON was not shipped; the service rebuilt the certificate from PROBLEM.md via its own mirror | closed with different margins (+2.95e-2 vs our +4.49e-2 at y=49/100), both positive |
 | Toolchain divergence | NOTED, PORT REQUIRED | this package Mathlib v4.28.0 vs upstream Zeta23 v4.33.0-rc2 | integration blocker, mechanical |
 | Edit to the artifact | DISCLOSED | one comment reworded in `Iv.lean` for the hunts/ lexical rules | no proof content altered; sorry count 0 before and after |
@@ -1207,7 +1207,7 @@ proportion is claimed to have moved.
 
 ## The SINGLE-PAIR retention closed at hardened grade: the repulsion pays for the damage (2026-08-13)
 
-**HEADING CORRECTED — coordinator defect #19.** This entry was first
+**HEADING CORRECTED, coordinator defect #19.** This entry was first
 written, committed and pushed under the heading "BLOCKER 2 CLOSED".
 That was an overclaim by one quantifier; it is corrected here rather
 than rewritten away. What closes below is the `k = 1` layer: retention
@@ -1216,13 +1216,13 @@ no separation hypothesis. Blocker 2 as originally posed (2026-08-12,
 "the per-pair route is refuted") is the **multi-pair** quantifier
 `E[F_on + F_p] >= theta E[F_on] + (1-theta) n + 4k` with `F_p` carrying
 `k` blocks at different depths and centres. That is **still open**, and
-`cluster_sdp.py` now names why this accounting does not extend to it —
+`cluster_sdp.py` now names why this accounting does not extend to it,
 see the `k >= 2` row at the end. Recent entries had drifted into using
 "blocker 2" for the single-pair retention quantifier; the two are not
 the same statement, and the drift is what let the overclaim through.
 
 Instruments: `near_coincident.py` (40 tests), `repulsion_trade.py` (55),
-`exact_gap_attack.py` (32) — three agents, three independent routes, run
+`exact_gap_attack.py` (32), three agents, three independent routes, run
 without sight of each other. Plus an independent coordinator
 reproduction written from `EForm3/Defs.lean` alone
 (`scratchpad/verify_lemma_c.py`, imports nothing from this directory).
@@ -1269,20 +1269,20 @@ Two offsets in one window are at most `w_max` apart, so each such pair
 relieves at least `gamma^2/400`; offsets outside every window do no
 damage; cross-window relief is discarded. The problem decouples window
 by window and the per-window maximum is over an **integer**
-multiplicity — which is the whole point, since the real relaxation is
+multiplicity, which is the whole point, since the real relaxation is
 unbounded below (see below):
 
     sum_j D_j - (1/400) sum_{j<k} phi_r^2  <=  sum_k max_{m in Z>=0} [ m D_k - (gamma^2/800) m(m-1) ]
 
 | quantity | near_coincident | repulsion_trade | exact_gap_attack | coordinator |
 |---|---|---|---|---|
-| bound on net damage, `y=1/2` | 1.95721e-02 | 1.9617e-02 | — | **1.9447e-02** (60 windows) |
-| `Shq/2` | 3.37542e-02 | 3.3754e-02 | — | **3.375420393e-02** |
+| bound on net damage, `y=1/2` | 1.95721e-02 | 1.9617e-02 |, | **1.9447e-02** (60 windows) |
+| `Shq/2` | 3.37542e-02 | 3.3754e-02 |, | **3.375420393e-02** |
 | safety factor | 1.7246x | 1.72x | 1.724x | **1.7357x** |
-| margin lower bound | 6.72091e-02 | — | +0.06718 | **6.780e-02** |
+| margin lower bound | 6.72091e-02 |, | +0.06718 | **6.780e-02** |
 
 Maximising multiplicity: **3 on the innermost window of each side, 1 on
-every other** — all four instruments agree. `y = 1/2` is the binding
+every other**, all four instruments agree. `y = 1/2` is the binding
 depth (the relief carries no `y^2` while damage and budget both do):
 coordinator's net/budget ratio runs 0.3915 / 0.3925 / 0.3942 / 0.4658 /
 **0.5725** at `y = 0.1 ... 0.5`.
@@ -1311,15 +1311,15 @@ crosses zero at n = 23 (`y=1/2`); it falls without bound. Mass can leave
 as dust: spread thin it pays no self-energy and collects no damage. The
 minimiser is fractional (2.078 at the first window) and unrealisable.
 `-n A^2` is the self-energy of `n` **unit atoms** and only integrality
-pays it back — so **no convex relaxation of the atom constraint can
+pays it back, so **no convex relaxation of the atom constraint can
 close this**, and the SOS/Gram route closed earlier (`sos_certificate.py`)
 was closed for the same underlying reason.
 
 ### The exact-rational certificate
 
 `exact_gap_attack.rational_certificate` re-runs the bound in
-`fractions.Fraction` on the tree's own kernel-checked constants —
-`Wt` (`FarField.Qim_far_sq`) and `Shq_half_lower` — plus a 9-window
+`fractions.Fraction` on the tree's own kernel-checked constants,
+`Wt` (`FarField.Qim_far_sq`) and `Shq_half_lower`: plus a 9-window
 table with rational endpoints, `K >= 39/50` on `|u| <= 1` and
 `K >= 1/125` on `|u| <= 6`:
 
@@ -1329,7 +1329,7 @@ table with rational endpoints, `K >= 39/50` on `|u| <= 1` and
 Coordinator re-checked the one undocumented constant in it (`637/1000`,
 the far-tail coefficient): it is a sound rational majorant of
 `s^2 Wt(s^2-2)`, which is 0.62508 at s=400 and decreasing to 5/8. The
-code does not say where it came from — a documentation defect, logged,
+code does not say where it came from, a documentation defect, logged,
 not an arithmetic one.
 
 ### Grade, stated exactly
@@ -1345,26 +1345,26 @@ not an arithmetic one.
 ### The fourth route, and the quantifier it does NOT reach
 
 `cluster_sdp.py` (86 tests) came in last, from the SDP/moment side, and
-lands on the same accounting from a different direction — a fourth
+lands on the same accounting from a different direction, a fourth
 independent agreement.
 
 | Finding | Status | Evidence |
 |---|---|---|
 | Window occupancy bound, single pair | **+0.000932 (y=0.05) … +0.0672 (y=0.5)** | positive at every depth, 42–60% of budget surviving; `+0.0672` against `exact_gap_attack`'s `+0.06718` and the coordinator's `+0.0678` |
-| Its moment-program form picks the true minimiser blind | STRUCTURAL | 2.63 atoms at `±6.5`, one each at `±12.5`, `±19` — the `3,1,1,…` schedule all four instruments found |
+| Its moment-program form picks the true minimiser blind | STRUCTURAL | 2.63 atoms at `±6.5`, one each at `±12.5`, `±19`, the `3,1,1,…` schedule all four instruments found |
 | **A closed form for the far-field peak envelope** | **DERIVED, rel. err 3.0e-4** | `D_j s_j^2 -> 2 cos^2(1/sqrt2)(cosh y - 1)`; coordinator measured `0.1475305` against the closed form `0.1475273` at `s` up to 502 |
 | Consequence | **it replaces the certificate's one measured constant** | the `637/1000` far-tail coefficient above was standing in for exactly this; the closed form makes the tail derivable rather than read off a scan |
-| Normalisation trap, noted | `psi = ghat/A`, so `cluster_sdp`'s `-4 Re psi^2` is `4/A^2` times the damage used elsewhere in this hunt | the raw numbers differ by 1.185 and look like a discrepancy until converted — the fourth such normalisation collision in this hunt |
-| `cone_violator` excluded, and by which constraint | MACHINE-CHECKED | the depth cap kills it at the published `t=1/2`; at the largest depth-admissible `t=0.1400` it still violates and **(T3)** kills it — cross entries purely imaginary give `Re(C^2) = -0.0196` where (T3) allows only `-0.0052`, short by 3.76x. Pinning its moments returns `infeasible` at every `t`, `n = 3,4,6`; lesion control drops below the witness with (T2)/(T3)/(T4) deleted |
+| Normalisation trap, noted | `psi = ghat/A`, so `cluster_sdp`'s `-4 Re psi^2` is `4/A^2` times the damage used elsewhere in this hunt | the raw numbers differ by 1.185 and look like a discrepancy until converted, the fourth such normalisation collision in this hunt |
+| `cone_violator` excluded, and by which constraint | MACHINE-CHECKED | the depth cap kills it at the published `t=1/2`; at the largest depth-admissible `t=0.1400` it still violates and **(T3)** kills it, cross entries purely imaginary give `Re(C^2) = -0.0196` where (T3) allows only `-0.0052`, short by 3.76x. Pinning its moments returns `infeasible` at every `t`, `n = 3,4,6`; lesion control drops below the witness with (T2)/(T3)/(T4) deleted |
 | **`k >= 2`: NOT reached, reason named** | **OPEN, on the BUDGET side** | the same accounting needs `budget(P) >= 0.5799 sum_p slack(y_p)`; `joint_universal` measures the floor at `0.2918 sum_p slack(y_p)` (500 restarts, binding shape a lattice at 1.005 mean gaps). **Short by a factor 1.99.** Not the damage side |
-| Why it does not extend for free | an on-line atom can sit in one damage window **of each pair at once**, so the damage side scales with `k` while the budget does not — slack additivity is false and signed (ledger 2026-08-12: the pair term runs `+8.31` to `-0.756`) | |
+| Why it does not extend for free | an on-line atom can sit in one damage window **of each pair at once**, so the damage side scales with `k` while the budget does not, slack additivity is false and signed (ledger 2026-08-12: the pair term runs `+8.31` to `-0.756`) | |
 | Entry-level SDP, size independence | **PROVABLY INSUFFICIENT past n = 7.68** | a dual with no size in it gives `Xi >= (d^2-1)(2 - 4 n C_D)`; counting how many atoms fit in a damage window is degree >= 3 in the entries, so no degree-2 cut on pairs of entries can supply it. Same shape of finding as `inertia_multiplier` |
 
 ### Grade and quantifier, stated exactly
 
-**What is closed**: the `k = 1` retention inequality — one pair block,
+**What is closed**: the `k = 1` retention inequality, one pair block,
 **every** `n`, every `t`, every `y in [0,1/2]`, with **no separation
-hypothesis** — at **hardened** grade, by four instruments that agree to
+hypothesis**, at **hardened** grade, by four instruments that agree to
 three digits plus one exact rational certificate and one independent
 coordinator reproduction. That is strictly stronger than what the tree
 carries (`d >= 4`, or `n <= 3`), and it retires the separation route
@@ -1375,11 +1375,11 @@ rather than improving it.
 1. **Formalisation.** None of it is in Lean. The remaining cost is the
    9-window interval table above; the other three obligations are
    hours, not research.
-2. **The multi-pair quantifier — blocker 2 proper.** `k >= 2` is open
+2. **The multi-pair quantifier, blocker 2 proper.** `k >= 2` is open
    and the obstruction is arithmetic, not presentational: budget floor
    `0.2918` against a requirement of `0.5799`, a factor **1.99** on the
    **budget** side. Closing `k = 1` does not close it, and no argument
-   that charges damage per pair can — that is the same superadditivity
+   that charges damage per pair can, that is the same superadditivity
    that refuted the per-pair route on 2026-08-12.
 
 No proportion has moved and nothing here is evidence about RH.
@@ -1421,12 +1421,12 @@ The worry that motivated the pessimism is real and visible in the
 identity: **the repulsion term carries no `p` index**. It is paid once
 however many pairs there are, while the damage is summed over them, so
 relief per pair goes like `1/k`. That reading is still wrong, and the
-identity says why — the adversary has exactly two routes and both pay:
+identity says why, the adversary has exactly two routes and both pay:
 
 | route | what it costs the adversary | measured |
 |---|---|---|
 | **spread the centres** so each pair sees the atoms at a damage peak | only **two** positions carry the top peak (`+/- 6.517`); the rest decay like `1/s^2`, so `damage/gain` falls | 1.0420 at `k = 1` and `k = 2`, 0.6365 at `k = 4`, 0.4578 at `k = 6`, **0.2483 at `k = 12`** |
-| **stack the centres**, keeping `damage/k` maximal | coincident centres contribute `D(2y,0) + D(0,0) = -(ghat(2y)^2 + A^2)`, which enters `slack_k` with a minus sign — a **gain** of `1.7556` per ordered pair | slack `+1.81` at `k=2`, `+49.4` at `k=8` |
+| **stack the centres**, keeping `damage/k` maximal | coincident centres contribute `D(2y,0) + D(0,0) = -(ghat(2y)^2 + A^2)`, which enters `slack_k` with a minus sign, a **gain** of `1.7556` per ordered pair | slack `+1.81` at `k=2`, `+49.4` at `k=8` |
 
 Neither route is visible to an argument that charges damage per pair,
 which is exactly what `multi_pair_requirement` does. Its 1.99 compares a
@@ -1440,7 +1440,7 @@ Minimising the **relative** margin `slack_k / sum_p Shq(y_p)/2` over
 atoms, centres and depths jointly (annealing, `n <= 24`, 60 restarts per
 `k`). The relative form matters: the coordinator's first search minimised
 the absolute slack and collapsed into the degenerate `y -> 0` corner
-where gain, damage and repulsion all vanish together — and the planted
+where gain, damage and repulsion all vanish together, and the planted
 fault correctly refused to fire at `x1.5` and `x2.0`, which is what
 exposed the bad objective.
 
@@ -1458,8 +1458,8 @@ negatives at `damage_scale = 1.5` (clean at 1.0, `-0.171` at 1.5,
 ### Disposition
 
 **THE CORRECTION WAS RIGHT AND ITS CONSEQUENCE WAS OVERSTATED.** Blocker
-2 is the multi-pair quantifier and the entry above closes only `k = 1`
-— that stands (#19). But `k >= 2` is **not** short by 1.99x as a
+2 is the multi-pair quantifier and the entry above closes only `k = 1`,
+that stands (#19). But `k >= 2` is **not** short by 1.99x as a
 statement: at hardened grade its relative margin is `+0.343` at the
 worst `k` searched, with the mechanism named (peak decay on one side,
 coincident-centre shielding on the other) and an exact identity to state
@@ -1495,7 +1495,7 @@ One line: `ghat` has the closed form `sinh((z +/- i sqrt2)/2)/(z +/- i sqrt2)`
 summed over signs, and `sinh(i w/2)/(i w) = sin(w/2)/w = s(w)`, so
 substituting `z = -i w` turns each `ghat` branch into an `s` branch of
 `Phi2`. Measured residual over 27 curated points and a 1600-point grid
-over the strip: **exactly 0.0** — not small, bit-identical, because after
+over the strip: **exactly 0.0**, not small, bit-identical, because after
 the rotation the two closed forms are the same expression. `A = Phi2(0)`
 to the last bit, and `phi_r(v) = Phi2(v)` on the real axis, which is
 `BandCert.Phi.phiR`.
@@ -1530,14 +1530,14 @@ tests), `mean_damage.py` + `test_mean_damage.py` (Road B, 15 tests).
 `ROADMAP-OPTIONS.md` priced both roads; this closes the first task on
 each.
 
-### ROAD A — the table is sized: 196 cells
+### ROAD A, the table is sized: 196 cells
 
 The `k = 1` chain's one substantial formalisation obligation. Two sizing
 attempts failed first and the failures were the method:
 
 | attempt | outcome | why |
 |---|---|---|
-| cap each window, require `D <= 0` elsewhere | 6.36e6 cells, **99.995% undecided** | asking for `D <= 0` on a cell straddling a window edge is **unprovable by enclosure** — `D` is exactly `0` there |
+| cap each window, require `D <= 0` elsewhere | 6.36e6 cells, **99.995% undecided** | asking for `D <= 0` on a cell straddling a window edge is **unprovable by enclosure**, `D` is exactly `0` there |
 | enlarge to fixed brackets, one wide ball per cap | still diverges; cap sum `3.54e-02` **exceeds** the budget `3.375e-02` | dependency blow-up: a half-width-`0.6` ball gives `2.73e-02` against a true peak of `4.40e-03`, **6x** |
 | **locate true edges, pad outward, cap by subdivision INSIDE** | **196 cells, 0 undecided** | brackets sit strictly outside the windows so `D < 0` with margin off-bracket; caps are tight because the cells prove them |
 
@@ -1546,7 +1546,7 @@ At `y = 1/2`, `s in [5.6, 60]`, Arb at 128 bits: **9 windows** (widths
 brackets** padded by `0.25` and rounded outward to `1e-3` (min gap
 `4.682`), **143 in-bracket cells** carrying caps `4.483880e-03` down to
 `4.715629e-05`, **53 off-bracket cells** over 10 segments. Cap sum
-`1.319090e-02` both sides against `Shq/2 = 3.375420e-02` — ratio
+`1.319090e-02` both sides against `Shq/2 = 3.375420e-02`: ratio
 **0.3908**.
 
 `196` sits inside `BandCert`'s existing `62 .. 248`. **The remaining
@@ -1563,7 +1563,7 @@ rounding them outward (which is what soundness requires) gives `196`.
 `test_stated_constants_match_the_generated_table` now pins all four
 counts so the prose cannot drift from the computation again.
 
-### ROAD B — the damage functional has negative total integral
+### ROAD B: the damage functional has negative total integral
 
 The missing step was a quantitative form of "only two positions carry the
 top peak". There is a sharper and entirely elementary statement.
@@ -1578,14 +1578,14 @@ point `w = 0`** gives
 | check | result |
 |---|---|
 | `c2(0)` closed form vs quadrature | `\|diff\| = 0.0` |
-| truncated integral at 5 depths | spread across `y in [0.05, 0.5]` is `1.2e-05` — flat, as the identity says |
+| truncated integral at 5 depths | spread across `y in [0.05, 0.5]` is `1.2e-05`, flat, as the identity says |
 | tail behaviour | residual shrinks with `S`, consistent with the `O(1/S)` truncation of a `1/s^2` tail |
 | mean collectable damage `int C(t) dt / 2L` vs `n int D / 2L` | four digits, for coincident **and** spread atom sets |
 
 **What it buys.** For a fixed on-line multiset, the damage a pair centred
 at `t` collects has *negative mean over placements*, at a rate that does
 not weaken with depth. A pair placed at random collects negative damage;
-positive collection requires landing in one of the narrow windows — and
+positive collection requires landing in one of the narrow windows, and
 the windows are exactly what the `k = 1` accounting already controls.
 This is the right shape for `k >= 2`, where the difficulty was that
 damage sums over pairs while the repulsion is paid once.
@@ -1614,7 +1614,7 @@ measure `c2 dw` shows the difficulty is somewhere else, and isolates it.
 ### The kernel is positive definite
 
 `-D(y,s) = int c2(w) cosh(y w) cos(s w) dw` is the Fourier transform of
-`c2(w) cosh(y w) dw`, a **positive** measure on `[-1,1]` — `c2 = g * g`
+`c2(w) cosh(y w) dw`, a **positive** measure on `[-1,1]`: `c2 = g * g`
 is the autocorrelation of a nonnegative window and `cosh > 0`. By Bochner
 `K_y := -D(y,.)` is positive definite. Measured min eigenvalue
 **`1.03e-08`** over 200 random Gram matrices, **`-6.06e-16`** (numerical
@@ -1654,7 +1654,7 @@ close in either direction. **This is what the 2026-08-12 finding that
 slack additivity is "false and signed" actually was**: the additive
 budget was an artifact of the decomposition, and `B` has no additivity to
 fail. A per-pair accounting was bounding a non-additive quantity by an
-additive one — which is why `cluster_sdp`'s factor 1.99 could never have
+additive one, which is why `cluster_sdp`'s factor 1.99 could never have
 closed, independently of how loose either side was.
 
 Note the sixth row: coincident pair centres give `B` a factor **175x**
@@ -1672,7 +1672,7 @@ pinning it so.
 Disposition: **THE FRAME IS RIGHT AND TWO OF ITS THREE TERMS ARE FREE.**
 `k >= 2` is now one inequality, `B + R/400 >= sum D`, with the budget in
 its correct non-additive form and its nonnegativity resting on a theorem
-already kernel-checked in this tree. It is **not proved** — named gaps
+already kernel-checked in this tree. It is **not proved**, named gaps
 G1-G5 say which parts are paper-and-numerics rather than Lean. `k >= 2`
 remains open, no proportion has moved, and nothing here is evidence about
 RH.
@@ -1695,7 +1695,7 @@ Put `m` atoms and `j` pair centres in one damage window (width
 | damage per (atom, pair) | `D_1 = 4.396424e-03` |
 | atom-atom relief per within-window pair | `gamma^2/800 = 9.779689e-04` |
 | **pair-pair relief per within-window pair** | **`kappa(w_max) = 1.620239e+00`** |
-| AM-GM condition | `1.932855e-05 <= 6.338174e-03` — **margin 327.9x** |
+| AM-GM condition | `1.932855e-05 <= 6.338174e-03`, **margin 327.9x** |
 
 `kappa(w_max)` is **1657x** the per-pair atom relief. That asymmetry is
 the whole content: the pair species cannot crowd. Maximising
@@ -1714,7 +1714,7 @@ its `j = 1` slice, which is the consistency check that matters.
 
 `B` is not additive, so a "budget per pair" could in principle vanish as
 `k` grows. Minimising over lattice spacings at `k = 64` puts the worst
-case at `L = 6.30` — just past `2 pi`, the window period, which is where
+case at `L = 6.30`, just past `2 pi`, the window period, which is where
 `kappa` is most negative (`-1.82e-02`). Along that worst family:
 
 | k | 2 | 4 | 8 | 16 | 32 | 64 | 128 | 256 |
@@ -1726,7 +1726,7 @@ budget bounded away from zero, uniformly in `k`.
 
 ### What this settles and what it does not
 
-Together the two kill the configuration the `k = 1` analysis feared —
+Together the two kill the configuration the `k = 1` analysis feared,
 many pairs sharing one atom cluster's windows. It is **not** closure:
 a single pair facing atoms at every one of its window peaks already
 collects `1.372e-02`, against a floor of `6.3e-03`, so `R/400` stays
@@ -1735,7 +1735,7 @@ is gone is the *unbounded* form of the worry.
 
 **Test-caught coordinator slip.** `test_one_pair_at_every_window_peak`
 first asserted the full-tail figure `1.372e-02` against a nine-window sum,
-which is `1.2888e-02` — two different truncations quoted for each other.
+which is `1.2888e-02`, two different truncations quoted for each other.
 The claim was unaffected (both beat the floor) but the test was wrong, and
 it now pins both numbers and the inequality between them. Same family as
 the `197`/`196` slip: a number carried across contexts without
@@ -1745,13 +1745,13 @@ Disposition: **THE COUNT EXISTS AND IT IS SHARP.** `k >= 2` remains open,
 named gaps C1-C5 say which parts are measured rather than proved, no
 proportion has moved, and nothing here is evidence about RH.
 
-### CORRECTION, same day: coordinator defect #21 — two errors in the site model
+### CORRECTION, same day: coordinator defect #21, two errors in the site model
 
 Caught by the operator's "if you say so", which prompted checking the
 site model against the exact slack instead of restating it. Both errors
 were in the entry above; both are corrected in place.
 
-**Error 1 — a factor of 2.** `site_value` used `j(j-1) kappa(w_max)` for
+**Error 1, a factor of 2.** `site_value` used `j(j-1) kappa(w_max)` for
 the pair relief. The `k`-pair identity sums over **unordered** pairs, so
 the correct term is `j(j-1) kappa(w_max)/2`. Measured against the exact
 slack: two coincident pairs relieve `1.75562102`, and the model claimed
@@ -1765,20 +1765,20 @@ slack: two coincident pairs relieve `1.75562102`, and the model claimed
 | `j = 2` site value | -3.216073 | **-1.595834** (at m = 5) |
 | `j = 3` site value | -9.670185 | **-4.809467** (at m = 7) |
 
-**Error 2 — the logic ran the wrong way, which is the worse one.** The
+**Error 2, the logic ran the wrong way, which is the worse one.** The
 entry said "maximising `f(m,j)` over integers ... a second pair in the
 same window is never profitable", as though `f` bounded what the
 adversary gains. It does not. `f` uses the conservative constants, so
 `f >= B - slack`, i.e. **`slack >= B - f`**: `f` *understates* the slack
-because it discards the budget entirely. Measured — the exact slack
+because it discards the budget entirely. Measured, the exact slack
 exceeds `f` at every occupancy tested, by `+0.025` at `(m,j) = (1,1)`,
 `+5.05` at `(1,2)`, `+15.06` at `(1,3)`.
 
 **What the corrected statement is.** `slack >= B - f`, so a site is safe
 as soon as `B >= f`. At `j = 1`, `max_m f = 7.321459e-03` against
-`Shq(y)/2 = 3.375420e-02` — a factor `4.61`. At `j >= 2`, `f < 0`, so
-`slack >= B - f > B >= 0` outright. The conclusion — a second pair at the
-same site is never the adversary's play — **survives both corrections**,
+`Shq(y)/2 = 3.375420e-02`: a factor `4.61`. At `j >= 2`, `f < 0`, so
+`slack >= B - f > B >= 0` outright. The conclusion, a second pair at the
+same site is never the adversary's play, **survives both corrections**,
 but it holds for a different reason than the entry gave, and with
 constants half the size.
 
@@ -1794,7 +1794,7 @@ pin `slack > f` at every occupancy, so neither error can return silently.
 
 Disposition: **THE COUNT SURVIVES AT HALF THE CONSTANTS AND WITH ITS
 LOGIC REVERSED.** Defect #21 joins #19 and #20 as the third correction
-this session caught by an operator asking, in substance, "are you sure" —
+this session caught by an operator asking, in substance, "are you sure",
 and the third whose root cause was a quantity used without being derived
 in the form it was being used. `k >= 2` remains open, no proportion has
 moved, and nothing here is evidence about RH.
@@ -1813,23 +1813,23 @@ configurations `(m, j) in {1,3,5} x {1,2,3}`:
 
 | pairing | violations |
 |---|---|
-| `slack >= B - f` (as published in #21) | **6 of 9** — every one with `j >= 2` |
+| `slack >= B - f` (as published in #21) | **6 of 9**, every one with `j >= 2` |
 | `slack >= k Shq(y)/2 - f` | **0 of 9** |
 
-At `(m,j) = (3,2)`: exact slack `1.803081`, `B - f = 3.422858` — short by
+At `(m,j) = (3,2)`: exact slack `1.803081`, `B - f = 3.422858`, short by
 a factor `1.9`.
 
 **The correct statement.** `f` pairs with `k Shq(y)/2`, not with `B`,
 because the identity it comes from is
 `slack = k Shq/2 - sum D + R/400 + sum_{p<q} kappa`. Its three steps are
 `sum D <= m j D_1`, `R/400 >= m(m-1) g^2/800`, and
-`sum_{p<q} kappa >= j(j-1) kappa(W)/2` — the last requiring `kappa`
+`sum_{p<q} kappa >= j(j-1) kappa(W)/2`: the last requiring `kappa`
 nonincreasing on `[0, w_max]`, now measured: `1.75562102` falling to
 `1.62023918` with no interior minimum.
 
 Every numeric conclusion of #21 survives unchanged; only the budget the
 bound is compared against was mislabelled. `j = 1` still needs
-`3.375420e-02 >= 7.321459e-03` (factor `4.61`) — that comparison was
+`3.375420e-02 >= 7.321459e-03` (factor `4.61`), that comparison was
 always against `Shq/2`, which is why it read correctly.
 
 Three regression tests now pin it: the wrong pairing must fail exactly 6
@@ -1839,8 +1839,8 @@ checked on a 200-point grid.
 **The pattern, stated plainly.** #19, #20, #21 and #22 are four
 corrections in one session, each caught by the operator expressing doubt
 rather than by any check in this tree. Every one of them was a *framing*
-error — a mislabelled quantifier, a bound relayed as a statement, a
-double-counted term — while the underlying numbers survived each time.
+error, a mislabelled quantifier, a bound relayed as a statement, a
+double-counted term, while the underlying numbers survived each time.
 The `meta/` entry filed earlier today names the missing capability as a
 gate on relayed numbers; that is the wrong shape. The measured failure
 mode is not bad arithmetic, it is **prose asserting a relation between
@@ -1855,14 +1855,14 @@ evidence about RH.
 
 ## What survives 2026-08-13, measured rather than recalled
 
-Instrument: `salvage_audit.py` — seven checks re-derived from
+Instrument: `salvage_audit.py`, seven checks re-derived from
 `EForm3/Defs.lean` alone, importing nothing from this directory.
 **7 of 7 PASS.** The ten modules landed today also pass **340 tests**.
 
 | claim | independent residual | status |
 |---|---|---|
 | `margin_k = (4/A^2) slack_k` (k = 1, 2, 3, by quadrature on `Eng`) | **4.21e-17** | STANDS |
-| `ghat(z) = Phi2(-i z)` — BandCert and EForm3 are one function | **0.0** over 24 points | STANDS |
+| `ghat(z) = Phi2(-i z)`, BandCert and EForm3 are one function | **0.0** over 24 points | STANDS |
 | `int D(y,s) ds = -2 pi c2(0) = -5.33585688776`, depth-free | spread across `y` **4.88e-05**; `c2(0)` closed form exact | STANDS |
 | Bochner: `-D(y,.)` positive definite | min eigenvalue **-6.745e-16** over 63 Gram matrices | STANDS |
 | **k=1 window bound, no separation hypothesis** | net `1.9447e-02` vs `Shq/2 = 3.3754e-02`, **safety 1.736x** | STANDS |
@@ -1879,7 +1879,7 @@ the defective sentences were describing all reproduce from scratch.
 What is therefore **rescued and load-bearing**:
 
 1. The `k = 1` retention inequality for every `n`, every shift, every
-   depth in `[0,1/2]`, **with no separation hypothesis** — hardened
+   depth in `[0,1/2]`, **with no separation hypothesis**, hardened
    grade, four independent instruments, an exact rational certificate,
    and now an eighth from-definitions reproduction.
 2. `ghat = Phi2(-i .)`, which collapses two certification efforts into
@@ -1914,11 +1914,11 @@ only `n <= 24`, `k <= 6`; this goes to `n = 400`, `k = 60`.
 | both free random | **+4.83** |
 
 **No degradation with `n/k`**: along the first family the margin runs
-`24.51, 24.72, 24.91, 25.06` as `(n,k)` goes `(50,2) -> (400,16)` — flat,
+`24.51, 24.72, 24.91, 25.06` as `(n,k)` goes `(50,2) -> (400,16)`: flat,
 not falling. The worry predicts the opposite.
 
 **The adversary's preference is the reverse of the worry.** Annealing
-over both populations reaches its worst at **`n = 5`, `k = 23`** —
+over both populations reaches its worst at **`n = 5`, `k = 23`**,
 *few* atoms, *many* pairs, margin `+0.2716`. It starves the repulsion of
 atoms rather than overwhelming it. The many-atom family becomes the best
 play only at damage scales where the inequality has *already* broken
@@ -1934,21 +1934,21 @@ play only at damage scales where the inequality has *already* broken
 | x2.5 | -1.2505 | 87, 9 | FIRES |
 | x3.0 | -2.7047 | 94, 8 | FIRES |
 
-**Negative result 1 — power is effort-dependent, and below the floor
+**Negative result 1, power is effort-dependent, and below the floor
 this scan is worthless.** The `x2.0` rung does *not* fire at 20 restarts
 x 5000 iterations (`+0.2651`), nor at 20 x 12000 on a single seed
 (`+0.0023`). It fires only at 20 x 12000, best of 3 seeds. `EFFORT_FLOOR`
 records the ladder and a test pins it, because the first version of this
-scan reported "no violation" at an effort with no power — a verdict worth
+scan reported "no violation" at an effort with no power, a verdict worth
 nothing.
 
-**Negative result 2 — a near-miss caught before landing.** An earlier
+**Negative result 2, a near-miss caught before landing.** An earlier
 draft recorded `-0.5954` at `x2.0`. That number came from the
 **scratchpad** implementation, not from the module being landed; the two
 consume the RNG in a different order and the landed module does not
 reproduce it. The module was held uncommitted until every recorded
 number came from the code that ships. This is the same failure family as
-defects #19-#22 — a quantity carried across contexts — caught this time
+defects #19-#22, a quantity carried across contexts, caught this time
 before publication rather than after.
 
 Disposition: **THE SPECIFIC MECHANISM THE WORRY NAMED IS REMOVED, AND
@@ -2007,12 +2007,12 @@ quoted theirs as "264 leaves at depth 12 at `1.20x` inflation plus `0.02`
 widening". That is their **first draft's** operating point, which their
 own second commit retracted: `0.02` widening **breaks O3**, whose ceiling
 is `0.00695`. Their recommended point is `1.20x` inflation with `1/200`
-widening — **110 window + 279 complement = 389 leaves, max depth 16**.
+widening, **110 window + 279 complement = 389 leaves, max depth 16**.
 
 **Their §7 ceiling clears ours.** They measure the budget as absorbing
 cap inflation up to **`1.3945x`**. `window_table` runs at `1.02x` with a
-cap sum of `1.319090e-02` against `Shq/2 = 3.375420e-02` — headroom
-`2.5589x` — and inflating its caps all the way to `1.3945x` gives
+cap sum of `1.319090e-02` against `Shq/2 = 3.375420e-02`, headroom
+`2.5589x`: and inflating its caps all the way to `1.3945x` gives
 `1.839470e-02`, still under budget.
 
 Disposition: **THE TWO SCOPINGS AGREE, AND THEIRS SUPPLIES THE REASON
@@ -2029,7 +2029,7 @@ Instrument: `o9_leaf.py`, `test_o9_leaf.py` (20 tests), and the generated
 
 **What was actually blocking O9 was nothing.** It was recorded as needing
 a prover; it does not. A leaf table is generated data plus a decision
-procedure — the pattern `BandCert` already uses — so the work is code
+procedure, the pattern `BandCert` already uses, so the work is code
 generation, and it can be done and validated without a Lean toolchain.
 
 **The arithmetic is mirrored, not approximated.** `o9_leaf` reimplements
@@ -2051,7 +2051,7 @@ spanning `[5.7, 59.9]`.
 Arb at 128 bits is *tighter* than fixed point at `2^-64`, so cells Arb
 decides need splitting again in the arithmetic that will actually run.
 **196 was an underestimate of the real Lean cost by 43%.** Max depth 20,
-**0 undecided**, smallest margin `3.63e9` ulp (`1.97e-10` absolute) — far
+**0 undecided**, smallest margin `3.63e9` ulp (`1.97e-10` absolute), far
 above the few-ulp band where the leaf caveat would bite, so the prediction
 is safe. 344 sits above `BandCert`'s existing `62..248` but on the same
 order.
@@ -2059,8 +2059,8 @@ order.
 ### The termination detail that decides it
 
 The walk must cut `[28/5, 60]` at **every window endpoint** before
-subdividing. Bisection alone never lands on one — the endpoints are
-rationals with denominator `10^4`, the midpoints are dyadic — so a cell
+subdividing. Bisection alone never lands on one, the endpoints are
+rationals with denominator `10^4`, the midpoints are dyadic, so a cell
 straddling a boundary shrinks forever: **768 cells, 18 undecided at depth
 40**. With the cuts: 344, none undecided. This is the third appearance of
 the same trap in this hunt (it also killed two earlier sizing attempts),
@@ -2083,7 +2083,7 @@ soundness lemma is unwritten; the table is one-dimensional at `y = 1/2`
 and rests on the unproved depth reduction. `k >= 2` is untouched, no
 proportion has moved, and nothing here is evidence about RH.
 
-### CORRECTION: coordinator defect #23 — a superseded number, cherry-picked past its own retraction
+### CORRECTION: coordinator defect #23, a superseded number, cherry-picked past its own retraction
 
 The operator asked for the tree to be tied off and warned against
 assuming another session's work is wrong without digging. Digging found
@@ -2093,7 +2093,7 @@ the error was mine.
 cherry-picked: `9a99fc9` ("O9 scoped") and `0278f4a` ("O9 work order, **and
 the widening ceiling the first draft missed**"). The reconciliation entry
 above then quoted their operating point as *"264 leaves at depth 12 at
-`1.20x` inflation plus `0.02` widening"* — which is the **first draft's**
+`1.20x` inflation plus `0.02` widening"*, which is the **first draft's**
 figure, retracted by the second commit that was applied in the same
 breath. Their §2 establishes a hard ceiling: the widening may not exceed
 `(1 - 0.9861)/2 = 0.00695`, because O3 supplies `Kpair >= 39/50` only on
@@ -2103,7 +2103,7 @@ breath. Their §2 establishes a hard ceiling: the widening may not exceed
 | | first draft (quoted in error) | their recommendation |
 |---|---|---|
 | inflation | 1.20x | 1.20x |
-| widening | **0.02 — breaks O3** | **1/200 = 0.005** |
+| widening | **0.02, breaks O3** | **1/200 = 0.005** |
 | leaves | 264 | **110 window + 279 complement = 389** |
 | max depth | 12 | **16** |
 
@@ -2115,7 +2115,7 @@ was stale. Corrected in place above.
 
 Their §1 records that "no damage outside the windows" is an **equality at
 every window endpoint**, so with `I_k` taken as the exact damage support
-the complement does not close — 404 leaves and a depth wall. `o9_leaf`
+the complement does not close: 404 leaves and a depth wall. `o9_leaf`
 closes anyway, and **not** because fixed point beats Arb. It closes
 because §4's recorded `I_k` are decimal-rounded **outward** past the true
 support:
@@ -2137,7 +2137,7 @@ in the module (`L4b`) and pinned by a test.
 `o9_leaf` sizes the **one-dimensional** table at `y = 1/2`: 344 cells at
 `1.05x`, no explicit widening. `o9_scoping` sizes the **two-dimensional**
 table over the whole box: 389 leaves at `1.20x`/`0.005`. Being 2-D,
-**theirs needs no depth-reduction lemma** — this session's 1-D table rests
+**theirs needs no depth-reduction lemma**, this session's 1-D table rests
 on `D(y,s)/y^2 <= 4 D(1/2,s)`, which is measured and unproved. Trading an
 unproved lemma for 45 leaves is a bad trade, and whoever writes the Lean
 file should take the 2-D route. Recorded in `o9_leaf`'s docstring rather
@@ -2150,15 +2150,15 @@ than left for someone to rediscover.
   understates the Lean obligation by 43%, and `N_CELLS` carries the same
   note. A test pins the two counts against each other.
 * The generated `O9{Data,Check,Damage}.lean` are **staged but deliberately
-  not imported** by `Zeta23Ext.lean`. They are uncompiled here — there is
-  no toolchain — and wiring unverified modules into the package root would
+  not imported** by `Zeta23Ext.lean`. They are uncompiled here, there is
+  no toolchain, and wiring unverified modules into the package root would
   risk the other session's build. A test pins that they exist and that the
   root does not import them.
 
 Disposition: **THE ERROR WAS MINE, THE OTHER SESSION'S WORK WAS RIGHT AND
 ALREADY SELF-CORRECTED.** Defect #23 is the fifth of the session and the
 first involving another session's material; its cause is the same as the
-other four — a quantity carried across contexts without being re-derived
+other four, a quantity carried across contexts without being re-derived
 in the context it was being used. `k >= 2` remains open, no proportion has
 moved, and nothing here is evidence about RH.
 
@@ -2222,7 +2222,7 @@ failure class as defects #19-#23: a number carried into a context where its
 optimisation variable had silently been frozen. Nothing here is evidence
 ---
 
-## 2026-08-15: blocker 2's first multi-pair case — `k = 2`, equal depths, measured
+## 2026-08-15: blocker 2's first multi-pair case, `k = 2`, equal depths, measured
 
 **Claimed:** the two-species restatement (`two_species.py`: `D(0,tau) =
 -Kpair(tau)`, so the `k`-pair slack is per-centre budgets + centre-centre
@@ -2244,14 +2244,14 @@ pointwise in `tau`; the adversary-side damage ladder first fires between
 machine's own caps kill the resonance cell at 1.02x inflation, consistent
 with its worst margin.  Depth-1 landscape corrections recorded on the way:
 the no-damage radius at depth 1 is **5.3984 < 28/5**, and the far constant
-at depth 1 is **0.6636 > 637/1000** — neither proved bound survives at the
+at depth 1 is **0.6636 > 637/1000**, neither proved bound survives at the
 centre-centre depth, and any depth-1 argument must re-derive them.
 
 **Quantifier discipline (defect #19 applies):** this is the FIRST
 multi-pair case, not blocker 2.  Open and named: `k >= 3` (the centre-gas
-split T1/T2 of `K2-TWO-SPECIES.md` §5 is a direction with measurements —
+split T1/T2 of `K2-TWO-SPECIES.md` §5 is a direction with measurements,
 the gas eats 87.8% of the per-centre budget on the worst uniform lattice
-and the signed field poisons atoms there — not a schedule); unequal depths
+and the signed field poisons atoms there, not a schedule); unequal depths
 (grid-measured `>= 0`, the convex-majorant route's gap named); hardening
 (interval pass over the same cells, O9-table technology).  `k >= 2` in
 full remains OPEN, no proportion has moved, and nothing here is evidence
@@ -2276,7 +2276,7 @@ Consequences, stated conservatively:
 
 * T1 now has an exact target at the uniform-lattice limit instead of a
   scan. It is still NOT a proved uniform floor over finite or non-lattice
-  pair sets — defect #24 says so explicitly, and the k=2 entry's own
+  pair sets, defect #24 says so explicitly, and the k=2 entry's own
   measurement that IRREGULAR occupancy (the `1,1,2,1,1,2,3` pattern)
   exceeds the uniform row is the same warning from the other side.
 * Defect #24's finding that the shared `R/400` term is more load-bearing

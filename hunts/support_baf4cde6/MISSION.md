@@ -1,4 +1,4 @@
-# MISSION — support run baf4cde6 (Erdős #126, entropy/combinatorics arm)
+# MISSION: support run baf4cde6 (Erdős #126, entropy/combinatorics arm)
 
 Support arm for run `0897a5a7`. Bounded question, one lane:
 

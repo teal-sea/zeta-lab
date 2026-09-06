@@ -1,4 +1,4 @@
-# 28: The rightmost zeros of the prime zeta function
+# 30. The rightmost zeros of the prime zeta function
 
 *A reading-course page about a threshold this laboratory did not discover.
 The threshold that governs the rightmost zeros of the prime zeta function is

@@ -1,4 +1,4 @@
-# MISSION — hunt `overlap_lower`
+# MISSION: hunt `overlap_lower`
 
 **Sixth instance of the ceiling procedure, and the first one aimed at a
 *lower* bound.** Erdos's minimum overlap constant `C`. Opened 2026-08-23.
@@ -6,7 +6,7 @@
 ## Why this side
 
 The upper bound on this constant has been pushed four times in twelve months
-by four different systems — AlphaEvolve, TTT-Discover, TogetherAI, SimpleTES —
+by four different systems: AlphaEvolve, TTT-Discover, TogetherAI, SimpleTES,
 a crowd all standing on one side of the same number, moving it by `0.000059`
 in total. The lower bound moved once in sixty-three years before 2022 and once
 since. It is also the side a checker can attack, because a lower bound is a
@@ -19,8 +19,8 @@ point at which the search stopped?**
 
 The method is E. P. White's convex program (arXiv:2201.05704, Acta Arithmetica
 208 (2023) 235-255). Its author wrote down an answer to exactly this question
-in his concluding remarks — *"it seems that the limit of this method is not
-much larger than 0.379"* — on the evidence of a single pair of solves. This
+in his concluding remarks, *"it seems that the limit of this method is not
+much larger than 0.379"*, on the evidence of a single pair of solves. This
 hunt turns that sentence into a sweep.
 
 ## The object

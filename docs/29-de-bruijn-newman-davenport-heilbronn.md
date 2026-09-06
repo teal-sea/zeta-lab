@@ -1,4 +1,4 @@
-# The de Bruijn-Newman constant of the Davenport-Heilbronn function
+# 29. The de Bruijn-Newman constant of the Davenport-Heilbronn function
 
 Hunt #61 (`hunts/lambda_dh_bounds/`) produced, so far as the literature search
 recorded in `hunts/lambda_dh_bounds/NOVELTY.md` reaches, the first quantitative

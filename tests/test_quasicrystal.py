@@ -1,4 +1,4 @@
-"""Tests for zeta.quasicrystal — atomic structure of the zero measure.
+"""Tests for zeta.quasicrystal, atomic structure of the zero measure.
 
 Every literal was measured in this environment before being asserted.
 
@@ -10,11 +10,11 @@ The story in test order:
 2. Atom heights follow Λ(n)/√n with ~3% spread.
 3. The Euler-product signature: with 1000 zeros, prime-power atoms have
    median |Z| = 60.1 against 2.2 at composite non-prime-powers and 0.90
-   ambient background — 26.8× separation.
+   ambient background: 26.8× separation.
 4. The DH log-derivative recursion is validated against an independent
    series-ratio route, with the defect *shrinking* under truncation
    (2.3e-6 at n_max=200 → 7.1e-10 at 1600).  A flat defect would mean the
-   reference is broken — which is exactly what mp.diff on dh_f produces,
+   reference is broken, which is exactly what mp.diff on dh_f produces,
    pinned here as a regression so no one reintroduces it.
 5. The battery verdict: this gate separates ζ from Davenport–Heilbronn.
    b₆, b₁₄, b₂₁, b₂₆ are all loud where ζ is exactly silent.
@@ -67,7 +67,7 @@ def test_euler_product_signature(gammas):
     rep = euler_signature_report(gammas)
     assert rep["separation"] > 10.0            # measured 26.8
     assert rep["prime_power_median"] > 40.0    # measured 60.1
-    # composites are quiet in absolute terms — within a few x of background
+    # composites are quiet in absolute terms, within a few x of background
     assert rep["composite_over_background"] < 5.0
 
 
@@ -81,7 +81,7 @@ def test_background_is_flat_and_small(gammas):
 
 
 def test_dh_recursion_validated_by_independent_route():
-    """Defect must SHRINK with truncation — that is what makes it a check."""
+    """Defect must SHRINK with truncation, that is what makes it a check."""
     d200 = dh_dirichlet_defect(3.0, 200)
     d800 = dh_dirichlet_defect(3.0, 800)
     assert d200 < 1e-4

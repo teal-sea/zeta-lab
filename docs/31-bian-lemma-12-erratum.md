@@ -1,4 +1,4 @@
-# Erratum to Bian, Lemma 12: `C_{kappa,2}` is `-4 kappa`, not `-4`
+# 31. Erratum to Bian, Lemma 12: `C_{kappa,2}` is `-4 kappa`, not `-4`
 
 Hunt #65 (`hunts/r_2ac05f/`) adjudicated two contradicting `kappa = 2` tables
 in this repository and, in doing so, located the error that produced the
@@ -34,7 +34,7 @@ removes `L` entirely:
     Qhat_0 = 1,    Qhat_{kappa+1} = x D Qhat_kappa + (1 + g x) Qhat_kappa.
 
 **The three lines.** The `x^1` coefficient of `Qhat_kappa` is `kappa * g`, for
-every `kappa` — it accumulates once per application of the recursion, and the
+every `kappa`, it accumulates once per application of the recursion, and the
 recursion is applied `kappa` times. Hence the first arithmetic coefficient of
 `R_kappa = xi^(kappa+1)/xi^(kappa)` is `q_1 = kappa * (Lambda log)`. And since
 `C_{kappa,i} = 2^{i-1} sum_{p+q=i-1} <q_p, q_q>`,
@@ -120,7 +120,7 @@ that produces the `kappa = 2` row.
 **The one borrowed ingredient** is the basis pairing, taken from
 `hunts/higher_xi/`. It is `kappa`-independent by construction and calibrated
 by the `kappa = 1` control, and the second row of the table in section 4 shows
-that control does go red when the pairing is corrupted — so the borrowing is
+that control does go red when the pairing is corrupted, so the borrowing is
 anchored rather than circular. A fully independent rederivation of the pairing
 from the mean-value theorem was not attempted, and is the first thing to do if
 this correction is ever submitted anywhere.
@@ -131,6 +131,6 @@ They concern eq (10.1)'s assembly, eq (7.8)'s phantom slots and eq (6.18)'s
 normalization; they appear to be real findings about the code. They are simply
 not the whole error. An audit that reimplements a computation faithfully,
 finds genuine defects in it, and inherits the author's *analytic* lemma as an
-axiom cannot detect an error in that lemma — which is what happened, and
+axiom cannot detect an error in that lemma, which is what happened, and
 `fkappa/RESULTS.md` §1 says so in writing: `C_{kappa,2} = -4` was "carried as
 constants here, as Bian carried them."

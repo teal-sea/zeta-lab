@@ -39,8 +39,8 @@ lemma F4_eq (p : ℕ) (g : Fin 3 → ℝ) :
 
 -- The `64`-case analysis, carried by a private lemma so that the advertised
 -- `four_point_cert` below is `intro`, `rw` and `exact` at the DEFAULT heartbeat
--- budget.  `set_option maxHeartbeats` is a compile-resource limit and nothing else —
--- it is not an axiom and does not appear in `#print axioms` — but the advertised
+-- budget.  `set_option maxHeartbeats` is a compile-resource limit and nothing else,
+-- it is not an axiom and does not appear in `#print axioms`, but the advertised
 -- statements are worth keeping free of it.
 set_option maxHeartbeats 20000000 in
 private lemma cert_core (x y z : ℝ) (hx0 : 0 ≤ x) (hy0 : 0 ≤ y) (hz0 : 0 ≤ z) :

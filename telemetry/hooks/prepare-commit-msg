@@ -1,5 +1,5 @@
 #!/bin/sh
-# prepare-commit-msg — append `Run-Id: <uuid>` automatically. Opt-in; see README.md.
+# prepare-commit-msg, append `Run-Id: <uuid>` automatically. Opt-in; see README.md.
 #
 # NOT INSTALLED by this repository. `.git/hooks` is shared by every worktree of
 # a clone, so installing it while another worktree has a live session would

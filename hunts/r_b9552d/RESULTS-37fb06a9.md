@@ -43,7 +43,7 @@ an identity, not a bound, and it is what the rest of the page is built on.
 Two things fall straight out, and they are the reason (R) is worth writing.
 
 **(1a) The signed form of T1, with `rho = 0`, is already a consequence of a
-kernel-checked theorem.** Replace `Dam` by `D` — i.e. drop `P` — and T1
+kernel-checked theorem.** Replace `Dam` by `D`, i.e. drop `P`, and T1
 becomes exactly `2B >= 0`. So the entire content of T1 is (i) the strict
 positivity of `rho`, and (ii) the positive-part loss `P`, which is precisely
 the credit thrown away by the `D <= Dam` step that every cap-mode accounting
@@ -82,7 +82,7 @@ the honest `GAS` sits on the left, and the 3.8% the floor concedes comes
 straight out of the reserve: `[(2B-P)/k - (Shq - F/2)]/(F/2) = 0.11959`.
 
 **What this replaces.** `K2-TWO-SPECIES.md` §5 records the gas as eating
-"87.8% of the per-centre budget" on the worst uniform lattice — a scan. The
+"87.8% of the per-centre budget" on the worst uniform lattice, a scan. The
 complement of that ratio *is* the reserve, and it now has a closed form. Any
 atom argument (T2/A) must fit inside `0.1196` of the per-centre budget, not
 inside the `0.122` the scan suggested, and never inside more than `0.1532`
@@ -125,14 +125,14 @@ entirely free.
 | (C) occupancy, `p <= 14` | 0.0571559 | 0.114312 | 0.8466 | 0.1534 |
 | (D) free periodic, `m <= 8` | 0.0571077 | 0.114215 | 0.8459 | 0.1541 |
 | (D') free finite `k = 24` | 0.0509769 | 0.101954 | 0.7551 | 0.2449 |
-| (D') free finite `k = 16` | 0.0486155 | — | 0.7201 | 0.2799 |
-| (D') free finite `k = 10` | 0.0448429 | — | 0.6643 | 0.3357 |
-| (D') free finite `k = 6` | 0.0390832 | — | 0.5789 | 0.4211 |
+| (D') free finite `k = 16` | 0.0486155 |, | 0.7201 | 0.2799 |
+| (D') free finite `k = 10` | 0.0448429 |, | 0.6643 | 0.3357 |
+| (D') free finite `k = 6` | 0.0390832 |, | 0.5789 | 0.4211 |
 
 **Every one of the three searches returned the uniform `2*pi` lattice.** The
 occupancy search's winner at `p = 13` is the all-ones pattern at
 `lam = 6.283267`; the free periodic search collapses to `lam = 6.2837` from
-every seed at every `m`; the residual spread across (C) and (D) — 4.8e-5 — is
+every seed at every `m`; the residual spread across (C) and (D), 4.8e-5, is
 the lattice-sum truncation, not a different configuration. Finite `k`
 approaches the same row from below, monotonically, as the boundary deficit
 shrinks.
@@ -163,7 +163,7 @@ search with demonstrated power rather than from a search that cannot fail.
 
 Two further controls: the numpy kernel used by the searches agrees with
 `gram_form`'s scalar `cmath` path to **2.22e-16** over 4000 points on
-`[0, 400]`; and the identity of section 1 is the null — an accounting error
+`[0, 400]`; and the identity of section 1 is the null, an accounting error
 anywhere in the row computation would show there first.
 
 ## 4. The recorded irregular-occupancy pattern did not reproduce
@@ -195,7 +195,7 @@ This is a failure to reproduce, and it is reported as exactly that. Three
 outcomes are consistent with it: the pattern means something this run did not
 try; the recorded number is a per-centre maximum or some other non-average
 quantity, in which case it is not a counterexample to T1 at all (T1 is an
-average statement — it sums over all ordered pairs and divides by `k`); or
+average statement, it sums over all ordered pairs and divides by `k`); or
 the recorded number is wrong. **This run cannot distinguish them and does not
 claim to.** It matters because G4 is the stated ground for calling the gas
 extremum "an optimisation obligation, not a formula", and if the lattice is
@@ -229,18 +229,18 @@ It did not get there at this cost. The horizon ladder:
 | 60 | 1500 | optimal | 0.0472509 |
 | 120 | 2000 | optimal | 0.0521864 |
 | 200 | 3000 | optimal | 0.0541015 |
-| 400 | 5000 | numerical failure | — |
-| 600 | 7000 | infeasible (reported) | — |
+| 400 | 5000 | numerical failure |, |
+| 600 | 7000 | infeasible (reported) |, |
 
 At `s_max = 200` (3000 constraints, 200
-measure cells) the value is **0.054102**, which is 80.1% of `Shq(1/2)` — and
+measure cells) the value is **0.054102**, which is 80.1% of `Shq(1/2)`, and
 also *below* the achievable row 0.05716 of section 3, which proves the
 truncation is still biting and the number therefore carries no upper-bound
 content at all. Pushing the horizon to 400 and 600 returned solver failure
 (HiGHS status 4 and 2) rather than a value.
 
 So: **the certificate route is neither established nor killed here.** What is
-established is the shape of the question — the LP value must rise above
+established is the shape of the question, the LP value must rise above
 0.05716 before it means anything, and it must stay below 0.06751 for the
 route to work, so the whole verdict lives in a 15% window that this
 discretisation could not resolve. That is a narrow enough target to be worth
@@ -274,8 +274,8 @@ solver that has just lost conditioning is not a witness.
    the uniform lattice really is extremal on the average, T1 reduces to a
    one-parameter question with an exact answer already in hand (§2), which
    is a materially different obligation from the one on file.
-   *First step:* recover the code path that produced 0.1200 — it is not in
-   `two_species.py`, which has no irregular-occupancy function — and state
+   *First step:* recover the code path that produced 0.1200, it is not in
+   `two_species.py`, which has no irregular-occupancy function, and state
    the pattern's reading and its normalisation in G4.
 
 2. **The LP horizon.** *What:* the certificate LP (§5) needs its value to
@@ -293,7 +293,7 @@ solver that has just lost conditioning is not a witness.
    §2's ceiling uses `[-D(1, 2 pi d)]^+ = 0` for all `1 <= d <= 4000`, i.e.
    every multiple of `2*pi` out to 25000 sits inside a depth-1 damage window.
    The depth-1 window ladder has spacing ~6.23 against `2*pi = 6.2832`, so it
-   drifts, and the windows are ~1.9 wide — the drift should eject a lattice
+   drifts, and the windows are ~1.9 wide, the drift should eject a lattice
    point eventually. *Why it might matter:* if it never does, that is a
    statement about the damage windows worth proving; if it does at some
    `d`, the ceiling is very slightly loose and the exact `rho*` is smaller

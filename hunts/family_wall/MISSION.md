@@ -1,4 +1,4 @@
-# family_wall — where the n-point pressure family stops
+# family_wall: where the n-point pressure family stops
 
 The n-point pressure certificate family gives, for each n, the bound
 
@@ -43,26 +43,26 @@ agents_may_not:
 
 ## Files
 
-- `RESULTS.md` — the bounded outcome, in one page.
-- `FAMILY-LIMIT.md` — the analysis: the closed-form peak condition, the barrier, the limit.
-- `modal_family_limit.py` — independent direct minimisation of the floor at larger n over
+- `RESULTS.md`: the bounded outcome, in one page.
+- `FAMILY-LIMIT.md`, the analysis: the closed-form peak condition, the barrier, the limit.
+- `modal_family_limit.py`: independent direct minimisation of the floor at larger n over
   a wide pressure range, on Modal.
-- `chain_repair_check.py` — the case split that repairs the inequality chain, and the two
+- `chain_repair_check.py`: the case split that repairs the inequality chain, and the two
   counterexamples to the chain as originally written.
-- `period37_check.py` — the period-37 all-n witness word, re-evaluated with this hunt's own
+- `period37_check.py`: the period-37 all-n witness word, re-evaluated with this hunt's own
   `famlib` and at 60 digits.
-- `f7_point_check.py` — where the 2.0e-13 in the n=7, p=3000 control comes from.
-- `audit/` — an independent adversarial audit of the barrier claim by a different model,
+- `f7_point_check.py`: where the 2.0e-13 in the n=7, p=3000 control comes from.
+- `audit/`: an independent adversarial audit of the barrier claim by a different model,
   run in an isolated directory outside this repository. Brief, report, witnesses, scripts,
   and `PROVENANCE.md`.
-- `artifacts/` — run output.
+- `artifacts/`: run output.
 
 ## A correction to the huntspec above
 
 `required_oracles` names "the published n=7 arbitrary-precision floor `0.0038262312115073`
 at p=3000". That figure is **not a floor**. As `hunts/ainta_seven_point/RESULTS.md` states
 it correctly, it is the upper end of a bracket: an Arb evaluation of `F6` at an argmin
-rounded to six decimals, hence an upper bound on the infimum. Two independent minimisations
-— this hunt's Modal job and the audit's 80-digit Newton solve — come in `2.0e-13` below it,
+rounded to six decimals, hence an upper bound on the infimum. Two independent minimisations,
+this hunt's Modal job and the audit's 80-digit Newton solve, come in `2.0e-13` below it,
 which is the correct behaviour for a minimiser against an upper bound, not a discrepancy.
 The huntspec block is left as pre-registered; `FAMILY-LIMIT.md` section 3 has the numbers.

@@ -72,7 +72,7 @@ Tail profile of `log|f|`, t=1e6:
 | field | variance | p99 | p99.9 | max |
 | --- | ---: | ---: | ---: | ---: |
 | zeta | 1.9532 | 2.6610 | 3.3605 | 3.4833 |
-| CUE | 2.1597 | — | 3.3707 | — |
+| CUE | 2.1597 |, | 3.3707 |, |
 | Euler | 1.5164 | 2.8678 | 3.6647 | 4.3138 |
 | first-order | 1.4571 | 2.8643 | 3.6623 | 4.2109 |
 
@@ -87,14 +87,14 @@ both Euler surrogates undershoot it.
 
 2. **The arithmetic factor is not the explanation.** Adding `a_k` left
    concentration essentially unchanged (93.76% against 94.36% at the eighth
-   moment) — as it must, since the share is a ratio of integrals and any scale
+   moment), as it must, since the share is a ratio of integrals and any scale
    factor cancels exactly.
 
 3. **Neither is the variance.** Zeta has a *larger* variance than both Euler
    surrogates but a *smaller* upper tail at every quantile. The excess variance
    is left-tail: `log|zeta|` diverges at every zero, and both Euler surrogates
    are zero-free by construction. Calibrating a zero-free null to zeta's
-   variance would therefore widen its upper tail and worsen the fit — the
+   variance would therefore widen its upper tail and worsen the fit, the
    opposite of the obvious move.
 
 4. **Random-matrix structure is the explanation.** The CUE control, whose only
@@ -155,8 +155,8 @@ The gap shrinks monotonically in magnitude through `1e6` and then oscillates
 about zero. Zeta sits outside the CUE band only at `1e3`, and only for the 6th
 and 8th moments. The residual closes.
 
-Two honest limits on that table. The CUE band is wide — at `1e6` the central
-95% for the 8th moment spans `88.69%` to `99.96%` — so "inside" is a weak
+Two honest limits on that table. The CUE band is wide, at `1e6` the central
+95% for the 8th moment spans `88.69%` to `99.96%`, so "inside" is a weak
 test and the 2nd and 4th moments are inside at every height including `1e3`,
 which is a statement about low power, not about agreement. And each zeta row is
 a single window: the 2nd and 4th moments drift *above* the CUE median at `1e7`

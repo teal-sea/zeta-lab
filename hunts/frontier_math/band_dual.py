@@ -23,12 +23,12 @@ THE DUAL.  Two elementary facts do all the work:
 1. **omega^2 is a square, so every cross-band charge may be dropped.**
    Dropping nonnegative terms from the adversary's internal cost is
    one-sided in its favour, so the bound needs no charge floor at band
-   separations at all — precisely the quantity the arithmetic band/zero
+   separations at all, precisely the quantity the arithmetic band/zero
    coincidence was destroying.  The obstruction the first session named
    evaporates: it was never load-bearing.
 2. **The band damage is summable.**  Only Im(Phi2) can push W negative,
    and one integration by parts gives |Im Phi2(g + iy)| <= C_im(y)/|g|,
-   so band maxima decay like 1/g^2 and the whole band sum converges — to
+   so band maxima decay like 1/g^2 and the whole band sum converges, to
    a measured **0.31 of the pair's slack, at every depth** (0.305 at
    y = 0.1, 0.308 at 0.3, 0.314 at 0.49).  Even granting the adversary
    the maximum of EVERY band on both sides at zero internal cost, it
@@ -48,7 +48,7 @@ tail summed in closed form from the 1/g^2 majorant (never granted
 per-cell).  The verdict is  cap(theta) <= slack(y).
 
 RESULT (:func:`theta_scan`): the single-pair reduction at the MT window
-secures theta up to the multiplicity threshold — the binding constraint
+secures theta up to the multiplicity threshold, the binding constraint
 is not the damage at all but the point at which double occupancy of the
 FIRST band becomes profitable, which happens only when c drops below
 ~F_1/(2 K_1).  Below that threshold the cap sits at ~0.31 slack with the

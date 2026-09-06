@@ -2,9 +2,9 @@
 
 ## Disposition
 
-The candidate reading's most dangerous unproven step — "the transplant
+The candidate reading's most dangerous unproven step, "the transplant
 lemma" connecting theta_full (proved at the hunt's window) to the
-Cheer-Goldston floor (computed with the Montgomery-Taylor kernel) — is
+Cheer-Goldston floor (computed with the Montgomery-Taylor kernel), is
 now dissected into measured parts.  **There is no kernel-comparison
 inequality to prove**; there is a chain re-run to do, at a window that is
 now exactly identified, with entry constants measured 3x friendlier than
@@ -24,16 +24,16 @@ Three exact identities anchor the table:
 1. **g_MT is a window kernel**: the Montgomery-Taylor kernel is EXACTLY
    the normalised squared Fourier transform of cos(sqrt2 t) on the
    width-1 box (measured defect 2.5e-16).  Taylor's sqrt2 modulation is
-   precisely what breaks the arithmetic zero structure — the entire
+   precisely what breaks the arithmetic zero structure, the entire
    ordered-gap floor mechanism lives in that modulation and nowhere else.
 2. **The Hann grid form is alias-free**: B(z, w) = 2 pi Phi2_h(z - w) to
-   3.7e-8 — the satellite structure of the width-1 Hann window cancels
+   3.7e-8, the satellite structure of the width-1 Hann window cancels
    the +-2pi grid aliases exactly.  LAW D transplants verbatim to the
    pinned zero-side shape.
 3. **Both shortcut windows are lesion-exact**: the hunt kernel's zeros
    are arithmetic to 1e-4 and its bucket floor is 0 to LP precision; the
    Hann kernel satisfies 2 lambda_1 = lambda_4 to 5e-13.  The CG floor's
-   own lesion (`lesion_wrong_lambda2`) is not a hypothetical — two of the
+   own lesion (`lesion_wrong_lambda2`) is not a hypothetical, two of the
    three natural kernels sit exactly on it.
 
 ## What "the transplant lemma" actually is now
@@ -41,7 +41,7 @@ Three exact identities anchor the table:
 - **T1 (the work): re-run the retention chain at the MT window.**  The
   machinery is window-parametric; the entry card says the trade is
   3x friendlier (damage envelope -0.43 sigma^2 vs -1.21 sigma^2, negative
-  band at ~1.1 mean gaps — exactly the lambda_1 geometry the CG buckets
+  band at ~1.1 mean gaps, exactly the lambda_1 geometry the CG buckets
   occupy).  (A first report of a "0.53% alias defect to carry" was
   wrong - pure grid-sum truncation; LAW D is exact here too, see the
   T1 section below.)
@@ -62,7 +62,7 @@ Three exact identities anchor the table:
 
 Nothing upward: the reading 0.6725009045 remains a candidate.  Downward
 protection improved: the failure mode "the two kernels cannot be
-compared" is eliminated (they need not be compared — the chain moves to
+compared" is eliminated (they need not be compared, the chain moves to
 the floor's own kernel), and the failure mode "the floor dies at the
 paper's kernel" is now a measured fact rather than a risk, with the MT
 modulation identified as the unique escape.  The critical path is T1,
@@ -80,7 +80,7 @@ which is compute with existing machinery, then T5, which is a pin.
 ## T1, first session (`mt_chain.py`): what transplants, what breaks, what is named
 
 **Transplants exactly:** LAW D (B = 2 pi Phi2_mt, truncation control
-3.8e-3 -> 6.0e-5 over a 64x range — the earlier alias claim is corrected:
+3.8e-3 -> 6.0e-5 over a 64x range, the earlier alias claim is corrected:
 a width-1 window cannot reach the +-2pi combs); LAW K (grid pair-block
 spectrum {2(1+sigma^2), -2 sigma^2} matched at y = 0.45); the LAW-I-style
 envelope, one-sided: W >= -0.54 sigma^2 at y = 0.49 (-0.70 at 0.3), vs
@@ -89,9 +89,9 @@ the hunt window's -(1+m0) = -1.21.
 **The trade itself is measured healthy** (explicit band-riding
 adversary, one pair): at FULL charge (c = 1, i.e. theta = 0) the total
 damage is D = 0.030 against slack 0.142 at y = 0.49 (0.011 vs 0.052 at
-y = 0.3) — 4.7x inside, with only two zeros ever profitable (the
+y = 0.3): 4.7x inside, with only two zeros ever profitable (the
 +-1.10-mean-gap band pair).  (A first version of this line said "even at
-theta = 1"; that is false — at theta = 1 the charge is multiplied by
+theta = 1"; that is false, at theta = 1 the charge is multiplied by
 zero and the supremum is unbounded by stacking.  Corrected by the
 adversary hunt, and the mislabel is kept in the record.)
 
@@ -99,8 +99,8 @@ adversary hunt, and the mislabel is kept in the record.)
 theta (0.44 vs slack 0.14) for a structural reason now pinned: at the MT
 window the damage bands sit at the kernel zeros and persist with a
 1/g^2 envelope (the box window's boundary jump), and the DP's interval
-charge floors straddle those same zeros — min omega^2 over [delta,
-3 delta] = 0.182 / 0.023 / 0.000 across the ladder — so the chain grants
+charge floors straddle those same zeros, min omega^2 over [delta,
+3 delta] = 0.182 / 0.023 / 0.000 across the ladder, so the chain grants
 every far band free.  The true repulsion at band separations is
 pointwise and small but decisive (omega^2 = 0.017 at 6.11, 0.011 at
 6.28, 0.001 at 12.3), which is exactly what the explicit adversary pays
@@ -111,14 +111,14 @@ not an interval minimum).
 
 **Status of the candidate reading after T1's first session:** unchanged
 in value, re-founded in support.  The hunt-window theta_full cannot fund
-the g-kernel floor (the hunt-kernel floor is 0 — finding 1), so the
+the g-kernel floor (the hunt-kernel floor is 0, finding 1), so the
 reading now rests on: MT-window retention (measured healthy, awaiting
 the band-lattice dual for configuration-freeness) + the one-sided
 g-floor + calibrated plumbing + the census + T5.  No proportion is
 claimed.
 
 
-## T1 second session: the band-lattice dual — theta* = 0.995 at the MT window
+## T1 second session: the band-lattice dual, theta* = 0.995 at the MT window
 
 Instruments: `band_dual.py` (the dual), `mt_pairs.py` (the pair layer),
 `mt_adversary.py` (the kill-control hunt).  Controls in
@@ -140,7 +140,7 @@ coincidence as the obstruction.  Both halves are now corrected:
   must scale with the quantity it is protecting.
 - **the coincidence was never load-bearing.**  omega^2 is a *square*, so
   every cross-band internal charge may be dropped one-sidedly.  The dual
-  needs no charge floor at band separations at all — precisely the
+  needs no charge floor at band separations at all, precisely the
   quantity whose vanishing was blamed.
 
 ### The dual
@@ -166,7 +166,7 @@ so the off-band allowance is **exactly zero** rather than a blanket.
 
 | quantity | hunt window | MT window |
 |---|---|---|
-| free-band ratio (every band granted, zero charge) | — | **0.34-0.36, flat in depth** (0.357 at y = 0.02, 0.346 at 0.49) |
+| free-band ratio (every band granted, zero charge) |, | **0.34-0.36, flat in depth** (0.357 at y = 0.02, 0.346 at 0.49) |
 | secured single-pair theta* | 0.1 | **0.995** |
 | what binds | the counting cap | same-band multiplicity only (double occupancy of the first band turns profitable below theta ~ 0.992-0.9997) |
 | stacking floor (pair layer) | 0.255 mean gaps | **0.979 mean gaps** (~3.8x wider) |
@@ -195,7 +195,7 @@ remains 0.6725009045, a candidate.
 
 ### Named next objects
 
-1. the joint (on-line + pair) cap at MT — the direct joint-field dual of
+1. the joint (on-line + pair) cap at MT, the direct joint-field dual of
    level 7 rebuilt on the band partition;
 2. the nu_p ~ 0.97 soft window, now the pair layer's only kill control;
 3. the arb pass over the band dual (same shape as `hardened_direct.py`);
@@ -231,13 +231,13 @@ positive region at all.**  Measured directly: the maximum of the summed
 field over a 200-grid-unit halo is -7.5e-4 (at the far window edge, where
 it approaches 0 from below), against -3.9 inside the lattice, versus a
 single pair's +1.5e-2.  LAW M's positive mean, summed over enough pairs,
-swamps every band — the on-line adversary has nowhere to stand.
+swamps every band, the on-line adversary has nowhere to stand.
 
 So the ordering is **inverted relative to the hunt window**: there,
 density was the danger and the joint layer cost a factor 5 (0.1 ->
 0.02), with a dense-deep pinch needing an entire mutual-exclusion
 argument.  Here density is the defence, and the binding configuration is
-the ISOLATED pair — i.e. the joint layer imposes no loss at all and
+the ISOLATED pair, i.e. the joint layer imposes no loss at all and
 
     theta_full(MT)  =  theta*(MT)  =  0.995  (measured grade).
 
@@ -247,7 +247,7 @@ the ISOLATED pair — i.e. the joint layer imposes no loss at all and
 the normalised squared Fourier transform of the MT window (defect
 2.5e-16).  The retention now comes from the same window.  The previous
 composition drew its retention from the hunt window, whose own
-ordered-gap floor is **0** — it sits on the floor's lesion — so that
+ordered-gap floor is **0**, it sits on the floor's lesion, so that
 pairing was never coherent.  That incoherence is what forced T1, and it
 is now repaired:
 
@@ -260,7 +260,7 @@ composition gave +2.01e-7.
 remain open**: the transplant plumbing (linearity with coefficient 1),
 the census conversion (measured consistent only), taper/truncation
 restated one-sided, the arb pass over the band dual and the joint cap,
-and T5 — which window the pinned upstream Lean zero-side carries, whose
+and T5, which window the pinned upstream Lean zero-side carries, whose
 arbiter is external to this session.  Any one of them alone withholds the
 word improvement.
 
@@ -270,16 +270,16 @@ A separate search (exhaustive n = 1..6 with analytic gradients, band
 lattices, multiplicity, phase offsets, depth and theta sweeps) found no
 configuration beating the two-zero band pair: worst measured take
 0.2091 of slack at y = 0.49, and a charge-free one-per-band envelope of
-0.325-0.335 of slack across all depths — an independent measurement of
+0.325-0.335 of slack across all depths, an independent measurement of
 the same ~1/3 the band dual bounds one-sidedly at 0.34-0.36.  Its
 measured largest safe theta is 0.9990 at y = 0.49, rising to ~1 at the
 shallow end.  **So theta* is now sandwiched: 0.995 (one-sided dual) <=
-theta* <= 0.999 (measured adversary) — the bound is within 0.4% of the
+theta* <= 0.999 (measured adversary), the bound is within 0.4% of the
 truth.**
 
 The hunt also caught a wording error of ours, kept in the record: an
 earlier line read "the trade stays inside the slack even at theta = 1".
-False as written — at theta = 1 the internal charge is multiplied by
+False as written, at theta = 1 the internal charge is multiplied by
 zero and stacking m zeros on one band is unbounded, which is exactly why
 both duals report cap(theta = 1) = infinity.  The measured figure was
 the FULL-charge case (c = 1, i.e. theta = 0).  Corrected in
@@ -300,7 +300,7 @@ falling to 0.0024 at g = 300, against ~1.8e5 at the hunt window), because
 the MT form is three trigonometric terms with no ramp^2 integer assembly
 and no moment recursion for interval radii to lose.  So the cover is by
 genuine continuum enclosures and **no Lipschitz margin is granted
-anywhere** — "no band narrower than the grid" becomes a property of the
+anywhere**, "no band narrower than the grid" becomes a property of the
 cover rather than an inference.
 
 | y | slack >= | cap <= | margin >= | cap/slack (float) |
@@ -320,12 +320,12 @@ and the binding term remains multiplicity, never the damage sum.
 Asking what two symbols denote turned up a real defect in the reading:
 
 - **theta_full** retains the paper's Frobenius/incidence mass
-  R = sum omega^2(gaps) with omega = Phi2/Phi2(0), Phi2 = FT(phi^2) —
+  R = sum omega^2(gaps) with omega = Phi2/Phi2(0), Phi2 = FT(phi^2),
   because the grid bilinear form is proportional to Phi2 (LAW D);
 - **c_u** is CG's bucket floor in the Montgomery-Taylor kernel g, which
   `transplant_lemma.py` measured to be exactly (FT phi / FT phi(0))^2.
 
-**(FT phi^2) is not (FT phi)^2** — the first is a self-convolution, the
+**(FT phi^2) is not (FT phi)^2**, the first is a self-convolution, the
 second a square.  Measured: the two agree at u = 0 by normalisation and
 diverge at once (ratio 1.02 / 1.12 / 1.70 / 0.66 at u = 0.3 / 0.6 / 0.9 /
 1.5), and their zeros differ by 6% (omega's first at 1.1208 mean gaps
@@ -342,7 +342,7 @@ the lambda_2 lesion dying on both:
 
 **The reading of record therefore becomes 0.6725087070** (+8.00e-6), the
 conservative pairing.  Which pairing the upstream count actually requires
-is the residual T3 — and it is now a sharp question about the paper's
+is the residual T3, and it is now a sharp question about the paper's
 Theorem D derivation (is its discarded mass an omega^2 sum or a g sum?)
 rather than a vague worry about plumbing.  Instrument: `kernel_pairing.py`.
 
@@ -371,7 +371,7 @@ KILLED.  Two halves of it separate cleanly:
 
 **2. The window identification rests on one number.**  The pinned
 constant is exactly the Montgomery-Taylor constant (2 - MT_CONST =
-0.67250070368, agreeing with the pinned digits to 2e-11 — pure
+0.67250070368, agreeing with the pinned digits to 2e-11, pure
 rounding).  That is real evidence that the paper's window is the MT
 window, and it is the only evidence there is.  (Checking it also caught
 two stale comments in the repo printing wrong digits for MT_CONST and
@@ -391,7 +391,7 @@ the controls, and simultaneously the argument against confidence in any
 step no control has yet touched.
 
 **What would survive even if T3 fails:** the MT-window results
-themselves — LAW D exact, the band structure, the free-band ratio ~1/3,
+themselves: LAW D exact, the band structure, the free-band ratio ~1/3,
 theta* sandwiched in [0.995, 0.999] by a one-sided dual and an
 independent adversary hunt, arb-hardened at 0.9988, and the joint layer
 costing nothing.  Those are statements about the window and are
@@ -406,7 +406,7 @@ two questions the confidence audit left open.  Instrument:
 
 **T5 is answered.**  Section 7.1 and the Theorem D proof pin the
 upstream window completely: rho = 1, box of width L, ends mollified by
-the fixed-width ramp, and — the sentence that decides everything —
+the fixed-width ramp, and, the sentence that decides everything,
 *"Writing phi^2(u) = v(u/L) ... the constant is the scale-free
 functional (7.3)"* with maximiser *v\*(s) = cos(sqrt2 s)*.  The
 variational profile belongs to **phi squared**, and the Theorem D window
@@ -416,8 +416,8 @@ admissible).  The external Lean double-check is thereby downgraded to
 optional.
 
 **The functional, implemented once, reproduces three constants.**
-1/c(v) = (int v^2 + int int |s-s'| v v) / (int v)^2 — Montgomery's
-K(0)/(Khat(0) + int |Khat|) with K = |vhat|^2 — gives
+1/c(v) = (int v^2 + int int |s-s'| v v) / (int v)^2: Montgomery's
+K(0)/(Khat(0) + int |Khat|) with K = |vhat|^2, gives
 
     v* = cos(sqrt2 s):  H = 0.6725006969 (n=4001; defect 6.8e-9, shrinking on the ladder)
     v  = 1:             H = 0.6666666562 (Montgomery's 2/3)
@@ -425,13 +425,13 @@ K(0)/(Khat(0) + int |Khat|) with K = |vhat|^2 — gives
 
 The third line is the new fact: **the T1 chain's window (phi = cos box,
 so v-profile cos^2) is an admissible but strictly weaker member of the
-class — 5.2e-3 below the optimum**, three orders of magnitude larger
+class: 5.2e-3 below the optimum**, three orders of magnitude larger
 than the 8e-6 floor under negotiation.
 
 **T3's kernel half is answered, and the ambiguity dissolves.**  tr G^2
 is the pair sum weighted by B^2, LAW D makes B proportional to
 FT(phi^2), and for the paper's window FT(phi^2) is the transform of the
-cos(sqrt2 .) box — already measured (`mt_kernel_identity`, defect
+cos(sqrt2 .) box, already measured (`mt_kernel_identity`, defect
 2.5e-16) to be the square root of the MT kernel.  So under the paper's
 window **omega^2 IS g**: the mass kernel and the Cheer-Goldston floor
 kernel coincide by construction, and (7.3) says so in words
@@ -439,13 +439,13 @@ kernel coincide by construction, and (7.3) says so in words
 reading was an artifact of the T1 window putting the cos profile on phi
 instead of phi^2; it is absent from the paper's chain.
 
-**What this costs.**  The entire T1 re-run — mt_chain, band_dual,
-mt_joint, the adversary hunt, the arb pass, theta* = 0.995 — was
+**What this costs.**  The entire T1 re-run, mt_chain, band_dual,
+mt_joint, the adversary hunt, the arb pass, theta* = 0.995, was
 computed on the damage field of the WRONG class member: every field was
 built from Phi2 = FT(cos^2 box) where the paper's chain has
 Phi2 = FT(cos box).  The named burdens behind the candidate are now:
 
-  (a) chain re-run at Phi2 = FT(cos box) — same machinery, one kernel
+  (a) chain re-run at Phi2 = FT(cos box), same machinery, one kernel
       swap; until it lands, theta* = 0.995 is a measurement about a
       neighbouring window, not the paper's;
   (b) the ramp: theta* at the pure box vs the paper's ramp-mollified
@@ -460,7 +460,7 @@ Phi2 = FT(cos box).  The named burdens behind the candidate are now:
 **Where the reading stands.**  The conservative figure 0.6725087070 was
 the right thing to report while the pairing was unknown.  With the
 pairing settled in favour of g, the correctly-paired figure would be
-0.6725106958 — but only after burden (a) re-establishes theta at the
+0.6725106958, but only after burden (a) re-establishes theta at the
 correct field.  Until then the reading of record stays **0.6725087070,
 a candidate**, and no proportion is claimed.
 
@@ -594,15 +594,15 @@ the single-pair dual: **theta_full = 0.995** (0.999 fails at the
 nu = 0.5 lattice, y = 0.49, by a factor -1.29 relative).  The binding
 configuration at 0.995 is that same sparse lattice (+0.33 relative);
 the isolated pair binds only at lower thetas.  The soft-window density
-was re-derived from this field's own band geometry — nu_p = 0.9576
+was re-derived from this field's own band geometry, nu_p = 0.9576
 (first damage-band centre 1.0443 mean gaps), distinct from both the T1
-value 0.97 and the bare kernel-zero reciprocal 0.9458 — and at it the
+value 0.97 and the bare kernel-zero reciprocal 0.9458, and at it the
 joint shielding leaves only 4 residual band cells (cap 0.0746 against
 an isolated-pair 0.0947).  Dense lattices cap at exactly 0 with
 positive budget, and the positive-part discipline control shows the
 clipping order has measured power (per-pair clipping is strictly
 larger).  Distinctness against the T1 joint at a matched configuration:
-caps 26% apart — not a re-run.
+caps 26% apart, not a re-run.
 
 **Consequence.**  theta_full = 0.995 is now a statement about the
 paper's own window across the swept configuration families, float
@@ -661,14 +661,14 @@ Quot.sound only; service-side kernel check, artifact in-tree with its
 What is now theorem-shaped, for phihat(x) = int phi(u) e^{ixu} du:
 
 - **hasSum_phihat_mul_phihat**: for phi measurable, bounded, supported
-  in [-1/2, 1/2] — no continuity, no decay, no smoothness — the grid
+  in [-1/2, 1/2], no continuity, no decay, no smoothness, the grid
   family n |-> phihat(x-n) phihat(y-n) is SUMMABLE over Z with sum
   2 pi * int phi(u) phi(-u) e^{i(x-y)u} du (the autocorrelation form).
 - **tsum_phihat_mul_phihat_even**: with evenness added, the sum equals
-  2 pi * FT(phi^2)(x - y) — LAW D as the chain uses it.
+  2 pi * FT(phi^2)(x - y): LAW D as the chain uses it.
 - The three windows of this hunt are handled as explicit theorems, not
-  prose: `tsum_phihat_windowA` (cos(sqrt2 u) box — jumps at the edges),
-  `tsum_phihat_windowB` (sqrt(cos(sqrt2 u)) box — the paper's Theorem D
+  prose: `tsum_phihat_windowA` (cos(sqrt2 u) box, jumps at the edges),
+  `tsum_phihat_windowB` (sqrt(cos(sqrt2 u)) box, the paper's Theorem D
   profile), `tsum_phihat_of_continuous` (any continuous even window,
   covering every C^3 ramp mollification; boundedness derived).
 
@@ -676,7 +676,7 @@ What is now theorem-shaped, for phihat(x) = int phi(u) e^{ixu} du:
 form as we stated it is FALSE without evenness: the file contains
 `grid_incidence_needs_even`, exhibiting the indicator of (0, 1/2] with
 grid sum 0 against 2 pi int phi^2 = pi.  Every window this hunt uses is
-even, so the intended applications are unaffected — but the submission
+even, so the intended applications are unaffected, but the submission
 had not said "even", and a prover that silently added the hypothesis
 would have hidden that.  Logged with the session's other caught defects.
 
@@ -685,7 +685,7 @@ support in an interval of length 1 < 2 pi, phihat(x - n) are (2 pi
 times) Fourier coefficients of the modulated window on R / 2 pi Z, and
 the identity is a polarised Parseval (built from Mathlib's fourierBasis,
 which only ships the norm-squared form).  That is why bounded
-measurable suffices — strictly weaker hypotheses than the BV/decay
+measurable suffices, strictly weaker hypotheses than the BV/decay
 route the submission sketched, and one-sided in exactly the right way:
 the aliasing question for the truncated grid sums (the measured ~1/K
 truncation defect of `mt_law_d`) is now the ONLY gap between the
@@ -694,8 +694,8 @@ chain's finite sums and the exact identity.
 **Where the seams stand.**  Seam (i)'s analytic core is closed; what
 remains of it is bookkeeping (the paper's aL^2 units of (4.4) against
 the chain's 2 pi Phi2(0) normalisation, plus the finite-truncation
-accounting already measured).  Seam (ii) — the dual's cap as the
-statement D >= theta * R0 — is unchanged and is the next piece of work.
+accounting already measured).  Seam (ii), the dual's cap as the
+statement D >= theta * R0, is unchanged and is the next piece of work.
 No proportion is claimed.
 
 

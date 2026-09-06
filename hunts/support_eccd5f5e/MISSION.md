@@ -1,4 +1,4 @@
-# MISSION — support_eccd5f5e (red-team arm for run 0897a5a7)
+# MISSION: support_eccd5f5e (red-team arm for run 0897a5a7)
 
 **What this is.** An adversarial audit of `hunts/r_186989/RESULTS.md` (Erdős
 Problem #126, Hunt #91). Every claim in that file was treated as hostile input:

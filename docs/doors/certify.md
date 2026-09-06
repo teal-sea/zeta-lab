@@ -29,7 +29,7 @@ Say which one you mean. Everything else in the tree is accurate, not certified.
 
 `zeta/rigor.py` never silently upgrades a float to a certificate:
 
-- `proven_sign` returns `0` for **not decided** — never a guess;
+- `proven_sign` returns `0` for **not decided**: never a guess;
 - any step that could not carry an enclosure is named in `uncertified_steps`;
 - `certified` is `False` whenever that list is non-empty.
 
@@ -42,13 +42,13 @@ back to floats, that is a critical defect, not a rounding detail.
 
 ## Certified Weil positivity
 
-`rigor.enclose_weil_functional` encloses the Weil functional W(h) — the
+`rigor.enclose_weil_functional` encloses the Weil functional W(h), the
 arithmetic side of the explicit formula, whose nonnegativity over all
 admissible h is *equivalent* to RH. The near-tight Gaussian member
 (W ≈ 8.86e-18 out of pieces of size ~2, eighteen digits of cancellation)
 comes back certified positive. Two limits, stated where they bind: it is
 flint-only (mpmath's `iv` has no certified quadrature, so the two-backend
-cross-check cannot run there — the returned dict says so), and finitely many
+cross-check cannot run there, the returned dict says so), and finitely many
 certified instances are not evidence for RH (`docs/08`); they are positivity
 statements that no longer rest on floating-point luck.
 
@@ -62,12 +62,12 @@ hidden.
 |---|---|
 | 1 (done) | the lab's ground-truth facts wired to their Mathlib proofs |
 | 2 (done) | the κ derivation behind the Davenport–Heilbronn counterexample |
-| 3 (mathematics done; compute outstanding) | Davenport–Heilbronn itself — that zeta-shaped symmetry alone cannot give RH |
+| 3 (mathematics done; compute outstanding) | Davenport–Heilbronn itself, that zeta-shaped symmetry alone cannot give RH |
 
 Rung 3's analytic half is kernel-checked in `ZetaLean/DHAnalytic.lean`: the
 DH function built from the quartic character mod 5, entire, summing the
 `dh_coeff` series on `Re > 1`, with its completed functional equation proved
-through the root-number identity — κ is exactly the rotation aligning the two
+through the root-number identity, κ is exactly the rotation aligning the two
 conjugate root numbers, grown from Mathlib's `cos(π/5) = (1+√5)/4`. Proving
 it exposed that the original Phase A *statement* was false in Lean's
 semantics (Mathlib's junk value `Γ(0) = 0` broke the unguarded functional
@@ -76,7 +76,7 @@ could fake the off-line zero); both defects are fixed in
 `ZetaLean/DavenportHeilbronn.lean`.
 
 The topological step is also closed: `ZetaLean/DHZeroCriterion.lean` proves
-a minimum-modulus criterion (maximum modulus applied to `1/f` — no argument
+a minimum-modulus criterion (maximum modulus applied to `1/f`, no argument
 principle needed), generalises it from a disk to the frontier of any bounded
 open set, and specialises that to an axis-aligned square kept right of the
 critical line, so that `davenport_heilbronn_of_certified_square` derives the
@@ -93,7 +93,7 @@ this page listed as missing has been built, all kernel-checked with zero
 |---|---|
 | certified `exp`/`log` on rational intervals, any positive rational | `IntervalExp.lean` |
 | certified complex `exp` (so certified `sin`/`cos` come free), outward dyadic rounding | `IntervalCExp.lean` |
-| `n^{-s}` tied to a computed box — the oracle gap, closed | `IntervalCExp.lean` |
+| `n^{-s}` tied to a computed box, the oracle gap, closed | `IntervalCExp.lean` |
 | the tail bound: DH's analytic continuation as a finite sum plus explicit error | `DHTailBound.lean` |
 | assembly: partial box + tail radius ⟹ encloses `DH s`; the κ interval | `DHAssembly.lean` |
 | a worked instance: `DH(3/2 + 3i) ≠ 0` | `DHDemo.lean` |
@@ -108,12 +108,12 @@ off-line zero, pinned by a standing test
 (`tests/test_epstein.py::test_no_offline_zero_below_the_pinned_one`), and
 the cost scales like `‖s‖^2.2`, so no cheaper zero exists to aim at.
 Instantiating the square directly would cost months of single-core kernel
-time at measured rates. The fix — a steeper tail exponent — is now
+time at measured rates. The fix, a steeper tail exponent, is now
 kernel-checked in `DHTailBound2.lean`: the sum-vs-integral comparison
 (`DH_tail_bound_order1`, `K^{-(σ+1)}`) and its trapezoid refinement
 (`DH_tail_bound_order2`, `K^{-(σ+2)}`), built from an elementary rectangle
 and trapezoid rule for Banach-valued `C¹`/`C²` functions summed along a
-half-line — no Bernoulli numbers, no general Euler–Maclaurin, and Mathlib
+half-line, no Bernoulli numbers, no general Euler–Maclaurin, and Mathlib
 needs neither. The closed-form block antiderivative exists precisely
 because the DH coefficients sum to zero. A 1e-3 tail at the oracle zero
 drops from `K = 195301` blocks to `243`

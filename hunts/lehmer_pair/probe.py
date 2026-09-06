@@ -8,14 +8,14 @@ Writes ``results.json`` and ``lehmer_zoom.png`` next to this file.  See
 ``MISSION.md`` for what each experiment is for.
 
 Vocabulary note (the probe discipline, ``tests/test_hunt_probe_discipline.py``):
-the strongest word this hunt is allowed is *decided* — meaning an enclosure
+the strongest word this hunt is allowed is *decided*, meaning an enclosure
 ``[lo, hi]`` of Z(t) from ``zeta.rigor`` came back with ``lo > 0`` or
 ``hi < 0``, an exact comparison on exact endpoints.  The reserved word for
 that regime belongs to ``zeta/rigor.py`` and is deliberately absent from this
 directory; the case log in ``hunts/README.md`` names it.  The instruments
 used here are ``rigor.proven_sign`` and ``rigor.enclose_Z`` only, so the
 grid scans below carry their own undecided-point accounting.  The
-Davenport-Heilbronn rival scan and the figure samples are floats — the
+Davenport-Heilbronn rival scan and the figure samples are floats, the
 accurate regime, a weaker claim.
 """
 
@@ -50,7 +50,7 @@ T_RIGHT = Fraction("7005.15")  # between gamma_6710 and gamma_6711 = 7006.74
 WINDOW = (Fraction("7004.9"), Fraction("7005.3"))  # contains the pair, nothing else
 
 # The packaged grid scanner in zeta.rigor defaults to mean_spacing/20; at
-# t ~ 7005 that is 0.0448 — wider than the 0.0377 Lehmer gap.  Same policy,
+# t ~ 7005 that is 0.0448, wider than the 0.0377 Lehmer gap.  Same policy,
 # reimplemented over proven_sign so this probe owns its grid and its
 # undecided-point accounting.
 DEFAULT_STEP_AT_7005 = 0.8954856592858557 / 20.0
@@ -61,7 +61,7 @@ BACKENDS = rigor.available_backends()
 def scan_signs(t0: Fraction, t1: Fraction, n: int, prec_bits: int, backend: str) -> dict:
     """Sign changes of Z on [t0, t1]: decided signs only, on n exact rationals.
 
-    Consecutive decided signs that differ bracket a zero of Z — a zero of
+    Consecutive decided signs that differ bracket a zero of Z, a zero of
     zeta on the critical line.  Undecided samples break the chain but are
     compared across, so the count is a lower bound either way.
     """
@@ -121,7 +121,7 @@ def experiment_default_grid_lesion() -> dict:
     the window changes the sample phase; sweep five phases spanning one
     default step.  Every window contains both pair zeros and no others, so
     the true count is 2 and the only possible grid answers are 2 (a sample
-    landed inside the bump) or 0 (all samples missed it).  Flint only — this
+    landed inside the bump) or 0 (all samples missed it).  Flint only, this
     is a resolution measurement, not a backend cross-check.
     """
     n = int(0.4 / DEFAULT_STEP_AT_7005) + 2  # the packaged scanner's formula
@@ -193,7 +193,7 @@ def experiment_rival_dh() -> dict:
 
     tests/test_epstein.py pins that [85.2, 86.2] holds 2 strip zeros while
     Z_dh has 0 sign changes there.  Measure the closest approach to zero so
-    the two bumps can sit side by side.  Float regime (accurate only) —
+    the two bumps can sit side by side.  Float regime (accurate only),
     zeta.rigor speaks for zeta and nothing else.
     """
     with mp.workdps(25):
@@ -233,7 +233,7 @@ def make_figure(results: dict) -> None:
         zs = [float(siegelz(t)) for t in ts]
     ax1.plot(ts, zs, lw=1.0, color="tab:blue")
     ax1.axhline(0.0, color="k", lw=0.6)
-    ax1.set_title("Hardy Z near the Lehmer pair — the bump crosses", fontsize=10)
+    ax1.set_title("Hardy Z near the Lehmer pair, the bump crosses", fontsize=10)
     ax1.set_xlabel("t")
     ax1.set_ylabel("Z(t)")
     ax1.annotate(
@@ -259,7 +259,7 @@ def make_figure(results: dict) -> None:
         zd = [float(epstein.Z_dh(t, dps=20)) for t in td]
     ax2.plot(td, zd, lw=1.0, color="tab:red")
     ax2.axhline(0.0, color="k", lw=0.6)
-    ax2.set_title("Davenport–Heilbronn Z near 85.70 — the bump fails", fontsize=10)
+    ax2.set_title("Davenport–Heilbronn Z near 85.70, the bump fails", fontsize=10)
     ax2.set_xlabel("t")
     r = results["rival_dh"]
     ax2.annotate(

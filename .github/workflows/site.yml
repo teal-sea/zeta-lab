@@ -9,7 +9,7 @@
 #
 # So the tree asks for its own rebuild. One POST to a Vercel deploy hook for
 # the site project, named lab-push and kept as the repository secret
-# VERCEL_DEPLOY_HOOK — a second hook rather than a shared one, so revoking this
+# VERCEL_DEPLOY_HOOK, a second hook rather than a shared one, so revoking this
 # trigger cannot take the nightly down with it.
 #
 # The hook URL is a credential. It is never echoed: curl writes the body to

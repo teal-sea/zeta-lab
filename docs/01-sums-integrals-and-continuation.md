@@ -1,29 +1,29 @@
-# 01 — Sums, Integrals, and Continuation
+# 01. Sums, Integrals, and Continuation
 
 *Or: "is the harmonic series / Riemann-sum thing actually connected to the zeta function and to
-derivatives?" — yes, and here is exactly how.*
+derivatives?", yes, and here is exactly how.*
 
 ## The short version
 
 The question deserves better than the stock dismissal ("Riemann sums and the Riemann zeta function
 just share a name"). Three real bridges run between the sum-versus-integral world and the zeta
 world, and all three are load-bearing. First, the harmonic series is not merely *analogous* to
-zeta — it **is** $\zeta(1)$, and it diverges because $\zeta$ has a simple pole at $s=1$ with residue
+zeta, it **is** $\zeta(1)$, and it diverges because $\zeta$ has a simple pole at $s=1$ with residue
 exactly $1$; that pole is the reason there are infinitely many primes. Second, **Euler–Maclaurin
-summation** — the classical error analysis of a Riemann sum, with correction terms built from
-Bernoulli numbers and successive *derivatives* of the summand — is one of the standard ways to
+summation**, the classical error analysis of a Riemann sum, with correction terms built from
+Bernoulli numbers and successive *derivatives* of the summand, is one of the standard ways to
 analytically continue $\zeta$ past $\mathrm{Re}(s)=1$, and it is how you compute $\zeta(-1)=-1/12$
 in three lines. So "Riemann sums" and "zeta" are not unrelated; the sum/integral comparison is the
 *engine* of the continuation. Third, **Abel summation** (partial summation) converts sums over
 primes into integrals against counting functions, which is how $\pi(x)$ and $d\psi$ enter the
 picture at all. And the **Mellin transform** $\Gamma(s)\zeta(s)=\int_0^\infty x^{s-1}/(e^x-1)\,dx$
-is a Laplace transform in disguise — which means the instinct "this is one transform away from
+is a Laplace transform in disguise, which means the instinct "this is one transform away from
 being tractable" is correct, and also more than a century and a half late: that transform was
 Riemann's opening move in 1859.
 
 ---
 
-## 1. The harmonic series *is* $\zeta(1)$ — and the pole is the primes
+## 1. The harmonic series *is* $\zeta(1)$: and the pole is the primes
 
 For $\mathrm{Re}(s)>1$ the series
 
@@ -78,7 +78,7 @@ Now the argument that started analytic number theory. Take logarithms:
 log zeta(s) = sum_p sum_{k>=1} 1/(k p^{ks}) = sum_p p^{-s} + E(s),
 ```
 
-where the $k\ge 2$ tail $E(s)$ is *bounded* as $s\to 1^+$ — it converges at $s=1$, numerically to
+where the $k\ge 2$ tail $E(s)$ is *bounded* as $s\to 1^+$, it converges at $s=1$, numerically to
 $0.31571845\ldots$, since $\sum_p\sum_{k\ge2} 1/(kp^k) < \sum_p 1/(p(p-1)) < \infty$. But
 $\zeta(s)\sim 1/(s-1)$, so $\log\zeta(s)\to+\infty$ as $s\to1^+$. Therefore
 
@@ -86,7 +86,7 @@ $\zeta(s)\sim 1/(s-1)$, so $\log\zeta(s)\to+\infty$ as $s\to1^+$. Therefore
 sum_p p^{-s} -> +infinity   as s -> 1+,
 ```
 
-which forces $\sum_p 1/p = \infty$ — infinitely many primes, and a much stronger statement than
+which forces $\sum_p 1/p = \infty$, infinitely many primes, and a much stronger statement than
 Euclid's: the primes are *dense enough* that their reciprocals diverge. (Squares are not:
 $\sum 1/n^2$ converges.)
 
@@ -112,7 +112,7 @@ first bridge, and it is not a pun.
 
 Here is the genuine article. If you have ever asked "how wrong is a Riemann sum, exactly?", the
 complete answer is a formula whose correction terms are derivatives of the integrand weighted by
-Bernoulli numbers — and that formula is a standard, fully practical way to continue $\zeta$.
+Bernoulli numbers, and that formula is a standard, fully practical way to continue $\zeta$.
 
 **THEOREM (Euler–Maclaurin summation).** Let $a<b$ be integers and let $f$ be $2M$ times
 continuously differentiable on $[a,b]$. Then
@@ -135,7 +135,7 @@ come to $-0.0217222\ldots$.)
 
 **Why derivatives appear.** Repeated integration by parts. On each unit interval $[n,n+1]$ write
 $\int_n^{n+1} f(x)\,dx = \int_n^{n+1} f(x)\,d\big(x - n - \tfrac12\big)$ and integrate by parts; the
-boundary term gives $\tfrac12(f(n)+f(n+1))$ — the trapezoid rule — and the leftover is an integral
+boundary term gives $\tfrac12(f(n)+f(n+1))$, the trapezoid rule, and the leftover is an integral
 of $f'$ against a sawtooth. Integrate by parts again: the sawtooth's antiderivative is
 $B_2(\{x\})/2$, producing $f'$ boundary terms and a leftover involving $f''$. Iterate. The Bernoulli
 polynomials show up because they are exactly the sequence closed under "antidifferentiate and stay
@@ -159,7 +159,7 @@ zeta(s) = sum_{n=1}^{N-1} n^{-s}
 where $(s)_{m} = s(s+1)\cdots(s+m-1)$ is the rising factorial.
 
 **This is the continuation.** Look at the right-hand side as a function of $s$: it is a finite sum
-of entire functions, plus the single explicit term $N^{1-s}/(s-1)$ — the integral
+of entire functions, plus the single explicit term $N^{1-s}/(s-1)$, the integral
 $\int_N^\infty x^{-s}dx$, which carries the pole. It has *no* convergence problem at
 $\mathrm{Re}(s)\le 1$: the only singularity anywhere is the visible simple pole at $s=1$, with
 residue $N^{0}=1$. The remainder $R_{N,M}$ converges for $\mathrm{Re}(s) > 1-2M$, so by taking $M$
@@ -182,15 +182,15 @@ zeta(-1) = N(N-1)/2  +  (-N^2/2)  +  N/2  +  (1/6)/2! * (-1) * N^0
 
 Every $N$-dependent term cancels identically. That is what "$1+2+3+\cdots=-1/12$" actually means:
 not that the series sums to $-1/12$ (it does not; it diverges), but that the *Riemann-sum error
-constant* of $\sum n$ — the part left over after subtracting the integral and the trapezoid
-correction — is $-1/12$. The same computation gives $\zeta(0)=-1/2$ and $\zeta(-3)=1/120$; both
+constant* of $\sum n$, the part left over after subtracting the integral and the trapezoid
+correction, is $-1/12$. The same computation gives $\zeta(0)=-1/2$ and $\zeta(-3)=1/120$; both
 verified against mpmath to 20 digits.
 
 ### In the code
 
 The lab implements exactly the boxed formula as `zeta.core.zeta_euler_maclaurin(s, N=20, M=20,
-dps=...)` — `N` is the cut point of the explicit Dirichlet sum, `M` the number of Bernoulli
-corrections — and `zeta.core.euler_maclaurin_suggest_N` picks a safe `N` for you (roughly
+dps=...)`, `N` is the cut point of the explicit Dirichlet sum, `M` the number of Bernoulli
+corrections, and `zeta.core.euler_maclaurin_suggest_N` picks a safe `N` for you (roughly
 $\max(2M,\ |s|+2,\ \mathrm{dps}/2)$). Its docstring reproduces the $-1/12$ and $-1/2$ cancellations
 symbolically. Measured accuracy (this run, against mpmath's $\zeta$) at the second nontrivial zero
 $s = 1/2 + i\,t_2$, $t_2 = 21.02203964\ldots$, where the true value is $\approx 0$:
@@ -216,7 +216,7 @@ zero-hunting in `zeta.zeros`).
 ## 3. Abel summation: the other bridge
 
 Euler–Maclaurin converts a sum to an integral when the summand is *smooth*. Abel summation (partial
-summation) does it when the summand is *arithmetic* — supported on the primes, say — by pushing the
+summation) does it when the summand is *arithmetic*, supported on the primes, say, by pushing the
 irregularity into a counting function and integrating against its Stieltjes measure.
 
 **THEOREM (Abel summation).** With $A(t)=\sum_{n\le t} a_n$ and $f$ continuously differentiable,
@@ -238,18 +238,18 @@ Here $\pi(x)$ counts primes, $\Lambda$ is von Mangoldt's function ($\Lambda(p^k)
 and $\psi(x)=\sum_{n\le x}\Lambda(n)$ is Chebyshev's function. Spot-checked numerically: for (iii)
 at $s=2$, mpmath gives $-\zeta'(2)/\zeta(2) = 0.569960993095$, while summing $\Lambda(n)/n^2$ over
 prime powers up to $X=2\times10^5$ plus the PNT-heuristic tail $\int_X^\infty x^{-2}dx = 1/X$ gives
-$0.569960993709$ — agreement to about $6\times10^{-10}$. For (i) at $s=1/2$, truncating the integral
+$0.569960993709$, agreement to about $6\times10^{-10}$. For (i) at $s=1/2$, truncating the integral
 at $2\times10^6$ gives $-1.46000\ldots$ against $\zeta(1/2) = -1.4603545\ldots$, the gap of
 $3.5\times10^{-4}$ being exactly the size of the omitted tail.
 
-Notice what (i) does: the term $s/(s-1)$ carries the entire pole, and the $\{x\}$ integral — a pure
-Riemann-sum error term, the fractional part being our sawtooth again — is analytic for
+Notice what (i) does: the term $s/(s-1)$ carries the entire pole, and the $\{x\}$ integral, a pure
+Riemann-sum error term, the fractional part being our sawtooth again, is analytic for
 $\mathrm{Re}(s)>0$. One line of partial summation, and you have continued $\zeta$ into the critical
 strip and read off residue $1$.
 
 Identity (iii) is the doorway to everything downstream. It says the prime measure $d\psi$ and the
 function $-\zeta'/\zeta$ are Mellin transforms of one another. Invert it, and the poles of
-$-\zeta'/\zeta$ — which are precisely the *zeros* of $\zeta$ — become terms in an exact formula for
+$-\zeta'/\zeta$, which are precisely the *zeros* of $\zeta$, become terms in an exact formula for
 $\psi(x)$. That is the explicit formula, and it is the subject of `docs/04-explicit-formula.md` and
 the module `zeta.explicit`.
 
@@ -279,7 +279,7 @@ M[f](s) = int_{-inf}^{+inf}  e^{-su} f(e^{-u}) du
 ```
 
 So: **Mellin = Laplace conjugated by $\exp$.** Mellin is what Laplace becomes when the underlying
-group is $(\mathbb{R}_{>0},\times)$ instead of $(\mathbb{R},+)$ — which is the right group, because
+group is $(\mathbb{R}_{>0},\times)$ instead of $(\mathbb{R},+)$, which is the right group, because
 arithmetic is multiplicative. The line $\mathrm{Re}(s)=\sigma$ in Mellin is the vertical contour in
 Laplace; Mellin inversion is the Bromwich integral. Checked numerically too: at $s=2+i$,
 $\int_0^\infty x^{s-1}/(e^x-1)\,dx$ and $\int_{-\infty}^{\infty} e^{-su}/\big(e^{e^{-u}}-1\big)\,du$
@@ -288,58 +288,58 @@ agree to the full 20-digit working precision, both equal to $\Gamma(s)\zeta(s)$.
 So the intuition is *correct*. It is also step one. **Riemann's 1859 memoir**, *Ueber die Anzahl der
 Primzahlen unter einer gegebenen Grösse*, opens with essentially this identity, deforms it into a
 contour integral around the positive real axis to obtain the continuation to all of $\mathbb{C}$,
-and derives the functional equation — twice, the second derivation running through the Jacobi theta
+and derives the functional equation, twice, the second derivation running through the Jacobi theta
 function $\theta(x)=\sum_{n\in\mathbb{Z}}e^{-\pi n^2 x}$, whose Mellin transform gives the completed
 function $\xi(s)$. (The *name* "Mellin transform" is later, after Hjalmar Mellin, who systematized
 the theory around the turn of the twentieth century.) See `docs/02-theta-heat-and-modularity.md` for
 $\theta$ and its modular self-similarity, and `docs/03-functional-equation.md` for the Mellin step
-that turns it into $\xi$ — implemented as `zeta.core.theta_mellin_xi`.
+that turns it into $\xi$, implemented as `zeta.core.theta_mellin_xi`.
 
 I want to say this plainly, because it is the single most common place where a promising line of
 thought stalls: **the transform is not the missing piece. It was the first move, in 1859, and every
 subsequent technique is built on top of it.** Applying a Laplace / Mellin / Fourier transform to
 $\zeta$, or to $1/(e^x-1)$, or to $\theta$, will reproduce identities that were known in the
-nineteenth century. That is a good sign — it means the intuition is sound — but it is not progress
+nineteenth century. That is a good sign, it means the intuition is sound, but it is not progress
 on the Riemann Hypothesis.
 
-**What the actual obstruction is** — treated at length in `docs/08-why-it-is-hard.md` — sits
+**What the actual obstruction is**, treated at length in `docs/08-why-it-is-hard.md`, sits
 downstream of every transform. Each of these representations is an *equivalence*: it moves the same
 information between a sum, an integral, and a product, and it is symmetric in exactly the
 information you would need to break. None supplies a *mechanism* that forces the zeros onto
 $\mathrm{Re}(s)=1/2$. What we can actually prove: (THEOREM) there are no zeros on
-$\mathrm{Re}(s)=1$ — that is equivalent to the prime number theorem — and there are classical
+$\mathrm{Re}(s)=1$, that is equivalent to the prime number theorem, and there are classical
 zero-free regions of the shape $\sigma > 1 - c/\log(|t|+2)$, widened by Vinogradov–Korobov to
 roughly $\sigma > 1 - c/\big((\log|t|)^{2/3}(\log\log|t|)^{1/3}\big)$. But no zero-free region of
-the form $\sigma > 1-\delta$ for a *fixed* $\delta>0$ is known — a staggering distance from the
+the form $\sigma > 1-\delta$ for a *fixed* $\delta>0$ is known, a staggering distance from the
 $\delta=1/2$ that RH asserts. Worse, `docs/08-why-it-is-hard.md` catalogues functions that satisfy a
 functional equation *without* an Euler product (and vice versa) and have zeros off the line: any
 argument that uses only one of the two structures is provably doomed. The one framing in this lab
-that at least supplies a mechanism — a dynamics under which zeros *move*, so one can ask what
-confines them — is the heat flow / de Bruijn–Newman picture of `docs/05-de-bruijn-newman.md` and
+that at least supplies a mechanism, a dynamics under which zeros *move*, so one can ask what
+confines them, is the heat flow / de Bruijn–Newman picture of `docs/05-de-bruijn-newman.md` and
 `zeta.heatflow`.
 
 ---
 
 ## Where to go next
 
-- **`docs/02-theta-heat-and-modularity.md`** — the theta function, the heat equation, and the
+- **`docs/02-theta-heat-and-modularity.md`**: the theta function, the heat equation, and the
   modular identity $\theta(1/x)=\sqrt{x}\,\theta(x)$. The other half of the Mellin story in §4.
-- **`docs/03-functional-equation.md`** — the functional equation, the completed function $\xi(s)$,
+- **`docs/03-functional-equation.md`**: the functional equation, the completed function $\xi(s)$,
   and why $\mathrm{Re}(s)=1/2$ is a symmetry axis rather than an arbitrary line. This is where the
   Mellin transform of §4 actually pays off.
-- **`docs/04-explicit-formula.md`** — turning identity (iii) of §3 inside out, so that the zeros of
+- **`docs/04-explicit-formula.md`**: turning identity (iii) of §3 inside out, so that the zeros of
   $\zeta$ become an oscillatory correction to $\psi(x)$.
-- **`docs/08-why-it-is-hard.md`** — the honest failure catalogue: what every technique in this
+- **`docs/08-why-it-is-hard.md`**, the honest failure catalogue: what every technique in this
   document can and provably cannot deliver.
 - **Code.** `zeta.core.zeta_euler_maclaurin` and `euler_maclaurin_suggest_N` for §2;
   `zeta.explicit` for §3's prime-side integrals and the explicit formula;
   `zeta.core.mellin_gamma_zeta` and `theta_mellin_xi` for §4; `zeta.zeros` for locating zeros;
   `zeta.heatflow` for the closing paragraph. Reproduce the $\zeta(-1)=-1/12$ cancellation yourself
-  with $N=2,3,4$ — it is more convincing by hand than on the page.
+  with $N=2,3,4$, it is more convincing by hand than on the page.
 
 **A closing thought on the original question.** "Riemann sums" and "the Riemann zeta function" are
 named after the same person for a reason deeper than coincidence but shallower than mysticism:
 Riemann was, above all, someone who took seriously the question of what an integral *is* and what a
 sum *is*, and $\zeta$ is what you get when you refuse to be sloppy about the difference. The
-derivatives you suspected were involved really are involved — they are the Bernoulli correction
+derivatives you suspected were involved really are involved, they are the Bernoulli correction
 terms of Euler–Maclaurin, and they are what carries $\zeta$ across the line $\mathrm{Re}(s)=1$.

@@ -1,4 +1,4 @@
-# O9 — work order for the next session
+# O9: work order for the next session
 
 **Status:** ready to build. Scoping is done (`O9-SCOPING.md`, `o9_scoping.py`,
 17 pins in `test_o9_scoping.py`). Nothing below is research; every number it
@@ -60,12 +60,12 @@ Re-running the §7 arithmetic with caps scaled by `INFL` gives deficit
 of this, and `test_o9_scoping.py` pins it.
 
 **Why the widening is free.** The added strips carry no damage, so the caps do
-not move — checked at every `k` in `o9_scoping.py` §[3] and pinned by
+not move, checked at every `k` in `o9_scoping.py` §[3] and pinned by
 `test_widening_a_window_does_not_raise_its_cap`.
 
 ---
 
-## 2. Shape of the build — copy `BandCert`
+## 2. Shape of the build: copy `BandCert`
 
 `Zeta23Ext/BandCert/` is the same object one level up in difficulty and it
 already compiles. Mirror it as `Zeta23Ext/EForm3/DamageTable/`:
@@ -73,7 +73,7 @@ already compiles. Mirror it as `Zeta23Ext/EForm3/DamageTable/`:
 | BandCert file | what the O9 analogue does |
 |---|---|
 | `Iv.lean` | **reuse as-is.** Fixed-point intervals at scale `2^64`, with soundness lemmas. Do not rewrite it. |
-| `Leaves.lean` | **reuse, plus one addition** — see §3. |
+| `Leaves.lean` | **reuse, plus one addition**, see §3. |
 | `Phi.lean` | interval evaluators for `Qre`, `Qim/y` from the closed forms |
 | `Check.lean` | `Bool`-valued leaf checker + the lemma that `true` implies the real inequality |
 | `Data.lean` | the recorded leaf list |
@@ -82,7 +82,7 @@ already compiles. Mirror it as `Zeta23Ext/EForm3/DamageTable/`:
 
 **Use `decide`, not `native_decide`.** `BandCert/Check.lean` does, and the house
 rule is that nothing counts on a compiler-trusted step. At this size that should
-hold, but **measure kernel reduction time early** — it is the only real risk in
+hold, but **measure kernel reduction time early**, it is the only real risk in
 this build, and it is not the leaf count.
 
 ---
@@ -114,7 +114,7 @@ A leaf passes if `sup R^2 <= d` (then `Qre` is irrelevant), else if
 **The one new leaf is `sinhc x = sinh x / x`.** Needed only on `|x| <= 1/4`
 (since `y <= 1/2`), where the series `sum x^(2n)/(2n+1)!` truncated at 14 terms
 has tail below `2^-160`. `Leaves.lean` already carries the identical device for
-`sin(u/2)/u` — its `sfnL` list and the `L6` branch. **Copy that pattern.** No
+`sin(u/2)/u`: its `sfnL` list and the `L6` branch. **Copy that pattern.** No
 new machinery.
 
 Argument reduction: `s/2` runs to `30`, and `Leaves.lean` L3 already has
@@ -142,7 +142,7 @@ is about an eighth of that.
 
 If `decide` turns out slow, buy margin on the inflation knob, not the widening
 one: `INFL = 5/4` gives 77 window leaves, `13/10` gives 46, `27/20` gives 42.
-All still inside the `1.3945x` wall — but re-run `total_deficit` in
+All still inside the `1.3945x` wall, but re-run `total_deficit` in
 `o9_scoping.py` for whatever you pick and keep the surplus positive. Raising
 `WIDEN` past `0.00695` is not available at all (§1).
 
@@ -157,7 +157,7 @@ four are small and the ledger already calls them "hours, not research":
 - **O4** `|u| <= 6 -> 1/125 <= Kpair u` (true value `0.00834800`)
 - **O10** the integer trade (Lemma 5.1): `m -> 4cm - qm(m-1)` is concave with
   real maximum `1/2 + 2c/q`, so the integer maximum is a neighbour of it
-- **O11** the §7 rational arithmetic — `norm_num` on the table, once the caps
+- **O11** the §7 rational arithmetic, `norm_num` on the table, once the caps
   carry `INFL`
 
 O3/O4 are one-variable and `EForm3/Estimates.lean` already carries the pattern
@@ -165,20 +165,20 @@ O3/O4 are one-variable and `EForm3/Estimates.lean` already carries the pattern
 elementary, plus the monotonicity (`Qre 0 .` decreasing on `[0, 2pi]`) that
 turns each into a single endpoint evaluation.
 
-**O11 changes**: §7's table was computed at `INFL = 1`. Rebuild it at `6/5` —
+**O11 changes**: §7's table was computed at `INFL = 1`. Rebuild it at `6/5`,
 `total_deficit(Fraction(6,5))` in `o9_scoping.py` gives every row.
 
 ---
 
 ## 6. Done means
 
-1. `cd lean && PATH="$HOME/.elan/bin:$PATH" lake build` — zero `sorry`s, and the
+1. `cd lean && PATH="$HOME/.elan/bin:$PATH" lake build`, zero `sorry`s, and the
    same for the `zeta23ext` package build.
 2. No `native_decide`, no `axiom`, no weakened statement.
 3. `.venv/bin/python -m pytest -q hunts/frontier_math/test_o9_scoping.py` green.
 4. `RETENTION-PROBLEM.md` §4 updated: O9 marked built, with `INFL` and `WIDEN`
    recorded in the table so the caps in the file match the caps in the Lean.
-5. `PROOF-LEDGER.md` row updated — and state plainly that the `k = 1` chain
+5. `PROOF-LEDGER.md` row updated, and state plainly that the `k = 1` chain
    moved to kernel grade **and that `k >= 2` did not**. Ledger defect #19 was
    exactly this confusion; do not repeat it.
 6. A row in `ACTIVE-CLAIMS.md` while the work is running, per that file's
