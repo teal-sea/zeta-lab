@@ -243,8 +243,16 @@ zeros, which relocates the missing argument to a bound on the off-line-zero term
 kernel's pair sum, with zero-density estimates as the unconditional input; and a strip of width
 0.05 is worth about the record gap (+0.00098 to +0.00129 across pinned exponents, six rungs)
 but that is inside the ladder's method error and not distinguishable from zero, while #110's
-wide strip stays established at 3.5x. Worked as a node board from `board.json`; the first task
-is the numerical falsifier, which #110 ran but did not commit. Either answer closes the hunt.
+wide strip stays established at 3.5x. Second pass, same day: a difference-of-squares
+candidate (apply `stable_rank_trace` to the positive half with the negative half folded into
+`Q`) was priced and killed by an edge lemma, proved: a real even spectral profile's
+autocorrelation is strictly positive just inside its support edge, so it can never be
+nonpositive on the strip. The lemma is false for odd factors (`sinc^2 (1 - cos 4 pi x)` is a
+verified counterexample), which gives the obstruction as a dichotomy: even factor, Gram-able
+and strip-blind; odd factor, strip-capable and never a Gram kernel. The gain is not a
+lattice-spacing artifact (stable from h = 1/16 to 1/64), and every finite-X kernel, control
+included, is negative beyond X. Worked as a node board from `board.json`; the first task is the
+numerical falsifier, which #110 ran but did not commit. Either answer closes the hunt.
 
 ### Hunt #110: the free out-of-band fact is worth 0.005 to 0.009 and no certificate can spend it (`outband_intake/`)
 
