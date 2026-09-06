@@ -38,6 +38,14 @@ on:
         type: boolean
         required: false
         default: false
+      candidate_file:
+        description: >-
+          Repository path of a committed candidate.json to verify instead of re-solving the
+          LP; headroom then only forwards it. This is the cutting-plane loop's input: the
+          verifier's refused cells go into the pool, the LP is re-solved locally, the new
+          candidate is committed here and verified.
+        required: false
+        default: ""
   push:
     branches:
       - "hunt/amtopa-ceiling"
@@ -101,10 +109,20 @@ jobs:
       - uses: actions/setup-python@v5
         with: {python-version: '3.12'}
       - run: pip install "mpmath>=1.3" numpy scipy
+      - name: Use a committed candidate instead of the LP
+        if: ${{ inputs.candidate_file }}
+        working-directory: hunts/amtopa_ceiling
+        run: |
+          mkdir -p artifacts
+          cp "$GITHUB_WORKSPACE/${{ inputs.candidate_file }}" artifacts/candidate_ceiling.json
+          python3 -c "import json;d=json.load(open('artifacts/candidate_ceiling.json'));print('target', d['local_search']['candidate_target_for_certification'])" | tee candidate.log
+          echo "committed candidate: ${{ inputs.candidate_file }}" | tee -a "$GITHUB_STEP_SUMMARY"
       - name: eps* bracket at their window and their total pressure
+        if: ${{ !inputs.candidate_file }}
         working-directory: hunts/amtopa_ceiling
         run: python3 -u step5_headroom.py 60 80000 80 2>&1 | tee headroom.log
       - name: Candidate at the polytope optimum, in their schema
+        if: ${{ !inputs.candidate_file }}
         working-directory: hunts/amtopa_ceiling
         run: |
           mkdir -p artifacts

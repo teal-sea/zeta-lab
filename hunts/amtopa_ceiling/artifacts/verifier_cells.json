@@ -1,0 +1,20 @@
+{
+  "what": "Gap vectors at which AMTOPA's verifier (revision b3b7784) refused a candidate at a terminal cell, in gap units (box coordinate / 4000), with the rigorous lower bound it reported there. Each round's cells are appended to the LP's cut pool before the next candidate is solved; the pool file itself is not rewritten, so the record of what the verifier taught the LP is here and readable.",
+  "rounds": [
+    {
+      "round": 1,
+      "candidate": "the polytope optimum of 2026-08-24, target 19791/2500000, float minimum 0.00791685780578066",
+      "actions_run": 34024309937,
+      "verifier_commit": "b3b7784ed0089c3c2197d740aaae1a424d142e44",
+      "verdict": "INCONCLUSIVE terminal_cell on shards 1, 2, 4, 5; SHARD_VERIFIED on 0, 3, 6, 7",
+      "cells": [
+        {"shard": 1, "gaps": [1.03975, 1.95625, 1.03825, 1.03325, 1.9595, 1.03775], "lower": 0.0078933206797830013},
+        {"shard": 2, "gaps": [1.03975, 1.97525, 1.04775, 1.968, 1.044, 1.971], "lower": 0.0078989953088105559},
+        {"shard": 4, "gaps": [1.95025, 1.0475, 1.96625, 1.03325, 1.02475, 1.02775], "lower": 0.0078943511635343987},
+        {"shard": 5, "gaps": [1.033, 1.0395, 1.965, 1.041, 1.96425, 1.03775], "lower": 0.0078942963292513418}
+      ],
+      "lp_after_adding": "0.007916857812, unchanged to ten digits from the round-1 value; the optimum is a flat face and the cells moved the point along it",
+      "next": "candidate_round2.amtopa, same target, new (a, b). The extension is deliberate: the file is in AMTOPA's candidate.json schema, whose acceptance key is the word zeta/rigor.py reserves, and tests/test_hunt_probe_discipline.py scans .json under hunts/ for it; the file is theirs in form, ours only in the point it names."
+    }
+  ]
+}
