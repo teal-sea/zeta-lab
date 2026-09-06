@@ -172,7 +172,7 @@ def main() -> None:
              "soft_energy":check_soft_energy(),
              "gamma_transfer":check_gamma_transfer(),
              "prime_localization":check_prime_localization(),
-             "scope":"finite identity checks only; no asymptotic theorem is certified by these tests"}
+             "scope":"finite identity checks only; no asymptotic theorem is established by these tests"}
     (HERE/'checks.json').write_text(json.dumps(results,indent=2)+'\n')
     print(json.dumps(results,indent=2))
 

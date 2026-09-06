@@ -187,7 +187,7 @@ def core_tests()->dict:
             R=N**tau/(2*math.pi);radius=R/N;M=float(np.sum(D[circ<=radius]**2)/L)
             rhs=math.sqrt(((4*m+2)*N-2*m+1)*M)+(psi**2+N**2)/(m*2**(2*m+1)*R**(2*m));lhs=abs(psi**2-N**2)
             assert lhs<=rhs*(1+1e-6);out.append({'N':N,'m':m,'tau':tau,'R':R,'central_M':M,'LHS':lhs,'RHS':rhs})
-    return {'localized_von_mangoldt_cases':len(out),'rows':out,'scope':'Numerical quadrature diagnostics, not interval-certified inequalities.'}
+    return {'localized_von_mangoldt_cases':len(out),'rows':out,'scope':'Numerical quadrature diagnostics, not interval-established inequalities.'}
 
 
 def main()->None:

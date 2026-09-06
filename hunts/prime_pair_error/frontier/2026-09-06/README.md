@@ -11,22 +11,38 @@ This directory preserves the frontier work produced during the 2026-09-06 contin
 
 ## Exact handoff archive
 
-`archive/` contains a lossless base64 encoding of `zeta_frontier_handoff_2026-09-06.zip`, split into ordered chunks because the GitHub text API used for this preservation pass cannot upload a binary attachment directly.
+`archive/zeta_frontier_handoff_2026-09-06.zip` is the lossless handoff archive, committed
+directly as a binary. `archive/SHA256SUMS` carries its hash, and
+`tests/test_frontier_archive.py` checks on every run that the file is present, that its
+SHA-256 matches the value below, and that every member listed in the archive's own
+`SHA256SUMS.json` is inside it with the recorded hash and size.
 
-Reconstruct from the repository root:
+Verify from the repository root:
 
 ```bash
-cat hunts/prime_pair_error/frontier/2026-09-06/archive/part-*.b64 \
-  | base64 --decode \
-  > /tmp/zeta_frontier_handoff_2026-09-06.zip
-sha256sum /tmp/zeta_frontier_handoff_2026-09-06.zip
+sha256sum -c hunts/prime_pair_error/frontier/2026-09-06/archive/SHA256SUMS
 ```
 
 Expected SHA-256:
 
 `61f4901f8659d13cd2c795b560475b1313db666650da78dabeccd7e03c1807de`
 
-The archive contains the original reverse-engineering experiment, Möbius branch, q3 follow-up, zero-energy feasibility draft, sharp-transfer draft, multiscale draft, direct central arithmetic attack, runnable checkers/results, and source text used for the referee/Möbius handoffs.
+**Correction, 2026-09-06.** The first version of this section described `archive/` as a
+set of base64 chunks (`part-*.b64`) written through the GitHub text API, with a
+reconstruction command. That upload never landed: `archive/` did not exist on `main` or on
+any branch, and the documented command produced an empty file whose hash is the hash of
+zero bytes. The archive was re-supplied from the originating session's attachment and
+committed as the binary above; the hash it was expected to have is the hash it has. The
+test exists so that a documented archive can no longer be missing without the suite
+saying so.
+
+The archive contains the original reverse-engineering experiment, Möbius branch, q3
+follow-up, zero-energy feasibility draft, sharp-transfer draft, multiscale draft, direct
+central arithmetic attack, runnable checkers/results, and source text used for the
+referee/Möbius handoffs. Its own `MANIFEST.md` and `SHA256SUMS.json` inventory the
+members. One line in that manifest is stale by construction: it records PR #189 as closed
+unmerged, which was true when the archive was sealed and is not now (see `PROVENANCE.md`).
+The archive is evidence and is not edited to catch up.
 
 ## Next phase
 

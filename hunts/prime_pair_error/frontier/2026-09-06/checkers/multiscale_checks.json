@@ -32,6 +32,6 @@
     {"N":400,"m":4,"tau":0.2,"R":0.5275117405104496,"central_M":3541.3025438695017,"LHS":1730.6181824593805,"RHS":30965.418625319577},
     {"N":900,"m":2,"tau":0.45,"R":3.398046056249749,"central_M":17140.02621812388,"LHS":4976.140772855608,"RHS":12607.354289952267},
     {"N":900,"m":3,"tau":0.3,"R":1.2248781413357266,"central_M":13142.713305075175,"LHS":4976.140772855608,"RHS":14111.289502629608},
-    {"N":900,"m":4,"tau":0.2,"R":0.6203954921498187,"central_M":12183.029544838435,"LHS":4976.140772855608,"RHS":49979.16591426746}],"scope":"Numerical quadrature diagnostics, not interval-certified inequalities."},
+    {"N":900,"m":4,"tau":0.2,"R":0.6203954921498187,"central_M":12183.029544838435,"LHS":4976.140772855608,"RHS":49979.16591426746}],"scope":"Numerical quadrature diagnostics, not interval-established inequalities."},
   "all_checks_passed":true
 }
