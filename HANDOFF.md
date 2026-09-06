@@ -23,7 +23,12 @@ that clears one deletes the line and says so in the log. This section exists bec
   Theorem D, and one eighth of this takes the record from AMTOPA's 0.6734165. Found by
   hunt #110 `outband_intake`, 2026-09-01, measured grade. Continued as hunt #111
   `outband_certificate`, opened 2026-09-05, worked as a node board from its `board.json`.
-  Nobody touched it in between.
+  Nobody touched it in between. **Sharpened 2026-09-06** (`hunts/outband_certificate/RESULTS.md`):
+  the certificate the information supports is pointwise nonnegative in x-space with a signed
+  transform; the square structure is needed only for off-line zeros, so the missing piece is a
+  bound on the off-line-zero term of a signed kernel's pair sum, zero-density estimates being the
+  unconditional input; a strip of width 0.05 past the band is worth about the record gap but is
+  inside the ladder's method error, so the argument must be built for the whole strip (1, 1.5].
 
 ---
 
