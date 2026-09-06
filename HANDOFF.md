@@ -44,15 +44,18 @@ what blocks it. A hunt that produces one adds its line; a session that certifies
 moves the line. Opened because hunt #90's two candidates sat in `hunts/README.md` alone from
 2026-08-24, the same way hunt #110's finding did.
 
-- **REFUSED AT ITS MARGIN, 2026-09-06, round 3 running: `0.6734201550790580964…`, `+3.96e-6`
-  over the record**, hunt #90 `amtopa_ceiling`, 2026-08-24. Through the leader's own verifier
-  at `b3b7784`, the revision their `candidate.json` names (Actions runs `34024309937`,
-  `34024961426`): their headline is accepted on 8 of 8 shards with the gate alive; ours is
-  refused on 4 of 8 at terminal cells where the functional is `1e-6` to `2e-6` **above** the
-  target but the tangent bound at grid `1/4000` loses `1e-6` to `2e-6` against a `4.6e-7`
-  margin. Not a missed basin; a margin. Round 3 backs the target off to `19786/2500000`,
-  still `3.7e-6` above their floor, about `+2.6e-6` on the headline if it certifies.
-  `hunts/amtopa_ceiling/RESULTS.md` section 7.7, `artifacts/verifier_cells.json`.
+- **WITHDRAWN 2026-09-06: `0.6734201550790580964…`, `+3.96e-6` over the record**, hunt #90
+  `amtopa_ceiling`, 2026-08-24. Three rounds through the leader's own verifier at `b3b7784`,
+  the revision their `candidate.json` names (Actions runs `34024309937`, `34024961426`,
+  `34025675594`): their headline is accepted on 8 of 8 shards with the gate alive; ours is
+  refused on 4 of 8 every time. Round 1's cells were a margin (the functional above the target,
+  the tangent bound at grid `1/4000` a hair under it); round 3, with the target backed off,
+  passed those and stopped at cells whose values are **below the LP's claimed floor**. The
+  floor of the functional at the candidate's own weights is `0.0078960` (40-digit check), which
+  is `2.1e-5` under what the LP claimed and `1.5e-5` under the leader's floor. The LP's cut
+  oracle never found that basin. Kill condition 2, with the number. Whether these axes have
+  any headroom at all is open again; a re-solve with a stronger oracle is recorded in
+  `hunts/amtopa_ceiling/RESULTS.md` section 7.7, cells in `artifacts/verifier_cells.json`.
 - **`0.6734536…`, `+3.7e-5`, direction only**, same hunt: five differential-evolution seeds
   on the window axis, floors early-stopped, "direction, not magnitude". What would move it: an
   exact solve on that axis.

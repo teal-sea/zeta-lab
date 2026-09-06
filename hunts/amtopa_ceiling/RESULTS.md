@@ -44,6 +44,17 @@ The same defect blocks *our* candidate at the tip too, by `2.70e-08`. §7.6.
 
 ## 1. The sentence that matters
 
+> **WITHDRAWN 2026-09-06.** The `+3.96e-06` below rests on a float floor of
+> `0.007916857812` that was never the floor: the LP's cut oracle missed a basin,
+> and the functional at the candidate's own weights bottoms at `0.0078960`,
+> `1.5e-5` under the leader's floor. Found by running the candidate through the
+> leader's own verifier three times and reading the cells it refused. The
+> sentence is kept as written because it was written; the correction, the
+> arithmetic and the re-solve with a stronger oracle are in §7.7. Everything in
+> this section from here to §1's second finding is what the withdrawn floor
+> implied; the second finding (the two axes at their ceiling) does not rest on
+> it.
+
 **Their number is not at their own family's ceiling, and the distance is
 `+3.96e-06`.** Holding their window, their total pressure and their assembly
 completely fixed, and moving only the twenty-one pair weights and six position
@@ -860,12 +871,43 @@ verifier is fail-closed at a terminal cell and prints the loose bound, which is 
 first reading the wrong way. `artifacts/verifier_cells.json` carries both rounds and the
 arithmetic.
 
-**Round 3.** The same point, target backed off to `19786/2500000 = 0.0079144`, still `3.7e-6`
-above the leader's floor `0.0079107`, which by §1's exact assembly is about `+2.6e-6` on their
-headline if it certifies. Recorded below when it lands. If it is refused again at cells whose
-tangent bound clears the new target, the fallback is a positive-definiteness failure of the
-interval Hessian at those cells, which no target change fixes and which would be the next
-thing to read.
+**Round 3, and the second reading was wrong about the candidate.** The same point, target
+backed off to `19786/2500000 = 0.0079144` (Actions run `34025675594`). The four round-1 cells
+were passed, exactly as the margin arithmetic said they would be. The search then went deeper
+and the same four shards stopped at four new cells a few grid steps away, and the midpoint
+values there are `0.0079153` to `0.0079162`: **below the LP's reported float minimum
+`0.0079168578`**. So the reported floor was not the floor. Descending the LP's own functional
+from each refused cell, and from the reported location itself, reaches five distinct local
+minima at `0.0078960`, `0.0078988`, `0.0078993`, `0.0079015`, `0.0079020`; a 400,000-seed
+multistart on `[0.9, 2.3]^6` finds nothing lower. The reported location is not a stationary
+point at all (gradient `1e-2` in sum): it is an active cut of the LP, which is why its value
+equals the LP value, not a minimum of `F`. The floor of `F` at this `(a, b)` is
+`0.00789598574667553` at gaps `(1.038654, 1.963484, 1.038887, 1.035361, 1.961736, 1.039690)`,
+confirmed at 40 digits with mpmath independently of the numpy code. That is `2.09e-5` under
+the claimed floor and `1.51e-5` under the leader's floor `0.0079107`. The same descent at the
+leader's own `(a, b)` gives `0.0079111052`, `3e-7` above the target their verifier accepts,
+so the method reproduces their floor and the gap is real.
+
+**The candidate is withdrawn. Kill condition 2 fires, with the number.** The first reading
+had the right conclusion for the wrong reason (the round-1 cells were a margin, as the second
+reading said), and the second reading had the wrong conclusion: the oracle that generated the
+LP's cuts (`harvest`: 90,000 seeds on `[0, 6]^6` and `[0.6, 3.2]^6`, 48 descents, `maxiter`
+300) never found the basin at `(1.04, 1.96, 1.04, 1.04, 1.96, 1.04)`, which is exactly the
+failure the stopping-rule comment in `epsstar.py` warned of: *a float multistart is a fallible
+oracle, and a later run with a better oracle can only push `upper` down*. Every number in §1
+that rests on `0.0079168578` rests on that oracle. No target change rescues a point whose
+functional dips `1.5e-5` under the leader's floor. The leader's verifier was fail-closed and
+right all three times; the plain bounds it printed, about `0.00789`, happened to land near
+the truth for the wrong reason. `artifacts/verifier_cells.json` carries all three rounds with
+the arithmetic.
+
+**What is left of hunt #90's question.** Whether AMTOPA are at the ceiling of the pair-weight
+and pressure axes at their window is now open again, with the LP's previous answer
+(`+5.9e-6` of headroom on `eps`) withdrawn along with the point. The honest re-solve is the
+same cutting-plane LP with an oracle that finds these basins: 400,000 seeds on `[0.9, 2.3]^6`,
+300 descents plus 200 warm starts from the pool, `gtol 1e-14`. Recorded below when it lands.
+The LP value is an upper bound on `eps*` whatever the oracle does, because every cut is a real
+gap vector; only the claimed floor was ever soft.
 
 ## 8. Knownness
 

@@ -75,7 +75,7 @@
       "denominator": 2500000
     },
     "verified": false,
-    "note": "verified=false until the interval verifier accepts this target | round 3, 2026-09-06: same (a, b) as round 2, target backed off from 19791/2500000 to 19786/2500000 (0.0079144) because at grid 1/4000 the tangent bound at the cells refused in rounds 1 and 2 is 0.0079163 to 0.0079164, a hair under the old target; the tangent slack there is 1e-6 to 2e-6, larger than the 4.6e-7 margin the old target left."
+    "note": "verified=false until the interval verifier accepts this target | round 3, 2026-09-06: same (a, b) as round 2, target backed off from 19791/2500000 to 19786/2500000 (0.0079144) because at grid 1/4000 the tangent bound at the cells refused in rounds 1 and 2 is 0.0079163 to 0.0079164, a hair under the old target; the tangent slack there is 1e-6 to 2e-6, larger than the 4.6e-7 margin the old target left. | final_projection re-assembled at 19786/2500000 after the Actions dispatch (exact_assembly.bound_at, m=145): 0.67341886947..., +2.38e-6 over the headline; the verifier reads only local_search.candidate_target_for_certification, the pair weights and the pressures, so the run is unaffected."
   },
   "pair_weights": {
     "denominator": 1000000000,
@@ -212,7 +212,7 @@
         "denominator": 500000000
       },
       "epsilon_target": {
-        "numerator": 19791,
+        "numerator": 19786,
         "denominator": 2500000
       },
       "pressure_total": {
@@ -221,10 +221,10 @@
       }
     },
     "projected_safe_decimal": {
-      "numerator": 6734201550,
+      "numerator": 6734188694,
       "denominator": 10000000000
     },
-    "computed_bound_from_conservative_inputs": "0.6734201550790580964457598685450152133015925150281714376259484726828602",
+    "computed_bound_from_conservative_inputs": "0.6734188694767070533983606488657004151827439996380361073750323758900976",
     "certified": false
   },
   "archive": {
