@@ -55,3 +55,25 @@ outcome: The first pass's profile is the modulus-1 member of an exact four-piece
 artifacts:
   - hunts/prime_pair_error/results_residue.json
 ```
+
+## 2026-09-06, wronskian.py, the identities of Part 3 at the fresh cutoffs
+
+**Estimate written before the run.** Everything is prefix sums over one array of length
+N plus one FFT pair count per cutoff to check the identity against T(N); priced from
+`residue.py`'s per-cutoff figures at a few seconds in all and about 2.5 GB resident at
+7 x 10^6 (the FFT of length 2^24 and a dozen arrays of length N). Nothing checkpoints.
+
+**Measured.** 3.0 s wall, 2.45 GB maximum resident set, on the operator's 16 GB laptop,
+for all five cutoffs with the pair count included.
+
+```runmanifest
+id: prime_pair_error-2026-09-06-wronskian
+hunt: prime_pair_error
+started: 2026-09-06
+finished: 2026-09-06
+ran:
+  - .venv/bin/python hunts/prime_pair_error/wronskian.py
+outcome: The identity T - I = W + P/2 + X - H holds at every cutoff to rounding; the auxiliary term P/2 + X - H is 0.3131 N + o(N) with the constant derived and matched to four digits; W splits exactly as R P/2 - J + Q with J the character-weighted sum of psi(m) - m over prime powers, J/N between 0.10 and 0.83 and J/(N log N) at most 0.053; RESULTS.md Part 3 proves W << N^(Theta + Theta_chi) log^4 N unconditionally, hence (T) under RH for zeta and L(s, chi_3) with O(N log^4 N), and E(N) = Omega(N^(1 + 2 Theta_chi - eps)) unconditionally.
+artifacts:
+  - hunts/prime_pair_error/results_wronskian.json
+```
