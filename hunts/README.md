@@ -211,6 +211,16 @@ failing solver. The verdict lives between the achievability floor `0.05716502`
 and the budget `0.06750841`. This entry is rewritten with the result when the
 run closes.
 
+### Hunt #111: spend the out-of-band fact, or prove it cannot be spent (`outband_certificate/`)
+
+**Status: open, 2026-09-05. Not started.** The step hunt #110 handed forward: an inertia or
+isolation argument valid for a kernel signed only on alpha in (1, 1.5], or a ceiling proof
+that none exists. The target is the record (0.6734165, one eighth of the measured gain), not
+the whole 0.68. Worked as a node board from `board.json` in the directory: the mapper's
+decomposition, the judge's verdicts and every landed or walled attempt are the record. The
+first task is the numerical falsifier the HuntSpec names as an oracle, which #110 ran but
+did not commit. Either answer closes the hunt.
+
 ### Hunt #110: the free out-of-band fact is worth 0.005 to 0.009 and no certificate can spend it (`outband_intake/`)
 
 **Status: probe, complete. GAP, not a barrier.** BGSTB 2023 (arXiv:2306.04799,
