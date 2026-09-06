@@ -57,3 +57,20 @@ for psi(N) with an LP-chosen seed: 87 exact-rational certificates, all reproduce
 independent review is `factorial_certificate_pilot/REVIEW.md`; the review's own checker and
 its output live in `factorial_certificate_pilot/review/`. It is a pilot, not a prime-counting
 record and not an RH result, and it does not touch the A/B referee record above.
+
+## Cumulative research checkpoint and the three newest packages (preserved 2026-09-06)
+
+`checkpoint/` is the research checkpoint: `checkpoint/CHECKPOINT.md` is the narrative
+(chronology, claim grades, failed methods, open questions), `checkpoint/README.md` says
+where every original byte lives, and `checkpoint/archive/zeta_research_checkpoint_2026-09-06.zip`
+is the cumulative archive itself, committed unchanged and hash-pinned by its sidecar and by
+`tests/test_research_checkpoint_archive.py`. It bundles all twelve original research ZIPs,
+including the two already committed above, and its own verifier.
+
+The three newest packages it carries are imported beside it as runnable working
+directories, byte for byte: `certificate_structural_step/` (omitted-prime obstruction and
+the period-30030 extension), `certificate_refinement_rule/` (positive repair rule, five
+applications, full error budget) and `certificate_route_test/` (fixed-recipe ceiling and
+the combined-weight repair; its `aggregate_results.json` is the current candidate baseline).
+They are archived, unreviewed source packages, not promoted results, and none of them bears
+on RH. Rerun them into new output files; the recorded outputs are the originals.

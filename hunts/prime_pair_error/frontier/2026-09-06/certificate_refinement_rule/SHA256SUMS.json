@@ -1,0 +1,35 @@
+{
+  "status": "local proof draft; not independently reviewed or committed",
+  "files": [
+    {
+      "path": "REFINEMENT.md",
+      "sha256": "d50cbdbcaab1c6da7537deca7fd63d4f72290ca8aa2d694044bf762fe5402d4d",
+      "bytes": 12255
+    },
+    {
+      "path": "exploration.json",
+      "sha256": "520f9ff8f5e9a5d893c8de64e57556634badc3d2b9330c2da6949bef36d33fc3",
+      "bytes": 1636
+    },
+    {
+      "path": "inputs.json",
+      "sha256": "8062f368dca5a0664e0a776e401a7375796204d7632652033f2804405040b8f9",
+      "bytes": 1364
+    },
+    {
+      "path": "refine.py",
+      "sha256": "ae4d05e4f604aad2676d8d4fc44a05fe8ace999afc842ce5900dfc1b927071e9",
+      "bytes": 11219
+    },
+    {
+      "path": "requirements.txt",
+      "sha256": "8e0775b4589c3d39b4172b2da90158edf6a7f9d7a2f5bfc5f34865304d47cfcf",
+      "bytes": 13
+    },
+    {
+      "path": "results.json",
+      "sha256": "cfc9a0cca5ed24737c463420e2876dbeacc96c0ec9c633e82ea8712969aac05d",
+      "bytes": 101742
+    }
+  ]
+}

@@ -1296,7 +1296,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 
 ## Tests (`tests/`)
 
-2004 test functions across 94 files (the collected count differs where tests are parametrised):
+2015 test functions across 95 files (the collected count differs where tests are parametrised):
 
 - `tests/test_adele.py`, 4
 - `tests/test_aimo_audit.py`, 2
@@ -1370,6 +1370,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `tests/test_reading_of_record.py`, 2
 - `tests/test_relations.py`, 7
 - `tests/test_repo_hygiene.py`, 7
+- `tests/test_research_checkpoint_archive.py`, 11
 - `tests/test_review.py`, 12
 - `tests/test_rigor.py`, 54
 - `tests/test_rigor_weil.py`, 17
