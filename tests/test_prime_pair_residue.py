@@ -240,3 +240,97 @@ def test_the_reductions_are_ordered_and_the_slopes_are_near_one():
         assert c["1"]["reduction_all_k"] < c["3"]["reduction_all_k"] < c["30"]["reduction_all_k"], r["N"]
         for q in ("3", "30"):
             assert abs(c[q]["posthoc_slope_e_on_c_even"] - 1.0) < 0.1, (r["N"], q)
+
+
+# ---------------------------------------------------------------------------
+# 5. the character-weighted sum of Section 12 as a Wronskian (wronskian.py)
+# ---------------------------------------------------------------------------
+
+import wronskian  # noqa: E402
+
+
+def _random_weights(N: int, seed: int) -> np.ndarray:
+    f = np.random.default_rng(seed).normal(size=N + 1)
+    f[0] = 0.0
+    return f
+
+
+@pytest.mark.parametrize("N,seed", [(7, 1), (50, 2), (301, 3), (1000, 4)])
+def test_E1_reduced_pair_sum_on_arbitrary_weights(N, seed):
+    """sum_{n<m} f(n) f(m) chi(m-n) over 3 not | nm equals the class-prefix form and the
+    Wronskian form, for weights that are not von Mangoldt; the (N-1)/2 is exact and
+    N/2 is off by exactly P(N)/2."""
+    f = _random_weights(N, seed)
+    f_red = np.where(np.arange(N + 1) % 3 == 0, 0.0, f)
+    red_direct, _ = wronskian.pair_sum_direct(f)
+    assert wronskian.reduced_pair_sum_by_classes(f_red) == pytest.approx(red_direct, abs=1e-9)
+    total, parts = wronskian.reduced_pair_sum_by_wronskian(f_red)
+    assert total == pytest.approx(red_direct, abs=1e-9)
+    wrong = parts["main_Nminus1"] - 0.5 * parts["P_N"] + parts["W"]      # N/2 in place of (N-1)/2
+    assert abs(wrong - red_direct) == pytest.approx(0.5 * abs(parts["P_N"]), abs=1e-9)
+
+
+@pytest.mark.parametrize("N,seed", [(50, 5), (1000, 6)])
+def test_E2_exceptional_pairs_on_arbitrary_weights(N, seed):
+    f = _random_weights(N, seed)
+    _, exc_direct = wronskian.pair_sum_direct(f)
+    assert wronskian.exceptional_by_formula(f) == pytest.approx(exc_direct, abs=1e-9)
+
+
+def test_E3_T_equals_the_identity_on_Lambda(data):
+    """T(N) from the pure-Python pair count equals I(N) + W + P/2 + X - H exactly."""
+    lam, _, S, psi2_py = data
+    N = N_SMALL
+    psi2 = np.concatenate([[0.0], psi2_py])
+    d = wronskian.evaluate(N, lam, S, psi2)
+    assert abs(d["check_E3_T_minus_identity"]) < 1e-6
+    assert abs(d["T_measured"]) > 1e4                      # the identity is not checked on zero
+    # and the same T as residue.analyse computes it
+    a = residue.analyse(N, lam, probe.von_mangoldt(N)[1], S, with_next=False)
+    assert a["T_chi3"]["T_measured"] == pytest.approx(d["T_measured"], rel=1e-12)
+    assert a["T_chi3"]["T_integral_form"] == pytest.approx(d["I"] + 0.5 * d["split"]["P_N"], rel=1e-12)
+
+
+def test_E4_W_splits_into_the_two_remainder_terms(data):
+    lam, _, _, _ = data
+    N = N_SMALL
+    d = wronskian.evaluate(N, lam, probe.singular_series(N))
+    assert abs(d["check_E4_W_minus_split"]) < 1e-6
+    sp = d["split"]
+    assert abs(sp["Q"]) <= sp["Q_bound"]
+    # J by explicit enumeration: sum over m of Lambda(m) chi(m) (psi(m) - m)
+    chi = wronskian.chi3(N)
+    psi = np.cumsum(lam[: N + 1])
+    J = sum(float(lam[m] * chi[m] * (psi[m] - m)) for m in range(1, N + 1))
+    assert sp["J"] == pytest.approx(J, rel=1e-12)
+
+
+@pytest.mark.parametrize("N", [1000, 5000, 20001])
+def test_H_chi_by_two_routes(N):
+    S = probe.singular_series(N)
+    a = wronskian.H_chi(N, S)
+    b = wronskian.H_chi_by_divisor_expansion(N)
+    assert a == pytest.approx(b, rel=1e-10)
+    assert abs(a) > 0.25 * N                               # H is of order N, not smaller
+
+
+def test_results_wronskian_file_reproduces_at_its_smallest_cutoff():
+    path = HUNT / "results_wronskian.json"
+    rec = json.loads(path.read_text())
+    run = min(rec["runs"], key=lambda r: r["N"])
+    N = run["N"]
+    assert N == 200_000
+    lam, _ = probe.von_mangoldt(N)
+    S = probe.singular_series(N)
+    fresh = wronskian.evaluate(N, lam, S)
+    for key in ("I", "W", "X_chi", "H_chi", "aux"):
+        assert fresh[key] == pytest.approx(run[key], rel=1e-9), key
+    assert fresh["split"]["J"] == pytest.approx(run["split"]["J"], rel=1e-9)
+    # the recorded T at every cutoff is the one residue.py recorded, and the identity held
+    res = {r["N"]: r for r in json.loads((HUNT / "results_residue.json").read_text())["runs"]}
+    for r in rec["runs"]:
+        assert abs(r["check_E3_T_minus_identity"]) < 1e-3 * abs(r["T_measured"]) * 1e-6
+        assert abs(r["check_E4_W_minus_split"]) < 1e-3
+        assert r["T_measured"] == pytest.approx(res[r["N"]]["T_chi3"]["T_measured"], rel=1e-9)
+        # H_chi(N)/N sits near the constant c_H = -(2 C_2/3) prod_{p>3} (1 + chi(p)/(p-2))
+        assert abs(r["H_chi"] / r["N"] - rec["c_H"]) < 0.02

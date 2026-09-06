@@ -18,8 +18,13 @@ The second pass (2026-09-06) is `residue.py`: it derives the first pass's profil
 modulus-1 member of a residue-class decomposition, writes down the modulus-3 and
 modulus-30 members with every coefficient fixed by the derivation, and evaluates all
 three at cutoffs the first pass never used; it writes `results_residue.json`, and
-`tests/test_prime_pair_residue.py` pins its identities and its numbers. Nothing here
-bears on RH (`docs/08`).
+`tests/test_prime_pair_residue.py` pins its identities and its numbers. The third pass
+(2026-09-06) is `wronskian.py`: it takes the character-weighted sum of RESULTS.md
+Section 12 apart into a Wronskian of the two prime-counting remainders plus an explicit
+term of order N, checks the identities on arbitrary weights, and RESULTS.md Part 3 proves
+what can be proved about it (a bound in terms of the zeros of zeta and L(s, chi_3),
+and an unconditional lower bound on E(N)); it writes `results_wronskian.json` and the
+same test file pins it. Nothing here bears on RH (`docs/08`).
 
 ```huntspec
 id: prime_pair_error
