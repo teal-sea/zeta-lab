@@ -1,7 +1,12 @@
 # Independent referee report on Part 3
 
+*Editorial note, 2026-09-06: the absolute path of the reviewer's worktree was replaced
+with "an isolated local worktree" to satisfy `tests/test_repo_hygiene.py`, which bars
+machine-local paths from tracked files. Nothing else in this report was altered; no
+finding, verdict or quoted text is affected.*
+
 Reviewed on 2026-09-06 against author commit
-`37c2a53a` in `/Users/thomas/orca/workspaces/Zeta/quahog`, including the complete
+`37c2a53a` in an isolated local worktree, including the complete
 Sections 14 to 19 of `RESULTS.md`, all of `wronskian.py`,
 `results_wronskian.json`, and `tests/test_prime_pair_residue.py`. PR #186 is
 merge `561446e0`; Part 3 was a subsequent local commit, later pushed as PR #188.
