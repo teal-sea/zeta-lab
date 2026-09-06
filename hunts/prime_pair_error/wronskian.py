@@ -135,7 +135,7 @@ def H_chi(N: int, S: np.ndarray) -> float:
 
 
 def H_chi_by_divisor_expansion(N: int) -> float:
-    """H_chi(N) again, from S(k) = 2 C_2 sum_{d | k, d odd squarefree} g(d), g(p) = 1/(p-2):
+    """H_chi(N) again, from S(k) = 2 C_2 1[2|k] sum_{d | k, d odd squarefree} g(d), g(p) = 1/(p-2):
     H = -2 C_2 sum_{d odd sqfree, 3 not | d} g(d) chi(d) integral_0^N 1[floor(x/2d) = 1 (3)] dx.
     Shares no code with probe.singular_series."""
     tot = 0.0
@@ -164,7 +164,12 @@ def H_chi_by_divisor_expansion(N: int) -> float:
 
 
 def G_infinity(P: int = 2_000_000) -> float:
-    """prod_{p > 3} (1 + chi(p)/(p-2)), the constant in H_chi(N) ~ -(2 C_2/3) G N."""
+    """Finite product over 3 < p <= P approximating the constant in H_chi(N)/N.
+
+    The historical function and JSON field names say infinity, but the returned
+    value has no tail estimate. REFEREE.md separates this approximation from the
+    limiting coefficient c_H = -(2 C_2/3) G.
+    """
     primes = np.nonzero(probe.von_mangoldt(P)[1])[0]
     primes = primes[primes > 3]
     chi = chi3(P)

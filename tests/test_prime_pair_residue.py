@@ -325,6 +325,12 @@ def test_results_wronskian_file_reproduces_at_its_smallest_cutoff():
     fresh = wronskian.evaluate(N, lam, S)
     for key in ("I", "W", "X_chi", "H_chi", "aux"):
         assert fresh[key] == pytest.approx(run[key], rel=1e-9), key
+    # Independent factorization and 40-digit prime-power sums, REFEREE.md Section 5.
+    # These pin the finite values and their distinct signs, not an asymptotic theorem.
+    assert fresh["H_chi"] / N == pytest.approx(-0.3131254443203751984, abs=1e-11)
+    assert fresh["P_N_half"] / N == pytest.approx(0.0011345887547197570, abs=1e-11)
+    assert fresh["X_chi"] / N == pytest.approx(0.0289017020741249601, abs=1e-11)
+    assert fresh["aux"] / N == pytest.approx(0.3431617351492199154, abs=1e-11)
     assert fresh["split"]["J"] == pytest.approx(run["split"]["J"], rel=1e-9)
     # the recorded T at every cutoff is the one residue.py recorded, and the identity held
     res = {r["N"]: r for r in json.loads((HUNT / "results_residue.json").read_text())["runs"]}
