@@ -12,9 +12,14 @@ asks which separations k carry the error: by the size of k, by the prime factors
 and against three candidate profiles that a first-order heuristic predicts. The
 prediction S(k)(N - k) is held fixed throughout; nothing is refit.
 
-Everything runs from one script, `probe.py`, in about half a minute on a laptop; the
-numbers it writes are `results.json`, and `RESULTS.md` reads them. Nothing here bears
-on RH (`docs/08`).
+Everything in the first pass runs from one script, `probe.py`, in about half a minute
+on a laptop; the numbers it writes are `results.json`, and `RESULTS.md` reads them.
+The second pass (2026-09-06) is `residue.py`: it derives the first pass's profile as the
+modulus-1 member of a residue-class decomposition, writes down the modulus-3 and
+modulus-30 members with every coefficient fixed by the derivation, and evaluates all
+three at cutoffs the first pass never used; it writes `results_residue.json`, and
+`tests/test_prime_pair_residue.py` pins its identities and its numbers. Nothing here
+bears on RH (`docs/08`).
 
 ```huntspec
 id: prime_pair_error

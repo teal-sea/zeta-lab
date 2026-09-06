@@ -109,6 +109,25 @@ E(N) and 12 to 22 percent of the prime-only analogue. Its k-averaged small-k lim
 Korevaar and te Riele's Approximation 2.1 (Math. Comp. 2010), so the hunt claims a
 refinement of a published heuristic and nothing more. Nothing bears on RH (`docs/08`).
 
+**Second pass, 2026-09-06 (`residue.py`, `results_residue.json`).** The profile above is the
+modulus-1 member of an exact four-piece decomposition of psi_2(N, k) at any modulus q
+(periodic baseline S_q(k)(N - k) plus a bounded term, endpoint terms linear in
+psi(x; q, b) at x = N, k, N - k, the pairs involving a power of a prime dividing q, and the
+correlation of the centered reduced-class function), whose only heuristic is that the
+primes not dividing q act on the reduced classes as all primes act on the integers. The
+modulus-3 member is the profile with the character mod 3 added, sign chi(k), and the
+modulus-30 member treats 2, 3, 5 together through the eight characters mod 30; every
+coefficient is 1 by derivation and frozen before the run. At five cutoffs the first pass
+never used (2 x 10^5 to 7 x 10^6) the three remove 0.5 to 1.9, 1.0 to 7.6 and 2.2 to 10.0
+percent of E(N), with the post-hoc slope of the error on the modulus-30 correction within
+one percent of 1 everywhere. What the modulus-30 correction leaves has no structure mod 30
+and all of its structure at 7, 11, 13, which the modulus-210 member predicts to within one
+standard error. The character-weighted sum sum_k chi_3(k) e(N, k) matches
+integral_0^N psi(x, chi_3) dx - (N/2) psi(N, chi_3) to half a percent at every cutoff; that
+identity-plus-heuristic is the one statement recorded as worth proving. The Goldbach-side
+analogue is Bhowmik, Halupczok, Matsumoto and Suzuki (Mathematika 2019); nothing here is
+claimed new.
+
 ### Hunt #114: one Epstein value, checked against a route that does not cancel (`support_e6241336/`)
 
 **Status: settled** (support run `e6241336`, serving run `872d7dce` /
