@@ -1,0 +1,111 @@
+{
+  "graph": "outband-certificate",
+  "concurrency": 1,
+  "max_attempts": 2,
+  "defaults": { "model": "opus" },
+  "sandbox": {
+    "repo": "/Users/thomas/Zeta",
+    "root": "/Users/thomas/ostoyae-worktrees",
+    "base": "main",
+    "port_base": 4210,
+    "link": [
+      "lean/.lake/packages",
+      "hunts/frontier_math/zeta23ext/.lake/packages"
+    ],
+    "tools": [
+      { "cmd": "bash /Users/thomas/Ostoyae/bin/ask-axle",
+        "what": "check a Mathlib-only Lean statement or file at lean-4.33.0 in milliseconds: exit 0 elaborates, 1 errors on stdout, 3 unreachable (which is NOT a compile failure). It cannot see the bridge package's types; for those use lake env lean inside lean/bridge." },
+      { "cmd": "bash /Users/thomas/Ostoyae/bin/fetch-paper",
+        "what": "read an arXiv paper as text by id: 2306.04799 is BGSTB (the out-of-band positivity, Theorem 1); read the paper before you rely on it or on CGdL." }
+    ]
+  },
+  "ontology": {
+    "kinds": {
+      "lemma": {
+        "claim": ["decl", "statement"],
+        "evidence": ["why", "searched"],
+        "id": "lemma-{decl}",
+        "what": "Prove `{decl}` in Lean 4, sorry-free, in a module under lean/bridge/Zeta23Ext/Outband/ in the bridge package. The statement, as the attempt that found it wrote it:\n\n{statement}\n\nDo not weaken or restate it: if it is wrong as written, say so in your report and hand back the corrected statement as a new claim. Toolchain leanprover/lean4:v4.33.0-rc2, Mathlib and Zeta23 prebuilt and linked read-only; never run lake update. Before proving, grep .lake/packages/mathlib, .lake/packages/Zeta23 and lean/bridge for `{decl}` and its obvious names: if it already exists, that is the finding, say so and stop. Build with `bash lean/bridge/assemble.sh` once, then `cd lean/bridge && lake build Zeta23Ext.Outband.<Module>`; do not build in lean/ or in hunts/. A prerequisite Mathlib or the bridge lacks is a task: name it as a typed claim so the graph can schedule it, prove what genuinely fits in this run, and say what is left and in what order. An RH-conditional input (Farmer-Gonek-Lee Theorem 1.1, any CGdL constant resting on it) is never admissible as unconditional.",
+        "check": "bash hunts/outband_certificate/check-lean.sh {decl}",
+        "gate": "bash hunts/outband_certificate/gate-lean.sh {decl}"
+      },
+      "def": {
+        "claim": ["decl", "statement"],
+        "evidence": ["why", "searched"],
+        "id": "def-{decl}",
+        "what": "Add the definition `{decl}` in Lean 4 in a module under lean/bridge/Zeta23Ext/Outband/ in the bridge package:\n\n{statement}\n\nIt must elaborate and be exactly the definition the lemmas that name it need; write it once, in the module named for it, and nothing else. Same toolchain and build rules as a lemma: leanprover/lean4:v4.33.0-rc2, prebuilt stores linked read-only, never lake update, `bash lean/bridge/assemble.sh` then `cd lean/bridge && lake build Zeta23Ext.Outband.<Module>`.",
+        "check": "bash hunts/outband_certificate/check-lean.sh {decl}",
+        "gate": "bash hunts/outband_certificate/gate-lean.sh {decl}"
+      },
+      "tool": {
+        "claim": ["name", "spec"],
+        "evidence": ["why"],
+        "id": "tool-{name}",
+        "what": "Build `{name}` as hunts/outband_certificate/{name}.py, run from the repo root with the lab's venv (`.venv/bin/python`; in a worktree it lives in the primary checkout, find it through `git rev-parse --git-common-dir`). Spec:\n\n{spec}\n\nUse numpy, scipy and the zeta package only. Commit the file; the check runs it and reads its stdout against numbers already on the record, so print exactly the lines the spec names. Do not touch zeta/, ontology/ or harness/, and do not run lake build.",
+        "check": "bash hunts/outband_certificate/check-tool.sh {name}"
+      },
+      "question": {
+        "claim": ["decl", "statement"],
+        "evidence": ["why", "searched"],
+        "id": "question-{decl}",
+        "what": "Settle `{decl}`; do not merely attempt to prove it. Its statement, as the board holds it:\n\n{statement}\n\nTHE TRUE SIDE: prove it, sorry-free, in a module under lean/bridge/Zeta23Ext/Outband/, by a finite certificate whose only addition to bandwidth-one data is the BGSTB out-of-band positivity (arXiv:2306.04799, Theorem 1), realised the way lean/bridge/FourPoint realises the four-point certificate. THE FALSE SIDE: prove `{decl}_ceiling`, that every certificate in the strip class delivers at most 6725007/10000000, where StripClass, defined in your module, is a certificate reading bandwidth-one data plus positivity on alpha in (1, 1.5] and nothing else; write StripClass's definition into your report's `ahead` so the judge can rule on whether it is the class the hunt means. Hand back `answer: true` or `answer: false`; either is done. A candidate inequality goes through hunts/outband_certificate/falsify.py before you spend a turn proving it, and a candidate that lifts the Davenport-Heilbronn rival too is dead. Read hunts/outband_certificate/MISSION.md, hunts/outband_intake/RESULTS.md sections 1b and 2, and lean/bridge/README.md before writing Lean. A prerequisite Mathlib or the bridge lacks is a task: name it as a typed claim, prove what genuinely fits in this run, say what is left and in what order. Toolchain leanprover/lean4:v4.33.0-rc2, prebuilt stores linked read-only, never lake update; `bash lean/bridge/assemble.sh` once, then `cd lean/bridge && lake build Zeta23Ext.Outband.<Module>`; do not build in lean/ or hunts/. RH-conditional inputs are never admissible as unconditional.",
+        "check": "bash hunts/outband_certificate/check-question.sh {decl}",
+        "gate": "bash hunts/outband_certificate/gate-lean.sh {decl}"
+      }
+    }
+  },
+  "mapping": {
+    "what": "Map this question; do not settle it. Read, in this order: hunts/outband_certificate/MISSION.md; hunts/outband_intake/RESULTS.md sections 1b and 2 and hunts/outband_intake/MISSION.md; lean/bridge/README.md and lean/bridge/Zeta23Ext/StableRankTrace.lean (S2, the stability rank-trace inequality, which is the inertia lemma the obstruction is about); and arXiv:2306.04799 through the fetch-paper tool. Then turn the question from prose into a graph of typed claims. Every task you propose is a CLAIM OF A DECLARED KIND: lemma {decl, statement}, def {decl, statement}, or tool {name, spec}. The tool `falsify` already exists as w-tool-falsify; do not propose it again. A task is one step an agent can finish in one run and check by building; it is never the whole argument. The HuntSpec's directions: (1) a signed decomposition, ghat = an autocorrelation part plus a residual supported on the strip alpha in (1, 1.5], with the residual's inertia counted separately; (2) a moment inequality reading only the strip positivity, in place of the isolation drop; (5) the ceiling, that no certificate reading only strip positivity exceeds 6725007/10000000. For each direction propose the FIRST checkable lemma or definition, stated in the bridge's vocabulary (Zeta23Ext.PalomarV2: Ncount, N0simple, H; the bridge's certificate shape), with evidence.why saying why the argument needs it and evidence.searched saying what you grepped in .lake/packages/mathlib, .lake/packages/Zeta23 and lean/bridge before concluding it is absent. Draw an edge only where one task genuinely cannot start until another has landed, and say why. Hand back .ostoyae/report.json with work, edges, and map: map.settles is what a finished result is (a kernel-checked certificate above 6734165/10000000 in the bridge, or a kernel-checked ceiling for StripClass); map.cost is unknown unless you can say why not; map.notes is the obstruction in one paragraph and what a prover must not do (RH-conditional inputs; re-deriving BGSTB; the indefinite-S weakening, refuted in #110 section 2). Write the report as you go. Write no Lean and change no file but the report. Quick success is a bug in your reading; if a direction looks easy, say why in map.notes rather than mapping it as small.",
+    "max_attempts": 2,
+    "params": { "model": "opus" }
+  },
+  "judge": {
+    "verify": "You are judging another attempt's handback on the outband certificate board: a map, a wall, or a failed attempt's proposals, handed to you verbatim in .ostoyae/verify.json. For each proposal, and for the wall when there is one, hand back a verdict {id, ok, why} in .ostoyae/report.json under verdicts. Refuse a proposal when any of these holds, and name which: (1) its statement does not elaborate in the bridge package: write it to a scratch file under lean/bridge that imports Zeta23Ext and V2Challenge and opens Zeta23Ext.PalomarV2, run `bash lean/bridge/assemble.sh` once and then `cd lean/bridge && lake env lean <file>`, and quote the compiler; AXLE cannot see the bridge's types, use it only for Mathlib-only statements; (2) it restates the item it came from, or restates a known research theorem or the target's own result as a lemma, in which case name the theorem; (3) it presents an RH-conditional input (Farmer-Gonek-Lee Theorem 1.1, any CGdL constant resting on it) as unconditional, in any sentence; (4) it is a candidate inequality that has not been run through hunts/outband_certificate/falsify.py, or that lifts the Davenport-Heilbronn rival as well as zeta; (5) it re-derives BGSTB Theorem 1 or transplants the indefinite-S weakening refuted in hunts/outband_intake/RESULTS.md section 2. Pass a proposal only when you checked it, and say what you ran. A verdict is evidence, not a decision; the operator confirms. Judge the wall on whether it names something specific and absent, not on whether you would have walled.",
+    "default_check": "bash hunts/outband_certificate/check-lean.sh {id}",
+    "require_check": true,
+    "max_attempts": 1,
+    "params": { "model": "opus" }
+  },
+  "work": [
+    {
+      "id": "w-tool-falsify",
+      "kind": "tool",
+      "claim": {
+        "name": "falsify",
+        "spec": "The numerical falsifier the HuntSpec names as its second oracle; hunt #110 ran it and did not commit it. `--control` reproduces hunt #110 section 2 on stdout, one line each: `WITNESS t=1.0 slack=2.0` and `WITNESS t=1.5 slack=-0.5` for the indefinite-S weakening of the inertia lemma at the witness Q = t[[0,1],[1,0]], S = diag(1,-1), c = 2; and `RANDOM_PSD n=4000 violations=0 min_slack=<positive float>` for the standard inequality (S2, lean/bridge/Zeta23Ext/StableRankTrace.lean, the stability rank-trace inequality) over 4000 random positive semidefinite pairs drawn from a fixed seed. `--candidate <module.py>` loads a module exposing `slack(Q, S, c) -> float` and `describe() -> str`, runs it over the same random pairs and the witness family, then evaluates whether it lifts the Davenport-Heilbronn rival through zeta.epstein.battery, and prints `CANDIDATE valid=<true|false> violations=<n> min_slack=<float> dh_distinguishes=<true|false>`, exiting 0 only when valid and dh_distinguishes are both true, 1 otherwise, 2 when it cannot tell. Read hunts/outband_intake/RESULTS.md section 2 for what the witness numbers mean before writing a line."
+      },
+      "evidence": { "why": "Every candidate inequality on this board is falsified numerically before anyone tries to prove it (HuntSpec, required_oracles). The instrument existed for one session and was not committed." },
+      "what": "Build `falsify` as hunts/outband_certificate/falsify.py, run from the repo root with the lab's venv (`.venv/bin/python`; in a worktree it lives in the primary checkout, find it through `git rev-parse --git-common-dir`). Spec:\n\nThe numerical falsifier the HuntSpec names as its second oracle; hunt #110 ran it and did not commit it. `--control` reproduces hunt #110 section 2 on stdout, one line each: `WITNESS t=1.0 slack=2.0` and `WITNESS t=1.5 slack=-0.5` for the indefinite-S weakening of the inertia lemma at the witness Q = t[[0,1],[1,0]], S = diag(1,-1), c = 2; and `RANDOM_PSD n=4000 violations=0 min_slack=<positive float>` for the standard inequality (S2, lean/bridge/Zeta23Ext/StableRankTrace.lean, the stability rank-trace inequality) over 4000 random positive semidefinite pairs drawn from a fixed seed. `--candidate <module.py>` loads a module exposing `slack(Q, S, c) -> float` and `describe() -> str`, runs it over the same random pairs and the witness family, then evaluates whether it lifts the Davenport-Heilbronn rival through zeta.epstein.battery, and prints `CANDIDATE valid=<true|false> violations=<n> min_slack=<float> dh_distinguishes=<true|false>`, exiting 0 only when valid and dh_distinguishes are both true, 1 otherwise, 2 when it cannot tell. Read hunts/outband_intake/RESULTS.md section 2 for what the witness numbers mean before writing a line.\n\nUse numpy, scipy and the zeta package only. Commit the file; the check runs it and reads its stdout against numbers already on the record, so print exactly the lines the spec names. Do not touch zeta/, ontology/ or harness/, and do not run lake build.",
+      "check": "bash hunts/outband_certificate/check-tool.sh falsify",
+      "needs": [],
+      "params": { "model": "sonnet" },
+      "map": {
+        "by": "operator",
+        "at": "2026-09-05T23:30:00.000Z",
+        "settles": "falsify.py --control reproduces hunt #110 section 2 to the digit, and --candidate runs any candidate inequality through the same instrument and the Davenport-Heilbronn battery.",
+        "cost": "small",
+        "notes": "The standard inequality is S2 in lean/bridge/Zeta23Ext/StableRankTrace.lean; the paper's functional is pinned in hunts/frontier_math/paper_pin.py; the witness numbers and the indefinite-S weakening are in hunts/outband_intake/RESULTS.md section 2. Nothing here is analysis; it is the instrument the analysis will be tested with.",
+        "needs": [],
+        "unlocks": []
+      }
+    },
+    {
+      "id": "w-question-zeta23ext-outband-record-bound",
+      "kind": "question",
+      "claim": {
+        "decl": "Zeta23Ext.Outband.record_bound",
+        "statement": "theorem Zeta23Ext.Outband.record_bound :\n    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,\n      ((6734165 : ℝ) / 10000000 - ε) * (Ncount T (2 * T) : ℝ)\n        ≤ N0simple T (2 * T) := by\n  sorry"
+      },
+      "evidence": {
+        "why": "Hunt #110 measured the BGSTB out-of-band positivity as worth +0.005 to +0.009 on the unconditional simple-zero proportion and showed that no Gram-kernel certificate can spend it. The record is 0.6734164909714992949 (AMTOPA); this lab's four-point certificate is 0.6728470198 (lean/bridge/FourPoint, Lean). One eighth of the measured gain takes the record. The false side, a ceiling for the strip class at Theorem D's 0.6725007036794116, is a result of the same kind Pub 1 rests on.",
+        "searched": "lean/bridge: four_point_bound, eight_point_bound (conditional on hCert), n_point_bound; nothing reads out-of-band data. hunts/outband_intake: the LP class value only, no certificate. Mathlib: no form-factor positivity, no pair-correlation certificate."
+      },
+      "what": "Settle `Zeta23Ext.Outband.record_bound`; do not merely attempt to prove it. Its statement, as the board holds it:\n\ntheorem Zeta23Ext.Outband.record_bound :\n    ∀ ε > 0, ∃ T₀ : ℝ, ∀ T ≥ T₀,\n      ((6734165 : ℝ) / 10000000 - ε) * (Ncount T (2 * T) : ℝ)\n        ≤ N0simple T (2 * T) := by\n  sorry\n\nTHE TRUE SIDE: prove it, sorry-free, in a module under lean/bridge/Zeta23Ext/Outband/, by a finite certificate whose only addition to bandwidth-one data is the BGSTB out-of-band positivity (arXiv:2306.04799, Theorem 1), realised the way lean/bridge/FourPoint realises the four-point certificate. THE FALSE SIDE: prove `Zeta23Ext.Outband.record_bound_ceiling`, that every certificate in the strip class delivers at most 6725007/10000000, where StripClass, defined in your module, is a certificate reading bandwidth-one data plus positivity on alpha in (1, 1.5] and nothing else; write StripClass's definition into your report's `ahead` so the judge can rule on whether it is the class the hunt means. Hand back `answer: true` or `answer: false`; either is done. A candidate inequality goes through hunts/outband_certificate/falsify.py before you spend a turn proving it, and a candidate that lifts the Davenport-Heilbronn rival too is dead. Read hunts/outband_certificate/MISSION.md, hunts/outband_intake/RESULTS.md sections 1b and 2, and lean/bridge/README.md before writing Lean. A prerequisite Mathlib or the bridge lacks is a task: name it as a typed claim, prove what genuinely fits in this run, say what is left and in what order. Toolchain leanprover/lean4:v4.33.0-rc2, prebuilt stores linked read-only, never lake update; `bash lean/bridge/assemble.sh` once, then `cd lean/bridge && lake build Zeta23Ext.Outband.<Module>`; do not build in lean/ or hunts/. RH-conditional inputs are never admissible as unconditional.",
+      "check": "bash hunts/outband_certificate/check-question.sh Zeta23Ext.Outband.record_bound",
+      "needs": ["w-tool-falsify"],
+      "params": { "model": "opus" }
+    }
+  ],
+  "edges": [],
+  "attempts": []
+}
