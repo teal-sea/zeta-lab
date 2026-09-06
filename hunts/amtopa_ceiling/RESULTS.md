@@ -909,6 +909,43 @@ same cutting-plane LP with an oracle that finds these basins: 400,000 seeds on `
 The LP value is an upper bound on `eps*` whatever the oracle does, because every cut is a real
 gap vector; only the claimed floor was ever soft.
 
+**The re-solve: AMTOPA are at the ceiling of these two axes, to within `8.9e-8`.** Same LP
+(`epsstar.eps_star`), same polytope, same window and `B`, started from the committed
+2,200-cut pool plus the five minima above, with `harvest` replaced by the oracle in
+`resolve_strong_oracle.py` (the seeding and descent settings named above). On the authoring
+host, about 13 s a round:
+
+| round | LP value (upper bound on `eps*`) | oracle floor at that `(a, b)` | cuts |
+|---|---|---|---|
+| 0 | `0.0079186025` | `0.0078899279` | 2,205 |
+| 5 | `0.0079139952` | `0.0079073808` | 3,514 |
+| 10 | `0.0079125137` | `0.0079065114` | 4,815 |
+| 15 | `0.0079117826` | `0.0079098676` | 6,135 |
+| 20 | `0.0079113976` | `0.0079103453` | 7,443 |
+| 25 | `0.0079113315` | `0.0079110292` | 8,780 |
+| 30 | `0.0079112599` | `0.0079108102` | 10,108 |
+| 35 | `0.0079112090` | `0.0079110420` | 11,412 |
+| 40 | `0.0079112036` | `0.0079110811` | 12,731 |
+| 45 | `0.0079111939` | `0.0079106294` | 14,060 |
+
+The LP value never rises, and at every round it is an upper bound on `eps*`. After round 45
+(578 s) the next HiGHS solve failed on the 14,000-row model (status 15, `model_status`
+Unknown, primal feasible) and the run ended there, so this is **not a converged solve**; the
+patience rule never fired. It is a bound that stands. Against the leader's floor
+`0.0079111052` (§1's `0.007911105155`, reproduced by the same descent at their `(a, b)`),
+`eps*` on the pair-weight and position-pressure axes at their window lies in
+
+    [0.0079111052, 0.0079111939]        MEASURED (float LP and float descents)
+
+Headroom at most `8.9e-8` in `eps`, which by §1's assembly ratio (`+3.96e-6` on the headline
+per `+5.75e-6` in `eps`) is under `7e-8` on the headline. §1's `+5.75e-6` of headroom was the
+oracle's, not the polytope's. The hunt's own second finding, the two computable axes at their
+ceiling, now extends to the two searchable ones: **four of AMTOPA's five axes are at the
+ceiling, and the window axis (§7.5) is the only one left, with a lead whose floors came from
+the same weak oracle.** Whether `eps*` sits at `0.0079111052` exactly (their point optimal)
+or up to `8.9e-8` above it is what a converged re-solve with a numerically steadier LP would
+settle; it is worth nothing on the headline either way.
+
 ## 8. Knownness
 
 No prior-art search was run on the window Rayleigh identity of §4.1 and **no

@@ -357,5 +357,11 @@ original `harvest` (90,000 seeds, 48 descents, `maxiter` 300) run at the same `(
 
 Then the LP re-solved with the stronger oracle as its cut generator (400,000 seeds on
 `[0.9, 2.3]^6`, 300 descents plus 200 warm starts from the pool, `gtol 1e-14`), from the
-committed 2,200-cut pool plus the five true minima, 80 rounds at most, about 12 s a round on
-the authoring host. Its result is in `RESULTS.md` section 7.7.
+committed 2,200-cut pool plus the five true minima, 80 rounds asked, about 13 s a round on
+the authoring host (`resolve_strong_oracle.py`). It ran 45 rounds, LP value down from
+`0.0079186025` to `0.0079111939` with 14,060 cuts, then HiGHS failed on the next solve
+(status 15, `model_status` Unknown, primal feasible) and the process died with nothing
+saved but the log. The round-45 bound is monotone and stands: headroom on the two axes at
+most `8.9e-8` in `eps` over the leader's floor. Table and reading in `RESULTS.md` section
+7.7. Not re-run: the answer is already smaller than anything the headline can see, and a
+steadier LP (dropping slack cuts, or `highs-ipm`) is the fix if anyone wants the last digit.

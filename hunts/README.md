@@ -718,9 +718,11 @@ is the gate. Ours was refused on 4 of 8 in three rounds; the third, with the tar
 off, reached cells whose values sit below the LP's claimed floor, and a proper descent finds
 the functional at the candidate's own weights bottoming at `0.0078960`, `1.5e-5` under the
 leader's floor. The LP's cut oracle had missed that basin, so the claimed `+5.9e-6` of
-headroom on the pair-weight and pressure axes is withdrawn with it; a re-solve with a
-stronger oracle is in section 7.7. Window axis still open.** Earlier status: settled on the
-measurable axes; window axis open; acceptance blocked at the tip. Takes the
+headroom on the pair-weight and pressure axes is withdrawn with it; the re-solve with a
+stronger oracle bounds that headroom at `8.9e-8` in `eps`, under `7e-8` on the headline:
+those two axes are at the ceiling too, four of five. Window axis still open, its lead soft
+for the same reason.** Earlier status: settled on the measurable axes; window axis open;
+acceptance blocked at the tip. Takes the
 `ainta_seven_point` playbook to `AMTOPA/zeta-exact-pressure`, the leading public
 claim per Hunt #89, pinned at commit
 `7253fdcab9366af45b8c8caf44e408c0af44a1a7`.
