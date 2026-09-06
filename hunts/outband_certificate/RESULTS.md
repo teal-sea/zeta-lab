@@ -131,10 +131,113 @@ Nothing in the HuntSpec is withdrawn. The target stays the record. Two sharpenin
   claim under it is a statement, not a lemma: the off-line contribution at depth `delta`, for
   the X = 80 dual kernel, as an explicit expression the falsifier can evaluate.
 
+## 5. Second pass, same session: a candidate, its death, and what killed it
+
+**The candidate.** `stable_rank_trace` (`lean/bridge/Zeta23Ext/StableRankTrace.lean`) takes
+any Hermitian `Q` with a bounded positive index. For a signed spectral profile
+`u = v_plus - v_minus` the compression is `P_plus - P_minus + Q`; apply the theorem to
+`V_plus` and `Q' = Q - P_minus` (subtracting a positive semidefinite matrix cannot raise the
+positive index, Weyl). The Frobenius side becomes the pair sum with weight `|FT u|^2`, whose
+transform `u * u` is signed and could be nonpositive outside the band, where BGSTB's
+positivity drops it. The price sits on the trace side, `4 tr P_minus`, four times the negative
+mass per zero. In the normalisation of `paper_pin.py` the candidate's value is
+`2 - min_u [(u*u)(0) + int |alpha| (u*u) + 4 int u_minus]` over even `u` with `int u_plus = 1`
+and `u*u <= 0` on the strip. `signed_window.py` is the attempt to price it.
+
+**Its death, with proof.** No grid `u` satisfied the sign condition on the whole strip, and
+that is a theorem, not an optimiser failure.
+
+> **Edge lemma (real even factors).** Let `u` be real and even in `L^2`, supported in `[-s, s]`
+> with `s` the true edge, and let `Khat = u * u`. Then `Khat` is not nonpositive on any interval
+> `(2s - eta, 2s)`. Hence `Khat` cannot be nonpositive on the out-of-band part of its support,
+> so a kernel of this class either has `supp Khat` inside `[-1, 1]` or fails the strip condition.
+>
+> *Proof.* Near the edge only the two ends of `u` meet: writing `W(v) = u(s - v)` for the edge
+> profile, `Khat(2s - c) = (W * W)(c)` for small `c > 0`, where `*` is convolution on `[0, infinity)`.
+> Suppose `W * W <= 0` on `(0, c_0)`. Since `s` is the true edge, `0` is in the support of `W`, so by
+> Titchmarsh's convolution theorem `0` is in the support of `W * W`, and `W * W` is not zero on
+> `(0, c_1)` for any `c_1 < c_0`. Take Laplace transforms at large real `lambda`:
+> `(L W)(lambda)^2 = L(W * W)(lambda)`. The left side is a square of a real number. The right
+> side is `int_0^{c_0} e^{-lambda c} (W * W)(c) dc + O(e^{-lambda c_0})`, and the first term is at
+> most `-e^{-lambda c_1} int_0^{c_1} |W * W|`, which dominates the error for large `lambda`. So
+> the right side is negative for large `lambda`, a contradiction.
+
+So the difference-of-squares candidate is dead for every real even `u`, however signed. The
+`4 int u_minus` price was never reached: the sign condition fails first.
+
+**And the lemma is false for the class one needs, which is the finding.** Krein's
+factorisation of a nonnegative kernel with compactly supported transform, `K = |k|^2` with `k`
+of half the type, does not make `k` real and even. Take `k(x) = sqrt2 sinc(x) sin(2 pi x)`,
+real and **odd**. Then `K = sinc^2(x) (1 - cos 4 pi x) >= 0`, and by the convolution theorem
+`Khat = tri(alpha) - tri(alpha - 2)/2 - tri(alpha + 2)/2`, which is compactly supported in
+`[-3, 3]` and **nonpositive on `|alpha| > 1`**. Verified on a grid of step `1e-3`: `min K = 0`,
+`max Khat` on `1 < |alpha| < 3.05` equals `1.5e-6` (FFT noise), `min Khat = -0.5` there, nothing
+beyond `3.05`. With `1 - c cos` in place of `1 - cos` the same holds with `K(0) = 1 - c > 0`.
+For an odd factor the Laplace argument above flips sign, and the transform is nonpositive at
+its support edge *automatically*.
+
+**The dichotomy, which is #110's obstruction stated with both halves proved.** A pointwise
+nonnegative kernel whose spectral factor is real even can never spend the strip (the lemma).
+A pointwise nonnegative kernel that does spend the strip has an odd or complex factor (the
+counterexample and its family). An odd factor is antisymmetric under the difference of two
+ordinates, so it is never the kernel of a Gram matrix, and a Gram matrix is what
+`stable_rank_trace` needs for the on-line block and what handles off-line zeros through
+Sylvester. Even factor: Gram-able, strip-blind. Odd factor: strip-capable, not Gram-able. The
+paper's `v >= 0` is the even class, and that is why "the framework never has a free ghat".
+
+**Consequence for the LP's number, stated as a hypothesis.** The LP's dual kernels are
+pointwise nonnegative and signed, which is the class the RH-conditional Montgomery argument
+uses (RH is what makes the zero side "a positive sum over real ordinates", the paper's
+abstract). So the class value `[0.679, 0.682]` is plausibly exactly what pointwise-positivity
+certificates reach *under RH* from bandwidth-one data plus BGSTB, and Chirre, Goncalves and
+de Laat's `0.6792` sits inside it. Hunt #110 withdrew that coincidence because two fits landed
+on two constants; this reading gives it a mechanism. Not measured, not claimed.
+
+## 6. The lattice and the truncation, measured
+
+Two checks on whether the LP's gain is an artifact of its own discretisation.
+
+**Lattice spacing.** #110 imposed pair-measure positivity at spacing `h = 1/16` and never
+varied `h`. At `X = 80, J = 320`, strip to `1.5`:
+
+| `h` | in-band | strip 1.5 | gain |
+|---|---|---|---|
+| 1/16 | 0.6775676 | 0.6855095 | +0.00794 |
+| 1/32 | 0.6762284 | 0.6858172 | +0.00959 |
+| 1/64 | 0.6761447 | 0.6855025 | +0.00936 |
+
+The gain does not shrink as the lattice refines. It is not a spacing artifact at this `X`. At
+`X = 160` the same holds and the direction is the same: gain `+0.00693` at `h = 1/16` and
+`+0.00808` at `h = 1/32`; the finer lattice lowers the in-band control more than it lowers the
+strip value. The `X = 320` rows at finer spacing were not obtained on this machine (`RUNS.md`).
+
+**Truncation.** The dual kernels at `X = 80` evaluated as continuous functions: on the LP's own
+lattice the minimum of `g` is `-3e-9`; off-lattice within `(0, 80)` it is `-9e-5`; **beyond
+`X = 80` both kernels go negative immediately** (first negative point `80.07`), the strip
+kernel to `-0.077` against a maximum of `0.125`, negative on 25% of `[80, 400]`; the in-band
+control kernel to `-0.051`, negative on 24%. So every finite-`X` value, control and strip
+alike, rests on the adversary being cut off at `X`, and the strip's gain is the *differential*
+use of that room. The large-`X` rungs at finer `h` are in `RUNS.md` when they land; the
+question the truncation leaves open is the `X -> infinity` limit at fixed `h`, which #110's
+extrapolation put at `+0.0065` with the local decay exponent falling with `X`.
+
+## 7. Dead routes added by this session
+
+- **Zero-density estimates as the unconditional input for the off-line term** (section 2's
+  reading). Dead: they are trivial for `beta < 17/30`, and the zeros between the line and that
+  abscissa could be a positive proportion of all zeros. Guth and Maynard's exponent `30/13`
+  (arXiv:2405.20552) does not change that.
+- **A signed spectral profile that is real and even**, in any inertia-type argument. Dead by
+  the edge lemma above, before any price is paid.
+
 ## Not done, and why
 
-- **No candidate inequality.** Nothing was proposed, so nothing went through the falsifier,
-  which also does not exist yet (`w-tool-falsify` on the board).
+- **No candidate survived.** One was proposed, priced, and killed by a lemma. Nothing went
+  through the falsifier, which also does not exist yet (`w-tool-falsify` on the board).
+- **The odd-factor class was not explored as a certificate.** Whether a kernel with an odd
+  factor can beat Theorem D in the Montgomery bound (under RH, the LP says the class reaches
+  about `0.68`), and whether any inertia-type argument can be built around a non-Gram block,
+  are the two questions the dichotomy leaves. The second is the hunt.
 - **No Lean.** Nothing here is a statement about `riemannZeta`.
 - **The in-band edge negativity** of section 1 was not chased; it does not affect the sign of
   `g` and the value it could change is the shape of the continuous dual near α = 1.

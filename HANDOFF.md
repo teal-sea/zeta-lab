@@ -29,6 +29,12 @@ that clears one deletes the line and says so in the log. This section exists bec
   bound on the off-line-zero term of a signed kernel's pair sum, zero-density estimates being the
   unconditional input; a strip of width 0.05 past the band is worth about the record gap but is
   inside the ladder's method error, so the argument must be built for the whole strip (1, 1.5].
+  **Second pass, same day:** the obstruction is now a dichotomy with both halves proved
+  (`RESULTS.md` section 5): a real even spectral factor can never make the transform
+  nonpositive on the strip (edge lemma, Laplace and Titchmarsh), and a factor that can is odd
+  or complex and is never a Gram kernel. One candidate (difference of squares in the inertia
+  inequality) was priced and killed by that lemma. What is left to build is an inertia-type
+  argument around a non-Gram on-line block, or a proof that none exists.
 
 ---
 
