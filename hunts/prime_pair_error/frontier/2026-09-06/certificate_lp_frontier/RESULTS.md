@@ -257,6 +257,19 @@ Radix sweep at L = 30030 (C - 1): M = 4: 0.146, 6: 0.058, 8: 0.086,
 tested (60); powers of two are the worst choices. At L = 510510 radix 30
 gives 1.0443 against radix 15's 1.0392. Files: `results/allN_seed*.json`.
 
+The threshold R is immaterial: g >= 0 on one full period is g >= 0
+everywhere, and W >= 1 on [1, R') for R' > R then follows from W >= 1 on
+[1, R), so the constraint set is the same for every R >= M. Checked: R = 10^6
+returns 1.0392259413 at L = 510510, identical to R = 10^5. The hunt's
+R = 10^5 never cost anything.
+
+At the next period, L = 9699690 (256 divisors), the first constraint-
+generation round returned 1.0301 with violations outstanding; a round's
+value is a relaxation, so the pure-seed floor there is at least 1.0301,
+within 0.004 of the adaptive block's 1.0341 before any carry. The finished
+value is in `results/allN_seed_9699690.json` if the run survived the
+machine's memory pressure.
+
 ## 5. What is rigorous, and the picture behind the law
 
 **Lemma (rough spikes).** Let c be supported on [1, y] with W_c >= 1 on the
