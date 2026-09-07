@@ -184,8 +184,37 @@ The floor is E = sum_n (W(n) - 1) m_n with W(n) = n C(1) - sum_j c_j {n/j}
 has variance about (1/12) sum_{j,k} c_j c_k gcd(j,k)^2/(jk), whose diagonal is
 sum c_j^2 / 12 >= 0.05 y' for a prefix y'. The measured E/(N/y) grows like
 0.33 sqrt(y), i.e. the elevation W - 1 beyond y averages a constant times the
-standard deviation of that sum: the pointwise constraint W >= 1 costs a
-"three sigma" offset.
+standard deviation of that sum: the pointwise constraint W >= 1 costs an
+offset of one to two standard deviations. Measured at the LP optimum
+(elevation = excess above y divided by the prime mass psi(N/y) there, sigma
+= standard deviation over n in (y, N] of sum_j c_j {n/j}):
+
+| (N, y) | excess below y | above y | mass above y | elevation | sigma | elevation/sigma | sigma/sqrt(y) |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| (10^3, 31) | 22.6 | 40.4 | 31.9 | 1.27 | 0.70 | 1.81 | 0.126 |
+| (10^4, 50) | 331.2 | 205.8 | 195.6 | 1.05 | 0.64 | 1.64 | 0.091 |
+| (10^4, 100) | 160.0 | 163.7 | 94.0 | 1.74 | 1.66 | 1.05 | 0.166 |
+| (2 10^4, 141) | 328.8 | 274.6 | 141.7 | 1.94 | 1.60 | 1.21 | 0.135 |
+| (10^4, 200), y > sqrt N | 95.7 | 37.5 | 49.5 | 0.76 | 4.67 | 0.16 | 0.330 |
+
+The variance is an exact arithmetic quadratic form. Over n the covariance of
+{n/j} and {n/k} is (gcd(j,k)^2 - 1)/(12 jk) up to the mean corrections, so
+
+    Var_n [ sum_j c_j {n/j} ]  =  (1/12) sum_{j,k} c_j c_k gcd(j,k)^2 / (jk)  (1 + o(1)),
+
+checked at the LP optimum to 1%, 3%, 1% at the three sizes above. The
+diagonal alone, sum c_j^2 / 12, is 0.98, 4.51, 5.26 there against the true
+0.49, 2.67, 2.52: the optimizer halves the fluctuation by choosing c with
+gcd correlations (this is what the period-30030 and mask-210 constructions
+do by hand), and it does not do better than a factor two. The barrier
+conjecture is therefore the statement that this quadratic form cannot be
+driven below a constant times y by any c that keeps W >= 1.
+
+The last row is the finite-N regime: the sawtooth sum is large but its
+fluctuation sits in cells above sqrt(N) that carry no prime mass, so it
+costs nothing. That is the precise sense in which a certificate for one
+cutoff can beat every all-N constant, and why the barrier is stated for
+y <= sqrt(N).
 
 What is proved above gives only the variance-over-maximum offset
 (mean elevation >= Var/(max W - 1), order N/y), because the L^2 inequality

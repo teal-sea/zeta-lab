@@ -111,6 +111,23 @@ def test_restricted_dual_is_a_lower_bound_and_complete(bl, lp, setup):
     assert abs(r["gain"] - floor) < 1e-4  # Lemma 2: the parametrization is complete
 
 
+def test_sawtooth_variance_identity(lp):
+    # Var_n[sum_j c_j {n/j}] = (1/12) sum_{j,k} c_j c_k gcd(j,k)^2/(jk) (1+o(1))
+    # at the LP optimum (1000, 31), and it is about half the diagonal.
+    N, y = 1000, 31
+    out, c, u = lp.solve(N, y)
+    n = np.arange(1, N + 1)
+    S = np.zeros(N)
+    for j in range(1, y + 1):
+        S += c[j - 1] * ((n % j) / j)
+    var_meas = float(np.var(S[y:]))
+    J = np.arange(1, y + 1)
+    G = np.gcd.outer(J, J).astype(float)
+    Q = float(c @ ((G**2) / np.outer(J, J)) @ c)
+    assert abs(var_meas / (Q / 12) - 1.0) < 0.03
+    assert Q / 12 < 0.6 * float(np.dot(c, c)) / 12
+
+
 def test_excess_constant_identity(bl):
     # Proposition 4 as a finite identity: H(c) = I(y) + sum d_j log(y/j)/j
     # for c = mu + d with any d (balance is not needed for the identity).

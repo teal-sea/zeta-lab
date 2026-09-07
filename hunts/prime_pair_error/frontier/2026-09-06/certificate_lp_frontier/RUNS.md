@@ -46,3 +46,15 @@ rounds, ~150 s unloaded):
 Every round's `value-psi` is the optimum of a relaxation and therefore a
 rigorous lower bound on the final floor; a timed-out job still reports one.
 Owner: this session (watches the run and folds the numbers into RESULTS.md).
+
+## Local runs, 2026-09-07 (barrier work)
+
+| script | (N, y) | wall | note |
+|---|---|---:|---|
+| barrier_lemmas.py | (10^3, 31), Y up to N | seconds | restricted dual at Y = N reproduces the LP floor |
+| barrier_lemmas.py | (10^4, 100), Y up to 3000 | ~2 min | |
+| barrier_lemmas.py | (10^5, 316), Y up to 9480 | ~5 min | |
+| barrier_lemmas.py | (10^6, 1000), Y up to 10^4 | ~15 min, ~700 MB | the rigorous 7162 |
+| barrier_lemmas.py | (10^5, 30), (10^6, 60) | ~1 min each | staircase vs restricted dual |
+| lp_allcells_cg.py | (10^5, 30), (10^5, 60), (10^6, 60) | 0.1 s, 0.2 s, 3.7 s | floors at y = N^{0.3} |
+| lp_frontier.py (dense) | (2 10^4, 141) and the elevation/variance probes | ~1 min | |
