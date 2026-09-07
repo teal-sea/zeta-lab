@@ -70,6 +70,19 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Positivity on attainable quotients (`quotient_certificate/`, 2026-09-07)
+
+**Status: finite improvement and correction; no asymptotic result.** Requiring
+the factorial ceiling only at floor(N/d), d>=2, uses no prime locations to
+choose constraints. At square-root support it reduces the earlier all-cell
+excess by 34.4%, 29.9%, and 41.9% at N=1000,10000,100000. All 889 retained
+constraints pass exact integer checks on saved rational coefficients.
+An exact N=27,y=9 example with eight prime-looking cells has minimum excess
+log(2), refuting the earlier dimension-count argument for zero excess.
+The audit also separates the unproved exponent barrier from the global
+Nyman-Beurling results and records exact sawtooth correlations.
+See [the construction, proof, and remaining doors](quotient_certificate/RESULTS.md).
+
 ### Four-point pressure tuning (`four_point_pressure/`)
 
 **Status: closed exploratory record; complete Lean check canceled.** Exact
