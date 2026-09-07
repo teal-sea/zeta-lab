@@ -125,6 +125,7 @@ beyond y. This is the shape the hunt's constructions approximate by hand.
 | 10^4 | 135 | 106.9 (= 1.07 sqrt N) | 0.000 |
 | 10^5 | 398 | 233.6 (= 0.74 sqrt N) | 0.000 |
 | 10^6 | 1193 | 633.0 (= 0.63 sqrt N) | (not run: see note) |
+| 10^7 | 3645 | 4204.2 (= 1.33 sqrt N) | 0.000 (at y = N^{0.53} = 5129; CI, 2026-09-07) |
 
 At y = sqrt(N) the prime-aware excess is of order sqrt(N), and it is exactly
 zero once y exceeds the number of prime-looking cells, because then the LP
@@ -187,15 +188,20 @@ scale, W(t) = sum_k sum_j a_j floor(t/(j 15^k)), all cells <= N.
 | 10^4 | 100 | 298.5 | 0.0298 |
 | 10^5 | 31 | 5994.0 | 0.0599 |
 | 10^5 | 100 | 3705.9 | 0.0371 |
+| 10^5 | 1000 | 183.6 | 0.0018 (CI, 2026-09-07; y = N^{0.6}, finite-N regime, see below) |
 
 The lift helps (3706 against 4126 for plain support 100 at N = 10^5, because
 the support now reaches j 15^k <= N), and the floor at seed support 100 is
 already 3.7% of N at N = 10^5, above the hunt's all-N 3.4%. Their seeds reach
-about 3000; the y = 1000 and 3000 rows were queued behind the same load. That
-number, when it lands, says whether the adaptive block is near its family's
-floor or has room; either way the family's floor at seed support 3000 is
-bounded below by V*(3000, N) - psi(N) from 4.1, which at N = 10^4 is
-already tiny only because 3000 > N^{0.75}.
+about 3000. The seed-1000 row at N = 10^5 (0.18%) is a cutoff-10^5
+certificate with y = N^{0.6}: in that regime the LP exploits the sparse prime
+cells above sqrt(N) and the number is not a bound on any all-N constant. The
+all-N floor of a seed-3000 family is the limit N -> infinity at fixed seed,
+visible only for N well beyond 3000^2 ~ 10^7, which this batch does not
+reach; the (10^6, 3000) row, if it lands, is still inside the finite-N
+regime. The fair comparison for the adaptive block therefore remains open;
+what is settled is that at fixed seed support the floor rises with N
+(3.0% -> 3.7% from 10^4 to 10^5 at seed 100).
 
 ## 5. What is rigorous, and the picture behind the law
 

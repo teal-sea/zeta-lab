@@ -91,6 +91,12 @@ def verify(N: int, y: int, U: np.ndarray, m: np.ndarray) -> dict:
 
 
 def rough_spike(N: int, y: int, mu: np.ndarray, m: np.ndarray) -> dict:
+    """Two statements.  Primal (Lemma 3): W(q) >= 2 at every y-rough q, so
+    E >= sum over y-rough q in (y, N] of m_q; reported as `primal_bound`.
+    Dual: T(q) = -m_q at PRIMES q > y only (for a composite y-rough q = p1 p2
+    the term mu(p2) T(q) lands in U(p1) and mu(q) T(q) flips the gain), giving
+    U(1) = sum_{p > y prime} m_p, U(p) = -m_p, and (C) holds; reported as
+    `gain`.  The two coincide when (y, N] holds no composite y-rough number."""
     spf = np.zeros(N + 1, dtype=np.int64)
     for p in range(2, N + 1):
         if spf[p] == 0:
@@ -98,11 +104,15 @@ def rough_spike(N: int, y: int, mu: np.ndarray, m: np.ndarray) -> dict:
             block[block == 0] = p
             spf[p::p] = block
     q = np.arange(y + 1, N + 1)
-    q = q[spf[q] > y]
-    T = {int(qq): -float(m[qq]) for qq in q if m[qq] > 0}
+    rough = q[spf[q] > y]
+    primes = rough[spf[rough] == rough]
+    T = {int(p): -float(m[p]) for p in primes if m[p] > 0}
     U = U_from_T(N, T, mu)
     out = verify(N, y, U, m)
     out["construction"] = "rough_spike"
+    out["primal_bound"] = float(m[rough].sum())
+    out["n_rough"] = int(rough.size)
+    out["n_prime"] = int(primes.size)
     return out
 
 
@@ -119,6 +129,58 @@ def alternating(N: int, y: int, Y: int, mu: np.ndarray, m: np.ndarray) -> dict:
     U = U_from_T(N, T, mu)
     out = verify(N, y, U, m)
     out.update({"construction": "alternating", "Y": Y, "tau": tau, "binding_cells": int(np.sum(np.isclose(m[1 : N + 1][neg], tau * (-d1[neg])))) if neg.any() else 0})
+    return out
+
+
+def staircase(N: int, y: int, Y: int, mu: np.ndarray, m: np.ndarray, sign: int = -1) -> dict:
+    """T = sign * theta * A on (y, Y], A(m) = sum_{m<=k<=Y} m_k the prime mass
+    beyond m.  In the top layer (k > Y/2) U(k) = T(k) rises by exactly theta m_k
+    at every cell, so (C) holds there for theta <= 1 when sign = -1.  The
+    largest feasible theta overall is computed from the lower layers, and the
+    gain is theta * sign * sum_{y<m<=Y} mu(m) A(m): a Mobius increment."""
+    A = np.zeros(N + 2)
+    A[: Y + 1] = np.cumsum(m[: Y + 1][::-1])[::-1]  # A(k) = sum_{k<=i<=Y} m_i
+    T1 = {mm: float(sign * A[mm]) for mm in range(y + 1, Y + 1) if A[mm] != 0.0}
+    U1 = U_from_T(N, T1, mu)
+    d1 = U1[1 : N + 1] - U1[2 : N + 2]
+    neg = d1 < -1e-12
+    theta = float(np.min(m[1 : N + 1][neg] / (-d1[neg]))) if neg.any() else 1.0
+    theta = min(theta, 1.0)
+    binding = np.nonzero(neg & np.isclose(m[1 : N + 1] / np.where(neg, -d1, 1.0), theta))[0] + 1 if neg.any() else np.array([], dtype=int)
+    T = {k: theta * v for k, v in T1.items()}
+    U = U_from_T(N, T, mu)
+    out = verify(N, y, U, m)
+    G = float(sign * sum(mu[mm] * A[mm] for mm in range(y + 1, Y + 1)))
+    out.update({"construction": "staircase", "sign": sign, "Y": Y, "theta": theta, "G_unscaled": G, "binding_cells": [int(k) for k in binding[:12]], "n_binding": int(binding.size)})
+    return out
+
+
+def tapered_staircase(N: int, y: int, Y: int, mu: np.ndarray, m: np.ndarray, L: int | None = None) -> dict:
+    """T = -theta A(m) w(m) with the ramp w(m) = min(1, (m - y)/L), L = y by
+    default.  The ramp spreads the left-boundary rises of U (which the pure
+    staircase concentrates on the cells floor(y/j), mu(j) = -1) over L cells
+    each.  theta is the largest feasible scale; gain theta * G with
+    G = -sum mu(m) A(m) w(m), a smoothed Mobius increment over (y, Y]."""
+    L = L or y
+    A = np.zeros(N + 2)
+    A[: Y + 1] = np.cumsum(m[: Y + 1][::-1])[::-1]
+    T1 = {}
+    for mm in range(y + 1, Y + 1):
+        w = min(1.0, (mm - y) / L)
+        if A[mm] * w != 0.0:
+            T1[mm] = -float(A[mm] * w)
+    U1 = U_from_T(N, T1, mu)
+    d1 = U1[1 : N + 1] - U1[2 : N + 2]
+    neg = d1 < -1e-12
+    theta = float(np.min(m[1 : N + 1][neg] / (-d1[neg]))) if neg.any() else 1.0
+    theta = min(theta, 1.0)
+    binding = np.nonzero(neg & np.isclose(m[1 : N + 1] / np.where(neg, -d1, 1.0), theta))[0] + 1 if neg.any() else np.array([], dtype=int)
+    T = {k: theta * v for k, v in T1.items()}
+    U = U_from_T(N, T, mu)
+    out = verify(N, y, U, m)
+    G = -sum(T1[mm] for mm in T1) * 0.0  # placeholder to keep types simple
+    G = float(-sum(mu[mm] * (-T1[mm]) for mm in T1))
+    out.update({"construction": "tapered_staircase", "Y": Y, "L": L, "theta": theta, "G_unscaled": G, "binding_cells": [int(k) for k in binding[:12]], "n_binding": int(binding.size)})
     return out
 
 
@@ -165,6 +227,8 @@ def main() -> None:
     for Y in Ys:
         Y = min(Y, N)
         results.append(alternating(N, y, Y, mu, m))
+        results.append(staircase(N, y, Y, mu, m, sign=-1))
+        results.append(tapered_staircase(N, y, Y, mu, m))
         results.append(restricted_dual(N, y, Y, mu, m))
     for r in results:
         print({k: (round(v, 4) if isinstance(v, float) else v) for k, v in r.items()})

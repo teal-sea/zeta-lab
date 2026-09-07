@@ -55,6 +55,37 @@ def test_rough_spike_is_feasible_and_matches(bl, setup):
     r = bl.rough_spike(N, y, mu, m)
     assert r["feasible"]
     assert abs(r["gain"] - 4.234) < 0.01
+    # No composite 31-rough number below 1000 (37*41 > 1000): primal = dual.
+    assert r["n_rough"] == r["n_prime"]
+    assert abs(r["primal_bound"] - r["gain"]) < 1e-9
+
+
+def test_rough_spike_dual_needs_primes_only(bl):
+    # At (10^4, 30) there are composite 30-rough numbers (31*37 = 1147 ...),
+    # the primal bound exceeds the prime-only dual gain, and both are valid.
+    N, y = 10_000, 30
+    mu, m = bl.mobius_table(N), bl.cell_masses(N)
+    r = bl.rough_spike(N, y, mu, m)
+    assert r["feasible"]
+    assert r["n_rough"] > r["n_prime"]
+    # The composites sit above sqrt(N) in cells without prime mass here, so
+    # the primal bound equals the prime-only dual gain; it can never be below.
+    assert r["primal_bound"] >= r["gain"] > 0
+
+
+def test_staircase_constructions(bl, setup):
+    N, y, mu, m = setup
+    Y = 2 * y
+    pure = bl.staircase(N, y, Y, mu, m, sign=-1)
+    ramp = bl.tapered_staircase(N, y, Y, mu, m)
+    assert pure["feasible"] and ramp["feasible"]
+    assert 0.0 <= pure["theta"] <= 1.0 and 0.0 <= ramp["theta"] <= 1.0
+    # The scaled gain is theta times the unscaled Mobius increment, and any
+    # feasible construction is below the restricted-dual optimum on (y, Y].
+    assert abs(pure["gain"] - pure["theta"] * pure["G_unscaled"]) < 1e-6
+    assert abs(ramp["gain"] - ramp["theta"] * ramp["G_unscaled"]) < 1e-6
+    best = bl.restricted_dual(N, y, Y, mu, m)["gain"]
+    assert max(pure["gain"], ramp["gain"]) <= best + 1e-6
 
 
 def test_alternating_dies_at_zero_mass_cells(bl, setup):

@@ -46,14 +46,42 @@ m_k of that cell, and may fall freely.
 (y, Y]; with Y = N it reproduces V*(y,N) - psi(N) to all printed digits at
 (10^3, 31), which is the numerical check that the parametrization is complete.
 
-**Lemma 3 (rough spikes).** For y-rough q in (y, N] take T(q) = -m_q. Then
-U(1) = sum_q m_q, U(q) = -m_q, U = 0 elsewhere, (C) holds, and
+**Lemma 3 (rough spikes).** E(c) >= sum_{y < q <= N, q y-rough} m_q.
 
-    E(c) >= sum_{y < q <= N, q y-rough} m_q.
-
-This is the primal statement W(q) >= 2 at every y-rough q (the jump of W at q
-is c_1 = W(1) >= 1). Size about N/(y log y). Values: 4.23 (10^3, 31),
+*Proof (primal).* The jump of W at a y-rough q is w(q) = sum_{j | q, j <= y} c_j
+= c_1 = W(1) >= 1, so W(q) >= W(q-1) + 1 >= 2, and (E) gives the claim. QED.
+The dual form of the same construction, T(q) = -m_q, is valid only at PRIMES
+q > y (U(1) = sum_p m_p, U(p) = -m_p, (C) holds); at a composite y-rough
+q = p1 p2 the term mu(p2) T(q) lands in U(p1) and mu(q) T(q) flips the sign.
+The two coincide when (y, N] contains no composite y-rough number, which is
+the case for y >= sqrt(N). Size about N/(y log y). Values: 4.23 (10^3, 31),
 15.46 (10^4, 100), 35.81 (10^5, 316), 103.0 (10^6, 1000).
+
+**Lemma 5 (staircase).** Fix y < Y <= 2y and let A(m) = sum_{m <= k <= Y} m_k
+be the prime mass in the cells m..Y. Put T(m) = -theta A(m) w(m) on (y, Y]
+with a ramp w(m) = min(1, (m - y)/L), and U as in Lemma 2. In the top layer
+k > Y/2 one has U(k) = T(k), and T(k+1) - T(k) = theta [m_k w(k)
+- A(k+1)(w(k+1) - w(k))] <= m_k, so (C) holds there for every theta <= 1.
+Let theta* be the largest theta for which (C) holds in the lower layers
+k <= Y/2 (an explicit minimum of ratios m_k / (rise of U at k)). Then
+
+    E(c) >= theta* . [ - sum_{y < m <= Y} mu(m) A(m) w(m) ],
+
+and since A(m) = psi(N/m) - psi(N/(Y+1)), the bracket is
+N [ sum_{y<m<=Y} mu(m) w(m) (1/m - 1/Y) ] (1 + o(1)): a smoothed Mobius
+increment over (y, Y], which is what "the floor pays the drift" means.
+
+Measured (`barrier_lemmas.py`, `tapered_staircase`): without the ramp the
+construction dies at the left edge, because the multiples j(k+1) entering
+(y, Y] make U rise at the cells k = floor(y/j) with mu(j) = -1 by the whole
+remaining mass, and cell 33 = floor(100/3) at N = 10^4 contains no prime
+power (theta* = 0 at every Y tried). With the ramp theta* = 1 at (10^6, 60,
+Y = 120), gain 1441, rigorous; but the restricted-dual optimum on the same
+interval is 16969 and the full floor at (10^6, 60) is 58752. The optimal T
+has the staircase's shape (it rises by exactly m_k at almost every prime
+cell) plus dips placed at primes with mu = -1, and those dips are worth ten
+times the smooth part. The sign of the bracket also depends on Y, so the
+lemma is a bound at the Y where it is positive, not at every Y.
 
 **What Lemma 3 cannot do.** The natural next construction, T = tau mu(m) on
 (y, 2y], needs (C) at every k <= 2y with U(k) - U(k+1) < 0, and those include
@@ -106,6 +134,16 @@ are consistent with this identity; it does not by itself decide the exponent.
 The fluctuation law 0.32 N / sqrt(y) fits all four points to 12%; the drift
 N |M1(y)| coincides with it exactly when M1(y) is of its typical size 0.3/sqrt(y)
 (y = 31, 100) and undershoots by 4-5x at the two zero-crossings (y = 141, 316).
+Away from y = sqrt(N) the constant moves but the exponent does not: at
+y = N^{0.3} the ratios to 0.32 N/sqrt(y) are 1.54 (10^5, 30), 1.33 (10^5, 60),
+1.42 (10^6, 60), against 3.0 to 3.6 for the drift.
+
+**Fourth decade, rigorous.** The restricted dual with T on (1000, 10000] at
+N = 10^6 has gain 7162 with zero moments and nonnegative slack, so
+V*(1000, 10^6) - psi(10^6) >= 7162 by Lemma 1, before the CI floor lands.
+The drift law predicted the whole floor at 4410; the fluctuation law predicts
+10.1k, and the (y, 10y] restriction captured 70-73% at the smaller sizes.
+
 So the drift is a lower envelope, the fluctuation is the law:
 
     Conjecture (barrier).  V*(y, N) - psi(N) >= c N / sqrt(y)  for y <= sqrt N,
@@ -122,6 +160,10 @@ full floor:
 |---|---:|---:|---:|---:|---:|
 | (10^3, 31) | 0.46 | 0.65 | 0.90 | | 1.00 |
 | (10^4, 100) | 0.20 | 0.51 | 0.73 | 0.90 | 1.00 |
+| (10^5, 316) | 0.32 | 0.50 | 0.70 | 0.87 | 1.00 |
+
+(absolute values at (10^5, 316): 564, 899, 1239, 1559 against the floor 1782;
+each is a rigorous lower bound in its own right, by Lemma 1.)
 
 Ninety percent of the barrier is decided by cells within a factor 30 of y.
 A proof can work on (y, Cy] for bounded C.
@@ -154,9 +196,21 @@ statement:
     c sqrt(sum c_j^2) below its mean on a positive proportion of the cells
     n in (y, Cy], weighted by m_n.
 
-For a random-like c this is a fourth-moment (Paley-Zygmund) statement about
-4-point correlations of sawtooths, which are elementary arithmetic sums. The
-difficulty is that c is chosen by the adversary to defeat exactly this:
+On the dual side the same obstacle has a concrete face. Every cell k <= y
+with no prime power (m_k = 0) forces U(k) >= U(k+1) exactly, and U(k+1) - U(k)
+= sum_j mu(j) [T(j(k+1)) - T(jk)] couples T at the multiples of k and k+1.
+At (10^4, 100) the cell 33 is empty and the optimal T on (100, 200] satisfies
+T(165) - T(170) = -T(102) to the last digit, which is that one equation; at
+y = sqrt(N) a positive proportion of the cells in (sqrt(N)/2, sqrt(N)] are
+empty, so a hand-built T must satisfy hundreds of such linear relations at
+once. This is why the smooth staircase of Lemma 5 stalls at a few percent of
+the floor and why the LP optimum looks irregular: it is the solution of the
+empty-cell equations, with the gain harvested at primes with mu = -1.
+
+For a random-like c the primal statement is a fourth-moment (Paley-Zygmund)
+inequality about 4-point correlations of sawtooths, which are elementary
+arithmetic sums. The difficulty is that c is chosen by the adversary to
+defeat exactly this:
 Chebyshev's period-30 seed has W in {0, 1}, no Gaussian behaviour at all, and
 the LP optimum has a heavy upper tail (W up to 112 at (10^5, 316)). Any proof
 must therefore either (a) show that reducing the lower-tail fluctuation of
