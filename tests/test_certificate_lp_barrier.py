@@ -128,6 +128,19 @@ def test_sawtooth_variance_identity(lp):
     assert Q / 12 < 0.6 * float(np.dot(c, c)) / 12
 
 
+def test_pure_seed_family_floor_matches_the_hunt(bl):
+    # The exact all-N floor of the pure-seed lifted family reproduces
+    # Chebyshev at (L, M) = (30, 6) and the hunt's period-2310 pilot optimum
+    # 1.06985445 at (2310, 15), so those searches were exactly optimal.
+    seed = _load("lp_allN_seed")
+    r = seed.solve(30, 6, 1000)
+    assert abs(r["C"] - 1.10555043) < 1e-6
+    assert r["W_min_below_R"] >= 1 - 1e-9 and r["g_min_beyond_R"] >= -1e-8
+    r = seed.solve(2310, 15, 100_000)
+    assert abs(r["C"] - 1.0698544526) < 1e-8
+    assert r["W_min_below_R"] >= 1 - 1e-9 and r["g_min_beyond_R"] >= -1e-8
+
+
 def test_excess_constant_identity(bl):
     # Proposition 4 as a finite identity: H(c) = I(y) + sum d_j log(y/j)/j
     # for c = mu + d with any d (balance is not needed for the identity).

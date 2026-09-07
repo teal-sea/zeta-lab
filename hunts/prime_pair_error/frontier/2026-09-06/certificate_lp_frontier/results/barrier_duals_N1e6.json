@@ -1,0 +1,73 @@
+{
+ "N": 1000000,
+ "y": 1000,
+ "results": [
+  {
+   "gain": 102.99480449015856,
+   "max_abs_moment": 2.9103830456733704e-11,
+   "min_slack": 0.0,
+   "feasible": true,
+   "construction": "rough_spike"
+  },
+  {
+   "gain": 0.0,
+   "max_abs_moment": 0.0,
+   "min_slack": 0.0,
+   "feasible": true,
+   "construction": "alternating",
+   "Y": 2000,
+   "tau": 0.0,
+   "binding_cells": 510
+  },
+  {
+   "gain": 2807.5079157134433,
+   "max_abs_moment": 2.546585164964199e-11,
+   "min_slack": 0.0,
+   "feasible": true,
+   "construction": "restricted_dual",
+   "Y": 2000,
+   "lp_value": 2807.5079157134433,
+   "T_abs_max": 126.53521908911353
+  },
+  {
+   "gain": 0.0,
+   "max_abs_moment": 0.0,
+   "min_slack": 0.0,
+   "feasible": true,
+   "construction": "alternating",
+   "Y": 4000,
+   "tau": 0.0,
+   "binding_cells": 1279
+  },
+  {
+   "gain": 4793.853109561584,
+   "max_abs_moment": 1.0913936421275139e-11,
+   "min_slack": -5.684341886080802e-14,
+   "feasible": true,
+   "construction": "restricted_dual",
+   "Y": 4000,
+   "lp_value": 4793.853109561584,
+   "T_abs_max": 150.21147238705444
+  },
+  {
+   "gain": 0.0,
+   "max_abs_moment": 0.0,
+   "min_slack": 0.0,
+   "feasible": true,
+   "construction": "alternating",
+   "Y": 10000,
+   "tau": 0.0,
+   "binding_cells": 3675
+  },
+  {
+   "gain": 7161.943044807524,
+   "max_abs_moment": 5.820766091346741e-11,
+   "min_slack": -1.3642420526593924e-12,
+   "feasible": true,
+   "construction": "restricted_dual",
+   "Y": 10000,
+   "lp_value": 7161.943044807524,
+   "T_abs_max": 299.1132715561738
+  }
+ ]
+}

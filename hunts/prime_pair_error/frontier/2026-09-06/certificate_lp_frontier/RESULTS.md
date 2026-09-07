@@ -99,24 +99,35 @@ all printed digits), `lp_prime_cells.py`, `lp_dictionaries.py`.
 | 10^4 | 2000 | 0.83 | 0.693 = log 2 | | | | 1268 |
 | 10^5 | 100 | 0.40 | 4126.50 | 0.0413 | | 16 | 92 |
 | 10^5 | 316 | 0.50 | 1781.75 | 0.0178 | 0.317 | 30 | 277 |
+| 10^5 | 30 | 0.30 | 9013.28 | 0.0901 | | 4 | 29 |
+| 10^5 | 60 | 0.36 | 5488.35 | 0.0549 | | 10 | 55 |
+| 2 10^4 | 141 | 0.50 | 603.39 | 0.0302 | 0.361 | 22 | 117 |
+| 10^6 | 60 | 0.30 | 58751.93 | 0.0588 | | 10 | 55 |
+| 10^6 | 100 | 0.33 | 44513.33 | 0.0445 | | 16 | 91 |
+| 10^6 | 300 | 0.41 | 21212.03 | 0.0212 | | 30 | 259 |
+| 10^6 | 316 | 0.42 | 20714.10 (CI) | 0.0207 | | 30 | 281 |
+| 10^6 | 1000 | 0.50 | 10699.91 (CI) | 0.0107 | 0.338 | 72 | 851 |
 
 Three readings.
 
-**The law at y = sqrt(N).** 0.354, 0.324, 0.317 times N^{3/4} over three
-decades; the fitted exponent between 10^4 and 10^5 is 0.74. The best
+**The law at y = sqrt(N).** 0.354, 0.324, 0.361, 0.317, 0.338 times N^{3/4}
+at N = 10^3, 10^4, 2 10^4, 10^5, 10^6, i.e. E = (0.99 to 1.12) x 0.32 N/sqrt(y)
+over four decades (BARRIER.md Section 3 has the comparison with the
+Mobius-drift candidate N |M1(y)|, which fails by 2.4x at 10^6). The best
 prime-blind certificate with support sqrt(N) has excess of order N^{3/4}, not
 N^{1/2}. This is the number the route needed and did not have.
 
-**The fixed-support constant.** At y = 100 the excess ratio is 0.009 (N=10^3,
-finite-N regime), 0.032 (10^4), 0.041 (10^5) and still rising, so the all-N
-constant of a support-100 family is at least 0.041. The hunt's 1.034 uses seed
-denominators up to about 3000 and a lift; Section 4.4 gives its family's floor.
+**The fixed-support constant.** At y = 100 the excess ratio is 0.032 (10^4),
+0.041 (10^5), 0.045 (10^6) and still rising, so the all-N constant of a
+support-100 family is at least 0.045; at y = 300 it is 0.021 at 10^6. The
+hunt's 1.034 uses seed denominators up to about 3000 and a lift; Sections
+4.4 and 4.5 give its family's floors.
 
 **Where the optimum puts its coefficients.** c equals mu(j) exactly on an
-initial segment (the "mobius prefix": 16 at y=100, 30 at y=316, 47 for
-y=316 at N=10^4) and then departs from mu with fractional coefficients. The
-prefix is where W = 1 exactly; the departure is the price of controlling W
-beyond y. This is the shape the hunt's constructions approximate by hand.
+initial segment (the "mobius prefix": 16 at y=100, 30 at y=316, 72 at
+y=1000) and then departs from mu with fractional coefficients. The prefix is
+where W = 1 exactly; the departure is the price of controlling W beyond y.
+This is the shape the hunt's constructions approximate by hand.
 
 ### 4.2 Prime-aware floor P*(y, N) - psi(N)
 
@@ -189,6 +200,8 @@ scale, W(t) = sum_k sum_j a_j floor(t/(j 15^k)), all cells <= N.
 | 10^5 | 31 | 5994.0 | 0.0599 |
 | 10^5 | 100 | 3705.9 | 0.0371 |
 | 10^5 | 1000 | 183.6 | 0.0018 (CI, 2026-09-07; y = N^{0.6}, finite-N regime, see below) |
+| 10^7 | 100 | 405691.8 | 0.0406 (local, 2026-09-07) |
+| 10^7 | 300 | 207524.8 | 0.0208 (local, 2026-09-07) |
 
 The lift helps (3706 against 4126 for plain support 100 at N = 10^5, because
 the support now reaches j 15^k <= N), and the floor at seed support 100 is
@@ -202,6 +215,33 @@ reach; the (10^6, 3000) row, if it lands, is still inside the finite-N
 regime. The fair comparison for the adaptive block therefore remains open;
 what is settled is that at fixed seed support the floor rises with N
 (3.0% -> 3.7% from 10^4 to 10^5 at seed 100).
+
+### 4.5 The hunt's pure-seed family, solved exactly
+
+`lp_allN_seed.py`. A balanced seed on the divisors of L, lifted by radix M,
+with the reviewed coverage conditions (W >= 1 on [1, R), g >= 0 on one
+period beyond R, R >= M) imposed as constraints and the all-N leading
+constant C = (M/(M-1)) kappa(g) as objective, is a finite linear program.
+Its value is the floor of every pure-seed construction with that (L, M, R).
+R = 10^5 as in the hunt.
+
+| L | M | C | C - 1 | nnz | mass | the hunt's number |
+|---:|---:|---:|---:|---:|---:|---|
+| 30 | 6 | 1.1055504275 | 0.1056 | 5 | 5 | Chebyshev, 1.1055 |
+| 210 | 6 | 1.0739653601 | 0.0740 | 10 | 10 | |
+| 2310 | 6 | 1.0739653601 | 0.0740 | 10 | 10 | |
+| 2310 | 15 | 1.0698544526 | 0.0699 | 15 | 15 | pilot, best of 87 seeds: 1.06985445 |
+| 30030 | 6 | 1.0579914334 | 0.0580 | 55 | 77.6 | |
+| 30030 | 15 | 1.0558051175 | 0.0558 | 47 | 39 | structural step: 1.05580512, mass 39 |
+
+The LP reproduces the pilot's period-2310 optimum and the structural step's
+period-30030 optimum to every printed digit, with the same coefficient mass.
+So both seed searches were exactly optimal within the pure-seed family, and
+everything after (1.0558 -> 1.0500 -> 1.0487 -> 1.0476 -> 1.0459 -> 1.0341)
+came from enlarging the dictionary with carries, masks and repairs acting on
+the final weight, not from a better seed. The next-period floor (L = 510510,
+128 divisors) and the radix sweep at L = 30030 were running when this was
+written; see `results/allN_seed*.json` for whatever landed.
 
 ## 5. What is rigorous, and the picture behind the law
 

@@ -130,6 +130,11 @@ are consistent with this identity; it does not by itself decide the exponent.
 | 10^4 | 100 | 323.6 | 1.01 | 1.04 |
 | 2 10^4 | 141 | 603.4 | 1.12 | 3.86 |
 | 10^5 | 316 | 1781.7 | 0.99 | 4.73 |
+| 10^6 | 1000 | 10699.9 (CI) | 1.06 | 2.43 |
+
+The 10^6 row was the discriminating prediction (10.1k against 4.4k) and it
+landed on the fluctuation law. The (10^7, 3162) row predicts 57k against
+41k; it was still running when this was written.
 
 The fluctuation law 0.32 N / sqrt(y) fits all four points to 12%; the drift
 N |M1(y)| coincides with it exactly when M1(y) is of its typical size 0.3/sqrt(y)
