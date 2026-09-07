@@ -1,5 +1,14 @@
 # The exact LP floor of the factorial-certificate route
 
+**Correction and continuation, 2026-09-07:** Section 4.2's dimension-count
+argument is false: N=27,y=9 has eight constrained cells but minimum excess
+log(2), by an exact row relation and attaining vector. The inferred zero
+for the uncomputed N=10^6 case is therefore unsupported by that argument.
+The Section 5 exponent remains a conjecture, and the all-cell family also
+admits a relaxation using attainable quotients without prime locations.
+See the [counterexample, relaxed ceilings, and barrier audit](../../../../quotient_certificate/RESULTS.md).
+The original session record below is retained.
+
 **Session 2026-09-06/07. Grade: measured (floating LP, HiGHS dual simplex),
 with every reported certificate re-verified cell by cell and every excess
 recomputed directly from the von Mangoldt function. One rigorous inequality
