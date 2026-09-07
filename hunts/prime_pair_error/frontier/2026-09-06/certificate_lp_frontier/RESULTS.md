@@ -233,15 +233,29 @@ R = 10^5 as in the hunt.
 | 2310 | 15 | 1.0698544526 | 0.0699 | 15 | 15 | pilot, best of 87 seeds: 1.06985445 |
 | 30030 | 6 | 1.0579914334 | 0.0580 | 55 | 77.6 | |
 | 30030 | 15 | 1.0558051175 | 0.0558 | 47 | 39 | structural step: 1.05580512, mass 39 |
+| 510510 | 15 | 1.0392259413 | 0.0392 | 107 | 166 | (not tried by the hunt) |
 
 The LP reproduces the pilot's period-2310 optimum and the structural step's
 period-30030 optimum to every printed digit, with the same coefficient mass.
 So both seed searches were exactly optimal within the pure-seed family, and
 everything after (1.0558 -> 1.0500 -> 1.0487 -> 1.0476 -> 1.0459 -> 1.0341)
 came from enlarging the dictionary with carries, masks and repairs acting on
-the final weight, not from a better seed. The next-period floor (L = 510510,
-128 divisors) and the radix sweep at L = 30030 were running when this was
-written; see `results/allN_seed*.json` for whatever landed.
+the final weight, not from a better seed.
+
+Two consequences. The five correction packages after the structural step
+bought 0.0217 in the constant; one more prime in the seed period, a single
+LP solve at L = 510510, buys 0.0166 with no carries at all, and the adaptive
+block's 1.0341 beats that pure seed by only 0.005. And the pure-seed
+sequence 0.106, 0.074, 0.070, 0.056, 0.039 (L = 30, 210, 2310, 30030,
+510510) is the "fixed constant" regime of Section 4.1 seen from inside the
+hunt's family: each new prime in L buys a shrinking amount, and nothing in
+it moves the exponent.
+
+Radix sweep at L = 30030 (C - 1): M = 4: 0.146, 6: 0.058, 8: 0.086,
+10: 0.0559, 12: 0.065, 14: 0.061, 15: 0.0558, 16: 0.075, 20: 0.061,
+30: 0.059, 60: 0.0541. The hunt's radix 15 is within 0.002 of the best
+tested (60); powers of two are the worst choices. At L = 510510 radix 30
+gives 1.0443 against radix 15's 1.0392. Files: `results/allN_seed*.json`.
 
 ## 5. What is rigorous, and the picture behind the law
 
