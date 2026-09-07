@@ -12,6 +12,11 @@ name: certificate-lp-barrier
 
 on:
   workflow_dispatch:
+  push:
+    branches: [hunt/certificate-lp-barrier]
+    paths:
+      - ".github/workflows/certificate-lp-barrier.yml"
+      - "hunts/prime_pair_error/frontier/2026-09-06/certificate_lp_frontier/lp_*.py"
 
 permissions:
   contents: read
