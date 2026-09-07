@@ -129,9 +129,19 @@ string: `"PASS: separate-code self-check, not an independent-agent or human revi
 | Repair-cost rule and the steps at 20 and 21 | **not independently reviewed** |
 | Adaptive correction block | **not independently reviewed** |
 
-PR states observed at import time on 2026-09-06, by query rather than from the snapshot:
-#196 open, #199 open, #200 open, #198 merged at the current `main`. This preservation pass
-changed none of them, and archiving a reference does not authorize merging it.
+PR states observed at import time on 2026-09-06, by query rather than read from the
+snapshot, with the head commits preserved so the refs survive independently of GitHub:
+
+| PR | State at import | Head | Role |
+|---|---|---|---|
+| #196 | open | `46fdb433752a1b26abba516fc24d6db21543b2b8` | full-cost versus direct `B_N` objective comparisons |
+| #198 | merged | `3e39e21799e84affd132399fd0a62006d9f8f6d1` | the preceding cumulative preservation |
+| #199 | open | `96ce564c89a38a89a4a28da61d28d335679d4efb` | baseline review, survives |
+| #200 | open | `85a42e7c0c7dad8163dcab8d239bac5bb6fe1b38` | joint-candidate review, survives |
+
+This preservation pass changed none of them, and archiving a reference does not authorize
+merging it. The same table, as the snapshot recorded it when sealed, is in
+`provenance/REPO_STATE.json`.
 
 ## What was checked, and what was not
 
