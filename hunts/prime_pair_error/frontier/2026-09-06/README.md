@@ -74,3 +74,15 @@ applications, full error budget) and `certificate_route_test/` (fixed-recipe cei
 the combined-weight repair; its `aggregate_results.json` is the current candidate baseline).
 They are archived, unreviewed source packages, not promoted results, and none of them bears
 on RH. Rerun them into new output files; the recorded outputs are the originals.
+
+## First coordinated signed-correction candidate (preserved and reviewed 2026-09-06)
+
+`joint_correction_candidate/` preserves a separate downloaded attachment,
+`joint_correction_candidate.zip`, hash-pinned in its own `archive/SHA256SUMS` and by
+`tests/test_joint_correction_candidate.py`. It replaces the combined-weight baseline's five
+greedy unit-amplitude stages by one LP-proposed block of nine rational amplitudes on starts
+17 to 32, composites included, with fresh repairs on the baseline's cells; the leading
+constant and the finite coefficient mass both fall, the tail coefficient rises. The
+independent review is `joint_correction_candidate/JOINT_REVIEW.md`; its checker and outputs
+live in `joint_correction_candidate/review/`. It is a finite candidate on one window, not a
+rate, not a prime-counting record and not an RH result.
