@@ -1,0 +1,76 @@
+{
+  "snapshot_id": "zeta-adaptive-freeze-v1",
+  "original_archives": 17,
+  "recursive_member_occurrences": 558,
+  "library_original_readbacks": [
+    {
+      "name": "joint_correction_candidate.zip",
+      "bytes": 13746,
+      "sha256": "828a4d85d471b51331b5f0a32c30818ccff4de95e9e4c91dbb836536376e8260",
+      "readback_matches_original": true
+    },
+    {
+      "name": "joint_support_analysis.zip",
+      "bytes": 129164,
+      "sha256": "50692a8fce2d29b3f81cb2d7c06fa1d9ae9b1402f10e45aff331d0155144864e",
+      "readback_matches_original": true
+    },
+    {
+      "name": "repair_cost_rule.zip",
+      "bytes": 193885,
+      "sha256": "ea5fb1ab56e3515358e7ff54ed309fe9eb1e7e87b98e3991c80b7ccc91579582",
+      "readback_matches_original": true
+    },
+    {
+      "name": "adaptive_correction_block.zip",
+      "bytes": 303613,
+      "sha256": "e06dfe4e02a31429e9cae5a1e062688826849c9fdd81195ce74c02a3da6451c1",
+      "readback_matches_original": true
+    }
+  ],
+  "nested_dependency_byte_matches": [
+    {
+      "archive": "adaptive_correction_block.zip",
+      "member": "adaptive_correction_block/inputs/repair_cost_rule.zip",
+      "matches_original": "repair_cost_rule.zip",
+      "sha256": "ea5fb1ab56e3515358e7ff54ed309fe9eb1e7e87b98e3991c80b7ccc91579582"
+    },
+    {
+      "archive": "repair_cost_rule.zip",
+      "member": "repair_cost_rule/inputs/joint_support_analysis.zip",
+      "matches_original": "joint_support_analysis.zip",
+      "sha256": "50692a8fce2d29b3f81cb2d7c06fa1d9ae9b1402f10e45aff331d0155144864e"
+    },
+    {
+      "archive": "joint_support_analysis.zip",
+      "member": "joint_support_analysis/original_archives/joint_correction_candidate.zip",
+      "matches_original": "joint_correction_candidate.zip",
+      "sha256": "828a4d85d471b51331b5f0a32c30818ccff4de95e9e4c91dbb836536376e8260"
+    },
+    {
+      "archive": "joint_support_analysis.zip",
+      "member": "joint_support_analysis/original_archives/certificate_route_test.zip",
+      "matches_original": "certificate_route_test.zip",
+      "sha256": "992ca6730314390f0754db1fc7e96d361aa8e16691c5c6e83765e95dc32dec5a"
+    }
+  ],
+  "latest_internal_manifests": [
+    {
+      "package": "joint_support_analysis",
+      "checked_files": 21,
+      "status": "PASS"
+    },
+    {
+      "package": "repair_cost_rule",
+      "checked_files": 11,
+      "status": "PASS"
+    },
+    {
+      "package": "adaptive_correction_block",
+      "checked_files": 17,
+      "status": "PASS"
+    }
+  ],
+  "math_rerun": false,
+  "claim": "Preservation checks only; not a new research run or proof review."
+}

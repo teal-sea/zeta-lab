@@ -1,0 +1,18 @@
+{
+  "scouted": 1065,
+  "block_variables": 39,
+  "active_constraints": 8803,
+  "results": [
+    {
+      "policy": "gain",
+      "actions": 23,
+      "C_float": 1.0341191042475528
+    },
+    {
+      "policy": "envelope",
+      "actions": 25,
+      "C_float": 1.0342645176271346
+    }
+  ],
+  "seconds": 3.473409446000005
+}

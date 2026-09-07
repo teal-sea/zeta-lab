@@ -74,3 +74,31 @@ applications, full error budget) and `certificate_route_test/` (fixed-recipe cei
 the combined-weight repair; its `aggregate_results.json` is the current candidate baseline).
 They are archived, unreviewed source packages, not promoted results, and none of them bears
 on RH. Rerun them into new output files; the recorded outputs are the originals.
+
+## Adaptive correction block freeze, and the research pause (preserved 2026-09-06)
+
+`adaptive_freeze_v1/` is the checkpoint taken when Thomas paused the research. Its
+`README.md` is the repository's account of what landed; `adaptive_freeze_v1/provenance/FREEZE.md`
+is the originating session's narrative, copied unchanged. The archive itself is
+`adaptive_freeze_v1/archive/zeta_adaptive_freeze_v1.zip`, committed unchanged, hash-pinned by
+its sidecar and independently by `tests/test_adaptive_freeze_archive.py`:
+
+`a264da2d6da781a3133ab75557f22842fe2581e210c7a628c0fddeff0c653681` (4,185,414 bytes)
+
+It bundles seventeen original research ZIPs, which include the three already committed
+above, and its own verifier. Three further packages are imported beside the earlier ones as
+runnable working directories, byte for byte from the nested originals:
+`joint_support_analysis/` (why the inherited repair dictionary freezes the weight at 20),
+`repair_cost_rule/` (the repair-potential bound and the accepted direct steps at 20 and 21)
+and `adaptive_correction_block/` (23 masked reciprocal-carry corrections, 82 positive
+repairs).
+
+**All three are unreviewed drafts.** The reviews in PR #199 and PR #200 cover only the
+earlier objects they name: the combined-weight baseline and the joint correction candidate.
+Neither covers the support-obstruction diagnostic, the repair-cost rule or the adaptive
+block, and the producing session's own `checks.json` records its result as a separate-code
+self-check rather than a review. Storing them does not promote their mathematics, the
+reported reduction is a fraction of one construction's leading excess rather than progress
+on RH, and nothing here improves the completed upper bound on total CHHL `E(N)`. The
+rejected third step at 20, the direction test that is not the block's baseline, and the
+envelope-oriented alternative candidate are all preserved alongside the accepted state.
