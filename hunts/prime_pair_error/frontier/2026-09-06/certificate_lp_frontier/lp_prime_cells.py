@@ -113,10 +113,12 @@ def solve(N: int, y: int, all_cells_below: int | None = None) -> dict:
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument("--N", type=int, nargs="+", required=True)
-    ap.add_argument("--alpha", type=float, nargs="+", default=[0.5])
+    ap.add_argument("--alpha", type=float, nargs="*", default=[], help="add y = round(N^alpha) for each alpha")
     ap.add_argument("--y", type=int, nargs="*", default=[])
     ap.add_argument("--output", required=True)
     args = ap.parse_args()
+    if not args.alpha and not args.y:
+        ap.error("give --y and/or --alpha (no default)")
     results = []
     for N in args.N:
         ys = sorted(set([int(round(N**a)) for a in args.alpha] + list(args.y)))

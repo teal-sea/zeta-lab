@@ -133,8 +133,11 @@ are consistent with this identity; it does not by itself decide the exponent.
 | 10^6 | 1000 | 10699.9 (CI) | 1.06 | 2.43 |
 
 The 10^6 row was the discriminating prediction (10.1k against 4.4k) and it
-landed on the fluctuation law. The (10^7, 3162) row predicts 57k against
-41k; it was still running when this was written.
+landed on the fluctuation law. The (10^7, 3162) row (57k against 41k) timed
+out in CI at a round-0 lower bound of 40963, which decides nothing. The
+row that did finish at 10^7 is y = 1000 = N^{0.43}: 111891.5, against
+101192 from 0.32 N/sqrt(y) (ratio 1.11, like the other y < sqrt(N) points)
+and 44100 from N|M1(y)| (ratio 2.54).
 
 **After Codex's audit (PR #203).** V* is the floor for one weight serving
 every cutoff; a family c_N serving one cutoff each needs W >= 1 only on the

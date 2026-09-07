@@ -121,7 +121,22 @@ all printed digits), `lp_prime_cells.py`, `lp_dictionaries.py`.
 | 10^6 | 100 | 0.33 | 44513.33 | 0.0445 | | 16 | 91 |
 | 10^6 | 300 | 0.41 | 21212.03 | 0.0212 | | 30 | 259 |
 | 10^6 | 316 | 0.42 | 20714.10 (CI) | 0.0207 | | 30 | 281 |
-| 10^6 | 1000 | 0.50 | 10699.91 (CI) | 0.0107 | 0.338 | 72 | 851 |
+| 10^6 | 1000 | 0.50 | 10699.91 (CI, twice, on two runners) | 0.0107 | 0.338 | 72 | 851 |
+| 10^7 | 1000 | 0.43 | 111891.52 (CI, log only) | 0.0112 | | 72 | 863 |
+
+**Outcome of the 2026-09-07 CI batch.** Five of its ten rows hit the
+350-minute job limit. Two converged rows were recovered from the logs (the
+artifact step did not survive the timeout): (10^6, 1000) a second time,
+identical to the first, and (10^7, 1000), which converged at round 5 in
+3210 s and then timed out on an extra y = sqrt(N) row that the script's
+default `--alpha 0.5` appended to every job; that default is removed. The
+timed-out rows leave rigorous lower bounds from their last round:
+(10^7, 3162) >= 40963 (round 0, 9.2 million violated cells; the law predicts
+57k, the drift 41k, so this row decides nothing yet), (10^6, 3162) >= 1815
+(round 10, 19 cells left), lifted seed 3000 at 10^6 >= 1898 (two cells
+left), lifted seed 3000 at 10^5 ~ 0 (unconverged, finite-N regime), Selberg
+(10^4, 316) >= 5.6 (round 0). The (10^7, 3162) row needs a better initial
+cell set or a warm start, not more wall time.
 
 Three readings.
 
@@ -136,7 +151,9 @@ holds, with constant 0.2, for the cutoff-indexed relaxation T* of Section
 
 **The fixed-support constant.** At y = 100 the excess ratio is 0.032 (10^4),
 0.041 (10^5), 0.045 (10^6) and still rising, so the all-N constant of a
-support-100 family is at least 0.045; at y = 300 it is 0.021 at 10^6. The
+support-100 family is at least 0.045; at y = 300 it is 0.021 at 10^6, and at
+y = 1000 it is 0.0107 (10^6) then 0.0112 (10^7), so a support-1000 family is
+at least 0.0112. The
 hunt's 1.034 uses seed denominators up to about 3000 and a lift; Sections
 4.4 and 4.5 give its family's floors.
 
