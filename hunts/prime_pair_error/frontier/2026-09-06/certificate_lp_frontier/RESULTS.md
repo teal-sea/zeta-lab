@@ -67,13 +67,28 @@ otherwise. Two-thirds of the cells above sqrt(N) carry no prime at all.
 
 From (E): the problem needs W >= 1 only at cells where a prime looks, that is
 all n <= sqrt(N) (in practice) plus the ~2 sqrt(N)/log N cells floor(N/d) with
-d <= sqrt(N) a prime power. The rule "W >= 1 on every integer cell" is what
-makes a certificate prime-blind, and it is method-imposed. Everything else the
-hunt fixed (radix 15, seed period, the carry shapes, the mask set, the repair
-menu) is a choice of feasible subset inside the LP and is dominated by V*.
+d <= sqrt(N) a prime power. Everything the hunt fixed (radix 15, seed period,
+the carry shapes, the mask set, the repair menu) is a choice of feasible
+subset inside the LP and is dominated by V*.
 
-The relaxed LP with constraints only on the prime-looking cells S(N) is a
-valid ceiling that uses the primes below sqrt(N) as input:
+**Corrected 2026-09-07 after Codex's audit (PR #203,
+`hunts/quotient_certificate/`).** The first version of this section said that
+"W >= 1 on every integer cell" is what makes a certificate prime-blind. That
+conflated two things. A single weight that must serve EVERY cutoff N' <= N
+needs W >= 1 on every cell, because the attainable quotients floor(N'/d)
+over all N' cover them all; that is V*, and it is the right floor for the
+hunt's all-N constructions. A weight that serves ONE cutoff N needs W >= 1
+only on the attainable quotients Q_N = {floor(N/d) : 2 <= d <= N}, about
+2 sqrt(N) cells, and Q_N is determined by integer division alone, with no
+prime information. That floor, Codex's
+
+    T*(y, N) = min c.L  s.t.  W_c(n) >= 1 for n in Q_N,      P* <= T* <= V*,
+
+is the honest prime-blind floor for a family c_N indexed by the cutoff,
+which is all the RH target needs. Section 4.6 measures it.
+
+The further relaxation with constraints only on the prime-looking cells
+S(N) is a valid ceiling that uses the primes below sqrt(N) as input:
 
     P*(y, N) = min c.L  s.t.  W_c(n) >= 1 for n in S(N),   |S(N)| ~ 1.2 sqrt(N).
 
@@ -115,7 +130,9 @@ at N = 10^3, 10^4, 2 10^4, 10^5, 10^6, i.e. E = (0.99 to 1.12) x 0.32 N/sqrt(y)
 over four decades (BARRIER.md Section 3 has the comparison with the
 Mobius-drift candidate N |M1(y)|, which fails by 2.4x at 10^6). The best
 prime-blind certificate with support sqrt(N) has excess of order N^{3/4}, not
-N^{1/2}. This is the number the route needed and did not have.
+N^{1/2+eps}. This is the number the route needed and did not have. (The same
+holds, with constant 0.2, for the cutoff-indexed relaxation T* of Section
+4.6, added after Codex's audit.)
 
 **The fixed-support constant.** At y = 100 the excess ratio is 0.032 (10^4),
 0.041 (10^5), 0.045 (10^6) and still rising, so the all-N constant of a
@@ -135,14 +152,22 @@ This is the shape the hunt's constructions approximate by hand.
 |---:|---:|---:|---:|
 | 10^4 | 135 | 106.9 (= 1.07 sqrt N) | 0.000 |
 | 10^5 | 398 | 233.6 (= 0.74 sqrt N) | 0.000 |
-| 10^6 | 1193 | 633.0 (= 0.63 sqrt N) | (not run: see note) |
+| 10^6 | 1193 | 633.0 (= 0.63 sqrt N) | not established (see below) |
 | 10^7 | 3645 | 4204.2 (= 1.33 sqrt N) | 0.000 (at y = N^{0.53} = 5129; CI, 2026-09-07) |
 
-At y = sqrt(N) the prime-aware excess is of order sqrt(N), and it is exactly
-zero once y exceeds the number of prime-looking cells, because then the LP
-solves W = 1 on all of them. So, of the 324 at (10^4, 100), 217 is the price
-of being prime-blind and 107 is the price of support; at (10^5, 316) the split
-is 1548 to 234.
+At y = sqrt(N) the prime-aware excess is of order sqrt(N), and the LP found it
+exactly zero at (10^4, 158), (10^5, 562) and (10^7, 5129). **The first
+version of this paragraph explained those zeros by a dimension count ("once
+y exceeds the number of cells the LP solves W = 1 on all of them") and used
+that count to assert zero at N = 10^6, where the solver had reported
+unbounded. The count argument is false: Codex's audit (PR #203) gives
+N = 27, y = 9 with eight cells and minimum excess exactly log 2, because the
+rows (floor(n/j))_j satisfy a linear relation whose coefficients sum to -1,
+so the constant vector is not in their span. The measured zeros stand as
+LP results; the 10^6 value is not established, and the general question is
+one of rank and feasibility, not of counting.** So, of the 324 at (10^4,
+100), 217 is the price of being prime-blind and 107 is the price of support;
+at (10^5, 316) the split is 1548 to 234.
 
 The zero is not progress. Writing the tail of the optimal c through the cells
 m = floor(N/j) < sqrt(N) shows the identity it recovers:
@@ -157,10 +182,9 @@ identity from N terms to 1.2 sqrt(N) terms and it is circular for a proof:
 the tail coefficients are determined by the sieve counts W_0(N/d), which is
 where the information about primes above sqrt(N) sits.
 
-Note: at N = 10^6 with y > 1193 HiGHS reports unbounded; that is a floating
-artifact of an underdetermined system (kernel directions with objective of
-order 1e-9 times log N!), not a mathematical statement. The value there is
-zero by the same dimension count verified at N = 10^5.
+Note: at N = 10^6 with y > 1193 HiGHS reports unbounded with free variables;
+a bounded re-solve was started and killed for machine load, so the value is
+unknown. It is not zero by any count argument (see the correction above).
 
 ### 4.3 Enlarging the dictionary: Selberg's identity as a test function
 
@@ -269,6 +293,28 @@ value is a relaxation, so the pure-seed floor there is at least 1.0301,
 within 0.004 of the adaptive block's 1.0341 before any carry. The finished
 value is in `results/allN_seed_9699690.json` if the run survived the
 machine's memory pressure.
+
+### 4.6 The attainable-quotient floor T* (after the audit)
+
+Constraints on Q_N = {1..r} union {floor(N/d) : 2 <= d <= r}, r = floor(sqrt N),
+no prime information, one weight per cutoff. Codex's three values (PR #203)
+are reproduced to the printed digits; the 10^6 row is new (this session,
+before its process was stopped for machine load; the 10^7 row was not
+reached).
+
+| N | y = sqrt N | cells | T* - psi(N) | V* - psi(N) | T*/V* | T*/N^{3/4} |
+|---:|---:|---:|---:|---:|---:|---:|
+| 10^3 | 31 | 61 | 41.28 | 62.92 | 0.66 | 0.232 |
+| 10^4 | 100 | 198 | 226.83 | 323.65 | 0.70 | 0.227 |
+| 10^5 | 316 | 630 | 1035.23 | 1781.75 | 0.58 | 0.184 |
+| 10^6 | 1000 | 1998 | 6414.83 | 10699.91 | 0.60 | 0.203 |
+
+The relaxation lowers the constant by about 40% and leaves the exponent
+where it was: T* = (0.18 to 0.23) N^{3/4} over four decades, the fitted
+exponent from 10^3 to 10^6 is 0.73. So the barrier survives the relaxation
+that a cutoff-indexed family is entitled to, at measured grade. The
+conjecture in BARRIER.md Section 3 should be read for T* as well as V*,
+with the constant 0.2 in place of 0.32; nothing in this note proves either.
 
 ## 5. What is rigorous, and the picture behind the law
 

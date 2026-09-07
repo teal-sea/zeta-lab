@@ -136,6 +136,19 @@ The 10^6 row was the discriminating prediction (10.1k against 4.4k) and it
 landed on the fluctuation law. The (10^7, 3162) row predicts 57k against
 41k; it was still running when this was written.
 
+**After Codex's audit (PR #203).** V* is the floor for one weight serving
+every cutoff; a family c_N serving one cutoff each needs W >= 1 only on the
+attainable quotients Q_N, giving Codex's T* <= V* with no prime
+information. Measured (RESULTS.md 4.6): T* = 41.3, 226.8, 1035.2, 6414.8 at
+N = 10^3 .. 10^6, i.e. 0.23, 0.23, 0.18, 0.20 times N^{3/4}. Same exponent,
+constant 0.2. The conjecture below is to be read for both V* and T*. Two
+further corrections from the audit are accepted: the LP optimum is not
+balanced (Section 2 already records C(1) = +0.0041 at (10^4, 100)), and the
+unrestricted comparison of the sawtooth variance with the diagonal
+sum c_j^2 can fail (Codex's primorial family with c_1 = 1 - phi(P)/P), so
+the conjecture must be about the quadratic form under W >= 1, as stated in
+Section 4, not about the diagonal.
+
 The fluctuation law 0.32 N / sqrt(y) fits all four points to 12%; the drift
 N |M1(y)| coincides with it exactly when M1(y) is of its typical size 0.3/sqrt(y)
 (y = 31, 100) and undershoots by 4-5x at the two zero-crossings (y = 141, 316).
