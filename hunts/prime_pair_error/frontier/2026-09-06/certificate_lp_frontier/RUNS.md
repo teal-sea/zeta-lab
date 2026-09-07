@@ -25,3 +25,24 @@ rounds; each round is a dense (cells x y) dual simplex, cells growing to about
 4y plus the violated set. At N = 10^6, y = 1000 that is roughly 10^4 x 10^3 per
 round, tens of seconds unloaded. Nothing here needed CI; anything at N = 10^7
 or y = 10^4 should go there.
+
+## CI batch, 2026-09-07 (`.github/workflows/certificate-lp-barrier.yml`)
+
+Launched after the three queued local rows were OOM-killed under a foreign
+load of 200+. Estimates, from the (10^5, 316) round profile (4364 cells, 3
+rounds, ~150 s unloaded):
+
+| job | cells expected | per-round LP | rounds | wall estimate | prediction |
+|---|---:|---:|---:|---:|---|
+| all-cells 10^6 / 316 | ~5k | 1 min | 4 | 10 min | 0.32/sqrt(y): 18k; drift: 3.8k |
+| all-cells 10^6 / 1000 | ~15k | 5 min | 5 | 30 min | 0.32/sqrt(y): 10.1k; drift: 4.4k |
+| all-cells 10^6 / 3162 | ~30k | 30 min | 5 | 3 h | 0.32/sqrt(y): 5.7k |
+| all-cells 10^7 / 1000 | ~20k | 10 min | 6 | 1 h | 0.32/sqrt(y): 101k; drift: 44k |
+| all-cells 10^7 / 3162 | ~50k | 1 h+ | 6 | may time out | 0.32/sqrt(y): 57k; drift: 41k |
+| prime-cells 10^7 | 3.6k | seconds | 1 | 5 min | ~0.5 sqrt(N) at y = sqrt N, 0 at N^0.53 |
+| lifted 10^5 / 1000, 3000; 10^6 / 3000 | 5k .. 30k | 1 .. 30 min | 4 | 0.3 .. 3 h | the hunt's family floor at its own seed support |
+| selberg 10^4 / 316 | 2.5k (x2 rows) | minutes | 4 | 30 min | ~0.7 x 32.5 if the constant-factor pattern holds |
+
+Every round's `value-psi` is the optimum of a relaxation and therefore a
+rigorous lower bound on the final floor; a timed-out job still reports one.
+Owner: this session (watches the run and folds the numbers into RESULTS.md).

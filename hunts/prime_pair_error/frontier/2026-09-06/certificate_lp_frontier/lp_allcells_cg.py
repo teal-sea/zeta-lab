@@ -68,10 +68,12 @@ def solve(N: int, y: int, batch: int = 3000, max_rounds: int = 60, tol: float = 
         print(f"   round {rnd:2d}: cells={cells.size:>7d} value-psi={float(res.fun)-psiN:12.3f} viol={viol.size:>7d} Wmin={W[1:].min():.4f}", flush=True)
         if viol.size == 0:
             break
-        # Add the most violated cells, but keep them spread: take the worst
-        # `batch` by depth, then thin to at most one per small window if huge.
+        # Add the most violated cells.  When the violated set is huge (first
+        # rounds at N >= 10^6) take a larger batch so the round count stays
+        # small; the LP is dense (cells x y), so cap the batch by memory.
+        this_batch = max(batch, min(viol.size // 4, 8 * y, 40000))
         order = np.argsort(W[viol])
-        add = viol[order[:batch]]
+        add = viol[order[:this_batch]]
         cells = np.unique(np.concatenate([cells, add]))
     else:
         raise RuntimeError("constraint generation did not converge")
