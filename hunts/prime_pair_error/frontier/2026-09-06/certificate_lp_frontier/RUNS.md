@@ -47,6 +47,18 @@ Every round's `value-psi` is the optimum of a relaxation and therefore a
 rigorous lower bound on the final floor; a timed-out job still reports one.
 Owner: this session (watches the run and folds the numbers into RESULTS.md).
 
+**Outcome (run 34123341782):** 4 rows succeeded with artifacts (prime-cells
+10^7, lifted 10^5/1000, all-cells 10^6/316, all-cells 10^6/1000); 6 rows hit
+their time limit (GitHub reports "cancelled"), and their artifact steps did
+not run. Two converged results were recovered from logs: (10^6, 1000) again
+(10699.906, identical) and (10^7, 1000) = 111891.518 in 3210 s. Cause of
+the waste: `lp_allcells_cg.py` appended y = sqrt(N) to every job through
+its default `--alpha 0.5`, so the y = 1000 jobs went on to attempt y = 3162
+after finishing. Fixed: no default alpha. The (10^7, 3162) row itself is
+out of reach of plain constraint generation in 350 minutes (9.2 million
+violated cells after round 0); it needs a warm start or a smarter initial
+cell set before it is worth another runner-day.
+
 ## Local runs, 2026-09-07 (barrier work)
 
 | script | (N, y) | wall | note |
