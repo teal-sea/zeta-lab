@@ -1,0 +1,61 @@
+{
+  "status": "PASS: separate-code self-check, not an independent-agent proof review",
+  "full_prefix_cells": 299997,
+  "period_cells": 273420,
+  "random_lemma_cases": 120,
+  "random_lemma_cells": 5550,
+  "exact_prime_exponent_identities": 1422,
+  "large_weight_samples": 66,
+  "accepted_corrections": [
+    20,
+    21
+  ],
+  "rejected_control": [
+    20
+  ],
+  "stage_checks": [
+    {
+      "q": 20,
+      "accepted": true,
+      "raw_deficit_cells": 279,
+      "patch_count": 127
+    },
+    {
+      "q": 21,
+      "accepted": true,
+      "raw_deficit_cells": 303,
+      "patch_count": 187
+    },
+    {
+      "q": 20,
+      "accepted": false,
+      "raw_deficit_cells": 518,
+      "patch_count": 149
+    }
+  ],
+  "interval_comparisons": [
+    {
+      "N": 10000,
+      "B_saving_positive": true,
+      "U_saving_positive": false
+    },
+    {
+      "N": 1000000,
+      "B_saving_positive": true,
+      "U_saving_positive": false
+    },
+    {
+      "N": 100000000,
+      "B_saving_positive": true,
+      "U_saving_positive": true
+    },
+    {
+      "N": 1000000000000,
+      "B_saving_positive": true,
+      "U_saving_positive": true
+    }
+  ],
+  "new_first_level_mass": "91127/108",
+  "eventual_envelope_threshold_checked": 10000000,
+  "seconds": 1.6128581799999893
+}

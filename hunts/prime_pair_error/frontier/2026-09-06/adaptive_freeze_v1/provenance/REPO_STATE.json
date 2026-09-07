@@ -1,0 +1,39 @@
+{
+  "scope": "Status observed via GitHub connector in this preservation pass; not a repository mirror.",
+  "repository": "teal-sea/zeta-lab",
+  "main_sha": "9ec3b6b3b86c25e256ce605f5116fbda3cbc7689",
+  "pull_requests": [
+    {
+      "number": 196,
+      "state": "open",
+      "merged": false,
+      "mergeable": false,
+      "head_sha": "46fdb433752a1b26abba516fc24d6db21543b2b8",
+      "role": "full-cost and direct-B_N objective comparisons"
+    },
+    {
+      "number": 198,
+      "state": "closed",
+      "merged": true,
+      "head_sha": "3e39e21799e84affd132399fd0a62006d9f8f6d1",
+      "merge_sha": "9ec3b6b3b86c25e256ce605f5116fbda3cbc7689",
+      "role": "earlier cumulative preservation"
+    },
+    {
+      "number": 199,
+      "state": "open",
+      "merged": false,
+      "head_sha": "96ce564c89a38a89a4a28da61d28d335679d4efb",
+      "role": "independent-agent baseline review, verdict survives"
+    },
+    {
+      "number": 200,
+      "state": "open",
+      "merged": false,
+      "head_sha": "85a42e7c0c7dad8163dcab8d239bac5bb6fe1b38",
+      "role": "independent-agent joint-candidate review, verdict survives"
+    }
+  ],
+  "repository_only_content": "Review PR source files and #196 data remain in GitHub at the above refs, not copied verbatim into this backup. Ask the repository agent to preserve refs and create Git bundles if desired.",
+  "writes_performed_in_this_pass": []
+}
