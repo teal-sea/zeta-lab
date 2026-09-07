@@ -59,6 +59,16 @@ out of reach of plain constraint generation in 350 minutes (9.2 million
 violated cells after round 0); it needs a warm start or a smarter initial
 cell set before it is worth another runner-day.
 
+## Local runs, 2026-09-07, continuation (dual witnesses; one worker, all thread env vars = 1)
+
+| script | (N, y) | wall | memory | note |
+|---|---|---:|---:|---|
+| dual_witness.py | (10^3, 31) | 12 s | small | exact rational solves for 168 primes, 61 rows; enclosures at 60 digits |
+| dual_witness.py | (10^4, 100) | 37 s | small | 1229 primes, 198 rows, 100 x 100 exact system |
+| prefix_witness.py | (10^3, 31), (10^4, 100) | 0.2 s, 14 s | small | closed-form rates checked exactly against the basis solve |
+
+No CI, no background jobs, nothing at 10^5 or beyond.
+
 ## Local runs, 2026-09-07 (barrier work)
 
 | script | (N, y) | wall | note |
