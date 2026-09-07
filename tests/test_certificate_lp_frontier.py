@@ -56,7 +56,11 @@ def test_constraint_generation_matches_dense(mods):
     assert cg["W_min_all_cells"] >= 1 - 1e-7
 
 
-def test_prime_aware_floor_collapses_past_the_cell_count(mods):
+def test_prime_aware_floor_values_at_10000(mods):
+    # Measured LP values only.  The zero at y = 158 is a fact about this
+    # instance, not a consequence of y exceeding the cell count: Codex's
+    # N = 27, y = 9 example (PR #203) has eight cells and minimum excess
+    # log 2, so no counting argument is asserted here.
     pc = mods["lp_prime_cells"]
     a = pc.solve(10_000, 100)
     b = pc.solve(10_000, 158)
@@ -65,6 +69,30 @@ def test_prime_aware_floor_collapses_past_the_cell_count(mods):
     assert abs(a["excess"] - a["excess_direct"]) < 1e-6
     assert abs(b["excess"]) < 1e-6
     assert b["W_min_at_prime_cells"] >= 1 - 1e-7
+
+
+def test_attainable_quotient_floor_matches_the_audit(mods):
+    # Codex's T* (PR #203): constraints on Q_N only, no prime information.
+    # 41.28216944 at (1000, 31) is their rational-certificate value; the
+    # floating LP optimum agrees to 1e-3 and sits between P* and V*.
+    import math
+
+    from scipy.optimize import linprog
+
+    pc = mods["lp_prime_cells"]
+    N, y = 1000, 31
+    lam = pc.mangoldt(N)
+    r = int(math.isqrt(N))
+    cells = np.unique(np.concatenate([np.arange(1, r + 1), N // np.arange(2, r + 1)]))
+    cells = cells[cells < N]
+    j = np.arange(1, y + 1)
+    L = pc.log_factorial(N // j)
+    A = (cells[:, None] // j[None, :]).astype(float)
+    res = linprog(L, A_ub=-A, b_ub=-np.ones(cells.size), bounds=(-1e6, 1e6), method="highs-ds")
+    T = float(res.fun) - float(lam.sum())
+    assert abs(T - 41.282) < 1e-2
+    full, _, _ = mods["lp_frontier"].solve(N, y)
+    assert T <= full["gap_V_minus_psi"] + 1e-6
 
 
 def test_rough_spike_lower_bound_is_below_the_lp(mods):
