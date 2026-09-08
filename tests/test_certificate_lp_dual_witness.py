@@ -73,6 +73,29 @@ def test_exchange_construction_at_1000_31():
     assert abs(out["two_sided_lp_gain_float"] - 41.2821694) < 1e-5
 
 
+def test_fold_family_fails_at_the_walls_and_rough_shifts_hold():
+    # DUAL_WITNESS.md Section 8: the prescribed halving-fold family has exact
+    # integer moment identities for every source, its uniform-t version has
+    # t* = 0 at (1000, 31) because prefix cell 19 carries no real mass and is
+    # drained, and the drain-free rough-shift family gives log 97 at
+    # (10^4, 100) from the single source 103 (the coordinator's example).
+    ff = _load("fold_family")
+    out = ff.evaluate(1000, 31, verbose=False)
+    assert out["moment_identities_exact_all_sources"]
+    assert 19 in out["zero_mass_prefix_cells"]
+    f1 = out["variants"][0]
+    assert f1["variant"].startswith("F1") and f1["t_star"] == 0.0 and f1["binding_cell"] == 19 and f1["gain"] == 0.0
+    assert out["family_R_rough_shift"]["sources"] == []
+    out4 = ff.evaluate(10_000, 100, verbose=False)
+    assert out4["moment_identities_exact_all_sources"]
+    assert out4["family_R_rough_shift"]["sources"] == [103]
+    assert out4["family_R_rough_shift"]["moment_identities_exact"]
+    import math
+
+    assert abs(out4["family_R_rough_shift"]["gain"] - math.log(97)) < 1e-9
+    assert 33 in out4["zero_mass_prefix_cells"] and out4["variants"][0]["t_star"] == 0.0
+
+
 def test_prefix_family_certifies_nothing_at_1000_31():
     pw = _load("prefix_witness")
     out = pw.prefix_family(1000, 31, verbose=False)

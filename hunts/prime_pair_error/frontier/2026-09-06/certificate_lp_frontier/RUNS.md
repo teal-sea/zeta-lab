@@ -67,6 +67,7 @@ cell set before it is worth another runner-day.
 | dual_witness.py | (10^4, 100) | 37 s | small | 1229 primes, 198 rows, 100 x 100 exact system |
 | prefix_witness.py | (10^3, 31), (10^4, 100) | 0.2 s, 14 s | small | closed-form rates checked exactly against the basis solve |
 | fake_mass_witness.py | (10^3, 31), (10^4, 100) | 30 s, 100 s | small | Constructions A and B; pair scan is 17 x 30 and 35 x 98 two-variable LPs per greedy step |
+| fold_family.py | (10^3, 31), (10^4, 100), (3600, 60) holdout | 0.1 s each | small | the prescribed halving-fold family and the rough-shift family; no LP solve |
 
 No CI, no background jobs, nothing at 10^5 or beyond.
 

@@ -142,10 +142,16 @@ missed: it only withdrew mass from cells above y, and the sign it did not
 use is the productive one.
 
 The three-cell relation R_q - R_{q-1} = R_1 for a y-rough q (the rough spike
-in T* form: remove m_q from q, add it to q-1 and 1, gain m_q) needs q and q-1
-both attainable. For q <= sqrt(N) both are, but at y = sqrt(N) there is no
-y-rough q in (y, sqrt N], so it certifies 0 there; it is a positive bound
-only for y < sqrt(N) - 1.
+in T* form: remove theta <= m_q from q, add it to q-1 and 1, gain theta)
+needs q y-rough with real mass and q-1 attainable. **Correction
+(coordinator, 2026-09-07):** an earlier version said this vanishes at
+y = sqrt(N) because it looked only below sqrt(N). Consecutive attainable
+cells exist above sqrt(N): at (10^4, 100) both 102 = floor(N/98) and
+103 = floor(N/97) are attainable, 103 is prime, R_103 - R_102 = e_1 = R_1,
+and log(97) (e_1 + e_102 - e_103) is feasible with gain log 97 = 4.5747.
+The actual restriction is the attainability of q-1, which above sqrt(N)
+holds only where consecutive quotients floor(N/d), floor(N/(d-1)) differ by
+one; Section 8 evaluates the family so defined.
 
 ## 5. What is established, what is refuted, what remains
 
@@ -230,14 +236,18 @@ For the equal-mass exchange theta_a = theta_b = theta this reads
     gain  = theta (W_mu(a) - W_mu(b)),
     feasible iff theta <= m_a and m_s >= theta (r^{(b)}_s - r^{(a)}_s) for all s <= y.
 
-At the top of the prefix, s in (y/2, y], the rates are the step indicators
-of the staircases floor(a/s), floor(b/s), so the condition there is: every
-cell floor(b/k) in (y/2, y] that is a step of b but not of a must carry real
-mass >= theta. In words, mass may move from a to b provided b's staircase
-does not step where a's does not, except on cells that hold a prime. Below
-y/2 the masses are of order N/s^2 and the rates are the Mobius-weighted
-counts of Section 4; there the condition is a finite inequality that holds
-for theta up to a multiple of m_a in every case computed here.
+At the top of the prefix, s in (y/2, y], the rate r^{(q)}_s = floor(q/s)
+- floor(q/(s+1)) = #{k >= 1 : floor(q/k) = s} is the multiplicity of s
+among the quotients of q. **Correction (coordinator, 2026-09-07):** an
+earlier version of this paragraph called these rates 0/1 step indicators.
+They are counts: they are 0 or 1 only for q < s(s+1), and at (10^4, 100),
+q = 5000, s = 51 the rate is 98 - 96 = 2. The implementation always used the
+integer rates, so no saved witness is affected; only the explanation was
+wrong. The condition at the top is therefore: for every s in (y/2, y],
+m_s >= theta (r^{(b)}_s - r^{(a)}_s) with the full multiplicities. Below y/2
+the masses are of order N/s^2 and the rates are the Mobius-weighted counts
+of Section 4; there the condition is a finite inequality that holds for
+theta up to a multiple of m_a in every case computed here.
 
 **Gains established (exact rationals, every touched cell checked by
 enclosure, moments checked as exact identities).** Pairs are chosen
@@ -275,6 +285,103 @@ N, other supports, or a growth rate. What is proved is Lemma 6 and the
 feasibility criteria displayed, which make any chosen family of exchanges
 a checkable witness.
 
+## 8. One prescribed family: halving folds, and exactly where it fails
+
+**The formula.** For a real-mass attainable cell a > y let q = floor(a/2) =
+floor(N/(2d)), attainable. Since floor(a/j) - 2 floor(q/j) = floor(a/j) mod 2,
+define the integer vectors
+
+    kappa_i(a) = T_i(a) - T_{i+1}(a),   T_i(a) = sum_{m <= y/i} mu(m) (floor(a/(im)) mod 2),   T_{y+1} = 0,
+    g(a)       = 1 + sum_{j <= y} mu(j) (floor(a/j) mod 2)  =  1 + W_mu(a) - 2 W_mu(q),
+
+and the measure on Q_N
+
+    Fold(a) = -e_a + 2 e_q + sum_{i <= y} kappa_i(a) e_i.
+
+**Lemma 7.** A^T Fold(a) = 0 and 1^T Fold(a) = g(a).
+
+*Proof.* The moment vector of -e_a + 2 e_q is -(floor(a/j) mod 2)_j; the
+prefix measure sum_j v_j rho_j with rho_j = sum_{i | j} mu(j/i)(e_i - e_{i-1})
+has moment vector v (Section 6), and collecting its coefficient on cell i
+gives sum_{j : i | j} v_j mu(j/i) - sum_{j : (i+1) | j} v_j mu(j/(i+1))
+= T_i - T_{i+1} = kappa_i for v_j = floor(a/j) mod 2. The mass of
+sum_j v_j rho_j is sum_j v_j mu(j), so 1^T Fold(a) = -1 + 2 + sum_j mu(j)
+v_j = g(a). QED. (Checked as an exact integer identity for every source at
+the three sizes below.)
+
+**The rule.** With the prescribed source set A = {a > y : m_a > 0, g(a) > 0}
+and one parameter t in [0, 1],
+
+    D(t) = t sum_{a in A} m_a Fold(a).
+
+Support: the cells a, floor(a/2) and 1..y, all attainable (the prefix must be
+attainable, which holds at the three sizes). A^T D(t) = 0 by Lemma 7. Net
+capacity on a cell c, with every multiplicity retained:
+
+    m_c + t Delta_c >= 0,
+    Delta_c = -m_c [c in A] + 2 sum_{a in A : floor(a/2) = c} m_a + [c <= y] sum_{a in A} m_a kappa_c(a).
+
+Hence D(t) is feasible iff t <= t* := min over cells with Delta_c < 0 of
+m_c / (-Delta_c) (and t <= 1), and its gain is
+
+    G(t) = t Gamma,   Gamma = sum_{a in A} m_a g(a) = sum_{a in A} m_a (1 + W_mu(a) - 2 W_mu(floor(a/2))).
+
+The drift a M1(y) cancels in g(a); what remains is a Mobius sum over the j
+with odd quotient floor(a/j), of size comparable to sqrt(y) at each source,
+so Gamma is of the order psi(N/y) sqrt(y) = N/sqrt(y) when t* is of order one.
+
+**Conditional lemma.** If every cell c with Delta_c < 0 has m_c > 0, then
+t* > 0 and T*(y, N) - psi(N) >= t* Gamma. The hypothesis is the wall
+condition: no cell of Z = {c : m_c = 0} is drained by D. It is not a
+statement about prime density; it is an arithmetic condition on the parity
+profiles (floor(a/i) mod 2)_{i <= y} of the sources against the set of
+zero-mass prefix cells, which is where Codex's capacity analysis enters.
+
+**Exact failure at the tested sizes.** The wall condition fails, and it fails
+at every source separately:
+
+| (N, y) | sources with g > 0 | Gamma | zero-mass prefix cells | t* (F1, all) | binding cell | sources feasible alone | their joint gain (F5) |
+|---|---:|---:|---:|---:|---:|---|---:|
+| (1000, 31) | 5 (500, 250, 200, 142, 76) | 15.59 | 8 of 31: {17, 19, 22, 25, 26, 28, 29, 30} | 0 | 19 (mass 0) | none (each drains 17, 19 or 25) | 0 |
+| (10^4, 100) | 28 | 248.92 | 36 of 100 | 0 | 33 (mass 0) | 169 (g = 2, log 59), 204 (g = 4, log 7) | 15.9387 |
+| (3600, 60), holdout | 13 | 72.79 | 17 of 60 | 0 | 30 (mass 0) | 61 (g = 1, log 59), 133 (g = 1, log 3) | 5.1761 |
+
+At the top of the prefix kappa_i(a) is the parity difference
+(floor(a/i) mod 2) - (floor(a/(i+1)) mod 2) in {-1, 0, 1}, one third of
+the top cells are walls (36 of 100 at N = 10^4), and a source's parity
+profile meets a wall with a -1 almost surely; the restrictions F3 (sources
+above 2y+1) and F4 (sources in (y, 2y+1], the withdrawals of Section 4)
+have t* = 0 for the same reason. Gamma at (10^4, 100) exceeds the exact
+optimum 226.83, which is consistent: it is the gain the family would have
+if the walls did not exist. The F5 witnesses (15.9387 and 5.1761) are exact
+(moments as integer identities, capacities by enclosure at t = 1), and they
+are the whole positive content of the family at these sizes.
+
+**A drain-free family (Family R).** For a > y y-rough with real mass and a-1
+attainable, R_a - R_{a-1} = e_1 = R_1 (a has no divisor in [2, y]; if y+1 is
+prime and divides a the cell y is also touched, which does not occur here),
+so Shift(a) = e_1 + e_{a-1} - e_a has zero moments and mass 1, and
+
+    D_R(t) = t sum_{a in Rough} m_a Shift(a),  Rough = {a > y : m_a > 0, a y-rough, a-1 in Q_N},
+
+is feasible for every t in [0, 1] with no condition at all (the only cell
+that loses is the source, by t m_a <= m_a), with gain t sum_{a in Rough} m_a.
+This is proved, unconditionally. Its values: 0 at (1000, 31) (no such cell),
+log 97 = 4.5747 at (10^4, 100) (a = 103), 9.9937 at (3600, 60) (a = 61, 67,
+73). Small, but it is the only family here whose gain formula needs no
+assumption.
+
+**What this settles and what it hands over.** The prescribed fold rule is
+correct (Lemma 7), explicit, and fails at the tested sizes for one exact
+reason, the walls. So the question a capacity analysis has to answer is
+not the size of the prime mass in the prefix cells but its zeros: the
+density and placement of the wall set Z in (y/2, y] and whether a source
+set with a prescribed arithmetic shape can have nonnegative parity drains on
+all of Z. Nothing here proves or refutes the barrier; the exact optima
+(Section 2) show that feasible witnesses of the right size exist, and the
+greedy exchanges (Section 6) show how they route around the walls one
+pair at a time.
+
 ## 7. Reproduce
 
     OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 \
@@ -284,6 +391,8 @@ a checkable witness.
     ... --N 10000 --y 100 ...                                                # 14 s
     .venv/bin/python fake_mass_witness.py --N 1000 --y 31 --output out.json   # 30 s
     ... --N 10000 --y 100 ...                                                # 100 s
+    .venv/bin/python fold_family.py --N 1000 --y 31 --output out.json         # 0.1 s
+    ... --N 10000 --y 100 ...;  ... --N 3600 --y 60 ...                      # 0.1 s each
 
 `tests/test_certificate_lp_dual_witness.py` pins the (1000, 31) witness (exact
 identities, sign enclosure, the gain interval, the prefix family's zero) and
