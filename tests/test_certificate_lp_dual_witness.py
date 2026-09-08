@@ -268,6 +268,29 @@ def test_escalator_review_regression_controls():
     for a in (102, 103, 116, 123, 126, 204, 232):
         assert es.z_identity_check(10_000, 100, a), a
 
+    # Half of S(232)-Fold(102) keeps its rational coordinates until JSON output.
+    import json
+
+    half = Fraction(1, 2)
+    r = es.source_exhaustion(10_000, 100, 232, [102], weights={102: half})
+    assert r["collection_coord_at_a"] == Fraction(-1, 2)
+    assert r["predicted_coord_at_a"] == Fraction(-1, 2)
+    assert r["coord_formula_holds"] is True
+    assert isinstance(r["collection_coord_at_a"], Fraction)
+    assert isinstance(r["predicted_coord_at_a"], Fraction)
+    J = es.analyze(10_000, 100, {232: half, 116: 1, 102: -half})
+    assert J["coord_at_source"] == {232: -half, 116: 0, 102: half}
+    assert isinstance(J["coord_at_source"][232], Fraction)
+    assert isinstance(J["coord_at_source"][102], Fraction)
+    assert J["moments_zero"] is True
+    # Match the script's JSON boundary: Fraction strings retain numerator/denominator.
+    saved = json.loads(json.dumps({"collection": r, "half_bundle": J}, default=str))
+    assert saved["collection"]["collection_coord_at_a"] == "-1/2"
+    assert saved["collection"]["predicted_coord_at_a"] == "-1/2"
+    assert saved["half_bundle"]["coord_at_source"]["232"] == "-1/2"
+    assert saved["half_bundle"]["coord_at_source"]["102"] == "1/2"
+    assert Fraction(saved["half_bundle"]["coord_at_source"]["232"]) == -half
+
 
 def test_prefix_family_certifies_nothing_at_1000_31():
     pw = _load("prefix_witness")

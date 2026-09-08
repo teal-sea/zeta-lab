@@ -117,7 +117,7 @@ def analyze(N, y, coeffs, dps=40):
         "eps_binding": binding,
         "total_gain": total,
         "total_gain_raw": raw,
-        "coord_at_source": {a: int(D.get(a, 0)) for a in coeffs if a > y},
+        "coord_at_source": {a: D.get(a, 0) for a in coeffs if a > y},
         "evidence": "exact moments/coordinates; point-valued mpmath scale/gain (no enclosure)",
     }
 
@@ -179,9 +179,9 @@ def source_exhaustion(N, y, a, dests, weights=None, dps=40):
         "telescopes": telescopes, "intermediate_cells": inter, "G_S": G_S,
         "weights": w, "T": T,
         "per_destination": per,
-        "collection_coord_at_a": int(measure(coll, y, mu).get(a, 0)) if coll else 0,
+        "collection_coord_at_a": measure(coll, y, mu).get(a, 0) if coll else 0,
         "predicted_coord_at_a": predicted_coord,
-        "coord_formula_holds": (int(measure(coll, y, mu).get(a, 0)) if coll else 0) == predicted_coord,
+        "coord_formula_holds": (measure(coll, y, mu).get(a, 0) if coll else 0) == predicted_coord,
         "collection_total_gain": gain,
         "collection_feasible": collres["feasible"],
         "H_max0": H,
