@@ -736,49 +736,92 @@ each archived exchange J_b = S(a) - Fold(b) is one escalator plus one un-fold
 that simultaneously deposits at b and repairs the wall the escalator opened;
 J_102, J_123, J_126 are all feasible with gain 18.806 and binding cell 232.
 
-**Lemma 12 (source exhaustion -- the capacity estimate).** Let a > y have the
-escalator S(a) with, by Lemma 11, coordinate -1 at a and 0 at every other cell
-above y. For any destination set D disjoint from the chain and weights
-theta_b >= 0, the collection
+**Lemma 12 (source exhaustion -- the capacity estimate; domain and formula
+corrected after review, 2026-09-08).** Assume {1, ..., y} is attainable, a is
+attainable and above y, and D is a finite set of attainable cells above y
+EXCLUDING a. For weights theta_b >= 0 write T = sum_b theta_b, with absent
+theta entries zero. In the collection
 
     C = sum_{b in D} theta_b (S(a) - Fold(b))
 
-has coordinate -sum_b theta_b at cell a (only S(a) touches a). If C is a
-feasible witness, m_a - sum_b theta_b >= 0, hence sum_b theta_b <= m_a, and
+the exact coordinate at a is
 
-    gain(C) = sum_b theta_b (G_S(a) - g(b)) <= m_a * max_{b in D} (G_S(a) - g(b)),
-    G_S(a) = sum_{j<J} 2^j g(a_j).
+    C_a = -T - 2 (theta_{2a} + theta_{2a+1}),
 
-*This is independent of |D|.* A single prime source cell delivers at most
-m_a (G_S(a) - min_b g(b)) whether its mass is sent to one destination or split
-across many: the destinations choose only WHERE the deposit lands, not how much
-total gain is available. At a = 232 (m = log 43): G_S = 7, g(102) = g(123) =
-g(126) = 2, so the bound is 5 log 43 = 18.806, and the collection over all three
-destinations indeed totals 18.806 -- the SAME as one exchange (verified,
-coordinate -3 at 232, scale log 43 / 3).
+since S(a) carries -1 at a (Lemma 11) and the two parent labels 2a, 2a+1, if
+present in D, deposit +2 at a = floor(b/2) through -theta_b Fold(b).
+Disjointness from the DESCENDING chain does not exclude those parents: at
+a = 102, D = {204} the coordinate is -3, not -1. Feasibility m + C >= 0 gives
+T + 2(theta_{2a} + theta_{2a+1}) <= m_a, hence T <= m_a, and the always-valid
+bound is
 
-**What this proves, beyond zero moments.** The greedy witness uses source 232
-once (step 1) and never returns to it: Lemma 12 says it is exhausted after one
-exchange. More generally, a witness of total gain G built from single-source
-collections needs at least G / max_a [m_a (G_S(a) - min g)] distinct prime
-sources, which is why the 132.73 witness draws on many primes (43, 89, 71, 13,
-19, ...) rather than pumping one. The estimate is a genuine source-supply bound
-with a proved cancellation (Lemma 11) and a proved per-source capacity
-(Lemma 12), on the stated escalator-collection family.
+    gain(C) = sum_b theta_b (G_S(a) - g(b)) <= m_a * max({0} union {G_S(a) - g(b) : b in D}),
+    G_S(a) = sum_{j<J} 2^j g(a_j),
 
-**Separated: what is not proved, and the first gap.** The bound is proved for
-witnesses of the collection form sum_b theta_b(S(a) - Fold(b)) with a single
-source escalator. It does NOT yet cover a general feasible witness, where
-several escalators and un-folds are superposed and a cell may be touched by
-more than one escalator, so the clean coordinate -sum theta_b at a can be
-diluted or reinforced. The first gap is exactly this: to turn Lemma 12 into a
-bound on T*(y, N) - psi(N) one needs that in the OPTIMAL witness the withdrawal
-at each prime cell a is still charged to a single escalator (equivalently, that
-the escalator decomposition is essentially unique on the support of the
-optimum). That uniqueness is not established; the signed-fold recurrence of
-Section 11 gives a unique fold expansion, but re-grouping it into per-source
-escalators is not canonical. Source labels are facts at this one input, not a
-formula in N.
+where the 0 covers an empty D and a negative maximum (a = 103, D = {204}:
+G_S = 3, g(204) = 4; the all-zero weights are feasible with gain 0 <= 0,
+whereas a bound without the 0 would read -log 97).
+
+*This is independent of |D|.* A single source cell delivers at most
+m_a * max({0} union {G_S(a) - g(b)}) whether its mass is sent to one
+destination or split across many: the destinations choose only WHERE the
+deposit lands, not how much total gain is available. At a = 232 (m = log 43):
+G_S = 7, g(102) = g(123) = g(126) = 2, so the bound is 5 log 43 = 18.806, and
+the collection over all three destinations indeed totals 18.806 -- the SAME as
+one exchange (coordinate -3 at 232 by the formula, scale log 43 / 3).
+
+**Direction of the bound, and what it does and does not say.** Lemma 12 is an
+UPPER capacity bound for gains obtainable from the restricted source collection
+sum_b theta_b (S(a) - Fold(b)). It is not a lower bound on T*(y, N) - psi(N).
+The lower bound at this input comes from the feasible finite example itself:
+each J_b = S(232) - Fold(b), b in {102, 123, 126}, is a feasible witness, so
+E >= 5 log 43 = 18.806. The full-capacity 232 exchange empties that source AT
+THAT STEP; it does not prohibit a later exchange from refilling cell 232 (a
+superposition can carry a positive contribution at a source from another
+collection's -Fold(a)), so feasibility of a sum does not by itself grant each
+collection a separate original-mass budget.
+
+**Source count, restricted.** A count of sources follows only under explicitly
+justified shared budgets without refills: pool every term with source cell a
+and impose T_a <= m_a after pooling. A concrete sufficient no-refill
+restriction is that every destination set excludes every counted source cell.
+With H_a = max({0} union {G_S(a) - g(b) : b in D_a}) and a positive uniform
+bound M on m_a H_a over the counted sources, a family of gain G then needs
+k >= ceil(G / M) distinct source CELLS (not necessarily distinct prime bases);
+if M = 0 such a family cannot have positive gain. No assertion is made that the
+archived 132.729535 witness satisfies these restrictions: that was not checked,
+and the earlier explanatory claim about why it draws on many primes is
+withdrawn.
+
+**Canonicity of the signed escalator expansion (replaces the earlier "gap").**
+S(a) and -z_a (Section 6: z_a = e_a - sum_s r^{(a)}_s e_s) have identical
+coordinates above y, namely -1 at a and 0 elsewhere, and both have zero
+moments. Their difference is therefore prefix-supported with zero moments, and
+the prefix matrix (floor(s/j))_{s, j <= y} is unitriangular, hence invertible,
+so the difference is zero: **S(a) = -z_a.** Consequently every zero-moment
+delta supported on Q_N has the unique signed expansion
+
+    delta = -sum_{a > y} delta_a S(a),
+
+by matching coordinates above y and invoking the same prefix invertibility.
+This is standard prefix linear algebra (checked by back-substitution on the
+seven controls a = 102, 103, 116, 123, 126, 204, 232, and by
+`escalator.py::z_identity_check`). Transport pairings, which exchange goes with
+which destination, can be non-unique; the signed escalator expansion is
+canonical, and its uniqueness is not an open problem. The remaining issue for
+general superpositions is the control of refills and shared capacities
+described above, not uniqueness; its resolution is not a prerequisite for the
+finite result here.
+
+**Evidence label (corrected).** `escalator.py` evaluates scales and gains with
+point-valued mpmath at 40 digits and serializes floats; it does not carry
+interval enclosures. Moments, coordinates and the telescoping are exact
+integer/rational checks. The reviewer's independent exact capacity
+inequalities (M_c >= 43^{-J_b(c)} for each exchange, M_c^3 >= 43^{-C_c} for
+the sum, equality only at 232) and Arb enclosure of the gain,
+[18.806000578467812, 18.806000578467813], support the finite statement; no
+enclosure is claimed by this file. Source labels are facts at this one input,
+not a formula in N.
 
 ## 7. Reproduce
 

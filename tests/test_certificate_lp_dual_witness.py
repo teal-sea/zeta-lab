@@ -225,9 +225,11 @@ def test_h_decomposition_and_confluence_at_10000_100():
 
 def test_escalator_telescoping_and_source_exhaustion():
     # DUAL_WITNESS.md Section 13: the control J decomposes archived step 1;
-    # the escalator S(232) telescopes (intermediate 116 cancels); and the
-    # source-exhaustion bound gives the SAME total (18.806) for 1 or 3
-    # destinations of source 232.
+    # the escalator S(232) telescopes (intermediate 116 cancels); the exact
+    # coordinate formula C_a = -T - 2(theta_2a + theta_2a+1) holds; and the
+    # source-exhaustion bound m_a * max({0} u {G_S - g(b)}) gives the SAME
+    # total (18.806) for 1 or 3 destinations of source 232.  Gains are
+    # point-valued mpmath (no enclosure); coordinates and moments are exact.
     import math
 
     es = _load("escalator")
@@ -237,10 +239,34 @@ def test_escalator_telescoping_and_source_exhaustion():
     assert r["telescopes"] and r["intermediate_cells"] == [116] and r["G_S"] == 7
     for b, pr in r["per_destination"].items():
         assert pr["feasible"] and pr["eps_binding"] == 232 and abs(pr["total_gain"] - 18.806001) < 1e-4
-    assert r["collection_coord_at_a"] == -3
+    assert r["collection_coord_at_a"] == -3 and r["predicted_coord_at_a"] == -3 and r["coord_formula_holds"]
     assert abs(r["collection_total_gain"] - 18.806001) < 1e-4
-    assert r["bound_matches_single"]
-    assert abs(r["exhaustion_bound_m_a_times_maxgain"] - 5 * math.log(43)) < 1e-4
+    assert r["H_max0"] == 5
+    assert abs(r["exhaustion_bound_m_a_times_H"] - 5 * math.log(43)) < 1e-4
+    assert r["gain_within_bound"]
+    assert r["z_identity_S_eq_minus_z"]
+
+
+def test_escalator_review_regression_controls():
+    # Reviewer's boundary controls (review 5144164226 on aea6aa4):
+    # a=102, D={204}: the parent label 204 = 2*102 deposits +2 at 102, so the
+    #   source coordinate is -3, not -1 (disjointness from the descending
+    #   chain does not exclude parents);
+    # a=103, D={204}, zero weights: G_S=3, g(204)=4, the max includes 0, so the
+    #   bound is 0 and the zero collection (gain 0) satisfies it;
+    # empty D: bound m_a * 0 = 0, gain 0;
+    # S(a) = -z_a exactly on the seven controls.
+    es = _load("escalator")
+    rc = es.regression_controls(10_000, 100)
+    r1 = rc["a102_D204"]
+    assert r1["collection_coord_at_a"] == -3 and r1["predicted_coord_at_a"] == -3 and r1["coord_formula_holds"]
+    r2 = rc["a103_D204_zero_weights"]
+    assert r2["T"] == 0 and r2["H_max0"] == 0 and r2["exhaustion_bound_m_a_times_H"] == 0.0
+    assert r2["collection_total_gain"] == 0.0 and r2["gain_within_bound"]
+    r3 = rc["a232_empty_D"]
+    assert r3["T"] == 0 and r3["exhaustion_bound_m_a_times_H"] == 0.0 and r3["collection_total_gain"] == 0.0 and r3["gain_within_bound"]
+    for a in (102, 103, 116, 123, 126, 204, 232):
+        assert es.z_identity_check(10_000, 100, a), a
 
 
 def test_prefix_family_certifies_nothing_at_1000_31():
