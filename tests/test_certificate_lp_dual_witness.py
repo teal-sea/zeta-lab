@@ -223,6 +223,26 @@ def test_h_decomposition_and_confluence_at_10000_100():
     assert not c["walls_drained"]
 
 
+def test_escalator_telescoping_and_source_exhaustion():
+    # DUAL_WITNESS.md Section 13: the control J decomposes archived step 1;
+    # the escalator S(232) telescopes (intermediate 116 cancels); and the
+    # source-exhaustion bound gives the SAME total (18.806) for 1 or 3
+    # destinations of source 232.
+    import math
+
+    es = _load("escalator")
+    J = es.analyze(10_000, 100, {232: 1, 116: 2, 102: -1})
+    assert J["feasible"] and abs(J["total_gain"] - 18.806001) < 1e-4
+    r = es.source_exhaustion(10_000, 100, 232, [102, 123, 126])
+    assert r["telescopes"] and r["intermediate_cells"] == [116] and r["G_S"] == 7
+    for b, pr in r["per_destination"].items():
+        assert pr["feasible"] and pr["eps_binding"] == 232 and abs(pr["total_gain"] - 18.806001) < 1e-4
+    assert r["collection_coord_at_a"] == -3
+    assert abs(r["collection_total_gain"] - 18.806001) < 1e-4
+    assert r["bound_matches_single"]
+    assert abs(r["exhaustion_bound_m_a_times_maxgain"] - 5 * math.log(43)) < 1e-4
+
+
 def test_prefix_family_certifies_nothing_at_1000_31():
     pw = _load("prefix_witness")
     out = pw.prefix_family(1000, 31, verbose=False)

@@ -707,6 +707,79 @@ same lower-half availability question the capacity lane owns, now sharpened to
 a condition on the pair (2b, 2k+1). Source labels are facts at this one input,
 not a formula in N.
 
+## 13. The halving escalator and the source-exhaustion bound
+
+The control J = Fold(232) + 2 Fold(116) - Fold(102) decomposes the archived
+exchange 232 -> 102 (its gain 18.806001 is greedy step 1 exactly). Fold(232)
+deposits +2 at the empty intermediate 116 = floor(232/2); 2 Fold(116) consumes
+exactly those +2 (net 0 at 116) and carries the mass on. That is one step of
+the halving escalator.
+
+**Lemma 11 (escalator telescoping).** For a > y let a = a_0 > a_1 > ... be the
+halving chain a_{j+1} = floor(a_j/2), and J the first index with a_J <= y. Then
+
+    S(a) := sum_{j=0}^{J-1} 2^j Fold(a_j)  =  -e_a + 2^J e_{a_J} + sum_{j=0}^{J-1} 2^j kappa(a_j),
+
+every intermediate cell a_1, ..., a_{J-1} cancelling. *Proof.* 2^j Fold(a_j)
+puts -2^j at a_j and +2^{j+1} at a_{j+1}; consecutive terms cancel at each
+interior a_j, leaving -e_a (j=0), +2^J e_{a_J} (the last destination), and the
+accumulated prefix corrections. QED. So a whole chain of empty intermediate
+cells is self-funded, and S(a) moves one unit from a to the single prefix cell
+a_J = floor(a/2^J). Verified for a = 232 (chain 232, 116, 58, ...; the
+intermediate 116 is absent from S(232), G_S = 7, deposit 2^2 = 4 at 58).
+
+**The collection, and how the un-fold pays for itself.** S(232) alone is
+infeasible: its prefix corrections drain the zero-mass wall 33. The un-fold
+-Fold(102) that completes J refills cell 33 (kappa_33(102) = -1, so
+-Fold(102) contributes +1 there) while depositing at the destination 102. So
+each archived exchange J_b = S(a) - Fold(b) is one escalator plus one un-fold
+that simultaneously deposits at b and repairs the wall the escalator opened;
+J_102, J_123, J_126 are all feasible with gain 18.806 and binding cell 232.
+
+**Lemma 12 (source exhaustion -- the capacity estimate).** Let a > y have the
+escalator S(a) with, by Lemma 11, coordinate -1 at a and 0 at every other cell
+above y. For any destination set D disjoint from the chain and weights
+theta_b >= 0, the collection
+
+    C = sum_{b in D} theta_b (S(a) - Fold(b))
+
+has coordinate -sum_b theta_b at cell a (only S(a) touches a). If C is a
+feasible witness, m_a - sum_b theta_b >= 0, hence sum_b theta_b <= m_a, and
+
+    gain(C) = sum_b theta_b (G_S(a) - g(b)) <= m_a * max_{b in D} (G_S(a) - g(b)),
+    G_S(a) = sum_{j<J} 2^j g(a_j).
+
+*This is independent of |D|.* A single prime source cell delivers at most
+m_a (G_S(a) - min_b g(b)) whether its mass is sent to one destination or split
+across many: the destinations choose only WHERE the deposit lands, not how much
+total gain is available. At a = 232 (m = log 43): G_S = 7, g(102) = g(123) =
+g(126) = 2, so the bound is 5 log 43 = 18.806, and the collection over all three
+destinations indeed totals 18.806 -- the SAME as one exchange (verified,
+coordinate -3 at 232, scale log 43 / 3).
+
+**What this proves, beyond zero moments.** The greedy witness uses source 232
+once (step 1) and never returns to it: Lemma 12 says it is exhausted after one
+exchange. More generally, a witness of total gain G built from single-source
+collections needs at least G / max_a [m_a (G_S(a) - min g)] distinct prime
+sources, which is why the 132.73 witness draws on many primes (43, 89, 71, 13,
+19, ...) rather than pumping one. The estimate is a genuine source-supply bound
+with a proved cancellation (Lemma 11) and a proved per-source capacity
+(Lemma 12), on the stated escalator-collection family.
+
+**Separated: what is not proved, and the first gap.** The bound is proved for
+witnesses of the collection form sum_b theta_b(S(a) - Fold(b)) with a single
+source escalator. It does NOT yet cover a general feasible witness, where
+several escalators and un-folds are superposed and a cell may be touched by
+more than one escalator, so the clean coordinate -sum theta_b at a can be
+diluted or reinforced. The first gap is exactly this: to turn Lemma 12 into a
+bound on T*(y, N) - psi(N) one needs that in the OPTIMAL witness the withdrawal
+at each prime cell a is still charged to a single escalator (equivalently, that
+the escalator decomposition is essentially unique on the support of the
+optimum). That uniqueness is not established; the signed-fold recurrence of
+Section 11 gives a unique fold expansion, but re-grouping it into per-source
+escalators is not canonical. Source labels are facts at this one input, not a
+formula in N.
+
 ## 7. Reproduce
 
     OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 \

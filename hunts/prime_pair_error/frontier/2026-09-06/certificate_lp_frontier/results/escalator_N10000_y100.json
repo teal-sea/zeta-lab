@@ -1,0 +1,89 @@
+{
+ "control_J": {
+  "moments_zero": true,
+  "gain_units": 5,
+  "feasible": true,
+  "walls_drained": [],
+  "eps_star": 3.7612001156935624,
+  "eps_binding": 232,
+  "total_gain": 18.806001,
+  "coord_at_source": {
+   "232": -1,
+   "116": 0,
+   "102": 1
+  }
+ },
+ "source_exhaustion": {
+  "a": 232,
+  "m_a": 3.7612001156935624,
+  "chain": [
+   232,
+   116,
+   58,
+   29,
+   14,
+   7,
+   3,
+   1
+  ],
+  "aJ": 58,
+  "escalator": {
+   "232": 1,
+   "116": 2
+  },
+  "telescopes": true,
+  "intermediate_cells": [
+   116
+  ],
+  "G_S": 7,
+  "per_destination": {
+   "102": {
+    "moments_zero": true,
+    "gain_units": 5,
+    "feasible": true,
+    "walls_drained": [],
+    "eps_star": 3.7612001156935624,
+    "eps_binding": 232,
+    "total_gain": 18.806001,
+    "coord_at_source": {
+     "232": -1,
+     "116": 0,
+     "102": 1
+    }
+   },
+   "123": {
+    "moments_zero": true,
+    "gain_units": 5,
+    "feasible": true,
+    "walls_drained": [],
+    "eps_star": 3.7612001156935624,
+    "eps_binding": 232,
+    "total_gain": 18.806001,
+    "coord_at_source": {
+     "232": -1,
+     "116": 0,
+     "123": 1
+    }
+   },
+   "126": {
+    "moments_zero": true,
+    "gain_units": 5,
+    "feasible": true,
+    "walls_drained": [],
+    "eps_star": 3.7612001156935624,
+    "eps_binding": 232,
+    "total_gain": 18.806001,
+    "coord_at_source": {
+     "232": -1,
+     "116": 0,
+     "126": 1
+    }
+   }
+  },
+  "collection_coord_at_a": -3,
+  "collection_total_gain": 18.806001,
+  "collection_feasible": true,
+  "exhaustion_bound_m_a_times_maxgain": 18.806001,
+  "bound_matches_single": true
+ }
+}
