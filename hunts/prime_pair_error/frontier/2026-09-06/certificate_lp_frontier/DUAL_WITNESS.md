@@ -571,14 +571,28 @@ reconstruction at EVERY cell including the prefix: exact, and sum_a x_a g(a)
 equals the witness gain 26545907/200000 = 132.729535. There are 41 nonzero
 coefficients, 24 positive and **17 negative**, with |x|_1 = 138.00.
 
-**The 17 negative coefficients are the excluded move.** A positive fold is a
-down-move: +Fold(a) removes mass from a and deposits 2 at floor(a/2), toward
-the prefix. A negative coefficient is an un-fold: -Fold(a) = +e_a - 2 e_{floor(a/2)}
-- kappa(a), which DEPOSITS at the cell a above y and draws from below. The
-nonnegative-fold family (x >= 0), whose logarithmic optimum Codex certifies at
-< 66.339, can only fold downward; it cannot deposit above y at all. Every one
-of the 17 negative coefficients is such a deposit, and they are the entire gap
-between 66.34 and 132.73. Their cells:
+**Corrections (coordinator, 2026-09-08).** An earlier version of this section
+over-read the negatives. Four fixes, each material:
+- A positive fold DOES deposit above y: +Fold(a) puts +2 at floor(a/2), which
+  exceeds y once a > 2y (e.g. Fold(434) contributes +2 at 217). The
+  nonnegative family is not barred from cells above y; it is barred from the
+  specific SIGNED combinations below.
+- A negative coefficient x_a < 0 is a fold-basis coordinate, NOT a net deposit
+  at cell a. In this witness delta_113 = delta_128 = delta_151 = 0 even though
+  x_113, x_128, x_151 < 0: the recurrence delta_a = -x_a + 2 x_{2a} + 2 x_{2a+1}
+  makes the net at a independent of the sign of x_a.
+- 66.338409... is Codex's proved UPPER BOUND on the nonnegative-fold family,
+  not an established optimum; the 17 negatives have not each been proved
+  indispensable.
+- "prime cell" below means a cell with positive prime-power mass, m_q > 0,
+  which is a statement about the interval (N/(q+1), N/q] containing a prime
+  power, not about the label q. Cell 103 has m = log 97 because that interval
+  contains the prime 97.
+
+**The 17 negative coefficients.** With those cautions, the negative
+coordinates are the fold directions the nonnegative family cannot use (its
+optimum is bounded by 66.34); realizing 132.73 needs them, and Section 12
+accounts for exactly how much each one is worth. Their cells:
 
     (y, 2y]:  102, 113, 123, 125, 126, 128, 129, 133, 142, 144, 151, 156, 163, 172   (14, destination floor(a/2) in the prefix top-half)
     (2y, .]:  227, 256, 303   (3, with floor = 113, 128, 151, themselves negative cells)
@@ -600,33 +614,98 @@ Lemma 7, and the gain is g(2k+1) - g(2k). This is the atomic prime-to-fake lift
 underlying the negative coefficients: it deposits at the fake cell 2k using the
 un-fold e_{2k}, funded by the down-fold at 2k+1.
 
-**Concrete capacity argument.** X_k withdraws from the source 2k+1 and from
-whatever cells kappa(2k+1) - kappa(2k) is negative on; it is feasible in
-isolation from the real measure iff every such cell carries real mass. The
-half-destination k is already cancelled, so the only unavoidable withdrawal is
-at the source 2k+1: **X_k is feasible alone iff 2k+1 is a prime-power cell and
-the prefix correction has no negative entry on a zero-mass cell.** At
-(10^4, 100) exactly one twin qualifies: X_51 = Fold(103) - Fold(102), with 103
-= floor(N/97) prime, whose only withdrawal is at 103 (the prefix correction
-kappa(103) - kappa(102) is nonnegative), gain g(103) - g(102) = 1 unit, scale
-eps* = m_103 = log 97, total gain log 97 = 4.5747. This is exactly the
-rough-shift value of Section 8, recovered in fold coordinates: the rough shift
-IS the one signed fold exchange that needs no bundle.
+**Concrete capacity argument.** X_k's negative coordinates are the source 2k+1
+and the cells where kappa(2k+1) - kappa(2k) < 0; the half-destination k is
+cancelled. It is feasible from m iff every negative cell has m_c > 0, and then
+its scale is eps* = min over those cells of m_c/(-X_c) -- absence of a
+zero-mass withdrawal guarantees SOME positive scale, not the full source mass
+(that coincides only when the binding coefficient is 1). At (10^4, 100)
+exactly one twin qualifies: X_51 = Fold(103) - Fold(102), whose only negative
+cell is 103 (m_103 = log 97 > 0 because the interval (N/104, N/103] holds the
+prime 97; coefficient -1; the prefix correction is nonnegative), so eps* =
+log 97 and gain (g(103)-g(102)) eps* = log 97 = 4.5747 -- the rough shift of
+Section 8 in fold coordinates.
 
 **Proved parameter domain, and the gap.** Proved: for every k in (y/2, y] with
-2k, 2k+1 attainable, X_k has zero moments and cancelled destination, and it is
-a feasible witness of gain (g(2k+1) - g(2k)) log(M_{2k+1}) whenever 2k+1 is a
-prime-power cell and kappa(2k+1) - kappa(2k) >= 0 off the mass cells; at
-(10^4, 100) X_51 is the only instance, and it equals the rough shift. Not
-proved, and the reason 132.73 needs more than these: the other 16 un-folds
-deposit at fake cells whose twin source carries no mass (112, 124, ... are
-composite), so their prefix corrections -kappa(a) fall on zero-mass walls and
-they are feasible only inside a coordinated bundle whose wall-drains cancel.
-That is the same lower-half supply question as Section 10, seen now from the
-signed side: the nonnegative family is short exactly the deposits whose funding
-twin is not prime, and restoring them needs the wall-cancellation the capacity
-lane owns. The source labels here are facts at this one input and are not
-promoted to any formula in N.
+2k, 2k+1 attainable, X_k has zero moments and a cancelled destination, and it
+is a feasible witness with scale eps* = min_{X_c<0} m_c/(-X_c) and gain
+eps*(g(2k+1)-g(2k)) whenever every negative cell has positive prime-power mass;
+at (10^4, 100) X_51 is the only such instance, equal to the rough shift. Not
+proved: the other 16 un-folds have a negative cell at a zero-mass position, so
+a single X_k is infeasible there and they enter only inside a coordinated
+bundle whose zero-mass drains cancel -- the lower-half supply question of the
+capacity lane. Source labels are facts at this one input, not a formula in N.
+
+## 12. The h-decomposition of the witness, and the confluence triple
+
+Codex's upper certificate is beta_q = B_q / 1387 on the 52 cells B (listed in
+`grouped_signed.py`). With g_a = sum_q Fold(a)_q and
+
+    h_a = -g_a - (F^T beta)_a = -g_a - sum_q Fold(a)_q beta_q,
+
+the reduced-cost identity holds for EVERY signed x with nu = m + Fx >= 0:
+
+    g^T x = beta^T m + sum_a h_a (-x_a)_+ - sum_a h_a (x_a)_+ - beta^T nu,
+
+by (F^T beta)_a = -g_a - h_a. `grouped_signed.py` checks h >= 0 on all 98
+folds and the identity on the saved witness:
+
+    132.729535 = 66.338409  (beta^T m, Codex's upper-bound base)
+               + 152.056717 (sum over negatives of h_a |x_a|)
+               - 58.708394  (sum over positives of h_a x_a)
+               - 26.957196  (beta^T nu, the slack against the certificate).
+
+Two consequences. First, an exact upper handle on the WHOLE signed family:
+since h >= 0, x_a >= 0 terms and beta^T nu >= 0 only subtract, so
+
+    g^T x <= beta^T m + sum_{x_a < 0} h_a |x_a|
+
+for every feasible x. The excess of any signed witness over the upper-bound
+base 66.338 is at most the h-weighted negative mass. Second, the h-weights say which
+negatives matter: h_a = 0 at the three cells 113, 163, 303, so those un-folds
+carry no gain leverage (pure feasibility bookkeeping); the six largest weighted
+contributions h_a |x_a| are at 102 (24.12), 123 (19.32), 126 (19.18), 133
+(16.45), 142 (13.79), 144 (13.28). These weights are diagnostic, not the gain
+of any single move (correction: a negative coordinate is a fold-basis
+coefficient, and delta_113 = delta_128 = delta_151 = 0 despite x < 0 there).
+
+**One grouped signed construction: the confluence triple.** For an even cell b
+above y with m_b = 0, let k = b/2 and take
+
+    C(b) = Fold(2b) + Fold(2k+1) - Fold(b),
+
+the double 2b and the odd twin 2k+1 as sources and the un-fold at b. It has
+zero moments by Lemma 7 (each fold contributes), and it is more than a twin:
+adding the double Fold(2b) is what lifts it past the rough shift. Its measure
+withdraws at 2b, at 2k+1, and at the negative entries of the combined prefix
+correction kappa(2b) + kappa(2k+1) - kappa(b); the destination deposits +3 at b
+and +2 - 2 at the prefix cell k (the +2 from Fold(2k+1) and -2 from -Fold(b)
+offset, though the kappa residue at k does NOT fully vanish, so feasibility is
+"no zero-mass cell drained", verified, not exact cancellation at k). Scale
+eps* = min over withdrawn cells of m_c / (-C(b)_c); gain eps* (g(2b) + g(2k+1)
+- g(b)).
+
+At (10^4, 100) the only even zero-mass b whose double and twin both carry mass,
+with positive gain units, is b = 102: 2b = 204 = floor(N/49) (m = log 7,
+49 = 7^2), twin = 103 = floor(N/97) (m = log 97), gain units g(204) + g(103) -
+g(102) = 4 + 3 - 2 = 5, binding cell 204 so eps* = log 7, total gain 5 log 7 =
+9.729551. This beats the rough shift log 97 = 4.5747 by adding the double
+source, and it is a genuine three-fold group, not a twin, not the whole
+witness, and not the rough shift.
+
+**Proved, and the remaining gap.** Proved at this input: the identity and the
+excess bound above (h >= 0 verified on all 98 folds), and C(102) as a feasible
+signed witness of gain 5 log 7 with every withdrawal on a mass cell. The
+confluence rule is prescribed arithmetically (sources 2b and 2k+1, destination
+b, weights +1, +1, -1), and its capacity condition is explicit: m_{2b} > 0,
+m_{2k+1} > 0, and the prefix residue kappa(2b) + kappa(2k+1) - kappa(b)
+nonnegative off the mass cells. What is NOT proved, and the reason 132.73 needs
+the full coupled bundle: at (10^4, 100) b = 102 is the ONLY cell meeting the
+capacity condition, so the confluence does not by itself compose to a large
+witness; its supply (double and twin both massed, residue on mass cells) is the
+same lower-half availability question the capacity lane owns, now sharpened to
+a condition on the pair (2b, 2k+1). Source labels are facts at this one input,
+not a formula in N.
 
 ## 7. Reproduce
 

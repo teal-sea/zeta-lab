@@ -200,6 +200,29 @@ def test_twin_exchange_destination_cancels_and_103_is_feasible():
     assert fold_family.fold_vectors(103, 100, mu)[1] - fold_family.fold_vectors(102, 100, mu)[1] == 1
 
 
+def test_h_decomposition_and_confluence_at_10000_100():
+    # DUAL_WITNESS.md Section 12: h = -g - F^T beta >= 0, the reduced-cost
+    # identity holds exactly on the witness, and the confluence triple
+    # C(102) = Fold(204) + Fold(103) - Fold(102) is feasible with gain 5 log 7.
+    import math
+
+    gs = _load("grouped_signed")
+    hd = gs.h_decomposition(
+        10_000, 100, str(HUNT / "results/fake_mass_N10000_y100.json")
+    )
+    assert hd["h_nonneg"] and hd["identity_holds"]
+    assert abs(hd["beta_T_m"] - 66.338409) < 1e-4
+    assert abs(hd["witness_gain"] - 132.729535) < 1e-5
+    assert hd["negatives_h_zero"] == [113, 163, 303]
+    assert hd["top_weighted"][0][1] == 102  # cell 102 carries the largest weight
+    c = gs.confluence(10_000, 100, 102)
+    assert c["feasible"] and c["moments_zero"]
+    assert c["double"] == 204 and c["twin"] == 103 and c["gain_units"] == 5
+    assert c["eps_binding"] == 204
+    assert abs(c["total_gain"] - 5 * math.log(7)) < 1e-4
+    assert not c["walls_drained"]
+
+
 def test_prefix_family_certifies_nothing_at_1000_31():
     pw = _load("prefix_witness")
     out = pw.prefix_family(1000, 31, verbose=False)

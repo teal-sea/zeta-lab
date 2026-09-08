@@ -1,0 +1,353 @@
+{
+ "h_decomposition": {
+  "h_nonneg": true,
+  "beta_T_m": 66.33840896195812,
+  "sum_h_negpart": 152.05671654145638,
+  "sum_h_pospart": 58.70839417087238,
+  "beta_T_nu": 26.957196332542114,
+  "identity_rhs": 132.729535,
+  "witness_gain": 132.729535,
+  "identity_holds": true,
+  "negatives_h_zero": [
+   113,
+   163,
+   303
+  ],
+  "negatives_h_pos": [
+   102,
+   123,
+   125,
+   126,
+   128,
+   129,
+   133,
+   142,
+   144,
+   151,
+   156,
+   172,
+   227,
+   256
+  ],
+  "top_weighted": [
+   [
+    24.1242,
+    102
+   ],
+   [
+    19.3224,
+    123
+   ],
+   [
+    19.1824,
+    126
+   ],
+   [
+    16.4535,
+    133
+   ],
+   [
+    13.7859,
+    142
+   ],
+   [
+    13.284,
+    144
+   ]
+  ],
+  "excess_over_base": 66.39112603804188
+ },
+ "confluence": {
+  "102": {
+   "b": 102,
+   "double": 204,
+   "twin": 103,
+   "prefix_k": 51,
+   "moments_zero": true,
+   "feasible": true,
+   "walls_drained": [],
+   "gain_units": 5,
+   "eps_star": 1.9459101490553132,
+   "eps_binding": 204,
+   "total_gain": 9.729551,
+   "double_has_mass": true,
+   "twin_has_mass": true,
+   "withdrawn_cells": {
+    "2": 1,
+    "5": 3,
+    "9": 3,
+    "13": 1,
+    "14": 2,
+    "20": 2,
+    "34": 2,
+    "51": 1,
+    "103": 1,
+    "204": 1
+   }
+  },
+  "104": {
+   "b": 104,
+   "double": 208,
+   "twin": 105,
+   "prefix_k": 52,
+   "moments_zero": true,
+   "feasible": false,
+   "walls_drained": [
+    208,
+    105
+   ],
+   "gain_units": 2,
+   "eps_star": null,
+   "eps_binding": null,
+   "total_gain": null,
+   "double_has_mass": false,
+   "twin_has_mass": false,
+   "withdrawn_cells": {
+    "3": 3,
+    "5": 3,
+    "8": 2,
+    "9": 2,
+    "13": 1,
+    "14": 3,
+    "20": 3,
+    "34": 3,
+    "52": 1,
+    "105": 1,
+    "208": 1
+   }
+  },
+  "106": {
+   "b": 106,
+   "double": 212,
+   "twin": 107,
+   "prefix_k": 53,
+   "moments_zero": true,
+   "feasible": false,
+   "walls_drained": [
+    53,
+    107
+   ],
+   "gain_units": 1,
+   "eps_star": null,
+   "eps_binding": null,
+   "total_gain": null,
+   "double_has_mass": true,
+   "twin_has_mass": false,
+   "withdrawn_cells": {
+    "2": 2,
+    "3": 1,
+    "6": 3,
+    "8": 2,
+    "9": 1,
+    "14": 1,
+    "15": 2,
+    "21": 2,
+    "35": 2,
+    "53": 1,
+    "107": 1,
+    "212": 1
+   }
+  },
+  "108": {
+   "b": 108,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "114": {
+   "b": 114,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "116": {
+   "b": 116,
+   "double": 232,
+   "twin": 117,
+   "prefix_k": 58,
+   "moments_zero": true,
+   "feasible": false,
+   "walls_drained": [
+    58,
+    117
+   ],
+   "gain_units": -5,
+   "eps_star": null,
+   "eps_binding": null,
+   "total_gain": null,
+   "double_has_mass": true,
+   "twin_has_mass": false,
+   "withdrawn_cells": {
+    "1": 10,
+    "4": 2,
+    "6": 4,
+    "8": 1,
+    "10": 1,
+    "15": 1,
+    "16": 2,
+    "23": 2,
+    "38": 3,
+    "58": 1,
+    "117": 1,
+    "232": 1
+   }
+  },
+  "128": {
+   "b": 128,
+   "double": 256,
+   "twin": 129,
+   "prefix_k": 64,
+   "moments_zero": true,
+   "feasible": false,
+   "walls_drained": [
+    256,
+    64,
+    129
+   ],
+   "gain_units": -2,
+   "eps_star": null,
+   "eps_binding": null,
+   "total_gain": null,
+   "double_has_mass": false,
+   "twin_has_mass": false,
+   "withdrawn_cells": {
+    "1": 3,
+    "2": 1,
+    "4": 3,
+    "7": 4,
+    "9": 1,
+    "11": 1,
+    "17": 1,
+    "18": 2,
+    "25": 2,
+    "42": 3,
+    "64": 1,
+    "129": 1,
+    "256": 1
+   }
+  },
+  "138": {
+   "b": 138,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "142": {
+   "b": 142,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "144": {
+   "b": 144,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "158": {
+   "b": 158,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "166": {
+   "b": 166,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "172": {
+   "b": 172,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "178": {
+   "b": 178,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "192": {
+   "b": 192,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "196": {
+   "b": 196,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "200": {
+   "b": 200,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "208": {
+   "b": 208,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "222": {
+   "b": 222,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "238": {
+   "b": 238,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "250": {
+   "b": 250,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "256": {
+   "b": 256,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "294": {
+   "b": 294,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "384": {
+   "b": 384,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "416": {
+   "b": 416,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "454": {
+   "b": 454,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "476": {
+   "b": 476,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "500": {
+   "b": 500,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "666": {
+   "b": 666,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "714": {
+   "b": 714,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "1000": {
+   "b": 1000,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  },
+  "1666": {
+   "b": 1666,
+   "feasible": false,
+   "reason": "double or twin not attainable"
+  }
+ }
+}
