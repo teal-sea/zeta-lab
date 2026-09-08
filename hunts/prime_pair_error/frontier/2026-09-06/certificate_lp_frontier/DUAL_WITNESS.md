@@ -472,6 +472,90 @@ the failure above is the exact instance where it bites. Not promoted: the
 labels 76, 200, 333 of the coordinator's bundle, and 333 as Rule C's
 repair, are facts at one input.
 
+## 10. The compensated bundle at (10^4, 100): why Rule C misses it, and the credit identity
+
+**Verified.** With U = sum of the 28 profitable folds (each once, sum U = 91),
+
+    D = 2U + 57 F_163 + 7 F_232 + 5 F_270 + 74 F_434 + 40 F_625
+          + 22 F_1250 + 12 F_2500 + 4 F_5000
+
+checks in my implementation (`compensated_fold.py --N 10000 --y 100`): support
+in Q_N, all 100 moments zero as integers, every wall D_w >= 0, total gain
+sum D = 615 units. With M_c the product of prime bases in cell c, the scale is
+eps* = log(M_43)/146 = log(229)/146, binding UNIQUELY at cell 43, and every
+negative coordinate satisfies M_c^{146} >= 229^{d_c} (equality only at 43).
+Gain E >= (615/146) log 229 = 22.888623508122310848... . The binding cell 43
+is a MASS cell (m_43 = log 229), not a wall: the ceiling is drift on the mass
+cells, not wall closure.
+
+**Why Rule C fails, precisely.** Cell 33 is a lower-half wall (33 < y/2 = 50)
+with 2U_33 = -22. It has exactly 6 fold refills (kappa_33 > 0: cells 232, 434,
+1250, 1428, 2000, 3333), each contributing only +1 per unit, and NONE is
+clean: every one drains another wall. Five restrictions in Rule C each block
+the bundle, and each must be relaxed:
+
+1. **Seed multiplicity fixed at 1.** The feasible repair set lives at the
+   doubled deficit; with a single seed the credits at cells 54, 62 are too
+   small (see the identity below).
+2. **One repair source per wall-visit.** Cell 33 needs +22 assembled from
+   several of its six +1 refills at once; no single source supplies it while
+   staying feasible elsewhere.
+3. **The (r, w) "tried" set.** It forbids ever raising a source's coefficient
+   or reusing it; the bundle puts 57 and 74 on single cells.
+4. **The clean-first key.** It steers toward refills that drain no wall, but
+   cell 33 has none, so Rule C can never even begin to fill it cleanly.
+5. **Integer ceil per single wall instead of a joint solve.** A one-source
+   fill of cell 33 with 22 units would drain 54 and 62 by 22; only a balanced
+   multi-source block cancels those drains down to 2 and 4.
+
+"No untried refill" is thus an algorithmic stopping condition, not an
+impossibility: the bundle exists, Rule C's search shape cannot reach it.
+
+**The grouped-cancellation identity.** The repair block
+R = 57 F_163 + ... + 4 F_5000 is negative at exactly two walls:
+
+    R_54 = -2 = -(2U)_54,     R_62 = -4 = -(2U)_62,     R >= 0 at every other wall.
+
+So at 54 and 62 the repair spends the entire doubled-seed credit and the final
+value is 0; these are the credits Codex was told to retain, and this is why
+they cannot be discarded. Everywhere else R only adds to the walls. It follows
+that the seed multiplier k = 2 is the UNIQUE feasible one for this R:
+
+    k = 1:  (U + R)_54 = -1 < 0 and (U + R)_62 = -2 < 0    (under-credited);
+    k = 2:  (2U + R)_w >= 0 for all 36 walls               (feasible);
+    k >= 3: (3U + R)_33 = -33 + 22 = -11 < 0               (re-opens cell 33).
+
+The repair block itself has zero moments and mass equal to the sum of its
+gains, 433, so total gain 2(91) + 433 = 615, and the drift it deposits on the
+mass cells is what cell 43 caps.
+
+**Lemma 10 (seed-credit repair, sufficient).** Let U be the profitable-fold
+seed, k a positive integer, and R a nonnegative integer combination of folds
+of real-mass cells such that (i) (kU + R)_w >= 0 at every wall w, and (ii) k
+is minimal for (i). Then D = kU + R is a feasible dual witness for T*(y, N)
+with scale eps* = min over mass cells c with D_c < 0 of m_c/(-D_c) and gain
+eps* (k sum_a g(a) [over profitable a] + mass R). *Proof.* Support in Q_N and
+A^T D = 0 by Lemma 7 (each fold contributes both); at walls D >= 0 by (i); at
+mass cells D + (1/eps*) m >= 0 by the definition of eps*; the gain is eps*
+times the mass of D, which is k times the seed mass plus the mass of R by
+Lemma 7. QED. This is a sufficient condition, applied to the actual bundle:
+(i) holds with k = 2, (ii) is the k-uniqueness above, and the two facts
+together certify E >= 22.8886... . It is not necessary (a witness may keep no
+wall tight), and it does not by itself produce R.
+
+**Parameter range proved, and the first remaining gap.** Proved at this input:
+the bundle is feasible with the stated eps* and gain; k = 2 is minimal for
+this R; the ceiling is a mass cell. The source labels 163, 232, 270, 434,
+625, 1250, 2500, 5000 are NOT promoted to any other N. The gap Lemma 10 does
+not fill is the existence of a wall-closing repair block R whose only wall
+negatives are covered by kU: this is a nonnegative-integer transportation
+feasibility whose supply side is the lower-half refills (the six kappa_33 > 0
+cells and their analogues), and whether they can be combined to fill every
+lower-half wall while their side-drains cancel to within the seed credit is
+the capacity question in Codex's lane. Nothing here shows that supply is
+sufficient or insufficient in general; at this finite input it IS sufficient,
+by the exhibited R.
+
 ## 7. Reproduce
 
     OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 \

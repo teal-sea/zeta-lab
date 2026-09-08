@@ -120,6 +120,33 @@ def test_compensated_bundle_and_rule_c_at_1000_31():
     assert c0["feasible"] and c0["total_gain_units"] == 0
 
 
+def test_coordinator_bundle_and_credit_identity_at_10000_100():
+    # DUAL_WITNESS.md Section 10: the coordinator's compensated bundle verifies
+    # exactly (615 units, binding cell 43, eps* = log(229)/146,
+    # E >= (615/146) log 229), the repair block is negative only at walls 54
+    # and 62 where it equals -(2U), and k = 2 is the unique feasible seed
+    # multiplier.
+    import math
+
+    cf = _load("compensated_fold")
+    cb = cf.coordinator_bundle(10_000, 100)
+    assert cb["n_profitable"] == 28 and cb["sum_g_over_A"] == 91
+    assert cb["support_ok"] and cb["moments_ok"] and cb["feasible"]
+    assert cb["total_gain_units"] == 615 and cb["binding_cell"] == 43
+    assert cb["eps_star"] == "log(229)/146"
+    assert abs(float(cb["gain_interval"][0]) - 615 * math.log(229) / 146) < 1e-11
+    wa = cb["wall_accounting"]
+    # repair block negative only at 54 and 62, equal to -(2U) there
+    neg_walls = {w: d for w, d in wa.items() if d["repairs"] < 0}
+    assert set(neg_walls) == {54, 62}
+    assert wa[54]["repairs"] == -2 and wa[54]["seed_2U"] == 2 and wa[54]["final"] == 0
+    assert wa[62]["repairs"] == -4 and wa[62]["seed_2U"] == 4 and wa[62]["final"] == 0
+    db = cf.diagnose_rule_c_block(10_000, 100)
+    assert db["seed1_deficit_33"] == -11 and db["seed2_deficit_33"] == -22
+    assert db["clean_refills_of_33"] == []  # every refill of the binding wall drains another
+    assert db["wall_findings"][33]["in_lower_half"] and db["wall_findings"][33]["n_clean_refills"] == 0
+
+
 def test_prefix_family_certifies_nothing_at_1000_31():
     pw = _load("prefix_witness")
     out = pw.prefix_family(1000, 31, verbose=False)

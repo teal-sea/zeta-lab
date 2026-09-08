@@ -204,6 +204,75 @@ def rule_c(N: int, y: int, verbose: bool = True, order: str = "clean-gain-r") ->
     return result
 
 
+def coordinator_bundle(N: int, y: int) -> dict:
+    """Build D = 2U + repairs (the coordinator's N=10000 bundle), verify it,
+    and diagnose which Rule C restriction blocks each ingredient."""
+    cells, idx, mu, mass_terms, Mprod = setup(N, y)
+    real = sorted(c for c in mass_terms if c > y)
+    g = {a: fold_vectors(a, y, mu)[1] for a in real}
+    A = [a for a in real if g[a] > 0]  # the 28 profitable sources
+    coeffs = {a: 2 for a in A}
+    repairs = {163: 57, 232: 7, 270: 5, 434: 74, 625: 40, 1250: 22, 2500: 12, 5000: 4}
+    for a, c in repairs.items():
+        coeffs[a] = coeffs.get(a, 0) + c
+    res = check_bundle(N, y, coeffs)
+    res["profitable_sources"] = A
+    res["n_profitable"] = len(A)
+    res["sum_g_over_A"] = sum(g[a] for a in A)
+    res["repair_extras"] = repairs
+    res["repair_g_values"] = {a: g[a] for a in repairs}
+    res["repairs_are_profitable"] = {a: (a in A) for a in repairs}
+    # per-wall accounting: 2U vs repairs
+    walls = [c for c in range(1, y + 1) if c not in mass_terms]
+    seed = bundle_measure({a: 2 for a in A}, y, mu)
+    rep = bundle_measure(repairs, y, mu)
+    res["wall_accounting"] = {int(w): {"seed_2U": int(seed.get(w, 0)), "repairs": int(rep.get(w, 0)), "final": int(seed.get(w, 0) + rep.get(w, 0))} for w in walls}
+    # halving chain among the repair sources
+    fm_r = {a: fold_measure(a, y, mu) for a in repairs}
+    chain = {a: (a // 2, a // 2 in repairs or a // 2 in A) for a in repairs}
+    res["repair_halving_dest"] = {int(a): int(a // 2) for a in repairs}
+    return res
+
+
+def diagnose_rule_c_block(N: int, y: int) -> dict:
+    """Which of Rule C's restrictions each prevent the coordinator bundle."""
+    cells, idx, mu, mass_terms, Mprod = setup(N, y)
+    real = sorted(c for c in mass_terms if c > y)
+    walls = [c for c in range(1, y + 1) if c not in mass_terms]
+    wallset = set(walls)
+    g = {a: fold_vectors(a, y, mu)[1] for a in real}
+    fm = {a: fold_measure(a, y, mu) for a in real}
+    clean = {a: all(v >= 0 for c, v in fm[a].items() if c in wallset) for a in real}
+    # for the binding lower-half wall 33: which real sources refill it, their g, and whether they drain another wall
+    findings = {}
+    for w in (33, 54, 62):
+        refills = [(r, fm[r][w], g[r], clean[r]) for r in real if fm[r].get(w, 0) > 0]
+        drains = [(r, fm[r][w], g[r]) for r in real if fm[r].get(w, 0) < 0]
+        findings[w] = {
+            "in_lower_half": w <= y // 2,
+            "n_refills": len(refills),
+            "n_clean_refills": sum(1 for _, _, _, c in refills if c),
+            "refills_top6": [(int(r), int(v), int(gg), bool(c)) for r, v, gg, c in sorted(refills, key=lambda t: -t[1])[:6]],
+            "n_drains": len(drains),
+        }
+    # Rule C uses seed coeff 1; coordinator uses 2.  Does any wall have odd single-seed deficit that no refill can hit with one source?
+    U = bundle_measure({a: 1 for a in real if g[a] > 0}, y, mu)
+    U2 = bundle_measure({a: 2 for a in real if g[a] > 0}, y, mu)
+    return {
+        "restrictions_that_block": [
+            "seed multiplicity fixed at 1 (bundle needs 2U: the deficit at 33 is -11 for U, -22 for 2U, and the feasible repair set the LP found lives at the doubled deficit)",
+            "one repair source per wall-visit (cell 33 is refilled by many sources at once: no single source supplies 22 while staying feasible elsewhere)",
+            "the (r,w) 'tried' set forbids ever increasing a source's coefficient or reusing it at a wall (the bundle puts 57 and 74 on single cells)",
+            "the clean-first key steers away from sources that refill 33 but drain another wall, which are exactly the repair sources here (most have clean=False)",
+            "integer ceil per single wall instead of a joint solve over all walls (repairs for 33 drain 54, 62; only a simultaneous choice balances them)",
+        ],
+        "wall_findings": findings,
+        "seed1_deficit_33": int(U.get(33, 0)),
+        "seed2_deficit_33": int(U2.get(33, 0)),
+        "clean_refills_of_33": [int(r) for r in real if fm[r].get(33, 0) > 0 and clean[r]],
+    }
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--N", type=int, required=True)
@@ -220,6 +289,17 @@ def main():
         print(f"Bundle {coeffs}: support {b['support_ok']}, moments {b['moments_ok']}, gains {b['gains_per_unit']}, units {b['total_gain_units']}, withdrawn {b['withdrawn_cells']}, binding {b['binding_cell']}, eps* = {b['eps_star']}, exact capacities {b['exact_capacity_inequalities_M_c^d_b>=M_b^d_c']}, gain {b['gain_interval']}")
     out["rule_c0_increasing_r"] = rule_c(args.N, args.y, order="r")
     out["rule_c"] = rule_c(args.N, args.y, order="clean-gain-r")
+    if args.N == 10000 and args.y == 100:
+        cb = coordinator_bundle(args.N, args.y)
+        out["coordinator_bundle"] = cb
+        print(f"Coordinator bundle: {cb['n_profitable']} profitable sources, sum g = {cb['sum_g_over_A']}, support {cb['support_ok']}, moments {cb['moments_ok']}, feasible {cb['feasible']}, gain units {cb['total_gain_units']}, binding {cb['binding_cell']}, eps* = {cb['eps_star']}, gain {cb['gain_interval']}")
+        print(f"  wall accounting (seed 2U / repairs / final): " + ", ".join(f"{w}:({d['seed_2U']}/{d['repairs']}/{d['final']})" for w, d in cb["wall_accounting"].items() if d["final"] != 0 or w in (33, 54, 62)))
+        db = diagnose_rule_c_block(args.N, args.y)
+        out["rule_c_block_diagnosis"] = db
+        print("  Rule C blocking restrictions:")
+        for r in db["restrictions_that_block"]:
+            print(f"    - {r}")
+        print(f"  clean refills of wall 33: {db['clean_refills_of_33']}; wall 33 findings: {db['wall_findings'][33]}")
     with open(args.output, "w") as fh:
         json.dump(out, fh, indent=1, default=str)
 
