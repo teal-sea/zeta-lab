@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "claim_id": "nonnegative-halving-fold-upper-N10000-y100",
+  "repository": {
+    "commit": "cce45bd2bb3a9c1715ef2d4ad6269481dda5ed42",
+    "dirty": true
+  },
+  "command": "OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 .venv/bin/python hunts/quotient_certificate/fold_upper.py --output hunts/quotient_certificate/fold_upper_results.json --manifest hunts/quotient_certificate/fold_upper_manifest.json",
+  "environment": {
+    "software": [
+      "Python 3.14.0",
+      "mpmath 1.3.0",
+      "sympy 1.14.0",
+      "numpy 2.5.2",
+      "python-flint 0.9.0"
+    ],
+    "hardware": "Not material to this bounded exact check; numerical libraries limited to one thread."
+  },
+  "mathematics": {
+    "assertion_tested": "B>=0; F^T B<=-1387g on all 98 columns; cost<66.339; descending inverse for each column",
+    "coefficient_domain": "Integer columns and B; rational coordinates; fresh 90-digit intervals for logarithms",
+    "conventions": "All attainable sources above 100, including empty sources; T_(y+1)=0; merged prefix destination",
+    "inputs": [
+      {
+        "path": "hunts/quotient_certificate/fold_upper_input.json",
+        "sha256": "2cc986b5318432126976df62810d53d5259bd19375899f7e2b5d9981fc9b0768"
+      },
+      {
+        "path": "hunts/quotient_certificate/fold_upper.py",
+        "sha256": "946e386e91254f8d6902300fecf39a8a746d43545b03f153cc0e86e43dafcbf3"
+      },
+      {
+        "path": "hunts/quotient_certificate/compensated_repair.py",
+        "sha256": "5491af418cc88f95bc61b524d171296a49d5d1cbebe68e753374cfbcdb075199"
+      },
+      {
+        "path": "hunts/quotient_certificate/finite_transfer.py",
+        "sha256": "351c8eb44489feaebd217fe8549a3f11dd018a26d736689732f85a00429d6a85"
+      },
+      {
+        "path": "hunts/quotient_certificate/height_kernel.py",
+        "sha256": "a60ed789ede1f84e197e847e0b39db76d2125e2a039b51ad0f279be1941cd997"
+      }
+    ],
+    "bounds": {
+      "N": 10000,
+      "y": 100,
+      "attainable_cells": 198,
+      "columns": 98,
+      "numerical_threads": 1,
+      "optimizer_calls": 0
+    },
+    "non_claims": [
+      "No exact restricted optimum or matching lower certificate",
+      "No bound for arbitrary signed folds or general prefix exchanges",
+      "No upper bound for the full T* problem or growth estimate in N"
+    ]
+  },
+  "randomness": {
+    "used": false,
+    "generator": "none",
+    "seed": null
+  },
+  "run": {
+    "started_at": "2026-09-08T04:49:00.910443+00:00",
+    "runtime_seconds": 0.07261016700067557,
+    "exit_status": 0
+  },
+  "outputs": [
+    {
+      "path": "hunts/quotient_certificate/fold_upper_results.json",
+      "sha256": "59393f4abb4260e29c41d39eb6edcbc93beffac02a31a546c8d6f887e36a9f80"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Exact support, moments and 98 inequalities",
+      "status": "passed"
+    },
+    {
+      "name": "All 98 column inverse checks",
+      "status": "passed"
+    },
+    {
+      "name": "Outward-rounded 45-decimal logarithmic cost",
+      "status": "passed"
+    },
+    {
+      "name": "Strict comparison with previously verified gain",
+      "status": "passed"
+    }
+  ],
+  "result": "complete",
+  "residual_risks": [
+    "Relies on integer/rational and interval arithmetic implementations; no formal proof artifact",
+    "The saved comparison witness is an accepted input, not rechecked here"
+  ]
+}
