@@ -749,7 +749,8 @@ the exact coordinate at a is
     C_a = -T - 2 (theta_{2a} + theta_{2a+1}),
 
 since S(a) carries -1 at a (Lemma 11) and the two parent labels 2a, 2a+1, if
-present in D, deposit +2 at a = floor(b/2) through -theta_b Fold(b).
+present in D, contribute -2 theta_b at a = floor(b/2) through -theta_b Fold(b),
+a withdrawal at a.
 Disjointness from the DESCENDING chain does not exclude those parents: at
 a = 102, D = {204} the coordinate is -3, not -1. Feasibility m + C >= 0 gives
 T + 2(theta_{2a} + theta_{2a+1}) <= m_a, hence T <= m_a, and the always-valid
