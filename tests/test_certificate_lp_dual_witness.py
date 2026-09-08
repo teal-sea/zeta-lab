@@ -147,6 +147,59 @@ def test_coordinator_bundle_and_credit_identity_at_10000_100():
     assert db["wall_findings"][33]["in_lower_half"] and db["wall_findings"][33]["n_clean_refills"] == 0
 
 
+def test_signed_fold_expansion_of_the_132_witness():
+    # DUAL_WITNESS.md Section 11: the descending recurrence reconstructs the
+    # 132.729535 prefix-exchange witness exactly in the fold basis, with 17
+    # negative coefficients (the un-folds excluded by the nonnegative family).
+    from fractions import Fraction
+
+    sf = _load("signed_fold")
+    out = sf.solve(
+        10_000, 100,
+        str(HUNT / "results/fake_mass_N10000_y100.json"),
+        verbose=False,
+    )
+    assert out["reconstruction_exact_all_cells"] and out["prefix_reconstruction_exact"]
+    assert out["gain_from_fold_coeffs_matches"]
+    assert Fraction(out["gain_exact"]) == Fraction(26545907, 200000)
+    assert out["n_negative"] == 17 and out["n_positive"] == 24
+    assert out["negative_cells"] == [102, 113, 123, 125, 126, 128, 129, 133, 142, 144, 151, 156, 163, 172, 227, 256, 303]
+    # the three tail negatives feed band negatives (halving tree)
+    band = set(c for c in out["negative_cells"] if c <= 200)
+    for a in (227, 256, 303):
+        assert a // 2 in band
+
+
+def test_twin_exchange_destination_cancels_and_103_is_feasible():
+    # DUAL_WITNESS.md Section 11: X_k = Fold(2k+1) - Fold(2k) cancels the half
+    # destination k; X_51 = Fold(103) - Fold(102) is the one feasible-alone
+    # twin (source 103 prime), withdrawal only at 103, gain log 97.
+    import math
+    from fractions import Fraction
+
+    sf = _load("signed_fold")
+    fold_family = _load("fold_family")
+    from prefix_witness import mobius_table
+
+    mu = mobius_table(100)
+
+    def X(p, a):
+        D = {}
+        for c, v in sf.fold_measure(p, 100, mu).items():
+            D[c] = D.get(c, Fraction(0)) + v
+        for c, v in sf.fold_measure(a, 100, mu).items():
+            D[c] = D.get(c, Fraction(0)) - v
+        return {c: v for c, v in D.items() if v}
+
+    D = X(103, 102)
+    # zero moments and cancelled destination 51
+    assert all(sum(v * (c // j) for c, v in D.items()) == 0 for j in range(1, 101))
+    assert 51 not in D
+    # the only withdrawal is at the prime source 103
+    assert [c for c, v in D.items() if v < 0] == [103]
+    assert fold_family.fold_vectors(103, 100, mu)[1] - fold_family.fold_vectors(102, 100, mu)[1] == 1
+
+
 def test_prefix_family_certifies_nothing_at_1000_31():
     pw = _load("prefix_witness")
     out = pw.prefix_family(1000, 31, verbose=False)

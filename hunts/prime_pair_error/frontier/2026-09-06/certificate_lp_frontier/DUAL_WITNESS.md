@@ -556,6 +556,78 @@ the capacity question in Codex's lane. Nothing here shows that supply is
 sufficient or insufficient in general; at this finite input it IS sufficient,
 by the exhibited R.
 
+## 11. The 132.729535 witness in the signed fold basis: the excluded move is the un-fold
+
+**The expansion.** The folds {Fold(a) : a in Q_N, a > y} are a basis of the
+98-dimensional zero-moment space at (10^4, 100), because delta_a = -x_a +
+2 sum_{b : floor(b/2) = a} x_b makes the coefficient map triangular. So the
+prefix-exchange witness of Section 6 has a unique signed fold expansion,
+solved by the descending recurrence the coordinator gave,
+
+    x_q = 2 x_{2q} + 2 x_{2q+1} - delta_q,   q in Q_N, q > y   (missing indices 0).
+
+`signed_fold.py` solves it from the witness's saved exact steps and checks
+reconstruction at EVERY cell including the prefix: exact, and sum_a x_a g(a)
+equals the witness gain 26545907/200000 = 132.729535. There are 41 nonzero
+coefficients, 24 positive and **17 negative**, with |x|_1 = 138.00.
+
+**The 17 negative coefficients are the excluded move.** A positive fold is a
+down-move: +Fold(a) removes mass from a and deposits 2 at floor(a/2), toward
+the prefix. A negative coefficient is an un-fold: -Fold(a) = +e_a - 2 e_{floor(a/2)}
+- kappa(a), which DEPOSITS at the cell a above y and draws from below. The
+nonnegative-fold family (x >= 0), whose logarithmic optimum Codex certifies at
+< 66.339, can only fold downward; it cannot deposit above y at all. Every one
+of the 17 negative coefficients is such a deposit, and they are the entire gap
+between 66.34 and 132.73. Their cells:
+
+    (y, 2y]:  102, 113, 123, 125, 126, 128, 129, 133, 142, 144, 151, 156, 163, 172   (14, destination floor(a/2) in the prefix top-half)
+    (2y, .]:  227, 256, 303   (3, with floor = 113, 128, 151, themselves negative cells)
+
+so the negatives form a two-level halving tree: three tail deposits feed the
+band deposits, which feed the prefix top-half. This is what "push a deposit up
+into the fake cells" costs in fold coordinates.
+
+**One parameterized signed exchange with proved cancellation.** Pair a source
+with its half-destination twin: for k in (y/2, y] with both 2k and 2k+1
+attainable,
+
+    X_k = Fold(2k+1) - Fold(2k)  =  -e_{2k+1} + e_{2k} + (kappa(2k+1) - kappa(2k)),
+
+and the half-destination cancels exactly, because floor((2k+1)/2) = floor(2k/2)
+= k, so the two +2 e_k terms subtract to zero (proved, not fitted; checked on
+all eight attainable twins, destination gone in every case). A_top X_k = 0 by
+Lemma 7, and the gain is g(2k+1) - g(2k). This is the atomic prime-to-fake lift
+underlying the negative coefficients: it deposits at the fake cell 2k using the
+un-fold e_{2k}, funded by the down-fold at 2k+1.
+
+**Concrete capacity argument.** X_k withdraws from the source 2k+1 and from
+whatever cells kappa(2k+1) - kappa(2k) is negative on; it is feasible in
+isolation from the real measure iff every such cell carries real mass. The
+half-destination k is already cancelled, so the only unavoidable withdrawal is
+at the source 2k+1: **X_k is feasible alone iff 2k+1 is a prime-power cell and
+the prefix correction has no negative entry on a zero-mass cell.** At
+(10^4, 100) exactly one twin qualifies: X_51 = Fold(103) - Fold(102), with 103
+= floor(N/97) prime, whose only withdrawal is at 103 (the prefix correction
+kappa(103) - kappa(102) is nonnegative), gain g(103) - g(102) = 1 unit, scale
+eps* = m_103 = log 97, total gain log 97 = 4.5747. This is exactly the
+rough-shift value of Section 8, recovered in fold coordinates: the rough shift
+IS the one signed fold exchange that needs no bundle.
+
+**Proved parameter domain, and the gap.** Proved: for every k in (y/2, y] with
+2k, 2k+1 attainable, X_k has zero moments and cancelled destination, and it is
+a feasible witness of gain (g(2k+1) - g(2k)) log(M_{2k+1}) whenever 2k+1 is a
+prime-power cell and kappa(2k+1) - kappa(2k) >= 0 off the mass cells; at
+(10^4, 100) X_51 is the only instance, and it equals the rough shift. Not
+proved, and the reason 132.73 needs more than these: the other 16 un-folds
+deposit at fake cells whose twin source carries no mass (112, 124, ... are
+composite), so their prefix corrections -kappa(a) fall on zero-mass walls and
+they are feasible only inside a coordinated bundle whose wall-drains cancel.
+That is the same lower-half supply question as Section 10, seen now from the
+signed side: the nonnegative family is short exactly the deposits whose funding
+twin is not prime, and restoring them needs the wall-cancellation the capacity
+lane owns. The source labels here are facts at this one input and are not
+promoted to any formula in N.
+
 ## 7. Reproduce
 
     OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 \
