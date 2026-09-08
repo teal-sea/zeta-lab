@@ -3,6 +3,11 @@
 Input: `880ec07ae605d93f4c49e4464d8b4526457cfb65`. This is a continuation
 after #203, #205 and #206, preserving their artifacts and corrections.
 
+Continuation: [HEIGHT_KERNEL.md](HEIGHT_KERNEL.md) checks #208's exact
+optimizer, extends the archived-vector uniqueness conclusion to every
+cost-preserving feasible displacement from it, and excludes the height
+kernel at N=10000. The earlier investigation below is retained as recorded.
+
 **Result.** At N=10000, y=100, an explicit rational vector has c_1=1,
 sum_{j>=2}|c_j|=1, and W_c(q)>=1 for every positive integer q. Its sawtooth
 sum is identically zero on the 99 positive-mass attainable cells, although
