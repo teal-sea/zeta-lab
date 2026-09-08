@@ -382,6 +382,96 @@ all of Z. Nothing here proves or refutes the barrier; the exact optima
 greedy exchanges (Section 6) show how they route around the walls one
 pair at a time.
 
+## 9. Compensated folds: the coordinator's bundle, the band lemma, and a prescribed repair rule
+
+**The bundle, verified.** At (1000, 31), D = Fold(76) + 2 Fold(200) + Fold(333)
+(`compensated_fold.py --bundle 76:1,200:2,333:1`): support in Q_N, A^T D = 0
+as integers, gains per unit 2, 4, 0, total 10 units. Withdrawn cells with
+multiplicities: {2: 3, 3: 1, 5: 4, 7: 7, 9: 3, 11: 3, 12: 3, 14: 3, 16: 3,
+20: 3, 23: 1, 27: 1, 76: 1, 200: 2, 333: 1}; every wall has D >= 0 (at 19:
+-1 + 0 + 1, at 25: 1 - 2 + 1). With M_c the product of the prime bases of
+the prime powers in cell c (so m_c = log M_c), the largest scale is
+eps* = log(M_20)/3 = log(7)/3, and feasibility at every withdrawn cell is
+the integer inequality M_c^3 >= 7^{d_c}, all of which hold (equality at
+c = 20). Gain (10/3) log 7 = 6.486367163517711017... . Fold(333) has zero
+gain and is the repair: it refills 17, 19, 22, 25, 30 and drains no wall.
+
+**Lemma 8 (band structure of a fold at the top of the prefix).** For a
+real-mass cell a > y and a prefix cell w with y/2 < w < y, w != floor(a/2),
+
+    Fold(a)_w = sum_{k >= 1 : floor(a/k) = w} (-1)^{k+1},
+
+and Fold(a)_y = floor(a/y) mod 2 (the last prefix rate is floor(q/y), not a
+difference); the destination floor(a/2), if it lies in the range, carries an
+additional +2. *Proof.* For w > y/2 the prefix rate of any q is
+r^{(q)}_w = floor(q/w) - floor(q/(w+1)) = #{k : floor(q/k) = w}, and with
+q = floor(a/2), floor(q/k) = floor(a/(2k)), so
+Fold(a)_w = r^{(a)}_w - 2 r^{(q)}_w = #{k : floor(a/k) = w} - 2 #{k even : floor(a/k) = w}.
+QED. Checked on every source and every such w at the three sizes (255, 1715,
+725 cases, 0 violations). So for w > sqrt(a) a fold drains the wall w
+exactly when the unique k with floor(a/k) = w is even, and refills it when
+k is odd: the cells a in [kw, k(w+1)) with k odd are the refills of w. Below
+y/2 the action is the full Mobius-weighted kappa_w(a) of Lemma 7.
+
+**Rule C (band-matched repair), prescribed.** Start from the profitable
+folds, coefficient 1 each (P = {a > y : m_a > 0, g(a) > 0}). Walk the walls
+w in increasing order; at the first wall with D_w < 0, add the fold of the
+real-mass cell r > y with Fold(r)_w > 0 chosen by the fixed key (drains no
+wall, then largest g(r), then smallest r), with the integer multiplicity
+ceil(-D_w / Fold(r)_w); repeat until no wall is negative or the chosen wall
+has no untried refill, which is reported as the failure. The scale is
+eps* = min over withdrawn cells of m_c / (-D_c) and the gain is
+eps* (sum_P g(a) + sum_R c_r g(r)), the second sum being the repairs' gain
+or sacrifice. Variant C0 uses the key "smallest r".
+
+**Results.**
+
+| (N, y) | walls (all cells with m = 0 below y) | Rule C0 | Rule C |
+|---|---|---|---|
+| (1000, 31) | 8, all in (y/2, y] | feasible; repairs 34x2, 58, 76x2, 250x2, 52x2, 125x2 with gains -2, -4, 2, 2, -2, -3: net 0 units | feasible; one repair, 333x2 (g = 0, drains no wall); 10 units, eps* = log(3)/2 bound at the repair itself, gain 5 log 3 = 5.4931 |
+| (10^4, 100), 36 walls | fails at wall 33 (D = -2 left) | fails at wall 33 (D = -22 left) |
+| (3600, 60), 17 walls | fails at wall 30 (D = -10 left) | fails at wall 30 (D = -4 left) |
+
+At (1000, 31) Rule C reproduces the mechanism of the coordinator's bundle
+with a different repair set (all five profitable sources plus 2 Fold(333))
+and a slightly smaller gain, because its scale is set by the repair's own
+mass (2 units withdrawn from cell 333, m = log 3) rather than by cell 20.
+
+**Conditional Lemma 9.** Assume (W_top): every wall lies in (y/2, y].
+Assume (R_clean): every wall w has a real-mass refill r_w > y with
+Fold(r_w)_w >= 1 that drains no wall. Then Rule C closes every wall in at
+most |Z| repair steps, its bundle is feasible with
+eps* = min over withdrawn cells of m_c/(-D_c) > 0, and its gain is
+eps* (sum_P g(a) + sum_w c_w g(r_w)) with c_w = ceil(-D_w / Fold(r_w)_w)
+computed at the moment the wall is treated. *Proof.* A clean repair
+increases no wall's deficit, so each wall is treated once and no new
+deficit appears; feasibility on the mass cells holds for eps below the
+stated minimum, and the gain is the total mass of the bundle times eps*
+(Lemma 7). QED. The net withdrawal of the bundle at a mass cell c is
+sum_{a in P} kappa_c(a) + sum_w c_w kappa_c(r_w) (plus -1 or -c_w at the
+sources themselves), so eps* is the smallest of m_c over these totals; at
+(1000, 31) that minimum is attained at the repair source.
+
+**Exact failure, and the first unproved step.** (W_top) is false at
+(10^4, 100) and at (3600, 60): the walls 33 and 30 lie at or below y/2,
+where a fold's action is the Mobius-weighted parity sum
+kappa_w = T_w - T_{w+1}, T_w = sum_{m <= y/w} mu(m) (floor(a/(wm)) mod 2)
+(three terms at w = 33: parities at 33, 66, 99), which is negative for most
+sources and for most repairs of other walls; the wall becomes a sink, its
+deficit grows as other walls are repaired (11, 12, 25, 22 at N = 10^4), and
+the finite supply of cells with kappa_33 > 0 is exhausted. A lower-half wall
+is a prime-power-free interval (N/(w+1), N/w] of length about N/w^2 >= 4,
+i.e. a prime gap of that size near N/w; such gaps exist for every N, so
+(W_top) cannot be assumed in general, and the walls it fails at sit in a
+band just below y/2. The first unproved step is therefore: **a supply bound
+for lower-half walls**, an arithmetic statement that for each wall
+w <= y/2 the real-mass cells r with kappa_w(r) > 0 outweigh, in the units of
+Rule C, the drains that the profitable sources and the other repairs put on
+w. That is a capacity question in Codex's lane; nothing here proves it, and
+the failure above is the exact instance where it bites. Not promoted: the
+labels 76, 200, 333 of the coordinator's bundle, and 333 as Rule C's
+repair, are facts at one input.
+
 ## 7. Reproduce
 
     OPENBLAS_NUM_THREADS=1 OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 VECLIB_MAXIMUM_THREADS=1 \

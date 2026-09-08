@@ -1,0 +1,593 @@
+{
+ "N": 10000,
+ "y": 100,
+ "band_lemma": {
+  "tested": 1715,
+  "violations": 0,
+  "violations_at_w_eq_y": 0
+ },
+ "rule_c0_increasing_r": {
+  "support_ok": true,
+  "moments_ok": true,
+  "feasible": false,
+  "failing_cell": 33,
+  "reason": "zero-mass cell withdrawn",
+  "D_at_cell": -2,
+  "order": "r",
+  "rule_log": [
+   {
+    "wall": 33,
+    "deficit": 11,
+    "repair": 232,
+    "units": 11,
+    "g_r": -5,
+    "clean": false
+   },
+   {
+    "wall": 45,
+    "deficit": 1,
+    "repair": 136,
+    "units": 1,
+    "g_r": 2,
+    "clean": false
+   },
+   {
+    "wall": 33,
+    "deficit": 1,
+    "repair": 434,
+    "units": 1,
+    "g_r": 5,
+    "clean": false
+   },
+   {
+    "wall": 53,
+    "deficit": 1,
+    "repair": 588,
+    "units": 1,
+    "g_r": -1,
+    "clean": false
+   },
+   {
+    "wall": 33,
+    "deficit": 1,
+    "repair": 1250,
+    "units": 1,
+    "g_r": 0,
+    "clean": false
+   },
+   {
+    "wall": 58,
+    "deficit": 10,
+    "repair": 526,
+    "units": 10,
+    "g_r": 5,
+    "clean": false
+   },
+   {
+    "wall": 33,
+    "deficit": 10,
+    "repair": 1428,
+    "units": 10,
+    "g_r": 3,
+    "clean": false
+   },
+   {
+    "wall": 54,
+    "deficit": 9,
+    "repair": 163,
+    "units": 9,
+    "g_r": 1,
+    "clean": false
+   },
+   {
+    "wall": 33,
+    "deficit": 9,
+    "repair": 2000,
+    "units": 9,
+    "g_r": 5,
+    "clean": false
+   },
+   {
+    "wall": 58,
+    "deficit": 9,
+    "repair": 1111,
+    "units": 9,
+    "g_r": 5,
+    "clean": false
+   },
+   {
+    "wall": 64,
+    "deficit": 3,
+    "repair": 322,
+    "units": 3,
+    "g_r": 9,
+    "clean": false
+   },
+   {
+    "wall": 33,
+    "deficit": 3,
+    "repair": 3333,
+    "units": 3,
+    "g_r": 7,
+    "clean": false
+   },
+   {
+    "wall": 45,
+    "deficit": 2,
+    "repair": 588,
+    "units": 2,
+    "g_r": -1,
+    "clean": false
+   },
+   {
+    "wall": 33,
+    "deficit": 2,
+    "repair": null
+   }
+  ],
+  "walls": [
+   33,
+   40,
+   45,
+   46,
+   48,
+   49,
+   53,
+   54,
+   56,
+   58,
+   60,
+   62,
+   64,
+   65,
+   68,
+   69,
+   70,
+   73,
+   74,
+   75,
+   77,
+   79,
+   81,
+   83,
+   84,
+   85,
+   86,
+   87,
+   89,
+   90,
+   92,
+   94,
+   95,
+   96,
+   98,
+   100
+  ],
+  "profitable_sources": [
+   103,
+   112,
+   120,
+   123,
+   126,
+   136,
+   140,
+   149,
+   156,
+   163,
+   169,
+   188,
+   204,
+   270,
+   312,
+   322,
+   344,
+   370,
+   434,
+   526,
+   625,
+   769,
+   909,
+   1111,
+   1428,
+   2000,
+   3333,
+   5000
+  ],
+  "clean_refills_available": {
+   "33": [],
+   "40": [
+    204
+   ],
+   "45": [],
+   "46": [],
+   "48": [],
+   "49": [],
+   "53": [],
+   "54": [],
+   "56": [
+    169
+   ],
+   "58": [],
+   "60": [],
+   "62": [],
+   "64": [],
+   "65": [],
+   "68": [
+    204
+   ],
+   "69": [],
+   "70": [],
+   "73": [],
+   "74": [],
+   "75": [],
+   "77": [],
+   "79": [],
+   "81": [],
+   "83": [],
+   "84": [
+    169
+   ],
+   "85": [],
+   "86": [],
+   "87": [],
+   "89": [],
+   "90": [],
+   "92": [],
+   "94": [],
+   "95": [],
+   "96": [],
+   "98": [],
+   "100": [
+    169
+   ]
+  },
+  "repairs_added": {
+   "136": 1,
+   "163": 9,
+   "322": 3,
+   "434": 1,
+   "526": 10,
+   "1111": 9,
+   "1428": 10,
+   "2000": 9,
+   "3333": 3,
+   "232": 11,
+   "588": 3,
+   "1250": 1
+  }
+ },
+ "rule_c": {
+  "support_ok": true,
+  "moments_ok": true,
+  "feasible": false,
+  "failing_cell": 33,
+  "reason": "zero-mass cell withdrawn",
+  "D_at_cell": -22,
+  "order": "clean-gain-r",
+  "rule_log": [
+   {
+    "wall": 33,
+    "deficit": 11,
+    "repair": 3333,
+    "units": 11,
+    "g_r": 7,
+    "clean": false
+   },
+   {
+    "wall": 40,
+    "deficit": 8,
+    "repair": 204,
+    "units": 8,
+    "g_r": 4,
+    "clean": true
+   },
+   {
+    "wall": 45,
+    "deficit": 12,
+    "repair": 136,
+    "units": 12,
+    "g_r": 2,
+    "clean": false
+   },
+   {
+    "wall": 33,
+    "deficit": 12,
+    "repair": 434,
+    "units": 12,
+    "g_r": 5,
+    "clean": false
+   },
+   {
+    "wall": 53,
+    "deficit": 12,
+    "repair": 909,
+    "units": 12,
+    "g_r": 2,
+    "clean": false
+   },
+   {
+    "wall": 64,
+    "deficit": 25,
+    "repair": 322,
+    "units": 25,
+    "g_r": 9,
+    "clean": false
+   },
+   {
+    "wall": 33,
+    "deficit": 25,
+    "repair": 2000,
+    "units": 25,
+    "g_r": 5,
+    "clean": false
+   },
+   {
+    "wall": 40,
+    "deficit": 25,
+    "repair": 526,
+    "units": 25,
+    "g_r": 5,
+    "clean": false
+   },
+   {
+    "wall": 33,
+    "deficit": 25,
+    "repair": 1428,
+    "units": 25,
+    "g_r": 3,
+    "clean": false
+   },
+   {
+    "wall": 53,
+    "deficit": 25,
+    "repair": 588,
+    "units": 25,
+    "g_r": -1,
+    "clean": false
+   },
+   {
+    "wall": 33,
+    "deficit": 25,
+    "repair": 1250,
+    "units": 25,
+    "g_r": 0,
+    "clean": false
+   },
+   {
+    "wall": 56,
+    "deficit": 23,
+    "repair": 169,
+    "units": 23,
+    "g_r": 2,
+    "clean": true
+   },
+   {
+    "wall": 58,
+    "deficit": 12,
+    "repair": 3333,
+    "units": 12,
+    "g_r": 7,
+    "clean": false
+   },
+   {
+    "wall": 53,
+    "deficit": 12,
+    "repair": 2500,
+    "units": 12,
+    "g_r": -1,
+    "clean": false
+   },
+   {
+    "wall": 33,
+    "deficit": 12,
+    "repair": 232,
+    "units": 12,
+    "g_r": -5,
+    "clean": false
+   },
+   {
+    "wall": 69,
+    "deficit": 48,
+    "repair": 909,
+    "units": 48,
+    "g_r": 2,
+    "clean": false
+   },
+   {
+    "wall": 56,
+    "deficit": 48,
+    "repair": 3333,
+    "units": 48,
+    "g_r": 7,
+    "clean": false
+   },
+   {
+    "wall": 40,
+    "deficit": 22,
+    "repair": 120,
+    "units": 22,
+    "g_r": 4,
+    "clean": false
+   },
+   {
+    "wall": 45,
+    "deficit": 23,
+    "repair": 769,
+    "units": 23,
+    "g_r": 1,
+    "clean": false
+   },
+   {
+    "wall": 64,
+    "deficit": 119,
+    "repair": 2000,
+    "units": 119,
+    "g_r": 5,
+    "clean": false
+   },
+   {
+    "wall": 40,
+    "deficit": 96,
+    "repair": 1428,
+    "units": 96,
+    "g_r": 3,
+    "clean": false
+   },
+   {
+    "wall": 58,
+    "deficit": 71,
+    "repair": 526,
+    "units": 71,
+    "g_r": 5,
+    "clean": false
+   },
+   {
+    "wall": 64,
+    "deficit": 96,
+    "repair": 2500,
+    "units": 96,
+    "g_r": -1,
+    "clean": false
+   },
+   {
+    "wall": 33,
+    "deficit": 22,
+    "repair": null
+   }
+  ],
+  "walls": [
+   33,
+   40,
+   45,
+   46,
+   48,
+   49,
+   53,
+   54,
+   56,
+   58,
+   60,
+   62,
+   64,
+   65,
+   68,
+   69,
+   70,
+   73,
+   74,
+   75,
+   77,
+   79,
+   81,
+   83,
+   84,
+   85,
+   86,
+   87,
+   89,
+   90,
+   92,
+   94,
+   95,
+   96,
+   98,
+   100
+  ],
+  "profitable_sources": [
+   103,
+   112,
+   120,
+   123,
+   126,
+   136,
+   140,
+   149,
+   156,
+   163,
+   169,
+   188,
+   204,
+   270,
+   312,
+   322,
+   344,
+   370,
+   434,
+   526,
+   625,
+   769,
+   909,
+   1111,
+   1428,
+   2000,
+   3333,
+   5000
+  ],
+  "clean_refills_available": {
+   "33": [],
+   "40": [
+    204
+   ],
+   "45": [],
+   "46": [],
+   "48": [],
+   "49": [],
+   "53": [],
+   "54": [],
+   "56": [
+    169
+   ],
+   "58": [],
+   "60": [],
+   "62": [],
+   "64": [],
+   "65": [],
+   "68": [
+    204
+   ],
+   "69": [],
+   "70": [],
+   "73": [],
+   "74": [],
+   "75": [],
+   "77": [],
+   "79": [],
+   "81": [],
+   "83": [],
+   "84": [
+    169
+   ],
+   "85": [],
+   "86": [],
+   "87": [],
+   "89": [],
+   "90": [],
+   "92": [],
+   "94": [],
+   "95": [],
+   "96": [],
+   "98": [],
+   "100": [
+    169
+   ]
+  },
+  "repairs_added": {
+   "120": 22,
+   "136": 12,
+   "169": 23,
+   "204": 8,
+   "322": 25,
+   "434": 12,
+   "526": 96,
+   "769": 23,
+   "909": 60,
+   "1428": 121,
+   "2000": 144,
+   "3333": 71,
+   "588": 25,
+   "1250": 25,
+   "2500": 108,
+   "232": 12
+  }
+ }
+}

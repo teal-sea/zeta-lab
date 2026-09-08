@@ -96,6 +96,30 @@ def test_fold_family_fails_at_the_walls_and_rough_shifts_hold():
     assert 33 in out4["zero_mass_prefix_cells"] and out4["variants"][0]["t_star"] == 0.0
 
 
+def test_compensated_bundle_and_rule_c_at_1000_31():
+    # DUAL_WITNESS.md Section 9: the coordinator's bundle Fold(76) + 2Fold(200)
+    # + Fold(333) is an exact witness with eps* = log(7)/3 and gain (10/3) log 7;
+    # Lemma 8 holds at every top cell; Rule C closes the walls with 2 Fold(333)
+    # and gains 5 log 3, while the increasing-r variant nets zero.
+    import math
+
+    cf = _load("compensated_fold")
+    lem = cf.band_lemma_check(1000, 31)
+    assert lem["violations"] == 0 and lem["violations_at_w_eq_y"] == 0
+    b = cf.check_bundle(1000, 31, {76: 1, 200: 2, 333: 1})
+    assert b["support_ok"] and b["moments_ok"] and b["feasible"]
+    assert b["gains_per_unit"] == {76: 2, 200: 4, 333: 0} and b["total_gain_units"] == 10
+    assert b["binding_cell"] == 20 and b["eps_star"] == "log(7)/3"
+    assert b["withdrawn_cells"][20] == 3 and b["withdrawn_cells"][7] == 7
+    assert abs(float(b["gain_interval"][0]) - 10 * math.log(7) / 3) < 1e-12
+    c = cf.rule_c(1000, 31, verbose=False, order="clean-gain-r")
+    assert c["feasible"] and c["total_gain_units"] == 10 and c["binding_cell"] == 333
+    assert c["repairs_added"] == {333: 2}
+    assert abs(float(c["gain_interval"][0]) - 5 * math.log(3)) < 1e-12
+    c0 = cf.rule_c(1000, 31, verbose=False, order="r")
+    assert c0["feasible"] and c0["total_gain_units"] == 0
+
+
 def test_prefix_family_certifies_nothing_at_1000_31():
     pw = _load("prefix_witness")
     out = pw.prefix_family(1000, 31, verbose=False)
