@@ -328,7 +328,15 @@ reached).
 
 The relaxation lowers the constant by about 40% and leaves the exponent
 where it was: T* = (0.18 to 0.23) N^{3/4} over four decades, the fitted
-exponent from 10^3 to 10^6 is 0.73. So the barrier survives the relaxation
+exponent from 10^3 to 10^6 is 0.73. The first two rows are now exact
+(`DUAL_WITNESS.md`, 2026-09-07): T*(31, 1000) - psi = 41.282169442959391...
+and T*(100, 10^4) - psi = 226.832689612321502..., each pinned between an
+exact-rational, enclosure-checked dual witness and the tight primal
+certificate of the same basis, and agreeing with Codex's rational primal
+upper bounds. The 10^5 and 10^6 rows remain floating LP values. A
+tractable non-basic witness (prefix-mediated exchanges between cells above
+y, `DUAL_WITNESS.md` Section 6) certifies 30.98 and 132.73 of those two
+optima with ten and twenty-five explicit exchanges. So the barrier survives the relaxation
 that a cutoff-indexed family is entitled to, at measured grade. The
 conjecture in BARRIER.md Section 3 should be read for T* as well as V*,
 with the constant 0.2 in place of 0.32; nothing in this note proves either.

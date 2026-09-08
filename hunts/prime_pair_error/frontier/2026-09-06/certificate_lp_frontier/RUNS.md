@@ -59,6 +59,22 @@ out of reach of plain constraint generation in 350 minutes (9.2 million
 violated cells after round 0); it needs a warm start or a smarter initial
 cell set before it is worth another runner-day.
 
+## Local runs, 2026-09-07, continuation (dual witnesses; one worker, all thread env vars = 1)
+
+| script | (N, y) | wall | memory | note |
+|---|---|---:|---:|---|
+| dual_witness.py | (10^3, 31) | 12 s | small | exact rational solves for 168 primes, 61 rows; enclosures at 60 digits |
+| dual_witness.py | (10^4, 100) | 37 s | small | 1229 primes, 198 rows, 100 x 100 exact system |
+| prefix_witness.py | (10^3, 31), (10^4, 100) | 0.2 s, 14 s | small | closed-form rates checked exactly against the basis solve |
+| fake_mass_witness.py | (10^3, 31), (10^4, 100) | 30 s, 100 s | small | Constructions A and B; pair scan is 17 x 30 and 35 x 98 two-variable LPs per greedy step |
+| fold_family.py | (10^3, 31), (10^4, 100), (3600, 60) holdout | 0.1 s each | small | the prescribed halving-fold family and the rough-shift family; no LP solve |
+| compensated_fold.py | (10^3, 31) with the bundle 76:1,200:2,333:1; (10^4, 100); (3600, 60) | 1 s, 12 s, 3 s | small | bundle verification, Lemma 8 checks, Rules C0 and C; the coordinator bundle + credit diagnosis at 10^4; no LP solve |
+| signed_fold.py | (10^4, 100), witness from results/fake_mass_N10000_y100.json | 2 s | small | descending fold recurrence, reconstruction check, twin-exchange scan; no LP solve |
+| grouped_signed.py | (10^4, 100), same witness + Codex's beta | 3 s | small | h-decomposition identity, excess bound, confluence-triple scan; no LP solve |
+| escalator.py | (10^4, 100), source 232 -> {102, 123, 126}; review controls a=102/{204}, a=103/{204} zero weights, empty D | 3 s | small | control J, telescoping (Lemma 11), S(a) = -z_a, source-exhaustion (Lemma 12, corrected coordinate and max({0} u ...) bound); exact moments/coordinates, point-valued mpmath gains (no enclosure); no LP solve |
+
+No CI, no background jobs, nothing at 10^5 or beyond.
+
 ## Local runs, 2026-09-07 (barrier work)
 
 | script | (N, y) | wall | note |
