@@ -25,8 +25,9 @@ The confluence triple at an even zero-mass cell b (k = b/2):
 sources the double 2b and the odd twin 2k+1, deposits at b.  Zero moments by
 Lemma 7.  It is a feasible dual witness iff no zero-mass cell is net-withdrawn,
 with scale eps* = min_{C(b)_c < 0} m_c/(-C(b)_c) and gain eps*(g(2b)+g(2k+1)-g(b)).
-`confluence` builds and verifies it exactly (moments as integers, signs and
-scale by enclosure).
+`confluence` checks the integer moments and absence of zero-mass withdrawals
+exactly. Scales and gains use point-valued mpmath evaluations and float output,
+not interval enclosures.
 """
 from __future__ import annotations
 
@@ -37,7 +38,7 @@ from fractions import Fraction as Fr
 
 import mpmath as mp
 
-from dual_witness import build
+from dual_witness import build, _preserve_precision
 from fold_family import fold_vectors
 from prefix_witness import mobius_table
 from signed_fold import fold_measure, witness_delta
@@ -58,6 +59,7 @@ def _mass_terms(cells, e, primes):
     return mt
 
 
+@_preserve_precision
 def h_decomposition(N: int, y: int, witness_path: str, dps: int = 50) -> dict:
     cells, idx, A_mat, e, primes, ell = build(N, y)
     mu = mobius_table(y)
@@ -110,6 +112,7 @@ def h_decomposition(N: int, y: int, witness_path: str, dps: int = 50) -> dict:
     }
 
 
+@_preserve_precision
 def confluence(N: int, y: int, b: int, dps: int = 40) -> dict:
     cells, idx, A_mat, e, primes, ell = build(N, y)
     mu = mobius_table(y)

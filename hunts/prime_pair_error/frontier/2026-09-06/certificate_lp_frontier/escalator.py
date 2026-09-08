@@ -57,7 +57,7 @@ from fractions import Fraction as Fr
 
 import mpmath as mp
 
-from dual_witness import build
+from dual_witness import build, _preserve_precision
 from fold_family import fold_vectors
 from prefix_witness import mobius_table, prefix_rates
 from signed_fold import fold_measure
@@ -94,6 +94,7 @@ def measure(coeffs, y, mu):
     return {c: v for c, v in D.items() if v}
 
 
+@_preserve_precision
 def analyze(N, y, coeffs, dps=40):
     """Exact moments/coordinates; point-valued mpmath (not enclosure) scale and gain."""
     attain, mu, mt = _setup(N, y)
@@ -135,6 +136,7 @@ def z_identity_check(N, y, a):
     return S == neg_z
 
 
+@_preserve_precision
 def source_exhaustion(N, y, a, dests, weights=None, dps=40):
     """Lemma 12 on the collection sum_b theta_b (S(a) - Fold(b)), D excluding a.
     Returns the exact coordinate at a against the predicted -T - 2(theta_2a+theta_2a+1),

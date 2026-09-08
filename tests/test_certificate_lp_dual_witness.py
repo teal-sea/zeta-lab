@@ -29,6 +29,41 @@ def _load(name: str):
     return mod
 
 
+@pytest.fixture(autouse=True)
+def precision_does_not_leak():
+    import mpmath
+
+    before = mpmath.mp.prec, mpmath.iv.prec
+    try:
+        yield
+    finally:
+        after = mpmath.mp.prec, mpmath.iv.prec
+        mpmath.mp.prec, mpmath.iv.prec = before
+        assert after == before, "hunt call leaked mpmath precision into another test"
+
+
+def test_precision_restored_after_nested_call_and_exception():
+    import mpmath
+
+    dw = _load("dual_witness")
+    before = mpmath.mp.prec, mpmath.iv.prec
+
+    @dw._preserve_precision
+    def inner():
+        mpmath.mp.prec, mpmath.iv.prec = 113, 127
+        raise ValueError("precision restoration control")
+
+    @dw._preserve_precision
+    def outer():
+        mpmath.mp.prec, mpmath.iv.prec = 73, 79
+        with pytest.raises(ValueError, match="precision restoration control"):
+            inner()
+        assert (mpmath.mp.prec, mpmath.iv.prec) == (73, 79)
+
+    outer()
+    assert (mpmath.mp.prec, mpmath.iv.prec) == before
+
+
 @pytest.fixture(scope="module")
 def witness_1000_31():
     dw = _load("dual_witness")

@@ -38,9 +38,26 @@ import math
 import sys
 import time
 from fractions import Fraction
+from functools import wraps
 
 import numpy as np
 from scipy.optimize import linprog
+
+
+def _preserve_precision(function):
+    """Keep this hunt's point and interval precision local to each call."""
+    @wraps(function)
+    def wrapped(*args, **kwargs):
+        import mpmath
+
+        point_prec, interval_prec = mpmath.mp.prec, mpmath.iv.prec
+        try:
+            return function(*args, **kwargs)
+        finally:
+            mpmath.mp.prec = point_prec
+            mpmath.iv.prec = interval_prec
+
+    return wrapped
 
 
 # ----------------------------------------------------------------------------
@@ -137,6 +154,7 @@ def rank_exact(M: list[list[Fraction]]) -> int:
 # ----------------------------------------------------------------------------
 # the witness
 # ----------------------------------------------------------------------------
+@_preserve_precision
 def witness(N: int, y: int, dps: int = 60, verbose: bool = True) -> dict:
     t0 = time.time()
     cells, idx, A, e, primes, ell = build(N, y)

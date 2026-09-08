@@ -41,7 +41,7 @@ from fractions import Fraction
 
 import numpy as np
 
-from dual_witness import build
+from dual_witness import build, _preserve_precision
 from fold_family import fold_vectors
 from prefix_witness import mobius_table
 
@@ -76,6 +76,7 @@ def bundle_measure(coeffs: dict[int, int], y: int, mu: np.ndarray) -> dict[int, 
     return {c: v for c, v in D.items() if v}
 
 
+@_preserve_precision
 def check_bundle(N: int, y: int, coeffs: dict[int, int], dps: int = 40) -> dict:
     cells, idx, mu, mass_terms, Mprod = setup(N, y)
     D = bundle_measure(coeffs, y, mu)

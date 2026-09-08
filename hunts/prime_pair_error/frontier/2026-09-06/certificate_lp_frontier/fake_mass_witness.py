@@ -37,10 +37,11 @@ from fractions import Fraction
 import numpy as np
 from scipy.optimize import linprog
 
-from dual_witness import build
+from dual_witness import build, _preserve_precision
 from prefix_witness import mobius_table, prefix_rates
 
 
+@_preserve_precision
 def construction_a(N: int, y: int, dps: int = 40, verbose: bool = True, greedy_steps: int = 25) -> dict:
     t0 = time.time()
     cells, idx, A, e, primes, ell = build(N, y)

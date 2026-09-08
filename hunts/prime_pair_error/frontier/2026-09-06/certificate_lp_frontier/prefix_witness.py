@@ -34,7 +34,7 @@ from fractions import Fraction
 import numpy as np
 from scipy.optimize import linprog
 
-from dual_witness import build, lu_solve_exact, float_L
+from dual_witness import build, lu_solve_exact, float_L, _preserve_precision
 
 
 def mobius_table(n: int) -> np.ndarray:
@@ -58,6 +58,7 @@ def prefix_rates(q: int, y: int, mu: np.ndarray) -> list[Fraction]:
     return [Fraction(R[s] - R[s + 1]) for s in range(1, y + 1)]
 
 
+@_preserve_precision
 def prefix_family(N: int, y: int, dps: int = 60, verbose: bool = True) -> dict:
     t0 = time.time()
     cells, idx, A, e, primes, ell = build(N, y)

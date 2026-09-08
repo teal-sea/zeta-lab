@@ -39,7 +39,7 @@ from fractions import Fraction
 
 import numpy as np
 
-from dual_witness import build
+from dual_witness import build, _preserve_precision
 from prefix_witness import mobius_table
 
 
@@ -53,6 +53,7 @@ def fold_vectors(a: int, y: int, mu: np.ndarray):
     return kappa, g
 
 
+@_preserve_precision
 def evaluate(N: int, y: int, dps: int = 40, verbose: bool = True) -> dict:
     t0 = time.time()
     cells, idx, A, e, primes, ell = build(N, y)
