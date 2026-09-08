@@ -66,6 +66,7 @@ cell set before it is worth another runner-day.
 | dual_witness.py | (10^3, 31) | 12 s | small | exact rational solves for 168 primes, 61 rows; enclosures at 60 digits |
 | dual_witness.py | (10^4, 100) | 37 s | small | 1229 primes, 198 rows, 100 x 100 exact system |
 | prefix_witness.py | (10^3, 31), (10^4, 100) | 0.2 s, 14 s | small | closed-form rates checked exactly against the basis solve |
+| fake_mass_witness.py | (10^3, 31), (10^4, 100) | 30 s, 100 s | small | Constructions A and B; pair scan is 17 x 30 and 35 x 98 two-variable LPs per greedy step |
 
 No CI, no background jobs, nothing at 10^5 or beyond.
 

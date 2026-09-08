@@ -55,6 +55,24 @@ def test_exact_witness_at_1000_31(witness_1000_31):
     assert Fraction(w["emptied_cells_gain_per_unit"][200]) == Fraction(141, 74)
 
 
+def test_exchange_construction_at_1000_31():
+    # Construction B (DUAL_WITNESS.md Section 6): greedy prefix-mediated
+    # exchanges give an exactly verified witness; three steps already beat
+    # every one-sided prefix family, and the two-sided z_q LP reproduces the
+    # exact optimum (Lemma 6).
+    fm = _load("fake_mass_witness")
+    out = fm.construction_a(1000, 31, verbose=False, greedy_steps=3)
+    assert out["Q_plus"] == 29 and out["Q_minus_with_mass"] == 0
+    assert abs(out["additions_rationalized_gain_float"] - 4 * 0.6931471805599453) < 1e-5
+    assert out["additions_rationalized_feasible"] and out["additions_moments_exact"]
+    assert all(c["t_max"] == 0.0 and c["binding_s"] == 17 for c in out["constant_parameter"])
+    assert out["greedy_moments_exact"] and out["greedy_feasible_by_enclosure"]
+    assert len(out["greedy"]) == 3
+    assert out["greedy"][0]["a"] == 32 and out["greedy"][0]["b"] == 166
+    assert out["greedy_total_gain_float"] > 15.0
+    assert abs(out["two_sided_lp_gain_float"] - 41.2821694) < 1e-5
+
+
 def test_prefix_family_certifies_nothing_at_1000_31():
     pw = _load("prefix_witness")
     out = pw.prefix_family(1000, 31, verbose=False)
