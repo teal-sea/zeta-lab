@@ -1,0 +1,51 @@
+{
+  "base_revision": "2da62eb9842db72d4f6bad09c6f13efe384d6ab7",
+  "elapsed_seconds": 0.126252,
+  "maximum_N": 1024,
+  "nonnegative_conversion": {
+    "cases_checked": 15625,
+    "minimum_integer_slack": 0,
+    "status": "passed"
+  },
+  "polynomial_cases": [
+    {
+      "N": 32,
+      "coefficient_count_per_polynomial": 32,
+      "d": 4,
+      "fourth_A": 5536,
+      "fourth_B": 5536,
+      "integer_routes_agree": true,
+      "kernel_fourth": 344,
+      "l2_squared_per_polynomial": 32,
+      "lower_bound_for_max": 5504,
+      "m": 8,
+      "r": 1,
+      "recursion_complement_identity": true,
+      "status": "passed"
+    },
+    {
+      "N": 1024,
+      "coefficient_count_per_polynomial": 1024,
+      "d": 16,
+      "fourth_A": 55931904,
+      "fourth_B": 55931904,
+      "integer_routes_agree": true,
+      "kernel_fourth": 174784,
+      "l2_squared_per_polynomial": 1024,
+      "lower_bound_for_max": 44744704,
+      "m": 64,
+      "r": 2,
+      "recursion_complement_identity": true,
+      "status": "passed"
+    }
+  ],
+  "polynomial_cases_completed": 2,
+  "polynomial_cases_requested": 2,
+  "processes": 1,
+  "proof_sha256": "b7cbb80dca7eaa8f27c2d173ea960f7d3c4610d5d79affb4c657f0b29251302b",
+  "scope": "finite integer identities, no arc quadrature or prime estimate",
+  "script_sha256": "7f1a73794087dd76e7fcb97dc3a46e012552ef4e02ebfba4d5374987d7ce976b",
+  "status": "passed",
+  "wall_limit_seconds": 20,
+  "worker_threads": 0
+}
