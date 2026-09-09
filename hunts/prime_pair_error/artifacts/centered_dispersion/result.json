@@ -1,0 +1,66 @@
+{
+  "status": "passed",
+  "parameters": {
+    "N": 216,
+    "U": 8,
+    "V": 8,
+    "R": 6,
+    "y": 14,
+    "grid": 865
+  },
+  "limits": {
+    "seconds": 60,
+    "numerical_threads": 1,
+    "cutoffs": 1
+  },
+  "exact_checks": {
+    "vaughan_coefficients": 216,
+    "distinct_semiprime_products": [
+      143,
+      187,
+      209
+    ],
+    "prime_squares": [
+      121,
+      169
+    ],
+    "prime_power_formula": 61,
+    "uniform_remainder_checks": 217,
+    "full_period_correlations": 60,
+    "prime_model_cross_identity": 1,
+    "h_R": "13/4",
+    "B_R": "315/4",
+    "largest_remainder": "169/16",
+    "largest_remainder_over_bound": "169/1260",
+    "model_centered_norm_squared": "349271/32"
+  },
+  "mp50_checks": {
+    "signed_kernel_checks": 6,
+    "largest_kernel_defect": "1.500143889832403e-48",
+    "s_R": "280.0445743197158708072",
+    "evaluated_s_R_defect": "1.368455531567204e-48",
+    "prime_centered_norm_squared": "235605.5335404358494677",
+    "complete_transfer_norm_squared": "305792.2270052045679355",
+    "transfer_envelope_bound": "98275760.4610834646084",
+    "deficit_D_N_R": "33.77483042740404419926"
+  },
+  "floating_grid": {
+    "defects": {
+      "vaughan_fourier": 3.899902338861976e-14,
+      "centered_decomposition": 5.684341886080801e-13,
+      "centered_norm_relative": 9.992007221626409e-15,
+      "four_integral_expansion_relative": 3.219646771412954e-15,
+      "transfer_norm_relative": 2.4424906541753444e-15,
+      "phase_identity_relative": 1.3322676295501878e-15,
+      "model_norm_relative": 2.4868995751603507e-14
+    },
+    "weighted_transfer_before_phase_subtraction": 402236.549029774,
+    "phase_loss": 59347.612619106374,
+    "constant_square_subtraction": 37096.70940546259,
+    "scope": "Finite float cross-checks, not asymptotic evidence or interval enclosures."
+  },
+  "elapsed_seconds": 0.16507462499430403,
+  "proof_sha256": "7bb42b5ebd154aaad22f94088754bebad41dce6beb5467f621bdc5bd3ccc7ac1",
+  "script_sha256": "ec84aef7a2f2eef0862c4cb17a0463ae39e4ecd587511c0e39456ff49a88c9f7",
+  "base_commit": "2da62eb9842db72d4f6bad09c6f13efe384d6ab7"
+}
