@@ -70,6 +70,44 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #119: one form per discriminant, not forty-four (`euler_defect_axis/`, 2026-09-09)
+
+**Status: settled, correction.** The composite-line discriminator is defined for a
+Dirichlet series with `a(1) = 1`, and a binary quadratic form represents 1 exactly when
+it is the principal form of its class group. Measured over the 44 rows of `docs/34`
+table E7: the residual of the identity the recursion solves is machine zero on the 14
+principal forms and on the 14 class-group sums, and is bounded away from zero on all 30
+others, worst `189.6888` at the row the table reports as loudest (`36.0644`, `d = -15`).
+No rescaling repairs them: none of the 27 non-principal forms checked represents only
+multiples of its least represented value. The section's qualitative reading survives on
+the entitled rows and is checked there against `c(n) = Lambda(n)(1 + chi_d(n))`, which
+uses no recursion, to `2.8e-30`. The corrected axis is 0 for class number one and 2.9608
+to 5.0847 for the rest, correlating with `log|d|` at `-0.82` and with class number at
+`-0.69`, so the family issue #93 proposes as "a defect axis from 0 to 36 with class
+number as the knob" is neither. Repair proposed, not applied: `euler_defect_axis/PROPOSAL.md`.
+Nothing bears on RH (`docs/08`).
+
+### Hunt #120: the failure surface of the Epstein evaluator (`epstein_height/`, 2026-09-09)
+
+**Status: in progress.** `hunts/gate5_p6_c/probe.py` derives the cancellation law
+(`pi t / (2 ln 10) = 0.6822` digits lost per unit height) and `hunts/dps_cap` measured
+its cost at one point. Neither reached `zeta/epstein.py`, which still accepts any `dps`
+and returns a silently wrong value above the height that precision supports. Measured
+against a direct lattice sum at `Re s = 5`, which the routine shares no code with.
+
+### Hunt #121: the attainable-quotient floor, reformulated (`quotient_exponent/`, 2026-09-09)
+
+**Status: in progress.** The factorial objective is a difference of quantities near
+`1e8` whose answer is near `1e4`; written as `sum_q w_q e_q` over attainable cells it is
+a sum of nonnegative terms equal to the excess itself. Reproduces the published
+`41.28216944`, `226.83268961`, `1035.2339343` and `6414.83216` and extends the ladder.
+
+### Hunt #122: what happens to a claim after it is recorded (`claim_halflife/`, 2026-09-09)
+
+**Status: in progress.** Not mathematics: a measurement of this laboratory. 95 case-log
+entries, their later commits classified at three declared strictness levels, and a
+planted-fault ladder against the tests that name them.
+
 ### Positivity on attainable quotients (`quotient_certificate/`, 2026-09-07)
 
 **Status: finite improvement and correction; no asymptotic result.** Requiring

@@ -1,0 +1,41 @@
+[
+ {
+  "N": 100000,
+  "y": 316,
+  "cells": 630,
+  "variables": 946,
+  "status": 0,
+  "message": "Optimization terminated successfully. (HiGHS Status 7: Optimal)",
+  "success": true,
+  "excess": 1035.2339342959353,
+  "psi_N": 100051.56402565801,
+  "identity": {
+   "sum_w_minus_psi_N": -1.4551915228366852e-11,
+   "sum_w_rel_defect": 1.4544415542204861e-16,
+   "factorial_telescope_max_rel_defect": 4.884881302464722e-16,
+   "factorial_telescope_argmax_j": 82
+  },
+  "setup_seconds": 0.01,
+  "solve_seconds": 0.77,
+  "n_binding_cells": 321,
+  "max_abs_c": 8.764425494063392,
+  "c_head": [
+   1.0,
+   -1.0,
+   -1.0,
+   -0.0,
+   -1.0,
+   1.0,
+   -1.0,
+   -0.0,
+   -0.0,
+   1.0,
+   -1.0,
+   -0.0
+  ],
+  "A_c": -0.0004252533946715563,
+  "min_e_direct": -4.547473508864641e-12,
+  "excess_direct": 1035.2339342959435,
+  "excess_direct_defect": 8.185452315956354e-12
+ }
+]

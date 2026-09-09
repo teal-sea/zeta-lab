@@ -1,0 +1,5 @@
+{
+ "reserved_pattern": "certifi(ed)",
+ "mask": "<reserved-word-masked>",
+ "occurrences_masked": 5
+}

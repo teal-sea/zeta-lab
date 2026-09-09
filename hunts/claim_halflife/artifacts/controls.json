@@ -1,0 +1,56 @@
+[
+ {
+  "pathspec": "hunts/",
+  "suffix": ".md",
+  "n_commits": 492,
+  "strict": 247,
+  "medium": 254,
+  "strict_rate": 0.5020325203252033,
+  "medium_rate": 0.516260162601626
+ },
+ {
+  "pathspec": "docs/",
+  "suffix": ".md",
+  "n_commits": 119,
+  "strict": 44,
+  "medium": 48,
+  "strict_rate": 0.3697478991596639,
+  "medium_rate": 0.40336134453781514
+ },
+ {
+  "pathspec": "scripts/",
+  "suffix": ".py",
+  "n_commits": 130,
+  "strict": 28,
+  "medium": 33,
+  "strict_rate": 0.2153846153846154,
+  "medium_rate": 0.25384615384615383
+ },
+ {
+  "pathspec": ".github/",
+  "suffix": ".yml",
+  "n_commits": 29,
+  "strict": 3,
+  "medium": 5,
+  "strict_rate": 0.10344827586206896,
+  "medium_rate": 0.1724137931034483
+ },
+ {
+  "pathspec": "interactive_lab/",
+  "suffix": ".html",
+  "n_commits": 3,
+  "strict": 0,
+  "medium": 0,
+  "strict_rate": 0.0,
+  "medium_rate": 0.0
+ },
+ {
+  "pathspec": "zeta/",
+  "suffix": ".py",
+  "n_commits": 40,
+  "strict": 16,
+  "medium": 19,
+  "strict_rate": 0.4,
+  "medium_rate": 0.475
+ }
+]

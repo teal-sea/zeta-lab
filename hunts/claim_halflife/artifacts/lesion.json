@@ -1,0 +1,329 @@
+[
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_certificate.py",
+  "artifact": "hunts/quotient_certificate/results.json",
+  "n_artifacts_named": 1,
+  "coarse": "caught",
+  "coarse_mutation": "int 1000 -> 1100",
+  "fine": "caught",
+  "fine_mutation": "int 1000 -> 1001"
+ },
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_compensated_repair.py",
+  "artifact": "hunts/quotient_certificate/compensated_repair_results.json",
+  "n_artifacts_named": 2,
+  "coarse": "caught",
+  "coarse_mutation": "int 1000 -> 1100",
+  "fine": "caught",
+  "fine_mutation": "int 1000 -> 1001"
+ },
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_credited_bundle.py",
+  "artifact": "hunts/quotient_certificate/credited_bundle_results.json",
+  "n_artifacts_named": 2,
+  "coarse": "caught",
+  "coarse_mutation": "int 10000 -> 11000",
+  "fine": "caught",
+  "fine_mutation": "int 10000 -> 10001"
+ },
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_finite_transfer.py",
+  "artifact": "hunts/quotient_certificate/finite_transfer_counterexample.json",
+  "n_artifacts_named": 3,
+  "coarse": "caught",
+  "coarse_mutation": "int 10000 -> 11000",
+  "fine": "caught",
+  "fine_mutation": "int 10000 -> 10001"
+ },
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_fold_upper.py",
+  "artifact": "hunts/quotient_certificate/fold_upper_input.json",
+  "n_artifacts_named": 4,
+  "coarse": "caught",
+  "coarse_mutation": "int 10000 -> 11000",
+  "fine": "caught",
+  "fine_mutation": "int 10000 -> 10001"
+ },
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_height_kernel.py",
+  "artifact": "hunts/quotient_certificate/height_kernel_input.json",
+  "n_artifacts_named": 3,
+  "coarse": "caught",
+  "coarse_mutation": "int 10000 -> 11000",
+  "fine": "caught",
+  "fine_mutation": "int 10000 -> 10001"
+ },
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_transport_capacity.py",
+  "artifact": "hunts/quotient_certificate/height_kernel_results.json",
+  "n_artifacts_named": 3,
+  "coarse": "caught",
+  "coarse_mutation": "int 10000 -> 11000",
+  "fine": "caught",
+  "fine_mutation": "int 10000 -> 10001"
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_adaptive_freeze_archive.py",
+  "artifact": "hunts/prime_pair_error/frontier/2026-09-06/README.md",
+  "n_artifacts_named": 20,
+  "coarse": "no-mutable-leaf",
+  "fine": "no-mutable-leaf"
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_certificate_lp_barrier.py",
+  "artifact": "hunts/prime_pair_error/frontier/2026-09-06/certificate_lp_frontier/BARRIER.md",
+  "n_artifacts_named": 1,
+  "coarse": "missed",
+  "coarse_mutation": "md 0.0216 -> 0.0238",
+  "fine": "missed",
+  "fine_mutation": "md 0.0216 -> 0.0216"
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_certificate_lp_dual_witness.py",
+  "artifact": "hunts/prime_pair_error/frontier/2026-09-06/certificate_lp_frontier/DUAL_WITNESS.md",
+  "n_artifacts_named": 2,
+  "coarse": "missed",
+  "coarse_mutation": "md 41.28216944 -> 45.41038638",
+  "fine": "missed",
+  "fine_mutation": "md 41.28216944 -> 41.28221072"
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_certificate_lp_frontier.py",
+  "artifact": "hunts/prime_pair_error/RESULTS.md",
+  "n_artifacts_named": 2,
+  "coarse": "missed",
+  "coarse_mutation": "md 2308.14888 -> 2538.96377",
+  "fine": "missed",
+  "fine_mutation": "md 2308.14888 -> 2308.15119"
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_factorial_pilot_archive.py",
+  "artifact": "hunts/prime_pair_error/frontier/2026-09-06/adaptive_correction_block/SHA256SUMS.json",
+  "n_artifacts_named": 15,
+  "coarse": "missed",
+  "coarse_mutation": "int 18429 -> 20271",
+  "fine": "missed",
+  "fine_mutation": "int 18429 -> 18430"
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_frontier_archive.py",
+  "artifact": "hunts/prime_pair_error/frontier/2026-09-06/PROVENANCE.md",
+  "n_artifacts_named": 12,
+  "coarse": "no-mutable-leaf",
+  "fine": "no-mutable-leaf"
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_prime_pair_residue.py",
+  "artifact": "hunts/prime_pair_error/REFEREE.md",
+  "n_artifacts_named": 5,
+  "coarse": "missed",
+  "coarse_mutation": "md 2308.14888 -> 2538.96377",
+  "fine": "missed",
+  "fine_mutation": "md 2308.14888 -> 2308.15119"
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_prime_pair_upper_bound.py",
+  "outcome": "no-artifact-named",
+  "artifacts": []
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_research_checkpoint_archive.py",
+  "artifact": "hunts/prime_pair_error/frontier/2026-09-06/README.md",
+  "n_artifacts_named": 37,
+  "coarse": "no-mutable-leaf",
+  "fine": "no-mutable-leaf"
+ },
+ {
+  "hunt": "dps_cap",
+  "test": "test_interface_dps_is_honoured.py",
+  "outcome": "no-artifact-named",
+  "artifacts": []
+ },
+ {
+  "hunt": "dps_cap",
+  "test": "test_interface_dps_is_honoured.py",
+  "outcome": "no-artifact-named",
+  "artifacts": []
+ },
+ {
+  "hunt": "zeta_temperament",
+  "test": "test_zeta_temperament.py",
+  "artifact": "hunts/zeta_temperament/results_euler.json",
+  "n_artifacts_named": 3,
+  "coarse": "missed",
+  "coarse_mutation": "int 61 -> 67",
+  "fine": "missed",
+  "fine_mutation": "int 61 -> 62"
+ },
+ {
+  "hunt": "chroma_hue",
+  "test": "test_chroma_hue.py",
+  "outcome": "no-artifact-named",
+  "artifacts": []
+ },
+ {
+  "hunt": "r_662b12",
+  "test": "test_aimo_audit.py",
+  "artifact": "hunts/r_662b12/AUDIT.md",
+  "n_artifacts_named": 3,
+  "coarse": "no-mutable-leaf",
+  "fine": "no-mutable-leaf"
+ },
+ {
+  "hunt": "r_322dae",
+  "test": "test_krenn_gu_support_frontier.py",
+  "artifact": "hunts/r_322dae/results.json",
+  "n_artifacts_named": 1,
+  "coarse": "missed",
+  "coarse_mutation": "int 6 -> 7",
+  "fine": "missed",
+  "fine_mutation": "int 6 -> 7"
+ },
+ {
+  "hunt": "r_044dd2",
+  "test": "test_krenn_gu_polynomial_sieve.py",
+  "artifact": "hunts/r_044dd2/artifacts/orbit18-polynomial-07-cap4.json",
+  "n_artifacts_named": 3,
+  "coarse": "missed",
+  "coarse_mutation": "int 18 -> 19",
+  "fine": "missed",
+  "fine_mutation": "int 18 -> 19"
+ },
+ {
+  "hunt": "r_044dd2",
+  "test": "test_krenn_gu_support_frontier.py",
+  "artifact": "hunts/r_044dd2/artifacts/orbit18-laurent-05.json",
+  "n_artifacts_named": 4,
+  "coarse": "caught",
+  "coarse_mutation": "int 18 -> 19",
+  "fine": "caught",
+  "fine_mutation": "int 18 -> 19"
+ },
+ {
+  "hunt": "lambda_dh_bounds",
+  "test": "test_lambda_dh_separation.py",
+  "artifact": "hunts/lambda_dh_bounds/FRAME.md",
+  "n_artifacts_named": 12,
+  "coarse": "missed",
+  "coarse_mutation": "md 1301.3158 -> 1431.4474",
+  "fine": "missed",
+  "fine_mutation": "md 1301.3158 -> 1301.3171"
+ },
+ {
+  "hunt": "prime_zeta_rightmost",
+  "test": "test_prime_zeta_rightmost.py",
+  "artifact": "hunts/prime_zeta_rightmost/PRIOR-ART.md",
+  "n_artifacts_named": 7,
+  "coarse": "missed",
+  "coarse_mutation": "md 1805.02041 -> 1985.52245",
+  "fine": "missed",
+  "fine_mutation": "md 1805.02041 -> 1805.02222"
+ },
+ {
+  "hunt": "r_f7cd45",
+  "test": "test_hunt_numbering.py",
+  "outcome": "no-artifact-named",
+  "artifacts": []
+ },
+ {
+  "hunt": "r_3c1cbb",
+  "test": "test_hunt_numbering.py",
+  "outcome": "no-artifact-named",
+  "artifacts": []
+ },
+ {
+  "hunt": "r_3c1cbb",
+  "test": "test_hunt_numbering.py",
+  "outcome": "no-artifact-named",
+  "artifacts": []
+ },
+ {
+  "hunt": "r_414eed",
+  "test": "test_guard_ledger.py",
+  "artifact": "hunts/r_414eed/MISSION.md",
+  "n_artifacts_named": 1,
+  "coarse": "no-mutable-leaf",
+  "fine": "no-mutable-leaf"
+ },
+ {
+  "hunt": "frontier_math",
+  "test": "test_frontier_math_clean_kill.py",
+  "outcome": "no-artifact-named",
+  "artifacts": []
+ },
+ {
+  "hunt": "frontier_math",
+  "test": "test_graveyard.py",
+  "outcome": "no-artifact-named",
+  "artifacts": []
+ },
+ {
+  "hunt": "frontier_math",
+  "test": "test_hunt_probe_discipline.py",
+  "outcome": "baseline-red",
+  "artifact": "hunts/frontier_math/PROOF-LEDGER.md",
+  "tail": "\"\"\"A hunt that appears on disk without a case-log entry is unclassified.\"\"\"\n        if not _HUNTS.is_dir():  # pragma: no cover - hunts/ is optional\n            pytest.skip(\"no hunts/ directory\")\n        log = (_HUNTS / \"README.md\").read_text(encoding=\"utf-8\")\n        for child in sorted(_HUNTS.iterdir()):\n            if not child.is_dir() or child.name.startswith((\".\", \"_\")):\n                continue\n>           assert child.name in log, (\n                f\"hunt {child.name!r} has no entry in hunts/README.md's case log, so \"\n                \"nothing on disk says whether its claims survived anything\"\n            )\nE           AssertionError: hunt 'claim_halflife' has no entry in hunts/README.md's case log, so nothing on disk says whether its claims survived anything\nE           assert 'claim_halflife' in \"# `hunts/`: exploratory studies\\n\\nA **hunt** is an exploratory study: a scoped directory where an agent or a\\nperson...ails), and the table's other\\nstarred row (`no_damage`'s `28/5`) was not examined. Nothing bears on RH\\n(`docs/08`).\\n\"\nE            +  where 'claim_halflife' = PosixPath('/home/user/zeta-lab/hunts/claim_halflife').name\n\ntests/test_hunt_probe_discipline.py:87: AssertionError\n=========================== short test summary info ============================\nFAILED tests/test_hunt_probe_discipline.py::test_every_hunt_directory_is_covered_by_the_case_log\n!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!\n1 failed, 1 passed in 0.23s\n"
+ },
+ {
+  "hunt": "frontier_math",
+  "test": "test_o9_leaves_kernel.py",
+  "artifact": "hunts/frontier_math/O9-2D-STATUS.md",
+  "n_artifacts_named": 1,
+  "coarse": "no-mutable-leaf",
+  "fine": "no-mutable-leaf"
+ },
+ {
+  "hunt": "frontier_math",
+  "test": "test_reading_of_record.py",
+  "artifact": "hunts/frontier_math/PROOF-LEDGER.md",
+  "n_artifacts_named": 3,
+  "coarse": "missed",
+  "coarse_mutation": "md 0.672529 -> 0.739782",
+  "fine": "missed",
+  "fine_mutation": "md 0.672529 -> 0.672530"
+ },
+ {
+  "hunt": "frontier_math",
+  "test": "test_zeta23ext_imports.py",
+  "outcome": "no-artifact-named",
+  "artifacts": []
+ },
+ {
+  "hunt": "wide_search",
+  "test": "test_pub1_admissible_closure.py",
+  "artifact": "hunts/wide_search/RESULTS-xiprime-admissible-closure.md",
+  "n_artifacts_named": 1,
+  "coarse": "missed",
+  "coarse_mutation": "md 7.8749770 -> 8.6624747",
+  "fine": "missed",
+  "fine_mutation": "md 7.8749770 -> 7.8749849"
+ },
+ {
+  "hunt": "director_run",
+  "test": "test_harness_independence.py",
+  "outcome": "no-artifact-named",
+  "artifacts": []
+ },
+ {
+  "hunt": "factorization_vs_position",
+  "test": "test_hunt_probe_discipline.py",
+  "outcome": "no-artifact-named",
+  "artifacts": []
+ }
+]

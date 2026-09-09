@@ -1,0 +1,42 @@
+[
+ {
+  "depth": "full",
+  "n_rows": 95,
+  "later_commits_seen": 414,
+  "never_revisited": 22,
+  "never_revisited_pct": 23.2,
+  "commits_in_horizon": null
+ },
+ {
+  "depth": 100,
+  "n_rows": 95,
+  "later_commits_seen": 72,
+  "never_revisited": 91,
+  "never_revisited_pct": 95.8,
+  "commits_in_horizon": 100
+ },
+ {
+  "depth": 262,
+  "n_rows": 95,
+  "later_commits_seen": 168,
+  "never_revisited": 29,
+  "never_revisited_pct": 30.5,
+  "commits_in_horizon": 262
+ },
+ {
+  "depth": 500,
+  "n_rows": 95,
+  "later_commits_seen": 229,
+  "never_revisited": 23,
+  "never_revisited_pct": 24.2,
+  "commits_in_horizon": 500
+ },
+ {
+  "depth": 800,
+  "n_rows": 95,
+  "later_commits_seen": 367,
+  "never_revisited": 23,
+  "never_revisited_pct": 24.2,
+  "commits_in_horizon": 800
+ }
+]
