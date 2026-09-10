@@ -122,7 +122,8 @@ the entitled rows and is checked there against `c(n) = Lambda(n)(1 + chi_d(n))`,
 uses no recursion, to `2.8e-30`. The published non-principal numbers are not empty: they are exactly the composite
 defect of `1 + Z_Q(s)`, agreeing to `0.0` on all 27 rows, a series with no functional equation.
 The corrected axis is 0 for class number one and `2.9608` to `5.0847` for the rest at cutoff 61,
-and `5.0196` to `10.5748` at cutoff 401 with the ordering unchanged, so **the axis has no scale**
+and `5.0196` to `10.5748` at cutoff 401 with the ordering moving by one adjacent
+transposition, so **the axis has no scale**
 and the family issue #93 proposes as "a defect axis from 0 to 36 with class number as the knob" is
 neither. An independent adversarial audit (`AUDIT.md`) attacked the claim eight ways without moving
 it and found eleven overclaims in the write-up, including a residual presented as an independent

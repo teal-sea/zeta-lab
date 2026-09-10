@@ -139,9 +139,18 @@ mean moves too, `0.58, 0.52, 0.54, 0.78`. **The axis has no scale**, which is a
 worse problem than having the wrong endpoints, and it is the first thing to fix
 if the family is to be used as an axis at all.
 
-**The ordering is stable, and it is the part worth keeping.** The nine
-discriminants rank in exactly the same order at `n < 61` and at `n < 401`.
-Whatever the defect is measuring, it measures it consistently.
+**The ordering is nearly stable, and the "nearly" is the part worth stating.**
+The first version of this section said the nine discriminants "rank in exactly
+the same order at `n < 61` and at `n < 401`". They do not, and that sentence was
+false when it was written. Six of the nine positions hold at every cutoff:
+`-15` at the top, and `-31, -39, -47, -71, -95` in that order at the bottom. All
+of the movement is inside the `-20, -23, -24` block, where `-23` climbs as the
+cutoff grows. Against `n < 61` the rank correlation is `0.9500` at 121 and
+`0.9833` at 201 and at 401, and the ordering then settles: `n < 201` and
+`n < 401` agree exactly, `rho = 1.0000`. So the quantity does order these
+subjects, and it needs a couple of hundred composites before it does.
+`ordering.py` recomputes all of it from `artifacts/cutoff.json`, which is the
+same artifact the false sentence was read off.
 
 **Class number is not separable from the discriminant on nine points.** Over
 the nine loud rows `corr(defect, h) = -0.69` and `corr(defect, log|d|) = -0.82`,
@@ -200,7 +209,8 @@ what a hunt may write. The proposed repair is in `PROPOSAL.md`.
 2. **Frozen-constant inventory.**
    - **The cutoff `NMAX = 61`.** The one frozen constant with real trade shape,
      and the measurement above prices it: the band roughly doubles from cutoff
-     61 to 401 while the ordering does not move. Anything using this quantity as
+     61 to 401 while the ordering moves by one adjacent transposition and is
+     fixed from cutoff 201 upward. Anything using this quantity as
      an axis needs it normalised, by the number of composites in range or by the
      same norm of the prime-power part, so that two subjects can be compared
      without agreeing on a cutoff first. That is one line of code and it is the
