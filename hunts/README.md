@@ -70,43 +70,66 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
-### Hunt #119: one form per discriminant, not forty-four (`euler_defect_axis/`, 2026-09-09)
+### Hunt #119: one form per discriminant, not forty-one (`euler_defect_axis/`, 2026-09-10)
 
 **Status: settled, correction.** The composite-line discriminator is defined for a
 Dirichlet series with `a(1) = 1`, and a binary quadratic form represents 1 exactly when
-it is the principal form of its class group. Measured over the 44 rows of `docs/34`
-table E7: the residual of the identity the recursion solves is machine zero on the 14
-principal forms and on the 14 class-group sums, and is bounded away from zero on all 30
-others, worst `189.6888` at the row the table reports as loudest (`36.0644`, `d = -15`).
+it is the principal form of its class group. Measured over the 41 rows of `docs/34`
+table E7: `a(1)` is exactly 1 on the 14 principal forms and exactly 0 on the other 27.
 No rescaling repairs them: none of the 27 non-principal forms checked represents only
 multiples of its least represented value. The section's qualitative reading survives on
 the entitled rows and is checked there against `c(n) = Lambda(n)(1 + chi_d(n))`, which
-uses no recursion, to `2.8e-30`. The corrected axis is 0 for class number one and 2.9608
-to 5.0847 for the rest, correlating with `log|d|` at `-0.82` and with class number at
-`-0.69`, so the family issue #93 proposes as "a defect axis from 0 to 36 with class
-number as the knob" is neither. Repair proposed, not applied: `euler_defect_axis/PROPOSAL.md`.
-Nothing bears on RH (`docs/08`).
+uses no recursion, to `2.8e-30`. The published non-principal numbers are not empty: they are exactly the composite
+defect of `1 + Z_Q(s)`, agreeing to `0.0` on all 27 rows, a series with no functional equation.
+The corrected axis is 0 for class number one and `2.9608` to `5.0847` for the rest at cutoff 61,
+and `5.0196` to `10.5748` at cutoff 401 with the ordering unchanged, so **the axis has no scale**
+and the family issue #93 proposes as "a defect axis from 0 to 36 with class number as the knob" is
+neither. An independent adversarial audit (`AUDIT.md`) attacked the claim eight ways without moving
+it and found eleven overclaims in the write-up, including a residual presented as an independent
+oracle when `R = |1 - a(1)| max|c(n)|` identically; all are corrected and the three carrying numbers
+were recomputed before being accepted. Repair proposed, not applied: `PROPOSAL.md`. Front door:
+`docs/38`. Nothing bears on RH (`docs/08`).
 
-### Hunt #120: the failure surface of the Epstein evaluator (`epstein_height/`, 2026-09-09)
+### Hunt #120: the failure surface of the Epstein evaluator (`epstein_height/`, 2026-09-10)
 
-**Status: in progress.** `hunts/gate5_p6_c/probe.py` derives the cancellation law
+**Status: settled, defect recorded, repair proposed and not applied.** `hunts/gate5_p6_c/probe.py` derives the cancellation law
 (`pi t / (2 ln 10) = 0.6822` digits lost per unit height) and `hunts/dps_cap` measured
 its cost at one point. Neither reached `zeta/epstein.py`, which still accepts any `dps`
 and returns a silently wrong value above the height that precision supports. Measured
 against a direct lattice sum at `Re s = 5`, which the routine shares no code with.
 
-### Hunt #121: the attainable-quotient floor, reformulated (`quotient_exponent/`, 2026-09-09)
+### Hunt #121: the barrier law is not the shape the diagonal suggested (`quotient_exponent/`, 2026-09-10)
 
-**Status: in progress.** The factorial objective is a difference of quantities near
-`1e8` whose answer is near `1e4`; written as `sum_q w_q e_q` over attainable cells it is
-a sum of nonnegative terms equal to the excess itself. Reproduces the published
-`41.28216944`, `226.83268961`, `1035.2339343` and `6414.83216` and extends the ladder.
+**Status: settled as a measurement; no asymptotic claim.** The factorial objective is a
+difference of quantities near `1e8` whose answer is near `1e4`; written as `sum_q w_q e_q` over
+attainable cells it is a sum of nonnegative terms equal to the excess itself, and that is why the
+ladder reaches `10^7`. Reproduces the four published diagonal values to every printed digit and adds
+`3 x 10^6` and `10^7`, where `T*/N^{3/4}` is `0.1704`, below the published `0.18 to 0.23` band.
+On a `(y, N)` grid the quantity the conjectured shape says is constant falls by a factor 2.3 to 2.8
+inside the conjecture's own range; the free fit is `a = 1.150, b = 0.878` against `(1, 0.5)`, and the
+conjectured shape is three times worse on the grid while indistinguishable on the diagonal, where
+three of four models agree to three decimal places. The excess is a staircase in `y`, holding
+`9.406483` across sixteen consecutive supports at `N = 10^4` and reaching exactly zero at `y* = 173`,
+`0.87` of the attainable-cell count, so the column count is neither sufficient (already refuted at
+`N = 27, y = 9`) nor necessary. The conjecture is a lower bound and this hunt does not refute it.
+Front door: `docs/39`. Nothing bears on RH (`docs/08`).
 
-### Hunt #122: what happens to a claim after it is recorded (`claim_halflife/`, 2026-09-09)
+### Hunt #122: what happens to a claim after it is recorded (`claim_halflife/`, 2026-09-10)
 
-**Status: in progress.** Not mathematics: a measurement of this laboratory. 95 case-log
-entries, their later commits classified at three declared strictness levels, and a
-planted-fault ladder against the tests that name them.
+**Status: partly settled; one headline withdrawn by its own control.** Not mathematics: a
+measurement of this laboratory, and it trades against nothing mathematical. 95 case-log entries
+frozen at `2da62eb`. One recorded claim in five is named by any test; of the 25 (hunt, test) pairs
+that can be scored, 19 defend at least one number against a 10% mutation and 8 are byte-pinned;
+23.2% of entries were never touched again. Of 73 strict revisions, **one** installed a test in the
+same commit, against a doctrine in which every `HANDOFF.md` record carries a `Now caught by:` field.
+Median latency from a hunt's first commit to a revision of its own claim files is one day.
+**The correction rate itself is withdrawn**: a blind hand audit of 30 stratified rows agreed with the
+classifier on 16, precision 0.40, which is close enough to chance that no rate can be reported. It
+named two structural defects, both repaired, and re-scoring against the same rows reaches 21 of 30,
+which is fitted rather than measured; a disjoint sample is with a second blind audit. The container's
+default shallow clone hid three quarters of the history and would have reported 30.5% never revisited
+instead of 23.2%. `tests.yml` and `full.yml` still check out shallow, which `HANDOFF.md` recorded in
+August as the fix that was prepared and not landed. Nothing bears on RH (`docs/08`).
 
 ### Positivity on attainable quotients (`quotient_certificate/`, 2026-09-07)
 

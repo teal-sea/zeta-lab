@@ -88,6 +88,56 @@ where the previous one's minima were. Read the cell a refusal names; do not move
 
 ---
 
+## Record: a constant was derived twice, written down twice, and the function
+## never learned it (2026-09-10)
+
+- **Believed:** that `hunts/dps_cap` (#113) had closed the Epstein precision
+  question when it stopped the interfaces clamping a caller's `dps`, and that
+  `hunts/gate5_p6_c`'s `GUARD_PER_UNIT_HEIGHT = 0.6822` recorded what a caller
+  needs to know.
+- **Invalidated by:** running `zeta.epstein.epstein_zeta` against a directly
+  summed lattice oracle at `Re s = 5`, which the routine shares no code with.
+  At `dps 15` and height 120 the relative error is `2.3e+36`, returned with no
+  exception, no warning and no docstring caveat. The constant is in a probe
+  comment in one hunt directory; the core function still accepts any precision
+  at any height. Measured surface, 158 cells, `hunts/epstein_height/`.
+- **Also invalidated, and this one is a piece of mathematics:** the recorded
+  constant plus the obvious `sigma` term leaves residuals of `+0.85` for one
+  form and `-0.75` for another, a per-subject offset rather than noise. The
+  loss re-derived from what the routine actually forms is
+  `-log10 t + sigma log10 pi - log10|Gamma(s)| - log10|zeta_Q(s)|`, with no
+  fitted constant and no asymptotic; the discriminant cancels and the size of
+  `zeta_Q` is the missing term. Per-form bias falls from 1.6 digits to 0.15.
+- **Now caught by, proposed and NOT landed:** `hunts/epstein_height/guard.py`,
+  a rule that refuses rather than returning, with six planted faults including
+  the one that makes the others mean anything (set the cancellation constant to
+  zero and it stops firing). A hunt may not write `zeta/`, so this is a
+  proposal with its evidence attached. **The decision is the tree's.**
+- **Justified conclusion:** the finding is not that a routine has a precision
+  limit, which is ordinary. It is that the limit was derived twice by two hunts
+  and could not cross the line into the module it describes, because a hunt may
+  not write the core and nothing carried it except a person reading two
+  directories. `hunts/dps_cap/reach_check.py`'s open question is also answered:
+  because `_arg_variation`'s depth limit returns a value rather than raising,
+  the cap cannot cost a refusal, only a wrong count or a run that does not
+  finish.
+
+## Record: the fast tier is still on a shallow checkout, a month after the
+## better fix was written down (2026-09-10)
+
+- **Believed:** that the shallow-clone hazard recorded in the 2026-08-14 entry
+  below was closed when `tests/test_dossier_hardy_z.py` learned to skip.
+- **Invalidated by:** `hunts/claim_halflife`, which needed git history and found
+  the container's own checkout shallow at 262 commits against 1084. The entry
+  below says the better fix, `fetch-depth: 0` in `tests.yml` and `full.yml`, was
+  "prepared and NOT landed". It is still not landed. `checks.yml` has it.
+- **Measured cost, on this study:** a shallow corpus reports 30.5% of case-log
+  entries never revisited against a true 23.2%, and at depth 100 it reports
+  95.8%. Nothing warns.
+- **Now caught by:** nothing yet. This is a two-line change to two workflow
+  files and it is recorded here rather than made, because it is CI
+  configuration and the session that found it was writing hunts.
+
 ## Record: the start page carried a retracted number, in public, for eleven
 ## hours (2026-08-14)
 
