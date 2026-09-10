@@ -120,16 +120,24 @@ def growths(quads) -> list:
 
 
 def first_negative(b: float, c: float, rows, n_hi: int, a: float = 0.5,
-                   chunk: int = 200000) -> dict:
-    """First n at which background(n) minus the quadruple correction is negative.
+                   chunk: int = 200000, n_lo: int = 2000) -> dict:
+    """First n >= n_lo at which background(n) minus the correction is negative.
 
     Scanned rather than solved because the correction oscillates: the envelope
     crosses the background smoothly, but the sign change needs cos(n psi) near
     +1 as well, and the resonance recurs only every 2 pi / |psi| steps.
+
+    ``n_lo`` defaults to the top of the fit window and is not cosmetic.  A three
+    parameter background fitted on n in the thousands is worthless at n = 1: a
+    zeta-shaped background evaluated there returns 0.5*1*log 1 - 1.13 + 1 < 0
+    and the scan "finds" a sign change at the first index it looks at.  That is
+    the same degeneracy ``hunts/jensen_clock`` phase 3 recorded when its
+    envelope indicator fired at n = 1 against lambda_1 = 0.023, and refusing to
+    look below the fit window is the fix.
     """
     logR = np.array([r["log_R"] for r in rows])
     psi = np.array([r["psi"] for r in rows])
-    lo = 1
+    lo = max(1, int(n_lo))
     while lo <= n_hi:
         hi = min(lo + chunk - 1, n_hi)
         n = np.arange(lo, hi + 1, dtype=float)
@@ -169,22 +177,42 @@ def main() -> None:
     a = 0.5
     b = fit["a_pinned_half"]["b"]
     c = fit["a_pinned_half"]["c"]
+    n_lo = n_max
 
     results = {
         "measured_background_all_quadruples":
-            first_negative(b, c, rows, args.n_hi, a=a),
+            first_negative(b, c, rows, args.n_hi, a=a, n_lo=n_lo),
         "measured_background_dominant_quadruple_only":
-            first_negative(b, c, rows[:1], args.n_hi, a=a),
+            first_negative(b, c, rows[:1], args.n_hi, a=a, n_lo=n_lo),
+        "measured_background_lower_fit_window":
+            first_negative(fit_small["a_pinned_half"]["b"],
+                           fit_small["a_pinned_half"]["c"],
+                           rows, args.n_hi, a=a, n_lo=n_lo),
         "zeta_shaped_background_all_quadruples":
-            first_negative(B_ZETA, 1.0, rows, args.n_hi, a=a),
+            first_negative(B_ZETA, 1.0, rows, args.n_hi, a=a, n_lo=n_lo),
+        "n_lo_used": n_lo,
     }
     sensitivity = []
     for db in (-0.05, -0.02, 0.02, 0.05):
-        r = first_negative(b + db, c, rows, args.n_hi, a=a)
+        r = first_negative(b + db, c, rows, args.n_hi, a=a, n_lo=n_lo)
         sensitivity.append({"delta_b": db, "first_negative_n": r["first_negative_n"]})
     for da in (-0.001, 0.001):
-        r = first_negative(b, c, rows, args.n_hi, a=a + da)
+        r = first_negative(b, c, rows, args.n_hi, a=a + da, n_lo=n_lo)
         sensitivity.append({"delta_a": da, "first_negative_n": r["first_negative_n"]})
+    for dl in (-0.02, 0.02):
+        bumped = [dict(r) for r in rows]
+        bumped[0]["log_R"] = rows[0]["log_R"] * (1 + dl)
+        r = first_negative(b, c, bumped, args.n_hi, a=a, n_lo=n_lo)
+        sensitivity.append({"relative_delta_log_R_of_dominant_pair": dl,
+                            "first_negative_n": r["first_negative_n"]})
+
+    n = np.arange(1, n_max + 1, dtype=float)
+    resid = lam - (0.5 * n * np.log(n) + b * n + c)
+    envelope = []
+    for lo_, hi_ in ((1, 200), (201, 500), (501, 1000), (1001, n_max)):
+        seg = resid[lo_ - 1:hi_]
+        envelope.append({"window": [lo_, hi_], "min": float(seg.min()),
+                         "max": float(seg.max()), "mean": float(seg.mean())})
 
     out = {
         "generated": time.strftime("%Y-%m-%dT%H:%M:%S"),
@@ -195,6 +223,7 @@ def main() -> None:
         "quadruples_by_growth": rows,
         "onset": results,
         "sensitivity": sensitivity,
+        "residual_envelope_vs_fitted_background": envelope,
         "grade": "the coefficients are measured; this index is a fitted "
                  "extrapolation two orders of magnitude past them",
     }
