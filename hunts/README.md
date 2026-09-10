@@ -70,6 +70,16 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
+### Hunt #123: Li coefficients for the counterexample (`li_dh_onset/`, 2026-09-10)
+
+**Status: in flight.** Bombieri and Lagarias make `lambda_n >= 0` for every `n` equivalent to every
+zero of the multiset lying on the critical line, and the Davenport-Heilbronn function has a measured
+off-line pair, so some `lambda_n(DH)` is negative. No `lambda_n(DH)` exists anywhere in this tree.
+Computed unconditionally by the Cauchy route rather than from a zero list, with the identical
+pipeline on `xi` as a positive control that can fail. The prior datum is `hunts/jensen_clock`'s
+hedged `n ~ 3.3e5`, which that page itself calls an order-of-magnitude claim built on a zeta-shaped
+background. Nothing bears on RH (`docs/08`).
+
 ### Hunt #119: one form per discriminant, not forty-one (`euler_defect_axis/`, 2026-09-10)
 
 **Status: settled, correction.** The composite-line discriminator is defined for a
@@ -95,8 +105,24 @@ were recomputed before being accepted. Repair proposed, not applied: `PROPOSAL.m
 **Status: settled, defect recorded, repair proposed and not applied.** `hunts/gate5_p6_c/probe.py` derives the cancellation law
 (`pi t / (2 ln 10) = 0.6822` digits lost per unit height) and `hunts/dps_cap` measured
 its cost at one point. Neither reached `zeta/epstein.py`, which still accepts any `dps`
-and returns a silently wrong value above the height that precision supports. Measured
-against a direct lattice sum at `Re s = 5`, which the routine shares no code with.
+and returns a silently wrong value above the height that precision supports: at `dps 15`
+and height 120 the relative error is `2.3e+36`, measured against a direct lattice sum at
+`Re s = 5` that shares no code with the routine. 158 cells of the surface in `artifacts/`.
+The recorded constant plus a `sigma` term leaves a per-form bias of 1.6 digits, so the loss
+was re-derived exactly as
+`-log10 t + sigma log10 pi - log10|Gamma(s)| - log10|zeta_Q(s)|`, with no fitted constant:
+the discriminant cancels, the size of `zeta_Q` is the missing term, per-form bias falls to
+0.15, and one uniform offset of `+1.068` digits is left with rms `0.357` over 49 cells.
+`guard.py` is the rule as code with six planted faults including the one that matters, that
+it stops firing when the cancellation constant is set to zero. It also answers the question
+`hunts/dps_cap/reach_check.py` left open, whose two runs were stopped at 30 and 25 minutes:
+measured at height 120 without running the recursion, at `dps 100` the acceptance rule takes
+24 segments of 24, so the recursion costs one evaluation per segment, and at `dps 15` it
+takes 7 of 24, `p = 0.292` against the `1/3` a uniform phase predicts, branching `1.417`,
+about `6.4e6` evaluations for one segment. Because `_arg_variation`'s depth limit of 45
+returns the principal value rather than raising, the cap cannot cost a refusal, only a wrong
+count or a run that does not finish. Front door: `docs/37`. Issue #217.
+Nothing bears on RH (`docs/08`).
 
 ### Hunt #121: the barrier law is not the shape the diagonal suggested (`quotient_exponent/`, 2026-09-10)
 
