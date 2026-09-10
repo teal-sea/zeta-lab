@@ -88,6 +88,42 @@ where the previous one's minima were. Read the cell a refusal names; do not move
 
 ---
 
+## Record: the fast tier is not green on a complete checkout, and has not been
+## for five days (2026-09-10)
+
+- **Believed:** that the fast tier was green. It reports green in this container
+  and in CI.
+- **Invalidated by:** completing the clone.
+  `tests/test_dossier_hardy_z.py::test_proved_cites_a_watched_dated_kernel_run_the_tree_corroborates`
+  fails: `assert '2026-08-13' >= '2026-09-05'`. `dossier/subjects/hardy_z.py`
+  records three kernel observations dated 2026-08-13; `lean/ZetaLean/HardyZ.lean`
+  last changed 2026-09-05. The full tier is **1 failed, 2962 passed, 1 skipped,
+  3 xfailed** in 41 minutes.
+- **Why nobody saw it:** the guard asks
+  `git rev-parse --is-shallow-repository` and skips with a reason on a truncated
+  history, which is the correct safe failure mode and is why it has been skipping
+  rather than running. Both this container's default checkout and `tests.yml` are
+  shallow. The 2026-08-14 record below predicted this and called the fix
+  "prepared and NOT landed".
+- **What the change actually was:** commit `7b86bc9`, the repo-wide punctuation
+  sweep (#178), one em dash replaced by a colon inside a docstring. No proof, no
+  statement, no axiom. So the record is stale by the guard's own rule and nothing
+  mathematical moved.
+- **Now caught by:** the guard, once the history is complete. Not relaxed, and it
+  must not be: loosening a check to fit the state it found is the move the
+  operating playbook forbids by name. The sharper version, comparing against the
+  last commit that changed something the kernel reads rather than any commit,
+  is a design decision and is left for someone's judgement. Issue #219.
+- **Not discharged here.** One `lake build` and three dates would do it. There is
+  no Lean toolchain in this container and the compute rule forbids `lake build`
+  on the operator's machines.
+- **Justified conclusion, and it is the session's third instance of one shape:**
+  the guard fired on the right rule for a reason it cannot see. It cannot tell a
+  proof change from a comment change, the same way the composite-defect residual
+  could not disagree with the thing it was checking and the Epstein fault ladder
+  could not vary the term it had just derived. In all three the number was fine
+  and the comparison was not.
+
 ## Record: three write-ups, three adversarial audits, and the pattern in what
 ## they caught (2026-09-10)
 
