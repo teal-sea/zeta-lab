@@ -237,6 +237,69 @@ is not a property of the floor-sum family, and the conjecture as stated does not
 speak to the family with free positions, which is a different object and not one
 these three points settle.
 
+## 6b. The last cell standing, and why the plateau values are logarithms
+
+Section 6 says the zero-weight cells are what the support has to grow past.
+This is what that looks like at the end, and it is sharper than expected.
+
+Just before the excess reaches zero, `E(N, y)` sits on a **plateau**: a run of
+consecutive `y` on which the value does not move at all. The runs are wide and
+they widen with `N`.
+
+| `N` | plateau `y` | width | `E` on the plateau |
+| --- | --- | --- | --- |
+| `10^3` | 56 .. 62 | 7 | `2.4260151319598027` |
+| `10^4` | 157 .. 172 | 16 | `9.406482647787405` |
+| `10^5` | 545 .. 580 | 36 | `28.364326912276148` |
+
+Those three numbers are not arbitrary reals. To every digit the float solver
+carries they are a small rational multiple of the logarithm of a single prime:
+
+| `N` | closed form | value | relative agreement |
+| --- | --- | --- | --- |
+| `10^3` | `(7/2) log 2` | `2.42601513195980858` | `2.4e-15` |
+| `10^4` | `3 log 23` | `9.40648264778744907` | `5.0e-18` to `4.7e-15` |
+| `10^5` | `6 log 113` | `28.3643269122740434` | `4.2e-14` to `7.4e-14` |
+
+**The reason is structural, and nothing here was fitted.** The objective is
+`sum_q w_q e_q`, and `w_q` sums `Lambda(d)` over the integers `d` in
+`(N/(q+1), N/q]`. `Lambda` vanishes off the prime powers, so a cell whose
+interval contains no prime power is **arithmetically empty**: it costs the
+objective nothing however much excess sits in it, and the solver parks excess
+there for free. On the plateau the optimum carries positive excess in dozens of
+cells and **exactly one of them has nonzero weight**, at every `N` and at every
+`y` across the plateau:
+
+| `N` | cells carrying excess | of which weighted | the carrier |
+| --- | --- | --- | --- |
+| `10^3` | 14 to 15 | 1 | cell 31, whose interval holds only `d = 32 = 2^5` |
+| `10^4` | 52 to 57 | 1 | cell 434, whose interval holds only `d = 23` |
+| `10^5` | 167 to 181 | 1 | cell 884, whose interval holds only `d = 113` |
+
+So the objective collapses to a single term, `e_q * Lambda(p^k)`, and the prime
+is the unique prime power in that one cell's interval. The rational is read out
+of the solution rather than fitted to the value: `7/2`, `3` and `6` are the
+excesses `e_q` themselves, recovered by `Fraction(...).limit_denominator(64)`
+and only then multiplied by `log p` and compared. `closed_form.py` does that and
+writes `artifacts/closed_form.json`.
+
+**The punchline is at `N = 10^6`, where there is no closed form because there is
+nothing left to close.** At `y = 1995` the excess is exactly `0.0`, and `497`
+cells still carry positive excess. Every one of them is weightless. The LP never
+drove the constraint violation to zero. It drove the *weighted* violation to
+zero by moving all of it into the cells where `Lambda` vanishes, and the plateau
+is the last stage of that process, the interval on which one prime power is
+still in the way. The certificate stops improving not because the excess is gone
+but because it has all been pushed somewhere the objective cannot see.
+
+**Grade: measured.** One route, float LP, agreement at `1e-14` to `1e-18`. The
+rationals are exact objects and the primes are exact, but the excesses come from
+a float solver, so the identity `E = (7/2) log 2` is an observation about a
+numerical solution and not yet a proved property of the programme. Making it a
+proved one is an exact rational LP at these three `(N, y)`, which is the same
+door section 7 already names for the zero-excess witnesses, and it would settle
+whether `7/2` is exactly `7/2`.
+
 ## 7. The doors
 
 1. **Active constraints at the optimum.** Positivity binds on 31, 103, 321,
@@ -248,7 +311,12 @@ these three points settle.
    excess over `y`: binding/`y` runs `1.000, 1.030, 1.016, 1.011, 1.008, 1.010`.
    **The binding constraint that is not arithmetic is the zero-weight cells**,
    per section 6: they cost nothing in the objective, they are more than half the
-   constraint set, and they are what the support has to grow past.
+   constraint set, and they are what the support has to grow past. Section 6b
+   prices that exactly at the end of the descent: on the plateau the optimum
+   carries excess in dozens of cells and exactly ONE of them is weighted, so the
+   whole remaining objective is one prime power's `Lambda` times one rational.
+   The last thing binding this family is a single cell, and which cell it is
+   depends only on where the prime powers fall.
 2. **Frozen-constant inventory.**
    - **The zero-weight cells**, newly identified as the binding thing. The trade:
      they are exactly the cells `floor(N/d)` for `d` composite, and dropping them

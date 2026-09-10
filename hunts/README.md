@@ -183,7 +183,15 @@ three of four models agree to three decimal places. The excess is a staircase in
 `N = 27, y = 9`) nor necessary. What survives and is new: the staircase, the zero threshold at `y* = 63, 173, 589, 1938` with
 `alpha*` falling monotonically, and the finding that only 40, 99 and 275 of the 61, 198 and 630
 attainable cells carry any prime mass, so what holds the excess up is the requirement `W >= 1` at
-the cells with no weight at all. Front door: `docs/39`. Audit: `AUDIT.md`, fifteen attacks, four landed. Nothing bears on RH (`docs/08`).
+the cells with no weight at all. **Extended the same day** (`closed_form.py`): the plateau values are
+exact rational multiples of a single logarithm, `(7/2) log 2` at `10^3`, `3 log 23` at `10^4` and
+`6 log 113` at `10^5`, agreeing to `1e-14` or better, and the reason is that of the 14 to 181 cells
+carrying excess at the optimum **exactly one has nonzero weight**, so the objective collapses to that
+one cell's `Lambda`. The rationals are read off `e_q` and then compared, not fitted to `E`. At
+`N = 10^6, y = 1995` the excess is `0.0` with 497 cells still carrying excess, every one weightless:
+the programme never zeroes the constraint violation, it zeroes the *weighted* violation by parking
+the rest where `Lambda` vanishes. The `10^6` plateau itself was not located, about 11 hours of solves,
+and no value is claimed there. Front door: `docs/39`. Audit: `AUDIT.md`, fifteen attacks, four landed. Nothing bears on RH (`docs/08`).
 
 ### Hunt #122: what happens to a claim after it is recorded (`claim_halflife/`, 2026-09-10)
 

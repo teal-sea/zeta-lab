@@ -50,3 +50,30 @@ artifacts:
   an arithmetic consequence of a linear programme having as many active
   constraints as variables at a vertex, and the draft was corrected before
   landing. What is not forced is the small excess over `y`, which shrinks.
+
+```runmanifest
+id: quotient_exponent-2026-09-10-closed-form
+hunt: quotient_exponent
+started: 2026-09-10T04:20-05:00
+finished: 2026-09-10T04:32-05:00
+estimate: 62 LP solves; ~0.03 s each at N=1e3, ~0.08 s at 1e4, ~1.2 s at 1e5, ~40 s for the single 1e6 point; ~11 min total
+ran:
+  - .venv/bin/python hunts/quotient_exponent/closed_form.py
+outcome: the plateau values are exact rational multiples of a single log p, (7/2)log 2 at N=1e3, 3 log 23 at 1e4, 6 log 113 at 1e5, agreeing to 1e-14..1e-18; the mechanism is that exactly one cell carrying excess has nonzero weight, out of 14 to 181 that carry excess; at N=1e6 y=1995 the excess is 0.0 with 497 cells still carrying excess, all weightless, so the LP zeroes the weighted violation rather than the violation; grade measured, one float route
+artifacts:
+  - hunts/quotient_exponent/closed_form.py
+  - hunts/quotient_exponent/artifacts/closed_form.json
+```
+
+- **The N = 10^6 plateau was not located and is not claimed.** `sweep.py` has
+  `E > 0` at `y = 1000` and `E = 0` at `y = 1995`, so the plateau is somewhere
+  between. Each solve at that size is about 40 s and the bracket is 995 wide, so
+  a scan is roughly 11 hours. It was not run and no closed form is asserted at
+  that size. An earlier draft of this hunt carried a value of `123.83310675500282`
+  for `N = 10^6` with no run behind it in this tree; it is withdrawn rather than
+  repeated, because nothing here reproduces it.
+- The rationals are recovered from the solution and not fitted to the answer.
+  `limit_denominator(64)` is applied to `e_q`, the excess in the one weighted
+  cell, and only then is `(a/b) log p` formed and compared to `E`. Fitting a
+  rational to `E` directly would have found *something* at every `N` and would
+  have shown nothing.
