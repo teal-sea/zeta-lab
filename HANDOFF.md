@@ -17,8 +17,11 @@ state for the mathematics.
 
 An Ostoyae board ran five items and then eleven more against `hunts/prime_pair_error`, entirely
 inside a Claude Code cloud VM, for **$35.63 over 38 attempts**. Twenty-eight attempts landed with
-their checks passing. **None of it is a new mathematical statement.** Phase II's objective is one
-externally verified statement humanity did not have; this session did not move it. What it moved
+their checks passing. **Nothing in THIS session is a new mathematical statement.** That is a statement about this
+session, not about the laboratory: Theorems A and B in `RESULTS.md` are recorded as original to
+this hunt, and CLAUDE.md's 2026-08-13 ruling is explicit that original and novel are different
+claims and that the lab may claim original. An earlier draft of this entry conflated the two and
+read as though nothing had ever been produced. It had. What it moved
 is the machinery and the hunt's bookkeeping, and the closest thing to a mathematical contribution
 is a scoping refinement that says so itself.
 
