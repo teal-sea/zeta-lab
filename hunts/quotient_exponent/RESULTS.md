@@ -190,6 +190,53 @@ contribute nothing to the objective and constrain the feasible set anyway. That
 is a sharper statement than a ratio against a mixed denominator, and it is the
 door section 7 ranks first.
 
+## 6a. The door, tested: consecutive support is what the barrier is about
+
+Doors item 2 below names "a support chosen for rank rather than for being an
+interval" as the obvious untested variation. A scouting pass in the same session
+reported that freeing the positions reaches zero excess. It does, and the
+interesting version of that is not the obvious one.
+
+**Freeing the positions with no limit on how many says nothing.** Allow every
+`j <= N/2` and the excess is zero, but with 5000 columns available at `N = 10^4`
+that is unsurprising: the threshold run above already reaches zero at 173
+consecutive columns.
+
+**At a comparable support size it says a lot.** Excess is `sum_q w_q e_q` with
+every term non-negative, so zero excess is exactly `W(q) = 1` at every cell
+carrying prime mass and `W(q) >= 1` at the rest. Minimising the coefficient mass
+under that and counting the positions the optimum uses:
+
+| N | sqrt(N) | free positions for zero excess | max j used | mass | consecutive `y*` |
+|---:|---:|---:|---:|---:|---:|
+| 10^3 | 31 | **35** | 201 | 45.5 | 63 |
+| 10^4 | 100 | **109** | 1251 | 114.7 | 173 |
+| 10^5 | 316 | **285** | 14286 | 389.1 | 589 |
+
+**Freely chosen positions reach zero excess on roughly half the support that
+consecutive ones need**, and at `N = 10^5` on fewer than `sqrt(N)` of them.
+Against the consecutive family at `y = sqrt(N)`, where the excess is 41.28,
+226.83 and 1035.23, the same count of positions chosen freely gives zero.
+
+**At `N = 10^3` this is exact.** The float solution rounded to rationals over
+`10^9` was re-checked with Python integers on all 61 attainable cells: no cell
+has `W(q) < 1`, and `W(q) = 1` at all 40 prime-mass cells, so the excess is
+exactly zero. The `10^4` and `10^5` rows are float LP values whose reported
+minimum slack is slightly negative (`-8e-13`, `-6e-12`) and are **measured
+only**; they have no exact witness here.
+
+**What it costs, and why this is not a free win.** The positions are few but
+they reach far: `max j` is `201`, `1251`, `14286`, about `N^{0.77}`, `N^{0.77}`
+and `N^{0.83}`. The source's own criterion asks for excess and mass both under
+`N^{1/2+eps}`, and both hold here (`mass ~ N^{0.52}` at `10^5`), but it says
+nothing about how far the support may reach, and evaluating such a certificate
+costs `max j`, not the count.
+
+So the barrier this hunt measured is a property of **consecutive** support. It
+is not a property of the floor-sum family, and the conjecture as stated does not
+speak to the family with free positions, which is a different object and not one
+these three points settle.
+
 ## 7. The doors
 
 1. **Active constraints at the optimum.** Positivity binds on 31, 103, 321,
@@ -212,10 +259,13 @@ door section 7 ranks first.
    - **The support bound `y`**, now measured as a staircase. Most of its range is
      inert and two points are worth everything. "Find which columns matter" is a
      rank question about `floor(q/j)` and is answerable exactly.
-   - **Consecutive denominators `j = 1..y`.** Every certificate in this family
-     takes its support as an initial segment; the staircase says most of that
-     segment is inert, so a support chosen for rank rather than for being an
-     interval is the obvious untested variation.
+   - **Consecutive denominators `j = 1..y`, now tested** (section 6a). Freely
+     chosen positions reach zero excess on roughly half the support consecutive
+     ones need, exactly at `N = 10^3` and measured at `10^4` and `10^5`. The
+     trade is reach: the positions run out to about `N^{0.8}`, and evaluation
+     cost follows the largest one rather than the count. The next question is
+     the one this does not answer, whether a support bounded in BOTH count and
+     reach still beats the interval.
    - **The `10^7` ceiling, which is memory.** The constraint block is dense
      `2 sqrt(N) x y`, which at `N = 10^8` is `1.6 GB` before the solver's own
      copy, and `lp.py` builds a CSR copy of it, which doubles that. Column
