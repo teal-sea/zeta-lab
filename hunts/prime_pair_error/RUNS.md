@@ -278,3 +278,33 @@ recorded numbers.
 
 Eleven further proposals are on the board, judged and unanswered. Scheduling them is the
 operator's decision.
+
+## Round 4, 2026-09-10, orchestrated by an attended cloud session
+
+Eight of the eleven were confirmed and two landed before the round was reshaped.
+
+`a-0039` measured the cross term Sigma_cross(q) at eight moduli and seven cutoffs to 10^6. The
+ratio to its proved ceiling stays in roughly [-0.25, 0.43], closer to zero than to one, and is
+not monotone in N. `RANK3_CROSS_TERM_MEASURE.md`, `results_rank3_cross_term_probe.json`.
+
+`a-0040` found that the O(N^3) transfer cost in `RANK3_ROUTE_D.md` section 6 is slack added to
+an already valid upper bound. (D10) bounds the full-circle integral and is derived before the
+transfer step appears; the arc integral is at most the full-circle integral because the
+integrand is nonnegative; so (D11) holds without its third term, and the sum over 2 <= q <= R_0
+that section 6 priced at N^3 is not a cost of anything. Checked by the orchestrator against
+(23) in `UPPER_BOUND.md`, where U_Q enters as an upper-bound term, and numerically at four
+(N, q, a) pairs chosen independently of the attempt's own six. `RANK3_ARC_TRANSFER.md`. This
+removes an obstruction from the hunt's bookkeeping. It proves nothing new about E(N).
+
+Consequences on the board. `w-rank3-transfer-refine` refines a step that does not need to exist
+and is rejected. `w-rank3-crossterm-asymptotic` is subsumed by `w-route-d-cross-term`, which the
+judge had rejected on the strength of the obstruction that no longer exists; the rejection is
+overturned and the item confirmed. Edges e-0006 and e-0007 were reasoned from the same
+obstruction and are rejected. `w-rank3-route-a-delta-uniform`, proposed by `a-0040`, is the
+one remaining named requirement for the U side of rank 3 and is confirmed.
+
+Seven items remain and none depends on another, so concurrency is 7. Estimate, before launch:
+the two proves this round cost $2.89 together, about $1.45 each, so seven proves are about
+$10.15; seven verifies at the measured $0.35 would add $2.45; about $12.60 in total against
+$11.48 of headroom under the $50 cap. The runner is bound at `--max-usd 50`, so the cap binds
+during the verify pass and one or two verdicts will wait for the operator.

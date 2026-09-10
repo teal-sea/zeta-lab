@@ -1,6 +1,6 @@
 {
   "graph": "prime-pair-error",
-  "concurrency": 2,
+  "concurrency": 7,
   "max_attempts": 3,
   "judge": {
     "verify": "Judge this handback against the hunt's own standard. A proposal is real only if it names a specific missing thing and says what would clear it. Reject a proposal that restates the task it came from, that proposes work outside hunts/prime_pair_error/, or that claims more certainty than the certainty ladder allows for a measured number. Nothing here may be phrased as bearing on RH.",
@@ -280,7 +280,7 @@
       "id": "w-rank3-crossterm-size",
       "what": "In hunts/prime_pair_error/RANK3_ROUTE_D.md, equation (D7) defines an exact cross term Sigma_cross(q) = sum over b != b' mod q (b, b' reduced residues mod q) of c_q(b-b') X(b,b'), where c_q is the Ramanujan sum already defined in hunts/prime_pair_error/UPPER_BOUND.md section 2, and X(b,b') = sum_{t=1}^N Delta(t;q,b) Delta(t;q,b') + sum_{t=1}^{N-1} [Delta(N;q,b)-Delta(t;q,b)][Delta(N;q,b')-Delta(t;q,b')], with Delta(t;q,b) = psi(t;q,b) - t/phi(q), psi(t;q,b) = sum_{n<=t, n congruent to b mod q} Lambda(n) (von Mangoldt), for reduced residues b mod q. Section 3 of RANK3_ROUTE_D.md shows only a cancellation-free bound |Sigma_cross(q)| <= phi(q)(phi(q)-1) sum_b T(q,b), where T(q,b)=X(b,b), and states plainly that whether the true Sigma_cross(q) is close to zero, close to this ceiling, or something between is not determined by hunts/prime_pair_error/UPPER_BOUND.md or hunts/prime_pair_error/RESULTS.md. Task: determine, by measurement at a ladder of moduli q (small primes and small squarefree composites, e.g. q in {2,3,5,6,7,10,11,13}) and a ladder of cutoffs N, how Sigma_cross(q) actually compares in size to phi(q) * sum_b T(q,b) (the diagonal term) and to its proved ceiling phi(q)(phi(q)-1) sum_b T(q,b). Compute psi(t;q,b) directly from the repo's own prime/von Mangoldt machinery (do not re-derive a separate implementation of Lambda from scratch if the repo already has one under zeta/ or hunts/prime_pair_error/, reuse and cross-check it the way other probes in this hunt cross-check against a second method). Write the ratio Sigma_cross(q) / (phi(q) sum_b T(q,b)) at each (q,N) to a JSON file under hunts/prime_pair_error/. State plainly whether the observed ratio is closer to 0 (supporting the diagonal-only weight mu(q)^2/phi(q)) or closer to 1 (supporting the cancellation-free weight mu(q)^2), without claiming a finite measurement settles the asymptotic question either way. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word 'certified' is banned anywhere under hunts/, including inside a sentence disclaiming it.",
       "needs": [],
-      "status": "proposed",
+      "status": "active",
       "found_by": [
         "a-0023"
       ],
@@ -290,13 +290,14 @@
         "ok": true,
         "why": "Names a real gap RANK3_ROUTE_D.md leaves open (Sigma_cross(q)'s sign/size in (D7)-(D8) is undetermined by the sources), points to the exact machinery to reuse (existing von Mangoldt code under hunts/prime_pair_error/), stays in-scope, and only asks for a measured ratio without claiming it settles the asymptotic weight.",
         "at": "2026-09-10T13:01:41.963Z"
-      }
+      },
+      "decided_at": "2026-09-10T17:04:45.447Z"
     },
     {
       "id": "w-rank3-large-sieve-transfer",
       "what": "hunts/prime_pair_error/RANK3_ROUTE_D.md section 6 shows that the direct per-arc transfer bound used in hunts/prime_pair_error/UPPER_BOUND.md equation (30) (bounding the full-circle-minus-arc discrepancy by the supremum of |K_N|^2 outside the arc, times the full-circle integral of |R_{q,a}|^2), when generalized to modulus q and summed over 2<=q<=R_0 (R_0=Q/L, Q=floor(sqrt(N)/3), L=log N -- the exact range hunts/prime_pair_error/RANK3_SCOPE.md calls rank 3), costs O(N^3) with no saving at all -- as large as the trivial unconditional bound already proved in UPPER_BOUND.md's Theorem (1), regardless of how well Delta(t;q,b)=psi(t;q,b)-t/phi(q) can be controlled. UPPER_BOUND.md's own equations (24)-(27) already solve an analogous problem for q>R_0 using a dyadic large-sieve argument (grouping moduli q into dyadic blocks R<q<=2R and applying the additive large sieve (LS) across the whole block at once, rather than bounding each arc's tail by its own pointwise supremum) instead of a per-arc transfer. Task: adapt that same dyadic large-sieve method to bound, for 2<=q<=R_0, the analogous transfer quantity sum_{q=2}^{R_0} sum_{a mod q reduced} [T_N(q,a) - integral over the actual arc of |P_{q,a}|^2|R_{q,a}|^2], where T_N(q,a) is the full-circle version defined in hunts/prime_pair_error/RANK3_ROUTE_D.md equation (D10)-adjacent text, to something smaller than O(N^3) -- ideally O(N^{2+epsilon}) or state precisely what exponent is actually reachable this way and why. This is required in addition to (not instead of) an estimate for Delta(t;q,b); do not attempt Delta(t;q,b) uniformity itself in this task, only the transfer step. Write the result under hunts/prime_pair_error/ only; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word 'certified' is banned anywhere under hunts/, including inside a sentence disclaiming it. If the honest answer is that the dyadic large-sieve method does not adapt to this transfer step (as opposed to the moment bound (24)-(27) actually bounds), say precisely why and what would be needed instead.",
       "needs": [],
-      "status": "proposed",
+      "status": "active",
       "found_by": [
         "a-0023"
       ],
@@ -306,13 +307,14 @@
         "ok": true,
         "why": "RANK3_ROUTE_D.md section 6 genuinely shows the naive per-arc transfer costs O(N^3) summed over q<=R_0, and UPPER_BOUND.md's (24)-(27) is a real dyadic large-sieve argument that could plausibly be adapted; the task names the exact missing step, stays in-scope, and explicitly allows a negative answer ('does not adapt, say why') instead of demanding a result that may not exist.",
         "at": "2026-09-10T13:01:41.963Z"
-      }
+      },
+      "decided_at": "2026-09-10T17:04:45.447Z"
     },
     {
       "id": "w-integrated-bdh",
       "what": "Determine whether an 'integrated-in-t' Barban-Davenport-Halberstam-type mean-value theorem exists in the literature, or can be proved, bounding sum_{q<=Q} sum_{a mod q, gcd(a,q)=1} sum_{t=1}^{N} (psi(t;q,a)-t/phi(q))^2 (psi(t;q,a) = sum of the von Mangoldt function Lambda over n<=t with n congruent to a mod q) at order Q*N^{1+epsilon} for every fixed epsilon>0, uniformly for Q up to a positive power of N such as Q = floor(sqrt(N)/3)/log(N) -- not the weaker Q*N^2*log(N) obtained by applying the classical single-endpoint Barban-Davenport-Halberstam theorem (D(x,Q) := sum_{q<=Q} sum_{a mod q, gcd(a,q)=1} (psi(x;q,a)-x/phi(q))^2 << Q x log x, uniformly for 1<=Q<=x; see Barban 1966, Davenport-Halberstam 1966, sharp form Montgomery 1970 and Hooley, cited in Montgomery's Topics in Multiplicative Number Theory LNM 227 Chapter 4 and Montgomery-Vaughan's Multiplicative Number Theory I Chapter 17) separately at each of the N integers t from 1 to N and summing crudely. This is the exact missing ingredient identified in hunts/prime_pair_error/RANK3_MEAN_VALUE_TOOLS.md Section 5 of the prime_pair_error hunt's repository: with a bound of this stronger integrated order, UPPER_BOUND.md's rank-3 mixed moment U_(q) (defined in UPPER_BOUND.md Section 6, just before its equation (23)) summed over floor(log(N)^B)<q<=R_0 for any fixed B would plausibly reach O(N^{2+epsilon}) via RANK3_ROUTE_D.md's exact identity (D11) (first term), instead of the O(N^{5/2}) that the crude, non-integrated combination reaches, matching only the GRH-conditional order that Chou-Haag-Huryn-Ledoan's introduction already reports rather than beating it unconditionally. Search the mean-value-theorem and large-sieve literature -- the Barban-Vehov weighted sieve method, Motohashi's induction principle for generalizations of Bombieri's prime number theorem, or large-sieve/zero-density theorems for Dirichlet L-functions averaged jointly over conductor and over height -- for a statement of this integrated shape and strength, or establish precisely that none is known and why the standard methods stop short of it. A negative finding, naming exactly what such a theorem would need to assert and why the cited large-sieve methods do not supply it, is a valid, complete result. Write the result only under hunts/prime_pair_error/ in the repository at branch ost/prime-pair-error/trunk or its attempts; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d (spelled out here only so this instruction is unambiguous; do not write that word itself, in any sentence, including one disclaiming it) is banned anywhere under hunts/ in that repository.",
       "needs": [],
-      "status": "proposed",
+      "status": "active",
       "found_by": [
         "a-0028"
       ],
@@ -322,13 +324,14 @@
         "ok": true,
         "why": "Names a precise missing theorem (an integrated-in-t BDH bound at order Q*N^{1+eps}) that RANK3_MEAN_VALUE_TOOLS.md Section 5 derives is exactly one power of N^{1/2} short of the target, via a rigorous (not numerical) scaling argument from the cited classical BDH theorem; correctly scoped to hunts/prime_pair_error/, does not restate the parent task, and its GRH-benchmark comparison reuses UPPER_BOUND.md's own already-cited N^{5/2}L^c reference rather than asserting anything new about RH.",
         "at": "2026-09-10T13:22:03.215Z"
-      }
+      },
+      "decided_at": "2026-09-10T17:04:45.447Z"
     },
     {
       "id": "w-rank3-transfer-refine",
       "what": "In the prime_pair_error hunt's repository, hunts/prime_pair_error/RANK3_ROUTE_D.md Section 6 shows that the direct per-arc transfer step generalizing UPPER_BOUND.md's equation (30) -- bounding, for each modulus q and reduced residue a mod q, the difference between a full-circle integral of |P_{q,a}|^2|R_{q,a}|^2 and its restriction to the arc |beta|<=Q/(qN) by sup_{|beta|>Q/(qN)}|K_N(beta)|^2 times the full-circle L^2 norm of R_{q,a} -- costs O(q^2 N^3 L / (Q^2 phi(q))) per modulus (L = log N, Q = floor(sqrt(N)/3), N the running variable of UPPER_BOUND.md), which sums to O(N^3), i.e. no saving at all over the trivial bound, once summed over 2<=q<=R_0 with R_0 = Q/L, regardless of how well the mixed-moment identity's main term T(q,b) = sum_{t=1}^{N} Delta(t;q,b)^2 + sum_{t=1}^{N-1}[Delta(N;q,b)-Delta(t;q,b)]^2 (Delta(t;q,b) = psi(t;q,b) - t/phi(q), psi(t;q,b) = sum of Lambda over n<=t congruent to b mod q, gcd(b,q)=1) is controlled. UPPER_BOUND.md's own dyadic large-sieve argument in its equations (24) through (27) avoids exactly this kind of blow-up for the range q>R_0 by averaging the transfer step across a whole dyadic block of moduli R<q<=min(2R,Q) at once (using the additive large sieve inequality at the minimum spacing within the block) rather than bounding each arc's tail by its own individual supremum. Task: find or construct an analogous non-crude, dyadic-block-style transfer argument for the mixed moment U_(q) = sum over reduced residues a mod q of the integral over the arc around a/q of |P_{q,a}|^2|R_{q,a}|^2 (as defined just before UPPER_BOUND.md's equation (23)) at moduli 2<=q<=R_0, replacing the per-arc supremum bound that RANK3_ROUTE_D.md Section 4 uses in its equation (D11), such that the resulting transfer-step cost does not sum to a full power of N (i.e. O(N^3) or worse) over that range. A negative finding -- showing precisely why no such dyadic-block refinement can work in this range, or exactly what additional unconditional input it would require -- is also a valid, complete result; do not weaken the definitions of U_(q), Delta(t;q,b), or R_0 to make the problem easier. Write the result only under hunts/prime_pair_error/ in that repository; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d (spelled out here only so this instruction is unambiguous; do not write that word itself, in any sentence, including one disclaiming it) is banned anywhere under hunts/ in that repository.",
       "needs": [],
-      "status": "proposed",
+      "status": "rejected",
       "found_by": [
         "a-0028"
       ],
@@ -338,13 +341,15 @@
         "ok": true,
         "why": "Points at a specific, verified obstruction -- RANK3_ROUTE_D.md Section 6's exact O(N^3) transfer-step cost for U_(q), summed 2<=q<=R_0, independent of how well T(q,b) is controlled -- and asks for a dyadic-block analogue of UPPER_BOUND.md's (24)-(27) large-sieve averaging to fix it; this is a distinct sub-obstruction surfaced by the investigation, not a restatement of the parent task, and stays within hunts/prime_pair_error/ with no RH claim.",
         "at": "2026-09-10T13:22:03.215Z"
-      }
+      },
+      "decided_at": "2026-09-10T17:43:42.858Z",
+      "rejected_why": "RANK3_ARC_TRANSFER.md (a-0040) removed the O(N^3) transfer obstruction: transfer-refine is moot, crossterm-asymptotic is subsumed by w-route-d-cross-term now that the cross term is on the critical path, and both edges were reasoned from the obstruction that no longer exists"
     },
     {
       "id": "w-rank3-z-fourth-moment",
       "what": "In the prime_pair_error hunt's repository, hunts/prime_pair_error/RANK3_ROUTE_D.md Section 7 shows that the fourth moment Z_(q) = sum over reduced residues a mod q of the integral over the arc around a/q of |R_{q,a}|^4 (R_{q,a} = F_N - P_{q,a}, P_{q,a} = (mu(q)/phi(q)) K_N(alpha - a/q), F_N(alpha) = sum_{n<=N} Lambda(n) exp(2 pi i n alpha), K_N(alpha) = sum_{n<=N} exp(2 pi i n alpha), as defined in UPPER_BOUND.md just before its equation (23)) does not reduce, even in principle, to Delta(t;q,a)-type partial-sum quantities the way the mixed moment U_(q) does: writing d_b(n) = Lambda(n) 1[n congruent to b mod q] - 1/phi(q) for gcd(b,q)=1, the natural reduction of Z_(q)'s coprime part produces a quadruple additive convolution Y(b1,b2,b3,b4) = sum over n1,n2,n3,n4 from 1 to N with n1+n2=n3+n4 of d_{b1}(n1) d_{b2}(n2) d_{b3}(n3) d_{b4}(n4), which has no telescoping structure (unlike the mixed moment's convolution with K_N, whose coefficients are the constant 1, which turns a coefficient sequence into its own partial sums). There is also no arc-transfer argument for Z_(q) analogous to the one available for U_(q), since |R_{q,a}|^4 carries no factor comparable to |P_{q,a}|^2 = (mu(q)/phi(q))^2|K_N|^2 that decays away from the arc as |K_N(beta)| does for large |beta|. hunts/prime_pair_error/RANK3_MEAN_VALUE_TOOLS.md Section 6 (of the same hunt) separately shows that the Barban-Davenport-Halberstam theorem, a second-moment (not fourth-moment) unconditional mean-value theorem for primes in arithmetic progressions, has no fourth-moment analogue that was found or verified there. Task: investigate whether any unconditional fourth-moment mean-value theorem for primes in arithmetic progressions, summed over the modulus q and residue a, exists in the analytic number theory literature that could bound the quadruple convolution Y above, or Z_(q) directly, over moduli 2<=q<=R_0 (R_0 = floor(sqrt(N)/3)/log(N)); alternatively, investigate whether a fresh arc-transfer argument for Z_(q) specifically (not reusing the one built for U_(q), since it does not apply) can be constructed at all. This is expected to be hard; a negative finding that states precisely which tool is missing and why the known unconditional fourth-moment estimates for exponential sums (e.g. via Vaughan's identity, as already used elsewhere in UPPER_BOUND.md for q>R_0) do not reach this range is a valid, complete result. Do not weaken the definition of Z_(q), R_0, or the reduced-residue/coprimality conditions to make the problem more tractable. Write the result only under hunts/prime_pair_error/ in that repository; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d (spelled out here only so this instruction is unambiguous; do not write that word itself, in any sentence, including one disclaiming it) is banned anywhere under hunts/ in that repository.",
       "needs": [],
-      "status": "proposed",
+      "status": "active",
       "found_by": [
         "a-0028"
       ],
@@ -354,13 +359,14 @@
         "ok": true,
         "why": "Names two separate, checked-out obstructions for Z_(q) (RANK3_ROUTE_D.md Section 7: the quadruple convolution Y has no telescoping structure, and R_{q,a} carries no arc-decaying factor for a transfer argument) plus RANK3_MEAN_VALUE_TOOLS.md Section 6's confirmation that no fourth-moment BDH analogue was found, and asks for either a literature search or a fresh transfer argument; specific, correctly scoped, and does not overclaim or restate the parent task.",
         "at": "2026-09-10T13:22:03.215Z"
-      }
+      },
+      "decided_at": "2026-09-10T17:04:45.447Z"
     },
     {
       "id": "w-sw-pin-c1",
       "what": "Retrieve a citation-checked explicit numeric constant for the classical unconditional prime number theorem remainder psi(x) = x + O(x*exp(-c1*sqrt(log x))) (or the sharper Vinogradov-Korobov-type saving exp(-c*(log x)^{3/5}/(log log x)^{1/5})), i.e. an explicit effective zero-free-region-derived bound for zeta(s) with no auxiliary Dirichlet L-function involved (this is NOT the general Siegel-Walfisz theorem for growing modulus q>1, which is ineffective; it is the q=1 degenerate case, which has been effective since de la Vallee Poussin 1899). Candidate sources to check, each of which as far as recalled (without a verified citation) proves a result of this shape: Rosser and Schoenfeld (1962), 'Approximate formulas for some functions of prime numbers'; McCurley (1984), 'Explicit zero-free regions for the Riemann zeta function'; Kadiri (2005), 'Une region explicite sans zero pour la fonction zeta de Riemann'; Mossinghoff and Trudgian (2015), 'Nonnegative trigonometric polynomials and a zero-free region for the Riemann zeta function'; Platt and Trudgian (2021), 'The error term in the prime number theorem'; Broadbent, Kadiri, Lumley, Ng and Wilk (2021), a paper on explicit bounds for the PNT error term. Extract the explicit constant(s) and the range of x for which they hold. Then, in hunts/prime_pair_error/ of this repository, edit delta_sq_sw_effective_bind.py: replace the C1_SWEEP illustrative list with the single verified (c1, K, x0) (adjusting the bound formula in the script if the source uses the sharper Vinogradov-Korobov exponent (log x)^{3/5}/(log log x)^{1/5} in place of sqrt(log x), and if K is not 1, multiplying the bound accordingly rather than assuming K=1), rerun it, and update SW_EFFECTIVE.md Section 4 to replace 'likely, not confirmed' with the checked verdict (whether the true effective bound binds against every measured S(N) in results_delta_sq.json at N=1e5..1e7, or is violated at some cutoff). Do not touch zeta/, ontology/, harness/, docs/, or tests/; write findings only under hunts/prime_pair_error/. The word 'certified' is banned under hunts/, including inside a sentence disclaiming it.",
       "needs": [],
-      "status": "proposed",
+      "status": "active",
       "found_by": [
         "a-0030"
       ],
@@ -370,13 +376,14 @@
         "ok": true,
         "why": "Names a specific missing thing (citation-checked numeric c1 from a named list of papers, for the already-established-effective q=1 PNT remainder) with a concrete, in-scope clearing action, and does not restate the original task or overclaim.",
         "at": "2026-09-10T13:24:58.773Z"
-      }
+      },
+      "decided_at": "2026-09-10T17:04:45.448Z"
     },
     {
       "id": "w-mean-square-bv-hybrid",
       "what": "Search the literature (beyond Montgomery-Vaughan Multiplicative Number Theory I, Montgomery's Topics in Multiplicative Number Theory LNM 227, and Davenport's Multiplicative Number Theory, which hunts/prime_pair_error/RANK3_BDH_VERIFY.md already checked and found do not contain it) for a mean-square (sum of squares, Barban-Davenport-Halberstam shape) analogue of the Bombieri-Vinogradov theorem: a bound of the form, for every fixed A>0, sum_{q<=Q} sum_{a mod q, (a,q)=1} (psi(x;q,a)-x/phi(q))^2 <<_A Q x (log x)^{-A'} for some A' depending on A but with the Q-range 1<=Q<=x^{1/2}/(log x) NOT shrinking as A grows (unlike ordinary Bombieri-Vinogradov, whose range x^{1/2}(log x)^{-B(A)} shrinks as A grows). Candidate places to look: Motohashi's papers on the Barban-Davenport-Halberstam theorem (a series of papers, roughly 1973-1980, in journals such as J. Math. Soc. Japan or Proc. Japan Acad.), Hooley's papers 'On the Barban-Davenport-Halberstam theorem' (parts I-VIII, various journals, 1970s), Friedlander-Goldston, or Bombieri-Friedlander-Iwaniec's dispersion-method papers. Report exactly what is found, with precise statement and range, or report that no such theorem is found and name what specifically is missing.",
       "needs": [],
-      "status": "proposed",
+      "status": "active",
       "found_by": [
         "a-0032"
       ],
@@ -386,13 +393,14 @@
         "ok": true,
         "why": "Names a specific missing theorem (arbitrary-A, A-independent-range, t-integrated BDH/BV hybrid), already flagged as open in RANK3_MEAN_VALUE_TOOLS.md Section 5 but here given concrete unchecked candidate sources (Motohashi's BDH papers, Hooley I-VIII, Friedlander-Goldston, Bombieri-Friedlander-Iwaniec dispersion papers) beyond the three books a-0032 already ruled out; stays inside hunts/prime_pair_error/, makes no RH claim, and asserts no unearned certainty.",
         "at": "2026-09-10T13:31:38.804Z"
-      }
+      },
+      "decided_at": "2026-09-10T17:04:45.448Z"
     },
     {
       "id": "w-lfunction-quartic-height-integrated",
       "what": "Literature question: does an unconditional theorem exist bounding a HEIGHT-INTEGRATED, q-and-character-averaged fourth moment of Dirichlet L-functions, i.e. something of the shape sum_{q<=Q} sum_{chi mod q}^* integral_{|t|<=T} |L(1/2+it,chi)|^4 dt << (Q,T)-explicit bound with a genuine power saving over the trivial (Cauchy-Schwarz via the second moment) bound -- as opposed to the classical fixed-point fourth moment (Heath-Brown, 'The fourth power mean of Dirichlet's L-functions,' Analysis 1 (1981), 25-32, which bounds sum_q sum_chi |L(1/2,chi)|^4 at a single point, not integrated over t)? This arises from hunts/prime_pair_error/RANK3_QUARTIC_TOOLS.md Section 3 (written 2026-09-10), which investigates whether any unconditional q-averaged tool can bound UPPER_BOUND.md's fourth residual moment sum_{2<=q<=R_0} Z_(q) (Z_(q) = sum_{a mod q}^* integral_{I_{q,a}} |R_{q,a}|^4, R_{q,a}=F_N-P_{q,a}, as defined in UPPER_BOUND.md Section 6), and finds that translating Z_(q) through the explicit formula lands on exactly this height-integrated joint moment, which is a genuinely different (and to that document's knowledge, unresolved by any tool it could name) object from both the classical fixed-point fourth moment and from the Barban-Davenport-Halberstam second moment already ruled out for this purpose in hunts/prime_pair_error/RANK3_MEAN_VALUE_TOOLS.md Section 6. If such a theorem exists in the literature with a genuine power-saving strength, evaluate it (in the style of RANK3_MEAN_VALUE_TOOLS.md Section 5's pricing of BDH) against the target sum_{2<=q<=R_0} Z_(q) with R_0 = floor(sqrt(N)/3)/log N, tracking exactly what power of N it reaches and comparing to CHHL's GRH-conditional benchmark N^{5/2}, the same way that document did for U_(q). Also check whether it would need to be restricted to squarefree q or could cover Z_(q)'s non-squarefree part (RANK3_QUARTIC_TOOLS.md Section 2), where R_{q,a}=F_N identically with no bias-subtraction, and whether an arc-transfer argument (bounding the arc-restricted Z_(q) from a full-circle or full-height-range bound) is supplied by the same source or is a further separate gap, since RANK3_ROUTE_D.md Section 7 already shows no such transfer exists for the fourth moment by the method that works for U_(q). If no such theorem is found, state that as the answer and name precisely what result of this shape and strength would need to exist and does not, the same way RANK3_QUARTIC_TOOLS.md itself does. Write only under hunts/prime_pair_error/. Do not touch zeta/, ontology/, harness/, docs/, or tests/. The reserved word 'certified' is banned under hunts/, including inside a sentence disclaiming it (checked case-insensitively across .py/.md/.json files by tests/test_hunt_probe_discipline.py).",
       "needs": [],
-      "status": "proposed",
+      "status": "active",
       "found_by": [
         "a-0034"
       ],
@@ -402,13 +410,14 @@
         "ok": true,
         "why": "Names the precise missing object (a height-integrated, q-and-chi-averaged Dirichlet L-function fourth moment, distinguished from Heath-Brown's fixed-point version) that RANK3_QUARTIC_TOOLS.md Section 3-4 identifies as its wall, specifies a concrete literature check plus an N^{5/2}-benchmark pricing step consistent with RANK3_MEAN_VALUE_TOOLS.md's established method, stays inside hunts/prime_pair_error/, and does not touch RH.",
         "at": "2026-09-10T13:36:47.452Z"
-      }
+      },
+      "decided_at": "2026-09-10T17:04:45.448Z"
     },
     {
       "id": "w-route-d-cross-term",
       "what": "In hunts/prime_pair_error/RANK3_ROUTE_D.md, identity (D7) writes sum_{a mod q}^* integral_T |K_N|^2 |R^(1)_{q,a}|^2 = Sigma_diag(q) + Sigma_cross(q), with Sigma_diag(q) = phi(q) * sum_{b mod q}^* T(q,b) and Sigma_cross(q) = sum_{b != b' mod q}^* c_q(b-b') X(b,b'), where X(b,b') = <K_N D_b, K_N D_b'>_{L^2(T)} is a real symmetric positive-semidefinite Gram matrix entry (T(q,b)=X(b,b)), c_q is the Ramanujan sum, D_b(beta) = sum_{n=1}^N (Lambda(n) 1_{n=b mod q} - 1/phi(q)) e(n beta) for (b,q)=1. RANK3_ROUTE_D.md Section 3 only bounds |Sigma_cross(q)| <= phi(q)(phi(q)-1) sum_b^* T(q,b) via Cauchy-Schwarz (no cancellation assumed), giving the proven weight mu(q)^2 (O(1), no phi(q) in the denominator) on sum_b^* T(q,b) in the resulting bound (D11) for U_(q) = sum_a^* integral_arc |P_{q,a}|^2 |R_{q,a}|^2. hunts/prime_pair_error/RANK3_POLYRANGE_TINT_CHECK.md (already on this branch, worktree a-0036) shows that IF the weight on sum_b^* T(q,b) could instead be brought down to mu(q)^2/phi(q) or mu(q)^2/phi(q)^2 -- i.e. if Sigma_cross(q) could be shown to genuinely cancel Sigma_diag(q) down by one or two further powers of phi(q), rather than merely bounded by its Cauchy-Schwarz ceiling -- then the partial-summation argument in that document's Section 3 (which sums classical Barban-Davenport-Halberstam, D(t,Q) << Qt log t for 1<=Q<=t, Barban 1966 and Davenport-Halberstam 1966, against a decaying q-weight via Abel summation) would upgrade RANK3_ROUTE_D.md's U_(q) bound from its current N^{5/2} order (matching, not beating, the GRH-conditional CHHL benchmark) down to O_eps(N^{2+eps}), which is exactly UPPER_BOUND.md's target order. The task: determine whether Sigma_cross(q), as an exact real number for each squarefree q up to R_0=floor(sqrt(N)/3)/log(N), can be proven (not merely assumed) to be small relative to Sigma_diag(q) -- e.g. by finding genuine cancellation in the Gram-matrix off-diagonal sum weighted by the Ramanujan sums c_q(b-b'), or by any other unconditional argument -- and if so at what weight (mu(q)^2/phi(q) or mu(q)^2/phi(q)^2) it closes; if no such cancellation can be established, state that precisely, since it would mean this specific route to U_(q) is blocked at exactly this one identity, with everything else in RANK3_ROUTE_D.md and RANK3_POLYRANGE_TINT_CHECK.md already in place around it. Numerical experimentation (computing X(b,b') and Sigma_cross(q) directly from the true von Mangoldt function for small-to-moderate q, the same way rank3_bdh_probe.py and polyrange_weighted_bdh_check.py already measure related quantities exactly) is a reasonable way to get empirical evidence before attempting a proof.",
       "needs": [],
-      "status": "proposed",
+      "status": "active",
       "found_by": [
         "a-0036"
       ],
@@ -418,7 +427,31 @@
         "ok": false,
         "why": "Its own motivating clause -- that resolving Sigma_cross(q)'s cancellation would let Route D reach O_eps(N^{2+eps}) 'with everything else in RANK3_ROUTE_D.md ... already in place around it' -- is contradicted by RANK3_ROUTE_D.md Section 6 itself, which already proves that the (D11) transfer term O(q^2N^3L/(Q^2 phi(q))), summed over 2<=q<=R_0, costs O(N^3) 'with no saving over the trivial bound at all' even granting a hypothetical perfect bound on sum_b T(q,b) -- an independent, unresolved second obstruction (needing 'a non-crude, large-sieve-style transfer argument') that the proposal never mentions or accounts for; the cross-term question itself is well posed, but the proposal overstates what closing it would deliver.",
         "at": "2026-09-10T13:45:58.881Z"
-      }
+      },
+      "decided_at": "2026-09-10T17:45:10.389Z"
+    },
+    {
+      "id": "w-rank3-crossterm-asymptotic",
+      "what": "RANK3_ROUTE_D.md defines, for modulus q, reduced residues b,b' mod q, Delta(t;q,b)=psi(t;q,b)-t/phi(q) with psi(t;q,b)=sum_{n<=t,n=b(q)} Lambda(n) (von Mangoldt), T(q,b)=sum_{t=1}^N Delta(t;q,b)^2 + sum_{t=1}^{N-1}[Delta(N;q,b)-Delta(t;q,b)]^2, X(b,b')=sum_{t=1}^N Delta(t;q,b)Delta(t;q,b') + sum_{t=1}^{N-1}[Delta(N;q,b)-Delta(t;q,b)][Delta(N;q,b')-Delta(t;q,b')], and Sigma_cross(q)=sum_{b!=b' mod q}^* c_q(b-b') X(b,b') with c_q the Ramanujan sum. A finite numerical measurement at hunts/prime_pair_error/rank3_cross_term_probe.py (results in hunts/prime_pair_error/results_rank3_cross_term_probe.json, written up in hunts/prime_pair_error/RANK3_CROSS_TERM_MEASURE.md) found Sigma_cross(q) / (phi(q)(phi(q)-1) sum_b^* T(q,b)) staying in roughly [-0.25, 0.43] for q in {2,3,5,6,7,10,11,13} and N up to 10^6, closer to 0 than to 1, but not monotone in N and not extended past q=13 or N=10^6. The open task: determine analytically (not just by finite measurement) whether Sigma_cross(q) = o(phi(q) sum_b^* T(q,b)) as q,N grow, or find a heuristic model (analogous to the Siegel-Walfisz-based model already used for the diagonal term) that predicts the actual size of Sigma_cross(q), OR extend the numerical ladder considerably further (larger q into the tens or hundreds, N well past 10^6) to see whether the ratio keeps shrinking, stays bounded away from 0, or grows. Do not claim any finite measurement settles the asymptotic question; state a ratio-vs-q,N table or an argument, either is useful.",
+      "needs": [],
+      "status": "rejected",
+      "found_by": [
+        "a-0039"
+      ],
+      "found_at": "2026-09-10T17:10:04.811Z",
+      "decided_at": "2026-09-10T17:43:42.858Z",
+      "rejected_why": "RANK3_ARC_TRANSFER.md (a-0040) removed the O(N^3) transfer obstruction: transfer-refine is moot, crossterm-asymptotic is subsumed by w-route-d-cross-term now that the cross term is on the critical path, and both edges were reasoned from the obstruction that no longer exists"
+    },
+    {
+      "id": "w-rank3-route-a-delta-uniform",
+      "what": "Attempt RANK3_SCOPE.md's Route A: an unconditional, uniform-in-q estimate for Delta(t;q,b) = psi(t;q,b) - t/phi(q), for reduced b mod q and moduli q growing like a positive power of N (specifically 2 <= q <= R_0 = Q/L where Q = floor(sqrt(N)/3), L = log N), strong enough to make sum_{q=2}^{R_0} mu(q)^2 sum_{b mod q reduced} T(q,b) = O_epsilon(N^{2+epsilon}) for every epsilon>0, where T(q,b) = sum_{t=1}^N Delta(t;q,b)^2 + sum_{t=1}^{N-1} [Delta(N;q,b)-Delta(t;q,b)]^2 (hunts/prime_pair_error/RANK3_ROUTE_D.md equation D5). This is the sole remaining requirement to close rank 3's U-side (the mixed moment U_(q) for 2<=q<=R_0 in UPPER_BOUND.md's equation 23), after hunts/prime_pair_error/RANK3_ARC_TRANSFER.md removed the previously-claimed additional O(N^3) transfer-step obstruction; RANK3_SCOPE.md section 3's own assessment is that this estimate's only known unconditional-adjacent closing route (at q=1, via classical Delta(t)=O(sqrt(t) log^2(2t))) assumes RH, which would be circular since the hunt's target (N^{2+epsilon}) itself implies RH via CHHL's lower bound (UPPER_BOUND.md section 1). Do not assume RH; an unconditional route, an averaged-in-q variant that still plugs into the arc-by-arc structure (UPPER_BOUND.md's 18 and 23 need control at each q, not just on average), or a precise negative/cost result (what exponent in q or N is actually reachable unconditionally, and why) are all valid outcomes. Write results under hunts/prime_pair_error/ only; do not touch zeta/, ontology/, harness/, docs/, or tests/; do not use the word 'certified' anywhere under hunts/.",
+      "needs": [],
+      "status": "active",
+      "found_by": [
+        "a-0040"
+      ],
+      "found_at": "2026-09-10T17:20:07.981Z",
+      "decided_at": "2026-09-10T17:45:10.389Z"
     }
   ],
   "edges": [
@@ -522,7 +555,7 @@
       "from": "w-rank3-crossterm-size",
       "to": "w-rank3-large-sieve-transfer",
       "why": "measuring whether the cross term is actually negligible tells you which target weight (mu(q)^2/phi(q) vs mu(q)^2) the large-sieve transfer work needs to beat to make Route D worthwhile at all; doing the transfer work first without this risks optimizing a bound whose main term was never going to be small",
-      "status": "proposed",
+      "status": "rejected",
       "found_by": [
         "a-0023"
       ],
@@ -532,14 +565,16 @@
         "ok": false,
         "why": "RANK3_ROUTE_D.md section 6 states the transfer step's O(N^3) blowup holds 'independent of anything assumed about Delta(t;q,b)' -- which includes the cross term's behavior -- so the transfer task's answer does not depend on measuring Sigma_cross first; the two proposed tasks are independent, not sequential, and this edge invents an ordering the source document contradicts.",
         "at": "2026-09-10T13:01:41.963Z"
-      }
+      },
+      "decided_at": "2026-09-10T17:43:42.858Z",
+      "rejected_why": "RANK3_ARC_TRANSFER.md (a-0040) removed the O(N^3) transfer obstruction: transfer-refine is moot, crossterm-asymptotic is subsumed by w-route-d-cross-term now that the cross term is on the critical path, and both edges were reasoned from the obstruction that no longer exists"
     },
     {
       "id": "e-0007",
       "from": "w-rank3-bdh-litsearch",
       "to": "w-route-d-cross-term",
       "why": "the cross-term question is only worth asking because RANK3_POLYRANGE_TINT_CHECK.md (this attempt's own output) already establishes that the phi(q)^{-2}-weighted statement closes at O(N^{2+eps}) via classical BDH alone -- without that landed first, there would be no reason to expect a smaller weight to help at all.",
-      "status": "proposed",
+      "status": "rejected",
       "found_by": [
         "a-0036"
       ],
@@ -549,7 +584,9 @@
         "ok": false,
         "why": "The edge's stated rationale (that RANK3_POLYRANGE_TINT_CHECK.md's phi(q)^{-2}-weighted S(N,B)=O_eps(N^{2+eps}) result is why the cross-term weight would matter) is itself accurate, but the edge asserts this makes w-route-d-cross-term worth landing next, inheriting that work item's unaddressed flaw: RANK3_ROUTE_D.md Section 6 already shows the (D11) transfer term alone costs O(N^3) once summed over q<=R_0 regardless of the cross-term's resolution, so landing w-rank3-bdh-litsearch's output does not actually establish that closing Sigma_cross would unlock the target bound, undercutting the edge's practical justification.",
         "at": "2026-09-10T13:45:58.881Z"
-      }
+      },
+      "decided_at": "2026-09-10T17:43:42.858Z",
+      "rejected_why": "RANK3_ARC_TRANSFER.md (a-0040) removed the O(N^3) transfer obstruction: transfer-refine is moot, crossterm-asymptotic is subsumed by w-route-d-cross-term now that the cross term is on the critical path, and both edges were reasoned from the obstruction that no longer exists"
     }
   ],
   "attempts": [
@@ -2529,16 +2566,119 @@
         "integrated": "ost/prime-pair-error/trunk"
       },
       "cell_pid": 7379
+    },
+    {
+      "id": "a-0039",
+      "of": "w-rank3-crossterm-size",
+      "kind": "prove",
+      "what": "In hunts/prime_pair_error/RANK3_ROUTE_D.md, equation (D7) defines an exact cross term Sigma_cross(q) = sum over b != b' mod q (b, b' reduced residues mod q) of c_q(b-b') X(b,b'), where c_q is the Ramanujan sum already defined in hunts/prime_pair_error/UPPER_BOUND.md section 2, and X(b,b') = sum_{t=1}^N Delta(t;q,b) Delta(t;q,b') + sum_{t=1}^{N-1} [Delta(N;q,b)-Delta(t;q,b)][Delta(N;q,b')-Delta(t;q,b')], with Delta(t;q,b) = psi(t;q,b) - t/phi(q), psi(t;q,b) = sum_{n<=t, n congruent to b mod q} Lambda(n) (von Mangoldt), for reduced residues b mod q. Section 3 of RANK3_ROUTE_D.md shows only a cancellation-free bound |Sigma_cross(q)| <= phi(q)(phi(q)-1) sum_b T(q,b), where T(q,b)=X(b,b), and states plainly that whether the true Sigma_cross(q) is close to zero, close to this ceiling, or something between is not determined by hunts/prime_pair_error/UPPER_BOUND.md or hunts/prime_pair_error/RESULTS.md. Task: determine, by measurement at a ladder of moduli q (small primes and small squarefree composites, e.g. q in {2,3,5,6,7,10,11,13}) and a ladder of cutoffs N, how Sigma_cross(q) actually compares in size to phi(q) * sum_b T(q,b) (the diagonal term) and to its proved ceiling phi(q)(phi(q)-1) sum_b T(q,b). Compute psi(t;q,b) directly from the repo's own prime/von Mangoldt machinery (do not re-derive a separate implementation of Lambda from scratch if the repo already has one under zeta/ or hunts/prime_pair_error/, reuse and cross-check it the way other probes in this hunt cross-check against a second method). Write the ratio Sigma_cross(q) / (phi(q) sum_b T(q,b)) at each (q,N) to a JSON file under hunts/prime_pair_error/. State plainly whether the observed ratio is closer to 0 (supporting the diagonal-only weight mu(q)^2/phi(q)) or closer to 1 (supporting the cancellation-free weight mu(q)^2), without claiming a finite measurement settles the asymptotic question either way. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word 'certified' is banned anywhere under hunts/, including inside a sentence disclaiming it.",
+      "from": null,
+      "state": "done",
+      "params": {
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0039",
+        "branch": "ost/prime-pair-error/a-0039",
+        "db": "ost_prime_pair_error_0039",
+        "port": 4439,
+        "start_commit": "c614e65188f0b5d73b342436383ae558fbd3aafd",
+        "end_commit": "9519c841af820f2d424970afb0a2fb6aeac2e5b2"
+      },
+      "started": "t+0",
+      "ended": "t+1",
+      "started_at": "2026-09-10T17:04:55.802Z",
+      "ended_at": "2026-09-10T17:10:04.811Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 62,
+          "output_tokens": 27311,
+          "cache_read_input_tokens": 2979541,
+          "cache_creation_input_tokens": 116278,
+          "cost_usd": 1.3359792000000001,
+          "duration_ms": 303593,
+          "api_ms": 296216,
+          "turns": 34,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "check": {
+          "ok": true,
+          "cmd": "cd \"$OSTOYAE_CHECK_TREE\" && test -n \"$(git diff --name-only \"$OSTOYAE_TRUNK\"..\"$(git rev-parse HEAD)\" -- hunts/prime_pair_error/ 2>/dev/null || git show --name-only --format= HEAD -- hunts/prime_pair_error/)\" && echo \"w-rank3-crossterm-size: the attempt changed something under hunts/prime_pair_error/\"",
+          "on": "ost/prime-pair-error/a-0039"
+        },
+        "ahead": "The ladder measured here stops at q=13 and N=10^6; ratio_cross_over_ceiling does not shrink monotonically in N at fixed q (e.g. q=3 goes 0.085, 0.426, 0.382, 0.131, 0.288, -0.252, 0.241 across the seven cutoffs), so a next attempt wanting a trend rather than a snapshot should extend both ladders (larger q, larger N) and should not expect monotone convergence from this data alone. The measurement is closer to the diagonal-only picture (ratio well under 1/2 of the proved ceiling at every (q,N) tried) than to the cancellation-free ceiling, but this is explicitly not shown to persist asymptotically, and RANK3_ROUTE_D.md Section 6 already separately shows that even a hypothetical full resolution of Sigma_cross(q) would not by itself close rank 3, because the arc-transfer step summed over q costs O(N^3) on its own.",
+        "found": [
+          "w-rank3-crossterm-asymptotic"
+        ],
+        "integrated": "ost/prime-pair-error/trunk",
+        "notes": [
+          "map handed back by a prove attempt, ignored"
+        ]
+      },
+      "cell_pid": 30723
+    },
+    {
+      "id": "a-0040",
+      "of": "w-rank3-large-sieve-transfer",
+      "kind": "prove",
+      "what": "hunts/prime_pair_error/RANK3_ROUTE_D.md section 6 shows that the direct per-arc transfer bound used in hunts/prime_pair_error/UPPER_BOUND.md equation (30) (bounding the full-circle-minus-arc discrepancy by the supremum of |K_N|^2 outside the arc, times the full-circle integral of |R_{q,a}|^2), when generalized to modulus q and summed over 2<=q<=R_0 (R_0=Q/L, Q=floor(sqrt(N)/3), L=log N -- the exact range hunts/prime_pair_error/RANK3_SCOPE.md calls rank 3), costs O(N^3) with no saving at all -- as large as the trivial unconditional bound already proved in UPPER_BOUND.md's Theorem (1), regardless of how well Delta(t;q,b)=psi(t;q,b)-t/phi(q) can be controlled. UPPER_BOUND.md's own equations (24)-(27) already solve an analogous problem for q>R_0 using a dyadic large-sieve argument (grouping moduli q into dyadic blocks R<q<=2R and applying the additive large sieve (LS) across the whole block at once, rather than bounding each arc's tail by its own pointwise supremum) instead of a per-arc transfer. Task: adapt that same dyadic large-sieve method to bound, for 2<=q<=R_0, the analogous transfer quantity sum_{q=2}^{R_0} sum_{a mod q reduced} [T_N(q,a) - integral over the actual arc of |P_{q,a}|^2|R_{q,a}|^2], where T_N(q,a) is the full-circle version defined in hunts/prime_pair_error/RANK3_ROUTE_D.md equation (D10)-adjacent text, to something smaller than O(N^3) -- ideally O(N^{2+epsilon}) or state precisely what exponent is actually reachable this way and why. This is required in addition to (not instead of) an estimate for Delta(t;q,b); do not attempt Delta(t;q,b) uniformity itself in this task, only the transfer step. Write the result under hunts/prime_pair_error/ only; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word 'certified' is banned anywhere under hunts/, including inside a sentence disclaiming it. If the honest answer is that the dyadic large-sieve method does not adapt to this transfer step (as opposed to the moment bound (24)-(27) actually bounds), say precisely why and what would be needed instead.",
+      "from": null,
+      "state": "done",
+      "params": {
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0040",
+        "branch": "ost/prime-pair-error/a-0040",
+        "db": "ost_prime_pair_error_0040",
+        "port": 4440,
+        "start_commit": "c614e65188f0b5d73b342436383ae558fbd3aafd",
+        "end_commit": "c5bb54890a969fdd85bb6972dfebe6ef155f0f2c"
+      },
+      "started": "t+0",
+      "ended": "t+2",
+      "started_at": "2026-09-10T17:04:57.528Z",
+      "ended_at": "2026-09-10T17:20:07.980Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 50,
+          "output_tokens": 57210,
+          "cache_read_input_tokens": 2595469,
+          "cache_creation_input_tokens": 115722,
+          "cost_usd": 1.5558328000000008,
+          "duration_ms": 906776,
+          "api_ms": 886556,
+          "turns": 27,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "check": {
+          "ok": true,
+          "cmd": "cd \"$OSTOYAE_CHECK_TREE\" && test -n \"$(git diff --name-only \"$OSTOYAE_TRUNK\"..\"$(git rev-parse HEAD)\" -- hunts/prime_pair_error/ 2>/dev/null || git show --name-only --format= HEAD -- hunts/prime_pair_error/)\" && echo \"w-rank3-large-sieve-transfer: the attempt changed something under hunts/prime_pair_error/\"",
+          "on": "ost/prime-pair-error/a-0040"
+        },
+        "ahead": "hunts/prime_pair_error/RANK3_ARC_TRANSFER.md finds that the O(N^3) transfer cost RANK3_ROUTE_D.md section 6 identifies is an artifact of an avoidable step, not a real obstruction: the arc-restricted quantity U_(q) is always <= the full-circle quantity T_N(q,a) summed over a, by plain monotonicity of integrating a nonnegative integrand over a subset of the circle (proof is two lines; checked numerically against direct evaluation of F_N, K_N at N=120 for six (q,a) pairs, and the underlying (D7) Parseval identity was independently cross-checked at four (N,q) pairs -- both all pass, see results_rank3_arc_transfer_probe.json). Combining this with RANK3_ROUTE_D.md's own equation (D10) (which does not depend on the transfer step) gives U_(q) <= 2 mu(q)^2 sum_b T(q,b) + O(mu(q)^2 rho_2(q)^2 N / phi(q)) with NO transfer term at all -- i.e. RANK3_ROUTE_D.md's boxed (D11) minus its third term, and a strictly better bound. Summed over 2<=q<=R_0 the surviving explicit (rho_2) term is O(N L^6), negligible against any N^{2+epsilon} target. So dyadic large sieve does not need adapting to this transfer quantity, and in fact does not fit it: (24)-(27) bounds a sum over many well-spaced centers a/q at one shared beta (an LS input), while the transfer quantity T_N(q,a) - arc integral is a single center's integral over beta outside its own arc -- there is no second index to space out, so there is no well-defined entry point for LS on this object, independent of whether it needs bounding at all (it doesn't). This is distinct from RANK3_SCOPE.md's already-known 'Route B' failure (applying (24)-(27) directly to U_(q) for small q, which costs O(N^3 L^3) at the single block q=2 -- still open, not addressed here). The only genuinely surviving requirement for rank 3's U-side, after this fix, is exactly RANK3_SCOPE.md's Route A: a uniform estimate for Delta(t;q,b)=psi(t;q,b)-t/phi(q) at moduli q growing like a power of N, summed as sum_{q=2}^{R_0} mu(q)^2 sum_b T(q,b) needing to be O(N^{2+epsilon}). That estimate is not attempted here (out of scope for this task) and remains, as far as any source document shows, without an unconditional closing route (the only route named anywhere, at q=1, assumes RH and is circular against this hunt's own unconditional target). Z_(q) is untouched: RANK3_ROUTE_D.md section 7 already gives a separate, structural reason (no |P_{q,a}|^2 decay factor in Z's integrand) why even a working transfer idea would not help there, and this document does not revisit that.",
+        "found": [
+          "w-rank3-route-a-delta-uniform"
+        ],
+        "integrated": "ost/prime-pair-error/trunk"
+      },
+      "cell_pid": 30737
     }
   ],
   "last_run": {
-    "ended": "2026-09-10T13:45:58.892Z",
-    "launched": 10,
-    "invocations": 38,
-    "invocation_allowance": 60,
-    "stopped_by": null,
-    "drained": "awaiting-decision",
-    "why": "0 item(s) parked and 11 proposal(s) unanswered",
-    "next": "confirm or reject them (--confirm w-rank3-crossterm-size), or re-run with --auto-advance and a cap to let the judge decide within scope"
+    "ended": "2026-09-10T17:20:08.135Z",
+    "launched": 2,
+    "invocations": 40,
+    "invocation_allowance": 54,
+    "stopped_by": "the operator's stop",
+    "drained": null,
+    "why": "the operator's stop",
+    "next": "a budget bound; re-run to continue"
   }
 }
