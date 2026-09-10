@@ -98,12 +98,24 @@ def quadruple_growth(beta, gamma, dps: int = 40) -> dict:
                 "R_minus_1": mp.mpf(abs(u)) - 1}
 
 
-def line_ordinates(t_max: float, dps: int = 25, refine: int = 40) -> list:
+def line_ordinates(t_max: float, dps: int = 15, refine: int = 24,
+                   bisections: int = 55) -> list:
     """Critical-line ordinates of f in (0, t_max], by sign change and bisection.
 
     A sign-change scan can miss a pair and can never invent one, so the count it
     returns is a lower bound; :func:`completeness` is what turns it into a
     statement about the multiset.
+
+    The precision here is deliberately modest, and the reason is worth stating
+    because the first version of this function spent thirty-five minutes buying
+    digits nothing reads.  The head term is 2(1 - cos(n phi(gamma))) with
+    phi(t) ~ 1/t, so its gamma-derivative is O(n^2/gamma^2); at n <= 12,
+    gamma >= 10 and three hundred ordinates, an ordinate error of 1e-14 moves
+    lambda_n by about 1e-13, while the comparison this feeds is limited by the
+    truncation tail at the 1e-4 level.  Each bisection step now reuses the sign
+    at the left endpoint instead of re-evaluating it, which is the other half of
+    the same lesson: the old loop spent two evaluations per halving and one of
+    them was of a value it already had.
     """
     out = []
     with mp.workdps(dps):
@@ -114,10 +126,10 @@ def line_ordinates(t_max: float, dps: int = 25, refine: int = 40) -> list:
             t = t + step
             v = Z_dh(t, dps=dps)
             if prev_v != 0 and v != 0 and (prev_v > 0) != (v > 0):
-                lo, hi = prev_t, t
-                for _ in range(4 * dps):
+                lo, hi, lo_pos = prev_t, t, prev_v > 0
+                for _ in range(bisections):
                     mid = (lo + hi) / 2
-                    if (Z_dh(mid, dps=dps) > 0) == (Z_dh(lo, dps=dps) > 0):
+                    if (Z_dh(mid, dps=dps) > 0) == lo_pos:
                         lo = mid
                     else:
                         hi = mid
