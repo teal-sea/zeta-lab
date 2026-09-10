@@ -100,7 +100,7 @@
       "verdict": {
         "by": "a-0004",
         "ok": true,
-        "why": "Names a specific missing thing (Theta_chi unconditionally unknown, no exhibited sequence) verified against RESULTS.md §18 and tb_bind.py, proposes a distinct GRH-conditional shape comparison scoped to hunts/prime_pair_error/, quotes results.json's E(N) values exactly, and explicitly forbids claiming the unconditional theorem binds or is vacuous from it.",
+        "why": "Names a specific missing thing (Theta_chi unconditionally unknown, no exhibited sequence) verified against RESULTS.md \u00a718 and tb_bind.py, proposes a distinct GRH-conditional shape comparison scoped to hunts/prime_pair_error/, quotes results.json's E(N) values exactly, and explicitly forbids claiming the unconditional theorem binds or is vacuous from it.",
         "at": "2026-09-10T03:37:20.083Z"
       },
       "decided_at": "2026-09-10T07:07:12.236Z"
@@ -742,6 +742,70 @@
         "why": "Accurately restates SCALE_TRANSITION.md Section 4's identified gap (an unconditional aggregate second-moment estimate for block-sum discrepancies) with a formula matching eq (4) exactly, correctly scoped to 2^k<=N^{1/4}, correctly labels the energy-concentration claim as measured, is new work rather than a restatement of the completed task, allows a valid negative outcome, and makes no RH claim.",
         "at": "2026-09-10T21:51:03.456Z"
       }
+    },
+    {
+      "id": "w-polyrange-composite-weight",
+      "what": "In hunts/prime_pair_error/RANK3_POLYRANGE_TINT_CHECK.md section 3, a partial-summation argument (against classical Barban-Davenport-Halberstam) shows that a weight w(q) = O(1/phi(q)) on sum_b^*T(q,b), summed over 2<=q<=R0 with R0 = Q/log(N), Q = floor(sqrt(N)/3), gives O_eps(N^{2+eps}); RANK3_CROSS_TERM_CANCELLATION.md section 5 already checked this goes through unchanged for w(q)=O(1/phi(q)) (not just O(1/phi(q)^2)) for PRIME q, where the actual weight reached is mu(q)^2 q/phi(q)^2 ~ 1/phi(q). hunts/prime_pair_error/RANK3_COMPOSITE_CROSS_TERM.md (new document, this attempt) extends the underlying cross-term identity to composite squarefree q and shows the SAME ceiling q*sum_b^*T(q,b) holds there too (exact identity CT1, bound CT2, both verified to floating-point precision at q in {6,10,14,15,21}, N up to 10^6), with the caveat that the resulting weight mu(q)^2 q/phi(q)^2 equals O(log-log(q)/phi(q)) for composite q by Mertens' third theorem (phi(q) >> q/loglog(q)), an extra log-log(q) factor worse than the prime case's O(1/phi(q)). The task: redo RANK3_POLYRANGE_TINT_CHECK.md section 3's partial-summation computation (or the equivalent argument in RANK3_CROSS_TERM_CANCELLATION.md section 5) with this exact weight mu(q)^2 q/phi(q)^2 summed over ALL squarefree q in 2<=q<=R0 (not just primes), and determine whether the extra log-log(q) factor is absorbed into the O_eps(N^{2+eps}) bound's epsilon, or genuinely changes the achieved order. If it is absorbed, this closes the gap RANK3_CROSS_TERM_CANCELLATION.md section 5 left open ('the full 2<=q<=R0 sum's order is unchanged by this document... unless composite squarefree q are separately handled') and the rank-3 q-sum over ALL squarefree q reaches O_eps(N^{2+eps}) rather than the CHHL-matching O(N^{5/2}). If not, state precisely what order is reached instead and why the log-log(q) factor does not absorb. Also verify directly (not just via the Mertens asymptotic) that phi(q)^2 >= q for every squarefree q >= 7 (checked by this attempt only up to q=200, where q in {2,6} are the sole exceptions among squarefree q) -- if this is a known elementary fact or provable in a few lines, state the proof; if a counterexample exists at larger q, that changes which composite q need the min(phi(q)^2, q) fallback in RANK3_COMPOSITE_CROSS_TERM.md section 5. Write results only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it.",
+      "needs": [],
+      "status": "proposed",
+      "found_by": [
+        "a-0069"
+      ],
+      "found_at": "2026-09-10T22:20:18.471Z",
+      "verdict": {
+        "by": "a-0072",
+        "ok": true,
+        "why": "RANK3_COMPOSITE_CROSS_TERM.md's exact identity CT1/bound CT2 (G off-diagonal vanishes unconditionally, diagonal is phi(q)*conductor(chi)) checks out: I reproduced it with a fully independent from-scratch implementation at q=6,N=3000 (rel err 1.3e-13) and confirmed the committed results_rank3_composite_cross_term_probe.json numbers (worst rel err 7.4e-11, all 35 rows pass CT2, conv-check 3.6e-12) exactly match the document's prose; independently verified phi(q)^2<q has only exceptions q in {2,6} among squarefree q up to 10^5 (doc only claimed up to 200); the quoted RANK3_CROSS_TERM_CANCELLATION.md section 5 text is verbatim-accurate. The proposal names a specific, still-open gap (whether the extra loglog(q) factor in weight mu(q)^2 q/phi(q)^2 is absorbed into the polyrange partial-summation's N^eps) that this attempt explicitly did not attempt, is not resolved elsewhere in the hunt, stays within hunts/prime_pair_error/, and does not overclaim or touch RH.",
+        "at": "2026-09-10T22:22:42.837Z"
+      }
+    },
+    {
+      "id": "w-tt-lemma51-shape",
+      "what": "In hunts/prime_pair_error/ (project 'prime_pair_error', a CHHL/prime-pair-correlation error term hunt), fetch Tao and Teraevaeinen, 'Quantitative bounds for Gowers uniformity of the Moebius and von Mangoldt functions', arXiv:2107.02158v4, and read Lemma 5.1 (the fundamental lemma of the sieve) and its proof precisely. Determine which of these two shapes for its remainder term is the one actually proved: (L) linear-in-s, i.e. remainder decaying like exp(-c*s) for an absolute constant c, where s = log(level)/log(z); or (S) the sharper classical shape remainder decaying like exp(-s*log(s)*(1+o(1))) (the 'u^{-u}' bound familiar from Halberstam-Richert Sieve Methods Theorem 2.5 or Friedlander-Iwaniec Opera de Cribro Theorem 6.9). Report which shape TT Lemma 5.1 gives, with the precise statement and page/equation reference. This directly resolves the open question in hunts/prime_pair_error/MINOR_ARC_SIEVE.md Sections 3-4 (does the fundamental-lemma-based replacement for ENDPOINT_BOUND.md Section 2's Bonferroni truncation reach the sharp exponent kappa=1/2, where Z = exp((log N)^kappa) is the Siegel-model cutoff): under shape (L) kappa=1/2 is not reachable by that route, under shape (S) it is. Write the answer to hunts/prime_pair_error/TT_LEMMA51_SHAPE.md, do not touch any other file, and do not use the word with letters c-e-r-t-i-f-i-e-d anywhere.",
+      "needs": [],
+      "status": "proposed",
+      "found_by": [
+        "a-0070"
+      ],
+      "found_at": "2026-09-10T22:25:11.618Z",
+      "verdict": {
+        "by": "a-0073",
+        "ok": true,
+        "why": "Real, narrow, in-scope lookup with a testable answer and no overclaiming; I fetched arXiv:2107.02158v4 myself and Lemma 5.1's remainder is stated as O(e^{9\\kappa-s}K^{10}) -- linear-in-s, shape (L) -- confirming the dichotomy is genuine and resolvable, though the proposal's claim that this 'directly resolves the open question in hunts/prime_pair_error/MINOR_ARC_SIEVE.md Sections 3-4' points at a file that does not exist anywhere in this trunk snapshot, so that framing is unverifiable from here even though the core task and target file (TT_LEMMA51_SHAPE.md) are sound.",
+        "at": "2026-09-10T22:28:09.178Z"
+      }
+    },
+    {
+      "id": "w-corr-longwindow-meansquare",
+      "what": "For the corrected CHHL prime-pair problem (see CORRECTED_RH_BRIDGE.md and LOCALIZED_MIXED_ENERGY.md in hunts/prime_pair_error/), prove or disprove a power-saving mean-square bound for the long window A(k) = sum_{n<=k} (Lambda(n) - a(n)), where Lambda is the von Mangoldt function (including proper prime powers) and a(n) = nu(n)(1 - 1_exc * chi(n) * n^{beta-1}) is the Tao-Teravainen sieve model (nu(n) = b_Z * 1_{(n,P(Z))=1}, Z = exp((log N)^{1/10}), P(Z) = product of primes below Z, b_Z = P(Z)/phi(P(Z)); chi, beta the primitive real character and real zero of an assumed Siegel exceptional zero, absent if none exists). Specifically, for some fixed eta > 0, is it true that 2*sum_{k=1}^{N-1} (A(k) - A(N)/2)^2 + (N+1)/2 * A(N)^2 << N^{3-eta} unconditionally? The only bound currently established for this quantity is O(N^3 * exp(-c * (log N)^{3/5} * (log log N)^{-1/5})) via the classical (Vinogradov-Korobov) prime number theorem, which is N^{3-o(1)}, not a fixed power saving. Report which of the two outcomes (a fixed-eta bound, or a proof that no such eta exists via a Landau-Omega-type obstruction from an actual or hypothetical Siegel zero) holds, or name the exact point the argument fails if neither can be settled.",
+      "needs": [],
+      "status": "proposed",
+      "found_by": [
+        "a-0071"
+      ],
+      "found_at": "2026-09-10T22:30:39.178Z",
+      "verdict": {
+        "by": "a-0074",
+        "ok": true,
+        "why": "Names a specific open quantity (eq 20 of LOCALIZED_MIXED_ENERGY.md, verified present and matching in the doc), states exactly what's proved (eq 19, N^3 exp(-c L(N))) and what's missing (a fixed power saving or a disproof), stays inside hunts/prime_pair_error/, and does not overclaim or invoke RH.",
+        "at": "2026-09-10T22:31:38.839Z"
+      }
+    },
+    {
+      "id": "w-corr-crossterm-cancellation",
+      "what": "For the corrected CHHL prime-pair problem (see LOCALIZED_MIXED_ENERGY.md in hunts/prime_pair_error/, its Section 6 and equation 22), determine the sign or size of the two cross terms 2*Re<X,Y> and 2*Re<X+Y,R_mod> in the exact expansion ||G_corr||_2^2 = ||X||_2^2 + ||Y||_2^2 + ||R_mod||_2^2 + 2*Re<X,Y> + 2*Re<X+Y,R_mod>, where X = C(2*Re(conj(H)*W)), Y = C(|W|^2), R_mod = C(|H|^2 - V_y) - C_N_hat (C the operator removing the constant Fourier coefficient, W = F - H the difference between the von Mangoldt exponential sum F and its Tao-Teravainen sieve-model exponential sum H, V_y the truncated singular-series polynomial at y = floor(sqrt(N)), C_N_hat the exceptional-zero correction polynomial). No sign or cancellation estimate for these two terms has been proved anywhere in this hunt; the current budget (LOCALIZED_MIXED_ENERGY.md eq 25) bounds them away via triangle inequality only, at cost of the eq 20 gap above. Report whether cancellation between X, Y, R_mod can be established (even conditionally, e.g. under a zero-density hypothesis), or name the specific obstruction if it cannot.",
+      "needs": [],
+      "status": "proposed",
+      "found_by": [
+        "a-0071"
+      ],
+      "found_at": "2026-09-10T22:30:39.178Z",
+      "verdict": {
+        "by": "a-0074",
+        "ok": true,
+        "why": "Names a specific open gap (the two uncontrolled cross terms in eq 22 of LOCALIZED_MIXED_ENERGY.md, confirmed verbatim in the doc's Section 6, currently bounded only by triangle inequality per eq 25), asks a well-posed sign/cancellation question, stays in-scope, and does not overclaim certainty or reference RH.",
+        "at": "2026-09-10T22:31:38.839Z"
+      }
     }
   ],
   "edges": [
@@ -1111,7 +1175,7 @@
           {
             "id": "w-tb-conditional",
             "ok": true,
-            "why": "Names a specific missing thing (Theta_chi unconditionally unknown, no exhibited sequence) verified against RESULTS.md §18 and tb_bind.py, proposes a distinct GRH-conditional shape comparison scoped to hunts/prime_pair_error/, quotes results.json's E(N) values exactly, and explicitly forbids claiming the unconditional theorem binds or is vacuous from it."
+            "why": "Names a specific missing thing (Theta_chi unconditionally unknown, no exhibited sequence) verified against RESULTS.md \u00a718 and tb_bind.py, proposes a distinct GRH-conditional shape comparison scoped to hunts/prime_pair_error/, quotes results.json's E(N) values exactly, and explicitly forbids claiming the unconditional theorem binds or is vacuous from it."
           }
         ],
         "integrated": "ost/prime-pair-error/trunk"
@@ -1160,8 +1224,8 @@
         "output": [
           "uses Write: /home/user/ost-worktrees/prime-pair-error/a-0005/.ostoyae/report.json",
           "uses Bash: /opt/zeta-venv/bin/python -m pytest tests/test_prime_pair_residue.py -q -m \"not slow\" 2>&1 | tail -15",
-          "says: Work is complete: `hunts/prime_pair_error/delta_sq_probe.py` measures S(N) = Σ Delta(t)² at six cutoffs (2×10⁵ to 8×10⁶, ~13s runtime), cross-checks psi against the repo's scalar reference, and writes `results_delta_sq.json`. The observed growth exponent is 2.024, close to but not distinguishable from the 2+eps that UPPER_BOUND.md (31) needs — the JSON is explicit that a six-point finite ladder ca",
-          "Work is complete: `hunts/prime_pair_error/delta_sq_probe.py` measures S(N) = Σ Delta(t)² at six cutoffs (2×10⁵ to 8×10⁶, ~13s runtime), cross-checks psi against the repo's scalar reference, and writes `results_delta_sq.json`. The observed growth exponent is 2.024, close to but not distinguishable from the 2+eps that UPPER_BOUND.md (31) needs — the JSON is explicit that a six-point finite ladder can't settle that either way. Relevant guard tests (`test_hunt_probe_discipline.py`, `test_prime_pair_residue.py`) pass, and no reserved words were introduced. `.ostoyae/report.json` records a follow-up work item comparing this measurement against UPPER_BOUND.md's proved (but unnamed-constant) Siegel-Walfisz bound on the same sum.",
+          "says: Work is complete: `hunts/prime_pair_error/delta_sq_probe.py` measures S(N) = \u03a3 Delta(t)\u00b2 at six cutoffs (2\u00d710\u2075 to 8\u00d710\u2076, ~13s runtime), cross-checks psi against the repo's scalar reference, and writes `results_delta_sq.json`. The observed growth exponent is 2.024, close to but not distinguishable from the 2+eps that UPPER_BOUND.md (31) needs \u2014 the JSON is explicit that a six-point finite ladder ca",
+          "Work is complete: `hunts/prime_pair_error/delta_sq_probe.py` measures S(N) = \u03a3 Delta(t)\u00b2 at six cutoffs (2\u00d710\u2075 to 8\u00d710\u2076, ~13s runtime), cross-checks psi against the repo's scalar reference, and writes `results_delta_sq.json`. The observed growth exponent is 2.024, close to but not distinguishable from the 2+eps that UPPER_BOUND.md (31) needs \u2014 the JSON is explicit that a six-point finite ladder can't settle that either way. Relevant guard tests (`test_hunt_probe_discipline.py`, `test_prime_pair_residue.py`) pass, and no reserved words were introduced. `.ostoyae/report.json` records a follow-up work item comparing this measurement against UPPER_BOUND.md's proved (but unnamed-constant) Siegel-Walfisz bound on the same sum.",
           "usage: out=17848 in=42 cache_read=1892513 cache_create=83482 cost=$0.89 turns=24 api=209s",
           "[cell a-0005] map attempt handed back no map"
         ],
@@ -1272,9 +1336,9 @@
           "web_fetch_requests": 0
         },
         "output": [
-          "- **Why nothing covers them**: I checked the three tools used elsewhere in the document against their own displayed formulas — the large-sieve and Vaughan-based tail bounds (used for q > R_0) reduce to the trivial O(N³) order when run down to small q, and the Siegel-Walfisz argument that powers the completed theorem only reaches denominators up to a fixed power of log N, not the polynomial-in-N range up to R_0.",
+          "- **Why nothing covers them**: I checked the three tools used elsewhere in the document against their own displayed formulas \u2014 the large-sieve and Vaughan-based tail bounds (used for q > R_0) reduce to the trivial O(N\u00b3) order when run down to small q, and the Siegel-Walfisz argument that powers the completed theorem only reaches denominators up to a fixed power of log N, not the polynomial-in-N range up to R_0.",
           "- **Three candidate routes**, priced: extending the tail bounds down (foreclosed by their own order, not just uncosted), splicing in Siegel-Walfisz for the polylog sub-range (unverified, and only partial coverage), and an RH-strength generalization of rank 1's own route (heavier uniformity demand than rank 1 needs).",
-          "- **Whether closing it alone helps**: no — by the additive structure of (23), ranks 1 and 2 already exceed the N^{2+ε} target by a power of N, so rank 3 alone can't move Section 6's attempted bound; and rank 3 has no bearing at all on the bound actually proved (1), which comes from a different argument that never forms these quantities.",
+          "- **Whether closing it alone helps**: no \u2014 by the additive structure of (23), ranks 1 and 2 already exceed the N^{2+\u03b5} target by a power of N, so rank 3 alone can't move Section 6's attempted bound; and rank 3 has no bearing at all on the bound actually proved (1), which comes from a different argument that never forms these quantities.",
           "I also wrote `.ostoyae/report.json` with no wall (the work completed), notes in `ahead`, and two proposed follow-on work items (checking the Siegel-Walfisz splice, and investigating the uncovered polynomial-range gap) with edges back to this scoping task.",
           "usage: out=38709 in=40 cache_read=1885720 cache_create=100611 cost=$1.17 turns=21 api=415s",
           "[cell a-0007] map attempt handed back no map"
@@ -4321,8 +4385,8 @@
           "web_fetch_requests": 0
         },
         "output": [
-          "says: You've hit your session limit · resets 1:20am (UTC)",
-          "You've hit your session limit · resets 1:20am (UTC)",
+          "says: You've hit your session limit \u00b7 resets 1:20am (UTC)",
+          "You've hit your session limit \u00b7 resets 1:20am (UTC)",
           "[cell] agent reported an error",
           "usage: out=48347 in=28 cache_read=1154229 cache_create=89384 cost=$1.07 turns=17 api=476s",
           "[cell a-0066] agent exited non-zero",
@@ -4376,8 +4440,8 @@
         },
         "output": [
           "uses Bash: mkdir -p hunts/prime_pair_error/artifacts/minor_arc_sieve_barrier && ls hunts/prime_pair_error/artifacts/siegel_uniformity/",
-          "says: You've hit your session limit · resets 1:20am (UTC)",
-          "You've hit your session limit · resets 1:20am (UTC)",
+          "says: You've hit your session limit \u00b7 resets 1:20am (UTC)",
+          "You've hit your session limit \u00b7 resets 1:20am (UTC)",
           "[cell] agent reported an error",
           "usage: out=41225 in=26 cache_read=790806 cache_create=82470 cost=$1.00 turns=14 api=457s",
           "[cell a-0067] agent exited non-zero"
@@ -4425,8 +4489,8 @@
         },
         "output": [
           "uses Bash: sed -n '1,180p' /home/user/ost-worktrees/prime-pair-error/a-0068/hunts/prime_pair_error/probe.py",
-          "says: You've hit your session limit · resets 1:20am (UTC)",
-          "You've hit your session limit · resets 1:20am (UTC)",
+          "says: You've hit your session limit \u00b7 resets 1:20am (UTC)",
+          "You've hit your session limit \u00b7 resets 1:20am (UTC)",
           "[cell] agent reported an error",
           "usage: out=41322 in=12 cache_read=316445 cache_create=95519 cost=$0.86 turns=14 api=454s",
           "[cell a-0068] agent exited non-zero"
@@ -4441,7 +4505,7 @@
       "kind": "prove",
       "what": "In hunts/prime_pair_error/RANK3_ROUTE_D.md's exact identity (D7), Sigma_cross(q) = sum_{b != b' mod q}^* c_q(b-b') X(b,b') (b,b' ranging over reduced residues mod q, c_q the Ramanujan sum, X(b,b') = <K_N D_b, K_N D_b'>_{L^2(T)} the Gram-matrix cross term defined in that document's (D6)). hunts/prime_pair_error/RANK3_CROSS_TERM_CANCELLATION.md proves, for q PRIME, the exact identity Sigma_cross(q) = Sigma_diag(q)/(q-1) - E(q), where Sigma_diag(q) = phi(q) sum_{b mod q}^* T(q,b) (T(q,b) = X(b,b), that document's (D5)), and E(q) = sum_{t=1}^N Delta_eps(t;q)^2 + sum_{t=1}^{N-1} [Delta_eps(N;q) - Delta_eps(t;q)]^2 with Delta_eps(t;q) = psi_cop(t;q) - t, psi_cop(t;q) = sum_{n<=t, gcd(n,q)=1} Lambda(n) (Lambda the von Mangoldt function). The proof goes via the classical Dirichlet-character orthogonality relation 1_{n = b mod q} = (1/phi(q)) sum_{chi mod q} chibar(b) chi(n) for (n,q)=1, applied to decompose D_b(beta) = S_b(beta) - K_N(beta)/phi(q) (S_b(beta) = sum_{n<=N, n=b mod q} Lambda(n) e(n beta), K_N(beta) = sum_{n=1}^N e(n beta)) into a principal-character piece and a sum over nonprincipal characters, then summing over the reduced residues a mod q using c_q(a) = mu(q) (valid for every q) and the classical Gauss-sum twist tau_a(chibar) := sum_{b mod q}^* chibar(b) e(ab/q) = chi(a) tau(chibar) with |tau(chibar)|^2 = q -- an identity that holds ONLY when chi is a PRIMITIVE character mod q. For q PRIME every nonprincipal character mod q is automatically primitive (the only proper divisor of q is 1), which is exactly what makes the proof go through. The task: extend this to composite SQUAREFREE q (q with >= 2 distinct prime factors, still mu(q)^2 != 0), where some nonprincipal characters mod q are IMPRIMITIVE (induced by a character mod a proper divisor q* | q, q* < q -- e.g. for q=6, phi(6)=2, the single nonprincipal character mod 6 is induced by the Legendre symbol mod 3, and there is no primitive nonprincipal character mod 6 at all). For imprimitive chi, the twist sum tau_a(chibar) = sum_{b mod q}^* chibar(b) e(ab/q) does NOT equal chi(a) tau(chibar) in general, and |tau(chibar)| != sqrt(q) in general; the classical reduction expresses an imprimitive character's Gauss-type sum in terms of the PRIMITIVE character chi* mod q* that induces it, via a formula involving mu(q/q*) (see e.g. Apostol, Introduction to Analytic Number Theory, or Montgomery-Vaughan, Multiplicative Number Theory I, the sections on imprimitive characters and induced moduli -- this repository's own worktree may or may not have these sources locally; RANK3_POLYRANGE_TINT_CHECK.md in this same hunt already recorded that WebSearch/WebFetch were denied in its worktree, so check for local access before assuming a live literature search is available). Compute G(chi,chi') := sum_{a mod q}^* tau_a(chibar) * conj(tau_a(chibar')) for EVERY pair of nonprincipal characters chi, chi' mod q (not just primitive ones), using this induced-character reduction, and determine whether G(chi,chi') is small off the diagonal (chi != chi') the way it is exactly zero for prime q, or genuinely large. If it can be shown small (even with worse constants than the prime case), redo the derivation in hunts/prime_pair_error/RANK3_CROSS_TERM_CANCELLATION.md Section 3 for composite squarefree q using this G(chi,chi') to get an analogous bound on Sigma_diag(q) + Sigma_cross(q) (ideally still O(q) * sum_b^* T(q,b), or state precisely what weight is reachable and why it differs from the prime case). Verify any resulting exact identity numerically to floating-point precision (not just approximately) against the existing ground-truth machinery in hunts/prime_pair_error/rank3_cross_term_probe.py (import and reuse its reduced_residues, delta_table, T_and_X, ramanujan_sum_direct functions -- do not reimplement Sigma_diag/Sigma_cross/T(q,b) from scratch) at q in {6, 10, 14, 15, 21} (squarefree composites already in or near this hunt's existing moduli ladders) and N up to at least 10^6, the same way hunts/prime_pair_error/rank3_cross_term_cancellation_probe.py already does for prime q. If no clean extension is found after genuinely attempting the induced-character reduction, state precisely and specifically what breaks (not just 'it's hard') and what would be needed instead -- that is itself a valid, useful outcome for this task, as several sibling documents in this hunt (e.g. RANK3_POLYRANGE_TINT_CHECK.md Section 2, RANK3_ROUTE_D.md Section 7) already do for other sub-problems. Write results only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word 'certified' is banned anywhere under hunts/, including inside a sentence disclaiming it.",
       "from": "a-0066",
-      "state": "running",
+      "state": "done",
       "params": {
         "attempt": 2
       },
@@ -4450,13 +4514,39 @@
         "branch": "ost/prime-pair-error/a-0069",
         "db": "ost_prime_pair_error_0069",
         "port": 4469,
-        "start_commit": "197b063b4d70cf55406005289f908ab21c863c19"
+        "start_commit": "197b063b4d70cf55406005289f908ab21c863c19",
+        "end_commit": "5832c926caed898b17f6bd97fd3f18b5ea1fe59f"
       },
       "started": "t+0",
-      "ended": null,
+      "ended": "t+1",
       "started_at": "2026-09-10T22:08:05.547Z",
-      "ended_at": null,
-      "result": null,
+      "ended_at": "2026-09-10T22:20:18.471Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 46,
+          "output_tokens": 71642,
+          "cache_read_input_tokens": 2690948,
+          "cache_creation_input_tokens": 132506,
+          "cost_usd": 1.7872886000000001,
+          "duration_ms": 729526,
+          "api_ms": 720843,
+          "turns": 27,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "check": {
+          "ok": true,
+          "cmd": "cd \"$OSTOYAE_CHECK_TREE\" && test -n \"$(git diff --name-only \"$OSTOYAE_TRUNK\"..\"$(git rev-parse HEAD)\" -- hunts/prime_pair_error/ 2>/dev/null || git show --name-only --format= HEAD -- hunts/prime_pair_error/)\" && echo \"w-cross-term-composite-q: the attempt changed something under hunts/prime_pair_error/\"",
+          "on": "ost/prime-pair-error/a-0069"
+        },
+        "ahead": "The composite-squarefree extension (CT1)/(CT2) matches (CC1)/(CC2)'s ceiling exactly for every squarefree q tested and, by direct check up to q<=200, for every squarefree q except q in {2,6}. What is NOT done: confirming RANK3_POLYRANGE_TINT_CHECK.md's partial-summation argument over 2<=q<=R0 still gives O_eps(N^{2+eps}) once the weight is mu(q)^2 q/phi(q)^2 (composite q) rather than mu(q)^2/phi(q) (the weight that argument was checked against for primes) -- the two differ by a log-log(q) factor via Mertens' third theorem (phi(q) >> q/loglog(q)), which is very likely absorbed by that argument's N^epsilon but was not verified here. That check, applied to the full range including composite q, is the one remaining piece needed to overturn RANK3_CROSS_TERM_CANCELLATION.md section 5's conclusion that the full q-sum's order is unchanged at O(N^{5/2}).",
+        "found": [
+          "w-polyrange-composite-weight"
+        ],
+        "integrated": "ost/prime-pair-error/trunk"
+      },
       "cell_pid": 23243
     },
     {
@@ -4465,7 +4555,7 @@
       "kind": "prove",
       "what": "In hunts/prime_pair_error/ENDPOINT_BOUND.md, Section 2 approximates the Siegel-model sieve weight nu(n) = b_Z * 1_{(n,P(Z))=1} (P(Z) = product of primes p < Z, b_Z = P(Z)/phi(P(Z))) by a bounded-order Mobius truncation B_m(n) = sum_{d | P(Z), d | n, omega(d) <= m} mu(d), with the fixed cutoff m = 2*ceil(sqrt(log N)) and D_0 = Z^m, in order to control the minor-arc supremum of the model exponential sum H(alpha) = sum_{n<=N} a(n) e(n alpha) via Section 4's Type I / character estimates. This device requires D_0 = Z^m to stay N^{o(1)} (so the term N^2 * D_0 * sqrt(Z) in the final budget, equation (18), stays below N^3), while simultaneously needing m large enough relative to H_Z = 1 + log Z (specifically m/H_Z > e in the limit) for the truncation error N * H_Z^{m+1}/(m+1)! to actually decay. hunts/prime_pair_error/ENDPOINT_HALF.md (already on this branch) shows algebraically and numerically (see its artifacts/endpoint_half/check.py) that when Z = exp((log N)^kappa) for kappa >= 1/2, these two requirements become mutually exclusive: any m satisfying the decay requirement forces D_0 >= N^{e+o(1)} with e = 2.71828..., which alone makes N^2 * D_0 * sqrt(Z) exceed N^3. The task: find a way to control the minor-arc supremum of H(alpha) -- equivalently, to prove a bound of the shape of Tao-Teravainen (arXiv:2107.02158v4) Proposition 2.2 equation (2.5), sum_{n in B}(Lambda(n) - Lambda_Siegel(n)) << N exp(-gamma (log N)^{1/2-epsilon}) for arithmetic progressions B, with the larger Siegel-model parameter Q = exp((log N)^{1/2}) -- WITHOUT routing through a bounded-order/Bonferroni Mobius truncation of nu(n) at a fixed cutoff m the way ENDPOINT_BOUND.md Section 2 does. Two live options: (a) adapt Tao-Teravainen's own actual proof of Proposition 2.2 (not their Remark 2.8's unverified sketch) at the larger Q, which per Remark 2.8 requires retuning their Proposition 5.2's exponents 3/5 and 4/5 to 1/2 -- the paper explicitly does not carry this out ('we leave the details of this strengthening to the interested reader'), so this is genuinely open; (b) find a different minor-arc device entirely (e.g. a direct application of TT Lemma 5.1, the fundamental lemma of the sieve, to bound sup_alpha |H(alpha)| on minor arcs the same way hunts/prime_pair_error/SIEGEL_UNIFORMITY.md Section 3 already does for the diagonal/pair-correlation sum B_r(t,h), rather than first replacing nu by a bounded-order truncation B_m and then applying character-sum estimates to B_m). If either succeeds even for exponent kappa strictly between 1/2 and 1/10 (not necessarily reaching sharp 1/2), that already beats the kappa<1/2 family this attempt reached, and should replace ENDPOINT_BOUND.md Section 2 wholesale rather than patching m. If neither succeeds, that is itself worth recording as a second, independent negative result pinning kappa<1/2 as the actual ceiling of this whole proof strategy, not just of the current write-up.",
       "from": "a-0067",
-      "state": "running",
+      "state": "walled",
       "params": {
         "attempt": 2
       },
@@ -4474,13 +4564,40 @@
         "branch": "ost/prime-pair-error/a-0070",
         "db": "ost_prime_pair_error_0070",
         "port": 4470,
-        "start_commit": "197b063b4d70cf55406005289f908ab21c863c19"
+        "start_commit": "197b063b4d70cf55406005289f908ab21c863c19",
+        "end_commit": "ea6a12f21e5e1f8bba4c29087b4a8f9253e220a8"
       },
       "started": "t+0",
-      "ended": null,
+      "ended": "t+3",
       "started_at": "2026-09-10T22:08:05.923Z",
-      "ended_at": null,
-      "result": null,
+      "ended_at": "2026-09-10T22:25:11.617Z",
+      "result": {
+        "why": "exit 1",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 4,
+          "output_tokens": 4069,
+          "cache_read_input_tokens": 337358,
+          "cache_creation_input_tokens": 5549,
+          "cost_usd": 2.4181358,
+          "duration_ms": 49911,
+          "api_ms": 1020327,
+          "turns": 2,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "wall": "Reaching a sharp kappa=1/2 (let alone kappa>1/2) for the minor-arc H(alpha) bound depends on which of two standard fundamental-lemma-of-the-sieve remainder shapes is the true one for TT Lemma 5.1: the linear-in-s shape this project's own SIEGEL_UNIFORMITY.md citation states (e^{-cL^{9/10}} at s~L^{9/10}), under which kappa=1/2 is NOT reachable by this route; or the sharper classical u^{-u} (s log s) shape that ENDPOINT_BOUND.md's own Section 2 derives for its Bonferroni error before deliberately weakening it, under which kappa=1/2 IS reachable. This attempt had no network access to arXiv:2107.02158v4 to determine which shape TT's Lemma 5.1 actually delivers, so this single fact blocks a sharp verdict at exactly kappa=1/2.",
+        "ahead": "For every fixed kappa strictly less than 1/2, route (b) (replace ENDPOINT_BOUND.md Section 2's fixed Bonferroni cutoff m=2*ceil(sqrt(log N)) with classical fundamental-lemma/Rosser-Iwaniec sieve weights at a level D_0=Z^s, s=s(N) chosen to grow slower than (log N)^{1-kappa}) gives a SHARP single-exponent bound E_corr(N) << N^3 exp(-c_kappa (log N)^kappa), upgrading ENDPOINT_HALF.md's epsilon/kappa-family result to a sharp statement at every kappa in (1/10,1/2), with Sections 3, 4.1, 4.2, 4.3, 5 of ENDPOINT_BOUND.md carried over verbatim (they only use |lambda_d|<=1 and support d<=D_0, not the specific Bonferroni coefficients). For kappa>1/2 strictly, NO choice of level or sieve weights of this bounded-divisor-length kind reaches it, regardless of which of the two remainder shapes holds and regardless of the margin function chosen for the level -- this is a genuine, margin-independent, shape-independent negative result, strictly more general than ENDPOINT_HALF.md's Bonferroni-specific one, because it depends only on the crossing point of the exponents (budget exponent 1-kappa vs target exponent kappa), not on Bonferroni's constant e. A next attempt with network/paper access could settle the open kappa=1/2 knife-edge outright by pinning down TT Lemma 5.1's precise remainder shape (or by directly constructing/verifying Rosser-Iwaniec sieve weights and their sharp error term from first principles). Separately, ENDPOINT_HALF.md's own route (a) (retuning TT Proposition 5.2's exponents 3/5,4/5 -> 1/2) and the idea of avoiding ENDPOINT_BOUND.md Section 5's N^2-times-third-moment bootstrap altogether (which is where the N^2*D_0*sqrt(Z) budget term actually comes from) remain untried and could in principle move the kappa=1/2 threshold itself, independent of Section 2's truncation device.",
+        "found": [
+          "w-tt-lemma51-shape"
+        ],
+        "wall_verdict": {
+          "by": "a-0073",
+          "ok": true,
+          "why": "Names a specific, checkable ambiguity (does TT Lemma 5.1's remainder decay linear-in-s or as the sharper u^{-u} shape) and grounds it in two real citations already in this tree, SIEGEL_UNIFORMITY.md's O(N e^{-cL^{9/10}}) at s\\asymp L^{9/10} (line 197) versus ENDPOINT_BOUND.md's own N exp(-c sqrt(ell) log ell) Bonferroni derivation (line ~176), so this is a genuine fork blocking a sharp kappa=1/2 verdict, not a vague 'it's hard'.",
+          "at": "2026-09-10T22:28:09.178Z"
+        }
+      },
       "cell_pid": 23258
     },
     {
@@ -4489,7 +4606,7 @@
       "kind": "prove",
       "what": "Section 8 needs a genuinely arithmetic multiscale (or other) upper bound Energy(N) >= E_corr(N) := 2 sum_{h=1}^N |r_N(h) - C_N(h)|^2, where r_N(h) = psi_2(N,h) - (N-h)*S(h) is the CHHL prime-pair correlation residual (psi_2(N,h) = sum_{n=1}^{N-h} Lambda(n) Lambda(n+h), Lambda the von Mangoldt function including proper prime powers, S the singular series), and C_N(h) is the exceptional-zero correction of SIEGEL_UNIFORMITY.md equation (5) (C_N = 0 if no exceptional zero exists at that N). The known candidate in CANDIDATE_ENERGY.md's Section 2 (a dyadic block-average / Haar telescoping of the residual vector padded to a power-of-2 length) fails to be useful: it is proved (and independently reverified) to be an EXACT identity Energy(N) = E_corr(N) for every N, using only that the vector is real -- it uses no property of Lambda, S, or C_N at all. Proof: it survives being applied verbatim to a Davenport-Heilbronn sequence (real coefficients, a genuine functional equation, a zero off the critical line) with the identical result to 16 digits (see hunts/prime_pair_error/CHALLENGE.md and results_s8_challenge.json, attack 2). A useful next candidate must break that: it needs to actually use positivity, size, or distributional properties of Lambda/S/C_N (e.g. a second-moment / large-sieve type bound, an explicit-formula input, or a sieve bound) so that the SAME construction applied to the Davenport-Heilbronn (or Epstein) counterexample battery of zeta/epstein.py does NOT give a matching bound, since that counterexample is known to violate RH. Constraints inherited from Section 8 (retain the mean/central mode, retain cross terms between scales rather than dropping them, handle changing exceptional data q/chi/beta with N, keep the sharp endpoint N-h with no smoothing, no primes-only replacement of Lambda) still apply and should be checked against whatever new construction is tried, the same way CANDIDATE_ENERGY.md's Section 8 did for its own attempt.",
       "from": "a-0068",
-      "state": "running",
+      "state": "done",
       "params": {
         "attempt": 2
       },
@@ -4498,14 +4615,211 @@
         "branch": "ost/prime-pair-error/a-0071",
         "db": "ost_prime_pair_error_0071",
         "port": 4471,
-        "start_commit": "197b063b4d70cf55406005289f908ab21c863c19"
+        "start_commit": "197b063b4d70cf55406005289f908ab21c863c19",
+        "end_commit": "3bd67d73ed6c703034def4115f812733228a7568"
       },
       "started": "t+0",
-      "ended": null,
+      "ended": "t+5",
       "started_at": "2026-09-10T22:08:06.258Z",
-      "ended_at": null,
-      "result": null,
+      "ended_at": "2026-09-10T22:30:39.178Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 74,
+          "output_tokens": 118397,
+          "cache_read_input_tokens": 7118673,
+          "cache_creation_input_tokens": 249547,
+          "cost_usd": 3.6076056000000003,
+          "duration_ms": 1350115,
+          "api_ms": 1337115,
+          "turns": 44,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "check": {
+          "ok": true,
+          "cmd": "cd \"$OSTOYAE_CHECK_TREE\" && test -n \"$(git diff --name-only \"$OSTOYAE_TRUNK\"..\"$(git rev-parse HEAD)\" -- hunts/prime_pair_error/ 2>/dev/null || git show --name-only --format= HEAD -- hunts/prime_pair_error/)\" && echo \"w-s8-arithmetic-energy: the attempt changed something under hunts/prime_pair_error/\"",
+          "on": "ost/prime-pair-error/a-0071"
+        },
+        "ahead": "POSITIVITY_ENERGY.md's Energy(N) does not improve E_corr(N)'s total order: it is still N^3 exp(-c(log N)^kappa) for kappa<1/10, bottlenecked by the same terms LOCALIZED_MIXED_ENERGY.md already identified (its eq 20 long-window mean square, and the unresolved cross-term cancellation of its eq 22). A parallel attempt (a-0070, relayed) reports that any bounded-divisor-level model comparison in the SIEGEL_UNIFORMITY.md/ENDPOINT_BOUND.md Z=exp((log N)^{1/10}) architecture is structurally capped at kappa<=1/2 by a level-vs-N^3-budget tension; the next attempt on this thread should check that ceiling directly against whatever specific estimate it tries to improve, rather than assuming a different mechanism beats it, exactly as a-0070 asked me to check (my mean-mode piece escapes it only because it uses no divisor level at all, not because the ceiling is false in general). The genuinely open target remains LOCALIZED_MIXED_ENERGY.md eq 20 (the long-window mean square, which is a strictly stronger statement than the sup-norm bound already used) and the sign/cancellation of its eq 22 cross terms X, Y, R_mod -- nobody in this hunt has proved either.",
+        "found": [
+          "w-corr-longwindow-meansquare",
+          "w-corr-crossterm-cancellation"
+        ],
+        "integrated": "ost/prime-pair-error/trunk"
+      },
       "cell_pid": 23272
+    },
+    {
+      "id": "a-0072",
+      "of": "w-cross-term-composite-q",
+      "kind": "verify",
+      "judges": "a-0069",
+      "what": "Judge this handback against the hunt's own standard. A proposal is real only if it names a specific missing thing and says what would clear it. Reject a proposal that restates the task it came from, that proposes work outside hunts/prime_pair_error/, or that claims more certainty than the certainty ladder allows for a measured number. Nothing here may be phrased as bearing on RH.\n\nThe attempt you are judging is a-0069, a prove attempt on w-cross-term-composite-q: In hunts/prime_pair_error/RANK3_ROUTE_D.md's exact identity (D7), Sigma_cross(q) = sum_{b != b' mod q}^* c_q(b-b') X(b,b') (b,b' ranging over reduced residues mod q, c_q the Ramanujan sum, X(b,b') = <K_N D_b, K_N D_b'>_{L^2(T)} the Gram-matrix cross term defined in that document's (D6)). hunts/prime_pair_error/RANK3_CROSS_TERM_CANCELLATION.md proves, for q PRIME, the exact identity Sigma_cross(q) = Sigma_diag(q)/(q-1) - E(q), where Sigma_diag(q) = phi(q) sum_{b mod q}^* T(q,b) (T(q,b) = X(b,b), that document's (D5)), and E(q) = sum_{t=1}^N Delta_eps(t;q)^2 + sum_{t=1}^{N-1} [Delta_eps(N;q) - Delta_eps(t;q)]^2 with Delta_eps(t;q) = psi_cop(t;q) - t, psi_cop(t;q) = sum_{n<=t, gcd(n,q)=1} Lambda(n) (Lambda the von Mangoldt function). The proof goes via the classical Dirichlet-character orthogonality relation 1_{n = b mod q} = (1/phi(q)) sum_{chi mod q} chibar(b) chi(n) for (n,q)=1, applied to decompose D_b(beta) = S_b(beta) - K_N(beta)/phi(q) (S_b(beta) = sum_{n<=N, n=b mod q} Lambda(n) e(n beta), K_N(beta) = sum_{n=1}^N e(n beta)) into a principal-character piece and a sum over nonprincipal characters, then summing over the reduced residues a mod q using c_q(a) = mu(q) (valid for every q) and the classical Gauss-sum twist tau_a(chibar) := sum_{b mod q}^* chibar(b) e(ab/q) = chi(a) tau(chibar) with |tau(chibar)|^2 = q -- an identity that holds ONLY when chi is a PRIMITIVE character mod q. For q PRIME every nonprincipal character mod q is automatically primitive (the only proper divisor of q is 1), which is exactly what makes the proof go through. The task: extend this to composite SQUAREFREE q (q with >= 2 distinct prime factors, still mu(q)^2 != 0), where some nonprincipal characters mod q are IMPRIMITIVE (induced by a character mod a proper divisor q* | q, q* < q -- e.g. for q=6, phi(6)=2, the single nonprincipal character mod 6 is induced by the Legendre symbol mod 3, and there is no primitive nonprincipal character mod 6 at all). For imprimitive chi, the twist sum tau_a(chibar) = sum_{b mod q}^* chibar(b) e(ab/q) does NOT equal chi(a) tau(chibar) in general, and |tau(chibar)| != sqrt(q) in general; the classical reduction expresses an imprimitive character's Gauss-type sum in terms of the PRIMITIVE character chi* mod q* that induces it, via a formula involving mu(q/q*) (see e.g. Apostol, Introduction to Analytic Number Theory, or Montgomery-Vaughan, Multiplicative Number Theory I, the sections on imprimitive characters and induced moduli -- this repository's own worktree may or may not have these sources locally; RANK3_POLYRANGE_TINT_CHECK.md in this same hunt already recorded that WebSearch/WebFetch were denied in its worktree, so check for local access before assuming a live literature search is available). Compute G(chi,chi') := sum_{a mod q}^* tau_a(chibar) * conj(tau_a(chibar')) for EVERY pair of nonprincipal characters chi, chi' mod q (not just primitive ones), using this induced-character reduction, and determine whether G(chi,chi') is small off the diagonal (chi != chi') the way it is exactly zero for prime q, or genuinely large. If it can be shown small (even with worse constants than the prime case), redo the derivation in hunts/prime_pair_error/RANK3_CROSS_TERM_CANCELLATION.md Section 3 for composite squarefree q using this G(chi,chi') to get an analogous bound on Sigma_diag(q) + Sigma_cross(q) (ideally still O(q) * sum_b^* T(q,b), or state precisely what weight is reachable and why it differs from the prime case). Verify any resulting exact identity numerically to floating-point precision (not just approximately) against the existing ground-truth machinery in hunts/prime_pair_error/rank3_cross_term_probe.py (import and reuse its reduced_residues, delta_table, T_and_X, ramanujan_sum_direct functions -- do not reimplement Sigma_diag/Sigma_cross/T(q,b) from scratch) at q in {6, 10, 14, 15, 21} (squarefree composites already in or near this hunt's existing moduli ladders) and N up to at least 10^6, the same way hunts/prime_pair_error/rank3_cross_term_cancellation_probe.py already does for prime q. If no clean extension is found after genuinely attempting the induced-character reduction, state precisely and specifically what breaks (not just 'it's hard') and what would be needed instead -- that is itself a valid, useful outcome for this task, as several sibling documents in this hunt (e.g. RANK3_POLYRANGE_TINT_CHECK.md Section 2, RANK3_ROUTE_D.md Section 7) already do for other sub-problems. Write results only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word 'certified' is banned anywhere under hunts/, including inside a sentence disclaiming it.\n\nIt proposed:\n- w-polyrange-composite-weight, a task: In hunts/prime_pair_error/RANK3_POLYRANGE_TINT_CHECK.md section 3, a partial-summation argument (against classical Barban-Davenport-Halberstam) shows that a weight w(q) = O(1/phi(q)) on sum_b^*T(q,b), summed over 2<=q<=R0 with R0 = Q/log(N), Q = floor(sqrt(N)/3), gives O_eps(N^{2+eps}); RANK3_CROSS_TERM_CANCELLATION.md section 5 already checked this goes through unchanged for w(q)=O(1/phi(q)) (not just O(1/phi(q)^2)) for PRIME q, where the actual weight reached is mu(q)^2 q/phi(q)^2 ~ 1/phi(q). hunts/prime_pair_error/RANK3_COMPOSITE_CROSS_TERM.md (new document, this attempt) extends the underlying cross-term identity to composite squarefree q and shows the SAME ceiling q*sum_b^*T(q,b) holds there too (exact identity CT1, bound CT2, both verified to floating-point precision at q in {6,10,14,15,21}, N up to 10^6), with the caveat that the resulting weight mu(q)^2 q/phi(q)^2 equals O(log-log(q)/phi(q)) for composite q by Mertens' third theorem (phi(q) >> q/loglog(q)), an extra log-log(q) factor worse than the prime case's O(1/phi(q)). The task: redo RANK3_POLYRANGE_TINT_CHECK.md section 3's partial-summation computation (or the equivalent argument in RANK3_CROSS_TERM_CANCELLATION.md section 5) with this exact weight mu(q)^2 q/phi(q)^2 summed over ALL squarefree q in 2<=q<=R0 (not just primes), and determine whether the extra log-log(q) factor is absorbed into the O_eps(N^{2+eps}) bound's epsilon, or genuinely changes the achieved order. If it is absorbed, this closes the gap RANK3_CROSS_TERM_CANCELLATION.md section 5 left open ('the full 2<=q<=R0 sum's order is unchanged by this document... unless composite squarefree q are separately handled') and the rank-3 q-sum over ALL squarefree q reaches O_eps(N^{2+eps}) rather than the CHHL-matching O(N^{5/2}). If not, state precisely what order is reached instead and why the log-log(q) factor does not absorb. Also verify directly (not just via the Mertens asymptotic) that phi(q)^2 >= q for every squarefree q >= 7 (checked by this attempt only up to q=200, where q in {2,6} are the sole exceptions among squarefree q) -- if this is a known elementary fact or provable in a few lines, state the proof; if a counterexample exists at larger q, that changes which composite q need the min(phi(q)^2, q) fallback in RANK3_COMPOSITE_CROSS_TERM.md section 5. Write results only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it.\n\nThe same is in .ostoyae/verify.json, with each proposal's full text. Hand back .ostoyae/report.json with \"verdicts\": one entry per id above, each { \"id\", \"ok\": true or false, \"why\": one line }. Use disposable scratch files when testing a claim requires them. Change no tracked project file and commit nothing; only the report is kept.",
+      "from": null,
+      "state": "done",
+      "params": {
+        "model": "sonnet",
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0072",
+        "branch": "ost/prime-pair-error/a-0072",
+        "db": "ost_prime_pair_error_0072",
+        "port": 4472,
+        "start_commit": "5832c926caed898b17f6bd97fd3f18b5ea1fe59f",
+        "end_commit": "5832c926caed898b17f6bd97fd3f18b5ea1fe59f"
+      },
+      "started": "t+1",
+      "ended": "t+2",
+      "started_at": "2026-09-10T22:20:18.495Z",
+      "ended_at": "2026-09-10T22:22:42.837Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 64,
+          "output_tokens": 12937,
+          "cache_read_input_tokens": 2154483,
+          "cache_creation_input_tokens": 59322,
+          "cost_usd": 0.8013396000000002,
+          "duration_ms": 142489,
+          "api_ms": 133960,
+          "turns": 34,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "verdicts": [
+          {
+            "id": "w-polyrange-composite-weight",
+            "ok": true,
+            "why": "RANK3_COMPOSITE_CROSS_TERM.md's exact identity CT1/bound CT2 (G off-diagonal vanishes unconditionally, diagonal is phi(q)*conductor(chi)) checks out: I reproduced it with a fully independent from-scratch implementation at q=6,N=3000 (rel err 1.3e-13) and confirmed the committed results_rank3_composite_cross_term_probe.json numbers (worst rel err 7.4e-11, all 35 rows pass CT2, conv-check 3.6e-12) exactly match the document's prose; independently verified phi(q)^2<q has only exceptions q in {2,6} among squarefree q up to 10^5 (doc only claimed up to 200); the quoted RANK3_CROSS_TERM_CANCELLATION.md section 5 text is verbatim-accurate. The proposal names a specific, still-open gap (whether the extra loglog(q) factor in weight mu(q)^2 q/phi(q)^2 is absorbed into the polyrange partial-summation's N^eps) that this attempt explicitly did not attempt, is not resolved elsewhere in the hunt, stays within hunts/prime_pair_error/, and does not overclaim or touch RH."
+          }
+        ],
+        "integrated": "ost/prime-pair-error/trunk"
+      },
+      "cell_pid": 27192
+    },
+    {
+      "id": "a-0073",
+      "of": "w-endpoint-nonbonferroni-minorarc",
+      "kind": "verify",
+      "judges": "a-0070",
+      "what": "Judge this handback against the hunt's own standard. A proposal is real only if it names a specific missing thing and says what would clear it. Reject a proposal that restates the task it came from, that proposes work outside hunts/prime_pair_error/, or that claims more certainty than the certainty ladder allows for a measured number. Nothing here may be phrased as bearing on RH.\n\nThe attempt you are judging is a-0070, a prove attempt on w-endpoint-nonbonferroni-minorarc: In hunts/prime_pair_error/ENDPOINT_BOUND.md, Section 2 approximates the Siegel-model sieve weight nu(n) = b_Z * 1_{(n,P(Z))=1} (P(Z) = product of primes p < Z, b_Z = P(Z)/phi(P(Z))) by a bounded-order Mobius truncation B_m(n) = sum_{d | P(Z), d | n, omega(d) <= m} mu(d), with the fixed cutoff m = 2*ceil(sqrt(log N)) and D_0 = Z^m, in order to control the minor-arc supremum of the model exponential sum H(alpha) = sum_{n<=N} a(n) e(n alpha) via Section 4's Type I / character estimates. This device requires D_0 = Z^m to stay N^{o(1)} (so the term N^2 * D_0 * sqrt(Z) in the final budget, equation (18), stays below N^3), while simultaneously needing m large enough relative to H_Z = 1 + log Z (specifically m/H_Z > e in the limit) for the truncation error N * H_Z^{m+1}/(m+1)! to actually decay. hunts/prime_pair_error/ENDPOINT_HALF.md (already on this branch) shows algebraically and numerically (see its artifacts/endpoint_half/check.py) that when Z = exp((log N)^kappa) for kappa >= 1/2, these two requirements become mutually exclusive: any m satisfying the decay requirement forces D_0 >= N^{e+o(1)} with e = 2.71828..., which alone makes N^2 * D_0 * sqrt(Z) exceed N^3. The task: find a way to control the minor-arc supremum of H(alpha) -- equivalently, to prove a bound of the shape of Tao-Teravainen (arXiv:2107.02158v4) Proposition 2.2 equation (2.5), sum_{n in B}(Lambda(n) - Lambda_Siegel(n)) << N exp(-gamma (log N)^{1/2-epsilon}) for arithmetic progressions B, with the larger Siegel-model parameter Q = exp((log N)^{1/2}) -- WITHOUT routing through a bounded-order/Bonferroni Mobius truncation of nu(n) at a fixed cutoff m the way ENDPOINT_BOUND.md Section 2 does. Two live options: (a) adapt Tao-Teravainen's own actual proof of Proposition 2.2 (not their Remark 2.8's unverified sketch) at the larger Q, which per Remark 2.8 requires retuning their Proposition 5.2's exponents 3/5 and 4/5 to 1/2 -- the paper explicitly does not carry this out ('we leave the details of this strengthening to the interested reader'), so this is genuinely open; (b) find a different minor-arc device entirely (e.g. a direct application of TT Lemma 5.1, the fundamental lemma of the sieve, to bound sup_alpha |H(alpha)| on minor arcs the same way hunts/prime_pair_error/SIEGEL_UNIFORMITY.md Section 3 already does for the diagonal/pair-correlation sum B_r(t,h), rather than first replacing nu by a bounded-order truncation B_m and then applying character-sum estimates to B_m). If either succeeds even for exponent kappa strictly between 1/2 and 1/10 (not necessarily reaching sharp 1/2), that already beats the kappa<1/2 family this attempt reached, and should replace ENDPOINT_BOUND.md Section 2 wholesale rather than patching m. If neither succeeds, that is itself worth recording as a second, independent negative result pinning kappa<1/2 as the actual ceiling of this whole proof strategy, not just of the current write-up.\n\nIt stopped and named this as what stopped it (its wall): Reaching a sharp kappa=1/2 (let alone kappa>1/2) for the minor-arc H(alpha) bound depends on which of two standard fundamental-lemma-of-the-sieve remainder shapes is the true one for TT Lemma 5.1: the linear-in-s shape this project's own SIEGEL_UNIFORMITY.md citation states (e^{-cL^{9/10}} at s~L^{9/10}), under which kappa=1/2 is NOT reachable by this route; or the sharper classical u^{-u} (s log s) shape that ENDPOINT_BOUND.md's own Section 2 derives for its Bonferroni error before deliberately weakening it, under which kappa=1/2 IS reachable. This attempt had no network access to arXiv:2107.02158v4 to determine which shape TT's Lemma 5.1 actually delivers, so this single fact blocks a sharp verdict at exactly kappa=1/2.\nJudge the wall under the id a-0070.\n\nIt proposed:\n- w-tt-lemma51-shape, a task: In hunts/prime_pair_error/ (project 'prime_pair_error', a CHHL/prime-pair-correlation error term hunt), fetch Tao and Teraevaeinen, 'Quantitative bounds for Gowers uniformity of the Moebius and von Mangoldt functions', arXiv:2107.02158v4, and read Lemma 5.1 (the fundamental lemma of the sieve) and its proof precisely. Determine which of these two shapes for its remainder term is the one actually proved: (L) linear-in-s, i.e. remainder decaying like exp(-c*s) for an absolute constant c, where s = log(level)/log(z); or (S) the sharper classical shape remainder decaying like exp(-s*log(s)*(1+o(1))) (the 'u^{-u}' bound familiar from Halberstam-Richert Sieve Methods Theorem 2.5 or Friedlander-Iwaniec Opera de Cribro Theorem 6.9). Report which shape TT Lemma 5.1 gives, with the precise statement and page/equation reference. This directly resolves the open question in hunts/prime_pair_error/MINOR_ARC_SIEVE.md Sections 3-4 (does the fundamental-lemma-based replacement for ENDPOINT_BOUND.md Section 2's Bonferroni truncation reach the sharp exponent kappa=1/2, where Z = exp((log N)^kappa) is the Siegel-model cutoff): under shape (L) kappa=1/2 is not reachable by that route, under shape (S) it is. Write the answer to hunts/prime_pair_error/TT_LEMMA51_SHAPE.md, do not touch any other file, and do not use the word with letters c-e-r-t-i-f-i-e-d anywhere.\n\nThe same is in .ostoyae/verify.json, with each proposal's full text. Hand back .ostoyae/report.json with \"verdicts\": one entry per id above (and one for a-0070, the wall), each { \"id\", \"ok\": true or false, \"why\": one line }. Use disposable scratch files when testing a claim requires them. Change no tracked project file and commit nothing; only the report is kept.",
+      "from": null,
+      "state": "done",
+      "params": {
+        "model": "sonnet",
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0073",
+        "branch": "ost/prime-pair-error/a-0073",
+        "db": "ost_prime_pair_error_0073",
+        "port": 4473,
+        "start_commit": "5832c926caed898b17f6bd97fd3f18b5ea1fe59f",
+        "end_commit": "5832c926caed898b17f6bd97fd3f18b5ea1fe59f"
+      },
+      "started": "t+3",
+      "ended": "t+4",
+      "started_at": "2026-09-10T22:25:11.625Z",
+      "ended_at": "2026-09-10T22:28:09.178Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 24,
+          "output_tokens": 15398,
+          "cache_read_input_tokens": 635706,
+          "cache_creation_input_tokens": 48049,
+          "cost_usd": 0.5254012,
+          "duration_ms": 175726,
+          "api_ms": 175530,
+          "turns": 18,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "verdicts": [
+          {
+            "id": "a-0070",
+            "ok": true,
+            "why": "Names a specific, checkable ambiguity (does TT Lemma 5.1's remainder decay linear-in-s or as the sharper u^{-u} shape) and grounds it in two real citations already in this tree, SIEGEL_UNIFORMITY.md's O(N e^{-cL^{9/10}}) at s\\asymp L^{9/10} (line 197) versus ENDPOINT_BOUND.md's own N exp(-c sqrt(ell) log ell) Bonferroni derivation (line ~176), so this is a genuine fork blocking a sharp kappa=1/2 verdict, not a vague 'it's hard'."
+          },
+          {
+            "id": "w-tt-lemma51-shape",
+            "ok": true,
+            "why": "Real, narrow, in-scope lookup with a testable answer and no overclaiming; I fetched arXiv:2107.02158v4 myself and Lemma 5.1's remainder is stated as O(e^{9\\kappa-s}K^{10}) -- linear-in-s, shape (L) -- confirming the dichotomy is genuine and resolvable, though the proposal's claim that this 'directly resolves the open question in hunts/prime_pair_error/MINOR_ARC_SIEVE.md Sections 3-4' points at a file that does not exist anywhere in this trunk snapshot, so that framing is unverifiable from here even though the core task and target file (TT_LEMMA51_SHAPE.md) are sound."
+          }
+        ],
+        "integrated": "ost/prime-pair-error/trunk"
+      },
+      "cell_pid": 2664
+    },
+    {
+      "id": "a-0074",
+      "of": "w-s8-arithmetic-energy",
+      "kind": "verify",
+      "judges": "a-0071",
+      "what": "Judge this handback against the hunt's own standard. A proposal is real only if it names a specific missing thing and says what would clear it. Reject a proposal that restates the task it came from, that proposes work outside hunts/prime_pair_error/, or that claims more certainty than the certainty ladder allows for a measured number. Nothing here may be phrased as bearing on RH.\n\nThe attempt you are judging is a-0071, a prove attempt on w-s8-arithmetic-energy: Section 8 needs a genuinely arithmetic multiscale (or other) upper bound Energy(N) >= E_corr(N) := 2 sum_{h=1}^N |r_N(h) - C_N(h)|^2, where r_N(h) = psi_2(N,h) - (N-h)*S(h) is the CHHL prime-pair correlation residual (psi_2(N,h) = sum_{n=1}^{N-h} Lambda(n) Lambda(n+h), Lambda the von Mangoldt function including proper prime powers, S the singular series), and C_N(h) is the exceptional-zero correction of SIEGEL_UNIFORMITY.md equation (5) (C_N = 0 if no exceptional zero exists at that N). The known candidate in CANDIDATE_ENERGY.md's Section 2 (a dyadic block-average / Haar telescoping of the residual vector padded to a power-of-2 length) fails to be useful: it is proved (and independently reverified) to be an EXACT identity Energy(N) = E_corr(N) for every N, using only that the vector is real -- it uses no property of Lambda, S, or C_N at all. Proof: it survives being applied verbatim to a Davenport-Heilbronn sequence (real coefficients, a genuine functional equation, a zero off the critical line) with the identical result to 16 digits (see hunts/prime_pair_error/CHALLENGE.md and results_s8_challenge.json, attack 2). A useful next candidate must break that: it needs to actually use positivity, size, or distributional properties of Lambda/S/C_N (e.g. a second-moment / large-sieve type bound, an explicit-formula input, or a sieve bound) so that the SAME construction applied to the Davenport-Heilbronn (or Epstein) counterexample battery of zeta/epstein.py does NOT give a matching bound, since that counterexample is known to violate RH. Constraints inherited from Section 8 (retain the mean/central mode, retain cross terms between scales rather than dropping them, handle changing exceptional data q/chi/beta with N, keep the sharp endpoint N-h with no smoothing, no primes-only replacement of Lambda) still apply and should be checked against whatever new construction is tried, the same way CANDIDATE_ENERGY.md's Section 8 did for its own attempt.\n\nIt proposed:\n- w-corr-longwindow-meansquare, a task: For the corrected CHHL prime-pair problem (see CORRECTED_RH_BRIDGE.md and LOCALIZED_MIXED_ENERGY.md in hunts/prime_pair_error/), prove or disprove a power-saving mean-square bound for the long window A(k) = sum_{n<=k} (Lambda(n) - a(n)), where Lambda is the von Mangoldt function (including proper prime powers) and a(n) = nu(n)(1 - 1_exc * chi(n) * n^{beta-1}) is the Tao-Teravainen sieve model (nu(n) = b_Z * 1_{(n,P(Z))=1}, Z = exp((log N)^{1/10}), P(Z) = product of primes below Z, b_Z = P(Z)/phi(P(Z)); chi, beta the primitive real character and real zero of an assumed Siegel exceptional zero, absent if none exists). Specifically, for some fixed eta > 0, is it true that 2*sum_{k=1}^{N-1} (A(k) - A(N)/2)^2 + (N+1)/2 * A(N)^2 << N^{3-eta} unconditionally? The only bound currently established for this quantity is O(N^3 * exp(-c * (log N)^{3/5} * (log log N)^{-1/5})) via the classical (Vinogradov-Korobov) prime number theorem, which is N^{3-o(1)}, not a fixed power saving. Report which of the two outcomes (a fixed-eta bound, or a proof that no such eta exists via a Landau-Omega-type obstruction from an actual or hypothetical Siegel zero) holds, or name the exact point the argument fails if neither can be settled.\n- w-corr-crossterm-cancellation, a task: For the corrected CHHL prime-pair problem (see LOCALIZED_MIXED_ENERGY.md in hunts/prime_pair_error/, its Section 6 and equation 22), determine the sign or size of the two cross terms 2*Re<X,Y> and 2*Re<X+Y,R_mod> in the exact expansion ||G_corr||_2^2 = ||X||_2^2 + ||Y||_2^2 + ||R_mod||_2^2 + 2*Re<X,Y> + 2*Re<X+Y,R_mod>, where X = C(2*Re(conj(H)*W)), Y = C(|W|^2), R_mod = C(|H|^2 - V_y) - C_N_hat (C the operator removing the constant Fourier coefficient, W = F - H the difference between the von Mangoldt exponential sum F and its Tao-Teravainen sieve-model exponential sum H, V_y the truncated singular-series polynomial at y = floor(sqrt(N)), C_N_hat the exceptional-zero correction polynomial). No sign or cancellation estimate for these two terms has been proved anywhere in this hunt; the current budget (LOCALIZED_MIXED_ENERGY.md eq 25) bounds them away via triangle inequality only, at cost of the eq 20 gap above. Report whether cancellation between X, Y, R_mod can be established (even conditionally, e.g. under a zero-density hypothesis), or name the specific obstruction if it cannot.\n\nThe same is in .ostoyae/verify.json, with each proposal's full text. Hand back .ostoyae/report.json with \"verdicts\": one entry per id above, each { \"id\", \"ok\": true or false, \"why\": one line }. Use disposable scratch files when testing a claim requires them. Change no tracked project file and commit nothing; only the report is kept.",
+      "from": null,
+      "state": "done",
+      "params": {
+        "model": "sonnet",
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0074",
+        "branch": "ost/prime-pair-error/a-0074",
+        "db": "ost_prime_pair_error_0074",
+        "port": 4474,
+        "start_commit": "a033e0d4d5e5e2f14c6d2cdeb2675ef74a9739c5",
+        "end_commit": "a033e0d4d5e5e2f14c6d2cdeb2675ef74a9739c5"
+      },
+      "started": "t+5",
+      "ended": "t+6",
+      "started_at": "2026-09-10T22:30:39.335Z",
+      "ended_at": "2026-09-10T22:31:38.839Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 20,
+          "output_tokens": 5114,
+          "cache_read_input_tokens": 450348,
+          "cache_creation_input_tokens": 32538,
+          "cost_usd": 0.2740176,
+          "duration_ms": 57788,
+          "api_ms": 57874,
+          "turns": 10,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "verdicts": [
+          {
+            "id": "w-corr-longwindow-meansquare",
+            "ok": true,
+            "why": "Names a specific open quantity (eq 20 of LOCALIZED_MIXED_ENERGY.md, verified present and matching in the doc), states exactly what's proved (eq 19, N^3 exp(-c L(N))) and what's missing (a fixed power saving or a disproof), stays inside hunts/prime_pair_error/, and does not overclaim or invoke RH."
+          },
+          {
+            "id": "w-corr-crossterm-cancellation",
+            "ok": true,
+            "why": "Names a specific open gap (the two uncontrolled cross terms in eq 22 of LOCALIZED_MIXED_ENERGY.md, confirmed verbatim in the doc's Section 6, currently bounded only by triangle inequality per eq 25), asks a well-posed sign/cancellation question, stays in-scope, and does not overclaim certainty or reference RH."
+          }
+        ],
+        "integrated": "ost/prime-pair-error/trunk"
+      },
+      "cell_pid": 3399
     }
-  ]
+  ],
+  "last_run": {
+    "ended": "2026-09-10T22:31:38.856Z",
+    "launched": 3,
+    "invocations": 74,
+    "invocation_allowance": 90,
+    "stopped_by": null,
+    "drained": "awaiting-decision",
+    "why": "3 item(s) parked and 16 proposal(s) unanswered: w-sw-pin-c1, w-mean-square-bv-hybrid, w-endpoint-nonbonferroni-minorarc",
+    "next": "confirm or reject them (--confirm w-fetch-pnt-constant), or re-run with --auto-advance and a cap to let the judge decide within scope"
+  }
 }
