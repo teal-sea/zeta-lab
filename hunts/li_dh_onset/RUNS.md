@@ -63,3 +63,83 @@ artifacts:
   - hunts/li_dh_onset/artifacts/lambda_dh_n2000_r0.9.json
   - hunts/li_dh_onset/artifacts/samples_dh_r0.9_N5112_w142.json
 ```
+
+```runmanifest
+id: li_dh_onset-2026-09-10-main5000
+hunt: li_dh_onset
+started: 2026-09-10T01:32
+finished: 2026-09-10T01:57
+ran:
+  - .venv/bin/python hunts/li_dh_onset/run_main.py --n-max 5000 --radius 0.95 --dps 30 --processes 3
+outcome: 162 working digits, 12281 nodes, 1007 s sampling and 465 s extraction, winding number zero, every lambda_n(DH) for 1 <= n <= 5000 positive and bit identical to the r = 0.9 table over their common range
+artifacts:
+  - hunts/li_dh_onset/artifacts/lambda_dh_n5000_r0.95.json
+  - hunts/li_dh_onset/artifacts/samples_dh_r0.95_N12281_w162.json
+```
+
+```runmanifest
+id: li_dh_onset-2026-09-10-xi-companion
+hunt: li_dh_onset
+started: 2026-09-10T01:57
+finished: 2026-09-10T01:59
+ran:
+  - .venv/bin/python hunts/li_dh_onset/run_main.py --target xi --n-max 2000 --radius 0.9 --dps 30 --processes 2
+outcome: the same pipeline on xi at n <= 2000 costs 30 s sampling and 85 s extraction, and the measured difference lambda_n(DH) - lambda_n(zeta) - (n/2) log 5 stays inside [-16.89, +21.83] with mean -1.54, which is the conductor showing up where the density says it should
+artifacts:
+  - hunts/li_dh_onset/artifacts/lambda_xi_n2000_r0.9.json
+```
+
+```runmanifest
+id: li_dh_onset-2026-09-10-zeroside
+hunt: li_dh_onset
+started: 2026-09-10T01:31
+finished: 2026-09-10T02:07
+ran:
+  - .venv/bin/python hunts/li_dh_onset/zero_side.py --t-max 430 --n-max 12
+outcome: 313 critical-line ordinates below height 430, argument-principle box counts equal line count plus two per known quadruple with zero unaccounted at heights 100, 200, 300 and 430, and the zero-side lambda_n agrees with the Cauchy table to 1.1e-8 relative at n <= 12
+artifacts:
+  - hunts/li_dh_onset/artifacts/zero_side.json
+```
+
+```runmanifest
+id: li_dh_onset-2026-09-10-dominance
+hunt: li_dh_onset
+started: 2026-09-10T01:57
+finished: 2026-09-10T02:00
+ran:
+  - .venv/bin/python hunts/li_dh_onset/dominance.py
+outcome: no zero of f with Re s >= 0.83 in height [90, 190], and the coefficient bound covers everything above 188.97, so no unfound quadruple can out-grow the pair at height 85.699
+artifacts:
+  - hunts/li_dh_onset/artifacts/dominance.json
+```
+
+```runmanifest
+id: li_dh_onset-2026-09-10-onset
+hunt: li_dh_onset
+started: 2026-09-10T02:00
+finished: 2026-09-10T02:05
+ran:
+  - .venv/bin/python hunts/li_dh_onset/onset.py --table hunts/li_dh_onset/artifacts/lambda_dh_n5000_r0.95.json --n-hi 3000000
+  - .venv/bin/python hunts/li_dh_onset/ceiling.py
+outcome: the background fitted to the measured coefficients has b = -0.32530 against the derived -0.32561, and the first negative index is 328997 under four background variants and 325229 under the zeta-shaped one; the cost model puts n_max = 20000 at about 3.7 h and the onset index itself at about 20000 core-hours
+artifacts:
+  - hunts/li_dh_onset/artifacts/onset.json
+  - hunts/li_dh_onset/artifacts/ceiling.json
+```
+
+## What was not done, and why
+
+- **n_max was not pushed past 5000.** The brief's safe target was 2000 and its
+  stretch was 5000; both landed. The model prices n_max = 10000 at about 1.1 h on
+  a quiet box and 3 h on the contended one, against a marginal gain of halving
+  the extrapolation distance from sixty-six to thirty-three times. That is a
+  door, priced in `RESULTS.md`, not a run.
+- **The radius 0.99 that the cost model prefers was not validated.** Its
+  rectangle comes within 0.0025 of the critical line and wants an argument
+  principle scan run with more care than the two rectangles here needed.
+- **No enclosures anywhere.** Every number is float grade in the ball-arithmetic
+  sense, including the winding numbers.
+- **hunts/README.md was not edited.** This hunt is instructed to write only
+  inside its own directory, so it carries no case-log entry, and
+  `tests/test_hunt_probe_discipline.py::test_every_hunt_directory_is_covered_by_the_case_log`
+  will fail until whoever lands this adds one line to that log.

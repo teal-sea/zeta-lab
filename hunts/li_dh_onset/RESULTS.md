@@ -219,3 +219,142 @@ by 1.2 per cent. The envelope-crossing indicator that page declares useless was
 not reused; the degeneracy that made it fire at n = 1 is guarded here by refusing
 to evaluate the background below the top of its fit window, which is recorded in
 `onset.py`.
+
+## The zero side, as an independent second route
+
+`zero_side.py` sums the multiset instead, and shares nothing with the Cauchy
+route but the definition. It locates 313 critical-line ordinates of f below
+height 430 by sign change and bisection, adds the nine off-line quadruples below
+that height, takes the tail from the smooth Davenport-Heilbronn density
+[Re psi(3/4 + it/2)/2 - log(pi/5)/2]/pi, and uses the k-independent boundary term
+`zeta.li._li_zeros` derives.
+
+**The multiset is complete below the truncation.** The argument-principle box
+count over [-1, 2] x [0, T] equals (line zeros found) + 2 per off-line quadruple
+exactly, at all four heights checked:
+
+| T | box count | line zeros | quadruples below | accounted | unaccounted | theta_f(T)/pi |
+|---|---|---|---|---|---|---|
+| 100 | 54 | 52 | 1 | 54 | **0** | 53.867 |
+| 200 | 130 | 122 | 4 | 130 | **0** | 129.673 |
+| 300 | 214 | 204 | 5 | 214 | **0** | 213.807 |
+| 430 | 331 | 313 | 9 | 331 | **0** | 331.040 |
+
+The smooth count is theta_f(T)/pi with **no additive constant**, unlike zeta's
+theta(T)/pi + 1; the difference is the s(s-1) factor in xi that F has no
+analogue of. Measured discrepancies are +0.133, +0.327, +0.193 and -0.040, which
+is the S(T) oscillation and nothing else.
+
+**The two routes agree.** Against the Cauchy table:
+
+| n | Cauchy | zero side | relative difference |
+|---|---|---|---|
+| 1 | 0.09763614680951967 | 0.09763614589454547 | 9.37e-09 |
+| 4 | 1.528259116943152 | 1.528259102303762 | 9.58e-09 |
+| 8 | 5.708722548659805 | 5.708722490104758 | 1.03e-08 |
+| 12 | 11.53518732522694 | 11.53518719348752 | 1.14e-08 |
+
+The residual grows smoothly with n, which is the signature of the truncation
+term rather than of a disagreement: the neglected piece is the integral of
+f_n'(t) S(t) above T = 430, and f_n' grows like n^2/t^2. This is the same shape
+and the same order of accuracy that `zeta.li` reports for its own two routes at
+comparable truncation.
+
+## What did not happen
+
+No kill condition fired. The radii agree bit for bit rather than merely inside
+the stated round-off amplification; the xi control reproduces the committed
+table; the argument-principle scan found nothing that would push the radius
+below 0.7, and in fact licensed 0.95; and no computed lambda_n(DH) is negative
+at any n up to 5000, so the "treat it first as a defect" branch was never
+entered.
+
+Two things this hunt did not do and should be read as not having done. It did
+not compute a negative coefficient: the sign change is an extrapolation and the
+table is uniformly positive. And it carries no enclosures anywhere, so no number
+here is more than float grade in the ball-arithmetic sense; where the text says
+*hardened* it means independent routes agree, not that any step carried an
+interval.
+
+## The doors
+
+The ceiling measured here is the largest n at which lambda_n(DH) can be computed
+on this container, and the cost model behind it is in `artifacts/ceiling.json`.
+
+### 1. Active constraints at the optimum
+
+Ranked by how much moving them moves n_max.
+
+1. **Working precision, w = dps + 2*guard + n_max * log10(1/r).** This binds
+   hardest, because the evaluator cost grows as w^1.97 (measured: 0.0924 s at
+   142 digits, 0.3226 s at 279, warm, single-threaded) while the node count only
+   grows as N = (dps + 2*guard)/log10(1/r) + 2*n_max + 8. Total cost is therefore
+   roughly n_max^3 at fixed r. Shadow price: doubling n_max at fixed r costs
+   about eightfold.
+2. **The radius r.** It enters only through log10(1/r), and it enters the two
+   terms with opposite signs, so there is an interior optimum. At n_max = 5000
+   the model's cheapest radius is 0.99 (0.24 h) against 0.95 (measured 0.41 h)
+   and 0.9 (model 0.99 h). The radius actually used was the largest one whose
+   Apollonius disc had been measured zero-free.
+3. **Effective cores.** The observed parallel speedup during the main sampling
+   was close to 1: the container was carrying other tenants at load average 8 to
+   13 against 4 vCPU, so three worker processes shared roughly one core. This is
+   a factor of 3 to 4 sitting on the table for anyone with a quiet machine, and
+   it is the only constraint on this list that costs nothing mathematical to
+   relax.
+4. **The evaluator.** Four Hurwitz zeta values at the working precision per
+   node. `zeta.epstein.completed_dh` was measured at 0.58 s per call at 142
+   digits against 0.092 s for the same mathematics with kappa cached once per
+   process, a factor of six that came entirely from a precision-keyed
+   `lru_cache` being handed a precision that varies with the distance from s to
+   1.
+
+### 2. The frozen-constant inventory
+
+| constant | value used | what relaxing it trades |
+|---|---|---|
+| `dps` of the output | 30 | linear in w. Dropping to 15 saves 15 of 162 digits at n = 5000, about 9 per cent of the sampling cost, and costs nothing the onset analysis reads: the fit needs four digits, not thirty. **Genuine trade shape**, this is slack being spent on nothing. |
+| guard digits | 2 x 10, inherited from `zeta.li` | same lever, another 20 digits. Untested here; `zeta.li` chose it for zeta and nobody has measured whether the DH evaluator needs it. |
+| the node rule N = w ln10/ln(1/r) + n_max + 8 | `zeta.li`'s verbatim | this drives aliasing to 10^-w when it only has to reach below 10^-dps. At n = 5000, r = 0.95 that is 7227 nodes of aliasing headroom where about 1600 would do, so **roughly 45 per cent of all evaluations are buying aliasing suppression nobody reads**. The largest single saving on this table, and the trade is real: less headroom for a cheaper run. |
+| radius | 0.9 and 0.95 | see constraint 2. The cost-optimal 0.99 needs the rectangle [0.50251, 2] x [-12.11, 12.11] measured zero-free, whose left edge sits 0.0025 from the critical line. That is the awkward part: the contour approaches a region where zeros are dense, and the argument principle needs care there. |
+| the sigma cap of 2 in the radius scan | 2.0 | set by sum_{n>=2} \|a_n\| n^{-2} = 0.2667. The bound holds with margin 0.733, so the cap could come down to about 1.55 and shrink every scanned rectangle, at the cost of re-measuring the sum. Small money. |
+| off-line census ceiling | height 90 full strip, 190 in the wedge | fixes which quadruple dominates. Relaxing it upward is the only door on this list that could change the *answer* rather than the cost. |
+| zero-side truncation | T = 430, 313 ordinates, 55 bisections, grid at 1/24 of the mean spacing | sets the 1e-8 agreement of the two routes. Raising T improves it like 1/T^2 at linear cost in the box counts, which is where that script spends most of its time. |
+| background fit window | [n_max/2, n_max] | tested at [n_max/10, n_max/2] as well; the onset index does not move. |
+| onset scan floor n_lo | n_max | not cosmetic. Scanning from n = 1 makes a three-parameter background fitted in the thousands return a negative value at n = 1 and the scan "finds" a sign change immediately. This is the same degeneracy `hunts/jensen_clock` recorded. |
+| checkpoint block | 64 nodes | chosen so a killed sampling run loses at most about a minute. No trade found. |
+
+### 3. The information class of each door
+
+**Inside the family** (they change only how efficiently the same contour integral
+is computed, and can never change the answer): dps, guard digits, the node rule,
+the radius, the number of effective cores, and the evaluator implementation.
+Together the model says they are worth about a factor of 5 to 10 in wall time,
+which moves the reachable n_max from 5000 to somewhere between 10000 and 20000.
+They cannot get anywhere near 328997: at that index the family needs about 1490
+working digits and 670000 nodes, which the calibration puts at roughly 20000
+core-hours. **The direct route does not reach the onset. That is the wall.**
+
+**Requires reading more.** Three doors, and the follow-up hunt goes through the
+first:
+
+1. **Off-line zeros above height 190.** The dominance argument closes the window
+   below 190 and the coefficient bound closes everything above it *for pair 1's
+   growth rate*. But the whole answer rests on one measured number, log R for a
+   single quadruple. A systematic off-line census at greater height would either
+   confirm pair 1 as the global maximiser of (2 beta - 1)/((1-beta)^2 + gamma^2)
+   or replace it, and replacing it is the only thing that moves 328997 by more
+   than a per cent. This reads new zeros and is outside the configuration
+   ceiling of the present family.
+2. **A route to lambda_n that is not a contour integral of log F.** The n^3 cost
+   is entirely the r^{-n} amplification. A method that computed the Taylor
+   coefficients of log F(1/(1-z)) by recursion from the Dirichlet coefficients,
+   or that summed the zero side with a rigorous tail at large n, would have a
+   different exponent. The zero side already agrees to 1e-8 at n <= 12 and its
+   error at large n is set by the S(t) oscillation, not by precision, so it is
+   the more promising of the two.
+3. **Enclosures.** Nothing here carries them. An interval version of the DFT
+   plus an enclosure for the winding number would move the positivity statement
+   for n <= 5000 up a rung. `zeta.rigor` has both backends live on this machine
+   and the contour is entire and zero-free by a measured argument, so the
+   obstacle is engineering rather than mathematics.
