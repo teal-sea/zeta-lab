@@ -922,3 +922,78 @@ Lean arm can say. The referee checked the relevant Montgomery-Vaughan proofs;
 this does not establish novelty or constitute external mathematical endorsement.
 Relevance to the original objective: no upper bound has been proved.
 Section 12's route was to a lower bound, and Theorem B is that lower bound.
+
+## The doors
+
+UPPER_BOUND.md measures E(N) << N^3 (log N)^{-C} for every fixed C, the classical
+circle-method level, and states plainly that this is not an improvement over that
+level; N^{2+eps} is left open there. This section is keyed to that construction
+(its Sections 1 to 8). The zero-explicit-formula apparatus of Sections 17 to 19 above
+is folded in only where it bears on the same quantity; it was built for a different
+one, T(N), and Section 19 already records that its route gives a lower bound on E(N),
+saying nothing about the upper bound.
+
+### 1. Active constraints
+
+UPPER_BOUND.md Section 8 already tallies the budget as a sum of six components, not a
+single objective with one dual, so there is no shadow price to read off; the ranking
+below is by the exponent gap to the N^{2+eps} target that each named component carries
+in that table.
+
+| rank | constraint | binds through | gap to the N^{2+eps} target | what would close it |
+|---|---|---|---|---|
+| 1 | the mixed moment at q = 1, U_1 | (23), the term 32 U_1 | the bound reached is O_H(N^3 L^{-2H}) for every fixed H: an unlimited log saving and no power saving at all over N^3 | (31), sum_{t<=N} Delta(t)^2 << _eps N^{2+eps}; the text states this is equivalent in strength to the classical Delta(N) = O(N^{1/2+eps}) remainder, and the only closing route it shows for (31) assumes RH |
+| 2 | the minor fourth moment I_Q, tied with the fourth residual moment Z at q > R_0 | (23), the terms 4 I_Q + 8 Z_{q>R_0} | O(N^{13/5} L^6), exceeding the target by N^{3/5-eps} times logs, for any fixed 0 < eps < 3/5 | a minor-arc bound stronger than Vaughan's (V); the text states that changing Q cannot remove this term, since it traces to the N^{4/5} Type I/II balance point of (V) at U = V = N^{2/5} |
+| 3 | the remaining mixed and fourth moments at 2 <= q <= R_0 | (23), "no adequate estimate here. Still required" | not attempted; cost unknown | not named in the text |
+
+Rank 2's term is not confined to the failed N^{2+eps} attempt of Section 6: it is also
+what the completed bound (1) itself rests on. At Q = floor(L^B) (Section 5), the
+dominant term in the reached budget is N^3 L^6 / Q from I_Q, and choosing B = C + 8 turns
+that into N^3 L^{-C-2}, a log-power saving over N^3 and nothing more. The same crude
+step, bounding the minor-arc fourth moment by sup_{minor arcs}|F_N|^2 times the second
+moment d_N rather than by a direct estimate of the integral, is both the reason (1)
+tops out at a log saving and the reason Section 6's square-root-arc attempt tops out
+N^{3/5-eps} short of the target.
+
+### 2. The frozen-constant inventory
+
+Every chosen-not-optimized number in the construction, and what relaxing it trades
+against.
+
+| constant | value | where | trade shape |
+|---|---|---|---|
+| C, the target log-power | any fixed C | the statement of (1) | Free to raise: (21) buys an arbitrary log saving by raising B, H with it. It never buys a power of N, so no choice of C reaches N^{2+eps}. |
+| Q, the arc denominator cutoff | floor(L^B) (Section 5) or floor(sqrt(N)/3) (Section 6) | (7) | **Genuine trade, and the master one.** Small, polylog Q keeps the geometric leakage (13) and the constant term negligible and lets (SW)'s arbitrary log saving dominate, which is how (1) is reached. Large, square-root Q shrinks the arc measure and removes the need for (SW) on most arcs, but exposes I_Q and Z at O(N^{13/5}L^6) on the arcs it no longer smooths over (Section 6). Neither regime reaches N^{2+eps}; the text does not exhibit an intermediate Q that does better on both fronts at once. |
+| B, and H = B + C + 10 | B = C + 8 | before (17) | Tied to C, and free in the same sense: raising it tightens (SW)'s error at the cost of nothing named here except making Q = L^B itself larger, which (13) already accounts for. Caps out at log-power savings, same as C. |
+| y = floor(sqrt(N)), the mean-square truncation | fixed | Section 2 | Slack. D_tail(N,y) << N^2 is already inside the N^{2+eps} budget with room, and (6) shows any z with N/z^2 bounded would do; nothing downstream is reported to need a tighter tail. |
+| R_0 = Q/L, the dyadic split between "large" and "small" denominators | fixed at Q/L | before (27) | Trades which denominators fall into rank 2's controlled range against rank 3's unestimated one. Raising R_0 shrinks the unestimated range 2 <= q <= R_0 but (26) shows U_{q>R_0} grows like 1/R_0^2, so R_0 cannot be pushed down without cost; the text does not estimate the q <= R_0 range at any R_0, so whether moving this constant buys anything is not measured until that range has an estimate at all. |
+| the factor 3 in Q = floor(sqrt(N)/3) | 3 | Section 4 | Technical margin only, to keep 2Q^2 < N with room; no trade shape is named. |
+
+### 3. The information class
+
+Retuning Q, B, H, y and R_0 all stay **inside** the data the construction already
+reads: Dirichlet characters mod q through Siegel-Walfisz, the exponential-sum bound
+(V), the large sieve (LS), and Ramanujan sums. None of that retuning crosses rank 2's
+N^{13/5} ceiling, because the text ties that ceiling to a fixed feature of (V) itself,
+not to any parameter choice made here.
+
+Two doors in the table above require reading more than that:
+
+- **Rank 1, (31).** The text's own route to it goes through RH for zeta at q = 1
+  (Section 7: assuming RH, Delta(t) = O(sqrt(t) log^2(2t)) closes U_1 on its own). No
+  unconditional route is exhibited. Closing this door unconditionally means reading
+  an unconditional remainder for psi(t) at RH strength, which is not part of what this
+  construction currently reads at all.
+- **Rank 2, a stronger minor-arc fourth-moment bound.** The text names the obstruction,
+  Vaughan's N^{4/5} Type I/II balance term, but does not name a replacement estimate.
+  Sections 17 to 19 above develop a genuinely different way of reading the same kind of
+  quantity, through the zeros of zeta and of L(s, chi) directly via Perron's formula and
+  a contour shift, rather than through (SW), (V) and (LS). That machinery is carried
+  through in this hunt only for T(N) - I(N), the Wronskian of Section 16, not for E(N)'s
+  upper bound, and Section 19 records that its route bounds E(N) from below, not above.
+  Whether reading the zeros of zeta and L(s, chi) in that way says anything about I_Q or
+  Z is not addressed by either document.
+
+Rank 3, the moments at 2 <= q <= R_0, has no estimate in either regime, so its
+information class is not observed here: the text does not say whether closing it needs
+more than (SW), (V) and (LS) already supply, or just a more careful use of them.

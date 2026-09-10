@@ -77,3 +77,34 @@ outcome: The identity T - I = W + P/2 + X - H holds at every cutoff to rounding;
 artifacts:
   - hunts/prime_pair_error/results_wronskian.json
 ```
+
+## 2026-09-10, an Ostoyae board, run from a Claude Code cloud VM
+
+**No estimate was written before launching.** CLAUDE.md's compute discipline says to measure one
+unit, multiply, and write the number here first. That was not done, and this entry records the
+actual cost instead of pretending a forecast existed.
+
+Board `hunts/prime_pair_error/board.json`, three seed items, concurrency 2, mapping off, judge on,
+against a frozen clone of this repository at `2da62eb`. Executor: headless Claude Code, sonnet,
+inside the same VM.
+
+| attempt | kind | item | outcome | cost |
+| --- | --- | --- | --- | --- |
+| a-0001 | prove | `w-doors` | done, check passed | $1.156 |
+| a-0002 | prove | `w-jn-instrument` | done, check passed | $0.971 |
+| a-0003 | prove | `w-tb-bind` | done, check passed | $0.519 |
+| a-0004 | verify | `w-tb-bind` | done, one proposal judged ok | $0.235 |
+
+**$2.88 over four attempts, 991 s of model time, 78,654 output tokens.** Roughly a dollar an item
+for bounded, hand-written items with no mapping. That figure does not extrapolate to a mapped
+board: mapping is a different mode and its cost is measured separately in the next entry.
+
+What landed: the doors analysis this hunt owed under CLAUDE.md's 2026-08-24 rule; `jn_probe.py`
+and `results_jn.json`, the first measurement of J(N), the estimate Section 19 says the whole of
+(T) rests on; and `tb_bind.py` with `results_tb_bind.json`, which reports that Theorem B cannot be
+evaluated at any N, with the three reasons named.
+
+The environment, for reproduction: python3.12, because 3.11 hits the cypari2 sdist trap this
+repository's `requirements.txt` documents. Both optional backends live there, so `rigor.BACKEND`
+is `python-flint` and the PARI oracle runs rather than skipping. The fast tier on that machine:
+2957 passed, 3 skipped, 16:47.
