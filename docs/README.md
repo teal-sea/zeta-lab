@@ -69,6 +69,7 @@ What was built, what was measured, and what did not survive.
 | [37](37-the-rule-the-core-never-learned.md) | A constant derived twice, written into two probe comments, and never reaching the function it describes: the Epstein evaluator's failure surface in height and precision, an exactly derived loss, and a guard with the faults that fire it. |
 | [38](38-one-form-per-discriminant.md) | A composite-defect table whose hypothesis fails on twenty-seven of its forty-one rows, the check that would have caught it, and the eleven overclaims an adversarial audit found in the write-up of that finding. |
 | [39](39-a-law-read-off-a-diagonal.md) | An elementary certificate barrier measured on a grid instead of a diagonal: the conjectured shape fits the diagonal as well as anything and is three times worse off it, and the excess turns out to be a staircase in the support bound. |
+| [40](40-what-happens-to-a-claim.md) | A measurement of this laboratory rather than of zeta: how much of the record has a guard behind it, how often a correction installs one, and the correction rate that was withdrawn when a blind audit scored the classifier near chance. |
 
 ## Adding one
 

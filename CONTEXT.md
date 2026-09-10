@@ -1239,6 +1239,7 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `37-the-rule-the-core-never-learned.md`, 37. The rule the core never learned
 - `38-one-form-per-discriminant.md`, 38. One form per discriminant, and what an adversary did to the write-up
 - `39-a-law-read-off-a-diagonal.md`, 39. A law read off a diagonal
+- `40-what-happens-to-a-claim.md`, 40. What happens to a claim after it is recorded
 - `README.md`, The documents
 
 ## Runnable demos (`scripts/`)
