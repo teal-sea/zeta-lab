@@ -14,12 +14,15 @@ carries enclosures; the grade of every number is stated where it is claimed.
 Bombieri and Lagarias (1999, Theorem 1) make "lambda_n >= 0 for every n" and
 "every zero has real part 1/2" the same statement for a multiset closed under
 `rho -> 1 - rho`. The Davenport-Heilbronn function has a measured off-line pair,
-so some lambda_n(DH) is negative. The sequence had not been computed.
+so some lambda_n(DH) is negative. No lambda_n(DH) existed anywhere in this
+repository before this hunt, and no literature search was run, so nothing here
+claims the sequence is new to the world. What is claimed is that these numbers
+were produced here, from the function rather than from a target handed over.
 
 | question | answer | grade |
 |---|---|---|
 | how far can n be pushed here | **n = 5000**, in 1472 s of contended wall time; the cost model puts n = 20000 at about 3.7 h and n = 3.3e5 at about 20000 h | measured, plus a fitted cost model |
-| are all computed lambda_n(DH) positive | **yes**, for every n from 1 to 5000; the minimum over the whole table is lambda_1 | hardened: two contours agree bit for bit, and four separate controls run |
+| are all computed lambda_n(DH) positive | **yes**, for every n from 1 to 5000; the minimum over the whole table is lambda_1 = 0.0976, nowhere near zero | hardened in the sense of independent routes agreeing, not in the enclosure sense |
 | where is the first negative index | **n = 328997**, from a background fitted to the coefficients measured here plus the fifteen off-line quadruples this repository holds | measured inputs, extrapolated conclusion |
 
 The first four coefficients, at dps 25, agreeing across the Cauchy route, the
@@ -342,7 +345,7 @@ first:
    below 190 and the coefficient bound closes everything above it *for pair 1's
    growth rate*. But the whole answer rests on one measured number, log R for a
    single quadruple. A systematic off-line census at greater height would either
-   confirm pair 1 as the global maximiser of (2 beta - 1)/((1-beta)^2 + gamma^2)
+   leave pair 1 as the measured maximiser of (2 beta - 1)/((1-beta)^2 + gamma^2)
    or replace it, and replacing it is the only thing that moves 328997 by more
    than a per cent. This reads new zeros and is outside the configuration
    ceiling of the present family.

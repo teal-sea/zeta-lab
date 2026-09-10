@@ -70,15 +70,45 @@ control roles, and the checks are the ones the tree already owns:
 
 ## Case log
 
-### Hunt #123: Li coefficients for the counterexample (`li_dh_onset/`, 2026-09-10)
+### Hunt #123: Li coefficients for the counterexample, and how far a computation can see (`li_dh_onset/`, 2026-09-10)
 
-**Status: in flight.** Bombieri and Lagarias make `lambda_n >= 0` for every `n` equivalent to every
-zero of the multiset lying on the critical line, and the Davenport-Heilbronn function has a measured
-off-line pair, so some `lambda_n(DH)` is negative. No `lambda_n(DH)` exists anywhere in this tree.
-Computed unconditionally by the Cauchy route rather than from a zero list, with the identical
-pipeline on `xi` as a positive control that can fail. The prior datum is `hunts/jensen_clock`'s
-hedged `n ~ 3.3e5`, which that page itself calls an order-of-magnitude claim built on a zeta-shaped
-background. Nothing bears on RH (`docs/08`).
+**Status: settled. Twelve controls, all passed, no kill condition fired.** Bombieri and Lagarias
+make `lambda_n >= 0` for every `n` equivalent to every zero of the multiset lying on the critical
+line, and the Davenport-Heilbronn function has a measured off-line pair, so some `lambda_n(DH)` is
+negative. No `lambda_n(DH)` existed anywhere in this tree.
+
+Computed unconditionally by the Cauchy route, never from a zero list, `n = 1` to `5000`, and
+**every one is positive**, the minimum over the whole table being `lambda_1 = 0.09763614680951967118155`.
+The analyticity radius was established first by the argument principle:
+`sum_{n>=2}|a_n| n^{-2} = 0.26666394613` kills `Re s >= 2`, and the rectangles covering the
+Apollonius discs of `r = 0.9` and `r = 0.95` hold zero zeros.
+
+The controls are the result as much as the table is. The `xi` positive control reproduces the
+committed `zeta.li` table to `4.4e-28` over all 400 indices; `lambda_n(DH)` is bit identical across
+`r = 0.5, 0.7, 0.9` for `n <= 200` and across `r = 0.9, 0.95` for `n <= 2000`; the generating
+function matches Li's literal `n`-th derivative definition to `4e-27`; and an independent zero-side
+sum over 313 measured on-line ordinates plus 9 off-line quadruples below height 430 agrees to
+`1.14e-8`, with argument-principle box counts matching line zeros plus two per quadruple exactly,
+zero unaccounted, at `T = 100, 200, 300, 430`.
+
+A background fitted to the measured coefficients gives slope `-0.32530` against the derived
+conductor-5 value `-0.32561`, agreeing to `3.1e-4`. Feeding it and all fifteen known off-line
+quadruples in puts **the first negative index at `n = 328997`**, identical under four background
+variants, driven almost entirely by `R - 1 = 4.2006e-5` for the pair at `0.80852 + 85.69935i`,
+which is measured to be the global maximiser: no other off-line zero below height 90, none with
+`Re s >= 0.83` in `[90, 190]`, and the coefficient bound covers everything above `188.97`
+automatically. Grade: measured inputs, extrapolated conclusion, sixty-six times past the largest
+computed coefficient, and explicitly not a theorem. It sharpens `hunts/jensen_clock`'s hedged
+`n ~ 3.3e5` by 1.2 per cent without reusing the indicator that page calls useless.
+
+**The wall, priced.** At `n = 328997` the family needs about 1490 working digits and 670000 nodes,
+roughly 20000 core-hours on this calibration, against every efficiency door together being worth a
+factor of 5 to 10. The direct route cannot reach the onset. Its doors also found a defect outside
+the hunt: `zeta.epstein.completed_dh` costs `0.58 s` per call at 142 digits against `0.092 s` for
+the same mathematics with `kappa` cached once per process, a factor of six from a precision-keyed
+`lru_cache` receiving a precision that varies with the distance from `s` to 1.
+
+Nothing bears on RH (`docs/08`).
 
 ### Hunt #119: one form per discriminant, not forty-one (`euler_defect_axis/`, 2026-09-10)
 

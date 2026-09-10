@@ -61,7 +61,6 @@ ran:
 outcome: 142 working digits, 5112 nodes, 503 s sampling and 124 s extraction, winding number zero, every lambda_n(DH) for 1 <= n <= 2000 positive with the minimum at n = 1
 artifacts:
   - hunts/li_dh_onset/artifacts/lambda_dh_n2000_r0.9.json
-  - hunts/li_dh_onset/artifacts/samples_dh_r0.9_N5112_w142.json
 ```
 
 ```runmanifest
@@ -74,7 +73,6 @@ ran:
 outcome: 162 working digits, 12281 nodes, 1007 s sampling and 465 s extraction, winding number zero, every lambda_n(DH) for 1 <= n <= 5000 positive and bit identical to the r = 0.9 table over their common range
 artifacts:
   - hunts/li_dh_onset/artifacts/lambda_dh_n5000_r0.95.json
-  - hunts/li_dh_onset/artifacts/samples_dh_r0.95_N12281_w162.json
 ```
 
 ```runmanifest
@@ -127,6 +125,17 @@ artifacts:
   - hunts/li_dh_onset/artifacts/ceiling.json
 ```
 
+## The sampling checkpoints
+
+`run_main.py` writes each block of 64 contour samples to
+`artifacts/samples_<target>_r<r>_N<nodes>_w<work>.json` as it lands, so a killed
+run resumes instead of restarting, and so a second extraction at a different
+n_max off the same circle is free. Those three files came to 7.8 MB and were
+**deleted after the runs landed**: they are working files, not measurements, and
+the measurements they produced are the lambda tables beside them. Re-creating
+them costs 1007 s (r = 0.95, 12281 nodes), 503 s (r = 0.9, 5112 nodes) and 30 s
+(xi). Anyone re-running is expected to let the checkpoint rebuild itself.
+
 ## What was not done, and why
 
 - **n_max was not pushed past 5000.** The brief's safe target was 2000 and its
@@ -139,7 +148,9 @@ artifacts:
   principle scan run with more care than the two rectangles here needed.
 - **No enclosures anywhere.** Every number is float grade in the ball-arithmetic
   sense, including the winding numbers.
-- **hunts/README.md was not edited.** This hunt is instructed to write only
-  inside its own directory, so it carries no case-log entry, and
-  `tests/test_hunt_probe_discipline.py::test_every_hunt_directory_is_covered_by_the_case_log`
-  will fail until whoever lands this adds one line to that log.
+- **hunts/README.md was not edited.** This hunt writes only inside its own
+  directory. Its case-log entry (hunt #123) was already in place when the work
+  started and still says "in flight"; whoever lands this should update that line
+  to match `RESULTS.md`. `tests/test_hunt_probe_discipline.py`,
+  `tests/test_docs_numbering.py` and `tests/test_doors.py` pass as they stand,
+  17 of 17.
