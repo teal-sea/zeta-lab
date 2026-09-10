@@ -1,0 +1,116 @@
+{
+ "definitions": {
+  "psi": "Chebyshev's psi(t), read from zeta.explicit.psi_staircase (the repo's own vectorised psi) rather than re-derived here, and cross-checked against zeta.explicit.psi_true at every ladder cutoff",
+  "Delta": "Delta(t) = psi(t) - t, UPPER_BOUND.md Section 7's notation exactly",
+  "S_N": "sum_{t=1}^N Delta(t)^2, accumulated with mpmath (mp.dps = 50) via mp.fsum over the raw float64 terms so the accumulation step adds no rounding drift of its own"
+ },
+ "ladder": [
+  100000,
+  250000,
+  500000,
+  1000000,
+  2000000,
+  4000000,
+  7000000,
+  10000000
+ ],
+ "ladder_note": "geometric-ish ladder from 1e5 to 1e7 in eight steps, chosen so the sieve inside psi_staircase, the vectorised call over the full grid, and the mpmath summation together run in well under 60 seconds",
+ "psi_cross_check_vs_psi_true": [
+  {
+   "N": 100000,
+   "psi_true": 100051.56402565798,
+   "psi_staircase": 100051.56402565801,
+   "absdiff": 2.9103830456733704e-11
+  },
+  {
+   "N": 250000,
+   "psi_true": 250116.67634684243,
+   "psi_staircase": 250116.67634684258,
+   "absdiff": 1.4551915228366852e-10
+  },
+  {
+   "N": 500000,
+   "psi_true": 500113.29687340104,
+   "psi_staircase": 500113.29687340115,
+   "absdiff": 1.1641532182693481e-10
+  },
+  {
+   "N": 1000000,
+   "psi_true": 999586.597495631,
+   "psi_staircase": 999586.5974956311,
+   "absdiff": 1.1641532182693481e-10
+  },
+  {
+   "N": 2000000,
+   "psi_true": 2000115.046207051,
+   "psi_staircase": 2000115.0462070508,
+   "absdiff": 2.3283064365386963e-10
+  },
+  {
+   "N": 4000000,
+   "psi_true": 3999490.8567965017,
+   "psi_staircase": 3999490.856796503,
+   "absdiff": 1.3969838619232178e-09
+  },
+  {
+   "N": 7000000,
+   "psi_true": 7000575.186414961,
+   "psi_staircase": 7000575.1864149645,
+   "absdiff": 3.725290298461914e-09
+  },
+  {
+   "N": 10000000,
+   "psi_true": 9998539.403345875,
+   "psi_staircase": 9998539.403345894,
+   "absdiff": 1.862645149230957e-08
+  }
+ ],
+ "max_abs_diff_psi_staircase_vs_psi_true": 1.862645149230957e-08,
+ "rows": [
+  {
+   "N": 100000,
+   "S_N": 216216658.20098644,
+   "S_N_over_N2": 0.021621665820098643
+  },
+  {
+   "N": 250000,
+   "S_N": 1225117860.5391884,
+   "S_N_over_N2": 0.019601885768627016
+  },
+  {
+   "N": 500000,
+   "S_N": 6690479063.793755,
+   "S_N_over_N2": 0.02676191625517502
+  },
+  {
+   "N": 1000000,
+   "S_N": 21919586338.957104,
+   "S_N_over_N2": 0.021919586338957107
+  },
+  {
+   "N": 2000000,
+   "S_N": 88319299865.97505,
+   "S_N_over_N2": 0.022079824966493765
+  },
+  {
+   "N": 4000000,
+   "S_N": 415417883132.62775,
+   "S_N_over_N2": 0.025963617695789233
+  },
+  {
+   "N": 7000000,
+   "S_N": 1247241323992.7793,
+   "S_N_over_N2": 0.02545390457128121
+  },
+  {
+   "N": 10000000,
+   "S_N": 1987607563381.0564,
+   "S_N_over_N2": 0.019876075633810563
+  }
+ ],
+ "growth_exponent_loglog_leastsquares": 2.0149481983819197,
+ "growth_exponent_loglog_intercept": -3.992729686674275,
+ "exponent_vs_target_note": "The observed log-log exponent above is 2.0149. UPPER_BOUND.md (31) needs S(N) << _eps N^{2+eps} for every eps > 0, i.e. an exponent approaching 2 from above in that asymptotic sense, not measured here. A finite ladder does not settle whether the true rate sits at, above, or below 2: it only reports where the fitted slope over this particular range of N happens to land, which is not the same quantity as the eps-indexed asymptotic rate (31) requires.",
+ "what_this_measures": "This is a measurement of S(N) = sum_{t<=N} Delta(t)^2 at a finite ladder of eight cutoffs, not an asymptotic statement. A finite ladder bounds nothing outside the range it covers: it cannot rule out that the growth changes shape past N = 10,000,000, and it cannot by itself tell an O_eps(N^{2+eps}) rate apart from a power that only looks flatter, or steeper, over this particular range. The least-squares exponent above is an observed slope of log(S(N)) against log(N) over these eight points, not a proved rate, and it carries no error bar beyond what an eight-point fit can give. Nothing here bears on RH.",
+ "seconds_total": 16.780954360961914
+}

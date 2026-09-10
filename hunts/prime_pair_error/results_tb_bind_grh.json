@@ -1,0 +1,55 @@
+{
+ "theorem_b_quoted": "For every eps > 0, E(N) = Omega(N^{1 + 2 Theta_chi - eps}). (RESULTS.md Section 18.)",
+ "what_this_is": "A conditional exploration only: it assumes GRH for L(s, chi_3), i.e. Theta_chi = 1/2, exactly the illustrative case RESULTS.md Section 18 itself uses under 'What it says and does not say'. This is NOT an evaluation of Theorem B, which is unconditional and makes no such assumption. Nothing here changes, weakens, or measures the unconditional statement.",
+ "conditional_assumption": "Theta_chi = 1/2 (GRH for L(s, chi_3))",
+ "eps_chosen": 0.01,
+ "eps_choice_reason": "0.01: small and explicit, close to the eps -> 0 limit of the illustrated exponent (2) while remaining a genuine positive eps as the statement 'for every eps > 0' requires. Not fit or tuned against the measured E(N) below.",
+ "conditional_bound_shape": "N^{2 - eps}",
+ "conditional_exponent": 1.99,
+ "source": "hunts/prime_pair_error/results.json, key 'decomposition'",
+ "cutoffs": [
+  {
+   "N": 1000,
+   "measured_E_N": 4516158.764537213,
+   "N_to_the_2_minus_eps_unnormalized": 933254.300796991,
+   "measured_E_N_over_N_to_the_2_minus_eps": 4.839151301719642
+  },
+  {
+   "N": 10000,
+   "measured_E_N": 1045773187.2450738,
+   "N_to_the_2_minus_eps_unnormalized": 91201083.93559097,
+   "measured_E_N_over_N_to_the_2_minus_eps": 11.46667497925388
+  },
+  {
+   "N": 100000,
+   "measured_E_N": 223439980640.0169,
+   "N_to_the_2_minus_eps_unnormalized": 8912509381.337454,
+   "measured_E_N_over_N_to_the_2_minus_eps": 25.070378170697243
+  },
+  {
+   "N": 1000000,
+   "measured_E_N": 41630603380266.555,
+   "N_to_the_2_minus_eps_unnormalized": 870963589956.0806,
+   "measured_E_N_over_N_to_the_2_minus_eps": 47.798328036153414
+  },
+  {
+   "N": 3000000,
+   "measured_E_N": 442341962233821.5,
+   "N_to_the_2_minus_eps_unnormalized": 7753027008654.263,
+   "measured_E_N_over_N_to_the_2_minus_eps": 57.05409793362777
+  },
+  {
+   "N": 10000000,
+   "measured_E_N": 6351706978653610.0,
+   "N_to_the_2_minus_eps_unnormalized": 85113803820237.64,
+   "measured_E_N_over_N_to_the_2_minus_eps": 74.62604998912474
+  }
+ ],
+ "observed_loglog_exponent_leastsquares": 2.286973618697358,
+ "observed_loglog_intercept": -0.3438208597752713,
+ "shape_comparison_note": "Observed log-log exponent over the six measured points is 2.2870. The conditional (assumed Theta_chi = 1/2) exponent Theorem B's shape would need is 2 - eps = 1.9900 with eps = 0.01. The observed exponent sitting close to, at, or above that value is a statement about six measured points over a finite range, not about the asymptotic rate the conditional statement makes a claim about, and it does not stand in for the missing implied constant or the unexhibited unbounded sequence, either of which the conditional statement (like Theorem B itself) still needs before any numeric inequality could be checked.",
+ "bound_evaluated": false,
+ "why_still_not_evaluated": "Assuming Theta_chi = 1/2 only removes one of the three gaps tb_bind.py found (Theta_chi's value). The other two remain exactly as tb_bind.py described them: the proof's Omega carries no explicit constant or threshold N0 (that gap is independent of Theta_chi's value), and the conclusion is proved only along an unbounded sequence of N that is never exhibited, so there is still no licensed N at which to check a numeric inequality, conditionally or otherwise. What can be compared is shape only: does the measured E(N)'s observed growth rate sit near the conditional exponent 2 - eps. That is the comparison this script makes; it is not a binding numeric inequality and not a statement about Theorem B itself.",
+ "verdict": "This conditional (GRH-for-L(s, chi_3)) exploration cannot produce a numeric bound to compare against the measured E(N) either, for the same missing-constant and missing-sequence reasons tb_bind.py found for the unconditional Theorem B; only the growth-rate shape is comparable, and that comparison is recorded above as an observed exponent, not as a value that binds or is vacuous. This script makes no claim about whether Theorem B itself binds or is vacuous at these cutoffs.",
+ "what_this_is_not": "This is not an evaluation of Theorem B as stated in RESULTS.md Section 18, which is unconditional; it explores only the GRH-for-L(s, chi_3) illustrative case Section 18 itself names. It is not a claim that the observed exponent settles anything about the conditional or unconditional statement at any N, eventually or otherwise: an exponent measured over six points on a finite range is not an asymptotic rate. Nothing here bears on RH."
+}

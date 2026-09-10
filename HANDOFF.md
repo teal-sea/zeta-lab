@@ -9,6 +9,84 @@ state for the mathematics.
 
 ---
 
+## 2026-09-10: hunts run in a cloud VM. What that did and did not buy.
+
+**Read this before resuming, and read `hunts/prime_pair_error/RUNS.md` for the numbers.**
+
+### The honest headline
+
+An Ostoyae board ran five items and then eleven more against `hunts/prime_pair_error`, entirely
+inside a Claude Code cloud VM, for **$35.63 over 38 attempts**. Twenty-eight attempts landed with
+their checks passing. **Nothing in THIS session is a new mathematical statement.** That is a statement about this
+session, not about the laboratory: Theorems A and B in `RESULTS.md` are recorded as original to
+this hunt, and CLAUDE.md's 2026-08-13 ruling is explicit that original and novel are different
+claims and that the lab may claim original. An earlier draft of this entry conflated the two and
+read as though nothing had ever been produced. It had. What it moved
+is the machinery and the hunt's bookkeeping, and the closest thing to a mathematical contribution
+is a scoping refinement that says so itself.
+
+Do not let a column of green checks read as research progress. It is instruments and negative
+results, which are worth having and are not the objective.
+
+### What actually landed in this hunt
+
+- **The doors analysis the hunt owed.** `RESULTS.md` now ends with `## The doors`: three ranked
+  active constraints, the frozen-constant inventory, the information class of each. Rank 1 is the
+  mixed moment U_1 at q=1, closable only through (31); rank 3 was recorded as "not attempted, cost
+  unknown", which is why `RANK3_SCOPE.md` and the five rank-3 documents exist.
+- **J(N) measured for the first time** (`jn_probe.py`, `results_jn.json`). Section 19 says the whole
+  of (T) rests on it. Seven cutoffs to 8e6, psi cross-checked against the repo's two routes to
+  1.9e-9, mp.dps=50. Observed log-log slope 1.20, and the file says plainly that J(N)/N swings
+  between 0.095 and 0.767 with no trend, so the slope is not a rate and says nothing for or
+  against O(N^{1+eps}).
+- **Theorem B cannot be evaluated at any N** (`tb_bind.py`). Theta_chi is unconditionally open, the
+  Omega carries no constant because the proof argues by contradiction from Landau, and the
+  conclusion holds along a sequence never exhibited. Not a claim it is false: a fact about what it
+  can be asked. `THEOREM_B_SEQUENCE.md` then asks whether that sequence can be named, and answers
+  yes in a clean special case with an explicit gap, no in general.
+- **The top door measured** (`delta_sq_probe.py`, `results_delta_sq.json`). S(N)=sum Delta(t)^2 at
+  eight cutoffs to 1e7; S(N)/N^2 sits near 0.022 throughout, fitted slope 2.015. The file states a
+  finite ladder does not settle whether the true rate is at, above or below 2.
+- **The one finding with any claim on the mathematics**, `SW_EFFECTIVE.md` with
+  `results_delta_sq_sw_effective_bind.json`: `UPPER_BOUND.md` (1) says its bounds hold "with
+  ineffective constants", but the q=1 case Section 7 actually derives the N^3 L^{-2H} corollary
+  from needs no Siegel-Walfisz at all. It reduces to the classical zero-free-region remainder for
+  zeta alone, which involves no character beyond the principal one, so no Siegel-zero
+  ineffectivity, and has been effective with a computable constant since de la Vallee Poussin,
+  1899. **The caveat is weaker than it reads for that component, and the file refuses the
+  overstatement that invites:** an effective constant does not make the bound useful, because that
+  component is still a full power of N short of (31) whether or not the constant is known.
+  Effectiveness and sufficiency are different questions and only the first was answered.
+- Rank 3 opened along four routes: `RANK3_BDH_VERIFY.md`, `RANK3_QUARTIC_TOOLS.md`,
+  `RANK3_MEAN_VALUE_TOOLS.md`, `RANK3_ROUTE_D.md`, `RANK3_POLYRANGE.md`,
+  `RANK3_POLYRANGE_TINT_CHECK.md`, `SW_MAJOR_ARC_SPLICE.md`, `SW_MOMENT_SPLICE.md`, with five probe
+  scripts and their recorded numbers.
+
+### Where to pick up
+
+The board is `boards/prime-pair-error.json` in this repository. **Eleven judged proposals sit on
+it, unanswered**, and scheduling them is an operator decision, not the engine's. The board's own
+`last_run` says so: `drained: awaiting-decision`.
+
+```bash
+node <ostoyae>/run.mjs boards/prime-pair-error.json --dry-run          # see the state, spend nothing
+node <ostoyae>/run.mjs boards/prime-pair-error.json --confirm <ids>    # schedule proposals
+```
+
+The rank-3 documents are the live research front. The doors table says rank 1 needs (31) and the
+only route named for it assumes RH; rank 2 traces to Vaughan's Type I/II balance and cannot be
+moved by changing Q. Rank 3 is where the unattempted work is, and it now has four scoped routes
+instead of "cost unknown".
+
+### The environment, because it is not obvious
+
+Python **3.12**, not 3.11: on 3.11 `cypari2` has no wheel, pip falls back to the sdist, that needs
+a system PARI/GP, and the whole `pip install -r requirements.txt` dies. `requirements.txt`
+documents this and it is real. On 3.12 the full install is clean and **both optional backends are
+live**, so `rigor.BACKEND` is `python-flint` and the PARI oracle runs rather than skipping. Fast
+tier on that machine: **2957 passed, 3 skipped, 16:47**. Three skipped, not five, which is what
+tells you the Arb cross-check actually ran.
+
 ## Walls: named missing arguments, priced (standing section, opened 2026-09-05)
 
 One line per hunt that ended measured but unspendable: the thing that is missing, what it
