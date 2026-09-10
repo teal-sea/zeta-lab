@@ -98,19 +98,34 @@ quantity — self-checked against Parseval's identity for the matching second
 moment and against doubling \(M\), both exact to float64 precision) directly
 from the true von Mangoldt function, for \(N=20000\) and \(q=2,\dots,30\).
 \(Z^*_{(q)}/(\phi(q)N^3)\) — the natural per-residue trivial-order
-normalization — is **the same constant, \(\approx1.5259\), for every
-\(q\ge3\) checked, squarefree or not** (e.g. \(q=4,8,9,12,16,18,20,25\), all
-non-squarefree, land at \(1.525934\) to six digits, matching \(q=3,5,6,7,10\)
-etc. to at least four digits). Only \(q=1\) (no correction is even attempted
-there — it is \(F_N-K_N\), UPPER_BOUND.md §7's own object) and \(q=2\)
-(\(\phi(2)=1\), the single case with the largest possible relative weight
-\(|\mu(q)|/\phi(q)=1\)) show a materially different ratio
-(\(Z^*_{(2)}/(\phi(2)N^3)\approx0.864\), a real but modest reduction from
-1.526, not an order-of-magnitude saving). This is a clean empirical
-confirmation of §2's structural point: for every \(q\ge3\) in the range
-checked, the bias-subtraction that defines \(R_{q,a}\) makes **no
-measurable difference** to the fourth moment, squarefree or not — matching,
-not merely resembling, the fully uncorrected non-squarefree case.
+normalization — lands within a narrow, bounded band around \(\approx1.5259\)
+for every non-squarefree \(q\ge3\) checked (e.g. \(q=4,8,9,12,16,18,20,25\)
+land at \(1.525934\) to six digits) and every squarefree \(q\ge3\) with
+\(|\mu(q)|/\phi(q)\) small (e.g. \(q=15,30\), weight \(1/8\), land at
+\(1.525756\)). This is **not**, however, a single constant to four digits
+across every \(q\ge3\): \(q=2\)
+(\(\phi(2)=1\), weight \(|\mu(q)|/\phi(q)=1\)) shows the largest deviation
+(\(Z^*_{(2)}/(\phi(2)N^3)\approx0.864\)), and \(q=3,6\) (weight \(1/2\), the
+next-largest after \(q=2\)) show a real, non-noise deviation of their own,
+landing at \(\approx1.4846\) — about \(3\%\) below the \(1.5259\) band, not
+matching it to four digits. `rank3_fourth_moment_mod3_probe.py`
+(results in `results_rank3_fourth_moment_mod3_probe.json`), written to
+check whether this \(q=3,6\) gap was a finite-\(N\) artifact of
+\(N=20000=2^5\cdot5^4\) (coprime to 3), finds it is not: the same
+\(\approx0.039\)-wide gap between \(q\in\{3,6\}\) and \(q\in\{5,10\}\)
+persists, without shrinking, across \(N=4000\) through \(N=128000\), and at
+a second, independent \(N=21000\) (divisible by 3) the full \(q\)-list shows
+the deviation tracking \(|\mu(q)|/\phi(q)\) directly — \(q=9,12,15,18,30\)
+(all divisible by 3, but each either non-squarefree, weight \(0\), or with
+weight \(|\mu(q)|/\phi(q)=1/8\)) sit back in the \(1.52\) band, while only
+\(q=3,6\) themselves (weight \(1/2\)) stay low.
+So the deviation from \(1.5259\) is governed by \(|\mu(q)|/\phi(q)\) — the
+relative size of the bias-subtraction \(P_{q,a}\) — not by squarefreeness or
+by \(3\mid q\) as such; see `RANK3_QUARTIC_LITERATURE.md` §3 for the full
+data and this reading. §2's structural point stands with this correction:
+the bias-subtraction changes the fourth moment by an \(O(1)\) multiplicative
+factor that shrinks toward \(1\) as \(|\mu(q)|/\phi(q)\to0\), never by an
+order-of-magnitude or \(N\)-power saving, for every \(q\ge2\) checked.
 
 ## 3. Candidate: a "quartic large sieve"
 
