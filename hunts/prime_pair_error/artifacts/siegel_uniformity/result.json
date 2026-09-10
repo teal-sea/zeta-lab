@@ -1,0 +1,138 @@
+{
+  "N": 128,
+  "numerical_threads": 1,
+  "limit_seconds": 60,
+  "proof_sha256": "8720c4a038f7ddbc9e6c8c5d006859be60996c4a1feb44724b25784983bd6097",
+  "script_sha256": "bd0f73a1ce29b54240e370137bae45b17fec3655c6af628eea400b196a6f61d4",
+  "exact": {
+    "character_rows": [
+      {
+        "conductor": 3,
+        "character": "chi3",
+        "shifts": 3
+      },
+      {
+        "conductor": 4,
+        "character": "chi4",
+        "shifts": 4
+      },
+      {
+        "conductor": 5,
+        "character": "chi5",
+        "shifts": 5
+      },
+      {
+        "conductor": 8,
+        "character": "chi8",
+        "shifts": 8
+      },
+      {
+        "conductor": 8,
+        "character": "chi_minus8",
+        "shifts": 8
+      },
+      {
+        "conductor": 12,
+        "character": "chi4_chi3",
+        "shifts": 12
+      },
+      {
+        "conductor": 15,
+        "character": "chi3_chi5",
+        "shifts": 15
+      },
+      {
+        "conductor": 24,
+        "character": "chi8_chi3",
+        "shifts": 24
+      },
+      {
+        "conductor": 24,
+        "character": "chi_minus8_chi3",
+        "shifts": 24
+      }
+    ],
+    "additive_quadruples": 1398144
+  },
+  "fourier_float_checks": {
+    "grid_size": 513,
+    "mpmath_decimal_digits": 50,
+    "D_direct": "2981539.645082750165577375893196732194222219226073",
+    "D_grid": 2981539.645082749,
+    "fourth_direct": "2828511.6214877437669029180094461574216795915697496",
+    "fourth_grid": 2828511.6214877428,
+    "normalized_U2_fourth": "2.0230474267941955670538356631692854396110783794442",
+    "relative_D_defect": 4.440892098500626e-16,
+    "relative_fourth_defect": 3.3306690738754696e-16,
+    "centered_norm": 1726.7135388021804,
+    "holder_upper_bound": 3795.5772507736997
+  },
+  "model_fixture": {
+    "Z": "3.2255245954395987042602915015538025002339809688979",
+    "sieve_primes": [
+      2,
+      3
+    ],
+    "q": 3,
+    "toy_beta": "0.99",
+    "exceptional_zero_asserted": false,
+    "proper_prime_powers": [
+      4,
+      8,
+      9,
+      16,
+      25,
+      27,
+      32,
+      49,
+      64,
+      81,
+      121,
+      125,
+      128
+    ],
+    "proper_prime_power_count": 13,
+    "all_shifts_checked": 128,
+    "exact_zero_model_shifts": 65,
+    "exact_CRT_checks": 21672,
+    "weighted_partial_summation_checks": 336,
+    "max_remainder_to_retained_bound": "0.13934837501983546478882034572838103321327177981165",
+    "selected_rows": [
+      {
+        "h": 2,
+        "T": 126,
+        "model_minus_T_sigma": "-174.55387470414991127603660285962908620579895359281",
+        "explicit_correction": "-174.77703663861410387581063033077180402212445257776",
+        "retained_remainder": "0.22316193446419259977402747114271781632549898495192",
+        "finite_partial_summation_bound": "60"
+      },
+      {
+        "h": 6,
+        "T": 122,
+        "model_minus_T_sigma": "326.64565616040467564187928402011835234236316720053",
+        "explicit_correction": "338.53476830589677339674254071713821290146108237963",
+        "retained_remainder": "-11.889112145492097754863256697019860559097915179095",
+        "finite_partial_summation_bound": "120"
+      },
+      {
+        "h": 64,
+        "T": 64,
+        "model_minus_T_sigma": "-90.208598147606898854018854788752234591726916372314",
+        "explicit_correction": "-90.143433053907028421738357645523703717141214337347",
+        "retained_remainder": "-0.065165093699870432280497143228530874585702034966986",
+        "finite_partial_summation_bound": "60"
+      },
+      {
+        "h": 126,
+        "T": 2,
+        "model_minus_T_sigma": "-6.0",
+        "explicit_correction": "5.7052635016661790422609090411840067899148295041789",
+        "retained_remainder": "-11.705263501666179042260909041184006789914829504179",
+        "finite_partial_summation_bound": "84"
+      }
+    ],
+    "scope": "Finite identities only. No asymptotic sieve error or infinite singular series is numerically asserted."
+  },
+  "status": "PASS",
+  "elapsed_seconds": 22.923594
+}

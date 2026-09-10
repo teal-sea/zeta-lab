@@ -1,0 +1,74 @@
+{
+  "status": "PASS",
+  "N": 64,
+  "numerical_threads": 1,
+  "time_limit_seconds": 60,
+  "precision_decimal_digits": 50,
+  "Z": "3.1682567393847978077655508668161296208092707602228",
+  "P": 6,
+  "b_Z": "3",
+  "toy_beta": "0.99",
+  "scope": "finite identities only; no zero existence or asymptotic bound",
+  "proper_prime_powers": [
+    4,
+    8,
+    9,
+    16,
+    25,
+    27,
+    32,
+    49,
+    64
+  ],
+  "spectrum_coefficient_checks": 448,
+  "window_identity_checks": 36,
+  "sampling_checks": 26,
+  "positive_abel_checks": 9,
+  "recombination_checks": 12,
+  "max_window_identity_defect": "1.0509738482436128031927971874674370984601964564074e-45",
+  "fixtures": [
+    {
+      "conductor": null,
+      "q_below_Z": true,
+      "D_w": "46.03859184891094399312733256210507480122717759694",
+      "T_N_zero": "402.4783700782672582003385527583533913471573567751",
+      "prefix_identity_defect": "0.0"
+    },
+    {
+      "conductor": 3,
+      "q_below_Z": true,
+      "D_w": "188.20691275280556421993299191157770730671398927113",
+      "T_N_zero": "584.72175564798973395778052086605227748574849699099",
+      "prefix_identity_defect": "1.3684555315672041708239546711815587219533808026138e-48"
+    },
+    {
+      "conductor": 4,
+      "q_below_Z": false,
+      "D_w": "227.35296696806111642333136907039552085030217922327",
+      "T_N_zero": "654.59292582156596226619131846243461404354192594214",
+      "prefix_identity_defect": "0.0"
+    },
+    {
+      "conductor": 8,
+      "q_below_Z": false,
+      "D_w": "182.97823867698337734144151866936036147859252087244",
+      "T_N_zero": "1187.3902867562190548452787186212598333649451719016",
+      "prefix_identity_defect": "0.0"
+    }
+  ],
+  "centered_norm": {
+    "scope": "exact finite G_y, no-exception C=0; not E_corr scaling",
+    "squared_norm": "20762.922353902797628010113379369345520323027733213",
+    "signed_interaction_total": "-4577.4346121988679213389058190037444518440041245257",
+    "expansion_defect": "0.0",
+    "actual_mixed_energy": "8864.9439335620208040495984422468833443404214996138"
+  },
+  "elapsed_seconds": 3.900311,
+  "sha256": {
+    "artifacts/localized_mixed_energy/check.py": "db8f7558a72b132f2299a0727fb35b7587bc4f1fdac01d369ddf61c9819e621f",
+    "LOCALIZED_MIXED_ENERGY.md": "b9f3fa4642257238567766a5a0a163bd627263922cf5bb50ad72b5a4ba8d9eea",
+    "SIEGEL_UNIFORMITY.md": "8720c4a038f7ddbc9e6c8c5d006859be60996c4a1feb44724b25784983bd6097",
+    "CORRECTED_RH_BRIDGE.md": "dcbef5f6cf663cf3c09bd9a71dc38f82be23353e15f884fb41b6ebf9c821119b",
+    "artifacts/siegel_uniformity/check.py": "bd0f73a1ce29b54240e370137bae45b17fec3655c6af628eea400b196a6f61d4"
+  }
+}
