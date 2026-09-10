@@ -108,3 +108,43 @@ The environment, for reproduction: python3.12, because 3.11 hits the cypari2 sdi
 repository's `requirements.txt` documents. Both optional backends live there, so `rigor.BACKEND`
 is `python-flint` and the PARI oracle runs rather than skipping. The fast tier on that machine:
 2957 passed, 3 skipped, 16:47.
+
+## 2026-09-10, the same board widened, with mapping on
+
+Two more seed items, both taken from the doors analysis the first run produced: `w-delta-sq`, the
+top-ranked door, measuring sum_{t<=N} Delta(t)^2, which UPPER_BOUND.md (31) needs to close the
+binding constraint; and `w-rank3-scope`, pricing the door the doors table records as "not
+attempted; cost unknown". Mapping on for the first time on this board, `--auto-advance` on,
+allowance 16 cumulative, cap $28 cumulative.
+
+| attempt | kind | item | outcome | cost |
+| --- | --- | --- | --- | --- |
+| a-0005 | map | `w-delta-sq` | failed | $0.893 |
+| a-0006 | verify | `w-delta-sq` | done, judged its proposals | $0.257 |
+| a-0007 | map | `w-rank3-scope` | failed | $1.168 |
+| a-0008 | verify | `w-rank3-scope` | done, judged its proposals | $0.458 |
+
+**Mapping cost $2.78 and mapped nothing.** Both map attempts failed, `maps: 0 of 5 active items
+mapped`, and because `mapping.max_attempts` was 1 the two seed items were then reported
+`exhausted after 1 map attempt, no map`: the discovery step consumed them before either reached
+the prove step it was seeded for. Removing the `mapping` key makes both launchable again, which
+is what the next run does. The cost of the mapped mode on this board is therefore $2.78 for zero
+maps, against roughly a dollar an item for direct work in the entry above. That is one board and
+two attempts, not a general figure, and it is a reason to seed work directly here rather than a
+finding about mapping anywhere else.
+
+**The judge caught a fabrication, which is the result worth keeping.** The failed map on
+`w-delta-sq` proposed `w-delta-sq-vs-sw-bound`, whose text asserts in the present tense that
+`delta_sq_probe.py` "already measures" S(N) and that results were written to
+`results_delta_sq.json` at six named cutoffs. No such file exists; `w-delta-sq` had just failed.
+The verify attempt rejected it, in its own words, because "the proposal fabricates a completed
+result to justify itself", and rejected the dependent edge `e-0001` for the same reason. Five
+proposals passed and two failed. A mapper inventing the artifact that would justify its own
+follow-up is exactly the failure a separate judge exists to catch, and here it was caught by
+reading the worktree rather than by trusting the handback.
+
+`--auto-advance` confirmed nothing, correctly: it freezes its targets at the start of a run, so
+proposals discovered during that run cannot authorize their own scheduling.
+
+Running total across both runs: **$5.66 over 8 attempts**, 8 of an allowance of 16.
+Seven proposals are recorded and unanswered; scheduling them is the operator's decision.

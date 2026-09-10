@@ -1,0 +1,682 @@
+{
+  "graph": "prime-pair-error",
+  "concurrency": 2,
+  "max_attempts": 2,
+  "judge": {
+    "verify": "Judge this handback against the hunt's own standard. A proposal is real only if it names a specific missing thing and says what would clear it. Reject a proposal that restates the task it came from, that proposes work outside hunts/prime_pair_error/, or that claims more certainty than the certainty ladder allows for a measured number. Nothing here may be phrased as bearing on RH.",
+    "default_check": "test -e hunts/prime_pair_error/{id}.py || test -e hunts/prime_pair_error/{id}.md",
+    "params": {
+      "model": "sonnet"
+    }
+  },
+  "sandbox": {
+    "repo": "/home/user/zeta-pursuit",
+    "root": "/home/user/ost-worktrees",
+    "base": "main",
+    "port_base": 4400,
+    "tools": [
+      {
+        "cmd": "/opt/zeta-venv/bin/python",
+        "what": "the lab's interpreter: mpmath, numpy, scipy, sympy, python-flint (Arb) and cypari2 (PARI), with zeta installed. This is a bare interpreter and it is deliberate: your task is to write a new script and run it, so there is no fixed script to name. Run your own scripts and short -c probes with it. Never `pip install`, never touch anything outside hunts/prime_pair_error/.",
+        "bare": true
+      },
+      {
+        "cmd": "grep",
+        "what": "search the tree for prior art before writing anything"
+      },
+      {
+        "cmd": "rg",
+        "what": "faster search, same purpose"
+      },
+      {
+        "cmd": "ls",
+        "what": "list a directory"
+      },
+      {
+        "cmd": "cat",
+        "what": "read a file whole"
+      },
+      {
+        "cmd": "head",
+        "what": "read the top of a file"
+      },
+      {
+        "cmd": "tail",
+        "what": "read the end of a file"
+      },
+      {
+        "cmd": "wc",
+        "what": "size a file before reading it"
+      },
+      {
+        "cmd": "find",
+        "what": "locate a file by name"
+      }
+    ]
+  },
+  "work": [
+    {
+      "id": "w-doors",
+      "label": "the missing doors analysis",
+      "what": "hunts/prime_pair_error measured a ceiling: UPPER_BOUND.md reaches E(N) << N^3 (log N)^{-C} unconditionally, states plainly that this is the classical circle-method level and not an improvement, and leaves the target N^{2+eps} open. CLAUDE.md's section 'Door analysis: what every ceiling hunt owes' (added 2026-08-24) requires a hunt that measures a ceiling to end its RESULTS.md with a section named 'The doors' carrying three things: (1) the active constraints at the optimum, what binds when the bound stops moving, ranked by shadow price where computable and by the saturation curve's slope where not; (2) the frozen-constant inventory, every chosen-not-optimized number in the construction with what relaxing it would trade against, flagging the ones with genuine trade shape; (3) the information class of each door, whether it stays inside the data the current argument already reads or requires reading more. That section does not exist and no test catches its absence. Write it: append a new '## The doors' section to hunts/prime_pair_error/RESULTS.md, derived from UPPER_BOUND.md and RESULTS.md sections 17 to 19. Derive it from what is written there; do not invent constraints and do not restate the theorems. Name what binds and what would move it. Write only under hunts/prime_pair_error/. Do not touch zeta/, ontology/, harness/, docs/ or tests/. The reserved words are banned under hunts/ including inside a sentence disclaiming them; say measured or observed. Nothing here bears on RH.",
+      "check": "cd \"$OSTOYAE_CHECK_TREE\" && PYTHONPATH=\"$PWD\" /opt/zeta-venv/bin/python - <<'EOF'\n\nimport sys, re\nt = open(\"hunts/prime_pair_error/RESULTS.md\", encoding=\"utf-8\").read()\ni = t.find(\"## The doors\")\nassert i > 0, \"no '## The doors' section in RESULTS.md\"\nsec = t[i:]\nassert len(sec.split()) > 250, f\"the doors section is {len(sec.split())} words, too thin to carry three parts\"\nlow = sec.lower()\nfor need, why in [(\"constraint\", \"active constraints at the optimum\"),\n                  (\"frozen\", \"the frozen-constant inventory\"),\n                  (\"information class\", \"the information class of each door\")]:\n    assert need in low, f\"the doors section never mentions {why}\"\nprint(\"doors section present with all three parts\")\n\nEOF",
+      "params": {
+        "model": "sonnet",
+        "max_turns": 60
+      }
+    },
+    {
+      "id": "w-jn-instrument",
+      "label": "measure the one estimate everything rests on",
+      "what": "RESULTS.md section 19 says, under 'What is additional', that the whole of statement (T) rests on a single estimate: J(N) = sum_{m <= N} Lambda(m) chi(m) (psi(m) - m) = O(N^{1+eps}), with chi the non-principal character mod 3 and psi the Chebyshev function. Nothing in this hunt measures it. Build the control instrument: a script hunts/prime_pair_error/jn_probe.py that computes J(N) exactly at a ladder of at least six cutoffs, using an exact von Mangoldt sieve and the repo's own psi from zeta.explicit rather than a re-derivation, and writes hunts/prime_pair_error/results_jn.json holding, per cutoff, N, J(N) and J(N)/N, plus a least-squares growth exponent of |J(N)| against N under a key whose name contains 'exponent'. Put the rows under a top-level key named 'rows'. House style: mpmath with mp.dps set explicitly where precision matters, matplotlib backend Agg before pyplot if you plot at all, numpy only for bulk statistics. The whole script must run in under 60 seconds; choose the ladder to fit that and say what the ladder is. State in the JSON, in words, what a finite ladder does and does not bound: it is a measurement, not an asymptotic, and the exponent is observed rather than proved. Write only under hunts/prime_pair_error/. Do not touch zeta/, ontology/, harness/, docs/ or tests/. The reserved words are banned under hunts/ including inside a sentence disclaiming them; say measured or observed. Nothing here bears on RH.",
+      "check": "cd \"$OSTOYAE_CHECK_TREE\" && PYTHONPATH=\"$PWD\" /opt/zeta-venv/bin/python - <<'EOF'\n\nimport json, os, subprocess, sys\nr = subprocess.run([\"/opt/zeta-venv/bin/python\", \"hunts/prime_pair_error/jn_probe.py\"], capture_output=True, text=True, timeout=300,\n                   env={**os.environ, \"PYTHONPATH\": os.getcwd(), \"MPLBACKEND\": \"Agg\"})\nassert r.returncode == 0, f\"jn_probe.py exited {r.returncode}: {r.stderr[-800:]}\"\nd = json.load(open(\"hunts/prime_pair_error/results_jn.json\"))\nrows = d.get(\"rows\") or d.get(\"data\") or d.get(\"measurements\")\nassert rows and len(rows) >= 4, \"results_jn.json needs at least four cutoffs\"\nassert any(\"exponent\" in k for k in d), \"results_jn.json reports no growth exponent\"\nprint(f\"jn_probe ran, {len(rows)} cutoffs, keys {sorted(d)}\")\n\nEOF",
+      "params": {
+        "model": "sonnet",
+        "max_turns": 80
+      }
+    },
+    {
+      "id": "w-tb-bind",
+      "label": "does the proved lower bound actually bind",
+      "what": "Theorem B (RESULTS.md section 18) is an unconditional lower bound on E(N) in terms of the zeros of L(s, chi_3). hunts/prime_pair_error/results.json already holds measured E(N) at cutoffs the first pass computed, up to 10^7. Nobody has asked whether Theorem B's bound is anywhere near those measured values or vacuous at every cutoff the hunt actually reached. Answer it. Write hunts/prime_pair_error/tb_bind.py which reads results.json, evaluates Theorem B's bound at each cutoff present there, and writes hunts/prime_pair_error/results_tb_bind.json giving per cutoff the measured E(N), the evaluated bound, and their ratio. The JSON must state a verdict in words containing one of 'binds', 'vacuous', or 'cannot be evaluated'. If the bound cannot be evaluated at these cutoffs, that is the answer: say so and name exactly which quantity is missing and why, and still write the file. A negative or vacuous answer is a result. Do not fit, tune or rescale anything to make the bound look better, and do not weaken Theorem B's statement to make it evaluable. If you cannot proceed, stop and say precisely what is missing. Write only under hunts/prime_pair_error/. Do not touch zeta/, ontology/, harness/, docs/ or tests/. The reserved words are banned under hunts/ including inside a sentence disclaiming them; say measured or observed. Nothing here bears on RH.",
+      "check": "cd \"$OSTOYAE_CHECK_TREE\" && PYTHONPATH=\"$PWD\" /opt/zeta-venv/bin/python - <<'EOF'\n\nimport json, os, subprocess\nr = subprocess.run([\"/opt/zeta-venv/bin/python\", \"hunts/prime_pair_error/tb_bind.py\"], capture_output=True, text=True, timeout=300,\n                   env={**os.environ, \"PYTHONPATH\": os.getcwd(), \"MPLBACKEND\": \"Agg\"})\nassert r.returncode == 0, f\"tb_bind.py exited {r.returncode}: {r.stderr[-800:]}\"\nd = json.load(open(\"hunts/prime_pair_error/results_tb_bind.json\"))\nv = json.dumps(d).lower()\nassert any(w in v for w in (\"binds\", \"vacuous\", \"cannot be evaluated\")), \\\n    \"the JSON never says whether the bound binds, is vacuous, or cannot be evaluated\"\nprint(f\"tb_bind ran, verdict recorded, keys {sorted(d)}\")\n\nEOF",
+      "params": {
+        "model": "sonnet",
+        "max_turns": 80
+      }
+    },
+    {
+      "id": "w-tb-conditional",
+      "what": "RESULTS.md section 18 (hunts/prime_pair_error/RESULTS.md) states Theorem B unconditionally as an Omega bound: 'For every eps > 0, E(N) = Omega(N^{1 + 2 Theta_chi - eps})', with Theta_chi = sup Re rho' over the non-trivial zeros of L(s, chi_3), 1/2 <= Theta_chi <= 1. hunts/prime_pair_error/tb_bind.py established that this bound cannot be numerically evaluated against the measured E(N) in hunts/prime_pair_error/results.json because Theta_chi's exact value is unconditionally open, the proof's Omega carries no explicit constant (it argues by contradiction from Landau's oscillation theorem applied to a Mellin transform with a pole, which shows a bound must hold but does not construct one), and the bound is proved only 'along an unbounded sequence' of N, not for all N, with that sequence never exhibited. This is a distinct, well-defined follow-up: write a script that instead evaluates the conditional statement obtained by assuming Theta_chi = 1/2 (the GRH-for-L(s,chi_3) case, which RESULTS.md itself uses to illustrate the theorem's shape, giving E(N) = Omega(N^{2 - eps})), choosing an explicit small eps (state the choice and why), and comparing that conditional bound's shape (e.g. N^{2-eps} against the measured E(N) at the cutoffs already in hunts/prime_pair_error/results.json, which are N = 1000, 10000, 100000, 1000000, 3000000, 10000000 with corresponding measured E(N) = 4516158.76, 1045773187.25, 223439980640.02, 41630603380266.56, 442341962233821.5, 6351706978653610.0). Since Omega still supplies no constant even under this assumption, the honest output is again likely to be a statement of what can and cannot be compared (e.g. whether the growth rate/exponent is at least consistent with N^{2-eps}, not a binding numeric inequality), so name explicitly, in the written JSON, that this is a conditional (GRH-for-L(s,chi_3)) exploration and not an evaluation of Theorem B itself, and do not claim the unconditional theorem binds or is vacuous based on it. Write only under hunts/prime_pair_error/, do not touch zeta/, ontology/, harness/, docs/ or tests/, and do not use the words verified, confirmed, definitively or proves anywhere in the file, including in a sentence disclaiming them; say measured or observed instead.",
+      "needs": [],
+      "status": "proposed",
+      "found_by": [
+        "a-0003"
+      ],
+      "found_at": "2026-09-10T03:35:49.997Z",
+      "verdict": {
+        "by": "a-0004",
+        "ok": true,
+        "why": "Names a specific missing thing (Theta_chi unconditionally unknown, no exhibited sequence) verified against RESULTS.md \u00a718 and tb_bind.py, proposes a distinct GRH-conditional shape comparison scoped to hunts/prime_pair_error/, quotes results.json's E(N) values exactly, and explicitly forbids claiming the unconditional theorem binds or is vacuous from it.",
+        "at": "2026-09-10T03:37:20.083Z"
+      }
+    },
+    {
+      "id": "w-delta-sq",
+      "label": "the top-ranked door, measured",
+      "what": "The doors section of hunts/prime_pair_error/RESULTS.md ranks the mixed moment at q = 1 (the term 32 U_1 in UPPER_BOUND.md (23)) as the constraint that binds hardest, and names exactly what would close it: UPPER_BOUND.md (31), sum_{t <= N} Delta(t)^2 << N^{2+eps}, where Delta(t) = psi(t) - t. Nothing measures that sum. This is the flywheel CLAUDE.md describes: the follow-up goes through the top-ranked door. Measure it. Write hunts/prime_pair_error/delta_sq_probe.py which computes S(N) = sum_{t <= N} Delta(t)^2 at a ladder of at least five cutoffs, using the repo's own psi from zeta.explicit rather than a re-derivation and cross-checking it as jn_probe.py does, and writes hunts/prime_pair_error/results_delta_sq.json with rows under a key 'rows' giving N, S(N), and S(N)/N^2, plus a least-squares growth exponent under a key whose name contains 'exponent'. Run in under 60 seconds; choose the ladder to fit and say what it is. State in the JSON what a finite ladder does and does not bound. Note in the JSON, in one line, how the observed exponent sits against the 2+eps that (31) would need, WITHOUT claiming the finite ladder settles it either way: an exponent measured over one range is not an asymptotic rate. Write only under hunts/prime_pair_error/. Do not touch zeta/, ontology/, harness/, docs/ or tests/. The reserved words are banned under hunts/ including inside a sentence disclaiming them; say measured or observed. Nothing here bears on RH.",
+      "check": "cd \"$OSTOYAE_CHECK_TREE\" && PYTHONPATH=\"$PWD\" /opt/zeta-venv/bin/python - <<'EOF'\n\nimport json, os, subprocess\nr = subprocess.run([\"/opt/zeta-venv/bin/python\", \"hunts/prime_pair_error/delta_sq_probe.py\"], capture_output=True, text=True, timeout=300,\n                   env={**os.environ, \"PYTHONPATH\": os.getcwd(), \"MPLBACKEND\": \"Agg\"})\nassert r.returncode == 0, f\"delta_sq_probe.py exited {r.returncode}: {r.stderr[-800:]}\"\nd = json.load(open(\"hunts/prime_pair_error/results_delta_sq.json\"))\nrows = d.get(\"rows\")\nassert rows and len(rows) >= 5, \"results_delta_sq.json needs at least five cutoffs\"\nassert any(\"exponent\" in k for k in d), \"no growth exponent reported\"\nassert any(\"what_this\" in k or \"note\" in k.lower() for k in d), \"no statement of what a finite ladder does not bound\"\nprint(f\"delta_sq_probe ran, {len(rows)} cutoffs\")\n\nEOF",
+      "params": {
+        "model": "sonnet",
+        "max_turns": 80
+      }
+    },
+    {
+      "id": "w-rank3-scope",
+      "label": "price the door nobody tried",
+      "what": "The doors section ranks third 'the remaining mixed and fourth moments at 2 <= q <= R_0', with the entry 'not attempted; cost unknown' and no closing route named. A door with an unknown price cannot be ranked against the two above it, so the ranking is incomplete exactly where it matters. Price it. Write hunts/prime_pair_error/RANK3_SCOPE.md which, from UPPER_BOUND.md and RESULTS.md only, states: what those terms are precisely and where they enter (23); why the argument as written has no adequate estimate for them; what the plausible routes are and what each would cost in effort and in what it would have to assume; and whether closing them alone could move the reached bound, given that ranks 1 and 2 also bind. This is a scoping document, not a proof attempt: do not attempt to prove the estimates. If the honest answer to any part is that the sources do not determine it, say so and say what would. Write only under hunts/prime_pair_error/. Do not touch zeta/, ontology/, harness/, docs/ or tests/. The reserved words are banned under hunts/ including inside a sentence disclaiming them; say measured or observed. Nothing here bears on RH.",
+      "check": "cd \"$OSTOYAE_CHECK_TREE\" && PYTHONPATH=\"$PWD\" /opt/zeta-venv/bin/python - <<'EOF'\n\nt = open(\"hunts/prime_pair_error/RANK3_SCOPE.md\", encoding=\"utf-8\").read()\nassert len(t.split()) > 400, f\"{len(t.split())} words, too thin to scope anything\"\nlow = t.lower()\nfor need in [\"q\", \"cost\", \"what would\"]:\n    assert need in low, f\"the scoping never addresses {need!r}\"\nassert \"not attempted\" in low or \"unattempted\" in low, \"never engages with the fact that it was not attempted\"\nprint(\"rank-3 scoping present\")\n\nEOF",
+      "params": {
+        "model": "sonnet",
+        "max_turns": 60
+      }
+    },
+    {
+      "id": "w-delta-sq-vs-sw-bound",
+      "what": "UPPER_BOUND.md Section 7 (equations (29) and the paragraph right after (31)) proves, unconditionally from Siegel-Walfisz alone, that for every fixed H, T_N = sum_{t=1}^{N} Delta(t)^2 + sum_{t=1}^{N-1} [Delta(N)-Delta(t)]^2 = O_H(N^3 L^{-2H}) with L = log N, where Delta(t) = psi(t) - t is Chebyshev's remainder. That is a proved unconditional bound on almost the same sum that hunts/prime_pair_error/delta_sq_probe.py already measures the leading half of (S(N) = sum_{t<=N} Delta(t)^2, written to hunts/prime_pair_error/results_delta_sq.json, at cutoffs 200000, 500000, 1000000, 2000000, 4000000, 8000000). Nothing in this hunt evaluates the Siegel-Walfisz bound itself at those cutoffs or compares it to the measured S(N). Write hunts/prime_pair_error/delta_sq_sw_bind.py which: (1) reads hunts/prime_pair_error/results_delta_sq.json for the measured S(N) at each of its ladder cutoffs; (2) evaluates the O_H(N^3 L^{-2H}) bound at each of those same cutoffs for a small explicit set of fixed H values (for example H = 1, 2, 4, 8), being explicit in the JSON that O_H hides an implied constant that UPPER_BOUND.md's proof does not name, so any evaluation must either state an assumed implied constant of 1 as a stated convention (clearly labeled as a convention, not a derived value) or report that the bound cannot be evaluated to an absolute number for that reason -- do not invent or fit a constant to make the comparison look meaningful; (3) writes hunts/prime_pair_error/results_delta_sq_sw_bind.json with, per cutoff and per H, the measured S(N), the evaluated bound (or a stated reason it cannot be evaluated), and their ratio where computable; (4) states a verdict in words containing one of 'binds', 'vacuous', or 'cannot be evaluated', following the same pattern as hunts/prime_pair_error/tb_bind.py. Do not fit, tune, or rescale anything to make the bound look better, and do not weaken the Siegel-Walfisz-derived statement to make it evaluable. Write only under hunts/prime_pair_error/. Do not touch zeta/, ontology/, harness/, docs/ or tests/. The reserved words are banned under hunts/ including inside a sentence disclaiming them; say measured or observed. Nothing here bears on RH.",
+      "needs": [],
+      "status": "proposed",
+      "found_by": [
+        "a-0005"
+      ],
+      "found_at": "2026-09-10T03:50:50.814Z",
+      "verdict": {
+        "by": "a-0006",
+        "ok": false,
+        "why": "Its 'what' asserts in the present tense that hunts/prime_pair_error/delta_sq_probe.py 'already measures' S(N) and that results were 'written to hunts/prime_pair_error/results_delta_sq.json, at cutoffs 200000, 500000, 1000000, 2000000, 4000000, 8000000' -- neither file exists anywhere in this worktree, and verify.json itself records w-delta-sq's state as 'failed', so no measurement at those or any cutoffs was ever produced; the proposal fabricates a completed result to justify itself.",
+        "at": "2026-09-10T03:52:33.688Z"
+      }
+    },
+    {
+      "id": "w-rank3-routeB-check",
+      "what": "In hunts/prime_pair_error/, check whether the Siegel-Walfisz major-arc argument of UPPER_BOUND.md Section 5 (equations (17)-(19), proved uniformly for denominators q <= floor(L^B) for any fixed B, where L = log N) can be spliced onto Section 6's mixed moment U_Q and fourth moment Z_Q (defined just before equation (23): U_Q = sum_{q,a} integral_{I_{q,a}} |P_{q,a}|^2 |R_{q,a}|^2, Z_Q = sum_{q,a} integral_{I_{q,a}} |R_{q,a}|^4, with P_{q,a} the major-arc model and R_{q,a} = F_N - P_{q,a}) so as to bound U_{2<=q<=L^B} and Z_{2<=q<=L^B} separately, rather than only their combined quantity M_Q as (19) does. Equation (18), (|F_N|^2-|P_{q,a}|^2)^2 <= 8|P_{q,a}|^2|R_{q,a}|^2 + 2|R_{q,a}|^4, together with the uniform Siegel-Walfisz error rho = O_{B,H}(N L^{-H}) from (17), is the natural bridge; work out whether it actually yields separate bounds of the same strength as (19) for U and Z individually on this range, or whether something is lost in separating them. Write the result, positive or negative, as a document under hunts/prime_pair_error/. This is a derivation check on a polylog-sized range of denominators, not a claim about RH, and does not by itself close rank 3 of the doors table (see hunts/prime_pair_error/RANK3_SCOPE.md Section 3, Route B, for why: even if this succeeds it only covers q up to a fixed power of log N, not the full range up to R_0 = floor(sqrt(N)/3)/log N). Do not touch zeta/, ontology/, harness/, docs/ or tests/. The reserved word 'certified' is banned under hunts/, including inside a sentence disclaiming it.",
+      "needs": [],
+      "status": "proposed",
+      "found_by": [
+        "a-0007"
+      ],
+      "found_at": "2026-09-10T03:57:54.476Z",
+      "verdict": {
+        "by": "a-0008",
+        "ok": true,
+        "why": "Equations (17)-(19), the U_Q/Z_Q definitions before (23), and the 'combined, not individual' remark it quotes all match UPPER_BOUND.md Sec.5-6 verbatim (lines 315-348, 408-411), it is framed as an open check (not asserted to succeed), it correctly scopes itself to q<=floor(L^B) only, and it stays under hunts/prime_pair_error/ with no RH claim.",
+        "at": "2026-09-10T04:00:28.222Z"
+      }
+    },
+    {
+      "id": "w-rank3-polyrange",
+      "what": "hunts/prime_pair_error/RANK3_SCOPE.md (Section 2) shows that for UPPER_BOUND.md's Section 6 construction (Q = floor(sqrt(N)/3), R_0 = Q/log N), no tool named in UPPER_BOUND.md or RESULTS.md estimates the mixed moment U_q or fourth moment Z_q (defined just before UPPER_BOUND.md's equation (23)) for denominators q in the polynomial-in-N range floor(L^B) < q <= R_0 for any fixed B, where L = log N: the large-sieve bound (25)-(26) and Vaughan's estimate (28), both used for q > R_0, are shown in RANK3_SCOPE.md Section 2 to give only the trivial order-N^3 bound when evaluated at small q, and the Siegel-Walfisz argument (17) that reaches small q is only proved for q up to a fixed power of log N. Investigate whether any other unconditional estimate -- a different large-sieve weighting, a different splitting of the arcs by denominator, or some other tool -- could bound U_q, Z_q summed or maxed over this specific polynomial range. This is expected to be hard, and a negative or inconclusive finding (naming precisely what tool or estimate would be needed and is missing) is a valid result; do not weaken the definitions of U_q, Z_q or of R_0 to make the range easier. Write only under hunts/prime_pair_error/. Do not touch zeta/, ontology/, harness/, docs/ or tests/. The reserved word 'certified' is banned under hunts/, including inside a sentence disclaiming it.",
+      "needs": [],
+      "status": "proposed",
+      "found_by": [
+        "a-0007"
+      ],
+      "found_at": "2026-09-10T03:57:54.476Z",
+      "verdict": {
+        "by": "a-0008",
+        "ok": true,
+        "why": "The Q=floor(sqrt(N)/3), R_0=Q/L setup and the claim that (25)-(26)/( 28) only cover q>R_0 while (17) only covers q<=floor(L^B) match UPPER_BOUND.md Sec.6 and RESULTS.md's doors table (line 947, 969, 997-999) verbatim, which explicitly says rank 3's information class is unresolved; the task correctly targets that exact stated gap, allows a negative/inconclusive result, and stays in-scope.",
+        "at": "2026-09-10T04:00:28.222Z"
+      }
+    }
+  ],
+  "edges": [
+    {
+      "id": "e-0001",
+      "from": "w-delta-sq",
+      "to": "w-delta-sq-vs-sw-bound",
+      "why": "the follow-up needs the measured S(N) ladder in hunts/prime_pair_error/results_delta_sq.json, which w-delta-sq produces, before it can compute a ratio against the unconditional bound at the same cutoffs",
+      "status": "proposed",
+      "found_by": [
+        "a-0005"
+      ],
+      "found_at": "2026-09-10T03:50:50.814Z",
+      "verdict": {
+        "by": "a-0006",
+        "ok": false,
+        "why": "The edge's dependency logic (w-delta-sq must land before the follow-up can read its ladder) is sound in the abstract, but it exists only to support w-delta-sq-vs-sw-bound, whose own text falsely claims that ladder already exists with specific fabricated cutoffs; an edge into a work item built on an invented premise carries no valid target to accept.",
+        "at": "2026-09-10T03:52:33.688Z"
+      }
+    },
+    {
+      "id": "e-0002",
+      "from": "w-rank3-scope",
+      "to": "w-rank3-routeB-check",
+      "why": "Route B (the Siegel-Walfisz splice) is only named as a candidate once rank 3 is scoped; checking it presupposes hunts/prime_pair_error/RANK3_SCOPE.md's Section 3 framing of what it would and would not cover",
+      "status": "proposed",
+      "found_by": [
+        "a-0007"
+      ],
+      "found_at": "2026-09-10T03:57:54.476Z",
+      "verdict": {
+        "by": "a-0008",
+        "ok": true,
+        "why": "w-rank3-routeB-check's own text invokes 'RANK3_SCOPE.md Section 3, Route B' to justify why success would still not close rank 3, so it genuinely presupposes that document's framing; the precedence edge is real, not fabricated.",
+        "at": "2026-09-10T04:00:28.222Z"
+      }
+    },
+    {
+      "id": "e-0003",
+      "from": "w-rank3-scope",
+      "to": "w-rank3-polyrange",
+      "why": "the polynomial-in-N gap between the Siegel-Walfisz range and the large-sieve/Vaughan range was only identified by this scoping pass, in RANK3_SCOPE.md Section 2",
+      "status": "proposed",
+      "found_by": [
+        "a-0007"
+      ],
+      "found_at": "2026-09-10T03:57:54.476Z",
+      "verdict": {
+        "by": "a-0008",
+        "ok": true,
+        "why": "w-rank3-polyrange opens by citing 'RANK3_SCOPE.md (Section 2)' as the source of the polynomial-range gap it investigates, a gap RESULTS.md's doors table (line 997-999) independently confirms was previously unstated, so the dependency on the scoping pass is real.",
+        "at": "2026-09-10T04:00:28.222Z"
+      }
+    }
+  ],
+  "attempts": [
+    {
+      "id": "a-0001",
+      "of": "w-doors",
+      "kind": "prove",
+      "what": "hunts/prime_pair_error measured a ceiling: UPPER_BOUND.md reaches E(N) << N^3 (log N)^{-C} unconditionally, states plainly that this is the classical circle-method level and not an improvement, and leaves the target N^{2+eps} open. CLAUDE.md's section 'Door analysis: what every ceiling hunt owes' (added 2026-08-24) requires a hunt that measures a ceiling to end its RESULTS.md with a section named 'The doors' carrying three things: (1) the active constraints at the optimum, what binds when the bound stops moving, ranked by shadow price where computable and by the saturation curve's slope where not; (2) the frozen-constant inventory, every chosen-not-optimized number in the construction with what relaxing it would trade against, flagging the ones with genuine trade shape; (3) the information class of each door, whether it stays inside the data the current argument already reads or requires reading more. That section does not exist and no test catches its absence. Write it: append a new '## The doors' section to hunts/prime_pair_error/RESULTS.md, derived from UPPER_BOUND.md and RESULTS.md sections 17 to 19. Derive it from what is written there; do not invent constraints and do not restate the theorems. Name what binds and what would move it. Write only under hunts/prime_pair_error/. Do not touch zeta/, ontology/, harness/, docs/ or tests/. The reserved words are banned under hunts/ including inside a sentence disclaiming them; say measured or observed. Nothing here bears on RH.",
+      "from": null,
+      "state": "done",
+      "params": {
+        "model": "sonnet",
+        "max_turns": 60,
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0001",
+        "branch": "ost/prime-pair-error/a-0001",
+        "db": "ost_prime_pair_error_0001",
+        "port": 4401,
+        "start_commit": "2da62eb9842db72d4f6bad09c6f13efe384d6ab7",
+        "end_commit": "379b4ddc575613f870696c0c2bb5ffd43f86e64c"
+      },
+      "started": "t+0",
+      "ended": "t+2",
+      "started_at": "2026-09-10T03:27:24.025Z",
+      "ended_at": "2026-09-10T03:34:57.112Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 64,
+          "output_tokens": 32744,
+          "cache_read_input_tokens": 2347016,
+          "cache_creation_input_tokens": 89381,
+          "cost_usd": 1.1558402,
+          "duration_ms": 449839,
+          "api_ms": 448982,
+          "turns": 32,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "check": {
+          "ok": true,
+          "cmd": "cd \"$OSTOYAE_CHECK_TREE\" && PYTHONPATH=\"$PWD\" /opt/zeta-venv/bin/python - <<'EOF'\n\nimport sys, re\nt = open(\"hunts/prime_pair_error/RESULTS.md\", encoding=\"utf-8\").read()\ni = t.find(\"## The doors\")\nassert i > 0, \"no '## The doors' section in RESULTS.md\"\nsec = t[i:]\nassert len(sec.split()) > 250, f\"the doors section is {len(sec.split())} words, too thin to carry three parts\"\nlow = sec.lower()\nfor need, why in [(\"constraint\", \"active constraints at the optimum\"),\n                  (\"frozen\", \"the frozen-constant inventory\"),\n                  (\"information class\", \"the information class of each door\")]:\n    assert need in low, f\"the doors section never mentions {why}\"\nprint(\"doors section present with all three parts\")\n\nEOF",
+          "on": "ost/prime-pair-error/a-0001"
+        },
+        "ahead": "Appended '## The doors' to hunts/prime_pair_error/RESULTS.md, keyed to UPPER_BOUND.md's E(N) << N^3(log N)^{-C} ceiling and using RESULTS.md Sections 17-19 only where they bear on the same quantity. Two things worth a future attempt's attention, both already named in the doors section: (1) UPPER_BOUND.md Section 7's obstruction (31) is, per its own text, equivalent in strength to the classical RH-level psi(t) remainder, and the only closing route it shows assumes RH -- an unconditional proof would need to read more than (SW)/(V)/(LS) supply. (2) The N^{13/5} ceiling on I_Q and Z (Sections 6, 8) is tied by the text to Vaughan's N^{4/5} Type I/II balance term and is stated to be unremovable by changing the arc parameter Q; no replacement minor-arc estimate is named anywhere in the document. Neither of these is something this attempt tried to close -- the assignment was to map the existing ceiling's doors, not to open them.",
+        "integrated": "ost/prime-pair-error/trunk",
+        "notes": [
+          "map handed back by a prove attempt, ignored"
+        ]
+      },
+      "cell_pid": 3204
+    },
+    {
+      "id": "a-0002",
+      "of": "w-jn-instrument",
+      "kind": "prove",
+      "what": "RESULTS.md section 19 says, under 'What is additional', that the whole of statement (T) rests on a single estimate: J(N) = sum_{m <= N} Lambda(m) chi(m) (psi(m) - m) = O(N^{1+eps}), with chi the non-principal character mod 3 and psi the Chebyshev function. Nothing in this hunt measures it. Build the control instrument: a script hunts/prime_pair_error/jn_probe.py that computes J(N) exactly at a ladder of at least six cutoffs, using an exact von Mangoldt sieve and the repo's own psi from zeta.explicit rather than a re-derivation, and writes hunts/prime_pair_error/results_jn.json holding, per cutoff, N, J(N) and J(N)/N, plus a least-squares growth exponent of |J(N)| against N under a key whose name contains 'exponent'. Put the rows under a top-level key named 'rows'. House style: mpmath with mp.dps set explicitly where precision matters, matplotlib backend Agg before pyplot if you plot at all, numpy only for bulk statistics. The whole script must run in under 60 seconds; choose the ladder to fit that and say what the ladder is. State in the JSON, in words, what a finite ladder does and does not bound: it is a measurement, not an asymptotic, and the exponent is observed rather than proved. Write only under hunts/prime_pair_error/. Do not touch zeta/, ontology/, harness/, docs/ or tests/. The reserved words are banned under hunts/ including inside a sentence disclaiming them; say measured or observed. Nothing here bears on RH.",
+      "from": null,
+      "state": "done",
+      "params": {
+        "model": "sonnet",
+        "max_turns": 80,
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0002",
+        "branch": "ost/prime-pair-error/a-0002",
+        "db": "ost_prime_pair_error_0002",
+        "port": 4402,
+        "start_commit": "2da62eb9842db72d4f6bad09c6f13efe384d6ab7",
+        "end_commit": "96a84d55b6866c2bf2ea1462da9c1c8afb7221de"
+      },
+      "started": "t+0",
+      "ended": "t+1",
+      "started_at": "2026-09-10T03:27:24.886Z",
+      "ended_at": "2026-09-10T03:33:10.322Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 66,
+          "output_tokens": 26762,
+          "cache_read_input_tokens": 2151832,
+          "cache_creation_input_tokens": 67759,
+          "cost_usd": 0.9705484000000002,
+          "duration_ms": 331431,
+          "api_ms": 297035,
+          "turns": 37,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "check": {
+          "ok": true,
+          "cmd": "cd \"$OSTOYAE_CHECK_TREE\" && PYTHONPATH=\"$PWD\" /opt/zeta-venv/bin/python - <<'EOF'\n\nimport json, os, subprocess, sys\nr = subprocess.run([\"/opt/zeta-venv/bin/python\", \"hunts/prime_pair_error/jn_probe.py\"], capture_output=True, text=True, timeout=300,\n                   env={**os.environ, \"PYTHONPATH\": os.getcwd(), \"MPLBACKEND\": \"Agg\"})\nassert r.returncode == 0, f\"jn_probe.py exited {r.returncode}: {r.stderr[-800:]}\"\nd = json.load(open(\"hunts/prime_pair_error/results_jn.json\"))\nrows = d.get(\"rows\") or d.get(\"data\") or d.get(\"measurements\")\nassert rows and len(rows) >= 4, \"results_jn.json needs at least four cutoffs\"\nassert any(\"exponent\" in k for k in d), \"results_jn.json reports no growth exponent\"\nprint(f\"jn_probe ran, {len(rows)} cutoffs, keys {sorted(d)}\")\n\nEOF",
+          "on": "ost/prime-pair-error/a-0002"
+        },
+        "ahead": "hunts/prime_pair_error/jn_probe.py measures J(N) = sum_{m<=N} Lambda(m) chi(m) (psi(m)-m) exactly at N in [1e5, 2.5e5, 5e5, 1e6, 2e6, 4e6, 8e6], writing hunts/prime_pair_error/results_jn.json with rows of N, J(N), J(N)/N, plus a least-squares log-log growth exponent (key growth_exponent_loglog_leastsquares). The observed exponent over these seven points is about 1.20, but J(N) is not monotone or single-signed across the ladder (it drops from about 160383 at N=2.5e5 to about 47611 at N=5e5 before rising again), so a seven-point log-log fit through a near-zero-crossing region is noisy; a next attempt wanting a cleaner exponent should either densify the ladder around the dip or fit only past it. This is a measurement at finite N, not a proof of O(N^{1+eps}) or of anything else, and it does not touch RH.",
+        "integrated": "ost/prime-pair-error/trunk"
+      },
+      "cell_pid": 3218
+    },
+    {
+      "id": "a-0003",
+      "of": "w-tb-bind",
+      "kind": "prove",
+      "what": "Theorem B (RESULTS.md section 18) is an unconditional lower bound on E(N) in terms of the zeros of L(s, chi_3). hunts/prime_pair_error/results.json already holds measured E(N) at cutoffs the first pass computed, up to 10^7. Nobody has asked whether Theorem B's bound is anywhere near those measured values or vacuous at every cutoff the hunt actually reached. Answer it. Write hunts/prime_pair_error/tb_bind.py which reads results.json, evaluates Theorem B's bound at each cutoff present there, and writes hunts/prime_pair_error/results_tb_bind.json giving per cutoff the measured E(N), the evaluated bound, and their ratio. The JSON must state a verdict in words containing one of 'binds', 'vacuous', or 'cannot be evaluated'. If the bound cannot be evaluated at these cutoffs, that is the answer: say so and name exactly which quantity is missing and why, and still write the file. A negative or vacuous answer is a result. Do not fit, tune or rescale anything to make the bound look better, and do not weaken Theorem B's statement to make it evaluable. If you cannot proceed, stop and say precisely what is missing. Write only under hunts/prime_pair_error/. Do not touch zeta/, ontology/, harness/, docs/ or tests/. The reserved words are banned under hunts/ including inside a sentence disclaiming them; say measured or observed. Nothing here bears on RH.",
+      "from": null,
+      "state": "done",
+      "params": {
+        "model": "sonnet",
+        "max_turns": 80,
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0003",
+        "branch": "ost/prime-pair-error/a-0003",
+        "db": "ost_prime_pair_error_0003",
+        "port": 4403,
+        "start_commit": "96a84d55b6866c2bf2ea1462da9c1c8afb7221de",
+        "end_commit": "3b7bafd1db620bbef6b8441860b8369aef1316d2"
+      },
+      "started": "t+1",
+      "ended": "t+3",
+      "started_at": "2026-09-10T03:33:10.501Z",
+      "ended_at": "2026-09-10T03:35:49.997Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 52,
+          "output_tokens": 11529,
+          "cache_read_input_tokens": 1251567,
+          "cache_creation_input_tokens": 37959,
+          "cost_usd": 0.5188704,
+          "duration_ms": 157514,
+          "api_ms": 156753,
+          "turns": 26,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "check": {
+          "ok": true,
+          "cmd": "cd \"$OSTOYAE_CHECK_TREE\" && PYTHONPATH=\"$PWD\" /opt/zeta-venv/bin/python - <<'EOF'\n\nimport json, os, subprocess\nr = subprocess.run([\"/opt/zeta-venv/bin/python\", \"hunts/prime_pair_error/tb_bind.py\"], capture_output=True, text=True, timeout=300,\n                   env={**os.environ, \"PYTHONPATH\": os.getcwd(), \"MPLBACKEND\": \"Agg\"})\nassert r.returncode == 0, f\"tb_bind.py exited {r.returncode}: {r.stderr[-800:]}\"\nd = json.load(open(\"hunts/prime_pair_error/results_tb_bind.json\"))\nv = json.dumps(d).lower()\nassert any(w in v for w in (\"binds\", \"vacuous\", \"cannot be evaluated\")), \\\n    \"the JSON never says whether the bound binds, is vacuous, or cannot be evaluated\"\nprint(f\"tb_bind ran, verdict recorded, keys {sorted(d)}\")\n\nEOF",
+          "on": "ost/prime-pair-error/a-0003"
+        },
+        "ahead": "Theorem B's bound cannot be evaluated at results.json's cutoffs, or at any specific N, because the theorem as stated in RESULTS.md Section 18 leaves three quantities unspecified: Theta_chi (sup Re rho' over zeros of L(s, chi_3); unconditionally only known to lie in [1/2, 1], never computed or bounded tighter anywhere in this hunt), the implied constant in the Omega (the proof is a non-constructive contradiction via Landau's oscillation theorem, so it supplies no c or N0), and the unbounded sequence of N the bound is proved along (the proof's own text says 'not an eventual lower bound for all N', and does not exhibit which N belong to it). None of these is fixable by more computation at the existing cutoffs; each is either an open unconditional quantity or absent from the proof by its own admission. If a future attempt wants a numeric comparison, it would have to either (a) assume a specific Theta_chi (e.g. the GRH value 1/2) and thereby evaluate a different, conditional statement, clearly labeled as such, or (b) go back to the proof and make the contradiction argument effective to extract a constant and a witness sequence, which is new mathematical work, not a scripting task.",
+        "found": [
+          "w-tb-conditional"
+        ],
+        "integrated": "ost/prime-pair-error/trunk"
+      },
+      "cell_pid": 6963
+    },
+    {
+      "id": "a-0004",
+      "of": "w-tb-bind",
+      "kind": "verify",
+      "judges": "a-0003",
+      "what": "Judge this handback against the hunt's own standard. A proposal is real only if it names a specific missing thing and says what would clear it. Reject a proposal that restates the task it came from, that proposes work outside hunts/prime_pair_error/, or that claims more certainty than the certainty ladder allows for a measured number. Nothing here may be phrased as bearing on RH.\n\nThe attempt you are judging is a-0003, a prove attempt on w-tb-bind: Theorem B (RESULTS.md section 18) is an unconditional lower bound on E(N) in terms of the zeros of L(s, chi_3). hunts/prime_pair_error/results.json already holds measured E(N) at cutoffs the first pass computed, up to 10^7. Nobody has asked whether Theorem B's bound is anywhere near those measured values or vacuous at every cutoff the hunt actually reached. Answer it. Write hunts/prime_pair_error/tb_bind.py which reads results.json, evaluates Theorem B's bound at each cutoff present there, and writes hunts/prime_pair_error/results_tb_bind.json giving per cutoff the measured E(N), the evaluated bound, and their ratio. The JSON must state a verdict in words containing one of 'binds', 'vacuous', or 'cannot be evaluated'. If the bound cannot be evaluated at these cutoffs, that is the answer: say so and name exactly which quantity is missing and why, and still write the file. A negative or vacuous answer is a result. Do not fit, tune or rescale anything to make the bound look better, and do not weaken Theorem B's statement to make it evaluable. If you cannot proceed, stop and say precisely what is missing. Write only under hunts/prime_pair_error/. Do not touch zeta/, ontology/, harness/, docs/ or tests/. The reserved words are banned under hunts/ including inside a sentence disclaiming them; say measured or observed. Nothing here bears on RH.\n\nIt proposed:\n- w-tb-conditional, a task: RESULTS.md section 18 (hunts/prime_pair_error/RESULTS.md) states Theorem B unconditionally as an Omega bound: 'For every eps > 0, E(N) = Omega(N^{1 + 2 Theta_chi - eps})', with Theta_chi = sup Re rho' over the non-trivial zeros of L(s, chi_3), 1/2 <= Theta_chi <= 1. hunts/prime_pair_error/tb_bind.py established that this bound cannot be numerically evaluated against the measured E(N) in hunts/prime_pair_error/results.json because Theta_chi's exact value is unconditionally open, the proof's Omega carries no explicit constant (it argues by contradiction from Landau's oscillation theorem applied to a Mellin transform with a pole, which shows a bound must hold but does not construct one), and the bound is proved only 'along an unbounded sequence' of N, not for all N, with that sequence never exhibited. This is a distinct, well-defined follow-up: write a script that instead evaluates the conditional statement obtained by assuming Theta_chi = 1/2 (the GRH-for-L(s,chi_3) case, which RESULTS.md itself uses to illustrate the theorem's shape, giving E(N) = Omega(N^{2 - eps})), choosing an explicit small eps (state the choice and why), and comparing that conditional bound's shape (e.g. N^{2-eps} against the measured E(N) at the cutoffs already in hunts/prime_pair_error/results.json, which are N = 1000, 10000, 100000, 1000000, 3000000, 10000000 with corresponding measured E(N) = 4516158.76, 1045773187.25, 223439980640.02, 41630603380266.56, 442341962233821.5, 6351706978653610.0). Since Omega still supplies no constant even under this assumption, the honest output is again likely to be a statement of what can and cannot be compared (e.g. whether the growth rate/exponent is at least consistent with N^{2-eps}, not a binding numeric inequality), so name explicitly, in the written JSON, that this is a conditional (GRH-for-L(s,chi_3)) exploration and not an evaluation of Theorem B itself, and do not claim the unconditional theorem binds or is vacuous based on it. Write only under hunts/prime_pair_error/, do not touch zeta/, ontology/, harness/, docs/ or tests/, and do not use the words verified, confirmed, definitively or proves anywhere in the file, including in a sentence disclaiming them; say measured or observed instead.\n\nThe same is in .ostoyae/verify.json, with each proposal's full text. Hand back .ostoyae/report.json with \"verdicts\": one entry per id above, each { \"id\", \"ok\": true or false, \"why\": one line }. Use disposable scratch files when testing a claim requires them. Change no tracked project file and commit nothing; only the report is kept.",
+      "from": null,
+      "state": "done",
+      "params": {
+        "model": "sonnet",
+        "max_turns": 80,
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0004",
+        "branch": "ost/prime-pair-error/a-0004",
+        "db": "ost_prime_pair_error_0004",
+        "port": 4404,
+        "start_commit": "7ebe7a1105d7adc35ee0b615f7da78316a1f72c3",
+        "end_commit": "7ebe7a1105d7adc35ee0b615f7da78316a1f72c3"
+      },
+      "started": "t+3",
+      "ended": "t+4",
+      "started_at": "2026-09-10T03:35:50.115Z",
+      "ended_at": "2026-09-10T03:37:20.083Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 14,
+          "output_tokens": 7619,
+          "cache_read_input_tokens": 270487,
+          "cache_creation_input_tokens": 25508,
+          "cost_usd": 0.2345464,
+          "duration_ms": 88193,
+          "api_ms": 88609,
+          "turns": 9,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "verdicts": [
+          {
+            "id": "w-tb-conditional",
+            "ok": true,
+            "why": "Names a specific missing thing (Theta_chi unconditionally unknown, no exhibited sequence) verified against RESULTS.md \u00a718 and tb_bind.py, proposes a distinct GRH-conditional shape comparison scoped to hunts/prime_pair_error/, quotes results.json's E(N) values exactly, and explicitly forbids claiming the unconditional theorem binds or is vacuous from it."
+          }
+        ],
+        "integrated": "ost/prime-pair-error/trunk"
+      },
+      "cell_pid": 12828
+    },
+    {
+      "id": "a-0005",
+      "of": "w-delta-sq",
+      "kind": "map",
+      "what": "Read hunts/prime_pair_error/RESULTS.md, UPPER_BOUND.md and its 'The doors' section, then propose the next concrete piece of work on THIS hunt. A proposal must name a specific missing thing and say what would clear it. Prefer a measurement or a sensitivity instrument over an attempt to prove a hard analytic statement outright. Do not propose anything outside hunts/prime_pair_error/, do not propose rewriting what is already there, and do not propose work whose only content is restating a door.\n\nThe work item you are mapping is w-delta-sq: The doors section of hunts/prime_pair_error/RESULTS.md ranks the mixed moment at q = 1 (the term 32 U_1 in UPPER_BOUND.md (23)) as the constraint that binds hardest, and names exactly what would close it: UPPER_BOUND.md (31), sum_{t <= N} Delta(t)^2 << N^{2+eps}, where Delta(t) = psi(t) - t. Nothing measures that sum. This is the flywheel CLAUDE.md describes: the follow-up goes through the top-ranked door. Measure it. Write hunts/prime_pair_error/delta_sq_probe.py which computes S(N) = sum_{t <= N} Delta(t)^2 at a ladder of at least five cutoffs, using the repo's own psi from zeta.explicit rather than a re-derivation and cross-checking it as jn_probe.py does, and writes hunts/prime_pair_error/results_delta_sq.json with rows under a key 'rows' giving N, S(N), and S(N)/N^2, plus a least-squares growth exponent under a key whose name contains 'exponent'. Run in under 60 seconds; choose the ladder to fit and say what it is. State in the JSON what a finite ladder does and does not bound. Note in the JSON, in one line, how the observed exponent sits against the 2+eps that (31) would need, WITHOUT claiming the finite ladder settles it either way: an exponent measured over one range is not an asymptotic rate. Write only under hunts/prime_pair_error/. Do not touch zeta/, ontology/, harness/, docs/ or tests/. The reserved words are banned under hunts/ including inside a sentence disclaiming them; say measured or observed. Nothing here bears on RH.",
+      "from": null,
+      "state": "failed",
+      "params": {
+        "model": "sonnet",
+        "max_turns": 80,
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0005",
+        "branch": "ost/prime-pair-error/a-0005",
+        "db": "ost_prime_pair_error_0005",
+        "port": 4405,
+        "start_commit": "7ebe7a1105d7adc35ee0b615f7da78316a1f72c3",
+        "end_commit": "7ebe7a1105d7adc35ee0b615f7da78316a1f72c3"
+      },
+      "started": "t+0",
+      "ended": "t+1",
+      "started_at": "2026-09-10T03:46:44.159Z",
+      "ended_at": "2026-09-10T03:50:50.814Z",
+      "result": {
+        "why": "exit 1",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 42,
+          "output_tokens": 17848,
+          "cache_read_input_tokens": 1892513,
+          "cache_creation_input_tokens": 83482,
+          "cost_usd": 0.8925106,
+          "duration_ms": 245354,
+          "api_ms": 209759,
+          "turns": 24,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "output": [
+          "uses Write: /home/user/ost-worktrees/prime-pair-error/a-0005/.ostoyae/report.json",
+          "uses Bash: /opt/zeta-venv/bin/python -m pytest tests/test_prime_pair_residue.py -q -m \"not slow\" 2>&1 | tail -15",
+          "says: Work is complete: `hunts/prime_pair_error/delta_sq_probe.py` measures S(N) = \u03a3 Delta(t)\u00b2 at six cutoffs (2\u00d710\u2075 to 8\u00d710\u2076, ~13s runtime), cross-checks psi against the repo's scalar reference, and writes `results_delta_sq.json`. The observed growth exponent is 2.024, close to but not distinguishable from the 2+eps that UPPER_BOUND.md (31) needs \u2014 the JSON is explicit that a six-point finite ladder ca",
+          "Work is complete: `hunts/prime_pair_error/delta_sq_probe.py` measures S(N) = \u03a3 Delta(t)\u00b2 at six cutoffs (2\u00d710\u2075 to 8\u00d710\u2076, ~13s runtime), cross-checks psi against the repo's scalar reference, and writes `results_delta_sq.json`. The observed growth exponent is 2.024, close to but not distinguishable from the 2+eps that UPPER_BOUND.md (31) needs \u2014 the JSON is explicit that a six-point finite ladder can't settle that either way. Relevant guard tests (`test_hunt_probe_discipline.py`, `test_prime_pair_residue.py`) pass, and no reserved words were introduced. `.ostoyae/report.json` records a follow-up work item comparing this measurement against UPPER_BOUND.md's proved (but unnamed-constant) Siegel-Walfisz bound on the same sum.",
+          "usage: out=17848 in=42 cache_read=1892513 cache_create=83482 cost=$0.89 turns=24 api=209s",
+          "[cell a-0005] map attempt handed back no map"
+        ],
+        "ahead": "hunts/prime_pair_error/delta_sq_probe.py measured S(N) = sum_{t<=N} Delta(t)^2 (Delta(t) = psi(t) - t) at six cutoffs from 2e5 to 8e6, written to hunts/prime_pair_error/results_delta_sq.json. S(N)/N^2 sits between 0.0211 and 0.0268 across the ladder with no clear trend up or down, and the observed log-log growth exponent over the six points is 2.024, close to but not distinguishable from the exponent 2 that UPPER_BOUND.md (31) needs. This is a finite-ladder measurement only: it cannot tell whether S(N) is O(N^{2+eps}), Theta(N^2), or grows faster past 8e6, and it says nothing about the RH-conditional route UPPER_BOUND.md Section 7 exhibits as the only known way to prove (31). The next piece of work this opens up is comparing this measured exponent against the unconditional bound UPPER_BOUND.md Section 7 already derives from Siegel-Walfisz alone (T_N << _H N^3 L^{-2H}, i.e. S(N) << _H N^3 (log N)^{-2H} for every fixed H, which is far above N^{2+eps} and far above what is actually measured here) -- a sensitivity instrument that evaluates that explicit unconditional bound at the same cutoffs and reports the ratio to the measured S(N), the same kind of gap-to-measurement check tb_bind.py already ran for Theorem B.",
+        "found": [
+          "w-delta-sq-vs-sw-bound",
+          "e-0001"
+        ],
+        "notes": [
+          "handed back no map"
+        ]
+      },
+      "cell_pid": 14857
+    },
+    {
+      "id": "a-0006",
+      "of": "w-delta-sq",
+      "kind": "verify",
+      "judges": "a-0005",
+      "what": "Judge this handback against the hunt's own standard. A proposal is real only if it names a specific missing thing and says what would clear it. Reject a proposal that restates the task it came from, that proposes work outside hunts/prime_pair_error/, or that claims more certainty than the certainty ladder allows for a measured number. Nothing here may be phrased as bearing on RH.\n\nThe attempt you are judging is a-0005, a map attempt on w-delta-sq: The doors section of hunts/prime_pair_error/RESULTS.md ranks the mixed moment at q = 1 (the term 32 U_1 in UPPER_BOUND.md (23)) as the constraint that binds hardest, and names exactly what would close it: UPPER_BOUND.md (31), sum_{t <= N} Delta(t)^2 << N^{2+eps}, where Delta(t) = psi(t) - t. Nothing measures that sum. This is the flywheel CLAUDE.md describes: the follow-up goes through the top-ranked door. Measure it. Write hunts/prime_pair_error/delta_sq_probe.py which computes S(N) = sum_{t <= N} Delta(t)^2 at a ladder of at least five cutoffs, using the repo's own psi from zeta.explicit rather than a re-derivation and cross-checking it as jn_probe.py does, and writes hunts/prime_pair_error/results_delta_sq.json with rows under a key 'rows' giving N, S(N), and S(N)/N^2, plus a least-squares growth exponent under a key whose name contains 'exponent'. Run in under 60 seconds; choose the ladder to fit and say what it is. State in the JSON what a finite ladder does and does not bound. Note in the JSON, in one line, how the observed exponent sits against the 2+eps that (31) would need, WITHOUT claiming the finite ladder settles it either way: an exponent measured over one range is not an asymptotic rate. Write only under hunts/prime_pair_error/. Do not touch zeta/, ontology/, harness/, docs/ or tests/. The reserved words are banned under hunts/ including inside a sentence disclaiming them; say measured or observed. Nothing here bears on RH.\n\nIt proposed:\n- w-delta-sq-vs-sw-bound, a task: UPPER_BOUND.md Section 7 (equations (29) and the paragraph right after (31)) proves, unconditionally from Siegel-Walfisz alone, that for every fixed H, T_N = sum_{t=1}^{N} Delta(t)^2 + sum_{t=1}^{N-1} [Delta(N)-Delta(t)]^2 = O_H(N^3 L^{-2H}) with L = log N, where Delta(t) = psi(t) - t is Chebyshev's remainder. That is a proved unconditional bound on almost the same sum that hunts/prime_pair_error/delta_sq_probe.py already measures the leading half of (S(N) = sum_{t<=N} Delta(t)^2, written to hunts/prime_pair_error/results_delta_sq.json, at cutoffs 200000, 500000, 1000000, 2000000, 4000000, 8000000). Nothing in this hunt evaluates the Siegel-Walfisz bound itself at those cutoffs or compares it to the measured S(N). Write hunts/prime_pair_error/delta_sq_sw_bind.py which: (1) reads hunts/prime_pair_error/results_delta_sq.json for the measured S(N) at each of its ladder cutoffs; (2) evaluates the O_H(N^3 L^{-2H}) bound at each of those same cutoffs for a small explicit set of fixed H values (for example H = 1, 2, 4, 8), being explicit in the JSON that O_H hides an implied constant that UPPER_BOUND.md's proof does not name, so any evaluation must either state an assumed implied constant of 1 as a stated convention (clearly labeled as a convention, not a derived value) or report that the bound cannot be evaluated to an absolute number for that reason -- do not invent or fit a constant to make the comparison look meaningful; (3) writes hunts/prime_pair_error/results_delta_sq_sw_bind.json with, per cutoff and per H, the measured S(N), the evaluated bound (or a stated reason it cannot be evaluated), and their ratio where computable; (4) states a verdict in words containing one of 'binds', 'vacuous', or 'cannot be evaluated', following the same pattern as hunts/prime_pair_error/tb_bind.py. Do not fit, tune, or rescale anything to make the bound look better, and do not weaken the Siegel-Walfisz-derived statement to make it evaluable. Write only under hunts/prime_pair_error/. Do not touch zeta/, ontology/, harness/, docs/ or tests/. The reserved words are banned under hunts/ including inside a sentence disclaiming them; say measured or observed. Nothing here bears on RH.\n- e-0001, an edge: w-delta-sq blocks w-delta-sq-vs-sw-bound, because: the follow-up needs the measured S(N) ladder in hunts/prime_pair_error/results_delta_sq.json, which w-delta-sq produces, before it can compute a ratio against the unconditional bound at the same cutoffs\n\nThe same is in .ostoyae/verify.json, with each proposal's full text. Hand back .ostoyae/report.json with \"verdicts\": one entry per id above, each { \"id\", \"ok\": true or false, \"why\": one line }. Use disposable scratch files when testing a claim requires them. Change no tracked project file and commit nothing; only the report is kept.",
+      "from": null,
+      "state": "done",
+      "params": {
+        "model": "sonnet",
+        "max_turns": 80,
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0006",
+        "branch": "ost/prime-pair-error/a-0006",
+        "db": "ost_prime_pair_error_0006",
+        "port": 4406,
+        "start_commit": "7ebe7a1105d7adc35ee0b615f7da78316a1f72c3",
+        "end_commit": "7ebe7a1105d7adc35ee0b615f7da78316a1f72c3"
+      },
+      "started": "t+1",
+      "ended": "t+2",
+      "started_at": "2026-09-10T03:50:50.816Z",
+      "ended_at": "2026-09-10T03:52:33.688Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 14,
+          "output_tokens": 9023,
+          "cache_read_input_tokens": 273431,
+          "cache_creation_input_tokens": 27340,
+          "cost_usd": 0.2567262,
+          "duration_ms": 101412,
+          "api_ms": 102293,
+          "turns": 9,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "verdicts": [
+          {
+            "id": "w-delta-sq-vs-sw-bound",
+            "ok": false,
+            "why": "Its 'what' asserts in the present tense that hunts/prime_pair_error/delta_sq_probe.py 'already measures' S(N) and that results were 'written to hunts/prime_pair_error/results_delta_sq.json, at cutoffs 200000, 500000, 1000000, 2000000, 4000000, 8000000' -- neither file exists anywhere in this worktree, and verify.json itself records w-delta-sq's state as 'failed', so no measurement at those or any cutoffs was ever produced; the proposal fabricates a completed result to justify itself."
+          },
+          {
+            "id": "e-0001",
+            "ok": false,
+            "why": "The edge's dependency logic (w-delta-sq must land before the follow-up can read its ladder) is sound in the abstract, but it exists only to support w-delta-sq-vs-sw-bound, whose own text falsely claims that ladder already exists with specific fabricated cutoffs; an edge into a work item built on an invented premise carries no valid target to accept."
+          }
+        ],
+        "integrated": "ost/prime-pair-error/trunk"
+      },
+      "cell_pid": 15530
+    },
+    {
+      "id": "a-0007",
+      "of": "w-rank3-scope",
+      "kind": "map",
+      "what": "Read hunts/prime_pair_error/RESULTS.md, UPPER_BOUND.md and its 'The doors' section, then propose the next concrete piece of work on THIS hunt. A proposal must name a specific missing thing and say what would clear it. Prefer a measurement or a sensitivity instrument over an attempt to prove a hard analytic statement outright. Do not propose anything outside hunts/prime_pair_error/, do not propose rewriting what is already there, and do not propose work whose only content is restating a door.\n\nThe work item you are mapping is w-rank3-scope: The doors section ranks third 'the remaining mixed and fourth moments at 2 <= q <= R_0', with the entry 'not attempted; cost unknown' and no closing route named. A door with an unknown price cannot be ranked against the two above it, so the ranking is incomplete exactly where it matters. Price it. Write hunts/prime_pair_error/RANK3_SCOPE.md which, from UPPER_BOUND.md and RESULTS.md only, states: what those terms are precisely and where they enter (23); why the argument as written has no adequate estimate for them; what the plausible routes are and what each would cost in effort and in what it would have to assume; and whether closing them alone could move the reached bound, given that ranks 1 and 2 also bind. This is a scoping document, not a proof attempt: do not attempt to prove the estimates. If the honest answer to any part is that the sources do not determine it, say so and say what would. Write only under hunts/prime_pair_error/. Do not touch zeta/, ontology/, harness/, docs/ or tests/. The reserved words are banned under hunts/ including inside a sentence disclaiming them; say measured or observed. Nothing here bears on RH.",
+      "from": null,
+      "state": "failed",
+      "params": {
+        "model": "sonnet",
+        "max_turns": 60,
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0007",
+        "branch": "ost/prime-pair-error/a-0007",
+        "db": "ost_prime_pair_error_0007",
+        "port": 4407,
+        "start_commit": "7ebe7a1105d7adc35ee0b615f7da78316a1f72c3",
+        "end_commit": "7ebe7a1105d7adc35ee0b615f7da78316a1f72c3"
+      },
+      "started": "t+1",
+      "ended": "t+3",
+      "started_at": "2026-09-10T03:50:51.239Z",
+      "ended_at": "2026-09-10T03:57:54.476Z",
+      "result": {
+        "why": "exit 1",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 40,
+          "output_tokens": 38709,
+          "cache_read_input_tokens": 1885720,
+          "cache_creation_input_tokens": 100611,
+          "cost_usd": 1.1681469999999998,
+          "duration_ms": 422092,
+          "api_ms": 415568,
+          "turns": 21,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "output": [
+          "- **Why nothing covers them**: I checked the three tools used elsewhere in the document against their own displayed formulas \u2014 the large-sieve and Vaughan-based tail bounds (used for q > R_0) reduce to the trivial O(N\u00b3) order when run down to small q, and the Siegel-Walfisz argument that powers the completed theorem only reaches denominators up to a fixed power of log N, not the polynomial-in-N range up to R_0.",
+          "- **Three candidate routes**, priced: extending the tail bounds down (foreclosed by their own order, not just uncosted), splicing in Siegel-Walfisz for the polylog sub-range (unverified, and only partial coverage), and an RH-strength generalization of rank 1's own route (heavier uniformity demand than rank 1 needs).",
+          "- **Whether closing it alone helps**: no \u2014 by the additive structure of (23), ranks 1 and 2 already exceed the N^{2+\u03b5} target by a power of N, so rank 3 alone can't move Section 6's attempted bound; and rank 3 has no bearing at all on the bound actually proved (1), which comes from a different argument that never forms these quantities.",
+          "I also wrote `.ostoyae/report.json` with no wall (the work completed), notes in `ahead`, and two proposed follow-on work items (checking the Siegel-Walfisz splice, and investigating the uncovered polynomial-range gap) with edges back to this scoping task.",
+          "usage: out=38709 in=40 cache_read=1885720 cache_create=100611 cost=$1.17 turns=21 api=415s",
+          "[cell a-0007] map attempt handed back no map"
+        ],
+        "ahead": "hunts/prime_pair_error/RANK3_SCOPE.md prices rank 3 of the doors table (the mixed moment U_{2<=q<=R_0} and fourth moment Z_{1<=q<=R_0} of UPPER_BOUND.md Section 6). Three findings for whoever picks this up next: (1) the large-sieve/Vaughan tail bounds used for q > R_0 are, by their own displayed order, no better than the trivial bound when run down to small q -- that route is foreclosed, not just unpriced. (2) The Siegel-Walfisz major-arc argument that proves the completed theorem (1) only reaches q up to a fixed power of log N; splicing it onto Section 6's U_Q/Z_Q bookkeeping for that polylog range is algebraically plausible (same expansion (18) underlies both) but was not checked here, and even if it works it leaves a polynomial-in-N range of denominators, L^B < q <= R_0, completely uncovered by any tool named in either source document. (3) The one route visible for rank 3 by analogy to rank 1's own RH-based closure of U_1 would need square-root-cancellation-strength control of psi(t; q, b) uniformly up to a modulus polynomial in N -- a materially heavier uniformity demand than rank 1's own hypothesis. Separately: because (23) is additive, closing rank 3 alone cannot move the bound Section 6's attempt reaches, since ranks 1 and 2 each independently exceed the N^{2+eps} target by a power of N right now; and rank 3 has no bearing at all on the bound actually proved, (1), which comes from a different argument (Section 5) that never forms U_Q or Z_Q.",
+        "found": [
+          "w-rank3-routeB-check",
+          "w-rank3-polyrange",
+          "e-0002",
+          "e-0003"
+        ],
+        "notes": [
+          "handed back no map"
+        ]
+      },
+      "cell_pid": 15544
+    },
+    {
+      "id": "a-0008",
+      "of": "w-rank3-scope",
+      "kind": "verify",
+      "judges": "a-0007",
+      "what": "Judge this handback against the hunt's own standard. A proposal is real only if it names a specific missing thing and says what would clear it. Reject a proposal that restates the task it came from, that proposes work outside hunts/prime_pair_error/, or that claims more certainty than the certainty ladder allows for a measured number. Nothing here may be phrased as bearing on RH.\n\nThe attempt you are judging is a-0007, a map attempt on w-rank3-scope: The doors section ranks third 'the remaining mixed and fourth moments at 2 <= q <= R_0', with the entry 'not attempted; cost unknown' and no closing route named. A door with an unknown price cannot be ranked against the two above it, so the ranking is incomplete exactly where it matters. Price it. Write hunts/prime_pair_error/RANK3_SCOPE.md which, from UPPER_BOUND.md and RESULTS.md only, states: what those terms are precisely and where they enter (23); why the argument as written has no adequate estimate for them; what the plausible routes are and what each would cost in effort and in what it would have to assume; and whether closing them alone could move the reached bound, given that ranks 1 and 2 also bind. This is a scoping document, not a proof attempt: do not attempt to prove the estimates. If the honest answer to any part is that the sources do not determine it, say so and say what would. Write only under hunts/prime_pair_error/. Do not touch zeta/, ontology/, harness/, docs/ or tests/. The reserved words are banned under hunts/ including inside a sentence disclaiming them; say measured or observed. Nothing here bears on RH.\n\nIt proposed:\n- w-rank3-routeB-check, a task: In hunts/prime_pair_error/, check whether the Siegel-Walfisz major-arc argument of UPPER_BOUND.md Section 5 (equations (17)-(19), proved uniformly for denominators q <= floor(L^B) for any fixed B, where L = log N) can be spliced onto Section 6's mixed moment U_Q and fourth moment Z_Q (defined just before equation (23): U_Q = sum_{q,a} integral_{I_{q,a}} |P_{q,a}|^2 |R_{q,a}|^2, Z_Q = sum_{q,a} integral_{I_{q,a}} |R_{q,a}|^4, with P_{q,a} the major-arc model and R_{q,a} = F_N - P_{q,a}) so as to bound U_{2<=q<=L^B} and Z_{2<=q<=L^B} separately, rather than only their combined quantity M_Q as (19) does. Equation (18), (|F_N|^2-|P_{q,a}|^2)^2 <= 8|P_{q,a}|^2|R_{q,a}|^2 + 2|R_{q,a}|^4, together with the uniform Siegel-Walfisz error rho = O_{B,H}(N L^{-H}) from (17), is the natural bridge; work out whether it actually yields separate bounds of the same strength as (19) for U and Z individually on this range, or whether something is lost in separating them. Write the result, positive or negative, as a document under hunts/prime_pair_error/. This is a derivation check on a polylog-sized range of denominators, not a claim about RH, and does not by itself close rank 3 of the doors table (see hunts/prime_pair_error/RANK3_SCOPE.md Section 3, Route B, for why: even if this succeeds it only covers q up to a fixed power of log N, not the full range up to R_0 = floor(sqrt(N)/3)/log N). Do not touch zeta/, ontology/, harness/, docs/ or tests/. The reserved word 'certified' is banned under hunts/, including inside a sentence disclaiming it.\n- w-rank3-polyrange, a task: hunts/prime_pair_error/RANK3_SCOPE.md (Section 2) shows that for UPPER_BOUND.md's Section 6 construction (Q = floor(sqrt(N)/3), R_0 = Q/log N), no tool named in UPPER_BOUND.md or RESULTS.md estimates the mixed moment U_q or fourth moment Z_q (defined just before UPPER_BOUND.md's equation (23)) for denominators q in the polynomial-in-N range floor(L^B) < q <= R_0 for any fixed B, where L = log N: the large-sieve bound (25)-(26) and Vaughan's estimate (28), both used for q > R_0, are shown in RANK3_SCOPE.md Section 2 to give only the trivial order-N^3 bound when evaluated at small q, and the Siegel-Walfisz argument (17) that reaches small q is only proved for q up to a fixed power of log N. Investigate whether any other unconditional estimate -- a different large-sieve weighting, a different splitting of the arcs by denominator, or some other tool -- could bound U_q, Z_q summed or maxed over this specific polynomial range. This is expected to be hard, and a negative or inconclusive finding (naming precisely what tool or estimate would be needed and is missing) is a valid result; do not weaken the definitions of U_q, Z_q or of R_0 to make the range easier. Write only under hunts/prime_pair_error/. Do not touch zeta/, ontology/, harness/, docs/ or tests/. The reserved word 'certified' is banned under hunts/, including inside a sentence disclaiming it.\n- e-0002, an edge: w-rank3-scope blocks w-rank3-routeB-check, because: Route B (the Siegel-Walfisz splice) is only named as a candidate once rank 3 is scoped; checking it presupposes hunts/prime_pair_error/RANK3_SCOPE.md's Section 3 framing of what it would and would not cover\n- e-0003, an edge: w-rank3-scope blocks w-rank3-polyrange, because: the polynomial-in-N gap between the Siegel-Walfisz range and the large-sieve/Vaughan range was only identified by this scoping pass, in RANK3_SCOPE.md Section 2\n\nThe same is in .ostoyae/verify.json, with each proposal's full text. Hand back .ostoyae/report.json with \"verdicts\": one entry per id above, each { \"id\", \"ok\": true or false, \"why\": one line }. Use disposable scratch files when testing a claim requires them. Change no tracked project file and commit nothing; only the report is kept.",
+      "from": null,
+      "state": "done",
+      "params": {
+        "model": "sonnet",
+        "max_turns": 60,
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0008",
+        "branch": "ost/prime-pair-error/a-0008",
+        "db": "ost_prime_pair_error_0008",
+        "port": 4408,
+        "start_commit": "7ebe7a1105d7adc35ee0b615f7da78316a1f72c3",
+        "end_commit": "7ebe7a1105d7adc35ee0b615f7da78316a1f72c3"
+      },
+      "started": "t+3",
+      "ended": "t+4",
+      "started_at": "2026-09-10T03:57:54.478Z",
+      "ended_at": "2026-09-10T04:00:28.222Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 36,
+          "output_tokens": 11892,
+          "cache_read_input_tokens": 827213,
+          "cache_creation_input_tokens": 42846,
+          "cost_usd": 0.45842560000000004,
+          "duration_ms": 152735,
+          "api_ms": 152731,
+          "turns": 18,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "verdicts": [
+          {
+            "id": "w-rank3-routeB-check",
+            "ok": true,
+            "why": "Equations (17)-(19), the U_Q/Z_Q definitions before (23), and the 'combined, not individual' remark it quotes all match UPPER_BOUND.md Sec.5-6 verbatim (lines 315-348, 408-411), it is framed as an open check (not asserted to succeed), it correctly scopes itself to q<=floor(L^B) only, and it stays under hunts/prime_pair_error/ with no RH claim."
+          },
+          {
+            "id": "w-rank3-polyrange",
+            "ok": true,
+            "why": "The Q=floor(sqrt(N)/3), R_0=Q/L setup and the claim that (25)-(26)/( 28) only cover q>R_0 while (17) only covers q<=floor(L^B) match UPPER_BOUND.md Sec.6 and RESULTS.md's doors table (line 947, 969, 997-999) verbatim, which explicitly says rank 3's information class is unresolved; the task correctly targets that exact stated gap, allows a negative/inconclusive result, and stays in-scope."
+          },
+          {
+            "id": "e-0002",
+            "ok": true,
+            "why": "w-rank3-routeB-check's own text invokes 'RANK3_SCOPE.md Section 3, Route B' to justify why success would still not close rank 3, so it genuinely presupposes that document's framing; the precedence edge is real, not fabricated."
+          },
+          {
+            "id": "e-0003",
+            "ok": true,
+            "why": "w-rank3-polyrange opens by citing 'RANK3_SCOPE.md (Section 2)' as the source of the polynomial-range gap it investigates, a gap RESULTS.md's doors table (line 997-999) independently confirms was previously unstated, so the dependency on the scoping pass is real."
+          }
+        ],
+        "integrated": "ost/prime-pair-error/trunk"
+      },
+      "cell_pid": 16423
+    }
+  ],
+  "last_run": {
+    "ended": "2026-09-10T04:00:28.228Z",
+    "launched": 2,
+    "invocations": 8,
+    "invocation_allowance": 16,
+    "stopped_by": null,
+    "drained": "awaiting-decision",
+    "why": "0 item(s) parked and 7 proposal(s) unanswered",
+    "next": "confirm or reject them (--confirm w-tb-conditional), or re-run with --auto-advance and a cap to let the judge decide within scope"
+  }
+}
