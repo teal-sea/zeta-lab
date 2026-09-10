@@ -4289,7 +4289,7 @@
       "kind": "prove",
       "what": "In hunts/prime_pair_error/RANK3_ROUTE_D.md's exact identity (D7), Sigma_cross(q) = sum_{b != b' mod q}^* c_q(b-b') X(b,b') (b,b' ranging over reduced residues mod q, c_q the Ramanujan sum, X(b,b') = <K_N D_b, K_N D_b'>_{L^2(T)} the Gram-matrix cross term defined in that document's (D6)). hunts/prime_pair_error/RANK3_CROSS_TERM_CANCELLATION.md proves, for q PRIME, the exact identity Sigma_cross(q) = Sigma_diag(q)/(q-1) - E(q), where Sigma_diag(q) = phi(q) sum_{b mod q}^* T(q,b) (T(q,b) = X(b,b), that document's (D5)), and E(q) = sum_{t=1}^N Delta_eps(t;q)^2 + sum_{t=1}^{N-1} [Delta_eps(N;q) - Delta_eps(t;q)]^2 with Delta_eps(t;q) = psi_cop(t;q) - t, psi_cop(t;q) = sum_{n<=t, gcd(n,q)=1} Lambda(n) (Lambda the von Mangoldt function). The proof goes via the classical Dirichlet-character orthogonality relation 1_{n = b mod q} = (1/phi(q)) sum_{chi mod q} chibar(b) chi(n) for (n,q)=1, applied to decompose D_b(beta) = S_b(beta) - K_N(beta)/phi(q) (S_b(beta) = sum_{n<=N, n=b mod q} Lambda(n) e(n beta), K_N(beta) = sum_{n=1}^N e(n beta)) into a principal-character piece and a sum over nonprincipal characters, then summing over the reduced residues a mod q using c_q(a) = mu(q) (valid for every q) and the classical Gauss-sum twist tau_a(chibar) := sum_{b mod q}^* chibar(b) e(ab/q) = chi(a) tau(chibar) with |tau(chibar)|^2 = q -- an identity that holds ONLY when chi is a PRIMITIVE character mod q. For q PRIME every nonprincipal character mod q is automatically primitive (the only proper divisor of q is 1), which is exactly what makes the proof go through. The task: extend this to composite SQUAREFREE q (q with >= 2 distinct prime factors, still mu(q)^2 != 0), where some nonprincipal characters mod q are IMPRIMITIVE (induced by a character mod a proper divisor q* | q, q* < q -- e.g. for q=6, phi(6)=2, the single nonprincipal character mod 6 is induced by the Legendre symbol mod 3, and there is no primitive nonprincipal character mod 6 at all). For imprimitive chi, the twist sum tau_a(chibar) = sum_{b mod q}^* chibar(b) e(ab/q) does NOT equal chi(a) tau(chibar) in general, and |tau(chibar)| != sqrt(q) in general; the classical reduction expresses an imprimitive character's Gauss-type sum in terms of the PRIMITIVE character chi* mod q* that induces it, via a formula involving mu(q/q*) (see e.g. Apostol, Introduction to Analytic Number Theory, or Montgomery-Vaughan, Multiplicative Number Theory I, the sections on imprimitive characters and induced moduli -- this repository's own worktree may or may not have these sources locally; RANK3_POLYRANGE_TINT_CHECK.md in this same hunt already recorded that WebSearch/WebFetch were denied in its worktree, so check for local access before assuming a live literature search is available). Compute G(chi,chi') := sum_{a mod q}^* tau_a(chibar) * conj(tau_a(chibar')) for EVERY pair of nonprincipal characters chi, chi' mod q (not just primitive ones), using this induced-character reduction, and determine whether G(chi,chi') is small off the diagonal (chi != chi') the way it is exactly zero for prime q, or genuinely large. If it can be shown small (even with worse constants than the prime case), redo the derivation in hunts/prime_pair_error/RANK3_CROSS_TERM_CANCELLATION.md Section 3 for composite squarefree q using this G(chi,chi') to get an analogous bound on Sigma_diag(q) + Sigma_cross(q) (ideally still O(q) * sum_b^* T(q,b), or state precisely what weight is reachable and why it differs from the prime case). Verify any resulting exact identity numerically to floating-point precision (not just approximately) against the existing ground-truth machinery in hunts/prime_pair_error/rank3_cross_term_probe.py (import and reuse its reduced_residues, delta_table, T_and_X, ramanujan_sum_direct functions -- do not reimplement Sigma_diag/Sigma_cross/T(q,b) from scratch) at q in {6, 10, 14, 15, 21} (squarefree composites already in or near this hunt's existing moduli ladders) and N up to at least 10^6, the same way hunts/prime_pair_error/rank3_cross_term_cancellation_probe.py already does for prime q. If no clean extension is found after genuinely attempting the induced-character reduction, state precisely and specifically what breaks (not just 'it's hard') and what would be needed instead -- that is itself a valid, useful outcome for this task, as several sibling documents in this hunt (e.g. RANK3_POLYRANGE_TINT_CHECK.md Section 2, RANK3_ROUTE_D.md Section 7) already do for other sub-problems. Write results only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word 'certified' is banned anywhere under hunts/, including inside a sentence disclaiming it.",
       "from": null,
-      "state": "running",
+      "state": "failed",
       "params": {
         "attempt": 1
       },
@@ -4298,13 +4298,43 @@
         "branch": "ost/prime-pair-error/a-0066",
         "db": "ost_prime_pair_error_0066",
         "port": 4466,
-        "start_commit": "197b063b4d70cf55406005289f908ab21c863c19"
+        "start_commit": "197b063b4d70cf55406005289f908ab21c863c19",
+        "end_commit": "ade8335d62b137a0e21e3c2b613b528228695fd9"
       },
       "started": "t+0",
-      "ended": null,
+      "ended": "t+3",
       "started_at": "2026-09-10T21:54:19.339Z",
-      "ended_at": null,
-      "result": null,
+      "ended_at": "2026-09-10T22:02:34.013Z",
+      "result": {
+        "why": "exit 1",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 28,
+          "output_tokens": 48347,
+          "cache_read_input_tokens": 1154229,
+          "cache_creation_input_tokens": 89384,
+          "cost_usd": 1.0744708,
+          "duration_ms": 491477,
+          "api_ms": 476253,
+          "turns": 17,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "output": [
+          "says: You've hit your session limit · resets 1:20am (UTC)",
+          "You've hit your session limit · resets 1:20am (UTC)",
+          "[cell] agent reported an error",
+          "usage: out=48347 in=28 cache_read=1154229 cache_create=89384 cost=$1.07 turns=17 api=476s",
+          "[cell a-0066] agent exited non-zero",
+          "[cell a-0066] committed ade8335"
+        ],
+        "limited": true,
+        "ahead": "In progress: deriving G(chi,chi') for composite squarefree q via induced-character reduction (Gauss sum tau(chi) = chi*(q/q*) mu(q/q*) tau(chi*), so |tau(chi)|^2 = conductor(chi) for squarefree q). Preliminary hand derivation suggests G(chi,chi') is exactly diagonal for every squarefree q (not just prime), with G(chi,chi)=phi(q)*conductor(chi), because the twist identity tau_a(chibar)=chi(a)tau(chibar) for (a,q)=1 only needs (a,q)=1 (elementary bijection on the reduced residue system), not primitivity of chi -- primitivity is only needed to get |tau(chibar)|^2=q specifically. This would extend (CC2) (the ceiling Sigma_diag+Sigma_cross <= q*sum_b T(q,b)) to every squarefree q, prime or composite. Verifying numerically now before writing this up; not yet confirmed.",
+        "notes": [
+          "answer is null, not true or false: not recorded",
+          "map handed back by a prove attempt, ignored"
+        ]
+      },
       "cell_pid": 21523
     },
     {
@@ -4313,7 +4343,7 @@
       "kind": "prove",
       "what": "In hunts/prime_pair_error/ENDPOINT_BOUND.md, Section 2 approximates the Siegel-model sieve weight nu(n) = b_Z * 1_{(n,P(Z))=1} (P(Z) = product of primes p < Z, b_Z = P(Z)/phi(P(Z))) by a bounded-order Mobius truncation B_m(n) = sum_{d | P(Z), d | n, omega(d) <= m} mu(d), with the fixed cutoff m = 2*ceil(sqrt(log N)) and D_0 = Z^m, in order to control the minor-arc supremum of the model exponential sum H(alpha) = sum_{n<=N} a(n) e(n alpha) via Section 4's Type I / character estimates. This device requires D_0 = Z^m to stay N^{o(1)} (so the term N^2 * D_0 * sqrt(Z) in the final budget, equation (18), stays below N^3), while simultaneously needing m large enough relative to H_Z = 1 + log Z (specifically m/H_Z > e in the limit) for the truncation error N * H_Z^{m+1}/(m+1)! to actually decay. hunts/prime_pair_error/ENDPOINT_HALF.md (already on this branch) shows algebraically and numerically (see its artifacts/endpoint_half/check.py) that when Z = exp((log N)^kappa) for kappa >= 1/2, these two requirements become mutually exclusive: any m satisfying the decay requirement forces D_0 >= N^{e+o(1)} with e = 2.71828..., which alone makes N^2 * D_0 * sqrt(Z) exceed N^3. The task: find a way to control the minor-arc supremum of H(alpha) -- equivalently, to prove a bound of the shape of Tao-Teravainen (arXiv:2107.02158v4) Proposition 2.2 equation (2.5), sum_{n in B}(Lambda(n) - Lambda_Siegel(n)) << N exp(-gamma (log N)^{1/2-epsilon}) for arithmetic progressions B, with the larger Siegel-model parameter Q = exp((log N)^{1/2}) -- WITHOUT routing through a bounded-order/Bonferroni Mobius truncation of nu(n) at a fixed cutoff m the way ENDPOINT_BOUND.md Section 2 does. Two live options: (a) adapt Tao-Teravainen's own actual proof of Proposition 2.2 (not their Remark 2.8's unverified sketch) at the larger Q, which per Remark 2.8 requires retuning their Proposition 5.2's exponents 3/5 and 4/5 to 1/2 -- the paper explicitly does not carry this out ('we leave the details of this strengthening to the interested reader'), so this is genuinely open; (b) find a different minor-arc device entirely (e.g. a direct application of TT Lemma 5.1, the fundamental lemma of the sieve, to bound sup_alpha |H(alpha)| on minor arcs the same way hunts/prime_pair_error/SIEGEL_UNIFORMITY.md Section 3 already does for the diagonal/pair-correlation sum B_r(t,h), rather than first replacing nu by a bounded-order truncation B_m and then applying character-sum estimates to B_m). If either succeeds even for exponent kappa strictly between 1/2 and 1/10 (not necessarily reaching sharp 1/2), that already beats the kappa<1/2 family this attempt reached, and should replace ENDPOINT_BOUND.md Section 2 wholesale rather than patching m. If neither succeeds, that is itself worth recording as a second, independent negative result pinning kappa<1/2 as the actual ceiling of this whole proof strategy, not just of the current write-up.",
       "from": null,
-      "state": "running",
+      "state": "failed",
       "params": {
         "attempt": 1
       },
@@ -4322,13 +4352,38 @@
         "branch": "ost/prime-pair-error/a-0067",
         "db": "ost_prime_pair_error_0067",
         "port": 4467,
-        "start_commit": "197b063b4d70cf55406005289f908ab21c863c19"
+        "start_commit": "197b063b4d70cf55406005289f908ab21c863c19",
+        "end_commit": "197b063b4d70cf55406005289f908ab21c863c19"
       },
       "started": "t+0",
-      "ended": null,
+      "ended": "t+2",
       "started_at": "2026-09-10T21:54:20.120Z",
-      "ended_at": null,
-      "result": null,
+      "ended_at": "2026-09-10T22:02:01.337Z",
+      "result": {
+        "why": "exit 1",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 26,
+          "output_tokens": 41225,
+          "cache_read_input_tokens": 790806,
+          "cache_creation_input_tokens": 82470,
+          "cost_usd": 0.9975092000000002,
+          "duration_ms": 458686,
+          "api_ms": 457196,
+          "turns": 14,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "output": [
+          "uses Bash: mkdir -p hunts/prime_pair_error/artifacts/minor_arc_sieve_barrier && ls hunts/prime_pair_error/artifacts/siegel_uniformity/",
+          "says: You've hit your session limit · resets 1:20am (UTC)",
+          "You've hit your session limit · resets 1:20am (UTC)",
+          "[cell] agent reported an error",
+          "usage: out=41225 in=26 cache_read=790806 cache_create=82470 cost=$1.00 turns=14 api=457s",
+          "[cell a-0067] agent exited non-zero"
+        ],
+        "limited": true
+      },
       "cell_pid": 21537
     },
     {
@@ -4337,7 +4392,7 @@
       "kind": "prove",
       "what": "Section 8 needs a genuinely arithmetic multiscale (or other) upper bound Energy(N) >= E_corr(N) := 2 sum_{h=1}^N |r_N(h) - C_N(h)|^2, where r_N(h) = psi_2(N,h) - (N-h)*S(h) is the CHHL prime-pair correlation residual (psi_2(N,h) = sum_{n=1}^{N-h} Lambda(n) Lambda(n+h), Lambda the von Mangoldt function including proper prime powers, S the singular series), and C_N(h) is the exceptional-zero correction of SIEGEL_UNIFORMITY.md equation (5) (C_N = 0 if no exceptional zero exists at that N). The known candidate in CANDIDATE_ENERGY.md's Section 2 (a dyadic block-average / Haar telescoping of the residual vector padded to a power-of-2 length) fails to be useful: it is proved (and independently reverified) to be an EXACT identity Energy(N) = E_corr(N) for every N, using only that the vector is real -- it uses no property of Lambda, S, or C_N at all. Proof: it survives being applied verbatim to a Davenport-Heilbronn sequence (real coefficients, a genuine functional equation, a zero off the critical line) with the identical result to 16 digits (see hunts/prime_pair_error/CHALLENGE.md and results_s8_challenge.json, attack 2). A useful next candidate must break that: it needs to actually use positivity, size, or distributional properties of Lambda/S/C_N (e.g. a second-moment / large-sieve type bound, an explicit-formula input, or a sieve bound) so that the SAME construction applied to the Davenport-Heilbronn (or Epstein) counterexample battery of zeta/epstein.py does NOT give a matching bound, since that counterexample is known to violate RH. Constraints inherited from Section 8 (retain the mean/central mode, retain cross terms between scales rather than dropping them, handle changing exceptional data q/chi/beta with N, keep the sharp endpoint N-h with no smoothing, no primes-only replacement of Lambda) still apply and should be checked against whatever new construction is tried, the same way CANDIDATE_ENERGY.md's Section 8 did for its own attempt.",
       "from": null,
-      "state": "running",
+      "state": "failed",
       "params": {
         "attempt": 1
       },
@@ -4346,14 +4401,49 @@
         "branch": "ost/prime-pair-error/a-0068",
         "db": "ost_prime_pair_error_0068",
         "port": 4468,
-        "start_commit": "197b063b4d70cf55406005289f908ab21c863c19"
+        "start_commit": "197b063b4d70cf55406005289f908ab21c863c19",
+        "end_commit": "197b063b4d70cf55406005289f908ab21c863c19"
       },
       "started": "t+0",
-      "ended": null,
+      "ended": "t+1",
       "started_at": "2026-09-10T21:54:20.517Z",
-      "ended_at": null,
-      "result": null,
+      "ended_at": "2026-09-10T22:01:57.502Z",
+      "result": {
+        "why": "exit 1",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 12,
+          "output_tokens": 41322,
+          "cache_read_input_tokens": 316445,
+          "cache_creation_input_tokens": 95519,
+          "cost_usd": 0.860199,
+          "duration_ms": 454777,
+          "api_ms": 454822,
+          "turns": 14,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "output": [
+          "uses Bash: sed -n '1,180p' /home/user/ost-worktrees/prime-pair-error/a-0068/hunts/prime_pair_error/probe.py",
+          "says: You've hit your session limit · resets 1:20am (UTC)",
+          "You've hit your session limit · resets 1:20am (UTC)",
+          "[cell] agent reported an error",
+          "usage: out=41322 in=12 cache_read=316445 cache_create=95519 cost=$0.86 turns=14 api=454s",
+          "[cell a-0068] agent exited non-zero"
+        ],
+        "limited": true
+      },
       "cell_pid": 21551
     }
-  ]
+  ],
+  "last_run": {
+    "ended": "2026-09-10T22:02:34.024Z",
+    "launched": 3,
+    "invocations": 68,
+    "invocation_allowance": 80,
+    "stopped_by": "the plan window: a-0066 was rate limited",
+    "drained": null,
+    "why": "the plan window: a-0066 was rate limited",
+    "next": "a budget bound; re-run to continue"
+  }
 }
