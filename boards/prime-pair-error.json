@@ -1,6 +1,6 @@
 {
   "graph": "prime-pair-error",
-  "concurrency": 7,
+  "concurrency": 5,
   "max_attempts": 3,
   "judge": {
     "verify": "Judge this handback against the hunt's own standard. A proposal is real only if it names a specific missing thing and says what would clear it. Reject a proposal that restates the task it came from, that proposes work outside hunts/prime_pair_error/, or that claims more certainty than the certainty ladder allows for a measured number. Nothing here may be phrased as bearing on RH.",
@@ -52,6 +52,9 @@
         "cmd": "find",
         "what": "locate a file by name"
       }
+    ],
+    "env_passthrough": [
+      "OSTOYAE_WEB"
     ]
   },
   "work": [
@@ -97,7 +100,7 @@
       "verdict": {
         "by": "a-0004",
         "ok": true,
-        "why": "Names a specific missing thing (Theta_chi unconditionally unknown, no exhibited sequence) verified against RESULTS.md §18 and tb_bind.py, proposes a distinct GRH-conditional shape comparison scoped to hunts/prime_pair_error/, quotes results.json's E(N) values exactly, and explicitly forbids claiming the unconditional theorem binds or is vacuous from it.",
+        "why": "Names a specific missing thing (Theta_chi unconditionally unknown, no exhibited sequence) verified against RESULTS.md \u00a718 and tb_bind.py, proposes a distinct GRH-conditional shape comparison scoped to hunts/prime_pair_error/, quotes results.json's E(N) values exactly, and explicitly forbids claiming the unconditional theorem binds or is vacuous from it.",
         "at": "2026-09-10T03:37:20.083Z"
       },
       "decided_at": "2026-09-10T07:07:12.236Z"
@@ -590,6 +593,70 @@
         "a-0049"
       ],
       "found_at": "2026-09-10T18:06:24.833Z"
+    },
+    {
+      "id": "w-s8-control",
+      "needs": [],
+      "what": "Issue 58 section 8, the control and sensitivity instrument. Build hunts/prime_pair_error/s8_control.py that computes, at cutoffs N in {2000, 5000, 10000, 30000, 100000} at least, both the original error E(N) (probe.py's FFT autocorrelation route, reused, not reimplemented) and the corrected error E_corr(N) := 2 sum_{h=1}^N |r_N(h) - C_N(h)|^2 exactly as CORRECTED_RH_BRIDGE.md equation (1) defines it, with the correction C_N(h) from SIEGEL_UNIFORMITY.md equation (5) evaluated for whichever exceptional data that document's definition assigns at that N, and C_N = 0 when it assigns none; record which case each row is. Cross-check E_corr at N=2000 against a direct pure-Python pair count with no numpy, the way probe.py cross-checks E. Then the sensitivity half: perturb the von Mangoldt sequence by a synthetic off-line-zero term (a planted zero at Re s = beta, Im s = gamma, of the shape the explicit formula gives) and record E_corr's response at each N. Section 8 says such perturbations are diagnostics and not valid alternative prime sequences: write down in the results which arithmetic hypotheses the perturbed sequence preserves (real coefficients, a functional equation, prime support) and which it breaks. Write results_s8_control.json with one row per N carrying E, E_corr, their ratio, the exceptional case, and the planted-zero response, plus S8_CONTROL.md reading it. Reuse artifacts/exceptional_energy/check.py and artifacts/localized_mixed_energy/check.py where they already compute pieces. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it.",
+      "check": "test -f hunts/prime_pair_error/results_s8_control.json && /opt/zeta-venv/bin/python -c \"import json;d=json.load(open('hunts/prime_pair_error/results_s8_control.json'));r=d['rows'];assert len(r)>=5 and all('E_corr' in x and 'E' in x for x in r), r\"",
+      "status": "active",
+      "found_by": [
+        "operator"
+      ],
+      "found_at": "2026-09-10T21:30:16.716Z",
+      "decided_at": "2026-09-10T21:30:16.716Z"
+    },
+    {
+      "id": "w-s8-candidate-energy",
+      "needs": [],
+      "what": "Issue 58 section 8, one simple candidate energy. Define ONE multiscale arithmetic energy Energy(N): a sum over dyadic scales 2^k <= h < 2^(k+1), or another scale decomposition you justify, of a nonnegative quadratic form in the corrected residuals r_N(h) - C_N(h) of CORRECTED_RH_BRIDGE.md equation (1), built so that the exact domination E_corr(N) <= Energy(N) is PROVED for every N, not fitted. Section 8's constraints, all mandatory: the candidate retains the mean/central mode (h near 0 and the constant Fourier coefficient), the cross terms between scales, the changing correction data (q, chi, beta may vary with N), and the sharp endpoint N-h; no smoothing of the endpoint and no primes-only replacement. Start from LOCALIZED_MIXED_ENERGY.md's decomposition of the mixed energy and EXCEPTIONAL_ENERGY.md's correction energy, and say precisely how your Energy relates to each. Write CANDIDATE_ENERGY.md with the definition, the domination proof, and a table of what each scale component is worth at N = 10^4 and 10^5; and s8_candidate_energy.py writing results_s8_candidate_energy.json with rows {N, E_corr, Energy, dominates, per_scale} at N in {2000, 5000, 10000, 30000}, computing E_corr directly by reusing probe.py's routes. A finite fit or a favorable eigenvalue is a lead, not a theorem: the document must state the grade of every claim. If no candidate with an exact domination proof can be found, say precisely which of section 8's constraints blocks it; that is a valid outcome. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it.",
+      "check": "test -f hunts/prime_pair_error/CANDIDATE_ENERGY.md && /opt/zeta-venv/bin/python -c \"import json;d=json.load(open('hunts/prime_pair_error/results_s8_candidate_energy.json'));r=d['rows'];assert len(r)>=4 and all(x['dominates'] for x in r), [(x['N'],x['dominates']) for x in r]\"",
+      "status": "active",
+      "found_by": [
+        "operator"
+      ],
+      "found_at": "2026-09-10T21:30:16.716Z",
+      "decided_at": "2026-09-10T21:30:16.716Z"
+    },
+    {
+      "id": "w-s8-scale-transition",
+      "needs": [
+        "w-s8-candidate-energy"
+      ],
+      "what": "Issue 58 section 8, the arithmetic scale-transition attempt. Using the candidate Energy(N) of CANDIDATE_ENERGY.md exactly as defined there (do not weaken it), attempt to bound the scale-k component in terms of the scale-(k-1) component plus an explicit arithmetic term, uniformly in k, so that the sum over scales telescopes to something smaller than the trivial N^3 (log N)^(-C) order for E_corr. The known barrier, stated so it is not rediscovered: any fixed power saving E_corr << N^(3-d) implies a zero-free strip, by inverting CORRECTED_RH_BRIDGE.md equation (3) against Landau's Omega theorem for psi(N) - N, so do not aim there; the reachable order is N^3 exp(-c (log N)^theta), and ENDPOINT_BOUND.md reaches theta = 1/10 by a different route. The question is whether the scale transition reaches any theta at all, and if so whether it beats 1/10. Write SCALE_TRANSITION.md with the transition inequality, its proof or its exact failure point, and the theta it yields. A precise negative result naming the scale at which the transition first fails and why is a valid, complete outcome. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it.",
+      "check": "test -f hunts/prime_pair_error/SCALE_TRANSITION.md && grep -qiE 'theta|fails at|failure point' hunts/prime_pair_error/SCALE_TRANSITION.md",
+      "status": "active",
+      "found_by": [
+        "operator"
+      ],
+      "found_at": "2026-09-10T21:30:16.716Z",
+      "decided_at": "2026-09-10T21:30:16.716Z"
+    },
+    {
+      "id": "w-s8-challenge",
+      "needs": [
+        "w-s8-candidate-energy"
+      ],
+      "what": "Issue 58 section 8, the independent challenge. Try to break CANDIDATE_ENERGY.md. Three attacks, all required. (1) Search numerically for any N <= 10^5 at which E_corr(N) > Energy(N), using your own independent computation of both: do not import s8_candidate_energy.py, reimplement from the definitions and cross-check against it at one N. (2) Apply the battery discipline of AGENTS.md: construct the Davenport-Heilbronn-style analogue, a sequence with real coefficients and a functional equation whose zeros are off the line, using zeta/epstein.py, and ask whether the domination inequality holds for it too. If it does, the candidate has distinguished nothing about zeta and CHALLENGE.md must say so. (3) Read the domination proof line by line and name any step that uses the structure of the primes rather than an inequality true for arbitrary sequences. Write CHALLENGE.md with a verdict per attack and results_s8_challenge.json with the numerical rows. A refuted candidate is a valid, complete outcome; section 8 says so. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it.",
+      "check": "test -f hunts/prime_pair_error/CHALLENGE.md && test -f hunts/prime_pair_error/results_s8_challenge.json && grep -qiE 'verdict' hunts/prime_pair_error/CHALLENGE.md",
+      "status": "active",
+      "found_by": [
+        "operator"
+      ],
+      "found_at": "2026-09-10T21:30:16.716Z",
+      "decided_at": "2026-09-10T21:30:16.716Z"
+    },
+    {
+      "id": "w-remark-2-8",
+      "needs": [],
+      "what": "zeta-lab issue 220. Tao and Teraevaeinen, arXiv:2107.02158v4, Remark 2.8, printed immediately after Proposition 2.2, says that redefining the Siegel models with Q = exp((log N)^(1/2)) raises the exponent of the logarithm in (2.12), (2.13) and Proposition 2.2 to 1/2 - epsilon. ENDPOINT_BOUND.md cites Proposition 2.2 four times and reaches E_corr(N) << N^3 exp(-c (log N)^(1/10)) with Z = exp((log N)^(1/10)) in SIEGEL_UNIFORMITY.md's correction (5). Task: fetch the paper (web access is enabled for this attempt), read Remark 2.8 and the proof of Proposition 2.2 in the paper's own text, and determine whether the larger Q survives every step of the chain: the correction C_N in SIEGEL_UNIFORMITY.md (5), the exceptional energy bounds in EXCEPTIONAL_ENERGY.md, the localized mixed energy in LOCALIZED_MIXED_ENERGY.md, and the budget (18) in ENDPOINT_BOUND.md, in particular its m = 2 ceil(sqrt(log N)) Bonferroni cutoff and the D_0 sqrt(Z) term. If it survives, write ENDPOINT_HALF.md stating E_corr(N) << N^3 exp(-c (log N)^(1/2 - epsilon)) with the substituted budget, every changed term shown. If it does not, write ENDPOINT_HALF.md naming exactly the first step that breaks and the largest Q the chain does tolerate, with the exponent that Q yields. Either is a complete outcome. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it.",
+      "check": "test -f hunts/prime_pair_error/ENDPOINT_HALF.md && grep -qE 'exp\\(-c|1/2|first step|breaks' hunts/prime_pair_error/ENDPOINT_HALF.md",
+      "status": "active",
+      "found_by": [
+        "operator"
+      ],
+      "found_at": "2026-09-10T21:30:16.716Z",
+      "decided_at": "2026-09-10T21:30:16.716Z"
     }
   ],
   "edges": [
@@ -942,7 +1009,7 @@
           {
             "id": "w-tb-conditional",
             "ok": true,
-            "why": "Names a specific missing thing (Theta_chi unconditionally unknown, no exhibited sequence) verified against RESULTS.md §18 and tb_bind.py, proposes a distinct GRH-conditional shape comparison scoped to hunts/prime_pair_error/, quotes results.json's E(N) values exactly, and explicitly forbids claiming the unconditional theorem binds or is vacuous from it."
+            "why": "Names a specific missing thing (Theta_chi unconditionally unknown, no exhibited sequence) verified against RESULTS.md \u00a718 and tb_bind.py, proposes a distinct GRH-conditional shape comparison scoped to hunts/prime_pair_error/, quotes results.json's E(N) values exactly, and explicitly forbids claiming the unconditional theorem binds or is vacuous from it."
           }
         ],
         "integrated": "ost/prime-pair-error/trunk"
@@ -991,8 +1058,8 @@
         "output": [
           "uses Write: /home/user/ost-worktrees/prime-pair-error/a-0005/.ostoyae/report.json",
           "uses Bash: /opt/zeta-venv/bin/python -m pytest tests/test_prime_pair_residue.py -q -m \"not slow\" 2>&1 | tail -15",
-          "says: Work is complete: `hunts/prime_pair_error/delta_sq_probe.py` measures S(N) = Σ Delta(t)² at six cutoffs (2×10⁵ to 8×10⁶, ~13s runtime), cross-checks psi against the repo's scalar reference, and writes `results_delta_sq.json`. The observed growth exponent is 2.024, close to but not distinguishable from the 2+eps that UPPER_BOUND.md (31) needs — the JSON is explicit that a six-point finite ladder ca",
-          "Work is complete: `hunts/prime_pair_error/delta_sq_probe.py` measures S(N) = Σ Delta(t)² at six cutoffs (2×10⁵ to 8×10⁶, ~13s runtime), cross-checks psi against the repo's scalar reference, and writes `results_delta_sq.json`. The observed growth exponent is 2.024, close to but not distinguishable from the 2+eps that UPPER_BOUND.md (31) needs — the JSON is explicit that a six-point finite ladder can't settle that either way. Relevant guard tests (`test_hunt_probe_discipline.py`, `test_prime_pair_residue.py`) pass, and no reserved words were introduced. `.ostoyae/report.json` records a follow-up work item comparing this measurement against UPPER_BOUND.md's proved (but unnamed-constant) Siegel-Walfisz bound on the same sum.",
+          "says: Work is complete: `hunts/prime_pair_error/delta_sq_probe.py` measures S(N) = \u03a3 Delta(t)\u00b2 at six cutoffs (2\u00d710\u2075 to 8\u00d710\u2076, ~13s runtime), cross-checks psi against the repo's scalar reference, and writes `results_delta_sq.json`. The observed growth exponent is 2.024, close to but not distinguishable from the 2+eps that UPPER_BOUND.md (31) needs \u2014 the JSON is explicit that a six-point finite ladder ca",
+          "Work is complete: `hunts/prime_pair_error/delta_sq_probe.py` measures S(N) = \u03a3 Delta(t)\u00b2 at six cutoffs (2\u00d710\u2075 to 8\u00d710\u2076, ~13s runtime), cross-checks psi against the repo's scalar reference, and writes `results_delta_sq.json`. The observed growth exponent is 2.024, close to but not distinguishable from the 2+eps that UPPER_BOUND.md (31) needs \u2014 the JSON is explicit that a six-point finite ladder can't settle that either way. Relevant guard tests (`test_hunt_probe_discipline.py`, `test_prime_pair_residue.py`) pass, and no reserved words were introduced. `.ostoyae/report.json` records a follow-up work item comparing this measurement against UPPER_BOUND.md's proved (but unnamed-constant) Siegel-Walfisz bound on the same sum.",
           "usage: out=17848 in=42 cache_read=1892513 cache_create=83482 cost=$0.89 turns=24 api=209s",
           "[cell a-0005] map attempt handed back no map"
         ],
@@ -1103,9 +1170,9 @@
           "web_fetch_requests": 0
         },
         "output": [
-          "- **Why nothing covers them**: I checked the three tools used elsewhere in the document against their own displayed formulas — the large-sieve and Vaughan-based tail bounds (used for q > R_0) reduce to the trivial O(N³) order when run down to small q, and the Siegel-Walfisz argument that powers the completed theorem only reaches denominators up to a fixed power of log N, not the polynomial-in-N range up to R_0.",
+          "- **Why nothing covers them**: I checked the three tools used elsewhere in the document against their own displayed formulas \u2014 the large-sieve and Vaughan-based tail bounds (used for q > R_0) reduce to the trivial O(N\u00b3) order when run down to small q, and the Siegel-Walfisz argument that powers the completed theorem only reaches denominators up to a fixed power of log N, not the polynomial-in-N range up to R_0.",
           "- **Three candidate routes**, priced: extending the tail bounds down (foreclosed by their own order, not just uncosted), splicing in Siegel-Walfisz for the polylog sub-range (unverified, and only partial coverage), and an RH-strength generalization of rank 1's own route (heavier uniformity demand than rank 1 needs).",
-          "- **Whether closing it alone helps**: no — by the additive structure of (23), ranks 1 and 2 already exceed the N^{2+ε} target by a power of N, so rank 3 alone can't move Section 6's attempted bound; and rank 3 has no bearing at all on the bound actually proved (1), which comes from a different argument that never forms these quantities.",
+          "- **Whether closing it alone helps**: no \u2014 by the additive structure of (23), ranks 1 and 2 already exceed the N^{2+\u03b5} target by a power of N, so rank 3 alone can't move Section 6's attempted bound; and rank 3 has no bearing at all on the bound actually proved (1), which comes from a different argument that never forms these quantities.",
           "I also wrote `.ostoyae/report.json` with no wall (the work completed), notes in `ahead`, and two proposed follow-on work items (checking the Siegel-Walfisz splice, and investigating the uncovered polynomial-range gap) with edges back to this scoping task.",
           "usage: out=38709 in=40 cache_read=1885720 cache_create=100611 cost=$1.17 turns=21 api=415s",
           "[cell a-0007] map attempt handed back no map"
