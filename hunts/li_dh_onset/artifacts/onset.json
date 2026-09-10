@@ -1,45 +1,45 @@
 {
- "generated": "2026-09-10T01:20:01",
- "table": "artifacts/lambda_dh_n2000_r0.9.json",
- "n_max_computed": 2000,
+ "generated": "2026-09-10T01:46:03",
+ "table": "artifacts/lambda_dh_n5000_r0.95.json",
+ "n_max_computed": 5000,
  "background_fit": {
   "window": [
-   1000,
-   2000
+   2500,
+   5000
   ],
   "free": {
-   "a": 0.507070547228614,
-   "b": -0.38479039411342636,
-   "c": 11.334919467778361,
-   "max_abs_residual": 11.926116089581228,
-   "rms_residual": 3.8515516024096543
+   "a": 0.5018940923597734,
+   "b": -0.34276068352597777,
+   "c": 6.025130204025492,
+   "max_abs_residual": 18.974789533580406,
+   "rms_residual": 6.684502692242258
   },
   "a_pinned_half": {
-   "b": -0.3260920552214088,
-   "c": 1.0491773639434583,
-   "max_abs_residual": 12.067454333321052,
-   "rms_residual": 3.855719471650497
+   "b": -0.3253007230577492,
+   "c": -0.8636165029522793,
+   "max_abs_residual": 18.87786189977942,
+   "rms_residual": 6.685577665973147
   },
   "b_predicted_dh": -0.32561174453685604,
   "b_predicted_zeta_shaped": -1.1303307007539063
  },
  "background_fit_lower_window": {
   "window": [
-   200,
-   1000
+   500,
+   2500
   ],
   "free": {
-   "a": 0.4936042682444743,
-   "b": -0.2795839380175917,
-   "c": -2.6391372095146073,
-   "max_abs_residual": 9.757494556764868,
-   "rms_residual": 3.821069336024533
+   "a": 0.5000500424160109,
+   "b": -0.32585463228081774,
+   "c": 0.07764742080454898,
+   "max_abs_residual": 15.342485639659571,
+   "rms_residual": 4.50782451899431
   },
   "a_pinned_half": {
-   "b": -0.3265747723839451,
-   "c": 0.7078646100715541,
-   "max_abs_residual": 9.801898023230251,
-   "rms_residual": 3.8310504759469723
+   "b": -0.3254411021580152,
+   "c": 0.01216161450771219,
+   "max_abs_residual": 15.350122707013611,
+   "rms_residual": 4.507827749861363
   },
   "b_predicted_dh": -0.32561174453685604,
   "b_predicted_zeta_shaped": -1.1303307007539063
@@ -184,33 +184,42 @@
  "onset": {
   "measured_background_all_quadruples": {
    "first_negative_n": 328997,
-   "value_there": -2475.351890371414,
-   "background_there": 1982474.4289664456,
+   "value_there": -2216.9187763906084,
+   "background_there": 1982732.8620804264,
    "correction_there": 1984949.780856817,
-   "searched_to": 401999
+   "searched_to": 404999
   },
   "measured_background_dominant_quadruple_only": {
    "first_negative_n": 328997,
-   "value_there": -2529.2417090823874,
-   "background_there": 1982474.4289664456,
+   "value_there": -2270.808595101582,
+   "background_there": 1982732.8620804264,
    "correction_there": 1985003.670675528,
-   "searched_to": 401999
+   "searched_to": 404999
   },
   "measured_background_lower_fit_window": {
    "first_negative_n": 328997,
-   "value_there": -2634.5057014483027,
-   "background_there": 1982315.2751553687,
+   "value_there": -2262.227301123552,
+   "background_there": 1982687.5535556935,
    "correction_there": 1984949.780856817,
-   "searched_to": 401999
+   "searched_to": 404999
+  },
+  "derived_background_all_quadruples": {
+   "first_negative_n": 328997,
+   "value_there": -2317.38029344962,
+   "background_there": 1982632.4005633674,
+   "correction_there": 1984949.780856817,
+   "searched_to": 404999
   },
   "zeta_shaped_background_all_quadruples": {
    "first_negative_n": 325229,
    "value_there": -1908.4338164215442,
    "background_there": 1696334.2277802671,
    "correction_there": 1698242.6615966887,
-   "searched_to": 401999
+   "searched_to": 404999
   },
-  "n_lo_used": 2000
+  "n_lo_used": 5000,
+  "background_gap_fitted_minus_derived_at_onset": 100.46151705901138,
+  "dip_depth_as_fraction_of_background": 0.0011181126912197627
  },
  "sensitivity": [
   {
@@ -252,36 +261,36 @@
     1,
     200
    ],
-   "min": -5.315163789523069,
-   "max": 2.5374969021441416,
-   "mean": -0.7329004498386158
+   "min": -3.530565733140236,
+   "max": 4.33792160180019,
+   "mean": 1.1003645346093183
   },
   {
    "window": [
     201,
     500
    ],
-   "min": -9.26749430752443,
-   "max": 6.6341152150203015,
-   "mean": -0.47738240877022975
+   "min": -7.71079991427564,
+   "max": 8.155199660904373,
+   "mean": 1.158049534762826
   },
   {
    "window": [
     501,
     1000
    ],
-   "min": -10.547727759307236,
-   "max": 6.4946361086463185,
-   "mean": -0.7283860902220894
+   "min": -9.298070245558392,
+   "max": 7.680195717139213,
+   "mean": 0.5905129878471252
   },
   {
    "window": [
     1001,
-    2000
+    5000
    ],
-   "min": -8.55421442477018,
-   "max": 12.06745433332162,
-   "mean": 0.008808043955499216
+   "min": -18.87786189977851,
+   "max": 18.421184530910978,
+   "mean": 0.25814322764804465
   }
  ],
  "grade": "the coefficients are measured; this index is a fitted extrapolation two orders of magnitude past them"

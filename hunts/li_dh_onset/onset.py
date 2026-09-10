@@ -188,6 +188,8 @@ def main() -> None:
             first_negative(fit_small["a_pinned_half"]["b"],
                            fit_small["a_pinned_half"]["c"],
                            rows, args.n_hi, a=a, n_lo=n_lo),
+        "derived_background_all_quadruples":
+            first_negative(B_PREDICTED, 1.0, rows, args.n_hi, a=a, n_lo=n_lo),
         "zeta_shaped_background_all_quadruples":
             first_negative(B_ZETA, 1.0, rows, args.n_hi, a=a, n_lo=n_lo),
         "n_lo_used": n_lo,
@@ -205,6 +207,14 @@ def main() -> None:
         r = first_negative(b, c, bumped, args.n_hi, a=a, n_lo=n_lo)
         sensitivity.append({"relative_delta_log_R_of_dominant_pair": dl,
                             "first_negative_n": r["first_negative_n"]})
+
+    n_star = results["measured_background_all_quadruples"]["first_negative_n"]
+    if n_star:
+        bg_fit = a * n_star * math.log(n_star) + b * n_star + c
+        bg_der = a * n_star * math.log(n_star) + B_PREDICTED * n_star + 1.0
+        results["background_gap_fitted_minus_derived_at_onset"] = bg_fit - bg_der
+        results["dip_depth_as_fraction_of_background"] = abs(
+            results["measured_background_all_quadruples"]["value_there"]) / bg_fit
 
     n = np.arange(1, n_max + 1, dtype=float)
     resid = lam - (0.5 * n * np.log(n) + b * n + c)
