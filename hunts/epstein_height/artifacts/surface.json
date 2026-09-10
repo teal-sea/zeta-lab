@@ -2158,5 +2158,689 @@
   "oracle_abs": 3.929713320511115,
   "seconds": 25.73,
   "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 60.0,
+  "dps": 16,
+  "relative_error": 4.3846225712759064e-05,
+  "correct_digits": 4.358067784798944,
+  "digits_available": 26,
+  "digits_predicted_lost": 40.931290615255236,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 2.0009084737714926,
+  "seconds": 4.43,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 60.0,
+  "dps": 19,
+  "relative_error": 7.799140575742388e-08,
+  "correct_digits": 7.10795325163986,
+  "digits_available": 29,
+  "digits_predicted_lost": 40.931290615255236,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 2.0009084737714926,
+  "seconds": 5.33,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 60.0,
+  "dps": 23,
+  "relative_error": 1.0198767738745457e-11,
+  "correct_digits": 10.991452298492229,
+  "digits_available": 33,
+  "digits_predicted_lost": 40.931290615255236,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 2.0009084737714926,
+  "seconds": 6.07,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 60.0,
+  "dps": 27,
+  "relative_error": 6.643299494540679e-16,
+  "correct_digits": 15.177616168167447,
+  "digits_available": 37,
+  "digits_predicted_lost": 40.931290615255236,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 2.0009084737714926,
+  "seconds": 6.32,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 80.0,
+  "dps": 27,
+  "relative_error": 0.018247708495702217,
+  "correct_digits": 1.7387916654626205,
+  "digits_available": 37,
+  "digits_predicted_lost": 54.57505415367365,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 1.9967966569395823,
+  "seconds": 6.95,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 80.0,
+  "dps": 29,
+  "relative_error": 8.568180884796354e-05,
+  "correct_digits": 4.067111373590802,
+  "digits_available": 39,
+  "digits_predicted_lost": 54.57505415367365,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 1.9967966569395823,
+  "seconds": 7.77,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 80.0,
+  "dps": 32,
+  "relative_error": 1.6258086503729693e-07,
+  "correct_digits": 6.7889305700441,
+  "digits_available": 42,
+  "digits_predicted_lost": 54.57505415367365,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 1.9967966569395823,
+  "seconds": 9.01,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 80.0,
+  "dps": 36,
+  "relative_error": 6.9698786836730346e-12,
+  "correct_digits": 11.15677478107988,
+  "digits_available": 46,
+  "digits_predicted_lost": 54.57505415367365,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 1.9967966569395823,
+  "seconds": 8.87,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 80.0,
+  "dps": 40,
+  "relative_error": 4.704067586177507e-16,
+  "correct_digits": 15.327526447116211,
+  "digits_available": 50,
+  "digits_predicted_lost": 54.57505415367365,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 1.9967966569395823,
+  "seconds": 8.61,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 100.0,
+  "dps": 40,
+  "relative_error": 0.0029657753130388825,
+  "correct_digits": 2.527861754185457,
+  "digits_available": 50,
+  "digits_predicted_lost": 68.21881769209206,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 2.0049061735694473,
+  "seconds": 8.82,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 100.0,
+  "dps": 42,
+  "relative_error": 9.967003344637367e-05,
+  "correct_digits": 4.001435396002396,
+  "digits_available": 52,
+  "digits_predicted_lost": 68.21881769209206,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 2.0049061735694473,
+  "seconds": 7.64,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 100.0,
+  "dps": 45,
+  "relative_error": 6.578336199064286e-08,
+  "correct_digits": 7.181883934795699,
+  "digits_available": 55,
+  "digits_predicted_lost": 68.21881769209206,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 2.0049061735694473,
+  "seconds": 8.76,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 100.0,
+  "dps": 49,
+  "relative_error": 1.4633029632443962e-11,
+  "correct_digits": 10.83466574793921,
+  "digits_available": 59,
+  "digits_predicted_lost": 68.21881769209206,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 2.0049061735694473,
+  "seconds": 8.55,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 100.0,
+  "dps": 53,
+  "relative_error": 1.4019643434943954e-16,
+  "correct_digits": 15.853263031747783,
+  "digits_available": 63,
+  "digits_predicted_lost": 68.21881769209206,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 2.0049061735694473,
+  "seconds": 10.11,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 120.0,
+  "dps": 54,
+  "relative_error": 0.0016678468399700967,
+  "correct_digits": 2.7778438335603197,
+  "digits_available": 64,
+  "digits_predicted_lost": 81.86258123051047,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 1.9943826371449012,
+  "seconds": 13.86,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 120.0,
+  "dps": 56,
+  "relative_error": 1.1526201879323384e-05,
+  "correct_digits": 4.938313778099419,
+  "digits_available": 66,
+  "digits_predicted_lost": 81.86258123051047,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 1.9943826371449012,
+  "seconds": 13.21,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 120.0,
+  "dps": 59,
+  "relative_error": 1.3498949904412476e-09,
+  "correct_digits": 8.869700014353658,
+  "digits_available": 69,
+  "digits_predicted_lost": 81.86258123051047,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 1.9943826371449012,
+  "seconds": 12.12,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 120.0,
+  "dps": 63,
+  "relative_error": 5.67478030339617e-12,
+  "correct_digits": 11.24605094732773,
+  "digits_available": 73,
+  "digits_predicted_lost": 81.86258123051047,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 1.9943826371449012,
+  "seconds": 10.9,
+  "exception": null
+ },
+ {
+  "form": [
+   1,
+   1,
+   4
+  ],
+  "sigma": 5.0,
+  "t": 120.0,
+  "dps": 67,
+  "relative_error": 1.2601323710771417e-16,
+  "correct_digits": 15.899583831859552,
+  "digits_available": 77,
+  "digits_predicted_lost": 81.86258123051047,
+  "oracle_truncation_bound": 1.2666406250000001e-17,
+  "oracle_abs": 1.9943826371449012,
+  "seconds": 12.27,
+  "exception": null
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 60.0,
+  "dps": 16,
+  "relative_error": 0.0032660222721250477,
+  "correct_digits": 2.48598085798636,
+  "digits_available": 26,
+  "digits_predicted_lost": 40.931290615255236,
+  "oracle_truncation_bound": 1.0235156250000001e-17,
+  "oracle_abs": 0.06690384579774938,
+  "seconds": 2.38,
+  "exception": null
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 60.0,
+  "dps": 19,
+  "relative_error": 1.5316154238515366e-06,
+  "correct_digits": 5.814850268819594,
+  "digits_available": 29,
+  "digits_predicted_lost": 40.931290615255236,
+  "oracle_truncation_bound": 1.0235156250000001e-17,
+  "oracle_abs": 0.06690384579774938,
+  "seconds": 2.74,
+  "exception": null
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 60.0,
+  "dps": 23,
+  "relative_error": 4.955710542187915e-10,
+  "correct_digits": 9.304894068236603,
+  "digits_available": 33,
+  "digits_predicted_lost": 40.931290615255236,
+  "oracle_truncation_bound": 1.0235156250000001e-17,
+  "oracle_abs": 0.06690384579774938,
+  "seconds": 3.04,
+  "exception": null
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 60.0,
+  "dps": 27,
+  "relative_error": 5.311662724383183e-14,
+  "correct_digits": 13.27476950924049,
+  "digits_available": 37,
+  "digits_predicted_lost": 40.931290615255236,
+  "oracle_truncation_bound": 1.0235156250000001e-17,
+  "oracle_abs": 0.06690384579774938,
+  "seconds": 3.79,
+  "exception": null
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 80.0,
+  "dps": 27,
+  "relative_error": 0.17878064525941356,
+  "correct_digits": 0.7476794995894073,
+  "digits_available": 37,
+  "digits_predicted_lost": 54.57505415367365,
+  "oracle_truncation_bound": 1.0235156250000001e-17,
+  "oracle_abs": 0.06813762978698287,
+  "seconds": 4.06,
+  "exception": null
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 80.0,
+  "dps": 29,
+  "relative_error": 0.0020658636398523363,
+  "correct_digits": 2.684898348070078,
+  "digits_available": 39,
+  "digits_predicted_lost": 54.57505415367365,
+  "oracle_truncation_bound": 1.0235156250000001e-17,
+  "oracle_abs": 0.06813762978698287,
+  "seconds": 4.22,
+  "exception": null
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 80.0,
+  "dps": 32,
+  "relative_error": 1.7564378572945712e-06,
+  "correct_digits": 5.75536721092261,
+  "digits_available": 42,
+  "digits_predicted_lost": 54.57505415367365,
+  "oracle_truncation_bound": 1.0235156250000001e-17,
+  "oracle_abs": 0.06813762978698287,
+  "seconds": 4.7,
+  "exception": null
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 80.0,
+  "dps": 36,
+  "relative_error": 2.2506678484963366e-10,
+  "correct_digits": 9.647688593053203,
+  "digits_available": 46,
+  "digits_predicted_lost": 54.57505415367365,
+  "oracle_truncation_bound": 1.0235156250000001e-17,
+  "oracle_abs": 0.06813762978698287,
+  "seconds": 5.88,
+  "exception": null
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 80.0,
+  "dps": 40,
+  "relative_error": 3.8592632214964365e-14,
+  "correct_digits": 13.413495599312803,
+  "digits_available": 50,
+  "digits_predicted_lost": 54.57505415367365,
+  "oracle_truncation_bound": 1.0235156250000001e-17,
+  "oracle_abs": 0.06813762978698287,
+  "seconds": 6.38,
+  "exception": null
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 100.0,
+  "dps": 40,
+  "relative_error": 0.5569119067344006,
+  "correct_digits": 0.2542134968278398,
+  "digits_available": 50,
+  "digits_predicted_lost": 68.21881769209206,
+  "oracle_truncation_bound": 1.0235156250000001e-17,
+  "oracle_abs": 0.05642856755379885,
+  "seconds": 6.86,
+  "exception": null
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 100.0,
+  "dps": 42,
+  "relative_error": 0.007352998842379721,
+  "correct_digits": 2.1335355024014597,
+  "digits_available": 52,
+  "digits_predicted_lost": 68.21881769209206,
+  "oracle_truncation_bound": 1.0235156250000001e-17,
+  "oracle_abs": 0.05642856755379885,
+  "seconds": 7.64,
+  "exception": null
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 100.0,
+  "dps": 45,
+  "relative_error": 5.86253303964208e-06,
+  "correct_digits": 5.231914696704356,
+  "digits_available": 55,
+  "digits_predicted_lost": 68.21881769209206,
+  "oracle_truncation_bound": 1.0235156250000001e-17,
+  "oracle_abs": 0.05642856755379885,
+  "seconds": 7.43,
+  "exception": null
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 100.0,
+  "dps": 49,
+  "relative_error": 1.8323644860637646e-11,
+  "correct_digits": 10.736988134084342,
+  "digits_available": 59,
+  "digits_predicted_lost": 68.21881769209206,
+  "oracle_truncation_bound": 1.0235156250000001e-17,
+  "oracle_abs": 0.05642856755379885,
+  "seconds": 10.34,
+  "exception": null
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 100.0,
+  "dps": 53,
+  "relative_error": 3.163945254680132e-14,
+  "correct_digits": 13.49977103964845,
+  "digits_available": 63,
+  "digits_predicted_lost": 68.21881769209206,
+  "oracle_truncation_bound": 1.0235156250000001e-17,
+  "oracle_abs": 0.05642856755379885,
+  "seconds": 11.1,
+  "exception": null
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 120.0,
+  "dps": 54,
+  "relative_error": 0.007376463389740802,
+  "correct_digits": 2.132151808699807,
+  "digits_available": 64,
+  "digits_predicted_lost": 81.86258123051047,
+  "oracle_truncation_bound": 1.0235156250000001e-17,
+  "oracle_abs": 0.06283841263293687,
+  "seconds": 12.37,
+  "exception": null
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 120.0,
+  "dps": 56,
+  "relative_error": 0.00027730172280324226,
+  "correct_digits": 3.5570474322554695,
+  "digits_available": 66,
+  "digits_predicted_lost": 81.86258123051047,
+  "oracle_truncation_bound": 1.0235156250000001e-17,
+  "oracle_abs": 0.06283841263293687,
+  "seconds": 13.26,
+  "exception": null
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 120.0,
+  "dps": 59,
+  "relative_error": 4.318818384064564e-07,
+  "correct_digits": 6.364635058619089,
+  "digits_available": 69,
+  "digits_predicted_lost": 81.86258123051047,
+  "oracle_truncation_bound": 1.0235156250000001e-17,
+  "oracle_abs": 0.06283841263293687,
+  "seconds": 15.37,
+  "exception": null
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 120.0,
+  "dps": 63,
+  "relative_error": 6.175988638129626e-11,
+  "correct_digits": 10.209293511636398,
+  "digits_available": 73,
+  "digits_predicted_lost": 81.86258123051047,
+  "oracle_truncation_bound": 1.0235156250000001e-17,
+  "oracle_abs": 0.06283841263293687,
+  "seconds": 17.21,
+  "exception": null
+ },
+ {
+  "form": [
+   2,
+   1,
+   3
+  ],
+  "sigma": 5.0,
+  "t": 120.0,
+  "dps": 67,
+  "relative_error": 1.1161066632081626e-14,
+  "correct_digits": 13.952294299099906,
+  "digits_available": 77,
+  "digits_predicted_lost": 81.86258123051047,
+  "oracle_truncation_bound": 1.0235156250000001e-17,
+  "oracle_abs": 0.06283841263293687,
+  "seconds": 18.29,
+  "exception": null
  }
 ]

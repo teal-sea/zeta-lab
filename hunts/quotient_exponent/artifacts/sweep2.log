@@ -6,3 +6,4 @@ N=  1000000 y=  7943 alpha=0.650 cells=  1998 E=                   0.0 E*sqrt(y)
 -> /home/user/zeta-lab/hunts/quotient_exponent/artifacts/sweep_1e6.json
 N= 10000000 y=   631 alpha=0.400 cells=  6322 E=    145763.97580478803 E*sqrt(y)/N=    0.3661549292494406 (197.48s)
 N= 10000000 y=  1413 alpha=0.450 cells=  6322 E=     92046.54893706737 E*sqrt(y)/N=    0.3460019857304207 (398.08s)
+N= 10000000 y=  3162 alpha=0.500 cells=  6322 E=     30297.73676825234 E*sqrt(y)/N=   0.17036921441580974 (973.56s)

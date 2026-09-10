@@ -53,7 +53,17 @@ def main() -> None:
         })
         key[str(i)] = {"strict": e["strict"], "medium": e["medium"], "loose": e["loose"]}
 
-    (ART / "audit_sample2.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
+    # The sample quotes the tree's own diffs, and some of them discuss the
+    # repository's reserved word, so the sample cannot be stored as read.  Same
+    # visible mask as corpus.py: a marker rather than a synonym, because
+    # replacing a recorded word with a different word edits evidence.
+    import re as _re
+    blob = json.dumps(out, indent=1)
+    n_masked = len(_re.findall(r"certifi(ed)", blob, _re.I))
+    blob = _re.sub(r"certifi(ed)", "<reserved-word-masked>", blob, flags=_re.I)
+    (ART / "audit_sample2.json").write_text(blob, encoding="utf-8")
+    if n_masked:
+        print(f"masked {n_masked} occurrence(s) of the reserved word")
     out_key.write_text(json.dumps(key, indent=1), encoding="utf-8")
     print(f"fresh rows {len(out)} (positives {sum(1 for k in key.values() if k['strict'])}), "
           f"disjoint from the first {len(already)}; key -> {out_key}")
