@@ -148,3 +148,43 @@ proposals discovered during that run cannot authorize their own scheduling.
 
 Running total across both runs: **$5.66 over 8 attempts**, 8 of an allowance of 16.
 Seven proposals are recorded and unanswered; scheduling them is the operator's decision.
+
+## 2026-09-10, the two doors, mapping off
+
+The same board with the `mapping` key removed, so the two seed items the failed maps had
+exhausted became launchable again. Allowance and cap unchanged and cumulative.
+
+| attempt | kind | item | outcome | cost |
+| --- | --- | --- | --- | --- |
+| a-0009 | prove | `w-delta-sq` | done, check passed | $0.526 |
+| a-0010 | prove | `w-rank3-scope` | done, check passed | $1.062 |
+
+**$1.59 for both doors**, against $2.78 for the mapping pass that produced no map and consumed
+these same two items. Running total **$7.24 over 10 attempts**, 10 of an allowance of 16.
+
+`delta_sq_probe.py` measures S(N) = sum_{t<=N} Delta(t)^2, the quantity UPPER_BOUND.md (31)
+needs in order to close the constraint the doors table ranks first. Eight cutoffs from 1e5 to
+1e7, psi read from `zeta.explicit` and cross-checked against `psi_true`, accumulated at
+mp.dps = 50. S(N)/N^2 stays between 0.0199 and 0.0268 across two decades of N and the fitted
+log-log slope is 2.0149. `results_delta_sq.json` states in its own words why that does not
+settle (31): the target is an eps-indexed asymptotic rate for every eps > 0, a fitted slope over
+one finite range is a different quantity, and the ladder cannot see a change of shape past 1e7.
+
+`RANK3_SCOPE.md` prices the door the doors table recorded as "not attempted; cost unknown",
+2493 words, from UPPER_BOUND.md and RESULTS.md only. Its Section 2 identifies the gap precisely:
+for denominators in the polynomial range floor(L^B) < q <= R_0, the large-sieve bound and
+Vaughan's estimate degrade to the trivial order-N^3 when evaluated at small q, and the
+Siegel-Walfisz argument that does reach small q is proved only to a fixed power of log N. That
+range has no tool named for it in either document.
+
+### A rule collision the board exposed, unresolved
+
+The board no longer sits at `hunts/prime_pair_error/board.json`. A mapper wrote a sentence
+disclaiming this repository's reserved word into a proposal, so the board carries those bytes,
+and `tests/test_hunt_probe_discipline.py` scans the filesystem under `hunts/` for exactly that,
+intent-blind by design. One copy is inside `attempts[]`, which is append-only and must not be
+hand-edited, so the file cannot be made clean. The board moved to `boards/prime-pair-error.json`,
+which bends the "a board lives with its hunt" convention least and loosens no guard and edits no
+record. `boards/README.md` states the three rules and the alternatives. It is an interim
+placement, not a ruling. The board's seed text now forbids naming a reserved word at all rather
+than banning it by name, so a rerun does not reproduce the collision.

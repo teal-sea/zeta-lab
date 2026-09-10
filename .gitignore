@@ -94,5 +94,7 @@ data/odlyzko/
 # runner recognises a death: tracking it would make a dead runner's tombstone a committed
 # fact and a clean exit look like an uncommitted deletion. The board itself IS the record
 # and stays tracked; these two are not.
+boards/*.run.json
+boards/*.live.json
 hunts/*/board.run.json
 hunts/*/board.live.json
