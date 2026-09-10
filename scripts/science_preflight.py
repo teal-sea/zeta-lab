@@ -35,6 +35,7 @@ from __future__ import annotations
 import argparse
 import importlib
 import os
+import subprocess
 import re
 import shutil
 import sys
@@ -126,6 +127,50 @@ def _check_backend(allow_fallback: bool) -> list[str]:
                 "ball-arithmetic backend is degraded; pass --allow-fallback to "
                 "proceed with non-certified numerics only"
             )
+    return problems
+
+
+def _check_history() -> list[str]:
+    """Is the git history complete, or is this a truncated clone?
+
+    Added 2026-09-10, after a session measured this tree's own correction rate on
+    a container whose default checkout held 262 commits of 1084 and said nothing.
+    Shallow truncates history, not the working tree, so every file reads current
+    and every count over history is wrong. The same session's fast tier reported
+    green because `tests/test_dossier_hardy_z.py` skips on a shallow history, and
+    went red the moment the clone was completed.
+
+    This is a WARNING and not a block: most work here needs no history at all.
+    It is a block only for the thing it silently ruins, which is anything that
+    counts commits, dates them, or asks when a file last changed.
+    """
+    _head("2b. git history")
+    problems: list[str] = []
+    try:
+        shallow = subprocess.run(
+            ["git", "rev-parse", "--is-shallow-repository"],
+            cwd=REPO_ROOT, capture_output=True, text=True, check=True,
+        ).stdout.strip() == "true"
+        count = subprocess.run(
+            ["git", "rev-list", "--count", "HEAD"],
+            cwd=REPO_ROOT, capture_output=True, text=True, check=True,
+        ).stdout.strip()
+    except Exception as exc:                                  # pragma: no cover
+        print(f"  git not usable here ({exc}); history checks skipped")
+        return problems
+
+    if shallow:
+        print(f"  SHALLOW CLONE: {count} commits, and the rest is not here.")
+        print("  Files are current; history is not. Nothing warns you.")
+        print("  Anything that counts commits, reads a date, or asks when a file")
+        print("  last changed is WRONG on this checkout, and some guards silently")
+        print("  skip rather than run (tests/test_dossier_hardy_z.py is one).")
+        print("  Fix:  git fetch --unshallow origin")
+        problems.append("shallow clone: run `git fetch --unshallow origin` before "
+                        "any measurement over git history, and before trusting a "
+                        "green suite")
+    else:
+        print(f"  complete: {count} commits")
     return problems
 
 
@@ -242,18 +287,25 @@ def main() -> int:
 
     problems = _check_interpreter()
     problems += _check_backend(args.allow_fallback)
+    history_problems = _check_history()
     _check_plotting()
     _check_lean()
     _where_to_write()
     _rules()
 
     _head("verdict")
+    for h in history_problems:
+        print(f"  WARNING: {h}")
     if problems:
         for p in problems:
             print(f"  BLOCKED: {p}")
         print("\n  Exit 1. Fix the above, or re-run with --allow-fallback if you")
         print("  are doing exploratory work that will make no certified claim.")
         return 1
+    if history_problems:
+        print("  Ready for work that does not read git history. The warning above")
+        print("  is not a block, and it is not optional reading either.")
+        return 0
     print("  Ready. Every claim this repository knows how to make is available.")
     return 0
 
