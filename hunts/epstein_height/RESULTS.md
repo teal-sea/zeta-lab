@@ -146,8 +146,21 @@ per segment to measure. When the phase is noise, `p = 1/3` by symmetry, the
 branching factor is `4/3`, and one segment costs about `(4/3)^45 = 4e5`
 evaluations at roughly two seconds each.
 
-`why_it_hangs.py` measures `p` at both precisions. Its numbers are in
-`artifacts/why_it_hangs.json`.
+`why_it_hangs.py` measures `p` at both precisions, at height 120 on the form
+`(2,1,3)`, along the `sigma = -1` edge and at the step `count_zeros_box` itself
+would choose:
+
+| dps | segments accepted | p | branching factor | evaluations per segment |
+|---:|---:|---:|---:|---:|
+| 15 | 7 of 24 | 0.292 | 1.417 | 6.4e6 |
+| 100 | **24 of 24** | 1.000 | 0 | 1 |
+
+At sufficient precision the recursion terminates on the first test, every time.
+At insufficient precision it accepts about as often as a uniform phase would
+(`0.292` against the `1/3` that noise predicts) and the subtree is
+`6.4e6` evaluations for **one segment**, which at the two seconds an evaluation
+costs is about 148 days. A contour has many segments. The 30-minute and
+25-minute non-returns are fully accounted for.
 
 The consequence for the open question is structural and does not depend on the
 measured `p`: because the depth limit returns a value instead of raising, the

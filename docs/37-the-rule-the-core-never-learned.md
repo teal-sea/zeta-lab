@@ -93,7 +93,7 @@ digit more than the bound says.
 its runs were stopped, one after 30 minutes and one after 25. It offers a
 hypothesis and says plainly that it did not test it.
 
-The hypothesis is right and it is testable without running the thing that does
+The hypothesis is right, and it is testable without running the thing that does
 not return. The winding-number routine accepts a segment when the argument
 turns by less than `pi/3` along it and otherwise bisects, to a depth limit of
 45 at which **it returns the principal value rather than raising**. So the
@@ -102,6 +102,14 @@ costs two evaluations per segment to measure rather than an exponential
 recursion to observe. When the samples carry no correct digits the phase is
 noise, `p` falls to about `1/3`, the branching factor is `4/3`, and one segment
 costs roughly `(4/3)^45` evaluations.
+
+Measured at height 120, along the edge and at the step the routine itself would
+choose: at `dps = 100` the rule accepts **24 segments out of 24**, so the
+recursion stops on its first test every time and costs one evaluation per
+segment. At `dps = 15`, where the samples have no correct digits, it accepts 7
+of 24, `p = 0.292` against the `1/3` a uniform phase predicts, the branching
+factor is `1.417`, and one segment costs about `6.4e6` evaluations. At two
+seconds an evaluation that is 148 days, for one segment of one edge.
 
 The consequence does not depend on the exact `p`, and it answers the open
 question: because the depth limit returns a value instead of raising, **the cap
