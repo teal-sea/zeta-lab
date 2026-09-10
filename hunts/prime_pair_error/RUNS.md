@@ -329,3 +329,20 @@ Together: a weight on sum_b T(q,b) worse than about 1/q cannot reach N^{2+eps} (
 1/q is exactly what a-0048 delivers at prime q. The one remaining U-side question is the
 extension to composite squarefree q, `w-cross-term-composite-q`. Nine proposals await the
 operator. Every grade above is derived and measured, one route each.
+
+## Round 5, 2026-09-10, section 8 of issue 58 executed
+
+Five items with typed dependencies, web access passed through and used. Eleven attempts,
+$9.28; 65 on the record, $61.62 total. All five landed and were judged.
+
+`CANDIDATE_ENERGY.md` (a-0058): the only Energy(N) meeting all of section 8's constraints with
+an exact domination is E_corr(N) itself, a block-average identity proved by linear algebra with
+no arithmetic input. `CHALLENGE.md` (a-0062): the same identity holds on a Davenport-Heilbronn
+sequence, so it distinguishes nothing about zeta. `SCALE_TRANSITION.md` (a-0061): the dyadic
+transition fails at scale 0. `S8_CONTROL.md` (a-0057): the instrument, and a finding that the
+chain never pins Tao and Teraevaeinen's constant c_0. `ENDPOINT_HALF.md` (a-0059): Remark 2.8
+breaks the chain at the Bonferroni cutoff at exactly kappa = 1/2; retuning that cutoff gives
+E_corr(N) <<_kappa N^3 exp(-c_kappa (log N)^kappa) for every fixed kappa < 1/2, from 1/10.
+Threshold checked by the orchestrator: log D_0 = 2 (log N)^{kappa + 1/2}. It rests on
+Remark 2.8 as its authors state it, not on a worked proof. Every grade: derived and measured,
+one route each.
