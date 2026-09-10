@@ -12,7 +12,7 @@ asymptotic statement is established and nothing here bears on RH (`docs/08`).
     new diagonal rows            N = 3 x 10^6 and 10^7
     T*(sqrt N, N) - psi(N) at 10^7        30297.736768,  0.1704 N^{3/4}
     published reading                     "(0.18 to 0.23) N^{3/4}, fitted exponent 0.73"
-    fitted shape on the grid              E ~ 0.348 N^{1.150} y^{-0.878}
+    fitted shape on the grid              E ~ N^{1.159} y^{-0.874}
     conjectured shape                     E >= c N y^{-0.5}
     zero excess first reached at          y* = 63, 173, 589 for N = 10^3, 10^4, 10^5
     number of attainable cells            |Q_N| = 61, 198, 630
@@ -88,27 +88,38 @@ that alone moves this column. Which is the reason for the next section.
 | 10^4 | 0.5244 | 0.4563 | 0.3538 | 0.3152 | 0.2268 | 0.0118 |
 | 10^5 | 0.5076 | 0.4206 | 0.4017 | 0.2922 | 0.1840 | 0.0067 |
 | 10^6 | 0.4577 | 0.4397 | 0.3714 | 0.3293 | 0.2029 | 0 |
+| 10^7 | | | 0.3662 | 0.3460 | 0.1704 | |
 
 Inside the range the conjecture is stated for (`y <= sqrt N`, i.e. `alpha <= 0.5`)
-this falls by a factor of 2.3 to 2.8 as `y` grows. It is not a constant.
+this falls by a factor of 2.1 to 2.8 as `y` grows. It is not a constant.
 
-Least squares on the 18 positive rows with `alpha <= 0.5`:
+The `10^7` row is partial: that run was stopped to free memory for other work on
+this box after three of its four supports, and its rows were recovered from its
+log rather than from a JSON it never wrote. They are in
+`artifacts/sweep_1e7_partial.json`, marked as such, rather than folded in
+silently.
+
+Least squares on the 21 positive rows with `alpha <= 0.5`:
 
 | model | rms of the residual in `log E`, grid | same, diagonal only |
 |---|---:|---:|
-| free `a` and `b` (`a = 1.150`, `b = 0.878`) | 0.1148 | 0.0639 |
-| conjectured `a = 1`, `b = 0.5` | 0.3602 | 0.1063 |
-| `a = 1`, `b` free (`b = 0.679`) | 0.2475 | 0.0641 |
-| `b = 0.5`, `a` free (`a = 0.968`) | 0.3518 | 0.0641 |
+| free `a` and `b` (`a = 1.159`, `b = 0.874`) | 0.1258 | 0.0639 |
+| conjectured `a = 1`, `b = 0.5` | 0.3435 | 0.1063 |
+| `a = 1`, `b` free (`b = 0.642`) | 0.2676 | 0.0641 |
+| `b = 0.5`, `a` free (`a = 0.982`) | 0.3403 | 0.0641 |
 
 On the diagonal the four models are indistinguishable, three of them to three
-decimal places. On the grid the conjectured shape is three times worse: a
-typical relative miss of 43% against 12%.
+decimal places. On the grid the conjectured shape is 2.7 times worse: a typical
+relative miss of 41% against 13%.
 
-**The fitted shape predicts the diagonal drift.** At `(a, b) = (1.150, 0.878)`,
-`E sqrt(y) / N` on the diagonal decays like `N^{a - 1 + (0.5 - b)/2} = N^{-0.039}`,
+Adding the fourth decade moved the free fit from `(1.150, 0.878)` to
+`(1.159, 0.874)` and the ratio between the two models from 3.1 to 2.7, so the
+separation is not an artefact of the three-decade grid it was first measured on.
+
+**The fitted shape predicts the diagonal drift.** At `(a, b) = (1.159, 0.874)`,
+`E sqrt(y) / N` on the diagonal decays like `N^{a - 1 + (0.5 - b)/2} = N^{-0.028}`,
 so over the four decades from `10^3` to `10^7` it should fall by a factor
-`0.70`. Measured: `0.1704 / 0.2298 = 0.74`.
+`0.77`. Measured: `0.1704 / 0.2298 = 0.74`.
 
 **What this does and does not say.** The conjecture is a lower bound, and a
 worse fit of an equality shape is not a counterexample to an inequality. What

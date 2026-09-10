@@ -58,19 +58,21 @@ Fit `log E = log C + a log N - b log y`. The conjectured shape is `a = 1`,
 
 | model | rms of the residual, on the grid | on the diagonal only |
 |---|---:|---:|
-| free `a` and `b` (`a = 1.150`, `b = 0.878`) | 0.115 | 0.064 |
-| conjectured `a = 1`, `b = 0.5` | 0.360 | 0.106 |
-| `a = 1`, `b` free (`b = 0.679`) | 0.248 | 0.064 |
-| `b = 0.5`, `a` free (`a = 0.968`) | 0.352 | 0.064 |
+| free `a` and `b` (`a = 1.159`, `b = 0.874`) | 0.126 | 0.064 |
+| conjectured `a = 1`, `b = 0.5` | 0.344 | 0.106 |
+| `a = 1`, `b` free (`b = 0.642`) | 0.268 | 0.064 |
+| `b = 0.5`, `a` free (`a = 0.982`) | 0.340 | 0.064 |
 
 **On the diagonal, three of the four models are identical to three decimal
-places.** On the grid the conjectured shape is three times worse: a typical
-relative miss of 43% against 12%.
+places.** On the grid the conjectured shape is 2.7 times worse: a typical
+relative miss of 41% against 13%. Fitted on three decades of grid instead of
+four, the free exponents were `(1.150, 0.878)` and the ratio was 3.1, so the
+separation is not an artefact of where the grid stops.
 
 The quantity the conjectured shape says is constant, `E sqrt(y) / N`, falls by
-a factor of 2.3 to 2.8 inside the conjecture's own range as `y` grows. And the
+a factor of 2.1 to 2.8 inside the conjecture's own range as `y` grows. And the
 fitted exponents predict the drift the diagonal does show: they say the
-diagonal value should fall by a factor `0.70` from `10^3` to `10^7`, and it
+diagonal value should fall by a factor `0.77` from `10^3` to `10^7`, and it
 falls by `0.74`, from `0.2298` to `0.1704`.
 
 That last number is worth stating separately. The new row at `N = 10^7` puts
