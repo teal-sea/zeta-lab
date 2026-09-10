@@ -1,0 +1,12 @@
+{
+  "map": {},
+  "wall": "",
+  "ahead": "The ladder measured here stops at q=13 and N=10^6; ratio_cross_over_ceiling does not shrink monotonically in N at fixed q (e.g. q=3 goes 0.085, 0.426, 0.382, 0.131, 0.288, -0.252, 0.241 across the seven cutoffs), so a next attempt wanting a trend rather than a snapshot should extend both ladders (larger q, larger N) and should not expect monotone convergence from this data alone. The measurement is closer to the diagonal-only picture (ratio well under 1/2 of the proved ceiling at every (q,N) tried) than to the cancellation-free ceiling, but this is explicitly not shown to persist asymptotically, and RANK3_ROUTE_D.md Section 6 already separately shows that even a hypothetical full resolution of Sigma_cross(q) would not by itself close rank 3, because the arc-transfer step summed over q costs O(N^3) on its own.",
+  "work": [
+    {
+      "id": "w-rank3-crossterm-asymptotic",
+      "what": "RANK3_ROUTE_D.md defines, for modulus q, reduced residues b,b' mod q, Delta(t;q,b)=psi(t;q,b)-t/phi(q) with psi(t;q,b)=sum_{n<=t,n=b(q)} Lambda(n) (von Mangoldt), T(q,b)=sum_{t=1}^N Delta(t;q,b)^2 + sum_{t=1}^{N-1}[Delta(N;q,b)-Delta(t;q,b)]^2, X(b,b')=sum_{t=1}^N Delta(t;q,b)Delta(t;q,b') + sum_{t=1}^{N-1}[Delta(N;q,b)-Delta(t;q,b)][Delta(N;q,b')-Delta(t;q,b')], and Sigma_cross(q)=sum_{b!=b' mod q}^* c_q(b-b') X(b,b') with c_q the Ramanujan sum. A finite numerical measurement at hunts/prime_pair_error/rank3_cross_term_probe.py (results in hunts/prime_pair_error/results_rank3_cross_term_probe.json, written up in hunts/prime_pair_error/RANK3_CROSS_TERM_MEASURE.md) found Sigma_cross(q) / (phi(q)(phi(q)-1) sum_b^* T(q,b)) staying in roughly [-0.25, 0.43] for q in {2,3,5,6,7,10,11,13} and N up to 10^6, closer to 0 than to 1, but not monotone in N and not extended past q=13 or N=10^6. The open task: determine analytically (not just by finite measurement) whether Sigma_cross(q) = o(phi(q) sum_b^* T(q,b)) as q,N grow, or find a heuristic model (analogous to the Siegel-Walfisz-based model already used for the diagonal term) that predicts the actual size of Sigma_cross(q), OR extend the numerical ladder considerably further (larger q into the tens or hundreds, N well past 10^6) to see whether the ratio keeps shrinking, stays bounded away from 0, or grows. Do not claim any finite measurement settles the asymptotic question; state a ratio-vs-q,N table or an argument, either is useful."
+    }
+  ],
+  "edges": []
+}
