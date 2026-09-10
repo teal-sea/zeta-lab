@@ -100,7 +100,7 @@
       "verdict": {
         "by": "a-0004",
         "ok": true,
-        "why": "Names a specific missing thing (Theta_chi unconditionally unknown, no exhibited sequence) verified against RESULTS.md \u00a718 and tb_bind.py, proposes a distinct GRH-conditional shape comparison scoped to hunts/prime_pair_error/, quotes results.json's E(N) values exactly, and explicitly forbids claiming the unconditional theorem binds or is vacuous from it.",
+        "why": "Names a specific missing thing (Theta_chi unconditionally unknown, no exhibited sequence) verified against RESULTS.md §18 and tb_bind.py, proposes a distinct GRH-conditional shape comparison scoped to hunts/prime_pair_error/, quotes results.json's E(N) values exactly, and explicitly forbids claiming the unconditional theorem binds or is vacuous from it.",
         "at": "2026-09-10T03:37:20.083Z"
       },
       "decided_at": "2026-09-10T07:07:12.236Z"
@@ -1009,7 +1009,7 @@
           {
             "id": "w-tb-conditional",
             "ok": true,
-            "why": "Names a specific missing thing (Theta_chi unconditionally unknown, no exhibited sequence) verified against RESULTS.md \u00a718 and tb_bind.py, proposes a distinct GRH-conditional shape comparison scoped to hunts/prime_pair_error/, quotes results.json's E(N) values exactly, and explicitly forbids claiming the unconditional theorem binds or is vacuous from it."
+            "why": "Names a specific missing thing (Theta_chi unconditionally unknown, no exhibited sequence) verified against RESULTS.md §18 and tb_bind.py, proposes a distinct GRH-conditional shape comparison scoped to hunts/prime_pair_error/, quotes results.json's E(N) values exactly, and explicitly forbids claiming the unconditional theorem binds or is vacuous from it."
           }
         ],
         "integrated": "ost/prime-pair-error/trunk"
@@ -1058,8 +1058,8 @@
         "output": [
           "uses Write: /home/user/ost-worktrees/prime-pair-error/a-0005/.ostoyae/report.json",
           "uses Bash: /opt/zeta-venv/bin/python -m pytest tests/test_prime_pair_residue.py -q -m \"not slow\" 2>&1 | tail -15",
-          "says: Work is complete: `hunts/prime_pair_error/delta_sq_probe.py` measures S(N) = \u03a3 Delta(t)\u00b2 at six cutoffs (2\u00d710\u2075 to 8\u00d710\u2076, ~13s runtime), cross-checks psi against the repo's scalar reference, and writes `results_delta_sq.json`. The observed growth exponent is 2.024, close to but not distinguishable from the 2+eps that UPPER_BOUND.md (31) needs \u2014 the JSON is explicit that a six-point finite ladder ca",
-          "Work is complete: `hunts/prime_pair_error/delta_sq_probe.py` measures S(N) = \u03a3 Delta(t)\u00b2 at six cutoffs (2\u00d710\u2075 to 8\u00d710\u2076, ~13s runtime), cross-checks psi against the repo's scalar reference, and writes `results_delta_sq.json`. The observed growth exponent is 2.024, close to but not distinguishable from the 2+eps that UPPER_BOUND.md (31) needs \u2014 the JSON is explicit that a six-point finite ladder can't settle that either way. Relevant guard tests (`test_hunt_probe_discipline.py`, `test_prime_pair_residue.py`) pass, and no reserved words were introduced. `.ostoyae/report.json` records a follow-up work item comparing this measurement against UPPER_BOUND.md's proved (but unnamed-constant) Siegel-Walfisz bound on the same sum.",
+          "says: Work is complete: `hunts/prime_pair_error/delta_sq_probe.py` measures S(N) = Σ Delta(t)² at six cutoffs (2×10⁵ to 8×10⁶, ~13s runtime), cross-checks psi against the repo's scalar reference, and writes `results_delta_sq.json`. The observed growth exponent is 2.024, close to but not distinguishable from the 2+eps that UPPER_BOUND.md (31) needs — the JSON is explicit that a six-point finite ladder ca",
+          "Work is complete: `hunts/prime_pair_error/delta_sq_probe.py` measures S(N) = Σ Delta(t)² at six cutoffs (2×10⁵ to 8×10⁶, ~13s runtime), cross-checks psi against the repo's scalar reference, and writes `results_delta_sq.json`. The observed growth exponent is 2.024, close to but not distinguishable from the 2+eps that UPPER_BOUND.md (31) needs — the JSON is explicit that a six-point finite ladder can't settle that either way. Relevant guard tests (`test_hunt_probe_discipline.py`, `test_prime_pair_residue.py`) pass, and no reserved words were introduced. `.ostoyae/report.json` records a follow-up work item comparing this measurement against UPPER_BOUND.md's proved (but unnamed-constant) Siegel-Walfisz bound on the same sum.",
           "usage: out=17848 in=42 cache_read=1892513 cache_create=83482 cost=$0.89 turns=24 api=209s",
           "[cell a-0005] map attempt handed back no map"
         ],
@@ -1170,9 +1170,9 @@
           "web_fetch_requests": 0
         },
         "output": [
-          "- **Why nothing covers them**: I checked the three tools used elsewhere in the document against their own displayed formulas \u2014 the large-sieve and Vaughan-based tail bounds (used for q > R_0) reduce to the trivial O(N\u00b3) order when run down to small q, and the Siegel-Walfisz argument that powers the completed theorem only reaches denominators up to a fixed power of log N, not the polynomial-in-N range up to R_0.",
+          "- **Why nothing covers them**: I checked the three tools used elsewhere in the document against their own displayed formulas — the large-sieve and Vaughan-based tail bounds (used for q > R_0) reduce to the trivial O(N³) order when run down to small q, and the Siegel-Walfisz argument that powers the completed theorem only reaches denominators up to a fixed power of log N, not the polynomial-in-N range up to R_0.",
           "- **Three candidate routes**, priced: extending the tail bounds down (foreclosed by their own order, not just uncosted), splicing in Siegel-Walfisz for the polylog sub-range (unverified, and only partial coverage), and an RH-strength generalization of rank 1's own route (heavier uniformity demand than rank 1 needs).",
-          "- **Whether closing it alone helps**: no \u2014 by the additive structure of (23), ranks 1 and 2 already exceed the N^{2+\u03b5} target by a power of N, so rank 3 alone can't move Section 6's attempted bound; and rank 3 has no bearing at all on the bound actually proved (1), which comes from a different argument that never forms these quantities.",
+          "- **Whether closing it alone helps**: no — by the additive structure of (23), ranks 1 and 2 already exceed the N^{2+ε} target by a power of N, so rank 3 alone can't move Section 6's attempted bound; and rank 3 has no bearing at all on the bound actually proved (1), which comes from a different argument that never forms these quantities.",
           "I also wrote `.ostoyae/report.json` with no wall (the work completed), notes in `ahead`, and two proposed follow-on work items (checking the Siegel-Walfisz splice, and investigating the uncovered polynomial-range gap) with edges back to this scoping task.",
           "usage: out=38709 in=40 cache_read=1885720 cache_create=100611 cost=$1.17 turns=21 api=415s",
           "[cell a-0007] map attempt handed back no map"
@@ -3619,16 +3619,130 @@
         "integrated": "ost/prime-pair-error/trunk"
       },
       "cell_pid": 6328
+    },
+    {
+      "id": "a-0055",
+      "of": "w-route-d-cross-term",
+      "kind": "verify",
+      "judges": "a-0048",
+      "what": "Judge this handback against the hunt's own standard. A proposal is real only if it names a specific missing thing and says what would clear it. Reject a proposal that restates the task it came from, that proposes work outside hunts/prime_pair_error/, or that claims more certainty than the certainty ladder allows for a measured number. Nothing here may be phrased as bearing on RH.\n\nThe attempt you are judging is a-0048, a prove attempt on w-route-d-cross-term: In hunts/prime_pair_error/RANK3_ROUTE_D.md, identity (D7) writes sum_{a mod q}^* integral_T |K_N|^2 |R^(1)_{q,a}|^2 = Sigma_diag(q) + Sigma_cross(q), with Sigma_diag(q) = phi(q) * sum_{b mod q}^* T(q,b) and Sigma_cross(q) = sum_{b != b' mod q}^* c_q(b-b') X(b,b'), where X(b,b') = <K_N D_b, K_N D_b'>_{L^2(T)} is a real symmetric positive-semidefinite Gram matrix entry (T(q,b)=X(b,b)), c_q is the Ramanujan sum, D_b(beta) = sum_{n=1}^N (Lambda(n) 1_{n=b mod q} - 1/phi(q)) e(n beta) for (b,q)=1. RANK3_ROUTE_D.md Section 3 only bounds |Sigma_cross(q)| <= phi(q)(phi(q)-1) sum_b^* T(q,b) via Cauchy-Schwarz (no cancellation assumed), giving the proven weight mu(q)^2 (O(1), no phi(q) in the denominator) on sum_b^* T(q,b) in the resulting bound (D11) for U_(q) = sum_a^* integral_arc |P_{q,a}|^2 |R_{q,a}|^2. hunts/prime_pair_error/RANK3_POLYRANGE_TINT_CHECK.md (already on this branch, worktree a-0036) shows that IF the weight on sum_b^* T(q,b) could instead be brought down to mu(q)^2/phi(q) or mu(q)^2/phi(q)^2 -- i.e. if Sigma_cross(q) could be shown to genuinely cancel Sigma_diag(q) down by one or two further powers of phi(q), rather than merely bounded by its Cauchy-Schwarz ceiling -- then the partial-summation argument in that document's Section 3 (which sums classical Barban-Davenport-Halberstam, D(t,Q) << Qt log t for 1<=Q<=t, Barban 1966 and Davenport-Halberstam 1966, against a decaying q-weight via Abel summation) would upgrade RANK3_ROUTE_D.md's U_(q) bound from its current N^{5/2} order (matching, not beating, the GRH-conditional CHHL benchmark) down to O_eps(N^{2+eps}), which is exactly UPPER_BOUND.md's target order. The task: determine whether Sigma_cross(q), as an exact real number for each squarefree q up to R_0=floor(sqrt(N)/3)/log(N), can be proven (not merely assumed) to be small relative to Sigma_diag(q) -- e.g. by finding genuine cancellation in the Gram-matrix off-diagonal sum weighted by the Ramanujan sums c_q(b-b'), or by any other unconditional argument -- and if so at what weight (mu(q)^2/phi(q) or mu(q)^2/phi(q)^2) it closes; if no such cancellation can be established, state that precisely, since it would mean this specific route to U_(q) is blocked at exactly this one identity, with everything else in RANK3_ROUTE_D.md and RANK3_POLYRANGE_TINT_CHECK.md already in place around it. Numerical experimentation (computing X(b,b') and Sigma_cross(q) directly from the true von Mangoldt function for small-to-moderate q, the same way rank3_bdh_probe.py and polyrange_weighted_bdh_check.py already measure related quantities exactly) is a reasonable way to get empirical evidence before attempting a proof.\n\nIt proposed:\n- w-cross-term-composite-q, a task: In hunts/prime_pair_error/RANK3_ROUTE_D.md's exact identity (D7), Sigma_cross(q) = sum_{b != b' mod q}^* c_q(b-b') X(b,b') (b,b' ranging over reduced residues mod q, c_q the Ramanujan sum, X(b,b') = <K_N D_b, K_N D_b'>_{L^2(T)} the Gram-matrix cross term defined in that document's (D6)). hunts/prime_pair_error/RANK3_CROSS_TERM_CANCELLATION.md proves, for q PRIME, the exact identity Sigma_cross(q) = Sigma_diag(q)/(q-1) - E(q), where Sigma_diag(q) = phi(q) sum_{b mod q}^* T(q,b) (T(q,b) = X(b,b), that document's (D5)), and E(q) = sum_{t=1}^N Delta_eps(t;q)^2 + sum_{t=1}^{N-1} [Delta_eps(N;q) - Delta_eps(t;q)]^2 with Delta_eps(t;q) = psi_cop(t;q) - t, psi_cop(t;q) = sum_{n<=t, gcd(n,q)=1} Lambda(n) (Lambda the von Mangoldt function). The proof goes via the classical Dirichlet-character orthogonality relation 1_{n = b mod q} = (1/phi(q)) sum_{chi mod q} chibar(b) chi(n) for (n,q)=1, applied to decompose D_b(beta) = S_b(beta) - K_N(beta)/phi(q) (S_b(beta) = sum_{n<=N, n=b mod q} Lambda(n) e(n beta), K_N(beta) = sum_{n=1}^N e(n beta)) into a principal-character piece and a sum over nonprincipal characters, then summing over the reduced residues a mod q using c_q(a) = mu(q) (valid for every q) and the classical Gauss-sum twist tau_a(chibar) := sum_{b mod q}^* chibar(b) e(ab/q) = chi(a) tau(chibar) with |tau(chibar)|^2 = q -- an identity that holds ONLY when chi is a PRIMITIVE character mod q. For q PRIME every nonprincipal character mod q is automatically primitive (the only proper divisor of q is 1), which is exactly what makes the proof go through. The task: extend this to composite SQUAREFREE q (q with >= 2 distinct prime factors, still mu(q)^2 != 0), where some nonprincipal characters mod q are IMPRIMITIVE (induced by a character mod a proper divisor q* | q, q* < q -- e.g. for q=6, phi(6)=2, the single nonprincipal character mod 6 is induced by the Legendre symbol mod 3, and there is no primitive nonprincipal character mod 6 at all). For imprimitive chi, the twist sum tau_a(chibar) = sum_{b mod q}^* chibar(b) e(ab/q) does NOT equal chi(a) tau(chibar) in general, and |tau(chibar)| != sqrt(q) in general; the classical reduction expresses an imprimitive character's Gauss-type sum in terms of the PRIMITIVE character chi* mod q* that induces it, via a formula involving mu(q/q*) (see e.g. Apostol, Introduction to Analytic Number Theory, or Montgomery-Vaughan, Multiplicative Number Theory I, the sections on imprimitive characters and induced moduli -- this repository's own worktree may or may not have these sources locally; RANK3_POLYRANGE_TINT_CHECK.md in this same hunt already recorded that WebSearch/WebFetch were denied in its worktree, so check for local access before assuming a live literature search is available). Compute G(chi,chi') := sum_{a mod q}^* tau_a(chibar) * conj(tau_a(chibar')) for EVERY pair of nonprincipal characters chi, chi' mod q (not just primitive ones), using this induced-character reduction, and determine whether G(chi,chi') is small off the diagonal (chi != chi') the way it is exactly zero for prime q, or genuinely large. If it can be shown small (even with worse constants than the prime case), redo the derivation in hunts/prime_pair_error/RANK3_CROSS_TERM_CANCELLATION.md Section 3 for composite squarefree q using this G(chi,chi') to get an analogous bound on Sigma_diag(q) + Sigma_cross(q) (ideally still O(q) * sum_b^* T(q,b), or state precisely what weight is reachable and why it differs from the prime case). Verify any resulting exact identity numerically to floating-point precision (not just approximately) against the existing ground-truth machinery in hunts/prime_pair_error/rank3_cross_term_probe.py (import and reuse its reduced_residues, delta_table, T_and_X, ramanujan_sum_direct functions -- do not reimplement Sigma_diag/Sigma_cross/T(q,b) from scratch) at q in {6, 10, 14, 15, 21} (squarefree composites already in or near this hunt's existing moduli ladders) and N up to at least 10^6, the same way hunts/prime_pair_error/rank3_cross_term_cancellation_probe.py already does for prime q. If no clean extension is found after genuinely attempting the induced-character reduction, state precisely and specifically what breaks (not just 'it's hard') and what would be needed instead -- that is itself a valid, useful outcome for this task, as several sibling documents in this hunt (e.g. RANK3_POLYRANGE_TINT_CHECK.md Section 2, RANK3_ROUTE_D.md Section 7) already do for other sub-problems. Write results only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word 'certified' is banned anywhere under hunts/, including inside a sentence disclaiming it.\n- w-cross-term-qsum-primes-only, a task: hunts/prime_pair_error/RANK3_CROSS_TERM_CANCELLATION.md Section 5 states, but does not carry out in full arithmetic detail with explicit constants, that restricting the sum sum_{q=2}^{R_0} mu(q)^2/phi(q) sum_{a mod q}^* integral_1^N (psi(t;q,a) - t/phi(q))^2 dt (R_0 = floor(sqrt(N)/3)/log(N), the exact range this hunt calls rank 3 -- see hunts/prime_pair_error/RANK3_SCOPE.md) to PRIME q only gives O_eps(N^{2+eps}), by the same classical-Barban-Davenport-Halberstam-plus-Abel-summation method that hunts/prime_pair_error/RANK3_POLYRANGE_TINT_CHECK.md Section 3 already carries out in full for the weight mu(q)^2/phi(q)^2 over ALL squarefree q <= R_0 (not just primes). Task: write out that argument in full for the PRIME-only sum with weight mu(q)^2/phi(q) ~ 1/q (reuse RANK3_POLYRANGE_TINT_CHECK.md Section 3's structure: define f(q) = sum_a^* sum_t Delta(t;q,a)^2, F(Q) = sum_{q prime, q<=Q} f(q), bound F(Q) using classical (BDH) restricted to a sum over primes q<=Q only (BDH's own bound D(t,Q) << Qt log t covers sum over ALL q<=Q, and a sum restricted to primes is trivially bounded by the same quantity since f(q)>=0, so F(Q) << Q N^2 log N still holds for the prime-restricted F; state this reduction explicitly rather than assuming it), then Abel-sum against w(q) = mu(q)^2/phi(q) restricted to primes (w(q) = 1/(q-1) exactly at primes) to get the final N^{2+eps} bound with an explicit exponent of log N, matching the style of RANK3_POLYRANGE_TINT_CHECK.md's boxed result. This closes out, with full rigor and an explicit statement, the one part of RANK3_CROSS_TERM_CANCELLATION.md Section 5's claim that was asserted by analogy rather than derived in full. This is a smaller, more mechanical task than w-cross-term-composite-q above and does not depend on it landing first (it uses the ALREADY-PROVEN prime-q bound from RANK3_CROSS_TERM_CANCELLATION.md, not anything about composite q). Write results only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word 'certified' is banned anywhere under hunts/, including inside a sentence disclaiming it.\n\nThe same is in .ostoyae/verify.json, with each proposal's full text. Hand back .ostoyae/report.json with \"verdicts\": one entry per id above, each { \"id\", \"ok\": true or false, \"why\": one line }. Use disposable scratch files when testing a claim requires them. Change no tracked project file and commit nothing; only the report is kept.",
+      "from": null,
+      "state": "running",
+      "params": {
+        "model": "sonnet",
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0055",
+        "branch": "ost/prime-pair-error/a-0055",
+        "db": "ost_prime_pair_error_0055",
+        "port": 4455,
+        "start_commit": "e4e29fc5a0b3a51bfb703b3056a7886dff0f35f9"
+      },
+      "started": "t+0",
+      "ended": null,
+      "started_at": "2026-09-10T21:30:30.468Z",
+      "ended_at": null,
+      "result": null,
+      "cell_pid": 16341
+    },
+    {
+      "id": "a-0056",
+      "of": "w-rank3-route-a-delta-uniform",
+      "kind": "verify",
+      "judges": "a-0049",
+      "what": "Judge this handback against the hunt's own standard. A proposal is real only if it names a specific missing thing and says what would clear it. Reject a proposal that restates the task it came from, that proposes work outside hunts/prime_pair_error/, or that claims more certainty than the certainty ladder allows for a measured number. Nothing here may be phrased as bearing on RH.\n\nThe attempt you are judging is a-0049, a prove attempt on w-rank3-route-a-delta-uniform: Attempt RANK3_SCOPE.md's Route A: an unconditional, uniform-in-q estimate for Delta(t;q,b) = psi(t;q,b) - t/phi(q), for reduced b mod q and moduli q growing like a positive power of N (specifically 2 <= q <= R_0 = Q/L where Q = floor(sqrt(N)/3), L = log N), strong enough to make sum_{q=2}^{R_0} mu(q)^2 sum_{b mod q reduced} T(q,b) = O_epsilon(N^{2+epsilon}) for every epsilon>0, where T(q,b) = sum_{t=1}^N Delta(t;q,b)^2 + sum_{t=1}^{N-1} [Delta(N;q,b)-Delta(t;q,b)]^2 (hunts/prime_pair_error/RANK3_ROUTE_D.md equation D5). This is the sole remaining requirement to close rank 3's U-side (the mixed moment U_(q) for 2<=q<=R_0 in UPPER_BOUND.md's equation 23), after hunts/prime_pair_error/RANK3_ARC_TRANSFER.md removed the previously-claimed additional O(N^3) transfer-step obstruction; RANK3_SCOPE.md section 3's own assessment is that this estimate's only known unconditional-adjacent closing route (at q=1, via classical Delta(t)=O(sqrt(t) log^2(2t))) assumes RH, which would be circular since the hunt's target (N^{2+epsilon}) itself implies RH via CHHL's lower bound (UPPER_BOUND.md section 1). Do not assume RH; an unconditional route, an averaged-in-q variant that still plugs into the arc-by-arc structure (UPPER_BOUND.md's 18 and 23 need control at each q, not just on average), or a precise negative/cost result (what exponent in q or N is actually reachable unconditionally, and why) are all valid outcomes. Write results under hunts/prime_pair_error/ only; do not touch zeta/, ontology/, harness/, docs/, or tests/; do not use the word 'certified' anywhere under hunts/.\n\nIt proposed:\n- w-rank3-route-a-2d-mean-value, a task: Search for, or attempt to construct, a mean-value theorem bounding sum_{q<=Q} sum_{chi mod q} integral_0^1 |K_N(beta) * Psi(beta,chi)|^2 dbeta -- equivalently sum_{q<=Q} phi(q) * sum_{b mod q, gcd(b,q)=1} T(q,b) -- where Psi(beta,chi) = sum_{n=1}^N Lambda(n) chi(n) e(n*beta) (Lambda = von Mangoldt function, chi ranges over Dirichlet characters mod q, e(x)=exp(2*pi*i*x)), K_N(beta) = sum_{n=1}^N e(n*beta), T(q,b) = sum_{t=1}^N Delta(t;q,b)^2 + sum_{t=1}^{N-1} [Delta(N;q,b) - Delta(t;q,b)]^2, Delta(t;q,b) = psi(t;q,b) - t/phi(q), psi(t;q,b) = sum over n<=t with n congruent to b mod q of Lambda(n), for reduced residues b mod q. The bound needed is genuinely joint in the modulus/character variable (q or chi) and the length/frequency variable (t or beta) simultaneously, at order O(Q * N^{1+epsilon}) for every fixed epsilon>0, uniformly for 2<=Q<=R0 where R0 = floor(floor(sqrt(N)/3)/log(N)). This is strictly stronger than two routes already checked and found insufficient: (a) applying the classical Barban-Davenport-Halberstam theorem (sum_{q<=Q} sum_{a mod q, gcd(a,q)=1} (psi(N;q,a)-N/phi(q))^2 << Q*N*log(N), valid uniformly for 1<=Q<=N, unconditional) at the single endpoint t=N and then summing that same bound separately over every t=1..N, which gives only O(Q*N^2*log(N)); (b) applying the multiplicative/character large sieve inequality sum_{q<=Q} sum_{chi mod q} |sum_{n=1}^N a_n*chi(n)|^2 <= (N+Q^2)*sum_{n=1}^N |a_n|^2 pointwise at each fixed beta to the sequence a_n = Lambda(n)*e(n*beta), then integrating the resulting (beta-independent) bound against |K_N(beta)|^2 dbeta, which gives only O((N+Q^2)*N*d_N) where d_N = sum_{n<=N} Lambda(n)^2 = O(N*log(N)) -- at Q of order sqrt(N)/log(N) this is O(N^3*log(N)), worse than route (a). Determine: does a theorem of the needed shape and strength exist in the literature under any name (candidates to check: a two-dimensional or hybrid large sieve; a mean-square analogue of the Elliott-Halberstam conjecture or of Bombieri-Vinogradov; a large-sieve zero-density theorem for L(s,chi) summed jointly over chi mod q for q<=Q and over height in the critical strip, of the kind underlying the proof of Bombieri-Vinogradov itself but tracking the t-dependence directly rather than via a single endpoint)? Could one be constructed unconditionally from the explicit formula for psi(t,chi) plus a zero-density estimate for Dirichlet L-functions averaged over chi and q? If no unconditional construction is found, give the most precise reachable exponent (in place of N^{1+epsilon}) and state exactly what obstruction stops going further -- for instance whether the needed strength is equivalent to, or would imply, a form of the Riemann Hypothesis for Dirichlet L-functions (the way this hunt's own target N^{2+epsilon} for E(N) would itself imply RH via CHHL's lower bound). Do not assume RH in the estimate itself. Write results only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word 'certified' is banned anywhere under hunts/, including inside a sentence disclaiming it.\n\nThe same is in .ostoyae/verify.json, with each proposal's full text. Hand back .ostoyae/report.json with \"verdicts\": one entry per id above, each { \"id\", \"ok\": true or false, \"why\": one line }. Use disposable scratch files when testing a claim requires them. Change no tracked project file and commit nothing; only the report is kept.",
+      "from": null,
+      "state": "running",
+      "params": {
+        "model": "sonnet",
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0056",
+        "branch": "ost/prime-pair-error/a-0056",
+        "db": "ost_prime_pair_error_0056",
+        "port": 4456,
+        "start_commit": "e4e29fc5a0b3a51bfb703b3056a7886dff0f35f9"
+      },
+      "started": "t+0",
+      "ended": null,
+      "started_at": "2026-09-10T21:30:31.449Z",
+      "ended_at": null,
+      "result": null,
+      "cell_pid": 16355
+    },
+    {
+      "id": "a-0057",
+      "of": "w-s8-control",
+      "kind": "prove",
+      "what": "Issue 58 section 8, the control and sensitivity instrument. Build hunts/prime_pair_error/s8_control.py that computes, at cutoffs N in {2000, 5000, 10000, 30000, 100000} at least, both the original error E(N) (probe.py's FFT autocorrelation route, reused, not reimplemented) and the corrected error E_corr(N) := 2 sum_{h=1}^N |r_N(h) - C_N(h)|^2 exactly as CORRECTED_RH_BRIDGE.md equation (1) defines it, with the correction C_N(h) from SIEGEL_UNIFORMITY.md equation (5) evaluated for whichever exceptional data that document's definition assigns at that N, and C_N = 0 when it assigns none; record which case each row is. Cross-check E_corr at N=2000 against a direct pure-Python pair count with no numpy, the way probe.py cross-checks E. Then the sensitivity half: perturb the von Mangoldt sequence by a synthetic off-line-zero term (a planted zero at Re s = beta, Im s = gamma, of the shape the explicit formula gives) and record E_corr's response at each N. Section 8 says such perturbations are diagnostics and not valid alternative prime sequences: write down in the results which arithmetic hypotheses the perturbed sequence preserves (real coefficients, a functional equation, prime support) and which it breaks. Write results_s8_control.json with one row per N carrying E, E_corr, their ratio, the exceptional case, and the planted-zero response, plus S8_CONTROL.md reading it. Reuse artifacts/exceptional_energy/check.py and artifacts/localized_mixed_energy/check.py where they already compute pieces. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it.",
+      "from": null,
+      "state": "running",
+      "params": {
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0057",
+        "branch": "ost/prime-pair-error/a-0057",
+        "db": "ost_prime_pair_error_0057",
+        "port": 4457,
+        "start_commit": "e4e29fc5a0b3a51bfb703b3056a7886dff0f35f9"
+      },
+      "started": "t+0",
+      "ended": null,
+      "started_at": "2026-09-10T21:30:32.313Z",
+      "ended_at": null,
+      "result": null,
+      "cell_pid": 16369
+    },
+    {
+      "id": "a-0058",
+      "of": "w-s8-candidate-energy",
+      "kind": "prove",
+      "what": "Issue 58 section 8, one simple candidate energy. Define ONE multiscale arithmetic energy Energy(N): a sum over dyadic scales 2^k <= h < 2^(k+1), or another scale decomposition you justify, of a nonnegative quadratic form in the corrected residuals r_N(h) - C_N(h) of CORRECTED_RH_BRIDGE.md equation (1), built so that the exact domination E_corr(N) <= Energy(N) is PROVED for every N, not fitted. Section 8's constraints, all mandatory: the candidate retains the mean/central mode (h near 0 and the constant Fourier coefficient), the cross terms between scales, the changing correction data (q, chi, beta may vary with N), and the sharp endpoint N-h; no smoothing of the endpoint and no primes-only replacement. Start from LOCALIZED_MIXED_ENERGY.md's decomposition of the mixed energy and EXCEPTIONAL_ENERGY.md's correction energy, and say precisely how your Energy relates to each. Write CANDIDATE_ENERGY.md with the definition, the domination proof, and a table of what each scale component is worth at N = 10^4 and 10^5; and s8_candidate_energy.py writing results_s8_candidate_energy.json with rows {N, E_corr, Energy, dominates, per_scale} at N in {2000, 5000, 10000, 30000}, computing E_corr directly by reusing probe.py's routes. A finite fit or a favorable eigenvalue is a lead, not a theorem: the document must state the grade of every claim. If no candidate with an exact domination proof can be found, say precisely which of section 8's constraints blocks it; that is a valid outcome. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it.",
+      "from": null,
+      "state": "running",
+      "params": {
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0058",
+        "branch": "ost/prime-pair-error/a-0058",
+        "db": "ost_prime_pair_error_0058",
+        "port": 4458,
+        "start_commit": "e4e29fc5a0b3a51bfb703b3056a7886dff0f35f9"
+      },
+      "started": "t+0",
+      "ended": null,
+      "started_at": "2026-09-10T21:30:33.078Z",
+      "ended_at": null,
+      "result": null,
+      "cell_pid": 16383
+    },
+    {
+      "id": "a-0059",
+      "of": "w-remark-2-8",
+      "kind": "prove",
+      "what": "zeta-lab issue 220. Tao and Teraevaeinen, arXiv:2107.02158v4, Remark 2.8, printed immediately after Proposition 2.2, says that redefining the Siegel models with Q = exp((log N)^(1/2)) raises the exponent of the logarithm in (2.12), (2.13) and Proposition 2.2 to 1/2 - epsilon. ENDPOINT_BOUND.md cites Proposition 2.2 four times and reaches E_corr(N) << N^3 exp(-c (log N)^(1/10)) with Z = exp((log N)^(1/10)) in SIEGEL_UNIFORMITY.md's correction (5). Task: fetch the paper (web access is enabled for this attempt), read Remark 2.8 and the proof of Proposition 2.2 in the paper's own text, and determine whether the larger Q survives every step of the chain: the correction C_N in SIEGEL_UNIFORMITY.md (5), the exceptional energy bounds in EXCEPTIONAL_ENERGY.md, the localized mixed energy in LOCALIZED_MIXED_ENERGY.md, and the budget (18) in ENDPOINT_BOUND.md, in particular its m = 2 ceil(sqrt(log N)) Bonferroni cutoff and the D_0 sqrt(Z) term. If it survives, write ENDPOINT_HALF.md stating E_corr(N) << N^3 exp(-c (log N)^(1/2 - epsilon)) with the substituted budget, every changed term shown. If it does not, write ENDPOINT_HALF.md naming exactly the first step that breaks and the largest Q the chain does tolerate, with the exponent that Q yields. Either is a complete outcome. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it.",
+      "from": null,
+      "state": "running",
+      "params": {
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0059",
+        "branch": "ost/prime-pair-error/a-0059",
+        "db": "ost_prime_pair_error_0059",
+        "port": 4459,
+        "start_commit": "e4e29fc5a0b3a51bfb703b3056a7886dff0f35f9"
+      },
+      "started": "t+0",
+      "ended": null,
+      "started_at": "2026-09-10T21:30:33.935Z",
+      "ended_at": null,
+      "result": null,
+      "cell_pid": 16401
     }
-  ],
-  "last_run": {
-    "ended": "2026-09-10T18:06:24.951Z",
-    "launched": 7,
-    "invocations": 54,
-    "invocation_allowance": 56,
-    "stopped_by": "the $50.00 budget, with $52.34 spent",
-    "drained": null,
-    "why": "the $50.00 budget, with $52.34 spent",
-    "next": "a budget bound; re-run to continue"
-  }
+  ]
 }
