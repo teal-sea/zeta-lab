@@ -188,3 +188,47 @@ which bends the "a board lives with its hunt" convention least and loosens no gu
 record. `boards/README.md` states the three rules and the alternatives. It is an interim
 placement, not a ruling. The board's seed text now forbids naming a reserved word at all rather
 than banning it by name, so a rerun does not reproduce the collision.
+
+## 2026-09-10, four follow-ups: the work landed, the board recorded it failed
+
+All seven proposals from the previous run were scheduled. Eight prove attempts ran and **every one
+of them is recorded `failed`, with `check` false. The work was fine. The check was wrong, and it
+was mine.**
+
+The four confirmed items came from the mapper, so none carried a `check` of its own and all fell
+through to `judge.default_check`, which read
+
+    test -e hunts/prime_pair_error/{id}.py || test -e hunts/prime_pair_error/{id}.md
+
+That demands a file named after the item id, for example `w-rank3-polyrange.py`. No task asks for
+that: each names its outputs after what they do. **The check could not pass however good the work
+was.** With `max_attempts` at 2 each item was then retried at full price before being called
+exhausted, so the retry was pure waste.
+
+Cost of the defect: eight prove attempts and four verify attempts, **$11.33**, on a one-line
+mistake in the board's judge configuration. Running total **$18.57 over 22 attempts**.
+
+The default check now asks whether the attempt changed anything under `hunts/prime_pair_error/`,
+which is a question about the work rather than about a filename the engine did not choose.
+
+What the attempts actually produced, landed here by hand from their branches:
+
+| attempt | file | finding |
+| --- | --- | --- |
+| a-0014 | `tb_bind_grh.py`, `results_tb_bind_grh.json` | Theorem B under GRH for L(s, chi_3) |
+| a-0016 | `delta_sq_sw_bind.py`, `results_delta_sq_sw_bind.json` | the Siegel-Walfisz bound against the measured S(N) |
+| a-0019 | `SW_MAJOR_ARC_SPLICE.md` | whether the major-arc argument splits U and Z separately |
+| a-0021 | `RANK3_POLYRANGE.md` | the polynomial range of denominators |
+
+Two are worth reading. Assuming GRH for L(s, chi_3) fixes Theta_chi = 1/2 and gives the shape
+Omega(N^{2-eps}); the measured local exponents of E(N) run about 2.15 to 2.36 with a global fit
+near 2.29, above that shape, and `results_tb_bind_grh.json` states plainly that comparing exponents
+is not the same as evaluating a bound and that no ratio was formed. And under a stated
+implied-constant-of-1 convention the N^3 L^{-2H} bound is vacuous at H = 1 and 2 at all eight
+measured cutoffs, loose by four to seven orders of magnitude, with the file recording that
+UPPER_BOUND.md calls its constants ineffective so the statement cannot honestly be turned into a
+number at all.
+
+**`attempts[]` still says these failed, and it stays that way.** The record is what happened: the
+check ran and returned false. Nothing in it was edited to make the run look better. This entry is
+where the difference between a failed check and failed work is written down.
