@@ -308,3 +308,24 @@ the two proves this round cost $2.89 together, about $1.45 each, so seven proves
 $10.15; seven verifies at the measured $0.35 would add $2.45; about $12.60 in total against
 $11.48 of headroom under the $50 cap. The runner is bound at `--max-usd 50`, so the cap binds
 during the verify pass and one or two verdicts will wait for the operator.
+
+Actuals. Fourteen attempts landed: seven judges, five proves done, two walled. Stopped at the
+$50 cap with $52.34 spent, the overshoot being cells already in flight; 54 attempts on the
+record. The two walls, `w-sw-pin-c1` and `w-mean-square-bv-hybrid`, are one wall: WebSearch and
+WebFetch were denied inside the cell because `OSTOYAE_WEB` was neither set nor passed through
+`sandbox.env_passthrough`. That is the orchestrator's miss, about $2.50 of the cap.
+
+What landed. `RANK3_CROSS_TERM_CANCELLATION.md` (a-0048): for prime q an exact identity
+Sigma_cross(q) = Sigma_diag(q)/(q-1) - E(q), E(q) >= 0, by character orthogonality; its
+consequence Sigma_cross <= Sigma_diag/(q-1) was checked by the orchestrator against a-0039's
+independent measurement on all 42 prime-q rows. It fails for composite squarefree q and says so.
+`RANK3_INTEGRATED_BDH.md` (a-0043): the integrated mean-value theorem cannot hold at the claimed
+strength, sum_b T(q,b) >> N^2, so that route is closed. `RANK3_ROUTE_A.md` (a-0049): no
+unconditional closing route for Route A. `RANK3_QUARTIC_LITERATURE.md` and
+`RANK3_QUARTIC_HEIGHT.md` (a-0044, a-0047): the Z side, negative, with the arc-restricted
+quartic moment of F_N at q below N^{2/5} named as the remaining object.
+
+Together: a weight on sum_b T(q,b) worse than about 1/q cannot reach N^{2+eps} (a-0043), and
+1/q is exactly what a-0048 delivers at prime q. The one remaining U-side question is the
+extension to composite squarefree q, `w-cross-term-composite-q`. Nine proposals await the
+operator. Every grade above is derived and measured, one route each.
