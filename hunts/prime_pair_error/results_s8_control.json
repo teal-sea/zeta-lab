@@ -1,0 +1,343 @@
+{
+ "definitions": {
+  "E": "probe.py's E(N) = 2 sum_h e(N,h)^2, e(N,h) = psi_2(N,h) - (N-h) S(h)",
+  "E_corr": "CORRECTED_RH_BRIDGE.md eq (1): 2 sum_h (r_N(h) - C_N(h))^2, r_N == probe.py's e(N,h)",
+  "C_N": "SIEGEL_UNIFORMITY.md eq (5); 0 when no exceptional data is assigned",
+  "planted_zero_density": "-2 amplitude n^(beta-1) cos(gamma log n), the psi'(x) density of a zero pair rho=beta+i*gamma, conj(rho) in the explicit formula"
+ },
+ "planted_zero_hypotheses": {
+  "preserved": [
+   "real coefficients (conjugate pair keeps the density real)"
+  ],
+  "broken": [
+   "functional equation (only rho, conj(rho) are planted, not the reflected pair 1-rho, conj(1-rho))",
+   "prime support (the density is a smooth term on every integer n, not one supported on primes and their powers)"
+  ],
+  "note": "Section 8: such perturbations are diagnostics, not alternative prime sequences."
+ },
+ "c0_used_for_scan_window": 0.05,
+ "cutoffs": [
+  2000,
+  5000,
+  10000,
+  30000,
+  100000
+ ],
+ "rows": [
+  {
+   "N": 2000,
+   "E": 25324886.763256125,
+   "E_corr": 25324886.763256125,
+   "ratio_Ecorr_over_E": 1.0,
+   "exceptional_case": {
+    "case": "no_exception",
+    "N": 2000,
+    "Z": "3.403690144666634278820898445304538911629",
+    "window_lower": "0.9591790142032813079138967420828653462378",
+    "checked_conductors": [
+     3
+    ],
+    "scan_range": [
+     "0.6591790142032813079138967420828653462378",
+     "0.9995000000000000550670620214077644050121"
+    ]
+   },
+   "planted_zero_response": [
+    {
+     "beta": 0.6,
+     "gamma": 14.134725,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 27310823.096883703,
+     "ratio_to_unperturbed": 1.0784183697322183
+    },
+    {
+     "beta": 0.75,
+     "gamma": 14.134725,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 34622216.9613855,
+     "ratio_to_unperturbed": 1.3671222811396289
+    },
+    {
+     "beta": 0.9,
+     "gamma": 14.134725,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 172886387.12807184,
+     "ratio_to_unperturbed": 6.826738802201188
+    },
+    {
+     "beta": 0.9,
+     "gamma": 50.0,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 70480594.7158357,
+     "ratio_to_unperturbed": 2.7830566578523066
+    },
+    {
+     "beta": 0.9,
+     "gamma": 14.134725,
+     "amplitude": 5.0,
+     "E_corr_perturbed": 69231630388.9111,
+     "ratio_to_unperturbed": 2733.7389910607326
+    }
+   ]
+  },
+  {
+   "N": 5000,
+   "E": 199060153.42779702,
+   "E_corr": 199060153.42779702,
+   "ratio_Ecorr_over_E": 1.0,
+   "exceptional_case": {
+    "case": "no_exception",
+    "N": 5000,
+    "Z": "3.451749360697804738012877237138475986582",
+    "window_lower": "0.959641003940536416498185816060636215023",
+    "checked_conductors": [
+     3
+    ],
+    "scan_range": [
+     "0.659641003940536416498185816060636215023",
+     "0.9995000000000000550670620214077644050121"
+    ]
+   },
+   "planted_zero_response": [
+    {
+     "beta": 0.6,
+     "gamma": 14.134725,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 212221485.49470407,
+     "ratio_to_unperturbed": 1.0661173612110217
+    },
+    {
+     "beta": 0.75,
+     "gamma": 14.134725,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 295145952.7515807,
+     "ratio_to_unperturbed": 1.4826973036501545
+    },
+    {
+     "beta": 0.9,
+     "gamma": 14.134725,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 1939719339.5886366,
+     "ratio_to_unperturbed": 9.744387845517313
+    },
+    {
+     "beta": 0.9,
+     "gamma": 50.0,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 655086508.2487082,
+     "ratio_to_unperturbed": 3.2908972336662083
+    },
+    {
+     "beta": 0.9,
+     "gamma": 14.134725,
+     "amplitude": 5.0,
+     "E_corr_perturbed": 693498633279.9128,
+     "ratio_to_unperturbed": 3483.864657682273
+    }
+   ]
+  },
+  {
+   "N": 10000,
+   "E": 1045773187.2450734,
+   "E_corr": 1045773187.2450734,
+   "ratio_Ecorr_over_E": 1.0,
+   "exceptional_case": {
+    "case": "no_exception",
+    "N": 10000,
+    "Z": "3.485502358619220361856544421700800385981",
+    "window_lower": "0.9599555404830882032663595467094474965064",
+    "checked_conductors": [
+     3
+    ],
+    "scan_range": [
+     "0.6599555404830882032663595467094474965064",
+     "0.9995000000000000550670620214077644050121"
+    ]
+   },
+   "planted_zero_response": [
+    {
+     "beta": 0.6,
+     "gamma": 14.134725,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 1133768026.2825005,
+     "ratio_to_unperturbed": 1.0841433306099917
+    },
+    {
+     "beta": 0.75,
+     "gamma": 14.134725,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 1916605920.6908264,
+     "ratio_to_unperturbed": 1.8327166388151777
+    },
+    {
+     "beta": 0.9,
+     "gamma": 14.134725,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 21830055567.33483,
+     "ratio_to_unperturbed": 20.87456040524687
+    },
+    {
+     "beta": 0.9,
+     "gamma": 50.0,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 3547287236.1905484,
+     "ratio_to_unperturbed": 3.3920235089745647
+    },
+    {
+     "beta": 0.9,
+     "gamma": 14.134725,
+     "amplitude": 5.0,
+     "E_corr_perturbed": 4855634219383.529,
+     "ratio_to_unperturbed": 4643.104526493877
+    }
+   ]
+  },
+  {
+   "N": 30000,
+   "E": 13875798275.997974,
+   "E_corr": 13875798275.997974,
+   "ratio_Ecorr_over_E": 1.0,
+   "exceptional_case": {
+    "case": "no_exception",
+    "N": 30000,
+    "Z": "3.535171649485775628438451360520365103646",
+    "window_lower": "0.9604042521637745127347193064787841021183",
+    "checked_conductors": [
+     3
+    ],
+    "scan_range": [
+     "0.6604042521637745127347193064787841021183",
+     "0.9995000000000000550670620214077644050121"
+    ]
+   },
+   "planted_zero_response": [
+    {
+     "beta": 0.6,
+     "gamma": 14.134725,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 14687134148.62499,
+     "ratio_to_unperturbed": 1.0584712934340106
+    },
+    {
+     "beta": 0.75,
+     "gamma": 14.134725,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 23534282948.42643,
+     "ratio_to_unperturbed": 1.6960669563159816
+    },
+    {
+     "beta": 0.9,
+     "gamma": 14.134725,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 241830377736.25162,
+     "ratio_to_unperturbed": 17.428213708941275
+    },
+    {
+     "beta": 0.9,
+     "gamma": 50.0,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 48722278054.76987,
+     "ratio_to_unperturbed": 3.511313517655305
+    },
+    {
+     "beta": 0.9,
+     "gamma": 14.134725,
+     "amplitude": 5.0,
+     "E_corr_perturbed": 68865124200988.86,
+     "ratio_to_unperturbed": 4962.9666582938235
+    }
+   ]
+  },
+  {
+   "N": 100000,
+   "E": 223439980640.01736,
+   "E_corr": 223439980640.01736,
+   "ratio_Ecorr_over_E": 1.0,
+   "exceptional_case": {
+    "case": "no_exception",
+    "N": 100000,
+    "Z": "3.585103502019686580843793136738317731816",
+    "window_lower": "0.9608392108398212250650702985290311174199",
+    "checked_conductors": [
+     3
+    ],
+    "scan_range": [
+     "0.6608392108398212250650702985290311174199",
+     "0.9995000000000000550670620214077644050121"
+    ]
+   },
+   "planted_zero_response": [
+    {
+     "beta": 0.6,
+     "gamma": 14.134725,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 228759490057.49435,
+     "ratio_to_unperturbed": 1.0238073302827895
+    },
+    {
+     "beta": 0.75,
+     "gamma": 14.134725,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 321024373100.95233,
+     "ratio_to_unperturbed": 1.4367364881674982
+    },
+    {
+     "beta": 0.9,
+     "gamma": 14.134725,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 5066942496318.319,
+     "ratio_to_unperturbed": 22.676973394844836
+    },
+    {
+     "beta": 0.9,
+     "gamma": 50.0,
+     "amplitude": 1.0,
+     "E_corr_perturbed": 1598033485041.4988,
+     "ratio_to_unperturbed": 7.15195857278595
+    },
+    {
+     "beta": 0.9,
+     "gamma": 14.134725,
+     "amplitude": 5.0,
+     "E_corr_perturbed": 1630254399511927.8,
+     "ratio_to_unperturbed": 7296.162463146735
+    }
+   ]
+  }
+ ],
+ "cross_check_N2000": {
+  "N": 2000,
+  "case": "no_exception",
+  "E_corr_fft": 25324886.763256125,
+  "E_corr_pure_python": 25324886.763256077,
+  "absdiff": 4.842877388000488e-08
+ },
+ "planted_zero_params": [
+  {
+   "beta": 0.6,
+   "gamma": 14.134725,
+   "amplitude": 1.0
+  },
+  {
+   "beta": 0.75,
+   "gamma": 14.134725,
+   "amplitude": 1.0
+  },
+  {
+   "beta": 0.9,
+   "gamma": 14.134725,
+   "amplitude": 1.0
+  },
+  {
+   "beta": 0.9,
+   "gamma": 50.0,
+   "amplitude": 1.0
+  },
+  {
+   "beta": 0.9,
+   "gamma": 14.134725,
+   "amplitude": 5.0
+  }
+ ],
+ "seconds_total": 19.963255167007446
+}
