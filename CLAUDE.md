@@ -278,6 +278,23 @@ ahead of `origin/main`, right by construction, needing nobody to maintain it.
 
 ## Hard rules
 
+- **CI is not a gate, and never make the operator wait on a badge.** You have a machine. Run the
+  suite yourself, read the result, and merge on that evidence. A cloud VM has no compute charge and
+  runs the whole fast tier in about seventeen minutes for nothing. On 2026-09-10 an agent ran that
+  suite locally, watched it pass 2957 tests, and then held a merge waiting for the identical suite
+  to finish again on a runner, turning a finished job into a ceremony and the operator's time into
+  the price of it. The tiers here are deliberate and their headers say why: tier 1 is six seconds,
+  tier 2 runs on pull requests, tier 3 is nightly *specifically* so a slow red badge does not
+  become background noise. Use CI as a second opinion on a clean checkout, which is the one thing
+  your machine cannot give you. Do not use it as permission.
+- **Before you "fix" configuration, read its comments.** If a file explains why it is the way it
+  is, that reasoning was written by someone who had the whole problem in front of them and it
+  beats your first impression. The same day, the same agent was one command from scoping tier 1
+  off feature branches and deleting tier 3's schedule, both of which the files' own headers argue
+  for in plain words. An operator being frustrated is not evidence that a system is wrong, and
+  changing something well designed to look responsive is worse than changing nothing.
+
+
 - **Python**: ALWAYS `.venv/bin/python (from the repo root)`, never bare
   `python3`. All dependencies live only in that venv (mpmath, numpy, scipy,
   matplotlib, sympy, pytest).
