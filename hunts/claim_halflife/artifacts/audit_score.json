@@ -1,0 +1,104 @@
+{
+ "n": 30,
+ "agreement": 0.7,
+ "classifier_positive_audit_positive": 7,
+ "classifier_negative_audit_negative": 14,
+ "classifier_positive_audit_negative": 5,
+ "classifier_negative_audit_positive": 4,
+ "classifier_precision_against_audit": 0.5833333333333334,
+ "classifier_recall_against_audit": 0.6363636363636364,
+ "disagreements": [
+  {
+   "kind": "classifier-overcalled",
+   "row_id": 2,
+   "commit": "09745f72e996",
+   "hunt": "r_b9552d",
+   "subject": "r_b9552d run 2: gap A of the lattice-extremality route is a forbidden constant (#63)",
+   "auditor_said": false,
+   "auditor_confidence": "high",
+   "auditor_why": "Run 2 is appended alongside run 1, whose artifacts are preserved under run-tagged names, and the diff states outright \"Nothing it settled is re-derived here, and nothing it said is contradicted\"; the withdrawals it mentions (G4 in a735965, gap B in 7efd506) happened on main, so this is narration of somebody else's correction."
+  },
+  {
+   "kind": "classifier-overcalled",
+   "row_id": 4,
+   "commit": "210fa64d4b06",
+   "hunt": "higher_xi",
+   "subject": "derive corrected xi2 form factor tail",
+   "auditor_said": false,
+   "auditor_confidence": "medium",
+   "auditor_why": "The diff adds the CORRECTED-F2 paragraph and re-points the mission's forward obligations; the only edit to standing text is the scope word in \"closes the historical coefficient audit\", and \"corrected\" in the subject names the object inherited from row 1 rather than an action on this hunt's record."
+  },
+  {
+   "kind": "classifier-missed",
+   "row_id": 7,
+   "commit": "3c97860a5d1b",
+   "hunt": "jensen_clock",
+   "subject": "jensen_clock hunt: results \u2014 finite Jensen degree is a heat clock",
+   "auditor_said": true,
+   "auditor_confidence": "medium",
+   "auditor_why": "The new RESULTS.md contradicts the hunt's own preregistered MISSION.md statement in P5: \"`MISSION.md` predicted this would read close to the isolated value 0.0476 - **that prediction failed** (8.3% away), because the mission's neighborhood estimate forgot that zeta's ordinates appear doubled\", which corrects a defect in the hunt's earlier recorded reasoning even though the rest of the file is new work."
+  },
+  {
+   "kind": "classifier-missed",
+   "row_id": 18,
+   "commit": "8a1fd4046d41",
+   "hunt": "r_6c7d6a",
+   "subject": "fix(bookkeeping): correct a fabricated run id to Fulcrum's minted one",
+   "auditor_said": true,
+   "auditor_confidence": "medium",
+   "auditor_why": "HANDBACK.json's recorded run_id 4df2ee65-1c9a-4e3b-8f7d-2a6b9c4e0f11 is replaced by 4df2ee65-b05a-4fb4-941e-2fc657e20233 and an \"[Operator correction 2026-08-17: ... that id was fabricated ...]\" note is appended, so a datum the hunt had recorded is corrected, although the commit says \"The mathematics is untouched\"."
+  },
+  {
+   "kind": "classifier-overcalled",
+   "row_id": 19,
+   "commit": "8bb3b29f8a28",
+   "hunt": "higher_xi",
+   "subject": "Close RAMS2 cluster expansion on a positive band",
+   "auditor_said": false,
+   "auditor_confidence": "medium",
+   "auditor_why": "A twelve-line append to MISSION.md reporting that RAMS2-CLUSTER.md resolves the level-two target the previous text had already named as forced by the connected A*A atom, with its own scope limit (\"a deliberately narrow band ... no percentage is opened\") rather than a narrowing of an earlier claim."
+  },
+  {
+   "kind": "classifier-overcalled",
+   "row_id": 23,
+   "commit": "b586744d2afc",
+   "hunt": "frontier_math",
+   "subject": "Sprint 2: the zeta23ext port lands - every module builds under v4.33.0-rc2",
+   "auditor_said": false,
+   "auditor_confidence": "medium",
+   "auditor_why": "The port table's old verdicts are preserved as a \"first verdict\" column beside \"now\", so \"failed at 109, 290\" is kept as history and the modules build because the porting work was done, not because the earlier record was wrong."
+  },
+  {
+   "kind": "classifier-missed",
+   "row_id": 27,
+   "commit": "d49e699a1aeb",
+   "hunt": "prime_pair_error",
+   "subject": "Relax factorial ceilings to attainable cells and correct barrier claims",
+   "auditor_said": true,
+   "auditor_confidence": "high",
+   "auditor_why": "The diff prepends \"**Correction and continuation, 2026-09-07:** Section 4.2's dimension-count argument is false\" with a counterexample (N=27, y=9, minimum excess log(2)) and declares the inferred zero for N=10^6 \"unsupported by that argument\"."
+  },
+  {
+   "kind": "classifier-overcalled",
+   "row_id": 28,
+   "commit": "e974ec4706d0",
+   "hunt": "prime_pair_error",
+   "subject": "Preserve the adaptive-block research freeze and import its three latest packages",
+   "auditor_said": false,
+   "auditor_confidence": "high",
+   "auditor_why": "A preservation import: archives committed unchanged with hashes pinned, and the material itself says \"importing a package does not promote its mathematics\" and \"This checkpoint changes no mathematical claim\"; the \"unreviewed drafts\" warning scopes the newly imported objects, not an earlier claim."
+  },
+  {
+   "kind": "classifier-missed",
+   "row_id": 29,
+   "commit": "e9eec188da4c",
+   "hunt": "amtopa_ceiling",
+   "subject": "Hunt #90: the LP re-solved with a stronger oracle; the two searchable axes are at the ceiling to within 8.9e-8",
+   "auditor_said": true,
+   "auditor_confidence": "medium",
+   "auditor_why": "The appended re-solve states \"Section 1's `+5.75e-6` of headroom was the oracle's, not the polytope's\" and caps it at 8.9e-8, contradicting section 1's standing \"the room left in this construction is at least 3.96e-06 and plausibly ten times that\"; RUNS.md's planned-run description is also rewritten to the run that actually died at round 45."
+  }
+ ],
+ "auditor_rubric_notes": "RULE I APPLIED. is_revision = true iff the commit makes something THIS hunt had previously put on its own record stop being true: a recorded number, verdict, status, scope or claim replaced, narrowed, withdrawn, falsified or labelled wrong, or a defect in the hunt's own earlier artifacts that had made a recorded statement wrong. Everything else is false: additive work, an open question answered, a status that changed because the work got done, coordination bookkeeping, punctuation, moves, regenerations, and prose that NARRATES a correction made elsewhere.\n\nWHERE THE BOUNDARY WAS ACTUALLY HARD, and how I cut it.\n\n(1) Correction narrated vs correction made. Row 2 is the cleanest instance: run 2's RESULTS.md twice records that main withdrew the G4 counterexample (a735965) and closed gap B (7efd506), and its dead_routes list carries \"withdrawn on main a735965\". Those words are withdrawal words, but the withdrawn object is not this hunt's, and the diff says \"nothing it said is contradicted\". False. Same cut for row 6 (a reciprocal PairEnergy prior-art correction sent to another arm), row 9 (it narrows hunt #110's value, not its own), row 28 (which states \"This checkpoint changes no mathematical claim\").\n\n(2) Progress vs retraction, when a recorded verdict flips. I split rows 0, 22, 23 on whether the old record survives as history. Row 23 keeps its failing verdicts in a \"first verdict\" column beside \"now\", so nothing is taken back: false. Row 22 keeps the float margins (\"float: +6.5..+769\") and adds directed enclosures as a separate grade: false. Row 0 deletes the table rows marked NEITHER, deletes \"the seam ... is a genuine two-sided hole\", flips PINNED, OPEN to CLOSED, and attributes the earlier reading to the hunt's own per-pair clipping \"inflating the field ~10x\": true. I am aware this makes presentation partly load-bearing, and row 0 is the call I would most expect a careful second reader to take the other way.\n\n(3) A failed preregistered prediction (row 7). The rubric's yes-list contains \"contradict\", and the file says in terms that MISSION.md's prediction \"failed\" and that the mission's estimate \"forgot\" something. I called it true. The argument against, which I think is real: preregistration exists to be scored, a hypothesis is not a claim, and counting this as revision means most first-results commits in a preregistering lab are revisions. This is my second-least-certain row.\n\n(4) Bookkeeping vs claim (rows 18, 26). The rubric says \"something the hunt had already recorded\", not \"some mathematical claim\", so row 18 (a fabricated run id in HANDBACK.json replaced, plus an operator-correction note) is true even though the commit says the mathematics is untouched. Row 26 is the mirror image and I called it false: a dropped Lean import is restored, and the commit's own account, \"Bridge.lean itself was never touched, so nothing was lost\", means no recorded statement was ever wrong. If the grader treats \"defect in the hunt's own earlier work being fixed\" mechanically, row 26 flips.\n\n(5) A barrier that bounds the route you were taking (row 24). Computing an LP floor that shows the family cannot reach N^{1/2} does not falsify any construction or constant the hunt recorded, so false, even though row 27 later corrects row 24 itself.\n\nTWO THINGS ABOUT THE SAMPLE THAT THE AUDITOR SHOULD NOT HAVE HAD TO DISCOVER.\n\n(a) The evidence in three rows is wrong, not merely thin. Rows 15, 16 and 17 are shown with files_touched = [] and an empty diff, but commit 7b86bc9 demonstrably edits hunts/r_186989/MISSION.md and RESULTS.md, hunts/r_233abe/MISSION.md and RESULTS.md, and hunts/lehmer_pair/MISSION.md. The mechanism is visible in corpus.py's build(): the shared dict does commits[c.sha] = c once per hunt row, and _commits_touching(path) returns a file list already restricted to that path, so for any commit that touches several hunts the surviving Commit record carries only the last-processed hunt's files. Every multi-hunt commit in this corpus therefore reaches the classifier and the auditor with the wrong file list, and rows 15-17 happen to be harmless (a punctuation sweep) only by luck. I judged them from the repository, not from the blank row.\n\n(b) Twelve of thirty rows carry no diff at all (0, 6, 8, 11, 13, 15-18, 20, 22, 26). For the frontier_math ones this is legitimate: corpus.CLAIM_FILES is exactly RESULTS/README/MISSION/RUNS/FINDINGS.md, and that hunt records its claims in PROOF-LEDGER.md, ACTIVE-CLAIMS.md, START-HERE.md, LEVEL7-VCELL.md and BLOCKPOS-WITHDRAWN.md, none of which count. So the corpus is blind to the claim files of its single largest hunt, and rows 0, 8 and 13, three of my strongest true labels, are invisible in the evidence the sample actually shows. Judging them from subject text alone, row 0 reads like progress and would be false.\n\nI did read make_audit_sample.py, which is not on the forbidden list, and it discloses the sample is stratified 15 classifier-positive and 15 classifier-negative. I set no label from that, and my count is 11 true. I mention it because it is a leak and because it means the tie between my 11 and the classifier's 15 is not evidence either way about which of us is right.",
+ "auditor_expected_disagreements": "I expect a keyword-driven classifier to sit at 15 positives against my 11, and to differ on both sides.\n\nCLASSIFIER SAYS REVISION, I SAY NO (false positives I predict, in descending confidence):\n\n- Row 4, \"derive corrected xi2 form factor tail\". \"corrected\" is in the subject, but it names the object inherited from row 1, not an action on this hunt's record. The diff is an append plus a one-word scope refinement.\n- Row 2. Its diff contains \"withdrawn on main a735965\" twice, \"was withdrawn\", and a dead_routes entry with the same words, and RESULTS.md's entire run-1 header is deleted (the content moved to a run-tagged file). Any classifier reading deletions or withdrawal vocabulary flags this. It is the archetype of the narrated-elsewhere case.\n- Row 26, \"Restore the Bridge import that a parallel edit dropped\". Restore/dropped/parallel-edit is repair vocabulary and the body describes a guard's blind spot, but the file is not a claim file and nothing recorded changes.\n- Rows 15/16/17, the punctuation sweep. Less likely, but the subject \"the repo had written and never followed\" plus a commit body containing \"Defects found on the way\", \"was never true\", \"It is an IDE\", and a wrong-document-number correction could pull all three across. If the classifier reads commit bodies at all, these three flip together and cost it three.\n- Row 23. \"first verdict | now\", \"failed at 82\" to \"**builds**\", and a header rewritten to \"The port is DONE\" look like replaced verdicts to a diff-differ.\n- Row 21 and row 28. Both are saturated with the word \"correction\" used as a noun for a mathematical object (residue-class correction, adaptive correction block, \"23 corrections and 82 repairs\"). Pure lexical bait; row 28 even says \"This checkpoint changes no mathematical claim\".\n- Row 24. \"the LP itself was never solved\", \"This is the number the route needed and did not have\", \"The zero is not progress\" read as self-criticism of the hunt's earlier effort without falsifying any recorded value.\n\nCLASSIFIER SAYS NO, I SAY REVISION (false negatives I predict):\n\n- Row 0, \"Level 7: the direct joint-field dual closes the seam\". No correction keyword, and the row carries no diff at all because frontier_math's ledger files are outside CLAIM_FILES. On the row's own text this reads as pure progress. My true label rests entirely on the repository.\n- Row 7, the jensen_clock results. Subject is a headline finding; the failed prediction is one bullet deep inside a 118-line new file, and the file is an addition, so both a keyword classifier and a diff-shape classifier should call it clean.\n- Row 29. Subject says \"re-solved with a stronger oracle\" and the commit appends rather than edits; the retraction is one sentence, \"Section 1's +5.75e-6 of headroom was the oracle's, not the polytope's\", and it points at a section this commit does not touch.\n- Row 18 is the row where I would most expect the disagreement to run either way. \"fix(bookkeeping): correct\" is maximal keyword bait, so a lexical classifier says revision and agrees with me by accident, while a classifier restricted to claim-file diffs sees nothing at all, since HANDBACK.json is not a claim file.\n\nRows I expect agreement on: 1, 5, 8, 10, 13, 14, 27 as revisions (each carries an explicit correction, retraction or withdrawal notice in the diff itself) and 3, 6, 9, 11, 12, 19, 20, 25 as clean.\n\nStructural direction of the disagreement: the classifier's evidence is the union of subject text and claim-file diffs, and both channels are lossy in the same direction. It over-reads the word \"correction\" where it names an object, and under-reads corrections recorded in files the corpus does not consider claim files, which for frontier_math is all of them."
+}

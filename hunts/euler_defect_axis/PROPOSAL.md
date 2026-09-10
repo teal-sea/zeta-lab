@@ -61,15 +61,23 @@ to non-principal forms go.
 
 The open question stands, but its proposed design does not. The paragraph
 "The Epstein family supplies a defect axis from 0 to 36 with class number as
-the knob" wants replacing with the corrected axis and the observation that the
-family has no knob: over the nine loud discriminants the defect band is 2.96
-to 5.08, and it correlates with `log|d|` at `-0.82` and with class number at
-`-0.69`, both negative.
+the knob" wants replacing with the corrected axis and three narrower observations that
+replace it: the band is `2.96 .. 5.08` at cutoff 61 and `5.02 .. 10.57` at
+cutoff 401, so the axis has no scale; the ordering of the nine discriminants is
+identical at both cutoffs, so it does order them; and the two candidate knobs
+correlate with each other at `+0.97` over those nine points, so nine points
+cannot say which one is doing the work.
 
 ## 5. Disposition of the compute job
 
 The off-line-zero measurement issue #93 prices is not worth buying against
-this axis. If the question is worth pursuing, the family to build is a
+this axis, and normalising the defect comes before either. The band runs
+`2.96 .. 5.08` at cutoff 61 and `5.02 .. 10.57` at cutoff 401 while the ordering
+of the nine discriminants does not move, so the quantity orders subjects and
+does not scale them. Normalise it first, by the number of composites in range or
+against the same norm of the prime-power part.
+
+Then, if the question is worth pursuing, the family to build is a
 Davenport-Heilbronn construction at several moduli, where the mixing constant
 is a genuine knob and the functional equation is imposed by a linear solve, as
 `zeta/epstein.py` already does at modulus 5. That is a construction, not a

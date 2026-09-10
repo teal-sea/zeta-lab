@@ -136,8 +136,25 @@ def mutate(path: Path, rel: float, index: int | None) -> str | None:
     return desc
 
 
+#: Original bytes, held in memory for the life of one target.  The first
+#: version of this module restored with `git checkout --`, and a concurrent
+#: `git` in the same working tree made one restore fail with exit 128, leaving
+#: a mutated artifact behind until a person noticed.  The operating playbook
+#: this laboratory keeps has the rule already ("never background a job that
+#: does git checkout in the shared tree"); this is the rule obeyed rather than
+#: quoted.  A byte-for-byte restore needs no index, cannot race, and is checked.
+_ORIGINAL: dict[str, bytes] = {}
+
+
+def snapshot(path: Path) -> None:
+    _ORIGINAL[str(path)] = path.read_bytes()
+
+
 def restore(path: Path) -> None:
-    git("checkout", "--", str(path.relative_to(REPO)))
+    original = _ORIGINAL[str(path)]
+    path.write_bytes(original)
+    if path.read_bytes() != original:                      # pragma: no cover
+        raise RuntimeError(f"restore of {path} did not round-trip")
 
 
 def null_rewrite(path: Path) -> None:
@@ -156,6 +173,7 @@ def main() -> None:
     for r in have_art:
         art = REPO / r["artifact"]
         test_file = r["test"]
+        snapshot(art)
         n_leaves = leaves(art)
         row = {"hunt": r["hunt"], "test": test_file, "artifact": r["artifact"],
                "n_leaves": n_leaves}
@@ -175,7 +193,6 @@ def main() -> None:
         desc = mutate(art, 0.10, None)
         row["rungA_all_leaves"] = "caught" if (desc and not run_test(test_file)) else "missed"
         restore(art)
-        assert git("status", "--porcelain", "--", r["artifact"]).strip() == ""
 
         # rung B
         if row["rungA_all_leaves"] == "caught" and n_leaves:

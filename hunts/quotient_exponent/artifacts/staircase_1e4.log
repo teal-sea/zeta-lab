@@ -1,0 +1,4 @@
+N=10000  supports solved 249  distinct values 128  y* = 173  |Q_N| = 198
+  last positive plateau: excess 9.406483 held for y = 157..172 (16 supports)
+  longest plateau: {'y_from': 173, 'y_to': 250, 'length': 78, 'excess': 0.0}
+-> /home/user/zeta-lab/hunts/quotient_exponent/artifacts/staircase_N10000.json

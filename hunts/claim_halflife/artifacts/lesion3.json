@@ -1,0 +1,455 @@
+[
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_certificate.py",
+  "outcome": "reads-numbers",
+  "n_artifacts": 1,
+  "n_mutated": 1,
+  "total_leaves": 407,
+  "artifacts": [
+   "hunts/quotient_certificate/results.json"
+  ]
+ },
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_compensated_repair.py",
+  "outcome": "reads-numbers",
+  "n_artifacts": 2,
+  "n_mutated": 2,
+  "total_leaves": 483,
+  "artifacts": [
+   "hunts/quotient_certificate/compensated_repair_results.json",
+   "hunts/quotient_certificate/results.json"
+  ]
+ },
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_credited_bundle.py",
+  "outcome": "reads-numbers",
+  "n_artifacts": 2,
+  "n_mutated": 2,
+  "total_leaves": 963,
+  "artifacts": [
+   "hunts/quotient_certificate/credited_bundle_results.json",
+   "hunts/quotient_certificate/results.json"
+  ]
+ },
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_finite_transfer.py",
+  "outcome": "byte-pinned",
+  "n_artifacts": 3,
+  "artifacts": [
+   "hunts/quotient_certificate/finite_transfer_counterexample.json",
+   "hunts/quotient_certificate/finite_transfer_results.json",
+   "hunts/quotient_certificate/results.json"
+  ]
+ },
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_fold_upper.py",
+  "outcome": "byte-pinned",
+  "n_artifacts": 4,
+  "artifacts": [
+   "hunts/quotient_certificate/fold_upper_input.json",
+   "hunts/quotient_certificate/fold_upper_manifest.json",
+   "hunts/quotient_certificate/fold_upper_results.json",
+   "hunts/quotient_certificate/results.json"
+  ]
+ },
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_height_kernel.py",
+  "outcome": "byte-pinned",
+  "n_artifacts": 3,
+  "artifacts": [
+   "hunts/quotient_certificate/height_kernel_input.json",
+   "hunts/quotient_certificate/height_kernel_results.json",
+   "hunts/quotient_certificate/results.json"
+  ]
+ },
+ {
+  "hunt": "quotient_certificate",
+  "test": "test_quotient_transport_capacity.py",
+  "outcome": "reads-numbers",
+  "n_artifacts": 3,
+  "n_mutated": 3,
+  "total_leaves": 544,
+  "artifacts": [
+   "hunts/quotient_certificate/height_kernel_results.json",
+   "hunts/quotient_certificate/results.json",
+   "hunts/quotient_certificate/transport_capacity_results.json"
+  ]
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_adaptive_freeze_archive.py",
+  "outcome": "byte-pinned",
+  "n_artifacts": 15,
+  "artifacts": [
+   "hunts/prime_pair_error/frontier/2026-09-06/adaptive_correction_block/BLOCK_CORRECTIONS.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/adaptive_correction_block/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/adaptive_freeze_v1/README.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/adaptive_freeze_v1/provenance/ARCHIVE_CONTENTS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/adaptive_freeze_v1/provenance/FILE_MANIFEST.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/adaptive_freeze_v1/provenance/FREEZE.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/adaptive_freeze_v1/provenance/LOCAL_VALIDATION.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/adaptive_freeze_v1/provenance/REPO_STATE.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_refinement_rule/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_route_test/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_structural_step/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/factorial_certificate_pilot/REVIEW.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/factorial_certificate_pilot/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/joint_support_analysis/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/repair_cost_rule/SHA256SUMS.json"
+  ]
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_certificate_lp_barrier.py",
+  "outcome": "reads-no-numbers",
+  "n_artifacts": 1,
+  "n_mutated": 1,
+  "total_leaves": 6,
+  "artifacts": [
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_lp_frontier/BARRIER.md"
+  ]
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_certificate_lp_dual_witness.py",
+  "outcome": "reads-numbers",
+  "n_artifacts": 2,
+  "n_mutated": 2,
+  "total_leaves": 283,
+  "artifacts": [
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_lp_frontier/DUAL_WITNESS.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_lp_frontier/results/fake_mass_N10000_y100.json"
+  ]
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_certificate_lp_frontier.py",
+  "outcome": "reads-no-numbers",
+  "n_artifacts": 2,
+  "n_mutated": 2,
+  "total_leaves": 148,
+  "artifacts": [
+   "hunts/prime_pair_error/RESULTS.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_lp_frontier/RESULTS.md"
+  ]
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_factorial_pilot_archive.py",
+  "outcome": "byte-pinned",
+  "n_artifacts": 15,
+  "artifacts": [
+   "hunts/prime_pair_error/frontier/2026-09-06/adaptive_correction_block/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/adaptive_correction_block/results.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_refinement_rule/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_refinement_rule/results.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_route_test/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_structural_step/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_structural_step/results.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/factorial_certificate_pilot/PILOT.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/factorial_certificate_pilot/REVIEW.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/factorial_certificate_pilot/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/factorial_certificate_pilot/results.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/joint_support_analysis/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/repair_cost_rule/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/repair_cost_rule/results.json",
+   "hunts/prime_pair_error/results.json"
+  ]
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_frontier_archive.py",
+  "outcome": "reads-no-numbers",
+  "n_artifacts": 8,
+  "n_mutated": 8,
+  "total_leaves": 76,
+  "artifacts": [
+   "hunts/prime_pair_error/frontier/2026-09-06/adaptive_correction_block/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/adaptive_freeze_v1/README.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_refinement_rule/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_route_test/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_structural_step/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/factorial_certificate_pilot/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/joint_support_analysis/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/repair_cost_rule/SHA256SUMS.json"
+  ]
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_prime_pair_residue.py",
+  "outcome": "reads-numbers",
+  "n_artifacts": 5,
+  "n_mutated": 5,
+  "total_leaves": 6115,
+  "artifacts": [
+   "hunts/prime_pair_error/REFEREE.md",
+   "hunts/prime_pair_error/RESULTS.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_lp_frontier/RESULTS.md",
+   "hunts/prime_pair_error/results_residue.json",
+   "hunts/prime_pair_error/results_wronskian.json"
+  ]
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_prime_pair_upper_bound.py",
+  "outcome": "no-mutable-artifact",
+  "n_artifacts": 0
+ },
+ {
+  "hunt": "prime_pair_error",
+  "test": "test_research_checkpoint_archive.py",
+  "outcome": "byte-pinned",
+  "n_artifacts": 34,
+  "artifacts": [
+   "hunts/prime_pair_error/frontier/2026-09-06/adaptive_correction_block/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/adaptive_correction_block/results.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/adaptive_freeze_v1/README.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_refinement_rule/REFINEMENT.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_refinement_rule/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_refinement_rule/exploration.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_refinement_rule/inputs.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_refinement_rule/results.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_route_test/ORIGINAL_REFINEMENT.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_route_test/ROUTE_ASSESSMENT.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_route_test/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_route_test/aggregate_results.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_route_test/inputs.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_route_test/original_results.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_structural_step/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_structural_step/STRUCTURAL_STEP.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_structural_step/checked_results.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/certificate_structural_step/results.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/checkpoint/CHECKPOINT.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/checkpoint/source_notes/REFINEMENT.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/checkpoint/source_notes/ROUTE_ASSESSMENT.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/checkpoint/source_notes/STRUCTURAL_STEP.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/factorial_certificate_pilot/REVIEW.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/factorial_certificate_pilot/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/factorial_certificate_pilot/results.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/joint_support_analysis/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/joint_support_analysis/inputs/certificate_route_test/ORIGINAL_REFINEMENT.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/joint_support_analysis/inputs/certificate_route_test/ROUTE_ASSESSMENT.md",
+   "hunts/prime_pair_error/frontier/2026-09-06/joint_support_analysis/inputs/certificate_route_test/aggregate_results.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/joint_support_analysis/inputs/certificate_route_test/inputs.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/joint_support_analysis/inputs/certificate_route_test/original_results.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/repair_cost_rule/SHA256SUMS.json",
+   "hunts/prime_pair_error/frontier/2026-09-06/repair_cost_rule/results.json",
+   "hunts/prime_pair_error/results.json"
+  ]
+ },
+ {
+  "hunt": "dps_cap",
+  "test": "test_interface_dps_is_honoured.py",
+  "outcome": "no-mutable-artifact",
+  "n_artifacts": 0
+ },
+ {
+  "hunt": "dps_cap",
+  "test": "test_interface_dps_is_honoured.py",
+  "outcome": "no-mutable-artifact",
+  "n_artifacts": 0
+ },
+ {
+  "hunt": "zeta_temperament",
+  "test": "test_zeta_temperament.py",
+  "outcome": "reads-numbers",
+  "n_artifacts": 3,
+  "n_mutated": 3,
+  "total_leaves": 690,
+  "artifacts": [
+   "hunts/zeta_temperament/results_euler.json",
+   "hunts/zeta_temperament/results_landau.json",
+   "hunts/zeta_temperament/results_peaks.json"
+  ]
+ },
+ {
+  "hunt": "chroma_hue",
+  "test": "test_chroma_hue.py",
+  "outcome": "no-mutable-artifact",
+  "n_artifacts": 0
+ },
+ {
+  "hunt": "r_662b12",
+  "test": "test_aimo_audit.py",
+  "outcome": "reads-no-numbers",
+  "n_artifacts": 1,
+  "n_mutated": 1,
+  "total_leaves": 128,
+  "artifacts": [
+   "hunts/r_662b12/results.json"
+  ]
+ },
+ {
+  "hunt": "r_322dae",
+  "test": "test_krenn_gu_support_frontier.py",
+  "outcome": "reads-numbers",
+  "n_artifacts": 1,
+  "n_mutated": 1,
+  "total_leaves": 875,
+  "artifacts": [
+   "hunts/r_322dae/results.json"
+  ]
+ },
+ {
+  "hunt": "r_044dd2",
+  "test": "test_krenn_gu_polynomial_sieve.py",
+  "outcome": "byte-pinned",
+  "n_artifacts": 3,
+  "artifacts": [
+   "hunts/r_044dd2/artifacts/orbit18-polynomial-07-cap4.json",
+   "hunts/r_044dd2/artifacts/orbit18-polynomial-07-cap5-resource.json",
+   "hunts/r_044dd2/artifacts/orbit18-support-07.json"
+  ]
+ },
+ {
+  "hunt": "r_044dd2",
+  "test": "test_krenn_gu_support_frontier.py",
+  "outcome": "byte-pinned",
+  "n_artifacts": 4,
+  "artifacts": [
+   "hunts/r_044dd2/artifacts/orbit18-laurent-05.json",
+   "hunts/r_044dd2/artifacts/orbit18-support-05.json",
+   "hunts/r_044dd2/artifacts/orbit18-support-07.json",
+   "hunts/r_044dd2/results.json"
+  ]
+ },
+ {
+  "hunt": "lambda_dh_bounds",
+  "test": "test_lambda_dh_separation.py",
+  "outcome": "reads-numbers",
+  "n_artifacts": 12,
+  "n_mutated": 12,
+  "total_leaves": 1576,
+  "artifacts": [
+   "hunts/lambda_dh_bounds/FRAME.md",
+   "hunts/lambda_dh_bounds/GATE.md",
+   "hunts/lambda_dh_bounds/KAPPA-CLOSED-FORM.md",
+   "hunts/lambda_dh_bounds/M2-LEMMA.md",
+   "hunts/lambda_dh_bounds/RESULTS.md",
+   "hunts/lambda_dh_bounds/SEPARATION.md",
+   "hunts/lambda_dh_bounds/STRIP.md",
+   "hunts/lambda_dh_bounds/STRIP2.md",
+   "hunts/lambda_dh_bounds/m2_lemma_results.json",
+   "hunts/lambda_dh_bounds/results.json",
+   "hunts/lambda_dh_bounds/strip_results.json",
+   "hunts/lambda_dh_bounds/winding_results.json"
+  ]
+ },
+ {
+  "hunt": "prime_zeta_rightmost",
+  "test": "test_prime_zeta_rightmost.py",
+  "outcome": "reads-numbers",
+  "n_artifacts": 7,
+  "n_mutated": 7,
+  "total_leaves": 304,
+  "artifacts": [
+   "hunts/prime_zeta_rightmost/PRIOR-ART.md",
+   "hunts/prime_zeta_rightmost/SOURCE.md",
+   "hunts/prime_zeta_rightmost/controls_results.json",
+   "hunts/prime_zeta_rightmost/decided.json",
+   "hunts/prime_zeta_rightmost/results.json",
+   "hunts/prime_zeta_rightmost/theorem_inputs.json",
+   "hunts/prime_zeta_rightmost/witness_results.json"
+  ]
+ },
+ {
+  "hunt": "r_f7cd45",
+  "test": "test_hunt_numbering.py",
+  "outcome": "no-mutable-artifact",
+  "n_artifacts": 0
+ },
+ {
+  "hunt": "r_3c1cbb",
+  "test": "test_hunt_numbering.py",
+  "outcome": "no-mutable-artifact",
+  "n_artifacts": 0
+ },
+ {
+  "hunt": "r_3c1cbb",
+  "test": "test_hunt_numbering.py",
+  "outcome": "no-mutable-artifact",
+  "n_artifacts": 0
+ },
+ {
+  "hunt": "r_414eed",
+  "test": "test_guard_ledger.py",
+  "outcome": "no-mutable-artifact",
+  "n_artifacts": 0
+ },
+ {
+  "hunt": "frontier_math",
+  "test": "test_frontier_math_clean_kill.py",
+  "outcome": "no-mutable-artifact",
+  "n_artifacts": 0
+ },
+ {
+  "hunt": "frontier_math",
+  "test": "test_graveyard.py",
+  "outcome": "no-mutable-artifact",
+  "n_artifacts": 0
+ },
+ {
+  "hunt": "frontier_math",
+  "test": "test_hunt_probe_discipline.py",
+  "outcome": "reads-no-numbers",
+  "n_artifacts": 1,
+  "n_mutated": 1,
+  "total_leaves": 339,
+  "artifacts": [
+   "hunts/frontier_math/PROOF-LEDGER.md"
+  ]
+ },
+ {
+  "hunt": "frontier_math",
+  "test": "test_o9_leaves_kernel.py",
+  "outcome": "no-mutable-artifact",
+  "n_artifacts": 0
+ },
+ {
+  "hunt": "frontier_math",
+  "test": "test_reading_of_record.py",
+  "outcome": "reads-numbers",
+  "n_artifacts": 2,
+  "n_mutated": 2,
+  "total_leaves": 345,
+  "artifacts": [
+   "hunts/frontier_math/PROOF-LEDGER.md",
+   "hunts/frontier_math/START-HERE.md"
+  ]
+ },
+ {
+  "hunt": "frontier_math",
+  "test": "test_zeta23ext_imports.py",
+  "outcome": "no-mutable-artifact",
+  "n_artifacts": 0
+ },
+ {
+  "hunt": "wide_search",
+  "test": "test_pub1_admissible_closure.py",
+  "outcome": "reads-no-numbers",
+  "n_artifacts": 1,
+  "n_mutated": 1,
+  "total_leaves": 9,
+  "artifacts": [
+   "hunts/wide_search/RESULTS-xiprime-admissible-closure.md"
+  ]
+ },
+ {
+  "hunt": "director_run",
+  "test": "test_harness_independence.py",
+  "outcome": "no-mutable-artifact",
+  "n_artifacts": 0
+ },
+ {
+  "hunt": "factorization_vs_position",
+  "test": "test_hunt_probe_discipline.py",
+  "outcome": "no-mutable-artifact",
+  "n_artifacts": 0
+ }
+]
