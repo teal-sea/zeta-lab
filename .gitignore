@@ -88,3 +88,11 @@ data/odlyzko/
 
 # pinned upstream clones fetched by hunts/*/fetch_upstream.sh
 .upstream/
+
+# Ostoyae runtime state beside a hunt's board. `graph.schema.md` is explicit that the
+# heartbeat is "runtime state, not the record", and that a leftover one is how the next
+# runner recognises a death: tracking it would make a dead runner's tombstone a committed
+# fact and a clean exit look like an uncommitted deletion. The board itself IS the record
+# and stays tracked; these two are not.
+hunts/*/board.run.json
+hunts/*/board.live.json
