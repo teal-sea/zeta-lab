@@ -1,54 +1,41 @@
-"""A conditional exploration of Theorem B (RESULTS.md Section 18), not an
-evaluation of Theorem B itself.
+"""Conditional (GRH-for-L(s, chi_3)) exploration of Theorem B's shape.
 
-tb_bind.py already established, and results_tb_bind.json already records,
-that Theorem B --
+tb_bind.py established that Theorem B (RESULTS.md Section 18),
 
-    For every eps > 0, E(N) = Omega(N^{1 + 2 Theta_chi - eps}).
+    For every eps > 0, E(N) = Omega(N^{1 + 2 Theta_chi - eps}),
 
--- cannot be numerically evaluated against the measured E(N) in results.json:
-Theta_chi is unconditionally only known to lie in [1/2, 1], the Omega carries
-no explicit constant unconditionally, and the proof's conclusion holds only
-along an unexhibited unbounded sequence of N, not for all N.
+cannot be evaluated against the measured E(N) in results.json, because
+Theta_chi is unconditionally only known to satisfy 1/2 <= Theta_chi <= 1,
+the Omega carries no explicit constant (the proof is a contradiction from
+Landau's oscillation theorem applied to a Mellin transform with a pole, not
+a construction), and the bound is proved only "along an unbounded sequence"
+of N, not exhibited.
 
-This script instead evaluates a different, weaker, conditional statement:
-assume GRH for L(s, chi_3), i.e. Theta_chi = 1/2. RESULTS.md Section 18
-itself uses exactly this substitution to illustrate the theorem's shape:
-"with Theta_chi = 1/2 it gives Omega(N^{2 - eps})". Under that assumption
-the claimed shape is
+This script does NOT evaluate Theorem B. It evaluates a different, weaker,
+CONDITIONAL statement: what Theorem B's shape becomes if Theta_chi = 1/2 is
+assumed, i.e. GRH for L(s, chi_3) (this is exactly the illustrative case
+RESULTS.md Section 18 itself uses under "What it says and does not say"),
+giving
 
     E(N) = Omega(N^{2 - eps})   for every eps > 0.
 
-Two of the three gaps tb_bind.py found do not close under this assumption:
+Even granting that assumption, two of the three gaps tb_bind.py found are
+untouched:
 
-  - The Omega still carries no explicit constant. Theorem B's proof derives
-    an explicit constant 1/2 in |T(N)| >= (1/2) N^{1+Theta_chi-eps'}
-    (RESULTS.md Section 18, the line before "Hence E(N) >= ..."), but only
-    along the unbounded sequence the contradiction argument produces, using
-    the O-constants buried in Theorem A and (E3)/Section 15, none of which
-    is given a numeric value in RESULTS.md. Assuming Theta_chi = 1/2 fixes
-    the exponent; it does not supply those O-constants.
-  - The unbounded sequence along which the bound holds is still not
-    exhibited, GRH-for-chi_3 or not; nothing in the proof's construction of
-    that sequence depends on the value of Theta_chi.
+  - the Omega still carries no explicit constant or threshold N0 (assuming
+    Theta_chi = 1/2 says nothing about the implied constant, which comes
+    from a separate, non-constructive step of the proof);
+  - the bound is still only asserted "along an unbounded sequence" of N,
+    not exhibited, so there is still no licensed set of N to test it at.
 
-So this script cannot produce a bound value to divide the measured E(N) by,
-conditionally any more than unconditionally. What it can do instead is
-compare the *shape* N^{2 - eps} implies -- growth in N with exponent close
-to 2 -- against the exponent the measured E(N) in results.json actually
-displays over that range, without treating that as a numeric inequality
-test and without treating a finite range as settling an asymptotic exponent.
-
-eps: this script fixes eps = 0.05. Theorem B's "for every eps > 0" makes the
-claimed exponent 2 - eps approach 2 as eps -> 0, so the strictest members of
-that family are the small ones; 0.05 is chosen as a concrete small
-representative rather than a special value, close enough to the eps -> 0
-limit to make the shape comparison meaningful, not so close that floating
-point or the finite ladder below would blur it.
-
-This is a GRH-for-L(s, chi_3) conditional exploration. It does not evaluate
-the unconditional Theorem B, does not claim the unconditional bound binds or
-is vacuous, and nothing here bears on RH.
+So there is still no number to compare the measured E(N) against, and the
+only thing available to compare is SHAPE: does the six-point measured E(N)
+in results.json grow at a rate that is at least consistent with an exponent
+approaching 2? That is a much weaker question than whether N^{2-eps} is a
+valid lower bound at these specific N (which the missing constant and
+missing sequence make impossible to check either way), and this script asks
+only that weaker question, and only for the assumed-GRH exponent, not for
+Theorem B itself.
 
 Run:  /opt/zeta-venv/bin/python hunts/prime_pair_error/tb_bind_grh.py
 Reads hunts/prime_pair_error/results.json
@@ -57,51 +44,65 @@ Writes hunts/prime_pair_error/results_tb_bind_grh.json
 from __future__ import annotations
 
 import json
-import math
 from pathlib import Path
+
+import numpy as np
 
 HERE = Path(__file__).resolve().parent
 
-EPS = 0.05
+# Small and explicit. eps only has to be positive for the statement to hold
+# for "every eps > 0"; 0.01 is chosen so the illustrated exponent 2 - eps is
+# close to the eps -> 0 limit (2) while still being a genuine positive eps,
+# not a stand-in for eps = 0. Any other small positive choice would move the
+# illustrated exponent by a comparably small amount; nothing here tunes eps
+# to make an observed exponent look closer or further from 2 - eps.
+EPS = 0.01
+ASSUMED_THETA_CHI = 0.5
+CONDITIONAL_EXPONENT = 1 + 2 * ASSUMED_THETA_CHI - EPS  # = 2 - eps = 1.99
 
 
 def main() -> int:
     results_path = HERE / "results.json"
     data = json.loads(results_path.read_text())
 
-    rows = [(row["N"], row["E"]) for row in data["decomposition"]]
-
-    conditional_exponent = 2 - EPS
-
     cutoffs = []
-    for n, e in rows:
+    for row in data["decomposition"]:
         cutoffs.append(
             {
-                "N": n,
-                "measured_E_N": e,
-                "E_N_over_N_pow_conditional_exponent": e / (n ** conditional_exponent),
+                "N": row["N"],
+                "measured_E_N": row["E"],
             }
         )
 
-    local_exponents = []
-    for (n1, e1), (n2, e2) in zip(rows, rows[1:]):
-        exponent = math.log(e2 / e1) / math.log(n2 / n1)
-        local_exponents.append(
-            {
-                "N_from": n1,
-                "N_to": n2,
-                "observed_local_exponent": exponent,
-                "at_least_conditional_exponent": exponent >= conditional_exponent,
-            }
+    Ns = np.array([row["N"] for row in cutoffs], dtype=float)
+    Es = np.array([row["measured_E_N"] for row in cutoffs], dtype=float)
+
+    # Observed log-log slope of the six measured points, the same
+    # least-squares-over-a-finite-ladder method delta_sq_probe.py uses for
+    # S(N). This is an observed slope over six points spanning N = 1e3 to
+    # 1e7, not an asymptotic exponent, and it is not derived from, or a
+    # substitute for, Theorem B's proof.
+    slope, intercept = np.polyfit(np.log(Ns), np.log(Es), 1)
+
+    for row in cutoffs:
+        n = row["N"]
+        row["N_to_the_2_minus_eps_unnormalized"] = n ** CONDITIONAL_EXPONENT
+        row["measured_E_N_over_N_to_the_2_minus_eps"] = (
+            row["measured_E_N"] / n ** CONDITIONAL_EXPONENT
         )
 
-    log_n = [math.log(n) for n, _ in rows]
-    log_e = [math.log(e) for _, e in rows]
-    mean_log_n = sum(log_n) / len(log_n)
-    mean_log_e = sum(log_e) / len(log_e)
-    num = sum((x - mean_log_n) * (y - mean_log_e) for x, y in zip(log_n, log_e))
-    den = sum((x - mean_log_n) ** 2 for x in log_n)
-    global_exponent = num / den
+    shape_note = (
+        f"Observed log-log exponent over the six measured points is "
+        f"{slope:.4f}. The conditional (assumed Theta_chi = 1/2) exponent "
+        f"Theorem B's shape would need is 2 - eps = {CONDITIONAL_EXPONENT:.4f} "
+        f"with eps = {EPS}. The observed exponent sitting close to, at, or "
+        f"above that value is a statement about six measured points over a "
+        f"finite range, not about the asymptotic rate the conditional "
+        f"statement makes a claim about, and it does not stand in for the "
+        f"missing implied constant or the unexhibited unbounded sequence, "
+        f"either of which the conditional statement (like Theorem B itself) "
+        f"still needs before any numeric inequality could be checked."
+    )
 
     out = {
         "theorem_b_quoted": (
@@ -109,86 +110,81 @@ def main() -> int:
             "(RESULTS.md Section 18.)"
         ),
         "what_this_is": (
-            "A conditional exploration only: assumes GRH for L(s, chi_3), "
-            "i.e. Theta_chi = 1/2, the substitution RESULTS.md Section 18 "
-            "itself uses to state the shape Omega(N^{2 - eps}). This is not "
-            "an evaluation of the unconditional Theorem B, and no claim is "
-            "made here about whether the unconditional bound binds or is "
-            "vacuous. Nothing here bears on RH."
+            "A conditional exploration only: it assumes GRH for L(s, chi_3), "
+            "i.e. Theta_chi = 1/2, exactly the illustrative case RESULTS.md "
+            "Section 18 itself uses under 'What it says and does not say'. "
+            "This is NOT an evaluation of Theorem B, which is unconditional "
+            "and makes no such assumption. Nothing here changes, weakens, "
+            "or measures the unconditional statement."
         ),
-        "assumption": "Theta_chi = 1/2 (GRH for L(s, chi_3))",
-        "conditional_shape": "E(N) = Omega(N^{2 - eps}) for every eps > 0",
-        "eps_choice": {
-            "eps": EPS,
-            "why": (
-                "Theorem B's quantifier is 'for every eps > 0'; the claimed "
-                "exponent 2 - eps approaches 2 as eps -> 0, so the small "
-                "eps are the strictest members of that family. 0.05 is a "
-                "concrete small representative, not a value singled out by "
-                "the theorem or by the data."
-            ),
-        },
-        "conditional_exponent_2_minus_eps": conditional_exponent,
-        "why_still_not_a_numeric_bound": (
-            "Fixing Theta_chi = 1/2 removes the one unconditional gap that "
-            "concerns Theta_chi's value, but the other two gaps tb_bind.py "
-            "found are independent of Theta_chi and remain open here: the "
-            "Omega in Theorem B's proof supplies an explicit factor 1/2 "
-            "only in front of N^{1+Theta_chi-eps'} along the unexhibited "
-            "sequence, multiplying O-constants from Theorem A and Section "
-            "15/(E3) that RESULTS.md never gives numeric values, and that "
-            "sequence itself is still not exhibited. So there is still no "
-            "number to divide the measured E(N) by; only the exponent 2 in "
-            "the shape is pinned down by the GRH-for-chi_3 assumption."
+        "conditional_assumption": "Theta_chi = 1/2 (GRH for L(s, chi_3))",
+        "eps_chosen": EPS,
+        "eps_choice_reason": (
+            "0.01: small and explicit, close to the eps -> 0 limit of the "
+            "illustrated exponent (2) while remaining a genuine positive "
+            "eps as the statement 'for every eps > 0' requires. Not fit or "
+            "tuned against the measured E(N) below."
         ),
+        "conditional_bound_shape": "N^{2 - eps}",
+        "conditional_exponent": CONDITIONAL_EXPONENT,
         "source": "hunts/prime_pair_error/results.json, key 'decomposition'",
         "cutoffs": cutoffs,
-        "local_exponents": local_exponents,
-        "global_least_squares_exponent": global_exponent,
-        "shape_comparison": (
-            "The observed local exponents of E(N) across the six cutoffs in "
-            "results.json range from about "
-            f"{min(x['observed_local_exponent'] for x in local_exponents):.4f} "
-            "to about "
-            f"{max(x['observed_local_exponent'] for x in local_exponents):.4f}"
-            ", and the global least-squares exponent over all six points is "
-            f"about {global_exponent:.4f}. All of these sit above the "
-            f"conditional shape exponent 2 - eps = {conditional_exponent:.4f} "
-            "chosen above, so the measured growth over this finite range is "
-            "not inconsistent with the shape N^{2 - eps} that the "
-            "GRH-for-chi_3 conditional statement claims. That is a shape "
-            "observation over six cutoffs up to 1e7, not a binding numeric "
-            "inequality (no bound value was computed above to compare "
-            "against), and not a statement about an asymptotic exponent: an "
-            "exponent measured over one finite range does not settle the "
-            "asymptotic rate, and it says nothing about the unconditional "
-            "Theorem B or about whether GRH for L(s, chi_3) actually holds."
+        "observed_loglog_exponent_leastsquares": float(slope),
+        "observed_loglog_intercept": float(intercept),
+        "shape_comparison_note": shape_note,
+        "bound_evaluated": False,
+        "why_still_not_evaluated": (
+            "Assuming Theta_chi = 1/2 only removes one of the three gaps "
+            "tb_bind.py found (Theta_chi's value). The other two remain "
+            "exactly as tb_bind.py described them: the proof's Omega "
+            "carries no explicit constant or threshold N0 (that gap is "
+            "independent of Theta_chi's value), and the conclusion is "
+            "proved only along an unbounded sequence of N that is never "
+            "exhibited, so there is still no licensed N at which to check "
+            "a numeric inequality, conditionally or otherwise. What can be "
+            "compared is shape only: does the measured E(N)'s observed "
+            "growth rate sit near the conditional exponent 2 - eps. That is "
+            "the comparison this script makes; it is not a binding numeric "
+            "inequality and not a statement about Theorem B itself."
+        ),
+        "verdict": (
+            "This conditional (GRH-for-L(s, chi_3)) exploration cannot "
+            "produce a numeric bound to compare against the measured E(N) "
+            "either, for the same missing-constant and missing-sequence "
+            "reasons tb_bind.py found for the unconditional Theorem B; only "
+            "the growth-rate shape is comparable, and that comparison is "
+            "recorded above as an observed exponent, not as a value that "
+            "binds or is vacuous. This script makes no claim about whether "
+            "Theorem B itself binds or is vacuous at these cutoffs."
         ),
         "what_this_is_not": (
-            "This is not a claim that Theorem B, conditionally or "
-            "unconditionally, binds or is vacuous at these cutoffs: no "
-            "bound value was computed to form that ratio, only an exponent "
-            "shape was compared. It is not a claim that GRH for L(s, "
-            "chi_3) holds, and it is not a re-derivation or evaluation of "
-            "the unconditional Theorem B, which results_tb_bind.json "
-            "already reports cannot be evaluated at these cutoffs. Nothing "
-            "here bears on RH."
+            "This is not an evaluation of Theorem B as stated in RESULTS.md "
+            "Section 18, which is unconditional; it explores only the "
+            "GRH-for-L(s, chi_3) illustrative case Section 18 itself names. "
+            "It is not a claim that the observed exponent settles anything "
+            "about the conditional or unconditional statement at any N, "
+            "eventually or otherwise: an exponent measured over six points "
+            "on a finite range is not an asymptotic rate. Nothing here "
+            "bears on RH."
         ),
     }
 
     out_path = HERE / "results_tb_bind_grh.json"
     out_path.write_text(json.dumps(out, indent=1))
 
-    print("Conditional (GRH for L(s, chi_3)) shape: E(N) = Omega(N^{2 - eps})")
-    print(f"eps = {EPS}, conditional exponent = {conditional_exponent}")
+    print("Conditional exploration: assume Theta_chi = 1/2 (GRH for L(s, chi_3))")
+    print(f"conditional shape: E(N) = Omega(N^{{2 - eps}}), eps = {EPS}")
+    print(f"conditional exponent: {CONDITIONAL_EXPONENT:.4f}")
     print()
-    print("observed local exponents of measured E(N):")
-    for row in local_exponents:
-        print(
-            f"  N={row['N_from']:>9} -> N={row['N_to']:>9}: "
-            f"exponent={row['observed_local_exponent']:.4f}"
-        )
-    print(f"global least-squares exponent: {global_exponent:.4f}")
+    print("measured E(N) at the recorded cutoffs:")
+    for row in cutoffs:
+        print(f"  N={row['N']:>9}  E(N)={row['measured_E_N']:.6e}")
+    print()
+    print(f"observed log-log exponent (least squares, six points): {slope:.4f}")
+    print()
+    print("no numeric bound evaluated: the implied constant and the")
+    print("unbounded sequence of N are still unspecified even under this")
+    print("assumption; only growth-rate shape is compared above.")
     print(f"wrote {out_path}")
     return 0
 

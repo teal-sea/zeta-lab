@@ -232,3 +232,49 @@ number at all.
 **`attempts[]` still says these failed, and it stays that way.** The record is what happened: the
 check ran and returned false. Nothing in it was edited to make the run look better. This entry is
 where the difference between a failed check and failed work is written down.
+
+## 2026-09-10, the fixed check, and ten items green
+
+The four items the broken `default_check` had exhausted were given a third attempt under the
+corrected check, alongside six new tasks the mapper had proposed and the judge had passed. One
+proposed edge, `e-0004`, was rejected rather than confirmed: the judge found its rationale did not
+support a hard `blocks` dependency, and confirming it would have serialized two items that are
+related but not dependent.
+
+**Ten launches, ten `done`, every check true.** All four of the previously exhausted items passed
+on their first retry, which is what confirms the earlier diagnosis rather than merely asserting
+it: the work had always been sound and the check was the whole defect. 38 attempts on the record,
+28 done and 10 failed, all ten of the failures being the earlier broken-check run, which stays in
+`attempts[]` exactly as it happened. Cost this round **$17.06**; running total **$35.63** against a
+cap of $50 the operator raised from $25.
+
+The result most worth reading is `SW_EFFECTIVE.md` with
+`results_delta_sq_sw_effective_bind.json`. `UPPER_BOUND.md` (1) states its family of bounds holds
+"with ineffective constants", and the previous round found the N^3 L^{-2H} corollary could not be
+turned into a number for that reason. This round asks a sharper question and gets a different
+answer for one component: the q = 1 case that Section 7 actually derives the corollary from does
+not need Siegel-Walfisz at all. It reduces to the classical zero-free-region remainder for zeta
+alone, psi(x) = x + O(x exp(-c1 sqrt(log x))), which involves no Dirichlet character beyond the
+principal one, carries no Siegel-zero ineffectivity, and has been effective with a computable c1
+since de la Vallee Poussin in 1899. So the ineffectivity caveat is weaker than it reads for that
+component.
+
+The file then refuses the obvious overstatement, and this is the part that matters: an effective
+constant does not make the bound useful. Section 7 already records that this component is a full
+power of N short of the unproved target (31) at N^{2+eps}, and that gap is exactly as large
+whether or not the constant in front of it is known. Effectiveness and sufficiency are different
+questions and only the first was answered.
+
+`THEOREM_B_SEQUENCE.md` takes the non-constructive sequence in Theorem B's proof and asks whether
+the classical machinery behind it can name that sequence. Yes in a clean special case, with an
+explicit and easily computed gap; no in general, and it separates the two failure modes rather
+than reporting one verdict. It states plainly that it neither reopens nor changes what Section 18
+proves.
+
+The rest of the round is the rank-3 door taken apart along four routes: `RANK3_BDH_VERIFY.md`,
+`RANK3_QUARTIC_TOOLS.md`, `RANK3_MEAN_VALUE_TOOLS.md`, `RANK3_ROUTE_D.md`,
+`RANK3_POLYRANGE_TINT_CHECK.md` and `SW_MOMENT_SPLICE.md`, with five probe scripts and their
+recorded numbers.
+
+Eleven further proposals are on the board, judged and unanswered. Scheduling them is the
+operator's decision.

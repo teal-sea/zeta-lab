@@ -1,0 +1,142 @@
+{
+ "definition": "S(N,B) = sum_{q=floor(L^B)+1}^{R0} (mu(q)^2/phi(q)^2) sum_{a mod q, gcd(a,q)=1} sum_{t=1}^{N} (psi(t;q,a)-t/phi(q))^2, L=log N, Q=floor(sqrt(N)/3), R0=floor(Q/L). Discrete-t version of RANK3_POLYRANGE_TINT_CHECK.md Section 1's t-integrated claim.",
+ "claim_checked_is_derived_not_cited": "RANK3_POLYRANGE_TINT_CHECK.md Section 3 derives S(N,B) = O(N^2 (log N)^{max(1-B,0)+o(1)}) from classical (BDH), D(t,Q) << Qt log t for every Q,t (Barban 1966; Davenport-Halberstam 1966), via partial summation over q against the decaying weight mu(q)^2/phi(q)^2 -- NOT from a named t-integrated theorem found in the literature search that document reports. This script checks that derived prediction against the true, exactly-computed S(N,B) (full von Mangoldt enumeration, no sampling).",
+ "results": [
+  {
+   "N": 500000,
+   "L": 13.122363377404328,
+   "Q": 235,
+   "R0": 17,
+   "rows": [
+    {
+     "B": 1.0,
+     "A_floor_LB": 13,
+     "R0": 17,
+     "q_range": [
+      14,
+      17
+     ],
+     "S_measured": 1651550290.408732,
+     "S_over_N2": 0.006606201161634928,
+     "S_over_N2_over_L": 0.0866889721872041,
+     "per_q": [
+      {
+       "q": 14,
+       "f_q": 30140846952.227524,
+       "weight": 0.027777777777777776,
+       "contrib": 837245748.6729867
+      },
+      {
+       "q": 15,
+       "f_q": 26072174662.763035,
+       "weight": 0.015625,
+       "contrib": 407377729.1056724
+      },
+      {
+       "q": 17,
+       "f_q": 104173264033.29866,
+       "weight": 0.00390625,
+       "contrib": 406926812.6300729
+      }
+     ]
+    },
+    {
+     "B": 2.0,
+     "A_floor_LB": 172,
+     "R0": 17,
+     "q_range": null,
+     "note": "empty range (A+1 > R0) at this N"
+    }
+   ]
+  },
+  {
+   "N": 2000000,
+   "L": 14.508657738524219,
+   "Q": 471,
+   "R0": 32,
+   "rows": [
+    {
+     "B": 1.0,
+     "A_floor_LB": 14,
+     "R0": 32,
+     "q_range": [
+      15,
+      32
+     ],
+     "S_measured": 62565630833.93823,
+     "S_over_N2": 0.01564140770848456,
+     "S_over_N2_over_L": 0.22693583099111686,
+     "per_q": [
+      {
+       "q": 15,
+       "f_q": 587948258428.147,
+       "weight": 0.015625,
+       "contrib": 9186691537.939796
+      },
+      {
+       "q": 17,
+       "f_q": 1349620849996.888,
+       "weight": 0.00390625,
+       "contrib": 5271956445.3003435
+      },
+      {
+       "q": 19,
+       "f_q": 2201106934134.8887,
+       "weight": 0.0030864197530864196,
+       "contrib": 6793539920.169409
+      },
+      {
+       "q": 21,
+       "f_q": 761975250832.3005,
+       "weight": 0.006944444444444444,
+       "contrib": 5291494797.446531
+      },
+      {
+       "q": 22,
+       "f_q": 913587574057.2589,
+       "weight": 0.01,
+       "contrib": 9135875740.57259
+      },
+      {
+       "q": 23,
+       "f_q": 1749975251987.7197,
+       "weight": 0.002066115702479339,
+       "contrib": 3615651347.0820656
+      },
+      {
+       "q": 26,
+       "f_q": 1233893838932.1777,
+       "weight": 0.006944444444444444,
+       "contrib": 8568707214.806789
+      },
+      {
+       "q": 29,
+       "f_q": 2076018930009.0483,
+       "weight": 0.0012755102040816326,
+       "contrib": 2647983329.0931735
+      },
+      {
+       "q": 30,
+       "f_q": 587669438809.9972,
+       "weight": 0.015625,
+       "contrib": 9182334981.406206
+      },
+      {
+       "q": 31,
+       "f_q": 2584255968109.2056,
+       "weight": 0.0011111111111111111,
+       "contrib": 2871395520.1213393
+      }
+     ]
+    },
+    {
+     "B": 2.0,
+     "A_floor_LB": 210,
+     "R0": 32,
+     "q_range": null,
+     "note": "empty range (A+1 > R0) at this N"
+    }
+   ]
+  }
+ ]
+}
