@@ -1,0 +1,186 @@
+{
+ "rows": [
+  {
+   "row_id": 0,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "Pure addition: a new ARISTOTLE-HANDOFF.md describing a submitted Lean job, a promotion checklist and a throughput baseline. Nothing previously recorded is touched, and it explicitly refuses to state a speedup ratio while the denominator is incomplete."
+  },
+  {
+   "row_id": 1,
+   "is_revision": false,
+   "confidence": "medium",
+   "why": "New URMS2-ATTACK.md plus cross-references. It sharpens an existing Outcome D (locating the gap as one missing logarithm) but withdraws nothing: no band had been promoted before, so 'largest band promoted is alpha_0=0' restates the record. The only in-place edit is a rename of item 4 ('replacement, resummed bridge audit' to 'replacement representation audit')."
+  },
+  {
+   "row_id": 2,
+   "is_revision": true,
+   "confidence": "high",
+   "why": "Explicit self-refutation: COORDINATOR DEFECT #18, 'CLAIM REFUTED BY THE MODULE'S OWN AUDIT', 'Direction, corrected', 'the coordinator had told the operator the opposite'. The hunt's own recorded reading of the convex functional's sign is replaced by the contradicting one, with the confound named."
+  },
+  {
+   "row_id": 3,
+   "is_revision": true,
+   "confidence": "high",
+   "why": "A withdrawal edited into this hunt's own HANDOFF.md: the recorded candidate 0.6725124 becomes 'the attempted constructive residue ... now withdrawn', with the mathematical reason (conjugate-transpose vs transpose terms). It cites another hunt's kill report, but the withdrawn claim is this hunt's own text."
+  },
+  {
+   "row_id": 4,
+   "is_revision": false,
+   "confidence": "medium",
+   "why": "A merge commit that authors nothing: files_touched is empty and the diff is empty, so there is no claim change to judge. Reading the repository, the second parent does carry a 'Historical progression, now withdrawn' paragraph into RESULTS-frontier-math.md, but that text was authored by commit 58ddf4c on the merged branch; counting the merge would double-count that author commit."
+  },
+  {
+   "row_id": 5,
+   "is_revision": false,
+   "confidence": "low",
+   "why": "Adds RESUMMED-BRIDGE.md as a replacement representation alongside the earlier Outcome C audit, which stays valid and is merely relabelled 'historical fixed-order'. The in-place edits are a citation name fix (Farmer-Gonek to Farmer-Gonek-Lee), one goal word ('rigorous' to 'exact'), and a caveat that the earlier text already carried in its own words ('It does not show that the corrected infinite series is the wrong limiting object'). Borderline: the citation fix is a correction of something recorded, but typo-grade."
+  },
+  {
+   "row_id": 6,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "Additive Section 11 (signed fold expansion) plus one RUNS.md row. It recovers the Section 8 rough-shift value in new coordinates, i.e. agrees with the earlier record, and its scope caveat ('facts at this one input, not promoted to any formula in N') restricts the new result, not an old one."
+  },
+  {
+   "row_id": 7,
+   "is_revision": true,
+   "confidence": "medium",
+   "why": "Beyond the large third-pass addition, in-place edits retract an earlier characterisation: 'E(N) is noise, and the signed part is a tenth of it' becomes 'most of E(N) remains unexplained by the tested corrections', '+ noise' becomes 'a residual not modelled here', and '+ noise with mean zero' becomes 'a remainder that (H_q) takes to have mean zero'. An asserted property of the residual is withdrawn and re-attributed to a hypothesis."
+  },
+  {
+   "row_id": 8,
+   "is_revision": true,
+   "confidence": "low",
+   "why": "The commit repairs a previously committed PROOF-LEDGER row and records it as 'session defect #10, caught by the gate, fixed here'. The mathematics is unchanged, so this is close to the typo/lexical-sweep exclusion; I call it a revision because it is a defect in the hunt's own earlier record, self-labelled as such, not a formatting sweep. This is my least confident label."
+  },
+  {
+   "row_id": 9,
+   "is_revision": true,
+   "confidence": "high",
+   "why": "The RESULTS.md title and verdict are replaced: 'a strip of width 0.05 is worth about the record gap' and 'the hunt is open ... Grade: measured, and only that' become 'a ceiling ... worth zero to any certificate whose positivity input is the Hermitian form's'. The earlier measured '+0.005 to +0.009' is re-scoped to the RH-conditional class only, which is exactly a scope caveat narrowing an earlier claim."
+  },
+  {
+   "row_id": 10,
+   "is_revision": true,
+   "confidence": "high",
+   "why": "The audit 'corrects the stale cross-range phase description in URMS1-CLOSURE.md', and the diff shows the replacement: 'The cross-range phase contains log(mn) rather than log(m/n) and integration by parts makes it smaller' becomes 'The cross-range terms have the same log(m/n) phase'. A recorded statement was wrong when written and is replaced by its contradiction; the audit also records one omitted statement (height freezing beyond the old radius)."
+  },
+  {
+   "row_id": 11,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "A new file that prices two roads from measurements. The failed table-sizing attempts it reports are new measurements made here, not corrections of anything recorded, and the per-pair route it calls dead was already dead in the ledger."
+  },
+  {
+   "row_id": 12,
+   "is_revision": true,
+   "confidence": "high",
+   "why": "An explicit correction notice on the hunt's own text: 'Superseded 2026-08-11. The proposal in this section must not be adopted, and the reason given for it is wrong', followed by three specific errors in the recorded reason and a refutation of the universal by criteria.py face 1."
+  },
+  {
+   "row_id": 13,
+   "is_revision": false,
+   "confidence": "medium",
+   "why": "A new archived source note in a checkpoint directory (one of a series of 'Preserve ...' commits). It derives a ceiling for a fixed recipe and reports an improved repair, all new content; no previously recorded claim is edited, withdrawn or narrowed, and its status header disclaims promotion."
+  },
+  {
+   "row_id": 14,
+   "is_revision": true,
+   "confidence": "high",
+   "why": "Recorded numbers rewritten in place after 'Instrument v2': pinch cap 40.62 to 37.36, margin +0.49 to +3.75, the whole configuration table re-tabulated, closure 'nu_p >= 1.5' to '>= 1.45', 'span >= 10 statement' to 'span >= 8', and the named hole moves from [1.25, 1.45] to [1.1, 1.4], which flips the status of nu = 1.45 and of nu = 1.1 to 1.2."
+  },
+  {
+   "row_id": 15,
+   "is_revision": false,
+   "confidence": "medium",
+   "why": "Additive anatomy of the binding configurations, and Section 6 explicitly confirms the ledger's 'drop the repulsion term' route is dead from a second direction. Finding 2 does undercut the incidence-count direction sketched earlier in the same file, but that text was hedged as 'a direction, not a schedule' and is neither edited nor withdrawn here."
+  },
+  {
+   "row_id": 16,
+   "is_revision": false,
+   "confidence": "medium",
+   "why": "The half-band barrier is crossed by the very route the hunt had itself named: BANDWIDTH-FORENSICS.md section 11 already classed it 'a proof-technology barrier' and listed the long-polynomial mean-value alternative. The deleted lines ('No theorem currently follows', 'the bridge and the obstruction meet at the strict endpoint 0.5') were true of the bridge as it then stood; the new document rebuilds the bridge rather than correcting a wrong claim. Boundary case, called by my state-of-work rule."
+  },
+  {
+   "row_id": 17,
+   "is_revision": true,
+   "confidence": "high",
+   "why": "The ACTIVE-CLAIMS row is edited to retract 'short by 1.99x on the budget side': defect #20 'over-corrected by relaying cluster_sdp's factor 1.99 as an obstruction to the k>=2 STATEMENT - it obstructs only that ACCOUNTING'. A recorded number is withdrawn and replaced by a measured margin of +0.343."
+  },
+  {
+   "row_id": 18,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "Two additive paragraphs: R is shown immaterial (confirming the hunt's earlier choice cost nothing) and a new L = 9699690 relaxation value is recorded. Nothing recorded is contradicted or narrowed."
+  },
+  {
+   "row_id": 19,
+   "is_revision": true,
+   "confidence": "high",
+   "why": "Two published constants have their decimal tails corrected in four places (Phi_3 ...945875 to ...945032, Phi_4 ...870316 to ...882760), including in the 'no hypotheses' headline lines. The commit subject says 'correct two decimal tails'."
+  },
+  {
+   "row_id": 20,
+   "is_revision": false,
+   "confidence": "low",
+   "why": "The retired paragraphs are state-of-work statements that became stale when the port landed: 'does not build' to 'ported in batch 2 and now builds', 'the six modules were not reached' to 'now builds end to end', the import defect marked 'now FIXED'. Nothing recorded was wrong when written, and the pin-note correction it reworders was already recorded before this commit. Borderline against the commit subject's own word 'contradicted'."
+  },
+  {
+   "row_id": 21,
+   "is_revision": true,
+   "confidence": "high",
+   "why": "Item 19's inequality is declared unprovable as stated ('cannot be proved as stated by a Chebyshev route ... Recorded as a dead route'), a linear-in-log envelope is refuted by measurement, and the gate it guards is retargeted to a strictly weaker hypothesis. An earlier recorded formal obligation is withdrawn."
+  },
+  {
+   "row_id": 22,
+   "is_revision": false,
+   "confidence": "medium",
+   "why": "No claim files touched and an empty diff; the commit adds a workflow input, a committed candidate artifact and verifier cells (all insertions). Round 2 extends the cutting-plane campaign; the withdrawal in this hunt comes later, in row 26."
+  },
+  {
+   "row_id": 23,
+   "is_revision": true,
+   "confidence": "high",
+   "why": "The first Lean build refutes the hunt's own generated table: 'false on 7 of the 9 chunks', and the banner declares every cell count in the file, including its own 339, to be a statement about a Python model 'now measured to be wrong in the optimistic direction'. An earlier recorded result is withdrawn to 'a table of candidate cells'."
+  },
+  {
+   "row_id": 24,
+   "is_revision": false,
+   "confidence": "medium",
+   "why": "A new section reporting that the counterexample battery fires, added alongside the existing text and explicitly stating it does not kill the measured result and is 'independent evidence for the reading in section 2'. The void row is a harness defect found in this run, not a correction of the record, and the doors list is extended from two to three."
+  },
+  {
+   "row_id": 25,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "Burden (b) discharged with a new instrument: theta* measured at 0.995 at every eps, the same value as the box reference. Additive ledger and TRANSPLANT-LEMMA entries; nothing recorded moves, and the disposition says the ramp costs margin, not the verdict."
+  },
+  {
+   "row_id": 26,
+   "is_revision": true,
+   "confidence": "high",
+   "why": "Explicit: 'WITHDRAWN 2026-09-06', the +3.96e-06 candidate rests on a float floor 'that was never the floor', the LP's cut oracle missed a basin, and the previous +5.9e-6 headroom answer is withdrawn along with the point. It also states plainly that the second reading was wrong."
+  },
+  {
+   "row_id": 27,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "A file/package move: the ThreePoint package becomes a lean_lib of lean/bridge and the document updates its paths and build commands, preserving the old arrangement in a dated parenthesis. No claim, number or verdict changes."
+  },
+  {
+   "row_id": 28,
+   "is_revision": false,
+   "confidence": "medium",
+   "why": "The three definitions the record itself named as missing are written, so 'does not build / no cell kernel-checked' becomes 'all 18 chunks decide'. Status 'O9 open' is retained, and the new caveat ('consistent, not yet sound') restricts the new result rather than narrowing an old one. The refutation this repairs is row 23's, already recorded."
+  },
+  {
+   "row_id": 29,
+   "is_revision": false,
+   "confidence": "high",
+   "why": "No claim files and an empty diff; the commit is all insertions (a hunts/README entry, a HANDBACK.json and a probe script) seeding gate-5 property 6 work. Nothing to revise."
+  }
+ ],
+ "rubric_notes": "WHERE I DREW THE HARD BOUNDARY (narration vs own-claim change). I asked, for every row: does THIS hunt's own recorded text stop saying what it said? Rows 3 and 9 both cite another hunt's kill report or another hunt's withdrawal, and I still marked them revisions, because in both cases the sentence that changed is this hunt's own (wide_search's HANDOFF withdrew its own 0.6725124 candidate; outband_certificate rewrote its own title, verdict and grade). Row 24 is the mirror image: it reports that a control battery fired and that another party's disagreement stands, but every existing sentence in the file survives unchanged, so it is narration plus new work, not revision. Row 20's fix (the BandCert import defect) was landed in the hunt's own Lean package, so the narration boundary does not exclude it; I still called it no, on the separate rule below.\n\nA SECOND LINE I HAD TO DRAW, AND IT DECIDED FIVE ROWS. The rubric's \"a number that changed\" and \"a statement replaced by a contradicting one\" will fire on any hunt that says \"X is missing / X does not build / the bridge stops at 0.5\" and later does the work. I separated: (a) a recorded claim that was WRONG WHEN WRITTEN, or a number replaced because the earlier one was in error, or an explicit withdrawal/retraction/narrowing = revision (rows 2, 3, 7, 9, 10, 12, 14, 17, 19, 21, 23, 26); (b) a recorded STATE that changed because the hunt did the work it had itself named as the next step = not a revision (rows 16, 20, 28). Checks that fixed (b): BANDWIDTH-FORENSICS section 11 had already classed the half-band stop as \"a proof-technology barrier\" and listed the long-polynomial mean-value route that row 16 then takes; O9-LEAF-REPAIR named rIv, qreIv, sqrScaled as the missing definitions that row 28 writes; the zeta23ext README's pin-note correction predates row 20's commit. Row 14 is on the other side of that line despite also being an instrument upgrade, because the hole map moved in BOTH directions (nu = 1.45 flips from hole to closed, 1.1 and 1.2 flip into the hole), so the earlier map was wrong, not merely loose.\n\nTHREE ROWS CANNOT BE JUDGED FROM THEIR OWN TEXT (4, 22, 29): files_touched empty, diff empty. I answered no for all three, on the ground that a row with no claim-file change carries no revision. Row 4 is the sharp one and is a sampling artifact worth reporting: it is a merge, and reading the repository shows its second parent brings a paragraph headed \"Historical progression, now withdrawn\" into hunts/frontier_math/RESULTS-frontier-math.md. That text was authored by commit 58ddf4c on the merged branch, so scoring the merge as a revision would count one withdrawal twice, and scoring it from the row as given is impossible in either direction.\n\nDistribution: 13 revisions, 17 not. The revision set is dominated by explicit self-labelled defects (#10, #18, #19/#20), two outright withdrawals, one refuted Lean table, and one decimal-tail correction.",
+ "disagreements_expected": "Ranked by how likely I am to differ from the repaired classifier.\n\n1. ROW 8 (lexical-gate fix), my weakest label. I said revision because the commit repairs previously committed ledger text and records it as \"session defect #10\". A classifier tuned to claim content will say no, since the mathematics, the sorry count and the disclosure all stand and only a reserved word was reworded, which is typo-adjacent. I would not defend my label hard; what I would defend is that the row needs an explicit rule, because \"a defect in the hunt's own earlier work being fixed\" and \"a typo / formatting sweep\" both cover it and the rubric does not say which wins.\n\n2. ROW 20 (zeta23ext README). The commit subject contains the word \"contradicted\", and three paragraphs are rewritten from present to past tense with a defect marked \"now FIXED\". A literal reader of \"a statement replaced by a contradicting one\" says yes; I said no under the state-of-work rule. If the classifier keys on subject lines this row will disagree, and it is the row where a keyword-driven classifier and a content-driven one part company most cleanly.\n\n3. ROW 16 (crossing the half-band). Same shape as row 20 but with a mathematical barrier instead of a build status, and the new document says \"the old gamma<delta condition was a worst-spacing loss\", which reads as declaring an earlier constraint an artifact. I checked the predecessor commit before deciding: the hunt had already written that the obstruction was proof-technology and named this exact way out, so I called it continuation. Reasonable people land the other way.\n\n4. ROW 5 (resummed bridge). Almost entirely new material, but it does fix a citation (Farmer-Gonek to Farmer-Gonek-Lee) and weaken one goal word (rigorous to exact). If the classifier treats any in-place correction of a recorded fact as a revision, it says yes.\n\n5. ROW 7 (prime_pair_error third pass). The headline is a large addition, and the revision lives in five small in-place hedges, chiefly \"E(N) is noise\" becoming \"most of E(N) remains unexplained by the tested corrections\". A classifier reading the commit subject or the added section will call this pure extension and miss the retraction; a diff-level reader should catch it.\n\n6. ROW 24 (gate #3 fires) and ROW 15 (k>=2 anatomy). Both contain strong-sounding refutation language (\"kill condition fires\", \"void, not a finding\", \"a disagreement left standing\", \"Incidence is not limited\") aimed at things other than the hunt's own recorded claims. These are the two rows most likely to produce a false positive in a classifier that scores vocabulary rather than target.\n\n7. ROW 4 (merge). Disagreement here is about corpus construction, not about the commit: any answer is defensible when the row carries no diff, and the underlying withdrawal is already attributable to another commit."
+}

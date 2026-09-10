@@ -13,7 +13,8 @@ height `t`, what working precision does the routine actually need before its
 answer has any correct digits, and what does it return below that.
 
 This probe measures it against an oracle the routine shares no code with: at
-`Re s = 3` the defining lattice sum converges absolutely, so it can be summed
+`Re s = 5`, which is this module's default and the value every artifact uses, the
+defining lattice sum converges absolutely, so it can be summed
 directly to a stated truncation bound and used as ground truth at any height.
 `epstein_completed` reaches the same value through the split Mellin transform
 and the incomplete gamma, so agreement is a statement about the continuation
@@ -104,7 +105,11 @@ def surface(form, heights, dpss, sigma=5, qmax=20000, work=40) -> list[dict]:
                 "form": list(form), "sigma": sigma, "t": t, "dps": dps,
                 "relative_error": err,
                 "correct_digits": (-math.log10(err) if 0 < err < 1 else 0.0),
-                "digits_available": dps + 10,             # zeta.epstein._GUARD
+                # zeta.epstein._GUARD is 10 and it is applied TWICE: epstein_zeta
+                # opens workdps(dps + 10) and hands mp.dps to epstein_completed,
+                # which opens another. The caller receives dps + 20. This field
+                # said dps + 10 in every row of the first surface.
+                "digits_available": dps + 20,
                 "digits_predicted_lost": DIGITS_PER_UNIT_HEIGHT * t,
                 "oracle_truncation_bound": tail,
                 "oracle_abs": float(truth_abs),

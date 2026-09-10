@@ -100,11 +100,13 @@ oracle when `R = |1 - a(1)| max|c(n)|` identically; all are corrected and the th
 were recomputed before being accepted. Repair proposed, not applied: `PROPOSAL.md`. Front door:
 `docs/38`. Nothing bears on RH (`docs/08`).
 
-### Hunt #120: the failure surface of the Epstein evaluator (`epstein_height/`, 2026-09-10)
+### Hunt #120: the module that missed the guard the tree already had (`epstein_height/`, 2026-09-10)
 
-**Status: settled, defect recorded, repair proposed and not applied.** `hunts/gate5_p6_c/probe.py` derives the cancellation law
-(`pi t / (2 ln 10) = 0.6822` digits lost per unit height) and `hunts/dps_cap` measured
-its cost at one point. Neither reached `zeta/epstein.py`, which still accepts any `dps`
+**Status: settled, defect recorded, repair proposed and not applied, write-up corrected by its own
+audit.** `zeta/heatflow.py` and `zeta/core.py` both already implement this kind of guard, and
+`hunts/gate5_p6_b/probe.py` carries the Epstein constant as an executable rule, so the first
+write-up's "the rule the core never learned" was wrong: the core has the pattern twice and
+`zeta/epstein.py` is the module that did not get it. It still accepts any `dps`
 and returns a silently wrong value above the height that precision supports: at `dps 15`
 and height 120 the relative error is `2.3e+36`, measured against a direct lattice sum at
 `Re s = 5` that shares no code with the routine. 158 cells of the surface in `artifacts/`.
@@ -113,8 +115,12 @@ was re-derived exactly as
 `-log10 t + sigma log10 pi - log10|Gamma(s)| - log10|zeta_Q(s)|`, with no fitted constant:
 the discriminant cancels, the size of `zeta_Q` is the missing term, per-form bias falls to
 0.15, and one uniform offset of `+1.068` digits is left with rms `0.357` over 49 cells.
-`guard.py` is the rule as code with six planted faults including the one that matters, that
-it stops firing when the cancellation constant is set to zero. It also answers the question
+`guard.py` was the rule as code with six planted faults, all passing, **and an independent audit
+walked straight through it**: a call at `dps 24` promising 4 digits returns `0.59`, because every
+rung held the form fixed and so tested the leading term rather than the `-log10|zeta_Q|` term the
+hunt had just derived. `guard2.py` carries the form and replaces the faults with a rung that tests
+the contract, sampling the calls the guard ALLOWS and failing if any is short; its own first run
+failed on a cell whose limit turned out to be the oracle, so the rung now measures its oracle too. It also answers the question
 `hunts/dps_cap/reach_check.py` left open, whose two runs were stopped at 30 and 25 minutes:
 measured at height 120 without running the recursion, at `dps 100` the acceptance rule takes
 24 segments of 24, so the recursion costs one evaluation per segment, and at `dps 15` it
@@ -126,7 +132,13 @@ Nothing bears on RH (`docs/08`).
 
 ### Hunt #121: the barrier law is not the shape the diagonal suggested (`quotient_exponent/`, 2026-09-10)
 
-**Status: settled as a measurement; no asymptotic claim.** The factorial objective is a
+**Status: measurement stands, headline withdrawn by its own audit.** The first write-up said the
+conjectured shape `E >= c N/sqrt(y)` "is not the shape of `T*`". It is: `BARRIER.md` states the
+conjecture with a moving constant, and fitted that way the conjectured exponents give rms `0.1198`
+on 20 grid rows against the free three-parameter fit's `0.1258`, with one parameter fewer. Every
+measured point satisfies `E >= 0.1704 N/sqrt(y)`; the only bite is that the published constant `0.2`
+is 15% too large at the new `10^7` point. The stated reason for reformulating the programme was also
+false: the factorial form returns the same optimum to `2.7e-14`. The factorial objective is a
 difference of quantities near `1e8` whose answer is near `1e4`; written as `sum_q w_q e_q` over
 attainable cells it is a sum of nonnegative terms equal to the excess itself, and that is why the
 ladder reaches `10^7`. Reproduces the four published diagonal values to every printed digit and adds
@@ -137,8 +149,10 @@ conjectured shape is three times worse on the grid while indistinguishable on th
 three of four models agree to three decimal places. The excess is a staircase in `y`, holding
 `9.406483` across sixteen consecutive supports at `N = 10^4` and reaching exactly zero at `y* = 173`,
 `0.87` of the attainable-cell count, so the column count is neither sufficient (already refuted at
-`N = 27, y = 9`) nor necessary. The conjecture is a lower bound and this hunt does not refute it.
-Front door: `docs/39`. Nothing bears on RH (`docs/08`).
+`N = 27, y = 9`) nor necessary. What survives and is new: the staircase, the zero threshold at `y* = 63, 173, 589, 1938` with
+`alpha*` falling monotonically, and the finding that only 40, 99 and 275 of the 61, 198 and 630
+attainable cells carry any prime mass, so what holds the excess up is the requirement `W >= 1` at
+the cells with no weight at all. Front door: `docs/39`. Audit: `AUDIT.md`, fifteen attacks, four landed. Nothing bears on RH (`docs/08`).
 
 ### Hunt #122: what happens to a claim after it is recorded (`claim_halflife/`, 2026-09-10)
 

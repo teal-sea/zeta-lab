@@ -12,13 +12,24 @@ The last two terms are `O(1/t)`.  The value being computed is
 So the ratio of the largest term formed to the answer is
 `(1/t) / |Gamma(s)|`, and the decimal digits lost to cancellation are
 
-    L(sigma, t) = (pi / (2 ln 10)) t - (sigma - 1/2) log10 t - log10 sqrt(2 pi) - log10 t + log10 t
-                = 0.68219 t - (sigma - 1/2) log10 t - 0.39909.
+    L(sigma, t) = 0.68219 t - (sigma - 1/2) log10 t - 0.39909.
+
+**This formula is incomplete and the line above it, as first written, cancelled
+a real term against nothing.** `law2.py` derives the whole thing without any
+asymptotic and without a fitted constant; what is missing here is a further
+`- log10 t`, a `sigma log10 pi`, and `- log10|zeta_Q(s)|`, and the last of those
+is the entire reason this module's residuals are form-dependent. It is kept
+because the write-up compares the two, and a model that was wrong in a
+measurable way is the evidence that the measurement could see it.
 
 The leading `0.68219 t` is the constant `GUARD_PER_UNIT_HEIGHT = 0.6822`
 already recorded inside one hunt.  The `sigma` term is the part that decides
-whether a rule derived on one vertical line transfers to another, and it is
-the reason the critical line is the worst case: at `sigma = 1/2` it vanishes.
+whether a rule derived on one vertical line transfers to another. Every cell
+this module was fitted on is at `sigma = 5`, so that transfer was asserted and
+not tested; an audit tested it at `sigma = 1/2` against an exact oracle and
+found this law's residual there is `+4.66` digits. The critical line is still
+the worst case at large `t`, and this law over-provisions it by about 4.7
+digits, which is a number a guard would act on. Use `guard2.py`.
 
 `epstein_zeta` opens `workdps(dps + 10)` and then calls `epstein_completed`
 with `dps = mp.dps`, which opens `workdps(dps + 10)` again, so the working

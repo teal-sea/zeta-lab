@@ -3,7 +3,8 @@
 **Hunt #122, `hunts/claim_halflife/`.** The measurements, the controls and the
 doors are in `hunts/claim_halflife/RESULTS.md`. This page is the front door.
 
-Grade: **measured**, and one headline is withdrawn by its own control. This is
+Grade: **measured**, and the headline had to be withdrawn, repaired and
+re-earned on fresh data before it could be stated. This is
 not mathematics. Nothing here bears on RH (`docs/08`), and the standing rule in
 `meta/README.md` applies: a session with no mathematics and a tidy ledger
 produced nothing. This page is about the ledger, and the mathematics is
@@ -75,7 +76,7 @@ help either: it means there were more of them.
 **Correction is fast.** Median latency from a hunt's first commit to a revision
 of its own claim files: one day. Mean 1.8. Longest 13.
 
-## 4. What did not hold
+## 4. The number that had to be earned twice
 
 The first version of this hunt reported that 21% of case-log entries were later
 revised, at three strictness levels that agreed to within five points. Three
@@ -102,11 +103,27 @@ named two structural defects rather than borderline judgement calls:
 
 Both are defects on their own terms, so they were repaired rather than tuned
 around. Re-scored against the same 30 rows the repaired classifier reaches 21 of
-30, precision 0.58.
+30, precision 0.58. **That number is fitted, not measured**, because those rows
+are what found the defects.
 
-**That number is fitted, not measured**, because those rows are what found the
-defects, and the page says so. A disjoint sample of thirty went to a second
-blind audit. The original classifier is kept in the tree exactly as it was.
+So a second sample of thirty was drawn from rows the first audit never saw, and
+sent to a second blind audit with its key again outside the repository.
+
+| | agreement | precision | recall |
+|---|---:|---:|---:|
+| original, first sample | 16/30 (53.3%) | 0.40 | 0.55 |
+| repaired, same sample (fitted) | 21/30 (70.0%) | 0.58 | 0.64 |
+| **repaired, disjoint sample** | **22/30 (73.3%)** | **0.67** | **0.77** |
+
+The repair holds on rows it was not tuned on. That is what makes a rate
+reportable: of 414 later commits the classifier flags 73, `17.6%`, and scaling
+by the measured precision over recall gives **`15.3%`**. Fifteen of the
+ninety-five entries carry at least one. Both numbers rest on a classifier that
+still disputes about a quarter of rows with a careful reader, so they are worth
+one significant figure and no more.
+
+The original classifier is kept in the tree exactly as it was. A classifier that
+scored near chance is evidence about how this kind of measurement fails.
 
 ## 5. The instrument broke the thing it was measuring
 

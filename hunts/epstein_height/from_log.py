@@ -1,11 +1,19 @@
-"""Rebuild surface.json from surface.log.
+"""Rebuild surface.json from surface.log, and refuse when that would lose data.
 
-The probe writes its JSON at the end, and the run that produced this surface
-was stopped by its own wall clock partway through the third form.  Rather than
-discard two complete forms, the printed lines are parsed back: they carry every
-field the fit uses, and the log is the same object the JSON would have held.
-Recorded here rather than done by hand, so the reconstruction is reproducible
-and so it is obvious that the third form is partial.
+**This file was written on a false premise and is kept with the premise
+corrected, because deleting it would delete the record of the mistake.** It was
+written mid-run, when the log ended partway through the third form and
+`surface.json` did not yet exist, and its docstring said the run had been
+"stopped by its own wall clock". The run then finished. `surface.log` carries all
+120 cells, 40 per form for three forms, and ends with the probe's own success
+line; `surface.json` is the probe's full-precision output, later merged with 38
+boundary cells.
+
+So a rebuild from the log is now a downgrade: the log's printed fields are
+rounded and the JSON's are not, and the log has no boundary cells in it. The
+module therefore **refuses** when the existing JSON has at least as many rows,
+and says why. An independent audit found this; it had not fired because nobody
+re-ran it after the probe finished.
 """
 from __future__ import annotations
 
@@ -33,7 +41,15 @@ def main() -> None:
             "relative_error": float(m.group("err")),
             "correct_digits": float(m.group("cd")),
         })
-    (ART / "surface.json").write_text(json.dumps(rows, indent=1), encoding="utf-8")
+    dest = ART / "surface.json"
+    if dest.exists():
+        existing = json.loads(dest.read_text(encoding="utf-8"))
+        if len(existing) >= len(rows):
+            print(f"REFUSED: {dest.name} already holds {len(existing)} rows against "
+                  f"{len(rows)} parseable from the log, and the log's fields are "
+                  f"rounded where the JSON's are not. Nothing written.")
+            return
+    dest.write_text(json.dumps(rows, indent=1), encoding="utf-8")
     from collections import Counter
     c = Counter(tuple(r["form"]) for r in rows)
     print(f"{len(rows)} cells recovered; per form " + ", ".join(

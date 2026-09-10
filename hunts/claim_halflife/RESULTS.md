@@ -22,7 +22,9 @@ a session with no mathematics and a tidy ledger produced nothing.
     median latency from the hunt's first commit        1 day
     mean 1.8 days, longest 13
 
-    the classifier's agreement with a blind hand audit  53%, before repair
+    the classifier's agreement with a blind hand audit  53% before repair,
+                                                        73% after, on a
+                                                        disjoint sample
 
 Two things to read together. **The guard surface is narrow and, where it
 exists, it mostly holds**: one recorded claim in five is named by any test at
@@ -30,7 +32,10 @@ all, and among the pairs that can be tested, three quarters defend at least one
 number against a ten percent mutation. And **the tree almost never installs a
 guard at the moment it corrects itself**: one of seventy-three revisions.
 
-And one thing that is not a result at all: the correction rate. See section 5.
+And a rate that had to be withdrawn, repaired and re-earned before it could be
+stated at all: **15.3% of later commits revise a claim the hunt had already
+recorded**, corrected for the measured precision and recall of the classifier
+that found them. See section 5, which is the longer half of this hunt.
 
 ## 2. The corpus, and the thing that nearly ruined it
 
@@ -121,7 +126,7 @@ disagreement is one line wide and 73 events deep.
 Correction is fast. Median latency from a hunt's first commit to a revision of
 its own claim files is **one day**, mean 1.8, longest 13.
 
-## 5. The headline that did not survive its control
+## 5. The headline that had to be earned twice
 
 The first version of this hunt reported that 21% of case-log entries were later
 revised, at three strictness levels that agreed to within five points.
@@ -146,15 +151,34 @@ terms rather than borderline judgement calls:
 
 `classify2.py` repairs both: the hunt's own first commit is excluded whatever it
 touched, a claim file is any `.md` in the directory, and a revision needs
-evidence of *replacement* rather than of addition. Re-scored against the same 30
-rows: **21 of 30**, precision 0.58, recall 0.64.
+evidence of *replacement* rather than of addition.
 
-**That number is fitted, not measured.** Those 30 rows are what found the
-defects. A disjoint sample of 30 was drawn and sent to a second blind audit
-whose result is in `artifacts/audit_score2.json` when it lands; until then the
-repaired classifier is unvalidated and its rate is not reported here either.
+Re-scored against the same 30 rows: **21 of 30**, precision 0.58, recall 0.64.
+**That number is fitted, not measured**, because those 30 rows are what found
+the defects.
 
-`classify.py` is kept exactly as it was.
+So a disjoint sample of 30 was drawn from rows the first audit never saw,
+stratified against the repaired classifier's own labels, and sent to a second
+blind audit with its key again outside the repository.
+
+| | agreement | precision | recall |
+|---|---:|---:|---:|
+| original, first sample | 16/30 (53.3%) | 0.40 | 0.55 |
+| repaired, same sample (fitted) | 21/30 (70.0%) | 0.58 | 0.64 |
+| **repaired, disjoint sample** | **22/30 (73.3%)** | **0.67** | **0.77** |
+
+The repaired classifier holds its improvement on rows it was not tuned on. That
+is the validation, and it is the reason a rate can be stated at all.
+
+**The rate, with its correction stated.** Of 414 later commits, the classifier
+flags 73 as strict revisions, `17.6%`. Scaling by the measured precision over
+recall gives **`15.3%`**, and 15 of the 95 case-log entries carry at least one.
+Both numbers rest on a classifier that disputes about a quarter of rows with a
+careful reader, so they are worth one significant figure and no more.
+
+`classify.py` is kept exactly as it was. A classifier that scored near chance is
+evidence about how this kind of measurement fails, and deleting it would remove
+the only record of that.
 
 ## 6. The doors
 

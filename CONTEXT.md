@@ -1236,9 +1236,9 @@ Constants: `DOSSIER_NAME`, `SAMPLE_TS`, `DEFINITION_AGREEMENT_DEFECT`
 - `34-zeros-in-tuning-units.md`, 34. The Riemann zeros in tuning units
 - `35-the-unspent-fact.md`, 35. The unspent fact: what out-of-band positivity is worth, and why nobody can claim it
 - `36-what-you-can-run.md`, 36. What you can run, and what it prints
-- `37-the-rule-the-core-never-learned.md`, 37. The rule the core never learned
+- `37-the-module-that-missed-the-guard.md`, 37. The module that missed the guard the tree already had
 - `38-one-form-per-discriminant.md`, 38. One form per discriminant, and what an adversary did to the write-up
-- `39-a-law-read-off-a-diagonal.md`, 39. A law read off a diagonal
+- `39-a-law-read-off-a-diagonal.md`, 39. A law read off a diagonal, and a headline read off a bad comparison
 - `40-what-happens-to-a-claim.md`, 40. What happens to a claim after it is recorded
 - `README.md`, The documents
 

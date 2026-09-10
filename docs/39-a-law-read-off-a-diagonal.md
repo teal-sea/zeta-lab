@@ -1,134 +1,117 @@
-# 39. A law read off a diagonal
+# 39. A law read off a diagonal, and a headline read off a bad comparison
 
-**Hunt #121, `hunts/quotient_exponent/`.** Measurements, the fits and the doors
-are in `hunts/quotient_exponent/RESULTS.md`. This page is the front door.
+**Hunt #121, `hunts/quotient_exponent/`.** Measurements and doors in
+`hunts/quotient_exponent/RESULTS.md`; the audit that rewrote this page's
+conclusion in `AUDIT.md`.
 
-Grade: **measured** (floating linear programme, HiGHS dual simplex), with every
-optimum recomputed from the returned coefficients through the constraint
-definition rather than read off the solver. No asymptotic statement is
-established. Nothing here bears on RH (`docs/08`).
+Grade: **measured**. No asymptotic statement is established. Nothing here bears
+on RH (`docs/08`).
 
 ## 1. The object
 
 There is an elementary route to prime-counting bounds that this laboratory has
-been pricing for two weeks. A certificate is a finite floor sum
+been pricing. A certificate is a finite floor sum
+`W(t) = sum_{j<=y} c_j floor(t/j)` required to satisfy `W >= 1`, and it yields a
+bound on `psi(N)` whose excess is what the route costs. The smallest excess any
+such certificate can have, at a cutoff `N` and support bound `y`, is the value of
+a linear programme, and the relaxation that only requires positivity at the
+attainable quotients is called `T*`.
 
-    W(t) = sum_{j <= y} c_j floor(t/j),   required to satisfy W >= 1,
+The published reading is `T* = (0.18 to 0.23) N^{3/4}` over four decades, with a
+barrier conjecture `E >= c N / sqrt(y)` "to be read for `T*` as well, with the
+constant `0.2`".
 
-and it yields the bound `B(N) = sum_j c_j log(floor(N/j)!)` on `psi(N)`. The
-excess `B(N) - psi(N)` is what the route costs, and the smallest excess any
-such certificate can have, at a given cutoff `N` and support bound `y`, is the
-value of a linear programme.
+Every published value sits on the diagonal `y = floor(sqrt N)`. On that line `y`
+and `N` move together, so the data only ever constrains one combination of the
+two exponents. That is a real limitation and it is what this hunt set out to fix.
 
-`hunts/prime_pair_error/frontier/2026-09-06/certificate_lp_frontier/` solved
-that programme, and `hunts/quotient_certificate/` sharpened it by noticing that
-positivity is only needed at the attainable quotients `floor(N/d)`, of which
-there are about `2 sqrt(N)` rather than `N`. The relaxed floor is called `T*`,
-and the published reading of it is
+## 2. What the grid found
 
-> T* = (0.18 to 0.23) N^{3/4} over four decades, the fitted exponent from 10^3
-> to 10^6 is 0.73
+Extending the ladder to `10^7` puts `T*/N^{3/4}` at `0.1704`, below the
+published band. And `E sqrt(y) / N`, the quantity the conjectured shape says is
+constant, falls by a factor of 2.1 to 2.8 as `y` grows inside the conjecture's
+own range.
 
-with the barrier conjecture, `E >= c N / sqrt(y)`, "to be read for T* as well,
-with constant 0.2".
+The first version of this page read that as the shape being wrong. It fitted
+`log E = log C + a log N - b log y`, got `(1.159, 0.874)` against the conjectured
+`(1, 0.5)`, found the conjectured shape 2.7 times worse on the grid and
+indistinguishable from everything else on the diagonal, and concluded that
+`N / sqrt(y)` is not the shape of the optimum.
 
-## 2. Two problems with reading it that way
+## 3. Then an adversary read the comparison
 
-**The objective cancels.** Minimising `sum_j c_j log(floor(N/j)!)` asks a float
-solver for a quantity near `1e4` as a difference of quantities near `1e8`. The
-answer lives entirely in the cancelling digits.
+Fifteen attacks. Four landed. One of them was this:
 
-The Chebyshev identity rewrites the same programme with every objective
-coefficient and every variable non-negative, so the objective *is* the excess
-and nothing cancels. The two programmes are algebraically identical and the
-identity that makes them so is measured at every cutoff before the solve is
-trusted, to `8e-16` relative. That reformulation is why the ladder reaches
-`10^7` at all, and it reproduces the four published values to every printed
-digit on the way.
+**The comparison was not like for like.** It pitted a three-parameter free power
+law against a one-parameter reading of the conjecture. But `BARRIER.md` states
+the conjecture with a moving constant, in its own words: away from
+`y = sqrt(N)` the constant moves and the exponent does not. Fitted that way, on
+the same 20 rows:
 
-**A diagonal cannot see a two-variable shape.** Every published value sits on
-`y = floor(sqrt N)`. On that line `y` and `N` move together, so the data only
-ever constrains one combination of the two exponents, and an integer floor in
-`y` is indistinguishable from either.
-
-## 3. What the grid says
-
-Fit `log E = log C + a log N - b log y`. The conjectured shape is `a = 1`,
-`b = 0.5`.
-
-| model | rms of the residual, on the grid | on the diagonal only |
+| model | parameters | rms of the residual in `log E` |
 |---|---:|---:|
-| free `a` and `b` (`a = 1.159`, `b = 0.874`) | 0.126 | 0.064 |
-| conjectured `a = 1`, `b = 0.5` | 0.344 | 0.106 |
-| `a = 1`, `b` free (`b = 0.642`) | 0.268 | 0.064 |
-| `b = 0.5`, `a` free (`a = 0.982`) | 0.340 | 0.064 |
+| free `a`, `b`, constant `C` | 3 | 0.1258 |
+| conjectured `(1, 1/2)`, constant `C` | 1 | 0.3435 |
+| **conjectured `(1, 1/2)`, `log C` linear in `alpha`** | **2** | **0.1198** |
+| free `a`, `b`, `log C` linear in `alpha` | 4 | 0.1173 |
 
-**On the diagonal, three of the four models are identical to three decimal
-places.** On the grid the conjectured shape is 2.7 times worse: a typical
-relative miss of 41% against 13%. Fitted on three decades of grid instead of
-four, the free exponents were `(1.150, 0.878)` and the ratio was 3.1, so the
-separation is not an artefact of where the grid stops.
+The conjectured exponents fit better than the free ones with one parameter
+fewer. And once the constant is allowed to move, the free exponents come back to
+`a = 1.042`, `b = 0.609`, near where the conjecture puts them.
 
-The quantity the conjectured shape says is constant, `E sqrt(y) / N`, falls by
-a factor of 2.1 to 2.8 inside the conjecture's own range as `y` grows. And the
-fitted exponents predict the drift the diagonal does show: they say the
-diagonal value should fall by a factor `0.77` from `10^3` to `10^7`, and it
-falls by `0.74`, from `0.2298` to `0.1704`.
+**The conjecture is a lower bound and every measured point satisfies it.**
+`E >= 0.1704 N/sqrt(y)` holds at all twenty rows. The only thing the measurement
+touches is the published constant `0.2`, at one point, by 15 percent. That is
+the whole bite, and the first version never stated it while claiming something
+much larger.
 
-That last number is worth stating separately. The new row at `N = 10^7` puts
-`T*/N^{3/4}` at `0.1704`, below the `0.18 to 0.23` band the source reports over
-its four decades.
+Three more attacks landed, all on stated reasons rather than on numbers:
 
-**What this does not say.** The conjecture is a lower bound, and a worse fit of
-an equality shape is not a counterexample to an inequality. What it does say is
-that `N / sqrt(y)` is not the shape of the optimum, so the constant one reads
-off the diagonal is not a property of the family, and a barrier argument aimed
-at that form is aimed at a curve the optimum does not follow.
+- **The reformulation's justification was false.** The page argued that the
+  factorial objective asks a solver for a quantity near `1e4` as a difference of
+  quantities near `1e8`, and that rewriting it was why `10^7` was reachable.
+  Measured, the factorial form returns the same optimum to `2.7e-14`. The solver
+  absorbs the cancellation. The reason `10^7` was reachable is memory, which the
+  same page said in its own doors section two screens later.
+- **"Reproduces to every printed digit" was not measured.** The source prints two
+  of its values to 40 digits; these floats agree to 14 and 15.
+- **A conclusion was false over half its own grid.** "If the fitted exponents
+  persisted, no fixed positive constant would survive" holds only for
+  `alpha > 0.425`; below that the same fit predicts the opposite.
 
-## 4. The staircase
+And one correction went the other way. The audit found that claim about the
+zeros is **understated**: exact rational witnesses exist for them, and exact
+Farkas certificates for the strict positivity one support below, so that part of
+the hunt sits a rung higher than the page had claimed for it.
 
-Solving every integer support at `N = 10^3` gives 33 distinct optima across 76
-supports. The last four plateaus:
+## 4. What survives, and is new
 
-    y  42..47   excess 10.346570
-    y  48..50   excess 10.283916
-    y  51..55   excess 10.247100
-    y  56..62   excess  2.426015
-    y  63..77   excess  0
+**The excess is a staircase in `y`.** At `N = 10^3`, 33 distinct optima across 76
+supports; fourteen supports from 42 to 55 buy 1% of the excess, the next seven
+buy a factor of 4.2, and the next one buys the rest. At `N = 10^4` the value
+`9.406483` holds unchanged across sixteen consecutive supports and then drops to
+exactly zero.
 
-Fourteen supports buy 1% of the excess. The next seven buy a factor of 4.2. The
-next one buys the rest. At `N = 10^4` the value `9.406483` holds unchanged
-across sixteen consecutive supports and then drops to exactly zero at `y = 173`.
+**Zero excess is reached at a locatable support.** `y* = 63, 173, 589, 1938` for
+`N = 10^3` to `10^6`, with `alpha* = log y*/log N` falling monotonically
+`0.5998, 0.5595, 0.5540, 0.5479`.
 
-`hunts/quotient_certificate/RESULTS.md` names the support bound as its one
-frozen constant "with trade shape". Measured, the trade is not a curve at all.
-A plateau means a whole block of added columns changed no optimum, which is a
-rank statement about the constraint matrix, and it says the useful door is not
-"raise `y`" but "find which two columns did the work".
+**And the thing that holds the excess up is not the thing anyone was counting.**
+Only 40, 99 and 275 of the 61, 198 and 630 attainable cells carry any prime mass
+at all, and `W = 1` on those alone is satisfiable far below `y*`. What keeps the
+excess positive is the requirement `W >= 1` at the cells with **no weight**:
+cells that contribute nothing to the objective and constrain the feasible set
+anyway. That is the door the hunt now ranks first, and neither version of this
+page would have found it without an audit that asked whether `|Q_N|` was the
+right denominator.
 
-## 5. Where it reaches zero
+## 5. What this episode is
 
-| N | y* | attainable cells | ratio |
-|---:|---:|---:|---:|
-| 10^3 | 63 | 61 | 1.033 |
-| 10^4 | 173 | 198 | 0.874 |
-| 10^5 | 589 | 630 | 0.935 |
+Not an arithmetic error. Every published number reproduced, from an
+independently written programme. Every new number stands. What failed was a
+comparison, and it failed in the most ordinary way a comparison fails: the model
+under test was given fewer degrees of freedom than the model doing the testing,
+and the difference was reported as a finding.
 
-`hunts/quotient_certificate` already refuted a dimension count that inferred
-zero excess from having more columns than constrained cells, with an exact
-`N = 27, y = 9` example whose minimum excess is `log 2`. That settles that the
-count is not sufficient. These rows say the other half: at two of three cutoffs
-the zero arrives while the columns are still outnumbered. The count is not
-necessary either.
-
-## 6. The general shape
-
-Nothing here is a correction of anyone's arithmetic. Every published number
-reproduced exactly, from an independently written programme with a different
-objective. The reading was the thing that did not survive, and it did not
-survive for a reason with no mathematics in it: the measurements were all taken
-along one line through a two-dimensional space, and a line cannot tell you the
-shape of a surface.
-
-Three decades of grid is not a proof of anything either, and the write-up says
-so. What the grid changes is which question is worth asking next.
+The conjecture's own source had already recorded the moving constant. Reading
+that sentence would have prevented the whole headline. An adversary read it.

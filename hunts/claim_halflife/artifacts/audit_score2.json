@@ -1,0 +1,94 @@
+{
+ "n": 30,
+ "agreement": 0.7333333333333333,
+ "classifier_positive_audit_positive": 10,
+ "classifier_negative_audit_negative": 12,
+ "classifier_positive_audit_negative": 5,
+ "classifier_negative_audit_positive": 3,
+ "classifier_precision_against_audit": 0.6666666666666666,
+ "classifier_recall_against_audit": 0.7692307692307693,
+ "disagreements": [
+  {
+   "kind": "classifier-overcalled",
+   "row_id": 1,
+   "commit": "07ec287ec9c8",
+   "hunt": "higher_xi",
+   "subject": "Sharpen URMS2 mean-square barrier",
+   "auditor_said": false,
+   "auditor_confidence": "medium",
+   "auditor_why": "New URMS2-ATTACK.md plus cross-references. It sharpens an existing Outcome D (locating the gap as one missing logarithm) but withdraws nothing: no band had been promoted before, so 'largest band promoted is alpha_0=0' restates the record. The only in-place edit is a rename of item 4 ('replacement, resummed bridge audit' to 'replacement representation audit')."
+  },
+  {
+   "kind": "classifier-missed",
+   "row_id": 2,
+   "commit": "10ae88a36990",
+   "hunt": "frontier_math",
+   "subject": "The gap is one convex functional - and my reading of it was backwards",
+   "auditor_said": true,
+   "auditor_confidence": "high",
+   "auditor_why": "Explicit self-refutation: COORDINATOR DEFECT #18, 'CLAIM REFUTED BY THE MODULE'S OWN AUDIT', 'Direction, corrected', 'the coordinator had told the operator the opposite'. The hunt's own recorded reading of the convex functional's sign is replaced by the contradicting one, with the confound named."
+  },
+  {
+   "kind": "classifier-overcalled",
+   "row_id": 5,
+   "commit": "21aeba3dc9fb",
+   "hunt": "higher_xi",
+   "subject": "Document resummed xi bridge barrier",
+   "auditor_said": false,
+   "auditor_confidence": "low",
+   "auditor_why": "Adds RESUMMED-BRIDGE.md as a replacement representation alongside the earlier Outcome C audit, which stays valid and is merely relabelled 'historical fixed-order'. The in-place edits are a citation name fix (Farmer-Gonek to Farmer-Gonek-Lee), one goal word ('rigorous' to 'exact'), and a caveat that the earlier text already carried in its own words ('It does not show that the corrected infinite series is the wrong limiting object'). Borderline: the citation fix is a correction of something recorded, but typo-grade."
+  },
+  {
+   "kind": "classifier-missed",
+   "row_id": 10,
+   "commit": "4e5aeaa1dcd6",
+   "hunt": "higher_xi",
+   "subject": "Audit the URMS2 0.51 theorem",
+   "auditor_said": true,
+   "auditor_confidence": "high",
+   "auditor_why": "The audit 'corrects the stale cross-range phase description in URMS1-CLOSURE.md', and the diff shows the replacement: 'The cross-range phase contains log(mn) rather than log(m/n) and integration by parts makes it smaller' becomes 'The cross-range terms have the same log(m/n) phase'. A recorded statement was wrong when written and is replaced by its contradiction; the audit also records one omitted statement (height freezing beyond the old radius)."
+  },
+  {
+   "kind": "classifier-overcalled",
+   "row_id": 16,
+   "commit": "7fea23ee839a",
+   "hunt": "higher_xi",
+   "subject": "Cross the URMS2 half-band barrier",
+   "auditor_said": false,
+   "auditor_confidence": "medium",
+   "auditor_why": "The half-band barrier is crossed by the very route the hunt had itself named: BANDWIDTH-FORENSICS.md section 11 already classed it 'a proof-technology barrier' and listed the long-polynomial mean-value alternative. The deleted lines ('No theorem currently follows', 'the bridge and the obstruction meet at the strict endpoint 0.5') were true of the bridge as it then stood; the new document rebuilds the bridge rather than correcting a wrong claim. Boundary case, called by my state-of-work rule."
+  },
+  {
+   "kind": "classifier-overcalled",
+   "row_id": 20,
+   "commit": "a244e91f129f",
+   "hunt": "frontier_math",
+   "subject": "zeta23ext README: retire the three pre-port paragraphs the landing contradicted",
+   "auditor_said": false,
+   "auditor_confidence": "low",
+   "auditor_why": "The retired paragraphs are state-of-work statements that became stale when the port landed: 'does not build' to 'ported in batch 2 and now builds', 'the six modules were not reached' to 'now builds end to end', the import defect marked 'now FIXED'. Nothing recorded was wrong when written, and the pin-note correction it reworders was already recorded before this commit. Borderline against the commit subject's own word 'contradicted'."
+  },
+  {
+   "kind": "classifier-missed",
+   "row_id": 21,
+   "commit": "a311a6f265ff",
+   "hunt": "higher_xi",
+   "subject": "lean: hprime is unprovable as stated, and the gate it guards is retargeted",
+   "auditor_said": true,
+   "auditor_confidence": "high",
+   "auditor_why": "Item 19's inequality is declared unprovable as stated ('cannot be proved as stated by a Chebyshev route ... Recorded as a dead route'), a linear-in-log envelope is refuted by measurement, and the gate it guards is retargeted to a strictly weaker hypothesis. An earlier recorded formal obligation is withdrawn."
+  },
+  {
+   "kind": "classifier-overcalled",
+   "row_id": 28,
+   "commit": "edf58553fec2",
+   "hunt": "frontier_math",
+   "subject": "O9: the corrected table kernel-checks, all 18 chunks",
+   "auditor_said": false,
+   "auditor_confidence": "medium",
+   "auditor_why": "The three definitions the record itself named as missing are written, so 'does not build / no cell kernel-checked' becomes 'all 18 chunks decide'. Status 'O9 open' is retained, and the new caveat ('consistent, not yet sound') restricts the new result rather than narrowing an old one. The refutation this repairs is row 23's, already recorded."
+  }
+ ],
+ "auditor_rubric_notes": "WHERE I DREW THE HARD BOUNDARY (narration vs own-claim change). I asked, for every row: does THIS hunt's own recorded text stop saying what it said? Rows 3 and 9 both cite another hunt's kill report or another hunt's withdrawal, and I still marked them revisions, because in both cases the sentence that changed is this hunt's own (wide_search's HANDOFF withdrew its own 0.6725124 candidate; outband_certificate rewrote its own title, verdict and grade). Row 24 is the mirror image: it reports that a control battery fired and that another party's disagreement stands, but every existing sentence in the file survives unchanged, so it is narration plus new work, not revision. Row 20's fix (the BandCert import defect) was landed in the hunt's own Lean package, so the narration boundary does not exclude it; I still called it no, on the separate rule below.\n\nA SECOND LINE I HAD TO DRAW, AND IT DECIDED FIVE ROWS. The rubric's \"a number that changed\" and \"a statement replaced by a contradicting one\" will fire on any hunt that says \"X is missing / X does not build / the bridge stops at 0.5\" and later does the work. I separated: (a) a recorded claim that was WRONG WHEN WRITTEN, or a number replaced because the earlier one was in error, or an explicit withdrawal/retraction/narrowing = revision (rows 2, 3, 7, 9, 10, 12, 14, 17, 19, 21, 23, 26); (b) a recorded STATE that changed because the hunt did the work it had itself named as the next step = not a revision (rows 16, 20, 28). Checks that fixed (b): BANDWIDTH-FORENSICS section 11 had already classed the half-band stop as \"a proof-technology barrier\" and listed the long-polynomial mean-value route that row 16 then takes; O9-LEAF-REPAIR named rIv, qreIv, sqrScaled as the missing definitions that row 28 writes; the zeta23ext README's pin-note correction predates row 20's commit. Row 14 is on the other side of that line despite also being an instrument upgrade, because the hole map moved in BOTH directions (nu = 1.45 flips from hole to closed, 1.1 and 1.2 flip into the hole), so the earlier map was wrong, not merely loose.\n\nTHREE ROWS CANNOT BE JUDGED FROM THEIR OWN TEXT (4, 22, 29): files_touched empty, diff empty. I answered no for all three, on the ground that a row with no claim-file change carries no revision. Row 4 is the sharp one and is a sampling artifact worth reporting: it is a merge, and reading the repository shows its second parent brings a paragraph headed \"Historical progression, now withdrawn\" into hunts/frontier_math/RESULTS-frontier-math.md. That text was authored by commit 58ddf4c on the merged branch, so scoring the merge as a revision would count one withdrawal twice, and scoring it from the row as given is impossible in either direction.\n\nDistribution: 13 revisions, 17 not. The revision set is dominated by explicit self-labelled defects (#10, #18, #19/#20), two outright withdrawals, one refuted Lean table, and one decimal-tail correction.",
+ "auditor_expected_disagreements": "Ranked by how likely I am to differ from the repaired classifier.\n\n1. ROW 8 (lexical-gate fix), my weakest label. I said revision because the commit repairs previously committed ledger text and records it as \"session defect #10\". A classifier tuned to claim content will say no, since the mathematics, the sorry count and the disclosure all stand and only a reserved word was reworded, which is typo-adjacent. I would not defend my label hard; what I would defend is that the row needs an explicit rule, because \"a defect in the hunt's own earlier work being fixed\" and \"a typo / formatting sweep\" both cover it and the rubric does not say which wins.\n\n2. ROW 20 (zeta23ext README). The commit subject contains the word \"contradicted\", and three paragraphs are rewritten from present to past tense with a defect marked \"now FIXED\". A literal reader of \"a statement replaced by a contradicting one\" says yes; I said no under the state-of-work rule. If the classifier keys on subject lines this row will disagree, and it is the row where a keyword-driven classifier and a content-driven one part company most cleanly.\n\n3. ROW 16 (crossing the half-band). Same shape as row 20 but with a mathematical barrier instead of a build status, and the new document says \"the old gamma<delta condition was a worst-spacing loss\", which reads as declaring an earlier constraint an artifact. I checked the predecessor commit before deciding: the hunt had already written that the obstruction was proof-technology and named this exact way out, so I called it continuation. Reasonable people land the other way.\n\n4. ROW 5 (resummed bridge). Almost entirely new material, but it does fix a citation (Farmer-Gonek to Farmer-Gonek-Lee) and weaken one goal word (rigorous to exact). If the classifier treats any in-place correction of a recorded fact as a revision, it says yes.\n\n5. ROW 7 (prime_pair_error third pass). The headline is a large addition, and the revision lives in five small in-place hedges, chiefly \"E(N) is noise\" becoming \"most of E(N) remains unexplained by the tested corrections\". A classifier reading the commit subject or the added section will call this pure extension and miss the retraction; a diff-level reader should catch it.\n\n6. ROW 24 (gate #3 fires) and ROW 15 (k>=2 anatomy). Both contain strong-sounding refutation language (\"kill condition fires\", \"void, not a finding\", \"a disagreement left standing\", \"Incidence is not limited\") aimed at things other than the hunt's own recorded claims. These are the two rows most likely to produce a false positive in a classifier that scores vocabulary rather than target.\n\n7. ROW 4 (merge). Disagreement here is about corpus construction, not about the commit: any answer is defensible when the row carries no diff, and the underlying withdrawal is already attributable to another commit."
+}

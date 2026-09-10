@@ -66,9 +66,9 @@ What was built, what was measured, and what did not survive.
 | [34](34-zeros-in-tuning-units.md) | The Riemann zeros in tuning units. |
 | [35](35-the-unspent-fact.md) | The unspent fact: what out-of-band positivity is worth, and why nobody can claim it. |
 | [36](36-what-you-can-run.md) | Twelve worked demonstrations, the figure gallery, the repository map, and the standing limitations. |
-| [37](37-the-rule-the-core-never-learned.md) | A constant derived twice, written into two probe comments, and never reaching the function it describes: the Epstein evaluator's failure surface in height and precision, an exactly derived loss, and a guard with the faults that fire it. |
+| [37](37-the-module-that-missed-the-guard.md) | The Epstein evaluator's failure surface in height and precision, a loss derived rather than fitted, and a guard that an adversary walked straight through because every rung of its fault ladder varied the wrong thing. |
 | [38](38-one-form-per-discriminant.md) | A composite-defect table whose hypothesis fails on twenty-seven of its forty-one rows, the check that would have caught it, and the eleven overclaims an adversarial audit found in the write-up of that finding. |
-| [39](39-a-law-read-off-a-diagonal.md) | An elementary certificate barrier measured on a grid instead of a diagonal: the conjectured shape fits the diagonal as well as anything and is three times worse off it, and the excess turns out to be a staircase in the support bound. |
+| [39](39-a-law-read-off-a-diagonal.md) | An elementary certificate barrier measured on a grid instead of a diagonal, a headline withdrawn when an adversary noticed the model comparison was not like for like, and the zero-weight cells that turn out to be what holds the excess up. |
 | [40](40-what-happens-to-a-claim.md) | A measurement of this laboratory rather than of zeta: how much of the record has a guard behind it, how often a correction installs one, and the correction rate that was withdrawn when a blind audit scored the classifier near chance. |
 
 ## Adding one

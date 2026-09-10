@@ -22,8 +22,9 @@ ART = HERE / "artifacts"
 def main() -> None:
     key = json.loads(Path(sys.argv[1]).read_text(encoding="utf-8"))
     audit = json.loads(Path(sys.argv[2]).read_text(encoding="utf-8"))
+    sample_file = "audit_sample2.json" if "2" in Path(sys.argv[1]).name else "audit_sample.json"
     sample = {r["row_id"]: r for r in
-              json.loads((ART / "audit_sample.json").read_text(encoding="utf-8"))}
+              json.loads((ART / sample_file).read_text(encoding="utf-8"))}
 
     tp = tn = fp = fn = 0
     disagreements = []
@@ -63,7 +64,8 @@ def main() -> None:
         "auditor_rubric_notes": audit.get("rubric_notes"),
         "auditor_expected_disagreements": audit.get("disagreements_expected"),
     }
-    (ART / "audit_score.json").write_text(json.dumps(out, indent=1), encoding="utf-8")
+    dest = ART / (sys.argv[3] if len(sys.argv) > 3 else "audit_score.json")
+    dest.write_text(json.dumps(out, indent=1), encoding="utf-8")
     print(f"rows scored {n}")
     print(f"agreement {agree}/{n} = {100*agree/n:.1f}%")
     print(f"  both say revision      {tp}")
