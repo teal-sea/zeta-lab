@@ -98,7 +98,14 @@ with no missed case, and tested the frozen-at-\(x\) remark of section 4
 numerically (the ratio of the discrepancy to the lemma's error term grows
 like \(e^{\delta\sqrt{\log x}}/\log x\) at \(1-\beta=1/\log x\)). It found
 no defect. It had no network access, so the word-for-word comparison of the
-(DF) quotation against the source rests on the orchestrator session alone.
+(DF) quotation against the source rested on the orchestrator session until
+a scoped source check by a GPT session, against commit 08e05bd and the
+published Lemma 2.2, equation (2.1), passed it (operator's report,
+2026-09-11; section 7 item (5)). **The endpoint review is closed** with
+that check: every section of this document has had a second independent
+reader, no further paid check is planned, and what remains is the standing
+footnote that any published claim carries until an outside reader has
+walked the chain.
 
 ## 1. Parameters at the endpoint
 
@@ -310,10 +317,22 @@ every progression \(B=\{n\le y:\ n\equiv a\ (\mathrm{mod}\ r)\}\) with
 *Inputs.*
 
 (DF) Drappeau and Fiorilli, *The first moment of primes in arithmetic
-progressions: beyond the Siegel-Walfisz range*, arXiv:2003.02201v1
-(Trans. London Math. Soc., doi 10.1112/tlm3.12030), Lemma 2.2, quoted from
-the arXiv version, where the lemma's display carries no number and the
-decomposition consuming it is (2.1):
+progressions: beyond the Siegel-Walfisz range*, Trans. London Math. Soc.
+8 (2021), no. 1, 174-185, doi 10.1112/tlm3.12030, **Lemma 2.2, equation
+(2.1)**; arXiv:2003.02201v1. The published statement is the one cited;
+its display (2.1) carries a prefix factor on the right-hand side, the
+logarithmic factor placed in front of the whole bound rather than on the
+second term alone. The text quoted below is the arXiv version, which is
+the one read in this session. *Version comparison, kept on the record:* in
+the arXiv version the lemma's display carries no number and (2.1) is the
+decomposition that consumes it; in the published version the lemma's
+display is (2.1). The published wording was not read here (the publisher
+returned 403 to this environment); the comparison of this quotation with
+the published lemma was made in a scoped source check by a GPT session
+against commit 08e05bd, reported PASS by the operator on 2026-09-11 and
+recorded in section 7 item (5). Where the logarithmic factor sits changes
+nothing below: on \(xe^{-\delta\sqrt{\log x}}\) it is absorbed by lowering
+\(\delta\), and (D\('\)) is stated with that done.
 
 > *Fix \(a\in\mathbb Z\setminus\{0\}\). There exists \(\delta>0\) such that
 > for all \(x,Q\ge1\) we have the bound*
@@ -678,9 +697,19 @@ in the orchestrator session, which had network access the cell did not.
   4; section 4 applies the lemma at \(x=y\) and does not use that
   uniformity. The paper's own use is at \(y=x\) only. The numbering
   quoted is the arXiv version's, where the lemma's display is unnumbered
-  and (2.1) is the decomposition that consumes it; the published version
-  (Trans. London Math. Soc.) could not be fetched from this environment,
-  so its equation numbers were not compared.
+  and (2.1) is the decomposition that consumes it; in the published
+  version (Trans. London Math. Soc. 8 (2021) 174-185) the lemma's display
+  is equation (2.1) and carries its logarithmic factor as a prefix on the
+  whole right-hand side. The published page could not be fetched from
+  this environment (403). **Scoped source check, PASS.** A GPT session
+  with access to the published text compared the quotation and its use in
+  section 4 against the published Lemma 2.2, equation (2.1), at commit
+  08e05bd, and passed it; the operator reported the result on 2026-09-11.
+  That check was not run from this session and its transcript is not in
+  this repository; what is recorded here is the operator's report of it,
+  which is the same standing as every other operator-supplied fact in
+  this hunt. With it, every input of section 4 has been read against a
+  primary source by at least two readers.
 - **The level \(D_1\).** Every error term of section 4 was recomputed with
   \(D_1=\lfloor N^{1/2}\rfloor\) in place of \(D_0\): \(s_1=\sqrt\ell/2\),
   \(e^{9-s_1}=e^9\exp(-\sqrt\ell/2)\), remainders \(bD_1\ll\ell^{1/2}N^{1/2}\)
@@ -708,7 +737,7 @@ parameter \(Z=\exp(\sqrt{\log N})\)**, which is a different corrected
 quantity from the one bounded at \(Z=\exp((\log N)^{1/10})\). The first two
 revisions were independently checked (`ENDPOINT_SHARP_REVIEW.md`), and the
 third revision's two substitutions were checked separately
-(`ENDPOINT_SHARP_REVIEW_2.md`); the one step resting on a single reader is
-the word-for-word comparison of the (DF) quotation with its source. No fixed
-power saving, no exclusion of exceptional
+(`ENDPOINT_SHARP_REVIEW_2.md`), and the quotation of (DF) was passed by a
+scoped source check against the published lemma (section 7 item (5)). The
+endpoint review is closed. No fixed power saving, no exclusion of exceptional
 zeros, no statement about the zeros of \(\zeta\), and no novelty claim.
