@@ -56,12 +56,27 @@ rather than a construction:
 Everything else in the chain was already verified at \(\kappa=1/2\) by
 `ENDPOINT_HALF.md` sections 2.1 and 2.2 and is reused, not redone.
 
-Grade: derived, one route, awaiting an independent check. The classical
+Grade: derived, one route, independently checked (see below). The classical
 inputs are named where used. The finite checks in section 7 test the
 Mertens correction, the retuned cutoff, and the character cancellation of
 section 4; they test no asymptotic statement. This establishes no fixed
 power saving, no exclusion of exceptional zeros, and nothing about the
 zeros of \(\zeta\).
+
+**Independent check, 2026-09-11** (attempt `a-0075`, judged by `a-0076`,
+which recomputed the arithmetic with its own script). It confirmed equation
+(A), the attainment of the endpoint, the failure at \(\kappa>1/2\), the
+character cancellation and error assembly of section 4, the scoping of
+\(E_{\rm corr}^{(Z)}\), and the budget assembly, and it found **one
+defect**: section 7's table and section 2.1's crossover sentences understated
+the least admissible cutoff \(m\) by \(2\), because the probe searched
+against the exact factorial \(H_Z^{m+1}/(m+1)!\) while the document's own
+displayed inequality (5\('\)) is the Stirling-weakened
+\((eH_Z/(m+1))^{m+1}\). Corrected below; the table now matches the
+reviewer's independent recomputation exactly. It also reported that it had
+no network access and so could not check input (D) and (Pg) against primary
+sources. Those were checked in the orchestrator session instead, with a
+partial result recorded in section 4 and section 7 item (5).
 
 ## 1. Parameters at the endpoint
 
@@ -156,13 +171,17 @@ Two consequences worth stating separately.
   available up to and including the endpoint and not past it, matching the
   three other inputs of section 6.
 
-Honest numerics, from section 7: \(A(N)<1\) from about \(\log N=400\)
-onward, and \(A(N)<1/2\) only from about \(\log N=4.7\times10^4\), i.e.
-\(N\) around \(10^{20000}\). The budget needs \(A(N)<1\) with a margin
-\(\asymp\ell^{-1/2}\) (section 6), not \(A(N)<1/2\), so the relevant
-crossover is the first one. \(A(N)\) decays like \(1/\log\ell\), which is
-slow; (S) is an asymptotic statement and this is where its "sufficiently
-large \(N\)" lives.
+Honest numerics, from section 7, and note that \(A(N)=m/\sqrt\ell\) is
+sawtooth rather than monotone (it falls between the jumps of \(m\) and
+rises by \(2/\sqrt\ell\) at each jump), so the crossover that matters is the
+**last** one, not the first. Under the criterion (5\('\)) actually states:
+\(A(N)\) first dips below \(1\) at \(\log N\approx677\) and stays below it
+for every \(\log N>784\); it stays below \(1/2\) for every
+\(\log N>5.38\times10^4\), i.e. \(N\) beyond about \(10^{23000}\). The
+budget needs \(A(N)<1\) with a margin \(\asymp\ell^{-1/2}\) (section 6),
+not \(A(N)<1/2\), so the operative threshold is \(\log N>784\). \(A(N)\)
+decays like \(1/\log\ell\), which is slow; (S) is an asymptotic statement
+and this is where its "sufficiently large \(N\)" lives.
 
 ### 2.2 The \(\beta\)-sieve, as an alternative with a fixed level
 
@@ -231,13 +250,19 @@ every progression \(B=\{n\le y:\ n\equiv a\ (\mathrm{mod}\ r)\}\) with
 \(\psi(y;r,a)=y/\phi(r)-\chi_1(a)y^{\beta_1}/(\phi(r)\beta_1)+O(y\exp(-c_3\sqrt{\log y}))\),
 the middle term present exactly when \(L(s,\chi_1)\) has an exceptional real
 zero \(\beta_1\) for a real \(\chi_1\bmod r\) induced by a primitive
-\(\chi_1^*\) of conductor \(q_1\mid r\); \(c_3=c_3(C)\). (Pg) Page: among
-primitive real characters of conductor at most \(\exp(C\sqrt\ell)\) at most
-one has a zero \(\beta>1-c_4/\sqrt\ell\). (FL) the fundamental lemma as in
-2.2. (Cmp) Fix \(c_0\le c_4\) in section 1. Then a TT-exceptional zero at
-this \(Z\) is the unique Page exceptional zero, and every other real zero of
-a real \(L(s,\chi')\) of conductor \(<Z\) has \(\beta'\le1-c_0/\sqrt\ell\),
-contributing \(y^{\beta'}/\phi(r)\le N\exp(-c_0\sqrt\ell)\), absorbed.
+\(\chi_1^*\) of conductor \(q_1\mid r\); \(c_3=c_3(C)\). (Pg) Page's
+theorem, in the form verified against a primary source in section 7 item
+(5): *there is an absolute \(c>0\) such that for any \(Q\ge2\), among the
+primitive real characters of conductor at most \(Q\), at most one has an
+\(L\)-function with a real zero in \([1-c(\log Q)^{-1},1)\).* Applied at
+\(Q=Z=e^{\sqrt\ell}\), so \(\log Q=\sqrt\ell\), this reads: at most one
+primitive real character of conductor \(<Z\) has a real zero
+\(\beta>1-c/\sqrt\ell\). (FL) the fundamental lemma as in 2.2. (Cmp) Fix
+\(c_0\le c\) in section 1. Then a TT-exceptional zero at this \(Z\) is that
+unique Page exceptional zero, and every other real zero of a real
+\(L(s,\chi')\) of conductor \(<Z\) has \(\beta'<1-c_0/\sqrt\ell\), so with
+\(\log y\ge\ell/2\) below, \(y^{\beta'}\le y\exp(-c_0\sqrt\ell/2)\) and its
+contribution \(y^{\beta'}/\phi(r)\le N\exp(-c_0\sqrt\ell/2)\) is absorbed.
 Small \(y\): if \(y\le N\exp(-\gamma\sqrt\ell)\) both sides of (1\('\)) are
 \(O(y\ell)\); so assume \(\log y\ge\ell/2\), which puts \(r\le R\) inside
 (D)'s range for \(C\ge2\sigma\) and gives \(\exp(-c_3\sqrt{\log y})\le\exp(-c_3\sqrt\ell/2)\).
@@ -407,22 +432,33 @@ estimate section 2's correction turns on.
 
 **(2) The retuned cutoff at \(\kappa=1/2\)**, target decay
 \(\exp(-\sqrt\ell)\), comparing the fixed \(m=2\lceil\sqrt\ell\rceil\) with
-the least even \(m\) meeting the target:
+the least even \(m\) meeting the target **under the criterion (5\('\))
+states**, namely \((eH_Z/(m+1))^{m+1}\le e^{-\sqrt\ell}\):
 
 | \(\log N\) | \(H_Z\) | fixed \(m\) | \(A\) fixed | retuned \(m\) | \(A\) retuned |
 | --- | --- | --- | --- | --- | --- |
-| \(10^2\) | 2.56 | 20 | 2.000 | 12 | 1.200 |
-| \(4\times10^2\) | 3.26 | 40 | 2.000 | 20 | 1.000 |
-| \(10^4\) | 4.87 | 200 | 2.000 | 62 | 0.620 |
-| \(10^6\) | 7.17 | 2000 | 2.000 | 346 | 0.346 |
+| \(10^2\) | 2.56 | 20 | 2.000 | 14 | 1.400 |
+| \(4\times10^2\) | 3.26 | 40 | 2.000 | 22 | 1.100 |
+| \(10^4\) | 4.87 | 200 | 2.000 | 64 | 0.640 |
+| \(10^6\) | 7.17 | 2000 | 2.000 | 348 | 0.348 |
 | \(10^{10}\) | 11.77 | 200000 | 2.000 | 16078 | 0.161 |
 | \(10^{20}\) | 23.29 | \(2\times10^{10}\) | 2.000 | \(6.2\times10^8\) | 0.062 |
+
+**Correction.** The first version of this table searched against the exact
+factorial \(H_Z^{m+1}/(m+1)!\), which is smaller than the bound the
+document displays and so admits an \(m\) smaller by \(2\) at these scales.
+`a-0075` found this and `a-0076` recomputed the corrected column with an
+independent script, obtaining \(m=14,22,64,348\) and
+\(A=1.400,1.100,0.640,0.348\), which is what now stands. The probe reports
+both criteria; only the stated one is tabulated.
 
 The fixed cutoff is pinned at \(A=2\), reproducing `ENDPOINT_HALF.md`
 section 2.4. The retuned cutoff decays, and the measured values track
 \(4/\log\ell\) from (A) (predicted \(0.29\) and \(0.174\) at
-\(\log N=10^6,10^{10}\); measured \(0.346\) and \(0.161\)). \(A<1\) from
-about \(\log N=400\); \(A<1/2\) from about \(\log N=4.7\times10^4\).
+\(\log N=10^6,10^{10}\); measured \(0.348\) and \(0.161\)). Because
+\(A(N)=m/\sqrt\ell\) is sawtooth, the thresholds are stated as last
+crossings: \(A<1\) for every \(\log N>784\) (first dip at \(\approx677\)),
+and \(A<1/2\) for every \(\log N>5.38\times10^4\).
 
 **(3) Complete-period cancellation** for the coset sums of section 4: for
 every primitive real \(\chi\bmod q\) with \(q\in\{3,5,7,11,13,15,21,33,105\}\)
@@ -439,8 +475,45 @@ every \(n\le10^6\) at levels \(Z^s\), \(s=2,\dots,6\), and \(\ell^1\) error
 over \(NV(Z)\) of \(0.41,\ 0.043,\ 0.0031,\ 0.0000,\ 0.0000\) against
 \(e^{-s}=0.135,\ 0.050,\ 0.018,\ 0.0067,\ 0.0025\).
 
-These check an estimate, an arithmetic retuning, a character identity and
-four approximant properties. They test neither (S) nor (1\('\)).
+**(5) The classical inputs of section 4, against primary sources.** Checked
+in the orchestrator session, which had network access the cell did not.
+
+- **(Pg), Page's theorem: verified verbatim.** Basak and Pratt, *A
+  Conditional Refinement of Page's Theorem on zeros of Dirichlet
+  \(L\)-functions*, arXiv:2607.06433v1, Theorem 1.1, attributed there to
+  Page (Lemma 9) and to Davenport, p. 95: *"There exists an absolute
+  constant \(c>0\) such that the following holds. For any \(Q\ge2\), we have
+  \(\#\{\chi\in S(Q): L(s,\chi)\ \text{has a real zero in}\ [1-c(\log Q)^{-1},1)\}\le1\),"*
+  with \(S(Q)=\{\chi\bmod q_\chi:\chi\ \text{primitive and real},\ 1\le q_\chi\le Q\}\).
+  Section 4's (Pg) is this at \(Q=Z\), and its \(1/\sqrt\ell\) threshold is
+  \(c/\log Q\) with \(\log Q=\sqrt\ell\), so the two agree with the same
+  absolute constant. The same source states the zero-free region
+  \(\sigma\ge1-c_0/\log(q(|t|+2))\) containing at most a single zero,
+  necessarily real and with \(\chi\) quadratic (its (1.1), citing Davenport
+  p. 93), which is what makes the TT-exceptional data well defined, and
+  Siegel's ineffective \(\beta\le1-c(\varepsilon)q_\chi^{-\varepsilon}\)
+  (its (1.2)).
+- **(D), the prime number theorem in progressions with the exceptional main
+  term: not verified verbatim, and flagged.** The volume this hunt already
+  cites, Montgomery and Vaughan *Multiplicative Number Theory II*, was
+  fetched and searched: it contains no statement of Page's theorem and no
+  occurrence of "Siegel zero" or "exceptional zero", its Chapter 20 being a
+  different part of the subject, so it is not the source for (D). The
+  closest reachable corroboration is Baker, Faber and Kinlaw-style explicit
+  work, arXiv:1802.00085v3, which handles exactly this obstruction and
+  carries the exceptional zero through the explicit formula as the
+  \(x^{\beta-1}\) term of the zero sum (its Definition 6.1 and (2.5)-(2.6)),
+  the same object (D) isolates, but which never states (D) in the
+  corrected-main-term form. Basak and Pratt point instead to Iwaniec and
+  Kowalski, Theorem 5.27, for the distortion of primes in progressions by
+  such a zero. So (D) remains a citation this hunt has not read: its
+  structure is corroborated, its exact constants and hypotheses are not.
+  Nothing else in section 4 depends on (D)'s constants beyond \(c_3>0\)
+  existing.
+
+These check an estimate, an arithmetic retuning, a character identity, four
+approximant properties, and two of the three classical citations. They test
+neither (S) nor (1\('\)).
 
 ## 8. Scope
 

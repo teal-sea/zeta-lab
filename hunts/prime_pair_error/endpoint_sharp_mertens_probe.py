@@ -44,7 +44,19 @@ def H_of_Z_mertens(logz):
 
 
 def bonferroni_log_error(H, m):
-    """log of H^(m+1)/(m+1)! , exactly via lgamma."""
+    """log of the bound ENDPOINT_SHARP.md (5') actually states, (e H/(m+1))^(m+1).
+
+    This is the Stirling-weakened form, which is what section 2.1 derives the
+    cutoff from. The exact factorial (m+1)*log H - lgamma(m+2) is smaller, so
+    it would license an m smaller by 2 at the scales tabulated; using it here
+    was the defect a-0075 found, since the table then did not match the
+    document's own displayed inequality.
+    """
+    return -(m + 1) * math.log((m + 1) / (math.e * H))
+
+
+def bonferroni_log_error_exact(H, m):
+    """log of H^(m+1)/(m+1)! via lgamma, reported alongside for transparency."""
     return (m + 1) * math.log(H) - math.lgamma(m + 2)
 
 
@@ -125,9 +137,17 @@ def main():
         A_fixed = m_fixed * logZ / l
         m_min = least_m(H, logZ)          # decay rate c = 1
         A_min = m_min * logZ / l if m_min else None
+        m_exact = None
+        mm = 2
+        while mm < 10 ** 7:
+            if bonferroni_log_error_exact(H, mm) <= -logZ:
+                m_exact = mm
+                break
+            mm += 2
         rows.append({"log_N": l, "log_Z": logZ, "H_Z": H, "e_H_Z": math.e * H,
                      "m_fixed": m_fixed, "A_fixed": A_fixed,
                      "m_retuned": m_min, "A_retuned": A_min,
+                     "m_exact_factorial": m_exact,
                      "retuned_below_sqrt_N": bool(A_min is not None and A_min < 0.5)})
         print(f"  log N={l:<10.0f} log Z={logZ:8.2f} H_Z={H:6.3f} eH_Z={math.e*H:6.2f} | "
               f"fixed m={m_fixed:<6d} A={A_fixed:8.3f} | retuned m={m_min:<5d} A={A_min:7.4f} "
