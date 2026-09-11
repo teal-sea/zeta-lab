@@ -185,6 +185,11 @@ power, which the \(\log^MN\) in the density estimate can outweigh. Both
 statements are withdrawn. The section now rests on (K), whose own inputs
 are the density estimate (1.2) and its author's proof, and it is applied
 only at the interval lengths that actually occur, \(H_q\in[\tfrac32\sqrt N,\tfrac32L^C\sqrt N]\).
+A third correction, same day: the passage from \(\theta\) to \(\psi\) in the
+corollary had claimed a pointwise polylogarithmic bound on the proper
+prime powers in a window, which is false for windows near \(\sqrt N\); it
+is replaced by the integrated bound \(\int P_h^2\le hB_N^2\), and the
+remainder in (5) now carries its harmonic-sum factor.
 
 Fix \(C>0\) and \(1\le q\le L^C\) (non-squarefree \(q\) have \(P_{q,a}=0\)
 and are handled identically with the \(\mu(q)/\phi(q)\) term absent).
@@ -227,15 +232,27 @@ The factor \(q\) is the correct one and is harmless.)
 \tag{4}
 \]
 
-*Proof.* Write \(\theta\) for the prime-only count. In a window \((y,y+h]\)
-with \(y\le N\), the prime powers \(p^k\), \(k\ge2\), number at most
-\(h/\sqrt y+\log_2N\) and weigh at most \(L\) each, so
-\(\psi(y{+}h;q,b)-\psi(y;q,b)=\theta(y{+}h;q,b)-\theta(y;q,b)+O((h/\sqrt y+L)L)\).
-For \(y\ge h\) and \(h\le\tfrac32L^C\sqrt N\) that error is \(O(L^{C+2})\),
-and its square integrates to \(O(NL^{2C+4})=O(h^2NL^{-A})\). For \(y<h\)
-bound everything trivially: the integrand is \(O(h^2L^2)\) on a range of
-length \(h\), contributing \(O(h^3L^2)=O(h^2N\cdot hL^2/N)\ll h^2NL^{-A}\)
-since \(h/N\ll N^{-1/2}L^C\). So it suffices to treat \(\theta\) on
+*Proof.* Write \(\theta\) for the prime-only count and
+\(P_h(y)=\sum_{y<p^k\le y+h,\ k\ge2}\log p\) for the proper-prime-power mass
+of the window, so that for every reduced \(b\),
+\(0\le[\psi(y{+}h;q,b)-\psi(y;q,b)]-[\theta(y{+}h;q,b)-\theta(y;q,b)]\le P_h(y)\).
+No pointwise bound on \(P_h\) is used: near \(y\asymp h\asymp\sqrt N\) a
+window holds about \(\sqrt h\) prime squares, not a power of \(\log\).
+Integrated it is small. Each proper prime power \(p^k\le N+h\) contributes
+\(\log p\) to \(P_h(y)\) exactly for \(y\in[p^k-h,p^k)\), a set of measure
+\(h\), so \(\int_{-h}^NP_h(y)\,dy\le hB_N\) with
+\(B_N:=\sum_{p^k\le N+h,\ k\ge2}\log p\ll\sqrt NL\), and \(P_h\le B_N\)
+pointwise, whence
+\[
+ \int_{-h}^{N}P_h(y)^2\,dy\ \le\ hB_N^2\ \ll\ hNL^2\ \ll\ h^2NL^{-A},
+\]
+the last step because \(h\ge\tfrac32\sqrt N\). Since
+\(\sum_b^*(\text{error})^2\le2\sum_b^*(\theta\text{-error})^2+2\phi(q)P_h(y)^2\)
+and \(\phi(q)\le L^C\), the prime powers cost \(O(hNL^{C+2})=O(h^2NL^{-A})\)
+in total and it suffices to bound the \(\theta\)-errors. For \(y<h\) bound
+those trivially: the integrand is \(O(h^2L^2)\) on a range of length \(h\),
+contributing \(O(h^3L^2)=O(h^2N\cdot hL^2/N)\ll h^2NL^{-A}\) since
+\(h/N\ll N^{-1/2}L^C\). So it suffices to treat \(\theta\) on
 \(y\in[h,N-h]\), which we cover by dyadic blocks \([x,2x]\) with \(h\le x\le N\).
 On each block, \(\theta(y{+}h;q,b)-\theta(y;q,b)-h/\phi(q)\) is bounded
 in modulus by \(E(y,h;q)\) for every reduced \(b\), and also, trivially, by
@@ -265,9 +282,10 @@ both ends exactly as in the proof above:
  Z_{(q)}\ll_{A,C}\frac{Q^2}{q^2}\Big[q\cdot qH_q^2NL^{-A}+qNL^6\Big]
  =\tfrac14q^2N^3L^{-A}+\frac{Q^2NL^6}{q},
 \]
-and summing over \(q\le L^C\),
+and summing over \(q\le L^C\), the remainder carrying the harmonic sum
+\(\sum_{q\le L^C}1/q\ll C\log L\),
 \[
- \boxed{\ Z_{q\le L^C}\ \ll_{A,C}\ N^3L^{3C-A}+N^2L^{6}.\ }
+ \boxed{\ Z_{q\le L^C}\ \ll_{A,C}\ N^3L^{3C-A}+N^2L^{6}\log L.\ }
 \tag{5}
 \]
 
@@ -294,7 +312,7 @@ section 4 is needed and why the two ranges meet at a power of \(\log\).
 
 Take \(C=A+6\) in (6) and \(A\to A+3C\) in (5): for every fixed \(A\),
 \[
- Z_{q\le R_0}\ll_AN^3L^{-A}+N^2L^6\ll_AN^3L^{-A},
+ Z_{q\le R_0}\ll_AN^3L^{-A}+N^2L^6\log L\ll_AN^3L^{-A},
 \]
 which is (Z). Together with (28) for \(q>R_0\): \(Z_Q\ll_AN^3L^{-A}+N^{13/5}L^6\).
 
