@@ -741,3 +741,11 @@ third revision's two substitutions were checked separately
 scoped source check against the published lemma (section 7 item (5)). The
 endpoint review is closed. No fixed power saving, no exclusion of exceptional
 zeros, no statement about the zeros of \(\zeta\), and no novelty claim.
+
+**Forward pointer, added after this checkpoint closed.** `ARC_SPLIT_BUDGET.md`
+(2026-09-11, later the same day) reaches the same shape of bound with the
+exponent constant \(2\gamma/3\) in place of this document's \(\gamma/240\), by
+splitting the corrected residual by arcs rather than by model, so that the
+divisor approximant of section 2 and the minor-arc estimates of
+`ENDPOINT_BOUND.md` section 4 are not consumed. Nothing in this document is
+changed by it; section 6's four-input account describes this chain.
