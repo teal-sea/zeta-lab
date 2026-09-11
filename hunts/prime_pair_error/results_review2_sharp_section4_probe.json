@@ -1,0 +1,118 @@
+{
+  "level_D1": [
+    {
+      "logN": 100.0,
+      "s1": 5.0,
+      "s1_formula_sqrt_ell_over_2": 5.0,
+      "hypothesis_D1_ge_Z10_holds": false
+    },
+    {
+      "logN": 399.0,
+      "s1": 9.987492177719089,
+      "s1_formula_sqrt_ell_over_2": 9.987492177719089,
+      "hypothesis_D1_ge_Z10_holds": false
+    },
+    {
+      "logN": 400.0,
+      "s1": 10.0,
+      "s1_formula_sqrt_ell_over_2": 10.0,
+      "hypothesis_D1_ge_Z10_holds": true
+    },
+    {
+      "logN": 401.0,
+      "s1": 10.012492197250394,
+      "s1_formula_sqrt_ell_over_2": 10.012492197250394,
+      "hypothesis_D1_ge_Z10_holds": true
+    },
+    {
+      "logN": 1000.0,
+      "s1": 15.811388300841896,
+      "s1_formula_sqrt_ell_over_2": 15.811388300841896,
+      "hypothesis_D1_ge_Z10_holds": true
+    },
+    {
+      "logN": 10000.0,
+      "s1": 50.0,
+      "s1_formula_sqrt_ell_over_2": 50.0,
+      "hypothesis_D1_ge_Z10_holds": true
+    }
+  ],
+  "df_remark": {
+    "delta": 0.5,
+    "mu": 1.0,
+    "L": 3.0,
+    "rows": [
+      {
+        "logx": 100.0,
+        "one_minus_beta": 0.01,
+        "diff": "1.5145619e+40",
+        "bound": "1.8112391e+41",
+        "diff_over_bound": "0.083620208"
+      },
+      {
+        "logx": 1000.0,
+        "one_minus_beta": 0.001,
+        "diff": "1.0852039e+430",
+        "bound": "2.6772148e+427",
+        "diff_over_bound": "405.34809"
+      },
+      {
+        "logx": 10000.0,
+        "one_minus_beta": 0.0001,
+        "diff": "4.840285e+4337",
+        "bound": "1.6986149e+4321",
+        "diff_over_bound": "2.8495481e+16"
+      },
+      {
+        "logx": 100000.0,
+        "one_minus_beta": 1e-05,
+        "diff": "1.5422135e+43423",
+        "bound": "6.0284189e+43360",
+        "diff_over_bound": "2.5582388e+62"
+      },
+      {
+        "logx": 1000000.0,
+        "one_minus_beta": 1e-06,
+        "diff": "1.6666625e+434287",
+        "bound": "2.1610375e+434077",
+        "diff_over_bound": "7.7123257e+209"
+      },
+      {
+        "logx": 10000000.0,
+        "one_minus_beta": 1e-07,
+        "diff": "3.6222294e+4342936",
+        "bound": "1.377728e+4342258",
+        "diff_over_bound": "2.6291324e+678"
+      }
+    ]
+  },
+  "small_y": [
+    {
+      "logN": 1000.0,
+      "R": "4.0",
+      "e_sqrt_logy_ge_R": true,
+      "e_sqrt_logy_le_Z": true,
+      "R_sqrty_logy3": "1.87323e+117",
+      "N_exp_minus_sqrt_ell": "3.63818e+420",
+      "R_sqrty_le_N_exp_minus_sqrt_ell": true
+    },
+    {
+      "logN": 10000.0,
+      "R": "148.0",
+      "e_sqrt_logy_ge_R": true,
+      "e_sqrt_logy_le_Z": true,
+      "R_sqrty_logy3": "1.0078e+1099",
+      "N_exp_minus_sqrt_ell": "3.2762e+4299",
+      "R_sqrty_le_N_exp_minus_sqrt_ell": true
+    },
+    {
+      "logN": 100000.0,
+      "R": "7.35866e+6",
+      "e_sqrt_logy_ge_R": true,
+      "e_sqrt_logy_le_Z": true,
+      "R_sqrty_logy3": "2.11717e+10878",
+      "N_exp_minus_sqrt_ell": "1.29484e+43292",
+      "R_sqrty_le_N_exp_minus_sqrt_ell": true
+    }
+  ]
+}
