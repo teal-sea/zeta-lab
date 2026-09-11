@@ -85,12 +85,20 @@ sources. Those were checked in the orchestrator session instead: (Pg) was
 verified verbatim, and (D) was found unread and has since been replaced
 (section 4, section 7 item (5)).
 
-**What the check does not cover.** The third revision postdates it. Its
+**The third revision's own check** (attempt `a-0077`,
+`ENDPOINT_SHARP_REVIEW_2.md`). The third revision postdates `a-0075`. Its
 two substitutions, the progression input (DF) in place of (D) and the
 separate sieve level \(D_1\) in section 4, were checked in the orchestrator
 session against the source and by recomputing every error term of section
-4, and are recorded with that provenance; they have not been through a
-second independent reader at the time of writing.
+4, then independently by `a-0077`, which recomputed \(s_1\) and the
+\(D_1\ge Z^{10}\) threshold directly from \(N\) (equality at exactly
+\(\log N=400\)), rederived the range \(\gamma<\min(c_0/2,\delta/\sqrt2,1/2)\)
+from the four error sources, confirmed the matching of exceptional data
+with no missed case, and tested the frozen-at-\(x\) remark of section 4
+numerically (the ratio of the discrepancy to the lemma's error term grows
+like \(e^{\delta\sqrt{\log x}}/\log x\) at \(1-\beta=1/\log x\)). It found
+no defect. It had no network access, so the word-for-word comparison of the
+(DF) quotation against the source rests on the orchestrator session alone.
 
 ## 1. Parameters at the endpoint
 
@@ -698,6 +706,9 @@ rather than cited from memory. The conclusion is the endpoint
 \(\kappa=1/2\) for the corrected CHHL error **at the enlarged model
 parameter \(Z=\exp(\sqrt{\log N})\)**, which is a different corrected
 quantity from the one bounded at \(Z=\exp((\log N)^{1/10})\). The first two
-revisions were independently checked (`ENDPOINT_SHARP_REVIEW.md`); the
-third revision's two substitutions await one. No fixed power saving, no exclusion of exceptional
+revisions were independently checked (`ENDPOINT_SHARP_REVIEW.md`), and the
+third revision's two substitutions were checked separately
+(`ENDPOINT_SHARP_REVIEW_2.md`); the one step resting on a single reader is
+the word-for-word comparison of the (DF) quotation with its source. No fixed
+power saving, no exclusion of exceptional
 zeros, no statement about the zeros of \(\zeta\), and no novelty claim.
