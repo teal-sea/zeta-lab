@@ -1,5 +1,20 @@
 # Does Remark 2.8's larger Siegel-model parameter survive the endpoint chain?
 
+**Correction notice, 2026-09-11.** Section 2.3's conclusion that *no* choice
+of the Bonferroni cutoff \(m\) works at \(\kappa=1/2\) does not hold. That
+argument estimates \(H_Z=\sum_{p<Z}1/p\) through ENDPOINT_BOUND.md section
+2's elementary bound \(H_Z\le1+\log Z\), giving \(H_Z\sim\ell^\kappa\);
+Mertens' second theorem gives \(H_Z=\log\log Z+M+O(1/\log Z)\sim\kappa\log\ell\),
+a double logarithm where the bound supplies a power. With the true \(H_Z\)
+and a cutoff retuned to \(m\asymp\ell^\kappa/\log\ell\), the same device
+reaches \(D_0=N^{o(1)}\) at \(\kappa=1/2\). Section 2.4's measurements are
+unaffected: they evaluate the **fixed** cutoff \(m=2\lceil\sqrt\ell\rceil\),
+which is genuinely pinned at \(\log D_0/\log N=2\). See
+[ENDPOINT_SHARP.md](ENDPOINT_SHARP.md) section 2, which attains the endpoint
+and carries the retuning, the correction, and its finite checks. The rest of
+this file, including sections 2.1, 2.2 and 1's reading of Remark 2.8,
+stands.
+
 2026-09-10. Base: the chain SIEGEL_UNIFORMITY.md -> EXCEPTIONAL_ENERGY.md ->
 LOCALIZED_MIXED_ENERGY.md -> ENDPOINT_BOUND.md (reviewed in
 ENDPOINT_BOUND_REVIEW.md). All of those files are unchanged by this pass.
