@@ -100,7 +100,7 @@
       "verdict": {
         "by": "a-0004",
         "ok": true,
-        "why": "Names a specific missing thing (Theta_chi unconditionally unknown, no exhibited sequence) verified against RESULTS.md \u00a718 and tb_bind.py, proposes a distinct GRH-conditional shape comparison scoped to hunts/prime_pair_error/, quotes results.json's E(N) values exactly, and explicitly forbids claiming the unconditional theorem binds or is vacuous from it.",
+        "why": "Names a specific missing thing (Theta_chi unconditionally unknown, no exhibited sequence) verified against RESULTS.md §18 and tb_bind.py, proposes a distinct GRH-conditional shape comparison scoped to hunts/prime_pair_error/, quotes results.json's E(N) values exactly, and explicitly forbids claiming the unconditional theorem binds or is vacuous from it.",
         "at": "2026-09-10T03:37:20.083Z"
       },
       "decided_at": "2026-09-10T07:07:12.236Z"
@@ -806,6 +806,133 @@
         "why": "Names a specific open gap (the two uncontrolled cross terms in eq 22 of LOCALIZED_MIXED_ENERGY.md, confirmed verbatim in the doc's Section 6, currently bounded only by triangle inequality per eq 25), asks a well-posed sign/cancellation question, stays in-scope, and does not overclaim certainty or reference RH.",
         "at": "2026-09-10T22:31:38.839Z"
       }
+    },
+    {
+      "id": "w-endpoint-sharp-check",
+      "what": "Independently check hunts/prime_pair_error/ENDPOINT_SHARP.md, which claims E_corr^(Z)(N) << N^3 exp(-c sqrt(log N)) at the enlarged model parameter Z = exp(sqrt(log N)), the sharp endpoint kappa = 1/2 of the family in ENDPOINT_HALF.md. Your job is to break it or to confirm each step; a confirmed defect is the more valuable outcome and you are expected to look for one.\n\nRead first, in this order: ENDPOINT_SHARP.md (the claim), ENDPOINT_BOUND.md (the argument it edits, especially section 2 and equations (5), (10), (13), (14), (17), (18)), ENDPOINT_HALF.md (including its new correction notice), SIEGEL_UNIFORMITY.md sections 3-5 (the model comparison and the exceptional correction C_N in its equation (19)).\n\nCheck these five things, each independently, and report each separately.\n\n(1) The Mertens correction, ENDPOINT_SHARP.md section 2.1. It claims that ENDPOINT_HALF.md section 2.3 concluded no Bonferroni cutoff works at kappa = 1/2 only because it estimated H_Z = sum over primes p < Z of 1/p by the elementary bound H_Z <= 1 + log Z, whereas Mertens second theorem gives H_Z = loglog Z + M + O(1/log Z). Verify the arithmetic of its equation (A): with m + 1 = ceil((2c/kappa) l^kappa / log l), l = log N, is the Bonferroni error bound N (e H_Z/(m+1))^(m+1) really below N exp(-c l^kappa), and is A(N) = m log Z / l really (2c/kappa) l^(2kappa-1)/log l (1 + o(1))? Compute it yourself at several N with your own script; do not reuse endpoint_sharp_mertens_probe.py, write your own. State whether the endpoint is attained, whether kappa > 1/2 really fails, and whether the claimed crossovers (A < 1 from log N about 400, A < 1/2 from log N about 4.7e4) are right.\n\n(2) The modulus factor, ENDPOINT_SHARP.md section 4, case (a,r) = 1 with q not dividing r. It claims the main terms cancel because the admissible residues c mod q form a coset of the kernel K of the reduction map from (Z/q)* to (Z/g)*, g = gcd(q,r) < q, and a primitive chi mod q is nontrivial on K; and that the remainders do not cancel, so the error carries a factor phi(q)/phi(g) <= q, made explicit in (4.1) and (4.2). Check the cancellation claim algebraically and numerically for real primitive characters, and check that the error bound (4.2) is correctly assembled and really is absorbed at both level choices D_0 = N^o(1) and D_0 = N^(1/2). Look specifically for any other place in section 4 where a factor of the modulus, of phi(q), or of the number of residue classes has been dropped.\n\n(3) The claim that E_corr^(Z) at Z = exp(sqrt(log N)) is a different quantity from E_corr at Z = exp((log N)^(1/10)), that ENDPOINT_SHARP.md does not conflate them anywhere, and that its section 6 statement for the original E is correctly scoped. The exceptional class at the larger Z has a wider conductor range q < Z and a stricter threshold beta > 1 - c_0/log Z. Confirm or refute that neither corrected quantity dominates the other, and check every place the document compares itself with ENDPOINT_BOUND.md.\n\n(4) The derivation of input (1prime) in section 4 from Davenport Chapter 20, Page theorem and the fundamental lemma. Check all four cases, in particular that the q divides r case really cancels Davenport middle term with the right character value and the right beta, and that the constant c_0 of TT Definition 2.1 may legitimately be constrained to be at most Page constant c_4 as (Cmp) does. If you have web access, check the statements of Davenport Chapter 20 and Page theorem against a primary source and say what you checked; if not, say plainly that you did not.\n\n(5) The budget assembly (18prime) in section 6, term by term against ENDPOINT_BOUND.md equation (18), and the four-input account of what fixes the exponent at 1/2.\n\nWrite hunts/prime_pair_error/ENDPOINT_SHARP_REVIEW.md: one section per item above, each with a verdict of confirmed, defective or unresolved, the exact step at fault where defective, and your own numbers where you computed any. A confirmed defect must name the equation and say what the corrected statement is. If you cannot settle an item, say so and say what would settle it; do not guess. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it; no em dashes in prose you write; nothing may be phrased as bearing on the Riemann hypothesis.",
+      "needs": [],
+      "status": "active",
+      "found_by": [
+        "operator"
+      ],
+      "found_at": "2026-09-11T14:35:50.956Z",
+      "decided_at": "2026-09-11T14:35:50.956Z",
+      "check": "test -f hunts/prime_pair_error/ENDPOINT_SHARP_REVIEW.md && grep -qiE \"confirmed|defect|unresolved\" hunts/prime_pair_error/ENDPOINT_SHARP_REVIEW.md && test $(wc -l < hunts/prime_pair_error/ENDPOINT_SHARP_REVIEW.md) -ge 40"
+    },
+    {
+      "id": "w-endpoint-sharp-fix-crossover-table",
+      "what": "In hunts/prime_pair_error/ENDPOINT_SHARP.md, fix section 7 item (2)'s table and the two sentences in section 2.1 that quote it ('A(N)<1 from about log N=400 onward' and 'A(N)<1/2 only from about log N=4.7x10^4'). Independent recomputation (least even m such that (m+1)*log((m+1)/(e*H_Z)) >= sqrt(log N), with H_Z from Mertens' second theorem H_Z=loglog(Z)+M, M=0.2614972..., at Z=exp(sqrt(log N))) shows the table's retuned m is too small by exactly 2 at log N in {100, 400, 1e4, 1e6}: correct values are m=14 (not 12) at log N=100 giving A=1.4 (not 1.2); m=22 (not 20) at log N=400 giving A=1.1 (not 1.0); m=64 (not 62) at log N=1e4 giving A=0.64 (not 0.62); m=348 (not 346) at log N=1e6 giving A=0.348 (not 0.346). At log N=1e10 and 1e20 the document's values (16078 and 6.2e8) are already correct. The true crossover for A(N)<1 is at log N about 676 (not 400); the true crossover for A(N)<1/2 is at log N about 53824 (not 4.7e4). Equation (A) itself and the kappa=1/2 endpoint conclusion are unaffected by this and remain correct; only the finite illustrative numbers need correcting.",
+      "needs": [],
+      "status": "proposed",
+      "found_by": [
+        "a-0075"
+      ],
+      "found_at": "2026-09-11T14:52:50.534Z",
+      "verdict": {
+        "by": "a-0076",
+        "ok": true,
+        "why": "Independently recomputed the least even m and A(N) with an unrelated script (mpmath, direct linear search of (m+1)log((m+1)/(e H_Z)) >= sqrt(log N)) and got m=14/A=1.4 at logN=100, m=22/A=1.1 at 400, m=64/A=0.64 at 1e4, m=348/A=0.348 at 1e6, and crossovers at logN=676.66 (A<1) and 53824.46 (A<1/2), matching the proposal's numbers exactly; it names the exact table and sentences and gives a correct, narrowly scoped fix.",
+        "at": "2026-09-11T14:56:42.750Z"
+      }
+    },
+    {
+      "id": "w-endpoint-sharp-davenport-page-source-check",
+      "what": "Check ENDPOINT_SHARP.md section 4's citations (D) and (Pg) against primary sources: Davenport, Multiplicative Number Theory, Chapter 20 (the prime number theorem for arithmetic progressions with an exceptional real zero retained, of the shape psi(y;r,a) = y/phi(r) - chi_1(a) y^{beta_1}/(phi(r) beta_1) + O(y exp(-c_3 sqrt(log y))) for r <= exp(C sqrt(log y)), (a,r)=1, chi_1 the character mod r induced by a primitive real chi_1^* of conductor q_1 | r with exceptional zero beta_1), and Page's theorem (among primitive real characters of conductor at most exp(C sqrt(log N)), at most one has a real zero beta > 1 - c_4/sqrt(log N)). Confirm the exact hypotheses and constants match what ENDPOINT_SHARP.md section 4 uses, in particular the range of validity in r and y, and report any discrepancy by equation number.",
+      "needs": [],
+      "status": "proposed",
+      "found_by": [
+        "a-0075"
+      ],
+      "found_at": "2026-09-11T14:52:50.534Z",
+      "verdict": {
+        "by": "a-0076",
+        "ok": true,
+        "why": "Names a genuine, specific gap (a-0075's review explicitly states it had no web access and did not check (D)/(Pg) against a primary source, verifying only internal consistency) and proposes exactly the check that would clear it, scoped to hunts/prime_pair_error/ and to two named citations with instructions to report by equation number, without overclaiming a result.",
+        "at": "2026-09-11T14:56:42.750Z"
+      }
+    },
+    {
+      "id": "w-endpoint-sharp-third-revision-check",
+      "what": "Independently check the THIRD REVISION of hunts/prime_pair_error/ENDPOINT_SHARP.md (commit 575243e on this branch), and only its two substitutions in section 4. Your job is to break them or to confirm each step; a confirmed defect is the more valuable outcome and you are expected to look for one. Do not re-review sections 2, 3, 5 or 6, which ENDPOINT_SHARP_REVIEW.md already covers.\n\nRead first: ENDPOINT_SHARP.md sections 1, 4, 7 item (5) and 8; ENDPOINT_SHARP_REVIEW.md (the earlier check); ENDPOINT_BOUND.md section 4 (where input (1) is consumed) and SIEGEL_UNIFORMITY.md section 3 (the fundamental lemma as TT Lemma 5.1, with its hypothesis D >= z^(9 kappa + 1) and error e^(9 kappa - s) K^10).\n\nCheck these four things, each independently, and report each separately.\n\n(1) The level. Section 4 says its first two versions applied the fundamental lemma at the approximant level D_0 = N^(A(N)), A(N) = 4c/log log N from equation (A), giving s = A(N) sqrt(log N), so that the displayed error e^(9 - s) decays more slowly than exp(-gamma sqrt(log N)) for every fixed gamma, and that (1prime) therefore did not follow as written. Confirm or refute that diagnosis from (A). Then check the repair: D_1 = floor(N^(1/2)), s_1 = log D_1 / log Z = sqrt(log N)/2 (1 + o(1)), hypothesis D_1 >= Z^10 iff log N >= 400, remainders O(D_1), b D_1 << sqrt(log N) N^(1/2), b q D_1 << sqrt(log N) e^(sqrt(log N)) N^(1/2). Recompute every error term of section 4 with D_1 yourself, in all four cases, and confirm or refute the final admissible range gamma < min(c_0/2, delta/sqrt 2, 1/2). Check that D_1 enters nothing outside section 4: in particular that the budget (18prime) in section 6 and the (P4) property in section 2.2 consume D_0 and not D_1.\n\n(2) The progression input (DF). Section 4 quotes Drappeau and Fiorilli, arXiv:2003.02201v1, Lemma 2.2, their Theorem 1.2, their definition of the x-exceptional character with Q = T = e^(sqrt(log x)), and their (1.6) eta_{x,a} = chi~(a)/(beta x^(1-beta)). If you have web access, fetch the paper and compare the quotation word for word and symbol for symbol, and say what you compared; if you do not, say plainly that you did not and treat the quotation as given (it was compared against the source in the orchestrator session). Then check the mathematics that uses it: (a) that applying the lemma at x = y and Q = R and bounding one term of the sum by the whole sum gives (Dprime) exactly as displayed, with eta_{y,a} y = chi~_y(a) y^(beta~_y)/beta~_y; (b) the remark that, as printed, the maximum over y <= x with eta_{x,a} frozen at x differs from the y^beta main term by chi~(a) y x^(beta-1) ((x/y)^(1-beta) - 1)/(beta phi(q)), and that when 1 - beta and log(x/y)/sqrt(log x) are both small compared with delta this difference summed over q~ | q <= Q is not O(x e^(-delta sqrt(log x))). Confirm or refute that remark with your own computation; it is a claim about a published statement and must not stand if it is wrong. (c) that the document does not rely on the uniformity the remark questions.\n\n(3) The matching of exceptional data. Check the four bullets of \"Matching the exceptional data\": that a TT-exceptional chi at Z with q | r is the y-exceptional character for every y with log y >= (log N)/2, using q <= R <= e^(sqrt(log y)), beta > 1 - c_0/sqrt(log N) >= 1 - b/(2 sqrt(log y)) under (Cmp) c_0 <= min(c, b/2), and uniqueness; that a y-exceptional character which is not TT-exceptional at Z contributes at most 2 y e^(-c_0 sqrt(log N)/2)/phi(r) whenever its conductor divides r; that the q does not divide r case carries no exceptional term on the Lambda side; and that (Dsecond) follows with c_4 = min(c_0/2, delta/sqrt 2). Look specifically for a case the four bullets miss, and for any place the threshold b/(2 sqrt(log y)) has been confused with b/sqrt(log y) or with c/sqrt(log N).\n\n(4) The Small y reduction: that y <= N exp(-gamma sqrt(log N)) makes both sides of (1prime) O(y log N), and that log y >= (log N)/2 gives every inequality listed there, including R sqrt(y) (log y)^O(1) <= N e^(-sqrt(log N)) for large N.\n\nWrite hunts/prime_pair_error/ENDPOINT_SHARP_REVIEW_2.md: one section per item above, each with a verdict of confirmed, defective or unresolved, the exact step at fault where defective, and your own numbers where you computed any. A confirmed defect must name the equation and say what the corrected statement is. If you cannot settle an item, say so and say what would settle it; do not guess. Do not edit ENDPOINT_SHARP.md or ENDPOINT_SHARP_REVIEW.md. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it; no em dashes in prose you write; nothing may be phrased as bearing on the Riemann hypothesis.",
+      "needs": [],
+      "status": "active",
+      "found_by": [
+        "operator"
+      ],
+      "found_at": "2026-09-11T19:34:13.000Z",
+      "decided_at": "2026-09-11T19:34:13.000Z",
+      "check": "test -f hunts/prime_pair_error/ENDPOINT_SHARP_REVIEW_2.md && grep -qiE \"confirmed|defect|unresolved\" hunts/prime_pair_error/ENDPOINT_SHARP_REVIEW_2.md && test $(wc -l < hunts/prime_pair_error/ENDPOINT_SHARP_REVIEW_2.md) -ge 40"
+    },
+    {
+      "id": "w-arc-split-check",
+      "what": "Independently check hunts/prime_pair_error/ARC_SPLIT_BUDGET.md (commit dbe1c98 on this branch), which claims E_corr^(Z)(N) << N^3 exp(-c'' sqrt(log N)) for every c'' < min(2 gamma/3, 2 c_m), improving the exponent constant gamma/240 of ENDPOINT_SHARP.md (18'), by splitting the corrected residual by arcs instead of by model. Your job is to break it or to confirm each step; a confirmed defect is the more valuable outcome and you are expected to look for one.\n\nRead first: ARC_SPLIT_BUDGET.md; UPPER_BOUND.md sections 2 to 5 (its (4), (6), (7), (9), (10), (11), (13), (15), (20), which the document cites rather than re-proves); LOCALIZED_MIXED_ENERGY.md section 6 (equations (22)-(24)); SIEGEL_UNIFORMITY.md (5) of LOCALIZED_MIXED_ENERGY.md and (17), (19), (23) of SIEGEL_UNIFORMITY.md; ENDPOINT_SHARP.md sections 1, 4 (the progression input (1') and its constant gamma), 5 (input (2) and c_m), 6 (the previous budget (18')); ENDPOINT_BOUND.md sections 3 to 6 (the previous major-arc bound (9) and minor-arc bound (17)).\n\nCheck these five things, each independently, and report each separately.\n\n(1) The identities of section 1: equation (2) (the coefficients of X+Y, R_mod and G_corr, and that the model cancels in the sum) and equation (3) (G_corr = (|F|^2 - |H|^2) + R_mod - kappa pointwise, with kappa = d_N - sum a(n)^2). Verify (3) with your own script on a toy model, not by rereading arc_split_probe.py; write your own.\n\n(2) The major arcs, section 3: the bound (5) on |W| from (1') by residue classes and partial summation with the arc radius R/(rN); the Parseval step (6), in particular that int over the whole circle of (|F|+|H|)^2 is << N log N; (7) from input (2) and D_tail; the constant (c); and the assembly (8). Compare with ENDPOINT_BOUND.md (9) and confirm or refute the document's account of where R^7 became R^2.\n\n(3) The minor arcs, section 4: that on the minor arcs G_corr equals |F|^2 - H_R - a_0(N,R) - T_{y,R} - hat C_N (from UPPER_BOUND.md (10) with A_R = 0 there, plus the correction polynomial); that each of the four cited UPPER_BOUND.md bounds is valid for an arbitrary R with 2R^2 < N and not only for the Q of that document's own sections; and the assembly (9)-(11).\n\n(4) Section 4.1, the correction polynomial on the minor arcs, in full: the expansion of the quadratic piece via LOCALIZED_MIXED_ENERGY.md (5); the Abel bounds on Phi_J; the three denominator ranges (R < qd <= sqrt N by the dual large sieve, qd > sqrt N by the gcd bound, qd <= R by the tail bound on the minor arcs); the linear pieces via the Gauss-sum expansion of chi(h) S_*(h); and the consistency check against SIEGEL_UNIFORMITY.md (23). Look specifically for a lost factor of q/phi(q), phi(qd), or sqrt q, for a wrong direction in min(1/q, q/R^2) <= 1/R, and for whether the case q > R is handled when every fraction lies on the minor arcs. This is the only new estimate in the document and the one most likely to hide a defect.\n\n(5) The budget, section 5: the choice sigma = 2 gamma/3, the constraints 2R^2 < N and sigma <= 1/sqrt 2, the claim 2 c_m > 2 gamma/3, and the comparison with the previous budget (gamma/240 as stated, gamma/43 at its own optimum). Recompute the optimum of both budgets yourself. Also check section 7's claim that the cross term with R_mod cannot change the exponent in either budget, and section 6's list of what is and is not consumed, against the actual equations of ENDPOINT_BOUND.md and ENDPOINT_SHARP.md.\n\nWrite hunts/prime_pair_error/ARC_SPLIT_BUDGET_REVIEW.md: one section per item above, each with a verdict of confirmed, defective or unresolved, the exact step at fault where defective, and your own numbers where you computed any. A confirmed defect must name the equation and say what the corrected statement is. If you cannot settle an item, say so and say what would settle it; do not guess. Do not edit ARC_SPLIT_BUDGET.md or any other existing file. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it; no em dashes in prose you write; nothing may be phrased as bearing on the Riemann hypothesis.",
+      "needs": [],
+      "status": "active",
+      "found_by": [
+        "operator"
+      ],
+      "found_at": "2026-09-11T23:39:45.000Z",
+      "decided_at": "2026-09-11T23:39:45.000Z",
+      "check": "test -f hunts/prime_pair_error/ARC_SPLIT_BUDGET_REVIEW.md && grep -qiE \"confirmed|defect|unresolved\" hunts/prime_pair_error/ARC_SPLIT_BUDGET_REVIEW.md && test $(wc -l < hunts/prime_pair_error/ARC_SPLIT_BUDGET_REVIEW.md) -ge 40",
+      "answer": true,
+      "answered_by": "a-0078",
+      "answered_at": "2026-09-12T00:21:58.841Z"
+    },
+    {
+      "id": "w-arc-split-4.1-linear-full-rederivation",
+      "what": "In hunts/prime_pair_error/ARC_SPLIT_BUDGET.md section 4.1 ('The linear pieces'), fully re-derive the three denominator-range bounds for the linear part of the correction polynomial C_N(h) (the terms involving u_q(h)J_1(h)+v_q(h)J_2(h) via the Gauss-sum expansion chi(h)tau(chibar)=sum_a chibar(a)e(ah/q)), matching each constant the way the quadratic piece was matched in ARC_SPLIT_BUDGET_REVIEW.md item 4. Also independently re-derive the auxiliary estimate used in the m>sqrt N range, sum_{m>X, g|m} phi(m)^{-2} << g phi(g)^{-2} X^{-1} ell^{O(1)}, from first principles (not by citation), and confirm it feeds into a coefficient bound of order N q tau(h) ell^{O(1)} / sqrt N as claimed. Report whether the claimed final orders N^3 ell^{O(1)}/R^2 (for R<qd<=sqrt N), N^{2+o(1)} (for qd>sqrt N), and N^3 ell^{O(1)}/R (for qd<=R) survive exactly, and whether any constant or power of ell differs from what is stated. This term is not currently binding in any budget, so treat this as a completeness check rather than an urgent one.",
+      "needs": [],
+      "status": "proposed",
+      "found_by": [
+        "a-0078"
+      ],
+      "found_at": "2026-09-12T00:21:58.841Z",
+      "verdict": {
+        "by": "a-0079",
+        "ok": true,
+        "why": "ARC_SPLIT_BUDGET_REVIEW.md item 4 itself admits the linear-piece constants and the m>sqrt N auxiliary sieve lemma were checked only at order-of-magnitude, not symbol by symbol, so the proposal names a real, specific gap and says exactly what would clear it (match each constant as done for the quadratic piece; rederive the sum_{m>X,g|m} phi(m)^{-2} bound from first principles), stays within ARC_SPLIT_BUDGET.md under hunts/prime_pair_error/, and does not overclaim since it correctly flags the term as non-binding rather than urgent.",
+        "at": "2026-09-12T01:21:34.456Z"
+      }
+    },
+    {
+      "id": "w-major-arc-explicit-check",
+      "what": "Independently check hunts/prime_pair_error/MAJOR_ARC_EXPLICIT.md (commit a795a3f on this branch). It claims (S'') E_corr^(Z)(N) << N^3 exp(-c'' sqrt(log N)) for every c'' < c_0 under its hypothesis (H), improving the constant 2 gamma/3 (at most c_0/3) of ARC_SPLIT_BUDGET.md, by bounding the major arcs through the explicit formula for character sums with the zero-free region at the arc's own modulus and height; and it claims a conditional lower bound (section 5) that pins the exponent of this target to [c_0, 2 c_0] unless a Siegel-zero statement is proved. Your job is to break it or to confirm each step; a confirmed defect is the more valuable outcome and you are expected to look for one. Section 5 and the matching argument of section 3 are where a defect would most likely hide.\n\nRead first: MAJOR_ARC_EXPLICIT.md; ARC_SPLIT_BUDGET.md sections 1 to 5 (its arcs, (3), (6), (8), (11), (12), reused here); ENDPOINT_SHARP.md sections 1 and 4 (the model, TT's exceptional data with threshold c_0, the four sieve cases and (Cmp), the range of gamma) and 5 (c_m); SIEGEL_UNIFORMITY.md (17), (19), (23). You have no web access; treat the four classical inputs (EF), (ZF), (Pg'), (GS) as stated and check what is built on them, but say if any is misquoted from what you know of Davenport chapters 14, 16, 17, 19 and Montgomery-Vaughan Theorem 9.10.\n\nCheck these five things, each independently, and report each separately.\n\n(1) Section 2: the passage from psi(y, chi) to F_chi(theta) by integration against e(t theta), including the remainder (1 + N|theta|)((N/T) log^2 + N^(1/4) log N) and the O(log^2) for prime powers of primes dividing r; the three bounds on I_rho (trivial, first-derivative on dyadic blocks giving N^beta/|gamma|, second-derivative giving N^beta/sqrt|gamma|), including the conditions on the phase phi(t) = gamma log t + 2 pi theta t under which each derivative test applies; the zero-sum estimate (2) with the zero count N(U, chi) << U log(rU) + log r; and the choice T = R^3 giving Upsilon(r) in (3). Recompute the exponents c/sigma and c/(4 sigma) from log(r(H_0+2)) <= sigma sqrt(l) + O(1) and log(3 r T) <= 4 sigma sqrt(l) + O(1). Verify the two derivative-test bounds numerically with your own script for a few zeros of zeta (mpmath.zetazero), not by rereading major_arc_explicit_probe.py.\n\n(2) Section 3, the lemma (5): the character expansion of F and H on an arc with the Gauss sums tau(chi-bar, a) = chi(a) tau(chi-bar) and |tau| <= sqrt r for imprimitive characters (Montgomery-Vaughan 9.10); the model side H_chi from (Md) with partial summation costing (1 + 2 pi R/r) per class and r classes, giving 8 R E_md; the identification of the twisted main term with I_{beta_e} when chi = chi_{e,r}; and the passage to |W| <= sqrt r max_chi |F_chi - H_chi| + 8 R E_md + O(log^2). Check E_md << N exp(-sqrt(log N)/3) against ENDPOINT_SHARP.md section 4's error terms.\n\n(3) Section 3, matching the exceptional zeros with Page at (Q, T) = (R, R^3): the three cases; that under (H) a TT-exceptional zero is the Page zero (c_0 <= b/(4 c_0)); that a Page zero which is not TT-exceptional has beta <= 1 - c_0/sqrt(log N) and appears only for r divisible by its conductor; and that every other zero is covered by (ZF) and (3), including the remark about real zeros of real characters that are not the Page zero. Look for a case the three bullets miss, in particular characters mod r induced by a real primitive character of conductor not dividing r, and the interaction between TT's uniqueness (c_0 <= c_P) and Page's.\n\n(4) Section 4, the budget (6): the squaring of (5) into sup_M |W|^2, the six exponents 2 c_0 - sigma, 2c/sigma - 2 sigma, c/(2 sigma) - sigma, 3 sigma, 2/3 - 2 sigma, sigma, the balance at sigma = c_0 and the conditions collected into (H). Recompute the optimum yourself. Check the comparison with ARC_SPLIT_BUDGET.md (2 gamma/3 with gamma < c_0/2) and the remark repairing (1') to gamma < c_0 (the small-y reduction at log y >= l - gamma sqrt l instead of l/2), confirming or refuting that ENDPOINT_SHARP.md section 4's Small y paragraph indeed loses a factor 1/2 that way.\n\n(5) Section 5, the conditional lower bound and its corollary, in full: the reduction to one arc and the sub-arc |theta| <= 1/(8N); the choice T = q^2 e^(kappa sqrt l) l^4 and why l^4 rather than l^2; the Page condition kappa (kappa + 3 eps) < b and the (ZF) condition (kappa + 2 eps)^2 < c; the size and phase of K_N(theta) and I_beta(theta) on the sub-arc (|K_N| >= N/2, |I| >= N^beta/4, arguments within pi/8 of pi (N+1) theta, so Re(conj(K_N) I) >= cos(pi/4) |K_N||I|); the claim mu(q) = +-1 for odd squarefree q; the assembled lower bound c_3 N^(2 beta + 1) q/phi(q)^3 and its comparison with SIEGEL_UNIFORMITY.md (23); the subtracted terms; and the corollary's arithmetic (choice of N with sqrt(log N) = (c_0 + kappa'/2)/(2(1 - beta)), the condition q^2 < e^((kappa' - 2 kappa) sqrt l), and the conclusion 1 - beta > c'/log q). Say precisely what the corollary does and does not establish, and whether the phrase 'non-existence of Siegel zeros in the classical form' is accurate for a statement restricted to even characters of odd conductor beyond an effective bound.\n\nWrite hunts/prime_pair_error/MAJOR_ARC_EXPLICIT_REVIEW.md: one section per item above, each with a verdict of confirmed, defective or unresolved, the exact step at fault where defective, and your own numbers where you computed any. A confirmed defect must name the equation and say what the corrected statement is. If you cannot settle an item, say so and say what would settle it; do not guess. Do not edit MAJOR_ARC_EXPLICIT.md or any other existing file. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it; no em dashes in prose you write; nothing may be phrased as bearing on the Riemann hypothesis.",
+      "needs": [],
+      "status": "active",
+      "found_by": [
+        "operator"
+      ],
+      "found_at": "2026-09-12T01:20:47.000Z",
+      "decided_at": "2026-09-12T01:20:47.000Z",
+      "check": "test -f hunts/prime_pair_error/MAJOR_ARC_EXPLICIT_REVIEW.md && grep -qiE \"confirmed|defect|unresolved\" hunts/prime_pair_error/MAJOR_ARC_EXPLICIT_REVIEW.md && test $(wc -l < hunts/prime_pair_error/MAJOR_ARC_EXPLICIT_REVIEW.md) -ge 40"
+    },
+    {
+      "id": "w-major-arc-explicit-sqrt-r-fix",
+      "what": "In hunts/prime_pair_error/MAJOR_ARC_EXPLICIT.md, fix the sqrt(r) bookkeeping error identified in hunts/prime_pair_error/MAJOR_ARC_EXPLICIT_REVIEW.md item (2). Equation (4)'s passage from H_chi(theta) = delta_chi K_N(theta) - ... + O(r E_md(1+R/r)) to the bound |W(alpha)| <= sqrt(r) max_chi |F_chi - H_chi| + O(l^2) needs the sqrt(r) factor applied to the H_chi error term too, since it enters the same character sum with the same Gauss-sum coefficient tau(chi-bar) of size sqrt(r) that the F_chi-side error N*Upsilon(r) already correctly carries in the boxed equation (5) as sqrt(r)*N*Upsilon(r). The corrected size is sqrt(r) * O(r E_md (1+R/r)) which at r=R is O(R^{3/2} E_md), not the printed O(R E_md) (a ratio of sqrt(r), unbounded as R grows, so this is not a matter of a loose but valid inequality). Concretely: replace '8R E_md' by '8 R^{3/2} E_md' in equation (4) and in the boxed equation (5); replace the term 'R^2 N^2 e^{-2 sqrt(l)/3}' by 'R^3 N^2 e^{-2 sqrt(l)/3}' in the squared bound sup_M|W|^2 in section 4; recompute the sixth exponent accordingly (it becomes 2/3 - 3*sigma instead of 2/3 - 2*sigma, since R^3 e^{-2 sqrt(l)/3} = e^{-(2/3-3 sigma) sqrt l} with R=e^{sigma sqrt l}); and replace the compatibility condition 'c_0 <= 2/9' by 'c_0 <= 1/6' both in section 4's prose and in the boxed hypothesis (H) at the top of the document (currently 'c_0 <= min(2/9, sqrt(c)/2, sqrt(b)/2, c_P)', the 2/9 should become 1/6). Check whether the boxed result (S'') and its stated exponent still go through with this corrected, tighter, compatibility hypothesis; it should, since TT's actual c_0 is a very small absolute constant well under 1/6, but this should be verified and stated rather than assumed. Also correct section 5's closing sentence, which currently reads 'That is an effective zero-free interval (1-c'/log q~,1) for real zeros of real characters, i.e. the non-existence of Siegel zeros in the classical form,' by adding the even-character, odd-conductor qualification that the same paragraph already states in the Proposition's hypothesis (tilde_chi(-1)=1, tilde_q odd), e.g. 'for even primitive real characters of odd conductor' in place of 'for real characters,' since the proof genuinely does not cover odd characters (an explicit remark right after equation (7) says the odd case needs either an extra loss of a log factor or a different, |W|^4-based, route, neither carried out) or characters of even conductor (the argument uses q~ odd squarefree throughout, for the exact identity mu(q~)=+-1 and to avoid the separate mod 4 / mod 8 cases that SIEGEL_UNIFORMITY.md section 4 treats differently). Do not touch anything else in the document; both defects are narrow, quotable fixes, not the shape of the whole argument. Read hunts/prime_pair_error/MAJOR_ARC_EXPLICIT_REVIEW.md items (2), (4) and (5) in full for the exact derivations before editing.",
+      "needs": [],
+      "status": "proposed",
+      "found_by": [
+        "a-0080"
+      ],
+      "found_at": "2026-09-12T01:58:55.238Z",
+      "verdict": {
+        "by": "a-0081",
+        "ok": true,
+        "why": "Re-derived the step independently: multiplying max_chi|F_chi-H_chi| by sqrt(r) (from |tau(chi-bar)|<=sqrt r) must apply to the O(r E_md(1+R/r)) error already inside H_chi, giving O(r^{3/2}E_md(1+R/r))=O(R^{3/2}E_md) at r=R, not the printed O(R E_md); this correctly propagates to R^3 in the squared bound, exponent 2/3-3sigma, and c_0<=1/6 in place of 2/9, and the closing-sentence fix matches the Proposition's own stated hypothesis (even chi, odd conductor) and the odd/even-conductor caveats already in the document (section 5's remark after (7), SIEGEL_UNIFORMITY.md's mod-4/mod-8 treatment confirmed by grep). The proposal is narrow, correctly scoped to MAJOR_ARC_EXPLICIT.md, hedges appropriately on whether (S'') survives ('should be verified... rather than assumed') rather than overclaiming, and does not restate the parent task.",
+        "at": "2026-09-12T02:01:07.574Z"
+      }
+    },
+    {
+      "id": "w-sharp-exponent-check",
+      "what": "Independently check hunts/prime_pair_error/SHARP_EXPONENT.md (commit 1abe75b on this branch). It makes two claims. Negative: at the cutoff R = exp(sigma sqrt(log N)) the minor-arc fourth moment target int_m |F|^4 << N^3 log^O(1) N R^(-2+eps) is blocked, exactly, by the interval length forced by the Farey dissection at level sqrt N (its section 1.2), and a different dissection proves the literal target with exceptional spikes made explicit but is the arc split at a larger cutoff (section 1.3). Positive: integrating the Page-allowed zero's term over each major arc with the 1/|theta| decay of K_N and I_beta removes a factor R from the binding term, the arc balance disappears, and E_corr^(Z) << N^3 exp(-c'' sqrt(log N)) for every c'' < 2 c_0 under (H'') (sections 2 and 3), which with the conditional lower bound of MAJOR_ARC_EXPLICIT.md section 5 pins the exponent of the fixed target to 2 c_0. Your job is to break it or to confirm each step; a confirmed defect is the more valuable outcome and you are expected to look for one. Sections 1.2 and 2 are where a defect would most likely hide.\n\nRead first: SHARP_EXPONENT.md; MAJOR_ARC_EXPLICIT.md sections 2, 3 (including the correction added 2026-09-12 to its third bullet), 4, 5 and its (H); ARC_SPLIT_BUDGET.md sections 2 to 4; UPPER_BOUND.md (7), (20) and its section 5 (Dirichlet approximation on the minor arcs). You have no web access; treat the classical inputs (Gallagher's lemma, the multiplicative large sieve, Vaughan's bound, the zero-free region) as stated and check what is built on them.\n\nCheck these five things, each independently, and report each separately.\n\n(1) Section 1.1: the dyadic reduction. That Hoelder with Vaughan gives Z'_Q << N^3 log^9 N / Q on the Farey arcs with q ~ Q, that this is at most N^3/R^2 once Q >= R^2 log^9 N, and that therefore only R < Q <= R^2 log^9 N needs more. Check the claim that Vaughan applies on I'_{q,a} (|alpha - a/q| <= 1/(q sqrt N) <= 1/q^2 for q <= sqrt N).\n\n(2) Section 1.2, the exact obstruction: the identity sum_{x<n<=x+h} c_n(q,a) = sum_b e(ab/q) Delta_b(x,h) (using sum over reduced a of e(ab/q) = mu(q) and the definition of Delta_b); Gallagher's lemma with Theta = 1/(q sqrt N), h_q = q sqrt N / 2; orthogonality over a giving (1); the passage to (2) and the target (3); the three inputs against (3), in particular the large-sieve computation (4): the reduction to primitive characters, the multiplicative large sieve with (h + 4Q^2), the weights q/phi(q) versus 1/phi(q), and the integration over x giving N^2 Q log^2 N. Confirm or refute that (4) inserted in (2) reproduces N^3 log^10 N / Q, i.e. Vaughan's order. Then check the stated reason no known input supplies the missing Q^(1-eps): the height N/h ~ sqrt N / Q and the zero-free region giving N^(2(beta-1)) >= e^(-4c). Say whether you know an unconditional variance bound for primes in intervals of length ~ sqrt N with a power saving over h^2 N; if you believe one exists, name it precisely.\n\n(3) Section 1.3: the dissection at level Q_2 = R^2 log N, the claim that MAJOR_ARC_EXPLICIT.md section 2 applies on the arcs R < q <= Q_2 with heights at most R log N, the shape of (5), the remark that the literal target is false without the exceptional spikes, and the remark that (5) is the arc split at cutoff Q_2 and does not move the exponent.\n\n(4) Section 2, the mechanism: the split W = W_P + W_0 with W_P = -(conj chi~(a) tau(chi~_r)/phi(r)) I_beta~(theta); the two decay facts (6), in particular the derivation |I_beta(theta)| << |theta|^(-beta) by splitting at t_0 = 1/|theta| and the constant (N|theta|)^(1-beta) <= e^(kappa sigma); the four integrals in the bullet list, especially the first (int of min(N, 1/(2|theta|))^2 min(2 N^beta, C N^beta/(N|theta|))^2 << N^(2 beta + 1)) and the sums over a and over r divisible by q~ giving N^(2 beta + 1) (q~/phi(q~))^3 q~^(-2) with no factor R; the |W_P|^4 term and its sum_{r<=R} r^2/phi(r)^3 << log^O(1); the model-error cross term with R^4 E_md^2. Verify the first integral and the flatness in R numerically with your own script (not by rereading sharp_exponent_probe.py). Also check section 2.1: that a real zero exceptional for the zero-free region but not for Page can exist for each real character, that it contributes 2 N e^(-(b/(4 sigma)) sqrt l) after the Gauss-sum factor, and that MAJOR_ARC_EXPLICIT.md's original third bullet was indeed wrong on this point (a-0080 confirmed that bullet; say whether you agree it was a miss).\n\n(5) Section 3, the budget (7): every exponent at sigma = 2 c_0 (2 c_0, c/c_0 - 4 c_0, c/(4 c_0) - 2 c_0, b/(4 c_0) - 2 c_0, 6 c_0, 2/3 - 6 c_0, 2/3 - 6 c_0), the conditions collected into (H''), the Page-matching condition c_0^2 <= b/8 at (R, R^3) with R = e^(2 c_0 sqrt l), and the two-sided statement with MAJOR_ARC_EXPLICIT.md's Proposition (window c_0 < kappa < min(sqrt c, sqrt b) - 3 eps; is sigma = 2 c_0 compatible with kappa near c_0 and the Proposition's own hypotheses?). Recompute the optimum yourself and say whether any term other than the first and R^(-1) can bind under (H''). Check the paragraph 'Against the previous budgets' for accuracy about (k, j, gamma) in each earlier document.\n\nWrite hunts/prime_pair_error/SHARP_EXPONENT_REVIEW.md: one section per item above, each with a verdict of confirmed, defective or unresolved, the exact step at fault where defective, and your own numbers where you computed any. A confirmed defect must name the equation and say what the corrected statement is. If you cannot settle an item, say so and say what would settle it; do not guess. Do not edit SHARP_EXPONENT.md or any other existing file. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it; no em dashes in prose you write; nothing may be phrased as bearing on the Riemann hypothesis.",
+      "needs": [],
+      "status": "active",
+      "found_by": [
+        "operator"
+      ],
+      "found_at": "2026-09-12T03:15:40.000Z",
+      "decided_at": "2026-09-12T03:15:40.000Z",
+      "check": "test -f hunts/prime_pair_error/SHARP_EXPONENT_REVIEW.md && grep -qiE \"confirmed|defect|unresolved\" hunts/prime_pair_error/SHARP_EXPONENT_REVIEW.md && test $(wc -l < hunts/prime_pair_error/SHARP_EXPONENT_REVIEW.md) -ge 40"
     }
   ],
   "edges": [
@@ -1175,7 +1302,7 @@
           {
             "id": "w-tb-conditional",
             "ok": true,
-            "why": "Names a specific missing thing (Theta_chi unconditionally unknown, no exhibited sequence) verified against RESULTS.md \u00a718 and tb_bind.py, proposes a distinct GRH-conditional shape comparison scoped to hunts/prime_pair_error/, quotes results.json's E(N) values exactly, and explicitly forbids claiming the unconditional theorem binds or is vacuous from it."
+            "why": "Names a specific missing thing (Theta_chi unconditionally unknown, no exhibited sequence) verified against RESULTS.md §18 and tb_bind.py, proposes a distinct GRH-conditional shape comparison scoped to hunts/prime_pair_error/, quotes results.json's E(N) values exactly, and explicitly forbids claiming the unconditional theorem binds or is vacuous from it."
           }
         ],
         "integrated": "ost/prime-pair-error/trunk"
@@ -1224,8 +1351,8 @@
         "output": [
           "uses Write: /home/user/ost-worktrees/prime-pair-error/a-0005/.ostoyae/report.json",
           "uses Bash: /opt/zeta-venv/bin/python -m pytest tests/test_prime_pair_residue.py -q -m \"not slow\" 2>&1 | tail -15",
-          "says: Work is complete: `hunts/prime_pair_error/delta_sq_probe.py` measures S(N) = \u03a3 Delta(t)\u00b2 at six cutoffs (2\u00d710\u2075 to 8\u00d710\u2076, ~13s runtime), cross-checks psi against the repo's scalar reference, and writes `results_delta_sq.json`. The observed growth exponent is 2.024, close to but not distinguishable from the 2+eps that UPPER_BOUND.md (31) needs \u2014 the JSON is explicit that a six-point finite ladder ca",
-          "Work is complete: `hunts/prime_pair_error/delta_sq_probe.py` measures S(N) = \u03a3 Delta(t)\u00b2 at six cutoffs (2\u00d710\u2075 to 8\u00d710\u2076, ~13s runtime), cross-checks psi against the repo's scalar reference, and writes `results_delta_sq.json`. The observed growth exponent is 2.024, close to but not distinguishable from the 2+eps that UPPER_BOUND.md (31) needs \u2014 the JSON is explicit that a six-point finite ladder can't settle that either way. Relevant guard tests (`test_hunt_probe_discipline.py`, `test_prime_pair_residue.py`) pass, and no reserved words were introduced. `.ostoyae/report.json` records a follow-up work item comparing this measurement against UPPER_BOUND.md's proved (but unnamed-constant) Siegel-Walfisz bound on the same sum.",
+          "says: Work is complete: `hunts/prime_pair_error/delta_sq_probe.py` measures S(N) = Σ Delta(t)² at six cutoffs (2×10⁵ to 8×10⁶, ~13s runtime), cross-checks psi against the repo's scalar reference, and writes `results_delta_sq.json`. The observed growth exponent is 2.024, close to but not distinguishable from the 2+eps that UPPER_BOUND.md (31) needs — the JSON is explicit that a six-point finite ladder ca",
+          "Work is complete: `hunts/prime_pair_error/delta_sq_probe.py` measures S(N) = Σ Delta(t)² at six cutoffs (2×10⁵ to 8×10⁶, ~13s runtime), cross-checks psi against the repo's scalar reference, and writes `results_delta_sq.json`. The observed growth exponent is 2.024, close to but not distinguishable from the 2+eps that UPPER_BOUND.md (31) needs — the JSON is explicit that a six-point finite ladder can't settle that either way. Relevant guard tests (`test_hunt_probe_discipline.py`, `test_prime_pair_residue.py`) pass, and no reserved words were introduced. `.ostoyae/report.json` records a follow-up work item comparing this measurement against UPPER_BOUND.md's proved (but unnamed-constant) Siegel-Walfisz bound on the same sum.",
           "usage: out=17848 in=42 cache_read=1892513 cache_create=83482 cost=$0.89 turns=24 api=209s",
           "[cell a-0005] map attempt handed back no map"
         ],
@@ -1336,9 +1463,9 @@
           "web_fetch_requests": 0
         },
         "output": [
-          "- **Why nothing covers them**: I checked the three tools used elsewhere in the document against their own displayed formulas \u2014 the large-sieve and Vaughan-based tail bounds (used for q > R_0) reduce to the trivial O(N\u00b3) order when run down to small q, and the Siegel-Walfisz argument that powers the completed theorem only reaches denominators up to a fixed power of log N, not the polynomial-in-N range up to R_0.",
+          "- **Why nothing covers them**: I checked the three tools used elsewhere in the document against their own displayed formulas — the large-sieve and Vaughan-based tail bounds (used for q > R_0) reduce to the trivial O(N³) order when run down to small q, and the Siegel-Walfisz argument that powers the completed theorem only reaches denominators up to a fixed power of log N, not the polynomial-in-N range up to R_0.",
           "- **Three candidate routes**, priced: extending the tail bounds down (foreclosed by their own order, not just uncosted), splicing in Siegel-Walfisz for the polylog sub-range (unverified, and only partial coverage), and an RH-strength generalization of rank 1's own route (heavier uniformity demand than rank 1 needs).",
-          "- **Whether closing it alone helps**: no \u2014 by the additive structure of (23), ranks 1 and 2 already exceed the N^{2+\u03b5} target by a power of N, so rank 3 alone can't move Section 6's attempted bound; and rank 3 has no bearing at all on the bound actually proved (1), which comes from a different argument that never forms these quantities.",
+          "- **Whether closing it alone helps**: no — by the additive structure of (23), ranks 1 and 2 already exceed the N^{2+ε} target by a power of N, so rank 3 alone can't move Section 6's attempted bound; and rank 3 has no bearing at all on the bound actually proved (1), which comes from a different argument that never forms these quantities.",
           "I also wrote `.ostoyae/report.json` with no wall (the work completed), notes in `ahead`, and two proposed follow-on work items (checking the Siegel-Walfisz splice, and investigating the uncovered polynomial-range gap) with edges back to this scoping task.",
           "usage: out=38709 in=40 cache_read=1885720 cache_create=100611 cost=$1.17 turns=21 api=415s",
           "[cell a-0007] map attempt handed back no map"
@@ -4385,8 +4512,8 @@
           "web_fetch_requests": 0
         },
         "output": [
-          "says: You've hit your session limit \u00b7 resets 1:20am (UTC)",
-          "You've hit your session limit \u00b7 resets 1:20am (UTC)",
+          "says: You've hit your session limit · resets 1:20am (UTC)",
+          "You've hit your session limit · resets 1:20am (UTC)",
           "[cell] agent reported an error",
           "usage: out=48347 in=28 cache_read=1154229 cache_create=89384 cost=$1.07 turns=17 api=476s",
           "[cell a-0066] agent exited non-zero",
@@ -4440,8 +4567,8 @@
         },
         "output": [
           "uses Bash: mkdir -p hunts/prime_pair_error/artifacts/minor_arc_sieve_barrier && ls hunts/prime_pair_error/artifacts/siegel_uniformity/",
-          "says: You've hit your session limit \u00b7 resets 1:20am (UTC)",
-          "You've hit your session limit \u00b7 resets 1:20am (UTC)",
+          "says: You've hit your session limit · resets 1:20am (UTC)",
+          "You've hit your session limit · resets 1:20am (UTC)",
           "[cell] agent reported an error",
           "usage: out=41225 in=26 cache_read=790806 cache_create=82470 cost=$1.00 turns=14 api=457s",
           "[cell a-0067] agent exited non-zero"
@@ -4489,8 +4616,8 @@
         },
         "output": [
           "uses Bash: sed -n '1,180p' /home/user/ost-worktrees/prime-pair-error/a-0068/hunts/prime_pair_error/probe.py",
-          "says: You've hit your session limit \u00b7 resets 1:20am (UTC)",
-          "You've hit your session limit \u00b7 resets 1:20am (UTC)",
+          "says: You've hit your session limit · resets 1:20am (UTC)",
+          "You've hit your session limit · resets 1:20am (UTC)",
           "[cell] agent reported an error",
           "usage: out=41322 in=12 cache_read=316445 cache_create=95519 cost=$0.86 turns=14 api=454s",
           "[cell a-0068] agent exited non-zero"
@@ -4810,16 +4937,426 @@
         "integrated": "ost/prime-pair-error/trunk"
       },
       "cell_pid": 3399
+    },
+    {
+      "id": "a-0075",
+      "of": "w-endpoint-sharp-check",
+      "kind": "prove",
+      "what": "Independently check hunts/prime_pair_error/ENDPOINT_SHARP.md, which claims E_corr^(Z)(N) << N^3 exp(-c sqrt(log N)) at the enlarged model parameter Z = exp(sqrt(log N)), the sharp endpoint kappa = 1/2 of the family in ENDPOINT_HALF.md. Your job is to break it or to confirm each step; a confirmed defect is the more valuable outcome and you are expected to look for one.\n\nRead first, in this order: ENDPOINT_SHARP.md (the claim), ENDPOINT_BOUND.md (the argument it edits, especially section 2 and equations (5), (10), (13), (14), (17), (18)), ENDPOINT_HALF.md (including its new correction notice), SIEGEL_UNIFORMITY.md sections 3-5 (the model comparison and the exceptional correction C_N in its equation (19)).\n\nCheck these five things, each independently, and report each separately.\n\n(1) The Mertens correction, ENDPOINT_SHARP.md section 2.1. It claims that ENDPOINT_HALF.md section 2.3 concluded no Bonferroni cutoff works at kappa = 1/2 only because it estimated H_Z = sum over primes p < Z of 1/p by the elementary bound H_Z <= 1 + log Z, whereas Mertens second theorem gives H_Z = loglog Z + M + O(1/log Z). Verify the arithmetic of its equation (A): with m + 1 = ceil((2c/kappa) l^kappa / log l), l = log N, is the Bonferroni error bound N (e H_Z/(m+1))^(m+1) really below N exp(-c l^kappa), and is A(N) = m log Z / l really (2c/kappa) l^(2kappa-1)/log l (1 + o(1))? Compute it yourself at several N with your own script; do not reuse endpoint_sharp_mertens_probe.py, write your own. State whether the endpoint is attained, whether kappa > 1/2 really fails, and whether the claimed crossovers (A < 1 from log N about 400, A < 1/2 from log N about 4.7e4) are right.\n\n(2) The modulus factor, ENDPOINT_SHARP.md section 4, case (a,r) = 1 with q not dividing r. It claims the main terms cancel because the admissible residues c mod q form a coset of the kernel K of the reduction map from (Z/q)* to (Z/g)*, g = gcd(q,r) < q, and a primitive chi mod q is nontrivial on K; and that the remainders do not cancel, so the error carries a factor phi(q)/phi(g) <= q, made explicit in (4.1) and (4.2). Check the cancellation claim algebraically and numerically for real primitive characters, and check that the error bound (4.2) is correctly assembled and really is absorbed at both level choices D_0 = N^o(1) and D_0 = N^(1/2). Look specifically for any other place in section 4 where a factor of the modulus, of phi(q), or of the number of residue classes has been dropped.\n\n(3) The claim that E_corr^(Z) at Z = exp(sqrt(log N)) is a different quantity from E_corr at Z = exp((log N)^(1/10)), that ENDPOINT_SHARP.md does not conflate them anywhere, and that its section 6 statement for the original E is correctly scoped. The exceptional class at the larger Z has a wider conductor range q < Z and a stricter threshold beta > 1 - c_0/log Z. Confirm or refute that neither corrected quantity dominates the other, and check every place the document compares itself with ENDPOINT_BOUND.md.\n\n(4) The derivation of input (1prime) in section 4 from Davenport Chapter 20, Page theorem and the fundamental lemma. Check all four cases, in particular that the q divides r case really cancels Davenport middle term with the right character value and the right beta, and that the constant c_0 of TT Definition 2.1 may legitimately be constrained to be at most Page constant c_4 as (Cmp) does. If you have web access, check the statements of Davenport Chapter 20 and Page theorem against a primary source and say what you checked; if not, say plainly that you did not.\n\n(5) The budget assembly (18prime) in section 6, term by term against ENDPOINT_BOUND.md equation (18), and the four-input account of what fixes the exponent at 1/2.\n\nWrite hunts/prime_pair_error/ENDPOINT_SHARP_REVIEW.md: one section per item above, each with a verdict of confirmed, defective or unresolved, the exact step at fault where defective, and your own numbers where you computed any. A confirmed defect must name the equation and say what the corrected statement is. If you cannot settle an item, say so and say what would settle it; do not guess. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it; no em dashes in prose you write; nothing may be phrased as bearing on the Riemann hypothesis.",
+      "from": null,
+      "state": "done",
+      "params": {
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0075",
+        "branch": "ost/prime-pair-error/a-0075",
+        "db": "ost_prime_pair_error_0075",
+        "port": 4475,
+        "start_commit": "aa761c86331ff515dea2d581403171b4fc11eaad",
+        "end_commit": "1fbede34e5887d1320b911db52541d1f536c4ab0"
+      },
+      "started": "t+0",
+      "ended": "t+1",
+      "started_at": "2026-09-11T14:37:31.727Z",
+      "ended_at": "2026-09-11T14:52:50.533Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 62,
+          "output_tokens": 67571,
+          "cache_read_input_tokens": 3203536,
+          "cache_creation_input_tokens": 134066,
+          "cost_usd": 1.8551052,
+          "duration_ms": 914665,
+          "api_ms": 725224,
+          "turns": 33,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "check": {
+          "ok": true,
+          "cmd": "test -f hunts/prime_pair_error/ENDPOINT_SHARP_REVIEW.md && grep -qiE \"confirmed|defect|unresolved\" hunts/prime_pair_error/ENDPOINT_SHARP_REVIEW.md && test $(wc -l < hunts/prime_pair_error/ENDPOINT_SHARP_REVIEW.md) -ge 40",
+          "on": "ost/prime-pair-error/a-0075"
+        },
+        "ahead": "The confirmed defect (section 7 item (2) table / section 2.1 crossover sentences understating the least even m by 2, and correspondingly overstating how soon A(N)<1 and A(N)<1/2) is narrow and does not touch equation (A), the endpoint attainment, or the kappa>1/2 failure, all of which check out algebraically. The next attempt fixing ENDPOINT_SHARP.md need only correct the two sentences in section 2.1 and the table in section 7 item (2) (least-even-m search off by 2 at log N in {100,400,1e4,1e6}; correct crossovers are about log N=676 for A<1 and about log N=5.4e4 for A<1/2, not 400 and 4.7e4). Item 4 (input (1') vs Davenport Ch.20 / Page's theorem) could not be checked against a primary source in this environment (no web access provisioned); the internal four-case derivation logic was checked and found self-consistent, but an attempt with web access should verify the exact constants/statements against Davenport's book and Page's 1935 paper directly.",
+        "found": [
+          "w-endpoint-sharp-fix-crossover-table",
+          "w-endpoint-sharp-davenport-page-source-check"
+        ],
+        "integrated": "ost/prime-pair-error/trunk",
+        "notes": [
+          "map handed back by a prove attempt, ignored"
+        ]
+      },
+      "cell_pid": 1105
+    },
+    {
+      "id": "a-0076",
+      "of": "w-endpoint-sharp-check",
+      "kind": "verify",
+      "judges": "a-0075",
+      "what": "Judge this handback against the hunt's own standard. A proposal is real only if it names a specific missing thing and says what would clear it. Reject a proposal that restates the task it came from, that proposes work outside hunts/prime_pair_error/, or that claims more certainty than the certainty ladder allows for a measured number. Nothing here may be phrased as bearing on RH.\n\nThe attempt you are judging is a-0075, a prove attempt on w-endpoint-sharp-check: Independently check hunts/prime_pair_error/ENDPOINT_SHARP.md, which claims E_corr^(Z)(N) << N^3 exp(-c sqrt(log N)) at the enlarged model parameter Z = exp(sqrt(log N)), the sharp endpoint kappa = 1/2 of the family in ENDPOINT_HALF.md. Your job is to break it or to confirm each step; a confirmed defect is the more valuable outcome and you are expected to look for one.\n\nRead first, in this order: ENDPOINT_SHARP.md (the claim), ENDPOINT_BOUND.md (the argument it edits, especially section 2 and equations (5), (10), (13), (14), (17), (18)), ENDPOINT_HALF.md (including its new correction notice), SIEGEL_UNIFORMITY.md sections 3-5 (the model comparison and the exceptional correction C_N in its equation (19)).\n\nCheck these five things, each independently, and report each separately.\n\n(1) The Mertens correction, ENDPOINT_SHARP.md section 2.1. It claims that ENDPOINT_HALF.md section 2.3 concluded no Bonferroni cutoff works at kappa = 1/2 only because it estimated H_Z = sum over primes p < Z of 1/p by the elementary bound H_Z <= 1 + log Z, whereas Mertens second theorem gives H_Z = loglog Z + M + O(1/log Z). Verify the arithmetic of its equation (A): with m + 1 = ceil((2c/kappa) l^kappa / log l), l = log N, is the Bonferroni error bound N (e H_Z/(m+1))^(m+1) really below N exp(-c l^kappa), and is A(N) = m log Z / l really (2c/kappa) l^(2kappa-1)/log l (1 + o(1))? Compute it yourself at several N with your own script; do not reuse endpoint_sharp_mertens_probe.py, write your own. State whether the endpoint is attained, whether kappa > 1/2 really fails, and whether the claimed crossovers (A < 1 from log N about 400, A < 1/2 from log N about 4.7e4) are right.\n\n(2) The modulus factor, ENDPOINT_SHARP.md section 4, case (a,r) = 1 with q not dividing r. It claims the main terms cancel because the admissible residues c mod q form a coset of the kernel K of the reduction map from (Z/q)* to (Z/g)*, g = gcd(q,r) < q, and a primitive chi mod q is nontrivial on K; and that the remainders do not cancel, so the error carries a factor phi(q)/phi(g) <= q, made explicit in (4.1) and (4.2). Check the cancellation claim algebraically and numerically for real primitive characters, and check that the error bound (4.2) is correctly assembled and really is absorbed at both level choices D_0 = N^o(1) and D_0 = N^(1/2). Look specifically for any other place in section 4 where a factor of the modulus, of phi(q), or of the number of residue classes has been dropped.\n\n(3) The claim that E_corr^(Z) at Z = exp(sqrt(log N)) is a different quantity from E_corr at Z = exp((log N)^(1/10)), that ENDPOINT_SHARP.md does not conflate them anywhere, and that its section 6 statement for the original E is correctly scoped. The exceptional class at the larger Z has a wider conductor range q < Z and a stricter threshold beta > 1 - c_0/log Z. Confirm or refute that neither corrected quantity dominates the other, and check every place the document compares itself with ENDPOINT_BOUND.md.\n\n(4) The derivation of input (1prime) in section 4 from Davenport Chapter 20, Page theorem and the fundamental lemma. Check all four cases, in particular that the q divides r case really cancels Davenport middle term with the right character value and the right beta, and that the constant c_0 of TT Definition 2.1 may legitimately be constrained to be at most Page constant c_4 as (Cmp) does. If you have web access, check the statements of Davenport Chapter 20 and Page theorem against a primary source and say what you checked; if not, say plainly that you did not.\n\n(5) The budget assembly (18prime) in section 6, term by term against ENDPOINT_BOUND.md equation (18), and the four-input account of what fixes the exponent at 1/2.\n\nWrite hunts/prime_pair_error/ENDPOINT_SHARP_REVIEW.md: one section per item above, each with a verdict of confirmed, defective or unresolved, the exact step at fault where defective, and your own numbers where you computed any. A confirmed defect must name the equation and say what the corrected statement is. If you cannot settle an item, say so and say what would settle it; do not guess. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it; no em dashes in prose you write; nothing may be phrased as bearing on the Riemann hypothesis.\n\nIt proposed:\n- w-endpoint-sharp-fix-crossover-table, a task: In hunts/prime_pair_error/ENDPOINT_SHARP.md, fix section 7 item (2)'s table and the two sentences in section 2.1 that quote it ('A(N)<1 from about log N=400 onward' and 'A(N)<1/2 only from about log N=4.7x10^4'). Independent recomputation (least even m such that (m+1)*log((m+1)/(e*H_Z)) >= sqrt(log N), with H_Z from Mertens' second theorem H_Z=loglog(Z)+M, M=0.2614972..., at Z=exp(sqrt(log N))) shows the table's retuned m is too small by exactly 2 at log N in {100, 400, 1e4, 1e6}: correct values are m=14 (not 12) at log N=100 giving A=1.4 (not 1.2); m=22 (not 20) at log N=400 giving A=1.1 (not 1.0); m=64 (not 62) at log N=1e4 giving A=0.64 (not 0.62); m=348 (not 346) at log N=1e6 giving A=0.348 (not 0.346). At log N=1e10 and 1e20 the document's values (16078 and 6.2e8) are already correct. The true crossover for A(N)<1 is at log N about 676 (not 400); the true crossover for A(N)<1/2 is at log N about 53824 (not 4.7e4). Equation (A) itself and the kappa=1/2 endpoint conclusion are unaffected by this and remain correct; only the finite illustrative numbers need correcting.\n- w-endpoint-sharp-davenport-page-source-check, a task: Check ENDPOINT_SHARP.md section 4's citations (D) and (Pg) against primary sources: Davenport, Multiplicative Number Theory, Chapter 20 (the prime number theorem for arithmetic progressions with an exceptional real zero retained, of the shape psi(y;r,a) = y/phi(r) - chi_1(a) y^{beta_1}/(phi(r) beta_1) + O(y exp(-c_3 sqrt(log y))) for r <= exp(C sqrt(log y)), (a,r)=1, chi_1 the character mod r induced by a primitive real chi_1^* of conductor q_1 | r with exceptional zero beta_1), and Page's theorem (among primitive real characters of conductor at most exp(C sqrt(log N)), at most one has a real zero beta > 1 - c_4/sqrt(log N)). Confirm the exact hypotheses and constants match what ENDPOINT_SHARP.md section 4 uses, in particular the range of validity in r and y, and report any discrepancy by equation number.\n\nThe same is in .ostoyae/verify.json, with each proposal's full text. Hand back .ostoyae/report.json with \"verdicts\": one entry per id above, each { \"id\", \"ok\": true or false, \"why\": one line }. Use disposable scratch files when testing a claim requires them. Change no tracked project file and commit nothing; only the report is kept.",
+      "from": null,
+      "state": "done",
+      "params": {
+        "model": "sonnet",
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0076",
+        "branch": "ost/prime-pair-error/a-0076",
+        "db": "ost_prime_pair_error_0076",
+        "port": 4476,
+        "start_commit": "1fbede34e5887d1320b911db52541d1f536c4ab0",
+        "end_commit": "1fbede34e5887d1320b911db52541d1f536c4ab0"
+      },
+      "started": "t+1",
+      "ended": "t+2",
+      "started_at": "2026-09-11T14:52:50.602Z",
+      "ended_at": "2026-09-11T14:56:42.750Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 38,
+          "output_tokens": 9810,
+          "cache_read_input_tokens": 1096560,
+          "cache_creation_input_tokens": 46584,
+          "cost_usd": 0.5070870000000001,
+          "duration_ms": 224602,
+          "api_ms": 99830,
+          "turns": 23,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "verdicts": [
+          {
+            "id": "w-endpoint-sharp-fix-crossover-table",
+            "ok": true,
+            "why": "Independently recomputed the least even m and A(N) with an unrelated script (mpmath, direct linear search of (m+1)log((m+1)/(e H_Z)) >= sqrt(log N)) and got m=14/A=1.4 at logN=100, m=22/A=1.1 at 400, m=64/A=0.64 at 1e4, m=348/A=0.348 at 1e6, and crossovers at logN=676.66 (A<1) and 53824.46 (A<1/2), matching the proposal's numbers exactly; it names the exact table and sentences and gives a correct, narrowly scoped fix."
+          },
+          {
+            "id": "w-endpoint-sharp-davenport-page-source-check",
+            "ok": true,
+            "why": "Names a genuine, specific gap (a-0075's review explicitly states it had no web access and did not check (D)/(Pg) against a primary source, verifying only internal consistency) and proposes exactly the check that would clear it, scoped to hunts/prime_pair_error/ and to two named citations with instructions to report by equation number, without overclaiming a result."
+          }
+        ],
+        "integrated": "ost/prime-pair-error/trunk"
+      },
+      "cell_pid": 1650
+    },
+    {
+      "id": "a-0077",
+      "of": "w-endpoint-sharp-third-revision-check",
+      "kind": "prove",
+      "what": "Independently check the THIRD REVISION of hunts/prime_pair_error/ENDPOINT_SHARP.md (commit 575243e on this branch), and only its two substitutions in section 4. Your job is to break them or to confirm each step; a confirmed defect is the more valuable outcome and you are expected to look for one. Do not re-review sections 2, 3, 5 or 6, which ENDPOINT_SHARP_REVIEW.md already covers.\n\nRead first: ENDPOINT_SHARP.md sections 1, 4, 7 item (5) and 8; ENDPOINT_SHARP_REVIEW.md (the earlier check); ENDPOINT_BOUND.md section 4 (where input (1) is consumed) and SIEGEL_UNIFORMITY.md section 3 (the fundamental lemma as TT Lemma 5.1, with its hypothesis D >= z^(9 kappa + 1) and error e^(9 kappa - s) K^10).\n\nCheck these four things, each independently, and report each separately.\n\n(1) The level. Section 4 says its first two versions applied the fundamental lemma at the approximant level D_0 = N^(A(N)), A(N) = 4c/log log N from equation (A), giving s = A(N) sqrt(log N), so that the displayed error e^(9 - s) decays more slowly than exp(-gamma sqrt(log N)) for every fixed gamma, and that (1prime) therefore did not follow as written. Confirm or refute that diagnosis from (A). Then check the repair: D_1 = floor(N^(1/2)), s_1 = log D_1 / log Z = sqrt(log N)/2 (1 + o(1)), hypothesis D_1 >= Z^10 iff log N >= 400, remainders O(D_1), b D_1 << sqrt(log N) N^(1/2), b q D_1 << sqrt(log N) e^(sqrt(log N)) N^(1/2). Recompute every error term of section 4 with D_1 yourself, in all four cases, and confirm or refute the final admissible range gamma < min(c_0/2, delta/sqrt 2, 1/2). Check that D_1 enters nothing outside section 4: in particular that the budget (18prime) in section 6 and the (P4) property in section 2.2 consume D_0 and not D_1.\n\n(2) The progression input (DF). Section 4 quotes Drappeau and Fiorilli, arXiv:2003.02201v1, Lemma 2.2, their Theorem 1.2, their definition of the x-exceptional character with Q = T = e^(sqrt(log x)), and their (1.6) eta_{x,a} = chi~(a)/(beta x^(1-beta)). If you have web access, fetch the paper and compare the quotation word for word and symbol for symbol, and say what you compared; if you do not, say plainly that you did not and treat the quotation as given (it was compared against the source in the orchestrator session). Then check the mathematics that uses it: (a) that applying the lemma at x = y and Q = R and bounding one term of the sum by the whole sum gives (Dprime) exactly as displayed, with eta_{y,a} y = chi~_y(a) y^(beta~_y)/beta~_y; (b) the remark that, as printed, the maximum over y <= x with eta_{x,a} frozen at x differs from the y^beta main term by chi~(a) y x^(beta-1) ((x/y)^(1-beta) - 1)/(beta phi(q)), and that when 1 - beta and log(x/y)/sqrt(log x) are both small compared with delta this difference summed over q~ | q <= Q is not O(x e^(-delta sqrt(log x))). Confirm or refute that remark with your own computation; it is a claim about a published statement and must not stand if it is wrong. (c) that the document does not rely on the uniformity the remark questions.\n\n(3) The matching of exceptional data. Check the four bullets of \"Matching the exceptional data\": that a TT-exceptional chi at Z with q | r is the y-exceptional character for every y with log y >= (log N)/2, using q <= R <= e^(sqrt(log y)), beta > 1 - c_0/sqrt(log N) >= 1 - b/(2 sqrt(log y)) under (Cmp) c_0 <= min(c, b/2), and uniqueness; that a y-exceptional character which is not TT-exceptional at Z contributes at most 2 y e^(-c_0 sqrt(log N)/2)/phi(r) whenever its conductor divides r; that the q does not divide r case carries no exceptional term on the Lambda side; and that (Dsecond) follows with c_4 = min(c_0/2, delta/sqrt 2). Look specifically for a case the four bullets miss, and for any place the threshold b/(2 sqrt(log y)) has been confused with b/sqrt(log y) or with c/sqrt(log N).\n\n(4) The Small y reduction: that y <= N exp(-gamma sqrt(log N)) makes both sides of (1prime) O(y log N), and that log y >= (log N)/2 gives every inequality listed there, including R sqrt(y) (log y)^O(1) <= N e^(-sqrt(log N)) for large N.\n\nWrite hunts/prime_pair_error/ENDPOINT_SHARP_REVIEW_2.md: one section per item above, each with a verdict of confirmed, defective or unresolved, the exact step at fault where defective, and your own numbers where you computed any. A confirmed defect must name the equation and say what the corrected statement is. If you cannot settle an item, say so and say what would settle it; do not guess. Do not edit ENDPOINT_SHARP.md or ENDPOINT_SHARP_REVIEW.md. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it; no em dashes in prose you write; nothing may be phrased as bearing on the Riemann hypothesis.",
+      "from": null,
+      "state": "done",
+      "params": {
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0077",
+        "branch": "ost/prime-pair-error/a-0077",
+        "db": "ost_prime_pair_error_0077",
+        "port": 4477,
+        "start_commit": "575243ee82edc0d83e34d947900b7296efc07e81",
+        "end_commit": "ed1b0b51470e584f8baebfd07618a934c1a01b99"
+      },
+      "started": "t+0",
+      "ended": "t+1",
+      "started_at": "2026-09-11T19:34:24.862Z",
+      "ended_at": "2026-09-11T19:43:55.867Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 56,
+          "output_tokens": 54354,
+          "cache_read_input_tokens": 2667811,
+          "cache_creation_input_tokens": 118352,
+          "cost_usd": 1.5531622,
+          "duration_ms": 568673,
+          "api_ms": 567621,
+          "turns": 29,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "check": {
+          "ok": true,
+          "cmd": "test -f hunts/prime_pair_error/ENDPOINT_SHARP_REVIEW_2.md && grep -qiE \"confirmed|defect|unresolved\" hunts/prime_pair_error/ENDPOINT_SHARP_REVIEW_2.md && test $(wc -l < hunts/prime_pair_error/ENDPOINT_SHARP_REVIEW_2.md) -ge 40",
+          "on": "ost/prime-pair-error/a-0077"
+        },
+        "ahead": "Reviewed the third revision's two section-4 substitutions in ENDPOINT_SHARP.md (input (DF) and the separate sieve level D_1) and found no defect in either, across all four assigned checks (the level, the DF input and its frozen-at-x remark, the exceptional-data matching, and the Small y reduction). Written up in hunts/prime_pair_error/ENDPOINT_SHARP_REVIEW_2.md with a new probe script and saved numeric results. One thing this attempt could not do: this cell's tool set has no network access, so the word-for-word comparison of the (DF) quotation against arXiv:2003.02201v1 was not repeated here; it is treated as given per the document's own note that it was already checked in the orchestrator session. If a future attempt has web access and wants a second independent check of that quotation specifically, that is the one open piece.",
+        "integrated": "ost/prime-pair-error/trunk"
+      },
+      "cell_pid": 1032
+    },
+    {
+      "id": "a-0078",
+      "of": "w-arc-split-check",
+      "kind": "prove",
+      "what": "Independently check hunts/prime_pair_error/ARC_SPLIT_BUDGET.md (commit dbe1c98 on this branch), which claims E_corr^(Z)(N) << N^3 exp(-c'' sqrt(log N)) for every c'' < min(2 gamma/3, 2 c_m), improving the exponent constant gamma/240 of ENDPOINT_SHARP.md (18'), by splitting the corrected residual by arcs instead of by model. Your job is to break it or to confirm each step; a confirmed defect is the more valuable outcome and you are expected to look for one.\n\nRead first: ARC_SPLIT_BUDGET.md; UPPER_BOUND.md sections 2 to 5 (its (4), (6), (7), (9), (10), (11), (13), (15), (20), which the document cites rather than re-proves); LOCALIZED_MIXED_ENERGY.md section 6 (equations (22)-(24)); SIEGEL_UNIFORMITY.md (5) of LOCALIZED_MIXED_ENERGY.md and (17), (19), (23) of SIEGEL_UNIFORMITY.md; ENDPOINT_SHARP.md sections 1, 4 (the progression input (1') and its constant gamma), 5 (input (2) and c_m), 6 (the previous budget (18')); ENDPOINT_BOUND.md sections 3 to 6 (the previous major-arc bound (9) and minor-arc bound (17)).\n\nCheck these five things, each independently, and report each separately.\n\n(1) The identities of section 1: equation (2) (the coefficients of X+Y, R_mod and G_corr, and that the model cancels in the sum) and equation (3) (G_corr = (|F|^2 - |H|^2) + R_mod - kappa pointwise, with kappa = d_N - sum a(n)^2). Verify (3) with your own script on a toy model, not by rereading arc_split_probe.py; write your own.\n\n(2) The major arcs, section 3: the bound (5) on |W| from (1') by residue classes and partial summation with the arc radius R/(rN); the Parseval step (6), in particular that int over the whole circle of (|F|+|H|)^2 is << N log N; (7) from input (2) and D_tail; the constant (c); and the assembly (8). Compare with ENDPOINT_BOUND.md (9) and confirm or refute the document's account of where R^7 became R^2.\n\n(3) The minor arcs, section 4: that on the minor arcs G_corr equals |F|^2 - H_R - a_0(N,R) - T_{y,R} - hat C_N (from UPPER_BOUND.md (10) with A_R = 0 there, plus the correction polynomial); that each of the four cited UPPER_BOUND.md bounds is valid for an arbitrary R with 2R^2 < N and not only for the Q of that document's own sections; and the assembly (9)-(11).\n\n(4) Section 4.1, the correction polynomial on the minor arcs, in full: the expansion of the quadratic piece via LOCALIZED_MIXED_ENERGY.md (5); the Abel bounds on Phi_J; the three denominator ranges (R < qd <= sqrt N by the dual large sieve, qd > sqrt N by the gcd bound, qd <= R by the tail bound on the minor arcs); the linear pieces via the Gauss-sum expansion of chi(h) S_*(h); and the consistency check against SIEGEL_UNIFORMITY.md (23). Look specifically for a lost factor of q/phi(q), phi(qd), or sqrt q, for a wrong direction in min(1/q, q/R^2) <= 1/R, and for whether the case q > R is handled when every fraction lies on the minor arcs. This is the only new estimate in the document and the one most likely to hide a defect.\n\n(5) The budget, section 5: the choice sigma = 2 gamma/3, the constraints 2R^2 < N and sigma <= 1/sqrt 2, the claim 2 c_m > 2 gamma/3, and the comparison with the previous budget (gamma/240 as stated, gamma/43 at its own optimum). Recompute the optimum of both budgets yourself. Also check section 7's claim that the cross term with R_mod cannot change the exponent in either budget, and section 6's list of what is and is not consumed, against the actual equations of ENDPOINT_BOUND.md and ENDPOINT_SHARP.md.\n\nWrite hunts/prime_pair_error/ARC_SPLIT_BUDGET_REVIEW.md: one section per item above, each with a verdict of confirmed, defective or unresolved, the exact step at fault where defective, and your own numbers where you computed any. A confirmed defect must name the equation and say what the corrected statement is. If you cannot settle an item, say so and say what would settle it; do not guess. Do not edit ARC_SPLIT_BUDGET.md or any other existing file. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it; no em dashes in prose you write; nothing may be phrased as bearing on the Riemann hypothesis.",
+      "from": null,
+      "state": "done",
+      "params": {
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0078",
+        "branch": "ost/prime-pair-error/a-0078",
+        "db": "ost_prime_pair_error_0078",
+        "port": 4478,
+        "start_commit": "dbe1c98be368571745e7348faac645f8605f26d8",
+        "end_commit": "c624c200d35f8f0b90ded303b62dd21a26853620"
+      },
+      "started": "t+0",
+      "ended": "t+1",
+      "started_at": "2026-09-11T23:39:45.864Z",
+      "ended_at": "2026-09-12T00:21:58.841Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 56,
+          "output_tokens": 271936,
+          "cache_read_input_tokens": 3322792,
+          "cache_creation_input_tokens": 187507,
+          "cost_usd": 4.136404400000001,
+          "duration_ms": 2528767,
+          "api_ms": 2520031,
+          "turns": 28,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "check": {
+          "ok": true,
+          "cmd": "test -f hunts/prime_pair_error/ARC_SPLIT_BUDGET_REVIEW.md && grep -qiE \"confirmed|defect|unresolved\" hunts/prime_pair_error/ARC_SPLIT_BUDGET_REVIEW.md && test $(wc -l < hunts/prime_pair_error/ARC_SPLIT_BUDGET_REVIEW.md) -ge 40",
+          "on": "ost/prime-pair-error/a-0078"
+        },
+        "ahead": "The review found no defect in any of the five items of ARC_SPLIT_BUDGET.md; the arc-split constant 2 gamma/3 stands, along with the recomputed true optimum gamma/43 of the previous budget (versus its stated gamma/240). One sub-step (the m>sqrt N denominator range's auxiliary sieve-tail lemma, and the linear-piece constants generally in section 4.1) was checked only at the order-of-magnitude/structural level, not re-derived symbol by symbol; it is not the binding term in any budget, so this does not threaten the conclusion, but a future check could redo it in full if section 4.1 is ever load-bearing elsewhere.",
+        "answer": true,
+        "found": [
+          "w-arc-split-4.1-linear-full-rederivation"
+        ],
+        "integrated": "ost/prime-pair-error/trunk",
+        "notes": [
+          "answered: true"
+        ]
+      },
+      "cell_pid": 992
+    },
+    {
+      "id": "a-0079",
+      "of": "w-arc-split-check",
+      "kind": "verify",
+      "judges": "a-0078",
+      "what": "Judge this handback against the hunt's own standard. A proposal is real only if it names a specific missing thing and says what would clear it. Reject a proposal that restates the task it came from, that proposes work outside hunts/prime_pair_error/, or that claims more certainty than the certainty ladder allows for a measured number. Nothing here may be phrased as bearing on RH.\n\nThe attempt you are judging is a-0078, a prove attempt on w-arc-split-check: Independently check hunts/prime_pair_error/ARC_SPLIT_BUDGET.md (commit dbe1c98 on this branch), which claims E_corr^(Z)(N) << N^3 exp(-c'' sqrt(log N)) for every c'' < min(2 gamma/3, 2 c_m), improving the exponent constant gamma/240 of ENDPOINT_SHARP.md (18'), by splitting the corrected residual by arcs instead of by model. Your job is to break it or to confirm each step; a confirmed defect is the more valuable outcome and you are expected to look for one.\n\nRead first: ARC_SPLIT_BUDGET.md; UPPER_BOUND.md sections 2 to 5 (its (4), (6), (7), (9), (10), (11), (13), (15), (20), which the document cites rather than re-proves); LOCALIZED_MIXED_ENERGY.md section 6 (equations (22)-(24)); SIEGEL_UNIFORMITY.md (5) of LOCALIZED_MIXED_ENERGY.md and (17), (19), (23) of SIEGEL_UNIFORMITY.md; ENDPOINT_SHARP.md sections 1, 4 (the progression input (1') and its constant gamma), 5 (input (2) and c_m), 6 (the previous budget (18')); ENDPOINT_BOUND.md sections 3 to 6 (the previous major-arc bound (9) and minor-arc bound (17)).\n\nCheck these five things, each independently, and report each separately.\n\n(1) The identities of section 1: equation (2) (the coefficients of X+Y, R_mod and G_corr, and that the model cancels in the sum) and equation (3) (G_corr = (|F|^2 - |H|^2) + R_mod - kappa pointwise, with kappa = d_N - sum a(n)^2). Verify (3) with your own script on a toy model, not by rereading arc_split_probe.py; write your own.\n\n(2) The major arcs, section 3: the bound (5) on |W| from (1') by residue classes and partial summation with the arc radius R/(rN); the Parseval step (6), in particular that int over the whole circle of (|F|+|H|)^2 is << N log N; (7) from input (2) and D_tail; the constant (c); and the assembly (8). Compare with ENDPOINT_BOUND.md (9) and confirm or refute the document's account of where R^7 became R^2.\n\n(3) The minor arcs, section 4: that on the minor arcs G_corr equals |F|^2 - H_R - a_0(N,R) - T_{y,R} - hat C_N (from UPPER_BOUND.md (10) with A_R = 0 there, plus the correction polynomial); that each of the four cited UPPER_BOUND.md bounds is valid for an arbitrary R with 2R^2 < N and not only for the Q of that document's own sections; and the assembly (9)-(11).\n\n(4) Section 4.1, the correction polynomial on the minor arcs, in full: the expansion of the quadratic piece via LOCALIZED_MIXED_ENERGY.md (5); the Abel bounds on Phi_J; the three denominator ranges (R < qd <= sqrt N by the dual large sieve, qd > sqrt N by the gcd bound, qd <= R by the tail bound on the minor arcs); the linear pieces via the Gauss-sum expansion of chi(h) S_*(h); and the consistency check against SIEGEL_UNIFORMITY.md (23). Look specifically for a lost factor of q/phi(q), phi(qd), or sqrt q, for a wrong direction in min(1/q, q/R^2) <= 1/R, and for whether the case q > R is handled when every fraction lies on the minor arcs. This is the only new estimate in the document and the one most likely to hide a defect.\n\n(5) The budget, section 5: the choice sigma = 2 gamma/3, the constraints 2R^2 < N and sigma <= 1/sqrt 2, the claim 2 c_m > 2 gamma/3, and the comparison with the previous budget (gamma/240 as stated, gamma/43 at its own optimum). Recompute the optimum of both budgets yourself. Also check section 7's claim that the cross term with R_mod cannot change the exponent in either budget, and section 6's list of what is and is not consumed, against the actual equations of ENDPOINT_BOUND.md and ENDPOINT_SHARP.md.\n\nWrite hunts/prime_pair_error/ARC_SPLIT_BUDGET_REVIEW.md: one section per item above, each with a verdict of confirmed, defective or unresolved, the exact step at fault where defective, and your own numbers where you computed any. A confirmed defect must name the equation and say what the corrected statement is. If you cannot settle an item, say so and say what would settle it; do not guess. Do not edit ARC_SPLIT_BUDGET.md or any other existing file. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it; no em dashes in prose you write; nothing may be phrased as bearing on the Riemann hypothesis.\n\nIt proposed:\n- w-arc-split-4.1-linear-full-rederivation, a task: In hunts/prime_pair_error/ARC_SPLIT_BUDGET.md section 4.1 ('The linear pieces'), fully re-derive the three denominator-range bounds for the linear part of the correction polynomial C_N(h) (the terms involving u_q(h)J_1(h)+v_q(h)J_2(h) via the Gauss-sum expansion chi(h)tau(chibar)=sum_a chibar(a)e(ah/q)), matching each constant the way the quadratic piece was matched in ARC_SPLIT_BUDGET_REVIEW.md item 4. Also independently re-derive the auxiliary estimate used in the m>sqrt N range, sum_{m>X, g|m} phi(m)^{-2} << g phi(g)^{-2} X^{-1} ell^{O(1)}, from first principles (not by citation), and confirm it feeds into a coefficient bound of order N q tau(h) ell^{O(1)} / sqrt N as claimed. Report whether the claimed final orders N^3 ell^{O(1)}/R^2 (for R<qd<=sqrt N), N^{2+o(1)} (for qd>sqrt N), and N^3 ell^{O(1)}/R (for qd<=R) survive exactly, and whether any constant or power of ell differs from what is stated. This term is not currently binding in any budget, so treat this as a completeness check rather than an urgent one.\n\nThe same is in .ostoyae/verify.json, with each proposal's full text. Hand back .ostoyae/report.json with \"verdicts\": one entry per id above, each { \"id\", \"ok\": true or false, \"why\": one line }. Use disposable scratch files when testing a claim requires them. Change no tracked project file and commit nothing; only the report is kept.",
+      "from": null,
+      "state": "done",
+      "params": {
+        "model": "sonnet",
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0079",
+        "branch": "ost/prime-pair-error/a-0079",
+        "db": "ost_prime_pair_error_0079",
+        "port": 4479,
+        "start_commit": "a795a3f7ac3d686ee132bdd8259703294355a091",
+        "end_commit": "a795a3f7ac3d686ee132bdd8259703294355a091"
+      },
+      "started": "t+0",
+      "ended": "t+1",
+      "started_at": "2026-09-12T01:20:47.801Z",
+      "ended_at": "2026-09-12T01:21:34.456Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 12,
+          "output_tokens": 3882,
+          "cache_read_input_tokens": 236564,
+          "cache_creation_input_tokens": 28829,
+          "cost_usd": 0.20446579999999998,
+          "duration_ms": 43510,
+          "api_ms": 44032,
+          "turns": 7,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "verdicts": [
+          {
+            "id": "w-arc-split-4.1-linear-full-rederivation",
+            "ok": true,
+            "why": "ARC_SPLIT_BUDGET_REVIEW.md item 4 itself admits the linear-piece constants and the m>sqrt N auxiliary sieve lemma were checked only at order-of-magnitude, not symbol by symbol, so the proposal names a real, specific gap and says exactly what would clear it (match each constant as done for the quadratic piece; rederive the sum_{m>X,g|m} phi(m)^{-2} bound from first principles), stays within ARC_SPLIT_BUDGET.md under hunts/prime_pair_error/, and does not overclaim since it correctly flags the term as non-binding rather than urgent."
+          }
+        ],
+        "integrated": "ost/prime-pair-error/trunk"
+      },
+      "cell_pid": 1144
+    },
+    {
+      "id": "a-0080",
+      "of": "w-major-arc-explicit-check",
+      "kind": "prove",
+      "what": "Independently check hunts/prime_pair_error/MAJOR_ARC_EXPLICIT.md (commit a795a3f on this branch). It claims (S'') E_corr^(Z)(N) << N^3 exp(-c'' sqrt(log N)) for every c'' < c_0 under its hypothesis (H), improving the constant 2 gamma/3 (at most c_0/3) of ARC_SPLIT_BUDGET.md, by bounding the major arcs through the explicit formula for character sums with the zero-free region at the arc's own modulus and height; and it claims a conditional lower bound (section 5) that pins the exponent of this target to [c_0, 2 c_0] unless a Siegel-zero statement is proved. Your job is to break it or to confirm each step; a confirmed defect is the more valuable outcome and you are expected to look for one. Section 5 and the matching argument of section 3 are where a defect would most likely hide.\n\nRead first: MAJOR_ARC_EXPLICIT.md; ARC_SPLIT_BUDGET.md sections 1 to 5 (its arcs, (3), (6), (8), (11), (12), reused here); ENDPOINT_SHARP.md sections 1 and 4 (the model, TT's exceptional data with threshold c_0, the four sieve cases and (Cmp), the range of gamma) and 5 (c_m); SIEGEL_UNIFORMITY.md (17), (19), (23). You have no web access; treat the four classical inputs (EF), (ZF), (Pg'), (GS) as stated and check what is built on them, but say if any is misquoted from what you know of Davenport chapters 14, 16, 17, 19 and Montgomery-Vaughan Theorem 9.10.\n\nCheck these five things, each independently, and report each separately.\n\n(1) Section 2: the passage from psi(y, chi) to F_chi(theta) by integration against e(t theta), including the remainder (1 + N|theta|)((N/T) log^2 + N^(1/4) log N) and the O(log^2) for prime powers of primes dividing r; the three bounds on I_rho (trivial, first-derivative on dyadic blocks giving N^beta/|gamma|, second-derivative giving N^beta/sqrt|gamma|), including the conditions on the phase phi(t) = gamma log t + 2 pi theta t under which each derivative test applies; the zero-sum estimate (2) with the zero count N(U, chi) << U log(rU) + log r; and the choice T = R^3 giving Upsilon(r) in (3). Recompute the exponents c/sigma and c/(4 sigma) from log(r(H_0+2)) <= sigma sqrt(l) + O(1) and log(3 r T) <= 4 sigma sqrt(l) + O(1). Verify the two derivative-test bounds numerically with your own script for a few zeros of zeta (mpmath.zetazero), not by rereading major_arc_explicit_probe.py.\n\n(2) Section 3, the lemma (5): the character expansion of F and H on an arc with the Gauss sums tau(chi-bar, a) = chi(a) tau(chi-bar) and |tau| <= sqrt r for imprimitive characters (Montgomery-Vaughan 9.10); the model side H_chi from (Md) with partial summation costing (1 + 2 pi R/r) per class and r classes, giving 8 R E_md; the identification of the twisted main term with I_{beta_e} when chi = chi_{e,r}; and the passage to |W| <= sqrt r max_chi |F_chi - H_chi| + 8 R E_md + O(log^2). Check E_md << N exp(-sqrt(log N)/3) against ENDPOINT_SHARP.md section 4's error terms.\n\n(3) Section 3, matching the exceptional zeros with Page at (Q, T) = (R, R^3): the three cases; that under (H) a TT-exceptional zero is the Page zero (c_0 <= b/(4 c_0)); that a Page zero which is not TT-exceptional has beta <= 1 - c_0/sqrt(log N) and appears only for r divisible by its conductor; and that every other zero is covered by (ZF) and (3), including the remark about real zeros of real characters that are not the Page zero. Look for a case the three bullets miss, in particular characters mod r induced by a real primitive character of conductor not dividing r, and the interaction between TT's uniqueness (c_0 <= c_P) and Page's.\n\n(4) Section 4, the budget (6): the squaring of (5) into sup_M |W|^2, the six exponents 2 c_0 - sigma, 2c/sigma - 2 sigma, c/(2 sigma) - sigma, 3 sigma, 2/3 - 2 sigma, sigma, the balance at sigma = c_0 and the conditions collected into (H). Recompute the optimum yourself. Check the comparison with ARC_SPLIT_BUDGET.md (2 gamma/3 with gamma < c_0/2) and the remark repairing (1') to gamma < c_0 (the small-y reduction at log y >= l - gamma sqrt l instead of l/2), confirming or refuting that ENDPOINT_SHARP.md section 4's Small y paragraph indeed loses a factor 1/2 that way.\n\n(5) Section 5, the conditional lower bound and its corollary, in full: the reduction to one arc and the sub-arc |theta| <= 1/(8N); the choice T = q^2 e^(kappa sqrt l) l^4 and why l^4 rather than l^2; the Page condition kappa (kappa + 3 eps) < b and the (ZF) condition (kappa + 2 eps)^2 < c; the size and phase of K_N(theta) and I_beta(theta) on the sub-arc (|K_N| >= N/2, |I| >= N^beta/4, arguments within pi/8 of pi (N+1) theta, so Re(conj(K_N) I) >= cos(pi/4) |K_N||I|); the claim mu(q) = +-1 for odd squarefree q; the assembled lower bound c_3 N^(2 beta + 1) q/phi(q)^3 and its comparison with SIEGEL_UNIFORMITY.md (23); the subtracted terms; and the corollary's arithmetic (choice of N with sqrt(log N) = (c_0 + kappa'/2)/(2(1 - beta)), the condition q^2 < e^((kappa' - 2 kappa) sqrt l), and the conclusion 1 - beta > c'/log q). Say precisely what the corollary does and does not establish, and whether the phrase 'non-existence of Siegel zeros in the classical form' is accurate for a statement restricted to even characters of odd conductor beyond an effective bound.\n\nWrite hunts/prime_pair_error/MAJOR_ARC_EXPLICIT_REVIEW.md: one section per item above, each with a verdict of confirmed, defective or unresolved, the exact step at fault where defective, and your own numbers where you computed any. A confirmed defect must name the equation and say what the corrected statement is. If you cannot settle an item, say so and say what would settle it; do not guess. Do not edit MAJOR_ARC_EXPLICIT.md or any other existing file. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it; no em dashes in prose you write; nothing may be phrased as bearing on the Riemann hypothesis.",
+      "from": null,
+      "state": "done",
+      "params": {
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0080",
+        "branch": "ost/prime-pair-error/a-0080",
+        "db": "ost_prime_pair_error_0080",
+        "port": 4480,
+        "start_commit": "a795a3f7ac3d686ee132bdd8259703294355a091",
+        "end_commit": "7696916f3c21e071970ccc5ab4b6db6dba8bb50d"
+      },
+      "started": "t+0",
+      "ended": "t+2",
+      "started_at": "2026-09-12T01:20:48.395Z",
+      "ended_at": "2026-09-12T01:58:55.238Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 80,
+          "output_tokens": 165026,
+          "cache_read_input_tokens": 4898324,
+          "cache_creation_input_tokens": 184679,
+          "cost_usd": 3.3717408000000004,
+          "duration_ms": 2283442,
+          "api_ms": 1621515,
+          "turns": 40,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "check": {
+          "ok": true,
+          "cmd": "test -f hunts/prime_pair_error/MAJOR_ARC_EXPLICIT_REVIEW.md && grep -qiE \"confirmed|defect|unresolved\" hunts/prime_pair_error/MAJOR_ARC_EXPLICIT_REVIEW.md && test $(wc -l < hunts/prime_pair_error/MAJOR_ARC_EXPLICIT_REVIEW.md) -ge 40",
+          "on": "ost/prime-pair-error/a-0080"
+        },
+        "ahead": "MAJOR_ARC_EXPLICIT_REVIEW.md found a defect in MAJOR_ARC_EXPLICIT.md section 3, equation (4)/(5): the model-side error O(r E_md(1+R/r)) inside H_chi gets multiplied by the outer sqrt(r) from the Gauss-sum step just like the F_chi side's N*Upsilon(r) term does, giving O(R^{3/2} E_md), not the printed O(R E_md). This propagates to section 4's squared bound (R^3 e^{-2 sqrt(l)/3} in place of R^2 e^{-2 sqrt(l)/3}) and tightens the compatibility condition in section 4 and in (H) from c_0 <= 2/9 to c_0 <= 1/6. It does not appear to break the boxed result (S'') itself, since c_0 is described as TT's own small threshold constant, well under 1/6 in any case, but the paper's own numeric check of its hypothesis is wrong as printed and should be corrected before anyone else builds on the exact value 2/9. Also flagged (not a defect, an imprecision): section 5's closing sentence calls the corollary 'the non-existence of Siegel zeros in the classical form' without repeating the even-character/odd-conductor restriction stated two sentences earlier in the same paragraph; the restriction is real (the proof uses tau(tilde chi)=sqrt(q~) for even tilde chi and mu(q~)=+-1 for odd squarefree q~) and should be carried into that sentence.",
+        "found": [
+          "w-major-arc-explicit-sqrt-r-fix"
+        ],
+        "integrated": "ost/prime-pair-error/trunk"
+      },
+      "cell_pid": 1158
+    },
+    {
+      "id": "a-0081",
+      "of": "w-major-arc-explicit-check",
+      "kind": "verify",
+      "judges": "a-0080",
+      "what": "Judge this handback against the hunt's own standard. A proposal is real only if it names a specific missing thing and says what would clear it. Reject a proposal that restates the task it came from, that proposes work outside hunts/prime_pair_error/, or that claims more certainty than the certainty ladder allows for a measured number. Nothing here may be phrased as bearing on RH.\n\nThe attempt you are judging is a-0080, a prove attempt on w-major-arc-explicit-check: Independently check hunts/prime_pair_error/MAJOR_ARC_EXPLICIT.md (commit a795a3f on this branch). It claims (S'') E_corr^(Z)(N) << N^3 exp(-c'' sqrt(log N)) for every c'' < c_0 under its hypothesis (H), improving the constant 2 gamma/3 (at most c_0/3) of ARC_SPLIT_BUDGET.md, by bounding the major arcs through the explicit formula for character sums with the zero-free region at the arc's own modulus and height; and it claims a conditional lower bound (section 5) that pins the exponent of this target to [c_0, 2 c_0] unless a Siegel-zero statement is proved. Your job is to break it or to confirm each step; a confirmed defect is the more valuable outcome and you are expected to look for one. Section 5 and the matching argument of section 3 are where a defect would most likely hide.\n\nRead first: MAJOR_ARC_EXPLICIT.md; ARC_SPLIT_BUDGET.md sections 1 to 5 (its arcs, (3), (6), (8), (11), (12), reused here); ENDPOINT_SHARP.md sections 1 and 4 (the model, TT's exceptional data with threshold c_0, the four sieve cases and (Cmp), the range of gamma) and 5 (c_m); SIEGEL_UNIFORMITY.md (17), (19), (23). You have no web access; treat the four classical inputs (EF), (ZF), (Pg'), (GS) as stated and check what is built on them, but say if any is misquoted from what you know of Davenport chapters 14, 16, 17, 19 and Montgomery-Vaughan Theorem 9.10.\n\nCheck these five things, each independently, and report each separately.\n\n(1) Section 2: the passage from psi(y, chi) to F_chi(theta) by integration against e(t theta), including the remainder (1 + N|theta|)((N/T) log^2 + N^(1/4) log N) and the O(log^2) for prime powers of primes dividing r; the three bounds on I_rho (trivial, first-derivative on dyadic blocks giving N^beta/|gamma|, second-derivative giving N^beta/sqrt|gamma|), including the conditions on the phase phi(t) = gamma log t + 2 pi theta t under which each derivative test applies; the zero-sum estimate (2) with the zero count N(U, chi) << U log(rU) + log r; and the choice T = R^3 giving Upsilon(r) in (3). Recompute the exponents c/sigma and c/(4 sigma) from log(r(H_0+2)) <= sigma sqrt(l) + O(1) and log(3 r T) <= 4 sigma sqrt(l) + O(1). Verify the two derivative-test bounds numerically with your own script for a few zeros of zeta (mpmath.zetazero), not by rereading major_arc_explicit_probe.py.\n\n(2) Section 3, the lemma (5): the character expansion of F and H on an arc with the Gauss sums tau(chi-bar, a) = chi(a) tau(chi-bar) and |tau| <= sqrt r for imprimitive characters (Montgomery-Vaughan 9.10); the model side H_chi from (Md) with partial summation costing (1 + 2 pi R/r) per class and r classes, giving 8 R E_md; the identification of the twisted main term with I_{beta_e} when chi = chi_{e,r}; and the passage to |W| <= sqrt r max_chi |F_chi - H_chi| + 8 R E_md + O(log^2). Check E_md << N exp(-sqrt(log N)/3) against ENDPOINT_SHARP.md section 4's error terms.\n\n(3) Section 3, matching the exceptional zeros with Page at (Q, T) = (R, R^3): the three cases; that under (H) a TT-exceptional zero is the Page zero (c_0 <= b/(4 c_0)); that a Page zero which is not TT-exceptional has beta <= 1 - c_0/sqrt(log N) and appears only for r divisible by its conductor; and that every other zero is covered by (ZF) and (3), including the remark about real zeros of real characters that are not the Page zero. Look for a case the three bullets miss, in particular characters mod r induced by a real primitive character of conductor not dividing r, and the interaction between TT's uniqueness (c_0 <= c_P) and Page's.\n\n(4) Section 4, the budget (6): the squaring of (5) into sup_M |W|^2, the six exponents 2 c_0 - sigma, 2c/sigma - 2 sigma, c/(2 sigma) - sigma, 3 sigma, 2/3 - 2 sigma, sigma, the balance at sigma = c_0 and the conditions collected into (H). Recompute the optimum yourself. Check the comparison with ARC_SPLIT_BUDGET.md (2 gamma/3 with gamma < c_0/2) and the remark repairing (1') to gamma < c_0 (the small-y reduction at log y >= l - gamma sqrt l instead of l/2), confirming or refuting that ENDPOINT_SHARP.md section 4's Small y paragraph indeed loses a factor 1/2 that way.\n\n(5) Section 5, the conditional lower bound and its corollary, in full: the reduction to one arc and the sub-arc |theta| <= 1/(8N); the choice T = q^2 e^(kappa sqrt l) l^4 and why l^4 rather than l^2; the Page condition kappa (kappa + 3 eps) < b and the (ZF) condition (kappa + 2 eps)^2 < c; the size and phase of K_N(theta) and I_beta(theta) on the sub-arc (|K_N| >= N/2, |I| >= N^beta/4, arguments within pi/8 of pi (N+1) theta, so Re(conj(K_N) I) >= cos(pi/4) |K_N||I|); the claim mu(q) = +-1 for odd squarefree q; the assembled lower bound c_3 N^(2 beta + 1) q/phi(q)^3 and its comparison with SIEGEL_UNIFORMITY.md (23); the subtracted terms; and the corollary's arithmetic (choice of N with sqrt(log N) = (c_0 + kappa'/2)/(2(1 - beta)), the condition q^2 < e^((kappa' - 2 kappa) sqrt l), and the conclusion 1 - beta > c'/log q). Say precisely what the corollary does and does not establish, and whether the phrase 'non-existence of Siegel zeros in the classical form' is accurate for a statement restricted to even characters of odd conductor beyond an effective bound.\n\nWrite hunts/prime_pair_error/MAJOR_ARC_EXPLICIT_REVIEW.md: one section per item above, each with a verdict of confirmed, defective or unresolved, the exact step at fault where defective, and your own numbers where you computed any. A confirmed defect must name the equation and say what the corrected statement is. If you cannot settle an item, say so and say what would settle it; do not guess. Do not edit MAJOR_ARC_EXPLICIT.md or any other existing file. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it; no em dashes in prose you write; nothing may be phrased as bearing on the Riemann hypothesis.\n\nIt proposed:\n- w-major-arc-explicit-sqrt-r-fix, a task: In hunts/prime_pair_error/MAJOR_ARC_EXPLICIT.md, fix the sqrt(r) bookkeeping error identified in hunts/prime_pair_error/MAJOR_ARC_EXPLICIT_REVIEW.md item (2). Equation (4)'s passage from H_chi(theta) = delta_chi K_N(theta) - ... + O(r E_md(1+R/r)) to the bound |W(alpha)| <= sqrt(r) max_chi |F_chi - H_chi| + O(l^2) needs the sqrt(r) factor applied to the H_chi error term too, since it enters the same character sum with the same Gauss-sum coefficient tau(chi-bar) of size sqrt(r) that the F_chi-side error N*Upsilon(r) already correctly carries in the boxed equation (5) as sqrt(r)*N*Upsilon(r). The corrected size is sqrt(r) * O(r E_md (1+R/r)) which at r=R is O(R^{3/2} E_md), not the printed O(R E_md) (a ratio of sqrt(r), unbounded as R grows, so this is not a matter of a loose but valid inequality). Concretely: replace '8R E_md' by '8 R^{3/2} E_md' in equation (4) and in the boxed equation (5); replace the term 'R^2 N^2 e^{-2 sqrt(l)/3}' by 'R^3 N^2 e^{-2 sqrt(l)/3}' in the squared bound sup_M|W|^2 in section 4; recompute the sixth exponent accordingly (it becomes 2/3 - 3*sigma instead of 2/3 - 2*sigma, since R^3 e^{-2 sqrt(l)/3} = e^{-(2/3-3 sigma) sqrt l} with R=e^{sigma sqrt l}); and replace the compatibility condition 'c_0 <= 2/9' by 'c_0 <= 1/6' both in section 4's prose and in the boxed hypothesis (H) at the top of the document (currently 'c_0 <= min(2/9, sqrt(c)/2, sqrt(b)/2, c_P)', the 2/9 should become 1/6). Check whether the boxed result (S'') and its stated exponent still go through with this corrected, tighter, compatibility hypothesis; it should, since TT's actual c_0 is a very small absolute constant well under 1/6, but this should be verified and stated rather than assumed. Also correct section 5's closing sentence, which currently reads 'That is an effective zero-free interval (1-c'/log q~,1) for real zeros of real characters, i.e. the non-existence of Siegel zeros in the classical form,' by adding the even-character, odd-conductor qualification that the same paragraph already states in the Proposition's hypothesis (tilde_chi(-1)=1, tilde_q odd), e.g. 'for even primitive real characters of odd conductor' in place of 'for real characters,' since the proof genuinely does not cover odd characters (an explicit remark right after equation (7) says the odd case needs either an extra loss of a log factor or a different, |W|^4-based, route, neither carried out) or characters of even conductor (the argument uses q~ odd squarefree throughout, for the exact identity mu(q~)=+-1 and to avoid the separate mod 4 / mod 8 cases that SIEGEL_UNIFORMITY.md section 4 treats differently). Do not touch anything else in the document; both defects are narrow, quotable fixes, not the shape of the whole argument. Read hunts/prime_pair_error/MAJOR_ARC_EXPLICIT_REVIEW.md items (2), (4) and (5) in full for the exact derivations before editing.\n\nThe same is in .ostoyae/verify.json, with each proposal's full text. Hand back .ostoyae/report.json with \"verdicts\": one entry per id above, each { \"id\", \"ok\": true or false, \"why\": one line }. Use disposable scratch files when testing a claim requires them. Change no tracked project file and commit nothing; only the report is kept.",
+      "from": null,
+      "state": "done",
+      "params": {
+        "model": "sonnet",
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0081",
+        "branch": "ost/prime-pair-error/a-0081",
+        "db": "ost_prime_pair_error_0081",
+        "port": 4481,
+        "start_commit": "7696916f3c21e071970ccc5ab4b6db6dba8bb50d",
+        "end_commit": "7696916f3c21e071970ccc5ab4b6db6dba8bb50d"
+      },
+      "started": "t+2",
+      "ended": "t+3",
+      "started_at": "2026-09-12T01:58:55.279Z",
+      "ended_at": "2026-09-12T02:01:07.574Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 18,
+          "output_tokens": 12056,
+          "cache_read_input_tokens": 549315,
+          "cache_creation_input_tokens": 59094,
+          "cost_usd": 0.4709830000000001,
+          "duration_ms": 130212,
+          "api_ms": 131380,
+          "turns": 9,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "verdicts": [
+          {
+            "id": "w-major-arc-explicit-sqrt-r-fix",
+            "ok": true,
+            "why": "Re-derived the step independently: multiplying max_chi|F_chi-H_chi| by sqrt(r) (from |tau(chi-bar)|<=sqrt r) must apply to the O(r E_md(1+R/r)) error already inside H_chi, giving O(r^{3/2}E_md(1+R/r))=O(R^{3/2}E_md) at r=R, not the printed O(R E_md); this correctly propagates to R^3 in the squared bound, exponent 2/3-3sigma, and c_0<=1/6 in place of 2/9, and the closing-sentence fix matches the Proposition's own stated hypothesis (even chi, odd conductor) and the odd/even-conductor caveats already in the document (section 5's remark after (7), SIEGEL_UNIFORMITY.md's mod-4/mod-8 treatment confirmed by grep). The proposal is narrow, correctly scoped to MAJOR_ARC_EXPLICIT.md, hedges appropriately on whether (S'') survives ('should be verified... rather than assumed') rather than overclaiming, and does not restate the parent task."
+          }
+        ],
+        "integrated": "ost/prime-pair-error/trunk"
+      },
+      "cell_pid": 2313
+    },
+    {
+      "id": "a-0082",
+      "of": "w-sharp-exponent-check",
+      "kind": "prove",
+      "what": "Independently check hunts/prime_pair_error/SHARP_EXPONENT.md (commit 1abe75b on this branch). It makes two claims. Negative: at the cutoff R = exp(sigma sqrt(log N)) the minor-arc fourth moment target int_m |F|^4 << N^3 log^O(1) N R^(-2+eps) is blocked, exactly, by the interval length forced by the Farey dissection at level sqrt N (its section 1.2), and a different dissection proves the literal target with exceptional spikes made explicit but is the arc split at a larger cutoff (section 1.3). Positive: integrating the Page-allowed zero's term over each major arc with the 1/|theta| decay of K_N and I_beta removes a factor R from the binding term, the arc balance disappears, and E_corr^(Z) << N^3 exp(-c'' sqrt(log N)) for every c'' < 2 c_0 under (H'') (sections 2 and 3), which with the conditional lower bound of MAJOR_ARC_EXPLICIT.md section 5 pins the exponent of the fixed target to 2 c_0. Your job is to break it or to confirm each step; a confirmed defect is the more valuable outcome and you are expected to look for one. Sections 1.2 and 2 are where a defect would most likely hide.\n\nRead first: SHARP_EXPONENT.md; MAJOR_ARC_EXPLICIT.md sections 2, 3 (including the correction added 2026-09-12 to its third bullet), 4, 5 and its (H); ARC_SPLIT_BUDGET.md sections 2 to 4; UPPER_BOUND.md (7), (20) and its section 5 (Dirichlet approximation on the minor arcs). You have no web access; treat the classical inputs (Gallagher's lemma, the multiplicative large sieve, Vaughan's bound, the zero-free region) as stated and check what is built on them.\n\nCheck these five things, each independently, and report each separately.\n\n(1) Section 1.1: the dyadic reduction. That Hoelder with Vaughan gives Z'_Q << N^3 log^9 N / Q on the Farey arcs with q ~ Q, that this is at most N^3/R^2 once Q >= R^2 log^9 N, and that therefore only R < Q <= R^2 log^9 N needs more. Check the claim that Vaughan applies on I'_{q,a} (|alpha - a/q| <= 1/(q sqrt N) <= 1/q^2 for q <= sqrt N).\n\n(2) Section 1.2, the exact obstruction: the identity sum_{x<n<=x+h} c_n(q,a) = sum_b e(ab/q) Delta_b(x,h) (using sum over reduced a of e(ab/q) = mu(q) and the definition of Delta_b); Gallagher's lemma with Theta = 1/(q sqrt N), h_q = q sqrt N / 2; orthogonality over a giving (1); the passage to (2) and the target (3); the three inputs against (3), in particular the large-sieve computation (4): the reduction to primitive characters, the multiplicative large sieve with (h + 4Q^2), the weights q/phi(q) versus 1/phi(q), and the integration over x giving N^2 Q log^2 N. Confirm or refute that (4) inserted in (2) reproduces N^3 log^10 N / Q, i.e. Vaughan's order. Then check the stated reason no known input supplies the missing Q^(1-eps): the height N/h ~ sqrt N / Q and the zero-free region giving N^(2(beta-1)) >= e^(-4c). Say whether you know an unconditional variance bound for primes in intervals of length ~ sqrt N with a power saving over h^2 N; if you believe one exists, name it precisely.\n\n(3) Section 1.3: the dissection at level Q_2 = R^2 log N, the claim that MAJOR_ARC_EXPLICIT.md section 2 applies on the arcs R < q <= Q_2 with heights at most R log N, the shape of (5), the remark that the literal target is false without the exceptional spikes, and the remark that (5) is the arc split at cutoff Q_2 and does not move the exponent.\n\n(4) Section 2, the mechanism: the split W = W_P + W_0 with W_P = -(conj chi~(a) tau(chi~_r)/phi(r)) I_beta~(theta); the two decay facts (6), in particular the derivation |I_beta(theta)| << |theta|^(-beta) by splitting at t_0 = 1/|theta| and the constant (N|theta|)^(1-beta) <= e^(kappa sigma); the four integrals in the bullet list, especially the first (int of min(N, 1/(2|theta|))^2 min(2 N^beta, C N^beta/(N|theta|))^2 << N^(2 beta + 1)) and the sums over a and over r divisible by q~ giving N^(2 beta + 1) (q~/phi(q~))^3 q~^(-2) with no factor R; the |W_P|^4 term and its sum_{r<=R} r^2/phi(r)^3 << log^O(1); the model-error cross term with R^4 E_md^2. Verify the first integral and the flatness in R numerically with your own script (not by rereading sharp_exponent_probe.py). Also check section 2.1: that a real zero exceptional for the zero-free region but not for Page can exist for each real character, that it contributes 2 N e^(-(b/(4 sigma)) sqrt l) after the Gauss-sum factor, and that MAJOR_ARC_EXPLICIT.md's original third bullet was indeed wrong on this point (a-0080 confirmed that bullet; say whether you agree it was a miss).\n\n(5) Section 3, the budget (7): every exponent at sigma = 2 c_0 (2 c_0, c/c_0 - 4 c_0, c/(4 c_0) - 2 c_0, b/(4 c_0) - 2 c_0, 6 c_0, 2/3 - 6 c_0, 2/3 - 6 c_0), the conditions collected into (H''), the Page-matching condition c_0^2 <= b/8 at (R, R^3) with R = e^(2 c_0 sqrt l), and the two-sided statement with MAJOR_ARC_EXPLICIT.md's Proposition (window c_0 < kappa < min(sqrt c, sqrt b) - 3 eps; is sigma = 2 c_0 compatible with kappa near c_0 and the Proposition's own hypotheses?). Recompute the optimum yourself and say whether any term other than the first and R^(-1) can bind under (H''). Check the paragraph 'Against the previous budgets' for accuracy about (k, j, gamma) in each earlier document.\n\nWrite hunts/prime_pair_error/SHARP_EXPONENT_REVIEW.md: one section per item above, each with a verdict of confirmed, defective or unresolved, the exact step at fault where defective, and your own numbers where you computed any. A confirmed defect must name the equation and say what the corrected statement is. If you cannot settle an item, say so and say what would settle it; do not guess. Do not edit SHARP_EXPONENT.md or any other existing file. Write only under hunts/prime_pair_error/; do not touch zeta/, ontology/, harness/, docs/, or tests/; the word with letters c-e-r-t-i-f-i-e-d is banned anywhere under hunts/, including inside a sentence disclaiming it; no em dashes in prose you write; nothing may be phrased as bearing on the Riemann hypothesis.",
+      "from": null,
+      "state": "done",
+      "params": {
+        "attempt": 1
+      },
+      "sandbox": {
+        "worktree": "wt/prime-pair-error/a-0082",
+        "branch": "ost/prime-pair-error/a-0082",
+        "db": "ost_prime_pair_error_0082",
+        "port": 4482,
+        "start_commit": "1abe75b2699687c8377e78bb3e20076dd6409bbc",
+        "end_commit": "7e38b54dbd9a9a8ed05e8c561c7a4bf1bf0ae4b4"
+      },
+      "started": "t+0",
+      "ended": "t+1",
+      "started_at": "2026-09-12T03:15:40.984Z",
+      "ended_at": "2026-09-12T03:34:30.798Z",
+      "result": {
+        "why": "exit 0",
+        "usage": {
+          "model": "claude-haiku-4-5-20251001,claude-sonnet-5",
+          "input_tokens": 76,
+          "output_tokens": 79761,
+          "cache_read_input_tokens": 5308989,
+          "cache_creation_input_tokens": 176697,
+          "cost_usd": 2.5693368000000003,
+          "duration_ms": 1125428,
+          "api_ms": 818050,
+          "turns": 38,
+          "web_search_requests": 0,
+          "web_fetch_requests": 0
+        },
+        "check": {
+          "ok": true,
+          "cmd": "test -f hunts/prime_pair_error/SHARP_EXPONENT_REVIEW.md && grep -qiE \"confirmed|defect|unresolved\" hunts/prime_pair_error/SHARP_EXPONENT_REVIEW.md && test $(wc -l < hunts/prime_pair_error/SHARP_EXPONENT_REVIEW.md) -ge 40",
+          "on": "ost/prime-pair-error/a-0082"
+        },
+        "ahead": "SHARP_EXPONENT_REVIEW.md confirms all five checked items of SHARP_EXPONENT.md (commit 1abe75b), including its negative claim (section 1.2, the sqrt(N)-interval-length obstruction to the minor-arc quartic at cutoff R) and its positive mechanism (section 2, integrating the Page term over each arc, independently checked by a fresh numerical script matching the source document's own numbers). One defective intermediate equation was found and is non-binding: the term R^2 e^{-(2c/sigma) sqrt(l)(1+o(1))} in SHARP_EXPONENT.md's budget (7), inherited verbatim from MAJOR_ARC_EXPLICIT.md equation (6), does not follow from squaring MAJOR_ARC_EXPLICIT.md (5) by the method that document states; correctly derived it should be an R^1 (not R^2) term, itself dominated by the adjacent R e^{-(c/(2 sigma)) sqrt(l)} term and not needing separate listing. This does not change SHARP_EXPONENT.md's boxed (S''') or the exponent constant 2*c_0, and does not change (H''), because the condition this term would induce is strictly weaker than another condition (c_0^2 <= c/16, from the adjacent term) already required by (H''). The same non-binding defect exists in MAJOR_ARC_EXPLICIT.md (6) itself. MAJOR_ARC_EXPLICIT_REVIEW.md's earlier check (a-0080/a-0081) did not catch this because its item (4) verified the arithmetic from (6) to its verbal exponent list, not the squaring step from (5) to (6); this is worth a note for anyone revisiting that document, though it is not a wall for this hunt. Separately, I independently re-derived SHARP_EXPONENT.md section 2.1's correction (the real-zero/Page-exceptional distinction) from scratch and confirmed it is right, and that MAJOR_ARC_EXPLICIT_REVIEW.md item 3's defense of the original (wrong) bullet was itself a miss (it conflated 'no second zero above Page's threshold' with 'no exceptional zero at all for other characters').",
+        "integrated": "ost/prime-pair-error/trunk",
+        "notes": [
+          "map handed back by a prove attempt, ignored"
+        ]
+      },
+      "cell_pid": 911
     }
   ],
   "last_run": {
-    "ended": "2026-09-10T22:31:38.856Z",
-    "launched": 3,
-    "invocations": 74,
-    "invocation_allowance": 90,
+    "ended": "2026-09-12T03:34:30.847Z",
+    "launched": 1,
+    "invocations": 82,
+    "invocation_allowance": 84,
     "stopped_by": null,
     "drained": "awaiting-decision",
-    "why": "3 item(s) parked and 16 proposal(s) unanswered: w-sw-pin-c1, w-mean-square-bv-hybrid, w-endpoint-nonbonferroni-minorarc",
+    "why": "3 item(s) parked and 20 proposal(s) unanswered: w-sw-pin-c1, w-mean-square-bv-hybrid, w-endpoint-nonbonferroni-minorarc",
     "next": "confirm or reject them (--confirm w-fetch-pnt-constant), or re-run with --auto-advance and a cap to let the judge decide within scope"
   }
 }
