@@ -13,7 +13,7 @@ data (\(\beta>1-c_0/\log Z\)), \(c\) the constant of the zero-free region (ZF)
 below, \(b\) Page's constant in the form (Pg\('\)) below, and \(c_P\) the Page
 constant `ENDPOINT_SHARP.md` calls \(c\). Under
 \[
- c_0\le\min\big(2/9,\ \sqrt c/2,\ \sqrt b/2,\ c_P\big),
+ c_0\le\min\big(1/6,\ \sqrt c/2,\ \sqrt b/2,\ c_P\big),
 \tag{H}
 \]
 which TT's "sufficiently small" \(c_0\) satisfies, for every fixed \(c''<c_0\),
@@ -45,10 +45,25 @@ so an unconditional exponent above \(2c_0\) would exclude real zeros
 Siegel-zero statement nobody has. The exponent of this target is pinned to
 \([c_0,\,2c_0]\) by what is known.
 
-Grade: derived, one route, finite checks in section 7, not yet independently
-read. No power saving, nothing about the zeros of \(\zeta\) beyond the
-classical inputs named, and the lower bound of section 5 is conditional on a
-zero that may not exist.
+Grade: derived, one route, finite checks in section 7, independently read
+(sections 2 to 5, even case of section 5). No power saving, nothing about the
+zeros of \(\zeta\) beyond the classical inputs named, and the lower bound of
+section 5 is conditional on a zero that may not exist.
+
+**Independent check, 2026-09-12** (attempt `a-0080`,
+`MAJOR_ARC_EXPLICIT_REVIEW.md`, judged by `a-0081`). Four of five items
+confirmed, one defective: the model term in (4) and (5) dropped the Gauss-sum
+factor \(\sqrt r\), so it is \(R^{3/2}E_{\rm md}\) and not \(RE_{\rm md}\),
+the model exponent in (6) is \(2/3-3\sigma\) and not \(2/3-2\sigma\), and (H)
+needs \(c_0\le1/6\) in place of the printed \(2/9\). Corrected in place, with
+the correction marked at (4). The conclusion (S\('')\) is unchanged under the
+corrected (H). The check also found the closing sentence of section 5's
+corollary too broad and it is restated there. The check verified the two
+derivative-test bounds numerically with its own script, recomputed both
+optima and the exponents, and confirmed the Page matching including the
+case of characters induced by a real primitive character of conductor not
+dividing \(r\). The parity remark at the end of section 5 was added after
+the check and has not been independently read.
 
 ## 1. Inputs
 
@@ -189,9 +204,17 @@ by (Md) and partial summation.) Subtracting, with \(|\tau(\overline\chi)|\le\sqr
 \[
  |W(\alpha)|\le\sqrt r\,\max_{\chi\bmod r}\big|F_\chi(\theta)-H_\chi(\theta)\big|+O(\ell^2)
  \le\sqrt r\,\max_\chi\big|F_\chi-\delta_\chi K_N+1_{\rm exc}1_{q_e\mid r}1_{\chi=\chi_{e,r}}I_{\beta_e}\big|
- +8R\,E_{\rm md}+O(\ell^2).
+ +8R^{3/2}E_{\rm md}+O(\ell^2).
 \tag{4}
 \]
+**Corrected 2026-09-12** (defect found by the independent check `a-0080`):
+the first version wrote \(8RE_{\rm md}\) for the model term. The factor
+\(\sqrt r\) from the Gauss sums multiplies everything inside
+\(F_\chi-H_\chi\), the model error \(O(rE_{\rm md}(1+R/r))\) included, so
+the model term is \(\sqrt r\cdot r\,E_{\rm md}(1+R/r)\le8R^{3/2}E_{\rm md}\).
+The correction propagates to (5), to the squared bound in section 4, and to
+(H), where \(2/9\) became \(1/6\); it does not touch the \(\Lambda\) side or
+the conclusion.
 
 **Matching the exceptional zeros.** Apply (Pg\('\)) with \(Q=R\), \(T=R^3\): at
 most one zero \(\tilde\beta\) of \(\prod_{r\le R}\prod_\chi L(s,\chi)\) lies in
@@ -222,7 +245,7 @@ So, with \(\tilde\chi\) the Page-exceptional character at \((R,R^3)\) when it
 exists and differs from \(\chi_e\),
 \[
  \boxed{\ \sup_{\alpha\in I_{r,a}}|W(\alpha)|\ \ll\ \sqrt r\,N\,\Upsilon(r)
- +1_{\tilde q\mid r}\sqrt r\,Ne^{-c_0\sqrt\ell}+RNe^{-\sqrt\ell/3}.\ }
+ +1_{\tilde q\mid r}\sqrt r\,Ne^{-c_0\sqrt\ell}+R^{3/2}Ne^{-\sqrt\ell/3}.\ }
 \tag{5}
 \]
 Compared with `ARC_SPLIT_BUDGET.md` (5), which is \(\ll RNe^{-\gamma\sqrt\ell}\)
@@ -239,19 +262,20 @@ because there is no prefix \(y<N\) anywhere in (4).
 Squaring (5) and using \(\sqrt r\le\sqrt R\), \(\sqrt{R/r}\cdot\sqrt r=\sqrt R\):
 \[
  \sup_{\mathfrak M}|W|^2\ll N^2\ell^4\Big[R^2e^{-(2c/\sigma)\sqrt\ell(1+o(1))}+Re^{-(c/(2\sigma))\sqrt\ell(1+o(1))}+R^{-3}
- +Re^{-2c_0\sqrt\ell}\Big]+R^2N^2e^{-2\sqrt\ell/3}.
+ +Re^{-2c_0\sqrt\ell}\Big]+R^3N^2e^{-2\sqrt\ell/3}.
 \]
 By `ARC_SPLIT_BUDGET.md` (3) and (6), \(\int_{\mathfrak M}(|F|^2-|H|^2)^2\le\sup_{\mathfrak M}|W|^2\int_{\mathbb T}(|F|+|H|)^2\ll\sup_{\mathfrak M}|W|^2\cdot N\ell\),
 and its (8), (11) carry the rest unchanged. Hence
 \[
- E_{\rm corr}^{(Z)}(N)\ll N^3\ell^{O(1)}\Big[Re^{-2c_0\sqrt\ell}+R^2e^{-(2c/\sigma)\sqrt\ell(1+o(1))}+Re^{-(c/(2\sigma))\sqrt\ell(1+o(1))}+R^{-3}+R^2e^{-2\sqrt\ell/3}+R^{-1}\Big]
+ E_{\rm corr}^{(Z)}(N)\ll N^3\ell^{O(1)}\Big[Re^{-2c_0\sqrt\ell}+R^2e^{-(2c/\sigma)\sqrt\ell(1+o(1))}+Re^{-(c/(2\sigma))\sqrt\ell(1+o(1))}+R^{-3}+R^3e^{-2\sqrt\ell/3}+R^{-1}\Big]
  +N^3e^{-2c_m\sqrt\ell}+N^{13/5}\ell^6+N^2\ell^2 .
 \tag{6}
 \]
 With \(R=\lfloor e^{\sigma\sqrt\ell}\rfloor\) the exponents are
-\(2c_0-\sigma,\ 2c/\sigma-2\sigma,\ c/(2\sigma)-\sigma,\ 3\sigma,\ 2/3-2\sigma,\ \sigma\).
+\(2c_0-\sigma,\ 2c/\sigma-2\sigma,\ c/(2\sigma)-\sigma,\ 3\sigma,\ 2/3-3\sigma,\ \sigma\).
 The first and last balance at \(\sigma=c_0\), where the others are at least
-\(\sigma\) provided \(c_0^2\le2c/3\), \(c_0^2\le c/4\), \(c_0\le2/9\); together
+\(\sigma\) provided \(c_0^2\le2c/3\), \(c_0^2\le c/4\), \(c_0\le1/6\) (the last
+corrected from \(2/9\) with the model term, see (4)); together
 with \(2c_m=1/2-o(1)>c_0\) and the matching conditions \(c_0^2\le b/4\),
 \(c_0\le c_P\) of section 3, this is (H). Therefore
 \[
@@ -307,7 +331,7 @@ other zero of every \(\chi\bmod\tilde q\) is covered by (3). Hence, by (4) with
 \(r=\tilde q\), and (GS) with \(\tau(\tilde\chi)=\sqrt{\tilde q}\) for even
 primitive real \(\tilde\chi\),
 \[
- W(a/\tilde q+\theta)=-\frac{\tilde\chi(a)\sqrt{\tilde q}}{\phi(\tilde q)}I_{\tilde\beta}(\theta)+O\big(\sqrt{\tilde q}\,N\ell^2e^{-(c/(\kappa+3\varepsilon))\sqrt\ell}+Ne^{-\kappa\sqrt\ell}\tilde q^{-3/2}\ell^{-2}+\tilde qNe^{-\sqrt\ell/3}\big),
+ W(a/\tilde q+\theta)=-\frac{\tilde\chi(a)\sqrt{\tilde q}}{\phi(\tilde q)}I_{\tilde\beta}(\theta)+O\big(\sqrt{\tilde q}\,N\ell^2e^{-(c/(\kappa+3\varepsilon))\sqrt\ell}+Ne^{-\kappa\sqrt\ell}\tilde q^{-3/2}\ell^{-2}+\tilde q^{3/2}Ne^{-\sqrt\ell/3}\big),
 \]
 and the error is \(o(N^{\tilde\beta}/\sqrt{\tilde q})\) under the stated
 window: the first term because \(c/(\kappa+3\varepsilon)>\kappa+\varepsilon\),
@@ -318,7 +342,7 @@ TT-exceptional \(\chi_e\) exists and \(q_e\mid\tilde q\), both \(F\) and \(H\)
 carry the \(\beta_e\) term with the same coefficient and it cancels inside
 \(W\) by the first case of section 3; it changes \(|H|\) by a relative
 \(O(\sqrt{\tilde q}N^{\beta_e-1})=o(1)\). So
-\(H(a/\tilde q+\theta)=(\mu(\tilde q)/\phi(\tilde q))K_N(\theta)(1+o(1))+O(\tilde qNe^{-\sqrt\ell/3})\).
+\(H(a/\tilde q+\theta)=(\mu(\tilde q)/\phi(\tilde q))K_N(\theta)(1+o(1))+O(\tilde q^{3/2}Ne^{-\sqrt\ell/3})\).
 For \(|\theta|\le1/(8N)\): \(|K_N(\theta)|\ge N/2\),
 \(|I_{\tilde\beta}(\theta)|\ge N^{\tilde\beta}/4\), and the arguments of
 \(K_N(\theta)\) and \(I_{\tilde\beta}(\theta)\) both lie within \(\pi/8\) of
@@ -339,10 +363,35 @@ since \(2\kappa+2\varepsilon<1/2\). This gives (7). \(\square\)
 The order \(N^{2\tilde\beta+1}/\tilde q^2\) is the first term of
 `SIEGEL_UNIFORMITY.md` (23) for the correction that the target *would* carry
 if \(\tilde\chi\) were counted as exceptional; (7) says the target, which does
-not count it, carries it as error instead. For odd \(\tilde\chi\) the cross
-term's real part is smaller by a factor \(\asymp(1-\tilde\beta)N|\theta|\) and
-the same argument gives (7) with an extra \(\ell^{-1}\), or the \(|W|^4\) term
-gives \(N^{4\tilde\beta-1}/\tilde q^2\); neither is needed for the corollary.
+not count it, carries it as error instead.
+
+**The other parities** (added after the check `a-0080`, which reviewed the
+even case only; this part has not been independently read). For odd
+\(\tilde\chi\) (\(\tilde\chi(-1)=-1\)) with odd \(\tilde q\),
+\(\tau(\tilde\chi)=i\sqrt{\tilde q}\), so the cross term is
+\(2\operatorname{Re}(\overline HW)=(2\mu(\tilde q)\tilde\chi(a)\sqrt{\tilde q}/\phi(\tilde q)^2)\operatorname{Im}(\overline{K_N}I_{\tilde\beta})(1+o(1))\).
+Writing \(M=(N+1)/2\), \(\overline{K_N(\theta)}I_{\tilde\beta}(\theta)=S(\theta)\int_1^Nt^{\tilde\beta-1}e((t-M)\theta)dt\)
+with \(S=|K_N|\), and the imaginary part is
+\(S\int_0^{M-1}\big[(M+u)^{\tilde\beta-1}-(M-u)^{\tilde\beta-1}\big]\sin(2\pi u\theta)\,du\).
+The bracket is \(-(1-\tilde\beta)\,2u\,M^{\tilde\beta-2}(1+O(u/M))\), and
+\(\sin(2\pi u\theta)\) has one sign on \(0<u<M\) when \(0<\theta\le1/(8N)\), so
+for \(1/(16N)\le\theta\le1/(8N)\) the imaginary part is
+\(\asymp(1-\tilde\beta)N^{1+\tilde\beta}=(\kappa/\sqrt\ell)N^{1+\tilde\beta}\)
+with a fixed sign. The argument above then gives
+\[
+ E_{\rm corr}^{(Z)}(N)\ \ge\ c_1'\,\kappa^2\,\frac{N^3e^{-2\kappa\sqrt\ell}}{\tilde q^{\,2}\,\ell}\,(1+o(1)),
+\]
+which is (7) with an extra \(\kappa^2/\ell\); the corollary's arithmetic
+absorbs a power of \(\ell\) in \(e^{(\kappa'-2\kappa)\sqrt\ell}\), so its
+conclusion holds for odd \(\tilde\chi\) of odd conductor as well. For even
+conductors (\(4\mid\tilde q\) or \(8\mid\tilde q\)), \(\mu(\tilde q)=0\), the
+model has no main term at \(a/\tilde q\), the cross term vanishes and only
+\(|W|^4\) remains: \(\int_J|W|^4\asymp N^{4\tilde\beta-1}/\tilde q^{\,2}\), the
+second term of `SIEGEL_UNIFORMITY.md` (23), so
+\(E_{\rm corr}^{(Z)}\gg N^3e^{-4\kappa\sqrt\ell}/\tilde q^{\,2}\) and the
+corollary for those conductors starts at \(\kappa'>4c_0\). The ceiling
+\(2c_0\) is therefore set by the odd conductors, both parities of the
+character.
 
 **Corollary (what an exponent above \(2c_0\) would establish).** Suppose
 \(E_{\rm corr}^{(Z)}(N)\ll N^3\exp(-\kappa'\sqrt\ell)\) unconditionally for
@@ -356,10 +405,15 @@ then (7) and the assumed bound contradict each other once
 supplies for small \(\varepsilon\). Hence: *no even primitive real character
 of odd conductor \(\tilde q\) has a real zero \(\tilde\beta\) with
 \(1-\tilde\beta\le c'/\log\tilde q\)*, \(c'=c'(\kappa',c_0,\varepsilon)>0\),
-for all \(\tilde q\) beyond an effective bound. That is an effective
-zero-free interval \((1-c'/\log\tilde q,1)\) for real zeros of real
-characters, i.e. the non-existence of Siegel zeros in the classical form.
-Landau and Page give at most one such zero per range; excluding it is open.
+for all \(\tilde q\) beyond an effective bound. **Scope of that sentence,
+corrected after the check `a-0080`:** it is an effective zero-free interval
+\((1-c'/\log\tilde q,1)\) for the real zeros of *even primitive real
+characters of odd conductor, beyond an effective bound*; with the remark
+below it extends to odd characters of odd conductor. It is not the classical
+Siegel-zero statement, which has no parity or conductor qualification and
+no effective threshold. It is a statement of the same shape on a restricted
+family, and for that family Landau and Page still give only "at most one
+such zero per range"; excluding it is open there too.
 
 **Consequence for this hunt.** With the target fixed as it is, the exponent
 constant in \(N^3\exp(-c''\sqrt\ell)\) lies in \([c_0,2c_0]\): (S\(''\))
@@ -458,5 +512,8 @@ own exceptional threshold \(c_0\), with a conditional lower bound that puts
 the reachable exponent in \([c_0,2c_0]\) short of a Siegel-zero theorem. No
 power saving; no change to the \(\sqrt\ell\) shape, which section 6 argues is
 inherent to the inputs; nothing about the zeros of \(\zeta\); the lower bound
-is conditional on a zero that may not exist and is stated for even
-characters of odd conductor. Awaits an independent read of sections 2 to 5.
+is conditional on a zero that may not exist; it is proved for even
+characters of odd conductor, extended to odd characters of odd conductor in a
+remark that has not been independently read, and gives only the weaker
+\(4c_0\) for even conductors. Sections 2 to 5 have had an independent read
+(`MAJOR_ARC_EXPLICIT_REVIEW.md`); its one defect is corrected in place.
