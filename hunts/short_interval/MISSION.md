@@ -336,14 +336,27 @@ the certificate only through (H3), an arithmetic identity for
    `sqrt T log T`, absorbed iff `theta > 1/2`; free in the whole range
    `theta > 0.51332`. Or take `D0 = T^beta` with `lambda/4 < beta < theta`,
    which changes one frozen constant.
-3. **Short-window zero count.** `N_xi'(T, T+H) = H L/2pi + O(H + log T)` is
-   not stated in the tree, but every intermediate is: the half-contour
-   identity at good heights, the `Y` bound, the gamma side, the local count.
-   Two new lemmas, the window count and the short-window `mu`-integrals, are
-   corollaries. A statement is missing, not an argument.
-4. **Grid bookkeeping.** `d_H = floor(L H/2pi)`, the end strips at `T` and
-   `T + H`, and `T <= tau_k <= T + H`; every downstream use is an upper bound
-   and holds a fortiori.
+3. **Short-window zero count, in the shape the interface consumes.** The
+   tree's `prop_trace` and `prop_trace_W` take the count to within
+   `O(log T)` of the `mu`-main term, so the statement to prove first is
+   `|N_xi'(T, T+H) - integral_T^{T+H} mu| <= C log T`, which the contour
+   chain gives exactly (half-contour identity at good heights, the `Y` bound,
+   the gamma side, the local count); Wang's form
+   `N_xi'(T, T+H) = H L/2pi + O(H + log T)` is then a corollary, with the
+   `H^2/T` term living in the `mu`-integral and not in the count error. Two
+   new lemmas, the window count and the short-window `mu`-integrals, are
+   corollaries. A statement is missing, not an argument. (Reworded after
+   the adversarial re-audit, which found the earlier form was not what the
+   interface consumes.)
+4. **Grid bookkeeping, two-sided.** `d_H = floor(L H/2pi)` as a floor with
+   **both** floor inequalities re-proved, because `riemann_sum_monotone`
+   (`PrimeSideA/Basic.lean:890`, the main term of the trace) and `tau_d_gt`
+   (`PrimeSideA/EndsE1.lean:266`, the missing-lattice-mass majorant) consume
+   the lower one; the end strips at `T` and `T + H`; and
+   `T <= tau_k <= T + H`. The first audit's "every downstream use is an upper
+   bound" was false and a formalization following it literally would not
+   compile; the adversarial re-audit caught it. Both uses localize verbatim
+   with `2T` replaced by `T + H`.
 5. **Constants.** The tree's decimals are fixed at bandwidth near 1 and do
    not transfer. Bandwidth-theta decimals come from `landscape.py`
    (`0.130262` at `0.55`, `0.281718` at `0.60`, `0.682554` at `0.80`) and
@@ -354,8 +367,24 @@ the certificate only through (H3), an arithmetic identity for
    theorem here; do not quote it as one.
 7. **Framing**, as above.
 
+**The audit was then attacked.** `AUDIT-dyadic-adversarial.md` is a second
+session told to break the verdict: it opened all 78 citations (all correct),
+built the import graph (254 of 316 modules reach the headline theorem) and
+grepped every reachable file for the range, re-derived every exponent, and
+confirmed no circularity in the short-window count. **The verdict stands.**
+It found the inventory incomplete (`ThmE/PPChi.lean` and
+`ThmE/PrimeSideChi.lean` sit on the `xi'` prime side's import path and carry
+the range inside the Montgomery-Vaughan identity; class (a) and (b), same
+mechanism), reworded conditions 3 and 4 as above, and listed eight
+corrections to the proof outline, the largest being that the range enters
+`PPUpper` through `PrimeSide.Setting.T`, where `p.T` is at once the height
+and the range length, so a `(T, U)` parameterization must be threaded
+through `Setting` and not only `Params`; and that the `lambda -> theta`
+limit lemmas are hard-wired to endpoint 1 and need a new, trivial, version.
+
 **The eight-step proof outline**, mirroring Wang's sections and naming the
-Lean lemma each step localizes, is §6 of `AUDIT-dyadic.md`. The
+Lean lemma each step localizes, is §6 of `AUDIT-dyadic.md`, read together
+with §D of the adversarial re-audit. The
 formalization footprint is about forty touch points across the files listed
 there, with `Coeff/`, `Window.lean`, `ZeroSide.lean`, `MV/` and `WeilEF/`
 untouched; the audit suggests making the range a second parameter `(T, U)`

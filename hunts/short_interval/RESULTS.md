@@ -302,7 +302,10 @@ input to it.
 zero count `N_xi'(T, T+H) = H L/2pi + O(H + log T)` and the two short-window
 `mu`-integrals, each a corollary of lemmas already in the tree. The seven
 conditions and the eight-step proof outline are in `MISSION.md` §6.2 and
-`AUDIT-dyadic.md` §6. The Hardy `Z'` arm carries the same verdict verbatim.
+`AUDIT-dyadic.md` §6, read with §D of `AUDIT-dyadic-adversarial.md`, a
+second session told to break the verdict, which confirmed it, opened all 78
+citations, reworded conditions 3 and 4, and listed eight corrections to the
+outline. The Hardy `Z'` arm carries the same verdict verbatim.
 
 ## 5. Two readings withdrawn the same day
 
