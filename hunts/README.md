@@ -76,6 +76,45 @@ control roles — and the checks are the ones the tree already owns:
 > They are #49 and #50. The directories `lambda_dh_bounds/` and
 > `prime_zeta_rightmost/` are unchanged and are the stable references.
 
+### Hunt #52: is Lambda_DH exactly Delta^2/2? (`lambda_dh_exact/`)
+
+**Status: OPEN, theory phase only (2026-08-18).** Asks whether Hunt #50's
+bracket 0.0576 < Lambda_DH <= 0.19242481458 (narrow frame) collapses to a
+point. It would, if the backward-heat landing times t* of Davenport-Heilbronn
+conjugate pairs approached the isolated-pair value y0^2/2 as the depth y0
+approached the sharp strip half-width Delta = 0.62036249819. The theory phase
+derives, rather than assumes, three things: every landing time is a floor for
+Lambda_DH (Dobner's half-line, unconditional); Lambda_DH equals their supremum
+under a no-creation step that the time-reversed Sturm zero-number theorem
+supplies and 600 sampled polynomial configurations support; and the crowding
+correction obeys dy/dt = -1/y - 2 pi rho, so a deep pair lands in time
+proportional to y0/log(gamma) rather than y0^2/2. Since depth near Delta forces
+great height and great height forces large rho, the pre-registered verdict is
+that the bracket does **not** collapse and sup t* sits in [0.058, 0.075]
+narrow. A one-parameter crowding model, calibrated on Hunt #4's nine landings,
+reproduces them to rms 0.54% and a census holdout to 0.79%; the probe is
+`theory.py`. Nine predictions
+with numbers are registered in `MISSION.md` before any evaluation above height
+600. Nothing here is evidence about RH.
+
+**Interrupted, and what the interruption left behind (recorded 2026-09-12).**
+The three evaluation agents and the adjudicator all died on API 529 errors on
+2026-08-18, so no verdict was ever written and nothing here has been attacked.
+They did write their artifacts to disk first, and those are committed as raw
+material rather than discarded: `deep_zeros.json` (a screen whose float route
+agrees with mpmath to 1e-14 at three checked points), `deep_zeros_1e6.json`
+(one off-line zero located at gamma = 1000459.7433532759, beta =
+0.8583118590734415, y0 = 0.3583, unit winding with defect 2.2e-16, float64
+Euler-Maclaurin plus Newton, `abs_f` 4.4e-11), `landing.json` (the nine-pair
+census with measured neighbour distances), and `theory_results.json`. Read all
+four as **measured, unadjudicated, and unreviewed**: the zero is float grade
+and not enclosure-decided, the screen is not exhaustive over its window, and
+the crowding model's extrapolation to depths near Delta remains an
+extrapolation from a fit trained at y0 <= 0.37. The one thing worth noting for
+whoever resumes: that height-1e6 zero is shallower than the height-240 pair
+Hunt #4 already had, which is the direction the theory predicts, and it is the
+only evaluation datum the hunt ever produced.
+
 ### Hunt #50: two-sided bounds for the de Bruijn-Newman constant of Davenport-Heilbronn (`lambda_dh_bounds/`)
 
 **Status: closed (2026-08-16), gate verdict publication candidate; hardened
