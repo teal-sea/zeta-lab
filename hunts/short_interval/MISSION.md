@@ -177,7 +177,7 @@ deleted end strips of width `2 pi L` against it, and `S15`'s span bound being
 `N(T,2T)` and reappearing against `HL = T^theta log T` **carries a hidden
 `T^(1-theta)`**. Check that before anything else on any route here.
 
-## 5. Finding three: window shape is worth nothing, so there is nothing to re-optimize
+## 5. Finding three: window shape is worth nothing in a short interval, so there is nothing to re-optimize
 
 **Measured; `landscape.py` reproduces all of it.** Substituting
 `v(u) = phi(u/lambda)` into the laboratory's functional gives
@@ -198,13 +198,20 @@ flat-minus-optimal gap is about `lambda^3/180` (measured `0.00122` at
 `lambda = 0.6` against `0.00120`; `0.00583` at `lambda = 1` against
 `0.00556`). The optimal window flattens as the bandwidth shrinks.
 
+Be precise about what that does and does not say. At full bandwidth the flat
+window gives `2 - 4/3 = 0.6667` and the optimal one `0.6725`; that `0.0058` is
+**exactly the Montgomery-Taylor improvement over Montgomery's two thirds**, so
+at bandwidth one the window shape is the whole famous step. The point is that
+its worth decays as bandwidth cubed, so it is the full-range game and not the
+short-interval one.
+
 Consequence, and it kills a recommendation an earlier draft of this file made:
 at `theta = 0.55` the whole window-shape game is worth about `9e-4`, and an
 n-point family whose bandwidth-one share of it is `2.4e-4` is worth roughly
 `4e-5`. **There is nothing to re-optimize. Wang's `c(theta)` already is the
 re-optimization.**
 
-## 6. Route one: the xi-prime arm, which nobody occupies
+## 6. Route one: the xi-prime arm, unoccupied as far as was checked
 
 **The best bet here, and the only place the tree holds something the field
 does not.**
@@ -215,7 +222,12 @@ Montgomery's `F(x) = |x|` for zeta, and Farmer-Gonek-Lee's
     F_1(x) = |x| - 4x^2 + sum_{k>=1} ((k-1)!/(2k)!) (2|x|)^(2k+1)
 
 for `xi'`, which is this tree's own line of work. **Wang does only zeta.** He
-does not mention `xi'`, `F_1`, or Farmer-Gonek-Lee.
+does not mention `xi'`, `F_1`, or Farmer-Gonek-Lee. **What was searched, per
+the novelty rule in `CLAUDE.md`:** three papers. Farmer-Gonek-Lee (JLMS 2014)
+is RH-conditional and full-range; Alpöge-Furman Remark 7.1 is unconditional
+and dyadic; Wang is zeta only. Nothing beyond those three was searched, so
+"unoccupied" means unoccupied in those three and in this tree, and the hunt
+owes a real prior-art pass before any stronger word.
 
 Measured in `landscape.py`, with the `F_1` implementation calibrated against
 **two published figures** from Alpöge-Furman Remark 7.1 (flat window at

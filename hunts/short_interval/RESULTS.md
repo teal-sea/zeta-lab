@@ -53,7 +53,7 @@ all absorbing errors against `N(T, 2T)`. A per-block error absorbed against
 `N(T, 2T)` and reappearing against `T^theta log T` **carries a hidden
 `T^(1-theta)`**, and that hazard recurs on every route here.
 
-## 3. Finding three: window shape is worth nothing
+## 3. Finding three: window shape is worth nothing in a short interval
 
 Measured in `landscape.py`. Writing the functional as
 `R = A(phi)/lambda + lambda B(phi)` with `A = int phi^2/(int phi)^2 >= 1` by
