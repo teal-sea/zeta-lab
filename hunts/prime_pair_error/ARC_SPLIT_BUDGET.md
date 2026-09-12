@@ -402,9 +402,22 @@ is available to the hunt; (9) uses exactly Vaughan's. The two judged proposals
 of `a-0071`, `w-corr-longwindow-meansquare` (equation (20)) and
 `w-corr-crossterm-cancellation` (the two cross terms), are addressed as
 follows: the second is answered in this section; the first concerns the
-\(q=1\) positive-kernel majorant of `LOCALIZED_MIXED_ENERGY.md`, which is a
-bound on a majorant of the mixed energy and not a component of (12); (12)
-does not route through it.
+mean square (20) of the long-window prefix sums \(A(k)=\sum_{n\le k}w_n\),
+the \(q=1\) positive-kernel majorant of `LOCALIZED_MIXED_ENERGY.md`.
+**Scope, corrected 2026-09-12.** The first version of this paragraph said
+(12) does not route through that quantity. That was too strong. (12) does
+use the prefix sums \(A(k)\), and their analogues in every residue class
+modulo \(r\le R\), through (1\('\)) in section 3(a): the bound (5) on
+\(|W|\) over a major arc is the supremum of those prefix sums, times
+\(r(1+2\pi N|\theta|)\). What (12) does not use is their mean square: a
+bound for (20) of the shape \(N^{3-\eta}\) would not enter (12), and (12)
+would not improve if (20) were improved, because (5) is a supremum bound
+and does not see the mean square; and a gain confined to the major arcs
+would in any case move the balance constant \(\sigma\), not the shape,
+since at the optimum the major-arc term is balanced against the minor-arc
+one. The two proposals are therefore not duplicated by
+this document; they are made irrelevant to this budget, which is a
+different thing from being answered.
 
 **What a stronger bound would establish.** A fixed power saving
 \(E_{\rm corr}^{(Z)}\ll N^{3-\delta}\) would, through the correlation identity

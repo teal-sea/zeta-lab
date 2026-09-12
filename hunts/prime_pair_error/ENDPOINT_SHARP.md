@@ -708,8 +708,15 @@ in the orchestrator session, which had network access the cell did not.
   That check was not run from this session and its transcript is not in
   this repository; what is recorded here is the operator's report of it,
   which is the same standing as every other operator-supplied fact in
-  this hunt. With it, every input of section 4 has been read against a
-  primary source by at least two readers.
+  this hunt. **Scope, corrected 2026-09-12.** The first version of this
+  sentence said that with it every input of section 4 had been read against
+  a primary source by at least two readers. That is true of (DF) only. (Pg)
+  was read verbatim once, in this session, against Basak and Pratt; (FL) is
+  consumed here as `SIEGEL_UNIFORMITY.md` consumes TT Lemma 5.1 and was not
+  re-read against Friedlander and Iwaniec in this hunt; (Cmp) is a choice of
+  constant, not a source. The claim that stands: every source input of
+  section 4 has been read against a primary source at least once, and (DF)
+  twice.
 - **The level \(D_1\).** Every error term of section 4 was recomputed with
   \(D_1=\lfloor N^{1/2}\rfloor\) in place of \(D_0\): \(s_1=\sqrt\ell/2\),
   \(e^{9-s_1}=e^9\exp(-\sqrt\ell/2)\), remainders \(bD_1\ll\ell^{1/2}N^{1/2}\)
