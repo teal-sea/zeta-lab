@@ -297,6 +297,76 @@ lattice-spacing artifact (stable from h = 1/16 to 1/64), and every finite-X kern
 included, is negative beyond X. Worked as a node board from `board.json`; the first task is the
 numerical falsifier, which #110 ran but did not commit. Either answer closes the hunt.
 
+### Hunt #119: the bandwidth dial was physical all along (`short_interval/`)
+
+**Status: open, brief and reading only. Two routes closed on analysis before
+any compute; no mathematics attempted.** Opened 2026-09-12 after Biao Wang's
+arXiv:2609.07918 (posted 2026-09-07) reached the laboratory five days late and
+by way of an unsolicited email rather than any mechanism in this tree. Wang
+proves unconditionally that zeros in `(T, T + T^theta]`, `0 < theta < 1`, are
+simple and on the line in proportion at least
+`c(theta) = 2 - theta/2 - (1/sqrt 2) cot(theta/sqrt 2)`, and distinct in
+proportion at least `(1 + c(theta))/2`.
+
+**The reading, measured.** `hunts/frontier_map/frontier.py:zeta_H_closed`,
+taken from the source paper's eq. (7.4), already computes that function as
+the bandwidth landscape `H(lambda)`. It equals Wang's `c(theta)` to 1e-16 at
+five bandwidths and crosses zero at `0.5501939647441547` against Wang's
+printed `theta_0 = 0.550193964744154`; the same module's `Hd = (1 + H)/2` is
+Wang's distinct companion. **Both constants in Wang's Theorem 1.1 were
+already being computed in this tree.** What Wang adds is not the curve but its
+interpretation: `frontier.py` records bandwidth as a dial "capped at 1 by the
+Rudnick-Sarnak / Montgomery support restriction", held as a hypothetical,
+whereas his Theorem 2.2 (an unconditional short-interval pair-correlation
+formula, valid for `supp g` in `[-lambda, lambda]` with `lambda < theta`, the
+counterpart of BGSTB's Lemma 5) shows bandwidth theta is exactly what counting
+in an interval of length `T^theta` costs. **The lab's dial and Wang's interval
+exponent are the same number**, so the landscape's interior carries an
+unconditional theorem. That is a reading of existing material, not a new
+result, and the hunt says so.
+
+**Closed on analysis: substituting `c(theta)` into `Phi_3` and `Phi_4`.** Two
+independent reasons. The bridges consume band `[-1,1]` and nothing else, with
+`famlib.py` holding `H` as a module constant and a kernel that is the closed
+form of `int_{-1/2}^{1/2} cos(sqrt 2 t) cos(2 pi x t) dt` with no free
+half-length. And they are dyadic: 21 occurrences of `2 * T` in
+`Bridge/Main.lean` alone, with `S8`, `S9` and `S15` all absorbing errors
+against `N(T, 2T)`, so a `T^theta` denominator needs each re-derived. Also
+recorded, for the bridges rather than for any bound: both are affine with
+slope just above 1 and a negative intercept, a fixed overhead that does not
+shrink with the input, so even a legitimate substitution would lose to the
+landscape below `theta` about 0.808 and 0.830.
+
+**Two readings written and withdrawn the same day**, kept in `RESULTS.md` §3
+rather than deleted. That the closed form was the hunt's finding: it is Wang's
+Proposition 4.1 (4.2) and was already in the tree. And that
+`PALOMAR-2026-08-21-000004` is the `lambda = 1` case of that proposition: it
+is not, and the error was conflating the tree's two different constants both
+named `c*`, the zeta one with kernel `|alpha|` and the `xi'` one with the
+Farmer-Gonek-Lee `F_1`. That second error would have sent a session to
+formalize a generalization of the wrong theorem.
+
+**What is open**, in the order `MISSION.md` gates them: whether
+Carneiro-Chandee-Littmann-Milinovich Corollary 14 generalizes to bandwidth
+theta and so caps the whole method class, cheap and gating everything; whether
+Wang's Theorem 2.2 supplies the pair-correlation input the `xi'` functional
+consumes, since `frontier_map` computes the `F_1` landscape too and **Wang
+does only zeta**, which is the one place the tree holds something the field
+does not; the configuration ceiling and the re-optimized certificates at
+bandwidth theta, both bandwidth-one numbers today (`0.6818286874638` and
+`sup Phi_n <= 0.675142509660254`); and the distinct-zero track, never chased
+here.
+
+**Corrections the hunt found and owes the tree**, listed with fixes in
+`MISSION.md` §9: `docs/35` predates hunt #118's closure and reads as an open
+opportunity; `docs/35` and `hunts/outband_intake/RESULTS.md` disagree on the
+measurement (`+0.0068` with error `2.2e-3` against `+0.0065` with `1.8e-3`);
+and `references/papers.md` carries **no entry at all** for Baluyot, Goldston,
+Suriajaya and Turnage-Butterbaugh, whose Lemma 5 is the arithmetic engine of
+this entire line of work.
+
+Nothing here bears on RH (`docs/08`).
+
 ### Hunt #110: the free out-of-band fact is worth 0.005 to 0.009 and no certificate can spend it (`outband_intake/`)
 
 **Status: probe, complete. GAP, not a barrier.** BGSTB 2023 (arXiv:2306.04799,
