@@ -179,6 +179,17 @@ whoever resumes: that height-1e6 zero is shallower than the height-240 pair
 Hunt #4 already had, which is the direction the theory predicts, and it is the
 only evaluation datum the hunt ever produced.
 
+The contract files the interrupted runs never wrote were reconstructed from
+those artifacts on 2026-09-12: `RUNS.md` carries a manifest for all six runs
+including the null one, and `RESULTS.md` states, item by item, that the hunt is
+entitled to say nothing about Lambda_DH, which of the five kill conditions was
+evaluated (none), and what whoever resumes should decide first. One control did
+run and is worth the reading: varying the screen's inner abscissa over
+t in [8, 600] flags 1, 7 and 13 windows at Re s = 0.85, 0.75 and 0.55, strictly
+nested as the argument principle requires, and the single window the shallowest
+screen flags is [228, 248], which holds the pair at gamma = 240.4046 that
+`flow_repair/` had measured independently and earlier.
+
 **Renumbered from #52 on 2026-09-12.** The hunt was opened on a branch that
 had not yet seen this case log's growth past #52, and main took that number
 for `r_e2ee73/` first; the directory name never changed.
