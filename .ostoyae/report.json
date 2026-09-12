@@ -1,6 +1,11 @@
 {
   "wall": "",
-  "ahead": "Reviewed the third revision's two section-4 substitutions in ENDPOINT_SHARP.md (input (DF) and the separate sieve level D_1) and found no defect in either, across all four assigned checks (the level, the DF input and its frozen-at-x remark, the exceptional-data matching, and the Small y reduction). Written up in hunts/prime_pair_error/ENDPOINT_SHARP_REVIEW_2.md with a new probe script and saved numeric results. One thing this attempt could not do: this cell's tool set has no network access, so the word-for-word comparison of the (DF) quotation against arXiv:2003.02201v1 was not repeated here; it is treated as given per the document's own note that it was already checked in the orchestrator session. If a future attempt has web access and wants a second independent check of that quotation specifically, that is the one open piece.",
-  "work": [],
-  "edges": []
+  "ahead": "The review found no defect in any of the five items of ARC_SPLIT_BUDGET.md; the arc-split constant 2 gamma/3 stands, along with the recomputed true optimum gamma/43 of the previous budget (versus its stated gamma/240). One sub-step (the m>sqrt N denominator range's auxiliary sieve-tail lemma, and the linear-piece constants generally in section 4.1) was checked only at the order-of-magnitude/structural level, not re-derived symbol by symbol; it is not the binding term in any budget, so this does not threaten the conclusion, but a future check could redo it in full if section 4.1 is ever load-bearing elsewhere.",
+  "answer": true,
+  "work": [
+    {
+      "id": "w-arc-split-4.1-linear-full-rederivation",
+      "what": "In hunts/prime_pair_error/ARC_SPLIT_BUDGET.md section 4.1 ('The linear pieces'), fully re-derive the three denominator-range bounds for the linear part of the correction polynomial C_N(h) (the terms involving u_q(h)J_1(h)+v_q(h)J_2(h) via the Gauss-sum expansion chi(h)tau(chibar)=sum_a chibar(a)e(ah/q)), matching each constant the way the quadratic piece was matched in ARC_SPLIT_BUDGET_REVIEW.md item 4. Also independently re-derive the auxiliary estimate used in the m>sqrt N range, sum_{m>X, g|m} phi(m)^{-2} << g phi(g)^{-2} X^{-1} ell^{O(1)}, from first principles (not by citation), and confirm it feeds into a coefficient bound of order N q tau(h) ell^{O(1)} / sqrt N as claimed. Report whether the claimed final orders N^3 ell^{O(1)}/R^2 (for R<qd<=sqrt N), N^{2+o(1)} (for qd>sqrt N), and N^3 ell^{O(1)}/R (for qd<=R) survive exactly, and whether any constant or power of ell differs from what is stated. This term is not currently binding in any budget, so treat this as a completeness check rather than an urgent one."
+    }
+  ]
 }
