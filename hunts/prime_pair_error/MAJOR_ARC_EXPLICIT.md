@@ -236,10 +236,20 @@ real \(\chi\bmod r\) in (3), and for the model's \(\beta_e\):
 - Every other zero of every \(L(s,\chi)\), \(\chi\bmod r\le R\), with
   \(|\gamma|\le T\) lies outside the Page region, hence has
   \(\beta\le1-b/(4\sigma\sqrt\ell)\); it also lies outside (ZF)'s region. It is
-  in \(\mathcal Z_\chi(T)\) and is covered by (3). (A real zero of a real
-  character that is not the Page-exceptional one is not exceptional for (ZF)
-  either, since by (ZF) each real \(L(s,\chi)\) has at most one real zero in
-  its region and that one would be the Page zero.)
+  in \(\mathcal Z_\chi(T)\) and is covered by (3). **Corrected 2026-09-12**
+  (`SHARP_EXPONENT.md` section 2.1; the check `a-0080` confirmed the
+  original wording and did not see this): the first version added in
+  parentheses that a real zero of a real character which is not the Page
+  zero is not exceptional for (ZF) either. That does not follow: (ZF) allows
+  one real zero per real \(\chi\) in its own region, Page allows one among
+  all characters in a smaller region, and a real zero in
+  \((1-c/\log2r,\ 1-b/\log R^4]\) is the first and not the second. Such a
+  zero is not in \(\mathcal Z_\chi(T)\); there is at most one per real
+  \(\chi\), it contributes \(|I_\beta|\le2N^\beta\le2Ne^{-(b/(4\sigma))\sqrt\ell}\)
+  to \(F_\chi\), and the term \(e^{-(b/(4\sigma))\sqrt\ell}\) is to be added to
+  \(\Upsilon(r)\) in (3) and (5). In the budget (6) it is
+  \(Re^{-(b/(2\sigma))\sqrt\ell}\), with exponent \(b/(2\sigma)-\sigma\ge\sigma\)
+  at \(\sigma=c_0\) under (H) (\(c_0^2\le b/4\)); nothing else changes.
 
 So, with \(\tilde\chi\) the Page-exceptional character at \((R,R^3)\) when it
 exists and differs from \(\chi_e\),
