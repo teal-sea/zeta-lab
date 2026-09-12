@@ -54,10 +54,21 @@ left between the two bounds is \(\ell^{O(1)}\tilde q^{\,2}\). The arc balance
 that every budget since `ENDPOINT_BOUND.md` was built on is no longer the
 binding constraint; the minor arcs only need \(R\ge e^{2c_0\sqrt\ell}\).
 
-Grade: derived, one route, finite checks in section 5, not yet independently
-read. Nothing about the zeros of \(\zeta\) beyond the classical inputs;
-the lower half of the two-sided statement is conditional on a zero that may
-not exist.
+Grade: derived, one route, finite checks in section 5, independently read.
+Nothing about the zeros of \(\zeta\) beyond the classical inputs; the lower
+half of the two-sided statement is conditional on a zero that may not exist.
+
+**Independent check, 2026-09-12** (attempt `a-0082`,
+`SHARP_EXPONENT_REVIEW.md`). All five items confirmed: the dyadic reduction,
+the obstruction of section 1.2 including the negative claim that no known
+input supplies the missing power at interval length \(\asymp\sqrt N\), the
+dissection of section 1.3, the mechanism of section 2 with the per-arc
+integral and its flatness in \(R\) recomputed by a fresh script, and the
+correction 2.1 (the check agrees it was a miss of `a-0080`). One defect,
+non-binding: the term \(R^2e^{-(2c/\sigma)\sqrt\ell}\) in (7), inherited from
+`MAJOR_ARC_EXPLICIT.md` (6), should be \(Re^{-(2c/\sigma)\sqrt\ell}\); it is
+dominated by its neighbour and induces a condition weaker than one already
+in (H\(''\)). Corrected in both documents, marked at (7).
 
 ## 1. The assigned attack, and where the obstruction sits at cutoff \(R\)
 
@@ -260,15 +271,20 @@ Collecting section 2 with `ARC_SPLIT_BUDGET.md` (4), (11) and
 `MAJOR_ARC_EXPLICIT.md` (3), (4), with \(R=\lfloor e^{\sigma\sqrt\ell}\rfloor\):
 \[
  E_{\rm corr}^{(Z)}(N)\ll N^3\ell^{O(1)}\Big[e^{-2c_0\sqrt\ell}+R^{-1}
- +R^2e^{-(2c/\sigma)\sqrt\ell(1+o(1))}+Re^{-(c/(2\sigma))\sqrt\ell(1+o(1))}+Re^{-(b/(2\sigma))\sqrt\ell}
+ +Re^{-(2c/\sigma)\sqrt\ell(1+o(1))}+Re^{-(c/(2\sigma))\sqrt\ell(1+o(1))}+Re^{-(b/(2\sigma))\sqrt\ell}
  +R^{-3}+R^3e^{-2\sqrt\ell/3}+R^4e^{-(2/3+2c_0)\sqrt\ell}\Big]
  +N^3e^{-2c_m\sqrt\ell}+N^{13/5}\ell^6+N^2\ell^2 .
 \tag{7}
 \]
-The first term is the Page-allowed zero, now without \(R\). Take
-\(\sigma=2c_0\). The exponents of the remaining terms are then
-\(2c_0,\ c/c_0-4c_0,\ c/(4c_0)-2c_0,\ b/(4c_0)-2c_0,\ 6c_0,\ 2/3-6c_0,\ 2/3-6c_0\),
-each at least \(2c_0\) when \(c_0^2\le c/6\), \(c_0^2\le c/16\), \(c_0^2\le b/16\),
+(**Corrected 2026-09-12**, defect found by the check `a-0082`: the third
+term was printed as \(R^2e^{-(2c/\sigma)\sqrt\ell(1+o(1))}\), inherited from
+`MAJOR_ARC_EXPLICIT.md` (6). Squaring \(\sqrt r\cdot\sqrt{R/r}=\sqrt R\) gives
+\(R\), not \(R^2\); the term is in any case dominated by the one after it.
+Neither (H\(''\)) nor the conclusion changes.) The first term is the
+Page-allowed zero, now without \(R\). Take \(\sigma=2c_0\). The exponents of
+the remaining terms are then
+\(2c_0,\ c/c_0-2c_0,\ c/(4c_0)-2c_0,\ b/(4c_0)-2c_0,\ 6c_0,\ 2/3-6c_0,\ 2/3-6c_0\),
+each at least \(2c_0\) when \(c_0^2\le c/4\), \(c_0^2\le c/16\), \(c_0^2\le b/16\),
 \(c_0\le1/12\); with \(2c_m=1/2-o(1)>2c_0\) and the Page-matching condition
 \(c_0\le b/(4\sigma)=b/(8c_0)\), i.e. \(c_0^2\le b/8\), and TT's uniqueness
 \(c_0\le c_P\), this is (H\(''\)). Therefore
@@ -361,5 +377,6 @@ it reaches the ceiling that `MAJOR_ARC_EXPLICIT.md` set: the exponent of the
 fixed target is \(2c_0\). No power saving; the shape \(\sqrt\ell\) is
 unchanged and inherent; nothing about the zeros of \(\zeta\); the lower half
 of the two-sided statement is conditional on a Page-allowed zero existing
-and is stated for odd conductors. Awaits an independent read of sections
-1.2, 2 and 3.
+and is stated for odd conductors. Sections 1 to 3 have had an independent
+read (`SHARP_EXPONENT_REVIEW.md`); its one non-binding defect is corrected
+in place.

@@ -271,20 +271,24 @@ because there is no prefix \(y<N\) anywhere in (4).
 
 Squaring (5) and using \(\sqrt r\le\sqrt R\), \(\sqrt{R/r}\cdot\sqrt r=\sqrt R\):
 \[
- \sup_{\mathfrak M}|W|^2\ll N^2\ell^4\Big[R^2e^{-(2c/\sigma)\sqrt\ell(1+o(1))}+Re^{-(c/(2\sigma))\sqrt\ell(1+o(1))}+R^{-3}
+ \sup_{\mathfrak M}|W|^2\ll N^2\ell^4\Big[Re^{-(2c/\sigma)\sqrt\ell(1+o(1))}+Re^{-(c/(2\sigma))\sqrt\ell(1+o(1))}+R^{-3}
  +Re^{-2c_0\sqrt\ell}\Big]+R^3N^2e^{-2\sqrt\ell/3}.
 \]
 By `ARC_SPLIT_BUDGET.md` (3) and (6), \(\int_{\mathfrak M}(|F|^2-|H|^2)^2\le\sup_{\mathfrak M}|W|^2\int_{\mathbb T}(|F|+|H|)^2\ll\sup_{\mathfrak M}|W|^2\cdot N\ell\),
 and its (8), (11) carry the rest unchanged. Hence
 \[
- E_{\rm corr}^{(Z)}(N)\ll N^3\ell^{O(1)}\Big[Re^{-2c_0\sqrt\ell}+R^2e^{-(2c/\sigma)\sqrt\ell(1+o(1))}+Re^{-(c/(2\sigma))\sqrt\ell(1+o(1))}+R^{-3}+R^3e^{-2\sqrt\ell/3}+R^{-1}\Big]
+ E_{\rm corr}^{(Z)}(N)\ll N^3\ell^{O(1)}\Big[Re^{-2c_0\sqrt\ell}+Re^{-(2c/\sigma)\sqrt\ell(1+o(1))}+Re^{-(c/(2\sigma))\sqrt\ell(1+o(1))}+R^{-3}+R^3e^{-2\sqrt\ell/3}+R^{-1}\Big]
  +N^3e^{-2c_m\sqrt\ell}+N^{13/5}\ell^6+N^2\ell^2 .
 \tag{6}
 \]
+(**Corrected 2026-09-12**, found by the check `a-0082` of `SHARP_EXPONENT.md`:
+the second term was printed as \(R^2e^{-(2c/\sigma)\sqrt\ell(1+o(1))}\);
+squaring \(\sqrt r\cdot\sqrt{R/r}=\sqrt R\) gives \(R\). It is dominated by the
+third term and nothing else changes. The check `a-0080` did not see this.)
 With \(R=\lfloor e^{\sigma\sqrt\ell}\rfloor\) the exponents are
-\(2c_0-\sigma,\ 2c/\sigma-2\sigma,\ c/(2\sigma)-\sigma,\ 3\sigma,\ 2/3-3\sigma,\ \sigma\).
+\(2c_0-\sigma,\ 2c/\sigma-\sigma,\ c/(2\sigma)-\sigma,\ 3\sigma,\ 2/3-3\sigma,\ \sigma\).
 The first and last balance at \(\sigma=c_0\), where the others are at least
-\(\sigma\) provided \(c_0^2\le2c/3\), \(c_0^2\le c/4\), \(c_0\le1/6\) (the last
+\(\sigma\) provided \(c_0^2\le c\), \(c_0^2\le c/4\), \(c_0\le1/6\) (the last
 corrected from \(2/9\) with the model term, see (4)); together
 with \(2c_m=1/2-o(1)>c_0\) and the matching conditions \(c_0^2\le b/4\),
 \(c_0\le c_P\) of section 3, this is (H). Therefore
