@@ -346,3 +346,27 @@ E_corr(N) <<_kappa N^3 exp(-c_kappa (log N)^kappa) for every fixed kappa < 1/2, 
 Threshold checked by the orchestrator: log D_0 = 2 (log N)^{kappa + 1/2}. It rests on
 Remark 2.8 as its authors state it, not on a worked proof. Every grade: derived and measured,
 one route each.
+
+## 2026-09-12, signed mean, divisor renewal, and frontier correction
+
+`FRONTIER_2026_09_12.md` records the recomputed mathematical frontier.
+`SIGNED_MEAN_RENEWAL.md` isolates the two-way scalar RH criterion and derives
+an all-scale divisor relation. Square-root-size forcing did not supply a
+contraction; subsequent signed, positive-model, and exact-forcing checks
+identify the zeta multiplier without obtaining a new prime-error bound.
+`FAREY_BASELINE_REPAIR.md` replaces the faulty AP-variance route closure
+with a valid bounded-overlap second moment and its quartic consequence.
+
+An independent agent received the raw proofs without an author verdict,
+re-derived the implications, and supplied `FRONTIER_INDEPENDENT_REVIEW.md`.
+Two ordinary wording corrections were applied. A separately scoped check
+also identified and supported the parameter and Page-matching corrections
+in `MAJOR_ARC_EXPLICIT.md` section 5. Its parity extension was not reviewed.
+
+Fresh diagnostics in `frontier_review_checks.py` include 401 endpoint pairs
+and all 180 characters through modulus 24; deliberately wrong integral
+normalization and cutoff conventions were detected. These are finite,
+non-enclosing computations. The repository governance selection passed
+335 tests, and the relevant hunt/door selection passed 7 tests with 4 slow
+tests deselected. `make_context.py --check` and `git diff --check` passed.
+No stronger asymptotic, novelty claim, formal proof, or RH proof is recorded.

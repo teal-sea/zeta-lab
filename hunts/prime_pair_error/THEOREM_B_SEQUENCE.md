@@ -1,5 +1,14 @@
 # Can Theorem B's Landau-oscillation sequence be made constructive?
 
+**Scope correction, 2026-09-12.** The proposed absolutely convergent zero
+expansion in section 3 is not established: its coefficient
+\((\rho-1)/(2\rho(\rho+1))\) decays as \(1/|\operatorname{Im}\rho|\),
+not its square. The accompanying dyadic count also uses a unit-height
+zero count outside its range. A controlled truncated or smoothed expansion
+is required before the later constructive resonance steps can be used.
+See `FAREY_BASELINE_REPAIR.md`, Appendix B. The nonconstructive Theorem B
+in `RESULTS.md` and `REFEREE.md` does not depend on this construction.
+
 RESULTS.md Section 18 proves Theorem B, E(N) = Omega(N^{1 + 2 Theta_chi - eps}), in the
 case Theta < Theta_chi <= 1 by a pole-vs-boundedness contradiction on the Mellin
 transform of I(x) = sum_{m <= x} Lambda(m) chi(m) (x/2 - m), concluding "there is an

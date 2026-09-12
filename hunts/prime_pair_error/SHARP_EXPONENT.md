@@ -1,4 +1,20 @@
-# The exponent of the fixed target is \(2c_0\): the minor-arc quartic at cutoff \(R\), and the ceiling reached from the major arcs
+# The corrected energy bound at exponent constant \(2c_0\)
+
+**Frontier correction, 2026-09-12.** The negative conclusion of section 1.2
+is withdrawn. Its AP-variance calculation omitted the centered principal
+character, undercounted induced characters, and used a zero-free upper
+envelope as a lower bound. `FAREY_BASELINE_REPAIR.md` supplies the corrected
+identities and an independent bounded-overlap proof of the available
+\(N^3(\log N)^9/Q\) residual fourth-moment bound. That bound is not an
+optimality statement or a general route closure. Sections 2 and 3, which
+derive (S\('''\)), do not use the faulty AP-variance estimate.
+
+The upper bound (S\('''\)) remains the inherited campaign bound. A matching
+lower bound is conditional on a possible real zero and on all the error
+separation hypotheses in `MAJOR_ARC_EXPLICIT.md` section 5. It is not an
+unconditional determination of the true exponent or evidence that such a
+zero exists. `SIGNED_MEAN_RENEWAL.md` records the smaller scalar target
+equivalent to RH and a new attempted arithmetic estimate for it.
 
 2026-09-12. Base: `MAJOR_ARC_EXPLICIT.md` (commit 7c6f264: its sections 2 to
 5, its (H), its Proposition and corollary), `ARC_SPLIT_BUDGET.md` (arcs,
@@ -12,7 +28,7 @@ choose the next mechanism.
 
 **Result, stated first.** Two statements, one negative and one positive.
 
-*Negative.* The smaller cutoff moves the obstruction but does not remove it.
+*Historical negative argument, withdrawn by the correction above.* The smaller cutoff moves the obstruction but does not remove it.
 At the rank-3 cutoff the difficulty was the modulus range \(q\le\sqrt N/L\);
 at cutoff \(R\) only the moduli \(R<q\le R^2\ell\), i.e. \(N^{o(1)}\) of them,
 need anything beyond Vaughan (section 1.1). But the Farey dissection at level
@@ -58,7 +74,7 @@ Grade: derived, one route, finite checks in section 5, independently read.
 Nothing about the zeros of \(\zeta\) beyond the classical inputs; the lower
 half of the two-sided statement is conditional on a zero that may not exist.
 
-**Independent check, 2026-09-12** (attempt `a-0082`,
+**Historical independent check, 2026-09-12** (attempt `a-0082`,
 `SHARP_EXPONENT_REVIEW.md`). All five items confirmed: the dyadic reduction,
 the obstruction of section 1.2 including the negative claim that no known
 input supplies the missing power at interval length \(\asymp\sqrt N\), the
@@ -68,7 +84,8 @@ correction 2.1 (the check agrees it was a miss of `a-0080`). One defect,
 non-binding: the term \(R^2e^{-(2c/\sigma)\sqrt\ell}\) in (7), inherited from
 `MAJOR_ARC_EXPLICIT.md` (6), should be \(Re^{-(2c/\sigma)\sqrt\ell}\); it is
 dominated by its neighbour and induces a condition weaker than one already
-in (H\(''\)). Corrected in both documents, marked at (7).
+in (H\(''\)). Corrected in both documents, marked at (7). The present
+frontier correction supersedes that review's endorsement of section 1.2.
 
 ## 1. The assigned attack, and where the obstruction sits at cutoff \(R\)
 
@@ -89,14 +106,28 @@ For a dyadic block \(q\sim Q\), Hölder gives
  \le\sup_{q\sim Q}\sup_{I'_{q,a}}|F|^2\cdot\sum_{q\sim Q}\sum_a^*\int_{I'_{q,a}}|F|^2
  \ll\frac{N^2\ell^8}{Q}\cdot N\ell=\frac{N^3\ell^9}Q,
 \]
-by Vaughan (\(|\alpha-a/q|\le1/q^2\) on \(I'_{q,a}\) for \(q\le\sqrt N\)) and the
-disjointness of the arcs. For \(Q\ge R^2\ell^{9}\) this is already
-\(\le N^3/R^2\). So the target reduces to the blocks \(R<Q\le R^2\ell^9\):
+by Vaughan for \(Q\le N^{2/5}\) (\(|\alpha-a/q|\le1/q^2\) on \(I'_{q,a}\)
+for \(q\le\sqrt N\)) and bounded overlap of the arcs within the block,
+not disjointness. For \(Q>N^{2/5}\), retain Vaughan's other terms to get
+\(Z'_Q\ll (N^3/Q+N^{13/5}+N^2Q)\ell^9\). The additional terms are
+\(O(N^{13/5}\ell^9)\) for \(Q\le\sqrt N\), below \(N^3/R^2\) eventually.
+For \(R^2\ell^{9}\le Q\le N^{2/5}\) the displayed bound is already
+\(\le N^3/R^2\). Among the blocks with \(q>R\), attention therefore reduces
+to \(R<Q\le R^2\ell^9\):
 moduli of size \(N^{o(1)}\), where the rank-3 programme's obstruction (the
 range up to \(\sqrt N/L\), `RANK3_QUARTIC_LITERATURE.md`) does not apply.
-This much the smaller cutoff genuinely removes.
+This comparison does not bound the outer parts of the Farey arcs with
+\(q\le R\). Those were mentioned above but still need separate treatment;
+this paragraph alone is not a reduction of the entire minor-arc integral.
 
 ### 1.2 Farey large sieve and Gallagher at this cutoff: what they give
+
+**Withdrawn derivation retained as history.** Equations (1)-(4) below are
+not current proof inputs. The clipped endpoints, reduced numerators,
+principal character and imprimitive multiplicities are handled explicitly
+in `FAREY_BASELINE_REPAIR.md`, equations (F)-(O). Its equation (E) gives
+the required second-moment baseline directly by bounded overlap. The
+concluding general closure and zero-density assertion below do not follow.
 
 Fix \(Q\in(R,R^2\ell^9]\). Write \(\alpha=a/q+\theta\), \(|\theta|\le1/(q\sqrt N)\),
 and

@@ -323,6 +323,13 @@ character of odd conductor \(\tilde q\le e^{\varepsilon\sqrt\ell}\) with
 \[
  c_0<\kappa<\min(\sqrt c,\sqrt b)-3\varepsilon,\qquad\kappa+3\varepsilon<1/3 .
 \]
+Also require \(0<\varepsilon<\kappa\) and \(\kappa+\varepsilon<1/4\).
+These guards were missing from the displayed window: the first makes the
+quadratic residual negligible against the linear cross term, and the
+second supplies the model-error separation used at the end of the proof.
+They leave a nonempty window near \(\kappa=c_0\) under (H'') of
+`SHARP_EXPONENT.md`. This is a conditional implication, not an existence
+statement for the zero.
 Then \(\tilde\chi\) is not TT-exceptional at \(Z\), and for large \(N\)
 \[
  E_{\rm corr}^{(Z)}(N)\ \ge\ c_1\,\frac{N^3e^{-2\kappa\sqrt\ell}}{\tilde q^{\,2}}\,(1+o(1)),
@@ -338,24 +345,27 @@ On \(J_a\), run sections 2 and 3 with \(r=\tilde q\), \(\sigma\) replaced by
 the actual height: \(H_0\le\pi/2\), so there is no stationary range; take
 \(T=\tilde q^{2}e^{\kappa\sqrt\ell}\ell^4\), so the remainder in (1) is
 \(\ll N\ell^2/T\ll Ne^{-\kappa\sqrt\ell}\tilde q^{-2}\ell^{-2}\) and the far range is
-\(\ll N\ell^2\exp(-c\ell/\log(3\tilde qT))\ll N\ell^2\exp(-(c/(\kappa+3\varepsilon))\sqrt\ell)\).
+\(\ll N\ell^2\exp(-c\ell/\log(3\tilde qT))\ll N\ell^2\exp(-(c/(\kappa+3\varepsilon))\sqrt\ell(1+o(1)))\).
 Page at \((Q,T)=(\tilde q,T)\): \(\tilde\beta>1-b/\log(\tilde qT)\) since
-\(\kappa<b/(\kappa+3\varepsilon)\), so \(\tilde\beta\) is the Page zero and every
-other zero of every \(\chi\bmod\tilde q\) is covered by (3). Hence, by (4) with
+\(\kappa<b/(\kappa+3\varepsilon)\), so \(\tilde\beta\) is the Page zero.
+Other zeros are either covered by the ordinary zero-free estimate (3),
+or are a real character's own exceptional zero below the Page threshold.
+The latter contribute the additional parallel error with \(b\) in place
+of \(c\). Put \(c_*=\min(c,b)\) to cover both cases. Hence, by (4) with
 \(r=\tilde q\), and (GS) with \(\tau(\tilde\chi)=\sqrt{\tilde q}\) for even
 primitive real \(\tilde\chi\),
 \[
- W(a/\tilde q+\theta)=-\frac{\tilde\chi(a)\sqrt{\tilde q}}{\phi(\tilde q)}I_{\tilde\beta}(\theta)+O\big(\sqrt{\tilde q}\,N\ell^2e^{-(c/(\kappa+3\varepsilon))\sqrt\ell}+Ne^{-\kappa\sqrt\ell}\tilde q^{-3/2}\ell^{-2}+\tilde q^{3/2}Ne^{-\sqrt\ell/3}\big),
+ W(a/\tilde q+\theta)=-\frac{\tilde\chi(a)\sqrt{\tilde q}}{\phi(\tilde q)}I_{\tilde\beta}(\theta)+O\big(\sqrt{\tilde q}\,N\ell^2e^{-(c_* /(\kappa+3\varepsilon))\sqrt\ell(1+o(1))}+Ne^{-\kappa\sqrt\ell}\tilde q^{-3/2}\ell^{-2}+\tilde q^{3/2}Ne^{-\sqrt\ell/3}\big),
 \]
 and the error is \(o(N^{\tilde\beta}/\sqrt{\tilde q})\) under the stated
-window: the first term because \(c/(\kappa+3\varepsilon)>\kappa+\varepsilon\),
+window: the first term because \(c_* /(\kappa+3\varepsilon)>\kappa+\varepsilon\),
 the second by the factor \(\ell^{-2}\) (this is why \(T\) carries \(\ell^4\);
 with \(\ell^2\) the ratio would be \(\phi(\tilde q)/\tilde q^2\), not small for
 \(\tilde q=3\)), the last because \(\kappa+3\varepsilon<1/3\). If the
-TT-exceptional \(\chi_e\) exists and \(q_e\mid\tilde q\), both \(F\) and \(H\)
-carry the \(\beta_e\) term with the same coefficient and it cancels inside
-\(W\) by the first case of section 3; it changes \(|H|\) by a relative
-\(O(\sqrt{\tilde q}N^{\beta_e-1})=o(1)\). So
+TT-exceptional \(\chi_e\) existed with \(q_e\mid\tilde q\), it would be a
+distinct character in the same Page box with
+\(\beta_e>1-c_0/\sqrt\ell>\tilde\beta\), contradicting uniqueness.
+Thus this case cannot occur. There is no TT main term on these arcs, so
 \(H(a/\tilde q+\theta)=(\mu(\tilde q)/\phi(\tilde q))K_N(\theta)(1+o(1))+O(\tilde q^{3/2}Ne^{-\sqrt\ell/3})\).
 For \(|\theta|\le1/(8N)\): \(|K_N(\theta)|\ge N/2\),
 \(|I_{\tilde\beta}(\theta)|\ge N^{\tilde\beta}/4\), and the arguments of
@@ -409,7 +419,11 @@ character.
 
 **Corollary (what an exponent above \(2c_0\) would establish).** Suppose
 \(E_{\rm corr}^{(Z)}(N)\ll N^3\exp(-\kappa'\sqrt\ell)\) unconditionally for
-some fixed \(\kappa'>2c_0\), and fix \(\varepsilon\) small. Let \(\tilde\chi\)
+some fixed \(\kappa'>2c_0\), and fix \(\varepsilon\) small. We may first reduce \(\kappa'\) to a smaller
+number still above \(2c_0\), since the assumed bound implies every weaker
+one. Choose it sufficiently close to \(2c_0\), and then choose
+\(\varepsilon\), so the midpoint below meets every guard of the corrected
+Proposition. Let \(\tilde\chi\)
 be as in the Proposition with a real zero \(\tilde\beta<1\). Choose \(N\) with
 \(\sqrt{\log N}=(c_0+\kappa'/2)/(2(1-\tilde\beta))\), so that
 \(\kappa=(1-\tilde\beta)\sqrt\ell=(c_0+\kappa'/2)/2\in(c_0,\kappa'/2)\).

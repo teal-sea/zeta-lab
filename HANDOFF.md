@@ -1,5 +1,25 @@
 # HANDOFF: session records and continuation state
 
+## 2026-09-12: prime-pair-error frontier recomputed
+
+Read `hunts/prime_pair_error/FRONTIER_2026_09_12.md` before resuming this
+campaign. It supersedes the older continuation choices below. RH remains
+open. The signed mean is isolated as a two-way RH criterion; the exact
+divisor renewal has square-root-size forcing but does not contract, and
+its multiplier retains possible off-critical zero contributions. The new
+proof and independent review are linked there. No stronger prime-error
+asymptotic is claimed.
+
+The prior Farey/AP-variance route-closure argument is corrected, while the
+separate inherited energy upper bound is preserved. The board and history
+from the Claude branch have been merged with the mathematical trunk;
+that board remains an incomplete historical ledger. Current cost
+reconciliation and launch state are in the private operating repositories.
+Do not schedule from its stale proposal statuses without consuming the
+new frontier and the missing-ledger-record finding.
+
+The entries below are historical snapshots.
+
 Concise records: what was believed, what invalidated it, what now catches the
 problem, what conclusion is currently justified. Decisions live in
 `ROADMAP.md`; this file is the between-session state. Last snapshot:
